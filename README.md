@@ -8,7 +8,7 @@ IKEMEN Plus Ultra is a improvement version of the IKEMEN Plus made by acdgames (
 # References
 - Original repo source code: https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
 - Original Ikemen Plus source code: https://github.com/acdgames/Ikemen-Plus
-- New Ikemen Go source code (I take inspiration of this Ikemen for make Plus Ultra): https://github.com/Windblade-GR01/Ikemen-GO
+- Actual New Ikemen (Ikemen Go) source code (I take inspiration of this Ikemen for make Plus Ultra): https://github.com/Windblade-GR01/Ikemen-GO
 
 # What I.K.E.M.E.N means.
 Ikemen is an acronym of:
