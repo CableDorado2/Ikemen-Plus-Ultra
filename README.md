@@ -42,7 +42,7 @@ IKEMEN PLUS ULTRA is a better version of the I.K.E.M.E.N open source fighting ga
 
 	- Master, SFX and BGM control volume added
 
-	- Control map reworked (Gamepads support disabled temporally)
+	- Control mapping reworked (Gamepads support disabled temporally)
 
 - Sprites directories generated for character select and continue screen regroup
 
