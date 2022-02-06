@@ -1,0 +1,1854 @@
+;===========================================================================
+;Shi Chou Sei CutIn
+;===========================================================================
+[Statedef 30460]
+type=A
+movetype=I
+physics=S
+anim=999
+ctrl=0
+sprpriority=3
+
+[State ]
+type=Varset
+triggerall=roundstate!=0
+trigger1=enemy,Authorname="Drowin hokuto"&&enemy,var(24)>=7&&(enemy,name="KENSHIRO"||enemy,name="RAOH"||enemy,name="Toki"||enemy,name="JAGI"||enemy,name="MOHIKAN"||enemy,name="amiba")
+trigger2=enemy,Authorname="ahuron"&&((enemy,var(4)>=7&&(enemy,name="JAGI"||enemy,name="REI"||enemy,name="THOUTHER"||enemy,name="SHIN"))||(enemy,name="Heart&Heart"&&enemy,var(28)>=7))
+trigger3=(enemy,Authorname="Ts"&&enemy,var(7)>=7&&(enemy,name="Toki"||enemy,name="Amiba"||enemy,name="Jagi"||enemy,name="JagiMeirin"))||(enemy,name="MAMIYA"&&enemy,Authorname="YU-TOHARU"&&enemy,var(51)=7&&enemy,palno!=7)
+trigger4=enemy,Authorname="shuu"&&enemy,var(20)<=0&&(enemy,name="Toki Hakurei"||enemy,name="REIsen U Inaba"||enemy,name="TEOC REISEN"||enemy,name="TOKI_S"||enemy,name="Chiester410_S")
+trigger5=enemy,Authorname="SAIKEI"&&enemy,fvar(1)<=0&&(enemy,name="KENSHIRO-SAIKEI"||enemy,name="KENSHIRO"||enemy,name="THOUTHER"||enemy,name="JUDA")
+trigger6=enemy,Authorname="Tamago Kanten"&&((enemy,var(35)=7&&(enemy,name="tenshi_rei"||enemy,name="tenshi"))||(enemy,var(35)=7&&enemy,name="ikusan_juda"))
+trigger7=(enemy,Authorname="NERICYA"&&enemy,var(20)<=0&&(enemy,name="TOKI-(NERICYA)"||enemy,name="JUDA-(NERICYA)"))||(enemy,name="Mr.HEART"&&enemy,Authorname="rei"&&enemy,var(27)=0)
+trigger8=(enemy,Authorname="Nachel_Arrange_By_RockMARISA"&&enemy,var(57)>=7&&(enemy,name="HAKUREI"||enemy,name="TELETTE"))||(enemy,name="MegaMari"&&enemy,Authorname="RockMARISA"&&enemy,var(41)>=7)
+trigger9=enemy,var(24)>=7&&((enemy,Authorname="Drowin"&&(enemy,name="Nagato Yuki"||enemy,name="Q-drowin"))||(enemy,Authorname="Drowin arcana"&&(enemy,name="Setsuna Sakurazaki"||enemy,name="Yumeka Ohajiki")))
+trigger10=enemy,Authorname="simotsuki"&&((enemy,var(31)>=7&&(enemy,name="A-Rei"||enemy,name="saint-of-silver"||enemy,name="Rasho-Zero"))||(enemy,name="silver_of_saint"&&enemy,var(24)>=7))
+trigger11=(enemy,Authorname="KAZ"&&enemy,var(28)>=7&&(enemy,name="Blue Eyes White Karin"||enemy,name="Master Sakura"))||(enemy,name="S-Tomy"&&enemy,Authorname="mosa"&&enemy,var(53)<=0)
+trigger12=enemy,var(4)>=7&&((enemy,name="Hong Meilin"&&enemy,Authorname="barai")||(enemy,name="Buront"&&enemy,Authorname="kunshomo")||(enemy,name="KENSHIRO"&&enemy,Authorname="Cameron"))
+trigger13=enemy,var(24)=7&&((enemy,name="amiba"&&enemy,Authorname="oki")||(enemy,name="CHENSHIROU"&&enemy,Authorname="seapon")||(enemy,name="KOMAOH"&&enemy,Authorname="Drowin hokuto_Unknown"))
+trigger14=enemy,var(20)<=0&&((enemy,name="Ayu Tukumiya"&&enemy,Authorname="IYO")||(enemy,name="TOKI-(NERICYA) reimu patch"&&enemy,Authorname="NERICYA+lanperu"))
+trigger15=(enemy,var(7)>=7&&((enemy,name="RAOH"&&enemy,Authorname="shikkoku")||(enemy,name="Shuh"&&enemy,Authorname="Fixxxer+Ts")))||(enemy,name="Hong Meirin"&&enemy,Authorname="hato"&&enemy,var(45)=1)
+trigger16=(enemy,var(49)=7&&enemy,name="shiki_tohno"&&(enemy,Authorname="チユリ"||enemy,Authorname="チユリ&&エス"))||(enemy,var(38)=70&&enemy,name="zeroko"&&(enemy,Authorname="FenNes&5667&チユリ&エス"||enemy,Authorname=""))
+trigger17=(enemy,var(7)=0&&((enemy,name="shin"&&enemy,Authorname="konpeitou")||(enemy,name="Arima_Miyako"&&enemy,Authorname="deretun")))||(enemy,name="hakureimu"&&enemy,Authorname="すとれいりとでび"&&enemy,var(13)>=7)
+trigger18=(enemy,name="Mei"&&enemy,Authorname="霊柩なき者"&&enemy,var(55)<=0)||(enemy,name="ikusan"&&enemy,Authorname="ikusan"&&enemy,var(20)=7)||(enemy,name="SHYU"&&enemy,Authorname="Fixxxer"&&enemy,var(3)>=7)
+trigger19=(enemy,name="RAOH ATL"&&enemy,Authorname="Ataru"&&enemy,var(8)<=0)||(enemy,name="KaLen"&&enemy,Authorname="BluishCat"&&enemy,var(50)=7)||(enemy,name="M-Reimu"&&enemy,Authorname="okihaito"&&enemy,var(57)>=7)
+var(5)=10
+persistent=0
+
+[State ]
+type=Varset
+triggerall=roundstate!=0&&numenemy>=2
+trigger1=enemy(1),Authorname="Drowin hokuto"&&enemy(1),var(24)>=7&&(enemy(1),name="KENSHIRO"||enemy(1),name="RAOH"||enemy(1),name="Toki"||enemy(1),name="JAGI"||enemy(1),name="MOHIKAN"||enemy(1),name="amiba")
+trigger2=enemy(1),Authorname="ahuron"&&((enemy(1),var(4)>=7&&(enemy(1),name="JAGI"||enemy(1),name="REI"||enemy(1),name="THOUTHER"||enemy(1),name="SHIN"))||(enemy(1),name="Heart&Heart"&&enemy(1),var(28)>=7))
+trigger3=(enemy(1),Authorname="Ts"&&enemy(1),var(7)>=7&&(enemy(1),name="Toki"||enemy(1),name="Amiba"||enemy(1),name="Jagi"||enemy(1),name="JagiMeirin"))||(enemy(1),name="MAMIYA"&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),var(51)=7&&enemy(1),palno!=7)
+trigger4=enemy(1),Authorname="shuu"&&enemy(1),var(20)<=0&&(enemy(1),name="Toki Hakurei"||enemy(1),name="REIsen U Inaba"||enemy(1),name="TEOC REISEN"||enemy(1),name="TOKI_S"||enemy(1),name="Chiester410_S")
+trigger5=enemy(1),Authorname="SAIKEI"&&enemy(1),fvar(1)<=0&&(enemy(1),name="KENSHIRO-SAIKEI"||enemy(1),name="KENSHIRO"||enemy(1),name="THOUTHER"||enemy(1),name="JUDA")
+trigger6=enemy(1),Authorname="Tamago Kanten"&&((enemy(1),var(35)=7&&(enemy(1),name="tenshi_rei"||enemy(1),name="tenshi"))||(enemy(1),var(35)=7&&enemy(1),name="ikusan_juda"))
+trigger7=(enemy(1),Authorname="NERICYA"&&enemy(1),var(20)<=0&&(enemy(1),name="TOKI-(NERICYA)"||enemy(1),name="JUDA-(NERICYA)"))||(enemy(1),name="Mr.HEART"&&enemy(1),Authorname="rei"&&enemy(1),var(27)=0)
+trigger8=(enemy(1),Authorname="Nachel_Arrange_By_RockMARISA"&&enemy(1),var(57)>=7&&(enemy(1),name="HAKUREI"||enemy(1),name="TELETTE"))||(enemy(1),name="MegaMari"&&enemy(1),Authorname="RockMARISA"&&enemy(1),var(41)>=7)
+trigger9=enemy(1),var(24)>=7&&((enemy(1),Authorname="Drowin"&&(enemy(1),name="Nagato Yuki"||enemy(1),name="Q-drowin"))||(enemy(1),Authorname="Drowin arcana"&&(enemy(1),name="Setsuna Sakurazaki"||enemy(1),name="Yumeka Ohajiki")))
+trigger10=enemy(1),Authorname="simotsuki"&&((enemy(1),var(31)>=7&&(enemy(1),name="A-Rei"||enemy(1),name="saint-of-silver"||enemy(1),name="Rasho-Zero"))||(enemy(1),name="silver_of_saint"&&enemy(1),var(24)>=7))
+trigger11=(enemy(1),Authorname="KAZ"&&enemy(1),var(28)>=7&&(enemy(1),name="Blue Eyes White Karin"||enemy(1),name="Master Sakura"))||(enemy(1),name="S-Tomy"&&enemy(1),Authorname="mosa"&&enemy(1),var(53)<=0)
+trigger12=enemy(1),var(4)>=7&&((enemy(1),name="Hong Meilin"&&enemy(1),Authorname="barai")||(enemy(1),name="Buront"&&enemy(1),Authorname="kunshomo")||(enemy(1),name="KENSHIRO"&&enemy(1),Authorname="Cameron"))
+trigger13=enemy(1),var(24)=7&&((enemy(1),name="amiba"&&enemy(1),Authorname="oki")||(enemy(1),name="CHENSHIROU"&&enemy(1),Authorname="seapon")||(enemy(1),name="KOMAOH"&&enemy(1),Authorname="Drowin hokuto_Unknown"))
+trigger14=enemy(1),var(20)<=0&&((enemy(1),name="Ayu Tukumiya"&&enemy(1),Authorname="IYO")||(enemy(1),name="TOKI-(NERICYA) reimu patch"&&enemy(1),Authorname="NERICYA+lanperu"))
+trigger15=(enemy(1),var(7)>=7&&((enemy(1),name="RAOH"&&enemy(1),Authorname="shikkoku")||(enemy(1),name="Shuh"&&enemy(1),Authorname="Fixxxer+Ts")))||(enemy(1),name="Hong Meirin"&&enemy(1),Authorname="hato"&&enemy(1),var(45)=1)
+trigger16=(enemy(1),var(49)=7&&enemy(1),name="shiki_tohno"&&(enemy(1),Authorname="チユリ"||enemy(1),Authorname="チユリ&&エス"))||(enemy(1),var(38)=70&&enemy(1),name="zeroko"&&(enemy(1),Authorname="FenNes&5667&チユリ&エス"||enemy(1),Authorname=""))
+trigger17=(enemy(1),var(7)=0&&((enemy(1),name="shin"&&enemy(1),Authorname="konpeitou")||(enemy(1),name="Arima_Miyako"&&enemy(1),Authorname="deretun")))||(enemy(1),name="hakureimu"&&enemy(1),Authorname="すとれいりとでび"&&enemy(1),var(13)>=7)
+trigger18=(enemy(1),name="Mei"&&enemy(1),Authorname="霊柩なき者"&&enemy(1),var(55)<=0)||(enemy(1),name="ikusan"&&enemy(1),Authorname="ikusan"&&enemy(1),var(20)=7)||(enemy(1),name="SHYU"&&enemy(1),Authorname="Fixxxer"&&enemy(1),var(3)>=7)
+trigger19=(enemy(1),name="RAOH ATL"&&enemy(1),Authorname="Ataru"&&enemy(1),var(8)<=0)||(enemy(1),name="KaLen"&&enemy(1),Authorname="BluishCat"&&enemy(1),var(50)=7)||(enemy(1),name="M-Reimu"&&enemy(1),Authorname="okihaito"&&enemy(1),var(57)>=7)
+var(5)=10
+persistent=0
+
+[State ]
+type=Varadd
+trigger1=var(5)>=10
+var(5)=1
+
+[State ]
+type=Varset
+triggerall=roundstate!=0
+trigger1=(enemy,var(15)=0&&enemy,name="kitarou"&&(enemy,Authorname="Elecbyte"||enemy,Authorname="mother earth"))||(enemy,name="sanaesan"&&enemy,Authorname="huihui"&&enemy,var(4)>=9)
+trigger2=enemy,name="yagami"&&enemy,Authorname="Yogoreneko"&&enemy,var(16)=800
+trigger3=numenemy>=2
+trigger3=(enemy(1),var(15)=0&&enemy(1),name="kitarou"&&(enemy(1),Authorname="Elecbyte"||enemy(1),Authorname="mother earth"))||(enemy(1),name="sanaesan"&&enemy(1),Authorname="huihui"&&enemy(1),var(4)>=9)
+trigger4=numenemy>=2
+trigger4=enemy(1),name="yagami"&&enemy(1),Authorname="Yogoreneko"&&enemy(1),var(16)=800
+var(6)=10
+persistent=0
+
+[State ]
+type=Varadd
+trigger1=var(6)=[10,30]
+var(6)=1
+
+[State 7]
+type=Explod
+trigger1=TeamSide=1&&(var(5)=11||var(6)=11)
+anim=3046
+ID=3759
+postype=right
+pos=0,90
+scale=0.5,0.5
+sprpriority=-5
+bindtime=-1
+pausemovetime=100
+supermovetime=100
+
+[State 7]
+type=Explod
+trigger1=TeamSide=2&&(var(5)=11||var(6)=11)
+anim=3046
+ID=3759
+postype=left
+pos=0,90
+scale=0.5,0.5
+sprpriority=-5
+facing=-1
+bindtime=-1
+pausemovetime=100
+supermovetime=100
+
+[State ]
+type=modifyexplod
+trigger1=(var(5)=[11,12])||(var(6)=[11,12])
+ID=3759
+scale=0.5,3
+
+[State ]
+type=modifyexplod
+trigger1=var(5)=13||var(6)=13
+ID=3759
+scale=0.5,0.1
+
+[State ]
+type=modifyexplod
+trigger1=var(5)=14||var(6)=14
+ID=3759
+scale=0.5,0.2
+
+[State ]
+type=modifyexplod
+trigger1=var(5)=15||var(6)=15
+ID=3759
+scale=0.5,0.3
+
+[State ]
+type=modifyexplod
+trigger1=var(5)=16||var(6)=16
+ID=3759
+scale=0.5,0.4
+
+[State ]
+type=modifyexplod
+trigger1=var(5)>=17||var(6)>=17
+ID=3759
+scale=0.5,0.5
+
+[state ];Voice
+type=PlaySnd
+trigger1=var(5)=11
+value=s170,0
+abspan=floor(root,pos x)
+
+;===========================================================================
+;Alessi(Definition of the Child)
+;===========================================================================
+[Statedef 28998]
+type=S
+movetype=H
+physics=N
+sprpriority=0
+VelSet=0,0
+ctrl=0
+anim=18501
+
+[State 28998]
+type=changeState
+trigger1=Life<=0
+value=5000
+
+[State 28998]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 28998]
+type=PalFX
+trigger1=Time % 2=0&&Time>13
+time=1
+add=160,160,160
+
+[State 28998]
+type=Explod
+trigger1=Time=13
+anim=18502
+sprpriority=0
+removetime=26
+bindtime=-1
+shadow=-1,-1,-1
+scale=1,1
+id=18998
+
+[State 28998]
+type=ModifyExplod
+trigger1=1
+ID=18998
+scale=enemy,fvar(6),enemy,fvar(6)
+
+[State 28998]
+type=ChangeState
+trigger1=time=13
+value=18999
+
+;---------------------------------------------------------------------------
+[Statedef 18999]
+type=S
+movetype=H
+physics=N
+sprpriority=0
+VelSet=0,0
+ctrl=0
+
+[State 18999]
+type=changeState
+trigger1=Life<=0
+value=5000
+
+[State 18999]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 18999]
+type=PalFX
+trigger1=Time % 2=0&&Time>13
+time=1
+add=160,160,160
+
+[State 18999]
+type=Explod
+trigger1=Time=26
+anim=19502
+sprpriority=0
+removetime=13
+bindtime=-1
+shadow=-1,-1,-1
+scale=1,1
+id=18998
+
+[State 18999]
+type=ModifyExplod
+trigger1=1
+ID=18998
+scale=enemy,fvar(6),enemy,fvar(6)
+
+[State 18999]
+type=ChangeState
+trigger1=AnimTime=0
+value=19602
+
+;---------------------------------------------------------------------------
+[Statedef 19602]
+type=A
+movetype=H
+physics=N
+sprpriority=0
+ctrl=0
+anim=19502
+
+[State 19602]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 19602]
+type=VelSet
+trigger1=Time=0
+x=-2
+y=-8
+
+[State 19602]
+type=VelAdd
+trigger1=1
+y=.4
+
+[State 19602]
+type=ChangeState
+trigger1=Vel Y>0&&Pos Y>=0
+value=19600
+
+;---------------------------------------------------------------------------
+[Statedef 19600]
+type=L
+movetype=H
+physics=N
+
+[State 19600]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 19600]
+type=VelSet
+trigger1=Time=0&&GetHitVar(fall.yvel)=0&&vel x>1
+x=1
+
+[State 19600]
+type=FallEnvShake
+trigger1=Time=0
+
+[State 19600]
+type=VarSet
+trigger1=Time=0
+sysvar(1)=floor(vel y)
+
+[State 19600]
+type=PosSet
+trigger1=Time=0
+y=0
+
+[State 19600]
+type=VelSet
+trigger1=Time=0
+y=0
+
+[State 19600]
+type=VelMul
+trigger1=Time=0
+x=0.75
+
+[State 19600]
+type=ChangeState
+trigger1=Time=0&&GetHitVar(fall.yvel)=0
+value=19610
+
+[State 19600]
+type=GameMakeAnim
+trigger1=Time=1
+value=60 + (sysvar(1)>5) + (sysvar(1)>14)
+pos=0, 0
+under=sysvar(1)<=10
+
+[State 19600]
+type=HitFallDamage
+trigger1=Time=3
+
+[State 19600]
+type=PlaySnd
+trigger1=Time=1
+value=F7, (sysvar(1)>5) + (sysvar(1)>14)
+
+[State 19600]
+type=PosFreeze
+trigger1=1
+
+[State 19600]
+type=ChangeState
+trigger1=Time=1
+value=29601
+
+;---------------------------------------------------------------------------
+[Statedef 29601]
+type=L
+movetype=H
+physics=N
+
+[State 29601]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29601]
+type=HitFallVel
+trigger1=Time=0
+
+[State 29601]
+type=PosSet
+trigger1=Time=0
+y=0
+
+[State 29601]
+type=VelAdd
+trigger1=1
+y=.4
+
+[State 29601]
+type=ChangeState
+trigger1=Vel Y>0&&Pos Y>=0
+value=29610
+
+;---------------------------------------------------------------------------
+[Statedef 29610]
+type=L
+movetype=H
+physics=N
+
+[State 29610]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29610]
+type=FallEnvShake
+trigger1=Time=0
+
+[State 29610]
+type=HitFallDamage
+trigger1=Time=0
+
+[State 29610]
+type=PosSet
+trigger1=Time=0
+y=0
+
+[State 29610]
+type=VarSet
+trigger1=Time=0&&GetHitVar(fall.yvel)!=0
+sysvar(1)=floor(vel y)
+
+[State 29610]
+type=PlaySnd
+trigger1=Time=0&&!SysVar(0)
+value=F7, (sysvar(1)>5) + (sysvar(1)>14)
+
+[State 29610]
+type=GameMakeAnim
+trigger1=Time=0&&!SysVar(0)
+value=60 + (sysvar(1)>5) + (sysvar(1)>14)
+pos=0, 0
+under=sysvar(1)<=10
+
+[State 29610]
+type=VelSet
+trigger1=Time=0
+y=0
+
+[State 29610]
+type=VarSet
+trigger1=SysVar(0)&&Time=0
+sysvar(0)=0
+
+[State 29610]
+type=VelMul
+trigger1=1
+x=0.85
+
+[State 29610]
+type=ChangeState
+trigger1=Time=1
+value=29000
+
+;---------------------------------------------------------------------------
+[Statedef 29000]
+type=S
+movetype=I
+physics=S
+sprpriority=0
+VelSet=0,0
+ctrl=0
+anim=19002
+
+[State 29000]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29000]
+type=Turn
+trigger1=P2dist X<-5
+
+[State 29000]
+type=PosSet
+trigger1=Time=0
+y=0
+
+[State 29000] 
+type=VelSet
+trigger1=abs(vel x)<2||Time=4
+x=0
+
+[State 29000]
+type=ChangeState
+trigger1=enemy,Var(23)=0&&Pos Y=0
+value=19990
+
+[State 29000]
+type=ChangeState
+trigger1=enemy,Var(23)>38&&(command="holdfwd"||command="holdback"||command="holdup"||command="holddown")
+value=IfElse(command="holdup",29040,IfElse(command="holddown",29030,29020))
+
+[State 29000]
+type=ChangeState
+trigger1=enemy,Var(23)>38&&(command="x"||command="y"||command="z")
+value=29200
+
+;---------------------------------------------------------------------------
+[Statedef 29020]
+type=S
+movetype=I
+physics=N
+sprpriority=0
+ctrl=0
+
+[State 29020]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29020]
+type=Turn
+trigger1=P2Bodydist x<=-50
+
+[State 29020]
+type=VelSet
+trigger1=command="holdfwd"||command="holdback"
+x=ifelse(command="holdfwd",3,-3)
+
+[State 29020]
+type=ChangeAnim
+trigger1=(vel x>0&&anim!=19022)||(vel x<0&&anim!=19027)
+value=19022+ifelse(vel x>0,0,5)
+
+[State 29020]
+type=ChangeState
+trigger1=enemy,Var(23)=0
+value=19990
+
+[State 29020]
+type=ChangeState
+trigger1=command="holdup"||(command!="holdfwd"&&command!="holdback"&&command!="holdup")
+value=IfElse(command="holdup",29040,29000)
+
+[State 29020]
+type=ChangeState
+trigger1=enemy,Var(23)>38&&(command="x"||command="y"||command="z")
+value=29200
+
+;---------------------------------------------------------------------------
+[Statedef 29030]
+type=C
+physics=C
+movetype=I
+sprpriority=0
+VelSet=0,0
+ctrl=0
+anim=19032
+
+[State 29030]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29030]
+type=VelMul
+trigger1=Time=0
+x=.75
+
+[State 29030]
+type=ChangeState
+trigger1=AnimTime=0
+value=29010
+
+;---------------------------------------------------------------------------
+[Statedef 29010]
+type=C
+physics=C
+sprpriority=0
+movetype=I
+VelSet=0,0
+ctrl=0
+anim=19012
+
+[State 29010]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29010]
+type=Turn
+trigger1=P2dist X<-5
+
+[State 29010]
+type=ChangeState
+trigger1=enemy,Var(23)=0
+value=19990
+
+[State 29010]
+type=ChangeState
+trigger1=enemy,Var(23)>38&&command!="holddown"
+value=29035
+
+[State 29010]
+type=ChangeState
+trigger1=enemy,Var(23)>38&&(command="x"||command="y"||command="z")
+value=29210
+
+;---------------------------------------------------------------------------
+[Statedef 29035]
+type=S
+physics=S
+anim=19037
+
+[State 29035]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29035]
+type=ChangeState
+trigger1=AnimTime=0
+value=29000
+
+;---------------------------------------------------------------------------
+[Statedef 29040]
+type=S
+movetype=I
+physics=N
+ctrl=0
+sprpriority=1
+VelSet=0,0
+anim=19052
+
+[State 29040]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29040]
+type=VarSet
+trigger1=Time=0
+sysvar(1)=0
+
+[State 29040]
+type=VarSet
+trigger1=command="holdfwd"
+sysvar(1)=1
+
+[State 29040]
+type=VarSet
+trigger1=command="holdback"
+sysvar(1)=-1
+
+[State 29040]
+type=VelSet
+trigger1=AnimTime=0
+x=ifelse(sysvar(1)=0,0,ifelse(sysvar(1)=1,4.5,-4.5))
+y=-8.4
+
+[State 29040]
+type=ChangeState
+trigger1=AnimTime=0
+value=29050
+
+;---------------------------------------------------------------------------
+[Statedef 29050]
+type=A
+movetype=I
+physics=N
+ctrl=0
+anim=19042
+
+[State 29050]
+type=NotHitBy
+trigger1=enemy,Var(23)<=0
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29050]
+type=VarSet
+trigger1=Time=0
+sysvar(1)=0
+
+[State 29050] 
+type=Veladd
+Trigger1=1
+y=.44
+
+[State 29050]
+type=ChangeState
+trigger1=Vel Y>0&&Pos Y>=-5
+value=29000
+
+[State 29050]
+type=ChangeState
+trigger1=enemy,Var(23)>38&&Pos Y<-10&&(command="x"||command="y"||command="z")
+value=29220
+
+;---------------------------------------------------------------------------
+[Statedef 29200]
+type=S
+movetype=A
+physics=S
+velset=0,0
+ctrl=0
+poweradd=21
+sprpriority=2
+anim=19202
+
+[State 29200]
+type=NotHitBy
+trigger1=enemy,Var(23)<=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29200]
+type=HitDef
+trigger1=Time=0
+attr=S, NA
+animtype=light
+damage=21
+getpower=28
+givepower=21,0
+guardflag=M
+hitflag=MAF
+pausetime=10,10
+sparkxy=0,0
+sparkno=-1
+guard.sparkno=-1
+hitsound=s100,45
+guardsound=s100,15
+ground.slidetime=12
+ground.hittime=10
+ground.velocity=-6.5
+air.velocity=-3,-4
+air.cornerpush.veloff=0
+yaccel=.35
+
+[State 29200]
+type=ChangeState
+trigger1=AnimTime=0
+value=29000
+
+;---------------------------------------------------------------------------
+[Statedef 29210]
+type=C
+movetype=A
+physics=C
+velset=0,0
+ctrl=0
+poweradd=21
+anim=19212
+
+[State 29210]
+type=NotHitBy
+trigger1=enemy,Var(23)<=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29210]
+type=HitDef
+trigger1=Time=0
+attr=C, NA
+animtype=light
+damage=21
+getpower=28
+givepower=21,0
+guardflag=M
+hitflag=MAF
+pausetime=10,10
+sparkxy=0,0
+sparkno=-1
+guard.sparkno=-1
+hitsound=s100,45
+guardsound=s100,15
+ground.type=Low
+ground.slidetime=12
+ground.hittime=10
+ground.velocity=-6.5
+air.velocity=-3,-4
+air.cornerpush.veloff=0
+yaccel=.35
+
+[State 29210]
+type=ChangeState
+trigger1=AnimTime=0
+value=29010
+
+;---------------------------------------------------------------------------
+[Statedef 29220]
+type=A
+movetype=A
+physics=N
+ctrl=0
+poweradd=21
+anim=19222
+
+[State 29220]
+type=NotHitBy
+trigger1=enemy,Var(23)<=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29220]
+type=HitDef
+trigger1=Time=0
+attr=A, NA
+animtype=light
+damage=21
+getpower=28
+givepower=21,0
+guardflag=MA
+hitflag=MAF
+pausetime=10,10
+sparkxy=0,0
+sparkno=-1
+guard.sparkno=-1
+hitsound=s100,45
+guardsound=s100,15
+ground.slidetime=12
+ground.hittime=10
+ground.velocity=-6.5
+air.velocity=-3,-4
+air.cornerpush.veloff=0
+yaccel=.35
+
+[State 29220] 
+type=Veladd
+Trigger1=1
+y=.44
+
+[State 29220]
+type=ChangeState
+trigger1=Vel Y>0&&Pos Y>=-5
+value=29000
+
+;---------------------------------------------------------------------------
+[Statedef 29500]
+type=S
+movetype=H
+physics=N
+velset=0,0
+anim=19502
+
+[State 29500]
+type=NotHitBy
+trigger1=enemy,Var(23)<=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29500]
+type=SelfState
+trigger1=Life<=0
+value=5000
+ctrl=0
+
+[State 29500]
+type=StateTypeSet
+trigger1=(Time=0&&GetHitVar(yvel)!=0&&GetHitVar(fall))||Pos Y!=0
+type=a
+
+[State 29500]
+type=ChangeState
+trigger1=HitShakeOver&&GetHitVar(yvel)=0
+value=29501
+
+[State 29500]
+type=ChangeState
+trigger1=HitShakeOver
+value=29530
+
+;---------------------------------------------------------------------------
+[Statedef 29501]
+type=S
+movetype=H
+physics=S
+anim=19502
+
+[State 29501]
+type=NotHitBy
+trigger1=enemy,Var(23)<=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29501]
+type=HitVelSet
+trigger1=Time=0
+x=1
+
+[State 29501]
+type=VelMul
+trigger1=Time>=GetHitVar(slidetime)
+x=.6
+
+[State 29501]
+type=VelSet
+trigger1=HitOver
+x=0
+
+[State 29501]
+type=DefenceMulSet
+trigger1=HitOver
+value=1
+
+[State 29501]
+type=ChangeState
+trigger1=HitOver
+value=29000
+
+;---------------------------------------------------------------------------
+[Statedef 29530]
+type=A
+movetype=H
+physics=N
+ctrl=0
+
+[State 29530]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+ignorehitpause=1
+
+[State 29530]
+type=VelAdd
+trigger1=1
+y=GetHitVar(yaccel)
+
+[State 29530]
+type=HitVelSet
+trigger1=Time=0
+x=1
+y=1
+
+[State 29530]
+type=ChangeState
+trigger1=Vel Y>0&&Pos Y>=0
+value=19600
+
+;---------------------------------------------------------------------------
+[Statedef 19990]
+type=S
+movetype=H
+physics=N
+sprpriority=0
+VelSet=0,0
+ctrl=0
+anim=19990
+
+[State 19990]
+type=NotHitBy
+trigger1=1
+value=SCA
+time=1
+
+[State 19990]
+type=PalFX
+trigger1=Time % 2=0
+time=1
+add=160,160,160
+
+[State 19990]
+type=Explod
+trigger1=Time=0
+anim=19002
+sprpriority=0
+removetime=39
+bindtime=-1
+shadow=-1,-1,-1
+scale=1,1
+id=18000
+
+[State 19990]
+type=ModifyExplod
+trigger1=1
+ID=18000
+scale=(enemy,fvar(6)),(enemy,fvar(6))
+
+[State 19990]
+type=changeState
+trigger1=Time>=39
+value=0
+ctrl=1
+
+
+;===========================================================================
+;intro vs_iwakick_Series
+;===========================================================================
+[Statedef 100191]; VS iwakick
+type = L
+ctrl = 0
+velset = 0,0
+anim = 0
+
+;=========================================================
+[state a]
+type = varset
+trigger1 = enemy,authorname = "iwakick"
+trigger1 = sysvar(0) = 0
+sysvar(0) = ifelse((enemy,name="silversamurai"),18902,185);←表示させたいアニメ
+
+[state a]
+type = varset
+trigger1 = enemy,authorname = "iwakick"
+trigger1 = sysvar(1) = 0
+sysvar(1) = ifelse((enemy,name="silversamurai"),1,0);←巻き戻したいアニメ枚数
+
+[state a]
+type = varset
+trigger1 = enemy,authorname = "iwakick"
+trigger1 = sysvar(2) = 0
+sysvar(2) = ifelse((enemy,name="silversamurai"),29,0);←最後で止めたいアニメ枚数
+
+;=========================================================
+;※独自ポートレイト未使用で縮尺を変更したい場合は要代入
+[state a];9000,0のポートレイトscale倍率
+type = null;varset
+trigger1 = enemy,authorname = "iwakick"
+trigger1 = enemy,animexist(18000)
+trigger1 = sysfvar(0) = 0
+sysfvar(0) = 100000.0 + 0;任意の倍率
+[state a];9000,1のポートレイトXscale倍率
+type = null;varset
+trigger1 = enemy,authorname = "iwakick"
+trigger1 = enemy,animexist(18000)
+trigger1 = sysfvar(2) = 0
+sysfvar(2) = 100000.0 + 0;任意の倍率
+
+;=========================================================
+[State -2, helper];独自ポートレイトやロゴ等を使用する場合
+type = helper
+trigger1 = 1
+stateno = 100197
+ID = 100197
+postype = left
+ownpal = 1
+persistent = 0
+
+[state a];上記ヘルパーとセットで使用、独自ポトレやロゴ使用する場合等
+type = varset
+trigger1 = numhelper(100197)
+trigger1 = time = 2
+sysfvar(4) = 123.0;124.0
+;全てにおいて独自ポートレイトを使用しない場合は『0』を代入
+;MVC1独自ポートレイトを使用しない場合は『123.0』を代入
+;MVC1独自ポートレイトを使用する場合は『124.0』を代入
+
+;---------------------------------------------------
+;下記記述以降はシステムのため変更不可
+
+[State 191, 2]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[state 191]
+type = hitby
+trigger1 = numenemy
+trigger1 = enemy,authorname = "iwakick"
+value = S, HT
+
+[State 191, 3]
+type = ChangeState
+trigger1 = roundno = 1
+trigger1 = time = 31
+value = 190
+
+[State 191, 3]
+type = ChangeState
+trigger1 = roundno > 1
+trigger1 = time = 31
+value = 5900
+[state a];削除不可
+type = explod
+trigger1 = 1
+anim = 0
+ID = 100195
+pos = 1000, 1000
+removetime = 300
+supermovetime = 300
+pausemovetime = 300
+persistent = 0
+
+;---------------------------------------------------------------------------
+[Statedef 100192]; VS iwakick helper
+type = L
+ctrl = 0
+velset = 0,0
+anim = 0
+
+[state 191]
+type = hitby
+trigger1 = numenemy
+trigger1 = enemy,authorname = "iwakick"
+value = S, HT
+
+[State 191, 2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+flag2 = invisible
+
+[State 191, 3]
+type = destroyself
+triggerall = ishelper
+trigger1 = roundstate > 1
+trigger2 = root,alive = 0
+trigger3 = time > 60
+
+;---------------------------------------------------------------------------
+[Statedef 100196]; VS iwakick helper
+type = S
+ctrl = 0
+velset = 0,0
+anim = 0
+physics = N
+sprpriority = 65
+
+[state a];下記変数に任意の数値を代入して下さい
+type = null
+trigger1 = 1 || var(20) := ifelse((enemy,name="Colossus"),184,ifelse((enemy,name="Captain Commando"),18300,ifelse((enemy,name="Cammy"),181,188)));アニメポーズ
+trigger1 = 1 || var(21) := 0;アニメを途中からスタートさせるelem数
+trigger1 = 1 || var(22) := 0;animelemをいくつ巻戻るか
+trigger1 = 1 || var(23) := 0;アニメを途中でループさせるelem数
+trigger1 = 1 || var(24) := 4525;カットインアニメ
+;※SFF画像登録のカットイン画像の登録位置初期軸が0,0なら推奨値は
+;X = 0 ;Y = 0
+trigger1 = 1 || var(1) := -35;70;カットインアニメのX軸調整
+trigger1 = 1 || var(2) := 0;-320;カットインアニメのY軸調整
+trigger1 = 1 || fvar(10) := 0.8;カットイン縮尺
+;登場時音声
+trigger1 = 1 || var(25) := ifelse((enemy,name="vega"),183,ifelse((enemy,name="Cammy"),1000,195));snd親番号
+trigger1 = 1 || var(26) := ifelse((enemy,name="vega"),1,ifelse((enemy,name="Cammy"),9,0));snd子番号
+;カットイン音声
+trigger1 = 1 || var(27) := 1600;snd親番号
+trigger1 = 1 || var(28) := 2;snd子番号
+;ロゴのアニメ(使用するアニメのair軸位置調整はなるべく中央に配置)
+trigger1 = 1 || var(30) := 0;ロゴアニメ番号(0であれば使用しない)
+trigger1 = 1 || fvar(11) := 1.0;ロゴ縮尺
+persistent = 0
+
+;---------------------------------------------------
+;下記記述以降はシステムのため変更不可
+
+[State 191, 2]
+type = AssertSpecial
+trigger1 = enemy,var(16) < 1000
+trigger1 = enemy,anim != 183
+trigger1 = enemy,anim != 172
+trigger1 = enemy,anim != 185
+trigger1 = !enemy,numexplod(18980)
+trigger2 = enemy,var(16) = [10000,1000000]
+trigger3 = enemy,anim = 185 && !enemy,var(16)
+trigger4 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger4 = !enemy,numhelper(18060) && !enemy,numhelper(18062) && enemy,anim != 183
+flag = invisible
+
+[state a]
+type = turn
+triggerall = !enemy,numexplod(18991)
+trigger1 = root,teamside = 1 && facing = -1
+trigger2 = root,teamside = 2 && facing = 1
+
+[state a]
+type = varadd
+trigger1 = enemy,numhelper(18060)
+trigger2 = enemy,numhelper(18062)
+v = 10
+value = 1
+
+[state a]
+type = posset
+trigger1 = time = 0
+y = 0
+[state a]
+type = varset
+trigger1 = time = 0
+v = 0
+value = floor(screenpos y)
+[state a]
+type = varset
+trigger1 = time = 1
+v = 0
+value = 240 - floor(screenpos y)
+
+[state a]
+type = null
+;MVS
+trigger1 = time = 3 && enemy,anim = 18050
+trigger1 = 1 || var(40) := facing * (-100)
+trigger1 = 1 || var(41) := -20 + var(0)
+;XVS
+trigger2 = time = 3 && enemy,anim = 18049
+trigger2 = 1 || var(40) := -facing * 120
+trigger2 = 1 || var(41) := -30 + var(0)
+;MVC1
+trigger3 = time = 3 && enemy,numexplod(18994)
+trigger3 = !enemy,numexplod(18980)
+trigger3 = (enemy,anim = [18080,18085]) || enemy,numexplod(14999)
+trigger3 = 1 || var(40) := -facing*100
+trigger3 = 1 || var(41) := -30 + var(0) - (enemy,var(1)/2)
+;MVC1_EX
+trigger4 = time = 3 && enemy,numexplod(18995)
+trigger4 = !enemy,numexplod(18980)
+trigger4 = enemy,anim = [18080,18085]
+trigger4 = 1 || var(40) := -facing * 60 - (facing*enemy,var(1))
+trigger4 = 1 || var(41) := -30 + var(0) - (enemy,var(1)/2)
+;???
+trigger5 = enemy,anim = 9999
+trigger5 = 1 || var(40) := enemy,var(11)
+trigger5 = 1 || var(41) := enemy,var(12) + var(0)
+;MVC1_独自ポトレ使用
+trigger6 = time = 3 && enemy,numexplod(18980)
+trigger6 = enemy,numexplod(18994) || enemy,numexplod(18995) 
+trigger6 = 1 || var(40) := -facing * 200
+trigger6 = 1 || var(41) := 30 + var(0)
+persistent = 0
+
+[state a]
+type = posset
+trigger1 = var(40)
+x = var(40)
+y = var(41)
+persistent = 0
+
+;---------------------------------------------------
+;MVC1で独自ポトレを使用する場合
+[state a]
+type = varset
+triggerall = enemy,numexplod(18980)
+trigger1 = enemy,numhelper(18060)
+trigger2 = enemy,numhelper(18062)
+trigger3 = enemy,numexplod(14999)
+trigger3 = time > 3
+v = 3
+value = 1
+persistent = 0
+
+[state a]
+type = varadd
+trigger1 = var(3)
+v = 3
+value = 1
+
+[state a]
+type = posadd
+trigger1 = enemy,numexplod(18980)
+trigger1 = var(3) = [1,23]
+x = 4.5
+y = -2.6
+[state a]
+type = posset
+trigger1 = enemy,numexplod(18980)
+trigger1 = var(3) = 24
+x = -100 * facing
+y = -30 + var(0)
+
+;---------------------------------------------------------
+;VS処理 MVS
+[state a]
+type = posset
+trigger1 = enemy,anim = 195 && enemy,var(16) > 1000000
+x = (-facing * (enemy,var(0))*1.265) + (facing*var(1))
+y = var(0) - 90 + var(2)
+persistent = 0
+[state a]
+type = posadd
+trigger1 = enemy,anim = 195 && (enemy,var(16) = [1000000,1000010])
+x = 1
+y = -10
+[state a]
+type = posadd
+trigger1 = enemy,anim = 195 && enemy,var(16) > 1000010
+x = 0.05
+y = -0.1
+;--------------------------------------------------
+;VS処理 MVC1
+[state a]
+type = posset
+trigger1 = enemy,var(16) && enemy,anim = 183
+x = facing * 280 + (var(1) * facing)
+y = -158 + var(0) + var(2)
+persistent = 0
+[state a]
+type = posadd
+trigger1 = (enemy,var(16) = [21,50]) && enemy,anim = 183
+x = -facing * facing * 16
+y = -2
+[state a]
+type = posadd
+trigger1 = enemy,var(16) > 80 && enemy,anim = 183
+x = 0.1
+;---------------------------------------------------
+;VS処理 XVS
+[state a]
+type = posset
+trigger1 = enemy,anim = 185 && enemy,var(16)
+x = (-facing * (enemy,var(0))*2.1) + (facing*var(1))
+y = -210 + var(0) + var(2)
+persistent = 0
+[state a]
+type = velset
+trigger1 = enemy,anim = 185 && enemy,var(16)
+x = 15
+persistent = 0
+[state a]
+type = veladd
+trigger1 = enemy,anim = 185 && (enemy,var(16) = [1,20])
+x = -0.75
+[state a]
+type = posadd
+trigger1 = enemy,anim = 185 && enemy,var(16) > 20
+x = 0.05
+;---------------------------------------------------
+[state a]
+type = null
+triggerall = !var(11)
+triggerall = time > 60
+trigger1 = enemy,numexplod(18991)
+trigger1 = var(11) := 77
+trigger2 = enemy,numexplod(18995) || enemy,numexplod(18994)
+trigger2 = var(11) := 53
+trigger3 = enemy,numexplod(18993)
+trigger3 = var(11) := 80
+trigger4 = enemy,anim = 172
+trigger4 = var(11) := 84
+persistent = 0
+
+[state a]
+type = SprPriority
+trigger1 = var(11)
+value = var(11)
+
+;=========================================================
+;ポージング
+[state a]
+type = changeanim
+trigger1 = enemy,var(16) > 1000
+trigger2 = enemy,anim = 183
+trigger3 = enemy,anim = 172
+trigger4 = enemy,numexplod(18979)
+value = var(20)
+elem = var(21)
+persistent = 0
+[state a]
+type = changeanim
+trigger1 = anim = var(20) && animtime = -1 && var(23) = 0
+value = anim
+elem = animelemno(0) - var(22)
+[state a]
+type = changeanim
+trigger1 = anim = var(20) && var(23) && animelemtime(var(23)+1) > -1
+value = anim
+elem = var(23) - var(22)
+;---------------------------------------------------
+;音声処理
+[state a];登場時音声
+type = playsnd
+trigger1 = enemy,var(16) > 1000 && enemy,numexplod(18993)
+trigger2 = enemy,anim = 172
+value = var(25),var(26)
+channel = 1
+volume = 200
+abspan = 0
+persistent = 0
+[state a];カットイン音声
+type = playsnd
+trigger1 = enemy,anim = 195 && enemy,var(16) > 1000000
+value = var(27),var(28)
+channel = 2
+volume = 200
+abspan = 0
+persistent = 0
+;---------------------------------------------------------
+[state a]
+type = changeanim
+trigger1 = enemy,var(16) > 10000
+trigger2 = enemy,anim = 183 && enemy,var(16)
+trigger3 = enemy,anim = 184 && enemy,var(16)
+trigger4 = enemy,anim = 185
+value = var(24)
+persistent = 0
+
+[state a]
+type = angledraw
+trigger1 = enemy,var(16) > 10000
+trigger2 = enemy,anim = 183 && enemy,var(16)
+trigger3 = enemy,anim = 184 && enemy,var(16)
+trigger4 = enemy,anim = 185
+scale = fvar(10),ifelse(fvar(12),fvar(12),fvar(10))
+
+[state a]
+type = null
+trigger1 = enemy,anim = 20 && teamside = 1
+trigger1 = 1 || var(50) := enemy,var(2) - 55
+trigger1 = 1 || var(51) := 15
+trigger2 = enemy,anim = 20 && teamside = 2
+trigger2 = 1 || var(50) := 55
+trigger2 = 1 || var(51) := 15
+persistent = 0
+
+[state a]
+type = null
+trigger1 = enemy,numexplod(18994)||enemy,numexplod(18995)||enemy,numexplod(18998)
+trigger1 = enemy,var(16) > 1000 || enemy,anim = 183
+trigger1 = enemy,numexplod(14999) || (!enemy,numexplod(14999) && time = 3)
+trigger1 = !enemy,numexplod(18980)
+trigger1 = 1 || var(50) := 160 + ceil(pos x)
+trigger1 = 1 || var(51) := 210
+trigger2 = (enemy,numexplod(18994)||enemy,numexplod(18995))&&enemy,numexplod(18980)
+trigger2 = var(3) = 23
+trigger2 = 1 || var(50) := 160 + ceil(pos x)
+trigger2 = 1 || var(51) := 210
+persistent = 0
+
+[state a]
+type = varadd
+trigger1 = var(52) = [2,17]
+v = 50
+value = ifelse(teamside = 1,-1,1)*12
+[state a]
+type = varadd
+trigger1 = var(52) = [2,17]
+v = 51
+value = 12
+[state a]
+type = varadd
+trigger1 = var(52) = [18,20]
+v = 50
+value = ifelse(teamside = 1,-1,1)*2
+[state a]
+type = varadd
+trigger1 = var(52) = [18,20]
+v = 51
+value = 2
+
+[state a]
+type = explod
+triggerall = var(30)
+trigger1 = var(52)
+trigger2 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger2 = var(50)
+trigger2 = enemy,var(16) > 1000 || enemy,anim = 183
+trigger2 = !enemy,numexplod(18980)
+trigger3 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger3 = var(50)
+trigger3 = var(3) >= 24
+trigger3 = enemy,numexplod(18980)
+anim = var(30)
+ID = var(30)
+pos = var(50),var(51)
+postype = left
+removetime = 1
+supermovetime = 999
+pausemovetime = 999
+scale = fvar(11),fvar(11)
+sprpriority = 97
+ownpal = 1
+
+[state a]
+type = null
+trigger1 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger1 = enemy,var(16) = 1 && var(30)
+trigger1 = 1 || var(30) := 0
+
+[state a]
+type = varadd
+trigger1 = enemy,anim = 20
+trigger2 = var(52)
+v = 52
+value = 1
+
+[State 191, 3]
+type = destroyself
+triggerall = ishelper
+trigger1 = roundstate > 1
+trigger2 = root,alive = 0
+trigger3 = root,stateno = [1,199]
+trigger4 = enemy,stateno = 199
+trigger5 = enemy,stateno = 192
+trigger6 = numhelper(100194) && time > 1
+trigger7 = numhelper(100195) && time > 1
+
+;---------------------------------------------------------------------------
+[Statedef 100197]; VS iwakick helper2
+type = S
+ctrl = 0
+anim = 0
+
+[state a];Statedef100196でロゴ指定している場合は『0』を代入
+type = null
+;ロゴのアニメ(使用するアニメのair軸位置調整はなるべく中央に配置)
+trigger1 = 1 || var(30) := 0;ロゴアニメ番号(0であれば使用しない)
+trigger1 = 1 || fvar(11) := 1.0;ロゴ縮尺
+persistent = 0
+
+[state a];独自VSポトレ
+type = null
+;各シリーズのアニメや位置、縮尺を優先度設定
+trigger1 = time = 2
+trigger1 = 1 || var(1) := 100197;アニメ
+trigger1 = 1 || var(11) := 0;X軸
+trigger1 = 1 || var(21) := 0;Y軸
+trigger1 = 1 || fvar(2) := 0.7;縮尺
+;---------------------------------------------------
+;MSH;基本的に上記trigger1と同内容であるが部分的に調整した場合は要代入
+trigger2 = time = 3 && enemy,numexplod(18991)
+trigger2 = 1 || var(1) := var(1);アニメ
+trigger2 = 1 || var(11) := 38;var(11);X軸
+trigger2 = 1 || var(21) := 27;var(21);Y軸
+trigger2 = 1 || fvar(2) := fvar(2);縮尺
+;---------------------------------------------------
+;XVS;基本的に上記trigger1と同内容であるが部分的に調整した場合は要代入
+trigger3 = time = 3 && enemy,numexplod(18992)
+trigger3 = 1 || var(1) := var(1);アニメ
+trigger3 = 1 || var(11) := 23;var(11);X軸
+trigger3 = 1 || var(21) := 32;var(21);Y軸
+trigger3 = 1 || fvar(2) := 0.7;fvar(2);縮尺
+;---------------------------------------------------
+;MVS;基本的に上記trigger1と同内容であるが部分的に調整した場合は要代入
+;9000,1(120*140)画像使用なら下記軸、縮尺値推奨
+trigger4 = time = 3 && enemy,numexplod(18993)
+trigger4 = 1 || var(1) := var(1);アニメ
+trigger4 = 1 || var(11) := 4;var(11);X軸
+trigger4 = 1 || var(21) := 32;var(21);Y軸
+trigger4 = 1 || fvar(2) := 0.7;fvar(2);fvar(0);縮尺
+;※MVSで独自ポートレイトを使わない場合は『0』を代入
+;---------------------------------------------------
+;MVC;Statedef100191で使用した場合は下記変数に要代入
+trigger5 = time = 3 && enemy,numexplod(18980)
+trigger5 = 1 || var(1) := var(1);アニメ
+trigger5 = 1 || fvar(2) := fvar(2);fvar(0);縮尺
+
+;=========================================================
+[state a];タッグ勝利演出用
+type = null
+;各シリーズのタッグ勝利演出アニメや位置、縮尺を優先度設定
+trigger1 = time = 1
+trigger1 = 1 || var(0) := 0;アニメ
+trigger1 = 1 || var(10) := 0;X軸
+trigger1 = 1 || var(20) := 0;Y軸
+trigger1 = 1 || fvar(0) := 1.0;縮尺
+trigger1 = 1 || var(59) := 53;優先度(55でMVCが後方表示53でMVC前面表示)
+;---------------------------------------------------
+;XVS;基本的に上記trigger1と同内容であるが部分的に調整した場合は要代入
+trigger2 = time = 2 && numpartner
+trigger2 = partner,numexplod(18992)
+trigger2 = 1 || var(0) := var(0);アニメ
+trigger2 = 1 || var(10) := var(10);X軸
+trigger2 = 1 || var(20) := var(20);Y軸
+trigger2 = 1 || fvar(0) := fvar(0);縮尺
+trigger2 = 1 || var(59) := var(59);優先度(55でMVCが後方表示53でMVC前面表示)
+;---------------------------------------------------
+;MVS;基本的に上記trigger1と同内容であるが部分的に調整した場合は要代入
+trigger3 = time = 2 && numpartner
+trigger3 = partner,numexplod(18993)
+trigger3 = 1 || var(0) := var(0);アニメ
+trigger3 = 1 || var(10) := var(10);X軸
+trigger3 = 1 || var(20) := var(20);Y軸
+trigger3 = 1 || fvar(0) := 0.5;fvar(0);縮尺
+trigger3 = 1 || var(59) := var(59);優先度(55でMVCが後方表示53でMVC前面表示)
+;---------------------------------------------------
+;MVC;基本的に上記trigger1と同内容であるが部分的に調整した場合は要代入
+trigger4 = time = 2 && numpartner
+trigger4 = partner,numexplod(18994)
+trigger4 = 1 || var(0) := var(0);アニメ
+trigger4 = 1 || var(10) := var(10);X軸
+trigger4 = 1 || var(20) := var(20);Y軸
+trigger4 = 1 || fvar(0) := fvar(0);縮尺
+trigger4 = 1 || var(59) := var(59);優先度(55でMVCが後方表示53でMVC前面表示)
+;=========================================================
+
+;下記記述以降はシステムにつき変更不可
+[state a]
+type = null
+trigger1 = time = 3 && enemy,numexplod(18991)
+trigger1 = var(58) := 76
+trigger2 = var(58) = 76 && enemy,numexplod(18991) && enemy,anim = 20
+trigger2 = 1 || var(11) := var(11) - 15
+trigger2 = 1 || var(21) := var(21) + 25
+trigger2 = var(58) := 92
+trigger3 = time = 3 && enemy,numexplod(18992)
+trigger3 = var(58) := 29
+trigger4 = time = 3 && enemy,numexplod(18993)
+trigger4 = var(58) := 51
+trigger5 = time = 3 && (enemy,numexplod(18994) || enemy,numexplod(18995))
+trigger5 = var(58) := 49
+
+[state a];MVC軸修正
+type = null
+trigger1 = time = 3 && enemy,numexplod(18980)
+trigger1 = 1 || var(11) := 0
+trigger1 = 1 || var(21) := 0
+
+[state a];Mugen1.0
+type = null
+trigger1 = 2**9 != 4096
+trigger1 = var(56) := 3
+
+[state a]
+type = null
+triggerall = time = 10
+trigger1 = teamside = 1
+trigger1 = !enemy,numexplod(18980)
+trigger1 = var(9) := 1
+trigger2 = teamside = 2
+trigger2 = !enemy,numexplod(18980)
+trigger2 = var(9) := -1
+trigger3 = teamside = 1
+trigger3 = enemy,numexplod(18980)
+trigger3 = var(9) := -1
+trigger4 = teamside = 2
+trigger4 = enemy,numexplod(18980)
+trigger4 = var(9) := 1
+
+[state a];独自ポトレ
+type = explod
+triggerall = var(1)
+;MSH1
+trigger1 = enemy,numexplod(18991)
+trigger1 = enemy,var(16) = [1000,1500]
+trigger1 = enemy,anim = 0
+;MSH2
+trigger2 = enemy,numexplod(18991)
+trigger2 = enemy,var(16) > 1500
+trigger2 = enemy,anim = 20
+;XVS
+trigger3 = enemy,numexplod(18992)
+trigger3 = enemy,anim = 172
+;MVS
+trigger4 = enemy,numexplod(18993)
+trigger4 = enemy,var(16) = [1000,2000]
+;MVC
+trigger5 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger5 = var(53)
+trigger5 = !enemy,numexplod(18981)
+anim = var(1)
+ID = var(1)
+pos = ifelse(teamside=1,(var(11)*var(57))+var(12),(var(11)*var(57))+(enemy,var(0)*2)+var(12))+var(56),var(21)
+facing = var(9)
+postype = left
+removetime = 1
+supermovetime = 999
+pausemovetime = 999
+scale = fvar(2) , ifelse(fvar(3),fvar(3),fvar(2))
+sprpriority = var(58)
+ownpal = 1
+
+[state a];facing
+type = null
+trigger1 = root,teamside = 1
+trigger1 = var(57) := 1
+trigger2 = root,teamside = 2
+trigger2 = var(57) := -1
+persistent = 0
+
+[state a]
+type = null
+trigger1 = enemy,anim = 20 && teamside = 1
+trigger1 = 1 || var(50) := enemy,var(2) - 55
+trigger1 = 1 || var(51) := 15
+trigger2 = enemy,anim = 20 && teamside = 2
+trigger2 = 1 || var(50) := 55
+trigger2 = 1 || var(51) := 15
+persistent = 0
+
+[state a]
+type = turn
+triggerall = !enemy,numexplod(18991)
+trigger1 = root,teamside = 1 && facing = -1
+trigger2 = root,teamside = 2 && facing = 1
+
+[state a]
+type = null
+;MVS
+trigger1 = time = 3 && enemy,anim = 18050
+trigger1 = 1 || var(40) := facing * (-100)
+trigger1 = 1 || var(41) := -20 + var(0)
+;XVS
+trigger2 = time = 3 && enemy,anim = 18049
+trigger2 = 1 || var(40) := -facing * 120
+trigger2 = 1 || var(41) := -30 + var(0)
+;MVC1
+trigger3 = time = 3 && enemy,numexplod(18994)
+trigger3 = (enemy,anim = [18080,18085]) || enemy,numexplod(14999)
+trigger3 = 1 || var(40) := -facing*100
+trigger3 = 1 || var(41) := -30 + var(0) - (enemy,var(1)/2)
+;MVC1_EX
+trigger4 = time = 3 && enemy,numexplod(18995)
+trigger4 = enemy,anim = [18080,18085]
+trigger4 = 1 || var(40) := -facing * 60 - (facing*enemy,var(1))
+trigger4 = 1 || var(41) := -30 + var(0) - (enemy,var(1)/2)
+;???
+trigger5 = time = 3 && enemy,anim = 9999
+trigger5 = 1 || var(40) := enemy,var(11)
+trigger5 = 1 || var(41) := enemy,var(12) + var(0)
+;MVC1_独自ポトレ使用
+trigger6 = time = 3 && enemy,numexplod(18980)
+trigger6 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger6 = 1 || var(40) := -facing * 100
+trigger6 = 1 || var(41) := 30 + var(0)
+persistent = 0
+
+[state a]
+type = posset
+trigger1 = var(40)
+x = var(40)
+y = var(41)
+persistent = 0
+
+[state a]
+type = null
+trigger1 = enemy,numexplod(18994)||(enemy,numexplod(18995)&&!enemy,numexplod(18980))||enemy,numexplod(18998)
+trigger1 = enemy,var(16) > 1000 || enemy,anim = 183 || enemy,numexplod(18979)
+trigger1 = 1 || var(50) := 160 + ceil(pos x)
+trigger1 = 1 || var(51) := 210
+trigger2 = enemy,numexplod(18995) && enemy,numexplod(18980)
+trigger2 = var(53) = 23
+trigger2 = 1 || var(50) := 160 + ceil((pos x)*1.75)
+trigger2 = 1 || var(51) := 210
+persistent = 0
+
+[state a]
+type = varadd
+trigger1 = var(52) = [2,17]
+v = 50
+value = ifelse(teamside = 1,-1,1)*12
+[state a]
+type = varadd
+trigger1 = var(52) = [2,17]
+v = 51
+value = 12
+[state a]
+type = varadd
+trigger1 = var(52) = [18,20]
+v = 50
+value = ifelse(teamside = 1,-1,1)*2
+[state a]
+type = varadd
+trigger1 = var(52) = [18,20]
+v = 51
+value = 2
+
+[state a]
+type = varadd
+triggerall = enemy,numexplod(18980)
+trigger1 = enemy,numhelper(18060)
+trigger2 = enemy,numhelper(18062)
+v = 53
+value = 1
+[state a]
+type = null
+triggerall = enemy,numexplod(18980)
+trigger1 = time = 1 && facing = 1
+trigger1 = var(12) := -facing * 1
+trigger2 = time = 1 && facing = -1
+trigger2 = var(12) := -facing * 321
+
+[state a]
+type = varadd
+trigger1 = facing = -1
+trigger1 = var(53) = [1,10]
+trigger2 = facing = 1
+trigger2 = var(53) = [2,11]
+v = 12
+value = 10*facing
+
+[state a]
+type = explod
+triggerall = var(30)
+trigger1 = var(52)
+trigger2 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger2 = var(51)
+trigger2 = enemy,var(16) > 1000 || enemy,anim = 183
+trigger3 = var(51)
+trigger3 = enemy,numexplod(18995) && enemy,numexplod(18980)
+trigger3 = var(53) > 23
+anim = var(30)
+ID = var(30)
+pos = var(50),var(51)
+postype = left
+removetime = 1
+supermovetime = 999
+pausemovetime = 999
+scale = fvar(11),fvar(11)
+sprpriority = 97
+ownpal = 1
+
+[state a]
+type = null
+trigger1 = enemy,numexplod(18994) || enemy,numexplod(18995)
+trigger1 = enemy,var(16) = 1
+trigger1 = var(30)
+trigger1 = 1 || var(30) := 0
+
+[state a]
+type = varadd
+trigger1 = enemy,anim = 20
+trigger2 = var(52)
+v = 52
+value = 1
+
+[state a];Iwakick's_tagwin
+type=Explod
+trigger1=var(0)&&numpartner
+trigger1=partner,authorname = "iwakick"
+trigger1=partner,stateno = 185
+trigger1=partner,var(7)
+trigger1=time>10
+trigger1=partner,AnimExist(28000)
+postype=right
+ownpal=1
+bindtime=-1
+removetime=-1
+;--------------
+Scale = fvar(0) , ifelse(fvar(1),fvar(1),fvar(0))
+anim = var(0)
+ID = var(0)
+pos = var(10) - ceil((screenpos x)/2), var(20)
+sprpriority = var(59)
+persistent = 0
+
+[state 191]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 191, 2]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+flag2 = invisible
+
+[State 191, 3]
+type = destroyself
+triggerall = ishelper
+triggerall = time > 3
+trigger1 = roundstate > 1
+trigger1 = !(root,teammode = simul)
+trigger2 = roundstate = 2
+trigger2 = numpartner
+trigger2 = !partner,numexplod(14999)
+trigger3 = enemy,stateno = 192 || enemy,stateno = 199
+trigger4 = root,alive = 0
+
+;---------------------------------------------------------------------------
