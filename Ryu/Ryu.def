@@ -1,0 +1,59 @@
+; ______________________________
+;| Ryu by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;====================<DEFINITION>====================
+[Info]
+name        = "Ryu"
+displayname = "Ryu"
+versiondate = 01,14,2010
+mugenversion= 1.0
+author      = "Phantom.of.the.Server"
+pal.defaults= 4,10,5,11,6,12,1,7,2,8,3,9
+localcoord  = 320,240
+
+[Files]
+cmd     = Command.cmd
+cns     = Constants.cns
+st      = States/System.st
+st1     = States/Normal.st
+st2     = States/Specials.st
+st3     = States/EX-Specials.st
+st4     = States/Supers.st
+st5     = States/Helpers.st
+st6     = States/Custom.st
+st7     = States/Ryu.st
+stcommon= common1.cns
+sprite  = Sprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+;ai      = ai.ai
+pal1    = RyuPalettes/SF2LightBlue.act
+pal2    = RyuPalettes/PFRed.act
+pal3    = RyuPalettes/SF2Orange.act
+pal4    = RyuPalettes/SF2.act
+pal5    = RyuPalettes/SF2Turbo.act
+pal6    = RyuPalettes/SF2Grey.act
+pal7    = EvilPalettes/Udon.act
+pal8    = EvilPalettes/SvCShinGouki.act
+pal9    = MasterPalettes/SF1.act
+pal10   = EvilPalettes/CvS.act
+pal11   = EvilPalettes/NxC.act
+pal12   = EvilPalettes/BloodInverse.act
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4
+y = 5
+z = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12
+
+;[Arcade]
+;intro.storyboard = intro.def
+;ending.storyboard = ending.def
