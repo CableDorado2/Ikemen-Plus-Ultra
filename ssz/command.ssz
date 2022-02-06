@@ -1,0 +1,1211 @@
+
+lib str = <string.ssz>;
+lib consts = <consts.ssz>;
+lib mes = <alpha/mesdialog.ssz>;
+lib m = <math.ssz>;
+lib tbl = <table.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib soc = <socket.ssz>;
+lib th = <thread.ssz>;
+lib se = <alpha/sdlevent.ssz>;
+lib file = <file.ssz>;
+lib cfg = "config.ssz";
+lib com = "common.ssz";
+
+
+public int max(int x, int y)
+{
+  ret x > y ? x : y;
+}
+public int min(int x, int y)
+{
+  ret x < y ? x : y;
+}
+
+
+|Key
+{
+  B, D, F, U, DB, UB, DF, UF,
+  nB, nD, nF, nU, nDB, nUB, nDF, nUF,
+  Bs, Ds, Fs, Us, DBs, UBs, DFs, UFs,
+  nBs, nDs, nFs, nUs, nDBs, nUBs, nDFs, nUFs,
+  a, b, c, x, y, z, s,
+  na, nb, nc, nx, ny, nz, ns,
+}
+
+public &Buffer
+{
+  public int Bb, Db, Fb, Ub;
+  public int ab, bb, cb, xb, yb, zb, sb;
+  public byte B, D, F, U;
+  public byte a, b, c, x, y, z, s, esc;
+  new()
+  {
+    `reset();
+  }
+  public void input(
+    bool B, bool D, bool F, bool U, bool a, bool b, bool c,
+    bool x, bool y, bool z, bool s)
+  {
+    if((B&!F) != (`B>0)){`Bb = 0; `B *= -1;} `Bb += `B;
+    if((D&!U) != (`D>0)){`Db = 0; `D *= -1;} `Db += `D;
+    if((F&!B) != (`F>0)){`Fb = 0; `F *= -1;} `Fb += `F;
+    if((U&!D) != (`U>0)){`Ub = 0; `U *= -1;} `Ub += `U;
+    if(a != (`a>0)){`ab = 0; `a *= -1;} `ab += `a;
+    if(b != (`b>0)){`bb = 0; `b *= -1;} `bb += `b;
+    if(c != (`c>0)){`cb = 0; `c *= -1;} `cb += `c;
+    if(x != (`x>0)){`xb = 0; `x *= -1;} `xb += `x;
+    if(y != (`y>0)){`yb = 0; `y *= -1;} `yb += `y;
+    if(z != (`z>0)){`zb = 0; `z *= -1;} `zb += `z;
+    if(s != (`s>0)){`sb = 0; `s *= -1;} `sb += `s;
+  }
+  public void reset()
+  {
+    `Bb = 0; `Db = 0; `Fb = 0; `Ub = 0;
+    `ab = 0; `bb = 0; `cb = 0;
+    `xb = 0; `yb = 0; `zb = 0; `sb = 0;
+    `B=-1; `D=-1; `F=-1; `U=-1;
+    `a=-1; `b=-1; `c=-1;
+    `x=-1; `y=-1; `z=-1; `s=-1; `esc=-1;
+  }
+  /int keyState(|.Key k)
+  {
+    switch(k){
+    case .Key::B: ret .min(-.max(`Db, `Ub), `Bb);
+    case .Key::D: ret .min(-.max(`Bb, `Fb), `Db);
+    case .Key::F: ret .min(-.max(`Db, `Ub), `Fb);
+    case .Key::U: ret .min(-.max(`Bb, `Fb), `Ub);
+      //
+    case .Key::DB: ret .min(`Db, `Bb);
+    case .Key::UB: ret .min(`Ub, `Bb);
+    case .Key::DF: ret .min(`Db, `Fb);
+    case .Key::UF: ret .min(`Ub, `Fb);
+      //
+    case .Key::Bs: ret `Bb;
+    case .Key::Ds: ret `Db;
+    case .Key::Fs: ret `Fb;
+    case .Key::Us: ret `Ub;
+      //
+    case .Key::DBs:
+      ret .min(-.max(`Ub, `Fb), .max(`Db, `Bb));
+    case .Key::UBs:
+      ret .min(-.max(`Db, `Fb), .max(`Ub, `Bb));
+    case .Key::DFs:
+      ret .min(-.max(`Ub, `Bb), .max(`Db, `Fb));
+    case .Key::UFs:
+      ret .min(-.max(`Db, `Bb), .max(`Ub, `Fb));
+      //
+    case .Key::a: ret `ab;
+    case .Key::b: ret `bb;
+    case .Key::c: ret `cb;
+    case .Key::x: ret `xb;
+    case .Key::y: ret `yb;
+    case .Key::z: ret `zb;
+    case .Key::s: ret `sb;
+      //
+    case .Key::nB: ret -.min(-.max(`Db, `Ub), `Bb);
+    case .Key::nD: ret -.min(-.max(`Bb, `Fb), `Db);
+    case .Key::nF: ret -.min(-.max(`Db, `Ub), `Fb);
+    case .Key::nU: ret -.min(-.max(`Bb, `Fb), `Ub);
+      //
+    case .Key::nDB: ret -.min(`Db, `Bb);
+    case .Key::nUB: ret -.min(`Ub, `Bb);
+    case .Key::nDF: ret -.min(`Db, `Fb);
+    case .Key::nUF: ret -.min(`Ub, `Fb);
+      //
+    case .Key::nBs: ret -`Bb;
+    case .Key::nDs: ret -`Db;
+    case .Key::nFs: ret -`Fb;
+    case .Key::nUs: ret -`Ub;
+      //
+    case .Key::nDBs:
+      ret -.min(-.max(`Ub, `Fb), .max(`Db, `Bb));
+    case .Key::nUBs:
+      ret -.min(-.max(`Db, `Fb), .max(`Ub, `Bb));
+    case .Key::nDFs:
+      ret -.min(-.max(`Ub, `Bb), .max(`Db, `Fb));
+    case .Key::nUFs:
+      ret -.min(-.max(`Db, `Bb), .max(`Ub, `Fb));
+      //
+    case .Key::na: ret -`ab;
+    case .Key::nb: ret -`bb;
+    case .Key::nc: ret -`cb;
+    case .Key::nx: ret -`xb;
+    case .Key::ny: ret -`yb;
+    case .Key::nz: ret -`zb;
+    case .Key::ns: ret -`sb;
+    }
+    ret 0;
+  }
+  /int keyState2(|.Key k)
+  {
+    int foo(int a, int b, int c)
+    {
+      branch{
+      cond a > 0: ret -.max(b, c);
+      cond b > 0: ret -.max(a, c);
+      cond c > 0: ret -.max(a, b);
+      }
+      ret -.max(a, .max(b, c));
+    }
+    switch(k){
+    case .Key::Bs: ret `Bb < 0 ? `Bb : .min(#`Bb, .min(#`Db, #`Ub));
+    case .Key::Ds: ret `Db < 0 ? `Db : .min(#`Db, .min(#`Bb, #`Fb));
+    case .Key::Fs: ret `Fb < 0 ? `Fb : .min(#`Fb, .min(#`Db, #`Ub));
+    case .Key::Us: ret `Ub < 0 ? `Ub : .min(#`Ub, .min(#`Bb, #`Fb));
+      //
+    case .Key::DBs:
+      ret `keyState(.Key::DBs) < 0 ? `keyState(.Key::DBs) : .min(#`Db, #`Bb);
+    case .Key::UBs:
+      ret `keyState(.Key::UBs) < 0 ? `keyState(.Key::UBs) : .min(#`Ub, #`Bb);
+    case .Key::DFs:
+      ret `keyState(.Key::DFs) < 0 ? `keyState(.Key::DFs) : .min(#`Db, #`Fb);
+    case .Key::UFs:
+      ret `keyState(.Key::UFs) < 0 ? `keyState(.Key::UFs) : .min(#`Ub, #`Fb);
+      //
+    case .Key::nBs:
+      ret foo(`keyState(.Key::B), `keyState(.Key::DB), `keyState(.Key::UB));
+    case .Key::nDs:
+      ret foo(`keyState(.Key::D), `keyState(.Key::DB), `keyState(.Key::DF));
+    case .Key::nFs:
+      ret foo(`keyState(.Key::F), `keyState(.Key::DF), `keyState(.Key::UF));
+    case .Key::nUs:
+      ret foo(`keyState(.Key::U), `keyState(.Key::UB), `keyState(.Key::UF));
+      //
+    case .Key::nDBs:
+      ret foo(`keyState(.Key::DB), `keyState(.Key::D), `keyState(.Key::B));
+    case .Key::nUBs:
+      ret foo(`keyState(.Key::UB), `keyState(.Key::U), `keyState(.Key::B));
+    case .Key::nDFs:
+      ret foo(`keyState(.Key::DF), `keyState(.Key::D), `keyState(.Key::F));
+    case .Key::nUFs:
+      ret foo(`keyState(.Key::UF), `keyState(.Key::U), `keyState(.Key::F));
+    }
+    ret `keyState(k);
+  }
+  /int lastDirectionTime()
+  {
+     ret .min(#`Bb)<, .min(#`Db)<, .min(#`Fb)<, #`Ub;
+ }
+  /int lastChangeTime()
+  {
+    ret
+      .min(`lastDirectionTime())<,
+      .min(#`ab)<, .min(#`bb)<, .min(#`cb)<,
+      .min(#`xb)<, .min(#`yb)<, .min(#`zb)<, #`sb;
+  }
+}
+
+
+&KeyInfo
+{
+  const int U = 1<<0, D = 1<<1, L = 1<<2, R = 1<<3;
+  const int A = 1<<4, B = 1<<5, C = 1<<6;
+  const int X = 1<<7, Y = 1<<8, Z = 1<<9, S = 1<<10;
+  public int stat = 0;
+  public bool setLocalIn(int in)
+  {
+    if(!.m.inRange!int?(0, #.cfg.in-1, in)) ret false;
+    int jn = .cfg.in[in].jn;
+    if(jn < -1) ret false;
+    `stat =
+      (int).sdl.JoystickButtonState(:jn, .cfg.in[in].u:)
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].d:) << 1
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].l:) << 2
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].r:) << 3
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].a:) << 4
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].b:) << 5
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].c:) << 6
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].x:) << 7
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].y:) << 8
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].z:) << 9
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[in].s:) << 10;
+    ret true;
+  }
+  /void input(&.Buffer b=, int f)
+  {
+    b.input(
+      f < 0 ? (`stat&`R) != 0 : (`stat&`L) != 0,
+      (`stat&`D) != 0,
+      f < 0 ? (`stat&`L) != 0 : (`stat&`R) != 0,
+      (`stat&`U) != 0,
+      (`stat&`A) != 0, (`stat&`B) != 0, (`stat&`C) != 0,
+      (`stat&`X) != 0, (`stat&`Y) != 0, (`stat&`Z) != 0,
+      (`stat&`S) != 0);
+  }
+  /bool anybutton()
+  {
+    ret (`stat & (`A|`B|`C|`X|`Y|`Z)) != 0;
+  }
+}
+
+&KeyBuffer
+{
+  public ^&.KeyInfo data;
+  /index timec = 0, timei = 0, times = 0;
+  new()
+  {
+    `data.new(32);
+  }
+  public void reset(int time)
+  {
+    `timec = `timei = `times = time;
+  }
+  public bool localUpdate(int in)
+  {
+    if(`timei - `timec >= 32) ret true;
+    bool b = `data[`timei&31].setLocalIn(in);
+    `timei++;
+    ret b;
+  }
+  public int remoteUpdate(&.soc.Socket s=)
+  {
+    if(`timei - `timec >= 32) ret 1;
+    bool b = s.recv!int?(`data[`timei&31].stat=);
+    if(`data[`timei&31].stat < 0) ret -1;
+    `times = ++`timei;
+    ret (int)b;
+  }
+  public bool sendInput(&.soc.Socket s=)
+  {
+    if(`times >= `timei) ret true;
+    bool b = s.send!int?(`data[`times&31].stat=);
+    `times++;
+    ret b;
+  }
+  public bool input(&.Buffer b=, int f)
+  {
+    if(`timec >= `timei) ret false;
+    `data[`timec&31].input(b=, f);
+    ret true;
+  }
+  public void setCurTime(int ct)
+  {
+    `timec = ct;
+  }
+}
+
+|NetState
+{
+  Stop, Playing, End, Stoped, Error
+}
+
+void sendThread(^&.soc.Socket s, ^&.KeyBuffer k, ^|.NetState st)
+{
+  loop{while; do:
+    if(!k~sendInput(s<>=)){
+      st<> = .NetState::Error;
+      ret;
+    }
+    .th.sleep(0x1);
+  while st<> == .NetState::Playing:
+    {
+      int tmp = -1;
+      s~send!int?(tmp=);
+    }
+  }
+}
+
+void recvThread(^&.soc.Socket s, ^&.KeyBuffer k, ^|.NetState st)
+{
+  loop{
+    int n;
+    while;
+  do:
+    if((n = k~remoteUpdate(s<>=)) <= 0){
+      st<> = n == 0 ? .NetState::Error : .NetState::Stoped;
+      ret;
+    }
+    .th.sleep(0x1);
+  while st<> == .NetState::Playing:
+    loop{
+      int tmp;
+    do:
+      if(!s~recv!int?(tmp=)) break;
+    while tmp != -1:}
+  }
+}
+
+void acceptThread(^&.soc.Socket liso, ^&.soc.Socket s, ^bool cansel)
+{
+  loop{do:
+    if(liso~accept(s<>=, 1, true)) break;
+  while !cansel<>:}
+  liso~close();
+}
+
+void connectThread(^&.soc.Socket s, ^/char serv, ^/char port, ^bool cansel)
+{
+  loop{
+    int n = 1, next = n;
+  do:
+    if(n++ >= next){
+      next <<= 1;
+      if(s~connect(serv, port, 30, true)) break, break;
+    }
+    .th.sleep(0x1000);
+  while !cansel<>:}
+}
+
+public &NetInput
+{
+  ^&.soc.Socket liso, so;
+  ^|.NetState st;
+  thread!.sendThread? sen;
+  thread!.recvThread? rec;
+  thread!.acceptThread? acc;
+  thread!.connectThread? con;
+  %&.KeyBuffer kb;
+  /index lo = 0, re = 0;
+  int time = 0;
+  int stopedcnt = 0, delay = 0;
+  ^bool cansel;
+  &.file.File rep;
+  /bool host;
+  new()
+  {
+    `liso.new(1);
+    `so.new(1);
+    `st.new(1);
+    `st<> = .NetState::Stop;
+    `cansel.new(1);
+    `cansel<> = false;
+    `host = false;
+  }
+  delete()
+  {
+    `cansel<> = true;
+    `end();
+  }
+  void setlore(index ho=, index ge=)
+  {
+    ho = ge = -1;
+    `kb.new(#.com.com);
+    loop{index i = 0; while; do:
+      if(.com.com[i] == 0) branch{
+      cond ho < 0:
+        ho = i;
+      cond ge < 0:
+        ge = i;
+      }
+      i++;
+    while i < #.com.com:}
+    if(ho < 0) ho = 0;
+    if(ge < 0) ge = (ho+1) % #.com.com;
+  }
+  public bool openReplayFile(^/char replay)
+  {
+    ret `rep.open(replay, "wb");
+  }
+  public bool accept(^/char port)
+  {
+    if(!`liso~listen(port, 1, true)) ret false;
+    `host = true;
+    `setlore(`lo=, `re=);
+    `cansel<> = false;
+    `acc..(`liso, `so, `cansel);
+    ret true;
+  }
+  public void connect(^/char serv, ^/char port)
+  {
+    `host = false;
+    `setlore(`re=, `lo=);
+    `cansel<> = false;
+    `con..(`so, serv, port, `cansel);
+  }
+  public bool isConnected()
+  {
+    ret `so~isOpen();
+  }
+  public void stop()
+  {
+    if(.se.esc){
+      `end();
+      ret;
+    }
+    if(`st<> != .NetState::End && `st<> != .NetState::Error){
+      `st<> = .NetState::Stop;
+    }
+    <wait>(`sen, `rec);
+  }
+  public void end()
+  {
+    if(`st<> != .NetState::Error) `st<> = .NetState::End;
+    <wait>(`sen, `rec);
+  }
+  public bool synchronize()
+  {
+    if(!`isConnected() || `st<> == .NetState::Error) ret false;
+    `stop();
+    int seed;
+    branch{
+    cond `host:
+      seed = .m.random();
+      if(!`so~send!int?(seed=)) ret false;
+    else:
+      if(!`so~recv!int?(seed=)) ret false;
+    }
+    .m.srand(seed);
+    `rep.write!int?(seed=);
+    int tmp;
+    if(!`so~send!int?(`time=)) ret false;
+    if(!`so~recv!int?(tmp=) || tmp != `time) ret false;
+    `kb[`lo].reset(`time);
+    `kb[`re].reset(`time);
+    `st<> = .NetState::Playing;
+    `sen..(`so, `kb[`lo..`lo+1], `st);
+    `rec..(`so, `kb[`re..`re+1], `st);
+    `update();
+    ret true;
+  }
+  public bool input(&.Buffer b=, int in, int f)
+  {
+    if(!.m.inRange!int?(0, #`kb-1, in)) ret false;
+    ret `kb[.com.inputRemap[in]].input(b=, f);
+  }
+  public bool anybutton()
+  {
+    loop{index i = 0; while; do:
+      if(`kb[i].data[`kb[i].timec&31].anybutton()) ret true;
+      i++;
+    while i < #`kb:}
+    ret false;
+  }
+  public bool update()
+  {
+    if(`st<> != .NetState::Stoped) `stopedcnt = 0;
+    if(!.se.end) switch(`st<>){
+    case .NetState::Stoped:
+      if(++`stopedcnt > 60){
+        `st<> = .NetState::End;
+        break, break;
+      }
+    case .NetState::Playing:<-
+      loop{
+        int foo;
+        continue;
+      do:
+        if(.se.esc || !.se.event(60) || `st<> != .NetState::Playing){
+          break, break;
+        }
+      continue:
+        foo = .m.min!int?(`kb[`lo].times, `kb[`re].times);
+        branch{
+          int tmp = (`kb[`re].timei + (`delay >> 3)) - `kb[`lo].timei;
+        cond tmp >= 0:
+          `kb[`lo].localUpdate(0);
+          if(`delay > 0) `delay--;
+        cond tmp < -1:
+          `delay += 4;
+        }
+      while `time >= foo:
+        `kb[`lo].setCurTime(`time);
+        `kb[`re].setCurTime(`time);
+        loop{index i = 0; while; do:
+          `rep.write!&.KeyInfo?(`kb[i].data[`time&31]=);
+          i++;
+        while i < #`kb:}
+        if(++`time >= foo) `kb[`lo].localUpdate(0);
+      }
+    case .NetState::End, .NetState::Error:
+      .se.esc = true;
+    }
+    if(.se.esc) `end();
+    ret !.se.end;
+  }
+}
+
+public &FileInput
+{
+  &.file.File f;
+  ^&.KeyInfo ki;
+  new()
+  {
+    `ki.new(#.com.com);
+  }
+  public void open(^/char fn)
+  {
+    `f.open(fn, "rb");
+  }
+  public bool synchronize()
+  {
+    int seed;
+    if(!`f.read!int?(seed=)) ret false;
+    .m.srand(seed);
+    `update();
+    ret true;
+  }
+  public bool input(&.Buffer b=, int in, int f)
+  {
+    if(!.m.inRange!int?(0, #`ki-1, in)) ret false;
+    `ki[.com.inputRemap[in]].input(b=, f);
+    ret true;
+  }
+  public bool anybutton()
+  {
+    loop{index i = 0; while; do:
+      if(`ki[i].anybutton()) ret true;
+      i++;
+    while i < #`ki:}
+    ret false;
+  }
+  public bool update()
+  {
+    if(
+      .com.oldNextAddTime > 0.0
+      && `f.readAry!&.KeyInfo?(`ki) < #`ki) .se.esc = true;
+    if(.se.esc) `f.close();
+    ret !.se.end;
+  }
+}
+
+&AiInput
+{
+  int muki = 0, st = 0, ab = 0, bb = 0, cb = 0, xb = 0, yb = 0, zb = 0, sb = 0;
+  public void update()
+  {
+    int osu = 15, hanasu = 60;
+    bool sub(int t=)
+    {
+      if(--t <= 0){
+        if(.m.rand(1, `osu) == 1){
+          t = .m.rand(1, `hanasu);
+          ret true;
+        }
+        t = 0;
+      }
+      ret false;
+    }
+    if(sub(`st=)) `muki = .m.rand(0, 7);
+    osu = hanasu = 30;
+    sub(`ab=);sub(`bb=);sub(`cb=);sub(`xb=);sub(`yb=);sub(`zb=);
+    osu = 3600;
+    sub(`sb=);
+    if(.com.intro != 0) `st = `ab = `bb = `cb = `xb = `yb = `zb = `sb = 0;
+  }
+  /bool l()
+  {
+    ret `st != 0 && (`muki == 5 || `muki == 6 || `muki == 7);
+  }
+  /bool r()
+  {
+    ret `st != 0 && (`muki == 1 || `muki == 2 || `muki == 3);
+  }
+  /bool u()
+  {
+    ret `st != 0 && (`muki == 7 || `muki == 0 || `muki == 1);
+  }
+  /bool d()
+  {
+    ret `st != 0 && (`muki == 3 || `muki == 4 || `muki == 5);
+  }
+  /bool a()
+  {
+    ret `ab != 0;
+  }
+  /bool b()
+  {
+    ret `bb != 0;
+  }
+  /bool c()
+  {
+    ret `cb != 0;
+  }
+  /bool x()
+  {
+    ret `xb != 0;
+  }
+  /bool y()
+  {
+    ret `yb != 0;
+  }
+  /bool z()
+  {
+    ret `zb != 0;
+  }
+  /bool s()
+  {
+    ret `sb != 0;
+  }
+}
+
+%&AiInput aiil;
+public ^&NetInput net;
+public ^&FileInput replay;
+
+public bool update()
+{
+  branch{
+  cond #.replay > 0:
+    .se.event(.anyHardButton() ? 240 : 60);
+    ret .replay~update();
+  cond #.net > 0:
+    .se.event(60);
+    ret .net~update();
+  }
+  ret .se.event(60);
+}
+
+public bool synchronize()
+{
+  branch{
+  cond #.replay > 0:
+    .replay~synchronize();
+  cond #.net > 0:
+    if(!.net~synchronize()) ret false;
+  }
+  ret true;
+}
+
+public |Key  a,  b,  c,  x,  y,  z,  s;
+public |Key na, nb, nc, nx, ny, nz, ns;
+resetReadKeymap();
+public void resetReadKeymap()
+{
+  . a = .Key:: a; . b = .Key:: b; . c = .Key:: c;
+  . x = .Key:: x; . y = .Key:: y; . z = .Key:: z; . s = .Key:: s;
+  .na = .Key::na; .nb = .Key::nb; .nc = .Key::nc;
+  .nx = .Key::nx; .ny = .Key::ny; .nz = .Key::nz; .ns = .Key::ns;
+}
+
+public &Command
+{
+  &CmdButton
+  {
+    public %|.Key key;
+    public int tametime = 1;
+    public bool slash = false, greater = false, direction = false;
+    public bool padding = false;
+    /bool isDirection()
+    {
+      ret !`slash && #`key == 1 && `key[0] < .Key::a;
+    }
+    public void clear()
+    {
+      `key.new(0);
+      `tametime = 1;
+      `slash = false;
+      `greater = false;
+      `direction = false;
+    }
+  }
+  public ^/char name;
+  public %^/|.Key hold;
+  public ^bool held;
+  public %&CmdButton cmd;
+  public index cmdidx = 0, tameidx = -1;
+  public int time = 1, current = 0;
+  public int buffertime = 1, curbuftime = 0;
+  public void readCmd(^/char cmdstr)
+  {
+    char nextChar(^/char s, index i=)
+    {
+      loop{while; do:
+        if(!.str.cMatch!char?(.str.blank, s[i])) ret s[i];
+        i++;
+      while i < #s:}
+      ret '\0';
+    }
+    `cmd.new(0);
+    `hold.new(0);
+    ^^/char cmds = .str.split(",", cmdstr);
+    loop{
+      index i = 0, j = 0;
+      bool tilde = false;
+      while;
+    do:
+      branch{
+      cond #`cmd > 0 && `cmd[-1].slash:
+        `hold .= `cmd[-1].key;
+        `cmd[-1].clear();
+      else:
+        `cmd.new[-1];
+      }
+      i = 0;
+      switch(nextChar(cmds[j], i=)){
+      case '>':
+        `cmd[-1].greater = true;
+        i++;
+        switch(nextChar(cmds[j], i=)){
+        case '/':
+          `cmd[-1].slash = true;
+          i++;
+        default:<-
+          break, break;
+        case '~':
+        }
+      case '~':<-
+        tilde = true;
+        loop{
+          i++;
+          int n = 0;
+          while;
+        do:
+          n = n*10 + (int)(cmds[j][i] -'0');
+          i++;
+        while i < #cmds[j] && '0' <= cmds[j][i] && cmds[j][i] <= '9':
+          if(n > 0) `cmd[-1].tametime = n;
+        }
+      case '/':
+        `cmd[-1].slash = true;
+        i++;
+      }
+      loop{while; do:
+        switch(nextChar(cmds[j], i=)){
+        case 'B':
+          `cmd[-1].key .= (tilde ? .Key::nB : .Key::B);
+          tilde = false;
+        case 'D':
+          branch{
+          cond cmds[j][i+1] == 'B':
+            i++;
+            `cmd[-1].key .= (tilde ? .Key::nDB : .Key::DB);
+          cond cmds[j][i+1] == 'F':
+            i++;
+            `cmd[-1].key .= (tilde ? .Key::nDF : .Key::DF);
+          else:
+            `cmd[-1].key .= (tilde ? .Key::nD : .Key::D);
+          }
+          tilde = false;
+        case 'F':
+          `cmd[-1].key .= (tilde ? .Key::nF : .Key::F);
+          tilde = false;
+        case 'U':
+          branch{
+          cond cmds[j][i+1] == 'B':
+            i++;
+            `cmd[-1].key .= (tilde ? .Key::nUB : .Key::UB);
+          cond cmds[j][i+1] == 'F':
+            i++;
+            `cmd[-1].key .= (tilde ? .Key::nUF : .Key::UF);
+          else:
+            `cmd[-1].key .= (tilde ? .Key::nU : .Key::U);
+          }
+          tilde = false;
+          //
+        case 'a': `cmd[-1].key .= (tilde ? .na : .a); tilde = false;
+        case 'b': `cmd[-1].key .= (tilde ? .nb : .b); tilde = false;
+        case 'c': `cmd[-1].key .= (tilde ? .nc : .c); tilde = false;
+        case 'x': `cmd[-1].key .= (tilde ? .nx : .x); tilde = false;
+        case 'y': `cmd[-1].key .= (tilde ? .ny : .y); tilde = false;
+        case 'z': `cmd[-1].key .= (tilde ? .nz : .z); tilde = false;
+        case 's': `cmd[-1].key .= (tilde ? .ns : .s); tilde = false;
+          //
+        case '$':
+          i++;
+          switch(nextChar(cmds[j], i=)){
+          case 'B':
+            `cmd[-1].key .= (tilde ? .Key::nBs : .Key::Bs);
+            tilde = false;
+          case 'D':
+            branch{
+            cond cmds[j][i+1] == 'B':
+              i++;
+              `cmd[-1].key .= (tilde ? .Key::nDBs : .Key::DBs);
+            cond cmds[j][i+1] == 'F':
+              i++;
+              `cmd[-1].key .= (tilde ? .Key::nDFs : .Key::DFs);
+            else:
+              `cmd[-1].key .= (tilde ? .Key::nDs : .Key::Ds);
+            }
+            tilde = false;
+          case 'F':
+            `cmd[-1].key .= (tilde ? .Key::nFs : .Key::Fs);
+            tilde = false;
+          case 'U':
+            branch{
+            cond cmds[j][i+1] == 'B':
+              i++;
+              `cmd[-1].key .= (tilde ? .Key::nUBs : .Key::UBs);
+            cond cmds[j][i+1] == 'F':
+              i++;
+              `cmd[-1].key .= (tilde ? .Key::nUFs : .Key::UFs);
+            else:
+              `cmd[-1].key .= (tilde ? .Key::nUs : .Key::Us);
+            }
+            tilde = false;
+          default:
+            //error
+            i--;
+          }
+          //
+        case '~':
+          tilde = true;
+        case '+':
+        default:
+          //error
+        }
+        i++;
+      while i < #cmds[j]:}
+      if(
+        #`cmd >= 2 && `cmd[-1].isDirection()
+        && `cmd[#`cmd - 2].isDirection())
+      {
+        `cmd[-1].direction = true;
+      }
+      j++;
+    while j < #cmds:
+      if(`cmd[-1].slash) `hold .= `cmd[-1].key;
+    }
+    `held.new(#`hold);
+    `held:<-[void(h=){h = false;}];
+  }
+  bool isDToB(&`CmdButton cmd1, &`CmdButton cmd2)
+  {:<-
+    bool foo(&`CmdButton cmd1, &`CmdButton cmd2)
+    {
+      if(#cmd1.key != #cmd2.key) ret true;
+      loop{index i = 0; while; do:
+        if(
+          cmd1.key[i] != cmd2.key[i] && !(
+            (
+              .m.inRange!|.Key?(.Key::B, .Key::UF, cmd1.key[i])
+              || .m.inRange!|.Key?(.Key::Bs, .Key::UFs, cmd1.key[i]))
+            && (
+              .m.inRange!|.Key?(.Key::B, .Key::UF, cmd2.key[i])
+              || .m.inRange!|.Key?(.Key::Bs, .Key::UFs, cmd2.key[i]))))
+        {
+          ret true;
+        }
+        i++;
+      while i < #cmd1.key:}
+      ret false;
+    }
+    if(cmd2.slash) ret false;
+    loop{index i = 0; while; do:
+      if(cmd1.key[i] < .Key::a) break;
+      i++;
+    while i < #cmd1.key:
+      ret false;
+    }
+    ret foo(cmd1, cmd2);
+  }
+  bool cmdChek(&.Buffer kbuf, bool ai, ^bool holdTemp=)
+  {
+    bool anyHeld = false;
+    ~$bool() fail = [bool(){
+      branch{
+      cond `cmdidx == 0:
+        ret anyHeld;
+      else:
+        if(!ai && (`cmd[`cmdidx].greater || `cmd[`cmdidx].direction)) loop{
+          index j = 0;
+          int t =
+            `cmd[`cmdidx].greater
+            ? kbuf.lastChangeTime() : kbuf.lastDirectionTime();
+          while;
+        do:
+          if(#kbuf.keyState2(`cmd[`cmdidx-1].key[j]) == t) break;
+          j++;
+        while j < #`cmd[`cmdidx-1].key:
+          `clear();
+          ret self(kbuf, ai, holdTemp=);
+        }
+      }
+      ret true;
+    }];
+    int notHeld = 0;
+    if(#`hold > 0 && !ai) loop{
+      index j = 0;
+      if(#holdTemp == 0){
+        holdTemp.new((int).Key::ns + 1);
+        holdTemp:<-[void(t=){t = true;}];
+      }
+      bool allHold = true;
+      while;
+    do:
+      loop{index i = 0; while; do:
+        branch{
+          int ks = kbuf.keyState(`hold[j][i]);
+        cond
+          ks == 1 && (`cmdidx > 0 || #`hold > 1)
+          && !`held[j] && holdTemp[(int)`hold[j][i]]
+          :
+          `held[j] = true;
+          holdTemp[(int)`hold[j][i]] = false;
+        comm:
+          if(ks > 0) break, break;
+        }
+        i++;
+      while i < #`hold[j]:
+        allHold = false;
+      }
+      notHeld += (int)!`held[j];
+      anyHeld |= `held[j];
+      j++;
+    while j < #`hold:
+      if(`cmdidx == #`cmd - 1 && (!allHold || notHeld > 1)){
+        ret anyHeld || `cmdidx > 0;
+      }
+    }
+    if(!ai && `cmd[`cmdidx].slash){
+      if(`cmdidx > 0) branch{
+      cond notHeld == 1:
+        if(#`cmd[`cmdidx - 1].key != 1) ret false;
+        if(
+          `cmd[`cmdidx - 1].key<> >= .Key::a
+          && `cmd[`cmdidx - 1].key<> <= .Key::s
+          && kbuf.keyState(`cmd[`cmdidx - 1].key<>) > 0
+          && kbuf.keyState(`cmd[`cmdidx - 1].key<>)
+          <= kbuf.lastDirectionTime()) ret true;
+      cond #`cmd[`cmdidx - 1].key > 1:
+        loop{index i = 0; while; do:
+          if(
+            `cmd[`cmdidx - 1].key[i] >= .Key::a
+            && `cmd[`cmdidx - 1].key[i] <= .Key::s
+            && kbuf.keyState(`cmd[`cmdidx - 1].key[i]) > 0) ret false;
+          i++;
+        while i < #`cmd[`cmdidx - 1].key:}
+      }
+      `cmdidx++;
+      ret true;
+    }
+    if(`tameidx != `cmdidx) branch{
+    cond `cmd[`cmdidx].tametime > 1:
+      loop{index i = 0; while; do:
+        if(kbuf.keyState(`cmd[`cmdidx].key[i]) > 0) ret ai;
+        if(
+          ai ? .m.rand(0, `cmd[`cmdidx].tametime) != 0
+          : -kbuf.keyState(`cmd[`cmdidx].key[i])
+          < `cmd[`cmdidx].tametime) ret anyHeld || `cmdidx > 0;
+        i++;
+      while i < #`cmd[`cmdidx].key:
+        `tameidx = `cmdidx;
+      }
+    cond
+      `cmdidx > 0 && #`cmd[`cmdidx-1].key == 1 && #`cmd[`cmdidx].key == 1
+      && `cmd[`cmdidx-1].key[0] < .Key::Bs && `cmd[`cmdidx].key[0] < .Key::nB
+      && ((int)`cmd[`cmdidx-1].key[0]-(int)`cmd[`cmdidx].key[0] & 7) == 0
+      :
+      branch{
+      cond kbuf.B < 0 && kbuf.D < 0 && kbuf.F < 0 && kbuf.U < 0:
+        `tameidx = `cmdidx;
+      else:
+        ret fail(::);
+      }
+    }
+    loop{
+      index i = 0;
+      bool foo = false;
+      int n;
+      while;
+    do:
+      n = kbuf.keyState2(`cmd[`cmdidx].key[i]);
+      branch{
+      cond `cmd[`cmdidx].slash:
+        foo |= n > 0;
+      else:
+        foo |= n == 1;
+        if(n <= 0 || n > 7) ret fail(::);
+      }
+      i++;
+    while i < #`cmd[`cmdidx].key:
+      if(!foo) ret fail(::);
+      `cmdidx++;
+      if(`cmdidx < #`cmd && `isDToB(`cmd[`cmdidx-1], `cmd[`cmdidx])){
+        ret self(kbuf, ai, holdTemp=);
+      }
+    }
+    ret true;
+  }
+  public void step(^&.Buffer kbuf, bool ai, bool hitpause, int buftime)
+  {
+    if(!hitpause && `curbuftime > 0) `curbuftime--;
+    if(#`cmd == 0) ret;
+    {
+      int ocbt = `curbuftime;
+      ^bool holdTemp;
+      if(#kbuf == 0 || !`cmdChek(kbuf<>, ai, holdTemp=)){
+        index foo = `tameidx == `cmdidx && `cmdidx == 0 ? 0 : -1;
+        `clear();
+        `tameidx = foo;
+        ret;
+      }
+      `current++;
+      if(`cmdidx == 1 && `cmd[0].slash) `current = 0;
+      branch{
+      cond<a> `cmdidx == #`cmd:
+      cond<b> !ai && `current > `time:
+      else:
+        break;
+      comm:
+        `clear();
+      diff<a>:
+        `curbuftime = `buffertime + buftime;
+      }
+    break:
+      if(`curbuftime < ocbt) `curbuftime = ocbt;
+    }
+  }
+  public void clear()
+  {
+    `cmdidx = 0;
+    `tameidx = -1;
+    `current = 0;
+    `curbuftime = 0;
+    `held:<-[void(h=){h = false;}];
+  }
+  public void copy(`self c=)
+  {
+    `name = c.name;
+    `hold = c.hold;
+    `held = .str.clone!bool?(c.held);
+    `cmd = c.cmd;
+    `cmdidx = c.cmdidx;
+    `tameidx = c.tameidx;
+    `time = c.time;
+    `current = c.current;
+    `buffertime = c.buffertime;
+    `curbuftime = c.curbuftime;
+  }
+}
+
+public &CommandList
+{
+  public ^&.Buffer buffer;
+  public ^&.tbl.NameTable!index? cTable;
+  public %%&.Command commands;
+  public int defaultTime;
+  public int defaultBufferTime;
+  public ^&.Command ctmp;
+  new()
+  {
+    `clear();
+  }
+  public void clear()
+  {
+    `cTable.new(1);
+    `defaultTime = 15;
+    `defaultBufferTime = 1;
+    `ctmp.new(0);
+  }
+  public void copyList(`self src=)
+  {
+    `cTable = src.cTable;
+    `commands.new(#src.commands);
+    loop{index i = 0; while; do:
+      `commands[i].new(#src.commands[i]);
+      loop{index j = 0; while; do:
+        `commands[i][j].copy(src.commands[i][j]=);
+        j++;
+      while j < #`commands[i]:}
+      i++;
+    while i < #`commands:}
+  }
+  public bool input(int input, int facing)
+  {
+    bool step = `buffer~Bb != 0;
+    if(input < 0 && input >= -.com.maxSimul*2){
+      .aiil.new[!input].update();//同期がずれないようここで
+    }
+    branch{
+      if(input < 0) else;
+    cond #.replay > 0:
+      .replay~input(`buffer<>=, input, facing);
+    cond #.net > 0:
+      .net~input(`buffer<>=, input, facing);
+    else:
+      {
+        bool l, r, u, d, a, b, c, x, y, z, s;
+        branch{
+        cond input < 0:
+          if(input < -.com.maxSimul*2) else;
+          l = .aiil[!input].l();
+          r = .aiil[!input].r();
+          u = .aiil[!input].u();
+          d = .aiil[!input].d();
+          a = .aiil[!input].a();
+          b = .aiil[!input].b();
+          c = .aiil[!input].c();
+          x = .aiil[!input].x();
+          y = .aiil[!input].y();
+          z = .aiil[!input].z();
+          s = .aiil[!input].s();
+        cond input < #.com.inputRemap && .com.inputRemap[input] < #.cfg.in:
+          {
+            int in = .com.inputRemap[input];
+            int jn = .cfg.in[in].jn;
+            if(jn < -1) break, else;
+            l = .sdl.JoystickButtonState(:jn, .cfg.in[in].l:);
+            r = .sdl.JoystickButtonState(:jn, .cfg.in[in].r:);
+            u = .sdl.JoystickButtonState(:jn, .cfg.in[in].u:);
+            d = .sdl.JoystickButtonState(:jn, .cfg.in[in].d:);
+            a = .sdl.JoystickButtonState(:jn, .cfg.in[in].a:);
+            b = .sdl.JoystickButtonState(:jn, .cfg.in[in].b:);
+            c = .sdl.JoystickButtonState(:jn, .cfg.in[in].c:);
+            x = .sdl.JoystickButtonState(:jn, .cfg.in[in].x:);
+            y = .sdl.JoystickButtonState(:jn, .cfg.in[in].y:);
+            z = .sdl.JoystickButtonState(:jn, .cfg.in[in].z:);
+            s = .sdl.JoystickButtonState(:jn, .cfg.in[in].s:);
+          }
+        else:
+          l = r = u = d = a = b = c = x = y = z = s = false;
+        comm:
+          `buffer~input(
+            facing < 0 ? r : l, d, facing < 0 ? l : r, u, a, b, c, x, y, z, s);
+        }
+      }
+    }
+    ret step;
+  }
+  public void step(int facing, bool ai, bool hitpause, int buftime)
+  {
+    `commands:<-:<-[void(c=){c.step(`buffer, ai, hitpause, buftime);}];
+  }
+  public void bufReset()
+  {
+    if(#`buffer == 0) ret;
+    `buffer~reset();
+    `commands:<-:<-[void(c=){c.clear();}];
+  }
+  public void add(&.Command c=)
+  {
+    ^index ci = `cTable~get(c.name);
+    if(#ci == 0 || ci<> < 0 || ci<> >= #`commands){
+      ci.new(1);
+      ci<> = #`commands;
+    }
+    `commands.new[ci<>].new[-1].copy(c=);
+    `cTable~set(c.name, ci);
+  }
+  public ^&.Command get(^/char name)
+  {
+    ^index ci = `cTable~get(name);
+    if(#ci == 0) ret .consts.null!&.Command?();
+    ret `at(ci<>);
+  }
+  public ^&.Command at(index i)
+  {
+    if(i < 0 || i >= #`commands) ret .consts.null!&.Command?();
+    ret `commands[i];
+  }
+}
+
+bool anyHardButton()
+{
+  loop{
+    index i = 0;
+    int jn;
+    while;
+  do:
+    jn = .cfg.in[i].jn;
+    if(
+      jn >= -1 && (
+        .sdl.JoystickButtonState(:jn, .cfg.in[i].a:)
+        || .sdl.JoystickButtonState(:jn, .cfg.in[i].b:)
+        || .sdl.JoystickButtonState(:jn, .cfg.in[i].c:)
+        || .sdl.JoystickButtonState(:jn, .cfg.in[i].x:)
+        || .sdl.JoystickButtonState(:jn, .cfg.in[i].y:)
+        || .sdl.JoystickButtonState(:jn, .cfg.in[i].z:))) ret true;
+    i++;
+  while i < #.cfg.in:}
+  ret false;
+}
+
+public bool anybutton()
+{
+  if(#.replay > 0) ret .replay~anybutton();
+  if(#.net > 0) ret .net~anybutton();
+  ret .anyHardButton();
+}
+

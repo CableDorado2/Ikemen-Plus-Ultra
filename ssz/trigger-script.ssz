@@ -1,0 +1,1221 @@
+
+lib s = <string.ssz>;
+lib m = <math.ssz>;
+lib lua = <alpha/lua.ssz>;
+lib sc = "script.ssz";
+lib chr = "char.ssz";
+lib com = "common.ssz";
+lib cfg = "config.ssz";
+
+public ^&chr.Char cwc;
+
+^/char attrToStr(int flg)
+{
+  %char buf;
+  if((flg & (int).chr.StTy::S) != 0) buf .= 'S';
+  if((flg & (int).chr.StTy::C) != 0) buf .= 'C';
+  if((flg & (int).chr.StTy::A) != 0) buf .= 'A';
+  if((flg & (int).chr.AtTy::NA) != 0) buf .= ", NA";
+  if((flg & (int).chr.AtTy::NT) != 0) buf .= ", NT";
+  if((flg & (int).chr.AtTy::NP) != 0) buf .= ", NP";
+  if((flg & (int).chr.AtTy::SA) != 0) buf .= ", SA";
+  if((flg & (int).chr.AtTy::ST) != 0) buf .= ", ST";
+  if((flg & (int).chr.AtTy::SP) != 0) buf .= ", SP";
+  if((flg & (int).chr.AtTy::HA) != 0) buf .= ", HA";
+  if((flg & (int).chr.AtTy::HT) != 0) buf .= ", HT";
+  if((flg & (int).chr.AtTy::HP) != 0) buf .= ", HP";
+  ret buf;
+}
+
+
+void player(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  bool retVal = false;
+  if(.m.inRange!int?(1, #.chr.chars, pn) && #.chr.chars[pn-1] > 0){
+    .cwc = .chr.chars[pn-1]<>;
+    retVal = true;
+  }
+  L.pushBoolean(retVal);
+}
+
+void parent(&.lua.State L=, int re=)
+{
+  re = 1;
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trParent();
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void root(&.lua.State L=, int re=)
+{
+  re = 1;
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trRoot();
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void helper(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int id = 0;
+  if(L.getTop() > argc){
+    id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trHelper(id);
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void target(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int id = -1;
+  if(L.getTop() > argc){
+    id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trTarget(id);
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void partner(&.lua.State L=, int re=)
+{
+  re = 1;
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trPartner(0);
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void enemy(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int n = 0;
+  if(L.getTop() > argc){
+    n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trEnemy(n);
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void enemynear(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int n = 0;
+  if(L.getTop() > argc){
+    n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trEnemyNear(n);
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+void playerid(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cwc == 0){
+    L.pushBoolean(false);
+    ret;
+  }
+  .cwc~trPlayerID(id);
+  if(#.chr.c > 0) .cwc = .chr.c;
+  L.pushBoolean(#.chr.c > 0);
+}
+
+
+void ailevel(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .com.com[.cwc~playerno] : 0));
+}
+
+void alive(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~isAlive());
+}
+
+void anim(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~animno : 0));
+}
+
+void animOwner(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~animpno+1 : 0));
+}
+
+void animelemno(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int t = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trAnimElemNo(t)$.chr.v.toF() : 0.0);
+}
+
+void animelemtime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trAnimElemTime(n)$.chr.v.toF() : 0.0);
+}
+
+void animexist(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(n);
+  L.pushBoolean(#.cwc > 0 && .cwc~trAnimExist(.cwc~id)$.chr.v.isT());
+}
+
+void animtime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trAnimTime() : 0.0);
+}
+
+void authorname(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(#.cwc > 0 ? .chr.cgi[.cwc~playerno].author : "");
+}
+
+void backedge(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trBackEdge() : 0.0);
+}
+
+void backedgebodydist(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trBackEdgeBodyDist() : 0.0);
+}
+
+void backedgedist(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trBackEdgeDist() : 0.0);
+}
+
+void bottomedge(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trBottomEdge() : 0.0);
+}
+
+void cameraposX(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trCameraPosX() : 0.0);
+}
+
+void cameraposY(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trCameraPosY() : 0.0);
+}
+
+void camerazoom(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trCameraZoom() : 0.0);
+}
+
+void canrecover(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trCanRecover());
+}
+
+void command(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char cmd = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushBoolean(#.cwc > 0 && .cwc~commandByName(cmd));
+}
+
+void const_(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char cns = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cwc == 0){
+    L.pushNumber(0.0);
+    ret;
+  }
+  double n;
+  branch{
+  cond .s.equ("data.life", cns):
+    n = (double).cwc~sysivar[.chr.iLIFEMAX];
+  cond .s.equ("data.power", cns):
+    n = (double).cwc~sysivar[.chr.iPOWERMAX];
+  cond .s.equ("data.attack", cns):
+    n = (double).cwc~sysivar[.chr.iATTACK];
+  cond .s.equ("data.defence", cns):
+    n = (double).cwc~sysivar[.chr.iDEFENCE];
+  cond .s.equ("data.fall.defence_mul", cns):
+    n = (double).cwc~sysfvar[.chr.fFALL_DEFENCE_MUL];
+  cond .s.equ("data.liedown.time", cns):
+    n = (double).cwc~sysivar[.chr.iLIEDOWN_TIME];
+  cond .s.equ("data.airjuggle", cns):
+    n = (double).cwc~sysivar[.chr.iAIRJUGGLE];
+  cond .s.equ("data.sparkno", cns):
+    n = (double).cwc~sysivar[.chr.iSPARKNO];
+  cond .s.equ("data.guard.sparkno", cns):
+    n = (double).cwc~sysivar[.chr.iGUARD_SPARKNO];
+  cond .s.equ("data.ko.echo", cns):
+    n = (double).cwc~sysivar[.chr.iKO_ECHO];
+  cond .s.equ("data.intpersistindex", cns):
+    n = (double).cwc~sysivar[.chr.iINTPERSISTINDEX];
+  cond .s.equ("data.floatpersistindex", cns):
+    n = (double).cwc~sysivar[.chr.iFLOATPERSISTINDEX];
+  cond .s.equ("size.xscale", cns):
+    n = (double).cwc~sysfvar[.chr.fXSCALE];
+  cond .s.equ("size.yscale", cns):
+    n = (double).cwc~sysfvar[.chr.fYSCALE];
+  cond .s.equ("size.ground.back", cns):
+    n = (double).cwc~sysivar[.chr.iGROUND_BACK];
+  cond .s.equ("size.ground.front", cns):
+    n = (double).cwc~sysivar[.chr.iGROUND_FRONT];
+  cond .s.equ("size.air.back", cns):
+    n = (double).cwc~sysivar[.chr.iAIR_BACK];
+  cond .s.equ("size.air.front", cns):
+    n = (double).cwc~sysivar[.chr.iAIR_FRONT];
+  cond .s.equ("size.height", cns):
+    n = (double).cwc~sysivar[.chr.iHEIGHT];
+  cond .s.equ("size.attack.dist", cns):
+    n = (double).cwc~sysivar[.chr.iATTACK_DIST];
+  cond .s.equ("size.proj.attack.dist", cns):
+    n = (double).cwc~sysivar[.chr.iPROJ_ATTACK_DIST];
+  cond .s.equ("size.proj.doscale", cns):
+    n = (double).cwc~sysivar[.chr.iPROJ_DOSCALE];
+  cond .s.equ("size.head.pos.x", cns):
+    n = (double).cwc~sysivar[.chr.iHEAD_POSX];
+  cond .s.equ("size.head.pos.y", cns):
+    n = (double).cwc~sysivar[.chr.iHEAD_POSY];
+  cond .s.equ("size.mid.pos.x", cns):
+    n = (double).cwc~sysivar[.chr.iMID_POSX];
+  cond .s.equ("size.mid.pos.y", cns):
+    n = (double).cwc~sysivar[.chr.iMID_POSY];
+  cond .s.equ("size.shadowoffset", cns):
+    n = (double).cwc~sysivar[.chr.iSHADOWOFFSET];
+  cond .s.equ("size.draw.offset.x", cns):
+    n = (double).cwc~sysivar[.chr.iDRAW_OFFSETX];
+  cond .s.equ("size.draw.offset.y", cns):
+    n = (double).cwc~sysivar[.chr.iDRAW_OFFSETY];
+  cond .s.equ("velocity.walk.fwd.x", cns):
+    n = (double).cwc~sysfvar[.chr.fWALK_FWD];
+  cond .s.equ("velocity.walk.back.x", cns):
+    n = (double).cwc~sysfvar[.chr.fWALK_BACK];
+  cond .s.equ("velocity.run.fwd.x", cns):
+    n = (double).cwc~sysfvar[.chr.fRUN_FWDX];
+  cond .s.equ("velocity.run.fwd.y", cns):
+    n = (double).cwc~sysfvar[.chr.fRUN_FWDY];
+  cond .s.equ("velocity.run.back.x", cns):
+    n = (double).cwc~sysfvar[.chr.fRUN_BACKX];
+  cond .s.equ("velocity.run.back.y", cns):
+    n = (double).cwc~sysfvar[.chr.fRUN_BACKY];
+  cond .s.equ("velocity.jump.y", cns):
+    n = (double).cwc~sysfvar[.chr.fJUMP_NEUY];
+  cond .s.equ("velocity.jump.neu.x", cns):
+    n = (double).cwc~sysfvar[.chr.fJUMP_NEUX];
+  cond .s.equ("velocity.jump.back.x", cns):
+    n = (double).cwc~sysfvar[.chr.fJUMP_BACK];
+  cond .s.equ("velocity.jump.fwd.x", cns):
+    n = (double).cwc~sysfvar[.chr.fJUMP_FWD];
+  cond .s.equ("velocity.runjump.back.x", cns):
+    n = (double).cwc~sysfvar[.chr.fRUNJUMP_BACKX];
+  cond .s.equ("velocity.runjump.fwd.x", cns):
+    n = (double).cwc~sysfvar[.chr.fRUNJUMP_FWDX];
+  cond .s.equ("velocity.airjump.y", cns):
+    n = (double).cwc~sysfvar[.chr.fAIRJUMP_NEUY];
+  cond .s.equ("velocity.airjump.neu.x", cns):
+    n = (double).cwc~sysfvar[.chr.fAIRJUMP_NEUX];
+  cond .s.equ("velocity.airjump.back.x", cns):
+    n = (double).cwc~sysfvar[.chr.fAIRJUMP_BACK];
+  cond .s.equ("velocity.airjump.fwd.x", cns):
+    n = (double).cwc~sysfvar[.chr.fAIRJUMP_FWD];
+  cond .s.equ("velocity.air.gethit.groundrecover.x", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_GROUNDRECOVERX];
+  cond .s.equ("velocity.air.gethit.groundrecover.y", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_GROUNDRECOVERY];
+  cond .s.equ("velocity.air.gethit.airrecover.mul.x", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_MULX];
+  cond .s.equ("velocity.air.gethit.airrecover.mul.y", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_MULY];
+  cond .s.equ("velocity.air.gethit.airrecover.add.x", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_ADDX];
+  cond .s.equ("velocity.air.gethit.airrecover.add.y", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_ADDY];
+  cond .s.equ("velocity.air.gethit.airrecover.back", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_BACK];
+  cond .s.equ("velocity.air.gethit.airrecover.fwd", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_FWD];
+  cond .s.equ("velocity.air.gethit.airrecover.up", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_UP];
+  cond .s.equ("velocity.air.gethit.airrecover.down", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_DOWN];
+  cond .s.equ("movement.airjump.num", cns):
+    n = (double).cwc~sysivar[.chr.iAIRJUMP_NUM];
+  cond .s.equ("movement.airjump.height", cns):
+    n = (double).cwc~sysivar[.chr.iAIRJUMP_HEIGHT];
+  cond .s.equ("movement.yaccel", cns):
+    n = (double).cwc~sysfvar[.chr.fYACCEL];
+  cond .s.equ("movement.stand.friction", cns):
+    n = (double).cwc~sysfvar[.chr.fSTAND_FRICTION];
+  cond .s.equ("movement.crouch.friction", cns):
+    n = (double).cwc~sysfvar[.chr.fCROUCH_FRICTION];
+  cond .s.equ("movement.stand.friction.threshold", cns):
+    n = (double).cwc~sysfvar[.chr.fSTAND_FRICTION_THRESHOLD];
+  cond .s.equ("movement.crouch.friction.threshold", cns):
+    n = (double).cwc~sysfvar[.chr.fCROUCH_FRICTION_THRESHOLD];
+  cond .s.equ("movement.air.gethit.groundlevel", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_GROUNDLEVEL];
+  cond .s.equ("movement.air.gethit.groundrecover.ground.threshold", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_GROUNDRECOVER_GROUND_THRESHOLD];
+  cond .s.equ("movement.air.gethit.groundrecover.groundlevel", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_GROUNDRECOVER_GROUNDLEVEL];
+  cond .s.equ("movement.air.gethit.airrecover.threshold", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_THRESHOLD];
+  cond .s.equ("movement.air.gethit.airrecover.yaccel", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_AIRRECOVER_YACCEL];
+  cond .s.equ("movement.air.gethit.trip.groundlevel", cns):
+    n = (double).cwc~sysfvar[.chr.fAIR_GETHIT_TRIP_GROUNDLEVEL];
+  cond .s.equ("movement.down.bounce.offset.x", cns):
+    n = (double).cwc~sysfvar[.chr.fDOWN_BOUNCE_OFFSETX];
+  cond .s.equ("movement.down.bounce.offset.y", cns):
+    n = (double).cwc~sysfvar[.chr.fDOWN_BOUNCE_OFFSETY];
+  cond .s.equ("movement.down.bounce.yaccel", cns):
+    n = (double).cwc~sysfvar[.chr.fDOWN_BOUNCE_YACCEL];
+  cond .s.equ("movement.down.bounce.groundlevel", cns):
+    n = (double).cwc~sysfvar[.chr.fDOWN_BOUNCE_GROUNDLEVEL];
+  cond .s.equ("movement.down.friction.threshold", cns):
+    n = (double).cwc~sysfvar[.chr.fDOWN_FRICTION_THRESHOLD];
+  else:
+    n = 0.0;
+  }
+  L.pushNumber(n);
+}
+
+void ctrl(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~canCtrl());
+}
+
+void drawgame(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trDrawGame());
+}
+
+void facing(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~facing : 0));
+}
+
+void frontedge(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trFrontEdge() : 0.0);
+}
+
+void frontedgebodydist(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trFrontEdgeBodyDist() : 0.0);
+}
+
+void frontedgedist(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trFrontEdgeDist() : 0.0);
+}
+
+void fvar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trFVar(i)$.chr.v.toF() : 0.0);
+}
+
+void gameheight(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trGameHeight() : 0.0);
+}
+
+void gametime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.gametime);
+}
+
+void gamewidth(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trGameWidth() : 0.0);
+}
+
+void gethitvar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char ghv = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cwc == 0){
+    L.pushNumber(0.0);
+    ret;
+  }
+  double n;
+  branch{
+  cond .s.equ("xveladd", ghv):
+    n = 0.0;
+  cond .s.equ("yveladd", ghv):
+    n = 0.0;
+  cond .s.equ("type", ghv):
+    n = (double).cwc~stVal.hb.typ;
+  cond .s.equ("animtype", ghv):
+    n = (double).cwc~gethitAnimtype();
+  cond .s.equ("airtype", ghv):
+    n = (double).cwc~stVal.hb.airtype;
+  cond .s.equ("groundtype", ghv):
+    n = (double).cwc~stVal.hb.groundtype;
+  cond .s.equ("damage", ghv):
+    n = (double).cwc~stVal.hb.damage;
+  cond .s.equ("hitcount", ghv):
+    n = (double).cwc~stVal.hb.hitcount;
+  cond .s.equ("fallcount", ghv):
+    n = (double).cwc~stVal.hb.fallcount;
+  cond .s.equ("hitshaketime", ghv):
+    n = (double).cwc~stVal.hb.hitshaketime;
+  cond .s.equ("hittime", ghv):
+    n = (double).cwc~stVal.hb.hittime;
+  cond .s.equ("slidetime", ghv):
+    n = (double).cwc~stVal.hb.slidetime;
+  cond .s.equ("ctrltime", ghv):
+    n = (double).cwc~stVal.hb.ctrltime;
+  cond .s.equ("recovertime", ghv):
+    n = (double).cwc~sysivar[.chr.iRECOVERTIME];
+  cond .s.equ("xoff", ghv):
+    n = (double).cwc~stVal.hb.xoff;
+  cond .s.equ("yoff", ghv):
+    n = (double).cwc~stVal.hb.yoff;
+  cond .s.equ("xvel", ghv):
+    n = .cwc~trHitXvel();
+  cond .s.equ("yvel", ghv):
+    n = (double).cwc~stVal.hb.yvel;
+  cond .s.equ("yaccel", ghv):
+    n = (double).cwc~stVal.hb.getYaccel();
+  cond .s.equ("chainid", ghv):
+    n = (double).cwc~stVal.hb.hitid;
+  cond .s.equ("guarded", ghv):
+    n = (double).cwc~stVal.hb.guarded;
+  cond .s.equ("isbound", ghv):
+    n = (double).cwc~isBound();
+  cond .s.equ("fall", ghv):
+    n = (double).cwc~stVal.hb.fallf;
+  cond .s.equ("fall.damage", ghv):
+    n = (double).cwc~stVal.hb.fall.damage;
+  cond .s.equ("fall.xvel", ghv):
+    n = .cwc~trFallXvel();
+  cond .s.equ("fall.yvel", ghv):
+    n = (double).cwc~stVal.hb.fall.yvelocity;
+  cond .s.equ("fall.recover", ghv):
+    n = (double).cwc~stVal.hb.fall.recover;
+  cond .s.equ("fall.recovertime", ghv):
+    n = (double).cwc~stVal.hb.fall.recovertime;
+  cond .s.equ("fall.kill", ghv):
+    n = (double).cwc~stVal.hb.fall.kill;
+  cond .s.equ("fall.envshake.time", ghv):
+    n = (double).cwc~stVal.hb.fall.envshake_time;
+  cond .s.equ("fall.envshake.freq", ghv):
+    n = (double).cwc~stVal.hb.fall.envshake_freq;
+  cond .s.equ("fall.envshake.ampl", ghv):
+    n = (double).cwc~stVal.hb.fall.envshake_ampl;
+  cond .s.equ("fall.envshake.phase", ghv):
+    n = (double).cwc~stVal.hb.fall.envshake_phase;
+  else:
+    n = 0.0;
+  }
+  L.pushNumber(n);
+}
+
+void hitcount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iHITCOUNT] : 0));
+}
+
+void hitdefattr(&.lua.State L=, int re=)
+{
+  re = 1;
+  int attr = .cwc~stVal.mov == .chr.MovTy::A ? .cwc~stVal.hit.attr : 0;
+  L.pushString(.attrToStr(attr));
+}
+
+void hitfall(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~isFall());
+}
+
+void hitover(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trHitOver());
+}
+
+void hitpausetime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trHitPauseTime() : 0.0);
+}
+
+void hitshakeover(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trHitShakeOver());
+}
+
+void hitvelX(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trHitVelX() : 0.0);
+}
+
+void hitvelY(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trHitVelY() : 0.0);
+}
+
+void id(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~trId() : 0));
+}
+
+void inguarddist(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 ? .cwc~inguarddist : false);
+}
+
+void ishelper(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int id = 0;
+  if(L.getTop() > argc){
+    id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  .chr.v.setI(id);
+  L.pushBoolean(#.cwc > 0 && .cwc~trIsHelper()$.chr.v.isT());
+}
+
+void ishometeam(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && (.cwc~playerno&1) == .com.home);
+}
+
+void leftedge(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trLeftEdge() : 0.0);
+}
+
+void life(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iLIFE] : 0));
+}
+
+void lifemax(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iLIFEMAX] : 0));
+}
+
+void lose(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~isLose());
+}
+
+void loseko(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trLoseKO());
+}
+
+void losetime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trLoseTime());
+}
+
+void matchno(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trMatchNo() : 0.0);
+}
+
+void matchover(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.com.matchOver());
+}
+
+void movecontact(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trMoveContact() : 0.0);
+}
+
+void moveguarded(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trMoveGuarded() : 0.0);
+}
+
+void movehit(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trMoveHit() : 0.0);
+}
+
+void movereversed(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trMoveReversed() : 0.0);
+}
+
+void movetype(&.lua.State L=, int re=)
+{
+  re = 1;
+  ^/char mtype;
+  if(#.cwc > 0) switch(.cwc~stVal.mov){
+  case .chr.MovTy::I: mtype = "I";
+  case .chr.MovTy::A: mtype = "A";
+  case .chr.MovTy::H: mtype = "H";
+  }
+  L.pushString(mtype);
+}
+
+void name(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(#.cwc > 0 ? .cwc~name : "");
+}
+
+void numenemy(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trNumEnemy() : 0.0);
+}
+
+void numexplod(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int id = -1;
+  if(L.getTop() > argc){
+    id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  .chr.v.setI(id);
+  L.pushNumber(#.cwc > 0 ? .cwc~trNumExplod()$.chr.v.toF() : 0.0);
+}
+
+void numhelper(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int id = 0;
+  if(L.getTop() > argc){
+    id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  .chr.v.setI(id);
+  L.pushNumber(#.cwc > 0 ? .cwc~trNumHelper()$.chr.v.toF() : 0.0);
+}
+
+void numpartner(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trNumPartner() : 0.0);
+}
+
+void numproj(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trNumProj() : 0.0);
+}
+
+void numprojid(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(id);
+  L.pushNumber(#.cwc > 0 ? .cwc~trNumProjID()$.chr.v.toF() : 0.0);
+}
+
+void numtarget(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  re = nret;
+  int id = -1;
+  if(L.getTop() > argc){
+    id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  .chr.v.setI(id);
+  L.pushNumber(#.cwc > 0 ? .cwc~trNumTarget()$.chr.v.toF() : 0.0);
+}
+
+void palno(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~palno() : 0.0);
+}
+
+void physics(&.lua.State L=, int re=)
+{
+  re = 1;
+  ^/char ptype;
+  if(#.cwc > 0) switch(.cwc~stVal.phy){
+  case .chr.StTy::S: ptype = "S";
+  case .chr.StTy::C: ptype = "C";
+  case .chr.StTy::A: ptype = "A";
+  case .chr.StTy::N: ptype = "N";
+  }
+  L.pushString(ptype);
+}
+
+void posX(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~sysfvar[.chr.fX]-.com.cam.x : 0.0);
+}
+
+void posY(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~sysfvar[.chr.fY] : 0.0);
+}
+
+void power(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~getSharePower() : 0));
+}
+
+void powermax(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iPOWERMAX] : 0));
+}
+
+void playeridexist(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(id);
+  L.pushBoolean(#.cwc > 0 && .cwc~trPlayerIDExist()$.chr.v.isT());
+}
+
+void prevstateno(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~stVal.prevno : 0));
+}
+
+void projcanceltime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(id);
+  L.pushNumber(
+    #.cwc > 0 ? .cwc~trProjTime(.chr.ProjContact::Cancel)$.chr.v.toF() : 0.0);
+}
+
+void projcontacttime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(id);
+  L.pushNumber(#.cwc > 0 ? .cwc~trProjContactTime()$.chr.v.toF() : 0.0);
+}
+
+void projguardedtime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(id);
+  L.pushNumber(
+    #.cwc > 0 ? .cwc~trProjTime(.chr.ProjContact::Guarded)$.chr.v.toF() : 0.0);
+}
+
+void projhittime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(id);
+  L.pushNumber(
+    #.cwc > 0 ? .cwc~trProjTime(.chr.ProjContact::Hit)$.chr.v.toF() : 0.0);
+}
+
+void rightedge(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trRightEdge() : 0.0);
+}
+
+void roundno(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.round);
+}
+
+void roundsexisted(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~trRoundsExisted() : 0.0);
+}
+
+void roundstate(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? (double).cwc~roundState() : 0.0);
+}
+
+void screenheight(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trScreenHeight() : 0.0);
+}
+
+void screenposX(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(
+    #.cwc > 0 ? (.cwc~sysfvar[.chr.fX]-.com.cam.screenX)*.com.cam.scale : 0.0);
+}
+
+void screenposY(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(
+    #.cwc > 0 ? (.cwc~sysfvar[.chr.fY]-.com.cam.screenY)*.com.cam.scale : 0.0);
+}
+
+void screenwidth(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trScreenWidth() : 0.0);
+}
+
+void selfanimexist(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .chr.v.setI(n);
+  L.pushBoolean(#.cwc > 0 && .cwc~trSelfAnimExist()$.chr.v.isT());
+}
+
+void stateno(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~stVal.no : 0));
+}
+
+void stateOwner(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~stVal.playerno+1 : 0));
+}
+
+void statetype(&.lua.State L=, int re=)
+{
+  re = 1;
+  ^/char stype;
+  if(#.cwc > 0) switch(.cwc~stVal.typ){
+  case .chr.StTy::S: stype = "S";
+  case .chr.StTy::C: stype = "C";
+  case .chr.StTy::A: stype = "A";
+  case .chr.StTy::L: stype = "L";
+  }
+  L.pushString(stype);
+}
+
+void stagevar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char sva = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cwc == 0){
+    L.pushNumber(0.0);
+    ret;
+  }
+  ^/char str;
+  branch{
+  cond .s.equ("info.author", sva):
+    str = .chr.stg~author;
+  cond .s.equ("info.displayname", sva):
+    str = .chr.stg~displayname;
+  cond .s.equ("info.name", sva):
+    str = .chr.stg~name;
+  }
+  L.pushString(str);
+}
+
+void sysfvar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trSysFVar(i)$.chr.v.toF() : 0.0);
+}
+
+void sysvar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trSysIVar(i)$.chr.v.toF() : 0.0);
+}
+
+void teammode(&.lua.State L=, int re=)
+{
+  re = 1;
+  ^/char tmode;
+  if(#.cwc > 0) switch(.com.tmode[.cwc~playerno&1]){
+  case (int).com.TeamMode::Single: tmode = "single";
+  case (int).com.TeamMode::Simul: tmode = "simul";
+  case (int).com.TeamMode::Turns: tmode = "turns";
+  }
+  L.pushString(tmode);
+}
+
+void teamside(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? (.cwc~playerno&1) + 1 : 0));
+}
+
+void tickspersecond(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).cfg.GameSpeed);
+}
+
+void time(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~stVal.time : 0));
+}
+
+void topedge(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~trTopEdge() : 0.0);
+}
+
+void uniqhitcount(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .cwc~sysivar[.chr.iUNIQHITCOUNT] : 0));
+}
+
+void var(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trIVar(i)$.chr.v.toF() : 0.0);
+}
+
+void velX(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~sysfvar[.chr.fVX] : 0.0);
+}
+
+void velY(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber(#.cwc > 0 ? .cwc~sysfvar[.chr.fVY] : 0.0);
+}
+
+void win(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~isWin());
+}
+
+void winko(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinKO());
+}
+
+void wintime(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinTime());
+}
+
+void winperfect(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinPerfect());
+}
+
+
+public void registerFunction(&.lua.State L=)
+{
+  .cwc = .chr.chars[0]<>;
+  L.register("player", .player);
+  L.register("parent", .parent);
+  L.register("root", .root);
+  L.register("helper", .helper);
+  L.register("target", .target);
+  L.register("partner", .partner);
+  L.register("enemy", .enemy);
+  L.register("enemynear", .enemynear);
+  L.register("playerid", .playerid);
+  L.register("ailevel", .ailevel);
+  L.register("alive", .alive);
+  L.register("anim", .anim);
+  L.register("animelemno", .animelemno);
+  L.register("animelemtime", .animelemtime);
+  L.register("animexist", .animexist);
+  L.register("animOwner", .animOwner);
+  L.register("animtime", .animtime);
+  L.register("authorname", .authorname);
+  L.register("backedge", .backedge);
+  L.register("backedgebodydist", .backedgebodydist);
+  L.register("backedgedist", .backedgedist);
+  L.register("bottomedge", .bottomedge);
+  L.register("cameraposX", .cameraposX);
+  L.register("cameraposY", .cameraposY);
+  L.register("camerazoom", .camerazoom);
+  L.register("canrecover", .canrecover);
+  L.register("command", .command);
+  L.register("const", .const_);
+  L.register("ctrl", .ctrl);
+  L.register("drawgame", .drawgame);
+  L.register("facing", .facing);
+  L.register("frontedge", .frontedge);
+  L.register("frontedgebodydist", .frontedgebodydist);
+  L.register("frontedgedist", .frontedgedist);
+  L.register("fvar", .fvar);
+  L.register("gameheight", .gameheight);
+  L.register("gametime", .gametime);
+  L.register("gamewidth", .gamewidth);
+  L.register("gethitvar", .gethitvar);
+  L.register("hitcount", .hitcount);
+  L.register("hitdefattr", .hitdefattr);
+  L.register("hitfall", .hitfall);
+  L.register("hitover", .hitover);
+  L.register("hitpausetime", .hitpausetime);
+  L.register("hitshakeover", .hitshakeover);
+  L.register("hitvelX", .hitvelX);
+  L.register("hitvelY", .hitvelY);
+  L.register("id", .id);
+  L.register("inguarddist", .inguarddist);
+  L.register("ishelper", .ishelper);
+  L.register("ishometeam", .ishometeam);
+  L.register("leftedge", .leftedge);
+  L.register("life", .life);
+  L.register("lifemax", .lifemax);
+  L.register("lose", .lose);
+  L.register("loseko", .loseko);
+  L.register("losetime", .losetime);
+  L.register("matchno", .matchno);
+  L.register("matchover", .matchover);
+  L.register("movecontact", .movecontact);
+  L.register("moveguarded", .moveguarded);
+  L.register("movehit", .movehit);
+  L.register("movetype", .movetype);
+  L.register("movereversed", .movereversed);
+  L.register("name", .name);
+  L.register("numenemy", .numenemy);
+  L.register("numexplod", .numexplod);
+  L.register("numhelper", .numhelper);
+  L.register("numpartner", .numpartner);
+  L.register("numproj", .numproj);
+  L.register("numprojid", .numprojid);
+  L.register("numtarget", .numtarget);
+  L.register("palno", .palno);
+  L.register("physics", .physics);
+  L.register("posX", .posX);
+  L.register("posY", .posY);
+  L.register("power", .power);
+  L.register("powermax", .powermax);
+  L.register("playeridexist", .playeridexist);
+  L.register("prevstateno", .prevstateno);
+  L.register("projcanceltime", .projcanceltime);
+  L.register("projcontacttime", .projcontacttime);
+  L.register("projguardedtime", .projguardedtime);
+  L.register("projhittime", .projhittime);
+  L.register("rightedge", .rightedge);
+  L.register("roundno", .roundno);
+  L.register("roundsexisted", .roundsexisted);
+  L.register("roundstate", .roundstate);
+  L.register("screenheight", .screenheight);
+  L.register("screenposX", .screenposX);
+  L.register("screenposY", .screenposY);
+  L.register("screenwidth", .screenwidth);
+  L.register("selfanimexist", .selfanimexist);
+  L.register("stateno", .stateno);
+  L.register("stateOwner", .stateOwner);
+  L.register("statetype", .statetype);
+  L.register("stagevar", .stagevar);
+  L.register("sysfvar", .sysfvar);
+  L.register("sysvar", .sysvar);
+  L.register("teammode", .teammode);
+  L.register("teamside", .teamside);
+  L.register("tickspersecond", .tickspersecond);
+  L.register("time", .time);
+  L.register("topedge", .topedge);
+  L.register("uniqhitcount", .uniqhitcount);
+  L.register("var", .var);
+  L.register("velX", .velX);
+  L.register("velY", .velY);
+  L.register("win", .win);
+  L.register("winko", .winko);
+  L.register("wintime", .wintime);
+  L.register("winperfect", .winperfect);
+}
+

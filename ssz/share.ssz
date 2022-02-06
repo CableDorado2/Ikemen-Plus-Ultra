@@ -1,0 +1,130 @@
+
+lib stage = "stage.ssz";
+lib chr = "char.ssz";
+lib cmd = "command.ssz";
+lib fnt = "font.ssz";
+lib com = "common.ssz";
+lib se = <alpha/sdlevent.ssz>;
+lib lua = <alpha/lua.ssz>;
+lib snd = "sound.ssz";
+
+public &Share
+{
+  public ^%^&.chr.Char c;
+  public ^&.chr.CharGlobalInfo cgi;
+  public ^&.chr.fgt.Fight f;
+  public ^&.stage.Stage st;
+  public ^int tm, nt, re;
+  public int chr_home, chr_match, chr_round;
+  public int chr_p1mw, chr_p2mw, chr_p1w, chr_p2w, chr_drw;
+  public int stt;
+  public ^int com;
+  public ^bool autoguard, powsh;
+  public ^int inputRemap;
+  public ^&.cmd.NetInput net;
+  public ^&.cmd.FileInput rep;
+  public ^&.fnt.Font dfnt;
+  public ^/char dlua;
+  public ^&.snd.Bgm bgm;
+  public bool dbgdw, clsndw, alvl, fullscr;
+  public int roundTime;
+  public float life;
+  public float team1VS2Life;
+  public float turnsRecoveryRate;
+  public bool sharedLife;
+  public bool zoom;
+  public float zoomMin;
+  public float zoomMax;
+  public float zoomSpeed;
+  public ^int numSimul;
+  public ^index wakewakaLength;
+  public &.com.Camera::Stage camstg;
+  public void copy()
+  {
+    `c = .chr.chars;
+    `cgi = .chr.cgi;
+    `f = .chr.fight;
+    `st = .chr.stg;
+    `tm = .com.tmode;
+    `nt = .com.numturns;
+    `re = .com.rexisted;
+    `chr_home = .com.home;
+    `chr_match = .com.match;
+    `chr_round = .com.round;
+    `chr_p1mw = .com.p1mw;
+    `chr_p2mw = .com.p2mw;
+    `chr_p1w = .com.p1wins;
+    `chr_p2w = .com.p2wins;
+    `chr_drw = .com.draws;
+    `com = .com.com;
+    `autoguard = .com.autoguard;
+    `inputRemap = .com.inputRemap;
+    `net = .cmd.net;
+    `rep = .cmd.replay;
+    `dfnt = .fnt.debugFont;
+    `dlua = .com.debugScript;
+    `bgm = .snd.bgm;
+    `dbgdw = .com.debugdraw;
+    `clsndw = .com.clsndraw;
+    `powsh = .com.powerShare;
+    `alvl = .com.autolevel;
+    `fullscr = .se.full;
+    `roundTime = .com.roundTime;
+    `life = .com.life;
+    `team1VS2Life = .com.team1VS2Life;
+    `turnsRecoveryRate = .com.turnsRecoveryRate;
+    `sharedLife = .com.sharedLife;
+    `zoom = .com.cam.zoom;
+    `zoomMin = .com.cam.zoomMin;
+    `zoomMax = .com.cam.zoomMax;
+    `zoomSpeed = .com.cam.zoomSpeed;
+    `numSimul = .com.numSimul;
+    `wakewakaLength = .chr.wakewakaLength;
+    `camstg = .com.cam.stg;
+  }
+  public void push()
+  {
+    .chr.chars = `c;
+    .chr.cgi = `cgi;
+    .chr.fight = `f;
+    .chr.stg = `st;
+    .com.tmode = `tm;
+    .com.numturns = `nt;
+    .com.rexisted = `re;
+    .com.home = `chr_home;
+    .com.match = `chr_match;
+    .com.round = `chr_round;
+    .com.p1mw = `chr_p1mw;
+    .com.p2mw = `chr_p2mw;
+    .com.p1wins = `chr_p1w;
+    .com.p2wins = `chr_p2w;
+    .com.draws = `chr_drw;
+    .com.com = `com;
+    .com.autoguard = `autoguard;
+    .com.inputRemap = `inputRemap;
+    .cmd.net = `net;
+    .cmd.replay = `rep;
+    .fnt.debugFont = `dfnt;
+    .com.debugScript = `dlua;
+    .snd.bgm = `bgm;
+    .com.debugdraw = `dbgdw;
+    .com.clsndraw = `clsndw;
+    .com.powerShare = `powsh;
+    .com.autolevel = `alvl;
+    .se.full = `fullscr;
+    .com.roundTime = `roundTime;
+    .com.life = `life;
+    .com.team1VS2Life = `team1VS2Life;
+    .com.turnsRecoveryRate = `turnsRecoveryRate;
+    .com.sharedLife = `sharedLife;
+    .com.cam.zoom = `zoom;
+    .com.cam.zoomMin = `zoomMin;
+    .com.cam.zoomMax = `zoomMax;
+    .com.cam.zoomSpeed = `zoomSpeed;
+    .com.numSimul = `numSimul;
+    .chr.wakewakaLength = `wakewakaLength;
+    .com.cam.stg = `camstg;
+  }
+}
+
+

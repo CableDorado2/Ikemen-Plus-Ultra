@@ -1,0 +1,286 @@
+
+lib file = <file.ssz>;
+lib s = <string.ssz>;
+lib m = <math.ssz>;
+lib consts = <consts.ssz>;
+lib tbl = <table.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib cfg = "config.ssz";
+lib sff = "sff.ssz";
+lib com = "common.ssz";
+lib re = <regex.ssz>;
+
+public &Font
+{
+  &CharOffset
+  {
+    public int ofs;
+    public int w;
+    public ^&.sff.Sprite img;
+  }
+  public &.sff.Sprite img;
+  %&CharOffset mpl;
+  &.tbl.IntTable!char, &CharOffset? map;
+  ushort ver, ver2;
+  /int sizex = 6;
+  /int sizey = 8;
+  /int spacingx = 0, spacingy = 0;
+  int colors = 255;
+  int offsetx = 0, offsety = 0;
+  public ^/char loadFile(^/char filename)
+  {:<-
+    public void def(&.com.Section sc=)
+    {
+      ^/char data;
+      if(#(data = sc.get("size")) > 0){
+        .com.readPair!int?(`sizex=, `sizey=, data);
+      }
+      if(#(data = sc.get("spacing")) > 0){
+        .com.readPair!int?(`spacingx=, `spacingy=, data);
+      }
+      if(#(data = sc.get("colors")) > 0){
+        `colors = .m.min!int?(255)<, .com.aton!int?(data);
+      }
+      if(#(data = sc.get("offset")) > 0){
+        .com.readPair!int?(`offsetx=, `offsety=, data);
+      }
+    }
+    public void map(^^/char lines, index i=)
+    {
+      &.re.Regex rx.init("(\S+)(?:\s+(\S+)(?:\s+(\S+))?)?", 0);
+      loop{
+        ^/^/char cap;
+        char c;
+        int ofs = 0;
+      do:
+        if(#lines[i] > 0 && lines[i][0] == '['){
+          i--;
+          break, break;
+        }
+        cap = rx.search(lines[i][0 .. .s.find(";", lines[i])]);
+        if(#cap == 0) continue;
+        branch{
+        cond cap[1][0] == '0' && .s.toLowerChar(cap[1][1]) == 'x':
+          c = (char)0;
+          loop{index i = 2; while; do:
+            branch{
+            cond .m.inRange!char?('0', '9', cap[1][i]):
+              c = (c<<(char)4) + (cap[1][i] - '0');
+            cond .m.inRange!char?('a', 'f', .s.toLowerChar(cap[1][i])):
+              c = (c<<(char)4) + (.s.toLowerChar(cap[1][i]) - 'a' + (char)10);
+            else:
+              break, break;
+            }
+            i++;
+          while i < #cap[1]:}
+        else:
+          c = cap[1]<>;
+        }
+        if(#cap[2] > 0) ofs = .com.aton!ofs.self?(cap[2]);
+        `mpl.new[-1];
+        `map.set(c, `mpl[#`mpl-1..-1]);
+        `mpl[-1].ofs = ofs;
+        branch{
+        cond #cap[3] > 0:
+          `mpl[-1].w = .com.aton!`mpl<>.w.self?(cap[3]);
+          ofs += `mpl[-1].w - `sizex;
+        else:
+          `mpl[-1].w = `sizex;
+        }
+      continue:
+        ofs += `sizex;
+        i++;
+      while i < #lines:}
+    }
+    bool mapflg = true;
+    ~$void(^^/char, index=) section = [void(^^/char lines, index i=){
+      ^/char sec = lines[i];
+      ^/char secname = .com.sectionName(sec=);
+      if(#secname == 0) ret;
+      i++;
+      if(.s.equ(secname, "map")){
+        if(mapflg) map(lines, i=);
+        mapflg = false;
+        ret;
+      }
+      &.com.Section sc.parse(lines, i=);
+      branch{
+      cond .s.equ(secname, "def"):
+        `loadFile:<-def(sc=);
+      }
+    }];
+    ^/char error;
+    &.file.File f;
+    if(!f.open(filename, "rb")) ret .com.FileOpenError;
+    uint pcxDataOffset, pcxDataLenght;
+    uint txtDataOffset, txtDataLenght;
+    ubyte ub;
+    loop{
+      index i = 0;
+      %char s;
+    do:
+      if(!f.read!ubyte?(ub=)) ret .com.FileReadError;
+      s .= (char)ub;
+      i++;
+    while i < 12:
+      if(!.s.equ(s, "ElecbyteFnt"\0)) ret "ElecbyteFntじゃない";
+    }
+    if(!f.read!ushort?(`ver=)) ret .com.FileReadError;
+    if(!f.read!ushort?(`ver2=)) ret .com.FileReadError;
+    if(!f.read!uint?(pcxDataOffset=)) ret .com.FileReadError;
+    if(!f.read!uint?(pcxDataLenght=)) ret .com.FileReadError;
+    if(!f.read!uint?(txtDataOffset=)) ret .com.FileReadError;
+    if(!f.read!uint?(txtDataLenght=)) ret .com.FileReadError;
+    if(#`img.readPcxHeader(f=, (long)pcxDataOffset)=>error > 0) ret error;
+    f.seek((long)pcxDataOffset+128, .file.Seek::SET);
+    ^ubyte px.new((index)pcxDataLenght-128-768);
+    f.readAry!ubyte?(px);
+    loop{
+      index i = 0;
+      ubyte r, g, b;
+      `img.colorPallet.new(256);
+    do:
+      if(!f.read!ubyte?(r=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(g=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(b=)) ret .com.FileReadError;
+      `img.colorPallet[i] = (uint)r<<0d16 | (uint)g<<0d8 | (uint)b;
+      i++;
+    while i < 256:}
+    `img.rlePcxDecode(px=);
+    f.seek((long)txtDataOffset, .file.Seek::SET);
+    %char buf;
+    loop{while; do:
+      if(!f.read!ubyte?(ub=)) ret .com.FileReadError;
+      buf .= (char)ub;
+      txtDataLenght--;
+    while txtDataLenght > 0x0:}
+    ^^/char lines = .com.splitLines(buf);
+    .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
+    loop{index i = 0; while; do:
+      section(:lines, i=:);
+      i++;
+    while i < #lines:}
+    ^^uint pal;
+    pal.new(255 / `colors);
+    loop{
+      index i = 0;
+      while;
+    do:
+      pal[i].new(256);
+      .s.copy!uint?(pal[i][0..256-`colors], `img.colorPallet[0..256-`colors]);
+      .s.copy!uint?(
+        pal[i][256-`colors..256],
+        `img.colorPallet[256-`colors*(i+1)..256-`colors*i]);
+      i++;
+    while i < #pal:}
+    void copyCharRect(^ubyte dst, int dw, ^/ubyte src, int x, int w, int h)
+    {
+      loop{index i = 0; while; do:
+        .s.copy!ubyte?(dst[dw*i..dw*(i+1)], src[w*i+x..w*i+x+dw]);
+        i++;
+      while i < h:}
+    }
+    loop{index i = 0; while; do:
+      `mpl[i].img.new(#pal);
+      loop{index j = 0; while; do:
+        branch{
+          ^ubyte px2;
+        cond j == 0:
+          `mpl[i].img[j].shareCopy(`img=);
+          `mpl[i].img[j].rct.w = `mpl[i].w;
+          px2.new(`mpl[i].w * (int)`img.rct.h);
+          copyCharRect(
+            px2, `mpl[i].w, px, `mpl[i].ofs, (int)`img.rct.w, (int)`img.rct.h);
+          `mpl[i].img[j].setPxl(px2);
+        else:
+          `mpl[i].img[j].shareCopy(`mpl[i].img[j-1]=);
+          `mpl[i].img[j].rct.w = `mpl[i].w;
+        }
+        `mpl[i].img[j].rct.x = 0;
+        `mpl[i].img[j].rct.y = 0;
+        `mpl[i].img[j].colorPallet = pal[j];
+        j++;
+      while j < #`mpl[i].img:}
+      i++;
+    while i < #`mpl:}
+    ret "";
+  }
+  public int charWidth(char ch)
+  {
+    if(ch == ' ') ret `sizex;
+    ^&`CharOffset m = `map.get(ch);
+    if(#m == 0) ret 0;
+    ret m~w;
+  }
+  public int textWidth(^/char txt)
+  {
+    int w = 0;
+    txt:<-[void(c){w += `charWidth(c) + `spacingx;}];
+    ret w;
+  }
+  public ^&.sff.Sprite getCharSpr(int bank, char ch)
+  {
+    ^&`CharOffset m = `map.get(ch);
+    if(#m == 0) ret .consts.null!&.sff.Sprite?();
+    ret m~img[bank..bank+1];
+  }
+  float drawChar(
+    float x, float y, float xscl, float yscl, int bank, char ch, ^uint pal=)
+  {
+    if(ch == ' ') ret (float)`sizex * xscl;
+    ^&.sff.Sprite spr = `getCharSpr(bank, ch);
+    if(#spr == 0 || #spr~pxl == 0) ret 0.0;
+    &.sdl.Rect tile.set(0, 0, 0, 0);
+  /?/*.cfg.OpenGL:
+    plugin bool RenderMugenGl(:
+      &.sdl.GlTexture, index, int, &.sdl.Rect=, float, float, &.sdl.Rect=,
+      float, float, float, float, float, float, int, &.sdl.Rect=, float,
+      float:) = <alpha/dll/sdlplugin.dll>;
+    branch{
+    cond #pal > 0:
+      .sdl.RenderMugenGl(:
+        spr~pxl<>, pal<>=, 0, spr~rct=, -x*.com.WidthScale,
+        -y*.com.HeightScale, tile=, xscl*.com.WidthScale,
+        xscl*.com.WidthScale, yscl*.com.HeightScale, 1.0,
+        0.0, 0.0, .com.brightness*255>>8 | 1<<9, .com.scrrect=, 0.0, 0.0:);
+      pal.new(0);
+    else:
+      RenderMugenGl(:
+        spr~pxl<>, 0, 0, spr~rct=, -x*.com.WidthScale,
+        -y*.com.HeightScale, tile=, xscl*.com.WidthScale,
+        xscl*.com.WidthScale, yscl*.com.HeightScale, 1.0,
+        0.0, 0.0, .com.brightness*255>>8 | 1<<9, .com.scrrect=, 0.0, 0.0:);
+    }
+  /*true:
+    .sdl.renderMugenZoom(
+      .com.scrrect=, 0.0, 0.0, spr~pxl, pal, 0, spr~rct=,
+      -x*.com.WidthScale, -y*.com.HeightScale, tile=,
+      xscl*.com.WidthScale, xscl*.com.WidthScale, yscl*.com.HeightScale,
+      0.0, 0x0, .com.brightness*255>>8 | 1<<9, 0, spr~pluginbuf=);
+  /*?*/
+    ret (float)spr~rct.w * xscl;
+  }
+  public void drawText(
+    float x, float y, float xscl, float yscl, int bank, int align, ^/char txt)
+  {
+    if(#`mpl == 0) ret;
+    float dx = x + (float)`offsetx*xscl + (float)(.com.GameWidth-320)/2.0;
+    float dy =
+      y + (float)(`offsety - (`sizey-1))*yscl + (float)(.com.GameHeight-240);
+    branch{
+    cond align == 0:
+      dx -= (float)`textWidth(txt)*xscl*0.5;
+    cond align < 0:
+      dx -= (float)`textWidth(txt)*xscl;
+    }
+    ^uint pal = `mpl~img[bank].colorPallet;
+    if(.sff.allPalFX~enable) pal = .sff.allPalFX~getFxPal(pal, false);
+    txt:<-[void(c){
+      dx +=
+        `drawChar(dx, dy, xscl, yscl, bank, c, pal=) + (float)`spacingx*xscl;
+    }];
+  }
+}
+
+public ^&Font debugFont;
+

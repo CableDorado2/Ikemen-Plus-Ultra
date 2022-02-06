@@ -1,0 +1,163 @@
+
+lib lua = <alpha/lua.ssz>;
+lib sc = "script.ssz";
+lib chr = "char.ssz";
+lib al = <alert.ssz>;
+lib tscri = "trigger-script.ssz";
+lib cmd = "command.ssz";
+lib com = "common.ssz";
+lib m = <math.ssz>;
+
+
+public bool roundResetFlg = false, reloadFlg = false;
+
+void puts(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char text = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.tscri.cwc > 0) .chr.appendClipboardText(.tscri.cwc~playerno, text + \n);
+}
+
+void setLife(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int life = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    .tscri.cwc~setLife(life);
+  }
+}
+
+void setPower(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int power = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    .tscri.cwc~setPower(power);
+  }
+}
+
+void selfState(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int stateno = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    .tscri.cwc~trSelfState(stateno, -1, 1);
+  }
+}
+
+void addHotkey(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char key = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  bool ctrl = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  bool alt = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  bool shift = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char script = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushBoolean(.com.addHotkey(key, ctrl, alt, shift, script));
+}
+
+void toggleClsnDraw(&.lua.State L=, int re=)
+{
+  re = 0;
+  .com.clsndraw!!;
+}
+
+void toggleDebugDraw(&.lua.State L=, int re=)
+{
+  re = 0;
+  .com.debugdraw!!;
+}
+
+void togglePause(&.lua.State L=, int re=)
+{
+  re = 0;
+  if(#.cmd.net == 0) .com.pause!!;
+}
+
+void step(&.lua.State L=, int re=)
+{
+  re = 0;
+  .com.step = true;
+}
+
+void toggleStatusDraw(&.lua.State L=, int re=)
+{
+  re = 0;
+  .com.statusDraw!!;
+}
+
+void roundReset(&.lua.State L=, int re=)
+{
+  re = 0;
+  if(#.cmd.net == 0 && #.cmd.replay == 0) .roundResetFlg = true;
+}
+
+void reload(&.lua.State L=, int re=)
+{
+  re = 0;
+  if(#.cmd.net == 0 && #.cmd.replay == 0) .reloadFlg = true;
+}
+
+void setAccel(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  double accel = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0) .com.accel = accel;
+}
+
+void setAILevel(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int level = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && #.tscri.cwc > 0){
+    int pn = .tscri.cwc~playerno;
+    if(!.m.inRange!int?(0, #.chr.chars-1, pn)) break;
+    .com.com[pn] = level;
+    .chr.chars[pn]:<-[void(c){c~key = level == 0 ?  pn : !pn;}];
+  }
+}
+
+void setTime(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int time = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.cmd.net == 0 && #.cmd.replay == 0) .com.time = time;
+}
+
+void clear(&.lua.State L=, int re=)
+{
+  re = 0;
+  .com.clipboardText:<-[void(cb=){cb.new(0);}];
+}
+
+
+public &.lua.State L;
+
+public ^/char loadFile(^/char file)
+{
+  .sc.init(.L=);
+  .tscri.registerFunction(.L=);
+  .L.register("puts", .puts);
+  .L.register("setLife", .setLife);
+  .L.register("setPower", .setPower);
+  .L.register("selfState", .selfState);
+  .L.register("addHotkey", .addHotkey);
+  .L.register("toggleClsnDraw", .toggleClsnDraw);
+  .L.register("toggleDebugDraw", .toggleDebugDraw);
+  .L.register("togglePause", .togglePause);
+  .L.register("step", .step);
+  .L.register("toggleStatusDraw", .toggleStatusDraw);
+  .L.register("roundReset", .roundReset);
+  .L.register("reload", .reload);
+  .L.register("setAccel", .setAccel);
+  .L.register("setAILevel", .setAILevel);
+  .L.register("setTime", .setTime);
+  .L.register("clear", .clear);
+  if(!.L.runFile(file)){
+    ^/char err = .L.toString(-1);
+    ret err;
+  }
+  ret "";
+}
+
+

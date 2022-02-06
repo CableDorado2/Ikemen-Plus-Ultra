@@ -1,0 +1,1034 @@
+
+lib s = <string.ssz>;
+lib consts = <consts.ssz>;
+lib m = <math.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib cfg = "config.ssz";
+lib mes = <alpha/mesdialog.ssz>;
+lib tbl = <table.ssz>;
+lib file = <file.ssz>;
+lib se = <alpha/sdlevent.ssz>;
+
+
+public int roundTime = 999 * 6;
+public float life = 1.0;
+public float team1VS2Life = 1.0;
+public float turnsRecoveryRate = 1.0 / 300.0;
+public bool sharedLife = true;
+
+//チームモードの種類
+|TeamMode
+{
+  Single, Simul, Turns
+}
+
+//コリジョン表示フラグ
+public bool clsndraw = false;
+
+//デバッグ表示フラグ
+public bool debugdraw = false;
+
+const int maxSimul = 10;
+public ^int numSimul.new(2);
+numSimul[0] = numSimul[1] = 2;
+
+public ^%%char clipboardText.new(maxSimul*2);
+
+public ^int com;
+public ^bool autoguard;
+public ^bool powerShare;
+void flagInit()
+{
+  .com.new(.maxSimul*2);
+  .s.each!int?([void(int c=){c = 4;}], .com);
+  .autoguard.new(.maxSimul*2);
+  .s.each!bool?([void(bool a=){a = false;}], .autoguard);
+  .powerShare.new(2);
+  .s.each!bool?([void(bool ps=){ps = true;}], .powerShare);
+}
+flagInit();
+
+public ^int inputRemap;
+public void resetRemapInput()
+{
+  .inputRemap.new(.maxSimul*2);
+  loop{int i = 0; do: .inputRemap[i] = i; i++; while i < #.inputRemap:}
+}
+resetRemapInput();
+
+public bool pause = false, step = false;
+public bool statusDraw = true;
+public float accel = 1.0;
+
+public bool autolevel = false;
+
+const int GameWidth =
+  cfg.Width*3 > cfg.Height*4 ? cfg.Width*3*320/(cfg.Height*4) : 320; 
+const int GameHeight =
+  cfg.Height*4 > cfg.Width*3 ? cfg.Height*4*240/(cfg.Width*3) : 240; 
+const float WidthScale = (float)cfg.Width / (float)GameWidth;
+const float HeightScale = (float)cfg.Height / (float)GameHeight;
+
+const bool CharLocalCoord320 = false;
+
+const float CharGameWidth = CharLocalCoord320 ? 320.0 : (float)GameWidth;
+const float CharGameLeft = ((float)GameWidth - CharGameWidth) / 2.0;
+const float CharGameRight = CharGameLeft + CharGameWidth;
+
+public &sdl.Rect scrrect;
+scrrect.set(0, 0, cfg.Width, cfg.Height);
+
+
+const float Speed = (float)cfg.GameSpeed / 60.0;
+
+const float P1P3Dist = 25.0;
+
+const int IERR = consts.int_t::MIN;
+
+
+/int tickCount = 0;
+int oldTickCount = tickCount-1;
+float tickCountF = 0.0, lastTick = 0.0;
+float nextAddTime = Speed;
+/float oldNextAddTime = Speed;
+
+public bool tickFrame()
+{
+  ret .oldTickCount < .tickCount;
+}
+
+public bool tickNextFrame()
+{
+  ret (int)(.tickCountF + .nextAddTime) > .tickCount;
+}
+
+public float tickInterpola()
+{
+  ret .tickNextFrame() ? 1.0 : .tickCountF - .lastTick + .nextAddTime;
+}
+
+public bool addFrameTime(float t)
+{
+  branch{
+    .oldTickCount = .tickCount;
+  cond (int).tickCountF > .tickCount:
+    .tickCount++;
+    ret false;
+  cond (int)(.tickCountF += .nextAddTime) > .tickCount:
+    .tickCount++;
+    .lastTick = .tickCountF;
+  }
+  .oldNextAddTime = .nextAddTime;
+  .nextAddTime = t;
+  ret true;
+}
+
+public void resetFrameTime()
+{
+  .tickCount = 0;
+  .oldTickCount = .tickCount-1;
+  .tickCountF = 0.0;
+  .lastTick = 0.0;
+  .nextAddTime = .Speed;
+  .oldNextAddTime = .Speed;
+}
+
+public int brightness = 256;
+
+public float screenleft = 0.0, screenright = 0.0;
+public float xmin = 0.0, xmax = 0.0;
+public float drawscale = 0.0/0.0;
+public float zoomposx = 0.0, zoomposy = 0.0;
+public float turbo = Speed;
+public int gametime = 0, time = 0;
+public int intro = 20;
+
+//ホームチーム 1P:0, 2P:1
+public int home = 0;
+
+public int match = 1;
+public int p1mw = 2, p2mw = 2;
+
+//ラウンドNo.
+public int round = 1;
+
+//チームモード
+public ^int tmode;
+tmode.new(2);
+tmode[0] = tmode[1] = (int)TeamMode::Single;
+
+//Turnsの人数
+public ^int numturns;
+numturns.new(2);
+numturns[0] = numturns[1] = 2;
+
+public ^int rexisted;
+rexisted.new(2);
+rexisted[0] = rexisted[1] = 0;
+
+public int p1wins = 0, p2wins = 0, draws = 0;
+
+public int win = -1;
+
+public ^/char debugScript;
+
+public &tbl.IntTable!int, ^/char? hotkeys;
+
+public int eventKeyHash(&.se.Key key)
+{
+  ret (int)key.key | (int)key.ctrl<<16 | (int)key.alt<<17 | (int)key.shift<<18;
+}
+
+public bool addHotkey(
+  ^/char sdlkey, bool ctrl, bool alt, bool shift, ^/char script)
+{
+  if(#sdlkey == 0) ret false;
+  ^/char skey = (sdlkey[0] >= '0' && sdlkey[0] <= '9' ? "_"+sdlkey : sdlkey);
+  |.sdl.K key;
+  if(!<consteval>(key=, ".sdl.K::" + skey)) ret false;
+  &.se.Key ekey.key = key;
+  ekey.ctrl = ctrl;
+  ekey.alt = alt;
+  ekey.shift = shift;
+  int hash = .eventKeyHash(ekey);
+  ^^/char item = .hotkeys.get(hash);
+  if(#item == 0){
+    item.new(1);
+    .hotkeys.set(hash, item);
+    .se.eventKeys .= ekey;
+  }
+  item<> = script;
+  ret true;
+}
+
+
+public bool matchOver()
+{
+  ret .p1wins >= .p1mw || .p2wins >= .p2mw;
+}
+
+public int nextLine(index i=, ^/char str)
+{
+  loop{while; do:
+    branch{
+    cond str[i] == '\n':
+      ret 1;
+    cond str[i] == '\r':
+      if(i+1 < #str && str[i+1] == '\n'){
+        i++;
+        ret 2;
+      }
+    break:
+      i++;
+    }
+  while i < #str:}
+  ret 0;
+}
+
+public %^/char splitLines(^/char str)
+{
+  %^/char spl;
+  loop{index i = 0; do:
+    spl.new[-1] = str[i..-.nextLine(i=, str)+i];
+  while i < #str:}
+  ret spl;
+}
+
+public double atof(^/char str)
+{
+  ^/char s = .s.trim(str);
+  if(#s == 0) ret 0.0;
+  bool mi = s[0] == '-';
+  index i = (int)(mi || s[0] == '+'), p = 0;
+  double f = 0.0;
+  loop{while; do:
+    branch{
+    cond s[i] >= '0' && s[i] <= '9':
+      f = f*10.0 + (double)(s[i] - '0');
+    cond s[i] == '.':
+      if(p > 0) else;
+      p = i + 1;
+    else:
+      break, break;
+    }
+    i++;
+  while i < #s:}
+  double e = 0.0;
+  if(s[i] == 'e' || s[i] == 'E') loop{
+    index j = i + 1;
+    bool emi = s[j] == '-';
+    if(emi || s[j] == '+') j++;
+    while;
+  do:
+    e = e * 10.0 + (double)(s[j] - '0');
+    j++;
+  while j < #s && s[j] >= '0' && s[j] <= '9':
+    if(e != 0.0){
+      if(emi) e = -e;
+      if(p == 0) p == i;
+    }
+  }
+  if(p > 0) f *= 10.0**(-(double)(i - p) + e);
+  if(mi) f = -f;
+  ret f;
+}
+
+public ..aton<_t>(^/char str) _t
+{
+  ret
+  /?/*
+    (typeid(_t) <= typeid(byte) && typeid(_t) >= typeid(long))
+    || typeid(_t) == typeid(index)
+    :
+    (*_t).m.max!double?((double).consts.Signed!_t?::MIN)<,
+    .m.min!double?((double).consts.Signed!_t?::MAX)<,
+  /* typeid(_t) <= typeid(ubyte) && typeid(_t) >= typeid(char):
+    (*_t).m.max!double?((double).consts.Unsigned!_t?::MIN)<,
+    .m.min!double?((double).consts.Unsigned!_t?::MAX)<,
+  /* typeid(_t) == typeid(bool):
+    0.0 !=
+  /*?*/
+    .atof(str);
+}
+
+public bool readDigit(int i=, ^/char digit)
+{
+  if(#digit == 0 || digit<> == '0') ret false;
+  loop{index i = 0; do:
+    if(digit[i] < '0' || digit[i] > '9') ret false;
+    i++;
+  while i < #digit:}
+  i = .aton!int?(digit);
+  ret true;
+}
+
+public &IXY
+{
+  public int x = .IERR, y = .IERR;
+  public void set(int x, int y)
+  {
+    `x = x;
+    `y = y;
+  }
+}
+
+public &FXY
+{
+  public float x = 0.0/0.0, y = 0.0/0.0;
+  public void set(float x, float y)
+  {
+    `x = x;
+    `y = y;
+  }
+}
+
+public &Camera
+{
+  public &Stage
+  {
+    public int startx;
+    public int boundleft, boundright;
+    public int boundhigh;
+    public float verticalfollow;
+    public int tension, floortension;
+    public int overdrawlow;
+    public int localw, localh;
+    public float localscl, drawOffsetY;
+    public int zoffset;
+    public float ztopscale;
+    public void clear()
+    {
+      `startx = 0;
+      `boundleft = 0;
+      `boundright = 0;
+      `boundhigh = 0;
+      `verticalfollow = 0.2;
+      `tension = 50;
+      `floortension = 0;
+      `overdrawlow = 0;
+      `localw = 320;
+      `localh = 240;
+      `localscl = (float).GameWidth / (float)`localw;
+      `drawOffsetY = 0.0;
+      `zoffset = 0;
+      `ztopscale = 1.0;
+    }
+  }
+  public &Stage stg;
+  public bool zoom = false;
+  public float zoomMin = 5.0 / 6.0;
+  public float zoomMax = 15.0 / 14.0;
+  public float zoomSpeed = 12.0;
+  /float scale, minScale;
+  /float xOffset, yOffset;
+  /float x, y;
+  /float screenX, screenY;
+  /float xMin, xMax;
+  float zoff;
+  /float screenZoff;
+  /float boundL, boundR, boundH;
+  float zoomdelay;
+  float halfWidth;
+  public void init()
+  {
+    `boundL = (float)(`stg.boundleft - `stg.startx) * `stg.localscl;
+    `boundR = (float)(`stg.boundright - `stg.startx) * `stg.localscl;
+    `halfWidth = (float).GameWidth / 2.0;
+    `xMin = `boundL - `halfWidth / `baseScale();
+    `xMax = `boundR + `halfWidth / `baseScale();
+    branch{
+    cond `stg.verticalfollow > 0.0:
+      `boundH =
+        .m.min!float?(
+          0.0,
+          (float)`stg.boundhigh * `stg.localscl
+          + (float).GameHeight - `stg.drawOffsetY
+          - (float).GameWidth * (float)`stg.localh / (float)`stg.localw);
+    else:
+      `boundH = 0.0;
+    }
+    if(`stg.boundhigh > 0) `boundH += (float)`stg.boundhigh * `stg.localscl;
+    float xminscl = (float).GameWidth/((float).GameWidth - `boundL + `boundR);
+    float yminscl = (float).GameHeight / (240.0 - .m.min!float?(0.0, `boundH));
+    `minScale =
+      .m.max!float?(`zoomMin)<, .m.min!float?(`zoomMax)<,
+      .m.max!float?(xminscl, yminscl);
+    `screenZoff =
+      (float)`stg.zoffset * `stg.localscl - `stg.drawOffsetY + 240.0 
+      - (float).GameWidth * (float)`stg.localh / (float)`stg.localw;
+  }
+  public void update<stg_t>(float scl, float x, float y, stg_t stg=)
+  {
+    `scale = `baseScale() * scl;
+    `zoff =
+      scl * (
+        (float)`stg.zoffset * `stg.localscl - `stg.drawOffsetY
+        + (240.0 - (float).GameWidth*(float)`stg.localh / (float)`stg.localw)
+        + (float)(.GameHeight - 240))
+      + (1.0 - scl) * (float).GameHeight;
+    `xOffset = stg.bga.xoffset * stg.localscl * stg.xscale * scl;
+    `yOffset = stg.bga.yoffset * stg.localscl * stg.yscale * scl;
+    `screenX = x - `halfWidth / `scale - `xOffset;
+    `screenY =
+      y - (`groundLevel() - (float)(.GameHeight - 240) * scl) / `scale
+      - `yOffset;
+    `x = x;
+    `y = y;
+  }
+  /float scaleBound(float scl)
+  {
+    ret `zoom ? .m.max!float?(`minScale, .m.min!float?(`zoomMax, scl)) : 1.0;
+  }
+  /float xBound(float scl, float x)
+  {
+    ret
+      .m.max!float?(`boundL - `halfWidth + `halfWidth / scl)<,
+      .m.min!float?(`boundR + `halfWidth - `halfWidth / scl, x);
+  }
+  /float yBound(float scl, float y)
+  {
+    if(`stg.verticalfollow <= 0.0) ret 0.0;
+    float tmp = .m.max!float?(0.0, 240.0 - `screenZoff);
+    ret
+      .m.max!float?(0.0, `boundH) + .m.min!float?(0.0)<,
+      .m.min!float?(tmp * (1.0 / scl - 1.0))<,
+      .m.max!float?(
+        `boundH - 240.0 + .m.max!float?((float).GameHeight / scl)<,
+        (tmp + `screenZoff / scl),
+        y + 240.0 * (1.0 - .m.min!float?(1.0, scl)));
+  }
+  public void resetZoomdelay()
+  {
+    `zoomdelay = 0.0;
+  }
+  /float baseScale()
+  {
+    ret `stg.ztopscale;
+  }
+  /float groundLevel()
+  {
+    ret `zoff;
+  }
+  public float action<lb_t>(
+    float x=, float y=, float leftest, float rightest,
+    float lowest, float highest, float cvmin, float cvmax,
+    lb_t lb=, bool pause)
+  {
+    branch{
+      float tension =
+        .m.max!float?(
+          0.0, `halfWidth / `scale - (float)`stg.tension * `stg.localscl);
+      float tmp = (leftest + rightest) / 2.0;
+      float cvx = cvmin + cvmax;
+      if(cvx == 0.0 || (cvx < 0.0) == (tmp < 0.0)){
+        float vel =
+          .intro > lb.ro.ctrl_time+1 ? `halfWidth : pause ? 2.0 : 3.0;
+        cvx += vel * (tmp < 0.0 ? -1.0 : 1.0);
+      }
+      cvx *= .m.min!float?(1.0, .turbo);
+    cond cvx < 0.0:
+      tmp = .m.max!float?(leftest + tension, tmp);
+      if(cvx < tmp) cvx = .m.min!float?(0.0, tmp);
+    else:
+      tmp = .m.min!float?(rightest - tension, tmp);
+      if(cvx > tmp) cvx = .m.max!float?(0.0, tmp);
+    comm:
+      x += cvx;
+    }
+    if(lowest >= highest) branch{
+      float ftension =  (float)`stg.floortension * `stg.localscl;
+      if(ftension > 0.0){
+        ftension +=
+          240.0 * 2.0 - (float)`stg.localh * `stg.localscl - 240.0 * `scale;
+        if(ftension < 0.0) ftension = 0.0;
+      }
+    cond highest < -ftension:
+      y =
+        (highest + ftension)
+        * `stg.verticalfollow**.m.min!float?(1.0, 1.0 / `scale**4.0);
+    else:
+      y = 0.0;
+    }
+    float foobar =
+      (rightest + .screenright) - (leftest - .screenleft)
+      - ((float).GameWidth - 320.0);
+    if(foobar < 0.0) foobar = 0.0;
+    foobar =
+      .m.max!float?(220.0 / `scale)<,
+      .m.sqrt(foobar**2.0 + (lowest - highest)**2.0);
+    float sclmul =
+      foobar * `scale / .m.max!float?(`scale)<, (
+        (400.0 - 80.0 * .m.max!float?(1.0, `scale))
+        * 2.0**(`zoomSpeed - 2.0));
+    branch{
+    cond sclmul >= 3.0/2.0**`zoomSpeed:
+      sclmul =
+        .m.max!float?(3.0/4.0)<, (67.0/64.0 - sclmul*2.0**(`zoomSpeed - 6.0));
+    else:
+      sclmul =
+        .m.min!float?(4.0/3.0)<,
+        ((2.0**`zoomSpeed + 3.0)/2.0**`zoomSpeed - sclmul)**64.0;
+    }
+    branch{
+    cond pause:
+      sclmul = 1.0;
+    cond sclmul > 1.0:
+      sclmul = (sclmul - 1.0) * `zoomdelay**8.0 + 1.0;
+      if(foobar * sclmul > .xmax - .xmin){
+        sclmul = (.xmax - .xmin) / foobar;
+      }
+      if(.tickNextFrame()){
+        `zoomdelay = .m.min!float?(1.0, `zoomdelay + 1.0/32.0);
+      }
+    else:
+      `zoomdelay = 0.0;
+    }
+    ret sclmul;
+  }
+}
+public &Camera cam;
+
+public void readPair<_t>(_t x=, _t y=, ^/char data)
+{
+  ^^/char spl = .s.split(",", data);
+  spl[0] = .s.trim(spl[0]);
+  if(#spl[0] > 0) x = .aton!_t?(spl[0]);
+  if(#spl >= 2){
+    spl[1] = .s.trim(spl[1]);
+    if(#spl[1] > 0) y = .aton!_t?(spl[1]);
+  }
+}
+
+public int atoi(^/char str)
+{
+  int n = 0;
+  branch{
+    ^/char a = .s.trim(str);
+  cond<minus> #a > 0 && a<> == '-':
+    a = a[1 .. -1];
+  cond<plus> #a > 0 && a<> == '+':
+    a = a[1 .. -1];
+  comm:
+    loop{int i = 0; while; do:
+      n = n*10 + (int)(a[i] - '0');
+      i++;
+    while i < #a && a[i] >= '0' && a[i] <= '9':}
+  diff<minus>:
+    n *= -1;
+  }
+  ret n;
+}
+
+public ..atonOF<_t>(^/char str) _t
+{
+  ret
+  /?/*
+    (typeid(_t) <= typeid(byte) && typeid(_t) >= typeid(long))
+    || typeid(_t) == typeid(index)
+    :
+    (*_t).m.max!double?((double).consts.Signed!_t?::MIN)<,
+    .m.min!double?((double).consts.Signed!_t?::MAX)<, (double).atoi(str);
+  /* typeid(_t) <= typeid(ubyte) && typeid(_t) >= typeid(char):
+    (*_t).m.max!double?((double).consts.Unsigned!_t?::MIN)<,
+    .m.min!double?((double).consts.Unsigned!_t?::MAX)<,
+    (double)(uint).atoi(str);
+  /* true:
+    .aton!_t?(str);
+  /*?*/
+}
+
+public ..ctaOF<_t>(^/char csv) ^_t
+{
+  ^^/char spl = .s.split(",", csv);
+  ret spl:<-[_t(s){ret .atonOF!_t?(s);}];
+}
+
+public void readPairOF<_t>(_t x=, _t y=, ^/char data)
+{
+  ^^/char spl = .s.split(",", data);
+  spl[0] = .s.trim(spl[0]);
+  if(#spl[0] > 0) x = .atonOF!_t?(spl[0]);
+  if(#spl >= 2){
+    spl[1] = .s.trim(spl[1]);
+    if(#spl[1] > 0) y = .atonOF!_t?(spl[1]);
+  }
+}
+
+
+public &Layout
+{
+  public &.FXY offset;
+  public int displaytime = -2;
+  public byte facing = 1;
+  public byte vfacing = 1;
+  public short layerno = 0;
+  public &.FXY scale;
+  new()
+  {
+    `offset.set(0.0, 0.0);
+    `scale.set(1.0, 1.0);
+  }
+  public void read(^/char img, &.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.benri(img, "offset")) > 0){
+      .readPair!float?(`offset.x=, `offset.y=, data);
+    }
+    if(#(data = sc.benri(img, "displaytime")) > 0){
+      `displaytime = .aton!`displaytime.self?(data);
+    }
+    if(#(data = sc.benri(img, "facing")) > 0){
+      `facing = .aton!`facing.self?(data) < 0 ? -1: 1;
+    }
+    if(#(data = sc.benri(img, "vfacing")) > 0){
+      `vfacing = .aton!`vfacing.self?(data) < 0 ? -1: 1;
+    }
+    if(#(data = sc.benri(img, "layerno")) > 0){
+      `layerno = .m.min!int?(2)<, .aton!`layerno.self?(data);
+    }
+    if(#(data = sc.benri(img, "scale")) > 0){
+      .readPair!float?(`scale.x=, `scale.y=, data);
+    }
+  }
+  public void setup()
+  {
+    if(`facing < 0) `offset.x += .cfg.LifebarFontScale;
+    if(`vfacing < 0) `offset.y += .cfg.LifebarFontScale;
+  }
+}
+
+public ^char loadText(^/char filename,  bool unicode=)
+{
+  ^ubyte buf = .file.readAll!ubyte?(filename);
+  ^char text;
+  branch{
+  cond #buf >= 3 && buf[0] == 0xef  && buf[1] == 0xbb && buf[2] == 0xbf:
+    unicode = true;
+    buf = buf[3..-1];
+    text = .s.u8ToS(buf);
+  else:
+    unicode = false;
+    loop{
+      index i = 0;
+      text.new(#buf);
+      while;
+    do:
+      text[i] = (char)buf[i];
+      i++;
+    while i < #buf:}
+  }
+  ret text;
+}
+
+public ^/char readFileName(^/char f, bool unicode)
+{
+  if(unicode) ret f;
+  ^char tmp;
+  .mes.AsciiToLocal(:tmp=, f:);
+  ret tmp;
+}
+
+const ^/char FileOpenError = "ファイルオープンに失敗";
+const ^/char FileReadError = "ファイル読み込みに失敗";
+
+
+public ^uint tmppl.new(256);
+/?/*!.cfg.OpenGL:
+^ubyte px.new(1);
+px<> = 0x0;
+/*?*/
+public void rectFill(.scrrect.self rect=, uint color, int alpha)
+{
+/?/*.cfg.OpenGL:
+  .sdl.MugenFillGl(:rect, color, alpha:);
+/*true:
+  &.sdl.Rect onedot.set(0, 0, 1, 1), til.set(0, 0, 0, 0);
+  %byte dammy;
+  .tmppl<> = color;
+  .sdl.renderMugenZoom(
+    rect=, 0.0, 0.0, .px, .tmppl, -1, onedot=, 0.0, 0.0, til=,
+    (float).cfg.Width, (float).cfg.Width, (float).cfg.Height, 0.0, 0d0,
+    alpha, 0, dammy=);
+/*?*/
+}
+
+public void screenFill(uint color)
+{
+  .rectFill(.scrrect=, color, 255);
+}
+
+^uint workpal;
+workpal.new(256);
+public &PalFX
+{
+  public int time;
+  public int mulr;
+  public int mulg;
+  public int mulb;
+  public int addr;
+  public int addg;
+  public int addb;
+  public int amplr;
+  public int amplg;
+  public int amplb;
+  public int cycletime;
+  public int sintime;
+  public float color;
+  public int invertall;
+  public int negType;
+  public %*index remap;
+  public int emulr, emulg, emulb;
+  public int eaddr, eaddg, eaddb;
+  public float ecolor;
+  public int einvertall;
+  public int enegType;
+  public bool enable;
+  new()
+  {
+    `clear();
+    `enable = false;
+  }
+  public void copy(`self x)
+  {
+    `time = x.time;
+    `mulr = x.mulr;
+    `mulg = x.mulg;
+    `mulb = x.mulb;
+    `addr = x.addr;
+    `addg = x.addg;
+    `addb = x.addb;
+    `amplr = x.amplr;
+    `amplg = x.amplg;
+    `amplb = x.amplb;
+    `cycletime = x.cycletime;
+    `sintime = x.sintime;
+    `color = x.color;
+    `invertall = x.invertall;
+    `negType = x.negType;
+    `remap = x.remap;
+    `emulr = x.emulr;
+    `emulg = x.emulg;
+    `emulb = x.emulb;
+    `eaddr = x.eaddr;
+    `eaddg = x.eaddg;
+    `eaddb = x.eaddb;
+    `ecolor = x.ecolor;
+    `einvertall = x.einvertall;
+    `enegType = x.enegType;
+    `enable = x.enable;
+  }
+  public void clear2(int negType)
+  {
+    `time = 0;
+    `mulr = 256;
+    `mulg = 256;
+    `mulb = 256;
+    `addr = 0;
+    `addg = 0;
+    `addb = 0;
+    `amplr = 0;
+    `amplg = 0;
+    `amplb = 0;
+    `cycletime = 0;
+    `sintime = 0;
+    `color = 1.0;
+    `invertall = 0;
+    `negType = negType;
+  }
+  public void clear()
+  {
+    `clear2(0);
+  }
+  /void sinAdd(int r=, int g=, int b=)
+  {
+    if(`cycletime < 2) ret;
+    float sin =
+      .m.sin(
+        (
+          .m.PI*2.0*(double)`sintime
+          + (`cycletime == 2 ? .m.PI/2.0 : 0.0)) / (double)`cycletime);
+    r += (int)(sin*(float)`amplr);
+    g += (int)(sin*(float)`amplg);
+    b += (int)(sin*(float)`amplb);
+  }
+  public void synthesize(`self pfx)
+  {
+    `emulr = `emulr * pfx.emulr / 256;
+    `emulg = `emulg * pfx.emulg / 256;
+    `emulb = `emulb * pfx.emulb / 256;
+    `eaddr += pfx.eaddr;
+    `eaddg += pfx.eaddg;
+    `eaddb += pfx.eaddb;
+    `ecolor *= pfx.ecolor;
+    `einvertall = (int)(`einvertall != 0 ^ pfx.einvertall != 0);
+  }
+  public void step()
+  {
+    if(`enable = `time != 0){
+      `emulr = `mulr;
+      `emulg = `mulg;
+      `emulb = `mulb;
+      `eaddr = `addr;
+      `eaddg = `addg;
+      `eaddb = `addb;
+      `ecolor = `color;
+      `einvertall = `invertall;
+      `enegType = `negType;
+      `sinAdd(`eaddr=, `eaddg=, `eaddb=);
+      if(`cycletime > 0) `sintime = (`sintime+1) % `cycletime;
+    }
+    if(`time > 0) `time--;
+  }
+  public ^uint getFxPal(^uint pal, bool nega)
+  {
+    bool neg = `enegType == 0 ? nega : false;
+    int mr, mg, mb;
+    void addsubset(uint subc=, int r=, int g=, int b=)
+    {
+      int sr = 0, sg = 0, sb = 0;
+      if(`neg){
+        r *= -1; g *= -1; b *= -1;
+      }
+      void bar(int s=, int c=)
+      {
+        if(c < 0){
+          s = (int).m.min!uint?(0d255, (uint)-c);
+          c = 0;
+        }
+      }
+      bar(sr=, r=); bar(sg=, g=); bar(sb=, b=);
+      void baz(int m, int c=)
+      {
+        .m.limMax!int?(c=, (int)255*256*256 / .m.max!int?(1, m));
+      }
+      baz(`mr, r=); baz(`mg, g=); baz(`mb, b=);
+      subc = (uint)(sb | sg<<8 | sr<<16);
+    }
+    loop{
+      index i = 0;
+      uint c;
+      float ac;
+      branch{
+      cond neg:
+        mr = (`emulg + `emulb) >> 1;
+        mg = (`emulr + `emulb) >> 1;
+        mb = (`emulr + `emulg) >> 1;
+      else:
+        mr = `emulr;
+        mg = `emulg;
+        mb = `emulb;
+      }
+      .m.limRange!int?(mr=, 0, 255*256);
+      .m.limRange!int?(mg=, 0, 255*256);
+      .m.limRange!int?(mb=, 0, 255*256);
+      int adr = `eaddr, adg = `eaddg, adb = `eaddb;
+      uint subc;
+      addsubset(subc=, adr=, adg=, adb=);
+      uint tmp;
+    do:
+      c = pal[i];
+      if(`einvertall != 0) c = !c;
+      ac = (float)((c&0xff)+(c>>0d8&0xff)+(c>>0d16&0xff)) * (1.0/3.0);
+      c =
+        (uint)((float)(c&0xff) + (ac-(float)(c&0xff))*(1.0-`ecolor))
+        | (uint)(
+          (float)(c>>0d8&0xff) + (ac-(float)(c>>0d8&0xff))*(1.0-`ecolor))
+        << 0d8
+        | (uint)(
+          (float)(c>>0d16&0xff) + (ac-(float)(c>>0d16&0xff))*(1.0-`ecolor))
+        << 0d16;
+      tmp = (((!c & subc) << 0d1) + ((!c ^ subc) & 0xfefefefe)) & 0x01010100;
+      c = (c - subc + tmp) & !(tmp - (tmp >> 0d8));
+      tmp = ((c&0xff) + (uint)adb) * (uint)mb >> 0d8;
+      tmp =
+        ((tmp | -(uint)((tmp&0xff00)!=0x0)) & 0xff)
+        | (((c>>0d8&0xff) + (uint)adg) * (uint)mg >> 0d8) << 0d8;
+      tmp =
+        ((tmp | -(uint)((tmp&0xff0000)!=0x0)<<0d8) & 0xffff)
+        | (((c>>0d16&0xff) + (uint)adr) * (uint)mr >> 0d8) << 0d16;
+      .workpal[i] = tmp | -(uint)((tmp&0xff000000)!=0x0)<<0d16;
+    while ++i < 256:}
+    ret .workpal;
+  }
+}
+
+public ^/char loadFile(^/char deffile, ^/char file=, ~$^/char(^/char) load)
+{
+  ^/char error;
+  loop{index i = #deffile-1; while; do:
+    if(.s.cMatch!char?("\/", deffile[i])){
+      %char buf .= deffile[0..i+1] .= file;
+      if(#.file.find(buf) > 0){
+        if(#(error = load(:buf:)) > 0) ret buf + ":"\r\n + error;
+        file = buf;
+        ret "";
+      }
+      break, break;
+    }
+    i--;
+  while i >= 0:}
+  {
+    %char buf .= "data/" .= file;
+    if(#.file.find(buf) > 0){
+      if(#(error = load(:buf:)) > 0) ret buf + ":"\r\n + error;
+      file = buf;
+      ret "";
+    }
+  }
+  {
+    %char buf .= "ssz/" .= file;
+    if(#.file.find(buf) > 0){
+      if(#(error = load(:buf:)) > 0) ret buf + ":"\r\n + error;
+      file = buf;
+      ret "";
+    }
+  }
+  if(#(error = load(:file:)) > 0) ret file + ":"\r\n + error;
+  ret "";
+}
+
+public &Section
+{
+  &.tbl.NameTable!char? params;
+  public void parse(^^/char lines, index i=)
+  {
+    loop{
+      index f;
+      ^/char line;
+      while;
+    do:
+      if(#lines[i] > 0 && lines[i][0] == '['){
+        i--;
+        break, break;
+      }
+      line = .s.trim(lines[i][0 .. .s.find(";", lines[i])]);
+      f = .s.cFind("= "\t, line);
+      if(f > 0){
+        ^/char name = .s.toLower(line[0 .. f]);
+        f = .s.find("=", line);
+        ^/char data = f >= 0 ? .s.trim(line[f+1..-1]) : "";
+        if(#`params.get(name) == 0) `params.set(name, .s.clone!char?(data));
+      }
+    continue:
+      i++;
+    while i < #lines:}
+  }
+  public ^/char get(^/char name)
+  {
+    ret `params.get(name);
+  }
+  public ^/char getText(^/char name, ^/char text=)
+  {
+    text = `params.get(name);
+    if(#text == 0) ret "";
+    if(#text < 2 || text[0] != '"' ||  text[-1] != '"'){
+      ret \""で囲まれていません";
+    }
+    text = text[1 .. #text - 1];
+    ret "";
+  }
+  public ^/char benri(^/char head, ^/char name)
+  {
+    %char buf;
+    ret `params.get(buf .= head .= name);
+  }
+}
+
+public ^/char sectionName(^/char sec=)
+{
+  if(#sec == 0 || sec[0] != '[') ret "";
+  sec = .s.trim(sec[0 .. .s.find(";", sec)]);
+  if(sec[-1] != ']') ret "";
+  sec = sec[1 .. .s.find("]", sec)];
+  index fnd = .s.cFind(" ", sec);
+  if(fnd < 0) fnd = -2;
+  ^/char name = .s.toLower(sec[0..fnd+1]);
+  sec = sec[fnd+1..-1];
+  ret name;
+}
+
+public void mugenversion(^^/char lines, short mver0=, short mver1=)
+{
+  mver0 = mver1 = 0;
+  loop{index i = 0; while; do:
+    {
+      ^/char sec = lines[i];
+      ^/char secname = .sectionName(sec=);
+      if(#secname == 0) break;
+      i++;
+      &.Section sc.parse(lines, i=);
+      if(!.s.equ(secname, "info")) break;
+      ^/char data;
+      if(#(data = sc.get("mugenversion")) > 0){
+        ^short tmp = .s.svToAry!short?(".", data);
+        mver0 = tmp[0];
+        if(#tmp >= 2) mver1 = tmp[1];
+      }
+      ret;
+    }
+    i++;
+  while i < #lines:}
+}
+
+
+public &SuperDangerousRef
+{
+  public index p, pos, l;
+  public void copyRef<_t>(^_t r=)
+  {
+    .mes.veryUnsafeCopy!`self, ^_t?(`=, r=);
+  }
+  public void copyList<_t>(%_t r=)
+  {
+    .mes.veryUnsafeCopy!`self, %_t?(`=, r=);
+  }
+  public void copyToRef<_t>(^_t r=)
+  {
+    .mes.veryUnsafeCopy!^_t, `self?(r=, `=);
+  }
+  public void copyToList<_t>(%_t r=)
+  {
+    .mes.veryUnsafeCopy!%_t, `self?(r=, `=);
+  }
+}
+

@@ -1,0 +1,1389 @@
+﻿
+lib file = <file.ssz>;
+lib s = <string.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib consts = <consts.ssz>;
+lib m = <math.ssz>;
+lib tbl = <table.ssz>;
+lib cfg = "config.ssz";
+lib com = "common.ssz";
+
+
+const int NumCharPalletes = 12;
+
+public ^&com.PalFX allPalFX;
+allPalFX.new(1);
+
+public &SffHeader
+{
+  public ubyte ver0, ver1, ver2, ver3;
+  public uint firstSpriteHeaderOffset, firstPaletteHeaderOffset;
+  public uint numberOfPalettes, numberOfSprites;
+  public ^/char read(&.file.File f=, uint lofs=, uint tofs=)
+  {
+    ubyte ub;
+    loop{
+      index i = 0;
+      %char s;
+    do:
+      if(!f.read!ubyte?(ub=)) ret .com.FileReadError;
+      s .= (char)ub;
+      i++;
+    while i < 12:
+      if(!.s.equ(s, "ElecbyteSpr"\0)){
+        ret "ElecbyteSprじゃない";
+      }
+    }
+    if(!f.read!ubyte?(`ver3=)) ret .com.FileReadError;
+    if(!f.read!ubyte?(`ver2=)) ret .com.FileReadError;
+    if(!f.read!ubyte?(`ver1=)) ret .com.FileReadError;
+    if(!f.read!ubyte?(`ver0=)) ret .com.FileReadError;
+    uint dummy;
+    switch(`ver0){
+    case 0d1:
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      `numberOfPalettes = 0x0;
+      if(!f.read!uint?(`numberOfSprites=)) ret .com.FileReadError;
+      if(!f.read!uint?(`firstSpriteHeaderOffset=)) ret .com.FileReadError;
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      `firstPaletteHeaderOffset = 0x0;
+    case 0d2:
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      if(!f.read!uint?(`firstSpriteHeaderOffset=)) ret .com.FileReadError;
+      if(!f.read!uint?(`numberOfSprites=)) ret .com.FileReadError;
+      if(!f.read!uint?(`firstPaletteHeaderOffset=)) ret .com.FileReadError;
+      if(!f.read!uint?(`numberOfPalettes=)) ret .com.FileReadError;
+      if(!f.read!uint?(lofs=)) ret .com.FileReadError;
+      if(!f.read!uint?(dummy=)) ret .com.FileReadError;
+      if(!f.read!uint?(tofs=)) ret .com.FileReadError;
+    default:
+      ret "バージョンが不正です";
+    }
+    ret "";
+  }
+}
+
+&PalleteList
+{
+  %^uint palletes;
+  %index palidxs;
+  public &.tbl.IntTable!uint, index? palTable;
+  public void clear()
+  {
+    `palletes.new(0);
+    `palidxs.new(0);
+    `palTable.clear();
+  }
+  public ^uint newPal(index pi=)
+  {
+    `palidxs.new[#`palletes] = (pi = #`palletes);
+    `palletes.new[-1].new(256);
+    ret `palletes[-1];
+  }
+  public void setSource(index pi, ^uint pal)
+  {
+    `palidxs.new[pi] = pi;
+    `palletes.new[pi] = pal;
+  }
+  public ^uint get(index pi)
+  {
+    ret `palletes[`palidxs[pi]];
+  }
+  public void remap(index source, index dest)
+  {
+    `palidxs[source] = dest;
+  }
+  public void resetRemap()
+  {
+    loop{index i = 0; while; do: `palidxs[i] = i; i++; while i < #`palidxs:}
+  }
+  public %index getPalMap()
+  {
+    ret `palidxs + (index)[];
+  }
+  public bool swapPalMap(%index map=)
+  {
+    if(#map != #`palidxs) ret false;
+    .m.swap!%index?(map=, `palidxs=);
+    ret true;
+  }
+}
+
+public &Sprite
+{
+  public ^uint colorPallet;
+/?/*.cfg.OpenGL:
+  public ^&.sdl.GlTexture pxl;
+/*true:
+  public ^ubyte pxl;
+  public %byte pluginbuf;
+/*?*/
+  public &.sdl.Rect rct;
+  public short imageGroup, imageNumber;
+  public index palidx = -1;
+  public int rle = 0;
+  public void shareCopy(`self sp=)
+  {
+    `colorPallet = sp.colorPallet;
+    `pxl = sp.pxl;
+    `rct.w = sp.rct.w;
+    `rct.h = sp.rct.h;
+    `palidx = sp.palidx;
+    `rle = sp.rle;
+  }
+  public void copy(`self sp=)
+  {
+    `shareCopy(sp=);
+  /?/*!.cfg.OpenGL:
+    `pluginbuf = sp.pluginbuf;
+  /*?*/
+    `rct = sp.rct;
+    `imageGroup = sp.imageGroup;
+    `imageNumber = sp.imageNumber;
+  }
+  public ^uint getPal(&.PalleteList pl=)
+  {
+    if(#`colorPallet > 0 || `rle == -12) ret `colorPallet;
+    ret pl.get(`palidx);
+  }
+  public bool readHeader(&.file.File f=)
+  {
+    short x, y;
+    if(!f.read!short?(x=)) ret false;
+    `rct.x = x;
+    if(!f.read!short?(y=)) ret false;
+    `rct.y = y;
+    if(!f.read!short?(`imageGroup=)) ret false;
+    if(!f.read!short?(`imageNumber=)) ret false;
+    ret true;
+  }
+  public ^/char readPcxHeader(&.file.File f=, long offset)
+  {
+    f.seek(offset, .file.Seek::SET);
+    ubyte dummy, encoding, bpp;
+    if(!f.read!ubyte?(dummy=)) ret .com.FileReadError;
+    if(!f.read!ubyte?(dummy=)) ret .com.FileReadError;
+    if(!f.read!ubyte?(encoding=)) ret .com.FileReadError;
+    if(!f.read!ubyte?(bpp=)) ret .com.FileReadError;
+    if(bpp != 0d8){
+      ret "256色じゃない";
+    }
+    ushort x, y, w, h;
+    if(!f.read!ushort?(x=)) ret .com.FileReadError;
+    if(!f.read!ushort?(y=)) ret .com.FileReadError;
+    if(!f.read!ushort?(w=)) ret .com.FileReadError;
+    if(!f.read!ushort?(h=)) ret .com.FileReadError;
+    f.seek(offset+66, .file.Seek::SET);
+    ushort bpl;
+    if(!f.read!ushort?(bpl=)) ret .com.FileReadError;
+    `rct.w = (int)(w - x + 0x1);
+    `rct.h = (int)(h - y + 0x1);
+    `rle = encoding == 0x1 ? (int)bpl : 0;
+    ret "";
+  }
+  public bool readHeaderV2(
+    &.file.File f=, uint ofs=, uint siz=,
+    uint lofs, uint tofs, ushort idxlnked=)
+  {
+    if(!f.read!short?(`imageGroup=)) ret false;
+    if(!f.read!short?(`imageNumber=)) ret false;
+    ushort w, h;
+    if(!f.read!ushort?(w=)) ret false;
+    `rct.w = (int)w;
+    if(!f.read!ushort?(h=)) ret false;
+    `rct.h = (int)h;
+    short x, y;
+    if(!f.read!short?(x=)) ret false;
+    `rct.x = x;
+    if(!f.read!short?(y=)) ret false;
+    `rct.y = y;
+    if(!f.read!ushort?(idxlnked=)) ret false;
+    ubyte fmt, dummy;
+    if(!f.read!ubyte?(fmt=)) ret false;
+    `rle = -(int)fmt;
+    if(!f.read!ubyte?(dummy=)) ret false;
+    if(!f.read!uint?(ofs=)) ret false;
+    if(!f.read!uint?(siz=)) ret false;
+    ushort pali, flg;
+    if(!f.read!ushort?(pali=)) ret false;
+    `palidx = (index)pali;
+    if(!f.read!ushort?(flg=)) ret false;
+    ofs += (flg & 0d1) == 0x0 ? lofs : tofs;
+    ret true;
+  }
+  public ^/char read(
+    &.file.File f=, &.SffHeader sh=, long offset, uint loh, uint nsh,
+    ^`self prev, &.PalleteList pl=, bool c00)
+  {
+    ^/char error;
+    uint lenghtOfSubheader = loh;
+    if(nsh > (uint)offset) lenghtOfSubheader = nsh - (uint)offset;//lohを無視
+    byte ps;
+    if(!f.read!byte?(ps=)) ret .com.FileReadError;
+    bool palletSame = ps != 0;
+    if(#prev == 0) palletSame = false;
+    if(#`readPcxHeader(f=, offset)=>error > 0) ret error;
+    f.seek(offset + 128, .file.Seek::SET);
+    ^ubyte px.new((index)lenghtOfSubheader - (128+(c00||palletSame?0:768)));
+    f.readAry!ubyte?(px);
+    loop{
+      index i = 0;
+      ubyte r, g, b;
+      if(palletSame){
+        if(#prev > 0) `palidx = prev~palidx;
+        if(`palidx < 0) pl.newPal(`palidx=);
+        break, break;
+      }
+      ^uint pal = pl.newPal(`palidx=);
+      if(c00) f.seek(offset + (long)lenghtOfSubheader - 768, .file.Seek::SET);
+    do:
+      if(!f.read!ubyte?(r=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(g=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(b=)) ret .com.FileReadError;
+      pal[i] = (uint)r<<0d16 | (uint)g<<0d8 | (uint)b;
+      i++;
+    while i < 256:}
+    if(
+      !.cfg.SaveMemory || .cfg.OpenGL
+      || `rct.w*`rct.h < (`rct.w >= 256 ? (#px/256)*`rct.w : #px))
+    {
+      `rlePcxDecode(px=);
+    }
+    `setPxl(px);
+    ret "";
+  }
+  public ^/char readV2(&.file.File f=, long ofs, uint dsz)
+  {
+    f.seek(ofs+4, .file.Seek::SET);
+    ^ubyte px;
+    if(`rle < 0) switch(-`rle){
+      if(-`rle <= 4){
+        px.new((index)dsz-4);
+        f.readAry!ubyte?(px);
+      }
+    case 2:
+      `rle8Decode(px=);
+    case 3:
+      `rle5Decode(px=);
+    case 4:
+      `lz5Decode(px=);
+    case 10:
+      px = .sdl.decodePNG8(`rct.w=, `rct.h=, f=);
+    case 11, 12:
+    /?/*.cfg.OpenGL:
+      `rle = -12;
+      `pxl.new(1);
+      if(!`pxl~loadPngTexture(`rct.w=, `rct.h=, f=)) default;
+    /*true:
+      `rct.w = `rct.h = 0;
+    /*?*/
+      ret "";
+    default:
+      ret "不明な形式です";
+    }
+    `setPxl(px);
+    ret "";
+  }
+  public void setPxl(^ubyte px)
+  {
+  /?/*.cfg.OpenGL:
+    `pxl.new(1);
+    `pxl~load8bitTexture(px, `rct.w, `rct.h);
+  /*true:
+    `pxl = px;
+  /*?*/
+  }
+  public void rlePcxDecode(^ubyte px=)
+  {
+    if(#px == 0 || `rle <= 0) ret;
+    ^/ubyte rle = px;
+    px.new(`rct.w * `rct.h);
+    loop{
+      int w = `rct.w;
+      int leng = #px;
+      index i = 0, j = 0, k = 0;
+    do:
+      loop{
+        int size;
+        ubyte d = rle[i++];
+        branch{
+        cond d >= 0xC0:
+          size = (int)(d & 0x3F);
+          d = rle[i++];
+        else:
+          size = 1;
+        }
+        while;
+      do:
+        px[j] = d;
+        j += (int)(k < w);
+        if(++k == `rle){
+          k = 0;
+          size = 0;
+        }
+      while --size >= 0:}
+    while j < leng:}
+    `rle = 0;
+  }
+  public void rle8Decode(^ubyte px=)
+  {
+    if(#px == 0) ret;
+    ^/ubyte rle = px;
+    px.new(`rct.w * `rct.h);
+    loop{
+      int leng = #px;
+      index i = 0, j = 0;
+      while;
+    do:
+      loop{
+        int size;
+        ubyte d = rle[i++];
+        branch{
+        cond (d&0xC0) == 0x40:
+          size = (int)(d & 0x3F);
+          d = rle[i++];
+        else:
+          size = 1;
+        }
+        while;
+      do:
+        px[j++] = d;
+      while --size >= 0:}
+    while j < leng:}
+  }
+  public void rle5Decode(^ubyte px=)
+  {
+    if(#px == 0) ret;
+    ^/ubyte rle = px;
+    px.new(`rct.w * `rct.h);
+    loop{
+      int leng = #px;
+      index i = 0, j = 0;
+      while;
+    do:
+      loop{
+        int rlen = (int)rle[i++];
+        int dlen = (int)(rle[i] & 0x7F);
+        ubyte c = rle[i++]>>0d7 != 0x0 ? rle[i++] : 0x0;
+      do:
+        px[j++] = c;
+      while --rlen >= 0:
+        if(--dlen >= 0){
+          c = rle[i] & 0x1F;
+          rlen = (int)(rle[i++]>>0d5);
+          break, do;
+        }
+      }
+    while j < leng:}
+  }
+  public void lz5Decode(^ubyte px=)
+  {
+    if(#px == 0) ret;
+    ^/ubyte rle = px;
+    px.new(`rct.w * `rct.h);
+    loop{
+      int leng = #px;
+      index i = 0, j = 0;
+      uint s = 0x0, rbc = 0x0;
+      ubyte ct = rle[i++], rb = 0x0;
+      while;
+    do:
+      branch{
+        int size;
+        uint d;
+      cond (ct & 0d1<<s) != 0x0:
+        loop{
+          d = rle[i++];
+          branch{
+          cond (d&0x3F) == 0x00:
+            d = (d<<0d2 | rle[i++]) + 0d1;
+            size = (int)rle[i++] + 2;
+          else:
+            rb |= (d&0xC0) >> rbc;
+            rbc += 0d2;
+            size = (int)(d & 0x3F);
+            branch{
+            cond rbc < 0d8:
+              d = (uint)rle[i++] + 0x1;
+            else:
+              d = (uint)rb + 0d1;
+              rbc = 0x0;
+              rb = 0x0;
+            }
+          }
+        do:
+          px[j] = px[j-(index)d];
+          j++;
+        while --size >= 0:}
+      else:
+        loop{
+          d = rle[i++];
+          branch{
+          cond (d&0xE0) == 0x00:
+            size = (int)rle[i++] + 8;
+          else:
+            size = (int)(d >> 0d5);
+            d &= 0x1F;
+          }
+          while;
+        do:
+          px[j++] = d;
+        while --size >= 0:}
+      }
+      if(++s >= 0d8){
+        s = 0x0;
+        ct = rle[i++];
+      }
+    while j < leng:}
+  }
+  public ^/char loadFromSff(^/char fn, short ig, short in)
+  {
+    ^/char error;
+    &.file.File f;
+    if(!f.open(fn, "rb")) ret .com.FileOpenError;
+    &.SffHeader h;
+    uint lofs, tofs;
+    if(#h.read(f=, lofs=, tofs=)=>error > 0) ret error;
+    uint shofs = h.firstSpriteHeaderOffset, misc, size;
+    ushort indexOfPrevious;
+    &.PalleteList pl;
+    loop{
+      index i = 0;
+      %uint newSubHeaderOffset .= shofs;
+      ~$bool() foo = [bool(){
+        switch(h.ver0){
+        case 0d1:
+          if(!f.read!uint?(misc=)) ret false;
+          if(!f.read!uint?(size=)) ret false;
+          if(!`readHeader(f=)) ret false;
+          if(!f.read!ushort?(indexOfPrevious=)) ret false;
+        case 0d2:
+          if(
+            !`readHeaderV2(
+              f=, misc=, size=, lofs, tofs, indexOfPrevious=)) ret false;
+        }
+        ret true;
+      }];
+      ^`self dummy;
+      while;
+    do:
+      newSubHeaderOffset .= shofs;
+      f.seek((long)shofs, .file.Seek::SET);
+      if(!foo(::)) ret .com.FileReadError;
+      if(`palidx >= 0 && (`imageGroup != ig || `imageNumber != in)) continue;
+      loop{
+        uint ip = (uint)#newSubHeaderOffset, ipmax;
+        while;
+      do:
+        ipmax = ip - 0x1;
+        if(indexOfPrevious > ipmax) ret "linkが不正です";
+        ip = indexOfPrevious;
+        shofs =
+          h.ver0 == 0d1 ? newSubHeaderOffset[(index)ip]
+          : h.firstSpriteHeaderOffset + ip*0d28;
+        f.seek((long)shofs, .file.Seek::SET);
+        if(!foo(::)) ret .com.FileReadError;
+      while size == 0d0:}
+      switch(h.ver0){
+      case 0d1:
+        if(
+          #`read(
+            f=, h=, (long)(shofs + 0d32), size,
+            misc, dummy, pl=, false)=>error
+          > 0) ret error;
+      case 0d2:
+        if(#`readV2(f=, (long)misc, size)=>error > 0) ret error;
+      }
+      if(`imageGroup == ig && `imageNumber == in) break;
+      dummy.new(1);
+      dummy~palidx = `palidx;
+    continue:
+      shofs = h.ver0 == 0d1 ? misc : shofs + 0d28;
+      i++;
+    while i < (index)h.numberOfSprites:
+      ret ''ig+","+''in+"のスプライトが見つかりません";
+    }
+    if(h.ver0 == 0d1){
+      `colorPallet = pl.get(`palidx);
+      `palidx = -1;
+      ret "";
+    }
+    if(`rle == -12) ret "";
+    loop{
+      uint ip;
+      indexOfPrevious = (uint)`palidx;
+    do:
+      ip = indexOfPrevious;
+      shofs = h.firstPaletteHeaderOffset + ip*0d16;
+      f.seek((long)shofs + 6, .file.Seek::SET);
+      if(!f.read!ushort?(indexOfPrevious=)) ret .com.FileReadError;
+      if(!f.read!uint?(misc=)) ret .com.FileReadError;
+      if(!f.read!uint?(size=)) ret .com.FileReadError;
+    while size == 0d0 && ip != indexOfPrevious:}
+    f.seek((long)(lofs+misc), .file.Seek::SET);
+    `colorPallet.new(256);
+    loop{
+      index i = 0, l = (index)size / 4;
+      ubyte r, g, b, dummy;
+    do:
+      if(!f.read!ubyte?(r=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(g=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(b=)) ret .com.FileReadError;
+      if(!f.read!ubyte?(dummy=)) ret .com.FileReadError;
+      `colorPallet[i] = (uint)r<<0d16 | (uint)g<<0d8 | (uint)b;
+      i++;
+    while i < l:}
+    `palidx = -1;
+    ret "";
+  }
+  public void setFcPalFx(
+    ^&.com.PalFX fx, int trans, bool neg=, float color=,
+    float ar=, float ag=, float ab=, float mr=, float mg=, float mb=)
+  {
+    void set(&.com.PalFX pf=)
+    {
+      `neg = pf.einvertall != 0;
+      `color = pf.ecolor;
+      `ar = (float)pf.eaddr / 255.0;
+      `ag = (float)pf.eaddg / 255.0;
+      `ab = (float)pf.eaddb / 255.0;
+      branch{
+      cond `trans == -2 && pf.enegType == 0:
+        `ar *= -1.0;
+        `ag *= -1.0;
+        `ab *= -1.0;
+        `mr = (float)(pf.emulg + pf.emulb) / 512.0;
+        `mg = (float)(pf.emulr + pf.emulb) / 512.0;
+        `mb = (float)(pf.emulr + pf.emulg) / 512.0;
+      else:
+        `mr = (float)pf.emulr / 256.0;
+        `mg = (float)pf.emulg / 256.0;
+        `mb = (float)pf.emulb / 256.0;
+      }
+    }
+    branch{
+    cond .allPalFX~enable:
+      branch{
+      cond #fx > 0 && fx~enable:
+        {
+          &.com.PalFX synth.copy(fx<>);
+          synth.synthesize(.allPalFX<>);
+          set(synth=);
+        }
+      else:
+        set(.allPalFX<>=);
+      }
+    cond #fx > 0 && fx~enable:
+      set(fx<>=);
+    else:
+      neg = false;
+      color = 1.0;
+      ar = ag = ab = 0.0;
+      mr = mg = mb = 1.0;
+    }
+  }
+/?/*.cfg.OpenGL:
+  public void glDraw(
+    ^uint pal, int mask, float x, float y, &.sdl.Rect tile=,
+    float xts, float xbs, float ys, float rxadd, float agl, int trans,
+    &.sdl.Rect window=, float rcx, float rcy, ^&.com.PalFX fx)
+  {
+    branch{
+    cond `rle == -12:
+      {
+        bool neg;
+        float color;
+        float ar, ag, ab, mr, mg, mb;
+        `setFcPalFx(fx, trans, neg=, color=, ar=, ag=, ab=, mr=, mg=, mb=);
+        .sdl.RenderMugenGlFc(:
+          `pxl<>, `rct=, x, y, tile=, xts, xbs, ys,
+          1.0, rxadd, agl, trans, window=, rcx, rcy,
+          neg, color, ar, ag, ab, mr, mg, mb:);
+      }
+    else:
+      .sdl.RenderMugenGl(:
+        `pxl<>, pal<>=, mask, `rct=, x, y, tile=, xts, xbs, ys,
+        1.0, rxadd, agl, trans, window=, rcx, rcy:);
+    }
+  }
+/*?*/
+  public void draw(float x, float y, float xscale, float yscale, ^uint pal)
+  {
+    &.sdl.Rect tile;
+    tile.set(0, 0, 0, 0);
+    float x2 = x - xscale*(float)`rct.x + (float)(.com.GameWidth-320)/2.0;
+    float y2 = y - yscale*(float)`rct.y + (float)(.com.GameHeight-240);
+    if(xscale < 0.0) x2 *= -1.0;
+    if(yscale < 0.0) y2 *= -1.0;
+  /?/*.cfg.OpenGL:
+    if(#`pxl > 0){
+      ^&.com.PalFX nullfx;
+      `glDraw(
+        pal, 0, -x2*.com.WidthScale, -y2*.com.HeightScale,
+        tile=, xscale*.com.WidthScale, xscale*.com.WidthScale,
+        yscale*.com.HeightScale, 0.0, 0.0, 255,
+        .com.scrrect=, 0.0, 0.0, nullfx);
+    }
+  /*true:
+    .sdl.renderMugenZoom(
+      .com.scrrect=, 0.0, 0.0,
+      `pxl, pal, 0, `rct=, -x2*.com.WidthScale, -y2*.com.HeightScale,
+      tile=, xscale*.com.WidthScale, xscale*.com.WidthScale,
+      yscale*.com.HeightScale, 0.0, 0x0, 255, `rle, `pluginbuf=);
+  /*?*/
+  }
+}
+
+
+public &Sff
+{
+  public &.SffHeader head;
+  public &.tbl.IntTable!uint, &.Sprite? spriteTable;
+  public &.PalleteList palList;
+  new()
+  {
+    `clear();
+  }
+  public void clear()
+  {
+    `spriteTable.clear();
+    `palList.clear();
+    loop{index i = 0, foo; while;
+    do:
+      `palList.newPal(foo=);
+      i++;
+      `palList.palTable.set(0d1<<0d16 | (uint)i, ?foo);
+    while i < .NumCharPalletes:}
+  }
+  public ^/char loadFile(^/char filename, bool chr)
+  {
+    ^/char error;
+    &.file.File f;
+    if(!f.open(filename, "rb")) ret .com.FileOpenError;
+    `clear();
+    uint lofs, tofs;
+    if(#`head.read(f=, lofs=, tofs=)=>error > 0) ret error;
+    if(`head.ver0 != 0d1) loop{
+       index i = 0;
+       ^uint pal;
+       ushort group, item, link, dummy;
+       uint ofs, siz;
+       ^index idx;
+       `palList.clear();
+       while;
+    do:
+      f.seek((long)`head.firstPaletteHeaderOffset + 16*i, .file.Seek::SET);
+      if(!f.read!ushort?(group=)) ret .com.FileReadError;
+      if(!f.read!ushort?(item=)) ret .com.FileReadError;
+      if(!f.read!ushort?(dummy=)) ret .com.FileReadError;
+      if(!f.read!ushort?(link=)) ret .com.FileReadError;
+      if(!f.read!uint?(ofs=)) ret .com.FileReadError;
+      if(!f.read!uint?(siz=)) ret .com.FileReadError;
+      idx.new(1);
+      branch{
+      cond siz == 0x0:
+        pal = `palList.get((index)link);
+        idx<> = (index)link;
+      else:
+        f.seek((long)(lofs+ofs), .file.Seek::SET);
+        pal.new(256);
+        loop{
+          index i = 0, l = (index)siz / 4;
+          ubyte r, g, b, dummy8;
+        do:
+          if(!f.read!ubyte?(r=)) ret .com.FileReadError;
+          if(!f.read!ubyte?(g=)) ret .com.FileReadError;
+          if(!f.read!ubyte?(b=)) ret .com.FileReadError;
+          if(!f.read!ubyte?(dummy8=)) ret .com.FileReadError;
+          pal[i] = (uint)r<<0d16 | (uint)g<<0d8 | (uint)b;
+          i++;
+        while i < l:}
+        idx<> = i;
+      }
+      `palList.setSource(i, pal);
+      `palList.palTable.set((uint)group<<0d16 | item, idx);
+      i++;
+    while i < (index)`head.numberOfPalettes:
+    }
+    uint shofs = `head.firstSpriteHeaderOffset, size;
+    loop{
+      index i = 0;
+      uint misc;
+      ^&.Sprite spriteList;
+      spriteList.new((index)`head.numberOfSprites);
+      ushort indexOfPrevious;
+      index prev = -1;
+      while;
+    do:
+      f.seek((long)shofs, .file.Seek::SET);
+      switch(`head.ver0){
+      case 0d1:
+        if(!f.read!uint?(misc=)) ret .com.FileReadError;
+        if(!f.read!uint?(size=)) ret .com.FileReadError;
+        if(!spriteList[i].readHeader(f=)) ret .com.FileReadError;
+        if(!f.read!ushort?(indexOfPrevious=)) ret .com.FileReadError;
+      case 0d2:
+        if(
+          !spriteList[i].readHeaderV2(
+            f=, misc=, size=, lofs, tofs, indexOfPrevious=))
+        {
+          ret .com.FileReadError;
+        }
+      }
+      branch{
+      cond size != 0d0:
+        switch(`head.ver0){
+        case 0d1:
+          if(
+            #spriteList[i].read(
+              f=, `head=, (long)(shofs + 0d32),
+              size, misc, spriteList[prev..prev+1], `palList=,
+              chr && (
+                (
+                  spriteList[i].imageGroup == 0
+                  && spriteList[i].imageNumber == 0)
+                || prev < 0))=>error
+            > 0) ret error;
+        case 0d2:
+          if(#spriteList[i].readV2(f=, (long)misc, size)=>error > 0){
+            ret error;
+          }
+        }
+        prev = i;
+      else:
+        spriteList[i].shareCopy(spriteList[(index)indexOfPrevious]=);
+      }
+      `spriteTable.operate(
+        (uint)spriteList[i].imageGroup<<0d16
+        | (ushort)spriteList[i].imageNumber,
+        [void(^&.Sprite s=){if(#s == 0) s = spriteList[i..i+1];}]);
+      shofs = `head.ver0 == 0d1 ? misc : shofs + 0d28;
+      i++;
+    while i < (index)`head.numberOfSprites:}
+    ret "";
+  }
+  public ^&.Sprite getSprite(short group, short number)
+  {
+    if(group == -1) ret .consts.null!&.Sprite?();
+    ret `spriteTable.get((uint)group<<0d16 | (ushort)number);
+  }
+  public ^&.Sprite getOwnPalSprite(short group, short number)
+  {
+    ^&.Sprite sp = `spriteTable.get((uint)group<<0d16 | (ushort)number);
+    if(#sp == 0) ret sp;
+    ^&.Sprite ops.new(1);
+    ops~copy(sp<>=);
+    ops~colorPallet = .s.clone!uint?(sp~getPal(`palList=));
+    ret ops;
+  }
+}
+
+public &FrameMethods<_t>
+{
+  public void _t::action(`anim_t ani=)
+  {
+    void next()
+    {
+      if(`ani.totaltime == -1 && `ani.current == #`ani.frames-1) ret;
+      `ani.time = 0;
+      `ani.newframe = true;
+      loop{do:
+        `ani.current++;
+        if(`ani.totaltime == -1 && `ani.current == #`ani.frames-1) break;
+      while `ani.current < #`ani.frames && `ani.frames[`ani.current].time <= 0:
+      }
+    }
+    if(`time <= 0) next();
+    branch{
+    cond ani.current < #ani.frames:
+      ani.time++;
+      if(ani.time >= ani.frames[ani.current].time){
+        next();
+        if(ani.current >= #ani.frames) break, else;
+      }
+    else:
+      ani.current = ani.loopstart;
+    }
+    if(ani.totaltime != -1 && ani.sumtime >= ani.totaltime){
+      ani.sumtime = ani.totaltime - ani.looptime;
+    }
+    ani.sumtime++;
+    if(ani.totaltime != -1 && ani.sumtime >= ani.totaltime) ani.loopend = true;
+  }
+  public void _t::readData(^/int ary, ^/char line)
+  {
+    `group = ary[0];
+    `number = ary[1];
+    `x = ary[2];
+    `y = ary[3];
+    `time = ary[4];
+    `ex.new(0);
+    ^^/char spl = @s.split(",", line);
+    if(#spl < 6) ret;
+    loop{index i = 0; while; do:
+      switch(spl[5][i]){
+      case 'H', 'h':
+        `h = -1;
+      case 'V', 'v':
+        `v = -1;
+      }
+      i++;
+    while i < #spl[5]:
+    }
+    if(`h < 0) `x *= -1;
+    if(`v < 0) `y *= -1;
+    if(#spl < 7) ret;
+    ^/char a;
+    index i = 6;
+    loop{while; do:
+      if(#(a = @s.trim(spl[i])) > 0){
+        a = a[.s.cFind("asAS", a) .. -1];
+        if(#a > 0) break, break;
+      }
+      i++;
+    while i < #spl:
+      i = 6;
+    }
+    a = @s.toLower(a);
+    branch{
+    cond @s.equ(a, "a1"):
+      `salpha = 0d255;
+      `dalpha = 0d128;
+    cond @s.equ(a[0..1], "s"):
+      `salpha = 0d1;
+      `dalpha = 0d255;
+    cond @s.equ(a[0..2], "as"):
+      if(a[2] >= '0' && a[2] <= '9'){
+        index i = 2;
+        uint alp = 0x0;
+        loop{do:
+          alp = alp * 0d10 + (uint)(a[i] - '0');
+          i++;
+        while a[i] >= '0' && a[i] <= '9' && i < #a:
+          alp &= 0x3fff;
+          `salpha = (alp > 0d255 ? 0d255 : alp);
+        }
+        alp = 0x0;
+        if(a[i++] == 'd' && a[i] >= '0' && a[i] <= '9') loop{do:
+          alp = alp * 0d10 + (uint)(a[i] - '0');
+          i++;
+        while a[i] >= '0' && a[i] <= '9' && i < #a:
+          alp &= 0x3fff;
+          `dalpha = (alp > 0d255 ? 0d255 : alp);
+        }
+        branch{
+        cond `salpha == 0d1 && `dalpha == 0d255: `salpha = 0d0;
+        cond `salpha == 0d255 && `dalpha == 0d1: `dalpha = 0d0;
+        }
+      }
+    cond @s.equ(a[0..1], "a"):
+      `salpha = 0d255;
+      `dalpha = 0d1;
+    }
+    if(#spl <= ++i) ret;
+    spl[i] = @s.trim(spl[i]);
+    `ex = `ex + ?(#spl[i] > 0 ? @com.aton!float?(spl[i]) : 1.0); // x-scale
+    if(#spl <= ++i) ret;
+    spl[i] = @s.trim(spl[i]);
+    `ex = `ex + ?(#spl[i] > 0 ? @com.aton!float?(spl[i]) : 1.0); // y-scale
+    if(#spl <= ++i) ret;
+    `ex = `ex + ?(@com.aton!float?(spl[i]) * @m.PI / 180.0); // angle
+  }
+}
+
+public &AirFileMethods<_t>
+{
+  public .._t::readAction(^^/char lines, index i=) ^`action_t
+  {
+    ^`action_t act;
+    ^/char sec = lines[i];
+    ^/char name = @com.sectionName(sec=);
+    if(#name == 0) ret act;
+    i++;
+    if(!@s.equ(name, "begin ")) ret act;
+    index fnd = @s.cFind(" ", sec);
+    if(fnd < 0) fnd = -2;
+    name = @s.toLower(sec[0..fnd+1]);
+    sec = sec[fnd+1..-1];
+    if(!@s.equ(name, "action ")) ret act;
+    int no;
+    no = @com.aton!int?(sec);
+    act = `getAction(no);
+    if(#act > 0) ret act;
+    act = `newAction(no);
+    act~read(lines, i=);
+    if(#act~numFrames() > 0) ret act;
+    loop{
+      ^`action_t linkact;
+      while;
+    do:
+      linkact = self(lines, i=);
+      if(#linkact > 0){
+        int oldno = act~no;
+        act~copy(linkact<>=);
+        act~no = oldno;
+        break, break;
+      }
+      i++;
+    while i < #lines:}
+    ret act;
+  }
+}
+
+public &Anim<frame_t>
+{
+  public ^&.Sff sff;
+  public ^&.Sprite spr;
+  public %frame_t frames;
+  public &.sdl.Rect tile;
+  public index loopstart = 0, current = 0, drawidx = 0;
+  public int time = 0;
+  public int sumtime = 0;
+  public int totaltime = 0;
+  public int looptime = 0;
+  public int nazotime = 0;
+  public short mask = -1;
+  public short salpha = -1, dalpha = 0;
+  public bool newframe = true, loopend = false;
+  new()
+  {
+    `tile.set(0, 0, 0, 0);
+  }
+  public void reset()
+  {
+    `current = 0;
+    `drawidx = 0;
+    `time = 0;
+    `sumtime = 0;
+    `newframe = true;
+    `loopend = false;
+    `spr.new(0);
+  }
+  public void copy(`self a=)
+  {
+    `sff = a.sff;
+    `spr = a.spr;
+    `frames = a.frames;
+    `tile = a.tile;
+    `loopstart = a.loopstart;
+    `current = a.current;
+    `drawidx = a.drawidx;
+    `time = a.time;
+    `sumtime = a.sumtime;
+    `totaltime = a.totaltime;
+    `looptime = a.looptime;
+    `nazotime = a.nazotime;
+    `mask = a.mask;
+    `salpha = a.salpha;
+    `dalpha = a.dalpha;
+    `newframe = a.newframe;
+    `loopend = a.loopend;
+  }
+  public void setFrames(%`frame_t f, index l)
+  {
+    `totaltime = `looptime = `nazotime = 0;
+    if(#f > 0) loop{
+      if(f[-1].time == -1){
+        `totaltime = -1;
+        break, break;
+      }
+      index i = 0;
+      int tmp = 0;
+      while;
+    do:
+      if(f[i].time == -1){
+        `totaltime = 0;
+        `looptime = -tmp;
+        `nazotime = 0;
+      }
+      `totaltime += f[i].time;
+      branch{
+      cond i < l:
+        `nazotime += f[i].time;
+        tmp += f[i].time;
+      else:
+        `looptime += f[i].time;
+      }
+      i++;
+    while i < #f:
+      if(`totaltime == -1) `nazotime = 0;
+    }
+    `frames = f;
+    `loopstart = l;
+  }
+  public ^frame_t currentFrame()
+  {
+    ret `frames[`current..`current+1];
+  }
+  public ^frame_t drawFrame()
+  {
+    ret `frames[`drawidx..`drawidx+1];
+  }
+  public int animTime()
+  {
+     ret `sumtime - `totaltime;
+  }
+  public int animElemTime(int elem)
+  {
+    int t;
+    if(elem > #`frames){
+      t = `animTime();
+      ret t > 0 ? 0 : t;
+    }
+    int e = .m.max!int?(0, elem) - 1;
+    t = `sumtime;
+    loop{index i = 0; while; do:
+      t -= .m.max!int?(0, `frames[i].time);
+      i++;
+    while i < e:}
+    ret t;
+  }
+  public int animElemNo(int time)
+  {
+    if(#`frames > 0) branch{
+      int t = time, oldt = 0;
+    cond t <= 0:
+      loop{
+        index i = `current;
+        t += `time;
+        bool lp = false;
+        continue;
+      do:
+        t += .m.max!int?(0, `frames[i].time);
+        if(lp && i == #`frames-1 && `frames[i].time == -1) ret i + 1;
+      continue:
+        if(t >= 0) ret i + 1;
+        i--;
+      while i >= 0 && (`current < `loopstart || i >= `loopstart):
+        if(t == oldt) break;
+        oldt = t;
+        lp = true;
+        i = #`frames - 1;
+        do;
+      }
+    else:
+      loop{
+        index i = `current;
+        t += `time;
+      do:
+        t -= .m.max!int?(0, `frames[i].time);
+        if(t < 0 || (i == #`frames-1 && `frames[i].time == -1)) ret i + 1;
+        i++;
+        if(i >= #`frames){
+          if(t == oldt) break, break;
+          oldt = t;
+          i = `loopstart;
+        }
+      while true:}
+    }
+    ret #`frames;
+  }
+  public void setAnimElem(int e)
+  {
+    `current = .m.max!index?(0, e-1);
+    if(`current >= #`frames) branch{
+    cond `totaltime == -1:
+      `current = #`frames - 1;
+    else:
+      `current = `loopstart + (`current-`loopstart) % (#`frames-`loopstart);
+    }
+    `drawidx = `current;
+    `time = 0;
+    `newframe = true;
+    `updateSprite();
+    `loopend = false;
+    `sumtime = 0;//animElemTime内で使用
+    `sumtime = -`animElemTime(`current+1);
+  }
+  public void animSeek(index elem)
+  {
+    loop{
+      bool foo = true;
+    do:
+      `current = .m.max!index?(0, elem);
+      loop{while; do:
+        if(`current == #`frames-1 && `frames[`current].time == -1) break;
+        `current++;
+      while `frames[`current].time <= 0 && `current < #`frames:}
+      if(`current < #`frames) break;
+      if(!!foo){
+        `current = #`frames-1;
+        break, break;
+      }
+    while true:}
+    .m.limRange!index?(`current=, 0, #`frames-1);
+  }
+  public void updateSprite()
+  {
+    if(#`frames == 0) ret;
+    if(`totaltime > 0){
+      if(`sumtime >= `totaltime){
+        `time = 0;
+        `newframe = true;
+        `current = `loopstart;
+      }
+      `animSeek(`current);
+      if(
+        `nazotime < 0
+        && (
+          `sumtime >= `totaltime + `nazotime
+          && `sumtime >= `totaltime - `looptime)
+        && (
+          `sumtime == `totaltime + `nazotime
+          || `sumtime == `totaltime - `looptime))
+      {
+        `time = 0;
+        `newframe = true;
+        `current = 0;
+      }
+    }
+    if(`newframe && #`sff > 0){
+      `spr = `sff~getSprite(`frames[`current].group, `frames[`current].number);
+    }
+    `newframe = false;
+    `drawidx = `current;
+  }
+  public void action()
+  {
+    if(#`frames == 0){
+      `loopend = true;
+      ret;
+    }
+    `updateSprite();
+    `frames[`current].action(`=);
+  }
+  int alphaFoo()
+  {
+    ubyte sa, da;
+    branch{
+    cond `salpha >= 0:
+      sa = (ubyte)`salpha;
+      branch{
+      cond `dalpha < 0:
+        da = ((uint)!`dalpha + `frames[`drawidx].dalpha) >> 0x1;
+        if(sa == 0d1 && da == 0d255) sa = 0d0;
+      else:
+        da = (ubyte)`dalpha;
+      }
+    else:
+      sa = `frames[`drawidx].salpha;
+      da = `frames[`drawidx].dalpha;
+      if(sa == 0d255 && da == 0d1) da = 0d255;
+    }
+    branch{
+    cond sa == 0d1 && da == 0d255:
+      ret -2;
+    else:
+      sa = (ubyte)((int)sa * .com.brightness >> 8);
+      branch{
+      cond sa < 0d5 && da == 0d255:
+        ret 0;
+      cond sa == 0d255 && da == 0d255:
+        ret -1;
+      }
+    }
+    int alpha = (int)sa;
+    if((uint)sa+da < 0d254 || 0d256 < (uint)sa+da){
+      alpha |= (int)da << 10 | 1 << 9;
+    }
+    ret alpha;
+  }
+  ^uint palFoo(^&.com.PalFX fx)
+  {
+    ^uint pal;
+    branch{
+    cond<remap> #fx > 0 && #fx~remap > 0:
+      `sff~palList.swapPalMap(fx~remap=);
+    comm:
+      pal = `spr~getPal(`sff~palList=);
+    diff<remap>:
+      `sff~palList.swapPalMap(fx~remap=);
+    }
+    if(#pal == 0) ret pal;
+    branch{
+    cond #fx > 0 && fx~enable && .allPalFX~enable:
+      {
+        &.com.PalFX synth.copy(fx<>);
+        synth.synthesize(.allPalFX<>);
+        pal = synth.getFxPal(pal, `alphaFoo() == -2);
+      }
+    cond #fx > 0 && fx~enable:
+      pal = fx~getFxPal(pal, `alphaFoo() == -2);
+    cond .allPalFX~enable:
+      pal = .allPalFX~getFxPal(pal, `alphaFoo() == -2);
+    }
+    ret pal;
+  }
+  void exParam(`frame_t f=, float h=, float v=, float agl=)
+  {
+    switch(#f.ex){
+    default:
+      agl += f.ex[2];
+    case 2:<-
+      v *= f.ex[1];
+    case 1:<-
+      h *= f.ex[0];
+    case 0:
+    }
+  }
+  public void draw(
+    &.sdl.Rect rect=, float x, float y, float cscalex, float cscaley,
+    float xtscale, float xbscale, float yscale, float rasterxadd,
+    float rx, ^&.com.PalFX fx, bool oVer)
+  {
+    if(#`spr == 0 || #`spr~pxl == 0) ret;
+    float h = (float)`frames[`drawidx].h, v = (float)`frames[`drawidx].v;
+    float agl = 0.0;
+    `exParam(`frames[`drawidx]=, h=, v=, agl=);
+    if(agl != 0.0){
+      `angleDraw(x, y, cscalex*xtscale, cscaley*yscale, 0.0, fx, false);
+      ret;
+    }
+    float xs = h*cscalex*xtscale, ys = v*cscaley*yscale;
+    float bs = xbscale;
+  /?/*!.cfg.OpenGL:
+    .m.limRange!float?(xs=, -16000.0/.com.WidthScale, 16000.0/.com.WidthScale);
+    .m.limRange!float?(
+      ys=, -16000.0/.com.HeightScale, 16000.0/.com.HeightScale);
+    .m.limRange!float?(bs=, -16000.0/.com.WidthScale, 16000.0/.com.WidthScale);
+  /*?*/
+    float x2 =
+      cscalex*x - xs*(float)(`spr~rct.x - `frames[`drawidx].x);
+    float y2 = cscaley*y - ys*(float)(`spr~rct.y - `frames[`drawidx].y);
+    if(xs < 0.0){
+      x2 *= -1.0;
+      if(oVer) x2 += xs;
+    }
+    if(ys < 0.0){
+      y2 *= -1.0;
+      if(oVer) y2 += ys;
+    }
+    if(`tile.w == 1){
+      float tmp =
+        xs * ((float)`tile.x + (`tile.x > 0 ? 0.0 : (float)`spr~rct.w));
+      x2 -= (float)(int)(x2 / tmp) * tmp;
+    }
+    if(`tile.h == 1){
+      float tmp =
+        ys * ((float)`tile.y + (`tile.y > 0 ? 0.0 : (float)`spr~rct.h));
+      y2 -= (float)(int)(y2 / tmp) * tmp;
+    }
+  /?/*.cfg.OpenGL:
+    `spr~glDraw(
+      `palFoo(fx), `mask, -x2*.com.WidthScale, -y2*.com.HeightScale,
+      `tile=, xs*.com.WidthScale, cscalex*bs*h*.com.WidthScale,
+      ys*.com.HeightScale,
+      cscalex*rasterxadd*(.com.WidthScale/.com.HeightScale),
+      0.0, `alphaFoo(), rect=, rx*.com.WidthScale, 0.0, fx);
+  /*true:
+    .sdl.renderMugenZoom(
+      rect=, rx*.com.WidthScale, 0.0, `spr~pxl, `palFoo(fx), `mask, `spr~rct=,
+      -x2*.com.WidthScale, -y2*.com.HeightScale,
+      `tile=, xs*.com.WidthScale,
+      cscalex*bs*h*.com.WidthScale, ys*.com.HeightScale,
+      cscalex*rasterxadd*(.com.WidthScale/.com.HeightScale),
+      0x0, `alphaFoo(), `spr~rle, `spr~pluginbuf=);
+  /*?*/
+  }
+  public void angleDraw(
+    float x, float y, float xscale, float yscale, float angle,
+    ^&.com.PalFX fx, bool oVer)
+  {
+    if(#`spr == 0 || #`spr~pxl == 0) ret;
+    float h = (float)`frames[`drawidx].h, v = (float)`frames[`drawidx].v;
+    float xs = xscale, ys = yscale, agl = 0.0;
+    `exParam(`frames[`drawidx]=, h=, v=, agl=);
+    float rx = x+xs*h*(float)`frames[`drawidx].x+(float).com.GameWidth/2.0;
+  /?/*.cfg.OpenGL:
+    agl += angle;
+    `spr~glDraw(
+      `palFoo(fx), `mask, #(xs*h)*(float)`spr~rct.x*.com.WidthScale,
+      #(ys*v)*(float)`spr~rct.y*.com.HeightScale, `tile=,
+      xs*h*.com.WidthScale, xs*h*.com.WidthScale,
+      ys*v*.com.HeightScale, 0.0, agl, `alphaFoo(),
+      .com.scrrect=, rx*.com.WidthScale,
+      (y+ys*v*(float)`frames[`drawidx].y)*.com.HeightScale, fx);
+  /*true:
+    uint uagl = (uint)((512.0 / .m.PI) * (angle + agl) + 0.5) & 0x3ff;
+    if(uagl == 0x0 && agl == 0.0){
+      `draw(
+        .com.scrrect=, x - xs*h*(float)`frames[`drawidx].x, y,
+        1.0, 1.0, xs, xs, ys, 0.0, (float).com.GameWidth/2.0, fx, false);
+        ret;
+    }
+    xs *= h;
+    ys *= v;
+    .m.limRange!float?(xs=, -16000.0/.com.WidthScale, 16000.0/.com.WidthScale);
+    .m.limRange!float?(
+      ys=, -16000.0/.com.HeightScale, 16000.0/.com.HeightScale);
+    .sdl.renderMugenZoom(
+      .com.scrrect=, rx*.com.WidthScale,
+      (y+ys*(float)`frames[`drawidx].y)*.com.HeightScale,
+      `spr~pxl, `palFoo(fx), `mask, `spr~rct=,
+      #xs*(float)`spr~rct.x*.com.WidthScale,
+      #ys*(float)`spr~rct.y*.com.HeightScale, `tile=,
+      xs*.com.WidthScale, xs*.com.WidthScale, ys*.com.HeightScale,
+      0.0, uagl, `alphaFoo(), `spr~rle, `spr~pluginbuf=);
+  /*?*/
+  }
+  public void shadowDraw(
+    float x, float y, float xscale, float yscale, float vscale, float angle,
+    ^&.com.PalFX fx, bool oVer, uint color, int alpha)
+  {
+    if(#`spr == 0 || #`spr~pxl == 0) ret;
+    float xs = xscale * (float)`frames[`drawidx].h;
+    float ys = yscale * (float)`frames[`drawidx].v, agl = angle;
+    `exParam(`frames[`drawidx]=, xs=, ys=, agl=);
+    float x2 = x + xs*(float)`frames[`drawidx].x;
+    float y2 = y + ys*vscale*(float)`frames[`drawidx].y;
+  /?/*.cfg.OpenGL:
+    if(color != 0x0 && `spr~rle != -12) loop{index i = 0; do:
+      .com.tmppl[i] = color;
+    while ++i < 256:}
+    ~$void(int) draw =
+      `spr~rle == -12 ? [void(int alp){
+        .sdl.RenderMugenGlFcS(:
+          `spr~pxl<>, `spr~rct=,
+          #xs*(float)`spr~rct.x*.com.WidthScale,
+          #ys*(float)`spr~rct.y*.com.HeightScale, `tile=,
+          xs*.com.WidthScale, xs*.com.WidthScale,
+          ys*.com.HeightScale, vscale, 0.0, agl,
+          alp, .com.scrrect=, (x2+(float).com.GameWidth/2.0)*.com.WidthScale,
+          y2*.com.HeightScale, color:);
+      }]
+      : [void(int alp){
+        .sdl.RenderMugenGl(:
+          `spr~pxl<>, .com.tmppl<>=, `mask, `spr~rct=,
+          #xs*(float)`spr~rct.x*.com.WidthScale,
+          #ys*(float)`spr~rct.y*.com.HeightScale, `tile=,
+          xs*.com.WidthScale, xs*.com.WidthScale,
+          ys*.com.HeightScale, vscale, 0.0, agl,
+          alp, .com.scrrect=, (x2+(float).com.GameWidth/2.0)*.com.WidthScale,
+          y2*.com.HeightScale:);
+      }];
+    if((int)color > 0) draw(:-2:);
+    if(alpha > 0) draw(:(256-alpha) << 10 | 1 << 9:);
+  /*true:
+    uint uagl = (uint)((512.0/.m.PI)*agl + 0.5) & 0x3ff;
+    .m.limRange!float?(xs=, -16000.0/.com.WidthScale, 16000.0/.com.WidthScale);
+    .m.limRange!float?(
+      ys=, -16000.0/.com.HeightScale, 16000.0/.com.HeightScale);
+    .sdl.renderMugenShadow(
+      .com.scrrect=, (x2+(float).com.GameWidth/2.0)*.com.WidthScale,
+      y2*.com.HeightScale, `spr~pxl, color, `spr~rct=,
+      #xs*(float)`spr~rct.x*.com.WidthScale,
+      #ys*(float)`spr~rct.y*.com.HeightScale,
+      xs*.com.WidthScale, ys*.com.HeightScale, vscale,
+      uagl, alpha, `spr~rle, `spr~pluginbuf=);
+  /*?*/
+  }
+  public void setup(^&.Sff sff)
+  {
+    `sff = sff;
+  }
+}
+

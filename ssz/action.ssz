@@ -1,0 +1,203 @@
+
+lib s = <string.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib sff = "sff.ssz";
+lib com = "common.ssz";
+lib cfg = "config.ssz";
+
+public &Rect
+{
+  public int l = 0, t = 0, r = -1, b = -1;
+}
+public &Frame
+{
+  public ^^&.Rect clsn;
+  public ^float ex;
+  public int time = -1;
+  public short group = -1, number = 0;
+  public short x = 0, y = 0;
+  public ubyte salpha = 255, dalpha = 0;
+  public byte h = 1, v = 1;
+  type anim_t = &.sff.Anim!self?;
+  &.sff.FrameMethods!self? fam;
+  public ^&.Rect clsn1()
+  {
+    if(#`clsn > 0) ret `clsn[0];
+    ^&.Rect null;
+    ret null;
+  }
+  public ^&.Rect clsn2()
+  {
+    if(#`clsn > 1) ret `clsn[1];
+    ^&.Rect null;
+    ret null;
+  }
+}
+
+public &Action
+{
+  public int no;
+  public &.sff.Anim!&.Frame? ani;
+  new()
+  {
+    `ani.mask = 0;
+  }
+  /index numFrames()
+  {
+    ret #`ani.frames;
+  }
+  public void copy(`self a=)
+  {
+    `no = a.no;
+    `ani.copy(a.ani=);
+  }
+  public void read(^^/char lines, index i=)
+  {
+    `ani.frames.new(0);
+    index ols = 0;
+    loop{
+      ^int ary;
+      ^/char line;
+      ^&.Rect clsn1, clsn1d, clsn2, clsn2d;
+      bool defaul1 = true, defaul2 = true;
+      while;
+    do:
+      if(#lines[i] > 0 && lines[i][0] == '['){
+        i--;
+        break, break;
+      }
+      line = .s.toLower()<, .s.trim()<, lines[i][0...s.find(";", lines[i])];
+      branch{
+      cond #line > 0 && ((line[0] >= '0' && line[0] <= '9') || line[0] == '-'):
+        ary = .com.ctaOF!int?(line);
+        if(#ary < 5) break;
+        ols = `ani.loopstart;
+        `ani.frames.new[-1].readData(ary, line);
+        if(defaul1) clsn1 = clsn1d;
+        if(defaul2) clsn2 = clsn2d;
+        if(#clsn1 > 0 || #clsn2 > 0){
+          `ani.frames[-1].clsn.new(2);
+          `ani.frames[-1].clsn[0] = clsn1;
+          `ani.frames[-1].clsn[1] = clsn2;
+        }
+        defaul1 = defaul2 = true;
+      cond .s.equ("loopstart", line[0..9]):
+        `ani.loopstart = #`ani.frames;
+      cond .s.equ("clsn", line[0..4]):
+        {
+          index f = .s.find(":", line);
+          if(f < 0) break;
+          index siz = .com.atonOF!index?(line[f+1..-1]);
+          if(siz < 0) break;
+          ^&.Rect clsn;
+          branch{
+          cond line[4] == '1':
+            clsn1.new(siz);
+            clsn = clsn1;
+            if(.s.equ("default", line[5..12])) clsn1d = clsn1;
+            defaul1 = false;
+          cond line[4] == '2':
+            clsn2.new(siz);
+            clsn = clsn2;
+            if(.s.equ("default", line[5..12])) clsn2d = clsn2;
+            defaul2 = false;
+          else:
+            break, break;
+          }
+          if(siz <= 0) break;
+          i++;
+          loop{
+            index fnd, n = 0;
+            ^int ary;
+            while;
+          do:
+            line =
+              .s.toLower()<, .s.trim(lines[i][0...s.find(";", lines[i])]);
+            if(#line == 0) continue;
+            if(!.s.equ("clsn", line[0..4])) break;
+            fnd = .s.find("=", line);
+            if(fnd < 0) break;
+            ary = .com.ctaOF!int?(line[fnd+1..-1]);
+            if(#ary < 4) break;
+            branch{
+            cond ary[0] <= ary[2]:
+              clsn[n].l = ary[0];
+              clsn[n].r = ary[2];
+            else:
+              clsn[n].l = ary[2];
+              clsn[n].r = ary[0];
+            }
+            branch{
+            cond ary[1] <= ary[3]:
+              clsn[n].t = ary[1];
+              clsn[n].b = ary[3];
+            else:
+              clsn[n].t = ary[3];
+              clsn[n].b = ary[1];
+            }
+            n++;
+          continue:
+            i++;
+          while i < #lines && n < #clsn:
+          }
+          i--;
+        }
+      }
+      i++;
+    while i < #lines:
+    }
+    if(`ani.loopstart >= #`ani.frames) `ani.loopstart = ols;
+    `ani.setFrames(`ani.frames, `ani.loopstart);
+  }
+}
+
+public &DrawnClsn
+{
+  public ^/&.Rect clsn;
+  public float x, y, xscale, yscale;
+  public void set(^/&.Rect cl, float x, float y, float xs, float ys)
+  {
+    `clsn = cl;
+    `x = (x - .com.cam.x) * .com.cam.scale;
+    `y = (y - .com.cam.y) * .com.cam.scale + .com.cam.groundLevel();
+    `xscale = xs * .com.cam.scale;
+    `yscale = ys * .com.cam.scale;
+  }
+  /void draw(&.sff.Sprite spr=, int alpha)
+  {
+    &.sdl.Rect til.set(0, 0, 0, 0);
+    loop{
+      index i = 0;
+      float x, y, w, h;
+      while;
+    do:
+      x = `x + `xscale*(float)`clsn[i].l + (float).com.GameWidth/2.0;
+      y = `y + `yscale*(float)`clsn[i].t + (float)(.com.GameHeight-240);
+      w = (float)`clsn[i].r - (float)`clsn[i].l;
+      h = (float)`clsn[i].b - (float)`clsn[i].t;
+      if(`xscale < 0.0) x *= -1.0;
+      if(`yscale < 0.0) y *= -1.0;
+    /?/*.cfg.OpenGL:
+      .sdl.RenderMugenGl(:
+        spr.pxl<>, spr.colorPallet<>=, -1, spr.rct=,
+        -x*.com.WidthScale, -y*.com.HeightScale, til=,
+        `xscale*.com.WidthScale*w, `xscale*.com.WidthScale*w,
+        `yscale*.com.WidthScale*h, 1.0, 0.0, 0.0, alpha, .com.scrrect=,
+        0.0, 0.0:);
+    /*true:
+      {
+        %byte dammy;
+        .sdl.renderMugenZoom(
+          .com.scrrect=, 0.0, 0.0, spr.pxl, spr.colorPallet,
+          -1, spr.rct=, -x*.com.WidthScale, -y*.com.HeightScale, til=,
+          `xscale*.com.WidthScale*w, `xscale*.com.WidthScale*w,
+          `yscale*.com.WidthScale*h, 0.0, 0d0, alpha, spr.rle, spr.pluginbuf=);
+      }
+    /*?*/
+      i++;
+    while i < #`clsn:
+    }
+  }
+}
+
+
