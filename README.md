@@ -57,11 +57,11 @@ IKEMEN PLUS ULTRA is a better version of the I.K.E.M.E.N open source fighting ga
 	- Online replays menu reworked and better replay save system
 
 # References
-- Original repo source code:
+- Original repository source code:
 - https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
 - Original Ikemen Plus source code:
 - https://github.com/acdgames/Ikemen-Plus
-- Actual New Ikemen (Ikemen Go) source code (I take inspiration of this Ikemen for make Plus Ultra):
+- Current I.K.E.M.E.N Engine (Ikemen Go) source code (I take inspiration of this Ikemen to make Plus Ultra):
 - https://github.com/Windblade-GR01/Ikemen-GO
 
 # What I.K.E.M.E.N means.
