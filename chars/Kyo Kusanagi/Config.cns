@@ -1,0 +1,225 @@
+;-----------------------------------------------------------------------------
+;設定項目
+;-----------------------------------------------------------------------------
+[Statedef 40000]
+anim = 9999
+ctrl = 0
+
+;-----------------------------------------------------------------------------
+;本体システム設定
+;-----------------------------------------------------------------------------
+; 空中ガード設定
+;  var(1) = 0 : 空中ガード不可
+;  var(1) = 1 : 空中ガード可
+
+[State 40000, AirGuard]
+Type = VarSet
+Trigger1 = 1
+var(1) = 0
+;(0:Unusable 1:Usable)
+
+;---------------------------------------------------------------------------
+; ガードクラッシュゲージの表示
+;  var(2) = 0 : 表示しない
+;  var(2) = 1 : 表示する
+
+[State 40000, Crash & Stun Mater]
+type = VarSet
+trigger1 = 1
+var(2) = 1
+;(0:Not Display 1:Display)
+
+;---------------------------------------------------------------------------
+; ガードクラッシュゲージの位置の設定
+;  var(3)とvar(4)の数値を任意の値に変更して下さい。
+
+[State 40000, Item Setting - Position X]
+type = VarSet
+trigger1 = 1
+var(3) = 231 ;(+:Front, -:Back)
+
+[State 40000, Item Setting - Position Y]
+type = VarSet
+trigger1 = 1
+var(4) = 37 ;(+:Down, -:Up)
+
+;-----------------------------------------------------------------------------
+;AI設定
+;-----------------------------------------------------------------------------
+; AIレベル設定
+;  var(57)の数値を1～8の間で変更して下さい。
+
+[State 40000, AI Level]
+Type = ParentVarSet
+trigger1 = 1
+var(57) = 6
+;(Please Setting between 1-8)
+
+;---------------------------------------------------------------------------
+; 反応速度設定
+;  var(56)の数値を1～10の間で変更して下さい。
+
+[State 40000, AI Response]
+Type = ParentVarSet
+trigger1 = 1
+var(56) = 6
+;(Please Setting between 1-10)
+
+;-----------------------------------------------------------------------------
+;設定項目はここまで。以下はいじらないでください
+;-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+[State 40000, MUGEN Version]
+Type = VarSet
+Trigger1 = 1
+var(0) = (2**9 = 4096)
+
+[State 40000, AssertSpecial]
+type = AssertSpecial
+Trigger1 = 1
+flag = NoShadow
+flag2 = invisible
+
+[State 40000, NotHitBy]
+type = NotHitBy
+Trigger1 = 1
+value = SCA,AA,AT,AP
+
+;[State 40000, DestroySelf]
+;type = DestroySelf
+;trigger1 = RoundState > 1
+
+
+
+;------------------------
+; p2state用
+;------------------------
+[State -2, 音を鳴らす]
+type = PlaySnd
+triggerall =!Root,var(11)
+triggerall = P2Movetype = H
+trigger1 = p2stateno = 5690 && enemy,time = 1
+trigger2 = p2stateno = 5692 && enemy,time = 1
+value = s6,0
+
+[State -2, 音を鳴らす]
+type = PlaySnd
+triggerall =!Root,var(11)
+triggerall = P2Movetype = H
+trigger1 = p2stateno = 5611
+trigger1 = ((Enemy,Anim = [5610,5611]) || (Enemy,Anim = [5615,5616])) && Enemy,AnimElem = 2
+trigger2 = p2stateno = 5614 && enemy,time = 1
+trigger3 = p2stateno = 5616 && enemy,time = 1
+trigger4 = p2stateno = 5632 && enemy,time = 1
+value = s6,1
+
+[State -2, 音を鳴らす]
+type = PlaySnd
+triggerall =!Root,var(11)
+triggerall = P2Movetype = H
+trigger1 = p2stateno = 5621
+trigger1 = enemy, Pos Y >= 0 && enemy, Vel Y > 0
+value = s6,2
+
+
+;-----------------------------------------------------------------------------
+; AI用p2name等
+;-----------------------------------------------------------------------------
+; 行動制限
+
+[State -1, 行動制限解除]
+Type = VarSet
+triggerall = Root,Var(59) = 1
+trigger1 = 1
+fvar(1) = 0
+
+[State -1, 行動制限(地上受身)]
+Type = VarSet
+triggerall = Root,Var(59) = 1
+trigger1 = (enemynear(var(58)),stateno = [5200,5201])
+fvar(1) = 1
+
+[State -1, 行動制限(地上受身2)]
+Type = VarSet
+triggerall = Root,Var(59) = 1
+trigger1 = enemynear(var(58)),stateno = 702 && enemy,authorname = "ahuron"
+trigger2 = enemynear(var(58)),stateno = 52000
+fvar(1) = 2
+
+[State -1, 行動制限(ブリーチDS勢)]
+Type = VarSet
+triggerall = Root,Var(59) = 1
+trigger1 = enemy,authorname = "ikaruga" && enemy,numexplod(78431)
+trigger1 = p2stateno = 800 || p2stateno = 801 || p2stateno = 810 || p2stateno = 811
+fvar(1) = 3
+
+;-----------------------------------------------------------------------------
+; リバーサルの判定
+
+[State -2, VarSet]
+type = VarSet
+trigger1 = (Root,stateno = 151 || Root,stateno = 153) && Root,HitOver
+trigger2 = Root,statetype = S || Root,statetype = C
+trigger2 = (Root,StateNo = 5001 || Root,StateNo = 5011) && Root,HitOver
+trigger3 = Root,StateNo = 5120; && Root,AnimTime = 0
+trigger4 = Root,StateNo = 5201; && Root,AnimTime = 0
+fvar(2) = 4
+
+[State -2, VarAdd]
+type = VarAdd
+triggerall = fvar(2) > 0
+triggerall = Root,StateNo != 5120 && Root,StateNo != 5201
+trigger1 = Root,HitOver
+trigger2 = Root,MoveType != H
+fvar(2) = -1
+
+;-----------------------------------------------------------------------------
+; 地雷震
+
+[State -1, 行動制限解除]
+Type = VarSet
+triggerall = Root,Var(59) = 1
+trigger1 = 1
+fvar(3) = 0
+
+[State -1, 行動制限(しゃがむ)]
+Type = VarSet
+triggerall = Root,Var(59) = 1
+trigger1 = p2name = "Goro Daimon" && enemy,authorname = "ikaruga"
+trigger1 = p2stateno = 1000 && enemy,AnimElemTime(1) >= 0 && enemy,AnimElemTime(8) < 0
+trigger2 = p2name = "Goro Daimon" && enemy,authorname = "Ahuron"
+trigger2 = p2stateno = 1000 && enemy,AnimElemTime(1) >= 0 && enemy,AnimElemTime(8) < 0
+trigger3 = p2name = "Goro Daimon" && enemy,authorname = "Sander71113"
+trigger3 = p2stateno = 1000 || p2stateno = 1005 && enemy,AnimElemTime(1) >= 0 && enemy,AnimElemTime(3) < 0
+trigger4 = p2name = "Chang Koehan" && enemy,authorname = "Noobic Cube"
+trigger4 = p2stateno = 1200 && enemy,AnimElemTime(1) >= 0 && enemy,AnimElemTime(7) < 0
+trigger4 = Root,P2BodyDist X >= 80
+trigger5 = p2name = "Arima_Miyako" && enemy,authorname = "hork"
+trigger5 = (p2stateno = 1400 || p2stateno = 1450) && enemy,AnimElemTime(1) >= 0 && enemy,AnimElemTime(6) < 0
+fvar(3) = 1
+
+;-----------------------------------------------------------------------------
+; 相手攻撃中
+
+[State -2, VarSet]
+type = VarSet
+trigger1 = p2movetype != A
+fvar(4) = 0
+
+[State -2, VarSet]
+type = VarAdd
+trigger1 = p2movetype = A
+fvar(4) = 1
+
+;この下、一行以上空ける事。

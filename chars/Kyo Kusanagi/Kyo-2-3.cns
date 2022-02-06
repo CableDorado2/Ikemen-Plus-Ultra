@@ -1,0 +1,263 @@
+;-----------------------------------------------------------------------------
+[Statedef -2];常時監視ステート(相手に行動を制御されても関係無く常に実行される)
+;-----------------------------------------------------------------------------
+;-----------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;斑鳩製キャラ用：規格判別信号(仮)
+;---------------------------------------------------------------------------
+
+[State 191,]
+type = PlaySnd
+triggerall = time = 1
+triggerall = anim = 100
+trigger1 = Alive
+loop = 0
+value = s100,1
+channel = 6
+
+[State -2,]
+type = StopSnd
+trigger1 = command != "holdfwd"
+trigger2 = Anim != 100
+channel = 6
+
+[State -3, Jumping Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 40 ;Jump
+value = S41,41
+
+[State -3, Landing Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 52 ;Land
+trigger2 = stateno = 106 ;Land
+value = S51,51
+
+
+;-----------------------------------------------------------------------------
+;燃焼・感電エフェクト
+;-----------------------------------------------------------------------------
+[State -2, VarSet]
+type = VarSet
+triggerall = var(29) >= 1
+trigger1 = (var(28) = [0,1]) && movehit = 1
+trigger2 = enemynear,ctrl = 1
+trigger3 = p2MoveType != H
+trigger4 = p2StateType = L && p2stateno != 5100
+trigger5 = p2stateno = 5120
+var(29) = 0
+
+[State -2, VarSet]
+type = VarSet
+trigger1 = var(28) = 2 && movehit = 1
+trigger1 = var(30) := 1
+trigger2 = ProjHitTime(1000) = 1
+trigger2 = var(30) := 1
+trigger3 = p2stateno = 1421 && p2movetype = H && enemy,time = 1
+trigger3 = var(30) := 1
+;trigger4 = NumHelper(3000) > 0 && Helper(3000),movehit = 1
+;trigger4 = var(30) := 1
+;trigger5 = NumHelper(3220) > 0 && Helper(3220),movehit = 1
+;trigger5 = var(30) := 1
+var(29) = 1
+
+;------------------------
+[State -2, VarSet]
+type = VarSet
+triggerall = var(30) >= 1
+trigger1 = (var(28) = [0,1]) && movehit = 1
+trigger2 = enemynear,ctrl = 1
+trigger3 = p2MoveType != H
+trigger4 = p2StateType = L && p2stateno != 5100
+trigger5 = p2stateno = 5120
+var(30) = 0
+
+[State -2, VarSet]
+type = VarAdd
+trigger1 = var(30) >= 1
+var(30) = 1
+
+;------------------------
+[state 6100, Explod]
+type = Explod
+triggerall = var(29) = 1
+triggerall = var(30) = [1,8]
+triggerall = p2movetype = H && p2StateType != L
+trigger1 = movehit = 1
+trigger2 = time % 2 = 0
+anim = 6102 + random%3
+id = 6100
+sprpriority = 5
+postype = p2
+pos = 20 - (random%40),-20 - (random%90)
+bindtime = 1
+ownpal = 1
+
+[state 6100, Explod]
+type = Explod
+triggerall = var(29) = 1
+triggerall = var(30) >= 1
+triggerall = p2movetype = H && p2StateType != L
+trigger1 = movehit = 1
+trigger2 = time % 4 = 0
+anim = 6100 + random%2
+id = 6100
+sprpriority = 5
+postype = p2
+pos = 20 - (random%40),-20 - (random%90)
+bindtime = 1
+ownpal = 1
+
+[state 6100, Explod]
+type = Explod
+triggerall = var(29) = 1
+trigger1 = p2StateNo = 5100 && enemy,time = 1
+trigger2 = p2stateno = 5611
+trigger2 = ((Enemy,Anim = [5610,5611]) || (Enemy,Anim = [5615,5616])) && Enemy,AnimElem = 2
+trigger3 = p2stateno = 5614 && enemy,time = 1
+trigger4 = p2stateno = 5616 && enemy,time = 1
+trigger5 = p2stateno = 5690 && enemy,time = 1
+anim = 6106
+id = 6106
+sprpriority = 2
+postype = p2
+pos = 0, 0
+facing = -1
+ownpal = 1
+Persistent = 0
+
+;------------
+
+;-----------------------------------------------------------------------------
+;各種エフェクト消去
+;-----------------------------------------------------------------------------
+[State -2, 残像]
+type = AfterImage
+trigger1 = Movetype = H
+time = 1
+
+;------------------------
+[State -2, ダッシュSE停止]
+type = StopSnd
+trigger1 = Anim != 100
+channel = 3
+ignorehitpause = 1
+
+[State -2, ゲージ溜めSE停止]
+type = StopSnd
+trigger1 = Anim != 761
+channel = 4
+ignorehitpause = 1
+
+[State -2, 琴月SE停止]
+type = StopSnd
+trigger1 = Anim != 1400 && Anim != 1410
+channel = 5
+ignorehitpause = 1
+
+[State -2, 百八拾弐式SE停止]
+type = StopSnd
+trigger1 = Anim != 3401
+channel = 6
+ignorehitpause = 1
+
+;------------------------
+
+;---------------------------------------------------------------------------
+;ダメージボイス
+;---------------------------------------------------------------------------
+[State -2, ボイス停止]
+type = StopSnd
+trigger1 = movetype = H
+channel = 2
+ignorehitpause = 1
+
+;------------------------
+[State -2, PlaySnd]
+type = PlaySnd
+triggerall = Alive = 1
+triggerall = Random%2 = 0
+trigger1 = (StateNo = 5000 || StateNo = 5010 || StateNo = 5020) && (GetHitVar(animtype) != [3,5]) || StateNo = 5070
+trigger1 = Time = 1
+value = s11,1+(var(8)*100) + (GetHitVar(AnimType) >= 1)
+channel = 1
+
+[State -2, PlaySnd]
+type = PlaySnd
+triggerall = Alive = 1
+triggerall = Random%2 = 0
+trigger1 = (StateNo = 5000 || StateNo = 5010 || StateNo = 5020) && (GetHitVar(animtype) = [3,5]); || StateNo = 5080
+trigger1 = Time = 1
+value = s11,3+(var(8)*100)
+channel = 1
+
+;---------------------------------------------------------------------------
+;崩れKO
+
+[State -2, KOボイス]
+type = PlaySnd
+trigger1 = !alive && life <= 0
+trigger1 = var(20) = 0
+trigger1 = stateno != 5950
+trigger1 = var(20) := 1
+value = s11,5+(var(8)*100)
+channel = 1
+
+[State -2, VarSet]
+type = VarSet
+triggerall = var(20) = 1
+trigger1 = alive
+var(20) = 0
+
+[State -2, PosAdd]
+type = PosAdd
+trigger1 = Anim = 5950 || Anim = 5961
+trigger1 = AnimElem = 8 || AnimElem = 9 || AnimElem = 10
+x = 12
+
+;-----------------------------------------------------------------------------
+;AI用重力加速度計測
+;-----------------------------------------------------------------------------
+[State -2, yaccel]
+type = VarSet
+trigger1 = fvar(39) != enemynear(var(58)),const(movement.yaccel)
+trigger1 = enemynear(var(58)),stateno != [5000,5210]
+trigger1 = enemynear(var(58)),Vel Y != 0
+FV = 39
+value = enemynear(var(58)),const(movement.yaccel)
+ignorehitpause = 1
+
+[State -2, yaccel]
+type = VarSet
+trigger1 = fvar(39) != enemynear(var(58)),GetHitVar(yaccel)
+trigger1 = enemynear(var(58)),stateno = [5000,5210]
+trigger1 = enemynear(var(58)),Vel Y != 0
+FV = 39
+value = enemynear(var(58)),GetHitVar(yaccel);(打撃当てた時のyaccel値)
+ignorehitpause = 1
+
+;敵が空中じゃない時
+[State -2, yaccel]
+type = VarSet
+trigger1 = fvar(39) != 0
+trigger1 = enemynear(var(58)),Vel Y = 0
+FV = 39
+value = 0;(打撃当てた時のyaccel値)
+ignorehitpause = 1
+
+
+
+;---------------------------------------------------------------------------------
+[Statedef -3];常時監視ステート(p2statenoなどで相手に行動を制御された時は実行しない)
+;---------------------------------------------------------------------------------
+;---------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------
+; 端でめくらないように
+;-----------------------------------------------------------------------------
+[State -3, CornerPush]
+type = Width
+trigger1 = Enemy, BackEdgeDist < 10
+trigger2 = Enemy, FrontEdgeDist < 10
+edge = 10
+

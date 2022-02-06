@@ -1,0 +1,121 @@
+; CNSファイルはカンフーマンの定数（基本データ）と
+; 状態（各動作）を記述するものです。
+; キャラクターの心臓とも言える部分なのでとても重要です。
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;基本データ部分
+[Data]
+life              = 1000    ;体力ゲージの最大値を決めます
+power             = 3000    ;パワーゲージ最大値（デフォルトは 3000 = Lv.3 になります・オプション）
+attack            = 100     ;攻撃力パーセンテージ（デフォルトは 100% になります）
+defence           = 100     ;防御力パーセンテージ（デフォルトは 100% になります）
+fall.defence_up   = 0       ;一時的に上昇するダウン時の防御力パーセンテージ
+liedown.time      = 50      ;倒れてから起き上がるまでの時間
+airjuggle         = 30      ;ジャグルポイント限界値　★１
+sparkno           = 1       ;デフォルトのヒットスパーク番号（fightfx.airか、キャラのairから呼び出す）
+guard.sparkno     = 40      ;デフォルトのガードスパーク番号（fightfx.airか、キャラのairから呼び出す）
+KO.echo           = 0       ;ＫＯ時の声にエコーを掛けるかどうか（0=しない・1=する）
+volume            = 0       ;キャラの音量　255が最高
+intpersistindex   = 5       ;Varを次のラウンドへ持ち越しが可能 (最小=0, 最大=59)  ★２
+floatpersistindex = 35      ;FVarを次のラウンドへ持ち越しが可能 (最小=0, 最大=39) ★２
+
+;---------------------------------------------------------------------------
+;サイズ設定
+[Size]
+xscale           = 1        ;キャラ画像の横のスケール
+yscale           = 1        ;キャラ画像の縦のスケール
+ground.front     = 15       ;キャラの幅（地上前方）
+ground.back      = 16       ;キャラの幅（地上後方）
+air.front        = 11       ;キャラの幅（空中前方）
+air.back         = 12       ;キャラの幅（空中後方）
+height           = 60       ;跳び越す相手のためのキャラの高さ
+attack.dist      = 230      ;攻撃を出した時に相手がガード体勢に入る最低の距離
+proj.attack.dist = 100      ;相手がガード体勢に入る発射物との最低の距離
+proj.doscale     = 0        ;xscaleとyscaleが発射物のスケールにも影響するかどうか（0=しない・1=する）
+head.pos         = 4,-98    ;BindToTargetの時に必要な頭の座標
+mid.pos          = 0, -60   ;BindToTargetの時に必要な体中心の座標
+shadowoffset     = 0        ;影の垂直方向の位置
+draw.offset      = 0,0      ;キャラ描画表示位置（Ｘ軸,Ｙ軸）
+
+;---------------------------------------------------------------------------
+;移動速度設定
+[Velocity]
+walk.fwd     = 2.6          ;前進歩行速度
+walk.back    = -2.5         ;後退歩行速度
+run.fwd      = 6.6, 0       ;前に走る時の速度（Ｘ軸,Ｙ軸）
+run.back     = -14,-3      ;後ろに走る時の速度（Ｘ軸,Ｙ軸）
+jump.neu     = 0,-9         ;垂直ジャンプ速度（Ｘ軸,Ｙ軸）
+jump.back    = -3.6         ;後ジャンプ速度
+jump.fwd     = 3.7          ;前ジャンプ速度
+runjump.back = -2.55,-8.1   ;後ろに走りながらのジャンプ速度（オプション）
+runjump.fwd  = 4.2,-8.7     ;前に走りながらのジャンプ速度（オプション）
+airjump.neu  = 0,-8.1       ;空中垂直ジャンプ速度（オプション）
+airjump.back = -2.5         ;空中後ジャンプ速度（オプション）
+airjump.fwd  = 2.55         ;空中前ジャンプ速度（オプション）
+
+;---------------------------------------------------------------------------
+;動作設定
+[Movement]
+airjump.num     = 1     ;空中ジャンプが出来る回数（オプション）
+airjump.height  = 35     ;空中ジャンプするために必要な最低限の高さ（オプション）
+yaccel          = .56    ;重力（垂直下降加速度）
+stand.friction  = .85    ;立ち状態の摩擦係数
+crouch.friction = .82    ;しゃがみ状態の摩擦係数
+
+[Quotes]
+victory1 = "That was my fist! It's hotter than napalm!"
+victory2 = "Your tricks don't work on us! Understand that!"
+victory3 = "You have nice moves, but that isn't enough to keep going!"
+victory4 = "That was deplorable! We'll get the championship from this tournament!"
+victory5 = "For being telling we were the fakes, you'll get divine punishment!!"
+victory6 = "My fist has a 1800 years of history! I can easily break you!"
+victory7 = "Kyokugen Karate is shattered! There isn't any fist that can pass through us!"
+victory8 = "You were lucky! A bit longer and I would have turned you into cinder!"
+victory9 = "That's it? Well, I'm not angry, just disappointed."
+victory10 = "Burn in the fury of my flames, you worthless weakling!"
+victory11 = "So long, weenie king. We won't meet again."
+victory12 = "Eat my flames of fury, wimp! Grovel before the Kusanagis!"
+victory13 = "Stop moping around and butch up, you weenie!"
+victory14 = "Wow! Back to the gym for you. You're really pathetic."
+victory15 = "You just ain't got it. So stop whining and get lost."
+victory16 = "Did you understand what was missing? You shouldn't have time to indulge!"
+victory17 = "It seems that the important thing is missing! Think about it later!"
+victory18 = "It's too simple to be worth saying: if you want to win, just get stronger!"
+victory19 = "It's naive of you to think you stand a chance once you get adapted to my moves. The correct answer is, it ends here!"
+victory20 = "Huh, don't tell me think I was a clone?"
+victory21 = "I don't really have anything to tell you, because I am the one who have the most questions to be asked!"
+victory22 = "There must still be things to be done before you have time to immerse in failure!"
+victory23 = "Resistance is flammable. No one can snuff my flame!"
+victory24 = "It's all experience. Fight on, dude!"
+victory25 = "Victory was predestined. I'm not in your bush league!"
+victory26 = "This ain't what a real battlefield should be!"
+victory27 = "That's the pepper! That's the stuff! Oooh yeah!"
+victory28 = "That's all ya' got? Are you dissin' me, dude?"
+victory29 = "Now that was wild. Just like the old days!"
+victory30 = "You're weighing me down! It's the kiss off, losers!"
+victory31 = "You gotta use it or lose it. That's the best you can do?"
+victory32 = "Will you never learn? Or must I show you more punishment?"
+victory33 = "If you can't get stronger, you can't get stronger. Are you satisfied with this?"
+victory34 = "It's a law of history: I don't lose so easy."
+victory35 = "Like raging flames of the sun. That is the fists of Kusanagi!"
+victory36 = "What?! I guess KOF without me just isn't KOF, right?"
+victory37 = "What miraculous stamina! Taking such a basting!"
+victory38 = "Out of my way, punk! You make me sick, so you'll get no mercy from me!"
+victory39 = "Getting up again, I admire your spunk. But, you've already lost."
+victory40 = "Do you plan to grovel your whole life? Show a little backbone will you?"
+victory41 = "You lack devotion. Steady effort is what counts. Me? I'm the exception to the rule!"
+victory42 = "The Kusanagi fighting style goes way back. Yours just goes way off."
+victory43 = "Seriously. Who begs for a fight they can't win?"
+victory44 = "See now I'm in a different class? You'd better start over."
+victory45 = "Man, I'm pumped after that! You really bring the heat!"
+victory46 = "You got some sense. Then again, you challenged me, so maybe not."
+victory47 = "What an half-ass fight. If you're gonna give up, don't challenge me!"
+victory48 = "I underestimated you. I was really starting to feel the heat!"
+victory49 = "You're not fighter. But, hey, at least you know that now."
+victory50 = "I expected more. You left me cold."
+victory51 = "Good thing I eased off or lid have cremated you early!"
+victory52 = "Man, you"re barely a warm-up."
+victory53 = "That fight was fire! You're better than you look!"
+victory54 = "That's it? Thought you'd hold out a little longer."
+victory55 = "Consider yourself lucky you lost when you did. If you'd tried to carry on, you'd be in even worse shape."
+victory56 = "You wanna get mad at something? Get mad at your luck for being pit against me!"
