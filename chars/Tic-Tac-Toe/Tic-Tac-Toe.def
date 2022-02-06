@@ -1,0 +1,24 @@
+
+; Player information
+[Info]
+name = "Tic-Tac-Toe"
+displayname = "Tic-Tac-Toe"
+versiondate = 13,10,2013
+mugenversion = 1.0
+author = "MabsKMK"
+pal.defaults = 1,2
+
+[Files]
+cmd     = Tic-Tac-Toe.cmd
+cns     = Tic-Tac-Toe.cns
+st      = Tic-Tac-Toe.cns
+stcommon = Tic-Tac-Toe.cns
+sprite  = Tic-Tac-Toe.sff
+anim    = Tic-Tac-Toe.air
+sound   = Tic-Tac-Toe.snd
+
+pal1    = Tic-Tac-Toe.act
+
+[Arcade]
+intro.storyboard =
+ending.storyboard =

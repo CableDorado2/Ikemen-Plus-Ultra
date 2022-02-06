@@ -1,0 +1,27 @@
+<#f0f000>:Throws:</>
+Kung Fu Throw								[_B/_F]_+^Y
+
+<#f0f000>:Special Moves:</>
+Weak Kung Fu Palm							_QDF^X
+Strong Kung Fu Palm							_QDF^Y
+Fast Kung Fu Palm <#bebebe>(330)</>			_QDF^2P
+Weak Kung Fu Upper							_F_D_DF^X
+Strong Kung Fu Upper						_F_D_DF^Y
+Fast Kung Fu Upper <#bebebe>(330)</>		_F_D_DF^2P
+Weak Kung Fu Blow							_QDB^X
+Strong Kung Fu Blow							_QDB^Y
+Fast Kung Fu Blow <#bebebe>(330)</>			_QDB^2P
+Weak Kung Fu Zankou							_QDF^A
+Strong Kung Fu Zankou						_QDF^B
+Fast Kung Fu Zankou <#bebebe>(330)</>		_QDF^2K
+Weak Kung Fu Knee							_F_F^A
+_!Extra kick								^K
+Strong Kung Fu Knee							_F_F^B
+_!Extra kick								^K
+Fast Kung Fu Knee <#bebebe>(330)</>			_F_F^2K
+_!Extra kick								^K
+Kung Fu Blocking							_F_+^X
+
+<#f0f000>:Super Moves:</>
+Triple Kung Fu Palm <#bebebe>(1000)</>		_QDF_QDF^P
+Smash Kung Fu Upper <#bebebe>(1000)</>		_QDB_QDB^P

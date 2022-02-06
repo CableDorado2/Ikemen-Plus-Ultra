@@ -1,0 +1,27 @@
+;--| 基本情報 |---------------------------------------------------------------
+
+[Info]
+Name         = "Suave Dude"
+DisplayName  = "Suave Dude"
+VersionDate  = 10,07,2010
+MugenVersion = 04,14,2002
+Author       = "Masukenpu-kun"
+Pal.Defaults = 6,3,4,2
+;--| 必要なファイルの設定 |---------------------------------------------------
+
+[Files]
+Cmd     = sd.cmd
+Cns     = sd.cns
+St      = sd.cns
+StCommon = common1.cns 
+Sprite  = sd.sff
+Anim    = sd.air
+Sound   = sd.snd
+
+;--| カラーパレットファイル |-------------------------------------------------
+
+Pal1 = suave.act
+
+[Arcade]
+intro.storyboard	= Storyboard/Intro.def
+ending.storyboard	= Storyboard/Ending.def
