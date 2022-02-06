@@ -1,0 +1,46 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+5040, 0, data\charAnim\Master_Ryu\s043.png,  50, 41
+5040,10, data\charAnim\Master_Ryu\s046.png,  52, 38
+5040,11, data\charAnim\Master_Ryu\s047.png,  50, 38
+5040,20, data\charAnim\Master_Ryu\s048.png,  49, 55
+5130, 0, data\charAnim\Master_Ryu\s080.png,  29, 72
+5130, 1, data\charAnim\Master_Ryu\s081.png,  34, 67
+5130, 2, data\charAnim\Master_Ryu\s082.png,  43, 60
+5300, 0, data\charAnim\Master_Ryu\s083.png,  31, 99
+5300, 1, data\charAnim\Master_Ryu\s084.png,  31, 98
+5300, 2, data\charAnim\Master_Ryu\s085.png,  32, 97
+5300, 3, data\charAnim\Master_Ryu\s086.png,  32, 97
+5300, 4, data\charAnim\Master_Ryu\s087.png,  32, 99
+5300, 5, data\charAnim\Master_Ryu\s088.png,  31,100
+   0, 0, data\charAnim\Master_Ryu\s105.png,  28,101
+   0, 1, data\charAnim\Master_Ryu\s106.png,  28,104
+   0, 2, data\charAnim\Master_Ryu\s107.png,  28,104
+   0, 3, data\charAnim\Master_Ryu\s108.png,  28,102
+   0, 4, data\charAnim\Master_Ryu\s109.png,  28,101
+   0, 5, data\charAnim\Master_Ryu\s110.png,  28, 99
+   0, 6, data\charAnim\Master_Ryu\s111.png,  28,101
+ 170, 0, data\charAnim\Master_Ryu\s186.png,  34, 96
+ 170, 1, data\charAnim\Master_Ryu\s187.png,  29, 70
