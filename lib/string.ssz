@@ -1,0 +1,776 @@
+
+lib m = <math.ssz>;
+
+const ^/char blank = (char)[' ', '\t', '\r', '\n'];
+
+
+
+public ^char uToSo(ulong uinte)
+{
+  uint shift = 0d63;
+  loop{while; do:
+    shift -= 0d3;
+  while shift != 0x0 && uinte >> shift == 0x0:}
+  %char buf;
+  loop{continue; do:
+    shift -= 0d3;
+  continue:
+    buf .= '0' + (char)(uinte >> shift & 0x7);
+  while shift != 0x0:}
+  ret buf;
+}
+
+char hex(uint u)
+{
+  uint h = u & 0xf;
+  if(h < 0d10) ret '0' + (char)h;
+  ret 'a' + (char)(h - 0d10);
+}
+char heX(uint u)
+{
+  uint h = u & 0xf;
+  if(h < 0d10) ret '0' + (char)h;
+  ret 'A' + (char)(h - 0d10);
+}
+^char uToSxX<hex_t>(ulong uinte)
+{
+  uint shift = 0d60;
+  loop{while; do:
+    shift -= 0d4;
+  while shift != 0x0 && uinte >> shift == 0x0:}
+  %char buf;
+  loop{continue; do:
+    shift -= 0d4;
+  continue:
+    buf .= hex_t(uinte >> shift);
+  while shift != 0x0:}
+  ret buf;
+}
+
+public ^char uToSx(ulong uinte)
+{
+  ret .uToSxX!.hex?(uinte);
+}
+public ^char uToSX(ulong uinte)
+{
+  ret .uToSxX!.heX?(uinte);
+}
+
+public bool sToNumber<_t>(_t d=, ^/char s)
+{
+  ^/char tmp = .trim(s), old = tmp;
+  if(#tmp == 0) ret false;
+  %char buf;
+  bool minus = tmp[0] == '-';
+  if(minus){
+    tmp = tmp[1..-1];
+    if(#tmp == 0) ret false;
+  }
+  branch{
+  cond tmp[0] == '0':
+    loop{index i = 0; while; do:
+      if(tmp[i] != '0' || tmp[i+1] == '.') break;
+      i++;
+    while i < #tmp-1:
+    break:
+      tmp = tmp[i..-1];
+    }
+  cond tmp[0] == '.':
+    branch{
+    cond minus:
+      buf .= "-0";
+      minus = false;
+    else:
+      buf .= '0';
+    }
+  }
+  if(tmp[-1] == '.'){
+    if(minus) buf .= '-';
+    buf .= tmp .= '0';
+    tmp = "";
+  }
+  if(minus && #buf == 0) branch{
+  cond #tmp == #old-1:
+    tmp = old;
+  else:
+    buf .= '-';
+  }
+  ret <consteval>(d=, #buf == 0 ? tmp : (buf .= tmp));
+}
+
+public ..sToN<_t>(^/char s) _t
+{
+  *_t d = (*_t)0;
+  .sToNumber!_t?(d=, s);
+  ret d;
+}
+
+public ..svToAry<_t>(^/char dlim, ^/char v) ^_t
+{
+  ^^/char sv = .split(dlim, v);
+  ^_t ary;
+  ary.new(#sv);
+  loop{index i = 0; while; do:
+    ary[i] = .sToN!_t?(sv[i]);
+    i++;
+  while i < #sv:
+  }
+  ret ary;
+}
+
+public bool equ(^/char str1, ^/char str2)
+{
+  index l = #str1;
+  if(l != #str2) ret false;
+  loop{index i = 0; while; do:
+    if(str1[i] != str2[i]) ret false;
+    i++;
+  while i < l:
+  }
+  ret true;
+}
+
+public char toLowerChar(char c)
+{
+  ret ('A' <= c && c <= 'Z' ? c + ('a' - 'A') : c);
+}
+
+public ^char toLower(^/char str)
+{
+  ^char lstr;
+  lstr.new(#str);
+  loop{index i = 0; while; do:
+    lstr[i] = .toLowerChar(str[i]);
+    i++;
+  while i < #str:
+  }
+  ret lstr;
+}
+
+public int nextLine(index i=, ^/char str)
+{
+  loop{while; do:
+    branch{
+    cond str[i] == '\n':
+      ret 1;
+    cond str[i] == '\r':
+      if(i+1 < #str && str[i+1] == '\n'){
+        i++;
+        ret 2;
+      }
+    break:
+      i++;
+    }
+  while i < #str:}
+  ret 0;
+}
+
+public %^/char splitLines(^/char str)
+{
+  %^/char spl;
+  loop{index i = 0; do:
+    spl.new[-1] = str[i..-.nextLine(i=, str)+i];
+  while i < #str:
+  }
+  ret spl;
+}
+
+public ^/char trim(^/char str)
+{
+  index s, e;
+  loop{s = 0; while; do:
+    if(!.cMatch!char?(.blank, str[s])) break;
+    s++;
+  while s < #str:
+  }
+  loop{e = #str; while; do:
+    if(!.cMatch!char?(.blank, str[e-1])) break;
+    e--;
+  while e > 0:
+  }
+  ret str[s..e];
+}
+
+public %^/char split(^/char dlim, ^/char src)
+{
+  %^/char spl;
+  loop{
+    index i = 0, j;
+    index l = #dlim > 0 ? 0 : 1;
+    continue;
+  do:
+    spl.new[-1] = src[i..i+j+l];
+    i += j + #dlim + l;
+  continue:
+    j = .find(dlim, src[i..-1]);
+  while j >= 0:
+    spl.new[-1] = src[i..-1];
+  }
+  ret spl;
+}
+
+public %char join(^/char dlim, ^/^/char src)
+{
+  %char jol;
+  loop{
+    index i = 0;
+    if(i >= #src) break;
+    jol .= src[i];
+    continue;
+  do:
+    jol .= dlim;
+    jol .= src[i];
+  continue:
+    i++;
+  while i < #src:
+  }
+  ret jol;
+}
+
+public index find(^/char ptn, ^/char str)
+{
+  loop{index i = 0; while; do:
+    if(.equ(str[i..i+#ptn], ptn)) ret i;
+    i++;
+  while i < #str:
+  }
+  ret -1;
+}
+
+public bool cMatch<_t>(^/_t cclass, _t item)
+{
+  loop{index i = 0; while; do:
+    if(cclass[i] == item) ret true;
+    i++;
+  while i < #cclass:
+  }
+  ret false;
+}
+
+
+public index cFind(^/char cclass, ^/char str)
+{
+  loop{index i = 0; while; do:
+    if(.cMatch!char?(cclass, str[i])) ret i;
+    i++;
+  while i < #str:
+  }
+  ret -1;
+}
+
+public void copy<_t>(^_t dist, ^/_t src)
+{
+  loop{
+    index i = 0;
+    index l = #dist;
+    if(l > #src) l = #src;
+    while;
+  do:
+    dist[i] = src[i];
+    i++;
+  while i < l:
+  }
+}
+
+public ..clone<_t>(^/_t src) ^_t
+{
+  ^_t dst.new(#src);
+  .copy!_t?(dst, src);
+  ret dst;
+}
+
+public ..each<_t>(~$void(_t=) d, ^_t ary) ^_t
+{
+  loop{index i = 0; while; do:
+    d(:ary[i]=:);
+    i++;
+  while i < #ary:
+  }
+  ret ary;
+}
+
+public ^char toHex<_t>(^/_t src)
+{
+  %char str;
+  loop{index i = 0; while; do:
+    loop{int j = typesize(_t)*8 - 4; do:
+      str .= .hex((uint)(src[i] >> (*_t)j));
+      j -= 4;
+    while j >= 0:}
+    i++;
+  while i < #src:}
+  ret str;
+}
+
+public ^ubyte toUbyte<_t>(^/_t src)//リトルエンディアン
+{
+  %ubyte ub;
+  loop{index i = 0; while; do:
+    loop{int j = 0; do:
+      ub .= (ubyte)(src[i] >> (*_t)j);
+      j += 8;
+    while j < sizeof(_t)*8:
+    }
+    i++;
+  while i < #src:
+  }
+  ret ub;
+}
+
+public ^ubyte sToU8(^/char s)
+{
+  %ubyte utf8;
+  loop{
+    index i = 0;
+    uint c;
+    while;
+  do:
+    c = (uint)s[i];
+    if((c >> 0d10) == 0x36 && ((uint)s[i+1] >> 0d10) == 0x37){
+      c = ((c&0x3ff) << 0d10 | ((uint)s[++i]&0x3ff)) + 0x10000;
+    }
+    branch{
+    cond c <     0x80:
+      utf8 .= c;
+    cond c <    0x800:
+      utf8 .= (c>>0d6) | 0b11000000;
+      utf8 .= (c&0x3f) | 0b10000000;
+    cond c <  0x10000:
+      utf8 .= (c>>0d12)     | 0b11100000;
+      utf8 .= (c>>0d6&0x3f) | 0b10000000;
+      utf8 .= (c&0x3f)      | 0b10000000;
+    else:
+      utf8 .= (c>>0d18)      | 0b11110000;
+      utf8 .= (c>>0d12&0x3f) | 0b10000000;
+      utf8 .= (c>>0d6&0x3f)  | 0b10000000;
+      utf8 .= (c&0x3f)       | 0b10000000;
+    }
+    i++;
+  while i < #s:
+  }
+  ret utf8;
+}
+
+public ^char u8ToS(^/ubyte utf8)
+{
+  %char s;
+  loop{
+    index i = 0;
+    uint c;
+    while;
+  do:
+    c = utf8[i];
+    branch{
+    cond c < 0xc0:
+    cond c < 0xe0:
+      c &= 0x1f;
+      c = c<<0d6 | (utf8[++i]&0x3f);
+    cond c < 0xf0:
+      c &= 0xf;
+      c = c<<0d6 | (utf8[++i]&0x3f);
+      c = c<<0d6 | (utf8[++i]&0x3f);
+    cond c < 0xf8:
+      c &= 0x7;
+      c = c<<0d6 | (utf8[++i]&0x3f);
+      c = c<<0d6 | (utf8[++i]&0x3f);
+      c = c<<0d6 | (utf8[++i]&0x3f);
+    }
+    branch{
+    cond c < 0x10000:
+      s .= (char)c;
+    else:
+      c -= 0x10000;
+      s .= (char)(((c>>0d10)&0x3ff) | 0xd800);
+      s .= (char)((c&0x3ff)         | 0xdc00);
+    }
+    i++;
+  while i < #utf8:
+  }
+  ret s;
+}
+
+public ^char percentEnc(^/char str)
+{
+  %char s;
+  void enc(ubyte u)
+  {
+    `s .= '%';
+    char tmp = (char)(u >> 0d4);
+    `s .= tmp < (char)0d10 ? '0' + tmp : 'A' + tmp - (char)0d10;
+    tmp = (char)(u & 0xf);
+    `s .= tmp < (char)0d10 ? '0' + tmp : 'A' + tmp - (char)0d10;
+  }
+  loop{
+    index i = 0;
+    ^/ubyte utf8 = .sToU8(str);
+    while;
+  do:
+    switch((char)utf8[i]){
+    case
+      'A','B','C','D','E','F','G','H','I','J','K','L','M',
+      'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+      'a','b','c','d','e','f','g','h','i','j','k','l','m',
+      'n','o','p','q','r','s','t','u','v','w','x','y','z',
+      '0','1','2','3','4','5','6','7','8','9',
+      '-','.','_','~'
+      :
+      s .= (char)utf8[i];
+    default:
+      enc(utf8[i]);
+    }
+    i++;
+  while i < #utf8:
+  }
+  ret s;
+}
+
+public ^char percentDec(^/char str)
+{
+  %char s;
+  ubyte dec(index i=)
+  {
+    ubyte ub = 0x0;
+    loop{
+      ubyte n = 0x4;
+      continue;
+    do:
+      n -= 0x4;
+    continue:
+      branch{
+        char c = `str[i++];
+      cond c >= '0' && c <= '9':
+        ub |= (ubyte)(c - '0') << n;
+      cond c >= 'A' && c <= 'F':
+        ub |= (ubyte)(c - 'A') + 0d10 << n;
+      cond c >= 'a' && c <= 'f':
+        ub |= (ubyte)(c - 'a') + 0d10 << n;
+      }
+    while n > 0x0:
+    }
+    ret ub;
+  }
+  loop{
+    index i = 0, foo = 0;
+    %ubyte utf8;
+    while;
+  do:
+    branch{
+    cond str[i] == '%':
+      i++;
+      utf8 .= dec(i=);
+    else:
+      if(#utf8 > 0){
+        s .= .u8ToS(utf8);
+        utf8.new(0);
+      }
+      s .= str[i++];
+    }
+  while i < #str:
+    if(#utf8 > 0) s .= .u8ToS(utf8);
+  }
+  ret s;
+}
+
+public &Format
+{
+  ^char fmt;
+  public %char out;
+  /char next = '\0';
+  /short acc = -1;
+  /int width = 0;
+  /byte sign = 0;
+  /bool zero = false, left = false, sharp = false; 
+  public char set(^/char format)
+  {
+    `fmt = .clone!char?(format);
+    `out.new(0);
+    `next = '\0';
+    ret `setNext();
+  }
+  public bool isError()
+  {
+    ret `next == '\x7f';
+  }
+  char setError()
+  {
+    ret `next = '\x7f';
+  }
+  char setNext()
+  {
+    if(`isError()) ret `next;
+    index i;
+    loop{continue;
+    do:
+      `out .= '%';
+    continue:
+      {
+        index peridx = .find("%", `fmt);
+        `out .= `fmt[0 .. peridx];
+        if(peridx < 0){
+          `fmt.new(0);
+          ret `next = '\0';
+        }
+        `fmt = `fmt[peridx+1 .. -1];
+      }
+      if(#`fmt == 0) ret `setError();
+      `sign = 0;
+      `zero = `left = `sharp = false; 
+      `width = 0;
+      `acc = -1;
+      i = 0;
+      loop{while; do:
+        switch(`fmt[i]){
+        case '0':
+          `zero = true;
+        case '-':
+          `left = true;
+        case '+':
+          `sign = 1;
+        case ' ':
+          if(`sign == 0) `sign = -1;
+        case '#':
+          `sharp = true;
+        default:
+          break, break;
+        }
+        i++;
+      while i < #`fmt:}
+      `width = 0;
+      loop{while; do:
+        if(`fmt[i] < '0' || `fmt[i] > '9') break;
+        `width = `width*10 + (int)(`fmt[i] - '0');
+        i++;
+      while i < #`fmt:}
+      if(`fmt[i] == '.'){
+        i++;
+        `acc = 0;
+        loop{while; do:
+          if(`fmt[i] < '0' || `fmt[i] > '9') break;
+          `acc = `acc*10 + (int)(`fmt[i] - '0');
+          i++;
+        while i < #`fmt:}
+      }
+      if(.cMatch!char?("hlL", `fmt[i])) i++;
+      if(`fmt[i] == '%'){
+        `fmt = `fmt[i + 1 .. -1];
+        break, do;
+      }
+    while false:}
+    `next = `fmt[i];
+    branch{
+    cond .cMatch!char?("diuoxXcsfFeEgG", `next):
+      `fmt = `fmt[i+1 .. -1];
+    else:
+      `setError();
+    }
+    ret `next;
+  }
+  public void putSpace(int n)
+  {
+    loop{int i = 0; while; do:
+      `out .= ' ';
+      i++;
+    while i < n:}
+  }
+  void putStr(^/char str)
+  {
+    if(!`left && #str < `width) `putSpace(`width - #str);
+    `out .= str;
+    if(`left && #str < `width) `putSpace(`width - #str);
+  }
+  public char d(long i)
+  {
+    if(!.cMatch!char?("di", `next)){
+      if(.cMatch!char?("uoxX", `next)) ret `u((ulong)i);
+      if(.cMatch!char?("fFeEgG", `next)) ret `f((double)i);
+      if(`next == 'c') ret `c((char)i);
+      if(`next == 's') ret `s(''i);
+      ret `setError();
+    }
+    %char buf;
+    if(i >= 0 && `sign != 0)  buf .= `sign > 0 ? '+' : ' ';
+    ^/char str = ''i;
+    int w = `acc;
+    if(`zero && w + #buf + (int)(i < 0) < `width){
+      w = `width - (#buf + (int)(i < 0));
+    }
+    if(#str - (int)(i < 0) < w){
+      if(i < 0){
+        buf .= '-';
+        str = str[1 .. -1];
+      }
+      loop{int n = w - #str; while; do:
+        buf .= '0';
+        n--;
+      while n > 0:}
+    }
+    `putStr(#buf > 0 ? (buf .= str) : str);
+    ret `setNext();
+  }
+  public char u(ulong u)
+  {
+    if(!.cMatch!char?("uoxX", `next)){
+      if(.cMatch!char?("di", `next)) ret `d((long)u);
+      if(.cMatch!char?("fFeEgG", `next)) ret `f((double)u);
+      if(`next == 'c') ret `c((char)u);
+      if(`next == 's') ret `s(''u);
+      ret `setError();
+    }
+    %char buf;
+    if(`sign != 0)  buf .= `sign > 0 ? '+' : ' ';
+    ^/char str;
+    switch(`next){
+    case 'u':
+      str = ''u;
+    case 'o':
+      str = .uToSo(u);
+    case 'x':
+      str = .uToSx(u);
+    case 'X':
+      str = .uToSX(u);
+    }
+    if(`sharp) switch(`next){
+    case 'o':
+      if(#str >= `acc) buf .= '0';
+    case 'x':
+      buf .= "0x";
+    case 'X':
+      buf .= "0X";
+    }
+    int w = `acc;
+    if(`zero && w + #buf < `width) w = `width - #buf;
+    loop{int n = w - #str; while; do:
+      buf .= '0';
+      n--;
+    while n > 0:}
+    `putStr(#buf > 0 ? (buf .= str) : str);
+    ret `setNext();
+  }
+  public char f(double f)
+  {
+    if(!.cMatch!char?("fFeEgG", `next)){
+      if(.cMatch!char?("di", `next)) ret `d((long)f);
+      if(.cMatch!char?("uoxX", `next)) ret `u((ulong)f);
+      if(`next == 'c') ret `c((char)f);
+      ret `setError();
+    }
+    %char buf;
+    branch{
+    cond f < 0.0:
+      buf .= '-';
+    else:
+      if(`sign != 0)  buf .= `sign > 0 ? '+' : ' ';
+    }
+    if(.m.isnan(f)){
+      ^/char str = `next >= 'a' && `next <= 'z' ? "nan" : "NAN";
+      `putStr(#buf > 0 ? (buf .= str) : str);
+      ret `setNext();
+    }
+    if(!.m.isfinite(f)){
+      ^/char str = `next >= 'a' && `next <= 'z' ? "inf" : "INF";
+      `putStr(#buf > 0 ? (buf .= str) : str);
+      ret `setNext();
+    }
+    int accu = `acc < 0 ? 6 : `acc;
+    double acco = 10.0**(double)-accu;
+    double _5acc = 0.5*acco;
+    float e = 0.0;
+    double n = #f;
+    if(n != 0.0) loop{
+      if(n >= 1.0) n += _5acc;
+      e = .m.floor(.m.log(n, 10.0));
+      double o = 10.0**e;
+      float adde = 1.0;
+    do:
+      if(n < o){
+        if(adde > 0.0) adde *= -1.0;
+        e += adde;
+        o = 10.0**e;
+        break, do;
+      }
+      if(n < 10.0**(e+1.0)) break;
+      if(adde == -1.0 && o == 0.0){
+        e = 0.0;
+        break, break;
+      }
+      if(adde < 0.0) adde *= -1.0;
+      e += adde;
+      o = 10.0**e;
+      do;
+    }
+    int ne = 1 << 31;
+    branch{
+    cond
+      `next == 'e' || `next == 'E'
+      || ((e < -4.0 || (int)e >= accu) && (`next == 'g' || `next == 'G'))
+      :
+      loop{do:
+        n = (#f / 10.0**e) + _5acc;
+        if(n < 10.0) break;
+        e += 1.0;
+        do;
+      }
+      ne = (int)e;
+      e = 0.0;
+    else:
+      n = #f + _5acc;
+      if(n >= 10.0**(e+1.0)) e += 1.0;
+    }
+    if(`zero){
+      int w = (e >= 0.0 ? (int)e + 1 : 1) + accu;
+      if(accu > 0 || `sharp) w++;
+      if(ne != 1 << 31){
+        if(#ne < 100){
+          w += 4;
+          break, break;
+        }
+        w += 2;
+        loop{int foo = #ne; do: w++; foo /= 10; while foo > 0:}
+      }
+      loop{int m = (`width - #buf) - w; while; do:
+        buf .= '0';
+        m--;
+      while m > 0:}
+    }
+    loop{
+      double o;
+      float oe = e < 0.0 ? 0.0 : e;
+      int tmp;
+      continue;
+    do:
+      oe -= 1.0;
+    continue:
+      o = 10.0**oe;
+      tmp = (int)(n / o);
+      buf .= '0' + (char)tmp;
+      n -= (double)tmp*o;
+      if(o == 1.0 && (acco < 1.0 || `sharp)) buf .= '.';
+    while o > acco:}
+    if(ne != 1 << 31){
+      buf .= `next >= 'a' && `next <= 'z' ? 'e' : 'E';
+      buf .= ne < 0 ? '-' : '+';
+      if(#ne < 10) buf .= '0';
+      buf .= ''#ne;
+    }
+    `putStr(buf);
+    ret `setNext();
+  }
+  public char c(char c)
+  {
+    if(`next != 'c' && `next != 's'){
+      if(.cMatch!char?("di", `next)) ret `d((long)c);
+      if(.cMatch!char?("uoxX", `next)) ret `u((ulong)c);
+      if(.cMatch!char?("fFeEgG", `next)) ret `f((double)c);
+      ret `setError();
+    }
+    `putStr(?c);
+    ret `setNext();
+  }
+  public char s(^/char s)
+  {
+    if(`next != 's') ret `setError();
+    `putStr(s);
+    ret `setNext();
+  }
+}
+

@@ -1,0 +1,151 @@
+
+lib ssz = <ssz.ssz>;
+
+void refSetNull(ref o=)
+{
+  ref r;
+  o = r;
+}
+
+void refCopy(ref o=, ref r)
+{
+  o = r;
+}
+
+void init()
+{
+  plugin void Init(:
+    func .refSetNull.signature, func .refCopy.signature:) = "dll/lua.dll";
+  Init(:.refSetNull, .refCopy:);
+}
+init();
+
+public bool runSsz(^/char file)
+{
+  bool re = .ssz.run(file);
+  .init();
+  ret re;
+}
+
+public &SszCompiler
+{
+  core &.ssz.Compiler c;
+  public bool run()
+  {
+    bool re = `c.run();
+    .init();
+    ret re;
+  }
+}
+
+public &State
+{
+  index ptr = 0;
+  new()
+  {
+    plugin index NewState(::) = "dll/lua.dll";
+    `ptr = NewState(::);
+  }
+  delete()
+  {
+    plugin void Close(:index:) = "dll/lua.dll";
+    Close(:`ptr:);
+  }
+  public bool runFile(^/char str)
+  {
+    plugin bool RunFile(:index, ^/char:) = "dll/lua.dll";
+    ret RunFile(:`ptr, str:);
+  }
+  public bool runString(^/char str)
+  {
+    plugin bool RunString(:index, ^/char:) = "dll/lua.dll";
+    ret RunString(:`ptr, str:);
+  }
+  public int getTop()
+  {
+    plugin int GetTop(:index:) = "dll/lua.dll";
+    ret GetTop(:`ptr:);
+  }
+  public void getGlobal(^/char var)
+  {
+    plugin void GetGlobal(:index, ^/char:) = "dll/lua.dll";
+    GetGlobal(:`ptr, var:);
+  }
+  public void register(^/char n, func$void(`self=, int=) f)
+  {
+    plugin void Register(:
+      index, ^/char,  func$void(`self=, int=):) = "dll/lua.dll";
+    Register(:`ptr, n, f:);
+  }
+  public bool pcall(int nargs, int nresults)
+  {
+    plugin bool Pcall(:index, int, int:) = "dll/lua.dll";
+    ret Pcall(:`ptr, nargs, nresults:);
+  }
+  public void pop(int n)
+  {
+    plugin void Pop(:index, int:) = "dll/lua.dll";
+    Pop(:`ptr, n:);
+  }
+  public void pushNumber(double n)
+  {
+    plugin void PushNumber(:index, double:) = "dll/lua.dll";
+    PushNumber(:`ptr, n:);
+  }
+  public bool isNumber(int idx)
+  {
+    plugin bool IsNumber(:index, int:) = "dll/lua.dll";
+    ret IsNumber(:`ptr, idx:);
+  }
+  public double toNumber(int idx)
+  {
+    plugin double ToNumber(:index, int:) = "dll/lua.dll";
+    ret ToNumber(:`ptr, idx:);
+  }
+  public void pushBoolean(bool b)
+  {
+    plugin void PushBoolean(:index, bool:) = "dll/lua.dll";
+    PushBoolean(:`ptr, b:);
+  }
+  public bool isBoolean(int idx)
+  {
+    plugin bool IsBoolean(:index, int:) = "dll/lua.dll";
+    ret IsBoolean(:`ptr, idx:);
+  }
+  public bool toBoolean(int idx)
+  {
+    plugin bool ToBoolean(:index, int:) = "dll/lua.dll";
+    ret ToBoolean(:`ptr, idx:);
+  }
+  public void pushString(^/char s)
+  {
+    plugin void PushString(:index, ^/char:) = "dll/lua.dll";
+    PushString(:`ptr, s:);
+  }
+  public bool isString(int idx)
+  {
+    plugin bool IsString(:index, int:) = "dll/lua.dll";
+    ret IsString(:`ptr, idx:);
+  }
+  public ^char toString(int idx)
+  {
+    plugin void ToString(:index, ^char=, int:) = "dll/lua.dll";
+    ^char tmp;
+    ToString(:`ptr, tmp=, idx:);
+    ret tmp;
+  }
+  public void pushRef(ref r)
+  {
+    plugin void PushRef(:index, ref=:) = "dll/lua.dll";
+    ref tmp = r;
+    PushRef(:`ptr, tmp=:);
+  }
+  public ref toRef(int idx)
+  {
+    plugin void ToRef(:index, ref=, int:) = "dll/lua.dll";
+    ref tmp;
+    ToRef(:`ptr, tmp=, idx:);
+    ret tmp;
+  }
+}
+

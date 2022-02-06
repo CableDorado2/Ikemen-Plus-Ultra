@@ -1,0 +1,35 @@
+
+public &Unsigned<_t>
+{
+  const _t MAX = !0x0;
+  const _t MIN = 0x0;
+}
+
+public &Signed<_t>
+{
+  const _t MAX = (1 << 8*typesize(_t) - 1) - 1;
+  const _t MIN = !MAX;
+}
+
+type byte_t   = &Signed!byte?;
+type short_t  = &Signed!short?;
+type int_t    = &Signed!int?;
+type long_t   = &Signed!long?;
+
+type ubyte_t  = &Unsigned!ubyte?;
+type ushort_t = &Unsigned!ushort?;
+type uint_t   = &Unsigned!uint?;
+type ulong_t  = &Unsigned!ulong?;
+
+
+type char_t   = &Unsigned!char?;
+
+type index_t  = &Signed!index?;
+
+
+public ..null<_t>() %_t
+{
+  %_t null;
+  ret null;
+}
+

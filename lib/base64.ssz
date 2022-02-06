@@ -1,0 +1,96 @@
+
+
+lib mat = <math.ssz>;
+
+public char uintToB64Char(uint n)
+{
+  branch{
+  cond n < 0d26:
+    ret 'A' + (char)n;
+  cond n < 0d52:
+    ret 'a' + (char)(n - 0d26);
+  cond n < 0d62:
+    ret '0' + (char)(n - 0d52);
+  cond n == 0d62:
+    ret '+';
+  cond n == 0d63:
+    ret '/';
+  }
+  ret '=';
+}
+
+public uint b64CharToUint(char c)
+{
+  branch{
+  cond .mat.inRange!char?('A', 'Z', c):
+    ret (uint)(c - 'A');
+  cond .mat.inRange!char?('a', 'z', c):
+    ret (uint)(c - 'a') + 0d26;
+  cond .mat.inRange!char?('0', '9', c):
+    ret (uint)(c - '0') + 0d52;
+  cond c == '+':
+    ret 0d62;
+  cond c == '/':
+    ret 0d63;
+  }
+  ret 0d64;
+}
+
+public ^char encBase64<_t>(^/_t data)
+{
+  %char buf;
+  loop{
+    index i = 0, bii = 0;
+    while;
+  do:
+    bii += 6;
+    branch{
+    cond bii > typesize(_t)*8:
+      bii -= typesize(_t)*8;
+      i++;
+      buf .=
+        .uintToB64Char(
+          (
+            (
+              (uint)(
+                (i < #data ? data[i] : (*_t)0) >> (*_t)(typesize(_t)*8 - bii))
+              & (uint)((1<<bii) - 1))
+            | (uint)(data[i-1] << (*_t)bii)) & 0x3f);
+    else:
+      buf .=
+        .uintToB64Char((uint)(data[i] >> (*_t)(typesize(_t)*8 - bii)) & 0x3f);
+    }
+  while i < #data:
+    loop{while; do:
+      buf .= '=';
+      bii += 6;
+    while (bii & 6) != 0:}
+  }
+  ret buf;
+}
+
+public ..decBase64<_t>(^/char b64) ^_t
+{
+  %_t buf;
+  loop{
+    index i = 0, bii = 0;
+    *_t x = (*_t)0;
+    uint tmp;
+    while;
+  do:
+    tmp = .b64CharToUint(b64[i++]);
+    if(tmp > 0d63) while;
+    bii += 6;
+    if(bii > typesize(_t)*8){
+      bii -= typesize(_t)*8;
+      x |= (*_t)tmp >> (*_t)bii;
+      buf .= x;
+      x = (*_t)0;
+    }
+    x |= (*_t)tmp << (*_t)(typesize(_t)*8 - bii);
+  while i < #b64:
+  }
+  ret buf;
+}
+
+

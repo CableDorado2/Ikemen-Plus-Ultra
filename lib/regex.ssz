@@ -1,0 +1,32 @@
+
+public &Regex
+{
+  index re = 0;
+  const int I = 1;
+  delete()
+  {
+    `clear();
+  }
+  void clear()
+  {
+    plugin void DeleteRegex(:index:) = <dll/regex.dll>;
+    DeleteRegex(:`re:);
+    `re = 0;
+  }
+  public ^char init(^/char reText, int flag)
+  {
+    `clear();
+    plugin index NewRegex(:^/char, bool, ^char=:) = <dll/regex.dll>;
+    ^char error;
+    `re = NewRegex(:reText, (flag&`I) != 0, error=:);
+    ret error;
+  }
+  public ^^/char search(^/char str)
+  {
+    plugin void RegexSearch(:index, ^/char, ^^/char=:) = <dll/regex.dll>;
+    ^^/char matches;
+    RegexSearch(:`re, str, matches=:);
+    ret matches;
+  }
+}
+

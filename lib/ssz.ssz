@@ -1,0 +1,42 @@
+
+public bool run(^/char file)
+{
+  plugin bool Run(:^/char:) = <dll/ssz.dll>;
+  ret Run(:file:);
+}
+
+public &Compiler
+{
+  index ptr;
+  new()
+  {
+    plugin index NewCompiler(::) = <dll/ssz.dll>;
+    `ptr = NewCompiler(::);
+  }
+  delete()
+  {
+    plugin void DeleteCompiler(:index:) = <dll/ssz.dll>;
+    DeleteCompiler(:`ptr:);
+  }
+  public ^/char compile(^/char file)
+  {
+    plugin void CompilerCompile(:index, ^/char, ^/char=:) = <dll/ssz.dll>;
+    ^/char error;
+    CompilerCompile(:`ptr, file, error=:);
+    ret error;
+  }
+  public ^/char compileString(^/char code, ^/char dir)
+  {
+    plugin void CompilerCompileString(:
+      index, ^/char, ^/char, ^/char=:) = <dll/ssz.dll>;
+    ^/char error;
+    CompilerCompileString(:`ptr, code, dir, error=:);
+    ret error;
+  }
+  public bool run()
+  {
+    plugin bool CompilerRun(:index:) = <dll/ssz.dll>;
+    ret CompilerRun(:`ptr:);
+  }
+}
+

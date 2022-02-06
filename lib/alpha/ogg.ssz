@@ -1,0 +1,51 @@
+
+public &OggVorbis
+{
+  index ptr = 0;
+  new()
+  {
+    plugin index NewOggVorbis(::) = "dll/ogg.dll";
+    `ptr = NewOggVorbis(::);
+  }
+  delete()
+  {
+    plugin void DeleteOggVorbis(:index:) = "dll/ogg.dll";
+    DeleteOggVorbis(:`ptr:);
+  }
+  public bool open(^/char file)
+  {
+    plugin bool OggVorbisOpen(:index, ^/char:) = "dll/ogg.dll";
+    ret OggVorbisOpen(:`ptr, file:);
+  }
+  public void clear()
+  {
+    plugin void OggVorbisClear(:index:) = "dll/ogg.dll";
+    OggVorbisClear(:`ptr:);
+  }
+  public long pcmTotal()
+  {
+    plugin int OggVorbisPcmTotal(:index:) = "dll/ogg.dll";
+    ret OggVorbisPcmTotal(:`ptr:);
+  }
+  public int channels()
+  {
+    plugin int OggVorbisChannels(:index:) = "dll/ogg.dll";
+    ret OggVorbisChannels(:`ptr:);
+  }
+  public int rate()
+  {
+    plugin int OggVorbisRate(:index:) = "dll/ogg.dll";
+    ret OggVorbisRate(:`ptr:);
+  }
+  public index read(^short buffer)
+  {
+    plugin index OggVorbisRead(:index, ^short:) = "dll/ogg.dll";
+    ret OggVorbisRead(:`ptr, buffer:);
+  }
+  public int seek(double time)
+  {
+    plugin int OggVorbisSeek(:index, double:) = "dll/ogg.dll";
+    ret OggVorbisSeek(:`ptr, time:);
+  }
+}
+

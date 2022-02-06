@@ -1,0 +1,38 @@
+
+public &Stack<_t>
+{
+  &Node<_t>
+  {
+    public ^_t data;
+    public ^self next;
+  }
+  ^&Node!_t? topNode;
+  public void push(^`_t data)
+  {
+    ^&`Node!`_t? n.new(1);
+    n~data = data;
+    n~next = `topNode;
+    `topNode = n;
+  }
+  public ^_t pop()
+  {
+    ^`_t data;
+    if(#`topNode == 0) ret data;
+    data = `topNode~data;
+    `topNode = `topNode~next;
+    ret data;
+  }
+  /^*_t top()
+  {
+    if(#`topNode == 0){
+      ^`_t null;
+      ret null;
+    }
+    ret `topNode~data;
+  }
+  public void clear()
+  {
+    `topNode.new(0);
+  }
+}
+

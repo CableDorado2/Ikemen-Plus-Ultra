@@ -1,0 +1,217 @@
+
+lib consts = <consts.ssz>;
+lib s = <string.ssz>;
+
+public uint hash(^/char str)
+{
+  uint h = 0x0;
+  loop{index i = 0; while; do:
+    h += (uint)i ^ (uint)str[i];
+    i++;
+  while i < #str:
+  }
+  ret h;
+}
+
+public &NameTable<_t>
+{
+  &Node<_t>
+  {
+    public &Table<_t, node_t>
+    {
+      public ^node_t nodes;
+      public void clear()
+      {
+        `nodes.new(0);
+      }
+    }
+    type table_t = &Table!_t, self?;
+    public ^/char name;
+    public ^_t item;
+    public table_t t;
+    public void table_t::getNede(^`node_t n=, ^/char name, uint hash)
+    {
+       if(#`nodes == 0) `nodes.new(16);
+      int i = ((int)hash ^ (int)hash>>4 ^ (int)hash>>8) & 15;
+      branch{
+      cond .s.equ(`nodes[i].name, name):
+      cond #`nodes[i].item == 0:
+        `nodes[i].t.remove(name, hash-0x111);
+        `nodes[i].name = name;
+      else:
+        break;
+      comm:
+        n = `nodes[i..i+1];
+        ret;
+      }
+      `nodes[i].t.getNede(n=, name, hash-0x111);
+    }
+    public void table_t::set(^/char name, ^`_t item)
+    {
+      ^`node_t n;
+      `getNede(n=, name, .hash(name));
+      n~item = item;
+    }
+    /^*_t table_t::get(^/char name, uint hash)
+    {
+      if(#`nodes == 0) ret .consts.null!`_t?();
+      int i = ((int)hash ^ (int)hash>>4 ^ (int)hash>>8) & 15;
+      if(.s.equ(`nodes[i].name, name)) ret `nodes[i].item;
+      ret `nodes[i].t.get(name, hash-0x111);
+    }
+    public void table_t::operate(^/char name, ~$void(^`_t=) d)
+    {
+      ^`node_t n;
+      `getNede(n=, name, .hash(name));
+      d(:n~item=:);
+    }
+    public bool table_t::remove(^/char name, uint hash)
+    {
+      if(#`nodes == 0) ret false;
+      int i = ((int)hash ^ (int)hash>>4 ^ (int)hash>>8) & 15;
+      if(.s.equ(`nodes[i].name, name)){
+        `nodes[i].item.new(0);
+        ret true;
+      }
+      ret `nodes[i].t.remove(name, hash-0x111);
+    }
+    public void table_t::each(~$void(^`_t) d)
+    {
+      loop{index i = 0; while; do:
+        if(#`nodes[i].item > 0) d(:`nodes[i].item:);
+        `nodes[i].t.each(d);
+        i++;
+      while i < #`nodes:
+      }
+    }
+    public void table_t::forEach(~$void(^/char, ^`_t) d)
+    {
+      loop{index i = 0; while; do:
+        if(#`nodes[i].item > 0){
+          d(:`nodes[i].name, `nodes[i].item:);
+        }
+        `nodes[i].t.forEach(d);
+        i++;
+      while i < #`nodes:
+      }
+    }
+  }
+  core &Node!_t?::Table!_t, &Node!_t?? t;
+  void getNede(){}
+  /^*_t get(^/char name)
+  {
+    ret `t.get(name, .hash(name));
+  }
+  public void remove(^/char name)
+  {
+    `t.remove(name, .hash(name));
+  }
+}
+
+public ..intHash<_t>(_t n) _t
+{
+  *_t h = n;
+  loop{*_t i = (*_t)8; while; do:
+    h ^= h >> i;
+    i += (*_t)8;
+  while i>>(*_t)3 < (*_t)typesize(_t):
+  }
+  ret h;
+}
+
+public &IntTable<int_t, _t>
+{
+  &Node<int_t, _t>
+  {
+    public &Table<int_t, _t, node_t>
+    {
+      public ^node_t nodes;
+      public void clear()
+      {
+        `nodes.new(0);
+      }
+    }
+    type table_t = &Table!int_t, _t, self?;
+    public int_t name;
+    public ^_t item;
+    public table_t t;
+    public void table_t::getNede(^`node_t n=, `int_t name, `int_t hash)
+    {
+      if(#`nodes == 0) `nodes.new(16);
+      int i = ((int)hash ^ (int)hash>>4 ^ (int)hash>>8) & 15;
+      branch{
+      cond `nodes[i].name == name:
+      cond #`nodes[i].item == 0:
+        `nodes[i].t.remove(name, hash-(*`int_t)0x111);
+        `nodes[i].name = name;
+      else:
+        break;
+      comm:
+        n = `nodes[i..i+1];
+        ret;
+      }
+      `nodes[i].t.getNede(n=, name, hash-(*`int_t)0x111);
+    }
+    public void table_t::set(`int_t name, ^`_t item)
+    {
+      ^`node_t n;
+      `getNede(n=, name, .intHash!`int_t?(name));
+      n~item = item;
+    }
+    /^*_t table_t::get(`int_t name, `int_t hash)
+    {
+      if(#`nodes == 0) ret .consts.null!`_t?();
+      int i = ((int)hash ^ (int)hash>>4 ^ (int)hash>>8) & 15;
+      if(`nodes[i].name == name) ret `nodes[i].item;
+      ret `nodes[i].t.get(name, hash-(*`int_t)0x111);
+    }
+    public void table_t::operate(`int_t name, ~$void(^`_t=) d)
+    {
+      ^`node_t n;
+      `getNede(n=, name, .intHash!`int_t?(name));
+      d(:n~item=:);
+    }
+    public bool table_t::remove(`int_t name, `int_t hash)
+    {
+      if(#`nodes == 0) ret false;
+      int i = ((int)hash ^ (int)hash>>4 ^ (int)hash>>8) & 15;
+      if(`nodes[i].name == name){
+        `nodes[i].item.new(0);
+        ret true;
+      }
+      ret `nodes[i].t.remove(name, hash-(*`int_t)0x111);
+    }
+    public void table_t::each(~$void(^`_t) d)
+    {
+      loop{index i = 0; while; do:
+        if(#`nodes[i].item > 0) d(:`nodes[i].item:);
+        `nodes[i].t.each(d);
+        i++;
+      while i < #`nodes:
+      }
+    }
+    public void table_t::forEach(~$void(`int_t, ^`_t) d)
+    {
+      loop{index i = 0; while; do:
+        if(#`nodes[i].item > 0){
+          d(:`nodes[i].name, `nodes[i].item:);
+        }
+        `nodes[i].t.forEach(d);
+        i++;
+      while i < #`nodes:
+      }
+    }
+  }
+  core &Node!int_t, _t?::Table!int_t, _t, &Node!int_t, _t?? t;
+  void getNede(){}
+  /^*_t get(`int_t name)
+  {
+    ret `t.get(name, .intHash!`int_t?(name));
+  }
+  public void remove(`int_t name)
+  {
+    `t.remove(name, .intHash!`int_t?(name));
+  }
+}
+
+

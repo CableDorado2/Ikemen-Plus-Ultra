@@ -1,0 +1,65 @@
+
+plugin bool YesNo(:^/char:) = "dll/mesdialog.dll";
+plugin bool GetClipboardStr(:^char=:) = "dll/mesdialog.dll";
+plugin void GetInifileString(:^/char, ^/char, ^/char, ^/char, ^char=:) =
+  "dll/mesdialog.dll";
+plugin int GetInifileInt(:^/char, ^/char, ^/char, int:) = "dll/mesdialog.dll";
+plugin bool WriteInifileString(:^/char, ^/char, ^/char, ^/char:) =
+  "dll/mesdialog.dll";
+plugin void InputStr(:^/char, ^char=:) = "dll/mesdialog.dll";
+plugin bool UnCompress(:^ubyte=, ^/ubyte:) = "dll/mesdialog.dll";
+plugin void UbytesToStr(:|CodePage, ^char=, ^/ubyte:) = "dll/mesdialog.dll";
+plugin void StrToUbytes(:|CodePage, ^ubyte=, ^/char:) = "dll/mesdialog.dll";
+plugin void AsciiToLocal(:^char=, ^/char:) = "dll/mesdialog.dll";
+plugin void SetSharedString(:^/char:) = "dll/mesdialog.dll";
+plugin void GetSharedString(:^char=:) = "dll/mesdialog.dll";
+
+
+|CodePage
+{
+  ACP        = 0,           // default to ANSI code page
+  OEMCP      = 1,           // default to OEM  code page
+  MACCP      = 2,           // default to MAC  code page
+  THREAD_ACP = 3,           // current thread's ANSI code page
+  SYMBOL     = 42,          // SYMBOL translations
+
+  SJIS       = 932,
+
+  ISO_8859_1 = 1252,
+
+  EUC_JP     = 20932,
+
+  UTF7       = 65000,       // UTF-7 translation
+  UTF8       = 65001        // UTF-8 translation
+}
+
+
+lib al = <alert.ssz>;
+
+public void veryUnsafeCopy<dst_t, src_t>(dst_t d=, src_t s=)
+{
+  lib math = <math.ssz>;
+  plugin void VeryUnsafeCopy(:dst_t=, src_t=, index:) = "dll/mesdialog.dll";
+  VeryUnsafeCopy(:d=, s=, math.min!index?(typesize(dst_t), typesize(src_t)):);
+}
+
+
+index thandle = 0;
+
+public bool tajuuCheck(^/char name)
+{
+  plugin index TazyuuCheck(:^/char:) = "dll/mesdialog.dll";
+  if(.thandle == 0) .thandle = TazyuuCheck(:name:);
+  ret .thandle == 0;
+}
+
+&Releaser
+{
+  delete()
+  {
+    plugin void CloseTazyuuHandle(:index:) = "dll/mesdialog.dll";
+    if(.thandle != 0) CloseTazyuuHandle(:.thandle:);
+  }
+}
+&Releaser rls;
+

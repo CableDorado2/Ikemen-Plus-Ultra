@@ -1,0 +1,7 @@
+Rank: 0 
+chars/kung fu man/kung fu man.def
+randomselect
+chars/ryu/ryu.def
+randomselect
+randomselect
+chars/kyo kusanagi/kyo kusanagi.def

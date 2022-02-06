@@ -1,0 +1,946 @@
+
+lib f = <file.ssz>;
+
+plugin void End(::)                         = "dll/sdlplugin.dll";
+plugin bool PollEvent(:&Event=:)            = "dll/sdlplugin.dll";
+public void flip()
+{
+  plugin void Flip(::) = "dll/sdlplugin.dll";
+  Flip(::);
+}
+public void fill(&.Rect r=, uint c)
+{
+  plugin void Fill(:&.Rect=, uint:) = "dll/sdlplugin.dll";
+  Fill(:r=, c:);
+}
+public bool renderMugenZoom(
+  &.Rect dr=, float rcx, float rcy,
+  ^ubyte pxl, ^uint pal, short ckey,
+  &.Rect sr=, float cx, float ty, &.Rect tile=,
+  float xtopscl, float xbotscl, float yscl,
+  float rasterxadd, uint roto, int alpha, int rle, %byte pluginbuf=)
+{
+  plugin bool RenderMugenZoom(:
+    ^/ubyte, uint=, short, &.Rect=, float, float, &.Rect=,
+    float, float, float, float, uint, int, &.Rect=,
+    float, float, int, %byte=:) = "dll/sdlplugin.dll";
+  ret
+    RenderMugenZoom(:
+      pxl, pal<>=, ckey, sr=, cx, ty, tile=, xtopscl, xbotscl,
+      yscl, rasterxadd, roto, alpha, dr=, rcx, rcy, rle, pluginbuf=:);
+}
+public bool renderMugenShadow(
+  &.Rect dr=, float rcx, float rcy, ^ubyte pxl, uint color,
+  &.Rect sr=, float cx, float ty, float xscl, float yscl, float vscl,
+  uint roto, int alpha, int rle, %byte pluginbuf=)
+{
+  plugin bool RenderMugenShadow(:
+    ^/ubyte, uint, &.Rect=, float, float, float, float, float, uint, int,
+    &.Rect=, float, float, int, %byte=:) = "dll/sdlplugin.dll";
+  ret
+    RenderMugenShadow(:
+      pxl, color, sr=, cx, ty, xscl, yscl, vscl, roto, alpha,
+      dr=, rcx, rcy, rle, pluginbuf=:);
+}
+
+public char getLastChar()
+{
+  plugin char GetLastChar(::) = "dll/sdlplugin.dll";
+  ret GetLastChar(::);
+}
+
+public ^ubyte decodePNG8(int w=, int h=, &.f.File file=)
+{
+  plugin void DecodePNG8(:
+    ^ubyte=, int=, int=, &.f.File:) = "dll/sdlplugin.dll";
+  ^ubyte img;
+  DecodePNG8(:img=, w=, h=, file:);
+  ret img;
+}
+
+plugin bool KeyState(:|SDLKey:)             = "dll/sdlplugin.dll";
+plugin bool JoystickButtonState(:int, int:) = "dll/sdlplugin.dll";
+plugin void Delay(:uint:)                   = "dll/sdlplugin.dll";
+plugin uint GetTicks(::)                    = "dll/sdlplugin.dll";
+
+const int SNDFREQ = 44100;
+const index SNDBUFLEN = 4096;
+
+public bool setSndBuf(^int buf)
+{
+  if(#buf != .SNDBUFLEN) ret false;
+  plugin bool SetSndBuf(:int=:) = "dll/sdlplugin.dll";
+  ret SetSndBuf(:buf<>=:);
+}
+
+public bool playBGM(^/char pldir, ^/char fn)
+{
+  plugin bool PlayBGM(:^/char, ^/char:) = "dll/sdlplugin.dll";
+  ret PlayBGM(:pldir, fn:);
+}
+
+public void pauseBGM(bool pause)
+{
+  plugin void PauseBGM(:bool:) = "dll/sdlplugin.dll";
+  PauseBGM(:pause:);
+}
+
+public bool sendOpenBGM(int rate, int channels)
+{
+  plugin bool SendOpenBGM(:int, int:) = "dll/sdlplugin.dll";
+  ret SendOpenBGM(:rate, channels:);
+}
+
+public void sendCloseBGM()
+{
+  plugin void SendCloseBGM(::) = "dll/sdlplugin.dll";
+  SendCloseBGM(::);
+}
+
+public index sendWriteBGM(^/short buffer)
+{
+  plugin index SendWriteBGM(:^/short:) = "dll/sdlplugin.dll";
+  ret SendWriteBGM(:buffer:);
+}
+
+public void setVolume(float gvol, float wvol, float bvol)
+{
+  plugin void SetVolume(:float, float, float:) = "dll/sdlplugin.dll";
+  SetVolume(:gvol, wvol, bvol:);
+}
+
+const ubyte RELEASED = 0;
+const ubyte PRESSED = 1;
+
+const ubyte BUTTON_LEFT = 1;
+const ubyte BUTTON_MIDDLE = 2;
+const ubyte BUTTON_RIGHT = 3;
+const ubyte BUTTON_WHEELUP = 4;
+const ubyte BUTTON_WHEELDOWN = 5;
+
+/* Event enumerations */
+|EventType
+{
+    FIRSTEVENT     = 0,
+    NOEVENT        = 0,
+    /* Application events */
+    QUIT           = 0x100,
+    APP_TERMINATING,
+    APP_LOWMEMORY,
+    APP_WILLENTERBACKGROUND,
+    APP_DIDENTERBACKGROUND,
+    APP_WILLENTERFOREGROUND,
+    APP_DIDENTERFOREGROUND,
+    /* Window events */
+    WINDOWEVENT    = 0x200,
+    SYSWMEVENT,
+    /* Keyboard events */
+    KEYDOWN        = 0x300,
+    KEYUP,
+    /* Text editing events */
+    TEXTEDITING,
+    /* Text input events */
+    TEXTINPUT,
+    /* Mouse motion events */
+    MOUSEMOTION    = 0x400,
+    /* Mouse button events */
+    MOUSEBUTTONDOWN,
+    MOUSEBUTTONUP,
+    /* Mouse wheel events */
+    MOUSEWHEEL,
+    /* Joystick events */
+    JOYAXISMOTION  = 0x600,
+    JOYBALLMOTION,
+    JOYHATMOTION,
+    JOYBUTTONDOWN,
+    JOYBUTTONUP,
+    JOYDEVICEADDED,
+    JOYDEVICEREMOVED,
+    /* Game controller events */
+    CONTROLLERAXISMOTION  = 0x650,
+    CONTROLLERBUTTONDOWN,
+    CONTROLLERBUTTONUP,
+    CONTROLLERDEVICEADDED,
+    CONTROLLERDEVICEREMOVED,
+    CONTROLLERDEVICEREMAPPED,
+    /* Touch events */
+    FINGERDOWN      = 0x700,
+    FINGERUP,
+    FINGERMOTION,
+    /* Gesture events */
+    DOLLARGESTURE   = 0x800,
+    DOLLARRECORD,
+    MULTIGESTURE,
+    /* Clipboard events */
+    CLIPBOARDUPDATE = 0x900, /**< The clipboard changed */
+    /* Drag and drop events */
+    DROPFILE        = 0x1000, /**< The system requests a file open */
+
+    USEREVENT    = 0x8000,
+
+    LASTEVENT    = 0xFFFF
+}
+
+|SDLKey
+{
+    UNKNOWN = 0,
+    a = 4,
+    b = 5,
+    c = 6,
+    d = 7,
+    e = 8,
+    f = 9,
+    g = 10,
+    h = 11,
+    i = 12,
+    j = 13,
+    k = 14,
+    l = 15,
+    m = 16,
+    n = 17,
+    o = 18,
+    p = 19,
+    q = 20,
+    r = 21,
+    s = 22,
+    t = 23,
+    u = 24,
+    v = 25,
+    w = 26,
+    x = 27,
+    y = 28,
+    z = 29,
+    _1 = 30,
+    _2 = 31,
+    _3 = 32,
+    _4 = 33,
+    _5 = 34,
+    _6 = 35,
+    _7 = 36,
+    _8 = 37,
+    _9 = 38,
+    _0 = 39,
+    RETURN = 40,
+    ESCAPE = 41,
+    BACKSPACE = 42,
+    TAB = 43,
+    SPACE = 44,
+    MINUS = 45,
+    EQUALS = 46,
+    LEFTBRACKET = 47,
+    RIGHTBRACKET = 48,
+    BACKSLASH = 49,
+    NONUSHASH = 50,
+    SEMICOLON = 51,
+    APOSTROPHE = 52,
+    GRAVE = 53,
+    COMMA = 54,
+    PERIOD = 55,
+    SLASH = 56,
+    CAPSLOCK = 57,
+    F1 = 58,
+    F2 = 59,
+    F3 = 60,
+    F4 = 61,
+    F5 = 62,
+    F6 = 63,
+    F7 = 64,
+    F8 = 65,
+    F9 = 66,
+    F10 = 67,
+    F11 = 68,
+    F12 = 69,
+    PRINTSCREEN = 70,
+    SCROLLLOCK = 71,
+    PAUSE = 72,
+    INSERT = 73,
+    HOME = 74,
+    PAGEUP = 75,
+    DELETE = 76,
+    END = 77,
+    PAGEDOWN = 78,
+    RIGHT = 79,
+    LEFT = 80,
+    DOWN = 81,
+    UP = 82,
+    NUMLOCKCLEAR = 83,
+    KP_DIVIDE = 84,
+    KP_MULTIPLY = 85,
+    KP_MINUS = 86,
+    KP_PLUS = 87,
+    KP_ENTER = 88,
+    KP_1 = 89,
+    KP_2 = 90,
+    KP_3 = 91,
+    KP_4 = 92,
+    KP_5 = 93,
+    KP_6 = 94,
+    KP_7 = 95,
+    KP_8 = 96,
+    KP_9 = 97,
+    KP_0 = 98,
+    KP_PERIOD = 99,
+    NONUSBACKSLASH = 100,
+    APPLICATION = 101,
+    POWER = 102,
+    KP_EQUALS = 103,
+    F13 = 104,
+    F14 = 105,
+    F15 = 106,
+    F16 = 107,
+    F17 = 108,
+    F18 = 109,
+    F19 = 110,
+    F20 = 111,
+    F21 = 112,
+    F22 = 113,
+    F23 = 114,
+    F24 = 115,
+    EXECUTE = 116,
+    HELP = 117,
+    MENU = 118,
+    SELECT = 119,
+    STOP = 120,
+    AGAIN = 121,
+    UNDO = 122,
+    CUT = 123,
+    COPY = 124,
+    PASTE = 125,
+    FIND = 126,
+    MUTE = 127,
+    VOLUMEUP = 128,
+    VOLUMEDOWN = 129,
+
+    KP_COMMA = 133,
+    KP_EQUALSAS400 = 134,
+    INTERNATIONAL1 = 135,
+    INTERNATIONAL2 = 136,
+    INTERNATIONAL3 = 137,
+    INTERNATIONAL4 = 138,
+    INTERNATIONAL5 = 139,
+    INTERNATIONAL6 = 140,
+    INTERNATIONAL7 = 141,
+    INTERNATIONAL8 = 142,
+    INTERNATIONAL9 = 143,
+    LANG1 = 144,
+    LANG2 = 145,
+    LANG3 = 146,
+    LANG4 = 147,
+    LANG5 = 148,
+    LANG6 = 149,
+    LANG7 = 150,
+    LANG8 = 151,
+    LANG9 = 152,
+    ALTERASE = 153,
+    SYSREQ = 154,
+    CANCEL = 155,
+    CLEAR = 156,
+    PRIOR = 157,
+    RETURN2 = 158,
+    SEPARATOR = 159,
+    OUT = 160,
+    OPER = 161,
+    CLEARAGAIN = 162,
+    CRSEL = 163,
+    EXSEL = 164,
+    KP_00 = 176,
+    KP_000 = 177,
+    THOUSANDSSEPARATOR = 178,
+    DECIMALSEPARATOR = 179,
+    CURRENCYUNIT = 180,
+    CURRENCYSUBUNIT = 181,
+    KP_LEFTPAREN = 182,
+    KP_RIGHTPAREN = 183,
+    KP_LEFTBRACE = 184,
+    KP_RIGHTBRACE = 185,
+    KP_TAB = 186,
+    KP_BACKSPACE = 187,
+    KP_A = 188,
+    KP_B = 189,
+    KP_C = 190,
+    KP_D = 191,
+    KP_E = 192,
+    KP_F = 193,
+    KP_XOR = 194,
+    KP_POWER = 195,
+    KP_PERCENT = 196,
+    KP_LESS = 197,
+    KP_GREATER = 198,
+    KP_AMPERSAND = 199,
+    KP_DBLAMPERSAND = 200,
+    KP_VERTICALBAR = 201,
+    KP_DBLVERTICALBAR = 202,
+    KP_COLON = 203,
+    KP_HASH = 204,
+    KP_SPACE = 205,
+    KP_AT = 206,
+    KP_EXCLAM = 207,
+    KP_MEMSTORE = 208,
+    KP_MEMRECALL = 209,
+    KP_MEMCLEAR = 210,
+    KP_MEMADD = 211,
+    KP_MEMSUBTRACT = 212,
+    KP_MEMMULTIPLY = 213,
+    KP_MEMDIVIDE = 214,
+    KP_PLUSMINUS = 215,
+    KP_CLEAR = 216,
+    KP_CLEARENTRY = 217,
+    KP_BINARY = 218,
+    KP_OCTAL = 219,
+    KP_DECIMAL = 220,
+    KP_HEXADECIMAL = 221,
+    LCTRL = 224,
+    LSHIFT = 225,
+    LALT = 226,
+    LGUI = 227,
+    RCTRL = 228,
+    RSHIFT = 229,
+    RALT = 230,
+    RGUI = 231,
+    MODE = 257,
+    AUDIONEXT = 258,
+    AUDIOPREV = 259,
+    AUDIOSTOP = 260,
+    AUDIOPLAY = 261,
+    AUDIOMUTE = 262,
+    MEDIASELECT = 263,
+    WWW = 264,
+    MAIL = 265,
+    CALCULATOR = 266,
+    COMPUTER = 267,
+    AC_SEARCH = 268,
+    AC_HOME = 269,
+    AC_BACK = 270,
+    AC_FORWARD = 271,
+    AC_STOP = 272,
+    AC_REFRESH = 273,
+    AC_BOOKMARKS = 274,
+    BRIGHTNESSDOWN = 275,
+    BRIGHTNESSUP = 276,
+    DISPLAYSWITCH = 277,
+    KBDILLUMTOGGLE = 278,
+    KBDILLUMDOWN = 279,
+    KBDILLUMUP = 280,
+    EJECT = 281,
+    SLEEP = 282,
+    APP1 = 283,
+    APP2 = 284,
+
+    NUM_SCANCODES = 512
+}
+
+
+const int K_SCANCODE_MASK = (1<<30);
+
+|K
+{
+    UNKNOWN = 0,
+
+    RETURN = '\r',
+    ESCAPE = '\o33',
+    BACKSPACE = '\x08',
+    TAB = '\t',
+    SPACE = ' ',
+    EXCLAIM = '!',
+    QUOTEDBL = '"',
+    HASH = '#',
+    PERCENT = '%',
+    DOLLAR = '$',
+    AMPERSAND = '&',
+    QUOTE = '\'',
+    LEFTPAREN = '(',
+    RIGHTPAREN = ')',
+    ASTERISK = '*',
+    PLUS = '+',
+    COMMA = ',',
+    MINUS = '-',
+    PERIOD = '.',
+    SLASH = '/',
+    _0 = '0',
+    _1 = '1',
+    _2 = '2',
+    _3 = '3',
+    _4 = '4',
+    _5 = '5',
+    _6 = '6',
+    _7 = '7',
+    _8 = '8',
+    _9 = '9',
+    COLON = ':',
+    SEMICOLON = ';',
+    LESS = '<',
+    EQUALS = '=',
+    GREATER = '>',
+    QUESTION = '?',
+    AT = '@',
+    /*
+       Skip uppercase letters
+     */
+    LEFTBRACKET = '[',
+    BACKSLASH = '\\',
+    RIGHTBRACKET = ']',
+    CARET = '^',
+    UNDERSCORE = '_',
+    BACKQUOTE = '`',
+    a = 'a',
+    b = 'b',
+    c = 'c',
+    d = 'd',
+    e = 'e',
+    f = 'f',
+    g = 'g',
+    h = 'h',
+    i = 'i',
+    j = 'j',
+    k = 'k',
+    l = 'l',
+    m = 'm',
+    n = 'n',
+    o = 'o',
+    p = 'p',
+    q = 'q',
+    r = 'r',
+    s = 's',
+    t = 't',
+    u = 'u',
+    v = 'v',
+    w = 'w',
+    x = 'x',
+    y = 'y',
+    z = 'z',
+
+    CAPSLOCK = .K_SCANCODE_MASK|.SDLKey::CAPSLOCK,
+
+    F1 = .K_SCANCODE_MASK|.SDLKey::F1,
+    F2 = .K_SCANCODE_MASK|.SDLKey::F2,
+    F3 = .K_SCANCODE_MASK|.SDLKey::F3,
+    F4 = .K_SCANCODE_MASK|.SDLKey::F4,
+    F5 = .K_SCANCODE_MASK|.SDLKey::F5,
+    F6 = .K_SCANCODE_MASK|.SDLKey::F6,
+    F7 = .K_SCANCODE_MASK|.SDLKey::F7,
+    F8 = .K_SCANCODE_MASK|.SDLKey::F8,
+    F9 = .K_SCANCODE_MASK|.SDLKey::F9,
+    F10 = .K_SCANCODE_MASK|.SDLKey::F10,
+    F11 = .K_SCANCODE_MASK|.SDLKey::F11,
+    F12 = .K_SCANCODE_MASK|.SDLKey::F12,
+
+    PRINTSCREEN = .K_SCANCODE_MASK|.SDLKey::PRINTSCREEN,
+    SCROLLLOCK = .K_SCANCODE_MASK|.SDLKey::SCROLLLOCK,
+    PAUSE = .K_SCANCODE_MASK|.SDLKey::PAUSE,
+    INSERT = .K_SCANCODE_MASK|.SDLKey::INSERT,
+    HOME = .K_SCANCODE_MASK|.SDLKey::HOME,
+    PAGEUP = .K_SCANCODE_MASK|.SDLKey::PAGEUP,
+    DELETE = '\o177',
+    END = .K_SCANCODE_MASK|.SDLKey::END,
+    PAGEDOWN = .K_SCANCODE_MASK|.SDLKey::PAGEDOWN,
+    RIGHT = .K_SCANCODE_MASK|.SDLKey::RIGHT,
+    LEFT = .K_SCANCODE_MASK|.SDLKey::LEFT,
+    DOWN = .K_SCANCODE_MASK|.SDLKey::DOWN,
+    UP = .K_SCANCODE_MASK|.SDLKey::UP,
+
+    NUMLOCKCLEAR = .K_SCANCODE_MASK|.SDLKey::NUMLOCKCLEAR,
+    KP_DIVIDE = .K_SCANCODE_MASK|.SDLKey::KP_DIVIDE,
+    KP_MULTIPLY = .K_SCANCODE_MASK|.SDLKey::KP_MULTIPLY,
+    KP_MINUS = .K_SCANCODE_MASK|.SDLKey::KP_MINUS,
+    KP_PLUS = .K_SCANCODE_MASK|.SDLKey::KP_PLUS,
+    KP_ENTER = .K_SCANCODE_MASK|.SDLKey::KP_ENTER,
+    KP_1 = .K_SCANCODE_MASK|.SDLKey::KP_1,
+    KP_2 = .K_SCANCODE_MASK|.SDLKey::KP_2,
+    KP_3 = .K_SCANCODE_MASK|.SDLKey::KP_3,
+    KP_4 = .K_SCANCODE_MASK|.SDLKey::KP_4,
+    KP_5 = .K_SCANCODE_MASK|.SDLKey::KP_5,
+    KP_6 = .K_SCANCODE_MASK|.SDLKey::KP_6,
+    KP_7 = .K_SCANCODE_MASK|.SDLKey::KP_7,
+    KP_8 = .K_SCANCODE_MASK|.SDLKey::KP_8,
+    KP_9 = .K_SCANCODE_MASK|.SDLKey::KP_9,
+    KP_0 = .K_SCANCODE_MASK|.SDLKey::KP_0,
+    KP_PERIOD = .K_SCANCODE_MASK|.SDLKey::KP_PERIOD,
+
+    APPLICATION = .K_SCANCODE_MASK|.SDLKey::APPLICATION,
+    POWER = .K_SCANCODE_MASK|.SDLKey::POWER,
+    KP_EQUALS = .K_SCANCODE_MASK|.SDLKey::KP_EQUALS,
+    F13 = .K_SCANCODE_MASK|.SDLKey::F13,
+    F14 = .K_SCANCODE_MASK|.SDLKey::F14,
+    F15 = .K_SCANCODE_MASK|.SDLKey::F15,
+    F16 = .K_SCANCODE_MASK|.SDLKey::F16,
+    F17 = .K_SCANCODE_MASK|.SDLKey::F17,
+    F18 = .K_SCANCODE_MASK|.SDLKey::F18,
+    F19 = .K_SCANCODE_MASK|.SDLKey::F19,
+    F20 = .K_SCANCODE_MASK|.SDLKey::F20,
+    F21 = .K_SCANCODE_MASK|.SDLKey::F21,
+    F22 = .K_SCANCODE_MASK|.SDLKey::F22,
+    F23 = .K_SCANCODE_MASK|.SDLKey::F23,
+    F24 = .K_SCANCODE_MASK|.SDLKey::F24,
+    EXECUTE = .K_SCANCODE_MASK|.SDLKey::EXECUTE,
+    HELP = .K_SCANCODE_MASK|.SDLKey::HELP,
+    MENU = .K_SCANCODE_MASK|.SDLKey::MENU,
+    SELECT = .K_SCANCODE_MASK|.SDLKey::SELECT,
+    STOP = .K_SCANCODE_MASK|.SDLKey::STOP,
+    AGAIN = .K_SCANCODE_MASK|.SDLKey::AGAIN,
+    UNDO = .K_SCANCODE_MASK|.SDLKey::UNDO,
+    CUT = .K_SCANCODE_MASK|.SDLKey::CUT,
+    COPY = .K_SCANCODE_MASK|.SDLKey::COPY,
+    PASTE = .K_SCANCODE_MASK|.SDLKey::PASTE,
+    FIND = .K_SCANCODE_MASK|.SDLKey::FIND,
+    MUTE = .K_SCANCODE_MASK|.SDLKey::MUTE,
+    VOLUMEUP = .K_SCANCODE_MASK|.SDLKey::VOLUMEUP,
+    VOLUMEDOWN = .K_SCANCODE_MASK|.SDLKey::VOLUMEDOWN,
+    KP_COMMA = .K_SCANCODE_MASK|.SDLKey::KP_COMMA,
+    KP_EQUALSAS400 =
+        .K_SCANCODE_MASK|.SDLKey::KP_EQUALSAS400,
+
+    ALTERASE = .K_SCANCODE_MASK|.SDLKey::ALTERASE,
+    SYSREQ = .K_SCANCODE_MASK|.SDLKey::SYSREQ,
+    CANCEL = .K_SCANCODE_MASK|.SDLKey::CANCEL,
+    CLEAR = .K_SCANCODE_MASK|.SDLKey::CLEAR,
+    PRIOR = .K_SCANCODE_MASK|.SDLKey::PRIOR,
+    RETURN2 = .K_SCANCODE_MASK|.SDLKey::RETURN2,
+    SEPARATOR = .K_SCANCODE_MASK|.SDLKey::SEPARATOR,
+    OUT = .K_SCANCODE_MASK|.SDLKey::OUT,
+    OPER = .K_SCANCODE_MASK|.SDLKey::OPER,
+    CLEARAGAIN = .K_SCANCODE_MASK|.SDLKey::CLEARAGAIN,
+    CRSEL = .K_SCANCODE_MASK|.SDLKey::CRSEL,
+    EXSEL = .K_SCANCODE_MASK|.SDLKey::EXSEL,
+
+    KP_00 = .K_SCANCODE_MASK|.SDLKey::KP_00,
+    KP_000 = .K_SCANCODE_MASK|.SDLKey::KP_000,
+    THOUSANDSSEPARATOR =
+        .K_SCANCODE_MASK|.SDLKey::THOUSANDSSEPARATOR,
+    DECIMALSEPARATOR =
+        .K_SCANCODE_MASK|.SDLKey::DECIMALSEPARATOR,
+    CURRENCYUNIT = .K_SCANCODE_MASK|.SDLKey::CURRENCYUNIT,
+    CURRENCYSUBUNIT =
+        .K_SCANCODE_MASK|.SDLKey::CURRENCYSUBUNIT,
+    KP_LEFTPAREN = .K_SCANCODE_MASK|.SDLKey::KP_LEFTPAREN,
+    KP_RIGHTPAREN = .K_SCANCODE_MASK|.SDLKey::KP_RIGHTPAREN,
+    KP_LEFTBRACE = .K_SCANCODE_MASK|.SDLKey::KP_LEFTBRACE,
+    KP_RIGHTBRACE = .K_SCANCODE_MASK|.SDLKey::KP_RIGHTBRACE,
+    KP_TAB = .K_SCANCODE_MASK|.SDLKey::KP_TAB,
+    KP_BACKSPACE = .K_SCANCODE_MASK|.SDLKey::KP_BACKSPACE,
+    KP_A = .K_SCANCODE_MASK|.SDLKey::KP_A,
+    KP_B = .K_SCANCODE_MASK|.SDLKey::KP_B,
+    KP_C = .K_SCANCODE_MASK|.SDLKey::KP_C,
+    KP_D = .K_SCANCODE_MASK|.SDLKey::KP_D,
+    KP_E = .K_SCANCODE_MASK|.SDLKey::KP_E,
+    KP_F = .K_SCANCODE_MASK|.SDLKey::KP_F,
+    KP_XOR = .K_SCANCODE_MASK|.SDLKey::KP_XOR,
+    KP_POWER = .K_SCANCODE_MASK|.SDLKey::KP_POWER,
+    KP_PERCENT = .K_SCANCODE_MASK|.SDLKey::KP_PERCENT,
+    KP_LESS = .K_SCANCODE_MASK|.SDLKey::KP_LESS,
+    KP_GREATER = .K_SCANCODE_MASK|.SDLKey::KP_GREATER,
+    KP_AMPERSAND = .K_SCANCODE_MASK|.SDLKey::KP_AMPERSAND,
+    KP_DBLAMPERSAND =
+        .K_SCANCODE_MASK|.SDLKey::KP_DBLAMPERSAND,
+    KP_VERTICALBAR =
+        .K_SCANCODE_MASK|.SDLKey::KP_VERTICALBAR,
+    KP_DBLVERTICALBAR =
+        .K_SCANCODE_MASK|.SDLKey::KP_DBLVERTICALBAR,
+    KP_COLON = .K_SCANCODE_MASK|.SDLKey::KP_COLON,
+    KP_HASH = .K_SCANCODE_MASK|.SDLKey::KP_HASH,
+    KP_SPACE = .K_SCANCODE_MASK|.SDLKey::KP_SPACE,
+    KP_AT = .K_SCANCODE_MASK|.SDLKey::KP_AT,
+    KP_EXCLAM = .K_SCANCODE_MASK|.SDLKey::KP_EXCLAM,
+    KP_MEMSTORE = .K_SCANCODE_MASK|.SDLKey::KP_MEMSTORE,
+    KP_MEMRECALL = .K_SCANCODE_MASK|.SDLKey::KP_MEMRECALL,
+    KP_MEMCLEAR = .K_SCANCODE_MASK|.SDLKey::KP_MEMCLEAR,
+    KP_MEMADD = .K_SCANCODE_MASK|.SDLKey::KP_MEMADD,
+    KP_MEMSUBTRACT =
+        .K_SCANCODE_MASK|.SDLKey::KP_MEMSUBTRACT,
+    KP_MEMMULTIPLY =
+        .K_SCANCODE_MASK|.SDLKey::KP_MEMMULTIPLY,
+    KP_MEMDIVIDE = .K_SCANCODE_MASK|.SDLKey::KP_MEMDIVIDE,
+    KP_PLUSMINUS = .K_SCANCODE_MASK|.SDLKey::KP_PLUSMINUS,
+    KP_CLEAR = .K_SCANCODE_MASK|.SDLKey::KP_CLEAR,
+    KP_CLEARENTRY = .K_SCANCODE_MASK|.SDLKey::KP_CLEARENTRY,
+    KP_BINARY = .K_SCANCODE_MASK|.SDLKey::KP_BINARY,
+    KP_OCTAL = .K_SCANCODE_MASK|.SDLKey::KP_OCTAL,
+    KP_DECIMAL = .K_SCANCODE_MASK|.SDLKey::KP_DECIMAL,
+    KP_HEXADECIMAL =
+        .K_SCANCODE_MASK|.SDLKey::KP_HEXADECIMAL,
+
+    LCTRL = .K_SCANCODE_MASK|.SDLKey::LCTRL,
+    LSHIFT = .K_SCANCODE_MASK|.SDLKey::LSHIFT,
+    LALT = .K_SCANCODE_MASK|.SDLKey::LALT,
+    LGUI = .K_SCANCODE_MASK|.SDLKey::LGUI,
+    RCTRL = .K_SCANCODE_MASK|.SDLKey::RCTRL,
+    RSHIFT = .K_SCANCODE_MASK|.SDLKey::RSHIFT,
+    RALT = .K_SCANCODE_MASK|.SDLKey::RALT,
+    RGUI = .K_SCANCODE_MASK|.SDLKey::RGUI,
+
+    MODE = .K_SCANCODE_MASK|.SDLKey::MODE,
+
+    AUDIONEXT = .K_SCANCODE_MASK|.SDLKey::AUDIONEXT,
+    AUDIOPREV = .K_SCANCODE_MASK|.SDLKey::AUDIOPREV,
+    AUDIOSTOP = .K_SCANCODE_MASK|.SDLKey::AUDIOSTOP,
+    AUDIOPLAY = .K_SCANCODE_MASK|.SDLKey::AUDIOPLAY,
+    AUDIOMUTE = .K_SCANCODE_MASK|.SDLKey::AUDIOMUTE,
+    MEDIASELECT = .K_SCANCODE_MASK|.SDLKey::MEDIASELECT,
+    WWW = .K_SCANCODE_MASK|.SDLKey::WWW,
+    MAIL = .K_SCANCODE_MASK|.SDLKey::MAIL,
+    CALCULATOR = .K_SCANCODE_MASK|.SDLKey::CALCULATOR,
+    COMPUTER = .K_SCANCODE_MASK|.SDLKey::COMPUTER,
+    AC_SEARCH = .K_SCANCODE_MASK|.SDLKey::AC_SEARCH,
+    AC_HOME = .K_SCANCODE_MASK|.SDLKey::AC_HOME,
+    AC_BACK = .K_SCANCODE_MASK|.SDLKey::AC_BACK,
+    AC_FORWARD = .K_SCANCODE_MASK|.SDLKey::AC_FORWARD,
+    AC_STOP = .K_SCANCODE_MASK|.SDLKey::AC_STOP,
+    AC_REFRESH = .K_SCANCODE_MASK|.SDLKey::AC_REFRESH,
+    AC_BOOKMARKS = .K_SCANCODE_MASK|.SDLKey::AC_BOOKMARKS,
+
+    BRIGHTNESSDOWN =
+        .K_SCANCODE_MASK|.SDLKey::BRIGHTNESSDOWN,
+    BRIGHTNESSUP = .K_SCANCODE_MASK|.SDLKey::BRIGHTNESSUP,
+    DISPLAYSWITCH = .K_SCANCODE_MASK|.SDLKey::DISPLAYSWITCH,
+    KBDILLUMTOGGLE =
+        .K_SCANCODE_MASK|.SDLKey::KBDILLUMTOGGLE,
+    KBDILLUMDOWN = .K_SCANCODE_MASK|.SDLKey::KBDILLUMDOWN,
+    KBDILLUMUP = .K_SCANCODE_MASK|.SDLKey::KBDILLUMUP,
+    EJECT = .K_SCANCODE_MASK|.SDLKey::EJECT,
+    SLEEP = .K_SCANCODE_MASK|.SDLKey::SLEEP
+}
+
+const ushort KMOD_NONE  = 0x0000;
+const ushort KMOD_LSHIFT= 0x0001;
+const ushort KMOD_RSHIFT= 0x0002;
+const ushort KMOD_LCTRL = 0x0040;
+const ushort KMOD_RCTRL = 0x0080;
+const ushort KMOD_LALT  = 0x0100;
+const ushort KMOD_RALT  = 0x0200;
+const ushort KMOD_LGUI  = 0x0400;
+const ushort KMOD_RGUI  = 0x0800;
+const ushort KMOD_NUM   = 0x1000;
+const ushort KMOD_CAPS  = 0x2000;
+const ushort KMOD_MODE  = 0x4000;
+const ushort KMOD_RESERVED = 0x8000;
+const ushort KMOD_CTRL = (KMOD_LCTRL|KMOD_RCTRL);
+const ushort KMOD_SHIFT = (KMOD_LSHIFT|KMOD_RSHIFT);
+const ushort KMOD_ALT = (KMOD_LALT|KMOD_RALT);
+const ushort KMOD_GUI = (KMOD_LGUI|KMOD_RGUI);
+
+
+
+public &keysym
+{
+  public |.SDLKey scancode;
+  public |.K sym;
+  public ushort mod;
+  public ushort padding;
+  public uint unused;
+}
+public &KeyboardEvent
+{
+  public uint windowID;
+  public ubyte state;
+  public ubyte repeat;
+  public ubyte padding1, padding2;
+  public &.keysym keysym;
+}
+
+
+public &MouseMotionEvent
+{
+  public uint windowID;
+  public uint which;
+  public uint state;
+  public int x, y;
+  public int xrel, yrel;
+}
+
+
+public &MouseButtonEvent
+{
+  public |.EventType etype = .EventType::NOEVENT;
+  public uint which;
+  public ubyte button;
+  public ubyte state;
+  public ubyte padding1, padding2;
+  public int x, y;
+}
+
+
+public &Event
+{
+  public |.EventType etype = .EventType::NOEVENT;
+  public uint timestamp;
+  public &.KeyboardEvent key;
+  public &.MouseMotionEvent motion;
+  public &.MouseButtonEvent button;
+}
+
+
+public &Rect
+{
+  public int x, y;
+  public int w, h;
+  public void set(int x, int y, int w, int h)
+  {
+    `x = x;
+    `y = y;
+    `w = w;
+    `h = h;
+  }
+}
+
+public &Surface
+{
+  index sur = 0;
+  delete()
+  {
+    `free();
+  }
+  public bool null()
+  {
+    ret `sur == 0;
+  }
+  public void free()
+  {
+    plugin void FreeSurface(:index:) = "dll/sdlplugin.dll";
+    FreeSurface(:`sur:);
+    `sur = 0;
+  }
+  public void allocSurface(int w, int h)
+  {
+    plugin index AllocSurface(:int, int:) = "dll/sdlplugin.dll";
+    `free();
+    `sur = AllocSurface(:w, h:);
+  }
+  public void imgLoad(^/char fn)
+  {
+    plugin index IMGLoad(:^/char:) = "dll/sdlplugin.dll";
+    `free();
+    `sur = IMGLoad(:fn:);
+  }
+  /void blitToWin(&.Rect dr=)
+  {
+    plugin void BlitSurface(:index, &.Rect=:) = "dll/sdlplugin.dll";
+    BlitSurface(:`sur, dr=:);
+  }
+  public void createPaletteSurface(^ubyte img, ^uint pal, int w, int h)
+  {
+    plugin index CreatePaletteSurface(:ubyte=, uint=, int, int:) =
+      "dll/sdlplugin.dll";
+    `sur = CreatePaletteSurface(:img<>=, pal<>=, w, h:);
+  }
+  public void setColorKey(int key)
+  {
+    plugin index SetColorKey(:index, int:) = "dll/sdlplugin.dll";
+    SetColorKey(:`sur, key:);
+  }
+}
+
+public &Font
+{
+  index font = 0;
+  delete()
+  {
+    `close();
+  }
+  public void close()
+  {
+    plugin void CloseFont(:index:) = "dll/sdlplugin.dll";
+    if(`font != 0) CloseFont(:`font:);
+    `font = 0;
+  }
+  public void open(^/char fn, int size)
+  {
+    plugin index OpenFont(:^/char, int:) = "dll/sdlplugin.dll";
+    `close();
+    `font = OpenFont(:fn, size:);
+  }
+  public void render(uint color, int x, int y, ^/char str)
+  {
+    plugin void RenderFont(:
+      index, uint, int, int, ^/char:) = "dll/sdlplugin.dll";
+    RenderFont(:`font, color, x, y, str:);
+  }
+}
+
+
+public bool init(^/char t, int w, int h, bool gl, bool mugen)
+{
+  plugin bool GlInit(:^/char, int, int:) = "dll/sdlplugin.dll";
+  plugin bool Init(:^/char, int, int, bool:) = "dll/sdlplugin.dll";
+  if(gl) ret GlInit(:t, w, h:);
+  ret Init(:t, w, h, mugen:);
+}
+
+public bool fullScreen(bool full)
+{
+  plugin bool FullScreen(:bool:) = "dll/sdlplugin.dll";
+  ret FullScreen(:full:);
+}
+
+public void showCursor(bool show)
+{
+  plugin void CursorShow(:bool:) = "dll/sdlplugin.dll";
+  CursorShow(:show:);
+}
+
+public &GlTexture
+{
+  uint id = 0x0;
+  delete()
+  {
+    `clear();
+  }
+  public void clear()
+  {
+    plugin void DeleteGlTexture(:uint:) = "dll/sdlplugin.dll";
+    DeleteGlTexture(:`id:);
+    `id = 0x0;
+  }
+  public bool load8bitTexture(^ubyte pxl, int w, int h)
+  {
+    plugin uint Load8bitTexture(:ubyte=, int, int:) = "dll/sdlplugin.dll";
+    if(#pxl == 0 || #pxl != w*h) ret false;
+    `clear();
+    `id = Load8bitTexture(:pxl<>=, w, h:);
+    ret `id != 0x0;
+  }
+  public bool loadPngTexture(int w=, int h=, &.f.File file=)
+  {
+    plugin uint LoadPngTexture(:int=, int=, &.f.File:) = "dll/sdlplugin.dll";
+    `clear();
+    `id = LoadPngTexture(:w=, h=, file:);
+    ret `id != 0x0;
+  }
+}
+
+plugin void MugenFillGl(:&Rect, uint, int:) = "dll/sdlplugin.dll";
+plugin bool InitMugenGl(::) = "dll/sdlplugin.dll";
+plugin bool RenderMugenGl(:
+  &GlTexture, uint=, int, &Rect=, float, float, &Rect=, float, float, float,
+  float, float, float, int, &Rect=, float, float:) = "dll/sdlplugin.dll";
+plugin bool RenderMugenGlFc(:
+  &GlTexture, &Rect=, float, float, &Rect=, float, float, float,
+  float, float, float, int, &Rect=, float, float, bool, float,
+  float, float, float, float, float, float:) = "dll/sdlplugin.dll";
+plugin bool RenderMugenGlFcS(:
+  &GlTexture, &Rect=, float, float, &Rect=, float, float, float,
+  float, float, float, int, &Rect=, float, float, uint:) = "dll/sdlplugin.dll";
+plugin void GlSwapBuffers(::) = "dll/sdlplugin.dll";
+
+public bool bindGlContext()
+{
+  plugin bool BindGlContext(::) = "dll/sdlplugin.dll";
+  ret BindGlContext(::);
+}
+
+public bool unbindGlContext()
+{
+  plugin bool UnbindGlContext(::) = "dll/sdlplugin.dll";
+  ret UnbindGlContext(::);
+}
+
+public &UseGlContext
+{
+  new()
+  {
+    .bindGlContext();
+  }
+  delete()
+  {
+    .unbindGlContext();
+  }
+}
+

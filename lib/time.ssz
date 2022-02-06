@@ -1,0 +1,88 @@
+
+public uint tickCount()
+{
+  plugin uint TickCount(::) = <dll/time.dll>;
+  ret TickCount(::);
+}
+
+public long unixTime()
+{
+  plugin long UnixTime(::) = <dll/time.dll>;
+  ret UnixTime(::);
+}
+
+const ^/int MDAYS = (int)[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const long EPOCHDAYS = 1969*365 + 1969/4 - 1969/100 + 1969/400;
+public long div(long x, long y)
+{
+  ret (x + (x < 0 ^ y < 0 ? (#y - 1)*(x < 0 ? -1 : 1) : 0)) / y;
+}
+public long mod(long x, long y)
+{
+  long a = x % y;
+  ret a + (a < 0 ? #y : 0);
+}
+
+public long days(long time)
+{
+  ret .div(time, 24*3600) + .EPOCHDAYS;
+}
+
+public ^int ymdhms(long time)
+{
+  ^int ymdhms.new(6);
+  ymdhms[5] = .mod(time, 60);
+  ymdhms[4] = .mod(time, 3600) / 60;
+  ymdhms[3] = .mod(.div(time, 3600), 24);
+
+  long day = .days(time);
+
+  const int y400days = 400*365 + 100 - 4 + 1;
+  ymdhms[0] = 1 + .div(day, y400days) * 400;
+  ymdhms[2] = .mod(day, y400days);
+
+  const int y100days = 100*365 + 25 - 1;
+  ymdhms[0] += .div(ymdhms[2], y100days) * 100;
+  ymdhms[2] = .mod(ymdhms[2], y100days);
+
+  const int y4days = 4*365 + 1;
+  ymdhms[0] += .div(ymdhms[2], y4days) * 4;
+  ymdhms[2] = .mod(ymdhms[2], y4days);
+
+  ymdhms[0] += .div(ymdhms[2], 365);
+  ymdhms[2] = .mod(ymdhms[2], 365);
+
+  ymdhms[1] = 0;
+  loop{
+    int tmp;
+  do:
+    tmp =
+      .MDAYS[ymdhms[1]] + (int)(
+        ymdhms[1] == 1 && ymdhms[0] % 4 == 0
+        && (ymdhms[0] % 100 != 0 || ymdhms[0] % 400 == 0));
+    if(ymdhms[2] < tmp) break;
+    ymdhms[2] -= tmp;
+    ymdhms[1]++;
+  while ymdhms[1] < #.MDAYS:}
+  ymdhms[2] += 1;
+  ymdhms[1] += 1;
+  ret ymdhms;
+}
+
+public long ymdhmsToUnixTime(long Y, byte M, long D, long h, long m, long s)
+{
+  long y = Y - 1;
+  long time =
+    (y*365 + .div(y, 4) - .div(y, 100) + .div(y, 400) - .EPOCHDAYS + D-1)
+    * (24*3600)
+    + h*3600 + m*60 + s;
+  loop{int i = 0; while; do:
+    time +=
+      (24*3600) * (
+        .MDAYS[i] + (int)(
+          i == 1 && Y % 4 == 0 && (Y % 100 != 0 || Y % 400 == 0)));
+    i++;
+  while i < M - 1:}
+  ret time;
+}
+
