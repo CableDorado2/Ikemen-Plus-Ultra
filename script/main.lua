@@ -2273,7 +2273,7 @@ end
 --; REPLAY MENU LOOP
 --;===========================================================
 t_mainReplay = {
-	{id = textImgNew(), text = 'BACK'},
+	{id = textImgNew(), text = 'Back'},
 }
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
 
@@ -2971,7 +2971,7 @@ function f_teamhostCfg()
 				sndPlay(sysSnd, 100, 0)
 				data.numTurns = data.numTurns + 1
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.numTurns > 1 then
+			elseif commandGetState(p1Cmd, 'l') and data.numTurns > 2 then
 				sndPlay(sysSnd, 100, 0)
 				data.numTurns = data.numTurns - 1
 				modified = 1
@@ -3592,7 +3592,7 @@ function f_teamjoinCfg()
 				sndPlay(sysSnd, 100, 0)
 				data.numTurns = data.numTurns + 1
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.numTurns > 1 then
+			elseif commandGetState(p1Cmd, 'l') and data.numTurns > 2 then
 				sndPlay(sysSnd, 100, 0)
 				data.numTurns = data.numTurns - 1
 				modified = 1
