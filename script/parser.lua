@@ -515,8 +515,8 @@ for i=1, #t_selChars do
 		displayname = t_selChars[i].displayname:gsub('%s+', '_')
 		--if data/charAnim/displayname.def doesn't exist
 		if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
-			--create a batch variable used to create 'data/charAnim/charName' folder and to extract all character's sprites there
-			batch = batch .. '\n' .. 'mkdir "data\\charAnim\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charAnim\\' .. displayname .. '\\s"'
+			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
+			batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
 			--store character's reference that needs conversion into table to save time later on
 			t_gen[#t_gen+1] = i
 			--enable sprite generation later on
@@ -604,11 +604,11 @@ if generate and data.sffConversion then
 		f_printVar(batch, 'batch.bat')
 		batch = ''
 		os.execute('batch.bat')
-		--open each line in data/charAnim/charName/s-sff.def to compare
+		--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
 			local append = ''
 			displayname = t_selChars[t_gen[i]].displayname:gsub('%s+', '_')
-			for line in io.lines('data/charAnim/' .. displayname .. '/s-sff.def') do
+			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 				--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
 				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)
 			end
@@ -629,6 +629,7 @@ if generate and data.sffConversion then
 				t_selChars[t_gen[i]]['p1AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
 				t_selChars[t_gen[i]]['p2AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
 			end
+			os.execute('trash.bat')
 			refresh()
 		end
 	end
