@@ -1971,6 +1971,8 @@ function f_selectVersus()
 				end
 			elseif data.gameMode == 'versus' then
 				textImgDraw(txt_gameNo)
+			elseif data.gameMode == '100kumite' then
+				textImgDraw(txt_gameNo)				
 			end
 			--draw background on bottom
 			animUpdate(versusBG4)
