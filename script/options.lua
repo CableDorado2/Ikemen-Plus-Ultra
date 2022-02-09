@@ -307,9 +307,7 @@ end
 
 function f_mainCfg()
 	cmdInput()
-	local mainCfg = 1
-	local bufl = 0
-	local bufr = 0	
+	local mainCfg = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() then
@@ -322,15 +320,11 @@ function f_mainCfg()
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg - 1
-			if mainCfg < 1 then mainCfg = #t_mainCfg end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
+			if mainCfg < 1 then mainCfg = #t_mainCfg end		
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg + 1
 			if mainCfg > #t_mainCfg then mainCfg = 1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
 		--Port Change
 		elseif mainCfg == 6 and (btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)

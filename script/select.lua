@@ -2000,8 +2000,10 @@ function f_selectWin()
 	playBGM(bgmVictory)
 	local txt = ''
 	if winner == 1 then
+		p1Wins = p1Wins + 1
 		txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected)
 	else--if winner == 2 then
+		p2Wins = p2Wins + 1
 		txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected)
 	end
 	local i = 0

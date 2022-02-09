@@ -53,8 +53,8 @@ function setCommand(c)
 	commandAdd(c, 'd', '$D')
 	commandAdd(c, 'l', '$B')
 	commandAdd(c, 'r', '$F')
-	commandAdd(c, 'holdu', '/U')
-	commandAdd(c, 'holdd', '/D')
+	commandAdd(c, 'holdu', '/U') --bufu
+	commandAdd(c, 'holdd', '/D') --bufd
 	commandAdd(c, 'holdl', '/B') --bufl
 	commandAdd(c, 'holdr', '/F') --bufr
 	commandAdd(c, 'relu', '~U')
@@ -519,7 +519,7 @@ animSetScale(arrowsU, 2, 2)
 
 --txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 2, 240)
 txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 2, 240)
-txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.0', 319, 240)
+txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.0.2', 319, 240)
 
 --;===========================================================
 --; MAIN MENU LOOP
@@ -532,6 +532,7 @@ t_mainMenu = {
 	{id = textImgNew(), text = 'PRACTICE'},
 	{id = textImgNew(), text = 'CHALLENGES'},	
 	{id = textImgNew(), text = 'WATCH'},
+	{id = textImgNew(), text = 'EXTRAS'},	
 	{id = textImgNew(), text = 'OPTIONS'},
 	{id = textImgNew(), text = 'EXIT'},	
 	{id = textImgNew(), text = 'CHECK UPDATES'},
@@ -619,7 +620,7 @@ function f_mainMenu()
 			--ONLINE
 			elseif mainMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
-				assert(loadfile('script/online options.lua'))()
+				assert(loadfile('script/onlinecfg.lua'))()
 				f_mainNetplay()
 			--PRACTICE
 			elseif mainMenu == 4 then
@@ -633,12 +634,16 @@ function f_mainMenu()
 			elseif mainMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_watchMenu()
-			--OPTIONS
+			--EXTRAS
 			elseif mainMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				f_extrasMenu()				
+			--OPTIONS
+			elseif mainMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
 				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 			--EXIT
-			elseif mainMenu == 8 then
+			elseif mainMenu == 9 then
 				os.exit()
 			--CHECK UPDATES
 			else
@@ -1119,7 +1124,7 @@ function f_challengeMenu()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_challengeMenu do
 			if i == challengeMenu then
-				bank = 5
+				bank = 1
 			else
 				bank = 0
 			end
@@ -2236,7 +2241,7 @@ function f_watchMenu()
 			elseif watchMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				assert(loadfile('script/online options.lua'))()
+				assert(loadfile('script/onlinecfg.lua'))()
 				f_mainReplay()
 			--BACK
 			else
@@ -2275,6 +2280,146 @@ function f_watchMenu()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===========================================================
+--; EXTRAS MENU LOOP
+--;===========================================================
+t_extrasMenu = {
+	{id = textImgNew(), text = 'STORYBOARDS'},
+	{id = textImgNew(), text = 'SOUND TEST'},
+	{id = textImgNew(), text = 'CREDITS'},
+	{id = textImgNew(), text = 'BACK'},	
+}	
+	
+function f_extrasMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local extrasMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			extrasMenu = extrasMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			extrasMenu = extrasMenu + 1
+		end
+		if extrasMenu < 1 then
+			extrasMenu = #t_extrasMenu
+			if #t_extrasMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_extrasMenu-1
+			end
+		elseif extrasMenu > #t_extrasMenu then
+			extrasMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (extrasMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (extrasMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--STORYBOARDS
+			if extrasMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				require ('script.cutscenes')
+				script.cutscenes.f_videoMenu()
+			--SOUND TEST
+			elseif extrasMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				require ('script.soundtest')
+				script.soundtest.f_soundMenu()
+			--CREDITS
+			elseif extrasMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				cmdInput()
+				local cursorPosY = 0
+				local moveTxt = 0
+				local playCredits = 1
+				script.storyboard.f_storyboard('data/credits.def')
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				playBGM(bgmTitle)
+				while true do
+					if esc() then
+						sndPlay(sysSnd, 100, 2)
+						break
+					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+						f_default()
+						sndPlay(sysSnd, 100, 2)
+						break
+					end
+				end	
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_extrasMenu do
+			if i == extrasMenu then
+				bank = 2
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt)
+		textImgDraw(txt_titleFt2)
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; CREDITS
+--;===========================================================
+function f_playCredits()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local playCredits = 1
+	script.storyboard.f_storyboard('data/credits.def')
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	playBGM(bgmTitle)
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+			f_default()
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+	end	
 end
 
 --;===========================================================
@@ -2577,7 +2722,7 @@ function f_mainNetplay()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_mainNetplay do
 			if i == mainNetplay then
-				bank = 5
+				bank = 3
 			else
 				bank = 0
 			end
