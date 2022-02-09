@@ -5,6 +5,13 @@
 - This version may contain bugs and incomplete features
 - Your help and cooperation are appreciated
 
+# Minimum System Requirements
+- System: Windows XP SP3 - 32 Bits (Yeah it works in WinXP)
+- Proccessor: Intel(R) Atom(TM) CPU N455 1.66GHz
+- Memory: 1GB RAM
+- Graphics: Intel(R) Graphics Media Accelerator 3150 - 256MB
+- OpenGL: Is not need, works with DirectX 11
+
 # References
 >- Original repository source code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
