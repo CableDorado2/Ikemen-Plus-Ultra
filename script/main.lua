@@ -2288,7 +2288,7 @@ end
 t_extrasMenu = {
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'SOUND TEST'},
-	{id = textImgNew(), text = 'CREDITS'},
+	{id = textImgNew(), text = 'PLAY CREDITS'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
 	
