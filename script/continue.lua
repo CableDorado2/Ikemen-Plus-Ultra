@@ -5,7 +5,7 @@ module(..., package.seeall)
 --; CONTINUE SCREEN
 --;===========================================================
 bgmContinue = 'sound/CONTINUE.mp3'
-bgmGameOver = 'sound/GAME_OVER.mp3'
+bgmGameOver = 'sound/GAME OVER.mp3'
 contSff = sffNew('data/continue.sff')
 contSnd = sndNew('data/continue.snd')
 
