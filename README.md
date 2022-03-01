@@ -15,6 +15,9 @@
 # Download
 >- Lastest Version: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
+# How to Add Characters & Stages
+>- https://www.youtube.com/watch?v=B756BT_hV8I
+
 # References
 >- Original repository source code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
