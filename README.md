@@ -15,6 +15,9 @@
 # Download
 >- Lastest Version: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
+# Preview
+>- https://www.youtube.com/watch?v=j2VIMyAp624
+
 # How to Add Characters & Stages
 >- https://www.youtube.com/watch?v=B756BT_hV8I
 
