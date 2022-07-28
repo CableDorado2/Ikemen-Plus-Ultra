@@ -2,7 +2,9 @@
 *Ikemen Plus Ultra* is a better version of the **I.K.E.M.E.N PLUS**, an open source fighting game engine that supports **M.U.G.E.N** resources made by ***Suehiro*** and updated to plus by ***acdgames***/***Alceris***.
 
 - This engine it is used to create advanced MUGENS games, that run on any PC from 2008 onwards, without a graphics card. Say goodbye to OpenGL and say hello to DirectX.
+
 - The current version is a public development release for testing purposes, so may contain bugs and incomplete features that will be finished in the final release.
+
 - Your help and cooperation are appreciated.
 
 ## Table of Contents
@@ -60,15 +62,17 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 
 [![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
-Coming Soon!
-Coming Soon!
-Coming Soon!
+ Coming Soon!
+ Coming Soon!
+ Coming Soon!
 
 ## References
 >- Original Repository Source Code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
+>
 >- Original Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
+>
 >- Current I.K.E.M.E.N Engine (Ikemen Go) [Source Code] (I take inspiration of this Ikemen to make Plus Ultra):
 >https://github.com/Windblade-GR01/Ikemen-GO
 
@@ -79,10 +83,10 @@ Non-code assets are under CC-BY 3.0.
 Check [License.txt](License.txt) for more deatils.
 
 ## Projects Powered On Ikemen Plus Ultra
->***ULTIMATE SMASHBOX:*** https://sites.google.com/view/ultimatesmashbox/home
->
->[![Alt text](https://i.ytimg.com/vi/C5VTzhcFa3g/maxresdefault.jpg)](https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg)
-
 >***MUGENGERS 4 - THE OROCHI'S ORIGIN:*** https://www.youtube.com/watch?v=TezLZpIdbac
 >
 >[![Alt text](https://img.youtube.com/vi/TezLZpIdbac/maxresdefault.jpg)](https://www.youtube.com/watch?v=TezLZpIdbac)
+
+>***ULTIMATE SMASHBOX:*** https://sites.google.com/view/ultimatesmashbox/home
+>
+>[![Alt text](https://i.ytimg.com/vi/C5VTzhcFa3g/maxresdefault.jpg)](https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg)
