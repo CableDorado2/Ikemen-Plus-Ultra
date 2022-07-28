@@ -77,7 +77,6 @@ How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 ## License
 The code is under the MIT Licence.
 Non-code assets are under CC-BY 3.0.
-
 Check [License.txt](License.txt) for more deatils.
 
 ## Projects Powered On Ikemen Plus Ultra
