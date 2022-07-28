@@ -21,7 +21,7 @@ https://www.youtube.com/watch?v=j2VIMyAp624
 [![Alt text](https://i.ytimg.com/vi/j2VIMyAp624/maxresdefault.jpg)](https://www.youtube.com/watch?v=j2VIMyAp624)
 
 # TUTORIALS
->- How to Add Characters & Stages: https://www.youtube.com/watch?v=j2VIMyAp62
+>- How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 
 [![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
 >- Coming Soon!
