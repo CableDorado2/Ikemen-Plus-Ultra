@@ -62,9 +62,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 
 [![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
- Coming Soon!
- Coming Soon!
- Coming Soon!
+Coming Soon more tutorials!
 
 ## References
 >- Original Repository Source Code:
@@ -73,7 +71,7 @@ How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 >- Original Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
->- Current I.K.E.M.E.N Engine (Ikemen Go) [Source Code] (I take inspiration of this Ikemen to make Plus Ultra):
+>- Current Ikemen Engine (Ikemen Go) Source Code (I take inspiration of this Ikemen to make Plus Ultra):
 >https://github.com/Windblade-GR01/Ikemen-GO
 
 ## License
