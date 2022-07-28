@@ -62,7 +62,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 
 [![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
-*Coming Soon More Tutorials!
+*Coming Soon More Tutorials!*
 
 ## References
 >- Original Repository Source Code:
@@ -77,7 +77,7 @@ How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 ## License
 The code is under the MIT Licence.
 Non-code assets are under CC-BY 3.0.
-Check [License.txt](License.txt) for more deatils.
+Check [License.txt](License.txt) for more details.
 
 ## Projects Powered On Ikemen Plus Ultra
 >***MUGENGERS 4 - THE OROCHI'S ORIGIN:*** https://www.youtube.com/watch?v=TezLZpIdbac
