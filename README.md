@@ -39,12 +39,22 @@ https://www.youtube.com/watch?v=j2VIMyAp624
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 ## Default Controls
-| Action | Keyboard | Gamepad *(It will be supported in a near future)* |
-| --- | --- | --- |
-| Movement | Arrow Keys | Left Analog / DPad |
-| Name | Key | ??? |
-| Pause | Backspace | ??? |
-| UI Confirm | Enter | ??? |
+| Action | Keyboard P1 | Keyboard P2 | Gamepad *(It will be supported in a near future)* |
+| --- | --- | --- | --- |
+| ↑ | Up Arrow | T |  |
+| ↓ | Down Arrow | G |  |
+| ← | Left Arrow | F |  |
+| → | Right Arrow | H |  |
+| A/***LK*** | Z | J |  |
+| B/***MK*** | X | K |  |
+| C/***SK*** | C | L |  |
+| X/***LP*** | A | I |  |
+| Y/***MP*** | S | O |  |
+| Z/***SP*** | D | P |  |
+| **Taunt**/Start | Enter/Return | Q |  |
+| **Pause**/Resume | Backspace |  |  |
+| UI Confirm | Enter/Return / Z, X, C, A, S, D | Q, J, K, L, I, O, P |  |
+| UI Back | Esc |  |  |
 
 ## Tutorials
 >- How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
