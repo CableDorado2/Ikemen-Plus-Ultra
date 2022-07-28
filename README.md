@@ -18,15 +18,24 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 # Engine Preview
 https://www.youtube.com/watch?v=j2VIMyAp624
 
+[![Alt text](https://i.ytimg.com/vi/j2VIMyAp624/maxresdefault.jpg)](https://www.youtube.com/watch?v=j2VIMyAp624)
+
 # TUTORIALS
->- How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
+>- How to Add Characters & Stages: https://www.youtube.com/watch?v=j2VIMyAp62
+
+[![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
 >- Coming Soon!
 >- Coming Soon!
 >- Coming Soon!
 
 # Projects Powered On Ikemen Plus Ultra
 >- ULTIMATE SMASHBOX: https://sites.google.com/view/ultimatesmashbox/home
->- ???
+
+[![Alt text](https://i.ytimg.com/vi/C5VTzhcFa3g/maxresdefault.jpg)](https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg)
+
+>- MUGENGERS 4 - THE OROCHI'S ORIGIN: https://www.youtube.com/watch?v=TezLZpIdbac
+
+[![Alt text](https://img.youtube.com/vi/TezLZpIdbac/maxresdefault.jpg)](https://www.youtube.com/watch?v=TezLZpIdbac)
 
 # References
 >- Original Repository Source Code:
