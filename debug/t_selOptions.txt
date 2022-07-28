@@ -1,33 +1,21 @@
-table: 02D15EE8 {
-  [survivalend] => table: 02D15EE8 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [teammaxmatches] => table: 02D15EE8 {
-                        [1] => 2
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 0
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [survivalstart] => table: 02D15EE8 {
+table: 0278CC10 {
+  [teamstart] => table: 0278CC10 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [survivalstart] => table: 0278CC10 {
                        [offset] => -3
                        [wins] => 0
                      }
-  [arcadestart] => table: 02D15EE8 {
-                     [offset] => 0
-                     [wins] => 2
+  [survivalend] => table: 0278CC10 {
+                     [offset] => 4
+                     [wins] => 16
                    }
-  [arcadeend] => table: 02D15EE8 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [arcademaxmatches] => table: 02D15EE8 {
+  [teamend] => table: 0278CC10 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [arcademaxmatches] => table: 0278CC10 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -39,12 +27,24 @@ table: 02D15EE8 {
                           [9] => 0
                           [10] => 0
                         }
-  [teamstart] => table: 02D15EE8 {
-                   [offset] => 0
-                   [wins] => 1
+  [arcadeend] => table: 0278CC10 {
+                   [offset] => 2
+                   [wins] => 4
                  }
-  [teamend] => table: 02D15EE8 {
-                 [offset] => 2
-                 [wins] => 3
-               }
+  [arcadestart] => table: 0278CC10 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [teammaxmatches] => table: 0278CC10 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 0
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
 }
