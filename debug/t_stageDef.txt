@@ -1,5 +1,5 @@
-table: 030F1028 {
+table: 02DF10F0 {
   [stages/training room.def] => 2
-  [stages/training room 2.def] => 3
   [stages/mountainside temple.def] => 1
+  [stages/training room 2.def] => 3
 }

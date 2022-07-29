@@ -1029,6 +1029,7 @@ end
 --;===========================================================
 txt_resCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SETTINGS', 159, 13)
 t_resCfg = {
+	
 	{id = '', x = 320,  y = 240,  text = '320x240     (4:3 QVGA)'},
 	{id = '', x = 512,  y = 384,  text = '512x384     (4:3 MACINTOSH)'},
 	{id = '', x = 640,  y = 480,  text = '640x480     (4:3 VGA)'},
@@ -1044,16 +1045,25 @@ t_resCfg = {
 	{id = '', x = 2048, y = 1536, text = '2048x1536   (4:3 QXGA)'},
 	{id = '', x = 3200, y = 2400, text = '3200x2400   (4:3 QUXGA)'},
 	{id = '', x = 6400, y = 4800, text = '6400x4800   (4:3 HUXGA)'},
+	{id = '', x = 426,  y = 240,  text = '426x240     (16:9 ULTRA LOW)'},
+	{id = '', x = 640,  y = 360,  text = '640x360     (16:9 LOW)'},
+	{id = '', x = 850,  y = 480,  text = '850x480     (16:9 WVGA)'},
+	{id = '', x = 854,  y = 480,  text = '854x480     (16:9 SD)'},
 	{id = '', x = 1280, y = 720,  text = '1280x720    (16:9 HD)'},
 	{id = '', x = 1600, y = 900,  text = '1600x900    (16:9 HD+)'},
 	{id = '', x = 1920, y = 1080, text = '1920x1080   (16:9 FHD)'},
+	{id = '', x = 2048, y = 1152, text = '2048x1152   (16:9 QWXGA)'},
 	{id = '', x = 2560, y = 1440, text = '2560x1440   (16:9 2K)'},
 	{id = '', x = 3840, y = 2160, text = '3840x2160   (16:9 4K)'},
+	{id = '', x = 320,  y = 200,  text = '320x200     (16:10 CGA)'},
+	{id = '', x = 1280, y = 768,  text = '1280x768    (16:10 WXGA)'},
 	{id = '', x = 1280, y = 800,  text = '1280x800    (16:10 WXGA)'},
 	{id = '', x = 1440, y = 900,  text = '1440x900    (16:10 WXGA+)'},
 	{id = '', x = 1680, y = 1050, text = '1680x1050   (16:10 WSXGA+)'},
 	{id = '', x = 1920, y = 1200, text = '1920x1200   (16:10 WUXGA)'},
 	{id = '', x = 2560, y = 1600, text = '2560x1600   (16:10 WQXGA)'},
+	{id = '', x = 3840, y = 2400, text = '3840x2400   (16:10 WQUXGA)'},
+	{id = '', x = 7680, y = 4800, text = '7680x4800   (16:10 WHUXGA)'},
 	{id = '', x = 400,  y = 254,  text = '400x254     (Arcade)'},
 	{id = '', x = 800,  y = 508,  text = '400x508     (Arcade x2)'},
 	{id = '', x = 1200, y = 762,  text = '1200x762    (Arcade x3)'},
@@ -1409,6 +1419,7 @@ t_inputCfg = {
 	{id = '', text = 'Player 1 (Keyboard)'},
 	{id = '', text = 'Player 2 (Keyboard)'},
 	{id = '', text = 'Default Controls'},
+	{id = '', text = 'Test Controls'},
 	{id = '', text = 'Back'},
 }
 for i=1, #t_inputCfg do
@@ -1453,6 +1464,19 @@ function f_inputCfg()
 			elseif inputCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_inputDefault()
+			elseif inputCfg == 4 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1) --round time disabled
+				data.p2In = 2
+				data.stageMenu = false
+				data.versusScreen = false --versus screen disabled
+				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
+				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+				data.p2Char = {t_charAdd['training']} --predefined P2 character as Training by stupa
+				data.gameMode = 'training'
+				textImgSetText(txt_mainSelect, 'INPUT TEST')
+				script.select.f_selectSimple()
 			else
 				sndPlay(sysSnd, 100, 2)
 				break

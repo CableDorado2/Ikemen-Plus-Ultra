@@ -1,21 +1,9 @@
-table: 0278CC10 {
-  [teamstart] => table: 0278CC10 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [survivalstart] => table: 0278CC10 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [survivalend] => table: 0278CC10 {
-                     [offset] => 4
+table: 02CB9F48 {
+  [survivalend] => table: 02CB9F48 {
                      [wins] => 16
+                     [offset] => 4
                    }
-  [teamend] => table: 0278CC10 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [arcademaxmatches] => table: 0278CC10 {
+  [arcademaxmatches] => table: 02CB9F48 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -27,15 +15,11 @@ table: 0278CC10 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 0278CC10 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [arcadestart] => table: 0278CC10 {
-                     [offset] => 0
+  [arcadestart] => table: 02CB9F48 {
                      [wins] => 2
+                     [offset] => 0
                    }
-  [teammaxmatches] => table: 0278CC10 {
+  [teammaxmatches] => table: 02CB9F48 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -47,4 +31,20 @@ table: 0278CC10 {
                         [9] => 0
                         [10] => 0
                       }
+  [teamend] => table: 02CB9F48 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [survivalstart] => table: 02CB9F48 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [arcadeend] => table: 02CB9F48 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
+  [teamstart] => table: 02CB9F48 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
 }

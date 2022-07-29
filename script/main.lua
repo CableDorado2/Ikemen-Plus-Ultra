@@ -517,9 +517,10 @@ animAddPos(arrowsU, 247, 170)
 animUpdate(arrowsU)
 animSetScale(arrowsU, 2, 2)
 
---txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 2, 240)
-txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 2, 240)
-txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.0.2', 319, 240)
+--txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 107, 240)
+txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 109, 240)
+txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
+txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p")), 34, 240)
 
 --;===========================================================
 --; MAIN MENU LOOP
@@ -673,6 +674,7 @@ function f_mainMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_titleFt)
 		textImgDraw(txt_titleFt2)
+		textImgDraw(txt_titleFt3)
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
