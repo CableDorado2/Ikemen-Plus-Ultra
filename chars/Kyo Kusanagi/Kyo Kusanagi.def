@@ -62,5 +62,5 @@ Pal35 = paletas/vans.act
 Pal36 = paletas/yasanagi.act
 
 [Arcade]
-intro.storyboard	= Storyboard/Arcade/Intro.def
-ending.storyboard	= Storyboard/Arcade/Ending.def
+intro.storyboard = ..\../storyboards/Kyo Kusanagi [Intro].def
+ending.storyboard = ..\../storyboards/Kyo Kusanagi [Ending].def

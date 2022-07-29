@@ -41,5 +41,5 @@ c = 6
 
 ; Arcade mode
 [Arcade]
-intro.storyboard = intro.def
-ending.storyboard = ending.def
+intro.storyboard = ..\../storyboards/Kung Fu Man [Intro].def
+ending.storyboard = ..\../storyboards/Kung Fu Man [Ending].def

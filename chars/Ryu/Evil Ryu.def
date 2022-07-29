@@ -54,6 +54,6 @@ x2 = 10
 y2 = 11
 z2 = 12
 
-;[Arcade]
-;intro.storyboard = intro.def
-;ending.storyboard = ending.def
+[Arcade]
+intro.storyboard = ..\../storyboards/Evil Ryu [Intro].def
+ending.storyboard = ..\../storyboards/Evil Ryu [Ending].def

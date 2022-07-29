@@ -1465,7 +1465,6 @@ function f_inputCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_inputDefault()
 			elseif inputCfg == 4 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1) --round time disabled
 				data.p2In = 2
@@ -1495,6 +1494,8 @@ function f_inputCfg()
 		animSetWindow(cursorBox, 80,5+inputCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1549,6 +1550,7 @@ function f_keyCfg(playerNo, controller)
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keySave(playerNo, controller)
+				f_saveCfg()
 				break
 			end
 			modified = 1

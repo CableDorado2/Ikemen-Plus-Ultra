@@ -36,6 +36,7 @@ survNumFnt = fontNew('font/survival_nums.fnt')
 
 --Music
 bgmTitle = 'sound/Title.mp3'
+bgmMenu = 'sound/Menu.mp3'
 bgmSelect = 'sound/Select.mp3'
 bgmVS = 'sound/VS.mp3'
 bgmVictory = 'sound/Victory.mp3'
@@ -453,7 +454,7 @@ titleBG5 = animNew(sysSff, [[
 ]])
 animAddPos(titleBG5, 160, 0)
 animSetTile(titleBG5, 1, 1)
-animSetWindow(titleBG5, 0, 220, 320, 20)
+animSetWindow(titleBG5, 0, 223, 320, 20)
 animSetAlpha(titleBG5, 0, 0)
 animUpdate(titleBG5)
 
@@ -517,27 +518,30 @@ animAddPos(arrowsU, 247, 170)
 animUpdate(arrowsU)
 animSetScale(arrowsU, 2, 2)
 
+--;===========================================================
+--; OPTIONS BACKGROUND DEFINITION
+--;===========================================================
+--Scrolling background
+optionsBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(optionsBG0, 160, 0)
+animSetTile(optionsBG0, 1, 1)
+animSetColorKey(optionsBG0, -1)
+
+--Transparent background
+optionsBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(optionsBG1, 1, 1)
+animSetAlpha(optionsBG1, 20, 100)
+animUpdate(optionsBG1)
+
 --txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 107, 240)
 txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 109, 240)
 txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
 txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p")), 34, 240)
-
---;===========================================================
---; MAIN MENU LOOP
---;===========================================================
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
-t_mainMenu = {
-	{id = textImgNew(), text = 'ARCADE'},
-	{id = textImgNew(), text = 'VERSUS'},
-	{id = textImgNew(), text = 'ONLINE'},
-	{id = textImgNew(), text = 'PRACTICE'},
-	{id = textImgNew(), text = 'CHALLENGES'},	
-	{id = textImgNew(), text = 'WATCH'},
-	{id = textImgNew(), text = 'EXTRAS'},	
-	{id = textImgNew(), text = 'OPTIONS'},
-	{id = textImgNew(), text = 'EXIT'},	
-	{id = textImgNew(), text = 'CHECK UPDATES'},
-}
 
 function f_default()
 	setAutoLevel(false) --generate autolevel.txt in game dir
@@ -567,18 +571,84 @@ function f_default()
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 end
 
+--;===========================================================
+--; LOGOS LOOP
+--;===========================================================
+function f_mainStart()
+	script.storyboard.f_storyboard('data/logo.def')
+	script.storyboard.f_storyboard('data/intro.def')
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	f_mainTitle()
+end	
+
+--;===========================================================
+--; TITLE SCREEN LOOP
+--;===========================================================
+txt_mainTitleOn = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
+txt_mainTitleOff = createTextImg(jgFnt, 2, 0, '', 159, 190)
+
+function f_mainTitle()
+	cmdInput()
+	local i = 0
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+    playBGM(bgmTitle)
+	while true do
+		if i == 1000 then
+		   cmdInput()
+		   script.randomtest.run()
+		   f_mainMenu()
+		elseif btnPalNo(p1Cmd) > 0 then
+		   sndPlay(sysSnd, 100, 1)
+		   f_mainMenu()
+		end
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt)
+		textImgDraw(txt_titleFt2)
+		textImgDraw(txt_titleFt3)
+		textImgDraw(txt_mainTitleOn)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		i = i + 1
+		cmdInput()
+		refresh()
+	end
+end	
+
+--;===========================================================
+--; MAIN MENU LOOP
+--;===========================================================
+t_mainMenu = {
+	{id = textImgNew(), text = 'QUICK MATCH'},
+	{id = textImgNew(), text = 'VERSUS'},
+	{id = textImgNew(), text = 'ONLINE'},
+	{id = textImgNew(), text = 'PRACTICE'},
+	{id = textImgNew(), text = 'ARCADE'},
+	{id = textImgNew(), text = 'CHALLENGES'},	
+	{id = textImgNew(), text = 'WATCH'},
+	{id = textImgNew(), text = 'EXTRAS'},	
+	{id = textImgNew(), text = 'OPTIONS'},
+	{id = textImgNew(), text = 'EXIT'},	
+	{id = textImgNew(), text = 'CHECK UPDATES'},
+}
+
 function f_mainMenu()
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local mainMenu = 1
-	script.storyboard.f_storyboard('data/logo.def')
-	script.storyboard.f_storyboard('data/intro.def')
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
-	playBGM(bgmTitle)
+	--playBGM(bgmMenu)
 	while true do
 		if esc() then
-			os.exit()
+			sndPlay(sysSnd, 100, 2)
+			f_mainTitle()
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			mainMenu = mainMenu - 1
@@ -610,10 +680,10 @@ function f_mainMenu()
 		--mode selected
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--ARCADE
+			--QUICK VERSUS	
 			if mainMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
-				f_arcadeMenu()
+				f_randomMenu()
 			--VS MODE
 			elseif mainMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
@@ -627,24 +697,28 @@ function f_mainMenu()
 			elseif mainMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_practiceMenu()
-			--CHALLENGES
+			--ARCADE
 			elseif mainMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				f_arcadeMenu()		
+			--CHALLENGES
+			elseif mainMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_challengeMenu()
 			--WATCH
-			elseif mainMenu == 6 then
+			elseif mainMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				f_watchMenu()
 			--EXTRAS
-			elseif mainMenu == 7 then
+			elseif mainMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
 				f_extrasMenu()				
 			--OPTIONS
-			elseif mainMenu == 8 then
+			elseif mainMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
 				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 			--EXIT
-			elseif mainMenu == 9 then
+			elseif mainMenu == 10 then
 				os.exit()
 			--CHECK UPDATES
 			else
@@ -871,7 +945,7 @@ function f_vsMenu()
 				--data.stageMenu = true
 				--data.coop = true
 				--textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')				
-				--script.select.f_selectSimple()				
+				--script.select.f_selectSimple()	
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -1043,6 +1117,108 @@ function f_practiceMenu()
 end
 
 --;===========================================================
+--; RANDOM MATCH MENU LOOP
+--;===========================================================
+t_randomMenu = {
+	{id = textImgNew(), text = '1P VS CPU'},
+	{id = textImgNew(), text = '1P VS 2P'},
+	{id = textImgNew(), text = 'RANDOM CO-OP'},
+	{id = textImgNew(), text = 'BACK'},	
+}
+	
+function f_randomMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local randomMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			randomMenu = randomMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			randomMenu = randomMenu + 1
+		end
+		if randomMenu < 1 then
+			randomMenu = #t_randomMenu
+			if #t_randomMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_randomMenu-1
+			end
+		elseif randomMenu > #t_randomMenu then
+			randomMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (randomMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (randomMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--1P VS CPU
+			if randomMenu == 1 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				script.randomtest.singleVersus()
+			--1P VS 2P
+			elseif randomMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				script.randomtest.multiVersus()
+			--1P & 2P VS CPU
+			elseif randomMenu == 3 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				--sndPlay(sysSnd, 100, 1)
+				--script.randomtest.coopVersus()
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_randomMenu do
+			if i == randomMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt)
+		textImgDraw(txt_titleFt2)
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; CHALLENGES MENU LOOP
 --;===========================================================
 t_challengeMenu = {
@@ -1051,7 +1227,7 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'BONUS GAMES'},
 	{id = textImgNew(), text = 'VS 100 CHARS'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},		
-	{id = textImgNew(), text = 'TIME ATTACK'},	
+	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
 	
@@ -1116,7 +1292,7 @@ function f_challengeMenu()
 			--TIME ATTACK
 			elseif challengeMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
-				f_timeMenu()
+				f_timeMenu()				
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2180,7 +2356,7 @@ end
 --;===========================================================
 t_watchMenu = {
 	{id = textImgNew(), text = 'CPU MATCH'},
-	{id = textImgNew(), text = 'RANDOMTEST'},
+	{id = textImgNew(), text = 'LOCAL REPLAYS'},
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
@@ -2234,11 +2410,9 @@ function f_watchMenu()
 				data.gameMode = 'versus'
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
-			--RANDOMTEST
+			--LOCAL REPLAYS
 			elseif watchMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				script.randomtest.run()
+				
 			--ONLINE REPLAYS
 			elseif watchMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2335,13 +2509,11 @@ function f_extrasMenu()
 			--STORYBOARDS
 			if extrasMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
-				require ('script.cutscenes')
-				script.cutscenes.f_videoMenu()
+				f_storyboardMenu()
 			--SOUND TEST
 			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
-				require ('script.soundtest')
-				script.soundtest.f_soundMenu()
+				f_songMenu()
 			--CREDITS
 			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
@@ -2351,7 +2523,7 @@ function f_extrasMenu()
 				local playCredits = 1
 				script.storyboard.f_storyboard('data/credits.def')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				playBGM(bgmTitle)
+				playBGM(bgmMenu)
 				while true do
 					if esc() then
 						sndPlay(sysSnd, 100, 2)
@@ -2402,26 +2574,213 @@ function f_extrasMenu()
 end
 
 --;===========================================================
---; CREDITS
+--; STORYBOARDS MENU LOOP
 --;===========================================================
-function f_playCredits()
-	cmdInput()
-	local cursorPosY = 0
+t_storyboardMenu = {
+	{id = textImgNew(), text = 'Back'},
+}
+txt_storyboard = createTextImg(jgFnt, 0, 0, 'STORYBOARD SELECT', 159, 13)
+
+storyboardDir = ".\\storyboards\\"
+
+function f_storyboardMenu()
+    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	local cursorPosY = 1
 	local moveTxt = 0
-	local playCredits = 1
-	script.storyboard.f_storyboard('data/credits.def')
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-	playBGM(bgmTitle)
+	local storyboardMenu = 1
+	local storyboardList = {}
+	local i = 1
+	local g = 1
+	p = io.popen('dir "'..storyboardDir..'" /b')   --Filtrar los .def con esto: https://www.iteramos.com/pregunta/30065/como-comprobar-si-una-tabla-contiene-un-elemento-en-lua
+	for file in p:lines() do                    
+		storyboardList[i] = tostring(file)
+		i = i + 1
+	end
+	p:close()
+	cmdInput()
 	while true do
 		if esc() then
+		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			playBGM(bgmMenu)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
-			f_default()
-			sndPlay(sysSnd, 100, 2)
-			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			storyboardMenu = storyboardMenu - 1
+			if cursorPosY > 1 then 
+				cursorPosY = cursorPosY - 1
+			elseif cursorPosY == 1 then
+				moveTxt = moveTxt - 1
+			end
+			if storyboardMenu < 1 then 
+				storyboardMenu = #t_storyboardMenu + #storyboardList
+				if #t_storyboardMenu + #storyboardList >= 14 then
+					cursorPosY = 14
+					moveTxt = #storyboardList-13
+				else
+					cursorPosY = #t_storyboardMenu + #storyboardList
+					moveTxt = 0
+				end
+			end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			storyboardMenu = storyboardMenu + 1
+			if cursorPosY < 14 then 
+				cursorPosY = cursorPosY + 1
+			elseif cursorPosY == 14 then
+				moveTxt = moveTxt + 1
+			end
+			if storyboardMenu > #t_storyboardMenu + #storyboardList then 
+				moveTxt = 0
+				storyboardMenu = 1
+				cursorPosY = 1
+			end
 		end
-	end	
+		if btnPalNo(p1Cmd) > 0 then
+			if storyboardMenu ~= (#t_storyboardMenu + #storyboardList) then
+				storyboardFile = ('storyboards/' .. storyboardList[storyboardMenu])
+				script.storyboard.f_storyboard(storyboardFile)
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				playBGM(bgmTitle)
+				--while true do
+					--if esc() then
+						--sndPlay(sysSnd, 100, 2)
+						--break
+					--elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+						--f_default()
+						--sndPlay(sysSnd, 100, 2)
+						--break
+					--end
+				--end
+			else
+			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				playBGM(bgmMenu)
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_storyboard)
+		if #storyboardList >= 13 then
+			animSetWindow(optionsBG1, 80,20, 160,14*15)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,(#t_storyboardMenu+#storyboardList)*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		for i=1, math.min(#storyboardList+1, 14) do
+			if i+moveTxt < #t_storyboardMenu + #storyboardList then
+				textImgDraw(createTextImg(font2, 0, 1, storyboardList[i+moveTxt], 85, 15+i*15))
+			else
+				textImgDraw(createTextImg(font2, 0, 1, t_storyboardMenu[1].text, 85, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; SOUND TEST MENU LOOP
+--;===========================================================
+t_songMenu = {
+	{id = textImgNew(), text = 'Back'},
+}
+txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
+
+songDir = ".\\sound\\"
+
+function f_songMenu()
+    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	local cursorPosY = 1
+	local moveTxt = 0
+	local songMenu = 1
+	local songList = {}
+	local i = 1
+	local g = 1
+	p = io.popen('dir "'..songDir..'" /b')  
+	for file in p:lines() do                    
+		songList[i] = tostring(file)
+		i = i + 1
+	end
+	p:close()
+	cmdInput()
+	while true do
+		if esc() then
+		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			playBGM(bgmMenu)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			songMenu = songMenu - 1
+			if cursorPosY > 1 then 
+				cursorPosY = cursorPosY - 1
+			elseif cursorPosY == 1 then
+				moveTxt = moveTxt - 1
+			end
+			if songMenu < 1 then 
+				songMenu = #t_songMenu + #songList
+				if #t_songMenu + #songList >= 14 then
+					cursorPosY = 14
+					moveTxt = #songList-13
+				else
+					cursorPosY = #t_songMenu + #songList
+					moveTxt = 0
+				end
+			end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			songMenu = songMenu + 1
+			if cursorPosY < 14 then 
+				cursorPosY = cursorPosY + 1
+			elseif cursorPosY == 14 then
+				moveTxt = moveTxt + 1
+			end
+			if songMenu > #t_songMenu + #songList then 
+				moveTxt = 0
+				songMenu = 1
+				cursorPosY = 1
+			end
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			if songMenu ~= (#t_songMenu + #songList) then
+				songFile = ('sound/' .. songList[songMenu])
+				playBGM(songFile)	
+			else
+			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				playBGM(bgmMenu)
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_song)
+		if #songList >= 13 then
+			animSetWindow(optionsBG1, 80,20, 160,14*15)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,(#t_songMenu+#songList)*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		for i=1, math.min(#songList+1, 14) do
+			if i+moveTxt < #t_songMenu + #songList then
+				textImgDraw(createTextImg(font2, 0, 1, songList[i+moveTxt], 85, 15+i*15))
+			else
+				textImgDraw(createTextImg(font2, 0, 1, t_songMenu[1].text, 85, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
@@ -4473,4 +4832,4 @@ end
 --; INITIALIZE LOOPS
 --;===========================================================
 
-f_mainMenu()
+f_mainStart()

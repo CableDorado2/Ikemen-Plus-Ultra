@@ -23,5 +23,5 @@ Sound   = sd.snd
 Pal1 = suave.act
 
 [Arcade]
-intro.storyboard	= Storyboard/Intro.def
-ending.storyboard	= Storyboard/Ending.def
+intro.storyboard = ..\../storyboards/Suave Dude [Intro].def
+ending.storyboard = ..\../storyboards/Suave Dude [Ending].def

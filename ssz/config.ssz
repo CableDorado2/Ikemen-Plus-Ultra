@@ -7,13 +7,13 @@ const int AfterImageMax = 8;
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 
-const int Width = 640;
+const int Width = 854;
 const int Height = 480;
 const bool FullScreen = false;
 
 const float GlVol = 1;
-const float SEVol = 0.5;
-const float BGMVol = 0.8;
+const float SEVol = 0.7;
+const float BGMVol = 0.2;
 
 const float Super_TargetDefenceMul = 1.5;
 
