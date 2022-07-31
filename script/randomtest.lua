@@ -329,7 +329,7 @@ function run()
     end
     refresh()
   end
-  playBGM(bgmTitle)
+  f_mainTitle()
 end
 
 function singleVersus()
