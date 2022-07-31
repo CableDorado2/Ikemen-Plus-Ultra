@@ -329,9 +329,11 @@ function run()
     end
     refresh()
   end
+  playBGM(bgmTitle)
 end
 
 function singleVersus()
+  playBGM(bgmRandomVS)
   initSingle()
   refresh()
   while not esc() do
@@ -351,11 +353,13 @@ function singleVersus()
     if winner <= 0 or wins >= 20 or wins == oldwins then
       init()
     end
-    refresh()
+	refresh()
   end
+  playBGM(bgmMenu)
 end
 
 function multiVersus()
+  playBGM(bgmRandomVS)
   initMulti()
   refresh()
   while not esc() do
@@ -377,9 +381,11 @@ function multiVersus()
     end
     refresh()
   end
+  playBGM(bgmMenu)
 end
 
 function coopVersus()
+  playBGM(bgmRandomVS)
   initCoop()
   refresh()
   while not esc() do
@@ -401,4 +407,5 @@ function coopVersus()
     end
     refresh()
   end
+  playBGM(bgmMenu)
 end

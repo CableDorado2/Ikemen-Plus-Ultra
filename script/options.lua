@@ -639,11 +639,11 @@ function f_gameCfg()
 		--Arcade Coins
 		elseif gameCfg == 6 then
 			if commandGetState(p1Cmd, 'r') and data.coins < 99 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins + 1
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.coins > 0 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins - 1
 				modified = 1
 			end

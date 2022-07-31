@@ -1,4 +1,4 @@
-﻿chars/ryu/ryu.def, 0 0 0 0 -1 0 0 0 0 1 0 0
+﻿chars/ryu/ryu.def, 0 0 -1 0 -1 0 0 0 0 1 0 1
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 chars/kung fu man/kung fu man.def, 0 0 2 0 0 0 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0

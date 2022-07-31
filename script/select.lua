@@ -365,7 +365,7 @@ function f_selectSimple()
 			if esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				playBGM(bgmTitle)
+				playBGM(bgmMenu)
 				return
 			end
 			f_selectScreen()
@@ -412,13 +412,17 @@ function f_selectAdvance()
 	stageEnd = true
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		playBGM(bgmSelect)
+		if data.gameMode == 'bossrush' then
+			playBGM(bgmSelectBoss)
+		else	
+			playBGM(bgmSelect)
+		end	
 		selectStart()
 		while not selScreenEnd do
 			if esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				playBGM(bgmTitle)
+				playBGM(bgmMenu)
 				return
 			end
 			f_selectScreen()
@@ -450,7 +454,7 @@ function f_selectAdvance()
 			--script.storyboard.f_storyboard('data/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmTitle)
+			playBGM(bgmMenu)
 			return
 		--player won (also if lost in VS 100 Kumite)
 		elseif winner == 1 or data.gameMode == '100kumite' then
@@ -485,7 +489,7 @@ function f_selectAdvance()
 				script.storyboard.f_storyboard('data/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				playBGM(bgmTitle)
+				playBGM(bgmMenu)
 				return
 			--next match available
 			else
@@ -509,7 +513,7 @@ function f_selectAdvance()
 			--script.storyboard.f_storyboard('data/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmTitle)
+			playBGM(bgmMenu)
 			return
 		--player lost but can continue
 		else
@@ -526,7 +530,7 @@ function f_selectAdvance()
 				--script.storyboard.f_storyboard('data/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				playBGM(bgmTitle)
+				playBGM(bgmMenu)
 				return
 			end
 			if data.contSelection then --true if 'Char change at Continue' option is enabled
@@ -542,7 +546,7 @@ function f_selectAdvance()
 					if esc() then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmTitle)
+						playBGM(bgmMenu)
 						return
 					end
 					f_selectScreen()
@@ -550,7 +554,7 @@ function f_selectAdvance()
 			elseif esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				playBGM(bgmTitle)
+				playBGM(bgmMenu)
 				return
 			end
 		end
@@ -1997,7 +2001,7 @@ end
 txt_winquote = createTextImg(jgFnt, 0, 1, '', 0, 0)
 
 function f_selectWin()
-	playBGM(bgmVictory)
+	sndPlay(sysSnd, 200, 1) --Victory Song
 	local txt = ''
 	if winner == 1 then
 		p1Wins = p1Wins + 1
@@ -2340,11 +2344,13 @@ function f_result(state)
 	--elseif state == 'lost' then
 	--end
 	if data.gameMode == 'survival' then
+		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survBarsFnt)
 		textImgSetPos(txt_result, 159, 239)
 		textImgSetText(txt_result, 'X' .. winCnt .. 'WINS')
 	elseif data.gameMode == '100kumite' then
+		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survNumFnt)
 		textImgSetPos(txt_result, 159, 150)

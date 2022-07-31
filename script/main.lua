@@ -35,11 +35,15 @@ survBarsFnt = fontNew('font/survival_bars.fnt')
 survNumFnt = fontNew('font/survival_nums.fnt')
 
 --Music
+bgmHowTo = 'sound/How To Play.mp3'
 bgmTitle = 'sound/Title.mp3'
 bgmMenu = 'sound/Menu.mp3'
 bgmSelect = 'sound/Select.mp3'
+bgmSelectBoss = 'sound/Select Boss.mp3'
 bgmVS = 'sound/VS.mp3'
-bgmVictory = 'sound/Victory.mp3'
+bgmRandomVS = 'sound/Random Versus.mp3'
+bgmResults = 'sound/Results.mp3'
+bgmNothing = 'Nothing.mp3'
 
 --;===========================================================
 --; COMMON SECTION
@@ -539,6 +543,7 @@ animUpdate(optionsBG1)
 
 --txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 107, 240)
 txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 109, 240)
+txt_titleFt1 = createTextImg(font1, 0, 1, '', 135, 240)
 txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
 txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p")), 34, 240)
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
@@ -578,8 +583,18 @@ function f_mainStart()
 	script.storyboard.f_storyboard('data/logo.def')
 	script.storyboard.f_storyboard('data/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	--f_mainHowTo()
 	f_mainTitle()
-end	
+end
+
+--;===========================================================
+--; HOW TO PLAY LOOP
+--;===========================================================
+function f_mainHowTo()
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	
+	f_mainTitle()
+end		
 
 --;===========================================================
 --; TITLE SCREEN LOOP
@@ -610,7 +625,7 @@ function f_mainTitle()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_titleFt)
+		textImgDraw(txt_titleFt)		
 		textImgDraw(txt_titleFt2)
 		textImgDraw(txt_titleFt3)
 		textImgDraw(txt_mainTitleOn)
@@ -626,11 +641,11 @@ end
 --; MAIN MENU LOOP
 --;===========================================================
 t_mainMenu = {
+	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'QUICK MATCH'},
 	{id = textImgNew(), text = 'VERSUS'},
 	{id = textImgNew(), text = 'ONLINE'},
 	{id = textImgNew(), text = 'PRACTICE'},
-	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'CHALLENGES'},	
 	{id = textImgNew(), text = 'WATCH'},
 	{id = textImgNew(), text = 'EXTRAS'},	
@@ -644,7 +659,7 @@ function f_mainMenu()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local mainMenu = 1
-	--playBGM(bgmMenu)
+	playBGM(bgmMenu)
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -680,27 +695,27 @@ function f_mainMenu()
 		--mode selected
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--QUICK VERSUS	
+			--ARCADE
 			if mainMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_arcadeMenu()			
+			--QUICK VERSUS	
+			elseif mainMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_randomMenu()
 			--VS MODE
-			elseif mainMenu == 2 then
+			elseif mainMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_vsMenu()
 			--ONLINE
-			elseif mainMenu == 3 then
+			elseif mainMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				assert(loadfile('script/onlinecfg.lua'))()
 				f_mainNetplay()
 			--PRACTICE
-			elseif mainMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_practiceMenu()
-			--ARCADE
 			elseif mainMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				f_arcadeMenu()		
+				f_practiceMenu()		
 			--CHALLENGES
 			elseif mainMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
@@ -746,7 +761,8 @@ function f_mainMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_titleFt)
+		textImgDraw(txt_titleFt1)
+		textImgSetText(txt_titleFt1, 'MAIN MENU')
 		textImgDraw(txt_titleFt2)
 		textImgDraw(txt_titleFt3)
 		animDraw(arrowsD)
@@ -853,8 +869,9 @@ function f_arcadeMenu()
 		animDraw(titleBG3)
 		animDraw(titleBG4)
 		animDraw(titleBG5)
-		animDraw(titleBG6)		
-		textImgDraw(txt_titleFt)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt1)		
+		textImgSetText(txt_titleFt1, 'ARCADE MODE')
 		textImgDraw(txt_titleFt2)
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2601,7 +2618,6 @@ function f_storyboardMenu()
 	while true do
 		if esc() then
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmMenu)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
@@ -2641,20 +2657,21 @@ function f_storyboardMenu()
 				storyboardFile = ('storyboards/' .. storyboardList[storyboardMenu])
 				script.storyboard.f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				playBGM(bgmTitle)
-				--while true do
-					--if esc() then
-						--sndPlay(sysSnd, 100, 2)
-						--break
-					--elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
-						--f_default()
-						--sndPlay(sysSnd, 100, 2)
-						--break
-					--end
-				--end
+				playBGM(bgmMenu)
+				while true do
+					if esc() then
+						sndPlay(sysSnd, 100, 2)
+						playBGM(bgmMenu)
+						break
+					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+						f_default()
+						sndPlay(sysSnd, 100, 2)
+						playBGM(bgmMenu)
+						break
+					end
+				end
 			else
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -2695,7 +2712,8 @@ txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
 songDir = ".\\sound\\"
 
 function f_songMenu()
-    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+    playBGM(bgmNothing)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	local cursorPosY = 1
 	local moveTxt = 0
 	local songMenu = 1
@@ -3316,11 +3334,11 @@ function f_gamehostCfg()
 		--Arcade Coins
 		elseif gamehostCfg == 6 then
 			if commandGetState(p1Cmd, 'r') and data.coins < 99 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins + 1
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.coins > 0 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins - 1
 				modified = 1
 			end
@@ -3937,11 +3955,11 @@ function f_gamejoinCfg()
 		--Arcade Coins
 		elseif gamejoinCfg == 6 then
 			if commandGetState(p1Cmd, 'r') and data.coins < 99 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins + 1
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.coins > 0 then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins - 1
 				modified = 1
 			end
