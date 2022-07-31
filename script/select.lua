@@ -410,13 +410,13 @@ function f_selectAdvance()
 	cmdInput()
 	f_selectReset()
 	stageEnd = true
+	if data.gameMode == 'bossrush' then
+		playBGM(bgmSelectBoss)
+	else	
+		playBGM(bgmSelect)
+	end	
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		if data.gameMode == 'bossrush' then
-			playBGM(bgmSelectBoss)
-		else	
-			playBGM(bgmSelect)
-		end	
 		selectStart()
 		while not selScreenEnd do
 			if esc() then

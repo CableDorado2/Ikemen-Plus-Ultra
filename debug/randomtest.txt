@@ -1,7 +1,7 @@
 Rank: 0 
 randomselect
-randomselect
 chars/ryu/ryu.def
+randomselect
 randomselect
 randomselect
 chars/kyo kusanagi/kyo kusanagi.def

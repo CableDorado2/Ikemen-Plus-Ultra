@@ -1,0 +1,44 @@
+
+lib file = <file.ssz>;
+lib s = <string.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib consts = <consts.ssz>;
+lib m = <math.ssz>;
+lib tbl = <table.ssz>;
+lib cfg = "config.ssz";
+lib com = "common.ssz";
+lib al = <alert.ssz>;
+
+public bool videoChecker = false;
+
+public void error<_t>(^/char m)
+{
+  .al.alert!_t?(m);
+}
+
+public &Video
+{
+  new()
+  {
+    `clear();
+  }
+  public void clear()
+  {
+	^/char videofile = "";
+  }
+  /^/char fileName;
+  public void play(^/char videofile)
+  {
+    ^/char error;
+    &.file.File f;
+    f.open(videofile, "rb");
+	if(f.open(videofile, "rb"))
+	{
+		`fileName = videofile;
+		//.error!.self?(`fileName); // For Test
+		.videoChecker = true; // For Test
+		.sdl.playVideo("plugins", `fileName);
+	}
+  }
+}
+public ^&Video video.new(1);

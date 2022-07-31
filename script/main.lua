@@ -43,8 +43,10 @@ bgmSelectBoss = 'sound/Select Boss.mp3'
 bgmVS = 'sound/VS.mp3'
 bgmRandomVS = 'sound/Random Versus.mp3'
 bgmResults = 'sound/Results.mp3'
-bgmResults = 'sound/Challenger.mp3'
 bgmNothing = 'Nothing.mp3'
+
+--Video
+--videoOpening = "video/Opening.wmv"
 
 --;===========================================================
 --; COMMON SECTION
@@ -581,6 +583,7 @@ end
 --; LOGOS LOOP
 --;===========================================================
 function f_mainStart()
+	--playVideo(videoOpening)
 	script.storyboard.f_storyboard('data/logo.def')
 	script.storyboard.f_storyboard('data/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
@@ -2496,6 +2499,7 @@ end
 t_extrasMenu = {
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'SOUND TEST'},
+	{id = textImgNew(), text = 'CUTSCENES'},
 	{id = textImgNew(), text = 'PLAY CREDITS'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
@@ -2546,8 +2550,12 @@ function f_extrasMenu()
 			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_songMenu()
-			--CREDITS
+			--CUTSCENES
 			elseif extrasMenu == 3 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_videoMenu()	
+			--CREDITS
+			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0
@@ -2626,7 +2634,7 @@ function f_storyboardMenu()
 	local g = 1
 	p = io.popen('dir "'..storyboardDir..'" /b')
 	for file in p:lines() do                    
-		if file:match('^.*(%.)def$') then --Filtrar archivos
+		if file:match('^.*(%.)def$') or file:match('^.*(%.)DEF$') then --Filtrar archivos
 			storyboardList[i] = tostring(file)
 			i = i + 1
 		end
@@ -2741,7 +2749,7 @@ function f_songMenu()
 	local g = 1
 	p = io.popen('dir "'..songDir..'" /b')  
 	for file in p:lines() do
-		if file:match('^.*(%.)mp3$') or file:match('^.*(%.)ogg$') then --Filtrar archivos (falta agregar mas extensiones de audio que sean reconocidas)
+		if file:match('^.*(%.)mp3$') or file:match('^.*(%.)MP3$') or file:match('^.*(%.)ogg$') or file:match('^.*(%.)OGG$') then --Filtrar archivos (Solo admite Mp3 y Ogg)
 			songList[i] = tostring(file)
 			i = i + 1
 		end	
@@ -2810,6 +2818,119 @@ function f_songMenu()
 				textImgDraw(createTextImg(font2, 0, 1, songList[i+moveTxt], 85, 15+i*15))
 			else
 				textImgDraw(createTextImg(font2, 0, 1, t_songMenu[1].text, 85, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; CUTSCENES MENU LOOP
+--;===========================================================
+t_videoMenu = {
+	{id = textImgNew(), text = 'Back'},
+}
+txt_song = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
+
+videoDir = ".\\video\\"
+
+function f_videoMenu()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	local cursorPosY = 1
+	local moveTxt = 0
+	local videoMenu = 1
+	local videoList = {}
+	local i = 1
+	local g = 1
+	p = io.popen('dir "'..videoDir..'" /b')  
+	for file in p:lines() do
+		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos (Solo admite WMV)
+			videoList[i] = tostring(file)
+			i = i + 1
+		end	
+	end
+	p:close()
+	cmdInput()
+	while true do
+		if esc() then
+		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			videoMenu = videoMenu - 1
+			if cursorPosY > 1 then 
+				cursorPosY = cursorPosY - 1
+			elseif cursorPosY == 1 then
+				moveTxt = moveTxt - 1
+			end
+			if videoMenu < 1 then 
+				videoMenu = #t_videoMenu + #videoList
+				if #t_videoMenu + #videoList >= 14 then
+					cursorPosY = 14
+					moveTxt = #videoList-13
+				else
+					cursorPosY = #t_videoMenu + #videoList
+					moveTxt = 0
+				end
+			end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			videoMenu = videoMenu + 1
+			if cursorPosY < 14 then 
+				cursorPosY = cursorPosY + 1
+			elseif cursorPosY == 14 then
+				moveTxt = moveTxt + 1
+			end
+			if videoMenu > #t_videoMenu + #videoList then 
+				moveTxt = 0
+				videoMenu = 1
+				cursorPosY = 1
+			end
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			if videoMenu ~= (#t_videoMenu + #videoList) then
+				videoFile = ('video/' .. videoList[videoMenu])
+				cmdInput()
+				playVideo(videoFile)
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				playBGM(bgmMenu)
+				while true do
+					if esc() then
+						sndPlay(sysSnd, 100, 2)
+						playBGM(bgmMenu)
+						break
+					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+						sndPlay(sysSnd, 100, 2)
+						playBGM(bgmMenu)
+						break
+					end
+				end
+			else
+			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_song)
+		if #videoList >= 13 then
+			animSetWindow(optionsBG1, 80,20, 160,14*15)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,(#t_videoMenu+#videoList)*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		for i=1, math.min(#videoList+1, 14) do
+			if i+moveTxt < #t_videoMenu + #videoList then
+				textImgDraw(createTextImg(font2, 0, 1, videoList[i+moveTxt], 85, 15+i*15))
+			else
+				textImgDraw(createTextImg(font2, 0, 1, t_videoMenu[1].text, 85, 15+i*15))
 			end
 		end
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)

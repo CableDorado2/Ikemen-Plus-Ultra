@@ -1,0 +1,5 @@
+public bool playVideo(^/char pldir, ^/char fn)
+{
+  plugin bool playVideo(:^/char, ^/char:) = <dll/love.dll>;
+  ret playVideo(:pldir, fn:);
+}
