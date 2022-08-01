@@ -159,6 +159,7 @@ function f_continue()
 			else
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
+				script.select.f_selectChallenger()
 				playBGM(bgmSelect)
 				break
 			end

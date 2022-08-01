@@ -12,7 +12,7 @@ const int Height = 480;
 const bool FullScreen = false;
 
 const float GlVol = 1;
-const float SEVol = 1;
+const float SEVol = 0.8;
 const float BGMVol = 0.4;
 
 const float Super_TargetDefenceMul = 1.5;

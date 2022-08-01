@@ -1,14 +1,14 @@
-table: 02F41C30 {
-  [tic-tac-toe] => 53
-  [kyo kusanagi] => 4
-  [empty] => 14
-  [suave dude] => 7
-  [ryu/master ryu.def] => 51
+table: 02F51C08 {
   [kung fu man] => 2
-  [kung fu girl] => 12
+  [tic-tac-toe] => 53
   [randomselect] => 49
-  [ryu] => 0
+  [kyo kusanagi] => 4
   [ryu/evil ryu.def] => 50
+  [ryu/master ryu.def] => 51
   [training] => 54
+  [kung fu girl] => 12
+  [empty] => 14
   [catwalk] => 52
+  [ryu] => 0
+  [suave dude] => 7
 }

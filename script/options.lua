@@ -870,7 +870,7 @@ txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
 t_videoCfg = {
 	{id = '', text = 'Resolution',  varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
 	{id = '', text = 'Fullscreen',  varID = textImgNew(), varText = s_screenMode},	
-	{id = '', text = 'OpenGL 2.0', varID = textImgNew(), varText = s_openGL},
+	--{id = '', text = 'OpenGL 2.0', varID = textImgNew(), varText = s_openGL},
 	--{id = '', text = 'Save Memory', varID = textImgNew(), varText = s_saveMemory},
 	{id = '', text = 'Back'},
 }
@@ -910,20 +910,20 @@ function f_videoCfg()
 				modified = 1
 			end			
 		--OpenGL 2.0
-		elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if b_openGL == false then
-				b_openGL = true
-				s_openGL = 'Yes'
-				f_glWarning()
-				modified = 1
-				needReload = 1				
-			else
-				b_openGL = false
-				s_openGL = 'No'
-				modified = 1
-				needReload = 0
-			end
+		--elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--sndPlay(sysSnd, 100, 0)
+			--if b_openGL == false then
+				--b_openGL = true
+				--s_openGL = 'Yes'
+				--f_glWarning()
+				--modified = 1
+				--needReload = 1				
+			--else
+				--b_openGL = false
+				--s_openGL = 'No'
+				--modified = 1
+				--needReload = 0
+			--end
 		--Save memory
 		--elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			--sndPlay(sysSnd, 100, 0)
@@ -941,7 +941,7 @@ function f_videoCfg()
 				--needReload = 1
 			--end
 		--Back
-		elseif videoCfg == 4 and btnPalNo(p1Cmd) > 0 then
+		elseif videoCfg == 3 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -951,7 +951,7 @@ function f_videoCfg()
 		textImgDraw(txt_videoCfg)
 		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
 		t_videoCfg[2].varText = s_screenMode		
-		t_videoCfg[3].varText = s_openGL
+		--t_videoCfg[3].varText = s_openGL
 		--t_videoCfg[4].varText = s_saveMemory
 		setScreenMode(b_screenMode) --added via system-script.ssz
 		for i=1, #t_videoCfg do

@@ -156,9 +156,9 @@ function f_makeRoster()
 				i = i + 1
 				cnt = #t + i
 			end			
-		elseif data.gameMode == '100kumite' then
+		elseif data.gameMode == 'endless' then
 			t = t_randomChars
-			cnt = 100 * p2numChars
+			cnt = 9999 * p2numChars
 		end
 		while cnt > 0 do
 			f_shuffleTable(t)
@@ -379,6 +379,7 @@ function f_selectSimple()
 		if data.gameMode == 'versus' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
 			f_selectWin()
+			f_selectChallenger()
 			end
 		end		
 		playBGM('')		
@@ -410,7 +411,7 @@ function f_selectAdvance()
 	cmdInput()
 	f_selectReset()
 	stageEnd = true
-	if data.gameMode == 'bossrush' then
+	if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then
 		playBGM(bgmSelectBoss)
 	else	
 		playBGM(bgmSelect)
@@ -443,7 +444,7 @@ function f_selectAdvance()
 				end
 			end
 		--player exit the match via ESC in VS 100 Kumite mode
-		elseif winner == -1 and data.gameMode == '100kumite' then
+		elseif winner == -1 and data.gameMode == 'endless' then
 			--counter
 			looseCnt = looseCnt + 1
 			--result
@@ -455,15 +456,15 @@ function f_selectAdvance()
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			playBGM(bgmMenu)
-			return
+			return	
 		--player won (also if lost in VS 100 Kumite)
-		elseif winner == 1 or data.gameMode == '100kumite' then
+		elseif winner == 1 or data.gameMode == 'endless' then
 			--counter
 			if winner == 1 then
 				winCnt = winCnt + 1
 			else --only true in VS 100 Kumite mode
 				looseCnt = looseCnt + 1
-			end
+			end	
 			--win screen
 			if data.gameMode == 'arcade' then
 				if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
@@ -1769,18 +1770,18 @@ function f_selectVersus()
 	else
 		playBGM(bgmVS)
 	--VS Logo
-		versusBG4 = animNew(sysSff, [[
-200,4, 0,0, 1
-200,3, 0,0, 2
-200,2, 0,0, 3
-200,1, 0,0, 4
-200,0, 0,0, 8
-200,5, 0,0, 3
-200,6, 0,0, 3
-200,7, 0,0, 3
-200,8, 0,0, 3
-200,0, 0,0, -1
-]])
+	versusBG4 = animNew(sysSff, [[
+	200,4, 0,0, 1
+	200,3, 0,0, 2
+	200,2, 0,0, 3
+	200,1, 0,0, 4
+	200,0, 0,0, 8
+	200,5, 0,0, 3
+	200,6, 0,0, 3
+	200,7, 0,0, 3
+	200,8, 0,0, 3
+	200,0, 0,0, -1
+	]])
 		animAddPos(versusBG4, 160, 95)
 		local sndNumber = -1
 		local p1Confirmed = false
@@ -1975,8 +1976,8 @@ function f_selectVersus()
 				end
 			elseif data.gameMode == 'versus' then
 				textImgDraw(txt_gameNo)
-			elseif data.gameMode == '100kumite' then
-				textImgDraw(txt_gameNo)				
+			elseif data.gameMode == 'endless' then
+				textImgDraw(txt_gameNo)
 			end
 			--draw background on bottom
 			animUpdate(versusBG4)
@@ -1996,12 +1997,68 @@ function f_selectChar(player, t)
 end
 
 --;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREEN
+--;===========================================================
+--Challenger Transparent BG
+versusBG5 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(versusBG5, 160, 0)
+animSetTile(versusBG5, 1, 1)
+animSetWindow(versusBG5, -54, 67, 428, 100)
+
+--Challenger Text
+challengerText1 = animNew(sysSff, [[
+500,0, 0,0, 5
+500,1, 0,0, 5
+500,2, 0,0, 5
+500,3, 0,0, 5
+500,4, 0,0, 5
+500,5, 0,0, 5
+500,6, 0,0, 5
+500,7, 0,0, 5
+500,8, 0,0, 5
+500,9, 0,0, 5
+]])
+animAddPos(challengerText1, 15, 100)
+animUpdate(challengerText1)
+--animSetScale(challengerText1, 1.2, 1)
+
+function f_selectChallenger()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	playBGM(bgmNothing)
+	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
+	local txt = ''
+	local i = 0
+	cmdInput()
+	while true do
+		if i == 150 then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		elseif btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		end
+		animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		animDraw(f_animVelocity(versusBG5, 0, 1.5))
+		i = i + 1
+		animDraw(challengerText1)
+		animUpdate(challengerText1)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; WIN SCREEN
 --;===========================================================
 txt_winquote = createTextImg(jgFnt, 0, 1, '', 0, 0)
 
 function f_selectWin()
-	sndPlay(sysSnd, 200, 1) --Victory Song
+	playBGM(bgmVictory)
 	local txt = ''
 	if winner == 1 then
 		p1Wins = p1Wins + 1
@@ -2013,7 +2070,10 @@ function f_selectWin()
 	local i = 0
 	cmdInput()
 	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if i == 550 then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		elseif btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
@@ -2349,12 +2409,12 @@ function f_result(state)
 		textImgSetFont(txt_result, survBarsFnt)
 		textImgSetPos(txt_result, 159, 239)
 		textImgSetText(txt_result, 'X' .. winCnt .. 'WINS')
-	elseif data.gameMode == '100kumite' then
+	elseif data.gameMode == 'endless' then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survNumFnt)
 		textImgSetPos(txt_result, 159, 150)
-		textImgSetText(txt_result, winCnt .. ' WINS' .. looseCnt .. ' LOSES')
+		textImgSetText(txt_result, winCnt .. ' WINS' .. looseCnt .. ' LOSES')	
 	else
 		return
 	end

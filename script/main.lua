@@ -42,6 +42,7 @@ bgmSelect = 'sound/Select.mp3'
 bgmSelectBoss = 'sound/Select Boss.mp3'
 bgmVS = 'sound/VS.mp3'
 bgmRandomVS = 'sound/Random Versus.mp3'
+bgmVictory = 'sound/Victory.mp3'
 bgmResults = 'sound/Results.mp3'
 bgmNothing = 'Nothing.mp3'
 
@@ -577,6 +578,7 @@ function f_default()
 	data.p1In = 1 --P1 controls P1 side of the select screen
 	data.p2In = 0 --P2 controls in the select screen disabled
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
+	data.rosterMode = '' --additional variable used to identify special modes in select screen
 end
 
 --;===========================================================
@@ -1248,7 +1250,7 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'SURVIVAL'},
 	{id = textImgNew(), text = 'BOSS FIGHT'},
 	{id = textImgNew(), text = 'BONUS GAMES'},
-	{id = textImgNew(), text = 'VS 100 CHARS'},
+	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},		
 	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'BACK'},	
@@ -1304,7 +1306,7 @@ function f_challengeMenu()
 			elseif challengeMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_bonusMenu()
-			--VS 100 CHARS
+			--ENDLESS
 			elseif challengeMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_allcharsMenu()
@@ -1528,7 +1530,7 @@ function f_bossMenu()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_bossMenu do
 			if i == bossMenu then
-				bank = 5
+				bank = 1
 			else
 				bank = 0
 			end
@@ -1617,7 +1619,7 @@ function f_bossChars()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_bossSingle do
 			if i == bossChars then
-				bank = 5
+				bank = 1
 			else
 				bank = 0
 			end
@@ -1729,7 +1731,7 @@ function f_bossrushMenu()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_bossrushMenu do
 			if i == bossrushMenu then
-				bank = 5
+				bank = 1
 			else
 				bank = 0
 			end
@@ -2060,7 +2062,7 @@ function f_bonusrushMenu()
 end
 
 --;===========================================================
---; VS 100 CHARS MENU LOOP
+--; ENDLESS MENU LOOP
 --;===========================================================
 t_allcharsMenu = {
 	{id = textImgNew(), text = '1P|CLASSIC|'},
@@ -2112,8 +2114,8 @@ function f_allcharsMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
-				data.gameMode = '100kumite'
-				textImgSetText(txt_mainSelect, 'VERSUS 100 CHARS')			
+				data.gameMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ENDLESS MODE')			
 				script.select.f_selectAdvance()
 			--CO-OP MODE
 			elseif allcharsMenu == 2 then
@@ -2122,8 +2124,8 @@ function f_allcharsMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
-				textImgSetText(txt_mainSelect, 'VERSUS 100 CHARS COOPERATIVE')			
+				data.gameMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')			
 				script.select.f_selectAdvance()			
 			--BACK
 			else
@@ -2152,7 +2154,7 @@ function f_allcharsMenu()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'ALL STARS MODE')
+		textImgSetText(txt_titleFt1, 'INFINITE MODE')
 		textImgDraw(txt_titleFt2)
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2220,7 +2222,8 @@ function f_suddenMenu()
 				setLifeMul(0)
 				data.p2In = 1				
 				data.p2SelectMenu = false
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
+				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -2232,7 +2235,8 @@ function f_suddenMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
+				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()					
 			--BACK
@@ -2244,7 +2248,7 @@ function f_suddenMenu()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_suddenMenu do
 			if i == suddenMenu then
-				bank = 5
+				bank = 1
 			else
 				bank = 0
 			end
@@ -2330,7 +2334,7 @@ function f_timeMenu()
 				setLifeMul(2)
 				data.p2In = 1				
 				data.p2SelectMenu = false
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK (W.I.P)')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -2342,7 +2346,7 @@ function f_timeMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE (W.I.P)')
 				script.select.f_selectAdvance()					
 			--BACK
@@ -4528,7 +4532,7 @@ t_mainHost = {
 	{id = textImgNew(), text = 'PRACTICE'},	
 	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'SURVIVAL'},
-	{id = textImgNew(), text = 'VS 100 CHARS'},
+	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
 	{id = textImgNew(), text = 'BONUS RUSH'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
@@ -4626,15 +4630,15 @@ function f_mainHost()
 				data.gameMode = 'survival'
 				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
-			--ONLINE VS 100 CHARS
+			--ONLINE ENDLESS
 			elseif mainHost == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
-				textImgSetText(txt_mainSelect, 'ONLINE VS 100 CHARS COOPERATIVE')			
+				data.gameMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')			
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
 			elseif mainHost == 6 then		
@@ -4672,7 +4676,8 @@ function f_mainHost()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
+				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE TIME ATTACK
@@ -4684,7 +4689,7 @@ function f_mainHost()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE (W.I.P)')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
@@ -4739,7 +4744,7 @@ t_mainJoin = {
 	{id = textImgNew(), text = 'PRACTICE'},	
 	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'SURVIVAL'},
-	{id = textImgNew(), text = 'VS 100 CHARS'},
+	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
 	{id = textImgNew(), text = 'BONUS RUSH'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
@@ -4837,15 +4842,15 @@ function f_mainJoin()
 				data.gameMode = 'survival'
 				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
-			--ONLINE VS 100 CHARS
+			--ONLINE ENDLESS
 			elseif mainJoin == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
-				textImgSetText(txt_mainSelect, 'ONLINE VS 100 CHARS COOPERATIVE')			
+				data.gameMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')			
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
 			elseif mainJoin == 6 then		
@@ -4883,7 +4888,8 @@ function f_mainJoin()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
+				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE TIME ATTACK
@@ -4895,7 +4901,7 @@ function f_mainJoin()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = '100kumite'
+				data.gameMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE (W.I.P)')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
