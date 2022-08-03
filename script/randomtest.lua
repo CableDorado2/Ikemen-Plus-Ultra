@@ -333,7 +333,7 @@ function run()
 end
 
 function singleVersus()
-  playBGM(bgmRandomVS)
+  f_bgmrandomVS()
   initSingle()
   refresh()
   while not esc() do
@@ -355,11 +355,11 @@ function singleVersus()
     end
 	refresh()
   end
-  playBGM(bgmMenu)
+  f_menuMusic()
 end
 
 function multiVersus()
-  playBGM(bgmRandomVS)
+  f_bgmrandomVS()
   initMulti()
   refresh()
   while not esc() do
@@ -381,11 +381,11 @@ function multiVersus()
     end
     refresh()
   end
-  playBGM(bgmMenu)
+  f_menuMusic()
 end
 
 function coopVersus()
-  playBGM(bgmRandomVS)
+  f_bgmrandomVS()
   initCoop()
   refresh()
   while not esc() do
@@ -407,5 +407,5 @@ function coopVersus()
     end
     refresh()
   end
-  playBGM(bgmMenu)
+  f_menuMusic()
 end

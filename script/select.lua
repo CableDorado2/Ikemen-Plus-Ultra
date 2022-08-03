@@ -27,6 +27,8 @@ wrappingY = true
 --;===========================================================
 --; SELECT LOOP FUNCTIONS
 --;===========================================================
+txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A PALETTE COLOR FOR THE CHARACTERS ', 308, 239)
+
 function f_selectReset()
 	if data.p2Faces then
 		p1FaceX = 10
@@ -365,7 +367,7 @@ function f_selectSimple()
 			if esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				return
 			end
 			f_selectScreen()
@@ -423,7 +425,7 @@ function f_selectAdvance()
 			if esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				return
 			end
 			f_selectScreen()
@@ -455,7 +457,7 @@ function f_selectAdvance()
 			--script.storyboard.f_storyboard('data/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmMenu)
+			f_menuMusic()
 			return	
 		--player won (also if lost in VS 100 Kumite)
 		elseif winner == 1 or data.gameMode == 'endless' then
@@ -494,7 +496,7 @@ function f_selectAdvance()
 				script.storyboard.f_storyboard('data/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				return
 			--next match available
 			else
@@ -518,7 +520,7 @@ function f_selectAdvance()
 			--script.storyboard.f_storyboard('data/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmMenu)
+			f_menuMusic()
 			return
 		--player lost but can continue
 		else
@@ -535,7 +537,7 @@ function f_selectAdvance()
 				--script.storyboard.f_storyboard('data/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				return
 			end
 			if data.contSelection then --true if 'Char change at Continue' option is enabled
@@ -551,7 +553,7 @@ function f_selectAdvance()
 					if esc() then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
+						f_menuMusic()
 						return
 					end
 					f_selectScreen()
@@ -559,7 +561,7 @@ function f_selectAdvance()
 			elseif esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				return
 			end
 		end
@@ -1377,6 +1379,7 @@ function f_p1SelectMenu()
 			end
 			p1Cell = p1SelX + selectColumns*p1SelY
 			p1Portrait = p1Cell
+			textImgDraw(txt_selectHint)
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
 			textImgPosDraw(txt_p1Name, 10, nameY)
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
@@ -1553,6 +1556,7 @@ function f_p2SelectMenu()
 			end
 			p2Cell = p2SelX + selectColumns*p2SelY
 			p2Portrait = p2Cell
+			textImgDraw(txt_selectHint)
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
 			textImgPosDraw(txt_p2Name, 309, nameY)
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
@@ -1738,6 +1742,7 @@ txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
 txt_matchNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
 txt_matchFinal = createTextImg(jgFnt, 0, 0, '', 160, 20)
 txt_gameNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
+txt_vsHint = createTextImg(font1, 0, -1, '', 308, 239)
 
 --VS background
 versusBG1 = animNew(sysSff, [[
@@ -1777,6 +1782,7 @@ function f_selectVersus()
 	textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
 	textImgSetText(txt_matchFinal, 'FINAL STAGE')
 	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)	
+	local randomHint = math.random(1,3) --Last number is the amount of Hints
 	local i = 0
 	if not data.versusScreen then
 		while true do
@@ -1792,20 +1798,24 @@ function f_selectVersus()
 			refresh()
 		end
 	else
-		playBGM(bgmVS)
-	--VS Logo
-	versusBG4 = animNew(sysSff, [[
-	200,4, 0,0, 1
-	200,3, 0,0, 2
-	200,2, 0,0, 3
-	200,1, 0,0, 4
-	200,0, 0,0, 8
-	200,5, 0,0, 3
-	200,6, 0,0, 3
-	200,7, 0,0, 3
-	200,8, 0,0, 3
-	200,0, 0,0, -1
-	]])
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
+			playBGM(bgmVSFinal)
+		else	
+			playBGM(bgmVS)
+		end	
+		--VS Logo
+		versusBG4 = animNew(sysSff, [[
+		200,4, 0,0, 1
+		200,3, 0,0, 2
+		200,2, 0,0, 3
+		200,1, 0,0, 4
+		200,0, 0,0, 8
+		200,5, 0,0, 3
+		200,6, 0,0, 3
+		200,7, 0,0, 3
+		200,8, 0,0, 3
+		200,0, 0,0, -1
+		]])
 		animAddPos(versusBG4, 160, 95)
 		local sndNumber = -1
 		local p1Confirmed = false
@@ -1838,20 +1848,36 @@ function f_selectVersus()
 			--drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 			--drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			--end loop after at least 120 ticks (extended if sound has been triggered)
+			if randomHint == 1 then
+				textImgSetText(txt_vsHint, "PRESS LEFT OR RIGHT TO CHANGE THE CHARACTER ORDER IN SIMUL OR TURNS MODE ")
+				textImgDraw(txt_vsHint)
+			elseif randomHint == 2 then
+				textImgSetText(txt_vsHint, "KEEP START BUTTON IN THE CHARACTER SELECT AND PRESS C or Z BUTTON  ")
+				textImgDraw(txt_vsHint)
+			elseif randomHint == 3 then
+				textImgSetText(txt_vsHint, "IF ANY CHARACTER GETTING BUG, PRESS F4 TO RELOAD THE MATCH         ")
+				textImgDraw(txt_vsHint)
+			--elseif randomHint == 4 then
+				--textImgSetText(txt_vsHint, "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE")
+				--textImgDraw(txt_vsHint)
+			--elseif randomHint == 5 then
+				--textImgSetText(txt_vsHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE  ")
+				--textImgDraw(txt_vsHint) 				
+			end	
 			i = i + 1
-			if esc() then
-				orderTime = 0
-				if i < 120 then i = 120 end
-			end
+			--if esc() then
+				--orderTime = 0
+				--if i < 120 then i = 120 end
+			--end
 			if sndTime > 0 then
 				sndTime = sndTime - 1
-			elseif i > 120 and p1Confirmed and p2Confirmed then
+			elseif btnPalNo(p1Cmd) > 0 and p1Confirmed and p2Confirmed then --Original Time To Select: elseif i > 120 and p1Confirmed and p2Confirmed then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				break
 			end
 			--option to adjust Team Mode characters order if timer is > 0
 			if orderTime > 0 then
-				orderTime = orderTime - 1
+				--orderTime = orderTime - 1                                    Activate Original OrderTime
 				sndNumber = -1
 				--if Player1 has not confirmed the order yet
 				if not p1Confirmed then
@@ -2012,6 +2038,7 @@ function f_selectVersus()
 			animDraw(versusBG4)
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
+			textImgDraw(txt_vsHint)
 			cmdInput()
 			refresh()
 		end

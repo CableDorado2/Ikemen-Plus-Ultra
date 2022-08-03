@@ -2,6 +2,6 @@
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 chars/kung fu man/kung fu man.def, 0 0 2 0 0 -1 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kyo kusanagi/kyo kusanagi.def, 2 0 0 0 0 -3 0 0 0 0 0 0
+chars/kyo kusanagi/kyo kusanagi.def, 2 0 0 0 0 -3 0 -1 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0

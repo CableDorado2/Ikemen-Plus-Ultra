@@ -50,6 +50,7 @@ elseif gameSpeed == 60 then
 elseif gameSpeed == 72 then
 	s_gameSpeed = 'Turbo'
 end
+
 if b_screenMode == 'true' then
 	b_screenMode = true
 	s_screenMode = 'Yes'
@@ -57,6 +58,7 @@ elseif b_screenMode == 'false' then
 	b_screenMode = false
 	s_screenMode = 'No'
 end
+
 if channels == 6 then
 	s_channels = '5.1'
 elseif channels == 4 then
@@ -66,6 +68,7 @@ elseif channels == 2 then
 elseif channels == 1 then
 	s_channels = 'Mono'
 end
+
 if b_saveMemory == 'true' then
 	b_saveMemory = true
 	s_saveMemory = 'Yes'
@@ -73,6 +76,7 @@ elseif b_saveMemory == 'false' then
 	b_saveMemory = false
 	s_saveMemory = 'No'
 end
+
 if b_openGL == 'true' then
 	b_openGL = true
 	s_openGL = 'Yes'
@@ -80,41 +84,49 @@ elseif b_openGL == 'false' then
 	b_openGL = false
 	s_openGL = 'No'
 end
+
 if data.teamLifeShare then
 	s_teamLifeShare = 'Yes'
 else
 	s_teamLifeShare = 'No'
 end
+
 if data.zoomActive then
 	s_zoomActive = 'Yes'
 else
 	s_zoomActive = 'No'
 end
+
 if data.p1Controller == -1 then
 	s_p1Controller = 'Keyboard'
 else
 	s_p1Controller = 'Gamepad'
 end
+
 if data.p2Controller == -1 then
 	s_p2Controller = 'Keyboard'
 else
 	s_p2Controller = 'Gamepad'
 end
+
 if data.contSelection then
 	s_contSelection = 'Yes'
 else
 	s_contSelection = 'No'
 end
+
 if data.aiRamping then
 	s_aiRamping = 'Yes'
 else
 	s_aiRamping = 'No'
 end
+
 if data.autoguard then
 	s_autoguard = 'Yes'
 else
 	s_autoguard = 'No'
 end
+
 if data.vsDisplayWin then
 	s_vsDisplayWin = 'Yes'
 else
@@ -186,7 +198,9 @@ function f_saveCfg()
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
-		['data.sffConversion'] = data.sffConversion
+		['data.sffConversion'] = data.sffConversion,
+		['data.language'] = data.language,
+		['data.menuSong'] = data.menuSong
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("script/data_sav.lua","w+")
@@ -393,6 +407,8 @@ function f_mainCfg()
 				s_vsDisplayWin = 'Yes'				
 				data.lifebar = 'data/fight.def'
 				data.sffConversion = true
+				data.language = 'ENGLISH'
+				data.menuSong = 'Random'
 				--config.ssz
 				f_inputDefault()
 				--b_saveMemory = false
@@ -1190,9 +1206,10 @@ t_audioCfg = {
 	{id = '', text = 'Master Volume',	varID = textImgNew(), varText = gl_vol .. '%'},
 	{id = '', text = 'SFX Volume',		varID = textImgNew(), varText = se_vol .. '%'},
 	{id = '', text = 'BGM Volume',		varID = textImgNew(), varText = bgm_vol .. '%'},
-	{id = '', text = 'Sample Rate',    varID = textImgNew(), varText = freq},
-	{id = '', text = 'Channels',       varID = textImgNew(), varText = s_channels},
-	{id = '', text = 'Buffer Samples', varID = textImgNew(), varText = buffer},
+	{id = '', text = 'Sample Rate',     varID = textImgNew(), varText = freq},
+	{id = '', text = 'Channels',        varID = textImgNew(), varText = s_channels},
+	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
+	{id = '', text = 'Main Menu Song', 	varID = textImgNew(), varText = data.menuSong},
 	{id = '', text = 'Back'},
 }
 for i=1, #t_audioCfg do
@@ -1386,8 +1403,36 @@ function f_audioCfg()
 				modified = 1
 				needReload = 1
 			end
+		--Main Menu Song
+		elseif audioCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
+				data.menuSong = 'Theme 2'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 1' then
+				data.menuSong = 'Random'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 2' then
+				data.menuSong = 'Random'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
+				data.menuSong = 'Theme 1'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Random' then
+				data.menuSong = 'Theme 1'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Random' then
+				data.menuSong = 'Theme 2'
+				f_menuMusic()
+				modified = 1
+			end		
 		--Back
-		elseif audioCfg == 7 and btnPalNo(p1Cmd) > 0 then
+		elseif audioCfg == 8 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1401,6 +1446,7 @@ function f_audioCfg()
 		t_audioCfg[4].varText = freq
 		t_audioCfg[5].varText = s_channels
 		t_audioCfg[6].varText = buffer
+		t_audioCfg[7].varText = data.menuSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
 		for i=1, #t_audioCfg do
 			textImgDraw(t_audioCfg[i].id)
@@ -1988,8 +2034,8 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 t_engineCfg = {
 	{id = '', text = 'Game Speed',  	varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Zoom Settings'},
-	{id = '', text = 'Language'},
-	{id = '', text = 'Erase Unlocks Data'},
+	{id = '', text = 'Language', 		varID = textImgNew(), varText = data.language},
+	{id = '', text = 'Erase Unlocked Data'},
 	{id = '', text = 'Back'},
 }
 for i=1, #t_engineCfg do
@@ -2054,9 +2100,34 @@ function f_engineCfg()
 			sndPlay(sysSnd, 100, 1)
 			f_zoomCfg()
 		--Language Settings
-		elseif engineCfg == 3 and btnPalNo(p1Cmd) > 0 then	
-			
-		--Erase Unlocks Data
+		elseif engineCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
+				data.language = 'SPANISH'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
+				data.language = 'JAPANESE'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
+				data.language = 'JAPANESE'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
+				data.language = 'ENGLISH'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
+				data.language = 'ENGLISH'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
+				data.language = 'SPANISH'
+				modified = 1
+				needReload = 1
+			end	
+		--Erase Unlocked Data
 		elseif engineCfg == 4 and btnPalNo(p1Cmd) > 0 then	
 			sndPlay(sysSnd, 100, 1)
 			f_unlocksWarning()	
@@ -2070,6 +2141,7 @@ function f_engineCfg()
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_engineCfg)
 		t_engineCfg[1].varText = s_gameSpeed
+		t_engineCfg[3].varText = data.language
 		for i=1, #t_engineCfg do
 			textImgDraw(t_engineCfg[i].id)
 			if t_engineCfg[i].varID ~= nil then
@@ -2187,7 +2259,7 @@ function f_zoomCfg()
 end
 
 --;===========================================================
---; ERASE UNLOCKS DATA WARNING
+--; ERASE UNLOCKED DATA WARNING
 --;===========================================================
 function f_eraseState()
 data.erase = ''

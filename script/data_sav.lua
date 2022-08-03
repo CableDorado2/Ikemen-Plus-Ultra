@@ -21,3 +21,5 @@ data.autoguard = false
 data.vsDisplayWin = true
 data.lifebar = 'data/fight.def'
 data.sffConversion = true
+data.language = 'ENGLISH'
+data.menuSong = 'Random'

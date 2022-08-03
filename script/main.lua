@@ -36,16 +36,39 @@ survBarsFnt = fontNew('font/survival_bars.fnt')
 survNumFnt = fontNew('font/survival_nums.fnt')
 
 --Music
-bgmHowTo = 'sound/How To Play.mp3'
 bgmTitle = 'sound/Title.mp3'
-bgmMenu = 'sound/Menu.mp3'
 bgmSelect = 'sound/Select.mp3'
 bgmSelectBoss = 'sound/Select Boss.mp3'
 bgmVS = 'sound/VS.mp3'
-bgmRandomVS = 'sound/Random Versus.mp3'
+bgmVSFinal = 'sound/VS Final.mp3'
 bgmVictory = 'sound/Victory.mp3'
 bgmResults = 'sound/Results.mp3'
 bgmNothing = 'Nothing.mp3'
+
+--Random Versus Music
+function f_bgmrandomVS()
+local randomTrack = {"sound/Random VS/Song 1.mp3", "sound/Random VS/Song 2.mp3"}
+playBGM(randomTrack[math.random(1, #randomTrack)])
+end
+
+--Random Menu Music
+function f_bgmrandomMenu()
+local randomTrack = {"sound/Menu.mp3", "sound/Menu 2.mp3"}
+playBGM(randomTrack[math.random(1, #randomTrack)])
+end
+
+--Menu Music
+function f_menuMusic()
+	if data.menuSong == 'Theme 1' then
+		bgmMenu = 'sound/Menu.mp3'
+		playBGM(bgmMenu)
+	elseif data.menuSong == 'Theme 2' then
+		bgmMenu = 'sound/Menu 2.mp3'
+		playBGM(bgmMenu)
+	elseif data.menuSong == 'Random' then
+		f_bgmrandomMenu()
+	end
+end	
 
 --Video
 --videoOpening = "video/Opening.wmv"
@@ -595,8 +618,13 @@ animUpdate(optionsBG1)
 txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 109, 240)
 txt_titleFt1 = createTextImg(font1, 0, 1, '', 135, 240)
 txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
-txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p")), 34, 240)
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
+
+function f_clock() --Just a clock
+os.clock()
+txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p:%S")), 34, 240)
+textImgDraw(txt_titleFt3)
+end
 
 function f_default()
 	setAutoLevel(false) --generate autolevel.txt in game dir
@@ -714,7 +742,7 @@ function f_mainTitle()
 		animDraw(titleBG6)
 		textImgDraw(txt_titleFt)		
 		textImgDraw(txt_titleFt2)
-		textImgDraw(txt_titleFt3)
+		f_clock()
 		textImgDraw(txt_mainTitleOn)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -746,7 +774,7 @@ function f_mainMenu()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local mainMenu = 1
-	playBGM(bgmMenu)
+	f_menuMusic()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -852,7 +880,7 @@ function f_mainMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'MAIN MENU')
 		textImgDraw(txt_titleFt2)
-		textImgDraw(txt_titleFt3)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -887,7 +915,7 @@ function f_mainfullMenu()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local mainfullMenu = 1
-	playBGM(bgmMenu)
+	f_menuMusic()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -997,7 +1025,7 @@ function f_mainfullMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'MAIN MENU')
 		textImgDraw(txt_titleFt2)
-		textImgDraw(txt_titleFt3)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1106,6 +1134,7 @@ function f_arcadeMenu()
 		textImgDraw(txt_titleFt1)		
 		textImgSetText(txt_titleFt1, 'ARCADE MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1225,6 +1254,7 @@ function f_vsMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'VERSUS MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1357,6 +1387,7 @@ function f_practiceMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'PRACTICE MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1460,6 +1491,7 @@ function f_randomMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'RANDOM MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1570,6 +1602,7 @@ function f_challengeMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'CHALLENGES')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1678,6 +1711,7 @@ function f_survivalMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'SURVIVAL MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1773,6 +1807,7 @@ function f_bossMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'BOSS FIGHT')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1862,6 +1897,7 @@ function f_bossChars()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'BOSS FIGHT')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1974,6 +2010,7 @@ function f_bossrushMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'BOSS RUSH')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2069,6 +2106,7 @@ function f_bonusMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'MINI-GAMES')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2159,6 +2197,7 @@ function f_bonusExtras()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'BONUS STAGES')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2273,6 +2312,7 @@ function f_bonusrushMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'BONUS RUSH')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2385,6 +2425,7 @@ function f_suddenMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'SUDDEN DEATH MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2495,6 +2536,7 @@ function f_timeMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'TIME ATTACK MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2603,6 +2645,7 @@ function f_watchMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'WATCH MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2684,7 +2727,7 @@ function f_extrasMenu()
 				local playCredits = 1
 				script.storyboard.f_storyboard('data/credits.def')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				while true do
 					if esc() then
 						sndPlay(sysSnd, 100, 2)
@@ -2724,6 +2767,7 @@ function f_extrasMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'EXTRAS')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2819,6 +2863,7 @@ function f_unlockMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'UNLOCKS')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2925,6 +2970,7 @@ function f_allcharsMenu()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'INFINITE MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -3006,15 +3052,15 @@ function f_videoMenu()
 				cmdInput()
 				playVideo(videoFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				while true do
 					if esc() then
 						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
+						f_menuMusic()
 						break
 					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
 						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
+						f_menuMusic()
 						break
 					end
 				end
@@ -3119,16 +3165,16 @@ function f_storyboardMenu()
 				cmdInput()
 				script.storyboard.f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				while true do
 					if esc() then
 						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
+						f_menuMusic()
 						break
 					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
 						f_default()
 						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
+						f_menuMusic()
 						break
 					end
 				end
@@ -3194,7 +3240,7 @@ function f_songMenu()
 	while true do
 		if esc() then
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmMenu)
+			f_menuMusic()
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
@@ -3235,7 +3281,7 @@ function f_songMenu()
 				playBGM(songFile)	
 			else
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
+				f_menuMusic()
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3587,6 +3633,7 @@ function f_mainNetplay()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'NETWORK MODE')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -5043,6 +5090,7 @@ function f_mainHost()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'ONLINE MENU')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -5255,6 +5303,7 @@ function f_mainJoin()
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'ONLINE MENU')
 		textImgDraw(txt_titleFt2)
+		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
