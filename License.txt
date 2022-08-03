@@ -19,7 +19,7 @@ Copyright (c) 2021 Rodknee
 Copyright (c) 2021 Ros
 Copyright (c) 2021 Yamori X
 Copyright (c) 2021 Jade Midori
-Copyright (c) 2021 Strong FS
+Copyright (c) 2022 Strong FS
 Copyright (c) 2022 CD2
 
 

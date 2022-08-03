@@ -2,5 +2,5 @@ Rank: 0
 randomselect
 randomselect
 randomselect
-chars/kyo kusanagi/kyo kusanagi.def
 randomselect
+chars/kyo kusanagi/kyo kusanagi.def

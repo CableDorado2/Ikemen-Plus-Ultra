@@ -1,5 +1,7 @@
-﻿chars/kung fu man/kung fu man.def, 0 0 2 0 0 -1 0 0 0 0 0 0
-chars/suave dude/suave dude.def, -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+﻿chars/ryu/ryu.def, 0 0 0 0 -1 0 0 0 0 0 1 1
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kyo kusanagi/kyo kusanagi.def, 2 0 0 0 0 -2 0 0 0 0 0 0
-chars/ryu/ryu.def, 0 0 0 0 -1 0 0 0 0 1 1 1
+chars/kung fu man/kung fu man.def, 0 0 2 0 0 -1 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+chars/kyo kusanagi/kyo kusanagi.def, 2 0 0 0 0 -3 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0

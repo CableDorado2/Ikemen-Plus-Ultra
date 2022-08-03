@@ -255,6 +255,10 @@ function f_exitInfo()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or esc() then
 			sndPlay(sysSnd, 100, 2)
+			if data.erase == 'yes' then
+				data.unlocks = false
+				f_saveUnlockData()
+			end
 			f_saveCfg()
 			break
 		end
@@ -306,6 +310,7 @@ for i=1, #t_mainCfg do
 end
 
 function f_mainCfg()
+	f_eraseState()
 	cmdInput()
 	local mainCfg = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -895,7 +900,7 @@ function f_videoCfg()
 			if videoCfg > #t_videoCfg then videoCfg = 1 end
 		--Resolution
 		elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 1)
 			f_resCfg()
 		--Fullscreen			
 		elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
@@ -983,7 +988,7 @@ function f_glWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1009,7 +1014,7 @@ function f_memWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1119,7 +1124,7 @@ function f_resCfg()
 				break
 			--Resolution
 			else
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 100, 1)
 				resolutionWidth = t_resCfg[resCfg].x
 				resolutionHeight = t_resCfg[resCfg].y
 				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
@@ -1162,7 +1167,7 @@ function f_resWarning()
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1983,6 +1988,8 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 t_engineCfg = {
 	{id = '', text = 'Game Speed',  	varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Zoom Settings'},
+	{id = '', text = 'Language'},
+	{id = '', text = 'Erase Unlocks Data'},
 	{id = '', text = 'Back'},
 }
 for i=1, #t_engineCfg do
@@ -2045,9 +2052,16 @@ function f_engineCfg()
 		--Zoom Settings
 		elseif engineCfg == 2 and btnPalNo(p1Cmd) > 0 then	
 			sndPlay(sysSnd, 100, 1)
-			f_zoomCfg()		
+			f_zoomCfg()
+		--Language Settings
+		elseif engineCfg == 3 and btnPalNo(p1Cmd) > 0 then	
+			
+		--Erase Unlocks Data
+		elseif engineCfg == 4 and btnPalNo(p1Cmd) > 0 then	
+			sndPlay(sysSnd, 100, 1)
+			f_unlocksWarning()	
 		--Back
-		elseif engineCfg == 3 and btnPalNo(p1Cmd) > 0 then
+		elseif engineCfg == 5 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -2167,6 +2181,46 @@ function f_zoomCfg()
 		animSetWindow(cursorBox, 80,5+zoomCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ERASE UNLOCKS DATA WARNING
+--;===========================================================
+function f_eraseState()
+data.erase = ''
+end
+
+t_unlocksWarning = {
+	{id = '', text = "   All unlocked data will be erase. Are you sure?"},
+	--{id = '', text = "          THIS DECISION CANNOT BE UNDO."},
+	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
+}
+for i=1, #t_unlocksWarning do
+	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
+end
+function f_unlocksWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			data.erase = 'yes'
+			modified = 1
+			needReload = 1
+			break
+		elseif esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_unlocksWarning do
+			textImgDraw(t_unlocksWarning[i].id)
+		end
 		cmdInput()
 		refresh()
 	end

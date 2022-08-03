@@ -11,6 +11,7 @@ data = require('script.data')
 
 --Load saved variables
 assert(loadfile('script/data_sav.lua'))()
+assert(loadfile('script/unlocks_sav.lua'))()
 
 --Assign Lifebar
 loadLifebar(data.lifebar) --path to lifebar stored in 'script/data_sav.lua', also adjustable from options
@@ -48,6 +49,7 @@ bgmNothing = 'Nothing.mp3'
 
 --Video
 --videoOpening = "video/Opening.wmv"
+--videoHowToPlay = "video/How To Play.wmv"
 
 --;===========================================================
 --; COMMON SECTION
@@ -397,6 +399,23 @@ function f_wrap(str, limit, indent, indent1)
 	end)
 end
 
+--Read/Writte Lua Data
+function f_strSub(str, t)
+	local txt = ''
+	for row, val in pairs(t) do
+		if type(val) == 'string' then
+			val = "'" .. tostring(val) .. "'"
+		elseif type(var) == 'number' then
+			val = var
+		else
+			val = tostring(val)
+		end
+		str = str:gsub(row .. '%s*=%s*[^\n]+', row .. ' = ' .. val)
+		txt = txt .. row .. ' = ' .. val .. '\n'
+	end
+	return str, txt
+end
+
 txt_loading = createTextImg(font1, 0, -1, 'LOADING...', 310, 230)
 
 --;===========================================================
@@ -439,6 +458,13 @@ titleBG2 = animNew(sysSff, [[
 animAddPos(titleBG2, 160, 0)
 animSetTile(titleBG2, 1, 2)
 
+--Hardcore Background Top
+titleHardBG2 = animNew(sysSff, [[
+6,0, 0,10, -1
+]])
+animAddPos(titleHardBG2, 160, 0)
+animSetTile(titleHardBG2, 1, 2)
+
 --Logo
 titleBG3 = animNew(sysSff, [[
 0,0, 0,40, -1, 0, a
@@ -456,6 +482,16 @@ animSetWindow(titleBG4, 0, 138, 320, 7)
 animSetAlpha(titleBG4, 0, 0)
 animUpdate(titleBG4)
 
+--Hardcore Background Middle (black text cover)
+titleHardBG4 = animNew(sysSff, [[
+6,1, 0,145, -1
+]])
+animAddPos(titleHardBG4, 160, 0)
+animSetTile(titleHardBG4, 1, 1)
+animSetWindow(titleHardBG4, 0, 138, 320, 7)
+animSetAlpha(titleHardBG4, 0, 0)
+animUpdate(titleHardBG4)
+
 --Background Bottom (black text cover)
 titleBG5 = animNew(sysSff, [[
 5,1, 0,145, -1
@@ -465,6 +501,16 @@ animSetTile(titleBG5, 1, 1)
 animSetWindow(titleBG5, 0, 223, 320, 20)
 animSetAlpha(titleBG5, 0, 0)
 animUpdate(titleBG5)
+
+--Hardcore Background Bottom (black text cover)
+titleHardBG5 = animNew(sysSff, [[
+6,1, 0,145, -1
+]])
+animAddPos(titleHardBG5, 160, 0)
+animSetTile(titleHardBG5, 1, 1)
+animSetWindow(titleHardBG5, 0, 223, 320, 20)
+animSetAlpha(titleHardBG5, 0, 0)
+animUpdate(titleHardBG5)
 
 --Background Footer
 titleBG6 = animNew(sysSff, [[
@@ -582,24 +628,52 @@ function f_default()
 end
 
 --;===========================================================
+--; LOAD UNLOCKED CONTENT
+--;===========================================================
+-- Data loading from unlocks_sav.lua
+local file = io.open("script/unlocks_sav.lua","r")
+s_dataLUA = file:read("*all")
+file:close()
+
+function f_saveUnlockData()
+	-- Data saving to data_sav.lua
+	local t_savesUnlock = {
+		['data.unlocks'] = data.unlocks
+	}
+	s_dataLUA = f_strSub(s_dataLUA, t_savesUnlock)
+	local file = io.open("script/unlocks_sav.lua","w+")
+	file:write(s_dataLUA)
+	file:close()
+end
+
+--;===========================================================
 --; LOGOS LOOP
 --;===========================================================
 function f_mainStart()
-	--playVideo(videoOpening)
 	script.storyboard.f_storyboard('data/logo.def')
 	script.storyboard.f_storyboard('data/intro.def')
+	--playVideo(videoOpening)
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
-	--f_mainHowTo()
+	--f_howtoplay()
 	f_mainTitle()
 end
 
 --;===========================================================
---; HOW TO PLAY LOOP
+--; HOW TO PLAY LOGOS LOOP
 --;===========================================================
-function f_mainHowTo()
+function f_howtoplay()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
-	
+	--playVideo(videoHowToPlay)
 	f_mainTitle()
+end
+
+--;===========================================================
+--; HOW TO PLAY MENU LOOP
+--;===========================================================
+function f_howtoplay2()
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	--playVideo(videoHowToPlay)
+	return
 end		
 
 --;===========================================================
@@ -616,10 +690,18 @@ function f_mainTitle()
 		if i == 500 then
 		   cmdInput()
 		   script.randomtest.run()
-		   f_mainMenu()
+		   if data.unlocks == true then
+				f_mainfullMenu()
+			else
+				f_mainMenu()
+			end	
 		elseif btnPalNo(p1Cmd) > 0 then
 		   sndPlay(sysSnd, 100, 1)
-		   f_mainMenu()
+			if data.unlocks == true then
+				f_mainfullMenu()
+			else
+				f_mainMenu()
+			end	
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		animDraw(titleBG1)
@@ -640,7 +722,7 @@ function f_mainTitle()
 		cmdInput()
 		refresh()
 	end
-end	
+end
 
 --;===========================================================
 --; MAIN MENU LOOP
@@ -653,7 +735,7 @@ t_mainMenu = {
 	{id = textImgNew(), text = 'PRACTICE'},
 	{id = textImgNew(), text = 'CHALLENGES'},	
 	{id = textImgNew(), text = 'WATCH'},
-	{id = textImgNew(), text = 'EXTRAS'},	
+	{id = textImgNew(), text = 'EXTRAS'},
 	{id = textImgNew(), text = 'OPTIONS'},
 	{id = textImgNew(), text = 'EXIT'},	
 	{id = textImgNew(), text = 'CHECK UPDATES'},
@@ -669,6 +751,7 @@ function f_mainMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			f_mainTitle()
+			--f_howtoplay()
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			mainMenu = mainMenu - 1
@@ -732,7 +815,7 @@ function f_mainMenu()
 			--EXTRAS
 			elseif mainMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
-				f_extrasMenu()				
+				f_extrasMenu()	
 			--OPTIONS
 			elseif mainMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
@@ -754,6 +837,151 @@ function f_mainMenu()
 				bank = 0
 			end
 			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt1)
+		textImgSetText(txt_titleFt1, 'MAIN MENU')
+		textImgDraw(txt_titleFt2)
+		textImgDraw(txt_titleFt3)
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end	
+
+--;===========================================================
+--; MAIN MENU UNLOCKED LOOP
+--;===========================================================
+t_mainfullMenu = {
+	{id = textImgNew(), text = 'ARCADE'},
+	{id = textImgNew(), text = 'QUICK MATCH'},
+	{id = textImgNew(), text = 'VERSUS'},
+	{id = textImgNew(), text = 'ONLINE'},
+	{id = textImgNew(), text = 'PRACTICE'},
+	{id = textImgNew(), text = 'CHALLENGES'},	
+	{id = textImgNew(), text = 'WATCH'},
+	{id = textImgNew(), text = 'EXTRAS'},
+	{id = textImgNew(), text = 'UNLOCKS'},
+	{id = textImgNew(), text = 'OPTIONS'},
+	{id = textImgNew(), text = 'EXIT'},	
+	{id = textImgNew(), text = 'CHECK UPDATES'},
+}
+
+function f_mainfullMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local mainfullMenu = 1
+	playBGM(bgmMenu)
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			f_mainTitle()
+			--f_howtoplay()
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			mainfullMenu = mainfullMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			mainfullMenu = mainfullMenu + 1
+		end
+		--mode titles/cursor position calculation
+		if mainfullMenu < 1 then
+			mainfullMenu = #t_mainfullMenu
+			if #t_mainfullMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_mainfullMenu-1
+			end
+		elseif mainfullMenu > #t_mainfullMenu then
+			mainfullMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (mainfullMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (mainfullMenu - 1) * 13
+		end
+		--mode selected
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--ARCADE
+			if mainfullMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_arcadeMenu()			
+			--QUICK VERSUS	
+			elseif mainfullMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_randomMenu()
+			--VS MODE
+			elseif mainfullMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_vsMenu()
+			--ONLINE
+			elseif mainfullMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				assert(loadfile('script/onlinecfg.lua'))()
+				f_mainNetplay()
+			--PRACTICE
+			elseif mainfullMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				f_practiceMenu()		
+			--CHALLENGES
+			elseif mainfullMenu == 6 then
+				sndPlay(sysSnd, 100, 1)
+				f_challengeMenu()
+			--WATCH
+			elseif mainfullMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				f_watchMenu()
+			--EXTRAS
+			elseif mainfullMenu == 8 then
+				sndPlay(sysSnd, 100, 1)
+				f_extrasMenu()
+			--SECRETS
+			elseif mainfullMenu == 9 then
+				sndPlay(sysSnd, 100, 1)
+				f_unlockMenu()	
+			--OPTIONS
+			elseif mainfullMenu == 10 then
+				sndPlay(sysSnd, 100, 1)
+				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
+			--EXIT
+			elseif mainfullMenu == 11 then
+				os.exit()
+			--CHECK UPDATES
+			else
+				sndPlay(sysSnd, 100, 1)	
+				os.execute("start https://github.com/CableDorado2/Ikemen-Plus-Ultra")				
+			end
+		end
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_mainfullMenu do
+			if i == mainfullMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_mainfullMenu[i].id, jgFnt, bank, 0, t_mainfullMenu[i].text, 159, 144+i*13-moveTxt))
 		end
 		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -1250,7 +1478,6 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'SURVIVAL'},
 	{id = textImgNew(), text = 'BOSS FIGHT'},
 	{id = textImgNew(), text = 'BONUS GAMES'},
-	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},		
 	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'BACK'},	
@@ -1306,16 +1533,12 @@ function f_challengeMenu()
 			elseif challengeMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_bonusMenu()
-			--ENDLESS
-			elseif challengeMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_allcharsMenu()
 			--SUDDEN DEATH
-			elseif challengeMenu == 5 then
+			elseif challengeMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_suddenMenu()				
 			--TIME ATTACK
-			elseif challengeMenu == 6 then
+			elseif challengeMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_timeMenu()				
 			--BACK
@@ -2062,112 +2285,6 @@ function f_bonusrushMenu()
 end
 
 --;===========================================================
---; ENDLESS MENU LOOP
---;===========================================================
-t_allcharsMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},	
-	{id = textImgNew(), text = 'BACK'},
-}	
-	
-function f_allcharsMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local allcharsMenu = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			allcharsMenu = allcharsMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			allcharsMenu = allcharsMenu + 1
-		end
-		if allcharsMenu < 1 then
-			allcharsMenu = #t_allcharsMenu
-			if #t_allcharsMenu > 4 then
-				cursorPosY = 4
-			else
-				cursorPosY = #t_allcharsMenu-1
-			end
-		elseif allcharsMenu > #t_allcharsMenu then
-			allcharsMenu = 1
-			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 4 then
-			moveTxt = (allcharsMenu - 5) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (allcharsMenu - 1) * 13
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--SINGLE MODE
-			if allcharsMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 1
-				data.p2SelectMenu = false
-				data.gameMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ENDLESS MODE')			
-				script.select.f_selectAdvance()
-			--CO-OP MODE
-			elseif allcharsMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
-				data.gameMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')			
-				script.select.f_selectAdvance()			
-			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_allcharsMenu do
-			if i == allcharsMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 144+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'INFINITE MODE')
-		textImgDraw(txt_titleFt2)
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)		
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
 --; SUDDEN DEATH MENU LOOP
 --;===========================================================
 t_suddenMenu = {
@@ -2501,9 +2618,9 @@ end
 --; EXTRAS MENU LOOP
 --;===========================================================
 t_extrasMenu = {
+	{id = textImgNew(), text = 'HOW TO PLAY'},
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'SOUND TEST'},
-	{id = textImgNew(), text = 'CUTSCENES'},
 	{id = textImgNew(), text = 'PLAY CREDITS'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
@@ -2546,18 +2663,18 @@ function f_extrasMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--STORYBOARDS
+			--HOW TO PLAY
 			if extrasMenu == 1 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_howtoplay2()
+			--STORYBOARDS
+			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_storyboardMenu()
 			--SOUND TEST
-			elseif extrasMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_songMenu()
-			--CUTSCENES
 			elseif extrasMenu == 3 then
-				--sndPlay(sysSnd, 100, 1)
-				--f_videoMenu()	
+				sndPlay(sysSnd, 100, 1)
+				f_songMenu()	
 			--CREDITS
 			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
@@ -2611,6 +2728,320 @@ function f_extrasMenu()
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
 		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; UNLOCK MENU LOOP
+--;===========================================================
+t_unlockMenu = {
+	{id = textImgNew(), text = 'ENDLESS'},
+	{id = textImgNew(), text = 'CUTSCENES'},
+	{id = textImgNew(), text = 'BACK'},	
+}	
+	
+function f_unlockMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local unlockMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			unlockMenu = unlockMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			unlockMenu = unlockMenu + 1
+		end
+		if unlockMenu < 1 then
+			unlockMenu = #t_unlockMenu
+			if #t_unlockMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_unlockMenu-1
+			end
+		elseif unlockMenu > #t_unlockMenu then
+			unlockMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (unlockMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (unlockMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--ENDLESS MODE
+			if unlockMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_allcharsMenu()
+			--CUTSCENES
+			elseif unlockMenu == 2 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_videoMenu()	
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_unlockMenu do
+			if i == unlockMenu then
+				bank = 2
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_unlockMenu[i].id, jgFnt, bank, 0, t_unlockMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt1)
+		textImgSetText(txt_titleFt1, 'UNLOCKS')
+		textImgDraw(txt_titleFt2)
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ENDLESS MENU LOOP
+--;===========================================================
+t_allcharsMenu = {
+	{id = textImgNew(), text = '1P|CLASSIC|'},
+	{id = textImgNew(), text = '2P|CO-OP|'},	
+	{id = textImgNew(), text = 'BACK'},
+}	
+	
+function f_allcharsMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local allcharsMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			allcharsMenu = allcharsMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			allcharsMenu = allcharsMenu + 1
+		end
+		if allcharsMenu < 1 then
+			allcharsMenu = #t_allcharsMenu
+			if #t_allcharsMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_allcharsMenu-1
+			end
+		elseif allcharsMenu > #t_allcharsMenu then
+			allcharsMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (allcharsMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (allcharsMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--SINGLE MODE
+			if allcharsMenu == 1 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p2In = 1
+				data.p2SelectMenu = false
+				data.gameMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ENDLESS MODE')			
+				script.select.f_selectAdvance()
+			--CO-OP MODE
+			elseif allcharsMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p2In = 2
+				data.p2Faces = true
+				data.coop = true
+				data.gameMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')			
+				script.select.f_selectAdvance()			
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_allcharsMenu do
+			if i == allcharsMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 101,147+cursorPosY*13, 116,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_titleFt1)
+		textImgSetText(txt_titleFt1, 'INFINITE MODE')
+		textImgDraw(txt_titleFt2)
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; CUTSCENES MENU LOOP
+--;===========================================================
+t_videoMenu = {
+	{id = textImgNew(), text = 'Back'},
+}
+txt_song = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
+
+videoDir = ".\\video\\"
+
+function f_videoMenu()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	local cursorPosY = 1
+	local moveTxt = 0
+	local videoMenu = 1
+	local videoList = {}
+	local i = 1
+	local g = 1
+	p = io.popen('dir "'..videoDir..'" /b')  
+	for file in p:lines() do
+		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos (Solo admite WMV)
+			videoList[i] = tostring(file)
+			i = i + 1
+		end	
+	end
+	p:close()
+	cmdInput()
+	while true do
+		if esc() then
+		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			videoMenu = videoMenu - 1
+			if cursorPosY > 1 then 
+				cursorPosY = cursorPosY - 1
+			elseif cursorPosY == 1 then
+				moveTxt = moveTxt - 1
+			end
+			if videoMenu < 1 then 
+				videoMenu = #t_videoMenu + #videoList
+				if #t_videoMenu + #videoList >= 14 then
+					cursorPosY = 14
+					moveTxt = #videoList-13
+				else
+					cursorPosY = #t_videoMenu + #videoList
+					moveTxt = 0
+				end
+			end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			videoMenu = videoMenu + 1
+			if cursorPosY < 14 then 
+				cursorPosY = cursorPosY + 1
+			elseif cursorPosY == 14 then
+				moveTxt = moveTxt + 1
+			end
+			if videoMenu > #t_videoMenu + #videoList then 
+				moveTxt = 0
+				videoMenu = 1
+				cursorPosY = 1
+			end
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			if videoMenu ~= (#t_videoMenu + #videoList) then
+				videoFile = ('video/' .. videoList[videoMenu])
+				cmdInput()
+				playVideo(videoFile)
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				playBGM(bgmMenu)
+				while true do
+					if esc() then
+						sndPlay(sysSnd, 100, 2)
+						playBGM(bgmMenu)
+						break
+					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+						sndPlay(sysSnd, 100, 2)
+						playBGM(bgmMenu)
+						break
+					end
+				end
+			else
+			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_song)
+		if #videoList >= 13 then
+			animSetWindow(optionsBG1, 80,20, 160,14*15)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,(#t_videoMenu+#videoList)*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		for i=1, math.min(#videoList+1, 14) do
+			if i+moveTxt < #t_videoMenu + #videoList then
+				textImgDraw(createTextImg(font2, 0, 1, videoList[i+moveTxt], 85, 15+i*15))
+			else
+				textImgDraw(createTextImg(font2, 0, 1, t_videoMenu[1].text, 85, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2822,119 +3253,6 @@ function f_songMenu()
 				textImgDraw(createTextImg(font2, 0, 1, songList[i+moveTxt], 85, 15+i*15))
 			else
 				textImgDraw(createTextImg(font2, 0, 1, t_songMenu[1].text, 85, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CUTSCENES MENU LOOP
---;===========================================================
-t_videoMenu = {
-	{id = textImgNew(), text = 'Back'},
-}
-txt_song = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
-
-videoDir = ".\\video\\"
-
-function f_videoMenu()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	local cursorPosY = 1
-	local moveTxt = 0
-	local videoMenu = 1
-	local videoList = {}
-	local i = 1
-	local g = 1
-	p = io.popen('dir "'..videoDir..'" /b')  
-	for file in p:lines() do
-		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos (Solo admite WMV)
-			videoList[i] = tostring(file)
-			i = i + 1
-		end	
-	end
-	p:close()
-	cmdInput()
-	while true do
-		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			videoMenu = videoMenu - 1
-			if cursorPosY > 1 then 
-				cursorPosY = cursorPosY - 1
-			elseif cursorPosY == 1 then
-				moveTxt = moveTxt - 1
-			end
-			if videoMenu < 1 then 
-				videoMenu = #t_videoMenu + #videoList
-				if #t_videoMenu + #videoList >= 14 then
-					cursorPosY = 14
-					moveTxt = #videoList-13
-				else
-					cursorPosY = #t_videoMenu + #videoList
-					moveTxt = 0
-				end
-			end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			videoMenu = videoMenu + 1
-			if cursorPosY < 14 then 
-				cursorPosY = cursorPosY + 1
-			elseif cursorPosY == 14 then
-				moveTxt = moveTxt + 1
-			end
-			if videoMenu > #t_videoMenu + #videoList then 
-				moveTxt = 0
-				videoMenu = 1
-				cursorPosY = 1
-			end
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			if videoMenu ~= (#t_videoMenu + #videoList) then
-				videoFile = ('video/' .. videoList[videoMenu])
-				cmdInput()
-				playVideo(videoFile)
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				playBGM(bgmMenu)
-				while true do
-					if esc() then
-						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
-						break
-					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
-						sndPlay(sysSnd, 100, 2)
-						playBGM(bgmMenu)
-						break
-					end
-				end
-			else
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		textImgDraw(txt_song)
-		if #videoList >= 13 then
-			animSetWindow(optionsBG1, 80,20, 160,14*15)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,(#t_videoMenu+#videoList)*15)
-		end
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		for i=1, math.min(#videoList+1, 14) do
-			if i+moveTxt < #t_videoMenu + #videoList then
-				textImgDraw(createTextImg(font2, 0, 1, videoList[i+moveTxt], 85, 15+i*15))
-			else
-				textImgDraw(createTextImg(font2, 0, 1, t_videoMenu[1].text, 85, 15+i*15))
 			end
 		end
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)

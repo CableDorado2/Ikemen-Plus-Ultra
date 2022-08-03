@@ -484,6 +484,10 @@ function f_selectAdvance()
 				f_result('win')
 				--credits
 				script.storyboard.f_storyboard('data/credits.def')
+				--unlocks screen
+				data.unlocks = true
+				f_saveUnlockData()
+				--assert(loadfile('script/unlocks_sav.lua'))()
 				--game over
 				script.storyboard.f_storyboard('data/gameover.def')
 				--intro
@@ -640,6 +644,14 @@ selectBG0 = animNew(sysSff, [[
 animAddPos(selectBG0, 160, 0)
 animSetTile(selectBG0, 1, 1)
 animSetColorKey(selectBG0, -1)
+
+--Hardcore Scrolling background
+selectHardBG0 = animNew(sysSff, [[
+101,0, 0,0, -1
+]])
+animAddPos(selectHardBG0, 160, 0)
+animSetTile(selectHardBG0, 1, 1)
+animSetColorKey(selectHardBG0, -1)
 
 --Dark Box (Player1 side)
 selectBG1a = animNew(sysSff, [[
@@ -840,7 +852,11 @@ data.fadeSelect = animNew(sysSff, [[
 
 function f_selectScreen()
 	--draw
-	animDraw(f_animVelocity(selectBG0, -1, -1))
+	if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+		animDraw(f_animVelocity(selectHardBG0, -1, -1))
+	else
+		animDraw(f_animVelocity(selectBG0, -1, -1))
+	end
 	if data.p2Faces then
 		animDraw(f_animVelocity(selectBG1a, -1, 0))
 		animSetWindow(selectBG1a, 5, 0, 151, 239)
@@ -1731,6 +1747,14 @@ animAddPos(versusBG1, 160, 0)
 animSetTile(versusBG1, 1, 1)
 animSetColorKey(versusBG1, -1)
 
+--Hardcore VS background
+versusHardBG1 = animNew(sysSff, [[
+101,0, 0,0, -1
+]])
+animAddPos(versusHardBG1, 160, 0)
+animSetTile(versusHardBG1, 1, 1)
+animSetColorKey(versusHardBG1, -1)
+
 --VS Screen (left portrait background)
 versusBG2 = animNew(sysSff, [[
 100,1, 20,13, -1, 0, s
@@ -1804,7 +1828,11 @@ function f_selectVersus()
 		cmdInput()
 		while true do
 			--draw background on top
-			animDraw(f_animVelocity(versusBG1, 0, 1.5))
+			if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
+			else
+				animDraw(f_animVelocity(versusBG1, 0, 1.5))
+			end
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
 			--drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
@@ -2040,7 +2068,11 @@ function f_selectChallenger()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
-		animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
+		else
+			animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		end
 		animDraw(f_animVelocity(versusBG5, 0, 1.5))
 		i = i + 1
 		animDraw(challengerText1)
@@ -2078,7 +2110,11 @@ function f_selectWin()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
-		animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
+		else
+			animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		end
 		if winner == 1 then
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
