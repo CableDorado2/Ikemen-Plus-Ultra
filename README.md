@@ -32,7 +32,7 @@
 - **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
 - **OpenGL:** Is not need, works with DirectX 11
 
-## Engine Preview
+## Engine Preview (v1.0.2)
 >https://www.youtube.com/watch?v=j2VIMyAp624
 >
 >[![Alt text](https://i.ytimg.com/vi/j2VIMyAp624/maxresdefault.jpg)](https://www.youtube.com/watch?v=j2VIMyAp624)
