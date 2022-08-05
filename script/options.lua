@@ -2034,7 +2034,7 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 t_engineCfg = {
 	{id = '', text = 'Game Speed',  	varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Zoom Settings'},
-	{id = '', text = 'Language', 		varID = textImgNew(), varText = data.language},
+	{id = '', text = 'UI Language', 		varID = textImgNew(), varText = data.language},
 	{id = '', text = 'Erase Unlocked Data'},
 	{id = '', text = 'Back'},
 }
@@ -2099,7 +2099,7 @@ function f_engineCfg()
 		elseif engineCfg == 2 and btnPalNo(p1Cmd) > 0 then	
 			sndPlay(sysSnd, 100, 1)
 			f_zoomCfg()
-		--Language Settings
+		--User Interface Language Settings
 		elseif engineCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
