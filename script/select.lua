@@ -1776,6 +1776,16 @@ animAddPos(versusBG3, 160, 0)
 animSetTile(versusBG3, 1, 1)
 animSetWindow(versusBG3, 180, 30, 120, 140)
 
+--P1 Order cursor
+p1OrderCursor = animNew(sysSff, [[
+195,0, 0,0, -1
+]])
+
+--P2 Order cursor
+p2OrderCursor = animNew(sysSff, [[
+195,1, 0,0, -1
+]])
+
 function f_selectVersus()
 	gameNo = gameNo+1
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -2021,6 +2031,11 @@ function f_selectVersus()
 			--draw names
 			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 190, 0, 14, p1Row, 4)
 			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 190, 0, 14, p2Row, 1)
+			--order cursor position
+			animUpdate(p1OrderCursor)
+			animPosDraw(p1OrderCursor, 78, 190 + p1Row*1)
+			animUpdate(p2OrderCursor)
+			animPosDraw(p2OrderCursor, 241, 190 + p2Row*1)
 			--draw match counter
 			if data.gameMode == 'arcade' then
 				if matchNo ~= lastMatch then
