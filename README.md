@@ -3,7 +3,7 @@
 
 - This engine it is used to create advanced MUGENS games, that run on any PC from 2008 onwards, without a graphics card. Say goodbye to OpenGL and say hello to DirectX.
 
-- The current version is a public development release for testing purposes, so may contain bugs and incomplete features that will be finished in the final release.
+- The current version is a public development release for testing purposes, may contain bugs and incomplete features that will be finished in the final release.
 
 - Your help and cooperation are appreciated.
 
