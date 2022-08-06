@@ -77,7 +77,7 @@ public &Stage
   /&.bg.BGCtrl bgcdef;
   /&.bg.BGAction bga;
   /&.Shadow sdw;
-  /&.Player p1, p2;
+  /&.Player p1, p2, p3, p4;
   /float leftbound = 0.0/0.0, rightbound = 0.0/0.0;
   /int screenleft = 15, screenright = 15;
   /int zoffsetlink = -1;
@@ -185,11 +185,29 @@ public &Stage
       if(#(data = sc.get("p2starty")) > 0){
         `p2.starty = .com.atonOF!`p2.starty.self?(data);
       }
+	  if(#(data = sc.get("p3startx")) > 0){
+        `p3.startx = .com.atonOF!`p3.startx.self?(data);
+      }
+      if(#(data = sc.get("p3starty")) > 0){
+        `p3.starty = .com.atonOF!`p3.starty.self?(data);
+      }
+      if(#(data = sc.get("p4startx")) > 0){
+        `p4.startx = .com.atonOF!`p4.startx.self?(data);
+      }
+      if(#(data = sc.get("p4starty")) > 0){
+        `p4.starty = .com.atonOF!`p4.starty.self?(data);
+      }
       if(#(data = sc.get("p1facing")) > 0){
         `p1.facing = .com.atonOF!`p1.facing.self?(data);
       }
       if(#(data = sc.get("p2facing")) > 0){
         `p2.facing = .com.atonOF!`p2.facing.self?(data);
+      }
+	  if(#(data = sc.get("p3facing")) > 0){
+        `p3.facing = .com.atonOF!`p3.facing.self?(data);
+      }
+      if(#(data = sc.get("p4facing")) > 0){
+        `p4.facing = .com.atonOF!`p4.facing.self?(data);
       }
       if(#(data = sc.get("leftbound")) > 0){
         `leftbound = .com.atonOF!`leftbound.self?(data);

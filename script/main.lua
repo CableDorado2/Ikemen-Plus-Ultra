@@ -53,14 +53,14 @@ end
 
 --Random Menu Music
 function f_bgmrandomMenu()
-local randomTrack = {"sound/Menu.mp3", "sound/Menu 2.mp3"}
+local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3"}
 playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
 --Menu Music
 function f_menuMusic()
 	if data.menuSong == 'Theme 1' then
-		bgmMenu = 'sound/Menu.mp3'
+		bgmMenu = 'sound/Menu 1.mp3'
 		playBGM(bgmMenu)
 	elseif data.menuSong == 'Theme 2' then
 		bgmMenu = 'sound/Menu 2.mp3'
@@ -732,6 +732,9 @@ function f_mainTitle()
 			end	
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		animSetWindow(cursorBox, 0, 180, 290, 13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
