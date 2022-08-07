@@ -1776,11 +1776,20 @@ animAddPos(versusBG3, 160, 0)
 animSetTile(versusBG3, 1, 1)
 animSetWindow(versusBG3, 180, 30, 120, 140)
 
+--VS Background Footer
+vsBG6 = animNew(sysSff, [[
+300,0, 0,128, -1
+]])
+animSetScale(vsBG6, 1.2, 1.8)
+animAddPos(vsBG6, 160, 0)
+animSetTile(vsBG6, 1, 0)
+animUpdate(vsBG6)
+
 --P1 Order cursor
 p1OrderCursor = animNew(sysSff, [[
 195,0, 0,0, -1
 ]])
-animSetScale(p1OrderCursor, 0.10, 0.08)
+animSetScale(p1OrderCursor, 0.10, 0.10)
 
 --P2 Order cursor
 p2OrderCursor = animNew(sysSff, [[
@@ -1862,19 +1871,20 @@ function f_selectVersus()
 			--end loop after at least 120 ticks (extended if sound has been triggered)
 			--draw info text
 			if p1Confirmed == false then
-				txt_p1State = createTextImg(jgFnt, 1, 0, 'WAITING...', 78, 25)
+				txt_p1State = createTextImg(jgFnt, 3, 0, 'WAITING ORDER', 78, 25)
 				textImgDraw(txt_p1State)
 			elseif p1Confirmed == true and p2Confirmed == true then
-				txt_p1State = createTextImg(jgFnt, 2, 0, 'PRESS START', 78, 25)
-				animSetWindow(cursorBox, 0, 180, 290, 13)
-				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				txt_p1State = createTextImg(jgFnt, 2, 0, 'START MATCH', 79, 25)
 				textImgDraw(txt_p1State)	
+				animSetWindow(cursorBox, 30, 15, 98, 15)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
 			else
 				txt_p1State = createTextImg(jgFnt, 5, 0, 'READY!', 78, 25)
 				textImgDraw(txt_p1State)
 			end
 			if p2Confirmed == false then
-				txt_p2State = createTextImg(jgFnt, 1, 0, 'WAITING...', 241, 25)
+				txt_p2State = createTextImg(jgFnt, 1, 0, 'WAITING ORDER', 241, 25)
 				textImgDraw(txt_p2State)
 			else
 				txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
@@ -1971,6 +1981,9 @@ function f_selectVersus()
 							data.t_p1selected = t_tmp
 						end
 					end
+					animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+					animDraw(f_animVelocity(cursorBox, -1, -1))
 				end
 				--if Player2 has not confirmed the order yet and is not controlled by Player1
 				if not p2Confirmed and data.p2In ~= 1 then
@@ -2056,20 +2069,20 @@ function f_selectVersus()
 			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
 			--order cursor position
 			animUpdate(p1OrderCursor)
-			animPosDraw(p1OrderCursor, 12, 178)
-			animPosDraw(p1OrderCursor, 12, 192)
-			animPosDraw(p1OrderCursor, 12, 206)
-			animPosDraw(p1OrderCursor, 12, 220)
-			txt_orderNo1 = createTextImg(jgFnt, 0, 0, '1', 16, 183)
+			animPosDraw(p1OrderCursor, 1, 172)
+			animPosDraw(p1OrderCursor, 1, 186)
+			animPosDraw(p1OrderCursor, 1, 200)
+			animPosDraw(p1OrderCursor, 1, 214)
+			txt_orderNo1 = createTextImg(jgFnt, 0, 0, '1', 9.2, 180)
 			textImgDraw(txt_orderNo1)
-			txt_orderNo2 = createTextImg(jgFnt, 0, 0, '2', 17, 197)
+			txt_orderNo2 = createTextImg(jgFnt, 0, 0, '2', 9, 194)
 			textImgDraw(txt_orderNo2)
-			txt_orderNo3 = createTextImg(jgFnt, 0, 0, '3', 17, 212)
+			txt_orderNo3 = createTextImg(jgFnt, 0, 0, '3', 9, 208)
 			textImgDraw(txt_orderNo3)
-			txt_orderNo4 = createTextImg(jgFnt, 0, 0, '4', 17, 227)
+			txt_orderNo4 = createTextImg(jgFnt, 0, 0, '4', 9, 222)
 			textImgDraw(txt_orderNo4)
-			animUpdate(p2OrderCursor)
-			animPosDraw(p2OrderCursor, 241, 190)
+			--animUpdate(p2OrderCursor)
+			--animPosDraw(p2OrderCursor, 241, 190)
 			--draw match counter
 			if data.gameMode == 'arcade' then
 				if matchNo ~= lastMatch then
@@ -2087,6 +2100,7 @@ function f_selectVersus()
 			animDraw(versusBG4)
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
+			animDraw(vsBG6)
 			textImgDraw(txt_vsHint)
 			cmdInput()
 			refresh()
