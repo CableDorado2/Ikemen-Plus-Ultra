@@ -408,6 +408,7 @@ function f_selectAdvance()
 	clearTime = 0
 	matchTime = 0
 	gameNo = 0
+	bossNo = 0
 	p1Wins = 0
 	p2Wins = 0	
 	cmdInput()
@@ -451,10 +452,6 @@ function f_selectAdvance()
 			looseCnt = looseCnt + 1
 			--result
 			f_result('lost')
-			--game over
-			script.continue.f_gameOver()
-			--intro
-			--script.storyboard.f_storyboard('data/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			f_menuMusic()
@@ -484,20 +481,29 @@ function f_selectAdvance()
 				end
 				--result
 				f_result('win')
-				--credits
-				script.storyboard.f_storyboard('data/credits.def')
-				--unlocks screen
-				data.unlocks = true
-				f_saveUnlockData()
-				--assert(loadfile('script/unlocks_sav.lua'))()
-				--game over
-				script.storyboard.f_storyboard('data/gameover.def')
-				--intro
-				script.storyboard.f_storyboard('data/intro.def')
-				--reset title screen fading
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				f_menuMusic()
-				return
+				if data.gameMode == 'arcade' then
+					--credits
+					script.storyboard.f_storyboard('data/credits.def')
+					--unlocks screen
+					data.unlocks = true
+					f_saveUnlockData()
+					--assert(loadfile('script/unlocks_sav.lua'))()
+					--game over
+					script.storyboard.f_storyboard('data/gameover.def')
+					--intro
+					script.storyboard.f_storyboard('data/intro.def')
+					--reset title screen fading
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					f_menuMusic()
+					return
+				else
+					--game over
+					script.storyboard.f_storyboard('data/gameover.def')
+					--reset title screen fading
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					f_menuMusic()
+					return
+				end	
 			--next match available
 			else
 				matchNo = matchNo + 1
@@ -1742,6 +1748,7 @@ txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
 txt_matchNo = createTextImg(jgFnt, 0, 0, '', 160, 10)
 txt_matchFinal = createTextImg(jgFnt, 0, 0, '', 160, 10)
 txt_gameNo = createTextImg(jgFnt, 0, 0, '', 160, 10)
+txt_bossNo = createTextImg(jgFnt, 0, 0, '', 160, 10)
 txt_vsHint = createTextImg(font1, 0, -1, '', 308, 239)
 
 --VS background
@@ -1799,10 +1806,12 @@ animSetScale(p2OrderCursor, 0.10, 0.10)
 
 function f_selectVersus()
 	gameNo = gameNo+1
+	bossNo = bossNo+1
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
 	textImgSetText(txt_matchFinal, 'FINAL STAGE')
-	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)	
+	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
+	textImgSetText(txt_bossNo, 'BOSS: ' .. bossNo)
 	local randomHint = math.random(1,3) --Last number is the amount of Hints
 	local i = 0
 	if not data.versusScreen then
@@ -1876,7 +1885,7 @@ function f_selectVersus()
 			elseif p1Confirmed == true and p2Confirmed == true then
 				txt_p1State = createTextImg(jgFnt, 2, 0, 'START MATCH', 79, 25)
 				textImgDraw(txt_p1State)	
-				animSetWindow(cursorBox, 30, 15, 98, 15)
+				animSetWindow(cursorBox, 0, 157, 98, 15)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			else
@@ -1886,6 +1895,9 @@ function f_selectVersus()
 			if p2Confirmed == false then
 				txt_p2State = createTextImg(jgFnt, 1, 0, 'WAITING ORDER', 241, 25)
 				textImgDraw(txt_p2State)
+			--elseif p1Confirmed == false and p2Confirmed == true then
+				--txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
+				--textImgDraw(txt_p2State)
 			else
 				txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
 				textImgDraw(txt_p2State)
@@ -1922,7 +1934,7 @@ function f_selectVersus()
 			if orderTime > 0 then
 				--orderTime = orderTime - 1                                    Activate Original OrderTime
 				sndNumber = -1
-				--if Player1 has not confirmed the order yet
+				--if Player 1 has not confirmed the order yet
 				if not p1Confirmed then
 					if btnPalNo(p1Cmd) > 0 then
 						if not p1Confirmed then
@@ -1985,7 +1997,7 @@ function f_selectVersus()
 					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 					animDraw(f_animVelocity(cursorBox, -1, -1))
 				end
-				--if Player2 has not confirmed the order yet and is not controlled by Player1
+				--if Player2 has not confirmed the order yet and is not controlled by Player 1
 				if not p2Confirmed and data.p2In ~= 1 then
 					if btnPalNo(p2Cmd) > 0 then
 						if not p2Confirmed then
@@ -2038,6 +2050,9 @@ function f_selectVersus()
 							data.t_p2selected = t_tmp
 						end
 					end
+					animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
+					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+					animDraw(f_animVelocity(cursorBox, -1, -1))
 				end
 				--sndPlay separated to not play more than 1 sound at once
 				if sndNumber ~= -1 then
@@ -2067,22 +2082,34 @@ function f_selectVersus()
 			--draw names
 			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
 			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
-			--order cursor position
+			--p1 order cursor position
 			animUpdate(p1OrderCursor)
 			animPosDraw(p1OrderCursor, 1, 172)
 			animPosDraw(p1OrderCursor, 1, 186)
 			animPosDraw(p1OrderCursor, 1, 200)
 			animPosDraw(p1OrderCursor, 1, 214)
-			txt_orderNo1 = createTextImg(jgFnt, 0, 0, '1', 9.2, 180)
-			textImgDraw(txt_orderNo1)
-			txt_orderNo2 = createTextImg(jgFnt, 0, 0, '2', 9, 194)
-			textImgDraw(txt_orderNo2)
-			txt_orderNo3 = createTextImg(jgFnt, 0, 0, '3', 9, 208)
-			textImgDraw(txt_orderNo3)
-			txt_orderNo4 = createTextImg(jgFnt, 0, 0, '4', 9, 222)
-			textImgDraw(txt_orderNo4)
-			--animUpdate(p2OrderCursor)
-			--animPosDraw(p2OrderCursor, 241, 190)
+			txt_p1orderNo1 = createTextImg(jgFnt, 0, 0, '1', 9.2, 180)
+			textImgDraw(txt_p1orderNo1)
+			txt_p1orderNo2 = createTextImg(jgFnt, 0, 0, '2', 9, 194)
+			textImgDraw(txt_p1orderNo2)
+			txt_p1orderNo3 = createTextImg(jgFnt, 0, 0, '3', 9, 208)
+			textImgDraw(txt_p1orderNo3)
+			txt_p1orderNo4 = createTextImg(jgFnt, 0, 0, '4', 9, 222)
+			textImgDraw(txt_p1orderNo4)
+			--p2 order cursor position
+			animUpdate(p2OrderCursor)
+			animPosDraw(p2OrderCursor, 305, 172)
+			animPosDraw(p2OrderCursor, 305, 186)
+			animPosDraw(p2OrderCursor, 305, 200)
+			animPosDraw(p2OrderCursor, 305, 214)
+			txt_p2orderNo1 = createTextImg(jgFnt, 0, 0, '1', 310.2, 180)
+			textImgDraw(txt_p2orderNo1)
+			txt_p2orderNo2 = createTextImg(jgFnt, 0, 0, '2', 311, 194)
+			textImgDraw(txt_p2orderNo2)
+			txt_p2orderNo3 = createTextImg(jgFnt, 0, 0, '3', 311, 208)
+			textImgDraw(txt_p2orderNo3)
+			txt_p2orderNo4 = createTextImg(jgFnt, 0, 0, '4', 311, 222)
+			textImgDraw(txt_p2orderNo4)
 			--draw match counter
 			if data.gameMode == 'arcade' then
 				if matchNo ~= lastMatch then
@@ -2092,8 +2119,10 @@ function f_selectVersus()
 				end
 			elseif data.gameMode == 'versus' then
 				textImgDraw(txt_gameNo)
-			elseif data.gameMode == 'endless' then
+			elseif data.gameMode == 'survival' then
 				textImgDraw(txt_gameNo)
+			elseif data.gameMode == 'bossrush' then
+				textImgDraw(txt_bossNo)	
 			end
 			--draw background on bottom
 			animUpdate(versusBG4)

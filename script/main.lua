@@ -1044,8 +1044,8 @@ end
 --; ARCADE MENU LOOP
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -1273,9 +1273,9 @@ end
 --; PRACTICE MENU LOOP
 --;===========================================================
 t_practiceMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
+	{id = textImgNew(), text = '1P[CLASSIC]'},
 	{id = textImgNew(), text = '1P VS 2P'},	
-	{id = textImgNew(), text = '2P|CO-OP|'},	
+	{id = textImgNew(), text = '2P[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -1341,7 +1341,7 @@ function f_practiceMenu()
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.stageMenu = true
-				data.versusScreen = true
+				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
@@ -1621,8 +1621,8 @@ end
 --; SURVIVAL MENU LOOP
 --;===========================================================
 t_survivalMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},	
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1916,8 +1916,8 @@ end
 --; BOSS RUSH MENU LOOP
 --;===========================================================
 t_bossrushMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2216,8 +2216,8 @@ end
 --; BONUS RUSH MENU LOOP
 --;===========================================================
 t_bonusrushMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2331,8 +2331,8 @@ end
 --; SUDDEN DEATH MENU LOOP
 --;===========================================================
 t_suddenMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},	
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2444,8 +2444,8 @@ end
 --; TIME ATTACK MENU LOOP
 --;===========================================================
 t_timeMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},	
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2786,7 +2786,9 @@ end
 --; UNLOCK MENU LOOP
 --;===========================================================
 t_unlockMenu = {
-	{id = textImgNew(), text = 'ENDLESS'},
+	{id = textImgNew(), text = 'ENDLESS MODE'},
+	{id = textImgNew(), text = 'TIME TRIAL'},
+	{id = textImgNew(), text = 'TOURNAMENT'},
 	{id = textImgNew(), text = 'CUTSCENES'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
@@ -2832,11 +2834,19 @@ function f_unlockMenu()
 			--ENDLESS MODE
 			if unlockMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
-				f_allcharsMenu()
-			--CUTSCENES
+				f_allcharsMenu()	
+			--TIME TRIAL
 			elseif unlockMenu == 2 then
 				--sndPlay(sysSnd, 100, 1)
-				--f_videoMenu()	
+				--f_trialMenu()
+			--TOURNAMENT
+			elseif unlockMenu == 3 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_trialMenu()	
+			--CUTSCENES
+			elseif unlockMenu == 4 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_videoMenu()				
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2882,8 +2892,8 @@ end
 --; ENDLESS MENU LOOP
 --;===========================================================
 t_allcharsMenu = {
-	{id = textImgNew(), text = '1P|CLASSIC|'},
-	{id = textImgNew(), text = '2P|CO-OP|'},	
+	{id = textImgNew(), text = '1P[CLASSIC]'},
+	{id = textImgNew(), text = '2P[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
