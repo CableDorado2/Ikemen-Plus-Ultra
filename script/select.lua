@@ -1201,7 +1201,7 @@ function f_drawSelectName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bank
 			if i == rowUnique then
 				textImgSetBank(id, 3)
 			else
-				textImgSetBank(id, 5)
+				textImgSetBank(id, bankUnique)
 			end
 		else
 			textImgSetBank(id, 3)
@@ -1221,7 +1221,7 @@ function f_drawSelectNameP2(id, bank, t, x, y, spacingX, spacingY, rowUnique, ba
 			if i == rowUnique then
 				textImgSetBank(id, 1)
 			else
-				textImgSetBank(id, 5)
+				textImgSetBank(id, bank)
 			end
 		else
 			textImgSetBank(id, 1)
@@ -1595,7 +1595,7 @@ end
 --;===========================================================
 --; STAGE SELECT
 --;===========================================================
-txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 237)
+txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 239)
 
 --Stage Select
 selStage = animNew(sysSff, [[
@@ -1603,35 +1603,35 @@ selStage = animNew(sysSff, [[
 110,1, 0,0, 10
 110,2, 0,0, 10
 ]])
-animAddPos(selStage, 85, 164)
+animAddPos(selStage, 85, 166)
 animUpdate(selStage)
 
 --Stage 0
 stage0 = animNew(sysSff, [[
 111,0, 0,0,
 ]])
-animAddPos(stage0, 115, 170)
+animAddPos(stage0, 115, 172)
 animUpdate(stage0)
 
 --Stage 1
 stage1 = animNew(stageSff, [[
 0,0, 0,0,
 ]])
-animAddPos(stage1, 115, 170)
+animAddPos(stage1, 115, 172)
 animUpdate(stage1)
 
 --Stage 2
 stage2 = animNew(stageSff, [[
 0,1, 0,0,
 ]])
-animAddPos(stage2, 115, 170)
+animAddPos(stage2, 115, 172)
 animUpdate(stage2)
 
 --Stage 3
 stage3 = animNew(stageSff, [[
 0,2, 0,0,
 ]])
-animAddPos(stage3, 115, 170)
+animAddPos(stage3, 115, 172)
 animUpdate(stage3)
 
 function f_selectStage()
@@ -1739,9 +1739,9 @@ end
 --;===========================================================
 txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
 txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_matchNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
-txt_matchFinal = createTextImg(jgFnt, 0, 0, '', 160, 20)
-txt_gameNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
+txt_matchNo = createTextImg(jgFnt, 0, 0, '', 160, 10)
+txt_matchFinal = createTextImg(jgFnt, 0, 0, '', 160, 10)
+txt_gameNo = createTextImg(jgFnt, 0, 0, '', 160, 10)
 txt_vsHint = createTextImg(font1, 0, -1, '', 308, 239)
 
 --VS background
@@ -1780,11 +1780,13 @@ animSetWindow(versusBG3, 180, 30, 120, 140)
 p1OrderCursor = animNew(sysSff, [[
 195,0, 0,0, -1
 ]])
+animSetScale(p1OrderCursor, 0.10, 0.08)
 
 --P2 Order cursor
 p2OrderCursor = animNew(sysSff, [[
 195,1, 0,0, -1
 ]])
+animSetScale(p2OrderCursor, 0.10, 0.10)
 
 function f_selectVersus()
 	gameNo = gameNo+1
@@ -1858,11 +1860,32 @@ function f_selectVersus()
 			--drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 			--drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			--end loop after at least 120 ticks (extended if sound has been triggered)
+			--draw info text
+			if p1Confirmed == false then
+				txt_p1State = createTextImg(jgFnt, 1, 0, 'WAITING...', 78, 25)
+				textImgDraw(txt_p1State)
+			elseif p1Confirmed == true and p2Confirmed == true then
+				txt_p1State = createTextImg(jgFnt, 2, 0, 'PRESS START', 78, 25)
+				animSetWindow(cursorBox, 0, 180, 290, 13)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				textImgDraw(txt_p1State)	
+			else
+				txt_p1State = createTextImg(jgFnt, 5, 0, 'READY!', 78, 25)
+				textImgDraw(txt_p1State)
+			end
+			if p2Confirmed == false then
+				txt_p2State = createTextImg(jgFnt, 1, 0, 'WAITING...', 241, 25)
+				textImgDraw(txt_p2State)
+			else
+				txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
+				textImgDraw(txt_p2State)
+			end	
+			--set random hints
 			if randomHint == 1 then
 				textImgSetText(txt_vsHint, "PRESS LEFT OR RIGHT TO CHANGE THE CHARACTER ORDER IN SIMUL OR TURNS MODE ")
 				textImgDraw(txt_vsHint)
 			elseif randomHint == 2 then
-				textImgSetText(txt_vsHint, "KEEP START BUTTON IN THE CHARACTER SELECT AND PRESS C or Z BUTTON  ")
+				textImgSetText(txt_vsHint, "KEEP START BUTTON IN THE CHARACTER SELECT AND PRESS C or Z BUTTON      ")
 				textImgDraw(txt_vsHint)
 			elseif randomHint == 3 then
 				textImgSetText(txt_vsHint, "IF ANY CHARACTER GETTING BUG, PRESS F4 TO RELOAD THE MATCH         ")
@@ -2029,13 +2052,24 @@ function f_selectVersus()
 				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 290 - (2*j-1) * 100/(2*#data.t_p2selected), 168, data.t_p2selected[j].up)
 			end
 			--draw names
-			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 190, 0, 14, p1Row, 4)
-			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 190, 0, 14, p2Row, 1)
+			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
+			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
 			--order cursor position
 			animUpdate(p1OrderCursor)
-			animPosDraw(p1OrderCursor, 78, 190 + p1Row*1)
+			animPosDraw(p1OrderCursor, 12, 178)
+			animPosDraw(p1OrderCursor, 12, 192)
+			animPosDraw(p1OrderCursor, 12, 206)
+			animPosDraw(p1OrderCursor, 12, 220)
+			txt_orderNo1 = createTextImg(jgFnt, 0, 0, '1', 16, 183)
+			textImgDraw(txt_orderNo1)
+			txt_orderNo2 = createTextImg(jgFnt, 0, 0, '2', 17, 197)
+			textImgDraw(txt_orderNo2)
+			txt_orderNo3 = createTextImg(jgFnt, 0, 0, '3', 17, 212)
+			textImgDraw(txt_orderNo3)
+			txt_orderNo4 = createTextImg(jgFnt, 0, 0, '4', 17, 227)
+			textImgDraw(txt_orderNo4)
 			animUpdate(p2OrderCursor)
-			animPosDraw(p2OrderCursor, 241, 190 + p2Row*1)
+			animPosDraw(p2OrderCursor, 241, 190)
 			--draw match counter
 			if data.gameMode == 'arcade' then
 				if matchNo ~= lastMatch then

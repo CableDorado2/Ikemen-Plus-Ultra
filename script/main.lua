@@ -622,7 +622,7 @@ txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
 
 function f_clock() --Just a clock
 os.clock()
-txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p:%S")), 34, 240)
+txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p")), 34, 240) --os.date("%I:%M%p:%S") include seconds
 textImgDraw(txt_titleFt3)
 end
 
