@@ -23,7 +23,7 @@
 >
 >[License](#license)
 >
->[Projects Powered On Ikemen Plus Ultra](#projects-powered-on-ikemen-plus-ultra)
+>[Projects Powered By Ikemen Plus Ultra](#projects-powered-by-ikemen-plus-ultra)
 
 ## Minimum System Requirements
 - **System:** Windows XP SP3 - 32 Bits (Yeah it works in WinXP)
@@ -79,7 +79,7 @@ The code is under the MIT Licence.
 Non-code assets are under CC-BY 3.0.
 Check [License.txt](License.txt) for more details.
 
-## Projects Powered On Ikemen Plus Ultra
+## Projects Powered By Ikemen Plus Ultra
 >***MUGENGERS 4 - THE OROCHI'S ORIGIN:*** https://www.youtube.com/watch?v=TezLZpIdbac
 >
 >[![Alt text](https://img.youtube.com/vi/TezLZpIdbac/maxresdefault.jpg)](https://www.youtube.com/watch?v=TezLZpIdbac)
