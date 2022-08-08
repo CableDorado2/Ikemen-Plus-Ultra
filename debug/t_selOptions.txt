@@ -1,21 +1,17 @@
-table: 02956F18 {
-  [arcadestart] => table: 02956F18 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [teammaxmatches] => table: 02956F18 {
-                        [1] => 2
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 0
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [arcademaxmatches] => table: 02956F18 {
+table: 025B94B8 {
+  [survivalstart] => table: 025B94B8 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [teamstart] => table: 025B94B8 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [teamend] => table: 025B94B8 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [arcademaxmatches] => table: 025B94B8 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -27,24 +23,28 @@ table: 02956F18 {
                           [9] => 0
                           [10] => 0
                         }
-  [survivalend] => table: 02956F18 {
-                     [wins] => 16
+  [survivalend] => table: 025B94B8 {
                      [offset] => 4
+                     [wins] => 16
                    }
-  [teamend] => table: 02956F18 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [teamstart] => table: 02956F18 {
-                   [wins] => 1
-                   [offset] => 0
-                 }
-  [survivalstart] => table: 02956F18 {
-                       [wins] => 0
-                       [offset] => -3
-                     }
-  [arcadeend] => table: 02956F18 {
-                   [wins] => 4
+  [arcadeend] => table: 025B94B8 {
                    [offset] => 2
+                   [wins] => 4
                  }
+  [teammaxmatches] => table: 025B94B8 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 0
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [arcadestart] => table: 025B94B8 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
 }

@@ -356,12 +356,17 @@ function f_selectSimple()
 	p2OffsetRow = 0
 	stageList = 0
 	gameNo = 0
+	bossNo = 0
 	p1Wins = 0
-	p2Wins = 0	
+	p2Wins = 0
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		playBGM(bgmSelect)
+		if data.rosterMode == 'challenger' then
+			playBGM(bgmChallenger)
+		else	
+			playBGM(bgmSelect)
+		end
 		f_selectReset()
 		while not selScreenEnd do
 			if esc() then
@@ -410,16 +415,18 @@ function f_selectAdvance()
 	gameNo = 0
 	bossNo = 0
 	p1Wins = 0
-	p2Wins = 0	
+	p2Wins = 0
 	cmdInput()
 	f_selectReset()
 	stageEnd = true
-	if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then
-		playBGM(bgmSelectBoss)
-	else	
-		playBGM(bgmSelect)
-	end	
 	while true do
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then
+			playBGM(bgmSelectBoss)
+		elseif data.rosterMode == 'challenger' then
+			playBGM(bgmChallenger)
+		else	
+			playBGM(bgmSelect)
+		end	
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		selectStart()
 		while not selScreenEnd do
@@ -1885,7 +1892,7 @@ function f_selectVersus()
 			elseif p1Confirmed == true and p2Confirmed == true then
 				txt_p1State = createTextImg(jgFnt, 2, 0, 'START MATCH', 79, 25)
 				textImgDraw(txt_p1State)	
-				animSetWindow(cursorBox, 0, 157, 98, 15)
+				animSetWindow(cursorBox, 20, 14, 120, 16)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			else
@@ -2177,6 +2184,7 @@ function f_selectChallenger()
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
 	local txt = ''
 	local i = 0
+	data.rosterMode = 'challenger'
 	cmdInput()
 	while true do
 		if i == 150 then

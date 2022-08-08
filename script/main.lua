@@ -43,6 +43,7 @@ bgmVS = 'sound/VS.mp3'
 bgmVSFinal = 'sound/VS Final.mp3'
 bgmVictory = 'sound/Victory.mp3'
 bgmResults = 'sound/Results.mp3'
+bgmChallenger = 'sound/The Challenger.mp3'
 bgmNothing = 'Nothing.mp3'
 
 --Random Versus Music
