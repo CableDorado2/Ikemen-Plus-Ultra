@@ -1,0 +1,38 @@
+[Info]
+Lang=Português (Brasil)
+Author=Ramon R. Saldanha
+Contact=www.virtualltek.z6.com.br
+
+[Font]
+zDef=Definições
+zSizeType=Tipo de tamanho:
+zCharSize=Tamanho da letra:
+zWidth=Largura:
+zHeight=Altura:
+zCharSpace=Espaço entre as letras:
+zOffset=Offset:
+zColorDepth=Número de cores:
+zZoom=Zoom:
+zCharPos=Posição da letra:
+zStartPixel=Inicia no pixel:
+zChars=Caracteres:
+zFixed=Fixo
+zVariable=Variável
+zNew=Novo
+zOpen=Abrir fonte
+zSave=Salvar
+zSaveAs=Savar como
+zAdd=Adicionar caractere
+zDel=Remover caractere selecionado
+zClear=Remover todos os caracteres
+zOpenImg=Abrir imagem
+zSaveImg=Salvar imagem
+zText=Editar texto
+zOK=OK
+zCancel=Cancelar
+zAbout=Sobre ...
+zMadeBy=Criado por
+zFile=O arquivo
+zExists=já existe
+zOverwrite=Deseja substituí-lo?
+zAtention=Atenção!

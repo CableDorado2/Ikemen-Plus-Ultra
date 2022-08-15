@@ -1,0 +1,38 @@
+[Info]
+Lang=Español (ESP)
+Author=Calamix
+Contact=www.calamix.3a2.com
+
+[Font]
+zDef=Definiciones
+zSizeType=Tipo de tamaño:
+zCharSize=Tamaño de la letra:
+zWidth=Ancho:
+zHeight=Alto:
+zCharSpace=Espacio entre letras:
+zOffset=Compensación (offset):
+zColorDepth=Profundidad de color:
+zZoom=Zoom:
+zCharPos=Posición de la letra:
+zStartPixel=Pixel de comienzo:
+zChars=Letras:
+zFixed=Fijo
+zVariable=Variable
+zNew=Nuevo
+zOpen=Abrir Fuente
+zSave=Guardar
+zSaveAs=Guardar como...
+zAdd=Añadir letra
+zDel=Borrar letra seleccionada
+zClear=Borrar TODO
+zOpenImg=Abrir imagen
+zSaveImg=Guardar imagen
+zText=Cambiar texto
+zOK=OK
+zCancel=Cancelar
+zAbout=Acerca de...
+zMadeBy=Hecho por
+zFile=El archivo
+zExists=ya existe
+zOverwrite=¿Sobreescribir?
+zAtention=¡Cuidado!

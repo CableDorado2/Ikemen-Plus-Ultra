@@ -1,0 +1,3 @@
+Converting a .def font to a .fnt requires you to extract all the glyphs from the .sff and compile them into a single image.
+Yes, that error's saying it's not a valid .fnt.
+Then you'd import the image into Font Factory and define the width and location of every glyph.

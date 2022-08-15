@@ -1415,19 +1415,27 @@ function f_audioCfg()
 				f_menuMusic()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 2' then
-				data.menuSong = 'Random'
+				data.menuSong = 'Theme 3'
 				f_menuMusic()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
 				data.menuSong = 'Theme 1'
 				f_menuMusic()
 				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 3' then
+				data.menuSong = 'Random'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 3' then
+				data.menuSong = 'Theme 2'
+				f_menuMusic()
+				modified = 1	
 			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Random' then
 				data.menuSong = 'Theme 1'
 				f_menuMusic()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Random' then
-				data.menuSong = 'Theme 2'
+				data.menuSong = 'Theme 3'
 				f_menuMusic()
 				modified = 1
 			end		

@@ -54,7 +54,7 @@ end
 
 --Random Menu Music
 function f_bgmrandomMenu()
-local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3"}
+local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3", "sound/Menu 3.ogg"}
 playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
@@ -66,6 +66,9 @@ function f_menuMusic()
 	elseif data.menuSong == 'Theme 2' then
 		bgmMenu = 'sound/Menu 2.mp3'
 		playBGM(bgmMenu)
+	elseif data.menuSong == 'Theme 3' then
+		bgmMenu = 'sound/Menu 3.ogg'
+		playBGM(bgmMenu)	
 	elseif data.menuSong == 'Random' then
 		f_bgmrandomMenu()
 	end
