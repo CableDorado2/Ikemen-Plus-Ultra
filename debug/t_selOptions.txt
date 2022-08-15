@@ -1,17 +1,13 @@
-table: 025B94B8 {
-  [survivalstart] => table: 025B94B8 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [teamstart] => table: 025B94B8 {
-                   [offset] => 0
-                   [wins] => 1
+table: 02EB3E68 {
+  [survivalend] => table: 02EB3E68 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [arcadeend] => table: 02EB3E68 {
+                   [offset] => 2
+                   [wins] => 4
                  }
-  [teamend] => table: 025B94B8 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [arcademaxmatches] => table: 025B94B8 {
+  [arcademaxmatches] => table: 02EB3E68 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -23,15 +19,15 @@ table: 025B94B8 {
                           [9] => 0
                           [10] => 0
                         }
-  [survivalend] => table: 025B94B8 {
-                     [offset] => 4
-                     [wins] => 16
+  [arcadestart] => table: 02EB3E68 {
+                     [offset] => 0
+                     [wins] => 2
                    }
-  [arcadeend] => table: 025B94B8 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [teammaxmatches] => table: 025B94B8 {
+  [survivalstart] => table: 02EB3E68 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [teammaxmatches] => table: 02EB3E68 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -43,8 +39,12 @@ table: 025B94B8 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadestart] => table: 025B94B8 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
+  [teamend] => table: 02EB3E68 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [teamstart] => table: 02EB3E68 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
 }
