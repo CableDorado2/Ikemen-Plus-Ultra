@@ -1,5 +1,6 @@
 
 math.randomseed(os.time())
+lfs = require('lfs')
 package.path = package.path..';./script/ltn12.lua'
 ltn12 = require('ltn12')
 
@@ -2724,7 +2725,7 @@ function f_extrasMenu()
 			--SOUND TEST
 			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
-				f_songMenu()	
+				f_songMenu()
 			--CREDITS
 			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
@@ -3002,109 +3003,94 @@ end
 --;===========================================================
 --; CUTSCENES MENU LOOP
 --;===========================================================
-t_videoMenu = {
-	{id = textImgNew(), text = 'Back'},
-}
-txt_song = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
-
-videoDir = ".\\video\\"
+txt_video = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
 
 function f_videoMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local videoMenu = 1
-	local videoList = {}
-	local i = 1
-	local g = 1
-	p = io.popen('dir "'..videoDir..'" /b')  
-	for file in p:lines() do
-		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos (Solo admite WMV)
-			videoList[i] = tostring(file)
-			i = i + 1
-		end	
+	t_videoList = {}
+	for file in lfs.dir[[.\\video\\]] do --Read Dir
+		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos
+			row = #t_videoList+1
+			t_videoList[row] = {}
+			t_videoList[row]['id'] = ''
+			t_videoList[row]['replay'] = file:gsub('^(.*)[%.]wmv$', '%1')
+		end
 	end
-	p:close()
-	cmdInput()
+	t_videoList[#t_videoList+1] = {
+		id = '', replay = '          BACK'
+	}
 	while true do
 		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			videoMenu = videoMenu - 1
-			if cursorPosY > 1 then 
-				cursorPosY = cursorPosY - 1
-			elseif cursorPosY == 1 then
-				moveTxt = moveTxt - 1
-			end
-			if videoMenu < 1 then 
-				videoMenu = #t_videoMenu + #videoList
-				if #t_videoMenu + #videoList >= 14 then
-					cursorPosY = 14
-					moveTxt = #videoList-13
-				else
-					cursorPosY = #t_videoMenu + #videoList
-					moveTxt = 0
-				end
-			end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			videoMenu = videoMenu + 1
-			if cursorPosY < 14 then 
-				cursorPosY = cursorPosY + 1
-			elseif cursorPosY == 14 then
-				moveTxt = moveTxt + 1
-			end
-			if videoMenu > #t_videoMenu + #videoList then 
-				moveTxt = 0
-				videoMenu = 1
-				cursorPosY = 1
-			end
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			if videoMenu ~= (#t_videoMenu + #videoList) then
-				videoFile = ('video/' .. videoList[videoMenu])
-				cmdInput()
-				playVideo(videoFile)
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				f_menuMusic()
-				while true do
-					if esc() then
-						sndPlay(sysSnd, 100, 2)
-						f_menuMusic()
-						break
-					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
-						sndPlay(sysSnd, 100, 2)
-						f_menuMusic()
-						break
-					end
-				end
-			else
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		elseif btnPalNo(p1Cmd) > 0 then
+			if videoMenu == #t_videoList then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
+			else
+				--Play Video
+				playVideo('video/' .. t_videoList[videoMenu].replay .. '.wmv')			
 			end
+		end
+		--Cursor position calculation
+		if videoMenu < 1 then
+			videoMenu = #t_videoList
+			if #t_videoList > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_videoList
+			end
+		elseif videoMenu > #t_videoList then
+			videoMenu = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (videoMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (videoMenu - 1) * 15
+		end	
+		if #t_videoList <= 14 then
+			maxVideos = #t_videoList
+		elseif videoMenu - cursorPosY > 0 then
+			maxVideos = videoMenu + 14 - cursorPosY
+		else
+			maxVideos = 14
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		textImgDraw(txt_song)
-		if #videoList >= 13 then
-			animSetWindow(optionsBG1, 80,20, 160,14*15)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,(#t_videoMenu+#videoList)*15)
-		end
+		animSetWindow(optionsBG1, 80,20, 160,(#t_videoList)*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		for i=1, math.min(#videoList+1, 14) do
-			if i+moveTxt < #t_videoMenu + #videoList then
-				textImgDraw(createTextImg(font2, 0, 1, videoList[i+moveTxt], 85, 15+i*15))
-			else
-				textImgDraw(createTextImg(font2, 0, 1, t_videoMenu[1].text, 85, 15+i*15))
-			end
-		end
+		textImgDraw(txt_video)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxVideos do
+			if t_videoList[i].replay:len() > 26 then
+				VideoText = string.sub(t_videoList[i].replay, 1, 24)
+				VideoText = tostring(VideoText .. '...')
+			else
+				VideoText = t_videoList[i].replay
+			end
+			if i > videoMenu - cursorPosY then
+				t_videoList[i].id = createTextImg(font2, 0, 1, VideoText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_videoList[i].id)
+			end
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3115,70 +3101,45 @@ end
 --;===========================================================
 --; STORYBOARDS MENU LOOP
 --;===========================================================
-t_storyboardMenu = {
-	{id = textImgNew(), text = 'Back'},
-}
 txt_storyboard = createTextImg(jgFnt, 0, 0, 'STORYBOARD SELECT', 159, 13)
 
-storyboardDir = ".\\storyboards\\"
-
 function f_storyboardMenu()
-    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local storyboardMenu = 1
-	local storyboardList = {}
-	local i = 1
-	local g = 1
-	p = io.popen('dir "'..storyboardDir..'" /b')
-	for file in p:lines() do                    
+	t_storyboardList = {}
+	for file in lfs.dir[[.\\storyboards\\]] do --Read Dir
 		if file:match('^.*(%.)def$') or file:match('^.*(%.)DEF$') then --Filtrar archivos
-			storyboardList[i] = tostring(file)
-			i = i + 1
+			row = #t_storyboardList+1
+			t_storyboardList[row] = {}
+			t_storyboardList[row]['id'] = ''
+			t_storyboardList[row]['replay'] = file:gsub('^(.*)[%.]def$', '%1')
 		end
 	end
-	p:close()
-	cmdInput()
+	t_storyboardList[#t_storyboardList+1] = {
+		id = '', replay = '          BACK'
+	}
 	while true do
 		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			storyboardMenu = storyboardMenu - 1
-			if cursorPosY > 1 then 
-				cursorPosY = cursorPosY - 1
-			elseif cursorPosY == 1 then
-				moveTxt = moveTxt - 1
-			end
-			if storyboardMenu < 1 then 
-				storyboardMenu = #t_storyboardMenu + #storyboardList
-				if #t_storyboardMenu + #storyboardList >= 14 then
-					cursorPosY = 14
-					moveTxt = #storyboardList-13
-				else
-					cursorPosY = #t_storyboardMenu + #storyboardList
-					moveTxt = 0
-				end
-			end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			storyboardMenu = storyboardMenu + 1
-			if cursorPosY < 14 then 
-				cursorPosY = cursorPosY + 1
-			elseif cursorPosY == 14 then
-				moveTxt = moveTxt + 1
-			end
-			if storyboardMenu > #t_storyboardMenu + #storyboardList then 
-				moveTxt = 0
-				storyboardMenu = 1
-				cursorPosY = 1
-			end
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			if storyboardMenu ~= (#t_storyboardMenu + #storyboardList) then
-				storyboardFile = ('storyboards/' .. storyboardList[storyboardMenu])
+		elseif btnPalNo(p1Cmd) > 0 then
+			if storyboardMenu == #t_storyboardList then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			else
+				--Play Storyboard
+				storyboardFile = ('storyboards/' .. t_storyboardList[storyboardMenu].replay .. '.def')
 				cmdInput()
 				script.storyboard.f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -3194,31 +3155,56 @@ function f_storyboardMenu()
 						f_menuMusic()
 						break
 					end
-				end
-			else
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
+				end				
 			end
+		end
+		--Cursor position calculation
+		if storyboardMenu < 1 then
+			storyboardMenu = #t_storyboardList
+			if #t_storyboardList > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_storyboardList
+			end
+		elseif storyboardMenu > #t_storyboardList then
+			storyboardMenu = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (storyboardMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (storyboardMenu - 1) * 15
+		end	
+		if #t_storyboardList <= 14 then
+			maxStoryboards = #t_storyboardList
+		elseif storyboardMenu - cursorPosY > 0 then
+			maxStoryboards = storyboardMenu + 14 - cursorPosY
+		else
+			maxStoryboards = 14
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		textImgDraw(txt_storyboard)
-		if #storyboardList >= 13 then
-			animSetWindow(optionsBG1, 80,20, 160,14*15)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,(#t_storyboardMenu+#storyboardList)*15)
-		end
+		animSetWindow(optionsBG1, 80,20, 160,(#t_storyboardList)*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		for i=1, math.min(#storyboardList+1, 14) do
-			if i+moveTxt < #t_storyboardMenu + #storyboardList then
-				textImgDraw(createTextImg(font2, 0, 1, storyboardList[i+moveTxt], 85, 15+i*15))
-			else
-				textImgDraw(createTextImg(font2, 0, 1, t_storyboardMenu[1].text, 85, 15+i*15))
-			end
-		end
+		textImgDraw(txt_storyboard)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxStoryboards do
+			if t_storyboardList[i].replay:len() > 26 then
+				storyboardText = string.sub(t_storyboardList[i].replay, 1, 24)
+				storyboardText = tostring(storyboardText .. '...')
+			else
+				storyboardText = t_storyboardList[i].replay
+			end
+			if i > storyboardMenu - cursorPosY then
+				t_storyboardList[i].id = createTextImg(font2, 0, 1, storyboardText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_storyboardList[i].id)
+			end
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3229,98 +3215,97 @@ end
 --;===========================================================
 --; SOUND TEST MENU LOOP
 --;===========================================================
-t_songMenu = {
-	{id = textImgNew(), text = 'Back'},
-}
 txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
 
-songDir = ".\\sound\\"
-
 function f_songMenu()
-    playBGM(bgmNothing)
+	playBGM(bgmNothing)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local songMenu = 1
-	local songList = {}
-	local i = 1
-	local g = 1
-	p = io.popen('dir "'..songDir..'" /b')  
-	for file in p:lines() do
+	t_songList = {}
+	for file in lfs.dir[[.\\sound\\]] do --Read Dir
 		if file:match('^.*(%.)mp3$') or file:match('^.*(%.)MP3$') or file:match('^.*(%.)ogg$') or file:match('^.*(%.)OGG$') then --Filtrar archivos (Solo admite Mp3 y Ogg)
-			songList[i] = tostring(file)
-			i = i + 1
-		end	
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['replay'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		end
 	end
-	p:close()
-	cmdInput()
+	t_songList[#t_songList+1] = {
+		id = '', replay = '          BACK'
+	}
 	while true do
 		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			f_menuMusic()
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			songMenu = songMenu - 1
-			if cursorPosY > 1 then 
-				cursorPosY = cursorPosY - 1
-			elseif cursorPosY == 1 then
-				moveTxt = moveTxt - 1
-			end
-			if songMenu < 1 then 
-				songMenu = #t_songMenu + #songList
-				if #t_songMenu + #songList >= 14 then
-					cursorPosY = 14
-					moveTxt = #songList-13
-				else
-					cursorPosY = #t_songMenu + #songList
-					moveTxt = 0
-				end
-			end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			songMenu = songMenu + 1
-			if cursorPosY < 14 then 
-				cursorPosY = cursorPosY + 1
-			elseif cursorPosY == 14 then
-				moveTxt = moveTxt + 1
-			end
-			if songMenu > #t_songMenu + #songList then 
-				moveTxt = 0
-				songMenu = 1
-				cursorPosY = 1
-			end
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			if songMenu ~= (#t_songMenu + #songList) then
-				songFile = ('sound/' .. songList[songMenu])
-				playBGM(songFile)	
-			else
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		elseif btnPalNo(p1Cmd) > 0 then
+			if songMenu == #t_songList then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				sndPlay(sysSnd, 100, 2)
 				break
+			else
+				--Play Song
+				playBGM('sound/' .. t_songList[songMenu].replay .. '.mp3')				
 			end
+		end
+		--Cursor position calculation
+		if songMenu < 1 then
+			songMenu = #t_songList
+			if #t_songList > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_songList
+			end
+		elseif songMenu > #t_songList then
+			songMenu = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (songMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (songMenu - 1) * 15
+		end	
+		if #t_songList <= 14 then
+			maxSongs = #t_songList
+		elseif songMenu - cursorPosY > 0 then
+			maxSongs = songMenu + 14 - cursorPosY
+		else
+			maxSongs = 14
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		textImgDraw(txt_song)
-		if #songList >= 13 then
-			animSetWindow(optionsBG1, 80,20, 160,14*15)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,(#t_songMenu+#songList)*15)
-		end
+		animSetWindow(optionsBG1, 80,20, 160,(#t_songList)*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		for i=1, math.min(#songList+1, 14) do
-			if i+moveTxt < #t_songMenu + #songList then
-				textImgDraw(createTextImg(font2, 0, 1, songList[i+moveTxt], 85, 15+i*15))
-			else
-				textImgDraw(createTextImg(font2, 0, 1, t_songMenu[1].text, 85, 15+i*15))
-			end
-		end
+		textImgDraw(txt_song)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxSongs do
+			if t_songList[i].replay:len() > 26 then
+				songText = string.sub(t_songList[i].replay, 1, 24)
+				songText = tostring(songText .. '...')
+			else
+				songText = t_songList[i].replay
+			end
+			if i > songMenu - cursorPosY then
+				t_songList[i].id = createTextImg(font2, 0, 1, songText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_songList[i].id)
+			end
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3331,71 +3316,44 @@ end
 --;===========================================================
 --; REPLAY MENU LOOP
 --;===========================================================
-t_mainReplay = {
-	{id = textImgNew(), text = 'Back'},
-}
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
 
-replayFile = 'data.replay'
-replayDir = ".\\replays\\Saved\\"
-
 function f_mainReplay()
-    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local mainReplay = 1
-	local replayList = {}
-	local i = 1
-	local g = 1
-	p = io.popen('dir "'..replayDir..'" /b')  
-	for file in p:lines() do                    
+	t_replayList = {}
+	for file in lfs.dir[[.\\replays\\Saved\\]] do --Read Dir
 		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then --Filtrar archivos
-			replayList[i] = tostring(file)
-			i = i + 1
-		end	
+			row = #t_replayList+1
+			t_replayList[row] = {}
+			t_replayList[row]['id'] = ''
+			t_replayList[row]['replay'] = file:gsub('^(.*)[%.]replay$', '%1')
+		end
 	end
-	p:close()
-	cmdInput()
+	t_replayList[#t_replayList+1] = {
+		id = '', replay = '          BACK'
+	}
 	while true do
 		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay - 1
-			if cursorPosY > 1 then 
-				cursorPosY = cursorPosY - 1
-			elseif cursorPosY == 1 then
-				moveTxt = moveTxt - 1
-			end
-			if mainReplay < 1 then 
-				mainReplay = #t_mainReplay + #replayList
-				if #t_mainReplay + #replayList >= 14 then
-					cursorPosY = 14
-					moveTxt = #replayList-13
-				else
-					cursorPosY = #t_mainReplay + #replayList
-					moveTxt = 0
-				end
-			end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay + 1
-			if cursorPosY < 14 then 
-				cursorPosY = cursorPosY + 1
-			elseif cursorPosY == 14 then
-				moveTxt = moveTxt + 1
-			end
-			if mainReplay > #t_mainReplay + #replayList then 
-				moveTxt = 0
-				mainReplay = 1
-				cursorPosY = 1
-			end
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			if mainReplay ~= (#t_mainReplay + #replayList) then
-				replayFile = ('replays/Saved/' .. replayList[mainReplay])
+		elseif btnPalNo(p1Cmd) > 0 then
+			if mainReplay == #t_replayList then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			else
+				--Default values to prevent desync.
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)	
                 data.p2In = 2
@@ -3435,40 +3393,66 @@ function f_mainReplay()
 				f_saveCfg()
 				data.gameMode = 'versus'
 				textImgSetText(txt_mainSelect, 'ONLINE REPLAY')
-				enterReplay(replayFile)
+				enterReplay('replays/Saved/' .. t_replayList[mainReplay].replay .. '.replay')
 				synchronize()
 				math.randomseed(sszRandom())
 				f_mainhostCfg()
 				exitNetPlay()
-    			exitReplay()	
-			else
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
+    			exitReplay()
+				--commandBufReset(p1Cmd, 1)
 			end
+		end
+		--Cursor position calculation
+		if mainReplay < 1 then
+			mainReplay = #t_replayList
+			if #t_replayList > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_replayList
+			end
+		elseif mainReplay > #t_replayList then
+			mainReplay = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (mainReplay - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (mainReplay - 1) * 15
+		end	
+		if #t_replayList <= 14 then
+			maxReplays = #t_replayList
+		elseif mainReplay - cursorPosY > 0 then
+			maxReplays = mainReplay + 14 - cursorPosY
+		else
+			maxReplays = 14
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		textImgDraw(txt_replay)
-		if #replayList >= 13 then
-			animSetWindow(optionsBG1, 80,20, 160,14*15)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,(#t_mainReplay+#replayList)*15)
-		end
+		animSetWindow(optionsBG1, 80,20, 160,(#t_replayList)*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		for i=1, math.min(#replayList+1, 14) do
-			if i+moveTxt < #t_mainReplay + #replayList then
-				textImgDraw(createTextImg(font2, 0, 1, replayList[i+moveTxt], 85, 15+i*15))
-			else
-				textImgDraw(createTextImg(font2, 0, 1, t_mainReplay[1].text, 85, 15+i*15))
-			end
-		end
+		textImgDraw(txt_replay)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxReplays do
+			if t_replayList[i].replay:len() > 26 then
+				replayText = string.sub(t_replayList[i].replay, 1, 24)
+				replayText = tostring(replayText .. '...')
+			else
+				replayText = t_replayList[i].replay
+			end
+			if i > mainReplay - cursorPosY then
+				t_replayList[i].id = createTextImg(font2, 0, 1, replayText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_replayList[i].id)
+			end
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		exitNetPlay()
-    	exitReplay()
+		--exitNetPlay()
+    	--exitReplay()
 		cmdInput()
 		refresh()
 	end

@@ -1,7 +1,128 @@
-table: 02D8E4C8 {
-  [1] => table: 02D8E4C8 {
+table: 030AB868 {
+  [1] => table: 030AB868 {
+           [snd] => "chars/ryu/sound.snd"
+           [ending] => "chars/ryu/../../storyboards/ryu [ending].def"
+           [def] => "chars/ryu/ryu.def"
+           [displayname] => "Ryu"
+           [intro] => "chars/ryu/../../storyboards/ryu [intro].def"
+           [stage] => table: 030A7948 {
+                        [1] => 2
+                      }
+           [st] => table: 030A7948 {
+                     [1] => "chars/ryu/states/system.st"
+                     [2] => "chars/ryu/states/normal.st"
+                     [3] => "chars/ryu/states/specials.st"
+                     [4] => "chars/ryu/states/ex-specials.st"
+                     [5] => "chars/ryu/states/supers.st"
+                     [6] => "chars/ryu/states/helpers.st"
+                     [7] => "chars/ryu/states/custom.st"
+                     [8] => "chars/ryu/states/ryu.st"
+                   }
+           [p2AnimStand] => userdata: 0789FBB8
+           [p1AnimStand] => userdata: 07925138
+           [xscale] => "1"
+           [air] => "chars/ryu/anim.air"
+           [char] => "ryu"
+           [sffData] => userdata: 0788F680
+           [dizzy] => table: 030A7948 {
+                        [1] => "5300,0, 0,0, 5"
+                        [2] => "5300,1, 0,0, 5"
+                        [3] => "5300,2, 0,0, 5"
+                        [4] => "5300,3, 0,0, 5"
+                        [5] => "5300,4, 0,0, 5"
+                        [6] => "5300,5, 0,0, 5"
+                      }
+           [sff] => "chars/ryu/sprite.sff"
+           [dir] => "chars/ryu/"
+           [cheese] => table: 030A7948 {
+                         [1] => "170,0, 0,0, 20"
+                         [2] => "170,1, 0,0, 6"
+                         [3] => "5130,0, 0,0, 20"
+                         [4] => "5130,1, 0,0, 6"
+                         [5] => "5130,2, 0,0, 6"
+                         [6] => "5040,11, 0,0, 3"
+                         [7] => "loopstart"
+                         [8] => "5040,10, 0,0, 1"
+                       }
+           [lieDown] => table: 030A7948 {
+                          [1] => "5040,20, 0,0, 4"
+                          [2] => "5040,0, 0,0, 4"
+                          [3] => "5040,11, 0,0, -1"
+                        }
+           [trigger] => table: 030A7948 {
+                          [1] => table: 030AB638 {
+                                   [1] => "var(1) != 2"
+                                   [value] => "1 + (random % 12)"
+                                 }
+                          [2] => table: 030AB638 {
+                                   [1] => "var(1) = 2"
+                                   [value] => "50 + (random % 5)"
+                                 }
+                          [3] => table: 030AB638 {
+                                   [1] => "enemy, name = "ken" || enemy, name = "ken masters""
+                                   [2] => "enemy, name = "cvsken" || enemy, name = "svcken""
+                                   [value] => "30"
+                                   [all] => "numenemy && var(1) != 2"
+                                 }
+                          [4] => table: 030AB638 {
+                                   [1] => "enemy, name = "sagat""
+                                   [2] => "enemy, name = "cvssagat" || enemy, name = "svcsagat""
+                                   [value] => "ifelse(var(1) = 2, 81, 31)"
+                                   [all] => "numenemy"
+                                 }
+                          [5] => table: 030AB638 {
+                                   [1] => "enemy, name = "gouki" || enemy, name = "akuma""
+                                   [2] => "enemy, name = "shin gouki" || enemy, name = "shin akuma""
+                                   [3] => "enemy, name = "cyber akuma" || enemy, name = "mech gouki""
+                                   [4] => "enemy, name = "cvsgouki" || enemy, name = "svcgouki""
+                                   [all] => "numenemy"
+                                   [value] => "ifelse(var(1) = 2, 80, 32)"
+                                 }
+                          [6] => table: 030AB638 {
+                                   [1] => "enemy, name = "sakura kasugano" || enemy, name = "cvssakura""
+                                   [all] => "numenemy && var(1) != 2"
+                                   [value] => "33"
+                                 }
+                          [7] => table: 030AB638 {
+                                   [1] => "enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server""
+                                   [2] => "enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")"
+                                   [3] => "enemynear, name = "m.bison" && enemynear, authorname = "n -mario""
+                                   [4] => "enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous""
+                                   [5] => "enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)""
+                                   [value] => "34"
+                                   [all] => "numenemy && var(1) != 2"
+                                 }
+                        }
            [cns] => "chars/ryu/constants.cns"
-           [stand] => table: 02D8E4F0 {
+           [quotes] => table: 030A7948 {
+                         [7] => "I noticed the spirit of a true warrior within your fists."
+                         [6] => "Trying something new is to explore your true potential."
+                         [9] => "In order to win, you must first believe you can win."
+                         [8] => "The world is waiting, I must leave you now."
+                         [1] => "You must defeat my dragon punch to stand a chance."
+                         [3] => "A defeat learned from is more important than an empty victory."
+                         [2] => "Whether we win or lose, all of our battles make us stronger."
+                         [5] => "Range... Speed... Priority... Know and master all your attacks."
+                         [4] => "You still have a fighting spirit in your eyes. I look forward to our next battle."
+                         [11] => "I hope you learned from our battle."
+                         [80] => "Now you are nothing compared to me!"
+                         [81] => "Be thankful I only gave you new scars!"
+                         [54] => "There's nothing to lose, when there's nothing to gain."
+                         [34] => "A new body can't make you stronger when your spirit has already stopped growing."
+                         [52] => "Your life is not the only thing that you are risking in battle!"
+                         [53] => "To be the strongest means to be the last one standing."
+                         [32] => "There are no shortcuts in the path of the warrior."
+                         [33] => "Sorry, but I still have much to learn before I can teach."
+                         [12] => "Stand up and face me again, I have yet to see your best."
+                         [10] => "Train yourself well, then challenge me again."
+                         [31] => "May that scar be a reminder to the both of us..."
+                         [30] => "Each time I fight you, I feel something new and different..."
+                         [51] => "To lose is to prove that you are worthy to perish!"
+                         [50] => "There is no place for the weak to exist!"
+                       }
+           [yscale] => "1"
+           [author] => "phantom.of.the.server"
+           [stand] => table: 030A7948 {
                         [1] => "0,0, 0,0, 6"
                         [2] => "0,1, 0,0, 6"
                         [3] => "0,2, 0,0, 6"
@@ -21,186 +142,29 @@ table: 02D8E4C8 {
                         [17] => "0,4, 0,0, 6"
                         [18] => "0,5, 0,0, 6"
                       }
-           [name] => "ryu"
-           [xscale] => "1"
-           [intro] => "chars/ryu/../../storyboards/ryu [intro].def"
-           [p1AnimStand] => userdata: 07A8A858
-           [air] => "chars/ryu/anim.air"
-           [char] => "ryu"
-           [def] => "chars/ryu/ryu.def"
-           [dir] => "chars/ryu/"
-           [quotes] => table: 02D8E4F0 {
-                         [1] => "You must defeat my dragon punch to stand a chance."
-                         [2] => "Whether we win or lose, all of our battles make us stronger."
-                         [3] => "A defeat learned from is more important than an empty victory."
-                         [4] => "You still have a fighting spirit in your eyes. I look forward to our next battle."
-                         [5] => "Range... Speed... Priority... Know and master all your attacks."
-                         [10] => "Train yourself well, then challenge me again."
-                         [11] => "I hope you learned from our battle."
-                         [30] => "Each time I fight you, I feel something new and different..."
-                         [31] => "May that scar be a reminder to the both of us..."
-                         [50] => "There is no place for the weak to exist!"
-                         [12] => "Stand up and face me again, I have yet to see your best."
-                         [81] => "Be thankful I only gave you new scars!"
-                         [80] => "Now you are nothing compared to me!"
-                         [54] => "There's nothing to lose, when there's nothing to gain."
-                         [53] => "To be the strongest means to be the last one standing."
-                         [52] => "Your life is not the only thing that you are risking in battle!"
-                         [6] => "Trying something new is to explore your true potential."
-                         [7] => "I noticed the spirit of a true warrior within your fists."
-                         [8] => "The world is waiting, I must leave you now."
-                         [9] => "In order to win, you must first believe you can win."
-                         [51] => "To lose is to prove that you are worthy to perish!"
-                         [34] => "A new body can't make you stronger when your spirit has already stopped growing."
-                         [33] => "Sorry, but I still have much to learn before I can teach."
-                         [32] => "There are no shortcuts in the path of the warrior."
-                       }
-           [sffData] => userdata: 07A8E608
-           [displayname] => "Ryu"
-           [lieDown] => table: 02D8E4F0 {
-                          [1] => "5040,20, 0,0, 4"
-                          [2] => "5040,0, 0,0, 4"
-                          [3] => "5040,11, 0,0, -1"
-                        }
-           [author] => "phantom.of.the.server"
-           [p2AnimStand] => userdata: 07ABD058
-           [cheese] => table: 02D8E4F0 {
-                         [1] => "170,0, 0,0, 20"
-                         [2] => "170,1, 0,0, 6"
-                         [3] => "5130,0, 0,0, 20"
-                         [4] => "5130,1, 0,0, 6"
-                         [5] => "5130,2, 0,0, 6"
-                         [6] => "5040,11, 0,0, 3"
-                         [7] => "loopstart"
-                         [8] => "5040,10, 0,0, 1"
-                       }
-           [trigger] => table: 02D8E4F0 {
-                          [1] => table: 02D8EDB0 {
-                                   [1] => "var(1) != 2"
-                                   [value] => "1 + (random % 12)"
-                                 }
-                          [2] => table: 02D8EDB0 {
-                                   [1] => "var(1) = 2"
-                                   [value] => "50 + (random % 5)"
-                                 }
-                          [3] => table: 02D8EDB0 {
-                                   [1] => "enemy, name = "ken" || enemy, name = "ken masters""
-                                   [2] => "enemy, name = "cvsken" || enemy, name = "svcken""
-                                   [all] => "numenemy && var(1) != 2"
-                                   [value] => "30"
-                                 }
-                          [4] => table: 02D8EDB0 {
-                                   [1] => "enemy, name = "sagat""
-                                   [2] => "enemy, name = "cvssagat" || enemy, name = "svcsagat""
-                                   [all] => "numenemy"
-                                   [value] => "ifelse(var(1) = 2, 81, 31)"
-                                 }
-                          [5] => table: 02D8EDB0 {
-                                   [1] => "enemy, name = "gouki" || enemy, name = "akuma""
-                                   [2] => "enemy, name = "shin gouki" || enemy, name = "shin akuma""
-                                   [3] => "enemy, name = "cyber akuma" || enemy, name = "mech gouki""
-                                   [4] => "enemy, name = "cvsgouki" || enemy, name = "svcgouki""
-                                   [all] => "numenemy"
-                                   [value] => "ifelse(var(1) = 2, 80, 32)"
-                                 }
-                          [6] => table: 02D8EDB0 {
-                                   [1] => "enemy, name = "sakura kasugano" || enemy, name = "cvssakura""
-                                   [all] => "numenemy && var(1) != 2"
-                                   [value] => "33"
-                                 }
-                          [7] => table: 02D8EDB0 {
-                                   [1] => "enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server""
-                                   [2] => "enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")"
-                                   [3] => "enemynear, name = "m.bison" && enemynear, authorname = "n -mario""
-                                   [4] => "enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous""
-                                   [5] => "enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)""
-                                   [all] => "numenemy && var(1) != 2"
-                                   [value] => "34"
-                                 }
-                        }
-           [stage] => table: 02D8E4F0 {
-                        [1] => 2
-                      }
-           [st] => table: 02D8E4F0 {
-                     [1] => "chars/ryu/states/system.st"
-                     [2] => "chars/ryu/states/normal.st"
-                     [3] => "chars/ryu/states/specials.st"
-                     [4] => "chars/ryu/states/ex-specials.st"
-                     [5] => "chars/ryu/states/supers.st"
-                     [6] => "chars/ryu/states/helpers.st"
-                     [7] => "chars/ryu/states/custom.st"
-                     [8] => "chars/ryu/states/ryu.st"
-                   }
-           [yscale] => "1"
-           [dizzy] => table: 02D8E4F0 {
-                        [1] => "5300,0, 0,0, 5"
-                        [2] => "5300,1, 0,0, 5"
-                        [3] => "5300,2, 0,0, 5"
-                        [4] => "5300,3, 0,0, 5"
-                        [5] => "5300,4, 0,0, 5"
-                        [6] => "5300,5, 0,0, 5"
-                      }
            [order] => 3
-           [snd] => "chars/ryu/sound.snd"
-           [ending] => "chars/ryu/../../storyboards/ryu [ending].def"
-           [sff] => "chars/ryu/sprite.sff"
+           [name] => "ryu"
          }
-  [2] => table: 02D8E4C8 {
+  [2] => table: 030AB868 {
            [char] => "randomselect"
          }
-  [3] => table: 02D8E4C8 {
+  [3] => table: 030AB868 {
+           [snd] => "chars/kung fu man/kfm.snd"
            [cns] => "chars/kung fu man/kfm.cns"
-           [stand] => table: 02BCCE90 {
-                        [1] => "0,0, 0,0, 10"
-                        [2] => "0,1, 0,0, 7"
-                        [3] => "0,2, 0,0, 7"
-                        [4] => "0,3, 0,0, 7"
-                        [5] => "0,4, 0,0, 7"
-                        [6] => "0,5, 0,0, 45"
-                        [7] => "0,4, 0,0, 7"
-                        [8] => "0,3, 0,0, 7"
-                        [9] => "0,2, 0,0, 7"
-                        [10] => "0,1, 0,0, 7"
-                        [11] => "0,0, 0,0, 40"
-                      }
-           [name] => "kung fu man"
-           [lieDown] => table: 02BCCE90 {
-                          [1] => "5040,20, 0,0, 4"
-                          [2] => "5040, 0, 0,0, 4"
-                          [3] => "5040,10, 0,0, -1"
-                        }
-           [p1AnimStand] => userdata: 07ABCBA8
-           [intro] => "chars/kung fu man/../../storyboards/kung fu man [intro].def"
-           [sffData] => userdata: 07ABB708
-           [air] => "chars/kung fu man/kfm.air"
-           [char] => "kung fu man"
            [def] => "chars/kung fu man/kung fu man.def"
-           [dir] => "chars/kung fu man/"
-           [quotes] => table: 02BCCE90 {
-                         [6] => "I want to challenge more skilled fighters."
-                         [7] => "What do you mean my girlfriend is in another temple?"
-                         [1] => "You must defeat Tu Shou to stand a chance."
-                         [2] => "You need a lot of training. Come back in ten years."
-                         [3] => "You look familiar. Did I see you on TV?"
-                         [4] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
-                         [5] => "That was a good workout."
-                       }
-           [xscale] => "1"
            [displayname] => "Kung Fu Man"
-           [4] => "kung fu man"
-           [author] => "elecbyte"
-           [p2AnimStand] => userdata: 07ABF2D8
-           [order] => 4
-           [trigger] => table: 02BCCE90 {
-                        }
-           [stage] => table: 02BCCE90 {
-                        [1] => 1
-                      }
-           [st] => table: 02BCCE90 {
+           [intro] => "chars/kung fu man/../../storyboards/kung fu man [intro].def"
+           [name] => "kung fu man"
+           [st] => table: 02BB0CE8 {
                      [1] => "chars/kung fu man/kfm.cns"
                    }
-           [yscale] => "1"
-           [dizzy] => table: 02BCCE90 {
+           [p2AnimStand] => userdata: 07917BB8
+           [p1AnimStand] => userdata: 0789D368
+           [sffData] => userdata: 0789EEF8
+           [xscale] => "1"
+           [air] => "chars/kung fu man/kfm.air"
+           [char] => "kung fu man"
+           [dizzy] => table: 02BB0CE8 {
                         [1] => "5300,0, 0,0, 8"
                         [2] => "5300,1, 0,0, 8"
                         [3] => "5300,2, 0,0, 8"
@@ -208,9 +172,18 @@ table: 02D8E4C8 {
                         [5] => "5300,2, 0,0, 8"
                         [6] => "5300,1, 0,0, 8"
                       }
+           [4] => "kung fu man"
+           [sff] => "chars/kung fu man/kfm.sff"
+           [dir] => "chars/kung fu man/"
+           [lieDown] => table: 02BB0CE8 {
+                          [1] => "5040,20, 0,0, 4"
+                          [2] => "5040, 0, 0,0, 4"
+                          [3] => "5040,10, 0,0, -1"
+                        }
            [ending] => "chars/kung fu man/../../storyboards/kung fu man [ending].def"
-           [snd] => "chars/kung fu man/kfm.snd"
-           [win] => table: 02BCCE90 {
+           [trigger] => table: 02BB0CE8 {
+                        }
+           [win] => table: 02BB0CE8 {
                       [1] => "200,0, 0,0, 4"
                       [2] => "181,0, 0,0, 5"
                       [3] => "181,1, 0,0, 5"
@@ -224,101 +197,63 @@ table: 02D8E4C8 {
                       [11] => "181,3, 0,0, 5"
                       [12] => "181,2, 0,0, -1"
                     }
-           [sff] => "chars/kung fu man/kfm.sff"
+           [quotes] => table: 02BB0CE8 {
+                         [7] => "What do you mean my girlfriend is in another temple?"
+                         [6] => "I want to challenge more skilled fighters."
+                         [1] => "You must defeat Tu Shou to stand a chance."
+                         [3] => "You look familiar. Did I see you on TV?"
+                         [2] => "You need a lot of training. Come back in ten years."
+                         [5] => "That was a good workout."
+                         [4] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
+                       }
+           [yscale] => "1"
+           [author] => "elecbyte"
+           [stand] => table: 02BB0CE8 {
+                        [1] => "0,0, 0,0, 10"
+                        [2] => "0,1, 0,0, 7"
+                        [3] => "0,2, 0,0, 7"
+                        [4] => "0,3, 0,0, 7"
+                        [5] => "0,4, 0,0, 7"
+                        [6] => "0,5, 0,0, 45"
+                        [7] => "0,4, 0,0, 7"
+                        [8] => "0,3, 0,0, 7"
+                        [9] => "0,2, 0,0, 7"
+                        [10] => "0,1, 0,0, 7"
+                        [11] => "0,0, 0,0, 40"
+                      }
+           [order] => 4
+           [stage] => table: 02BB0CE8 {
+                        [1] => 1
+                      }
          }
-  [4] => table: 02D8E4C8 {
+  [4] => table: 030AB868 {
            [char] => "randomselect"
          }
-  [5] => table: 02D8E4C8 {
-           [cns] => "chars/kyo kusanagi/constants.cns"
-           [stand] => table: 02D91380 {
-                        [1] => "0,0,0,0,3"
-                        [2] => "0,1,0,0,4"
-                        [3] => "0,2,0,0,5"
-                        [4] => "0,3,0,0,5"
-                        [5] => "0,4,0,0,6"
-                        [6] => "0,5,0,0,5"
-                        [7] => "0,6,0,0,4"
-                        [8] => "0,7,0,0,5"
-                        [9] => "0,8,0,0,6"
-                        [10] => "0,9,0,0,4"
-                      }
-           [name] => "kyo kusanagi"
-           [xscale] => "1"
-           [p1AnimStand] => userdata: 07A925E0
+  [5] => table: 030AB868 {
+           [snd] => "chars/kyo kusanagi/kyo.snd"
+           [ending] => "chars/kyo kusanagi/../../storyboards/kyo kusanagi [ending].def"
+           [def] => "chars/kyo kusanagi/kyo kusanagi.def"
+           [displayname] => "Kyo Kusanagi"
            [intro] => "chars/kyo kusanagi/../../storyboards/kyo kusanagi [intro].def"
-           [sffData] => userdata: 07ABB678
+           [stage] => table: 030B0138 {
+                        [1] => 2
+                      }
+           [st] => table: 030B0138 {
+                     [1] => "chars/kyo kusanagi/kyo.cns"
+                     [2] => "chars/kyo kusanagi/kyo-n.cns"
+                     [3] => "chars/kyo kusanagi/kyo-s.cns"
+                     [4] => "chars/kyo kusanagi/kyo-h.cns"
+                     [5] => "chars/kyo kusanagi/kyo-2-3.cns"
+                     [6] => "chars/kyo kusanagi/helper.cns"
+                     [7] => "chars/kyo kusanagi/config.cns"
+                   }
+           [p2AnimStand] => userdata: 0791B698
+           [p1AnimStand] => userdata: 0791A918
+           [sffData] => userdata: 079158A8
+           [xscale] => "1"
            [air] => "chars/kyo kusanagi/kyo.air"
            [char] => "kyo kusanagi"
-           [def] => "chars/kyo kusanagi/kyo kusanagi.def"
-           [dir] => "chars/kyo kusanagi/"
-           [quotes] => table: 02D91380 {
-                         [1] => "That was my fist! It's hotter than napalm!"
-                         [2] => "Your tricks don't work on us! Understand that!"
-                         [3] => "You have nice moves, but that isn't enough to keep going!"
-                         [4] => "That was deplorable! We'll get the championship from this tournament!"
-                         [5] => "For being telling we were the fakes, you'll get divine punishment!!"
-                         [10] => "Burn in the fury of my flames, you worthless weakling!"
-                         [28] => "That's all ya' got? Are you dissin' me, dude?"
-                         [30] => "You're weighing me down! It's the kiss off, losers!"
-                         [26] => "This ain't what a real battlefield should be!"
-                         [22] => "There must still be things to be done before you have time to immerse in failure!"
-                         [12] => "Eat my flames of fury, wimp! Grovel before the Kusanagis!"
-                         [24] => "It's all experience. Fight on, dude!"
-                         [14] => "Wow! Back to the gym for you. You're really pathetic."
-                         [16] => "Did you understand what was missing? You shouldn't have time to indulge!"
-                         [18] => "It's too simple to be worth saying: if you want to win, just get stronger!"
-                         [56] => "You wanna get mad at something? Get mad at your luck for being pit against me!"
-                         [6] => "My fist has a 1800 years of history! I can easily break you!"
-                         [7] => "Kyokugen Karate is shattered! There isn't any fist that can pass through us!"
-                         [8] => "You were lucky! A bit longer and I would have turned you into cinder!"
-                         [9] => "That's it? Well, I'm not angry, just disappointed."
-                         [55] => "Consider yourself lucky you lost when you did. If you'd tried to carry on, you'd be in even worse shape."
-                         [54] => "That's it? Thought you'd hold out a little longer."
-                         [53] => "That fight was fire! You're better than you look!"
-                         [52] => "Man, you"re barely a warm-up."
-                         [51] => "Good thing I eased off or lid have cremated you early!"
-                         [50] => "I expected more. You left me cold."
-                         [49] => "You're not fighter. But, hey, at least you know that now."
-                         [48] => "I underestimated you. I was really starting to feel the heat!"
-                         [47] => "What an half-ass fight. If you're gonna give up, don't challenge me!"
-                         [46] => "You got some sense. Then again, you challenged me, so maybe not."
-                         [45] => "Man, I'm pumped after that! You really bring the heat!"
-                         [44] => "See now I'm in a different class? You'd better start over."
-                         [29] => "Now that was wild. Just like the old days!"
-                         [11] => "So long, weenie king. We won't meet again."
-                         [27] => "That's the pepper! That's the stuff! Oooh yeah!"
-                         [31] => "You gotta use it or lose it. That's the best you can do?"
-                         [13] => "Stop moping around and butch up, you weenie!"
-                         [23] => "Resistance is flammable. No one can snuff my flame!"
-                         [15] => "You just ain't got it. So stop whining and get lost."
-                         [25] => "Victory was predestined. I'm not in your bush league!"
-                         [43] => "Seriously. Who begs for a fight they can't win?"
-                         [42] => "The Kusanagi fighting style goes way back. Yours just goes way off."
-                         [41] => "You lack devotion. Steady effort is what counts. Me? I'm the exception to the rule!"
-                         [40] => "Do you plan to grovel your whole life? Show a little backbone will you?"
-                         [39] => "Getting up again, I admire your spunk. But, you've already lost."
-                         [17] => "It seems that the important thing is missing! Think about it later!"
-                         [38] => "Out of my way, punk! You make me sick, so you'll get no mercy from me!"
-                         [19] => "It's naive of you to think you stand a chance once you get adapted to my moves. The correct answer is, it ends here!"
-                         [37] => "What miraculous stamina! Taking such a basting!"
-                         [36] => "What?! I guess KOF without me just isn't KOF, right?"
-                         [35] => "Like raging flames of the sun. That is the fists of Kusanagi!"
-                         [34] => "It's a law of history: I don't lose so easy."
-                         [33] => "If you can't get stronger, you can't get stronger. Are you satisfied with this?"
-                         [32] => "Will you never learn? Or must I show you more punishment?"
-                         [21] => "I don't really have anything to tell you, because I am the one who have the most questions to be asked!"
-                         [20] => "Huh, don't tell me think I was a clone?"
-                       }
-           [ending] => "chars/kyo kusanagi/../../storyboards/kyo kusanagi [ending].def"
-           [displayname] => "Kyo Kusanagi"
-           [lieDown] => table: 02D91380 {
-                          [1] => "5040,0,0,0,1"
-                          [2] => "5040,10,0,0,-1"
-                        }
-           [author] => "ikaruga"
-           [p2AnimStand] => userdata: 07A91890
-           [cheese] => table: 02D91380 {
+           [cheese] => table: 030B0138 {
                          [1] => "5950,0,0,0,4"
                          [2] => "5950,1,0,0,4"
                          [3] => "5950,2,0,0,4"
@@ -331,30 +266,22 @@ table: 02D8E4C8 {
                          [10] => "loopstart"
                          [11] => "5111,3,0,0,1"
                        }
-           [trigger] => table: 02D91380 {
-                        }
-           [stage] => table: 02D91380 {
-                        [1] => 2
-                      }
-           [st] => table: 02D91380 {
-                     [1] => "chars/kyo kusanagi/kyo.cns"
-                     [2] => "chars/kyo kusanagi/kyo-n.cns"
-                     [3] => "chars/kyo kusanagi/kyo-s.cns"
-                     [4] => "chars/kyo kusanagi/kyo-h.cns"
-                     [5] => "chars/kyo kusanagi/kyo-2-3.cns"
-                     [6] => "chars/kyo kusanagi/helper.cns"
-                     [7] => "chars/kyo kusanagi/config.cns"
-                   }
-           [yscale] => "1"
-           [dizzy] => table: 02D91380 {
+           [dizzy] => table: 030B0138 {
                         [1] => "5300,0,0,0,9"
                         [2] => "5300,1,0,0,9"
                         [3] => "5300,2,0,0,9"
                         [4] => "5300,3,0,0,9"
                       }
-           [order] => 1
-           [snd] => "chars/kyo kusanagi/kyo.snd"
-           [win] => table: 02D91380 {
+           [sff] => "chars/kyo kusanagi/kyo.sff"
+           [dir] => "chars/kyo kusanagi/"
+           [lieDown] => table: 030B0138 {
+                          [1] => "5040,0,0,0,1"
+                          [2] => "5040,10,0,0,-1"
+                        }
+           [cns] => "chars/kyo kusanagi/constants.cns"
+           [trigger] => table: 030B0138 {
+                        }
+           [win] => table: 030B0138 {
                       [1] => "180,0,0,0,4"
                       [2] => "180,1,0,0,23"
                       [3] => "180,2,0,0,6"
@@ -363,39 +290,111 @@ table: 02D8E4C8 {
                       [6] => "180,5,0,0,8"
                       [7] => "180,6,0,0,-1"
                     }
-           [sff] => "chars/kyo kusanagi/kyo.sff"
-         }
-  [6] => table: 02D8E4C8 {
-           [char] => "randomselect"
-         }
-  [7] => table: 02D8E4C8 {
-           [char] => "randomselect"
-         }
-  [8] => table: 02D8E4C8 {
-           [cns] => "chars/suave dude/sd.cns"
-           [stand] => table: 028D89F8 {
-                        [1] => "0,  0,  0,  0, 18"
-                        [2] => "0,  1,  0,  0,  8"
-                        [3] => "0,  2,  0,  0,  8"
-                        [4] => "0,  3,  0,  0, 18"
-                        [5] => "0,  2,  0,  0,  8"
-                        [6] => "0,  1,  0,  0,  8"
+           [quotes] => table: 030B0138 {
+                         [32] => "Will you never learn? Or must I show you more punishment?"
+                         [55] => "Consider yourself lucky you lost when you did. If you'd tried to carry on, you'd be in even worse shape."
+                         [54] => "That's it? Thought you'd hold out a little longer."
+                         [53] => "That fight was fire! You're better than you look!"
+                         [52] => "Man, you"re barely a warm-up."
+                         [44] => "See now I'm in a different class? You'd better start over."
+                         [22] => "There must still be things to be done before you have time to immerse in failure!"
+                         [45] => "Man, I'm pumped after that! You really bring the heat!"
+                         [19] => "It's naive of you to think you stand a chance once you get adapted to my moves. The correct answer is, it ends here!"
+                         [27] => "That's the pepper! That's the stuff! Oooh yeah!"
+                         [17] => "It seems that the important thing is missing! Think about it later!"
+                         [29] => "Now that was wild. Just like the old days!"
+                         [35] => "Like raging flames of the sun. That is the fists of Kusanagi!"
+                         [49] => "You're not fighter. But, hey, at least you know that now."
+                         [33] => "If you can't get stronger, you can't get stronger. Are you satisfied with this?"
+                         [47] => "What an half-ass fight. If you're gonna give up, don't challenge me!"
+                         [25] => "Victory was predestined. I'm not in your bush league!"
+                         [15] => "You just ain't got it. So stop whining and get lost."
+                         [11] => "So long, weenie king. We won't meet again."
+                         [13] => "Stop moping around and butch up, you weenie!"
+                         [31] => "You gotta use it or lose it. That's the best you can do?"
+                         [21] => "I don't really have anything to tell you, because I am the one who have the most questions to be asked!"
+                         [51] => "Good thing I eased off or lid have cremated you early!"
+                         [41] => "You lack devotion. Steady effort is what counts. Me? I'm the exception to the rule!"
+                         [7] => "Kyokugen Karate is shattered! There isn't any fist that can pass through us!"
+                         [6] => "My fist has a 1800 years of history! I can easily break you!"
+                         [9] => "That's it? Well, I'm not angry, just disappointed."
+                         [8] => "You were lucky! A bit longer and I would have turned you into cinder!"
+                         [43] => "Seriously. Who begs for a fight they can't win?"
+                         [42] => "The Kusanagi fighting style goes way back. Yours just goes way off."
+                         [23] => "Resistance is flammable. No one can snuff my flame!"
+                         [39] => "Getting up again, I admire your spunk. But, you've already lost."
+                         [38] => "Out of my way, punk! You make me sick, so you'll get no mercy from me!"
+                         [37] => "What miraculous stamina! Taking such a basting!"
+                         [1] => "That was my fist! It's hotter than napalm!"
+                         [36] => "What?! I guess KOF without me just isn't KOF, right?"
+                         [3] => "You have nice moves, but that isn't enough to keep going!"
+                         [2] => "Your tricks don't work on us! Understand that!"
+                         [5] => "For being telling we were the fakes, you'll get divine punishment!!"
+                         [4] => "That was deplorable! We'll get the championship from this tournament!"
+                         [26] => "This ain't what a real battlefield should be!"
+                         [18] => "It's too simple to be worth saying: if you want to win, just get stronger!"
+                         [28] => "That's all ya' got? Are you dissin' me, dude?"
+                         [16] => "Did you understand what was missing? You shouldn't have time to indulge!"
+                         [48] => "I underestimated you. I was really starting to feel the heat!"
+                         [34] => "It's a law of history: I don't lose so easy."
+                         [46] => "You got some sense. Then again, you challenged me, so maybe not."
+                         [56] => "You wanna get mad at something? Get mad at your luck for being pit against me!"
+                         [14] => "Wow! Back to the gym for you. You're really pathetic."
+                         [24] => "It's all experience. Fight on, dude!"
+                         [12] => "Eat my flames of fury, wimp! Grovel before the Kusanagis!"
+                         [10] => "Burn in the fury of my flames, you worthless weakling!"
+                         [20] => "Huh, don't tell me think I was a clone?"
+                         [30] => "You're weighing me down! It's the kiss off, losers!"
+                         [40] => "Do you plan to grovel your whole life? Show a little backbone will you?"
+                         [50] => "I expected more. You left me cold."
+                       }
+           [yscale] => "1"
+           [author] => "ikaruga"
+           [stand] => table: 030B0138 {
+                        [1] => "0,0,0,0,3"
+                        [2] => "0,1,0,0,4"
+                        [3] => "0,2,0,0,5"
+                        [4] => "0,3,0,0,5"
+                        [5] => "0,4,0,0,6"
+                        [6] => "0,5,0,0,5"
+                        [7] => "0,6,0,0,4"
+                        [8] => "0,7,0,0,5"
+                        [9] => "0,8,0,0,6"
+                        [10] => "0,9,0,0,4"
                       }
-           [name] => "suave dude"
-           [order] => 5
-           [p1AnimStand] => userdata: 07A91EF0
+           [order] => 1
+           [name] => "kyo kusanagi"
+         }
+  [6] => table: 030AB868 {
+           [char] => "randomselect"
+         }
+  [7] => table: 030AB868 {
+           [char] => "randomselect"
+         }
+  [8] => table: 030AB868 {
+           [snd] => "chars/suave dude/sd.snd"
+           [cns] => "chars/suave dude/sd.cns"
+           [def] => "chars/suave dude/suave dude.def"
+           [displayname] => "Suave Dude"
            [intro] => "chars/suave dude/../../storyboards/suave dude [intro].def"
-           [sffData] => userdata: 07A92280
+           [stage] => table: 030AF058 {
+                        [1] => 1
+                      }
+           [st] => table: 030AF058 {
+                     [1] => "chars/suave dude/sd.cns"
+                   }
+           [p2AnimStand] => userdata: 0788E630
+           [p1AnimStand] => userdata: 07916B68
+           [sffData] => userdata: 07919148
+           [xscale] => "1"
            [air] => "chars/suave dude/sd.air"
            [char] => "suave dude"
-           [def] => "chars/suave dude/suave dude.def"
-           [dir] => "chars/suave dude/"
-           [quotes] => table: 028D89F8 {
-                         [2] => "Your moves are too predictable."
-                         [3] => "I want to challenge more skilled fighters."
-                         [1] => "You must defeat Tu Shou to stand a chance."
-                       }
-           [dizzy] => table: 028D89F8 {
+           [lieDown] => table: 030AF058 {
+                          [1] => "5040,20, 0,0, 4"
+                          [2] => "5040, 0, 0,0, 4"
+                          [3] => "5040,10, 0,0, -1"
+                        }
+           [dizzy] => table: 030AF058 {
                         [1] => "5300,  0,  0,  0,  5"
                         [2] => "5300,  1,  0,  0,  5"
                         [3] => "5300,  2,  0,  0,  5"
@@ -409,28 +408,17 @@ table: 02D8E4C8 {
                         [11] => "5300,7,0,0,10"
                         [12] => "5300,  6,  0,  0, 10"
                       }
-           [displayname] => "Suave Dude"
-           [lieDown] => table: 028D89F8 {
-                          [1] => "5040,20, 0,0, 4"
-                          [2] => "5040, 0, 0,0, 4"
-                          [3] => "5040,10, 0,0, -1"
-                        }
-           [author] => "masukenpu-kun"
-           [p2AnimStand] => userdata: 02C48608
-           [trigger] => table: 028D89F8 {
-                        }
-           [xscale] => "1"
-           [stage] => table: 028D89F8 {
-                        [1] => 1
-                      }
-           [st] => table: 028D89F8 {
-                     [1] => "chars/suave dude/sd.cns"
-                   }
-           [yscale] => "1"
+           [sff] => "chars/suave dude/sd.sff"
+           [dir] => "chars/suave dude/"
+           [quotes] => table: 030AF058 {
+                         [3] => "I want to challenge more skilled fighters."
+                         [2] => "Your moves are too predictable."
+                         [1] => "You must defeat Tu Shou to stand a chance."
+                       }
            [boss] => 1
-           [ending] => "chars/suave dude/../../storyboards/suave dude [ending].def"
-           [snd] => "chars/suave dude/sd.snd"
-           [win] => table: 028D89F8 {
+           [trigger] => table: 030AF058 {
+                        }
+           [win] => table: 030AF058 {
                       [1] => "200,0, 0,0, 2"
                       [2] => "181,  0,  0,  0,  4"
                       [3] => "181,  1,  0,  0,  4"
@@ -444,23 +432,130 @@ table: 02D8E4C8 {
                       [11] => "181,  7,  0,  0,  4"
                       [12] => "181,  8,  0,  0, -1"
                     }
-           [sff] => "chars/suave dude/sd.sff"
+           [yscale] => "1"
+           [ending] => "chars/suave dude/../../storyboards/suave dude [ending].def"
+           [author] => "masukenpu-kun"
+           [stand] => table: 030AF058 {
+                        [1] => "0,  0,  0,  0, 18"
+                        [2] => "0,  1,  0,  0,  8"
+                        [3] => "0,  2,  0,  0,  8"
+                        [4] => "0,  3,  0,  0, 18"
+                        [5] => "0,  2,  0,  0,  8"
+                        [6] => "0,  1,  0,  0,  8"
+                      }
+           [order] => 5
+           [name] => "suave dude"
          }
-  [9] => table: 02D8E4C8 {
+  [9] => table: 030AB868 {
            [char] => "randomselect"
          }
-  [10] => table: 02D8E4C8 {
+  [10] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [11] => table: 02D8E4C8 {
+  [11] => table: 030AB868 {
             [char] => "empty"
           }
-  [12] => table: 02D8E4C8 {
+  [12] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [13] => table: 02D8E4C8 {
-            [cns] => "chars/kung fu girl/cns/akfgz.cns"
-            [stand] => table: 02157D30 {
+  [13] => table: 030AB868 {
+            [snd] => "chars/kung fu girl/akfgz.snd"
+            [ending] => "chars/kung fu girl/../../storyboards/kung fu girl [ending].def"
+            [def] => "chars/kung fu girl/kung fu girl.def"
+            [displayname] => "Kung Fu Girl"
+            [intro] => "chars/kung fu girl/../../storyboards/kung fu girl [intro].def"
+            [name] => "kung fu girl"
+            [st] => table: 0028A438 {
+                      [1] => "chars/kung fu girl/cns/akfgz.cns"
+                      [2] => "chars/kung fu girl/cns/akfgz-n.cns"
+                      [3] => "chars/kung fu girl/cns/akfgz-s.cns"
+                      [4] => "chars/kung fu girl/cns/akfgz-h.cns"
+                      [5] => "chars/kung fu girl/cns/akfgz-2.cns"
+                      [6] => "chars/kung fu girl/cns/akfgz-3.cns"
+                      [7] => "chars/kung fu girl/cns/akfgz-helper.cns"
+                    }
+            [p2AnimStand] => userdata: 07902068
+            [p1AnimStand] => userdata: 03015B88
+            [xscale] => "1"
+            [air] => "chars/kung fu girl/akfgz.air"
+            [char] => "kung fu girl"
+            [sffData] => userdata: 07891BA0
+            [dizzy] => table: 0028A438 {
+                         [1] => "5300, 0, 0, 0, 7"
+                         [2] => "5300, 1, 0, 0, 7"
+                         [3] => "5300, 2, 0, 0, 7"
+                         [4] => "5300, 3, 0, 0, 7"
+                         [5] => "5300, 0, 0, 0, 7"
+                         [6] => "5300, 1, 0, 0, 7"
+                         [7] => "5300, 2, 0, 0, 7"
+                         [8] => "5300, 3, 0, 0, 7"
+                         [9] => "5300, 0, 0, 0, 7"
+                         [10] => "5300, 1, 0, 0, 7"
+                         [11] => "5300, 2, 0, 0, 7"
+                         [12] => "5300, 3, 0, 0, 7"
+                         [13] => "5300, 0, 0, 0, 7"
+                         [14] => "5300, 1, 0, 0, 7"
+                         [15] => "5300, 2, 0, 0, 7"
+                         [16] => "5300, 4, 0, 0, 7"
+                         [17] => "5300, 5, 0, 0, 7"
+                         [18] => "5300, 6, 0, 0, 7"
+                       }
+            [sff] => "chars/kung fu girl/akfgz.sff"
+            [dir] => "chars/kung fu girl/"
+            [cheese] => table: 0028A438 {
+                          [1] => "5950, 0, -5, 0, 30"
+                          [2] => "5950, 1, -5, 0, 6"
+                          [3] => "5950, 2, -5, 0, 6"
+                          [4] => "5950, 3, -10, 3, 6"
+                          [5] => "5950, 4, -10, 3, 5"
+                          [6] => "5950, 5, -10, 3, 5"
+                          [7] => "5950, 6, -10, 3, 5"
+                          [8] => "5950, 7, -10, 3, 20"
+                          [9] => "5950, 8, -12, 3, 7"
+                          [10] => "5950, 9, -15, 3, 6"
+                          [11] => "5950, 10, -26, 3, 6"
+                          [12] => "5950, 11, -26, 3, 5"
+                          [13] => "5101, 6, 0, 0, 5"
+                        }
+            [lieDown] => table: 0028A438 {
+                           [1] => "5040, 1, 0, 0, 3"
+                           [2] => "5040, 20, 0, 0, -1"
+                         }
+            [trigger] => table: 0028A438 {
+                         }
+            [win] => table: 0028A438 {
+                       [1] => "180, 0, 0, 0, 5"
+                       [2] => "180, 1, 0, 0, 5"
+                       [3] => "180, 2, 0, 0, 5"
+                       [4] => "180, 3, 0, 0, 5"
+                       [5] => "180, 4, 0, 0, 5"
+                       [6] => "180, 5, 0, 0, 5"
+                       [7] => "180, 6, 0, 0, 5"
+                       [8] => "180, 7, 0, 0, 5"
+                       [9] => "180, 8, 0, 0, 5"
+                       [10] => "180, 9, 0, 0, 5"
+                       [11] => "180, 10, 0, 0, 5"
+                       [12] => "180, 11, 0, 0, 4"
+                       [13] => "180, 12, 0, 0, 4"
+                       [14] => "180, 13, 0, 0, 4"
+                       [15] => "180, 14, 0, 0, 4"
+                       [16] => "180, 15, 0, 0, 4"
+                       [17] => "180, 16, 0, 0, 4"
+                       [18] => "180, 17, 0, 0, 4"
+                       [19] => "180, 18, 0, 0, 4"
+                       [20] => "180, 19, 0, 0, 4"
+                       [21] => "180, 20, 0, 0, 4"
+                       [22] => "180, 21, 0, 0, 4"
+                       [23] => "180, 22, 0, 0, 4"
+                       [24] => "180, 23, 0, 0, -1"
+                     }
+            [yscale] => "1"
+            [quotes] => table: 0028A438 {
+                          [1] => "Yay!"
+                          [2] => "You need more training. UwU"
+                        }
+            [author] => "s.y.d"
+            [stand] => table: 0028A438 {
                          [1] => "0, 11, 0, 0, 5"
                          [2] => "0, 12, 0, 0, 5"
                          [3] => "0, 13, 0, 0, 5"
@@ -489,346 +584,128 @@ table: 02D8E4C8 {
                          [26] => "0, 9, 0, 0, 5"
                          [27] => "0, 8, 0, 0, 5"
                        }
-            [name] => "kung fu girl"
             [order] => 4
-            [intro] => "chars/kung fu girl/../../storyboards/kung fu girl [intro].def"
-            [p1AnimStand] => userdata: 02C46628
-            [air] => "chars/kung fu girl/akfgz.air"
-            [char] => "kung fu girl"
-            [def] => "chars/kung fu girl/kung fu girl.def"
-            [dir] => "chars/kung fu girl/"
-            [quotes] => table: 02157D30 {
-                          [2] => "You need more training. UwU"
-                          [1] => "Yay!"
-                        }
-            [trigger] => table: 02157D30 {
-                         }
-            [displayname] => "Kung Fu Girl"
-            [lieDown] => table: 02157D30 {
-                           [1] => "5040, 1, 0, 0, 3"
-                           [2] => "5040, 20, 0, 0, -1"
-                         }
-            [author] => "s.y.d"
-            [p2AnimStand] => userdata: 07B174B0
-            [cheese] => table: 02157D30 {
-                          [1] => "5950, 0, -5, 0, 30"
-                          [2] => "5950, 1, -5, 0, 6"
-                          [3] => "5950, 2, -5, 0, 6"
-                          [4] => "5950, 3, -10, 3, 6"
-                          [5] => "5950, 4, -10, 3, 5"
-                          [6] => "5950, 5, -10, 3, 5"
-                          [7] => "5950, 6, -10, 3, 5"
-                          [8] => "5950, 7, -10, 3, 20"
-                          [9] => "5950, 8, -12, 3, 7"
-                          [10] => "5950, 9, -15, 3, 6"
-                          [11] => "5950, 10, -26, 3, 6"
-                          [12] => "5950, 11, -26, 3, 5"
-                          [13] => "5101, 6, 0, 0, 5"
-                        }
-            [ending] => "chars/kung fu girl/../../storyboards/kung fu girl [ending].def"
-            [sffData] => userdata: 02C48C68
-            [st] => table: 02157D30 {
-                      [1] => "chars/kung fu girl/cns/akfgz.cns"
-                      [2] => "chars/kung fu girl/cns/akfgz-n.cns"
-                      [3] => "chars/kung fu girl/cns/akfgz-s.cns"
-                      [4] => "chars/kung fu girl/cns/akfgz-h.cns"
-                      [5] => "chars/kung fu girl/cns/akfgz-2.cns"
-                      [6] => "chars/kung fu girl/cns/akfgz-3.cns"
-                      [7] => "chars/kung fu girl/cns/akfgz-helper.cns"
-                    }
-            [yscale] => "1"
-            [dizzy] => table: 02157D30 {
-                         [1] => "5300, 0, 0, 0, 7"
-                         [2] => "5300, 1, 0, 0, 7"
-                         [3] => "5300, 2, 0, 0, 7"
-                         [4] => "5300, 3, 0, 0, 7"
-                         [5] => "5300, 0, 0, 0, 7"
-                         [6] => "5300, 1, 0, 0, 7"
-                         [7] => "5300, 2, 0, 0, 7"
-                         [8] => "5300, 3, 0, 0, 7"
-                         [9] => "5300, 0, 0, 0, 7"
-                         [10] => "5300, 1, 0, 0, 7"
-                         [11] => "5300, 2, 0, 0, 7"
-                         [12] => "5300, 3, 0, 0, 7"
-                         [13] => "5300, 0, 0, 0, 7"
-                         [14] => "5300, 1, 0, 0, 7"
-                         [15] => "5300, 2, 0, 0, 7"
-                         [16] => "5300, 4, 0, 0, 7"
-                         [17] => "5300, 5, 0, 0, 7"
-                         [18] => "5300, 6, 0, 0, 7"
-                       }
-            [xscale] => "1"
-            [snd] => "chars/kung fu girl/akfgz.snd"
-            [win] => table: 02157D30 {
-                       [1] => "180, 0, 0, 0, 5"
-                       [2] => "180, 1, 0, 0, 5"
-                       [3] => "180, 2, 0, 0, 5"
-                       [4] => "180, 3, 0, 0, 5"
-                       [5] => "180, 4, 0, 0, 5"
-                       [6] => "180, 5, 0, 0, 5"
-                       [7] => "180, 6, 0, 0, 5"
-                       [8] => "180, 7, 0, 0, 5"
-                       [9] => "180, 8, 0, 0, 5"
-                       [10] => "180, 9, 0, 0, 5"
-                       [11] => "180, 10, 0, 0, 5"
-                       [12] => "180, 11, 0, 0, 4"
-                       [13] => "180, 12, 0, 0, 4"
-                       [14] => "180, 13, 0, 0, 4"
-                       [15] => "180, 14, 0, 0, 4"
-                       [16] => "180, 15, 0, 0, 4"
-                       [17] => "180, 16, 0, 0, 4"
-                       [18] => "180, 17, 0, 0, 4"
-                       [19] => "180, 18, 0, 0, 4"
-                       [20] => "180, 19, 0, 0, 4"
-                       [21] => "180, 20, 0, 0, 4"
-                       [22] => "180, 21, 0, 0, 4"
-                       [23] => "180, 22, 0, 0, 4"
-                       [24] => "180, 23, 0, 0, -1"
-                     }
-            [sff] => "chars/kung fu girl/akfgz.sff"
+            [cns] => "chars/kung fu girl/cns/akfgz.cns"
           }
-  [14] => table: 02D8E4C8 {
+  [14] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [15] => table: 02D8E4C8 {
+  [15] => table: 030AB868 {
             [char] => "empty"
           }
-  [16] => table: 02D8E4C8 {
+  [16] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [17] => table: 02D8E4C8 {
+  [17] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [18] => table: 02D8E4C8 {
+  [18] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [19] => table: 02D8E4C8 {
+  [19] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [20] => table: 02D8E4C8 {
+  [20] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [21] => table: 02D8E4C8 {
+  [21] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [22] => table: 02D8E4C8 {
+  [22] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [23] => table: 02D8E4C8 {
+  [23] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [24] => table: 02D8E4C8 {
+  [24] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [25] => table: 02D8E4C8 {
+  [25] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [26] => table: 02D8E4C8 {
+  [26] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [27] => table: 02D8E4C8 {
+  [27] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [28] => table: 02D8E4C8 {
+  [28] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [29] => table: 02D8E4C8 {
+  [29] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [30] => table: 02D8E4C8 {
+  [30] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [31] => table: 02D8E4C8 {
+  [31] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [32] => table: 02D8E4C8 {
+  [32] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [33] => table: 02D8E4C8 {
+  [33] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [34] => table: 02D8E4C8 {
+  [34] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [35] => table: 02D8E4C8 {
+  [35] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [36] => table: 02D8E4C8 {
+  [36] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [37] => table: 02D8E4C8 {
+  [37] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [38] => table: 02D8E4C8 {
+  [38] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [39] => table: 02D8E4C8 {
+  [39] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [40] => table: 02D8E4C8 {
+  [40] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [41] => table: 02D8E4C8 {
+  [41] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [42] => table: 02D8E4C8 {
+  [42] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [43] => table: 02D8E4C8 {
+  [43] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [44] => table: 02D8E4C8 {
+  [44] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [45] => table: 02D8E4C8 {
+  [45] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [46] => table: 02D8E4C8 {
+  [46] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [47] => table: 02D8E4C8 {
+  [47] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [48] => table: 02D8E4C8 {
+  [48] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [49] => table: 02D8E4C8 {
+  [49] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [50] => table: 02D8E4C8 {
+  [50] => table: 030AB868 {
             [char] => "randomselect"
           }
-  [51] => table: 02D8E4C8 {
+  [51] => table: 030AB868 {
+            [snd] => "chars/ryu/sound.snd"
             [ending] => "chars/ryu/../../storyboards/evil ryu [ending].def"
-            [stand] => table: 02A45940 {
-                         [1] => "0,0, 0,0, 6"
-                         [2] => "0,1, 0,0, 6"
-                         [3] => "0,2, 0,0, 6"
-                         [4] => "0,3, 0,0, 6"
-                         [5] => "0,4, 0,0, 6"
-                         [6] => "0,5, 0,0, 6"
-                         [7] => "0,0, 0,0, 6"
-                         [8] => "0,1, 0,0, 6"
-                         [9] => "0,2, 0,0, 6"
-                         [10] => "0,3, 0,0, 6"
-                         [11] => "0,4, 0,0, 6"
-                         [12] => "0,5, 0,0, 6"
-                         [13] => "0,6, 0,0, 6"
-                         [14] => "0,1, 0,0, 6"
-                         [15] => "0,2, 0,0, 6"
-                         [16] => "0,3, 0,0, 6"
-                         [17] => "0,4, 0,0, 6"
-                         [18] => "0,5, 0,0, 6"
-                       }
-            [name] => "ryu"
-            [dizzy] => table: 02A45940 {
-                         [1] => "5300,0, 0,0, 5"
-                         [2] => "5300,1, 0,0, 5"
-                         [3] => "5300,2, 0,0, 5"
-                         [4] => "5300,3, 0,0, 5"
-                         [5] => "5300,4, 0,0, 5"
-                         [6] => "5300,5, 0,0, 5"
-                       }
-            [p1AnimStand] => userdata: 07B019E0
-            [intro] => "chars/ryu/../../storyboards/evil ryu [intro].def"
-            [sffData] => userdata: 07B18590
-            [air] => "chars/ryu/anim.air"
-            [char] => "ryu/evil ryu.def"
             [def] => "chars/ryu/evil ryu.def"
-            [dir] => "chars/ryu/"
-            [quotes] => table: 02A45940 {
-                          [1] => "You must defeat my dragon punch to stand a chance."
-                          [2] => "Whether we win or lose, all of our battles make us stronger."
-                          [3] => "A defeat learned from is more important than an empty victory."
-                          [4] => "You still have a fighting spirit in your eyes. I look forward to our next battle."
-                          [5] => "Range... Speed... Priority... Know and master all your attacks."
-                          [10] => "Train yourself well, then challenge me again."
-                          [11] => "I hope you learned from our battle."
-                          [30] => "Each time I fight you, I feel something new and different..."
-                          [31] => "May that scar be a reminder to the both of us..."
-                          [50] => "There is no place for the weak to exist!"
-                          [12] => "Stand up and face me again, I have yet to see your best."
-                          [81] => "Be thankful I only gave you new scars!"
-                          [80] => "Now you are nothing compared to me!"
-                          [54] => "There's nothing to lose, when there's nothing to gain."
-                          [53] => "To be the strongest means to be the last one standing."
-                          [52] => "Your life is not the only thing that you are risking in battle!"
-                          [6] => "Trying something new is to explore your true potential."
-                          [7] => "I noticed the spirit of a true warrior within your fists."
-                          [8] => "The world is waiting, I must leave you now."
-                          [9] => "In order to win, you must first believe you can win."
-                          [51] => "To lose is to prove that you are worthy to perish!"
-                          [34] => "A new body can't make you stronger when your spirit has already stopped growing."
-                          [33] => "Sorry, but I still have much to learn before I can teach."
-                          [32] => "There are no shortcuts in the path of the warrior."
-                        }
-            [order] => 1
             [displayname] => "Evil Ryu"
-            [lieDown] => table: 02A45940 {
-                           [1] => "5040,20, 0,0, 4"
-                           [2] => "5040,0, 0,0, 4"
-                           [3] => "5040,11, 0,0, -1"
-                         }
-            [author] => "phantom.of.the.server"
-            [p2AnimStand] => userdata: 07AFDE40
-            [cheese] => table: 02A45940 {
-                          [1] => "170,0, 0,0, 20"
-                          [2] => "170,1, 0,0, 6"
-                          [3] => "5130,0, 0,0, 20"
-                          [4] => "5130,1, 0,0, 6"
-                          [5] => "5130,2, 0,0, 6"
-                          [6] => "5040,11, 0,0, 3"
-                          [7] => "loopstart"
-                          [8] => "5040,10, 0,0, 1"
-                        }
-            [trigger] => table: 02A45940 {
-                           [1] => table: 02A44CE8 {
-                                    [1] => "var(1) != 2"
-                                    [value] => "1 + (random % 12)"
-                                  }
-                           [2] => table: 02A44CE8 {
-                                    [1] => "var(1) = 2"
-                                    [value] => "50 + (random % 5)"
-                                  }
-                           [3] => table: 02A44CE8 {
-                                    [1] => "enemy, name = "ken" || enemy, name = "ken masters""
-                                    [2] => "enemy, name = "cvsken" || enemy, name = "svcken""
-                                    [all] => "numenemy && var(1) != 2"
-                                    [value] => "30"
-                                  }
-                           [4] => table: 02A44CE8 {
-                                    [1] => "enemy, name = "sagat""
-                                    [2] => "enemy, name = "cvssagat" || enemy, name = "svcsagat""
-                                    [all] => "numenemy"
-                                    [value] => "ifelse(var(1) = 2, 81, 31)"
-                                  }
-                           [5] => table: 02A44CE8 {
-                                    [1] => "enemy, name = "gouki" || enemy, name = "akuma""
-                                    [2] => "enemy, name = "shin gouki" || enemy, name = "shin akuma""
-                                    [3] => "enemy, name = "cyber akuma" || enemy, name = "mech gouki""
-                                    [4] => "enemy, name = "cvsgouki" || enemy, name = "svcgouki""
-                                    [all] => "numenemy"
-                                    [value] => "ifelse(var(1) = 2, 80, 32)"
-                                  }
-                           [6] => table: 02A44CE8 {
-                                    [1] => "enemy, name = "sakura kasugano" || enemy, name = "cvssakura""
-                                    [all] => "numenemy && var(1) != 2"
-                                    [value] => "33"
-                                  }
-                           [7] => table: 02A44CE8 {
-                                    [1] => "enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server""
-                                    [2] => "enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")"
-                                    [3] => "enemynear, name = "m.bison" && enemynear, authorname = "n -mario""
-                                    [4] => "enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous""
-                                    [5] => "enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)""
-                                    [all] => "numenemy && var(1) != 2"
-                                    [value] => "34"
-                                  }
-                         }
-            [stage] => table: 02A45940 {
-                         [1] => 3
-                       }
-            [st] => table: 02A45940 {
+            [intro] => "chars/ryu/../../storyboards/evil ryu [intro].def"
+            [name] => "ryu"
+            [st] => table: 00FFF140 {
                       [1] => "chars/ryu/states/system.st"
                       [2] => "chars/ryu/states/normal.st"
                       [3] => "chars/ryu/states/specials.st"
@@ -838,16 +715,112 @@ table: 02D8E4C8 {
                       [7] => "chars/ryu/states/custom.st"
                       [8] => "chars/ryu/states/evilryu.st"
                     }
-            [yscale] => "1"
-            [boss] => 1
+            [p2AnimStand] => userdata: 07918728
+            [p1AnimStand] => userdata: 07906D48
+            [sffData] => userdata: 07908E48
             [xscale] => "1"
-            [snd] => "chars/ryu/sound.snd"
-            [cns] => "chars/ryu/constants.cns"
+            [air] => "chars/ryu/anim.air"
+            [char] => "ryu/evil ryu.def"
+            [boss] => 1
+            [dizzy] => table: 00FFF140 {
+                         [1] => "5300,0, 0,0, 5"
+                         [2] => "5300,1, 0,0, 5"
+                         [3] => "5300,2, 0,0, 5"
+                         [4] => "5300,3, 0,0, 5"
+                         [5] => "5300,4, 0,0, 5"
+                         [6] => "5300,5, 0,0, 5"
+                       }
             [sff] => "chars/ryu/evil sprite.sff"
-          }
-  [52] => table: 02D8E4C8 {
+            [dir] => "chars/ryu/"
+            [cheese] => table: 00FFF140 {
+                          [1] => "170,0, 0,0, 20"
+                          [2] => "170,1, 0,0, 6"
+                          [3] => "5130,0, 0,0, 20"
+                          [4] => "5130,1, 0,0, 6"
+                          [5] => "5130,2, 0,0, 6"
+                          [6] => "5040,11, 0,0, 3"
+                          [7] => "loopstart"
+                          [8] => "5040,10, 0,0, 1"
+                        }
+            [lieDown] => table: 00FFF140 {
+                           [1] => "5040,20, 0,0, 4"
+                           [2] => "5040,0, 0,0, 4"
+                           [3] => "5040,11, 0,0, -1"
+                         }
+            [trigger] => table: 00FFF140 {
+                           [1] => table: 00ECC3C0 {
+                                    [1] => "var(1) != 2"
+                                    [value] => "1 + (random % 12)"
+                                  }
+                           [2] => table: 00ECC3C0 {
+                                    [1] => "var(1) = 2"
+                                    [value] => "50 + (random % 5)"
+                                  }
+                           [3] => table: 00ECC3C0 {
+                                    [1] => "enemy, name = "ken" || enemy, name = "ken masters""
+                                    [2] => "enemy, name = "cvsken" || enemy, name = "svcken""
+                                    [value] => "30"
+                                    [all] => "numenemy && var(1) != 2"
+                                  }
+                           [4] => table: 00ECC3C0 {
+                                    [1] => "enemy, name = "sagat""
+                                    [2] => "enemy, name = "cvssagat" || enemy, name = "svcsagat""
+                                    [value] => "ifelse(var(1) = 2, 81, 31)"
+                                    [all] => "numenemy"
+                                  }
+                           [5] => table: 00ECC3C0 {
+                                    [1] => "enemy, name = "gouki" || enemy, name = "akuma""
+                                    [2] => "enemy, name = "shin gouki" || enemy, name = "shin akuma""
+                                    [3] => "enemy, name = "cyber akuma" || enemy, name = "mech gouki""
+                                    [4] => "enemy, name = "cvsgouki" || enemy, name = "svcgouki""
+                                    [all] => "numenemy"
+                                    [value] => "ifelse(var(1) = 2, 80, 32)"
+                                  }
+                           [6] => table: 00ECC3C0 {
+                                    [1] => "enemy, name = "sakura kasugano" || enemy, name = "cvssakura""
+                                    [all] => "numenemy && var(1) != 2"
+                                    [value] => "33"
+                                  }
+                           [7] => table: 00ECC3C0 {
+                                    [1] => "enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server""
+                                    [2] => "enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")"
+                                    [3] => "enemynear, name = "m.bison" && enemynear, authorname = "n -mario""
+                                    [4] => "enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous""
+                                    [5] => "enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)""
+                                    [value] => "34"
+                                    [all] => "numenemy && var(1) != 2"
+                                  }
+                         }
             [cns] => "chars/ryu/constants.cns"
-            [stand] => table: 022F9CB0 {
+            [quotes] => table: 00FFF140 {
+                          [7] => "I noticed the spirit of a true warrior within your fists."
+                          [6] => "Trying something new is to explore your true potential."
+                          [9] => "In order to win, you must first believe you can win."
+                          [8] => "The world is waiting, I must leave you now."
+                          [1] => "You must defeat my dragon punch to stand a chance."
+                          [3] => "A defeat learned from is more important than an empty victory."
+                          [2] => "Whether we win or lose, all of our battles make us stronger."
+                          [5] => "Range... Speed... Priority... Know and master all your attacks."
+                          [4] => "You still have a fighting spirit in your eyes. I look forward to our next battle."
+                          [11] => "I hope you learned from our battle."
+                          [80] => "Now you are nothing compared to me!"
+                          [81] => "Be thankful I only gave you new scars!"
+                          [54] => "There's nothing to lose, when there's nothing to gain."
+                          [34] => "A new body can't make you stronger when your spirit has already stopped growing."
+                          [52] => "Your life is not the only thing that you are risking in battle!"
+                          [53] => "To be the strongest means to be the last one standing."
+                          [32] => "There are no shortcuts in the path of the warrior."
+                          [33] => "Sorry, but I still have much to learn before I can teach."
+                          [12] => "Stand up and face me again, I have yet to see your best."
+                          [10] => "Train yourself well, then challenge me again."
+                          [31] => "May that scar be a reminder to the both of us..."
+                          [30] => "Each time I fight you, I feel something new and different..."
+                          [51] => "To lose is to prove that you are worthy to perish!"
+                          [50] => "There is no place for the weak to exist!"
+                        }
+            [yscale] => "1"
+            [author] => "phantom.of.the.server"
+            [stand] => table: 00FFF140 {
                          [1] => "0,0, 0,0, 6"
                          [2] => "0,1, 0,0, 6"
                          [3] => "0,2, 0,0, 6"
@@ -867,107 +840,21 @@ table: 02D8E4C8 {
                          [17] => "0,4, 0,0, 6"
                          [18] => "0,5, 0,0, 6"
                        }
-            [name] => "ryu"
-            [xscale] => "1"
-            [intro] => "chars/ryu/../../storyboards/master ryu [intro].def"
-            [p1AnimStand] => userdata: 07B00180
-            [air] => "chars/ryu/anim.air"
-            [char] => "ryu/master ryu.def"
-            [def] => "chars/ryu/master ryu.def"
-            [dir] => "chars/ryu/"
-            [quotes] => table: 022F9CB0 {
-                          [1] => "You must defeat my dragon punch to stand a chance."
-                          [2] => "Whether we win or lose, all of our battles make us stronger."
-                          [3] => "A defeat learned from is more important than an empty victory."
-                          [4] => "You still have a fighting spirit in your eyes. I look forward to our next battle."
-                          [5] => "Range... Speed... Priority... Know and master all your attacks."
-                          [10] => "Train yourself well, then challenge me again."
-                          [11] => "I hope you learned from our battle."
-                          [30] => "Each time I fight you, I feel something new and different..."
-                          [31] => "May that scar be a reminder to the both of us..."
-                          [50] => "There is no place for the weak to exist!"
-                          [12] => "Stand up and face me again, I have yet to see your best."
-                          [81] => "Be thankful I only gave you new scars!"
-                          [80] => "Now you are nothing compared to me!"
-                          [54] => "There's nothing to lose, when there's nothing to gain."
-                          [53] => "To be the strongest means to be the last one standing."
-                          [52] => "Your life is not the only thing that you are risking in battle!"
-                          [6] => "Trying something new is to explore your true potential."
-                          [7] => "I noticed the spirit of a true warrior within your fists."
-                          [8] => "The world is waiting, I must leave you now."
-                          [9] => "In order to win, you must first believe you can win."
-                          [51] => "To lose is to prove that you are worthy to perish!"
-                          [34] => "A new body can't make you stronger when your spirit has already stopped growing."
-                          [33] => "Sorry, but I still have much to learn before I can teach."
-                          [32] => "There are no shortcuts in the path of the warrior."
-                        }
-            [sffData] => userdata: 07B01CE0
-            [displayname] => "Master Ryu"
-            [lieDown] => table: 022F9CB0 {
-                           [1] => "5040,20, 0,0, 4"
-                           [2] => "5040,0, 0,0, 4"
-                           [3] => "5040,11, 0,0, -1"
-                         }
-            [author] => "phantom.of.the.server"
-            [p2AnimStand] => userdata: 02ACD8B0
-            [cheese] => table: 022F9CB0 {
-                          [1] => "170,0, 0,0, 20"
-                          [2] => "170,1, 0,0, 6"
-                          [3] => "5130,0, 0,0, 20"
-                          [4] => "5130,1, 0,0, 6"
-                          [5] => "5130,2, 0,0, 6"
-                          [6] => "5040,11, 0,0, 3"
-                          [7] => "loopstart"
-                          [8] => "5040,10, 0,0, 1"
-                        }
-            [trigger] => table: 022F9CB0 {
-                           [1] => table: 02A44270 {
-                                    [1] => "var(1) != 2"
-                                    [value] => "1 + (random % 12)"
-                                  }
-                           [2] => table: 02A44270 {
-                                    [1] => "var(1) = 2"
-                                    [value] => "50 + (random % 5)"
-                                  }
-                           [3] => table: 02A44270 {
-                                    [1] => "enemy, name = "ken" || enemy, name = "ken masters""
-                                    [2] => "enemy, name = "cvsken" || enemy, name = "svcken""
-                                    [all] => "numenemy && var(1) != 2"
-                                    [value] => "30"
-                                  }
-                           [4] => table: 02A44270 {
-                                    [1] => "enemy, name = "sagat""
-                                    [2] => "enemy, name = "cvssagat" || enemy, name = "svcsagat""
-                                    [all] => "numenemy"
-                                    [value] => "ifelse(var(1) = 2, 81, 31)"
-                                  }
-                           [5] => table: 02A44270 {
-                                    [1] => "enemy, name = "gouki" || enemy, name = "akuma""
-                                    [2] => "enemy, name = "shin gouki" || enemy, name = "shin akuma""
-                                    [3] => "enemy, name = "cyber akuma" || enemy, name = "mech gouki""
-                                    [4] => "enemy, name = "cvsgouki" || enemy, name = "svcgouki""
-                                    [all] => "numenemy"
-                                    [value] => "ifelse(var(1) = 2, 80, 32)"
-                                  }
-                           [6] => table: 02A44270 {
-                                    [1] => "enemy, name = "sakura kasugano" || enemy, name = "cvssakura""
-                                    [all] => "numenemy && var(1) != 2"
-                                    [value] => "33"
-                                  }
-                           [7] => table: 02A44270 {
-                                    [1] => "enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server""
-                                    [2] => "enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")"
-                                    [3] => "enemynear, name = "m.bison" && enemynear, authorname = "n -mario""
-                                    [4] => "enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous""
-                                    [5] => "enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)""
-                                    [all] => "numenemy && var(1) != 2"
-                                    [value] => "34"
-                                  }
-                         }
-            [stage] => table: 022F9CB0 {
+            [order] => 1
+            [stage] => table: 00FFF140 {
                          [1] => 3
                        }
-            [st] => table: 022F9CB0 {
+          }
+  [52] => table: 030AB868 {
+            [snd] => "chars/ryu/sound.snd"
+            [ending] => "chars/ryu/../../storyboards/master ryu [ending].def"
+            [def] => "chars/ryu/master ryu.def"
+            [displayname] => "Master Ryu"
+            [intro] => "chars/ryu/../../storyboards/master ryu [intro].def"
+            [stage] => table: 02BB0478 {
+                         [1] => 3
+                       }
+            [st] => table: 02BB0478 {
                       [1] => "chars/ryu/states/system.st"
                       [2] => "chars/ryu/states/normal.st"
                       [3] => "chars/ryu/states/specials.st"
@@ -977,8 +864,13 @@ table: 02D8E4C8 {
                       [7] => "chars/ryu/states/custom.st"
                       [8] => "chars/ryu/states/masterryu.st"
                     }
-            [yscale] => "1"
-            [dizzy] => table: 022F9CB0 {
+            [p2AnimStand] => userdata: 02DED9D0
+            [p1AnimStand] => userdata: 0791BF08
+            [xscale] => "1"
+            [air] => "chars/ryu/anim.air"
+            [char] => "ryu/master ryu.def"
+            [sffData] => userdata: 07919718
+            [dizzy] => table: 02BB0478 {
                          [1] => "5300,0, 0,0, 5"
                          [2] => "5300,1, 0,0, 5"
                          [3] => "5300,2, 0,0, 5"
@@ -986,91 +878,225 @@ table: 02D8E4C8 {
                          [5] => "5300,4, 0,0, 5"
                          [6] => "5300,5, 0,0, 5"
                        }
-            [order] => 3
-            [snd] => "chars/ryu/sound.snd"
-            [ending] => "chars/ryu/../../storyboards/master ryu [ending].def"
             [sff] => "chars/ryu/sprite.sff"
+            [dir] => "chars/ryu/"
+            [cheese] => table: 02BB0478 {
+                          [1] => "170,0, 0,0, 20"
+                          [2] => "170,1, 0,0, 6"
+                          [3] => "5130,0, 0,0, 20"
+                          [4] => "5130,1, 0,0, 6"
+                          [5] => "5130,2, 0,0, 6"
+                          [6] => "5040,11, 0,0, 3"
+                          [7] => "loopstart"
+                          [8] => "5040,10, 0,0, 1"
+                        }
+            [lieDown] => table: 02BB0478 {
+                           [1] => "5040,20, 0,0, 4"
+                           [2] => "5040,0, 0,0, 4"
+                           [3] => "5040,11, 0,0, -1"
+                         }
+            [trigger] => table: 02BB0478 {
+                           [1] => table: 02D6AAF8 {
+                                    [1] => "var(1) != 2"
+                                    [value] => "1 + (random % 12)"
+                                  }
+                           [2] => table: 02D6AAF8 {
+                                    [1] => "var(1) = 2"
+                                    [value] => "50 + (random % 5)"
+                                  }
+                           [3] => table: 02D6AAF8 {
+                                    [1] => "enemy, name = "ken" || enemy, name = "ken masters""
+                                    [2] => "enemy, name = "cvsken" || enemy, name = "svcken""
+                                    [value] => "30"
+                                    [all] => "numenemy && var(1) != 2"
+                                  }
+                           [4] => table: 02D6AAF8 {
+                                    [1] => "enemy, name = "sagat""
+                                    [2] => "enemy, name = "cvssagat" || enemy, name = "svcsagat""
+                                    [value] => "ifelse(var(1) = 2, 81, 31)"
+                                    [all] => "numenemy"
+                                  }
+                           [5] => table: 02D6AAF8 {
+                                    [1] => "enemy, name = "gouki" || enemy, name = "akuma""
+                                    [2] => "enemy, name = "shin gouki" || enemy, name = "shin akuma""
+                                    [3] => "enemy, name = "cyber akuma" || enemy, name = "mech gouki""
+                                    [4] => "enemy, name = "cvsgouki" || enemy, name = "svcgouki""
+                                    [all] => "numenemy"
+                                    [value] => "ifelse(var(1) = 2, 80, 32)"
+                                  }
+                           [6] => table: 02D6AAF8 {
+                                    [1] => "enemy, name = "sakura kasugano" || enemy, name = "cvssakura""
+                                    [all] => "numenemy && var(1) != 2"
+                                    [value] => "33"
+                                  }
+                           [7] => table: 02D6AAF8 {
+                                    [1] => "enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server""
+                                    [2] => "enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")"
+                                    [3] => "enemynear, name = "m.bison" && enemynear, authorname = "n -mario""
+                                    [4] => "enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous""
+                                    [5] => "enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)""
+                                    [value] => "34"
+                                    [all] => "numenemy && var(1) != 2"
+                                  }
+                         }
+            [cns] => "chars/ryu/constants.cns"
+            [quotes] => table: 02BB0478 {
+                          [7] => "I noticed the spirit of a true warrior within your fists."
+                          [6] => "Trying something new is to explore your true potential."
+                          [9] => "In order to win, you must first believe you can win."
+                          [8] => "The world is waiting, I must leave you now."
+                          [1] => "You must defeat my dragon punch to stand a chance."
+                          [3] => "A defeat learned from is more important than an empty victory."
+                          [2] => "Whether we win or lose, all of our battles make us stronger."
+                          [5] => "Range... Speed... Priority... Know and master all your attacks."
+                          [4] => "You still have a fighting spirit in your eyes. I look forward to our next battle."
+                          [11] => "I hope you learned from our battle."
+                          [80] => "Now you are nothing compared to me!"
+                          [81] => "Be thankful I only gave you new scars!"
+                          [54] => "There's nothing to lose, when there's nothing to gain."
+                          [34] => "A new body can't make you stronger when your spirit has already stopped growing."
+                          [52] => "Your life is not the only thing that you are risking in battle!"
+                          [53] => "To be the strongest means to be the last one standing."
+                          [32] => "There are no shortcuts in the path of the warrior."
+                          [33] => "Sorry, but I still have much to learn before I can teach."
+                          [12] => "Stand up and face me again, I have yet to see your best."
+                          [10] => "Train yourself well, then challenge me again."
+                          [31] => "May that scar be a reminder to the both of us..."
+                          [30] => "Each time I fight you, I feel something new and different..."
+                          [51] => "To lose is to prove that you are worthy to perish!"
+                          [50] => "There is no place for the weak to exist!"
+                        }
+            [yscale] => "1"
+            [author] => "phantom.of.the.server"
+            [stand] => table: 02BB0478 {
+                         [1] => "0,0, 0,0, 6"
+                         [2] => "0,1, 0,0, 6"
+                         [3] => "0,2, 0,0, 6"
+                         [4] => "0,3, 0,0, 6"
+                         [5] => "0,4, 0,0, 6"
+                         [6] => "0,5, 0,0, 6"
+                         [7] => "0,0, 0,0, 6"
+                         [8] => "0,1, 0,0, 6"
+                         [9] => "0,2, 0,0, 6"
+                         [10] => "0,3, 0,0, 6"
+                         [11] => "0,4, 0,0, 6"
+                         [12] => "0,5, 0,0, 6"
+                         [13] => "0,6, 0,0, 6"
+                         [14] => "0,1, 0,0, 6"
+                         [15] => "0,2, 0,0, 6"
+                         [16] => "0,3, 0,0, 6"
+                         [17] => "0,4, 0,0, 6"
+                         [18] => "0,5, 0,0, 6"
+                       }
+            [order] => 3
+            [name] => "ryu"
           }
-  [53] => table: 02D8E4C8 {
+  [53] => table: 030AB868 {
+            [snd] => "chars/catwalk/sound.snd"
             [cns] => "chars/catwalk/constants.cns"
-            [stand] => table: 0288F668 {
+            [def] => "chars/catwalk/catwalk.def"
+            [displayname] => "Catwalk"
+            [yscale] => "1"
+            [stage] => table: 02D66C78 {
+                         [1] => 3
+                       }
+            [st] => table: 02D66C78 {
+                      [1] => "chars/catwalk/states.st"
+                      [2] => "chars/catwalk/config.txt"
+                    }
+            [winscreen] => 0
+            [p2AnimStand] => userdata: 0792C1D8
+            [p1AnimStand] => userdata: 02DED5E0
+            [xscale] => "1"
+            [air] => "chars/catwalk/anim.air"
+            [char] => "catwalk"
+            [sffData] => userdata: 02DED6D0
+            [dizzy] => table: 02D66C78 {
                          [1] => "-1,-1, 0,0, -1"
                        }
-            [name] => "catwalk"
-            [trigger] => table: 0288F668 {
-                           [1] => table: 02A44748 {
+            [zoom] => 0
+            [dir] => "chars/catwalk/"
+            [lieDown] => table: 02D66C78 {
+                           [1] => "-1,-1, 0,0, -1"
+                         }
+            [stand] => table: 02D66C78 {
+                         [1] => "-1,-1, 0,0, -1"
+                       }
+            [trigger] => table: 02D66C78 {
+                           [1] => table: 02D63CF8 {
                                     [1] => "1"
                                     [value] => "1"
                                   }
                          }
-            [winscreen] => 0
-            [p1AnimStand] => userdata: 02ACD5B0
-            [sffData] => userdata: 02ACD8E0
-            [air] => "chars/catwalk/anim.air"
-            [char] => "catwalk"
-            [def] => "chars/catwalk/catwalk.def"
-            [exclude] => 1
-            [zoom] => 0
-            [displayname] => "Catwalk"
-            [bonus] => 1
-            [lieDown] => table: 0288F668 {
-                           [1] => "-1,-1, 0,0, -1"
-                         }
-            [author] => "phantom.of.the.server"
-            [p2AnimStand] => userdata: 07B141E0
-            [quotes] => table: 0288F668 {
+            [quotes] => table: 02D66C78 {
                           [1] => "You're not supposed to see this!"
                         }
-            [xscale] => "1"
-            [stage] => table: 0288F668 {
-                         [1] => 3
-                       }
-            [st] => table: 0288F668 {
-                      [1] => "chars/catwalk/states.st"
-                      [2] => "chars/catwalk/config.txt"
-                    }
-            [yscale] => "1"
-            [dizzy] => table: 0288F668 {
-                         [1] => "-1,-1, 0,0, -1"
-                       }
-            [order] => 2
-            [snd] => "chars/catwalk/sound.snd"
-            [sff] => "chars/catwalk/sprite.sff"
-            [dir] => "chars/catwalk/"
-          }
-  [54] => table: 02D8E4C8 {
-            [cns] => "chars/tic-tac-toe/tic-tac-toe.cns"
-            [stand] => table: 027F5918 {
-                         [1] => "-1,0, 0,0, 5"
-                       }
-            [name] => "tic-tac-toe"
-            [winscreen] => 0
-            [air] => "chars/tic-tac-toe/tic-tac-toe.air"
-            [char] => "tic-tac-toe"
-            [def] => "chars/tic-tac-toe/tic-tac-toe.def"
             [exclude] => 1
+            [sff] => "chars/catwalk/sprite.sff"
+            [author] => "phantom.of.the.server"
             [bonus] => 1
-            [p1AnimStand] => userdata: 07B17810
-            [author] => "mabskmk"
-            [p2AnimStand] => userdata: 07B16D30
-            [sffData] => userdata: 07B18380
-            [xscale] => "1"
-            [stage] => table: 027F5918 {
+            [order] => 2
+            [name] => "catwalk"
+          }
+  [54] => table: 030AB868 {
+            [snd] => "chars/tic-tac-toe/tic-tac-toe.snd"
+            [cns] => "chars/tic-tac-toe/tic-tac-toe.cns"
+            [def] => "chars/tic-tac-toe/tic-tac-toe.def"
+            [displayname] => "Tic-Tac-Toe"
+            [yscale] => "1"
+            [stage] => table: 00FCBE40 {
                          [1] => 3
                        }
-            [st] => table: 027F5918 {
+            [st] => table: 00FCBE40 {
                       [1] => "chars/tic-tac-toe/tic-tac-toe.cns"
                     }
-            [yscale] => "1"
-            [displayname] => "Tic-Tac-Toe"
-            [order] => 2
-            [snd] => "chars/tic-tac-toe/tic-tac-toe.snd"
+            [winscreen] => 0
+            [xscale] => "1"
+            [air] => "chars/tic-tac-toe/tic-tac-toe.air"
+            [char] => "tic-tac-toe"
             [sff] => "chars/tic-tac-toe/tic-tac-toe.sff"
             [dir] => "chars/tic-tac-toe/"
+            [p2AnimStand] => userdata: 07926268
+            [sffData] => userdata: 07925DE8
+            [p1AnimStand] => userdata: 07927708
+            [exclude] => 1
+            [stand] => table: 00FCBE40 {
+                         [1] => "-1,0, 0,0, 5"
+                       }
+            [author] => "mabskmk"
+            [bonus] => 1
+            [order] => 2
+            [name] => "tic-tac-toe"
           }
-  [55] => table: 02D8E4C8 {
+  [55] => table: 030AB868 {
+            [snd] => "chars/training/training.snd"
             [cns] => "chars/training/training.cns"
-            [stand] => table: 022C1F28 {
+            [def] => "chars/training/training.def"
+            [displayname] => "Training"
+            [yscale] => "1.0"
+            [name] => "training"
+            [st] => table: 02EDFBD8 {
+                      [1] => "chars/training/training.cns"
+                      [2] => "chars/training/config.txt"
+                    }
+            [p2AnimStand] => userdata: 0792A3A8
+            [xscale] => "1.0"
+            [air] => "chars/training/training.air"
+            [char] => "training"
+            [dizzy] => table: 02EDFBD8 {
+                         [1] => "5300,0, 0,0, 8"
+                         [2] => "5300,1, 0,0, 8"
+                         [3] => "5300,2, 0,0, 8"
+                         [4] => "5300,3, 0,0, 8"
+                         [5] => "5300,2, 0,0, 8"
+                         [6] => "5300,1, 0,0, 8"
+                       }
+            [sff] => "chars/training/training.sff"
+            [dir] => "chars/training/"
+            [sffData] => userdata: 07925548
+            [exclude] => 1
+            [author] => "stupa"
+            [stand] => table: 02EDFBD8 {
                          [1] => "0,0, 0,0, 10"
                          [2] => "0,1, 0,0, 7"
                          [3] => "0,2, 0,0, 7"
@@ -1083,37 +1109,11 @@ table: 02D8E4C8 {
                          [10] => "0,1, 0,0, 7"
                          [11] => "0,0, 0,0, 40"
                        }
-            [name] => "training"
-            [air] => "chars/training/training.air"
-            [char] => "training"
-            [def] => "chars/training/training.def"
-            [exclude] => 1
-            [displayname] => "Training"
-            [lieDown] => table: 022C1F28 {
+            [p1AnimStand] => userdata: 0792A858
+            [lieDown] => table: 02EDFBD8 {
                            [1] => "5040,20, 0,0, 4"
                            [2] => "5040, 0, 0,0, 4"
                            [3] => "5040,10, 0,0, -1"
                          }
-            [author] => "stupa"
-            [p2AnimStand] => userdata: 07B17780
-            [p1AnimStand] => userdata: 07B193A0
-            [sffData] => userdata: 07B16C10
-            [st] => table: 022C1F28 {
-                      [1] => "chars/training/training.cns"
-                      [2] => "chars/training/config.txt"
-                    }
-            [yscale] => "1.0"
-            [dizzy] => table: 022C1F28 {
-                         [1] => "5300,0, 0,0, 8"
-                         [2] => "5300,1, 0,0, 8"
-                         [3] => "5300,2, 0,0, 8"
-                         [4] => "5300,3, 0,0, 8"
-                         [5] => "5300,2, 0,0, 8"
-                         [6] => "5300,1, 0,0, 8"
-                       }
-            [dir] => "chars/training/"
-            [snd] => "chars/training/training.snd"
-            [xscale] => "1.0"
-            [sff] => "chars/training/training.sff"
           }
 }
