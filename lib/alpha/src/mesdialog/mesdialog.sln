@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mesdialog", "mesdialog\mesdialog.vcxproj", "{B74D8420-D90E-4490-9469-C3445B7A527C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B74D8420-D90E-4490-9469-C3445B7A527C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B74D8420-D90E-4490-9469-C3445B7A527C}.Debug|Win32.Build.0 = Debug|Win32
+		{B74D8420-D90E-4490-9469-C3445B7A527C}.Release|Win32.ActiveCfg = Release|Win32
+		{B74D8420-D90E-4490-9469-C3445B7A527C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

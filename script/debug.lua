@@ -9,13 +9,16 @@ addHotkey('3', true, false, false, 'toggleAI(3)')
 addHotkey('4', true, false, false, 'toggleAI(4)')
 addHotkey('F1', false, false, false, 'kill(2);kill(4)')
 addHotkey('F1', true, false, false, 'kill(1);kill(3)')
-addHotkey('F2', false, false, false, 'kill(1,1);kill(2,1);kill(3,1);kill(4,1)')
-addHotkey('F2', true, false, false, 'kill(1,1);kill(3,1)')
-addHotkey('F2', false, false, true, 'kill(2,1);kill(4,1)')
-addHotkey('F3', false, false, false, 'powMax(1);powMax(2)')
+addHotkey('F2', true, false, false, 'kill(1,1);kill(2,1);kill(3,1);kill(4,1)')
+addHotkey('F2', false, false, true, 'kill(1,1);kill(3,1)')
+addHotkey('F2', false, false, false, 'kill(2,1);kill(4,1)')
+addHotkey('F3', false, false, false, 'setTime(0)')
 addHotkey('F4', false, false, false, 'roundReset()')
 addHotkey('F4', false, false, true, 'reload()')
-addHotkey('F5', false, false, false, 'setTime(0)')
+addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2)')
+addHotkey('F6', false, false, false, 'powMax(1);powMax(2)')
+addHotkey('F7', true, false, false, 'barAdd(1)')
+addHotkey('F7', false, false, true, 'barAdd(2)')
 addHotkey(
   'SPACE', false, false, false,
   'full(1);full(2);full(3);full(4);setTime(getRoundTime())')
@@ -57,10 +60,26 @@ function kill(p, ...)
   end
 end
 
+function lifeMax(p)
+  local oldid = id()
+  if player(p) then
+    setLife(lifemax())
+    playerid(oldid)
+  end
+end
+
 function powMax(p)
   local oldid = id()
   if player(p) then
     setPower(powermax())
+    playerid(oldid)
+  end
+end
+
+function barAdd(p)
+  local oldid = id()
+  if player(p) then
+    setPower(power()+1000)
     playerid(oldid)
   end
 end
@@ -105,4 +124,3 @@ function status(p)
   playerid(oldid)
   return ret;
 end
-

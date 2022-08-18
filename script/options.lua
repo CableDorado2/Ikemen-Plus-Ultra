@@ -248,7 +248,9 @@ function f_saveCfg()
 	loadLifebar(data.lifebar)
 	-- Reload game if needed
 	if needReload == 1 then
-		os.execute("reload.bat")
+		--os.execute ("TASKKILL /IM Ikemen DRP.exe /F")
+		--os.execute("reload.bat")
+		sszReload() --Native Reboot
 		os.exit()
 	end
 end

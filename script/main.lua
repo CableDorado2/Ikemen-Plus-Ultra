@@ -40,6 +40,8 @@ survNumFnt = fontNew('font/survival_nums.fnt')
 bgmTitle = 'sound/Title.mp3'
 bgmSelect = 'sound/Select.mp3'
 bgmSelectBoss = 'sound/Select Boss.mp3'
+--bgmSelectOrder = 'sound/Order Select.mp3'
+bgmSelectOrderFinal = 'sound/Order Select Final.mp3'
 bgmVS = 'sound/VS.mp3'
 bgmVSFinal = 'sound/VS Final.mp3'
 bgmVictory = 'sound/Victory.mp3'
@@ -653,6 +655,7 @@ function f_default()
 	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
 	data.coop = false --P2 fighting on P1 side disabled
 	data.p2SelectMenu = true --P2 character selection enabled
+	data.orderSelect = true --order select screen enabled
 	data.versusScreen = true --versus screen enabled
 	data.p1In = 1 --P1 controls P1 side of the select screen
 	data.p2In = 0 --P2 controls in the select screen disabled
@@ -701,7 +704,7 @@ function f_howtoplay()
 end
 
 --;===========================================================
---; HOW TO PLAY MENU LOOP
+--; HOW TO PLAY EXTRAS MENU LOOP
 --;===========================================================
 function f_howtoplay2()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
@@ -3230,11 +3233,16 @@ function f_songMenu()
 			row = #t_songList+1
 			t_songList[row] = {}
 			t_songList[row]['id'] = ''
-			t_songList[row]['replay'] = file:gsub('^(.*)[%.]mp3$', '%1')
+			if file:match('^.*(%.)mp3$') then
+				t_songList[row]['MP3'] = file:gsub('^(.*)[%.]mp3$', '%1')
+			elseif 	file:match('^.*(%.)ogg$') then
+				t_songList[row]['MP3'] = file:gsub('^(.*)[%.]ogg$', '%1')
+			end	
+			--t_songList[row]['MP3'] = file:gsub('^(.*)[%.]mp3$', '%1') --original
 		end
 	end
 	t_songList[#t_songList+1] = {
-		id = '', replay = '          BACK'
+		id = '', MP3 = '          BACK'
 	}
 	while true do
 		if esc() then
@@ -3256,7 +3264,11 @@ function f_songMenu()
 				break
 			else
 				--Play Song
-				playBGM('sound/' .. t_songList[songMenu].replay .. '.mp3')				
+				if t_songList[songMenu].MP3 .. '.mp3' then
+					playBGM('sound/' .. t_songList[songMenu].MP3 .. '.mp3')
+				elseif 	t_songList[songMenu].MP3 .. '.ogg' then
+					playBGM('sound/' .. t_songList[songMenu].MP3 .. '.ogg')
+				end
 			end
 		end
 		--Cursor position calculation
@@ -3295,11 +3307,11 @@ function f_songMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxSongs do
-			if t_songList[i].replay:len() > 26 then
-				songText = string.sub(t_songList[i].replay, 1, 24)
+			if t_songList[i].MP3:len() > 26 then
+				songText = string.sub(t_songList[i].MP3, 1, 24)
 				songText = tostring(songText .. '...')
 			else
-				songText = t_songList[i].replay
+				songText = t_songList[i].MP3
 			end
 			if i > songMenu - cursorPosY then
 				t_songList[i].id = createTextImg(font2, 0, 1, songText, 85, 15+i*15-moveTxt)
@@ -3399,7 +3411,7 @@ function f_mainReplay()
 				f_mainhostCfg()
 				exitNetPlay()
     			exitReplay()
-				--commandBufReset(p1Cmd, 1)
+				commandBufReset(p1Cmd, 1)
 			end
 		end
 		--Cursor position calculation
@@ -3553,6 +3565,7 @@ function f_mainNetplay()
 				end
 				exitNetPlay()
 				exitReplay()
+				commandBufReset(p1Cmd, 1)
 				ltn12.pump.all(
 				  ltn12.source.file(assert(io.open("replays/data.replay", "rb"))),
 				  ltn12.sink.file(assert(io.open("replays/Saved/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
@@ -3601,6 +3614,7 @@ function f_mainNetplay()
 				end
 				exitNetPlay()
 				exitReplay()
+				commandBufReset(p1Cmd, 1)
 				ltn12.pump.all(
 				  ltn12.source.file(assert(io.open("replays/data.replay", "rb"))),
 				  ltn12.sink.file(assert(io.open("replays/Saved/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))

@@ -630,6 +630,7 @@ if generate and data.sffConversion then
 				t_selChars[t_gen[i]]['p2AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
 			end
 			os.execute('trash.bat')
+			--lfs.rmdir ("./data/charTrash") --Directory needs to be empty to work
 			refresh()
 		end
 	end
@@ -668,5 +669,3 @@ for i=1, endFor do
 		t_bonusExtras[i]['text'] = 'BACK'
 	end
 end
-
---os.execute ("TASKKILL /IM Ikemen Plus Ultra.exe /F")

@@ -14,6 +14,9 @@ clearcolor = 255,255,255
 ; Overlay Anims (from 0 to 9)
 layerall.pos = 160,120 ;Default position for all layers
 layer0.anim =  0       ;Anim action number
+; Music
+bgm = sound/      ;Name of music file to play
+bgm.loop = 0
 ; Total time
 end.time = 180
 
