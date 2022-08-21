@@ -1,0 +1,28 @@
+[State 0, Helper]
+type = Helper
+trigger1 = 
+helpertype = normal ;player
+name = 
+ID = 
+stateno = 
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 0
+supermovetime = 0
+pausemovetime = 0
+;size.xscale = 
+;size.yscale = 
+;size.ground.back = 
+;size.ground.front = 
+;size.air.back = 
+;size.air.front = 
+;size.height = 
+;size.proj.doscale = 
+;size.head.pos = , 
+;size.mid.pos = , 
+;size.shadowoffset = 
+;ignorehitpause = 
+;persistent = 
+

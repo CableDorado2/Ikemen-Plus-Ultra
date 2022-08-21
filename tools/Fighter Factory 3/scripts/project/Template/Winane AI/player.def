@@ -1,0 +1,33 @@
+; Definition file for player
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = ""        ;Name of character
+displayname = "" ;Name of character to display
+versiondate =    ;Version date of character
+mugenversion =   ;Version of M.U.G.E.N character works on
+author = ""      ;Character author name
+pal.defaults =   ;Default palettes in order of preference
+
+; Files for the player
+[Files]
+cmd     = player.cmd   ;Command set
+cns     = player.cns   ;Constants
+st      = player.cns   ;States
+stcommon = common1.cns ;Common states
+sprite  = player.sff   ;Sprite
+anim    = player.air   ;Animation
+;sound  = player.snd   ;Sound
+;pal1   = player.act   ;Palettes (can have up to 12)
+;pal2   =
+;pal3   =
+;pal4   =
+;pal5   =
+;pal6   =
+;pal7   =
+;pal8   =
+;pal9   =
+;pal10  =
+;pal11  =
+;pal12  =

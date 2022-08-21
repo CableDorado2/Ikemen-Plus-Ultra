@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Menu Sprites</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Menu Sprites</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li><a href="using.html">Using</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li>Sprites</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Menu Sprites</h1>
+        <p>The Sprites menu is used to manipulate the sprites (images) of the project.</p>
+        <a id="new"></a><h2>New</h2>
+        <p>Create a new empty file.</p>
+        <a id="open"></a><h2>Open</h2>
+        <p>Open an existing file. <i>Note: When loading a SFF 1.0.1.0 (character), all external palettes must be opened first to preserve all SFF 2.x possibilities.</i></p>
+        <a id="save"></a><h2>Save</h2>
+        <p>Overwrite the last saved file, if it exist. Else, execute 'Save as...'.</p>
+        <a id="saveas"></a><h2>Save as...</h2>
+        <p>Save the sprites on a new file. This function asks for the output format.</p>
+        <a id="add"></a><h2>Add</h2> 
+        <div>
+          <p>Add one or more sprites, starting on the next position from the current.</p>
+          <p>First, you must select all files you want to add. After it, the 'Add sprites...' window will be shown. In this window, you can choose some options used to define all the sprite information. The options are:</p>
+          <img src="images/addspr.png" style="float: right; display: inline;"/>
+          <p><b>Group:</b> sprite's group.</p>
+          <p><b>Index:</b> sprite's index within the group, defined by the field value. You can choose the increment by selecting the appropriate option below the field (one by one or ten by ten).</p>
+          <p><b>Axis:</b> sprite's axis. You can choose the axis position clicking in one of the buttons. If none button is pressed, the custom X/Y values will be used.</p>
+          <p><b>Palette:</b> sprite's palette. The 'Reversed' option determines if the image indexes will be inverted or not (only on 8-bit images). Below it, you can choose the source of the palette, that can be:</p>
+          <p><u>Image's own palette</u>, that will be added to the editor if doesn't exist any equal palette.</p>
+          <p><u>Force the specified palette.</u> The image indexes will be changed to match with the closest color (starting from the index 0) in the palette (group, index) specified in the fields below. <i>Note: the target palette must be present in the editor.</i></p>
+          <p><u>Exchange with the specified palette.</u> The image indexes will be kept, but the sprite will point to the palette (group, index) specified in the fields below. <i>Note: the target palette must be present in the editor.</i></p>
+          <p><b>Crop options:</b> defines if the image will be cropped and the method (before or after the axis calculation).</p>
+          <p>If you hit OK, the options above will be applied. Else, the default options will be used (group: 0, index: 0, axis: 0,0, image's own palette, don't crop).</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="delete"></a><h2>Delete</h2>
+        <p>Removes the current sprite. <i>Note: A confirmation will be shown if is defined in the <a href="options.html">Options window</a>. The sprite palette will be kept.</i></p>
+        <a id="change"></a><h2>Change image...</h2>
+        <p>Change the current sprite image. <i>Note: The palette of the sprite will be kept in the editor, but the new image will point to your own palette if it is different from the old one.</i></p>
+        <a id="saveimg"></a><h2>Save image...</h2>
+        <div>
+          <img src="images/range.png" style="float: right; display: inline;"/>
+          <p>Save one or more sprite to a file (image). This function displays the 'Range' window that defines what sprites will be saved.</p>
+          <p>The options are:</p>
+          <p><b>Current:</b> only the current sprite.</p>
+          <p><b>All:</b> all sprites.</p>
+          <p><b>Group:</b> only the specified group.</p>
+          <p><u>Intervall:</u> only the interval from Start to End (sprite index within the group).</p>
+          <p><i>Note: The image will be saved with the current palette.</i></p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="saveimgalign"></a><h2>Save image (aligned)...</h2>
+        <p>Save one or more sprites to a file (image), with a fixed axis that reflects the alignment of all sprites (perfect axis). This function displays the 'Range' window that defines what sprites will be saved. <a href="#saveimg">See Save image...</a></p>
+        <a id="cropimg"></a><h2>Crop image</h2>
+        <p>Removes all empty pixels in the borders of the current image.</p>
+        <a id="cropallimg"></a><h2>Crop all images</h2>
+        <p>Removes all empty pixels in the borders of all images.</p>
+        <a id="duplicate"></a><h2>Duplicate</h2>
+        <div>
+          <img src="images/clonespr.png" style="float: right; display: inline;"/>
+          <p>Duplicates the current sprite. A window will be shown to the user choose if the image will be linked or cloned.</p>
+          <p>The options are:</p>
+          <p><b>Link the image:</b> the image doesn't will be copied. The sprite will point to the source image.</p>
+          <p><b>Copy the image:</b> the image of the source sprite wil be copied (duplicated).</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="deletegrp"></a><h2>Delete group</h2>
+        <div>
+          <img src="images/deletegrp.png" style="float: right; display: inline;"/>
+          <p>Displays a window to the user choose a group to delete.</p>
+          <p>The options are:</p>
+          <p><b>Group:</b> the group to delete.</p>
+          <p><b>Entire group:</b> all sprites of this group.</p>
+          <p><b>Intervall:</b> only the indexes from Start to End.</p>
+          <p><i>Note: No confirmation will be shown if you hit OK. The sprite palette will be kept.</i></p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="renamegrp"></a><h2>Rename group</h2>
+        <div>
+          <img src="images/renamegrp.png" style="float: right; display: inline;"/>
+          <p>Displays a window to the user choose a group to rename (entire group or intervall) and the new group number.</p>
+          <p>The options are:</p>
+          <p><b>Group:</b> the group to rename.</p>
+          <p><b>New group:</b> the new group number.</p>
+          <p><b>Entire group:</b> all sprites of this group.</p>
+          <p><b>Intervall:</b> only the indexes from Start to End.</p>
+          <p><i>Note: No confirmation will be shown if you hit OK.</i></p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="align"></a><h2>Alignment tool</h2>
+        <div>
+          <img src="images/alignspr.png" style="float: right; display: inline;"/>
+          <p>Displays the sprite alignment window. In this window, you can adjust the axis of all selected sprites in the list.</p>
+          <p>The X and Y fields are used to define the increment. You can also enter a negative number to decrement.</p>
+          <p>To select a sprite, click on the list. For more than one sprite you can use Ctrl+Click (add the item to the curret selecton) or Shift+Click (range selection).</p>
+          <p>On the bottom-right you have three buttons to manipulate the current selection (Select all, Clear selection and Inverse).</p>
+          <p>Every time you hit Apply, the increment will be applied.</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="editimg"></a><h2>Image editor</h2>
+        <p>Open the image editor. If you have a valid sprite in the editor, the image will be loaded as the first layer at startup. <a href="imgedit.html">See Image editor</a></p>
+        <a id="splitrgb"></a><h2>Split channels</h2>
+        <p>Split the RGB channels of the current sprite into three new sprites, one for each channel. <i>Note: The current sprite will be replaced by the Red channel.</i></p>
+        <a id="export"></a><h2>Export...</h2> 
+        <div>  
+          <img src="images/export.png" style="float: right; display: inline;"/>
+          <p>Exports a group or all sprites. The 'Export' window will be shown to define the sprites that will be exported. After it, you must define the output and format (Fighter Factory or SprMaker2). Then, the sprites will be saved (PNG format) and a text file will be generated with the sprite information.</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="import"></a><h2>Import...</h2>
+        <p>Import one or more sprites to the editor from a Fighter Factory Export file. All sprites and palettes described in the file will be imported.</p>
+        <p><i>Note: The sprites will be placed in the next position from the current sprite.</i></p>
+        <a id="importproj"></a><h2>Import from another project...</h2>
+        <div>
+          <img src="images/impspr.png" style="float: right; display: inline;"/>
+          <p>Import one or more sprites from another project in the same Fighter Factory instance.</p>
+          <p>The options are:</p>
+          <p class="center"><b>Source</b></p>
+          <p><b>Project:</b> the source project.</p>
+          <p><b>All:</b> all sprites.</p>
+          <p><b>Group:</b> only the specified group.</p>
+          <p><u>Only the indexes:</u> only the specified interval (sprite index within the group).</p>
+          <p class="center"><b>Destination</b></p>
+          <p><b>Keep numbering:</b> the group of the source sprites will be kept.</p>
+          <p><b>Renumber:</b> change the group number of the source sprites to the specified value.</p>
+          <p><u>Add:</u> don't replace the group number, just add the specified value to the original.</p>
+          <p><i>Note: The sprites will be placed in the next position from the current sprite.</i></p>
+          <p class="center"><b>Palette</b></p>
+          <p>Is this section you can choose the source of the palette, that can be:</p>
+          <p><b>Image's own palette</b>, that will be added to the editor if doesn't exist any equal palette.</p>
+          <p><b>Force the specified palette.</b> The image indexes will be changed to match with the closest color (starting from the index 0) in the palette (group, index) specified in the fields below. <i>Note: the target palette must be present in the editor.</i></p>
+          <p><b>Exchange with the specified palette.</b> The image indexes will be kept, but the sprite will point to the palette (group, index) specified in the fields below. <i>Note: the target palette must be present in the editor.</i></p>
+        </div>  
+        <a id="swspr"></a><h2>Switch to the frame's sprite</h2>
+        <p>Switch to the sprite of the current frame when activating the sprites editor.</p>
+      </div
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2011 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

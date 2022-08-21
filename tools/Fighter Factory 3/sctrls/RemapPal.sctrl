@@ -1,0 +1,21 @@
+[State 0, RemapPal]
+type = RemapPal
+trigger1 =
+source = 1,1
+dest = 1,3
+;ignorehitpause =
+;persistent =
+; All of the player sprites that use
+; the source palette will be drawn
+; using the dest palette instead.
+; The source and dest palettes must
+; exist within the player's sprites,
+; and both must be of the same color
+; depth. Note that the dest palette
+; number refers to an unmapped palette
+; e.g. if you map (1,1) -> (1,6), and
+; then you map (2,2) -> (1,1), the result
+; is that (2,2) will be mapped to palette
+; (1,1) from the original sprite file,
+; not (1,6).
+

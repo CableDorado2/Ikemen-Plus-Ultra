@@ -35,27 +35,27 @@ in.new[0].set(
   (int)k_t::DOWN,
   (int)k_t::LEFT,
   (int)k_t::RIGHT,
-  (int)k_t::z,
-  (int)k_t::x,
-  (int)k_t::c,
   (int)k_t::a,
   (int)k_t::s,
   (int)k_t::d,
+  (int)k_t::z,
+  (int)k_t::x,
+  (int)k_t::c,
   (int)k_t::RETURN);
 
 in.new[1].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 in.new[2].set(
   -1,
@@ -63,27 +63,27 @@ in.new[2].set(
   (int)k_t::DOWN,
   (int)k_t::LEFT,
   (int)k_t::RIGHT,
-  (int)k_t::z,
-  (int)k_t::x,
-  (int)k_t::c,
   (int)k_t::a,
   (int)k_t::s,
   (int)k_t::d,
+  (int)k_t::z,
+  (int)k_t::x,
+  (int)k_t::c,
   (int)k_t::RETURN);
 
 in.new[3].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 in.new[4].set(
   -1,
@@ -91,27 +91,27 @@ in.new[4].set(
   (int)k_t::DOWN,
   (int)k_t::LEFT,
   (int)k_t::RIGHT,
-  (int)k_t::z,
-  (int)k_t::x,
-  (int)k_t::c,
   (int)k_t::a,
   (int)k_t::s,
   (int)k_t::d,
+  (int)k_t::z,
+  (int)k_t::x,
+  (int)k_t::c,
   (int)k_t::RETURN);
 
 in.new[5].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 in.new[6].set(
   -1,
@@ -119,27 +119,27 @@ in.new[6].set(
   (int)k_t::DOWN,
   (int)k_t::LEFT,
   (int)k_t::RIGHT,
-  (int)k_t::z,
-  (int)k_t::x,
-  (int)k_t::c,
   (int)k_t::a,
   (int)k_t::s,
   (int)k_t::d,
+  (int)k_t::z,
+  (int)k_t::x,
+  (int)k_t::c,
   (int)k_t::RETURN);
 
 in.new[7].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 
 const bool SaveMemory = false;

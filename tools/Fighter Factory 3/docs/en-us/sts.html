@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Menu States</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Menu States</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li><a href="using.html">Using</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li>States</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Menu States</h1>
+        <p>The States menu is used to manipulate the character state machine.</p>
+        <a id="new"></a><h2>New</h2>
+        <p>Create a new blank document.</p>
+        <a id="open"></a><h2>Open</h2>
+        <p>Open an existing document.</p>
+        <a id="save"></a><h2>Save</h2>
+        <p>Overwrite the last saved document, if it exist. Else, execute 'Save as...'.</p>
+        <a id="saveas"></a><h2>Save as...</h2>
+        <p>Save the document on a new file.</p>
+        <a id="varlist"></a><h2>View variable usage list</h2>
+        <p>Exchange between variable usage list and text groups/blocks.</p>
+        <a id="varlog"></a><h2>Insert variable usage log</h2>
+          <img src="images/varlist.png" style="float: right; display: inline;"/>
+          <p>Insert a log of variable usage. The 'Options' window will be shown.</p>
+          <p><b>Format:</b> defines the format used to describe StateDefs.</p>
+          <p><b>Only used variables:</b> Ignore unused variables.</p>
+          <p><b>One per line:</b> inserts one StateDef per line for each var.</p>
+          <p><b>Float:</b> inserts floating-point variables.</p>
+          <p><b>Integer:</b> inserts integer variables.</p>
+          <div style="clear: both;"></div>
+        <a id="palfx"></a><h2>PalFX editor</h2>
+          <img src="images/palfx.png" style="float: right; display: inline;"/> 
+          <p>Open the PalFX ecitor.</p>
+          <p>In this editor, you can create and visualize palette effects.</p> 
+          <p><b>Sprite selector:</b> defines the sprite used in the preview area.</p>
+          <p><b>Add:</b> amount to be added in the source color on each RGB channel.</p> 
+          <p><b>Mul:</b> amount to be multiplied by the result of the 'Add' in each RGB channel.</p>
+          <p><b>Sin:</b> amount to be multiplied by the sin of '2 * PI * time / period' in each RGB channel to create a sine wave effect.</p> 
+          <p><b>Period:</b> defines the period of the sine wave in game ticks.</p>
+          <p><b>Color:</b> amount of original color. 256 means original color and 0 grayscale.</p>
+          <p><b>Invert colors:</b> invert all colors.</p>
+          <p><b>Default:</b> load the default values.</p> 
+          <p><b>Templates:</b> list of all available PalFX templates.</p> 
+          <p><b>Preview area:</b> displays the PalFX effect at runtime.</p>
+          <p><b>Zoom slider:</b> defines the current zoom level of the preview area.</p>
+          <p><b>Insert in the editor:</b> inserts the PalFX code in the current cursor position of the text editor.</p>
+          <div style="clear: both;"></div>
+        <a id="offset"></a><h2>Offset viewer</h2>
+          <p>Open the offset viewer.</p>
+          <p>In this window, you can select two animations and visualize the distance between the two axis.</p> 
+          <p><b>Resolution:</b> defines the resolution of the preview screen.</p>
+          <p><b>Flip horizontally:</b> flips the second animation horizontally.</p> 
+          <p><b>Flip vertically:</b> flips the second animation vertically.</p>
+          <p><b>Animation 1:</b> defines the first animation (left, blue axis).</p> 
+          <p><b>X:</b> defines the distance between the two axis in the X coordinate.</p>
+          <p><b>Y:</b> defines the distance between the two axis in the Y coordinate.</p>
+          <p><b>Animation 2:</b> defines the second animation (right, green axis).</p>
+          <div style="clear: both;"></div>
+        <a id="throw"></a><h2>Throw creator</h2>
+          <p>Open the throw creator.</p>
+          <p>In this window, you can create a throw.</p> 
+          <p><b>Start:</b></p>  
+          <p><u>StateDef:</u> defines the StateDef number of the throw to be used in the generated code.</p>  
+          <p><u>Animation:</u> defines the starting animation.</p>          
+          <p><b>Throwing:</b></p>  
+          <p><u>Animation:</u> defines the throwing animation.</p>          
+          <p><b>Bind:</b></p>      
+          <p><u>Selector:</u> defines the current element to be worked in.</p>         
+          <p><u>X:</u> defines X position within the current element.</p>      
+          <p><u>Y:</u> defines Y position within the current element.</p>      
+          <p><u>Sprite priority:</u> defines the sprite priority of the current element.</p> 
+          <p><b>Resolution:</b> defines the resolution of the preview screen.</p> 
+          <p><b>Insert:</b> generate the throw code and insert it in the text editor.</p> 
+          <p><b>Close:</b> closes the window and discard the changes.</p> 
+          <p><b>End:</b></p>         
+          <p><u>X velocity:</u> defines X velocity at the end of the throw.</p>      
+          <p><u>Y velocity:</u> defines Y velocity at the end of the throw.</p>      
+          <p><b>Thrown:</b></p> 
+          <p><u>Animation:</u> defines the thrown animation.</p>
+          <div style="clear: both;"></div>
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2011 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

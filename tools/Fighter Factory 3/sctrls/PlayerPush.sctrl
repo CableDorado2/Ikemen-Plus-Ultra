@@ -1,0 +1,6 @@
+[State 0, PlayerPush]
+type = PlayerPush
+trigger1 = 
+value = 1
+;ignorehitpause = 
+;persistent = 

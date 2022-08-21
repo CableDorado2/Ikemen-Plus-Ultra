@@ -1,6 +1,10 @@
 Rank: 0 
 randomselect
+chars/rugal bernstein/rugal bernstein.def
+chars/kung fu girl/kung fu girl.def
 randomselect
 randomselect
+chars/suave dude/suave dude.def
 randomselect
+chars/suave dude/suave dude.def
 chars/kyo kusanagi/kyo kusanagi.def

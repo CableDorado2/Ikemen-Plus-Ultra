@@ -1,0 +1,7 @@
+[State 0, SndPan]
+type = SndPan
+trigger1 = 
+channel = 1
+abspan =  160        ;pan = 50
+;ignorehitpause = 
+;persistent = 

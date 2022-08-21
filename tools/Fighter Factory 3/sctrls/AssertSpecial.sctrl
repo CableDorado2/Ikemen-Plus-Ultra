@@ -1,0 +1,25 @@
+[State 0, AssertSpecial]
+type = AssertSpecial
+;trigger1 = 
+;flag = intro
+;flag2 = invisible
+;flag3 = roundnotover
+;ignorehitpause = 
+;persistent = 
+;-----------------------
+;flag = nobardisplay
+;flag = noBG
+;flag = noFG
+;flag = nostandguard
+;flag = nocrouchguard
+;flag = noairguard
+;flag = noautoturn
+;flag = nojugglecheck
+;flag = nokosnd
+;flag = nokoslow
+;flag = noshadow
+;flag = globalnoshadow
+;flag = nomusic
+;flag = nowalk
+;flag = timerfreeze
+;flag = unguardable

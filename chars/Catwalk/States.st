@@ -1,7 +1,7 @@
 ; ___________________________________
 ;| Cat Walk by Phantom.of.the.Server |
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-;====================< MAIN STATE >====================
+;====================<MAIN STATE>====================
 [Statedef 0]
 type = A
 physics = N
@@ -12,6 +12,7 @@ anim = 0
 type = changestate
 trigger1 = numtarget(1)
 value = 2
+
 [State 0, Attack]
 type = changestate
 trigger1 = ctrl
@@ -21,7 +22,7 @@ trigger1 = fvar(2) != 0 && var(2) > 0
 value = 200
 
 
-;====================< PLAYER ACQUIRED >====================
+;====================<PLAYER ACQUIRED>====================
 [Statedef 1]
 type = A
 physics = N
@@ -35,6 +36,7 @@ trigger1 = !time
 value = 4, (random % 4)
 channel = 2
 abspan = 0
+
 [State 1, Confirmation Sound]
 type = playsnd
 trigger1 = !time
@@ -59,7 +61,7 @@ trigger2 = target(1), stateno != [2030, 2031]
 value = 2
 
 
-;====================< PLAYING >====================
+;====================<PLAYING>====================
 [Statedef 2]
 type = A
 physics = N
@@ -70,7 +72,8 @@ ctrl = 0
 [State 2, Time]
 type = varadd
 trigger1 = roundstate = 2
-fvar(2) = -.01666667
+fvar(2) = -0.01666667
+
 [State 2, Player ID]
 type = varset
 trigger1 = numtarget(1)
@@ -90,6 +93,7 @@ trigger1 = numtarget(1)
 trigger1 = var(10) = -1
 ID = 1
 value = 2010
+
 [State 2, Hit]
 type = targetstate
 trigger1 = numtarget(1)
@@ -102,14 +106,17 @@ value = var(11)
 type = varadd
 trigger1 = var(10) = 1
 var(2) = 1
+
 [State 2, Life]
 type = varadd
 trigger1 = var(10) = -1
 var(2) = -20
+
 [State 2, Life Range]
 type = varset
 trigger1 = var(2) > 144
 var(2) = 144
+
 [State 2, Life Range]
 type = varset
 trigger1 = var(2) < 0
@@ -120,10 +127,12 @@ type = varset
 trigger1 = var(12) > 0 && var(10) < 0
 trigger2 = var(12) < 0 && var(10) > 0
 var(12) = 0
+
 [State 2, Combo + ]
 type = varadd
 trigger1 = var(10) = 1
 var(12) = 1
+
 [State 2, Combo -]
 type = varadd
 trigger1 = var(10) = -1
@@ -133,6 +142,7 @@ var(12) = -1
 type = varadd
 trigger1 = var(10) = 1
 var(20) = 1
+
 [State 2, Number of Missed]
 type = varadd
 trigger1 = var(10) = -1
@@ -142,11 +152,13 @@ var(21) = 1
 type = varadd
 trigger1 = var(10) = 1
 var(24) = ceil((1 + (var(50) != 0) * 0.25 + (var(52) != 0) * 0.25) * (abs(fvar(4)) * (5 + var(13) * 5)))
+
 [State 2, Score - + 5 Chain]
 type = varadd
 trigger1 = var(10) = 1
 trigger1 = var(12) > 0 && !(var(12) % 5)
 var(24) = ceil(abs(fvar(4)) * 10)
+
 [State 2, Score - Speed Up]
 type = varadd
 trigger1 = var(10) = 1
@@ -160,6 +172,7 @@ trigger1 = var(13) = [1, 4]
 value = 1, var(13)
 channel = 1
 abspan = ifelse(teamside = 1, 160, -160)
+
 [State 2, Snd]
 type = playsnd
 trigger1 = var(10) = 1
@@ -167,6 +180,7 @@ trigger1 = var(12) > 0 && !(var(12) % 5)
 value = 2, (random % 23)
 channel = 2
 abspan = 0
+
 [State 2, Snd]
 type = playsnd
 trigger1 = var(10) = -1
@@ -181,6 +195,7 @@ type = playsnd
 trigger1 = var(10) = 1
 trigger1 = var(12) = 50 || (var(12) >= 100 && !(var(12) % 100))
 value = 5, 1
+
 [State 2, Boo]
 type = playsnd
 trigger1 = var(10) = -1 && var(2) <= 0
@@ -206,6 +221,7 @@ trigger1 = var(10) = 1
 trigger1 = var(13) = 4
 time = 24
 ampl = 4
+
 [State 2, Hit]
 type = explod
 trigger1 = var(10) = 1
@@ -213,10 +229,11 @@ anim = 590 + (random % 6)
 sprpriority = 8
 postype = left
 pos = ifelse(teamside = 1, 66, 254), 24
-scale = ifelse(random < 500, -.5, 0.5), ifelse(random < 500, -.5, 0.5)
+scale = ifelse(random < 500, -0.5, 0.5), ifelse(random < 500, -0.5, 0.5)
 bindtime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 2, Hit]
 type = explod
 trigger1 = var(10) = 1
@@ -224,7 +241,7 @@ anim = 590 + (random % 6)
 sprpriority = 8
 postype = left
 pos = ifelse(teamside = 1, 66, 254), 24
-scale = ifelse(random < 500, -.3, 0.3), ifelse(random < 500, -.3, 0.3)
+scale = ifelse(random < 500, -0.3, 0.3), ifelse(random < 500, -0.3, 0.3)
 bindtime = -1
 pausemovetime = -1
 supermovetime = -1
@@ -234,10 +251,12 @@ type = varadd
 trigger1 = var(10) = 1
 trigger1 = var(12) = 50 || (var(12) >= 100 && !(var(12) % 100))
 fvar(2) = 5.0
+
 [State 2, Speed Change]
 type = varset
 trigger1 = var(12) < 50
 var(4) = 0
+
 [State 2, Speed Change]
 type = varadd
 trigger1 = var(10) = 1
@@ -248,6 +267,7 @@ var(4) = 1
 type = varset
 trigger1 = 1
 fvar(4) = fvar(3) * (1 + 0.25 * (var(4) + roundsexisted))
+
 [State 2, Interval]
 type = varset
 trigger1 = fvar(4)
@@ -265,6 +285,7 @@ type = varadd
 trigger1 = var(6) > 0
 trigger1 = !(gametime % var(3))
 var(6) = -1
+
 [State 2, Sequence Type Reset]
 type = varset
 trigger1 = var(6) <= 0
@@ -281,12 +302,14 @@ type = varset
 trigger1 = var(6) <= 0
 trigger1 = !(gametime % var(3))
 var(5) = ifelse(random < ifelse(var(12) >= 100, 0, ifelse(var(12) >= 50, 250, 0)), 1, (random % 33) + 2)
+
 [State 2, Blank Sequence]
 type = varset
 trigger1 = var(6) <= 0 && var(5) != 0
 trigger1 = !(gametime % var(3))
 trigger1 = ifelse(numhelper(1000) < 4, 0, ifelse(numhelper(1000) < 6, random < 250, random < 500))
 var(5) = 0
+
 [State 2, No Blank Sequence]
 type = varset
 trigger1 = !numhelper(1000) && var(5) = 0
@@ -298,6 +321,7 @@ trigger1 = var(10) = 1
 trigger1 = var(12) = 50 || (var(12) >= 100 && !(var(12) % 100))
 trigger2 = var(10) = -1
 var(5) = 0
+
 [State 2, Speed Change - > Blank Sequence]
 type = varset
 trigger1 = var(10) = 1
@@ -310,6 +334,7 @@ type = varset
 triggerall = var(6) <= 0
 trigger1 = var(5) = 0
 var(6) = (random % 3) + 2
+
 [State 2, Random Sequence Length]
 type = varset
 triggerall = var(6) <= 0
@@ -321,6 +346,7 @@ type = varset
 triggerall = var(6) <= 0
 trigger1 = var(5) = 27 || var(5) = 30
 var(6) = 5
+
 [State 2, Sequence Length of 4]
 type = varset
 triggerall = var(6) <= 0
@@ -328,6 +354,7 @@ trigger1 = var(5) = 7 || var(5) = 8 || var(5) = 9 || var(5) = 14 || var(5) = 15 
 trigger2 = var(5) = 18 || var(5) = 19 || var(5) = 20 || var(5) = 21 || var(5) = 28 || var(5) = 29
 trigger3 = var(5) = 31 || var(5) = 32 || var(5) = 33 || var(5) = 34
 var(6) = 4
+
 [State 2, Sequence Length of 3]
 type = varset
 triggerall = var(6) <= 0
@@ -339,6 +366,7 @@ var(6) = 3
 type = varadd
 trigger1 = var(10) > 0
 var(10) = 1
+
 [State 2, Miss Time]
 type = varadd
 trigger1 = var(10) < 0
@@ -363,13 +391,14 @@ type = changestate
 trigger1 = roundstate = 2
 trigger1 = !numtarget(1)
 value = 5150
+
 [State 2, Over]
 type = changestate
 trigger1 = roundstate != 2
 value = 0
 
 
-;====================< GET PLAYERS >====================
+;====================<GET PLAYERS>====================
 [Statedef 200]
 type = S
 physics = N
@@ -378,12 +407,12 @@ anim = 200
 velset = 0, 0
 ctrl = 0
 
-[State 200, hit]
+[State 200, Hit]
 type = hitdef
 trigger1 = 1
 attr = S, NT
 hitflag = MAFD
-guardflag = 
+guardflag =
 priority = 7, Hit
 damage = 0, 0
 getpower = 0, 0
@@ -404,6 +433,7 @@ p2stateno = 2030
 type = changestate
 trigger1 = numtarget(1)
 value = 1
+
 [State 200, No Player]
 type = changestate
 trigger1 = !numtarget(1)
@@ -411,7 +441,7 @@ trigger1 = time >= 180
 value = 5151
 
 
-;====================< DISPLAY >====================
+;====================<DISPLAY>====================
 [Statedef 500]
 movetype = I
 physics = N
@@ -428,6 +458,7 @@ ignorehitpause = 1
 type = assertspecial
 trigger1 = !numpartner && numenemy <= 1
 flag = nobardisplay
+
 [State 500, No Bars]
 type = assertspecial
 triggerall = numpartner
@@ -450,6 +481,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 500, Frame]
 type = explod
 trigger1 = !numexplod(501)
@@ -463,6 +495,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 500, Fill]
 type = explod
 trigger1 = !numexplod(505)
@@ -490,6 +523,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 500, Time]
 type = explod
 trigger1 = !numexplod(620)
@@ -523,12 +557,14 @@ type = modifyexplod
 trigger1 = numexplod(610)
 ID = 610
 scale = root, var(2) / 144.0 , 1
+
 [State 500, Life Scale]
 type = modifyexplod
 trigger1 = numexplod(610)
 trigger1 = root, var(2) <= 0
 ID = 610
 scale = 0, 1
+
 [State 500, Life Scale]
 type = modifyexplod
 trigger1 = numexplod(610)
@@ -542,12 +578,14 @@ trigger1 = numexplod(620)
 trigger1 = root, fvar(1) > 0
 ID = 620
 scale = root, fvar(2) / root, fvar(1) , 1
+
 [State 500, Time Scale]
 type = modifyexplod
 trigger1 = numexplod(620)
 trigger1 = (root, fvar(2) / root, fvar(1)) <= 0
 ID = 620
 scale = 0, 1
+
 [State 500, Time Scale]
 type = modifyexplod
 triggerall = numexplod(620)
@@ -575,10 +613,12 @@ supermovetime = -1
 type = varset
 trigger1 = root, var(12) = [1, 998]
 var(12) = floor(root, var(12) * 0.01)
+
 [State 500, 10]
 type = varset
 trigger1 = root, var(12) = [1, 998]
 var(11) = floor(root, var(12) * 0.1) - (var(12) * 10)
+
 [State 500, 1]
 type = varset
 trigger1 = root, var(12) = [1, 998]
@@ -590,6 +630,7 @@ trigger1 = root, var(12) <= 0
 first = 10
 last = 12
 value = 0
+
 [State 500, Max]
 type = varrangeset
 trigger1 = root, var(12) >= 999
@@ -609,6 +650,7 @@ bindtime = -1
 removetime = 1
 pausemovetime = -1
 supermovetime = -1
+
 [State 500, 10]
 type = explod
 trigger1 = var(11) || var(12)
@@ -621,6 +663,7 @@ bindtime = -1
 removetime = 1
 pausemovetime = -1
 supermovetime = -1
+
 [State 500, 100]
 type = explod
 trigger1 = var(12)
@@ -661,6 +704,7 @@ ignorehitpause = 1
 type = assertspecial
 trigger1 = !numpartner && numenemy <= 1
 flag = nobardisplay
+
 [State 505, No Bars]
 type = assertspecial
 triggerall = numpartner
@@ -683,6 +727,7 @@ scale = 1, 1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 505, Frame]
 type = explod
 trigger1 = !numexplod(501)
@@ -696,6 +741,7 @@ scale = 1, 24
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 505, Lifebar Frame]
 type = explod
 trigger1 = !numexplod(600)
@@ -709,6 +755,7 @@ scale = 1, 1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 505, Fill]
 type = explod
 trigger1 = !numexplod(505)
@@ -726,6 +773,7 @@ supermovetime = -1
 [State 505, End]
 type = removeexplod
 trigger1 = time >= 32
+
 [State 505, End]
 type = changestate
 trigger1 = time >= 32
@@ -753,6 +801,7 @@ ignorehitpause = 1
 type = assertspecial
 trigger1 = !numpartner && numenemy <= 1
 flag = nobardisplay
+
 [State 506, No Bars]
 type = assertspecial
 triggerall = numpartner
@@ -775,6 +824,7 @@ scale = 1, 1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 506, Frame]
 type = explod
 trigger1 = !numexplod(501)
@@ -788,6 +838,7 @@ scale = 1, 24
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 506, Lifebar Frame]
 type = explod
 trigger1 = !numexplod(600)
@@ -801,6 +852,7 @@ scale = 1, 1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 506, Fill]
 type = explod
 trigger1 = !numexplod(505)
@@ -818,12 +870,13 @@ supermovetime = -1
 [State 506, End]
 type = removeexplod
 trigger1 = time >= 32
+
 [State 506, End]
 type = destroyself
 trigger1 = time >= 32
 
 
-;====================< COMBO MESSAGE >====================
+;====================<COMBO MESSAGE>====================
 [Statedef 800]
 movetype = I
 physics = N
@@ -846,6 +899,7 @@ type = velmul
 trigger1 = 1
 x = 0.95
 y = 0.95
+
 [State 800, Vel]
 type = velset
 trigger1 = !time
@@ -858,6 +912,7 @@ trigger1 = time < 64
 trans = addalpha
 alpha = 256, 0
 ignorehitpause = 1
+
 [State 800, trans]
 type = trans
 trigger1 = time >= 64
@@ -869,6 +924,7 @@ ignorehitpause = 1
 type = angledraw
 trigger1 = time < 64
 scale = 0.5, 0.5
+
 [State 800, angle]
 type = angledraw
 trigger1 = time >= 64
@@ -879,7 +935,7 @@ type = destroyself
 trigger1 = time >= 80
 
 
-;====================< OUTCOME >====================
+;====================<OUTCOME>====================
 [Statedef 700]
 movetype = I
 physics = N
@@ -896,6 +952,7 @@ ignorehitpause = 1
 type = assertspecial
 trigger1 = !numpartner && numenemy <= 1
 flag = nobardisplay
+
 [State 700, No Bars]
 type = assertspecial
 triggerall = numpartner
@@ -918,6 +975,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, Fill]
 type = explod
 trigger1 = !numexplod(701)
@@ -938,10 +996,12 @@ supermovetime = -1
 type = varset
 trigger1 = !time
 var(12) = floor(root, var(23) * 0.01)
+
 [State 700, 10]
 type = varset
 trigger1 = !time
 var(11) = floor(root, var(23) * 0.1) - (var(12) * 10)
+
 [State 700, 1]
 type = varset
 trigger1 = !time
@@ -953,6 +1013,7 @@ trigger1 = root, var(23) <= 0
 first = 10
 last = 12
 value = 0
+
 [State 700, Max]
 type = varrangeset
 trigger1 = root, var(23) >= 999
@@ -972,6 +1033,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 10]
 type = explod
 trigger1 = !numexplod(711)
@@ -985,6 +1047,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 100]
 type = explod
 trigger1 = !numexplod(712)
@@ -1005,10 +1068,12 @@ supermovetime = -1
 type = varset
 trigger1 = !time
 var(22) = floor(root, var(22) * 0.01)
+
 [State 700, 10]
 type = varset
 trigger1 = !time
 var(21) = floor(root, var(22) * 0.1) - (var(22) * 10)
+
 [State 700, 1]
 type = varset
 trigger1 = !time
@@ -1020,14 +1085,17 @@ trigger1 = root, var(22) <= 0
 first = 20
 last = 22
 value = 0
+
 [State 700, Max]
 type = varset
 trigger1 = root, var(22) >= 100
 var(20) = 0
+
 [State 700, Max]
 type = varset
 trigger1 = root, var(22) >= 100
 var(21) = 0
+
 [State 700, Max]
 type = varset
 trigger1 = root, var(22) >= 100
@@ -1045,6 +1113,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 10]
 type = explod
 trigger1 = !numexplod(721)
@@ -1058,6 +1127,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 100]
 type = explod
 trigger1 = !numexplod(722)
@@ -1077,22 +1147,27 @@ supermovetime = -1
 type = varset
 trigger1 = !time
 var(35) = floor(root, var(24) * 0.00001)
+
 [State 700, 10000]
 type = varset
 trigger1 = !time
 var(34) = floor(root, var(24) * 0.0001) - (var(35) * 10)
+
 [State 700, 1000]
 type = varset
 trigger1 = !time
 var(33) = floor(root, var(24) * 0.001) - (var(34) * 10) -(var(35) * 100)
+
 [State 700, 100]
 type = varset
 trigger1 = !time
 var(32) = floor(root, var(24) * 0.01) - (var(33) * 10) -(var(34) * 100) -(var(35) * 1000)
+
 [State 700, 10]
 type = varset
 trigger1 = !time
 var(31) = floor(root, var(24) * 0.1) - (var(32) * 10) -(var(33) * 100) -(var(34) * 1000) -(var(35) * 10000)
+
 [State 700, 1]
 type = varset
 trigger1 = !time
@@ -1104,6 +1179,7 @@ trigger1 = root, var(24) <= 0
 first = 30
 last = 35
 value = 0
+
 [State 700, Max]
 type = varrangeset
 trigger1 = root, var(24) >= 999999
@@ -1123,6 +1199,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 10]
 type = explod
 trigger1 = !numexplod(731)
@@ -1136,6 +1213,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 100]
 type = explod
 trigger1 = !numexplod(732)
@@ -1149,6 +1227,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 1000]
 type = explod
 trigger1 = !numexplod(733)
@@ -1162,6 +1241,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 10000]
 type = explod
 trigger1 = !numexplod(734)
@@ -1175,6 +1255,7 @@ bindtime = -1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 700, 100000]
 type = explod
 trigger1 = !numexplod(735)
@@ -1192,6 +1273,7 @@ supermovetime = -1
 [State 700, End]
 type = removeexplod
 trigger1 = roundstate != 4
+
 [State 700, End]
 type = destroyself
 trigger1 = roundstate != 4
@@ -1215,6 +1297,7 @@ ignorehitpause = 1
 type = assertspecial
 trigger1 = !numpartner && numenemy <= 1
 flag = nobardisplay
+
 [State 705, No Bars]
 type = assertspecial
 triggerall = numpartner
@@ -1237,6 +1320,7 @@ scale = 1, 1
 removetime = -1
 pausemovetime = -1
 supermovetime = -1
+
 [State 705, Fill]
 type = explod
 trigger1 = !numexplod(701)
@@ -1254,13 +1338,14 @@ supermovetime = -1
 [State 705, End]
 type = removeexplod
 trigger1 = time >= 32
+
 [State 705, End]
 type = changestate
 trigger1 = time >= 32
 value = 700
 
 
-;====================< ARROWS >====================
+;====================<ARROWS>====================
 [Statedef 1000]
 type = A
 physics = N
@@ -1297,6 +1382,7 @@ trigger15 = (root, var(5) = 28)
 trigger16 = (root, var(5) = 29) && (root, var(6) % 4) = 0
 trigger17 = (root, var(5) = 30) && ((root, var(6) % 5) = 0 || (root, var(6) % 5) = 1 || (root, var(6) % 5) = 3 || (root, var(6) % 5) = 4)
 var(10) = ifelse(root, var(7), 1001, 1000)
+
 [State 1000, BY]
 type = varset
 triggerall = !time
@@ -1318,6 +1404,7 @@ trigger15 = (root, var(5) = 28) && ((root, var(6) % 4) = 0 || (root, var(6) % 4)
 trigger16 = (root, var(5) = 29)
 trigger17 = (root, var(5) = 30) && ((root, var(6) % 5) = 0 || (root, var(6) % 5) = 1 || (root, var(6) % 5) = 3)
 var(11) = ifelse(root, var(7), 1011, 1010)
+
 [State 1000, CZ]
 type = varset
 triggerall = !time
@@ -1345,6 +1432,7 @@ type = varset
 triggerall = !time
 trigger1 = (root, var(5) = 1) && random < 333
 var(13) = 1030 + (random % 4)
+
 [State 1000, Up]
 type = varset
 triggerall = !time
@@ -1356,6 +1444,7 @@ trigger5 = (root, var(5) = 19) && (root, var(6) % 4) = 3
 trigger6 = (root, var(5) = 33) && (root, var(6) % 2) = 0
 trigger7 = (root, var(5) = 34) && (root, var(6) % 2) = 0
 var(13) = 1030
+
 [State 1000, Down]
 type = varset
 triggerall = !time
@@ -1367,6 +1456,7 @@ trigger5 = (root, var(5) = 19) && (root, var(6) % 4) = 3
 trigger6 = (root, var(5) = 31) && (root, var(6) % 2) = 0
 trigger7 = (root, var(5) = 32) && (root, var(6) % 2) = 0
 var(13) = 1031
+
 [State 1000, Left]
 type = varset
 triggerall = !time
@@ -1378,6 +1468,7 @@ trigger5 = (root, var(5) = 19) && (root, var(6) % 4) = 0
 trigger6 = (root, var(5) = 31) && (root, var(6) % 2) = 1
 trigger7 = (root, var(5) = 33) && (root, var(6) % 2) = 1
 var(13) = 1032
+
 [State 1000, Right]
 type = varset
 triggerall = !time
@@ -1464,14 +1555,17 @@ supermovetime = -1
 type = varset
 trigger1 = !numexplod(1000)
 var(10) = 0
+
 [State 1000, No Indicator]
 type = varset
 trigger1 = !numexplod(1010)
 var(11) = 0
+
 [State 1000, No Indicator]
 type = varset
 trigger1 = !numexplod(1020)
 var(12) = 0
+
 [State 1000, No Indicator]
 type = varset
 trigger1 = !numexplod(1030)
@@ -1481,10 +1575,12 @@ var(13) = 0
 type = varset
 trigger1 = !time
 fvar(0) = 240
+
 [State 1000, Pos]
 type = varadd
 trigger1 = roundstate = 2
 fvar(0) = (root, fvar(4))
+
 [State 1000, Pos]
 type = posset
 trigger1 = 1
@@ -1555,12 +1651,14 @@ trigger1 = var(10)
 trigger1 = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "a"
 var(20) = 1000
+
 [State 1001, B]
 type = varset
 trigger1 = var(11)
 trigger1 = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "b"
 var(21) = 1010
+
 [State 1001, C]
 type = varset
 trigger1 = var(12)
@@ -1574,12 +1672,14 @@ trigger1 = var(10)
 trigger1 = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "x"
 var(20) = 1001
+
 [State 1001, Y]
 type = varset
 trigger1 = var(11)
 trigger1 = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "y"
 var(21) = 1011
+
 [State 1001, Z]
 type = varset
 trigger1 = var(12)
@@ -1593,12 +1693,14 @@ trigger1 = var(13)
 trigger1 = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "up"
 var(23) = 1030
+
 [State 1001, Down]
 type = varset
 trigger1 = var(13)
 trigger1 = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "down"
 var(23) = 1031
+
 [State 1001, Left]
 type = varset
 triggerall = var(13)
@@ -1606,6 +1708,7 @@ triggerall = playerIDexist(root, var(1))
 trigger1 = playerID(root, var(1)), command = "back" && playerID(root, var(1)), facing = 1
 trigger2 = playerID(root, var(1)), command = "fwd" && playerID(root, var(1)), facing = -1
 var(23) = 1032
+
 [State 1001, Right]
 type = varset
 triggerall = var(13)
@@ -1649,6 +1752,7 @@ value = 1005
 type = varadd
 trigger1 = roundstate = 2
 fvar(0) = (root, fvar(4))
+
 [State 1001, Pos]
 type = posset
 trigger1 = 1
@@ -1710,6 +1814,7 @@ trigger1 = !time
 trigger1 = var(23) = 1030
 trigger1 = ((var(20) != 0) + (var(21) != 0) + (var(22) != 0)) = 1
 var(11) = ifelse(var(20), 2120, ifelse(var(21), 2121, 2122))
+
 [State 1005, P2 Anim]
 type = parentvarset
 trigger1 = !time
@@ -1722,11 +1827,13 @@ type = parentvarset
 trigger1 = !time
 trigger1 = ((var(20) != 0) + (var(21) != 0) + (var(22) != 0)) = 2
 var(11) = 2140
+
 [State 1005, P2 Anim]
 type = parentvarset
 trigger1 = !time
 trigger1 = ((var(20) != 0) + (var(21) != 0) + (var(22) != 0) + (var(23) != 0)) = 3
 var(11) = 2150
+
 [State 1005, P2 Anim]
 type = parentvarset
 trigger1 = !time
@@ -1743,6 +1850,7 @@ alpha = 256 -(10 * time), (10 * time)
 [State 1005, End]
 type = removeexplod
 trigger1 = time >= 24
+
 [State 1005, End]
 type = destroyself
 trigger1 = !numexplod
@@ -1766,6 +1874,7 @@ var(10) = -1
 type = varadd
 trigger1 = 1
 fvar(0) = (root, fvar(4))
+
 [State 1006, Pos]
 type = posset
 trigger1 = 1
@@ -1781,6 +1890,7 @@ alpha = 256 -(10 * time), (10 * time)
 [State 1006, End]
 type = removeexplod
 trigger1 = time >= 24
+
 [State 1006, End]
 type = destroyself
 trigger1 = !numexplod
@@ -1804,12 +1914,13 @@ alpha = 256 -(32 * time), (32 * time)
 [State 1007, End]
 type = removeexplod
 trigger1 = time >= 8
+
 [State 1007, End]
 type = destroyself
 trigger1 = !numexplod
 
 
-;====================< PLAYER >====================
+;====================<PLAYER>====================
 ;--- Idle ---
 [Statedef 2000]
 type = A
@@ -1817,6 +1928,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -1828,6 +1940,7 @@ ignorehitpause = 1
 type = turn
 trigger1 = teamside = 1 && facing != 1
 trigger2 = teamside = 2 && facing != -1
+
 [State 2000, Pos]
 type = posset
 trigger1 = 1
@@ -1847,6 +1960,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -1858,6 +1972,7 @@ ignorehitpause = 1
 type = turn
 trigger1 = teamside = 1 && facing != 1
 trigger2 = teamside = 2 && facing != -1
+
 [State 2001, Pos]
 type = posset
 trigger1 = 1
@@ -1869,6 +1984,7 @@ type = changeanim
 trigger1 = anim != 5300
 trigger1 = selfanimexist(5300)
 value = 5300
+
 [State 2001, Dizzy]
 type = changeanim2
 trigger1 = anim != 5301
@@ -1883,6 +1999,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -1894,6 +2011,7 @@ ignorehitpause = 1
 type = changeanim
 trigger1 = !time
 value = ifelse(selfanimexist(5910) && random < 333, 5910, ifelse(random < 500, 5012, 5002))
+
 [State 2010, Anim]
 type = changeanim
 trigger1 = anim = 5002 || anim = 5012
@@ -1911,12 +2029,14 @@ trigger5 = authorname = "GM"
 trigger6 = authorname = "Jesuszilla"
 value = 5000, (random % 3)
 channel = 0
+
 [State 2010, Snd]
 type = playsnd
 trigger1 = !time
 trigger1 = name = "Kung Fu Man"
 value = 100, 0
 channel = 0
+
 [State 2010, Snd]
 type = playsnd
 trigger1 = !time
@@ -1937,6 +2057,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -1955,11 +2076,13 @@ type = velset
 trigger1 = !time && teamside = 1
 x = (-60 -pos x) / 40.0
 y = -10.25
+
 [State 2030, Vel]
 type = velset
 trigger1 = !time && teamside = 2
 x = (60 -pos x) / 40.0
 y = -10.25
+
 [State 2030, Vel]
 type = veladd
 trigger1 = 1
@@ -1969,6 +2092,7 @@ y = 0.5
 type = changeanim
 trigger1 = !time
 value = ifelse(vel x > 0, 42, ifelse(vel x < 0, 43, 41))
+
 [State 2030, Anim]
 type = changeanim
 trigger1 = anim = 41 || anim = 42 || anim = 43
@@ -1978,7 +2102,7 @@ value = anim + 3
 [State 2030, Land]
 type = changestate
 trigger1 = time
-trigger1 = pos y > -vel y
+trigger1 = vel y > 0 && (pos y > -vel y)
 value = 2031
 
 
@@ -1988,6 +2112,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2019,6 +2144,7 @@ type = A
 physics = N
 movetype = H
 ctrl = 0
+
 [State 2050, End]
 type = selfstate
 trigger1 = 1
@@ -2033,6 +2159,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2045,6 +2172,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(5950)
 value = 5950
+
 [State 2060, Collapse]
 type = changeanim2
 trigger1 = !time
@@ -2071,6 +2199,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2096,6 +2225,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2121,6 +2251,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2146,6 +2277,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2157,6 +2289,7 @@ ignorehitpause = 1
 type = changeanim
 trigger1 = !time
 value = 100
+
 [State 2103, Anim]
 type = changeanim
 trigger1 = !time
@@ -2176,6 +2309,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2188,6 +2322,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(200)
 value = 200
+
 [State 2110, Anim]
 type = changeanim
 trigger1 = !time
@@ -2196,19 +2331,16 @@ value = 230
 
 [State 2110, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(200)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(200)
 value = 200
+
 [State 2110, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(215)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(215)
 value = 215
 
 [State 2110, End]
@@ -2224,6 +2356,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2236,6 +2369,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(210)
 value = 210
+
 [State 2111, Anim]
 type = changeanim
 trigger1 = !time
@@ -2244,19 +2378,16 @@ value = 240
 
 [State 2111, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(205)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(205)
 value = 205
+
 [State 2111, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(220)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(220)
 value = 220
 
 [State 2111, End]
@@ -2272,6 +2403,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2284,6 +2416,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(220)
 value = 220
+
 [State 2112, Anim]
 type = changeanim
 trigger1 = !time
@@ -2292,19 +2425,16 @@ value = 250
 
 [State 2112, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(210)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(210)
 value = 210
+
 [State 2112, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(225)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(225)
 value = 225
 
 [State 2112, End]
@@ -2320,6 +2450,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2332,6 +2463,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(600)
 value = 600
+
 [State 2120, Anim]
 type = changeanim
 trigger1 = !time
@@ -2340,19 +2472,16 @@ value = 630
 
 [State 2120, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(260)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(260)
 value = 260
+
 [State 2120, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(275)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(275)
 value = 275
 
 [State 2120, End]
@@ -2368,6 +2497,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2380,6 +2510,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(610)
 value = 610
+
 [State 2121, Anim]
 type = changeanim
 trigger1 = !time
@@ -2388,19 +2519,16 @@ value = 640
 
 [State 2121, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(265)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(265)
 value = 265
+
 [State 2121, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(280)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(280)
 value = 280
 
 [State 2121, End]
@@ -2416,6 +2544,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2428,6 +2557,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(620)
 value = 620
+
 [State 2122, Anim]
 type = changeanim
 trigger1 = !time
@@ -2436,19 +2566,16 @@ value = 650
 
 [State 2122, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(270)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(270)
 value = 270
+
 [State 2122, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(285)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(285)
 value = 285
 
 [State 2122, End]
@@ -2464,6 +2591,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2476,6 +2604,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(400)
 value = 40
+
 [State 2130, Anim]
 type = changeanim
 trigger1 = !time
@@ -2484,19 +2613,16 @@ value = 430
 
 [State 2130, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(230)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(230)
 value = 230
+
 [State 2130, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(245)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(245)
 value = 245
 
 [State 2130, End]
@@ -2512,6 +2638,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2524,6 +2651,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(410)
 value = 410
+
 [State 2131, Anim]
 type = changeanim
 trigger1 = !time
@@ -2532,19 +2660,16 @@ value = 440
 
 [State 2131, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(235)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(235)
 value = 235
+
 [State 2131, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(250)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(250)
 value = 250
 
 [State 2131, End]
@@ -2560,6 +2685,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2572,6 +2698,7 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(420)
 value = 420
+
 [State 2132, Anim]
 type = changeanim
 trigger1 = !time
@@ -2580,19 +2707,16 @@ value = 450
 
 [State 2132, Anim]
 type = changeanim
-triggerall = !time
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(240)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(240)
 value = 240
+
 [State 2132, Anim]
 type = changeanim
-triggerall = !time && random < 500
-triggerall = authorname = "Phantom.of.the.Server" && selfanimexist(255)
-trigger1 = name = "Pocket Shin Gouki" || name = "Guy" || name = "Ryu" || name = "Shin Gouki"
-trigger2 = name = "Lei -Lei" || name = "Dan Hibiki" || name = "Morrigan Aensland"
-trigger3 = name = "Sakura Kasugano" || name = "Vega" || name = "Rare Akuma"
+trigger1 = !time && random < 500
+trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server" && selfanimexist(255)
 value = 255
 
 [State 2132, End]
@@ -2608,6 +2732,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2620,21 +2745,25 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(1000)
 value = 1000
+
 [State 2140, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(1100) && random < 200
 value = 1100
+
 [State 2140, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(1200) && random < 200
 value = 1200
+
 [State 2140, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(1300) && random < 200
 value = 1200
+
 [State 2140, Anim]
 type = changeanim
 trigger1 = !time
@@ -2654,6 +2783,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2672,21 +2802,25 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(181) && random < 200
 value = 181
+
 [State 2150, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(182) && random < 200
 value = 182
+
 [State 2150, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(183) && random < 200
 value = 183
+
 [State 2150, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(184) && random < 200
 value = 184
+
 [State 2150, Anim]
 type = changeanim
 trigger1 = !time
@@ -2698,11 +2832,13 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(190) && random < 200
 value = 190
+
 [State 2150, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(191) && random < 200
 value = 191
+
 [State 2150, Anim]
 type = changeanim
 trigger1 = !time
@@ -2722,6 +2858,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2734,11 +2871,13 @@ type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(3000)
 value = 3000
+
 [State 2160, Anim]
 type = changeanim
 trigger1 = !time
 trigger1 = selfanimexist(3100) && random < 333
 value = 3100
+
 [State 2160, Anim]
 type = changeanim
 trigger1 = !time
@@ -2758,6 +2897,7 @@ physics = N
 movetype = H
 ctrl = 0
 velset = 0, 0
+
 [State NHB]
 type = nothitby
 trigger1 = 1
@@ -2785,6 +2925,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Pocket Shin Gouki"
 value = 3, (random % 15)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 500
@@ -2800,6 +2941,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Guy"
 value = 3, (random % 9)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 500
@@ -2815,6 +2957,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Ryu"
 value = 3 + (var(1) = 2) * 10, (random % 8)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 619
@@ -2830,6 +2973,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Shin Gouki"
 value = 3, (random % 12)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 571
@@ -2845,6 +2989,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Lei -Lei"
 value = 3, (random % 13)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 435
@@ -2860,6 +3005,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Dan Hibiki"
 value = 3, (random % 8)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 837
@@ -2875,6 +3021,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Morrigan Aensland"
 value = 3, (random % 6)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 778
@@ -2890,6 +3037,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Sakura Kasugano"
 value = 3, (random % 8)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 742
@@ -2905,6 +3053,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Vega"
 value = 3, (random % 9)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 550
@@ -2920,6 +3069,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Yuri Sakazaki"
 value = 4, (random % 6)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 684
@@ -2935,6 +3085,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Nash"
 value = 4, (random % 9)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 438
@@ -2950,6 +3101,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Karin Kanzuki"
 value = 4, (random % 13)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 435
@@ -2961,15 +3113,16 @@ channel = 0
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
-trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server"
 value = 3, (random % 12)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 571
-trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Rare Akuma"
+trigger1 = authorname = "Phantom.of.the.Server"
 value = 4, (random % 16)
 channel = 0
 
@@ -2980,13 +3133,15 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Nakoruru"
 value = 5, (random % 11)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
-trigger1 = !time && random < 181
+trigger1 = !time && random < 272
 trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Nakoruru"
 value = 6, (random % 6)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 227
@@ -3002,6 +3157,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Geese Howard"
 value = 4, (random % 8)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 333
@@ -3009,6 +3165,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Geese Howard"
 value = 5, (random % 13)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 462
@@ -3024,6 +3181,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Cammy"
 value = 4, (random % 8)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 158
@@ -3031,6 +3189,7 @@ trigger1 = authorname = "Phantom.of.the.Server"
 trigger1 = name = "Cammy"
 value = 5, (random % 13)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time && random < 368
@@ -3042,9 +3201,34 @@ channel = 0
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
+trigger1 = authorname = "Phantom.of.the.Server"
+trigger1 = name = "Edmond Honda"
+value = 4, (random % 8)
+channel = 0
+
+[State 2020, Snd]
+type = playsnd
+trigger1 = !time && random < 434
+trigger1 = authorname = "Phantom.of.the.Server"
+trigger1 = name = "Edmond Honda"
+value = 5, (random % 10)
+channel = 0
+
+[State 2020, Snd]
+type = playsnd
+trigger1 = !time && random < 217
+trigger1 = authorname = "Phantom.of.the.Server"
+trigger1 = name = "Edmond Honda"
+value = 6, (random % 5)
+channel = 0
+
+[State 2020, Snd]
+type = playsnd
+trigger1 = !time
 trigger1 = name = "Kung Fu Man" && random < 500
 value = 5, 0
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 triggerall = !time
@@ -3053,30 +3237,35 @@ trigger2 = authorname = "Sepp"
 trigger3 = authorname = "GM"
 value = 0, (random % 5)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
 trigger1 = authorname = "The Necromancer" || authorname = "FlowaGirl"
 value = 0, (random % 20)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
 trigger1 = name = "Homer J Simpson" && authorname = "Warner el Tochix"
 value = 0, ifelse(random < 571, (random % 13), (random % 9) + 14)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
 trigger1 = authorname = "Baby Bonnie Hood"
 value = 1, (random % 15)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
 trigger1 = authorname = "Jesuszilla" || authorname = "[Kira]"
 value = 8, (random % 10)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 triggerall = !time
@@ -3084,6 +3273,7 @@ trigger1 = authorname = "N -Mario" || authorname = "N64Mario"
 trigger2 = authorname = "jin"
 value = 10, (random % 15)
 channel = 0
+
 [State 2020, Snd]
 type = playsnd
 trigger1 = !time
@@ -3113,19 +3303,19 @@ trigger2 = animelemtime(animelemno(0)) >= 5 && !animelemtime(animelemno(0) + 1)
 value = 2000
 
 
-;====================< DEAD >====================
+;====================<DEAD>====================
 [Statedef 5150]
 type = A
 movetype = H
 physics = N
 anim = 0
 
-[State 5150, safety]
+[State 5150, Safety]
 type = changestate
 trigger1 = numtarget(1)
 value = 5151
 
-[State 5150, hurt]
+[State 5150, Hurt]
 type = lifeset
 trigger1 = 1
 value = 0
@@ -3148,75 +3338,93 @@ value = ifelse(var(2) <= 0, 2060, 2050)
 [State 5151, P2 State]
 type = targetdrop
 trigger1 = 1
+
 [State 5151, End]
 type = changestate
 trigger1 = !numtarget(1)
 value = 5150
 
 
-;==========< COMMON ERASE >==========
+;==========<COMMON ERASE>==========
 [Statedef 10]
+
 [State 10, End]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 11]
+
 [State 11, End]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 12]
+
 [State 12, End]
 type = changestate
 trigger1 = 1
 value = 0
 
 [Statedef 20]
+
 [State 20, End]
 type = changestate
 trigger1 = 1
 value = 0
 
 [Statedef 40]
+
 [State 40, End]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 50]
+
 [State 50, End]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 51]
+
 [State 51, End]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 52]
+
 [State 52, End]
 type = changestate
 trigger1 = 1
 value = 0
 
 [Statedef 45]
+
 [State 45, End]
 type = changestate
 trigger1 = 1
 value = 0
 
 [Statedef 100]
+
 [State 100, End]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 105]
+
 [State 105, End]
 type = changestate
 trigger1 = 1
 value = 0
 
 
-;==========< Initialize >==========
+;==========<Initialize>==========
 [Statedef 5900]
 type = A
 
@@ -3224,6 +3432,7 @@ type = A
 type = varrangeset
 trigger1 = !roundsexisted
 value = 0
+
 [State 5900, var reset]
 type = varrangeset
 trigger1 = !roundsexisted
@@ -3249,10 +3458,12 @@ type = A
 type = varset
 trigger1 = 1
 var(2) = 60
+
 [State 5902, Reset Time]
 type = varset
 trigger1 = 1
 fvar(2) = fvar(1)
+
 [State 5902, Reset Hit Time]
 type = varset
 trigger1 = 1
@@ -3269,7 +3480,7 @@ trigger1 = 1
 value = 190
 
 
-;====================< INTRO >====================
+;====================<INTRO>====================
 [Statedef 190]
 type = A
 physics = N
@@ -3283,11 +3494,12 @@ trigger1 = ctrl
 value = 0
 
 
-;====================< TIME OVER >====================
+;====================<TIME OVER>====================
 [Statedef 170]
 physics = N
 movetype = I
 ctrl = 1
+
 [State 170, End]
 type = changestate
 trigger1 = 1
@@ -3297,13 +3509,14 @@ value = 5151
 physics = N
 movetype = I
 ctrl = 1
+
 [State 175, End]
 type = changestate
 trigger1 = 1
 value = 5151
 
 
-;====================< WIN >====================
+;====================<WIN>====================
 [Statedef 180]
 physics = N
 movetype = I
@@ -3315,63 +3528,82 @@ trigger1 = 1
 value = 1
 
 
-;====================< ERASE HITS >====================
+;====================<ERASE HITS>====================
 [Statedef 5000]
 movetype = H
+
 [State 5000, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5001]
 movetype = H
+
 [State 5001, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5002]
 movetype = H
+
 [State 5002, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5010]
 movetype = H
+
 [State 5010, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5020]
 movetype = H
+
 [State 5020, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5030]
 movetype = H
+
 [State 5030, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5050]
 movetype = H
+
 [State 5050, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5070]
 movetype = H
+
 [State 5070, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5080]
 movetype = H
+
 [State 5080, override]
 type = changestate
 trigger1 = 1
 value = 0
+
 [Statedef 5100]
 movetype = H
+
 [State 5100, override]
 type = changestate
 trigger1 = 1
@@ -3379,16 +3611,17 @@ value = 0
 
 
 ;===========================================================================
-;===============================< -2 STATES >=================================
+;===============================<-2 STATES>=================================
 ;===========================================================================
 [Statedef -2]
 
-[State -2, NotHitBy]
+[State -2, NHB]
 type = nothitby
 trigger1 = 1
 time = -1
 value = SCA, AA, AP, AT
 ignorehitpause = 1
+
 [State -2, Life]
 type = lifeset
 trigger1 = 1
@@ -3398,6 +3631,7 @@ value = lifemax
 [State -2, Turn]
 type = turn
 trigger1 = facing != 1
+
 [State -2, Pos]
 type = posset
 trigger1 = roundstate >= 2
@@ -3408,11 +3642,13 @@ y = 0
 type = playerpush
 trigger1 = 1
 value = 0
+
 [State -2, Not Bound]
 type = screenbound
 trigger1 = roundstate >= 2
 value = 0
 movecamera = 1, 0
+
 [State -2, Camera]
 type = width
 trigger1 = !numpartner && roundstate >= 2
@@ -3422,6 +3658,7 @@ edge = 320, 320
 type = changestate
 trigger1 = ctrl
 value = 200
+
 [State -2, Ctrl]
 type = ctrlset
 trigger1 = ctrl
@@ -3432,10 +3669,12 @@ type = varset
 trigger1 = fvar(1) != -1
 trigger1 = fvar(2) > (fvar(1) + 5.0)
 fvar(2) = fvar(1)
+
 [State -2, Time]
 type = varset
 trigger1 = fvar(2) = (-1, 0]
 fvar(2) = 0
+
 [State -2, Time]
 type = assertspecial
 trigger1 = alive
@@ -3445,6 +3684,7 @@ flag = timerfreeze
 type = varset
 trigger1 = var(20) || var(21)
 var(22) = floor(100 * (var(20) * 1.0 / (var(20) + var(21))))
+
 [State -2, Max Combo]
 type = varset
 trigger1 = var(23) < var(12)
@@ -3479,6 +3719,7 @@ pos = 160, 0
 pausemovetime = 2147483647
 supermovetime = 2147483647
 ownpal = 1
+
 [State -2, Outcome]
 type = helper
 trigger1 = roundstate = 4

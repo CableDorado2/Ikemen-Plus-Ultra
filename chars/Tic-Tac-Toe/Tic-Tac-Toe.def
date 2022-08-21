@@ -18,7 +18,3 @@ anim    = Tic-Tac-Toe.air
 sound   = Tic-Tac-Toe.snd
 
 pal1    = Tic-Tac-Toe.act
-
-[Arcade]
-intro.storyboard =
-ending.storyboard =

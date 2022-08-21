@@ -1,0 +1,6 @@
+[State 0, PowerSet]
+type = PowerSet
+trigger1 = 
+value = 0
+;ignorehitpause = 
+;persistent = 

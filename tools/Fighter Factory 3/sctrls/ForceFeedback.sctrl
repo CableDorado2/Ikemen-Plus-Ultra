@@ -1,0 +1,10 @@
+[State 0, ForceFeedback]
+type = ForceFeedback
+trigger1 = 
+waveform = "sine"    ;"square","sinesquare","off"
+time = 60
+freq = 128,0,0,0
+ampl = 128,0,0,0
+self = 1
+;ignorehitpause = 
+;persistent = 

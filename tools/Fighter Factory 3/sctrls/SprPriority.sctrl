@@ -1,0 +1,6 @@
+[State 0, SprPriority]
+type = SprPriority
+trigger1 = 
+value = 1
+;ignorehitpause = 
+;persistent = 

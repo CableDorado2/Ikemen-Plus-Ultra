@@ -112,18 +112,16 @@ randomselect
 Kung Fu Man, order=4, stages/Mountainside Temple.def, 4=Kung Fu Man
 randomselect
 Kyo Kusanagi, stages/Training Room.def, order=1
-randomselect
+M. Bison, order=4, boss=1
 randomselect
 Suave Dude, order=5, stages/Mountainside Temple.def, boss=1
 randomselect
+Rugal Bernstein, order=4, boss=1
+Ken Masters, order=3
 randomselect
-empty
+Kung Fu Girl, exclude=1
 randomselect
-Kung Fu Girl, order=4
-randomselect
-empty
-randomselect
-randomselect
+Iori Yagami, order=3
 randomselect
 randomselect
 randomselect
@@ -157,10 +155,21 @@ randomselect
 randomselect
 randomselect
 randomselect
-Ryu/Evil Ryu.def, stages/Training Room 2.def, boss=1
-Ryu/Master Ryu.def, order=3, stages/Training Room 2.def
+randomselect
+randomselect
+;BONUS
 Catwalk, order=2, stages/Training Room 2.def, exclude=1, bonus=1, zoom=0, winscreen=0
 Tic-Tac-Toe, order=2, stages/Training Room 2.def, exclude=1, bonus=1, winscreen=0
+Strength Training, exclude=1, bonus=1, winscreen=0
+;"UNPLAYABLE" BOSSES
+Ryu/Evil Ryu.def, stages/Training Room 2.def, boss=1
+Ryu/Master Ryu.def, order=3, stages/Training Room 2.def, boss=1
+Ken Masters/Violent Ken.def, stages/Training Room 2.def, boss=1
+Ken Masters/Master Ken.def, order=3, stages/Training Room 2.def, boss=1
+KFG, order=4, exclude=1, boss=1
+Omega Rugal, order=4, exclude=1, boss=1
+;SECRET CHARS
+Dragon Claw
 Training, exclude=1
 
 [ExtraStages]

@@ -1,0 +1,9 @@
+[State 0, EnvShake]
+type = EnvShake
+;trigger1 = 
+;time = 1
+;freq = 60
+;ampl = -4
+;phase = 90
+;ignorehitpause = 
+;persistent = 

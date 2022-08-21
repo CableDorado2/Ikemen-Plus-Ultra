@@ -1,0 +1,8 @@
+[State 0, VarRangeSet]
+type = VarRangeSet
+trigger1 = 
+value = 0 ;fvalue = 0
+first = 0
+last = 59 ;39
+;ignorehitpause = 
+;persistent = 

@@ -66,4 +66,3 @@ pal12 = pal/MAMAMA/06_Kyubey.act
 [Arcade]
 intro.storyboard = ..\../storyboards/Kung Fu Girl [Intro].def
 ending.storyboard = ..\../storyboards/Kung Fu Girl [Ending].def
-

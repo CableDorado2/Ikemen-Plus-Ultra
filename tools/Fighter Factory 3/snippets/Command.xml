@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="name" title="Name" type="string"/>
+  <field name="cmd" title="Command" type="string"/>
+  <field name="time" title="Time" type="int"/>
+
+  <code>
+    [Command]
+    name = "@name"
+    command = @cmd
+    time = @time
+  </code>
+
+</snippet>

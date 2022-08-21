@@ -1,0 +1,8 @@
+[State 0, Width]
+type = Width
+trigger1 = 
+edge = 0,0
+player = 0,0
+;value = 0,0
+;ignorehitpause = 
+;persistent = 

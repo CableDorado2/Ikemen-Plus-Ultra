@@ -1,0 +1,7 @@
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = 
+x = 0
+y = 0
+;ignorehitpause = 
+;persistent = 

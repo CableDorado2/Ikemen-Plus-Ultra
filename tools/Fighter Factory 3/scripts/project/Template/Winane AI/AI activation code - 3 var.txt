@@ -1,0 +1,878 @@
+You should be able to find the latest version of this document on my site:
+http://winane.shinmugen.net/
+
+You're welcome and encouraged to translate this document into other languages.
+You may also host or distribute this document if you want, but please make
+sure you always have the latest version of it, and please don't make any
+modifications without my approval (unless I've disappeared from the Mugen
+world).
+
+
+ This file contains all the pieces of the 3 or 4 variable version of the AI
+ activation code, which is designed to be:
+ 1. as safe and reliable as possible;
+ 2. as fast as possible, given 1;
+ 3. as efficient as possible, given 1 and 2;
+ 4. compatible with both DOS and Linux Mugen.
+
+ If you find that the above conditions are not met (particularly #1),
+ please inform me, providing as much in the way of relevant details from
+ empirical testing and/or explanation of logical analysis as possible.
+ You can contact me by e-mail:
+	name = winane
+	domain = mugenguild.com
+
+ The code makes use of four different AI activation methods to achieve the
+ above goal:
+ 1. The IsHomeTeam method (instant, but doesn't work in all situations)
+ 2. the ID ("Unfair") method (instant, but only helps in one situation)
+ 3. the KeyCtrl Helper method (very fast, but not 100% reliable)
+ 4. the XOR-ed Commands method (slow, but it serves as backup in case the
+    other methods fail)
+
+ The code requires 3 or 4 of your character's variable indices.  In the
+ example code, the variables are:
+    var(58) = the primary AI variable.
+    var(57) = the GameTime variable, required by the helper method.
+    var(56) = the HitPauseTime variable, used by the XOR-ed commands method.
+    var(0)  = the simplifier variable, optional but helpful.
+ Of course, you can remap these to whatever indices you want, if you know
+ what you're doing.
+ If your character already uses all available indices, I'd suggest trying
+ to use bitwise operations to make more efficient use of your variables,
+ in order to free up a couple slots.
+ (If you can't afford four slots, then omit the simplifier variable.)
+ (If you really can't afford three slots, then use the version of the code
+ specified in "AI activation code - 2 var.txt".)
+ (If you really can't afford two slots, then omit the GameTime variable,
+ all the XOR code, and all the helper method code.)
+ (If you really can't afford even one slot, then you'll have to use only
+ the IsHomeTeam method, by using something like:
+   triggerall = IsHomeTeam && ((TeamSide = 2) || (MatchNo > 1))
+ with each of your AI directives.)
+
+ When implementing the code, please be sure to read all of the comments
+ I've included.  There are many possible ways to screw up the code, and
+ the comments explain how to avoid doing so.
+
+ Feel free to contact me with any questions, comments, or concerns.
+
+ Credit and thanks to:
+  ANMC, Bagaliao, FlowaGirl, YongMing, Kamek, and Luchini, for concepts.
+  [E] and Roque, for help and testing.
+  Elecbyte, for doing everything in their power to prevent CPU-control
+  detection from being fast, easy, and reliable. =P
+  Shin ShadowH, for the web space.
+
+ -Winane
+
+
+
+;***************************************************************************
+; AIR
+;***************************************************************************
+
+; For the sake of compatibility with other characters that use the helper AI
+; activation method, please don't change the number of these next two Anims.
+[Begin Action 9741]
+-1,0,0,0,-1
+
+; Include the following Anim if AND ONLY IF you've put the requisite 18 commands
+; at the very top of your character's CMD.  If you've only included the first 11
+; of those commands, then include Anim 9741, but omit 74140108.
+; (See accompanying CMD for details.)
+[Begin Action 74140108]
+-1,0,0,0,-1
+
+
+
+
+;***************************************************************************
+; CMD
+;***************************************************************************
+
+; These 11 Single Button and Hold Dir commands must be placed here at the top
+; of the CMD, above all other commands, and in the standard order shown here,
+; in order for the "Compatibly Partnered" version (9742) of the helper AI
+; activation method to work with different partners in simul team mode.
+; (When the partner is not compatible, then it's best to just use the regular
+; version (9741) and rely on the XOR method for backup in case a human
+; partner's input turns off the CPU partner's AI.)
+; (Now, even if you do not intend to give your character any custom AI, it
+; would still be nice if you would place the commands at the top of your CMD,
+; for the sake of other characters which do use this AI activation method.
+; And then, define Anim 9741 in your AIR file to indicate to other characters
+; that your character is compatible.
+; It may slightly increase the chances of faulty AI activation if the user is
+; using characters with a poor implementation of the old humanly-impossible
+; commands AI activation method when fighting against your character, but
+; other than that, there's really no particular reason not to.  And you can
+; change the names of the commands if you want.  For compatibility, all that
+; really matters is the "command" and "time" parameters.)
+;
+; Another important point to make, is that if you want to add additional
+; definitions for any of these basic command names, then there are limits on
+; what kind of parameters you can use, in order to ensure the reliability of
+; the helper method.  That is, if you redefine any of these first 11 commands,
+; then you must follow these rules when doing so:
+; - Don't use any command string that includes any tildes. (e.g. no "~x",
+;   no "~30D")
+; - In the command string, don't include any direction that isn't preceeded by
+;   a slash. (e.g. no "F", no "$D")
+; - Don't put any non-slashed buttons in a command string overloading one of
+;   the Hold Dir command names.
+; - Using a command string that includes any commas (e.g. no "a,b"), and/or
+;   setting the time parameter to greater than 1, may be safe, but I wouldn't
+;   risk it.
+; An example of what is permissible, is redefining the "z" button like so:
+;	[Command]
+;	name = "z"
+;	command = y+b
+;	time = 1
+; Other than that particular common type of redefinition, it's probably best
+; to simply avoid adding definitions for these 11 command names altogether.
+; And remember, this paragraph just has to do with the helper method.  You'll
+; still need to make changes to the XOR code, no matter what type of overloading
+; you use with the commands used by it.
+;
+;-| Single Button |---------------------------------------------------------
+[Command]
+name = "a"
+command = a
+time = 1
+
+[Command]
+name = "b"
+command = b
+time = 1
+
+[Command]
+name = "c"
+command = c
+time = 1
+
+[Command]
+name = "x"
+command = x
+time = 1
+
+[Command]
+name = "y"
+command = y
+time = 1
+
+[Command]
+name = "z"
+command = z
+time = 1
+
+[Command]
+name = "start"
+command = s
+time = 1
+
+;-| Hold Dir |--------------------------------------------------------------
+[Command]
+name = "holdfwd";Required (do not remove)
+command = /$F
+time = 1
+
+[Command]
+name = "holdback";Required (do not remove)
+command = /$B
+time = 1
+
+[Command]
+name = "holdup" ;Required (do not remove)
+command = /$U
+time = 1
+
+[Command]
+name = "holddown";Required (do not remove)
+command = /$D
+time = 1
+
+;-| Hold Button |----------------------------------------------------------
+; Please define Anim 74140108 in your AIR file if AND ONLY IF you place these
+; 7 Hold Button commands immediately after the 11 Single Button and Hold Dir
+; commands at the very top of your CMD list, as demonstrated here.
+; In this version of the AI code, these commands are only used by the XOR
+; method, and thus are optional.  But there remains a possibility that a
+; future version of the helper method might be helped by having these
+; commands placed here, and Anim 74140108 would then be used to indicate
+; that a partner character has a compatible CMD.
+
+[Command]
+name = "holda"
+command = /a
+time = 1
+
+[Command]
+name = "holdb"
+command = /b
+time = 1
+
+[Command]
+name = "holdc"
+command = /c
+time = 1
+
+[Command]
+name = "holdx"
+command = /x
+time = 1
+
+[Command]
+name = "holdy"
+command = /y
+time = 1
+
+[Command]
+name = "holdz"
+command = /z
+time = 1
+
+[Command]
+name = "holdstart"
+command = /s
+time = 1
+
+;-| CPU |--------------------------------------------------------------
+; Note that if you make any changes to the basic one-button or recovery
+; commands, you'll need to make the same changes to their matching commands here
+; and/or in the XOR VarSet controller.  That includes things like, for example:
+;  * changing the recovery command to use a different combination of buttons.
+;  * renaming the b button command as "d", or the start button command as "s".
+;  * switching the button names around, e.g. so button y triggers "a" and button a triggers "y".
+;  * having more than one way to trigger the same command name.
+; If you understand how the XOR method works, the proper changes should be obvious.
+; If you don't understand it, then simply disable the lines in the XOR VarSet
+; controller that correspond to the commands you've altered.
+
+[Command]
+name = "a2"
+command = a
+time = 1
+
+[Command]
+name = "b2"
+command = b
+time = 1
+
+[Command]
+name = "c2"
+command = c
+time = 1
+
+[Command]
+name = "x2"
+command = x
+time = 1
+
+[Command]
+name = "y2"
+command = y
+time = 1
+
+[Command]
+name = "z2"
+command = z
+time = 1
+
+[Command]
+name = "start2"
+command = s
+time = 1
+
+[Command]
+name = "holdfwd2"
+command = /$F
+time = 1
+
+[Command]
+name = "holdback2"
+command = /$B
+time = 1
+
+[Command]
+name = "holdup2"
+command = /$U
+time = 1
+
+[Command]
+name = "holddown2"
+command = /$D
+time = 1
+
+[Command]
+name = "holda2"
+command = /a
+time = 1
+
+[Command]
+name = "holdb2"
+command = /b
+time = 1
+
+[Command]
+name = "holdc2"
+command = /c
+time = 1
+
+[Command]
+name = "holdx2"
+command = /x
+time = 1
+
+[Command]
+name = "holdy2"
+command = /y
+time = 1
+
+[Command]
+name = "holdz2"
+command = /z
+time = 1
+
+[Command]
+name = "holdstart2"
+command = /s
+time = 1
+
+[Command]
+name = "recovery2"
+command = x+y
+time = 1
+
+; Here add matching commands for any moves that must never be used randomly
+; by the computer, such as suicide moves and super moves, and add the pairs
+; to the XOR VarSet controller in State -3.
+
+; If you're desperate to make sure that the AI always gets turned on as soon
+; as possible, you can add more equivalents for your own commands here too,
+; and add to the XOR VarSet controller's triggers accordingly.  You should
+; use button-only commands before using any commands with directional
+; components, as the latter apparently doesn't work in Linux Mugen 2002.04.14.
+
+; And of course, if you've run out of unique command labels (Mugen allows
+; 128), you can remove as many of these as you want.  You'll of course need
+; to modify the XOR VarSet controller's triggers accordingly, but Mugen
+; will let you know if you forget to do so. :)
+
+
+;[StateDef -1]
+;
+; The main purpose of having these next two controllers here at the top of
+; StateDef -1 is to make sure the AI helper never changes to a different state,
+; but they also improve efficiency by preventing Mugen from wasting time
+; processing the entire State -1 for the helper.
+[State -1, AI Helper Check]
+type = ChangeState
+trigger1 = IsHelper(9741)
+value = 9741
+
+[State -1, AI Helper Check 2]
+type = ChangeState
+trigger1 = IsHelper(9742)
+value = 9742
+
+; This is generally the best place to put most of your AI directives.  For
+; example, this controller would only be executed when the CPU is in control:
+;
+; [State -1, Haha!]
+; type = ChangeState
+; trigger1 = var(0) ; (Or use "var(58)>0" if you've chosen not to
+;                   ; use the Simplifier variable/controller.)
+; trigger1 = ctrl
+; trigger1 = (StateType = S)
+; trigger1 = (MoveType = I)
+; trigger1 = (P2MoveType = H)
+; trigger1 = (NumEnemy = 1)
+; trigger1 = (Enemy,GetHitVar(HitTime) > 60)
+; trigger1 = (PrevStateNo != 195)
+; trigger1 = (Random < 99)
+; value = 195
+
+; And of course, most human-only command-based ChangeStates also belong
+; in State -1.  For example, this move would only be performable by a human:
+;
+; [State -1, Death Before Dishonor]
+; type = ChangeState
+; trigger1 = (command = "suicide")
+; trigger1 = !var(0) ; (Or use "var(58)<1" if you've chosen not to
+;                    ; use the Simplifier variable/controller.)
+; trigger1 = ctrl
+; trigger1 = (StateType != A)
+; trigger1 = (MoveType = I)
+; value = {suicide state number}
+
+
+
+
+;***************************************************************************
+; CNS
+;***************************************************************************
+
+;[Data]
+;
+IntPersistIndex = 58 	;Set this to at most the index of your primary AI variable.
+
+
+
+
+;***************************************************************************
+; ST
+;***************************************************************************
+
+; (Credit to ANMC, Bagaliao, and FlowaGirl for the basic helper method concept.)
+;
+;------------------
+; AI Activation Helper State - Primary Version
+; (Credit to YongMing for the basic HitPause bugfix concept.)
+;
+; var(1) - First tick button activation prevention.
+; var(2) - Used for pause/superpause and custom state check, basically.
+; var(3) - (Super/)Pause & custom state-triggered dir detection disabler.
+; var(4) - Persistent direction command detection enabler (due to 2002.04.14).
+; var(9) - AutoTurn bug fixer.
+; parent's var(57) - Parent's GameTime var, for pause and custom state check.
+; parent's var(58) - Parent's primary AI variable.
+;
+; The code in this state is mostly simply copy/pasteable.
+; But if you're using different indices for the parent's variables,
+; or if you change your character's basic commands' names, you'll
+; of course need to change the code in this state accordingly.
+
+[StateDef 9741]
+type = S
+movetype = I
+physics = N
+anim = 9741
+ctrl = 0
+
+[State 9741, Safety]; Just in case your opponent is very poorly coded.
+type = SelfState
+trigger1 = !IsHelper
+value = 0
+
+[State 9741, PauseCheck]
+type = VarSet
+trigger1 = (GameTime>(Parent,var(57)))
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+trigger4 = Parent,var(58)
+trigger5 = (var(3):=0)
+var(2) = (var(3):=1)+(var(4):=0)
+
+[State 9741, Facing]
+type = Turn
+trigger1 = (var(9):=(Facing != Parent,Facing))
+
+[State 9741, DirTurnOnAI]
+type = ParentVarSet
+triggerall = !var(3)
+triggerall = !var(9)
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (Parent,command = "holddown")
+trigger5 = !(var(4):=1)
+var(58) = var(4)
+
+[State 9741, DirTurnOffAI]
+type = ParentVarSet
+triggerall = !var(3)
+triggerall = Parent,var(58)
+trigger1 = (command = "holdfwd")
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (command = "holdback")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (command = "holdup")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (command = "holddown")
+trigger4 = (Parent,command = "holddown")
+var(58) = (var(4):=0)
+
+[State 9741, ButtonTurnOnAI]
+type = ParentVarSet
+triggerall = var(1)
+triggerall = !var(2)
+trigger1 = (Parent,command = "a")
+trigger2 = (Parent,command = "b")
+trigger3 = (Parent,command = "c")
+trigger4 = (Parent,command = "x")
+trigger5 = (Parent,command = "y")
+trigger6 = (Parent,command = "z")
+trigger7 = (Parent,command = "start")
+var(58) = 1
+
+[State 9741, ButtonTurnOffAI]
+type = ParentVarSet
+triggerall = !var(2)
+trigger1 = (command = "a")
+trigger1 = (Parent,command = "a")
+trigger2 = (command = "b")
+trigger2 = (Parent,command = "b")
+trigger3 = (command = "c")
+trigger3 = (Parent,command = "c")
+trigger4 = (command = "x")
+trigger4 = (Parent,command = "x")
+trigger5 = (command = "y")
+trigger5 = (Parent,command = "y")
+trigger6 = (command = "z")
+trigger6 = (Parent,command = "z")
+trigger7 = (command = "start")
+trigger7 = (Parent,command = "start")
+var(58) = -1
+
+[State 9741, UnPauseCheck]
+type = VarSet
+triggerall = var(2)
+trigger1 = (Parent,command = "a")
+trigger2 = (Parent,command = "b")
+trigger3 = (Parent,command = "c")
+trigger4 = (Parent,command = "x")
+trigger5 = (Parent,command = "y")
+trigger6 = (Parent,command = "z")
+trigger7 = (Parent,command = "start")
+trigger8 = (var(2) = 2)
+trigger8 = (var(2):=0)
+var(2) = 2
+
+[State 9741, Goodbye]
+type = DestroySelf
+triggerall = (var(1):=1)
+trigger1 = Parent,var(58)
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+
+
+;------------------
+; AI Activation Helper State - Compatibly Partnered Version
+;
+; var(1) - First tick dir activation prevention
+; var(2) - Used for pause/superpause and custom state check, basically.
+; var(3) - (Super/)Pause & custom state-triggered dir detection disabler.
+; var(4) - Hitpause check.
+; var(5) - No button on previous tick.
+; var(6) - Any dir on this tick.
+; var(7) - Any button on this tick.
+; var(8) - Matching partner button detected.
+; var(9) - AutoTurn bug fixer.
+; parent's var(57) - Parent's GameTime var, for pause and custom state check.
+; parent's var(58) - Parent's primary AI variable.
+;
+; The code in this state is mostly simply copy/pasteable.
+; But if you're using different indices for the parent's variables,
+; or if you change your character's basic commands' names, you'll
+; of course need to change the code in this state accordingly.
+
+[StateDef 9742]
+type = S
+movetype = I
+physics = N
+anim = 9741
+ctrl = 0
+
+[State 9742, Safety]; Just in case your opponent is very poorly coded.
+type = SelfState
+trigger1 = !IsHelper
+value = 0
+
+[State 9742, PauseCheck]
+type = VarSet
+trigger1 = (GameTime>Parent,var(57))
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+trigger4 = Parent,var(58)
+trigger5 = (var(3):=0)
+var(2) = (var(3):=1)
+
+[State 9742, Facing]
+type = Turn
+trigger1 = (var(9):=(Facing != Parent,Facing))
+
+[State 9742, ParentDirCheck]
+type = VarSet
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (Parent,command = "holddown")
+trigger5 = (var(6):=0)
+var(6) = 1
+
+[State 9742, ParentButtonCheck]
+type = VarSet
+trigger1 = (Parent,command = "a")
+trigger2 = (Parent,command = "b")
+trigger3 = (Parent,command = "c")
+trigger4 = (Parent,command = "x")
+trigger5 = (Parent,command = "y")
+trigger6 = (Parent,command = "z")
+trigger7 = (Parent,command = "start")
+trigger8 = (var(7):=0)
+var(7) = 1
+
+[State 9742, SameButtonCheck]
+type = VarSet
+triggerall = var(7)
+triggerall = !var(2)
+triggerall = NumPartner
+trigger1 = (Parent,command = "a")
+trigger1 = (Partner,command = "a")
+trigger2 = (Parent,command = "b")
+trigger2 = (Partner,command = "b")
+trigger3 = (Parent,command = "c")
+trigger3 = (Partner,command = "c")
+trigger4 = (Parent,command = "x")
+trigger4 = (Partner,command = "x")
+trigger5 = (Parent,command = "y")
+trigger5 = (Partner,command = "y")
+trigger6 = (Parent,command = "z")
+trigger6 = (Partner,command = "z")
+trigger7 = (Parent,command = "start")
+trigger7 = (Partner,command = "start")
+trigger8 = (var(8):=0)
+var(8) = 1
+
+[State 9742, DirTurnOnAI]
+type = ParentVarSet
+trigger1 = var(1)
+trigger1 = var(6)
+trigger1 = !var(3)
+trigger1 = !var(4)
+trigger1 = !var(9)
+var(58) = 1
+
+[State 9742, DirTurnOffAI]
+type = ParentVarSet
+triggerall = var(6)
+triggerall = !var(3)
+triggerall = Parent,var(58)
+trigger1 = (command = "holdfwd")
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (command = "holdback")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (command = "holdup")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (command = "holddown")
+trigger4 = (Parent,command = "holddown")
+var(58) = 0
+
+[State 9742, ButtonTurnOnAI]
+type = ParentVarSet
+trigger1 = var(5)
+trigger1 = var(7)
+trigger1 = !var(2)
+trigger1 = !var(8)
+var(58) = 1
+
+[State 9742, ButtonTurnOffAI]
+type = ParentVarSet
+triggerall = var(7)
+triggerall = !var(2)
+triggerall = !var(8)
+trigger1 = (command = "a")
+trigger1 = (Parent,command = "a")
+trigger2 = (command = "b")
+trigger2 = (Parent,command = "b")
+trigger3 = (command = "c")
+trigger3 = (Parent,command = "c")
+trigger4 = (command = "x")
+trigger4 = (Parent,command = "x")
+trigger5 = (command = "y")
+trigger5 = (Parent,command = "y")
+trigger6 = (command = "z")
+trigger6 = (Parent,command = "z")
+trigger7 = (command = "start")
+trigger7 = (Parent,command = "start")
+var(58) = -1
+
+[State 9742, UnPauseCheck]
+type = VarSet
+triggerall = var(2)
+triggerall = !var(4)
+trigger1 = var(7)
+trigger2 = (var(2) = 2)
+trigger2 = (var(2):=0)
+var(2) = 2
+
+[State 9742, Goodbye]
+type = DestroySelf
+trigger1 = Parent,var(58)
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+
+[State 9742, HitPauseCheck]
+type = VarSet
+trigger1 = var(6)
+trigger2 = var(7)
+trigger3 = !(Parent,HitPauseTime)
+var(4) = Parent,HitPauseTime
+
+[State 9742, Delay]
+type = VarSet
+trigger1 = (var(1):=1)
+var(5) = !var(7)
+
+
+;[StateDef -2]
+;
+; Within StateDef -2, none of your own AI-related code should be placed
+; above these next two controllers.
+
+[State -2, StopAI]
+type = VarSet
+triggerall = (var(58) > 0)
+trigger1 = (RoundState != 2)
+trigger2 = !Alive
+var(58) = -2
+IgnoreHitPause = 1
+
+; This controller is optional.  It allows you treat the AI flag as a boolean
+; value rather than an integer value, letting you trigger your AI directives
+; with "var(0)" instead of "var(58)>0", and letting you make moves usable only
+; by humans by using "!var(0)" instead of "var(58)<1", thus slightly improving
+; the size and efficiency of your code.
+; Another benefit is that it makes it much easier for users to disable your AI,
+; if they so choose.
+[State -2, Simplifier]
+type = VarSet
+trigger1 = (var(58) = 1)
+trigger2 = (var(0):=0)
+var(0) = 1	; Another option is to replace 1 with something like MatchNo, if
+		; you want to design your AI to have varying levels of difficulty.
+IgnoreHitPause = 1
+
+
+;[StateDef -3]
+;
+; Kamek and Luchini appear to have been the first ones to use the IsHomeTeam AI activation concept.
+; Feel free to move this controller to your character's intro state for slightly better efficiency.
+[State -3, SetAI]
+type = VarSet
+triggerall = !RoundState
+triggerall = IsHomeTeam
+trigger1 = (TeamSide = 2)
+trigger2 = (MatchNo > 1)
+var(58) = 1
+
+; Feel free to move this controller to your character's intro state for slightly better efficiency.
+; Note that it may give P2 a slight unfair advantage in simul team vs mode, so you
+; may want to disable it.  But then, since when has Mugen been about fairness? =P
+[State -3, Unfair]; Is this reliable?
+type = VarSet
+trigger1 = !RoundState
+trigger1 = (var(58) != 1)
+trigger1 = NumPartner
+trigger1 = (ID > Partner,ID)
+trigger1 = (TeamSide = 2)
+var(58) = 1
+
+[State -3, AI Helper (Compatibly Partnered Version)]
+type = Helper
+trigger1 = !var(58)
+trigger1 = !NumHelper(9742)
+trigger1 = (RoundState = 2)
+trigger1 = Alive
+trigger1 = NumPartner
+trigger1 = Partner,SelfAnimExist(9741)
+HelperType = normal
+name = "AI Helper (Simul Version)"
+ID = 9742
+pos = 9999999,99999
+StateNo = 9742
+KeyCtrl = 1
+PauseMoveTime = 999999999
+SuperMoveTime = 999999999
+
+; If you want to use the Guard mode, Dummy mode, Distance, or Button jam dummy control
+; options in Training mode without activating the dummy's AI while working on your
+; character, then all you need to do is temporarily disable this controller.
+; Or, if you want to permanently disable this controller in Training mode,
+; then you could use the Training mode detection code available on my site
+; ( http://www.shinmugen.net/winane/ ), and then just add a "(var(59)&63)>30"
+; triggerall to this controller.
+[State -3, AI Helper]
+type = Helper
+triggerall = !var(58)
+triggerall = !NumHelper(9741)
+triggerall = (RoundState = 2)
+triggerall = Alive
+trigger1 = !NumPartner
+trigger2 = !(Partner,SelfAnimExist(9741))
+HelperType = normal
+name = "AI Helper"
+ID = 9741
+pos = 9999999,99999
+StateNo = 9741
+KeyCtrl = 1
+PauseMoveTime = 999999999
+SuperMoveTime = 999999999
+
+[State -3, TurnBackOnAI]
+type = VarSet
+trigger1 = (var(58) = -2)
+trigger1 = (RoundState = 2)
+trigger1 = Alive
+var(58) = 1
+
+; According to Roque, this method works in Linux Mugen version 2002.04.14,
+; whereas the old humanly-impossible commands method does not.
+; It is very important that this controller NOT be moved to State -2.
+; Note that this part won't work if AI.Cheat is turned off in mugen.cfg.
+[State -3, XOR]
+type = VarSet
+triggerall = var(58)!=1
+triggerall = !var(56)
+triggerall = (var(57) = GameTime-1)
+trigger1 = (command = "a") ^^ (command = "a2")
+trigger2 = (command = "b") ^^ (command = "b2")
+trigger3 = (command = "c") ^^ (command = "c2")
+trigger4 = (command = "x") ^^ (command = "x2")
+trigger5 = (command = "y") ^^ (command = "y2")
+trigger6 = (command = "z") ^^ (command = "z2")
+trigger7 = (command = "start") ^^ (command = "start2")
+trigger8 = (command = "holda") ^^ (command = "holda2")
+trigger9 = (command = "holdb") ^^ (command = "holdb2")
+trigger10 = (command = "holdc") ^^ (command = "holdc2")
+trigger11 = (command = "holdx") ^^ (command = "holdx2")
+trigger12 = (command = "holdy") ^^ (command = "holdy2")
+trigger13 = (command = "holdz") ^^ (command = "holdz2")
+trigger14 = (command = "holdstart") ^^ (command = "holdstart2")
+trigger15 = (command = "holdfwd") ^^ (command = "holdfwd2")
+trigger16 = (command = "holdback") ^^ (command = "holdback2")
+trigger17 = (command = "holdup") ^^ (command = "holdup2")
+trigger18 = (command = "holddown") ^^ (command = "holddown2")
+trigger19 = (command = "recovery") ^^ (command = "recovery2")
+;Add more as desired. (See my notes in the CMD.)
+var(58) = 1
+
+; This controller must be placed here, after the above XOR VarSet
+; controller and before the below GameTime VarSet controller.
+[State -3, fiXOR]
+type = VarSet
+trigger1 = !HitPauseTime
+trigger2 = (var(57) < GameTime-1)
+var(56) = HitPauseTime
+IgnoreHitPause = 1
+
+; It is very important that this controller NOT be moved to State -2, as putting
+; it there would defeat the entire purpose of the controller, allowing the
+; helper method or the XOR method to erroneously set the AI variable.
+; And within State -3, don't put any ChangeState controllers before this
+; controller, lest you unnecessarily delay your character's AI activation.
+[State -3, GameTimeVar]
+type = VarSet
+trigger1 = 1
+var(57) = GameTime
+IgnoreHitPause = 1
+
+; Within StateDef -3, none of your own AI-related code should come after the code
+; provided here (and putting it before the code is also generally a bad idea).
+; It's better to use State -1 (or, in special circumstances, State -2) instead.
+
+; And finally, for lack of a better place to put this until I get
+; around to writing an actual tutorial to go with the code:
+; Many thanks to Roque for extensive testing in Linux Mugen.
+; Also thanks to [E] for some help.

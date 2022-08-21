@@ -1,0 +1,7 @@
+[State 0, VarSet]
+type = VarSet
+trigger1 = 
+v = 10    ;fv = 10
+value = 0
+;ignorehitpause = 
+;persistent = 

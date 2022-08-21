@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax>
+
+  <function name="assert"/>
+  <function name="collectgarbage"/>
+  <function name="dofile"/>
+  <function name="error"/>
+  <function name="getfenv"/>
+  <function name="getmetatable"/>
+  <function name="ipairs"/>
+  <function name="load"/>
+  <function name="loadfile"/>
+  <function name="loadstring"/>
+  <function name="next"/>
+  <function name="pairs"/>
+  <function name="pcall"/>
+  <function name="print"/>
+  <function name="rawequal"/>
+  <function name="rawget"/>
+  <function name="rawset"/>
+  <function name="select"/>
+  <function name="setfenv"/>
+  <function name="setmetatable"/>
+  <function name="tonumber"/>
+  <function name="tostring"/>
+  <function name="type"/>
+  <function name="unpack"/>
+  <function name="xpcall"/>
+  <function name="coroutine.create"/>
+  <function name="coroutine.resume"/>
+  <function name="coroutine.running"/>
+  <function name="coroutine.status"/>
+  <function name="coroutine.wrap"/>
+  <function name="coroutine.yield"/>
+  <function name="byte" table="string" meta="true"/>
+  <function name="char" table="string" meta="true"/>
+  <function name="dump" table="string" meta="true"/>
+  <function name="find" table="string" meta="true"/>
+  <function name="format" table="string" meta="true"/>
+  <function name="gmatch" table="string" meta="true"/>
+  <function name="gsub" table="string" meta="true"/>
+  <function name="len" table="string" meta="true"/>
+  <function name="lower" table="string" meta="true"/>
+  <function name="match" table="string" meta="true"/>
+  <function name="rep" table="string" meta="true"/>
+  <function name="reverse" table="string" meta="true"/>
+  <function name="sub" table="string" meta="true"/>
+  <function name="upper" table="string" meta="true"/>
+  <function name="concat" table="table"/>
+  <function name="insert" table="table"/>
+  <function name="maxn" table="table"/>
+  <function name="remove" table="table"/>
+  <function name="sort" table="table"/>
+  <function name="abs" table="math"/>
+  <function name="acos" table="math"/>
+  <function name="asin" table="math"/>
+  <function name="atan" table="math"/>
+  <function name="atan2" table="math"/>
+  <function name="ceil" table="math"/>
+  <function name="cos" table="math"/>
+  <function name="cosh" table="math"/>
+  <function name="deg" table="math"/>
+  <function name="exp" table="math"/>
+  <function name="floor" table="math"/>
+  <function name="fmod" table="math"/>
+  <function name="frexp" table="math"/>
+  <function name="huge" table="math"/>
+  <function name="ldexp" table="math"/>
+  <function name="log" table="math"/>
+  <function name="log10" table="math"/>
+  <function name="max" table="math"/>
+  <function name="min" table="math"/>
+  <function name="modf" table="math"/>
+  <function name="pi" table="math"/>
+  <function name="pow" table="math"/>
+  <function name="rad" table="math"/>
+  <function name="random" table="math"/>
+  <function name="randomseed" table="math"/>
+  <function name="sin" table="math"/>
+  <function name="sinh" table="math"/>
+  <function name="sqrt" table="math"/>
+  <function name="tan" table="math"/>
+  <function name="tanh" table="math"/>
+  <function name="close" table="io"/>
+  <function name="flush" table="io"/>
+  <function name="input" table="io"/>
+  <function name="lines" table="io"/>
+  <function name="open" table="io"/>
+  <function name="output" table="io"/>
+  <function name="popen" table="io"/>
+  <function name="read" table="io"/>
+  <function name="tmpfile" table="io"/>
+  <function name="type" table="io"/>
+  <function name="write" table="io"/>
+  <function name="close" meta="true"/>
+  <function name="flush" meta="true"/>
+  <function name="lines" meta="true"/>
+  <function name="read" meta="true"/>
+  <function name="seek" meta="true"/>
+  <function name="setvbuf" meta="true"/>
+  <function name="write" meta="true"/>
+
+  <function name="project"/>
+  <function name="projectCount"/>
+  <function name="translate"/>
+
+  <class name="BoxLayout"/>
+  <class name="Dialog"/>
+  <class name="Wizard"/>
+  <class name="WizardPage"/>
+  <class name="Label"/>
+  <class name="Button"/>
+  <class name="TextEdit"/>
+  <class name="IntEdit"/>
+  <class name="FloatEdit"/>
+  <class name="CheckBox"/>
+  <class name="RadioBox"/>
+  <class name="Palette"/>
+  <class name="Image"/>
+  <class name="Project"/>
+  <class name="Document"/>
+  <class name="Sprites"/>
+  <class name="Palettes"/>
+  <class name="Remap"/>
+  <class name="Animations"/>
+  <class name="Sounds"/>
+
+</syntax>

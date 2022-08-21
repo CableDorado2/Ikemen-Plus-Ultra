@@ -1,0 +1,458 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Classes and functions</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Classes and functions</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li> 
+            <li><a href="script.html">Scripting system</a></li>
+            <li>Classes and functions</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content"> 
+        <p>Classes are implemented using Lua meta-tables. It provides properties (get/set functions that acts as a member variable), enumerations (small and read-only classes to list constant values) and functions.</p>   
+        <p><b>Classes</b>: To create a class you must use the class constructor. Eg.: classInstance = ClassName(); All classes that doesn't describe the constructor method can't be created by the user.</p>
+        <p><b>Properties</b>: accessed using '.'. Eg.: variable = Class.propery; Class.property = variable;</p>
+        <p><b>Functions</b>: accessed using ':'. Eg.: variable = Class:function(parameter);</p>
+        <p><b>Enumerations</b>: accessed using '.'. Eg.: variable = Class.enumValue1;</p>
+        <p><b>Types</b>: Lua is dynamic typed, then the type of vars isn't specified in the code. We will use the notation "<i>{type}</i>" to show the type. All properties are suposed to be read-only, otherwise will be marked as read-write.</p><br/>
+                   
+        <h1>Functions</h1>  
+        <ul class="single">
+          <li><span style="color: #00f">rgb(red <i>{integer}</i>, green <i>{integer}</i>, blue <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns a packed integer containing a RGB color. 'red', 'green' and 'blue' are values from 0 to 255.</li>   
+          <li><span style="color: #00f">rgba(red <i>{integer}</i>, green <i>{integer}</i>, blue <i>{integer}</i>, alpha <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns a packed integer containing a RGBA color. 'red', 'green', 'blue' and 'alpha' are values from 0 to 255.</li>
+          <li><span style="color: #00f">red(color <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the red value of the given integer-packed color.</li>
+          <li><span style="color: #00f">green(color <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the green value of the given integer-packed color.</li>
+          <li><span style="color: #00f">blue(color <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the blue value of the given integer-packed color.</li>
+          <li><span style="color: #00f">alpha(color <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the alpha value of the given integer-packed color.</li>
+        </ul>
+        
+        <h1>Classes</h1>
+        <ul class="double">                                                                                 
+          <li><a href="scriptclass.html#pt">Point</a> - represents a point (x, y).</li>  
+          <li><a href="scriptclass.html#rec">Rect</a> - represents a rectangle.</li>      
+          <li><a href="scriptclass.html#bt">BlendTarget</a> - represents a blending target.</li>  
+          <li><a href="scriptclass.html#reg">RegExp</a> - regular expression engine.</li>  
+          
+          <li><a href="scriptclass.html#txtdoc">TextDocument</a> - used to manipulate text documents.</li>  
+          <li><a href="scriptclass.html#sprpal">SpritePalette</a> - used to manipulate a single sprite palette.</li>
+          <li><a href="scriptclass.html#spr">Sprite</a> - used to manipulate a single sprite.</li>
+          <li><a href="scriptclass.html#sprs">Sprites</a> - used to manipulate sprites.</li>  
+          <li><a href="scriptclass.html#hit">HitBox</a> - used to manipulate a single hitbox.</li>
+          <li><a href="scriptclass.html#hits">HitBoxes</a> - used to manipulate hit boxes.</li>
+          <li><a href="scriptclass.html#frame">AnimationFrame</a> - used to manipulate a single frame.</li>
+          <li><a href="scriptclass.html#anim">Animation</a> - used to manipulate a single animation.</li> 
+          <li><a href="scriptclass.html#anims">Animations</a> - used to manipulate animations.</li> 
+          <li><a href="scriptclass.html#proj">Project</a> - used to manipulate a project.</li>
+        </ul>   
+        
+        <a id="txtdoc"></a><h2>TextDocument</h2>
+        
+        <p><b>Enumerations</b></p>
+        <p><u>MoveOperation</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>NoMove</li>
+          <li>Start</li>
+          <li>StartOfLine</li>
+          <li>StartOfWord</li>
+          <li>PreviousLine</li>
+          <li>PreviousCharacter</li>
+          <li>PreviousWord</li>
+          <li>End</li>
+          <li>EndOfLine</li>
+          <li>EndOfWord</li>
+          <li>NextLine</li>
+          <li>NextCharacter</li>
+          <li>NextWord</li>
+        </ul>
+        <p><u>MoveMode</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>MoveAnchor</li>
+          <li>KeepAnchor</li>
+        </ul>
+        <p><u>SelectionType</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Document</li>
+          <li>LineUnderCursor</li>  
+          <li>WordUnderCursor</li>
+        </ul>
+        
+        <p><b>Properties</b></p>
+        <ul class="quad">
+          <li>atLineStart <i>{boolean}</i></li>   
+          <li>atLineEnd <i>{boolean}</i></li>
+          <li>atStart <i>{boolean}</i></li>
+          <li>atEnd <i>{boolean}</i></li>
+          <li>lineNumber <i>{integer}</i></li>
+          <li>columnNumber <i>{integer}</i></li>
+          <li>position <i>{integer}</i></li>
+          <li>selectedText <i>{string}</i></li>
+        </ul>
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">movePosition(op <i>{MoveOperation}</i>, mode <i>{MoveMode}</i>), n <i>{integer}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Moves the cursor position by n units based on the MoveOperation type. The MoveMode determines if the caret will be moved or keept to create a text selection.</li>   
+          <li><span style="color: #00f">select(type <i>{SelectionType}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Creates a text selection based on the SelectionType.</li>
+          <li><span style="color: #00f">clearSelection()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Cancel any text selection.</li>
+          <li><span style="color: #00f">removeSelectedText()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes the selected text from the document.</li>
+          <li><span style="color: #00f">insertText(text <i>{string}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Inserts 'text' into the current cursor position. If the cursor has selection, the selected text will be replaced.</li>
+          <li><span style="color: #00f">sectionExists(section <i>{string}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Return if a section (or group) exists in the document.</li>
+          <li><span style="color: #00f">findValue(section <i>{string}</i>, param <i>{string}</i>) <i>{string}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Return the value of a section (or group) parameter. If it doesn't exists, returns an empty string.</li>
+          <li><span style="color: #00f">fromFile(fileName <i>{string}</i>, defaultCodec <i>{integer}</i>, asCopy <i>{boolean}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Load a document from 'fileName'.</li>   
+          <li><span style="color: #00f">toFile(fileName <i>{string}</i>, saveUnicode <i>{boolean}</i>, asCopy <i>{boolean}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Saves the document to 'fileName'.</li>
+        </ul>  
+                      
+        <a id="sprpal"></a><h2>SpritePalette</h2>
+      
+        <p><b>Enumerations</b></p>
+        <p><u>ShareMode</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Share</li>  
+          <li>NoShare</li>
+          <li>AskToShare</li>
+        </ul>
+              
+        <p><b>Properties</b></p>
+        <ul class="triple">
+          <li>index <i>{integer}</i></li>
+          <li>itemGroup <i>{integer}</i> read-write</li>
+          <li>itemIndex <i>{integer}</i> read-write</li>
+          <li>colorCount <i>{integer} read-write</i></li>
+          <li>colors <i>{array_of_integer}</i></li>
+        </ul>
+          
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">setColors(colors <i>{array_of_integer}</i>, shareMode <i>{ShareMode}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Sets the colors of the palette.</li>   
+          <li><span style="color: #00f">fromFile(fileName <i>{string}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Loads the palette from 'fileName'.</li>  
+          <li><span style="color: #00f">toFile(fileName <i>{string}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Saves the palette to 'fileName'.</li>   
+        </ul>
+                      
+        <a id="spr"></a><h2>Sprite</h2>
+      
+        <p><b>Enumerations</b></p>
+        <p><u>Flag</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>DecompressOnLoad</li>
+        </ul> 
+        <p><u>ImagePalette</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Default</li> 
+          <li>Remapped</li>
+        </ul>
+        <p><u>PaletteMode</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Ignore</li> 
+          <li>OwnPalette</li>
+          <li>AdaptImage</li>
+          <li>SwapPalette</li>
+        </ul>
+        <p><u>ShareMode</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Share</li>  
+          <li>NoShare</li>
+          <li>AskToShare</li>
+        </ul>
+              
+        <p><b>Properties</b></p>
+        <ul class="triple">
+          <li>index <i>{integer}</i></li>
+          <li>itemGroup <i>{integer}</i> read-write</li>
+          <li>itemIndex <i>{integer}</i> read-write</li>
+          <li>offsetX <i>{integer} read-write</i></li>
+          <li>offsetY <i>{integer} read-write</i></li> 
+          <li>palette <i>{SpritePalette}</i> read-write</li>
+          <li>imageIsShared <i>{boolean}</i></li>
+          <li>imageProperties <i>{ImageInfo}</i></li>
+        </ul>
+          
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">flag(type <i>{Flag}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns if the specified flag is set.</li>   
+          <li><span style="color: #00f">setFlag(type <i>{Flag}</i>, set <i>{boolean})</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Sets the state of the specified flag.</li>
+          <li><span style="color: #00f">image(palette <i>{ImagePalette}</i>) <i>{Image}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the sprite's image.</li>  
+          <li><span style="color: #00f">setImage(image <i>{Image}</i>, shareMode <i>{ShareMode}</i>, reversed <i>{boolean}</i>, paletteMode <i>{PaletteMode}</i>, paletteItem <i>{SubItem}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Sets the sprite's palette with the given options.</li>   
+        </ul>
+           
+        <a id="sprs"></a><h2>Sprites</h2>
+        
+        <p><b>Enumerations</b></p>
+        <p><u>Version</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Version_101</li>
+          <li>Version_200</li>
+          <li>Version_201</li>
+        </ul>
+        
+        <p><b>Properties</b></p>
+        <ul class="triple">
+          <li>version <i>{Version}</i> read-write</li>   
+          <li>currentIndex <i>{integer} read-write</i></li>
+          <li>isModified <i>{boolean}</i></li>   
+          <li>count <i>{integer}</i></li>   
+          <li>paletteCount <i>{integer}</i></li>
+        </ul>
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">fromFile(fileName <i>{string}</i>, isChar <i>{boolean}</i>, asCopy <i>{boolean}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Load a .sff file from 'fileName'.</li>   
+          <li><span style="color: #00f">toFile(fileName <i>{string}</i>, isChar <i>{boolean}</i>, version <i>{Version}</i>, useLZ <i>{boolean}</i>, asCopy <i>{boolean}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Saves a .sff file to 'fileName'.</li>
+          <li><span style="color: #00f">at(index <i>{integer}</i>) <i>{Sprite}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the sprite at the given index.</li>  
+          <li><span style="color: #00f">add() <i>{Sprite}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Adds a new sprite to the end and return the newly created sprite.</li> 
+          <li><span style="color: #00f">insert(index <i>{integer}</i>) <i>{Sprite}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Inserts a new sprite to the given index and return the newly created sprite.</li> 
+          <li><span style="color: #00f">remove(index <i>{integer}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes the sprite of the given index.</li>  
+          <li><span style="color: #00f">clear()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes all sprites.</li>   
+          <li><span style="color: #00f">find(start <i>{integer}</i>, group <i>{integer}</i>, index <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Finds the sprite with the given group and index. Returns -1 if not found or the index of the sprite.</li>
+          
+          <li><span style="color: #00f">paletteAt(index <i>{integer}</i>) <i>{SpritePalette}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the SpritePalette at the given index.</li>  
+          <li><span style="color: #00f">addPalette(palette <i>{array_of_integer}</i>, onlyIfNotExists <i>{boolean}</i>, group <i>{integer}</i>, index <i>{integer}</i>) <i>{SpritePalette}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Adds a new palette to the end and return the newly created palette.</li>  
+          <li><span style="color: #00f">insertPalette(pal_index <i>{integer}</i>, palette <i>{array_of_integer}</i>, onlyIfNotExists <i>{boolean}</i>, group <i>{integer}</i>, index <i>{integer}</i>) <i>{SpritePalette}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Inserts a new Palette to the given index and return the newly created palette.</li>  
+          <li><span style="color: #00f">removePalette(index <i>{integer}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes the palette at the given index.</li>  
+          <li><span style="color: #00f">removeDuplicatePalettes()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes all duplicate palettes.</li>  
+          <li><span style="color: #00f">clearPalettes()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes all palettes.</li>  
+          <li><span style="color: #00f">clearUnusedPalettes()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes all unused (unreferenced) palettes.</li>  
+          <li><span style="color: #00f">findPalette(start <i>{integer}</i>, group <i>{integer}</i>, index <i>{integer}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Finds the palette with the given group and index. Returns -1 if not found or the index of the palette.</li>  
+        </ul>        
+        
+        <a id="hit"></a><h2>HitBox</h2>
+        
+        <p><b>Properties</b></p>
+        <ul class="triple">
+          <li>parent <i>{HitBoxes}</i></li>   
+          <li>index <i>{integer}</i></li>
+          <li>rect <i>{Rect}</i> read-write</li>
+        </ul>         
+        
+        <a id="hits"></a><h2>HitBoxes</h2>   
+        
+        <p><b>Enumerations</b></p>
+        <p><u>Type</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Attack</li>
+          <li>Collision</li>
+          <li>AttackDefault</li>   
+          <li>CollisionDefault</li>
+        </ul>
+        
+        <p><b>Properties</b></p>
+        <ul class="triple">
+          <li>parent <i>{AnimationFrame}</i></li>   
+          <li>type <i>{Type}</i></li>
+          <li>count <i>{integer}</i></li>
+        </ul>       
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">at(index <i>{integer}</i>) <i>{HitBox}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the hit box at the given index.</li>   
+          <li><span style="color: #00f">insert(rect <i>{Rect}</i>) <i>{HitBox}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Adds a new hit box and returns the newly created one.</li>   
+          <li><span style="color: #00f">clear()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes all hit boxes.</li>
+        </ul>          
+        
+        <a id="frame"></a><h2>AnimationFrame</h2>   
+        
+        <p><b>Enumerations</b></p>
+        <p><u>InterFrame</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>LoopStart</li>
+          <li>InterpolateBlend</li>
+          <li>InterpolateOffset</li>   
+          <li>InterpolateScale</li>      
+          <li>InterpolateAngle</li>
+        </ul>      
+        <p><u>Flip</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Horizontal</li>   
+          <li>Vertical</li>      
+          <li>Both</li>
+        </ul>
+        <p><u>Blend</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>None</li>   
+          <li>Addition</li>      
+          <li>Subtraction</li>
+        </ul>
+        
+        <p><b>Properties</b></p>
+        <ul class="triple">   
+          <li>parent <i>{Animation}</i></li>
+          <li>index <i>{integer}</i></li>
+          <li>spriteGroup <i>{integer}</i> read-write</li>
+          <li>spriteIndex <i>{integer}</i> read-write</li>
+          <li>offsetX <i>{integer} read-write</i></li>
+          <li>offsetY <i>{integer} read-write</i></li> 
+          <li>time <i>{integer}</i> read-write</li>  
+          <li>flip <i>{Flip}</i> read-write</li>
+          <li>scaleX <i>{float}</i> read-write</li>
+          <li>scaleY <i>{float}</i> read-write</li>
+          <li>angle <i>{float}</i> read-write</li>  
+          <li>blend <i>{Blend}</i> read-write</li>   
+          <li>blendTarget <i>{BlendTarget}</i></li>
+        </ul>       
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">setBlend(blend <i>{Blend}</i>, target <i>{BlendTarget}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Sets the frame's blend mode.</li>   
+          <li><span style="color: #00f">checkInterFrame(type <i>{InterFrame}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns if the given inter-frame type is set.</li>   
+          <li><span style="color: #00f">setInterFrame(type <i>{InterFrame}</i>, set <i>{boolean}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Sets the given inter-frame type to the desired state.</li>                              
+          <li><span style="color: #00f">hitBoxes(type <i>{HitBoxes.Type}</i>) <i>{HitBoxes}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the hit box list for the given type, if exists.</li> 
+          <li><span style="color: #00f">insertBox(type <i>{HitBoxes.Type}</i>, rect <i>{Rect}</i>) <i>{HitBox}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Inserts a new hit box of the given type / rect, and returns the newly created one.</li>
+        </ul> 
+        
+        <a id="anim"></a><h2>Animation</h2>
+        
+        <p><b>Properties</b></p>
+        <ul class="triple">
+          <li>number <i>{integer} read-write</i></li>
+          <li>name <i>{string}</i> read-write</li>   
+          <li>frameCount <i>{integer}</i></li>
+        </ul>
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">frameAt(index <i>{integer}</i>) <i>{AnimationFrame}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the frame at the given index.</li>  
+          <li><span style="color: #00f">frameAdd() <i>{AnimationFrame}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Adds a new frame to the end and return the newly created one.</li> 
+          <li><span style="color: #00f">frameInsert(index <i>{integer}</i>) <i>{AnimationFrame}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Inserts a new frame to the given index and return the newly created one.</li> 
+        </ul> 
+        
+        <a id="anims"></a><h2>Animations</h2>
+        
+        <p><b>Properties</b></p>
+        <ul class="triple"> 
+          <li>currentIndex <i>{integer} read-write</i></li> 
+          <li>currentFrameIndex <i>{integer} read-write</i></li>
+          <li>isModified <i>{boolean}</i></li>   
+          <li>count <i>{integer}</i></li>  
+        </ul>
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">fromFile(fileName <i>{string}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Load a .air file from 'fileName'.</li>   
+          <li><span style="color: #00f">toFile(fileName <i>{string}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Saves a .air file to 'fileName'.</li>
+          <li><span style="color: #00f">at(index <i>{integer}</i>) <i>{Animation}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the animation at the given index.</li>  
+          <li><span style="color: #00f">add() <i>{Animation}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Adds a new animation to the end and return the newly created one.</li> 
+          <li><span style="color: #00f">insert(index <i>{integer}</i>) <i>{Animation}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Inserts a new animation to the given index and return the newly created one.</li> 
+          <li><span style="color: #00f">remove(index <i>{integer}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes the animation of the given index.</li>  
+          <li><span style="color: #00f">clear()</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Removes all animations.</li>                    
+          <li><span style="color: #00f">duplicate(index <i>{integer}</i>, newNumber <i>{integer}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Creates a copy of the animation at the given index using a new number.</li>   
+          <li><span style="color: #00f">move(source <i>{integer}</i>, destination <i>{integer}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Moves an animation from source index to the destination index.</li>  
+          <li><span style="color: #00f">find(start <i>{integer}</i>, text <i>{string}</i>) <i>{integer}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Finds the animation with the given name or number. Returns -1 if not found or the index of the animation.</li>
+        </ul> 
+
+        <a id="proj"></a><h2>Project</h2>   
+        
+        <p><b>Enumerations</b></p>
+        <p><u>Type</u>: <i>{integer}</i></p>
+        <ul class="quad">
+          <li>Character</li>
+          <li>Stage</li>
+          <li>Font</li>   
+          <li>Storyboard</li>
+        </ul>
+        
+        <p><b>Properties</b></p>
+        <ul class="quad">
+          <li>version <i>{Version}</i></li> 
+          <li>localCoord <i>{Point}</i></li> 
+          <li>type <i>{Type} read-write</i></li> 
+          <li>definitions <i>{TextDocument}</i></li> 
+          <li>sprites <i>{Sprites}</i></li>
+          <li>animations <i>{Animations}</i></li>
+          <li>commands <i>{TextDocument}</i></li>
+          <li>statesCount <i>{integer}</i></li>
+        </ul>    
+        
+        <p><b>Functions</b></p>
+        <ul class="single">
+          <li><span style="color: #00f">states(index <i>{integer}</i>) <i>{TextDocument}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Returns the states document at the given index.</li>   
+          <li><span style="color: #00f">fromFile(fileName <i>{string}</i>, defaultCodec <i>{integer}</i>, backup <i>{boolean}</i>, asCopy <i>{boolean}</i>) <i>{boolean}</i></span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Load a .def file from 'fileName' using the 'defaultCodec' as text encoding, and all other related files defined in it. If true, 'backup' will force the creation of a backup prior to loading any file. 'asCopy' determines if the 'fileName' will be recorded internally.</li>   
+          <li><span style="color: #00f">toFile(fileName <i>{string}</i>, useUnicode <i>{boolean}</i>)</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Saves a .def file to 'fileName' and all other opened project files. If true, 'useUnicode' will force the UTF-8 encoding in all text files to be saved.</li
+        </ul> 
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2012 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

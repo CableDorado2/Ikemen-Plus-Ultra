@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="name" title="Name" type="string"/>
+  <field name="dname" title="Display name" type="string"/>
+  <field name="author" title="Author" type="string"/>
+  <field name="date" title="Version date" type="string"/>
+
+  <code>
+    [Info]
+    name = "@name"
+    displayname = "@dname"
+    versiondate = @date
+    mugenversion = 04,06,2004
+    author = "@author"
+    pal.defaults = CURSOR
+  </code>
+
+</snippet>

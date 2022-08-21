@@ -4,14 +4,6 @@ module(..., package.seeall)
 --;===========================================================
 --; GENERAL CONFIG
 --;===========================================================
-selectColumns = 5
-selectRows = 2
-offsetRows = 1
-setSelColRow(selectColumns, selectRows)
-setRandomSpr(sysSff, 151, 0, 1, 1)
-setSelCellSize(27+2, 27+2)
-setSelCellScale(1, 1)
-
 --default turns/simul count after starting the game
 p1numTurns = 2
 p1numSimul = 2
@@ -31,14 +23,28 @@ txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SEL
 
 function f_selectReset()
 	if data.p2Faces then
+		selectColumns = 5
+		selectRows = 2
+		offsetRows = 1
+		setSelColRow(selectColumns, selectRows)
+		setRandomSpr(sysSff, 151, 0, 1, 1)
+		setSelCellSize(27+2, 27+2)
+		setSelCellScale(1, 1)
 		p1FaceX = 10
 		p1FaceY = 170
 		p2FaceX = 169
 		p2FaceY = 170
-	else
-		p1FaceX = 90
+	else --when data.p2Faces is false then
+		selectColumns = 11
+        selectRows = 2
+        offsetRows = 1
+		setSelColRow(selectColumns, selectRows)
+		setRandomSpr(sysSff, 151, 0, 1, 1)
+		setSelCellSize(27+2, 27+2)
+		setSelCellScale(1, 1)
+		p1FaceX = 2
 		p1FaceY = 170
-		p2FaceX = 90
+		p2FaceX = 2
 		p2FaceY = 170
 	end
 	p1Cell = nil
@@ -694,7 +700,7 @@ selectBG1c = animNew(sysSff, [[
 ]])
 animAddPos(selectBG1c, 160, 0)
 animSetTile(selectBG1c, 1, 0)
-animSetWindow(selectBG1c, 85, 0, 151, 239)
+animSetWindow(selectBG1c, 0, 0, 351, 239)
 
 --Title background
 selectBG2a = animNew(sysSff, [[
@@ -883,7 +889,7 @@ function f_selectScreen()
 		animSetWindow(selectBG1b, 164, 0, 151, 239)
 	else
 		animDraw(f_animVelocity(selectBG1c, -1, 0))
-		animSetWindow(selectBG1c, 85, 0, 151, 239)
+		animSetWindow(selectBG1c, 0, 0, 351, 239)
 	end
 	animDraw(f_animVelocity(selectBG2a, -1, 0))
 	animDraw(f_animVelocity(selectBG2b, -3, 0))
@@ -1756,6 +1762,7 @@ end
 --;===========================================================
 txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
 txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_orderHint = createTextImg(font1, 0, -1, '', 308, 239)
 txt_vsHint = createTextImg(font1, 0, -1, '', 308, 239)
 txt_matchNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
 txt_matchFinal = createTextImg(jgFnt, 0, 0, '', 160, 20)
@@ -1826,7 +1833,8 @@ function f_orderSelect()
 	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
 	textImgSetText(txt_bossNo, 'BOSS: ' .. bossNo)
 	textImgSetText(txt_bonusNo, 'BONUS: ' .. bonusNo)
-	local randomHint = math.random(1,3) --Last number is the amount of Hints
+	local t = 0
+	local randomHintOrder = math.random(2) --Last number is the amount of Hints
 	local i = 0
 	if not data.orderSelect then --Order Select off
 		while true do
@@ -1955,22 +1963,19 @@ function f_orderSelect()
 				txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
 				textImgDraw(txt_p2State)
 			end	
-			--set random hints
-			if randomHint == 1 then
-				textImgSetText(txt_vsHint, "PRESS LEFT OR RIGHT TO CHANGE THE CHARACTER ORDER IN SIMUL OR TURNS MODE ")
-				textImgDraw(txt_vsHint)
-			elseif randomHint == 2 then
-				textImgSetText(txt_vsHint, "KEEP START BUTTON IN THE CHARACTER SELECT AND PRESS C or Z BUTTON      ")
-				textImgDraw(txt_vsHint)
-			elseif randomHint == 3 then
-				textImgSetText(txt_vsHint, "IF ANY CHARACTER GETTING BUG, PRESS F4 TO RELOAD THE MATCH         ")
-				textImgDraw(txt_vsHint)
-			--elseif randomHint == 4 then
-				--textImgSetText(txt_vsHint, "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE")
-				--textImgDraw(txt_vsHint)
-			--elseif randomHint == 5 then
-				--textImgSetText(txt_vsHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE  ")
-				--textImgDraw(txt_vsHint) 				
+			--set random hints for order select
+			if randomHintOrder == 1 then
+				textImgSetText(txt_orderHint, "           PRESS LEFT OR RIGHT TO CHANGE THE CHARACTERS ORDER              ")
+				textImgDraw(txt_orderHint)
+			elseif randomHintOrder == 2 then
+				textImgSetText(txt_orderHint, "                 PRESS UP OR DOWN TO SELECT A CHARACTER                    ")
+				textImgDraw(txt_orderHint)	
+			--elseif randomHintOrder == 4 then
+				--textImgSetText(txt_orderHint, "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE")
+				--textImgDraw(txt_orderHint)
+			--elseif randomHintOrder == 5 then
+				--textImgSetText(txt_orderHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE  ")
+				--textImgDraw(txt_orderHint) 				
 			end	
 			i = i + 1
 			--if esc() then
@@ -2172,7 +2177,8 @@ function f_orderSelect()
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			animDraw(vsBG6)
-			textImgDraw(txt_vsHint)
+			textImgDraw(txt_orderHint)
+			t = t + 1
 			cmdInput()
 			refresh()
 		end
@@ -2181,6 +2187,7 @@ end
 
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	local randomHintVS = math.random(2) --Last number is the amount of Hints
 	local i = 0
 	if not data.versusScreen then
 		while true do
@@ -2228,6 +2235,14 @@ function f_selectVersus()
 		animDraw(f_animVelocity(versusBG3, 2, 0))
 		drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 		drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+		--set random hints for versus screen
+		if randomHintVS == 1 then
+			textImgSetText(txt_vsHint, "KEEP START BUTTON IN THE CHARACTER SELECT AND PRESS C or Z BUTTON      ")
+			textImgDraw(txt_vsHint)
+		elseif randomHintVS == 2 then
+			textImgSetText(txt_vsHint, "IF ANY CHARACTER GETTING BUG, PRESS F4 TO RELOAD THE MATCH         ")
+			textImgDraw(txt_vsHint)				
+		end
 		vsTime = vsTime + 1
 		if vsTime == 2222 then
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -2260,6 +2275,8 @@ function f_selectVersus()
 		animDraw(versusBG4)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		animDraw(vsBG6)
+		textImgDraw(txt_vsHint)
 		cmdInput()
 		refresh()
 		end

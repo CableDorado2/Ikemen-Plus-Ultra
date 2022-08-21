@@ -1,0 +1,8 @@
+[State 0, TargetBind]
+type = TargetBind
+trigger1 = 
+time = 1
+id = -1
+pos = 0,0
+;ignorehitpause = 
+;persistent = 

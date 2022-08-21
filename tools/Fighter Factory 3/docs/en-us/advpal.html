@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Advanced Palette Editor</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Advanced Palette Editor</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li><a href="using.html">Using</a></li>
+            <li><a href="menu.html">Menu</a></li>  
+            <li><a href="pals.html">Palettes</a></li>
+            <li>Advanced Palette Editor</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Advanced Palette Editor</h1>
+        <p>This editor is a special one to create and edit palettes, with a lot of more options than the Sprites palette editor.</p> 
+        <p>It is composed by three columns (functions, character and image or palette).</p> 
+        <p>In the middle of the second and third column, you can transfer the selected colors or the selection itself from a palette to another.</p>
+           
+        <img src="images/advpal.png" style="float: right; display: inline;"/>
+          
+        <h1>Functions</h1>
+        <p>Contains all tools and functions available to modify any palette on the second and third columns. Any modification will be applied in the palette of the checked column.</p> 
+        <a id="openpal"></a><h2>Open palette from a file</h2>
+        <p>Open a palette in the current column.</p>
+        <a id="savepal"></a><h2>Save current palette to a new file</h2>
+        <p>Save the palette of the current column as a new file.</p>
+        <a id="deczoom"></a><h2>Decrease the zoom level</h2>
+        <p>Decrease the zoom level of the current column.</p>
+        <a id="inczoom"></a><h2>Increase the zoom level</h2>
+        <p>Increase the zoom level of the current column.</p>
+        <a id="openimg"></a><h2>Load the current image from a file</h2>
+        <p>Load a new imagem in the current column.</p>
+        <a id="saveimg"></a><h2>Save the current image to a file</h2>
+        <p>Save the image of the current column.</p>
+        <a id="exchange"></a><h2>Exchange position of the selected colors</h2>
+        <p>Invert the position of all selected colors. The first selected color will be replaced by the last and the last by the first one, and so on.</p>
+        <a id="generate"></a><h2>Generate palette from images</h2>
+        <p>Generate an optimized palette that conatins all colors of all selected images. <i>Note: If the sum of colors is greater than 256, a color quantization algorithm will be used to define new colors that are an approximation of the source ones, to keep the limit of 256 colors.</i></p>
+        <a id="insert"></a><h2>Insert the current palette in the images</h2>
+        <p>Insert the palette of the current column in all selected images. <i>Note: The image will be adapted to match the palette colors. You can notice a color loss if the palette hasn't the same colors of the image.</i></p>
+        <p><i>Attention: This operation isn't a palette swap, the image indexes will be changed.</i></p>
+        <a id="undo"></a><h2>Undo</h2>
+        <p>Undo the last change in the palette of the current column.</p>
+        <a id="redo"></a><h2>Redo</h2>
+        <p>Redo the last undo operation in the palette of the current column.</p>
+        <a id="sort"></a><h2>Sort colors by tone</h2>
+        <p>Automatically reorder all colors by tones.</p>
+        <a id="grayscale"></a><h2>Generate a minimal grayscale palette</h2>
+        <p>Generate a minimal grayscale palette, and adapt the image to it.</p>
+        <a id="gradient"></a><h2>Interval of selected colors in gradient</h2>
+        <p>Generate a gradient of colors in the interval of the two defined colors (only in the selected slots).</p>
+        <a id="set"></a><h2>Sets the color of the selected slots</h2>
+        <p>Defines a new color in all selected slots.</p>
+        <a id="deldupl"></a><h2>Remove the duplicate colors</h2>
+        <p>Replace all duplicate colors by a new one.</p>              
+        <a id="add"></a><h2>Add different colors from the other palette</h2>
+        <p>Add all colors of the other palette that the current one doesn't have.</p>
+        <a id="optimize"></a><h2>Optimized palette for the current image</h2>
+        <p>Generate an optimized palette based on the colors of the current image.</p>
+        <a id="adapt"></a><h2>Adapt image to match the colors of the current palette</h2>
+        <p>Adapt image to match the colors of the current palette, redirecting its indexes to the first closest color in the palette.</p>
+        <a id="commit"></a><h2>Commit changes</h2>
+        <p>Commit the changes in the character palette to the palette editor of the Sprites editor.</p>  
+        <a id="effect"></a><h2>Color effect</h2>
+        <p>Apply an effect in all selected colors of the current palette.</p>       
+        <a id="selection"></a><h2>Color selection</h2>
+        <p></p>
+        <a id="selection"></a><h2>Color selection</h2>
+        <p>Allows to make a fast and advanced color selection.</p>
+        <p><b>Mask:</b> preview all selected colors as the mask defined color.</p>  
+        <p><b>Mask's color:</b> defines the mask color.</p>
+        <p><b>Color picker:</b> enable/disable the quick selection mode. Any click in the image selects the corresponding index in the current palette.</p>
+        <a id="huesat"></a><h2>Hue / Saturation</h2>
+        <p>Add the specified values of hue and saturation in all selected colors of the current palette. <i>Note: The change will be applied only if you confirm with the Apply button on the top-right.</i></p>
+        <a id="rgb"></a><h2>RGB</h2>
+        <p>Add the specified RGB values to all selected colors of the current palette. <i>Note: The change will be applied only if you confirm with the Apply button on the top-right.</i></p>
+        
+        <h1>Character</h1>
+        <p>This column handles the character palette (the current one in the palette's editor of the sprites editor.</p>    
+        <p>The name "Character" is for compatibility purposes with Fighter Factory Classic, this doesn't implies that you can use only for characters.</p>  
+        <p>When you open this editor, the current sprite and palette of the sprites editor will be set in this column. Any change in the image doesn't change the sprite. You can apply the changes in the palette using Commit changes, otherwise the changes will be discarded when you close this editor.</p> 
+        
+        <h1>Image or palette</h1>
+        <p>This column handles an additional palette and image.</p>  
+        <p>You can use it to transfer colors from a palette to another, or simply create/edit more than one palette at a time.</p>
+        
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2011 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

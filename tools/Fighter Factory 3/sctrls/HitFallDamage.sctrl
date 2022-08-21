@@ -1,0 +1,5 @@
+[State 0, HitFallDamage]
+type = HitFallDamage
+trigger1 = 
+;ignorehitpause = 
+;persistent = 

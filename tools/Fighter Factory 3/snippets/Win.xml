@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="anim" title="Animation" type="int"/>
+
+  <code>
+    [Statedef 181]
+    type = S
+    ctrl = 0
+    anim = @anim
+    facing = 1
+    pos = 0,0
+    postype = p1
+    velset = 0,0
+
+    [State 181, 1]
+    type = NotHitBy
+    trigger1 = 1
+    value = SCA
+    time = 1
+  </code>
+
+</snippet>

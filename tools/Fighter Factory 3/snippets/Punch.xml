@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="sdef" title="StateDef" type="int"/>
+  <field name="anim" title="Animation" type="int"/>
+  <field name="hitelem" title="Hit element" type="int"/>
+  <field name="damage" title="Damage" type="int"/>
+  <field name="type" title="Type" type="items" value="S,C,A" value_title="Standing,Crouching,Aerial"/>
+
+  <code>
+    [StateDef @sdef]
+    type = @type
+    movetype= A
+    physics = @type
+    juggle  = 1
+    velset = 0,0
+    ctrl = 0
+    anim = @anim
+    poweradd = 20
+    sprpriority = 2
+
+    [State @sdef, 1]
+    type = HitDef
+    trigger1 = AnimElem = @hitelem
+    attr = S, NA
+    damage = @damage
+    animtype = Light
+    guardflag = MA
+    hitflag = MAF
+    priority = 3, Hit
+    pausetime = 10, 10
+    sparkno = 0
+    sparkxy = -10, -76
+    hitsound = 5, 0
+    guardsound = 6, 0
+    ground.type = High
+    ground.slidetime = 5
+    ground.hittime  = 12
+    ground.velocity = -4
+    airguard.velocity = -1.9,-.8
+    air.type = High
+    air.velocity = -1.4,-3
+    air.hittime = 12
+
+    [State @sdef, end]
+    type = ChangeState
+    trigger1 = AnimTime = 0
+    value = 11
+    ctrl = 1
+  </code>
+
+</snippet>

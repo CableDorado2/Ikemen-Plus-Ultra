@@ -1,0 +1,7 @@
+[State 0, VarRandom]
+type = VarRandom
+trigger1 = 
+v = 
+range = 0,1000
+;ignorehitpause = 
+;persistent = 

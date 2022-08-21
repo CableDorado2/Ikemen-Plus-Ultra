@@ -1,0 +1,516 @@
+;-----------------------------------------------------------------------------
+[Statedef -2]
+
+
+[State 0, DefenceMulSet]
+type=DefenceMulSet
+trigger1=1
+value=IfElse(life<300,.6,life*.001)
+ignorehitpause=1
+
+[State -2, Spray Anim P1];地面水花
+type = Explod
+triggerall = StageVar(info.author) = "water"
+triggerall = pos Y = 0
+trigger1 = time >= 0 && timemod = 16,0
+persistent = 0
+ID = 20
+anim = F20
+postype = p1
+pos = 0,-5
+ownpal = 1
+ontop = 1
+bindtime = ifelse(pos Y != 0,0,-1)
+removetime = 16
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, 1];地面水花移除
+type = removeexplod
+trigger1 = pos Y != 0
+ID = 20
+
+[State -3, 落地水花]
+type = Explod
+triggerall = StageVar(info.author) = "water"
+triggerall = Time = 1
+trigger1 = StateNo=52000||StateNo=1105||StateNo=1155||StateNo=1705||StateNo=1755
+ID = 22
+anim = F22
+postype = p1
+pos = 10,0
+ownpal = 1
+ontop = 1
+bindtime = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -3 , 落地声效]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = StateNo=52000||StateNo=1105||StateNo=1155||StateNo=1705||StateNo=1755
+value = F47,(0+(StageVar(info.author) = "water"))
+
+;-----------------------------------------------------------------------------
+;-----------------------------------------------------------------------------
+
+[State -2, 擇恖栚偺僀儞僩儘]
+type = ChangeState             ;擇恖栚偱傕僀儞僩儘傪嶌傞
+value = 190                    ;僀儞僩儘傊
+triggerall = RoundsExisted = 0 ;帺暘偑弶嶲愴帪
+triggerall = TeamMode = Turns  ;僞乕儞儌乕僪
+trigger1 = stateno = 5900      ;5900斣
+
+;偙偙偱trigger梡偵帺暘偺弶婜儔僀僼傪妋擣偟傑偡
+[State -2, 儔僀僼妋擣]
+type = VarSet
+triggerall = RoundState = [0,1] ;奐巒慜偺娫
+trigger1 = RoundNo = 1          ;堦帋崌栚
+trigger2 = TeamMode = Turns     ;5900偱僀儞僩儘傪嶌傜側偄偲 伀
+trigger2 = RoundsExisted = 0    ;偙傟偼巊偊傑偣傫
+v = 22
+value = Life   ;Var(22)偵帺暘偺儔僀僼傪曐懚
+
+[State -2, 儔僀僼庢摼儈僗懳嶔]
+type = VarSet
+triggerall = Var(22) = [0,100] ;儔僀僼偑100埲壓偲擣幆偝傟偨傜
+triggerall = Time = 1
+trigger1 = RoundNo = 1
+trigger2 = RoundsExisted = 0
+v = 22
+value = const(data.life) ;帺暘偺僨乕僞偵彂偐傟偨Life偵偡傞
+
+[State -2, EX儌乕僪敾暿]
+type = VarSet
+trigger1 = PalNo = [7,12]
+var(10) = 1
+
+[State -2, 巆憸]
+type = AfterImage
+trigger1 = Movetype = H
+time = 1
+
+[State 1000, 壒傪柭傜偡]
+type = PlaySnd
+trigger1 = P2Movetype = H
+trigger1 = P2Stateno = 850
+trigger1 = P2Statetype = A
+trigger1 = enemy, Pos Y >= 0
+trigger1 = enemy, Vel Y > 0
+value = s12,10
+
+[State -2,]
+type = StopSnd
+trigger1 = command != "holdfwd"
+trigger2 = Anim != 100
+channel = 6
+
+[State -2,]
+type = StopSnd
+trigger1 = Movetype = H
+channel = 7
+
+[State -2,]
+type = StopSnd
+trigger1 = Anim != 1300
+channel = 8
+
+[State -2,]
+type = StopSnd
+trigger1 = Movetype = H
+channel = 9
+
+[State -2,]
+type = StopSnd
+trigger1 = Anim != 2000
+channel = 10
+
+[State 1000, 僿儖僷乕傪弌偡]
+type = Helper
+trigger1 = Projhit1000 = 1
+trigger2 = Projhit1200 = 1
+trigger3 = Projhit1060 = 1
+trigger4 = Projhit3300 = 70
+name = "Slow"
+stateno = 4900
+ID = 4900
+helpertype = normal
+pos = 0,0
+postype = p1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+
+[State 1000, 壒傪柭傜偡]
+type = PlaySnd
+trigger1 = Projhit1060 = 1
+value = s12,7
+
+[State 1000, 旐僟儊乕僕棪]
+type = DefenceMulSet
+trigger1 = PalNo = [7,12]
+value = 1.175
+
+
+[State -2, 4];跳跃系统相关
+type = varadd
+trigger1 = 1
+v = 15
+value = -1
+
+;---------------------------------------------------------------------------
+;===========================================================================
+[Statedef -3]
+;===========================================================================
+;---------------------------------------------------------------------------
+
+[State -3, 2];跳跃系统相关(普通跳)
+type = PlaySnd
+triggerall = time = 1
+trigger1 = stateno = 40 
+trigger1 = var(15) <= 0
+value = F40, 0
+
+[State -3, 2];跳跃系统相关（大跳/小跳）
+type = PlaySnd
+triggerall = time = 1
+trigger1 = stateno = 40 
+trigger1 = var(15) > 1
+value = F40, 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; AH大神的大跳系统
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[State -3, 5]
+type = varset
+trigger1 = stateno = 10
+trigger1 = time = 0
+trigger2 = stateno = 100
+v = 15
+value = 20
+
+[State -3, 5]
+type = varset
+trigger1 = stateno = 52
+trigger1 = time = 0
+v = 15
+value = 0
+
+[State -3, 5]
+type = varset
+trigger1 = stateno = 40
+trigger1 = command != "holdup"
+v = 16
+value = 1
+
+[State -3, 5]
+type = varset
+trigger1 = stateno = 40
+trigger1 = command = "holdup"
+v = 16
+value = 0
+
+[State -3, 5]
+type = VelAdd
+trigger1 = stateno = 50
+trigger1 = anim = 41
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+y = -0.6
+
+[State -3, 5]
+type = velset
+trigger1 = stateno = 50
+trigger1 = anim = 42
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+x = 4.5
+;y = -9
+
+[State -3, 5]
+type = velset
+trigger1 = stateno = 50
+trigger1 = anim = 43
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+x = -4.5
+;y = -9
+
+[State -3, 5]
+type = veladd
+trigger1 = stateno = 50
+trigger1 = time = 1
+trigger1 = var(16) = 1
+y = 3
+
+[State -3, 5]
+type = AfterImage
+trigger1 = stateno = 50
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+time = 10
+trans = add1
+timegap = 1
+framegap = 2
+length = 8
+palbright = 12,12,12
+palcontrast = 225,225,225
+palpostbright = 0,0,0
+paladd = 0,0,0
+palmul = 1,1,1
+;--------------------------------------------
+
+[State -3, 嬻拞僈乕僪]
+type  = ChangeState
+value = 132
+triggerall = p2movetype = A          ;憡庤偑峌寕拞
+triggerall = statetype = A           ;帺暘偑嬻拞
+triggerall = var(20) = 1             ;CPU帪
+triggerall = ctrl                    ;帺桼偵摦偗傞偲偒
+triggerall = stateno != [190,194]    ;偄傠偄傠偲僶僌懳嶔側偳傪巤偟偰偍偒傑偟傚偆(椺)
+triggerall = p2statetype = A         ;憡庤偑嬻拞
+trigger1   = P2BodyDist X = [40,80]  ;墦嫍棧梡
+trigger1   = var(21) = [0,39]        ;妋棪掅偄
+trigger2   = P2BodyDist X = [-20,39] ;嬤嫍棧梡(攚屻傕娷傔偰偄傞)
+trigger2   = var(21) = [0,59]        ;妋棪崅偄
+
+[State -3, 懳抧 棫偪僈乕僪]
+type  = ChangeState
+value = 130
+triggerall = p2movetype = A
+triggerall = statetype != A
+triggerall = var(20) = 1
+triggerall = ctrl
+triggerall = stateno != [190,194]
+triggerall = p2statetype = S
+trigger1   = P2BodyDist X = [40,90]
+trigger1   = var(21) = [0,14]         ;CPU偺僈乕僪偑屌偄偲婥暘偑埆偔側偄偱偡偐丠
+trigger2   = P2BodyDist X = [-15,39]
+trigger2   = var(21) = [10,29]
+trigger3   = enemy,teammode = simul   ;憡庤偑僠乕儉儌乕僪
+trigger3   = P2BodyDist X = [-50,-16] ;屻傠傪岦偄偰偄傞偲偒偵峌寕偝傟偨応崌
+trigger3   = var(21) = [0,39]
+trigger4   = P2BodyDist X = [-15,39]
+trigger4   = enemy,hitdefattr = S, NA,SA,HA ;憡庤偑傑偝偵棫偪峌寕傪偟偨弖娫
+trigger4   = Random < 200                   ;崅妋棪偱僈乕僪
+
+[State -3, 懳嬻 棫偪僈乕僪]
+type  = ChangeState
+value = 130
+triggerall = p2movetype = A
+triggerall = statetype != A
+triggerall = var(20) = 1
+triggerall = ctrl
+triggerall = stateno != [190,194]
+triggerall = p2statetype = A
+trigger1   = P2BodyDist X = [40,90]
+trigger1   = var(21) = [0,15]
+trigger2   = P2BodyDist X = [-40,39] ;傔偔傝懳嶔傪娷傓
+trigger2   = var(21) = [0,32]
+trigger3   = P2BodyDist X = [-40,39]
+trigger3   = enemy,hitdefattr = A, NA,SA,HA ;憡庤偑傑偝偵嬻拞峌寕傪偟偨弖娫
+trigger3   = Random < 400
+
+[State -3, 偟傖偑傒僈乕僪]
+type  = ChangeState
+value = 131
+triggerall = p2movetype = A
+triggerall = statetype != A
+triggerall = var(20) = 1
+triggerall = ctrl
+triggerall = stateno != [190,194]
+trigger1   = p2statetype = C
+trigger1   = P2BodyDist X = [40,85]
+trigger1   = var(21) = [0,24]
+trigger2   = p2statetype = C
+trigger2   = P2BodyDist X = [-20,39]
+trigger2   = var(21) = [0,39]
+trigger3   = p2statetype = S         ;棫偪壓抜懳嶔乧
+trigger3   = P2BodyDist X = [-15,39]
+trigger3   = var(21) = [0,9]
+trigger4   = p2statetype = C
+trigger4   = enemy,teammode = simul
+trigger4   = P2BodyDist X = [-50,-16]
+trigger4   = var(21) = [0,39]
+trigger5   = P2BodyDist X = [-20,39]
+trigger5   = enemy,hitdefattr = C, NA,SA,HA ;憡庤偑傑偝偵孅傒峌寕傪偟偨弖娫
+trigger5   = Random < 300
+
+[State -3, 搳偘]
+type  = ChangeState
+value = 800
+triggerall = var(20) = 1
+triggerall = roundstate = 2
+triggerall = Random = [0,59]
+triggerall = statetype = S
+triggerall = ctrl
+trigger1   = P2BodyDist X = [-3,3)
+trigger1   = p2statetype != A
+trigger1   = p2statetype != L
+trigger1   = p2movetype != H
+
+
+;--------------------------------------------------------------
+;光效代码开始
+;--------------------------------------------------------------
+[State -2]
+type = Helper
+triggerall = !NumHelper(23680)
+trigger1 = StageVar(info.author) = "light"
+pos = 0,0
+stateno = 23680
+id = 23680
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+postype = p1
+
+[State -2]
+type = Helper
+triggerall = !NumHelper(23681)
+trigger1 = StageVar(info.author) = "light"
+pos = 134,0
+stateno = 23681
+id = 23681
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+postype = left
+
+[State -2]
+type = Helper
+triggerall = !NumHelper(23682)
+trigger1 = StageVar(info.author) = "light"
+pos = -134,0
+stateno = 23682
+id = 23682
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+postype = right
+;--------------------------------------------------------------
+;光效初始位置
+;--------------------------------------------------------------
+[Statedef 23680]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+sprpriority = -10
+
+[State 3680, 4]
+type = changeanim
+trigger1 = time%2 = 0
+value = 99999
+
+[State 3680, 4]
+type = ChangeAnim
+triggerall = time%2 = 1
+trigger1 = ((root,anim = [0,99999]) && root,movetype != H)
+trigger2 = (root,anim = [5000,9999])
+value = root,anim
+elem = root,animelemno(0)
+ignorehitpause = 1
+persistent = 1
+
+[State 3680, 0]
+type = PalFX
+trigger1 = time = 0
+time = -1
+add = 224,88,0
+sinadd = 48,50,32,16
+;add = 248,232,192
+
+[State 3680,0]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 3680, 4]
+type=BindToParent
+trigger1 = 1
+time = -1
+facing = 1
+pos = (1+ifelse(Parent,fvar(36) = 1,-1,0)+ifelse(Parent,fvar(36) = 2,-2,0))*ifelse(Facing = -1,-1,1),0
+;--------------------------------------------------------------
+;光效左
+;--------------------------------------------------------------
+[Statedef 23681]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+anim = 99999
+sprpriority = -10
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X > 0 && RootDist X < 52
+fvar(36) = 1
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X < 0
+fvar(36) = 0
+
+[State 3680,1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+;--------------------------------------------------------------
+;光效右
+;--------------------------------------------------------------
+[Statedef 23682]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+anim = 99999
+sprpriority = -10
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X < 0 && RootDist X > 52
+fvar(36) = 1
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X > 0
+fvar(36) = 2
+
+[State 3680,1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+;--------------------------------------------------------------
+;光效代码结束
+;--------------------------------------------------------------
+
+;---------------------------------------------------------------------------
+;僗儘乕張棟
+
+[Statedef 4900]
+type     = A
+movetype = I
+physics  = N
+juggle   = 0
+ctrl     = 0
+anim     = 4900
+sprpriority = 1
+
+[State 1001,]
+type = Pause
+trigger1 = (GameTime%3) = 0
+trigger1 = time = [0,20]
+time = 1
+
+[State 1001,]
+type = Pause
+trigger1 = (GameTime%6) = 0
+trigger1 = time = [21,30]
+time = 1
+
+[State 4110, DestroySelf]
+type = DestroySelf
+trigger1 = Animtime = 0

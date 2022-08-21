@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="name" title="Name" type="string"/>
+  <field name="file" title="File name" type="string"/>
+  <field name="size" title="Size" type="int"/>
+  <field name="height" title="Height" type="int"/>
+
+  <code>
+    [FNT v2]
+    fntversion = 2,00
+    name = "@name"
+    author = "Microsoft"
+
+    [Def]
+    Type = truetype
+    Size = 0,@size
+    Spacing = 1,1
+    Offset = 0,0
+    File = @file.ttc
+    Blend = 1
+  </code>
+
+</snippet>

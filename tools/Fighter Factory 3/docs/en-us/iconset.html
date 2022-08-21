@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Iconset system</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Iconset system</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li>Iconset system</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Iconset system</h1>
+        <p>The Iconset system controls all icons used by Fighter Factory to display buttons, menus, among others.</p>
+        <p>As all customizable files of the program, the iconset file is a XML document that follows the syntax:</p>
+        <p>&lt;!DOCTYPE VTKIconsetML&gt;<br/>
+        &lt;iconset&gt;<br/>
+        {icon list}<br/>
+        &lt;/iconset&gt;</p>        
+        <p>To define an icon you must write:</p>
+        <p>&lt;icon name="action_name" file="icon_file.png"/&gt; inside the {icon list}.</p>
+  
+        <p>All supported actions are listed below:</p>
+        <a id="proj"></a><h2>Project</h2>
+        <p><b>file_new</b>: New project.</p> 
+        <p><b>file_open</b>: Open project.</p> 
+        <p><b>file_close</b>: Close project.</p> 
+        <p><b>file_close_all</b>: Close all projects.</p> 
+        <p><b>file_close_others</b>: Close all other projects.</p> 
+        <p><b>file_save</b>: Save project.</p> 
+        <p><b>file_saveas</b>: Save project as a new one.</p> 
+        <p><b>file_backup</b>: Backup the current project.</p> 
+        <p><b>file_load_backup</b>: Load a project backup.</p> 
+        <p><b>file_run_mugen</b>: Run in M.U.G.E.N.</p> 
+        <p><b>file_exit</b>: Exit</p>
+        
+        <a id="edit"></a><h2>Edit.</h2>
+        <p><b>edit_undo</b>: Undo.</p>
+        <p><b>edit_redo</b>: Redo.</p>
+        <p><b>edit_cut</b>: Cut.</p>
+        <p><b>edit_copy</b>: Copy.</p>
+        <p><b>edit_paste</b>: Paste.</p>
+        <p><b>edit_find_replace</b>: Find / Replace.</p>
+        <p><b>edit_find_replace_multi</b>: Find / Replace (multi-line).</p>
+        
+        <a id="view"></a><h2>View</h2>
+        <p><b>view_left_panel</b>: Left panel.</p> 
+        <p><b>view_right_panel</b>: Right panel.</p> 
+        <p><b>view_organizer</b>: Organizer.</p> 
+        <p><b>view_actions</b>: Actions.</p> 
+        <p><b>view_calculator</b>: Calculator.</p> 
+        <p><b>view_clipboard</b>: Clipboard container.</p>
+        <p><b>view_sctrl_list</b>: State controller list.</p> 
+        <p><b>view_text_bar</b>: Text toolbar.</p>  
+        <p><b>view_zoomreset</b>: Actual size.</p>  
+        <p><b>view_zoomout</b>: Decrease zoom.</p>  
+        <p><b>view_zoomin</b>: Increase zoom.</p>  
+        <p><b>view_center_axis</b>: Center the crosshair.</p>  
+        <p><b>view_spr_cross</b>: Sprite crosshair.</p>  
+        <p><b>view_anim_cross</b>: Animation crosshair.</p>  
+        <p><b>view_extra_cross</b>: Extra crosshair.</p>  
+        <p><b>view_rulers</b>: Rulers.</p>  
+        <p><b>view_guide_lines</b>: Guide lines.</p>  
+        <p><b>view_attack_clsn</b>: CLSN 1.</p>  
+        <p><b>view_collision_clsn</b>: CLSN 2.</p>  
+        <p><b>view_default_clsn1</b>: CLSN 1 default.</p>  
+        <p><b>view_default_clsn2</b>: CLSN 2 default.</p>  
+        
+        <a id="tools"></a><h2>Tools</h2>
+        <p><b>tools_options</b>: Options.</p>  
+        <p><b>tools_script_editor</b>: Script editor.</p>   
+        
+        <a id="help"></a><h2>Help</h2>
+        <p><b>ref_docs</b>: Reference documentation.</p>   
+        <p><b>help about</b>: About.</p>    
+        
+        <a id="editor"></a><h2>Editors (common)</h2>
+        <p><b>editor_new</b>: New.</p> 
+        <p><b>editor_open</b>: Open.</p> 
+        <p><b>editor_save</b>: Save.</p> 
+        <p><b>editor_saveas</b>: Save as.</p>   
+        
+        <a id="txted"></a><h2>Text editors (common)</h2>
+        <p><b>txt_goto</b>: Go to line.</p>  
+        <p><b>txt_prev_error</b>: Previous syntax error.</p>  
+        <p><b>txt_next_error</b>: Next syntax error.</p>  
+        <p><b>txt_prev_deprecation</b>: Previous deprecation.</p>  
+        <p><b>txt_next_deprecation</b>: Next deprecation.</p>  
+        <p><b>txt_comment</b>: Comment / uncomment.</p>  
+        
+        <a id="code"></a><h2>Code snippet</h2>
+        <p><b>code_snippet_insert</b>: Insert.</p> 
+        <p><b>code_snippet_new</b>: New.</p> 
+        <p><b>code_snippet_edit</b>: Edit.</p>     
+        
+        <a id="editors"></a><h2>Editors</h2>
+        <p><b>editor_def</b>: Definitions.</p>    
+        <p><b>editor_sff</b>: Sprites.</p>  
+        <p><b>editor_air</b>: Animations.</p>  
+        <p><b>editor_cmd</b>: Commands.</p>  
+        <p><b>editor_st</b>: States.</p> 
+        <p><b>editor_snd</b>: Sounds.</p>   
+  
+        <a id="def"></a><h2>Definitions</h2>
+        <p><b>def_new</b>: New.</p>  
+        <p><b>def_open</b>: Open.</p>  
+        <p><b>def_save</b>: Save.</p>  
+        <p><b>def_saveas</b>: Save as.</p>  
+  
+        <a id="spr"></a><h2>Sprites</h2>
+        <p><b>spr_new</b>: New.</p>  
+        <p><b>spr_open</b>: Open.</p>  
+        <p><b>spr_save</b>: Save.</p>  
+        <p><b>spr_saveas</b>: Save as.</p>  
+        <p><b>spr_add</b>: Add.</p>  
+        <p><b>spr_delete</b>: Delete.</p>  
+        <p><b>spr_openimg</b>: Change image.</p>  
+        <p><b>spr_saveimg</b>: Save image.</p>  
+        <p><b>spr_saveimg_aligned</b>: Save image (aligned).</p>  
+        <p><b>spr_crop</b>: Crop.</p>  
+        <p><b>spr_cropall</b>: Crop all.</p>  
+        <p><b>spr_duplicate</b>: Duplicate.</p>  
+        <p><b>spr_delete_grp</b>: Delete group.</p>  
+        <p><b>spr_rename_grp</b>: Rename group.</p>  
+        <p><b>spr_align</b>: Alignment tools.</p>  
+        <p><b>spr_edit_img</b>: Image editor.</p>  
+        <p><b>spr_split_channels</b>: Split RGB channels.</p>  
+        <p><b>spr_export</b>: Export.</p>  
+        <p><b>spr_import</b>: Import.</p>  
+        <p><b>spr_import_proj</b>: Import from another project.</p>  
+        <p><b>spr_frame_spr</b>: Switch to the frame's sprite.</p>  
+        <p><b>spr_prev_grp</b>: Previous group.</p>  
+        <p><b>spr_next_grp</b>: Next group.</p>  
+        <p><b>spr_pos_left</b>: Move 1px to the left.</p>  
+        <p><b>spr_pos_up</b>: Move 1px up.</p>  
+        <p><b>spr_pos_right</b>: Move 1px to the right.</p>  
+        <p><b>spr_pos_down</b>: Move 1px down.</p>  
+        <p><b>spr_align_topleft</b>: Aligns the sprite's top-left to the guide lines.</p> 
+        <p><b>spr_align_topright</b>: Aligns the sprite's top-right to the guide lines.</p> 
+        <p><b>spr_align_bottomleft</b>: Aligns the sprite's bottom-left to the guide lines.</p> 
+        <p><b>spr_align_bottomright</b>: Aligns the sprite's bottom-right to the guide lines.</p> 
+        <p><b>spr_align_topcenter</b>: Aligns the sprite's top-center to the guide lines.</p> 
+        <p><b>spr_align_bottomcenter</b>: Aligns the sprite's bottom-center to the guide lines.</p>
+        <p><b>spr_align_centercenter</b>: Aligns the sprite's center-center to the guide lines.</p> 
+        <p><b>spr_align_centerleft</b>: Aligns the sprite's center-left to the guide lines.</p>
+        <p><b>spr_align_centerright</b>: Aligns the sprite's center-right to the guide lines.</p>    
+               
+        <a id="air"></a><h2>Animations</h2>
+        <p><b>air_new</b>: New.</p>  
+        <p><b>air_open</b>: Open.</p>  
+        <p><b>air_save</b>: Save.</p>  
+        <p><b>air_saveas</b>: Save as.</p>  
+        <p><b>air_text_mode</b>: Text mode.</p>  
+        <p><b>air_add</b>: Add.</p>  
+        <p><b>air_delete</b>: Delete.</p>  
+        <p><b>air_duplicate</b>: Duplicate.</p>  
+        <p><b>air_edit_text</b>: Text editor (one animation isolated mode).</p>  
+        <p><b>air_save_gif</b>: Save as animated GIF.</p>  
+        <p><b>air_play</b>: Play.</p>  
+        <p><b>air_stop</b>: Stop.</p>  
+        <p><b>air_frame_add</b>: Add frame.</p>  
+        <p><b>air_frame_delete</b>: Delete frame.</p>  
+        <p><b>air_frameall_time</b>: Use the current time in all next frames.</p>  
+        <p><b>air_frameall_flip</b>: Use the current flip in all next frames.</p>  
+        <p><b>air_frameall_trans</b>: Use the current transparency in all next frames.</p>  
+        <p><b>air_frame_align</b>: Alignment tools.</p>  
+        <p><b>air_clsn_add1</b>: CLSN 1 drawing mode.</p>  
+        <p><b>air_clsn_add2</b>: CLSN 2 drawing mode.</p>  
+        <p><b>air_clsn_del</b>: Delete selected CLSNs.</p>  
+        <p><b>air_clsn_delall</b>: Delete all CLSNs of the current frame.</p>  
+        <p><b>air_clsn_delall_anim</b>: Delete all CLSNs of the current animation.</p>  
+        <p><b>air_clsn_type</b>: Switch between CLSN 1 and CLSN 2.</p>  
+        <p><b>air_clsn_default</b>: Switch between regular and default CLSN.</p>  
+        <p><b>air_clsn_prev</b>: Use CLSNs of the previous frame.</p>  
+        <p><b>air_clsn_allinst</b>: Use these CLSNs in all other instances of this frame.</p>  
+        <p><b>air_import_proj</b>: Import from another project.</p>  
+        <p><b>air_pos_left</b>: Move 1px to the left.</p>  
+        <p><b>air_pos_up</b>: Move 1px up.</p>  
+        <p><b>air_pos_right</b>: Move 1px to the right.</p>  
+        <p><b>air_pos_down</b>: Move 1px down.</p>  
+          
+        <a id="cmd"></a><h2>Commands</h2>
+        <p><b>cmd_new</b>: New.</p>  
+        <p><b>cmd_open</b>: Open.</p>  
+        <p><b>cmd_save</b>: Save.</p>  
+        <p><b>cmd_saveas</b>: Save as.</p>  
+      
+        <a id="st"></a><h2>States</h2>
+        <p><b>st_new</b>: New.</p>  
+        <p><b>st_open</b>: Open.</p>  
+        <p><b>st_save</b>: Save.</p>  
+        <p><b>st_saveas</b>: Save as.</p>  
+        <p><b>st_var_list</b>: Toggle to the var list mode.</p>  
+        <p><b>st_var_log</b>: Insert variable usage log.</p>  
+        <p><b>st_palfx</b>: PalFX editor.</p>  
+        <p><b>st_offset</b>: Offset viewer.</p>  
+        <p><b>st_throw</b>: Throw creator.</p>      
+        <p><b>st_sctrl_new</b>: New state controller.</p>  
+        <p><b>st_sctrl_edit</b>: Edit state controller.</p>  
+        <p><b>st_sctrl_delete</b>: Delete state controller.</p>  
+              
+        <a id="and"></a><h2>Sounds</h2>
+        <p><b>snd_new</b>: New.</p>  
+        <p><b>snd_open</b>: Open.</p>  
+        <p><b>snd_save</b>: Save.</p>  
+        <p><b>snd_saveas</b>: Save as.</p>  
+        <p><b>snd_add</b>: Add.</p>  
+        <p><b>snd_delete</b>: Delete.</p>  
+        <p><b>snd_openwav</b>: Change WAV.</p>  
+        <p><b>snd_savewav</b>: Save WAV.</p>  
+        <p><b>snd_duplicate</b>: Duplicate.</p>  
+        <p><b>snd_delete_grp</b>: Delete group.</p>  
+        <p><b>snd_rename_grp</b>: Rename group.</p>  
+        <p><b>snd_play</b>: Play.</p>  
+        <p><b>snd_play_loop</b>: Play with loop.</p>  
+        <p><b>snd_stop</b>: Stop.</p>  
+        <p><b>snd_export</b>: Export.</p>  
+        <p><b>snd_import</b>: Import.</p>  
+        <p><b>snd_import_proj</b>: Import from another project.</p>  
+        <p><b>snd_prev_grp</b>: Previous group.</p>  
+        <p><b>snd_next_grp</b>: Next group.</p>  
+          
+        <a id="pal"></a><h2>Palettes</h2>
+        <p><b>pal_clear</b>: Clear.</p>  
+        <p><b>pal_clear_unused</b>: Clear unused.</p>  
+        <p><b>pal_add</b>: Add.</p>  
+        <p><b>pal_delete</b>: Delete.</p>  
+        <p><b>pal_delete_duplicates</b>: Delete all duplicates.</p>  
+        <p><b>pal_open</b>: Open.</p>  
+        <p><b>pal_save</b>: Save as.</p>  
+        <p><b>pal_switch_count</b>: Switch color count (16-256).</p>  
+        <p><b>pal_remap</b>: Palette remap (for preview).</p>  
+        <p><b>pal_undo</b>: Undo.</p>  
+        <p><b>pal_redo</b>: Redo</p>  
+        <p><b>pal_switch_color</b>: Switch position of selected colors.</p>  
+        <p><b>pal_pick_color</b>: Color picker.</p>  
+        <p><b>pal_set_color</b>: Set the color of the selected slot.</p>  
+        <p><b>pal_apply_sprite</b>: Apply palette to the sprite.</p>  
+        <p><b>pal_apply_group</b>: Apply palette to the groups.</p>  
+        <p><b>pal_advanced</b>: Advanced palette editor.</p>  
+        <p><b>pal_prev_grp</b>: Previous group.</p>  
+        <p><b>pal_next_grp</b>: Next group.</p>  
+                
+        <a id="thumb"></a><h2>Thumbnails</h2>
+        <p><b>thumb_add</b>: Add selected to the current animation.</p>  
+        <p><b>thumb_add_all</b>: Add all to the current animation.</p>  
+        <p><b>thumb_new</b>: New animation with selected.</p>  
+        <p><b>thumb_new_all</b>: New animation with all.</p>  
+        <p><b>thumb_save</b>: Save all selected.</p> 
+            
+        <a id="org"></a><h2>Organizer</h2>
+        <p><b>org_palette</b>: Organize palettes.</p>  
+        <p><b>org_up</b>: Move 1 position up.</p>  
+        <p><b>org_down</b>: Move 1 position down.</p>  
+        <p><b>org_up_10</b>: Move 10 positions up.</p>  
+        <p><b>org_down_10</b>: Move 10 positions down.</p>  
+        <p><b>org_top</b>: Move to the top.</p>  
+        <p><b>org_bottom</b>: Move to the bottom.</p>  
+        <p><b>org_auto</b>: Organize automatically.</p>  
+                   
+        <a id="imedit"></a><h2>Image editor</h2>
+        <p><b>imgedit_canvasmove</b>: </p>  
+        <p><b>imgedit_rectsel</b>: </p>  
+        <p><b>imgedit_freesel</b>: </p>  
+        <p><b>imgedit_picker</b>: </p>  
+        <p><b>imgedit_pen</b>: </p>  
+        <p><b>imgedit_remap_pen</b>: </p>  
+        <p><b>imgedit_eraser</b>: </p>  
+        <p><b>imgedit_paintbucket</b>: </p>  
+        <p><b>imgedit_open_file</b>: </p>  
+        <p><b>imgedit_open_prev</b>: </p>  
+        <p><b>imgedit_open_next</b>: </p>  
+        <p><b>imgedit_open_grp</b>: </p>  
+        <p><b>imgedit_save_file</b>: </p>  
+        <p><b>imgedit_save_sprnew</b>: </p>  
+        <p><b>imgedit_save_sprgrp</b>: </p>  
+        <p><b>imgedit_new</b>: </p>  
+        <p><b>imgedit_save</b>: </p>  
+        <p><b>imgedit_undo</b>: </p>  
+        <p><b>imgedit_redo</b>: </p>  
+        <p><b>imgedit_view_original</b>: </p>  
+        <p><b>imgedit_zoom_actual</b>: </p>  
+        <p><b>imgedit_zoom_out</b>: </p>  
+        <p><b>imgedit_zoom_in</b>: </p>  
+        <p><b>imgedit_image_properties</b>: </p>  
+        <p><b>imgedit_image_resize</b>: </p>  
+        <p><b>imgedit_image_rotate</b>: </p>  
+        <p><b>imgedit_image_crop</b>: </p>  
+        <p><b>imgedit_layer_add</b>: </p>  
+        <p><b>imgedit_layer_del</b>: </p>  
+        <p><b>imgedit_layer_clone</b>: </p>  
+        <p><b>imgedit_layer_mergevis</b>: </p>  
+        <p><b>imgedit_layer_mergeall</b>: </p>  
+        <p><b>imgedit_palette_new</b>: </p>  
+        <p><b>imgedit_palette_open</b>: </p>  
+        <p><b>imgedit_palette_save</b>: </p>  
+        <p><b>imgedit_palette_edit</b>: </p>  
+                               
+        <a id="advpal"></a><h2>Advanced palette editor</h2>
+        <p><b>advpal_open</b>: </p>
+        <p><b>advpal_save</b>: </p>
+        <p><b>advpal_zoom_out</b>: </p>
+        <p><b>advpal_zoom_in</b>: </p>
+        <p><b>advpal_open_img</b>: </p>
+        <p><b>advpal_save_img</b>: </p>
+        <p><b>advpal_switch_pos</b>: </p>
+        <p><b>advpal_gradient</b>: </p>
+        <p><b>advpal_set_color</b>: </p>
+        <p><b>advpal_del_duplicate</b>: </p>
+        <p><b>advpal_add_diff</b>: </p>
+        <p><b>advpal_optimize</b>: </p>
+        <p><b>advpal_auto_sort</b>: </p>
+        <p><b>advpal_grayscale</b>: </p>
+        <p><b>advpal_gen_pal_imgs</b>: </p>
+        <p><b>advpal_insert_pal_imgs</b>: </p>
+        <p><b>advpal_undo</b>: </p>
+        <p><b>advpal_redo</b>: </p>
+        <p><b>advpal_adapt_image</b>: </p>
+        <p><b>advpal_invert_all</b>: </p>
+        <p><b>advpal_save_grpidx</b>: </p>
+        <p><b>advpal_commit_changes</b>: </p>
+        <p><b>advpal_commit_spr_changes</b>: </p>
+        <p><b>advpal_pick_color</b>: </p>
+        <p><b>advpal_effect_apply</b>: </p>
+        <p><b>advpal_huesat_reset</b>: </p>
+        <p><b>advpal_huesat_apply</b>: </p>
+        <p><b>advpal_rgb_reset</b>: </p>
+        <p><b>advpal_rgb_apply</b>: </p>
+        <p><b>advpal_selto_left</b>: </p>
+        <p><b>advpal_selto_right</b>: </p>
+        <p><b>advpal_colto_left</b>: </p>
+        <p><b>advpal_colto_right</b>: </p>
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2012 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

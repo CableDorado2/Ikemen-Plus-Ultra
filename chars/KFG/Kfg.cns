@@ -1,0 +1,499 @@
+;---------------------------------------------------------------------------
+[Data]
+life = 1500
+power = 3000
+attack = 100 
+defence = 100 
+fall.defence_up = 50 
+liedown.time = 60 
+airjuggle = 15
+sparkno = 				1
+guard.sparkno = 		40
+KO.echo = 0 
+volume = 255
+IntPersistIndex = 45 
+FloatPersistIndex = 40 
+
+;---------------------------------------------------------------------------
+[Size]             
+xscale = 1           
+yscale = 1        
+ground.back = 13      
+ground.front = 13      
+air.back = 12         
+air.front = 12        
+z.width = 3          
+height = 60            
+attack.width = 4, 4   
+attack.dist = 160      
+proj.attack.dist = 90   
+proj.doscale = 0       
+head.pos = -5, -80      
+mid.pos = -5, -50       
+shadowoffset = 0        
+draw.offset = 0,0       
+
+;---------------------------------------------------------------------------
+[Velocity]
+walk.fwd  = 2.2         
+walk.back = -2.2        
+run.fwd  = 6.5, 0       
+run.back = -5.0,-4.8;-7.5,-3.2
+jump.neu = 0,-10.1    
+jump.back = -3          
+jump.fwd = 3
+runjump.back = -5,-8
+runjump.fwd = 5,-8    
+airjump.neu = 0,-8.3    
+airjump.back = -2.55    
+airjump.fwd = 3.2       
+
+;---------------------------------------------------------------------------
+[Movement]
+airjump.num = 1         
+airjump.height = 35     
+yaccel = .52 
+stand.friction = .85   
+crouch.friction = .82 
+
+;---------------------------------------------------------------------------
+[Statedef -2]
+;---------------------------------------------------------------------------
+
+
+[State 0, DefenceMulSet]
+type=DefenceMulSet
+trigger1=1
+value=IfElse(life<300,.6,life*.001)
+ignorehitpause=1
+
+[State -2, Spray Anim P1];地面水花
+type = Explod
+triggerall = StageVar(info.author) = "water"
+triggerall = pos Y = 0
+trigger1 = time >= 0 && timemod = 16,0
+persistent = 0
+ID = 20
+anim = F20
+postype = p1
+pos = 0,-5
+ownpal = 1
+ontop = 1
+bindtime = ifelse(pos Y != 0,0,-1)
+removetime = 16
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, 1];地面水花移除
+type = removeexplod
+trigger1 = pos Y != 0
+ID = 20
+
+[State -3, 落地水花]
+type = Explod
+triggerall = StageVar(info.author) = "water"
+triggerall = Time = 1
+trigger1 = stateno = 5200||stateno = 1210
+ID = 22
+anim = F22
+postype = p1
+pos = 10,0
+ownpal = 1
+ontop = 1
+bindtime = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -3 , 落地声效]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 5200||stateno = 1210
+value = F47,(0+(StageVar(info.author) = "water"))
+
+
+[State 2000, 6];墛
+type = PlaySnd
+trigger1 = ProjHit1000 = 1
+value = s1000,3
+
+[State 185, 6]
+type = ScreenBound
+trigger1 = var(2)
+value = 0
+movecamera = 0,0
+
+[State -2, -2]
+type = varset
+triggerall = roundstate = 0 
+trigger1 = P2Name = "kfm" || P4Name = "kfm"
+trigger2 = P2Name = "Kung Fu Man" || P4Name = "Kung Fu Man"
+trigger3 = P2Name = "akfm" || P4Name = "akfm"
+trigger4 = P2Name = "another Kung Fu Man" || P4Name = "another Kung Fu Man"
+;trigger5 = P2Name = "" || P4Name = ""
+;trigger6 = P2Name = "" || P4Name = ""
+;trigger7 = P2Name = "" || P4Name = ""
+;trigger8 = P2Name = "" || P4Name = ""
+;trigger9 = P2Name = "" || P4Name = ""
+;trigger10 = P2Name = "" || P4Name = ""
+var(7) = 1
+
+[State -2, -2]
+type = varset
+triggerall = roundstate = 0 
+trigger1 = P2Name = "UZUKI" || P4Name = "UZUKI"
+trigger2 = P2Name = "KungFuGirl UZUKI" || P4Name = "KungFuGirl UZUKI"
+var(7) = 2
+
+
+;------------------------------------------------------------------------------
+; Play sound when hit by light ;累篮 脚澜
+[State -3, 1.2]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = alive
+triggerall = Random <= 600;use random
+trigger1 = stateno = 5001
+trigger1 = anim = 5000
+trigger2 = stateno = 5001
+trigger2 = anim = 5010
+trigger3 = stateno = 5011
+trigger3 = anim = 5020 
+value = 5000,0
+channel = 0
+volume = 0
+ignorehitpause = 1
+
+; Play sound when hit by medium ;炼陛 季 脚澜
+[State -3, 1.3]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = alive
+triggerall = Random <= 600;use random
+trigger1 = stateno = 5001
+trigger1 = anim = 5001
+trigger2 = stateno = 5001
+trigger2 = anim = 5011
+trigger3 = stateno = 5011
+trigger3 = anim = 5021 
+value = 5000,1
+channel = 0
+volume = 0
+ignorehitpause = 1
+
+; Play sound when hit by hard ;酒坷 炉 酒颇
+[State -3, 1.4]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = alive
+triggerall = Random <= 600;use random
+trigger1 = stateno = 5001
+trigger1 = anim = 5002
+trigger2 = stateno = 5001
+trigger2 = anim = 5012
+trigger3 = stateno = 5011
+trigger3 = anim = 5022 
+value = 5000,2
+channel = 2
+volume = 0
+ignorehitpause = 1
+
+; Play sound when lying down ;逞绢脸阑 锭 脚澜 (困芭尔 家府 傍蜡窍芭唱 蝶肺 持芭唱 窍技康)
+[State -3, 1.5]
+type = PlaySnd
+triggerall = Time = 1
+triggerall = alive
+trigger1 = stateno = 5100
+value = 5000,3
+channel = 0
+volume = 0
+ignorehitpause = 1
+
+[State 0, StopSnd]
+type = StopSnd
+trigger1 = anim!=105
+channel = 10
+
+[state -2, stopsound]
+type = stopsnd;
+trigger1 = stateno != 100
+channel = 5
+
+;-------------- Generated by Fighter Factory -------------
+
+;--------------------- Variable List ----------------------
+
+; Var(0) - StateDef 20010
+; Var(1) - StateDef 610, 615, 2100, 2200, 2300, 3100, 3200, 3600, 4100, 4200, 4500
+; Var(2) - StateDef 4625, 9500
+; Var(5) - StateDef 2315, 9500
+; Var(6) - StateDef 1400, 9500
+; Var(7) - StateDef -2
+; Var(8) - StateDef 2200, 2210, 3200, 3210
+; Var(9) - StateDef 9500
+; Var(10) - StateDef 9500
+; Var(14) - StateDef 4501
+; Var(18) - StateDef 4620
+; Var(19) - StateDef 1420, 4620
+; Var(23) - StateDef 4600, 4620
+; Var(24) - StateDef 4610, 4621
+; Var(41) - StateDef 40
+; Var(45) - StateDef -2
+; Var(46) - StateDef -2
+; Var(47) - StateDef -2
+; Var(48) - StateDef 4610, -2
+; Var(49) - StateDef -2
+; Var(50) - StateDef 1400, 4600, -2
+; Var(51) - StateDef -2
+
+;--------------------- Float Variable List ----------------------
+
+; fVar(2) - StateDef 4621
+; fVar(17) - StateDef 1400
+; fVar(20) - StateDef 1000, 1010, 1030, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 1500, 1550, 1600, 1650, 1700, 1750, 2100, 2200, 2300, 3100, 3200
+
+
+[State -2, 4];跳跃系统相关
+type = varadd
+trigger1 = 1
+v = 15
+value = -1
+
+;---------------------------------------------------------------------------
+;===========================================================================
+[Statedef -3]
+;===========================================================================
+;---------------------------------------------------------------------------
+
+[State -3, 2];跳跃系统相关(普通跳)
+type = PlaySnd
+triggerall = time = 1
+trigger1 = stateno = 40 
+trigger1 = var(15) <= 0
+value = F40, 0
+channel = 13
+
+[State -3, 2];跳跃系统相关（大跳/小跳）
+type = PlaySnd
+triggerall = time = 1
+trigger1 = stateno = 40 
+trigger1 = var(15) > 1
+value = F40, 1
+channel = 13
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; AH大神的大跳系统
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[State -3, 5]
+type = varset
+trigger1 = stateno = 10
+trigger1 = time = 0
+trigger2 = stateno = 100
+v = 15
+value = 20
+
+[State -3, 5]
+type = varset
+trigger1 = stateno = 52
+trigger1 = time = 0
+v = 15
+value = 0
+
+[State -3, 5]
+type = varset
+trigger1 = stateno = 40
+trigger1 = command != "holdup"
+v = 16
+value = 1
+
+[State -3, 5]
+type = varset
+trigger1 = stateno = 40
+trigger1 = command = "holdup"
+v = 16
+value = 0
+
+[State -3, 5]
+type = VelAdd
+trigger1 = stateno = 50
+trigger1 = anim = 41
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+y = -0.6
+
+[State -3, 5]
+type = velset
+trigger1 = stateno = 50
+trigger1 = anim = 42
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+x = 4.5
+;y = -9
+
+[State -3, 5]
+type = velset
+trigger1 = stateno = 50
+trigger1 = anim = 43
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+x = -4.5
+;y = -9
+
+[State -3, 5]
+type = veladd
+trigger1 = stateno = 50
+trigger1 = time = 1
+trigger1 = var(16) = 1
+y = 3
+
+[State -3, 5]
+type = AfterImage
+trigger1 = stateno = 50
+trigger1 = time = 1
+trigger1 = var(15) >= 1
+time = 10
+trans = add1
+timegap = 1
+framegap = 2
+length = 8
+palbright = 12,12,12
+palcontrast = 225,225,225
+palpostbright = 0,0,0
+paladd = 0,0,0
+palmul = 1,1,1
+;--------------------------------------------
+;--------------------------------------------------------------
+;光效代码开始
+;--------------------------------------------------------------
+[State -2]
+type = Helper
+triggerall = !NumHelper(23680)
+trigger1 = StageVar(info.author) = "light"
+pos = 0,0
+stateno = 23680
+id = 23680
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+postype = p1
+
+[State -2]
+type = Helper
+triggerall = !NumHelper(23681)
+trigger1 = StageVar(info.author) = "light"
+pos = 134,0
+stateno = 23681
+id = 23681
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+postype = left
+
+[State -2]
+type = Helper
+triggerall = !NumHelper(23682)
+trigger1 = StageVar(info.author) = "light"
+pos = -134,0
+stateno = 23682
+id = 23682
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+postype = right
+;--------------------------------------------------------------
+;光效初始位置
+;--------------------------------------------------------------
+[Statedef 23680]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+sprpriority = -10
+
+[State 3680, 4]
+type = changeanim
+trigger1 = time%2 = 0
+value = 99999
+
+[State 3680, 4]
+type = ChangeAnim
+triggerall = time%2 = 1
+trigger1 = ((root,anim = [0,99999]) && root,movetype != H)
+trigger2 = (root,anim = [5000,9999])
+value = root,anim
+elem = root,animelemno(0)
+ignorehitpause = 1
+persistent = 1
+
+[State 3680, 0]
+type = PalFX
+trigger1 = time = 0
+time = -1
+add = 224,88,0
+sinadd = 48,50,32,16
+;add = 248,232,192
+
+[State 3680,0]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 3680, 4]
+type=BindToParent
+trigger1 = 1
+time = -1
+facing = 1
+pos = (1+ifelse(Parent,fvar(36) = 1,-1,0)+ifelse(Parent,fvar(36) = 2,-2,0))*ifelse(Facing = -1,-1,1),0
+;--------------------------------------------------------------
+;光效左
+;--------------------------------------------------------------
+[Statedef 23681]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+anim = 99999
+sprpriority = -10
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X > 0 && RootDist X < 52
+fvar(36) = 1
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X < 0
+fvar(36) = 0
+
+[State 3680,1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+;--------------------------------------------------------------
+;光效右
+;--------------------------------------------------------------
+[Statedef 23682]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+anim = 99999
+sprpriority = -10
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X < 0 && RootDist X > 52
+fvar(36) = 1
+
+[State 3680,1]
+type = ParentVarSet
+trigger1 = RootDist X > 0
+fvar(36) = 2
+
+[State 3680,1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+;--------------------------------------------------------------
+;光效代码结束
+;--------------------------------------------------------------

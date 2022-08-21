@@ -1,0 +1,8 @@
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+;value2 = S,NA
+time = 1
+;ignorehitpause = 
+;persistent = 

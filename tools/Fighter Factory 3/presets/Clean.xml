@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preset iconset="Nuvola" stylesheet="Light" colorset="Light" panel-metric="200,0,30" extra-metric="200,0,30">
+
+  <toolbar name="main" iconsize="32">
+    <button name="file_new"/>
+    <button name="file_close"/>
+    <button name="file_open"/>
+    <button name="file_save"/>
+    <separator/>
+    <button name="file_run_mugen"/>
+    <separator/>
+    <button name="editor_def"/>
+    <button name="editor_sff"/>
+    <button name="editor_air"/>
+    <button name="editor_cmd"/>
+    <button name="editor_st"/>
+    <button name="editor_snd"/>
+    <button name="editor_bg"/>
+    <button name="ref_docs"/>
+    <separator/>
+    <button name="tools_options"/>
+  </toolbar>
+
+  <panel name="definitions">
+    <control name="def_tree" position="8,8" size="180,400"/>
+  </panel>
+
+  <panel name="sprites">
+    <control name="spr_sel" orientation="horizontal" position="8,8" size="180,16"/>
+    <control name="spr_sel_lb" align="center,top" position="8,28" size="180,14"/>
+    <control name="spr_grp_lb" align="left,top" position="8,42" size="86,14"/>
+    <control name="spr_grp" position="8,60" size="86,22"/>
+    <control name="spr_num_lb" align="left,top" position="102,42" size="86,14"/>
+    <control name="spr_num" position="102,60" size="86,22"/>
+    <control name="spr_xaxis_lb" align="left,top" position="8,86" size="86,14"/>
+    <control name="spr_xaxis" position="8,104" size="86,22"/>
+    <control name="spr_yaxis_lb" align="left,top" position="102,86" size="86,14"/>
+    <control name="spr_yaxis" position="102,104" size="86,22"/>
+    <control name="spr_dec_load" position="8,130" size="180,16"/>
+    <control name="spr_switch_pal" position="8,148" size="180,16"/>
+    <control name="spr_trans_color" position="8,166" size="180,16"/>
+    <control name="spr_info_lb" align="center,top" position="8,188" size="180,14"/>
+    <control name="spr_onion_skin" position="8,206" size="180,16"/>
+    <control name="spr_onion_sel" orientation="horizontal" position="8,228" size="180,16"/>
+    <control name="spr_onion_lb" align="center,top" position="8,250" size="180,14"/>
+  </panel>
+
+  <panel name="palettes" parent="extra">
+    <control name="pal_sel" orientation="horizontal" position="8,8" size="180,16"/>
+    <control name="pal_sel_lb" align="center,top" position="8,28" size="180,14"/>
+    <control name="pal_grp_lb" align="left,top" position="8,42" size="86,14"/>
+    <control name="pal_grp" position="8,60" size="86,22"/>
+    <control name="pal_num_lb" align="left,top" position="102,42" size="86,14"/>
+    <control name="pal_num" position="102,60" size="86,22"/>
+    <control name="pal_view" position="8,88" size="180,216"/>
+  </panel>
+
+  <panel name="animations">
+    <control name="air_sel" orientation="horizontal" position="8,8" size="180,16"/>
+    <control name="air_sel_lb" align="center,top" position="8,28" size="180,14"/>
+    <control name="air_number_lb" align="left,top" position="8,42" size="66,14"/>
+    <control name="air_number" position="8,60" size="66,22"/>
+    <control name="air_name_lb" align="left,top" position="82,42" size="106,14"/>
+    <control name="air_name" position="82,60" size="106,22"/>
+
+    <control name="air_frame_lb" align="center,top" position="8,86" size="180,14"/>
+    <control name="air_frame_sel" orientation="horizontal" position="8,104" size="180,16"/>
+    <control name="air_frame_sel_lb" align="center,top" position="8,124" size="180,14"/>
+    <control name="air_frame_grp_lb" align="left,top" position="8,146" size="86,14"/>
+    <control name="air_frame_grp" position="8,164" size="86,22"/>
+    <control name="air_frame_num_lb" align="left,top" position="102,146" size="86,14"/>
+    <control name="air_frame_num" position="102,164" size="86,22"/>
+    <control name="air_frame_xaxis_lb" align="left,top" position="8,190" size="86,14"/>
+    <control name="air_frame_xaxis" position="8,208" size="86,22"/>
+    <control name="air_frame_yaxis_lb" align="left,top" position="102,190" size="86,14"/>
+    <control name="air_frame_yaxis" position="102,208" size="86,22"/>
+    <control name="air_frame_time_lb" align="left,top" position="8,230" size="86,14"/>
+    <control name="air_frame_time" position="8,248" size="86,22"/>
+    <control name="air_frame_flip_lb" align="left,top" position="102,230" size="86,14"/>
+    <control name="air_frame_flip" position="102,248" size="86,22"/>
+    <control name="air_frame_trans_lb" align="left,top" position="8,274" size="78,14"/>
+    <control name="air_frame_trans" position="8,292" size="78,22"/>
+    <control name="air_frame_transsrc_lb" align="left,top" position="92,274" size="45,14"/>
+    <control name="air_frame_transsrc" position="92,292" size="45,22"/>
+    <control name="air_frame_transdst_lb" align="left,top" position="142,274" size="45,14"/>
+    <control name="air_frame_transdst" position="142,292" size="45,22"/>
+    <control name="air_frame_xscale_lb" position="8,318" size="56,14" align="left,top"/>
+    <control name="air_frame_xscale" position="8,334" size="56,22"/>
+    <control name="air_frame_yscale_lb" position="70,318" size="56,14" align="left,top"/>
+    <control name="air_frame_yscale" position="70,334" size="56,22"/>
+    <control name="air_frame_angle_lb" position="132,318" size="64,14" align="left,top"/>
+    <control name="air_frame_angle" position="132,334" size="56,22"/>
+
+    <control name="air_frame_loop" position="8,360" size="180,14"/>
+    <control name="air_frame_intp" position="8,378" size="180,14" align="center,top"/>
+    <control name="air_frame_intp_blend" position="8,396" size="86,14"/>
+    <control name="air_frame_intp_offset" position="102,396" size="86,14"/>
+    <control name="air_frame_intp_scale" position="8,414" size="86,14"/>
+    <control name="air_frame_intp_angle" position="102,414" size="86,14"/>
+  </panel>
+
+  <panel name="thumbnails" parent="extra">
+    <control name="thumb_grp_list" position="8,8" size="180,22"/>
+    <control name="thumb_view" position="8,38" size="180,360"/>
+  </panel>
+
+  <panel name="commands">
+    <control name="cmd_tree" position="8,8" size="180,400"/>
+  </panel>
+
+  <panel name="states">
+     <control name="st_tree" position="8,8" size="180,400"/>
+  </panel>
+
+  <panel name="sounds">
+    <control name="snd_sel" orientation="horizontal" position="8,8" size="180,16"/>
+    <control name="snd_sel_lb" align="center,top" position="8,28" size="180,14"/>
+    <control name="snd_grp_lb" align="left,top" position="8,42" size="86,14"/>
+    <control name="snd_grp" position="8,60" size="86,22"/>
+    <control name="snd_num_lb" align="left,top" position="102,42" size="86,14"/>
+    <control name="snd_num" position="102,60" size="86,22"/>
+    <control name="snd_info_lb" align="left,top" position="8,86" size="180,50"/>
+  </panel>
+
+  <panel name="backgrounds" metric="246,0,30">
+    <control name="bg_sel" orientation="horizontal" position="8,8" size="225,16"/>
+    <control name="bg_sel_lb" align="center,top" position="8,28" size="225,14"/>
+    <control name="bg_type_lb" align="left,top" position="8,46" size="75,14"/>
+    <control name="bg_type" position="8,64" size="75,22"/>
+    <control name="bg_layer_lb" align="left,top" position="90,46" size="90,14"/>
+    <control name="bg_layer" position="90,64" size="90,22"/>
+    <control name="bg_id_lb" align="left,top" position="186,46" size="45,14"/>
+    <control name="bg_id" position="186,64" size="45,22"/>
+    <control name="bg_spr_grp_lb" align="left,top" position="8,90" size="70,14"/>
+    <control name="bg_spr_grp" position="8,108" size="70,22"/>
+    <control name="bg_spr_idx_lb" align="left,top" position="85,90" size="70,14"/>
+    <control name="bg_spr_idx" position="85,108" size="70,22"/>
+    <control name="bg_anim_lb" align="left,top" position="162,90" size="70,14"/>
+    <control name="bg_anim" position="162,108" size="70,22"/>
+
+    <control name="bg_startx_lb" align="left,top" position="8,134" size="70,14"/>
+    <control name="bg_startx" position="8,152" size="70,22"/>
+    <control name="bg_deltax_lb" align="left,top" position="85,134" size="70,14"/>
+    <control name="bg_deltax" position="85,152" size="70,22"/>
+    <control name="bg_velx_lb" align="left,top" position="162,134" size="70,14"/>
+    <control name="bg_velx" position="162,152" size="70,22"/>
+    <control name="bg_starty_lb" align="left,top" position="8,178" size="70,14"/>
+    <control name="bg_starty" position="8,196" size="70,22"/>
+    <control name="bg_deltay_lb" align="left,top" position="85,178" size="70,14"/>
+    <control name="bg_deltay" position="85,196" size="70,22"/>
+    <control name="bg_vely_lb" align="left,top" position="162,178" size="70,14"/>
+    <control name="bg_vely" position="162,196" size="70,22"/>
+
+    <control name="bg_tilex_lb" align="left,top" position="8,222" size="45,14"/>
+    <control name="bg_tilex" position="8,240" size="45,22"/>
+    <control name="bg_tilespcx_lb" align="left,top" position="58,222" size="60,14"/>
+    <control name="bg_tilespcx" position="58,240" size="60,22"/>
+    <control name="bg_tiley_lb" align="left,top" position="123,222" size="45,14"/>
+    <control name="bg_tiley" position="123,240" size="45,22"/>
+    <control name="bg_tilespcy_lb" align="left,top" position="173,222" size="60,14"/>
+    <control name="bg_tilespcy" position="173,240" size="60,22"/>
+
+    <control name="bg_trans_lb" align="left,top" position="8,266" size="110,14"/>
+    <control name="bg_trans" position="8,282" size="110,22"/>
+    <control name="bg_trans_src_lb" align="left,top" position="125,266" size="50,14"/>
+    <control name="bg_trans_src" position="125,282" size="50,22"/>
+    <control name="bg_trans_dst_lb" align="left,top" position="182,266" size="50,14"/>
+    <control name="bg_trans_dst" position="182,282" size="50,22"/>
+
+    <control name="bg_sinx_ampl_lb" align="left,top" position="8,310" size="80,14"/>
+    <control name="bg_sinx_ampl" position="8,326" size="80,22"/>
+    <control name="bg_sinx_period_lb" align="left,top" position="95,310" size="65,14"/>
+    <control name="bg_sinx_period" position="95,326" size="65,22"/>
+    <control name="bg_sinx_phase_lb" align="left,top" position="166,310" size="65,14"/>
+    <control name="bg_sinx_phase" position="166,326" size="65,22"/>
+    <control name="bg_siny_ampl_lb" align="left,top" position="8,354" size="80,14"/>
+    <control name="bg_siny_ampl" position="8,370" size="80,22"/>
+    <control name="bg_siny_period_lb" align="left,top" position="95,354" size="65,14"/>
+    <control name="bg_siny_period" position="95,370" size="65,22"/>
+    <control name="bg_siny_phase_lb" align="left,top" position="166,354" size="65,14"/>
+    <control name="bg_siny_phase" position="166,370" size="65,22"/>
+
+    <control name="bg_mask" position="8,398" size="120,14"/>
+    <control name="bg_poslink" position="80,398" size="120,14"/>
+
+    <control name="bg_xscale_top_lb" align="left,top" position="8,416" size="54,14"/>
+    <control name="bg_xscale_top" position="8,434" size="54,22"/>
+    <control name="bg_xscale_bot_lb" align="left,top" position="65,416" size="54,14"/>
+    <control name="bg_xscale_bot" position="65,434" size="54,22"/>
+    <control name="bg_yscale_start_lb" align="left,top" position="123,416" size="54,14"/>
+    <control name="bg_yscale_start" position="123,434" size="54,22"/>
+    <control name="bg_yscale_delta_lb" align="left,top" position="180,416" size="54,14"/>
+    <control name="bg_yscale_delta" position="180,434" size="54,22"/>
+  </panel>
+
+  <panel name="stage" parent="extra" metric="225,0,30">
+    <control name="stg_zoffset_lb" align="left,top" position="8,8" size="65,14"/>
+    <control name="stg_zoffset" position="8,26" size="65,22"/>
+    <control name="stg_zoffsetlink_lb" align="left,top" position="8,52" size="65,14"/>
+    <control name="stg_zoffsetlink" position="8,70" size="65,22"/>
+    <control name="stg_xscale_lb" align="left,top" position="79,8" size="65,14"/>
+    <control name="stg_xscale" position="79,26" size="65,22"/>
+    <control name="stg_yscale_lb" align="left,top" position="150,8" size="65,14"/>
+    <control name="stg_yscale" position="150,26" size="65,22"/>
+    <control name="stg_coordx_lb" align="left,top" position="79,52" size="65,14"/>
+    <control name="stg_coordx" position="79,70" size="65,22"/>
+    <control name="stg_coordy_lb" align="left,top" position="150,52" size="65,14"/>
+    <control name="stg_coordy" position="150,70" size="65,22"/>
+    <control name="stg_resetbg" position="8,92" size="65,22"/>
+
+    <control name="stg_boundleft_lb" align="left,top" position="8,114" size="65,14"/>
+    <control name="stg_boundleft" position="8,132" size="65,22"/>
+    <control name="stg_boundright_lb" align="left,top" position="79,114" size="65,14"/>
+    <control name="stg_boundright" position="79,132" size="65,22"/>
+    <control name="stg_boundhigh_lb" align="left,top" position="150,114" size="65,14"/>
+    <control name="stg_boundhigh" position="150,132" size="65,22"/>
+    <control name="stg_vertfollow_lb" align="left,top" position="8,158" size="65,14"/>
+    <control name="stg_vertfollow" position="8,176" size="65,22"/>
+    <control name="stg_floortension_lb" align="left,top" position="79,158" size="65,14"/>
+    <control name="stg_floortension" position="79,176" size="65,22"/>
+    <control name="stg_tension_lb" align="left,top" position="150,158" size="65,14"/>
+    <control name="stg_tension" position="150,176" size="65,22"/>
+
+    <control name="stg_p1start_lb" align="left,top" position="8,220" size="65,14"/>
+    <control name="stg_p1start" position="8,238" size="65,22"/>
+    <control name="stg_p2start_lb" align="left,top" position="79,220" size="65,14"/>
+    <control name="stg_p2start" position="79,238" size="65,22"/>
+  </panel>
+
+  <panel name="organizer" parent="extra">
+    <control name="org_up" flat="true" position="8,8" size="26,26" icon="22"/>
+    <control name="org_down" flat="true" position="34,8" size="26,26" icon="22"/>
+    <control name="org_up_10" flat="true" position="60,8" size="26,26" icon="22"/>
+    <control name="org_down_10" flat="true" position="86,8" size="26,26" icon="22"/>
+    <control name="org_top" flat="true" position="118,8" size="26,26" icon="22"/>
+    <control name="org_bottom" flat="true" position="138,8" size="26,26" icon="22"/>
+    <control name="org_auto" flat="true" position="164,8" size="26,26" icon="22"/>
+    <control name="org_list" position="8,38" size="180,360"/>
+  </panel>
+
+</preset>

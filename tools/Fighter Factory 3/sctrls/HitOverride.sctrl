@@ -1,0 +1,10 @@
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 
+attr = S,NA        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = -1
+time = 1
+forceair = 0
+;ignorehitpause = 
+;persistent = 

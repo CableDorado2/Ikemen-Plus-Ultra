@@ -870,23 +870,23 @@ public bool init(^/char t, int w, int h, bool gl, bool mugen)
   ret Init(:t, w, h, mugen:);
 }
 
-public int getWidth()
-{
-  plugin int GetWidth(::) = "dll/sdlplugin.dll";
-  ret GetWidth(::);
-}
+//public int getWidth()
+//{
+//  plugin int GetWidth(::) = "dll/sdlplugin.dll";
+//  ret GetWidth(::);
+//}
 
-public int getHeight()
-{
-  plugin int GetHeight(::) = "dll/sdlplugin.dll";
-  ret GetHeight(::);
-}
+//public int getHeight()
+//{
+//  plugin int GetHeight(::) = "dll/sdlplugin.dll";
+//  ret GetHeight(::);
+//}
 
-public void windowSize(int w, int h)
-{
-  plugin void WindowSize(:int, int:) = "dll/sdlplugin.dll";
-  WindowSize(:w, h:);
-}
+//public void windowSize(int w, int h)
+//{
+//  plugin void WindowSize(:int, int:) = "dll/sdlplugin.dll";
+//  WindowSize(:w, h:);
+//}
 
 public bool fullScreen(bool full)
 {

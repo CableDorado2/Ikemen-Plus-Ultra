@@ -1,0 +1,43 @@
+﻿; _______________________________________________
+;| Ken Masters by Phantom.of.the.Server&Jmorphman&Beterhans|
+; ?
+;====================<DEFINITION>====================
+[Info]
+name        = "Ken Masters"
+displayName = "Ken Masters"
+versiondate = 03,11,2015
+mugenVersion= 1.0
+author      = "Phantom.of.the.Server&Jmorphman"
+pal.defaults= 4,5,6,1,2,3,10,11,12,7,8,9
+localCoord  = 320,240
+
+[Files]
+cmd     = Command.def
+cns     = Constants.cns
+st      = States/System.st
+st1     = States/Normal.st
+st2     = States/Special.st
+st3     = States/Super.st
+st4     = States/Helpers.st
+st5     = States/Ken.st
+st6	= States/monitor.st
+stCommon= common1.cns
+sprite  = Sprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+pal1	= Palettes/beterhans/SF3_04.act
+pal2	= Palettes/beterhans/SF3_05.act
+pal3	= Palettes/beterhans/SF3_06.act
+pal4	= Palettes/beterhans/SF3_01.act
+pal5	= Palettes/beterhans/SF3_02.act
+pal6	= Palettes/beterhans/SF3_03.act
+pal7	= Palettes/MalaDingDong_Evil.act
+pal8	= Palettes/MalaDingDong_OriginalZero.act
+pal9	= Palettes/beterhans/SF3_0D.act
+pal10	= Palettes/ViolentDefault.act
+pal11	= Palettes/Cyclysm_SVCArt2.act
+pal12	= Palettes/beterhans/Green_hair.act
+	
+[Arcade]
+intro.storyboard = ..\../storyboards/Ken Masters [Intro].def
+ending.storyboard = ..\../storyboards/Ken Masters [Ending].def

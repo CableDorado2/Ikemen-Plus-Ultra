@@ -1,0 +1,7 @@
+[State 0, ScreenBound]
+type = ScreenBound
+trigger1 = 
+value = 1
+movecamera = 0,0
+;ignorehitpause = 
+;persistent = 

@@ -1,0 +1,11 @@
+[State 0, BGPalFX]
+type = BGPalFX
+;trigger1 = 
+;time = 1
+;add = 0,0,0
+;mul = 256,256,256
+;sinadd = 0,0,0,10
+;invertall = 0
+;color = 256
+;ignorehitpause = 
+;persistent = 

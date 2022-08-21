@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="num" title="Number" type="int"/>
+  <field name="name" title="Name" type="string"/>
+  <field name="type" title="Type" type="string"/>
+
+  <code>
+    [State @num, @name]
+    type = @type
+    trigger1 = CURSOR
+  </code>
+
+</snippet>

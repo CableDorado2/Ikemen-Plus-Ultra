@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iconset>
+
+  <icon name="file_new" file="project/new.png"/>
+  <icon name="file_open" file="project/open.png"/>
+  <icon name="file_close" file="project/close.png"/>
+  <icon name="file_save" file="project/saveall.png"/>
+  <icon name="file_backup" file="project/backup.png"/>
+  <icon name="file_run_mugen" file="misc/run.png"/>
+
+  <icon name="edit_undo" file="common/undo.png"/>
+  <icon name="edit_redo" file="common/redo.png"/>
+  <icon name="edit_cut" file="common/cut.png"/>
+  <icon name="edit_copy" file="common/copy.png"/>
+  <icon name="edit_paste" file="common/paste.png"/>
+  <icon name="edit_find_replace" file="common/find.png"/>
+
+  <icon name="view_organizer" file="editors/org.png"/>
+  <icon name="view_calculator" file="common/calc.png"/>
+  <icon name="view_zoomout" file="common/zoomout.png"/>
+  <icon name="view_zoomin" file="common/zoomin.png"/>
+
+  <icon name="editor_def" file="editors/def.png"/>
+  <icon name="editor_sff" file="editors/sff.png"/>
+  <icon name="editor_air" file="editors/air.png"/>
+  <icon name="editor_st" file="editors/st.png"/>
+  <icon name="editor_cmd" file="editors/cmd.png"/>
+  <icon name="editor_snd" file="editors/snd.png"/>
+  <icon name="editor_bg" file="editors/bg.png"/>
+
+  <icon name="def_new" file="common/new.png"/>
+  <icon name="def_open" file="common/open.png"/>
+  <icon name="def_save" file="common/save.png"/>
+  <icon name="def_saveas" file="common/saveas.png"/>
+
+  <icon name="spr_save" file="sff/save.png"/>
+  <icon name="spr_add" file="sff/add.png"/>
+  <icon name="spr_delete" file="common/delete.png"/>
+  <icon name="spr_openimg" file="sff/openimg.png"/>
+  <icon name="spr_saveimg" file="sff/saveimg.png"/>
+  <icon name="spr_crop" file="sff/crop.png"/>
+  <icon name="spr_edit_img" file="sff/editimg.png"/>
+  <icon name="spr_duplicate" file="sff/duplicate.png"/>
+  <icon name="spr_delete_grp" file="sff/delgroup.png"/>
+  <icon name="spr_rename_grp" file="sff/rengroup.png"/>
+  <icon name="spr_zoomout" file="common/zoomout.png"/>
+  <icon name="spr_zoomin" file="common/zoomin.png"/>
+  <icon name="spr_align" file="sff/align.png"/>
+  <icon name="spr_align_topleft" file="guides/lt.png"/>
+  <icon name="spr_align_topright" file="guides/rt.png"/>
+  <icon name="spr_align_bottomleft" file="guides/lb.png"/>
+  <icon name="spr_align_bottomright" file="guides/rb.png"/>
+  <icon name="spr_align_topcenter" file="guides/tc.png"/>
+  <icon name="spr_align_bottomcenter" file="guides/bc.png"/>
+  <icon name="spr_align_centercenter" file="guides/cc.png"/>
+  <icon name="spr_align_centerleft" file="guides/lc.png"/>
+  <icon name="spr_align_centerright" file="guides/rc.png"/>
+
+  <icon name="pal_add" file="common/new.png"/>
+  <icon name="pal_open" file="common/open.png"/>
+  <icon name="pal_save" file="common/saveas.png"/>
+  <icon name="pal_delete" file="common/delete.png"/>
+  <icon name="pal_switch_count" file="pal/swcc.png"/>
+  <icon name="pal_remap" file="pal/remap.png"/>
+  <icon name="pal_undo" file="common/undo.png"/>
+  <icon name="pal_redo" file="common/redo.png"/>
+  <icon name="pal_switch_color" file="pal/swcolor.png"/>
+  <icon name="pal_set_color" file="pal/setcolor.png"/>
+  <icon name="pal_pick_color" file="pal/pickcolor.png"/>
+  <icon name="pal_apply_sprite" file="pal/applyspr.png"/>
+  <icon name="pal_advanced" file="pal/paladv.png"/>
+
+  <icon name="air_new" file="common/new.png"/>
+  <icon name="air_open" file="common/open.png"/>
+  <icon name="air_save" file="common/save.png"/>
+  <icon name="air_saveas" file="common/saveas.png"/>
+  <icon name="air_add" file="common/add.png"/>
+  <icon name="air_delete" file="common/remove.png"/>
+  <icon name="air_edit_text" file="air/edittext.png"/>
+  <icon name="air_save_gif" file="air/savegif.png"/>
+  <icon name="air_play" file="common/play.png"/>
+  <icon name="air_stop" file="common/stop.png"/>
+  <icon name="air_frame_add" file="common/add.png"/>
+  <icon name="air_frame_delete" file="common/remove.png"/>
+  <icon name="air_frameall_time" file="air/alltime.png"/>
+  <icon name="air_frameall_flip" file="air/allflip.png"/>
+  <icon name="air_frameall_trans" file="air/alltrans.png"/>
+  <icon name="air_clsn_add1" file="air/addclsn1.png"/>
+  <icon name="air_clsn_add2" file="air/addclsn2.png"/>
+  <icon name="air_clsn_del" file="air/delclsn.png"/>
+  <icon name="air_clsn_type" file="air/clsntype.png"/>
+  <icon name="air_clsn_default" file="air/clsndef.png"/>
+  <icon name="air_clsn_prev" file="air/clsnprev.png"/>
+
+  <icon name="thumb_add" file="common/add.png"/>
+  <icon name="thumb_add_all" file="air/addall.png"/>
+  <icon name="thumb_new" file="common/new.png"/>
+  <icon name="thumb_new_all" file="air/newall.png"/>
+  <icon name="thumb_save" file="sff/saveimg.png"/>
+
+  <icon name="cmd_new" file="common/new.png"/>
+  <icon name="cmd_open" file="common/open.png"/>
+  <icon name="cmd_save" file="common/save.png"/>
+  <icon name="cmd_saveas" file="common/saveas.png"/>
+
+  <icon name="st_new" file="common/new.png"/>
+  <icon name="st_open" file="common/open.png"/>
+  <icon name="st_save" file="common/save.png"/>
+  <icon name="st_saveas" file="common/saveas.png"/>
+  <icon name="st_var_list" file="st/varlist.png"/>
+  <icon name="st_var_log" file="st/var.png"/>
+  <icon name="st_palfx" file="st/palfx.png"/>
+  <icon name="st_offset" file="st/offset.png"/>
+  <icon name="st_throw" file="st/throw.png"/>
+  <icon name="st_a" file="st/a.png"/>
+  <icon name="st_c" file="st/c.png"/>
+  <icon name="st_l" file="st/l.png"/>
+  <icon name="st_s" file="st/s.png"/>
+  <icon name="st_u" file="st/u.png"/>
+  <icon name="st_quote" file="st/quote.png"/>
+  <icon name="st_command" file="st/cmd.png"/>
+  <icon name="st_sctrl_new" file="common/new.png"/>
+  <icon name="st_sctrl_edit" file="air/edittext.png"/>
+  <icon name="st_sctrl_delete" file="common/delete.png"/>
+
+  <icon name="snd_new" file="common/new.png"/>
+  <icon name="snd_open" file="common/open.png"/>
+  <icon name="snd_save" file="common/save.png"/>
+  <icon name="snd_saveas" file="common/saveas.png"/>
+  <icon name="snd_add" file="snd/add.png"/>
+  <icon name="snd_delete" file="snd/delete.png"/>
+  <icon name="snd_openwav" file="snd/openwav.png"/>
+  <icon name="snd_savewav" file="snd/savewav.png"/>
+  <icon name="snd_duplicate" file="snd/duplicate.png"/>
+  <icon name="snd_play" file="common/play.png"/>
+  <icon name="snd_play_loop" file="snd/playloop.png"/>
+  <icon name="snd_stop" file="common/stop.png"/>
+
+  <icon name="bg_add" file="common/add.png"/>
+  <icon name="bg_delete" file="common/remove.png"/>
+  <icon name="bg_play" file="common/play.png"/>
+  <icon name="bg_step" file="snd/playloop.png"/>
+  <icon name="bg_pause" file="common/pause.png"/>
+  <icon name="bg_stop" file="common/stop.png"/>
+
+  <icon name="tools_options" file="misc/options.png"/>
+
+  <icon name="org_up" file="organizer/up.png"/>
+  <icon name="org_down" file="organizer/down.png"/>
+  <icon name="org_up_10" file="organizer/up10.png"/>
+  <icon name="org_down_10" file="organizer/down10.png"/>
+  <icon name="org_top" file="organizer/top.png"/>
+  <icon name="org_bottom" file="organizer/bottom.png"/>
+  <icon name="org_auto" file="organizer/auto.png"/>
+  <icon name="org_palette" file="pal/paladv.png"/>
+
+  <icon name="advpal_open" file="pal/open.png"/>
+  <icon name="advpal_save" file="pal/save.png"/>
+  <icon name="advpal_open_img" file="sff/openimg.png"/>
+  <icon name="advpal_save_img" file="sff/saveimg.png"/>
+  <icon name="advpal_zoom_out" file="common/zoomout.png"/>
+  <icon name="advpal_zoom_in" file="common/zoomin.png"/>
+  <icon name="advpal_switch_pos" file="pal/swcolor.png"/>
+  <icon name="advpal_gradient" file="pal/gradient.png"/>
+  <icon name="advpal_del_duplicate" file="pal/delduplicate.png"/>
+  <icon name="advpal_add_diff" file="pal/adddiff.png"/>
+  <icon name="advpal_optimize" file="common/optimize.png"/>
+  <icon name="advpal_auto_sort" file="common/org.png"/>
+  <icon name="advpal_grayscale" file="pal/grayscale.png"/>
+  <icon name="advpal_set_color" file="pal/setcolor.png"/>
+  <icon name="advpal_gen_pal_imgs" file="pal/genpalimgs.png"/>
+  <icon name="advpal_insert_pal_imgs" file="pal/inspalimgs.png"/>
+  <icon name="advpal_undo" file="common/undo.png"/>
+  <icon name="advpal_redo" file="common/redo.png"/>
+  <icon name="advpal_adapt_image" file="pal/adapt.png"/>
+  <icon name="advpal_invert_all" file="pal/invall.png"/>
+  <icon name="advpal_save_grpidx" file="pal/savgrpidx.png"/>
+  <icon name="advpal_commit_changes" file="pal/commchanges.png"/>
+  <icon name="advpal_commit_spr_changes" file="pal/commsprchanges.png"/>
+  <icon name="advpal_selto_left" file="pal/slrl.png"/>
+  <icon name="advpal_selto_right" file="pal/sllr.png"/>
+  <icon name="advpal_colto_left" file="pal/clrl.png"/>
+  <icon name="advpal_colto_right" file="pal/cllr.png"/>
+  <icon name="advpal_pick_color" file="pal/pickcolor.png"/>
+  <icon name="advpal_effect_apply" file="pal/effapply.png"/>
+  <icon name="advpal_huesat_reset" file="pal/reset.png"/>
+  <icon name="advpal_huesat_apply" file="pal/apply.png"/>
+  <icon name="advpal_rgb_reset" file="pal/reset.png"/>
+  <icon name="advpal_rgb_apply" file="pal/apply.png"/>
+
+  <icon name="imgedit_canvasmove" file="imgedit/hand.png"/>
+  <icon name="imgedit_selmove" file="imgedit/move.png"/>
+  <icon name="imgedit_layermove" file="imgedit/move.png"/>
+  <icon name="imgedit_rectsel" file="imgedit/sel.png"/>
+  <icon name="imgedit_freesel" file="imgedit/freesel.png"/>
+  <icon name="imgedit_picker" file="imgedit/picker.png"/>
+  <icon name="imgedit_pen" file="imgedit/pencil.png"/>
+  <icon name="imgedit_eraser" file="imgedit/eraser.png"/>
+  <icon name="imgedit_remap_pen" file="imgedit/remappen.png"/>
+  <icon name="imgedit_paintbucket" file="imgedit/bucket.png"/>
+
+  <icon name="code_snippet_insert" file="organizer/down.png"/>
+  <icon name="code_snippet_new" file="common/add.png"/>
+  <icon name="code_snippet_edit" file="air/edittext.png"/>
+
+  <icon name="quick_search_regexp" file="search/regexp.png"/>
+  <icon name="quick_search_case" file="search/case.png"/>
+  <icon name="quick_search_backward" file="search/back.png"/>
+  <icon name="quick_search_circular" file="search/circular.png"/>
+  <icon name="quick_search_close" file="search/close.png"/>
+
+  <icon name="script_new" file="common/new.png"/>
+  <icon name="script_open" file="common/open.png"/>
+  <icon name="script_save" file="common/save.png"/>
+  <icon name="script_saveas" file="common/saveas.png"/>
+  <icon name="script_run" file="misc/run.png"/>
+  <icon name="script_translate" file="misc/translate.png"/>
+
+</iconset>

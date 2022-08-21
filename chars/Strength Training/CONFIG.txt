@@ -1,0 +1,51 @@
+[Statedef 5901];===============================================================================
+type=A;========================================================================================
+;==============================================================================================
+
+
+[State set TIME LIMIT]
+type=varset
+trigger1=1
+fvar(1)=    30.0           ;In seconds.
+                           ;Use -1 for infinite time.
+                           ;Use -2 to play under Mugen's own time limit rules.
+
+
+[State set ENEMY LIFE]
+type=varset
+trigger1=1
+var(4)=     80             ;Enemies' starting life.
+                           ;143 for AoF2 accuracy. Do note that in AoF2 it just took one strong
+                           ;normal attack to defeat each thug, so in the end 40 is a more
+                           ;accurate value for Mugen.
+
+[State set DAMAGE MULTIPLIER]
+type=varset
+trigger1=1
+fvar(2)=     0.0           ;Ammount of damage to receive from the thugs.
+                           ;Setting it to a positive value will allow the thugs to damage you,
+                           ;causing you to lose if your team is KO'ed.
+                           ;Use 1.0 for normal damage, 0.5 for half damage and so on.
+
+[State set EXTRA ENEMIES]
+type=varset
+trigger1=1
+var(7)=     0              ;Increases enemy limit by the specified value.
+                           ;Whatever you choose, the absolute limit is 16.
+
+
+[State set DISPLAY]
+type=varset
+trigger1=1
+var(8)=     2              ;Display/hide built-in lifebars and score display.
+                           ;Using 1 is recommended if you enable damage.
+                           ;0- Show nothing
+                           ;1- Show score only
+                           ;2- Show score and built-in lifebars
+
+
+;==============================================================================================
+[State 5901,end];==============================================================================
+type=changestate;==============================================================================
+trigger1=1;====================================================================================
+value=ifelse(!roundsexisted,189,191);==========================================================

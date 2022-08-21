@@ -1,0 +1,6 @@
+[State 0, LifeSet]
+type = LifeSet
+trigger1 = 
+value = 0
+;ignorehitpause = 
+;persistent = 

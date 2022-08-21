@@ -1,0 +1,43 @@
+﻿; _______________________________________________
+;| Ken Masters by Phantom.of.the.Server&Jmorphman&Beterhans|
+; ?
+;====================<DEFINITION>====================
+[Info]
+name        = "Violent Ken"
+displayName = "Violent Ken"
+versiondate = 28,12,2014
+mugenVersion= 1.0
+author      = "Phantom.of.the.Server&Jmorphman"
+pal.defaults= 4,5,6,1,2,3,10,11,12,7,8,9
+localCoord  = 320,240
+
+[Files]
+cmd     = Command.def
+cns     = Constants.cns
+st      = States/System.st
+st1     = States/Normal.st
+st2     = States/Special.st
+st3     = States/Super.st
+st4     = States/Helpers.st
+st5     = States/ViolentKen.st
+st6	= States/monitor.st
+stCommon= common1.cns
+sprite  = Sprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+pal1	= Palettes/Kirishima_DeepAnxiety.act
+pal2	= Palettes/MalaDingDong_DonDragoOrochi.act
+pal3	= Palettes/MC2_ViolentBlack.act
+pal4	= Palettes/ViolentDefault.act
+pal5	= Palettes/Cyclysm_SVCArt2.act
+pal6	= Palettes/MC2_MVC2Purple.act
+pal7	= Palettes/MalaDingDong_Evil.act
+pal8	= Palettes/Kirishima_Moltar.act
+pal9	= Palettes/MalaDingDong_Zorak.act
+pal10	= Palettes/Kirishima_BadBrew.act
+pal11	= Palettes/MalaDingDong_Mukai.act
+pal12	= Palettes/MalaDingDong_SVCBlack.act
+	
+[Arcade]
+intro.storyboard = ..\../storyboards/Violent Ken [Intro].def
+ending.storyboard = ..\../storyboards/Violent Ken [Ending].def

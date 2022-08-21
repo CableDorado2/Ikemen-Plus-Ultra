@@ -1,0 +1,13 @@
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = 
+value = S0,0
+volumescale = 0
+channel = -1
+;lowpriority = -1
+freqmul = 1.0
+loop = 0
+pan = 0
+;abspan = 
+;ignorehitpause = 
+;persistent = 

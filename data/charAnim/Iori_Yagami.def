@@ -1,0 +1,65 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0, 0, data\charTrash\Iori_Yagami\s017.png,  35,102
+   0, 1, data\charTrash\Iori_Yagami\s018.png,  35,102
+   0, 2, data\charTrash\Iori_Yagami\s019.png,  35,102
+   0, 3, data\charTrash\Iori_Yagami\s020.png,  35,102
+   0, 4, data\charTrash\Iori_Yagami\s021.png,  35,102
+   0, 5, data\charTrash\Iori_Yagami\s022.png,  35,102
+   0, 6, data\charTrash\Iori_Yagami\s023.png,  35,102
+   0, 7, data\charTrash\Iori_Yagami\s024.png,  35,102
+   0, 8, data\charTrash\Iori_Yagami\s025.png,  35,102
+   0, 9, data\charTrash\Iori_Yagami\s026.png,  35,102
+   0,10, data\charTrash\Iori_Yagami\s027.png,  35,102
+   0,11, data\charTrash\Iori_Yagami\s028.png,  35,102
+   0,12, data\charTrash\Iori_Yagami\s029.png,  35,102
+   0,13, data\charTrash\Iori_Yagami\s030.png,  35,102
+   0,14, data\charTrash\Iori_Yagami\s031.png,  35,102
+   0,15, data\charTrash\Iori_Yagami\s032.png,  35,102
+   0,16, data\charTrash\Iori_Yagami\s033.png,  35,102
+   0,17, data\charTrash\Iori_Yagami\s034.png,  35,102
+   0,18, data\charTrash\Iori_Yagami\s035.png,  35,102
+   0,19, data\charTrash\Iori_Yagami\s036.png,  35,102
+   0,20, data\charTrash\Iori_Yagami\s037.png,  35,102
+   0,21, data\charTrash\Iori_Yagami\s038.png,  35,102
+ 180, 0, data\charTrash\Iori_Yagami\s142.png,  35,102
+ 180, 1, data\charTrash\Iori_Yagami\s143.png,  35,103
+ 180, 2, data\charTrash\Iori_Yagami\s144.png,  35,104
+ 180, 3, data\charTrash\Iori_Yagami\s145.png,  35,110
+ 180, 4, data\charTrash\Iori_Yagami\s146.png,  35,112
+ 180, 5, data\charTrash\Iori_Yagami\s147.png,  35,112
+ 180, 6, data\charTrash\Iori_Yagami\s148.png,  35,115
+ 180, 7, data\charTrash\Iori_Yagami\s149.png,  35,118
+ 180, 8, data\charTrash\Iori_Yagami\s150.png,  35,118
+2100, 0, data\charTrash\Iori_Yagami\s626.png,  32, 90
+2100, 1, data\charTrash\Iori_Yagami\s627.png,  35, 86
+2100, 2, data\charTrash\Iori_Yagami\s628.png,  34, 80
+2100, 3, data\charTrash\Iori_Yagami\s629.png,  34, 77
+2100, 4, data\charTrash\Iori_Yagami\s630.png,  34, 74
+2100, 5, data\charTrash\Iori_Yagami\s631.png,  34, 71
+2100, 6, data\charTrash\Iori_Yagami\s632.png,  34, 71
+2100, 7, data\charTrash\Iori_Yagami\s633.png,  34, 71
+5040,10, data\charTrash\Iori_Yagami\s919.png,  41, 29
+5040,20, data\charTrash\Iori_Yagami\s920.png,  46, 57

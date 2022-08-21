@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="sff" title="Sprites" type="string"/>
+  <field name="air" title="Animations" type="string"/>
+  <field name="snd" title="Sounds" type="string"/>
+  <field name="cmd" title="Commands" type="string"/>
+  <field name="cns" title="Constants" type="string"/>
+  <field name="stc" title="States (common)" type="string"/>
+  <field name="st" title="States" type="string"/>
+
+  <code>
+    [Files]
+    sprite = @sff
+    anim = @air
+    sound = @snd
+    cmd = @cmd
+    cns = @cns
+    stcommon = @stc
+    st = @st
+    pal1 = CURSOR
+  </code>
+
+</snippet>

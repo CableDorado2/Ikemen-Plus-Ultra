@@ -1,20 +1,25 @@
                                __________________________________
 ==============================| Catwalk by Phantom.of.the.Server |=============================
-                               ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯          [12.01.2010]
+                               ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯          [01.05.2022]
 
-- Contact: potsmugen@yahoo.com.br
-- Website: http://www.mugenguild.com/pots/
+ - Contact: potsmugen@gmail.com
+ - Website: https://network.mugenguild.com/pots/
+ - If you downloaded this character from anywhere else, it's probably outdated
 
-- For usage in Mugen 1.0
-- This bonus game is not compatible with chars that cannot be thrown (but won't hang)
-- This bonus game is meant to be played on stages that already have a BGM
+ - This bonus game is not compatible with chars that cannot be thrown (but won't hang)
+ - This bonus game is meant to be played on stages that already have a BGM
+ - For Mugen 1.0 and above
+
 
 
 
 =====<Installation>=====
 
-- Extract Catwalk.rar to your Mugen\chars folder
-- Add "Catwalk," to your select.def, under [Characters]
+ - Extract Catwalk.rar to your Mugen\chars folder
+ - Add "Catwalk," to your select.def, under [Characters]
+
+ - This game won't work correctly if you put it in a stage that is zoomed out
+ - This game is harder in wide screen due to the shorter time the inputs are visible
 
 
 
@@ -53,18 +58,18 @@ except the giant boss type, some unconventional novelty chars or just plain brok
   Due to "engine limitations", though, only a selected few are compatible with the random shout
 sound feature, listed below:
 
-- Characters by myself (Phantom.of.the.Server)
-- Characters by Andrés Borghi
-- Characters by Baby Bonnie Hood
-- Characters by GM
-- Characters by Jesuszilla
-- Characters by jin
-- Characters by N-Mario
-- Characters by Sepp
-- Characters by The Necromancer/FlowaGirl
-- Characters by Warusaki3
-- Kung Fu Man by Elecbyte
-- Homer Simpson by Warner and JudgeSpear
+ - Characters by myself (Phantom.of.the.Server)
+ - Characters by Andrés Borghi
+ - Characters by Baby Bonnie Hood
+ - Characters by GM
+ - Characters by Jesuszilla
+ - Characters by jin
+ - Characters by N-Mario
+ - Characters by Sepp
+ - Characters by The Necromancer/FlowaGirl
+ - Characters by Warusaki3
+ - Kung Fu Man by Elecbyte
+ - Homer Simpson by Warner and JudgeSpear
 
   It's possible some of these characters, except mine, will shout incorrect sounds at times due
 to how people's methods and standards change with time, but because of the game's humorous
@@ -82,38 +87,45 @@ you make X character compatible?" questions.
 
 =====<Version History>=====
 
+<01.05.2022>
+ - Very minor changes. Mostly seeing if things still work
+
 <12.01.2010>
  - For Mugen 1.0 now
 
 <27.01.09>
-- Will not hide the lifebars if there's one player too many
-- Updated compatibility with my works (Geese and Cammy)
+ - Will not hide the lifebars if there's one player too many
+ - Updated compatibility with my works (Geese and Cammy)
 
 <v.1.0>
-- Minor adjustments
-- Score system now takes Config options into account
-- Added penalties, if you press a wrong button it now counts as missing
-- New Config options: disable penalties and disable four simultaneous button presses
-- More chars are now sound compatible (Rare Akuma and Jesuszilla's)
-- Added combo messages
-- Chance of getting scripted sequences now increases when reaching 50 and 100 "hits", to make
+ - Minor adjustments
+ - Score system now takes Config options into account
+ - Added penalties, if you press a wrong button it now counts as missing
+ - New Config options: disable penalties and disable four simultaneous button presses
+ - More chars are now sound compatible (Rare Akuma and Jesuszilla's)
+ - Added combo messages
+ - Chance of getting scripted sequences now increases when reaching 50 and 100 "hits", to make
 it easier to keep up with the extra speed
-- Speed changes or missing now removes the arrows close to the green bar
+ - Speed changes or missing now removes the arrows close to the green bar
 
 <v.0.95>
-- First release
+ - First release
 
 
 
 =====<What's Missing>=====
 
-- Sound compatibility with more characters
+ - Sound compatibility with more characters
 
 
 
 =====<Special Thanks>=====
 
-- All the good folks in the community, for support and motivation
-- You, for downloading my char ;)
+ - All the good folks in the community, for support and motivation
+ - You, for downloading my char ;)
 
 
+
+=====<Disclaimer>=====
+
+ - No part of this work may be used for personal profit, be it commissions, paywalls and the likes of it

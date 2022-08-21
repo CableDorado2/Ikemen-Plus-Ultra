@@ -1,0 +1,8 @@
+[State 0, LifeAdd]
+type = LifeAdd
+trigger1 = 
+value = 0
+kill = 1
+absolute = 0
+;ignorehitpause = 
+;persistent = 

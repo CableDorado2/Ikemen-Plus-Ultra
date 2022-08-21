@@ -1,0 +1,7 @@
+QPanelWidget
+{
+  background-color: #c3ccfa;
+  border-image: url(panel.png) 30 2 2 2;
+  border: [2]px;
+  border-top: [30]px;
+}

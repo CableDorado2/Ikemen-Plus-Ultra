@@ -1,0 +1,6 @@
+[State 0, StopSnd]
+type = StopSnd
+trigger1 = 
+channel = -1
+;ignorehitpause = 
+;persistent = 

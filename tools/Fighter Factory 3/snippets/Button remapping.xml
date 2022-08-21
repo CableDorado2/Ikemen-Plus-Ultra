@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <code>
+    [Remap]
+    x = x
+    y = y
+    z = z
+    a = a
+    b = b
+    c = c
+    s = s
+  </code>
+
+</snippet>

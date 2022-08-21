@@ -1,0 +1,31 @@
+;Kung Fu girl by S.Y.D
+;Remix by Kesenai_tsumi£»½»Á÷QQÈº£º43899828
+[Info]
+Name         ="Kung Fu Girl"
+DisplayName  ="Kung Fu Girl"
+VersionDate  =04,14,2011
+MugenVersion =1.0
+Author       ="S.Y.D"
+pal.defaults =4
+[Files]
+cmd          =Kfg.cmd   
+stcommon     =common1.cns
+Sprite       =Kfg.sff
+Anim         =Kfg.air
+Sound        =Kfg.snd
+Cns          =Kfg.cns
+St           =Kfg.cns
+st1          =Kfg_N.cns
+st2          =Kfg_S.cns
+st3          =Kfg_H.cns
+st4          =helper.cns
+pal1 = pals/Kfg-A.act
+pal2 = pals/Kfg-D.act
+pal3 = pals/Kfg-F.act
+pal4 = pals/Kfg-B.act
+pal5 = pals/Kfg-C.act
+pal6 = pals/Kfg-E.act
+
+[Arcade]
+intro.storyboard = ..\../storyboards/Kung Fu Girl [Intro].def
+ending.storyboard = ..\../storyboards/Kung Fu Girl [Ending].def

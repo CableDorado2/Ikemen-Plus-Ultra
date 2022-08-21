@@ -1,0 +1,1408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax>
+
+  <files name="cmd" type="none"/>
+  <files name="cns" type="none"/>
+  <files name="st" type="none"/>
+  <files name="stcommon" type="none"/>
+  <files name="sprite" type="none"/>
+  <files name="anim" type="none"/>
+  <files name="sound" type="none"/>
+  <files name="ai" type="none" minver="1.0"/>
+  <files name="st0" type="none"/>
+  <files name="st1" type="none"/>
+  <files name="st2" type="none"/>
+  <files name="st3" type="none"/>
+  <files name="st4" type="none"/>
+  <files name="st5" type="none"/>
+  <files name="st6" type="none"/>
+  <files name="st7" type="none"/>
+  <files name="st8" type="none"/>
+  <files name="st9" type="none"/>
+  <files name="st10" type="none"/>
+  <files name="st11" type="none"/>
+  <files name="st12" type="none"/>
+  <files name="pal1" type="none"/>
+  <files name="pal2" type="none"/>
+  <files name="pal3" type="none"/>
+  <files name="pal4" type="none"/>
+  <files name="pal5" type="none"/>
+  <files name="pal6" type="none"/>
+  <files name="pal7" type="none"/>
+  <files name="pal8" type="none"/>
+  <files name="pal9" type="none"/>
+  <files name="pal10" type="none"/>
+  <files name="pal11" type="none"/>
+  <files name="pal12" type="none"/>
+
+  <arcade name="intro.storyboard" type="none"/>
+  <arcade name="ending.storyboard" type="none"/>
+
+  <data name="life" type="int"/>
+  <data name="power" type="int"/>
+  <data name="attack" type="int"/>
+  <data name="defence" type="int"/>
+  <data name="fall.defence_up" type="int"/>
+  <data name="liedown.time" type="int"/>
+  <data name="airjuggle" type="int"/>
+  <data name="sparkno" type="strexp" reg_exp="s"/>
+  <data name="guard.sparkno" type="strexp" reg_exp="s"/>
+  <data name="ko.echo" type="int"/>
+  <data name="volume" type="int" deprecated="1.0"/>
+  <data name="volumescale" type="int"/>
+  <data name="intpersistindex" type="int"/>
+  <data name="floatpersistindex" type="int"/>
+
+  <size name="xscale" type="float"/>
+  <size name="yscale" type="float"/>
+  <size name="ground.back" type="int"/>
+  <size name="ground.front" type="int"/>
+  <size name="air.back" type="int"/>
+  <size name="air.front" type="int"/>
+  <size name="height" type="int"/>
+  <size name="attack.dist" type="int"/>
+  <size name="proj.attack.dist" type="int"/>
+  <size name="proj.doscale" type="int"/>
+  <size name="shadowoffset" type="int"/>
+  <size name="head.pos" type="int2"/>
+  <size name="mid.pos" type="int2"/>
+  <size name="draw.offset" type="int2"/>
+
+  <velocity name="walk.fwd" type="float"/>
+  <velocity name="walk.back" type="float"/>
+  <velocity name="airjump.back" type="float"/>
+  <velocity name="airjump.fwd" type="float"/>
+  <velocity name="air.gethit.airrecover.back" type="float"/>
+  <velocity name="air.gethit.airrecover.fwd" type="float"/>
+  <velocity name="air.gethit.airrecover.up" type="float"/>
+  <velocity name="air.gethit.airrecover.down" type="float"/>
+  <velocity name="run.fwd" type="float2opt"/>
+  <velocity name="run.back" type="float2opt"/>
+  <velocity name="jump.back" type="float2opt"/>
+  <velocity name="jump.fwd" type="float2opt"/>
+  <velocity name="jump.neu" type="float2opt"/>
+  <velocity name="runjump.back" type="float2opt"/>
+  <velocity name="runjump.fwd" type="float2opt"/>
+  <velocity name="airjump.neu" type="float2opt"/>
+  <velocity name="air.gethit.groundrecover" type="float2opt"/>
+  <velocity name="air.gethit.airrecover.mul" type="float2opt"/>
+  <velocity name="air.gethit.airrecover.add" type="float2opt"/>
+
+  <movement name="airjump.num" type="int"/>
+  <movement name="airjump.height" type="float"/>
+  <movement name="yaccel" type="float"/>
+  <movement name="stand.friction" type="float"/>
+  <movement name="crouch.friction" type="float"/>
+  <movement name="stand.friction.threshold" type="float"/>
+  <movement name="crouch.friction.threshold" type="float"/>
+  <movement name="air.gethit.groundlevel" type="int"/>
+  <movement name="air.gethit.groundrecover.ground.threshold" type="int"/>
+  <movement name="air.gethit.groundrecover.groundlevel" type="int"/>
+  <movement name="air.gethit.airrecover.threshold" type="int"/>
+  <movement name="air.gethit.airrecover.yaccel" type="float"/>
+  <movement name="air.gethit.trip.groundlevel" type="int"/>
+  <movement name="down.bounce.offset" type="int2"/>
+  <movement name="down.bounce.yaccel" type="float"/>
+  <movement name="down.bounce.groundlevel" type="int"/>
+  <movement name="down.friction.threshold" type="float"/>
+
+  <consts name="const">
+    <const name="data.life"/>
+    <const name="data.power"/>
+    <const name="data.attack"/>
+    <const name="data.defence"/>
+    <const name="data.fall.defence_mul"/>
+    <const name="data.liedown.time"/>
+    <const name="data.airjuggle"/>
+    <const name="data.sparkno"/>
+    <const name="data.guard.sparkno"/>
+    <const name="data.ko.echo"/>
+    <const name="data.intpersistindex"/>
+    <const name="data.floatpersistindex"/>
+    <const name="size.xscale"/>
+    <const name="size.yscale"/>
+    <const name="size.ground.back"/>
+    <const name="size.ground.front"/>
+    <const name="size.air.back"/>
+    <const name="size.air.front"/>
+    <const name="size.height"/>
+    <const name="size.attack.dist"/>
+    <const name="size.proj.attack.dist"/>
+    <const name="size.proj.doscale"/>
+    <const name="size.head.pos.x"/>
+    <const name="size.head.pos.y"/>
+    <const name="size.mid.pos.x"/>
+    <const name="size.mid.pos.y"/>
+    <const name="size.shadowoffset"/>
+    <const name="size.draw.offset.x"/>
+    <const name="size.draw.offset.y"/>
+    <const name="velocity.walk.fwd.x"/>
+    <const name="velocity.walk.back.x"/>
+    <const name="velocity.run.fwd.x"/>
+    <const name="velocity.run.fwd.y"/>
+    <const name="velocity.run.back.x"/>
+    <const name="velocity.run.back.y"/>
+    <const name="velocity.jump.y"/>
+    <const name="velocity.jump.neu.x"/>
+    <const name="velocity.jump.back.x"/>
+    <const name="velocity.jump.fwd.x"/>
+    <const name="velocity.runjump.back.x"/>
+    <const name="velocity.runjump.fwd.x"/>
+    <const name="velocity.airjump.y"/>
+    <const name="velocity.airjump.neu.x"/>
+    <const name="velocity.airjump.back.x"/>
+    <const name="velocity.airjump.fwd.x"/>
+    <const name="velocity.air.gethit.groundrecover.x"/>
+    <const name="velocity.air.gethit.groundrecover.y"/>
+    <const name="velocity.air.gethit.airrecover.mul.x"/>
+    <const name="velocity.air.gethit.airrecover.mul.y"/>
+    <const name="velocity.air.gethit.airrecover.add.x"/>
+    <const name="velocity.air.gethit.airrecover.add.y"/>
+    <const name="velocity.air.gethit.airrecover.back"/>
+    <const name="velocity.air.gethit.airrecover.fwd"/>
+    <const name="velocity.air.gethit.airrecover.up"/>
+    <const name="velocity.air.gethit.airrecover.down"/>
+    <const name="movement.airjump.num"/>
+    <const name="movement.airjump.height"/>
+    <const name="movement.yaccel"/>
+    <const name="movement.stand.friction"/>
+    <const name="movement.crouch.friction"/>
+    <const name="movement.stand.friction.threshold"/>
+    <const name="movement.crouch.friction.threshold"/>
+    <const name="movement.jump.changeanim.threshold"/>
+    <const name="movement.air.gethit.groundlevel"/>
+    <const name="movement.air.gethit.groundrecover.ground.threshold"/>
+    <const name="movement.air.gethit.groundrecover.groundlevel"/>
+    <const name="movement.air.gethit.airrecover.threshold"/>
+    <const name="movement.air.gethit.airrecover.yaccel"/>
+    <const name="movement.air.gethit.trip.groundlevel"/>
+    <const name="movement.down.bounce.offset.x"/>
+    <const name="movement.down.bounce.offset.y"/>
+    <const name="movement.down.bounce.yaccel"/>
+    <const name="movement.down.bounce.groundlevel"/>
+    <const name="movement.down.friction.threshold"/>
+  </consts>
+
+  <consts name="gethitvar">
+    <const name="xveladd"/>
+    <const name="yveladd"/>
+    <const name="type"/>
+    <const name="animtype"/>
+    <const name="airtype"/>
+    <const name="groundtype"/>
+    <const name="damage"/>
+    <const name="hitcount"/>
+    <const name="fallcount"/>
+    <const name="hitshaketime"/>
+    <const name="hittime"/>
+    <const name="slidetime"/>
+    <const name="ctrltime"/>
+    <const name="recovertime"/>
+    <const name="xoff"/> 
+    <const name="yoff"/>
+    <const name="zoff"/>
+    <const name="xvel"/>
+    <const name="yvel"/>
+    <const name="yaccel"/>
+    <const name="chainid"/>
+    <const name="guarded"/>
+    <const name="isbound"/>
+    <const name="fall"/>
+    <const name="fall.damage"/>
+    <const name="fall.xvel"/>
+    <const name="fall.yvel"/>
+    <const name="fall.recover"/>
+    <const name="fall.recovertime"/>
+    <const name="fall.kill"/>
+    <const name="fall.envshake.time"/>
+    <const name="fall.envshake.freq"/>
+    <const name="fall.envshake.ampl"/>
+    <const name="fall.envshake.phase"/>
+  </consts>
+
+  <consts name="assertspecial">
+    <const name="intro"/>
+    <const name="invisible"/>
+    <const name="roundnotover"/>
+    <const name="nobardisplay"/>
+    <const name="nobg"/>
+    <const name="nofg"/>
+    <const name="nostandguard"/>
+    <const name="nocrouchguard"/>
+    <const name="noairguard"/>
+    <const name="noautoturn"/>
+    <const name="nojugglecheck"/>
+    <const name="nokosnd"/>
+    <const name="nokoslow"/>
+    <const name="noshadow"/>
+    <const name="globalnoshadow"/>
+    <const name="nomusic"/>
+    <const name="nowalk"/>
+    <const name="noko"/>
+    <const name="timerfreeze"/>
+    <const name="unguardable"/>
+  </consts>
+
+  <consts name="stagevar">
+    <const name="info.author"/>
+    <const name="info.displayname"/>
+    <const name="info.name"/>
+  </consts>
+
+  <state_controller name="afterimage">
+    <param name="time" type="exp"/>
+    <param name="length" type="exp"/>
+    <param name="palcolor" type="exp"/>
+    <param name="palinvertall" type="exp"/>
+    <param name="palbright" type="exp3"/>
+    <param name="palcontrast" type="exp3"/>
+    <param name="palpostbright" type="exp3"/>
+    <param name="paladd" type="exp3"/>
+    <param name="palmul" type="exp3"/>
+    <param name="timegap" type="exp"/>
+    <param name="framegap" type="exp"/>
+    <param name="trans" type="value" reg_exp="none|add|add1|addalpha|sub"/>
+    <param name="alpha" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="afterimagetime">
+    <param name="time" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="allpalfx">
+    <param name="time" type="exp"/>
+    <param name="add" type="exp3"/>
+    <param name="mul" type="exp3"/>
+    <param name="sinadd" type="exp4"/>
+    <param name="invertall" type="exp"/>
+    <param name="color" type="exp"/>
+  </state_controller>
+
+  <state_controller name="angleadd">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="angledraw">
+    <param name="value" type="exp"/>
+    <param name="scale" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="anglemul">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="angleset">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="appendtoclipboard">
+    <param name="text" type="string"/>
+    <param name="params" type="expn"/>
+  </state_controller>
+
+  <state_controller name="assertspecial">
+    <param name="flag" type="value" reg_exp="intro|invisible|roundnotover|nobardisplay|nobg|nofg|nostandguard|nocrouchguard|noairguard|noautoturn|nojugglecheck|nokosnd|nokoslow|noshadow|globalnoshadow|nomusic|nowalk|timerfreeze|unguardable|noko"/>
+    <param name="flag2" type="value" reg_exp="intro|invisible|roundnotover|nobardisplay|nobg|nofg|nostandguard|nocrouchguard|noairguard|noautoturn|nojugglecheck|nokosnd|nokoslow|noshadow|globalnoshadow|nomusic|nowalk|timerfreeze|unguardable|noko"/>
+    <param name="flag3" type="value" reg_exp="intro|invisible|roundnotover|nobardisplay|nobg|nofg|nostandguard|nocrouchguard|noairguard|noautoturn|nojugglecheck|nokosnd|nokoslow|noshadow|globalnoshadow|nomusic|nowalk|timerfreeze|unguardable|noko"/>
+  </state_controller>
+
+  <state_controller name="attackdist">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="attackmulset">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="bgpalfx">
+    <param name="time" type="exp"/>
+    <param name="add" type="exp3"/>
+    <param name="mul" type="exp3"/>
+    <param name="sinadd" type="exp4"/>
+    <param name="invertall" type="exp"/>
+    <param name="color" type="exp"/>
+  </state_controller>
+
+  <state_controller name="bindtoparent">
+    <param name="time" type="exp"/>
+    <param name="facing" type="exp"/>
+    <param name="pos" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="bindtoroot">
+    <param name="time" type="exp"/>
+    <param name="facing" type="exp"/>
+    <param name="pos" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="bindtotarget">
+    <param name="time" type="exp"/>
+    <param name="id" type="exp"/>
+    <param name="pos" type="exp2value" reg_exp="foot|mid|head"/>
+  </state_controller>
+
+  <state_controller name="changeanim">
+    <param name="value" type="exp"/>
+    <param name="elem" type="exp"/>
+  </state_controller>
+
+  <state_controller name="changeanim2">
+    <param name="value" type="exp"/>
+    <param name="elem" type="exp"/>
+  </state_controller>
+
+  <state_controller name="changestate">
+    <param name="value" type="exp"/>
+    <param name="ctrl" type="exp"/>
+    <param name="anim" type="exp"/>
+  </state_controller>
+
+  <state_controller name="clearclipboard">
+  </state_controller>
+
+  <state_controller name="ctrlset">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="defencemulset">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="destroyself">
+  </state_controller>
+
+  <state_controller name="displaytoclipboard">
+    <param name="text" type="string"/>
+    <param name="params" type="expn"/>
+  </state_controller>
+
+  <state_controller name="envcolor">
+    <param name="value" type="exp3"/>
+    <param name="time" type="exp"/>
+    <param name="under" type="exp"/>
+  </state_controller>
+
+  <state_controller name="envshake">
+    <param name="time" type="exp"/>
+    <param name="freq" type="exp"/>
+    <param name="ampl" type="exp"/>
+    <param name="phase" type="exp"/>
+  </state_controller>
+
+  <state_controller name="explod">
+    <param name="anim" type="strexp" reg_exp="f"/>
+    <param name="id" type="exp"/>
+    <param name="pos" type="exp2"/>
+    <param name="postype" type="value" reg_exp="p1|p2|front|back|left|right" deprecated="1.1"/>
+    <param name="facing" type="exp"/>
+    <param name="vfacing" type="exp"/>
+    <param name="bindtime" type="exp"/>
+    <param name="vel" type="exp2"/>
+    <param name="accel" type="exp2"/>
+    <param name="random" type="exp2" deprecated="1.1"/>
+    <param name="removetime" type="exp"/>
+    <param name="supermove" type="exp" deprecated="Beta"/>
+    <param name="supermovetime" type="exp"/>
+    <param name="pausemovetime" type="exp"/>
+    <param name="scale" type="exp2"/>
+    <param name="sprpriority" type="exp"/>
+    <param name="ontop" type="exp"/>
+    <param name="shadow" type="exp3nil"/>
+    <param name="ownpal" type="exp"/>
+    <param name="under" type="exp"/>
+    <param name="removeongethit" type="exp"/>
+    <param name="ignorehitpause" type="exp"/>
+    <param name="trans" type="value" reg_exp="default|none|add|addalpha|add1|sub"/>
+    <param name="alpha" type="exp2"/>
+    <param name="velocity" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="explodbindtime">
+    <param name="id" type="exp"/>
+    <param name="time" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="forcefeedback">
+    <param name="waveform" type="value" reg_exp="sine|square|sinesquare|off"/>
+    <param name="time" type="int"/>
+    <param name="freq" type="intfloat3"/>
+    <param name="ampl" type="intfloat3opt"/>
+    <param name="self" type="int"/>
+  </state_controller>
+
+  <state_controller name="fallenvshake">
+  </state_controller>
+
+  <state_controller name="gamemakeanim" deprecated="1.0">
+    <param name="value" type="exp"/>
+    <param name="under" type="exp"/>
+    <param name="pos" type="exp2opt"/>
+    <param name="random" type="exp"/>
+  </state_controller>
+
+  <state_controller name="gravity">
+  </state_controller>
+
+  <state_controller name="helper">
+    <param name="helpertype" type="value" reg_exp="normal|player" deprecated="Beta"/>
+    <param name="name" type="string"/>
+    <param name="id" type="exp"/>
+    <param name="pos" type="exp2opt"/>
+    <param name="postype" type="value" reg_exp="p1|p2|front|back|left|right"/>
+    <param name="facing" type="exp"/>
+    <param name="stateno" type="exp"/>
+    <param name="keyctrl" type="exp"/>
+    <param name="scale" type="exp2"/>
+    <param name="ownpal" type="exp"/>
+    <param name="sprpriority" type="exp"/>
+    <param name="supermovetime" type="exp"/>
+    <param name="pausemovetime" type="exp"/>
+    <param name="size.xscale" type="exp"/>
+    <param name="size.yscale" type="exp"/>
+    <param name="size.ground.back" type="exp"/>
+    <param name="size.ground.front" type="exp"/>
+    <param name="size.air.back" type="exp"/>
+    <param name="size.air.front" type="exp"/>
+    <param name="size.height" type="exp"/>
+    <param name="size.proj.dosscale" type="exp"/>
+    <param name="size.head.pos" type="exp2"/>
+    <param name="size.mid.pos" type="exp2"/>
+    <param name="size.shadowoffset" type="exp"/>
+  </state_controller>
+
+  <state_controller name="hitadd">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="hitby">
+    <param name="value" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="value2" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="time" type="exp"/>
+  </state_controller>
+
+  <state_controller name="hitdef">
+    <param name="attr" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="hitflag" type="value" reg_exp="[hlm]?a?f?d?p?[\+-]?"/>
+    <param name="guardflag" type="value" reg_exp="[hlm]?a?f?d?"/>
+    <param name="affectteam" type="value" reg_exp="[ebf]"/>
+    <param name="animtype" type="value" reg_exp="light|med|medium|hard|heavy|back|up|diagup"/>
+    <param name="air.animtype" type="value" reg_exp="light|med|medium|hard|heavy|back|up|diagup"/>
+    <param name="fall.animtype" type="value" reg_exp="light|med|medium|hard|heavy|back|up|diagup"/>
+    <param name="priority" type="expstr" reg_exp="dodge|hit|miss"/>
+    <param name="damage" type="exp2opt"/>
+    <param name="pausetime" type="exp2"/>
+    <param name="guard.pausetime" type="exp2"/>
+    <param name="sparkno" type="strexp" reg_exp="s"/>
+    <param name="guard.sparkno" type="strexp" reg_exp="s"/>
+    <param name="sparkxy" type="exp2"/>
+    <param name="hitsound" type="strexp2nil" reg_exp="[sf]"/>
+    <param name="guardsound" type="strexp2nil" reg_exp="[sf]"/>
+    <param name="ground.type" type="value" reg_exp="high|low|trip|none"/>
+    <param name="air.type" type="value" reg_exp="high|low|trip|none"/>
+    <param name="ground.slidetime" type="exp"/>
+    <param name="guard.slidetime" type="exp"/>
+    <param name="ground.hittime" type="exp"/>
+    <param name="guard.hittime" type="exp"/>
+    <param name="airguard.hittime" type="exp"/>
+    <param name="air.hittime" type="exp"/>
+    <param name="guard.ctrltime" type="exp"/>
+    <param name="guard.dist" type="exp"/>
+    <param name="yaccel" type="exp"/>
+    <param name="ground.velocity" type="exp2opt"/>
+    <param name="guard.velocity" type="exp"/>
+    <param name="air.velocity" type="exp2"/>
+    <param name="airguard.velocity" type="exp2"/>
+    <param name="ground.cornerpush.veloff" type="exp"/>
+    <param name="air.cornerpush.veloff" type="exp"/>
+    <param name="down.cornerpush.veloff" type="exp"/>
+    <param name="guard.cornerpush.veloff" type="exp"/>
+    <param name="airguard.cornerpush.veloff" type="exp"/>
+    <param name="airguard.ctrltime" type="exp"/>
+    <param name="air.juggle" type="exp"/>
+    <param name="mindist" type="exp2"/>
+    <param name="maxdist" type="exp2"/>
+    <param name="snap" type="exp2"/>
+    <param name="p1sprpriority" type="exp"/>
+    <param name="p2sprpriority" type="exp"/>
+    <param name="p1facing" type="exp"/>
+    <param name="p1getp2facing" type="exp"/>
+    <param name="p2facing" type="exp"/>
+    <param name="p1stateno" type="exp"/>
+    <param name="p2stateno" type="exp"/>
+    <param name="p2getp1state" type="exp"/>
+    <param name="forcestand" type="exp"/>
+    <param name="fall" type="exp"/>
+    <param name="fall.xvelocity" type="exp"/>
+    <param name="fall.yvelocity" type="exp"/>
+    <param name="fall.recover" type="exp"/>
+    <param name="fall.recovertime" type="exp"/>
+    <param name="fall.damage" type="exp"/>
+    <param name="air.fall" type="exp"/>
+    <param name="forcenofall" type="exp"/>
+    <param name="down.velocity" type="exp2"/>
+    <param name="down.hittime" type="exp"/>
+    <param name="down.bounce" type="exp"/>
+    <param name="id" type="exp"/>
+    <param name="chainid" type="exp"/>
+    <param name="nochainid" type="exp2opt"/>
+    <param name="hitonce" type="exp"/>
+    <param name="kill" type="exp"/>
+    <param name="guard.kill" type="exp"/>
+    <param name="fall.kill" type="exp"/>
+    <param name="numhits" type="exp"/>
+    <param name="getpower" type="exp2opt"/>
+    <param name="givepower" type="exp2opt"/>
+    <param name="palfx.time" type="exp"/>
+    <param name="palfx.add" type="exp3"/>
+    <param name="palfx.mul" type="exp3"/>
+    <param name="palfx.sinadd" type="exp4"/>
+    <param name="palfx.invertall" type="exp"/>
+    <param name="palfx.color" type="exp"/>
+    <param name="envshake.time" type="exp"/>
+    <param name="envshake.freq" type="exp"/>
+    <param name="envshake.ampl" type="exp"/>
+    <param name="envshake.phase" type="exp"/>
+    <param name="fall.envshake.time" type="exp"/>
+    <param name="fall.envshake.freq" type="exp"/>
+    <param name="fall.envshake.ampl" type="exp"/>
+    <param name="fall.envshake.phase" type="exp"/>
+    <param name="y.accel" type="exp"/>
+  </state_controller>
+
+  <state_controller name="hitfalldamage">
+  </state_controller>
+
+  <state_controller name="hitfallset">
+    <param name="value" type="exp"/>
+    <param name="xvel" type="exp"/>
+    <param name="yvel" type="exp"/>
+  </state_controller>
+
+  <state_controller name="hitfallvel">
+  </state_controller>
+
+  <state_controller name="hitoverride">
+    <param name="attr" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="stateno" type="exp"/>
+    <param name="slot" type="exp"/>
+    <param name="time" type="exp"/>
+    <param name="forceair" type="exp"/>
+  </state_controller>
+
+  <state_controller name="hitvelset" deprecated="1.0">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="lifeadd">
+    <param name="value" type="exp"/>
+    <param name="kill" type="exp"/>
+    <param name="absolute" type="exp"/>
+  </state_controller>
+
+  <state_controller name="lifeset">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="makedust" deprecated="1.0">
+    <param name="pos" type="exp2opt"/>
+    <param name="pos2" type="exp2opt"/>
+    <param name="spacing" type="exp"/>
+  </state_controller>
+
+  <state_controller name="modifyexplod">
+    <param name="anim" type="strexp" reg_exp="f"/>
+    <param name="id" type="exp"/>
+    <param name="pos" type="exp2"/>
+    <param name="postype" type="value" reg_exp="p1|p2|front|back|left|right" deprecated="1.1"/>
+    <param name="facing" type="exp"/>
+    <param name="vfacing" type="exp"/>
+    <param name="bindtime" type="exp"/>
+    <param name="vel" type="exp2"/>
+    <param name="accel" type="exp2"/>
+    <param name="random" type="exp2" deprecated="1.1"/>
+    <param name="removetime" type="exp"/>
+    <param name="supermove" type="exp" deprecated="Beta"/>
+    <param name="supermovetime" type="exp"/>
+    <param name="pausemovetime" type="exp"/>
+    <param name="scale" type="exp2"/>
+    <param name="sprpriority" type="exp"/>
+    <param name="ontop" type="exp"/>
+    <param name="shadow" type="exp3nil"/>
+    <param name="ownpal" type="exp"/>
+    <param name="removeongethit" type="exp"/>
+    <param name="ignorehitpause" type="exp"/>
+    <param name="trans" type="value" reg_exp="default|none|add|addalpha|add1|sub"/>
+    <param name="alpha" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="movehitreset">
+  </state_controller>
+
+  <state_controller name="nothitby">
+    <param name="value" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="value2" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="time" type="exp"/>
+  </state_controller>
+
+  <state_controller name="null">
+  </state_controller>
+
+  <state_controller name="offset">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="palfx">
+    <param name="time" type="exp"/>
+    <param name="add" type="exp3"/>
+    <param name="mul" type="exp3"/>
+    <param name="sinadd" type="exp4"/>
+    <param name="invertall" type="exp"/>
+    <param name="color" type="exp"/>
+  </state_controller>
+
+  <state_controller name="parentvaradd">
+    <param name="v" type="exp"/>
+    <param name="fv" type="exp"/>
+    <param name="var" format="idexp" type="exp"/>
+    <param name="fvar" format="idexp" type="exp"/>
+    <param name="sysvar" format="idexp" type="exp"/>
+    <param name="sysfvar" format="idexp" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="parentvarset">
+    <param name="v" type="exp"/>
+    <param name="fv" type="exp"/>
+    <param name="var" format="idexp" type="exp"/>
+    <param name="fvar" format="idexp" type="exp"/>
+    <param name="sysvar" format="idexp" type="exp"/>
+    <param name="sysfvar" format="idexp" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="pause">
+    <param name="time" type="exp"/>
+    <param name="endcmdbuftime" type="exp"/>
+    <param name="movetime" type="exp"/>
+    <param name="pausebg" type="exp"/>
+  </state_controller>
+
+  <state_controller name="playerpush">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="playsnd">
+    <param name="value" type="strexp2" reg_exp="[sf]"/>
+    <param name="volume" type="exp" deprecated="1.0"/>
+    <param name="volumescale" type="exp" minver="1.0"/>
+    <param name="channel" type="exp"/>
+    <param name="lowpriority" type="exp"/>
+    <param name="freqmul" type="exp"/>
+    <param name="loop" type="exp"/>
+    <param name="pan" type="exp"/>
+    <param name="abspan" type="exp"/>
+  </state_controller>
+
+  <state_controller name="posadd">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="posfreeze">
+    <param name="value" type="exp"/>
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="posset">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="poweradd">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="powerset">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="projectile">
+    <param name="attr" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="hitflag" type="value" reg_exp="[hlm]?a?f?d?p?[\+-]?"/>
+    <param name="guardflag" type="value" reg_exp="[hlm]?a?f?d?"/>
+    <param name="affectteam" type="value" reg_exp="[ebf]"/>
+    <param name="animtype" type="value" reg_exp="light|med|medium|hard|heavy|back|up|diagup"/>
+    <param name="air.animtype" type="value" reg_exp="light|med|medium|hard|heavy|back|up|diagup"/>
+    <param name="fall.animtype" type="value" reg_exp="light|med|medium|hard|heavy|back|up|diagup"/>
+    <param name="priority" type="expspr" reg_exp="dodge|hit|miss"/>
+    <param name="damage" type="exp2opt"/>
+    <param name="pausetime" type="exp2"/>
+    <param name="guard.pausetime" type="exp2"/>
+    <param name="sparkno" type="strexp" reg_exp="s"/>
+    <param name="guard.sparkno" type="strexp" reg_exp="s"/>
+    <param name="sparkxy" type="exp2"/>
+    <param name="hitsound" type="strexp2nil" reg_exp="[sf]"/>
+    <param name="guardsound" type="strexp2nil" reg_exp="[sf]"/>
+    <param name="ground.type" type="value" reg_exp="high|low|trip|none"/>
+    <param name="air.type" type="value" reg_exp="high|low|trip|none"/>
+    <param name="ground.slidetime" type="exp"/>
+    <param name="guard.slidetime" type="exp"/>
+    <param name="ground.hittime" type="exp"/>
+    <param name="guard.hittime" type="exp"/>
+    <param name="air.hittime" type="exp"/>
+    <param name="guard.ctrltime" type="exp"/>
+    <param name="guard.dist" type="exp"/>
+    <param name="yaccel" type="exp"/>
+    <param name="ground.velocity" type="exp2opt"/>
+    <param name="guard.velocity" type="exp"/>
+    <param name="air.velocity" type="exp2"/>
+    <param name="airguard.velocity" type="exp2"/>
+    <param name="ground.cornerpush.veloff" type="exp"/>
+    <param name="air.cornerpush.veloff" type="exp"/>
+    <param name="down.cornerpush.veloff" type="exp"/>
+    <param name="guard.cornerpush.veloff" type="exp"/>
+    <param name="airguard.cornerpush.veloff" type="exp"/>
+    <param name="airguard.ctrltime" type="exp"/>
+    <param name="air.juggle" type="exp"/>
+    <param name="mindist" type="exp2"/>
+    <param name="maxdist" type="exp2"/>
+    <param name="snap" type="exp2"/>
+    <param name="p1sprpriority" type="exp"/>
+    <param name="p2sprpriority" type="exp"/>
+    <param name="p1facing" type="exp"/>
+    <param name="p1getp2facing" type="exp"/>
+    <param name="p2facing" type="exp"/>
+    <param name="p1stateno" type="exp"/>
+    <param name="p2stateno" type="exp"/>
+    <param name="p2getp1state" type="exp"/>
+    <param name="forcestand" type="exp"/>
+    <param name="fall" type="exp"/>
+    <param name="fall.xvelocity" type="exp"/>
+    <param name="fall.yvelocity" type="exp"/>
+    <param name="fall.recover" type="exp"/>
+    <param name="fall.recovertime" type="exp"/>
+    <param name="fall.damage" type="exp"/>
+    <param name="air.fall" type="exp"/>
+    <param name="forcenofall" type="exp"/>
+    <param name="down.velocity" type="exp2"/>
+    <param name="down.hittime" type="exp"/>
+    <param name="down.bounce" type="exp"/>
+    <param name="id" type="exp"/>
+    <param name="chainid" type="exp"/>
+    <param name="nochainid" type="exp2opt"/>
+    <param name="hitonce" type="exp"/>
+    <param name="kill" type="exp"/>
+    <param name="guard.kill" type="exp"/>
+    <param name="fall.kill" type="exp"/>
+    <param name="numhits" type="exp"/>
+    <param name="getpower" type="exp2opt"/>
+    <param name="givepower" type="exp2opt"/>
+    <param name="palfx.time" type="exp"/>
+    <param name="palfx.add" type="exp3"/>
+    <param name="palfx.mul" type="exp3"/>
+    <param name="palfx.sinadd" type="exp4"/>
+    <param name="palfx.invertall" type="exp"/>
+    <param name="palfx.color" type="exp"/>
+    <param name="envshake.time" type="exp"/>
+    <param name="envshake.freq" type="exp"/>
+    <param name="envshake.ampl" type="exp"/>
+    <param name="envshake.phase" type="exp"/>
+    <param name="fall.envshake.time" type="exp"/>
+    <param name="fall.envshake.freq" type="exp"/>
+    <param name="fall.envshake.ampl" type="exp"/>
+    <param name="fall.envshake.phase" type="exp"/>
+    <param name="projid" type="exp"/>
+    <param name="projanim" type="exp"/>
+    <param name="projhitanim" type="exp"/>
+    <param name="projremanim" type="exp"/>
+    <param name="projcancelanim" type="exp"/>
+    <param name="projscale" type="exp2"/>
+    <param name="projremove" type="exp"/>
+    <param name="projremovetime" type="exp"/>
+    <param name="velocity" type="exp2"/>
+    <param name="remvelocity" type="exp2"/>
+    <param name="accel" type="exp2"/>
+    <param name="velmul" type="exp2"/>
+    <param name="projhits" type="exp"/>
+    <param name="projmisstime" type="exp"/>
+    <param name="projpriority" type="exp"/>
+    <param name="projsprpriority" type="exp"/>
+    <param name="projedgebound" type="exp"/>
+    <param name="projstagebound" type="exp"/>
+    <param name="projheightbound" type="exp2"/>
+    <param name="offset" type="exp2"/>
+    <param name="postype" type="value" reg_exp="p1|p2|front|back|left|right"/>
+    <param name="projshadow" type="exp3nil"/>
+    <param name="supermovetime" type="exp"/>
+    <param name="pausemovetime" type="exp"/>
+    <param name="afterimage.time" type="exp"/>
+    <param name="afterimage.length" type="exp"/>
+    <param name="afterimage.palcolor" type="exp"/>
+    <param name="afterimage.palintervall" type="exp"/>
+    <param name="afterimage.palbright" type="exp3"/>
+    <param name="afterimage.palcontrast" type="exp3"/>
+    <param name="afterimage.palpostbright" type="exp3"/>
+    <param name="afterimage.paladd" type="exp3"/>
+    <param name="afterimage.palmul" type="exp3"/>
+    <param name="afterimage.timegap" type="exp"/>
+    <param name="afterimage.framegap" type="exp"/>
+    <param name="afterimage.trans" type="value" reg_exp="none|add|add1|sub"/>
+  </state_controller>
+
+  <state_controller name="remappal" minver="1.0">
+    <param name="source" type="exp2"/>
+    <param name="dest" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="removeexplod">
+    <param name="id" type="exp"/>
+  </state_controller>
+
+  <state_controller name="reversaldef">
+    <param name="reversal.attr" type="value" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+    <param name="pausetime" type="exp2"/>
+    <param name="sparkno" type="strexp" reg_exp="s"/>
+    <param name="sparkxy" type="exp2"/>
+    <param name="hitsound" type="strexp2nil" reg_exp="[sf]"/>
+    <param name="p1stateno" type="exp"/>
+    <param name="p2stateno" type="exp"/>
+    <param name="p1sprpriority" type="exp"/>
+    <param name="p2sprpriority" type="exp"/>
+    <param name="numhits" type="exp"/>
+  </state_controller>
+
+  <state_controller name="screenbound">
+    <param name="value" type="exp"/>
+    <param name="movecamera" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="selfstate">
+    <param name="value" type="exp"/>
+    <param name="ctrl" type="exp"/>
+    <param name="anim" type="exp"/>
+  </state_controller>
+
+  <state_controller name="sprpriority">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="statetypeset">
+    <param name="statetype" type="value" reg_exp="[acsl]"/>
+    <param name="movetype" type="value" reg_exp="[iah]"/>
+    <param name="physics" type="value" reg_exp="[acsn]"/>
+  </state_controller>
+
+  <state_controller name="sndpan">
+    <param name="channel" type="exp"/>
+    <param name="pan" type="exp"/>
+    <param name="abspan" type="exp"/>
+  </state_controller>
+
+  <state_controller name="stopsnd">
+    <param name="channel" type="exp"/>
+  </state_controller>
+
+  <state_controller name="superpause">
+    <param name="time" type="exp"/>
+    <param name="endcmdbuftime" type="exp"/>
+    <param name="movetime" type="exp"/>
+    <param name="pausebg" type="exp"/>
+    <param name="anim" type="strexp" reg_exp="s"/>
+    <param name="sound" type="strexp2nil" reg_exp="[sf]"/>
+    <param name="pos" type="exp2opt"/>
+    <param name="darken" type="exp"/>
+    <param name="p2defmul" type="exp"/>
+    <param name="poweradd" type="exp"/>
+    <param name="unhittable" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetbind">
+    <param name="time" type="exp"/>
+    <param name="id" type="exp"/>
+    <param name="pos" type="exp2opt"/>
+  </state_controller>
+
+  <state_controller name="targetdrop">
+    <param name="excludeid" type="exp"/>
+    <param name="keepone" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetfacing">
+    <param name="value" type="exp"/>
+    <param name="id" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetlifeadd">
+    <param name="value" type="exp"/>
+    <param name="id" type="exp"/>
+    <param name="kill" type="exp"/>
+    <param name="absolute" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetpoweradd">
+    <param name="value" type="exp"/>
+    <param name="id" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetstate">
+    <param name="value" type="exp"/>
+    <param name="id" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetveladd">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+    <param name="id" type="exp"/>
+  </state_controller>
+
+  <state_controller name="targetvelset">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+    <param name="id" type="exp"/>
+  </state_controller>
+
+  <state_controller name="trans">
+    <param name="trans" type="value" reg_exp="default|none|add|addalpha|add1|sub"/>
+    <param name="alpha" type="exp2"/>
+  </state_controller>
+
+  <state_controller name="turn">
+  </state_controller>
+
+  <state_controller name="varadd">
+    <param name="v" type="exp"/>
+    <param name="fv" type="exp"/>
+    <param name="var" format="idexp" type="exp"/>
+    <param name="fvar" format="idexp" type="exp"/>
+    <param name="sysvar" format="idexp" type="exp"/>
+    <param name="sysfvar" format="idexp" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="varrandom">
+    <param name="v" type="exp"/>
+    <param name="range" type="exp2opt"/>
+  </state_controller>
+
+  <state_controller name="varrangeset">
+    <param name="first" type="exp"/>
+    <param name="last" type="exp"/>
+    <param name="fvalue" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="varset">
+    <param name="v" type="exp"/>
+    <param name="fv" type="exp"/>
+    <param name="var" format="idexp" type="exp"/>
+    <param name="fvar" format="idexp" type="exp"/>
+    <param name="sysvar" format="idexp" type="exp"/>
+    <param name="sysfvar" format="idexp" type="exp"/>
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="veladd">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="velmul">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="velset">
+    <param name="x" type="exp"/>
+    <param name="y" type="exp"/>
+  </state_controller>
+
+  <state_controller name="victoryquote" minver="1.0">
+    <param name="value" type="exp"/>
+  </state_controller>
+
+  <state_controller name="width">
+    <param name="edge" type="exp2"/>
+    <param name="player" type="exp2"/>
+    <param name="value" type="exp2"/>
+  </state_controller>
+
+  <trigger name="abs" type="exp"/>
+  <trigger name="acos" type="exp"/>
+  <trigger name="ailevel" minver="1.0"/>
+  <trigger name="alive"/>
+  <trigger name="anim"/>
+  <trigger name="animelem" type="op2int2"/>
+  <trigger name="animelemno" type="exp"/>
+  <trigger name="animelemtime" type="exp"/>
+  <trigger name="animexist" type="exp"/>
+  <trigger name="animtime"/>
+  <trigger name="asin" type="exp"/>
+  <trigger name="atan" type="exp"/>
+  <trigger name="authorname" type="opstr"/>
+  <trigger name="backedge" minver="1.1"/>
+  <trigger name="backedgebodydist"/>
+  <trigger name="backedgedist"/>
+  <trigger name="bottomedge" minver="1.1"/>
+  <trigger name="camerapos" type="value" reg_exp="[xy]" minver="1.1"/>
+  <trigger name="camerazoom" minver="1.1"/>
+  <trigger name="canrecover"/>
+  <trigger name="ceil" type="exp"/>
+  <trigger name="command" type="opstr"/>
+  <trigger name="cond" type="exp3" minver="1.0"/>
+  <trigger name="const" type="const"/>
+  <trigger name="const240p" type="exp" minver="1.0"/>
+  <trigger name="const480p" type="exp" minver="1.0"/>
+  <trigger name="const720p" type="exp" minver="1.0"/>
+  <trigger name="cos" type="exp"/>
+  <trigger name="ctrl"/>
+  <trigger name="drawgame"/>
+  <trigger name="e"/>
+  <trigger name="exp" type="exp"/>
+  <trigger name="facing"/>
+  <trigger name="floor" type="exp"/>
+  <trigger name="frontedge" minver="1.1"/>
+  <trigger name="frontedgebodydist"/>
+  <trigger name="frontedgedist"/>
+  <trigger name="fvar" type="exp"/>
+  <trigger name="gameheight" minver="1.0"/>
+  <trigger name="gametime"/>
+  <trigger name="gamewidth" minver="1.0"/>
+  <trigger name="gethitvar" type="const"/>
+  <trigger name="hitcount"/>
+  <trigger name="hitdefattr" type="valueeq" reg_exp="(?![^a,]{0,2}a[^a,]{0,1}a)(?![^s,]{0,2}s[^s,]{0,1}s)(?![^c,]{0,2}c[^c,]{0,1}c)[asc]{0,3}(?:,[ansh][atp])*"/>
+  <trigger name="hitfall"/>
+  <trigger name="hitover"/>
+  <trigger name="hitpausetime"/>
+  <trigger name="hitshakeover"/>
+  <trigger name="hitvel" type="value" reg_exp="[xy]"/>
+  <trigger name="id"/>
+  <trigger name="ifelse" type="exp3"/>
+  <trigger name="inguarddist"/>
+  <trigger name="ishelper" type="expopt"/>
+  <trigger name="ishometeam"/>
+  <trigger name="leftedge" minver="1.1"/>
+  <trigger name="life"/>
+  <trigger name="lifemax"/>
+  <trigger name="ln" type="exp"/>
+  <trigger name="log" type="exp2"/>
+  <trigger name="lose"/>
+  <trigger name="loseko"/>
+  <trigger name="losetime"/>
+  <trigger name="matchno"/>
+  <trigger name="matchover"/>
+  <trigger name="movecontact"/>
+  <trigger name="moveguarded"/>
+  <trigger name="movehit"/>
+  <trigger name="movetype" type="valueeq" reg_exp="[aih]"/>
+  <trigger name="movereversed"/>
+  <trigger name="name" type="opstr"/>
+  <trigger name="numenemy"/>
+  <trigger name="numexplod" type="nilexp"/>
+  <trigger name="numhelper" type="nilexp"/>
+  <trigger name="numpartner"/>
+  <trigger name="numproj"/>
+  <trigger name="numprojid" type="exp"/>
+  <trigger name="numtarget" type="nilexp"/>
+  <trigger name="p1name" type="opstr"/>
+  <trigger name="p2bodydist" type="value" reg_exp="[xy]"/>
+  <trigger name="p2dist" type="value" reg_exp="[xy]"/>
+  <trigger name="p2life"/>
+  <trigger name="p2movetype" type="valueeq" reg_exp="[aih]"/>
+  <trigger name="p2name" type="opstr"/>
+  <trigger name="p2stateno"/>
+  <trigger name="p2statetype" type="valueeq" reg_exp="[scal]"/>
+  <trigger name="p3name" type="opstr"/>
+  <trigger name="p4name" type="opstr"/>
+  <trigger name="palno"/>
+  <trigger name="parentdist" type="value" reg_exp="[xy]"/>
+  <trigger name="pi"/>
+  <trigger name="pos" type="value" reg_exp="[xy]"/>
+  <trigger name="power"/>
+  <trigger name="powermax"/>
+  <trigger name="playeridexist" type="exp"/>
+  <trigger name="prevstateno"/>
+  <trigger name="projcanceltime" type="exp"/>
+  <trigger name="projcontact" format="regexp" fmt_reg_exp="projcontact\d*" type="opint"/>
+  <trigger name="projcontacttime" type="exp"/>
+  <trigger name="projguarded" format="regexp" fmt_reg_exp="projguarded\d*" type="opint"/>
+  <trigger name="projguardedtime" type="exp"/>
+  <trigger name="projhit" format="regexp" fmt_reg_exp="projhit\d*" type="opint"/>
+  <trigger name="projhittime" type="exp"/>
+  <trigger name="random"/>
+  <trigger name="rightedge" minver="1.1"/>
+  <trigger name="rootdist" type="value" reg_exp="[xy]"/>
+  <trigger name="roundno"/>
+  <trigger name="roundsexisted"/>
+  <trigger name="roundstate"/>
+  <trigger name="screenpos" type="value" reg_exp="[xy]"/>
+  <trigger name="screenheight" minver="1.1"/>
+  <trigger name="screenwidth" minver="1.1"/>
+  <trigger name="selfanimexist" type="exp"/>
+  <trigger name="sin" type="exp"/>
+  <trigger name="stateno"/>
+  <trigger name="statetype" type="valueeq" reg_exp="[scal]"/>
+  <trigger name="stagevar" type="const" minver="1.0"/>
+  <trigger name="sysfvar" type="exp"/>
+  <trigger name="sysvar" type="exp"/>
+  <trigger name="tan" type="exp"/>
+  <trigger name="teammode" type="valueeq" reg_exp="single|simul|turns"/>
+  <trigger name="teamside"/>
+  <trigger name="tickspersecond"/>
+  <trigger name="time"/>
+  <trigger name="timemod" type="opint2"/>
+  <trigger name="topedge" minver="1.1"/>
+  <trigger name="uniqhitcount"/>
+  <trigger name="var" type="exp"/>
+  <trigger name="vel" type="value" reg_exp="[xy]"/>
+  <trigger name="win"/>
+  <trigger name="winko"/>
+  <trigger name="wintime"/>
+  <trigger name="winperfect"/>
+
+  <camera name="startx" type="int"/>
+  <camera name="starty" type="int"/>
+  <camera name="boundleft" type="int"/>
+  <camera name="boundright" type="int"/>
+  <camera name="boundhigh" type="int"/>
+  <camera name="boundlow" type="int"/>
+  <camera name="verticalfollow" type="float"/>
+  <camera name="floortension" type="int"/>
+  <camera name="tension" type="int"/>
+  <camera name="tensionhigh" type="int"/>
+  <camera name="tensionlow" type="int"/>
+  <camera name="overdrawhigh" type="int" minver="1.0"/>
+  <camera name="overdrawlow" type="int" minver="1.0"/>
+  <camera name="cuthigh" type="int" minver="1.0"/>
+  <camera name="cutlow" type="int" minver="1.0"/>
+  <camera name="startzoom" type="float" minver="1.1"/>
+  <camera name="zoomout" type="float" minver="1.1"/>
+  <camera name="zoomin" type="float" minver="1.1"/>
+
+  <playerinfo name="p1startx" type="int"/>
+  <playerinfo name="p1starty" type="int"/>
+  <playerinfo name="p1startz" type="int"/>
+  <playerinfo name="p1facing" type="int"/>
+  <playerinfo name="p2startx" type="int"/>
+  <playerinfo name="p2starty" type="int"/>
+  <playerinfo name="p2startz" type="int"/>
+  <playerinfo name="p2facing" type="int"/>
+  <playerinfo name="p3startx" type="int"/>
+  <playerinfo name="p3starty" type="int"/>
+  <playerinfo name="p3startz" type="int"/>
+  <playerinfo name="p3facing" type="int"/>
+  <playerinfo name="p4startx" type="int"/>
+  <playerinfo name="p4starty" type="int"/>
+  <playerinfo name="p4startz" type="int"/>
+  <playerinfo name="p4facing" type="int"/>
+  <playerinfo name="leftbound" type="int"/>
+  <playerinfo name="rightbound" type="int"/>
+  <playerinfo name="topbound" type="int"/>
+  <playerinfo name="botbound" type="int"/>
+
+  <bound name="screenleft" type="int"/>
+  <bound name="screenright" type="int"/>
+
+  <stageinfo name="zoffset" type="float"/>
+  <stageinfo name="zoffsetlink" type="int"/>
+  <stageinfo name="autoturn" type="int"/>
+  <stageinfo name="resetbg" type="int"/>
+  <stageinfo name="localcoord" type="int2"/>
+  <stageinfo name="xscale" type="float" minver="1.0"/>
+  <stageinfo name="yscale" type="float" minver="1.0"/>
+
+  <shadow name="intensity" type="int"/>
+  <shadow name="color" type="int3"/>
+  <shadow name="yscale" type="float"/>
+  <shadow name="fade.range" type="int2"/>
+  <shadow name="xshear" type="float"/>
+
+  <reflection name="intensity" type="int"/>
+  <reflection name="reflect" type="int"/>
+
+  <scaling name="topz" type="int"/>
+  <scaling name="botz" type="int"/>
+  <scaling name="topscale" type="float"/>
+  <scaling name="botscale" type="float"/>
+
+  <music name="bgmusic" type="none"/>
+  <music name="bgvolume" type="int" deprecated="1.0"/>
+  <music name="bgmvolume" type="int" minver="1.0"/>
+  <music name="bgmloopstart" type="int" minver="1.0"/>
+  <music name="bgmloopend" type="int" minver="1.0"/>
+
+  <bgdef name="spr" type="none"/>
+  <bgdef name="debugbg" type="int"/>
+
+  <bg_controller name="normal">
+    <param name="spriteno" type="int2"/>
+    <param name="layerno" type="int"/>
+    <param name="start" type="float2"/>
+    <param name="delta" type="float2"/>
+    <param name="mask" type="int"/>
+    <param name="tile" type="int2"/>
+    <param name="tilespacing" type="int2"/>
+    <param name="trans" type="value" reg_exp="none|add|add1|addalpha|sub"/>
+    <param name="alpha" type="int2"/>
+    <param name="id" type="int"/>
+    <param name="positionlink" type="int"/>
+    <param name="maskwindow" type="int4"/>
+    <param name="window" type="int4"/>
+    <param name="windowdelta" type="float2"/>
+    <param name="velocity" type="float2"/>
+    <param name="scalestart" type="float2"/>
+    <param name="zoomdelta" type="float"/>
+    <param name="sin.x" type="float3"/>
+    <param name="sin.y" type="float3"/>
+  </bg_controller>
+
+  <bg_controller name="anim">
+    <param name="actionno" type="int"/>
+    <param name="layerno" type="int"/>
+    <param name="start" type="float2"/>
+    <param name="delta" type="float2"/>
+    <param name="mask" type="int"/>
+    <param name="tile" type="int2"/>
+    <param name="tilespacing" type="int2"/>
+    <param name="trans" type="value" reg_exp="none|add|add1|addalpha|sub"/>
+    <param name="alpha" type="int2"/>
+    <param name="id" type="int"/>
+    <param name="positionlink" type="int"/>
+    <param name="maskwindow" type="int4"/>
+    <param name="window" type="int4"/>
+    <param name="windowdelta" type="float2"/>
+    <param name="velocity" type="float2"/>
+    <param name="scalestart" type="float2"/>
+    <param name="zoomdelta" type="float"/>
+    <param name="sin.x" type="float3"/>
+    <param name="sin.y" type="float3"/>
+  </bg_controller>
+
+  <bg_controller name="parallax">
+    <param name="spriteno" type="int2"/>
+    <param name="actionno" type="int"/>
+    <param name="width" type="int2"/>
+    <param name="xscale" type="float2"/>
+    <param name="yscalestart" type="float"/>
+    <param name="yscaledelta" type="float"/>
+    <param name="layerno" type="int"/>
+    <param name="start" type="float2"/>
+    <param name="delta" type="float2"/>
+    <param name="mask" type="int"/>
+    <param name="tile" type="int2"/>
+    <param name="trans" type="value" reg_exp="none|add|add1|addalpha|sub"/>
+    <param name="alpha" type="int2"/>
+    <param name="id" type="int"/>
+    <param name="positionlink" type="int"/>
+    <param name="maskwindow" type="int4"/>
+    <param name="window" type="int4"/>
+    <param name="windowdelta" type="float2"/>
+    <param name="velocity" type="float2"/>
+    <param name="scalestart" type="float2"/>
+    <param name="zoomdelta" type="float"/>
+    <param name="sin.x" type="float3"/>
+    <param name="sin.y" type="float3"/>
+  </bg_controller>
+
+  <bg_controller name="dummy">
+    <param name="trans" type="value" reg_exp="none|add|add1|addalpha|sub"/>
+    <param name="alpha" type="int2"/>
+    <param name="id" type="int"/>
+    <param name="positionlink" type="int"/>
+    <param name="maskwindow" type="int4"/>
+    <param name="window" type="int4"/>
+    <param name="windowdelta" type="float2"/>
+    <param name="velocity" type="float2"/>
+    <param name="scalestart" type="float2"/>
+    <param name="zoomdelta" type="float"/>
+    <param name="sin.x" type="float3"/>
+    <param name="sin.y" type="float3"/>
+  </bg_controller>
+
+  <bg_control_def name="ctrlid" type="intn" max="10"/>
+  <bg_control_def name="looptime" type="int"/>
+
+  <bg_control name="null">
+  </bg_control>
+
+  <bg_control name="visible">
+    <param name="value" type="int"/>
+  </bg_control>
+
+  <bg_control name="enable">
+    <param name="value" type="int"/>
+  </bg_control>
+
+  <bg_control name="velset">
+    <param name="x" type="float"/>
+    <param name="y" type="float"/>
+  </bg_control>
+
+  <bg_control name="veladd">
+    <param name="x" type="float"/>
+    <param name="y" type="float"/>
+  </bg_control>
+
+  <bg_control name="posset">
+    <param name="x" type="float"/>
+    <param name="y" type="float"/>
+  </bg_control>
+
+  <bg_control name="posadd">
+    <param name="x" type="float"/>
+    <param name="y" type="float"/>
+  </bg_control>
+
+  <bg_control name="anim">
+    <param name="value" type="int"/>
+  </bg_control>
+
+  <bg_control name="sinx">
+    <param name="value" type="float3"/>
+  </bg_control>
+
+  <bg_control name="siny">
+    <param name="value" type="float3"/>
+  </bg_control>
+
+  <fnt name="fntversion" type="int2"/>
+  <fnt name="name" type="string"/>
+  <fnt name="author" type="string"/>
+
+  <fnt_def name="truetype">
+    <param name="size" type="int2"/>
+    <param name="spacing" type="int2"/>
+    <param name="offset" type="int2"/>
+    <param name="file" type="none"/>
+    <param name="blend" type="int"/>
+  </fnt_def>
+
+  <fnt_def name="bitmap">
+    <param name="size" type="int2"/>
+    <param name="spacing" type="int2"/>
+    <param name="offset" type="int2"/>
+    <param name="file" type="none"/>
+  </fnt_def>
+
+  <scene_def name="spr" type="none"/>
+  <scene_def name="startscene" type="int"/>
+
+  <scene name="fadein.time" type="int"/>
+  <scene name="fadein.col" type="int3"/>
+  <scene name="fadeout.time" type="int"/>
+  <scene name="fadeout.col" type="int3"/>
+  <scene name="clearcolor" type="int3"/>
+  <scene name="layerall.pos" type="int2"/>
+  <scene name="layerast" format="regexp" fmt_reg_exp="layer\d{1,2}.(?:anim|starttime)" type="int"/>
+  <scene name="layeroff" format="regexp" fmt_reg_exp="layer\d{1,2}.offset" type="int2"/>
+  <scene name="bgm" type="none"/>
+  <scene name="bgm.loop" type="int"/>
+  <scene name="bgm.loopstart" type="int" minver="1.0"/>
+  <scene name="bgm.loopstart" type="int" minver="1.0"/>
+  <scene name="end.time" type="int"/>
+
+</syntax>

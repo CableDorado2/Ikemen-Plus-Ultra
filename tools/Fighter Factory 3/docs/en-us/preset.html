@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Preset system</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Preset system</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li>Preset system</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Preset system</h1>
+        <p>The Preset system controls the interface of Fighter Factory. Within this sysem, all buttons, sliders, ..., are placed in the desired position.</p>
+        <p>As all customizable files of the program, the preset file is a XML document that follows the syntax:</p>
+        <p>&lt;!DOCTYPE VTKPresetML&gt;<br/>
+        &lt;preset iconset="preferred_iconset" stylesheet="preferred_stylesheet" colorset="preferred_colorset" panel-metric="width,title_top,title_height" extra-metric="width,title_top,title_height"&gt;<br/>
+        {interface widget list}<br/>
+        &lt;/preset&gt;</p>        
+        
+        <p>Fighter Factory supports a large set of widgets, as described bellow:</p>
+        <h1>Interface widgets</h1>
+        
+        <h2>Panel</h2> 
+        <p>A panel that contains other widgets and has a title.</p>
+        <p><i>Definition</i>:</p>
+        <p>&lt;panel name="panel_name"&gt;<br/>
+        {control list}<br/>
+        &lt;/panel&gt;</p>
+        <p>In the {control list} you can use only widgets of the type Control</p>    
+        
+        <h2>Toolbar</h2>     
+        <p>A toolbar that contains a set of icons that can trigger functions.</p>  
+        <p><i>Definition</i>:</p>
+        <p>&lt;toolbar name="toolbar_name" iconsize="size_of_the_icons"&gt;<br/>
+        {button list}<br/>
+        &lt;/toolbar&gt;</p>
+        <p>In the {button list} you can use only widgets of the type Button</p>  
+        
+        <h2>Button</h2> 
+        <p>A button used in a toolbar.</p> 
+        <p><i>Definition</i>:</p>
+        <p>&lt;button name="action_name"/&gt;</p>
+        <p>The "action_name" can be any action of Fighter Factory 3. To see all possible actions, go to <a href="iconset.html">Iconset</a>.</p>    
+        
+        <h2>Control</h2> 
+        <p>Any other supported interface widget.</p>    
+        <p><i>Definition</i>:</p>
+        <p>&lt;control name="ctrl_name" position="left,top" size="width,height"/&gt;</p>
+        <p>Some controls have additional options:</p>  
+        <p><b>Button</b>: flat="true_or_false" and/or icon="icon_size". Buttons are treated in the same way as the toolbar ones, then you can use any action supported by toolbars as 'ctrl_name' (except the ones prefixed with 'imgedit' or 'advpal').</p>  
+        <p><b>Label</b>: align="horizontal,vertical". Horizontal and vertical can be 'left', 'top', 'right', 'bottom' or 'center' and 'justify' for horizontal only</p>  
+        <p><b>Slider</b>: orientation="horizontal_or_vertical".</p>
+        
+        <p>All supported controls are listed below, except those listed for buttons (see Button for more details).</p>
+        <p>Here, we will use the notation: "<b>ctrl_name</b>: Widget(max instances); Description". If omitted, 'max instances' is supposed to be 1.</p>
+        <p>For controls that are editor-dependent, we use a underlined <b><u>ctrl_name</u></b>. When the user activates one of these controls, the program will switch to the editor of the control's preffix. Eg.: 'spr_sel' will switch to the sprites editor even if used in another editor. Most of the actions listed in the Iconset section are editor-dependent.</p> 
+                                                                 
+        <p><b>def_tree</b>: TreeView; Hierarchical list of groups in the definitions document.</p> 
+        <p><b>cmd_tree</b>: TreeView; Hierarchical list of groups in the commands document.</p> 
+        <p><b>st_tree</b>: TreeView; Hierarchical list of groups in the states document.</p> 
+        
+        <p><b><u>spr_sel</u></b>: Slider; Current sprite selector.</p> 
+        <p><b>spr_sel_lb</b>: Label; Current sprite (current index / count).</p> 
+        <p><b>spr_grp_lb</b>: Label; Sprite group.</p> 
+        <p><b>spr_grp</b>: IntEdit; Sprite group.</p> 
+        <p><b>spr_num_lb</b>: Label; Sprite index.</p> 
+        <p><b>spr_num</b>: IntEdit; Sprite index.</p> 
+        <p><b>spr_xaxis_lb</b>: Label; Sprite x axis.</p> 
+        <p><b>spr_xaxis</b>: IntEdit; Sprite x axis.</p> 
+        <p><b>spr_yaxis_lb</b>: Label; Sprite y axis.</p> 
+        <p><b>spr_yaxis:</b> IntEdit; Sprite y axis.</p> 
+        <p><b>spr_prev_grp</b>: Button; Previous sprte group.</p> 
+        <p><b>spr_next_grp</b>: Button; Next sprite group.</p> 
+        <p><b>spr_pos_left</b>: Button; Move sprite 1px to the left.</p> 
+        <p><b>spr_pos_up</b>: Button; Move sprite 1px up.</p> 
+        <p><b>spr_pos_right</b>: Button; Move sprite 1px to the right.</p> 
+        <p><b>spr_pos_down</b>: Button; Move sprite 1px down.</p> 
+        <p><b>spr_dec_load</b>: CheckBox; Decompress sprite on load.</p> 
+        <p><b>spr_trans_color</b>: CheckBox; Displays the transparency color.</p> 
+        <p><b>spr_switch_pal</b>: CheckBox; Switch to the sprite palette.</p> 
+        <p><b>spr_info_lb</b>: Label; Sprite's image information (size, format and sharing).</p> 
+        <p><b>spr_onion_skin</b>: CheckBox(2); OnionSkin activation.</p> 
+        <p><b>spr_onion_sel</b>: Slider(2); Current OnionSkin sprite selector.</p> 
+        <p><b>spr_onion_lb</b>: Label(2); OnionSkin position.</p>   
+        
+        <p><b><u>pal_sel</u></b>: Slider; Current palette selector.</p> 
+        <p><b>pal_sel_lb</b>: Label; Current palette (current index / count).</p> 
+        <p><b>pal_grp_lb</b>: Label; Palette group.</p> 
+        <p><b>pal_grp</b>: IntEdit; Palette group.</p> 
+        <p><b>pal_num_lb</b>: Label; Palette index.</p> 
+        <p><b>pal_num</b>: IntEdit; Palette index.</p> 
+        <p><b>pal_prev_grp</b>: Button; Previous group.</p>
+        <p><b>pal_next_grp</b>: Button; Next group.</p>
+        <p><b>pal_view</b>: Palette; Palette widget.</p>  
+        
+        <p><b><u>air_sel</u></b>: Slider; Current animation selector.</p>
+        <p><b>air_sel_lb</b>: Label; Current animation (current index / count).</p> 
+        <p><b>air_number_lb</b>: Label; Animation number.</p> 
+        <p><b>air_number</b>: IntEdit; Animation number.</p> 
+        <p><b>air_name_lb</b>: Label; Animation name.</p> 
+        <p><b>air_name</b>: TextEdit; Animation name.</p> 
+        <p><b>air_frame_lb</b>: Label; Animation frame.</p> 
+        <p><b><u>air_frame_sel</u></b>: Slider; Animation frame selector.</p> 
+        <p><b>air_frame_sel_lb</b>: Label; Current frame position (current index / count - tick count).</p> 
+        <p><b>air_frame_grp_lb</b>: Label; Frame's sprite group.</p> 
+        <p><b>air_frame_grp</b>: IntEdit; Frame's sprite group.</p> 
+        <p><b>air_frame_num_lb</b>: Label; Frame's sprite index.</p> 
+        <p><b>air_frame_num</b>:IntEdit; Frame's sprite index.</p> 
+        <p><b>air_frame_xaxis_lb</b>: Label; Frame's x axis.</p> 
+        <p><b>air_frame_xaxis</b>: IntEdit; Frame's x axis.</p> 
+        <p><b>air_frame_yaxis_lb</b>: Label; Frame's y axis.</p> 
+        <p><b>air_frame_yaxis</b>: IntEdit; Frame's y axis.</p> 
+        <p><b>air_pos_left</b>: Button; Move the frame's position 1px to the left.</p> 
+        <p><b>air_pos_up</b>: Button; Move the frame's position 1px up.</p> 
+        <p><b>air_pos_right</b>: Button; Move the frame's position 1px to the right.</p> 
+        <p><b>air_pos_down</b>: Button; Move the frame's position 1px down.</p> 
+        <p><b>air_frame_time_lb</b>: Label; Frame's time.</p> 
+        <p><b>air_frame_time</b>: IntEdit; Frame's time.</p> 
+        <p><b>air_frame_flip_lb</b>: Label; Frame's flip effect.</p> 
+        <p><b>air_frame_flip</b>: ComboBox; Frame's flip effect.</p> 
+        <p><b>air_frame_trans_lb</b>: Label; Frame's transparecy.</p> 
+        <p><b>air_frame_trans</b>: ComboBox; Frame's transparecy type.</p> 
+        <p><b>air_frame_transsrc_lb</b>: Label; Alpha source.</p> 
+        <p><b>air_frame_transsrc</b>: IntEdit; Alpha source.</p> 
+        <p><b>air_frame_transdst_lb</b>: Label; Alpha destination.</p> 
+        <p><b>air_frame_transdst</b>: IntEdit; Alpha destination.</p> 
+        <p><b>air_frame_loop</b>: CheckBox; Start loop in the current frame.</p> 
+        <p><b>air_frame_xscale_lb</b>: Label; Frame's x scale.</p> 
+        <p><b>air_frame_xscale</b>: FloatEdit; Frame's x scale.</p> 
+        <p><b>air_frame_yscale_lb</b>: Label; Frame's y scale.</p> 
+        <p><b>air_frame_yscale</b>: FlotEdit; Frame's y scale.</p> 
+        <p><b>air_frame_angle_lb</b>: Label; Frame's angle.</p> 
+        <p><b>air_frame_angle</b>: FloatEdit; Frame's angle.</p> 
+        <p><b>air_frame_intp</b>: Label; Frame interpolation.</p> 
+        <p><b>air_frame_intp_offset</b>: CheckBox; Interpolate offset.</p> 
+        <p><b>air_frame_intp_blend</b>: CheckBox; Interpolate blend.</p> 
+        <p><b>air_frame_intp_scale</b>: CheckBox; Interpolate scale.</p> 
+        <p><b>air_frame_intp_angle</b>: CheckBox; Interpolate angle.</p> 
+        
+        <p><b><u>snd_sel</u></b>: Slider; Current sound selector.</p> 
+        <p><b>snd_sel_lb</b>: Label; Current sound position (current index / count).</p> 
+        <p><b>snd_grp_lb</b>: Label; Sound group.</p> 
+        <p><b>snd_grp</b>: IntEdit; Sound group.</p> 
+        <p><b>snd_num_lb</b>: Label; Sound index.</p> 
+        <p><b>snd_num</b>: IntEdit; Sound index.</p> 
+        <p><b>snd_prev_grp</b>: Button; Previous group.</p> 
+        <p><b>snd_next_grp</b>: Button; Next group.</p>
+        <p><b>snd_info_lb</b>: Label; Sound information (Channels, sample rate, bit count, duration).</p>   
+        
+        <p><b>org_list</b>: ListView; Orginizer list.</p> 
+        
+        <p><b>thumb_grp_list</b>: ComboBox; Sprite group list.</p> 
+        <p><b>thumb_view</b>: ListView; Thumbnail container.</p>  
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2012 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

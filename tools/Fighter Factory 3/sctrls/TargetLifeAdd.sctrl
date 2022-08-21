@@ -1,0 +1,9 @@
+[State 0, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = 
+value = 
+ID = -1
+kill = 1
+absolute = 0
+;ignorehitpause = 
+;persistent = 

@@ -39,7 +39,6 @@ c = 6
 ;b2 = 11
 ;c2 = 12
 
-; Arcade mode
 [Arcade]
 intro.storyboard = ..\../storyboards/Kung Fu Man [Intro].def
 ending.storyboard = ..\../storyboards/Kung Fu Man [Ending].def

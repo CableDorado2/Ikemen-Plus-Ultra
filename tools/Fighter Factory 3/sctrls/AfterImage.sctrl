@@ -1,0 +1,17 @@
+[State 0, AfterImage]
+type = AfterImage
+trigger1 =
+time = 20
+length = 20
+;palcolor = 256
+;palinvertall = 0
+;palbright = 30,30,30
+;palcontrast = 120,120,220
+;palpostbright = 0,0,0
+;paladd = 10,10,25
+;palmul = .65,.65,.75
+;timegap = 1
+;framegap = 4
+;trans = "add" ;"none","add1","sub"
+;ignorehitpause = 
+;persistent =

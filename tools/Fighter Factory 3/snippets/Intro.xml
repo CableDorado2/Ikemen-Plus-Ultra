@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+
+  <field name="anim" title="Animation" type="int"/>
+
+  <code>
+    [Statedef 190]
+    type = S
+    ctrl = 0
+    anim = @anim
+    velset = 0,0,0
+
+    [State 192, 2]
+    type = ChangeState
+    trigger1 = AnimTime = -10
+    value = 0
+  </code>
+
+</snippet>

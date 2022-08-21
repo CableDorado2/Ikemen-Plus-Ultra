@@ -1,0 +1,7 @@
+[State 0, VelMul]
+type = VelMul
+trigger1 = 
+x = 1
+y = 1
+;ignorehitpause = 
+;persistent = 

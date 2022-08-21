@@ -1,0 +1,255 @@
+html
+{
+  color: #000000;
+  background: #e6e7e8;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td
+{
+  margin: 0;
+  padding: 0;
+}
+
+body
+{
+  font: normal 13px/1.2 Verdana;
+}
+
+a
+{
+  color: #000090;
+  text-decoration: none;
+}
+
+hr
+{
+  background-color: #E6E6E6;
+  border: 1px solid #E6E6E6;
+  height: 1px;
+  width: 100%;
+  text-align: left;
+  margin: 15px 0px 15px 0px;
+}
+
+#header
+{
+  min-height: 60px;
+  position: relative;
+  padding: 12px;
+  background-color: #FFFFFF;
+}
+  
+#header p
+{
+  font-size: 9pt;
+  padding: 5px;
+  color: #505050;
+}
+  
+#header img
+{
+  float: left;
+  margin-right: 12px;
+}
+  
+#header h1
+{
+  color: #000090;
+  font: bold 24px/1.4 Arial;
+}
+
+#margins
+{
+  margin: 12px auto;
+  width: 1000px;
+  overflow: visible;
+  background: url(../images/pagebk.png) repeat-y 0 0;
+}
+
+#navigation
+{
+  border-bottom: 1px solid #d1d1d1;
+  width: 1000px;
+  height: 36px;
+  position: relative;
+}
+  
+#navigation .hd
+{
+  height: 15px;
+  background: url(../images/page.png) no-repeat 0 0;
+  overflow: hidden;
+}
+ 
+#navigation li
+{
+  list-style: none;
+}
+
+.block
+{
+  position: absolute;
+}
+
+.breadcrumb
+{
+  font-size: 11px;
+  line-height: 1.2;
+  padding: 0 0 10px 21px;
+  height: 10px;
+}
+
+.breadcrumb ul
+{
+}
+
+.breadcrumb ul li
+{
+  float: left;
+  background: url(../images/breadcrumb.png) no-repeat 0 3px;
+  padding-left: 15px;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.breadcrumb ul li.last
+{
+  font-weight: normal;
+}
+
+.breadcrumb ul li a
+{
+  color: #363534;
+}
+
+.breadcrumb ul li.first
+{
+  background-image: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+#content
+{
+  padding: 24px;
+  width: 952px;
+  word-wrap: break-word;
+}
+
+#content div
+{
+  width: 904px;
+}
+
+#content p
+{
+  line-height: 20px;
+  padding: 5px;
+  color: #505050;
+}
+    
+#content p.center
+{
+  text-align: center;
+}
+
+#content img
+{
+  margin: 8px;
+  border: none;
+}
+ 
+#content h1
+{
+  font: bold 18px/1.2 Arial;
+  color: #000050;
+}
+
+#content h1.center
+{
+  margin-top:15px;
+}
+
+#content h2
+{
+	font:600 16px/1.2 Arial;
+	margin-top:15px;
+	color: #0000F0;
+}
+
+#content ol
+{
+  margin-left: 18px;
+  list-style: inside lower-alpha;
+  width: 95%;
+}
+
+#content ol li
+{
+  line-height: 1.5em;
+  color: #505050;
+}
+
+#content ul
+{
+  margin-top: 12px;
+  margin-bottom: 6px;
+  list-style: inside url(../images/bullet.png);
+  width: 100%;
+  overflow: hidden;
+}
+
+#content ul li
+{
+  float: left;
+  line-height: 1.5em;
+  color: #505050;
+}
+
+#content ul li a
+{
+  font-weight: bold;
+}
+
+#content .single li
+{
+  width: 100%;
+}
+
+#content .double li
+{
+  width: 50%;
+}
+
+#content .triple li
+{
+  width: 33%;
+}
+
+#content .quad li
+{
+  width: 25%;
+}
+ 
+#ft
+{
+  width: 1000px;
+  height: 15px;
+  background: url(../images/page.png) no-repeat 0 -15px;
+  overflow: hidden;
+}
+
+#footer
+{
+  width: 100%;
+  padding: 0 0 16px 0;
+  text-align: center;
+}
+
+#footer p
+{
+  font-size: 10px;
+  line-height: 14px;
+  color: #303030;
+}
+  

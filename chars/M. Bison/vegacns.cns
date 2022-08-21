@@ -1,0 +1,85 @@
+; _______________________________
+;| Vega by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;===================<CONSTANTS>================
+
+[Data]
+life = 1000
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 20
+airjuggle = 15
+sparkno = s7010
+guard.sparkno = s7000
+KO.echo = 0
+volumescale = 100
+IntPersistIndex = 0
+FloatPersistIndex = 0
+
+[Size]
+xscale = 1
+yscale = 1
+ground.back = 20
+ground.front = 20
+air.back = 20
+air.front = 20
+height = 58
+attack.dist = 160
+proj.attack.dist = 80
+proj.doscale = 0
+head.pos = 6, -90
+mid.pos = -1, -57
+shadowoffset = 0
+draw.offset = 0, 0
+
+[Velocity]
+walk.fwd = 4.10
+walk.back = -3.07
+run.fwd = 6.45, 0
+run.back = -13.2, 0
+jump.neu = 0, -10.40
+jump.fwd = 4.12
+jump.back = -4.81
+runjump.fwd = 6.18, -11.96
+runjump.back = -7.22, -11.96
+air.gethit.groundrecover = -8.0, 0
+air.gethit.airrecover.mul = 0, 0
+air.gethit.airrecover.add = 0, -7.55
+air.gethit.airrecover.back = -3.50
+air.gethit.airrecover.fwd = 3.50
+air.gethit.airrecover.up = 0
+air.gethit.airrecover.down = 0
+
+[Movement]
+airjump.num = 0
+airjump.height = 0
+yaccel = 0.547
+stand.friction = 0.85
+crouch.friction = 0.85
+stand.friction.threshold = 1.0
+crouch.friction.threshold = 1.0
+air.gethit.groundlevel = 0
+air.gethit.groundrecover.ground.threshold = -20
+air.gethit.groundrecover.groundlevel = 0
+air.gethit.airrecover.threshold = -1
+air.gethit.airrecover.yaccel = 0.6275
+air.gethit.trip.groundlevel = 0
+down.bounce.offset = 0, 0
+down.bounce.yaccel = 0.5
+down.bounce.groundlevel = 0
+down.friction.threshold = 2.0
+
+[Quotes]
+victory1 = "Leave my sight."
+victory2 = "You were a fool to challenge me!"
+victory3 = "You were almost entertaining."
+victory4 = "Fear and respect... the supreme energy that is Psycho Power!"
+victory5 = "I torment you, hoping you will return to better entertain me!"
+victory6 = "I'm happy you are alive, you are still capable of feeling pain!"
+victory7 = "If you wish to live, make your vow of servitude to me..."
+victory8 = "My every victory signifies the crumbling of justice!"
+victory9 = "The feelings of terror only prove your inferiority."
+victory10 = "What strikes horror into your heart, is simply humor to me."
+victory11 = "Foolish weakling! Know your limits!"

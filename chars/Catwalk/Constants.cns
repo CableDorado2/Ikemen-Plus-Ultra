@@ -9,12 +9,12 @@ power = 3000
 attack = 100
 defence = 100
 fall.defence_up = 50
-liedown.time = 45
+liedown.time = 60
 airjuggle = 15
 sparkno = 2
 guard.sparkno = 40
 KO.echo = 0
-volume = 0
+volumescale = 100
 IntPersistIndex = 0
 FloatPersistIndex = 0
 
@@ -26,13 +26,13 @@ ground.front = 0
 air.back = 0
 air.front = 0
 height = 0
-attack.dist = 0 
+attack.dist = 0
 proj.attack.dist = 0
 proj.doscale = 0
 head.pos = 0, 0
 mid.pos = 0, 0
 shadowoffset = 0
-draw.offset = 0, 0 
+draw.offset = 0, 0
 
 [Velocity]
 walk.fwd = 0
@@ -44,6 +44,13 @@ jump.back = 0
 jump.fwd = 0
 runjump.back = 0, 0
 runjump.fwd = 0, 0
+air.gethit.groundrecover = 0, 0
+air.gethit.airrecover.mul = 0, 0
+air.gethit.airrecover.add = 0, 0
+air.gethit.airrecover.back = 0
+air.gethit.airrecover.fwd = 0
+air.gethit.airrecover.up = 0
+air.gethit.airrecover.down = 0
 
 [Movement]
 airjump.num = 0
@@ -62,7 +69,7 @@ air.gethit.trip.groundlevel = 15
 down.bounce.offset = 0, 20
 down.bounce.yaccel = 0.4
 down.bounce.groundlevel = 12
-down.friction.threshold = 0.5
+down.friction.threshold = 0.05
 
 [Quotes]
 victory1 = "You're not supposed to see this!"

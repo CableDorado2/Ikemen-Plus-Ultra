@@ -1,0 +1,7 @@
+[State 0, AppendToClipboard]
+type = AppendToClipboard
+;trigger1 = 
+;text = "var(10) = %d  vel x = %f"
+;params = var(10),vel x
+;ignorehitpause = 
+;persistent = 

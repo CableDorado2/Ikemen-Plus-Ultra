@@ -1,0 +1,9 @@
+[State 0, Pause]
+type = Pause
+trigger1 = 
+time = 1
+movetime = 1
+;endcmdbuftime = 0
+;pausebg = 1
+;ignorehitpause = 
+;persistent = 

@@ -1,0 +1,7 @@
+QPanelWidget
+{
+  background-color: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #e6f2ff, stop: 1 #78a8ff);
+  border-image: url(panel.png) 47 16 16 16;
+  border: [16]px;
+  border-top: [47]px;
+}

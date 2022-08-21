@@ -1,0 +1,566 @@
+QMainWindow, QDialog, QPanelWidget
+{
+  background-color: #CCCCCC;
+}
+
+QPanelWidget
+{
+  border-image: url(panel.png) 30 2 2 2;
+  border: [2]px;
+  border-top: [30]px;
+  color: white;
+}
+
+QMenu
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #EEEEEE, stop: 1 #DDDDDD);
+  margin: 2px;
+  color: black;
+}
+
+QMenu::item
+{
+  background-color: transparent;
+  padding: 2px 25px 2px 20px;
+}
+
+QMenu::item:selected
+{
+  background-color: #BBBBBB;
+  border: 1px solid #777777;
+  border-radius: 4px;
+}
+
+QMenu::separator
+{
+  height: 1px;
+  background: #777777;
+  margin: 4px;
+}
+
+QMenuBar
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #DDDDDD, stop: 1 #BBBBBB);
+}
+
+QMenuBar::item
+{
+  spacing: 3px;
+  padding: 4px;
+  background: transparent;
+  border-radius: 4px;
+  color: black;
+}
+
+QMenuBar::item:selected
+{
+  background: #AAAAAA;
+}
+
+QMenuBar::item:pressed
+{
+  background: #777777;
+}
+
+QToolBar
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #BBBBBB, stop: 1 #DDDDDD);
+  spacing: 3px;
+  padding: 3px;
+  border: none;
+}
+
+QToolBar::separator
+{
+  width: 1px;
+  background: #777777;
+  margin: 2px 4px;
+}
+
+QToolButton
+{
+  background-color: transparent;
+  padding: 2px;
+  color: black;
+}
+
+QToolButton::hover
+{
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+}
+
+QToolButton::pressed, QToolButton::checked
+{
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background: #AAAAAA;
+}
+
+QTabWidget::pane
+{
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+}
+
+QTabWidget::tab-bar
+{
+  left: 5px;
+}
+
+QTabBar::tab
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #AAAAAA, stop: 1 #CCCCCC);
+  color: black;
+  border: 1px solid #AAAAAA;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  min-width: 75px;
+  padding: 4px;
+}
+
+QTabBar::tab:selected, QTabBar::tab:hover
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #CCCCCC, stop: 1 #EEEEEE);
+  border-color: #888888;
+}
+
+QTabBar::tab:!selected
+{
+  margin-top: 2px;
+}
+
+QTabBar::close-button
+{
+  image: url(tabs/close.png);
+  subcontrol-position: right;
+}
+
+QTabBar::close-button:hover
+{
+  image: url(tabs/close_hover.png);
+}
+
+QLabel, QRadioButton
+{
+  color: black;
+}
+
+QCheckBox
+{
+  color: black;
+  spacing: 5px;
+}
+
+QCheckBox::disabled
+{
+  color: #444444;
+}
+
+QCheckBox::indicator
+{
+  width: 16px;
+  height: 16px;
+}
+
+QCheckBox::indicator:unchecked 
+{
+  image: url(checkbox/unchecked.png);
+}
+
+QCheckBox::indicator:unchecked:hover, QCheckBox::indicator:unchecked:pressed
+{
+  image: url(checkbox/unchecked_hover.png);
+}
+
+QCheckBox::indicator:checked
+{
+  image: url(checkbox/checked.png);
+}
+
+QCheckBox::indicator:checked:hover, QCheckBox::indicator:checked:pressed
+{
+  image: url(checkbox/checked_hover.png);
+}
+
+QRadioButton
+{
+  color: black;
+  spacing: 5px;
+}
+
+QRadioButton::disabled
+{
+  color: #444444;
+}
+
+QRadioButton::indicator
+{
+  width: 16px;
+  height: 16px;
+}
+
+QRadioButton::indicator:unchecked 
+{
+  image: url(radiobutton/unchecked.png);
+}
+
+QRadioButton::indicator:unchecked:hover, QRadioButton::indicator:unchecked:pressed
+{
+  image: url(radiobutton/unchecked_hover.png);
+}
+
+QRadioButton::indicator:checked
+{
+  image: url(radiobutton/checked.png);
+}
+
+QRadioButton::indicator:checked:hover, QRadioButton::indicator:checked:pressed
+{
+  image: url(radiobutton/checked_hover.png);
+}
+
+QSpinBox, QDoubleSpinBox, QLineEdit, QComboBox, QListView, QTreeView, QTextEditor, QAbstractScrollArea
+{
+  background-color: #EEEEEE;
+  color: black;
+  border: 1px solid #FFFFFF;
+  border-radius: 2px;
+}
+
+QSpinBox::disabled, QDoubleSpinBox:disabled, QLineEdit::disabled, QComboBox::disabled
+{
+  background-color: #AAAAAA;
+}
+
+QSpinBox::up-button, QDoubleSpinBox::up-button
+{
+  subcontrol-origin: border;
+  subcontrol-position: top right;
+
+  border-image: url(spinedit/up.png) 2 2 2 2;
+  border-top: 2px transparent;
+  border-bottom: 2px transparent;
+  border-right: 2px transparent;
+  border-left: 2px transparent;
+}
+
+QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover
+{
+  border-image: url(spinedit/up_hover.png) 2 2 2 2;
+}
+
+QSpinBox::down-button, QDoubleSpinBox::down-button
+{
+  subcontrol-origin: border;
+  subcontrol-position: bottom right;
+
+  border-image: url(spinedit/down.png) 2 2 2 2;
+  border-top: 2px transparent;
+  border-bottom: 2px transparent;
+  border-right: 2px transparent;
+  border-left: 2px transparent;
+}
+
+QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover
+{
+  border-image: url(spinedit/down_hover.png) 2 2 2 2;
+}
+
+QComboBox::drop-down
+{
+  subcontrol-origin: padding;
+  subcontrol-position: top right;
+  border: none;
+  width: 19px;
+}
+
+QComboBox::down-arrow
+{
+  image: url(scrollbar/down.png);
+}
+
+QComboBox::down-arrow:hover, QComboBox::down-arrow:on
+{
+  image: url(scrollbar/down_hover.png);
+}
+
+QPushButton
+{
+  min-height: 24px;
+  padding: -7px 6px;
+  color: black;
+  border-image: url(button/normal.png) 7 7 7 7;
+  border-top: 7px transparent;
+  border-bottom: 7px transparent;
+  border-right: 7px transparent;
+  border-left: 7px transparent;
+}
+
+QPushButton:pressed, QPushButton:hover, QPushButton:default:pressed, QPushButton:default:hover
+{
+  color: white;
+  border-image: url(button/hover.png) 7 7 7 7;
+}
+
+QPushButton:flat
+{
+  border: none;
+}
+
+QPushButton:default
+{
+  border-image: url(button/default.png) 7 7 7 7;
+}
+
+QMessageBox QPushButton
+{
+  min-width: 75px;
+}
+
+QGroupBox
+{
+  margin-top: 5px;
+  background: none;
+  color: black;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+}
+
+QGroupBox::title
+{
+  subcontrol-origin: margin;
+  subcontrol-position: top center;
+  margin: 0 -5px;
+}
+
+QListView::item:selected, QTreeView::item:selected
+{
+  background-color: #BBBBBB;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  color: black;
+}
+
+QListView::item:hover, QTreeView::item:hover
+{
+  background-color: #BBBBBB;
+  border: 1px solid #888888;
+  border-radius: 4px;
+}
+
+QTreeView::branch:has-siblings:!adjoins-item
+{
+  border-image: url(treeview/vline.png) 0;
+}
+
+QTreeView::branch:has-siblings:adjoins-item
+{
+  border-image: url(treeview/branch-more.png) 0;
+}
+
+QTreeView::branch:!has-children:!has-siblings:adjoins-item
+{
+  border-image: url(treeview/branch-end.png) 0;
+}
+
+QTreeView::branch:has-children:!has-siblings:closed, QTreeView::branch:closed:has-children:has-siblings
+{
+  border-image: none;
+  image: url(treeview/branch-closed.png);
+}
+
+QTreeView::branch:open:has-children:!has-siblings, QTreeView::branch:open:has-children:has-siblings
+{
+  border-image: none;
+  image: url(treeview/branch-open.png);
+}
+
+QTableView
+{
+  selection-background-color: #888888;
+  selection-color: #EEEEEE;
+}
+
+QScrollBar:horizontal
+{
+  background: #EEEEEE;
+  margin: 0 19px 0 19px;
+}
+
+QScrollBar::handle:horizontal
+{
+  border-image: url(scrollbar/handle.png) 5 5 5 5;
+  border-top: 5px transparent;
+  border-bottom: 5px transparent;
+  border-right: 5px transparent;
+  border-left: 5px transparent;
+  min-width: 20px;
+}
+
+QScrollBar::handle:horizontal:hover
+{
+  border-image: url(scrollbar/handle_hover.png) 5 5 5 5;
+}
+
+QScrollBar::add-line:horizontal
+{
+  image: url(scrollbar/right.png);
+  width: 19px;
+  height: 19px;
+  subcontrol-position: right;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:horizontal:hover
+{
+  image: url(scrollbar/right_hover.png);
+}
+
+QScrollBar::sub-line:horizontal
+{
+  image: url(scrollbar/left.png);
+  width: 19px;
+  height: 19px;
+  subcontrol-position: left;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal:hover
+{
+  image: url(scrollbar/left_hover.png);
+}
+
+QScrollBar:vertical
+{
+  background: #EEEEEE;
+  margin: 19px 0 19px 0;
+}
+
+QScrollBar::handle:vertical
+{
+  border-image: url(scrollbar/handle.png) 5 5 5 5;
+  border-top: 5px transparent;
+  border-bottom: 5px transparent;
+  border-right: 5px transparent;
+  border-left: 5px transparent;
+  min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover
+{
+  border-image: url(scrollbar/handle_hover.png) 5 5 5 5;
+}
+
+QScrollBar::add-line:vertical
+{
+  image: url(scrollbar/down.png);
+  width: 19px;
+  height: 19px;
+  subcontrol-position: bottom;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:vertical:hover
+{
+  image: url(scrollbar/down_hover.png);
+}
+
+QScrollBar::sub-line:vertical
+{
+  image: url(scrollbar/up.png);
+  width: 19px;
+  height: 19px;
+  subcontrol-position: top;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical:hover
+{
+  image: url(scrollbar/up_hover.png);
+}
+
+QScrollBar::add-page, QScrollBar::sub-page, QSlider::add-page, QSlider::sub-page
+{
+  background: none;
+}
+
+QSlider::groove:horizontal
+{
+  background: #DDDDDD;
+  height: 4px;
+}
+
+QSlider::handle:horizontal
+{
+  image: url(scrollbar/handle.png);
+  width: 16px;
+  margin: -6px 0;
+}
+
+QSlider::handle:horizontal:hover
+{
+  image: url(scrollbar/handle_hover.png);
+  width: 16px;
+  margin: -6px 0;
+}
+
+QHeaderView::section
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #CCCCCC, stop: 1 #EEEEEE);
+  color: black;
+  padding: 4px;
+  border: none;
+  border-right: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+QHeaderView::section:checked
+{
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #BBBBBB, stop: 1 #DDDDDD);
+}
+
+QStatusBar
+{
+  color: black;
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #BBBBBB, stop: 1 #DDDDDD);
+}
+
+QProgressBar
+{
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background-color: #EEEEEE;
+  text-align: center;
+  padding: 2px;
+  color: black;
+}
+
+QProgressBar::chunk
+{
+  background-color: #AAAAAA;
+}
+
+QDockWidget
+{
+  color: white;
+}
+
+QDockWidget::title
+{
+  height: 14px;
+  text-align: center;
+  border-image: url(panel-top.png) 2 2 2 2;
+  border: [2]px;
+}
+
+QDockWidget::float-button
+{
+  subcontrol-position: top left;
+  subcontrol-origin: margin;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 10px;
+}

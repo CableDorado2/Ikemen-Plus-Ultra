@@ -1,0 +1,8 @@
+[State 0, ChangeState]
+type = ChangeState
+;trigger1 = 
+value =
+ctrl = 0
+;anim =
+;ignorehitpause = 
+;persistent = 

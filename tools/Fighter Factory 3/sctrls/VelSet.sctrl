@@ -1,0 +1,7 @@
+[State 0, VelSet]
+type = VelSet
+trigger1 = 
+x = 0
+y = 0
+;ignorehitpause = 
+;persistent = 

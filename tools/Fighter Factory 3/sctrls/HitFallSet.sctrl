@@ -1,0 +1,8 @@
+[State 0, HitFallSet]
+type = HitFallSet
+trigger1 = 
+value = -1
+;xvel = 
+;yvel = 
+;ignorehitpause = 
+;persistent = 

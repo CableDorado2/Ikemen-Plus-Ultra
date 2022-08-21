@@ -1,0 +1,8 @@
+[State 0, TargetState]
+type = TargetState
+triggerall = NumTarget;()
+trigger1 =
+value =
+ID = -1
+;ignorehitpause = 
+;persistent = 

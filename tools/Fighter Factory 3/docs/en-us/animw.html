@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Animation editor</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Animation editor</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li><a href="using.html">Using</a></li>
+            <li><a href="workspace.html">Editor's workspace</a></li>
+            <li>Animations</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Controls</h1>
+        <p>All controls available to the sprite editor are listed below:</p>
+        <a id="ascroll"></a><h2>Animation selection scroll bar</h2>
+        <p>Defines the current animation to work on.</p>
+        <a id="number"></a><h2>Number</h2>
+        <p>Defines the number of the current animation.</p>
+        <a id="name"></a><h2>Name</h2>
+        <p>Defines the name of the current animation.</p>
+        <a id="fscroll"></a><h2>Frame selection scroll bar</h2>
+        <p>Defines the current frame to work on.</p>
+        <a id="group"></a><h2>Group field</h2>
+        <p>Defines the sprite group of the current frame.</p>
+        <a id="index"></a><h2>Index field</h2>
+        <p>Defines the sprite index of the current frame.</p>
+        <a id="xaxis"></a><h2>X axis field</h2>
+        <p>Defines the x axis of the current frame.</p>
+        <a id="yaxis"></a><h2>Y axis field</h2>
+        <p>Defines the y axis number of the current frame.</p>
+        <a id="time"></a><h2>Time</h2>
+        <p>Defines the time of the current frame. You can use -1 to infinite.</p>
+        <a id="flip"></a><h2>Flip</h2>
+        <p>Defines if the sprite will be inverted (vertically, horizontally or both) or not.</p>
+        <a id="trans"></a><h2>Transparency</h2>
+        <p>Defines the sprite transparency, that can be: None, Add or Subtract. The 'Add' transparency have two parameters.</p>
+        <a id="source"></a><h2>Source</h2>
+        <p>Opacity of the sprite.</p>
+        <a id="dest"></a><h2>Dest</h2>
+        <p>Darkness of the destination surface.</p>
+        <a id="loop"></a><h2>Start loop in this frame</h2>
+        <p>Defines a loop point in this frame. After the last frame, the animation will go to the next loop point from the current (only if the time is positive).</p>
+        <a id="xscale"></a><h2>X Scale</h2>
+        <p>Defines the x scale of the frame's sprite. <i>Note: Only on M.U.G.E.N. 1.1.</i></p>
+        <a id="yscale"></a><h2>Y Scale</h2>
+        <p>Defines the y scale of the frame's sprite. <i>Note: Only on M.U.G.E.N. 1.1.</i></p>
+        <a id="angle"></a><h2>Angle</h2>
+        <p>Defines the angle of the frame's sprite in degrees. <i>Note: Only on M.U.G.E.N. 1.1.</i></p>
+        <a id="interpolate"></a><h2>Interpolate</h2>
+        <p>Defines the interpolation between frames. <i>Note: Only on M.U.G.E.N. 1.1.</i></p>
+        <p><b>Blend:</b> interpolate the blending (transparency).</p>
+        <p><b>Offset:</b> interpolate the offset (axis).</p>
+        <p><b>Scale:</b> interpolate the scale.</p>
+        <p><b>Angle:</b> interpolate the angle.</p>
+        <a id="thumbsel"></a><h2>Thumbnail group selection</h2>
+        <p>Defines the sprite group to be viewed in the thumbnails list.</p>
+        <a id="thumbaddsel"></a><h2>Add selected thumbnails to the current animation</h2>
+        <p>Adds all selected thumbnails to the current animation as new frames.</p>
+        <a id="thumbaddall"></a><h2>Add all thumbnails to the current animation</h2>
+        <p>Adds all thumbnails to the current animation as new frames.</p>
+        <a id="thumbnewsel"></a><h2>New animation with the selected thumbnails</h2>
+        <p>Creates a new animation with all selected thumbnails as frames.</p>
+        <a id="thumbnewall"></a><h2>New animation with all thumbnails</h2>
+        <p>Creates a new animation with all thumbnails as frames.</p>
+        <a id="thumbnaillist"></a><h2>Thumbnail list</h2>
+        <p>Displays all sprites of the selected group as thumbnails.</p>
+        <h1 class="center">Workspace</h1>
+        <p>The Animation editor is used to create and edit the animations of the project. The graphic workspace contains the rulers, guide lines, OnionSkin image, current sprite image, collision boxes, sprite axis cross, frame axis cross and the extra cross. Some of these can be enabled/disabled in the <a href="view">View menu</a>.</p>
+        <p>You can change the position of the image by dragging it to the desirable position. The guide lines, collision boxes and the frame axis can be placed in the same way. All other points will move the axis and background image.</p>
+        <p>The collision boxes (CLSNs) are handled in a special way. You can select multiple boxes holding Ctrl or Shift keys, remove all selected boxes pressing the Delete key and move by 1px pressing the arrow keys.</p>
+        <p>Some CLSN transformations will be fully viewed after you change the frame, to allow you to undo the operation.</p>
+        <a id="clsnmode"></a><p>In the CLSN creation mode, you can add new boxes by simply drawing it on the screen. While you keep in this mode, you can draw many CLSNs you want, including over another existing one. To exit this mode, right-click on the graphic workspace or disable one of the creation options.</p>
+        <p>The zoom can be changed using the mouse wheel.</p>
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2011 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

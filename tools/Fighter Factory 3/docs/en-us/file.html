@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Menu File</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Menu File</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li><a href="using.html">Using</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li>File</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Menu File</h1>
+        <p>The File menu is used to manipulate you project. You can create, open, save, test, among others. The options are described below.</p>
+        <a id="new"></a><h2>New</h2>
+        <p>Creates a new project. The project template window will be shown. This window displays all available template scripts.</p>
+        <a id="open"></a><h2>Open</h2>
+        <p>Open an existing project from a definition file. Fighter Factory 3 automatically detects if the project is a character, stage, font or storyboard, and loads all files properly. The project will be added to the history for use in the Open recent menu.</p>
+        <a id="openrecent"></a><h2>Open recent</h2>
+        <p>Open a project from the history. If the file doesn't exists, will be removed from the list. If the selected project exists, will be moved to the top of the list.</p>
+        <a id="close"></a><h2>Close</h2>
+        <p>Closes the active project. If any file is currently modified and not been saved, asks for confirmation. If the project is the only one, Fighter Factory will add a new blank.</p>
+        <a id="closeall"></a><h2>Close all</h2>
+        <p>Closes all projects, and adds a new blank. If any file is currently modified and not been saved, asks for confirmation.</p>
+        <a id="closeothers"></a><h2>Close others</h2>
+        <p>Closes all projects except the current. If any file is currently modified and not been saved, asks for confirmation.</p>
+        <a id="save"></a><h2>Save</h2>
+        <p>Save all files of the current project, overwriting the old one. If the file doesn't exists, execute Save as.</p>
+        <a id="saveas"></a><h2>Save as</h2>
+        <p>Displays a Save dialog for every file of the current project.</p>
+        <a id="backup"></a><h2>Create backup</h2>
+        <p>Creates a backup of the current project. All files will be saved in the sub folder 'Backup/date-time', in the same directory of the definitions file. The date-time refer to the format day-month-year hour-minute-second ap. Every time you use this function, a new sub folder will be created.</p>
+        <a id="loadbackup"></a><h2>Load backup</h2>
+        <p>Displays a window with all backups stored in the 'Backup' folder of the current project. When you hit OK, the selected backup will be loaded. <i>Note: This function don't overwrites the original files. To do it you need to hit 'Save'.</i></p>
+        <a id="run"></a><h2>Run in M.U.G.E.N.</h2>
+        <p>Displays a window with all versions of M.U.G.E.N. added in the <a href="options.html">Options window</a>. Saves the current project in a temporary folder in the M.U.G.E.N. directory based on the selected item. Executes M.U.G.E.N. with the parameters specified on the selected item. Fighter Factory only will return the control to the user when M.U.G.E.N. close.</p>
+        <a id="exit"></a><h2>Exit</h2>
+        <p>Closes Fighter Factory. This function will confirm the close action if it is defined in the <a href="options.html">Options window</a>.</p>
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2011 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

@@ -1,0 +1,45 @@
+;***************************************************************************;
+;******************* Created in Fighter Factory Ultimate *******************;
+;*******************      http://www.virtualltek.com     *******************;
+;***************************************************************************;
+
+[Info]
+name ="Iori Yagami"
+displayname ="Iori Yagami"
+versiondate =04,14,2002
+mugenversion =1.0
+author ="ikaruga"
+pal.defaults = 2,4,6
+
+[Files]
+sprite =Yagami.sff
+anim =Yagami.air
+sound =Yagami.snd
+cmd =Yagami.cmd
+cns =Yagami.cns
+stcommon =common1.cns
+st =Yagami.cns
+pal1=Yagami-A.act
+st1=Yagami_N.cns
+st2=Yagami_S.cns
+st3=Yagami_H.cns
+st4=Yagami_AI.cns
+st5=helper.cns
+
+pal1    = Yagami-A.act  ;Palettes
+pal2    = Yagami-B.act  ;Palettes
+pal3    = Yagami-C.act  ;Palettes
+pal4    = Yagami-D.act  ;Palettes
+pal5    = Yagami-E.act  ;Palettes
+pal6    = Yagami-F.act  ;Palettes
+
+pal7    = Yagami-A-S.act  ;Palettes
+pal8    = Yagami-B-S.act  ;Palettes
+pal9    = Yagami-C-S.act  ;Palettes
+pal10   = Yagami-D-S.act  ;Palettes
+pal11   = Yagami-E-S.act  ;Palettes
+pal12   = Yagami-F-S.act  ;Palettes
+
+[Arcade]
+intro.storyboard = ..\../storyboards/Iori Yagami [Intro].def
+ending.storyboard = ..\../storyboards/Iori Yagami [Ending].def

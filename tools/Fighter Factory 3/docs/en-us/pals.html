@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Menu Palettes</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Menu Palettes</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li><a href="using.html">Using</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li>Palettes</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Menu Palettes</h1>
+        <p>The Palettes menu is used to manipulate the palettes of the project.</p>
+        <a id="clear"></a><h2>Clear</h2>
+        <p>Removes all palettes.</p> 
+        <a id="clear"></a><h2>Clear all unused</h2>
+        <p>Removes all unused palettes (unreferenced by any sprite).</p>
+        <a id="add"></a><h2>Add</h2> 
+        <div>
+          <img src="images/add.png" style="float: right; display: inline;"/>
+          <p>Add one or more palettes, starting on the next position from the current.</p>
+          <p>First, you will be asked about loading palettes from files. If you choose No, an empty palette will be added, otherwise:</p> 
+          <p>You must select all files you want to add. After it, the 'Add' window will be shown. In this window, you can choose some options used to define all the palette information. The options are:</p>
+          <p><b>Group:</b> palette's group.</p>
+          <p><b>Index:</b> palette's index within the group, defined by the field value. You can choose the increment by selecting the appropriate option below the field (one by one or ten by ten).</p>
+          <p>If you hit OK, the options above will be applied. Else, the default options will be used (group: 0, index: 0).</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="delete"></a><h2>Delete</h2>
+        <p>Removes the current palette. <i>Note: A confirmation will be shown if is defined in the <a href="options.html">Options window</a>.</i></p>
+        <a id="change"></a><h2>Change...</h2>
+        <p>Change the current palette loading it from a file.</p>
+        <a id="save"></a><h2>Save as...</h2>
+        <div>
+          <img src="images/range.png" style="float: right; display: inline;"/>
+          <p>Save one or more palette to a file. This function displays the 'Range' window that defines what palettes will be saved.</p>
+          <p>The options are:</p>
+          <p><b>Current:</b> only the current sprite.</p>
+          <p><b>All:</b> all sprites.</p>
+          <p><b>Group:</b> only the specified group.</p>
+          <p><u>Intervall:</u> only the interval from Start to End (sprite index within the group).</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="sswcc"></a><h2>Switch color count (32-256)</h2>
+        <p>Switch between 32 or 256 colors. With 32 colors, all sprites that uses this palette will be saved in the 5-bits format (more compression ratio). <i>Note: The M.U.G.E.N. Beta doesn't support 5-bit images. In this case, all palettes will be set to 256 colors.</i></p>
+        <a id="remap"></a><h2>Remap</h2>
+        <div>
+          <img src="images/remap.png" style="float: right; display: inline;"/>
+          <p>Edit the remap table. This list is used to redirect a palette to another. <i>Note: Applied in the Sprites and Animations editors.</i></p>
+          <p>The options are:</p>
+          <p><b>Add:</b> add a new row in the table.</p>
+          <p><b>Remove:</b> removes the selected row in the table.</p>
+          <p><b>Clear:</b> removes all rows in the table.</p>
+          <p>To edit an entry, double-click the item and change its value.</p>
+          <p>The 'Src' is the palette that will be redirected and the 'Dest' is the target palette.</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="undo"></a><h2>Undo</h2>
+        <p>Undo a change. <i>Note: The cache level is 11 items.</i></p>
+        <a id="redo"></a><h2>Redo</h2>
+        <p>Redo a change.</p>
+        <a id="colorpos"></a><h2>Exchange position of selected colors</h2>
+        <p>Inverts the order of the selected colors. The last selected color will be set to in the first selected slot, the first selected color will be set in the last selected slot, ...</p>
+        <a id="picker"></a><h2>Color picker</h2>
+        <p>Enables/disables the color pick mode. In this mode, you can select colors by clicking on the image, then the right index will be selected.</p>
+        <a id="setcolor"></a><h2>Sets the color of the selected slots</h2>
+        <p>Sets the same color in all selected slots.</p>
+        <a id="applyspr"></a><h2>Apply to the sprites</h2>
+        <div>
+          <img src="images/range.png" style="float: right; display: inline;"/>
+          <p>Sets the current palette to the specified sprites. This function displays the 'Range' window that defines what sprites will be set to this palette.</p>
+          <p>The options are:</p>
+          <p><b>Current:</b> only the current sprite.</p>
+          <p><b>All:</b> all sprites.</p>
+          <p><b>Group:</b> only the specified group.</p>
+          <p><u>Intervall:</u> only the interval from Start to End (sprite index within the group).</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="applygrp"></a><h2>Apply to the groups</h2>
+        <div>
+          <img src="images/applypal.png" style="float: right; display: inline;"/>
+          <p>Sets the current palette to the specified sprite groups. This function displays the 'Apply palette' window that defines what sprite groups will be set to this palette.</p>
+          <p>To select a group, click on the list. For more than one group you can use Ctrl+Click (add the item to the curret selecton) or Shift+Click (range selection).</p>
+          <p>On the bottom-right you have three buttons to manipulate the current selection (Select all, Clear selection and Inverse).</p>
+          <p>When you hit Apply, the palette will be applied.</p>
+          <div style="clear: both;"></div>
+        </div>
+        <a id="advedit"></a><h2>Advanced palette editor</h2>
+        <p>Displays the 'Advanced palette editor', that have much more options and tools to create and edit palettes. It is very similar to the Palette editor of the Fighter Factory Classic.</p>
+        <p>For more information see <a href="advpal.html">Advanced palette editor</a></p>
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2011 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

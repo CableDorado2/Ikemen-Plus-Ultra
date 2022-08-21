@@ -1,0 +1,7 @@
+[State 0, TargetFacing]
+type = TargetFacing
+trigger1 = 
+value = 1
+ID = -1
+;ignorehitpause = 
+;persistent = 

@@ -1,0 +1,14 @@
+[State 0, SuperPause]
+type = SuperPause
+trigger1 = 
+time = 
+anim = 
+sound = S10,0
+pos = 0,0
+movetime = 0
+darken = 1
+p2defmul = 1
+poweradd = 0
+unhittable = 1
+;ignorehitpause = 
+;persistent = 

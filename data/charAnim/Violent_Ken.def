@@ -1,0 +1,51 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0, 0, data\charTrash\Violent_Ken\s003.png,  28,101
+   0, 1, data\charTrash\Violent_Ken\s004.png,  28, 99
+   0, 2, data\charTrash\Violent_Ken\s005.png,  28,101
+   0, 3, data\charTrash\Violent_Ken\s006.png,  28,104
+   0, 4, data\charTrash\Violent_Ken\s007.png,  28,104
+   0, 5, data\charTrash\Violent_Ken\s008.png,  28,103
+   0, 6, data\charTrash\Violent_Ken\s009.png,  28,102
+ 181, 0, data\charTrash\Violent_Ken\s097.png,  28,104
+ 181, 1, data\charTrash\Violent_Ken\s098.png,  26,108
+ 181, 2, data\charTrash\Violent_Ken\s099.png,  26,131
+ 181, 3, data\charTrash\Violent_Ken\s100.png,  26,129
+5040, 2, data\charTrash\Violent_Ken\s694.png,  42, 64
+5040, 3, data\charTrash\Violent_Ken\s695.png,  51, 45
+5040,10, data\charTrash\Violent_Ken\s696.png,  52, 36
+5040,11, data\charTrash\Violent_Ken\s697.png,  52, 36
+5040,20, data\charTrash\Violent_Ken\s698.png,  52, 56
+5300, 0, data\charTrash\Violent_Ken\s730.png,  31, 99
+5300, 1, data\charTrash\Violent_Ken\s731.png,  31, 98
+5300, 2, data\charTrash\Violent_Ken\s732.png,  32, 97
+5300, 3, data\charTrash\Violent_Ken\s733.png,  32, 97
+5300, 4, data\charTrash\Violent_Ken\s734.png,  32,100
+5300, 5, data\charTrash\Violent_Ken\s735.png,  31,100
+5950, 0, data\charTrash\Violent_Ken\s748.png,  34, 97
+5950, 1, data\charTrash\Violent_Ken\s749.png,  29, 70
+5950, 2, data\charTrash\Violent_Ken\s750.png,  29, 73
+5950, 3, data\charTrash\Violent_Ken\s751.png,  34, 67
+5950, 4, data\charTrash\Violent_Ken\s752.png,  43, 60

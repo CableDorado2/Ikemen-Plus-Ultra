@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">	
+  <head>		
+    <title>Fighter Factory 3 - Scripting system</title>
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />		
+  </head>	
+  <body>
+    <div id="header">
+      <img src="images/logo.png"/>
+      <h1>Fighter Factory 3 - Scripting system</h1>
+      <p>For problems and bug report, go to <a href="http://www.virtualltek.com">VirtuallTek Systems</a> web site. For doubts related to M.U.G.E.N., go to a more specialized site like: <a href="http://www.elecbyte.com/">Elecbyte</a>, <a href="http://mugenguild.com/forumx">Mugen Fighters Guild</a>, among others that you can find using Google.</p>
+    </div>
+    
+    <div id="margins">
+      <div id="navigation">
+        <div class="hd"></div>
+        <div class="breadcrumb block">
+          <ul>
+            <li class="first"><a href="index.html">Home</a></li>
+            <li>Scripting system</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="content">
+        <h1>Scripting system</h1>
+        <p>The Scripting system allows the user to perform very specific and advanced tasks that the program doesn't provide by default.</p>
+        <p>All project functions and some interface widgets are scriptable using Lua 5.1. See <a href="scriptclass.html">Classes and functions</a> for more details.</p>
+        <p>The system contains 4 types of scripts:</p>        
+                                                  
+        <a id="common"></a><h2>Common</h2>
+        <p>Stored in the common folder, is used to provide helper functions to other scripts.</p>
+        
+        <a id="proj"></a><h2>Project template</h2>
+        <p>Stored in the projects folder, this type of script is used to initialize a new project (Project -> New).</p>
+        <p>The new project to be created is passed as parameter to the entry point function:</p>
+        <p><b>function</b> template(project)<br/>
+        <b>return true</b><br/>
+        <b>end</b></p>
+        <p>This is the simpliest template that leaves the new project empty. The return value determines if the new project will be accepted as is or discarded.</p>
+        <p>The project parameter is a <a href="scriptclass.html#proj">Project class</a>.</p>
+        
+        <a id="snippet"></a><h2>Code snippet</h2>
+        
+        <a id="tool"></a><h2>Tool</h2>
+      </div>
+      
+      <div id="ft"></div>
+    </div>
+    
+    <div id="footer">
+      <p>Copyright &copy; 2004-2012 VirtuallTek Systems. Fighter Factory is a program developed by VirtuallTek Systems, all rights reserved.</p>
+      <p>Fighter Factory is developed using <a href="http://qt.nokia.com/">Nokia Qt Library</a> and licensed under the <a href="license.html">LGPL license</a>.</p>
+      <p>This program uses the Universal Encoding Detector developed by Mozilla Foundation, and licensed under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">MPL license</a>. The source code is available on <a href="http://www.mozilla.org/source.html">Mozilla source page</a>.</p>
+    </div>
+        
+  </body>
+</html>

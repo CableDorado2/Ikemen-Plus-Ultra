@@ -1,0 +1,35 @@
+;***************************************************************************;
+;******************* Created in Fighter Factory Ultimate *******************;
+;*******************      http://www.virtualltek.com     *******************;
+;***************************************************************************;
+
+[Info]
+name = "Omega Rugal"
+displayname = "Omega Rugal"
+versiondate = 11,22,2000
+mugenversion = 11,22,2000
+author = "ahuron"
+pal.defaults = 1,2,3,4,5,6
+
+[Files]
+sprite = rugal.sff
+anim = rugal.air
+sound = rugal.snd
+cmd = rugal.cmd
+cns = rugal.cns
+stcommon = common1.cns
+st = rugal.cns
+st2 = rugal2.cns
+st3 = rugal3.cns
+st4 = rugal4.cns
+
+pal1 = 1.act
+pal2 = 2.act
+pal3 = 3.act
+pal4 = 4.act
+pal5 = 5.act
+pal6 = 6.act
+
+[Arcade]
+intro.storyboard = ..\../storyboards/Omega Rugal [Intro].def
+ending.storyboard = ..\../storyboards/Omega Rugal [Ending].def
