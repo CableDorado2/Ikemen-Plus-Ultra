@@ -231,7 +231,6 @@ function f_saveCfg()
 	loadLifebar(data.lifebar)
 	-- Reload game if needed
 	if needReload == 1 then
-		os.execute("reload.bat")
 		os.exit()
 	end
 end

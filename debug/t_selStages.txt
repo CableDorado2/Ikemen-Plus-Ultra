@@ -1,27 +1,27 @@
-table: 084D8178 {
-  [1] => table: 084D8178 {
+table: 08038458 {
+  [1] => table: 08038458 {
            [name] => "Mountainside Temple"
            [stage] => "stages/mountainside temple.def"
-           [music] => table: 084D81F0 {
-                        [1] => table: 084D8218 {
-                                 [bgmvolume] => 100
+           [zoommin] => 1
+           [music] => table: 08037BC0 {
+                        [1] => table: 08074858 {
                                  [bgmusic] => "sound/Mountainside Temple.mp3"
+                                 [bgmvolume] => 100
                                }
                       }
-           [zoommin] => 1
            [zoommax] => 1
          }
-  [2] => table: 084D8178 {
+  [2] => table: 08038458 {
            [name] => "Training Room"
-           [music] => table: 084D8358 {
-                        [1] => table: 084ABA38 {
-                                 [bgmvolume] => 100
+           [music] => table: 08072F80 {
+                        [1] => table: 080AB2D8 {
                                  [bgmusic] => "sound/Training Room.mp3"
+                                 [bgmvolume] => 100
                                }
                       }
            [stage] => "stages/training room.def"
          }
-  [3] => table: 084D8178 {
+  [3] => table: 08038458 {
            [name] => "Training Room 2"
            [stage] => "stages/training room 2.def"
          }

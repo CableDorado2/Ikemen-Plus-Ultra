@@ -1,5 +1,5 @@
 
-
+lib sh = <shell.ssz>;
 lib s = <string.ssz>;
 lib consts = <consts.ssz>;
 lib se = <alpha/sdlevent.ssz>;
@@ -12,6 +12,9 @@ lib fnt = "font.ssz";
 lib snd = "sound.ssz";
 lib lua = <alpha/lua.ssz>;
 lib com = "common.ssz";
+//lib vid = "video.ssz";
+lib file = <file.ssz>;
+lib chr = "char.ssz";
 
 
 public double numArg(&.lua.State L=, int re=, int argc=, int nresults)
@@ -310,12 +313,41 @@ void inputDialogGetStr(&.lua.State L=, int re=)
   L.pushString(inputDialog~getStr());
 }
 
+//void playVideo(&.lua.State L=, int re=)
+//{
+//  int argc = 0, nret = 0;
+//  ^/char videofile = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+//  .vid.video~play(videofile);
+//}
 
 void playBGM(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^/char file = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
   .snd.bgm~play(file);
+}
+
+void sszOpen(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char filename = .strArg(L=, re=, argc=, nret); if(re < 0) ret; //Name of the file with his extension
+  ^/char dirname = .strArg(L=, re=, argc=, nret); if(re < 0) ret; //Where is the file locate IN MAIN IKEMEN FOLDER, it does not accept slash
+  .sh.open(dirname, "", filename, false, true); //Use in lua like that: sszOpen("chars", "Credits.txt") Also, set here to false false in order to open behind
+}
+
+void batOpen(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char filename = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char dirname = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sh.open(dirname, "", filename, false, false);
+}
+
+void webOpen(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char filename = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sh.open(filename, "", "", false, false);
 }
 
 void esc(&.lua.State L=, int re=)
@@ -630,6 +662,12 @@ void returnKey(&.lua.State L=, int re=)
   L.pushBoolean(.se.returnKey);
 }
 
+//void spaceKey(&.lua.State L=, int re=)
+//{
+//  re = 1;
+//  L.pushBoolean(.se.spaceKey);
+//}
+
 void lshiftKey(&.lua.State L=, int re=)
 {
   re = 1;
@@ -722,6 +760,10 @@ public void init(&.lua.State L=)
   L.register("inputDialogIsDone", .inputDialogIsDone);
   L.register("inputDialogGetStr", .inputDialogGetStr);
   L.register("playBGM", .playBGM);
+  //L.register("playVideo", .playVideo);
+  L.register("sszOpen", .sszOpen);
+  L.register("batOpen", .batOpen);
+  L.register("webOpen", .webOpen);
   L.register("esc", .esc);
   L.register("upKey", .upKey);
   L.register("downKey", .downKey);
@@ -774,6 +816,7 @@ public void init(&.lua.State L=)
   L.register("eightKey", .eightKey);
   L.register("nineKey", .nineKey);
   L.register("returnKey", .returnKey);
+  //L.register("spaceKey", .spaceKey);
   L.register("lshiftKey", .lshiftKey);
   L.register("rshiftKey", .rshiftKey);
   L.register("sszRandom", .sszRandom);

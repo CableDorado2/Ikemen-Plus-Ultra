@@ -22,4 +22,4 @@ data.vsDisplayWin = true
 data.lifebar = 'data/fight.def'
 data.sffConversion = true
 data.language = 'ENGLISH'
-data.menuSong = 'Random'
+data.menuSong = 'Theme 3'

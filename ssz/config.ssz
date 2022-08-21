@@ -12,8 +12,8 @@ const int Height = 768;
 const bool FullScreen = false;
 
 const float GlVol = 1;
-const float SEVol = 0.8;
-const float BGMVol = 0.4;
+const float SEVol = 1;
+const float BGMVol = 1;
 
 const float Super_TargetDefenceMul = 1.5;
 
@@ -21,6 +21,8 @@ const int GameSpeed = 60;//frames/second
 
 const float LifebarFontScale = 0.5;
 
+const ^/char listenPort = "7500";
+const ^/char UserName = "CD2";
 
 const ^/char system = "script/main.lua";
 

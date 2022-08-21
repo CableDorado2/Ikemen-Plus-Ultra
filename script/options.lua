@@ -4,12 +4,12 @@ module(..., package.seeall)
 --;===========================================================
 --; LOAD DATA
 --;===========================================================
--- Data loading from data_sav.lua
+--Data loading from data_sav.lua
 local file = io.open("script/data_sav.lua","r")
 s_dataLUA = file:read("*all")
 file:close()
 
--- Data loading from config.ssz
+--Data loading from config.ssz
 local file = io.open("ssz/config.ssz","r")
 s_configSSZ = file:read("*all")
 file:close()
@@ -23,7 +23,7 @@ gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
 b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
 b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
 
--- Data loading from sound.ssz
+--Data loading from sound.ssz
 local file = io.open("lib/sound.ssz","r")
 s_soundSSZ = file:read("*all")
 file:close()
@@ -31,7 +31,7 @@ freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
 channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
 buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
 
--- Data loading from lifebar
+--Data loading from lifebar
 local file = io.open(data.lifebar,"r")
 s_lifebarDEF = file:read("*all")
 file:close()
@@ -41,12 +41,8 @@ drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
 --Variable setting based on loaded data
 if gameSpeed == 48 then
 	s_gameSpeed = 'Slow'
---elseif gameSpeed == 56 then
-	--s_gameSpeed = '93.33%'
 elseif gameSpeed == 60 then
 	s_gameSpeed = 'Normal'
---elseif gameSpeed == 64 then
-	--s_gameSpeed = '106.66%'
 elseif gameSpeed == 72 then
 	s_gameSpeed = 'Turbo'
 end
@@ -206,7 +202,7 @@ function f_saveCfg()
 	local file = io.open("script/data_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
-	-- Data saving to config.ssz
+	--Data saving to config.ssz
 	if b_saveMemory then
 		s_saveMemory = s_saveMemory:gsub('const bool SaveMemory%s*=%s*[^;%s]+', 'const bool SaveMemory = true')
 	else
@@ -228,29 +224,30 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
+	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
+	s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
 	local file = io.open("ssz/config.ssz","w+")
 	file:write(s_configSSZ)
 	file:close()
-	-- Data saving to sound.ssz
+	--Data saving to sound.ssz
 	s_soundSSZ = s_soundSSZ:gsub('const int Freq%s*=%s*%d+', 'const int Freq = ' .. freq)
 	s_soundSSZ = s_soundSSZ:gsub('const int Channels%s*=%s*%d+', 'const int Channels = ' .. channels)
 	s_soundSSZ = s_soundSSZ:gsub('const int BufferSamples%s*=%s*%d+', 'const int BufferSamples = ' .. buffer)
 	local file = io.open("lib/sound.ssz","w+")
 	file:write(s_soundSSZ)
 	file:close()
-	-- Data saving to lifebar
+	--Data saving to lifebar
 	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
 	local file = io.open(data.lifebar,"w+")
 	file:write(s_lifebarDEF)
 	file:close()
-	-- Reload lifebar
+	--Reload lifebar
 	loadLifebar(data.lifebar)
-	-- Reload game if needed
+	--Reload game if needed
 	if needReload == 1 then
 		--os.execute ("TASKKILL /IM Ikemen DRP.exe /F")
-		--os.execute("reload.bat")
-		sszReload() --Native Reboot
+		sszReload() --Native Reboot, added via ikemen.ssz
 		os.exit()
 	end
 end
@@ -295,7 +292,7 @@ t_restart = {
 	{id = '', text = "require Save and Back.    "},
 }
 for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 155+i*15)
+	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 165+i*15)
 end
 
 t_newinput = {
@@ -315,10 +312,11 @@ t_mainCfg = {
 	{id = '', text = 'Audio Settings'},
 	{id = '', text = 'Input Settings'},
 	{id = '', text = 'Engine Settings'},	
+	{id = '', text = 'Player Name',        varID = textImgNew(), varText = getUserName()}, --set and get UserName added via system-script.ssz
 	{id = '', text = 'Port Change',        varID = textImgNew(), varText = getListenPort()},
 	{id = '', text = 'Default Values'},
-	{id = '', text = 'Save and Back'},
-	{id = '', text = 'Back Without Saving'},
+	{id = '', text = '              Save and Back'},
+	{id = '', text = '          Back Without Saving'},
 }
 
 for i=1, #t_mainCfg do
@@ -346,8 +344,18 @@ function f_mainCfg()
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg + 1
 			if mainCfg > #t_mainCfg then mainCfg = 1 end
-		--Port Change
+		--Player Name
 		elseif mainCfg == 6 and (btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 1)
+			inputDialogPopup(inputdia, 'Introduce an Username')
+			while not inputDialogIsDone(inputdia) do
+				animDraw(f_animVelocity(optionsBG0, -1, -1))
+				refresh()
+			end
+			setUserName(inputDialogGetStr(inputdia))
+			modified = 1
+		--Port Change
+		elseif mainCfg == 7 and (btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)
 			inputDialogPopup(inputdia, 'Introduce a new Port (Default: 7500)')
 			while not inputDialogIsDone(inputdia) do
@@ -355,7 +363,7 @@ function f_mainCfg()
 				refresh()
 			end
 			setListenPort(inputDialogGetStr(inputdia))
-			modified = 1
+			modified = 1	
 		elseif btnPalNo(p1Cmd) > 0 then
 			--Gameplay Settings
 			if mainCfg == 1 then
@@ -378,7 +386,7 @@ function f_mainCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_engineCfg()	
 			--Default Values
-			elseif mainCfg == 7 then
+			elseif mainCfg == 8 then
 				sndPlay(sysSnd, 100, 1)
 				--saves.ini
 				data.lifeMul = 100
@@ -419,6 +427,7 @@ function f_mainCfg()
 				s_openGL = 'No'
 				resolutionWidth = 640
 				resolutionHeight = 480
+				--setGameRes(resolutionWidth,resolutionHeight)
 				b_screenMode = false
 				s_screenMode = 'No'
 				setScreenMode(b_screenMode)
@@ -437,11 +446,12 @@ function f_mainCfg()
 				roundsNum = 2
 				drawNum = 2
 				--other
+				setUserName('MUGENUSER')
 				setListenPort(7500)
 				modified = 1
 				needReload = 1
 			--Save and Back
-			elseif mainCfg == 8 then
+			elseif mainCfg == 9 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				if needReload == 1 then
@@ -465,7 +475,8 @@ function f_mainCfg()
 				textImgDraw(t_restart[i].id)
 			end
 		end			
-		t_mainCfg[6].varText = getListenPort()
+		t_mainCfg[6].varText = getUserName()
+		t_mainCfg[7].varText = getListenPort()
 		for i=1, #t_mainCfg do
 			textImgDraw(t_mainCfg[i].id)
 			if t_mainCfg[i].varID ~= nil then
@@ -559,7 +570,7 @@ t_gameCfg = {
 	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
 	{id = '', text = 'Team Settings'},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_gameCfg do
 	t_gameCfg[i].id = createTextImg(font2, 0, 1, t_gameCfg[i].text, 85, 15+i*15)
@@ -770,7 +781,7 @@ t_teamCfg = {
 	{id = '', text = 'Turns Players Limit',             varID = textImgNew(), varText = data.numTurns},
 	{id = '', text = 'Simul Players Limit',             varID = textImgNew(), varText = data.numSimul},
 	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_teamCfg do
 	t_teamCfg[i].id = createTextImg(font2, 0, 1, t_teamCfg[i].text, 85, 15+i*15)
@@ -895,7 +906,7 @@ t_videoCfg = {
 	{id = '', text = 'Fullscreen',  varID = textImgNew(), varText = s_screenMode},	
 	--{id = '', text = 'OpenGL 2.0', varID = textImgNew(), varText = s_openGL},
 	--{id = '', text = 'Save Memory', varID = textImgNew(), varText = s_saveMemory},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_videoCfg do
 	t_videoCfg[i].id = createTextImg(font2, 0, 1, t_videoCfg[i].text, 85, 15+i*15)
@@ -904,6 +915,7 @@ end
 function f_videoCfg()
 	cmdInput()
 	local videoCfg = 1
+	--local hasChanged = true
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -917,9 +929,36 @@ function f_videoCfg()
 			videoCfg = videoCfg + 1
 			if videoCfg > #t_videoCfg then videoCfg = 1 end
 		--Resolution
-		elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			f_resCfg()
+		elseif videoCfg == 1 then
+			if commandGetState(p1Cmd, 'r') then
+				--sndPlay(sysSnd, 100, 1)
+				for i=1, #t_resCfg do
+					if t_resCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+						resolutionWidth = t_resCfg[i == #t_resCfg-1 and 1 or i+1].x
+						resolutionHeight = t_resCfg[i == #t_resCfg-1 and 1 or i+1].y
+						break
+					end
+				end
+				modified = 1
+				hasChanged = true
+			elseif commandGetState(p1Cmd, 'l') then
+				--sndPlay(sysSnd, 100, 1)
+				for i=1, #t_resCfg do
+					if t_resCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+						resolutionWidth = t_resCfg[i == 1 and #t_resCfg-1 or i-1].x
+						resolutionHeight = t_resCfg[i == 1 and #t_resCfg-1 or i-1].y
+						break
+					end
+				end
+				modified = 1
+				hasChanged = true
+			elseif btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				if f_resCfg() then
+					modified = 1
+					hasChanged = true
+				end
+			end
 		--Fullscreen			
 		elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
@@ -976,6 +1015,7 @@ function f_videoCfg()
 		t_videoCfg[2].varText = s_screenMode		
 		--t_videoCfg[3].varText = s_openGL
 		--t_videoCfg[4].varText = s_saveMemory
+		--setGameRes(resolutionWidth,resolutionHeight)
 		setScreenMode(b_screenMode) --added via system-script.ssz
 		for i=1, #t_videoCfg do
 			textImgDraw(t_videoCfg[i].id)
@@ -1091,8 +1131,9 @@ t_resCfg = {
 	{id = '', x = 800,  y = 508,  text = '400x508     (Arcade x2)'},
 	{id = '', x = 1200, y = 762,  text = '1200x762    (Arcade x3)'},
 	{id = '', x = 1600, y = 1016, text = '1600x1016   (Arcade x4)'},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
+
 for i=1, #t_resCfg do
 	t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15)
 end
@@ -1102,6 +1143,12 @@ function f_resCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local resCfg = 1
+	for i=1, #t_resCfg do
+		if t_resCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg = i
+			break
+		end
+	end
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -1212,7 +1259,7 @@ t_audioCfg = {
 	{id = '', text = 'Channels',        varID = textImgNew(), varText = s_channels},
 	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
 	{id = '', text = 'Main Menu Song', 	varID = textImgNew(), varText = data.menuSong},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_audioCfg do
 	t_audioCfg[i].id = createTextImg(font2, 0, 1, t_audioCfg[i].text, 85, 15+i*15)
@@ -1481,7 +1528,7 @@ t_inputCfg = {
 	{id = '', text = 'Player 2 (Keyboard)'},
 	{id = '', text = 'Default Controls'},
 	{id = '', text = 'Test Controls'},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_inputCfg do
 	t_inputCfg[i].id = createTextImg(font2, 0, 1, t_inputCfg[i].text, 85, 15+i*15)
@@ -1504,6 +1551,7 @@ function f_inputCfg()
 			inputCfg = inputCfg + 1
 			if inputCfg > #t_inputCfg then inputCfg = 1 end
 		elseif btnPalNo(p1Cmd) > 0 then
+			--Player 1 Keyboard
 			if inputCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
 				if data.p1Controller == -1 then
@@ -1513,6 +1561,7 @@ function f_inputCfg()
 					f_keyRead(2, -1)
 					f_keyCfg(2, -1)
 				end
+			--Player 2 Keyboard
 			elseif inputCfg == 2 then
 				sndPlay(sysSnd, 100, 1)
 				if data.p2Controller == -1 then
@@ -1522,21 +1571,24 @@ function f_inputCfg()
 					f_keyRead(3, -1)
 					f_keyCfg(3, -1)
 				end
+			--Default Inputs
 			elseif inputCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_inputDefault()
+			--Input Test
 			elseif inputCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1) --round time disabled
+				setRoundTime(-1)
 				data.p2In = 2
 				data.stageMenu = false
-				data.versusScreen = false --versus screen disabled
-				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p2Char = {t_charAdd['training']} --predefined P2 character as Training by stupa
+				data.versusScreen = false
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p2Char = {t_charAdd['training']}
 				data.gameMode = 'training'
 				textImgSetText(txt_mainSelect, 'INPUT TEST')
 				script.select.f_selectSimple()
+			--Back
 			else
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -1581,7 +1633,7 @@ t_keyCfg = {
 	{id = '', text = 'Y',     varID = textImgNew(), varText = ''},
 	{id = '', text = 'Z',     varID = textImgNew(),	varText = ''},
 	{id = '', text = 'Start', varID = textImgNew(),	varText = ''},
-	{id = '', text = 'Back'},
+	{id = '', text = 'BACK'},
 }
 for i=1, #t_keyCfg do
 	t_keyCfg[i].id = createTextImg(font2, 0, 1, t_keyCfg[i].text, 85, 15+i*15)
@@ -2006,6 +2058,11 @@ function f_readInput(oldkey)
 			sndPlay(sysSnd, 100, 1)
 			break
 			end
+		--if spaceKey() then
+			--getKeyboard = 'SPACE'
+			--sndPlay(sysSnd, 100, 1)
+			--break
+			--end	
 		if lshiftKey() then
 			getKeyboard = 'LSHIFT'
 			sndPlay(sysSnd, 100, 1)
@@ -2046,7 +2103,7 @@ t_engineCfg = {
 	{id = '', text = 'Zoom Settings'},
 	{id = '', text = 'UI Language', 		varID = textImgNew(), varText = data.language},
 	{id = '', text = 'Erase Unlocked Data'},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_engineCfg do
 	t_engineCfg[i].id = createTextImg(font2, 0, 1, t_engineCfg[i].text, 85, 15+i*15)
@@ -2074,15 +2131,9 @@ function f_engineCfg()
 				if gameSpeed < 48 then
 					gameSpeed = 48
 					s_gameSpeed = 'Slow'
-				--elseif gameSpeed < 56 then
-					--gameSpeed = 56
-					--s_gameSpeed = '93.33%'
 				elseif gameSpeed < 60 then
 					gameSpeed = 60
 					s_gameSpeed = 'Normal'
-				--elseif gameSpeed < 64 then
-					--gameSpeed = 64
-					--s_gameSpeed = '106.66%'
 				elseif gameSpeed < 72 then
 					gameSpeed = 72
 					s_gameSpeed = 'Turbo'
@@ -2090,15 +2141,9 @@ function f_engineCfg()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and gameSpeed > 48 then
 				sndPlay(sysSnd, 100, 0)
-				--if gameSpeed >= 72 then
-					--gameSpeed = 64
-					--s_gameSpeed = '106.66%'
 				if gameSpeed >= 64 then
 					gameSpeed = 60
 					s_gameSpeed = 'Normal'
-				--elseif gameSpeed >= 60 then
-					--gameSpeed = 56
-					--s_gameSpeed = '93.33%'
 				elseif gameSpeed >= 56 then
 					gameSpeed = 48
 					s_gameSpeed = 'Slow'
@@ -2175,7 +2220,7 @@ t_zoomCfg = {
 	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
 	{id = '', text = 'Max Zoom In',  varID = textImgNew(), varText = data.zoomMax},
 	{id = '', text = 'Zoom Speed',   varID = textImgNew(), varText = data.zoomSpeed},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_zoomCfg do
 	t_zoomCfg[i].id = createTextImg(font2, 0, 1, t_zoomCfg[i].text, 85, 15+i*15)
@@ -2276,7 +2321,7 @@ data.erase = ''
 end
 
 t_unlocksWarning = {
-	{id = '', text = "   All unlocked data will be erase. Are you sure?"},
+	{id = '', text = "   All unlocked data will be delete. Are you sure?"},
 	--{id = '', text = "          THIS DECISION CANNOT BE UNDO."},
 	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
 }

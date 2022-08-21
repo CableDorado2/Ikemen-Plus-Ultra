@@ -1,30 +1,39 @@
 
-addHotkey('c', true, false, false, 'toggleClsnDraw()')
-addHotkey('d', true, false, false, 'toggleDebugDraw()')
-addHotkey('s', true, false, false, 'changeSpeed()')
-addHotkey('l', true, false, false, 'toggleStatusDraw()')
+--Keys available on lib/alpha/sdlpluing.ssz
+
+addHotkey('F1', false, false, false, 'kill(1);kill(2)') --Sets Double KO
+addHotkey('F1', true, false, false, 'kill(2);kill(4)') --Ctrl+F1: Sets Player 2's life to zero
+addHotkey('F1', false, false, true, 'kill(1);kill(3)') --Shift+F1: Player 1's life to zero
+addHotkey('F2', false, false, false, 'kill(1,1);kill(2,1);kill(3,1);kill(4,1)') --Sets both players' life to 1
+addHotkey('F2', true, false, false, 'kill(2,1);kill(4,1)') --Ctrl+F2: Sets Player 2's life to 1
+addHotkey('F2', false, false, true, 'kill(1,1);kill(3,1)') --Shift+F2: Sets Player 1's life to 1
+addHotkey('F3', false, false, false, 'setTime(0)') --Sets Time Over
+addHotkey('F4', false, false, false, 'roundReset()') --Reset the round
+addHotkey('F4', true, false, false, 'reload()') --CTRL+F4: Reloads stage, characters and fight data
+addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2)') --Gives both Players full life
+addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4)') --Ctrl+F1: Gives Player 2's full life
+addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3)') --Shift+F1: Gives Player 1's full life
+addHotkey('F6', false, false, false, 'powMax(1);powMax(2)') --Gives both players full life
+addHotkey('F6', true, false, false, 'barAdd(2)') --Ctrl+F6: Increases Player 2's power to 1
+addHotkey('F6', false, false, true, 'barAdd(1)') --Shift+F6: Increases Player 1's power to 1
+addHotkey('F7', false, false, false, 'full(1);full(2);full(3);full(4);setTime(getRoundTime())') --Restores full life and power to all players
+
+addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display of collision boxes, target data (including remaining juggle points) and NotHitBy attributes
+addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug information display
+addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles display of the life and power bars
+addHotkey('i', true, false, false, 'stand(1);stand(2);stand(3);stand(4)') --CTRL+I: Forces both players into stand state
+--addHotkey('v', true, false, false, 'changeVsync()') --CTRL+V: Enable V-sync (stops "shearing")
+
+--Ctrl-# (where # is from 1-4) Toggles AI for the #th player OR Ctrl-Alt-# (where # is from 1-4) Enables/Disables the player
 addHotkey('1', true, false, false, 'toggleAI(1)')
 addHotkey('2', true, false, false, 'toggleAI(2)')
 addHotkey('3', true, false, false, 'toggleAI(3)')
 addHotkey('4', true, false, false, 'toggleAI(4)')
-addHotkey('F1', false, false, false, 'kill(2);kill(4)')
-addHotkey('F1', true, false, false, 'kill(1);kill(3)')
-addHotkey('F2', true, false, false, 'kill(1,1);kill(2,1);kill(3,1);kill(4,1)')
-addHotkey('F2', false, false, true, 'kill(1,1);kill(3,1)')
-addHotkey('F2', false, false, false, 'kill(2,1);kill(4,1)')
-addHotkey('F3', false, false, false, 'setTime(0)')
-addHotkey('F4', false, false, false, 'roundReset()')
-addHotkey('F4', false, false, true, 'reload()')
-addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2)')
-addHotkey('F6', false, false, false, 'powMax(1);powMax(2)')
-addHotkey('F7', true, false, false, 'barAdd(1)')
-addHotkey('F7', false, false, true, 'barAdd(2)')
-addHotkey(
-  'SPACE', false, false, false,
-  'full(1);full(2);full(3);full(4);setTime(getRoundTime())')
-addHotkey('BACKSPACE', false, false, false, 'togglePause()')
-addHotkey('SCROLLLOCK', false, false, false, 'step()')
-addHotkey('i', true, false, false, 'stand(1);stand(2);stand(3);stand(4)')
+
+addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
+addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game (OLD = RETURN)
+addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as fast as possible
+addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 
 
 speed = 1.0
@@ -123,4 +132,8 @@ function status(p)
       anim(), animOwner(), animelemno(0), life(), power(), time())
   playerid(oldid)
   return ret;
+end
+
+function takeScreenshotVS()
+  batOpen("tools", "screenshot.vbs")
 end

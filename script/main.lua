@@ -21,6 +21,13 @@ loadLifebar(data.lifebar) --path to lifebar stored in 'script/data_sav.lua', als
 loadDebugFont('font/font2.fnt')
 setDebugScript('script/debug.lua')
 
+--Screenshot function
+--addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
+--function takeScreenshot()
+  --sndPlay(sysSnd, 22, 0)
+  --batOpen("tools", "screenshot.vbs")
+--end
+
 --SFF
 sysSff = sffNew('data/system.sff')
 fadeSff = sffNew('data/fade.sff')
@@ -30,11 +37,30 @@ stageSff = sffNew('data/stages.sff')
 sysSnd = sndNew('data/system.snd')
 
 --Fonts
+survBarsFnt = fontNew('font/survival_bars.fnt')
+survNumFnt = fontNew('font/survival_nums.fnt')
 jgFnt = fontNew('font/JG.fnt')
 font1 = fontNew('font/f-4x6.fnt')
 font2 = fontNew('font/f-6x9.fnt')
-survBarsFnt = fontNew('font/survival_bars.fnt')
-survNumFnt = fontNew('font/survival_nums.fnt')
+
+font3 = fontNew('font/14x14.fnt')
+font4 = fontNew('font/14x14-2.fnt')
+font5 = fontNew('font/18x18.fnt')
+font6 = fontNew('font/18x18-2.fnt')
+font7 = fontNew('font/f-6x8f.fnt')
+font8 = fontNew('font/f-6x9f.fnt')
+font9 = fontNew('font/font1.fnt')
+font10 = fontNew('font/font2.fnt')
+font11 = fontNew('font/font3.fnt')
+font12 = fontNew('font/font4.fnt')
+font13 = fontNew('font/font5.fnt')
+font14 = fontNew('font/f-pad.fnt')
+font15 = fontNew('font/kof2k2fname.fnt')
+font16 = fontNew('font/kof2k2fname2.fnt')
+font17 = fontNew('font/kof2k2hit.fnt')
+font18 = fontNew('font/kof2k2icon.fnt')
+font19 = fontNew('font/kof2k2time.fnt')
+font20 = fontNew('font/kof96rush.fnt')
 
 --Music
 bgmTitle = 'sound/Title.mp3'
@@ -622,7 +648,8 @@ animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
 --txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 107, 240)
-txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 109, 240)
+txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 140, 120)
+txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 97, 240)
 txt_titleFt1 = createTextImg(font1, 0, 1, '', 135, 240)
 txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
@@ -695,22 +722,13 @@ function f_mainStart()
 end
 
 --;===========================================================
---; HOW TO PLAY LOGOS LOOP
+--; HOW TO PLAY LOOP
 --;===========================================================
 function f_howtoplay()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	--playVideo(videoHowToPlay)
 	f_mainTitle()
-end
-
---;===========================================================
---; HOW TO PLAY EXTRAS MENU LOOP
---;===========================================================
-function f_howtoplay2()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
-	--playVideo(videoHowToPlay)
-	return
-end		
+end	
 
 --;===========================================================
 --; TITLE SCREEN LOOP
@@ -726,18 +744,10 @@ function f_mainTitle()
 		if i == 500 then
 		   cmdInput()
 		   script.randomtest.run()
-		   if data.unlocks == true then
-				f_mainfullMenu()
-			else
-				f_mainMenu()
-			end	
+		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
 		   sndPlay(sysSnd, 100, 1)
-			if data.unlocks == true then
-				f_mainfullMenu()
-			else
-				f_mainMenu()
-			end	
+			f_mainMenu()
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		animSetWindow(cursorBox, 0, 180, 290, 13)
@@ -751,6 +761,7 @@ function f_mainTitle()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)		
 		textImgDraw(txt_titleFt2)
 		f_clock()
@@ -775,6 +786,7 @@ t_mainMenu = {
 	{id = textImgNew(), text = 'CHALLENGES'},	
 	{id = textImgNew(), text = 'WATCH'},
 	{id = textImgNew(), text = 'EXTRAS'},
+	{id = textImgNew(), text = 'SECRETS'},
 	{id = textImgNew(), text = 'OPTIONS'},
 	{id = textImgNew(), text = 'EXIT'},	
 	{id = textImgNew(), text = 'CHECK UPDATES'},
@@ -854,18 +866,26 @@ function f_mainMenu()
 			--EXTRAS
 			elseif mainMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
-				f_extrasMenu()	
-			--OPTIONS
+				f_extrasMenu()
+			--SECRETS
 			elseif mainMenu == 9 then
+				sndPlay(sysSnd, 100, 1)
+				if data.unlocks == true then
+					f_unlockMenu()
+				else
+					f_comingSoon()
+				end
+			--OPTIONS
+			elseif mainMenu == 10 then
 				sndPlay(sysSnd, 100, 1)
 				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 			--EXIT
-			elseif mainMenu == 10 then
+			elseif mainMenu == 11 then
 				os.exit()
 			--CHECK UPDATES
 			else
 				sndPlay(sysSnd, 100, 1)	
-				os.execute("start https://github.com/CableDorado2/Ikemen-Plus-Ultra")				
+				webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -888,151 +908,7 @@ function f_mainMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'MAIN MENU')
-		textImgDraw(txt_titleFt2)
-		f_clock()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end	
-
---;===========================================================
---; MAIN MENU UNLOCKED LOOP
---;===========================================================
-t_mainfullMenu = {
-	{id = textImgNew(), text = 'ARCADE'},
-	{id = textImgNew(), text = 'QUICK MATCH'},
-	{id = textImgNew(), text = 'VERSUS'},
-	{id = textImgNew(), text = 'ONLINE'},
-	{id = textImgNew(), text = 'PRACTICE'},
-	{id = textImgNew(), text = 'CHALLENGES'},	
-	{id = textImgNew(), text = 'WATCH'},
-	{id = textImgNew(), text = 'EXTRAS'},
-	{id = textImgNew(), text = 'UNLOCKS'},
-	{id = textImgNew(), text = 'OPTIONS'},
-	{id = textImgNew(), text = 'EXIT'},	
-	{id = textImgNew(), text = 'CHECK UPDATES'},
-}
-
-function f_mainfullMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local mainfullMenu = 1
-	f_menuMusic()
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			f_mainTitle()
-			--f_howtoplay()
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			mainfullMenu = mainfullMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			mainfullMenu = mainfullMenu + 1
-		end
-		--mode titles/cursor position calculation
-		if mainfullMenu < 1 then
-			mainfullMenu = #t_mainfullMenu
-			if #t_mainfullMenu > 4 then
-				cursorPosY = 4
-			else
-				cursorPosY = #t_mainfullMenu-1
-			end
-		elseif mainfullMenu > #t_mainfullMenu then
-			mainfullMenu = 1
-			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 4 then
-			moveTxt = (mainfullMenu - 5) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (mainfullMenu - 1) * 13
-		end
-		--mode selected
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--ARCADE
-			if mainfullMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_arcadeMenu()			
-			--QUICK VERSUS	
-			elseif mainfullMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_randomMenu()
-			--VS MODE
-			elseif mainfullMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_vsMenu()
-			--ONLINE
-			elseif mainfullMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				assert(loadfile('script/onlinecfg.lua'))()
-				f_mainNetplay()
-			--PRACTICE
-			elseif mainfullMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				f_practiceMenu()		
-			--CHALLENGES
-			elseif mainfullMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				f_challengeMenu()
-			--WATCH
-			elseif mainfullMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
-				f_watchMenu()
-			--EXTRAS
-			elseif mainfullMenu == 8 then
-				sndPlay(sysSnd, 100, 1)
-				f_extrasMenu()
-			--SECRETS
-			elseif mainfullMenu == 9 then
-				sndPlay(sysSnd, 100, 1)
-				f_unlockMenu()	
-			--OPTIONS
-			elseif mainfullMenu == 10 then
-				sndPlay(sysSnd, 100, 1)
-				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
-			--EXIT
-			elseif mainfullMenu == 11 then
-				os.exit()
-			--CHECK UPDATES
-			else
-				sndPlay(sysSnd, 100, 1)	
-				os.execute("start https://github.com/CableDorado2/Ikemen-Plus-Ultra")				
-			end
-		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_mainfullMenu do
-			if i == mainfullMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_mainfullMenu[i].id, jgFnt, bank, 0, t_mainfullMenu[i].text, 159, 144+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt1)
 		textImgSetText(txt_titleFt1, 'MAIN MENU')
 		textImgDraw(txt_titleFt2)
@@ -1229,7 +1105,8 @@ function f_vsMenu()
 			--1P & 2P VS CPU
 			elseif vsMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 1)
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
 				--data.p2In = 2
 				--data.p2Faces = true
 				--data.stageMenu = true
@@ -1357,7 +1234,8 @@ function f_practiceMenu()
 			--CO-OP MODE
 			elseif practiceMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 1)
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
 				--setRoundTime(-1)
 				--data.p2In = 2
 				--data.p2Faces = true
@@ -1471,7 +1349,8 @@ function f_randomMenu()
 			--1P & 2P VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 1)
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
 				--script.randomtest.coopVersus()
 			--BACK
 			else
@@ -2620,7 +2499,8 @@ function f_watchMenu()
 				script.select.f_selectSimple()
 			--LOCAL REPLAYS
 			elseif watchMenu == 2 then
-				
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
 			--ONLINE REPLAYS
 			elseif watchMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2672,9 +2552,12 @@ end
 --; EXTRAS MENU LOOP
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = 'HOW TO PLAY'},
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'SOUND TEST'},
+	{id = textImgNew(), text = 'SCREENSHOTS'},
+	{id = textImgNew(), text = 'DOWNLOAD CONTENT'},
+	{id = textImgNew(), text = 'ENGINE MANUAL'},
+	{id = textImgNew(), text = 'DISCORD SUPPORT'},
 	{id = textImgNew(), text = 'PLAY CREDITS'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
@@ -2717,20 +2600,37 @@ function f_extrasMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--HOW TO PLAY
-			if extrasMenu == 1 then
-				--sndPlay(sysSnd, 100, 1)
-				--f_howtoplay2()
 			--STORYBOARDS
-			elseif extrasMenu == 2 then
+			if extrasMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_storyboardMenu()
 			--SOUND TEST
-			elseif extrasMenu == 3 then
+			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_songMenu()
-			--CREDITS
+			--SCREENSHOTS
+			elseif extrasMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				sszOpen("screenshots", "") --added via script.ssz	
+			--MUGEN PAGES
 			elseif extrasMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_mugenPages()
+			--DOCUMENTATION
+			elseif extrasMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				--sszOpen("chars", "Credits.txt")
+				f_comingSoon()
+			--DISCORD SUPPORT
+			elseif extrasMenu == 6 then
+				sndPlay(sysSnd, 100, 1)
+				if data.language == 'SPANISH' then
+					webOpen("https://discord.gg/98F76CR4C7")	
+				else
+					webOpen("https://discord.gg/KV5EPnMuA7")	
+				end	
+			--CREDITS
+			elseif extrasMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0
@@ -2783,6 +2683,118 @@ function f_extrasMenu()
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
 		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========
+--; WARNING
+--;===========
+txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0)
+function f_comingSoon()
+local i = 0
+txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'
+cmdInput()
+	while true do
+		if esc() or btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			break
+		end
+        i = i + 1
+        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 2, 35)
+        animDraw(data.fadeTitle)
+        animUpdate(data.fadeTitle)
+		cmdInput()
+        refresh()
+    end		
+end
+
+--;===========================================================
+--; MUGEN PAGES MENU LOOP
+--;===========================================================
+txt_mugenPages = createTextImg(jgFnt, 0, 0, 'MUGEN RESOURCES', 159, 13)
+
+t_mugenPages = {
+	{id = '', text = 'MUGEN FREE FOR ALL'},
+	{id = '', text = 'MUGENGUILD'},
+	{id = '', text = 'INFINITY MUGEN TEAM'},
+	{id = '', text = 'MUGEN ARCHIVE'},
+	{id = '', text = 'MUGEN MULTIVERSE'},
+	{id = '', text = 'GAMEBANANA'},
+	{id = '', text = '                     BACK'},
+}
+
+for i=1, #t_mugenPages do
+	t_mugenPages[i].id = createTextImg(font2, 0, 1, t_mugenPages[i].text, 85, 15+i*15)
+end
+
+function f_mugenPages()
+	cmdInput()
+	local mugenPages = 1	
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	while true do
+		if esc() then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			mugenPages = mugenPages - 1
+			if mugenPages < 1 then mugenPages = #t_mugenPages end		
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			mugenPages = mugenPages + 1
+			if mugenPages > #t_mugenPages then mugenPages = 1 end
+		elseif btnPalNo(p1Cmd) > 0 then
+			--MUGEN FREE FOR ALL
+			if mugenPages == 1 then
+				sndPlay(sysSnd, 100, 1)
+				webOpen("https://mugenfreeforall.com/")
+			--MUGENGUILD
+			elseif mugenPages == 2 then
+				sndPlay(sysSnd, 100, 1)
+				webOpen("https://mugenguild.com/forum/")
+			--INFINITY MUGEN TEAM
+			elseif mugenPages == 3 then
+				sndPlay(sysSnd, 100, 1)
+				webOpen("https://www.infinitymugenteam.com/")
+			--MUGEN ARCHIVE
+			elseif mugenPages == 4 then
+				sndPlay(sysSnd, 100, 1)
+				webOpen("https://mugenarchive.com/forums/downloads.php")
+			--MUGEN MULTIVERSE
+			elseif mugenPages == 5 then
+				sndPlay(sysSnd, 100, 1)
+				webOpen("https://mugenmultiverse.forumotion.com/")	
+			--GAMEBANANA
+			elseif mugenPages == 6 then
+				sndPlay(sysSnd, 100, 1)
+				webOpen("https://gamebanana.com/games/5694")
+			--Back
+			else
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			end			
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_mugenPages*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_mugenPages)
+		for i=1, #t_mugenPages do
+			textImgDraw(t_mugenPages[i].id)
+			if t_mugenPages[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_mugenPages[i].varID, font2, 0, -1, t_mugenPages[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+mugenPages*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2845,16 +2857,18 @@ function f_unlockMenu()
 				f_allcharsMenu()	
 			--TIME TRIAL
 			elseif unlockMenu == 2 then
-				--sndPlay(sysSnd, 100, 1)
+				sndPlay(sysSnd, 100, 1)
 				--f_trialMenu()
+				f_comingSoon()
 			--TOURNAMENT
 			elseif unlockMenu == 3 then
-				--sndPlay(sysSnd, 100, 1)
-				--f_trialMenu()	
+				sndPlay(sysSnd, 100, 1)
+				f_tournamentMenu()	
 			--CUTSCENES
 			elseif unlockMenu == 4 then
-				--sndPlay(sysSnd, 100, 1)
-				--f_videoMenu()				
+				sndPlay(sysSnd, 100, 1)
+				--f_videoMenu()
+				f_comingSoon()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -3610,7 +3624,7 @@ function f_mainNetplay()
 				if not cancel then
 					synchronize()
 					math.randomseed(sszRandom())
-					f_mainjoinCfg()
+					f_mainhostCfg()
 				end
 				exitNetPlay()
 				exitReplay()
@@ -3663,7 +3677,7 @@ function f_mainNetplay()
 end
 
 --;===========================================================
---; HOST ONLINE SETTINGS MENU LOOP
+--; ONLINE SETTINGS MENU LOOP
 --;===========================================================
 txt_mainhostCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
 t_mainhostCfg = {
@@ -3714,7 +3728,11 @@ function f_mainhostCfg()
 				if modified == 1 then
 					f_saveCfg()
 				end
-				f_mainHost()
+				if netPlayer == 'Host' then
+					f_mainHost()
+				elseif netPlayer == 'Client' then
+					f_mainJoin()
+				end	
 				break
 			end	
 			--Exit
@@ -3745,7 +3763,7 @@ function f_mainhostCfg()
 end
 
 --;===========================================================
---; HOST ONLINE GAMEPLAY SETTINGS
+--; ONLINE GAMEPLAY SETTINGS
 --;===========================================================
 txt_gamehostCfg = createTextImg(jgFnt, 0, 0, 'ONLINE GAMEPLAY SETTINGS', 159, 13)
 t_gamehostCfg = {
@@ -3760,7 +3778,7 @@ t_gamehostCfg = {
 	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
 	{id = '', text = 'Team Settings'},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_gamehostCfg do
 	t_gamehostCfg[i].id = createTextImg(font2, 0, 1, t_gamehostCfg[i].text, 85, 15+i*15)
@@ -3961,7 +3979,7 @@ function f_gamehostCfg()
 end
 
 --;===========================================================
---; HOST ONLINE TEAM SETTINGS
+--; ONLINE TEAM SETTINGS
 --;===========================================================
 txt_teamhostCfg = createTextImg(jgFnt, 0, 0, 'ONLINE TEAM SETTINGS', 159, 13)
 t_teamhostCfg = {
@@ -3971,7 +3989,7 @@ t_teamhostCfg = {
 	{id = '', text = 'Turns Players Limit',             varID = textImgNew(), varText = data.numTurns},
 	{id = '', text = 'Simul Players Limit',             varID = textImgNew(), varText = data.numSimul},
 	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_teamhostCfg do
 	t_teamhostCfg[i].id = createTextImg(font2, 0, 1, t_teamhostCfg[i].text, 85, 15+i*15)
@@ -4088,13 +4106,13 @@ function f_teamhostCfg()
 end
 
 --;===========================================================
---; HOST ONLINE ENGINE SETTINGS
+--; ONLINE ENGINE SETTINGS
 --;===========================================================
 txt_enginehostCfg = createTextImg(jgFnt, 0, 0, 'ONLINE ENGINE SETTINGS', 159, 13)
 t_enginehostCfg = {
 	{id = '', text = 'Game Speed',  	varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Zoom Settings'},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_enginehostCfg do
 	t_enginehostCfg[i].id = createTextImg(font2, 0, 1, t_enginehostCfg[i].text, 85, 15+i*15)
@@ -4122,15 +4140,9 @@ function f_enginehostCfg()
 				if gameSpeed < 48 then
 					gameSpeed = 48
 					s_gameSpeed = 'Slow'
-				--elseif gameSpeed < 56 then
-					--gameSpeed = 56
-					--s_gameSpeed = '93.33%'
 				elseif gameSpeed < 60 then
 					gameSpeed = 60
 					s_gameSpeed = 'Normal'
-				--elseif gameSpeed < 64 then
-					--gameSpeed = 64
-					--s_gameSpeed = '106.66%'
 				elseif gameSpeed < 72 then
 					gameSpeed = 72
 					s_gameSpeed = 'Turbo'
@@ -4138,15 +4150,9 @@ function f_enginehostCfg()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and gameSpeed > 48 then
 				sndPlay(sysSnd, 100, 0)
-				--if gameSpeed >= 72 then
-					--gameSpeed = 64
-					--s_gameSpeed = '106.66%'
 				if gameSpeed >= 64 then
 					gameSpeed = 60
 					s_gameSpeed = 'Normal'
-				--elseif gameSpeed >= 60 then
-					--gameSpeed = 56
-					--s_gameSpeed = '93.33%'
 				elseif gameSpeed >= 56 then
 					gameSpeed = 48
 					s_gameSpeed = 'Slow'
@@ -4182,7 +4188,7 @@ function f_enginehostCfg()
 end
 
 --;===========================================================
---; HOST ONLINE ZOOM SETTINGS
+--; ONLINE ZOOM SETTINGS
 --;===========================================================
 txt_zoomhostCfg = createTextImg(jgFnt, 0, 0, 'ONLINE ZOOM SETTINGS', 159, 13)
 t_zoomhostCfg = {
@@ -4190,7 +4196,7 @@ t_zoomhostCfg = {
 	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
 	{id = '', text = 'Max Zoom In',  varID = textImgNew(), varText = data.zoomMax},
 	{id = '', text = 'Zoom Speed',   varID = textImgNew(), varText = data.zoomSpeed},
-	{id = '', text = 'Back'},
+	{id = '', text = '          BACK'},
 }
 for i=1, #t_zoomhostCfg do
 	t_zoomhostCfg[i].id = createTextImg(font2, 0, 1, t_zoomhostCfg[i].text, 85, 15+i*15)
@@ -4276,627 +4282,6 @@ function f_zoomhostCfg()
 			end
 		end
 		animSetWindow(cursorBox, 80,5+zoomhostCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLIENT/JOIN ONLINE SETTINGS MENU LOOP
---;===========================================================
-txt_mainjoinCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
-t_mainjoinCfg = {
-	{id = '', text = 'Gameplay Settings'},
-	{id = '', text = 'Engine Settings'},	
-	{id = '', text = 'Save and Play'},
-}
-for i=1, #t_mainjoinCfg do
-	t_mainjoinCfg[i].id = createTextImg(font2, 0, 1, t_mainjoinCfg[i].text, 85, 15+i*15)
-end
-
-function f_mainjoinCfg()
-	cmdInput()
-	local mainjoinCfg = 1
-	local bufl = 0
-	local bufr = 0	
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	while true do
-		if esc() then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			mainjoinCfg = mainjoinCfg - 1
-			if mainjoinCfg < 1 then mainjoinCfg = #t_mainjoinCfg end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			mainjoinCfg = mainjoinCfg + 1
-			if mainjoinCfg > #t_mainjoinCfg then mainjoinCfg = 1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
-		elseif btnPalNo(p1Cmd) > 0 then
-			--Gameplay Settings
-			if mainjoinCfg == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_gamejoinCfg()
-			--Engine Settings
-			elseif mainjoinCfg == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_enginejoinCfg()	
-			--Save and Play
-			elseif mainjoinCfg == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				if modified == 1 then
-					f_saveCfg()
-				end
-				f_mainJoin()
-				break
-			end	
-			--Exit
-			--else
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 2)
-				--break
-			--end			
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_mainjoinCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_mainjoinCfg)		
-		for i=1, #t_mainjoinCfg do
-			textImgDraw(t_mainjoinCfg[i].id)
-			if t_mainjoinCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_mainjoinCfg[i].varID, font2, 0, -1, t_mainjoinCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+mainjoinCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLIENT/JOIN ONLINE GAMEPLAY SETTINGS
---;===========================================================
-txt_gamejoinCfg = createTextImg(jgFnt, 0, 0, 'ONLINE GAMEPLAY SETTINGS', 159, 13)
-t_gamejoinCfg = {
-	{id = '', text = 'Difficulty Level',         varID = textImgNew(), varText = data.difficulty},
-	{id = '', text = 'Round Time',         		 varID = textImgNew(), varText = data.roundTime},	
-	{id = '', text = 'Rounds to Win',      		 varID = textImgNew(), varText = roundsNum},
-	{id = '', text = 'Max Draw Games',      	 varID = textImgNew(), varText = drawNum},	
-	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},	
-	{id = '', text = 'Arcade Coins',             varID = textImgNew(), varText = data.coins},
-	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},
-	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},	
-	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
-	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
-	{id = '', text = 'Team Settings'},
-	{id = '', text = 'Back'},
-}
-for i=1, #t_gamejoinCfg do
-	t_gamejoinCfg[i].id = createTextImg(font2, 0, 1, t_gamejoinCfg[i].text, 85, 15+i*15)
-end
-
-function f_gamejoinCfg()
-	cmdInput()
-	local gamejoinCfg = 1
-	local bufl = 0
-	local bufr = 0	
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			gamejoinCfg = gamejoinCfg - 1
-			if gamejoinCfg < 1 then gamejoinCfg = #t_gamejoinCfg end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			gamejoinCfg = gamejoinCfg + 1
-			if gamejoinCfg > #t_gamejoinCfg then gamejoinCfg = 1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
-		--Difficulty Level
-		elseif gamejoinCfg == 1 then
-			if commandGetState(p1Cmd, 'r') and data.difficulty < 8 then
-				sndPlay(sysSnd, 100, 0)
-				data.difficulty = data.difficulty + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.difficulty > 1 then
-				sndPlay(sysSnd, 100, 0)
-				data.difficulty = data.difficulty - 1
-				modified = 1
-			end
-		--Round Time			
-		elseif gamejoinCfg == 2 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if data.roundTime < 1000 then
-					data.roundTime = data.roundTime + 1
-				else
-					data.roundTime = -1
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if data.roundTime > -1 then
-					data.roundTime = data.roundTime - 1
-				else
-					data.roundTime = 1000
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--Rounds to Win			
-		elseif gamejoinCfg == 3 then
-			if commandGetState(p1Cmd, 'r') and roundsNum < 10 then
-				sndPlay(sysSnd, 100, 0)
-				roundsNum = roundsNum + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and roundsNum > 1 then
-				sndPlay(sysSnd, 100, 0)
-				roundsNum = roundsNum - 1
-				modified = 1
-			end
-		--Max Draw Games			
-		elseif gamejoinCfg == 4 then
-			if commandGetState(p1Cmd, 'r') and drawNum < 10 then
-				sndPlay(sysSnd, 100, 0)
-				drawNum = drawNum + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and drawNum > 0 then
-				sndPlay(sysSnd, 100, 0)
-				drawNum = drawNum - 1
-				modified = 1
-			end				
-		--Life
-		elseif gamejoinCfg == 5 then
-			if commandGetState(p1Cmd, 'r') and data.lifeMul < 300 then
-				sndPlay(sysSnd, 100, 0)
-				data.lifeMul = data.lifeMul + 10
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.lifeMul > 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.lifeMul = data.lifeMul - 10
-				modified = 1
-			end			
-		--Arcade Coins
-		elseif gamejoinCfg == 6 then
-			if commandGetState(p1Cmd, 'r') and data.coins < 99 then
-				sndPlay(sysSnd, 200, 0) --Coin Song
-				data.coins = data.coins + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.coins > 0 then
-				sndPlay(sysSnd, 200, 0) --Coin Song
-				data.coins = data.coins - 1
-				modified = 1
-			end
-		--Char change at Continue
-		elseif gamejoinCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.contSelection then
-				data.contSelection = false
-				s_contSelection = 'No'
-				modified = 1
-			else
-				data.contSelection = true
-				s_contSelection = 'Yes'
-				modified = 1
-			end
-		--Display Versus Win Counter
-		elseif gamejoinCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.vsDisplayWin then
-				data.vsDisplayWin = false
-				s_vsDisplayWin = 'No'
-				modified = 1
-			else
-				data.vsDisplayWin = true
-				s_vsDisplayWin = 'Yes'
-				modified = 1
-			end			
-		--AI ramping
-		elseif gamejoinCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.aiRamping then
-				data.aiRamping = false
-				s_aiRamping = 'No'
-				modified = 1
-			else
-				data.aiRamping = true
-				s_aiRamping = 'Yes'
-				modified = 1
-			end
-		--Auto-Guard
-		elseif gamejoinCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.autoguard then
-				data.autoguard = false
-				s_autoguard = 'No'
-				modified = 1
-			else
-				data.autoguard = true
-				s_autoguard = 'Yes'
-				modified = 1
-			end
-		--Team Settings
-		elseif gamejoinCfg == 11 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			f_teamjoinCfg()			
-		--Back
-		elseif gamejoinCfg == 12 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end	
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_gamejoinCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_gamejoinCfg)
-		t_gamejoinCfg[1].varText = data.difficulty
-		if data.roundTime ~= -1 then
-			t_gamejoinCfg[2].varText = data.roundTime
-		else
-			t_gamejoinCfg[2].varText = 'Infinite'
-		end
-		t_gamejoinCfg[3].varText = roundsNum
-		t_gamejoinCfg[4].varText = drawNum		
-		t_gamejoinCfg[5].varText = data.lifeMul .. '%'		
-		t_gamejoinCfg[6].varText = data.coins
-		t_gamejoinCfg[7].varText = s_contSelection
-		t_gamejoinCfg[8].varText = s_vsDisplayWin		
-		t_gamejoinCfg[9].varText = s_aiRamping
-		t_gamejoinCfg[10].varText = s_autoguard
-		for i=1, #t_gamejoinCfg do
-			textImgDraw(t_gamejoinCfg[i].id)
-			if t_gamejoinCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_gamejoinCfg[i].varID, font2, 0, -1, t_gamejoinCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+gamejoinCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLIENT/JOIN ONLINE TEAM SETTINGS
---;===========================================================
-txt_teamjoinCfg = createTextImg(jgFnt, 0, 0, 'ONLINE TEAM SETTINGS', 159, 13)
-t_teamjoinCfg = {
-	{id = '', text = 'Single Vs Team Life',     varID = textImgNew(), varText = data.team1VS2Life .. '%'},
-	{id = '', text = 'Turns HP Recovery',       varID = textImgNew(), varText = data.turnsRecoveryRate .. '%'},
-	{id = '', text = 'Disadvantage Life Share', varID = textImgNew(), varText = s_teamLifeShare},
-	{id = '', text = 'Turns Players Limit',             varID = textImgNew(), varText = data.numTurns},
-	{id = '', text = 'Simul Players Limit',             varID = textImgNew(), varText = data.numSimul},
-	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
-	{id = '', text = 'Back'},
-}
-for i=1, #t_teamjoinCfg do
-	t_teamjoinCfg[i].id = createTextImg(font2, 0, 1, t_teamjoinCfg[i].text, 85, 15+i*15)
-end
-
-function f_teamjoinCfg()
-	cmdInput()
-	local teamjoinCfg = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			teamjoinCfg = teamjoinCfg - 1
-			if teamjoinCfg < 1 then teamjoinCfg = #t_teamjoinCfg end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			teamjoinCfg = teamjoinCfg + 1
-			if teamjoinCfg > #t_teamjoinCfg then teamjoinCfg = 1 end
-		--1P Vs Team Life
-		elseif teamjoinCfg == 1 then
-			if commandGetState(p1Cmd, 'r') and data.team1VS2Life < 3000 then
-				sndPlay(sysSnd, 100, 0)
-				data.team1VS2Life = data.team1VS2Life + 10
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.team1VS2Life > 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.team1VS2Life = data.team1VS2Life - 10
-				modified = 1
-			end
-		--Turns HP Recovery
-		elseif teamjoinCfg == 2 then
-			if commandGetState(p1Cmd, 'r') and data.turnsRecoveryRate < 3000 then
-				sndPlay(sysSnd, 100, 0)
-				data.turnsRecoveryRate = data.turnsRecoveryRate + 10
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.turnsRecoveryRate > 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.turnsRecoveryRate = data.turnsRecoveryRate - 10
-				modified = 1
-			end
-		--Disadvantage Life Share
-		elseif teamjoinCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.teamLifeShare then
-				data.teamLifeShare = false
-				s_teamLifeShare = 'No'
-				modified = 1
-			else
-				data.teamLifeShare = true
-				s_teamLifeShare = 'Yes'
-				modified = 1
-			end
-		--Turns Limit (by default also requires editing 'if(!.m.inRange!int?(1, 4, nt)){' in ssz/system-script.ssz)
-		elseif teamjoinCfg == 4 then
-			if commandGetState(p1Cmd, 'r') and data.numTurns < 4 then
-				sndPlay(sysSnd, 100, 0)
-				data.numTurns = data.numTurns + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.numTurns > 2 then
-				sndPlay(sysSnd, 100, 0)
-				data.numTurns = data.numTurns - 1
-				modified = 1
-			end
-		--Simul Limit (by default also requires editing 'const int maxSimul = 4;' in ssz/common.ssz)
-		elseif teamjoinCfg == 5 then
-			if commandGetState(p1Cmd, 'r') and data.numSimul < 4 then
-				sndPlay(sysSnd, 100, 0)
-				data.numSimul = data.numSimul + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.numSimul > 2 then
-				sndPlay(sysSnd, 100, 0)
-				data.numSimul = data.numSimul - 1
-				modified = 1
-			end
-		--Simul Type
-		elseif teamjoinCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.simulType == 'Tag' then
-				data.simulType = 'Assist'
-				modified = 1
-			else
-				data.simulType = 'Tag'
-				modified = 1
-			end
-		--Back
-		elseif teamjoinCfg == 7 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_teamjoinCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_teamjoinCfg)
-		t_teamjoinCfg[1].varText = data.team1VS2Life .. '%'
-		t_teamjoinCfg[2].varText = data.turnsRecoveryRate .. '%'
-		t_teamjoinCfg[3].varText = s_teamLifeShare
-		t_teamjoinCfg[4].varText = data.numTurns
-		t_teamjoinCfg[5].varText = data.numSimul
-		t_teamjoinCfg[6].varText = data.simulType
-		for i=1, #t_teamjoinCfg do
-			textImgDraw(t_teamjoinCfg[i].id)
-			if t_teamjoinCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_teamjoinCfg[i].varID, font2, 0, -1, t_teamjoinCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+teamjoinCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLIENT/JOIN ONLINE ENGINE SETTINGS
---;===========================================================
-txt_enginejoinCfg = createTextImg(jgFnt, 0, 0, 'ONLINE ENGINE SETTINGS', 159, 13)
-t_enginejoinCfg = {
-	{id = '', text = 'Game Speed',  	varID = textImgNew(), varText = s_gameSpeed},
-	{id = '', text = 'Zoom Settings'},
-	{id = '', text = 'Back'},
-}
-for i=1, #t_enginejoinCfg do
-	t_enginejoinCfg[i].id = createTextImg(font2, 0, 1, t_enginejoinCfg[i].text, 85, 15+i*15)
-end
-
-function f_enginejoinCfg()
-	cmdInput()
-	local enginejoinCfg = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			enginejoinCfg = enginejoinCfg - 1
-			if enginejoinCfg < 1 then enginejoinCfg = #t_enginejoinCfg end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			enginejoinCfg = enginejoinCfg + 1
-			if enginejoinCfg > #t_enginejoinCfg then enginejoinCfg = 1 end
-		--Game Speed
-		elseif enginejoinCfg == 1 then
-			if commandGetState(p1Cmd, 'r') and gameSpeed < 72 then
-				sndPlay(sysSnd, 100, 0)
-				if gameSpeed < 48 then
-					gameSpeed = 48
-					s_gameSpeed = 'Slow'
-				--elseif gameSpeed < 56 then
-					--gameSpeed = 56
-					--s_gameSpeed = '93.33%'
-				elseif gameSpeed < 60 then
-					gameSpeed = 60
-					s_gameSpeed = 'Normal'
-				--elseif gameSpeed < 64 then
-					--gameSpeed = 64
-					--s_gameSpeed = '106.66%'
-				elseif gameSpeed < 72 then
-					gameSpeed = 72
-					s_gameSpeed = 'Turbo'
-				end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and gameSpeed > 48 then
-				sndPlay(sysSnd, 100, 0)
-				--if gameSpeed >= 72 then
-					--gameSpeed = 64
-					--s_gameSpeed = '106.66%'
-				if gameSpeed >= 64 then
-					gameSpeed = 60
-					s_gameSpeed = 'Normal'
-				--elseif gameSpeed >= 60 then
-					--gameSpeed = 56
-					--s_gameSpeed = '93.33%'
-				elseif gameSpeed >= 56 then
-					gameSpeed = 48
-					s_gameSpeed = 'Slow'
-				end
-				modified = 1
-			end
-		--Zoom Settings
-		elseif enginejoinCfg == 2 and btnPalNo(p1Cmd) > 0 then	
-			sndPlay(sysSnd, 100, 1)
-			f_zoomjoinCfg()		
-		--Back
-		elseif enginejoinCfg == 3 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_enginejoinCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_enginejoinCfg)
-		t_enginejoinCfg[1].varText = s_gameSpeed
-		for i=1, #t_enginejoinCfg do
-			textImgDraw(t_enginejoinCfg[i].id)
-			if t_enginejoinCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_enginejoinCfg[i].varID, font2, 0, -1, t_enginejoinCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+enginejoinCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLIENT/JOIN ONLINE ZOOM SETTINGS
---;===========================================================
-txt_zoomjoinCfg = createTextImg(jgFnt, 0, 0, 'ONLINE ZOOM SETTINGS', 159, 13)
-t_zoomjoinCfg = {
-	{id = '', text = 'Zoom Active',  varID = textImgNew(), varText = s_zoomActive},
-	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
-	{id = '', text = 'Max Zoom In',  varID = textImgNew(), varText = data.zoomMax},
-	{id = '', text = 'Zoom Speed',   varID = textImgNew(), varText = data.zoomSpeed},
-	{id = '', text = 'Back'},
-}
-for i=1, #t_zoomjoinCfg do
-	t_zoomjoinCfg[i].id = createTextImg(font2, 0, 1, t_zoomjoinCfg[i].text, 85, 15+i*15)
-end
-
-function f_zoomjoinCfg()
-	cmdInput()
-	local zoomjoinCfg = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			zoomjoinCfg = zoomjoinCfg - 1
-			if zoomjoinCfg < 1 then zoomjoinCfg = #t_zoomjoinCfg end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			zoomjoinCfg = zoomjoinCfg + 1
-			if zoomjoinCfg > #t_zoomjoinCfg then zoomjoinCfg = 1 end
-		--Zoom Active
-		elseif zoomjoinCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.zoomActive then
-				data.zoomActive = false
-				s_zoomActive = 'No'
-				modified = 1
-			else
-				data.zoomActive = true
-				s_zoomActive = 'Yes'
-				modified = 1
-			end
-		--Max Zoom Out
-		elseif zoomjoinCfg == 2 and data.zoomMin < 10 then
-			if commandGetState(p1Cmd, 'r') then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMin = data.zoomMin + 0.05
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.zoomMin > 0.05 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMin = data.zoomMin - 0.05
-				modified = 1
-			end
-		--Max Zoom In
-		elseif zoomjoinCfg == 3 then
-			if commandGetState(p1Cmd, 'r') and data.zoomMax < 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMax = data.zoomMax + 0.05
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.zoomMax > 0.05 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMax = data.zoomMax - 0.05
-				modified = 1
-			end
-		--Zoom Speed
-		elseif zoomjoinCfg == 4 then
-			if commandGetState(p1Cmd, 'r') and data.zoomSpeed < 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomSpeed = data.zoomSpeed + 0.1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.zoomSpeed > 0.1 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomSpeed = data.zoomSpeed - 0.1
-				modified = 1
-			end
-		--Back
-		elseif zoomjoinCfg == 5 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_zoomjoinCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_zoomjoinCfg)
-		t_zoomjoinCfg[1].varText = s_zoomActive
-		t_zoomjoinCfg[2].varText = data.zoomMin
-		t_zoomjoinCfg[3].varText = data.zoomMax
-		t_zoomjoinCfg[4].varText = data.zoomSpeed
-		for i=1, #t_zoomjoinCfg do
-			textImgDraw(t_zoomjoinCfg[i].id)
-			if t_zoomjoinCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_zoomjoinCfg[i].varID, font2, 0, -1, t_zoomjoinCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+zoomjoinCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		cmdInput()
@@ -5288,7 +4673,7 @@ function f_mainJoin()
 			--ONLINE SETTINGS
 			elseif mainJoin == 10 then
 				sndPlay(sysSnd, 100, 1)
-				f_mainjoinCfg()
+				f_mainhostCfg()
 			--EXIT
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -5336,10 +4721,12 @@ end
 function f_create()
 	textImgSetText(txt_starting, 'Starting netplay by port ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
+	netPlayer = 'Host' --Identify
 	while not connected() do
 		if esc() then
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
+			netPlayer = ''
 			return true
 		end
 		textImgDraw(txt_starting)
@@ -5365,10 +4752,12 @@ function f_connect()
 	sndPlay(sysSnd, 100, 1)
 	textImgSetText(txt_connecting, 'Now connecting with ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
+	netPlayer = 'Client'
 	while not connected() do
 		if esc() then
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
+			netPlayer = ''
 			return true
 		end
 		textImgDraw(txt_connecting)
@@ -5379,6 +4768,31 @@ function f_connect()
 		animUpdate(data.fadeTitle)
 	end
 	return false
+end
+
+easteregg = animNew(sysSff, [[
+666,0, 0,0, -1
+]])
+animAddPos(easteregg, -10, -5)
+animUpdate(easteregg)
+animSetScale(easteregg, 1.059, 1.041)
+
+
+function f_tournamentMenu()
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			f_comingSoon()
+			break 
+		end
+		animDraw(easteregg)	
+	    animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================

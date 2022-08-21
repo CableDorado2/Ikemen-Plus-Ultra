@@ -669,22 +669,6 @@ function f_gameOverReset()
 101,75, 0,0, 119 --226
 101,75, 0,0, -1
 ]])
---[[ not needed since we fade the screen via function
-101,76, 0,0, 1 --227
-101,77, 0,0, 1 --228
-101,78, 0,0, 1 --229
-101,79, 0,0, 1 --230
-101,80, 0,0, 1 --231
-101,81, 0,0, 1 --232
-101,82, 0,0, 1 --233
-101,83, 0,0, 1 --234
-101,84, 0,0, 1 --235
-101,85, 0,0, 1 --236
-101,86, 0,0, 1 --237
-101,87, 0,0, 1 --238
-101,88, 0,0, 1 --239
-101,89, 0,0, 1 --240
-]]--
-	--black background for 24 frames
-	animAddPos(gameOver, -32, 8)
+--black background for 24 frames
+animAddPos(gameOver, -32, 8)
 end

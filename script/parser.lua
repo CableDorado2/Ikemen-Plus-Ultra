@@ -629,7 +629,7 @@ if generate and data.sffConversion then
 				t_selChars[t_gen[i]]['p1AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
 				t_selChars[t_gen[i]]['p2AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
 			end
-			os.execute('trash.bat')
+			batOpen("tools", "trash.bat") --added via script.ssz
 			--lfs.rmdir ("./data/charTrash") --Directory needs to be empty to work
 			refresh()
 		end

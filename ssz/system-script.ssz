@@ -15,8 +15,10 @@ lib chr = "char.ssz";
 lib lua = <alpha/lua.ssz>;
 lib sys = "system.ssz";
 lib sc = "script.ssz";
+//lib vid = "video.ssz";
 
-^/char listenPort = "7500";
+^/char listenPort = .cfg.listenPort;
+^/char UserName = .cfg.UserName;
 
 .sdl.setVolume(.cfg.GlVol, .cfg.SEVol, .cfg.BGMVol);
 
@@ -375,6 +377,19 @@ void setListenPort(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^/char port = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
   if(#port > 0) .listenPort = port;
+}
+
+void getUserName(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.UserName);
+}
+
+void setUserName(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char name = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .UserName = name;
 }
 
 void setVolume(&.lua.State L=, int re=)
@@ -889,6 +904,8 @@ public void init(&.lua.State L=)
   L.register("setAutoLevel", .setAutoLevel);
   L.register("getListenPort", .getListenPort);
   L.register("setListenPort", .setListenPort);
+  L.register("getUserName", .getUserName);
+  L.register("setUserName", .setUserName);
   L.register("setVolume", .setVolume);
   L.register("setScreenMode", .setScreenMode); 
   L.register("connected", .connected);
