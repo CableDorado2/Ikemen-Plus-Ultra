@@ -226,11 +226,11 @@ stages/Training Room 2.def
  ;characters who have order=1, followed by 3 with order=2 and 1 with
  ;order=3.
  ;IKEMEN feature: Max 30 orders limitation is lifted.
-arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
+arcade.maxmatches = 1,1,1,1,1,0,0,0,0,0
 
  ;Maximum number of matches to fight before game ends in Team Mode.
  ;Like arcade.maxmatches, but applies to Team Battle.
-team.maxmatches = 2,1,1,1,0,0,0,0,0,0
+team.maxmatches = 2,1,1,1,1,0,0,0,0,0
 
  ;IKEMEN feature: AI ramping settings has been moved here from mugen.cfg
  ;You can view AI ramping output for all battles from the last chosen mode

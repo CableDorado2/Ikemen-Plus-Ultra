@@ -1,23 +1,23 @@
-table: 081FAAB0 {
-  [iori yagami] => 14
-  [kfg] => 57
-  [strength training] => 52
+table: 02C9BE20 {
   [ryu/master ryu.def] => 54
-  [ken masters/master ken.def] => 56
-  [ken masters/violent ken.def] => 55
-  [kyo kusanagi] => 4
-  [ryu/evil ryu.def] => 53
   [suave dude] => 7
-  [rugal bernstein] => 9
-  [dragon claw] => 59
-  [kung fu girl] => 12
-  [m. bison] => 5
-  [training] => 60
-  [tic-tac-toe] => 51
-  [kung fu man] => 2
   [omega rugal] => 58
-  [randomselect] => 49
-  [ken masters] => 10
+  [kyo kusanagi] => 4
+  [kung fu girl] => 12
+  [kung fu man] => 2
+  [training] => 60
   [catwalk] => 50
+  [dragon claw] => 59
+  [kfg] => 57
+  [ryu/evil ryu.def] => 53
   [ryu] => 0
+  [strength training] => 52
+  [ken masters/master ken.def] => 56
+  [iori yagami] => 14
+  [ken masters] => 10
+  [ken masters/violent ken.def] => 55
+  [rugal bernstein] => 9
+  [tic-tac-toe] => 51
+  [randomselect] => 49
+  [m. bison] => 5
 }

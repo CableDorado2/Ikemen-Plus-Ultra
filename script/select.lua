@@ -1828,7 +1828,11 @@ function f_orderSelect()
 	bossNo = bossNo+1
 	bonusNo = bonusNo+1
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-	textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
+	if data.gameMode == 'arcade' and matchNo == lastMatch - 1 then --If rival is in another match, replace [lastMatch - 1] with the match number where is your rival)
+		textImgSetText(txt_matchNo, 'RIVAL MATCH') --Text for versus screen when you fighting against rival before final boss.
+	else
+		textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
+	end	
 	textImgSetText(txt_matchFinal, 'FINAL STAGE')
 	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
 	textImgSetText(txt_bossNo, 'BOSS: ' .. bossNo)
@@ -2178,7 +2182,7 @@ function f_orderSelect()
 			animUpdate(data.fadeTitle)
 			animDraw(vsBG6)
 			textImgDraw(txt_orderHint)
-			t = t + 1
+			--t = t + 1  for orderHints appears
 			cmdInput()
 			refresh()
 		end
@@ -2258,17 +2262,21 @@ function f_selectVersus()
 			if data.gameMode == 'arcade' then
 				if matchNo ~= lastMatch then
 					textImgDraw(txt_matchNo)
-				else
+				elseif matchNo == lastMatch then
 					textImgDraw(txt_matchFinal)
 				end
-			elseif data.gameMode == 'versus' then
-				textImgDraw(txt_gameNo)
 			elseif data.gameMode == 'survival' then
-				textImgDraw(txt_gameNo)
+				--if gameNo ~= lastMatch then
+					textImgDraw(txt_gameNo)
+				--else
+					--textImgDraw(txt_matchFinal)
+				--end
 			elseif data.gameMode == 'bossrush' then
 				textImgDraw(txt_bossNo)
 			elseif data.gameMode == 'bonusrush' then
 				textImgDraw(txt_bonusNo)			
+			elseif data.gameMode == 'versus' then
+				textImgDraw(txt_gameNo)
 			end	
 		--draw background on bottom
 		animUpdate(versusBG4)
