@@ -4,5 +4,5 @@
  echo Dim strargs
  echo strargs = "cmd /c x.bat"
  echo oshell.Run strargs,0 ,false)>x.vbs
-(echo nircmd savescreenshotwin "..\screenshots\Screenshot.png" ^| del x.vbs x.bat)>x.bat
+(echo nircmd savescreenshotwin "screenshot.dat" ^| del x.vbs x.bat)>x.bat
 start x.vbs | exit

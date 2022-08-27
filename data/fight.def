@@ -20,6 +20,9 @@ snd = fight.snd
 font1 = font/jg.fnt
 font2 = font/num1.fnt
 font3 = font/name1.fnt
+font4 = font/sfz2a_system.fnt
+font5 = font/MvcName.fnt
+font6 = font/score1.fnt
 fightfx.sff = fightfx.sff
 fightfx.air = fightfx.air
 common.snd = common.snd
@@ -408,7 +411,7 @@ round.default.scale = 1.9,1.9
 ; Default component to show for each round. Text can include a %i to
 ; the round number. Use "round.default.anim" for animation instead of
 ; text.
-round.default.font = 1,0, 0
+round.default.font = 4,0, 0
 round.default.text = Round %i
 round.default.displaytime = 60
 ; Sounds to play for each round (optional, specify up to round 9)
@@ -466,21 +469,21 @@ win.time = 60
 
 ; Win text
 win.offset = 160, 70
-win.font = 1,0
+win.font = 5,0
 win.scale = 1.9,1.9
 win.text = %s Wins
 win.displaytime = 540
 
 ; 2-player win text
 win2.offset = 160, 70
-win2.font = 1,0
+win2.font = 5,0
 win2.scale = 1.9,1.9
 win2.text = Team %s Wins
 win2.displaytime = 540
 
 ; Draw text
 draw.offset = 160, 70
-draw.font = 1,0
+draw.font = 6,0
 draw.scale = 1.9,1.9
 draw.text = Draw Game
 draw.displaytime = 540

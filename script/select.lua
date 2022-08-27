@@ -138,7 +138,7 @@ function f_makeRoster()
 				end
 			end
 		end
-	--Survival / Boss Rush / VS 100 Kumite / Bonus Rush
+	--Survival / Boss Rush / Endless / Bonus Rush
 	else
 		if data.gameMode == 'survival' then
 			t = t_randomChars
@@ -659,8 +659,8 @@ end
 --;===========================================================
 --; SELECT SCREEN
 --;===========================================================
-txt_p1Wins = createTextImg(jgFnt, 0, 1, '', 2, 13)
-txt_p2Wins = createTextImg(jgFnt, 0, -1, '', 318, 13)
+txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
+txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
 
 --Scrolling background
 selectBG0 = animNew(sysSff, [[
@@ -1055,6 +1055,7 @@ end
 --; PLAYER 2 TEAM MENU
 --;===========================================================
 p2SelTmTxt = createTextImg(jgFnt, 0, -1, 'GAME MODE', 300, 30)
+IASelTmTxt = createTextImg(jgFnt, 0, -1, 'CPU MODE', 300, 30)
 t_p2selTeam = {
 	{id = '', text = 'SINGLE'},
 	{id = '', text = 'SIMUL'},
@@ -1105,7 +1106,11 @@ function f_p2TeamMenu()
 				if p2numTurns > data.numTurns then p2numTurns = data.numTurns end
 			end
 		end
-		textImgDraw(p2SelTmTxt)
+		if data.p2In == 2 then
+			textImgDraw(p2SelTmTxt)
+		else
+			textImgDraw(IASelTmTxt)
+		end
 		for i=1, #t_p2selTeam do
 			if i == p2teamMode + 1 then
 				textImgSetBank(t_p2selTeam[i].id, 1)
@@ -1758,17 +1763,17 @@ function f_assignMusic()
 end
 
 --;===========================================================
---; VERSUS SCREEN
+--; ORDER SELECT AND VERSUS SCREEN
 --;===========================================================
 txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
 txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_orderHint = createTextImg(font1, 0, -1, '', 308, 239)
-txt_vsHint = createTextImg(font1, 0, -1, '', 308, 239)
-txt_matchNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
-txt_matchFinal = createTextImg(jgFnt, 0, 0, '', 160, 20)
-txt_gameNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
-txt_bossNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
-txt_bonusNo = createTextImg(jgFnt, 0, 0, '', 160, 20)
+txt_orderHint = createTextImg(font5, 0, -1, '', 308, 239)
+txt_vsHint = createTextImg(font5, 0, -1, '', 308, 239)
+txt_matchNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_matchFinal = createTextImg(font21, 0, 0, '', 160, 20)
+txt_gameNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
+txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
 
 --VS background
 versusBG1 = animNew(sysSff, [[
@@ -1838,7 +1843,7 @@ function f_orderSelect()
 	textImgSetText(txt_bossNo, 'BOSS: ' .. bossNo)
 	textImgSetText(txt_bonusNo, 'BONUS: ' .. bonusNo)
 	local t = 0
-	local randomHintOrder = math.random(2) --Last number is the amount of Hints
+	local randomHintOrder = math.random(3) --Last number is the amount of Hints
 	local i = 0
 	if not data.orderSelect then --Order Select off
 		while true do
@@ -1969,16 +1974,19 @@ function f_orderSelect()
 			end	
 			--set random hints for order select
 			if randomHintOrder == 1 then
-				textImgSetText(txt_orderHint, "           PRESS LEFT OR RIGHT TO CHANGE THE CHARACTERS ORDER              ")
+				textImgSetText(txt_orderHint, "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER ")
 				textImgDraw(txt_orderHint)
 			elseif randomHintOrder == 2 then
-				textImgSetText(txt_orderHint, "                 PRESS UP OR DOWN TO SELECT A CHARACTER                    ")
-				textImgDraw(txt_orderHint)	
+				textImgSetText(txt_orderHint, "PRESS UP OR DOWN TO CHOOSE A CHARACTER       ")
+				textImgDraw(txt_orderHint)
+			elseif randomHintOrder == 3 then
+				textImgSetText(txt_orderHint, "PRESS ENTER TO CONFIRM THE ORDER SELECTED      ")
+				textImgDraw(txt_orderHint)
 			--elseif randomHintOrder == 4 then
 				--textImgSetText(txt_orderHint, "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE")
 				--textImgDraw(txt_orderHint)
 			--elseif randomHintOrder == 5 then
-				--textImgSetText(txt_orderHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE  ")
+				--textImgSetText(txt_orderHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE")
 				--textImgDraw(txt_orderHint) 				
 			end	
 			i = i + 1
@@ -2173,7 +2181,7 @@ function f_orderSelect()
 			txt_p2orderNo4 = createTextImg(jgFnt, 0, 0, '4', 311, 222)
 			textImgDraw(txt_p2orderNo4)
 			--draw order screen text
-			txt_orderSelect = createTextImg(jgFnt, 0, 0, 'ORDER SELECT', 160, 10)
+			txt_orderSelect = createTextImg(font14, 0, 0, 'ORDER SELECT', 160, 10)
 			textImgDraw(txt_orderSelect)
 			--draw background on bottom
 			animUpdate(versusBG4)
@@ -2241,10 +2249,10 @@ function f_selectVersus()
 		drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 		--set random hints for versus screen
 		if randomHintVS == 1 then
-			textImgSetText(txt_vsHint, "KEEP START BUTTON IN THE CHARACTER SELECT AND PRESS C or Z BUTTON      ")
+			textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")
 			textImgDraw(txt_vsHint)
 		elseif randomHintVS == 2 then
-			textImgSetText(txt_vsHint, "IF ANY CHARACTER GETTING BUG, PRESS F4 TO RELOAD THE MATCH         ")
+			textImgSetText(txt_vsHint, "IF ANY CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
 			textImgDraw(txt_vsHint)				
 		end
 		vsTime = vsTime + 1
@@ -2298,70 +2306,62 @@ function f_selectChar(player, t)
 end
 
 --;===========================================================
---; HERE COMES A NEW CHALLENGER SCREEN
---;===========================================================
---Challenger Transparent BG
-versusBG5 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(versusBG5, 160, 0)
-animSetTile(versusBG5, 1, 1)
-animSetWindow(versusBG5, -54, 67, 428, 100)
-
---Challenger Text
-challengerText1 = animNew(sysSff, [[
-500,0, 0,0, 5
-500,1, 0,0, 5
-500,2, 0,0, 5
-500,3, 0,0, 5
-500,4, 0,0, 5
-500,5, 0,0, 5
-500,6, 0,0, 5
-500,7, 0,0, 5
-500,8, 0,0, 5
-500,9, 0,0, 5
-]])
-animAddPos(challengerText1, 15, 100)
-animUpdate(challengerText1)
---animSetScale(challengerText1, 1.2, 1)
-
-function f_selectChallenger()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	playBGM(bgmNothing)
-	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
-	local txt = ''
-	local i = 0
-	data.rosterMode = 'challenger'
-	cmdInput()
-	while true do
-		if i == 150 then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			break
-		elseif btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			break
-		end
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
-			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
-		else
-			animDraw(f_animVelocity(versusBG1, 0, 1.5))
-		end
-		animDraw(f_animVelocity(versusBG5, 0, 1.5))
-		i = i + 1
-		animDraw(challengerText1)
-		animUpdate(challengerText1)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
 --; WIN SCREEN
 --;===========================================================
-txt_winquote = createTextImg(jgFnt, 0, 1, '', 0, 0)
+function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel))
+		textImgSetPos(id, x, y)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, bankUnique)
+			else
+				textImgSetBank(id, bank)
+			end
+		else
+			textImgSetBank(id, bank)
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
+
+txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)--jgFnt --font6
+txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
+
+--Win Char Modern Transparent BG
+wincharBG = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(wincharBG, 160, 0)
+animSetTile(wincharBG, 1, 1)
+animSetWindow(wincharBG, 0, 14, 320, 142)
+
+--Win Char Classic Transparent (left portrait background)
+wincharBGC1 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(wincharBGC1, 160, 0)
+animSetTile(wincharBGC1, 1, 1)
+--animSetWindow(wincharBGC1, 20, 30, 120, 140)
+
+--Win Char Classic Transparent (right portrait background)
+wincharBGC2 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(wincharBGC2, 160, 0)
+animSetTile(wincharBGC2, 1, 1)
+--animSetWindow(wincharBGC2, 180, 30, 120, 140)
+
+--Win Quote Transparent BG
+quoteBG = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(quoteBG, 160, 0)
+animSetTile(quoteBG, 1, 1)
+animSetWindow(quoteBG, 14, 167, 290, 62)
 
 function f_selectWin()
 	playBGM(bgmVictory)
@@ -2390,18 +2390,38 @@ function f_selectWin()
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
 		end
 		if winner == 1 then
-			animDraw(f_animVelocity(versusBG2, -2, 0))
-			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
-			animDraw(f_animVelocity(versusBG3, 2, 0))
+			if data.winscreen == 'Classic' then
+				animDraw(f_animVelocity(wincharBGC1, -2, 0))
+				animSetWindow(wincharBGC1, 32, 20, 120, 140)
+				drawPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+				drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
+				animDraw(f_animVelocity(wincharBGC2, 2, 0))
+				animSetWindow(wincharBGC2, 165, 20, 120, 140)
+				animDraw(f_animVelocity(quoteBG, 2, 0))
+			elseif data.winscreen == 'Modern' then
+				animDraw(f_animVelocity(wincharBG, 0, 1.5))
+				animDraw(f_animVelocity(quoteBG, 2, 0))
+				drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
+				f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
+			end	
 		else--if winner == 2 then
-			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			animDraw(f_animVelocity(versusBG2, -2, 0))
-			animDraw(f_animVelocity(versusBG3, 2, 0))
-			drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			if data.winscreen == 'Classic' then 
+				drawPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+				animDraw(f_animVelocity(wincharBGC1, -2, 0))
+				animSetWindow(wincharBGC1, 32, 20, 120, 140)
+				animDraw(f_animVelocity(wincharBGC2, 2, 0))
+				animSetWindow(wincharBGC2, 165, 20, 120, 140)
+				drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
+				animDraw(f_animVelocity(quoteBG, 2, 0))
+			elseif data.winscreen == 'Modern' then
+				animDraw(f_animVelocity(wincharBG, 2, 0))
+				animDraw(f_animVelocity(quoteBG, 2, 0))
+				drawPortrait(data.t_p2selected[1].cel, 219, 15, -1, 1)
+				f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
+			end	
 		end
 		i = i + 1
-		f_textRender(txt_winquote, txt, i, 20, 186, 15, 2, 35)
+		f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2554,6 +2574,67 @@ function f_winParse(winner, looser, pal)
 	else
 		f_printVar(logVar .. '0 triggers found\n0 quotes found\n\nquote: -1\nexists: no', 'debug/quotes.log')
 		return ''
+	end
+end
+
+--;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREEN
+--;===========================================================
+--Challenger Transparent BG
+versusBG5 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(versusBG5, 160, 0)
+animSetTile(versusBG5, 1, 1)
+animSetWindow(versusBG5, -54, 67, 428, 100)
+
+--Challenger Text
+challengerText1 = animNew(sysSff, [[
+500,0, 0,0, 5
+500,1, 0,0, 5
+500,2, 0,0, 5
+500,3, 0,0, 5
+500,4, 0,0, 5
+500,5, 0,0, 5
+500,6, 0,0, 5
+500,7, 0,0, 5
+500,8, 0,0, 5
+500,9, 0,0, 5
+]])
+animAddPos(challengerText1, 19, 100)
+animUpdate(challengerText1)
+--animSetScale(challengerText1, 1.2, 1)
+
+function f_selectChallenger()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	playBGM(bgmNothing)
+	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
+	local txt = ''
+	local i = 0
+	data.rosterMode = 'challenger'
+	cmdInput()
+	while true do
+		if i == 150 then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		elseif btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		end
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
+		else
+			animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		end
+		animDraw(f_animVelocity(versusBG5, 0, 1.5))
+		i = i + 1
+		animDraw(challengerText1)
+		animUpdate(challengerText1)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
 end
 

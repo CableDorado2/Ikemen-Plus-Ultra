@@ -13,6 +13,10 @@ file:close()
 local file = io.open("ssz/config.ssz","r")
 s_configSSZ = file:read("*all")
 file:close()
+HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 b_screenMode = (s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)'))
@@ -129,6 +133,18 @@ else
 	s_vsDisplayWin = 'No'
 end
 
+if data.clockSeconds then
+	s_clockSeconds = 'Yes'
+else
+	s_clockSeconds = 'No'
+end
+
+if data.debugMode then
+	s_debugMode = 'Enabled'
+else
+	s_debugMode = 'Disabled'
+end
+
 --;===========================================================
 --; BACKGROUND DEFINITION
 --;===========================================================
@@ -196,7 +212,11 @@ function f_saveCfg()
 		['data.lifebar'] = data.lifebar,
 		['data.sffConversion'] = data.sffConversion,
 		['data.language'] = data.language,
-		['data.menuSong'] = data.menuSong
+		['data.menuSong'] = data.menuSong,
+		['data.screenshotSnd'] = data.screenshotSnd,
+		['data.clockSeconds'] = data.clockSeconds,
+		['data.winscreen'] = data.winscreen,
+		['data.debugMode'] = data.debugMode
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("script/data_sav.lua","w+")
@@ -218,6 +238,10 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
 	end	
+	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int AfterImageMax%s*=%s*%d+', 'const int AfterImageMax = ' .. AfterImageMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int Width%s*=%s*%d+', 'const int Width = ' .. resolutionWidth)
 	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
@@ -308,6 +332,7 @@ end
 txt_mainCfg = createTextImg(jgFnt, 0, 0, 'OPTIONS', 159, 13)
 t_mainCfg = {
 	{id = '', text = 'Gameplay Settings'},
+	{id = '', text = 'Screenpack Settings'},
 	{id = '', text = 'Video Settings'},
 	{id = '', text = 'Audio Settings'},
 	{id = '', text = 'Input Settings'},
@@ -345,7 +370,7 @@ function f_mainCfg()
 			mainCfg = mainCfg + 1
 			if mainCfg > #t_mainCfg then mainCfg = 1 end
 		--Player Name
-		elseif mainCfg == 6 and (btnPalNo(p1Cmd) > 0) then
+		elseif mainCfg == 7 and (btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)
 			inputDialogPopup(inputdia, 'Introduce an Username')
 			while not inputDialogIsDone(inputdia) do
@@ -355,7 +380,7 @@ function f_mainCfg()
 			setUserName(inputDialogGetStr(inputdia))
 			modified = 1
 		--Port Change
-		elseif mainCfg == 7 and (btnPalNo(p1Cmd) > 0) then
+		elseif mainCfg == 8 and (btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)
 			inputDialogPopup(inputdia, 'Introduce a new Port (Default: 7500)')
 			while not inputDialogIsDone(inputdia) do
@@ -369,24 +394,28 @@ function f_mainCfg()
 			if mainCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_gameCfg()
-			--Video Settings
+			--Screenpack Settings
 			elseif mainCfg == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_UICfg()	
+			--Video Settings
+			elseif mainCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_videoCfg()
 			--Audio Settings
-			elseif mainCfg == 3 then
+			elseif mainCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_audioCfg()
 			--Input Settings
-			elseif mainCfg == 4 then
+			elseif mainCfg == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_inputCfg()
 			--Engine Settings
-			elseif mainCfg == 5 then
+			elseif mainCfg == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_engineCfg()	
 			--Default Values
-			elseif mainCfg == 8 then
+			elseif mainCfg == 9 then
 				sndPlay(sysSnd, 100, 1)
 				--saves.ini
 				data.lifeMul = 100
@@ -414,11 +443,16 @@ function f_mainCfg()
 				data.autoguard = false
 				s_autoguard = 'No'
 				data.vsDisplayWin = true
-				s_vsDisplayWin = 'Yes'				
+				s_vsDisplayWin = 'Yes'
 				data.lifebar = 'data/fight.def'
 				data.sffConversion = true
 				data.language = 'ENGLISH'
 				data.menuSong = 'Random'
+				data.screenshotSnd = 1
+				data.clockSeconds = false
+				s_clockSeconds = 'No'
+				data.winscreen = 'Classic'
+				data.debugMode = false
 				--config.ssz
 				f_inputDefault()
 				--b_saveMemory = false
@@ -427,6 +461,10 @@ function f_mainCfg()
 				s_openGL = 'No'
 				resolutionWidth = 640
 				resolutionHeight = 480
+				HelperMaxEngine = 56
+				PlayerProjectileMaxEngine = 50
+				ExplodMaxEngine = 256
+				AfterImageMaxEngine = 8
 				--setGameRes(resolutionWidth,resolutionHeight)
 				b_screenMode = false
 				s_screenMode = 'No'
@@ -451,7 +489,7 @@ function f_mainCfg()
 				modified = 1
 				needReload = 1
 			--Save and Back
-			elseif mainCfg == 9 then
+			elseif mainCfg == 10 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				if needReload == 1 then
@@ -475,8 +513,8 @@ function f_mainCfg()
 				textImgDraw(t_restart[i].id)
 			end
 		end			
-		t_mainCfg[6].varText = getUserName()
-		t_mainCfg[7].varText = getListenPort()
+		t_mainCfg[7].varText = getUserName()
+		t_mainCfg[8].varText = getListenPort()
 		for i=1, #t_mainCfg do
 			textImgDraw(t_mainCfg[i].id)
 			if t_mainCfg[i].varID ~= nil then
@@ -565,11 +603,12 @@ t_gameCfg = {
 	{id = '', text = 'Max Draw Games',      	 varID = textImgNew(), varText = drawNum},	
 	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},	
 	{id = '', text = 'Arcade Coins',             varID = textImgNew(), varText = data.coins},
-	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},
-	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},	
+	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},	
 	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
+	{id = '', text = 'Game Speed',  	         varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Team Settings'},
+	{id = '', text = 'Zoom Settings'},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_gameCfg do
@@ -692,21 +731,9 @@ function f_gameCfg()
 				data.contSelection = true
 				s_contSelection = 'Yes'
 				modified = 1
-			end
-		--Display Versus Win Counter
-		elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.vsDisplayWin then
-				data.vsDisplayWin = false
-				s_vsDisplayWin = 'No'
-				modified = 1
-			else
-				data.vsDisplayWin = true
-				s_vsDisplayWin = 'Yes'
-				modified = 1
 			end			
 		--AI ramping
-		elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.aiRamping then
 				data.aiRamping = false
@@ -718,7 +745,7 @@ function f_gameCfg()
 				modified = 1
 			end
 		--Auto-Guard
-		elseif gameCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.autoguard then
 				data.autoguard = false
@@ -729,12 +756,42 @@ function f_gameCfg()
 				s_autoguard = 'Yes'
 				modified = 1
 			end
+		--Game Speed
+		elseif gameCfg == 10 then
+			if commandGetState(p1Cmd, 'r') and gameSpeed < 72 then
+				sndPlay(sysSnd, 100, 0)
+				if gameSpeed < 48 then
+					gameSpeed = 48
+					s_gameSpeed = 'Slow'
+				elseif gameSpeed < 60 then
+					gameSpeed = 60
+					s_gameSpeed = 'Normal'
+				elseif gameSpeed < 72 then
+					gameSpeed = 72
+					s_gameSpeed = 'Turbo'
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and gameSpeed > 48 then
+				sndPlay(sysSnd, 100, 0)
+				if gameSpeed >= 64 then
+					gameSpeed = 60
+					s_gameSpeed = 'Normal'
+				elseif gameSpeed >= 56 then
+					gameSpeed = 48
+					s_gameSpeed = 'Slow'
+				end
+				modified = 1
+			end	
 		--Team Settings
 		elseif gameCfg == 11 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
-			f_teamCfg()			
+			f_teamCfg()
+		--Zoom Settings
+		elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then	
+			sndPlay(sysSnd, 100, 1)
+			f_zoomCfg()
 		--Back
-		elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then
+		elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end	
@@ -752,10 +809,10 @@ function f_gameCfg()
 		t_gameCfg[4].varText = drawNum		
 		t_gameCfg[5].varText = data.lifeMul .. '%'		
 		t_gameCfg[6].varText = data.coins
-		t_gameCfg[7].varText = s_contSelection
-		t_gameCfg[8].varText = s_vsDisplayWin		
-		t_gameCfg[9].varText = s_aiRamping
-		t_gameCfg[10].varText = s_autoguard
+		t_gameCfg[7].varText = s_contSelection		
+		t_gameCfg[8].varText = s_aiRamping
+		t_gameCfg[9].varText = s_autoguard
+		t_gameCfg[10].varText = s_gameSpeed
 		for i=1, #t_gameCfg do
 			textImgDraw(t_gameCfg[i].id)
 			if t_gameCfg[i].varID ~= nil then
@@ -778,8 +835,8 @@ t_teamCfg = {
 	{id = '', text = 'Single Vs Team Life',     varID = textImgNew(), varText = data.team1VS2Life .. '%'},
 	{id = '', text = 'Turns HP Recovery',       varID = textImgNew(), varText = data.turnsRecoveryRate .. '%'},
 	{id = '', text = 'Disadvantage Life Share', varID = textImgNew(), varText = s_teamLifeShare},
-	{id = '', text = 'Turns Players Limit',             varID = textImgNew(), varText = data.numTurns},
-	{id = '', text = 'Simul Players Limit',             varID = textImgNew(), varText = data.numSimul},
+	{id = '', text = 'Turns Players Limit',     varID = textImgNew(), varText = data.numTurns},
+	{id = '', text = 'Simul Players Limit',     varID = textImgNew(), varText = data.numSimul},
 	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
 	{id = '', text = '          BACK'},
 }
@@ -802,7 +859,7 @@ function f_teamCfg()
 			sndPlay(sysSnd, 100, 0)
 			teamCfg = teamCfg + 1
 			if teamCfg > #t_teamCfg then teamCfg = 1 end
-		--1P Vs Team Life
+		--P1 Vs Team Life
 		elseif teamCfg == 1 then
 			if commandGetState(p1Cmd, 'r') and data.team1VS2Life < 3000 then
 				sndPlay(sysSnd, 100, 0)
@@ -890,6 +947,244 @@ function f_teamCfg()
 			end
 		end
 		animSetWindow(cursorBox, 80,5+teamCfg*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ZOOM SETTINGS
+--;===========================================================
+txt_zoomCfg = createTextImg(jgFnt, 0, 0, 'ZOOM SETTINGS', 159, 13)
+t_zoomCfg = {
+	{id = '', text = 'Zoom Active',  varID = textImgNew(), varText = s_zoomActive},
+	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
+	{id = '', text = 'Max Zoom In',  varID = textImgNew(), varText = data.zoomMax},
+	{id = '', text = 'Zoom Speed',   varID = textImgNew(), varText = data.zoomSpeed},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_zoomCfg do
+	t_zoomCfg[i].id = createTextImg(font2, 0, 1, t_zoomCfg[i].text, 85, 15+i*15)
+end
+
+function f_zoomCfg()
+	cmdInput()
+	local zoomCfg = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			zoomCfg = zoomCfg - 1
+			if zoomCfg < 1 then zoomCfg = #t_zoomCfg end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			zoomCfg = zoomCfg + 1
+			if zoomCfg > #t_zoomCfg then zoomCfg = 1 end
+		--Zoom Active
+		elseif zoomCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			if data.zoomActive then
+				data.zoomActive = false
+				s_zoomActive = 'No'
+				modified = 1
+			else
+				data.zoomActive = true
+				s_zoomActive = 'Yes'
+				modified = 1
+			end
+		--Max Zoom Out
+		elseif zoomCfg == 2 and data.zoomMin < 10 then
+			if commandGetState(p1Cmd, 'r') then
+				sndPlay(sysSnd, 100, 0)
+				data.zoomMin = data.zoomMin + 0.05
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.zoomMin > 0.05 then
+				sndPlay(sysSnd, 100, 0)
+				data.zoomMin = data.zoomMin - 0.05
+				modified = 1
+			end
+		--Max Zoom In
+		elseif zoomCfg == 3 then
+			if commandGetState(p1Cmd, 'r') and data.zoomMax < 10 then
+				sndPlay(sysSnd, 100, 0)
+				data.zoomMax = data.zoomMax + 0.05
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.zoomMax > 0.05 then
+				sndPlay(sysSnd, 100, 0)
+				data.zoomMax = data.zoomMax - 0.05
+				modified = 1
+			end
+		--Zoom Speed
+		elseif zoomCfg == 4 then
+			if commandGetState(p1Cmd, 'r') and data.zoomSpeed < 10 then
+				sndPlay(sysSnd, 100, 0)
+				data.zoomSpeed = data.zoomSpeed + 0.1
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.zoomSpeed > 0.1 then
+				sndPlay(sysSnd, 100, 0)
+				data.zoomSpeed = data.zoomSpeed - 0.1
+				modified = 1
+			end
+		--Back
+		elseif zoomCfg == 5 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_zoomCfg*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_zoomCfg)
+		t_zoomCfg[1].varText = s_zoomActive
+		t_zoomCfg[2].varText = data.zoomMin
+		t_zoomCfg[3].varText = data.zoomMax
+		t_zoomCfg[4].varText = data.zoomSpeed
+		for i=1, #t_zoomCfg do
+			textImgDraw(t_zoomCfg[i].id)
+			if t_zoomCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+zoomCfg*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; SCREENPACK SETTINGS
+--;===========================================================
+txt_UICfg = createTextImg(jgFnt, 0, 0, 'USER INTERFACE SETTINGS', 159, 13)
+t_UICfg = {
+	{id = '', text = 'Language', 		         varID = textImgNew(), varText = data.language},
+	{id = '', text = 'Clock Seconds',            varID = textImgNew(), varText = s_clockSeconds},
+	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
+	{id = '', text = 'Order Select Time'},
+	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
+	{id = '', text = 'New Challenger Screen'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_UICfg do
+	t_UICfg[i].id = createTextImg(font2, 0, 1, t_UICfg[i].text, 85, 15+i*15)
+end
+
+function f_UICfg()
+	cmdInput()
+	local UICfg = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			UICfg = UICfg - 1
+			if UICfg < 1 then UICfg = #t_UICfg end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			UICfg = UICfg + 1
+			if UICfg > #t_UICfg then UICfg = 1 end
+		--Language Settings
+		elseif UICfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
+				data.language = 'SPANISH'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
+				data.language = 'JAPANESE'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
+				data.language = 'JAPANESE'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
+				data.language = 'ENGLISH'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
+				data.language = 'ENGLISH'
+				modified = 1
+				needReload = 1
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
+				data.language = 'SPANISH'
+				modified = 1
+				needReload = 1
+			end	
+		--Display Seconds in Clock
+		elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			if data.clockSeconds then
+				data.clockSeconds = false
+				s_clockSeconds = 'No'
+				modified = 1
+			else
+				data.clockSeconds = true
+				s_clockSeconds = 'Yes'
+				modified = 1
+			end
+		--Display Versus Win Counter
+		elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			if data.vsDisplayWin then
+				data.vsDisplayWin = false
+				s_vsDisplayWin = 'No'
+				modified = 1
+			else
+				data.vsDisplayWin = true
+				s_vsDisplayWin = 'Yes'
+				modified = 1
+			end			
+		--Display Order Select Time (Infinite no Display)
+		elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+        	
+		--Win Screen Display Type (Classic or Modern)
+		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
+				data.winscreen = 'Modern'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Classic' then
+				data.winscreen = 'Modern'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
+				data.winscreen = 'Classic'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Mordern' then
+				data.winscreen = 'Classic'
+				modified = 1
+			end
+		--New Challenger Screen Display
+		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			
+		--Back
+		elseif UICfg == 7 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_UICfg*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_UICfg)
+		t_UICfg[1].varText = data.language
+		t_UICfg[2].varText = s_clockSeconds
+		t_UICfg[3].varText = s_vsDisplayWin
+		
+		t_UICfg[5].varText = data.winscreen
+		for i=1, #t_UICfg do
+			textImgDraw(t_UICfg[i].id)
+			if t_UICfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, -1, t_UICfg[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+UICfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		cmdInput()
@@ -1258,6 +1553,7 @@ t_audioCfg = {
 	{id = '', text = 'Sample Rate',     varID = textImgNew(), varText = freq},
 	{id = '', text = 'Channels',        varID = textImgNew(), varText = s_channels},
 	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
+	{id = '', text = 'Screenshot SFX', 	varID = textImgNew(), varText = data.screenshotSnd},
 	{id = '', text = 'Main Menu Song', 	varID = textImgNew(), varText = data.menuSong},
 	{id = '', text = '          BACK'},
 }
@@ -1452,8 +1748,44 @@ function f_audioCfg()
 				modified = 1
 				needReload = 1
 			end
-		--Main Menu Song
+		--Screenshot SFX
 		elseif audioCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.screenshotSnd == 1 then
+				data.screenshotSnd = 2
+				sndPlay(sysSnd, 22, 1)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 1 then
+				data.screenshotSnd = 4
+				sndPlay(sysSnd, 22, 3)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 2 then
+				data.screenshotSnd = 3
+				sndPlay(sysSnd, 22, 2)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 2 then
+				data.screenshotSnd = 1
+				sndPlay(sysSnd, 22, 0)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 3 then
+				data.screenshotSnd = 4
+				sndPlay(sysSnd, 22, 3)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 3 then
+				data.screenshotSnd = 2
+				sndPlay(sysSnd, 22, 1)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 4 then
+				data.screenshotSnd = 1
+				sndPlay(sysSnd, 22, 0)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 4 then
+				data.screenshotSnd = 3
+				sndPlay(sysSnd, 22, 2)
+				modified = 1	
+			end	
+		--Main Menu Song
+		elseif audioCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
 				data.menuSong = 'Theme 2'
@@ -1489,7 +1821,7 @@ function f_audioCfg()
 				modified = 1
 			end		
 		--Back
-		elseif audioCfg == 8 and btnPalNo(p1Cmd) > 0 then
+		elseif audioCfg == 9 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1503,7 +1835,8 @@ function f_audioCfg()
 		t_audioCfg[4].varText = freq
 		t_audioCfg[5].varText = s_channels
 		t_audioCfg[6].varText = buffer
-		t_audioCfg[7].varText = data.menuSong
+		t_audioCfg[7].varText = data.screenshotSnd
+		t_audioCfg[8].varText = data.menuSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
 		for i=1, #t_audioCfg do
 			textImgDraw(t_audioCfg[i].id)
@@ -2099,9 +2432,11 @@ end
 --;===========================================================
 txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 t_engineCfg = {
-	{id = '', text = 'Game Speed',  	varID = textImgNew(), varText = s_gameSpeed},
-	{id = '', text = 'Zoom Settings'},
-	{id = '', text = 'UI Language', 		varID = textImgNew(), varText = data.language},
+	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
+	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
+	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
+	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
+	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
 	{id = '', text = 'Erase Unlocked Data'},
 	{id = '', text = '          BACK'},
 }
@@ -2120,74 +2455,148 @@ function f_engineCfg()
 			sndPlay(sysSnd, 100, 0)
 			engineCfg = engineCfg - 1
 			if engineCfg < 1 then engineCfg = #t_engineCfg end
+			if bufl then bufl = 0 end --New
+			if bufr then bufr = 0 end --New
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			engineCfg = engineCfg + 1
 			if engineCfg > #t_engineCfg then engineCfg = 1 end
-		--Game Speed
-		elseif engineCfg == 1 then
-			if commandGetState(p1Cmd, 'r') and gameSpeed < 72 then
-				sndPlay(sysSnd, 100, 0)
-				if gameSpeed < 48 then
-					gameSpeed = 48
-					s_gameSpeed = 'Slow'
-				elseif gameSpeed < 60 then
-					gameSpeed = 60
-					s_gameSpeed = 'Normal'
-				elseif gameSpeed < 72 then
-					gameSpeed = 72
-					s_gameSpeed = 'Turbo'
-				end
+			if bufl then bufl = 0 end --New
+			if bufr then bufr = 0 end --New					
+		--Debug Mode
+		elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			if data.debugMode then
+				data.debugMode = false
+				s_debugMode = 'Disabled'
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and gameSpeed > 48 then
-				sndPlay(sysSnd, 100, 0)
-				if gameSpeed >= 64 then
-					gameSpeed = 60
-					s_gameSpeed = 'Normal'
-				elseif gameSpeed >= 56 then
-					gameSpeed = 48
-					s_gameSpeed = 'Slow'
+			else
+				data.debugMode = true
+				s_debugMode = 'Enabled'
+				modified = 1
+			end		
+		--HelperMax
+		elseif engineCfg == 2 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if HelperMaxEngine < 1000 then --You can increase this limit
+					HelperMaxEngine = HelperMaxEngine + 1
+				else
+					HelperMaxEngine = 56 --Minimum Value
 				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if HelperMaxEngine > 56 then --Minimum Value
+					HelperMaxEngine = HelperMaxEngine - 1
+				else
+					HelperMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
 			end
-		--Zoom Settings
-		elseif engineCfg == 2 and btnPalNo(p1Cmd) > 0 then	
-			sndPlay(sysSnd, 100, 1)
-			f_zoomCfg()
-		--User Interface Language Settings
-		elseif engineCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-			sndPlay(sysSnd, 100, 0)
-			if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
-				data.language = 'SPANISH'
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--PlayerProjectileMax
+		elseif engineCfg == 3 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
+					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
+				else
+					PlayerProjectileMaxEngine = 50 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
-				data.language = 'JAPANESE'
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if PlayerProjectileMaxEngine > 50 then --Minimum Value
+					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine - 1
+				else
+					PlayerProjectileMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
-				data.language = 'JAPANESE'
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--ExplodMax
+		elseif engineCfg == 4 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if ExplodMaxEngine < 1000 then --You can increase this limit
+					ExplodMaxEngine = ExplodMaxEngine + 1
+				else
+					ExplodMaxEngine = 128 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
-				data.language = 'ENGLISH'
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if ExplodMaxEngine > 128 then --Minimum Value
+					ExplodMaxEngine = ExplodMaxEngine - 1
+				else
+					ExplodMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
-				data.language = 'ENGLISH'
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--AfterImageMax
+		elseif engineCfg == 5 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if AfterImageMaxEngine < 1000 then --You can increase this limit
+					AfterImageMaxEngine = AfterImageMaxEngine + 1
+				else
+					AfterImageMaxEngine = 8 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
-				data.language = 'SPANISH'
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if AfterImageMaxEngine > 8 then --Minimum Value
+					AfterImageMaxEngine = AfterImageMaxEngine - 1
+				else
+					AfterImageMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
 				modified = 1
-				needReload = 1
-			end	
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end		
 		--Erase Unlocked Data
-		elseif engineCfg == 4 and btnPalNo(p1Cmd) > 0 then	
+		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
 			sndPlay(sysSnd, 100, 1)
 			f_unlocksWarning()	
 		--Back
-		elseif engineCfg == 5 and btnPalNo(p1Cmd) > 0 then
+		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -2195,8 +2604,11 @@ function f_engineCfg()
 		animSetWindow(optionsBG1, 80,20, 160,#t_engineCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_engineCfg)
-		t_engineCfg[1].varText = s_gameSpeed
-		t_engineCfg[3].varText = data.language
+		t_engineCfg[1].varText = s_debugMode
+		t_engineCfg[2].varText = HelperMaxEngine
+		t_engineCfg[3].varText = PlayerProjectileMaxEngine
+		t_engineCfg[4].varText = ExplodMaxEngine
+		t_engineCfg[5].varText = AfterImageMaxEngine
 		for i=1, #t_engineCfg do
 			textImgDraw(t_engineCfg[i].id)
 			if t_engineCfg[i].varID ~= nil then
@@ -2204,108 +2616,6 @@ function f_engineCfg()
 			end
 		end
 		animSetWindow(cursorBox, 80,5+engineCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; ZOOM SETTINGS
---;===========================================================
-txt_zoomCfg = createTextImg(jgFnt, 0, 0, 'ZOOM SETTINGS', 159, 13)
-t_zoomCfg = {
-	{id = '', text = 'Zoom Active',  varID = textImgNew(), varText = s_zoomActive},
-	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
-	{id = '', text = 'Max Zoom In',  varID = textImgNew(), varText = data.zoomMax},
-	{id = '', text = 'Zoom Speed',   varID = textImgNew(), varText = data.zoomSpeed},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_zoomCfg do
-	t_zoomCfg[i].id = createTextImg(font2, 0, 1, t_zoomCfg[i].text, 85, 15+i*15)
-end
-
-function f_zoomCfg()
-	cmdInput()
-	local zoomCfg = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			zoomCfg = zoomCfg - 1
-			if zoomCfg < 1 then zoomCfg = #t_zoomCfg end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			zoomCfg = zoomCfg + 1
-			if zoomCfg > #t_zoomCfg then zoomCfg = 1 end
-		--Zoom Active
-		elseif zoomCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.zoomActive then
-				data.zoomActive = false
-				s_zoomActive = 'No'
-				modified = 1
-			else
-				data.zoomActive = true
-				s_zoomActive = 'Yes'
-				modified = 1
-			end
-		--Max Zoom Out
-		elseif zoomCfg == 2 and data.zoomMin < 10 then
-			if commandGetState(p1Cmd, 'r') then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMin = data.zoomMin + 0.05
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.zoomMin > 0.05 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMin = data.zoomMin - 0.05
-				modified = 1
-			end
-		--Max Zoom In
-		elseif zoomCfg == 3 then
-			if commandGetState(p1Cmd, 'r') and data.zoomMax < 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMax = data.zoomMax + 0.05
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.zoomMax > 0.05 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomMax = data.zoomMax - 0.05
-				modified = 1
-			end
-		--Zoom Speed
-		elseif zoomCfg == 4 then
-			if commandGetState(p1Cmd, 'r') and data.zoomSpeed < 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomSpeed = data.zoomSpeed + 0.1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.zoomSpeed > 0.1 then
-				sndPlay(sysSnd, 100, 0)
-				data.zoomSpeed = data.zoomSpeed - 0.1
-				modified = 1
-			end
-		--Back
-		elseif zoomCfg == 5 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_zoomCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_zoomCfg)
-		t_zoomCfg[1].varText = s_zoomActive
-		t_zoomCfg[2].varText = data.zoomMin
-		t_zoomCfg[3].varText = data.zoomMax
-		t_zoomCfg[4].varText = data.zoomSpeed
-		for i=1, #t_zoomCfg do
-			textImgDraw(t_zoomCfg[i].id)
-			if t_zoomCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+zoomCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		cmdInput()

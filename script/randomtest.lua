@@ -84,7 +84,7 @@ function eachAllChars(f)
 end
 
 function rakuBenry()
-  local alf = 'autolevel.txt'
+  local alf = 'debug/autolevel.txt'
   local veljnz = {}
   local winct = {}
   local buf = '\239\187\191'

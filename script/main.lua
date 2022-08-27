@@ -18,15 +18,8 @@ assert(loadfile('script/unlocks_sav.lua'))()
 loadLifebar(data.lifebar) --path to lifebar stored in 'script/data_sav.lua', also adjustable from options
 
 --Debug stuff
-loadDebugFont('font/font2.fnt')
-setDebugScript('script/debug.lua')
-
---Screenshot function
---addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
---function takeScreenshot()
-  --sndPlay(sysSnd, 22, 0)
-  --batOpen("tools", "screenshot.vbs")
---end
+loadDebugFont('font/14x14.fnt')
+setDebugScript('script/debug.lua')	
 
 --SFF
 sysSff = sffNew('data/system.sff')
@@ -37,30 +30,34 @@ stageSff = sffNew('data/stages.sff')
 sysSnd = sndNew('data/system.snd')
 
 --Fonts
+padFnt = fontNew('font/f-pad.fnt')
 survBarsFnt = fontNew('font/survival_bars.fnt')
 survNumFnt = fontNew('font/survival_nums.fnt')
 jgFnt = fontNew('font/JG.fnt')
 font1 = fontNew('font/f-4x6.fnt')
 font2 = fontNew('font/f-6x9.fnt')
-
 font3 = fontNew('font/14x14.fnt')
-font4 = fontNew('font/14x14-2.fnt')
-font5 = fontNew('font/18x18.fnt')
-font6 = fontNew('font/18x18-2.fnt')
+font4 = fontNew('font/18x18.fnt')
+font5 = fontNew('font/Qoh_small.fnt')
+font6 = fontNew('font/QOH_BIG.fnt')
 font7 = fontNew('font/f-6x8f.fnt')
 font8 = fontNew('font/f-6x9f.fnt')
-font9 = fontNew('font/font1.fnt')
-font10 = fontNew('font/font2.fnt')
-font11 = fontNew('font/font3.fnt')
-font12 = fontNew('font/font4.fnt')
-font13 = fontNew('font/font5.fnt')
-font14 = fontNew('font/f-pad.fnt')
-font15 = fontNew('font/kof2k2fname.fnt')
-font16 = fontNew('font/kof2k2fname2.fnt')
-font17 = fontNew('font/kof2k2hit.fnt')
-font18 = fontNew('font/kof2k2icon.fnt')
-font19 = fontNew('font/kof2k2time.fnt')
-font20 = fontNew('font/kof96rush.fnt')
+font9 = fontNew('font/font3.fnt')
+font10 = fontNew('font/font4.fnt')
+font11 = fontNew('font/font5.fnt')
+font12 = fontNew('font/score1.fnt')
+font13 = fontNew('font/kof99.fnt')
+font14 = fontNew('font/MvcName.fnt')
+font15 = fontNew('font/name1.fnt')
+font16 = fontNew('font/num1.fnt')
+font17 = fontNew('font/sf2_name.fnt')
+font18 = fontNew('font/sf2_small.fnt')
+font19 = fontNew('font/sf2_sys.fnt')
+font20 = fontNew('font/sfz2a_system.fnt')
+font21 = fontNew('font/ssf2x_10.fnt')
+font22 = fontNew('font/ssf2x_s.fnt')
+font23 = fontNew('font/ssf2x_sL.fnt')
+font24 = fontNew('font/ssf2x_vL.fnt')
 
 --Music
 bgmTitle = 'sound/Title.mp3'
@@ -110,6 +107,13 @@ end
 --;===========================================================
 --; COMMON SECTION
 --;===========================================================
+--Screenshot function
+--addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
+--function takeScreenshot()
+  --sndPlay(sysSnd, 22, 0)
+  --batOpen("tools", "screenshot.vbs")
+--end
+
 --input stuff
 inputdia = inputDialogNew()
 data.p1In = 1
@@ -647,21 +651,27 @@ animSetTile(optionsBG1, 1, 1)
 animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
---txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 107, 240)
-txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120)
-txt_titleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ULTRA', 109, 240)
-txt_titleFt1 = createTextImg(font1, 0, 1, '', 135, 240)
-txt_titleFt2 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
+--;===========================================================
+--; MAIN MENU STUFF DEFINITION
+--;===========================================================
+--txt_oldtitleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 2, 240)
+txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+txt_titleFt = createTextImg(font5, 0, 1, '', 2, 240)
+txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
 
 function f_clock() --Just a clock
-os.clock()
-txt_titleFt3 = createTextImg(font1, 0, -1, (os.date("%I:%M%p")), 34, 240) --os.date("%I:%M%p:%S") include seconds
-textImgDraw(txt_titleFt3)
+	--os.clock()
+	if data.clockSeconds == false then
+		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
+	else
+		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
+	end	
+	textImgDraw(txt_titleFt2)
 end
 
 function f_default()
-	setAutoLevel(false) --generate autolevel.txt in game dir
+	setAutoLevel(false) --generate autolevel.txt in debug dir
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	resetRemapInput()
 	--settings adjustable via options
@@ -762,8 +772,8 @@ function f_mainTitle()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
-		textImgDraw(txt_titleFt)		
-		textImgDraw(txt_titleFt2)
+		--textImgDraw(txt_oldtitleFt)
+		textImgDraw(txt_titleFt1)
 		f_clock()
 		textImgDraw(txt_mainTitleOn)
 		animDraw(data.fadeTitle)
@@ -891,7 +901,7 @@ function f_mainMenu()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_mainMenu do
 			if i == mainMenu then
-				bank = 5
+				bank = 5 --Text Color (0=Nothing, 1=Red, 2=Green, 3=Blue, 4=Nothing, 5=Yellow, 6=Pink 7=Shadow, 8=Black, 9=¿?
 			else
 				bank = 0
 			end
@@ -909,9 +919,9 @@ function f_mainMenu()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'MAIN MENU')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'MAIN MENU')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -928,8 +938,8 @@ end
 --; ARCADE MENU LOOP
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -1018,9 +1028,10 @@ function f_arcadeMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_titleFt1)		
-		textImgSetText(txt_titleFt1, 'ARCADE MODE')
-		textImgDraw(txt_titleFt2)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)		
+		textImgSetText(txt_titleFt, 'ARCADE MODE')
+		textImgDraw(txt_titleFt1)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1037,8 +1048,8 @@ end
 --; VERSUS MENU LOOP
 --;===========================================================
 t_vsMenu = {
-	{id = textImgNew(), text = '1P VS CPU'},
-	{id = textImgNew(), text = '1P VS 2P'},
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1 VS P2'},
 	{id = textImgNew(), text = 'CO-OP MODE'},	
 	{id = textImgNew(), text = 'BACK'},	
 }
@@ -1081,7 +1092,7 @@ function f_vsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--1P VS CPU
+			--P1 VS CPU
 			if vsMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1091,7 +1102,7 @@ function f_vsMenu()
 				data.gameMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')				
 				script.select.f_selectSimple()
-			--1P VS 2P
+			--P1 VS P2
 			elseif vsMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1102,7 +1113,7 @@ function f_vsMenu()
 				data.gameMode = 'versus'
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')				
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
-			--1P & 2P VS CPU
+			--P1 & P2 VS CPU
 			elseif vsMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1139,9 +1150,10 @@ function f_vsMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'VERSUS MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'VERSUS MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1158,9 +1170,9 @@ end
 --; PRACTICE MENU LOOP
 --;===========================================================
 t_practiceMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '1P VS 2P'},	
-	{id = textImgNew(), text = '2P[CO-OP]'},	
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P1 VS P2'},	
+	{id = textImgNew(), text = 'P2[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -1273,9 +1285,10 @@ function f_practiceMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'TRAINING MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'PRACTICE MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1292,9 +1305,9 @@ end
 --; RANDOM MATCH MENU LOOP
 --;===========================================================
 t_randomMenu = {
-	{id = textImgNew(), text = '1P VS CPU'},
-	{id = textImgNew(), text = '1P VS 2P'},
-	{id = textImgNew(), text = 'RANDOM CO-OP'},
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1 VS P2'},
+	{id = textImgNew(), text = 'CO-OP MODE'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -1336,17 +1349,17 @@ function f_randomMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--1P VS CPU
+			--P1 VS CPU
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				script.randomtest.singleVersus()
-			--1P VS 2P
+			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				script.randomtest.multiVersus()
-			--1P & 2P VS CPU
+			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1378,9 +1391,10 @@ function f_randomMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'RANDOM MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'RANDOM MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1489,9 +1503,10 @@ function f_challengeMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'CHALLENGES')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'CHALLENGES')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1508,8 +1523,8 @@ end
 --; SURVIVAL MENU LOOP
 --;===========================================================
 t_survivalMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},	
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1598,9 +1613,10 @@ function f_survivalMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'SURVIVAL MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'SURVIVAL MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1694,9 +1710,10 @@ function f_bossMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'BOSS FIGHT')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'BOSS FIGHT')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1784,9 +1801,10 @@ function f_bossChars()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'BOSS FIGHT')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'BOSS FIGHT')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1803,8 +1821,8 @@ end
 --; BOSS RUSH MENU LOOP
 --;===========================================================
 t_bossrushMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1897,9 +1915,10 @@ function f_bossrushMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'BOSS RUSH')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'BOSS RUSH')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1993,9 +2012,10 @@ function f_bonusMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'MINI-GAMES')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'MINI-GAMES')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2084,9 +2104,10 @@ function f_bonusExtras()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'BONUS STAGES')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'BONUS STAGES')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2103,8 +2124,8 @@ end
 --; BONUS RUSH MENU LOOP
 --;===========================================================
 t_bonusrushMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2153,6 +2174,7 @@ function f_bonusrushMenu()
 				if #t_bonusChars ~= 0 then
 					data.p2In = 1
 					data.p2SelectMenu = false
+					data.p2TeamMenu = {mode = 0, chars = 1}
 					data.versusScreen = false
 					data.coinsLeft = 0
 					data.gameMode = 'bonusrush'
@@ -2199,9 +2221,10 @@ function f_bonusrushMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'BONUS RUSH')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'BONUS RUSH')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2218,8 +2241,8 @@ end
 --; SUDDEN DEATH MENU LOOP
 --;===========================================================
 t_suddenMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},	
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2312,9 +2335,10 @@ function f_suddenMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'SUDDEN DEATH MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'SUDDEN DEATH MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2331,8 +2355,8 @@ end
 --; TIME ATTACK MENU LOOP
 --;===========================================================
 t_timeMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},	
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2423,9 +2447,10 @@ function f_timeMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'TIME ATTACK MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'TIME ATTACK MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2443,7 +2468,7 @@ end
 --;===========================================================
 t_watchMenu = {
 	{id = textImgNew(), text = 'CPU MATCH'},
-	{id = textImgNew(), text = 'LOCAL REPLAYS'},
+	--{id = textImgNew(), text = 'LOCAL REPLAYS'},
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
@@ -2498,11 +2523,11 @@ function f_watchMenu()
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
 			--LOCAL REPLAYS
-			elseif watchMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
+			--elseif watchMenu == 2 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_comingSoon()
 			--ONLINE REPLAYS
-			elseif watchMenu == 3 then
+			elseif watchMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				assert(loadfile('script/onlinecfg.lua'))()
@@ -2533,9 +2558,10 @@ function f_watchMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'WATCH MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'WATCH MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2555,9 +2581,6 @@ t_extrasMenu = {
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'SOUND TEST'},
 	{id = textImgNew(), text = 'SCREENSHOTS'},
-	{id = textImgNew(), text = 'DOWNLOAD CONTENT'},
-	{id = textImgNew(), text = 'ENGINE MANUAL'},
-	{id = textImgNew(), text = 'DISCORD SUPPORT'},
 	{id = textImgNew(), text = 'PLAY CREDITS'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
@@ -2611,26 +2634,9 @@ function f_extrasMenu()
 			--SCREENSHOTS
 			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
-				sszOpen("screenshots", "") --added via script.ssz	
-			--MUGEN PAGES
-			elseif extrasMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_mugenPages()
-			--DOCUMENTATION
-			elseif extrasMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				--sszOpen("chars", "Credits.txt")
-				f_comingSoon()
-			--DISCORD SUPPORT
-			elseif extrasMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				if data.language == 'SPANISH' then
-					webOpen("https://discord.gg/98F76CR4C7")	
-				else
-					webOpen("https://discord.gg/KV5EPnMuA7")	
-				end	
+				sszOpen("screenshots", "") --added via script.ssz
 			--CREDITS
-			elseif extrasMenu == 7 then
+			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0
@@ -2675,9 +2681,117 @@ function f_extrasMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'EXTRAS')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'EXTRAS')
-		textImgDraw(txt_titleFt2)
+		f_clock()
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)		
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; HELP MENU LOOP
+--;===========================================================
+t_helpMenu = {
+	{id = textImgNew(), text = 'DOWNLOAD CONTENT'},
+	{id = textImgNew(), text = 'ENGINE MANUAL'},
+	{id = textImgNew(), text = 'DISCORD SUPPORT'},
+	{id = textImgNew(), text = 'BACK'},	
+}	
+	
+function f_helpMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local helpMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			helpMenu = helpMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			helpMenu = helpMenu + 1
+		end
+		if helpMenu < 1 then
+			helpMenu = #t_helpMenu
+			if #t_helpMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_helpMenu-1
+			end
+		elseif helpMenu > #t_helpMenu then
+			helpMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (helpMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (helpMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--MUGEN PAGES
+			if helpMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_mugenPages()
+			--DOCUMENTATION
+			elseif helpMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+				sszOpen("docs", "")
+			--DISCORD SUPPORT
+			elseif helpMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				if data.language == 'SPANISH' then
+					webOpen("https://discord.gg/98F76CR4C7")	
+				else
+					webOpen("https://discord.gg/KV5EPnMuA7")	
+				end	
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_helpMenu do
+			if i == helpMenu then
+				bank = 2
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_helpMenu[i].id, jgFnt, bank, 0, t_helpMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'ASSISTANCE')
+		textImgDraw(txt_titleFt1)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2895,9 +3009,10 @@ function f_unlockMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'UNLOCKS')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'UNLOCKS')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2914,8 +3029,8 @@ end
 --; ENDLESS MENU LOOP
 --;===========================================================
 t_allcharsMenu = {
-	{id = textImgNew(), text = '1P[CLASSIC]'},
-	{id = textImgNew(), text = '2P[CO-OP]'},	
+	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P2[CO-OP]'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -3002,9 +3117,10 @@ function f_allcharsMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'INFINITE MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'INFINITE MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -3490,6 +3606,7 @@ end
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE GAME]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A GAME]'},
+	{id = textImgNew(), text = 'HELP AND MORE'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 txt_starting = createTextImg(jgFnt, 0, 1, '', 37, 228)
@@ -3633,6 +3750,10 @@ function f_mainNetplay()
 				  ltn12.source.file(assert(io.open("replays/data.replay", "rb"))),
 				  ltn12.sink.file(assert(io.open("replays/Saved/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 				)					
+			--HELP AND MORE
+			elseif mainNetplay == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_helpMenu()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -3659,9 +3780,10 @@ function f_mainNetplay()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'NETWORK MODE')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'NETWORK MODE')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -4010,7 +4132,7 @@ function f_teamhostCfg()
 			sndPlay(sysSnd, 100, 0)
 			teamhostCfg = teamhostCfg + 1
 			if teamhostCfg > #t_teamhostCfg then teamhostCfg = 1 end
-		--1P Vs Team Life
+		--P1 Vs Team Life
 		elseif teamhostCfg == 1 then
 			if commandGetState(p1Cmd, 'r') and data.team1VS2Life < 3000 then
 				sndPlay(sysSnd, 100, 0)
@@ -4487,9 +4609,10 @@ function f_mainHost()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'ONLINE MENU')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'ONLINE MENU')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -4700,9 +4823,10 @@ function f_mainJoin()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'ONLINE MENU')
 		textImgDraw(txt_titleFt1)
-		textImgSetText(txt_titleFt1, 'ONLINE MENU')
-		textImgDraw(txt_titleFt2)
 		f_clock()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)

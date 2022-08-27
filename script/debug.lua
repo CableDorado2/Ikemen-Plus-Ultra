@@ -1,6 +1,11 @@
+data = require('script.data')
+assert(loadfile('script/data_sav.lua'))()
 
+package.path = package.path..';./script/ltn12.lua'
+ltn12 = require('ltn12')
+
+if data.debugMode == true then
 --Keys available on lib/alpha/sdlpluing.ssz
-
 addHotkey('F1', false, false, false, 'kill(1);kill(2)') --Sets Double KO
 addHotkey('F1', true, false, false, 'kill(2);kill(4)') --Ctrl+F1: Sets Player 2's life to zero
 addHotkey('F1', false, false, true, 'kill(1);kill(3)') --Shift+F1: Player 1's life to zero
@@ -30,11 +35,12 @@ addHotkey('2', true, false, false, 'toggleAI(2)')
 addHotkey('3', true, false, false, 'toggleAI(3)')
 addHotkey('4', true, false, false, 'toggleAI(4)')
 
-addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
-addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game (OLD = RETURN)
 addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as fast as possible
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
+end
 
+addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
+addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game (OLD = RETURN)
 
 speed = 1.0
 
@@ -135,5 +141,21 @@ function status(p)
 end
 
 function takeScreenshotVS()
-  batOpen("tools", "screenshot.vbs")
+	sysSnd = sndNew('data/system.snd')
+	if data.screenshotSnd == 1 then
+		sndPlay(sysSnd, 22, 0)
+	elseif data.screenshotSnd == 2 then
+		sndPlay(sysSnd, 22, 1)
+	elseif data.screenshotSnd == 3 then
+		sndPlay(sysSnd, 22, 2)
+	elseif data.screenshotSnd == 4 then
+		sndPlay(sysSnd, 22, 3)
+	end
+	batOpen("tools", "screenshot.vbs")
+	--Set time to capture the correct screenshot
+	ltn12.pump.all(
+	--(echo nircmd savescreenshotwin "..\screenshots\Screenshot.dat" ^| del x.vbs x.bat)>x.bat   Backup Bat Code
+	ltn12.source.file(assert(io.open("tools/screenshot.dat", "rb"))),
+	ltn12.sink.file(assert(io.open("screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
+	)
 end
