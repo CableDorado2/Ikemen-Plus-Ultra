@@ -1,23 +1,25 @@
-table: 02E0C230 {
-  [ryu/evil ryu.def] => 53
-  [training] => 60
-  [ken masters] => 10
-  [kung fu man] => 2
-  [suave dude] => 7
+table: 082B4048 {
+  [bonus barrel] => 52
+  [evil kung fu man] => 54
   [ryu] => 0
-  [iori yagami] => 14
-  [ken masters/violent ken.def] => 55
-  [ryu/master ryu.def] => 54
-  [kyo kusanagi] => 4
-  [tic-tac-toe] => 51
-  [m. bison] => 5
+  [ken masters] => 10
   [catwalk] => 50
-  [kfg] => 57
-  [strength training] => 52
-  [ken masters/master ken.def] => 56
-  [dragon claw] => 59
-  [rugal bernstein] => 9
+  [tic-tac-toe] => 53
+  [iori yagami] => 14
   [kung fu girl] => 12
+  [training] => 62
+  [dragon claw] => 61
+  [suave dude] => 7
+  [omega rugal] => 60
+  [kfg] => 59
+  [kyo kusanagi] => 4
+  [ryu/evil ryu.def] => 55
+  [ken masters/master ken.def] => 58
+  [ryu/master ryu.def] => 57
+  [strength training] => 51
+  [ken masters/violent ken.def] => 56
+  [kung fu man] => 2
   [randomselect] => 49
-  [omega rugal] => 58
+  [m. bison] => 5
+  [rugal bernstein] => 9
 }

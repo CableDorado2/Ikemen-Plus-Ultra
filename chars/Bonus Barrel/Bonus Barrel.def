@@ -1,0 +1,28 @@
+; Definition file for kfm
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = "Bonus Barrel"
+displayname = "Bonus Barrel"
+versiondate = 09,12,2000    ;Version date of character
+mugenversion = 06,27,2000   ;Version of M.U.G.E.N character works on
+author = "BONUSUGI"         ;Character author name
+pal.defaults = 1,3,4,2      ;Default palettes in order of preference
+exInfoStar    =1
+exInfoAttack  =2
+exInfoDefence =3
+exInfoSpeed   =1
+exInfoRange   =1
+exInfoSpecial =1
+
+; Files for the player
+[Files]
+cmd     = bonus2.cmd   ;Command set
+cns     = bonus2.cns   ;Constants
+st      = bonus2.cns   ;States
+stcommon = common1.cns     ;Common states
+sprite  = bonus2.sff   ;Sprite
+anim    = bonus2.air   ;Animation
+sound   = bonus2.snd   ;Sound
+pal1    = bonus2.act   ;Palettes (can have up to 12)

@@ -1,0 +1,461 @@
+; Arquivo de definição do cenário "A Sala das Mulheres Mortas"
+; Definition file of "The Hall of Dead Women" BG
+; Mais uma bosta feita com o SVC
+;Just one more SVC-based exercise with no creativity
+;--------------------------------------------------------
+[info]
+name = "Hall of Dead Women"
+displayname = "Hall of Dead Women"
+versiondate = 02,28,2010   ;(MM,DD,YYYY)
+author = "AnArquiA B."
+;edited over:
+; — SVC's "Nude Place" BG
+; — several chars' "Midnight Bliss" sprites from SVC
+; — misc SVC's sprites (chains, "thunder",...)
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+
+boundleft = -441
+boundright = 441
+
+boundhigh = -160 
+boundlow = 0
+
+verticalfollow = 2;1.2
+floortension = 120
+
+tension = 50
+
+overdrawhigh = 0
+overdrawlow = 0
+cuthigh = 30
+cutlow = 30
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -50 
+p1starty = 0 
+p1startz = -3 
+p1facing = 1 
+
+;--- Player 2 ---
+p2startx = 50
+p2starty = 0
+p2startz = -3
+p2facing = -1
+
+
+leftbound = -10000
+rightbound = 10000
+topbound = 0
+botbound = 0 
+
+;----------------------------------------------------------------
+[Scaling]
+topz = 0 
+botz = 50 
+topscale = 1 
+botscale = 1.2 
+
+;--------------------------------------------------------
+[Bound]
+
+screenleft = 15 
+screenright = 15 
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 206
+autoturn = 1
+resetBG = 0
+hires = 0 
+localcoord = 320,240
+xscale = 1
+yscale = 1
+
+[Shadow]
+color = 92,100,100 
+yscale = .5
+reflect = 0
+
+[Music]
+bgmusic = sound/Hall of Dead Women.mp3
+bgvolume = 100
+
+[BGdef] 
+spr = stages/Hall of Dead Women.sff
+debugbg = 0 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[BG Black]
+type = anim
+actionno = 11
+start = 0,0
+delta = 0,0
+tile = 0,0
+
+;Lightning
+[Begin Action 11]
+0,99, 0,0, 62
+0,98, 0,0, 2
+0,99, 0,0, 2
+0,98, 0,0, 2
+0,99, 0,0, 8
+0,98, 0,0, 2
+0,99, 0,0, 2
+0,98, 0,0, 2
+0,99, 0,0, 602
+
+[BG Fog1]
+type = normal
+spriteno = 1,0
+start = 0,100
+delta = .67,1
+velocity = .3,.01
+trans = addalpha
+alpha = 32,256
+tile = 1,1
+mask =1
+layerno = 0
+
+[BG Fog2]
+type = normal
+spriteno = 1,1
+start = 0,50
+delta = .67,1
+velocity = .4,-.01
+trans = addalpha
+alpha = 32,256
+tile = 1,1
+mask =1
+layerno = 0
+
+[BG Demitri]
+type = anim
+actionno = 10
+start = 0,240
+delta = .67,.5
+tile = 0,0
+
+;Demitri
+[Begin Action 10]
+-1,-1, 0,0, 60
+10,0, 0,0, 2,, AS64D56
+10,0, 0,0, 2,, AS128D256
+10,0, 0,0, 2,, AS196D256
+10,0, 0,0, 12,,A
+10,0, 0,0, 2,, AS196D256
+10,0, 0,0, 2,, AS128D256
+10,0, 0,0, 2,, AS64D256
+-1,-1, 0,0, 600
+
+[BG Back]
+type = norm
+spriteno = 0,0
+start = 0,200
+delta = .67,1.1
+tile = 0,0
+mask =1
+
+[BG Fog1]
+type = normal
+spriteno = 1,0
+start = 0,210
+delta = .67,1
+velocity = .1,0
+trans = addalpha
+alpha = 16,256
+tile = 1,0
+mask =1
+layerno = 0
+
+[BG Fog2]
+type = normal
+spriteno = 1,1
+start = 0,190
+delta = .67,1
+velocity = .2,0
+trans = addalpha
+alpha = 16,256
+tile = 1,0
+mask =1
+layerno = 0
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[BG Choia]
+type = normal
+spriteno = 100,0
+start = 590,200
+delta = 1,1
+tile = 0,0
+mask =1
+
+[BG Kenia 1]
+type = normal
+spriteno = 100,1
+start = 30,185
+delta = .9,1
+tile = 0,0
+mask =1
+;layerno = 1
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[BG Dana]
+type = normal
+spriteno = 101,0
+start = 64,30
+delta = 1,1
+tile = 0,0
+mask =1
+id = 102
+sin.x = 5,240,0
+
+[BG Ryumi]
+type = normal
+spriteno = 101,1
+start = -560,40
+delta = 1,1
+tile = 0,0
+mask =1
+id = 101
+sin.x = 5,240,0
+
+[BG Ryoko]
+type = normal
+spriteno = 101,2
+start = 460,50
+delta = 1,1
+tile = 0,0
+mask =1
+id = 102
+sin.x = 5,240,0
+
+[BG Kyoko]
+type = normal
+spriteno = 101,3
+start = 200,30
+delta = 1,1
+tile = 0,0
+mask =1
+id = 101
+sin.x = 5,-200,0
+
+[BG Vegana/Balroga]
+type = normal
+spriteno = 101,4
+start = -182,20
+delta = 1,1
+tile = 0,0
+mask =1
+id = 101
+sin.x = 5,240,0
+
+[BG Shiki]
+type = normal
+spriteno = 101,5
+start = -353,40
+delta = 1,1
+tile = 0,0
+mask =1
+id = 102
+sin.x = 5,180,0
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[BG Geesele]
+type = Anim
+actionno = 120
+start = 550,10
+delta = 1,1
+tile = 0,0
+id = 100
+sin.x = 5,-260,0
+[BG Geesele]
+type = Anim
+actionno = 129
+start = 550,10
+delta = 1,1
+tile = 0,0
+id = 100
+sin.x = 5,-260,0
+;Geesele
+[Begin Action 120]
+120,0, 0,0, 260
+120,1, 0,0, 2
+120,0, 0,0, 6
+120,1, 0,0, 4
+120,0, 0,0, 4
+120,1, 0,0, 6
+120,0, 0,0, 2
+120,1, 0,0, 100
+120,0, 0,0, 2
+120,1, 0,0, 6
+120,0, 0,0, 4
+120,1, 0,0, 4
+120,0, 0,0, 6
+120,1, 0,0, 2
+120,0, 0,0, 350
+
+[BG Kasumi]
+type = Anim
+actionno = 121
+start = -40,50
+delta = 1,1
+tile = 0,0
+id = 120
+sin.x = 5,-200,0
+[BG Kasumi]
+type = Anim
+actionno = 128
+start = -40,50
+delta = 1,1
+tile = 0,0
+id = 120
+sin.x = 5,-200,0
+;Kasumi
+[Begin Action 121]
+121,0, 0,0, 900
+121,1, 0,0, 1
+121,0, 0,0, 5
+121,1, 0,0, 2
+121,0, 0,0, 4
+121,1, 0,0, 3
+121,0, 0,0, 3
+121,1, 0,0, 4
+121,0, 0,0, 2
+121,1, 0,0, 5
+121,0, 0,0, 1
+121,1, 0,0, 1100
+121,0, 0,0, 1
+121,1, 0,0, 5
+121,0, 0,0, 2
+121,1, 0,0, 4
+121,0, 0,0, 3
+121,1, 0,0, 3
+121,0, 0,0, 4
+121,1, 0,0, 2
+121,0, 0,0, 5
+121,1, 0,0, 1
+
+[BG Kenia 2]
+type = Anim
+actionno = 122
+start = -485,30
+delta = 1,1
+tile = 0,0
+id = 120
+sin.x = 6,-320,0
+[BG Kenia 2]
+type = Anim
+actionno = 128
+start = -486,30
+delta = 1,1
+tile = 0,0
+id = 120
+sin.x = 6,-320,0
+;Kenia
+[Begin Action 122]
+122,0, 0,0, 600
+122,1, 0,0, 2
+122,0, 0,0, 6
+122,1, 0,0, 4
+122,0, 0,0, 4
+122,1, 0,0, 6
+122,0, 0,0, 2
+122,1, 0,0, 350
+122,0, 0,0, 2
+122,1, 0,0, 6
+122,0, 0,0, 4
+122,1, 0,0, 4
+122,0, 0,0, 6
+122,1, 0,0, 2
+122,0, 0,0, 300
+
+[BG Iorina]
+type = Anim
+actionno = 123
+start = 245,30
+delta = 1,1
+tile = 0,0
+id = 120
+sin.x = 5,300,0
+[BG Iorina]
+type = Anim
+actionno = 128
+start = 244,29
+delta = 1,1
+tile = 0,0
+id = 120
+sin.x = 5,300,0
+;Iorina
+[Begin Action 123]
+123,0, 0,0, 600
+123,1, 0,0, 2
+123,0, 0,0, 6
+123,1, 0,0, 4
+123,0, 0,0, 4
+123,1, 0,0, 6
+123,0, 0,0, 2
+123,1, 0,0, 350
+123,0, 0,0, 2
+123,1, 0,0, 6
+123,0, 0,0, 4
+123,1, 0,0, 4
+123,0, 0,0, 6
+123,1, 0,0, 2
+123,0, 0,0, 300
+
+
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[BG Floor]
+type = normal
+spriteno = 0,2
+start = 0,240;158
+delta = 1,1
+tile = 0,0
+mask =1
+
+[BG Mist1]
+type = normal
+spriteno = 2,0
+start = 0,230
+delta = 1,1
+velocity = .2,0
+trans = addalpha
+alpha = 32,256
+tile = 1,0
+mask =1
+layerno = 1
+
+[BG Mist2]
+type = normal
+spriteno = 2,1
+start = 0,240
+delta = 1,1
+velocity = .3,0
+trans = addalpha
+alpha = 32,256
+tile = 1,0
+mask =1
+layerno = 1
+
+[BG Ceil1]
+type = normal
+spriteno = 0,3
+start = 0,240;158
+delta = 1,1
+tile = 0,0
+mask =1
+layerno =0
+
+[Begin Action 128]
+129,0, 0,0, -1,H
+
+[Begin Action 129]
+129,0, 0,0, -1
+

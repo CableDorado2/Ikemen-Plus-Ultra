@@ -1,15 +1,19 @@
 ﻿--;===========================================================
 --; LOAD DATA
 --;===========================================================
--- Data loading from data_sav.lua
+--Data loading from data_sav.lua
 local file = io.open("script/data_sav.lua","r")
 s_dataLUA = file:read("*all")
 file:close()
 
--- Data loading from config.ssz
+--Data loading from config.ssz
 local file = io.open("ssz/config.ssz","r")
 s_configSSZ = file:read("*all")
 file:close()
+HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 b_screenMode = (s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)'))
@@ -20,7 +24,7 @@ gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
 b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
 b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
 
--- Data loading from sound.ssz
+--Data loading from sound.ssz
 local file = io.open("lib/sound.ssz","r")
 s_soundSSZ = file:read("*all")
 file:close()
@@ -28,7 +32,7 @@ freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
 channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
 buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
 
--- Data loading from lifebar
+--Data loading from lifebar
 local file = io.open(data.lifebar,"r")
 s_lifebarDEF = file:read("*all")
 file:close()
@@ -38,15 +42,12 @@ drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
 --Variable setting based on loaded data
 if gameSpeed == 48 then
 	s_gameSpeed = 'Slow'
---elseif gameSpeed == 56 then
-	--s_gameSpeed = '93.33%'
 elseif gameSpeed == 60 then
 	s_gameSpeed = 'Normal'
---elseif gameSpeed == 64 then
-	--s_gameSpeed = '106.66%'
 elseif gameSpeed == 72 then
 	s_gameSpeed = 'Turbo'
 end
+
 if b_screenMode == 'true' then
 	b_screenMode = true
 	s_screenMode = 'Yes'
@@ -54,6 +55,7 @@ elseif b_screenMode == 'false' then
 	b_screenMode = false
 	s_screenMode = 'No'
 end
+
 if channels == 6 then
 	s_channels = '5.1'
 elseif channels == 4 then
@@ -63,6 +65,7 @@ elseif channels == 2 then
 elseif channels == 1 then
 	s_channels = 'Mono'
 end
+
 if b_saveMemory == 'true' then
 	b_saveMemory = true
 	s_saveMemory = 'Yes'
@@ -70,6 +73,7 @@ elseif b_saveMemory == 'false' then
 	b_saveMemory = false
 	s_saveMemory = 'No'
 end
+
 if b_openGL == 'true' then
 	b_openGL = true
 	s_openGL = 'Yes'
@@ -77,45 +81,71 @@ elseif b_openGL == 'false' then
 	b_openGL = false
 	s_openGL = 'No'
 end
+
 if data.teamLifeShare then
 	s_teamLifeShare = 'Yes'
 else
 	s_teamLifeShare = 'No'
 end
+
 if data.zoomActive then
 	s_zoomActive = 'Yes'
 else
 	s_zoomActive = 'No'
 end
+
 if data.p1Controller == -1 then
 	s_p1Controller = 'Keyboard'
 else
 	s_p1Controller = 'Gamepad'
 end
+
 if data.p2Controller == -1 then
 	s_p2Controller = 'Keyboard'
 else
 	s_p2Controller = 'Gamepad'
 end
+
 if data.contSelection then
 	s_contSelection = 'Yes'
 else
 	s_contSelection = 'No'
 end
+
 if data.aiRamping then
 	s_aiRamping = 'Yes'
 else
 	s_aiRamping = 'No'
 end
+
 if data.autoguard then
 	s_autoguard = 'Yes'
 else
 	s_autoguard = 'No'
 end
+
 if data.vsDisplayWin then
 	s_vsDisplayWin = 'Yes'
 else
 	s_vsDisplayWin = 'No'
+end
+
+if data.clockSeconds then
+	s_clockSeconds = 'Yes'
+else
+	s_clockSeconds = 'No'
+end
+
+if data.debugMode then
+	s_debugMode = 'Enabled'
+else
+	s_debugMode = 'Disabled'
+end
+
+if data.challengerScreen then
+	s_challengerScreen = 'Yes'
+else
+	s_challengerScreen = 'No'
 end
 
 --;===========================================================
@@ -183,13 +213,21 @@ function f_saveCfg()
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
-		['data.sffConversion'] = data.sffConversion
+		['data.sffConversion'] = data.sffConversion,
+		['data.language'] = data.language,
+		['data.menuSong'] = data.menuSong,
+		['data.screenshotSnd'] = data.screenshotSnd,
+		['data.clockSeconds'] = data.clockSeconds,
+		['data.winscreen'] = data.winscreen,
+		['data.debugMode'] = data.debugMode,
+		['data.challengerSong'] = data.challengerSong,
+		['data.challengerScreen'] = data.challengerScreen
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("script/data_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
-	-- Data saving to config.ssz
+	--Data saving to config.ssz
 	if b_saveMemory then
 		s_saveMemory = s_saveMemory:gsub('const bool SaveMemory%s*=%s*[^;%s]+', 'const bool SaveMemory = true')
 	else
@@ -205,32 +243,34 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
 	end	
+	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int AfterImageMax%s*=%s*%d+', 'const int AfterImageMax = ' .. AfterImageMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int Width%s*=%s*%d+', 'const int Width = ' .. resolutionWidth)
 	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
+	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
+	s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
 	local file = io.open("ssz/config.ssz","w+")
 	file:write(s_configSSZ)
 	file:close()
-	-- Data saving to sound.ssz
+	--Data saving to sound.ssz
 	s_soundSSZ = s_soundSSZ:gsub('const int Freq%s*=%s*%d+', 'const int Freq = ' .. freq)
 	s_soundSSZ = s_soundSSZ:gsub('const int Channels%s*=%s*%d+', 'const int Channels = ' .. channels)
 	s_soundSSZ = s_soundSSZ:gsub('const int BufferSamples%s*=%s*%d+', 'const int BufferSamples = ' .. buffer)
 	local file = io.open("lib/sound.ssz","w+")
 	file:write(s_soundSSZ)
 	file:close()
-	-- Data saving to lifebar
+	--Data saving to lifebar
 	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
 	local file = io.open(data.lifebar,"w+")
 	file:write(s_lifebarDEF)
 	file:close()
-	-- Reload lifebar
+	--Reload lifebar
 	loadLifebar(data.lifebar)
-	-- Reload game if needed
-	if needReload == 1 then
-		os.exit()
-	end
 end

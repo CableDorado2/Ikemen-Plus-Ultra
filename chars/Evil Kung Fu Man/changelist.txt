@@ -1,0 +1,33 @@
+-Power Stomp received a new animation. I never knew I could actually make a decent looking animation for that using only the default KFM sprites. Why Most_Mysterious even bothered to edit it in the first place is beyond me...
+-Power Stomp itself also somewhat tweaked. Strong version knocks the opponent down, while the EX version launches him high.
+-Kung Fu Beam scrapped, replaced by the Gun fire (formerly secret weapon = m16) that became a special, limited range akin to BBH's HP attacks, unless you do the...
+-New move (replacing - not really actually, see later -  the "hyper" secret weapon = m16):Super bullets load. Gives the gun fire special full-screen range for a limited number of "shots". You can also hold during the load, so it will perform more like the classic ekfm's secret weapon = m16 hyper.
+-Kung Fu Blow takes the autoguard property from the scrapped Kung Fu Laser.
+-The concept of custom weapons EKFM could have gain by beating certain enemies in the arcade run has been scrapped.
+-Kung Fu Chainsaw is now a command move. "Sweep Chain" becomes a crouching HK, and the other chainsaw kick has been scrapped.
+-EKFM also receives the new command move:Overhead slap.
+-He can still cancel specials, doing so though eats a bit of the new purple "cheeseo" gauge.
+-Rocket Grab tweaked. No longer cancelable into, lost it's EX version, but overall should work much better. Code-wise, at least. (Seriously, It was quite a mess in the original MM version)
+-Strong Kung Fu Palm dashes further than before....
+-....while Fast Kung Fu Palm has been modeled on Super Heita's Super Otoko Knuckle, but retains it's wall-bounce feature. Lucky bastard.
+-Damage Dampender of sorts given.
+-Dizzy system tweaked.
+-The infamous bloodheat move remains, but has been toned down A LOT. Not only it now heals less, I've made it actually GUARDABLE when done at certain distance.
+-The IK system now works like it supposed to be in GGXX. Perhaps I was thinking of the alternative one-free-non-IK-HSDM based on the similar system to replace the IK.
+-The "intro" version of the knockdown attack (but not the actual in-game one) does none of the damage anymore.
+-Made an attempt to revamp the AI a bit, and I'm not finished with it yet.
+-Raped original KFM hypers.
+-Napalm Vietnam revamped a bit.
+-Shun Goku Satsu won't return :P Have three guesses on what replaced that move.
+-So did the Hair Flame Thrower.
+-New air-only move : Kung Fu Cannonball
+-Introquotes have been rewritten.
+-Voiced by MC2
+
+Things I'm still up to:
+-Personality to be modelled on Balrog's.
+-Some things still need to be redrawn, especially the "stand-back-to-the-camera" pose. I really wish I had a good knowledge on Elecbyte's spriting style.
+-I'd also like to give some winquotes to him as well. Any ideas?
+-Maybe few new intro/win poses.
+-And few other things I didn't feel like mentioning...
+

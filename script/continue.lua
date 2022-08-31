@@ -159,8 +159,12 @@ function f_continue()
 			else
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
-				script.select.f_selectChallenger()
-				playBGM(bgmSelect)
+				if data.challengerScreen == true then
+					script.select.f_selectChallenger()
+					f_challengerMusic()
+				else	
+					playBGM(bgmSelect) --play original char select song instead of challenger song
+				end
 				break
 			end
 		end

@@ -1,27 +1,27 @@
 data = require('script.data')
 assert(loadfile('script/data_sav.lua'))()
 
-package.path = package.path..';./script/ltn12.lua'
+package.path = package.path..';./lib/ltn12.lua'
 ltn12 = require('ltn12')
 
 if data.debugMode == true then
 --Keys available on lib/alpha/sdlpluing.ssz
-addHotkey('F1', false, false, false, 'kill(1);kill(2)') --Sets Double KO
-addHotkey('F1', true, false, false, 'kill(2);kill(4)') --Ctrl+F1: Sets Player 2's life to zero
-addHotkey('F1', false, false, true, 'kill(1);kill(3)') --Shift+F1: Player 1's life to zero
-addHotkey('F2', false, false, false, 'kill(1,1);kill(2,1);kill(3,1);kill(4,1)') --Sets both players' life to 1
-addHotkey('F2', true, false, false, 'kill(2,1);kill(4,1)') --Ctrl+F2: Sets Player 2's life to 1
-addHotkey('F2', false, false, true, 'kill(1,1);kill(3,1)') --Shift+F2: Sets Player 1's life to 1
+addHotkey('F1', false, false, false, 'kill(1);kill(2);kill(3);kill(4);kill(5);kill(6);kill(7);kill(8)') --Sets Double KO
+addHotkey('F1', true, false, false, 'kill(2);kill(4);kill(6);kill(8)') --Ctrl+F1: Sets Player 2's life to zero
+addHotkey('F1', false, false, true, 'kill(1);kill(3);kill(5);kill(7)') --Shift+F1: Player 1's life to zero
+addHotkey('F2', false, false, false, 'kill(1,1);kill(2,1);kill(3,1);kill(4,1);kill(5,1);kill(6,1);kill(7,1);kill(8,1)') --Sets both players' life to 1
+addHotkey('F2', true, false, false, 'kill(2,1);kill(4,1);kill(6,1);kill(8,1)') --Ctrl+F2: Sets Player 2's life to 1
+addHotkey('F2', false, false, true, 'kill(1,1);kill(3,1);kill(5,1);kill(7,1)') --Shift+F2: Sets Player 1's life to 1
 addHotkey('F3', false, false, false, 'setTime(0)') --Sets Time Over
 addHotkey('F4', false, false, false, 'roundReset()') --Reset the round
 addHotkey('F4', true, false, false, 'reload()') --CTRL+F4: Reloads stage, characters and fight data
-addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2)') --Gives both Players full life
-addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4)') --Ctrl+F1: Gives Player 2's full life
-addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3)') --Shift+F1: Gives Player 1's full life
-addHotkey('F6', false, false, false, 'powMax(1);powMax(2)') --Gives both players full life
+addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2);lifeMax(3);lifeMax(4);lifeMax(5);lifeMax(6);lifeMax(7);lifeMax(8)') --Gives Players' full life
+addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4);lifeMax(6);lifeMax(8)') --Ctrl+F1: Gives Player 2's full life
+addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3);lifeMax(5);lifeMax(7)') --Shift+F1: Gives Player 1's full life
+addHotkey('F6', false, false, false, 'powMax(1);powMax(2);powMax(3);powMax(4);powMax(5);powMax(6);powMax(7);powMax(8)') --Gives both players full life
 addHotkey('F6', true, false, false, 'barAdd(2)') --Ctrl+F6: Increases Player 2's power to 1
 addHotkey('F6', false, false, true, 'barAdd(1)') --Shift+F6: Increases Player 1's power to 1
-addHotkey('F7', false, false, false, 'full(1);full(2);full(3);full(4);setTime(getRoundTime())') --Restores full life and power to all players
+addHotkey('F7', false, false, false, 'full(1);full(2);full(3);full(4);full(5);full(6);full(7);full(8);setTime(getRoundTime())') --Restores full life and power to all players
 
 addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display of collision boxes, target data (including remaining juggle points) and NotHitBy attributes
 addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug information display
@@ -34,6 +34,10 @@ addHotkey('1', true, false, false, 'toggleAI(1)')
 addHotkey('2', true, false, false, 'toggleAI(2)')
 addHotkey('3', true, false, false, 'toggleAI(3)')
 addHotkey('4', true, false, false, 'toggleAI(4)')
+addHotkey('5', true, false, false, 'toggleAI(5)')
+addHotkey('6', true, false, false, 'toggleAI(6)')
+addHotkey('7', true, false, false, 'toggleAI(7)')
+addHotkey('8', true, false, false, 'toggleAI(8)')
 
 addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as fast as possible
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???

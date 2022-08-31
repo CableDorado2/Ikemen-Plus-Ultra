@@ -1,8 +1,12 @@
 
 math.randomseed(os.time())
-lfs = require('lfs')
-package.path = package.path..';./script/ltn12.lua'
+lfs = require('lfs') --load lfs.dll
+package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
 ltn12 = require('ltn12')
+--package.path = package.path..';./lib/json.lua' --load json lua library
+--json = require('json')
+--package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
+--dkjson = require('dkjson')
 
 --;===========================================================
 --; SCREENPACK DEFINITION
@@ -22,12 +26,12 @@ loadDebugFont('font/14x14.fnt')
 setDebugScript('script/debug.lua')	
 
 --SFF
-sysSff = sffNew('data/system.sff')
+sysSff = sffNew('data/system.sff') --load screenpack/menu sprites
 fadeSff = sffNew('data/fade.sff')
-stageSff = sffNew('data/stages.sff')
+stageSff = sffNew('data/stages.sff') --load stages menu sprites
 
 --SND
-sysSnd = sndNew('data/system.snd')
+sysSnd = sndNew('data/system.snd') --Sound effects do not interrupt music/bgm
 
 --Fonts
 padFnt = fontNew('font/f-pad.fnt')
@@ -69,7 +73,6 @@ bgmVS = 'sound/VS.mp3'
 bgmVSFinal = 'sound/VS Final.mp3'
 bgmVictory = 'sound/Victory.mp3'
 bgmResults = 'sound/Results.mp3'
-bgmChallenger = 'sound/The Challenger.mp3'
 bgmNothing = 'Nothing.mp3'
 
 --Random Versus Music
@@ -98,10 +101,31 @@ function f_menuMusic()
 	elseif data.menuSong == 'Random' then
 		f_bgmrandomMenu()
 	end
-end	
+end
+
+--Random Select Challenger Menu Music
+function f_bgmrandomChallenger()
+local randomTrack = {"sound/The Challenger.mp3", bgmSelect, bgmSelectBoss}
+playBGM(randomTrack[math.random(1, #randomTrack)])
+end
+
+--Select Challenger Menu Music
+function f_challengerMusic()
+	if data.challengerSong == 'Fixed' then
+		bgmChallenger = 'sound/The Challenger.mp3'
+		playBGM(bgmChallenger)
+	elseif data.challengerSong == 'Original' then
+		bgmChallenger = bgmSelect
+		playBGM(bgmChallenger)
+	elseif data.challengerSong == 'Boss' then
+		bgmChallenger = bgmSelectBoss
+		playBGM(bgmChallenger)	
+	elseif data.challengerSong == 'Random' then
+		f_bgmrandomChallenger()
+	end
+end		
 
 --Video
---videoOpening = "video/Opening.wmv"
 --videoHowToPlay = "video/How To Play.wmv"
 
 --;===========================================================
@@ -109,9 +133,24 @@ end
 --;===========================================================
 --Screenshot function
 --addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
---function takeScreenshot()
-  --sndPlay(sysSnd, 22, 0)
-  --batOpen("tools", "screenshot.vbs")
+--function takeScreenshotVS()
+	--sysSnd = sndNew('data/system.snd')
+	--if data.screenshotSnd == 1 then
+		--sndPlay(sysSnd, 22, 0)
+	--elseif data.screenshotSnd == 2 then
+		--sndPlay(sysSnd, 22, 1)
+	--elseif data.screenshotSnd == 3 then
+		--sndPlay(sysSnd, 22, 2)
+	--elseif data.screenshotSnd == 4 then
+		--sndPlay(sysSnd, 22, 3)
+	--end
+	--batOpen("tools", "screenshot.vbs")
+	--Set time to capture the correct screenshot
+	--ltn12.pump.all(
+	--(echo nircmd savescreenshotwin "..\screenshots\Screenshot.dat" ^| del x.vbs x.bat)>x.bat   Backup Bat Code
+	--ltn12.source.file(assert(io.open("tools/screenshot.dat", "rb"))),
+	--ltn12.sink.file(assert(io.open("screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
+	--)
 --end
 
 --input stuff
@@ -138,7 +177,7 @@ function setCommand(c)
 	commandAdd(c, 'x', 'x')
 	commandAdd(c, 'y', 'y')
 	commandAdd(c, 'z', 'z')
-	commandAdd(c, 's', 's')
+	commandAdd(c, 's', 's') --Return/Enter Button
 	commandAdd(c, 'holds', '/s')
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
@@ -165,7 +204,7 @@ function btnPalNo(cmd)
 	if commandGetState(cmd, 'x') then return 4 + s end
 	if commandGetState(cmd, 'y') then return 5 + s end
 	if commandGetState(cmd, 'z') then return 6 + s end
-	if commandGetState(cmd, 's') then return 1 + s end --start button	
+	if commandGetState(cmd, 's') then return 1 + s end --Start button	
 	return 0
 end
 
@@ -476,7 +515,8 @@ function f_strSub(str, t)
 	return str, txt
 end
 
-txt_loading = createTextImg(font1, 0, -1, 'LOADING...', 310, 230)
+--Loading Text
+txt_loading = createTextImg(font1, 0, -1, 'LOADING FILES...', 310, 230)
 
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
@@ -658,7 +698,7 @@ animUpdate(optionsBG1)
 txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 txt_titleFt = createTextImg(font5, 0, 1, '', 2, 240)
 txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
-txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13)
+txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
 function f_clock() --Just a clock
 	--os.clock()
@@ -725,7 +765,6 @@ end
 function f_mainStart()
 	script.storyboard.f_storyboard('data/logo.def')
 	script.storyboard.f_storyboard('data/intro.def')
-	--playVideo(videoOpening)
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--f_howtoplay()
 	f_mainTitle()
@@ -788,8 +827,8 @@ end
 --; MAIN MENU LOOP
 --;===========================================================
 t_mainMenu = {
+	{id = textImgNew(), text = 'STORY'},
 	{id = textImgNew(), text = 'ARCADE'},
-	{id = textImgNew(), text = 'QUICK MATCH'},
 	{id = textImgNew(), text = 'VERSUS'},
 	{id = textImgNew(), text = 'ONLINE'},
 	{id = textImgNew(), text = 'PRACTICE'},
@@ -844,15 +883,15 @@ function f_mainMenu()
 		--mode selected
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--ARCADE
+			--STORY
 			if mainMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
-				f_arcadeMenu()			
-			--QUICK VERSUS	
+				f_comingSoon()			
+			--ARCADE	
 			elseif mainMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
-				f_randomMenu()
-			--VS MODE
+				f_arcadeMenu()
+			--VERSUS
 			elseif mainMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_vsMenu()
@@ -905,11 +944,11 @@ function f_mainMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 144+i*13-moveTxt)) --Text Position
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13) --Position and Size of the selection cursor
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -1048,6 +1087,7 @@ end
 --; VERSUS MENU LOOP
 --;===========================================================
 t_vsMenu = {
+	{id = textImgNew(), text = 'QUICK MATCH'},
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},
 	{id = textImgNew(), text = 'CO-OP MODE'},	
@@ -1092,8 +1132,12 @@ function f_vsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--P1 VS CPU
+			--QUICK VERSUS	
 			if vsMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_randomMenu()
+			--P1 VS CPU
+			elseif vsMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
@@ -1103,7 +1147,7 @@ function f_vsMenu()
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')				
 				script.select.f_selectSimple()
 			--P1 VS P2
-			elseif vsMenu == 2 then
+			elseif vsMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setHomeTeam(1) --P1 side considered the home team
@@ -1114,7 +1158,7 @@ function f_vsMenu()
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')				
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 			--P1 & P2 VS CPU
-			elseif vsMenu == 3 then
+			elseif vsMenu == 4 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
@@ -1767,7 +1811,7 @@ function f_bossChars()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			if bossChars < #t_bossSingle then
+			if bossChars < #t_bossSingle then --This table refers to the one at the end of the parser.lua script
 			--BOSS CHAR NAME
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -2069,7 +2113,7 @@ function f_bonusExtras()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			if bonusExtras < #t_bonusExtras then
+			if bonusExtras < #t_bonusExtras then --This table refers to the one at the end of the parser.lua script
 			--BONUS CHAR NAME
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -2407,7 +2451,7 @@ function f_timeMenu()
 				data.p2In = 1				
 				data.p2SelectMenu = false
 				data.gameMode = 'endless'
-				textImgSetText(txt_mainSelect, 'TIME ATTACK (W.I.P)')
+				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
 			elseif timeMenu == 2 then
@@ -2419,7 +2463,7 @@ function f_timeMenu()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'endless'
-				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE (W.I.P)')
+				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()					
 			--BACK
 			else
@@ -4577,7 +4621,7 @@ function f_mainHost()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE (W.I.P)')
+				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
 			elseif mainHost == 10 then
@@ -4791,7 +4835,7 @@ function f_mainJoin()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE (W.I.P)')
+				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
 			elseif mainJoin == 10 then
@@ -4843,7 +4887,7 @@ end
 --; HOST LOOP
 --;===========================================================
 function f_create()
-	textImgSetText(txt_starting, 'Starting netplay by port ' .. getListenPort())
+	textImgSetText(txt_starting, 'Waiting for Player 2... ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Host' --Identify
 	while not connected() do
@@ -4874,7 +4918,7 @@ function f_connect()
 		refresh()
 	end
 	sndPlay(sysSnd, 100, 1)
-	textImgSetText(txt_connecting, 'Now connecting with ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
+	textImgSetText(txt_connecting, 'Now connecting with... ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Client'
 	while not connected() do
@@ -4923,4 +4967,4 @@ end
 --; INITIALIZE LOOPS
 --;===========================================================
 
-f_mainStart()
+f_mainStart() --Start Menu

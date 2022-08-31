@@ -145,6 +145,12 @@ else
 	s_debugMode = 'Disabled'
 end
 
+if data.challengerScreen then
+	s_challengerScreen = 'Yes'
+else
+	s_challengerScreen = 'No'
+end
+
 --;===========================================================
 --; BACKGROUND DEFINITION
 --;===========================================================
@@ -216,7 +222,10 @@ function f_saveCfg()
 		['data.screenshotSnd'] = data.screenshotSnd,
 		['data.clockSeconds'] = data.clockSeconds,
 		['data.winscreen'] = data.winscreen,
-		['data.debugMode'] = data.debugMode
+		['data.debugMode'] = data.debugMode,
+		['data.challengerSong'] = data.challengerSong,
+		['data.challengerScreen'] = data.challengerScreen,
+		['data.charPresentation'] = data.charPresentation
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("script/data_sav.lua","w+")
@@ -316,7 +325,7 @@ t_restart = {
 	{id = '', text = "require Save and Back.    "},
 }
 for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 165+i*15)
+	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 180+i*15)
 end
 
 t_newinput = {
@@ -453,6 +462,11 @@ function f_mainCfg()
 				s_clockSeconds = 'No'
 				data.winscreen = 'Classic'
 				data.debugMode = false
+				s_debugMode = 'Disabled'
+				data.challengerSong = 'Fixed'
+				data.challengerScreen = true
+				s_challengerScreen = 'Yes'
+				data.charPresentation = 'Sprite'
 				--config.ssz
 				f_inputDefault()
 				--b_saveMemory = false
@@ -1064,9 +1078,10 @@ t_UICfg = {
 	{id = '', text = 'Language', 		         varID = textImgNew(), varText = data.language},
 	{id = '', text = 'Clock Seconds',            varID = textImgNew(), varText = s_clockSeconds},
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
+	{id = '', text = 'Char Presentation (WIP)',  varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Order Select Time'},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
-	{id = '', text = 'New Challenger Screen'},
+	{id = '', text = 'New Challenger Screen',	 varID = textImgNew(), varText = s_challengerScreen},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_UICfg do
@@ -1095,19 +1110,19 @@ function f_UICfg()
 				data.language = 'SPANISH'
 				modified = 1
 				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
-				data.language = 'JAPANESE'
-				modified = 1
-				needReload = 1
 			elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
 				data.language = 'JAPANESE'
 				modified = 1
 				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
+			elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
 				data.language = 'ENGLISH'
 				modified = 1
+				needReload = 1	
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
+				data.language = 'JAPANESE'
+				modified = 1
 				needReload = 1
-			elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
+			elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
 				data.language = 'ENGLISH'
 				modified = 1
 				needReload = 1
@@ -1139,33 +1154,69 @@ function f_UICfg()
 				data.vsDisplayWin = true
 				s_vsDisplayWin = 'Yes'
 				modified = 1
-			end			
+			end
+		--Character Presentation Display Type (WIP)
+		elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.charPresentation == 'Portrait' then
+				data.charPresentation = 'Sprite'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.charPresentation == 'Sprite' then
+				data.charPresentation = 'Mixed'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.charPresentation == 'Mixed' then
+				data.charPresentation = 'Portrait'
+				modified = 1	
+			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Portrait' then
+				data.charPresentation = 'Mixed'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Sprite' then
+				data.charPresentation = 'Portrait'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Mixed' then
+				data.charPresentation = 'Sprite'
+				modified = 1	
+			end	
 		--Display Order Select Time (Infinite no Display)
-		elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
         	
-		--Win Screen Display Type (Classic or Modern)
-		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		--Win Screen Display Type (Classic, Modern or None)
+		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 				data.winscreen = 'Modern'
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Classic' then
-				data.winscreen = 'Modern'
-				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
+				data.winscreen = 'None'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'None' then
 				data.winscreen = 'Classic'
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Mordern' then
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Classic' then
+				data.winscreen = 'None'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Modern' then
 				data.winscreen = 'Classic'
 				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
+				data.winscreen = 'Modern'
+				modified = 1	
 			end
 		--New Challenger Screen Display
-		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
-			
+			if data.challengerScreen then
+				data.challengerScreen = false
+				s_challengerScreen = 'No'
+				modified = 1
+			else
+				data.challengerScreen = true
+				s_challengerScreen = 'Yes'
+				modified = 1
+			end
 		--Back
-		elseif UICfg == 7 and btnPalNo(p1Cmd) > 0 then
+		elseif UICfg == 8 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1176,8 +1227,10 @@ function f_UICfg()
 		t_UICfg[1].varText = data.language
 		t_UICfg[2].varText = s_clockSeconds
 		t_UICfg[3].varText = s_vsDisplayWin
+		t_UICfg[4].varText = data.charPresentation
 		
-		t_UICfg[5].varText = data.winscreen
+		t_UICfg[6].varText = data.winscreen
+		t_UICfg[7].varText = s_challengerScreen
 		for i=1, #t_UICfg do
 			textImgDraw(t_UICfg[i].id)
 			if t_UICfg[i].varID ~= nil then
@@ -1210,7 +1263,6 @@ end
 function f_videoCfg()
 	cmdInput()
 	local videoCfg = 1
-	--local hasChanged = true
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -1224,36 +1276,9 @@ function f_videoCfg()
 			videoCfg = videoCfg + 1
 			if videoCfg > #t_videoCfg then videoCfg = 1 end
 		--Resolution
-		elseif videoCfg == 1 then
-			if commandGetState(p1Cmd, 'r') then
-				--sndPlay(sysSnd, 100, 1)
-				for i=1, #t_resCfg do
-					if t_resCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-						resolutionWidth = t_resCfg[i == #t_resCfg-1 and 1 or i+1].x
-						resolutionHeight = t_resCfg[i == #t_resCfg-1 and 1 or i+1].y
-						break
-					end
-				end
-				modified = 1
-				hasChanged = true
-			elseif commandGetState(p1Cmd, 'l') then
-				--sndPlay(sysSnd, 100, 1)
-				for i=1, #t_resCfg do
-					if t_resCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-						resolutionWidth = t_resCfg[i == 1 and #t_resCfg-1 or i-1].x
-						resolutionHeight = t_resCfg[i == 1 and #t_resCfg-1 or i-1].y
-						break
-					end
-				end
-				modified = 1
-				hasChanged = true
-			elseif btnPalNo(p1Cmd) > 0 then
-				sndPlay(sysSnd, 100, 1)
-				if f_resCfg() then
-					modified = 1
-					hasChanged = true
-				end
-			end
+		elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			f_resCfg()
 		--Fullscreen			
 		elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
@@ -1383,134 +1408,79 @@ function f_memWarning()
 end
 
 --;===========================================================
---; RESOLUTION SETTINGS
+--; ASPECT RATIO SETTINGS
 --;===========================================================
-txt_resCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SETTINGS', 159, 13)
+txt_resCfg = createTextImg(jgFnt, 0, 0, 'ASPECT RATIO SETTINGS', 159, 13)
 t_resCfg = {
-	
-	{id = '', x = 320,  y = 240,  text = '320x240     (4:3 QVGA)'},
-	{id = '', x = 512,  y = 384,  text = '512x384     (4:3 MACINTOSH)'},
-	{id = '', x = 640,  y = 480,  text = '640x480     (4:3 VGA)'},
-	{id = '', x = 800,  y = 600,  text = '800x600     (4:3 SVGA)'},
-	{id = '', x = 960,  y = 720,  text = '960x720     (4:3 HD)'},
-	{id = '', x = 1024, y = 768,  text = '1024x768    (4:3 XGA)'},
-	{id = '', x = 1152, y = 864,  text = '1152x864    (4:3 XGA+)'},
-	{id = '', x = 1200, y = 900,  text = '1200x900    (4:3 HD+)'},
-	{id = '', x = 1280, y = 960,  text = '1280x960    (4:3 Quad-VGA)'},
-	{id = '', x = 1440, y = 1080, text = '1440x1080   (4:3 FHD)'},
-	{id = '', x = 1600, y = 1200, text = '1600x1200   (4:3 XGA)'},
-	{id = '', x = 1920, y = 1440, text = '1920x1440   (4:3 UXGA+)'},
-	{id = '', x = 2048, y = 1536, text = '2048x1536   (4:3 QXGA)'},
-	{id = '', x = 3200, y = 2400, text = '3200x2400   (4:3 QUXGA)'},
-	{id = '', x = 6400, y = 4800, text = '6400x4800   (4:3 HUXGA)'},
-	{id = '', x = 426,  y = 240,  text = '426x240     (16:9 ULTRA LOW)'},
-	{id = '', x = 640,  y = 360,  text = '640x360     (16:9 LOW)'},
-	{id = '', x = 850,  y = 480,  text = '850x480     (16:9 WVGA)'},
-	{id = '', x = 854,  y = 480,  text = '854x480     (16:9 SD)'},
-	{id = '', x = 1280, y = 720,  text = '1280x720    (16:9 HD)'},
-	{id = '', x = 1600, y = 900,  text = '1600x900    (16:9 HD+)'},
-	{id = '', x = 1920, y = 1080, text = '1920x1080   (16:9 FHD)'},
-	{id = '', x = 2048, y = 1152, text = '2048x1152   (16:9 QWXGA)'},
-	{id = '', x = 2560, y = 1440, text = '2560x1440   (16:9 2K)'},
-	{id = '', x = 3840, y = 2160, text = '3840x2160   (16:9 4K)'},
-	{id = '', x = 320,  y = 200,  text = '320x200     (16:10 CGA)'},
-	{id = '', x = 1280, y = 768,  text = '1280x768    (16:10 WXGA)'},
-	{id = '', x = 1280, y = 800,  text = '1280x800    (16:10 WXGA)'},
-	{id = '', x = 1440, y = 900,  text = '1440x900    (16:10 WXGA+)'},
-	{id = '', x = 1680, y = 1050, text = '1680x1050   (16:10 WSXGA+)'},
-	{id = '', x = 1920, y = 1200, text = '1920x1200   (16:10 WUXGA)'},
-	{id = '', x = 2560, y = 1600, text = '2560x1600   (16:10 WQXGA)'},
-	{id = '', x = 3840, y = 2400, text = '3840x2400   (16:10 WQUXGA)'},
-	{id = '', x = 7680, y = 4800, text = '7680x4800   (16:10 WHUXGA)'},
-	{id = '', x = 400,  y = 254,  text = '400x254     (Arcade)'},
-	{id = '', x = 800,  y = 508,  text = '400x508     (Arcade x2)'},
-	{id = '', x = 1200, y = 762,  text = '1200x762    (Arcade x3)'},
-	{id = '', x = 1600, y = 1016, text = '1600x1016   (Arcade x4)'},
+	{id = '', text = '                       4:3'},
+	{id = '', text = '                      16:9'},
+	{id = '', text = '                     16:10'},
+	{id = '', text = 'Extra Resolutions'},
+	{id = '', text = 'Custom Resolution'},
 	{id = '', text = '          BACK'},
 }
-
 for i=1, #t_resCfg do
 	t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15)
 end
 
 function f_resCfg()
 	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
 	local resCfg = 1
-	for i=1, #t_resCfg do
-		if t_resCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-			resCfg = i
-			break
-		end
-	end
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		end
+		if commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg - 1
+			if resCfg < 1 then resCfg = #t_resCfg end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg + 1
-		end
-		--Cursor position calculation
-		if resCfg < 1 then
-			resCfg = #t_resCfg
-			if #t_resCfg > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_resCfg
-			end
-		elseif resCfg > #t_resCfg then
-			resCfg = 1
-			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (resCfg - 1) * 15
-		end
-		--Options
-		if btnPalNo(p1Cmd) > 0 then
-			--Back
-			if resCfg == #t_resCfg then
-				sndPlay(sysSnd, 100, 2)
-				break
-			--Resolution
-			else
+			if resCfg > #t_resCfg then resCfg = 1 end
+		elseif btnPalNo(p1Cmd) > 0 then
+			--4:3 Resolutions
+			if resCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
-				resolutionWidth = t_resCfg[resCfg].x
-				resolutionHeight = t_resCfg[resCfg].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
+				f_resCfg4_3()
+			--16:9 Resolutions
+			elseif resCfg == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_resCfg16_9()
+			--16:10 Resolutions
+			elseif resCfg == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_resCfg16_10()
+			--Extra Resolutions
+			elseif resCfg == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_EXresCfg()
+			--Custom Resolution
+			elseif resCfg == 5 then
+				sndPlay(sysSnd, 100, 1)
+				
+			--Back
+			else
+				sndPlay(sysSnd, 100, 2)
 				break
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg*15)
-		end
+		animSetWindow(optionsBG1, 80,20, 160,#t_resCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_resCfg)
 		for i=1, #t_resCfg do
-			if i > resCfg - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg[i].id, font2, 0, 1, t_resCfg[i].text, 85, 15+i*15-moveTxt))
+			textImgDraw(t_resCfg[i].id)
+			if t_resCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_resCfg[i].varID, font2, 0, -1, t_resCfg[i].varText, 235, 15+i*15))
 			end
 		end
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		animSetWindow(cursorBox, 80,5+resCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1543,6 +1513,445 @@ function f_resWarning()
 end
 
 --;===========================================================
+--; 4:3 RESOLUTIONS
+--;===========================================================
+txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (4:3)', 159, 13)
+t_resCfg4_3 = {
+	
+	{id = '', x = 320,  y = 240,  text = '320x240             (QVGA)'},
+	{id = '', x = 512,  y = 384,  text = '512x384        (MACINTOSH)'},
+	{id = '', x = 640,  y = 480,  text = '640x480              (VGA)'},
+	{id = '', x = 800,  y = 600,  text = '800x600             (SVGA)'},
+	{id = '', x = 960,  y = 720,  text = '960x720               (HD)'},
+	{id = '', x = 1024, y = 768,  text = '1024x768             (XGA)'},
+	{id = '', x = 1152, y = 864,  text = '1152x864            (XGA+)'},
+	{id = '', x = 1200, y = 900,  text = '1200x900             (HD+)'},
+	{id = '', x = 1280, y = 960,  text = '1280x960        (Quad-VGA)'},
+	{id = '', x = 1440, y = 1080, text = '1440x1080            (FHD)'},
+	{id = '', x = 1600, y = 1200, text = '1600x1200            (XGA)'},
+	{id = '', x = 1920, y = 1440, text = '1920x1440          (UXGA+)'},
+	{id = '', x = 2048, y = 1536, text = '2048x1536           (QXGA)'},
+	{id = '', x = 3200, y = 2400, text = '3200x2400          (QUXGA)'},
+	{id = '', x = 6400, y = 4800, text = '6400x4800          (HUXGA)'},
+	{id = '', text = '          BACK'},
+}
+
+for i=1, #t_resCfg4_3 do
+	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
+end
+
+function f_resCfg4_3()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg4_3 = 1
+	for i=1, #t_resCfg4_3 do
+		if t_resCfg4_3[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg4_3 = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			resCfg4_3 = resCfg4_3 - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			resCfg4_3 = resCfg4_3 + 1
+		end
+		--Cursor position calculation
+		if resCfg4_3 < 1 then
+			resCfg4_3 = #t_resCfg4_3
+			if #t_resCfg4_3 > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg4_3
+			end
+		elseif resCfg4_3 > #t_resCfg4_3 then
+			resCfg4_3 = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg4_3 - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg4_3 - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if resCfg4_3 == #t_resCfg4_3 then
+				sndPlay(sysSnd, 100, 2)
+				break
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_resCfg4_3[resCfg4_3].x
+				resolutionHeight = t_resCfg4_3[resCfg4_3].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg4_3*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg4_3)
+		for i=1, #t_resCfg4_3 do
+			if i > resCfg4_3 - cursorPosY then
+				textImgDraw(f_updateTextImg(t_resCfg4_3[i].id, font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; 16:9 RESOLUTIONS
+--;===========================================================
+txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:9)', 159, 13)
+t_resCfg16_9 = {
+	
+	{id = '', x = 426,  y = 240,  text = '426x240        (ULTRA LOW)'},
+	{id = '', x = 640,  y = 360,  text = '640x360              (LOW)'},
+	{id = '', x = 850,  y = 480,  text = '850x480             (WVGA)'},
+	{id = '', x = 854,  y = 480,  text = '854x480               (SD)'},
+	{id = '', x = 1280, y = 720,  text = '1280x720              (HD)'},
+	{id = '', x = 1600, y = 900,  text = '1600x900             (HD+)'},
+	{id = '', x = 1920, y = 1080, text = '1920x1080        (FULL HD)'},
+	{id = '', x = 2048, y = 1152, text = '2048x1152          (QWXGA)'},
+	{id = '', x = 2560, y = 1440, text = '2560x1440            (QHD)'},
+	{id = '', x = 3840, y = 2160, text = '3840x2160        (4K UHDV)'},
+	{id = '', text = '          BACK'},
+}
+
+for i=1, #t_resCfg16_9 do
+	t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15)
+end
+
+function f_resCfg16_9()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg16_9 = 1
+	for i=1, #t_resCfg16_9 do
+		if t_resCfg16_9[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg16_9 = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_9 = resCfg16_9 - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_9 = resCfg16_9 + 1
+		end
+		--Cursor position calculation
+		if resCfg16_9 < 1 then
+			resCfg16_9 = #t_resCfg16_9
+			if #t_resCfg16_9 > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg16_9
+			end
+		elseif resCfg16_9 > #t_resCfg16_9 then
+			resCfg16_9 = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg16_9 - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg16_9 - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if resCfg16_9 == #t_resCfg16_9 then
+				sndPlay(sysSnd, 100, 2)
+				break
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_resCfg16_9[resCfg16_9].x
+				resolutionHeight = t_resCfg16_9[resCfg16_9].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_9*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg16_9)
+		for i=1, #t_resCfg16_9 do
+			if i > resCfg16_9 - cursorPosY then
+				textImgDraw(f_updateTextImg(t_resCfg16_9[i].id, font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; 16:10 RESOLUTIONS
+--;===========================================================
+txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:10)', 159, 13)
+t_resCfg16_10 = {
+	
+	{id = '', x = 320,  y = 200,  text = '320x200              (CGA)'},
+	{id = '', x = 1280, y = 768,  text = '1280x768            (WXGA)'},
+	{id = '', x = 1280, y = 800,  text = '1280x800            (WXGA)'},
+	{id = '', x = 1440, y = 900,  text = '1440x900           (WXGA+)'},
+	{id = '', x = 1680, y = 1050, text = '1680x1050         (WSXGA+)'},
+	{id = '', x = 1920, y = 1200, text = '1920x1200          (WUXGA)'},
+	{id = '', x = 2560, y = 1600, text = '2560x1600          (WQXGA)'},
+	{id = '', x = 2880, y = 1800, text = '2880x1800  (RETINA DISPLAY)'},
+	{id = '', x = 3840, y = 2400, text = '3840x2400         (WQUXGA)'},
+	{id = '', x = 7680, y = 4800, text = '7680x4800         (WHUXGA)'},
+	{id = '', text = '          BACK'},
+}
+
+for i=1, #t_resCfg16_10 do
+	t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15)
+end
+
+function f_resCfg16_10()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg16_10 = 1
+	for i=1, #t_resCfg16_10 do
+		if t_resCfg16_10[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg16_10 = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_10 = resCfg16_10 - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_10 = resCfg16_10 + 1
+		end
+		--Cursor position calculation
+		if resCfg16_10 < 1 then
+			resCfg16_10 = #t_resCfg16_10
+			if #t_resCfg16_10 > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg16_10
+			end
+		elseif resCfg16_10 > #t_resCfg16_10 then
+			resCfg16_10 = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg16_10 - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg16_10 - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if resCfg16_10 == #t_resCfg16_10 then
+				sndPlay(sysSnd, 100, 2)
+				break
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_resCfg16_10[resCfg16_10].x
+				resolutionHeight = t_resCfg16_10[resCfg16_10].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_10*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg16_10)
+		for i=1, #t_resCfg16_10 do
+			if i > resCfg16_10 - cursorPosY then
+				textImgDraw(f_updateTextImg(t_resCfg16_10[i].id, font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; EXTRA RESOLUTIONS
+--;===========================================================
+txt_EXresCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT', 159, 13)
+t_EXresCfg = {
+	
+	{id = '', x = 400,  y = 254,  text = '400x254           (ARCADE)'},
+	{id = '', x = 800,  y = 508,  text = '400x508        (ARCADE x2)'},
+	{id = '', x = 640,  y = 350,  text = '640x350         (EGA 11:6)'},
+	{id = '', x = 720,  y = 348,  text = '720x348         (HGC 60:9)'},
+	{id = '', x = 720,  y = 350,  text = '720x350        (MDA 72:35)'},
+	{id = '', x = 720,  y = 360,  text = '720x360    (APPLE LISA 2:1)'},
+	{id = '', x = 1024, y = 600,  text = '1024x600 (CANAIMA MG101A4)'},
+	{id = '', x = 1360, y = 768,  text = '1360x768      (WXGA 85:48)'},
+	{id = '', x = 1366, y = 728,  text = '1366x728 (CANAIMA EF10M12)'},
+	{id = '', x = 1200, y = 762,  text = '1200x762       (ARCADE x3)'},
+	{id = '', x = 1280, y = 1024, text = '1280x1024       (SXGA 5:4)'},
+	{id = '', x = 1600, y = 1016, text = '1600x1016      (ARCADE x4)'},
+	{id = '', x = 2048, y = 1080, text = '2048x1080        (2K 17:9)'},
+	{id = '', x = 2560, y = 2048, text = '2560x2048       (QSXA 5:4)'},
+	{id = '', x = 3200, y = 2048, text = '3200x2048    (WQSXA 25:16)'},
+	{id = '', x = 4096, y = 2160, text = '4096x2160  (4K CINEMA 17:9)'},
+	{id = '', x = 5120, y = 4096, text = '5120x4096      (HSXGA 5:4)'},
+	{id = '', x = 6400, y = 4096, text = '6400x4096   (WHSXGA 25:16)'},
+	{id = '', x = 7680, y = 4320, text = '7680x4320         (8K UHD)'},
+	--{id = '', x = 30720, y = 17208, text = '30720x17208 (24K SUPER DEATH BATMETAL)'},
+	{id = '', text = '          BACK'},
+}
+
+for i=1, #t_EXresCfg do
+	t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15)
+end
+
+function f_EXresCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local EXresCfg = 1
+	for i=1, #t_EXresCfg do
+		if t_EXresCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			EXresCfg = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			EXresCfg = EXresCfg - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			EXresCfg = EXresCfg + 1
+		end
+		--Cursor position calculation
+		if EXresCfg < 1 then
+			EXresCfg = #t_EXresCfg
+			if #t_EXresCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_EXresCfg
+			end
+		elseif EXresCfg > #t_EXresCfg then
+			EXresCfg = 1
+			cursorPosY = 1
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (EXresCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (EXresCfg - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if EXresCfg == #t_EXresCfg then
+				sndPlay(sysSnd, 100, 2)
+				break
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_EXresCfg[EXresCfg].x
+				resolutionHeight = t_EXresCfg[EXresCfg].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			animSetWindow(optionsBG1, 80,20, 160,#t_EXresCfg*15)
+		end
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_EXresCfg)
+		for i=1, #t_EXresCfg do
+			if i > EXresCfg - cursorPosY then
+				textImgDraw(f_updateTextImg(t_EXresCfg[i].id, font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; AUDIO SETTINGS
 --;===========================================================
 txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS', 159, 13)
@@ -1555,6 +1964,7 @@ t_audioCfg = {
 	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
 	{id = '', text = 'Screenshot SFX', 	varID = textImgNew(), varText = data.screenshotSnd},
 	{id = '', text = 'Main Menu Song', 	varID = textImgNew(), varText = data.menuSong},
+	{id = '', text = 'Challenger Select Song', 	varID = textImgNew(), varText = data.challengerSong},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_audioCfg do
@@ -1567,6 +1977,7 @@ function f_audioCfg()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
+			f_menuMusic()
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
@@ -1755,29 +2166,29 @@ function f_audioCfg()
 				data.screenshotSnd = 2
 				sndPlay(sysSnd, 22, 1)
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 1 then
-				data.screenshotSnd = 4
-				sndPlay(sysSnd, 22, 3)
-				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 2 then
 				data.screenshotSnd = 3
 				sndPlay(sysSnd, 22, 2)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 2 then
-				data.screenshotSnd = 1
-				sndPlay(sysSnd, 22, 0)
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 3 then
 				data.screenshotSnd = 4
 				sndPlay(sysSnd, 22, 3)
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 3 then
-				data.screenshotSnd = 2
-				sndPlay(sysSnd, 22, 1)
-				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 4 then
 				data.screenshotSnd = 1
 				sndPlay(sysSnd, 22, 0)
+				modified = 1	
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 1 then
+				data.screenshotSnd = 4
+				sndPlay(sysSnd, 22, 3)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 2 then
+				data.screenshotSnd = 1
+				sndPlay(sysSnd, 22, 0)
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 3 then
+				data.screenshotSnd = 2
+				sndPlay(sysSnd, 22, 1)
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 4 then
 				data.screenshotSnd = 3
@@ -1791,38 +2202,75 @@ function f_audioCfg()
 				data.menuSong = 'Theme 2'
 				f_menuMusic()
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 1' then
-				data.menuSong = 'Random'
-				f_menuMusic()
-				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 2' then
 				data.menuSong = 'Theme 3'
-				f_menuMusic()
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
-				data.menuSong = 'Theme 1'
 				f_menuMusic()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 3' then
 				data.menuSong = 'Random'
 				f_menuMusic()
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 3' then
-				data.menuSong = 'Theme 2'
-				f_menuMusic()
-				modified = 1	
 			elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Random' then
 				data.menuSong = 'Theme 1'
+				f_menuMusic()
+				modified = 1	
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 1' then
+				data.menuSong = 'Random'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
+				data.menuSong = 'Theme 1'
+				f_menuMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 3' then
+				data.menuSong = 'Theme 2'
 				f_menuMusic()
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Random' then
 				data.menuSong = 'Theme 3'
 				f_menuMusic()
 				modified = 1
+			end
+		--Challenger Select Song
+		elseif audioCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.challengerSong == 'Fixed' then
+				data.challengerSong = 'Original'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Original' then
+				data.challengerSong = 'Boss'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Boss' then
+				data.challengerSong = 'Random'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Random' then
+				data.challengerSong = 'Fixed'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Fixed' then
+				data.challengerSong = 'Random'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Original' then
+				data.challengerSong = 'Fixed'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Boss' then
+				data.challengerSong = 'Original'
+				f_challengerMusic()
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Random' then
+				data.challengerSong = 'Boss'
+				f_challengerMusic()
+				modified = 1
 			end		
 		--Back
-		elseif audioCfg == 9 and btnPalNo(p1Cmd) > 0 then
+		elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
+			f_menuMusic()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -1837,6 +2285,7 @@ function f_audioCfg()
 		t_audioCfg[6].varText = buffer
 		t_audioCfg[7].varText = data.screenshotSnd
 		t_audioCfg[8].varText = data.menuSong
+		t_audioCfg[9].varText = data.challengerSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
 		for i=1, #t_audioCfg do
 			textImgDraw(t_audioCfg[i].id)
@@ -1990,9 +2439,11 @@ function f_keyCfg(playerNo, controller)
 			if keyCfg > #t_keyCfg then keyCfg = 1 end
 		end
 		if btnPalNo(p1Cmd) > 0 then
+			--Up, Down, Left, Right, A, B, C, X, Y, Z, Start
 			if keyCfg < #t_keyCfg then
 				sndPlay(sysSnd, 100, 1)
 				t_keyCfg[keyCfg].varText = f_readInput(t_keyCfg[keyCfg].varText)
+			--Back
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keySave(playerNo, controller)
@@ -2045,8 +2496,10 @@ function f_kpCfg(swap1, swap2)
 			if kpCfg > #t_kpCfg then kpCfg = 1 end
 		end
 		if btnPalNo(p1Cmd) > 0 then
+			--Keyboard
 			if kpCfg == 1 then
 				return swap1
+			--Keypad (Numpad)
 			else
 				return swap2
 			end
@@ -2072,7 +2525,7 @@ function f_keyRead(playerNo, controller)
 	local tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 	local tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
 	for i, c
-		in ipairs(script.randomtest.strsplit(',', tmp))
+		in ipairs(script.randomtest.strsplit(',', tmp)) --split string using "," delimiter
 	do
 		t_keyCfg[i].varText = c
 	end
@@ -2415,6 +2868,7 @@ function f_readInput(oldkey)
 end
 
 function f_keySave(playerNo, controller)
+	--Keyboard
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[11].varText .. ');')
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+2 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',

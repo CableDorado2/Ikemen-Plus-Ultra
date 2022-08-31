@@ -646,7 +646,7 @@ f_printTable(t_bonusChars, "debug/t_bonusChars.txt")
 f_printTable(t_stageDef, "debug/t_stageDef.txt")
 f_printTable(t_charAdd, "debug/t_charAdd.txt")
 
-t_bossSingle = {}
+t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error
 local endFor = #t_bossChars+1
 for i=1, endFor do
 t_bossSingle[#t_bossSingle+1] = {}
@@ -658,7 +658,7 @@ else
 	end
 end	
 
-t_bonusExtras = {}
+t_bonusExtras = {} --This is the bonus chars table, it must be loaded after this parser script or it will give an error
 local endFor = #t_bonusChars+1
 for i=1, endFor do
 	t_bonusExtras[#t_bonusExtras+1] = {}

@@ -22,10 +22,10 @@ wrappingY = true
 txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A PALETTE COLOR FOR THE CHARACTERS ', 308, 239)
 
 function f_selectReset()
-	if data.p2Faces then
-		selectColumns = 5
+	if data.p2Faces then --When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut
+		selectColumns = 5 
 		selectRows = 2
-		offsetRows = 1
+		offsetRows = 1 --Number of hidden slots below
 		setSelColRow(selectColumns, selectRows)
 		setRandomSpr(sysSff, 151, 0, 1, 1)
 		setSelCellSize(27+2, 27+2)
@@ -34,7 +34,7 @@ function f_selectReset()
 		p1FaceY = 170
 		p2FaceX = 169
 		p2FaceY = 170
-	else --when data.p2Faces is false then
+	else --When data.p2Faces is false then when you play 1P you will see the expanded roster, as there is no 2P to select it will not be cut
 		selectColumns = 11
         selectRows = 2
         offsetRows = 1
@@ -42,8 +42,10 @@ function f_selectReset()
 		setRandomSpr(sysSff, 151, 0, 1, 1)
 		setSelCellSize(27+2, 27+2)
 		setSelCellScale(1, 1)
-		p1FaceX = 2
+		--Position of the character boxes for P1
+		p1FaceX = 2.5
 		p1FaceY = 170
+		--Position of the character boxes for P2
 		p2FaceX = 2
 		p2FaceY = 170
 	end
@@ -348,13 +350,13 @@ function f_aiLevel()
 	end
 end
 
---;===========================================================
---; SIMPLE LOOP (VS MODE, TRAINING, WATCH, BONUS GAMES)
---;===========================================================
+--;================================================================
+--; SIMPLE LOOP (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
+--;================================================================
 function f_selectSimple()
 	p1SelX = 0
 	p1SelY = 0
-	p2SelX = 4
+	p2SelX = 4 --Cursor position after choosing the Game Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
 	p2SelY = 0
 	p1FaceOffset = 0
 	p2FaceOffset = 0
@@ -370,7 +372,7 @@ function f_selectSimple()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		if data.rosterMode == 'challenger' then
-			playBGM(bgmChallenger)
+			f_challengerMusic()
 		else	
 			playBGM(bgmSelect)
 		end
@@ -394,7 +396,11 @@ function f_selectSimple()
 		if data.gameMode == 'versus' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
 			f_selectWin()
-			f_selectChallenger()
+				if data.challengerScreen == true then
+					f_selectChallenger()
+				else
+				--Do Nothing
+				end
 			end
 		end		
 		playBGM('')		
@@ -403,9 +409,9 @@ function f_selectSimple()
 	end
 end
 
---;===========================================================
---; ADVANCE LOOP (ARCADE, TEAM CO-OP, SURVIVAL, SURVIVAL CO-OP, VS 100 KUMITE, BOSS RUSH)
---;===========================================================
+--;=====================================================================================
+--; ADVANCE LOOP (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
+--;=====================================================================================
 function f_selectAdvance()
 	p1SelX = 0
 	p1SelY = 0
@@ -432,7 +438,7 @@ function f_selectAdvance()
 		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then
 			playBGM(bgmSelectBoss)
 		elseif data.rosterMode == 'challenger' then
-			playBGM(bgmChallenger)
+			f_challengerMusic()
 		else	
 			playBGM(bgmSelect)
 		end	
@@ -667,7 +673,7 @@ selectBG0 = animNew(sysSff, [[
 100,0, 0,0, -1
 ]])
 animAddPos(selectBG0, 160, 0)
-animSetTile(selectBG0, 1, 1)
+animSetTile(selectBG0, 1, 1) --Makes the image repeat
 animSetColorKey(selectBG0, -1)
 
 --Hardcore Scrolling background
@@ -684,7 +690,7 @@ selectBG1a = animNew(sysSff, [[
 ]])
 animAddPos(selectBG1a, 160, 0)
 animSetTile(selectBG1a, 1, 0)
-animSetWindow(selectBG1a, 5, 0, 151, 239)
+animSetWindow(selectBG1a, 5, 0, 151, 239) --The first values ​​are the location of the sprite on the screen and the last values ​​are the extension of the sprite
 
 --Dark Box (Player2 side)
 selectBG1b = animNew(sysSff, [[
@@ -875,10 +881,26 @@ data.fadeSelect = animNew(sysSff, [[
 -1,-1, 0,0, -1
 ]])
 
+--Char Screen (left portrait background)
+charBG2 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(charBG2, 160, 0)
+animSetTile(charBG2, 1, 1)
+animSetWindow(charBG2, 0, 20, 120, 140)
+
+--Char Screen (right portrait background)
+charBG3 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(charBG3, 160, 0)
+animSetTile(charBG3, 1, 1)
+animSetWindow(charBG3, 200, 20, 120, 140)
+
 function f_selectScreen()
 	--draw
-	if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
-		animDraw(f_animVelocity(selectHardBG0, -1, -1))
+	if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Sprite Animation (Diagonal Movement around left direction)
 	else
 		animDraw(f_animVelocity(selectBG0, -1, -1))
 	end
@@ -1008,6 +1030,7 @@ function f_p1TeamMenu()
 			end
 			textImgDraw(t_p1selTeam[i].id)
 		end
+		--Only appears until you select a team mode
 		animUpdate(p1TmIcon)
 		animDraw(p1EmptyIcon)
 	    animUpdate(p1EmptyIcon)
@@ -1067,7 +1090,7 @@ end
 
 function f_p2TeamMenu()
 	if data.coop then --Simul coop
-		p2teamMode = 1
+		p2teamMode = 1 --CPU Co-op Players uses Simul game mode. TO DO:Makes that you can select the p2teamMode (Single, Simul or Turns)
 		p2numChars = 2
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
@@ -1161,7 +1184,7 @@ function f_p2TeamMenu()
 end
 
 --;===========================================================
---; SELECT MENU
+--; SELECT MENU ASSETS
 --;===========================================================
 function f_findCelYAdd(selY, faceOffset, offsetRow)
 	selY = selY + 1
@@ -1227,12 +1250,12 @@ function f_drawSelectName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bank
 		textImgSetPos(id, x, y)
 		if rowUnique ~= nil then
 			if i == rowUnique then
-				textImgSetBank(id, 3)
+				textImgSetBank(id, 3) --Color of P1 on VS screen
 			else
-				textImgSetBank(id, bankUnique)
+				textImgSetBank(id, bankUnique) --Color of Team Member on VS screen
 			end
 		else
-			textImgSetBank(id, 3)
+			textImgSetBank(id, 3) --Color of P1 when select him on Character Select
 		end
 		textImgDraw(id)
 		x = x + spacingX
@@ -1276,7 +1299,7 @@ end
 --;===========================================================
 --; PLAYER 1 SELECT MENU
 --;===========================================================
-txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0)
+txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0) --Text color when scrolling through the roster
 
 function f_p1SelectMenu()
 	if data.p1Char ~= nil then
@@ -1292,7 +1315,7 @@ function f_p1SelectMenu()
 		p1Portrait = data.p1Char[1]
 		p1SelEnd = true
 	else
-		--if p1Portrait then drawPortrait(p1Portrait, 18, 13, 1, 1) end
+		--if p1Portrait then drawPortrait(p1Portrait, 18, 13, 1, 1) end (Only for reference)
 		local numChars = p1numChars
 		if data.coop then numChars = 1 end
 		if p1Cell then
@@ -1304,17 +1327,44 @@ function f_p1SelectMenu()
 					end
 				end
 				if getCharName(p1Cell) == 'Random' then
-					--sndPlay(sysSnd, 100, 0)
-					f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim)
+					--sndPlay(sysSnd, 100, 0) --Cursor SFX in Random...
+					--if data.charPresentation == 'Sprite' then
+						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
+					--elseif data.charPresentation == 'Portrait' then
+						--animDraw(f_animVelocity(charBG2, -2, 0)) --P1 RANDOM Portrait BG location
+						--drawPortrait(p1Portrait[math.random(1, #t_randomChars)], 0, 20, 1, 1) --P1 RANDOM Portrait location
+					--elseif data.charPresentation == 'Mixed' then
+						--animDraw(f_animVelocity(charBG2, -2, 0))
+						--drawPortrait(p1Portrait[math.random(1, #t_randomChars)], 0, 20, 1, 1)
+						--f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim)
+					--end
 				else
-					f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim)
+					if data.charPresentation == 'Sprite' then
+						f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 animation location ONLY in character select
+					elseif data.charPresentation == 'Portrait' then
+						animDraw(f_animVelocity(charBG2, -2, 0)) --P1 Portrait BG location
+						drawPortrait(p1Portrait, 0, 20, 1, 1) --P1 Portrait location
+					elseif data.charPresentation == 'Mixed' then
+						animDraw(f_animVelocity(charBG2, -2, 0))
+						drawPortrait(p1Portrait, 0, 20, 1, 1)
+						f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim)
+					end
 				end
 			end
 			for j=#data.t_p1selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + 28*(j-1), 133, data.t_p1selected[j].up)
+				if data.charPresentation == 'Sprite' then
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
+				elseif data.charPresentation == 'Portrait' then
+					animDraw(f_animVelocity(charBG2, -2, 0)) --Location of P1 Portrait BG chosen ONLY in the Char Select
+					drawPortrait(p1Portrait, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select
+				elseif data.charPresentation == 'Mixed' then
+					animDraw(f_animVelocity(charBG2, -2, 0))
+					drawPortrait(p1Portrait, 0, 20, 1, 1)
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + 28*(j-1), 133, data.t_p1selected[j].up)
+				end	
 			end
 		end
-		local nameX, nameY = f_drawSelectName(txt_p1Name, 4, data.t_p1selected, 10, 144, 4, 7)
+		local nameX, nameY = f_drawSelectName(txt_p1Name, 4, data.t_p1selected, 10, 144, 4, 7) --Location of the name of P1 in the character select
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
@@ -1484,11 +1534,29 @@ function f_p2SelectMenu()
 					--sndPlay(sysSnd, 100, 0)
 					f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
 				else
-					f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
+					if data.charPresentation == 'Sprite' then
+						f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
+					elseif data.charPresentation == 'Portrait' then	
+						animDraw(f_animVelocity(charBG3, 2, 0))
+						drawPortrait(p2Portrait, 320, 20, -1, 1)
+					elseif data.charPresentation == 'Mixed' then
+						animDraw(f_animVelocity(charBG3, 2, 0))
+						drawPortrait(p2Portrait, 320, 20, -1, 1)
+						f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
+					end	
 				end
 			end
 			for j=#t_selected, 1, -1 do
-				f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimStand', 290 - 28*(j-1), 133, t_selected[j].up)
+				if data.charPresentation == 'Sprite' then
+					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimStand', 290 - 28*(j-1), 133, t_selected[j].up)
+				elseif data.charPresentation == 'Portrait' then
+					animDraw(f_animVelocity(charBG3, 2, 0))
+					drawPortrait(p2Portrait, 320, 20, -1, 1)
+				elseif data.charPresentation == 'Mixed' then
+					animDraw(f_animVelocity(charBG3, 2, 0))
+					drawPortrait(p2Portrait, 320, 20, -1, 1)
+					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimStand', 290 - 28*(j-1), 133, t_selected[j].up)
+				end	
 			end
 		end
 		local nameX, nameY = f_drawSelectNameP2(txt_p2Name, 1, t_selected, 309, 144, -4, 7)
@@ -1674,13 +1742,13 @@ function f_selectStage()
 			if stageList > data.includestage then stageList = 0 end
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
-			for i=1, 5 do
+			for i=1, 5 do --Advance 5 by 5
 				stageList = stageList - 1
 				if stageList < 0 then stageList = data.includestage end
 			end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
-			for i=1, 5 do
+			for i=1, 5 do --Go back 5 by 5
 				stageList = stageList + 1
 				if stageList > data.includestage then stageList = 0 end
 			end
@@ -1828,6 +1896,9 @@ p2OrderCursor = animNew(sysSff, [[
 ]])
 animSetScale(p2OrderCursor, 0.10, 0.10)
 
+--;===========================================================
+--; ORDER SELECT
+--;===========================================================
 function f_orderSelect()
 	gameNo = gameNo+1
 	bossNo = bossNo+1
@@ -1842,8 +1913,6 @@ function f_orderSelect()
 	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
 	textImgSetText(txt_bossNo, 'BOSS: ' .. bossNo)
 	textImgSetText(txt_bonusNo, 'BONUS: ' .. bonusNo)
-	local t = 0
-	local randomHintOrder = math.random(3) --Last number is the amount of Hints
 	local i = 0
 	if not data.orderSelect then --Order Select off
 		while true do
@@ -1925,6 +1994,8 @@ function f_orderSelect()
 		local t_tmp = {}
 		local sndTime = 0
 		local orderTime = 0
+		local orderhintTime = 0
+		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) and not data.coop then
 			orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60
 		elseif #data.t_p1selected > 1 and not data.coop then
@@ -1938,15 +2009,17 @@ function f_orderSelect()
 		cmdInput()
 		while true do
 			--draw background on top
-			if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+			if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
 			end
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
-			--drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			--drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			if data.charPresentation == 'Mixed' then
+				drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+				drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			end	
 			--end loop after at least 120 ticks (extended if sound has been triggered)
 			--draw info text
 			if p1Confirmed == false then
@@ -1988,7 +2061,11 @@ function f_orderSelect()
 			--elseif randomHintOrder == 5 then
 				--textImgSetText(txt_orderHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE")
 				--textImgDraw(txt_orderHint) 				
-			end	
+			end
+			if orderhintTime > 150 then --Time for show a new random hint
+				randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+				orderhintTime = 0 --Restart timer for a new random hint
+			end
 			i = i + 1
 			--if esc() then
 				--orderTime = 0
@@ -2190,16 +2267,18 @@ function f_orderSelect()
 			animUpdate(data.fadeTitle)
 			animDraw(vsBG6)
 			textImgDraw(txt_orderHint)
-			--t = t + 1  for orderHints appears
+			orderhintTime = orderhintTime + 1 --Start timer for randoms hints
 			cmdInput()
 			refresh()
 		end
 	end
 end
 
+--;===========================================================
+--; VERSUS SCREEN
+--;===========================================================
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-	local randomHintVS = math.random(2) --Last number is the amount of Hints
 	local i = 0
 	if not data.versusScreen then
 		while true do
@@ -2235,10 +2314,12 @@ function f_selectVersus()
 		]])
 		animAddPos(versusBG4, 160, 95)
 		local vsTime = 0
+		local vshintTime = 0
+		local randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
 		cmdInput()
 		while true do
 		--draw background on top
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -2252,8 +2333,12 @@ function f_selectVersus()
 			textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")
 			textImgDraw(txt_vsHint)
 		elseif randomHintVS == 2 then
-			textImgSetText(txt_vsHint, "IF ANY CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
+			textImgSetText(txt_vsHint, "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
 			textImgDraw(txt_vsHint)				
+		end
+		if vshintTime > 150 then --Time for show a new random hint
+			randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+			vshintTime = 0 --Restart timer for a new random hint
 		end
 		vsTime = vsTime + 1
 		if vsTime == 2222 then
@@ -2293,6 +2378,7 @@ function f_selectVersus()
 		animUpdate(data.fadeTitle)
 		animDraw(vsBG6)
 		textImgDraw(txt_vsHint)
+		vshintTime = vshintTime + 1 --Start timer for randoms hints
 		cmdInput()
 		refresh()
 		end
@@ -2328,7 +2414,7 @@ function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bank
 	return x, y
 end
 
-txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)--jgFnt --font6
+txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)
 txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
 
 --Win Char Modern Transparent BG
@@ -2364,27 +2450,36 @@ animSetTile(quoteBG, 1, 1)
 animSetWindow(quoteBG, 14, 167, 290, 62)
 
 function f_selectWin()
+if data.winscreen == 'None' then
+	f_selectWinOFF()
+else	
 	playBGM(bgmVictory)
 	local txt = ''
 	if winner == 1 then
 		p1Wins = p1Wins + 1
-		txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected)
+		txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes from each P1 char
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
-		txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected)
+		txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
 	end
 	local i = 0
 	cmdInput()
 	while true do
 		if i == 510 then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			if data.orderSelect == true and data.gameMode == 'arcade' then
+				playBGM(bgmSelect)
+			end
 			break
 		elseif btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			if data.orderSelect == true and data.gameMode == 'arcade' then
+				playBGM(bgmSelect)
+			end
 			break
 		end
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -2398,6 +2493,7 @@ function f_selectWin()
 				animDraw(f_animVelocity(wincharBGC2, 2, 0))
 				animSetWindow(wincharBGC2, 165, 20, 120, 140)
 				animDraw(f_animVelocity(quoteBG, 2, 0))
+				f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 0, 1.5))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
@@ -2413,6 +2509,7 @@ function f_selectWin()
 				animSetWindow(wincharBGC2, 165, 20, 120, 140)
 				drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
 				animDraw(f_animVelocity(quoteBG, 2, 0))
+				f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 2, 0))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
@@ -2422,6 +2519,43 @@ function f_selectWin()
 		end
 		i = i + 1
 		f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+	end --End of disabled Win Screen Conditional
+end
+
+function f_selectWinOFF() --Use this while fixing recognition of victory quotes for any other character that causes crash
+	--playBGM(bgmVictory)
+	local txt = ''
+	if winner == 1 then
+		p1Wins = p1Wins + 1
+		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
+	else--if winner == 2 then
+		p2Wins = p2Wins + 1
+		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P2 wins
+	end
+	local i = 0
+	cmdInput()
+	while true do
+		if i == 200 then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			if data.orderSelect == true and data.gameMode == 'arcade' then
+				playBGM(bgmSelect)
+			end
+			break
+		elseif btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			if data.orderSelect == true and data.gameMode == 'arcade' then
+				playBGM(bgmSelect)
+			end
+			break
+		end
+		i = i + 1
+		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2622,7 +2756,7 @@ function f_selectChallenger()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then 
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
