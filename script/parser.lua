@@ -528,6 +528,22 @@ for i=1, #t_selChars do
 				t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 				t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
 			end
+			if t_selChars[i].win ~= nil then
+				t_selChars[i]['p1AnimWin'] = f_animFromTable(t_selChars[i].win, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+				t_selChars[i]['p2AnimWin'] = f_animFromTable(t_selChars[i].win, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+			end
+			if t_selChars[i].cheese ~= nil then
+				t_selChars[i]['p1AnimCheese'] = f_animFromTable(t_selChars[i].cheese, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+				t_selChars[i]['p2AnimCheese'] = f_animFromTable(t_selChars[i].cheese, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+			end
+			if t_selChars[i].lieDown ~= nil then
+				t_selChars[i]['p1AnimLieDown'] = f_animFromTable(t_selChars[i].lieDown, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+				t_selChars[i]['p2AnimLieDown'] = f_animFromTable(t_selChars[i].lieDown, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+			end
+			if t_selChars[i].dizzy ~= nil then
+				t_selChars[i]['p1AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+				t_selChars[i]['p2AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+			end
 			textImgDraw(txt_loading)
 			refresh()
 		end
@@ -628,6 +644,22 @@ if generate and data.sffConversion then
 			if t_selChars[t_gen[i]].stand ~= nil then
 				t_selChars[t_gen[i]]['p1AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
 				t_selChars[t_gen[i]]['p2AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
+			end
+			if t_selChars[t_gen[i]].win ~= nil then
+				t_selChars[t_gen[i]]['p1AnimWin'] = f_animFromTable(t_selChars[t_gen[i]].win, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
+				t_selChars[t_gen[i]]['p2AnimWin'] = f_animFromTable(t_selChars[t_gen[i]].win, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
+			end
+			if t_selChars[t_gen[i]].cheese ~= nil then
+				t_selChars[t_gen[i]]['p1AnimCheese'] = f_animFromTable(t_selChars[t_gen[i]].cheese, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
+				t_selChars[t_gen[i]]['p2AnimCheese'] = f_animFromTable(t_selChars[t_gen[i]].cheese, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
+			end
+			if t_selChars[t_gen[i]].lieDown ~= nil then
+				t_selChars[t_gen[i]]['p1AnimLieDown'] = f_animFromTable(t_selChars[t_gen[i]].lieDown, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
+				t_selChars[t_gen[i]]['p2AnimLieDown'] = f_animFromTable(t_selChars[t_gen[i]].lieDown, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
+			end
+			if t_selChars[t_gen[i]].dizzy ~= nil then
+				t_selChars[t_gen[i]]['p1AnimDizzy'] = f_animFromTable(t_selChars[t_gen[i]].dizzy, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
+				t_selChars[t_gen[i]]['p2AnimDizzy'] = f_animFromTable(t_selChars[t_gen[i]].dizzy, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
 			end
 			batOpen("tools", "trash.bat") --added via script.ssz
 			--lfs.rmdir ("./data/charTrash") --Directory needs to be empty to work

@@ -1078,8 +1078,7 @@ t_UICfg = {
 	{id = '', text = 'Language', 		         varID = textImgNew(), varText = data.language},
 	{id = '', text = 'Clock Seconds',            varID = textImgNew(), varText = s_clockSeconds},
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
-	{id = '', text = 'Char Presentation (WIP)',  varID = textImgNew(), varText = data.charPresentation},
-	{id = '', text = 'Order Select Time'},
+	{id = '', text = 'Char Presentation',        varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = 'New Challenger Screen',	 varID = textImgNew(), varText = s_challengerScreen},
 	{id = '', text = '          BACK'},
@@ -1176,13 +1175,9 @@ function f_UICfg()
 			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Mixed' then
 				data.charPresentation = 'Sprite'
 				modified = 1	
-			end	
-		--Display Order Select Time (Infinite no Display)
-		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-        	
+			end
 		--Win Screen Display Type (Classic, Modern or None)
-		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 				data.winscreen = 'Modern'
@@ -1204,7 +1199,7 @@ function f_UICfg()
 				modified = 1	
 			end
 		--New Challenger Screen Display
-		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.challengerScreen then
 				data.challengerScreen = false
@@ -1216,7 +1211,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--Back
-		elseif UICfg == 8 and btnPalNo(p1Cmd) > 0 then
+		elseif UICfg == 7 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1228,9 +1223,8 @@ function f_UICfg()
 		t_UICfg[2].varText = s_clockSeconds
 		t_UICfg[3].varText = s_vsDisplayWin
 		t_UICfg[4].varText = data.charPresentation
-		
-		t_UICfg[6].varText = data.winscreen
-		t_UICfg[7].varText = s_challengerScreen
+		t_UICfg[5].varText = data.winscreen
+		t_UICfg[6].varText = s_challengerScreen
 		for i=1, #t_UICfg do
 			textImgDraw(t_UICfg[i].id)
 			if t_UICfg[i].varID ~= nil then
@@ -1412,9 +1406,9 @@ end
 --;===========================================================
 txt_resCfg = createTextImg(jgFnt, 0, 0, 'ASPECT RATIO SETTINGS', 159, 13)
 t_resCfg = {
-	{id = '', text = '                       4:3'},
-	{id = '', text = '                      16:9'},
-	{id = '', text = '                     16:10'},
+	{id = '', text = '4:3 Resolutions'},
+	{id = '', text = '16:9 Resolutions'},
+	{id = '', text = '16:10 Resolutions'},
 	{id = '', text = 'Extra Resolutions'},
 	{id = '', text = 'Custom Resolution'},
 	{id = '', text = '          BACK'},

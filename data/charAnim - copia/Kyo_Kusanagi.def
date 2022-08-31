@@ -1,0 +1,57 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0, 0, data\charAnim\Kyo_Kusanagi\s001.png,  30,102
+   0, 1, data\charAnim\Kyo_Kusanagi\s002.png,  31,103
+   0, 2, data\charAnim\Kyo_Kusanagi\s003.png,  31,103
+   0, 3, data\charAnim\Kyo_Kusanagi\s004.png,  31,102
+   0, 4, data\charAnim\Kyo_Kusanagi\s005.png,  31,101
+   0, 5, data\charAnim\Kyo_Kusanagi\s006.png,  31,102
+   0, 6, data\charAnim\Kyo_Kusanagi\s007.png,  31,103
+   0, 7, data\charAnim\Kyo_Kusanagi\s008.png,  31,103
+   0, 8, data\charAnim\Kyo_Kusanagi\s009.png,  31,102
+   0, 9, data\charAnim\Kyo_Kusanagi\s010.png,  30,101
+ 180, 0, data\charAnim\Kyo_Kusanagi\s126.png,  36,108
+ 180, 1, data\charAnim\Kyo_Kusanagi\s127.png,  37,111
+ 180, 2, data\charAnim\Kyo_Kusanagi\s128.png,  37,111
+ 180, 3, data\charAnim\Kyo_Kusanagi\s129.png,  37,111
+ 180, 4, data\charAnim\Kyo_Kusanagi\s130.png,  37,111
+ 180, 5, data\charAnim\Kyo_Kusanagi\s131.png,  36,112
+ 180, 6, data\charAnim\Kyo_Kusanagi\s132.png,  37,112
+5040, 0, data\charAnim\Kyo_Kusanagi\s1121.png,  43, 36
+5040,10, data\charAnim\Kyo_Kusanagi\s1122.png,  46, 29
+5111, 3, data\charAnim\Kyo_Kusanagi\s1154.png,  69, 15
+5300, 0, data\charAnim\Kyo_Kusanagi\s1160.png,  37,106
+5300, 1, data\charAnim\Kyo_Kusanagi\s1161.png,  29,105
+5300, 2, data\charAnim\Kyo_Kusanagi\s1162.png,  27, 96
+5300, 3, data\charAnim\Kyo_Kusanagi\s1163.png,  31,101
+5950, 0, data\charAnim\Kyo_Kusanagi\s1184.png,  24,103
+5950, 1, data\charAnim\Kyo_Kusanagi\s1185.png,  21,102
+5950, 2, data\charAnim\Kyo_Kusanagi\s1186.png,  24, 88
+5950, 3, data\charAnim\Kyo_Kusanagi\s1187.png,  24, 83
+5950, 4, data\charAnim\Kyo_Kusanagi\s1188.png,  22, 73
+5950, 5, data\charAnim\Kyo_Kusanagi\s1189.png,  23, 71
+5950, 6, data\charAnim\Kyo_Kusanagi\s1190.png,  25, 81
+5950, 7, data\charAnim\Kyo_Kusanagi\s1191.png,  43, 82
+5950, 8, data\charAnim\Kyo_Kusanagi\s1192.png,  51, 62

@@ -1315,7 +1315,10 @@ function f_p1SelectMenu()
 		p1Portrait = data.p1Char[1]
 		p1SelEnd = true
 	else
-		--if p1Portrait then drawPortrait(p1Portrait, 18, 13, 1, 1) end (Only for reference)
+		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			animDraw(f_animVelocity(charBG2, -2, 0)) --P1 Portrait BG location
+			if p1Portrait then drawPortrait(p1Portrait, 0, 20, 1, 1) end --P1 Portrait location
+		end
 		local numChars = p1numChars
 		if data.coop then numChars = 1 end
 		if p1Cell then
@@ -1328,40 +1331,25 @@ function f_p1SelectMenu()
 				end
 				if getCharName(p1Cell) == 'Random' then
 					--sndPlay(sysSnd, 100, 0) --Cursor SFX in Random...
-					--if data.charPresentation == 'Sprite' then
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						drawPortrait(p1Portrait, 0, 20, 1, 1) --P1 RANDOM Portrait location. WHY DOES NOT WORK!
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
-					--elseif data.charPresentation == 'Portrait' then
-						--animDraw(f_animVelocity(charBG2, -2, 0)) --P1 RANDOM Portrait BG location
-						--drawPortrait(p1Portrait[math.random(1, #t_randomChars)], 0, 20, 1, 1) --P1 RANDOM Portrait location
-					--elseif data.charPresentation == 'Mixed' then
-						--animDraw(f_animVelocity(charBG2, -2, 0))
-						--drawPortrait(p1Portrait[math.random(1, #t_randomChars)], 0, 20, 1, 1)
-						--f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim)
-					--end
+					end
 				else
-					if data.charPresentation == 'Sprite' then
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 animation location ONLY in character select
-					elseif data.charPresentation == 'Portrait' then
-						animDraw(f_animVelocity(charBG2, -2, 0)) --P1 Portrait BG location
-						drawPortrait(p1Portrait, 0, 20, 1, 1) --P1 Portrait location
-					elseif data.charPresentation == 'Mixed' then
-						animDraw(f_animVelocity(charBG2, -2, 0))
-						drawPortrait(p1Portrait, 0, 20, 1, 1)
-						f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim)
 					end
 				end
 			end
 			for j=#data.t_p1selected, 1, -1 do
-				if data.charPresentation == 'Sprite' then
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
-				elseif data.charPresentation == 'Portrait' then
-					animDraw(f_animVelocity(charBG2, -2, 0)) --Location of P1 Portrait BG chosen ONLY in the Char Select
+				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 					drawPortrait(p1Portrait, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select
-				elseif data.charPresentation == 'Mixed' then
-					animDraw(f_animVelocity(charBG2, -2, 0))
-					drawPortrait(p1Portrait, 0, 20, 1, 1)
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + 28*(j-1), 133, data.t_p1selected[j].up)
-				end	
+				end
+				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
+				end
 			end
 		end
 		local nameX, nameY = f_drawSelectName(txt_p1Name, 4, data.t_p1selected, 10, 144, 4, 7) --Location of the name of P1 in the character select
@@ -1515,7 +1503,10 @@ function f_p2SelectMenu()
 	elseif not data.p2SelectMenu then
 		p2SelEnd = true
 	else
-		--if p2Portrait then drawPortrait(p2Portrait, 301, 13, -1, 1) end
+		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			animDraw(f_animVelocity(charBG3, 2, 0))
+			if p2Portrait then drawPortrait(p2Portrait, 320, 20, -1, 1) end
+		end	
 		local numChars = p2numChars
 		local t_selected = data.t_p2selected
 		if data.coop then
@@ -1534,28 +1525,17 @@ function f_p2SelectMenu()
 					--sndPlay(sysSnd, 100, 0)
 					f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
 				else
-					if data.charPresentation == 'Sprite' then
-						f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
-					elseif data.charPresentation == 'Portrait' then	
-						animDraw(f_animVelocity(charBG3, 2, 0))
-						drawPortrait(p2Portrait, 320, 20, -1, 1)
-					elseif data.charPresentation == 'Mixed' then
-						animDraw(f_animVelocity(charBG3, 2, 0))
-						drawPortrait(p2Portrait, 320, 20, -1, 1)
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
 					end	
 				end
 			end
 			for j=#t_selected, 1, -1 do
-				if data.charPresentation == 'Sprite' then
-					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimStand', 290 - 28*(j-1), 133, t_selected[j].up)
-				elseif data.charPresentation == 'Portrait' then
-					animDraw(f_animVelocity(charBG3, 2, 0))
+				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 					drawPortrait(p2Portrait, 320, 20, -1, 1)
-				elseif data.charPresentation == 'Mixed' then
-					animDraw(f_animVelocity(charBG3, 2, 0))
-					drawPortrait(p2Portrait, 320, 20, -1, 1)
-					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimStand', 290 - 28*(j-1), 133, t_selected[j].up)
+				end
+				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 290 - 28*(j-1), 133, t_selected[j].up)
 				end	
 			end
 		end
@@ -2031,6 +2011,9 @@ function f_orderSelect()
 				animSetWindow(cursorBox, 20, 14, 120, 16)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
+				for j=#data.t_p1selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
+				end
 			else
 				txt_p1State = createTextImg(jgFnt, 5, 0, 'READY!', 78, 25)
 				textImgDraw(txt_p1State)
@@ -2414,7 +2397,8 @@ function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bank
 	return x, y
 end
 
-txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)
+txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
+--txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)
 txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
 
 --Win Char Modern Transparent BG
@@ -2493,12 +2477,12 @@ else
 				animDraw(f_animVelocity(wincharBGC2, 2, 0))
 				animSetWindow(wincharBGC2, 165, 20, 120, 140)
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
+				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 0, 1.5))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
 				drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
-				f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
+				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
 			end	
 		else--if winner == 2 then
 			if data.winscreen == 'Classic' then 
@@ -2509,16 +2493,17 @@ else
 				animSetWindow(wincharBGC2, 165, 20, 120, 140)
 				drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
+				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 2, 0))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
 				drawPortrait(data.t_p2selected[1].cel, 219, 15, -1, 1)
-				f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
+				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
 			end	
 		end
 		i = i + 1
 		f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
+		--textImgDraw(txt_winnername)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

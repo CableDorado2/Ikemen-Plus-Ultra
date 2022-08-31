@@ -40,10 +40,7 @@ txt_coins = createTextImg(jgFnt, 0, 1, '', 20, 30)
 txt_cont = createTextImg(jgFnt, 0, 1, '', 20, 30)
 
 function f_continue()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	playBGM(bgmContinue)
-	f_contTimerReset()
-	f_gameOverReset()
+	--f_gameOverReset()
 	data.continue = 0
 	local tablePos = ''
 	local anim = false
@@ -52,24 +49,14 @@ function f_continue()
 	tablePos = t_selChars[data.t_p1selected[1].cel+1]
 	if tablePos.sffData ~= nil and tablePos.dizzy ~= nil then
 		anim = f_animFromTable(tablePos['dizzy'], tablePos.sffData, 70, 180, tablePos.xscale, tablePos.yscale, 0, 1)
-	end
-	textImgSetText(txt_coins, 'COINS: ' .. data.coinsLeft)
-	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)	
+	end	
 	cmdInput()
 	while true do
-		animDraw(contBG0)
 		i = i + 1
-		if esc() then
-			cmdInput()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmTitle)
-			break
-		elseif data.continue == 0 then --waiting for player's decision
+		if data.continue == 0 then --waiting for player's decision
 			if anim then
 				animDraw(anim)
 				animUpdate(anim)
-				animDraw(contBG1)
-				animDraw(contBG2)
 			end
 			if commandGetState(p1Cmd, 'holds') then
 				if tablePos.sffData ~= nil and tablePos.win ~= nil then
@@ -77,69 +64,7 @@ function f_continue()
 				else
 					animLength = 0
 				end
-				data.coinsLeft = data.coinsLeft - 1
-				data.continueCount = data.continueCount + 1
-				textImgSetText(txt_coins, 'COINS: ' .. data.coinsLeft)
-				textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)				
-				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', fadeSff)
 				data.continue = 1
-			elseif i > 1366 then --Continue = NO
-				data.continue = 2
-				f_gameOver()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				break
-			end
-			animDraw(contTimer)
-			if btnPalNo(p1Cmd) > 0 and i >= 71 then
-				local cnt = 0
-				if i < 135 then
-					cnt = 135
-				elseif i <= 262 then
-					cnt = 262
-				elseif i < 389 then
-					cnt = 389
-				elseif i < 516 then
-					cnt = 516
-				elseif i < 643 then
-					cnt = 643
-				elseif i < 770 then
-					cnt = 770
-				elseif i < 897 then
-					cnt = 897
-				elseif i < 1024 then
-					cnt = 1024
-				elseif i < 1151 then
-					cnt = 1151
-				elseif i < 1278 then
-					cnt = 1278
-				end
-				while i < cnt do
-					i = i + 1
-					animUpdate(contTimer)
-				end
-			else
-				animUpdate(contTimer)
-			end
-			if i == 135 then
-				sndPlay(contSnd, 0, 9)
-			elseif i == 262 then
-				sndPlay(contSnd, 0, 8)
-			elseif i == 389 then
-				sndPlay(contSnd, 0, 7)
-			elseif i == 516 then
-				sndPlay(contSnd, 0, 6)
-			elseif i == 643 then
-				sndPlay(contSnd, 0, 5)
-			elseif i == 770 then
-				sndPlay(contSnd, 0, 4)
-			elseif i == 897 then
-				sndPlay(contSnd, 0, 3)
-			elseif i == 1024 then
-				sndPlay(contSnd, 0, 2)
-			elseif i == 1151 then
-				sndPlay(contSnd, 0, 1)
-			elseif i == 1278 then
-				sndPlay(contSnd, 0, 0)
 			end
 		elseif data.continue == 1 then --Continue = YES
 			if animLength+30 > 0 then
@@ -149,12 +74,6 @@ function f_continue()
 					if animLength > 0 then
 						animUpdate(anim)
 					end
-				end
-				animDraw(contBG1)
-				animDraw(contBG2)
-				if animLength < 0 then
-					animDraw(fadeContinue)
-					animUpdate(fadeContinue)
 				end
 			else
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -167,9 +86,6 @@ function f_continue()
 				end
 				break
 			end
-		end
-		if i >= 71 then --show when counter starts counting down
-			textImgDraw(txt_coins)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		
