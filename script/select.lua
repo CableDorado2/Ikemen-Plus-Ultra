@@ -403,7 +403,7 @@ function f_selectSimple()
 				end
 			end
 		end		
-		playBGM('')		
+		playBGM('')
 		cmdInput()
 		refresh()
 	end
@@ -2011,9 +2011,9 @@ function f_orderSelect()
 				animSetWindow(cursorBox, 20, 14, 120, 16)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
-				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
-				end
+				--for j=#data.t_p1selected, 1, -1 do
+					--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
+				--end
 			else
 				txt_p1State = createTextImg(jgFnt, 5, 0, 'READY!', 78, 25)
 				textImgDraw(txt_p1State)

@@ -1270,7 +1270,7 @@ function f_practiceMenu()
 				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 				data.p2Char = {t_charAdd['training']} --predefined P2 character as Training by stupa
 				data.gameMode = 'training'
-				textImgSetText(txt_mainSelect, 'TRAINING MODE')				
+				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 			--MULTIPLAYER MODE
 			elseif practiceMenu == 2 then
