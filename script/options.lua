@@ -328,13 +328,6 @@ for i=1, #t_restart do
 	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 180+i*15)
 end
 
-t_newinput = {
-	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
-}
-for i=1, #t_newinput do
-	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 180+i*15)
-end
-
 --;===========================================================
 --; MAIN LOOP
 --;===========================================================
@@ -545,6 +538,7 @@ function f_mainCfg()
 	end
 end
 
+--Default Inputs Values
 function f_inputDefault()
 	if data.p1Controller ~= -1 then
 		data.p1Controller = -1
@@ -2295,6 +2289,13 @@ function f_audioCfg()
 	end
 end
 
+t_newinput = {
+	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
+}
+for i=1, #t_newinput do
+	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 180+i*15)
+end
+
 --;===========================================================
 --; INPUT SETTINGS
 --;===========================================================
@@ -2354,6 +2355,7 @@ function f_inputCfg()
 			--Input Test
 			elseif inputCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
+				f_saveCfg() --Save and Load New Inputs (Only for Match, Reboot for Apply to Main Menu)
 				setRoundTime(-1)
 				data.p2In = 2
 				data.stageMenu = false
@@ -2441,7 +2443,6 @@ function f_keyCfg(playerNo, controller)
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keySave(playerNo, controller)
-				f_saveCfg()
 				break
 			end
 			modified = 1

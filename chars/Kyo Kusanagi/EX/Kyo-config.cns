@@ -1,0 +1,416 @@
+;---------------------------------------------------------------------------
+;各种设置 
+[Statedef 66666]
+ctrl = 0
+anim = 9999
+sprpriority = 10
+
+[State 0,模式]
+type = ParentVarSet
+trigger1 = root,palno = [1,3]
+v = 6
+value = 0
+;0-------咬草
+;1-------波草
+[State 0,模式]
+type = ParentVarSet
+trigger1 = root,palno = [4,6]
+v = 6
+value = 1
+;0-------咬草
+;1-------波草
+
+[State 0,防BUFF开关];BUFF可叠加
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11||root,palno = 10
+trigger2 = 0                       ;1为开启,开启后全P无差别 
+v = 17
+value = -1  
+[State 0,力BUFF开关];BUFF可叠加
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11||root,palno = 10
+trigger2 = 0                       ;1为开启,开启后全P无差别 
+v = 18
+value = -1
+[State 0,技BUFF开关];BUFF可叠加
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11||root,palno = 10
+trigger2 = 0                       ;1为开启,开启后全P无差别 
+v = 19
+value = -1
+
+[State 0,防BUFF强化开关];无限格挡
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11||root,palno = 10
+trigger2 = 0                      ;1为开启,开启后全P无差别 
+v = 11
+value = 1
+
+[State 0,防BUFF强化防御力开关];防BUFF状态时防御力上升 
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11||root,palno = 10
+trigger2 = 0                      ;1为开启,开启后全P无差别 
+v = 22
+value = 1
+
+[State 0,力BUFF强化开关];默认蓄力最大化 
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11
+trigger2 = 0                      ;1为开启,开启后全P无差别 
+v = 23
+value = 1
+
+[State 0,BOSS性能开关];技能加强部分技能硬值减少 
+type = ParentVarSet
+trigger1 = root,palno = 12||root,palno = 11
+trigger2 = 0                      ;1为开启,开启后全P无差别 
+v = 15
+value = 1
+
+[State 0,无限BUFF开关];无限必杀无限取消 
+type = ParentVarSet
+trigger1 = root,palno = 12
+trigger2 = 0                       ;1为开启,开启后全P无差别 
+v = 16
+value = 1
+;=====================================================================
+;---------------------------------------------------------------------
+;=====================================================================
+;火焰击中色表控制 
+;火色
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 30
+value = 48
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 31
+value = 50
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 32
+value = 32
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 33
+value = 224
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 34
+value = 88
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 35
+value = 0
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = [1,6]
+v = 36
+value = 256
+;palfx.time = 29
+;palfx.sinadd = 48,50,32,16
+;palfx.add = 224,88,0
+;palfx.colour = 256
+;==================================================
+;灰色
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 30
+value = 40
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 31
+value = 40
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 32
+value = 40
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 33
+value = 100
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 34
+value = 100
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 35
+value = 100
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 7
+v = 36
+value = 0
+;palfx.time = 29
+;palfx.sinadd = 40,40,40,16
+;palfx.add = 100,100,100
+;palfx.colour = 0
+;=====================================================
+;红色(已取消) 
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 30
+value = 45
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 31
+value = 5
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 32
+value = 5
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 33
+value = 220
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 34
+value = 30
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 35
+value = 15
+[State 0, ParentVarSet]
+type = null;ParentVarSet
+trigger1 = root,palno = 8
+v = 36
+value = 256
+;palfx.time = 29
+;palfx.sinadd = 45,5,5,16
+;palfx.add = 220,30,15
+;palfx.colour = 256
+;============================================
+;紫色
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 30
+value = 20
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 31
+value = 15
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 32
+value = 45
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 33
+value = 160
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 34
+value = 50
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 35
+value = 240
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 11
+v = 36
+value = 180
+;palfx.time = 29
+;palfx.sinadd = 45,15,45,16
+;palfx.add = 170,50,170
+;palfx.colour = 180
+;================================================
+;金色
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 30
+value = 45
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 31
+value = 35
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 32
+value = 5
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 33
+value = 200
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 34
+value = 170
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 35
+value = 15
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 12
+v = 36
+value = 200
+;palfx.time = 29
+;palfx.sinadd = 45,35,5,16
+;palfx.add = 200,170,15
+;palfx.colour = 200
+;==================================================
+;天蓝色
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 30
+value = 5
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 31
+value = 15
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 32
+value = 40
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 33
+value = 50
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 34
+value = 150
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 35
+value = 200
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 8
+v = 36
+value = 200
+;palfx.time = 29
+;palfx.sinadd = 5,15,40,16
+;palfx.add = 50,150,200
+;palfx.colour = 200
+;==================================================
+;绿色
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 30
+value = 48
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 31
+value = 50
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 32
+value = 32
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 33
+value = 48
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 34
+value = 192
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 35
+value = 40
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 9
+v = 36
+value = 200
+;palfx.time = 29
+;palfx.sinadd = 48,50,32,16
+;palfx.add = 48,192,40
+;palfx.colour = 200
+;==================================================
+;苍炎
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 30
+value = 20
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 31
+value = 15
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 32
+value = 45
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 33
+value = 80
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 34
+value = 60
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 35
+value = 230
+[State 0, ParentVarSet]
+type = ParentVarSet
+trigger1 = root,palno = 10
+v = 36
+value = 200
+;palfx.time = 29
+;palfx.sinadd = 30,15,45,16
+;palfx.add = 120,100,210
+;palfx.colour = 200
+;-----------------------------------------------------------
+[State 0, SelfState]
+type = SelfState
+trigger1 = ishelper!
+value = 0
+ignorehitpause = 1
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = roundstate!=[0,1]

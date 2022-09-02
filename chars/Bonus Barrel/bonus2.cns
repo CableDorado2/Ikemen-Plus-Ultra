@@ -5,7 +5,7 @@
 
 [Data]
 life = 1000          ;Amount of life to start with
-attack = 200         ;100% attack power (more is stronger)
+attack = 10         ;100% attack power (more is stronger)
 defence = 100        ;100% defensive power (more is stronger)
 fall.defence_up = 50 ;Def goes up by 50% everytime player is hit on ground
 liedown.time = 60    ;Time player takes before getting up from HIT_LIEDOWN

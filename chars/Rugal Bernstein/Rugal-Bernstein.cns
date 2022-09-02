@@ -1,5 +1,5 @@
 [Data]
-life              = 1500    ;懱椡僎乕僕偺嵟戝抣傪寛傔傑偡
+life              = 1000    ;懱椡僎乕僕偺嵟戝抣傪寛傔傑偡
 power             = 3000 
 attack            = 100  
 defence           = 100 
@@ -55,6 +55,49 @@ airjump.height  = 35     ;嬻拞僕儍儞僾偡傞偨傔偵昁梫側嵟掅尷偺崅偝乮僆僾僔儑儞乯
 yaccel          = .59    ;廳椡乮悅捈壓崀壛懍搙乯
 stand.friction  = .85    ;棫偪忬懺偺杸嶤學悢
 crouch.friction = .82    ;偟傖偑傒忬懺偺杸嶤學悢
+
+[Quotes]
+victory0 = "You guys are nothing even if you change members!"
+victory1 = "Your family awaits you!"
+victory2 = "Justice has never prospered!"
+victory3 = "You'll be the best statues!"
+victory4 = "Was that all of your power?"
+victory5 = "I found a good addition."
+victory6 = "You'll be my best collection."
+victory7 = "You never had a chance, blowhard. Good day!"
+victory8 = "I am more than a god! I'm a superstar! Hah, hah!"
+victory9 = "Try again. Next time I'll show you how tough I am."
+victory10 = "You're too weak, my friend!"
+victory11 = "Witness my sheer power!"
+victory12 = "You're screaming, my theme song!"
+victory13 = "Done your packing? Your life's journey's over."
+victory14 = "Hmm. Hmm. The more mayhem I make, the easier it gets."
+victory15 = "Only screams of pain and agony can soothe the rage and madness in my soul."
+victory16 = "The only privilege you get is deciding how you die."
+victory17 = "Before I finish you, I'll let you lament your choices."
+victory18 = "Who said we were done here? Stand up."
+victory19 = "Your biggest mistake was thinking you could beat me."
+victory20 = "All done praying? Then, it's time to die!"
+victory21 = "What a scream you have! Music to my ears!"
+victory22 = "Worthless garbage getting in my way..."
+victory23 = "Pathetic... You would devalue my collection."
+victory24 = "Look around and you'll find no future."
+victory25 = "Resignation is important... for the weak."
+victory26 = "Absolute power will always rule. Let future generations worry about good and evil."
+victory27 = "Would you feel guilty for swatting a fly?"
+victory28 = "As a reward for indulging me somewhat, I'll add you to my collection."
+victory29 = "You tried to defeat me. Did you really think I'd simply let you go without suffering?"
+victory30 = "Your fate was decided the moment you gritted your teeth at me. Nothing more."
+victory31 = "Feel the terror consume your soul! Hand your power to me!"
+victory32 = "This is the overwhelming power I sought! Bwahahahaha!"
+victory33 = "My victory is not a matter of chance. The world needs it."
+victory34 = "A hospital or a cemetery, it is your choice!"
+victory35 = "My moves are superior to other martial arts!"
+victory36 = "The curtain of your life is about to fall..."
+victory37 = "That was another symphony of bone crushing sounds!"
+victory38 = "You are not qualified to join my collection."
+victory39 = "Ha ha! Seeing your helpless struggles pleases me!"
+victory40 = "Evil is what keeps life interesting..."
 
 ;---------------------------------------------------------------------------
 ; Var偺巊梡忬嫷
@@ -1141,7 +1184,7 @@ velset   = 0,0
 sprpriority = -2
 
 ;---------------------------------------------------
-[State 700, PalFX];身上白光
+[State 700, PalFX];生逑白箒E
 type = PalFX
 triggerall = (Time = 0 || Time = 3 || Time = 6)
 trigger1 = prevstateno = [150,153]
@@ -1168,7 +1211,7 @@ value = 255,255,255
 time = 1
 under = 1
 
-[State 700, Explod];闪光
+[State 700, Explod];闪箒E
 type = Explod
 trigger1 = prevstateno = [150,153]
 trigger1 = time = 0
@@ -1251,7 +1294,7 @@ velset   = 0,0
 sprpriority = -2
 
 ;---------------------------------------------------
-[State 700, PalFX];身上白光
+[State 700, PalFX];生逑白箒E
 type = PalFX
 triggerall = (Time = 0 || Time = 3 || Time = 6)
 trigger1 = prevstateno = [150,153]
@@ -1278,7 +1321,7 @@ value = 255,255,255
 time = 1
 under = 1
 
-[State 700, Explod];闪光
+[State 700, Explod];闪箒E
 type = Explod
 trigger1 = prevstateno = [150,153]
 trigger1 = time = 0

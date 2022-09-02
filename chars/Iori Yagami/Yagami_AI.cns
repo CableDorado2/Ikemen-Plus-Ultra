@@ -5,13 +5,13 @@ type = VarSet
 triggerall = !var(59)
 Triggerall = RoundState = [1,2]
 trigger1 = AILevel >0
-var(59) = 3+(AILevel);ÏµÍ³¶ÔÓ¦µÈ¼¶(×î¸ß8)
+var(59) = 3+(AILevel);ÏµÍ³¶ÔÓ¦µÈ¼¶(×ûÔß8)
 ignorehitpause = 1
 
-[State 0, PowerAdd]
-type = PowerAdd
-trigger1 = 1
-value = 5
+;[State 0, PowerAdd]
+;type = PowerAdd
+;trigger1 = 1
+;value = 5
 ;================================================================================================
 ;
 [state -3, yaccel]
@@ -2959,7 +2959,7 @@ add = 120,100,40
 ignorehitpause = 1
 
 ;±¬ÆøÏà¹Ø
-[State -2, 4] ; Shadows off XIII µå¶óÀÌºê¸ğµåÁ¦°Å
+[State -2, 4] ; Shadows off XIII µå¶óÀÌºEğµåÁ¦°Å
 type = varset
 trigger1 = movetype = H && (StateNo != [120,160]) && fvar(20) > 0
 trigger2 = RoundState != 2
@@ -2989,7 +2989,7 @@ fvar(22) = 500
 ignorehitpause = 1
 
 
-;Í£Ö¹ÅÜ²½Éù
+;Í£Ö¹ÅÜ²½ÉE
 [state -2, stopsound]
 type = stopsnd;
 trigger1 = stateno != 100

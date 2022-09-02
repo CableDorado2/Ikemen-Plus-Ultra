@@ -636,7 +636,7 @@ wirelessBG = animNew(sysSff, [[
 400,5, 0,0, 18
 400,6, 0,0, 18
 ]])
-animAddPos(wirelessBG, -2, 0)
+animAddPos(wirelessBG, -4.5, 0)
 animUpdate(wirelessBG)
 animSetScale(wirelessBG, 1.2, 1)
 
@@ -2746,6 +2746,7 @@ end
 --;===========================================================
 t_helpMenu = {
 	{id = textImgNew(), text = 'DOWNLOAD CONTENT'},
+	{id = textImgNew(), text = 'MUGEN TOOLS'},
 	{id = textImgNew(), text = 'ENGINE MANUAL'},
 	{id = textImgNew(), text = 'DISCORD SUPPORT'},
 	{id = textImgNew(), text = 'BACK'},	
@@ -2793,19 +2794,24 @@ function f_helpMenu()
 			if helpMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_mugenPages()
-			--DOCUMENTATION
+			--MUGEN TOOLS
 			elseif helpMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+				sszOpen("tools", "")
+			--DOCUMENTATION
+			elseif helpMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 				sszOpen("docs", "")
 			--DISCORD SUPPORT
-			elseif helpMenu == 3 then
+			elseif helpMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
-				if data.language == 'SPANISH' then
-					webOpen("https://discord.gg/98F76CR4C7")	
-				else
+				--if data.language == 'SPANISH' then
+					--webOpen("https://discord.gg/98F76CR4C7")	
+				--else
 					webOpen("https://discord.gg/KV5EPnMuA7")	
-				end	
+				--end	
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)

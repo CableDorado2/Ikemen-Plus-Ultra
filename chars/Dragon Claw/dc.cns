@@ -45,6 +45,8 @@ airjump.height = 35
 yaccel = .44
 stand.friction = .85
 crouch.friction = .82
+[Quotes]
+victory1 = "..."
 [Statedef 170]
 type = S
 ctrl = 0

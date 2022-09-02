@@ -619,6 +619,7 @@ if generate and data.sffConversion then
 	elseif parserCfg == 1 then
 		f_printVar(batch, 'batch.bat')
 		batch = ''
+		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
 		--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
@@ -637,6 +638,7 @@ if generate and data.sffConversion then
 		end
 		batch = batch .. '\n' .. 'del batch.bat'
 		f_printVar(batch, 'batch.bat')
+		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
 		for i=1, #t_gen do
 			displayname = t_selChars[t_gen[i]].displayname:gsub('%s+', '_')

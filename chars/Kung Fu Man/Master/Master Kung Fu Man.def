@@ -1,0 +1,38 @@
+;====================<DEFINITION>====================
+[Info]
+name        = "Master Kung Fu Man"
+displayname = "Master Kung Fu Man"
+versiondate = 02,03,2022
+mugenversion= 1.0
+author      = "Sennou-Room"
+pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
+localcoord  = 320, 240
+
+[Files]
+cmd     = Command.cmd
+cns     = Constants.cns
+st      = States/System.cns
+st1     = States/Normal.cns
+st2     = States/Special.cns
+st3     = States/Super.cns
+st4     = States/Helpers.cns
+st5     = States/Customs.cns
+st6     = Config.txt
+stcommon= common1.cns
+sprite  = Sprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+
+[Palette Keymap]
+x = 1		;Press button X to select palette 1, etc.
+y = 2
+z = 3
+a = 4
+b = 5
+c = 6
+x2 = 7		;Hold Start and press button X for palette 7, etc.
+y2 = 8
+z2 = 9
+a2 = 10
+b2 = 11
+c2 = 12

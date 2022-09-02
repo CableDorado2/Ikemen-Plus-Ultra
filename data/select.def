@@ -94,12 +94,17 @@
  ;   If you're playing in Team mode than paramvalue character becomes
  ;   opposite team leader, other characters follow normal order.
  ;
+ ;   Full Order Reference:
+ ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, winscreen=0, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+ ;
  ;   Some examples:
  ;        kfm, stages/mybg.def, includestage=0
  ;        kfm, stages/mybg.def, music=sound/song.mp3
  ;        kfm, stages/mybg.def, music=sound/song.mp3, includestage=0
  ;        kfm, stages/mybg.def, order=3, 3=kfm, 6=SuaveDude
  ;        kfm, stages/mybg.def, stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3, zoom=0
+ ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=3
+ ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, boss=1, ai=8, includestage=0, exclude=1, order=5
  ;
  ;You can also add a randomize icon to the select screen. To do
  ;this, put the word "randomselect" on a line of its own, with no
@@ -108,21 +113,21 @@
 ;===========================================================
 ; INSERT YOUR CHARACTERS BELOW
 ;===========================================================
-Ryu, order=1, 3=Ken Masters/Violent Ken.def
+Ryu, order=3, 3=Ken Masters/Violent Ken.def
 randomselect
-Kung Fu Man, order=1, stages/Mountainside Temple.def, 4=Evil Kung Fu Man
+Kung Fu Man, stages/Mountainside Temple.def, order=1, 3=Kung Fu Girl, 4=Evil Kung Fu Man
 randomselect
-Kyo Kusanagi, order=3, stages/Neo-Geo Land.def, 3=Iori Yagami
-M. Bison, order=4, stages/Psy-Drive.def, boss=1, 3=Ryu/Master Ryu.def
+Kyo Kusanagi, stages/Neo-Geo Land.def, order=3, 3=Iori Yagami
+M. Bison, stages/Psy-Drive.def, boss=1, order=4, 3=Ryu/Master Ryu.def
 randomselect
-Suave Dude, order=1, stages/Mountainside Temple.def, boss=1, 3=KFG
+Suave Dude, stages/Suave's Corridor.def, boss=1, includestage=0, order=1, 3=Dragon Claw
 randomselect
-Rugal Bernstein, order=3, stages/Hall of Dead Women.def, boss=1
-Ken Masters, order=1, 3=Ryu/Evil Ryu.def
+Rugal Bernstein, stages/Hall of Dead Women.def, boss=1, includestage=0, order=3
+Ken Masters, order=3, 3=Ryu/Evil Ryu.def
 randomselect
-Kung Fu Girl, exclude=1, 3=Kung Fu Man, 4=Suave Dude
+Kung Fu Girl, stages/Sakura.def, order=1, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
-Iori Yagami, order=3, stages/Way Out.def, 3=Kyo Kusanagi
+Iori Yagami, stages/Way Out.def, order=3, 3=Kyo Kusanagi
 randomselect
 randomselect
 randomselect
@@ -161,25 +166,28 @@ randomselect
 ;===========================================================
 ; BONUS CHARACTERS
 ;===========================================================
-Catwalk, order=2, stages/Neo-Geo Land.def, exclude=1, bonus=1, zoom=0, winscreen=0
-Strength Training, order=2, stages/Sunday Afternoon.def, exclude=1, bonus=1, winscreen=0
-Bonus Barrel, order=2, stages/Dojo.def, exclude=1, bonus=1, winscreen=0
-Tic-Tac-Toe, order=5, stages/Training Room 2.def, exclude=1, bonus=1, winscreen=0
+Catwalk, stages/Neo-Geo Land.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
+Strength Training, stages/Sunday Afternoon.def, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
+Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
+Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=5
 ;===========================================================
-; BOSSES CHARACTERS
+; BOSS CHARACTERS
 ;===========================================================
-Evil Kung Fu Man, stages/Mountainside Temple.def, boss=1
-Ryu/Evil Ryu.def, stages/Suzaku Castle - Night.def, boss=1
-Ken Masters/Violent Ken.def, stages/Jet.def, boss=1
-Ryu/Master Ryu.def, stages/Suzaku Castle.def, order=4, exclude=1, boss=1
+Rugal Bernstein/Omega/Omega Rugal.def, stages/Control Center.def, boss=1, includestage=0, order=4
+Evil Kung Fu Man, stages/Mountainside Temple - Hidden Room.def, boss=1, includestage=0, order=4
+Ryu/Evil Ryu.def, stages/Suzaku Castle - Night.def, boss=1, includestage=0, order=4
+Ken Masters/Violent Ken.def, stages/Jet.def, boss=1, order=4
+Ryu/Master Ryu.def, stages/Suzaku Castle.def, boss=1, order=4
 Ken Masters/Master Ken.def, stages/Boat.def, order=4, boss=1
-KFG, order=4, stages/Sakura.def, boss=1
-Omega Rugal, order=4, stages/Control Center.def, boss=1
+Kung Fu Man/Another/Another Kung Fu Man.def, stages/Mountainside Temple - Roof.def, boss=1, includestage=0, order=4
+Kung Fu Girl/Another/Another Kung Fu Girl.def, boss=1, order=5
 ;===========================================================
 ; SECRETS/HIDDEN CHARACTERS
 ;===========================================================
-Dragon Claw, order=1, stages/Mountain Valley.def
-Training, exclude=1
+Dragon Claw, stages/Mountain Valley.def, order=3
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=1
+Kung Fu Girl/KFG/KFG.def, stages/Sakura.def, order=2
+Training, winscreen=0, exclude=1, order=5
 ;===========================================================
 ; HOW TO ADD STAGES
 ;===========================================================
@@ -225,13 +233,18 @@ Training, exclude=1
 ;===========================================================
 ; INSERT YOUR STAGES BELOW
 ;===========================================================
+stages/Boat.def
+stages/Jet.def
+stages/Neo-Geo Land.def
 stages/Mountainside Temple.def
-stages/Mountainside Temple - Hidden Room.def
 stages/Mountainside Temple - Hidden Path.def
-stages/Mountainside Temple - Roof.def
-stages/Suave's Corridor.def
+stages/Mountain Valley.def
+stages/Psy-Drive.def
+stages/Sakura.def
+stages/Suzaku Castle.def
 stages/Training Room.def
 stages/Training Room 2.def
+stages/Way Out.def
 ;---------------------------------------------------------------------
 [Options]
  ;Here you set the maximum number of matches to fight before game ends

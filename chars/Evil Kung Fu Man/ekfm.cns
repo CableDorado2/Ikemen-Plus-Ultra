@@ -77,6 +77,11 @@ yaccel = .44         ;Vertical acceleration
 stand.friction = .85  ;Friction coefficient when standing
 crouch.friction = .82 ;Friction coefficient when crouching
 
+[Quotes]
+victory1 = "Die!"
+victory2 = "The target has been neutralized."
+victory3 = "I'm looking for someone similar to me, but weaker"
+
 ;---------------------------------------------------------------------------
 ; Variable usage:
 ; This is a record of the variables that KFM uses. Keeping a record of your

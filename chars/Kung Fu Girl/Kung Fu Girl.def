@@ -1,68 +1,51 @@
 [Info]
-name = "Kung Fu girl"
+name = "Kung Fu Girl"
 displayname = "Kung Fu Girl"
-author = "S.Y.D" ;basis AI(akfg ver) = "Silvan"/original author = "Ç∂ÇÂÇ…Å["
+versiondate = 03,24,2022
+mugenversion = 1.0
+author = "Proud of Ragequittin";(A.K.A Toasted Milque), edited from Divinewolf's version, sprites by "S.Y.D", original author = "Ç∂ÇÂÇ…Å["
+pal.defaults = 1,2,6,4,5,3,10,11,12,7,8,9
 
 [Files]
-cmd = cns/akfgz.cmd
-cns = cns/akfgz.cns
-st  = cns/akfgz.cns
-st1 = cns/akfgz-N.cns
-st2 = cns/akfgz-S.cns
-st3 = cns/akfgz-H.cns
-st4 = cns/akfgz-2.cns
-st5 = cns/akfgz-3.cns
-st6 = cns/akfgz-Helper.cns
-stcommon = cns/commonKFG.cns
-sprite = akfgz.sff
-anim = akfgz.air
-sound = akfgz.snd
+sprite = Kung Fu Girl.sff
+anim = Kung Fu Girl.air
+sound = Kung Fu Girl.snd
+cmd = Kung Fu Girl.cmd
+cns = Coding/System.cns
+st  = Coding/System.cns
+stcommon = common1.cns
+st1=Coding/Normal.cns
+st2=Coding/Helpers.cns
+st3=Coding/Specials.cns
+pal1=Palettes/1.act
+pal2=Palettes/2.act
+pal3=Palettes/3.act
+pal4=Palettes/4.act
+pal5=Palettes/5.act
+pal6=Palettes/6.act
+pal7=Palettes/7.act
+pal8=Palettes/8.act
+pal9=Palettes/9.act
+pal10=Palettes/10.act
+pal11=Palettes/11.act
+pal12=Palettes/12.act
 
-;NOMAL
-pal1 = pal/01_Original_1p.act
-pal2 = pal/02_Original_2p.act
-pal3 = pal/03_Kofm_1p.act
-pal4 = pal/04_Kofm_2p.act
-pal5 = pal/05_Divine_1p.act
-pal6 = pal/06_Divine_2p.act
-;pal7 = pal/07_Ex01.act
-;pal8 = pal/08_Ex02.act
-;pal9 = pal/09_Ex03.act
-;pal10 = pal/10_Ex04.act
-;pal11 = pal/11_Ex05.act
-;pal12 = pal/12_Ex06.act
 
-;VOCALOID
-;pal1 = pal/VOCALOID/01_Meiko.act
-;pal2 = pal/VOCALOID/02_Kaito.act
-;pal3 = pal/VOCALOID/03_Miku.act
-;pal4 = pal/VOCALOID/04_Rin.act
-;pal5 = pal/VOCALOID/05_Ruka.act
-;pal6 = pal/VOCALOID/06_Gumi.act
-;pal7 = pal/VOCALOID/07_Miki.act
-;pal8 = pal/VOCALOID/08_Lily.act
-;pal9 = pal/VOCALOID/09_Neru.act
-;pal10 = pal/VOCALOID/10_Haku.act
-;pal11 = pal/VOCALOID/11_Seeu.act
-;pal12 = pal/VOCALOID/12_Lapis.act
-
-;MY LITTLE PONY
-;pal7 = pal/PONY/01_TwilightSparkle.act
-;pal8 = pal/PONY/02_AppleJack.act
-;pal9 = pal/PONY/03_RainbowDash.act
-;pal10 = pal/PONY/04_PinkyPie.act
-;pal11 = pal/PONY/05_Rarity.act
-;pal12 = pal/PONY/06_Fluttershy.act
-
-;Mahou Shoujo MadokaÅôMagica
-pal7 = pal/MAMAMA/01_Madoka.act
-pal8 = pal/MAMAMA/02_Homura.act
-pal9 = pal/MAMAMA/03_Sayaka.act
-pal10 = pal/MAMAMA/04_Mami.act
-pal11 = pal/MAMAMA/05_Kyoko.act
-pal12 = pal/MAMAMA/06_Kyubey.act
-
+[Palette Keymap]
+a  = 1
+b  = 2
+c  = 3
+x  = 4
+y  = 5
+z  = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12
 
 [Arcade]
-intro.storyboard = ..\../storyboards/Kung Fu Girl [Intro].def
-ending.storyboard = ..\../storyboards/Kung Fu Girl [Ending].def
+intro.storyboard  = 
+ending.storyboard = 
+

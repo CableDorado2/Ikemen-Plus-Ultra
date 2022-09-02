@@ -706,7 +706,7 @@ selectBG1c = animNew(sysSff, [[
 ]])
 animAddPos(selectBG1c, 160, 0)
 animSetTile(selectBG1c, 1, 0)
-animSetWindow(selectBG1c, 0, 0, 351, 239)
+--animSetWindow(selectBG1c, 0, 0, 351, 239)
 
 --Title background
 selectBG2a = animNew(sysSff, [[
@@ -911,7 +911,7 @@ function f_selectScreen()
 		animSetWindow(selectBG1b, 164, 0, 151, 239)
 	else
 		animDraw(f_animVelocity(selectBG1c, -1, 0))
-		animSetWindow(selectBG1c, 0, 0, 351, 239)
+		animSetWindow(selectBG1c, -2, 0, 324, 239)
 	end
 	animDraw(f_animVelocity(selectBG2a, -1, 0))
 	animDraw(f_animVelocity(selectBG2b, -3, 0))
@@ -1720,13 +1720,13 @@ function f_selectStage()
 			sndPlay(sysSnd, 100, 0)
 			stageList = stageList + 1
 			if stageList > data.includestage then stageList = 0 end
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			for i=1, 5 do --Advance 5 by 5
 				stageList = stageList - 1
 				if stageList < 0 then stageList = data.includestage end
 			end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			for i=1, 5 do --Go back 5 by 5
 				stageList = stageList + 1
@@ -2407,7 +2407,7 @@ wincharBG = animNew(sysSff, [[
 ]])
 animAddPos(wincharBG, 160, 0)
 animSetTile(wincharBG, 1, 1)
-animSetWindow(wincharBG, 0, 14, 320, 142)
+animSetWindow(wincharBG, -54, 14, 428, 142)
 
 --Win Char Classic Transparent (left portrait background)
 wincharBGC1 = animNew(sysSff, [[
