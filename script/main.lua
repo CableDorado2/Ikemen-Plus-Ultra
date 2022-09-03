@@ -1263,6 +1263,7 @@ function f_practiceMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1) --round time disabled
+				setHUD = false
 				data.p2In = 2
 				data.stageMenu = true
 				data.versusScreen = false --versus screen disabled

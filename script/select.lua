@@ -21,6 +21,22 @@ wrappingY = true
 --;===========================================================
 txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A PALETTE COLOR FOR THE CHARACTERS ', 308, 239)
 
+--Down Menu Arrows
+arrowsD = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsD, 50, 170)
+animUpdate(arrowsD)
+animSetScale(arrowsD, 2, 2)
+
 function f_selectReset()
 	if data.p2Faces then --When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut
 		selectColumns = 5 
@@ -957,6 +973,11 @@ function f_selectScreen()
 		else
 			selScreenEnd = true
 		end
+	end
+	--Draw Hidden Rows Cursor
+	if offsetRows >= 1 then
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
 	end
 	animDraw(data.fadeSelect)
 	animUpdate(data.fadeSelect)

@@ -115,7 +115,7 @@
 ;===========================================================
 Ryu, order=3, 3=Ken Masters/Violent Ken.def
 randomselect
-Kung Fu Man, stages/Mountainside Temple.def, order=1, 3=Kung Fu Girl, 4=Evil Kung Fu Man
+Kung Fu Man, stages/Mountainside Temple.def, order=1, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
 Kyo Kusanagi, stages/Neo-Geo Land.def, order=3, 3=Iori Yagami
 M. Bison, stages/Psy-Drive.def, boss=1, order=4, 3=Ryu/Master Ryu.def
@@ -174,7 +174,7 @@ Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1
 ; BOSS CHARACTERS
 ;===========================================================
 Rugal Bernstein/Omega/Omega Rugal.def, stages/Control Center.def, boss=1, includestage=0, order=4
-Evil Kung Fu Man, stages/Mountainside Temple - Hidden Room.def, boss=1, includestage=0, order=4
+Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple - Hidden Room.def, boss=1, includestage=0, order=4
 Ryu/Evil Ryu.def, stages/Suzaku Castle - Night.def, boss=1, includestage=0, order=4
 Ken Masters/Violent Ken.def, stages/Jet.def, boss=1, order=4
 Ryu/Master Ryu.def, stages/Suzaku Castle.def, boss=1, order=4
@@ -187,6 +187,7 @@ Kung Fu Girl/Another/Another Kung Fu Girl.def, boss=1, order=5
 Dragon Claw, stages/Mountain Valley.def, order=3
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=1
 Kung Fu Girl/KFG/KFG.def, stages/Sakura.def, order=2
+Kyo Kusanagi/EX/EX Kyo.def, stages/Neo-Geo Land.def, order=3
 Training, winscreen=0, exclude=1, order=5
 ;===========================================================
 ; HOW TO ADD STAGES

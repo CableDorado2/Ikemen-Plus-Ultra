@@ -1068,3 +1068,59 @@ filesize: 44467 bytes (0 bytes saved by optimization before cropping)
 mem use : 55847 bytes
 
 26 sprite(s) compressed; 88711 bytes saved; avg compression 32.23%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+21 sprites (21 unique), 1 palettes (1 unique, 20 discarded)
+21 unique 8-bit sprite(s)
+ldata   : 47494 bytes 	tdata   : 0 bytes
+filesize: 48610 bytes (0 bytes saved by optimization before cropping)
+mem use : 59998 bytes
+
+21 sprite(s) compressed; 109022 bytes saved; avg compression 29.89%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+16 sprites (16 unique), 2 palettes (2 unique, 14 discarded)
+16 unique 8-bit sprite(s)
+ldata   : 35739 bytes 	tdata   : 0 bytes
+filesize: 36731 bytes (0 bytes saved by optimization before cropping)
+mem use : 44923 bytes
+
+16 sprite(s) compressed; 76659 bytes saved; avg compression 30.53%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+30 sprites (30 unique), 2 palettes (2 unique, 28 discarded)
+30 unique 8-bit sprite(s)
+ldata   : 62628 bytes 	tdata   : 0 bytes
+filesize: 64012 bytes (0 bytes saved by optimization before cropping)
+mem use : 76208 bytes
+
+30 sprite(s) compressed; 114171 bytes saved; avg compression 34.67%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+21 sprites (21 unique), 1 palettes (1 unique, 20 discarded)
+21 unique 8-bit sprite(s)
+ldata   : 43673 bytes 	tdata   : 0 bytes
+filesize: 44789 bytes (0 bytes saved by optimization before cropping)
+mem use : 53081 bytes
+
+4 sprite(s) cropped; 142768 bytes (142768 pixels) eliminated
+21 sprite(s) compressed; 82525 bytes saved; avg compression 34.07%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+33 sprites (33 unique), 1 palettes (1 unique, 32 discarded)
+33 unique 8-bit sprite(s)
+ldata   : 67165 bytes 	tdata   : 0 bytes
+filesize: 68617 bytes (0 bytes saved by optimization before cropping)
+mem use : 83413 bytes
+
+33 sprite(s) compressed; 127515 bytes saved; avg compression 34.15%
