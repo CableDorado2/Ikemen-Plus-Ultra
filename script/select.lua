@@ -118,22 +118,24 @@ animUpdate(arrowsDMR2)
 animSetScale(arrowsDMR2, 0.95, 0.95)
 
 function f_selectReset()
-	if data.p2Faces then --When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut
-		selectColumns = 5 
-		selectRows = 2
-		offsetRows = 1 --Number of hidden slots below
+	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
+	if data.p2Faces then
+		selectColumns = 5 --Number of Character Select Columns
+		selectRows = 2 --Number of Character Select Rows
+		offsetRows = 1 --Number of Character Select Hidden Slots below
 		setSelColRow(selectColumns, selectRows)
-		setRandomSpr(sysSff, 151, 0, 1, 1)
-		setSelCellSize(27+2, 27+2)
-		setSelCellScale(1, 1)
+		setRandomSpr(sysSff, 151, 0, 1, 1) --Random Icon
+		setSelCellSize(27+2, 27+2) --Slot Size
+		setSelCellScale(1, 1) --Slot Scale
 		p1FaceX = 10
 		p1FaceY = 170
 		p2FaceX = 169
 		p2FaceY = 170
-	else --When data.p2Faces is false then when you play 1P you will see the expanded roster, as there is no 2P to select it will not be cut
+	--When data.p2Faces is false then when you play 1P you will see the expanded roster, as there is no 2P to select it will not be cut:
+	else
 		selectColumns = 11
         selectRows = 2
-        offsetRows = 1
+        offsetRows = 0
 		setSelColRow(selectColumns, selectRows)
 		setRandomSpr(sysSff, 151, 0, 1, 1)
 		setSelCellSize(27+2, 27+2)
@@ -2498,26 +2500,6 @@ end
 --;===========================================================
 --; WIN SCREEN
 --;===========================================================
-function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
-	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel))
-		textImgSetPos(id, x, y)
-		if rowUnique ~= nil then
-			if i == rowUnique then
-				textImgSetBank(id, bankUnique)
-			else
-				textImgSetBank(id, bank)
-			end
-		else
-			textImgSetBank(id, bank)
-		end
-		textImgDraw(id)
-		x = x + spacingX
-		y = y + spacingY
-	end
-	return x, y
-end
-
 txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
 --txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)
 txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
@@ -2553,6 +2535,26 @@ quoteBG = animNew(sysSff, [[
 animAddPos(quoteBG, 160, 0)
 animSetTile(quoteBG, 1, 1)
 animSetWindow(quoteBG, 14, 167, 290, 62)
+
+function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel))
+		textImgSetPos(id, x, y)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, bankUnique)
+			else
+				textImgSetBank(id, bank)
+			end
+		else
+			textImgSetBank(id, bank)
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
 
 function f_selectWin()
 if data.winscreen == 'None' then
@@ -2920,10 +2922,9 @@ end
 --;===========================================================
 --; CONTINUE SCREEN
 --;===========================================================
-bgmContinue = 'sound/CONTINUE.mp3'
-bgmGameOver = 'sound/GAME OVER.mp3'
-contSff = sffNew('data/continue.sff')
-contSnd = sndNew('data/continue.snd')
+--Coins left text
+txt_coins = createTextImg(jgFnt, 0, 1, '', 20, 30)
+txt_cont = createTextImg(jgFnt, 0, 1, '', 20, 30)
 
 --Background
 contBG0 = animNew(contSff, [[
@@ -2950,10 +2951,6 @@ animSetTile(contBG2, 1, 0)
 animSetWindow(contBG2, 0, 200, 320, 40)
 animSetAlpha(contBG2, 0, 0)
 animUpdate(contBG2)
-
---Coins left text
-txt_coins = createTextImg(jgFnt, 0, 1, '', 20, 30)
-txt_cont = createTextImg(jgFnt, 0, 1, '', 20, 30)
 
 function f_continue()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3076,7 +3073,7 @@ function f_continue()
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
 				if data.challengerScreen == true then
-					script.select.f_selectChallenger()
+					f_selectChallenger()
 					f_challengerMusic()
 				else	
 					playBGM(bgmSelect) --play original char select song instead of challenger song

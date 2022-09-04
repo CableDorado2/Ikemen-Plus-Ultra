@@ -22,25 +22,39 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-5040, 0, data\charAnim\Master_Ryu\s043.png,  50, 41
-5040,10, data\charAnim\Master_Ryu\s046.png,  52, 38
-5040,11, data\charAnim\Master_Ryu\s047.png,  50, 38
-5040,20, data\charAnim\Master_Ryu\s048.png,  49, 55
-5130, 0, data\charAnim\Master_Ryu\s080.png,  29, 72
-5130, 1, data\charAnim\Master_Ryu\s081.png,  34, 67
-5130, 2, data\charAnim\Master_Ryu\s082.png,  43, 60
-5300, 0, data\charAnim\Master_Ryu\s083.png,  31, 99
-5300, 1, data\charAnim\Master_Ryu\s084.png,  31, 98
-5300, 2, data\charAnim\Master_Ryu\s085.png,  32, 97
-5300, 3, data\charAnim\Master_Ryu\s086.png,  32, 97
-5300, 4, data\charAnim\Master_Ryu\s087.png,  32, 99
-5300, 5, data\charAnim\Master_Ryu\s088.png,  31,100
-   0, 0, data\charAnim\Master_Ryu\s105.png,  28,101
-   0, 1, data\charAnim\Master_Ryu\s106.png,  28,104
-   0, 2, data\charAnim\Master_Ryu\s107.png,  28,104
-   0, 3, data\charAnim\Master_Ryu\s108.png,  28,102
-   0, 4, data\charAnim\Master_Ryu\s109.png,  28,101
-   0, 5, data\charAnim\Master_Ryu\s110.png,  28, 99
-   0, 6, data\charAnim\Master_Ryu\s111.png,  28,101
- 170, 0, data\charAnim\Master_Ryu\s186.png,  34, 96
- 170, 1, data\charAnim\Master_Ryu\s187.png,  29, 70
+5040, 0, data\charTrash\Master_Ryu\s043.png,  50, 41
+5040,10, data\charTrash\Master_Ryu\s046.png,  52, 38
+5040,11, data\charTrash\Master_Ryu\s047.png,  50, 38
+5040,20, data\charTrash\Master_Ryu\s048.png,  49, 55
+5130, 0, data\charTrash\Master_Ryu\s080.png,  29, 72
+5130, 1, data\charTrash\Master_Ryu\s081.png,  34, 67
+5130, 2, data\charTrash\Master_Ryu\s082.png,  43, 60
+5300, 0, data\charTrash\Master_Ryu\s083.png,  31, 99
+5300, 1, data\charTrash\Master_Ryu\s084.png,  31, 98
+5300, 2, data\charTrash\Master_Ryu\s085.png,  32, 97
+5300, 3, data\charTrash\Master_Ryu\s086.png,  32, 97
+5300, 4, data\charTrash\Master_Ryu\s087.png,  32, 99
+5300, 5, data\charTrash\Master_Ryu\s088.png,  31,100
+   0, 0, data\charTrash\Master_Ryu\s121.png,  28,101
+   0, 1, data\charTrash\Master_Ryu\s122.png,  28,104
+   0, 2, data\charTrash\Master_Ryu\s123.png,  28,104
+   0, 3, data\charTrash\Master_Ryu\s124.png,  28,102
+   0, 4, data\charTrash\Master_Ryu\s125.png,  28,101
+   0, 5, data\charTrash\Master_Ryu\s126.png,  28, 99
+   0, 6, data\charTrash\Master_Ryu\s127.png,  28,101
+   5, 0, data\charTrash\Master_Ryu\s138.png,  33,102
+ 170, 0, data\charTrash\Master_Ryu\s202.png,  34, 96
+ 170, 1, data\charTrash\Master_Ryu\s203.png,  29, 70
+ 351, 0, data\charTrash\Master_Ryu\s243.png,  30,104
+ 351, 1, data\charTrash\Master_Ryu\s244.png,  26,105
+ 351, 2, data\charTrash\Master_Ryu\s245.png,  26,105
+ 351, 3, data\charTrash\Master_Ryu\s246.png,  26,105
+ 351, 4, data\charTrash\Master_Ryu\s247.png,  26,105
+ 351, 5, data\charTrash\Master_Ryu\s248.png,  26,105
+ 351, 6, data\charTrash\Master_Ryu\s249.png,  26,105
+ 351, 7, data\charTrash\Master_Ryu\s250.png,  26,105
+ 351, 8, data\charTrash\Master_Ryu\s251.png,  26,105
+ 351, 9, data\charTrash\Master_Ryu\s252.png,  26,105
+ 351,10, data\charTrash\Master_Ryu\s253.png,  26,105
+ 351,11, data\charTrash\Master_Ryu\s254.png,  26,105
+ 351,12, data\charTrash\Master_Ryu\s255.png,  26,105
