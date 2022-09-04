@@ -1,18 +1,18 @@
-﻿; _______________________________________________
-;| Ken Masters by Phantom.of.the.Server&Jmorphman&Beterhans|
-; ?
+; _______________________________________________
+;| Ken Masters by Jmorphman						 |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;====================<DEFINITION>====================
 [Info]
 name        = "Ken Masters"
 displayName = "Ken Masters"
-versiondate = 03,11,2015
+versionDate = 10,14,2020
 mugenVersion= 1.0
-author      = "Phantom.of.the.Server&Jmorphman"
-pal.defaults= 4,5,6,1,2,3,10,11,12,7,8,9
+author      = "Jmorphman"
+pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
 localCoord  = 320,240
 
 [Files]
-cmd     = Command.def
+cmd     = Command.cmd
 cns     = Constants.cns
 st      = States/System.st
 st1     = States/Normal.st
@@ -20,24 +20,37 @@ st2     = States/Special.st
 st3     = States/Super.st
 st4     = States/Helpers.st
 st5     = States/Ken.st
-st6	= States/monitor.st
 stCommon= common1.cns
 sprite  = Sprite.sff
 anim    = Anim.air
 sound   = Sound.snd
-pal1	= Palettes/beterhans/SF3_04.act
-pal2	= Palettes/beterhans/SF3_05.act
-pal3	= Palettes/beterhans/SF3_06.act
-pal4	= Palettes/beterhans/SF3_01.act
-pal5	= Palettes/beterhans/SF3_02.act
-pal6	= Palettes/beterhans/SF3_03.act
-pal7	= Palettes/MalaDingDong_Evil.act
-pal8	= Palettes/MalaDingDong_OriginalZero.act
-pal9	= Palettes/beterhans/SF3_0D.act
-pal10	= Palettes/ViolentDefault.act
-pal11	= Palettes/Cyclysm_SVCArt2.act
-pal12	= Palettes/beterhans/Green_hair.act
-	
-[Arcade]
-intro.storyboard = ..\../storyboards/Ken Masters [Intro].def
-ending.storyboard = ..\../storyboards/Ken Masters [Ending].def
+pal1	= Palettes/Default.act
+pal2	= Palettes/Takato-kun_White.act
+pal3	= Palettes/Kirishima_ScottPilgrim.act
+pal4	= Palettes/SFIIIDefault.act
+pal5	= Palettes/Cyclysm_SFIV_C10.act
+pal6	= Palettes/Kirishima_SFIV_C9.act
+pal7	= Palettes/ViolentDefault.act
+pal8	= Palettes/MalaDingDong_Evil.act
+pal9	= Palettes/Cyclysm_SVCArt2.act
+pal10	= Palettes/MalaDingDong_SFI.act
+pal11	= Palettes/Kirishima_Cartoon.act
+pal12	= Palettes/MalaDingDong_SFA.act
+
+[Palette Keymap]
+a = 4
+b = 5
+c = 6
+x = 1
+y = 2
+z = 3
+a2 = 10
+b2 = 11
+c2 = 12
+x2 = 7
+y2 = 8
+z2 = 9
+
+;[Arcade]
+;intro.storyBoard = intro.def
+;ending.storyBoard = ending.def

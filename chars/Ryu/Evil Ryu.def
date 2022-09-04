@@ -3,57 +3,86 @@
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;====================<DEFINITION>====================
 [Info]
-name        = "Ryu"
+name        = "Evil Ryu"
 displayname = "Evil Ryu"
-versiondate = 01,14,2010
+versiondate = 2022
 mugenversion= 1.0
 author      = "Phantom.of.the.Server"
-pal.defaults= 4,5,6,1,2,3,10,11,12,7,8,9
+pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
 localcoord  = 320,240
 
 [Files]
-cmd     = Command.cmd
-cns     = Constants.cns
-st      = States/System.st
-st1     = States/Normal.st
-st2     = States/Specials.st
-st3     = States/EX-Specials.st
-st4     = States/Supers.st
-st5     = States/Helpers.st
-st6     = States/Custom.st
-st7     = States/EvilRyu.st
+cmd     = ryucmd.cmd
+cns     = ryucns.cns
+st      = states/ryusystem.st
+st1     = states/ryunormal.st
+st2     = states/ryuspecial.st
+st3     = states/ryusuper.st
+st4     = states/ryuhelper.st
+st6     = Evil Ryu.def
+st7     = CONFIG.txt
 stcommon= common1.cns
-sprite  = Evil Sprite.sff
-anim    = Anim.air
-sound   = Sound.snd
-;ai      = ai.ai
-pal1    = EvilPalettes/Udon.act
-pal2    = EvilPalettes/SvCShinGouki.act
-pal3    = EvilPalettes/CvSArtwork.act
-pal4    = EvilPalettes/CvS.act
-pal5    = EvilPalettes/NxC.act
-pal6    = EvilPalettes/BloodInverse.act
-pal7    = EvilPalettes/Brown.act
-pal8    = EvilPalettes/Teal.act
-pal9    = EvilPalettes/BloodInverse2.act
-pal10   = EvilPalettes/Black.act
-pal11   = EvilPalettes/Red.act
-pal12   = EvilPalettes/Grey.act
+sprite  = evilryusprite.sff
+anim    = ryuanim.air
+sound   = ryusound.snd
+pal1    = evilpalettes/sf4default.act
+pal2    = evilpalettes/cvsartwork.act
+pal3    = evilpalettes/mvcpurple.act
+pal4    = evilpalettes/sfa2brown.act
+pal5    = evilpalettes/sfa2red.act
+pal6    = evilpalettes/sfa2black.act
+pal7    = evilpalettes/dirty.act
+pal8    = evilpalettes/green.act
+pal9    = evilpalettes/nxc.act
+pal10   = evilpalettes/paleyellow.act
+pal11   = evilpalettes/anakaris.act
+pal12   = evilpalettes/shumaorange.act
 
 [Palette Keymap]
-a = 1
-b = 2
-c = 3
-x = 4
-y = 5
-z = 6
-a2 = 7
-b2 = 8
-c2 = 9
-x2 = 10
-y2 = 11
-z2 = 12
+x = 1
+y = 2
+z = 3
+a = 4
+b = 5
+c = 6
+x2 = 7
+y2 = 8
+z2 = 9
+a2 = 10
+b2 = 11
+c2 = 12
 
-[Arcade]
-intro.storyboard = ..\../storyboards/Evil Ryu [Intro].def
-ending.storyboard = ..\../storyboards/Evil Ryu [Ending].def
+;[Arcade]
+;intro.storyboard = intro.def
+;ending.storyboard = ending.def
+
+
+;==========<EVIL RYU>==========
+[Statedef 5900]
+type = S
+
+[State 5900, varreset]
+type = varrangeset
+trigger1 = !roundsexisted
+value = 0
+
+[State 5900, varreset]
+type = varrangeset
+trigger1 = !roundsexisted
+fvalue = 0
+
+[State 5900, Palette]
+type = remappal
+trigger1 = 1
+source = 1, 1
+dest = 1, palno
+
+[State 5900, modevar]
+type = varset
+trigger1 = 1
+var(1) = 2
+
+[State 5900, End]
+type = changestate
+trigger1 = 1
+value = 5901

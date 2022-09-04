@@ -1,234 +1,388 @@
                                 ______________________________
 ===============================| Ryu by Phantom.of.the.Server |================================
-                                ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯           [14.01.2010]
+                                ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯           [02.07.2022]
 
-- Contact: potsmugen@yahoo.com.br
-- Website: http://www.mugenguild.com/pots/
+ - Contact: potsmugen@gmail.com
+ - Website: https://network.mugenguild.com/pots/
+ - If you downloaded this character from anywhere else, it's probably outdated
 
-- Customized version of Capcom's Ryu character from Capcom vs Snk series
-- For Mugen 1.0 only
-
-
-
-=====<Features>=====
-
-- All the essential stuff
-- 3 modes: Ryu, Evil Ryu and Master Ryu
-- Every Ryu/Evil Ryu move ever seen in video games (let me know if i missed any :P) and more
-- Details taken from his various video-game appearances and storyline
-- Custom gameplay
-- Effects edited from various games
-- Sounds from various games, including SFZ3, CvS2 and DS
-- CFE, CvS2 and MvC voice samples
-- Intros, win poses and special animations
-- Ryu vs Evil Ryu intro
-- Evil/Master Ryu vs my Shin Gouki intro
-- Ryu vs my Sakura intro
-- Special intros vs my Pocket Shin Gouki and Reu's Evil Ken
-- Special intros vs CvS2 Another Kyo and CvS2 Ryo by Byakko
-- 38 palettes
+ - Customized version of Capcom's Ryu character from the Street Fighter series
+ - For Mugen 1.0 and above
 
 
 
-=====<Mode Overview>=====
+=====<FEATURES>=====
 
-This char has three different modes, here follows a short description:
+ - 3 modes: Ryu, Evil Ryu and Master Ryu
+ - Details taken from his various video-game appearances and storyline
+ - Custom gameplay inspired by several Capcom games
+ - Ryu vs Evil Ryu intro
+ - Evil Ryu vs my Shin Gouki intro
+ - Ryu vs my Sakura intro
+ - Special intros vs my Pocket Shin Gouki and Reu's Evil Ken
+ - Special intros vs CvS2 Another Kyo and CvS2 Ryo by Byakko
+ - Special intros and win poses against JMorphman's Ken
+
+
+
+=====<MODE OVERVIEW>=====
+
+This character has three different modes. Here follows a short description of each:
 
 <Normal Ryu>
-- Has the highest defence
-- Can perform EX moves
+ - 1000 life points
+ - Base mode
 
 <Evil Ryu>
-- Moves faster
-- Has a better movelist
-- Shouryuu Ken and Tatsumaki Senpuu Kyaku cause more hits on the opponent
-- Shinkuu Tatsumaki Senpuu Kyaku draws in the opponent twice as fast as Ryu's
+ - 900 life points
+ - Has a different movelist
+ - Some shared moves have different properties
 
 <Master Ryu>
-- Is basically a mix between the first two modes, except he cannot use EX moves
-- Defence is even lower than Evil Ryu's
-
-Obs.: "Master Ryu" can more or less be understood for how Ryu would fight if Gouken didn't
-tone down the Ansatsuken style and therefore teached him the Satsui no Hadou techniques.
-But this is just a pretty explanation, the truth is I just wanted to add a mode with all of
-both version's moves. =P
-  Also, some people speculate he's the original SF1 Ryu (not his older brother from SF2) when
-fighting without his shoes, which weigh about 60kg each to prevent himself from killing his
-opponents with a single blow.
+ - Just for fun mode
+ - 800 life points
+ - Cannot use EX specials
+ - Can perform Darkstalkers chain combos on the ground
+ - Can use almost any move from both Ryu and Evil Ryu
 
 
 
-=====<.DEF Overview>=====
+=====<.DEF OVERVIEW>=====
 
-This char has four different .def files, here's what each one does:
+This character has four different .def files. Here's what each one does:
 
-<RYU.def>
+<ryu_pots.def>
 The mode is selected via palette:
 
-Palettes 1, 2, 3, 4, 5, 6  -> Normal Ryu
-Palettes 7, 8, 10, 11, 12  -> Evil Ryu
-Palette  9                 -> Master Ryu
+A, B, C, X, Y, Z       -> Normal Ryu
+Start + A, B, X, Y, Z  -> Evil Ryu
+Start + C              -> Master Ryu
 
 To add him to your Mugen, add the following line to your select.def, under [Characters]:
-Ryu,
+ryu_pots,
 
-<NORMALRYU.def>
+<normalryu.def>
 Only Normal Ryu mode.
 To add him to your Mugen, add the following line to your select.def, under [Characters]:
-Ryu/NormalRyu.def,
+ryu_pots/normalryu.def,
 
-<EVILRYU.def>
+<evilryu.def>
 Only Evil Ryu mode.
 To add him to your Mugen, add the following line to your select.def, under [Characters]:
-Ryu/EvilRyu.def,
+ryu_pots/evilryu.def,
 
-<MASTERRYU.def>
+<masterryu.def>
 Only Master Ryu mode.
 To add him to your Mugen, add the following line to your select.def, under [Characters]:
-Ryu/MasterRyu.def,
+ryu_pots/masterryu.def,
 
 
 
-=====<Movelist>=====
+=====<MOVELIST>=====
+
+NOTE: Movelist can be accessed ingame by pressing Start twice.
 
 U - up          x - weak punch         a - weak kick
 D - down        y - medium punch       b - medium kick
 F - forward     z - strong punch       c - strong kick
 B - back        p - any punch          k - any kick
-s - start       2p- two punches        2k- two kicks
+s - start       pp - two punches       kk - two kicks
 
-(Air)- Move must be performed in the air.
+(Air) - Move must be performed in the air.
 
-(EX)- Move with an EX version. EX moves are performed by pressing two punch/kick buttons.
+(EX) - Move with an EX version. EX moves are performed by pressing two punch/kick buttons.
 e.g.: Hadouken - D, DF, F, p
-      EX Hadouken - D, DF, F, 2p
+      EX Hadouken - D, DF, F, pp
 
 EX moves are more powerful than regular Special moves, but consume half of a power stock.
-Only Normal Ryu can use them.
-
-(N)- Move can only be performed by Normal or Master Ryu.
-(E)- Move can only be performed by Evil or Master Ryu.
-     *When not specified, any mode can perform the move.
 
 
-<NORMAL>
-.Seoi Nage:                        F/B + 2p (near opponent)
-.Tomoe Nage:                       F/B + 2k (near opponent)
+                  <<<NORMAL MODE>>>
+
+<THROWS>
+
+.Seoi Nage:                        F/B + pp (near opponent)
+.Tomoe Nage:                       F/B + kk (near opponent)
+
+
+<UNIQUE ATTACKS>
+
 .Sakotsu Wari:                     F + y
 .Senpuu Kyaku:                     F + b
-.Seichuu Nidan Tsuki:              2p
-.(N) Kyuubi Kudaki:                F + z
-.(E) Tenma Kuujin Kyaku:           D + b (while jumping forward)
-.(E) Kikoku Tsuki:                 y, z (near opponent)
+.Kyuubi Kudaki:                    F + z
 
-<SPECIAL>
+
+<SPECIAL MOVES>
+
 .Hadou Ken:                        D, DF, F, p (EX)
 .Shouryuu Ken:                     F, D, DF, p (EX)
 .Tatsumaki Senpuu Kyaku:           D, DB, B, k (EX)
-.Kuuchuu Tatsumaki Senpuu Kyaku:   D, DB, B, k (Air)(EX)
-.(E) Classic Kuuchuu Tatsumaki:    F, DF, D, DB, B, k
+.Kuuchuu Tatsumaki Senpuu Kyaku:   D, DB, B, k (Air) (EX)
 .Joudan Sokutou Geri:              D, DF, F, k (EX)
-.(E) Shakunetsu Hadou Ken:         B, DB, D, DF, F, p
-.(E) Ashura Senkuu Zenpou:         F, D, DF, 2p/2k
-.(E) Ashura Senkuu Kouhou:         B, D, DB, 2p/2k
+.Hadou no Kamae:                   D, DF, F, s
 
-<Lv1 SUPER>
+
+<LEVEL 1 SUPER COMBOS>
+
 .Shinkuu Hadou Ken:                D, DF, F, D, DF, F, p
 .Shinkuu Tatsumaki Senpuu Kyaku:   D, DB, B, D, DB, B, k
-.(N) Denjin Hadou Ken:             D, DB, B, D, DB, B, p
-.(N) Nidan Shouryuu Tsuki:         D, DF, F, D, DF, k
-.(E) Messatsu Gou Shouryuu:        D, DF, F, D, DF, k
+.Denjin Hadou Ken:                 D, DB, B, D, DB, B, p (Hold) (Rotate joystick to charge faster)
+.Nidan Shouryuu Tsuki:             D, DF, F, D, DF, F, k
 
-<Lv2 SUPER>
-.(N) Reppuu Jinrai Shou:           D, DF, F, DF, D, DB, B, p
-.(E) Metsu Shoryuu ken:            D, DF, F, DF, D, DB, B, k
 
-<Lv3 SUPER>
-.(N) Shin Shoryuu Ken:             D, DF, F, D, DF, 2k
-.(E) Metsu Hadou Ken:              D, DB, B, D, DB, B, p
-.(E) Ryuu Koku Hadou Ken:          Fully charge Metsu Hadou Ken
-.(E) Shun Goku Satsu:                  x, x, F, a, z
+<LEVEL 2 SUPER COMBOS>
+
+.Kaze no Ken:                      D, D, D, pp
+
+
+<LEVEL 3 SUPER COMBOS>
+
+.Shin Shoryuu Ken:                 D, DF, F, D, DF, F, kk
+
+
+                    <<<EVIL MODE>>>
+
+<THROWS>
+
+.Seoi Nage:                        F/B + pp (near opponent)
+.Tomoe Nage:                       F/B + kk (near opponent)
+
+
+<UNIQUE ATTACKS>
+
+.Sakotsu Wari:                     F + y
+.Senpuu Kyaku:                     F + b
+.Seichuu Nidan Tsuki:              F + z
+.Tenma Kuujin Kyaku:               D + b (while jumping forward)
+.Kikoku Tsuki:                     y, z (near opponent)
+
+
+<SPECIAL MOVES>
+
+.Hadou Ken:                        D, DF, F, p (EX)
+.Shakunetsu Hadou Ken:             F, DF, D, DB, B, p
+.Shouryuu Ken:                     F, D, DF, p (EX)
+.Tatsumaki Senpuu Kyaku:           D, DB, B, k (EX)
+.Kuuchuu Tatsumaki Senpuu Kyaku:   D, DB, B, k (Air) (EX)
+.Ryusokyaku:                       D, DF, F, k (EX)
+.Ashura Senkuu Zenpou:             F, D, DF, ppp or kkk
+.Ashura Senkuu Kouhou:             B, D, DB, ppp or kkk
+
+
+<LEVEL 1 SUPER COMBOS>
+
+.Shinkuu Hadou Ken:                D, DF, F, D, DF, F, p
+.Shinkuu Tatsumaki Senpuu Kyaku:   D, DB, B, D, DB, B, k
+.Messatsu Gou Shouryuu:            D, DF, F, D, DF, F, k
+
+
+<LEVEL 2 SUPER COMBOS>
+
+.Metsu Shoryuu ken:                D, DF, F, D, DF, F, kk
+
+
+<LEVEL 3 SUPER COMBOS>
+
+.Metsu Hadou Ken:                  D, DB, B, D, DB, B, pp (Hold)
+        .Ryuu Koku Hadou Ken:      Fully charge Metsu Hadou Ken
+.Shun Goku Satsu:                  x, x, F, a, z
+
+
+                  <<<MASTER MODE>>>
+
+<THROWS>
+
+.Seoi Nage:                        F/B + pp (near opponent)
+.Tomoe Nage:                       F/B + kk (near opponent)
+
+
+<UNIQUE ATTACKS>
+
+.Sakotsu Wari:                     F + y
+.Senpuu Kyaku:                     F + b
+.Kyuubi Kudaki:                    F + z
+.Seichuu Nidan Tsuki:              B + z
+.Tenma Kuujin Kyaku:               D + b (while jumping forward)
+
+
+<SPECIAL MOVES>
+
+.Hadou Ken:                        D, DF, F, p
+.Shakunetsu Hadou Ken:             F, DF, D, DB, B, p
+.Shouryuu Ken:                     F, D, DF, p
+.Tatsumaki Senpuu Kyaku:           D, DB, B, k
+.Classic Kuuchuu Tatsumaki:        D, DB, B, k (Air)
+.Joudan Sokutou Geri:              B, DB, D, DF, F, k
+.Ryusokyaku:                       D, DF, F, k
+.Ashura Senkuu Zenpou:             F, D, DF, ppp or kkk
+.Ashura Senkuu Kouhou:             B, D, DB, ppp or kkk
+.Hadou no Kamae:                   D, DF, F, s
+
+
+<LEVEL 1 SUPER COMBOS>
+
+.Shinkuu Hadou Ken:                D, DF, F, D, DF, F, p
+.Shinkuu Tatsumaki Senpuu Kyaku:   D, DB, B, D, DB, B, k
+.Denjin Hadou Ken:                 D, DB, B, D, DB, B, p (Hold) (Rotate joystick to charge faster)
+.Reppuu Jinrai Shou:               D, DF, F, D, DF, F, k
+
+
+<LEVEL 2 SUPER COMBOS>
+
+.Kaze no Ken:                      D, D, D, pp
+.Metsu Shoryuu ken:                D, DF, F, D, DF, F, pp
+
+
+<LEVEL 3 SUPER COMBOS>
+
+.Shin Shoryuu Ken:                 D, DF, F, D, DF, F, kk
+.Metsu Hadou Ken:                  D, DB, B, D, DB, B, pp (Hold)
+        .Ryuu Koku Hadou Ken:      Fully charge Metsu Hadou Ken
+.Shun Goku Satsu:                  x, x, F, a, z
 
 
 <SYSTEM>
 
-.Backward Dash:                    B, B
 .Forward Dash:                     F, F
 .Run:                              F, F (hold)
-.Dodge:                            a + x
-.Roll:                             F + a + x
+.Backward Dash:                    B, B
+.Sidestep:                         a + x
+   .Sidestep Attack:               p / k
+.Forward Roll:                     F + a + x
+.Back Roll:                        B + a + x
 .Parry High:                       (tap) F
 .Parry Low:                        (tap) D
 .Air Parry:                        (tap) F (Air)
-.Power Charge:                     b+y  (hold)
-.Excel Combo:                      c+z  (can also be done in the air)
-.Zero Counter:                     B, DB, D, p/k  (during standing or crouching guard)
-.Fall Recovery:                    2p (while falling when hit)
+.Power Charge:                     b + y (hold)
+.Custom Combo:                     c + z (air also) (2 power bars)
+.Guard Cancel High:                F + pp (while guarding) (1 power bar)
+.Guard Cancel Low:                 F + kk (while guarding) (1 power bar)
+.Fall Recovery:                    p / k (while falling from a hit)
 .Low Jump:                         U (tap)
 .High Jump:                        D, U
-.Chouhatsu: s
-.(N)Hadou no Kamae: D, DF, F, s
+.Taunt:                            s
 
 
 
-NOTE: Some Super moves in Master mode have a different command, as follows:
+=====<MOVE DETAILS>=====
 
-.Nidan Shoryuu Tsuki: B, DB, D, DF, F, 2k
-.Metsu Hadou Ken: F, DF, D, DB, B, 2p
-.Shin Shoryuu Ken: D, DB, B, DB, D, DF, F, k
+ - Sakotsu Wari is an overhead
 
+ - Senpuu Kyaku can be cancelled into EX Tatsumaki Senpuu Kyaku
 
+ - Tenma Kuujin Kyaku must be performed at the apex of a forward jump
 
-=====<Move Details>=====
+ - EX version of Joudan Sokutou Geri will make the opponent bounce off the wall
 
-- Sakotsu Wari is an overhead
+ - Master Ryu's strong version of Joudan Sokutou Geri will make the opponent bounce off the wall on a counter hit
 
-- EX version of Ryu's Hadouken is the Shakunetsu Hadou Ken
+ - Shinkuu Tatsumaki Senpuu Kyaku draws opponents towards you
 
-- EX version of Joudan Sokutou Geri will make the opponent bounce off the wall
+ - Nidan Shouryuu Tsuki can be cancelled into Shin Shoryuken if you have 2 extra bars
 
-- Shinkuu Tatsumaki Senpuu Kyaku draws opponents towards you
+ - Denjin Hadouken causes Guard Crush when fully charged
 
-- You can cancel Nidan Shouryuu Tsuki to Shin Shoryuken, if you successfully hit your opponent
-with it and input its command just as Ryu connects the second hit. If successful Ryu will
-flash white and switch to Shin Shoryuken. Be aware that this way it'll cause less damage than
-a regular Shin Shoryuken
-
-- Mashing any direction during Denjin or Metsu Hadouken will make Ryu charge it faster
-
-- Some opponents are able to break out of Shun Goku Satsu, such as Gen or Gouki. However other
-opponents may recieve extra damage, such as Vega (M.Bison) or Geese Howard (for more details,
-check "Other Info"). To break out of Shun Goku Satsu, the victim must have more than half of
-his life points and quickly mash any buttons;
-
-- When Ryu fires the Ryuu Koku Hadou Ken, any opponent behind him will be blown away. Useful to
-prevent getting hit out of the move while firing the beam.
-
-- Normal and Master modes have extra taunts
+ - Kaze no Ken is a counter attack unless you cancel into it from another super move, in which case it's a grab
 
 
 
-=====<Other Info>=====
+=====<GAMEPLAY NOTES>=====
 
-<Chars that have maximum resistance to Shun Goku Satsu>
-   - Gen, Gouki, Mech Gouki, Pocket Shin Gouki, Shin Gouki and Soul Gen
-
-<Chars that have medium resistance to Shun Goku Satsu>
-   - Blaze Agent, Dark Sakura, Evil Ryu, God Rugal and Oyaji
-
-<Chars that recieve 25% extra damage from Shun Goku Satsu>
-   - Demitri, Jedah, Shadow DIO and Vega (M.Bison)
-   - Geese Howard, Mukai, Orochi, Ryuji Yamazaki and Setsuna
-   - Goro, Kintaro, Motaro, Shang Tsung and Shao Kahn
-   - Dr. Doom
-   - Mech Rugal, Omega Rugal and Rugal
-   - Original Zero, Perfect Weapon MB-02, Sevil Nahte and Shadow Dio
+COMBO SYSTEM
+ - Some Normal attacks can be canceled into Special and Super moves
+ - Some Special moves can be canceled into Super moves
+ - Some Super moves can be canceled into other Super moves
+ - Cancelling a Special, Super move or Custom Combo into a Super move resets the juggle points
+ - Master Ryu can chain normal attacks in this order: X, A, Y, B, Z, C
 
 
-More can be added here, so contact me if you know any and I'll consider it.
-This list may be incomplete. Also, if you notice that this system isn't working with some char
-please contact me so I can fix it.
+DAMAGE SCALING
+ - The damage your attacks inflict goes down as the total combo damage goes up
+ - At 0 combo damage, they deal full damage
+ - At 500 combo damage, they deal the minimum 10% damage
 
+
+COUNTER HITS
+ - If the opponent is in the middle of attacking, your attacks deal 20% extra damage
+ - Normal attacks cause extra hit stun as well, allowing links that are normally not possible
+ - You'll know a counter hit happened when a round shockwave effect appears at the point of impact
+
+
+FORWARD DASH
+ - Moves you forward faster than walking, but you can't interrupt it
+ - Useful for sneaking up on the opponent
+
+
+RUN
+ - Can be interrupted unlike dashes
+
+
+BACK DASH
+ - Creates some space between you and the opponent
+ - Considered airborne, so it avoids most throws and standing combos
+
+
+LOW JUMP
+ - Useful for quick jumping attacks that must be blocked high
+ - Cannot use special and super moves while low jumping
+ - Delay after attacking is longer than other jumps
+
+
+HIGH JUMP
+ - Useful for quickly closing distance
+ - If the opponent is in the corner, this allows you to cross him up
+
+
+LONG LOW JUMP
+ - A cross between Low and High jumps
+
+
+SIDESTEP
+ - Avoids all attacks and fireballs
+ - Vulnerable to throws
+ - Instant recovery
+
+
+SIDESTEP ATTACK
+ - Allows you to counterattack after dodging
+ - Between the punch and kick options, one can be cancelled into special and super moves, and the other knocks down
+
+
+ROLL
+ - Avoids all attacks and fireballs while moving
+ - Vulnerable to throws
+ - Can be hit by anything at the end of the animation
+ - Forward version is a bit faster than the back version
+
+
+PARRY
+ - Allows you to bypass block stun, leaving the opponent open for a counterattack
+ - To parry high attacks tap forward just before being hit. To parry low attacks tap down. While jumping only forward works
+
+
+POWER CHARGE
+ - Manually charges the power meter
+ - Rate of charge is slow at first, but increases the longer you hold it
+
+
+GUARD CANCEL
+ - While guarding, this cancels out of the guarding pose with a counterattack
+ - Useful to relieve pressure
+
+
+CUSTOM COMBO
+ - Removes cancellable attack restrictions and gives you a lot of freedom to combo them
+ - Juggle limit is lifted
+ - You can only use EX Special or Super moves from the point the character starts flashing faster and brighter, and doing so ends Custom Combo
+ - Gives you a short invulnerability window at the start
+
+
+FALL RECOVERY
+ - Allows you to land on your feet after being knocked down
+
+
+
+=====<OTHER INFO>=====
 
 <Selecting the win pose>
 (Speech translations by Kibagami)
@@ -258,9 +412,9 @@ Master mode has all of the above.
 
 
 
-=====<Move Name Translations>=====
+=====<MOVE NAME TRANSLATIONS>=====
 
-- Credit goes to Chris McDonald
+ - Credit goes to Chris McDonald
 
 Seoi Nage:                         Over-the-Shoulder Throw
 Tomoe Nage:                        Overhead Judo Throw
@@ -295,144 +449,296 @@ Shun Goku Satsu:                   Instant Hell Murder
 
 
 
-=====<Version History>=====
+=====<VERSION HISTORY>=====
+
+<02.07.2022>
+ - Bug fixing
+
+<11.06.2022>
+ - Bug fixing
+ - Target and chain combos can be executed even if the first attack is parried
+ - Adjusted throw escape behaviour
+ - Reintroduced some input shortcuts
+ - Halted support for Ikemen Go. Please download the Ikemen Go version of the character instead
+
+<14.05.2022>
+ - Bug fixing
+ - EX Ryusokyaku now has improved frame data instead of knocking down
+ - Added attack names to the super finish screen
+ - Parry window and cooldown increased slightly
+ - Consecutive standing parries now move the player slightly back
+ - Adjusted the way Parry pauses work
+ - Parrying no longer builds extra meter
+ - Restored and adjusted the "Shakunetsu!" voice clip
+ - Trading fireballs no longer buils meter
+ - Updated ground impact effect
+ - Maximum damage scaling level corrected to 500. It is also more sensitive to increasing damage
+ - Realigned Ryusokyaku sprites
+ - Normal Ryu's Hadouken is slightly more damaging than Evil Ryu's
+ - Kyuubi Kudaki recovers 1 frame faster
+
+<30.04.2022>
+ - Bug fixing
+ - Adjusted hurt boxes in air get hit animations
+ - Removed dragon punch motion shortcuts for better Ikemen compatibility
+ - Retired what was left of the "tick fix" code
+ - Evil Ryu's Tatsumaki juggling potential depends on the button used
+ - Denjin Hadouken charges and travels slightly faster
+ - Detection of double quarter circle motions is more lenient
+ - Improved "variable height" code. Crossups should be a bit more consistent
+ - Adjusted input for high jumps. Should no longer happen on accident and also work better in Ikemen
+ - Removed some input shortcuts for better Ikemen compatibility
+ - Removed fireball invulnerability from the jumping part of Shoryuken
+
+<02.04.2022>
+ - Bug fixing
+ - Can cancel attacks even if they are parried or reversed
+ - Air resets changed to modern style in that the opponent becomes immediately invulnerable instead of being jugglable on the way up
+ - Adjusted hit envshake effects
+ - Tweaked fireball hit sounds
+ - Neutral jumping medium punch and hard kick can be cancelled
+ - Improved compatibility with Ikemen screenpacks
+ - Fake Hadouken has less recovery than the real thing
+ - Jumping Clsn2 are a bit thinner
+ - Fixed darkest shades in the default Evil Ryu palette
+ - No longer uses ryucustom.st
+ - Restored a dust effect I had accidentally removed
+ - Buffed super damage
+ - Added fall recovery effect and sound
+ - Fixed Metsu Hadouken beam turning automatically if the opponent jumps over Ryu
+ - Added a configuration file
+ - Adjusted super pause sounds
+ - Fiery hadoukens now trigger the burned special animation on the opponent if he has one
+ - Recalculated juggling acceleration
+ - Attacks do more damage after a sweep or OTG, in order to bypass Mugen's defense bonus
+
+<05.03.2022>
+ - Bug fixing
+ - Juggle points are reset after Metsu Shoryuken
+ - Changed air reset handling. Should cause less issues now and make meaty attacks more useful
+ - Changed normal attack state numbers to Elecbyte's recommendation
+ - Stun damage is now set individually for each attack instead of using a formula
+ - Roll is more accurate
+ - Readded back roll
+ - Added electricity particle effects to Denjin Hadouken
+ - Fixed Evil and Master Ryu receiving a little damage from parries
+
+<26.02.2022>
+ - Shinkuu Tatsumaki does one less hit to match the change to EX Tatsumaki
+ - Added high resolution hit sparks
+ - Improved Messatsu Gou Shoryuu's hit velocities for juggling
+ - Reppu Jinrai Shou moves forward at the start
+ - Animated Kaze no Ken a bit more
+ - After Kaze no Ken, the opponent stays on the floor for a much shorter time
+ - Several frame data adjustments
+ - Changed ground bounce constants and lie down time
+ - Added an override to Mugen's lie down state. Can no longer mash buttons to wake up faster, but can only be OTG'd once
+ - EX Shoryuken only does 2 hits in Normal mode, for consistency with official games
+ - Kyuubi Kudaki can be cancelled again
+ - Master Ryu can cancel crouching hard kick
+ - Lowered walk speed
+ - Stun lasts 2 seconds instead of 3
+ - Added 5 frames of input buffering
+ - Motion inputs are more forgiving
+ - Adjusted Shoryuken physics
+ - Ryu's Shinkuu Hadouken has the same (better) hit properties as Evil Ryu's
+
+<22.01.2022>
+ - EX Tatsumakis now do 5 hits
+ - Kaze no Ken no longer counters jumping attacks and is a bit more punishable
+ - Tweaked punch throw so the opponent can't recover before Ryu by mashing buttons
+ - Fixed the A.I. being able to use moves that were removed from specific modes
+ - Fixed Turns intro gaining control sooner than supposed to
+ - Fixed cancel timings
+ - Lowered the stun damage formula
+ - Worsened damage scaling in Master Ryu's chain combos
+ - Evil Ryu regained Ryu's jumping medium punch
+ - Resized hit sparks to 80%
+ - EX Joudan will generally only wall bounce once per combo
+ - Can cancel jumping light attacks
+ - Tweaked Kyuubi Kudaki so that you can do forward moving kara cancels with it
+ - Expanded the tying headband intro as in JMorphman's patch
+ - Added (recycled) a new win pose to Normal/Master mode
+ - Special inputs are more strict
+ - Zero Counter input is more lenient
+
+<15.01.2022>
+ - Many gameplay fixes and adjustments
+ - Updated some sounds and visual effects
+ - Can no longer cancel some normal attacks
+ - Changed Custom Combos. They now cost two power levels, last longer and have normal hitpauses
+ - Can now crossup in the corner with high jumps and some specific special moves
+ - Inputs now reverse when the opponent is behind the player like they're supposed to
+ - Changed the damage scaling to be affected by the total damage in a combo rather than number of hits
+ - Implemented a true juggle point system
+ - Implemented a stun system
+ - Added long low jump (hyper hop)
+ - Added movelist display. Press Start twice
+ - Remade Zero counters
+ - Added SFZ3 intro for Ryu vs Evil Ryu
+ - Some supers have different range or speed depending on the button used
+ - In Master Mode, strong Joudan Sokutou Geri will cause wall bounce on counter hit
+ - Special intros also occur with Evil Ryu versus Master Ryu
+ - Can now cancel fireball supers into each other
+ - Metsu Hadouken's charge time can no longer be sped up
+ - Punch throw now always uses the slamming to ground version
+ - Metsu Hadouken is no longer unblockable. The beam still is
+ - Senpuu Kyaku can be cancelled into EX Tatsumaki Senpuu Kyaku
+ - Normal Ryu lost Seichuu Nidan Tsuki
+ - Added some special intros and win poses from JMorphman's patch. Mostly against his Ken
+ - Shun Goku Satsu does fixed damage and cannot be escaped
+ - Replaced Reppu Jinrai Shou with Kaze no Ken for Normal Ryu
+ - Reppu Jinrai Shou is now a Level 1 Super and exclusive to Master Ryu
+ - Evil Ryu now has Ryusokyaku instead of Joudan
+ - Changed a few commands around so they're more consistent between different modes
+ - "Classic" air Tatsumaki is now exclusive to Master mode and can hit multiple times
+ - Jump arc is lower
+ - Evil Ryu can now use EX specials as well
+ - Master Ryu still cannot use EX specials, but instead can now use Darkstalkers chain combos
+ - Evil Ryu's Shakunetsu Hadouken now works like Gouki's, as in modern games
+ - Denjin Hadouken can be blocked, but now causes Guard Crush at maximum charge
+ - Remade the color palettes
+ - Remade the collision boxes
+ - And more
+
 
 <14.01.2010>
-- For Mugen 1.0 now
-- Cancel timing is more strict
-- Opponent can't normally air recover out of combos
-- Made Shinkuu Hadouken's startup faster and recovery longer. It will now connect from a
+ - For Mugen 1.0 now
+ - Cancel timing is more strict
+ - Opponent can't normally air recover out of combos
+ - Made Shinkuu Hadouken's startup faster and recovery longer. It will now connect from a
   cancelled Shoryuken
-- Fixed an earlier mistake that made Master Ryu's Tatsumaki behave incorrectly
-- Can cancel the sweep again, and Evil/Master modes can juggle a bit from it
-- Revised Shoryuken hit velocities
-- Zero Counters cost two levels of power and are done with a dragon punch motion
+ - Fixed an earlier mistake that made Master Ryu's Tatsumaki behave incorrectly
+ - Can cancel the sweep again, and Evil/Master modes can juggle a bit from it
+ - Revised Shoryuken hit velocities
+ - Zero Counters cost two levels of power and are done with a dragon punch motion
 
 <27.03.09>
-- Some fixes
+ - Some fixes
 
 <14.12.08>
-- Some more general system fixes
-- Opponent can now Tech Hit throws
-- Applied SF4's command shortcuts to Shun Goku Satsu, you can now also do it as
+ - Some more general system fixes
+ - Opponent can now Tech Hit throws
+ - Applied SF4's command shortcuts to Shun Goku Satsu, you can now also do it as
   "x, x, F + a + z"
 
 <v.2.7>
-- Master Ryu now also has the special intro with my Shin Gouki
+ - Master Ryu now also has the special intro with my Shin Gouki
 
 <v.2.6>
-- Normal Ryu's Tatsumaki Senpuu Kyaku can no longer be stopped by several chars with a single
+ - Normal Ryu's Tatsumaki Senpuu Kyaku can no longer be stopped by several chars with a single
   parry, but rather one per hit
-- Normal Ryu's Tatsumaki Senpuu Kyaku can now hit multiple times during Original Combo
-- Evil Ryu can now juggle after Shinkuu Hadouken in the corner, if you're quick enough
-- Evil Ryu can no longer jump higher, made him too floaty
-- New Metsu Shoryuuken SFX
-- Denjin Hadouken no longer knocks down
-- Cleaned up the Joudan Sokutou Geri sprite edits a bit
-- Denjin Hadouken charges faster for lower levels
-- Improved timing on some of his normal attacks
-- Jumping medium punch now sets the opponent for a juggle, but only Normal and Master Ryu have it
-- Nidan Shouryuu Tsuki -> Shin Shoryuken is now done with the latter's command
-- Walks a bit faster, but as such Evil/Master modes no longer get a speed boost
-- Default palette is now SF2, plus added a SF4 palette
-- Metsu Shoryuuken now does less damage, due to its corner juggle advantages
-- Reppuu Jinrai Shou no longer automatically finishes with a Shoryuken, instead now lets you
+ - Normal Ryu's Tatsumaki Senpuu Kyaku can now hit multiple times during Original Combo
+ - Evil Ryu can now juggle after Shinkuu Hadouken in the corner, if you're quick enough
+ - Evil Ryu can no longer jump higher, made him too floaty
+ - New Metsu Shoryuuken SFX
+ - Denjin Hadouken no longer knocks down
+ - Cleaned up the Joudan Sokutou Geri sprite edits a bit
+ - Denjin Hadouken charges faster for lower levels
+ - Improved timing on some of his normal attacks
+ - Jumping medium punch now sets the opponent for a juggle, but only Normal and Master Ryu have it
+ - Nidan Shouryuu Tsuki -> Shin Shoryuken is now done with the latter's command
+ - Walks a bit faster, but as such Evil/Master modes no longer get a speed boost
+ - Default palette is now SF2, plus added a SF4 palette
+ - Metsu Shoryuuken now does less damage, due to its corner juggle advantages
+ - Reppuu Jinrai Shou no longer automatically finishes with a Shoryuken, instead now lets you
   juggle after it
-- Because of the more polished cancelling and juggling, Shin Shoryuken can no longer juggle
+ - Because of the more polished cancelling and juggling, Shin Shoryuken can no longer juggle
   (unless Super Canceled into)
-- Defense levels now work correctly on single hits, or first hit of a combo
-- The half circle version of Kuuchuu Tatsumaki Senpuu Kyaku now behaves like CvS2, sillier
+ - Defense levels now work correctly on single hits, or first hit of a combo
+ - The half circle version of Kuuchuu Tatsumaki Senpuu Kyaku now behaves like CvS2, sillier
   but more useful
 
 
 <v.2.5>
-- Can no longer Super Cancel Denjin Hadouken
-- Master mode now has an uber stance
-- Master mode now always uses Boufuu Tatsumaki Senpuu Kyaku
-- Master mode defence decreased
-- Metsu Shoryuken is now a Level 2 Super move
-- Ashura Senkuu now has invulnerable startup
+ - Can no longer Super Cancel Denjin Hadouken
+ - Master mode now has an uber stance
+ - Master mode now always uses Boufuu Tatsumaki Senpuu Kyaku
+ - Master mode defence decreased
+ - Metsu Shoryuken is now a Level 2 Super move
+ - Ashura Senkuu now has invulnerable startup
 
 
 <v.2.4>
-- A lot of tweaking and bug fixes
-- Rearranged the palettes (Master Ryu now uses the SF1 palette \o/)
-- Can't remember the rest =P
+ - A lot of tweaking and bug fixes
+ - Rearranged the palettes (Master Ryu now uses the SF1 palette \o/)
+ - Can't remember the rest =P
 
 
 <v.2.2>
-- Mostly fixes and tweaked stuff
-- Added super portrait for Lv3 Supers
-- Shun Goku Satsu now deals 55% damage to normal opponents and 75% to evil characters (see
+ - Mostly fixes and tweaked stuff
+ - Added super portrait for Lv3 Supers
+ - Shun Goku Satsu now deals 55% damage to normal opponents and 75% to evil characters (see
 Other Info), no matter how much life and defence they have >=)
-- Shun Goku Satsu can now be canceled from Ashura Senkuu
-- Rugal can no longer evade Shun Goku Satsu, and now takes extra damage from it. God Rugal
+ - Shun Goku Satsu can now be canceled from Ashura Senkuu
+ - Rugal can no longer evade Shun Goku Satsu, and now takes extra damage from it. God Rugal
 remains the same though
-- Added Flattened special anim
-- Added special intro vs Byakko's CvS2 Ryo
-- Added special intro vs my Sakura
-- Hadouken and Shinkuu Hadouken now have high resolution
-- Standing attacks that aim low can no longer be air-blocked 
-- Stricter timing on the Nidan Shoryuu Tsuki to Shin Shoryuu Ken cancel
-- Slightly increased Shouryuu Ken's range, for smoother cancels
-- Shin Shouryuu Ken now hits jumping opponents correctly
+ - Added Flattened special anim
+ - Added special intro vs Byakko's CvS2 Ryo
+ - Added special intro vs my Sakura
+ - Hadouken and Shinkuu Hadouken now have high resolution
+ - Standing attacks that aim low can no longer be air-blocked 
+ - Stricter timing on the Nidan Shoryuu Tsuki to Shin Shoryuu Ken cancel
+ - Slightly increased Shouryuu Ken's range, for smoother cancels
+ - Shin Shouryuu Ken now hits jumping opponents correctly
 
 
 <v.2.0>
-- Made the char exclusive to Linux and Windows Mugen
-- Fixed most bugs
-- Either tweaked or remade everything
-- Axis is now the same as in CvS2
-- More differences between each mode
-- Super moves now only have one level of strength but, in exchange for it, better combos are
-now possible
-- Changed the throw system to SFZ3
-- Normal attacks can now be cancelled into the taunt
-- Shun Goku Satsu now behaves like with my Shin Gouki
-- Added some moves
-- Added Power Charge
-- Implemented a Damage Reduction system
-- Replaced some voice samples with CFE ones
-- Tweaked and added some fx
-- Added CvS2 sparks
-- New flaming Shun Goku Satsu win screen
-- Added intro vs my Shin Gouki
-- Added intro vs Byakko's CvS2 Another Kyo
-- Lots more
+ - Made the char exclusive to Linux and Windows Mugen
+ - Fixed most bugs
+ - Either tweaked or remade everything
+ - Axis is now the same as in CvS2
+ - More differences between each mode
+ - Super moves now only have one level of strength but, in exchange for it, better combos are now possible
+ - Changed the throw system to SFZ3
+ - Normal attacks can now be cancelled into the taunt
+ - Shun Goku Satsu now behaves like with my Shin Gouki
+ - Added some moves
+ - Added Power Charge
+ - Implemented a Damage Reduction system
+ - Replaced some voice samples with CFE ones
+ - Tweaked and added some fx
+ - Added CvS2 sparks
+ - New flaming Shun Goku Satsu win screen
+ - Added intro vs my Shin Gouki
+ - Added intro vs Byakko's CvS2 Another Kyo
+ - Lots more
 
 
 
-=====<What's Missing>=====
+=====<WHAT'S MISSING>=====
 
-- Every move is in, so I guess that from now on I'll just improve what's done
-- Intro Ryu vs Evil Ryu, from SFZ3
-- Midnight Bliss anim, and some more
-- Remaking the char, probably
+ - Bug fixing
+ - Updating the A.I.
 
 
 
-=====<Special Thanks>=====
+=====<SPECIAL THANKS>=====
 
-- The Dreamslayer, for always helping me when I needed, thanks man ;)
-- H" and Warusaki3 for their CvS2 effects
-- Arthur, Byakko, Cybaster, Fuze, Garuda, Loona, megaman_zer0, O Ilusionista, Panda, Soliduma,
-Toninho 3rd and Winane, for useful feedback
-- Hoshi, Loverman and The DreamSlayer, for CvS2 rips
-- TMasta, for adding extra animation to the clothes on the "holding bandana" intro and Joudan
+ - JustNoPoint, for always helping me when I needed, thanks man ;)
+ - Whoever made the Ryusokyaku sprites. No one seems to know the original author anymore
+ - H" and Warusaki3 for some CvS2 effects
+ - Hoshi, Loverman and JustNoPoint, for CvS2 rips
+ - TMasta, for adding extra animation to the clothes on the "holding bandana" intro and Joudan
 Sokutou Geri
-- Byakko, GCNMario, Reu and The Dreamslayer for some missing CvS voices I missed at the time
-- Byakko, for his tips on how to rip from PSX
-- Ex Inferis, for his tutorial on how to rip from Melty Blood
-- IxnayDK and Synk for their tips
-- Buckethead, for the MvC palette
-- Everyone who supported my work on this character, receiving such support even though there
+ - TMasta, for the "adjusting gloves" animation
+ - VioFitz, for the Ken interaction animations, and JMorphman for coding them
+ - Arthur, Bakudan, Byakko, Cybaster, DivineWolf, Fuze, Garuda, Loona, Lurker, megaman_zer0, O Ilusionista, Panda, RagingRowen, Sennou-Room, Soliduma,
+Toninho 3rd, Trololo, TTTTTsd, Winane, xerf84 and Zazamyon2 for feedback
+ - Byakko, GCNMario, Reu and JustNoPoint for some missing CvS voices I missed at the time
+ - Byakko, for his tips on how to rip from PSX
+ - Ex Inferis, for his tutorial on how to rip from Melty Blood
+ - Winane, for the old A.I. activation code
+ - IxnayDK and Synk for their tips
+ - Buckethead, for the old MvC palette
+ - Everyone who supported my work on this character. Receiving such support even though there
 are already so many Ryu conversions for Mugen was nice
-- You, for downloading my char ;)
+ - You, for downloading my char ;)
 
 
 
-=====<Disclaimer>=====
+=====<DISCLAIMER>=====
 
-- Ryu, Evil Ryu, Capcom Fighting Evolution, Capcom vs Snk and Street Fighter are property
-of Capcom
-- This Mugen character is a non-profit fan work, it cannot be used for any commercial purposes
+ - Ryu, Evil Ryu, Street Fighter, and so on are property of Capcom
+ - This character is a non-profit fan work. It cannot be sold or used for any commercial purposes
+ - No part of this work may be used for personal profit, be it commissions, paywalls and the likes of it

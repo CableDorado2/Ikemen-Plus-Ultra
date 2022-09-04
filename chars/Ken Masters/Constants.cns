@@ -1,49 +1,102 @@
-ï»¿; _________________________________________
-;| Ken by Phantom.of.the.Server & Jmorphman & Beterhans|
-; î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤?
-;====================<CONSTANTS>====================
+;====================<VARIABLE LIST>====================
 
+;var(3)  : Jump Type (0 = Normal; 1 = Low Jump; 2 = Long Low Jump; 3 = Long Jump)
+;var(4)  : Chain Combo (0 = Off; 1 = On)
+
+;var(6)  : Cancel Flag
+;var(7)  : Super Cancel Flag
+;var(8)  : Hyper Cancel Flag
+;var(9)  : Counter Flag
+;var(10) : Button Detect (0 = Light; 1 = Medium; 2 = Heavy)
+;var(11) : Fujin Sen Geri juggle flag (0 = Can juggle; 1 = Can't juggle)
+;var(12) : Mashing Buttons during Tsukami Nage/Shinryuken
+;var(13) : Hit Count
+;var(14) : Followup Detection
+;var(15) : Juggle Points
+;var(16) : Juggle Flag
+;var(17) : Ticks UnGuardable
+;var(18) : ProjContact (0 = No; 1 = Yes)
+;var(19) : Throw Escape
+;var(20) : Custom Combo Time
+;var(21) : Super Cancel Flag
+;var(22) : Hyper Cancel Flag
+;var(23) : Super Finish Type (900 = Custom Combo; 3000 = Shoryureppa; 3100 = Shinryuken; 3200 = Shippu Jinraikyaku; 3300 = Shonetsu Shinryuken; 3400 = Kuzuryureppa; 3500 = Shinbu Messatsu; 3600 = Guren Senpukyaku; 4000 = Double Shinku Hadoken; 4100 = Souryuken)
+
+;var(25) : Ticks to Apply EX FX
+;var(26) : Ticks Unable to Walk
+;var(27) : Lv3 Super finish detection
+
+;var(30) : Hit Detection
+;var(31) : Hit Sound (0 = Light Punch; 1 = Medium Punch; 2 = Heavy Punch; 3 = Light Kick; 4 = Medium Kick; 5 = Heavy Kick; 6 = Projectile Hit; 800 = Grab)
+;var(32) : Guard Sound
+;var(33) : Hit Spark (8010 = Light; 8011 = Medium; 8012 = Heavy; 8013 = Special; 8014 = Super)
+;var(34) : Guard Spark (8000 = Normal; 8001 = Special)
+;var(35) : Spark xPos
+;var(36) : Spark yPos
+
+;var(38) : Throw (0 = Allowed; 1 = Not Allowed)
+;var(39) : Projectile Flag (0 = Off; 1 = On)
+;var(40) : Mode (0 = Normal; 1 = Violent; 2 = Master; 3 = SFIII)
+;var(41) : KO Sound
+;var(42) : Mashing Buttons during Tsukami Nage/Shinryuken Flag
+;var(43) : Player ID to apply flames to
+;var(44) : Tsukami Nage/Shinryuken Timer
+;var(45) : Flame particles timer
+
+;var(58) : Game Time
+;var(59) : AI toggle on/off (when Double Shinku Hadoken/Shin Goku Messatsu conditions met)
+
+;fvar(5) : Amount of Corner Push
+;fvar(10): Damage Dampener
+;fvar(11): Damage Dampener with Counter Multiplier Added
+
+
+
+; _________________________________________
+;| Ken by Jmorphman                        |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;====================<CONSTANTS>====================
 [Data]
 life = 1000
 power = 3000
 attack = 100
 defence = 100
 fall.defence_up = 50
-lieDown.time = 60
+lieDown.time = 30
 airJuggle = 15
 sparkNo = s8010
 guard.sparkNo = s8000
 KO.echo = 0
-volume = 0
+volume = 128
 IntPersistIndex = 0
 FloatPersistIndex = 0
 
 [Size]
 xScale = 1
 yScale = 1
-ground.back = 18
-ground.front = 18
-air.back = 18
-air.front = 18
-height = 60
+ground.back = 16
+ground.front = 16
+air.back = 15
+air.front = 15
+height = 78
 attack.dist = 160
 proj.attack.dist = 90
 proj.doScale = 0
 head.pos = -6, -92
 mid.pos = -6, -60
-shadowOffset = 0
+shadowOffset = -1
 draw.offset = 0,0
 
 [Velocity]
-walk.fwd = 3.5
-walk.back = -2.8
-run.fwd = 6.2, 0
-run.back = -12,0
-jump.neu = 0, -10
-jump.fwd = 3.3
-jump.back = -3.3
-runJump.fwd = 5.04,-11.5
-runJump.back = -5.81,-11.5
+walk.fwd = 3.984375
+walk.back = -2.65625
+run.fwd = 6.640625,0
+run.back = -5.625,0
+jump.neu = 0, -8.90625
+jump.fwd = 4.375
+jump.back = -5
+runJump.fwd = 6.5625,-10.24217606
+runJump.back = -7.5,-10.24217606
 airjump.neu = 0,-6.5
 airjump.back = -2.8
 airjump.fwd = 2.8
@@ -51,7 +104,7 @@ airjump.fwd = 2.8
 [Movement]
 airJump.num = 0
 airJump.height = 0
-yAccel = 0.5
+yAccel = 0.48828125
 stand.friction = 0.85
 crouch.friction = 0.82
 stand.friction.threshold = 1.0
@@ -67,274 +120,207 @@ down.bounce.yAccel = 0.4
 down.bounce.groundLevel = 12
 down.friction.threshold = 0.5
 
+
+
 [Quotes]
-;Normal Ken winquotes
+;====================<WINQUOTES>====================
 victory0 = "Attack me if you dare, I will crush you."
 victory1 = "Get up!! It's too early for you to be defeated!"
-victory2 = "Don't tell me you're actually unconscious."
-victory3 = "Next time I won't be so easy on you."
-victory4 = "Now you see the difference between us!"
-victory5 = "You're better than you look. Try harder."
-victory6 = "You're not bad, but you're not good either."
-victory7 = "You're unconscious? At least you're safe now."
-victory8 = "I had better challenges back in the day..."
-victory9 = "I've beaten the best, and you're not even close!"
-victory10 = "My feet need exercise... Get up!"
-victory11 = "So, now you know what it feels like to be a loser!"
-victory12 = "Washing my boat would've been a better workout!"
-victory13 = "You had no chance against me, but maybe Sean...?"
-victory14 = "You've got a lot to learn before you beat me!"
-victory15 = "Even by the lowest standards, that was really bad!"
-victory16 = "That was pretty funny! Oh, were you being serious?"
-victory17 = "You need to work a bit more on your style!"
-victory18 = "You'll never win with tiny kicks like yours!"
-victory19 = "I thought you had at least a little bit of potential! It seems I was wrong!"
-victory20 = "It's the fighting sense that matters. Time off will never dull my instincts!"
-victory21 = "Fights like this bring out the best in me!"
-victory22 = "Go back! I think you left your ego on the battlefield!"
-victory23 = "I need a better workout than this! Where's Eliza?!"
-victory24 = "In the heat of battle, the blood of the true fighter runs hot!"
-victory25 = "Rivalry can often inspire one's skill to become its best!"
-victory26 = "Shoryu Reppa...! Shinryuken...! Feel my burning vigor!"
-victory27 = "Strong fighters such as yourself make it worth staying in shape!"
-victory28 = "True strength is something money and credit cards cannot buy!"
-victory29 = "Hey, they might make an action figure out of you too, someday!"
-victory30 = "Look forward to the battle! Live for the excitement of the fight!"
-victory31 = "Maybe my kid should practice sparring with you!"
-victory32 = "That's the spirit! Fight fiercely every moment of the battle!"
-victory33 = "Whether you are reckless or brave, use the style that suits you best!"
-victory34 = "Ha! You had better go back to your basic training, rookie!"
-victory35 = "How was that? Did you feel the power of my Shinryuken?"
-victory36 = "I know you want my autograph. I just don't know where you'd like me to sign!"
-victory37 = "My last name is Masters. That should have been your clue, loser!!"
-victory38 = "Your moves are weak and your style is a joke. What were you thinking?!"
-victory39 = "A thin line separates us. I call it 'talent'."
-victory40 = "Get on your feet! That can't be all you got!"
-victory41 = "A quick K.O. is no way to please the crowd! You gotta get 'em worked up!"
-victory42 = "C'mon! I'll take anyone on! I'll knock you all out one after another!"
-victory43 = "Defense will only get you so far against me. You gotta be more aggressive!"
-victory44 = "I know what you wanna say, 'You're so cool! You rock!' That's it, right?"
-victory45 = "Knowing when to quit is not a good quality for a fighter to have, pal."
-;Master Ken winquotes
-victory46 = "Did you know the famous ken player is named Daigo?"
-
-;Akuma Good ghost
-victory47 = "You are fucking good but not for today"
-victory48 = "OK Now I see the power of Chun-Li JJ's boyfriend\nI'll admit, it's no joke!"
-
-;Chun-Li JJ
-victory49 = "Come on let's take a coffee break\nWhat? You finially got a bodfriend his name is Akuma ?? I can't believe it O_O"
-victory50 = "Long time no see, you legs are still sexy"
-victory51 = "I've studied some Chinese culture recently./nI guess you father will push you to get married if he is still alive"
-
-;Violent Ken winquotes
-victory52 = "Gah-haa!"
-victory53 = "I won... b-but...ooooh... oo-gaaaaaah!!!"
-victory54 = "I-is...this... the joy of the powerful...? Heh...heh...heh, heh, heh."
-victory55 = "More... oooh! I-I seek...more powerful opponents...ooh-aah!"
-
-;Violent vs Ken
-victory56 = "Y-you're... oooh-waaaaah!!!"
-
-;Violent vs Ryu
-victory57 = "R-Ryu... I-I am.... oooh-waaaaah!!!"
+victory2 = "Well, at least you threw a punch..."
+victory3 = "All right! I've got that burning feeling in my fists again!"
+victory4 = "Wipe that look off your face, already. You only have yourself to blame!"
+victory5 = "You're not bad, but you're not good either."
+victory6 = "How reckless you are! Don't try to execute a jump-kick on me!"
+victory7 = "Washing my boat would've been a better workout!"
+victory8 = "You had no chance against me, but maybe Sean...?"
+victory9 = "Even by the lowest standards, that was really bad!"
+victory10 = "That was pretty funny! Oh, were you being serious?"
+victory11 = "It's the fighting sense that matters. Time off will never dull my instincts!"
+victory12 = "The flame of my fist won't be put out so easily!"
+victory13 = "I thought that you had at least a little bit of potential! It seems I was wrong!"
+victory14 = "Go back! I think you left your ego on the battlefield!"
+victory15 = "In the heat of battle, the blood of the true fighter runs hot!"
+victory16 = "Rivalry can often inspire one's skill to become its best!"
+victory17 = "I need a better workout than this! Where's Eliza?!"
+victory18 = "True strength is something money and credit cards cannot buy!"
+victory19 = "I will fight with style and finesse, no matter what the outcome may be!"
+victory20 = "Thanks for helping me to show Mel who has the world's strongest fists!"
+victory21 = "Maybe my kid should practice sparring with you!"
+victory22 = "Hey, they might make an action figure out of you too, someday!"
+victory23 = "Your moves are weak and your style is a joke. What were you thinking?!"
+victory24 = "How was that? Did you feel the power of my Shinryuken?"
+victory25 = "My last name is Masters. That should have been your clue, loser!!"
+victory26 = "I know you want my autograph. I just don't know where you'd like me to sign!"
+victory27 = "A thin line separates us. I call it 'talent'."
+victory28 = "Defense will only get you so far against me. You gotta be more aggressive!"
+victory29 = "C'mon! I'll take anyone on! I'll knock you all out one after another!"
+victory30 = "I know what you wanna say, 'You're so cool! You rock!' That's it, right?"
+victory31 = "The ring is no place for thinking! Your fists should be faster than your brain!"
+victory32 = "See? The stronger fighter always wins! As easy to understand as a flowchart!"
+victory33 = "Phew! I bet that would make for one exciting replay!"
+victory34 = "You know my moves, don't you? Why'd you just walk into 'em like that?"
+victory35 = "Say, you're not too shabby! Granted, I still won this one..."
 
 ;Adon
-victory58 = "You should have trained more under Sagat before venturing out on your own."
-
-;Akuma
-victory59 = "So this is the Satsui no Hado I've been hearing about. I'll admit, it's no joke!"
+victory36 = "You should have trained more under Sagat before venturing out on your own."
 
 ;Alex
-victory60 = "You're not so bad! But you're not so good either! Only average..."
+victory37 = "You're not so bad! But you're not so good either! Only average..."
 
-;Balrog/M.Bison
-victory61 = "You don't have what it takes to be America's No. 1 fighter!"
+;Akuma
+victory38 = "You may fight like my best friend, but you cannot compare to him!"
+victory39 = "So this is the Satsui no Hado I've been hearing about. I'll admit, it's no joke!"
+
+;Balrog
+victory40 = "You don't have what it takes to be America's No. 1 fighter!"
 
 ;Blanka
-victory62 = "You can bite and shock me all you want. In the end, I still walk away the champ!"
+victory41 = "I'm sure the jungle is pretty severe, but have you ever tried to take on the corporate world?"
 
 ;Cammy
-victory63 = "Don't look so mad, kid! You're cuter when you're smiling!"
+victory42 = "Ever consider fighting more relaxed? You're even making me feel tense!"
 
 ;Chun Li
-victory64 = "Anyone ever say that you're a workaholic? Take a vacation once in a while!"
+victory43 = "Wow, those were some sharp kicks. But when it comes to raw power, mine are stronger."
 
 ;Cody
-victory65 = "Everyone gets down in the dumps sometimes. I'm sure you'll get over it."
+victory44 = "Everyone gets down in the dumps sometimes. I'm sure you'll get over it."
 
 ;Dan
-victory66 = "Knocked out already? Dude, are you for real?"
+victory45 = "Knocked out already? Dude, are you for real?"
 
 ;Dee Jay
-victory67 = "I'm always up for a rough-and-tumble fight, dude!"
+victory46 = "I'm always up for a rough-and-tumble fight, dude!"
 
 ;Dhalsim
-victory68 = "No matter how many times I see it, your limbs really freak me out, man!"
+victory47 = "No matter how many times I see it, your limbs really freak me out, man!"
 
 ;Dudley
-victory69 = "You should lose that fake Shoryuken... You'll look like more of a down-to-earth gentleman!"
+victory48 = "You should lose that fake Shoryuken... You'll look like more of a down-to-earth gentleman!"
 
 ;E. Honda
-victory70 = "You gotta be first in Japan before you can be first in the world, pal!"
+victory49 = "You gotta be first in Japan before you can be first in the world, pal!"
 
 ;Elena
-victory71 = "A lady like you should not act so violently!"
+victory50 = "It’s not that I don’t like dancing. It’s just that fighting suits me better."
+
+;Evil Ryu/Kage
+victory51 = "Ryu... Is that really you!? What the hell happened? Ryu!"
+victory52 = "I've got a long way to fall before I get looked down on by the likes of you."
 
 ;Fei Long
-victory72 = "So, where's the camera crew? I don't see anyone..."
-
-;Gill
-victory73 = "I'm the only true 'Man of Flame!' By the way, do you get wet around the middle?"
+victory53 = "I guess I should be the big star instead of you, huh?"
 
 ;Gen
-victory74 = "You're one dangerous senior citizen, I'll tell you that!"
+victory54 = "You're one dangerous senior citizen, I'll tell you that!"
+
+;Gill
+victory55 = "I'm the only true 'Man of Flame!' By the way, do you get wet around the middle?"
 
 ;Gouken
-victory75 = "M-Master?! What are you doing here? Why now?"
+victory56 = "You're not mad at me, are you, Master?"
 
 ;Guile
-victory76 = "I hope Eliza doesn't get mad at me for beating up my brother-in-law like that."
+victory57 = "I hope Eliza doesn't get mad at me for beating up my brother-in-law like that."
 
 ;Guy
-victory77 = "Don't get me wrong. I really like red. I just don't think it suits a ninja."
-
-;Ibuki
-victory78 = "Alright! Alright! I won't treat you like a kid from now on. Happy?"
+victory58 = "Don't get me wrong. I really like red. I just don't think it suits a ninja."
 
 ;Hugo
-victory79 = "The bigger they are, the harder they fall!"
+victory59 = "You need to work on your footwork. You’re not going to beat me by just power alone."
+
+;Ibuki
+victory60 = "Alright! Alright! I won't treat you like a kid from now on. Happy?"
+
+;Jin Kazama
+victory61 = "If you have time to play around here, shouldn't you be taking better care of the Mishima Zaibatsu?"
+
+;Karin
+victory62 = "Come to think of it, doesn't your butler usually show up about now?"
+
+;Kazuya Mishima
+victory63 = "Been too busy with business to keep up your training? Learn how to multi-task, man!"
 
 ;Ken
-victory80 = "In this world, there are some things you cannot imitate!"
-victory81 = "My style's too cool to be copied! Shoryuken! Shoryuken! And Shoryuken!"
+victory64 = "In this world, there are some things you cannot imitate!"
+victory65 = "My style's too cool to be copied! Shoryuken! Shoryuken! And Shoryuken!"
+victory66 = "If you wanna impersonate me, you'd better remember to include the strength next time!"
+
+;M. Bison
+victory67 = "Your days as an evil overlord are over! Don't show your face around here again!"
+victory68 = "How many times is this? No worries. I never get tired of kicking your butt."
 
 ;Makoto
-victory82 = "For a kid, you sure are tough! I've got high hopes for your Rindo-kan dojo!"
-
-;M.Bison / VEGA
-victory83 = "Your days as an evil overlord are over! Don't show your face around here again!"
-victory84 = "Buffalo, or whatever you're called, you're full of crap!" ;Master Ken only
+victory69 = "For a kid, you sure are tough! I've got high hopes for your Rindo-kan dojo!"
 
 ;Necro
-victory85 = "You're so interesting. Come back if you want to challenge me again!
+victory70 = "You're welcome to fight me anytime!! You're fun to beat!"
 
 ;Oro
-victory86 = "So you're looking for a disciple? Don't make me laugh! You should be my disciple!"
+victory71 = "So you're looking for a disciple? Don't make me laugh! You should be my disciple!"
+
+;Poison
+victory72 = "If you want more money, you should first work on figuring out how to save it."
+
+;R. Mika
+victory73 = "Brute force alone won't beat me! You need to polish your moves!"
+
+;Rolento
+victory74 = "Geez, who talks like that? I thought war movies went out of style years ago!"
 
 ;Rose
-victory87 = "I only believe in fortune tellers when they have good news!"
+victory75 = "Phew! You almost had me back there. Felt like I was hypnotized or somethin'!"
 
 ;Ryu
-victory88 = "I think we've fought too many times now. When will you accept that I'm better?"
-victory89 = "Looks like I came out on top this time! Better luck next time, friend!"
+victory76 = "I think we've fought too many times now. When will you accept that I'm better?"
+victory77 = "It's time you settled down and raised a family. Maybe I'll help you, my friend."
+victory78 = "Now we know who has the better Shoryuken! This is just the start of my win streak, buddy!"
+victory79 = "Ha! I enjoyed fighting with you. Wanna go another round?"
 
 ;Sagat
-victory90 = "Ryu was right. You're a tough customer. But I'm his real rival!"
+victory80 = "Ryu was right. You're a tough customer. But I'm his real rival!"
 
 ;Sakura
-victory91 = "You've gotten a lot stronger! I can't let my guard down around you anymore!"
+victory81 = "It's good to see you're doin' good, kid. Say, have you fought you-know-who yet?"
+victory82 = "You just keep getting stronger! You may even beat me the next time we fight!"
 
-;Morrigian / Lilith
-victory92 = "Sorry Baby, I have to compnay my wife later."
 ;Sean
-victory93 = "You must defeat Ryu to stand a chance!"
+victory83 = "You must defeat Ryu to stand a chance!"
+victory84 = "You must understand the basic rules of fighting!"
 
 ;T. Hawk
-victory94 = "The chance to meet interesting people like you is why I can't quit fighting!"
+victory85 = "The chance to meet interesting people like you is why I can't quit fighting!"
 
 ;Urien
-victory95 = "So that's what you can do with your 'Iron Body?' How wonderful!"
+victory86 = "So that's what you can do with your 'Iron Body?' How wonderful!"
 
 ;Vega
-victory96 = "Take your eyes off the mirror for a second and hit the gym now and then!"
+victory87 = "Take your eyes off the mirror for a second and hit the gym now and then!"
 
 ;Yang
-victory97 = "Naughty boy! To beat me, you'll need more than flashy moves!"
+victory88 = "Naughty boy! To beat me, you'll need more than flashy moves!"
 
 ;Yun
-victory98 = "Your Kung Fu is improving, kid. You might become really good... Someday."
+victory89 = "Your Kung Fu is improving, kid. You might become really good... Someday."
 
 ;Zangief
-victory99 = "You didn't give it your all, did you? Were you afraid of my Hadokens?"
+victory90 = "You're still having trouble with Hadokens? Man, how many years has it been?"
 
-;====================<VARIABLE LIST>====================
+;====================<VIOLENT WINQUOTES>====================
+victory91 = "I-is...this... the joy of the powerful...? Heh...heh...heh, heh, heh."
+victory92 = "I won... b-but...ooooh... oo-gaaaaaah!!!"
+victory93 = "Gah-haa!"
+victory94 = "More... oooh! I-I seek...more powerful opponents...ooh-aah!"
+victory95 = "I feel like a man reborn. And now... Now I can never lose!"
 
-;var(3)  : Jump Type (0 = Normal; 1 = Low Jump; 2 = Long Low Jump; 3 = Long Jump)
-;var(4)  : Enemy Attack Status (0=Not Attack, 1=Attack Start, 2=Danager time, 3=Ending Attack)
-;var(6)  : In Normal Cancelable State 
-;var(7)  : In Special Cancelable State
-;var(8)  : In Super Cancelable State
-;var(9)  : Counter Flag
-;var(10) : Button Detect (0 = Light; 1 = Medium; 2 = Heavy)
-;var(11) : Lv3 Super finish detection
-;var(12) : Mashing Buttons during Tsukami Nage/Shinryuken ( Shared with var(14) )
-;var(13) : Hit Count by state
-;var(14) : AI Walk type 0 = Forward 1 = Random -1 = Backward
-;var(15) : Juggle Points (Not Used Anymore)
-;var(16) : Juggle Flag (Not Used Anymore)
-;var(17) : Ticks UnGuardable
-;var(18) : (Not Used Anymore)ProjContact (0 = No; 1 = Yes)
-;var(19) : Throw Escape Tech hit
-;var(20) : Custom Combo Time
-;var(21) : Parry type
-;var(22) : (Not Used Anymore)Hyper Cancel Flag (Not Used Anymore)
-;var(23) : Super Finish Type (900 = Custom Combo; 3000 = Shoryureppa; 3100 = Shinryuken; 3200 = Shippu Jinraikyaku; 3300 = Jouen Shinryuken; 3400 = Kuzuryureppa; 3500 = Shinbu Messatsu; 3600 = Double Shinku Hadoken; 3700 = Souryuken)
-;var(25) : Ticks to Apply EX FX
-;var(26) : Ticks Unable to Walk
-; var(27) - Build power save power var
-;var(28) : AI No Guard Flag
-;var(29) : Active Projectile Flag (0 = Off; 1 = On)
-;var(32) Close Enemy,ID
-;var(33) Far   Enemy,ID
-;var(34) Teammate Player ID
-;var(35) 0 = Damger 1=Teammate is defending me 2=we are traping an enemy 3=Partner trapped.4=Teammate Cornered
-;var(36) Helper's Target ID
-;var(38) - Dizzy Threshold
-;Var(39) - Dizzy Var (1 ready to dizz 2 dizzing)
-;var(40) : Mode (0 = Normal; 1 = Violent; 2 = Master)
-;var(41) : KO sound
-;var(42) : Mashing Buttons during Tsukami Nage/Shinryuken Flag
-;var(44) - Specal Info announce out
-;		 - 00000001 = 01 = Dodge
-;		 - 00000010 = 02 = Charge
-;		 - 00000100 = 04 = Alpha Counter
-;		 - 00001000 = 08 = DarkStalker Combo
-;		 - 00010000 = 16 = Fast Attack
-;		 - 00100000 = 32 = Hadoken
-;var(46) : Enemy Info Like var(44)
-;var(50) : Hit Detection
-;var(51) : Hit Sound (0 = Light Punch; 1 = Medium Punch; 2 = Heavy Punch; 3 = Light Kick; 4 = Medium Kick; 5 = Heavy Kick; 6 = Projectile Hit; 800 = Grab)
-;var(52) : Guard Sound
-;var(53) : Hit Spark (8010 = Light; 8011 = Medium; 8012 = Heavy; 8013 = Special; 8014 = Super)
-;var(54) : Guard Spark (8000 = Normal; 8001 = Special)
-;var(55) : Spark xPos
-;var(56) : Spark yPos
-;Var(57) - StateDef -2 UnCommon Hit Var (Oppoent cheat stateno Var Like Diamon Earth Quake)
-;var(58) : Game Time
-;var(59) : AI Task
-;0 = Free Style 
-;1 = Maintain distance
-;2 = try to Throw 
-;3 = enmey fail from air (shoryuken)have chance go close 
-;4 = emeny back open 
-;5 = Enemy taunt
-;6 = Enemy Evade moves forward
-;40 = OC Combo
-;42 = Last Throw
-;1430 = Have Target 1430
-;3200 = Chun-Li Super
-;5300 = Enemynear dizzy.
-;1240 = Use 1240 antiair
+;Ken
+victory96 = "Y-you're... oooh-waaaaah!!!"
+;Ryu
+victory97 = "R-Ryu... I-I am.... oooh-waaaaah!!!"
 
-;fvar(5) : Amount of Corner Push
-;fvar(10): Damage Dampener By hit
-;fvar(11): Damage Dampener By HP
-;fvar(28): Pre Dampner
-;fvar(29): Total Dampener
-;fvar(38): Dizzy var in 5300
-;fvar(39): Dizzy var counter
 
-Helper 1000 vars
-var(3); Project Hit
+;====================<MASTER WINQUOTES>====================
+victory98 = "Heh, lots of women find me disturbing."
 
+;M. Bison
+victory99 = "Buffalo, or whatever you're called, you're full of crap!"

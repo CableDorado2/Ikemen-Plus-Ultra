@@ -1,6 +1,6 @@
-ï»¿; _________________________________________
-;| Ken by Phantom.of.the.Server & Jmorphman & Beterhans|
-; î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤?
+; _________________________________________
+;| Ken by Jmorphman                        |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;==============================================================================================
 ;=======================================<SYSTEM STATES>========================================
 ;==============================================================================================
@@ -13,35 +13,24 @@ moveType = I
 velSet = 0,0
 sprPriority = 0
 
-;[State 0, Remove Explods]
-;type = RemoveExplod
-;trigger1 = IsHelper
+[State 0, Remove Explods]
+type = RemoveExplod
+trigger1 = IsHelper
 
-;[State 0, Destroy Helpers]
-;type = DestroySelf
-;trigger1 = IsHelper
+[State 0, Destroy Helpers]
+type = DestroySelf
+trigger1 = IsHelper
 
 [State 0, ChangeAnim]
 type = ChangeAnim
-trigger1 = (Anim != 5 && Anim != 7) && Anim != var(40) * 2
-trigger2 = (Anim = 5 || Anim = 7) && !AnimTime
-value = var(40) * 2
+trigger1 = Anim != ifElse(var(40) = 3, 4, ifElse(var(40) = 1, 2, ifElse(var(40) = 2, 3, 0))) && Anim != 5 && Anim != 7
+trigger2 = Anim = ifElse(var(40) = 1, 7, 5) && !AnimTime
+value = ifElse(var(40) = 3, 4, ifElse(var(40) = 1, 2, ifElse(var(40) = 2, 3, 0)))
 
 [State 0, ChangeAnim]
 type = ChangeAnim
 trigger1 = Anim = 5 && var(40) = 1
 value = 7
-
-[State 0, Die because of Bad character]
-type = LifeAdd
-trigger1 = NumEnemy
-trigger1 = Enemy, AuthorName = "alexlexus" && Enemy, Name = "Gouken"
-value = -1000
-
-[State 0, Dead]
-type = ChangeState
-trigger1 = !Alive
-value = 5050
 
 [State 0, Skywalker]
 type = ChangeState
@@ -54,6 +43,11 @@ trigger3 = (Enemy(0), Name = "M -NES Game 1" + Enemy(0), Name = "M -NES Game 2" 
 trigger3 = (Enemy(1), Name = "M -NES Game 1" + Enemy(1), Name = "M -NES Game 2" + Enemy(1), Name = "M -GB Game 1" + Enemy(1), AuthorName = "Bane84") < 2
 value = 50
 
+[State 0, Dead]
+type = ChangeState
+trigger1 = !Alive
+value = 5050
+
 
 
 ;====================<CROUCHING>====================
@@ -65,31 +59,22 @@ moveType = I
 velSet = 0,0
 sprPriority = 0
 
-[State 10, ChangeAnim]
-type = ChangeAnim
-triggerAll = var(40) != 1
-trigger1 = !Time && Anim = 12
-value = 10
-elem = 3 - AnimElemNo(0)
-
-[State 10, ChangeAnim]
-triggerAll = var(40) != 1
-type = ChangeAnim
-trigger1 = Anim != 10
-value = 10
+[State 10, Reversed Commands: change to jumping]
+type = ChangeState
+trigger1 = !Time
+trigger1 = NumExplod(92828282) || NumExplod(92468246) && command = "holddown"
+value = 40
 
 [State 10, ChangeAnim]
 type = ChangeAnim
-triggerAll = var(40) = 1
-trigger1 = !Time && Anim = 15
-value = 13
+trigger1 = !Time && Anim = ifElse(var(40) = 1, 15, 12)
+value = ifElse(var(40) = 1, 13, 10)
 elem = 3 - AnimElemNo(0)
 
 [State 10, ChangeAnim]
 type = ChangeAnim
-triggerAll = var(40) = 1
-trigger1 = Anim != 13
-value = 13
+trigger1 = Anim != ifElse(var(40) = 1, 13, 10)
+value = ifElse(var(40) = 1, 13, 10)
 
 [State 10, End]
 type = ChangeState
@@ -102,20 +87,20 @@ value = 11
 type = C
 physics = C
 moveType = I
-anim = ifElse(var(40) != 1, 11, 14)
+anim = ifElse(var(40) = 1, 14, 11)
 velSet = 0,0
 sprPriority = 0
 
 [State 11, ChangeAnim]
 type = ChangeAnim
-trigger1 = (Anim != 6 && Anim != 8) && Anim != 11 && Anim != 14
-trigger2 = (Anim = 6 || Anim = 8) && !AnimTime
-value = ifElse(var(40) != 1, 11, 14)
+trigger1 = Anim = ifElse(var(40) = 1, 8, 6) && !AnimTime
+value = ifElse(var(40) = 1, 14, 11)
 
 [State 11, ChangeAnim]
 type = ChangeAnim
 trigger1 = Anim = 6 && var(40) = 1
 value = 8
+
 
 
 ;Crouch to Stand
@@ -126,36 +111,22 @@ moveType = I
 velSet = 0,0
 sprPriority = 0
 
-[State 12, ChangeAnim]
-type = ChangeAnim
-triggerAll = var(40) != 1
-trigger1 = !Time && Anim = 10
-value = 12
-elem = 3 - AnimElemNo(0)
-
-
-[State 12, Anim]
-type = changeanim
-triggerall = var(40) != 1
-triggerall = !(anim = 761 && animtime)
-trigger1 = anim = 761 && !animtime
-trigger2 = anim != 12
-value = 12
+[State 12, Reversed Commands: change to "fake" crouch state]
+type = ChangeState
+trigger1 = !Time
+trigger1 = (NumExplod(92828282) || NumExplod(92468246)) && command = "holdup"
+value = 13
 
 [State 12, ChangeAnim]
 type = ChangeAnim
-triggerAll = var(40) = 1
-trigger1 = !Time && Anim = 13
-value = 15
+trigger1 = !Time && Anim = ifElse(var(40) = 1, 13, 10)
+value = ifElse(var(40) = 1, 15, 12)
 elem = 3 - AnimElemNo(0)
 
-[State 12, Anim]
-type = changeanim
-triggerall = var(40) = 1
-triggerall = !(anim = 761 && animtime)
-trigger1 = anim = 761 && !animtime
-trigger2 = anim != 15
-value = 15
+[State 12, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != ifElse(var(40) = 1, 15, 12)
+value = ifElse(var(40) = 1, 15, 12)
 
 [State 12, End]
 type = ChangeState
@@ -168,6 +139,27 @@ trigger1 = !AnimTime
 value = 0
 
 
+;"Fake" crouch state (for reversed commands)
+[StateDef 13]
+type = C
+physics = C
+moveType = I
+velSet = 0,0
+sprPriority = 0
+ctrl = 1
+
+[State 13, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != ifElse(var(40) = 1, 13, 10) && Anim != ifElse(var(40) = 1, 15, 11) && Anim != 141
+value = 10
+
+[State 13, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim = ifElse(var(40) = 1, 13, 10) && !AnimTime
+trigger2 = Anim = 141 && !AnimTime
+value = 11
+
+
 
 ;====================<WALKING>====================
 [StateDef 20]
@@ -178,317 +170,96 @@ sprPriority = 0
 
 [State 20, VelSet]
 type = VelSet
+trigger1 = !NumExplod(94646464) && !NumExplod(92468246)
 trigger1 = command = "holdfwd"
-x = const(velocity.walk.fwd.x)
+trigger2 = NumExplod(94646464) || NumExplod(92468246)
+trigger2 = command = "holdback"
+x = ifElse(var(40) = 1, 2.33203125, const(velocity.walk.fwd.x))
 
 [State 20, VelSet]
 type = VelSet
+trigger1 = !NumExplod(94646464) && !NumExplod(92468246)
 trigger1 = command = "holdback"
-x = const(velocity.walk.back.x)
+trigger2 = NumExplod(94646464) || NumExplod(92468246)
+trigger2 = command = "holdfwd"
+x = ifElse(var(40) = 1, -2.33203125, const(velocity.walk.back.x))
+
+[State 20, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim = 5 && var(40) = 1
+value = 7
 
 [State 20, ChangeAnim]
 type = ChangeAnim
 triggerAll = vel x > 0
-trigger1 = Anim != 20 && Anim != 5
-trigger2 = Anim = 5 && AnimElemTime(1) >= 1
+trigger1 = Anim != 20 && Anim != ifElse(var(40) = 1, 7, 5)
+trigger2 = Anim = ifElse(var(40) = 1, 7, 5) && AnimElemTime(1) >= 1
 value = 20
 
 [State 20, ChangeAnim]
 type = ChangeAnim
 triggerAll = vel x < 0
-trigger1 = Anim != 21 && Anim != 5
-trigger2 = Anim = 5 && AnimElemTime(1) >= 1
+trigger1 = Anim != 21 && Anim != ifElse(var(40) = 1, 7, 5)
+trigger2 = Anim = ifElse(var(40) = 1, 7, 5) && AnimElemTime(1) >= 1
 value = 21
 
-;<AI Walking>=============================
-[Statedef 21]
-type= S
-physics=N
-sprpriority= 0
-ctrl= 0
-facep2= 1
-
-[State 21, Init Pos fix]
-type= posset
-trigger1= !time
-pos y= 0
-persistent= 0
-
-[State 21, Var14Clear]
-type= Varset
-trigger1= !time
-var(14)= 0
-Persistent=0
-
-[State 21, Var12Clear]
-type= Varset
-trigger1= !time
-var(12)= 0
-Persistent=0
-
-[State 21, Init get random var less them 400]
-type= Varset
-trigger1= !time
-trigger1= random<400
-var(14)=1                 ;1=Random Move, 0=forced forward, -1=forced backward
-
-[State 21, Conditions for force MoveForward at start]
-type= Varset
-triggerAll= !time
-trigger1= BackEdgeBodyDist <= 20
-trigger2= Enemynear,BackEdgeBodyDist <= 20 && !(Enemynear,Prevstateno=[5100,5299]) 
-trigger3= ((Enemynear,Stateno=[5100,5299]) || P2Statetype=L || P2Movetype=H) && P2Bodydist x > 100
-trigger4= NumTarget
-trigger5= Enemynear,P2dist x < -20
-trigger6= (var(59) = [2,4])
-var(14)=0
-
-[State 21, Conditions for force MoveBackward at start]
-type= Varset
-triggerAll= !time
-trigger1= BackEdgeBodyDist > 60 && !NumTarget
-trigger1= Random<220 + 700*((Enemynear,Prevstateno=[5100,5299]) || (Enemynear,Stateno=[5100,5299]) || P2Statetype=L)
-trigger2= NumEnemy && Enemynear,vel x > 3 && random<320
-trigger3= var(59) = 6 && P2Bodydist x < 60
-var(14)= -1
-
-[State 21, INIT Move Var]
-type= Varset
-trigger1= !time && var(14)=1
-var(12)= 0
-
-[State 21, add random Move Var]
-type= Varset
-trigger1= var(14)=1 && var(12)<1
-var(12)= 60+random%41
-
-[State 21, consume Move var]
-type= Varadd
-trigger1= var(14)=1
-trigger1= var(12)>0
-var(12)= -1
-
-[State 21, Force move back]
-type= Varset
-triggerall= var(14) != -1 && time
-trigger1= P2Bodydist x<50 && (P2Statetype=L || (P2StateNo=[5100,5299]))
-trigger2= NumTarget(1430)
-trigger2= P2Bodydist x < 20
-trigger3= var(59) = 6 && P2Bodydist x < 60
-;5300 move to jump pos
-trigger4= var(59) = 5300 && Enemynear,Anim != 5300
-trigger4= P2bodydist x < 55
-trigger4= (BackEdgeBodydist + P2Bodydist x) > 55
-var(14)= -1
-
-[State 21, Force move forward]
-type= Varset
-triggerall= var(14) != 0 && time
-trigger1= NumTarget(1430)
-trigger1= P2Bodydist x > 35
-trigger2= (var(59) = [2,4])
-trigger3= var(59) = 5300 && Enemynear,Anim = 5300
-trigger3= P2bodydist x > 2
-trigger4= var(59) = 5300 && Enemynear,Anim != 5300
-trigger4= P2bodydist x > 70 || (BackEdgeBodydist + P2Bodydist x) <= 55
-var(14)= 0
-
-[State 21, Move Forward]
-type = VelSet
-trigger1= !time && var(14)= 0
-trigger2= Var(14)=1 && Var(12)>=30
-trigger3= time && NumTarget(1310) && var(14) = 0
-trigger4= Anim = 21 && var(14) = 0
-x = const(velocity.walk.fwd.x) * const(size.xscale)
-
-[State 21, Move Backward]
-type = VelSet
-trigger1= !time && var(14)= -1
-trigger2= Var(14)=1 && Var(12)<30
-trigger3= time && NumTarget(1310) && var(14) = -1
-trigger4= Anim = 20 && var(14) = -1
-x = const(velocity.walk.back.x) * const(size.xscale)
-
-[State 21, 3]
-type = ChangeAnim
-triggerall = vel x > 0
-trigger1 = Anim != 20 && Anim != 5
-trigger2 = Anim = 5 && AnimTime = 0
-value = 20
-
-[State 21, 4]
-type = ChangeAnim
-triggerall = vel x < 0
-trigger1 = Anim != 21 && Anim != 5
-trigger2 = Anim = 5 && AnimTime = 0
-value = 21
-
-[State 21, Exit to 0]
-type = changestate
-triggerall = !((var(59) = [2,4]) || var(59) = 6) || (P2Bodydist x < -10 && Anim = 20) || P2Dist x < 0
-triggerall = P2MoveType != H || P2Dist x < 0
-trigger1 = !NumTarget
-trigger1 = p2bodydist x <= 60 && (random < ifelse((Enemynear,vel x<-1),20,200))
-trigger1 = P2StateNo<5000 && P2Movetype!=H
-trigger2 = p2dist x < 0
-trigger3 = time && vel x>0 && FrontEdgeBodyDist <= 40
-trigger4 = time && vel x<0 && BackEdgeBodyDist < 20
-trigger5 = enemy,numproj > 0
-trigger6 = InGuardDist
-trigger7 = roundstate != 2
-trigger8 = (P2Stateno=[5100,5299]) && P2Bodydist x <30
-trigger9 = p2bodydist x < 10 && !NumTarget
-value = 0
-ctrl = 1
-
-[State 21, Exit to 0 safe]
-type = changestate
-trigger1 = RoundState != 2
-value = 0
-ctrl = 1
-
-;====================<A.I. JUMPING>====================
-;Jumping
-[StateDef 39]
-type = S
-physics = S
-moveType = I
-anim = ifElse(var(40) = 1, 48, 40)
-ctrl = 0
-velSet = 0,0
-sprPriority = 1
-faceP2 = 1
-
-[State 39, Direction Forward or backward]
-type = VarSet
-trigger1 = !time && AILevel
-sysvar(1) = IfElse(Enemynear,Ctrl || (P2StateNo = [0,105]),0,IfElse((P2StateNo = [5030,5120]),-1,1))
-
-[State 39, Force forward]
-type = VarSet
-trigger1 = !time && AILevel
-trigger1 = var(59) = 1240 || var(59) = 5300
-sysvar(1) = 1
-
-[State 39, Force up]
-type = VarSet
-trigger1 = !time && AILevel
-trigger1 = var(59) = 3200
-sysvar(1) = 0
-
-[State 39, High Jump (AI)]
-type = VarSet
-trigger1 = !Time && AILevel && var(59) = 0
-var(3) = ifElse((P2BodyDist x >= 170 || Random < (125 * (AILevel ** 2 / 64.0))), 3, 0)
-
-[State 39, Low Jump (AI)]
-type = VarSet
-triggerall = !time && AILevel && (var(3) != [1,2]) && Random < 200
-trigger1 = P2Bodydist x = [120,60]
-var(3) = ifElse((var(3) = 3 && sysvar(1)), 2, 1)
-
-[State 39, Low Jump (stand jump)]
-type = VarSet
-triggerall = !time && AILevel && sysvar(1) = 0
-trigger1 = P2Bodydist x < 70
-var(3) = 1
-
-[State 39, Force Normal jump TASK]
-type = varset
-trigger1 = !Time && var(59) = 3200
-var(3) = 0
-
-[State 39, Force High jump TASK]
-type = varset
-triggerall = !Time
-trigger1 = var(59) = 5300
-trigger1 = P2Bodydist x >= 115
-var(3) = 3
-
-[State 39, High Jump]
-type = VarSet
-trigger1 = !Time && PrevStateNo = 100
-var(3) = 3
-
-[State 39, Jump Sound]
-type = PlaySnd
-trigger1 = !AnimTime
-value = ifElse((var(3) = [2,3]), 41, 40), 0
-
-[State 39, Dust Helper]
-type = Helper
-trigger1 = !AnimTime
-helperType = Normal
-stateNo = 8100
-ID = 8100
-name = "Jump Dust"
-posType = P1
-ownPal = 1
-
-[State 39, Velocity: Normal Jump]
-type = VelSet
-trigger1 = !AnimTime
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.jump.fwd.x), const(velocity.jump.back.x)))
-y = const(velocity.jump.y)
-
-[State 39, Velocity: Low Jump]
-type = VelSet
-trigger1 = !AnimTime && var(3) = 1
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.jump.fwd.x), const(velocity.jump.back.x)))
-y = 0.8 * const(velocity.jump.y)
-
-[State 39, Velocity: Long Low Jump]
-type = VelSet
-trigger1 = !AnimTime && var(3) = 2
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.runjump.fwd.x), const(velocity.runjump.back.x)))
-y = 0.75 * const(velocity.jump.y)
-
-[State 39, Velocity: Long Jump]
-type = VelSet
-trigger1 = !AnimTime && var(3) = 3
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.runjump.fwd.x), const(velocity.runjump.back.x)))
-y = ifElse(!sysvar(1), const(velocity.runjump.y), const(velocity.jump.y))
-
-[State 39, VelMul]
-type = VelMul
-trigger1 = !AnimTime && var(40)
-x = ifElse(var(40) = 1, 0.95,1)
-y = 1.01
-
-[State 39, End]
-type = ChangeState
-trigger1 = !AnimTime
-value = 50
-ctrl = 1
 
 
-
-;====================<Human JUMPING>====================
+;====================<JUMPING>====================
 ;Jumping
 [StateDef 40]
 type = S
 physics = S
 moveType = I
-anim = ifElse(var(40) = 1, 48, 40)
 ctrl = 0
 velSet = 0,0
 sprPriority = 1
 faceP2 = 1
 
-[State 40, If AI Use this state to go walk]
+[State 40, Reversed Commands: change to "fake" crouch state]
 type = ChangeState
-trigger1 = AILevel
-value = 21
+trigger1 = !Time
+trigger1 = (NumExplod(92828282) || NumExplod(92468246)) && command = "holdup"
+value = 13
+
+[State 40, If AI, change back to stand state when Double Shinku Hadoken/Shin Goku Messatsu is possible]
+type = ChangeState
+trigger1 = var(59)
+value = 0
+ctrl = 1
+
+[State 40, ChangeAnim]
+type = ChangeAnim
+trigger1 = !Time
+value = ifElse(var(40) = 1, 48, 40)
 
 [State 40, Direction]
 type = VarSet
 trigger1 = !AILevel
+trigger1 = !NumExplod(94646464) && !NumExplod(92468246)
 sysvar(1) = ifElse(!Time, 0, ifElse(command = "holdfwd", 1, ifElse(command = "holdback", -1, sysvar(1))))
+
+[State 40, Direction (Reversed Commands)]
+type = VarSet
+trigger1 = !AILevel
+trigger1 = NumExplod(94646464) || NumExplod(92468246)
+sysvar(1) = ifElse(!Time, 0, ifElse(command = "holdback", 1, ifElse(command = "holdfwd", -1, sysvar(1))))
+
+[State 40, Direction (AI)]
+type = VarSet
+trigger1 = AILevel
+sysvar(1) = ifElse((EnemyNear, MoveType != A || BackEdgeBodyDist <= 10), 1, ifElse((EnemyNear, MoveType = A), -1, 0))
 
 [State 40, High Jump]
 type = VarSet
 trigger1 = !Time && !AILevel
-var(3) = ifElse(command = "highjump", 3, 0)
+;ifElse(command = "highjump", 3, 0)
+var(3) = ifElse(NumExplod(90000408), 3, 0)
+
+[State 40, High Jump (AI)]
+type = VarSet
+trigger1 = !Time && AILevel
+var(3) = ifElse((P2BodyDist x >= 160 || Random < (125 * (AILevel ** 2 / 64.0))), 3, 0)
 
 [State 40, High Jump]
 type = VarSet
@@ -497,7 +268,16 @@ var(3) = 3
 
 [State 40, Low Jump]
 type = VarSet
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && command != "holdup" && (var(3) != [1,2])
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && command != "holddown" && (var(3) != [1,2])
+var(3) = ifElse((var(3) = 3 && sysvar(1)), 2, 1)
+
+[State 40, Low Jump (AI)]
+type = VarSet
+trigger1 = AILevel && (var(3) != [1,2])
+trigger1 = (EnemyNear, StateType = C) && Random < 500
 var(3) = ifElse((var(3) = 3 && sysvar(1)), 2, 1)
 
 [State 40, Jump Sound]
@@ -518,33 +298,26 @@ ownPal = 1
 [State 40, Velocity: Normal Jump]
 type = VelSet
 trigger1 = !AnimTime
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.jump.fwd.x), const(velocity.jump.back.x)))
-y = const(velocity.jump.y)
+x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.jump.fwd.x), const(velocity.jump.back.x))) * ifElse(var(40) = 1, 0.7566539923954373, 1)
+y = ifElse(!sysvar(1), const(velocity.jump.y), ifElse(sysvar(1) = 1, -8.75, -9.0625)) * ifElse(var(40) = 1, 1.178947368421053, 1)
 
 [State 40, Velocity: Low Jump]
 type = VelSet
 trigger1 = !AnimTime && var(3) = 1
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.jump.fwd.x), const(velocity.jump.back.x)))
-y = 0.8 * const(velocity.jump.y)
+x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.jump.fwd.x), const(velocity.jump.back.x))) * ifElse(var(40) = 1, 0.7566539923954373, 1)
+y = 0.75 * ifElse(!sysvar(1), const(velocity.jump.y), ifElse(sysvar(1) = 1, -8.75, -9.0625)) * ifElse(var(40) = 1, 1.178947368421053, 1)
 
 [State 40, Velocity: Long Low Jump]
 type = VelSet
 trigger1 = !AnimTime && var(3) = 2
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.runjump.fwd.x), const(velocity.runjump.back.x)))
-y = 0.75 * const(velocity.jump.y)
+x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.runjump.fwd.x), const(velocity.runjump.back.x))) * ifElse(var(40) = 1, 0.7566539923954373, 1)
+y = 0.75 * ifElse(!sysvar(1), const(velocity.jump.y), ifElse(sysvar(1) = 1, -8.75, -9.0625)) * ifElse(var(40) = 1, 1.178947368421053, 1)
 
 [State 40, Velocity: Long Jump]
 type = VelSet
 trigger1 = !AnimTime && var(3) = 3
-x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.runjump.fwd.x), const(velocity.runjump.back.x)))
-y = ifElse(!sysvar(1), const(velocity.runjump.y), const(velocity.jump.y))
-
-[State 40, VelMul]
-type = VelMul
-trigger1 = !AnimTime && var(40)
-x = ifElse(var(40) = 1, 0.95,1)
-y = 1.01
-
+x = ifElse(!sysvar(1), const(velocity.jump.neu.x), ifElse(sysvar(1) = 1, const(velocity.runjump.fwd.x), const(velocity.runjump.back.x))) * ifElse(var(40) = 1, 0.7566539923954373, 1)
+y = ifElse(!sysvar(1), const(velocity.runjump.y), ifElse(sysvar(1) = 1, -8.75, -9.0625)) * ifElse(var(40) = 1, 1.178947368421053, 1)
 
 [State 40, End]
 type = ChangeState
@@ -577,9 +350,20 @@ type = PosFreeze
 trigger1 = Time < 1 && PrevStateNo = 40
 value = 1
 
+;[State 50, Gravity]
+;type = Gravity
+;trigger1 = Time > 1 || PrevStateNo != 40
+
 [State 50, Gravity]
-type = Gravity
-trigger1 = Time >= 1 || PrevStateNo != 40
+type = VelAdd
+trigger1 = Time > 1 || PrevStateNo != 40
+y = ifElse(var(40) = 1, 0.5546875, 0.48828125)
+
+[State 50, VelAdd]
+type = VelAdd
+trigger1 = vel x
+trigger1 = Time > 1 || PrevStateNo != 40
+x = ifElse((var(3) = [2,3]), -0.04577636719, -0.03051757813) * ifElse(vel x < 0, -1, 1)
 
 [State 50, Landing]
 type = ChangeState
@@ -593,9 +377,20 @@ physics = N
 moveType = I
 sprPriority = 1
 
-[State 51, Gravity]
-type = Gravity
-trigger1 = 1
+;[State 51, Gravity]
+;type = Gravity
+;trigger1 = Time > 0
+
+[State 50, Gravity]
+type = VelAdd
+trigger1 = Time > 0
+y = ifElse(var(40) = 1, 0.5546875, 0.48828125)
+
+[State 51, VelAdd]
+type = VelAdd
+trigger1 = vel x
+trigger1 = Time >= 1 || PrevStateNo != 40
+x = ifElse((var(3) = [2,3]), -0.04577636719, -0.03051757813) * ifElse(vel x < 0, -1, 1)
 
 [State 51, Landing]
 type = ChangeState
@@ -613,29 +408,6 @@ ctrl = 0
 velSet = 0,0
 sprPriority = 1
 
-[State 52, From Shoryuken]
-type = ChangeState
-trigger1 = !time && (PrevStateNo = 1100 || PrevStateNo = 1130)
-value = 1105
-
-[State 52, From Tatsumaki]
-type = ChangeState
-trigger1 = !time && (PrevStateNo = 1200 || PrevStateNo = 1230 || PrevStateNo = 3200)
-value = 1205
-
-[State 52, From SUPER SHORYUKEN]
-type = ChangeState
-triggerall = !time
-trigger1 =PrevStateNo = 3000
-trigger2 =PrevStateNo = 3100
-value = 3001 + 110*(var(40)=2 && PrevStateNo = 3100)
-
-[State 52, From SF4 Ultra]
-type = ChangeState
-triggerall = !time
-trigger1 = PrevStateNo = [3300,3399]
-value = 3320
-
 [State 52, ChangeAnim]
 type = ChangeAnim
 trigger1 = !Time && (var(3) = 1 || var(3) = 2)
@@ -649,19 +421,20 @@ y = 0
 
 [State 52, CtrlSet]
 type = CtrlSet
-trigger1 = Time = 1 && PrevStateNo < 1000
-trigger2 = Time = 1 && Anim != 57
+trigger1 = !Time && (PrevStateNo != [600,699])
+trigger2 = Time = 1 && Anim != ifElse(var(40) = 1, 58, 57)
 value = 1
 
 [State 52, ChangeState to Guarding]
 type = ChangeState
-trigger1 = ctrl && command = "holdback"
-trigger1 = InGuardDist && PrevStateNo < 600
+;ctrl && command = "holdback"
+trigger1 = ctrl && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command = "holdfwd", command = "holdback"), ifElse(P2dist x < 0, command = "holdback", command = "holdfwd")))
+trigger1 = InGuardDist && (PrevStateNo != [600,699])
 value = 120
 
 [State 52, Assert: NoWalk]
 type = AssertSpecial
-trigger1 = 1
+trigger1 = Anim != ifElse(var(40) = 1, 7, 5)
 flag = NoWalk
 ignoreHitPause = 1
 
@@ -684,19 +457,12 @@ ownPal = 1
 [State 52, ChangeAnim to Turning]
 type = ChangeAnim
 trigger1 = ctrl && P2Dist x < 0
-trigger1 = Anim != 5 && var(40) != 1
-value = 5
-
-[State 52, ChangeAnim to Turning]
-type = ChangeAnim
-trigger1 = ctrl && P2Dist x < 0
-trigger1 = Anim != 7 && var(40) = 1
-value = 7
+trigger1 = Anim != ifElse(var(40) = 1, 7, 5)
+value = ifElse(var(40) = 1, 7, 5)
 
 [State 52, Turn]
 type = Turn
-trigger1 = Anim = 5 && AnimElem = 1
-trigger2 = Anim = 7 && AnimElem = 1
+trigger1 = Anim = ifElse(var(40) = 1, 7, 5) && AnimElem = 1
 
 [State 52, End]
 type = ChangeState
@@ -722,27 +488,34 @@ x = const(velocity.run.fwd.x)
 
 [State 100, Step Sound]
 type = PlaySnd
-trigger1 = (AnimElem = 2 || AnimElem = 5)
-value = 100, ifElse((AnimElem = 2), 0, 1)
+trigger1 = (AnimElem = 3 || AnimElem = 6)
+value = 100, ifElse((AnimElem = 3), 0, 1)
 
 [State 100, Jump]
 type = ChangeState
-trigger1 = !AILevel
+triggerAll = !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(94646464) && !NumExplod(92468246)
 trigger1 = command = "holdfwd" && command = "holdup"
+trigger2 = NumExplod(92828282)
+trigger2 = command = "holdfwd" && command = "holddown"
+trigger3 = NumExplod(94646464)
+trigger3 = command = "holdback" && command = "holdup"
+trigger4 = NumExplod(92468246)
+trigger4 = command = "holdback" && command = "holddown"
+value = 40
+
+[State 100, Jump (AI)]
+type = ChangeState
+trigger1 = AILevel && Random < 25
 value = 40
 
 [State 100, End]
 type = ChangeState
+trigger1 = !NumExplod(94646464) && !NumExplod(92468246)
 trigger1 = !AILevel && command != "holdfwd"
-trigger2 = AILevel && P2StateType = A
-trigger2 = P2Bodydist x < -10
-trigger3 = AILevel && P2StateType != A && P2Bodydist x < 1 && time > 2
-trigger4 = AILevel && P2StateType != A && (Enemynear,ctrl || StateNo = 21) && P2Bodydist x < 100
-trigger4 = Random < (10 + 100*P2Bodydist x < 80 - 90*P2Bodydist x < 40)
-trigger5 = AILevel && P2StateType != A && !(Enemynear,ctrl || StateNo = 21) && P2Bodydist x < 30 && !(var(59) = [3,4])
-trigger6 = Roundstate != 2
-trigger7 = AILevel && (P2Bodydist x = [90,110]) && (Enemynear,Ctrl || P2StateNo=21)
-trigger7 = Random < 80 * (AIlevel ** 2 / 64.0)
+trigger2 = NumExplod(94646464) || NumExplod(92468246)
+trigger2 = !AILevel && command != "holdback"
+trigger3 = AILevel && P2BodyDist x <= 90
 value = 101
 
 
@@ -752,7 +525,7 @@ type = S
 physics = S
 moveType = I
 anim = 101
-Ctrl = Ifelse(AILevel,1,0)
+ctrl = 0
 sprPriority = 1
 
 [State 101, Stopping Sound]
@@ -764,7 +537,7 @@ value = 101,0
 type = Explod
 trigger1 = !Time
 anim = 8104
-sprPriority=3
+sprPriority = 3
 posType = P1
 pos = 0,0
 vel = 0,0
@@ -775,13 +548,24 @@ ownpal = 1
 
 [State 101, Jump]
 type = ChangeState
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && command = "holdup"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && command = "holddown"
 value = 40
 
 [State 101, End]
 type = ChangeState
 trigger1 = !AnimTime
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 value = ifElse(command = "holddown", 10, 0)
+ctrl = 1
+
+[State 101, End (Reversed Commands)]
+type = ChangeState
+trigger1 = !AnimTime
+trigger1 = NumExplod(92828282) || NumExplod(92468246)
+value = ifElse(command = "holdup", 10, 0)
 ctrl = 1
 
 
@@ -789,17 +573,12 @@ ctrl = 1
 ;========================<DASH BACKWARDS>==========================
 [StateDef 105]
 type = A
-physics = S
+physics = N
 moveType = I
 velSet = 0,0
 anim = ifElse(var(40) = 1, 107, 105)
 ctrl = 0
 sprPriority = 1
-
-[State 105, HB]
-type = Hitby
-trigger1 = Anim = 105
-value = SA,AA,AP
 
 [State 105, Back Dash Sound]
 type = PlaySnd
@@ -824,6 +603,11 @@ type = VelSet
 trigger1 = AnimElem = 2
 x = const(velocity.run.back.x)
 y = const(velocity.run.back.y)
+
+[State 105, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(2) > 0
+x = 0.09765625
 
 [State 105, End]
 type = ChangeState
@@ -875,27 +659,16 @@ ctrl = 1
 
 ;=================<DASH FORWARD>=================
 [StateDef 110]
-type = S
-physics = S
+type = A
+physics = N
 moveType = I
 anim = ifElse(var(40) = 1, 112, 110)
 ctrl = 0
 sprPriority = 1
 
-[State 110, VelSet]
-type = VelSet
-trigger1 = AnimElem = 2
-x = -1.33 * const(velocity.run.back.x)
-y = const(velocity.run.back.y)
-
-[State 110, VelMul]
-type = VelMul
-trigger1 = AnimElemTime(2) > 0
-x = 0.98
-
 [State 110, Dash Sound]
 type = PlaySnd
-trigger1 = !Time
+trigger1 = AnimElem = 2
 value = 110,0
 
 [State 110, Dust Helper]
@@ -917,17 +690,27 @@ sysvar(1) = 1
 
 [State 110, VarSet -> Not Running]
 type = VarSet
-triggerAll = Time <= 10
-trigger1 = !AILevel && command != "holdfwd"
-trigger2 = AILevel && (Enemynear,ctrl || P2StateNo < 100)
-trigger2 = P2Bodydist x < 70
-trigger3 = AILevel && NumTarget(1430)
+triggerAll = AnimElemTime(2) <= 0 && !AILevel
+trigger1 = !NumExplod(94646464) && !NumExplod(92468246)
+trigger1 = command != "holdfwd"
+trigger2 = NumExplod(94646464) || NumExplod(92468246)
+trigger2 = command != "holdback"
 sysvar(1) = 0
 
 [State 110, ChangeState to Running]
 type = ChangeState
-trigger1 = Time = 10 && sysvar(1)
+trigger1 = AnimElemTime(2) = 0 && sysvar(1)
 value = 100
+
+[State 110, VelSet]
+type = VelSet
+trigger1 = AnimElem = 2
+x = 8.125
+
+[State 110, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(2) > 0
+x = -0.09765625
 
 [State 110, End]
 type = ChangeState
@@ -942,6 +725,11 @@ physics = S
 ctrl = 1
 anim = 111
 velSet = 0,0
+
+[State 111, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
 
 [State 111, Dash End Sound]
 type = PlaySnd
@@ -965,352 +753,10 @@ trigger1 = !AnimTime
 value = 0
 ctrl = 1
 
-;==========< PARRY >==========
-;--- STANDING ---
-[Statedef 700]
-type = S
-physics = S
-movetype = I
-anim = 760
-velset = 0, 0
-ctrl = 0
-sprpriority = 0
-poweradd = 78
-facep2 = 1
-
-[State 700, HB]
-type = hitby
-trigger1 = time<4
-value = SCA, AT
-time = 1
-
-[State 700, Stop]
-type = posfreeze
-trigger1 = !time
-value = 1
-
-[State 700, NoShake]
-type = envshake
-trigger1 = !time
-time = 0
-freq = 0
-ampl = 0
-
-[State 700, Back]
-type = posadd
-trigger1 = !time
-trigger1 = GetHitvar(animtype) > 1
-x = -2
-
-[State 700, Pause]
-type = pause
-trigger1 = !time && numenemy
-time = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-movetime = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-endcmdbuftime = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-pausebg = 0
-
-[State 700, blueflash]
-type=palfx
-triggerall= var(21)<=3
-trigger1= time<16 && time%2=0
-add=50,50,250
-time=1
-color=100
-
-[State 700, redflash]
-type=palfx
-triggerall= var(21)>3
-trigger1= time<16 && time%8=0
-add=80,20,0
-mul=240,150,60
-time=4
-color=0
-
-[State 700, Snd]
-type = playsnd
-trigger1 = !time
-value = 4,1+10*(var(40)=1)
-channel = 0
-
-[State 700, Snd]
-type = playsnd
-trigger1 = !time
-value = 760, 0
-
-[State 700, Spark]
-type = explod
-trigger1 = animelem = 2
-anim = 8360
-ID = 7200
-sprpriority = 5
-postype = p1
-pos = 31, -69
-pausemovetime = 60
-ownpal = 1
-scale = 0.5, 0.5
-
-[State 700, No walking]
-type = assertspecial
-trigger1 = 1
-flag = nowalk
-flag1 = nostandguard
-flag2 = nocrouchguard
-
-[State 700, ChangeState]
-type = ChangeState
-triggerall = !AILevel
-triggerall = command = "holdback"
-triggerall = inguarddist
-trigger1 = AnimElemtime(2)>=15
-value = 120
-
-[State 700, Ctrl]
-type = Ctrlset
-trigger1 = time = 15
-value = 1
-
-[State 700, End]
-type = changestate
-trigger1 = !animtime
-value = 0
-ctrl = 1
-
-
-;--- CROUCHING ---
-[Statedef 701]
-type = C
-physics = C
-movetype = I
-anim = 761
-velset = 0, 0
-ctrl = 0
-sprpriority = 2
-poweradd = 78
-facep2 = 1
-
-[State 701, HB]
-type = hitby
-trigger1 = time < 4
-value = SCA, AT
-time = 1
-
-[State 701, Stop]
-type = posfreeze
-trigger1 = !time
-value = 1
-
-[State 701, NoShake]
-type = envshake
-trigger1 = !time
-time = 0
-freq = 0
-ampl = 0
-
-[State 701, Back]
-type = posadd
-trigger1 = !time
-trigger1 = GetHitvar(animtype) > 1
-x = -8
-
-[State 701, Pause]
-type = pause
-trigger1 = !time && numenemy
-time = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-movetime = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-endcmdbuftime = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-pausebg = 0
-
-[State 701, blueflash]
-type=palfx
-triggerall= var(21)<=3
-trigger1= time<16 && time%2=0
-add=50,50,250
-time=1
-color=100
-
-[State 701, redflash]
-type=palfx
-triggerall= var(21)>3
-trigger1= time<16 && time%8=0
-add=80,20,0
-mul=240,150,60
-time=4
-color=0
-
-[State 701, Snd]
-type = playsnd
-trigger1 = !time
-value = 4,1+10*(var(40)=1)
-channel = 0
-
-[State 701, Snd]
-type = playsnd
-trigger1 = !time
-value = 760, 0
-
-[State 701, Spark]
-type = explod
-trigger1 = animelem = 2
-anim = 8360
-ID = 7200
-sprpriority = 5
-postype = p1
-pos = 25, -22
-pausemovetime = 60
-ownpal = 1
-scale = 0.5, 0.5
-
-
-[State 701, No walking]
-type = assertspecial
-trigger1 = 1
-flag = nowalk
-flag1 = nostandguard
-flag2 = nocrouchguard
-
-[State 701, ChangeState]
-type = ChangeState
-triggerall = !AILevel
-triggerall = command = "holdback"
-triggerall = inguarddist
-trigger1 = AnimElemtime(2)>=15
-value = 120
-
-[State 701, Ctrl]
-type = Ctrlset
-trigger1 = time = 15
-value = 1
-
-
-[State 701, End]
-type = changestate
-trigger1 = !animtime
-value = 11
-ctrl = 1
-
-
-;--- AERIAL ---
-[Statedef 702]
-type = A
-physics = A
-movetype = I
-anim = 762
-ctrl = 0
-sprpriority = 2
-poweradd = 78
-facep2 = 1
-
-[State 702, HB]
-type = hitby
-trigger1 = time < 4
-value = SCA, AT
-time = 1
-
-[State 702, NoShake]
-type = envshake
-trigger1 = !time
-time = 0
-freq = 0
-ampl = 0
-
-[State 702, Pause]
-type = pause
-trigger1 = !time && numenemy
-time = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-movetime = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-endcmdbuftime = 20-ifelse((GetHitVar(animtype)=[3,5]),4,GetHitVar(animtype))-ifelse(GetHitVar(hitshaketime)>16,16,GetHitVar(hitshaketime))
-pausebg = 0
-
-[State 702, Type]
-type = statetypeset
-trigger1 = time < 15
-physics = N
-
-[State 702, Stop]
-type = posfreeze
-trigger1 = time < 14
-value = 1
-
-[State 702, Vel]
-type = velset
-trigger1 = time = 15
-x = ifelse(vel x > 2, 2, ifelse(vel x < -2, -2, vel x))
-y = ifelse(vel y < -2, vel y, -3)
-
-[State 702, Type]
-type = statetypeset
-trigger1 = time >= 15
-physics = A
-
-[State 702, blueflash]
-type=palfx
-triggerall= var(21)<=3
-trigger1= time<16 && time%2=0
-add=50,50,250
-time=1
-color=100
-
-[State 702, redflash]
-type=palfx
-triggerall= var(21)>3
-trigger1= time<16 && time%8=0
-add=80,20,0
-mul=240,150,60
-time=4
-color=0
-
-[State 702, Snd]
-type = playsnd
-trigger1 = !time
-value = 4,1+10*(var(40)=1)
-channel = 0
-
-[State 702, Snd]
-type = playsnd
-trigger1 = !time
-value = 760, 0
-
-[State 702, Spark]
-type = explod
-trigger1 = anim = 762
-trigger1 = animelem = 2
-anim = 8360
-ID = 7200
-sprpriority = 5
-postype = p1
-pos = 40, -66
-pausemovetime = 60
-ownpal = 1
-scale = 0.5, 0.5
-
-[State 702, asserts]
-type = assertspecial
-trigger1 = 1
-flag = noairguard
-
-[State 702, land anim]
-type = ChangeAnim
-trigger1 = anim = 762 && !animtime
-value = 42
-elem = 7
-
-[State 702, ChangeState]
-type = ChangeState
-triggerall = !AILevel
-triggerall = command = "holdback"
-triggerall = inguarddist
-trigger1 = AnimElemtime(2)>=15
-value = 120
-
-[State 702, Ctrl]
-type = ctrlset
-trigger1 = time = 15
-value = 1
 
 
 ;====================<DODGE>====================
-[StateDef 765]
+[StateDef 700]
 type = S
 physics = S
 moveType = I
@@ -1319,43 +765,45 @@ ctrl = 0
 velSet = 0,0
 sprPriority = -2
 
-[State 765, Voice]
+[State 700, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 1
-value = 4, ifElse(var(40) = 1, 10, 2)
+trigger1 = !Time
+value = 4,2 + 8 * (var(40) = 1)
 channel = 0
 
-[State 765, Dodge Sound]
+[State 700, Dodge Sound]
 type = PlaySnd
-trigger1 = AnimElem = 1
+trigger1 = !Time
 value = 1,3
 channel = 1
 
-[State 765, PlayerPush]
+[State 700, PlayerPush]
 type = PlayerPush
 trigger1 = 1
 value = 0
 ignoreHitPause = 1
 
-[State 765, HitBy]
+[State 700, HitBy]
 type = HitBy
 trigger1 = 1
 value = SCA,AT
 time = 1
 
-[State 765, Attack]
+[State 700, Attack]
 type = ChangeState
 trigger1 = !AILevel && Time = [15,25]
-trigger1 = command = "x" || command = "y" || command = "z" || command = "a" || command = "b" || command = "c"
-value = ifElse((command = "x" || command = "y" || command = "z"), 225, 250)
+;command = "x" || command = "y" || command = "z" || command = "a" || command = "b" || command = "c"
+trigger1 = NumExplod(90000200) || NumExplod(90000210) || NumExplod(90000220) || NumExplod(90000230) || NumExplod(90000240) || NumExplod(90000250)
+;ifElse((command = "x" || command = "y" || command = "z"), 220, 245)
+value = ifElse((NumExplod(90000200) || NumExplod(90000210) || NumExplod(90000220)), 225, ifElse(var(40) = 3, 252, 250))
 
-[State 765, Attack (AI)]
+[State 700, Attack (AI)]
 type = ChangeState
 trigger1 = AILevel && (Time = [15,25]) && NumEnemy
 trigger1 = (EnemyNear, MoveType != A) && (P2BodyDist x = [-60,60]) && (P2Dist y >= -60)
-value = ifElse(Random < 666, 225, 250)
+value = ifElse(Random < 666, 225, ifElse(var(40) = 3, 252, 250))
 
-[State 765, End]
+[State 700, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
@@ -1381,38 +829,30 @@ ignoreHitPause = 1
 
 [State 710, HitBy]
 type = HitBy
-trigger1 = AnimElemTime(8) < 0
+trigger1 = AnimElemTime(9) < 0
 value = SCA,AT
 time = 1
 
 [State 710, Voice]
 type = PlaySnd
-trigger1 = var(40) != 1
-trigger1 = AnimElem = 1
-value = 4, ifElse(Random < 500, 1, 0)
-channel = 0
-
-[State 710, Voice (Violent]
-type = PlaySnd
-trigger1 = var(40) = 1
-trigger1 = AnimElem = 1
-value = 4, ifElse(Random < 500, 11, 10)
+trigger1 = !Time
+value = 4, ifElse(Random < 500, 0, 1) + 10 * (var(40) = 1)
 channel = 0
 
 [State 710, Roll Sound]
 type = PlaySnd
-trigger1 = Time = 1
+trigger1 = !Time
 value = 110,0
 channel = 1
 
-[State 710, Start Roll]
+[State 710, VelSet]
 type = VelSet
 trigger1 = AnimElem = 2
-x = 6.6 * ifElse(var(40) = 1, 0.76666, 1)
+x = 5.625
 
-[State 710, End Roll]
+[State 710, VelSet]
 type = VelSet
-trigger1 = AnimElem = 7
+trigger1 = AnimElem = 9
 x = 0
 
 [State 710, End]
@@ -1441,38 +881,30 @@ ignoreHitPause = 1
 
 [State 715, HitBy]
 type = HitBy
-trigger1 = AnimElemTime(8) < 0
+trigger1 = AnimElemTime(9) < 0
 value = SCA,AT
 time = 1
 
 [State 715, Voice]
 type = PlaySnd
-trigger1 = var(40) != 1
-trigger1 = AnimElem = 1
-value = 4, ifElse(Random < 500, 1, 0)
-channel = 0
-
-[State 715, Voice (Violent]
-type = PlaySnd
-trigger1 = var(40) = 1
-trigger1 = AnimElem = 1
-value = 4, ifElse(Random < 500, 11, 10)
+trigger1 = !Time
+value = 4, ifElse(Random < 500, 0, 1) + 10 * (var(40) = 1)
 channel = 0
 
 [State 715, Roll Sound]
 type = PlaySnd
-trigger1 = Time = 1
+trigger1 = !Time
 value = 110,0
 channel = 1
 
-[State 715, Start Roll]
+[State 715, VelSet]
 type = VelSet
 trigger1 = AnimElem = 2
-x = -6.6 * ifElse(var(40) = 1, 0.76666, 1)
+x = -5.625
 
-[State 715, End Roll]
+[State 715, VelSet]
 type = VelSet
-trigger1 = AnimElem = 7
+trigger1 = AnimElem = 9
 x = 0
 
 [State 715, End]
@@ -1494,19 +926,10 @@ ctrl = 0
 
 [State 730, PowerAdd]
 type = PowerAdd
-triggerall = var(40) < 2
 triggerAll = Power < const(data.power) && Power < PowerMax
 trigger1 = !AILevel && (command = "holdb" && command = "holdy")
 trigger2 = AILevel
-value = 2 + ifElse(time < 60, 0, (time - 60) / 10)
-
-[State 730, PowerAdd]
-type = PowerAdd
-triggerall = var(40) > 1
-triggerAll = Power < const(data.power) && Power < PowerMax
-trigger1 = !AILevel && (command = "holdb" && command = "holdy")
-trigger2 = AILevel
-value = 2 + (time / 10)
+value = 2 + ifElse(time < 60, 0, (time - 60) / 12)
 
 [State 730, Voice]
 type = PlaySnd
@@ -1514,17 +937,17 @@ trigger1 = !Time && var(40) != 1
 value = 730,1
 channel = 0
 
-[State 730, Voice]
+[State 730, Voice (Violent)]
 type = PlaySnd
 trigger1 = !Time && var(40) = 1
-value = 1250,0
+value = 1270,0
 channel = 0
 
 [State 730, Character Flash]
 type = PalFX
 trigger1 = 1
 time = 1
-add = 75 + ceil(sin(Time / 6.0 * pi) * 75),25 + ceil(sin(Time / 6.0 * pi) * 25),0
+add = 75 + ceil(sin(Time / 6.0 * pi) * 75), 25 + ceil(sin(Time / 6.0 * pi) * 25),0
 
 [State 730, Power Charge Helper]
 type = Helper
@@ -1553,11 +976,11 @@ ownPal = 1
 
 [State 730, End]
 type = ChangeState
-trigger1 = Power >= PowerMax || RoundState != 2
+trigger1 = Power >= const(data.power) || Power >= PowerMax || RoundState != 2
 trigger2 = !AILevel && (command != "holdb" || command != "holdy")
 trigger3 = AILevel && (InGuardDist || P2BodyDist x <= 120)
-trigger4 = AILevel && var(59)
 value = 731
+ctrl = 1
 
 
 ;Power Charge End
@@ -1584,12 +1007,11 @@ persistent = 0
 [State 731, Full Power Voice (Violent)]
 type = PlaySnd
 trigger1 = !Time && Power >= const(data.power) && var(40) = 1
-value = 810,10
+value = 730,10
 channel = 0
 persistent = 0
 
-
-[State 731, End]
+[State 730, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
@@ -1612,13 +1034,14 @@ faceP2 = 1
 [State 750, Button]
 type = VarSet
 trigger1 = !Time && !AILevel
-var(10) = (command = "Counter_K")
+;(command = "412k")
+var(10) = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
 ignoreHitPause = 1
 
 [State 750, Button (AI)]
 type = VarSet
 trigger1 = !Time && AILevel
-var(10) = ifElse((P2StateType = A), 0, ifElse((P2StateType = C), 1, ifElse(Random < 400, 0, 1)))
+var(10) = ifElse((P2StateType = A), 0, ifElse((P2StateType = C), 1, ifElse(Random < 500, 0, 1)))
 ignoreHitPause = 1
 
 [State 750, NotHitBy]
@@ -1635,7 +1058,7 @@ value = 1
 [State 750, Voice]
 type = PlaySnd
 trigger1 = !Time
-value = 4,ifElse(var(40) = 1, 11, 2)
+value = 4, ifElse(var(40) = 1, 11, 2)
 channel = 0
 
 [State 750, Zero Counter FX Helper]
@@ -1663,7 +1086,7 @@ darken = 0
 [State 750, End]
 type = ChangeState
 trigger1 = Time >= 15
-value = ifElse(var(10) = 1, 450, 1100)
+value = ifElse(var(10) = 1, 2910, 2900)
 
 
 
@@ -1707,7 +1130,7 @@ var(26) = 7
 [State 760, Voice]
 type = PlaySnd
 trigger1= !Time
-value = 4,ifElse(var(40) = 1, 11, 2)
+value = 4, ifElse(var(40) = 1, 11, 2)
 channel = 0
 
 [State 760, Parry Sound]
@@ -1787,7 +1210,7 @@ var(26) = 7
 [State 761, Voice]
 type = PlaySnd
 trigger1 = !Time
-value = 4,ifElse(var(40) = 1, 11, 2)
+value = 4, ifElse(var(40) = 1, 11, 2)
 channel = 0
 
 [State 761, Parry Sound]
@@ -1817,7 +1240,7 @@ ownpal = 1
 
 [State 761, EnvShake]
 type = EnvShake
-trigger1 = !time
+trigger1 = !Time
 time = 0
 ampl = 0
 
@@ -1861,7 +1284,7 @@ value = 1
 [State 762, Voice]
 type = PlaySnd
 trigger1 = !Time
-value = 4,ifElse(var(40) = 1, 11, 2)
+value = 4, ifElse(var(40) = 1, 11, 2)
 channel = 0
 
 [State 762, Parry Sound]
@@ -1916,9 +1339,14 @@ trigger1 = !Time
 x = ifElse(vel x > 2, 2, ifElse(vel x < -2, -2, vel x))
 y = ifElse(vel y < -2, vel y, -2)
 
+;[State 763, Gravity]
+;type = Gravity
+;trigger1 = Time > 0
+
 [State 763, Gravity]
-type = Gravity
-trigger1 = 1
+type = VelAdd
+trigger1 = Time > 0
+y = ifElse(var(40) = 1, 0.5546875, 0.48828125)
 
 [State 763, Landing]
 type = ChangeState
@@ -1933,10 +1361,16 @@ value = 52
 type = S
 physics = S
 moveType = A
-anim = ifElse(var(40) = 1 , 901, 900)
+anim = ifElse(var(40) = 1, 901, 900)
 velSet = 0,0
 ctrl = 0
 sprPriority = 2
+powerAdd = -1000
+
+[State 900, Corner Push]
+type = VarSet
+trigger1 = Time = 4
+fvar(5) = 0
 
 [State 900, Unguardable]
 type = VarSet
@@ -1957,13 +1391,8 @@ value = 1
 
 [State 900, Custom Combo Time]
 type = VarSet
-trigger1 = !time
-var(20) = 300
-
-[State 900, Power add]
-type = poweradd
-trigger1 = !time
-value = -1500
+trigger1 = Time >= 4
+var(20) = 180
 
 [State 900, Voice]
 type = PlaySnd
@@ -2003,7 +1432,7 @@ darken = 0
 
 [State 900, AfterImage]
 type = AfterImage
-trigger1= !AnimTime
+trigger1 = !AnimTime
 time = 2
 timeGap = 1
 frameGap = 4
@@ -2022,7 +1451,7 @@ value = 0
 ctrl = 1
 
 
-;Air Version===============
+;Air Version
 [Statedef 905]
 type = A
 physics = N
@@ -2030,6 +1459,12 @@ moveType = A
 anim = 905
 ctrl = 0
 sprPriority = 2
+powerAdd = -1000
+
+[State 905, Corner Push]
+type = VarSet
+trigger1 = Time = 4
+fvar(5) = 0
 
 [State 905, Unguardable]
 type = VarSet
@@ -2048,15 +1483,10 @@ type = PosFreeze
 trigger1 = 1
 value = 1
 
-[State 905, Custom Combo Time]
+[State 905, Custom Combo Timer]
 type = VarSet
-trigger1 = !time
-var(20) = IfElse(Power>=3000,600,300)
-
-[State 905, Power add]
-type = poweradd
-trigger1 = !time
-value = IfElse(var(20)>300,-3000,-1500)
+trigger1 = Time >= 4
+var(20) = 180
 
 [State 905, Voice]
 type = PlaySnd
@@ -2123,9 +1553,14 @@ moveType = I
 anim = 906
 ctrl = 1
 
+;[State 906, Gravity]
+;type = Gravity
+;trigger1 = Time > 0
+
 [State 906, Gravity]
-type = Gravity
-trigger1 = 1
+type = VelAdd
+trigger1 = Time > 0
+y = ifElse(var(40) = 1, 0.5546875, 0.48828125)
 
 [State 906, Land]
 type = ChangeState
@@ -2143,30 +1578,24 @@ moveType = H
 [State 5205, ChangeAnim]
 type = ChangeAnim
 trigger1 = !AnimTime
-trigger1 = Anim = 5035
+trigger1 = anim = 5035
 value = 5050
 
 [State 5205, VelAdd]
 type = VelAdd
-trigger1 = 1
+trigger1 = Time > 0
 y = GetHitVar(yAccel)
 
-[State 5205, Ground]
-type = selfstate
-trigger1 = vel y > 0 && var(39) = 0
-trigger1 = pos y >= const(movement.air.gethit.groundrecover.ground.threshold)
+[State 5205, SelfState (Ground)]
+type = SelfState
+trigger1 = vel y > 0
+trigger1 = pos y >= const(movement.air.getHit.groundRecover.ground.threshold)
 value = 5200
 
-[State 5205, Air]
-type = selfstate
-trigger1 = time >= 60 && var(39) = 0
+[State 5205, SelfState (Air)]
+type = SelfState
+trigger1 = Time >= 60
 value = 5210
-
-[State 5205, Safe]
-type = selfstate
-trigger1 = pos y > 0
-value = 5100
-
 
 
 
@@ -2176,11 +1605,6 @@ type = A
 moveType = H
 physics = N
 
-[State 5200, Dizzy fix]
-type = SelfState
-trigger1 = var(39) = 1
-value = 5050
-
 [State 5200, ChangeAnim]
 type = ChangeAnim
 trigger1 = Anim = 5035 && !AnimTime
@@ -2188,7 +1612,7 @@ value = 5050
 
 [State 5200, VelAdd]
 type = VelAdd
-trigger1 = 1
+trigger1 = Time > 0
 y = GetHitVar(yAccel)
 
 [State 5200, End]
@@ -2205,31 +1629,21 @@ anim = 5200
 ctrl = 0
 faceP2 = 1
 
-[State 5200, Dizzy fix]
-type = SelfState
-trigger1 = var(39) = 1
-value = 5050
-
 [State 5201, PosSet]
 type = PosSet
-trigger1 = 1
+trigger1 = !Time
 y = 0
 
 [State 5201, VelSet]
 type = VelSet
 trigger1 = !Time
-x = -8
+x = -5
 y = 0
-
-[State 5201, VelMul]
-type = VelMul
-trigger1 = 1
-x = 0.9
 
 [State 5201, Voice]
 type = PlaySnd
 trigger1 = !Time
-value = 4,2 + 9 * (var(40) = 1)
+value = 4, ifElse(var(40) = 1, 10, 0)
 channel = 0
 
 [State 5201, Recover Sound]
@@ -2264,6 +1678,11 @@ trigger1 = 1
 value = SCA
 time = 1
 
+[State 5201, VelSet]
+type = VelSet
+trigger1 = AnimElem = 5
+x = 0
+
 [State 5201, End]
 type = ChangeState
 trigger1 = !AnimTime
@@ -2278,33 +1697,38 @@ moveType = I
 physics = N
 anim = 5210
 ctrl = 0
+faceP2 = 1
 
-[State 5200, Dizzy fix]
-type = SelfState
-trigger1 = var(39) = 1
-value = 5050
-
-[State 5210, Gravity]
+[State 5210, VelAdd]
 type = VelAdd
-trigger1 = 1
-y = 0.6 * const(size.yscale)
+trigger1 = Time > 0
+y = 0.6
 
 [State 5210, VelSet]
 type = VelSet
 trigger1 = !Time
-x= ifelse(command="holdfwd",-1.33,-4) * const(size.xscale)
-y= -7.55 * const(size.yscale)
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+x = ifElse((command = "holdfwd" && command != "holdback"), 4, ifElse((command != "holdfwd" && command = "holdback"), -4, 0))
+y = -7.55
+
+[State 5210, VelSet (Reversed commands)]
+type = VelSet
+trigger1 = !Time
+trigger1 = NumExplod(92828282) || NumExplod(92468246)
+x = ifElse((command = "holdback" && command != "holdfwd"), 4, ifElse((command != "holdback" && command = "holdfwd"), -4, 0))
+y = -7.55
 
 [State 5210, Voice]
 type = PlaySnd
 trigger1 = !Time
-value = 4,1
+value = 4, ifElse(var(40) = 1, 10, 0)
 channel = 0
 
 [State 5210, Recover Sound]
 type = PlaySnd
 trigger1 = !Time
-value  = 5200,0
+value = 5200,0
+channel = 1
 
 [State 5210, Flash]
 type = PalFX
@@ -2328,13 +1752,13 @@ ownPal = 1
 
 [State 5210, NotHitBy]
 type = NotHitBy
-trigger1 = AnimElemTime(8) < 0
+trigger1 = AnimElemTime(5) < 0
 value = SCA
 time = 1
 
 [State 5210, CtrlSet]
 type = CtrlSet
-trigger1 = AnimElemTime(8) >= 0
+trigger1 = AnimElemTime(5) >= 0
 value = 1
 
 [State 5210, Land]
@@ -2375,15 +1799,21 @@ y = 0
 
 [State 120, Stand to Crouching]
 type = StateTypeSet
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && StateType = S && command = "holddown"
-trigger2 = AILevel && StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = S && command = "holdup"
+trigger3 = AILevel && StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
 stateType = C
 physics = C
 
 [State 120, Crouching to Stand]
 type = StateTypeSet
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && StateType = C && command != "holddown"
-trigger2 = AILevel && StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = C && command != "holdup"
+trigger3 = AILevel && StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 stateType = S
 physics = S
 
@@ -2399,7 +1829,7 @@ value = 130 + (StateType = C) + (StateType = A) * 2
 
 [State 120, Stop Guarding]
 type = ChangeState
-trigger1 = (!AILevel && command != "holdback")
+trigger1 = !AILevel && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command != "holdfwd", command != "holdback"), ifElse(P2dist x < 0, command != "holdback", command != "holdfwd")))
 trigger2 = !InGuardDist
 trigger3 = AILevel && NumEnemy
 trigger3 = EnemyNear, HitDefAttr = SCA, AT
@@ -2423,14 +1853,17 @@ value = (EnemyNear, Time >= 120 || Time >= 180)
 
 [State 130, Standing to Crouch]
 type = ChangeState
-trigger1 = !AILevel && command = "holddown"
-trigger2 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
-trigger2 = (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = !AILevel && StateType = S && command = "holddown"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = S && command = "holdup"
+trigger3 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
+trigger3 = (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
 value = 131
 
 [State 130, Stop Guarding]
 type = ChangeState
-trigger1 = (!AILevel && command != "holdback")
+trigger1 = !AILevel && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command != "holdfwd", command != "holdback"), ifElse(P2dist x < 0, command != "holdback", command != "holdfwd")))
 trigger2 = !InGuardDist
 trigger3 = AILevel && NumEnemy
 trigger3 = EnemyNear, HitDefAttr = SCA, AT
@@ -2467,9 +1900,12 @@ value = 131
 
 [State 131, Crouching to Standing]
 type = ChangeState
-trigger1 = !AILevel && command != "holddown"
-trigger2 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
-trigger2 = (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = !AILevel && StateType = C && command != "holddown"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = C && command != "holdup"
+trigger3 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
+trigger3 = (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 value = 130
 
 [State 131, AI Fix]
@@ -2479,7 +1915,7 @@ value = (EnemyNear, Time >= 120 || Time >= 180)
 
 [State 131, Stop Guarding]
 type = ChangeState
-trigger1 = (!AILevel && command != "holdback")
+trigger1 = !AILevel && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command != "holdfwd", command != "holdback"), ifElse(P2dist x < 0, command != "holdback", command != "holdfwd")))
 trigger2 = !InGuardDist
 trigger3 = AILevel && NumEnemy
 trigger3 = EnemyNear, HitDefAttr = SCA, AT
@@ -2498,7 +1934,7 @@ value = 132
 
 [State 132, VelAdd]
 type = VelAdd
-trigger1 = 1
+trigger1 = Time > 0
 y = const(movement.yAccel)
 
 [State 132, VarSet]
@@ -2524,7 +1960,7 @@ value = (EnemyNear, Time >= 120 || Time >= 180)
 [State 132, Jumping to Standing]
 type = ChangeState
 trigger1 = sysvar(0) && InGuardDist
-trigger1 = (!AILevel && command = "holdback") || AILevel
+trigger1 = (!AILevel && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command = "holdfwd", command = "holdback"), ifElse(P2dist x < 0, command = "holdback", command = "holdfwd")))) || AILevel
 value = 130
 
 [State 132, Change to Falling]
@@ -2534,7 +1970,7 @@ value = 52
 
 [State 132, Stop Guarding]
 type = ChangeState
-trigger1 = (!AILevel && command != "holdback")
+trigger1 = !AILevel && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command != "holdfwd", command != "holdback"), ifElse(P2dist x < 0, command != "holdback", command != "holdfwd")))
 trigger2 = !InGuardDist
 trigger3 = AILevel && NumEnemy
 trigger3 = EnemyNear, HitDefAttr = SCA, AT
@@ -2569,7 +2005,7 @@ physics = A
 
 [State 140, Standing to Crouching]
 type = StateTypeSet
-trigger1 = !AILevel && StateType = S && command = "holddown"
+trigger1 = !AILevel && StateType = S && (NumExplod(90000002) || NumExplod(90000001) || NumExplod(90000003))
 trigger2 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
 trigger2 = StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
 stateType = C
@@ -2577,7 +2013,7 @@ physics = C
 
 [State 140, Crouching to Standing]
 type = StateTypeSet
-trigger1 = !AILevel && StateType = C && command != "holddown"
+trigger1 = !AILevel && StateType = C && (!NumExplod(90000002) && !NumExplod(90000001) && !NumExplod(90000003))
 trigger2 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
 trigger2 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 stateType = S
@@ -2604,18 +2040,18 @@ value = 150
 [State 150, End]
 type = ChangeState
 trigger1 = HitShakeOver
-value = 151 + 2 * ((!AILevel && command = "holddown") || (AILevel && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)))
+value = 151 + 2 * ((!AILevel && (NumExplod(90000002) || NumExplod(90000001) || NumExplod(90000003))) || (AILevel && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)))
 
 [State 150, Standing to Crouching]
 type = StateTypeSet
-trigger1 = !AILevel && StateType = S && command = "holddown"
+trigger1 = !AILevel && StateType = S && (NumExplod(90000002) || NumExplod(90000001) || NumExplod(90000003))
 trigger2 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
 stateType = C
 physics = C
 
 [State 150, Crouching to Standing]
 type = StateTypeSet
-trigger1 = !AILevel && StateType = C && command != "holddown"
+trigger1 = !AILevel && StateType = C && (!NumExplod(90000002) && !NumExplod(90000001) && !NumExplod(90000003))
 trigger2 = AIlevel && Random < (125 * (AILevel ** 2 / 64.0))
 trigger2 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 stateType = S
@@ -2647,7 +2083,7 @@ value = 1
 
 [State 151, Standing to Crouching]
 type = StateTypeSet
-trigger1 = !AILevel && StateType = S && command = "holddown"
+trigger1 = !AILevel && StateType = S && (NumExplod(90000002) || NumExplod(90000001) || NumExplod(90000003))
 trigger2 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
 trigger2 = StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
 stateType = C
@@ -2655,7 +2091,7 @@ physics = C
 
 [State 151, Crouching to Standing]
 type = StateTypeSet
-trigger1 = !AILevel && StateType = C && command != "holddown"
+trigger1 = !AILevel && StateType = C && (!NumExplod(90000002) && !NumExplod(90000001) && !NumExplod(90000003))
 trigger2 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
 trigger2 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 stateType = S
@@ -2683,21 +2119,27 @@ value = 151
 [State 152, End]
 type = ChangeState
 trigger1 = HitShakeOver
-value = 151 + 2 * ((!AILevel && command = "holddown") || (AILevel && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)))
+value = 151 + 2 * ((!AILevel && ((!NumExplod(92828282) && !NumExplod(92468246) && command = "holddown") || ((NumExplod(92828282) || NumExplod(92468246)) && command = "holdup"))) || (AILevel && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)))
 
 [State 152, Standing to Crouching]
 type = StateTypeSet
-trigger1 = !AILevel && statetype = S && command = "holddown"
-trigger2 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
-trigger2 = StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = !AILevel && StateType = S && command = "holddown"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = S && command = "holdup"
+trigger3 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
+trigger3 = StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
 stateType = C
 physics = C
 
 [State 152, Crouching to Standing]
 type = StateTypeSet
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && StateType = C && command != "holddown"
-trigger2 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
-trigger2 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = C && command != "holdup"
+trigger3 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
+trigger3 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 stateType = S
 physics = S
 
@@ -2727,17 +2169,23 @@ value = 1
 
 [State 153, Standing to Crouching]
 type = StateTypeSet
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && StateType = S && command = "holddown"
-trigger2 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
-trigger2 = StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = S && command = "holdup"
+trigger3 = AILevel && Random < (250 * (AILevel ** 2 / 64.0))
+trigger3 = StateType = S && (EnemyNear, MoveType = A) && (EnemyNear, StateType = C)
 stateType = C
 physics = C
 
 [State 153, Crouching to Standing]
 type = StateTypeSet
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
 trigger1 = !AILevel && StateType = C && command != "holddown"
-trigger2 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
-trigger2 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = !AILevel && StateType = C && command != "holdup"
+trigger3 = AILevel && Random < (125 * (AILevel ** 2 / 64.0))
+trigger3 = StateType = C && (EnemyNear, MoveType = A) && (EnemyNear, StateType != C)
 stateType = S
 physics = S
 
@@ -2781,7 +2229,7 @@ y = 1
 
 [State 155, VelAdd]
 type = VelAdd
-trigger1 = 1
+trigger1 = Time > 0
 y = const(movement.yAccel)
 
 [State 155, CtrlSet]
@@ -2807,7 +2255,7 @@ y = 0
 [State 155, End]
 type = ChangeState
 trigger1 = sysvar(0) && InGuardDist
-trigger1 = (!AILevel && command = "holdback") || AILevel
+trigger1 = (!AILevel && (ifElse(!NumExplod(94646464) && !NumExplod(92468246), ifElse(P2dist x < 0, command != "holdfwd", command != "holdback"), ifElse(P2dist x < 0, command != "holdback", command != "holdfwd")))) || AILevel
 value = 130
 
 [State 155, End]
@@ -2862,105 +2310,122 @@ value = ifElse(var(40) = 1, 5501, 5500)
 [StateDef 5901]
 type = S
 
-[State 5901, Intro vs A Morrigan]
+[State 5901, Intro vs Terry Bogard]
 type = ChangeState
-triggerall = numenemy
-triggerall = !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
-trigger1 = Enemy,Name = "Morrigan_Aensland"
-trigger1 = Enemy,AuthorName = "BeterHans"
-trigger1 = Enemy,var(32)
-value = 110630
-
-
-[State 5901, Intro with Ken as partner]
-type = ChangeState
-triggerall = var(40) != 1 && numenemy
-triggerall = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-triggerall = TeamMode = Simul
-trigger1 = Partner,Name = "Ryu"
-trigger1 = Partner,AuthorName = "Phantom.of.the.Server"
-trigger1 = Partner,var(1) != 2
-value = IFElse(Random<200,6910,189)
-
-
-[State 5901, vs Ryu (P2 side)]
-type = ChangeState
-triggerall = var(40) != 1
-triggerall = NumEnemy
-trigger1 = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
-trigger1 = Enemy, StateNo = [192,193]
-value = ifElse(Enemy, StateNo = 192, 193, 194)
-
-[State 5901, vs Ryu (P1 side)]
-type = ChangeState
-triggerall = var(40) != 1
-triggerall = NumEnemy
-trigger1 = RoundNo = 1; || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
-value = 193 + (Random % 2)
-
-[State 5901, vs Terry Bogard]
-type = ChangeState
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1
+triggerAll = var(40) != 1
+triggerAll = NumEnemy && !(TeamMode = Simul)
+triggerAll = RoundNo = 1 || ((!(Enemy, RoundsExisted) || !RoundsExisted) && !(Enemy, TeamMode = Simul))
 trigger1 = Enemy, AuthorName = "vyn" && Enemy, Name = "Terry"
+trigger2 = Enemy, AuthorName = "QB" && Enemy, Name = "Terry Bogard"
+trigger3 = Enemy, AuthorName = "KarmaCharmeleon" && Enemy, Name = "Terry Bogard"
 value = 199
 
-[State 5901, vs Intro vs Violent Ken]
+[State 5901, Simul Intro with Ryu]
+type = ChangeState
+trigger1 = var(40) != 1
+trigger1 = NumEnemy && RoundNo = 1
+trigger1 = TeamMode = Simul && NumPartner
+trigger1 = Partner, AuthorName = "Phantom.of.the.Server" && Partner, Name = "Ryu" && (Partner, var(1) != 2)
+value = 6910
+
+[State 5901, Intro vs Ryu (P2 side)]
+type = ChangeState
+triggerAll = var(40) != 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) || !RoundsExisted)
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
+trigger1 = Enemy, StateNo = [192,193]
+value = ifElse(Enemy, StateNo = 192, 6800, 6801)
+
+[State 5901, Intro vs Ryu (P1 side)]
+type = ChangeState
+triggerAll = var(40) != 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) || !RoundsExisted)
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
+value = 6800 + Random % 2
+
+[State 5901, Intro vs Sean]
+type = ChangeState
+triggerAll = var(40) != 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) || !RoundsExisted)
+trigger1 = Enemy, AuthorName = "Victorys" && Enemy, Name = "Sean Matsuda"
+value = 6800
+
+[State 5901, Intro vs Sean]
+type = ChangeState
+triggerAll = var(40) != 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) || !RoundsExisted)
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
+trigger1 = Enemy, StateNo = [192,193]
+value = ifElse(Enemy, StateNo = 192, 6800, 6801)
+
+[State 5901, Intro vs Robert Garcia]
 type = ChangeState
 triggerAll = var(40) != 1
 triggerAll = NumEnemy
-triggerAll = RoundNo = 1 && (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-triggerAll = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-trigger1 = Enemy, StateNo = 5972
-value = 5971
+triggerAll = RoundNo = 1 || (!RoundsExisted && !Enemy, RoundsExisted && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
+trigger1 = Enemy, AuthorName = "DGO&DivineWolf" && Enemy, Name = "Robert Garcia"
+trigger2 = Enemy, Name = "Robert" && Enemy, AuthorName = "Chazzanova"
+value = 6802
 
-[State 5901, vs Intro vs Ken (Violent)]
+[State 5901, Intro vs Violent Ken]
+type = ChangeState
+triggerAll = var(40) != 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (((!(Enemy, RoundsExisted) || !RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)))
+trigger1 = Enemy, AuthorName = "Jmorphman" && Enemy, Name = "Ken Masters"
+value = 6803
+
+[State 5901, Violent Intro vs Ryu]
+type = ChangeState
+triggerAll = var(40) = 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (((!(Enemy, RoundsExisted) || !RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)))
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
+value = 6805
+
+[State 5901, Violent Intro vs Ken]
+type = ChangeState
+triggerAll = var(40) = 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (((!(Enemy, RoundsExisted) || !RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)))
+trigger1 = Enemy, AuthorName = "Jmorphman" && Enemy, Name = "Ken Masters"
+value = 6806
+
+[State 5901, vs Intro vs M. Bison/Vega (Violent)]
 type = ChangeState
 triggerAll = var(40) = 1
 triggerAll = NumEnemy
-triggerAll = RoundNo = 1 && (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-triggerAll = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-trigger1 = Enemy, StateNo = 5971
-value = 5972
+triggerAll = RoundNo = 1 || (((!(Enemy, RoundsExisted) || !RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)))
+trigger1 = Enemy, Name = "M. Bison" || Enemy, Name = "cvsvega" || Enemy, Name = "cvsvega_normal" || Enemy, Name = "cvsvega_ex" || (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz")) || Enemy, Name = "M.Bison" || Enemy, Name = "Bison" || Enemy, Name = "Bison Bison"
+value = 6807
 
-[State 5901, vs Intro vs Vega (Violent)]
-type = ChangeState
-trigger1 = var(40) = 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Vega"
-value = 5982
-
-[State 5901, vs Intro vs Evil Ryu (Violent)]
+[State 5901, Violent Intro vs Evil Ryu]
 type = ChangeState
 triggerAll = var(40) = 1
 triggerAll = NumEnemy
-triggerAll = RoundNo = 1 && (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-triggerAll = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
-trigger1 = Enemy, StateNo = 5982
-value = 5983
+triggerAll = RoundNo = 1 || (!RoundsExisted && !Enemy, RoundsExisted && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
+value = 6808
 
-[State 5901, vs Intro vs Guile (Master)]
+[State 5901, Violent Intro vs Akuma]
+type = ChangeState
+triggerAll = var(40) = 1
+triggerAll = NumEnemy && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)
+triggerAll = RoundNo = 1 || (!RoundsExisted && !Enemy, RoundsExisted)
+trigger1 = Enemy, AuthorName = "DivineWolf" && Enemy, Name = "Akuma"
+value = 6809
+
+[State 5901, Master Intro vs Guile]
 type = ChangeState
 triggerAll = var(40) = 2
 triggerAll = NumEnemy
-triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, Name = "cvsguile" || Enemy, Name = "Guile" || Enemy, Name = "K-Guile"
-value = 5984
-
-[State 5901, Intro vs Ryu (Violent)]
-type = ChangeState
-trigger1 = EnemyNear, var(1) != 2
-trigger1 = var(40) = 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu"
-value = 5990
+triggerAll = RoundNo = 1 || (((!(Enemy, RoundsExisted) || !RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul)))
+trigger1 = Enemy, AuthorName = "Jmorphman" && Enemy, Name = "Guile"
+value = 6810
 
 [State 5901, Turns Intro]
 type = ChangeState
@@ -2968,209 +2433,34 @@ trigger1 = TeamMode = Turns
 trigger1 = !RoundsExisted && RoundNo >= 2
 value = 6900
 
-[State 5900, Intro Decider]
+[State 5901, Intro Decider]
 type = ChangeState
-trigger1 = time > 1
-trigger1 = RoundNo = 1 && var(40) != 1
-value = 188 + (Random % 5)
-
-[State 5900, Violent Intro]
-type = ChangeState
-trigger1 = time > 1
-trigger1 = RoundNo = 1 && var(40) = 1
-value = 5981
+trigger1 = RoundNo = 1
+value = ifElse(var(40) = 1, 6804, ifElse(Enemy, Name = "Eliza Masters", 193, ifElse(var(40) = 2, 191, ifElse(var(40) = 3, ifElse(Random < 250, 190, 192 + Random % 2), 190 + Random % 5))))
 
 [State 5901, End]
 type = ChangeState
-trigger1 = time > 2
+trigger1 = 1
 value = 0
 
-;==========<INTRO vs A.Morrigan>==========
-[Statedef 110630]
-type=S
-anim = 0
-
-[State 110630, intro]
-type=assertspecial
-trigger1= 1
-flag=intro
-
-[State 110630, Morrigan Not in 630]
-type = ChangeState
-triggerall = time > 10
-trigger1 = Enemynear,Name != "Morrigan_Aensland"
-trigger2 = P2StateNo != 630
-value = 0
-
-
-[State 110630, intro]
-type = ChangeAnim
-trigger1 = time = 120
-value = 110630
-
-[State 110630 Turns]
-type = Turn
-triggerall = Anim = 110630
-trigger1 = animelem = 2
-trigger2 = animelem = 11
-
-[State 110630, Hehe SND]
-type = PlaySnd
-trigger1 = Anim = 110630
-trigger1 = animelem = 5
-value = 9033, 2
-channel = 0
-
-[State 110630, Miss SND]
-type = PlaySnd
-trigger1 = Anim = 110630
-trigger1 = animelem = 7
-value = 5000, 0
-channel = 0
-
-[State 110630, Mask]
-type = explod
-trigger1 = SelfAnimExist(110631) && !NumExplod(110631)
-trigger1 = Anim = 110630 && AnimElem = 5
-anim = 110631
-ID = 110631
-postype = P1
-pos = 0,0
-bindtime = -1
-removetime = 60
-scale = Const(size.xscale),Const(size.yscale)
-ownpal = 0
-sprpriority = 1
-
-[State 110630, END]
-type = ChangeState
-trigger1 = anim = 110630 && !animtime
-value = 0
 
 
 ;====================<INTRO 1>====================
-[StateDef 188]
-type = S
-physics = S
-anim = 188
-
-[State 188, Change to Intro vs Violent]
-type = ChangeState
-trigger1 = Enemy, var(40) = 1
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5971
-
-[State 188, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 188, PosAdd]
-type = PosAdd
-trigger1 = !Time
-trigger1 = PrevStateNo = 193
-x = -ceil(var(10) - 110)
-
-[State 188, PosSet]
-type = PosSet
-trigger1 = !Time
-trigger1 = PrevStateNo = 194
-x = var(10)
-y = 0
-
-[State 188, Voice]
-type = PlaySnd
-trigger1 = AnimElem = 2
-value = 188,0
-channel = 0
-
-[State 188, End]
-type = ChangeState
-trigger1 = !AnimTime
-value = 0
-
-
-
-;====================<INTRO 2>====================
-[StateDef 189]
-type = S
-physics = S
-anim = 189
-
-[State 189, Change to Intro vs Violent]
-type = ChangeState
-trigger1 = Enemy, var(40) = 1
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5971
-
-[State 189, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 189, PosAdd]
-type = PosAdd
-trigger1 = !Time
-trigger1 = PrevStateNo = 193
-x = -ceil(var(10) - 110)
-
-[State 189, PosSet]
-type = PosSet
-trigger1 = !Time
-trigger1 = PrevStateNo = 194
-x = var(10)
-y = 0
-
-[State 188, End]
-type = ChangeState
-trigger1 = !AnimTime
-value = 0
-
-
-
-;====================<INTRO 3>====================
 [StateDef 190]
 type = S
 physics = S
 anim = 190
-
-[State 190, Change to Intro vs Violent]
-type = ChangeState
-trigger1 = Enemy, var(40) = 1
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5971
-
-[State 5900, Intro Decider]
-type = ChangeState
-trigger1 = !Time
-value = 188 + (Random % 5)
 
 [State 190, Assert: Intro]
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
 
-[State 190, PosAdd]
-type = PosAdd
-trigger1 = !Time
-trigger1 = PrevStateNo = 193
-x = -ceil(var(10) - 110)
-
-[State 190, PosSet]
-type = PosSet
-trigger1 = !Time
-trigger1 = PrevStateNo = 194
-x = var(10)
-y = 0
+[State 190, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 190, Random % 2
+channel = 0
 
 [State 190, End]
 type = ChangeState
@@ -3179,420 +2469,104 @@ value = 0
 
 
 
-;====================<INTRO 4>====================
+;====================<INTRO 2>====================
 [StateDef 191]
 type = S
 physics = S
 anim = 191
-ctrl = 0
-
-[State 191, Change to Intro vs Violent]
-type = ChangeState
-trigger1 = Enemy, var(40) = 1
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5971
 
 [State 191, Assert: Intro]
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
 
-[State 191, PosAdd]
-type = PosAdd
-trigger1 = !Time
-trigger1 = PrevStateNo = 193
-x = -ceil(var(10) - 110)
-
-[State 191, PosSet]
-type = PosSet
-trigger1 = !Time
-trigger1 = PrevStateNo = 194
-x = var(10)
-y = 0
-
-[State 191, Voice]
-type = PlaySnd
-trigger1 = AnimElemTime(1) = 70
-value = 191, Random % 2
-channel = 0
-
-[State 191, End]
-type = ChangeState
-trigger1 = !Animtime
-value = 0
-
-
-
-;====================<INTRO 5>====================
-[StateDef 192]
-type = S
-physics = S
-anim = 192
-ctrl = 0
-
-[State 191, Change to Intro vs Violent]
-type = ChangeState
-trigger1 = Enemy, var(40) = 1
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5971
-
-[State 192, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 192, PosAdd]
-type = PosAdd
-trigger1 = !Time
-trigger1 = PrevStateNo = 193
-x = -ceil(var(10) - 110)
-
-[State 192, PosSet]
-type = PosSet
-trigger1 = !Time
-trigger1 = PrevStateNo = 194
-x = var(10)
-y = 0
-
-[State 192, Whoosh Sound]
-type = PlaySnd
-trigger1 = AnimElem = 4
-trigger2 = AnimElem = 7
-value = 1,0
-
-[State 192, Whoosh Sound]
-type = PlaySnd
-trigger1 = AnimElem = 12
-value = 1,1
-
-[State 191, Voice]
-type = PlaySnd
-trigger1 = anim = 192 && AnimElemTime(20) = 1
-value = 192,0
-channel = 0
-
-[State 192, End]
-type = ChangeState
-trigger1 = !Animtime
-value = 0
-
-
-
-;====================<INTRO VS RYU (FIST BUMP)>====================
-[StateDef 193]
-type = S
-moveType = I
-physics = N
-anim = 193
-ctrl = 0
-
-[State 193, vs Intro Decider]
-type = ChangeState
-trigger1 = (Enemy, var(1) = 2)
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu"
-value = 188 + (Random % 5)
-
-[State 193, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 193, ScreenBound]
-type = ScreenBound
-trigger1 = 1
-value = 0
-moveCamera = 0,0
-ignoreHitPause = 1
-
-[State 193, Camera Helper]
-type = Helper
-trigger1 = !NumHelper(8999)
-helpertype = Normal
-stateNo = 8999
-ID = 8999
-name = "Camera"
-posType = P1
-
-[State 193, VarSet]
-type = VarSet
-trigger1 = !Time
-var(10) = ceil(P2dist X)
-
-[State 193, PosAdd]
-type = PosAdd
-trigger1 = !Time
-x = ceil(P2Dist X - 110)
-
-[State 193, Voice]
+[State 191, LP Woosh]
 type = PlaySnd
 trigger1 = AnimElem = 9
-value = 193, 0
-channel = 0
+trigger2 = AnimElem = 12
+value = 1,0
 
-[State 193, Back Dash Sound]
+[State 191, HP Woosh]
 type = PlaySnd
-trigger1 = AnimElem = 10
-value = 105,0
+trigger1 = AnimElem = 17
+value = 1,2
 
-[State 193, Dust Helper]
-type = Helper
-trigger1 = AnimElem = 10
-helperType = Normal
-stateNo = 8103
-ID = 8100
-name = "Dash Dust"
-posType = P1
-facing = -1
-pauseMoveTime = 255
-superMoveTime = 255
-ownPal = 1
-
-[State 193, VelSet]
-type = VelSet
-trigger1 = AnimElem = 10
-x = -(ceil(var(10) - 110) * 0.0625)
-
-[State 193, VelSet]
-type = VelSet
-trigger1 = AnimElem = 12
-x = 0
-
-[State 193, Landing Sound]
-type = PlaySnd
-trigger1 = AnimElem = 12
-value = 100,1
-
-[State 193, Landing Dust Explod]
-type = Explod
-trigger1 = AnimElem = 12
-anim = 8102
-sprpriority = -3
-postype = P1
-scale = 0.5,0.5
-pauseMoveTime = -1
-superMoveTime = -1
-ownPal = 1
-
-[State 193, End]
+[State 191, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
 
 
 
-;====================<INTRO VS RYU (NOOGIE)>====================
+;====================<INTRO 3>====================
+[StateDef 192]
+type = S
+physics = S
+anim = 192
+
+[State 192, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 192, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 192,0
+channel = 0
+
+[State 192, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<INTRO 4>====================
+[StateDef 193]
+type = S
+physics = S
+anim = 193
+
+[State 193, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 193, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 11
+value = 193,0
+channel = 0
+
+[State 193, Whoosh Sound]
+type = PlaySnd
+trigger1 = AnimElem = 8
+value = 1,0
+
+[State 193, End]
+type = ChangeState
+trigger1 = !AnimTime
+trigger2 = AnimElem = 18 && var(40) = 3
+value = 0
+
+
+
+;====================<INTRO 5>====================
 [StateDef 194]
 type = S
-physics = N
+physics = S
 anim = 194
-sprPriority = 1
-
-[State 194, vs Intro Decider]
-type = ChangeState
-trigger1 = (Enemy, var(1) = 2)
-trigger1 = var(40) != 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu"
-value = 188 + (Random % 5)
 
 [State 194, Assert: Intro]
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
 
-[State 194, ScreenBound]
-type = ScreenBound
-trigger1 = 1
-value = 0
-moveCamera = 0,0
-ignoreHitPause = 1
-
-[State 194, Camera Helper]
-type = Helper
-trigger1 = !NumHelper(8999)
-helpertype = Normal
-stateNo = 8999
-ID = 8999
-name = "Camera"
-posType = P1
-
-[State 194, Landing Sound]
-type = PlaySnd
-trigger1 = !Time
-value = 194,0
-
-[State 194, VarSet]
-type = VarSet
-trigger1 = !Time
-var(10) = ceil(pos x)
-
-[State 194, PosAdd]
-type = PosAdd
-trigger1 = !Time
-;320x240
-;x = P2Dist x - 31
-;640x480
-x = P2Dist x - 31.5
-;1280x720
-;x = P2Dist x - 31.75
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElem = 13
-x = ceil(P2Dist x - 45)
-
-[State 194, SprPriority]
-type = SprPriority
-triggerAll = Anim = 194
-trigger1 = AnimElem = 13
-value = -1
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElemTime(13) = 3
-x = ceil(P2Dist x - 25)
-
-[State 194, SprPriority]
-type = SprPriority
-triggerAll = Anim = 194
-trigger1 = AnimElemTime(13) = 3
-value = 2
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElem = 14
-x = ceil(P2Dist x)
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElemTime(14) = 3
-x = ceil(P2Dist x + 22)
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElemTime(14) = 6
-x = ceil(P2Dist x + 45)
-
-[State 194, SprPriority]
-type = SprPriority
-triggerAll = Anim = 194
-trigger1 = AnimElemTime(14) = 6
-value = -1
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElem = 15
-x = ceil(P2Dist x + 15)
-y = ceil(P2Dist y - 76)
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElem = 16
-x = ceil(P2Dist x - 11)
-y = ceil(P2Dist y - 105)
-
-[State 194, PosAdd]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElem = 17
-x = ceil(P2Dist x - 40)
-y = ceil(P2Dist y - 80)
-
-[State 194, VelSet]
-type = VelSet
-triggerAll = Anim = 194
-trigger1 = AnimElem = 18
-x = ((var(10) - pos x) / 24) * ifElse(var(10) > pos x, -1, 1)
-y = -5.625
-
-[State 194, Gravity]
-type = Gravity
-triggerAll = Anim = 194
-trigger1 = AnimElemTime(18) >= 0
-
-[State 194, PosSet]
-type = PosAdd
-triggerAll = Anim = 194
-trigger1 = AnimElem = 19
-y = 70
-
-[State 194, Landing Dust Explod]
-type = Explod
-triggerAll = Anim = 194
-trigger1 = pos y > -vel y
-anim = 8102
-sprPriority = -3
-posType = P1
-scale = 0.5,0.5
-pauseMoveTime = -1
-superMoveTime = -1
-ownPal = 1
-
-[State 194, Landing Sound]
-type = PlaySnd
-triggerAll = Anim = 194
-trigger1 = pos y > -vel y
-value = 52,0
-
-[State 194, Change]
-type = ChangeAnim
-triggerAll = Anim = 194
-trigger1 = pos y > -vel y
-value = 47
-
-[State 194, Change]
-type = ChangeAnim
-trigger1 = Anim = 47 && !AnimTime
-value = 192
-
-[State 194, PosSet]
-type = PosSet
-triggerAll = Anim = 47
-trigger1 = pos y > -vel y
-trigger1 = AnimElemTime(18) >= 0
-x = var(10)
-y = 0
-
-[State 194, VelSet]
-type = VelSet
-triggerAll = Anim = 47
-trigger1 = pos y > -vel y
-x = 0
-y = 0
-
-[State 194, Whoosh Sound]
-type = PlaySnd
-triggerAll = Anim = 192
-trigger1 = AnimElem = 4
-trigger2 = AnimElem = 7
-value = 1,0
-
-[State 194, Whoosh Sound]
-type = PlaySnd
-triggerAll = Anim = 192
-trigger1 = AnimElem = 12
-value = 1,1
-
 [State 194, End]
 type = ChangeState
-trigger1 = !AnimTime && Anim = 192
+trigger1 = !AnimTime
+trigger2 = AnimElem = 9 && var(40) = 3
 value = 0
 
 
@@ -3625,157 +2599,37 @@ type = ChangeState
 trigger1 = !AnimTime
 value = 0
 
-;=========< HIT FALL >===============
-[Statedef 5050]
-type    = A
-movetype= H
-physics = N
-
-[State 5050, 1] ;Change anim when done with transition
-type = ChangeAnim
-trigger1 = AnimTime = 0
-trigger1 = Anim = 5035
-trigger2 = Time = 0     ;If no transition anim
-trigger2 = Anim != 5035
-trigger2 = (Anim != [5051, 5059]) && (Anim != [5061, 5069])
-trigger2 = Anim != 5090 ;Not if hit off ground anim
-value = 5050
-
-[State 5050, 2] ;Coming down anim
-type = ChangeAnim
-trigger1 = anim = [5050,5059]
-trigger1 = Vel Y >= ifelse(anim = 5050, Const720p(4), Const720p(-8))
-trigger1 = SelfAnimExist(anim+10)
-value = anim+10
-persistent = 0
-
-[State 5050, 3] ;Gravity
-type = VelAdd
-trigger1 = 1
-y = GetHitVar(yaccel)
-
-[State 5050, 4] ;Recover near ground
-type = ChangeState
-triggerall = Vel Y > 0
-triggerall = Pos Y >= Const(movement.air.gethit.groundrecover.ground.threshold)
-triggerall = alive
-triggerall = CanRecover
-triggerall = !var(39)
-trigger1 = Command = "recovery"
-value = 5200 ;Air get-hit (fall recovery on ground)
-
-[State 5050, 5]; Recover in mid air
-type = ChangeState
-triggerall = Vel Y > Const(movement.air.gethit.airrecover.threshold)
-triggerall = alive
-triggerall = CanRecover
-triggerall = !var(39)
-trigger1 = Command = "recovery"
-value = 5210 ;Air get-hit (fall recovery in air)
-
-[State 5050, 6]
-type = ChangeState
-trigger1 = Vel Y > 0
-trigger1 = Pos Y >= ifelse((anim = [5051,5059]) || (anim = [5061,5069]), 0, Const(movement.air.gethit.groundlevel))
-value = 5100 ;Downed get-hit (hit ground from fall)
-
-;====================<Dizzy>==================
-[Statedef 5300]
-type=S
-physics=S
-movetype=I
-velset=0,0
-anim=5300
-ctrl=0
-
-[State 5300, change dizzy 2]
-type=varset
-trigger1 = !time
-var(39) = 2
-
-[State 5300, change dizzy var]
-type=varset
-trigger1 = !time
-fvar(38) = fvar(39)
-
-[State 5300, change dizzy var]
-type=varset
-trigger1 = !time
-fvar(39) = 0
-
-[state 5300, pos fix]
-type=posset
-trigger1=!time
-y=0
-persistent=0
-
-[state 5300, DetectKeyPress 1]
-type=varadd
-triggerall= time%2=0
-triggerall=command="holdfwd" || command="holdback" || command="holdup" || command="holddown"
-trigger1= command="a" || command="b" || command="c" || command="x" || command="y" || command="z"
-fvar(38)= -8
-
-[state 5300, DetectKeyPress 2]
-type=varadd
-triggerall= time%2=0
-triggerall=command!="holdfwd" && command!="holdback" && command!="holdup" && command!="holddown"
-trigger1= command="a" || command="b" || command="c" || command="x" || command="y" || command="z"
-fvar(38)= -4
-
-[state 5300, DetectKeyPress 3]
-type=varadd
-triggerall= time%2=0
-trigger1= command!="a" && command!="b" && command!="c" && command!="x" && command!="y" && command!="z"
-fvar(38)= -1
-
-[State 5300, fast anim]
-type=changeanim
-triggerall= time%2=0
-trigger1= command="a" || command="b" || command="c" || command="x" || command="y" || command="z"
-value= 5300
-elem= ifelse(AnimElemNo(0)=6,1,AnimelemNo(0)+1)
-
-[state 5300, Ducks]
-type=helper
-trigger1= !NumHelper(6300)
-trigger1= time=1
-helpertype=normal
-name= "Dizzy Ducks"
-ID=6300
-stateno=6300
-postype=p1
-pos= 0,0
-ownpal=1
-trans=none
-persistent=0
-
-[state 5300, end]
-type=changestate
-trigger1= time>6 && fvar(38)<1
-value=0
-ctrl=1
 
 
-
-;====================<INTRO VS VIOLENT>====================
-[StateDef 5971]
+;====================<INTRO VS RYU (FIST BUMP)>====================
+[StateDef 6800]
 type = S
-anim = 5971
+physics = N
+anim = 6800
 
-[State 5971, Assert: Intro]
+[State 6800, Change to Regular Intro]
+type = PosAdd
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
+x = -(var(10) - 114.5)
+
+[State 6800, Change to Regular Intro]
+type = ChangeState
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
+value = 5901
+
+[State 6800, Assert: Intro]
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
 
-[State 5971, ScreenBound]
+[State 6800, ScreenBound]
 type = ScreenBound
 trigger1 = 1
 value = 0
 moveCamera = 0,0
 ignoreHitPause = 1
 
-[State 5971, Camera Helper]
+[State 6800, Camera Helper]
 type = Helper
 trigger1 = !NumHelper(8999)
 helpertype = Normal
@@ -3784,431 +2638,113 @@ ID = 8999
 name = "Camera"
 posType = P1
 
-[State 5971, Woosh Sound]
+[State 6800, VarSet]
+type = VarSet
+trigger1 = !Time
+var(10) = ceil(P2dist X)
+
+[State 6800, PosAdd]
+type = PosAdd
+trigger1 = !Time
+;320x240
+;x = P2Dist x - 114
+;640x480
+x = P2Dist x - 114.5
+;1280x720
+;x = P2Dist x - 114.75
+
+[State 6800, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 9
+value = 6800,0
+channel = 0
+
+[State 6800, Fist bump sound]
+type = PlaySnd
+trigger1 = AnimElem = 7
+value = 100,1
+channel = 1
+
+[State 6800, Back Dash Sound]
 type = PlaySnd
 trigger1 = AnimElem = 10
-value = 1,4
-channel = 1
+value = 105,0
 
-[State 5971, Voice]
-type = PlaySnd
-trigger1 = AnimElem = 7
-value = 1300,0
-channel = 0
-
-[State 5971, Dust Helper]
+[State 6800, Dust Helper]
 type = Helper
-trigger1 = AnimElem = 7
+trigger1 = AnimElem = 10
 helperType = Normal
-stateNo = 8100
+stateNo = 8103
 ID = 8100
-name = "Ryusenkyaku Dust"
+name = "Dash Dust"
 posType = P1
+facing = -1
+pauseMoveTime = 255
+superMoveTime = 255
 ownPal = 1
 
-[State 5971, VelSet]
+[State 6800, VelSet]
 type = VelSet
-trigger1 = AnimElem = 9
-x = 4
-y = -14
+trigger1 = AnimElem = 10
+x = -(var(10) - 114.5)/17
 
-[State 5971, VelAdd]
-type = VelAdd
-trigger1 = AnimElemTime(9) > 0 && AnimElemTime(14) < 0
-y = 1
-
-[State 5971, VelSet]
+[State 6800, VelSet]
 type = VelSet
-trigger1 = pos y > -vel y
+trigger1 = AnimElem = 12
 x = 0
-y = 0
 
-[State 5971, PosSet]
-type = PosSet
-trigger1 = pos y > -vel y
-y = 0
+[State 6800, Landing Sound]
+type = PlaySnd
+trigger1 = AnimElem = 12
+value = 100,1
 
-[State 5971, Landing Dust Explod]
+[State 6800, Landing Dust Explod]
 type = Explod
-trigger1 = AnimElem = 14
+trigger1 = AnimElem = 12
 anim = 8102
-sprPriority = -3
-posType = P1
+sprpriority = -3
+postype = P1
 scale = 0.5,0.5
 pauseMoveTime = -1
 superMoveTime = -1
 ownPal = 1
 
-[State 5971, Landing Sound]
-type = PlaySnd
-trigger1 = AnimElem = 14
-value = 1300,1
-
-[State 5971, Voice]
-type = PlaySnd
-trigger1 = AnimElem = 22
-value = 4,1
-channel = 0
-
-[State 5971, Rolling Sound]
-type = PlaySnd
-trigger1 = AnimElem = 22
-value = 105,0
-channel = 1
-
-[State 5971, VelSet]
-type = VelSet
-trigger1 = AnimElem = 22
-x = -((Helper(8999), RootDist x))/31
-
-[State 5971, Roll Dust]
-type = Explod
-triggerAll = !(AnimElemTime(4) % 3)
-trigger1 = AnimElemTime(25) >= 0 && AnimElemTime(30) < 0
-anim = 8104
-sprPriority = 3
-posType = P1
-pos = 0,0
-vel = 0,0
-scale = 0.5,0.5
-pauseMovetime = -1
-superMoveTime = -1
-ownpal = 1
-
-[State 5971, VelSet]
-type = VelSet
-trigger1 = AnimElem = 33
-x = 0
-
-[State 5971, PosSet]
-type = PosSet
-trigger1 = AnimElem = 33
-x = Helper(8999), pos x
-
-[State 5971, End]
+[State 6800, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
 
 
 
-;====================<INTRO VS KEN (VIOLENT)>====================
-[StateDef 5972]
-type = S
-anim = 5972
-
-[State 5972, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 5972, Change to Regular Intro]
-type = ChangeState
-trigger1 = Enemy, var(40) = 1
-trigger1 = var(40) = 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5981
-
-[State 5972, ScreenBound]
-type = ScreenBound
-trigger1 = 1
-value = 0
-moveCamera = 0,0
-ignoreHitPause = 1
-
-[State 5972, Camera Helper]
-type = Helper
-trigger1 = !NumHelper(8999)
-helpertype = Normal
-stateNo = 8999
-ID = 8999
-name = "Camera"
-posType = P1
-
-[State 5972, Voice 1]
-type = PlaySnd
-trigger1 = AnimElem = 2
-value = 198,0
-channel = 0
-
-[State 5972, Voice 2]
-type = PlaySnd
-trigger1 = AnimElem = 5 && var(40) = 1
-value = 1600,0
-channel = 0
-
-[State 5972, Rasetsu Kyaku Sound]
-type = PlaySnd
-trigger1 = AnimElem = 5
-value = 1600, 1
-channel = 1
-
-[State 5972, Fade Away Helper]
-type = Helper
-trigger1 = AnimElem = 5
-helperType = Normal
-stateNo = 1605
-ID = 1605
-name = "Rasetsu Kyaku Fade Away Helper"
-posType = P1
-ownPal = 1
-
-[State 5972, VelSet]
-type = VelSet
-trigger1 = AnimElem = 5
-x = 11
-
-[State 5972, VelSet]
-type = VelSet
-trigger1 = AnimElem = 14
-x = 0
-
-[State 5972, Voice 3]
-type = PlaySnd
-trigger1 = AnimElem = 21
-value = 1100,10
-channel = 0
-
-[State 5972, Woosh Sound]
-type = PlaySnd
-trigger1 = AnimElem = 20
-value = 1,2
-channel = 1
-
-[State 5972, Jump Sound]
-type = PlaySnd
-trigger1 = AnimElem = 23
-value = 40,0
-channel = 3
-
-[State 5972, Fire Sound]
-type = PlaySnd
-trigger1 = AnimElem = 20
-value = 1100,1
-channel = 4
-
-[State 5972, Dust Helper]
-type = Helper
-trigger1 = AnimElem = 23
-helperType = Normal
-stateNo = 8100
-ID = 8100
-name = "Shoryuken Dust"
-posType = P1
-ownPal = 1
-
-[State 5972, VelSet]
-type = VelSet
-trigger1 = AnimElem = 23
-x = -((Helper(8999), RootDist x) + 344.96)/28
-y = -10.5
-
-[State 5972, VelAdd]
-type = VelAdd
-trigger1 = AnimElemTime(23) >= 0
-y = 0.47
-
-[State 5972, Velocity]
-type = VelMul
-trigger1 = AnimElemTime(23) >= 0 && AnimElemTime(26) < 0
-x = 0.88
-persistent = 1
-
-[State 5972, VelSet]
-type = VelSet
-trigger1 = AnimElem = 26
-x = 0
-
-[State 5972, PosAdd]
-type = PosAdd
-trigger1 = AnimElem = 20
-trigger2 = AnimElem = 21
-x = -8
-
-[State 5972, Shoryuken Flames Explod]
-type = Explod
-trigger1 = AnimElem = 20
-anim = 5973
-ID = 5973
-sprPriority = 3
-bindTime = 2
-posType = P1
-pos = -10,-28
-scale = 0.5,0.5
-pauseMoveTime = -1
-superMoveTime = -1
-ownPal = 1
-removeOnGetHit = 1
-ignoreHitPause = 0
-
-[State 5971, ModifyExplod]
-type = ModifyExplod
-trigger1 = AnimElem = 21
-ID = 5973
-pos = -19,-39
-posType = P1
-bindTime = 2
-
-[State 5971, ModifyExplod]
-type = ModifyExplod
-trigger1 = AnimElem = 22
-ID = 5973
-pos = -36,-82
-posType = P1
-bindTime = 2
-
-[State 5972, ModifyExplod]
-type = ModifyExplod
-trigger1 = AnimElem = 23
-ID = 5973
-pos = -12,-143
-posType = P1
-bindTime = 19
-
-[State 5972, End]
-type = ChangeState
-trigger1 = pos y > -vel y
-value = 5973
-
-
-;Landing
-[StateDef 5973]
+;====================<INTRO VS RYU (NOOGIE)>====================
+[StateDef 6801]
 type = S
 physics = N
-moveType = I
-velSet = 0,0
+anim = 6801
 
-[State 5973, PosSet]
+[State 6801, Change to Regular Intro]
 type = PosSet
-trigger1 = !Time
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
 x = Helper(8999), pos x
-y = 0
 
-[State 5973, ScreenBound]
+[State 6801, Change to Regular Intro]
+type = ChangeState
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
+value = 5901
+
+[State 6801, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6801, ScreenBound]
 type = ScreenBound
 trigger1 = 1
 value = 0
 moveCamera = 0,0
 ignoreHitPause = 1
 
-[State 5973, Landing Dust Explod]
-type = Explod
-trigger1 = !Time
-anim = 8102
-sprPriority = -3
-posType = P1
-scale = 0.5,0.5
-pauseMoveTime = -1
-superMoveTime = -1
-ownPal = 1
-
-[State 5973, Landing Sound]
-type = PlaySnd
-trigger1 = !Time
-value = 52,0
-
-[State 5973, End]
-type = ChangeState
-trigger1 = !AnimTime
-value = 0
-
-
-
-;====================<VIOLENT KEN INTRO>====================
-[StateDef 5981]
-type = S
-physics = S
-anim = 5981
-
-[State 5981, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 5981, Change to Intro vs Ken]
-type = ChangeState
-trigger1 = Enemy, var(40) != 1
-trigger1 = var(40) = 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server&Jmorphman" && Enemy, Name = "Ken Masters"
-value = 5972
-
-[State 5981, Change to Intro vs Evil Ryu]
-type = ChangeState
-trigger1 = Enemy, var(1) = 2
-trigger1 = var(40) = 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu"
-value = 5983
-
-[State 5981, Voice]
-type = PlaySnd
-trigger1 = AnimElemTime(1) = 50
-value = 5981, 0
-channel = 0
-
-[State 5981, End]
-type = ChangeState
-trigger1 = !AnimTime
-value = 0
-
-
-
-;====================<INTRO VS VEGA (VIOLENT)>====================
-[StateDef 5982]
-type = S
-physics = S
-anim = 5982
-
-[State 5982, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 5982, Voice]
-type = PlaySnd
-trigger1 = AnimElem = 2
-value = 3500,0
-channel = 0
-
-[State 5982, End]
-type = ChangeState
-trigger1 = !AnimTime
-value = 0
-
-
-
-;====================<INTRO VS EVIL RYU (VIOLENT)>====================
-[StateDef 5983]
-type = S
-anim = 2
-
-[State 5983, Assert: Intro]
-type = AssertSpecial
-trigger1 = 1
-flag = Intro
-
-[State 5983, Change to Regular Intro]
-type = ChangeState
-trigger1 = Enemy, var(1) != 2
-trigger1 = var(40) = 1
-trigger1 = NumEnemy
-trigger1 = RoundNo = 1 && (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu"
-value = 5981
-
-[State 5983, ScreenBound]
-type = ScreenBound
-trigger1 = 1
-value = 0
-moveCamera = 0,0
-ignoreHitPause = 1
-
-[State 5983, Camera Helper]
+[State 6801, Camera Helper]
 type = Helper
 trigger1 = !NumHelper(8999)
 helpertype = Normal
@@ -4217,173 +2753,463 @@ ID = 8999
 name = "Camera"
 posType = P1
 
-[State 5983, PosAdd]
-type = PosAdd
-trigger1 = !Time
-x = 26.34
-
-[State 5983, ChangeAnim]
-type = ChangeAnim
-trigger1 = Time = 10
-value = 5983
-
-[State 5983, ChangeAnim]
-type = Turn
-trigger1 = !Time
-trigger2 = Anim = 5983 && AnimElem = 1
-
-[State 5983, Voice 1]
+[State 6801, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 1 && Anim = 5983
-value = 4, ifElse(var(40) = 1, 10, 2)
+trigger1 = Time = 1
+value = 6801,0
 channel = 0
 
-[State 5983, Dodge Sound]
+[State 6801, PosAdd]
+type = PosAdd
+trigger1 = !Time
+;320x240
+;x = P2Dist x - 33
+;640x480
+x = P2Dist x - 33.5
+;1280x720
+;x = P2Dist x - 33.75
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 13
+x = P2Dist x - 30
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 14
+x = P2Dist x - 15
+
+[State 6801, SprPriority]
+type = SprPriority
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 14
+value = 2
+
+[State 6801, SprPriority]
+type = SprPriority
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 17
+value = -1
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 15
+x = P2Dist x
+
+[State 6801, TargetBind]
+type = PosAdd
+triggerAll = Anim = 6801
+trigger1 = AnimElem = 16
+trigger2 = AnimElem = 17
+x = 15
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 18
+x = -20
+y = -5
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 19
+x = -2
+y = -110.0
+
+[State 6801, SprPriority]
+type = SprPriority
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 19
+value = 2
+
+[State 6801, SprPriority]
+type = SprPriority
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 20
+value = -1
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 20
+x = -73
+y = 45
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 21
+x = -32
+y = 13
+
+[State 6801, TargetBind]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 22
+x = -19
+y = 1
+
+[State 6801, VelSet]
+type = VelSet
+trigger1 = Anim = 6801
+trigger1 = AnimElemTime(22) = 2
+x = -(abs((Helper(8999), pos x - pos x)) / 30)
+y = -5.78125 - 0.5126953125/2
+
+[State 6801, VelAdd]
+type = VelAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElemTime(22) > 2
+y = 0.5126953125
+
+[State 6801, PosAdd]
+type = PosAdd
+trigger1 = Anim = 6801
+trigger1 = AnimElem = 23
+y = 20
+
+[State 6801, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim = 6801
+trigger1 = pos y > -vel y
+value = 47
+
+[State 6801, VelSet]
+type = VelSet
+trigger1 = Anim = 47
+trigger1 = AnimElem = 1
+x = 0
+y = 0
+
+[State 6801, PosSet]
+type = PosSet
+trigger1 = Anim = 47
+trigger1 = AnimElem = 1
+x = Helper(8999), pos x
+y = 0
+
+[State 6801, Landing Dust Explod]
+type = Explod
+trigger1 = Anim = 47
+trigger1 = AnimElem = 1
+anim = 8102
+sprPriority = -3
+posType = P1
+scale = 0.5,0.5
+pauseMoveTime = -1
+superMoveTime = -1
+ownPal = 1
+
+[State 6801, Landing Sound]
 type = PlaySnd
-trigger1 = AnimElem = 1 && Anim = 5983
+trigger1 = Anim = 47
+trigger1 = AnimElem = 1
+value = 52,0
+channel = 1
+
+[State 6801, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim = 47
+trigger1 = !AnimTime
+value = 191
+elem = 6
+
+[State 6801, LP Woosh]
+type = PlaySnd
+triggerAll = Anim = 191
+trigger1 = AnimElem = 9
+trigger2 = AnimElem = 12
+value = 1,0
+
+[State 6801, HP Woosh]
+type = PlaySnd
+trigger1 = Anim = 191
+trigger1 = AnimElem = 17
+value = 1,2
+
+[State 6801, End]
+type = ChangeState
+trigger1 = Anim = 191
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<INTRO VS ROBERT GARCIA>====================
+[StateDef 6802]
+type = S
+physics = S
+anim = 6802
+
+[State 6802, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6802, Woosh Sound 1]
+type = PlaySnd
+trigger1 = AnimElem = 8
+value = 1,5
+channel = 1
+
+[State 6802, Woosh Sound 2]
+type = PlaySnd
+trigger1 = AnimElem = 17
 value = 1,3
 channel = 1
 
-[State 5983, Voice 2]
+[State 6802, Woosh Sound 3]
 type = PlaySnd
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 7
-value = 1100,10
-channel = 0
-
-[State 5983, Woosh Sound]
-type = PlaySnd
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 6
-value = 1,2
+trigger1 = AnimElem = 29
+value = 1,4
 channel = 1
 
-[State 5983, Jump Sound]
+[State 6802, Hit Sound 1]
 type = PlaySnd
-triggerAll = Anim = 5983
 trigger1 = AnimElem = 9
-value = 40,0
-channel = 3
+value = 2,4
+channel = 2
 
-[State 5983, Fire Sound]
+[State 6802, Hit Sound 2]
 type = PlaySnd
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 6
-value = 1100,1
-channel = 4
+trigger1 = AnimElem = 18
+value = 2,3
+channel = 2
 
-[State 5983, Dust Helper]
+[State 6802, Hit Sound 3]
+type = PlaySnd
+trigger1 = AnimElem = 29
+value = 2,5
+channel = 2
+
+[State 6802, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 39
+value = 6800,0
+channel = 0
+
+[State 6802, HitSpark 1]
 type = Helper
-triggerAll = Anim = 5983
 trigger1 = AnimElem = 9
 helperType = Normal
-stateNo = 8100
-ID = 8100
-name = "Shoryuken Dust"
+stateNo = 8011
+ID = 8000
+name = "Spark"
 posType = P1
+pos = 75,-70
+facing = -1
 ownPal = 1
+size.xScale = 1
+size.yScale = 1
+pauseMoveTime = 65535
+superMoveTime = 65535
+ignoreHitPause = 1
 
-[State 5983, VelSet]
-type = VelSet
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 9
-x = -((Helper(8999), RootDist x) + 124)/28
-y = -10.5
-
-[State 5983, VelAdd]
-type = VelAdd
-triggerAll = Anim = 5983
-trigger1 = AnimElemTime(9) >= 0
-y = 0.47
-
-[State 5983, Velocity]
-type = VelMul
-triggerAll = Anim = 5983
-trigger1 = AnimElemTime(9) >= 0 && AnimElemTime(13) < 0
-x = 0.88
-persistent = 1
-
-[State 5983, VelSet]
-type = VelSet
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 13
-x = 0
-
-[State 5983, PosAdd]
-type = PosAdd
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 6
-trigger2 = AnimElem = 7
-x = 8
-
-[State 5983, Shoryuken Flames Explod]
-type = Explod
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 6
-anim = 5973
-ID = 5973
-sprPriority = 3
-bindTime = 2
+[State 6802, HitSpark 2]
+type = Helper
+trigger1 = AnimElem = 18
+helperType = Normal
+stateNo = 8010
+ID = 8000
+name = "Spark"
 posType = P1
-pos = -10,-28
-scale = 0.5,0.5
-pauseMoveTime = -1
-superMoveTime = -1
+pos = 70,-25
+facing = -1
 ownPal = 1
-removeOnGetHit = 1
-ignoreHitPause = 0
+size.xScale = 1
+size.yScale = 1
+pauseMoveTime = 65535
+superMoveTime = 65535
+ignoreHitPause = 1
 
-[State 5983, ModifyExplod]
-type = ModifyExplod
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 7
-ID = 5973
-pos = -19,-39
+[State 6802, HitSpark 3]
+type = Helper
+trigger1 = AnimElem = 29
+helperType = Normal
+stateNo = 8012
+ID = 8000
+name = "Spark"
 posType = P1
-bindTime = 2
+pos = 100,-105
+facing = -1
+ownPal = 1
+size.xScale = 1
+size.yScale = 1
+pauseMoveTime = 65535
+superMoveTime = 65535
+ignoreHitPause = 1
 
-[State 5983, ModifyExplod]
-type = ModifyExplod
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 8
-ID = 5973
-pos = -36,-82
-posType = P1
-bindTime = 2
-
-[State 5983, ModifyExplod]
-type = ModifyExplod
-triggerAll = Anim = 5983
-trigger1 = AnimElem = 9
-ID = 5973
-pos = -12,-143
-posType = P1
-bindTime = 19
-
-[State 5983, End]
+[State 6802, End]
 type = ChangeState
-trigger1 = pos y > -vel y
-value = 5973
+trigger1 = !AnimTime
+value = 0
 
 
-;====================<INTRO VS GUILE (MASTER)>====================
-[StateDef 5984]
+
+;====================<INTRO VS VIOLENT KEN>====================
+[StateDef 6803]
 type = S
-physics = S
-anim = 5984
+physics = N
+anim = 6803
 
-[State 5984, Assert: Intro]
+[State 6803, Change to Regular Intro]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = Enemy, AuthorName = "Jmorphman" && Enemy, Name = "Ken Masters" && Enemy, var(40) != 1
+value = ifElse(var(40) = 1, 6804, ifElse(Enemy, Name = "Eliza Masters", 193, ifElse(var(40) = 2, 191, ifElse(var(40) = 3, ifElse(Random < 250, 190, 192 + Random % 2), 190 + Random % 5))))
+
+[State 6803, Assert: Intro]
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
 
-[State 5984, Voice]
+[State 6803, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+moveCamera = 0,0
+ignoreHitPause = 1
+
+[State 6803, Camera Helper]
+type = Helper
+trigger1 = !NumHelper(8999)
+helpertype = Normal
+stateNo = 8999
+ID = 8999
+name = "Camera"
+posType = P1
+
+[State 6803, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 1
-value = 5984, 0
+trigger1 = AnimElem = 6
+value = 1300,0
 channel = 0
 
-[State 5984, End]
+[State 6803, Jumping Sound]
+type = PlaySnd
+trigger1 = AnimElem = 6
+value = 40,0
+channel = 1
+
+[State 6803, Woosh sound]
+type = PlaySnd
+trigger1 = AnimElem = 11
+value = 1,5
+channel = 3
+
+[State 6803, StateTypeSet: Air, Physics: None]
+type = StateTypeSet
+trigger1 = AnimElem = 6
+stateType = A
+physics = N
+
+[State 6803, Dust Helper]
+type = Helper
+trigger1 = AnimElem = 6
+helperType = Normal
+stateNo = 8103
+ID = 8100
+name = "Ryusenkyaku Dust"
+posType = P1
+pauseMoveTime = 255
+superMoveTime = 255
+ownPal = 1
+
+[State 6803, VelSet]
+type = VelSet
+trigger1 = AnimElem = 8
+x = 4.375
+y = -11.25
+
+[State 6803, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(8) > 0 && AnimElemTime(13) < 0
+y = 0.78125
+
+[State 6803, PosSet]
+type = PosSet
+trigger1 = AnimElem = 13
+y = 0
+
+[State 6803, VelSet]
+type = VelSet
+trigger1 = AnimElem = 13
+x = 0
+y = 0
+
+[State 6803, Impact Dust]
+type = Explod
+trigger1 = AnimElem = 13
+anim = 8105
+sprPriority = -3
+posType = P1
+scale = 0.325,0.325
+pauseMoveTime = -1
+superMoveTime = -1
+ownPal = 1
+
+[State 6803, Impact Sound]
+type = PlaySnd
+trigger1 = AnimElem = 13
+value = 1300,1
+channel = 1
+
+[State 6803, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 20
+value = 4,3
+channel = 0
+
+[State 6803, Roll Sound]
+type = PlaySnd
+trigger1 = AnimElem = 20
+value = 110,0
+channel = 1
+
+[State 6803, VelSet]
+type = VelSet
+trigger1 = AnimElem = 20
+x = -(abs((Helper(8999), pos x - pos x)) / 29)
+
+[State 6803, VelSet]
+type = VelSet
+trigger1 = AnimElem = 31
+x = 0
+
+[State 6803, PosSet]
+type = PosSet
+trigger1 = AnimElem = 31
+x = Helper(8999), pos x
+
+[State 6803, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<VIOLENT INTRO>====================
+[StateDef 6804]
+type = S
+physics = S
+anim = 6804
+
+[State 6804, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6804, Voice]
+type = PlaySnd
+trigger1 = AnimElemTime(1) = 18
+value = 6804,0
+channel = 0
+
+[State 6804, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
@@ -4391,53 +3217,698 @@ value = 0
 
 
 ;====================<VIOLENT INTRO VS RYU>====================
-[StateDef 5990]
+[StateDef 6805]
 type = S
 physics = S
-anim = 5990
-sprPriority = -1
+anim = 6805
 
-[State 5990, Assert: Intro]
+[State 6805, Change to Regular Intro]
+type = ChangeState
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) = 2)
+value = 5901
+
+[State 6805, Assert: Intro]
 type = AssertSpecial
 trigger1 = 1
 flag = Intro
 
-[State 5990, Change to Intro vs Ryu]
-type = ChangeState
-trigger1 = EnemyNear, var(1) = 2
-value = 5981
-
-[State 5990, Helicopter]
+[State 6805, Shadaloo Gunship]
 type = Helper
 trigger1 = !Time
 helperType = Normal
-stateNo = 5992
-ID = 5992
-name = "Helicopter"
+stateNo = 26805
+ID = 26805
+name = "Shadaloo Gunship"
 posType = P1
 ownPal = 1
 
-[State 5990, Cape]
+[State 6805, Cape]
 type = Helper
 trigger1 = AnimElem = 44
 helperType = Normal
-stateNo = 5991
-ID = 5991
+stateNo = 16805
+ID = 16805
 name = "Cape"
 posType = P1
 ownPal = 1
 
-[State 5990, Helicopter Sound]
+[State 6805, Gunship Sound]
 type = PlaySnd
 trigger1 = Time = 5
-value = 5992,0
+value = 6805,0
 channel = 5
 loop = 1
 
-[State 5990, End]
+[State 6805, Cape Sound]
+type = PlaySnd
+trigger1 = AnimElem = 41
+value = 6805,2
+channel = 1
+
+[State 6805, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
+
+
+
+;====================<VIOLENT INTRO VS KEN>====================
+[StateDef 6806]
+type = S
+physics = N
+anim = 6806
+
+[State 6806, Change to Regular Intro]
+type = ChangeState
+trigger1 = Time > 0
+trigger1 = Enemy, AuthorName = "Jmorphman" && Enemy, Name = "Ken Masters" && Enemy, var(40) = 1
+value = ifElse(var(40) = 1, 6804, ifElse(Enemy, Name = "Eliza Masters", 193, ifElse(var(40) = 2, 191, ifElse(var(40) = 3, ifElse(Random < 250, 190, 192 + Random % 2), 190 + Random % 5))))
+
+[State 6806, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6806, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+moveCamera = 0,0
+ignoreHitPause = 1
+
+[State 6806, Camera Helper]
+type = Helper
+trigger1 = !NumHelper(8999)
+helpertype = Normal
+stateNo = 8999
+ID = 8999
+name = "Camera"
+posType = P1
+
+[State 6806, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 198,0
+channel = 0
+
+[State 6806, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 5
+value = 1600,0
+channel = 0
+
+[State 6806, Rasetsukyaku sound effect]
+type = PlaySnd
+trigger1 = AnimElem = 5
+value = 1600,1
+channel = 1
+
+[State 6806, Rasetsukyaku Fade Away]
+type = Helper
+trigger1 = AnimElem = 7
+helperType = Normal
+stateNo = 1605
+ID = 1605
+name = "Rasetsukyaku Fade Away"
+posType = P1
+ownPal = 1
+
+[State 6806, VelSet]
+type = VelSet
+trigger1 = AnimElem = 7
+x = 11
+
+[State 6806, VelMul]
+type = VelMul
+trigger1 = AnimElemTime(9) > 0 && AnimElemTime(11) < 0
+x = 0.8671875023712158
+
+[State 6806, VelSet]
+type = VelSet
+trigger1 = AnimElem = 11
+x = 0
+
+[State 6806, Movement AfterImage]
+type = AfterImage
+trigger1 = AnimElem = 8
+time = 2
+timeGap = 1
+frameGap = 4
+length = 9
+palBright = 0,0,0
+palContrast = 128,128,128
+palPostBright = 0,0,0
+palAdd = 0,0,0
+palMul = 0.9,0.9,0.9
+trans = Add1
+
+[State 6806, AfterImage Off]
+type = AfterImage
+trigger1 = AnimElem = 10
+time = 0
+length = 1
+
+[State 6806, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 15
+value = 1100,10
+channel = 0
+
+[State 6806, Woosh sound]
+type = PlaySnd
+trigger1 = AnimElem = 16
+value = 1,2
+channel = 1
+
+[State 6806, Fire sound]
+type = PlaySnd
+trigger1 = AnimElem = 18
+value = 1100,1
+channel = 3
+
+[State 6806, Jump Sound]
+type = PlaySnd
+trigger1 = AnimElemTime(18) = 1
+value = 40,0
+channel = 4
+
+[State 6806, Fist Overlay]
+type = Explod
+trigger1 = AnimElem = 17
+anim = 1124
+bindTime = -1
+sprPriority = 2
+facing = -1
+posType = P1
+ownPal = 1
+removeOnGetHit = 1
+ignoreHitPause = 0
+
+[State 6806, Shoryuken Flames (Ground)]
+type = Explod
+trigger1 = AnimElem = 15
+anim = 1125
+bindTime = 7
+sprPriority = 3
+posType = P1
+facing = -1
+scale = 0.5,0.5
+ownPal = 1
+removeOnGetHit = 1
+ignoreHitPause = 0
+
+[State 6806, Shoryuken Flames (Ascending)]
+type = Explod
+trigger1 = AnimElem = 18
+anim = 1126
+bindTime = -1
+removeTime = 21
+sprPriority = 3
+posType = P1
+facing = -1
+scale = 0.5,0.5
+ownPal = 1
+removeOnGetHit = 1
+ignoreHitPause = 0
+
+[State 6806, Shoryuken Flames (Fade away)]
+type = Explod
+trigger1 = AnimElem = 19
+ID = 1127
+anim = 1127
+sprPriority = 3
+posType = P1
+facing = -1
+scale = 0.5,0.5
+ownPal = 1
+removeOnGetHit = 1
+ignoreHitPause = 0
+
+[State 6806, StateTypeSet: Air, Physics: None]
+type = StateTypeSet
+trigger1 = AnimElem = 18
+stateType = A
+physics = N
+
+[State 6806, Dust Helper]
+type = Helper
+trigger1 = AnimElemTime(18) = 1
+helperType = Normal
+stateNo = 8100
+ID = 8100
+name = "Shoryuken Dust"
+posType = P1
+ownPal = 1
+
+[State 6806, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(18) = 2
+x = -(abs((Helper(8999), pos x - pos x)) / 9)
+y = -12.5
+
+[State 6806, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(18) > 2 && vel x <= 0
+x = 0.78125
+
+[State 6806, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(18) > 2
+trigger1 = vel x > 0
+x = 0
+
+[State 6806, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(18) > 2 && AnimElemTime(28) < 0
+y = 0.5859375
+
+[State 6806, VelSet]
+type = VelSet
+trigger1 = AnimElem = 28
+x = 0
+y = 0
+
+[State 6806, PosSet]
+type = PosSet
+trigger1 = AnimElem = 28
+x = Helper(8999), pos x
+y = 0
+
+[State 6806, Landing Dust Explod]
+type = Explod
+trigger1 = AnimElem = 28
+anim = 8102
+sprPriority = -3
+posType = P1
+scale = 0.5,0.5
+pauseMoveTime = -1
+superMoveTime = -1
+ownPal = 1
+
+[State 6806, Landing Sound]
+type = PlaySnd
+trigger1 = AnimElem = 28
+value = 52,0
+channel = 1
+
+[State 6806, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<VIOLENT INTRO VS M.BISON/VEGA>====================
+[StateDef 6807]
+type = S
+physics = S
+anim = 6807
+
+[State 6807, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6807, Pause]
+type = Pause
+trigger1 = StageVar(info.name) != "YDA_CVS-Shadaloo-HQ(Purple_Fire)" && StageVar(info.name) != "YDA_CVS-Shadaloo-HQ(Extended version)"
+trigger1 = Time < 402 && (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+time = 2
+movetime = 2
+
+[State 6807, AssertSpecial: NoMusic]
+type = AssertSpecial
+trigger1 = Time < 402 && (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger2 = Time < 120
+flag = NoMusic
+
+[State 6807, Heartbeat Sound]
+type = PlaySnd
+trigger1 = !Time
+value = 6807,1
+channel = 5
+
+[State 6807, StopSnd]
+type = StopSnd
+trigger1 = Time = 120 && !(Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+channel = 5
+
+[State 6807, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time = 120 && !(Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+value = 6807
+elem = 2
+
+[State 6807, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 6807,0
+channel = 0
+
+[State 6807, BGPalFX - invert colors, short]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 149
+trigger2 = Time = 199
+time = 5
+invertall = 1
+
+[State 6807, BGPalFX - invert colors, long]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 180
+time = 7
+invertall = 1
+
+[State 6807, BGPalFX - red]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 163
+trigger2 = Time = 175
+trigger3 = Time = 187
+trigger4 = Time = 212
+trigger5 = Time = 247
+trigger6 = Time = 282
+trigger7 = Time = 297
+time = 5
+add = 0,-256,-256
+invertall = 1
+
+[State 6807, BGPalFX - light blue]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 223
+trigger2 = Time = 237
+trigger3 = Time = 257
+trigger4 = Time = 267
+trigger5 = Time = 277
+trigger6 = Time = 302
+time = ifElse(Time = 302, 10, 5)
+add = 0,96,256
+
+[State 6807, BGPalFX - black screen]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 286
+time = 11
+add = -256,-256,-256
+
+[State 6807, BGPalFX - white screen]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 312
+time = 10
+add = 256,256,256
+
+[State 6807, BGPalFX - white screen fade out]
+type = BGPalFX
+triggerAll = (Enemy, Name = "Vega" && (Enemy, AuthorName = "Phantom.of.the.Server" || Enemy, AuthorName = "Froz"))
+trigger1 = Time = 322
+time = 65
+add = 256,256,256
+sinAdd = -256, -256, -256, 256
+
+[State 6807, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<VIOLENT INTRO VS EVIL RYU>====================
+[StateDef 6808]
+type = S
+physics = N
+anim = 6808
+
+[State 6808, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6808, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+moveCamera = 0,0
+ignoreHitPause = 1
+
+[State 6808, Camera Helper]
+type = Helper
+trigger1 = !NumHelper(8999)
+helpertype = Normal
+stateNo = 8999
+ID = 8999
+name = "Camera"
+posType = P1
+
+[State 6808, PosSet]
+type = PosSet
+trigger1 = !Time
+x = 240 * Facing
+
+[State 6808, Voice]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 1600,0
+channel = 0
+
+[State 6808, Rasetsukyaku sound effect]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 1600,1
+channel = 1
+
+[State 6808, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(2) = 10
+x = -11
+
+[State 6808, VelMul]
+type = VelMul
+trigger1 = (Helper(8999), RootDist x) < 55 && vel x
+x = 0.8671875023712158
+
+[State 6808, Movement AfterImage]
+type = AfterImage
+trigger1 = AnimElem = 2
+time = 2
+timeGap = 1
+frameGap = 4
+length = 9
+palBright = 0,0,0
+palContrast = 128,128,128
+palPostBright = 0,0,0
+palAdd = 0,0,0
+palMul = 0.9,0.9,0.9
+trans = Add1
+
+[State 6808, AfterImage Off]
+type = AfterImageTime
+trigger1 = AnimElemTime(7) >= 0
+time = 0
+
+[State 6808, PosSet]
+type = PosSet
+trigger1 = AnimElem = 13
+x = Helper(8999), pos x
+y = 0
+
+[State 6808, VelSet]
+type = VelSet
+trigger1 = AnimElem = 13
+x = 0
+
+[State 6808, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<VIOLENT INTRO VS AKUMA>====================
+[StateDef 6809]
+type = S
+physics = S
+anim = 6809
+
+[State 6809, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6809, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 0
+moveCamera = 0,0
+ignoreHitPause = 1
+
+[State 6809, Camera Helper]
+type = Helper
+trigger1 = !NumHelper(8999)
+helpertype = Normal
+stateNo = 8999
+ID = 8999
+name = "Camera"
+posType = P1
+
+[State 6809, Voice 1]
+type = PlaySnd
+trigger1 = !Time
+value = 1270,0
+channel = 0
+
+[State 6809, Voice 2]
+type = PlaySnd
+trigger1 = AnimElem = 33
+value = 1100,10
+channel = 0
+
+[State 6809, Woosh sound]
+type = PlaySnd
+trigger1 = AnimElem = 34
+value = 1,2
+channel = 1
+
+[State 6809, Jump Sound]
+type = PlaySnd
+trigger1 = AnimElemTime(36) = 1
+value = 40,0
+channel = 3
+
+[State 6809, StateTypeSet: Air, Physics: None]
+type = StateTypeSet
+trigger1 = AnimElem = 36
+stateType = A
+physics = N
+
+[State 6809, Dust Helper]
+type = Helper
+trigger1 = AnimElemTime(36) = 1
+helperType = Normal
+stateNo = 8100
+ID = 8100
+name = "Shoryuken Dust"
+posType = P1
+ownPal = 1
+
+[State 6809, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(36) = 1
+x = (P2Dist x - 25) / 2 / 5
+y = -12.5
+
+[State 6809, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(36) > 2 && vel x > 0
+x = -0.78125
+
+[State 6809, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(36) > 2 && AnimElemTime(36) <= 6
+y = 0.5859375
+
+[State 6809, PosFreeze]
+type = PosFreeze
+trigger1 = AnimElemTime(36) < 2
+trigger2 = AnimElemTime(36) >= 6 && AnimElemTime(37) < 0
+value = 1
+
+[State 750, Zero Counter FX Helper]
+type = Helper
+trigger1 = AnimElemTime(36) = 6
+helperType = Normal
+stateNo = 8350
+ID = 8350
+name = "Zero Counter"
+posType = P1
+pos = 28, -100
+superMoveTime = 255
+ownPal = 1
+
+[State 6809, Zero Counter Sound]
+type = PlaySnd
+trigger1 = AnimElemTime(36) = 6
+value = 750,0
+channel = 4
+
+[State 6809, EnvShake]
+type = EnvShake
+trigger1 = AnimElemTime(36) = 6
+time = 18
+ampl = 6
+freq = 120
+
+[State 6809, VelSet]
+type = VelSet
+trigger1 = AnimElem = 37
+x = -((Helper(8999), RootDist x))/32
+y = -7
+
+[State 6809, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(37) > 0 && AnimElemTime(44) < 0
+y = 0.53
+
+[State 6809, VelSet]
+type = VelSet
+trigger1 = AnimElem = 44
+x = 0
+y = 0
+
+[State 6809, PosSet]
+type = PosSet
+trigger1 = AnimElem = 44
+x = Helper(8999), pos x
+y = 0
+
+[State 6809, Landing Dust Explod]
+type = Explod
+trigger1 = AnimElem = 44
+anim = 8102
+sprPriority = -3
+posType = P1
+scale = 0.5,0.5
+pauseMoveTime = -1
+superMoveTime = -1
+ownPal = 1
+
+[State 6809, Landing Sound]
+type = PlaySnd
+trigger1 = AnimElem = 44
+value = 52,0
+channel = 5
+
+[State 6809, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
+
+
+;====================<MASTER INTRO VS GUILE>====================
+[StateDef 6810]
+type = S
+physics = S
+anim = 6810
+
+[State 6810, Assert: Intro]
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 6810, Voice]
+type = PlaySnd
+trigger1 = !Time
+value = 6810, 0
+channel = 0
+
+[State 6810, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+
 
 
 ;====================<TURNS INTRO>====================
@@ -4512,7 +3983,7 @@ x = ceil(Helper(8999), pos x)
 type = PlaySnd
 trigger1 = !Time
 value = 52,0
-channel = 1
+channel = 3
 
 [State 6901, Landing Dust Expod]
 type = Explod
@@ -4525,24 +3996,24 @@ pauseMoveTime = -1
 superMoveTime = -1
 ownPal = 1
 
-[State 6901, Whoosh Sound]
+[State 6901, LP Woosh]
 type = PlaySnd
-triggerAll = Anim = 6901
+triggerAll = var(40) != 1
 trigger1 = AnimElem = 5
 trigger2 = AnimElem = 8
 value = 1,0
 
-[State 6901, Whoosh Sound]
+[State 6901, HP Woosh]
 type = PlaySnd
-triggerAll = Anim = 6901
-trigger1 = AnimElem = 13
-value = 1,1
+triggerAll = var(40) != 1
+trigger1 = AnimElem = 12
+value = 1,2
 
 [State 6901, Voice (Violent)]
 type = PlaySnd
-triggerAll = Anim = 6902
-trigger1 = AnimElem = 4
-value = 198,0
+triggerAll = var(40) = 1
+trigger1 = AnimElem = 5
+value = 6804,0
 channel = 0
 
 [State 6901, End]
@@ -4552,20 +4023,16 @@ value = 0
 
 
 
-;====================<SIMUL MODE INTRO>====================
+;====================<SIMUL INTRO WITH RYU>====================
 [StateDef 6910]
 type = S
 physics = S
 anim = 6910
 
-[State 193, vs Intro Decider]
+[State 6910, Change to Regular Intro]
 type = ChangeState
-trigger1 = (Partner, var(1) = 2)
-trigger1 = var(40) != 1
-trigger1 = NumPartner
-trigger1 = RoundNo = 1 || (!(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Partner, AuthorName = "Phantom.of.the.Server" && Partner, Name = "Ryu"
-value = 188 + (Random % 5)
+trigger1 = Partner, AuthorName = "Phantom.of.the.Server" && Partner, Name = "Ryu" && (Partner, var(1) = 2)
+value = 5901
 
 [State 6910, Assert: Intro]
 type = AssertSpecial
@@ -4841,58 +4308,31 @@ trigger1 = Enemy, Name = "Chun Li"
 trigger1 = Enemy, AuthorName = "BeterHans"
 value = 49+Random%3
 
-[State 180, Team Win with beterhans Ryu alive]
-type = ChangeState
-triggerall = var(34)
-trigger1 = var(40) != 1
-trigger1 = PlayerID(var(34)),Name = "Ryu"
-trigger1 = PlayerID(var(34)),AuthorName = "Phantom.of.the.Server"
-trigger1 = PlayerID(var(34)),var(34)
-trigger1 = PlayerID(var(34)),StateNo != 362
-trigger1 = PlayerID(var(34)),var(1) != 2 && !(PlayerID(var(34)),StateNo = 3050 || PlayerID(var(34)),StateNo = 3052)
-value = 390
-
-[State 180, Team Win with beterhans Ryu Dead]
-type = ChangeState
-triggerall = TeamMode = Simul
-trigger1 = var(40) != 1
-trigger1 = Partner,Name = "Ryu"
-trigger1 = Partner,AuthorName = "Phantom.of.the.Server"
-trigger1 = Partner,var(34)
-trigger1 = Partner,var(1) != 2
-trigger1 = Partner,Alive = 0 || Partner,StateNo = 3052
-value = 392
-
 [State 180, Win by Shinryuken (Master)]
 type = ChangeState
-trigger1 = TeamMode != Simul
-trigger1 = PrevStateNo = 3112
-value = 3112
+trigger1 = PrevStateNo = 3120
+value = 3120
 
-[State 180, Win by Souryuken]
+[State 180, Win by Soryuken]
 type = ChangeState
-trigger1 = TeamMode != Simul
-trigger1 = PrevStateNo = 3711
-value = 3711
+trigger1 = PrevStateNo = 4111
+value = 4111
+
+[State 180, Win by Shin Goku Messatsu]
+type = ChangeState
+trigger1 = PrevStateNo = 4211
+value = 4211
 
 [State 180, Win vs Ryu]
 type = ChangeState
-trigger1 = var(40) != 1 && var(11)
-trigger1 = (RoundState = 2 || MatchOver)
-trigger1 = TeamMode = Single && Enemy,TeamMode = Single
-trigger1 = NumEnemy
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
-value = 184
-
-[State 180, Win vs Vega (Violent]
-type = ChangeState
-trigger1 = var(40) = 1
+trigger1 = var(40) != 1 && var(27)
 trigger1 = (RoundState = 2 || MatchOver) && !(TeamMode = Turns)
 trigger1 = NumEnemy
-trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Vega"
-value = 187
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
+trigger1 = Enemy, FrontEdgeDist >= 55
+value = 184
 
-[State 180, Win with Ryu not beterhans ryu (Simul)]
+[State 180, Win with Ryu (Simul)]
 type = ChangeState
 trigger1 = var(40) != 1
 trigger1 = TeamMode = Simul && NumPartner
@@ -4900,31 +4340,39 @@ trigger1 = Partner, Alive
 trigger1 = Partner, AuthorName = "Phantom.of.the.Server" && Partner, Name = "Ryu" && (Partner, var(1) != 2)
 value = 181
 
+[State 180, Violent Win vs M. Bison/Vega]
+type = ChangeState
+trigger1 = var(40) = 1
+trigger1 = (RoundState = 2 || MatchOver) && !(TeamMode = Turns)
+trigger1 = NumEnemy
+trigger1 = Enemy, Name = "M. Bison" || Enemy, Name = "cvsvega" || Enemy, Name = "cvsvega_normal" || Enemy, Name = "cvsvega_ex" || (Enemy, Name = "Vega" && Enemy, AuthorName = "Phantom.of.the.Server") || Enemy, Name = "M.Bison" || Enemy, Name = "Bison" || Enemy, Name = "Bison Bison"
+value = 187
+
 [State 180, Win 1]
 type = ChangeState
-trigger1 = command = "holdstart"
-value = ifElse(var(40) != 1, 181, 185)
-
-[State 180, Win 2]
-type = ChangeState
-trigger1 = command = "holdx" || command = "holdy" || command = "holdz"
-value = ifElse(var(40) != 1, 182, 186)
+trigger1 = command = "holdstart" || command = "holdx"
+value = ifElse(var(40) = 1, 185, 181)
 
 [State 180, Win 3]
 type = ChangeState
-triggerAll = var(40) != 1
-trigger1 = command = "holda" || command = "holdb" || command = "holdc"
-value = 183
+trigger1 = command = "holdz" || command = "holdc"
+value = ifElse(var(40) = 1, 185, 182)
+
+[State 180, Win 2]
+type = ChangeState
+trigger1 = var(40) != 3
+trigger1 = command = "holdy" || command = "holda" || command = "holdb"
+value = ifElse(var(40) = 1, 186, 183)
 
 [State 180, Win Decider]
 type = ChangeState
 trigger1 = var(40) != 1
-value = 181 + (Random % 3)
+value = 181 + (Random % ifElse(var(40) = 3, 2, 3))
 
 [State 180, Violent Win Decider]
 type = ChangeState
 trigger1 = var(40) = 1
-value = 185 + (Random % 2)
+value = ifElse(Random % 2, 185, 186)
 
 
 
@@ -4932,10 +4380,8 @@ value = 185 + (Random % 2)
 [StateDef 181]
 type = S
 physics = S
-MoveType = I
 anim = 181
 ctrl = 0
-velset = 0,0
 
 [State 181, Assert: RoundNotOver]
 type = AssertSpecial
@@ -4944,8 +4390,8 @@ flag = RoundNotOver
 
 [State 181, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 1
-value = 181, 0 + (Random % 2)
+trigger1 = !Time
+value = 181, ifElse(Random < 500, 0, 1)
 channel = 0
 
 
@@ -4964,8 +4410,8 @@ flag = RoundNotOver
 
 [State 182, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 4
-value = 181, 0
+trigger1 = AnimElem = 3
+value = 182,0
 channel = 0
 
 
@@ -4982,11 +4428,25 @@ type = AssertSpecial
 trigger1 = Time < 200
 flag = RoundNotOver
 
+[State 183, ChangeAnimElem]
+type = ChangeAnim
+trigger1 = AnimElemTime(8) >= 0 && Time < 40
+value = 183
+elem = 8
+
+[State 183, ChangeAnimElem]
+type = ChangeAnim
+trigger1 = AnimElemTime(9) >= 0
+value = 183
+elem = 9
+
 [State 183, Voice]
 type = PlaySnd
 trigger1 = AnimElem = 9
 value = 181,1
 channel = 0
+persistent = 0
+
 
 
 ;====================<WIN VS RYU>====================
@@ -4998,42 +4458,45 @@ ctrl = 0
 
 [State 184, Assert: RoundNotOver]
 type = AssertSpecial
-trigger1 = Time < 200
+trigger1 = Anim != 184
+trigger2 = Anim = 184 && AnimElemTime(1) < 200
 flag = RoundNotOver
-
-[State 392, Screen]
-type = ScreenBound
-trigger1 = time 
-value = IFElse(FrontEdgeBodyDist < 2 || BackEdgeBodydist < 2,0,1)
-movecamera = 1,1
 
 [State 184, VelSet]
 type = VelSet
 trigger1 = Anim = 20
 x = const(velocity.walk.fwd.x)
 
+[State 184, ChangeAnim]
+type = ChangeAnim
+trigger1 = Enemy, Facing = Facing
+trigger1 = Enemy, P2Dist X <= 68 && (Enemy, P2Dist X >= 58)
+value = 5
+
 [State 184, Turn]
 type = Turn
 trigger1 = Enemy, Facing = Facing
-trigger1 = Enemy, P2Dist X <= 65 && (Enemy, P2Dist X >= 55)
+trigger1 = Enemy, P2Dist X <= 68 && (Enemy, P2Dist X >= 58)
 
 [State 184, ChangeAnim]
 type = ChangeAnim
 trigger1 = Enemy, Facing != Facing
 trigger1 = Anim = 20
 trigger1 = vel x > 0
-trigger1 = Enemy, P2Dist X <= 65 && (Enemy, P2Dist X >= 25)
+trigger1 = Enemy, P2Dist X <= 68 && (Enemy, P2Dist X >= 28)
+trigger2 = Anim = 5 && !AnimTime
 value = 184
 
 [State 184, PosAdd]
 type = PosAdd
-trigger1 = Anim = 184
-x = ceil(Enemy, P2Dist x - 65)
+trigger1 = Anim = 5 || Anim = 184
+x = ceil(Enemy, P2Dist x - 68)
 
 [State 184, VelSet]
 type = VelSet
-trigger1 = Anim = 184
+trigger1 = Anim != 20
 x = 0
+
 
 
 ;====================<VIOLENT WIN 1>====================
@@ -5050,8 +4513,8 @@ flag = RoundNotOver
 
 [State 185, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 1
-value = 185,0 + (Random % 2)
+trigger1 = AnimElem = 5
+value = 185, ifElse(Random < 500, 0, 1)
 channel = 0
 
 
@@ -5070,38 +4533,60 @@ flag = RoundNotOver
 
 [State 186, Voice]
 type = PlaySnd
-trigger1 = AnimElem = 1
+trigger1 = AnimElem = 3
 value = 186,0
 channel = 0
 
 
 
-;====================<VIOLENT WIN VS VEGA>====================
+;====================<VIOLENT WIN VS M. BISON>====================
 [StateDef 187]
 type = S
-anim = 187
+physics = S
+anim = 5300
 ctrl = 0
 
 [State 187, Assert: RoundNotOver]
 type = AssertSpecial
-trigger1 = Time < 200
+trigger1 = Time < 365
 flag = RoundNotOver
 
 [State 187, Voice 1]
 type = PlaySnd
 trigger1 = !Time
-value = 5000,11
+value = 5950,10
 channel = 0
 
-[State 187, Voice 2]
+[State 187, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time = 63 && Anim = 5300
+value = 187
+
+[State 187, Psycho Power dissipation sound]
 type = PlaySnd
-trigger1 = AnimElem = 67
-value = 5000,2
-channel = 0
+trigger1 = Anim = 187
+trigger1 = AnimElem = 1
+value = 187,0
+channel = 1
+
+[State 187, Psycho Power flames]
+type = Helper
+trigger1 = Anim = 187
+trigger1 = AnimElem = 1
+helperType = Normal
+stateNo = 10187
+ID = 10187
+name = "Psycho Power flames"
+posType = P1
+size.xScale = 0.3
+size.yScale = 0.3
+ownPal = 1
+ignoreHitPause = 0
 
 [State 187, Particles]
 type = Helper
-trigger1 = !NumHelper(8332) && AnimElem = 10 && AnimElemTime(60) < 0
+trigger1 = Anim = 187
+trigger1 = !NumHelper(8332) && AnimElem = 10 && AnimElemTime(61) < 0
 helperType = Normal
 stateNo = 8332
 ID = 8332
@@ -5111,160 +4596,45 @@ pauseMoveTime = 65535
 superMoveTime = 65535
 ownPal = 1
 
+[State 187, Orochi Pillar sound]
+type = PlaySnd
+trigger1 = Anim = 187
+trigger1 = AnimElem = 61
+value = 3500,1
+channel = 3
+
+[State 1340, Mini Orochi Pillar]
+type = Helper
+trigger1 = Anim = 187
+trigger1 = AnimElem = 61
+helperType = Normal
+stateNo = 20187
+ID = 20187
+name = "Orochi Pillar"
+posType = P1
+pos = 0,0
+pauseMoveTime = 255
+superMoveTime = 255
+ownPal = 1
+persistent = 0
+
 [State 187, PalFX]
 type = PalFX
-trigger1 = AnimElem = 60
-time = 24
+trigger1 = Anim = 187
+trigger1 = AnimElem = 61
+time = 18
 add = 0,0,0
 mul = 256,256,256
-sinadd = 255,255,255,48
+sinadd = 255,255,255,36
 invertall = 0
 color = 256
 
-
-;==========< team win move towards each other>
-[Statedef 390]
-type = S
-MoveType = I
-physics = S
-ctrl = 0
-velset = 0, 0
-
-[State 390 safe]
-type = assertspecial
-trigger1 = time < 360
-Flag = roundnotover
-
-[State 390 safe]
-type = PlayerPush
-trigger1 = 1
-value = 0
-
-[State 390 safe]
-type = NotHitBy
-trigger1 = 1
-value = SCA
-
-[State 390 Turn]
-type = Turn
-triggerall = var(34)
-triggerall = !time
-trigger1 = facing = PlayerID(var(34)),facing
-trigger1 = pos x = PlayerID(var(34)),pos x
-trigger1 = ID < PlayerID(var(34)),ID
-trigger2 = facing = 1
-trigger2 = pos x > PlayerID(var(34)),pos x
-trigger3 = facing = -1
-trigger3 = pos x < PlayerID(var(34)),pos x
-
-[State 390 move anim]
-type = ChangeAnim
-trigger1 = time = 1 && anim != 20
-value = 20
-
-[State 390 Move forward]
-type = velset
-trigger1 = time && anim = 20
-x = Const(Velocity.walk.fwd.x)
-
-[State 390 Win pose no1]
-type = ChangeState
-triggerall = var(34)
-triggerall = time && anim = 20 && facing != PlayerID(var(34)),facing
-trigger1 = facing = 1
-trigger1 = (pos x - PlayerID(var(34)),pos x) = [-111,-108]
-trigger2 = facing = -1
-trigger2 = (pos x - PlayerID(var(34)),pos x) = [108,111]
-value = 391
-
-[State 390 stop and perform win pose]
-type = ChangeState
-triggerall = var(34)
-triggerall = time && anim = 20
-trigger1 = facing = 1
-trigger1 = (pos x - PlayerID(var(34)),pos x) >  (42 * Const(size.xscale))
-trigger2 = facing = -1
-trigger2 = (pos x - PlayerID(var(34)),pos x) < -(42 * Const(size.xscale))
-value = 181
-
-;==========< team Win with beterhans Ken>
-[Statedef 391]
-type = S
-MoveType = I
-physics = S
-ctrl = 0
-velset = 0, 0
-anim = 391
-
-[State 391 safe]
-type = assertspecial
-trigger1 = time < 120
-Flag = roundnotover
-
-[State 391, NHB]
-type = nothitby
-trigger1 = 1
-value = SCA
-time = 1
-
-;====================<Team WIN With Dead Ryu>====================
-[StateDef 392]
-type = S
-physics = S
-ctrl = 0
-
-[State 392, Assert: RoundNotOver]
-type = AssertSpecial
-trigger1 = Time < 200
-flag = RoundNotOver
-
-[State 392, Screen]
-type = ScreenBound
-trigger1 = time 
-value = IFElse(FrontEdgeBodyDist < 2 || BackEdgeBodydist < 2,0,1)
-movecamera = 1,1
-
-[State 392, VelSet]
-type = VelSet
-trigger1 = Anim = 20
-x = const(velocity.walk.fwd.x)
-
-[State 392, Turn to Partner]
-type = Turn
-triggerall = !time
-trigger1 = facing = 1
-trigger1 = pos x >= (partner,pos x + 65 * partner,facing)
-trigger2 = facing = -1
-trigger2 = pos x <= (partner,pos x + 65 * partner,facing)
-
-[State 392, Move Anim]
-type = ChangeAnim
-trigger1 = !time && anim != 20
-value = 20
-
-[State 392, ChangeAnim]
-type = ChangeAnim
-triggerall = Anim = 20
-trigger1 = partner,StateNo != 3052
-trigger1 = pos x - (partner,pos x + 65 * partner,facing) = [-10,10]
-trigger2 = partner,StateNo = 3052
-trigger2 = pos x - (partner,pos x + 20 * partner,facing) = [-10,10]
-value = 184
-
-[State 392, Posfix]
-type = Posset
-trigger1 = Anim = 184 && partner,StateNo != 3052
-x = partner,pos x + 65 * partner,facing
-
-[State 392, Turn final]
-type = Turn
-trigger1 = anim = 184
-trigger1 = facing = partner,facing
-
-[State 392, VelSet]
-type = VelSet
-trigger1 = Anim = 184
-x = 0
+[State 187, Voice 2]
+type = PlaySnd
+trigger1 = Anim = 187
+trigger1 = AnimElem = 68
+value = 3515,1
+channel = 0
 
 
 
@@ -5273,141 +4643,116 @@ x = 0
 type = S
 moveType = I
 physics = S
-anim = 195
-velSet  = 0,0
+anim = ifElse(var(40) = 2, 183, ifElse(var(40) = 1, 198, 195))
+velSet = 0,0
 sprPriority = 1
 ctrl = 0
 
-[State 195, ChangeAnim]
+[State 195, Taunt 2]
 type = ChangeAnim
-triggerAll = !Time
-trigger1 = !AILevel && command = "holdfwd"
-trigger2 = AILevel && P2Bodydist x < 80
-trigger3 = AILevel && var(59) = 5300 && P2Bodydist x < 30
+triggerAll = !Time && var(40) != [1,2]
+trigger1 = command = "holdfwd"
+trigger2 = var(40) = 3
 value = 196
 
-[State 195, ChangeAnim]
+[State 195, Taunt 4]
 type = ChangeAnim
-triggerAll = !Time && anim = 195
-trigger1 = !AILevel && command = "holdback"
-trigger2 = AILevel && Random < 400
+triggerAll = !Time && var(40) != 3
+trigger1 = command = "holddown"
+value = ifElse(var(40) = 2, 195, 183)
+
+[State 195, Taunt 3]
+type = ChangeAnim
+triggerAll = !Time && var(40) != 1
+trigger1 = command = "holdback"
 value = 197
 
-[State 195, ChangeAnim]
-type = ChangeAnim
-triggerAll = !Time && anim = 195
-trigger1 = !AILevel && command = "holddown"
-trigger2 = AILevel && Random < 600
-value = 183
-
-[State 195, Voice 1]
+[State 195, Voice (Taunt 1)]
 type = PlaySnd
-triggerAll = Anim = 195
-trigger1 = AnimElem = 2
-value = 195 + 4*(Random % 2), 0
+trigger1 = !Time && Anim = 195
+value = 195,0 + (Random % 2)
 channel = 0
 
-[State 195, Voice 2]
+[State 195, Voice (Taunt 2)]
 type = PlaySnd
-triggerAll = Anim = 196
-trigger1 = AnimElem = 2
-value = 188,0
+trigger1 = !Time && Anim = 196
+value = 192,0
 channel = 0
 
-[State 195, Voice 3]
+[State 195, Voice (Taunt 3)]
 type = PlaySnd
-triggerAll = Anim = 197
-trigger1 = AnimElem = 1
-value = 195 + 4*(Random % 2), 0
+trigger1 = !Time && Anim = 197
+value = 199,0
 channel = 0
 
-[State 183, Voice 4]
+[State 195, Voice (Taunt 4)]
 type = PlaySnd
-triggerAll = Anim = 183
-trigger1 = AnimElem = 9
+trigger1 = AnimElem = 9 && Anim = 183
 value = 181,1
+channel = 0
+
+[State 195, Voice (Violent)]
+type = PlaySnd
+trigger1 = AnimElem = 2 && Anim = 198
+value = 198,0
 channel = 0
 
 [State 195, StateTypeSet: Attack]
 type = StateTypeSet
-triggerAll = Anim = 196
-trigger1 = AnimElemTime(3) >= 0
+trigger1 = Anim = 196
+trigger1 = !Time
 moveType = A
 
 [State 195, HitDef]
 type = HitDef
-triggerAll = Anim = 196
-trigger1 = AnimElem = 3 || AnimElem = 6
-ID = 200 * !var(20)
+trigger1 = !var(16) && (var(15) < 1 || var(20))
+trigger1 = Anim = 196
+trigger1 = AnimElem = 4 || AnimElem = 7
+forceNoFall = !var(20)
 attr = S, NA
 hitFlag = MAF
 guardFlag = M
 priority = 4, Hit
-damage = 7, 0
+damage = ceil(ifElse(fvar(11) * 7 < 7, 7, fvar(11) * 7)), 0
 getpower = 72 * !var(20), 36 * !var(20)
 givepower = 36, 36
-pauseTime = ifElse(var(20), 4, 8) - 1, ifElse(var(20), 4, 4)
-guard.pauseTime = ifElse(var(20), 4, 8) - 1, ifElse(var(20), 4, 8)
+pauseTime = ifElse(var(20), 4, 8), ifElse(var(20), 4, 8)
+guard.pauseTime = ifElse(var(20), 4, 8), ifElse(var(20), 4, 8)
 animType = Light
 air.animType = Back
 fall.animType = Back
-ground.type = High
+ground.type = Low
 air.type = Low
-ground.hitTime = 12 + 2 * var(9)
-ground.slideTime = 12 + 2 * var(9)
-guard.hitTime = 12
+ground.hitTime = 8 + 2 * var(9)
+ground.slideTime = 8 + 2 * var(9)
+guard.hitTime = 8
 air.hitTime = 120
 ground.velocity = ifElse(var(20), -2.41, -4.49), 0
 ground.cornerPush.velOff = 0
 guard.velocity = ifElse(var(20), -2.41, -4.49)
 guard.cornerPush.velOff = 0
-air.velocity = -3,-4
+air.velocity = -4.31, -7.36
 air.cornerPush.velOff = 0
-yAccel = 0.5
+yAccel = 0.58
 fall = 0
 fall.recover = 1
 fall.recoverTime = 120
-hitSound = -1 + 0 * (var(51) := 0)
-guardSound = -1 + 0 * (var(52) := 0)
-sparkNo = -1 + 0 * (var(53) := 8010)
-guard.sparkNo = -1 + 0 * (var(54) := 8000)
-sparkXY = -10 + 0 * (var(55) := 88), var(56):=-84
+hitSound = -1 + 0 * (var(31) := 0)
+guardSound = -1 + 0 * (var(32) := 0)
+sparkNo = -1 + 0 * (var(33) := 8010)
+guard.sparkNo = -1 + 0 * (var(34) := 8000)
+sparkXY = -10 + 0 * (var(35) := 41), var(36):= -96
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
-palFX.sinAdd= -255,-255,-255,48
+palFX.sinAdd = -255,-255,-255,48
 
 [State 195, StateTypeSet: Idle]
 type = StateTypeSet
-triggerAll = Anim = 196
-trigger1 = AnimElemTime(7) >= 0
+trigger1 = Anim = 196
+trigger1 = AnimElemTime(8) >= 0
 moveType = I
 
 [State 195, End]
-type = ChangeState
-trigger1 = !AnimTime
-trigger2 = Anim = 183 && AnimElemTime(9) = 33
-value = 0
-ctrl = 1
-
-
-
-;==========<VIOLENT TAUNT>==========
-[StateDef 198]
-type = S
-moveType = I
-physics = S
-anim = 198
-velSet  = 0,0
-sprPriority = 1
-ctrl = 0
-
-[State 198, Voice]
-type = PlaySnd
-trigger1 = AnimElem = 3
-value = 198,0
-channel = 0
-
-[State 198, End]
 type = ChangeState
 trigger1 = !AnimTime
 value = 0
@@ -5418,47 +4763,62 @@ ctrl = 1
 ;====================<K.O.>====================
 [StateDef 5150]
 type = L
-movetype = H
+moveType = H
 physics = N
-sprpriority = -3
+sprPriority = -3
+ctrl = 0
+
+[State 5150, ChangeAnim]
+type = ChangeAnim
+triggerAll = !Time
+triggerAll = SelfAnimExist(5140)
+trigger1 = (Anim != [5111,5119]) && (Anim != [5171,5179])
+trigger2 = !SelfAnimExist(5140 + (Anim % 10))
+value = 5140
 
 [State 5150, ChangeAnim]
 type = ChangeAnim
 trigger1 = !Time
-value = 5150
+trigger1 = (Anim = [5111,5119]) || (Anim = [5171,5179])
+trigger1 = SelfAnimExist(5140 + (Anim % 10))
+value = 5140 + (Anim % 10)
 
-[State 5150, Screen]
-type = ScreenBound
+[State 5150, ChangeAnim]
+type = ChangeAnim
+trigger1 = MatchOver = 1
+trigger1 = Anim = [5140,5149]
+trigger1 = SelfAnimExist(Anim + 10)
+value = Anim + 10
+persistent = 0
+
+[State 5150, ChangeAnim]
+type = ChangeAnim
+trigger1 = !Time
+trigger1 = Anim != [5140,5159]
+trigger1 = Anim != [5110,5119]
+value = 5110
+
+[State 5150, ChangeAnim]
+type = ChangeAnim
 trigger1 = Anim != 171
-value = 0
-
-[State 5150, Screen]
-type = ScreenBound
-trigger1 = Anim = 171
-value = 1
-movecamera = 1,1
-
-[State 5150, Anim]; Lose to Ryu
-type = ChangeAnim
-triggerall = Anim != 171
-triggerall = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
-triggerall = (Roundstate = 2 || MatchOver)
-triggerall = TeamMode != turns
 trigger1 = Enemy, Anim = 184
-trigger1 = Abs(pos x + (65 * facing) - Enemy,pos x) < 30
+trigger1 = NumEnemy
+trigger1 = Enemy, AuthorName = "Phantom.of.the.Server" && Enemy, Name = "Ryu" && (Enemy, var(1) != 2)
 value = 171
 
-[State 5150, Anim] ; Save by Ryu
+[State 5150, ChangeAnimElem to sync with Ryu (P2 side)]
 type = ChangeAnim
-triggerall = Anim != 171
-triggerall = (Roundstate >= 2 || MatchOver)
-triggerall = TeamMode = Simul
-trigger1 = Partner,Name = "Ryu"
-trigger1 = Partner,AuthorName = "Phantom.of.the.Server"
-trigger1 = Partner,var(1) != 2
-trigger1 = Partner,Anim = 184
-trigger1 = Abs(pos x + (65 * facing) - Partner,pos x) < 30
+trigger1 = Anim = 171 && AnimElemTime(7) >= 0
+trigger1 = Enemy, Anim = 184 && Enemy, AnimElemTime(4) < 0
 value = 171
+elem = 6
+
+[State 5150, ChangeAnimElem to sync with Ryu (P2 side)]
+type = ChangeAnim
+trigger1 = Anim = 171 && AnimElemTime(7) < 0
+trigger1 = Enemy, Anim = 184 && Enemy, AnimElemTime(4) >= 0
+value = 171
+elem = 7
 
 [State 5150, SprPriority]
 type = SprPriority
@@ -5468,11 +4828,12 @@ value = 3
 [State 5150, VelMul]
 type = VelMul
 trigger1 = 1
-x= 0.85
+x = 0.85
 
 [State 5150, VelSet]
 type = VelSet
-trigger1 = abs(vel x) < 0.05
+trigger1 = abs(vel x) < const(movement.down.friction.threshold)
+persistent = 0
 x = 0
 
 [State 5150, NotHitBy]
@@ -5516,14 +4877,14 @@ type = PlaySnd
 trigger1 = AnimElem = 2 && !Alive
 value = 5950,0 + 10 * (var(40) = 1)
 
-[State 5981, Hitting the Floor Sound]
+[State 5950, Hitting the Floor Sound]
 type = PlaySnd
-trigger1 = AnimElem = 10
+trigger1 = AnimElem = 7
 value = F7,0
 
-[State 5981, Hitting the Floor Explod]
+[State 5950, Hitting the Floor Explod]
 type = Explod
-trigger1 = AnimElem = 10
+trigger1 = AnimElem = 7
 anim = F60
 posType = P1
 pos = 0,0
@@ -5533,7 +4894,6 @@ sprPriority = -3
 type = ChangeState
 trigger1= !AnimTime
 value = ifElse(Alive, 5110, 5150)
-
 
 
 
@@ -5552,7 +4912,7 @@ value = 5035
 
 [State 5035, VelAdd]
 type = VelAdd
-trigger1 = 1
+trigger1 = Time > 0
 y = GetHitVar(yAccel)
 
 [State 5035, Recover]
@@ -5581,142 +4941,81 @@ value = 5050
 ;===============================<-2 STATES>=================================
 ;===========================================================================
 [StateDef -2]
-[State -2, Lv3 Super Finish Detection]
-type = VarSet
-triggerAll = !(Enemy, Alive)
-trigger1 = StateNo = [3300,3399]
-trigger2 = StateNo = [3500,3599]
-trigger3 = StateNo >= 1100 && StateNo < 3999
-var(11) = 1
-ignoreHitPause = 1
 
 [State -2, Hit Detection]
 type = VarSet
-trigger1 = MoveContact = 1 && var(50) < 0
-var(50) = HitPauseTime
+trigger1 = MoveContact = 1 && var(30) < 0
+var(30) = HitPauseTime
 ignoreHitPause = 1
 
 [State -2, Hit Sound]
 type = PlaySnd
-trigger1 = MoveContact = 1 && var(50) = HitPauseTime
-trigger1 = MoveHit = 1 && var(51) >= 0
-value = 2, var(51)
+trigger1 = MoveContact = 1 && var(30) = HitPauseTime
+trigger1 = MoveHit = 1 && var(31) >= 0
+value = 2, var(31)
 channel = 2
 ignoreHitPause = 1
 
 [State -2, Guard Sound]
 type = PlaySnd
-trigger1 = MoveContact = 1 && var(50) = HitPauseTime
-trigger1 = MoveGuarded = 1 && var(52) >= 0
-value = 3, var(52)
+trigger1 = MoveContact = 1 && var(30) = HitPauseTime
+trigger1 = MoveGuarded = 1 && var(32) >= 0
+value = 3, var(32)
 channel = 2
 ignoreHitPause = 1
 
 [State -2, Hit Sparks]
 type = Helper
-triggerAll = MoveContact = 1 && var(50) = HitPauseTime
-triggerAll = (StateNo != 3250) || (StateNo = 3250 && AnimElemTime(53) < 0) || (StateNo = 3250 && AnimElemTime(54) >= 0 && AnimElemTime(59) < 0) || (StateNo = 3250 && AnimElemTime(60) >= 0 && AnimElemTime(65) < 0)
+triggerAll = MoveContact = 1 && var(30) = HitPauseTime
+triggerAll = ((StateNo != [1200,1290]) && (StateNo != [3200,3299]) && StateNo != 3600) || var(35) > 0
 trigger1 = MoveHit = 1 && NumEnemy
-trigger1 = var(53) = 8010 || var(53) = 8011 || var(53) = 8012 || var(53) = 8013 || var(53) = 8014 || var(53) = 8001
+trigger1 = var(33) = 8010 || var(33) = 8011 || var(33) = 8012 || var(33) = 8013 || var(33) = 8014 || var(33) = 8020 || var(33) = 8001
 trigger2 = MoveGuarded = 1 && NumEnemy
-trigger2 = var(54) = 8000 || var(54) = 8001
+trigger2 = var(34) = 8000 || var(34) = 8001
 helperType = Normal
-stateNo = ifElse(MoveGuarded, var(54), var(53))
+stateNo = ifElse(MoveGuarded, var(34), var(33))
 ID = 8000
 name = "Spark"
 postype = P1
-pos = ifElse(P2Dist x < 0, 0, ifElse(P2Dist x < var(55), ceil(P2Dist x), var(55))), var(56)
+pos = ceil(ifElse(P2Dist x < 0, 0, ifElse(P2Dist x < var(35), ceil(P2Dist x), var(35))) * const(size.xScale)), ceil(var(36) * const(size.yScale))
+facing = ifElse((StateNo = [4100,4199]), 1, -1)
+ownPal = 1
+pauseMoveTime = 65535
+superMoveTime = 65535
+ignoreHitPause = 1
+
+[State -2, Hit Sparks (Behind P1)]
+type = Helper
+triggerAll = MoveContact = 1 && var(30) = HitPauseTime
+triggerAll = (StateNo = [1200,1290]) || StateNo = 3200 || StateNo = 3250 || StateNo = 3211 || StateNo = 3261 || StateNo = 3600
+triggerAll = var(35) < 0
+trigger1 = MoveHit = 1 && NumEnemy
+trigger1 = var(33) = 8010 || var(33) = 8011 || var(33) = 8012 || var(33) = 8013 || var(33) = 8014 || var(33) = 8015 || var(33) = 8016 || var(33) = 8020 || var(33) = 8001
+trigger2 = MoveGuarded = 1 && NumEnemy
+trigger2 = var(34) = 8000 || var(34) = 8001
+helperType = Normal
+stateNo = ifElse(MoveGuarded, var(34), var(33))
+ID = 8000
+name = "Spark"
+postype = P1
+pos = ceil(ifElse(P2Dist x > 0, 0, ifElse(P2Dist x > var(35), ceil(P2Dist x), var(35))) * const(size.xScale)), ceil(var(36) * const(size.yScale))
 facing = -1
 ownPal = 1
 pauseMoveTime = 65535
 superMoveTime = 65535
 ignoreHitPause = 1
 
-[State -2, Hit Sparks (MAX Shippu Jinraikyaku, Opponent Behind)]
-type = Helper
-triggerAll = MoveContact = 1 && var(50) = HitPauseTime
-triggerAll = (StateNo = 3250 && AnimElemTime(53) >= 0 && AnimElemTime(54) < 0) || (StateNo = 3250 && AnimElemTime(59) >= 0 && AnimElemTime(60) < 0) || (StateNo = 3250 && AnimElemTime(65) >= 0)
-trigger1 = MoveHit = 1 && NumEnemy
-trigger1 = var(53) = 8010 || var(53) = 8011 || var(53) = 8012 || var(53) = 8013 || var(53) = 8014 || var(53) = 8001
-trigger2 = MoveGuarded = 1 && NumEnemy
-trigger2 = var(54) = 8000 || var(54) = 8001
-helperType = Normal
-stateNo = ifElse(MoveGuarded, var(54), var(53))
-ID = 8000
-name = "Spark"
-postype = P1
-pos = ifElse(P2Dist x >= 0, 0, ifElse(P2Dist x >= var(55), ceil(P2Dist x), var(55))), var(56)
-facing = 1
-ownPal = 1
-pauseMoveTime = 65535
-superMoveTime = 65535
-ignoreHitPause = 1
-
-[State -2, Normal Cancelable State Define]
-type = varset
-triggerall = !var(6) && time=1
-trigger1 = StateNo = 200 || StateNo = 205 || StateNo = 215 || StateNo = 225
-trigger2 = StateNo = 240 || StateNo = 245 || StateNo = 400 || StateNo = 410 || StateNo = 420
-trigger3 = StateNo = 430 || StateNo = 440 || StateNo = 450
-trigger4 = StateNo = [600,651]
-var(6) = 1
-
-[State -2, Special Cancelable State Define]
-type = varset
-triggerall = !var(7)
-trigger1 = NumHelper(1005)
-trigger1 = Helper,time < 10
-trigger2 = StateNo = 1100 || StateNo = 1130 || (StateNo = 1240 && var(10) != 3)
-var(7) = 1
-
-[State -2, Super Cancelable State Define]
-type = varset
-triggerall = !var(8)
-trigger1 = StateNo = 3000 || StateNo = 3200
-var(8) = 1
-
-[State -2, Normal Cancelable State Reset]
-type = varset
-trigger1 = var(6) && StateNo != [200,999]
-var(6) = 0
-
-[State -2, Special Cancelable State Reset]
-type = varset
-trigger1 = var(7) && StateNo != [1000,2999]
-trigger2 = var(7) && NumHelper(1005)
-trigger2 = Helper,time >= 10
-trigger3 = var(7) && StateNO != [1000,2999]
-var(7) = 0
-
-[State -2, Super Cancelable State Reset]
-type = varset
-trigger1 = var(8) && StateNo != [3000,4999]
-var(8) = 0
-
-[State -2, AI Monitor Helper]
-type = helper
-trigger1 = AILevel && !NumHelper(32767)
-trigger1 = NumEnemy && RoundState = 2
-helpertype = normal
-stateno = 32767
-ID = 32767
-name = "AI Monitor Helper"
-postype = P2
-size.xScale = Const(Size.xScale)
-size.yScale = Const(Size.yScale)
-size.proj.doscale = ID; Give Parent ID to Child
-
 [State -2, Counter FX]
 type = Helper
-trigger1 = MoveHit = 1 && var(50) = HitPauseTime
-trigger1 = NumEnemy && var(9)
+triggerAll = MoveHit = 1 && var(30) = HitPauseTime
+triggerAll = NumEnemy && var(9)
 trigger1 = !(HitDefAttr = SCA, AT) && (EnemyNear, MoveReversed != 1)
 helperType = Normal
 stateNo = 8290
 ID = 8290
 name = "Counter FX"
 posType = P1
-pos = ifElse(P2Dist x < 0, 0, ifElse(P2Dist x < var(55), ceil(P2Dist x), var(55))), var(56)
+pos = ceil(ifElse(P2Dist x < 0, 0, ifElse(P2Dist x < var(35), ceil(P2Dist x), var(35))) * const(size.xScale)), ceil(var(36) * const(size.yScale))
 facing = -1
 ownPal = 1
 pauseMoveTime = 255
@@ -5732,14 +5031,14 @@ ignoreHitPause = 1
 [State -2, Hit Detection]
 type = VarSet
 trigger1 = 1
-var(50) = -1
+var(30) = -1
 
 [State -2, Hit Detection]
 type = VarRangeSet
 trigger1 = MoveType = I
 trigger2 = MoveType = H && Time
-first = 50
-last = 56
+first = 30
+last = 36
 value = -1
 ignoreHitPause = 1
 
@@ -5747,30 +5046,12 @@ ignoreHitPause = 1
 type = TargetFacing
 trigger1 = MoveContact = 1 && NumTarget
 trigger1 = !(Target, HitShakeOver) && !(Target, HitFall) && (Target, Time <= 1)
-trigger2 = MoveContact = 1 && NumTarget(1232)
-trigger2 = !(Target, HitShakeOver) && (Target, Time <= 1)
 value = ifElse(P2Dist x >= 0, -1, 1)
 ignoreHitPause = 1
-
-[State -2, Dizzy safe]
-type = SelfState
-triggerall = var(39) = 1
-triggerall = time && Alive
-triggerall = !(StateNo = [5000,5299])
-trigger1 = Ctrl || StateNo = 21
-value = IFElse(StateType = S || StateType = C,5300,5050)
-
-[State -2, Dizzy reset to 0]
-type = varset
-trigger1 = fvar(39) != 0
-trigger1 = Anim = 5300
-fvar(39) = 0
-
 
 [State -2, P2 Safe Fall]
 type = TargetState
 trigger1 = NumTarget = 1
-trigger1 = Target,var(39) = 0
 trigger1 = Target, command = "recovery"
 trigger1 = Target, pos y >= -48 && Target, vel y > 0
 trigger1 = Target, Alive && Target, HitFall && Target, GetHitVar(fall.recover)
@@ -5785,22 +5066,77 @@ trigger1 = var(17) := (var(17) - 1)
 flag = UnGuardable
 ignoreHitPause = 1
 
-[State -2, Combo Number]
-type= varadd
-triggerall= RoundState=2
-triggerall= !NumHelper(StateNo+5)
-triggerall= hitcount = 1
-trigger1= Movetype=A && NumTarget
-trigger1= target,time=0 && target,movetype=H
+[State -2, Hit Count]
+type = VarAdd
+trigger1 = !IsHelper
+trigger1 = MoveHit = 1
+trigger1 = !HitPauseTime
+trigger1 = !(HitDefAttr = SCA, AT)
 var(13) = 1
-ignorehitpause=1
 
-[State -2, Combo Number Reset]
-type= varset
-triggerall= var(13)
-trigger1= Enemynear,Ctrl || Enemynear,StateNo < 200
+[State -2, Hit Count Reset]
+type = VarSet
+trigger1 = NumEnemy && var(13)
+trigger1 = (EnemyNear, MoveType != H) && (EnemyNear, StateNo != 5300)
 var(13) = 0
-ignorehitpause=1
+ignoreHitPause = 1
+
+[State -2, Juggle Count]
+type = VarAdd
+trigger1 = !IsHelper
+trigger1 = MoveHit = 1
+trigger1 = !HitPauseTime
+trigger1 = !(HitDefAttr = SCA,AT)
+var(15) = 1
+
+[State -2, Juggle Reset Single]
+type = VarSet
+triggerAll = NumEnemy = 1 && var(15)
+trigger1 = (Enemy, StateType != A) && (Enemy, StateNo != [5100, 5109]) && (Enemy, Time >= 1)
+trigger2 = (Enemy, MoveType != H) || (Enemy, StateNo = [120,155]) || (Enemy, Ctrl)
+var(15) = 0
+ignoreHitPause = 1
+
+[State -2, Juggle Reset Simul]
+type = VarSet
+triggerAll = NumEnemy >= 2 && var(15)
+trigger1 = (EnemyNear(0), StateType != A) && (EnemyNear(0), Time >= 1)
+trigger2 = (EnemyNear(0), MoveType != H) || (EnemyNear(0), StateNo = [120,155]) || (EnemyNear(0), Ctrl)
+trigger3 = (EnemyNear(1), StateType != A) && (EnemyNear(1), Time >= 1)
+trigger4 = (EnemyNear(1), MoveType != H) || (EnemyNear(1), StateNo = [120,155]) || (EnemyNear(1), Ctrl)
+var(15) = 0
+ignoreHitPause = 1
+
+[State -2, Free Juggling]
+type = VarSet
+trigger1 = RoundState != 2
+var(15) = 0
+ignoreHitPause = 1
+
+[State -2, Juggle Flag]
+type = VarSet
+trigger1 = NumEnemy && !var(16)
+trigger1 = (EnemyNear, StateNo = 5040) && !(EnemyNear, Ctrl)
+var(16) = 1
+ignorehitpause = 1
+
+[State -2, Juggle Flag Reset Single]
+type = VarSet
+triggerAll = NumEnemy = 1 && var(16)
+trigger1 = (Enemy, MoveType != H) && (Enemy, StateNo != 5040)
+trigger2 = !(Enemy, HitShakeOver) || (Enemy, StateType = L) || (Enemy, Ctrl)
+var(16) = 0
+ignoreHitPause = 1
+
+[State -2, Juggle Flag Reset Simul]
+type = VarSet
+triggerAll = NumEnemy >= 2 && var(16)
+trigger1 = (EnemyNear(0), MoveType != H) && (EnemyNear(0), StateNo != 5040)
+trigger2 = !(EnemyNear(0), HitShakeOver) || (EnemyNear(0), StateType = L) || (EnemyNear(0), Ctrl)
+trigger3 = (EnemyNear(1), MoveType != H) && (EnemyNear(1), StateNo != 5040)
+trigger4 = !(EnemyNear(1), HitShakeOver) || (EnemyNear(1), StateType = L) || (EnemyNear(1), Ctrl)
+var(16) = 0
+ignoreHitPause = 1
 
 [State -2, Custom Combo End]
 type = VarSet
@@ -5809,19 +5145,13 @@ trigger2 = MoveType = H
 trigger3 = RoundState != 2
 trigger4 = (StateNo = [3000,4999])
 var(20) = 0
-ignoreHitPause=1
+ignoreHitPause = 1
 
 [State -2, Custom Combo Time]
 type = VarAdd
 trigger1 = var(20) > 0
 var(20) = -1
 ignoreHitPause = 1
-
-[State -2, Free Juggle]
-type = AssertSpecial
-trigger1 = var(20)
-trigger2 = NumTarget(1430)
-flag = nojugglecheck
 
 [State -2, Custom Combo Asserts]
 type = AssertSpecial
@@ -5845,277 +5175,91 @@ time = 2
 add = 64 + ceil(sin(var(20) / 8.0 * pi) * 64), 64 + ceil(sin(var(20) / 8.0 * pi) * 64), 64 + ceil(sin(var(20) / 8.0 * pi) * 64)
 ignoreHitPause = 1
 
-;=====================<Team status>
-;============<My Teammate ID>
-[State -2, Clear teammate]
-type = varset
-triggerall = var(34)
-trigger1 = PlayerID(var(34)),Alive = 0
-trigger2 = PlayerID(var(34)),Life < 1
-var(34) = 0
-ignorehitpause = 1
+[State -2, Throws Allowed]
+type = VarSet
+trigger1 = EnemyNear, MoveType != H
+trigger1 = EnemyNear, StateNo != 140
+trigger1 = (EnemyNear, ctrl && EnemyNear, Time >= 1) || (EnemyNear, Time >= 8)
+trigger2 = EnemyNear, MoveType = A
+trigger3 = (EnemyNear, StateNo != [0,52]) && (EnemyNear, StateNo != [120,155]) && (EnemyNear, StateNo != [5000,5120])
+trigger4 = var(20) || var(21) || var(22)
+var(38) = 0
 
-[State -2, Parter ID set have Parter]
-type = varset
-triggerall = var(34) = 0
-triggerall = NumPartner
-trigger1 = Partner,Alive
-var(34) = Partner,ID
+[State -2, Throws Disallowed]
+type = VarSet
+triggerAll = NumEnemy
+trigger1 = EnemyNear, StateNo = [150,155]
+trigger2 = (EnemyNear, StateNo = 51 || EnemyNear, StateNo = 140) && (EnemyNear, PrevStateNo = [150, 155])
+trigger3 = EnemyNear, MoveType = H && EnemyNear, StateType != A && !var(20) && !var(21) && !var(22)
+trigger4 = (EnemyNear, StateNo = [5020,5040]) && EnemyNear, HitFall = 0
+trigger5 = EnemyNear, StateNo = 40 && EnemyNear, PrevStateNo != 52 && (EnemyNear, Anim != [0, 29])
+var(38) = 1
+ignoreHitPause = 1
 
-[State -2, Parter ID set have Helper]
-type = varset
-triggerall = var(34) = 0
-triggerall = !IsHelper
-trigger1 = NumHelper(785)
-trigger1 = Helper(785),Alive
-var(34) = Helper(785),ID
+[State -2, Dampener]
+type = VarSet
+trigger1 = 1
+fvar(10) = ifElse(var(13) < 6, 24, ifElse(var(13) >= 23, 1, 29 - var(13))) / 24.0
+ignoreHitPause = 1
 
-[State -2, Parter ID set Helper have Parent]
-type = varset
-triggerall = var(34) = 0
-triggerall = IsHelper
-trigger1 = Parent,Alive
-var(34) = Parent,ID
+[State -2, Dampener - Custom Combo]
+type = VarSet
+trigger1 = var(20)
+fvar(10) = 0.72 * (10 - ifElse(var(13) >= 10, 10, var(13))) / 10.0
+ignoreHitPause = 1
 
+[State -2, Dampener - Custom Combo Limiter]
+type = VarSet
+trigger1 = var(20)
+trigger1 = StateNo = 242 || StateNo = 247 || (StateNo = [250,252]) || StateNo = 259
+fvar(10) = ifElse(var(13), 0, 0.72)
+ignoreHitPause = 1
 
-;============<Enemy IDs>
-[State -2, Close Enemy ID clear 1 Enemy]
-type = varset
-triggerall = var(32)
-trigger1 = NumEnemy = 1
-trigger1 = Enemynear,Alive = 0 || Enemynear,ID != PlayerID(var(32)),ID
-var(32) = 0
+[State -2, Dampener - Supers]
+type = VarSet
+trigger1 = (StateNo = [3000,4999])
+fvar(10) = ifElse(var(22), 0.6, ifElse(var(21), 0.8, 1.0))
+ignoreHitPause = 1
 
-[State -2, Close Enemy ID set 1 Enemy]
-type = varset
-triggerall = !var(32)
-trigger1 = NumEnemy = 1
-trigger1 = Enemynear,Alive
-var(32) = Enemynear,ID
+[State -2, Dampener - Supers (Fujin Sen Geri)]
+type = VarSet
+trigger1 = (StateNo = [3000, 4999])
+trigger1 = var(11)
+fvar(10) = ifElse(var(22), 0.5, ifElse(var(21), 0.6, 0.7))
+ignoreHitPause = 1
 
-[State -2, Close Enemy ID clear 2 Enemys]
-type = varset
-triggerall = var(32)
-trigger1 = NumEnemy > 1
-trigger1 = PlayerID(var(32)),Alive = 0
-var(32) = 0
+[State -2, Dampener Limit]
+type = VarSet
+trigger1 = fvar(10) < 0
+fvar(10) = 0
+ignoreHitPause = 1
 
-[State -2, Close Enemy ID set 2 Enemys]
-type = varset
-triggerall = NumEnemy > 1
-triggerall = Enemynear,Alive || Enemynear(1),Alive
-trigger1 = !var(32)
-trigger2 = var(32)
-trigger2 = Enemynear,Alive && Enemynear(1),Alive
-trigger2 = PlayerID(var(32)),ID != Enemynear,ID
-trigger3 = var(32)
-trigger3 = (Enemynear,Alive = 1 && Enemynear(1),Alive = 0) || (Enemynear,Alive = 0 && Enemynear(1),Alive = 1)
-trigger3 = PlayerID(var(32)),Alive = 0
-var(32) = IFElse(Enemynear,Alive,Enemynear,ID,Enemynear(1),ID)
+[State -2, Root Dampener]
+type = VarSet
+trigger1 = 1
+fvar(11) = fvar(10) * ifElse(var(9), 1.2, 1)
+ignoreHitPause = 1
 
-[State -2, Far Enemy ID clear 2 Enemys]
-type = varset
-triggerall = var(33)
-trigger1 = PlayerID(var(33)),Alive = 0
-trigger2 = (Enemynear,Alive = 1 && Enemynear(1),Alive = 0) || (Enemynear,Alive = 0 && Enemynear(1),Alive = 1)
-var(33) = 0
+;CvS2 Evil Ryu essentially takes 0.358 extra damage every hit
+;PotS Evil Ryu essentially takes 0.125 extra damage every hit
+;PotS Master Ryu essentially takes 0.25 extra damage every hit
+[State -2, Defense Levels]
+type = LifeAdd
+trigger1 = var(40) = [1,2]
+trigger1 = GetHitVar(HitCount) = 1 && GetHitVar(Damage)
+trigger1 = StateNo != [760,762]
+value = -ceil(ifElse(var(40) = 2, 0.45, 0.358) * GetHitVar(Damage))
+kill = 0
+ignoreHitPause = 1
 
-[State -2, Far Enemy ID set 2 Enemys]
-type = varset
-triggerall = NumEnemy > 1
-triggerall = var(32)
-triggerall = Enemynear,Alive && Enemynear(1),Alive
-trigger1 = !var(33)
-trigger2 = var(33)
-trigger2 = PlayerID(var(33)),ID != Enemynear(1),ID
-var(33) = Enemynear(1),ID
-
-;============<Team Status>
-[State -2, Mark teammate is Defending me]
-type = varset
-triggerall = RoundState = 2
-triggerall = !(InGuardDist || MoveType = H)
-triggerall = var(34)
-triggerall = var(32)
-triggerall = var(35) != 1
-triggerall = !(PlayerID(var(34)),Pos y < Ceil(-80 * Const(size.yscale)))
-trigger1 = facing = 1 && !var(33)
-trigger1 = Pos x < PlayerID(var(34)),Pos x
-trigger1 = PlayerID(var(34)),pos x < PlayerID(var(32)),Pos x
-trigger2 = facing = 1 && var(33)
-trigger2 = Pos x < PlayerID(var(34)),Pos x
-trigger2 = PlayerID(var(34)),pos x < PlayerID(var(32)),Pos x
-trigger2 = PlayerID(var(32)),Pos x < PlayerID(var(33)),Pos x
-trigger3 = facing = -1 && !var(33)
-trigger3 = Pos x > PlayerID(var(34)),Pos x
-trigger3 = PlayerID(var(34)),pos x > PlayerID(var(32)),Pos x
-trigger4 = facing = -1 && var(33)
-trigger4 = Pos x > PlayerID(var(34)),Pos x
-trigger4 = PlayerID(var(34)),pos x > PlayerID(var(32)),Pos x
-trigger4 = PlayerID(var(32)),Pos x > PlayerID(var(33)),Pos x
-var(35) = 1
-
-[State -2, Mark we are trapping enemy]
-type = varset
-triggerall = RoundState = 2
-triggerall = !(InGuardDist || MoveType = H)
-triggerall = var(34)
-triggerall = var(32)
-triggerall = var(35) != 2
-triggerall = !(PlayerID(var(34)),Pos y < Ceil(-80 * Const(size.yscale)))
-trigger1 = facing = 1 && !var(33)
-trigger1 = Pos x < PlayerID(var(32)),Pos x
-trigger1 = PlayerID(var(32)),Pos x < PlayerID(var(34)),Pos x
-trigger2 = facing = 1 && var(33)
-trigger2 = Pos x < PlayerID(var(32)),Pos x
-trigger2 = PlayerID(var(32)),Pos x < PlayerID(var(33)),Pos x
-trigger2 = PlayerID(var(33)),Pos x < PlayerID(var(34)),Pos x
-trigger2 = Abs(PlayerID(var(32)),Pos x - PlayerID(var(33)),Pos x) < IfElse(Abs(Pos x - PlayerID(var(32)),Pos x)>Abs(PlayerID(var(33)),Pos x - PlayerID(var(34)),Pos x),Abs(Pos x - PlayerID(var(32)),Pos x),Abs(PlayerID(var(33)),Pos x - PlayerID(var(34)),Pos x))
-trigger3 = facing = -1 && !var(33)
-trigger3 = Pos x > PlayerID(var(32)),Pos x
-trigger3 = PlayerID(var(32)),Pos x > PlayerID(var(34)),Pos x
-trigger4 = facing = -1 && var(33)
-trigger4 = Pos x > PlayerID(var(32)),Pos x
-trigger4 = PlayerID(var(32)),Pos x > PlayerID(var(33)),Pos x
-trigger4 = PlayerID(var(33)),Pos x > PlayerID(var(34)),Pos x
-trigger4 = Abs(PlayerID(var(32)),Pos x - PlayerID(var(33)),Pos x) < IfElse(Abs(Pos x - PlayerID(var(32)),Pos x)>Abs(PlayerID(var(33)),Pos x - PlayerID(var(34)),Pos x),Abs(Pos x - PlayerID(var(32)),Pos x),Abs(PlayerID(var(33)),Pos x - PlayerID(var(34)),Pos x))
-var(35) = 2
-
-[State -2, Mark Teammate Trapped]
-type = varset
-triggerall = RoundState = 2
-triggerall = !(InGuardDist || MoveType = H)
-triggerall = var(34)
-triggerall = var(32) && var(33)
-triggerall = var(35) != 3
-;triggerall = PlayerID(var(34)),MoveType = H
-triggerall = !(PlayerID(var(34)),Pos y < Ceil(-80 * Const(size.yscale)))
-trigger1 = facing = 1
-trigger1 = Pos x < PlayerID(var(32)),Pos x
-trigger1 = PlayerID(var(32)),Pos x < PlayerID(var(34)),Pos x
-trigger1 = PlayerID(var(34)),Pos x < PlayerID(var(33)),Pos x
-trigger1 = PlayerID(var(32)),facing =1 && PlayerID(var(33)),facing = -1
-trigger2 = facing = -1
-trigger2 = Pos x > PlayerID(var(32)),Pos x
-trigger2 = PlayerID(var(32)),Pos x > PlayerID(var(34)),Pos x
-trigger2 = PlayerID(var(34)),Pos x > PlayerID(var(33)),Pos x
-trigger2 = PlayerID(var(32)),facing =-1 && PlayerID(var(33)),facing = 1
-var(35) = 3
-
-[State -2, Mark Teammate Cornered]
-type = varset
-triggerall = RoundState = 2
-triggerall = !(InGuardDist || MoveType = H)
-triggerall = var(34)
-triggerall = var(32) && var(33)
-triggerall = var(35) != 4
-;triggerall = PlayerID(var(34)),MoveType = H
-triggerall = !(PlayerID(var(34)),Pos y < Ceil(-80 * Const(size.yscale)))
-trigger1 = PlayerID(var(34)),BackEdgeBodydist < 30
-trigger1 = Abs(PlayerID(var(34)),pos x) > Abs(PlayerID(var(32)),pos x)
-trigger1 = Abs(PlayerID(var(34)),pos x) > Abs(PlayerID(var(33)),pos x)
-trigger1 = Abs(PlayerID(var(34)),pos x) - Abs(PlayerID(var(32)),pos x) < 60
-trigger1 = Abs(PlayerID(var(34)),pos x) - Abs(PlayerID(var(33)),pos x) < 60
-var(35) = 4
-
-[State -2 mark Im fight in lead or fight alone]
-type = varset
-triggerall = var(35)
-triggerall = var(34)
-triggerall = var(32)
-trigger1 = facing = PlayerID(var(34)), facing
-trigger1 = facing = 1
-trigger1 = PlayerID(var(34)),pos x < pos x
-trigger1 = pos x < PlayerID(var(32)), pos x
-trigger2 = facing = PlayerID(var(34)), facing
-trigger2 = facing = -1
-trigger2 = PlayerID(var(34)),pos x > pos x
-trigger2 = pos x > PlayerID(var(32)),pos x
-trigger3 = facing != PlayerID(var(34)), facing
-trigger3 = facing = 1
-trigger3 = pos x > PlayerID(var(34)), pos x
-trigger4 = facing != PlayerID(var(34)), facing
-trigger4 = facing = -1
-trigger4 = pos x < PlayerID(var(34)), pos x
-var(35) = 0
-
-[State -2 Clear Teammate mark]
-type = varset
-triggerall = var(35)
-trigger1 = !var(34)
-trigger2 = InGuardDist
-trigger3 = MoveType = H
-trigger4 = var(34)
-trigger4 = PlayerID(var(34)),Pos y < Ceil(-80 * Const(size.yscale))
-trigger5 = var(32) = 0
-var(35) = 0
-
-
-;======== Damage Scaling System ===========
-;var(9) Counter Hit
-;var(13) Hit Counter
-;fvar(10) Scaling fact by Hit
-;fvar(11) Scaling fact by P2Lift
-;fvar(29) Scaling fact
-
-[State -2, Reset fvar(10)]
-type = varset
-triggerall= RoundState=2
-triggerall= fvar(10) != 1
-trigger1 = Enemynear,Ctrl
-trigger2 = Enemynear,StateNo < 5000 || Enemynear,MoveType != H
-fvar(10) = 1
-ignorehitpause=1
-
-[State -2, Damage Scaling by States]
-type=varset
-triggerall= RoundState=2
-triggerall= StateNo != 3510
-triggerall= (Enemynear,StateNo = [5000,5199]) || Enemynear,MoveType = H
-trigger1= NumEnemy && var(13)<10 && !var(20)
-fvar(10)= ifelse(var(13)<3 && PrevStateNo < 3000,1,1.1-var(13)*(0.1)-0.2*(PrevStateNo>=3000))
-ignorehitpause=1
-
-[State -2, Damage Scaling by States]
-type=varset
-triggerall= RoundState=2
-triggerall= (Enemynear,StateNo = [5000,5199]) || Enemynear,MoveType = H
-trigger1= NumEnemy && (var(13)>=10 || var(20))
-trigger1= hitcount = 1 && Enemy,time = 0
-fvar(10)= fvar(10)* (0.9 - 0.1*(var(20)>0))
-ignorehitpause=1
-
-[State -2, Attack var by P2Life]
-type=varset
-triggerall= RoundState=2
-trigger1= NumEnemy
-fvar(11)= ifelse(Enemynear,life > Enemynear,lifemax/2,1,Ifelse(Enemynear,life > Enemynear,lifemax/4,0.95,Ifelse(Enemynear,life > Enemynear,lifemax/6,0.9,0.75)))
-ignorehitpause=1
-
-[State -2, PreDampener var set]
-type=varset
-trigger1= RoundState=2
-fvar(28)= (var(9)*0.25) + fvar(10) * fvar(11) * Ifelse(var(20),(1.0/(1+(var(13)/25.0))),1)
-ignorehitpause=1
-
-[State -2, Dampener var set]
-type=varset
-trigger1= RoundState=2
-fvar(29)= IFElse(fvar(28) < (0.1+0.1*(var(20)!=0)),0.1+0.1*(var(20)!=0),fvar(28))
-ignorehitpause=1
-
-[State -2, Dampener Apply]
-type=attackmulset
-trigger1= RoundState=2
-value= fvar(29)
-ignorehitpause=1
-
-
-;[State -2, Defense Levels]
-;type = DefenceMulSet
-;trigger1 = var(40)
-;value = ifElse(var(40) = 2, 1.25, 1.125) * (const(data.fall.defence_mul) ** GetHitVar(FallCount))
-;ignoreHitPause = 1
+;CvS2 Evil Ryu essentially takes 1.358 times more damage than standard
+;PotS Evil Ryu essentially takes 1.125 times more damage than standard
+;PotS Master Ryu essentially takes 1.25 times more damage than standard
+[State -2, Defense Levels]
+type = DefenceMulSet
+trigger1 = var(40) = [1,2]
+value = ifElse(var(40) = 2, 1.45, 1.358) * (const(data.fall.defence_mul) ** GetHitVar(FallCount))
+ignoreHitPause = 1
 
 [State -2, Voice Position]
 type = SndPan
@@ -6137,44 +5281,144 @@ type = PlaySnd
 triggerAll = PrevStateNo != 5950
 trigger1 = !Alive && var(41) = 1
 trigger1 = var(41) := 2
-value = 11, ifElse((var(40) = 1), 2, 1) + 2 * (StateNo = 5130)
+value = 11, 1 + 10 * (var(40) = 1)
 ignoreHitPause = 1
 
-[State -2, RemoveExplod]
+[State -2, Collapse Sound]
+type = PlaySnd
+trigger1 = StateNo != 5950
+trigger1 = Anim = 5950 || Anim = 5955
+trigger1 = AnimElem = 7
+value = F7,0
+
+[State -2, Collapse FX]
+type = Explod
+trigger1 = StateNo != 5950
+trigger1 = Anim = 5950 || Anim = 5955
+trigger1 = AnimElem = 7
+anim = F60
+posType = P1
+sprpriority = -3
+
+[State -2, Guard Crush/Throw Escape voice]
+type = PlaySnd
+trigger1 = Anim = 5910 || Anim = 5920 || Anim = 5930
+trigger1 = AnimElemTime(1) = 1
+trigger2 = Anim = 5940 || Anim = 5945
+trigger2 = AnimElem = 2 && StateNo != 890
+value = ifElse(var(40) = 1, 5000, 800), ifElse(var(40) = 1, 12, 0)
+channel = 0
+ignoreHitPause = 1
+
+[State -2, Helicopter Sound Loop/Heartbeat sound Off]
+type = StopSnd
+trigger1 = NumHelper(26805)
+trigger1 = Helper(26805), StateNo != 26805
+trigger2 = Time = 1
+trigger2 = PrevStateNo = 6805 && StateNo != 6805
+trigger3 = Time = 1
+trigger3 = PrevStateNo = 6807 && StateNo != 6807
+channel = 5
+ignoreHitPause = 1
+
+[State -2, Fujin Sen Geri Hit Count Reset]
+type = VarSet
+trigger1 = !var(13)
+var(11) = 0
+ignoreHitPause = 1
+
+[State -2, Lv3 Super Finish Detection]
+type = VarSet
+triggerAll = !(Enemy, Alive)
+trigger1 = StateNo = [3300,3399]
+trigger2 = StateNo = [3600,3699]
+var(27) = 1
+ignoreHitPause = 1
+
+[State -2, Remove Shoryuken fist overlay]
+type = RemoveExplod
+trigger1 = NumExplod(1124) && StateNo != [1100,1130]
+id = 1124
+ignoreHitPause = 1
+
+[State -2, Remove Shoryuken flames (ground)]
 type = RemoveExplod
 trigger1 = NumExplod(1125) && StateNo != [1100,1130]
 id = 1125
 ignoreHitPause = 1
 
-[State -2, RemoveExplod]
+[State -2, Remove Shoryuken flames (ascending)]
+type = RemoveExplod
+trigger1 = NumExplod(1126) && StateNo != [1100,1130]
+id = 1126
+ignoreHitPause = 1
+
+[State -2, Remove Shoryuken flames (fade away)]
+type = RemoveExplod
+trigger1 = NumExplod(1127) && StateNo != [1100,1130]
+id = 1127
+ignoreHitPause = 1
+
+[State -2, Remove Shoryureppa fist overlay]
+type = RemoveExplod
+trigger1 = NumExplod(3004) && StateNo != [3000,3050]
+id = 3004
+ignoreHitPause = 1
+
+[State -2, Remove Shoryureppa flames (ground)]
 type = RemoveExplod
 trigger1 = NumExplod(3005) && StateNo != [3000,3050]
 id = 3005
 ignoreHitPause = 1
 
-[State -2, Helicopter Sound Loop Off]
-type = StopSnd
-trigger1 = Time = 1
-trigger1 = PrevStateNo = 5990 && StateNo != 5990
-trigger2 = NumHelper(5992)
-trigger2 = Helper(5992), StateNo != 5992
-channel = 5
+[State -2, Remove Shoryureppa flames (ascending)]
+type = RemoveExplod
+trigger1 = NumExplod(3006) && StateNo != [3000,3050]
+id = 3006
 ignoreHitPause = 1
 
+[State -2, Remove Shoryureppa flames (fade away)]
+type = RemoveExplod
+trigger1 = NumExplod(3007) && StateNo != [3000,3050]
+id = 3007
+ignoreHitPause = 1
+
+[State -2, Sealed by Chizuru's Reigi no Ishizue]
+type = PalFX
+trigger1 = NumProjID(131035)
+trigger1 = GameTime % 2 = 1
+time = 1
+add = 0,0,92
+sinAdd = 0,0,0,0
+color = 0
+invertAll = 0
+color = 256
+ignoreHitPause = 1
+
+[State -2, EXPLODsive Buffering Helper]
+type = Helper
+trigger1 = !NumHelper(90000005)
+helpertype = Normal
+stateNo = 90000005
+ID = 90000005
+name = "EXPLODsive Buffering helper"
+posType = P1
+facing = ifElse(Facing = 1, 1, -1)
+keyCtrl = 1
+ignoreHitPause = 1
 
 [State -2, Debug]
-type = displaytoclipboard
+type = DisplayToClipboard
 trigger1 = 1
-text = "AI = %d Task = %d, Damage=%d, XBDIST %d XDIST %d"
-params = AIlevel, var(59),fvar(29),P2Bodydist x, P2Dist y
-ignorehitpause = 1
+text = "AI = %d Attack = %f Hits = %d Juggle = %d"
+params = AILevel, fvar(11), var(13), var(15)
+ignoreHitPause = 1
 
 [State -2, Debug]
-type = appendtoclipboard
+type = AppendToClipboard
 trigger1 = 1
-text = "\n var(20)%d var(10)%d var(46)%d var(4) %d"
-params = var(20),var(10),var(46), var(4)
-ignorehitpause = 1
+text = "\nBy Jmorphman"
+ignoreHitPause = 1
 
 
 
@@ -6183,178 +5427,249 @@ ignorehitpause = 1
 ;===========================================================================
 [StateDef -3]
 
+[State -3, Disable AI when Double Shinku Hadoken/Shin Goku Messatsu conditions met (Flag off)]
+type = VarSet
+trigger1 = 1
+var(59) = 0
+ignoreHitPause = 1
+
+[State -3, Disable AI when Double Shinku Hadoken conditions met (Flag on)]
+type = VarSet
+triggerAll = AILevel && var(40) != 1
+triggerAll = power >= 3000
+triggerAll = TeamMode = Simul && NumPartner
+triggerAll = Partner, Alive
+triggerAll = Partner, Facing = Facing
+triggerAll = ((P2Dist x >= Partner, P2Dist x) && (P2Dist x - Partner, P2Dist x <= 150)) || ((P2Dist x < Partner, P2Dist x) && (Partner, P2Dist x - P2Dist x <= 155))
+triggerAll = Partner, AuthorName = "Phantom.of.the.Server" && Partner, Name = "Ryu" && (Partner, var(1) != 2)
+triggerAll = Partner, StateType != A && !(Partner, var(20))
+trigger1 = Partner, ctrl || ((Partner, StateNo = [200,299]) && Partner, Time <= 2) || (Partner, StateNo = 200 || Partner, StateNo = 230 || Partner, StateNo = 245)
+trigger2 = (Partner, StateNo = [200,255])
+trigger3 = ((Partner, StateNo = [1100,1110]) || (Partner, StateNo = [1300,1310])) && Partner, MoveContact
+trigger4 = Partner, StateNo = 52 && (Partner, PrevStateNo = [1000,4999]) && Partner, MoveContact
+var(59) = 1
+ignoreHitPause = 1
+
+[State -3, Disable AI when Shin Goku Messatsu conditions met (Flag on)]
+type = VarSet
+triggerAll = AILevel && var(40) != 1
+triggerAll = power >= 3000
+triggerAll = TeamMode = Simul && NumPartner
+triggerAll = Partner, Alive
+triggerAll = Partner, Facing != Facing
+triggerAll = Partner, AuthorName = "Phantom.of.the.Server" && Partner, Name = "Ryu" && (Partner, var(1) = 2)
+triggerAll = Partner, StateType != A && !(Partner, var(20))
+trigger1 = Partner, ctrl || ((Partner, StateNo = [200,299]) && Partner, Time <= 2) || (Partner, StateNo = 200 || Partner, StateNo = 230 || Partner, StateNo = 245)
+trigger2 = (Partner, StateNo = [200,255])
+trigger3 = ((Partner, StateNo = [1100,1110]) || (Partner, StateNo = [1300,1310])) && Partner, MoveContact
+trigger4 = Partner, StateNo = 52 && (Partner, PrevStateNo = [1000,4999]) && Partner, MoveContact
+var(59) = 1
+ignoreHitPause = 1
+
 [State -3, GameTime]
 type = VarSet
 trigger1 = 1
 var(58) = GameTime
 ignoreHitPause = 1
 
-[State -3, No Reverse Guard]
-type = AssertSpecial
-triggerall = StateNo = [200,4999]
-triggerall = MoveType = A
-trigger1 = Enemynear,P2Dist x < 0
-flag = unguardable
-
 [State -3, ProjContact Reset]
 type = VarSet
 triggerAll = var(18)
-trigger1 = (StateNo != [1000,1030])
+trigger1 = StateNo != 1000 && StateNo != 1030
 var(18) = 0
 
-[State -3, Active Projectile Flag Off]
+[State -3, Projectile Flag Reset]
 type = VarSet
-trigger1 = var(29) && NumHelper(1005)
-trigger1 = Helper(1005), StateNo != 1005 && Helper(1005), StateNo != 1035
-trigger2 = var(29) && !NumHelper(1005)
-var(29) = 0
-ignoreHitPause = 1
-
-[State -3, Active Projectile Flag On]
-type = VarSet
-triggerAll = var(20) <= 0 && !var(29)
-triggerAll = NumHelper(1005)
-trigger1 = Helper(1005), StateNo = 1005
-trigger2 = Helper(1005), StateNo = 1035
-var(29) = 1
-ignoreHitPause = 1
-
-;-----------<Special info Announcement>---------
-[State -3, Dodge inform clear]
-type = varset
-trigger1 = (var(44) & 1) && time <= 1
-trigger1 = !(StateNo = 765 || StateNo = 710 || StateNo = 715 || StateNo = 1500)
-var(44) = var(44) - 1
-
-[State -3, Dodge inform]
-type = varset
-trigger1 = !(var(44) & 1) && time <= 1
-trigger1 = (StateNo = 765 || StateNo = 710 || StateNo = 715 || StateNo = 1500)
-var(44) = var(44) + 1
-
-[State -3, Charge inform clear]
-type = varset
-trigger1 = (var(44) & 2) && time <= 1
-trigger1 = StateNo != 730
-var(44) = var(44) - 2
-
-[State -3, Charge inform]
-type = varset
-trigger1 = !(var(44) & 2) && time <= 1
-trigger1 = StateNo = 730
-var(44) = var(44) + 2
-
-[State -3, Alpha Counter inform Clear]
-type = varset
-trigger1 = (var(44) & 4) && time <= 1
-trigger1 = !(StateNo = 750 || PrevStateNo = 750)
-var(44) = var(44) - 4
-
-[State -3, Alpha Counter inform]
-type = varset
-trigger1 = !(var(44) & 4) && time <= 1
-trigger1 = (StateNo = 750 || PrevStateNo = 750)
-var(44) = var(44) + 4
-
-[State -3, Fast Attack inform Clear]
-type = varset
-trigger1 = (var(44) & 16) && time <= 1
-trigger1 = !(StateNo = 200 || StateNo = 400 || StateNo = 430)
-var(44) = var(44) - 16
-
-[State -3, Fast Attack inform]
-type = varset
-trigger1 = !(var(44) & 16) && time <= 1
-trigger1 = (StateNo = 200 || StateNo = 400 || StateNo = 430)
-var(44) = var(44) + 16
-
-[State -3, Hadoken inform Clear]
-type = varset
-trigger1 = (var(44) & 32) && time <= 1
-trigger1 = !(StateNo = [1000,1030])
-var(44) = var(44) - 32
-
-[State -3, Hadoken inform]
-type = varset
-trigger1 = !(var(44) & 32) && time <= 1
-trigger1 = (StateNo = [1000,1030])
-var(44) = var(44) + 32
-
-
-[State -3, dizzy restart]
-type=varset
-triggerall = var(39)=2
-trigger1 = PrevstateNo = 5300
-trigger2 = Ctrl || StateNo < 5000
+trigger1 = var(39) < 0
 var(39) = 0
+ignoreHitPause = 1
 
-[state -3, dizzy varadd]
-type=varadd
-triggerall= roundstate=2 && movetype=H
-triggerall= !var(39)
-triggerall= !NumHelper(6300)
-triggerall= (stateno!=[120,159]) && (stateno!=[700,702])
-triggerall= stateno>=5000
-triggerall= GetHitVar(hitcount)<4
-triggerall= Enemynear,var(20) = 0
-trigger1= !time
-fvar(39)= 3 + 6*(Enemynear,hitdefattr=SCA,SA) + 7*((Enemynear,hitdefattr=SCA,NA) && GetHitvar(animtype)=0) + 20*((Enemynear,hitdefattr=SCA,NA)&&GetHitvar(animtype)=1) + 28*((Enemynear,hitdefattr=SCA,NA)&&GetHitvar(animtype)>1)
-ignorehitpause=1
+[State -3, Projectile Flag Off]
+type = VarSet
+trigger1 = !NumHelper(1005)
+trigger1 = !NumHelper(1035)
+var(39) = 0
+ignoreHitPause = 1
 
-[state -3, dizzy varsubtract]
-type=varadd
-triggerall= !var(39)
-triggerall= !NumHelper(6300)
-triggerall= fvar(39) && fvar(39)<var(38)
-triggerall= StateNo != [5000,5999]
-trigger1= time%10=0
-fvar(39)= ifelse((fvar(39)>0 && fvar(39)<2),-(fvar(39)),-1-StateType=C-StateType=L)
+[State -3, Chain Combo Reset]
+type = VarSet
+trigger1 = 1
+var(4) = 0
+ignoreHitPause = 1
 
-[State -3, Ready Dizzy State]
-type=varset
-triggerall= RoundState=2 && !var(39)
-trigger1= fvar(39)>=var(38)
-var(39)=1
+[State -3, Chain Combo Check]
+type = VarSet
+trigger1 = var(20) && (StateNo = [200,699]) && MoveContact
+trigger2 = var(20) && (StateNo = [1000,2999]) && StateType != A && (MoveContact || var(18))
+var(4) = 1
+ignoreHitPause = 1
 
-[State -3, Enter Dizzy State]
-type=ChangeState
-triggerall= RoundState=2
-triggerall= var(39) =1
-trigger1= (StateNo=5001 + 10*StateType=C) && HitOver
-trigger2= StateNo=5120 && Anim=5120 && !Animtime
-value=5300
+[State -3, Cancel Reset]
+type = VarSet
+trigger1 = 1
+var(6) = 0
+ignoreHitPause = 1
 
-[state -3, Ducks]
-type=helper
-triggerall = roundstate = 2
-trigger1= !NumHelper(6300)
-trigger1= var(39)=1
-helpertype=normal
-name= "Dizzy Ducks"
-ID=6300
-stateno=6300
-postype=p1
-pos= 0,0
-ownpal=1
-trans=none
-persistent=0
+[State -3, Cancel Check]
+type = VarSet
+trigger1 = var(20) && (StateNo = [200,699])
+trigger2 = var(20) && (StateNo = [1000,2999]) && (MoveContact || var(18))
+trigger3 = (StateNo = [200,699]) && Time <= 2
+trigger4 = StateNo = 200 && MoveContact
+trigger5 = StateNo = 205 && MoveContact
+trigger6 = StateNo = 215 && MoveContact && AnimElemTime(4) < 0
+trigger7 = StateNo = 225 && MoveContact && AnimElemTime(5) < 0
+trigger8 = StateNo = 230 && MoveContact
+trigger9 = StateNo = 245 && MoveContact && AnimElemTime(5) < 0
+trigger10 = StateNo = 255 && MoveContact && AnimElemTime(6) < 0
+trigger11 = StateNo = 400 && MoveContact
+trigger12 = StateNo = 410 && MoveContact && AnimElemTime(5) < 0
+trigger13 = StateNo = 420 && MoveContact && AnimElemTime(4) < 0
+trigger14 = StateNo = 430 && MoveContact
+trigger15 = StateNo = 440 && MoveContact && AnimElemTime(6) < 0
+trigger16 = StateNo = 450 && MoveContact && AnimElemTime(5) < 0
+trigger17 = StateNo = 600 && MoveContact
+trigger18 = StateNo = 610 && MoveContact && AnimElemTime(7) < 0
+trigger19 = (StateNo = [630,631]) && MoveContact
+trigger20 = StateNo = 650 && MoveContact && AnimElemTime(3) < 0
+var(6) = 1
+ignoreHitPause = 1
 
-[state -3, Hif fall set]
-type = hitfallset
-triggerall = roundstate = 2
-triggerall = StateNo = [5000,5999]
-triggerall = time =1
-trigger1 = var(39)=1
-value = 1
+[State -3, Super Cancel Reset]
+type = VarSet
+trigger1 = 1
+var(7) = 0
+ignoreHitPause = 1
 
+[State -3, Super Cancel Flag Reset]
+type = VarSet
+trigger1 = var(21)
+trigger1 = (StateNo != [3000,4999]) || MoveType = H
+var(21) = 0
+ignoreHitPause = 1
 
-[state -3, dizzy var reset]
-type = varset
-trigger1= RoundState != 2
-trigger1= fvar(39)
-fvar(39) = 0
+[State -3, Super Cancel Check]
+type = VarSet
+trigger1 = var(20) && (StateNo = [200,699])
+trigger2 = var(20) && (StateNo = [1000,2999]) && (MoveContact || var(18))
+trigger3 = (StateNo = [200,699]) && Time <= 2
+trigger4 = StateNo = 200
+trigger5 = StateNo = 205
+trigger6 = StateNo = 210 && (AnimElemTime(6) < 0 || (MoveContact = [1,8]))
+trigger7 = StateNo = 215 && (AnimElemTime(4) < 0 || (MoveContact = [1,8]))
+trigger8 = StateNo = 220 && (AnimElemTime(5) < 0 || (MoveContact = [1,8]))
+trigger9 = StateNo = 225 && (AnimElemTime(8) < 0 || (MoveContact = [1,8]))
+trigger10 = StateNo = 230
+trigger11 = StateNo = 245 && (AnimElemTime(5) < 0 || (MoveContact = [1,8]))
+trigger12 = StateNo = 255 && (AnimElemTime(6) < 0 || (MoveContact = [1,8]))
+trigger13 = StateNo = 400
+trigger14 = StateNo = 410 && (AnimElemTime(4) < 0 || (MoveContact = [1,8]))
+trigger15 = StateNo = 420 && (AnimElemTime(7) < 0 || (MoveContact = [1,8]))
+trigger16 = StateNo = 430
+trigger17 = StateNo = 440 && (AnimElemTime(6) < 0 || (MoveContact = [1,8]))
+trigger18 = StateNo = 450 && (AnimElemTime(5) < 0 || (MoveContact = [1,8]))
+trigger19 = (StateNo = [1000,1030]) && (AnimElemTime(5) = [2,9])
+trigger20 = (StateNo = [1100,1130]) && AnimElemTime(4) < 0 && MoveContact
+trigger21 = StateNo = 1400 && AnimElemTime(7) < 0 && MoveContact
+trigger22 = StateNo = 1410 && AnimElemTime(6) < 0 && MoveContact
+trigger23 = StateNo = 1420 && AnimElemTime(7) < 0 && MoveContact
+trigger24 = StateNo = 1430 && AnimElemTime(6) < 0 && MoveContact
+var(7) = 1
+ignoreHitPause = 1
 
+[State -3, Hyper Cancel Reset]
+type = VarSet
+trigger1 = 1
+var(8) = 0
+ignoreHitPause = 1
 
+[State -3, Hyper Cancel Reset]
+type = VarSet
+trigger1 = StateNo = 3000 && AnimElemTime(15) < 0 && MoveContact
+trigger2 = StateNo = 3200 && AnimElemTime(41) < 0 && MoveContact
+trigger3 = StateNo = 3210 && MoveContact
+trigger4 = StateNo = 3211 && AnimElemTime(4) < 0
+var(8) = 1
+ignoreHitPause = 1
+
+[State -3, Hyper Cancel Flag Reset]
+type = VarSet
+trigger1 = var(22)
+trigger1 = (StateNo != [3000,4999]) || MoveType = H
+var(22) = 0
+ignoreHitPause = 1
+
+[State -3, Parry Detection]
+type = Helper
+triggerAll = RoundState = 2 && !NumHelper(765) && !var(20)
+triggerAll = (MoveType = I && ctrl) || (StateNo = [760, 762]) || StateNo = 5120
+triggerAll = (command != "rlsfwd" && command != "rlsback" && command != "rlsup" && command != "rlsdown") || AILevel
+trigger1 = !AILevel && (StateType = S || StateType = C || StateNo = 5120)
+;Standing/crouch, no reversed commands
+trigger1 = !NumExplod(92828282) && !NumExplod(94646464) && !NumExplod(92468246)
+trigger1 = ifElse(P2dist x >= 0, command = "fwd", command = "back") || command = "down"
+;Air, no reversed commands
+trigger2 = !AILevel && StateType = A && (var(3) != 1 && var(3) != 2)
+trigger2 = !NumExplod(94646464) && !NumExplod(92468246)
+trigger2 = ifElse(P2dist x >= 0, command = "fwd", command = "back")
+;Standing/crouch, left/right or all directions reverse
+trigger3 = !AILevel && (StateType = S || StateType = C || StateNo = 5120)
+trigger3 = NumExplod(94646464) || NumExplod(92468246)
+trigger3 = ifElse(P2dist x >= 0, command = "back", command = "fwd") || ifElse(NumExplod(92468246), command = "up", command = "down")
+;Standing/crouch, up/down reverse only
+trigger4 = !AILevel && (StateType = S || StateType = C || StateNo = 5120)
+trigger4 = NumExplod(92828282) && !NumExplod(94646464) && !NumExplod(92468246)
+trigger4 = ifElse(P2dist x >= 0, command = "fwd", command = "back") || command = "up"
+;Air, reversed commands
+trigger5 = !AILevel && StateType = A && (var(3) != 1 && var(3) != 2)
+trigger5 = NumExplod(94646464) || NumExplod(92468246)
+trigger5 = ifElse(P2dist x >= 0, command = "back", command = "fwd")
+trigger6 = AILevel && (StateNo != [760,762]) && InGuardDist && Random < 50
+trigger7 = AILevel && (StateNo = [760,762]) && Time = 14 && Random < 667
+helperType = Normal
+stateNo = 765
+ID = 765
+name = "Parry Detection"
+posType = P1
+pauseMoveTime = 65535
+superMoveTime = 65535
+
+[State -3, Parry Attacks]
+type = ChangeState
+trigger1 = (StateNo != [760,762]) && NumHelper(765)
+trigger1 = Helper(765), StateNo = 766
+value = ifElse((Helper(765), Anim = 767), 762, ifElse((Helper(765), Anim = 766), 761, 760))
+ignoreHitPause = 1
+
+[State -3, Parry Projectiles]
+type = HitOverride
+trigger1 = (StateNo != [760,762]) && NumHelper(765)
+trigger1 = !(Helper(765), var(0)) && (Helper(765), Anim = 765)
+attr = SA, AP
+stateNo = 760
+slot = 0
+time = 1
+ignoreHitPause = 1
+
+[State -3, Parry Projectiles]
+type = HitOverride
+trigger1 = (StateNo != [760,762]) && NumHelper(765)
+trigger1 = !(Helper(765), var(0)) && (Helper(765), Anim = 766)
+attr = C, AP
+stateNo = 761
+slot = 0
+time = 1
+ignoreHitPause = 1
+
+[State -3, Parry Projectiles]
+type = HitOverride
+trigger1 = (StateNo != [760,762]) && NumHelper(765)
+trigger1 = !(Helper(765), var(0)) && (Helper(765), Anim = 767)
+attr = SCA, AP
+stateNo = 762
+slot = 0
+time = 1
+ignoreHitPause = 1
 
 [State -3, Assert: NoWalk after Parry]
 type = AssertSpecial
@@ -6363,6 +5678,43 @@ trigger1 = var(26) := (var(26)-1)
 flag = NoWalk
 ignoreHitPause = 1
 
+[State -3, Corner Push]
+type = VarSet
+trigger1 = fvar(5)
+trigger1 = NumTarget
+trigger1 = Target, HitOver || (Target, GetHitVar(HitShakeTime) > 0 && Target, Time <= 0)
+fvar(5) = 0
+
+[State -3, Corner Push]
+type = VarSet
+triggerAll = MoveType != H
+trigger1 = MoveContact = 1 && NumTarget
+fvar(5) = Target, GetHitVar(xVel)
+ignoreHitPause = 1
+
+[State -3, Corner Push]
+type = PosAdd
+triggerAll = fvar(5)
+triggerAll = (StateType = S || StateType = C || StateNo = [1200,1240]) && NumTarget
+triggerAll = !HitPauseTime && Target, GetHitVar(HitShakeTime) <= 0
+triggerAll = (Target, StateType = S || Target, StateType = C) && !(Target, GetHitVar(yvel)) && !(Target, HitFall)
+trigger1 = Target, FrontEdgeBodyDist <= abs(Target, vel x)
+trigger1 = (Target, GetHitVar(xvel) * Target, Facing) > 0
+trigger2 = Target, BackEdgeBodyDist <= abs(target, vel x)
+trigger2 = (Target, GetHitVar(xvel) * Target, Facing) < 0
+x = ifElse(Target, FrontEdgeBodyDist <= 0, -1, 1) * (Target, Facing) * fvar(5)
+
+[State -3, Corner Push]
+type = VarSet
+trigger1 = fvar(5)
+trigger1 = abs(fvar(5)) < 1.0
+fvar(5) = 0
+
+[State -3, Corner Push]
+type = VarSet
+trigger1 = NumTarget
+trigger1 = Target, GetHitVar(HitShakeTime) <= 0
+fvar(5) = fvar(5) * 0.85
 
 [State -3, EX FX Decrement]
 type = VarAdd
@@ -6377,19 +5729,17 @@ var(25) = 0
 [State -3, EX Flash]
 type = PalFX
 trigger1 = !(GameTime % 2) && var(25)
-color = 0
-add = 120,80,0
-sinadd = 64,32,5,3
 time = 1
+color = 0
+mul = 256, 224, 0
+add = 128, 128, 128
 ignoreHitPause = 1
-
 
 [State -3, Movement AfterImage]
 type = AfterImage
 triggerAll = Time = 1 && !var(20)
 trigger1 = StateNo = 50 && (var(3) = 2 || var(3) = 3)
-trigger2 = (StateNo = [710,715]) || StateNo = 765
-trigger3 = StateNo = 5983
+trigger2 = (StateNo = [700,715])
 time = 2
 timeGap = 1
 frameGap = 4
@@ -6403,9 +5753,7 @@ trans = Add1
 
 [State -3, Level 1 Super AfterImage]
 type = AfterImage
-triggerall = var(10) = 0
-trigger1 = (StateNo = 3000 || StateNo = 3100 || StateNo = 3200) && Time = 40
-trigger2 = StateNo = 3700 && Time = 40
+trigger1 = (StateNo = 3000 || StateNo = 3100 || StateNo = 3200 || StateNo = 3210) && Time = 43
 time = 2
 timeGap = 1
 frameGap = 10
@@ -6419,8 +5767,11 @@ trans = Add1
 
 [State -3, Level 2 Super AfterImage]
 type = AfterImage
-triggerall = var(10) = 1 
-trigger1 = (StateNo = 3000 || StateNo = 3100 || StateNo = 3200) && Time = 40
+trigger1 = StateNo = 3050 && Time = 43
+trigger2 = StateNo = 3150 && Time = 43
+trigger3 = StateNo = 3250 && Time = 43
+trigger4 = StateNo = 3260 && Time = 43
+trigger5 = StateNo = 3450 && Time = 43
 time = 2
 timeGap = 1
 frameGap = 10
@@ -6434,23 +5785,21 @@ trans = Add1
 
 [State -3, Level 3 Super AfterImage]
 type = AfterImage
-triggerall = var(10) = 2
-trigger1 = StateNo = 3300 && Time = 3
-trigger2 = StateNo = 3500 && Time = 40
-trigger3 = StateNo = 3601 && Time = 9
-trigger4 = StateNo = 3701 && Time = 77
+trigger1 = StateNo = 3300 && Time = 43
+trigger2 = StateNo = 3500 && Time = 43
+trigger3 = StateNo = 3600 && Time = 43
+trigger4 = StateNo = 4001 && Time = 9
+trigger5 = StateNo = 4101 && AnimElem = 34
 time = 2
 timeGap = 1
 frameGap = 10
 length = 21
-palcolor = 250
-palinvertall = 0
-palbright = 200,100,0
-palcontrast = 200,100,0
-palpostbright = 0,0,0
-paladd = 200,100,10
-palmul = 0.4,0.2,0.1
-trans=add1
+palBright = 0,0,0
+palContrast = 160,32,32
+palPostBright = 0,0,0
+palAdd = 0,0,0
+palMul= 0.75,0.75,0.75
+trans = Add1
 
 [State -3, AfterImage Persist]
 type = AfterImageTime
@@ -6458,49 +5807,16 @@ trigger1 = StateNo = 50 || (StateNo = [600,699])
 trigger1 = (var(3) = 2 || var(3) = 3) && vel y < -1
 trigger2 = var(20)
 trigger3 = StateNo = [700,715]
-trigger4 = (StateNo = [3000,4999]) && StateNo != 3701
-trigger5 = StateNo = 5983 && AnimElemTime(3) < 0
-trigger6 = StateNo = 3701 && AnimElemTime(29) < 0
-trigger7 = StateNo = 3701 && AnimElemTime(30) >= 0
+trigger4 = (StateNo = [3000,4999]) && StateNo != 4111
+trigger5 = StateNo = 1600 || StateNo = 6806 || StateNo = 6808
 time = 2
 
-[State -3, System Corner Push]
-type = varset
-trigger1 = fvar(5)
-trigger1 = numtarget
-trigger1 = target, hitover || (target, gethitvar(hitshaketime) > 0 && target, time <= 0)
-fvar(5) = 0
-
-[State -3, Corner Push]
-type = varset
-trigger1 = movecontact = 1 && numtarget
-fvar(5) = target, gethitvar(xvel)
-ignorehitpause = 1
-
-[State -3, Corner Push]
-type = posadd
-triggerall = fvar(5)
-triggerall = (statetype = S || statetype = C) && numtarget
-triggerall = !hitpausetime && target, gethitvar(hitshaketime) <= 0
-triggerall = (target, statetype = S || target, statetype = C) && !(target, gethitvar(yvel)) && !(target, hitfall)
-trigger1 = target, frontedgebodydist <= abs(target, vel x)
-trigger1 = (target, gethitvar(xvel) * target, facing) > 0
-trigger2 = target, backedgebodydist <= abs(target, vel x)
-trigger2 = (target, gethitvar(xvel) * target, facing) < 0
-x = ifelse(target, frontedgebodydist <= 0, -1, 1) * (target, facing) * fvar(5)
-
-[State -3, Corner Push]
-type = varset
-trigger1 = fvar(5)
-trigger1 = abs(fvar(5)) < 1.0
-fvar(5) = 0
-
-[State -3, Corner Push]
-type = varset
-trigger1 = numtarget
-trigger1 = target, gethitvar(hitshaketime) <= 0
-fvar(5) = fvar(5) * 0.85
-
+[State -3, AfterImage Off]
+type = AfterImageTime
+triggerAll = Time <= 1
+trigger1 = StateNo = 3000 || StateNo = 3050 || StateNo = 3100 || StateNo = 3150 || StateNo = 3200 || StateNo = 3250
+trigger2 = StateNo = 3300
+time = 0
 
 [State -3, Underground Juggle Prevention]
 type = TargetBind
@@ -6522,9 +5838,9 @@ type = PlayerPush
 triggerAll = StateType = A && MoveType != H && NumEnemy
 triggerAll = P2BodyDist x = [-(EnemyNear, const(size.ground.back) + EnemyNear, const(size.ground.front)), 0]
 trigger1 = P2StateType = S
-trigger1 = P2Dist y >= (EnemyNear, const(size.height) - 12)
+trigger1 = P2Dist y >= (EnemyNear, const(size.height) - 34)
 trigger2 = P2StateType = C
-trigger2 = P2Dist y >= (EnemyNear, const(size.height) - 28)
+trigger2 = P2Dist y >= (EnemyNear, const(size.height) - 50)
 trigger3 = P2StateType = L
 trigger3 = P2Dist y >= 12
 value = 0
@@ -6566,23 +5882,29 @@ trigger1 = (PrevStateNo = [130,131]) || (PrevStateNo = [140,141]) || (PrevStateN
 flag = NoKOsnd
 ignoreHitPause = 1
 
+[State -3, Stop Guarding Voice]
+type = StopSnd
+trigger1 = StateNo = [120,155]
+channel = 0
+
 [State -3, Custom Combo Finish]
 type = Helper
 triggerAll = WinKO && var(20)
 triggerAll = RoundState = 3 && !NumHelper(8600)
 trigger1 = MoveHit = [1,4]
-trigger2 = NumHelper(1005)
-trigger2 = (Helper(1005), StateNo = [1005,1007]) && (Helper(1005), var(18))
-trigger3 = StateNo = 810 && (AnimElemTime(9) = [0, 1])
-trigger4 = StateNo = 821 && (AnimElemTime(3) = [0, 1])
-trigger5 = StateNo = 830 && (AnimElemTime(5) = [0, 1])
-trigger6 = StateNo = 861 && (AnimElemTime(2) = [0, 1])
-trigger6 = Anim = 862 + (var(40) = 1)
+trigger2 = StateNo = 810 && (AnimElemTime(9) = [2,3])
+trigger3 = (StateNo = [820,821]) && (AnimElemTime(3) = [0, 1])
+trigger4 = StateNo = 830 && (AnimElemTime(7) = [1,2])
+trigger5 = StateNo = 861 && (AnimElemTime(13) = [2,3])
+trigger6 = NumHelper(1005)
+trigger6 = (Helper(1005), StateNo = [1005,1007]) && (Helper(1005), var(18))
+trigger7 = NumHelper(1035)
+trigger7 = (Helper(1035), StateNo = [1035,1037]) && (Helper(1035), var(18))
 helperType = Normal
 stateNo = 8600
 ID = 8600 + 0 * (var(23) := 900)
 name = "Super Finish"
-posType = left
+posType = Left
 pos = 160, -120
 ownPal = 1
 pauseMoveTime = 255
@@ -6595,20 +5917,28 @@ triggerAll = WinKO
 triggerAll = RoundState = 3 && !NumHelper(8600)
 trigger1 = MoveHit = 1 && (StateNo = [3000,4999])
 trigger1 = var(23) := StateNo
-trigger2 = (StateNo = [3000,3050])
+trigger2 = StateNo = 3000
 trigger2 = var(23) := 3000
-trigger3 = (StateNo = [3100,3150])
-trigger3 = var(23) := 3100
-trigger4 = (StateNo = [3200,3299])
-trigger4 = var(23) := 3200
-trigger5 = StateNo = 3300
-trigger5 = var(23) := 3300
-trigger6 = StateNo = 3400
-trigger6 = var(23) := 3400
-trigger7 = (StateNo = [3500,3599])
-trigger7 = var(23) := 3500
-trigger8 = (StateNo = [3700,3799])
-trigger8 = var(23) := 3700
+trigger3 = StateNo = 3050
+trigger3 = var(23) := 3050
+trigger4 = StateNo = 3100
+trigger4 = var(23) := 3100
+trigger5 = StateNo = 3150
+trigger5 = var(23) := 3150
+trigger6 = StateNo = [3200,3299]
+trigger6 = var(23) := 3200
+trigger7 = StateNo = 3312
+trigger7 = var(23) := 3300
+trigger8 = StateNo = 3450
+trigger8 = var(23) := 3400
+trigger9 = StateNo = 3510
+trigger9 = var(23) := 3500
+trigger10 = StateNo = [3600,3699]
+trigger10 = var(23) := 3600
+trigger11 = StateNo = [4100,4199]
+trigger11 = var(23) := 4100
+trigger12 = StateNo = [4200,4299]
+trigger12 = var(23) := 4200
 helperType = Normal
 stateNo = 8600
 ID = 8600

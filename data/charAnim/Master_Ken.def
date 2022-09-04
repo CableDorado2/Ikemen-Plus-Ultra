@@ -22,30 +22,30 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-   0, 0, data\charTrash\Master_Ken\s003.png,  28,101
-   0, 1, data\charTrash\Master_Ken\s004.png,  28, 99
-   0, 2, data\charTrash\Master_Ken\s005.png,  28,101
-   0, 3, data\charTrash\Master_Ken\s006.png,  28,104
-   0, 4, data\charTrash\Master_Ken\s007.png,  28,104
-   0, 5, data\charTrash\Master_Ken\s008.png,  28,103
-   0, 6, data\charTrash\Master_Ken\s009.png,  28,102
- 181, 0, data\charTrash\Master_Ken\s097.png,  28,104
- 181, 1, data\charTrash\Master_Ken\s098.png,  26,108
- 181, 2, data\charTrash\Master_Ken\s099.png,  26,131
- 181, 3, data\charTrash\Master_Ken\s100.png,  26,129
-5040, 2, data\charTrash\Master_Ken\s694.png,  42, 64
-5040, 3, data\charTrash\Master_Ken\s695.png,  51, 45
-5040,10, data\charTrash\Master_Ken\s696.png,  52, 36
-5040,11, data\charTrash\Master_Ken\s697.png,  52, 36
-5040,20, data\charTrash\Master_Ken\s698.png,  52, 56
-5300, 0, data\charTrash\Master_Ken\s730.png,  31, 99
-5300, 1, data\charTrash\Master_Ken\s731.png,  31, 98
-5300, 2, data\charTrash\Master_Ken\s732.png,  32, 97
-5300, 3, data\charTrash\Master_Ken\s733.png,  32, 97
-5300, 4, data\charTrash\Master_Ken\s734.png,  32,100
-5300, 5, data\charTrash\Master_Ken\s735.png,  31,100
-5950, 0, data\charTrash\Master_Ken\s748.png,  34, 97
-5950, 1, data\charTrash\Master_Ken\s749.png,  29, 70
-5950, 2, data\charTrash\Master_Ken\s750.png,  29, 73
-5950, 3, data\charTrash\Master_Ken\s751.png,  34, 67
-5950, 4, data\charTrash\Master_Ken\s752.png,  43, 60
+   0, 0, data\charTrash\Master_Ken\s001.png,  26,101
+   0, 1, data\charTrash\Master_Ken\s002.png,  26, 99
+   0, 2, data\charTrash\Master_Ken\s003.png,  26,101
+   0, 3, data\charTrash\Master_Ken\s004.png,  26,104
+   0, 4, data\charTrash\Master_Ken\s005.png,  26,104
+   0, 6, data\charTrash\Master_Ken\s007.png,  26,102
+   0, 7, data\charTrash\Master_Ken\s008.png,  26,102
+ 181, 0, data\charTrash\Master_Ken\s108.png,  26,104
+ 181, 1, data\charTrash\Master_Ken\s109.png,  24,108
+ 181, 2, data\charTrash\Master_Ken\s110.png,  24,131
+ 181, 3, data\charTrash\Master_Ken\s111.png,  24,129
+5040, 2, data\charTrash\Master_Ken\s700.png,  50, 61
+5040, 3, data\charTrash\Master_Ken\s701.png,  49, 49
+5040, 4, data\charTrash\Master_Ken\s702.png,  50, 42
+5040,10, data\charTrash\Master_Ken\s703.png,  50, 42
+5040,20, data\charTrash\Master_Ken\s704.png,  50, 60
+5300, 0, data\charTrash\Master_Ken\s736.png,  29, 99
+5300, 1, data\charTrash\Master_Ken\s737.png,  29, 98
+5300, 2, data\charTrash\Master_Ken\s738.png,  30, 97
+5300, 3, data\charTrash\Master_Ken\s739.png,  30, 97
+5300, 4, data\charTrash\Master_Ken\s740.png,  30,100
+5300, 5, data\charTrash\Master_Ken\s741.png,  29,100
+5950, 0, data\charTrash\Master_Ken\s755.png,  32, 97
+5950, 1, data\charTrash\Master_Ken\s756.png,  27, 70
+5950, 2, data\charTrash\Master_Ken\s757.png,  27, 73
+5950, 3, data\charTrash\Master_Ken\s758.png,  32, 67
+5950, 4, data\charTrash\Master_Ken\s759.png,  41, 60

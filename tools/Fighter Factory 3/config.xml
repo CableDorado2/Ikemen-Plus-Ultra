@@ -85,10 +85,10 @@
     <config name="use_opengl" value="false"/>
     <config name="window_height" value="838"/>
     <config name="window_left" value="0"/>
-    <config name="window_state" value="2"/>
+    <config name="window_state" value="10"/>
     <config name="window_top" value="22"/>
     <config name="window_width" value="1440"/>
     <config name="zoom_center" value=""/>
-    <config name="zoom_level" value="1"/>
+    <config name="zoom_level" value="3"/>
     <config name="zoom_mode" value="1"/>
 </configuration>

@@ -1,6 +1,6 @@
-ï»¿; _________________________________________
-;| Ken by Phantom.of.the.Server & Jmorphman|
-; î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤î‡¤?
+; _________________________________________
+;| Ken by Jmorphman                        |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;==============================================================================================
 ;=======================================<INITIALIZE>===========================================
 ;==============================================================================================
@@ -9,31 +9,21 @@ type = S
 
 [State 5900, Int VarReset]
 type = VarRangeSet
-trigger1 = !time
-fvalue = 0
-first=1
-last=39
+trigger1 = !RoundsExisted
+value = 0
 
 [State 5900, Float VarReset]
 type = VarRangeSet
-trigger1 = !time
-value = 0
-first=2
-last=49
+trigger1 = !RoundsExisted
+fvalue = 0
 
 [State 5900, Mode Detection]
 type = VarSet
 trigger1 = 1
-var(40) = ifElse(PalNo = 9 || PalNo = 12, 2, ifElse((PalNo > 6), 1, 0))
+var(40) = ifElse(PalNo <= 3, 0, ifElse(PalNo <= 6, 3, ifElse(PalNo <= 9, 1, 2)))
 ignoreHitPause = 1
-
-[state 5900, dizzy threshold]
-type = varset
-trigger1 = !time
-var(38) = IfElse(var(40)=2,150,IfElse(var(40)=1,100,120))
 
 [State 5900, End]
 type = ChangeState
-trigger1 = time
+trigger1 = 1
 value = 5901
-

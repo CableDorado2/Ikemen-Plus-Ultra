@@ -1,0 +1,104 @@
+; ______________________________
+;| Ryu by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;===================<CONSTANTS>================
+
+[Data]
+life = 1000
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 20
+airjuggle = 15
+sparkno = s7010
+guard.sparkno = s7000
+KO.echo = 0
+volumescale = 100
+IntPersistIndex = 0
+FloatPersistIndex = 0
+
+[Size]
+xscale = 1
+yscale = 1
+ground.back = 18
+ground.front = 18
+air.back = 18
+air.front = 18
+height = 60
+attack.dist = 160
+proj.attack.dist = 80
+proj.doscale = 0
+head.pos = -1, -92
+mid.pos = -3, -58
+shadowoffset = 0
+draw.offset = 0, 0
+
+[Velocity]
+walk.fwd = 3.08
+walk.back = -2.05
+run.fwd = 5.75, 0
+run.back = -10, 0
+jump.neu = 0, -9.588
+jump.fwd = 3.500
+jump.back = -4.195
+runjump.fwd = 5.250, -11.026
+runjump.back = -6.292, -11.026
+air.gethit.groundrecover = -8.0, 0
+air.gethit.airrecover.mul = 0, 0
+air.gethit.airrecover.add = 0, -7.55
+air.gethit.airrecover.back = -3.50
+air.gethit.airrecover.fwd = 3.50
+air.gethit.airrecover.up = 0
+air.gethit.airrecover.down = 0
+
+[Movement]
+airjump.num = 0
+airjump.height = 0
+yaccel = 0.518
+stand.friction = 0.85
+crouch.friction = 0.85
+stand.friction.threshold = 1.0
+crouch.friction.threshold = 1.0
+air.gethit.groundlevel = 0
+air.gethit.groundrecover.ground.threshold = -20
+air.gethit.groundrecover.groundlevel = 0
+air.gethit.airrecover.threshold = -1
+air.gethit.airrecover.yaccel = 0.6275
+air.gethit.trip.groundlevel = 0
+down.bounce.offset = 0, 0
+down.bounce.yaccel = 0.5
+down.bounce.groundlevel = 0
+down.friction.threshold = 2.0
+
+[Quotes]
+;Ryu
+victory1 = "You must defeat my Shoryuken to stand a chance."
+victory2 = "Whether we win or lose, all of our battles make us stronger."
+victory3 = "A defeat learned from is more important than an empty victory."
+victory4 = "You still have a fighting spirit in your eyes. I look forward to our next battle."
+victory5 = "Range... Speed... Priority... Know and master all your attacks."
+victory6 = "Trying something new is to explore your true potential."
+victory7 = "I noticed the spirit of a true warrior within your fists."
+victory8 = "The world is waiting, I must leave you now."
+victory9 = "In order to win, you must first believe you can win."
+victory10 = "Train yourself well, then challenge me again."
+victory11 = "I hope you learned from our battle."
+victory12 = "Stand up and face me again. I have yet to see your best."
+
+victory30 = "Each time I fight you, I feel something new and different...";Ken
+victory31 = "May that scar be a reminder to the both of us...";Sagat
+victory32 = "There are no shortcuts in the path of the warrior.";Akuma
+victory33 = "I still have much to learn before I can teach you.";Sakura
+victory34 = "A new body won't save your corrupted spirit.";Dictator
+victory35 = "Ken...! What's happened to you?";V. Ken
+
+;Evil Ryu
+victory50 = "There is no place for the weak to exist!"
+victory51 = "To lose is to prove that you are worthy to perish!"
+victory52 = "Your life is not the only thing that you are risking in battle!"
+victory53 = "To be the strongest means to be the last one standing."
+victory54 = "There's nothing to lose, when there's nothing to gain."
+
+victory80 = "I am the true master of the fist!";Akuma
+victory81 = "Be thankful I only gave you new scars!";Sagat

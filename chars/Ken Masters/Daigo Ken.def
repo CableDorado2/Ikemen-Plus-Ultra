@@ -1,0 +1,56 @@
+; _______________________________________________
+;| Ken Masters by Jmorphman						 |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;====================<DEFINITION>====================
+[Info]
+name        = "Daigo Ken"
+displayName = "Daigo Ken"
+versionDate = 10,14,2020
+mugenVersion= 1.0
+author      = "Jmorphman"
+pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
+localCoord  = 320,240
+
+[Files]
+cmd     = Command.cmd
+cns     = Constants.cns
+st      = States/System.st
+st1     = States/Normal.st
+st2     = States/Special.st
+st3     = States/Super.st
+st4     = States/Helpers.st
+st5     = States/SFIIIKen.st
+stCommon= common1.cns
+sprite  = DSprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+pal1	= Palettes/SFIIIDefault.act
+pal2	= Palettes/Kirishima_SFIII_HK.act
+pal3	= Palettes/Cyclysm_Brown.act
+pal4	= Palettes/Cyclysm_SFIII_S+MK.act
+pal5	= Palettes/Kirishima_SFIII_S+HK.act
+pal6	= Palettes/MC2_SFIII_S+HP.act
+pal7	= Palettes/Cyclysm_SFIV.act
+pal8	= Palettes/Takato-kun_Aqua.act
+pal9	= Palettes/Kirishima_SFIII_LP+MK+HP.act
+pal10	= Palettes/Chosis_Cody.act
+pal11	= Palettes/Kirishima_SFIII_S+MP.act
+pal12	= Palettes/MalaDingDong_SVCArtBust.act
+
+[Palette Keymap]
+a = 4
+b = 5
+c = 6
+x = 1
+y = 2
+z = 3
+a2 = 10
+b2 = 11
+c2 = 12
+x2 = 7
+y2 = 8
+z2 = 9
+
+;[Arcade]
+;intro.storyBoard = intro.def
+;ending.storyBoard = ending.def

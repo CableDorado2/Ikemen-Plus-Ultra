@@ -169,7 +169,7 @@ randomselect
 Catwalk, stages/Neo-Geo Land.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
 Strength Training, stages/Sunday Afternoon.def, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
 Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
-Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=5
+Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=6
 ;===========================================================
 ; BOSS CHARACTERS
 ;===========================================================
@@ -184,11 +184,12 @@ Kung Fu Girl/Another/Another Kung Fu Girl.def, boss=1, order=5
 ;===========================================================
 ; SECRETS/HIDDEN CHARACTERS
 ;===========================================================
-Dragon Claw, stages/Mountain Valley.def, order=3
+Dragon Claw, stages/Mountain Valley.def, order=4
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=1
 Kung Fu Girl/KFG/KFG.def, stages/Sakura.def, order=2
 Kyo Kusanagi/EX/EX Kyo.def, stages/Neo-Geo Land.def, order=3
-Training, winscreen=0, exclude=1, order=5
+Ken Masters/Daigo Ken.def, order=4
+Training, winscreen=0, exclude=1, order=6
 ;===========================================================
 ; HOW TO ADD STAGES
 ;===========================================================

@@ -525,7 +525,6 @@ require('script.randomtest')
 assert(loadfile('script/parser.lua'))()
 require('script.options')
 require('script.select')
-require('script.continue')
 require('script.storyboard')
 
 --;===========================================================
@@ -701,7 +700,6 @@ txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
 function f_clock() --Just a clock
-	--os.clock()
 	if data.clockSeconds == false then
 		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
 	else

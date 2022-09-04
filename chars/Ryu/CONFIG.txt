@@ -1,0 +1,41 @@
+; ______________________________
+;| Ryu by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;==============================================================================================
+;==================================< CONFIGURATION FILE >======================================
+;==============================================================================================
+
+;==============================================================================================
+[Statedef 5901];NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-N
+type = S;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO
+[State 5901, Var];NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO
+type = varset;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-
+trigger1 = 1;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-N
+
+
+
+;--- COMMON EFFECTS ---
+;Set the variable below to 1 for custom effects, or 0 to use your screenpack's effects
+;Currently only the hit sparks and super pause effects are supported
+
+fvar(31) = 1
+
+
+
+[State 5901, Var];NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO
+type = varset;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-
+trigger1 = 1;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-N
+
+
+
+;--- STUN SYSTEM ---
+;Set the variable below to 1 to enable Stun, or 0 to disable it
+
+fvar(33) = 1
+
+
+
+[State 5901, End];NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO
+type = changestate;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-N
+trigger1 = 1;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-N
+value = 5902;NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-NO-N

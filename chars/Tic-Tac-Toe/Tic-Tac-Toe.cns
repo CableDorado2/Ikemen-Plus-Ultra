@@ -127,6 +127,11 @@ type=Changestate
 trigger1=!Alive
 value=5150
 
+[State 500, No Bars]
+type = assertspecial
+trigger1 = !numpartner && numenemy <= 1
+flag = nobardisplay
+
 ; Command State
 [Statedef 1]
 type = S
