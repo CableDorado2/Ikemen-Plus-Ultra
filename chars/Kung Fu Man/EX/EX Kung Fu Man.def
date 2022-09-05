@@ -1,0 +1,26 @@
+; ここにキャラ情報を書いてください
+[Info]
+name = "EX Kung Fu Man"        ;キャラの名前
+displayname = "EX Kung Fu Man" ;表示されるキャラの名前
+versiondate = 11,22,2000    ;キャラの更新情報
+mugenversion = 11,22,2000   ;キャラが動くmugenのバージョン
+author = "mage"         ;キャラの製作者名
+pal.defaults = 1      ;敵としてでるキャラのパレット
+
+; Files for the player
+[Files]
+cmd     = kfm_k.cmd   ;キャラのコマンド
+cns     = kfm_k.cns   ;キャラのプログラム
+st      = kfm_k.cns   ;基本動作、必殺技、特殊ゲージ、-2、-3
+st2     = kfm_k2.cns  ;超必殺技
+st3     = kfm_k3.cns  ;表示エフェクト
+stcommon = common1.cns 
+sprite  = kfm_k.sff   ;キャラの絵
+anim    = kfm_k.air   ;キャラの動き
+sound   = kfm_k.snd   ;キャラの音
+pal1    = kfm_k2.act
+pal2    = kfm_k4.act
+pal3    = kfm_k3.act
+pal4    = kfm_k.act
+pal5    = kfm_k2.act
+pal6    = kfm_k4.act

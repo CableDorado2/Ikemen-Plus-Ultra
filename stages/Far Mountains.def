@@ -1,0 +1,355 @@
+
+;====================================================================
+
+[Info]
+ ;Name of the stage.
+name = "Far Mountains"
+Author= "Charles2011"
+
+;====================================================================
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -160
+boundright = 160
+boundhigh = -160
+boundlow=0
+verticalfollow=1
+tension=50
+floortension=150
+
+	;;--- * v1.1 (zoom) *---
+	;;cuthigh=30
+	cutlow=10
+	;;---
+	overdrawhigh=5
+	overdrawlow=5
+	;;---
+	tensionhigh=85 ;;t_hi
+	tensionlow=25
+	startzoom=1
+	zoomout=0.85 ;;c_zo
+	zoomin=1.25 ;;c_zi
+	;;--- * v1.1 (zoom) *---
+
+;====================================================================
+
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70          
+p1starty = 0           
+p1startz = 0            
+p1facing = 1            
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz = 0
+botz = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 220
+autoturn = 1
+resetBG = 0
+
+;====================================================================
+
+[Shadow]
+	color=0,0,0
+	intensity=190
+;;	reflect=0;1
+	yscale=0.10
+	fade.range=-120,0
+;[Reflection]
+;	intensity=64
+
+;====================================================================
+
+[Music]
+bgmusic = sound/Far Mountains.mp3
+bgvolume = 255
+
+;====================================================================
+
+; Main background definition
+[BGdef]
+ ;Filename of sprite data
+spr = Far Mountains.sff
+
+;====================================================================
+
+[BG] ; Color
+type  = normal
+spriteno = 444,222
+start = -200,85
+delta = .561,0.76
+mask  = 1
+tile=1,1
+tilespacing=-1,-1
+scalestart=0.85,0.85
+zoomdelta=0.76
+
+;===================
+
+[BG] ; Sky
+type  = normal
+spriteno = 444,444
+start = -200,85
+delta = .561,0.76
+mask  = 1
+tile=1,0
+tilespacing=-1,0
+scalestart=0.30,0.30
+zoomdelta=0.76
+
+;===================
+
+[BG] ; Moon
+type  = normal
+spriteno = 444,111
+start = -200,-115
+delta = .561,0.76
+mask  = 1
+scalestart=0.75,0.75
+zoomdelta=0.76
+
+;===================
+
+[BG clouds]
+type  = normal
+spriteno = 444,333
+start = 0,-200
+delta = .561,0.76
+tile = 1, 0
+tilespacing = 0, 0
+velocity = .1, 0
+trans=add
+scalestart=0.85,0.85
+zoomdelta=0.76
+
+;====================================================================
+
+[BG] ; Color 2
+type  = normal
+spriteno = 4444,4444
+start = 0,155
+delta = .831,0.76
+mask  = 1
+tile=1,0
+tilespacing=-1,0
+scalestart=0.45,0.45
+zoomdelta=0.76
+
+;====================================================================
+
+[BG] ; Color
+type  = normal
+spriteno = 5555,5555
+start = 0,189
+delta = .841,0.76
+trans = none
+mask  = 1
+tile=1,0
+tilespacing=-1,0
+scalestart=0.45,0.45
+zoomdelta=0.76
+
+;====================================================================
+
+[BG] ; Mountain Back 2
+type  = normal
+spriteno = 33,33
+start = -70,115
+delta = .631,0.76
+trans = none
+mask  = 1
+scalestart=0.35,0.35
+zoomdelta=0.76
+
+;====================================================================
+
+[BG] ; Mountain Back 1
+type  = anim
+layerno = 0
+actionno = 5
+start = -0,30
+delta = .671,0.76
+mask  = 1
+tile=1,0
+tilespacing=430,0
+scalestart=0.75,0.75
+zoomdelta=0.76
+
+[Begin action 5]
+5,7, 0,0, 5
+5,6, 0,0, 5
+5,5, 0,0, 5
+5,4, 0,0, 5
+5,3, 0,0, 5
+5,2, 0,0, 5
+5,1, 0,0, 5
+5,0, 0,0, 5
+
+;=====================================
+
+[BG] ; Mountain Front
+type  = anim
+layerno = 0
+actionno = 6
+start = -0,30
+delta = .741,0.76
+mask  = 1
+tile=1,0
+tilespacing=592,0
+scalestart=0.75,0.75
+zoomdelta=0.76
+
+[Begin action 6]
+6,0, 0,0, 4
+6,1, 0,0, 4
+6,2, 0,0, 4
+6,3, 0,0, 4
+6,4, 0,0, 4
+6,5, 0,0, 4
+6,6, 0,0, 4
+6,7, 0,0, 4
+
+;==========================================================
+
+[BG Sand] ; Back
+        type = Normal
+        spriteno = 88,0
+        start = 0,145
+        delta = .841,0.83
+        mask = 1
+        tile = 1,0
+        tilespacing =0,0
+        velocity = .7,0
+        trans = add
+        alpha = 150,256
+        scalestart= 0.35,0.35
+        zoomdelta= 0.83
+
+;=========================
+
+[BG] ; Rock
+type  = normal
+spriteno = 2222,1
+start = -300,-35
+delta = .771,0.83
+mask  = 1
+scalestart=0.75,0.75
+zoomdelta=0.83
+
+;=========================
+
+[BG] ; Column X3
+type  = normal
+spriteno = 22,0
+start = -310,-100
+delta = .841,0.83
+mask  = 1
+tile=3,0
+tilespacing=170,0
+scalestart=0.85,0.85
+zoomdelta=0.83
+
+[BG] ; Column destroy
+type  = normal
+spriteno = 22,1
+start = 263,-100
+delta = .841,0.83
+mask  = 1
+scalestart=0.85,0.85
+zoomdelta=0.83
+
+[BG Sand] ; Front
+        type = Normal
+        spriteno = 88,0
+        start = 0,160
+        delta = .841,0.85
+        mask = 1
+        tile = 1,0
+        tilespacing =0,0
+        velocity = .9,0
+        trans = add
+        alpha = 150,256
+        scalestart= 0.35,0.35
+        zoomdelta= 0.85
+
+;==========================================================
+
+[BG Floor 2]
+type  = normal
+spriteno = 11,0
+start = -114,4
+delta = .921,1
+mask=1
+
+;==========================================================
+
+[BG Floor]
+type  = parallax
+spriteno = 0,0
+start = 0,4
+delta = .905,1
+xscale = 1,1.35
+mask=0
+
+;==========================================================
+
+[BG 0] ; Grass/Plants - Left
+type  = anim
+actionno = 33              
+start = -461,256
+delta=1.5,1.2
+scalestart=0.85,0.85
+layerno = 1  
+
+[Begin action 33]
+3,0, 0,0, 7
+3,1, 0,0, 7
+3,2, 0,0, 7
+3,3, 0,0, 7
+
+[BG 0] ; Grass/Plants - Right
+type  = anim
+actionno = 33              
+start = 75,270
+delta=1.5,1.2
+scalestart=0.85,0.85
+layerno = 1  
+
+[Begin action 33]
+3,0, 0,0, 7
+3,1, 0,0, 7
+3,2, 0,0, 7
+3,3, 0,0, 7
+
+;====================
+
+[BG] ; Rocks
+type  = normal
+spriteno = 333,0
+start = 50,253
+delta=1.5,1.2
+mask=1
+scalestart=1.0,1.0
+layerno = 1 

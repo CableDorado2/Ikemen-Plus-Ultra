@@ -1,0 +1,180 @@
+
+;--------------------------------------------------------
+[Info]
+name		= "Training Room"
+Author		= "The Pierrot"
+displayname	= "Training Room [HD]"
+versiondate	= 04,28,2019
+mugenversion	= 1.1
+author		= "Beterhans"
+
+[Camera]
+startx		= 0
+starty		= 0
+boundleft	= -1420
+boundright	= 1420
+boundhigh	= -1400
+boundlow	= 0
+tension		= 400
+tensionhigh	= 300	;Y Pos camera start to go up (from up to player pos)
+tensionlow	= 280	;Y Pos Camera start to zoom out (from up to player pos)
+startzoom	= 1
+zoomin		= 0.8
+zoomout		= 0.5
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx	= -280          ;Starting x coordinates
+p1starty	= 0            ;Starting y coordinates
+p1facing	= 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx	= 280
+p2starty	= 0
+p2facing	= -1
+
+;--- Player 3 ---
+p3startx	= -460          ;Starting x coordinates
+p3starty	= 0            ;Starting y coordinates
+p3facing	= 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 4 ---
+p4startx	= 460
+p4starty	= 0
+p4facing	= -1
+
+;--- Common ---
+;Don't change these values.
+leftbound	= -2750 ;Left bound (x-movement)
+rightbound	= 2750 ;Right bound
+topbound	=  0     ;Top bound (z-movement)
+botbound	=  0     ;Bottom bound
+
+;--------------------------------------------------------
+[Scaling]
+;No need to change these values
+topz     = 0       ;Top z-coordinate for scaling
+botz     = 50      ;Bottom z-coordinate for scaling
+topscale = 1       ;Scale to use at top
+botscale = 1.2     ;Scale to use at bottom
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 80  ;Dist from left of screen that player can move to
+screenright = 80  ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset			= 0				;Calculatred
+zoffsetlink		= 3
+autoturn		= 1
+resetBG			= 0  
+localcoord		= 1280,720
+xscale			= 1
+yscale			= 1
+xshear			= 0
+
+;--------------------------------------------------------
+[Reflection]
+intensity		= 0
+
+[Shadow]
+intensity		= 60
+color			= 0,0,0
+yscale			= -0.2
+reflect			= 1
+fade.range		= -300,-40
+
+;--------------------------------------------------------
+[Music]
+bgmusic 		= sound/Training Room.mp3
+bgm.loop		= 1
+bgmloopstart		= 304
+bgmloopend		= -1
+bgmvolume		= 100
+
+;Main background definition
+[BGdef]
+spr			= Training Room.sff
+debugbg			= 0
+;--------------------------------------------------------
+;----------------------- BG Elements --------------------
+[BG BG]
+type		= normal
+spriteno	= 2,0
+start		= 0, 0
+delta		= 0, 0
+trans		= none
+mask		= 0
+scalestart	= 2.4, 2.4
+tile		= 1, 1
+
+
+[BG Ceiling]
+type		= parallax
+spriteno	= 3,0
+start		= 0,-450
+trans		= none
+mask		= 1
+delta		= 1, 1
+xscale		= 1, 0.307
+scalestart	= 2.4, 2.4
+yscalestart	= 100
+;yscaledelta	= 
+zoomdelta	= 1
+ID		= 2
+
+[BG Floor]
+type		= parallax
+spriteno	= 3,1
+start		= 0,640
+trans		= none
+mask		= 1
+delta		= 0.307, 1
+xscale		= 0.307, 1.55186
+scalestart	= 2.4, 2.4
+yscalestart	= 100
+;yscaledelta	= 
+zoomdelta	= 1
+ID		= 3
+
+[BG Back]
+type  = normal
+spriteno = 2,0
+start = 0, 412
+delta = 0.307, 1
+trans = none
+mask = 1
+scalestart = 2.4, 2.4
+ID = 2
+
+
+
+[BG Wall_Left]
+type		= normal
+spriteno	= 3, 2
+start		= -836, 414
+delta		= 0.307, 1
+mask		= 1
+trans		= none
+scalestart	= 2.4, 2.4
+scaledelta	= 0.00312,0	;X left and righ difference
+zoomdelta	= 1
+ID		= 32
+
+[BG Wall_Right]
+type		= normal
+spriteno	= 3, 3
+start		= 836, 414
+delta		= 0.307, 1
+mask		= 1
+trans		= none
+scalestart	= 2.4, 2.4
+scaledelta	= -0.00312,0	;X left and righ difference
+zoomdelta	= 1
+ID		= 33
+
+

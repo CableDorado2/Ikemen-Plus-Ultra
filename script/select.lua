@@ -2959,12 +2959,44 @@ function f_continue()
 	f_gameOverReset()
 	data.continue = 0
 	local tablePos = ''
+	local tablePos2 = ''
+	local tablePos3 = ''
+	local tablePos4 = ''
 	local anim = false
+	local anim2 = false
+	local anim3 = false
+	local anim4 = false
 	local animLength = 0
+	local animLength2 = 0
+	local animLength3 = 0
+	local animLength4 = 0
 	local i = 0
-	tablePos = t_selChars[data.t_p1selected[1].cel+1]
+	if p1numChars == 1 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+	elseif p1numChars == 2 then	--Your 2nd char appears in continue screen
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+	elseif p1numChars == 3 then --Your 3rd char appears in continue screen
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+	elseif p1numChars == 4 then --Your 4th char appears in continue screen
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+		tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
+	end
 	if tablePos.sffData ~= nil and tablePos.dizzy ~= nil then
-		anim = f_animFromTable(tablePos['dizzy'], tablePos.sffData, 70, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+		anim = f_animFromTable(tablePos['dizzy'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+	end
+	if tablePos2.sffData ~= nil and tablePos2.dizzy ~= nil then
+		anim2 = f_animFromTable(tablePos2['dizzy'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
+	end
+	if tablePos3.sffData ~= nil and tablePos3.dizzy ~= nil then
+		anim3 = f_animFromTable(tablePos3['dizzy'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
+	end
+	if tablePos4.sffData ~= nil and tablePos4.dizzy ~= nil then
+		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
 	textImgSetText(txt_coins, 'COINS: ' .. data.coinsLeft)
 	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)	
@@ -2978,6 +3010,18 @@ function f_continue()
 			playBGM(bgmTitle)
 			break
 		elseif data.continue == 0 then --waiting for player's decision
+			if anim4 then
+				animDraw(anim4)
+				animUpdate(anim4)
+			end
+			if anim3 then
+				animDraw(anim3)
+				animUpdate(anim3)
+			end	
+			if anim2 then
+				animDraw(anim2)
+				animUpdate(anim2)
+			end
 			if anim then
 				animDraw(anim)
 				animUpdate(anim)
@@ -2986,9 +3030,24 @@ function f_continue()
 			end
 			if commandGetState(p1Cmd, 'holds') then
 				if tablePos.sffData ~= nil and tablePos.win ~= nil then
-					anim, animLength = f_animFromTable(tablePos['win'], tablePos.sffData, 70, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+					anim, animLength = f_animFromTable(tablePos['win'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
 				else
 					animLength = 0
+				end
+				if tablePos2.sffData ~= nil and tablePos2.win ~= nil then
+					anim2, animLength2 = f_animFromTable(tablePos2['win'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
+				else
+					animLength2 = 0
+				end
+				if tablePos3.sffData ~= nil and tablePos3.win ~= nil then
+					anim3, animLength3 = f_animFromTable(tablePos3['win'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
+				else
+					animLength3 = 0
+				end
+				if tablePos4.sffData ~= nil and tablePos4.win ~= nil then
+					anim4, animLength4 = f_animFromTable(tablePos4['win'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
+				else
+					animLength4 = 0
 				end
 				data.coinsLeft = data.coinsLeft - 1
 				data.continueCount = data.continueCount + 1
@@ -3055,16 +3114,55 @@ function f_continue()
 				sndPlay(contSnd, 0, 0)
 			end
 		elseif data.continue == 1 then --Continue = YES
-			if animLength+30 > 0 then
-				animLength = animLength - 1
-				if anim then
-					animDraw(anim)
-					if animLength > 0 then
-						animUpdate(anim)
+			if animLength4+30 > 0 then
+					animLength4 = animLength4 - 1
+					if anim4 then
+						animDraw(anim4)
+						if animLength4 > 0 then
+							animUpdate(anim4)
+						end
+					end	
+				--if animLength4 < 0 then
+					--animDraw(fadeContinue)
+					--animUpdate(fadeContinue)
+				--end
+				if animLength3+30 > 0 then
+					animLength3 = animLength3 - 1
+					if anim3 then
+						animDraw(anim3)
+						if animLength3 > 0 then
+							animUpdate(anim3)
+						end
 					end
+				end	
+				--if animLength3 < 0 then
+					--animDraw(fadeContinue)
+					--animUpdate(fadeContinue)
+				--end
+				if animLength2+30 > 0 then
+					animLength2 = animLength2 - 1
+					if anim2 then
+						animDraw(anim2)
+						if animLength2 > 0 then
+							animUpdate(anim2)
+						end
+					end
+				end	
+				--if animLength2 < 0 then
+					--animDraw(fadeContinue)
+					--animUpdate(fadeContinue)
+				--end
+				if animLength+30 > 0 then
+					animLength = animLength - 1
+					if anim then
+						animDraw(anim)
+						if animLength > 0 then
+							animUpdate(anim)
+						end
+					end
+					animDraw(contBG1)
+					animDraw(contBG2)
 				end
-				animDraw(contBG1)
-				animDraw(contBG2)
 				if animLength < 0 then
 					animDraw(fadeContinue)
 					animUpdate(fadeContinue)
@@ -3099,15 +3197,59 @@ function f_gameOver()
 	sndPlay(contSnd, 1, 0)
 	f_gameOverReset()
 	local tablePos = ''
+	local tablePos2 = ''
+	local tablePos3 = ''
+	local tablePos4 = ''
 	local anim = false
+	local anim2 = false
+	local anim3 = false
+	local anim4 = false
 	local animLength = 0
+	local animLength2 = 0
+	local animLength3 = 0
+	local animLength4 = 0
 	local i = 0
-	tablePos = t_selChars[data.t_p1selected[1].cel+1]
+	if p1numChars == 1 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+	elseif p1numChars == 2 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+	elseif p1numChars == 3 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+	elseif p1numChars == 4 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+		tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
+	end
 	if tablePos.sffData ~= nil then
 		if tablePos.cheese ~= nil then
-			anim, animLength = f_animFromTable(tablePos['cheese'], tablePos.sffData, 70, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+			anim, animLength = f_animFromTable(tablePos['cheese'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
 		elseif tablePos.lieDown ~= nil then
-			anim, animLength = f_animFromTable(tablePos['lieDown'], tablePos.sffData, 70, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+			anim, animLength = f_animFromTable(tablePos['lieDown'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+		end
+	end
+	if tablePos2.sffData ~= nil then
+		if tablePos2.cheese ~= nil then
+			anim2, animLength2 = f_animFromTable(tablePos2['cheese'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
+		elseif tablePos2.lieDown ~= nil then
+			anim2, animLength2 = f_animFromTable(tablePos2['lieDown'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
+		end
+	end
+	if tablePos3.sffData ~= nil then
+		if tablePos3.cheese ~= nil then
+			anim3, animLength3 = f_animFromTable(tablePos3['cheese'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
+		elseif tablePos3.lieDown ~= nil then
+			anim3, animLength3 = f_animFromTable(tablePos3['lieDown'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
+		end
+	end
+	if tablePos4.sffData ~= nil then
+		if tablePos4.cheese ~= nil then
+			anim4, animLength4 = f_animFromTable(tablePos4['cheese'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
+		elseif tablePos4.lieDown ~= nil then
+			anim4, animLength4 = f_animFromTable(tablePos4['lieDown'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 		end
 	end
 	cmdInput()
@@ -3119,6 +3261,27 @@ function f_gameOver()
 			playBGM(bgmTitle)
 			break
 		else
+			if anim4 then
+				animDraw(anim4)
+				animLength4 = animLength4 - 1
+				if animLength4 > 0 then
+					animUpdate(anim4)
+				end
+			end
+			if anim3 then
+				animDraw(anim3)
+				animLength3 = animLength3 - 1
+				if animLength3 > 0 then
+					animUpdate(anim3)
+				end
+			end
+			if anim2 then
+				animDraw(anim2)
+				animLength2 = animLength2 - 1
+				if animLength2 > 0 then
+					animUpdate(anim2)
+				end
+			end
 			if anim then
 				animDraw(anim)
 				animLength = animLength - 1

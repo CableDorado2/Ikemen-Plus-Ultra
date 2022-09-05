@@ -1,0 +1,196 @@
+;--------------------------------------------------------
+[Info]
+name = "New York"
+author="NeoAtlas"; Manuz then Beterhans
+mugenversion 	= 1.1
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+boundleft = -170
+boundright = 340
+boundhigh = -240
+boundlow = 0
+
+tension			= 100
+tensionhigh		= 100	;Y Pos camera start to go up (from up to player pos)
+tensionlow		= 30	;Y Pos Camera start to zoom out (from up to player pos)
+startzoom			= 1.0
+zoomin			= 0.75
+zoomout			= 0.65
+overdrawhigh		= 100
+overdrawlow		= 100
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -90          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1startz = 0            ;Starting z coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p1startx = -80          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 80
+p2starty = 0
+p2facing = -1
+
+p3startx = -140
+p3starty = 0
+p3facing = 1
+
+p4startx = 140
+p4starty = 0
+p4facing = -1
+
+;--- Common ---
+leftbound  = -1000 ;Left bound (x-movement)
+rightbound =  1000 ;Right bound
+topbound  =  0     ;Top bound (z-movement)
+botbound  =  0     ;Bottom bound
+
+;--------------------------------------------------------
+[Scaling]
+ ;No need to change these values
+topz     = 0       ;Top z-coordinate for scaling
+botz     = 50      ;Bottom z-coordinate for scaling
+topscale = 1       ;Scale to use at top
+botscale = 1.2     ;Scale to use at bottom
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 15    ;Dist from left of screen that player can move to
+screenright = 15   ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset 		= 160;220-60
+localcoord	= 320,180;240-60
+autoturn 		= 1
+resetBG 		= 0
+
+;--------------------------------------------------------
+[Shadow]
+color = 200,200,200
+yscale = -.1
+
+;--------------------------------------------------------
+[Music]
+bgmusic 		= sound/New York.mp3
+bgmvolume 	= 100
+bgmloopstart	= 2911
+bgmloopend	= 7809387
+
+;-------------------------------------
+[BGdef]
+spr = New York.sff
+debugbg = 0
+
+[BG Train Animation]
+type = anim
+actionno = 0
+start = 0,180
+delta = .8,.8
+mask = 1
+
+[BG Train]
+type = normal
+spriteno = 2,1
+start = 0,180
+delta = .7,.8
+mask = 1
+
+[BG Station]
+type  = normal
+spriteno = 2,0
+start = 0,-283
+delta = .8,.8
+mask = 1
+
+[Begin action 0]
+0, 0, 0,0, 1024
+0, 1, 0,0, 2
+0, 2, 0,0, 2
+0, 3, 0,0, 2
+0, 4, 0,0, 2
+0, 5, 0,0, 2
+0, 6, 0,0, 2
+0, 7, 0,0, 2
+0, 8, 0,0, 2
+0, 9, 0,0, 2
+0,10, 0,0, 2
+0,11, 0,0, 2
+0,11, 0,0, 2
+0,12, 0,0, 2
+0,13, 0,0, 2
+0,14, 0,0, 2
+0,15, 0,0, 2
+0,16, 0,0, 2
+0,17, 0,0, 2
+0,18, 0,0, 2
+0,19, 0,0, 2
+0,20, 0,0, 2
+0,21, 0,0, 2
+0,22, 0,0, 2
+0,23, 0,0, 2
+0,24, 0,0, 2
+0,25, 0,0, 2
+0,26, 0,0, 2
+0,27, 0,0, 2
+0,16, 0,0, 2
+0,17, 0,0, 2
+0,18, 0,0, 2
+0,19, 0,0, 2
+0,20, 0,0, 2
+0,21, 0,0, 2
+0,22, 0,0, 2
+0,23, 0,0, 2
+0,24, 0,0, 2
+0,25, 0,0, 2
+0,26, 0,0, 2
+0,27, 0,0, 2
+0,15, 0,0, 2
+0,16, 0,0, 2
+0,17, 0,0, 2
+0,18, 0,0, 2
+0,19, 0,0, 2
+0,20, 0,0, 2
+0,21, 0,0, 2
+0,22, 0,0, 2
+0,23, 0,0, 2
+0,24, 0,0, 2
+0,25, 0,0, 2
+0,26, 0,0, 2
+0,27, 0,0, 2
+0,16, 0,0, 2
+0,17, 0,0, 2
+0,18, 0,0, 2
+0,19, 0,0, 2
+0,20, 0,0, 2
+0,21, 0,0, 2
+0,22, 0,0, 2
+0,23, 0,0, 2
+0,24, 0,0, 2
+0,25, 0,0, 2
+0,26, 0,0, 2
+0,27, 0,0, 2
+0,16, 0,0, 2
+0,17, 0,0, 2
+0,18, 0,0, 2
+0,19, 0,0, 2
+0,20, 0,0, 2
+0,21, 0,0, 2
+0,22, 0,0, 2
+0,23, 0,0, 2
+0,24, 0,0, 2
+0,25, 0,0, 2
+0,26, 0,0, 2
+0,27, 0,0, 2
+0,28, 0,0, 2
+0,29, 0,0, 2
+0,30, 0,0, 2
+0,31, 0,0, 2
