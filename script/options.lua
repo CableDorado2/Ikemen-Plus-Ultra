@@ -4,6 +4,8 @@ module(..., package.seeall)
 --;===========================================================
 --; LOAD DATA
 --;===========================================================
+if onlinegame == false then
+
 --Data loading from data_sav.lua
 local file = io.open("script/data_sav.lua","r")
 s_dataLUA = file:read("*all")
@@ -26,6 +28,24 @@ bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*
 gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
 b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
 b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+
+else
+
+--Data loading from data_netsav.lua
+local file = io.open("script/data_netsav.lua","r")
+s_dataLUA = file:read("*all")
+file:close()
+
+--Data loading from netconfig.ssz
+local file = io.open("ssz/netconfig.ssz","r")
+s_configSSZ = file:read("*all")
+file:close()
+HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
+
+end
 
 --Data loading from sound.ssz
 local file = io.open("lib/sound.ssz","r")
@@ -285,8 +305,56 @@ function f_saveCfg()
 	end
 end
 
+function f_netsaveCfg()
+	-- Data saving to data_netsav.lua
+	local t_netsaves = {
+		['data.lifeMul'] = data.lifeMul,
+		['data.team1VS2Life'] = data.team1VS2Life,
+		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
+		['data.teamLifeShare'] = data.teamLifeShare,
+		['data.zoomActive'] = data.zoomActive,
+		['data.zoomMin'] = data.zoomMin,
+		['data.zoomMax'] = data.zoomMax,
+		['data.zoomSpeed'] = data.zoomSpeed,
+		['data.roundTime'] = data.roundTime,
+		['data.numTurns'] = data.numTurns,
+		['data.numSimul'] = data.numSimul,
+		['data.simulType'] = data.simulType,
+		['data.difficulty'] = data.difficulty,	
+		['data.coins'] = data.coins,
+		['data.contSelection'] = data.contSelection,
+		['data.vsDisplayWin'] = data.vsDisplayWin,		
+		['data.aiRamping'] = data.aiRamping,
+		['data.autoguard'] = data.autoguard,
+		['data.lifebar'] = data.lifebar,
+		['data.winscreen'] = data.winscreen,
+		['data.challengerScreen'] = data.challengerScreen,
+		['data.charPresentation'] = data.charPresentation
+	}
+	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
+	local file = io.open("script/data_netsav.lua","w+")
+	file:write(s_dataLUA)
+	file:close()
+	--Data saving to netconfig.ssz
+	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int AfterImageMax%s*=%s*%d+', 'const int AfterImageMax = ' .. AfterImageMaxEngine)
+	local file = io.open("ssz/netconfig.ssz","w+")
+	file:write(s_configSSZ)
+	file:close()
+	--Data saving to lifebar
+	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
+	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
+	local file = io.open(data.lifebar,"w+")
+	file:write(s_lifebarDEF)
+	file:close()
+	--Reload lifebar
+	loadLifebar(data.lifebar)
+end
+
 --;===========================================================
---; INFO BOX
+--; INFO BOXES
 --;===========================================================
 txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 13)
 t_exitInfo = {
@@ -328,8 +396,161 @@ for i=1, #t_restart do
 	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 180+i*15)
 end
 
+t_locked = {
+	{id = '', text = "This option is Unavailable in Online Mode."},
+}
+for i=1, #t_locked do
+	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 256, 210+i*15)
+end
+
+--Set Offline game Default Options shared with Online game Below
+function f_onlineDefault()
+--saves.ini
+data.lifeMul = 100
+data.team1VS2Life = 120
+data.turnsRecoveryRate = 300
+data.teamLifeShare = false
+s_teamLifeShare = 'No'
+data.zoomActive = true
+s_zoomActive = 'Yes'
+data.zoomMin = 0.75
+data.zoomMax = 1.1
+data.zoomSpeed = 1.0
+data.roundTime = 99
+data.numTurns = 4
+data.numSimul = 4
+data.simulType = 'Assist'
+data.difficulty = 8
+data.coins = 10
+data.contSelection = true
+s_contSelection = 'Yes'
+data.aiRamping = true
+s_aiRamping = 'Yes'
+data.autoguard = false
+s_autoguard = 'No'
+data.vsDisplayWin = true
+s_vsDisplayWin = 'Yes'
+data.lifebar = 'data/fight.def'
+data.winscreen = 'Classic'
+data.debugMode = false
+s_debugMode = 'Disabled'
+data.challengerScreen = true
+s_challengerScreen = 'Yes'
+data.charPresentation = 'Sprite'
+--lifebar
+roundsNum = 2
+drawNum = 2
+--config.ssz
+HelperMaxEngine = 56
+PlayerProjectileMaxEngine = 50
+ExplodMaxEngine = 256
+AfterImageMaxEngine = 8
+gameSpeed = 60
+s_gameSpeed = 'Normal'
+end
+
+--Set ONLY Offline Default Options Below
+function f_offlineDefault()
+--saves.ini
+data.language = 'ENGLISH'
+data.menuSong = 'Random'
+data.screenshotSnd = 2
+data.clockSeconds = false
+s_clockSeconds = 'No'
+data.challengerSong = 'Fixed'
+data.sffConversion = true
+data.p1Controller = -1
+data.p2Controller = -1
+--config.ssz
+f_inputDefault()
+--b_saveMemory = false
+--s_saveMemory = 'No'
+b_openGL = false
+s_openGL = 'No'
+resolutionWidth = 640
+resolutionHeight = 480
+--setGameRes(resolutionWidth,resolutionHeight)
+b_screenMode = false
+s_screenMode = 'No'
+setScreenMode(b_screenMode)
+gl_vol = 100
+se_vol = 60
+bgm_vol = 30
+setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+--sound.ssz
+freq = 48000
+channels = 2
+s_channels = 'Stereo'
+buffer = 2048
+--other
+setUserName('MUGENUSER')
+setListenPort(7500)
+end
+
+--Default Inputs Values
+function f_inputDefault()
+	if data.p1Controller ~= -1 then
+		data.p1Controller = -1
+		s_p1Controller = 'Keyboard'
+		f_swapController(0, 2, 0, -1)
+	end
+	if data.p2Controller ~= -1 then
+		data.p2Controller = -1
+		s_p2Controller = 'Keyboard'
+		f_swapController(1, 3, 1, -1)
+	end
+	t_keyCfg[1].varText = 'UP'
+	t_keyCfg[2].varText = 'DOWN'
+	t_keyCfg[3].varText = 'LEFT'
+	t_keyCfg[4].varText = 'RIGHT'
+	t_keyCfg[5].varText = 'a'
+	t_keyCfg[6].varText = 's'
+	t_keyCfg[7].varText = 'd'
+	t_keyCfg[8].varText = 'z'
+	t_keyCfg[9].varText = 'x'
+	t_keyCfg[10].varText = 'c'
+	t_keyCfg[11].varText = 'RETURN'
+	f_keySave(0,-1)
+	t_keyCfg[1].varText = 'KP_5'
+	t_keyCfg[2].varText = 'KP_2'
+	t_keyCfg[3].varText = 'KP_1'
+	t_keyCfg[4].varText = 'KP_3'
+	t_keyCfg[5].varText = 'u'
+	t_keyCfg[6].varText = 'i'
+	t_keyCfg[7].varText = 'o'
+	t_keyCfg[8].varText = 'j'
+	t_keyCfg[9].varText = 'k'
+	t_keyCfg[10].varText = 'l'
+	t_keyCfg[11].varText = 'KP_0'
+	f_keySave(1,-1)
+	t_keyCfg[1].varText = '-7'
+	t_keyCfg[2].varText = '-8'
+	t_keyCfg[3].varText = '-5'
+	t_keyCfg[4].varText = '-6'
+	t_keyCfg[5].varText = '0'
+	t_keyCfg[6].varText = '1'
+	t_keyCfg[7].varText = '4'
+	t_keyCfg[8].varText = '2'
+	t_keyCfg[9].varText = '3'
+	t_keyCfg[10].varText = '5'
+	t_keyCfg[11].varText = '7'
+	f_keySave(2,0)
+	t_keyCfg[1].varText = '-7'
+	t_keyCfg[2].varText = '-8'
+	t_keyCfg[3].varText = '-5'
+	t_keyCfg[4].varText = '-6'
+	t_keyCfg[5].varText = '0'
+	t_keyCfg[6].varText = '1'
+	t_keyCfg[7].varText = '4'
+	t_keyCfg[8].varText = '2'
+	t_keyCfg[9].varText = '3'
+	t_keyCfg[10].varText = '5'
+	t_keyCfg[11].varText = '7'
+	f_keySave(3,1)
+end
+
 --;===========================================================
---; MAIN LOOP
+--; MAIN OPTIONS LOOP
 --;===========================================================
 txt_mainCfg = createTextImg(jgFnt, 0, 0, 'OPTIONS', 159, 13)
 t_mainCfg = {
@@ -419,80 +640,8 @@ function f_mainCfg()
 			--Default Values
 			elseif mainCfg == 9 then
 				sndPlay(sysSnd, 100, 1)
-				--saves.ini
-				data.lifeMul = 100
-				data.team1VS2Life = 120
-				data.turnsRecoveryRate = 300
-				data.teamLifeShare = false
-				s_teamLifeShare = 'No'
-				data.zoomActive = true
-				s_zoomActive = 'Yes'
-				data.zoomMin = 0.75
-				data.zoomMax = 1.1
-				data.zoomSpeed = 1.0
-				data.roundTime = 99
-				data.numTurns = 4
-				data.numSimul = 4
-				data.simulType = 'Assist'
-				data.p1Controller = -1
-				data.p2Controller = -1
-				data.difficulty = 8
-				data.coins = 10
-				data.contSelection = true
-				s_contSelection = 'Yes'
-				data.aiRamping = true
-				s_aiRamping = 'Yes'
-				data.autoguard = false
-				s_autoguard = 'No'
-				data.vsDisplayWin = true
-				s_vsDisplayWin = 'Yes'
-				data.lifebar = 'data/fight.def'
-				data.sffConversion = true
-				data.language = 'ENGLISH'
-				data.menuSong = 'Random'
-				data.screenshotSnd = 1
-				data.clockSeconds = false
-				s_clockSeconds = 'No'
-				data.winscreen = 'Classic'
-				data.debugMode = false
-				s_debugMode = 'Disabled'
-				data.challengerSong = 'Fixed'
-				data.challengerScreen = true
-				s_challengerScreen = 'Yes'
-				data.charPresentation = 'Sprite'
-				--config.ssz
-				f_inputDefault()
-				--b_saveMemory = false
-				--s_saveMemory = 'No'
-				b_openGL = false
-				s_openGL = 'No'
-				resolutionWidth = 640
-				resolutionHeight = 480
-				HelperMaxEngine = 56
-				PlayerProjectileMaxEngine = 50
-				ExplodMaxEngine = 256
-				AfterImageMaxEngine = 8
-				--setGameRes(resolutionWidth,resolutionHeight)
-				b_screenMode = false
-				s_screenMode = 'No'
-				setScreenMode(b_screenMode)
-				gl_vol = 100
-				se_vol = 50
-				bgm_vol = 80
-				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
-				gameSpeed = 60
-				s_gameSpeed = 'Normal'
-				--sound.ssz
-				freq = 48000
-				channels = 2
-				s_channels = 'Stereo'
-				buffer = 2048
-				--lifebar
-				roundsNum = 2
-				drawNum = 2
-				--other
-				setUserName('MUGENUSER')
-				setListenPort(7500)
+				f_onlineDefault() --Set Default Options for Online/Offline Game
+				f_offlineDefault() --Set ONLY Default Options for Offline Game
 				modified = 1
 				needReload = 1
 			--Save and Back
@@ -538,66 +687,96 @@ function f_mainCfg()
 	end
 end
 
---Default Inputs Values
-function f_inputDefault()
-	if data.p1Controller ~= -1 then
-		data.p1Controller = -1
-		s_p1Controller = 'Keyboard'
-		f_swapController(0, 2, 0, -1)
+--;===========================================================
+--; ONLINE SETTINGS LOOP
+--;===========================================================
+txt_onlineCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
+t_onlineCfg = {
+	{id = '', text = 'Gameplay Settings'},
+	{id = '', text = 'Screenpack Settings'},
+	--{id = '', text = 'Video Settings'},
+	{id = '', text = 'Engine Settings'},
+	{id = '', text = '      SAVE AND PLAY'},
+}
+
+for i=1, #t_onlineCfg do
+	t_onlineCfg[i].id = createTextImg(font2, 0, 1, t_onlineCfg[i].text, 85, 15+i*15)
+end
+
+function f_onlineCfg()
+	f_eraseState()
+	cmdInput()
+	local onlineCfg = 1	
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	while true do
+		if esc() then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			onlineCfg = onlineCfg - 1
+			if onlineCfg < 1 then onlineCfg = #t_onlineCfg end		
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			onlineCfg = onlineCfg + 1
+			if onlineCfg > #t_onlineCfg then onlineCfg = 1 end	
+		elseif btnPalNo(p1Cmd) > 0 then
+			--Gameplay Settings
+			if onlineCfg == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_gameCfg()
+			--Screenpack Settings
+			elseif onlineCfg == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_UICfg()	
+			--Video Settings
+			--elseif onlineCfg == 3 then
+				--sndPlay(sysSnd, 100, 1)
+				--f_videoCfg()
+			--Engine Settings
+			elseif onlineCfg == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_engineCfg()	
+			--Save and Play
+			elseif onlineCfg == 4 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				if modified == 1 then
+					f_netsaveCfg()
+				end
+				if netPlayer == 'Host' then --Declared in main.lua
+					f_mainHost()
+				elseif netPlayer == 'Client' then --Declared in main.lua
+					f_mainJoin()
+				end	
+				break
+			end	
+			--Netplay Exit
+			--else
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				--sndPlay(sysSnd, 100, 2)
+				--break
+			--end		
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_onlineCfg*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_onlineCfg)
+		for i=1, #t_onlineCfg do
+			textImgDraw(t_onlineCfg[i].id)
+			if t_onlineCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, -1, t_onlineCfg[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+onlineCfg*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
-	if data.p2Controller ~= -1 then
-		data.p2Controller = -1
-		s_p2Controller = 'Keyboard'
-		f_swapController(1, 3, 1, -1)
-	end
-	t_keyCfg[1].varText = 'UP'
-	t_keyCfg[2].varText = 'DOWN'
-	t_keyCfg[3].varText = 'LEFT'
-	t_keyCfg[4].varText = 'RIGHT'
-	t_keyCfg[5].varText = 'z'
-	t_keyCfg[6].varText = 'x'
-	t_keyCfg[7].varText = 'c'
-	t_keyCfg[8].varText = 'a'
-	t_keyCfg[9].varText = 's'
-	t_keyCfg[10].varText = 'd'
-	t_keyCfg[11].varText = 'RETURN'
-	f_keySave(0,-1)
-	t_keyCfg[1].varText = 't'
-	t_keyCfg[2].varText = 'g'
-	t_keyCfg[3].varText = 'f'
-	t_keyCfg[4].varText = 'h'
-	t_keyCfg[5].varText = 'j'
-	t_keyCfg[6].varText = 'k'
-	t_keyCfg[7].varText = 'l'
-	t_keyCfg[8].varText = 'i'
-	t_keyCfg[9].varText = 'o'
-	t_keyCfg[10].varText = 'p'
-	t_keyCfg[11].varText = 'q'
-	f_keySave(1,-1)
-	t_keyCfg[1].varText = '-7'
-	t_keyCfg[2].varText = '-8'
-	t_keyCfg[3].varText = '-5'
-	t_keyCfg[4].varText = '-6'
-	t_keyCfg[5].varText = '0'
-	t_keyCfg[6].varText = '1'
-	t_keyCfg[7].varText = '4'
-	t_keyCfg[8].varText = '2'
-	t_keyCfg[9].varText = '3'
-	t_keyCfg[10].varText = '5'
-	t_keyCfg[11].varText = '7'
-	f_keySave(2,0)
-	t_keyCfg[1].varText = '-7'
-	t_keyCfg[2].varText = '-8'
-	t_keyCfg[3].varText = '-5'
-	t_keyCfg[4].varText = '-6'
-	t_keyCfg[5].varText = '0'
-	t_keyCfg[6].varText = '1'
-	t_keyCfg[7].varText = '4'
-	t_keyCfg[8].varText = '2'
-	t_keyCfg[9].varText = '3'
-	t_keyCfg[10].varText = '5'
-	t_keyCfg[11].varText = '7'
-	f_keySave(3,1)
 end
 
 --;===========================================================
@@ -630,15 +809,18 @@ function f_gameCfg()
 	local bufr = 0	
 	while true do
 		if esc() then
+			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
+			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 0)
 			gameCfg = gameCfg - 1
 			if gameCfg < 1 then gameCfg = #t_gameCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end			
 		elseif commandGetState(p1Cmd, 'd') then
+			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 0)
 			gameCfg = gameCfg + 1
 			if gameCfg > #t_gameCfg then gameCfg = 1 end
@@ -766,6 +948,9 @@ function f_gameCfg()
 			end
 		--Game Speed
 		elseif gameCfg == 10 then
+		if onlinegame == true then --Detects if this option needs to be locked in online settings
+			lockSetting = true --Boolean to show a Lock setting message
+		elseif onlinegame == false then --allow use the option offline
 			if commandGetState(p1Cmd, 'r') and gameSpeed < 72 then
 				sndPlay(sysSnd, 100, 0)
 				if gameSpeed < 48 then
@@ -789,7 +974,8 @@ function f_gameCfg()
 					s_gameSpeed = 'Slow'
 				end
 				modified = 1
-			end	
+			end
+		end
 		--Team Settings
 		elseif gameCfg == 11 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
@@ -800,6 +986,7 @@ function f_gameCfg()
 			f_zoomCfg()
 		--Back
 		elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
+			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		end	
@@ -807,6 +994,11 @@ function f_gameCfg()
 		animSetWindow(optionsBG1, 80,20, 160,#t_gameCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_gameCfg)
+		if lockSetting == true then
+			for i=1, #t_locked do
+				textImgDraw(t_locked[i].id)
+			end
+		end	
 		t_gameCfg[1].varText = data.difficulty
 		if data.roundTime ~= -1 then
 			t_gameCfg[2].varText = data.roundTime
@@ -1086,18 +1278,24 @@ function f_UICfg()
 	local UICfg = 1
 	while true do
 		if esc() then
+			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') then
+			lockSetting = false
 			sndPlay(sysSnd, 100, 0)
 			UICfg = UICfg - 1
 			if UICfg < 1 then UICfg = #t_UICfg end
 		elseif commandGetState(p1Cmd, 'd') then
+			lockSetting = false
 			sndPlay(sysSnd, 100, 0)
 			UICfg = UICfg + 1
 			if UICfg > #t_UICfg then UICfg = 1 end
 		--Language Settings
 		elseif UICfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		if onlinegame == true then
+				lockSetting = true
+		elseif onlinegame == false then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
 				data.language = 'SPANISH'
@@ -1123,9 +1321,13 @@ function f_UICfg()
 				data.language = 'SPANISH'
 				modified = 1
 				needReload = 1
-			end	
+			end
+		end
 		--Display Seconds in Clock
 		elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
 			sndPlay(sysSnd, 100, 0)
 			if data.clockSeconds then
 				data.clockSeconds = false
@@ -1136,6 +1338,7 @@ function f_UICfg()
 				s_clockSeconds = 'Yes'
 				modified = 1
 			end
+		end	
 		--Display Versus Win Counter
 		elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
@@ -1148,7 +1351,7 @@ function f_UICfg()
 				s_vsDisplayWin = 'Yes'
 				modified = 1
 			end
-		--Character Presentation Display Type (WIP)
+		--Character Presentation Display Type
 		elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.charPresentation == 'Portrait' then
@@ -1206,6 +1409,7 @@ function f_UICfg()
 			end
 		--Back
 		elseif UICfg == 7 and btnPalNo(p1Cmd) > 0 then
+			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1213,6 +1417,11 @@ function f_UICfg()
 		animSetWindow(optionsBG1, 80,20, 160,#t_UICfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_UICfg)
+		if lockSetting == true then
+			for i=1, #t_locked do
+				textImgDraw(t_locked[i].id)
+			end
+		end	
 		t_UICfg[1].varText = data.language
 		t_UICfg[2].varText = s_clockSeconds
 		t_UICfg[3].varText = s_vsDisplayWin
@@ -1228,6 +1437,259 @@ function f_UICfg()
 		animSetWindow(cursorBox, 80,5+UICfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ENGINE SETTINGS
+--;===========================================================
+txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
+t_engineCfg = {
+	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
+	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
+	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
+	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
+	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
+	{id = '', text = 'Erase Unlocked Data'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_engineCfg do
+	t_engineCfg[i].id = createTextImg(font2, 0, 1, t_engineCfg[i].text, 85, 15+i*15)
+end
+
+function f_engineCfg()
+	cmdInput()
+	local engineCfg = 1
+	while true do
+		if esc() then
+			lockSetting = false
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			lockSetting = false
+			sndPlay(sysSnd, 100, 0)
+			engineCfg = engineCfg - 1
+			if engineCfg < 1 then engineCfg = #t_engineCfg end
+			if bufl then bufl = 0 end --New
+			if bufr then bufr = 0 end --New
+		elseif commandGetState(p1Cmd, 'd') then
+			lockSetting = false
+			sndPlay(sysSnd, 100, 0)
+			engineCfg = engineCfg + 1
+			if engineCfg > #t_engineCfg then engineCfg = 1 end
+			if bufl then bufl = 0 end --New
+			if bufr then bufr = 0 end --New					
+		--Debug Mode
+		elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
+			sndPlay(sysSnd, 100, 0)
+			if data.debugMode then
+				data.debugMode = false
+				s_debugMode = 'Disabled'
+				modified = 1
+			else
+				data.debugMode = true
+				s_debugMode = 'Enabled'
+				modified = 1
+			end
+		end
+		--HelperMax
+		elseif engineCfg == 2 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if HelperMaxEngine < 1000 then --You can increase this limit
+					HelperMaxEngine = HelperMaxEngine + 1
+				else
+					HelperMaxEngine = 56 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if HelperMaxEngine > 56 then --Minimum Value
+					HelperMaxEngine = HelperMaxEngine - 1
+				else
+					HelperMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--PlayerProjectileMax
+		elseif engineCfg == 3 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
+					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
+				else
+					PlayerProjectileMaxEngine = 50 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if PlayerProjectileMaxEngine > 50 then --Minimum Value
+					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine - 1
+				else
+					PlayerProjectileMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--ExplodMax
+		elseif engineCfg == 4 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if ExplodMaxEngine < 1000 then --You can increase this limit
+					ExplodMaxEngine = ExplodMaxEngine + 1
+				else
+					ExplodMaxEngine = 128 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if ExplodMaxEngine > 128 then --Minimum Value
+					ExplodMaxEngine = ExplodMaxEngine - 1
+				else
+					ExplodMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--AfterImageMax
+		elseif engineCfg == 5 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if AfterImageMaxEngine < 1000 then --You can increase this limit
+					AfterImageMaxEngine = AfterImageMaxEngine + 1
+				else
+					AfterImageMaxEngine = 8 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if AfterImageMaxEngine > 8 then --Minimum Value
+					AfterImageMaxEngine = AfterImageMaxEngine - 1
+				else
+					AfterImageMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end		
+		--Erase Unlocked Data
+		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
+			sndPlay(sysSnd, 100, 1)
+			f_unlocksWarning()
+		end
+		--Back
+		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
+			lockSetting = false
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_engineCfg*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_engineCfg)
+		if lockSetting == true then
+			for i=1, #t_locked do
+				textImgDraw(t_locked[i].id)
+			end
+		end	
+		t_engineCfg[1].varText = s_debugMode
+		t_engineCfg[2].varText = HelperMaxEngine
+		t_engineCfg[3].varText = PlayerProjectileMaxEngine
+		t_engineCfg[4].varText = ExplodMaxEngine
+		t_engineCfg[5].varText = AfterImageMaxEngine
+		for i=1, #t_engineCfg do
+			textImgDraw(t_engineCfg[i].id)
+			if t_engineCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+engineCfg*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ERASE UNLOCKED DATA WARNING
+--;===========================================================
+function f_eraseState()
+data.erase = ''
+end
+
+t_unlocksWarning = {
+	{id = '', text = "   All unlocked data will be delete. Are you sure?"},
+	--{id = '', text = "          THIS DECISION CANNOT BE UNDO."},
+	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
+}
+for i=1, #t_unlocksWarning do
+	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
+end
+function f_unlocksWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			data.erase = 'yes'
+			modified = 1
+			needReload = 1
+			break
+		elseif esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_unlocksWarning do
+			textImgDraw(t_unlocksWarning[i].id)
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2874,240 +3336,4 @@ function f_keySave(playerNo, controller)
 	'in.new[' .. playerNo+6 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[11].varText .. ');')		
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[11].varText .. ');')
-end
-
---;===========================================================
---; ENGINE SETTINGS
---;===========================================================
-txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
-t_engineCfg = {
-	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
-	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
-	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
-	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
-	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
-	{id = '', text = 'Erase Unlocked Data'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_engineCfg do
-	t_engineCfg[i].id = createTextImg(font2, 0, 1, t_engineCfg[i].text, 85, 15+i*15)
-end
-
-function f_engineCfg()
-	cmdInput()
-	local engineCfg = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			engineCfg = engineCfg - 1
-			if engineCfg < 1 then engineCfg = #t_engineCfg end
-			if bufl then bufl = 0 end --New
-			if bufr then bufr = 0 end --New
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			engineCfg = engineCfg + 1
-			if engineCfg > #t_engineCfg then engineCfg = 1 end
-			if bufl then bufl = 0 end --New
-			if bufr then bufr = 0 end --New					
-		--Debug Mode
-		elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.debugMode then
-				data.debugMode = false
-				s_debugMode = 'Disabled'
-				modified = 1
-			else
-				data.debugMode = true
-				s_debugMode = 'Enabled'
-				modified = 1
-			end		
-		--HelperMax
-		elseif engineCfg == 2 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if HelperMaxEngine < 1000 then --You can increase this limit
-					HelperMaxEngine = HelperMaxEngine + 1
-				else
-					HelperMaxEngine = 56 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if HelperMaxEngine > 56 then --Minimum Value
-					HelperMaxEngine = HelperMaxEngine - 1
-				else
-					HelperMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--PlayerProjectileMax
-		elseif engineCfg == 3 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
-					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
-				else
-					PlayerProjectileMaxEngine = 50 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if PlayerProjectileMaxEngine > 50 then --Minimum Value
-					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine - 1
-				else
-					PlayerProjectileMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--ExplodMax
-		elseif engineCfg == 4 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if ExplodMaxEngine < 1000 then --You can increase this limit
-					ExplodMaxEngine = ExplodMaxEngine + 1
-				else
-					ExplodMaxEngine = 128 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if ExplodMaxEngine > 128 then --Minimum Value
-					ExplodMaxEngine = ExplodMaxEngine - 1
-				else
-					ExplodMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--AfterImageMax
-		elseif engineCfg == 5 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if AfterImageMaxEngine < 1000 then --You can increase this limit
-					AfterImageMaxEngine = AfterImageMaxEngine + 1
-				else
-					AfterImageMaxEngine = 8 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if AfterImageMaxEngine > 8 then --Minimum Value
-					AfterImageMaxEngine = AfterImageMaxEngine - 1
-				else
-					AfterImageMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end		
-		--Erase Unlocked Data
-		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
-			sndPlay(sysSnd, 100, 1)
-			f_unlocksWarning()	
-		--Back
-		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_engineCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_engineCfg)
-		t_engineCfg[1].varText = s_debugMode
-		t_engineCfg[2].varText = HelperMaxEngine
-		t_engineCfg[3].varText = PlayerProjectileMaxEngine
-		t_engineCfg[4].varText = ExplodMaxEngine
-		t_engineCfg[5].varText = AfterImageMaxEngine
-		for i=1, #t_engineCfg do
-			textImgDraw(t_engineCfg[i].id)
-			if t_engineCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+engineCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; ERASE UNLOCKED DATA WARNING
---;===========================================================
-function f_eraseState()
-data.erase = ''
-end
-
-t_unlocksWarning = {
-	{id = '', text = "   All unlocked data will be delete. Are you sure?"},
-	--{id = '', text = "          THIS DECISION CANNOT BE UNDO."},
-	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
-}
-for i=1, #t_unlocksWarning do
-	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
-end
-function f_unlocksWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			data.erase = 'yes'
-			modified = 1
-			needReload = 1
-			break
-		elseif esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_unlocksWarning do
-			textImgDraw(t_unlocksWarning[i].id)
-		end
-		cmdInput()
-		refresh()
-	end
 end

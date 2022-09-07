@@ -89,6 +89,6 @@
     <config name="window_top" value="22"/>
     <config name="window_width" value="1440"/>
     <config name="zoom_center" value=""/>
-    <config name="zoom_level" value="1"/>
+    <config name="zoom_level" value="3"/>
     <config name="zoom_mode" value="1"/>
 </configuration>

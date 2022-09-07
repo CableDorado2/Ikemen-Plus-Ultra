@@ -9,4 +9,6 @@ randomselect
 randomselect
 randomselect
 randomselect
-chars/kyo kusanagi/kyo kusanagi.def
+randomselect
+randomselect
+randomselect

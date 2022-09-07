@@ -20,7 +20,7 @@ layerall.pos = 160,120 ;Default position for all layers
 layer0.anim =  0       ;Anim action number
 layer0.starttime = 30  ;Time to start displaying the anim
 ; Music
-bgm = sound/      ;Name of music file to play
+bgm = Game Over.mp3      ;Name of music file to play
 bgm.loop = 0
 ; Total time
 end.time = 200

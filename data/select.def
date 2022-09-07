@@ -117,17 +117,17 @@ Ryu, order=3, 3=Ken Masters/Violent Ken.def
 randomselect
 Kung Fu Man, stages/Mountainside Temple.def, order=1, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
-Kyo Kusanagi, stages/Neo-Geo Land.def, order=3, 3=Iori Yagami
-M. Bison, stages/Psy-Drive.def, boss=1, order=4, 3=Ryu/Master Ryu.def
+Kyo Kusanagi, stages/Neo-Geo Land.def, music=sound/Esaka.mp3, order=3, 3=Iori Yagami
+M. Bison, stages/Psy-Drive.def, music=sound/The Dictator.mp3, boss=1, includestage=0, order=4, 3=Ryu/Master Ryu.def
 randomselect
 Suave Dude, stages/Suave's Corridor.def, boss=1, includestage=0, order=1, 3=Dragon Claw
 randomselect
 Rugal Bernstein, stages/Hall of Dead Women.def, boss=1, includestage=0, order=3
 Ken Masters, order=3, 3=Ryu/Evil Ryu.def
 randomselect
-Kung Fu Girl, stages/Sakura.def, includestage=0, order=1, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
+Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=1, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
-Iori Yagami, stages/Way Out.def, order=3, 3=Kyo Kusanagi
+Iori Yagami, stages/Way Out.def, music=sound/Stormy Saxophone.mp3, order=3, 3=Kyo Kusanagi
 randomselect
 randomselect
 randomselect
@@ -167,15 +167,15 @@ randomselect
 ; BONUS CHARACTERS
 ;===========================================================
 Catwalk, stages/Neo-Geo Land.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
-Strength Training, stages/Sunday Afternoon.def, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
+Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
 Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
 Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=6
 ;===========================================================
 ; BOSS CHARACTERS
 ;===========================================================
-Rugal Bernstein/Omega/Omega Rugal.def, stages/Control Center.def, boss=1, includestage=0, order=4
-Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple - Hidden Room.def, boss=1, includestage=0, order=4
-Ryu/Evil Ryu.def, stages/Suzaku Castle - Night.def, boss=1, includestage=0, order=4
+Rugal Bernstein/Omega/Omega Rugal.def, stages/Control Center.def, music=sound/Omega.mp3, boss=1, includestage=0, order=4
+Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple - Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
+Ryu/Evil Ryu.def, stages/Suzaku Castle - Night.def, music=sound/Evil Energy.mp3, boss=1, includestage=0, order=4
 Ken Masters/Violent Ken.def, stages/Jet.def, boss=1, order=4
 Ryu/Master Ryu.def, stages/Suzaku Castle.def, boss=1, order=4
 Ken Masters/Master Ken.def, stages/Boat.def, boss=1, order=4
@@ -186,7 +186,7 @@ Kung Fu Girl/EX/EX Kung Fu Girl.def, stages/Mountain Valley.def, boss=1, include
 ;===========================================================
 Dragon Claw, stages/Far Mountains.def, includestage=0, order=4
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=1
-Kung Fu Girl/KFG/KFG.def, stages/Sakura.def, includestage=0, order=2
+Kung Fu Girl/KFG/KFG.def, stages/Sakura.def, music=sound/Start Day.mp3, includestage=0, order=2
 Kyo Kusanagi/EX/EX Kyo.def, stages/China.def, order=3
 Ken Masters/Daigo Ken.def, stages/New York.def, order=4
 Training, winscreen=0, exclude=1, order=6
@@ -236,24 +236,19 @@ Training, winscreen=0, exclude=1, order=6
  ;For example, you can insert "stages/mybg.def".
 stages/Training Room.def
 stages/Training Room 2.def
-stages/Mountainside Temple.def
+stages/Mountainside Temple.def, music=sound/Temple.mp3
 stages/Mountainside Temple - Hidden Path.def
 stages/Suzaku Castle.def
 stages/Boat.def
 stages/New York.def
 stages/Jet.def
-stages/Psy-Drive.def
 stages/Neo-Geo Land.def
 stages/China.def
 stages/Way Out.def
-stages/West 4_3.def
-stages/West 16_9.def
 stages/HD TEST/Nyc Alley.def
-stages/HD TEST/Dragon Claw Lab.def
 stages/HD TEST/Australian Outback.def
 stages/HD TEST/Fairy Day 4_3.def
 stages/HD TEST/Fairy Day 16_9.def
-stages/HD TEST/Coliseum Of Roses.def
 stages/HD TEST/Aensland Castle.def
 stages/HD TEST/Training Room.def
 stages/HD TEST/Training Room(Scale).def

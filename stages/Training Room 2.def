@@ -80,7 +80,7 @@ scale			=
 ;--------------------------------------------------------------------------------
 [Music]
 
-bgmusic			= sound/Training Room.mp3
+bgmusic			= sound/Training Room 2.mp3
 ;bgmloopstart	= 
 ;bgmloopend		= 
 bgmvolume		= 100

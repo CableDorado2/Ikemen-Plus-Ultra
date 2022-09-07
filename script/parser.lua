@@ -1,4 +1,5 @@
 
+onlinegame = false
 data.includestage = 0
 
 --parse character data

@@ -2953,6 +2953,7 @@ animSetAlpha(contBG2, 0, 0)
 animUpdate(contBG2)
 
 function f_continue()
+	sndPlay(contSnd, 1, 1)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmContinue)
 	f_contTimerReset()

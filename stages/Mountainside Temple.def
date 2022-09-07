@@ -173,6 +173,9 @@ bgmusic = sound/Mountainside Temple.mp3
 ;bgmloopstart = <sample number>
 ;bgmloopend = <sample number>
 
+bgmloopstart = 002421
+bgmloopend = 035339
+
  ;Adjust the volume. 100 is for 100%.
 bgmvolume = 100
 

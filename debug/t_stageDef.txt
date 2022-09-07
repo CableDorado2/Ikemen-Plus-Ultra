@@ -1,25 +1,24 @@
-table: 02CFB1C0 {
-  [stages/hd test/australian outback.def] => 17
-  [stages/hd test/dragon claw lab.def] => 16
-  [stages/jet.def] => 8
-  [stages/hd test/training room.def] => 22
-  [stages/new york.def] => 7
-  [stages/west 4_3.def] => 13
-  [stages/mountainside temple.def] => 3
+table: 0AB66D70 {
+  [stages/hd test/coliseum of roses.def] => 19
   [stages/suzaku castle.def] => 5
-  [stages/hd test/coliseum of roses.def] => 20
-  [stages/west 16_9.def] => 14
-  [stages/china.def] => 11
-  [stages/hd test/fairy day 4_3.def] => 18
-  [stages/hd test/training room(scale).def] => 23
-  [stages/training room.def] => 1
-  [stages/boat.def] => 6
-  [stages/neo-geo land.def] => 10
-  [stages/hd test/fairy day 16_9.def] => 19
-  [stages/hd test/aensland castle.def] => 21
-  [stages/psy-drive.def] => 9
+  [stages/hd test/training room(scale).def] => 22
+  [stages/new york.def] => 7
   [stages/mountainside temple - hidden path.def] => 4
-  [stages/way out.def] => 12
   [stages/training room 2.def] => 2
-  [stages/hd test/nyc alley.def] => 15
+  [stages/hd test/fairy day 4_3.def] => 17
+  [stages/hd test/aensland castle.def] => 20
+  [stages/china.def] => 10
+  [stages/neo-geo land.def] => 9
+  [stages/west 4_3.def] => 12
+  [stages/hd test/training room.def] => 21
+  [stages/hd test/fairy day 16_9.def] => 18
+  [stages/jet.def] => 8
+  [stages/west 16_9.def] => 13
+  [stages/hd test/australian outback.def] => 16
+  [stages/hd test/dragon claw lab.def] => 15
+  [stages/hd test/nyc alley.def] => 14
+  [stages/boat.def] => 6
+  [stages/way out.def] => 11
+  [stages/mountainside temple.def] => 3
+  [stages/training room.def] => 1
 }
