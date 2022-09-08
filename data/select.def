@@ -170,6 +170,7 @@ Catwalk, stages/Neo-Geo Land.def, zoom=0, bonus=1, winscreen=0, exclude=1, order
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
 Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
 Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=6
+Call of Zombies, stages/Training Room 2.def, bonus=1, winscreen=0, exclude=1, order=6
 ;===========================================================
 ; BOSS CHARACTERS
 ;===========================================================
@@ -180,14 +181,14 @@ Ken Masters/Violent Ken.def, stages/Jet.def, boss=1, order=4
 Ryu/Master Ryu.def, stages/Suzaku Castle.def, boss=1, order=4
 Ken Masters/Master Ken.def, stages/Boat.def, boss=1, order=4
 Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple - Roof.def, boss=1, includestage=0, order=4
-Kung Fu Girl/EX/EX Kung Fu Girl.def, stages/Mountain Valley.def, boss=1, includestage=0, order=5
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, boss=1, includestage=0, order=5
 ;===========================================================
 ; SECRETS/HIDDEN CHARACTERS
 ;===========================================================
 Dragon Claw, stages/Far Mountains.def, includestage=0, order=4
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=1
-Kung Fu Girl/KFG/KFG.def, stages/Sakura.def, music=sound/Start Day.mp3, includestage=0, order=2
-Kyo Kusanagi/EX/EX Kyo.def, stages/China.def, order=3
+Kung Fu Girl/EX/EX Kung Fu Girl.def, stages/Sakura.def, music=sound/Start Day.mp3, includestage=0, order=2
+Kyo Kusanagi/EX/EX Kyo.def, stages/Way Out.def, order=3
 Ken Masters/Daigo Ken.def, stages/New York.def, order=4
 Training, winscreen=0, exclude=1, order=6
 ;===========================================================

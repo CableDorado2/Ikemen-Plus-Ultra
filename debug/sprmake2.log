@@ -1359,3 +1359,55 @@ mem use : 65104 bytes
 
 10 sprite(s) cropped; 1020 bytes (1020 pixels) eliminated
 21 sprite(s) compressed; 193439 bytes saved; avg compression 20.28%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+0 sprites (0 unique), 0 palettes (0 unique)
+ldata   : 0 bytes 	tdata   : 0 bytes
+filesize: 512 bytes (0 bytes saved by optimization before cropping)
+mem use : 544 bytes
+
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+61 sprites (61 unique), 1 palettes (1 unique, 60 discarded)
+61 unique 8-bit sprite(s)
+ldata   : 118776 bytes 	tdata   : 0 bytes
+filesize: 121012 bytes (0 bytes saved by optimization before cropping)
+mem use : 145356 bytes
+
+61 sprite(s) compressed; 176881 bytes saved; avg compression 39.97%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+61 sprites (61 unique), 1 palettes (1 unique, 60 discarded)
+61 unique 8-bit sprite(s)
+ldata   : 118776 bytes 	tdata   : 0 bytes
+filesize: 121012 bytes (0 bytes saved by optimization before cropping)
+mem use : 145356 bytes
+
+61 sprite(s) compressed; 176881 bytes saved; avg compression 39.97%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+49 sprites (49 unique), 1 palettes (1 unique, 48 discarded)
+49 unique 8-bit sprite(s)
+ldata   : 89489 bytes 	tdata   : 0 bytes
+filesize: 91389 bytes (0 bytes saved by optimization before cropping)
+mem use : 110985 bytes
+
+45 sprite(s) cropped; 65951 bytes (65951 pixels) eliminated
+49 sprite(s) compressed; 155099 bytes saved; avg compression 36.32%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+0 sprites (0 unique), 0 palettes (0 unique)
+ldata   : 0 bytes 	tdata   : 0 bytes
+filesize: 512 bytes (0 bytes saved by optimization before cropping)
+mem use : 544 bytes
+

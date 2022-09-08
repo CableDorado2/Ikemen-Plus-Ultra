@@ -642,7 +642,7 @@ displaytime = 90    ;Time to show text
 
 ;-----------------------------------------------------------
 [Round]
-match.wins = 2              ;Rounds needed to win a match
+match.wins = 1              ;Rounds needed to win a match
 match.maxdrawgames = 2      ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30         ;Time to wait before starting intro
 
@@ -669,6 +669,9 @@ round6.snd = 0,6
 round7.snd = 0,7
 round8.snd = 0,8
 round9.snd = 0,9
+round10.snd = 0,10
+round11.snd = 0,11
+round12.snd = 0,12
 round.sndtime = 0           ;Time to play the sounds
 ; Components to show for each round (optional, specify up to round 9)
 ; Uncomment to use

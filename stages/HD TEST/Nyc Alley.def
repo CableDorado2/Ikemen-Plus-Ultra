@@ -58,7 +58,7 @@ color 		= 0,0,0
 yscale 		= .2
 
 [Music]
-bgmusic 	= sound/Nyc Alley.mp3
+bgmusic 	= sound/New York.mp3
 bgm.loop = 		1
 bgmloopstart= 	898933
 bgmloopend= 	4669853

@@ -868,7 +868,7 @@ function f_gameCfg()
 			end
 		--Rounds to Win			
 		elseif gameCfg == 3 then
-			if commandGetState(p1Cmd, 'r') and roundsNum < 10 then
+			if commandGetState(p1Cmd, 'r') and roundsNum < 5 then
 				sndPlay(sysSnd, 100, 0)
 				roundsNum = roundsNum + 1
 				modified = 1
@@ -879,7 +879,7 @@ function f_gameCfg()
 			end
 		--Max Draw Games			
 		elseif gameCfg == 4 then
-			if commandGetState(p1Cmd, 'r') and drawNum < 10 then
+			if commandGetState(p1Cmd, 'r') and drawNum < 2 then
 				sndPlay(sysSnd, 100, 0)
 				drawNum = drawNum + 1
 				modified = 1
