@@ -123,7 +123,7 @@ public &Font
       s .= (char)ub;
       i++;
     while i < 12:
-      if(!.s.equ(s, "ElecbyteFnt"\0)) ret "ElecbyteFntじゃない";
+      if(!.s.equ(s, "ElecbyteFnt"\0)) ret "Not Elecbyte Font";
     }
     if(!f.read!ushort?(`ver=)) ret .com.FileReadError;
     if(!f.read!ushort?(`ver2=)) ret .com.FileReadError;

@@ -31,7 +31,7 @@ public &SffHeader
       i++;
     while i < 12:
       if(!.s.equ(s, "ElecbyteSpr"\0)){
-        ret "ElecbyteSprじゃない";
+        ret "Not Elecbyte Sprite";
       }
     }
     if(!f.read!ubyte?(`ver3=)) ret .com.FileReadError;
@@ -61,7 +61,7 @@ public &SffHeader
       if(!f.read!uint?(dummy=)) ret .com.FileReadError;
       if(!f.read!uint?(tofs=)) ret .com.FileReadError;
     default:
-      ret "バージョンが不正です";
+      ret "Invalid version";
     }
     ret "";
   }
@@ -170,7 +170,7 @@ public &Sprite
     if(!f.read!ubyte?(encoding=)) ret .com.FileReadError;
     if(!f.read!ubyte?(bpp=)) ret .com.FileReadError;
     if(bpp != 0d8){
-      ret "256色じゃない";
+      ret "not 256 colors";
     }
     ushort x, y, w, h;
     if(!f.read!ushort?(x=)) ret .com.FileReadError;
@@ -283,7 +283,7 @@ public &Sprite
     /*?*/
       ret "";
     default:
-      ret "不明な形式です";
+      ret "unknown format";
     }
     `setPxl(px);
     ret "";
@@ -480,7 +480,7 @@ public &Sprite
         while;
       do:
         ipmax = ip - 0x1;
-        if(indexOfPrevious > ipmax) ret "linkが不正です";
+        if(indexOfPrevious > ipmax) ret "the link is invalid";
         ip = indexOfPrevious;
         shofs =
           h.ver0 == 0d1 ? newSubHeaderOffset[(index)ip]
@@ -505,7 +505,7 @@ public &Sprite
       shofs = h.ver0 == 0d1 ? misc : shofs + 0d28;
       i++;
     while i < (index)h.numberOfSprites:
-      ret ''ig+","+''in+"のスプライトが見つかりません";
+      ret ''ig+","+''in+"sprite not found for";
     }
     if(h.ver0 == 0d1){
       `colorPallet = pl.get(`palidx);

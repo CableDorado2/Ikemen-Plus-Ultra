@@ -16,6 +16,7 @@ data = require('script.data') --Require function, allows use the content inside 
 --Load saved variables
 assert(loadfile('script/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
 assert(loadfile('script/unlocks_sav.lua'))()
+assert(loadfile('script/service_sav.lua'))()
 
 --;===========================================================
 --; SCREENPACK DEFINITION
@@ -78,12 +79,13 @@ bgmVS = 'sound/VS.mp3'
 bgmVSFinal = 'sound/VS Final.mp3'
 bgmVictory = 'sound/Victory.mp3'
 bgmResults = 'sound/Results.mp3'
+bgmService = 'sound/Service.mp3'
 bgmContinue = 'sound/Continue.mp3'
 bgmGameOver = 'sound/Game Over.mp3'
 
 --Random Versus Music
 function f_bgmrandomVS()
-local randomTrack = {"sound/Random VS/Song 1.mp3", "sound/Random VS/Song 2.mp3"}
+local randomTrack = {"sound/Random VS/Song 1.mp3", "sound/Random VS/Song 2.mp3", "sound/Random VS/Song 3.mp3"}
 playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
@@ -342,6 +344,7 @@ function f_default()
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
+	setHUD(true) --Just enable or disable hud elements in game (added via system-script.ssz)
 	--default values for all modes
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
@@ -363,7 +366,7 @@ end
 --;===========================================================
 --; LOAD UNLOCKED CONTENT
 --;===========================================================
--- Data loading from unlocks_sav.lua
+--Data loading from unlocks_sav.lua
 local file = io.open("script/unlocks_sav.lua","r")
 s_dataLUA = file:read("*all")
 file:close()
@@ -598,8 +601,8 @@ end
 --; ARCADE MENU LOOP
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -711,7 +714,7 @@ t_vsMenu = {
 	{id = textImgNew(), text = 'QUICK MATCH'},
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},
-	{id = textImgNew(), text = 'CO-OP MODE'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -835,9 +838,9 @@ end
 --; PRACTICE MENU LOOP
 --;===========================================================
 t_practiceMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
+	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},	
-	{id = textImgNew(), text = 'P2[CO-OP]'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -884,7 +887,6 @@ function f_practiceMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1) --round time disabled
-				setHUD = false
 				data.p2In = 2
 				data.stageMenu = true
 				data.versusScreen = false --versus screen disabled
@@ -973,7 +975,7 @@ end
 t_randomMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},
-	{id = textImgNew(), text = 'CO-OP MODE'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 	
@@ -1189,8 +1191,8 @@ end
 --; SURVIVAL MENU LOOP
 --;===========================================================
 t_survivalMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},	
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1299,7 +1301,7 @@ end
 --; BOSS FIGHT MENU LOOP
 --;===========================================================
 t_bossMenu = {
-	{id = textImgNew(), text = 'SINGLE MODE'},
+	{id = textImgNew(), text = 'VS SINGLE BOSS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
 	{id = textImgNew(), text = 'BACK'},
 }	
@@ -1487,8 +1489,8 @@ end
 --; BOSS RUSH MENU LOOP
 --;===========================================================
 t_bossrushMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1739,6 +1741,7 @@ function f_bonusExtras()
 			--BONUS CHAR NAME
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				setHUD(false)
 				data.versusScreen = false
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bonusChars[bonusExtras]}
@@ -1790,8 +1793,8 @@ end
 --; BONUS RUSH MENU LOOP
 --;===========================================================
 t_bonusrushMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1838,6 +1841,7 @@ function f_bonusrushMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
 				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
+					setHUD(false)
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.p2TeamMenu = {mode = 0, chars = 1}
@@ -1852,6 +1856,7 @@ function f_bonusrushMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
+					setHUD(false)
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true
@@ -1907,8 +1912,8 @@ end
 --; SUDDEN DEATH MENU LOOP
 --;===========================================================
 t_suddenMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},	
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2021,8 +2026,8 @@ end
 --; TIME ATTACK MENU LOOP
 --;===========================================================
 t_timeMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},	
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2586,7 +2591,7 @@ end
 --; UNLOCK MENU LOOP
 --;===========================================================
 t_unlockMenu = {
-	{id = textImgNew(), text = 'ENDLESS MODE'},
+	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'TIME TRIAL'},
 	{id = textImgNew(), text = 'TOURNAMENT'},
 	{id = textImgNew(), text = 'CUTSCENES'},
@@ -2695,8 +2700,8 @@ end
 --; ENDLESS MENU LOOP
 --;===========================================================
 t_allcharsMenu = {
-	{id = textImgNew(), text = 'P1[CLASSIC]'},
-	{id = textImgNew(), text = 'P2[CO-OP]'},	
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2840,7 +2845,9 @@ function f_videoMenu()
 				break
 			else
 				--Play Video
-				playVideo('video/' .. t_videoList[videoMenu].replay .. '.wmv')			
+				playVideo('video/' .. t_videoList[videoMenu].replay .. '.wmv')
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				f_menuMusic()
 			end
 		end
 		--Cursor position calculation

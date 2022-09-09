@@ -1,5 +1,6 @@
 data = require('script.data')
-assert(loadfile('script/data_sav.lua'))()
+assert(loadfile('script/data_sav.lua'))() --For load options like screenshot sfx, etc
+--assert(loadfile('script/service_sav.lua'))() --For load service booleans
 
 package.path = package.path..';./lib/ltn12.lua'
 ltn12 = require('ltn12')
@@ -18,7 +19,7 @@ addHotkey('F4', true, false, false, 'reload()') --CTRL+F4: Reloads stage, charac
 addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2);lifeMax(3);lifeMax(4);lifeMax(5);lifeMax(6);lifeMax(7);lifeMax(8)') --Gives Players' full life
 addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4);lifeMax(6);lifeMax(8)') --Ctrl+F1: Gives Player 2's full life
 addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3);lifeMax(5);lifeMax(7)') --Shift+F1: Gives Player 1's full life
-addHotkey('F6', false, false, false, 'powMax(1);powMax(2);powMax(3);powMax(4);powMax(5);powMax(6);powMax(7);powMax(8)') --Gives both players full life
+addHotkey('F6', false, false, false, 'powMax(1);powMax(2);powMax(3);powMax(4);powMax(5);powMax(6);powMax(7);powMax(8)') --Gives both players full power
 addHotkey('F6', true, false, false, 'barAdd(2)') --Ctrl+F6: Increases Player 2's power to 1
 addHotkey('F6', false, false, true, 'barAdd(1)') --Shift+F6: Increases Player 1's power to 1
 addHotkey('F7', false, false, false, 'full(1);full(2);full(3);full(4);full(5);full(6);full(7);full(8);setTime(getRoundTime())') --Restores full life and power to all players

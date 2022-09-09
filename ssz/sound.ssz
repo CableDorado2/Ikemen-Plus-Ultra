@@ -49,7 +49,7 @@ public &Snd
         if(!`f.read!ubyte?(ub=)) ret .com.FileReadError;
         s .= (char)ub;
       while ++i < 4:
-        if(!.s.equ(s, "RIFF")) ret "RIFFじゃない";
+        if(!.s.equ(s, "RIFF")) ret "Not RIFF";
       }
       if(!`f.read!uint?(riffSize=)) ret .com.FileReadError;
       riffSize += 0x8;
@@ -77,18 +77,18 @@ public &Snd
         cond .s.equ(s, "fmt "):
           fmtSize = size;
           if(!`f.read!ushort?(fmtID=)) ret .com.FileReadError;
-          if(fmtID != 0x1) ret "リニアPCMじゃない";
+          if(fmtID != 0x1) ret "not linear PCM";
           if(!`f.read!ushort?(wav.channels=)) ret .com.FileReadError;
-          if(wav.channels-0x1 >= 0x2) ret "チャンネル数が不正";
+          if(wav.channels-0x1 >= 0x2) ret "Incorrect number of channels";
           if(!`f.read!uint?(wav.samplesPerSec=)) ret .com.FileReadError;
           if(wav.samplesPerSec-0x1 >= 0x100000){
-            ret "周波数が不正 " + ''(int)wav.samplesPerSec;
+            ret "Incorrect frequency " + ''(int)wav.samplesPerSec;
           }
           if(!`f.read!uint?(musi=)) ret .com.FileReadError;
           if(!`f.read!ushort?(mushi=)) ret .com.FileReadError;
           if(!`f.read!ushort?(wav.bytesPerSample=)) ret .com.FileReadError;
           if(wav.bytesPerSample != 0x8 && wav.bytesPerSample != 0x10){
-            ret "bit数が不正";
+            ret "invalid number of bits";
           }
           wav.bytesPerSample >>= 0x3;
         cond .s.equ(s, "data"):
@@ -103,7 +103,7 @@ public &Snd
         && ofs < (long)`subHeaderOffset + (long)riffSize + 16
         :
       }
-      if(fmtSize == 0x0 && dataSize > 0x0) ret "fmt がない";
+      if(fmtSize == 0x0 && dataSize > 0x0) ret "no fmt";
       ret "";
     }
     ubyte ub;
@@ -115,7 +115,7 @@ public &Snd
       s .= (char)ub;
       i++;
     while i < 12:
-      if(!.s.equ(s, "ElecbyteSnd"\0)) ret "ElecbyteSndじゃない";
+      if(!.s.equ(s, "ElecbyteSnd"\0)) ret "Not ElecbyteSnd";
     }
     if(!f.read!ushort?(`ver=)) ret .com.FileReadError;
     if(!f.read!ushort?(`ver2=)) ret .com.FileReadError;

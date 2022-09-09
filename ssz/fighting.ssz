@@ -540,7 +540,7 @@ void game()
   while !.se.esc && .cmd.update():
     if(.se.esc) .mes.SetSharedString(:"esc":);
   break:
-    .chr.stg~bgctl.clear();//bgctrlをでfightingで開放
+    .chr.stg~bgctl.clear();//Open bgctrl with fighting
     if(#.cmd.net > 0) .cmd.net~stop();
     share~copy();
     share~stt = stagetime;

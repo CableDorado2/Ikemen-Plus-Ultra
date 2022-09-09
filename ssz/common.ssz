@@ -16,16 +16,16 @@ public float team1VS2Life = 1.0;
 public float turnsRecoveryRate = 1.0 / 300.0;
 public bool sharedLife = true;
 
-//チームモードの種類
+//TEAM MODE TYPE
 |TeamMode
 {
   Single, Simul, Turns
 }
 
-//コリジョン表示フラグ
+//COLLISION DISPLAY FLAG
 public bool clsndraw = false;
 
-//デバッグ表示フラグ
+//DEBUG DISPLAY FLAG
 public bool debugdraw = false;
 
 const int maxSimul = 10;
@@ -143,21 +143,21 @@ public float turbo = Speed;
 public int gametime = 0, time = 0;
 public int intro = 20;
 
-//ホームチーム 1P:0, 2P:1
+//HOME TEAM 1P:0, 2P:1
 public int home = 0;
 
 public int match = 1;
 public int p1mw = 2, p2mw = 2;
 
-//ラウンドNo.
+//ROUND No.
 public int round = 1;
 
-//チームモード
+//TEAM MODE
 public ^int tmode;
 tmode.new(2);
 tmode[0] = tmode[1] = (int)TeamMode::Single;
 
-//Turnsの人数
+//NUMBER OF TURNS
 public ^int numturns;
 numturns.new(2);
 numturns[0] = numturns[1] = 2;
@@ -668,8 +668,8 @@ public ^/char readFileName(^/char f, bool unicode)
   ret tmp;
 }
 
-const ^/char FileOpenError = "ファイルオープンに失敗";
-const ^/char FileReadError = "ファイル読み込みに失敗";
+const ^/char FileOpenError = "Failed to open file";
+const ^/char FileReadError = "File could not be uploaded";
 
 
 public ^uint tmppl.new(256);
@@ -962,7 +962,7 @@ public &Section
     text = `params.get(name);
     if(#text == 0) ret "";
     if(#text < 2 || text[0] != '"' ||  text[-1] != '"'){
-      ret \""で囲まれていません";
+      ret \""not surrounded by";
     }
     text = text[1 .. #text - 1];
     ret "";

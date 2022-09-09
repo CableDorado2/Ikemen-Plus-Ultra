@@ -566,7 +566,7 @@ function f_selectAdvance()
 					script.storyboard.f_storyboard(tPos.intro)
 				end
 			end
-		--player exit the match via ESC in VS 100 Kumite mode
+		--player exit the match via ESC in Endless mode
 		elseif winner == -1 and data.gameMode == 'endless' then
 			--counter
 			looseCnt = looseCnt + 1
@@ -576,12 +576,12 @@ function f_selectAdvance()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			f_menuMusic()
 			return	
-		--player won (also if lost in VS 100 Kumite)
+		--player won (also if lost in Endless mode)
 		elseif winner == 1 or data.gameMode == 'endless' then
 			--counter
 			if winner == 1 then
 				winCnt = winCnt + 1
-			else --only true in VS 100 Kumite mode
+			else --only true in Endless mode
 				looseCnt = looseCnt + 1
 			end	
 			--win screen
@@ -668,6 +668,7 @@ function f_selectAdvance()
 			end
 			if data.contSelection then --true if 'Char change at Continue' option is enabled
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				if serviceTeam == true then p1TeamEnd = false end
 				data.t_p1selected = {}
 				p1Portrait = nil
 				p1SelEnd = false
@@ -2604,7 +2605,21 @@ else
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 0, 1.5))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
+				if p1numChars == 1 then
+					drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
+				elseif p1numChars == 2 then	--Your 2nd char portrait appears in modern win screen
+					drawPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
+					drawPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+				elseif p1numChars == 3 then	--Your 3rd char portrait appears in modern win screen	
+					drawPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
+					drawPortrait(data.t_p1selected[2].cel, 205, 15, 1, 1)
+					drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
+				elseif p1numChars == 4 then	--Your 4th char portrait appears in modern win screen
+					drawPortrait(data.t_p1selected[4].cel, 205, 15, 1, 1)
+					drawPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
+					drawPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
+					drawPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+				end
 				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
 			end	
 		else--if winner == 2 then
@@ -2620,7 +2635,21 @@ else
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 2, 0))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				drawPortrait(data.t_p2selected[1].cel, 219, 15, -1, 1)
+				if p2numChars == 1 then
+					drawPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
+				elseif p2numChars == 2 then
+					drawPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
+					drawPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
+				elseif p2numChars == 3 then
+					drawPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
+					drawPortrait(data.t_p2selected[2].cel, 205, 15, 1, 1)
+					drawPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
+				elseif p2numChars == 4 then
+					drawPortrait(data.t_p2selected[4].cel, 205, 15, 1, 1)
+					drawPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
+					drawPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
+					drawPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
+				end
 				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
 			end	
 		end
@@ -2820,6 +2849,135 @@ function f_winParse(winner, looser, pal)
 end
 
 --;===========================================================
+--; SERVICE MENU
+--;===========================================================
+txt_service = createTextImg(jgFnt, 0, 0, 'SELECT A SERVICE', 159, 13)
+
+t_service = {
+	{id = '', text = '  DIFFICULTY LEVEL DOWN'},
+	{id = '', text = ' CHANGE PLAYER TEAM MODE'},
+	{id = '', text = ' POWER WILL START AT MAX'},
+	{id = '', text = '    ENEMY LIFE AT 1/3'},
+	{id = '', text = '       LIFE BAR X2'},
+	{id = '', text = '       NOT SERVICE'},
+}
+
+for i=1, #t_service do
+	t_service[i].id = createTextImg(font2, 0, 1, t_service[i].text, 85, 15+i*15)
+end
+
+t_lockedService = {
+	{id = '', text = "This service is Unavailable in Co-Op Mode."},
+}
+for i=1, #t_lockedService do
+	t_lockedService[i].id = createTextImg(font2, 0, -1, t_lockedService[i].text, 256, 210+i*15)
+end
+
+function f_service()
+--Data loading from service_sav.lua
+local file = io.open("script/service_sav.lua","r")
+s_dataLUA = file:read("*all")
+file:close()
+function f_saveServiceData()
+--Data saving to service_sav.lua
+local t_savesService = {
+	['powerService'] = powerService,
+	['lifeService'] = lifeService,
+	['cpulifeService'] = cpulifeService
+}
+s_dataLUA = f_strSub(s_dataLUA, t_savesService)
+local file = io.open("script/service_sav.lua","w+")
+file:write(s_dataLUA)
+file:close()
+end
+	local service = 1	
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	playBGM(bgmService)
+	powerService = false --boolean for debug.lua
+	f_saveServiceData()
+	cmdInput()
+	while true do
+		if commandGetState(p1Cmd, 'u') then
+			lockService = false --Boolean to remove the Lock service message
+			sndPlay(sysSnd, 100, 0)
+			service = service - 1
+			if service < 1 then service = #t_service end		
+		elseif commandGetState(p1Cmd, 'd') then
+			lockService = false --Boolean to remove the Lock service message
+			sndPlay(sysSnd, 100, 0)
+			service = service + 1
+			if service > #t_service then service = 1 end
+		elseif btnPalNo(p1Cmd) > 0 then
+			--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
+			if service == 1 then
+				sndPlay(sysSnd, 100, 1)
+				if data.difficulty == 1 then
+					data.difficulty = 1
+				else
+					data.difficulty = data.difficulty - 1
+				end
+				if onlinegame == true then
+					script.options.f_netsaveCfg()
+				elseif onlinegame == false then
+					script.options.f_saveCfg()
+				end	
+				break
+			--CHANGE PLAYER TEAM MODE
+			elseif service == 2 then
+				if data.coop == true then
+					lockService = true
+				else
+					sndPlay(sysSnd, 100, 1)
+					serviceTeam = true
+					break
+				end
+			--FULL POWER
+			elseif service == 3 then
+				sndPlay(sysSnd, 100, 1)
+				powerService = true --boolean for debug.lua
+				f_saveServiceData()
+				break
+			--LOW CPU LIFE
+			elseif service == 4 then
+				sndPlay(sysSnd, 100, 1)
+				
+			--PLAYER LIFE X2
+			elseif service == 5 then
+				sndPlay(sysSnd, 100, 1)
+				
+			--NOT SERVICE
+			else
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				break
+			end			
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_service*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_service)
+		if lockService == true then
+			for i=1, #t_lockedService do
+				textImgDraw(t_lockedService[i].id)
+			end
+		end	
+		for i=1, #t_service do
+			textImgDraw(t_service[i].id)
+			if t_service[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_service[i].varID, font2, 0, -1, t_service[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+service*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; HERE COMES A NEW CHALLENGER SCREEN
 --;===========================================================
 --Challenger Transparent BG
@@ -2959,6 +3117,7 @@ function f_continue()
 	f_contTimerReset()
 	f_gameOverReset()
 	data.continue = 0
+	serviceTeam = false
 	local tablePos = ''
 	local tablePos2 = ''
 	local tablePos3 = ''
@@ -3171,6 +3330,11 @@ function f_continue()
 			else
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
+				--service screen
+				if data.serviceScreen == true then
+					f_service()
+				end
+				--challenger screen
 				if data.challengerScreen == true then
 					f_selectChallenger()
 					f_challengerMusic()

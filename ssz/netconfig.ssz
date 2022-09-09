@@ -22,7 +22,7 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 const ^/char listenPort = "7500";
-const ^/char UserName = "CD2";
+const ^/char UserName = "MUGENUSER";
 
 const ^/char system = "script/main.lua";
 
@@ -45,17 +45,17 @@ in.new[0].set(
 
 in.new[1].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 in.new[2].set(
   -1,
@@ -73,17 +73,17 @@ in.new[2].set(
 
 in.new[3].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 in.new[4].set(
   -1,
@@ -101,17 +101,17 @@ in.new[4].set(
 
 in.new[5].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 in.new[6].set(
   -1,
@@ -129,17 +129,17 @@ in.new[6].set(
 
 in.new[7].set(
   -1,
-  (int)k_t::t,
-  (int)k_t::g,
-  (int)k_t::f,
-  (int)k_t::h,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::i,
-  (int)k_t::o,
-  (int)k_t::p,
-  (int)k_t::q);
+  (int)k_t::KP_0);
 
 
 const bool SaveMemory = false;

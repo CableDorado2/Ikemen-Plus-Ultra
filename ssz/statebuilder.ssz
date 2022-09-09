@@ -565,7 +565,7 @@ public &StateBuilder
           (!`usiroOp || op<> != '(')
           && (op<> < 'A' || op<> > 'Z') && (op<> < 'a' || op<> > 'z')))
       {
-        `lasterror = `maeOp + "が不正です";
+        `lasterror = `maeOp + "It is illegal";
         ret false;
       }
       in = oldin;
@@ -595,7 +595,7 @@ public &StateBuilder
         istr = `tokenizer(in=);
       while .s.equ("-", istr) || .s.equ("+", istr):}
       if(#istr == 0 || istr<> < '0' || '9' < istr<>){
-        `lasterror = "数字の読み込みエラーです";
+        `lasterror = "number reading error";
         ret false;
       }
       val = .com.atoi(istr) * (minus ? -1 : 1);
@@ -603,7 +603,7 @@ public &StateBuilder
     }
     minequ = .s.equ("[", token);
     if(!minequ && !.s.equ("(", token)){
-      `lasterror = "'['か'('がありません";
+      `lasterror = "'['bug'('there is not";
       ret false;
     }
     branch{
@@ -625,7 +625,7 @@ public &StateBuilder
       tkn = `tokenizer(in=);
     }
     if(!.s.equ(",", tkn)){
-      `lasterror = "','がありません";
+      `lasterror = "','there is not";
       ret false;
     }
     branch{
@@ -647,7 +647,7 @@ public &StateBuilder
     }
     maxequ = .s.equ("]", tkn);
     if(!maxequ && !.s.equ(")", tkn)){
-      `lasterror = "']'か')'がありません";
+      `lasterror = "']'bug')'there is not";
       ret false;
     }
     ret true;
@@ -658,13 +658,13 @@ public &StateBuilder
     bool minus = .s.equ("-", istr);
     if(minus) istr = in;
     if(#istr == 0 || istr<> < '0' || '9' < istr<>){
-      `lasterror = "数字の読み込みエラーです";
+      `lasterror = "number reading error";
       ret false;
     }
     if(minus) istr = `tokenizer(in=);
     loop{index i = 0; while; do:
       if(istr[i] < '0' || '9' < istr[i]){
-        `lasterror = istr + "が整数でありません";
+        `lasterror = istr + "is not an integer";
         ret false;
       }
       i++;
@@ -760,7 +760,7 @@ public &StateBuilder
         {
           ret true;
         }
-        `lasterror = hit[0] + "が無効な値です";
+        `lasterror = hit[0] + "is an invalid value";
         ret false;
       }
     continue:
@@ -801,7 +801,7 @@ public &StateBuilder
       cond .cfg.IgnoreMostErrors && `mver0 == 1:
         ret true;
       else:
-        `lasterror = hit[i] + "が無効な値です";
+        `lasterror = hit[i] + "is an invalid value";
         ret false;
       }
       if(hitdef && i == 1) hitdefflg = flg;
@@ -827,7 +827,7 @@ public &StateBuilder
         flg |= (int).chr.StTy::A;
       default:
         `lasterror =
-          in[0 .. .s.cFind(.kuuhaktokigou, in)] + "が不正な属性値です";
+          in[0 .. .s.cFind(.kuuhaktokigou, in)] + "is an invalid attribute value";
         ret false;
       }
     continue:
@@ -881,7 +881,7 @@ public &StateBuilder
     ^/char oldin = in;
     ^/char token = `tokenizer(in=);
     if(.s.equ(")", token)) ret true;
-    `lasterror = token + "の前に')'がありません";
+    `lasterror = token + "In front of the')'there is not";
     ret false;
   }
   bool kyuushiki(bool not=, ^/char in=)
@@ -901,7 +901,7 @@ public &StateBuilder
         if(token[-1] == '=') break, break;
         break, while;
       }
-      `lasterror = "'='か'!='がありません";
+      `lasterror = "'='bug'!='there is not";
       ret false;
     while #token > 0:}
     ret true;
@@ -934,7 +934,7 @@ public &StateBuilder
         not = false;
       else:
         if(hissu && !comma){
-          `lasterror = "比較演算子がありません";
+          `lasterror = "missing comparison operator";
           ret false;
         }
         hikaku = false;
@@ -962,11 +962,11 @@ public &StateBuilder
           out .= ".v.toI()" .= (not ? "!=" : "==");
           if(!`integer2(val=, token, in=)){
             if(hissu && !hikaku){
-              `lasterror = "比較演算子がありません";
+              `lasterror = "missing comparison operator";
               ret false;
             }
             if(hikaku){
-              `lasterror = "数字がありません";
+              `lasterror = "no numbers";
               ret false;
             }
             in = oldin;
@@ -981,7 +981,7 @@ public &StateBuilder
       `kyuushikiThroughNeo(false, in=);
       token = `tokenizer(in=);
       if(!`integer2(val=, token, in=)){
-        `lasterror = "数字がありません";
+        `lasterror = "no numbers";
         ret false;
       }
       out .= ''val;
@@ -993,7 +993,7 @@ public &StateBuilder
   int oneArg(^/char fun, %char out=, ^/char in=)
   {
     if(!.s.equ("(", `tokenizer(in=))){
-      `lasterror = fun + "の次に'('がありません";
+      `lasterror = fun + "next to'('there is not";
       ret -1;
     }
     int typ;
@@ -1241,7 +1241,7 @@ public &StateBuilder
     cond .s.equ("ifelse", token):
       out .= "`trIfelse(";
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('がありません";
+        `lasterror = token + "の次に'('there is not";
         ret -1;
       }
       if(!`typeExp!`expBoolOr?(out=, in=, 3)) ret -1;
@@ -1542,7 +1542,7 @@ public &StateBuilder
       }]) ret -1;
     cond .s.equ("const", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('がありません";
+        `lasterror = token + "の次に'('there is not";
         ret -1;
       }
       token = `tokenizer(in=);
@@ -1824,7 +1824,7 @@ public &StateBuilder
       }
       `skipBlank(in=);
       if(#in == 0 || (!.cfg.IgnoreMostErrors && in[0] != ')')){
-        `lasterror = ")がありません";
+        `lasterror = ")there is not";
         ret -1;
       }
       in = in[1..-1];
@@ -1927,7 +1927,7 @@ public &StateBuilder
       }]) ret -1;
     cond .s.equ("gethitvar", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('がありません";
+        `lasterror = token + "の次に'('there is not";
         ret -1;
       }
       token = `tokenizer(in=);
@@ -2312,7 +2312,7 @@ public &StateBuilder
     cond .s.equ("cond", token):
       out .= '(';
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('がありません";
+        `lasterror = token + "の次に'('there is not";
         ret -1;
       }
       {
@@ -2339,7 +2339,7 @@ public &StateBuilder
       typ = 0;
     cond .s.equ("stagevar", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('がありません";
+        `lasterror = token + "の次に'('there is not";
         ret -1;
       }
       token = `tokenizer(in=);
@@ -2372,7 +2372,7 @@ public &StateBuilder
       out .= obj .= "trPlayerID(";
       `expCast(out=, 2, typ, temp);
       if(!.s.equ(",")<, `tokenizer(in=)){
-        `lasterror = "','がありません";
+        `lasterror = "','there is not";
         ret -1;
       }
       temp.new(0);
@@ -2428,7 +2428,7 @@ public &StateBuilder
           out .= obj .= "trEnemy(0)";
         }
       else:
-        `lasterror = "','がありません";
+        `lasterror = "','there is not";
         ret -1;
       }
       {
@@ -2444,7 +2444,7 @@ public &StateBuilder
     cond .s.equ("root", token) || .s.equ("parent", token):
       out .= obj .= token[0] == 'r' ? "trRoot()" : "trParent()";
       if(!.s.equ(",")<, `tokenizer(in=)){
-        `lasterror = ",がありません";
+        `lasterror = ",there is not";
         ret -1;
       }
       {
@@ -2798,7 +2798,7 @@ public &StateBuilder
       }
       typ = 3;
     cond openkaku:
-      `lasterror = ",がありません";
+      `lasterror = ",there is not";
       ret false;
     else:
       in = oldin;
@@ -3707,7 +3707,7 @@ public &StateBuilder
       ~$bool(^/char=) set = [bool(^/char data=){
         data = .s.trim(data);
         if(data[0] != '('){
-          `lasterror = "'('がありません";
+          `lasterror = "'('there is not";
           ret false;
         }
         `state.ctrlList[-1].task .=
@@ -3724,7 +3724,7 @@ public &StateBuilder
         `state.ctrlList[-1].task .= ',';
         index f = .s.find("=", data);
         if(f < 0){
-          `lasterror = "'='がありません";
+          `lasterror = "'='there is not";
           ret false;
         }
         data = data[f+1..-1];
@@ -7285,14 +7285,14 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, ".envcol_r=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = ",がありません";
+          `lasterror = ",there is not";
           ret false;
         }
         if(
           !`argExpression(
             `state.ctrlList[-1].task=, data=, ".envcol_g=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = ",がありません";
+          `lasterror = ",there is not";
           ret false;
         }
         if(
@@ -8135,7 +8135,7 @@ public &StateBuilder
           #`state.ctrlList[-1].trigger == 0
           || #`state.ctrlList[-1].trigger[0] == 0)
         {
-          ret .errmes(fn, lines[i], i, "trigger1がありません");
+          ret .errmes(fn, lines[i], i, "trigger1there is not");
         }
         if(stateExist) continue;
         buf .= \t"if(";
