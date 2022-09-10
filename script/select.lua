@@ -2882,6 +2882,13 @@ for i=1, #t_lockedService do
 	t_lockedService[i].id = createTextImg(font2, 0, -1, t_lockedService[i].text, 256, 210+i*15)
 end
 
+t_devService = {
+	{id = '', text = "This service will be available coming soon."},
+}
+for i=1, #t_devService do
+	t_devService[i].id = createTextImg(font2, 0, -1, t_devService[i].text, 256, 210+i*15)
+end
+
 function f_service()
 --Data loading from service_sav.lua
 local file = io.open("script/service_sav.lua","r")
@@ -2908,11 +2915,13 @@ end
 	while true do
 		if commandGetState(p1Cmd, 'u') then
 			lockService = false --Boolean to remove the Lock service message
+			devService = false
 			sndPlay(sysSnd, 100, 0)
 			service = service - 1
 			if service < 1 then service = #t_service end		
 		elseif commandGetState(p1Cmd, 'd') then
 			lockService = false --Boolean to remove the Lock service message
+			devService = false
 			sndPlay(sysSnd, 100, 0)
 			service = service + 1
 			if service > #t_service then service = 1 end
@@ -2942,18 +2951,21 @@ end
 				end
 			--FULL POWER
 			elseif service == 3 then
-				sndPlay(sysSnd, 100, 1)
-				powerService = true --boolean for debug.lua
-				f_saveServiceData()
-				break
+				devService = true
+				--sndPlay(sysSnd, 100, 1)
+				--powerService = true --boolean for debug.lua
+				--f_saveServiceData()
+				--break
 			--LOW CPU LIFE
 			elseif service == 4 then
-				sndPlay(sysSnd, 100, 1)
-				
+				devService = true
+				--sndPlay(sysSnd, 100, 1)
+				--break
 			--PLAYER LIFE X2
 			elseif service == 5 then
-				sndPlay(sysSnd, 100, 1)
-				
+				devService = true
+				--sndPlay(sysSnd, 100, 1)
+				--break
 			--NOT SERVICE
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2968,6 +2980,11 @@ end
 		if lockService == true then
 			for i=1, #t_lockedService do
 				textImgDraw(t_lockedService[i].id)
+			end
+		end
+		if devService == true then
+			for i=1, #t_devService do
+				textImgDraw(t_devService[i].id)
 			end
 		end	
 		for i=1, #t_service do
