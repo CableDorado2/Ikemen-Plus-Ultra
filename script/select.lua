@@ -1431,7 +1431,7 @@ function f_p1SelectMenu()
 				if getCharName(p1Cell) == 'Random' then
 					--sndPlay(sysSnd, 100, 0) --Cursor SFX in Random...
 					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-						drawPortrait(p1Portrait, 0, 20, 1, 1) --P1 RANDOM Portrait location. WHY DOES NOT WORK!
+						drawPortrait(math.random(1, #t_randomChars), 0, 20, 1, 1) --P1 RANDOM Portrait location.
 					end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
@@ -1444,6 +1444,7 @@ function f_p1SelectMenu()
 			end
 			for j=#data.t_p1selected, 1, -1 do
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					--drawPortrait(data.t_p1selected[p1numChars].cel, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select (This detects random select portrait)
 					drawPortrait(p1Portrait, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
@@ -1635,7 +1636,12 @@ function f_p2SelectMenu()
 				end
 				if getCharName(p2Cell) == 'Random' then
 					--sndPlay(sysSnd, 100, 0)
-					f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						drawPortrait(math.random(1, #t_randomChars), 320, 20, -1, 1)
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
+					end
 				else
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
@@ -2502,7 +2508,6 @@ end
 --; WIN SCREEN
 --;===========================================================
 txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
---txt_winnername = createTextImg(jgFnt, 0, 1, '', 0, 0)
 txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
 
 --Win Char Modern Transparent BG
@@ -2537,9 +2542,9 @@ animAddPos(quoteBG, 160, 0)
 animSetTile(quoteBG, 1, 1)
 animSetWindow(quoteBG, 14, 167, 290, 62)
 
-function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
+function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique) --Unused
 	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel))
+		textImgSetText(id, f_getName(t[i].cel)) --f_getName(t[i].cel if you want to get all names
 		textImgSetPos(id, x, y)
 		if rowUnique ~= nil then
 			if i == rowUnique then
@@ -2601,7 +2606,8 @@ else
 				animDraw(f_animVelocity(wincharBGC2, 2, 0))
 				animSetWindow(wincharBGC2, 165, 20, 120, 140)
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
+				textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
+				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14)
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 0, 1.5))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
@@ -2620,7 +2626,8 @@ else
 					drawPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
 					drawPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
 				end
-				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14, p1Row, 4)
+				textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
+				--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14)
 			end	
 		else--if winner == 2 then
 			if data.winscreen == 'Classic' then 
@@ -2631,7 +2638,8 @@ else
 				animSetWindow(wincharBGC2, 165, 20, 120, 140)
 				drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
 				animDraw(f_animVelocity(quoteBG, 2, 0))
-				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
+				textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
+				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14)
 			elseif data.winscreen == 'Modern' then
 				animDraw(f_animVelocity(wincharBG, 2, 0))
 				animDraw(f_animVelocity(quoteBG, 2, 0))
@@ -2650,12 +2658,13 @@ else
 					drawPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
 					drawPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
 				end
-				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14, p2Row, 1)
+				textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
+				--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14)
 			end	
 		end
 		i = i + 1
 		f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
-		--textImgDraw(txt_winnername)
+		textImgDraw(txt_winnername)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
