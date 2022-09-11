@@ -70,6 +70,29 @@ How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 [![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
 *Coming Soon More Tutorials!*
 
+## MUGEN/IKEMEN Resources
+Here you can find content to build your projects or just for play on Ikemen.
+- Mugen Free For All: https://mugenfreeforall.com
+- Mugen Fighters Guild: https://mugenguild.com/forum/
+- Infinity Mugen Team: https://www.infinitymugenteam.com
+- MUGEN ARCHIVE: https://mugenarchive.com/forums/downloads.php
+- Gamebanana: https://gamebanana.com/games/5694
+- Mugen Multiverse: https://mugenmultiverse.forumotion.com
+
+## MUGEN/IKEMEN Tools
+Here you can find some tools that help you in development of your projects (Some missed are included in the main ikemen plus ultra folder called "tools")
+- Fighter Factory (A Powerfull Mugen editor): http://fighterfactory.virtualltek.com/
+- Notepad++ (Script editor): https://notepad-plus-plus.org/
+- Mp3Tag (A music tag editor): https://www.mp3tag.de/en/
+- Radmin VPN (For Online Netplay): https://www.radmin-vpn.com/
+
+## Engine Manual
+Still under development.
+- But at the moments, you can use (for create characters and stages) the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
+
+## Discord Support
+If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
+
 ## References
 >- Original Repository Source Code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
