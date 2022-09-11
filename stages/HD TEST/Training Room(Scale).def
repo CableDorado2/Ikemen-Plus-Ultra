@@ -70,7 +70,7 @@ fade.range = -200,-20
 ;--------------------------------------------------------
 [Music]
 bgmusic = sound/Training Room.mp3
-bgmvolume = 255
+bgmvolume = 100
 
 ;Main background definition
 [BGdef]

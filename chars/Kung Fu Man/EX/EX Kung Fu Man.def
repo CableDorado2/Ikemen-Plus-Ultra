@@ -24,3 +24,7 @@ pal3    = kfm_k3.act
 pal4    = kfm_k.act
 pal5    = kfm_k2.act
 pal6    = kfm_k4.act
+
+[Arcade]
+intro.storyboard = ..\../storyboards/EX Kung Fu Man [Intro].def
+ending.storyboard = ..\../storyboards/EX Kung Fu Man [Ending].def

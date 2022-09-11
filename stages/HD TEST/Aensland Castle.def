@@ -64,8 +64,6 @@ intensity = 0
 ;--------------------------------------------------------
 [Music]
 bgmusic = sound/Aensland Castle.mp3
-bgmloopstart = 479141
-bgmloopend = 3441425
 bgmvolume = 100
 
 ;========================================================

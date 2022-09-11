@@ -51,6 +51,6 @@ x2 = 7
 y2 = 8
 z2 = 9
 
-;[Arcade]
-;intro.storyBoard = intro.def
-;ending.storyBoard = ending.def
+[Arcade]
+intro.storyboard = ..\../storyboards/Violent Ken [Intro].def
+ending.storyboard = ..\../storyboards/Violent Ken [Ending].def

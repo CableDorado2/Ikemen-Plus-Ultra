@@ -152,7 +152,7 @@ bgmusic = sound/Wind.mp3
 
  ;Adjust the volume. 0 is normal, negative for softer, and
  ;positive for louder (only for mp3, mods and CDA)
-bgvolume = 255
+bgvolume = 100
 
 ;========================================================
 ;--------------------------------------------------------

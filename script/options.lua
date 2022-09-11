@@ -1384,13 +1384,16 @@ function f_UICfg()
 				data.charPresentation = 'Sprite'
 				modified = 1	
 			end
-		--Win Screen Display Type (Classic, Modern or None)
+		--Win Screen Display Type
 		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 				data.winscreen = 'Modern'
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
+				data.winscreen = 'Fixed'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Fixed' then
 				data.winscreen = 'None'
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'None' then
@@ -1402,9 +1405,12 @@ function f_UICfg()
 			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Modern' then
 				data.winscreen = 'Classic'
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Fixed' then
 				data.winscreen = 'Modern'
-				modified = 1	
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
+				data.winscreen = 'Fixed'
+				modified = 1
 			end
 		--New Challenger Screen Display
 		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then

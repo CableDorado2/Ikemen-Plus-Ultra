@@ -64,9 +64,6 @@ intensity 	= 180
 
 [Music]
 bgmusic 	= sound/Fairy Day.mp3
-bgm.loop		= 1
-bgmloopstart    = 1893731
-bgmloopend      = 6390545
 bgmvolume 	= 100
 
 [BGdef]

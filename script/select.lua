@@ -471,6 +471,8 @@ function f_selectSimple()
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		if data.rosterMode == 'challenger' then
 			f_challengerMusic()
+		elseif data.gameMode == 'stage viewer' then
+			--playBGM('')
 		else	
 			playBGM(bgmSelect)
 		end
@@ -604,10 +606,9 @@ function f_selectAdvance()
 				if data.gameMode == 'arcade' then
 					--credits
 					script.storyboard.f_storyboard('data/credits.def')
-					--unlocks screen
-					data.unlocks = true
+					--unlocks
+					data.arcadeUnlocks = true --Unlock Extras Menu when complete Arcade Mode
 					f_saveUnlockData()
-					--assert(loadfile('script/unlocks_sav.lua'))()
 					--game over
 					script.storyboard.f_storyboard('data/gameover.def')
 					--intro
@@ -2565,6 +2566,8 @@ end
 function f_selectWin()
 if data.winscreen == 'None' then
 	f_selectWinOFF()
+elseif data.winscreen == 'Fixed' then
+	f_selectWinFix()
 else	
 	playBGM(bgmVictory)
 	local txt = ''
@@ -2673,7 +2676,7 @@ else
 	end --End of disabled Win Screen Conditional
 end
 
-function f_selectWinOFF() --Use this while fixing recognition of victory quotes for any other character that causes crash
+function f_selectWinFix() --Use this while fixing recognition of victory quotes for any other character that causes crash
 	--playBGM(bgmVictory)
 	local txt = ''
 	if winner == 1 then
@@ -2706,6 +2709,21 @@ function f_selectWinOFF() --Use this while fixing recognition of victory quotes 
 		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
+	end
+end
+
+function f_selectWinOFF()
+	if winner == 1 then
+		p1Wins = p1Wins + 1
+	else--if winner == 2 then
+		p2Wins = p2Wins + 1
+	end		
+	while true do
+		break
+	animDraw(data.fadeTitle)
+	animUpdate(data.fadeTitle)
+	cmdInput()
+	refresh()
 	end
 end
 

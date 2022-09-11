@@ -73,9 +73,6 @@ yscale 		= .2
 
 [Music]
 bgmusic 	= sound/Australian Outback.mp3
-bgm.loop		= 1
-bgmloopstart	= 916976
-bgmloopend		= 13608609
 bgmvolume		= 100
 
 [BGdef]

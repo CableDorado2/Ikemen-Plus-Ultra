@@ -1,0 +1,318 @@
+;=============================================
+; CNS File for Stage Viewer by Yoshin222
+; Constants file
+;=============================================
+
+;=============================================
+;System Vars
+;=============================================
+; ----------------------
+; Var name    Type   Purpose
+; --------    ----   -------
+; sysvar(0)   Temp   Set by state 5081 (HITL_SLIDE) to 1 to prevent
+;                    showing ground hit frame in state 5110 (HIT_LIEDOWN).
+;                    Used by guarding states.
+;                    to keep track of which way to jump.
+;                    Used by state 5100 and 5110 to remember downward
+;                    velocity of player just before hitting the ground.
+;                    Used in state 5080 for storing the anim # to display.
+; sysvar(1)   Temp   Used by state 40 (Jump Start) amd 45 (Air Jump Start)
+;sysvar(1) can be used as a condition. Example
+;[State -1, Jump Kick Upwards]
+;type = ChangeState
+;value = 635
+;triggerall = (command = "a")
+;trigger1 = statetype = A && ctrl && sysvar(1) = 0  ;perform while jumping neutral
+;"Note: That last line "Used in state 5080 for storing the anim # to display." 
+;is incorrect! It implies sysvar(1) stores the animation, but it is actually sysvar(2) 
+;doing the job." - Chronan
+;sysvar(3) - Used in Dizzy State
+;sysvar(4) - Often used in "UNOTag" Leave blank 
+;=============================================
+;System FVars
+;=============================================
+;sysfvar(0)
+;sysfvar(1)
+;sysfvar(2)
+;sysfvar(3)
+;sysfvar(4)
+;=============================================
+;Vars/Integers - (Maximum = 59)
+;=============================================
+; var(0) := Check if holding Heavy Punch
+; var(1) := Play Click sound (Config)
+; var(2) := Disable Foreground elements check
+; var(3) := Disable Background elements check
+; var(4) := Disable Shadow (Config)
+; var(5) := Disable Music (Config)
+; var(6) := Disable Bar Display (Config)
+; var(7) := Define Floor Point (Config)
+
+
+;=============================================
+;FVars/Floats - (Maximum = 39)
+;=============================================
+; fvar(0) ;= movement speed amplifier
+; fvar(1) := movement speed container
+; fvar(1) := movement speed value (Config)
+; fvar(7) := Define Floor Point (Config)
+;Personal reminders
+;=============================================
+;Channels
+;=============================================
+;So the channels are
+;-1 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+;- Sin
+
+;5: Click sound
+
+;Assert special paramters include
+;- nowalk
+;- invisible
+;- intro
+;- noshadow
+;- noFG (Foreground)
+;- noBG (Background)
+;- nobardisplay
+;- noautoturn
+;- timerfrozen
+;- nojugglecheck
+;- nostandguard
+;- nocrouchguard
+;- noairguard
+
+;Ceil returns the least integer which is greater than or equal to the specified argument, 
+;while Floor returns the greatest integer less than or equal to its argument.
+
+;In case of using helpers t add to damage scaling (fireballs, supers, etc) use ParentVaradd
+
+; Team Mode parameters
+;Single, Simul,Turns
+;gethitvar(type) = 0 = none, 1 = High, 2 = Low, 3 = Trip
+
+[Data]
+life		= 1000
+power		= 3000
+attack		= 100
+defence		= 100
+fall.defence_up	= 50
+liedown.time	= 15
+airjuggle		= 15
+sparkno		= 2	
+guard.sparkno	= -1
+KO.echo		= 0	
+;volume		= 150
+IntPersistIndex	= 50
+FloatPersistIndex	= 20
+
+;--	--	--	--	--	--	--
+
+[Size]
+xscale		= 1		;Horizontal scaling factor.
+yscale		= 1		;Vertical scaling factor.
+ground.back	= 30		;Player width (back, ground)
+ground.front	= 25		;Player width (front, ground)
+air.back		= 12		;Player width (back, air)
+air.front		= 12		;Player width (front, air)
+height		= 60		;Height of player (for opponent to jump over)
+attack.dist	= 160		;Default attack distance
+proj.attack.dist	= 90		;Default attack distance for projectiles
+proj.doscale	= 0		;Set to 1 to scale projectiles too   
+head.pos		= 10,-70		;Approximate position of head
+mid.pos		= -1,-41		;Approximate position of midsection
+shadowoffset	= 0		;Number of pixels to vertically offset the shadow
+draw.offset	= 0,0		;Player drawing offset in pixels (x, y)
+
+;--	--	--	--	--	--	--
+
+[Velocity]
+walk.fwd		= 2.4		;Walk forward
+walk.back		= -2.2		;Walk backward
+run.fwd		= 6.5, 0		;Run forward (x, y)
+run.back		= -5.5,-4.8	;Hop backward (x, y)
+jump.neu		= 0,-10		;Neutral jumping velocity (x, y)
+jump.back		= -3.25		;Jump back Speed (x, y)
+jump.fwd		= 3.25		;Jump forward Speed (x, y)
+runjump.back	= -7.5,-8.5	;Running jump speeds (opt)
+runjump.fwd	= 6,-8.5
+airjump.neu	= 0,-8.1
+airjump.back	= -2.55		;Air jump speeds (opt)
+airjump.fwd	= 2.5
+
+[Movement]
+airjump.num	= 0		;Number of air jumps allowed (opt)
+airjump.height	= 35		;Minimum distance from ground before you can air jump (opt)
+yaccel		= .51        	;Vertical acceleration
+stand.friction	= .85		;Friction coefficient when standing
+crouch.friction	= .82		;Friction coefficient when crouching
+;================================
+; VARS USED
+; fvar(0) ;= movement speed amplifier
+; fvar(1) := movement speed value
+;================================
+
+;#####################################################################################################################
+;## PERSONALIZATION SECTION FOR Stage Viewer by Yoshin222							      ##
+;## DON'T modify the values if there isn't any comment explaining what to do just above. This could mess the char.  ##
+;## If you're not sure, make a copy of the file before changing any value.				      ##
+;#####################################################################################################################
+
+;Init/Config
+[Statedef 5900]
+type = A
+
+[State 5900, 1] ;Clear all int variables
+type = VarRangeSet
+trigger1 =  !roundsexisted
+value = 0
+first = 0
+last = 59 
+persistent = 0
+
+[State 5900, 2] ;Clear all float variables
+type = VarRangeSet
+trigger1 =  !roundsexisted
+fvalue = 0
+first = 0
+last = 39 
+persistent = 0
+
+
+;=================================================
+; DO NOT CHANGE ANYTHING BELOW THIS LINE !!
+[State 5900, helper] ;Used to handle variable assignment
+Type=Helper
+Trigger1=Numhelper(1)=0
+ID=1
+stateno=1
+pausemovetime=0999
+supermovetime=0999
+ignorehitpause = 1
+persistent = 1
+
+[State 5900, helper] ;Used to handle additonal assertspecials
+Type=Helper
+Trigger1=Numhelper(5)=0
+ID=5
+stateno=5
+pausemovetime=0999
+supermovetime=0999
+ignorehitpause = 1
+persistent = 1
+
+[State 5900, End]
+type = changestate
+trigger1 = !time
+value = ifelse(roundno = 0,190,0)
+
+;=================================================
+
+; WIN STATE 
+[Statedef 180]
+type = A
+;ctrl = 0
+
+[state 181, 1]
+type = assertspecial
+trigger1 = time < 20
+flag = roundnotover
+
+;Intro Decider
+[Statedef 190]
+type = A
+ctrl = 0
+
+[State 190 move] ;Prevents traveling under the stage
+type= posset
+trigger1 = 1
+y = fvar(7)
+ignorehitpause = 1
+persistent = 1
+
+[State 5900, End]
+type = changestate
+trigger1 = !time
+value = 0
+
+;================================
+; VARS USED
+; fvar(0) ;= movement speed amplifier
+; fvar(1) := movement speed value
+;================================
+
+; STAGE VIEWER
+[Statedef 0]
+type = A
+ctrl = 0
+anim = 1311 ;1
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 2
+
+[State 0, noshadow]
+type = assertspecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+persistent = 1
+
+[State 0, noshadow]
+type = trans
+trigger1 = 1
+trans = none
+ignorehitpause = 1
+
+[State 0, move] ;Freeze to enemy
+type= posset
+trigger1 = var(0)
+y = enemynear,pos y - 10
+x = enemynear,pos x + (20 * (enemynear,facing))
+ignorehitpause = 1
+persistent = 1
+
+;[State 0, move] ;Freeze to enemy
+;type= posset
+;trigger1 = 1
+;y = enemynear,pos y
+;x = enemynear,pos x 
+;ignorehitpause = 1
+;persistent = 1
+
+[State 0, display thing] ;Send enemy to this state
+type = targetstate
+triggerall = teamside = 1
+trigger1 = P2Stateno != 0
+value = 0
+ignorehitpause = 1
+persistent = 1
+
+[State 09, enemygrab] ;Stick enemy to you
+type =posset 
+trigger1 = teamside = 2
+x = enemynear, pos x
+y = enemynear, pos y
+ignorehitpause = 1
+persistent = 1
+
+[State -2, display thing]
+type = assertspecial
+trigger1 = teamside = 1
+trigger1 = !numexplod(091) ;Visible Player
+trigger2 = teamside = 2
+flag = InVisible
+ignorehitpause = 1
+
+[State -2, display thing]
+type = assertspecial
+trigger1 = var(2) = 1
+flag = NoFG
+ignorehitpause = 1
+[State -2, display thing]
+type = assertspecial
+trigger1 = var(3) = 1
+flag = NoBG
+ignorehitpause = 1
+
+
+

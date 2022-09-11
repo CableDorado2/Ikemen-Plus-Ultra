@@ -36,5 +36,5 @@ st2=CHOKINONDATONE.st
 st3=config.txt
 
 [Arcade]
-intro.storyboard = ..\../storyboards/Kung Fu Man [Intro].def
-ending.storyboard = ..\../storyboards/Kung Fu Man [Ending].def
+intro.storyboard = ..\../storyboards/Evil Kung Fu Man [Intro].def
+ending.storyboard = ..\../storyboards/Evil Kung Fu Man [Ending].def

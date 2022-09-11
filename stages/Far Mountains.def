@@ -84,7 +84,7 @@ resetBG = 0
 
 [Music]
 bgmusic = sound/Far Mountains.mp3
-bgvolume = 255
+bgvolume = 100
 
 ;====================================================================
 
