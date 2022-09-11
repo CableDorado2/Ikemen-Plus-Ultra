@@ -25,6 +25,14 @@
 >
 >[Tutorials](#tutorials)
 >
+>[Resources](#resources)
+>
+>[Tools](#tools)
+>
+>[Engine Manual](#engine-manual)
+>
+>[Discord Support](#discord-support)
+>
 >[References](#references)
 >
 >[License](#license)
@@ -70,7 +78,7 @@ How to Add Characters & Stages: https://www.youtube.com/watch?v=B756BT_hV8I
 [![Alt text](https://img.youtube.com/vi/B756BT_hV8I/maxresdefault.jpg)](https://www.youtube.com/watch?v=B756BT_hV8I)
 *Coming Soon More Tutorials!*
 
-## MUGEN/IKEMEN Resources
+## Resources
 Here you can find content to build your projects or just for play on Ikemen.
 - Mugen Free For All: https://mugenfreeforall.com
 - Mugen Fighters Guild: https://mugenguild.com/forum/
@@ -79,7 +87,7 @@ Here you can find content to build your projects or just for play on Ikemen.
 - Gamebanana: https://gamebanana.com/games/5694
 - Mugen Multiverse: https://mugenmultiverse.forumotion.com
 
-## MUGEN/IKEMEN Tools
+## Tools
 Here you can find some tools that help you in development of your projects (Some missed are included in the main ikemen plus ultra folder called "tools")
 - Fighter Factory (A Powerfull Mugen editor): http://fighterfactory.virtualltek.com/
 - Notepad++ (Script editor): https://notepad-plus-plus.org/
