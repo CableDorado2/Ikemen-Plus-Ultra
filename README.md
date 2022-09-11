@@ -88,7 +88,7 @@ Here you can find content to build your projects or just for play on Ikemen.
 - Mugen Multiverse: https://mugenmultiverse.forumotion.com
 
 ## Tools
-Here you can find some tools that help you in development of your projects (Some missed are included in the main ikemen plus ultra folder called "tools")
+Here you can find some tools that help you in development of your projects (Some missed tools are included in the main ikemen plus ultra folder called "tools")
 - Fighter Factory (A Powerfull Mugen editor): http://fighterfactory.virtualltek.com/
 - Notepad++ (Script editor): https://notepad-plus-plus.org/
 - Mp3Tag (A music tag editor): https://www.mp3tag.de/en/
