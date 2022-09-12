@@ -1,2 +1,2 @@
 data.arcadeUnlocks = true
-data.survivalUnlocks = true
+data.survivalUnlocks = false

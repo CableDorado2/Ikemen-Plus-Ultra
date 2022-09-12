@@ -1442,3 +1442,12 @@ ldata   : 0 bytes 	tdata   : 0 bytes
 filesize: 512 bytes (0 bytes saved by optimization before cropping)
 mem use : 544 bytes
 
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+0 sprites (0 unique), 0 palettes (0 unique)
+ldata   : 0 bytes 	tdata   : 0 bytes
+filesize: 512 bytes (0 bytes saved by optimization before cropping)
+mem use : 544 bytes
+

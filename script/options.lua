@@ -153,12 +153,6 @@ else
 	s_vsDisplayWin = 'No'
 end
 
-if data.clockSeconds then
-	s_clockSeconds = 'Yes'
-else
-	s_clockSeconds = 'No'
-end
-
 if data.debugMode then
 	s_debugMode = 'Enabled'
 else
@@ -246,7 +240,8 @@ function f_saveCfg()
 		['data.language'] = data.language,
 		['data.menuSong'] = data.menuSong,
 		['data.screenshotSnd'] = data.screenshotSnd,
-		['data.clockSeconds'] = data.clockSeconds,
+		['data.clock'] = data.clock,
+		['data.date'] = data.date,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
 		['data.debugMode'] = data.debugMode,
@@ -379,10 +374,6 @@ function f_exitInfo()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or esc() then
 			sndPlay(sysSnd, 100, 2)
-			if data.erase == 'yes' then
-				data.unlocks = false
-				f_saveUnlockData()
-			end
 			f_saveCfg()
 			break
 		end
@@ -411,6 +402,13 @@ t_locked = {
 }
 for i=1, #t_locked do
 	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 256, 210+i*15)
+end
+
+t_erase = {
+	{id = '', text = "There's no have any data saved to delete."},
+}
+for i=1, #t_erase do
+	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 258, 210+i*15)
 end
 
 --Set Offline game Default Options shared with Online game Below
@@ -468,8 +466,8 @@ function f_offlineDefault()
 data.language = 'ENGLISH'
 data.menuSong = 'Random'
 data.screenshotSnd = 2
-data.clockSeconds = false
-s_clockSeconds = 'No'
+data.clock = 'Standard'
+data.date = 'Type A'
 data.challengerSong = 'Fixed'
 data.sffConversion = true
 data.p1Controller = -1
@@ -585,7 +583,6 @@ for i=1, #t_mainCfg do
 end
 
 function f_mainCfg()
-	f_eraseState()
 	cmdInput()
 	local mainCfg = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -661,6 +658,9 @@ function f_mainCfg()
 			elseif mainCfg == 10 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
+				if data.erase == true then
+					f_saveUnlockData()
+				end
 				if needReload == 1 then
 					f_exitInfo()
 				end
@@ -717,7 +717,6 @@ for i=1, #t_onlineCfg do
 end
 
 function f_onlineCfg()
-	--f_eraseState()
 	cmdInput()
 	local onlineCfg = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1275,7 +1274,8 @@ end
 txt_UICfg = createTextImg(jgFnt, 0, 0, 'USER INTERFACE SETTINGS', 159, 13)
 t_UICfg = {
 	{id = '', text = 'Language', 		         varID = textImgNew(), varText = data.language},
-	{id = '', text = 'Clock Seconds',            varID = textImgNew(), varText = s_clockSeconds},
+	{id = '', text = 'Clock Format',             varID = textImgNew(), varText = data.clock},
+	{id = '', text = 'Date Format',            	 varID = textImgNew(), varText = data.date},
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
 	{id = '', text = 'Char Presentation',        varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
@@ -1312,50 +1312,104 @@ function f_UICfg()
 				lockSetting = true
 		elseif onlinegame == false then
 			sndPlay(sysSnd, 100, 0)
-			if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
-				data.language = 'SPANISH'
-				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
-				data.language = 'JAPANESE'
-				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
-				data.language = 'ENGLISH'
-				modified = 1
-				needReload = 1	
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
-				data.language = 'JAPANESE'
-				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
-				data.language = 'ENGLISH'
-				modified = 1
-				needReload = 1
-			elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
-				data.language = 'SPANISH'
-				modified = 1
-				needReload = 1
-			end
+			--if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
+				--data.language = 'SPANISH'
+				--modified = 1
+				--needReload = 1
+			--elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
+				--data.language = 'JAPANESE'
+				--modified = 1
+				--needReload = 1
+			--elseif commandGetState(p1Cmd, 'r') and data.language == 'JAPANESE' then
+				--data.language = 'ENGLISH'
+				--modified = 1
+				--needReload = 1	
+			--elseif commandGetState(p1Cmd, 'l') and data.language == 'ENGLISH' then
+				--data.language = 'JAPANESE'
+				--modified = 1
+				--needReload = 1
+			--elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
+				--data.language = 'ENGLISH'
+				--modified = 1
+				--needReload = 1
+			--elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
+				--data.language = 'SPANISH'
+				--modified = 1
+				--needReload = 1
+			--end
 		end
-		--Display Seconds in Clock
-		elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		--Clock Display
+		elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 		if onlinegame == true then
 			lockSetting = true
 		elseif onlinegame == false then	
 			sndPlay(sysSnd, 100, 0)
-			if data.clockSeconds then
-				data.clockSeconds = false
-				s_clockSeconds = 'No'
+			if commandGetState(p1Cmd, 'r') and data.clock == 'Standard' then
+				data.clock = 'Full Standard'
 				modified = 1
-			else
-				data.clockSeconds = true
-				s_clockSeconds = 'Yes'
+			elseif commandGetState(p1Cmd, 'r') and data.clock == 'Full Standard' then
+				data.clock = 'Military'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.clock == 'Military' then
+				data.clock = 'Full Military'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.clock == 'Full Military' then
+				data.clock = 'Standard'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.clock == 'Standard' then
+				data.clock = 'Full Military'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.clock == 'Full Standard' then
+				data.clock = 'Standard'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.clock == 'Military' then
+				data.clock = 'Full Standard'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.clock == 'Full Military' then
+				data.clock = 'Military'
 				modified = 1
 			end
-		end	
+		end
+		--Date Display
+		elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.date == 'Type A' then
+				data.date = 'Type B'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.date == 'Type B' then
+				data.date = 'Type C'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.date == 'Type C' then
+				data.date = 'Type D'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.date == 'Type D' then
+				data.date = 'Type E'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.date == 'Type E' then
+				data.date = 'Type A'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.date == 'Type A' then
+				data.date = 'Type E'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.date == 'Type B' then
+				data.date = 'Type A'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.date == 'Type C' then
+				data.date = 'Type B'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.date == 'Type D' then
+				data.date = 'Type C'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.date == 'Type E' then
+				data.date = 'Type D'
+				modified = 1
+			end
+		end
 		--Display Versus Win Counter
-		elseif UICfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.vsDisplayWin then
 				data.vsDisplayWin = false
@@ -1367,7 +1421,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--Character Presentation Display Type
-		elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.charPresentation == 'Portrait' then
 				data.charPresentation = 'Sprite'
@@ -1389,7 +1443,7 @@ function f_UICfg()
 				modified = 1	
 			end
 		--Stage Select Display Type
-		elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.stageType == 'Classic' then
 				data.stageType = 'Modern'
@@ -1413,7 +1467,7 @@ function f_UICfg()
 				--modified = 1
 			end
 		--Win Screen Display Type
-		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 				data.winscreen = 'Modern'
@@ -1441,7 +1495,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--New Challenger Screen Display
-		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.challengerScreen then
 				data.challengerScreen = false
@@ -1453,7 +1507,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--Service Screen Display
-		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.serviceScreen then
 				data.serviceScreen = false
@@ -1465,7 +1519,7 @@ function f_UICfg()
 				modified = 1
 			end	
 		--Back
-		elseif UICfg == 9 and btnPalNo(p1Cmd) > 0 then
+		elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
 			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -1480,13 +1534,14 @@ function f_UICfg()
 			end
 		end	
 		t_UICfg[1].varText = data.language
-		t_UICfg[2].varText = s_clockSeconds
-		t_UICfg[3].varText = s_vsDisplayWin
-		t_UICfg[4].varText = data.charPresentation
-		t_UICfg[5].varText = data.stageType
-		t_UICfg[6].varText = data.winscreen
-		t_UICfg[7].varText = s_challengerScreen
-		t_UICfg[8].varText = s_serviceScreen
+		t_UICfg[2].varText = data.clock
+		t_UICfg[3].varText = data.date
+		t_UICfg[4].varText = s_vsDisplayWin
+		t_UICfg[5].varText = data.charPresentation
+		t_UICfg[6].varText = data.stageType
+		t_UICfg[7].varText = data.winscreen
+		t_UICfg[8].varText = s_challengerScreen
+		t_UICfg[9].varText = s_serviceScreen
 		for i=1, #t_UICfg do
 			textImgDraw(t_UICfg[i].id)
 			if t_UICfg[i].varID ~= nil then
@@ -1528,6 +1583,7 @@ function f_engineCfg()
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			lockSetting = false
+			eraseStatus = true
 			sndPlay(sysSnd, 100, 0)
 			engineCfg = engineCfg - 1
 			if engineCfg < 1 then engineCfg = #t_engineCfg end
@@ -1535,6 +1591,7 @@ function f_engineCfg()
 			if bufr then bufr = 0 end --New
 		elseif commandGetState(p1Cmd, 'd') then
 			lockSetting = false
+			eraseStatus = true
 			sndPlay(sysSnd, 100, 0)
 			engineCfg = engineCfg + 1
 			if engineCfg > #t_engineCfg then engineCfg = 1 end
@@ -1677,12 +1734,16 @@ function f_engineCfg()
 		if onlinegame == true then
 			lockSetting = true
 		elseif onlinegame == false then	
-			sndPlay(sysSnd, 100, 1)
-			f_unlocksWarning()
+			if data.arcadeUnlocks == false and data.survivalUnlocks == false then --This means that at least you have some progress saved
+				eraseStatus = false
+			elseif data.arcadeUnlocks == true or data.survivalUnlocks == true then
+				sndPlay(sysSnd, 100, 1)
+				f_unlocksWarning()
+			end
 		end
 		--Back
 		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
-			lockSetting = false
+			--lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1695,6 +1756,11 @@ function f_engineCfg()
 				textImgDraw(t_locked[i].id)
 			end
 		end	
+		if eraseStatus == false then
+			for i=1, #t_erase do
+				textImgDraw(t_erase[i].id)
+			end
+		end
 		t_engineCfg[1].varText = s_debugMode
 		t_engineCfg[2].varText = HelperMaxEngine
 		t_engineCfg[3].varText = PlayerProjectileMaxEngine
@@ -1717,10 +1783,6 @@ end
 --;===========================================================
 --; ERASE UNLOCKED DATA WARNING
 --;===========================================================
-function f_eraseState()
-data.erase = ''
-end
-
 t_unlocksWarning = {
 	{id = '', text = "   All unlocked data will be delete. Are you sure?"},
 	--{id = '', text = "          THIS DECISION CANNOT BE UNDO."},
@@ -1734,9 +1796,11 @@ function f_unlocksWarning()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
-			data.erase = 'yes'
+			data.arcadeUnlocks = false
+			data.survivalUnlocks = false
+			data.erase = true
+			--f_saveUnlockData()
 			modified = 1
-			needReload = 1
 			break
 		elseif esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -2873,6 +2937,7 @@ function f_inputCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_saveCfg() --Save and Load New Inputs (Only for Match, Reboot for Apply to Main Menu)
 				setRoundTime(-1)
+				setHUD(false)
 				data.p2In = 2
 				data.stageMenu = false
 				data.versusScreen = false

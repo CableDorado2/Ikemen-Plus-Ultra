@@ -513,6 +513,7 @@ end
 --; ADVANCE LOOP (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;=====================================================================================
 function f_selectAdvance()
+	data.rosterAdvance = true
 	p1SelX = 0
 	p1SelY = 0
 	p2SelX = 4
@@ -2012,129 +2013,129 @@ animSetScale(stage0M, 2.15, 2.15)
 stage1M = animNew(stageSff, [[
 0,0, 0,0,
 ]])
-animAddPos(stage1M, 114.9, 171.5)
+animAddPos(stage1M, 62.1, 74)
 animUpdate(stage1M)
-animSetScale(stage1M, 0.705, 0.705)
+animSetScale(stage1M, 0.151, 0.150)
 
 --Stage 2
 stage2M = animNew(stageSff, [[
 0,1, 0,0,
 ]])
-animAddPos(stage2M, 114.9, 171.5)
+animAddPos(stage2M, 62.1, 74)
 animUpdate(stage2M)
-animSetScale(stage2M, 0.0705, 0.0712)
+animSetScale(stage2M, 0.151, 0.152)
 
 --Stage 3
 stage3M = animNew(stageSff, [[
 0,2, 0,0,
 ]])
-animAddPos(stage3M, 114.9, 171.5)
+animAddPos(stage3M, 62.1, 74)
 animUpdate(stage3M)
-animSetScale(stage3M, 0.0705, 0.0705)
+animSetScale(stage3M, 0.151, 0.150)
 
 --Stage 4
 stage4M = animNew(stageSff, [[
 0,3, 0,0,
 ]])
-animAddPos(stage4M, 114.9, 171.5)
+animAddPos(stage4M, 62.1, 74)
 animUpdate(stage4M)
-animSetScale(stage4M, 0.0705, 0.0705)
+animSetScale(stage4M, 0.151, 0.150)
 
 --Stage 5
 stage5M = animNew(stageSff, [[
 0,4, 0,0,
 ]])
-animAddPos(stage5M, 114.9, 171.5)
+animAddPos(stage5M, 62.1, 74)
 animUpdate(stage5M)
-animSetScale(stage5M, 0.0705, 0.0705)
+animSetScale(stage5M, 0.151, 0.150)
 
 --Stage 6
 stage6M = animNew(stageSff, [[
 0,5, 0,0,
 ]])
-animAddPos(stage6M, 114.9, 171.5)
+animAddPos(stage6M, 62.1, 74)
 animUpdate(stage6M)
-animSetScale(stage6M, 0.0705, 0.0705)
+animSetScale(stage6M, 0.151, 0.150)
 
 --Stage 7
 stage7M = animNew(stageSff, [[
 0,6, 0,0,
 ]])
-animAddPos(stage7M, 114.9, 171.5)
+animAddPos(stage7M, 62.1, 74)
 animUpdate(stage7M)
-animSetScale(stage7M, 0.0705, 0.0705)
+animSetScale(stage7M, 0.151, 0.150)
 
 --Stage 8
 stage8M = animNew(stageSff, [[
 0,7, 0,0,
 ]])
-animAddPos(stage8M, 114.9, 171.5)
+animAddPos(stage8M, 62.1, 74)
 animUpdate(stage8M)
-animSetScale(stage8M, 0.0705, 0.0705)
+animSetScale(stage8M, 0.151, 0.150)
 
 --Stage 9
 stage9M = animNew(stageSff, [[
 0,8, 0,0,
 ]])
-animAddPos(stage9M, 114.9, 171.5)
+animAddPos(stage9M, 62.1, 74)
 animUpdate(stage9M)
-animSetScale(stage9M, 0.0705, 0.0705)
+animSetScale(stage9M, 0.151, 0.150)
 
 --Stage 10
 stage10M = animNew(stageSff, [[
 0,9, 0,0,
 ]])
-animAddPos(stage10M, 114.9, 171.5)
+animAddPos(stage10M, 62.1, 74)
 animUpdate(stage10M)
-animSetScale(stage10M, 0.0705, 0.0705)
+animSetScale(stage10M, 0.151, 0.150)
 
 --Stage 11
 stage11M = animNew(stageSff, [[
 0,10, 0,0,
 ]])
-animAddPos(stage11M, 114.9, 171.5)
+animAddPos(stage11M, 62.1, 74)
 animUpdate(stage11M)
-animSetScale(stage11M, 0.0705, 0.0705)
+animSetScale(stage11M, 0.151, 0.150)
 
 --Stage 12
 stage12M = animNew(stageSff, [[
 0,11, 0,0,
 ]])
-animAddPos(stage12M, 114.9, 171.5)
+animAddPos(stage12M, 62.1, 74)
 animUpdate(stage12M)
-animSetScale(stage12M, 0.0705, 0.0705)
+animSetScale(stage12M, 0.151, 0.150)
 
 --Stage 13
 stage13M = animNew(stageSff, [[
 0,12, 0,0,
 ]])
-animAddPos(stage13M, 114.9, 171.5)
+animAddPos(stage13M, 62.1, 74)
 animUpdate(stage13M)
-animSetScale(stage13M, 0.0705, 0.0705)
+animSetScale(stage13M, 0.151, 0.150)
 
 --Stage 14
 stage14M = animNew(stageSff, [[
 0,13, 0,0,
 ]])
-animAddPos(stage14M, 114.9, 171.5)
+animAddPos(stage14M, 62.1, 74)
 animUpdate(stage14M)
-animSetScale(stage14M, 0.0705, 0.0705)
+animSetScale(stage14M, 0.151, 0.150)
 
 --Stage 15
 stage15M = animNew(stageSff, [[
 0,14, 0,0,
 ]])
-animAddPos(stage15M, 114.9, 171.5)
+animAddPos(stage15M, 62.1, 74)
 animUpdate(stage15M)
-animSetScale(stage15M, 0.0705, 0.0705)
+animSetScale(stage15M, 0.151, 0.150)
 
 --Stage 16
 stage16M = animNew(stageSff, [[
 0,15, 0,0,
 ]])
-animAddPos(stage16M, 114.9, 171.5)
+animAddPos(stage16M, 62.1, 74)
 animUpdate(stage16M)
-animSetScale(stage16M, 0.0705, 0.0712)
+animSetScale(stage16M, 0.151, 0.152)
 
 function f_selectStage()
 	if data.stageType == 'Classic' then
@@ -3355,6 +3356,13 @@ for i=1, #t_lockedService do
 	t_lockedService[i].id = createTextImg(font2, 0, -1, t_lockedService[i].text, 256, 210+i*15)
 end
 
+t_noService = {
+	{id = '', text = "You have Disabled Change Characters when Continuing."},
+}
+for i=1, #t_noService do
+	t_noService[i].id = createTextImg(font2, 0, -1, t_noService[i].text, 289, 210+i*15)
+end
+
 t_devService = {
 	{id = '', text = "This service will be available coming soon."},
 }
@@ -3389,12 +3397,14 @@ end
 		if commandGetState(p1Cmd, 'u') then
 			lockService = false --Boolean to remove the Lock service message
 			devService = false
+			noService = false
 			sndPlay(sysSnd, 100, 0)
 			service = service - 1
 			if service < 1 then service = #t_service end		
 		elseif commandGetState(p1Cmd, 'd') then
 			lockService = false --Boolean to remove the Lock service message
 			devService = false
+			noService = false
 			sndPlay(sysSnd, 100, 0)
 			service = service + 1
 			if service > #t_service then service = 1 end
@@ -3417,6 +3427,8 @@ end
 			elseif service == 2 then
 				if data.coop == true then
 					lockService = true
+				elseif data.contSelection == false then
+					noService = true
 				else
 					sndPlay(sysSnd, 100, 1)
 					serviceTeam = true
@@ -3453,6 +3465,11 @@ end
 		if lockService == true then
 			for i=1, #t_lockedService do
 				textImgDraw(t_lockedService[i].id)
+			end
+		end
+		if noService == true then
+			for i=1, #t_noService do
+				textImgDraw(t_noService[i].id)
 			end
 		end
 		if devService == true then
@@ -3505,6 +3522,7 @@ animUpdate(challengerText1)
 --animSetScale(challengerText1, 1.2, 1)
 
 function f_selectChallenger()
+	if data.contSelection == false and data.rosterAdvance == true then return end
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmNothing)
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
@@ -3837,7 +3855,7 @@ function f_continue()
 				if data.challengerScreen == true then
 					f_selectChallenger()
 					f_challengerMusic()
-				else	
+				else
 					playBGM(bgmSelect) --play original char select song instead of challenger song
 				end
 				break
