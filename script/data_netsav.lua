@@ -25,6 +25,7 @@ data.language = 'ENGLISH'
 data.menuSong = 'Theme 3'
 data.screenshotSnd = 2
 data.clockSeconds = false
+data.stageType = 'Classic'
 data.winscreen = 'Classic'
 data.debugMode = true
 data.challengerSong = 'Fixed'

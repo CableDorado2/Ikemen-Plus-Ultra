@@ -1,5 +1,17 @@
-table: 0AEB2638 {
-  [arcademaxmatches] => table: 0AEB2638 {
+table: 02BAAD78 {
+  [teamstart] => table: 02BAAD78 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [teamend] => table: 02BAAD78 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [arcadeend] => table: 02BAAD78 {
+                   [offset] => 2
+                   [wins] => 4
+                 }
+  [arcademaxmatches] => table: 02BAAD78 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -11,19 +23,19 @@ table: 0AEB2638 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 0AEB2638 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
-  [arcadestart] => table: 0AEB2638 {
-                     [wins] => 2
+  [arcadestart] => table: 02BAAD78 {
                      [offset] => 0
+                     [wins] => 2
                    }
-  [survivalstart] => table: 0AEB2638 {
-                       [wins] => 0
+  [survivalstart] => table: 02BAAD78 {
                        [offset] => -3
+                       [wins] => 0
                      }
-  [teammaxmatches] => table: 0AEB2638 {
+  [survivalend] => table: 02BAAD78 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [teammaxmatches] => table: 02BAAD78 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -35,16 +47,4 @@ table: 0AEB2638 {
                         [9] => 0
                         [10] => 0
                       }
-  [survivalend] => table: 0AEB2638 {
-                     [wins] => 16
-                     [offset] => 4
-                   }
-  [teamend] => table: 0AEB2638 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [teamstart] => table: 0AEB2638 {
-                   [wins] => 1
-                   [offset] => 0
-                 }
 }

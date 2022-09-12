@@ -2954,7 +2954,6 @@ end
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE GAME]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A GAME]'},
-	{id = textImgNew(), text = 'HELP AND MORE'},
 	{id = textImgNew(), text = 'BACK'},	
 }
 txt_starting = createTextImg(jgFnt, 0, 1, '', 37, 228)
@@ -3041,11 +3040,7 @@ function f_mainNetplay()
 				ltn12.pump.all(
 				  ltn12.source.file(assert(io.open("replays/data.replay", "rb"))),
 				  ltn12.sink.file(assert(io.open("replays/Saved/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
-				)					
-			--HELP AND MORE
-			elseif mainNetplay == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_helpMenu()
+				)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -3649,140 +3644,26 @@ cmdInput()
 end
 
 --;===========================================================
---; HELP MENU LOOP
+--; MISSIONS MENU LOOP
 --;===========================================================
-t_helpMenu = {
-	{id = textImgNew(), text = 'DOWNLOAD CONTENT'},
-	{id = textImgNew(), text = 'MUGEN TOOLS'},
-	{id = textImgNew(), text = 'ENGINE MANUAL'},
-	{id = textImgNew(), text = 'DISCORD SUPPORT'},
-	{id = textImgNew(), text = 'BACK'},	
-}	
-	
-function f_helpMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local helpMenu = 1
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			helpMenu = helpMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			helpMenu = helpMenu + 1
-		end
-		if helpMenu < 1 then
-			helpMenu = #t_helpMenu
-			if #t_helpMenu > 4 then
-				cursorPosY = 4
-			else
-				cursorPosY = #t_helpMenu-1
-			end
-		elseif helpMenu > #t_helpMenu then
-			helpMenu = 1
-			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 4 then
-			moveTxt = (helpMenu - 5) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (helpMenu - 1) * 13
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--MUGEN PAGES
-			if helpMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_mugenPages()
-			--MUGEN TOOLS
-			elseif helpMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
-				sszOpen("tools", "")
-			--DOCUMENTATION
-			elseif helpMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
-				sszOpen("docs", "")
-			--DISCORD SUPPORT
-			elseif helpMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				--if data.language == 'SPANISH' then
-					--webOpen("https://discord.gg/98F76CR4C7")	
-				--else
-					webOpen("https://discord.gg/KV5EPnMuA7")	
-				--end	
-			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_helpMenu do
-			if i == helpMenu then
-				bank = 2
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_helpMenu[i].id, jgFnt, bank, 0, t_helpMenu[i].text, 159, 144+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
-		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'ASSISTANCE')
-		textImgDraw(txt_titleFt1)
-		f_clock()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)		
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
+txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT', 159, 13)
 
---;===========================================================
---; MUGEN PAGES MENU LOOP
---;===========================================================
-txt_mugenPages = createTextImg(jgFnt, 0, 0, 'MUGEN RESOURCES', 159, 13)
-
-t_mugenPages = {
-	{id = '', text = 'MUGEN FREE FOR ALL'},
-	{id = '', text = 'MUGENGUILD'},
-	{id = '', text = 'INFINITY MUGEN TEAM'},
-	{id = '', text = 'MUGEN ARCHIVE'},
-	{id = '', text = 'MUGEN MULTIVERSE'},
-	{id = '', text = 'GAMEBANANA'},
+t_missionMenu = {
+	{id = '', text = 'Legendary Warrior'},
+	{id = '', text = 'Clone of The Past'},
+	{id = '', text = 'Devil Blood'},
+	{id = '', text = 'Power Instinct'},
+	{id = '', text = 'True Kung Fu Spirit'},
 	{id = '', text = '                     BACK'},
 }
 
-for i=1, #t_mugenPages do
-	t_mugenPages[i].id = createTextImg(font2, 0, 1, t_mugenPages[i].text, 85, 15+i*15)
+for i=1, #t_missionMenu do
+	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 85, 15+i*15)
 end
 
-function f_mugenPages()
+function f_missionMenu()
 	cmdInput()
-	local mugenPages = 1	
+	local missionMenu = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() then
@@ -3791,37 +3672,21 @@ function f_mugenPages()
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
-			mugenPages = mugenPages - 1
-			if mugenPages < 1 then mugenPages = #t_mugenPages end		
+			missionMenu = missionMenu - 1
+			if missionMenu < 1 then missionMenu = #t_missionMenu end		
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
-			mugenPages = mugenPages + 1
-			if mugenPages > #t_mugenPages then mugenPages = 1 end
+			missionMenu = missionMenu + 1
+			if missionMenu > #t_missionMenu then missionMenu = 1 end
 		elseif btnPalNo(p1Cmd) > 0 then
-			--MUGEN FREE FOR ALL
-			if mugenPages == 1 then
+			--DRAGON CLAW
+			if missionMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
-				webOpen("https://mugenfreeforall.com/")
-			--MUGENGUILD
-			elseif mugenPages == 2 then
+				
+			--
+			elseif missionMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
-				webOpen("https://mugenguild.com/forum/")
-			--INFINITY MUGEN TEAM
-			elseif mugenPages == 3 then
-				sndPlay(sysSnd, 100, 1)
-				webOpen("https://www.infinitymugenteam.com/")
-			--MUGEN ARCHIVE
-			elseif mugenPages == 4 then
-				sndPlay(sysSnd, 100, 1)
-				webOpen("https://mugenarchive.com/forums/downloads.php")
-			--MUGEN MULTIVERSE
-			elseif mugenPages == 5 then
-				sndPlay(sysSnd, 100, 1)
-				webOpen("https://mugenmultiverse.forumotion.com/")	
-			--GAMEBANANA
-			elseif mugenPages == 6 then
-				sndPlay(sysSnd, 100, 1)
-				webOpen("https://gamebanana.com/games/5694")
+				
 			--Back
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3830,16 +3695,16 @@ function f_mugenPages()
 			end			
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_mugenPages*15)
+		animSetWindow(optionsBG1, 80,20, 160,#t_missionMenu*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_mugenPages)
-		for i=1, #t_mugenPages do
-			textImgDraw(t_mugenPages[i].id)
-			if t_mugenPages[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_mugenPages[i].varID, font2, 0, -1, t_mugenPages[i].varText, 235, 15+i*15))
+		textImgDraw(txt_missionMenu)
+		for i=1, #t_missionMenu do
+			textImgDraw(t_missionMenu[i].id)
+			if t_missionMenu[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 235, 15+i*15))
 			end
 		end
-		animSetWindow(cursorBox, 80,5+mugenPages*15, 160,15)
+		animSetWindow(cursorBox, 80,5+missionMenu*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)
