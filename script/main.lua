@@ -3724,9 +3724,18 @@ function f_missionMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
 			--DRAGON CLAW
 			if missionMenu == 1 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				
-			--
+				setRoundTime(-1)
+				data.p2In = 0
+				data.stageMenu = true
+				data.versusScreen = true
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['dragon claw']}
+				data.p2Char = {t_charAdd['kung fu man']}
+				textImgSetText(txt_mainSelect, 'TEST')
+				script.select.f_selectSimple()
 			elseif missionMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				

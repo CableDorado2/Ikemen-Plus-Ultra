@@ -27,6 +27,8 @@ function setCommand(c)
 	commandAdd(c, 'y', 'y')
 	commandAdd(c, 'z', 'z')
 	commandAdd(c, 's', 's') --Return/Enter Button
+	commandAdd(c, 'v', 'v') --For Left Tag
+	commandAdd(c, 'w', 'w') --For Right Tag
 	commandAdd(c, 'holds', '/s')
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
@@ -53,7 +55,9 @@ function btnPalNo(cmd)
 	if commandGetState(cmd, 'x') then return 4 + s end
 	if commandGetState(cmd, 'y') then return 5 + s end
 	if commandGetState(cmd, 'z') then return 6 + s end
-	if commandGetState(cmd, 's') then return 1 + s end --Start button	
+	if commandGetState(cmd, 's') then return 1 + s end --Start button
+	if commandGetState(cmd, 'v') then return 1 + s end
+	if commandGetState(cmd, 'w') then return 2 + s end
 	return 0
 end
 

@@ -509,6 +509,65 @@ function f_selectSimple()
 	end
 end
 
+--;================================================================
+--; TOURNAMENT LOOP
+--;================================================================
+function f_selectTournament()
+	p1SelX = 0
+	p1SelY = 0
+	p2SelX = 0
+	p2SelY = 0
+	p1FaceOffset = 0
+	p2FaceOffset = 0
+	p1OffsetRow = 0
+	p2OffsetRow = 0
+	stageList = 0
+	gameNo = 0
+	bossNo = 0
+	bonusNo = 0
+	p1Wins = 0
+	p2Wins = 0
+	cmdInput()
+	while true do
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		if data.rosterMode == 'challenger' then
+			f_challengerMusic()
+		else	
+			playBGM(bgmSelect)
+		end
+		f_selectReset()
+		while not selScreenEnd do
+			if esc() then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				f_menuMusic()
+				return
+			end
+			f_selectTournamentScreen()
+		end
+		f_aiLevel()
+		f_orderSelect()
+		f_selectVersus()
+		f_setZoom()
+		f_assignMusic()
+		winner = game()
+		--win screen
+		if data.gameMode == 'versus' then
+			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
+			f_selectWin()
+				if data.challengerScreen == true then
+					f_selectChallenger()
+				else
+				--Do Nothing
+				end
+			end
+		end		
+		playBGM('')
+		cmdInput()
+		refresh()
+	end
+end
+
 --;=====================================================================================
 --; ADVANCE LOOP (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;=====================================================================================
@@ -1063,6 +1122,22 @@ function f_selectScreen()
 	animUpdate(data.fadeSelect)
 	animDraw(data.fadeTitle)
 	animUpdate(data.fadeTitle)	
+	cmdInput()
+	refresh()
+end
+
+--;===========================================================
+--; TOURNAMENT SCREEN
+--;===========================================================
+function f_selectTournamentScreen()
+	--draw layerno = 0 backgrounds
+	
+	--draw layerno = 1 backgrounds
+
+	animDraw(data.fadeSelect)
+	animUpdate(data.fadeSelect)
+	animDraw(data.fadeTitle)
+	animUpdate(data.fadeTitle)
 	cmdInput()
 	refresh()
 end
