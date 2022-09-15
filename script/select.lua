@@ -492,7 +492,7 @@ function f_selectSimple()
 		f_setZoom()
 		f_assignMusic()
 		winner = game()
-		--win screen
+		--versus win screen
 		if data.gameMode == 'versus' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
 			f_selectWin()
@@ -502,7 +502,11 @@ function f_selectSimple()
 				--Do Nothing
 				end
 			end
-		end		
+		elseif data.gameMode == 'mission' then
+			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
+			f_selectWin()
+			end
+		end	
 		playBGM('')
 		cmdInput()
 		refresh()
@@ -552,7 +556,7 @@ function f_selectTournament()
 		f_assignMusic()
 		winner = game()
 		--win screen
-		if data.gameMode == 'versus' then
+		--if data.gameMode == 'tournament' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
 			f_selectWin()
 				if data.challengerScreen == true then
@@ -561,7 +565,7 @@ function f_selectTournament()
 				--Do Nothing
 				end
 			end
-		end		
+		--end		
 		playBGM('')
 		cmdInput()
 		refresh()

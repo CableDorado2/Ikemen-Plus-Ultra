@@ -395,7 +395,9 @@ function f_saveUnlockData()
 	-- Data saving to data_sav.lua
 	local t_savesUnlock = {
 		['data.arcadeUnlocks'] = data.arcadeUnlocks,
-		['data.survivalUnlocks'] = data.survivalUnlocks
+		['data.survivalUnlocks'] = data.survivalUnlocks,
+		['data.mission1Status'] = data.mission1Status,
+		['data.mission2Status'] = data.mission2Status
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_savesUnlock)
 	local file = io.open("script/unlocks_sav.lua","w+")
@@ -3704,6 +3706,13 @@ for i=1, #t_missionMenu do
 	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 85, 15+i*15)
 end
 
+t_mInfo = {
+	{id = '', text = "This is a Test Info Text Box."},
+}
+for i=1, #t_mInfo do
+	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 256, 210+i*15)
+end
+
 function f_missionMenu()
 	cmdInput()
 	local missionMenu = 1	
@@ -3722,23 +3731,83 @@ function f_missionMenu()
 			missionMenu = missionMenu + 1
 			if missionMenu > #t_missionMenu then missionMenu = 1 end
 		elseif btnPalNo(p1Cmd) > 0 then
+			f_default()
 			--DRAGON CLAW
 			if missionMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 0
-				data.stageMenu = true
-				data.versusScreen = true
 				data.p1TeamMenu = {mode = 0, chars = 1}				
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['dragon claw']}
-				data.p2Char = {t_charAdd['kung fu man']}
-				textImgSetText(txt_mainSelect, 'TEST')
+				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				--data.stage = {t_stageDef['training room']}
+				data.stageMenu = true
+				data.versusScreen = true
+				data.gameMode = 'mission'
+				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. data.mission1Status .. '%]')
 				script.select.f_selectSimple()
+			--EX KYO
 			elseif missionMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				
+				setRoundTime(-1)
+				data.p2In = 0
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['kyo kusanagi/ex/ex kyo.def']}
+				data.p2Char = {t_charAdd['kyo kusanagi']}
+				data.stageMenu = true
+				data.versusScreen = true
+				data.gameMode = 'mission'
+				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. data.mission1Status .. '%]')
+				script.select.f_selectSimple()
+			--OMEGA RUGAL
+			elseif missionMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1)
+				data.p2In = 0
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['rugal bernstein/omega/omega rugal.def']}
+				data.p2Char = {t_charAdd['m. bison']}
+				data.stageMenu = true
+				data.versusScreen = true
+				data.gameMode = 'mission'
+				textImgSetText(txt_mainSelect, 'MISSION 3 [' .. data.mission1Status .. '%]')
+				script.select.f_selectSimple()
+			--EVIL RYU
+			elseif missionMenu == 4 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1)
+				data.p2In = 0
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['ryu/evil ryu.def']}
+				data.p2Char = {t_charAdd['ryu/evil ryu.def']}
+				data.stageMenu = true
+				data.versusScreen = true
+				data.gameMode = 'mission'
+				textImgSetText(txt_mainSelect, 'MISSION 4 [' .. data.mission1Status .. '%]')
+				script.select.f_selectSimple()
+			--MASTER KUNG FU MAN
+			elseif missionMenu == 5 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1)
+				data.p2In = 1
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 2, chars = 4}
+				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				data.p2Char = {t_charAdd['kung fu man']}
+				data.stageMenu = true
+				data.versusScreen = true
+				data.gameMode = 'mission'
+				textImgSetText(txt_mainSelect, 'MISSION 5 [' .. data.mission1Status .. '%]')
+				script.select.f_selectSimple()
 			--Back
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
