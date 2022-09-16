@@ -360,6 +360,13 @@ void setAutoLevel(&.lua.State L=, int re=)
   .com.autolevel = b;
 }
 
+void setGameMode(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char gm = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.gameMode = gm;
+}
+
 void getListenPort(&.lua.State L=, int re=)
 {
   re = 1;
@@ -909,6 +916,7 @@ public void init(&.lua.State L=)
   L.register("exitReplay", .exitReplay);
   L.register("setCom", .setCom);
   L.register("setAutoLevel", .setAutoLevel);
+  L.register("setGameMode", .setGameMode);
   L.register("getListenPort", .getListenPort);
   L.register("setListenPort", .setListenPort);
   L.register("getUserName", .getUserName);

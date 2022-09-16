@@ -998,7 +998,6 @@ function f_gameCfg()
 			f_zoomCfg()
 		--Back
 		elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
-			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		end	
@@ -1520,7 +1519,6 @@ function f_UICfg()
 			end	
 		--Back
 		elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
-			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1743,7 +1741,6 @@ function f_engineCfg()
 		end
 		--Back
 		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
-			--lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1785,7 +1782,6 @@ end
 --;===========================================================
 t_unlocksWarning = {
 	{id = '', text = "   All unlocked data will be delete. Are you sure?"},
-	--{id = '', text = "          THIS DECISION CANNOT BE UNDO."},
 	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
 }
 for i=1, #t_unlocksWarning do
@@ -1798,8 +1794,12 @@ function f_unlocksWarning()
 			sndPlay(sysSnd, 100, 1)
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
+			data.mission1Status = 0
+			data.mission2Status = 0
+			data.mission3Status = 0
+			data.mission4Status = 0
+			data.mission5Status = 0
 			data.erase = true
-			--f_saveUnlockData()
 			modified = 1
 			break
 		elseif esc() then

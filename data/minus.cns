@@ -1,0 +1,41 @@
+
+[Statedef -1]
+
+
+[Statedef -2]
+
+
+[Statedef -3]
+
+
+[Statedef -I1]
+
+[State -I1, KO Cond]
+type = VarSet
+trigger1 = 1
+sysvar(9) = !noko && life <= 0
+
+[State -I1, KO1]
+type = PlaySnd
+triggerall = sysvar(9)
+triggerall = !nokosnd
+trigger1 = !(sysvar(56) & 4);SYSFLAG,KO
+value = 11, 0
+
+[State -I1, KO2]
+type = VarSet
+trigger1 = sysvar(9)
+sysvar(56) = sysvar(56) | 4;SYSFLAG,KO
+
+[State -I1, Getup1]
+type = VarSet
+trigger1 = movetype != H
+sysvar(54) = const(data.liedown.time);RECOVERTIME
+
+[State -I1, Getup2]
+type = VarAdd
+triggerall = Active
+trigger1 = StateNo = 5110
+trigger1 = sysvar(54) > 0;RECOVERTIME
+sysvar(54) = -1;RECOVERTIME
+

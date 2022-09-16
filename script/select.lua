@@ -3098,6 +3098,26 @@ function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bank
 	return x, y
 end
 
+function f_missionStatus()
+if data.rosterMode == 'mission 1' then
+	data.mission1Status = 100
+	f_saveUnlockData()
+elseif data.rosterMode == 'mission 2' then
+	data.mission2Status = 100
+	f_saveUnlockData()
+elseif data.rosterMode == 'mission 3' then
+	data.mission3Status = 100
+	f_saveUnlockData()
+elseif data.rosterMode == 'mission 4' then
+	data.mission4Status = 100
+	f_saveUnlockData()
+elseif data.rosterMode == 'mission 5' then
+	data.mission5Status = 100
+	f_saveUnlockData()
+end
+assert(loadfile('script/unlocks_sav.lua'))()
+end
+
 function f_selectWin()
 if data.winscreen == 'None' then
 	f_selectWinOFF()
@@ -3108,7 +3128,8 @@ else
 	local txt = ''
 	if winner == 1 then
 		p1Wins = p1Wins + 1
-		txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes from each P1 char
+		txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
+		f_missionStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
@@ -3217,6 +3238,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
+		f_missionStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P2 wins
@@ -3250,6 +3272,7 @@ end
 function f_selectWinOFF()
 	if winner == 1 then
 		p1Wins = p1Wins + 1
+		f_missionStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 	end		

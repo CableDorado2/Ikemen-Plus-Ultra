@@ -381,6 +381,7 @@ function f_default()
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvance = false
+	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
 end
 
 --;===========================================================
@@ -392,12 +393,15 @@ s_dataLUA = file:read("*all")
 file:close()
 
 function f_saveUnlockData()
-	-- Data saving to data_sav.lua
+	--Data saving to data_sav.lua
 	local t_savesUnlock = {
 		['data.arcadeUnlocks'] = data.arcadeUnlocks,
 		['data.survivalUnlocks'] = data.survivalUnlocks,
 		['data.mission1Status'] = data.mission1Status,
-		['data.mission2Status'] = data.mission2Status
+		['data.mission2Status'] = data.mission2Status,
+		['data.mission3Status'] = data.mission3Status,
+		['data.mission4Status'] = data.mission4Status,
+		['data.mission5Status'] = data.mission5Status
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_savesUnlock)
 	local file = io.open("script/unlocks_sav.lua","w+")
@@ -438,6 +442,7 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 		   cmdInput()
+		   setGameMode('demo')
 		   script.randomtest.run()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -1022,8 +1027,9 @@ function f_practiceMenu()
 				data.versusScreen = false --versus screen disabled
 				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p2Char = {t_charAdd['training']} --predefined P2 character as Training by stupa
+				data.p2Char = {t_charAdd['kung fu man']} --predefined P2 character as Training by stupa
 				data.gameMode = 'training'
+				setGameMode('training')
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 			--MULTIPLAYER MODE
@@ -3691,8 +3697,6 @@ end
 --;===========================================================
 --; MISSIONS MENU LOOP
 --;===========================================================
-txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT', 159, 13)
-
 t_missionMenu = {
 	{id = '', text = 'Legendary Warrior'},
 	{id = '', text = 'Clone of The Past'},
@@ -3718,6 +3722,14 @@ function f_missionMenu()
 	local missionMenu = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
+	--Missions Status Logic
+	data.missionsStatus = (data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status) * 100 / 500 --Last number (500) is the summation of all values in parentheses
+	if data.mission1Status == 100 then mission1Progress = 'COMPLETE' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
+	if data.mission2Status == 100 then mission2Progress = 'COMPLETE' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
+	if data.mission3Status == 100 then mission3Progress = 'COMPLETE' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
+	if data.mission4Status == 100 then mission4Progress = 'COMPLETE' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
+	if data.mission5Status == 100 then mission5Progress = 'COMPLETE' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
+	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 13) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -3746,7 +3758,8 @@ function f_missionMenu()
 				data.stageMenu = true
 				data.versusScreen = true
 				data.gameMode = 'mission'
-				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. data.mission1Status .. '%]')
+				data.rosterMode = 'mission 1'
+				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
 			--EX KYO
 			elseif missionMenu == 2 then
@@ -3761,7 +3774,8 @@ function f_missionMenu()
 				data.stageMenu = true
 				data.versusScreen = true
 				data.gameMode = 'mission'
-				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. data.mission1Status .. '%]')
+				data.rosterMode = 'mission 2'
+				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
 				script.select.f_selectSimple()
 			--OMEGA RUGAL
 			elseif missionMenu == 3 then
@@ -3776,7 +3790,8 @@ function f_missionMenu()
 				data.stageMenu = true
 				data.versusScreen = true
 				data.gameMode = 'mission'
-				textImgSetText(txt_mainSelect, 'MISSION 3 [' .. data.mission1Status .. '%]')
+				data.rosterMode = 'mission 3'
+				textImgSetText(txt_mainSelect, 'MISSION 3 [' .. mission3Progress .. ']')
 				script.select.f_selectSimple()
 			--EVIL RYU
 			elseif missionMenu == 4 then
@@ -3791,7 +3806,8 @@ function f_missionMenu()
 				data.stageMenu = true
 				data.versusScreen = true
 				data.gameMode = 'mission'
-				textImgSetText(txt_mainSelect, 'MISSION 4 [' .. data.mission1Status .. '%]')
+				data.rosterMode = 'mission 4'
+				textImgSetText(txt_mainSelect, 'MISSION 4 [' .. mission4Progress .. ']')
 				script.select.f_selectSimple()
 			--MASTER KUNG FU MAN
 			elseif missionMenu == 5 then
@@ -3806,7 +3822,8 @@ function f_missionMenu()
 				data.stageMenu = true
 				data.versusScreen = true
 				data.gameMode = 'mission'
-				textImgSetText(txt_mainSelect, 'MISSION 5 [' .. data.mission1Status .. '%]')
+				data.rosterMode = 'mission 5'
+				textImgSetText(txt_mainSelect, 'MISSION 5 [' .. mission5Progress .. ']')
 				script.select.f_selectSimple()
 			--Back
 			else
