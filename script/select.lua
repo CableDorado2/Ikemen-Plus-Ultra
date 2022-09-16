@@ -502,10 +502,12 @@ function f_selectSimple()
 				--Do Nothing
 				end
 			end
-		elseif data.gameMode == 'mission' then
+		elseif data.rosterMode == 'mission' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
-			f_selectWin()
+				f_selectWin()
 			end
+			f_menuMusic()
+			return
 		end	
 		playBGM('')
 		cmdInput()
@@ -667,6 +669,8 @@ function f_selectAdvance()
 				end
 				--result
 				f_result('win')
+				--complete missions verification
+				f_missionStatus()
 				if data.gameMode == 'arcade' then
 					--credits
 					script.storyboard.f_storyboard('data/credits.def')
@@ -3099,19 +3103,19 @@ function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bank
 end
 
 function f_missionStatus()
-if data.rosterMode == 'mission 1' then
+if data.missionNo == 'mission 1' then
 	data.mission1Status = 100
 	f_saveUnlockData()
-elseif data.rosterMode == 'mission 2' then
+elseif data.missionNo == 'mission 2' then
 	data.mission2Status = 100
 	f_saveUnlockData()
-elseif data.rosterMode == 'mission 3' then
+elseif data.missionNo == 'mission 3' then
 	data.mission3Status = 100
 	f_saveUnlockData()
-elseif data.rosterMode == 'mission 4' then
+elseif data.missionNo == 'mission 4' then
 	data.mission4Status = 100
 	f_saveUnlockData()
-elseif data.rosterMode == 'mission 5' then
+elseif data.missionNo == 'mission 5' then
 	data.mission5Status = 100
 	f_saveUnlockData()
 end

@@ -1,4 +1,4 @@
-ryu
+master ryu
 condition: 1
  trigger
   before: var(1) != 2
@@ -7,7 +7,7 @@ condition: 1
  value
   before: 1 + (random % 12)
   after: 1+(math.random(0,999)*1/1000*12)
-  result: 8
+  result: 9
 condition: 2
  trigger
   before: var(1) = 2
@@ -16,15 +16,15 @@ condition: 2
  value
   before: 50 + (random % 5)
   after: 50+(math.random(0,999)*1/1000*5)
-  result: 50
+  result: 52
 condition: 3
  trigger
   before: enemy, name = "ken" || enemy, name = "ken masters"
-  after:  "suave dude"== "ken"  or   "suave dude"== "ken masters"
+  after:  "evil ryu"== "ken"  or   "evil ryu"== "ken masters"
   result: false
  trigger
   before: enemy, name = "cvsken" || enemy, name = "svcken"
-  after:  "suave dude"== "cvsken"  or   "suave dude"== "svcken"
+  after:  "evil ryu"== "cvsken"  or   "evil ryu"== "svcken"
   result: false
  triggerall
   before: numenemy && var(1) != 2
@@ -37,11 +37,11 @@ condition: 3
 condition: 4
  trigger
   before: enemy, name = "sagat"
-  after:  "suave dude"== "sagat"
+  after:  "evil ryu"== "sagat"
   result: false
  trigger
   before: enemy, name = "cvssagat" || enemy, name = "svcsagat"
-  after:  "suave dude"== "cvssagat"  or   "suave dude"== "svcsagat"
+  after:  "evil ryu"== "cvssagat"  or   "evil ryu"== "svcsagat"
   result: false
  triggerall
   before: numenemy
@@ -54,19 +54,19 @@ condition: 4
 condition: 5
  trigger
   before: enemy, name = "gouki" || enemy, name = "akuma"
-  after:  "suave dude"== "gouki"  or   "suave dude"== "akuma"
+  after:  "evil ryu"== "gouki"  or   "evil ryu"== "akuma"
   result: false
  trigger
   before: enemy, name = "shin gouki" || enemy, name = "shin akuma"
-  after:  "suave dude"== "shin gouki"  or   "suave dude"== "shin akuma"
+  after:  "evil ryu"== "shin gouki"  or   "evil ryu"== "shin akuma"
   result: false
  trigger
   before: enemy, name = "cyber akuma" || enemy, name = "mech gouki"
-  after:  "suave dude"== "cyber akuma"  or   "suave dude"== "mech gouki"
+  after:  "evil ryu"== "cyber akuma"  or   "evil ryu"== "mech gouki"
   result: false
  trigger
   before: enemy, name = "cvsgouki" || enemy, name = "svcgouki"
-  after:  "suave dude"== "cvsgouki"  or   "suave dude"== "svcgouki"
+  after:  "evil ryu"== "cvsgouki"  or   "evil ryu"== "svcgouki"
   result: false
  triggerall
   before: numenemy
@@ -79,7 +79,7 @@ condition: 5
 condition: 6
  trigger
   before: enemy, name = "sakura kasugano" || enemy, name = "cvssakura"
-  after:  "suave dude"== "sakura kasugano"  or   "suave dude"== "cvssakura"
+  after:  "evil ryu"== "sakura kasugano"  or   "evil ryu"== "cvssakura"
   result: false
  triggerall
   before: numenemy && var(1) != 2
@@ -92,23 +92,23 @@ condition: 6
 condition: 7
  trigger
   before: enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server"
-  after:  "suave dude"== "vega"  and   "masukenpu-kun"== "phantom.of.the.server"
+  after:  "evil ryu"== "vega"  and   "phantom.of.the.server"== "phantom.of.the.server"
   result: false
  trigger
   before: enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")
-  after:  "suave dude"== "cvsvega"  and  ( "masukenpu-kun"== "warusaki3"  or   "masukenpu-kun"== "gargoyle")
+  after:  "evil ryu"== "cvsvega"  and  ( "phantom.of.the.server"== "warusaki3"  or   "phantom.of.the.server"== "gargoyle")
   result: false
  trigger
   before: enemynear, name = "m.bison" && enemynear, authorname = "n -mario"
-  after:  "suave dude"== "m.bison"  and   "masukenpu-kun"== "n -mario"
+  after:  "evil ryu"== "m.bison"  and   "phantom.of.the.server"== "n -mario"
   result: false
  trigger
   before: enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous"
-  after:  "suave dude"== "m. bison"  and   "masukenpu-kun"== "vk, updated by terry kuo, adapted by tenebrous"
+  after:  "evil ryu"== "m. bison"  and   "phantom.of.the.server"== "vk, updated by terry kuo, adapted by tenebrous"
   result: false
  trigger
   before: enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)"
-  after:  "suave dude"== "cvsbison"  and   "masukenpu-kun"== "team kai (saiai and koga)"
+  after:  "evil ryu"== "cvsbison"  and   "phantom.of.the.server"== "team kai (saiai and koga)"
   result: false
  triggerall
   before: numenemy && var(1) != 2
@@ -119,5 +119,5 @@ condition: 7
   after: 34
   result: 34
 
-quote: 8
+quote: 9
 exists: yes

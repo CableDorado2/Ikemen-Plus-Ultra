@@ -32,6 +32,7 @@ setDebugScript('script/debug.lua')
 sysSff = sffNew('data/system.sff') --load screenpack/menu sprites
 fadeSff = sffNew('data/fade.sff') --load fade sprites
 stageSff = sffNew('data/stages.sff') --load stages menu sprites
+missionSff = sffNew('data/missions.sff') --load missions menu sprites
 contSff = sffNew('data/continue.sff') --load continue sprites
 
 --SND (Sound effects do not interrupt music/bgm)
@@ -314,6 +315,14 @@ animSetTile(optionsBG1, 1, 1)
 animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
+--Mission Above Transparent background
+missionBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(missionBG1, 1, 1)
+animSetAlpha(missionBG1, 20, 100)
+animUpdate(missionBG1)
+
 --;===========================================================
 --; MAIN MENU STUFF DEFINITION
 --;===========================================================
@@ -381,6 +390,7 @@ function f_default()
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvance = false
+	data.missionNo = ''
 	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
 end
 
@@ -3698,24 +3708,68 @@ end
 --; MISSIONS MENU LOOP
 --;===========================================================
 t_missionMenu = {
-	{id = '', text = 'Legendary Warrior'},
-	{id = '', text = 'Clone of The Past'},
-	{id = '', text = 'Devil Blood'},
-	{id = '', text = 'Power Instinct'},
-	{id = '', text = 'True Kung Fu Spirit'},
-	{id = '', text = '                     BACK'},
+	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
+	{id = '', text = 'Clone of The Past',    varID = textImgNew(), varText = mission2Progress},
+	{id = '', text = 'Devil Blood',  	     varID = textImgNew(), varText = mission3Progress},
+	{id = '', text = 'Power Instinct',       varID = textImgNew(), varText = mission4Progress},
+	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission5Progress},
+	{id = '', text = '                 BACK'},
 }
 
 for i=1, #t_missionMenu do
-	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 85, 15+i*15)
+	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 135+i*15)
 end
 
 t_mInfo = {
-	{id = '', text = "This is a Test Info Text Box."},
+	{id = '1', text = "The ancient Dragon Claw is back!          "},
+	{id = '2', text = "Defeat Kyo Kusanagi NESTS Clone          "},
+	{id = '3', text = "Use the Orochi's Power to destroy everyone!      "},
+	{id = '4', text = "Awaken the hidden power of Ryu            "},
+	{id = '5', text = "Use the full power of Kung Fu Man!         "},
 }
 for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 256, 210+i*15)
+	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 20)
 end
+
+--Mission 1
+mission1 = animNew(missionSff, [[
+0,0, 0,0,
+]])
+animAddPos(mission1, 50, 26)
+animUpdate(mission1)
+animSetScale(mission1, 0.4, 0.25)
+
+--Mission 2
+mission2 = animNew(missionSff, [[
+0,1, 0,0,
+]])
+animAddPos(mission2, 50, 26)
+animUpdate(mission2)
+animSetScale(mission2, 0.4, 0.25)
+
+--Mission 3
+mission3 = animNew(missionSff, [[
+0,2, 0,0,
+]])
+animAddPos(mission3, 50, 26)
+animUpdate(mission3)
+animSetScale(mission3, 0.4, 0.25)
+
+--Mission 4
+mission4 = animNew(missionSff, [[
+0,3, 0,0,
+]])
+animAddPos(mission4, 50, 26)
+animUpdate(mission4)
+animSetScale(mission4, 0.4, 0.25)
+
+--Mission 5
+mission5 = animNew(missionSff, [[
+0,4, 0,0,
+]])
+animAddPos(mission5, 50, 26)
+animUpdate(mission5)
+animSetScale(mission5, 0.4, 0.25)
 
 function f_missionMenu()
 	cmdInput()
@@ -3729,7 +3783,7 @@ function f_missionMenu()
 	if data.mission3Status == 100 then mission3Progress = 'COMPLETE' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
 	if data.mission4Status == 100 then mission4Progress = 'COMPLETE' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
 	if data.mission5Status == 100 then mission5Progress = 'COMPLETE' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
-	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 13) --needs to be inside of mission Menu function, to load mission data %
+	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 133) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -3757,8 +3811,8 @@ function f_missionMenu()
 				--data.stage = {t_stageDef['training room']}
 				data.stageMenu = true
 				data.versusScreen = true
-				data.gameMode = 'mission'
-				data.rosterMode = 'mission 1'
+				data.rosterMode = 'mission'
+				data.missionNo = 'mission 1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
 			--EX KYO
@@ -3771,10 +3825,10 @@ function f_missionMenu()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kyo kusanagi/ex/ex kyo.def']}
 				data.p2Char = {t_charAdd['kyo kusanagi']}
-				data.stageMenu = true
+				data.stageMenu = false
 				data.versusScreen = true
-				data.gameMode = 'mission'
-				data.rosterMode = 'mission 2'
+				data.rosterMode = 'mission'
+				data.missionNo = 'mission 2'
 				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
 				script.select.f_selectSimple()
 			--OMEGA RUGAL
@@ -3782,17 +3836,17 @@ function f_missionMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
-				data.p2In = 0
+				data.p2In = 1
+	            data.p2SelectMenu = false
 				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
+				--data.p2TeamMenu = {mode = 2, chars = 4}
 				data.p1Char = {t_charAdd['rugal bernstein/omega/omega rugal.def']}
-				data.p2Char = {t_charAdd['m. bison']}
-				data.stageMenu = true
 				data.versusScreen = true
-				data.gameMode = 'mission'
-				data.rosterMode = 'mission 3'
+				data.coinsLeft = 0
+				data.gameMode = 'survival'
+				data.missionNo = 'mission 3'
 				textImgSetText(txt_mainSelect, 'MISSION 3 [' .. mission3Progress .. ']')
-				script.select.f_selectSimple()
+				script.select.f_selectAdvance()
 			--EVIL RYU
 			elseif missionMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3801,12 +3855,13 @@ function f_missionMenu()
 				data.p2In = 0
 				data.p1TeamMenu = {mode = 0, chars = 1}				
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['ryu/evil ryu.def']}
+				data.p1Char = {t_charAdd['ryu/master ryu.def']}
 				data.p2Char = {t_charAdd['ryu/evil ryu.def']}
-				data.stageMenu = true
-				data.versusScreen = true
-				data.gameMode = 'mission'
-				data.rosterMode = 'mission 4'
+				setLifeMul(4)
+				data.stageMenu = false
+				data.versusScreen = false
+				data.rosterMode = 'mission'
+				data.missionNo = 'mission 4'
 				textImgSetText(txt_mainSelect, 'MISSION 4 [' .. mission4Progress .. ']')
 				script.select.f_selectSimple()
 			--MASTER KUNG FU MAN
@@ -3815,16 +3870,15 @@ function f_missionMenu()
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 1
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 2, chars = 4}
+				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
-				data.p2Char = {t_charAdd['kung fu man']}
-				data.stageMenu = true
+				data.coinsLeft = data.coins - 1
 				data.versusScreen = true
-				data.gameMode = 'mission'
-				data.rosterMode = 'mission 5'
+				data.gameMode = 'arcade'
+				data.rosterMode = 'mission'
+				data.missionNo = 'mission 5'
 				textImgSetText(txt_mainSelect, 'MISSION 5 [' .. mission5Progress .. ']')
-				script.select.f_selectSimple()
+				script.select.f_selectAdvance()
 			--Back
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3833,16 +3887,56 @@ function f_missionMenu()
 			end			
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_missionMenu*15)
+		--Draw Below Table
+		animSetWindow(optionsBG1, 40,140, 240,#t_missionMenu*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--Draw Above Table
+		animSetWindow(missionBG1, 0,10, 320,110)
+		animDraw(f_animVelocity(missionBG1, -1, -1))
 		textImgDraw(txt_missionMenu)
+		if missionMenu == 1 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[1].id)
+				animUpdate(mission1)
+				animDraw(mission1)
+			end
+		elseif missionMenu == 2 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[2].id)
+				animUpdate(mission2)
+				animDraw(mission2)
+			end
+		elseif missionMenu == 3 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[3].id)
+				animUpdate(mission3)
+				animDraw(mission3)
+			end
+		elseif missionMenu == 4 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[4].id)
+				animUpdate(mission4)
+				animDraw(mission4)
+			end
+		elseif missionMenu == 5 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[5].id)
+				animUpdate(mission5)
+				animDraw(mission5)
+			end
+		end	
+		t_missionMenu[1].varText = mission1Progress
+		t_missionMenu[2].varText = mission2Progress
+		t_missionMenu[3].varText = mission3Progress
+		t_missionMenu[4].varText = mission4Progress
+		t_missionMenu[5].varText = mission5Progress
 		for i=1, #t_missionMenu do
 			textImgDraw(t_missionMenu[i].id)
 			if t_missionMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 235, 15+i*15))
+				textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 135+i*15))
 			end
 		end
-		animSetWindow(cursorBox, 80,5+missionMenu*15, 160,15)
+		animSetWindow(cursorBox, 40,125+missionMenu*15, 240,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)

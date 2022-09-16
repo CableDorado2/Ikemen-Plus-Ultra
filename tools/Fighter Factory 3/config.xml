@@ -34,8 +34,8 @@
     <config name="gif_path" value="H:/Documents and Settings/CD2/Escritorio"/>
     <config name="iconset" value=""/>
     <config name="language" value="en-us"/>
-    <config name="main_axis_x" value="465"/>
-    <config name="main_axis_y" value="373"/>
+    <config name="main_axis_x" value="175"/>
+    <config name="main_axis_y" value="195"/>
     <config name="main_toolbar" value="4"/>
     <config name="max_history" value="30"/>
     <config name="onion_effect" value="1"/>
@@ -73,7 +73,7 @@
     <config name="show_trans_color" value="false"/>
     <config name="snd_path" value="C:/Users/CD2/Desktop"/>
     <config name="sort_file_names" value="true"/>
-    <config name="spr_path" value="C:/Users/CD2/Desktop/stages"/>
+    <config name="spr_path" value="C:/Users/CD2/Desktop"/>
     <config name="sprite_over_guides" value="false"/>
     <config name="stylesheet" value=""/>
     <config name="switch_frame_spr" value="true"/>
