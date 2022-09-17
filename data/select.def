@@ -263,7 +263,7 @@ Call of Zombies, stages/Training Room 2.def, bonus=1, winscreen=0, exclude=1, or
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================
-Training, winscreen=0, exclude=1, order=6
+Sandbag, winscreen=0, exclude=1, order=6
 Stage Viewer, winscreen=0, exclude=1, order=6
 ;===========================================================
 ; HOW TO ADD STAGES

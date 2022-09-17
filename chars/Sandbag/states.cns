@@ -1,0 +1,160 @@
+; States
+;---------------------------------------------------------------------------
+; Crouch
+[Statedef 10]
+
+[State 10, 0]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Walk
+[Statedef 20]
+
+[State 20, 0]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Jump
+[Statedef 40]
+
+[State 40, 0]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Dash
+[Statedef 100]
+
+[State 100, 0]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Lose by Time Over
+[Statedef 170]
+type = S
+anim = 170
+velset = 0,0
+ctrl = 0
+
+[State 170, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; DRAWGAME (Time over)
+[Statedef 175]
+type = S
+velset = 0,0
+ctrl = 0
+
+[State 175, 1] ; If no anim, use go to lose state.
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = !SelfAnimExist(175)
+value = 170
+
+[State 175, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 175
+
+[State 175, 3]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; Win Pose
+[Statedef 180]
+type = S
+anim = 180
+velset = 0,0
+ctrl = 0
+
+[State 181, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 180, 1]
+type = ChangeState
+trigger1 = Time = 0
+value = 181
+
+;---------------------------------------------------------------------------
+; Introduction
+[Statedef 190]
+type = S
+anim = 190
+velset = 0,0
+ctrl = 0
+
+[State 190, 1] ;Freeze animation until PreIntro is over
+type = ChangeAnim
+trigger1 = RoundState = 0
+value = 190
+
+[State 190, 2] ;Assert this until you want "round 1, fight" to begin
+type = AssertSpecial
+trigger1 = 1
+flag = Intro
+
+[State 190, 4] ;Change to stand state
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+
+;---------------------------------------------------------------------------
+
+[Statedef -3] ;Training
+
+[State 0, LifeAdd]
+type = LifeAdd
+trigger1 = timemod = 20,0 ;Se activa por cada 10 tic
+value = 20 ;Cuánto se agregará
+
+;-----------------------------------------------------------------------------
+[Statedef -2];常時監視ステート(相手に行動を制御されても関係無く常に実行される)
+
+[State 191,]
+type = PlaySnd
+triggerall = time = 1
+triggerall = anim = 100
+trigger1 = Alive
+loop = 0
+value = s100,1
+channel = 6
+
+[State -2,]
+type = StopSnd
+trigger1 = command != "holdfwd"
+trigger2 = Anim != 100
+channel = 6
+
+[State -3, Jumping Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 40 ;Jump
+value = S41,41
+
+[State -3, Landing Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = stateno = 52 ;Land
+trigger2 = stateno = 106 ;Land
+value = S51,51

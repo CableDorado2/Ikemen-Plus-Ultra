@@ -1,0 +1,11 @@
+[State 0, PowerAdd]
+type = PowerAdd
+;triggerall = Enemy, Name = "Training"
+trigger1 = Stateno = 0 && Time > 10
+value = 100
+
+[State 0, LifeAdd]
+type = LifeAdd
+trigger1 = Stateno = 0 && Time > 15
+value = 100
+

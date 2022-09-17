@@ -34,8 +34,8 @@
     <config name="gif_path" value="H:/Documents and Settings/CD2/Escritorio"/>
     <config name="iconset" value=""/>
     <config name="language" value="en-us"/>
-    <config name="main_axis_x" value="175"/>
-    <config name="main_axis_y" value="195"/>
+    <config name="main_axis_x" value="413"/>
+    <config name="main_axis_y" value="315"/>
     <config name="main_toolbar" value="4"/>
     <config name="max_history" value="30"/>
     <config name="onion_effect" value="1"/>
@@ -89,6 +89,6 @@
     <config name="window_top" value="22"/>
     <config name="window_width" value="1440"/>
     <config name="zoom_center" value=""/>
-    <config name="zoom_level" value="2"/>
+    <config name="zoom_level" value="3"/>
     <config name="zoom_mode" value="1"/>
 </configuration>

@@ -1032,12 +1032,17 @@ function f_practiceMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1) --round time disabled
-				data.p2In = 2
 				data.stageMenu = true
-				data.versusScreen = false --versus screen disabled
 				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p2Char = {t_charAdd['kung fu man']} --predefined P2 character as Training by stupa
+				if data.training == 'Free' then
+					data.p2In = 1
+					data.versusScreen = false --versus screen disabled
+				elseif data.training == 'Fixed' then
+					data.p2In = 2
+					data.versusScreen = true
+					data.p2Char = {t_charAdd['sandbag']} --predefined P2 character as Training by stupa
+				end
 				data.gameMode = 'training'
 				setGameMode('training')
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')

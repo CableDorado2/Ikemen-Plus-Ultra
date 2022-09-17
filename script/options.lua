@@ -248,7 +248,8 @@ function f_saveCfg()
 		['data.challengerSong'] = data.challengerSong,
 		['data.challengerScreen'] = data.challengerScreen,
 		['data.charPresentation'] = data.charPresentation,
-		['data.serviceScreen'] = data.serviceScreen
+		['data.serviceScreen'] = data.serviceScreen,
+		['data.training'] = data.training
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("script/data_sav.lua","w+")
@@ -334,7 +335,7 @@ function f_netsaveCfg()
 		['data.winscreen'] = data.winscreen,
 		['data.challengerScreen'] = data.challengerScreen,
 		['data.charPresentation'] = data.charPresentation,
-		['data.serviceScreen'] = data.serviceScreen
+		['data.serviceScreen'] = data.serviceScreen,
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
 	local file = io.open("script/data_netsav.lua","w+")
@@ -448,6 +449,7 @@ s_challengerScreen = 'Yes'
 data.charPresentation = 'Sprite'
 data.serviceScreen = true
 s_serviceScreen = 'Yes'
+data.training = 'Free'
 --lifebar
 roundsNum = 2
 drawNum = 2
@@ -801,11 +803,11 @@ t_gameCfg = {
 	{id = '', text = 'Rounds to Win',      		 varID = textImgNew(), varText = roundsNum},
 	{id = '', text = 'Max Draw Games',      	 varID = textImgNew(), varText = drawNum},	
 	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},	
-	{id = '', text = 'Arcade Coins',             varID = textImgNew(), varText = data.coins},
-	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},	
+	{id = '', text = 'Arcade Coins',             varID = textImgNew(), varText = data.coins},	
 	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
 	{id = '', text = 'Game Speed',  	         varID = textImgNew(), varText = s_gameSpeed},
+	{id = '', text = 'Training Character',  	 varID = textImgNew(), varText = data.training},
 	{id = '', text = 'Team Settings'},
 	{id = '', text = 'Zoom Settings'},
 	{id = '', text = '          BACK'},
@@ -921,21 +923,9 @@ function f_gameCfg()
 				sndPlay(sysSnd, 200, 0) --Coin Song
 				data.coins = data.coins - 1
 				modified = 1
-			end
-		--Char change at Continue
-		elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.contSelection then
-				data.contSelection = false
-				s_contSelection = 'No'
-				modified = 1
-			else
-				data.contSelection = true
-				s_contSelection = 'Yes'
-				modified = 1
-			end			
+			end		
 		--AI ramping
-		elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.aiRamping then
 				data.aiRamping = false
@@ -947,7 +937,7 @@ function f_gameCfg()
 				modified = 1
 			end
 		--Auto-Guard
-		elseif gameCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.autoguard then
 				data.autoguard = false
@@ -959,7 +949,7 @@ function f_gameCfg()
 				modified = 1
 			end
 		--Game Speed
-		elseif gameCfg == 10 then
+		elseif gameCfg == 9 then
 		if onlinegame == true then --Detects if this option needs to be locked in online settings
 			lockSetting = true --Boolean to show a Lock setting message
 		elseif onlinegame == false then --allow use the option offline
@@ -986,6 +976,28 @@ function f_gameCfg()
 					s_gameSpeed = 'Slow'
 				end
 				modified = 1
+			end
+		end
+		--Training Character
+		elseif gameCfg == 10 then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then
+			if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+				sndPlay(sysSnd, 100, 0)
+				if commandGetState(p1Cmd, 'r') and data.training == 'Free' then
+					data.training = 'Fixed'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.training == 'Fixed' then
+					data.training = 'Free'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.training == 'Free' then
+					data.training = 'Fixed'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.training == 'Fixed' then
+					data.training = 'Free'
+					modified = 1
+				end
 			end
 		end
 		--Team Settings
@@ -1019,11 +1031,11 @@ function f_gameCfg()
 		t_gameCfg[3].varText = roundsNum
 		t_gameCfg[4].varText = drawNum		
 		t_gameCfg[5].varText = data.lifeMul .. '%'		
-		t_gameCfg[6].varText = data.coins
-		t_gameCfg[7].varText = s_contSelection		
-		t_gameCfg[8].varText = s_aiRamping
-		t_gameCfg[9].varText = s_autoguard
-		t_gameCfg[10].varText = s_gameSpeed
+		t_gameCfg[6].varText = data.coins	
+		t_gameCfg[7].varText = s_aiRamping
+		t_gameCfg[8].varText = s_autoguard
+		t_gameCfg[9].varText = s_gameSpeed
+		t_gameCfg[10].varText = data.training
 		for i=1, #t_gameCfg do
 			textImgDraw(t_gameCfg[i].id)
 			if t_gameCfg[i].varID ~= nil then
@@ -1280,6 +1292,7 @@ t_UICfg = {
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = 'New Challenger Screen',	 varID = textImgNew(), varText = s_challengerScreen},
+	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},
 	{id = '', text = 'Service Screen',	   	     varID = textImgNew(), varText = s_serviceScreen},
 	{id = '', text = '          BACK'},
 }
@@ -1505,8 +1518,20 @@ function f_UICfg()
 				s_challengerScreen = 'Yes'
 				modified = 1
 			end
-		--Service Screen Display
+		--Char change at Continue
 		elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			if data.contSelection then
+				data.contSelection = false
+				s_contSelection = 'No'
+				modified = 1
+			else
+				data.contSelection = true
+				s_contSelection = 'Yes'
+				modified = 1
+			end	
+		--Service Screen Display
+		elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.serviceScreen then
 				data.serviceScreen = false
@@ -1518,7 +1543,7 @@ function f_UICfg()
 				modified = 1
 			end	
 		--Back
-		elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
+		elseif UICfg == 11 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1539,7 +1564,8 @@ function f_UICfg()
 		t_UICfg[6].varText = data.stageType
 		t_UICfg[7].varText = data.winscreen
 		t_UICfg[8].varText = s_challengerScreen
-		t_UICfg[9].varText = s_serviceScreen
+		t_UICfg[9].varText = s_contSelection	
+		t_UICfg[10].varText = s_serviceScreen
 		for i=1, #t_UICfg do
 			textImgDraw(t_UICfg[i].id)
 			if t_UICfg[i].varID ~= nil then
