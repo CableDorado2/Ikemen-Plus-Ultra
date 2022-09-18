@@ -39,3 +39,7 @@ trigger1 = StateNo = 5110
 trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
 
+;[State 500, No Bars] ;HUD Disable for Bonus Stages
+;type = assertspecial
+;trigger1 = gametime > 1 ;reemplazar esto por un identificador que indique que estas en un bonus
+;flag = nobardisplay

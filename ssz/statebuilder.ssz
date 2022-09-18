@@ -8781,11 +8781,11 @@ public &StateBuilder
     if(#`stcommon > 0 && #`stateBulid(buf=, def, `stcommon=)=>error > 0){
       ret error;
     }
-    //^/char training = "data/training.cns";
 	^/char minus = "data/minus.cns";
-    //if(.s.equ(.com.gameMode, "training")){
-      //if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
-    //}
+	^/char training = "data/training.cns";
+    if(.s.equ(.com.gameMode, "training")){
+      if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
+    }
 	if(#`stateBulid(buf=, def, minus=)=>error > 0) ret error;
     buf .=
       "public void c.Char::stateInit" .= ''`playerno .= "P()"\r\n

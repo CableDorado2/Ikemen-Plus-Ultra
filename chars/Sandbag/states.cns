@@ -121,12 +121,12 @@ value = 0
 
 ;---------------------------------------------------------------------------
 
-[Statedef -3] ;Training
+;[Statedef -3] ;Training
 
-[State 0, LifeAdd]
-type = LifeAdd
-trigger1 = timemod = 20,0 ;Se activa por cada 10 tic
-value = 20 ;Cuánto se agregará
+;[State 0, LifeAdd]
+;type = LifeAdd
+;trigger1 = timemod = 20,0 ;Se activa por cada 10 tic
+;value = 20 ;Cuánto se agregará
 
 ;-----------------------------------------------------------------------------
 [Statedef -2];常時監視ステート(相手に行動を制御されても関係無く常に実行される)

@@ -2969,8 +2969,9 @@ function f_inputCfg()
 				data.versusScreen = false
 				data.p1TeamMenu = {mode = 0, chars = 1}				
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd['training']}
+				data.p2Char = {t_charAdd['sandbag']}
 				data.gameMode = 'training'
+				setGameMode('training')
 				textImgSetText(txt_mainSelect, 'INPUT TEST')
 				script.select.f_selectSimple()
 			--Back

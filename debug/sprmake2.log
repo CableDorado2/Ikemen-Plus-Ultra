@@ -1473,3 +1473,15 @@ filesize: 7746 bytes (0 bytes saved by optimization before cropping)
 mem use : 10434 bytes
 
 5 sprite(s) compressed; 29204 bytes saved; avg compression 17.17%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+17 sprites (17 unique), 1 palettes (1 unique, 16 discarded)
+17 unique 8-bit sprite(s)
+ldata   : 33316 bytes 	tdata   : 0 bytes
+filesize: 34320 bytes (0 bytes saved by optimization before cropping)
+mem use : 42412 bytes
+
+8 sprite(s) cropped; 2922 bytes (2922 pixels) eliminated
+17 sprite(s) compressed; 81141 bytes saved; avg compression 28.47%

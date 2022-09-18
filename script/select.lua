@@ -499,7 +499,7 @@ function f_selectSimple()
 				if data.challengerScreen == true then
 					f_selectChallenger()
 				else
-				--Do Nothing
+				--Do Nothing and don't show the screen
 				end
 			end
 		elseif data.rosterMode == 'mission' then
@@ -564,7 +564,7 @@ function f_selectTournament()
 				if data.challengerScreen == true then
 					f_selectChallenger()
 				else
-				--Do Nothing
+				--Do Nothing and don't show the screen
 				end
 			end
 		--end		
@@ -672,6 +672,8 @@ function f_selectAdvance()
 				--complete missions verification
 				f_missionStatus()
 				if data.gameMode == 'arcade' then
+					--complete missions verification
+					f_missionStatus()
 					--credits
 					script.storyboard.f_storyboard('data/credits.def')
 					--unlocks
@@ -3133,7 +3135,11 @@ else
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
-		f_missionStatus()
+		if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
+			--Do nothing and don't save mission progress
+		else 
+			f_missionStatus()
+		end
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
@@ -3954,11 +3960,15 @@ function f_continue()
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
 				--service screen
-				if data.serviceScreen == true then
+				if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
+					--Do nothing and don't show the screen
+				elseif data.serviceScreen == true then
 					f_service()
 				end
 				--challenger screen
-				if data.challengerScreen == true then
+				if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
+					playBGM(bgmSelect) --and don't show the screen
+				elseif data.challengerScreen == true then
 					f_selectChallenger()
 					f_challengerMusic()
 				else

@@ -1040,7 +1040,7 @@ function f_practiceMenu()
 					data.versusScreen = false --versus screen disabled
 				elseif data.training == 'Fixed' then
 					data.p2In = 2
-					data.versusScreen = true
+					data.versusScreen = false
 					data.p2Char = {t_charAdd['sandbag']} --predefined P2 character as Training by stupa
 				end
 				data.gameMode = 'training'
@@ -3783,11 +3783,11 @@ function f_missionMenu()
 	while true do
 	--Missions Status Logic
 	data.missionsStatus = (data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status) * 100 / 500 --Last number (500) is the summation of all values in parentheses
-	if data.mission1Status == 100 then mission1Progress = 'COMPLETE' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
-	if data.mission2Status == 100 then mission2Progress = 'COMPLETE' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
-	if data.mission3Status == 100 then mission3Progress = 'COMPLETE' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
-	if data.mission4Status == 100 then mission4Progress = 'COMPLETE' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
-	if data.mission5Status == 100 then mission5Progress = 'COMPLETE' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
+	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
+	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
+	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
+	if data.mission4Status == 100 then mission4Progress = 'COMPLETED' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
+	if data.mission5Status == 100 then mission5Progress = 'COMPLETED' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
 	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 133) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)

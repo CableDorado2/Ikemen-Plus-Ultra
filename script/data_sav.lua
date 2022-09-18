@@ -33,4 +33,4 @@ data.challengerSong = 'Fixed'
 data.challengerScreen = true
 data.charPresentation = 'Sprite'
 data.serviceScreen = true
-data.training = 'Free'
+data.training = 'Fixed'

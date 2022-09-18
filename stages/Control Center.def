@@ -73,7 +73,7 @@ reflect = 1
 
 ;--------------------------------------------------------
 [music]
-bgmusic =sound/Control Center.mp3
+bgmusic =sound/Omega.mp3
 bgvolume = 100
 
 ;========================================================
