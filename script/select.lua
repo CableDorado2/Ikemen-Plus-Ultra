@@ -158,7 +158,7 @@ function f_selectReset()
 	p1SelEnd = false
 	p2TeamEnd = false
 	p2SelEnd = false
-	if data.p2In == 1 then
+	if data.p2In == 1 or data.p2In == 3 then
 		p2TeamEnd = true
 		p2SelEnd = true
 	end
@@ -407,6 +407,8 @@ function f_aiLevel()
 		--Player 2
 		if p2teamMode == 0 then --Single
 			if data.p2In == 2 and not data.aiFight then
+				setCom(2, 0)
+			elseif data.p2In == 3 and not data.aiFight then
 				setCom(2, 0)
 			else
 				setCom(2, f_difficulty(2, offset))
@@ -675,21 +677,21 @@ function f_selectAdvance()
 					--complete missions verification
 					f_missionStatus()
 					--credits
-					script.storyboard.f_storyboard('data/credits.def')
+					script.storyboard.f_storyboard('data/winmugen/credits.def')
 					--unlocks
 					data.arcadeUnlocks = true --Unlock Extras Menu when complete Arcade Mode
 					f_saveUnlockData()
 					--game over
-					script.storyboard.f_storyboard('data/gameover.def')
+					script.storyboard.f_storyboard('data/winmugen/gameover.def')
 					--intro
-					script.storyboard.f_storyboard('data/intro.def')
+					script.storyboard.f_storyboard('data/winmugen/intro.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					f_menuMusic()
 					return
 				else
 					--game over
-					script.storyboard.f_storyboard('data/gameover.def')
+					script.storyboard.f_storyboard('data/winmugen/gameover.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					f_menuMusic()
@@ -714,7 +716,7 @@ function f_selectAdvance()
 			--game over
 			f_gameOver()
 			--intro
-			--script.storyboard.f_storyboard('data/intro.def')
+			--script.storyboard.f_storyboard('data/winmugen/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			f_menuMusic()
@@ -731,7 +733,7 @@ function f_selectAdvance()
 			f_continue()
 			if data.continue == 2 then --Continue = NO
 				--intro
-				--script.storyboard.f_storyboard('data/intro.def')
+				--script.storyboard.f_storyboard('data/winmugen/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				f_menuMusic()
@@ -1668,6 +1670,10 @@ function f_p1SelectMenu()
 					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = btnPalNo(p1Cmd), ['up'] = updateAnim}
 					if #data.t_p1selected == p1numChars then
 						if data.p2In == 1 and matchNo == 0 then
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						elseif data.p2In == 3 and matchNo == 0 then
 							p2TeamEnd = false
 							p2SelEnd = false
 							--commandBufReset(p2Cmd)

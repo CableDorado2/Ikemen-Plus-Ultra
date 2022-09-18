@@ -126,18 +126,18 @@ draw.offset	= 0,0		;Player drawing offset in pixels (x, y)
 ;--	--	--	--	--	--	--
 
 [Velocity]
-walk.fwd		= 2.4		;Walk forward
-walk.back		= -2.2		;Walk backward
-run.fwd		= 6.5, 0		;Run forward (x, y)
-run.back		= -5.5,-4.8	;Hop backward (x, y)
-jump.neu		= 0,-10		;Neutral jumping velocity (x, y)
-jump.back		= -3.25		;Jump back Speed (x, y)
-jump.fwd		= 3.25		;Jump forward Speed (x, y)
-runjump.back	= -7.5,-8.5	;Running jump speeds (opt)
-runjump.fwd	= 6,-8.5
-airjump.neu	= 0,-8.1
-airjump.back	= -2.55		;Air jump speeds (opt)
-airjump.fwd	= 2.5
+walk.fwd		= 16		;Walk forward
+walk.back		= -16		;Walk backward
+run.fwd		= 12, 0		;Run forward (x, y)
+run.back		= -11,-9	;Hop backward (x, y)
+jump.neu		= 0,-20		;Neutral jumping velocity (x, y)
+jump.back		= -6		;Jump back Speed (x, y)
+jump.fwd		= 6		;Jump forward Speed (x, y)
+runjump.back	= -15,-17	;Running jump speeds (opt)
+runjump.fwd	= 12,-17
+airjump.neu	= 0,-17
+airjump.back	= -5		;Air jump speeds (opt)
+airjump.fwd	= 5
 
 [Movement]
 airjump.num	= 0		;Number of air jumps allowed (opt)

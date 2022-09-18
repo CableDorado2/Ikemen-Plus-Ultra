@@ -29,15 +29,15 @@ loadDebugFont('font/14x14.fnt')
 setDebugScript('script/debug.lua')	
 
 --SFF
-sysSff = sffNew('data/system.sff') --load screenpack/menu sprites
-fadeSff = sffNew('data/fade.sff') --load fade sprites
-stageSff = sffNew('data/stages.sff') --load stages menu sprites
-missionSff = sffNew('data/missions.sff') --load missions menu sprites
-contSff = sffNew('data/continue.sff') --load continue sprites
+sysSff = sffNew('data/winmugen/system.sff') --load screenpack/menu sprites
+fadeSff = sffNew('data/winmugen/fade.sff') --load fade sprites
+stageSff = sffNew('data/winmugen/stages.sff') --load stages menu sprites
+missionSff = sffNew('data/winmugen/missions.sff') --load missions menu sprites
+contSff = sffNew('data/winmugen/continue.sff') --load continue sprites
 
 --SND (Sound effects do not interrupt music/bgm)
-sysSnd = sndNew('data/system.snd')
-contSnd = sndNew('data/continue.snd')
+sysSnd = sndNew('data/winmugen/system.snd')
+contSnd = sndNew('data/winmugen/continue.snd')
 
 --Fonts
 padFnt = fontNew('font/f-pad.fnt')
@@ -391,8 +391,10 @@ function f_default()
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvance = false
 	data.missionNo = ''
-	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
+	setGameMode('default') --sets ssz gameMode variable to adjust internal settings.
 end
+
+
 
 --;===========================================================
 --; LOAD UNLOCKED CONTENT
@@ -423,8 +425,8 @@ end
 --; LOGOS LOOP
 --;===========================================================
 function f_mainStart()
-	script.storyboard.f_storyboard('data/logo.def')
-	script.storyboard.f_storyboard('data/intro.def')
+	script.storyboard.f_storyboard('data/winmugen/logo.def')
+	script.storyboard.f_storyboard('data/winmugen/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--f_howtoplay()
 	f_mainTitle()
@@ -1036,15 +1038,15 @@ function f_practiceMenu()
 				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 				if data.training == 'Free' then
-					data.p2In = 1
+					data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
 					data.versusScreen = false --versus screen disabled
 				elseif data.training == 'Fixed' then
 					data.p2In = 2
 					data.versusScreen = false
-					data.p2Char = {t_charAdd['sandbag']} --predefined P2 character as Training by stupa
+					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 character as Sandbag char
 				end
 				data.gameMode = 'training'
-				setGameMode('training')
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 			--MULTIPLAYER MODE
@@ -1053,13 +1055,13 @@ function f_practiceMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				setRoundTime(-1)
-				setLifeMul(99999)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.stageMenu = true
 				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()			
 			--CO-OP MODE
@@ -2401,7 +2403,7 @@ function f_watchMenu()
 				local cursorPosY = 0
 				local moveTxt = 0
 				local playCredits = 1
-				script.storyboard.f_storyboard('data/credits.def')
+				script.storyboard.f_storyboard('data/winmugen/credits.def')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				while true do
@@ -3226,13 +3228,13 @@ function f_mainHost()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				setRoundTime(-1)
-				setLifeMul(99999)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.stageMenu = true
 				data.versusScreen = true
 				data.p2Faces = true
 				data.gameMode = 'training'
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	
@@ -3441,13 +3443,13 @@ function f_mainJoin()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				setRoundTime(-1)
-				setLifeMul(99999)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.stageMenu = true
 				data.versusScreen = true
 				data.p2Faces = true
 				data.gameMode = 'training'
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	

@@ -3,6 +3,7 @@ randomselect
 randomselect
 randomselect
 randomselect
+chars/suave dude/suave dude.def
 randomselect
 randomselect
 randomselect
@@ -10,5 +11,6 @@ randomselect
 randomselect
 randomselect
 randomselect
+chars/iori yagami/iori yagami.def
 randomselect
 randomselect

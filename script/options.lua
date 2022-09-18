@@ -439,7 +439,7 @@ data.autoguard = false
 s_autoguard = 'No'
 data.vsDisplayWin = true
 s_vsDisplayWin = 'Yes'
-data.lifebar = 'data/fight.def'
+data.lifebar = 'data/winmugen/fight.def'
 data.stageType = 'Classic'
 data.winscreen = 'Classic'
 data.debugMode = false
@@ -449,7 +449,7 @@ s_challengerScreen = 'Yes'
 data.charPresentation = 'Sprite'
 data.serviceScreen = true
 s_serviceScreen = 'Yes'
-data.training = 'Free'
+data.training = 'Fixed'
 --lifebar
 roundsNum = 2
 drawNum = 2
@@ -2969,9 +2969,9 @@ function f_inputCfg()
 				data.versusScreen = false
 				data.p1TeamMenu = {mode = 0, chars = 1}				
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd['sandbag']}
+				data.p2Char = {t_charAdd['training/sandbag.def']}
 				data.gameMode = 'training'
-				setGameMode('training')
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'INPUT TEST')
 				script.select.f_selectSimple()
 			--Back

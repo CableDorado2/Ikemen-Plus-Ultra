@@ -3050,7 +3050,7 @@ public &Char
       if(!`cs1tmp) branch{
       cond 
         `helperindex == 0 && (!`isKO() || `stVal.no == 0)
-        && `sysivar[.iLIFE] <= 0 && `stVal.mov != .MovTy::H && !.gs(.gsNOKO)
+        && `sysivar[.iLIFE] <= 0 && `stVal.mov != .MovTy::H && !.gs(.gsNOKO) && !.s.equ(.com.gameMode, "practice")
         :
         `stVal.hb.fallf = true;
         `trSelfState(5030, -1, -1);
@@ -3159,7 +3159,7 @@ public &Char
   }
   /bool isKO()
   {
-    ret `sf(.sfKO);
+    ret `sf(.sfKO) && !.s.equ(.com.gameMode, "practice");
   }
   /bool isAlive()
   {
@@ -5973,25 +5973,27 @@ public void PlayerList!&Char?::clsn(&.Char pyr=, bool pro)
           (double)absdamage, kill, false, by.attackmul*by.attackmult);
       if(hbset && `pyr.stVal.hb.damage >= `pyr.sysivar[.iLIFE]) branch{
       cond kill || !live:
-        `pyr.stVal.hb.fallf = true;
-        if((int)`pyr.stVal.hb.fall.animtype < (int).AnimTy::Back){
-          `pyr.stVal.hb.fall.animtype = .AnimTy::Back;
-        }
-        branch{
-        cond `pyr.stVal.typ == .StTy::A:
-          if(`pyr.stVal.hb.xvel < 0.0) `pyr.stVal.hb.xvel -= 2.0;
-          if(`pyr.stVal.hb.yvel <= 0.0){
-            `pyr.stVal.hb.yvel -= 2.0;
-            if(`pyr.stVal.hb.yvel > -3.0) `pyr.stVal.hb.yvel = -3.0;
+        if(!.s.equ(.com.gameMode, "practice")){
+		`pyr.stVal.hb.fallf = true;
+          if((int)`pyr.stVal.hb.fall.animtype < (int).AnimTy::Back){
+            `pyr.stVal.hb.fall.animtype = .AnimTy::Back;
           }
-        else:
-          if(`pyr.stVal.hb.yvel == 0.0) `pyr.stVal.hb.xvel *= 0.66;
-          if(`pyr.stVal.hb.xvel < 0.0) `pyr.stVal.hb.xvel -= 2.5;
-          if(`pyr.stVal.hb.yvel <= 0.0){
-            `pyr.stVal.hb.yvel -= 2.0;
-            if(`pyr.stVal.hb.yvel > -6.0) `pyr.stVal.hb.yvel = -6.0;
+          branch{
+          cond `pyr.stVal.typ == .StTy::A:
+            if(`pyr.stVal.hb.xvel < 0.0) `pyr.stVal.hb.xvel -= 2.0;
+            if(`pyr.stVal.hb.yvel <= 0.0){
+              `pyr.stVal.hb.yvel -= 2.0;
+              if(`pyr.stVal.hb.yvel > -3.0) `pyr.stVal.hb.yvel = -3.0;
+            }
+          else:
+            if(`pyr.stVal.hb.yvel == 0.0) `pyr.stVal.hb.xvel *= 0.66;
+            if(`pyr.stVal.hb.xvel < 0.0) `pyr.stVal.hb.xvel -= 2.5;
+            if(`pyr.stVal.hb.yvel <= 0.0){
+              `pyr.stVal.hb.yvel -= 2.0;
+              if(`pyr.stVal.hb.yvel > -6.0) `pyr.stVal.hb.yvel = -6.0;
+            }
           }
-        }
+		}
         `pyr.stVal.hb.damage = `pyr.sysivar[.iLIFE];
       else:
         `pyr.stVal.hb.damage = `pyr.sysivar[.iLIFE] - 1;

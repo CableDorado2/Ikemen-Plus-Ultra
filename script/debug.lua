@@ -146,7 +146,7 @@ function status(p)
 end
 
 function takeScreenshotVS()
-	sysSnd = sndNew('data/system.snd')
+	sysSnd = sndNew('data/winmugen/system.snd')
 	if data.screenshotSnd == 1 then
 		sndPlay(sysSnd, 22, 0)
 	elseif data.screenshotSnd == 2 then

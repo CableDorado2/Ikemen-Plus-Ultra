@@ -20,5 +20,5 @@ value = 100
 type = LifeAdd
 triggerall = Name = "Sandbag"
 trigger1 = Stateno = 0 && Time > 15
-trigger2 = Stateno = 5101 && Time > 17
+;trigger2 = Stateno = 5101 && Time > 17
 value = 100

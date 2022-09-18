@@ -418,7 +418,7 @@ type = varset
 triggerall = teamside = 1
 triggerall = !var(0) ;Pressing Heavy punch, locking to opponent
 trigger1 =  (command = "y" || command = "holdy")
-fvar(0) = 1.5
+fvar(0) = 6
 ignorehitpause = 1
 persistent = 1
 

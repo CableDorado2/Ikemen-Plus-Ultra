@@ -34,8 +34,8 @@
     <config name="gif_path" value="H:/Documents and Settings/CD2/Escritorio"/>
     <config name="iconset" value=""/>
     <config name="language" value="en-us"/>
-    <config name="main_axis_x" value="413"/>
-    <config name="main_axis_y" value="315"/>
+    <config name="main_axis_x" value="502"/>
+    <config name="main_axis_y" value="353"/>
     <config name="main_toolbar" value="4"/>
     <config name="max_history" value="30"/>
     <config name="onion_effect" value="1"/>

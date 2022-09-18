@@ -8782,8 +8782,8 @@ public &StateBuilder
       ret error;
     }
 	^/char minus = "data/minus.cns";
-	^/char training = "data/training.cns";
-    if(.s.equ(.com.gameMode, "training")){
+    ^/char training = "data/training.cns";
+	if(.s.equ(.com.gameMode, "practice")){
       if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
     }
 	if(#`stateBulid(buf=, def, minus=)=>error > 0) ret error;
