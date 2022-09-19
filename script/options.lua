@@ -409,7 +409,7 @@ t_erase = {
 	{id = '', text = "There's no have any data saved to delete."},
 }
 for i=1, #t_erase do
-	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 258, 210+i*15)
+	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 210+i*15)
 end
 
 --Set Offline game Default Options shared with Online game Below
