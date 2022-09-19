@@ -95,7 +95,7 @@ Here you can find some tools that help you in development of your projects (Some
 - Radmin VPN (For Online Netplay): https://www.radmin-vpn.com/
 
 ## Engine Manual
-S-SIZE is the core used. It documentation, is still under development...
+S-SIZE is the programing core language used. It documentation, is still under development...
 - But at the moments, to understand or modify the scripts, you will need knowledge of the LUA programming language. There you have an official Lua Manual: https://www.lua.org/manual/5.2/
 - Also (for create characters and stages), there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
