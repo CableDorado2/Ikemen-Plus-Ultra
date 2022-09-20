@@ -3126,6 +3126,9 @@ elseif data.missionNo == 'mission 4' then
 elseif data.missionNo == 'mission 5' then
 	data.mission5Status = 100
 	f_saveUnlockData()
+elseif data.missionNo == 'mission 6' then
+	data.mission6Status = 100
+	f_saveUnlockData()
 end
 assert(loadfile('script/unlocks_sav.lua'))()
 end
@@ -3471,7 +3474,7 @@ t_lockedService = {
 	{id = '', text = "This service is Unavailable in Co-Op Mode."},
 }
 for i=1, #t_lockedService do
-	t_lockedService[i].id = createTextImg(font2, 0, -1, t_lockedService[i].text, 256, 210+i*15)
+	t_lockedService[i].id = createTextImg(font2, 0, -1, t_lockedService[i].text, 260, 210+i*15)
 end
 
 t_noService = {
@@ -3485,7 +3488,7 @@ t_devService = {
 	{id = '', text = "This service will be available coming soon."},
 }
 for i=1, #t_devService do
-	t_devService[i].id = createTextImg(font2, 0, -1, t_devService[i].text, 256, 210+i*15)
+	t_devService[i].id = createTextImg(font2, 0, -1, t_devService[i].text, 259, 210+i*15)
 end
 
 function f_service()

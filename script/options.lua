@@ -395,14 +395,14 @@ t_restart = {
 	{id = '', text = "require Save and Back.    "},
 }
 for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 236, 180+i*15)
+	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 180+i*15)
 end
 
 t_locked = {
 	{id = '', text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 256, 210+i*15)
+	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 210+i*15)
 end
 
 t_erase = {
@@ -1825,6 +1825,7 @@ function f_unlocksWarning()
 			data.mission3Status = 0
 			data.mission4Status = 0
 			data.mission5Status = 0
+			data.mission6Status = 0
 			data.erase = true
 			modified = 1
 			break
