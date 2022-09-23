@@ -248,7 +248,7 @@ Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=s
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
 Dragon Claw, stages/Far Mountains.def, includestage=0, order=4
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl/EX/EX Kung Fu Girl.def
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl/EX/EX Kung Fu Girl.def, 3=Suave Dude, 4=Dragon Claw
 Kung Fu Girl/EX/EX Kung Fu Girl.def, stages/Sakura.def, music=sound/Start Day.mp3, includestage=0, order=3
 Kyo Kusanagi/EX/EX Kyo.def, stages/Way Out.def, order=1
 Ken Masters/Daigo Ken.def, stages/New York.def, order=4

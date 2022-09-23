@@ -3727,7 +3727,7 @@ t_missionMenu = {
 }
 
 for i=1, #t_missionMenu do
-	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 135+i*15)
+	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
 end
 
 t_mInfo = {
@@ -3739,14 +3739,14 @@ t_mInfo = {
 	{id = '6', text = "A classic versus.                "},
 }
 for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 20)
+	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
 end
 
 --Mission 1
 mission1 = animNew(missionSff, [[
 0,0, 0,0,
 ]])
-animAddPos(mission1, 50, 26)
+animAddPos(mission1, 50, 21)
 animUpdate(mission1)
 animSetScale(mission1, 0.4, 0.25)
 
@@ -3754,7 +3754,7 @@ animSetScale(mission1, 0.4, 0.25)
 mission2 = animNew(missionSff, [[
 0,1, 0,0,
 ]])
-animAddPos(mission2, 50, 26)
+animAddPos(mission2, 50, 21)
 animUpdate(mission2)
 animSetScale(mission2, 0.4, 0.25)
 
@@ -3762,7 +3762,7 @@ animSetScale(mission2, 0.4, 0.25)
 mission3 = animNew(missionSff, [[
 0,2, 0,0,
 ]])
-animAddPos(mission3, 50, 26)
+animAddPos(mission3, 50, 21)
 animUpdate(mission3)
 animSetScale(mission3, 0.4, 0.25)
 
@@ -3770,7 +3770,7 @@ animSetScale(mission3, 0.4, 0.25)
 mission4 = animNew(missionSff, [[
 0,3, 0,0,
 ]])
-animAddPos(mission4, 50, 26)
+animAddPos(mission4, 50, 21)
 animUpdate(mission4)
 animSetScale(mission4, 0.4, 0.25)
 
@@ -3778,7 +3778,7 @@ animSetScale(mission4, 0.4, 0.25)
 mission5 = animNew(missionSff, [[
 0,4, 0,0,
 ]])
-animAddPos(mission5, 50, 26)
+animAddPos(mission5, 50, 21)
 animUpdate(mission5)
 animSetScale(mission5, 0.4, 0.25)
 
@@ -3786,7 +3786,7 @@ animSetScale(mission5, 0.4, 0.25)
 mission6 = animNew(missionSff, [[
 0,5, 0,0,
 ]])
-animAddPos(mission6, 50, 26)
+animAddPos(mission6, 50, 21)
 animUpdate(mission6)
 animSetScale(mission6, 0.4, 0.25)
 
@@ -3805,7 +3805,7 @@ function f_missionMenu()
 	if data.mission4Status == 100 then mission4Progress = 'COMPLETED' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
 	if data.mission5Status == 100 then mission5Progress = 'COMPLETED' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
 	if data.mission6Status == 100 then mission6Progress = 'COMPLETED' elseif data.mission6Status == 0 then mission6Progress = 'INCOMPLETE' end
-	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 133) --needs to be inside of mission Menu function, to load mission data %
+	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -3958,10 +3958,10 @@ function f_missionMenu()
 		--end		
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		--Draw Below Table
-		animSetWindow(optionsBG1, 40,140, 240,#t_missionMenu*15)
+		animSetWindow(optionsBG1, 40,135, 240,#t_missionMenu*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		--Draw Above Table
-		animSetWindow(missionBG1, 0,10, 320,110)
+		animSetWindow(missionBG1, 0,5, 320,110)
 		animDraw(f_animVelocity(missionBG1, -1, -1))
 		textImgDraw(txt_missionMenu)
 		if missionMenu == 1 then
@@ -4010,10 +4010,10 @@ function f_missionMenu()
 		for i=1, #t_missionMenu do
 			textImgDraw(t_missionMenu[i].id)
 			if t_missionMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 135+i*15))
+				textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 130+i*15))
 			end
 		end
-		animSetWindow(cursorBox, 40,125+missionMenu*15, 240,15)
+		animSetWindow(cursorBox, 40,120+missionMenu*15, 240,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)

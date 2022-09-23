@@ -3007,6 +3007,7 @@ function f_selectVersus()
 			break
 		elseif btnPalNo(p1Cmd) > 0 then
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			commandBufReset(p1Cmd, 1)
 			break
 		end
 		--draw names
@@ -3168,6 +3169,7 @@ else
 			if data.orderSelect == true and data.gameMode == 'arcade' then
 				playBGM(bgmSelect)
 			end
+			commandBufReset(p1Cmd, 1)
 			break
 		end
 		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
@@ -3577,7 +3579,8 @@ end
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				break
-			end			
+			end
+			commandBufReset(p1Cmd, 1)
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetWindow(optionsBG1, 80,20, 160,#t_service*15)
