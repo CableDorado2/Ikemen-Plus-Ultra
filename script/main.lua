@@ -3681,7 +3681,7 @@ cmdInput()
 			break
 		end
         i = i + 1
-        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 2, 35)
+        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1.4, 35)
         animDraw(data.fadeTitle)
         animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3705,7 +3705,7 @@ cmdInput()
 			break
 		end
         i = i + 1
-        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 2, 35)
+        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1.8, 35)
         animDraw(data.fadeTitle)
         animUpdate(data.fadeTitle)
 		cmdInput()

@@ -2,6 +2,7 @@
 lib file = <file.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
+lib lua = <alpha/lua.ssz>;
 
 const ^/char conffile = "ssz/config.ssz";
 
@@ -25,6 +26,7 @@ const bool FullScreen = false;
 const float GlVol = 1;
 const float SEVol = 0.5;
 const float BGMVol = 0.75;
+const float PanStr = 0.8;
 
 const float Super_TargetDefenceMul = 1.5;
 
@@ -48,7 +50,7 @@ const bool SaveMemory = false;
 
 
 const bool IgnoreMostErrors = true;
-const bool OpenGL = false;
+const bool OpenGL = true;
 
 
 

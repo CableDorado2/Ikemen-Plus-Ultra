@@ -21,15 +21,16 @@ ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
 AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-b_screenMode = (s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)'))
+b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)') == 'true' and true or false
 gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
+pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
 gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
 b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
 b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
 
-else
+elseif onlinegame == true then
 
 --Data loading from data_netsav.lua
 local file = io.open("script/data_netsav.lua","r")
@@ -44,8 +45,22 @@ HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
 PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
 ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
 AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
-
+resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 end
+
+if pan_str < 20 then
+	pan_str = 0
+elseif pan_str >= 20 and pan_str < 60 then
+	pan_str = 40
+elseif pan_str >= 60 and pan_str < 100 then
+	pan_str = 80
+elseif pan_str >= 100 and pan_str < 140 then
+	pan_str = 120
+elseif pan_str >= 140 then
+	pan_str = 160
+end
+t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
 
 --Data loading from sound.ssz
 local file = io.open("lib/sound.ssz","r")
@@ -69,14 +84,6 @@ elseif gameSpeed == 60 then
 	s_gameSpeed = 'Normal'
 elseif gameSpeed == 72 then
 	s_gameSpeed = 'Turbo'
-end
-
-if b_screenMode == 'true' then
-	b_screenMode = true
-	s_screenMode = 'Yes'
-elseif b_screenMode == 'false' then
-	b_screenMode = false
-	s_screenMode = 'No'
 end
 
 if channels == 6 then
@@ -104,6 +111,8 @@ elseif b_openGL == 'false' then
 	b_openGL = false
 	s_openGL = 'No'
 end
+
+s_screenMode = b_screenMode and 'Yes' or 'No'
 
 if data.teamLifeShare then
 	s_teamLifeShare = 'Yes'
@@ -266,11 +275,7 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
 	end
-	if b_screenMode then
-		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = true')
-	else
-		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
-	end	
+	s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = ' .. tostring(b_screenMode))
 	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
@@ -280,6 +285,7 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
+	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
 	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
 	s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
@@ -346,6 +352,8 @@ function f_netsaveCfg()
 	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int AfterImageMax%s*=%s*%d+', 'const int AfterImageMax = ' .. AfterImageMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int Width%s*=%s*%d+', 'const int Width = ' .. resolutionWidth)
+	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	local file = io.open("ssz/netconfig.ssz","w+")
 	file:write(s_configSSZ)
 	file:close()
@@ -373,7 +381,7 @@ end
 function f_exitInfo()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
+		if btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			f_saveCfg()
 			break
@@ -454,6 +462,9 @@ data.training = 'Fixed'
 roundsNum = 2
 drawNum = 2
 --config.ssz
+resolutionWidth = 854
+resolutionHeight = 480
+setGameRes(resolutionWidth,resolutionHeight)
 HelperMaxEngine = 56
 PlayerProjectileMaxEngine = 50
 ExplodMaxEngine = 256
@@ -480,9 +491,6 @@ f_inputDefault()
 --s_saveMemory = 'No'
 b_openGL = false
 s_openGL = 'No'
-resolutionWidth = 640
-resolutionHeight = 480
---setGameRes(resolutionWidth,resolutionHeight)
 b_screenMode = false
 s_screenMode = 'No'
 setScreenMode(b_screenMode)
@@ -490,6 +498,8 @@ gl_vol = 100
 se_vol = 60
 bgm_vol = 30
 setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+pan_str = 80
+setPanStr(pan_str / 100)
 --sound.ssz
 freq = 48000
 channels = 2
@@ -502,64 +512,64 @@ end
 
 --Default Inputs Values
 function f_inputDefault()
-	if data.p1Controller ~= -1 then
-		data.p1Controller = -1
-		s_p1Controller = 'Keyboard'
-		f_swapController(0, 2, 0, -1)
-	end
-	if data.p2Controller ~= -1 then
-		data.p2Controller = -1
-		s_p2Controller = 'Keyboard'
-		f_swapController(1, 3, 1, -1)
-	end
-	t_keyCfg[1].varText = 'UP'
-	t_keyCfg[2].varText = 'DOWN'
-	t_keyCfg[3].varText = 'LEFT'
-	t_keyCfg[4].varText = 'RIGHT'
-	t_keyCfg[5].varText = 'a'
-	t_keyCfg[6].varText = 's'
-	t_keyCfg[7].varText = 'd'
-	t_keyCfg[8].varText = 'z'
-	t_keyCfg[9].varText = 'x'
-	t_keyCfg[10].varText = 'c'
-	t_keyCfg[11].varText = 'RETURN'
-	f_keySave(0,-1)
-	t_keyCfg[1].varText = 'KP_5'
-	t_keyCfg[2].varText = 'KP_2'
-	t_keyCfg[3].varText = 'KP_1'
-	t_keyCfg[4].varText = 'KP_3'
-	t_keyCfg[5].varText = 'u'
-	t_keyCfg[6].varText = 'i'
-	t_keyCfg[7].varText = 'o'
-	t_keyCfg[8].varText = 'j'
-	t_keyCfg[9].varText = 'k'
-	t_keyCfg[10].varText = 'l'
-	t_keyCfg[11].varText = 'KP_0'
-	f_keySave(1,-1)
-	t_keyCfg[1].varText = '-7'
-	t_keyCfg[2].varText = '-8'
-	t_keyCfg[3].varText = '-5'
-	t_keyCfg[4].varText = '-6'
-	t_keyCfg[5].varText = '0'
-	t_keyCfg[6].varText = '1'
-	t_keyCfg[7].varText = '4'
-	t_keyCfg[8].varText = '2'
-	t_keyCfg[9].varText = '3'
-	t_keyCfg[10].varText = '5'
-	t_keyCfg[11].varText = '7'
-	f_keySave(2,0)
-	t_keyCfg[1].varText = '-7'
-	t_keyCfg[2].varText = '-8'
-	t_keyCfg[3].varText = '-5'
-	t_keyCfg[4].varText = '-6'
-	t_keyCfg[5].varText = '0'
-	t_keyCfg[6].varText = '1'
-	t_keyCfg[7].varText = '4'
-	t_keyCfg[8].varText = '2'
-	t_keyCfg[9].varText = '3'
-	t_keyCfg[10].varText = '5'
-	t_keyCfg[11].varText = '7'
-	f_keySave(3,1)
+if data.p1Controller ~= -1 then
+	data.p1Controller = -1
+	s_p1Controller = 'Keyboard'
+	f_swapController(0, 2, 0, -1)
+end
+if data.p2Controller ~= -1 then
+	data.p2Controller = -1
+	s_p2Controller = 'Keyboard'
+	f_swapController(1, 3, 1, -1)
+end
+t_keyCfg[1].varText = 'UP'
+t_keyCfg[2].varText = 'DOWN'
+t_keyCfg[3].varText = 'LEFT'
+t_keyCfg[4].varText = 'RIGHT'
+t_keyCfg[5].varText = 'a'
+t_keyCfg[6].varText = 's'
+t_keyCfg[7].varText = 'd'
+t_keyCfg[8].varText = 'z'
+t_keyCfg[9].varText = 'x'
+t_keyCfg[10].varText = 'c'
+t_keyCfg[11].varText = 'RETURN'
+f_keySave(0,-1)
+t_keyCfg[1].varText = 'KP_5'
+t_keyCfg[2].varText = 'KP_2'
+t_keyCfg[3].varText = 'KP_1'
+t_keyCfg[4].varText = 'KP_3'
+t_keyCfg[5].varText = 'u'
+t_keyCfg[6].varText = 'i'
+t_keyCfg[7].varText = 'o'
+t_keyCfg[8].varText = 'j'
+t_keyCfg[9].varText = 'k'
+t_keyCfg[10].varText = 'l'
+t_keyCfg[11].varText = 'KP_0'
+f_keySave(1,-1)
+t_keyCfg[1].varText = '-7'
+t_keyCfg[2].varText = '-8'
+t_keyCfg[3].varText = '-5'
+t_keyCfg[4].varText = '-6'
+t_keyCfg[5].varText = '0'
+t_keyCfg[6].varText = '1'
+t_keyCfg[7].varText = '4'
+t_keyCfg[8].varText = '2'
+t_keyCfg[9].varText = '3'
+t_keyCfg[10].varText = '5'
+t_keyCfg[11].varText = '7'
+f_keySave(2,0)
+t_keyCfg[1].varText = '-7'
+t_keyCfg[2].varText = '-8'
+t_keyCfg[3].varText = '-5'
+t_keyCfg[4].varText = '-6'
+t_keyCfg[5].varText = '0'
+t_keyCfg[6].varText = '1'
+t_keyCfg[7].varText = '4'
+t_keyCfg[8].varText = '2'
+t_keyCfg[9].varText = '3'
+t_keyCfg[10].varText = '5'
+t_keyCfg[11].varText = '7'
+f_keySave(3,1)
 end
 
 --;===========================================================
@@ -590,12 +600,16 @@ function f_mainCfg()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() then
-			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			--sndPlay(sysSnd, 100, 2)
-			--if needReload == 1 then
-				--f_exitInfo()
-			--end
-			--break
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			if data.erase == true then
+				f_saveUnlockData()
+			end
+			if needReload == 1 then
+				f_exitInfo()
+			end
+			f_saveCfg()
+			return
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg - 1
@@ -709,7 +723,7 @@ txt_onlineCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
 t_onlineCfg = {
 	{id = '', text = 'Gameplay Settings'},
 	{id = '', text = 'Screenpack Settings'},
-	--{id = '', text = 'Video Settings'},
+	{id = '', text = 'Video Settings'},
 	{id = '', text = 'Engine Settings'},
 	{id = '', text = '      SAVE AND PLAY'},
 }
@@ -745,15 +759,15 @@ function f_onlineCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_UICfg()	
 			--Video Settings
-			--elseif onlineCfg == 3 then
-				--sndPlay(sysSnd, 100, 1)
-				--f_videoCfg()
-			--Engine Settings
 			elseif onlineCfg == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_videoCfg()
+			--Engine Settings
+			elseif onlineCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_engineCfg()	
 			--Save and Play
-			elseif onlineCfg == 4 then
+			elseif onlineCfg == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if modified == 1 then
@@ -765,13 +779,7 @@ function f_onlineCfg()
 					f_mainJoin()
 				end	
 				break
-			end	
-			--Netplay Exit
-			--else
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 2)
-				--break
-			--end		
+			end			
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetWindow(optionsBG1, 80,20, 160,#t_onlineCfg*15)
@@ -1863,34 +1871,57 @@ end
 function f_videoCfg()
 	cmdInput()
 	local videoCfg = 1
+	local hasChanged = true
 	while true do
+		if b_screenMode ~= getScreenMode() then
+			if getScreenMode() then
+				b_screenMode = true
+				s_screenMode = 'Yes'
+			else
+				b_screenMode = false
+				s_screenMode = 'No'
+			end
+			t_videoCfg[2].varText = s_screenMode
+			modified = 1
+		end
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
+			lockSetting = false
 			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
+			lockSetting = false
 			videoCfg = videoCfg - 1
 			if videoCfg < 1 then videoCfg = #t_videoCfg end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
+			lockSetting = false
 			videoCfg = videoCfg + 1
 			if videoCfg > #t_videoCfg then videoCfg = 1 end
 		--Resolution
 		elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
-			f_resCfg()
+			if f_resCfg() then
+				modified = 1
+				hasChanged = true
+			end
 		--Fullscreen			
 		elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then
 			sndPlay(sysSnd, 100, 0)
-			if b_screenMode == false then
+			if not b_screenMode then
 				b_screenMode = true
 				s_screenMode = 'Yes'
-				modified = 1	
 			else
 				b_screenMode = false
 				s_screenMode = 'No'
-				modified = 1
-			end			
+			end
+			modified = 1
+			setScreenMode(b_screenMode) --added via system-script.ssz
+			hasChanged = true
+		end
 		--OpenGL 2.0
 		--elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			--sndPlay(sysSnd, 100, 0)
@@ -1932,11 +1963,17 @@ function f_videoCfg()
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_videoCfg)
 		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
-		t_videoCfg[2].varText = s_screenMode		
-		--t_videoCfg[3].varText = s_openGL
-		--t_videoCfg[4].varText = s_saveMemory
-		--setGameRes(resolutionWidth,resolutionHeight)
-		setScreenMode(b_screenMode) --added via system-script.ssz
+		if hasChanged then
+			t_videoCfg[2].varText = s_screenMode		
+			--t_videoCfg[3].varText = s_openGL
+			--t_videoCfg[4].varText = s_saveMemory
+			hasChanged = false
+		end
+		if lockSetting == true then
+			for i=1, #t_locked do
+				textImgDraw(t_locked[i].id)
+			end
+		end	
 		for i=1, #t_videoCfg do
 			textImgDraw(t_videoCfg[i].id)
 			if t_videoCfg[i].varID ~= nil then
@@ -2025,6 +2062,7 @@ end
 function f_resCfg()
 	cmdInput()
 	local resCfg = 1
+	local hasChanged = true
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -2043,18 +2081,22 @@ function f_resCfg()
 			if resCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_resCfg4_3()
+				hasChanged = true
 			--16:9 Resolutions
 			elseif resCfg == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_resCfg16_9()
+				hasChanged = true
 			--16:10 Resolutions
 			elseif resCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_resCfg16_10()
+				hasChanged = true
 			--Extra Resolutions
 			elseif resCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_EXresCfg()
+				hasChanged = true
 			--Back
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2065,6 +2107,10 @@ function f_resCfg()
 		animSetWindow(optionsBG1, 80,20, 160,#t_resCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_resCfg)
+		if hasChanged then
+			setGameRes(resolutionWidth,resolutionHeight)
+			hasChanged = false
+		end
 		for i=1, #t_resCfg do
 			textImgDraw(t_resCfg[i].id)
 			if t_resCfg[i].varID ~= nil then
@@ -2131,7 +2177,17 @@ t_resCfg4_3 = {
 	{id = '', text = '          BACK'},
 }
 
+--for i=1, #t_resCfg4_3-1 do
+	--if t_resCfg4_3[i].x > getWidth() or t_resCfg4_3[i].y > getHeight() then
+		--for j=i, #t_resCfg4_3-1 do
+			--table.remove(t_resCfg4_3,i) --Show only resolutions recommended for your PC
+		--end
+		--break
+	--end
+--end
+
 for i=1, #t_resCfg4_3 do
+	--if t_resCfg4_3[i].x ~= nil and t_resCfg4_3[i].y ~= nil then t_resCfg4_3[i].text = t_resCfg4_3[i].x .. 'x' .. t_resCfg4_3[i].y end --position the cursor at the chosen resolution
 	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
 end
 
@@ -2149,7 +2205,7 @@ function f_resCfg4_3()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
-			break
+			return false
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			resCfg4_3 = resCfg4_3 - 1
@@ -2183,7 +2239,7 @@ function f_resCfg4_3()
 			--Back
 			if resCfg4_3 == #t_resCfg4_3 then
 				sndPlay(sysSnd, 100, 2)
-				break
+				return false
 			--Resolution
 			else
 				sndPlay(sysSnd, 100, 1)
@@ -2193,8 +2249,8 @@ function f_resCfg4_3()
 					f_resWarning()
 				end
 				modified = 1
-				needReload = 1
-				break
+				--needReload = 1
+				return true
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -2255,7 +2311,7 @@ function f_resCfg16_9()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
-			break
+			return false
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_9 = resCfg16_9 - 1
@@ -2289,7 +2345,7 @@ function f_resCfg16_9()
 			--Back
 			if resCfg16_9 == #t_resCfg16_9 then
 				sndPlay(sysSnd, 100, 2)
-				break
+				return false
 			--Resolution
 			else
 				sndPlay(sysSnd, 100, 1)
@@ -2299,8 +2355,8 @@ function f_resCfg16_9()
 					f_resWarning()
 				end
 				modified = 1
-				needReload = 1
-				break
+				--needReload = 1
+				return true
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -2361,7 +2417,7 @@ function f_resCfg16_10()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
-			break
+			return false
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_10 = resCfg16_10 - 1
@@ -2395,7 +2451,7 @@ function f_resCfg16_10()
 			--Back
 			if resCfg16_10 == #t_resCfg16_10 then
 				sndPlay(sysSnd, 100, 2)
-				break
+				return false
 			--Resolution
 			else
 				sndPlay(sysSnd, 100, 1)
@@ -2405,8 +2461,8 @@ function f_resCfg16_10()
 					f_resWarning()
 				end
 				modified = 1
-				needReload = 1
-				break
+				--needReload = 1
+				return true
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -2477,7 +2533,7 @@ function f_EXresCfg()
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
-			break
+			return false
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			EXresCfg = EXresCfg - 1
@@ -2511,7 +2567,7 @@ function f_EXresCfg()
 			--Back
 			if EXresCfg == #t_EXresCfg then
 				sndPlay(sysSnd, 100, 2)
-				break
+				return false
 			--Resolution
 			else
 				sndPlay(sysSnd, 100, 1)
@@ -2521,8 +2577,8 @@ function f_EXresCfg()
 					f_resWarning()
 				end
 				modified = 1
-				needReload = 1
-				break
+				--needReload = 1
+				return true
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -2554,6 +2610,7 @@ t_audioCfg = {
 	{id = '', text = 'Master Volume',	varID = textImgNew(), varText = gl_vol .. '%'},
 	{id = '', text = 'SFX Volume',		varID = textImgNew(), varText = se_vol .. '%'},
 	{id = '', text = 'BGM Volume',		varID = textImgNew(), varText = bgm_vol .. '%'},
+	{id = '', text = 'Audio Panning',   varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
 	{id = '', text = 'Sample Rate',     varID = textImgNew(), varText = freq},
 	{id = '', text = 'Channels',        varID = textImgNew(), varText = s_channels},
 	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
@@ -2673,8 +2730,28 @@ function f_audioCfg()
 				bufr = 0
 				bufl = 0
 			end
-		--Sample Rate
+		--Audio Panning
 		elseif audioCfg == 4 then
+			if commandGetState(p1Cmd, 'r') then
+				sndPlay(sysSnd, 100, 0)
+				if pan_str < 160 then
+					pan_str = pan_str + 40
+				else
+					pan_str = 0
+				end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') then
+				sndPlay(sysSnd, 100, 0)
+				if pan_str > 0 then
+					pan_str = pan_str - 40
+				else
+					pan_str = 160
+				end
+				modified = 1
+			end
+			setPanStr(pan_str / 100);
+		--Sample Rate
+		elseif audioCfg == 5 then
 			if commandGetState(p1Cmd, 'r') and  freq < 96000 then
 				sndPlay(sysSnd, 100, 0)
 				if freq < 22050 then
@@ -2711,7 +2788,7 @@ function f_audioCfg()
 				needReload = 1
 			end
 		--Channels
-		elseif audioCfg == 5 then
+		elseif audioCfg == 6 then
 			if commandGetState(p1Cmd, 'r') and  channels < 6 then
 				sndPlay(sysSnd, 100, 0)
 				if channels < 2 then
@@ -2742,7 +2819,7 @@ function f_audioCfg()
 				needReload = 1
 			end
 		--Buffer Samples
-		elseif audioCfg == 6 then
+		elseif audioCfg == 7 then
 			if commandGetState(p1Cmd, 'r') and buffer < 8192 then
 				sndPlay(sysSnd, 100, 0)
 				buffer = buffer * 2
@@ -2755,7 +2832,7 @@ function f_audioCfg()
 				needReload = 1
 			end
 		--Screenshot SFX
-		elseif audioCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif audioCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.screenshotSnd == 1 then
 				data.screenshotSnd = 2
@@ -2791,7 +2868,7 @@ function f_audioCfg()
 				modified = 1	
 			end	
 		--Main Menu Song
-		elseif audioCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif audioCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
 				data.menuSong = 'Theme 2'
@@ -2827,7 +2904,7 @@ function f_audioCfg()
 				modified = 1
 			end
 		--Challenger Select Song
-		elseif audioCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif audioCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.challengerSong == 'Fixed' then
 				data.challengerSong = 'Original'
@@ -2863,7 +2940,7 @@ function f_audioCfg()
 				modified = 1
 			end		
 		--Back
-		elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
+		elseif audioCfg == 11 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
 			break
@@ -2875,13 +2952,15 @@ function f_audioCfg()
 		t_audioCfg[1].varText = gl_vol .. '%'
 		t_audioCfg[2].varText = se_vol .. '%'
 		t_audioCfg[3].varText = bgm_vol .. '%'
-		t_audioCfg[4].varText = freq
-		t_audioCfg[5].varText = s_channels
-		t_audioCfg[6].varText = buffer
-		t_audioCfg[7].varText = data.screenshotSnd
-		t_audioCfg[8].varText = data.menuSong
-		t_audioCfg[9].varText = data.challengerSong
+		t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
+		t_audioCfg[5].varText = freq
+		t_audioCfg[6].varText = s_channels
+		t_audioCfg[7].varText = buffer
+		t_audioCfg[8].varText = data.screenshotSnd
+		t_audioCfg[9].varText = data.menuSong
+		t_audioCfg[10].varText = data.challengerSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
+		setPanStr(pan_str / 100);
 		for i=1, #t_audioCfg do
 			textImgDraw(t_audioCfg[i].id)
 			if t_audioCfg[i].varID ~= nil then

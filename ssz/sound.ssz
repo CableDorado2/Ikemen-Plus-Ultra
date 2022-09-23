@@ -154,6 +154,8 @@ public &Snd
   }
 }
 
+public float panstr = .cfg.PanStr;
+
 public &Sound
 {
   public ^&.Wave sound;
@@ -315,9 +317,9 @@ public &Sound
     else:
       branch{
       cond `sound~bytesPerSample == 0d2:
-        `mix_m16(buf, fidxadd, lv, rv);
+        `mix_m16(buf, fidxadd, (int)((float)lv-(`x*.panstr)), (int)((float)rv+(`x*.panstr)));
       else:
-        `mix_m8(buf, fidxadd, lv, rv);
+        `mix_m8(buf, fidxadd, (int)((float)lv-(`x*.panstr)), (int)((float)rv+(`x*.panstr)));
       }
     }
   }

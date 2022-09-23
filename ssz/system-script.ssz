@@ -1,4 +1,3 @@
-
 lib s = <string.ssz>;
 lib consts = <consts.ssz>;
 lib se = <alpha/sdlevent.ssz>;
@@ -27,14 +26,26 @@ public int p1PadButtonID = 101, p2PadButtonID = 101;
 
 public &sys.System syst;
 
-
 public &TextImg
 {
   ^/char text;
   ^&.fnt.Font fnt;
+  &.sdl.Rect window;
+  float winX, winY, winW, winH;
   int bank = 0, align = 0;
   float x = 0.0, y = 0.0;
   float xscl = 1.0, yscl = 1.0;
+  int salpha = 255, dalpha = 0;
+  float oldScale;
+  new()
+  {
+  `window = .com.scrrect;
+  `winX = (float)`window.x;
+  `winY = (float)`window.y;
+  `winW = (float)`window.w;
+  `winH = (float)`window.h;
+  `oldScale = .com.WidthScale;
+  }
   public void setFont(^&.fnt.Font fo)
   {
     `fnt = fo;
@@ -42,7 +53,12 @@ public &TextImg
   public void draw()
   {
     if(.se.fskip || #`fnt == 0) ret;
+	if(`oldScale != .com.WidthScale) `updateWindow();
     `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `align, `text);
+  }
+  public float getTextWidth()
+  {
+    ret (float)(`fnt~textWidth(`text))*`xscl;
   }
   public void setText(^/char t)
   {
@@ -52,6 +68,30 @@ public &TextImg
   {
     `bank = b;
   }
+  public void setAlpha(int as, int ad)
+  {
+    `salpha = as;
+    `dalpha = ad;
+  }
+  public void setWindow(float x, float y, float w, float h)
+  {
+    `window.x = (int)((x+(float)(.com.GameWidth-320)/2.0)*.com.WidthScale);
+    `window.y = (int)((y+(float)(.com.GameHeight-240))*.com.HeightScale);
+    `window.w = (int)(w * .com.WidthScale + 0.5);
+    `window.h = (int)(h * .com.HeightScale + 0.5);
+    `winX = x;
+    `winY = y;
+    `winW = w;
+    `winH = h;
+  }
+  public void updateWindow()
+  {
+    `window.x = (int)((`winX+(float)(.com.GameWidth-320)/2.0)*.com.WidthScale);
+    `window.y = (int)((`winY+(float)(.com.GameHeight-240))*.com.HeightScale);
+    `window.w = (int)(`winW * .com.WidthScale + 0.5);
+    `window.h = (int)(`winH * .com.HeightScale + 0.5);
+    `oldScale = .com.WidthScale;
+  }
   public void setAlign(int a)
   {
     `align = a;
@@ -60,6 +100,11 @@ public &TextImg
   {
     `x = x;
     `y = y;
+  }
+  public void addPos(float x, float y)
+  {
+    `x = `x + x;
+    `y = `y + y;
   }
   public void setScale(float x, float y)
   {
@@ -72,6 +117,13 @@ void textImgNew(&.lua.State L=, int re=)
   re = 1;
   ^&.TextImg textImg.new(1);
   L.pushRef(textImg);
+}
+void textImgGetWidth(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^&.TextImg textImg = .sc.refArg!&.TextImg?(L=, re=, argc=, nret);
+  if(re < 0) ret; 
+  L.pushNumber((double)textImg~getTextWidth());
 }
 void textImgSetFont(&.lua.State L=, int re=)
 {
@@ -89,6 +141,26 @@ void textImgSetBank(&.lua.State L=, int re=)
   if(re < 0) ret;
   int b = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   textImg~setBank(b);
+}
+void textImgSetAlpha(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^&.TextImg textImg = .sc.refArg!&.TextImg?(L=, re=, argc=, nret);
+  if(re < 0) ret;
+  int as = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ad = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  textImg~setAlpha(as, ad);
+}
+void textImgSetWindow(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^&.TextImg textImg = .sc.refArg!&.TextImg?(L=, re=, argc=, nret);
+  if(re < 0) ret;
+  float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float w = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float h = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  textImg~setWindow(x, y, w, h);
 }
 void textImgSetAlign(&.lua.State L=, int re=)
 {
@@ -115,6 +187,15 @@ void textImgSetPos(&.lua.State L=, int re=)
   float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   textImg~setPos(x, y);
 }
+void textImgAddPos(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^&.TextImg textImg = .sc.refArg!&.TextImg?(L=, re=, argc=, nret);
+  if(re < 0) ret;
+  float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  textImg~addPos(x, y);
+}
 void textImgSetScale(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -137,13 +218,20 @@ public &Anim
 {
   ^&.sff.Anim!&.bg.Frame? ani;
   &.sdl.Rect window;
+  float winX, winY, winW, winH;
   float x = 0.0, y = 0.0;
   float xscl = 1.0, yscl = 1.0;
+  float oldScale;
   new()
   {
     `ani.new(1);
     `ani~mask = 0;
     `window = .com.scrrect;
+	`winX = (float)`window.x;
+    `winY = (float)`window.y;
+    `winW = (float)`window.w;
+    `winH = (float)`window.h;
+    `oldScale = .com.WidthScale;
   }
   public void setSff(^&.sff.Sff sf)
   {
@@ -167,9 +255,14 @@ public &Anim
   {
     `ani~action();
   }
+  public void reset()
+  {
+    `ani~reset();
+  }
   public void draw()
   {
     if(.se.fskip) ret;
+	if(`oldScale != .com.WidthScale) `updateWindow();
     `ani~draw(
       `window=, `x + (float)(.com.GameWidth-320)/2.0,
       `y + (float)(.com.GameHeight-240), 1.0, 1.0,
@@ -210,6 +303,18 @@ public &Anim
     `window.y = (int)((y+(float)(.com.GameHeight-240))*.com.HeightScale);
     `window.w = (int)(w * .com.WidthScale + 0.5);
     `window.h = (int)(h * .com.HeightScale + 0.5);
+	`winX = x;
+    `winY = y;
+    `winW = w;
+    `winH = h;
+  }
+  public void updateWindow()
+  {
+    `window.x = (int)((`winX+(float)(.com.GameWidth-320)/2.0)*.com.WidthScale);
+    `window.y = (int)((`winY+(float)(.com.GameHeight-240))*.com.HeightScale);
+    `window.w = (int)(`winW * .com.WidthScale + 0.5);
+    `window.h = (int)(`winH * .com.HeightScale + 0.5);
+    `oldScale = .com.WidthScale;
   }
 }
 void animNew(&.lua.State L=, int re=)
@@ -284,11 +389,26 @@ void animSetWindow(&.lua.State L=, int re=)
   float h = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   anim~setWindow(x, y, w, h);
 }
+void animGetFrame(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
+  branch{
+  cond #anim > 0: L.pushNumber((double)anim~animTime());
+  else: L.pushNumber((double)0);
+  }
+}
 void animUpdate(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
   anim~update();
+}
+void animReset(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
+  anim~reset();
 }
 void animDraw(&.lua.State L=, int re=)
 {
@@ -296,7 +416,6 @@ void animDraw(&.lua.State L=, int re=)
   ^&.Anim anim = .sc.refArg!&.Anim?(L=, re=, argc=, nret); if(re < 0) ret;
   anim~draw();
 }
-
 
 void enterNetPlay(&.lua.State L=, int re=)
 {
@@ -408,6 +527,13 @@ void setVolume(&.lua.State L=, int re=)
   .sdl.setVolume(g, s, b);
 }
 
+void setPanStr(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  float p = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .snd.panstr = p;
+}
+
 void synchronize(&.lua.State L=, int re=)
 {
   re = 0;
@@ -418,12 +544,39 @@ void synchronize(&.lua.State L=, int re=)
   }
 }
 
+void getWidth(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).sdl.getWidth());
+}
+
+void getHeight(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).sdl.getHeight());
+}
+
+void setGameRes(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int w = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int h = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.setSize(w,h);
+  .sdl.windowSize(w,h);
+}
+
+void getScreenMode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.full);
+}
+
 void setScreenMode(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   bool f = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .sdl.fullScreen(f);
-  .sdl.showCursor(!f);
+  if(.sdl.fullScreen(f)) .sdl.showCursor(!f);
+  .se.full = f;
 }
 
 void swapGamepad(&.lua.State L=, int re=)
@@ -893,11 +1046,15 @@ public void init(&.lua.State L=)
 {
   .sc.init(L=);
   L.register("textImgNew", .textImgNew);
+  L.register("textImgGetWidth", .textImgGetWidth);
   L.register("textImgSetFont", .textImgSetFont);
   L.register("textImgSetBank", .textImgSetBank);
+  L.register("textImgSetAlpha", .textImgSetAlpha);
+  L.register("textImgSetWindow", .textImgSetWindow);
   L.register("textImgSetAlign", .textImgSetAlign);
   L.register("textImgSetText", .textImgSetText);
   L.register("textImgSetPos", .textImgSetPos);
+  L.register("textImgAddPos", .textImgAddPos);
   L.register("textImgSetScale", .textImgSetScale);
   L.register("textImgDraw", .textImgDraw);
   L.register("animNew", .animNew);
@@ -908,7 +1065,9 @@ public void init(&.lua.State L=)
   L.register("animSetAlpha", .animSetAlpha);
   L.register("animSetScale", .animSetScale);
   L.register("animSetWindow", .animSetWindow);
+  L.register("animGetFrame", .animGetFrame);
   L.register("animUpdate", .animUpdate);
+  L.register("animReset", .animReset);
   L.register("animDraw", .animDraw);
   L.register("enterNetPlay", .enterNetPlay);
   L.register("exitNetPlay", .exitNetPlay);
@@ -922,6 +1081,11 @@ public void init(&.lua.State L=)
   L.register("getUserName", .getUserName);
   L.register("setUserName", .setUserName);
   L.register("setVolume", .setVolume);
+  L.register("setPanStr", .setPanStr);
+  L.register("getWidth", .getWidth);
+  L.register("getHeight", .getHeight);
+  L.register("setGameRes", .setGameRes);
+  L.register("getScreenMode", .getScreenMode);
   L.register("setScreenMode", .setScreenMode); 
   L.register("connected", .connected);
   L.register("synchronize", .synchronize);

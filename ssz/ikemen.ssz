@@ -198,11 +198,12 @@ void main()
   }
 /?/*.cfg.OpenGL:
   if(!.sdl.InitMugenGl(::)){
-    .error!.self?("Error to run OpenGL, edit it as false in ssz/config.ssz");
+    .error!.self?("OpenGL Initialization failed, edit it as false in ssz/config.ssz");
     ret;
   }
 /*?*/
-  .sdl.fullScreen(.cfg.FullScreen);
+  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
+  if(.cfg.FullScreen) .se.full = true;
   &.lua.State L;
   if(!.init(L=)) ret;
   if(!L.runFile(.cfg.system)){

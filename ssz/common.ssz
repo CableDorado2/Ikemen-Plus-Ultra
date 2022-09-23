@@ -1,4 +1,3 @@
-
 lib s = <string.ssz>;
 lib consts = <consts.ssz>;
 lib m = <math.ssz>;
@@ -62,22 +61,34 @@ public float accel = 1.0;
 
 public bool autolevel = false;
 
-const int GameWidth =
-  cfg.Width*3 > cfg.Height*4 ? cfg.Width*3*320/(cfg.Height*4) : 320; 
-const int GameHeight =
-  cfg.Height*4 > cfg.Width*3 ? cfg.Height*4*240/(cfg.Width*3) : 240; 
-const float WidthScale = (float)cfg.Width / (float)GameWidth;
-const float HeightScale = (float)cfg.Height / (float)GameHeight;
+public int GameWidth;
+public int GameHeight;
+public float WidthScale;
+public float HeightScale;
 
 const bool CharLocalCoord320 = false;
 
-const float CharGameWidth = CharLocalCoord320 ? 320.0 : (float)GameWidth;
-const float CharGameLeft = ((float)GameWidth - CharGameWidth) / 2.0;
-const float CharGameRight = CharGameLeft + CharGameWidth;
+public float CharGameWidth;
+public float CharGameLeft;
+public float CharGameRight;
 
 public &sdl.Rect scrrect;
-scrrect.set(0, 0, cfg.Width, cfg.Height);
 
+public void setSize(int w, int h)
+{
+  .GameWidth =
+    w*3 > h*4 ? w*3*320/(h*4) : 320;
+  .GameHeight =
+    h*4 > w*3 ? h*4*240/(w*3) : 240;  
+  .WidthScale = (float)w / (float).GameWidth;
+  .HeightScale = (float)h / (float).GameHeight;
+  .CharGameWidth = .CharLocalCoord320 ? 320.0 : (float).GameWidth;
+  .CharGameLeft = ((float).GameWidth - .CharGameWidth) / 2.0;
+  .CharGameRight = .CharGameLeft + .CharGameWidth;
+  .scrrect.set(0, 0, w, h);
+}
+
+setSize(.cfg.Width, .cfg.Height);
 
 const float Speed = (float)cfg.GameSpeed / 60.0;
 

@@ -120,10 +120,10 @@ randomselect
 Kyo Kusanagi, stages/Neo-Geo Land.def, music=sound/Esaka.mp3, includestage=0, order=3, 3=Iori Yagami, 4=Rugal Bernstein/Omega/Omega Rugal.def
 Ken Masters, order=3, 3=Ryu/Evil Ryu.def, 4=Ryu
 randomselect
-Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=1, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
+Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=1, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
 Iori Yagami, stages/Way Out.def, music=sound/Stormy Saxophone.mp3, music=sound/New Order.mp3, order=3, 3=Kyo Kusanagi, 4=Rugal Bernstein
-M. Bison, stages/Psy-Drive.def, music=sound/The Dictator.mp3, boss=1, includestage=0, order=4, 3=Ryu/Master Ryu.def
+M. Bison, stages/Psy-Drive.def, music=sound/The Dictator.mp3, boss=1, includestage=0, order=4, 3=Ken Masters, 4=Ryu/Master Ryu.def
 randomselect
 Suave Dude, stages/Suave's Corridor.def, boss=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 randomselect

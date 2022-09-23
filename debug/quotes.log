@@ -1,6 +1,22 @@
-iori yagami
-0 triggers found
-quote = random value from all 87 available quotes
+kung fu girl
+condition: 1
+ trigger
+  before: 1
+  after: true
+  result: true
+ value
+  before: (random % 5)
+  after: (math.random(0,999)*1/1000*5)
+  result: 2
+condition: 2
+ trigger
+  before: enemy,name = "kung fu man"
+  after: "suave dude"== "kung fu man"
+  result: false
+ value
+  before: 5
+  after: 5
+  result: 5
 
-quote: 64
+quote: 2
 exists: yes
