@@ -563,7 +563,24 @@ function f_mainMenu()
 			--NETPLAY
 			elseif mainMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
-				f_mainNetplay()
+				--Data loading from config.ssz
+				local file = io.open("ssz/config.ssz","r")
+				s_configSSZ = file:read("*all")
+				file:close()
+				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution
+				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution
+				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution
+				--Rounding Example
+				--local number = 15.57
+				--local number2 = 15.23
+				--print(math.floor(number + 0.5)) --Result will be = 16
+				--print(math.floor(number2 + 0.5)) --Result will be = 15
+					f_netWarning()
+				else
+					f_mainNetplay()
+				end
 			--PRACTICE
 			elseif mainMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
@@ -3690,9 +3707,8 @@ cmdInput()
 end
 
 --;===========================================================
---; INFO LOOP
+--; UNLOCK INFO LOOP
 --;===========================================================
---txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0)
 function f_secret()
 local i = 0
 txt = 'COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!'
@@ -3706,6 +3722,29 @@ cmdInput()
 		end
         i = i + 1
         f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1.8, 35)
+        animDraw(data.fadeTitle)
+        animUpdate(data.fadeTitle)
+		cmdInput()
+        refresh()
+    end		
+end
+
+--;===========================================================
+--; NETPLAY INFO LOOP
+--;===========================================================
+function f_netWarning()
+local i = 0
+txt = 'BEFORE TO PLAY ONLINE, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
+cmdInput()
+	while true do
+		if esc() or btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			break
+		end
+        i = i + 1
+        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1, 35)
         animDraw(data.fadeTitle)
         animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3798,7 +3837,7 @@ function f_missionMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 	--Missions Status Logic
-	data.missionsStatus = (data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status + data.mission6Status) * 100 / 600 --Last number (600) is the summation of all values in parentheses
+	data.missionsStatus = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status + data.mission6Status) * 100 / 600) + 0.5)) --The number (600) is the summation of all data.missionStatus values in parentheses
 	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
 	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
 	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end

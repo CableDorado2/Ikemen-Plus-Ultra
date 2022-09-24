@@ -4,8 +4,7 @@ module(..., package.seeall)
 --;===========================================================
 --; LOAD DATA
 --;===========================================================
-if onlinegame == false then
-
+function f_loadCfg()
 --Data loading from data_sav.lua
 local file = io.open("script/data_sav.lua","r")
 s_dataLUA = file:read("*all")
@@ -29,9 +28,9 @@ pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*
 gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
 b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
 b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+end
 
-elseif onlinegame == true then
-
+function f_loadNETCfg()
 --Data loading from data_netsav.lua
 local file = io.open("script/data_netsav.lua","r")
 s_dataLUA = file:read("*all")
@@ -49,6 +48,7 @@ resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 end
 
+function f_loadEXCfg()
 if pan_str < 20 then
 	pan_str = 0
 elseif pan_str >= 20 and pan_str < 60 then
@@ -178,6 +178,16 @@ if data.serviceScreen then
 	s_serviceScreen = 'Yes'
 else
 	s_serviceScreen = 'No'
+end
+
+end
+
+if onlinegame == false then
+	f_loadCfg()
+	f_loadEXCfg()
+elseif onlinegame == true then
+	f_loadNETCfg()
+	f_loadEXCfg()
 end
 
 --;===========================================================
@@ -462,9 +472,6 @@ data.training = 'Fixed'
 roundsNum = 2
 drawNum = 2
 --config.ssz
-resolutionWidth = 854
-resolutionHeight = 480
-setGameRes(resolutionWidth,resolutionHeight)
 HelperMaxEngine = 56
 PlayerProjectileMaxEngine = 50
 ExplodMaxEngine = 256
@@ -494,6 +501,9 @@ s_openGL = 'No'
 b_screenMode = false
 s_screenMode = 'No'
 setScreenMode(b_screenMode)
+resolutionWidth = 854
+resolutionHeight = 480
+setGameRes(resolutionWidth,resolutionHeight)
 gl_vol = 100
 se_vol = 60
 bgm_vol = 30
@@ -686,6 +696,14 @@ function f_mainCfg()
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
+				assert(loadfile('script/data_sav.lua'))() --Load old data no saved
+				assert(loadfile('script/unlocks_sav.lua'))() --Load old data no saved
+				f_loadCfg()
+				f_loadEXCfg()
+				setScreenMode(b_screenMode)
+				setGameRes(resolutionWidth,resolutionHeight)
+				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+				setPanStr(pan_str / 100)
 				break
 			end			
 		end
@@ -760,8 +778,8 @@ function f_onlineCfg()
 				f_UICfg()	
 			--Video Settings
 			elseif onlineCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_videoCfg()
+				--sndPlay(sysSnd, 100, 1)
+				--f_videoCfg()
 			--Engine Settings
 			elseif onlineCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
@@ -2158,7 +2176,6 @@ end
 --;===========================================================
 txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (4:3)', 159, 13)
 t_resCfg4_3 = {
-	
 	{id = '', x = 320,  y = 240,  text = '320x240             (QVGA)'},
 	{id = '', x = 512,  y = 384,  text = '512x384        (MACINTOSH)'},
 	{id = '', x = 640,  y = 480,  text = '640x480              (VGA)'},
@@ -2249,7 +2266,7 @@ function f_resCfg4_3()
 					f_resWarning()
 				end
 				modified = 1
-				--needReload = 1
+				needReload = 1
 				return true
 			end
 		end
@@ -2279,11 +2296,9 @@ end
 --;===========================================================
 txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:9)', 159, 13)
 t_resCfg16_9 = {
-	
-	{id = '', x = 426,  y = 240,  text = '426x240        (ULTRA LOW)'},
+	{id = '', x = 427,  y = 240,  text = '427x240        (ULTRA LOW)'},
 	{id = '', x = 640,  y = 360,  text = '640x360              (LOW)'},
-	{id = '', x = 850,  y = 480,  text = '850x480             (WVGA)'},
-	{id = '', x = 854,  y = 480,  text = '854x480               (SD)'},
+	{id = '', x = 853,  y = 480,  text = '853x480               (SD)'},
 	{id = '', x = 1280, y = 720,  text = '1280x720              (HD)'},
 	{id = '', x = 1600, y = 900,  text = '1600x900             (HD+)'},
 	{id = '', x = 1920, y = 1080, text = '1920x1080        (FULL HD)'},
@@ -2355,7 +2370,7 @@ function f_resCfg16_9()
 					f_resWarning()
 				end
 				modified = 1
-				--needReload = 1
+				needReload = 1
 				return true
 			end
 		end
@@ -2385,9 +2400,7 @@ end
 --;===========================================================
 txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:10)', 159, 13)
 t_resCfg16_10 = {
-	
 	{id = '', x = 320,  y = 200,  text = '320x200              (CGA)'},
-	{id = '', x = 1280, y = 768,  text = '1280x768            (WXGA)'},
 	{id = '', x = 1280, y = 800,  text = '1280x800            (WXGA)'},
 	{id = '', x = 1440, y = 900,  text = '1440x900           (WXGA+)'},
 	{id = '', x = 1680, y = 1050, text = '1680x1050         (WSXGA+)'},
@@ -2461,7 +2474,7 @@ function f_resCfg16_10()
 					f_resWarning()
 				end
 				modified = 1
-				--needReload = 1
+				needReload = 1
 				return true
 			end
 		end
@@ -2491,7 +2504,6 @@ end
 --;===========================================================
 txt_EXresCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT', 159, 13)
 t_EXresCfg = {
-	
 	{id = '', x = 400,  y = 254,  text = '400x254           (ARCADE)'},
 	{id = '', x = 800,  y = 508,  text = '400x508        (ARCADE x2)'},
 	{id = '', x = 640,  y = 350,  text = '640x350         (EGA 11:6)'},
@@ -2577,7 +2589,7 @@ function f_EXresCfg()
 					f_resWarning()
 				end
 				modified = 1
-				--needReload = 1
+				needReload = 1
 				return true
 			end
 		end
