@@ -501,7 +501,7 @@ s_openGL = 'No'
 b_screenMode = false
 s_screenMode = 'No'
 setScreenMode(b_screenMode)
-resolutionWidth = 854
+resolutionWidth = 853
 resolutionHeight = 480
 setGameRes(resolutionWidth,resolutionHeight)
 gl_vol = 100

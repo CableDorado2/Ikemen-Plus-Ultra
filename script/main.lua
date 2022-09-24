@@ -394,8 +394,6 @@ function f_default()
 	setGameMode('default') --sets ssz gameMode variable to adjust internal settings.
 end
 
-
-
 --;===========================================================
 --; LOAD UNLOCKED CONTENT
 --;===========================================================
@@ -460,7 +458,12 @@ function f_mainTitle()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
 		   sndPlay(sysSnd, 100, 1)
-			f_mainMenu()
+		   i = 0
+		   f_mainMenu()
+		elseif esc() then
+			i = 0
+			sndPlay(sysSnd, 100, 2)
+			f_exitMenu()
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		animSetWindow(cursorBox, 0, 180, 290, 13)
@@ -514,9 +517,8 @@ function f_mainMenu()
 	f_menuMusic()
 	while true do
 		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			f_mainTitle()
-			--f_howtoplay()
+			playBGM(bgmTitle)
+			return
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			mainMenu = mainMenu - 1
@@ -610,7 +612,9 @@ function f_mainMenu()
 				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 			--EXIT
 			elseif mainMenu == 9 then
-				os.exit()
+				sndPlay(sysSnd, 100, 1)
+				f_exitMenu()
+				--os.exit() --Quick Exit
 			--CHECK UPDATES
 			else
 				sndPlay(sysSnd, 100, 1)	
@@ -4055,6 +4059,90 @@ function f_missionMenu()
 		animSetWindow(cursorBox, 40,120+missionMenu*15, 240,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; EXIT LOOP
+--;===========================================================
+t_exitMenu = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}	
+	
+function f_exitMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local exitMenu = 1
+	while true do
+		if commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			exitMenu = exitMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			exitMenu = exitMenu + 1
+		end
+		if exitMenu < 1 then
+			exitMenu = #t_exitMenu
+			if #t_exitMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_exitMenu-1
+			end
+		elseif exitMenu > #t_exitMenu then
+			exitMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (exitMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (exitMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--YES
+			if exitMenu == 1 then
+			    os.exit()					
+			--NO
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_exitMenu do
+			if i == exitMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 165+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, '              THE GAME WILL BE CLOSED')
+		f_clock()
+		f_date()	
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
