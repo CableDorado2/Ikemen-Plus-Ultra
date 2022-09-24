@@ -2380,7 +2380,19 @@ function f_watchMenu()
 			if watchMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				f_mainReplay()
+				--Data loading from config.ssz
+				local file = io.open("ssz/config.ssz","r")
+				s_configSSZ = file:read("*all")
+				file:close()
+				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
+				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
+				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To watch an online replay you need to set a 16:9 Resolution to avoid desync
+					f_replayWarning()
+				else
+					f_mainReplay()
+				end
 			--STAGE VIEWER
 			elseif watchMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3739,6 +3751,29 @@ end
 function f_netWarning()
 local i = 0
 txt = 'BEFORE TO PLAY ONLINE, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
+cmdInput()
+	while true do
+		if esc() or btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			break
+		end
+        i = i + 1
+        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1, 35)
+        animDraw(data.fadeTitle)
+        animUpdate(data.fadeTitle)
+		cmdInput()
+        refresh()
+    end		
+end
+
+--;===========================================================
+--; REPLAY INFO LOOP
+--;===========================================================
+function f_replayWarning()
+local i = 0
+txt = 'BEFORE TO WATCH AN ONLINE REPLAY, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
 cmdInput()
 	while true do
 		if esc() or btnPalNo(p1Cmd) > 0 then
