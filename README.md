@@ -57,19 +57,19 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(It will be supported in a near future)* |
 | --- | --- | --- | --- |
-| ↑ | Up Arrow | T |  |
-| ↓ | Down Arrow | G |  |
-| ← | Left Arrow | F |  |
-| → | Right Arrow | H |  |
-| A/***LK*** | Z | J |  |
-| B/***MK*** | X | K |  |
-| C/***SK*** | C | L |  |
-| X/***LP*** | A | I |  |
-| Y/***MP*** | S | O |  |
-| Z/***SP*** | D | P |  |
-| **Taunt**/Start | Enter/Return | Q |  |
-| **Pause**/Resume | Backspace |  |  |
-| UI Confirm | Enter/Return / Z, X, C, A, S, D | Q, J, K, L, I, O, P |  |
+| ↑ | Up Arrow | KP_5 |  |
+| ↓ | Down Arrow | KP_2 |  |
+| ← | Left Arrow | KP_1 |  |
+| → | Right Arrow | KP_3 |  |
+| A/***LK*** | A | U |  |
+| B/***MK*** | S | I |  |
+| C/***SK*** | D | O |  |
+| X/***LP*** | Z | J |  |
+| Y/***MP*** | X | L |  |
+| Z/***SP*** | C | L |  |
+| **Taunt**/Start | Enter/Return | KP_0 |  |
+| **Pause**/Resume | SpaceBar |  |  |
+| UI Confirm | Enter/Return |  |  |
 | UI Back | Esc |  |  |
 
 ## Tutorials
