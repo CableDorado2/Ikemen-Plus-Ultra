@@ -329,7 +329,8 @@ animUpdate(missionBG1)
 --txt_oldtitleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 2, 240)
 txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 txt_titleFt = createTextImg(font5, 0, 1, '', 2, 240)
-txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.1.0', 319, 240)
+txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.2.0', 319, 240)
+txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black screen important message
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
 function f_clock() --Just a clock
@@ -571,9 +572,9 @@ function f_mainMenu()
 				file:close()
 				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution
-				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution
-				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution
+				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
+				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
+				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
 				--Rounding Example
 				--local number = 15.57
 				--local number2 = 15.23
@@ -3701,7 +3702,6 @@ end
 --;===========================================================
 --; WARNING LOOP
 --;===========================================================
-txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0)
 function f_comingSoon()
 local i = 0
 txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'

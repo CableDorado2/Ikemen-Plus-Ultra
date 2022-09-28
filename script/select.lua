@@ -2674,7 +2674,7 @@ function f_orderSelect()
 			end
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
-			if data.charPresentation == 'Mixed' then
+			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 				drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			end	
@@ -2880,12 +2880,16 @@ function f_orderSelect()
 					if i < 120 then i = 120 end
 				end
 			end
-			--draw character animations
-			for j=#data.t_p1selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
-			end
-			for j=#data.t_p2selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 290 - (2*j-1) * 100/(2*#data.t_p2selected), 168, data.t_p2selected[j].up)
+			if data.charPresentation == 'Portrait' then
+				--Don't Draw character animations
+			elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+				--draw character animations
+				for j=#data.t_p1selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
+				end
+				for j=#data.t_p2selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 290 - (2*j-1) * 100/(2*#data.t_p2selected), 168, data.t_p2selected[j].up)
+				end
 			end
 			--draw names
 			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
@@ -2976,7 +2980,7 @@ function f_selectVersus()
 		animAddPos(versusBG4, 160, 95)
 		local vsTime = 0
 		local vshintTime = 0
-		local randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+		local randomHintVS = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
 		cmdInput()
 		while true do
 		--draw background on top
@@ -2995,7 +2999,10 @@ function f_selectVersus()
 			textImgDraw(txt_vsHint)
 		elseif randomHintVS == 2 then
 			textImgSetText(txt_vsHint, "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
-			textImgDraw(txt_vsHint)				
+			textImgDraw(txt_vsHint)
+		elseif randomHintVS == 3 then
+			textImgSetText(txt_vsHint, "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT   ")
+			textImgDraw(txt_vsHint)	
 		end
 		if vshintTime > 150 then --Time for show a new random hint
 			randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints

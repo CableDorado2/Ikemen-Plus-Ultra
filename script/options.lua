@@ -465,6 +465,7 @@ s_debugMode = 'Disabled'
 data.challengerScreen = true
 s_challengerScreen = 'Yes'
 data.charPresentation = 'Sprite'
+data.sffConversion = true
 data.serviceScreen = true
 s_serviceScreen = 'Yes'
 data.training = 'Fixed'
@@ -489,7 +490,6 @@ data.screenshotSnd = 2
 data.clock = 'Standard'
 data.date = 'Type A'
 data.challengerSong = 'Fixed'
-data.sffConversion = true
 data.p1Controller = -1
 data.p2Controller = -1
 --config.ssz
@@ -1463,21 +1463,27 @@ function f_UICfg()
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.charPresentation == 'Portrait' then
 				data.charPresentation = 'Sprite'
+				data.sffConversion = true
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.charPresentation == 'Sprite' then
 				data.charPresentation = 'Mixed'
+				data.sffConversion = true
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.charPresentation == 'Mixed' then
 				data.charPresentation = 'Portrait'
+				data.sffConversion = false
 				modified = 1	
 			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Portrait' then
 				data.charPresentation = 'Mixed'
+				data.sffConversion = true
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Sprite' then
 				data.charPresentation = 'Portrait'
+				data.sffConversion = false
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.charPresentation == 'Mixed' then
 				data.charPresentation = 'Sprite'
+				data.sffConversion = true
 				modified = 1	
 			end
 		--Stage Select Display Type
