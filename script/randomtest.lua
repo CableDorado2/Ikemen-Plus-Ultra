@@ -59,6 +59,7 @@ function addMoudeta(rank)
     table.remove(moudeta, 1)
   end
 end
+
 function randRank()
   local r = 0
   while true do

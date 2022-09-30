@@ -86,20 +86,20 @@ bgmGameOver = 'sound/Game Over.mp3'
 
 --Random Versus Music
 function f_bgmrandomVS()
-local randomTrack = {"sound/Random VS/Song 1.mp3", "sound/Random VS/Song 2.mp3", "sound/Random VS/Song 3.mp3"}
-playBGM(randomTrack[math.random(1, #randomTrack)])
+	local randomTrack = {"sound/Random VS/Song 1.mp3", "sound/Random VS/Song 2.mp3", "sound/Random VS/Song 3.mp3"}
+	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
 --Random Menu Music
 function f_bgmrandomMenu()
-local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3", "sound/Menu 3.ogg"}
-playBGM(randomTrack[math.random(1, #randomTrack)])
+	local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3", "sound/Menu 3.ogg"}
+	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
 --Random Select Challenger Menu Music
 function f_bgmrandomChallenger()
-local randomTrack = {"sound/The Challenger.mp3", bgmSelect, bgmSelectBoss}
-playBGM(randomTrack[math.random(1, #randomTrack)])
+	local randomTrack = {"sound/The Challenger.mp3", bgmSelect, bgmSelectBoss}
+	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
 --Menu Music
@@ -3052,13 +3052,14 @@ end
 --;===========================================================
 --; ONLINE MENU LOOP
 --;===========================================================
+txt_starting = createTextImg(jgFnt, 0, 1, '', 37, 228)
+txt_connecting = createTextImg(jgFnt, 0, 1, '', 10, 228)
+
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE GAME]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A GAME]'},
 	{id = textImgNew(), text = 'BACK'},	
 }
-txt_starting = createTextImg(jgFnt, 0, 1, '', 37, 228)
-txt_connecting = createTextImg(jgFnt, 0, 1, '', 10, 228)
 
 function f_mainNetplay()
 	cmdInput()
@@ -3703,9 +3704,9 @@ end
 --; WARNING LOOP
 --;===========================================================
 function f_comingSoon()
-local i = 0
-txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'
-cmdInput()
+	local i = 0
+	txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'
+	cmdInput()
 	while true do
 		if esc() or btnPalNo(p1Cmd) > 0 then
 			cmdInput()
@@ -3726,9 +3727,9 @@ end
 --; UNLOCK INFO LOOP
 --;===========================================================
 function f_secret()
-local i = 0
-txt = 'COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!'
-cmdInput()
+	local i = 0
+	txt = 'COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!'
+	cmdInput()
 	while true do
 		if esc() or btnPalNo(p1Cmd) > 0 then
 			cmdInput()
@@ -3749,9 +3750,9 @@ end
 --; NETPLAY INFO LOOP
 --;===========================================================
 function f_netWarning()
-local i = 0
-txt = 'BEFORE TO PLAY ONLINE, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
-cmdInput()
+	local i = 0
+	txt = 'BEFORE TO PLAY ONLINE, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
+	cmdInput()
 	while true do
 		if esc() or btnPalNo(p1Cmd) > 0 then
 			cmdInput()
@@ -3772,9 +3773,9 @@ end
 --; REPLAY INFO LOOP
 --;===========================================================
 function f_replayWarning()
-local i = 0
-txt = 'BEFORE TO WATCH AN ONLINE REPLAY, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
-cmdInput()
+	local i = 0
+	txt = 'BEFORE TO WATCH AN ONLINE REPLAY, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
+	cmdInput()
 	while true do
 		if esc() or btnPalNo(p1Cmd) > 0 then
 			cmdInput()
@@ -3803,7 +3804,6 @@ t_missionMenu = {
 	{id = '', text = 'Eternal Rivals',  	 varID = textImgNew(), varText = mission6Progress},
 	{id = '', text = '                 BACK'},
 }
-
 for i=1, #t_missionMenu do
 	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
 end
@@ -4143,7 +4143,6 @@ function f_exitMenu()
 			moveTxt = (exitMenu - 1) * 13
 		end
 		if btnPalNo(p1Cmd) > 0 then
-			f_default()
 			--YES
 			if exitMenu == 1 then
 			    os.exit()					

@@ -73,7 +73,7 @@
     <config name="show_trans_color" value="false"/>
     <config name="snd_path" value="C:/Users/CD2/Desktop"/>
     <config name="sort_file_names" value="true"/>
-    <config name="spr_path" value="C:/Users/CD2/Desktop"/>
+    <config name="spr_path" value="C:/Users/CD2/Desktop/ctn2"/>
     <config name="sprite_over_guides" value="false"/>
     <config name="stylesheet" value=""/>
     <config name="switch_frame_spr" value="true"/>

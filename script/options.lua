@@ -5,181 +5,180 @@ module(..., package.seeall)
 --; LOAD DATA
 --;===========================================================
 function f_loadCfg()
---Data loading from data_sav.lua
-local file = io.open("script/data_sav.lua","r")
-s_dataLUA = file:read("*all")
-file:close()
+	--Data loading from data_sav.lua
+	local file = io.open("script/data_sav.lua","r")
+	s_dataLUA = file:read("*all")
+	file:close()
 
---Data loading from config.ssz
-local file = io.open("ssz/config.ssz","r")
-s_configSSZ = file:read("*all")
-file:close()
-HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
-PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
-ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
-AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
-resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)') == 'true' and true or false
-gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
-se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
-bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
-pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
-gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
-b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
-b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+	--Data loading from config.ssz
+	local file = io.open("ssz/config.ssz","r")
+	s_configSSZ = file:read("*all")
+	file:close()
+	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
+	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)') == 'true' and true or false
+	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
+	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
+	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
+	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
+	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
+	b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
+	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
 end
 
 function f_loadNETCfg()
---Data loading from data_netsav.lua
-local file = io.open("script/data_netsav.lua","r")
-s_dataLUA = file:read("*all")
-file:close()
+	--Data loading from data_netsav.lua
+	local file = io.open("script/data_netsav.lua","r")
+	s_dataLUA = file:read("*all")
+	file:close()
 
---Data loading from netconfig.ssz
-local file = io.open("ssz/netconfig.ssz","r")
-s_configSSZ = file:read("*all")
-file:close()
-HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
-PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
-ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
-AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
-resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+	--Data loading from netconfig.ssz
+	local file = io.open("ssz/netconfig.ssz","r")
+	s_configSSZ = file:read("*all")
+	file:close()
+	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
+	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 end
 
 function f_loadEXCfg()
-if pan_str < 20 then
-	pan_str = 0
-elseif pan_str >= 20 and pan_str < 60 then
-	pan_str = 40
-elseif pan_str >= 60 and pan_str < 100 then
-	pan_str = 80
-elseif pan_str >= 100 and pan_str < 140 then
-	pan_str = 120
-elseif pan_str >= 140 then
-	pan_str = 160
-end
-t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
+	if pan_str < 20 then
+		pan_str = 0
+	elseif pan_str >= 20 and pan_str < 60 then
+		pan_str = 40
+	elseif pan_str >= 60 and pan_str < 100 then
+		pan_str = 80
+	elseif pan_str >= 100 and pan_str < 140 then
+		pan_str = 120
+	elseif pan_str >= 140 then
+		pan_str = 160
+	end
+	t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
 
---Data loading from sound.ssz
-local file = io.open("lib/sound.ssz","r")
-s_soundSSZ = file:read("*all")
-file:close()
-freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
-channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
-buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
+	--Data loading from sound.ssz
+	local file = io.open("lib/sound.ssz","r")
+	s_soundSSZ = file:read("*all")
+	file:close()
+	freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
+	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
+	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
 
---Data loading from lifebar
-local file = io.open(data.lifebar,"r")
-s_lifebarDEF = file:read("*all")
-file:close()
-roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
-drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
+	--Data loading from lifebar
+	local file = io.open(data.lifebar,"r")
+	s_lifebarDEF = file:read("*all")
+	file:close()
+	roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
+	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
 
---Variable setting based on loaded data
-if gameSpeed == 48 then
-	s_gameSpeed = 'Slow'
-elseif gameSpeed == 60 then
-	s_gameSpeed = 'Normal'
-elseif gameSpeed == 72 then
-	s_gameSpeed = 'Turbo'
-end
+	--Variable setting based on loaded data
+	if gameSpeed == 48 then
+		s_gameSpeed = 'Slow'
+	elseif gameSpeed == 60 then
+		s_gameSpeed = 'Normal'
+	elseif gameSpeed == 72 then
+		s_gameSpeed = 'Turbo'
+	end
 
-if channels == 6 then
-	s_channels = '5.1'
-elseif channels == 4 then
-	s_channels = 'Quad'
-elseif channels == 2 then
-	s_channels = 'Stereo'
-elseif channels == 1 then
-	s_channels = 'Mono'
-end
+	if channels == 6 then
+		s_channels = '5.1'
+	elseif channels == 4 then
+		s_channels = 'Quad'
+	elseif channels == 2 then
+		s_channels = 'Stereo'
+	elseif channels == 1 then
+		s_channels = 'Mono'
+	end
 
-if b_saveMemory == 'true' then
-	b_saveMemory = true
-	s_saveMemory = 'Yes'
-elseif b_saveMemory == 'false' then
-	b_saveMemory = false
-	s_saveMemory = 'No'
-end
+	if b_saveMemory == 'true' then
+		b_saveMemory = true
+		s_saveMemory = 'Yes'
+	elseif b_saveMemory == 'false' then
+		b_saveMemory = false
+		s_saveMemory = 'No'
+	end
 
-if b_openGL == 'true' then
-	b_openGL = true
-	s_openGL = 'Yes'
-elseif b_openGL == 'false' then
-	b_openGL = false
-	s_openGL = 'No'
-end
+	if b_openGL == 'true' then
+		b_openGL = true
+		s_openGL = 'Yes'
+	elseif b_openGL == 'false' then
+		b_openGL = false
+		s_openGL = 'No'
+	end
 
-s_screenMode = b_screenMode and 'Yes' or 'No'
+	s_screenMode = b_screenMode and 'Yes' or 'No'
 
-if data.teamLifeShare then
-	s_teamLifeShare = 'Yes'
-else
-	s_teamLifeShare = 'No'
-end
+	if data.teamLifeShare then
+		s_teamLifeShare = 'Yes'
+	else
+		s_teamLifeShare = 'No'
+	end
 
-if data.zoomActive then
-	s_zoomActive = 'Yes'
-else
-	s_zoomActive = 'No'
-end
+	if data.zoomActive then
+		s_zoomActive = 'Yes'
+	else
+		s_zoomActive = 'No'
+	end
 
-if data.p1Controller == -1 then
-	s_p1Controller = 'Keyboard'
-else
-	s_p1Controller = 'Gamepad'
-end
+	if data.p1Controller == -1 then
+		s_p1Controller = 'Keyboard'
+	else
+		s_p1Controller = 'Gamepad'
+	end
 
-if data.p2Controller == -1 then
-	s_p2Controller = 'Keyboard'
-else
-	s_p2Controller = 'Gamepad'
-end
+	if data.p2Controller == -1 then
+		s_p2Controller = 'Keyboard'
+	else
+		s_p2Controller = 'Gamepad'
+	end
 
-if data.contSelection then
-	s_contSelection = 'Yes'
-else
-	s_contSelection = 'No'
-end
+	if data.contSelection then
+		s_contSelection = 'Yes'
+	else
+		s_contSelection = 'No'
+	end
 
-if data.aiRamping then
-	s_aiRamping = 'Yes'
-else
-	s_aiRamping = 'No'
-end
+	if data.aiRamping then
+		s_aiRamping = 'Yes'
+	else
+		s_aiRamping = 'No'
+	end
 
-if data.autoguard then
-	s_autoguard = 'Yes'
-else
-	s_autoguard = 'No'
-end
+	if data.autoguard then
+		s_autoguard = 'Yes'
+	else
+		s_autoguard = 'No'
+	end
 
-if data.vsDisplayWin then
-	s_vsDisplayWin = 'Yes'
-else
-	s_vsDisplayWin = 'No'
-end
+	if data.vsDisplayWin then
+		s_vsDisplayWin = 'Yes'
+	else
+		s_vsDisplayWin = 'No'
+	end
 
-if data.debugMode then
-	s_debugMode = 'Enabled'
-else
-	s_debugMode = 'Disabled'
-end
+	if data.debugMode then
+		s_debugMode = 'Enabled'
+	else
+		s_debugMode = 'Disabled'
+	end
 
-if data.challengerScreen then
-	s_challengerScreen = 'Yes'
-else
-	s_challengerScreen = 'No'
-end
+	if data.challengerScreen then
+		s_challengerScreen = 'Yes'
+	else
+		s_challengerScreen = 'No'
+	end
 
-if data.serviceScreen then
-	s_serviceScreen = 'Yes'
-else
-	s_serviceScreen = 'No'
-end
-
+	if data.serviceScreen then
+		s_serviceScreen = 'Yes'
+	else
+		s_serviceScreen = 'No'
+	end
 end
 
 if onlinegame == false then
@@ -232,7 +231,7 @@ function f_strSub(str, t)
 end
 
 function f_saveCfg()
-	-- Data saving to data_sav.lua
+	--Data saving to data_sav.lua
 	local t_saves = {
 		['data.lifeMul'] = data.lifeMul,
 		['data.team1VS2Life'] = data.team1VS2Life,
@@ -326,7 +325,7 @@ function f_saveCfg()
 end
 
 function f_netsaveCfg()
-	-- Data saving to data_netsav.lua
+	--Data saving to data_netsav.lua
 	local t_netsaves = {
 		['data.lifeMul'] = data.lifeMul,
 		['data.team1VS2Life'] = data.team1VS2Life,
@@ -381,6 +380,8 @@ end
 --; INFO BOXES
 --;===========================================================
 txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 13)
+txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)
+
 t_exitInfo = {
 	{id = '', text = "Some selected options require restart Ikemen. Press"},
 	{id = '', text = "start key to reboot Ikemen and load your new settings."},
@@ -388,6 +389,7 @@ t_exitInfo = {
 for i=1, #t_exitInfo do
 	t_exitInfo[i].id = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 15+i*15)
 end
+
 function f_exitInfo()
 	cmdInput()
 	while true do
@@ -430,162 +432,166 @@ for i=1, #t_erase do
 	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 210+i*15)
 end
 
+--;===========================================================
+--; LOAD DEFAULT DATA
+--;===========================================================
 --Set Offline game Default Options shared with Online game Below
 function f_onlineDefault()
---saves.ini
-data.lifeMul = 100
-data.team1VS2Life = 120
-data.turnsRecoveryRate = 300
-data.teamLifeShare = false
-s_teamLifeShare = 'No'
-data.zoomActive = true
-s_zoomActive = 'Yes'
-data.zoomMin = 0.75
-data.zoomMax = 1.1
-data.zoomSpeed = 1.0
-data.roundTime = 99
-data.numTurns = 4
-data.numSimul = 4
-data.simulType = 'Assist'
-data.difficulty = 8
-data.coins = 10
-data.contSelection = true
-s_contSelection = 'Yes'
-data.aiRamping = true
-s_aiRamping = 'Yes'
-data.autoguard = false
-s_autoguard = 'No'
-data.vsDisplayWin = true
-s_vsDisplayWin = 'Yes'
-data.lifebar = 'data/winmugen/fight.def'
-data.stageType = 'Classic'
-data.winscreen = 'Classic'
-data.debugMode = false
-s_debugMode = 'Disabled'
-data.challengerScreen = true
-s_challengerScreen = 'Yes'
-data.charPresentation = 'Sprite'
-data.sffConversion = true
-data.serviceScreen = true
-s_serviceScreen = 'Yes'
-data.training = 'Fixed'
---lifebar
-roundsNum = 2
-drawNum = 2
---config.ssz
-HelperMaxEngine = 56
-PlayerProjectileMaxEngine = 50
-ExplodMaxEngine = 256
-AfterImageMaxEngine = 8
-gameSpeed = 60
-s_gameSpeed = 'Normal'
+	--saves.ini
+	data.lifeMul = 100
+	data.team1VS2Life = 120
+	data.turnsRecoveryRate = 300
+	data.teamLifeShare = false
+	s_teamLifeShare = 'No'
+	data.zoomActive = true
+	s_zoomActive = 'Yes'
+	data.zoomMin = 0.75
+	data.zoomMax = 1.1
+	data.zoomSpeed = 1.0
+	data.roundTime = 99
+	data.numTurns = 4
+	data.numSimul = 4
+	data.simulType = 'Assist'
+	data.difficulty = 8
+	data.coins = 10
+	data.contSelection = true
+	s_contSelection = 'Yes'
+	data.aiRamping = true
+	s_aiRamping = 'Yes'
+	data.autoguard = false
+	s_autoguard = 'No'
+	data.vsDisplayWin = true
+	s_vsDisplayWin = 'Yes'
+	data.lifebar = 'data/winmugen/fight.def'
+	data.stageType = 'Classic'
+	data.winscreen = 'Classic'
+	data.debugMode = false
+	s_debugMode = 'Disabled'
+	data.challengerScreen = true
+	s_challengerScreen = 'Yes'
+	data.charPresentation = 'Sprite'
+	data.sffConversion = true
+	data.serviceScreen = true
+	s_serviceScreen = 'Yes'
+	data.training = 'Fixed'
+	--lifebar
+	roundsNum = 2
+	drawNum = 2
+	--config.ssz
+	HelperMaxEngine = 56
+	PlayerProjectileMaxEngine = 50
+	ExplodMaxEngine = 256
+	AfterImageMaxEngine = 8
+	gameSpeed = 60
+	s_gameSpeed = 'Normal'
 end
 
 --Set ONLY Offline Default Options Below
 function f_offlineDefault()
---saves.ini
-data.language = 'ENGLISH'
-data.menuSong = 'Random'
-data.screenshotSnd = 2
-data.clock = 'Standard'
-data.date = 'Type A'
-data.challengerSong = 'Fixed'
-data.p1Controller = -1
-data.p2Controller = -1
---config.ssz
-f_inputDefault()
---b_saveMemory = false
---s_saveMemory = 'No'
-b_openGL = false
-s_openGL = 'No'
-b_screenMode = false
-s_screenMode = 'No'
-setScreenMode(b_screenMode)
-resolutionWidth = 853
-resolutionHeight = 480
-setGameRes(resolutionWidth,resolutionHeight)
-gl_vol = 100
-se_vol = 60
-bgm_vol = 30
-setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
-pan_str = 80
-setPanStr(pan_str / 100)
---sound.ssz
-freq = 48000
-channels = 2
-s_channels = 'Stereo'
-buffer = 2048
---other
-setUserName('MUGENUSER')
-setListenPort(7500)
+	--saves.ini
+	data.language = 'ENGLISH'
+	data.menuSong = 'Random'
+	data.screenshotSnd = 2
+	data.clock = 'Standard'
+	data.date = 'Type A'
+	data.challengerSong = 'Fixed'
+	data.p1Controller = -1
+	data.p2Controller = -1
+	--config.ssz
+	f_inputDefault()
+	--b_saveMemory = false
+	--s_saveMemory = 'No'
+	b_openGL = false
+	s_openGL = 'No'
+	b_screenMode = false
+	s_screenMode = 'No'
+	setScreenMode(b_screenMode)
+	resolutionWidth = 853
+	resolutionHeight = 480
+	setGameRes(resolutionWidth,resolutionHeight)
+	gl_vol = 100
+	se_vol = 60
+	bgm_vol = 30
+	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+	pan_str = 80
+	setPanStr(pan_str / 100)
+	--sound.ssz
+	freq = 48000
+	channels = 2
+	s_channels = 'Stereo'
+	buffer = 2048
+	--other
+	setUserName('MUGENUSER')
+	setListenPort(7500)
 end
 
 --Default Inputs Values
 function f_inputDefault()
-if data.p1Controller ~= -1 then
-	data.p1Controller = -1
-	s_p1Controller = 'Keyboard'
-	f_swapController(0, 2, 0, -1)
-end
-if data.p2Controller ~= -1 then
-	data.p2Controller = -1
-	s_p2Controller = 'Keyboard'
-	f_swapController(1, 3, 1, -1)
-end
-t_keyCfg[1].varText = 'UP'
-t_keyCfg[2].varText = 'DOWN'
-t_keyCfg[3].varText = 'LEFT'
-t_keyCfg[4].varText = 'RIGHT'
-t_keyCfg[5].varText = 'a'
-t_keyCfg[6].varText = 's'
-t_keyCfg[7].varText = 'd'
-t_keyCfg[8].varText = 'z'
-t_keyCfg[9].varText = 'x'
-t_keyCfg[10].varText = 'c'
-t_keyCfg[11].varText = 'RETURN'
-f_keySave(0,-1)
-t_keyCfg[1].varText = 'KP_5'
-t_keyCfg[2].varText = 'KP_2'
-t_keyCfg[3].varText = 'KP_1'
-t_keyCfg[4].varText = 'KP_3'
-t_keyCfg[5].varText = 'u'
-t_keyCfg[6].varText = 'i'
-t_keyCfg[7].varText = 'o'
-t_keyCfg[8].varText = 'j'
-t_keyCfg[9].varText = 'k'
-t_keyCfg[10].varText = 'l'
-t_keyCfg[11].varText = 'KP_0'
-f_keySave(1,-1)
-t_keyCfg[1].varText = '-7'
-t_keyCfg[2].varText = '-8'
-t_keyCfg[3].varText = '-5'
-t_keyCfg[4].varText = '-6'
-t_keyCfg[5].varText = '0'
-t_keyCfg[6].varText = '1'
-t_keyCfg[7].varText = '4'
-t_keyCfg[8].varText = '2'
-t_keyCfg[9].varText = '3'
-t_keyCfg[10].varText = '5'
-t_keyCfg[11].varText = '7'
-f_keySave(2,0)
-t_keyCfg[1].varText = '-7'
-t_keyCfg[2].varText = '-8'
-t_keyCfg[3].varText = '-5'
-t_keyCfg[4].varText = '-6'
-t_keyCfg[5].varText = '0'
-t_keyCfg[6].varText = '1'
-t_keyCfg[7].varText = '4'
-t_keyCfg[8].varText = '2'
-t_keyCfg[9].varText = '3'
-t_keyCfg[10].varText = '5'
-t_keyCfg[11].varText = '7'
-f_keySave(3,1)
+	if data.p1Controller ~= -1 then
+		data.p1Controller = -1
+		s_p1Controller = 'Keyboard'
+		f_swapController(0, 2, 0, -1)
+	end
+	if data.p2Controller ~= -1 then
+		data.p2Controller = -1
+		s_p2Controller = 'Keyboard'
+		f_swapController(1, 3, 1, -1)
+	end
+	t_keyCfg[1].varText = 'UP'
+	t_keyCfg[2].varText = 'DOWN'
+	t_keyCfg[3].varText = 'LEFT'
+	t_keyCfg[4].varText = 'RIGHT'
+	t_keyCfg[5].varText = 'a'
+	t_keyCfg[6].varText = 's'
+	t_keyCfg[7].varText = 'd'
+	t_keyCfg[8].varText = 'z'
+	t_keyCfg[9].varText = 'x'
+	t_keyCfg[10].varText = 'c'
+	t_keyCfg[11].varText = 'RETURN'
+	f_keySave(0,-1)
+	t_keyCfg[1].varText = 'KP_5'
+	t_keyCfg[2].varText = 'KP_2'
+	t_keyCfg[3].varText = 'KP_1'
+	t_keyCfg[4].varText = 'KP_3'
+	t_keyCfg[5].varText = 'u'
+	t_keyCfg[6].varText = 'i'
+	t_keyCfg[7].varText = 'o'
+	t_keyCfg[8].varText = 'j'
+	t_keyCfg[9].varText = 'k'
+	t_keyCfg[10].varText = 'l'
+	t_keyCfg[11].varText = 'KP_0'
+	f_keySave(1,-1)
+	t_keyCfg[1].varText = '-7'
+	t_keyCfg[2].varText = '-8'
+	t_keyCfg[3].varText = '-5'
+	t_keyCfg[4].varText = '-6'
+	t_keyCfg[5].varText = '0'
+	t_keyCfg[6].varText = '1'
+	t_keyCfg[7].varText = '4'
+	t_keyCfg[8].varText = '2'
+	t_keyCfg[9].varText = '3'
+	t_keyCfg[10].varText = '5'
+	t_keyCfg[11].varText = '7'
+	f_keySave(2,0)
+	t_keyCfg[1].varText = '-7'
+	t_keyCfg[2].varText = '-8'
+	t_keyCfg[3].varText = '-5'
+	t_keyCfg[4].varText = '-6'
+	t_keyCfg[5].varText = '0'
+	t_keyCfg[6].varText = '1'
+	t_keyCfg[7].varText = '4'
+	t_keyCfg[8].varText = '2'
+	t_keyCfg[9].varText = '3'
+	t_keyCfg[10].varText = '5'
+	t_keyCfg[11].varText = '7'
+	f_keySave(3,1)
 end
 
 --;===========================================================
 --; MAIN OPTIONS LOOP
 --;===========================================================
 txt_mainCfg = createTextImg(jgFnt, 0, 0, 'OPTIONS', 159, 13)
+
 t_mainCfg = {
 	{id = '', text = 'Gameplay Settings'},
 	{id = '', text = 'Screenpack Settings'},
@@ -599,7 +605,6 @@ t_mainCfg = {
 	{id = '', text = '              Save and Back'},
 	{id = '', text = '          Back Without Saving'},
 }
-
 for i=1, #t_mainCfg do
 	t_mainCfg[i].id = createTextImg(font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15)
 end
@@ -738,6 +743,7 @@ end
 --; ONLINE SETTINGS LOOP
 --;===========================================================
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
+
 t_onlineCfg = {
 	{id = '', text = 'Gameplay Settings'},
 	{id = '', text = 'Screenpack Settings'},
@@ -745,7 +751,6 @@ t_onlineCfg = {
 	{id = '', text = 'Engine Settings'},
 	{id = '', text = '      SAVE AND PLAY'},
 }
-
 for i=1, #t_onlineCfg do
 	t_onlineCfg[i].id = createTextImg(font2, 0, 1, t_onlineCfg[i].text, 85, 15+i*15)
 end
@@ -823,6 +828,7 @@ end
 --; GAMEPLAY SETTINGS
 --;===========================================================
 txt_gameCfg = createTextImg(jgFnt, 0, 0, 'GAMEPLAY SETTINGS', 159, 13)
+
 t_gameCfg = {
 	{id = '', text = 'Difficulty Level',         varID = textImgNew(), varText = data.difficulty},
 	{id = '', text = 'Round Time',         		 varID = textImgNew(), varText = data.roundTime},	
@@ -1080,6 +1086,7 @@ end
 --; TEAM SETTINGS
 --;===========================================================
 txt_teamCfg = createTextImg(jgFnt, 0, 0, 'TEAM SETTINGS', 159, 13)
+
 t_teamCfg = {
 	{id = '', text = 'Single Vs Team Life',     varID = textImgNew(), varText = data.team1VS2Life .. '%'},
 	{id = '', text = 'Turns HP Recovery',       varID = textImgNew(), varText = data.turnsRecoveryRate .. '%'},
@@ -1207,6 +1214,7 @@ end
 --; ZOOM SETTINGS
 --;===========================================================
 txt_zoomCfg = createTextImg(jgFnt, 0, 0, 'ZOOM SETTINGS', 159, 13)
+
 t_zoomCfg = {
 	{id = '', text = 'Zoom Active',  varID = textImgNew(), varText = s_zoomActive},
 	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
@@ -1309,6 +1317,7 @@ end
 --; SCREENPACK SETTINGS
 --;===========================================================
 txt_UICfg = createTextImg(jgFnt, 0, 0, 'USER INTERFACE SETTINGS', 159, 13)
+
 t_UICfg = {
 	{id = '', text = 'Language', 		         varID = textImgNew(), varText = data.language},
 	{id = '', text = 'Clock Format',             varID = textImgNew(), varText = data.clock},
@@ -1616,6 +1625,7 @@ end
 --; ENGINE SETTINGS
 --;===========================================================
 txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
+
 t_engineCfg = {
 	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
 	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
@@ -1845,6 +1855,7 @@ t_unlocksWarning = {
 for i=1, #t_unlocksWarning do
 	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
 end
+
 function f_unlocksWarning()
 	cmdInput()
 	while true do
@@ -1881,6 +1892,7 @@ end
 --; VIDEO SETTINGS
 --;===========================================================
 txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
+
 t_videoCfg = {
 	{id = '', text = 'Resolution',  varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
 	{id = '', text = 'Fullscreen',  varID = textImgNew(), varText = s_screenMode},	
@@ -2012,7 +2024,9 @@ function f_videoCfg()
 	end
 end
 
-txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)
+--;===========================================================
+--; OPENGL 2.0 WARNING
+--;===========================================================
 t_glWarning = {
 	{id = '', text = "You won't be able to start the game if your system"},
 	{id = '', text = "doesn't support OpenGL 2.0 or later."},
@@ -2023,6 +2037,7 @@ t_glWarning = {
 for i=1, #t_glWarning do
 	t_glWarning[i].id = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 15+i*15)
 end
+
 function f_glWarning()
 	cmdInput()
 	while true do
@@ -2042,6 +2057,9 @@ function f_glWarning()
 	end
 end
 
+--;===========================================================
+--; SAVE MEMORY WARNING
+--;===========================================================
 t_memWarning = {
 	{id = '', text = "Enabling 'Save memory' option negatively affects FPS."},
 	{id = '', text = "It's not yet known if disabling it has any drawbacks."},
@@ -2049,6 +2067,7 @@ t_memWarning = {
 for i=1, #t_memWarning do
 	t_memWarning[i].id = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 15+i*15)
 end
+
 function f_memWarning()
 	cmdInput()
 	while true do
@@ -2069,9 +2088,40 @@ function f_memWarning()
 end
 
 --;===========================================================
+--; ASPECT RATIO WARNING
+--;===========================================================
+t_resWarning = {
+	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
+	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
+}
+for i=1, #t_resWarning do
+	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
+end
+
+function f_resWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 or esc() then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 20,20, 280,#t_resWarning*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_resWarning do
+			textImgDraw(t_resWarning[i].id)
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; ASPECT RATIO SETTINGS
 --;===========================================================
 txt_resCfg = createTextImg(jgFnt, 0, 0, 'ASPECT RATIO SETTINGS', 159, 13)
+
 t_resCfg = {
 	{id = '', text = '4:3 Resolutions'},
 	{id = '', text = '16:9 Resolutions'},
@@ -2151,36 +2201,11 @@ function f_resCfg()
 	end
 end
 
-t_resWarning = {
-	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
-	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
-}
-for i=1, #t_resWarning do
-	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
-end
-function f_resWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 1)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_resWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_resWarning do
-			textImgDraw(t_resWarning[i].id)
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
 --;===========================================================
 --; 4:3 RESOLUTIONS
 --;===========================================================
 txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (4:3)', 159, 13)
+
 t_resCfg4_3 = {
 	{id = '', x = 320,  y = 240,  text = '320x240             (QVGA)'},
 	{id = '', x = 512,  y = 384,  text = '512x384        (MACINTOSH)'},
@@ -2199,7 +2224,10 @@ t_resCfg4_3 = {
 	{id = '', x = 6400, y = 4800, text = '6400x4800          (HUXGA)'},
 	{id = '', text = '          BACK'},
 }
-
+for i=1, #t_resCfg4_3 do
+	--if t_resCfg4_3[i].x ~= nil and t_resCfg4_3[i].y ~= nil then t_resCfg4_3[i].text = t_resCfg4_3[i].x .. 'x' .. t_resCfg4_3[i].y end --position the cursor at the chosen resolution
+	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
+end
 --for i=1, #t_resCfg4_3-1 do
 	--if t_resCfg4_3[i].x > getWidth() or t_resCfg4_3[i].y > getHeight() then
 		--for j=i, #t_resCfg4_3-1 do
@@ -2208,11 +2236,6 @@ t_resCfg4_3 = {
 		--break
 	--end
 --end
-
-for i=1, #t_resCfg4_3 do
-	--if t_resCfg4_3[i].x ~= nil and t_resCfg4_3[i].y ~= nil then t_resCfg4_3[i].text = t_resCfg4_3[i].x .. 'x' .. t_resCfg4_3[i].y end --position the cursor at the chosen resolution
-	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
-end
 
 function f_resCfg4_3()
 	cmdInput()
@@ -2301,6 +2324,7 @@ end
 --; 16:9 RESOLUTIONS
 --;===========================================================
 txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:9)', 159, 13)
+
 t_resCfg16_9 = {
 	{id = '', x = 427,  y = 240,  text = '427x240        (ULTRA LOW)'},
 	{id = '', x = 640,  y = 360,  text = '640x360              (LOW)'},
@@ -2313,7 +2337,6 @@ t_resCfg16_9 = {
 	{id = '', x = 3840, y = 2160, text = '3840x2160        (4K UHDV)'},
 	{id = '', text = '          BACK'},
 }
-
 for i=1, #t_resCfg16_9 do
 	t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15)
 end
@@ -2405,6 +2428,7 @@ end
 --; 16:10 RESOLUTIONS
 --;===========================================================
 txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:10)', 159, 13)
+
 t_resCfg16_10 = {
 	{id = '', x = 320,  y = 200,  text = '320x200              (CGA)'},
 	{id = '', x = 1280, y = 800,  text = '1280x800            (WXGA)'},
@@ -2417,7 +2441,6 @@ t_resCfg16_10 = {
 	{id = '', x = 7680, y = 4800, text = '7680x4800         (WHUXGA)'},
 	{id = '', text = '          BACK'},
 }
-
 for i=1, #t_resCfg16_10 do
 	t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15)
 end
@@ -2509,6 +2532,7 @@ end
 --; EXTRA RESOLUTIONS
 --;===========================================================
 txt_EXresCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT', 159, 13)
+
 t_EXresCfg = {
 	{id = '', x = 400,  y = 254,  text = '400x254           (ARCADE)'},
 	{id = '', x = 800,  y = 508,  text = '400x508        (ARCADE x2)'},
@@ -2532,7 +2556,6 @@ t_EXresCfg = {
 	--{id = '', x = 30720, y = 17208, text = '30720x17208 (24K SUPER DEATH BATMETAL)'},
 	{id = '', text = '          BACK'},
 }
-
 for i=1, #t_EXresCfg do
 	t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15)
 end
@@ -2624,6 +2647,7 @@ end
 --; AUDIO SETTINGS
 --;===========================================================
 txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS', 159, 13)
+
 t_audioCfg = {
 	{id = '', text = 'Master Volume',	varID = textImgNew(), varText = gl_vol .. '%'},
 	{id = '', text = 'SFX Volume',		varID = textImgNew(), varText = se_vol .. '%'},
@@ -2993,20 +3017,15 @@ function f_audioCfg()
 	end
 end
 
-t_newinput = {
-	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
-}
-for i=1, #t_newinput do
-	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 180+i*15)
-end
-
 --;===========================================================
 --; INPUT SETTINGS
 --;===========================================================
 txt_inputCfg = createTextImg(jgFnt, 0, 0, 'INPUT SETTINGS', 159, 13)
+
 t_inputCfg = {
 	{id = '', text = 'Player 1 (Keyboard)'},
 	{id = '', text = 'Player 2 (Keyboard)'},
+	--{id = '', text = 'Player 1 (Gamepad)'},
 	{id = '', text = 'Default Controls'},
 	{id = '', text = 'Test Controls'},
 	{id = '', text = '          BACK'},
@@ -3052,6 +3071,16 @@ function f_inputCfg()
 					f_keyRead(3, -1)
 					f_keyCfg(3, -1)
 				end
+			--Player 1 Gamepad
+			--elseif inputCfg == 3 then
+				--sndPlay(sysSnd, 100, 1)
+				--if data.p1Controller == -1 then
+					--f_padRead(2, 0)
+					--f_keyCfg(2, 0)
+				--else
+					--f_padRead(0, 0)
+					--f_keyCfg(0, 0)
+				--end
 			--Default Inputs
 			elseif inputCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
@@ -3104,7 +3133,18 @@ function f_swapController(playerOld, playerNew, controllerOld, controllerNew)
 	s_configSSZ = s_configSSZ:gsub('deleteMe', '')
 end
 
+t_newinput = {
+	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
+}
+for i=1, #t_newinput do
+	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 180+i*15)
+end
+
+--;===========================================================
+--; KEYBOARD/JOYSTICK SETTINGS
+--;===========================================================
 txt_keyCfg = createTextImg(jgFnt, 0, 0, 'KEY SETTINGS', 159, 13)
+
 t_keyCfg = {
 	{id = '', text = 'Up',    varID = textImgNew(), varText = ''},
 	{id = '', text = 'Down',  varID = textImgNew(), varText = ''},
@@ -3232,13 +3272,14 @@ function f_keyRead(playerNo, controller)
 	end
 end
 
+--for some reason doesn't work when nested inside f_keyRead
 function f_padRead(playerNo, controller)
 	local tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 	local tmp = tmp:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 	local tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
 	local tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
 	for i, c
-		in ipairs(script.randomtest.strsplit(',', tmp))
+		in ipairs(script.randomtest.strsplit(',', tmp)) --split string using "," delimiter
 	do
 		t_keyCfg[i].varText = c
 	end
@@ -3578,6 +3619,7 @@ function f_keySave(playerNo, controller)
 	'in.new[' .. playerNo+4 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[11].varText .. ');')
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+6 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 	'in.new[' .. playerNo+6 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[11].varText .. ');')		
+	--Gamepad
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[11].varText .. ');')
+	'in.new[' .. playerNo+8 .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[11].varText .. ');')
 end

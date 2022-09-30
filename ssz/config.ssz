@@ -7,8 +7,8 @@ const int AfterImageMax = 8;
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 
-const int Width = 1280;
-const int Height = 720;
+const int Width = 1024;
+const int Height = 768;
 const bool FullScreen = false;
 
 const float GlVol = 1;
@@ -141,6 +141,9 @@ in.new[7].set(
   (int)k_t::k,
   (int)k_t::l,
   (int)k_t::KP_0);
+  
+in.new[10].set(
+  0, 4, 6, 7, 5, 14, 13, 15, 12, 10, 11, 3);
 
 
 const bool SaveMemory = false;

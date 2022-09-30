@@ -31,6 +31,6 @@ data.winscreen = 'Modern'
 data.debugMode = true
 data.challengerSong = 'Fixed'
 data.challengerScreen = true
-data.charPresentation = 'Mixed'
+data.charPresentation = 'Sprite'
 data.serviceScreen = true
 data.training = 'Fixed'
