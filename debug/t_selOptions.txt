@@ -1,5 +1,9 @@
-table: 0C348A00 {
-  [arcademaxmatches] => table: 0C348A00 {
+table: 0C2FE8F8 {
+  [arcadeend] => table: 0C2FE8F8 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
+  [arcademaxmatches] => table: 0C2FE8F8 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -11,15 +15,19 @@ table: 0C348A00 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 0C348A00 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [teamend] => table: 0C348A00 {
-                 [offset] => 2
+  [survivalend] => table: 0C2FE8F8 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
+  [arcadestart] => table: 0C2FE8F8 {
+                     [wins] => 2
+                     [offset] => 0
+                   }
+  [teamend] => table: 0C2FE8F8 {
                  [wins] => 3
+                 [offset] => 2
                }
-  [teammaxmatches] => table: 0C348A00 {
+  [teammaxmatches] => table: 0C2FE8F8 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -31,20 +39,12 @@ table: 0C348A00 {
                         [9] => 0
                         [10] => 0
                       }
-  [teamstart] => table: 0C348A00 {
-                   [offset] => 0
+  [teamstart] => table: 0C2FE8F8 {
                    [wins] => 1
+                   [offset] => 0
                  }
-  [survivalstart] => table: 0C348A00 {
-                       [offset] => -3
+  [survivalstart] => table: 0C2FE8F8 {
                        [wins] => 0
+                       [offset] => -3
                      }
-  [survivalend] => table: 0C348A00 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [arcadestart] => table: 0C348A00 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
 }

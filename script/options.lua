@@ -473,7 +473,7 @@ function f_onlineDefault()
 	data.sffConversion = true
 	data.serviceScreen = true
 	s_serviceScreen = 'Yes'
-	data.training = 'Fixed'
+	data.training = 'Free'
 	--lifebar
 	roundsNum = 2
 	drawNum = 2
@@ -3098,7 +3098,7 @@ function f_inputCfg()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['training/sandbag.def']}
 				data.gameMode = 'training'
-				setGameMode('practice')
+				setGameType(2)
 				textImgSetText(txt_mainSelect, 'INPUT TEST')
 				script.select.f_selectSimple()
 			--Back

@@ -488,6 +488,12 @@ void gametime(&.lua.State L=, int re=)
   L.pushNumber((double).com.gametime);
 }
 
+void gametype(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.gameType);
+}
+
 void gamewidth(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1142,6 +1148,7 @@ public void registerFunction(&.lua.State L=)
   L.register("fvar", .fvar);
   L.register("gameheight", .gameheight);
   L.register("gametime", .gametime);
+  L.register("gametype", .gametype);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);
   L.register("hitcount", .hitcount);

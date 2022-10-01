@@ -459,91 +459,91 @@ t_backMenu = {
 }	
 	
 function f_backMenu()
-		cmdInput()
-		local cursorPosY = 0
-		local moveTxt = 0
-		local backMenu = 1
-		while true do
-			if commandGetState(p1Cmd, 'u') then
-				sndPlay(sysSnd, 100, 0)
-				backMenu = backMenu - 1
-			elseif commandGetState(p1Cmd, 'd') then
-				sndPlay(sysSnd, 100, 0)
-				backMenu = backMenu + 1
-			end
-			if backMenu < 1 then
-				backMenu = #t_backMenu
-				if #t_backMenu > 4 then
-					cursorPosY = 4
-				else
-					cursorPosY = #t_backMenu-1
-				end
-			elseif backMenu > #t_backMenu then
-				backMenu = 1
-				cursorPosY = 0
-			elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 4 then
-				moveTxt = (backMenu - 5) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (backMenu - 1) * 13
-			end
-			if btnPalNo(p1Cmd) > 0 then
-				--YES
-				if backMenu == 1 then
-					sndPlay(sysSnd, 100, 2)
-					backmenu = true
-					break
-				--NO
-				else
-					backmenu = false
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-					f_selectReset()
-					if data.rosterAdvance == true then
-						stageEnd = true
-						--f_aiLevel()
-						--f_orderSelect()
-						--f_selectVersus()
-						--f_setZoom()
-						--f_assignMusic()
-					end
-					break
-				end
-			end	
-			animDraw(f_animVelocity(titleBG0, -2.15, 0))
-			for i=1, #t_backMenu do
-				if i == backMenu then
-					bank = 5
-				else
-					bank = 0
-				end
-				textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 165+i*13-moveTxt))
-			end
-			animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-			animDraw(titleBG1)
-			animAddPos(titleBG2, -1, 0)
-			animUpdate(titleBG2)
-			animDraw(titleBG2)
-			animDraw(titleBG3)
-			animDraw(titleBG4)
-			animDraw(titleBG5)
-			animDraw(titleBG6)
-			textImgDraw(txt_subTitle)
-			textImgDraw(txt_titleFt)
-			textImgSetText(txt_titleFt, '            YOU WILL BACK TO MAIN MENU')
-			f_clock()
-			f_date()	
-			animDraw(data.fadeTitle)
-			animUpdate(data.fadeTitle)
-			cmdInput()
-			refresh()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local backMenu = 1
+	while true do
+		if commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			backMenu = backMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			backMenu = backMenu + 1
 		end
+		if backMenu < 1 then
+			backMenu = #t_backMenu
+			if #t_backMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_backMenu-1
+			end
+		elseif backMenu > #t_backMenu then
+			backMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (backMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (backMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			--YES
+			if backMenu == 1 then
+				sndPlay(sysSnd, 100, 2)
+				backmenu = true
+				break
+			--NO
+			else
+				backmenu = false
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				f_selectReset()
+				if data.rosterAdvance == true then
+					stageEnd = true
+					--f_aiLevel()
+					--f_orderSelect()
+					--f_selectVersus()
+					--f_setZoom()
+					--f_assignMusic()
+				end
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_backMenu do
+			if i == backMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 165+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, '            YOU WILL BACK TO MAIN MENU')
+		f_clock()
+		f_date()	
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 --;================================================================

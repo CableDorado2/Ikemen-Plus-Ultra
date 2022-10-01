@@ -392,7 +392,8 @@ function f_default()
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvance = false
 	data.missionNo = ''
-	setGameMode('default') --sets ssz gameMode variable to adjust internal settings.
+	setGameType(0) --sets ssz default Game Type, to reboot internal settings.
+	--setGameTypeString('default') --sets ssz default Game Type, to reboot internal settings.
 end
 
 --;===========================================================
@@ -454,7 +455,7 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 		   cmdInput()
-		   setGameMode('demo')
+		   setGameType(1) --Demo Screen
 		   script.randomtest.run()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -1070,7 +1071,7 @@ function f_practiceMenu()
 					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 character as Sandbag char
 				end
 				data.gameMode = 'training'
-				setGameMode('practice')
+				setGameType(2) --Training CNS
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 			--MULTIPLAYER MODE
@@ -1085,7 +1086,7 @@ function f_practiceMenu()
 				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
-				setGameMode('practice')
+				setGameType(2)
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()			
 			--CO-OP MODE
@@ -3271,7 +3272,7 @@ function f_mainHost()
 				data.versusScreen = true
 				data.p2Faces = true
 				data.gameMode = 'training'
-				setGameMode('practice')
+				setGameType(2)
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	
@@ -3486,7 +3487,7 @@ function f_mainJoin()
 				data.versusScreen = true
 				data.p2Faces = true
 				data.gameMode = 'training'
-				setGameMode('practice')
+				setGameType(2)
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	

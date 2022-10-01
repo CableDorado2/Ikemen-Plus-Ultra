@@ -2281,6 +2281,9 @@ public &StateBuilder
     cond .s.equ("ailevel", token):
       out .= obj .= "trAILevel()";
       typ = 2;
+	cond .s.equ("gametype", token):
+      out .= obj .= "trGameType()";
+      typ = 2;
     cond .s.equ("const240p", token):
       if(`oneArg(token, temp=, in=)=>typ < 0) ret -1;
       `expCast(out=, 1, typ, temp);
@@ -8782,10 +8785,6 @@ public &StateBuilder
       ret error;
     }
 	^/char minus = "data/minus.cns";
-    ^/char training = "data/training.cns";
-	if(.s.equ(.com.gameMode, "practice")){
-      if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
-    }
 	if(#`stateBulid(buf=, def, minus=)=>error > 0) ret error;
     buf .=
       "public void c.Char::stateInit" .= ''`playerno .= "P()"\r\n

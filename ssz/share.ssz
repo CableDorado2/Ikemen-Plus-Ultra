@@ -39,7 +39,7 @@ public &Share
   public ^int numSimul;
   public ^index wakewakaLength;
   public &.com.Camera::Stage camstg;
-  public ^/char gameMode;
+  public int gameType;
   public float panStr;
   public void copy()
   {
@@ -84,7 +84,7 @@ public &Share
     `numSimul = .com.numSimul;
     `wakewakaLength = .chr.wakewakaLength;
     `camstg = .com.cam.stg;
-	`gameMode = .com.gameMode;
+	`gameType = .com.gameType;
 	`panStr = .snd.panstr;
   }
   public void push()
@@ -130,7 +130,7 @@ public &Share
     .com.numSimul = `numSimul;
     .chr.wakewakaLength = `wakewakaLength;
     .com.cam.stg = `camstg;
-	.com.gameMode = `gameMode;
+	.com.gameType = `gameType;
 	.snd.panstr = `panStr;
   }
 }

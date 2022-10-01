@@ -39,7 +39,18 @@ trigger1 = StateNo = 5110
 trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
 
+[State 0, PowerAdd]
+type = PowerAdd
+trigger1 = GameType = 2 && Stateno = 0 && Time > 10
+value = 100
+
+[State 0, LifeAdd]
+type = LifeAdd
+trigger1 = GameType = 2 && Stateno = 0 && Time > 15
+;trigger2 = GameType = 2 && Stateno = 5101 && Time > 17
+value = 100
+
 ;[State 500, No Bars] ;HUD Disable for Bonus Stages
 ;type = assertspecial
-;trigger1 = gametime > 1 ;reemplazar esto por un identificador que indique que estas en un bonus
+;trigger1 = GameType = 3 ;Bonus Stage
 ;flag = nobardisplay
