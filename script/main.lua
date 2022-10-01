@@ -949,17 +949,17 @@ function f_randomMenu()
 			--P1 VS CPU
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+				--sndPlay(sysSnd, 100, 1)
 				script.randomtest.singleVersus()
 			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+				--sndPlay(sysSnd, 100, 1)
 				script.randomtest.multiVersus()
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+				--sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 				--script.randomtest.coopVersus()
 			--BACK
