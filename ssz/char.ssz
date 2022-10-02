@@ -5429,6 +5429,10 @@ public &Char
   {
     ret .com.gameType;
   }
+  public int trServiceType()
+  {
+    ret .com.serviceType;
+  }
 }
 
 public void Explod::update(bool oVer, int playerNo)

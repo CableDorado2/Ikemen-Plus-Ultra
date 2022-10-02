@@ -494,7 +494,10 @@ function f_backMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			--YES
 			if backMenu == 1 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
+				setGameType(0)
+				setServiceType(0)
 				backmenu = true
 				break
 			--NO
@@ -902,6 +905,7 @@ function f_selectAdvance()
 		if p2numChars > 1 then
 			for i=1, #data.t_p2selected do
 				if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
+					--setGameType(3) --Disable HUD for All Bonus
 					p2teamMode = 0
 					p2numChars = 1
 					setTeamMode(2, 0, 1)
@@ -3252,6 +3256,7 @@ function f_missionStatus()
 end
 
 function f_selectWin()
+	setServiceType(0) --Erase Service
 	if data.winscreen == 'None' then
 		f_selectWinOFF()
 	elseif data.winscreen == 'Fixed' then
@@ -3582,9 +3587,8 @@ t_service = {
 	{id = '', text = ' POWER WILL START AT MAX'},
 	{id = '', text = '    ENEMY LIFE AT 1/3'},
 	{id = '', text = '       LIFE BAR X2'},
-	{id = '', text = '       NOT SERVICE'},
+	{id = '', text = '        NO SERVICE'},
 }
-
 for i=1, #t_service do
 	t_service[i].id = createTextImg(font2, 0, 1, t_service[i].text, 85, 15+i*15)
 end
@@ -3611,27 +3615,9 @@ for i=1, #t_devService do
 end
 
 function f_service()
-	--Data loading from service_sav.lua
-	local file = io.open("script/service_sav.lua","r")
-	s_dataLUA = file:read("*all")
-	file:close()
-	function f_saveServiceData()
-		--Data saving to service_sav.lua
-		local t_savesService = {
-			['powerService'] = powerService,
-			['lifeService'] = lifeService,
-			['cpulifeService'] = cpulifeService
-		}
-		s_dataLUA = f_strSub(s_dataLUA, t_savesService)
-		local file = io.open("script/service_sav.lua","w+")
-		file:write(s_dataLUA)
-		file:close()
-	end
-	local service = 1	
+	local service = 1
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmService)
-	powerService = false --boolean for debug.lua
-	f_saveServiceData()
 	cmdInput()
 	while true do
 		if commandGetState(p1Cmd, 'u') then
@@ -3676,20 +3662,19 @@ function f_service()
 				end
 			--FULL POWER
 			elseif service == 3 then
-				devService = true
-				--sndPlay(sysSnd, 100, 1)
-				--powerService = true --boolean for debug.lua
-				--f_saveServiceData()
-				--break
+				setServiceType(1)
+				sndPlay(sysSnd, 100, 1)
+				break
 			--LOW CPU LIFE
 			elseif service == 4 then
-				devService = true
-				--sndPlay(sysSnd, 100, 1)
-				--break
+				setServiceType(2)
+				sndPlay(sysSnd, 100, 1)
+				break
 			--PLAYER LIFE X2
 			elseif service == 5 then
 				devService = true
 				--sndPlay(sysSnd, 100, 1)
+				--setServiceType(3)
 				--break
 			--NOT SERVICE
 			else
@@ -3869,6 +3854,7 @@ animSetAlpha(contBG2, 0, 0)
 animUpdate(contBG2)
 
 function f_continue()
+	setServiceType(0)
 	sndPlay(contSnd, 1, 1)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmContinue)

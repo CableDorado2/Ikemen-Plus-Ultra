@@ -3090,7 +3090,6 @@ function f_inputCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_saveCfg() --Save and Load New Inputs (Only for Match, Reboot for Apply to Main Menu)
 				setRoundTime(-1)
-				setHUD(false)
 				data.p2In = 2
 				data.stageMenu = false
 				data.versusScreen = false
@@ -3098,7 +3097,7 @@ function f_inputCfg()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['training/sandbag.def']}
 				data.gameMode = 'training'
-				setGameType(2)
+				setGameType(4)
 				textImgSetText(txt_mainSelect, 'INPUT TEST')
 				script.select.f_selectSimple()
 			--Back

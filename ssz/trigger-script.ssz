@@ -494,6 +494,13 @@ void gametype(&.lua.State L=, int re=)
   L.pushNumber((double) .com.gameType);
 }
 
+void servicetype(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.serviceType);
+}
+
+
 void gamewidth(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1149,6 +1156,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gameheight", .gameheight);
   L.register("gametime", .gametime);
   L.register("gametype", .gametype);
+  L.register("servicetype", .servicetype);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);
   L.register("hitcount", .hitcount);

@@ -486,6 +486,13 @@ void setGameType(&.lua.State L=, int re=)
   .com.gameType = gm;
 }
 
+void setServiceType(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.serviceType = st;
+}
+
 void getListenPort(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1076,6 +1083,7 @@ public void init(&.lua.State L=)
   L.register("setCom", .setCom);
   L.register("setAutoLevel", .setAutoLevel);
   L.register("setGameType", .setGameType);
+  L.register("setServiceType", .setServiceType);
   L.register("getListenPort", .getListenPort);
   L.register("setListenPort", .setListenPort);
   L.register("getUserName", .getUserName);

@@ -9,6 +9,7 @@ lib file = <file.ssz>;
 lib se = <alpha/sdlevent.ssz>;
 
 public int gameType = 0;
+public int serviceType = 0;
 public int roundTime = 999 * 6;
 public float life = 1.0;
 public float team1VS2Life = 1.0;

@@ -1,6 +1,5 @@
 data = require('script.data')
 assert(loadfile('script/data_sav.lua'))() --For load options like screenshot sfx, etc
---assert(loadfile('script/service_sav.lua'))() --For load service booleans
 
 package.path = package.path..';./lib/ltn12.lua'
 ltn12 = require('ltn12')

@@ -16,7 +16,6 @@ data = require('script.data') --Require function, allows use the content inside 
 --Load saved variables
 assert(loadfile('script/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
 assert(loadfile('script/unlocks_sav.lua'))()
-assert(loadfile('script/service_sav.lua'))()
 
 --;===========================================================
 --; SCREENPACK DEFINITION
@@ -373,7 +372,6 @@ function f_default()
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
-	setHUD(true) --Just enable or disable hud elements in game (added via system-script.ssz)
 	--default values for all modes
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
@@ -390,10 +388,11 @@ function f_default()
 	data.p2In = 0 --P2 controls in the select screen disabled
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
-	data.rosterAdvance = false
-	data.missionNo = ''
-	setGameType(0) --sets ssz default Game Type, to reboot internal settings.
-	--setGameTypeString('default') --sets ssz default Game Type, to reboot internal settings.
+	data.rosterAdvance = false --additional variable used to identify advanced games in select screen
+	data.missionNo = '' --additional variable used to identify missions in select screen
+	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
+	setServiceType(0) --don't touch
+	setGameType(0) --set game type to identify in minus.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
 end
 
 --;===========================================================
@@ -455,7 +454,7 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 		   cmdInput()
-		   setGameType(1) --Demo Screen
+		   setGameType(1)
 		   script.randomtest.run()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -1071,7 +1070,7 @@ function f_practiceMenu()
 					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 character as Sandbag char
 				end
 				data.gameMode = 'training'
-				setGameType(2) --Training CNS
+				setGameType(2)
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 			--MULTIPLAYER MODE
@@ -1086,7 +1085,7 @@ function f_practiceMenu()
 				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
-				setGameType(2)
+				setServiceType(3)
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()			
 			--CO-OP MODE
@@ -1820,7 +1819,6 @@ function f_bonusExtras()
 			--BONUS CHAR NAME
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				setHUD(false)
 				data.versusScreen = false
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bonusChars[bonusExtras]}
@@ -1921,7 +1919,6 @@ function f_bonusrushMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
 				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
-					setHUD(false)
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.p2TeamMenu = {mode = 0, chars = 1}
@@ -1936,7 +1933,6 @@ function f_bonusrushMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
-					setHUD(false)
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true

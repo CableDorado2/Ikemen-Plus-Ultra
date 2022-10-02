@@ -40,6 +40,7 @@ public &Share
   public ^index wakewakaLength;
   public &.com.Camera::Stage camstg;
   public int gameType;
+  public int serviceType;
   public float panStr;
   public void copy()
   {
@@ -85,6 +86,7 @@ public &Share
     `wakewakaLength = .chr.wakewakaLength;
     `camstg = .com.cam.stg;
 	`gameType = .com.gameType;
+	`serviceType = .com.serviceType;
 	`panStr = .snd.panstr;
   }
   public void push()
@@ -131,6 +133,7 @@ public &Share
     .chr.wakewakaLength = `wakewakaLength;
     .com.cam.stg = `camstg;
 	.com.gameType = `gameType;
+	.com.serviceType = `serviceType;
 	.snd.panstr = `panStr;
   }
 }
