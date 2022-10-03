@@ -1,13 +1,6 @@
-master kung fu man
-condition: 1
- trigger
-  before: (1) && (1)
-  after: (1)  and  (1)
-  result: true
- value
-  before: random%7
-  after: math.random(0,999)*1/1000*7
-  result: 0
+kung fu man
+0 triggers found
+quote = random value from all 7 available quotes
 
-quote: 0
+quote: 6
 exists: yes

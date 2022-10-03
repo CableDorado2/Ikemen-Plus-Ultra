@@ -12,8 +12,8 @@ const int Height = 720;
 const bool FullScreen = false;
 
 const float GlVol = 1;
-const float SEVol = 0.6;
-const float BGMVol = 0.8;
+const float SEVol = 0.38;
+const float BGMVol = 0.5;
 const float PanStr = 1.2;
 
 const float Super_TargetDefenceMul = 1.5;
@@ -141,6 +141,9 @@ in.new[7].set(
   (int)k_t::k,
   (int)k_t::l,
   (int)k_t::KP_0);
+  
+in.new[10].set(
+  0, 4, 6, 7, 5, 14, 13, 15, 12, 10, 11, 3);
 
 
 const bool SaveMemory = false;

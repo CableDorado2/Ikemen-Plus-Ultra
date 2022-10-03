@@ -1085,12 +1085,12 @@ function f_practiceMenu()
 				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
-				setServiceType(3)
+				setGameType(2)
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()			
 			--CO-OP MODE
 			elseif practiceMenu == 3 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 				--setRoundTime(-1)
@@ -1102,6 +1102,7 @@ function f_practiceMenu()
 				--data.p2TeamMenu = {mode = 0, chars = 1}
 				--data.p3Char = {t_charAdd['training']}
 				--data.gameMode = 'training'
+				--setGameType(2)
 				--textImgSetText(txt_mainSelect, 'TRAINING COOPERATIVE')				
 				--script.select.f_selectSimple()			
 			--BACK

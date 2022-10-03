@@ -39,34 +39,34 @@ trigger1 = StateNo = 5110
 trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
 
-[State 0, PowerAdd]
+[State 0, Power Recovery]
 type = PowerAdd
 trigger1 = GameType = 2 && Stateno = 0 && Time > 10 ;Power Recovery for Training
 trigger2 = GameType = 4 ;Power Recovery for Input Test
 value = 100
 
-[State 0, LifeAdd]
+[State 0, Life Recovery]
 type = LifeAdd
 trigger1 = GameType = 2 && Stateno = 0 && Time > 15 ;Life Recovery for Training
 trigger2 = GameType = 4 ;Life Recovery for Input Test
 value = 100
 
-[State 1, PowerAdd]
+[State 1, Max Power]
 type = PowerAdd
 trigger1 = ServiceType = 1 && RoundNo = 1 && TeamSide = 1 ;POWER WILL AT MAX SERVICE FOR 1 ROUND
 value = 100
 
-[State 1, LifeAdd]
+[State 1, Enemy Lifebar 1/3]
 type = LifeAdd
 trigger1 = ServiceType = 2 && gametime < 10 && TeamSide = 2 ;ENEMY LIFE AT 1/3 SERVICE
 value = -70
 
-[State 2, LifeAdd]
-type = LifeAdd
-trigger1 = ServiceType = 3 && gametime < 10 && TeamSide = 1 ;LIFE BAR X2 SERVICE
-value = 1000
+[State 2, Double Defence]
+type = DefenceMulSet
+trigger1 = ServiceType = 3 && TeamSide = 1 ;DOUBLE DEFENCE SERVICE
+value = 0.5
 
-[State 500, No Bars]
+[State 500, No HUD]
 type = assertspecial
 trigger1 = GameType = 3 ;HUD Disable for Bonus Stages
 trigger2 = GameType = 4 ;HUD Disable for Input Test
