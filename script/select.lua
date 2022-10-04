@@ -570,7 +570,7 @@ end
 function f_selectSimple()
 	p1SelX = 0
 	p1SelY = 0
-	p2SelX = 4 --Cursor position after choosing the Game Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
+	p2SelX = 4 --Cursor position after choosing the Team Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
 	p2SelY = 0
 	p1FaceOffset = 0
 	p2FaceOffset = 0
@@ -614,7 +614,7 @@ function f_selectSimple()
 		--versus win screen
 		if data.gameMode == 'versus' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
-			f_selectWin()
+				f_selectWin()
 				if data.challengerScreen == true then
 					f_selectChallenger()
 				else
@@ -1284,7 +1284,7 @@ end
 --;===========================================================
 --; PLAYER 1 TEAM MENU
 --;===========================================================
-p1SelTmTxt = createTextImg(jgFnt, 0, 1, 'GAME MODE', 20, 30)
+p1SelTmTxt = createTextImg(jgFnt, 0, 1, 'TEAM MODE', 20, 30)
 
 t_p1selTeam = {
 	{id = '', text = 'SINGLE'},
@@ -1393,7 +1393,7 @@ end
 --;===========================================================
 --; PLAYER 2 TEAM MENU
 --;===========================================================
-p2SelTmTxt = createTextImg(jgFnt, 0, -1, 'GAME MODE', 300, 30)
+p2SelTmTxt = createTextImg(jgFnt, 0, -1, 'TEAM MODE', 300, 30)
 IASelTmTxt = createTextImg(jgFnt, 0, -1, 'CPU MODE', 300, 30)
 
 t_p2selTeam = {
@@ -1407,7 +1407,7 @@ end
 
 function f_p2TeamMenu()
 	if data.coop then --Simul coop
-		p2teamMode = 1 --CPU Co-op Players uses Simul game mode. TO DO:Makes that you can select the p2teamMode (Single, Simul or Turns)
+		p2teamMode = 1 --CPU Co-op Players uses Simul team mode. TO DO:Makes that you can select the p2teamMode (Single, Simul or Turns)
 		p2numChars = 2
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
@@ -2714,7 +2714,7 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
-	elseif p1teamMode == 0 and data.p2In == 1 then --Order Select off when P1 is playing in Single Game Mode and P2 is Controlled by AI
+	elseif p1teamMode == 0 and data.p2In == 1 then --Order Select off when P1 is playing in Single Team Mode and P2 is Controlled by AI
 		while true do
 			if i == 0 then
 				f_selectChar(1, data.t_p1selected)
@@ -2740,7 +2740,7 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end	
-	elseif p1teamMode == 0 and p2teamMode == 0 then --Order Select off when P1 and P2 playing in Single Game Mode
+	elseif p1teamMode == 0 and p2teamMode == 0 then --Order Select off when P1 and P2 playing in Single Team Mode
 		while true do
 			if i == 0 then
 				f_selectChar(1, data.t_p1selected)
@@ -3598,9 +3598,9 @@ txt_service = createTextImg(jgFnt, 0, 0, 'SELECT A SERVICE', 159, 13)
 
 t_service = {
 	{id = '', text = '  DIFFICULTY LEVEL DOWN'},
-	{id = '', text = ' CHANGE PLAYER TEAM MODE'},
 	{id = '', text = ' POWER WILL START AT MAX'},
 	{id = '', text = '    ENEMY LIFE AT 1/3'},
+	{id = '', text = ' 	   CHANGE TEAM MODE'},
 	{id = '', text = '      DOUBLE DEFENCE'},
 	{id = '', text = '        NO SERVICE'},
 }
@@ -3664,8 +3664,18 @@ function f_service()
 					script.options.f_saveCfg()
 				end	
 				break
-			--CHANGE PLAYER TEAM MODE
+			--FULL POWER
 			elseif service == 2 then
+				setServiceType(1)
+				sndPlay(sysSnd, 100, 1)
+				break
+			--LOW CPU LIFE
+			elseif service == 3 then
+				setServiceType(2)
+				sndPlay(sysSnd, 100, 1)
+				break
+			--CHANGE PLAYER TEAM MODE
+			elseif service == 4 then
 				if data.coop == true then
 					lockService = true
 				elseif data.contSelection == false then
@@ -3675,19 +3685,8 @@ function f_service()
 					serviceTeam = true
 					break
 				end
-			--FULL POWER
-			elseif service == 3 then
-				setServiceType(1)
-				sndPlay(sysSnd, 100, 1)
-				break
-			--LOW CPU LIFE
-			elseif service == 4 then
-				setServiceType(2)
-				sndPlay(sysSnd, 100, 1)
-				break
 			--PLAYER DEFENCE X2
 			elseif service == 5 then
-				devService = true
 				sndPlay(sysSnd, 100, 1)
 				setServiceType(3)
 				break
