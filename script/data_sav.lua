@@ -34,3 +34,4 @@ data.challengerScreen = true
 data.charPresentation = 'Sprite'
 data.serviceScreen = true
 data.training = 'Fixed'
+data.coopenemy = 'Simul'

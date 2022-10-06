@@ -267,7 +267,8 @@ function f_saveCfg()
 		['data.challengerScreen'] = data.challengerScreen,
 		['data.charPresentation'] = data.charPresentation,
 		['data.serviceScreen'] = data.serviceScreen,
-		['data.training'] = data.training
+		['data.training'] = data.training,
+		['data.coopenemy'] = data.coopenemy
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("script/data_sav.lua","w+")
@@ -351,6 +352,7 @@ function f_netsaveCfg()
 		['data.challengerScreen'] = data.challengerScreen,
 		['data.charPresentation'] = data.charPresentation,
 		['data.serviceScreen'] = data.serviceScreen,
+		['data.coopenemy'] = data.coopenemy
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
 	local file = io.open("script/data_netsav.lua","w+")
@@ -474,6 +476,7 @@ function f_onlineDefault()
 	data.serviceScreen = true
 	s_serviceScreen = 'Yes'
 	data.training = 'Free'
+	data.coopenemy = 'Simul'
 	--lifebar
 	roundsNum = 2
 	drawNum = 2
@@ -1094,6 +1097,7 @@ t_teamCfg = {
 	{id = '', text = 'Turns Players Limit',     varID = textImgNew(), varText = data.numTurns},
 	{id = '', text = 'Simul Players Limit',     varID = textImgNew(), varText = data.numSimul},
 	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
+	{id = '', text = 'Co-op CPU Team',          varID = textImgNew(), varText = data.coopenemy},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_teamCfg do
@@ -1181,8 +1185,30 @@ function f_teamCfg()
 				data.simulType = 'Tag'
 				modified = 1
 			end
+		--Co-op CPU Team Mode
+		elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.coopenemy == 'Single' then
+				data.coopenemy = 'Simul'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.coopenemy == 'Simul' then
+				data.coopenemy = 'Turns'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.coopenemy == 'Turns' then
+				data.coopenemy = 'Single'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.coopenemy == 'Single' then
+				data.coopenemy = 'Turns'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.coopenemy == 'Simul' then
+				data.coopenemy = 'Single'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.coopenemy == 'Turns' then
+				data.coopenemy = 'Simul'
+				modified = 1
+			end
 		--Back
-		elseif teamCfg == 7 and btnPalNo(p1Cmd) > 0 then
+		elseif teamCfg == 8 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1196,6 +1222,7 @@ function f_teamCfg()
 		t_teamCfg[4].varText = data.numTurns
 		t_teamCfg[5].varText = data.numSimul
 		t_teamCfg[6].varText = data.simulType
+		t_teamCfg[7].varText = data.coopenemy
 		for i=1, #t_teamCfg do
 			textImgDraw(t_teamCfg[i].id)
 			if t_teamCfg[i].varID ~= nil then

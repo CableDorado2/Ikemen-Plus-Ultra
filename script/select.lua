@@ -1289,8 +1289,7 @@ p1SelTmTxt = createTextImg(jgFnt, 0, 1, 'TEAM MODE', 20, 30)
 t_p1selTeam = {
 	{id = '', text = 'SINGLE'},
 	{id = '', text = 'SIMUL'},
-	{id = '', text = 'TURNS'},
-	--{id = '', text = 'BACK TO MENU'},	
+	{id = '', text = 'TURNS'},	
 }
 for i=1, #t_p1selTeam do
 	t_p1selTeam[i].id = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35+i*15)
@@ -1380,8 +1379,6 @@ function f_p1TeamMenu()
 				p1numChars = p1numSimul
 			elseif p1teamMode == 2 then --Turns
 				p1numChars = p1numTurns
-			--elseif p1teamMode == 3 then --Back to Menu
-			
 			end
 			setTeamMode(1, p1teamMode, p1numChars)
 			p1TeamEnd = true
@@ -1406,9 +1403,17 @@ for i=1, #t_p2selTeam do
 end
 
 function f_p2TeamMenu()
-	if data.coop then --Simul coop
-		p2teamMode = 1 --CPU Co-op Players uses Simul team mode. TO DO:Makes that you can select the p2teamMode (Single, Simul or Turns)
-		p2numChars = 2
+	if data.coop then --Simul co-op
+		if data.coopenemy == 'Single' then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
+			p2teamMode = 0
+			p2numChars = 2 --Fix AI Fight Error When p2numChars = 1 (Take reference of Arcade Bonus in co-op)
+		elseif data.coopenemy == 'Simul' then
+			p2teamMode = 1
+			p2numChars = 2
+		elseif data.coopenemy == 'Turns' then
+			p2teamMode = 2
+			p2numChars = 3
+		end
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
 	elseif data.p2TeamMenu ~= nil then
