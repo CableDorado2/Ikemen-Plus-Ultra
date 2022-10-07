@@ -4,10 +4,10 @@
 - This engine it is used to create advanced MUGENS games, that run on any PC from 2008 onwards, without a graphics card (Works under DirectX Render).
 
 - According to the words of one of the special contributors to this engine ***PlasmoidThunder***: "The benefits that S-SIZE (Ikemen Plus) has over Ikemen GO are":
-  - Better sound engine for the most part.
-  - Native system renderer.
-  - Winamp plugin support.
-  - Easier to tweak engine code.
+  - "Better sound engine for the most part".
+  - "Native system renderer".
+  - "Winamp plugin support".
+  - "Easier to tweak engine code".
 
 - The current version is a public development release for testing purposes, may contain bugs and incomplete features that will be finished in the final release.
 
@@ -32,6 +32,8 @@
 >[Engine Manual](#engine-manual)
 >
 >[Discord Support](#discord-support)
+>
+>[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
 >
 >[References](#references)
 >
@@ -101,6 +103,15 @@ S-SIZE is the programing core language used. It documentation, is still under de
 
 ## Discord Support
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
+
+## Ikemen Plus Ultra VS Ikemen Go
+To understand this once again the special contributor ***PlasmoidThunder*** says:
+
+"**IKEMEN S-SIZE** (Plus Ultra) is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. The 
+engine code it's quick to test changes".
+
+"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
+specific build environment and necessity to compile changes to an executable each time".
 
 ## References
 >- Original Repository Source Code:
