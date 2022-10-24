@@ -325,7 +325,8 @@ animUpdate(missionBG1)
 --;===========================================================
 --; MAIN MENU STUFF DEFINITION
 --;===========================================================
---txt_oldtitleFt = createTextImg(font1, 0, 1, 'I.K.E.M.E.N. PLUS ZEN', 2, 240)
+--txt_subTitle = createTextImg(font3, 0, 1, 'S-SIZE', 122, 120)
+--txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
 txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 txt_titleFt = createTextImg(font5, 0, 1, '', 2, 240)
 txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.2.0', 319, 240)
@@ -481,7 +482,6 @@ function f_mainTitle()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '          WELCOME TO SUEHIRO IKEMEN ENGINE')
-		--textImgDraw(txt_oldtitleFt)
 		f_clock()
 		f_date()
 		textImgDraw(txt_mainTitleOn)
@@ -619,7 +619,9 @@ function f_mainMenu()
 			--CHECK UPDATES
 			else
 				sndPlay(sysSnd, 100, 1)	
-				webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
+				sszReload()
+				os.exit()
+				--webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
