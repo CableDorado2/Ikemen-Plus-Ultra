@@ -1105,7 +1105,7 @@ function f_practiceMenu()
 				--data.p3Char = {t_charAdd['training']}
 				--data.gameMode = 'training'
 				--setGameType(2)
-				--textImgSetText(txt_mainSelect, 'TRAINING COOPERATIVE')				
+				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')				
 				--script.select.f_selectSimple()			
 			--BACK
 			else

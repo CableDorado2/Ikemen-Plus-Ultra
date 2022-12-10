@@ -19,7 +19,7 @@ wrappingY = true
 --;===========================================================
 --; SELECT LOOP FUNCTIONS
 --;===========================================================
-txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A PALETTE COLOR FOR THE CHARACTERS ', 308, 239)
+txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
 
 --Up Arrows for Single Roster
 arrowsUSR = animNew(sysSff, [[
