@@ -824,8 +824,8 @@ function f_selectAdvance()
 			else
 				matchNo = matchNo + 1
 			end
-		--player lost and don't have any coins left
-		elseif data.coinsLeft == 0 then
+		--player lost in special game mode or don't have any coins left for Arcade
+		elseif data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' then
 			--counter
 			looseCnt = looseCnt + 1
 			--win screen
@@ -3272,7 +3272,7 @@ function f_missionStatus()
 		data.mission6Status = 100
 		f_saveUnlockData()
 	end
-	assert(loadfile('script/unlocks_sav.lua'))()
+	assert(loadfile('script/stats_sav.lua'))()
 end
 
 function f_selectWin()
@@ -3286,6 +3286,13 @@ function f_selectWin()
 		local txt = ''
 		if winner == 1 then
 			p1Wins = p1Wins + 1
+			if coinSystem == true then
+				data.coins = data.coins + 3 --Earn 3 Coins by Win :)
+				sndPlay(sysSnd, 200, 0) --Coin Earned Song
+				f_saveUnlockData()
+			elseif coinSystem == false then
+				--Do nothing and don't lose or win coins
+			end
 			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
 			if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
 				--Do nothing and don't save mission progress
@@ -3294,6 +3301,16 @@ function f_selectWin()
 			end
 		else--if winner == 2 then
 			p2Wins = p2Wins + 1
+			if coinSystem == true then
+				if data.coins < 1 then
+					data.coins = 0
+				elseif data.coins >= 1 then
+					data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+				end
+				f_saveUnlockData()
+			elseif coinSystem == false or data.gameMode == 'arcade' then
+				--Do nothing and don't lose or win coins
+			end
 			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
 		end
 		local i = 0
@@ -3927,7 +3944,7 @@ function f_continue()
 	if tablePos4.sffData ~= nil and tablePos4.dizzy ~= nil then
 		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
-	textImgSetText(txt_coins, 'COINS: ' .. data.coinsLeft)
+	textImgSetText(txt_coins, 'COINS: ' .. data.coins)
 	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)	
 	cmdInput()
 	while true do
@@ -3978,9 +3995,14 @@ function f_continue()
 				else
 					animLength4 = 0
 				end
-				data.coinsLeft = data.coinsLeft - 1
+				if data.coins < 1 then
+					data.coins = 0
+				elseif data.coins >= 1 then
+					data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+				end
+				f_saveUnlockData()
 				data.continueCount = data.continueCount + 1
-				textImgSetText(txt_coins, 'COINS: ' .. data.coinsLeft)
+				textImgSetText(txt_coins, 'COINS: ' .. data.coins)
 				textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)				
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', fadeSff)
 				data.continue = 1

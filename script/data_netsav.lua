@@ -13,7 +13,6 @@ data.simulType = 'Assist'
 data.p1Controller = -1
 data.p2Controller = -1
 data.difficulty = 8
-data.coins = 10
 data.continueCount = 0
 data.contSelection = true
 data.aiRamping = true

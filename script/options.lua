@@ -248,7 +248,6 @@ function f_saveCfg()
 		['data.p1Controller'] = data.p1Controller,
 		['data.p2Controller'] = data.p2Controller,
 		['data.difficulty'] = data.difficulty,	
-		['data.coins'] = data.coins,
 		['data.contSelection'] = data.contSelection,
 		['data.vsDisplayWin'] = data.vsDisplayWin,		
 		['data.aiRamping'] = data.aiRamping,
@@ -340,8 +339,7 @@ function f_netsaveCfg()
 		['data.numTurns'] = data.numTurns,
 		['data.numSimul'] = data.numSimul,
 		['data.simulType'] = data.simulType,
-		['data.difficulty'] = data.difficulty,	
-		['data.coins'] = data.coins,
+		['data.difficulty'] = data.difficulty,
 		['data.contSelection'] = data.contSelection,
 		['data.vsDisplayWin'] = data.vsDisplayWin,		
 		['data.aiRamping'] = data.aiRamping,
@@ -455,7 +453,6 @@ function f_onlineDefault()
 	data.numSimul = 4
 	data.simulType = 'Assist'
 	data.difficulty = 8
-	data.coins = 10
 	data.contSelection = true
 	s_contSelection = 'Yes'
 	data.aiRamping = true
@@ -644,8 +641,14 @@ function f_mainCfg()
 				animDraw(f_animVelocity(optionsBG0, -1, -1))
 				refresh()
 			end
-			setUserName(inputDialogGetStr(inputdia))
-			modified = 1
+			local playerName = inputDialogGetStr(inputdia)
+			if playerName == '' then --if the field is empty
+				setUserName('MUGENUSER') --set a default username
+				modified = 1
+			else
+				setUserName(inputDialogGetStr(inputdia)) --set username introduced
+				modified = 1
+			end
 		--Port Change
 		elseif mainCfg == 8 and (btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)
@@ -653,6 +656,14 @@ function f_mainCfg()
 			while not inputDialogIsDone(inputdia) do
 				animDraw(f_animVelocity(optionsBG0, -1, -1))
 				refresh()
+			end
+			local onlinePort = inputDialogGetStr(inputdia)
+			if onlinePort == '' then
+				setListenPort('7500')
+				modified = 1
+			else
+				setListenPort(inputDialogGetStr(inputdia))
+				modified = 1
 			end
 			setListenPort(inputDialogGetStr(inputdia))
 			modified = 1	
@@ -705,7 +716,7 @@ function f_mainCfg()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				assert(loadfile('script/data_sav.lua'))() --Load old data no saved
-				assert(loadfile('script/unlocks_sav.lua'))() --Load old data no saved
+				assert(loadfile('script/stats_sav.lua'))() --Load old data no saved
 				f_loadCfg()
 				f_loadEXCfg()
 				setScreenMode(b_screenMode)
@@ -837,8 +848,7 @@ t_gameCfg = {
 	{id = '', text = 'Round Time',         		 varID = textImgNew(), varText = data.roundTime},	
 	{id = '', text = 'Rounds to Win',      		 varID = textImgNew(), varText = roundsNum},
 	{id = '', text = 'Max Draw Games',      	 varID = textImgNew(), varText = drawNum},	
-	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},	
-	{id = '', text = 'Arcade Coins',             varID = textImgNew(), varText = data.coins},	
+	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},		
 	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
 	{id = '', text = 'Game Speed',  	         varID = textImgNew(), varText = s_gameSpeed},
@@ -947,20 +957,9 @@ function f_gameCfg()
 				sndPlay(sysSnd, 100, 0)
 				data.lifeMul = data.lifeMul - 10
 				modified = 1
-			end			
-		--Arcade Coins
-		elseif gameCfg == 6 then
-			if commandGetState(p1Cmd, 'r') and data.coins < 99 then
-				sndPlay(sysSnd, 200, 0) --Coin Song
-				data.coins = data.coins + 1
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.coins > 0 then
-				sndPlay(sysSnd, 200, 0) --Coin Song
-				data.coins = data.coins - 1
-				modified = 1
-			end		
+			end				
 		--AI ramping
-		elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif gameCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.aiRamping then
 				data.aiRamping = false
@@ -972,7 +971,7 @@ function f_gameCfg()
 				modified = 1
 			end
 		--Auto-Guard
-		elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.autoguard then
 				data.autoguard = false
@@ -984,7 +983,7 @@ function f_gameCfg()
 				modified = 1
 			end
 		--Game Speed
-		elseif gameCfg == 9 then
+		elseif gameCfg == 8 then
 		if onlinegame == true then --Detects if this option needs to be locked in online settings
 			lockSetting = true --Boolean to show a Lock setting message
 		elseif onlinegame == false then --allow use the option offline
@@ -1014,7 +1013,7 @@ function f_gameCfg()
 			end
 		end
 		--Training Character
-		elseif gameCfg == 10 then
+		elseif gameCfg == 9 then
 		if onlinegame == true then
 			lockSetting = true
 		elseif onlinegame == false then
@@ -1036,15 +1035,15 @@ function f_gameCfg()
 			end
 		end
 		--Team Settings
-		elseif gameCfg == 11 and btnPalNo(p1Cmd) > 0 then
+		elseif gameCfg == 10 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			f_teamCfg()
 		--Zoom Settings
-		elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then	
+		elseif gameCfg == 11 and btnPalNo(p1Cmd) > 0 then	
 			sndPlay(sysSnd, 100, 1)
 			f_zoomCfg()
 		--Back
-		elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
+		elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end	
@@ -1065,12 +1064,11 @@ function f_gameCfg()
 		end
 		t_gameCfg[3].varText = roundsNum
 		t_gameCfg[4].varText = drawNum		
-		t_gameCfg[5].varText = data.lifeMul .. '%'		
-		t_gameCfg[6].varText = data.coins	
-		t_gameCfg[7].varText = s_aiRamping
-		t_gameCfg[8].varText = s_autoguard
-		t_gameCfg[9].varText = s_gameSpeed
-		t_gameCfg[10].varText = data.training
+		t_gameCfg[5].varText = data.lifeMul .. '%'			
+		t_gameCfg[6].varText = s_aiRamping
+		t_gameCfg[7].varText = s_autoguard
+		t_gameCfg[8].varText = s_gameSpeed
+		t_gameCfg[9].varText = data.training
 		for i=1, #t_gameCfg do
 			textImgDraw(t_gameCfg[i].id)
 			if t_gameCfg[i].varID ~= nil then
@@ -1659,7 +1657,7 @@ t_engineCfg = {
 	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
 	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
 	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
-	{id = '', text = 'Erase Unlocked Data'},
+	{id = '', text = 'Erase/Reset Statistics'},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_engineCfg do
@@ -1822,7 +1820,7 @@ function f_engineCfg()
 				bufr = 0
 				bufl = 0
 			end		
-		--Erase Unlocked Data
+		--Erase/Reset Statistics
 		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
 		if onlinegame == true then
 			lockSetting = true
@@ -1873,10 +1871,10 @@ function f_engineCfg()
 end
 
 --;===========================================================
---; ERASE UNLOCKED DATA WARNING
+--; ERASE/RESET STATISTICS DATA WARNING
 --;===========================================================
 t_unlocksWarning = {
-	{id = '', text = "   All unlocked data will be delete. Are you sure?"},
+	{id = '', text = "   All unlocked data or progress will be delete."},
 	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
 }
 for i=1, #t_unlocksWarning do
@@ -1890,6 +1888,7 @@ function f_unlocksWarning()
 			sndPlay(sysSnd, 100, 1)
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
+			data.coins = 3
 			data.mission1Status = 0
 			data.mission2Status = 0
 			data.mission3Status = 0

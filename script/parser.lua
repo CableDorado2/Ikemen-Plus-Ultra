@@ -1,5 +1,6 @@
 
 onlinegame = false
+coinSystem = true
 data.includestage = 0
 
 --parse character data
