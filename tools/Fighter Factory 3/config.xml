@@ -73,7 +73,7 @@
     <config name="show_trans_color" value="false"/>
     <config name="snd_path" value="C:/Users/CD2/Desktop"/>
     <config name="sort_file_names" value="true"/>
-    <config name="spr_path" value="C:/Users/CD2/Desktop/ctn2"/>
+    <config name="spr_path" value="C:/Users/CD2/Desktop"/>
     <config name="sprite_over_guides" value="false"/>
     <config name="stylesheet" value=""/>
     <config name="switch_frame_spr" value="true"/>
@@ -89,6 +89,6 @@
     <config name="window_top" value="22"/>
     <config name="window_width" value="1440"/>
     <config name="zoom_center" value=""/>
-    <config name="zoom_level" value="3"/>
+    <config name="zoom_level" value="2"/>
     <config name="zoom_mode" value="1"/>
 </configuration>

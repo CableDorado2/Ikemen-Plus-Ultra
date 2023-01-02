@@ -1888,7 +1888,7 @@ function f_unlocksWarning()
 			sndPlay(sysSnd, 100, 1)
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
-			data.coins = 3
+			data.coins = 0
 			data.mission1Status = 0
 			data.mission2Status = 0
 			data.mission3Status = 0
