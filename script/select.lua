@@ -3275,6 +3275,33 @@ function f_missionStatus()
 	assert(loadfile('script/stats_sav.lua'))()
 end
 
+function f_winCoins()
+	if onlinegame == false then	
+		if coinSystem == true then
+			data.coins = data.coins + 3 --Earn 3 Coins by Win :)
+			sndPlay(sysSnd, 200, 0) --Coin Earned Song
+			f_saveUnlockData()
+		elseif coinSystem == false then
+			--Do nothing and don't lose or win coins
+		end
+	elseif onlinegame == true then
+		--Do nothing and don't lose or win coins
+	end
+end
+
+function f_loseCoins()
+	if coinSystem == true then
+		if data.coins < 1 then
+			data.coins = 0
+		elseif data.coins >= 1 then
+			data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+			f_saveUnlockData()
+		end
+	elseif coinSystem == false or data.gameMode == 'arcade' then
+		--Do nothing and don't lose or win coins
+	end
+end
+
 function f_selectWin()
 	setServiceType(0) --Erase Service
 	if data.winscreen == 'None' then
@@ -3286,13 +3313,7 @@ function f_selectWin()
 		local txt = ''
 		if winner == 1 then
 			p1Wins = p1Wins + 1
-			if coinSystem == true then
-				data.coins = data.coins + 3 --Earn 3 Coins by Win :)
-				sndPlay(sysSnd, 200, 0) --Coin Earned Song
-				f_saveUnlockData()
-			elseif coinSystem == false then
-				--Do nothing and don't lose or win coins
-			end
+			f_winCoins()
 			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
 			if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
 				--Do nothing and don't save mission progress
@@ -3301,16 +3322,7 @@ function f_selectWin()
 			end
 		else--if winner == 2 then
 			p2Wins = p2Wins + 1
-			if coinSystem == true then
-				if data.coins < 1 then
-					data.coins = 0
-				elseif data.coins >= 1 then
-					data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
-				end
-				f_saveUnlockData()
-			elseif coinSystem == false or data.gameMode == 'arcade' then
-				--Do nothing and don't lose or win coins
-			end
+			--f_loseCoins()
 			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
 		end
 		local i = 0
@@ -3417,10 +3429,12 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 	local txt = ''
 	if winner == 1 then
 		p1Wins = p1Wins + 1
+		f_winCoins()
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
 		f_missionStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
+		--f_loseCoins()
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P2 wins
 	end
 	local i = 0
@@ -3452,9 +3466,11 @@ end
 function f_selectWinOFF()
 	if winner == 1 then
 		p1Wins = p1Wins + 1
+		f_winCoins()
 		f_missionStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
+		--f_loseCoins()
 	end		
 	while true do
 		break
@@ -3866,8 +3882,8 @@ end
 --; CONTINUE SCREEN
 --;===========================================================
 --Coins left text
-txt_coins = createTextImg(jgFnt, 0, 1, '', 20, 30)
-txt_cont = createTextImg(jgFnt, 0, 1, '', 20, 30)
+txt_coins = createTextImg(jgFnt, 0, 1, '', 15, 30)
+txt_cont = createTextImg(jgFnt, 0, 1, '', 158, 30)
 
 --Background
 contBG0 = animNew(contSff, [[
@@ -3995,13 +4011,17 @@ function f_continue()
 				else
 					animLength4 = 0
 				end
-				if data.coins < 1 then
-					data.coins = 0
-				elseif data.coins >= 1 then
-					data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+				if onlinegame == false then
+					if data.coins < 1 then
+						data.coins = 0
+					elseif data.coins >= 1 then
+						data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+					end
+					f_saveUnlockData()
+				elseif onlinegame == true then
+					--Do nothing (Free Online Arcade)
 				end
-				f_saveUnlockData()
-				data.continueCount = data.continueCount + 1
+				data.continueCount = data.continueCount + 1 --Times Continue
 				textImgSetText(txt_coins, 'COINS: ' .. data.coins)
 				textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)				
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', fadeSff)
@@ -4140,7 +4160,12 @@ function f_continue()
 			end
 		end
 		if i >= 71 then --show when counter starts counting down
-			textImgDraw(txt_coins)
+			if onlinegame == false then
+				textImgDraw(txt_coins) --Show Coins Counter
+			elseif onlinegame == true then
+				--Don't Show Coins Counter
+			end
+			textImgDraw(txt_cont) --Alwats Show Times Continue Counter
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		

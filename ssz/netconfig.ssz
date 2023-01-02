@@ -23,7 +23,7 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 const ^/char listenPort = "7500";
-const ^/char UserName = "MUGENUSER";
+const ^/char UserName = "CD2";
 
 const ^/char system = "script/main.lua";
 
