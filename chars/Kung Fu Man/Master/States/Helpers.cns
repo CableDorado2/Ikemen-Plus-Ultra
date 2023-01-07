@@ -309,7 +309,7 @@ facing = 1
 type = DestroySelf
 trigger1 = root,movetype=H
 trigger2 = root,stateno!=1200
-trigger3 = root,stateno=1200 && (root,animelemtime(7)>=0 || root,var(10)>=2)
+trigger3 = root,stateno=1200 && (root,animelemtime(2)<0 || root,animelemtime(7)>=0 || root,var(10)>=2)
 
 ;Shield Dead State
 [Statedef 1251]
@@ -363,8 +363,9 @@ facing = 1
 [State 1252, End]
 type = DestroySelf
 trigger1 = root,movetype=H
-trigger2 = root,stateno!=1200
-trigger3 = root,stateno=1200 && (root,animelemtime(7)>=0 || root,var(10)<2)
+trigger2 = root,stateno!=1200 && root,stateno!=3200 && root,stateno!=3250
+trigger3 = root,stateno=1200 && (root,animelemtime(2)<0 || root,animelemtime(7)>=0 || root,var(10)<2)
+trigger4 = (root,stateno=3200 || root,stateno=3250) && (root,animelemtime(2)<0 || root,animelemtime(7)>=0)
 
 ;========================< GRAND KUNG FU UPPER DUST >=============================
 ;Grand Kung Fu Upper Dust
@@ -465,7 +466,7 @@ type = removeexplod
 trigger1 = time >= 15
 ID = -1
 
-[State 7050, End]
+[State 3106, End]
 type = destroyself
 trigger1 = time >= 15
 
@@ -611,7 +612,7 @@ physics = N
 moveType = I
 anim = 8000
 velset = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8000, Assert: No Shadow]
 type = AssertSpecial
@@ -652,7 +653,7 @@ physics = N
 moveType = I
 anim = 8001
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8001, Assert: NoShadow]
 type = AssertSpecial
@@ -694,7 +695,7 @@ trigger1 = Time >= 8
 physics = N
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8005, Assert: NoShadow]
 type = AssertSpecial
@@ -729,7 +730,7 @@ physics = N
 moveType = I
 anim = 8010
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8010, Assert: NoShadow]
 type = AssertSpecial
@@ -740,8 +741,8 @@ ignoreHitPause = 1
 [State 8010, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,1
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,1,0)
 
 [State 8010, AngleSet]
 type = AngleSet
@@ -753,10 +754,16 @@ type = AngleAdd
 trigger1 = 1
 value = 30
 
+[State 8010, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8010, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = 0.3 - (Time * 0.03), 0.3 - (Time * 0.03)
+scale = (0.3 - (Time * 0.03)) * fvar(1), (0.3 - (Time * 0.03)) * fvar(1)
 ignoreHitPause = 1
 
 [State 8010, Scale]
@@ -780,7 +787,7 @@ ID = 1
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -789,7 +796,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(1)
 ID = 1
-scale = 0.15 + (0.009375 * Time), 0.15 + (0.009375 * Time)
+scale = (0.15 + (0.009375 * Time)) * fvar(1), (0.15 + (0.009375 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time),256
 
@@ -801,7 +808,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -810,7 +817,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.15 + (0.009375 * Time), 0.15 + (0.009375 * Time)
+scale = (0.15 + (0.009375 * Time)) * fvar(1), (0.15 + (0.009375 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -822,7 +829,7 @@ ID = 4
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 3
+sprPriority = 99
 removeTime = 8
 pauseMoveTime = -1
 superMoveTime = -1
@@ -831,7 +838,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(4)
 ID = 4
-scale = 0.3 - (0.0375 * Time), 0.3 - (0.0375 * Time)
+scale = (0.3 - (0.0375 * Time)), (0.3 - (0.0375 * Time))
 trans = AddAlpha
 alpha = 128 - (16 * Time), 256
 
@@ -850,7 +857,7 @@ physics = N
 moveType = I
 anim = 8010
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8011, Assert: NoShadow]
 type = AssertSpecial
@@ -861,8 +868,8 @@ ignoreHitPause = 1
 [State 8011, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,1
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,1,0)
 
 [State 8011, AngleSet]
 type = AngleSet
@@ -874,10 +881,16 @@ type = AngleAdd
 trigger1 = 1
 value = 30
 
+[State 8011, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8011, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = 0.35 - (Time * 0.035), 0.35 - (Time * 0.035)
+scale = (0.35 - (Time * 0.035)) * fvar(1), (0.35 - (Time * 0.035)) * fvar(1)
 ignoreHitPause = 1
 
 [State 8011, Scale]
@@ -901,7 +914,7 @@ ID = 1
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removetime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -910,7 +923,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(1)
 ID = 1
-scale = 0.175 + (0.0109375 * Time), 0.175 + (0.0109375 * Time)
+scale = (0.175 + (0.0109375 * Time)) * fvar(1), (0.175 + (0.0109375 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -922,7 +935,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -931,7 +944,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.175 + (0.0109375 * Time), 0.175 + (0.0109375 * Time)
+scale = (0.175 + (0.0109375 * Time)) * fvar(1), (0.175 + (0.0109375 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -943,7 +956,7 @@ ID = 4
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 3
+sprPriority = 99
 removeTime = 8
 pauseMoveTime = -1
 superMoveTime = -1
@@ -952,7 +965,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(4)
 ID = 4
-scale = 0.35 - (0.04375 * Time), 0.35 - (0.04375 * Time)
+scale = (0.35 - (0.04375 * Time)), (0.35 - (0.04375 * Time))
 trans = AddAlpha
 alpha = 128 - (16 * Time), 256
 
@@ -971,7 +984,7 @@ physics = N
 moveType = I
 anim = 8010
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8012, Assert: NoShadow]
 type = AssertSpecial
@@ -982,8 +995,8 @@ ignoreHitPause = 1
 [State 8012, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,1
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,1,0)
 
 [State 8012, AngleSet]
 type = AngleSet
@@ -995,10 +1008,16 @@ type = AngleAdd
 trigger1 = 1
 value = 30
 
+[State 8012, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8012, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = 0.4 - (Time * 0.04), 0.4 - (Time * 0.04)
+scale = (0.4 - (Time * 0.04)) * fvar(1), (0.4 - (Time * 0.04)) * fvar(1)
 ignoreHitPause = 1
 
 [State 8012, Scale]
@@ -1022,7 +1041,7 @@ ID = 1
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1031,7 +1050,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(1)
 ID = 1
-scale = 0.2 + (0.0125 * Time), 0.2 + (0.0125 * Time)
+scale = (0.2 + (0.0125 * Time)) * fvar(1), (0.2 + (0.0125 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1043,7 +1062,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1052,7 +1071,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.2 + (0.0125 * Time), 0.2 + (0.0125 * Time)
+scale = (0.2 + (0.0125 * Time)) * fvar(1), (0.2 + (0.0125 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1064,7 +1083,7 @@ ID = 4
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 3
+sprPriority = 99
 removeTime = 8
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1073,7 +1092,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(4)
 ID = 4
-scale = 0.4 - (0.05 * Time), 0.4 - (0.05 * Time)
+scale = (0.4 - (0.05 * Time)), (0.4 - (0.05 * Time))
 trans = AddAlpha
 alpha = 128 - (16 * Time), 256
 
@@ -1092,7 +1111,7 @@ physics = N
 moveType = I
 anim = 8010
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8013, Assert: NoShadow]
 type = AssertSpecial
@@ -1103,8 +1122,8 @@ ignoreHitPause = 1
 [State 8013, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,Ifelse(root,var(43)>=2,2,1)
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,2,0)
 
 [State 8013, AngleSet]
 type = AngleSet
@@ -1116,10 +1135,16 @@ type = AngleAdd
 trigger1 = 1
 value = 30
 
+[State 8013, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8013, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = 0.45 - (Time * 0.045), 0.45 - (Time * 0.045)
+scale = (0.45 - (Time * 0.045)) * fvar(1), (0.45 - (Time * 0.045)) * fvar(1)
 ignoreHitPause = 1
 
 [State 8012, Scale]
@@ -1143,7 +1168,7 @@ ID = 1
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1152,7 +1177,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(1)
 ID = 1
-scale = 0.225 + (0.0140625 * Time), 0.225 + (0.0140625 * Time)
+scale = (0.225 + (0.0140625 * Time)) * fvar(1), (0.225 + (0.0140625 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1164,7 +1189,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1173,7 +1198,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.225 + (0.0140625 * Time), 0.225 + (0.0140625 * Time)
+scale = (0.225 + (0.0140625 * Time)) * fvar(1), (0.225 + (0.0140625 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1194,7 +1219,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1= NumExplod(3)
 ID = 3
-scale = 0.4, 0.4
+scale = 0.4 * fvar(1), 0.4 * fvar(1)
 trans = AddAlpha
 alpha = 256 - (32 * Time), 256
 
@@ -1206,8 +1231,8 @@ ID = 4
 posType = P1
 facing = ifElse(random < 500, -1, 1)
 vFacing = ifElse(random < 500, -1, 1)
-sprPriority=3
-removeTime=8
+sprPriority = 99
+removeTime = 8
 pauseMoveTime = -1
 superMoveTime = -1
 
@@ -1215,7 +1240,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(4)
 ID = 4
-scale = 0.45 - (0.05625 * Time), 0.45 - (0.05625 * Time)
+scale = (0.45 - (0.05625 * Time)), (0.45 - (0.05625 * Time))
 trans = AddAlpha
 alpha = 192 - (24 * Time), 256
 
@@ -1234,7 +1259,7 @@ physics = N
 moveType = I
 anim = 8010
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8014, Assert: NoShadow]
 type = AssertSpecial
@@ -1245,8 +1270,8 @@ ignoreHitPause = 1
 [State 8014, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,Ifelse(root,var(43)=3,3,Ifelse(root,var(43)=2,2,1))
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)=3,3,Ifelse(root,var(43)=2,2,0))
 
 [State 8014, AngleSet]
 type = AngleSet
@@ -1258,10 +1283,16 @@ type = AngleAdd
 trigger1 = 1
 value = 30
 
+[State 8014, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8014, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = 0.5 - (Time * 0.05), 0.5 - (Time * 0.05)
+scale = (0.5 - (Time * 0.05)) * fvar(1), (0.5 - (Time * 0.05)) * fvar(1)
 ignoreHitPause = 1
 
 [State 8014, Scale]
@@ -1285,7 +1316,7 @@ ID = 1
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1295,7 +1326,7 @@ ownpal = 1
 type = ModifyExplod
 trigger1 = NumExplod(1)
 ID = 1
-scale = 0.25 + (0.015625 * Time), 0.25 + (0.015625 * Time)
+scale = (0.25 + (0.015625 * Time)) * fvar(1), (0.25 + (0.015625 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1307,7 +1338,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1317,7 +1348,7 @@ ownpal = 0
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.25 + (0.015625 * Time), 0.25 + (0.015625 * Time)
+scale = (0.25 + (0.015625 * Time)) * fvar(1), (0.25 + (0.015625 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1339,7 +1370,7 @@ ownpal = 1
 type = ModifyExplod
 trigger1 = NumExplod(3)
 ID = 3
-scale = 0.5,0.5
+scale = 0.5 * fvar(1), 0.5 * fvar(1)
 trans = AddAlpha
 alpha = 256 - (32 * Time), 256
 
@@ -1351,7 +1382,7 @@ ID = 4
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 3
+sprPriority = 99
 removeTime = 8
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1360,15 +1391,15 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(4)
 ID = 4
-scale = 0.5 - (0.0625 * Time), 0.5 - (0.0625 * Time)
+scale = (0.5 - (0.0625 * Time)), (0.5 - (0.0625 * Time))
 trans = AddAlpha
 alpha = 256 - (32 * Time),256
 
 [State 8014, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,Ifelse(root,var(43)>=2,3,1)
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,3,0)
 
 [State 8014, Remove Explods]
 type = RemoveExplod
@@ -1383,7 +1414,7 @@ trigger1 = Time >= 16
 physics = N
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8015, Assert: NoShadow]
 type = AssertSpecial
@@ -1418,7 +1449,7 @@ physics = N
 moveType = I
 anim = 8020
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8020, Assert: NoShadow]
 type = AssertSpecial
@@ -1429,8 +1460,8 @@ ignoreHitPause = 1
 [State 8020, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,1
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,1,0)
 
 [State 8020, AngleSet]
 type = AngleSet
@@ -1444,10 +1475,10 @@ trigger1 = !PrevStateNo | PrevStateNo = 8015
 var(1) = 0
 ignoreHitPause = 1
 
-[State 8020, Scale]
+[State 8020, Resize]
 type = VarSet
 trigger1 = !Time
-fvar(1) = Ifelse(var(1)=2,0.875,Ifelse(var(1)=1,0.75,0.625))
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0) * Ifelse(var(1)=2, 0.888, Ifelse(var(1)=1, 0.777, 0.666))
 ignoreHitPause = 1
 
 [State 8020, Scale]
@@ -1469,25 +1500,6 @@ trans = AddAlpha
 alpha = 256,256
 ignoreHitPause = 1
 
-[State 8020, Circle]
-type = Explod
-trigger1 = 0;!Time
-anim = 8021
-ID = 8021
-posType = p1
-removeTime = 10
-sprPriority = 5
-pauseMoveTime = -1
-superMoveTime = -1
-
-[State 8020, Circle Scale]
-type = ModifyExplod
-trigger1 = NumExplod(8021)
-ID = 8021
-scale = (0.25 + (0.025 * Time)) * fvar(1), (0.25 + (0.025 * Time)) * fvar(1)
-trans = AddAlpha
-alpha = ceil(256 - 25.6 * Time), 256
-
 [State 8020, Streaks Explod]
 type = Explod
 trigger1 = !time
@@ -1496,7 +1508,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1505,7 +1517,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = (0.225 + (0.0140625 * Time)) * fvar(1), (0.225 + (0.0140625 * Time)) * fvar(1)
+scale = ((0.225 + (0.0140625 * Time)) * fvar(1)), ((0.225 + (0.0140625 * Time)) * fvar(1))
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1517,7 +1529,7 @@ ID = 17
 postype = p1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = -4+random%10
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1530,7 +1542,7 @@ ignorehitpause = 1
 type = ModifyExplod
 trigger1 = NumExplod(17)
 ID = 17
-scale = 0.2 - (0.005 * Time), 0.2 - (0.005 * Time)
+scale = (0.225 - (0.005 * Time)) * fvar(1), (0.225 - (0.005 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 ignorehitpause = 1
@@ -1550,7 +1562,7 @@ physics = N
 moveType = I
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8021, Medium]
 type = VarSet
@@ -1570,7 +1582,7 @@ physics = N
 moveType = I
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8022, Strong]
 type = VarSet
@@ -1590,7 +1602,7 @@ physics = N
 moveType = I
 anim = 8020
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8023, Assert: NoShadow]
 type = AssertSpecial
@@ -1601,18 +1613,24 @@ ignoreHitPause = 1
 [State 8023, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,Ifelse(root,var(43)>=2,2,1)
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,2,0)
 
 [State 8023, AngleSet]
 type = AngleSet
 trigger1 = !Time
 value = 15 * (Random % 24)
 
+[State 8023, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8023, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = (0.5 + (Time * 0.15)) / 2, (1 - (Time * 0.1)) / 2
+scale = ((0.5 + (Time * 0.15)) / 2) * fvar(1), ((1 - (Time * 0.1)) / 2) * fvar(1)
 ignoreHitPause = 1
 
 [State 8023, Scale]
@@ -1635,7 +1653,7 @@ anim = 8021
 ID = 8021
 posType = p1
 removeTime = 10
-sprPriority = 5
+sprPriority = 99
 pauseMoveTime = -1
 superMoveTime = -1
 
@@ -1643,7 +1661,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(8021)
 ID = 8021
-scale = 0.25 + (0.025 * Time), 0.25 + (0.025 * Time)
+scale = (0.25 + (0.025 * Time)) * fvar(1), (0.25 + (0.025 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = ceil(256 - 25.6 * Time), 256
 
@@ -1655,7 +1673,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1664,7 +1682,7 @@ superMoveTime = -1
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.225 + (0.0140625 * Time), 0.225 + (0.0140625 * Time)
+scale = (0.225 + (0.0140625 * Time)) * fvar(1), (0.225 + (0.0140625 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1676,7 +1694,7 @@ ID = 17
 postype = p1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = -4+random%10
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1689,7 +1707,7 @@ ignorehitpause = 1
 type = ModifyExplod
 trigger1 = NumExplod(17)
 ID = 17
-scale = 0.225 - (0.005 * Time), 0.225 - (0.005 * Time)
+scale = (0.225 - (0.005 * Time)) * fvar(1), (0.225 - (0.005 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 ignorehitpause = 1
@@ -1709,7 +1727,7 @@ physics = N
 moveType = I
 anim = 8020
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8024, Assert: NoShadow]
 type = AssertSpecial
@@ -1720,18 +1738,24 @@ ignoreHitPause = 1
 [State 8024, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,Ifelse(root,var(43)=3,3,Ifelse(root,var(43)=2,2,1))
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)=3,3,Ifelse(root,var(43)=2,2,0))
 
 [State 8024, AngleSet]
 type = AngleSet
 trigger1 = !Time
 value = 15 * (Random % 24)
 
+[State 8024, Resize]
+type = VarSet
+trigger1 = !Time
+fvar(1) = Ifelse(root,var(43)=1, 0.9, 1.0)
+ignoreHitPause = 1
+
 [State 8024, Scale]
 type = AngleDraw
 trigger1 = Time < 10
-scale = (0.5 + (Time * 0.15)) / 2, (1 - (Time * 0.1)) / 2
+scale = ((0.5 + (Time * 0.15)) / 2) * fvar(1), ((1 - (Time * 0.1)) / 2) * fvar(1)
 ignoreHitPause = 1
 
 [State 8024, Scale]
@@ -1754,7 +1778,7 @@ anim = 8021
 ID = 8021
 posType = p1
 removeTime = 10
-sprPriority = 5
+sprPriority = 99
 pauseMoveTime = -1
 superMoveTime = -1
 ownpal = 1
@@ -1763,7 +1787,7 @@ ownpal = 1
 type = ModifyExplod
 trigger1 = NumExplod(8021)
 ID = 8021
-scale = 0.3 + (0.03 * Time), 0.3 + (0.03 * Time)
+scale = (0.3 + (0.03 * Time)) * fvar(1), (0.3 + (0.03 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = ceil(256 - 25.6 * Time), 256
 
@@ -1775,7 +1799,7 @@ ID = 2
 posType = P1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = 5
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1785,7 +1809,7 @@ ownpal = 0
 type = ModifyExplod
 trigger1 = NumExplod(2)
 ID = 2
-scale = 0.25 + (0.015625 * Time), 0.25 + (0.015625 * Time)
+scale = (0.25 + (0.015625 * Time)) * fvar(1), (0.25 + (0.015625 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 
@@ -1797,7 +1821,7 @@ ID = 17
 postype = p1
 facing = ifElse(Random < 500, -1, 1)
 vFacing = ifElse(Random < 500, -1, 1)
-sprPriority = -4+random%10
+sprPriority = 99
 removeTime = 16
 pauseMoveTime = -1
 superMoveTime = -1
@@ -1811,7 +1835,7 @@ ownpal = 0
 type = ModifyExplod
 trigger1 = NumExplod(17)
 ID = 17
-scale = 0.25 - (0.005 * Time), 0.25 - (0.005 * Time)
+scale = (0.25 - (0.005 * Time)) * fvar(1), (0.25 - (0.005 * Time)) * fvar(1)
 trans = AddAlpha
 alpha = 256 - (16 * Time), 256
 ignorehitpause = 1
@@ -1819,8 +1843,8 @@ ignorehitpause = 1
 [State 8024, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
-dest = 8010,Ifelse(root,var(43)>=2,3,1)
+source = 8010,0
+dest = 8010,Ifelse(root,var(43)>=2,3,0)
 
 [State 8024, Remove Explods]
 type = RemoveExplod
@@ -1837,7 +1861,7 @@ physics = N
 movetype = I
 anim = 8030
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8030, Assert]
 type = assertspecial
@@ -1863,6 +1887,238 @@ alpha = 256 - 64 * (time -4), 256
 type = destroyself
 trigger1 = time >= 8
 
+;========================< BLOOD >=============================
+;--- Small ---
+[Statedef 8050]
+type = A
+anim = 9999
+velset = 0, 0
+
+[State 8050, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -3 + (random / 166.7), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8050, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -3 + (random / 166.7), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8050, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -3 + (random / 166.7), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+
+[State 8050, End]
+type = destroyself
+trigger1 = 1
+
+
+;--- Medium ---
+[Statedef 8051]
+type = A
+anim = 9999
+velset = 0, 0
+
+[State 8051, Medium]
+type = explod
+trigger1 = !time
+anim = 8051
+ID = 8050
+postype = p1
+vel = -10 + (random / 50.0), -5 -(random / 200.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+
+[State 8051, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -4 + (random / 125.0), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8051, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -4 + (random / 125.0), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8051, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -4 + (random / 125.0), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+
+[State 8051, End]
+type = destroyself
+trigger1 = 1
+
+
+;--- Large ---
+[Statedef 8052]
+type = A
+anim = 9999
+velset = 0, 0
+
+[State 8052, Large]
+type = explod
+trigger1 = !time
+anim = 8052
+ID = 8050
+postype = p1
+vel = -(random / 333.3), -2.5 -(random / 400.0)
+accel = 0, 0.25
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+
+[State 8052, Medium]
+type = explod
+trigger1 = !time
+anim = 8051
+ID = 8050
+postype = p1
+vel = -10 + (random / 50.0), -5 -(random / 200.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8052, Medium]
+type = explod
+trigger1 = !time
+anim = 8051
+ID = 8050
+postype = p1
+vel = -10 + (random / 50.0), -5 -(random / 200.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+
+[State 8052, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -5 + (random / 100.0), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8052, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -5 + (random / 100.0), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+[State 8052, Small]
+type = explod
+trigger1 = !time
+anim = 8050
+ID = 8050
+postype = p1
+vel = -5 + (random / 100.0), -7.5 -(random / 400.0)
+accel = 0, 0.5
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+trans = addalpha
+alpha = 256, 128
+sprpriority = 5
+scale = 0.5, 0.5
+ownpal = 1
+
+[State 8052, End]
+type = destroyself
+trigger1 = 1
+
 ;=========================================================================
 ;CvS Style Hitsparks
 ;=========================================================================
@@ -1872,7 +2128,7 @@ trigger1 = time >= 8
 type = A
 velset = 0, 0
 anim = 9999
-sprpriority = 5
+sprpriority = 99
 
 [State 8060, Assert]
 type = assertspecial
@@ -1888,7 +2144,7 @@ postype = p1
 facing = 1
 vfacing = 1
 scale = 0.5, 0.5
-sprpriority = 5
+sprpriority = 99
 removetime = 12
 pausemovetime = -1
 supermovetime = -1
@@ -1898,7 +2154,7 @@ type = modifyexplod
 trigger1 = numexplod(8060) && time < 4
 ID = 8060
 trans = addalpha
-scale = 0.25 + (0.046875 * Time), 0.25 + (0.046875 * Time)
+scale = (0.25 + (0.046875 * Time)) * const(size.xscale), (0.25 + (0.046875 * Time)) * const(size.yscale)
 alpha = 256, 256
 
 [State 8060, Center Scale 2]
@@ -1906,7 +2162,7 @@ type = modifyexplod
 trigger1 = numexplod(8060) && time >= 4
 ID = 8060
 trans = addalpha
-scale = 0.25 + (0.046875 * Time), 0.25 + (0.046875 * Time)
+scale = (0.25 + (0.046875 * Time)) * const(size.xscale), (0.25 + (0.046875 * Time)) * const(size.yscale)
 alpha = 256 -ceil(32.0 * (time - 4)), 256
 
 [State 8060, End]
@@ -1922,7 +2178,7 @@ trigger1 = time >= 12
 type = A
 velset = 0, 0
 anim = 8061
-sprpriority = 5
+sprpriority = 99
 
 [State 8061, Assert]
 type = assertspecial
@@ -1954,7 +2210,7 @@ postype = p1
 facing = 1
 vfacing = 1
 scale = 0.5, 0.5
-sprpriority = 5
+sprpriority = 99
 removetime = 12
 pausemovetime = -1
 supermovetime = -1
@@ -1964,7 +2220,7 @@ type = modifyexplod
 trigger1 = numexplod(8060) && time < 4
 ID = 8060
 trans = addalpha
-scale = 0.25 + (0.046875 * Time), 0.25 + (0.046875 * Time)
+scale = (0.25 + (0.046875 * Time)) * const(size.xscale), (0.25 + (0.046875 * Time)) * const(size.yscale)
 alpha = 256, 256
 
 [State 8061, Center Scale 2]
@@ -1972,7 +2228,7 @@ type = modifyexplod
 trigger1 = numexplod(8060) && time >= 4
 ID = 8060
 trans = addalpha
-scale = 0.25 + (0.046875 * Time), 0.25 + (0.046875 * Time)
+scale = (0.25 + (0.046875 * Time)) * const(size.xscale), (0.25 + (0.046875 * Time)) * const(size.yscale)
 alpha = 256 -ceil(32.0 * (time - 4)), 256
 
 [State 8061, End]
@@ -1988,7 +2244,7 @@ trigger1 = time >= 12
 type = A
 anim = 8070
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8070, Assert]
 type = assertspecial
@@ -1998,7 +2254,7 @@ flag = noshadow
 [State 8070, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,1
 
 [State 8070, Angle]
@@ -2036,8 +2292,8 @@ ID = 8071
 postype = p1
 facing = ifelse(random < 500, -1, 1)
 vfacing = ifelse(random < 500, -1, 1)
-scale = 0.5, 0.5
-sprpriority = 5
+scale = 0.5 * const(size.xscale), 0.5 * const(size.yscale)
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 
@@ -2054,8 +2310,8 @@ anim = 8022
 ID = 8022
 postype = p1
 vel = -10 + (random / 50.0), -10 + (random / 50.0)
-scale = fvar(17), fvar(17)
-sprpriority = 5
+scale = fvar(17) * const(size.xscale), fvar(17) * const(size.yscale)
+sprpriority = 99
 removeTime = 16
 pausemovetime = -1
 supermovetime = -1
@@ -2081,7 +2337,7 @@ physics = N
 moveType = I
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8071, Medium]
 type = VarSet
@@ -2102,7 +2358,7 @@ physics = N
 moveType = I
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8072, Strong]
 type = VarSet
@@ -2121,7 +2377,7 @@ value = 8070
 type = A
 anim = 8070
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8073, Assert]
 type = assertspecial
@@ -2131,7 +2387,7 @@ flag = noshadow
 [State 8073, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,2
 
 [State 8073, Angle]
@@ -2162,8 +2418,8 @@ ID = 8071
 postype = p1
 facing = ifelse(random < 500, -1, 1)
 vfacing = ifelse(random < 500, -1, 1)
-scale = 0.565, 0.565
-sprpriority = 5
+scale = 0.565 * const(size.xscale), 0.565 * const(size.yscale)
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 
@@ -2174,14 +2430,14 @@ anim = 8021
 ID = 8021
 postype = p1
 removetime = 10
-sprpriority = 5
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 [State 8073, Circle Scale]
 type = modifyexplod
 trigger1 = numexplod(8021)
 ID = 8021
-scale = 0.25 + (0.025 * time), 0.25 + (0.025 * time)
+scale = (0.25 + (0.025 * time)) * const(size.xscale), (0.25 + (0.025 * time)) * const(size.yscale)
 trans = addalpha
 alpha = ceil(256 -25.6 * time), 256
 
@@ -2198,8 +2454,8 @@ anim = 8022
 ID = 8022
 postype = p1
 vel = -10 + (random / 50.0), -10 + (random / 50.0)
-scale = fvar(17), fvar(17)
-sprpriority = 5
+scale = fvar(17) * const(size.xscale), fvar(17) * const(size.yscale)
+sprpriority = 99
 removeTime = 16
 pausemovetime = -1
 supermovetime = -1
@@ -2223,7 +2479,7 @@ trigger1 = time >= 16
 type = A
 anim = 8070
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8074, Assert]
 type = assertspecial
@@ -2233,7 +2489,7 @@ flag = noshadow
 [State 8074, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,2
 
 [State 8074, Angle]
@@ -2264,8 +2520,8 @@ ID = 8071
 postype = p1
 facing = ifelse(random < 500, -1, 1)
 vfacing = ifelse(random < 500, -1, 1)
-scale = 0.625, 0.625
-sprpriority = 5
+scale = 0.625 * const(size.xscale), 0.625 * const(size.yscale)
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 
@@ -2276,7 +2532,7 @@ anim = 8021
 ID = 8021
 postype = p1
 removetime = 10
-sprpriority = 5
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 ownpal = 1
@@ -2284,7 +2540,7 @@ ownpal = 1
 type = modifyexplod
 trigger1 = numexplod(8021)
 ID = 8021
-scale = 0.3 + (0.03 * time), 0.3 + (0.03 * time)
+scale = (0.3 + (0.03 * time)) * const(size.xscale), (0.3 + (0.03 * time)) * const(size.yscale)
 trans = addalpha
 alpha = ceil(256 -25.6 * time), 256
 
@@ -2301,8 +2557,8 @@ anim = 8022
 ID = 8022
 postype = p1
 vel = -10 + (random / 50.0), -10 + (random / 50.0)
-scale = fvar(17), fvar(17)
-sprpriority = 5
+scale = fvar(17) * const(size.xscale), fvar(17) * const(size.yscale)
+sprpriority = 99
 removeTime = 16
 pausemovetime = -1
 supermovetime = -1
@@ -2317,7 +2573,7 @@ alpha = 256 -16 * time, 256
 [State 8074, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,3
 
 [State 8074, End]
@@ -2333,7 +2589,7 @@ trigger1 = time >= 16
 type = A
 anim = 8020
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8080, Assert]
 type = assertspecial
@@ -2343,7 +2599,7 @@ flag = noshadow
 [State 8080, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,1
 
 [State 8080, Angle]
@@ -2386,8 +2642,8 @@ anim = 8022
 ID = 8022
 postype = p1
 vel = -10 + (random / 50.0), -10 + (random / 50.0)
-scale = fvar(17), fvar(17)
-sprpriority = 5
+scale = fvar(17) * const(size.xscale), fvar(17) * const(size.yscale)
+sprpriority = 99
 removeTime = 16
 pausemovetime = -1
 supermovetime = -1
@@ -2413,7 +2669,7 @@ physics = N
 moveType = I
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8081, Medium]
 type = VarSet
@@ -2434,7 +2690,7 @@ physics = N
 moveType = I
 anim = 9999
 velSet = 0,0
-sprPriority = 5
+sprPriority = 99
 
 [State 8082, Strong]
 type = VarSet
@@ -2453,7 +2709,7 @@ value = 8080
 type = A
 anim = 8020
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8083, Assert]
 type = assertspecial
@@ -2463,7 +2719,7 @@ flag = noshadow
 [State 8083, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,2
 ignorehitpause=1
 
@@ -2494,14 +2750,14 @@ anim = 8021
 ID = 8021
 postype = p1
 removetime = 10
-sprpriority = 5
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 [State 8083, Circle Scale]
 type = modifyexplod
 trigger1 = numexplod(8021)
 ID = 8021
-scale = 0.25 + (0.025 * time), 0.25 + (0.025 * time)
+scale = (0.25 + (0.025 * time)) * const(size.xscale), (0.25 + (0.025 * time)) * const(size.yscale)
 trans = addalpha
 alpha = ceil(256 -25.6 * time), 256
 
@@ -2518,8 +2774,8 @@ anim = 8022
 ID = 8022
 postype = p1
 vel = -10 + (random / 50.0), -10 + (random / 50.0)
-scale = fvar(17), fvar(17)
-sprpriority = 5
+scale = fvar(17) * const(size.xscale), fvar(17) * const(size.yscale)
+sprpriority = 99
 removeTime = 16
 pausemovetime = -1
 supermovetime = -1
@@ -2543,7 +2799,7 @@ trigger1 = time >= 16
 type = A
 anim = 8020
 velset = 0, 0
-sprpriority = 5
+sprpriority = 99
 
 [State 8084, Assert]
 type = assertspecial
@@ -2553,7 +2809,7 @@ flag = noshadow
 [State 8084, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,2
 ignorehitpause=1
 
@@ -2584,7 +2840,7 @@ anim = 8021
 ID = 8021
 postype = p1
 removetime = 10
-sprpriority = 5
+sprpriority = 99
 pausemovetime = -1
 supermovetime = -1
 ownpal = 1
@@ -2592,7 +2848,7 @@ ownpal = 1
 type = modifyexplod
 trigger1 = numexplod(8021)
 ID = 8021
-scale = 0.3 + (0.03 * time), 0.3 + (0.03 * time)
+scale = (0.3 + (0.03 * time)) * const(size.xscale), (0.3 + (0.03 * time)) * const(size.yscale)
 trans = addalpha
 alpha = ceil(256 -25.6 * time), 256
 
@@ -2609,8 +2865,8 @@ anim = 8022
 ID = 8022
 postype = p1
 vel = -10 + (random / 50.0), -10 + (random / 50.0)
-scale = fvar(17), fvar(17)
-sprpriority = 5
+scale = fvar(17) * const(size.xscale), fvar(17) * const(size.yscale)
+sprpriority = 99
 removeTime = 16
 pausemovetime = -1
 supermovetime = -1
@@ -2625,7 +2881,7 @@ alpha = 256 -16 * time, 256
 [State 8084, RemapPal]
 type = RemapPal
 trigger1 =!time
-source = 8010,1
+source = 8010,0
 dest = 8010,3
 ignorehitpause=1
 
@@ -2952,13 +3208,18 @@ alpha = ceil(256 - 17.1 * Time), 256
 type = DestroySelf
 trigger1 = Time >= 15
 
-;========================<COUNTER FX>=============================
-;Counter FX
+;========================<COUNTER TEXT FX>=============================
+;Counter Text FX
 [StateDef 8290]
 type = A
 physics = N
 velSet = 0,0
 anim = 9999
+
+[State 8290, Circle FX Version]
+type = ChangeState
+trigger1 = !Root,var(43)
+value = 8295
 
 [State 8290, "Counter!" Text Explod]
 type = Explod
@@ -2997,7 +3258,8 @@ trigger1 = Time >= 16
 type = DestroySelf
 trigger1 = Time >= 16
 
-;MAX MODE TEXT FX
+;========================<MAX MODE TEXT FX>=============================
+;MAX Mode Text FX
 [StateDef 8291]
 type = A
 physics = N
@@ -3041,14 +3303,15 @@ trigger1 = Time >= 16
 type = DestroySelf
 trigger1 = Time >= 16
 
-;SUPPORT TEXT FX
+;========================<SUPPORT TEXT FX>=============================
+;Support Text FX
 [StateDef 8292]
 type = A
 physics = N
 velSet = 0,0
 anim = 9999
 
-[State 8292, "Power Up!" Text Explod]
+[State 8292, "Support OK!" Text Explod]
 type = Explod
 trigger1 = !NumExplod(8292)
 anim = 8292
@@ -3084,6 +3347,42 @@ trigger1 = Time >= 16
 [State 8292, End]
 type = DestroySelf
 trigger1 = Time >= 16
+
+;========================<COUNTER CIRCLE FX>=============================
+;Counter Circle FX
+[Statedef 8295]
+type = A
+physics = N
+velset = 0,0
+anim = 9999
+
+[State 8295, Circle]
+type = explod
+trigger1 = !numexplod(8295)
+anim = 8295
+ID = 8295
+sprpriority = 5
+postype = p1
+pausemovetime = -1
+supermovetime = -1
+ownpal = 1
+
+[State 8295, Scale]
+type = modifyexplod
+trigger1 = numexplod(8295)
+ID = 8295
+scale = 0.2 + (0.05 * time), 0.2 + (0.05 * time)
+trans = addalpha
+alpha = ceil(256 -(16 * time)), 256
+
+[State 8295, Safety]
+type = removeexplod
+trigger1 = time >= 16
+
+[State 8295, End]
+type = destroyself
+trigger1 = !numexplod
+
 ;==================<POWER CHARGE FX>==================
 ;Aura and Dust
 [StateDef 8330]
@@ -3104,6 +3403,25 @@ type = PlaySnd
 trigger1 = !Time
 value = 730,0
 channel = 0
+
+[State 8330, Loop Sound]
+type = PlaySnd
+trigger1 = Time = 60
+value = 730,1
+channel = 1
+loop = 1
+
+[State 8330, SndPan]
+type = SndPan
+trigger1 = 1
+channel = 0
+pan = 0
+
+[State 8330, SndPan]
+type = SndPan
+trigger1 = 1
+channel = 1
+pan = 0
 
 [State 8330, Power Charge Aura]
 type = Explod
@@ -3147,15 +3465,24 @@ scale = 0.5, 0.5
 [State 8330, StopSnd]
 type = StopSnd
 trigger1 = Root, StateNo != 730
+trigger2 = Root, MoveType = H
 channel = 0
+
+[State 8330, StopSnd]
+type = StopSnd
+trigger1 = Root, StateNo != 730
+trigger2 = Root, MoveType = H
+channel = 1
 
 [State 8330, RemoveExplod]
 type = RemoveExplod
 trigger1 = Root, StateNo != 730
+trigger2 = Root, MoveType = H
 
 [State 8330, End]
 type = DestroySelf
 trigger1 = Root, StateNo != 730
+trigger2 = Root, MoveType = H
 
 
 ;Particles
@@ -3178,7 +3505,7 @@ trigger1 = (Time % 8) = 1
 anim = 8331
 sprPriority = ifElse(Random < 750, 5, -1)
 posType = P1
-vel = ((RootDist x + 5) / 32.0), ((RootDist y - 75) / 32.0);values to adjust
+vel = ((RootDist x + 7) / 32.0), ((RootDist y - 74) / 32.0);values to adjust
 scale = ifElse(Random < 500, 0.5, -0.5), ifElse(Random < 500, 0.5, -0.5)
 pauseMoveTime = -1
 superMoveTime = -1
@@ -3187,10 +3514,12 @@ ownpal = 1
 [State 8331, RemoveExplod]
 type = RemoveExplod
 trigger1 = Root, StateNo != 730
+trigger2 = Root, MoveType = H
 
 [State 8331, End]
 type = DestroySelf
 trigger1 = Root, StateNo != 730
+trigger2 = Root, MoveType = H
 
 ;==================<ZERO COUNTER FX>==================
 ;Zero Counter FX
@@ -3262,15 +3591,15 @@ ignoreHitPause = 1
 
 [State 8400, BGpalFX]
 type = BGpalFX
-trigger1 = Time < 16
+trigger1 = Time < 17
 time = 1
 mul = 128,128,128
 
 [State 8400, BGpalFX]
 type = BGpalFX
-trigger1 = Time >= 16 && Time < 26
+trigger1 = Time >= 17 && Time < 25
 time = 1
-mul = 128 + (13 * (Time - 16)), 128 + (13 * (Time - 16)), 128 + (13 * (Time - 16))
+mul = ceil(128 + 16 * (Time - 17)), ceil(128 + 16 * (Time - 17)), ceil(128 + 16 * (Time - 17))
 
 [State 8400, Rotate]
 type = AngleSet
@@ -3367,6 +3696,17 @@ type = AssertSpecial
 trigger1 = 1
 flag = NoShadow
 
+[State 8500, Bind]
+type = Null
+trigger1 = !Time
+trigger1 = 1 || fvar(24) := -ParentDist X
+trigger1 = 1 || fvar(25) := -ParentDist Y
+
+[State 8500, Bind]
+type = BindToParent
+trigger1 = 1
+pos = fvar(24), fvar(25)
+
 [State 8500, End Time Set]
 type = VarSet
 triggerall = !Time
@@ -3382,7 +3722,7 @@ var(2) = 1
 [State 8500, BGpalFX]
 type = BGpalFX
 trigger1 = !var(2)
-trigger1 = Time < var(1)
+trigger1 = Time < 39
 trigger2 = var(2)
 trigger2 = Time < (var(1) - 11)
 time = 1
@@ -3392,10 +3732,10 @@ mul = 0,0,256
 [State 8500, BGpalFX]
 type = BGpalFX
 trigger1 = var(2)
-trigger1 = Time >= (var(1) - 11) && Time < var(1)
+trigger1 = Time >= (var(1) - 11) && Time < (var(1) - 1)
 time = 1
-color = 25 * (Time - (var(1) - 11))
-mul = 0 + (25 * (Time - (var(1) - 11))), 0 + (25 * (Time - (var(1) - 11))), 256
+color = ceil(25.6 * (Time - (var(1) - 11)))
+mul = ceil(25.6 * (Time - (var(1) - 11))), ceil(25.6 * (Time - (var(1) - 11))), 256
 
 [State 8500, Rotate]
 type = AngleSet
@@ -3552,6 +3892,17 @@ type = AssertSpecial
 trigger1 = 1
 flag = NoShadow
 
+[State 8510, Bind]
+type = Null
+trigger1 = !Time
+trigger1 = 1 || fvar(24) := -ParentDist X
+trigger1 = 1 || fvar(25) := -ParentDist Y
+
+[State 8510, Bind]
+type = BindToParent
+trigger1 = 1
+pos = fvar(24), fvar(25)
+
 [State 8510, End Time Set]
 type = VarSet
 triggerall = !Time
@@ -3567,7 +3918,7 @@ var(2) = 1
 [State 8510, BGpalFX]
 type = BGpalFX
 trigger1 = !var(2)
-trigger1 = Time < var(1)
+trigger1 = Time < 39
 trigger2 = var(2)
 trigger2 = Time < (var(1) - 11)
 time = 1
@@ -3577,15 +3928,15 @@ mul = 192,0,256
 [State 8510, BGpalFX]
 type = BGpalFX
 trigger1 = var(2)
-trigger1 = Time >= (var(1) - 11) && Time < var(1)
+trigger1 = Time >= (var(1) - 11) && Time < (var(1) - 1)
 time = 1
-color = 25 * (Time - (var(1) - 11))
-mul = 192 + (6 * (Time - (var(1) - 11))), 0 + (25 * (Time - (var(1) - 11))), 256
+color = ceil(25.6 * (Time - (var(1) - 11)))
+mul = ceil(192 + 6.4 * (Time - (var(1) - 11))), ceil(25.6 * (Time - (var(1) - 11))), 256
 
 [State 8510, Rotate]
 type = AngleSet
 trigger1 = !Time
-value =6 * (Random % 60)
+value = 6 * (Random % 60)
 
 [State 8510, Rotate]
 type = AngleAdd
@@ -3736,7 +4087,17 @@ sprPriority = 5
 type = AssertSpecial
 trigger1 = 1
 flag = NoShadow
-ignoreHitPause = 1
+
+[State 8520, Bind]
+type = Null
+trigger1 = !Time
+trigger1 = 1 || fvar(24) := -ParentDist X
+trigger1 = 1 || fvar(25) := -ParentDist Y
+
+[State 8520, Bind]
+type = BindToParent
+trigger1 = 1
+pos = fvar(24), fvar(25)
 
 [State 8520, End Time Set]
 type = VarSet
@@ -3776,10 +4137,11 @@ flag = NoBarDisplay
 
 [State 8520, BGpalFX]
 type = BGpalFX
-trigger1 = Time >= (var(1) - 11) && Time < var(1)
+trigger1 = var(2)
+trigger1 = Time >= (var(1) - 11) && Time < (var(1) - 1)
 time = 1
 color = 256
-mul = 0 + (25 * (Time - (var(1) - 11))), 0 + (25 * (Time - (var(1) - 11))), 0 + (25 * (Time - (var(1) - 11)))
+mul = ceil(25.6 * (Time - (var(1) - 11))), ceil(25.6 * (Time - (var(1) - 11))), ceil(25.6 * (Time - (var(1) - 11)))
 
 [State 8520, Rotate]
 type = AngleSet
@@ -4195,6 +4557,11 @@ var(0) = 2
 type = VarSet
 trigger1 = !Time && (Root, var(23) = [3100,3199])
 var(0) = 3
+
+[State 8605, Move Name: Super3]
+type = VarSet
+trigger1 = !Time && (Root, var(23) = [3200,3299])
+var(0) = 4
 
 [State 8605, Super Finish Explod]
 type = Explod

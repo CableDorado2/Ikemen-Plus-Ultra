@@ -288,11 +288,17 @@ value = 0
 [State 0, PosSet]
 type = PosSet
 trigger1 = !time
-y=0
+y = 0
+
+[State 0, HitVelSet]
+type = HitVelSet
+trigger1 = HitShakeOver
+x = 1
+persistent = 0
 
 [State 0, ChangeAnim2]
 type = ChangeAnim2
-trigger1 = !time
+trigger1 = !HitShakeOver
 value = 3220  ;<=======custom animation
 
 [State 0, SelfState]
@@ -318,165 +324,17 @@ value = 0
 [State 0, PosSet]
 type = PosSet
 trigger1 = !time
-y=0
+y = 0
 
-[State 0, ChangeAnim2]
-type = ChangeAnim2
-trigger1 = !time
-value = 3221  ;<=======custom animation
-
-[State 0, SelfState]
-type = SelfState
-trigger1 = animtime=0
-value = 0
-ctrl = 1
-;---------------------------------------------------------------------------
-[Statedef 3620]
-type    = S
-movetype= H
-physics = S
-juggle = 0
-ctrl = 0
-velset = 0,0
-sprpriority = 0
-facep2=1
-
-[State 0, HitFallSet]
-type = HitFallSet
-trigger1 = 1
-value = 0
-[State 0, PosSet]
-type = PosSet
-trigger1 = !time
-y=0
-[State 0, VelSet]
-type = VelSet
-trigger1 = hitshakeover
-x=-8
+[State 0, HitVelSet]
+type = HitVelSet
+trigger1 = HitShakeOver
+x = 1
 persistent = 0
 
 [State 0, ChangeAnim2]
 type = ChangeAnim2
-trigger1 = !time
-value = 3220  ;<=======custom animation
-
-[State 0, SelfState]
-type = SelfState
-trigger1 = animtime=0
-value = 0
-ctrl = 1
-;---------------------------------------------------------------------------
-[Statedef 3621]
-type    = S
-movetype= H
-physics = S
-juggle = 0
-ctrl = 0
-velset = 0,0
-sprpriority = 0
-facep2=1
-
-[State 0, HitFallSet]
-type = HitFallSet
-trigger1 = 1
-value = 0
-[State 0, PosSet]
-type = PosSet
-trigger1 = !time
-y=0
-[State 0, VelSet]
-type = VelSet
-trigger1 = hitshakeover
-x=-8
-persistent = 0
-
-[State 0, ChangeAnim2]
-type = ChangeAnim2
-trigger1 = !time
-value = 3221  ;<=======custom animation
-
-[State 0, SelfState]
-type = SelfState
-trigger1 = animtime=0
-value = 0
-ctrl = 1
-;---------------------------------------------------------------------------
-[Statedef 3718]
-type    = S
-movetype= H
-physics = S
-juggle = 0
-ctrl = 0
-velset = 0,0
-sprpriority = 0
-facep2=1
-
-[State 0, HitFallSet]
-type = HitFallSet
-trigger1 = 1
-value = 0
-[State 0, PosSet]
-type = PosSet
-trigger1 = !time
-y=0
-
-[State 0, PlayerPush]
-type = PlayerPush
-trigger1 = 1
-value = 0
-ignorehitpause =1
-
-[State 0, NotHitBy]
-type = NotHitBy
-trigger1 =1
-value = SCA
-ignorehitpause =1
-
-[State 0, ChangeAnim2]
-type = ChangeAnim2
-trigger1 = !time
-value = 3220  ;<=======custom animation
-
-[State 0, SelfState]
-type = SelfState
-trigger1 = animtime=0
-value = 0
-ctrl = 1
-;---------------------------------------------------------------------------
-[Statedef 3719]
-type    = S
-movetype= H
-physics = S
-juggle = 0
-ctrl = 0
-velset = 0,0
-sprpriority = 0
-facep2=1
-
-[State 0, HitFallSet]
-type = HitFallSet
-trigger1 = 1
-value = 0
-[State 0, PosSet]
-type = PosSet
-trigger1 = !time
-y=0
-
-[State 0, PlayerPush]
-type = PlayerPush
-trigger1 = 1
-value = 0
-ignorehitpause =1
-
-[State 0, NotHitBy]
-type = NotHitBy
-trigger1 =1
-value = SCA
-ignorehitpause =1
-
-[State 0, ChangeAnim2]
-type = ChangeAnim2
-trigger1 = !time
+trigger1 = !HitShakeOver
 value = 3221  ;<=======custom animation
 
 [State 0, SelfState]

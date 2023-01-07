@@ -3,7 +3,7 @@
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;====================<DEFINITION>====================
 [Info]
-name        = "Master Ryu"
+name        = "Ryu"
 displayname = "Master Ryu"
 versiondate = 2022
 mugenversion= 1.0
@@ -51,10 +51,6 @@ z2 = 9
 a2 = 10
 b2 = 11
 c2 = 12
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Master Ryu [Intro].def
-ending.storyboard = ..\../storyboards/Master Ryu [Ending].def
 
 
 ;==========<MASTER RYU>==========

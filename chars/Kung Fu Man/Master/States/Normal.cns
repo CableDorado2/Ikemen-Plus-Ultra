@@ -1720,8 +1720,14 @@ var(19)=0
 [State 800, Escape]
 type=VarSet
 trigger1=NumEnemy
-trigger1=(EnemyNear, StateNo=[0,899]) && (EnemyNear, StateNo != [100,104]) && (EnemyNear, StateNo != [600,799])
+trigger1=EnemyNear, StateType != A
+trigger1=(EnemyNear, StateNo = [0,999]) && (EnemyNear, StateNo != [100,119]) && (EnemyNear, StateNo != [200,799]) && EnemyNear, Anim != 5300
 var(19)=7
+
+[State 800, Tech Hit Facing]
+type = VarSet
+trigger1 = !Time
+var(28) = Facing
 
 [State 800, AttackDist]
 type=AttackDist
@@ -2131,7 +2137,7 @@ value = 5050
 type    = A
 movetype= H
 physics = N
-velset = 5.25,-7.5
+velset = 5.25,-6.25
 
 [State 816, 1] ;Gravity
 type = VelAdd
@@ -2419,7 +2425,7 @@ value = 5050
 type    = A
 movetype= H
 physics = N
-velset = -5.25,-8.25
+velset = -6.25,-7.25
 
 [State 826, 1] ;Gravity
 type = VelAdd
@@ -2458,12 +2464,24 @@ movetype = I
 anim = 5945
 ctrl = 0
 velset = 0,0
-sprPriority = 1
+sprPriority = 0
 
-[State 890, TargetBind]
+[State 890, Tech Hit Facing]
+type = Turn
+trigger1 = !Time
+trigger1 = Facing != var(28)
+
+[State 890, Bind]
 type = TargetBind
-trigger1 = !Time && NumTarget
-pos = 0,0
+trigger1 = !Time
+trigger1 = NumTarget = 1
+pos = (Const(size.ground.front) + Target, Const(size.ground.front)), 0
+
+[State 890, Width]
+type = Width
+trigger1 = !Time
+trigger1 = NumTarget = 1
+edge = (Target, Const(size.ground.front) + Target, Const(size.ground.back)), 0
 
 [State 890, TargetState]
 type = TargetState
@@ -2474,11 +2492,6 @@ value = 895
 type = TargetFacing
 trigger1 = !Time && NumTarget
 value = -1
-
-[State 890, PosAdd]
-type = PosAdd
-trigger1 = !Time
-x = 24
 
 [State 890, NotHitBy]
 type = NotHitBy
@@ -2491,16 +2504,6 @@ type = PlayerPush
 trigger1 = 1
 value = 0
 
-[State 890, SprPriority 1]
-type = SprPriority
-trigger1 = AnimElemTime(3) >= 0 && Time >= 26
-value = 1
-
-[State 890, SprPriority -1]
-type = SprPriority
-trigger1 = AnimElemTime(2) <= 0
-value = -1
-
 [State 890, PosSet]
 type = PosSet
 trigger1 = !Time
@@ -2509,7 +2512,7 @@ y = 0
 [State 890, VelSet]
 type = VelSet
 trigger1 = 1
-x = -1.425
+x = -1.281
 y = 0
 
 [State 890, Voice]
@@ -2521,17 +2524,18 @@ channel = 0
 [State 890, Escape Sound]
 type = PlaySnd
 trigger1= !Time
-value = 6080,0
+value = 740,0
+channel = 2
 
 [State 890, Throw Escape FX]
 type = Helper
 trigger1 = !Time
 helperType = Normal
-stateNo = 8000
-ID = 8000
+stateNo = 8200
+ID = 8200
 name = "Spark"
 PosType = P1
-pos = 0, -60
+pos = const(size.ground.front), -54
 facing = -1
 ownPal = 1
 size.xScale = 1.0
@@ -2541,7 +2545,7 @@ superMoveTime = 65535
 
 [State 890, End]
 type = ChangeState
-trigger1 = Time >= 27
+trigger1 = Time >= 26
 value = 0
 ctrl = 1
 ;-------------------------------------------------------------------------
@@ -2593,11 +2597,11 @@ y = 0
 [State 895, VelSet]
 type = VelSet
 trigger1 = 1
-x = -1.425
+x = -1.281
 y = 0
 
 [State 895, End]
 type = SelfState
-trigger1 = Time >= 27
+trigger1 = Time >= 26
 value = 0
 ctrl = 1

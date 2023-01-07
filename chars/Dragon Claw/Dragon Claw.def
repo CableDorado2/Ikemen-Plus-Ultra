@@ -31,7 +31,3 @@ pal9    = dc9.act
 pal10    = dc10.act
 pal11    = dc11.act
 pal12    = dc12.act
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Dragon Claw [Intro].def
-ending.storyboard = ..\../storyboards/Dragon Claw [Ending].def

@@ -23,6 +23,7 @@
 ;var(25):= Ticks to Apply EX FX
 ;var(26):= Palette Select
 ;var(27):= Palette Selector (on/off)
+;var(28):= Tech Hit Facing
 ;var(29):= Palette Selector Timer
 ;var(30):= Hit Detection
 ;var(31):= Hit Sound
@@ -51,34 +52,33 @@
 ;fvar(11):= Damage Scale Backup
 ;fvar(12):= Enemy In Hit State
 ;fvar(13):= Attack Level
-;fvar(17):= Hitspark Helper Var
-;fvar(18):= Hitspark Helper Var
 
 ;---------------------- Sound Channel list ----------------------
 ;Channel=0 := Voice
-;Channel=1 := Movement Sound FX's
-;Channel=2 := Hit Sound FX's
-;Channel=3 := EX Startup Sound FX's
-;Channel=4 := Parry Sound FX's
-;Channel=5 := Dust Sound FX's
-;Channel=22 := Wall Hit Sound FX
+;Channel=1 := Movement Sound
+;Channel=2 := Hit Sound
+;Channel=3 := EX Startup Sound
+;Channel=4 := Parry Sound
+;Channel=5 := Dust Sound
+;Channel=22 := Wall Hit Sound
 
 ;======================================================================================
 ;Constants
 ;======================================================================================
 [Data]
-life = 1000			
-attack = 100		
-defence = 100		
-fall.defence_up = 50	
-liedown.time = 50		
-airjuggle = 0		
-sparkno = s8010			
-guard.sparkno = s8000	
-KO.echo = 0			
-volumescale = 100			
-IntPersistIndex = 0	
-FloatPersistIndex = 0 
+life = 1000
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 50
+airjuggle = 0
+sparkno = s8010
+guard.sparkno = s8000
+KO.echo = 0
+volumescale = 100
+IntPersistIndex = 0
+FloatPersistIndex = 0
 
 [Size]
 xscale = 1
@@ -138,20 +138,20 @@ victory3 = "Your moves are too predictable. You want to learn Kung Fu Palm? It's
 victory4 = "That was a good workout."
 victory5 = "I want to challenge more skilled fighters."
 victory6 = "What do you mean my girlfriend is in another temple?"
-victory7 = "Go home and be a family man!"
-victory8 = "Sign up for my dojo later, I'll give you a discount."
-victory9 = "I have no time for you, I must press on."
-victory10 = "Where's Suave Dude hiding?! What do you mean there's no Suave Dude?!"
-victory11 = "Who knew rescuing my girlfriend would be so difficult..."
-victory12 = "What strength! But don't forget there are guys like you all over the world!"
-victory13 = "You must defeat my Kung Fu Palm to stand a chance."
 
-;Japanese（日本語）
-[ja.Quotes]
-victory0 = "家へ帰るんだ。君にも家族がいるだろう。"
-victory1 = "後で俺の道場に来るといい。何か学べるかもしれないぞ。"
-victory2 = "俺にはもう時間がない、押し通らせてもらう。"
-victory3 = "スェーヴ・デュードは何処だ！？何処に隠れている！？"
-victory4 = "彼女を救うのは難かしいな……。"
-victory5 = "強い！しかし世界中には君のような人がたくさんいることを忘れないことだ！"
-victory6 = "カンフー突き手を破らぬ限り、君に勝ち目はない！"
+;Kung Fu Man
+victory7 = "I cannot be defeated by my clones."
+
+;Kung Fu Girl
+victory8 = "You still need more training. You can be stronger than you are now."
+
+;Suave Dude
+victory9 = "So much for our history together. Now, let's get her back!"
+
+victory10 = "Go home and be a family man!"
+victory11 = "Sign up for my dojo later, I'll give you a discount."
+victory12 = "I have no time for you, I must press on."
+victory13 = "Where's Suave Dude hiding?! What do you mean there's no Suave Dude?!"
+victory14 = "Who knew rescuing my girlfriend would be so difficult..."
+victory15 = "What strength! But don't forget there are guys like you all over the world!"
+victory16 = "You must defeat my Kung Fu Palm to stand a chance."

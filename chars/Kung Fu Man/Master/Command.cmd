@@ -387,96 +387,40 @@ time = 15
 name = "66k"
 command = ~F, F, a
 time = 15
-
 [Command]
 name = "66k"
 command = ~F, F, b
 time = 15
-
 [Command]
 name = "66k"
 command = ~F, F, c
 time = 15
-
 [Command]
 name = "66k"
 command = ~F, F, ~a
 time = 15
-
 [Command]
 name = "66k"
 command = ~F, F, ~b
 time = 15
-
 [Command]
 name = "66k"
 command = ~F, F, ~c
 time = 15
 
-
 [Command]
 name = "66kk"
 command = ~F, F, a+b
 time = 15
-
 [Command]
 name = "66kk"
-command = ~F, F,  b+c
+command = ~F, F, b+c
 time = 15
-
 [Command]
 name = "66kk"
 command = ~F, F, a+c
 time = 15
 
-[Command]
-name = "412p" ;Zero Counter
-command = ~B, DB, D, x
-time = 16
-[Command]
-name = "412p" ;Zero Counter
-command = ~B, DB, D, y
-time = 16
-[Command]
-name = "412p" ;Zero Counter
-command = ~B, DB, D, z
-time = 16
-[Command]
-name = "412p" ;Zero Counter
-command = ~B, DB, D, ~x
-time = 16
-[Command]
-name = "412p" ;Zero Counter
-command = ~B, DB, D, ~y
-time = 16
-[Command]
-name = "412p" ;Zero Counter
-command = ~B, DB, D, ~z
-time = 16
-[Command]
-name = "412k" ;Zero Counter
-command = ~B, DB, D, a
-time = 16
-[Command]
-name = "412k" ;Zero Counter
-command = ~B, DB, D, b
-time = 16
-[Command]
-name=  "412k" ;Zero Counter
-command = ~B, DB, D, c
-time = 16
-[Command]
-name = "412k" ;Zero Counter
-command = ~B, DB, D, ~a
-time = 16
-[Command]
-name = "412k" ;Zero Counter
-command = ~B, DB, D, ~b
-time = 16
-[Command]
-name = "412k" ;Zero Counter
-command = ~B, DB, D, ~c
-time = 16
 ;-| Double Tap |-----------------------------------------------------------
 [Command]
 name = "FF"     ;Required (do not remove)
@@ -778,45 +722,30 @@ trigger3 = (stateno = [400,499]) && !AnimTime
 trigger4 = (stateno = [700,715]) && !AnimTime
 trigger5 = (stateno = [6080,6082]) && (!AnimTime || Time >= 15)
 value = 1
-;-----------------------------------------------------------------
-[State -1, Parry Stand]
-type = Null;HitOverride
-triggerall =!AILevel
-triggerall = command = "fwd" && command!= "back" && command != "up" && command != "down"
-trigger1 = Ctrl || StateNo = 6080 || StateNo = 6081
-attr = SA,AA,AP
-stateno = 6080
-slot = 0
-time = 7
-;------------------------------------------------------------------
-[State -1, Crouching Parry]
-type = Null;HitOverride
-triggerall =!AILevel
-triggerall = (statetype = S && command = "down")|| (statetype = C && command = "fwd") && command != "back" && command != "up"
-trigger1 = Ctrl || StateNo = 6080 || StateNo = 6081
-attr = C,AA,AP
-stateno = 6081
-slot = 0
-time = 7
-;-------------------------------------------------------------------
-[State -1, Aerial Parry]
-type= Null;HitOverride
-triggerall =!AILevel
-triggerall = (statetype= A && command = "fwd") && command != "back" && command != "up" && command != "down"
-trigger1 = Ctrl || StateNo = 6082
-attr = SCA,AA,AP
-stateno = 6082
-forceair = 1
-slot = 0
-time = 7
 ;----------------------------------------------------------------------
 [State -1, Grand Kung Fu Upper]
 type=ChangeState
 value=3100
 triggerall=!var(58)||(var(58)&&sysfvar(4)=0)
-triggerall=!AILevel && RoundState=2 && StateType != A &&var(20)<=0&& power >= 3000&&command ="214214pk"
+triggerall=!AILevel && RoundState=2 && StateType != A &&var(20)<=0&& power >= 3000&&command ="236236pk"
 trigger1=ctrl || StateNo=40 || StateNo=52 || (StateNo=[100,101])
 trigger2=var(6)
+;----------------------------------------------------------------------
+[State -1, Max Kung Fu Crush]
+type=ChangeState
+value=3250
+triggerall=!var(58)||(var(58)&&sysfvar(4)=0)
+triggerall=!AILevel && RoundState=2 && StateType != A &&var(20) <= 60 && power >= 2000&&command ="214214pp"
+trigger1=ctrl || StateNo=40 || StateNo=52 || (StateNo=[100,101])
+trigger2=var(6)|| var(7) && var(22) < 1
+;----------------------------------------------------------------------
+[State -1, Kung Fu Crush]
+type=ChangeState
+value=3200
+triggerall=!var(58)||(var(58)&&sysfvar(4)=0)
+triggerall=!AILevel && RoundState=2 && (stateno!= [3200,3249]) && StateType != A &&var(20) <= 60 && power >= 1000&&command ="214214p"
+trigger1=ctrl || StateNo=40 || StateNo=52 || (StateNo=[100,101])
+trigger2=var(6)|| var(7) && var(22) < 2
 ;----------------------------------------------------------------------
 [State -1, Max Kung Fu Barrage]
 type=ChangeState
@@ -890,7 +819,15 @@ trigger2=var(5)
 type = ChangeState
 value = 750
 trigger1 = StateNo = 150 || StateNo = 152
-trigger1 = command = "412p" || command = "412k"
+trigger1 = command = "holdfwd" && (command = "pp" || command = "kk")
+trigger1 = !AILevel&&RoundState = 2 && StateType != A
+trigger1 = power >= 1000 && !var(20)
+;------------------------------------------------------------------------
+[State -1, Guard Cancel Roll]
+type = ChangeState
+value = 740
+trigger1 = StateNo = 150 || StateNo = 152
+trigger1 = (command = "holdfwd" || command = "holdback") && command = "a" && command = "x"
 trigger1 = !AILevel&&RoundState = 2 && StateType != A
 trigger1 = power >= 1000 && !var(20)
 ;------------------------------------------------------------------------
@@ -944,22 +881,6 @@ value = Ifelse(command = "BB",105,100)
 trigger1 = !AILevel&&Roundstate=2&&statetype = S
 trigger1 = command = "FF"||command = "BB"
 trigger1 = ctrl
-;--------------------------------------------------------------------------
-[State -1, Air Recovery]
-type = ChangeState
-value = 5210
-trigger1 = !AILevel && command = "recovery"
-trigger1 = RoundState = 2 && Alive
-trigger1 = StateNo = 5050 && CanRecover
-trigger1 = vel y > 0 && pos y < -20
-;--------------------------------------------------------------------------
-[State -1, Ground Recovery]
-type = ChangeState
-value = 5200
-trigger1 = !AILevel && command = "recovery"
-trigger1 = RoundState = 2 && Alive
-trigger1 = StateNo = 5050 && GetHitVar(fall.recover)
-trigger1 = vel y > 0 && pos y >= -20
 ;--------------------------------------------------------------------------
 ;--------------------------------------------------------------------------
 [State -1, Standing Low Punch]
@@ -1137,35 +1058,6 @@ trigger2 = var(5)
 ;--------------------------------------------------------------------------
 ;AI
 ;--------------------------------------------------------------------------
-;----------------------------------------------------------------
-[State -1, AI Parry Stand]
-type = Null;HitOverride
-triggerall = AILevel&&statetype != A && ctrl
-trigger1 = random < (250 * (var(59) ** 2 / 64.0))
-slot = 0
-stateno = 6080
-attr = SA, AA, AP
-time = 3
-;---------------------------------------------------------------
-[State -1, AI Crouching Parry]
-type = Null;HitOverride
-triggerall = AILevel&&statetype != A && ctrl
-trigger1 =random < (250 * (var(59) ** 2 / 64.0))
-slot = 0
-stateno = 6081
-attr = C, AA, AP
-time = 3
-;---------------------------------------------------------------
-[State -1, AI Aerial Parry]
-type = Null;HitOverride
-triggerall = AILevel&& statetype = A && ctrl
-trigger1 = random < (250 * (var(59) ** 2 / 64.0))
-slot = 0
-stateno = 6082
-forceair = 1
-attr = SCA, AA, AP
-time = 3
-;---------------------------------------------------------------------------
 [State -1, Idle]
 type = changestate
 value = 0
@@ -1229,6 +1121,18 @@ trigger1 = AIlevel && numenemy
 trigger1 = (p2dist x = [-90, 90]) && (stateno = 150 || stateno = 152)
 trigger1 = roundstate = 2 && power >= 2000 && !var(20) && life < 500 && random < (10 * (var(59) ** 2 / 64.0))
 
+[State -1, Guard Cancel Roll]
+type = ChangeState
+value = 740
+trigger1 = AILevel && numenemy
+trigger1 = stateno = 150 || stateno = 152
+trigger1 = roundstate = 2 && statetype != A
+trigger1 = power >= 1000 && !var(20)
+trigger1 = (p2bodydist x = [0,50]) && (life < 0.5 * lifemax)
+trigger1 = enemynear, animtime = [-45,-30]
+trigger1 = random < (power / 10.0)
+trigger1 = random < (50 * (var(59) ** 2.0 / 64.0))
+
 [State -1, powercharge]
 type = changestate
 value = 730
@@ -1243,6 +1147,7 @@ value = ifelse(random < 600, 700, 710)
 trigger1 = AIlevel && numenemy
 trigger1 = roundstate = 2 && statetype != A && ctrl && !numhelper(6085) && random < (200 * (var(59) ** 2 / 64.0))
 trigger1 = enemynear, movetype = A && p2bodydist x < 80
+trigger1 = enemynear, hitdefattr != SCA,AT
 
 [State -1, AI Custom Combo]
 type = ChangeState
@@ -1253,24 +1158,6 @@ triggerall = numenemy = 1 || (numenemy = 2 && ((enemy, alive = 0) || (enemy(nume
 triggerall = (ctrl || stateno = 21 || stateno = 22 || stateno = 52 || stateno = 100 || ((Stateno = [120,131]) && movetype != H)) && random < (150 * (var(59) ** 2 / 64.0))
 trigger1 = (p2bodydist x = [51,80]) && power >= 1000
 trigger2 = (p2bodydist x = [0,80]) && power >= 2000
-
-[State -1, Air Recovery]
-type = changestate
-value = 5210
-trigger1 = AILevel && NumEnemy
-trigger1 = RoundState = 2 && Alive
-trigger1 = StateNo = 5050 && CanRecover
-trigger1 = vel y > 0 && pos y < -20
-trigger1 = Random < (25 * (var(59) ** 2 / 64.0))
-
-[State -1, Ground Recovery]
-type = changestate
-value = 5200
-trigger1 = AILevel && NumEnemy
-trigger1 = RoundState = 2 && Alive
-trigger1 = StateNo = 5050 && GetHitVar(fall.recover)
-trigger1 = vel y > 0 && pos y >= -20
-trigger1 = Random < (100 * (var(59) ** 2 / 64.0))
 ;-------------------------------------------------------------------
 [State -1, Throw]
 type = ChangeState
@@ -1479,9 +1366,18 @@ triggerall=!var(58)||(var(58)&&sysfvar(4)=0)
 triggerall=!var(40)|var(40)>=2
 triggerall=AILevel && numenemy && RoundState=2 && StateType != A &&var(20)<=0 && power >= 3000 && random < (400 * (var(59) ** 2 / 64.0))
 triggerall=(enemynear,statetype != L)&&(enemynear,stateno!=[5100,5220])&&(enemynear,stateno!=[120,155])
-triggerall=(p2bodydist x =[20,80])&&(p2bodydist y=[-130,5])&&(enemynear,statetype!=C)&&(enemynear,Movetype!=A)
+triggerall=(p2bodydist x =[10,40])&&(p2bodydist y=[-80,5])&&(enemynear,statetype!=L)
 trigger1=ctrl || StateNo=40 || StateNo=52 || (StateNo=[100,101])
 trigger2=var(6)
+;----------------------------------------------------------------------
+[State -1, Kung Fu Crush]
+type=ChangeState
+value=Ifelse((power >= 2000 && var(22) < 1 && random < 250), 3250, 3200)
+triggerall=AILevel && numenemy && RoundState=2 && (stateno!= [3200,3249]) && StateType != A && var(20)<=60 && power >= 1000 && random < (250 * (var(59) ** 2 / 64.0))
+triggerall=(enemynear,statetype != L)&&(enemynear,stateno!=[5100,5220])&&(enemynear,stateno!=[120,155])
+triggerall=(p2bodydist x =[-10,50])&&(p2bodydist y=[-40,5])&&(enemynear,statetype!=L)
+trigger1=ctrl || StateNo=40 || StateNo=52 || (StateNo=[100,101])
+trigger2=(var(6)|| var(7) && var(22) < 2)&&movehit&&random<100
 ;--------------------------------------------------------------------
 [State -1, Kung Fu Barrage]
 type=ChangeState
@@ -1492,7 +1388,7 @@ triggerall=AILevel && numenemy && RoundState=2 && stateno!= 3000 && StateType !=
 triggerall=(enemynear,statetype != L)&&(enemynear,stateno!=[5100,5220])&&(enemynear,stateno!=[120,155]) && !(enemynear, hitfall)
 triggerall=(p2bodydist x =[20,150])&&(p2bodydist y=[-80,5])&&(enemynear,statetype!=C)&&(enemynear,Movetype!=A)
 trigger1=ctrl || StateNo=40 || StateNo=52 || (StateNo=[100,101])&&(enemynear,ctrl=0)&&(enemynear, stateno != [700, 799])
-trigger2=(var(6)|| var(7) && var(22) < 2)&&movehit&&random<250
+trigger2=(var(6)|| var(7) && var(22) < 2)&&movehit&&random<250&&stateno!=3200
 ;=======================================================================
 [State -1, Kung Fu Knee]
 type=ChangeState
@@ -1554,15 +1450,3 @@ triggerall=p2statetype!=L
 triggerall=(p2bodydist x =[45,180])&&(p2bodydist y=[-30,205])
 trigger1=ctrl
 trigger2=var(5)
-;-------------------------------------------------------------------------
-;Common
-;-------------------------------------------------------------------------
-;----------------------------------------------------------------
-[State -1, Reset Parry]
-type = Null;HitOverride
-trigger1 = !Ctrl && (StateNo != [6080,6082])
-trigger2 = MoveType = A || (MoveType = H && (StateNo != [120,155]))
-trigger3 = !AILevel
-trigger3 = command = "back" || command = "up" || (StateType = A && command = "down")
-slot = 0
-time = 0

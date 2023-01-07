@@ -15,7 +15,7 @@ ctrl = 0
 velset = 0, 0
 sprpriority = 4
 
-[State 1005, HitOverride]
+[State 1005, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -109,7 +109,7 @@ getpower = 0, 0
 givepower = 40, 40
 envshake.time = 10
 envshake.freq = 180
-envshake.ampl = 1
+envshake.ampl = ifelse((gametime % 2), -1, 1)
 sprpriority = 4
 yaccel = 0.4850
 airguard.ctrltime = 16
@@ -263,7 +263,7 @@ var(2) = 1
 persistent = 0
 ignorehitpause = 1
 
-[State 1015, HitOverride]
+[State 1015, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -387,7 +387,7 @@ fall.recovertime = 120
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 10
-envshake.ampl = 1
+envshake.ampl = ifelse((gametime % 2), -1, 1)
 envshake.freq = 180
 palfx.color = 256
 palfx.sinadd = 128, 128, 128, 4
@@ -430,7 +430,7 @@ fall.recovertime = 120
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 10
-envshake.ampl = 1
+envshake.ampl = ifelse((gametime % 2), -1, 1)
 envshake.freq = 180
 palfx.color = 256
 palfx.sinadd = 128, 128, 128, 4
@@ -617,7 +617,7 @@ var(2) = 1
 persistent = 0
 ignorehitpause = 1
 
-[State 1025, HitOverride]
+[State 1025, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -726,7 +726,7 @@ fall.recovertime = 120
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 10
-envshake.ampl = 1
+envshake.ampl = ifelse((gametime % 2), -1, 1)
 envshake.freq = 180
 palfx.color = 256
 palfx.sinadd = 128, 128, 128, 4
@@ -908,7 +908,7 @@ var(2) = 1
 persistent = 0
 ignorehitpause = 1
 
-[State 3005, HitOverride]
+[State 3005, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -1022,7 +1022,7 @@ fall.recover = 0
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 palfx.sinadd = 128, 128, 128, 4
 palfx.mul = 128, 128, 128
@@ -1187,7 +1187,7 @@ type = varadd
 trigger1 = !time && !prevstateno
 var(4) = 1 + var(10)
 
-[State 3025, HitOverride]
+[State 3025, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -1310,7 +1310,7 @@ fall.recover = 0
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 sprpriority = 4
 yaccel = 0.4850
@@ -1521,7 +1521,7 @@ type = varadd
 trigger1 = !time && !prevstateno
 var(4) = 4 + var(10)
 
-[State 3045, HitOverride]
+[State 3045, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -1618,7 +1618,7 @@ forcestand = 1
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 palfx.color = 256
 palfx.sinadd = 64, 0, 16, 4
@@ -1773,7 +1773,7 @@ ctrl = 0
 velset = 0, 0
 sprpriority = 4
 
-[State 3055, HitOverride]
+[State 3055, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -1998,7 +1998,7 @@ flag = noshadow
 [State 1024, bind]
 type = bindtoroot
 trigger1 = 1
-pos = -1 + (gametime % 3), (gametime & 2)
+pos = -1 + (random % 3), -1 + (random % 3)
 facing = 1
 
 [State 1024, Red]
@@ -2117,7 +2117,7 @@ trigger1 = 1
 time = -1
 value = SCA
 
-[State 3205, HitOverride]
+[State 3205, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -4438,7 +4438,7 @@ anim = 8600
 ID = 8600
 ontop = 1
 postype = left
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 removetime = 32
@@ -4459,7 +4459,7 @@ anim = 8609 + var(0)
 ID = 10
 ontop = 1
 postype = left
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 removetime = 32
@@ -4472,7 +4472,7 @@ anim = 8609 + var(0)
 ID = 11
 ontop = 1
 postype = left
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 removetime = 8
@@ -4489,7 +4489,7 @@ alpha = ifelse(time < 16, 256, 256 -32 * (time -16)), ifelse(time < 16, 0, 32 * 
 type = modifyexplod
 trigger1 = numexplod(11)
 ID = 11
-scale = 0.5 + (0.0625 * time), 0.5 + (0.0625 * time)
+scale = 0.5 + (0.0625 * time), (0.5 + (0.0625 * time)) * (1.3333333 * gameheight / gamewidth)
 trans = addalpha
 alpha = 256 - (32 * time), 32 * time
 
@@ -4560,7 +4560,7 @@ anim = 7610
 ID = 7610
 sprpriority = -5
 postype = left
-pos = 160, 120
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5 * (1.3333333 * gameheight / gamewidth), 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 

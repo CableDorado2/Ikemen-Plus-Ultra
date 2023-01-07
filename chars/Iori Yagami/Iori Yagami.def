@@ -39,7 +39,3 @@ pal9    = Yagami-C-S.act  ;Palettes
 pal10   = Yagami-D-S.act  ;Palettes
 pal11   = Yagami-E-S.act  ;Palettes
 pal12   = Yagami-F-S.act  ;Palettes
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Iori Yagami [Intro].def
-ending.storyboard = ..\../storyboards/Iori Yagami [Ending].def

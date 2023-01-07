@@ -1,0 +1,80 @@
+(R)									Ryu Mode
+(E)									Evil Ryu Mode
+(M)									Master Ryu Mode
+
+<#f0f000>THROWS</>
+
+(REM) Seoi Nage						[_B/_F]_+^2P
+(REM) Tomoe Nage					[_B/_F]_+^2K
+
+<#f0f000>UNIQUE ATTACKS</>
+
+(REM) Sakotsu Wari					_F_+^Y
+(REM) Senpukyaku					_F_+^B
+
+(RM) Kyubi Kudaki					_F_+^Z
+(EM) Tenma Kujinkyaku				(forward jump) _D_+^B
+
+(R) Jodan Nirengeki					(close)^Y,^C
+(E) Kikoku Tsuki					(close)^Y,^Z
+(E) Seichu Nidantsuki				_F_+^Z
+(M) Seichu Nidantsuki				_B_+^Z
+
+<#f0f000>SPECIAL MOVES</>
+
+(REM) Hadoken_EX					_D_F^P
+(REM) Shoryuken_EX					_F_D_F^P
+(REM) Tatsumaki Senpukyaku_EX		(air also)_D_B^K
+
+(EM) Shakunetsu Hadoken				_F_D_B^P
+(EM) Ryusokyaku_EX					_D_F^K
+(EM) Ashura Senku					[_F_D_F/_B_D_B][^3P/^3K]
+(RM) Hado no Kamae					_D_F^S
+(RM) Denjin Renki					_D_D^P
+
+(R) Jodan Sokuto Geri_EX			_D_F^K
+(M) Jodan Sokuto Geri_EX			_B_D_F^K
+
+<#f0f000>LEVEL 1 SUPER COMBOS</>
+
+(REM) Shinku Hadoken				_D_F_D_F^P
+(REM) Shinku Tatsumaki Senpukyaku				_D_B_D_B^K
+
+(RM) Denjin Hadoken					_D_B_D_B^P
+
+(R) Nidan Shouryutsuki				_D_F_D_F^K
+(E) Messatsu Goshoryu				_D_F_D_F^K
+(M) Reppu Jinrai Sho				_D_F_D_F^K
+
+<#f0f000>LEVEL 2 SUPER COMBOS</>
+
+(RM) Kaze no Ken					_D_D_D^2P
+
+(E) Metsu Shoryuken					_D_F_D_F^2K
+(M) Metsu Shoryuken					_D_F_D_F^2P
+
+<#f0f000>LEVEL 3 HYPER COMBOS</>
+
+(RM) Shin Shoryuken					_D_F_D_F^2K
+(EM) Shun Goku Satsu				^X,^X,_F,^A,^Z
+(EM) Metsu Hadoken					_D_B_D_B^2P
+_!Ryukoku Hadoken					(charge)
+
+<#f0f000>SYSTEM</>
+
+Forward Dash					_F_F
+_!Run							(hold)_F
+Back Dash						_B_B
+High Jump						_TAP_D, _U
+Hop								_TAP_U
+Hyper Hop						_TAP_D, _TAP_U
+Parry							_TAP_F / _TAP_D
+Roll							[_B/_F]_+^A+^X
+Sidestep						^A+^X
+_!Sidestep Attack				^P/^K
+Power Charge					^B_+^Y
+Custom Combo					(air also) ^C_+^Z
+Guard Cancel High				(while guarding)_F_+^2P
+Guard Cancel Low				(while guarding)_F_+^2K
+Fall Recovery					(when allowed)^P/^K
+Taunt							^S

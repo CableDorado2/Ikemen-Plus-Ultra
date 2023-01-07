@@ -93,7 +93,7 @@ pausetime = Ifelse(var(20), 5, 10), Ifelse(var(20), 5, 10)
 guard.pausetime = Ifelse(var(20), 5, 10), Ifelse(var(20), 5, 10)
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 100), var(36) := -61
+sparkXY = -10 + 0 * (var(35) := 68), var(36) := -61
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -139,7 +139,7 @@ pausetime = 10,10
 guard.pausetime = 10,10
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 100), var(36) := -61
+sparkXY = -10 + 0 * (var(35) := 68), var(36) := -61
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -299,7 +299,7 @@ pausetime = 10,10
 guard.pausetime = 10,10
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 100), var(36) := -61
+sparkXY = -10 + 0 * (var(35) := 68), var(36) := -61
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -608,7 +608,8 @@ air.cornerPush.velOff = 0
 yaccel = .5
 fall = 0
 air.fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -662,7 +663,8 @@ guard.cornerPush.velOff = 0
 air.cornerPush.velOff = 0
 yaccel = .48
 fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -711,7 +713,8 @@ guard.cornerPush.velOff = 0
 air.cornerPush.velOff = 0
 yaccel = .48
 fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -832,7 +835,8 @@ yaccel = .5
 p2facing = 1
 fall = 0
 air.fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -1010,7 +1014,7 @@ pausetime = Ifelse(var(20), 6, 12), Ifelse(var(20), 6, 12)
 guard.pausetime = Ifelse(var(20), 6, 12), Ifelse(var(20), 6, 12)
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 100), var(36) := -65
+sparkXY = -10 + 0 * (var(35) := 93), var(36) := -65
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -1057,7 +1061,7 @@ pausetime = Ifelse(var(20), 6, 12), Ifelse(var(20), 6, 12)
 guard.pausetime = Ifelse(var(20), 6, 12), Ifelse(var(20), 6, 12)
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 100), var(36) := -65
+sparkXY = -10 + 0 * (var(35) := 93), var(36) := -65
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -1084,6 +1088,13 @@ palFX.sinAdd= -255,-255,-255,48
 envshake.time = 16
 envshake.ampl = 6
 envShake.freq = 150
+
+[State 1200, Hit Sparks Pos]
+type = Null
+trigger1 = AnimElem = 7, < 0
+trigger1 = 1||var(35):=ifElse(P2Dist x >= 0, 93, -14)
+trigger1 = 1||var(36):=ifElse(P2Dist x >= 0, -65, -65)
+ignoreHitPause = 1
 
 [State 1200, StateTypeSet: Idle]
 type = StateTypeSet
@@ -1263,7 +1274,7 @@ pausetime = 10,12
 guard.pausetime = 12,12
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 100), var(36) := -65
+sparkXY = -10 + 0 * (var(35) := 93), var(36) := -65
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -1291,6 +1302,13 @@ envshake.time = 16
 envshake.ampl = 6
 envShake.freq = 150
 p2facing = 1
+
+[State 1230, Hit Sparks Pos]
+type = Null
+trigger1 = AnimElem = 7, < 0
+trigger1 = 1||var(35):=ifElse(P2Dist x >= 0, 93, -14)
+trigger1 = 1||var(36):=ifElse(P2Dist x >= 0, -65, -65)
+ignoreHitPause = 1
 
 ;[State 1220, TargetState]
 ;type = TargetState
@@ -1505,7 +1523,8 @@ guard.cornerPush.velOff = -20
 air.cornerPush.velOff = 0
 yaccel = .5
 fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -1670,7 +1689,8 @@ guard.cornerPush.velOff = -20
 air.cornerPush.velOff = 0
 yaccel = .5
 fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -1862,7 +1882,8 @@ guard.cornerPush.velOff = 0
 air.cornerPush.velOff = 0
 yaccel = .5
 fall = 1
-fall.recover = 0
+fall.recover = 1
+fall.recoverTime = 120
 forcestand = 1
 palFX.time = 12 * var(9)
 palFX.add = 255,255,255
@@ -2087,7 +2108,7 @@ pausetime = Ifelse(var(20), 6, 12), Ifelse(var(20), 6, 12)
 guard.pausetime = Ifelse(var(20), 6, 12), Ifelse(var(20), 6, 12)
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 60), var(36) := -71
+sparkXY = -10 + 0 * (var(35) := 39), var(36) := -71
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -2222,7 +2243,7 @@ pausetime = 10,12
 guard.pausetime = 12,12
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 60), var(36) := -49
+sparkXY = -10 + 0 * (var(35) := 48), var(36) := -49
 air.animtype = Back
 fall.animtype = Back
 ground.type = Low
@@ -2268,7 +2289,7 @@ pausetime = 18,18
 guard.pausetime = 12,12
 sparkNo = -1 + 0 * (var(33) := 8013)
 guard.sparkNo = -1 + 0 * (var(34) := 8001)
-sparkXY = -10 + 0 * (var(35) := 60), var(36) := -71
+sparkXY = -10 + 0 * (var(35) := 39), var(36) := -71
 air.animtype = Diagup
 fall.animtype = Diagup
 ground.type = Low

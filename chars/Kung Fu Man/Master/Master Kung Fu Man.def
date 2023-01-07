@@ -2,7 +2,7 @@
 [Info]
 name        = "Master Kung Fu Man"
 displayname = "Master Kung Fu Man"
-versiondate = 02,03,2022
+versiondate = 10,30,2022
 mugenversion= 1.0
 author      = "Sennou-Room"
 pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
@@ -18,10 +18,11 @@ st3     = States/Super.cns
 st4     = States/Helpers.cns
 st5     = States/Customs.cns
 st6     = Config.txt
-stcommon= common1.cns
+stcommon= Common1.cns
 sprite  = Sprite.sff
 anim    = Anim.air
 sound   = Sound.snd
+movelist = Movelist.dat
 
 [Palette Keymap]
 x = 1		;Press button X to select palette 1, etc.
@@ -36,7 +37,3 @@ z2 = 9
 a2 = 10
 b2 = 11
 c2 = 12
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Master Kung Fu Man [Intro].def
-ending.storyboard = ..\../storyboards/Master Kung Fu Man [Ending].def

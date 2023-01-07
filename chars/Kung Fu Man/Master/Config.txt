@@ -45,32 +45,32 @@ value = 1
 ;Change the value number to 1 if you do want Palette Selector on Intro
 ;Default value is 1.
 ;===========================================================================
-; POTS Style Hitsparks
-[State 5900, POTS Style Hitsparks]
+; PotS Style Hitsparks
+[State 5900, PotS Style Hitsparks]
 type = VarSet
 trigger1 = 1
 v = 43
 value = 2
 ;___________________________________________________________________________
-;Change the value number to 0 if you do not want POTS style hitsparks
-;Change the value number to 1 if you want the POTS style hitsparks
-;Change the value number to 2-3 if you want multi-colored POTS style hitsparks
-;[2]
-; Normal: Red	Special: Blue	Super: Half Purple & Half Blue
-;[3]
-; Normal: Red	Special: Blue	Super: Purple
+;Change the value number to 0 if you do not want PotS style hitsparks
+;Change the value number to 1-3 if you want the PotS style hitsparks
+; [1: Only Red]
+; [2: Multi-Colored Type 1]
+;  Normal: Red	Special: Blue	Super: Purple(Front) & Blue(Back)
+; [3: Multi-Colored Type 2]
+;  Normal: Red	Special: Blue	Super: Purple
 ;
 ;Default value is 2.
 ;===========================================================================
-; POTS Style Hit Sounds
-[State 5900, POTS Style Hit Sounds]
+; PotS Style Hit Sounds
+[State 5900, PotS Style Hit Sounds]
 type = VarSet
 trigger1 = 1
 v = 44
 value = 1
 ;___________________________________________________________________________
-;Change the value number to 0 if you do not want POTS style hitsounds
-;Change the value number to 1 if you want the POTS style hitsounds
+;Change the value number to 0 if you do not want PotS style hitsounds
+;Change the value number to 1 if you want the PotS style hitsounds
 ;Default value is 1.
 ;===========================================================================
 ; Chain Combos/Air Combos
@@ -191,12 +191,18 @@ dest = 1, palno
 ignorehitpause = 1
 
 
-[State 5900, Intro vs Kung Fu Girl]
+[State 5900, Intro vs Suave Dude]
 type = ChangeState
-triggerAll = 0
 triggerAll = NumEnemy
 triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, Name = "Kung Fu Girl" && enemy,authorname = "DivineWolf" || Enemy, Name = "Another Kung Fu Girl"
+trigger1 = Enemy, Name = "Suave Dude"
+value = 190
+
+[State 5900, Intro vs Kung Fu Girl]
+type = ChangeState
+triggerAll = NumEnemy
+triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
+trigger1 = Enemy, Name = "Kung Fu Girl" && (Enemy, AuthorName = "DivineWolf" || Enemy, AuthorName = "Sennou-Room") || Enemy, Name = "Another Kung Fu Girl"
 value = 193
 
 [State 5900, Ladies' Man Intro]
@@ -243,7 +249,7 @@ value = 6900
 [State 5900, Intro Decider]
 type = ChangeState
 trigger1 = RoundNo = 1
-value = 190
+value = 190 + (random%2)
 
 [State 5900, End]
 type = ChangeState

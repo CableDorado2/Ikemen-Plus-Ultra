@@ -1,6 +1,6 @@
                                 ______________________________
 ===============================| Ryu by Phantom.of.the.Server |================================
-                                ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯           [02.07.2022]
+                                ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯           [03.11.2022]
 
  - Contact: potsmugen@gmail.com
  - Website: https://network.mugenguild.com/pots/
@@ -450,6 +450,12 @@ Shun Goku Satsu:                   Instant Hell Murder
 
 
 =====<VERSION HISTORY>=====
+
+<03.11.2022>
+ - Bug fixing
+
+<10.09.2022>
+ - Bug fixing
 
 <02.07.2022>
  - Bug fixing

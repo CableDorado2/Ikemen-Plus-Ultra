@@ -161,7 +161,7 @@ type = changestate
 trigger1 = !time
 trigger1 = !AIlevel
 trigger1 = prevstateno = 52
-trigger1 = command = "holddown" && command = "holdup" 
+trigger1 = command = "holddown" && command = "holdup"
 value = 10
 ctrl = 1
 
@@ -1976,7 +1976,7 @@ sparkno = -1 + 0 * (var(33) := 8013)
 guard.sparkno = -1 + 0 * (var(34) := 8001)
 sparkxy = -10 + 0 * (var(35) := 40) * (var(36) := 65), var(37) := -63
 envshake.time = 10
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 kill = 0
 
@@ -2065,7 +2065,7 @@ sparkno = -1 + 0 * (var(33) := 8013)
 guard.sparkno = -1 + 0 * (var(34) := 8001)
 sparkxy = -10 + 0 * (var(35) := 35) * (var(36) := 76), var(37) := -6
 envshake.time = 10
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 kill = 0
 
@@ -4008,6 +4008,7 @@ triggerall = numenemy && var(1) != 2
 trigger1 = enemy, name = "Ken" || enemy, name = "Ken Masters"
 trigger2 = enemy, name = "cvsken" || enemy, name = "svcken"
 value = 30
+;value = ifElse(Enemy, Authorname = "Jmorphman" && enemy, var(40) = 1, 35, 30);patch
 
 [State 180, Quote]
 type = victoryquote
