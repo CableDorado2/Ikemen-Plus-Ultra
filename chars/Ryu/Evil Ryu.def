@@ -52,10 +52,6 @@ a2 = 10
 b2 = 11
 c2 = 12
 
-;[Arcade]
-;intro.storyboard = intro.def
-;ending.storyboard = ending.def
-
 
 ;==========<EVIL RYU>==========
 [Statedef 5900]
