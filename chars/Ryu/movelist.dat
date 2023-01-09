@@ -68,8 +68,8 @@ High Jump						_TAP_D, _U
 Hop								_TAP_U
 Hyper Hop						_TAP_D, _TAP_U
 Parry							_TAP_F / _TAP_D
-Roll							[_B/_F]_+^A+^X
-Sidestep						^A+^X
+Roll							[_B/_F]^A_+^X
+Sidestep						^A_+^X
 _!Sidestep Attack				^P/^K
 Power Charge					^B_+^Y
 Custom Combo					(air also) ^C_+^Z

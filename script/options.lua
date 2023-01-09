@@ -649,6 +649,8 @@ function f_mainCfg()
 				setUserName(inputDialogGetStr(inputdia)) --set username introduced
 				modified = 1
 			end
+			setUserName(inputDialogGetStr(inputdia))
+			modified = 1
 		--Port Change
 		elseif mainCfg == 8 and (btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)

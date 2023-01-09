@@ -4361,8 +4361,6 @@ end
 --;===========================================================
 --; STATISTICS LOOP
 --;===========================================================
-txt_statisticsMenu = createTextImg(jgFnt, 0, 0, '' .. getUserName() .. ' STATISTICS ', 159, 13)
-
 t_statisticsMenu = {	
 	{id = '', text = 'Collected Coins',    varID = textImgNew(), varText = data.coins},
 	{id = '', text = 'Time Played             W.I.P'},
@@ -4378,6 +4376,7 @@ for i=1, #t_statisticsMenu do
 end
 
 function f_statisticsMenu()
+	txt_statisticsMenu = createTextImg(jgFnt, 0, 0, '' .. getUserName() .. ' STATISTICS ', 159, 13) --needs to be inside of statistics Menu function, to load a updated data
 	cmdInput()
 	local statisticsMenu = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
