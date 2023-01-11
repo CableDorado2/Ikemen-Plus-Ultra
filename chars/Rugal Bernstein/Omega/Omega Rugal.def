@@ -29,7 +29,3 @@ pal3 = 3.act
 pal4 = 4.act
 pal5 = 5.act
 pal6 = 6.act
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Omega Rugal [Intro].def
-ending.storyboard = ..\../storyboards/Omega Rugal [Ending].def

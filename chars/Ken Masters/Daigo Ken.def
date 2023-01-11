@@ -50,7 +50,3 @@ c2 = 12
 x2 = 7
 y2 = 8
 z2 = 9
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Daigo Ken [Intro].def
-ending.storyboard = ..\../storyboards/Daigo Ken [Ending].def

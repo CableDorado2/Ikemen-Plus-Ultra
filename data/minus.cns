@@ -44,10 +44,11 @@ type = assertspecial
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 
-[State 500, Bonus Stages No HUD]
+[State 500, No HUD]
 type = assertspecial
-trigger1 = GameType = 3 ;HUD Disable for Bonus Stages
-trigger2 = GameType = 4 ;HUD Disable for Input Test
+trigger1 = GameType = 1 ;HUD Disable for Demo Screen
+trigger2 = GameType = 3 ;HUD Disable for Bonus Stages
+trigger3 = GameType = 4 ;HUD Disable for Input Test
 flag = nobardisplay
 
 [State 0, Power Recovery]

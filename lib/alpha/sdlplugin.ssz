@@ -79,11 +79,11 @@ public bool playBGM(^/char pldir, ^/char fn)
   ret PlayBGM(:pldir, fn:);
 }
 
-//public void playVideo(^/char vldir, ^/char fn)
-//{
-//  plugin void PlayVideo(:^/char, ^/char:) = "dll/sdlplugin.dll";
-//  PlayVideo(:vldir, fn:);
-//}
+public void playVideo(^/char vldir, ^/char fn)
+{
+  plugin void PlayVideo(:^/char, ^/char:) = "dll/strongfs.dll";
+  PlayVideo(:vldir, fn:);
+}
 
 public void pauseBGM(bool pause)
 {

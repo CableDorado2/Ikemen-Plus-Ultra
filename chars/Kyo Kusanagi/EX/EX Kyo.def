@@ -38,7 +38,3 @@ pal9 = Kyo-green.act
 pal10 = Kyo-blue.act
 pal11 = Kyo-purple.act
 pal12 = Kyo-gold.act
-
-[Arcade]
-intro.storyboard = ..\../storyboards/EX Kyo [Intro].def
-ending.storyboard = ..\../storyboards/EX Kyo [Ending].def

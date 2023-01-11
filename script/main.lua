@@ -2324,7 +2324,7 @@ t_watchMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
 	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'STORYBOARDS'},
-	--{id = textImgNew(), text = 'CUTSCENES'},
+	{id = textImgNew(), text = 'CUTSCENES'},
 	{id = textImgNew(), text = 'SCREENSHOTS'},
 	{id = textImgNew(), text = 'STATISTICS'},
 	{id = textImgNew(), text = 'CPU MATCH'},
@@ -2407,19 +2407,19 @@ function f_watchMenu()
 				sndPlay(sysSnd, 100, 1)
 				f_storyboardMenu()
 			--CUTSCENES
-			--elseif watchMenu == 4 then
-				--sndPlay(sysSnd, 100, 1)
-				--f_videoMenu()
-			--SCREENSHOTS
 			elseif watchMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_videoMenu()
+			--SCREENSHOTS
+			elseif watchMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				sszOpen("screenshots", "") --added via script.ssz
 			--STATISTICS
-			elseif watchMenu == 5 then
+			elseif watchMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_statisticsMenu()
 			--CPU MATCH
-			elseif watchMenu == 6 then
+			elseif watchMenu == 7 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
@@ -2430,7 +2430,7 @@ function f_watchMenu()
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
 			--CREDITS
-			elseif watchMenu == 7 then
+			elseif watchMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0
@@ -3620,6 +3620,8 @@ function f_create()
 	textImgSetText(txt_starting, 'Waiting for Player 2... ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Host' --For Replay Identify
+	--data.p1In = 1
+	--f_exitMenu() --Try to Wait client in Training Mode?
 	while not connected() do
 		if esc() then
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3627,7 +3629,6 @@ function f_create()
 			netPlayer = ''
 			return true		
 		end
-		--f_exitMenu() --Try to Wait client in Training Mode?
 		textImgDraw(txt_starting)
 		cmdInput()
 		refresh()
@@ -3649,7 +3650,6 @@ function f_connect()
 		animUpdate(wirelessBG)
 		refresh()
 	end
-	
 	sndPlay(sysSnd, 100, 1)
 	textImgSetText(txt_connecting, 'Now connecting with... ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
@@ -4367,8 +4367,8 @@ t_statisticsMenu = {
 	{id = '', text = 'Favorite Character        W.I.P'},
 	{id = '', text = 'Favorite Stage          W.I.P'},
 	{id = '', text = 'Preferred Game Mode    W.I.P'},
-	{id = '', text = 'Victories             W.I.P'},
-	{id = '', text = 'Defeats              W.I.P'},
+	--{id = '', text = 'Victories             W.I.P'},
+	--{id = '', text = 'Defeats              W.I.P'},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_statisticsMenu do
@@ -4410,10 +4410,10 @@ function f_statisticsMenu()
 			elseif statisticsMenu == 5 then
 				--sndPlay(sysSnd, 100, 1)
 			--Victories
-			elseif statisticsMenu == 6 then
+			--elseif statisticsMenu == 6 then
 				--sndPlay(sysSnd, 100, 1)
 			--Defeats
-			elseif statisticsMenu == 7 then
+			--elseif statisticsMenu == 7 then
 				--sndPlay(sysSnd, 100, 1)
 			--Back
 			else

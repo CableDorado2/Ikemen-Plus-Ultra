@@ -169,7 +169,7 @@ type = changestate
 trigger1 = !time
 trigger1 = !AIlevel
 trigger1 = prevstateno = 52
-trigger1 = command = "holddown" && command = "holdup" 
+trigger1 = command = "holddown" && command = "holdup"
 value = 10
 ctrl = 1
 
@@ -1968,7 +1968,7 @@ sparkno = -1 + 0 * (var(33) := 8013)
 guard.sparkno = -1 + 0 * (var(34) := 8001)
 sparkxy = -10 + 0 * (var(35) := 30) * (var(36) := 70), var(37) := -76
 envshake.time = 10
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 kill = 0
 
@@ -3120,7 +3120,7 @@ value = 52
 
 ;========================<TARGET AIR RESET>========================
 [Statedef 1115040]
-type  = A
+type = A
 physics = N
 movetype = H
 velset = 0, 0
@@ -4641,7 +4641,7 @@ type = playerpush
 triggerall = statetype = A
 triggerall = movetype != H && numenemy
 triggerall = !(vel y > 0 && (pos y > -vel y))
-triggerall = (vel x > 0 && (fvar(16) = [-vel x, 0])) ||  (vel x < 0 && (fvar(16) = [0, -vel x]))
+triggerall = (vel x > 0 && (fvar(16) = [-vel x, 0])) || (vel x < 0 && (fvar(16) = [0, -vel x]))
 trigger1 = p2statetype = S
 trigger1 = (p2dist y - vel y) > (enemynear, const(size.height) + 13 - ifelse((stateno = [100, 106]), 16, 32))
 trigger2 = p2statetype = C

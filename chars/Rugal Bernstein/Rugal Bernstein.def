@@ -31,7 +31,3 @@ Pal9 = pals/Rugal-Bernstein09.act
 Pal10 = pals/Rugal-Bernstein10.act
 Pal11 = pals/Rugal-Bernstein11.act
 Pal12 = pals/Rugal-Bernstein12.act
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Rugal Bernstein [Intro].def
-ending.storyboard = ..\../storyboards/Rugal Bernstein [Ending].def

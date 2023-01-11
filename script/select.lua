@@ -1785,7 +1785,7 @@ function f_p1SelectMenu()
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
 			textImgPosDraw(txt_p1Name, 10, nameY)
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-			if btnPalNo(p1Cmd) > 0 then
+			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 				sndPlay(sysSnd, 100, 1)
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
@@ -1993,7 +1993,7 @@ function f_p2SelectMenu()
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
 			textImgPosDraw(txt_p2Name, 309, nameY)
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
-			if btnPalNo(p2Cmd) > 0 then
+			if commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') then
 				sndPlay(sysSnd, 100, 1)
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
@@ -2575,7 +2575,7 @@ function f_selectStage()
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
 		textImgDraw(txt_selStage)
-		if btnPalNo(p1Cmd) > 0 then
+		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 			sndPlay(sysSnd, 100, 1)
 			if stageList == 0 then
 				stageNo = math.random(1, data.includestage)
@@ -3990,7 +3990,7 @@ function f_continue()
 				animDraw(contBG1)
 				animDraw(contBG2)
 			end
-			if commandGetState(p1Cmd, 'holds') then
+			if commandGetState(p1Cmd, 's') then
 				if tablePos.sffData ~= nil and tablePos.win ~= nil then
 					anim, animLength = f_animFromTable(tablePos['win'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
 				else

@@ -60,7 +60,3 @@ Pal33 = paletas/terry03.act
 Pal34 = paletas/titan.act
 Pal35 = paletas/vans.act
 Pal36 = paletas/yasanagi.act
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Kyo Kusanagi [Intro].def
-ending.storyboard = ..\../storyboards/Kyo Kusanagi [Ending].def

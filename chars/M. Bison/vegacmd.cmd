@@ -1243,7 +1243,8 @@ var(59) = 720
 triggerall = !AIlevel && !var(59) && !ishelper
 triggerall = command = "a" && command = "x"
 triggerall = roundstate = 2 && statetype != A
-trigger1 = (ctrl || (stateno = [100, 101])) && command = "holdfwd"
+trigger1 = ctrl || (stateno = [100, 101])
+trigger1 = helper(9999), command = "holdfwd"
 trigger2 = var(20) && var(4)
 
 [State -1, Roll Backward]
@@ -1252,7 +1253,8 @@ var(59) = 725
 triggerall = !AIlevel && !var(59) && !ishelper
 triggerall = command = "a" && command = "x"
 triggerall = roundstate = 2 && statetype != A
-trigger1 = (ctrl || (stateno = [100, 101])) && command = "holdback"
+trigger1 = ctrl || (stateno = [100, 101])
+trigger1 = helper(9999), command = "holdback"
 
 [State -1, Dodge]
 type = varset

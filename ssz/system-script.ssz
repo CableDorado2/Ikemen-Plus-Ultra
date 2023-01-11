@@ -14,7 +14,7 @@ lib chr = "char.ssz";
 lib lua = <alpha/lua.ssz>;
 lib sys = "system.ssz";
 lib sc = "script.ssz";
-//lib vid = "video.ssz";
+lib vid = "video.ssz";
 
 ^/char listenPort = .cfg.listenPort;
 ^/char UserName = .cfg.UserName;

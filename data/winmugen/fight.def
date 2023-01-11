@@ -316,14 +316,14 @@ p2.counter.scale = 1.5,1.5
 
 ; --level sounds---
 level1.snd = 21,0
-level2.snd = 21,0
-level3.snd = 21,0
+level2.snd = 21,1
+level3.snd = 21,2
 level4.snd = 21,0
-level5.snd = 21,0
-level6.snd = 21,0
+level5.snd = 21,1
+level6.snd = 21,2
 level7.snd = 21,0
-level8.snd = 21,0
-level9.snd = 21,0
+level8.snd = 21,1
+level9.snd = 21,2
 
 [Begin Action 40] ;Darkened powerbar background 
 40,0, 0,0, 1, , S
@@ -642,7 +642,7 @@ displaytime = 90    ;Time to show text
 
 ;-----------------------------------------------------------
 [Round]
-match.wins = 1              ;Rounds needed to win a match
+match.wins = 2              ;Rounds needed to win a match
 match.maxdrawgames = 2      ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30         ;Time to wait before starting intro
 

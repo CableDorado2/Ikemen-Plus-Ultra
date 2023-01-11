@@ -50,7 +50,3 @@ z2 = 9
 a2 = 10
 b2 = 11
 c2 = 12
-
-[Arcade]
-intro.storyboard = ..\../storyboards/M. Bison [Intro].def
-ending.storyboard = ..\../storyboards/M. Bison [Ending].def

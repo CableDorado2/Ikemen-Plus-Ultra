@@ -30,7 +30,7 @@ trigger1 = 1
 value = root, anim
 elem = var(0)
 
-[State 1007, HitOverride]
+[State 1007, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -44,12 +44,14 @@ trigger1 = (root, stateno = 1000) || (root, stateno = 3000)
 time = -1
 value = SCA, NP
 ignorehitpause = 1
+
 [State 1007, HB]
 type = hitby
 trigger1 = (root, stateno = 3050)
 time = -1
 value = SCA, NP, SP
 ignorehitpause = 1
+
 [State 1007, HB]
 type = hitby
 trigger1 = (root, stateno = 4001)
@@ -76,7 +78,7 @@ ctrl = 0
 anim = 1407
 velset = 0, 0
 
-[State 1407, HitOverride]
+[State 1407, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -301,7 +303,7 @@ var(2) = 1
 persistent = 0
 ignorehitpause = 1
 
-[State 1610, HitOverride]
+[State 1610, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -420,7 +422,7 @@ fall.recovertime = 120
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 10
-envshake.ampl = 1
+envshake.ampl = ifelse((gametime % 2), -1, 1)
 envshake.freq = 180
 sprpriority = 4
 airguard.ctrltime = 16
@@ -631,7 +633,7 @@ trigger3 = anim != 3212 && var(10) <= 2
 value = ifelse(var(10) >= 5, 3210, ifelse(var(10) >= 3, 3211, 3212))
 elem = animelemno(0)
 
-[State 3209, HitOverride]
+[State 3209, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -640,7 +642,7 @@ stateno = 3215
 slot = 0
 ignorehitpause = 1
 
-[State 3209, HitOverride]
+[State 3209, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -718,7 +720,7 @@ fall.recover = 0
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 sprpriority = 4
 yaccel = 0.4850
@@ -825,7 +827,7 @@ var(2) = 1
 persistent = 0
 ignorehitpause = 1
 
-[State 3210, HitOverride]
+[State 3210, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -926,7 +928,7 @@ fall.recover = 0
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 sprpriority = 4
 yaccel = 0.4850
@@ -963,7 +965,7 @@ fall.recover = 0
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 sprpriority = 4
 yaccel = 0.4850
@@ -1000,7 +1002,7 @@ fall.recover = 0
 getpower = 0, 0
 givepower = 40, 40
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 sprpriority = 4
 yaccel = 0.4850
@@ -1124,7 +1126,7 @@ anim = 4090
 ctrl = 0
 velset = 0, 0
 
-[State 4090, HitOverride]
+[State 4090, hitoverride]
 type = hitoverride
 trigger1 = 1
 time = -1
@@ -2459,7 +2461,7 @@ type = modifyexplod
 trigger1 = numexplod(20) && time < 16
 ID = 20
 postype = back
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 1 - (0.03125 * time), 1 - (0.03125 * time)
 trans = addalpha
 alpha = (8 * time), 256
@@ -2468,7 +2470,7 @@ type = modifyexplod
 trigger1 = numexplod(21) && time < 16
 ID = 21
 postype = back
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 2 - (0.09375 * time), 2 - (0.09375 * time)
 trans = addalpha
 alpha = (8 * time), 256
@@ -2478,7 +2480,7 @@ type = modifyexplod
 trigger1 = numexplod(20) && (time = [16, 32])
 ID = 20
 postype = back
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5
 trans = addalpha
 alpha = 256, 256
@@ -2492,7 +2494,7 @@ type = modifyexplod
 trigger1 = numexplod(20) && time >= 32
 ID = 20
 postype = back
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5
 trans = addalpha
 alpha = 128 - 16 * (time -32), 256
@@ -2658,7 +2660,7 @@ anim = 8600
 ID = 8600
 ontop = 1
 postype = left
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 removetime = 32
@@ -2679,7 +2681,7 @@ anim = 8609 + var(0)
 ID = 10
 ontop = 1
 postype = left
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 removetime = 32
@@ -2692,7 +2694,7 @@ anim = 8609 + var(0)
 ID = 11
 ontop = 1
 postype = left
-pos = 160, ifelse((gamewidth / gameheight) > 1.55, 80, 120)
+pos = 160, ifelse((gamewidth / gameheight) > 1.55, 90, 120)
 scale = 0.5, 0.5 * (1.3333333 * gameheight / gamewidth)
 bindtime = -1
 removetime = 8
@@ -2709,7 +2711,7 @@ alpha = ifelse(time < 16, 256, 256 -32 * (time -16)), ifelse(time < 16, 0, 32 * 
 type = modifyexplod
 trigger1 = numexplod(11)
 ID = 11
-scale = 0.5 + (0.0625 * time), 0.5 + (0.0625 * time)
+scale = 0.5 + (0.0625 * time), (0.5 + (0.0625 * time)) * (1.3333333 * gameheight / gamewidth)
 trans = addalpha
 alpha = 256 - (32 * time), 32 * time
 

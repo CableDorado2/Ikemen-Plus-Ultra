@@ -76,9 +76,11 @@ ignorehitpause = 1
 [State 3000, NHB]
 type = nothitby
 trigger1 = numhelper(1007)
-value = SCA, AA, HP, AT
+trigger1 = animelemtime(6) >= 0
+value = , NP
 time = 1
 ignorehitpause = 1
+
 [State 3000, Shield]
 type = helper
 trigger1 = !numhelper(1007)
@@ -167,7 +169,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 palfx.sinadd = 64, 64, 64, 4
 palfx.mul = 128, 128, 128
 palfx.time = 60
@@ -258,7 +260,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 palfx.sinadd = 64, 64, 64, 4
 palfx.mul = 128, 128, 128
 palfx.time = 60
@@ -611,7 +613,7 @@ ignorehitpause = 1
 
 [State 3012, Pos]
 type = offset
-trigger1 = animelemtime(6) >= 0 &&  animelemtime(7) < 0
+trigger1 = animelemtime(6) >= 0 && animelemtime(7) < 0
 trigger1 = numtarget(3012)
 y = ceil(-0.5 * (target(3012), const(size.ground.front)))
 
@@ -725,7 +727,7 @@ sparkno = -1 + 0 * (var(33) := 8014)
 guard.sparkno = -1 + 0 * (var(34) := 8001)
 sparkxy = -10 + 0 * (var(35) := -20) * (var(36) := 20), var(37) := -10
 envshake.time = 12
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 envshake.freq = 180
 down.velocity = 0, 0
 ID = 3012
@@ -915,13 +917,6 @@ sound = s0, 8510
 p2defmul = 1 + (0 * (fvar(5) := 0))
 darken = ifelse(fvar(31), 0, 1)
 
-[State 3050, NHB]
-type = nothitby
-trigger1 = anim = 3050 && time < 64
-time = 1
-value = SCA
-ignorehitpause = 1
-
 [State 3050, Push]
 type = playerpush
 trigger1 = anim = 3050 && animelemtime(13) >= 0
@@ -943,6 +938,13 @@ stateno = 1007
 ID = 1007
 name = "Projectile Hitter"
 postype = p1
+
+[State 3050, NHB]
+type = nothitby
+trigger1 = anim = 3050 && time < 64
+time = 1
+value = SCA
+ignorehitpause = 1
 
 [State 3050, Hit Var]
 type = varset
@@ -1041,7 +1043,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 palfx.sinadd = 64, 64, 64, 4
 palfx.mul = 128, 128, 128
 palfx.time = 60
@@ -1327,7 +1329,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 fall = 0
 air.fall = 1
 fall.recover = 0
@@ -1362,7 +1364,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 fall = 0
 air.fall = 1
 fall.recover = 0
@@ -1397,7 +1399,7 @@ getpower = 0
 givepower = 40, 40
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 ground.cornerpush.veloff = 0
 guard.velocity = -10.52
 guard.cornerpush.veloff = 0
@@ -1481,7 +1483,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 fall = 0
 air.fall = 1
 fall.recover = 0
@@ -1519,7 +1521,7 @@ givepower = 40, 40
 forcestand = 1
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 fall = 1
 fall.recover = 0
 yaccel = 0.4850
@@ -2075,7 +2077,7 @@ getpower = 0
 givepower = 40, 40
 envshake.time = 12
 envshake.freq = 180
-envshake.ampl = 2
+envshake.ampl = ifelse((gametime % 2), -2, 2)
 sprpriority = 5
 fall = 1
 fall.recover = 0
