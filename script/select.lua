@@ -1790,6 +1790,8 @@ function f_p1SelectMenu()
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
 					cel = math.random(1, #t_randomChars)-1
+				elseif f_getName(p1Cell) == 'Kung Fu Man' then --Character Voice when is selected Example for Player 1 Side
+                    sndPlay(announcerSnd, 1, 0)
 				end
 				local updateAnim = true
 				for i=1, #data.t_p1selected do
@@ -1998,6 +2000,8 @@ function f_p2SelectMenu()
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
 					cel = math.random(1, #t_randomChars)-1
+				elseif f_getName(p2Cell) == 'Kung Fu Man' then --Another Character Voice when is selected Example for Player 2 Side
+                    sndPlay(announcerSnd, 2, 0)
 				end
 				local updateAnim = true
 				if data.coop then
@@ -2028,152 +2032,22 @@ end
 --;===========================================================
 --; STAGE SELECT
 --;===========================================================
---Classic Stage Select
-selStage = animNew(sysSff, [[
-110,0, 0,0, 10
-110,1, 0,0, 10
-110,2, 0,0, 10
-]])
-animAddPos(selStage, 85, 166)
-animUpdate(selStage)
+function f_stagePreview()
+	stagePreview = ''
+	stagePreview = '0,' .. stageList-1 .. ', 0,0, 0'
+	stagePreview = animNew(stageSff, stagePreview)
+	if data.stageType == 'Classic' then
+		animSetScale(stagePreview, 0.0705, 0.0705)
+		animSetPos(stagePreview, 114.9, 171.5)
+	elseif data.stageType == 'Modern' then
+		animSetScale(stagePreview, 0.151, 0.150)
+		animSetPos(stagePreview, 62.1, 74)
+	end
+	animUpdate(stagePreview)
+	animDraw(stagePreview)
+	return stagePreview
+end
 
---Stage 0
-stage0 = animNew(sysSff, [[
-110,3, 0,0,
-]])
-animAddPos(stage0, 115, 172)
-animUpdate(stage0)
-
---Stage 1
-stage1 = animNew(stageSff, [[
-0,0, 0,0,
-]])
-animAddPos(stage1, 114.9, 171.5)
-animUpdate(stage1)
-animSetScale(stage1, 0.0705, 0.0705)
-
---Stage 2
-stage2 = animNew(stageSff, [[
-0,1, 0,0,
-]])
-animAddPos(stage2, 114.9, 171.5)
-animUpdate(stage2)
-animSetScale(stage2, 0.0705, 0.0712)
-
---Stage 3
-stage3 = animNew(stageSff, [[
-0,2, 0,0,
-]])
-animAddPos(stage3, 114.9, 171.5)
-animUpdate(stage3)
-animSetScale(stage3, 0.0705, 0.0705)
-
---Stage 4
-stage4 = animNew(stageSff, [[
-0,3, 0,0,
-]])
-animAddPos(stage4, 114.9, 171.5)
-animUpdate(stage4)
-animSetScale(stage4, 0.0705, 0.0705)
-
---Stage 5
-stage5 = animNew(stageSff, [[
-0,4, 0,0,
-]])
-animAddPos(stage5, 114.9, 171.5)
-animUpdate(stage5)
-animSetScale(stage5, 0.0705, 0.0705)
-
---Stage 6
-stage6 = animNew(stageSff, [[
-0,5, 0,0,
-]])
-animAddPos(stage6, 114.9, 171.5)
-animUpdate(stage6)
-animSetScale(stage6, 0.0705, 0.0705)
-
---Stage 7
-stage7 = animNew(stageSff, [[
-0,6, 0,0,
-]])
-animAddPos(stage7, 114.9, 171.5)
-animUpdate(stage7)
-animSetScale(stage7, 0.0705, 0.0705)
-
---Stage 8
-stage8 = animNew(stageSff, [[
-0,7, 0,0,
-]])
-animAddPos(stage8, 114.9, 171.5)
-animUpdate(stage8)
-animSetScale(stage8, 0.0705, 0.0705)
-
---Stage 9
-stage9 = animNew(stageSff, [[
-0,8, 0,0,
-]])
-animAddPos(stage9, 114.9, 171.5)
-animUpdate(stage9)
-animSetScale(stage9, 0.0705, 0.0705)
-
---Stage 10
-stage10 = animNew(stageSff, [[
-0,9, 0,0,
-]])
-animAddPos(stage10, 114.9, 171.5)
-animUpdate(stage10)
-animSetScale(stage10, 0.0705, 0.0705)
-
---Stage 11
-stage11 = animNew(stageSff, [[
-0,10, 0,0,
-]])
-animAddPos(stage11, 114.9, 171.5)
-animUpdate(stage11)
-animSetScale(stage11, 0.0705, 0.0705)
-
---Stage 12
-stage12 = animNew(stageSff, [[
-0,11, 0,0,
-]])
-animAddPos(stage12, 114.9, 171.5)
-animUpdate(stage12)
-animSetScale(stage12, 0.0705, 0.0705)
-
---Stage 13
-stage13 = animNew(stageSff, [[
-0,12, 0,0,
-]])
-animAddPos(stage13, 114.9, 171.5)
-animUpdate(stage13)
-animSetScale(stage13, 0.0705, 0.0705)
-
---Stage 14
-stage14 = animNew(stageSff, [[
-0,13, 0,0,
-]])
-animAddPos(stage14, 114.9, 171.5)
-animUpdate(stage14)
-animSetScale(stage14, 0.0705, 0.0705)
-
---Stage 15
-stage15 = animNew(stageSff, [[
-0,14, 0,0,
-]])
-animAddPos(stage15, 114.9, 171.5)
-animUpdate(stage15)
-animSetScale(stage15, 0.0705, 0.0705)
-
---Stage 16
-stage16 = animNew(stageSff, [[
-0,15, 0,0,
-]])
-animAddPos(stage16, 114.9, 171.5)
-animUpdate(stage16)
-animSetScale(stage16, 0.0705, 0.0712)
---;===========================================================
---; MODERN TYPE
---;===========================================================
 --Stage Title background
 selectSBG2a = animNew(sysSff, [[
 102,0, 0,2, -1, 0, s
@@ -2216,6 +2090,15 @@ selectSTBG2c = animNew(sysSff, [[
 animAddPos(selectSTBG2c, 160, 46)
 animSetTile(selectSTBG2c, 1, 0)
 
+--Classic Stage Select
+selStage = animNew(sysSff, [[
+110,0, 0,0, 10
+110,1, 0,0, 10
+110,2, 0,0, 10
+]])
+animAddPos(selStage, 85, 166)
+animUpdate(selStage)
+
 --Modern Stage Select
 selStageM = animNew(sysSff, [[
 110,0, 0,0, 10
@@ -2226,141 +2109,20 @@ animAddPos(selStageM, 0, 62)
 animUpdate(selStageM)
 animSetScale(selStageM, 2.12, 2.12)
 
---Stage 0
+--Classic Stage 0
+stage0 = animNew(sysSff, [[
+110,3, 0,0,
+]])
+animAddPos(stage0, 115, 172)
+animUpdate(stage0)
+
+--Modern Stage 0
 stage0M = animNew(sysSff, [[
 110,3, 0,0,
 ]])
 animSetPos(stage0M, 62, 74)
 animUpdate(stage0M)
 animSetScale(stage0M, 2.15, 2.15)
-
---Stage 1
-stage1M = animNew(stageSff, [[
-0,0, 0,0,
-]])
-animAddPos(stage1M, 62.1, 74)
-animUpdate(stage1M)
-animSetScale(stage1M, 0.151, 0.150)
-
---Stage 2
-stage2M = animNew(stageSff, [[
-0,1, 0,0,
-]])
-animAddPos(stage2M, 62.1, 74)
-animUpdate(stage2M)
-animSetScale(stage2M, 0.151, 0.152)
-
---Stage 3
-stage3M = animNew(stageSff, [[
-0,2, 0,0,
-]])
-animAddPos(stage3M, 62.1, 74)
-animUpdate(stage3M)
-animSetScale(stage3M, 0.151, 0.150)
-
---Stage 4
-stage4M = animNew(stageSff, [[
-0,3, 0,0,
-]])
-animAddPos(stage4M, 62.1, 74)
-animUpdate(stage4M)
-animSetScale(stage4M, 0.151, 0.150)
-
---Stage 5
-stage5M = animNew(stageSff, [[
-0,4, 0,0,
-]])
-animAddPos(stage5M, 62.1, 74)
-animUpdate(stage5M)
-animSetScale(stage5M, 0.151, 0.150)
-
---Stage 6
-stage6M = animNew(stageSff, [[
-0,5, 0,0,
-]])
-animAddPos(stage6M, 62.1, 74)
-animUpdate(stage6M)
-animSetScale(stage6M, 0.151, 0.150)
-
---Stage 7
-stage7M = animNew(stageSff, [[
-0,6, 0,0,
-]])
-animAddPos(stage7M, 62.1, 74)
-animUpdate(stage7M)
-animSetScale(stage7M, 0.151, 0.150)
-
---Stage 8
-stage8M = animNew(stageSff, [[
-0,7, 0,0,
-]])
-animAddPos(stage8M, 62.1, 74)
-animUpdate(stage8M)
-animSetScale(stage8M, 0.151, 0.150)
-
---Stage 9
-stage9M = animNew(stageSff, [[
-0,8, 0,0,
-]])
-animAddPos(stage9M, 62.1, 74)
-animUpdate(stage9M)
-animSetScale(stage9M, 0.151, 0.150)
-
---Stage 10
-stage10M = animNew(stageSff, [[
-0,9, 0,0,
-]])
-animAddPos(stage10M, 62.1, 74)
-animUpdate(stage10M)
-animSetScale(stage10M, 0.151, 0.150)
-
---Stage 11
-stage11M = animNew(stageSff, [[
-0,10, 0,0,
-]])
-animAddPos(stage11M, 62.1, 74)
-animUpdate(stage11M)
-animSetScale(stage11M, 0.151, 0.150)
-
---Stage 12
-stage12M = animNew(stageSff, [[
-0,11, 0,0,
-]])
-animAddPos(stage12M, 62.1, 74)
-animUpdate(stage12M)
-animSetScale(stage12M, 0.151, 0.150)
-
---Stage 13
-stage13M = animNew(stageSff, [[
-0,12, 0,0,
-]])
-animAddPos(stage13M, 62.1, 74)
-animUpdate(stage13M)
-animSetScale(stage13M, 0.151, 0.150)
-
---Stage 14
-stage14M = animNew(stageSff, [[
-0,13, 0,0,
-]])
-animAddPos(stage14M, 62.1, 74)
-animUpdate(stage14M)
-animSetScale(stage14M, 0.151, 0.150)
-
---Stage 15
-stage15M = animNew(stageSff, [[
-0,14, 0,0,
-]])
-animAddPos(stage15M, 62.1, 74)
-animUpdate(stage15M)
-animSetScale(stage15M, 0.151, 0.150)
-
---Stage 16
-stage16M = animNew(stageSff, [[
-0,15, 0,0,
-]])
-animAddPos(stage16M, 62.1, 74)
-animUpdate(stage16M)
-animSetScale(stage16M, 0.151, 0.152)
 
 function f_selectStage()
 	if data.stageType == 'Classic' then
@@ -2386,8 +2148,11 @@ function f_selectStage()
 			if stageList < 0 then stageList = data.includestage end
 		elseif commandGetState(p1Cmd, 'r') then
 			sndPlay(sysSnd, 100, 0)
-			stageList = stageList + 1
-			if stageList > data.includestage then stageList = 0 end
+			if stageList == 1 then
+			
+			else
+				stageList = stageList + 1
+				if stageList > data.includestage then stageList = 0 end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			for i=1, 5 do --Advance 5 by 5
@@ -2419,8 +2184,8 @@ function f_selectStage()
 			p1Portrait = nil
 			p2Portrait = nil
 		end
-		--Stage Preview
-		if stageList == 0 then
+		f_stagePreview() --Stages Preview Managed via Stages.sff
+		if stageList == 0 then --Random Stage Preview Using Old Logic
 			if data.stageType == 'Classic' then
 				animUpdate(stage0)
 				animDraw(stage0)
@@ -2428,155 +2193,14 @@ function f_selectStage()
 				animUpdate(stage0M)
 				animDraw(stage0M)
 			end
-		elseif stageList == 1 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage1)
-				animDraw(stage1)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage1M)
-				animDraw(stage1M)
-			end
-		elseif stageList == 2 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage2)
-				animDraw(stage2)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage2M)
-				animDraw(stage2M)
-			end
-		elseif stageList == 3 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage3)
-				animDraw(stage3)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage3M)
-				animDraw(stage3M)
-			end
-		elseif stageList == 4 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage4)
-				animDraw(stage4)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage4M)
-				animDraw(stage4M)
-			end
-		elseif stageList == 5 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage5)
-				animDraw(stage5)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage5M)
-				animDraw(stage5M)
-			end
-		elseif stageList == 6 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage6)
-				animDraw(stage6)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage6M)
-				animDraw(stage6M)
-			end
-		elseif stageList == 7 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage7)
-				animDraw(stage7)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage7M)
-				animDraw(stage7M)
-			end
-		elseif stageList == 8 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage8)
-				animDraw(stage8)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage8M)
-				animDraw(stage8M)
-			end
-		elseif stageList == 9 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage9)
-				animDraw(stage9)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage9M)
-				animDraw(stage9M)
-			end
-		elseif stageList == 10 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage10)
-				animDraw(stage10)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage10M)
-				animDraw(stage10M)
-			end
-		elseif stageList == 11 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage11)
-				animDraw(stage11)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage11M)
-				animDraw(stage11M)
-			end
-		elseif stageList == 12 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage12)
-				animDraw(stage12)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage12M)
-				animDraw(stage12M)
-			end
-		elseif stageList == 13 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage13)
-				animDraw(stage13)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage13M)
-				animDraw(stage13M)
-			end
-		elseif stageList == 14 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage14)
-				animDraw(stage14)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage14M)
-				animDraw(stage14M)
-			end
-		elseif stageList == 15 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage14)
-				animDraw(stage14)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage14M)
-				animDraw(stage14M)
-			end
-		elseif stageList == 16 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage15)
-				animDraw(stage15)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage15M)
-				animDraw(stage15M)
-			end
-		elseif stageList == 17 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage16)
-				animDraw(stage16)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage16M)
-				animDraw(stage16M)
-			end
-		elseif stageList == 18 then
-			if data.stageType == 'Classic' then
-				animUpdate(stage16)
-				animDraw(stage16)
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage16M)
-				animDraw(stage16M)
-			end
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
 		textImgDraw(txt_selStage)
 		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 			sndPlay(sysSnd, 100, 1)
+			if stageList == 1 then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
+			--elseif stageList == 2 then sndPlay(announcerSnd, 0,1)
+			end
 			if stageList == 0 then
 				stageNo = math.random(1, data.includestage)
 				setStage(stageNo)
@@ -2586,6 +2210,7 @@ function f_selectStage()
 				setStage(stageNo)
 				selectStage(stageNo)
 			end
+			--create a timer to hear full announcer voice
 			stageEnd = true
 			cmdInput()
 		end

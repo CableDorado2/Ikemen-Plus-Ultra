@@ -1,8 +1,0 @@
-[State 0, SelfState]
-type = SelfState
-trigger1 =
-value =
-;anim =
-;ctrl =
-;ignorehitpause = 0
-;persistent = 1

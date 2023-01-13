@@ -36,6 +36,7 @@ contSff = sffNew('data/winmugen/continue.sff') --load continue sprites
 
 --SND (Sound effects do not interrupt music/bgm)
 sysSnd = sndNew('data/winmugen/system.snd')
+announcerSnd = sndNew('data/winmugen/announcer.snd')
 contSnd = sndNew('data/winmugen/continue.snd')
 
 --Fonts

@@ -1,7 +1,0 @@
-[State 0, TargetDrop]
-type = TargetDrop
-trigger1 = 
-excludeID = -1
-keepone = 1
-;ignorehitpause = 
-;persistent = 

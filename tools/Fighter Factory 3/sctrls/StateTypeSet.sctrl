@@ -1,8 +1,0 @@
-[State 0, StateTypeSet]
-type = StateTypeSet
-trigger1 = 
-statetype = A       ;S,A,C,L
-movetype = I        ;I,A,H
-physics = A         ;A,C,S,N
-;ignorehitpause = 
-;persistent = 

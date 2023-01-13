@@ -510,7 +510,7 @@ function f_offlineDefault()
 	resolutionHeight = 480
 	setGameRes(resolutionWidth,resolutionHeight)
 	gl_vol = 100
-	se_vol = 60
+	se_vol = 70
 	bgm_vol = 30
 	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 	pan_str = 80
