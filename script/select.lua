@@ -2125,6 +2125,8 @@ animUpdate(stage0M)
 animSetScale(stage0M, 2.15, 2.15)
 
 function f_selectStage()
+	local bufl = 0
+	local bufr = 0
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 239)
 	elseif data.stageType == 'Modern' then
@@ -2142,28 +2144,72 @@ function f_selectStage()
 		textImgDraw(txt_stageSelect)
 	end
 	if data.stageMenu then
-		if commandGetState(p1Cmd, 'l') then
+		if commandGetState(p1Cmd, 'holds') then
 			sndPlay(sysSnd, 100, 0)
-			stageList = stageList - 1
-			if stageList < 0 then stageList = data.includestage end
-		elseif commandGetState(p1Cmd, 'r') then
-			sndPlay(sysSnd, 100, 0)
-			if stageList == 1 then
-			
+			stageList = stageList + 1
+			if stageList > data.includestage then stageList = 0 end
+		elseif commandGetState(p1Cmd, 'd') then
+			if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
+				sndPlay(sysSnd, 100, 1)
+				stageList = stageList + 1
+			elseif stageList == 2 or stageList == 15 or stageList == 18 then
+				sndPlay(sysSnd, 100, 1)
+				stageList = stageList - 1
+			--for i=1, 5 do --Advance 5 by 5
+				--stageList = stageList - 1
+				--if stageList < 0 then stageList = data.includestage end
+			--end
+			end
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'u') then
+			if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Up Button on StageList Numbered
+				sndPlay(sysSnd, 100, 1)
+				stageList = stageList + 1
+			elseif stageList == 2 or stageList == 15 or stageList == 18 then
+				sndPlay(sysSnd, 100, 1)
+				stageList = stageList - 1
 			else
+			--for i=1, 5 do --Go back 5 by 5
+				--stageList = stageList + 1
+				--if stageList > data.includestage then stageList = 0 end
+			--end
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+			end
+		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+			if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available For Stage 1
+				sndPlay(sysSnd, 100, 0)
+				stageList = stageList + 2
+			elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
+			--elseif stageList == 15 then
+			--elseif stageList == 18 then
+			else --No Alternative Stage Available
+				sndPlay(sysSnd, 100, 0)
 				stageList = stageList + 1
 				if stageList > data.includestage then stageList = 0 end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			for i=1, 5 do --Advance 5 by 5
+			end
+		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			if stageList == 3 or stageList == 16 or stageList == 19 then --Alternative Stage Available For Stage 1
+				sndPlay(sysSnd, 100, 0)
+				stageList = stageList - 2
+			elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
+			--elseif stageList == 15 then
+			--elseif stageList == 18 then
+			else --No Alternative Stage Available
+				sndPlay(sysSnd, 100, 0)
 				stageList = stageList - 1
 				if stageList < 0 then stageList = data.includestage end
 			end
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			for i=1, 5 do --Go back 5 by 5
-				stageList = stageList + 1
-				if stageList > data.includestage then stageList = 0 end
+		if commandGetState(p1Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufr = 0
+			bufl = 0
 			end
 		end		
 		animSetWindow(selectBG1a, 0, 0, 0, 0)
@@ -2195,7 +2241,7 @@ function f_selectStage()
 			end
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
-		textImgDraw(txt_selStage)
+		textImgDraw(txt_selStage)		
 		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 			sndPlay(sysSnd, 100, 1)
 			if stageList == 1 then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example

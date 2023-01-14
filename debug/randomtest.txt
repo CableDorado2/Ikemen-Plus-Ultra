@@ -1,0 +1,22 @@
+Rank: 0 
+chars/rugal bernstein/rugal bernstein.def
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+chars/suave dude/suave dude.def
+chars/ken masters/ken masters.def
+chars/ryu/ryu.def
+chars/kung fu girl/kung fu girl.def
+randomselect
+chars/iori yagami/iori yagami.def
+randomselect
+chars/m. bison/m. bison.def
+chars/kyo kusanagi/kyo kusanagi.def
+randomselect
+chars/kung fu man/kung fu man.def
