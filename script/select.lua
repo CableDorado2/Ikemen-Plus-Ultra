@@ -279,7 +279,7 @@ function f_makeRoster()
 			end
 		end
 	end
-	f_printTable(t_roster, 'debug/t_roster.txt')
+	f_printTable(t_roster, 'saved/debug/t_roster.txt')
 end
 
 function f_aiRamp()
@@ -329,7 +329,7 @@ function f_aiRamp()
 			t_aiRamp[#t_aiRamp+1] = endAI
 		end
 	end
-	f_printTable(t_aiRamp, 'debug/t_aiRamp.txt')
+	f_printTable(t_aiRamp, 'saved/debug/t_aiRamp.txt')
 end
 
 function f_difficulty(player, offset)
@@ -3287,14 +3287,14 @@ function f_winParse(winner, looser, pal)
 		end
 		quote = tostring(quote) --quotes table keys are strings
 		if winner.quotes[quote] ~= nil then
-			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: yes', 'debug/quotes.log')
+			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: yes', 'saved/debug/quotes.log')
 			return winner.quotes[quote]
 		else
-			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: no', 'debug/quotes.log')
+			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: no', 'saved/debug/quotes.log')
 			return ''
 		end
 	else
-		f_printVar(logVar .. '0 triggers found\n0 quotes found\n\nquote: -1\nexists: no', 'debug/quotes.log')
+		f_printVar(logVar .. '0 triggers found\n0 quotes found\n\nquote: -1\nexists: no', 'saved/debug/quotes.log')
 		return ''
 	end
 end

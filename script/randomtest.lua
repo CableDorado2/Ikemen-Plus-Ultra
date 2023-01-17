@@ -85,7 +85,7 @@ function eachAllChars(f)
 end
 
 function rakuBenry()
-  local alf = 'debug/autolevel.txt'
+  local alf = 'saved/debug/autolevel.txt'
   local veljnz = {}
   local winct = {}
   local buf = '\239\187\191'
@@ -244,7 +244,7 @@ function rosterTxt()
   for i = 1, #roster do
     str = str .. '\n' .. getCharFileName(roster[i])
   end
-  dscr = io.open('debug/randomtest.txt', 'w')
+  dscr = io.open('saved/debug/randomtest.txt', 'w')
   dscr:write(str)
   io.close(dscr)
 end

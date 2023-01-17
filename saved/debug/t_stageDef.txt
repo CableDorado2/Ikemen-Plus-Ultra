@@ -1,0 +1,20 @@
+table: 0C4C7448 {
+  [stages/hd test/nyc alley.def] => 12
+  [stages/hd test/australian outback.def] => 13
+  [stages/new york.def] => 7
+  [stages/suzaku castle.def] => 5
+  [stages/hd test/training room(scale).def] => 18
+  [stages/boat.def] => 6
+  [stages/china.def] => 10
+  [stages/hd test/fairy day 16_9.def] => 15
+  [stages/way out.def] => 11
+  [stages/mountainside temple - hidden path.def] => 4
+  [stages/training room.def] => 1
+  [stages/training room 2.def] => 2
+  [stages/control center.def] => 9
+  [stages/hd test/training room.def] => 17
+  [stages/mountainside temple.def] => 3
+  [stages/hd test/aensland castle.def] => 16
+  [stages/hd test/fairy day 4_3.def] => 14
+  [stages/jet.def] => 8
+}

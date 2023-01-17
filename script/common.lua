@@ -162,7 +162,7 @@ end
 
 --prints "t" table content into "toFile" file
 function f_printTable(t, toFile)
-	local toFile = toFile or 'debug/table_print.txt'
+	local toFile = toFile or 'saved/debug/table_print.txt'
 	local txt = ''
 	local print_t_cache = {}
 	local function sub_print_t(t, indent)
@@ -202,7 +202,7 @@ end
 
 --prints "v" variable into "toFile" file
 function f_printVar(v, toFile)
-	local toFile = toFile or 'debug/var_print.txt'
+	local toFile = toFile or 'saved/debug/var_print.txt'
 	local file = io.open(toFile,"w+")
 	file:write(v)
 	file:close()

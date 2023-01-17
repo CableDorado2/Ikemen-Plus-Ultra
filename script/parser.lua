@@ -672,15 +672,15 @@ if generate and data.sffConversion then
 	end
 end
 
-f_printTable(t_selChars, "debug/t_selChars.txt")
-f_printTable(t_selStages, "debug/t_selStages.txt")
-f_printTable(t_selOptions, "debug/t_selOptions.txt")
-f_printTable(t_orderChars, "debug/t_orderChars.txt")
-f_printTable(t_randomChars, "debug/t_randomChars.txt")
-f_printTable(t_bossChars, "debug/t_bossChars.txt")
-f_printTable(t_bonusChars, "debug/t_bonusChars.txt")
-f_printTable(t_stageDef, "debug/t_stageDef.txt")
-f_printTable(t_charAdd, "debug/t_charAdd.txt")
+f_printTable(t_selChars, "saved/debug/t_selChars.txt")
+f_printTable(t_selStages, "saved/debug/t_selStages.txt")
+f_printTable(t_selOptions, "saved/debug/t_selOptions.txt")
+f_printTable(t_orderChars, "saved/debug/t_orderChars.txt")
+f_printTable(t_randomChars, "saved/debug/t_randomChars.txt")
+f_printTable(t_bossChars, "saved/debug/t_bossChars.txt")
+f_printTable(t_bonusChars, "saved/debug/t_bonusChars.txt")
+f_printTable(t_stageDef, "saved/debug/t_stageDef.txt")
+f_printTable(t_charAdd, "saved/debug/t_charAdd.txt")
 
 t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error
 local endFor = #t_bossChars+1

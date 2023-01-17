@@ -82,7 +82,7 @@ function f_storyboard(path)
 		end
 	end
 	file:close()
-	--f_printTable(t, 'debug/t_' .. fileName)
+	--f_printTable(t, 'saved/debug/t_' .. fileName)
 	f_storyboardPlay(t)
 	return
 end
@@ -535,7 +535,7 @@ function f_storyboardPlay(tIn)
 	tOut['ctrldef'] = {}
 	tOut.ctrldef = tIn.ctrldef
 	--Actual storyboard loop
-	f_printTable(tOut, 'debug/t_storyboard.txt')
+	f_printTable(tOut, 'saved/debug/t_storyboard.txt')
 	local velX = 0
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
