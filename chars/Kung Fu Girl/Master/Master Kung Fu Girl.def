@@ -61,7 +61,3 @@ pal9 = pal/MAMAMA/03_Sayaka.act
 pal10 = pal/MAMAMA/04_Mami.act
 pal11 = pal/MAMAMA/05_Kyoko.act
 pal12 = pal/MAMAMA/06_Kyubey.act
-
-[Arcade]
-intro.storyboard = ..\../storyboards/Kung Fu Girl [Intro].def
-ending.storyboard = ..\../storyboards/Kung Fu Girl [Ending].def
