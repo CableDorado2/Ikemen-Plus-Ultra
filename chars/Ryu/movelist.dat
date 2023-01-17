@@ -26,10 +26,11 @@
 (REM) Shoryuken_EX					_F_D_F^P
 (REM) Tatsumaki Senpukyaku_EX		(air also)_D_B^K
 
-(EM) Shakunetsu Hadoken				_F_D_B^P
+(EM) Shakunetsu Hadoken_EX			_F_D_B^P
 (EM) Ryusokyaku_EX					_D_F^K
 (EM) Ashura Senku					[_F_D_F/_B_D_B][^3P/^3K]
 (RM) Hado no Kamae					_D_F^S
+(RM) Denjin Renki					_D_D^P
 
 (R) Jodan Sokuto Geri_EX			_D_F^K
 (M) Jodan Sokuto Geri_EX			_B_D_F^K

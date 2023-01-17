@@ -4795,6 +4795,7 @@ attr = S, HP
 animtype = Hard
 damage = 160,10
 hitflag = MAF
+guardflag = M
 hitsound = s1,15
 guard.sparkno = s30040
 pausetime = 0,8
@@ -7868,7 +7869,7 @@ trigger1 = Vel Y > 0 && Pos Y >= 0
 value = 5100
 
 ;---------------------------------------------------------------------------
-; — Q•SE˜Z®Eæ·‰Ø(’Ç‚¢“¢‚¿ver)w‹Ux
+; — Q•SE˜Z®Eæ·‰Ø(’Ç‚¢“¢‚¿ver)w‹Ux
 
 [Statedef 2700]
 type     = S
@@ -8274,7 +8275,7 @@ value = 5100
 
 
 ;---------------------------------------------------------------------------
-; — Q•SE˜Z®Eæ·‰Ø(’Ç‚¢“¢‚¿ver)w^x
+; — Q•SE˜Z®Eæ·‰Ø(’Ç‚¢“¢‚¿ver)w^x
 
 [Statedef 2750]
 type     = S

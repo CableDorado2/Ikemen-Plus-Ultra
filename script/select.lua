@@ -2149,58 +2149,57 @@ function f_selectStage()
 			stageList = stageList + 1
 			if stageList > data.includestage then stageList = 0 end
 		elseif commandGetState(p1Cmd, 'd') then
-			if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
-				sndPlay(sysSnd, 100, 1)
-				stageList = stageList + 1
-			elseif stageList == 2 or stageList == 15 or stageList == 18 then
-				sndPlay(sysSnd, 100, 1)
-				stageList = stageList - 1
-			--for i=1, 5 do --Advance 5 by 5
+			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
+				--sndPlay(sysSnd, 100, 1)
+				--stageList = stageList + 1
+			--elseif stageList == 2 or stageList == 15 or stageList == 18 then
+				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList - 1
-				--if stageList < 0 then stageList = data.includestage end
 			--end
+			sndPlay(sysSnd, 100, 1)
+			for i=1, 5 do --Go back 5 by 5
+				stageList = stageList - 1
+				if stageList < 0 then stageList = data.includestage end
 			end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'u') then
-			if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Up Button on StageList Numbered
-				sndPlay(sysSnd, 100, 1)
-				stageList = stageList + 1
-			elseif stageList == 2 or stageList == 15 or stageList == 18 then
-				sndPlay(sysSnd, 100, 1)
-				stageList = stageList - 1
-			else
-			--for i=1, 5 do --Go back 5 by 5
+			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Up Button on StageList Numbered
+				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList + 1
-				--if stageList > data.includestage then stageList = 0 end
+			--elseif stageList == 2 or stageList == 15 or stageList == 18 then
+				--sndPlay(sysSnd, 100, 1)
+				--stageList = stageList - 1
+			--else
+			
 			--end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-			end
-		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-			if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available For Stage 1
-				sndPlay(sysSnd, 100, 0)
-				stageList = stageList + 2
-			elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
-			--elseif stageList == 15 then
-			--elseif stageList == 18 then
-			else --No Alternative Stage Available
-				sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 1)
+			for i=1, 5 do --Advance 5 by 5
 				stageList = stageList + 1
 				if stageList > data.includestage then stageList = 0 end
 			end
-		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-			if stageList == 3 or stageList == 16 or stageList == 19 then --Alternative Stage Available For Stage 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available For Stage 1
+				--sndPlay(sysSnd, 100, 0)
+				--stageList = stageList + 2
+			--elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
+			--else --No Alternative Stage Available
 				sndPlay(sysSnd, 100, 0)
-				stageList = stageList - 2
-			elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
-			--elseif stageList == 15 then
-			--elseif stageList == 18 then
-			else --No Alternative Stage Available
+				stageList = stageList + 1
+				if stageList > data.includestage then stageList = 0 end
+			--end
+		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			--if stageList == 3 or stageList == 16 or stageList == 19 then --Alternative Stage Available For Stage 1
+				--sndPlay(sysSnd, 100, 0)
+				--stageList = stageList - 2
+			--elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
+			--else --No Alternative Stage Available
 				sndPlay(sysSnd, 100, 0)
 				stageList = stageList - 1
 				if stageList < 0 then stageList = data.includestage end
-			end
+			--end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
