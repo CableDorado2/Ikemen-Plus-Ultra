@@ -1,5 +1,5 @@
-data = require('script.data')
-assert(loadfile('script/data_sav.lua'))() --For load options like screenshot sfx, etc
+data = require('saved.data')
+assert(loadfile('saved/data_sav.lua'))() --For load options like screenshot sfx, etc
 
 package.path = package.path..';./lib/ltn12.lua'
 ltn12 = require('ltn12')
@@ -145,7 +145,7 @@ function status(p)
 end
 
 function takeScreenshotVS()
-	sysSnd = sndNew('data/winmugen/system.snd')
+	sysSnd = sndNew('data/screenpack/winmugen/system.snd')
 	if data.screenshotSnd == 1 then
 		sndPlay(sysSnd, 22, 0)
 	elseif data.screenshotSnd == 2 then
@@ -160,6 +160,6 @@ function takeScreenshotVS()
 	ltn12.pump.all(
 	--(echo nircmd savescreenshotwin "..\screenshots\Screenshot.dat" ^| del x.vbs x.bat)>x.bat   Backup Bat Code
 	ltn12.source.file(assert(io.open("tools/screenshot.dat", "rb"))),
-	ltn12.sink.file(assert(io.open("screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
+	ltn12.sink.file(assert(io.open("saved/screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
 	)
 end

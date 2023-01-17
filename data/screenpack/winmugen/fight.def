@@ -17,12 +17,12 @@
 [Files]
 sff = fight.sff
 snd = fight.snd
-font1 = font/jg.fnt
-font2 = font/num1.fnt
-font3 = font/name1.fnt
-font4 = font/sfz2a_system.fnt
-font5 = font/MvcName.fnt
-font6 = font/score1.fnt
+font1 = data/font/jg.fnt
+font2 = data/font/num1.fnt
+font3 = data/font/name1.fnt
+font4 = data/font/sfz2a_system.fnt
+font5 = data/font/MvcName.fnt
+font6 = data/font/score1.fnt
 fightfx.sff = fightfx.sff
 fightfx.air = fightfx.air
 common.snd = common.snd
@@ -992,7 +992,7 @@ demo.text.text = Demo Mode
 ;            text = text
 ;    This lets you set the font (and optionally the content
 ;    text). fontno is the number of the font defined under
-;    [Files]. For instance, for the line "font2 = font/num1.fnt",
+;    [Files]. For instance, for the line "font2 = data/font/num1.fnt",
 ;    the fontno is 2.
 ;    fontbank is the color bank of the font to use. Refer to
 ;    the font for what color banks it has.

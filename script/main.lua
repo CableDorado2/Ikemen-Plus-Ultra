@@ -11,63 +11,63 @@ ltn12 = require('ltn12')
 --dkjson = require('dkjson')
 
 --Create global space (accessing variables between modules)
-data = require('script.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
+data = require('saved.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
 
 --Load saved variables
-assert(loadfile('script/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile('script/stats_sav.lua'))()
+assert(loadfile('saved/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
+assert(loadfile('saved/stats_sav.lua'))()
 
 --;===========================================================
 --; SCREENPACK DEFINITION
 --;===========================================================
 --Assign Lifebar
-loadLifebar(data.lifebar) --path to lifebar stored in 'script/data_sav.lua', also adjustable from options
+loadLifebar(data.lifebar) --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
 
 --Debug stuff
-loadDebugFont('font/14x14.fnt')
+loadDebugFont('data/font/14x14.fnt')
 setDebugScript('script/debug.lua')	
 
 --SFF
-sysSff = sffNew('data/winmugen/system.sff') --load screenpack/menu sprites
-fadeSff = sffNew('data/winmugen/fade.sff') --load fade sprites
-stageSff = sffNew('data/winmugen/stages.sff') --load stages menu sprites
-missionSff = sffNew('data/winmugen/missions.sff') --load missions menu sprites
-contSff = sffNew('data/winmugen/continue.sff') --load continue sprites
+fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
+missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
+stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended: 1280x720)
+sysSff = sffNew('data/screenpack/winmugen/system.sff') --load screenpack/menu sprites
+contSff = sffNew('data/screenpack/winmugen/continue.sff') --load continue sprites
 
 --SND (Sound effects do not interrupt music/bgm)
-sysSnd = sndNew('data/winmugen/system.snd')
-announcerSnd = sndNew('data/winmugen/announcer.snd')
-contSnd = sndNew('data/winmugen/continue.snd')
+sysSnd = sndNew('data/screenpack/winmugen/system.snd')
+announcerSnd = sndNew('data/screenpack/winmugen/announcer.snd')
+contSnd = sndNew('data/screenpack/winmugen/continue.snd')
 
 --Fonts
-padFnt = fontNew('font/f-pad.fnt')
-survBarsFnt = fontNew('font/survival_bars.fnt')
-survNumFnt = fontNew('font/survival_nums.fnt')
-jgFnt = fontNew('font/JG.fnt')
-font1 = fontNew('font/f-4x6.fnt')
-font2 = fontNew('font/f-6x9.fnt')
-font3 = fontNew('font/14x14.fnt')
-font4 = fontNew('font/18x18.fnt')
-font5 = fontNew('font/Qoh_small.fnt')
-font6 = fontNew('font/QOH_BIG.fnt')
-font7 = fontNew('font/f-6x8f.fnt')
-font8 = fontNew('font/f-6x9f.fnt')
-font9 = fontNew('font/font3.fnt')
-font10 = fontNew('font/font4.fnt')
-font11 = fontNew('font/font5.fnt')
-font12 = fontNew('font/score1.fnt')
-font13 = fontNew('font/kof99.fnt')
-font14 = fontNew('font/MvcName.fnt')
-font15 = fontNew('font/name1.fnt')
-font16 = fontNew('font/num1.fnt')
-font17 = fontNew('font/sf2_name.fnt')
-font18 = fontNew('font/sf2_small.fnt')
-font19 = fontNew('font/sf2_sys.fnt')
-font20 = fontNew('font/sfz2a_system.fnt')
-font21 = fontNew('font/ssf2x_10.fnt')
-font22 = fontNew('font/ssf2x_s.fnt')
-font23 = fontNew('font/ssf2x_sL.fnt')
-font24 = fontNew('font/ssf2x_vL.fnt')
+padFnt = fontNew('data/font/f-pad.fnt')
+survBarsFnt = fontNew('data/font/survival_bars.fnt')
+survNumFnt = fontNew('data/font/survival_nums.fnt')
+jgFnt = fontNew('data/font/JG.fnt')
+font1 = fontNew('data/font/f-4x6.fnt')
+font2 = fontNew('data/font/f-6x9.fnt')
+font3 = fontNew('data/font/14x14.fnt')
+font4 = fontNew('data/font/18x18.fnt')
+font5 = fontNew('data/font/Qoh_small.fnt')
+font6 = fontNew('data/font/QOH_BIG.fnt')
+font7 = fontNew('data/font/f-6x8f.fnt')
+font8 = fontNew('data/font/f-6x9f.fnt')
+font9 = fontNew('data/font/font3.fnt')
+font10 = fontNew('data/font/font4.fnt')
+font11 = fontNew('data/font/font5.fnt')
+font12 = fontNew('data/font/score1.fnt')
+font13 = fontNew('data/font/kof99.fnt')
+font14 = fontNew('data/font/MvcName.fnt')
+font15 = fontNew('data/font/name1.fnt')
+font16 = fontNew('data/font/num1.fnt')
+font17 = fontNew('data/font/sf2_name.fnt')
+font18 = fontNew('data/font/sf2_small.fnt')
+font19 = fontNew('data/font/sf2_sys.fnt')
+font20 = fontNew('data/font/sfz2a_system.fnt')
+font21 = fontNew('data/font/ssf2x_10.fnt')
+font22 = fontNew('data/font/ssf2x_s.fnt')
+font23 = fontNew('data/font/ssf2x_sL.fnt')
+font24 = fontNew('data/font/ssf2x_vL.fnt')
 
 --Music
 bgmNothing = 'Nothing.mp3'
@@ -402,7 +402,7 @@ end
 --; LOAD UNLOCKED CONTENT
 --;===========================================================
 --Data loading from stats_sav.lua
-local file = io.open("script/stats_sav.lua","r")
+local file = io.open("saved/stats_sav.lua","r")
 s_dataLUA = file:read("*all")
 file:close()
 
@@ -420,7 +420,7 @@ function f_saveUnlockData()
 		['data.mission6Status'] = data.mission6Status
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_savesUnlock)
-	local file = io.open("script/stats_sav.lua","w+")
+	local file = io.open("saved/stats_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
 end
@@ -429,8 +429,8 @@ end
 --; LOGOS LOOP
 --;===========================================================
 function f_mainStart()
-	script.storyboard.f_storyboard('data/winmugen/logo.def')
-	script.storyboard.f_storyboard('data/winmugen/intro.def')
+	script.storyboard.f_storyboard('data/screenpack/logo.def')
+	script.storyboard.f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--f_howtoplay()
 	f_mainTitle()
@@ -603,7 +603,7 @@ function f_mainMenu()
 			--EXTRAS
 			elseif mainMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
-				assert(loadfile('script/stats_sav.lua'))()
+				assert(loadfile('saved/stats_sav.lua'))()
 				if data.arcadeUnlocks == true then
 					f_extrasMenu()
 				else
@@ -613,7 +613,7 @@ function f_mainMenu()
 			elseif mainMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
 				onlinegame = false --only for identify purposes
-				assert(loadfile('script/data_sav.lua'))()
+				assert(loadfile('saved/data_sav.lua'))()
 				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 			--EXIT
 			elseif mainMenu == 9 then
@@ -2416,7 +2416,7 @@ function f_watchMenu()
 			--SCREENSHOTS
 			elseif watchMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				sszOpen("screenshots", "") --added via script.ssz
+				sszOpen("saved/screenshots", "") --added via script.ssz
 			--STATISTICS
 			elseif watchMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
@@ -2439,7 +2439,7 @@ function f_watchMenu()
 				local cursorPosY = 0
 				local moveTxt = 0
 				local playCredits = 1
-				script.storyboard.f_storyboard('data/winmugen/credits.def')
+				script.storyboard.f_storyboard('data/screenpack/credits.def')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				while true do
@@ -2947,7 +2947,7 @@ function f_mainReplay()
 	netPlayer = 'Host'
 	coinSystem = false
 	t_replayList = {}
-	for file in lfs.dir[[.\\replays\\Saved\\]] do --Read Dir
+	for file in lfs.dir[[.\\saved\\replays\\]] do --Read Dir
 		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then --Filtrar archivos
 			row = #t_replayList+1
 			t_replayList[row] = {}
@@ -2962,7 +2962,7 @@ function f_mainReplay()
 		if esc() then
 			onlinegame = false --only for identify purposes
 			coinSystem = true --only for identify purposes
-			assert(loadfile('script/data_sav.lua'))()
+			assert(loadfile('saved/data_sav.lua'))()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -2976,7 +2976,7 @@ function f_mainReplay()
 			if mainReplay == #t_replayList then
 				onlinegame = false --only for identify purposes
 				coinSystem = true --only for identify purposes
-				assert(loadfile('script/data_sav.lua'))()
+				assert(loadfile('saved/data_sav.lua'))()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -2987,7 +2987,7 @@ function f_mainReplay()
 				--Set Default values to prevent desync.
 				script.options.f_onlineDefault()
 				script.options.f_netsaveCfg()
-				enterReplay('replays/Saved/' .. t_replayList[mainReplay].replay .. '.replay')
+				enterReplay('saved/replays/' .. t_replayList[mainReplay].replay .. '.replay')
 				synchronize()
 				math.randomseed(sszRandom())
 				script.options.f_onlineCfg()
@@ -3073,7 +3073,7 @@ function f_mainNetplay()
 	while true do
 		if esc() then
 			onlinegame = false --only for identify purposes
-			assert(loadfile('script/data_sav.lua'))()
+			assert(loadfile('saved/data_sav.lua'))()
 			sndPlay(sysSnd, 100, 2)
 			return
 		end
@@ -3123,8 +3123,8 @@ function f_mainNetplay()
 				exitReplay()
 				commandBufReset(p1Cmd, 1)
 				ltn12.pump.all(
-				  ltn12.source.file(assert(io.open("replays/data.replay", "rb"))),
-				  ltn12.sink.file(assert(io.open("replays/Saved/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+				  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+				  ltn12.sink.file(assert(io.open("saved/replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 				)
 			--CLIENT/JOIN
 			elseif mainNetplay == 2 then
@@ -3143,14 +3143,14 @@ function f_mainNetplay()
 				exitReplay()
 				commandBufReset(p1Cmd, 1)
 				ltn12.pump.all(
-				  ltn12.source.file(assert(io.open("replays/data.replay", "rb"))),
-				  ltn12.sink.file(assert(io.open("replays/Saved/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+				  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+				  ltn12.sink.file(assert(io.open("saved/replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 				)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				onlinegame = false --only for identify purposes
-				assert(loadfile('script/data_sav.lua'))()
+				assert(loadfile('saved/data_sav.lua'))()
 				break
 			end	
 		end

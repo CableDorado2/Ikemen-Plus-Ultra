@@ -29,7 +29,7 @@ for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
 end
 
-function f_missionPreview()
+function f_missionPreview() --Based on stage preview code
 	missionPreview = ''
 	missionPreview = '0,' .. missionList-1 .. ', 0,0, 0'
 	missionPreview = animNew(missionSff, missionPreview)
@@ -40,59 +40,12 @@ function f_missionPreview()
 	return missionPreview
 end
 
---Mission 1
-mission1 = animNew(missionSff, [[
-0,0, 0,0,
-]])
-animAddPos(mission1, 50, 21)
-animUpdate(mission1)
-animSetScale(mission1, 0.4, 0.25)
-
---Mission 2
-mission2 = animNew(missionSff, [[
-0,1, 0,0,
-]])
-animAddPos(mission2, 50, 21)
-animUpdate(mission2)
-animSetScale(mission2, 0.4, 0.25)
-
---Mission 3
-mission3 = animNew(missionSff, [[
-0,2, 0,0,
-]])
-animAddPos(mission3, 50, 21)
-animUpdate(mission3)
-animSetScale(mission3, 0.4, 0.25)
-
---Mission 4
-mission4 = animNew(missionSff, [[
-0,3, 0,0,
-]])
-animAddPos(mission4, 50, 21)
-animUpdate(mission4)
-animSetScale(mission4, 0.4, 0.25)
-
---Mission 5
-mission5 = animNew(missionSff, [[
-0,4, 0,0,
-]])
-animAddPos(mission5, 50, 21)
-animUpdate(mission5)
-animSetScale(mission5, 0.4, 0.25)
-
---Mission 6
-mission6 = animNew(missionSff, [[
-0,5, 0,0,
-]])
-animAddPos(mission6, 50, 21)
-animUpdate(mission6)
-animSetScale(mission6, 0.4, 0.25)
-
 function f_missionMenu()
 	cmdInput()
 	local missionMenu = 1	
 	local cursorPosY = 0
 	local moveTxt = 0
+	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 	--Missions Status Logic
@@ -260,42 +213,31 @@ function f_missionMenu()
 		animSetWindow(missionBG1, 0,5, 320,110)
 		animDraw(f_animVelocity(missionBG1, -1, -1))
 		textImgDraw(txt_missionMenu)
-		f_missionPreview()
+		missionList = missionMenu --Uses menu position to show image in these order
+		f_missionPreview() --Show mission image preview
 		if missionMenu == 1 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[1].id)
-				--animUpdate(mission1)
-				--animDraw(mission1)
 			end
 		elseif missionMenu == 2 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[2].id)
-				animUpdate(mission2)
-				animDraw(mission2)
 			end
 		elseif missionMenu == 3 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[3].id)
-				animUpdate(mission3)
-				animDraw(mission3)
 			end
 		elseif missionMenu == 4 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[4].id)
-				animUpdate(mission4)
-				animDraw(mission4)
 			end
 		elseif missionMenu == 5 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[5].id)
-				animUpdate(mission5)
-				animDraw(mission5)
 			end
 		elseif missionMenu == 6 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[6].id)
-				animUpdate(mission6)
-				animDraw(mission6)
 			end
 		end	
 		t_missionMenu[1].varText = mission1Progress

@@ -428,7 +428,7 @@ void enterNetPlay(&.lua.State L=, int re=)
   }
   .chr.chars.new(#.chr.chars);
   .cmd.net.new(1);
-  .cmd.net~openReplayFile("replays/data.replay");
+  .cmd.net~openReplayFile("saved/data.replay");
   branch{
   cond #host > 0:
     .cmd.net~connect(host, .listenPort);

@@ -371,7 +371,7 @@ end
 --Screenshot function
 --addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
 --function takeScreenshotVS()
-	--sysSnd = sndNew('data/system.snd')
+	--sysSnd = sndNew('data/screenpack/winmugen/system.snd')
 	--if data.screenshotSnd == 1 then
 		--sndPlay(sysSnd, 22, 0)
 	--elseif data.screenshotSnd == 2 then

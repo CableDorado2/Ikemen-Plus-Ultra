@@ -611,11 +611,11 @@ if generate and data.sffConversion then
 	end
 	if parserCfg == 3 then
 		data.sffConversion = false
-		local file = io.open("script/data_sav.lua","r")
+		local file = io.open("saved/data_sav.lua","r")
 		local str = file:read("*all")
 		file:close()
 		str = str:gsub('data.sffConversion%s*=%s*[^\n]+', 'data.sffConversion = false')
-		file = io.open("script/data_sav.lua","w+")
+		file = io.open("saved/data_sav.lua","w+")
 		file:write(str)
 		file:close()
 	elseif parserCfg == 1 then

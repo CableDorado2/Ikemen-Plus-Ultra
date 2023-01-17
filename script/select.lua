@@ -800,21 +800,21 @@ function f_selectAdvance()
 					--complete missions verification
 					f_missionStatus()
 					--credits
-					script.storyboard.f_storyboard('data/winmugen/credits.def')
+					script.storyboard.f_storyboard('data/screenpack/credits.def')
 					--unlocks
 					data.arcadeUnlocks = true --Unlock Extras Menu when complete Arcade Mode
 					f_saveUnlockData()
 					--game over
-					script.storyboard.f_storyboard('data/winmugen/gameover.def')
+					script.storyboard.f_storyboard('data/screenpack/gameover.def')
 					--intro
-					script.storyboard.f_storyboard('data/winmugen/intro.def')
+					script.storyboard.f_storyboard('data/screenpack/intro.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					f_menuMusic()
 					return
 				else
 					--game over
-					script.storyboard.f_storyboard('data/winmugen/gameover.def')
+					script.storyboard.f_storyboard('data/screenpack/gameover.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					f_menuMusic()
@@ -839,7 +839,7 @@ function f_selectAdvance()
 			--game over
 			f_gameOver()
 			--intro
-			--script.storyboard.f_storyboard('data/winmugen/intro.def')
+			--script.storyboard.f_storyboard('data/screenpack/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			f_menuMusic()
@@ -856,7 +856,7 @@ function f_selectAdvance()
 			f_continue()
 			if data.continue == 2 then --Continue = NO
 				--intro
-				--script.storyboard.f_storyboard('data/winmugen/intro.def')
+				--script.storyboard.f_storyboard('data/screenpack/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				f_menuMusic()
@@ -2942,7 +2942,7 @@ function f_missionStatus()
 		data.mission6Status = 100
 		f_saveUnlockData()
 	end
-	assert(loadfile('script/stats_sav.lua'))()
+	assert(loadfile('saved/stats_sav.lua'))()
 end
 
 function f_winCoins()
