@@ -135,7 +135,7 @@ function f_challengerMusic()
 end		
 
 --Video
---videoHowToPlay = "video/How To Play.wmv"
+--videoHowToPlay = "data/movie/How To Play.wmv"
 
 --Load Common stuff
 require('script.common')
@@ -2731,7 +2731,7 @@ function f_videoMenu()
 	local moveTxt = 0
 	local videoMenu = 1
 	t_videoList = {}
-	for file in lfs.dir[[.\\video\\]] do --Read Dir
+	for file in lfs.dir[[.\\data\\movie\\]] do --Read Dir
 		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos
 			row = #t_videoList+1
 			t_videoList[row] = {}
@@ -2760,7 +2760,7 @@ function f_videoMenu()
 				break
 			else
 				--Play Video
-				playVideo('video/' .. t_videoList[videoMenu].replay .. '.wmv')
+				playVideo('data/movie/' .. t_videoList[videoMenu].replay .. '.wmv')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 			end
@@ -2831,7 +2831,7 @@ function f_storyboardMenu()
 	local moveTxt = 0
 	local storyboardMenu = 1
 	t_storyboardList = {}
-	for file in lfs.dir[[.\\storyboards\\]] do --Read Dir
+	for file in lfs.dir[[.\\data\\storyboards\\]] do --Read Dir
 		if file:match('^.*(%.)def$') or file:match('^.*(%.)DEF$') then --Filtrar archivos
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
@@ -2860,7 +2860,7 @@ function f_storyboardMenu()
 				break
 			else
 				--Play Storyboard
-				storyboardFile = ('storyboards/' .. t_storyboardList[storyboardMenu].replay .. '.def')
+				storyboardFile = ('data/storyboards/' .. t_storyboardList[storyboardMenu].replay .. '.def')
 				cmdInput()
 				script.storyboard.f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
