@@ -30,7 +30,8 @@ setDebugScript('script/debug.lua')
 --SFF
 fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
 missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
-stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended: 1280x720)
+gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
+stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
 sysSff = sffNew('data/screenpack/winmugen/system.sff') --load screenpack/menu sprites
 contSff = sffNew('data/screenpack/winmugen/continue.sff') --load continue sprites
 
@@ -2324,13 +2325,11 @@ end
 --;===========================================================
 t_watchMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
-	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'CUTSCENES'},
 	{id = textImgNew(), text = 'SCREENSHOTS'},
 	{id = textImgNew(), text = 'STATISTICS'},
 	{id = textImgNew(), text = 'CPU MATCH'},
-	--{id = textImgNew(), text = 'GALLERY'},
 	{id = textImgNew(), text = 'CREDITS'},
 	{id = textImgNew(), text = 'BACK'},
 }	
@@ -2390,39 +2389,24 @@ function f_watchMenu()
 				else
 					f_mainReplay()
 				end
-			--STAGE VIEWER
-			elseif watchMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1) --round time disabled
-				data.p2In = 2
-				data.stageMenu = true
-				data.versusScreen = false --versus screen disabled
-				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
-				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
-				data.gameMode = 'stage viewer'
-				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
-				script.select.f_selectSimple()
 			--STORYBOARDS
-			elseif watchMenu == 3 then
+			elseif watchMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_storyboardMenu()
 			--CUTSCENES
-			elseif watchMenu == 4 then
+			elseif watchMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_videoMenu()
 			--SCREENSHOTS
-			elseif watchMenu == 5 then
+			elseif watchMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				sszOpen("saved/screenshots", "") --added via script.ssz
 			--STATISTICS
-			elseif watchMenu == 6 then
+			elseif watchMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_statisticsMenu()
 			--CPU MATCH
-			elseif watchMenu == 7 then
+			elseif watchMenu == 6 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
@@ -2433,7 +2417,7 @@ function f_watchMenu()
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
 			--CREDITS
-			elseif watchMenu == 8 then
+			elseif watchMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0
@@ -2496,11 +2480,27 @@ function f_watchMenu()
 end
 
 --;===========================================================
+--; GALLERY LOGIC
+--;===========================================================
+function f_gallery() --Based on stage preview code
+	gallery = ''
+	gallery = '0,' .. galleryList-1 .. ', 0,0, 0'
+	gallery = animNew(gallerySff, gallery)
+	animSetScale(gallery, 0.32, 0.32)
+	animSetPos(gallery, 160, 120)
+	animUpdate(gallery)
+	animDraw(gallery)
+	return gallery
+end
+
+--;===========================================================
 --; EXTRAS MENU LOOP
 --;===========================================================
 t_extrasMenu = {
+	{id = textImgNew(), text = 'GALLERY'},
 	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'MISSIONS'},
+	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'TIME TRIAL'},
 	{id = textImgNew(), text = 'TOURNAMENT'},
 	{id = textImgNew(), text = 'SOUND TEST'},
@@ -2545,25 +2545,66 @@ function f_extrasMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--ENDLESS MODE
+			--GALLERY
 			if extrasMenu == 1 then
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				local moveArt = 1 --Start in image 0,0
+				galleryList = 0 --Important to avoid errors when read
+				cmdInput()
+				while true do
+					if esc() then
+						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 2)
+						break				
+					elseif commandGetState(p1Cmd, 'r') or btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 0)
+						moveArt = moveArt + 1
+					elseif commandGetState(p1Cmd, 'l') and moveArt > 1 then --Keep in image 0,0 when press left until finish
+						sndPlay(sysSnd, 100, 0)
+						moveArt = moveArt - 1
+					end
+					galleryList = moveArt --Uses menu position to show image in these order
+					f_gallery()
+					animDraw(data.fadeTitle)
+					animUpdate(data.fadeTitle)
+					cmdInput()
+					refresh()
+				end
+			--ENDLESS MODE
+			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_allcharsMenu()	
 			--MISSIONS MODE
-			elseif extrasMenu == 2 then
+			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				script.missions.f_missionMenu()
+			--STAGE VIEWER
+			elseif extrasMenu == 4 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1) --round time disabled
+				data.p2In = 2
+				data.stageMenu = true
+				data.versusScreen = false --versus screen disabled
+				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
+				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
+				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
+				data.gameMode = 'stage viewer'
+				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
+				script.select.f_selectSimple()
 			--TIME TRIAL
-			elseif extrasMenu == 3 then
+			elseif extrasMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				--f_trialMenu()
 				f_comingSoon()
 			--TOURNAMENT
-			elseif extrasMenu == 4 then
+			elseif extrasMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_tournamentMenu()
 			--SOUND TEST
-			elseif extrasMenu == 5 then
+			elseif extrasMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				f_songMenu()
 			--BACK

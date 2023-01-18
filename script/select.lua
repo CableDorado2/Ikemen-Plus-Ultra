@@ -2144,11 +2144,10 @@ function f_selectStage()
 		textImgDraw(txt_stageSelect)
 	end
 	if data.stageMenu then
-		if commandGetState(p1Cmd, 'holds') then
-			sndPlay(sysSnd, 100, 0)
-			stageList = stageList + 1
-			if stageList > data.includestage then stageList = 0 end
-		elseif commandGetState(p1Cmd, 'd') then
+		--if commandGetState(p1Cmd, 's') then
+			--sndPlay(sysSnd, 100, 0)
+			--TODO: Alternative Stage Code
+		if commandGetState(p1Cmd, 'd') then
 			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList + 1
@@ -2241,7 +2240,7 @@ function f_selectStage()
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
 		textImgDraw(txt_selStage)		
-		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
+		if commandGetState(p1Cmd, 's') or commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 			sndPlay(sysSnd, 100, 1)
 			if stageList == 1 then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
 			--elseif stageList == 2 then sndPlay(announcerSnd, 0,1)

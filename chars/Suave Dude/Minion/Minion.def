@@ -1,0 +1,28 @@
+;--| 基本情報 |---------------------------------------------------------------
+
+[Info]
+Name         = "Suave Dude's Minion"
+DisplayName  = "Suave Dude's Minion"
+VersionDate  = 10,07,2010
+MugenVersion = 04,14,2002
+Author       = "Masukenpu-kun / Donaldeus"
+Pal.Defaults = 1,2,3,4,5,6
+;--| 必要なファイルの設定 |---------------------------------------------------
+
+[Files]
+Cmd      = minions.cmd
+Cns      = minions.cns
+St       = minions.cns
+StCommon = common1.cns 
+Sprite   = minions.sff
+Anim     = minions.air
+Sound    = minions.snd
+
+;--| カラーパレットファイル |-------------------------------------------------
+
+Pal1 = minions.act
+Pal2 = minions2.act
+Pal3 = minions3.act
+Pal4 = minions4.act
+Pal5 = minions5.act
+Pal6 = minions6.act

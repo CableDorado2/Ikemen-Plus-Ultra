@@ -1259,6 +1259,22 @@ command = F, b + c
 time = 8
 
 [Command]
+name = "denjirenki"
+command = D, D, x
+time = 20
+buffer.Time=1
+[Command]
+name = "denjirenki"
+command = D, D, y
+time = 20
+buffer.Time=1
+[Command]
+name = "denjirenki"
+command = D, D, z
+time = 20
+buffer.Time=1
+
+[Command]
 name = "movelist"
 command = s, s
 time = 15
@@ -1901,12 +1917,23 @@ trigger2 = var(6)
 
 [State -1, Hadouken]
 type = varset
-var(59) = 1000
+var(59) = ifelse(var(10)=99, 1040,1000)
 ignorehitpause = 1
 triggerall = !AIlevel && !var(59) && !ishelper
 triggerall = helper(9999), command = "236p+"
 triggerall = helper(9999), command = "236p" || !var(58)
 triggerall = roundstate = 2 && statetype != A && !var(39)
+trigger1 = ctrl || stateno = 40 || stateno = 52 || (stateno = [100, 101])
+trigger2 = var(6)
+
+[State -1, Denjin Renki]
+type = changestate
+value = 1900
+triggerall = !AIlevel
+triggerall = var(1) != 2
+triggerall = var(10) != 99 
+triggerall = command = "denjirenki"
+triggerall = roundstate = 2 && statetype != A
 trigger1 = ctrl || stateno = 40 || stateno = 52 || (stateno = [100, 101])
 trigger2 = var(6)
 

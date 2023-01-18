@@ -3228,3 +3228,202 @@ type = selfstate
 trigger1 = vel y > 0
 trigger1 = pos y >= 12
 value = 5110
+
+;======================<DENJIN RENKI>=============================
+[Statedef 1900]
+type = S
+physics = S
+movetype = I
+anim = 1900
+ctrl = 0
+velset = 0, 0
+poweradd = 50 * !var(20)
+sprpriority = 2
+facep2 = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 8
+var(10) = 99
+
+[State 1900, Snd]
+type = playsnd
+trigger1 = animelem = 2
+value = 3, 4
+channel = 0
+
+[State 1900, PalFX]
+type = palfx
+trigger1 = animelem = 8
+time = 8
+add = 0, 128, 255
+sinadd = 0, -128, -255, 32
+
+[State 1900, Sound]
+type = playsnd
+trigger1 = animelem = 8
+value = 5, 6
+
+[State 199, Shake]
+type = envshake
+trigger1 = animelem = 8
+time = 4
+ampl = 2
+freq = 180
+
+[State 1900, Particles]
+type = explod
+trigger1 = animelem = 8
+anim = 8155
+ID = 8155
+sprpriority = 3
+postype = p1
+pos = -6, -54
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+scale = 0.33, 0.45
+bindtime = -1
+ownpal = 1
+
+[State 1900, Particles]
+type = explod
+trigger1 = animelem = 8
+anim = 8155
+ID = 8155
+sprpriority = 3
+postype = p1
+pos = -32, -20
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+scale = 0.167, 0.33
+bindtime = -1
+ownpal = 1
+
+[State 1900, Particles]
+type = explod
+trigger1 = animelem = 8
+anim = 8155
+ID = 8155
+sprpriority = 3
+postype = p1
+pos = 22, -20
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+scale = 0.167, 0.33
+bindtime = -1
+ownpal = 1
+
+[State 1900, Particles]
+type = explod
+trigger1 = animelemtime(8) = [0, 7]
+anim = 3031
+sprpriority = 3
+postype = p1
+pos = -5, -54
+random = 10, 10
+;random = 20, 20
+vel = (2 + (random / 500.0)) * ifelse(random < 500, -1, 1), (2 + (random / 500.0)) * ifelse(random < 500, -1, 1)
+scale = ifelse(random < 500, -0.5, 0.5), ifelse(random < 500, -0.5, 0.5)
+angle = 90 * (random % 4)
+ownpal = 1
+
+[State 1900, Dust]
+type = explod
+trigger1 = animelem = 8
+anim = 7105
+sprpriority = -10
+postype = p1
+pos = -6, 0
+scale = 0.5, 0.5
+pausemovetime = -1
+supermovetime = -1
+ownpal = 1
+
+[State 1900, End]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+
+;======================<CHARGED HADOUKEN>=============================
+[Statedef 1040]
+type = S
+physics = S
+movetype = A
+anim = 1040
+ctrl = 0
+velset = 0, 0
+poweradd = 50 * !var(20)
+sprpriority = 2
+facep2 = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = time = 0
+var(10) = 0
+
+[State Damage Scaling - Add]
+type = varadd
+trigger1 = !time
+trigger1 = var(43)
+trigger1 = 1 || var(43) := 0
+var(42) = 1
+
+[State 1040, Strength]
+type = varset
+trigger1 = !AIlevel
+trigger1 = time <= 0
+var(10) = ifelse(command ="236p", 3, ifelse(command = "236p+", 2, 1))
+ignorehitpause = 1
+persistent = 0
+
+[State 1040, Strength AI]
+type = varset
+trigger1 = AIlevel
+trigger1 = time <= 0
+var(10) = ifelse((p2movetype = H || random < 500), 3, ifelse(random < 500, 2, 1))
+ignorehitpause = 1
+
+[State 1040, Width]
+type = width
+trigger1 = animelemtime(5) = -1
+value = 20, 0
+
+[State 1040, Correct Projectile Trade]
+type = hitby
+trigger1 = animelem = 5
+value2 = SCA, AA, AT
+time = 1
+
+[State 1040, Hadouken]
+type = helper
+trigger1 = animelem = 5
+helpertype = normal
+stateno = 1045
+ID = 1045
+name = "Hadouken"
+postype = p1
+pos = 80, -67
+size.xscale = 0.5
+size.yscale = 0.5
+ownpal = 1
+
+[State 1040, Snd]
+type = playsnd
+trigger1 = animelem = 3
+value = 4, 19
+channel = 0
+
+[State 1040, Snd]
+type = playsnd
+trigger1 = animelem = 5
+value = 5, 0
+
+[State 1040, End]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+

@@ -5254,6 +5254,13 @@ value = 2, 0
 channel = 2
 ignorehitpause = 1
 
+[State -2, Stupid dumb shit]
+type = varset
+triggerall = stateno = 1900 
+trigger1 = roundstate >= 2
+var(60) = ifelse(random < 500, 1, 2)
+persistent = 1
+
 [State -2, Sparks Custom]
 type = helper
 triggerall = fvar(31)
@@ -5720,7 +5727,8 @@ ignorehitpause = 1
 [State -2, Debug]
 type = appendtoclipboard
 trigger1 = 1
-text = "\nBy PotS - https://network.mugenguild.com/pots/"
+text = "var(10) = %d"
+params = var(10)
 ignorehitpause = 1
 
 

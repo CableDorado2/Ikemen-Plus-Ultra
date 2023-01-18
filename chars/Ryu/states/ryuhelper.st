@@ -4975,3 +4975,298 @@ type = displaytoclipboard
 trigger1 = 1
 text = "Facing = %d"
 params = facing * (root, facing)
+
+
+;========================<CHARGED HADOUKEN>=============================
+[Statedef 1045]
+type = S
+physics = N
+movetype = A
+ctrl = 0
+velset = 0, 0
+sprpriority = 4
+
+[State 1045, Strength]
+type = varset
+trigger1 = !time
+trigger1 = !prevstateno
+var(10) = root, var(10)
+
+[State 1045, Anim]
+type = changeanim
+trigger1 = anim != 1005
+value = 1005
+
+[State 1045, Hit Number]
+type = varadd
+trigger1 = 1
+var(2) = 1
+persistent = 0
+ignorehitpause = 1
+
+[State 1045, hitoverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+attr = SCA, AA, AP, AT
+stateno = ifelse(var(2) < 2, 1045, 1046)
+ignorehitpause = 1
+
+[State 1045, HB]
+type = hitby
+trigger1 = 1
+time = -1
+value = SCA, NP, SP, HP
+ignorehitpause = 1
+
+[State Damage Scaling - Update Root]
+type = null
+trigger1 = !var(43)
+trigger1 = movecontact && numtarget
+trigger1 = var(43) := 1
+trigger1 = root, var(43) = 0
+;trigger1 = root, var(43) := 1
+ignorehitpause = 1
+
+[State 1045, ProjContact]
+type = varset
+trigger1 = movecontact = 1 && numenemy
+trigger1 = (enemynear, movetype = H) && !(enemynear, time)
+var(18) = 1
+ignorehitpause = 1
+[State 1045, ProjContact]
+type = varset
+trigger1 = movecontact = 1 && numenemy
+trigger1 = (enemynear, movetype = H) && !(enemynear, time)
+trigger1 = root, stateno = 1040
+var(18) = 1
+ignorehitpause = 1
+
+[State 1045, Vel]
+type = velset
+trigger1 = 1
+x = ifelse(var(10) = 3, 7.5, ifelse(var(10) = 2, 6.25, 5.0))
+y = 0
+
+[State 1045, Size]
+type = angledraw
+trigger1 = time < 4
+trigger1 = !prevstateno
+scale = 0.5 + (0.125 * time), 1
+
+[State 1045, Trans]
+type = trans
+trigger1 = 1
+trans = addalpha
+alpha = 256 - 32 * (time % 4), 256
+ignorehitpause = 1
+
+[State 1045, Particles]
+type = explod
+trigger1 = !(gametime % 2)
+anim = 8155
+ID = 8155
+sprpriority = 3
+postype = p1
+pos = -30, 0
+random = 20, 20
+;random = 40, 40
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+angle = 90 * (random % 4)
+scale = 0.167, 0.167
+bindtime = -1
+ownpal = 1
+
+[State 1045, HitSound]
+type = playsnd
+trigger1 = movecontact = 1
+value = 2, ifelse((movehit && numtarget), 7, 0)
+channel = 2
+ignorehitpause = 1
+
+[State 1045, HitSound]
+type = playsnd
+trigger1 = movehit = 1
+trigger1 = numtarget
+trigger1 = target, time = 0
+value = 5, 5
+channel = 2
+persistent = 0
+ignorehitpause = 1
+
+[State 1045, Freeze]
+type = posfreeze
+trigger1 = time <= ifelse(numtarget, 4, 0)
+value = 1
+
+[State 1045, Miss]
+type = hitdef
+trigger1 = 1
+attr = S, SP
+hitflag =
+sparkxy = -10, 0
+
+[State 1045, Hit]
+type = hitdef
+trigger1 = root, var(15) < 2 || root, var(20)
+trigger1 = time >= ifelse(numtarget, 4, 0)
+priority = 4, Hit
+attr = S, SP
+damage = 45, 11
+guard.dist = const(size.proj.attack.dist)
+animtype = Hard
+fall.animtype = Back
+hitflag = MAF
+guardflag = MA
+pausetime = 0, 12
+sparkno = -1
+sparkxy = -10, 0
+guard.sparkno = -1
+guardsound = -1
+ground.type = High
+ground.slidetime = 18
+ground.hittime = 18
+ground.velocity = -10.52, 0
+ground.cornerpush.veloff = 0
+guard.velocity = -10.52
+air.velocity = -4.0, -5.25
+yaccel = 0.4850
+air.fall = 1
+fall.recover = 1
+fall.recovertime = 120
+getpower = 0, 0
+givepower = 40, 40
+envshake.time = 10
+envshake.ampl = ifelse((gametime % 2), -1, 1)
+envshake.freq = 180
+p1sprpriority = 4
+airguard.ctrltime = 16
+airguard.velocity = -6.00, -1.00
+forcestand = 1
+palfx.time = 30
+palfx.add = 0, 0, 0
+palfx.mul = 256, 256, 256
+palfx.sinadd = 255, 255, 255, 4
+palfx.invertall = 1
+palfx.color = 0
+ID = 1045
+
+[State 1045, Getpower]
+type = poweradd
+trigger1 = !(root, var(20))
+trigger1 = movecontact = 1
+trigger1 = numtarget
+value = ifelse(movehit && !prevstateno, 50, 25)
+ignorehitpause = 1
+
+[State 1045, Shocked]
+type = targetstate
+trigger1 = movehit
+trigger1 = numtarget(1045)
+trigger1 = target, selfanimexist(7696)
+trigger1 = (target(1045), stateno = 5000) || (target(1045), stateno = 5010) || (target(1045), stateno = 5020)
+value = 7696
+ID = 1045
+ignorehitpause = 1
+
+[State 1045, Spark]
+type = helper
+trigger1 = movecontact = 1 && numtarget
+trigger1 = (target, movetype = H) && !(target, time)
+helpertype = normal
+stateno = ifelse(moveguarded, 8001, 8013)
+ID = 8000
+name = "Spark"
+postype = p1
+pos = 0, 0
+facing = 1
+ownpal = 1
+size.xscale = 1
+size.yscale = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State 1045, Spark]
+type = explod
+trigger1 = movecontact = 1 && numtarget
+trigger1 = (target, movetype = H) && !(target, time)
+anim = ifelse(moveguarded, 8000, 8010)
+ID = 8000
+postype = p1
+pos = 0, 0
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+ownpal = 1
+
+[State 1045, Counter FX]
+type = helper
+trigger1 = movehit = 1
+trigger1 = numtarget
+helpertype = normal
+stateno = 8290
+ID = 8290
+name = "Counter FX"
+postype = p1
+pos = 0, 0
+ownpal = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State 1045, Shock Particles]
+type = helper
+trigger1 = !numhelper(8155)
+trigger1 = movehit = 1 && numtarget
+trigger1 = !(target, hitshakeover)
+trigger1 = var(40) := (target, ID)
+helpertype = normal
+stateno = 8155
+ID = 8155
+name = "Shock Particles"
+postype = p2
+ownpal = 1
+size.height = 46
+ignorehitpause = 1
+
+[State 1045, End]
+type = changestate
+trigger1 = movecontact
+value = ifelse(var(2) < 2, 1045, 1046)
+
+[State 1045, End]
+type = destroyself
+trigger1 = frontedgedist < -100 || backedgedist < -80
+
+
+[Statedef 1046]
+type = A
+physics = N
+movetype = I
+anim = 1006
+ctrl = 0
+velset = 0, 0
+sprpriority = 4
+
+[State 1046, Trade Sound]
+type = playsnd
+trigger1 = !time
+trigger1 = prevstateno = [5000, 5999]
+value = 2, 0
+channel = 2
+lowpriority = 1
+volumescale = 50
+
+[State 1046, Trans]
+type = trans
+trigger1 = 1
+trans = addalpha
+alpha = 256, 256
+ignorehitpause = 1
+
+[State 1046, End]
+type = destroyself
+trigger1 = !animtime
+

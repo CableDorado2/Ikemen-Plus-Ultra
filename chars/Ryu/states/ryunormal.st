@@ -296,6 +296,18 @@ trigger1 = var(1) = 2 && command = "z"
 trigger1 = (movecontact + movereversed) = [1, 2]
 value = 227
 
+[State 211, Ryu Target Combo]
+type = changestate
+triggerall = var(1) = 1
+triggerall = prevstateno != 710
+triggerall = (movecontact + movereversed) = [1, 2]
+triggerall = command = "c"
+trigger1 = !AIlevel
+trigger1 = command != "holddown"
+trigger2 = AILevel && random < 500
+value = 255
+
+
 [State Idle]
 type = statetypeset
 trigger1 = animelemtime(4) >= 0
@@ -306,7 +318,6 @@ type = changestate
 trigger1 = !animtime
 value = 0
 ctrl = 1
-
 
 ;=========<Sakotsu Wari>==========
 [Statedef 215]
@@ -1512,6 +1523,127 @@ type = changestate
 trigger1 = !animtime
 value = 0
 ctrl = 1
+
+
+;=======================<Ryu Target Combo>========================
+[Statedef 255]
+type = S
+movetype = A
+physics = S
+anim = 255
+velset = 0, 0
+poweradd = 0
+sprpriority = 2
+ctrl = 0
+facep2 = 0
+
+[State Damage Scaling - Add]
+type = varadd
+trigger1 = !time
+trigger1 = var(43)
+trigger1 = 1 || var(43) := 0
+var(42) = 1
+
+[State 255, Pos]
+type = posadd
+trigger1 = animelem = 1
+trigger1 = prevstateno = 210 || prevstateno = 211
+x = 24 * const(size.xscale)
+
+[State 255, Pos]
+type = posadd
+trigger1 = animelem = 2
+x = 12 * const(size.xscale)
+
+[State 255, Pos]
+type = posadd
+trigger1 = animelem = 3
+x = 12 * const(size.xscale)
+
+[State 255, Pos]
+type = posadd
+trigger1 = animelem = 10
+x = 9 * const(size.xscale)
+
+[State 255, Pos]
+type = posadd
+trigger1 = !animtime
+x = 12 * const(size.xscale)
+
+[State 255, Snd]
+type = playsnd
+trigger1 = animelem = 4
+value = 3, ifelse(random < 500, 2, 3)
+channel = 0
+
+[State 255, Snd]
+type = playsnd
+trigger1 = animelem = 5
+value = 1, 6
+channel = 1
+freqmul = 0.95 + (random / 10000.0)
+
+[State 255, Hit]
+type = hitdef
+trigger1 = animelem = 6
+trigger1 = var(15) < 1 || var(20)
+forcenofall = !var(20)
+attr = S, NA
+hitflag = MAF
+guardflag = M
+priority = 4, Hit
+damage = 60, 0
+getpower = ifelse(movehit, 25, 200) * !var(20), ifelse(moveguarded, 25, 100) * !var(20)
+givepower = 40, 40
+pausetime = 12, 12
+guard.pausetime = 12, 12
+animtype = Back
+air.animtype = Back
+fall.animtype = Back
+ground.type = High
+air.type = Low
+ground.hittime = 18
+ground.slidetime = 18
+guard.hittime = 18
+air.hittime = 120
+ground.velocity = -4.0, -7.5
+ground.cornerpush.veloff = 0
+guard.velocity = ifelse(var(20), -5.77, -10.52)
+guard.cornerpush.veloff = 0
+air.velocity = -4.0, -7.5
+air.cornerpush.veloff = 0
+yaccel = 0.4850
+fall = 1
+fall.recover = 1
+fall.recovertime = 120
+hitsound = -1 + 0 * (var(31) := 6)
+guardsound = -1 + 0 * (var(32) := 0)
+sparkno = -1 + 0 * (var(33) := 8012)
+guard.sparkno = -1 + 0 * (var(34) := 8000)
+sparkxy = -10 + 0 * (var(35) := 10) * (var(36) := 55), var(37) := -92
+forcestand = 1
+
+[State 255, Anim]
+type = changeanim
+trigger1 = anim = 255
+trigger1 = (movecontact = 1 || movereversed = 1) && hitpausetime
+trigger1 = animelemtime(6) >= 0 && animelemtime(7) <= 0
+trigger1 = hitpausetime <= 10
+value = 255
+elem = 7
+ignorehitpause = 1
+
+[State Idle]
+type = statetypeset
+trigger1 = animelemtime(7) >= 0
+movetype = I
+
+[State 255, End]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
 
 
 ;=========<Crouch Light Punch>==========
