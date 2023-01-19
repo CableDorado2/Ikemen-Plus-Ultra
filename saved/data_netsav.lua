@@ -22,7 +22,6 @@ data.lifebar = 'data/screenpack/winmugen/fight.def'
 data.sffConversion = true
 data.language = 'ENGLISH'
 data.menuSong = 'Random'
-data.screenshotSnd = 2
 data.clock = 'Standard'
 data.date = 'Type B'
 data.stageType = 'Modern'

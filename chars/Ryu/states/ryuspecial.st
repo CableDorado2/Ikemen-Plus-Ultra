@@ -239,6 +239,110 @@ trigger1 = !animtime
 value = 0
 ctrl = 1
 
+;======================<EX SHAKUNETSU HADOU KEN>=============================
+[Statedef 1030]
+type = S
+physics = S
+movetype = A
+anim = 1020
+ctrl = 0
+velset = 0, 0
+poweradd = -500
+sprpriority = 2
+facep2 = 1
+
+[State Damage Scaling - Add]
+type = varadd
+trigger1 = !time
+trigger1 = var(43)
+trigger1 = 1 || var(43) := 0
+var(42) = 1
+
+[State 1030, Custom Combo End]
+type = palfx
+trigger1 = !time
+trigger1 = var(20) > 0
+trigger1 = (var(20) := 0) || (var(15) := 0) || 1
+time = 1
+
+[State 1030, ExFX]
+type = explod
+trigger1 = !time
+anim = 7210
+sprpriority = 3
+postype = p1
+pos = ceil(-22 * const(size.xscale)), ceil(-48 * const(size.yscale))
+scale = 0.5, 0.5
+pausemovetime = -1
+supermovetime = -1
+ownpal = 1
+
+[State 1030, Width]
+type = width
+trigger1 = animelemtime(6) = -1
+value = 20, 0
+
+[State 1030, Anim]
+type = changeanim
+trigger1 = animelem = 5
+trigger1 = time < 22
+value = 1020
+elem = 3
+
+[State 1030, FX]
+type = helper
+trigger1 = animelem = 3 && !numhelper(1024)
+helpertype = normal
+stateno = 1024
+ID = 1024
+name = "Shakunetsu Charge"
+postype = p1
+ownpal = 1
+
+[State 1030, Correct Projectile Trade]
+type = hitby
+trigger1 = animelem = 6
+value2 = SCA, AA, AT
+time = 1
+
+[State 1030, Hadouken]
+type = helper
+trigger1 = animelem = 6
+helpertype = normal
+stateno = 1035
+ID = 1035
+name = "Shakunetsu Hadouken"
+postype = p1
+pos = 78, -68
+ownpal = 1
+size.xscale = 1
+size.yscale = 1
+
+[State 1030, Snd]
+type = playsnd
+trigger1 = animelem = 2
+value = ifelse(var(1) = 2, 13, 3), ifelse(var(1) = 2, 5, 5)
+channel = 0
+persistent = 0
+
+[State 1030, Snd]
+type = playsnd
+trigger1 = animelem = 6
+value = ifelse(var(1) = 2, 14, 4), ifelse(var(1) = 2, 0, 18)
+channel = 0
+
+[State 1030, Snd]
+type = playsnd
+trigger1 = animelem = 6
+value = 5, 0
+
+[State 1030, End]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+
 
 ;========================<BURNED>=============================
 [Statedef 7697]

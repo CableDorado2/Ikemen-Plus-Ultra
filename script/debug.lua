@@ -146,15 +146,7 @@ end
 
 function takeScreenshotVS()
 	sysSnd = sndNew('data/screenpack/winmugen/system.snd')
-	if data.screenshotSnd == 1 then
-		sndPlay(sysSnd, 22, 0)
-	elseif data.screenshotSnd == 2 then
-		sndPlay(sysSnd, 22, 1)
-	elseif data.screenshotSnd == 3 then
-		sndPlay(sysSnd, 22, 2)
-	elseif data.screenshotSnd == 4 then
-		sndPlay(sysSnd, 22, 3)
-	end
+	sndPlay(sysSnd, 22, 0)
 	batOpen("tools", "screenshot.vbs")
 	--Set time to capture the correct screenshot
 	ltn12.pump.all(

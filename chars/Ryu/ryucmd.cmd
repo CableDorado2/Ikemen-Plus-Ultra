@@ -1169,6 +1169,37 @@ command = ~F, $D, B, ~z
 time = 18
 
 [Command]
+name = "63214pp"
+command = ~F, $D, B, x+y
+time = 18
+buffer.time = 5
+[Command]
+name = "63214pp"
+command = ~F, $D, B, y+z
+time = 18
+buffer.time = 5
+[Command]
+name = "63214pp"
+command = ~F, $D, B, z+x
+time = 18
+buffer.time = 5
+[Command]
+name = "63214pp"
+command = ~F, $D, B, ~x+y
+time = 18
+buffer.time = 5
+[Command]
+name = "63214pp"
+command = ~F, $D, B, ~y+z
+time = 18
+buffer.time = 5
+[Command]
+name = "63214pp"
+command = ~F, $D, B, ~z+x
+time = 18
+buffer.time = 5
+
+[Command]
 name = "63214p+"
 command = ~F, $D, B, x
 time = 18
@@ -1844,6 +1875,17 @@ triggerall = !AIlevel && !var(59) && !ishelper
 triggerall = helper(9999), command = "236pp+"
 triggerall = helper(9999), command = "236pp" || !var(58)
 triggerall = var(1) < 3 && roundstate = 2 && statetype != A && !var(39)
+triggerall = power >= 500 && var(20) <= 60
+trigger1 = ctrl || stateno = 40 || stateno = 52 || (stateno = [100, 101])
+trigger2 = var(6)
+
+[State -1, EX Shakunetsu Hadouken]
+type = changestate
+value = 1030
+triggerall = !AIlevel
+triggerall = var(1) = 2
+triggerall = command = "63214pp"
+triggerall = roundstate = 2 && statetype != A
 triggerall = power >= 500 && var(20) <= 60
 trigger1 = ctrl || stateno = 40 || stateno = 52 || (stateno = [100, 101])
 trigger2 = var(6)

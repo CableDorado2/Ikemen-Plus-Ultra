@@ -636,7 +636,7 @@ if generate and data.sffConversion then
 			--print variable for both debugging and sprite generation purpose
 			f_printVar(sff2png .. append, 'data/charAnim/' .. displayname .. '.def')
 			--create a batch variable used to generate sff files all at once
-			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> debug\\sprmake2.log'
+			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> saved\\debug\\sprmake2.log'
 		end
 		batch = batch .. '\n' .. 'del batch.bat'
 		f_printVar(batch, 'batch.bat')

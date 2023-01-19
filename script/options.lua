@@ -256,7 +256,6 @@ function f_saveCfg()
 		['data.sffConversion'] = data.sffConversion,
 		['data.language'] = data.language,
 		['data.menuSong'] = data.menuSong,
-		['data.screenshotSnd'] = data.screenshotSnd,
 		['data.clock'] = data.clock,
 		['data.date'] = data.date,
 		['data.stageType'] = data.stageType,
@@ -491,7 +490,6 @@ function f_offlineDefault()
 	--saves.ini
 	data.language = 'ENGLISH'
 	data.menuSong = 'Random'
-	data.screenshotSnd = 2
 	data.clock = 'Standard'
 	data.date = 'Type A'
 	data.challengerSong = 'Fixed'
@@ -2684,7 +2682,6 @@ t_audioCfg = {
 	{id = '', text = 'Sample Rate',     varID = textImgNew(), varText = freq},
 	{id = '', text = 'Channels',        varID = textImgNew(), varText = s_channels},
 	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
-	{id = '', text = 'Screenshot SFX', 	varID = textImgNew(), varText = data.screenshotSnd},
 	{id = '', text = 'Main Menu Song', 	varID = textImgNew(), varText = data.menuSong},
 	{id = '', text = 'Challenger Select Song', 	varID = textImgNew(), varText = data.challengerSong},
 	{id = '', text = '          BACK'},
@@ -2901,44 +2898,8 @@ function f_audioCfg()
 				modified = 1
 				needReload = 1
 			end
-		--Screenshot SFX
-		elseif audioCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-			sndPlay(sysSnd, 100, 0)
-			if commandGetState(p1Cmd, 'r') and data.screenshotSnd == 1 then
-				data.screenshotSnd = 2
-				sndPlay(sysSnd, 22, 1)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 2 then
-				data.screenshotSnd = 3
-				sndPlay(sysSnd, 22, 2)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 3 then
-				data.screenshotSnd = 4
-				sndPlay(sysSnd, 22, 3)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.screenshotSnd == 4 then
-				data.screenshotSnd = 1
-				sndPlay(sysSnd, 22, 0)
-				modified = 1	
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 1 then
-				data.screenshotSnd = 4
-				sndPlay(sysSnd, 22, 3)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 2 then
-				data.screenshotSnd = 1
-				sndPlay(sysSnd, 22, 0)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 3 then
-				data.screenshotSnd = 2
-				sndPlay(sysSnd, 22, 1)
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.screenshotSnd == 4 then
-				data.screenshotSnd = 3
-				sndPlay(sysSnd, 22, 2)
-				modified = 1	
-			end	
 		--Main Menu Song
-		elseif audioCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif audioCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
 				data.menuSong = 'Theme 2'
@@ -2974,7 +2935,7 @@ function f_audioCfg()
 				modified = 1
 			end
 		--Challenger Select Song
-		elseif audioCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif audioCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.challengerSong == 'Fixed' then
 				data.challengerSong = 'Original'
@@ -3010,7 +2971,7 @@ function f_audioCfg()
 				modified = 1
 			end		
 		--Back
-		elseif audioCfg == 11 and btnPalNo(p1Cmd) > 0 then
+		elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
 			break
@@ -3026,9 +2987,8 @@ function f_audioCfg()
 		t_audioCfg[5].varText = freq
 		t_audioCfg[6].varText = s_channels
 		t_audioCfg[7].varText = buffer
-		t_audioCfg[8].varText = data.screenshotSnd
-		t_audioCfg[9].varText = data.menuSong
-		t_audioCfg[10].varText = data.challengerSong
+		t_audioCfg[8].varText = data.menuSong
+		t_audioCfg[9].varText = data.challengerSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
 		setPanStr(pan_str / 100);
 		for i=1, #t_audioCfg do

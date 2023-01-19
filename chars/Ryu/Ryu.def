@@ -8,7 +8,7 @@ displayname = "Ryu"
 versiondate = 2022
 mugenversion= 1.0
 author      = "Phantom.of.the.Server"
-pal.defaults= 1,7,2,8,3,9,4,10,5,11,6,12
+pal.defaults= 7,2,8,3,9,4,10,5,11,6,12
 localcoord  = 320,240
 
 [Files]

@@ -29,6 +29,7 @@ setDebugScript('script/debug.lua')
 
 --SFF
 fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
+eventSff = sffNew('data/screenpack/events.sff') --load events menu sprites
 missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
 gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
 stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
@@ -74,6 +75,7 @@ font24 = fontNew('data/font/ssf2x_vL.fnt')
 bgmNothing = 'Nothing.mp3'
 bgmTitle = 'sound/Title.mp3'
 bgmSelect = 'sound/Select.mp3'
+bgmSelectChallenger = 'sound/The Challenger.mp3'
 bgmSelectBoss = 'sound/Select Boss.mp3'
 --bgmSelectOrder = 'sound/Order Select.mp3'
 bgmSelectOrderFinal = 'sound/Order Select Final.mp3'
@@ -99,7 +101,7 @@ end
 
 --Random Select Challenger Menu Music
 function f_bgmrandomChallenger()
-	local randomTrack = {"sound/The Challenger.mp3", bgmSelect, bgmSelectBoss}
+	local randomTrack = {bgmSelectChallenger, bgmSelect, bgmSelectBoss}
 	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
@@ -122,7 +124,7 @@ end
 --Select Challenger Menu Music
 function f_challengerMusic()
 	if data.challengerSong == 'Fixed' then
-		bgmChallenger = 'sound/The Challenger.mp3'
+		bgmChallenger = bgmSelectChallenger
 		playBGM(bgmChallenger)
 	elseif data.challengerSong == 'Original' then
 		bgmChallenger = bgmSelect
@@ -151,6 +153,7 @@ require('script.randomtest')
 assert(loadfile('script/parser.lua'))()
 require('script.options')
 require('script.missions')
+require('script.events')
 require('script.select')
 require('script.storyboard')
 
@@ -394,6 +397,7 @@ function f_default()
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvance = false --additional variable used to identify advanced games in select screen
 	data.missionNo = '' --additional variable used to identify missions in select screen
+	data.eventNo = '' --additional variable used to identify events in select screen
 	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
 	setServiceType(0) --don't touch
 	setGameType(0) --set game type to identify in minus.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
@@ -2486,8 +2490,8 @@ function f_gallery() --Based on stage preview code
 	gallery = ''
 	gallery = '0,' .. galleryList-1 .. ', 0,0, 0'
 	gallery = animNew(gallerySff, gallery)
-	animSetScale(gallery, 0.32, 0.32)
-	animSetPos(gallery, 160, 120)
+	animSetScale(gallery, 0.30, 0.305)
+	animSetPos(gallery, 160, 119)
 	animUpdate(gallery)
 	animDraw(gallery)
 	return gallery
@@ -2497,9 +2501,10 @@ end
 --; EXTRAS MENU LOOP
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = 'GALLERY'},
+	{id = textImgNew(), text = 'EVENTS'},
 	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'MISSIONS'},
+	{id = textImgNew(), text = 'GALLERY'},
 	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'TIME TRIAL'},
 	{id = textImgNew(), text = 'TOURNAMENT'},
@@ -2545,8 +2550,20 @@ function f_extrasMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--GALLERY
+			--EVENTS MODE
 			if extrasMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				script.events.f_eventMenu()
+			--ENDLESS MODE
+			elseif extrasMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_allcharsMenu()	
+			--MISSIONS MODE
+			elseif extrasMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				script.missions.f_missionMenu()
+			--GALLERY
+			elseif extrasMenu == 4 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				local moveArt = 1 --Start in image 0,0
@@ -2557,11 +2574,13 @@ function f_extrasMenu()
 						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						break				
-					elseif commandGetState(p1Cmd, 'r') or btnPalNo(p1Cmd) > 0 then
-						sndPlay(sysSnd, 100, 0)
+					elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'd')) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
+						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt + 1
-					elseif commandGetState(p1Cmd, 'l') and moveArt > 1 then --Keep in image 0,0 when press left until finish
-						sndPlay(sysSnd, 100, 0)
+					elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'u')) and moveArt > 1 then --Keep in image 0,0 when press left until finish
+						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt - 1
 					end
 					galleryList = moveArt --Uses menu position to show image in these order
@@ -2571,16 +2590,8 @@ function f_extrasMenu()
 					cmdInput()
 					refresh()
 				end
-			--ENDLESS MODE
-			elseif extrasMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_allcharsMenu()	
-			--MISSIONS MODE
-			elseif extrasMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				script.missions.f_missionMenu()
 			--STAGE VIEWER
-			elseif extrasMenu == 4 then
+			elseif extrasMenu == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1) --round time disabled
@@ -2595,16 +2606,16 @@ function f_extrasMenu()
 				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
 				script.select.f_selectSimple()
 			--TIME TRIAL
-			elseif extrasMenu == 5 then
+			elseif extrasMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				--f_trialMenu()
 				f_comingSoon()
 			--TOURNAMENT
-			elseif extrasMenu == 6 then
+			elseif extrasMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				f_tournamentMenu()
 			--SOUND TEST
-			elseif extrasMenu == 7 then
+			elseif extrasMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
 				f_songMenu()
 			--BACK
@@ -2670,7 +2681,7 @@ function f_songMenu()
 			t_songList[row]['id'] = ''
 			if file:match('^.*(%.)mp3$') then
 				t_songList[row]['MP3'] = file:gsub('^(.*)[%.]mp3$', '%1')
-			elseif 	file:match('^.*(%.)ogg$') then
+			elseif file:match('^.*(%.)ogg$') then
 				t_songList[row]['MP3'] = file:gsub('^(.*)[%.]ogg$', '%1')
 			end	
 			--t_songList[row]['MP3'] = file:gsub('^(.*)[%.]mp3$', '%1') --original

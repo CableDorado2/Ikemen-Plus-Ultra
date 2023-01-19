@@ -2035,6 +2035,7 @@ elem = (root, animelemno(0))
 type = destroyself
 trigger1 = root, movetype = H
 trigger2 = root, stateno != 1020
+trigger2 = root, stateno != 1030 
 trigger3 = root, animelemtime(5) >= 0
 
 
@@ -5267,6 +5268,416 @@ alpha = 256, 256
 ignorehitpause = 1
 
 [State 1046, End]
+type = destroyself
+trigger1 = !animtime
+
+;========================<EX SHAKUNETSU HADOU KEN>=============================
+[Statedef 1035]
+type = S
+physics = N
+movetype = A
+ctrl = 0
+velset = 0, 0
+sprpriority = 4
+
+[State 1035, Anim]
+type = changeanim
+trigger1 = anim != 1015
+value = 1015
+
+[State 1035, hitoverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+attr = SCA, AA, AP, AT
+stateno = 1036
+ignorehitpause = 1
+
+[State 1035, HB]
+type = hitby
+trigger1 = 1
+time = -1
+value = SCA, HP
+ignorehitpause = 1
+
+[State Damage Scaling - Update Root]
+type = null
+trigger1 = !var(43)
+trigger1 = movecontact && numtarget
+trigger1 = var(43) := 1
+trigger1 = root, var(43) = 0
+ignorehitpause = 1
+
+[State 1035, ProjContact]
+type = varset
+trigger1 = movecontact = 1 && numenemy
+trigger1 = (enemynear, movetype = H) && !(enemynear, time)
+var(18) = 1
+ignorehitpause = 1
+
+[State 1035, ProjContact]
+type = varset
+trigger1 = movecontact = 1 && numenemy
+trigger1 = (enemynear, movetype = H) && !(enemynear, time)
+trigger1 = root, stateno = 1030
+var(18) = 1
+ignorehitpause = 1
+
+[State 1035, Vel]
+type = velset
+trigger1 = 1
+x = 12
+y = 0
+
+[State 1035, Size]
+type = angledraw
+trigger1 = 1
+scale = 0.33, ifelse(time < 4, 0.5 - (0.085 * time), 0.33)
+
+[State 1035, Trans]
+type = trans
+trigger1 = 1
+trans = addalpha
+alpha = 256 - 32 * (time % 3), 256
+ignorehitpause = 1
+
+[State 1035, Particles]
+type = explod
+trigger1 = !(time % 2)
+anim = 8151
+ID = 8151
+sprpriority = 3
+postype = p1
+vel = 0, 0
+pos = -40, 0
+random = 4, 4
+;random = 8, 8
+facing = ifelse(random < 500, -1, 1)
+vfacing = ifelse(random < 500, -1, 1)
+angle = 90 * (random % 4)
+scale = 0.2, 0.2
+ownpal = 1
+
+[State 1035, HitSound]
+type = playsnd
+trigger1 = movecontact = 1
+value = 2, ifelse((movehit && numtarget), 12, 0)
+channel = 2
+ignorehitpause = 1
+
+[State 1035, Miss]
+type = hitdef
+trigger1 = 1
+attr = S, SP
+hitflag =
+sparkxy = -10, 0
+
+[State 1035, Hit]
+type = hitdef
+trigger1 = (root, var(15) < 1 || root, var(20))
+trigger1 = 1
+priority = 4, Hit
+attr = S, SP
+damage = 40, 10
+guard.dist = const(size.proj.attack.dist)
+animtype = Back
+hitflag = MAF
+guardflag = MA
+pausetime = 0, 12
+sparkno = -1
+sparkxy = -10, 0
+guard.sparkno = -1
+guardsound = -1
+ground.type = Low
+ground.slidetime = 18
+ground.hittime = 18
+ground.velocity = -12, -4.25
+ground.cornerpush.veloff = 0
+guard.velocity = -10.52
+air.velocity = -12, -4.25
+yaccel = 0.4850
+fall = 1
+fall.recover = 1
+fall.recovertime = 120
+getpower = 0, 0
+givepower = 40, 40
+envshake.time = 10
+envshake.ampl = ifelse((gametime % 2), -1, 1)
+envshake.freq = 180
+palfx.color = 256
+palfx.sinadd = 128, 128, 128, 4
+palfx.mul = 128, 128, 128
+palfx.time = 60
+p1sprpriority = 4
+airguard.ctrltime = 16
+airguard.velocity = -6.00, -1.00
+forcestand = 1
+ID = 1035
+
+[State 1035, Burned]
+type = targetstate
+trigger1 = movehit
+trigger1 = numtarget(1035)
+trigger1 = target, selfanimexist(7697)
+trigger1 = (target(1035), stateno = 5000) || (target(1035), stateno = 5010) || (target(1035), stateno = 5020)
+value = 7697
+ID = 1035
+ignorehitpause = 1
+
+[State 1035, Spark]
+type = helper
+trigger1 = movecontact = 1 && numtarget
+trigger1 = (target, movetype = H) && !(target, time)
+helpertype = normal
+stateno = ifelse(moveguarded, 8001, 8013)
+ID = 8000
+name = "Spark"
+postype = p1
+pos = 0, 0
+facing = 1
+ownpal = 1
+size.xscale = 1
+size.yscale = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State 1035, Spark]
+type = explod
+trigger1 = movecontact = 1 && numtarget
+trigger1 = (target, movetype = H) && !(target, time)
+anim = ifelse(moveguarded, 8010, 8000)
+ID = 8000
+postype = p1
+pos = 0, 0
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+ownpal = 1
+
+[State 1035, Counter FX]
+type = helper
+trigger1 = movehit = 1
+trigger1 = numtarget
+helpertype = normal
+stateno = 8290
+ID = 8290
+name = "Counter FX"
+postype = p1
+pos = 0, 0
+ownpal = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State 1035, Flame Particles]
+type = helper
+trigger1 = !numhelper(8151)
+trigger1 = movehit = 1 && numtarget
+trigger1 = !(target, hitshakeover)
+trigger1 = var(40) := (target, ID)
+helpertype = normal
+stateno = 8151
+ID = 8151
+name = "Flame Particles"
+postype = p2
+ownpal = 1
+ignorehitpause = 1
+
+[State 1035, End]
+type = changestate
+trigger1 = movecontact
+value = 1036
+
+[State 1035, End]
+type = destroyself
+trigger1 = frontedgedist < -100 || backedgedist < -80
+
+
+
+;--- Explosion ---
+[Statedef 1036]
+type = S
+physics = N
+movetype = A
+ctrl = 0
+anim = 1036
+velset = 0, 0
+sprpriority = 4
+
+[State 1036, HB]
+type = nothitby
+trigger1 = 1
+time = -1
+value = SCA
+ignorehitpause = 1
+
+[State Damage Scaling - Update Root]
+type = null
+trigger1 = !var(43)
+trigger1 = movecontact && numtarget
+trigger1 = var(43) := 1
+trigger1 = root, var(43) = 0
+ignorehitpause = 1
+
+[State 1036, ProjContact]
+type = varset
+trigger1 = movecontact = 1 && numenemy
+trigger1 = (enemynear, movetype = H) && !(enemynear, time)
+var(18) = 1
+ignorehitpause = 1
+
+[State 1036, ProjContact]
+type = varset
+trigger1 = movecontact = 1 && numenemy
+trigger1 = (enemynear, movetype = H) && !(enemynear, time)
+trigger1 = root, stateno = 1030
+var(18) = 1
+ignorehitpause = 1
+
+[State 1036, Size]
+type = angledraw
+trigger1 = 1
+scale = 0.75, 0.75
+
+[State 1036, Trans]
+type = trans
+trigger1 = 1
+trans = addalpha
+alpha = 256, 256
+ignorehitpause = 1
+
+[State 1036, Sound]
+type = playsnd
+trigger1 = animelem = 3
+value = 5, 21
+
+[State 1036, HitSound]
+type = playsnd
+trigger1 = movecontact = 1
+value = 2, ifelse((movehit && numtarget), 12, 0)
+channel = 2
+ignorehitpause = 1
+
+[State 1036, Hit]
+type = hitdef
+trigger1 = animelem = 3
+trigger1 = root, var(15) < 2 || root, var(20)
+priority = 4, Hit
+attr = S, SP
+damage = 40, 10
+guard.dist = const(size.proj.attack.dist)
+animtype = Back
+hitflag = MAF
+guardflag = MA
+pausetime = 0, 4
+sparkno = -1
+sparkxy = -10, 0
+guard.sparkno = -1
+guardsound = -1
+ground.type = Low
+ground.slidetime = 18
+ground.hittime = 18
+ground.velocity = -12, -4.25
+ground.cornerpush.veloff = 0
+guard.velocity = -10.52
+air.velocity = -12, -4.25
+yaccel = 0.4850
+fall = 1
+fall.recover = 1
+fall.recovertime = 120
+getpower = 0, 0
+givepower = 40, 40
+envshake.time = 10
+envshake.ampl = ifelse((gametime % 2), -1, 1)
+envshake.freq = 180
+palfx.color = 256
+palfx.sinadd = 128, 128, 128, 4
+palfx.mul = 128, 128, 128
+palfx.time = 60
+p1sprpriority = 4
+airguard.ctrltime = 16
+airguard.velocity = -6.00, -1.00
+forcestand = 1
+ID = 1036
+
+[State 1036, Wall Bounce]
+type = targetstate
+trigger1 = movehit && numtarget(1036)
+trigger1 = (target(1036), stateno = 5000) || (target(1036), stateno = 5010) || (target(1036), stateno = 5020)
+value = 1111300
+ID = 1036
+ignorehitpause = 1
+
+[State 1036, Juggle Reset]
+type = varset
+trigger1 = movehit = 1
+trigger1 = numtarget(1036)
+trigger1 = target(1036), stateno = 1111300
+var(15) = 0
+ignorehitpause = 1
+
+[State 1036, Spark]
+type = helper
+trigger1 = movecontact = 1 && numtarget
+trigger1 = (target, movetype = H) && !(target, time)
+helpertype = normal
+stateno = ifelse(moveguarded, 8001, 8013)
+ID = 8000
+name = "Spark"
+postype = p1
+pos = 0, 0
+facing = 1
+ownpal = 1
+size.xscale = 1
+size.yscale = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State 1036, Spark]
+type = explod
+trigger1 = movecontact = 1 && numtarget
+trigger1 = (target, movetype = H) && !(target, time)
+anim = ifelse(moveguarded, 8000, 8010)
+ID = 8000
+postype = p1
+pos = 0, 0
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+ownpal = 1
+
+[State 1036, Counter FX]
+type = helper
+trigger1 = movehit = 1
+trigger1 = numtarget
+helpertype = normal
+stateno = 8290
+ID = 8290
+name = "Counter FX"
+postype = p1
+pos = 0, 0
+ownpal = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State 1036, Flame Particles]
+type = helper
+trigger1 = !numhelper(8151)
+trigger1 = movehit = 1 && numtarget
+trigger1 = !(target, hitshakeover)
+trigger1 = var(40) := (target, ID)
+helpertype = normal
+stateno = 8151
+ID = 8151
+name = "Flame Particles"
+postype = p2
+ownpal = 1
+ignorehitpause = 1
+
+[State 1036, End]
 type = destroyself
 trigger1 = !animtime
 
