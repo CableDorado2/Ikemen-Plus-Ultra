@@ -2494,6 +2494,9 @@ function f_gallery() --Based on stage preview code
 	animSetPos(gallery, 160, 119)
 	animUpdate(gallery)
 	animDraw(gallery)
+	--draw gallery limit numbers text
+	txt_artNumber = createTextImg(font14, 0, 0, ' ' .. galleryList .. '/11', 290, 230)
+	textImgDraw(txt_artNumber)
 	return gallery
 end
 
@@ -2583,6 +2586,7 @@ function f_extrasMenu()
 						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt - 1
 					end
+					
 					galleryList = moveArt --Uses menu position to show image in these order
 					f_gallery()
 					animDraw(data.fadeTitle)
