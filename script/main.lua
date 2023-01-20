@@ -367,6 +367,10 @@ function f_date() --Just a date text
 	textImgDraw(txt_titleFt3)
 end
 
+data.sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+data.sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+--data.sysTime3 = tonumber(os.date("%m"))
+
 function f_default()
 	setAutoLevel(false) --generate autolevel.txt in debug dir
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html

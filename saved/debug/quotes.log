@@ -1,6 +1,52 @@
-kyo kusanagi
-0 triggers found
-quote = random value from all 56 available quotes
+master kung fu man
+condition: 1
+ trigger
+  before: 1
+  after: true
+  result: true
+ value
+  before: random%7
+  after: math.random(0,999)*1/1000*7
+  result: 0
+condition: 2
+ trigger
+  before: enemy, name = "kung fu man"
+  after:  "dragon claw"== "kung fu man"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: 7
+  after: 7
+  result: 7
+condition: 3
+ trigger
+  before: enemy, name = "kung fu girl" || enemy, name = "another kung fu girl"
+  after:  "dragon claw"== "kung fu girl"  or   "dragon claw"== "another kung fu girl"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: 8
+  after: 8
+  result: 8
+condition: 4
+ trigger
+  before: (enemy, name = "suave dude") && (1)
+  after: ( "dragon claw"== "suave dude")  and  (1)
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: 9
+  after: 9
+  result: 9
 
-quote: 9
+quote: 0
 exists: yes
