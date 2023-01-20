@@ -1889,6 +1889,9 @@ function f_unlocksWarning()
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
 			data.coins = 0
+			data.event1Status = 0
+			data.event2Status = 0
+			data.event3Status = 0
 			data.mission1Status = 0
 			data.mission2Status = 0
 			data.mission3Status = 0

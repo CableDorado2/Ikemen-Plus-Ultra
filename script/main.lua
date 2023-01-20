@@ -86,6 +86,7 @@ bgmResults = 'sound/Results.mp3'
 bgmService = 'sound/Service.mp3'
 bgmContinue = 'sound/Continue.mp3'
 bgmGameOver = 'sound/Game Over.mp3'
+bgmEvents = 'sound/Events.mp3'
 
 --Random Versus Music
 function f_bgmrandomVS()
@@ -339,7 +340,13 @@ txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.2.0', 319, 240)
 txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black screen important message
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
-function f_clock() --Just a clock
+
+
+function f_sysTime() --clock and date features
+	data.sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+	data.sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+	--data.sysTime3 = tonumber(os.date("%m"))
+
 	if data.clock == 'Standard' then
 		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
 	elseif data.clock == 'Full Standard' then
@@ -350,9 +357,7 @@ function f_clock() --Just a clock
 		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
 	end	
 	textImgDraw(txt_titleFt2)
-end
-
-function f_date() --Just a date text
+	
 	if data.date == 'Type A' then
 		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 50, 8)
 	elseif data.date == 'Type B' then
@@ -366,10 +371,6 @@ function f_date() --Just a date text
 	end	
 	textImgDraw(txt_titleFt3)
 end
-
-data.sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-data.sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
---data.sysTime3 = tonumber(os.date("%m"))
 
 function f_default()
 	setAutoLevel(false) --generate autolevel.txt in debug dir
@@ -421,6 +422,9 @@ function f_saveUnlockData()
 		['data.arcadeUnlocks'] = data.arcadeUnlocks,
 		['data.survivalUnlocks'] = data.survivalUnlocks,
 		['data.coins'] = data.coins,
+		['data.event1Status'] = data.event1Status,
+		['data.event2Status'] = data.event2Status,
+		['data.event3Status'] = data.event3Status,
 		['data.mission1Status'] = data.mission1Status,
 		['data.mission2Status'] = data.mission2Status,
 		['data.mission3Status'] = data.mission3Status,
@@ -494,8 +498,7 @@ function f_mainTitle()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '          WELCOME TO SUEHIRO IKEMEN ENGINE')
-		f_clock()
-		f_date()
+		f_sysTime()
 		textImgDraw(txt_mainTitleOn)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -658,8 +661,7 @@ function f_mainMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'MAIN MENU')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -767,8 +769,7 @@ function f_arcadeMenu()
 		textImgDraw(txt_titleFt)		
 		textImgSetText(txt_titleFt, 'ARCADE MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -895,8 +896,7 @@ function f_vsMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'VERSUS MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1002,8 +1002,7 @@ function f_randomMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'RANDOM MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1146,8 +1145,7 @@ function f_practiceMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'TRAINING MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1259,8 +1257,7 @@ function f_challengeMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'CHALLENGES')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1368,8 +1365,7 @@ function f_survivalMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'SURVIVAL MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1466,8 +1462,7 @@ function f_bossMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BOSS FIGHT')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1558,8 +1553,7 @@ function f_bossChars()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BOSS FIGHT')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1671,8 +1665,7 @@ function f_bossrushMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BOSS RUSH')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1769,8 +1762,7 @@ function f_bonusMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'MINI-GAMES')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1862,8 +1854,7 @@ function f_bonusExtras()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BONUS STAGES')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -1978,8 +1969,7 @@ function f_bonusrushMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BONUS RUSH')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2093,8 +2083,7 @@ function f_suddenMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'SUDDEN DEATH MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2206,8 +2195,7 @@ function f_timeMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'TIME ATTACK MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2315,8 +2303,7 @@ function f_allcharsMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'INFINITE MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2333,8 +2320,7 @@ end
 --;===========================================================
 t_watchMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
-	{id = textImgNew(), text = 'STORYBOARDS'},
-	{id = textImgNew(), text = 'CUTSCENES'},
+	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'SCREENSHOTS'},
 	{id = textImgNew(), text = 'STATISTICS'},
 	{id = textImgNew(), text = 'CPU MATCH'},
@@ -2397,24 +2383,31 @@ function f_watchMenu()
 				else
 					f_mainReplay()
 				end
-			--STORYBOARDS
+			--STAGE VIEWER
 			elseif watchMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				f_storyboardMenu()
-			--CUTSCENES
-			elseif watchMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_videoMenu()
+				setRoundTime(-1) --round time disabled
+				data.p2In = 2
+				data.stageMenu = true
+				data.versusScreen = false --versus screen disabled
+				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
+				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
+				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
+				data.gameMode = 'stage viewer'
+				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
+				script.select.f_selectSimple()
 			--SCREENSHOTS
-			elseif watchMenu == 4 then
+			elseif watchMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				sszOpen("saved/screenshots", "") --added via script.ssz
 			--STATISTICS
-			elseif watchMenu == 5 then
+			elseif watchMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_statisticsMenu()
 			--CPU MATCH
-			elseif watchMenu == 6 then
+			elseif watchMenu == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
@@ -2425,7 +2418,7 @@ function f_watchMenu()
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
 			--CREDITS
-			elseif watchMenu == 7 then
+			elseif watchMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0
@@ -2474,8 +2467,7 @@ function f_watchMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'WATCH CONTENT')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -2498,8 +2490,7 @@ function f_gallery() --Based on stage preview code
 	animSetPos(gallery, 160, 119)
 	animUpdate(gallery)
 	animDraw(gallery)
-	--draw gallery limit numbers text
-	txt_artNumber = createTextImg(font14, 0, 0, ' ' .. galleryList .. '/11', 290, 230)
+	txt_artNumber = createTextImg(font14, 0, 0, ' ' .. galleryList .. '/11', 290, 230) --draw gallery limit numbers text
 	textImgDraw(txt_artNumber)
 	return gallery
 end
@@ -2511,11 +2502,12 @@ t_extrasMenu = {
 	{id = textImgNew(), text = 'EVENTS'},
 	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'MISSIONS'},
-	{id = textImgNew(), text = 'GALLERY'},
-	{id = textImgNew(), text = 'STAGE VIEWER'},
-	{id = textImgNew(), text = 'TIME TRIAL'},
-	{id = textImgNew(), text = 'TOURNAMENT'},
+	{id = textImgNew(), text = 'TIME TRIALS'},
 	{id = textImgNew(), text = 'SOUND TEST'},
+	{id = textImgNew(), text = 'STORYBOARDS'},
+	{id = textImgNew(), text = 'CUTSCENES'},
+	{id = textImgNew(), text = 'GALLERY'},
+	{id = textImgNew(), text = 'TOURNEY'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
 	
@@ -2569,8 +2561,25 @@ function f_extrasMenu()
 			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				script.missions.f_missionMenu()
-			--GALLERY
+			--TIME TRIALS
 			elseif extrasMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				--f_trialsMenu()
+				f_comingSoon()
+			--SOUND TEST
+			elseif extrasMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				f_songMenu()
+			--STORYBOARDS
+			elseif extrasMenu == 6 then
+				sndPlay(sysSnd, 100, 1)
+				f_storyboardMenu()
+			--CUTSCENES
+			elseif extrasMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				f_videoMenu()
+			--GALLERY
+			elseif extrasMenu == 8 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				local moveArt = 1 --Start in image 0,0
@@ -2598,34 +2607,10 @@ function f_extrasMenu()
 					cmdInput()
 					refresh()
 				end
-			--STAGE VIEWER
-			elseif extrasMenu == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1) --round time disabled
-				data.p2In = 2
-				data.stageMenu = true
-				data.versusScreen = false --versus screen disabled
-				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
-				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
-				data.gameMode = 'stage viewer'
-				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
-				script.select.f_selectSimple()
-			--TIME TRIAL
-			elseif extrasMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				--f_trialMenu()
-				f_comingSoon()
-			--TOURNAMENT
-			elseif extrasMenu == 7 then
+			--TOURNEY MODE
+			elseif extrasMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
 				f_tournamentMenu()
-			--SOUND TEST
-			elseif extrasMenu == 8 then
-				sndPlay(sysSnd, 100, 1)
-				f_songMenu()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2656,8 +2641,7 @@ function f_extrasMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'EXTRAS UNLOCKED')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -3238,8 +3222,7 @@ function f_mainNetplay()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'ONLINE MODE')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -3451,8 +3434,7 @@ function f_mainHost()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'ONLINE MENU')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -3662,8 +3644,7 @@ function f_mainJoin()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'ONLINE MENU')
 		textImgDraw(txt_titleFt1)
-		f_clock()
-		f_date()
+		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
@@ -3931,9 +3912,8 @@ function f_exitMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, '               CLOSE OR RESTART ENGINE')
-		f_clock()
-		f_date()	
+		textImgSetText(txt_titleFt, '               CLOSE OR RESTART ENGINE')	
+		f_sysTime()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4017,9 +3997,8 @@ function f_closeMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, '             THE ENGINE WILL BE CLOSED')
-		f_clock()
-		f_date()	
+		textImgSetText(txt_titleFt, '             THE ENGINE WILL BE CLOSED')	
+		f_sysTime()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4104,9 +4083,8 @@ function f_restartMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, '           THE ENGINE WILL BE RESTARTED')
-		f_clock()
-		f_date()	
+		textImgSetText(txt_titleFt, '           THE ENGINE WILL BE RESTARTED')	
+		f_sysTime()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

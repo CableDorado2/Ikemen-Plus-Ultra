@@ -541,8 +541,7 @@ function f_backMenu()
 			textImgDraw(txt_subTitle)
 			textImgDraw(txt_titleFt)
 			textImgSetText(txt_titleFt, '            YOU WILL BACK TO MAIN MENU')
-			f_clock()
-			f_date()	
+			f_sysTime()	
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			cmdInput()
@@ -621,11 +620,15 @@ function f_selectSimple()
 				--Do Nothing and don't show the screen
 				end
 			end
-		elseif data.rosterMode == 'mission' then
+		elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
 			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
 				f_selectWin()
 			end
-			f_menuMusic()
+			if data.rosterMode == 'event' then
+				playBGM(bgmEvents)
+			else
+				f_menuMusic()
+			end
 			return
 		end	
 		playBGM('')
@@ -796,9 +799,13 @@ function f_selectAdvance()
 				f_result('win')
 				--complete missions verification
 				f_missionStatus()
+				--complete events verification
+				f_eventStatus()
 				if data.gameMode == 'arcade' then
 					--complete missions verification
 					f_missionStatus()
+					--complete events verification
+					f_eventStatus()
 					--credits
 					script.storyboard.f_storyboard('data/screenpack/credits.def')
 					--unlocks
@@ -2147,7 +2154,7 @@ function f_selectStage()
 		--if commandGetState(p1Cmd, 's') then
 			--sndPlay(sysSnd, 100, 0)
 			--TODO: Alternative Stage Code
-		if commandGetState(p1Cmd, 'd') then
+		if commandGetState(p1Cmd, 'u') then
 			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList + 1
@@ -2162,7 +2169,7 @@ function f_selectStage()
 			end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'd') then
 			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Up Button on StageList Numbered
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList + 1
@@ -2944,6 +2951,20 @@ function f_missionStatus()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
 
+function f_eventStatus()
+	if data.eventNo == 'event 1' then
+		data.event1Status = 100
+		f_saveUnlockData()
+	elseif data.eventNo == 'event 2' then
+		data.event2Status = 100
+		f_saveUnlockData()
+	elseif data.eventNo == 'event 3' then
+		data.event3Status = 100
+		f_saveUnlockData()
+	end
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
 function f_winCoins()
 	if onlinegame == false then	
 		if coinSystem == true then
@@ -2985,9 +3006,10 @@ function f_selectWin()
 			f_winCoins()
 			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
 			if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
-				--Do nothing and don't save mission progress
+				--Do nothing and don't save mission/event progress
 			else 
 				f_missionStatus()
+				f_eventStatus()
 			end
 		else--if winner == 2 then
 			p2Wins = p2Wins + 1
@@ -3101,6 +3123,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 		f_winCoins()
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
 		f_missionStatus()
+		f_eventStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		--f_loseCoins()
@@ -3137,6 +3160,7 @@ function f_selectWinOFF()
 		p1Wins = p1Wins + 1
 		f_winCoins()
 		f_missionStatus()
+		f_eventStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		--f_loseCoins()

@@ -255,11 +255,15 @@ Ken Masters/Daigo Ken.def, stages/New York.def, order=4
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
-Catwalk, stages/Neo-Geo Land.def, includestage=0, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
-Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
+Break The Car, stages/Way Out.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
 Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
-Tic-Tac-Toe, stages/Training Room 2.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=6
-Call of Zombies, stages/Training Room 2.def, bonus=1, winscreen=0, exclude=1, order=6
+Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
+Catwalk, stages/Neo-Geo Land.def, includestage=0, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
+;===========================================================
+; INSERT YOUR EVENTS CHARACTERS BELOW
+;===========================================================
+Call of Zombies, stages/Training Room 2.def, zoom=0, winscreen=0, exclude=1, order=6
+Unknown Zone, stages/Training Room 2.def, zoom=0, winscreen=0, exclude=1, order=6
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================

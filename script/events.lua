@@ -5,9 +5,9 @@ module(..., package.seeall)
 --; EVENTS MENU LOOP
 --;===========================================================
 t_eventMenu = {
-	{id = '', text = '', varID = textImgNew(), varText = mission1Progress},
-	{id = '', text = '', varID = textImgNew(), varText = mission2Progress},
-	{id = '', text = '', varID = textImgNew(), varText = mission3Progress},
+	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
+	{id = '', text = '', varID = textImgNew(), varText = event2Progress},
+	{id = '', text = '', varID = textImgNew(), varText = event3Progress},
 }
 for i=1, #t_eventMenu do
 	t_eventMenu[i].id = createTextImg(font2, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
@@ -15,8 +15,8 @@ end
 
 t_mInfo = {
 	{id = '1', text = "Survive 40 Rounds in The Call of Zombies!"},
-	{id = '2', text = "Play as Master Kung Fu Girl!"},
-	{id = '3', text = "Fight agains Suave's Dude Minion!"},
+	{id = '2', text = "Five Nights at Ikemen!"},
+	{id = '3', text = "Play as Master Kung Fu Girl!"},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
@@ -84,18 +84,20 @@ end
 
 function f_eventMenu()
 	cmdInput()
+	playBGM(bgmEvents)
 	local eventMenu = 1	
-	local cursorPosX = 0
+	local cursorPosY = 0
 	local moveTxt = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 	--Event Status Logic
-	data.missionsStatus = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status + data.mission6Status) * 100 / 600) + 0.5)) --The number (600) is the summation of all data.missionStatus values in parentheses
-	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
-	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
-	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
-	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.missionsStatus .. '%]', 159, 12) --needs to be inside of event Menu function, to load event data %
+	data.eventsStatus = (math.floor(((data.event1Status + data.event2Status + data.event3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.eventsStatus values in parentheses
+	if data.event1Status == 100 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
+	if data.event2Status == 100 then event2Progress = 'COMPLETED' elseif data.event2Status == 0 then event2Progress = 'INCOMPLETE' end
+	if data.event3Status == 100 then event3Progress = 'COMPLETED' elseif data.event3Status == 0 then event3Progress = 'INCOMPLETE' end
+	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsStatus .. '%]', 159, 12) --needs to be inside of event Menu function, to load event data %
 		if esc() then
+			f_menuMusic()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -110,27 +112,47 @@ function f_eventMenu()
 				if eventMenu < 1 then
 					eventMenu = #t_eventMenu
 					if #t_eventMenu > 4 then
-						cursorPosX = 4
+						cursorPosY = 4
 					else
-						cursorPosX = #t_eventMenu-1
+						cursorPosY = #t_eventMenu-1
 					end
 				elseif eventMenu > #t_eventMenu then
 					eventMenu = 1
-					cursorPosX = 0
-				elseif commandGetState(p1Cmd, 'l') and cursorPosX > 0 then
-					cursorPosX = cursorPosX - 1
-				elseif commandGetState(p1Cmd, 'r') and cursorPosX < 4 then
-					cursorPosX = cursorPosX + 1
+					cursorPosY = 0
+				elseif commandGetState(p1Cmd, 'l') and cursorPosY > 0 then
+					cursorPosY = cursorPosY - 1
+				elseif commandGetState(p1Cmd, 'r') and cursorPosY < 4 then
+					cursorPosY = cursorPosY + 1
 				end
-				if cursorPosX == 4 then
+				if cursorPosY == 4 then
 					moveTxt = (eventMenu - 5) * 13
-				elseif cursorPosX == 0 then
+				elseif cursorPosY == 0 then
 					moveTxt = (eventMenu - 1) * 13
 				end
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--CALL OF ZOMBIES
-			if eventMenu == 1 then
+			if eventMenu == 2 then
+				if event2Status == true then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+					setRoundTime(-1)
+					data.p2In = 0
+					data.p1TeamMenu = {mode = 0, chars = 1}				
+					data.p2TeamMenu = {mode = 0, chars = 1}
+					data.p2Char = {t_charAdd['call of zombies']}
+					data.stageMenu = false
+					data.versusScreen = false
+					data.rosterMode = 'event'
+					data.eventNo = 'event 2'
+					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+					script.select.f_selectSimple()
+				elseif event2Status == false then
+					sndPlay(sysSnd, 100, 1)
+					f_eventLocked()
+				end
+			--UNKNOW ZONE
+			elseif eventMenu == 1 then
 				if event1Status == true then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
@@ -138,60 +160,49 @@ function f_eventMenu()
 					data.p2In = 0
 					data.p1TeamMenu = {mode = 0, chars = 1}				
 					data.p2TeamMenu = {mode = 0, chars = 1}
-					--data.p1Char = {t_charAdd['dragon claw']}
-					data.p2Char = {t_charAdd['call of zombies']}
+					data.p2Char = {t_charAdd['unknown zone']}
 					data.stageMenu = false
 					data.versusScreen = false
-					--data.rosterMode = 'mission'
-					--data.missionNo = 'mission 1'
-					--textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
+					data.rosterMode = 'event'
+					data.eventNo = 'event 1'
+					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
 					script.select.f_selectSimple()
 				elseif event1Status == false then
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()
 				end
 			--Master Kung Fu Girl
-			elseif eventMenu == 2 then
-				if event2Status == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-					setRoundTime(-1)
-				
-				elseif event2Status == false then
-					sndPlay(sysSnd, 100, 1)
-					f_eventLocked()
-				end
-			--VS Suave's Dude Minion
 			elseif eventMenu == 3 then
 				if event3Status == true then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
 					setRoundTime(-1)
-					data.p2In = 0
+					data.p2In = 1
+					data.p2SelectMenu = false
 					data.p1TeamMenu = {mode = 0, chars = 1}				
-					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.p1Char = {t_charAdd['kung fu man']}
-					data.p2Char = {t_charAdd['suave dude/minion/minion.def']}
-					data.stageMenu = false
+					--data.p2TeamMenu = {mode = 2, chars = 4}
+					data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
 					data.versusScreen = true
-					script.select.f_selectSimple()
+					data.gameMode = 'survival'
+					data.eventNo = 'event 3'
+					script.select.f_selectAdvance()
 				elseif event3Status == false then
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()
 				end
 			end			
 		end
-		--if cursorPosX == 4 then
+		--if cursorPosY == 4 then
 			--moveTxt = (eventMenu - 4) * 15
-		--elseif cursorPosX == 1 then
+		--elseif cursorPosY == 1 then
 			--moveTxt = (eventMenu - 1) * 15
 		--end	
 		--if #t_eventMenu <= 4 then
-			--maxMissions = #t_eventMenu
-		--elseif eventMenu - cursorPosX > 0 then
-			--maxMissions = eventMenu + 14 - cursorPosX
+			--maxEvents = #t_eventMenu
+		--elseif eventMenu - cursorPosY > 0 then
+			--maxEvents = eventMenu + 14 - cursorPosY
 		--else
-			--maxMissions = 4
+			--maxEvents = 4
 		--end		
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		--Draw Event Title Table
@@ -217,9 +228,9 @@ function f_eventMenu()
 				textImgDraw(t_mInfo[3].id)
 			end
 		end	
-		t_eventMenu[1].varText = mission1Progress
-		t_eventMenu[2].varText = mission2Progress
-		t_eventMenu[3].varText = mission3Progress
+		t_eventMenu[1].varText = event1Progress
+		t_eventMenu[2].varText = event2Progress
+		t_eventMenu[3].varText = event3Progress
 		for i=1, #t_eventMenu do
 			textImgDraw(t_eventMenu[i].id)
 			if t_eventMenu[i].varID ~= nil then
@@ -229,6 +240,7 @@ function f_eventMenu()
 		animSetWindow(cursorBox, -100+eventMenu*104.5,60, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+eventMenu*104.5, 60)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		f_sysTime()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
