@@ -262,8 +262,8 @@ Catwalk, stages/Neo-Geo Land.def, includestage=0, zoom=0, bonus=1, winscreen=0, 
 ;===========================================================
 ; INSERT YOUR EVENTS CHARACTERS BELOW
 ;===========================================================
-Call of Zombies, stages/Training Room 2.def, zoom=0, winscreen=0, exclude=1, order=6
-Unknown Zone, stages/Training Room 2.def, zoom=0, winscreen=0, exclude=1, order=6
+Call of Zombies, stages/Training Room 2.def, zoom=0, exclude=1, order=6
+Unknown Zone, stages/Training Room 2.def, zoom=0, exclude=1, order=6
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================
@@ -323,7 +323,7 @@ stages/New York.def
 stages/Jet.def
 stages/Control Center.def
 stages/China.def
-stages/Way Out.def, music=sound/Esaka Continues.mp3
+stages/Way Out.def
 stages/HD TEST/Nyc Alley.def
 stages/HD TEST/Australian Outback.def
 stages/HD TEST/Fairy Day 4_3.def

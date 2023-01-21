@@ -266,7 +266,15 @@ function f_makeRoster()
 			end			
 		elseif data.gameMode == 'endless' then
 			t = t_randomChars
-			cnt = 9999 * p2numChars
+			cnt = 999 * p2numChars
+		elseif data.gameMode == 'allroster' then
+			t = t_randomChars
+			cnt = #t
+			local i = 0
+			while cnt / p2numChars ~= math.ceil(cnt / p2numChars) do --not integer
+				i = i + 1
+				cnt = #t + i
+			end
 		end
 		while cnt > 0 do
 			f_shuffleTable(t)
@@ -586,7 +594,7 @@ function f_selectSimple()
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		if data.rosterMode == 'challenger' then
 			f_challengerMusic()
-		elseif data.gameMode == 'stage viewer' then
+		elseif data.rosterMode == 'event' then
 			--playBGM('')
 		else	
 			playBGM(bgmSelect)
@@ -598,7 +606,11 @@ function f_selectSimple()
 				sndPlay(sysSnd, 100, 2)
 				f_backMenu()
 				if backmenu == true then
-					f_menuMusic()
+					if data.rosterMode == 'event' then
+						--playBGM('')
+					else
+						f_menuMusic()
+					end
 					return
 				end
 			end
@@ -641,62 +653,7 @@ end
 --; TOURNAMENT LOOP
 --;================================================================
 function f_selectTournament()
-	p1SelX = 0
-	p1SelY = 0
-	p2SelX = 0
-	p2SelY = 0
-	p1FaceOffset = 0
-	p2FaceOffset = 0
-	p1OffsetRow = 0
-	p2OffsetRow = 0
-	stageList = 0
-	gameNo = 0
-	bossNo = 0
-	bonusNo = 0
-	p1Wins = 0
-	p2Wins = 0
-	cmdInput()
-	while true do
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		if data.rosterMode == 'challenger' then
-			f_challengerMusic()
-		else	
-			playBGM(bgmSelect)
-		end
-		f_selectReset()
-		while not selScreenEnd do
-			if esc() then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				f_backMenu()
-				if backmenu == true then
-					f_menuMusic()
-					return
-				end
-			end
-			f_selectTournamentScreen()
-		end
-		f_aiLevel()
-		f_orderSelect()
-		f_selectVersus()
-		f_setZoom()
-		f_assignMusic()
-		winner = game()
-		--win screen
-		--if data.gameMode == 'tournament' then
-			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
-			f_selectWin()
-				if data.challengerScreen == true then
-					f_selectChallenger()
-				else
-				--Do Nothing and don't show the screen
-				end
-			end
-		--end		
-		playBGM('')
-		cmdInput()
-		refresh()
-	end
+--TODO
 end
 
 --;=====================================================================================
@@ -2162,7 +2119,7 @@ function f_selectStage()
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList - 1
 			--end
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sysSnd, 100, 3)
 			for i=1, 5 do --Go back 5 by 5
 				stageList = stageList - 1
 				if stageList < 0 then stageList = data.includestage end
@@ -2179,7 +2136,7 @@ function f_selectStage()
 			--else
 			
 			--end
-			sndPlay(sysSnd, 100, 1)
+			sndPlay(sysSnd, 100, 3)
 			for i=1, 5 do --Advance 5 by 5
 				stageList = stageList + 1
 				if stageList > data.includestage then stageList = 0 end
@@ -2994,7 +2951,7 @@ end
 
 function f_selectWin()
 	setServiceType(0) --Erase Service
-	if data.winscreen == 'None' then
+	if data.winscreen == 'None' or data.eventNo == 'event 1' or data.eventNo == 'event 2' then
 		f_selectWinOFF()
 	elseif data.winscreen == 'Fixed' then
 		f_selectWinFix()

@@ -2,4 +2,4 @@ Backup the Ikemen Plus Ultra.exe file in your Ikemen Plus Ultra folder, then rep
 
 This patched build increases the memory limit (RAM) from 2GB to 4GB on x64 platforms, allowing the use of larger characters and stages. Requires a 64-bit operating system.
 
-This is NOT an optimized nor a faster build. Use this at your own risk, and only as a last resort if you experience difficulties related to memory heavy content. Use this build with OpenGL render mode for best results.
+This is NOT an optimized nor a faster build. Use this at your own risk, and only as a last resort if you experience difficulties related to memory heavy content.

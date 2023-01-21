@@ -10,20 +10,37 @@ t_eventMenu = {
 	{id = '', text = '', varID = textImgNew(), varText = event3Progress},
 }
 for i=1, #t_eventMenu do
-	t_eventMenu[i].id = createTextImg(font2, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
+	t_eventMenu[i].id = createTextImg(jgFnt, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
+end
+
+--function countdown(t)
+  --local d = math.floor(t / 86400)
+  --local h = math.floor((t % 86400) / 3600)
+  --local m = math.floor((t % 3600) / 60)
+  --local s = math.floor((t % 60))
+  --return string.format("%d:%02d:%02d:%02d", d, h, m, s)
+--end
+
+t_tInfo = {
+	{id = '1', text = 'WILL BE AVAILABLE FROM 1AM/1:00 TO 1PM/13:00 '},
+	{id = '2', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 8PM/20:00'},
+	{id = '3', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
+}
+for i=1, #t_tInfo do
+	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 39)
 end
 
 t_mInfo = {
-	{id = '1', text = "Survive 40 Rounds in The Call of Zombies!"},
-	{id = '2', text = "Five Nights at Ikemen!"},
-	{id = '3', text = "Play as Master Kung Fu Girl!"},
+	{id = '1', text = "Find A Generator in an Unknown Zone  "},
+	{id = '2', text = "Survive 40 Rounds in The Call of Zombies!"},
+	{id = '3', text = "Play as Master Kung Fu Girl!     "},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
 end
 
 function f_drawEvent1() --Draw Event 1 Preview
-	if data.sysTime >= 0 and data.sysTime <= 12 then --Event Available! From 1am until afternoon
+	if sysTime >= 1 and sysTime <= 12 then --Event Available! FROM 1AM/1:00 TO 1PM/13:00
 		event1Status = true
 		event1 = animNew(eventSff, [[
 		0,0, 0,0,
@@ -43,7 +60,7 @@ function f_drawEvent1() --Draw Event 1 Preview
 end
 
 function f_drawEvent2() --Draw Event 2 Preview
-	if data.sysTime >= 13 and data.sysTime <= 19 then --Event Available! From 1pm until night
+	if sysTime >= 13 and sysTime <= 19 then --Event Available! FROM 1PM/13:00 TO 8PM/20:00
 		event2Status = true
 		event2 = animNew(eventSff, [[
 		1,0, 0,0,
@@ -63,7 +80,7 @@ function f_drawEvent2() --Draw Event 2 Preview
 end
 
 function f_drawEvent3() --Draw Event 3 Preview
-	if data.sysTime >= 20 and data.sysTime <= 24 then --Event Available! From 8pm until 12am
+	if sysTime >= 20 and sysTime <= 23 then --Event Available! FROM 8PM/20:00 TO 11PM/23:00
 		event3Status = true
 		event3 = animNew(eventSff, [[
 		2,0, 0,0,
@@ -131,28 +148,8 @@ function f_eventMenu()
 				end
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--CALL OF ZOMBIES
-			if eventMenu == 2 then
-				if event2Status == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-					setRoundTime(-1)
-					data.p2In = 0
-					data.p1TeamMenu = {mode = 0, chars = 1}				
-					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.p2Char = {t_charAdd['call of zombies']}
-					data.stageMenu = false
-					data.versusScreen = false
-					data.rosterMode = 'event'
-					data.eventNo = 'event 2'
-					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-					script.select.f_selectSimple()
-				elseif event2Status == false then
-					sndPlay(sysSnd, 100, 1)
-					f_eventLocked()
-				end
 			--UNKNOW ZONE
-			elseif eventMenu == 1 then
+			if eventMenu == 1 then
 				if event1Status == true then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
@@ -168,6 +165,26 @@ function f_eventMenu()
 					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
 					script.select.f_selectSimple()
 				elseif event1Status == false then
+					sndPlay(sysSnd, 100, 1)
+					f_eventLocked()
+				end
+			--CALL OF ZOMBIES
+			elseif eventMenu == 2 then
+				if event2Status == true then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+					setRoundTime(-1)
+					data.p2In = 0
+					data.p1TeamMenu = {mode = 0, chars = 1}				
+					data.p2TeamMenu = {mode = 0, chars = 1}
+					data.p2Char = {t_charAdd['call of zombies']}
+					data.stageMenu = false
+					data.versusScreen = false
+					data.rosterMode = 'event'
+					data.eventNo = 'event 2'
+					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+					script.select.f_selectSimple()
+				elseif event2Status == false then
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()
 				end
@@ -216,16 +233,34 @@ function f_eventMenu()
 		f_drawEvent2()
 		f_drawEvent3()
 		if eventMenu == 1 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[1].id)
+			if event1Status == true then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[1].id)
+				end
+			elseif 	event1Status == false then
+				for i=1, #t_tInfo do
+					textImgDraw(t_tInfo[1].id)
+				end
 			end
 		elseif eventMenu == 2 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[2].id)
+			if event2Status == true then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[2].id)
+				end
+			elseif event2Status == false then
+				for i=1, #t_tInfo do
+					textImgDraw(t_tInfo[2].id)
+				end
 			end
 		elseif eventMenu == 3 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[3].id)
+			if event3Status == true then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[3].id)
+				end
+			elseif event3Status == false then
+				for i=1, #t_tInfo do
+					textImgDraw(t_tInfo[3].id)
+				end
 			end
 		end	
 		t_eventMenu[1].varText = event1Progress

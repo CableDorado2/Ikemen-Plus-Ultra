@@ -90,7 +90,7 @@ bgmEvents = 'sound/Events.mp3'
 
 --Random Versus Music
 function f_bgmrandomVS()
-	local randomTrack = {"sound/Random VS/Song 1.mp3", "sound/Random VS/Song 2.mp3", "sound/Random VS/Song 3.mp3"}
+	local randomTrack = {"sound/Random 1.mp3", "sound/Random 2.mp3"}
 	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
@@ -340,13 +340,11 @@ txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.2.0', 319, 240)
 txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black screen important message
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
-
-
 function f_sysTime() --clock and date features
-	data.sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-	data.sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
-	--data.sysTime3 = tonumber(os.date("%m"))
-
+	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+	--sysTime3 = tonumber(os.date("%m"))
+	--Clock
 	if data.clock == 'Standard' then
 		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
 	elseif data.clock == 'Full Standard' then
@@ -357,7 +355,7 @@ function f_sysTime() --clock and date features
 		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
 	end	
 	textImgDraw(txt_titleFt2)
-	
+	--Date
 	if data.date == 'Type A' then
 		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 50, 8)
 	elseif data.date == 'Type B' then
@@ -1164,8 +1162,8 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'SURVIVAL'},
 	{id = textImgNew(), text = 'BOSS FIGHT'},
 	{id = textImgNew(), text = 'BONUS GAMES'},
-	{id = textImgNew(), text = 'SUDDEN DEATH'},		
 	{id = textImgNew(), text = 'TIME ATTACK'},
+	{id = textImgNew(), text = 'SUDDEN DEATH'},		
 	{id = textImgNew(), text = 'BACK'},	
 }	
 	
@@ -1219,14 +1217,14 @@ function f_challengeMenu()
 			elseif challengeMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_bonusMenu()
-			--SUDDEN DEATH
+			--TIME ATTACK
 			elseif challengeMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
-				f_suddenMenu()				
-			--TIME ATTACK
+				f_timeMenu()
+			--SUDDEN DEATH
 			elseif challengeMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				f_timeMenu()				
+				f_suddenMenu()								
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2036,7 +2034,7 @@ function f_suddenMenu()
 				setLifeMul(0)
 				data.p2In = 1				
 				data.p2SelectMenu = false
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
@@ -2049,7 +2047,7 @@ function f_suddenMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()					
@@ -2150,7 +2148,7 @@ function f_timeMenu()
 				setLifeMul(2)
 				data.p2In = 1				
 				data.p2SelectMenu = false
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -2162,7 +2160,7 @@ function f_timeMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()					
 			--BACK
@@ -3384,7 +3382,7 @@ function f_mainHost()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()				
@@ -3397,7 +3395,7 @@ function f_mainHost()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
@@ -3594,7 +3592,7 @@ function f_mainJoin()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()				
@@ -3607,7 +3605,7 @@ function f_mainJoin()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.gameMode = 'endless'
+				data.gameMode = 'allroster'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS

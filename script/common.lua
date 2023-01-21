@@ -368,6 +368,10 @@ function f_strSub(str, t)
 	return str, txt
 end
 
+sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+--sysTime3 = tonumber(os.date("%m"))
+
 --Screenshot function
 --addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
 --function takeScreenshotVS()
