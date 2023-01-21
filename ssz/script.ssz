@@ -680,6 +680,24 @@ void rshiftKey(&.lua.State L=, int re=)
   L.pushBoolean(.se.rshiftKey);
 }
 
+void getGamepadKeyA(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.getGamepadKeyA);
+}
+
+void getGamepadKeyB(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.getGamepadKeyB);
+}
+
+void getGamepadKeyC(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.getGamepadKeyC);
+}
+
 void sszRandom(&.lua.State L=, int re=)
 {
   re = 1;
@@ -819,6 +837,9 @@ public void init(&.lua.State L=)
   //L.register("spaceKey", .spaceKey);
   L.register("lshiftKey", .lshiftKey);
   L.register("rshiftKey", .rshiftKey);
+  L.register("getGamepadKeyA", .getGamepadKeyA);
+  L.register("getGamepadKeyB", .getGamepadKeyB);
+  L.register("getGamepadKeyC", .getGamepadKeyC);
   L.register("sszRandom", .sszRandom);
   L.register("setAutoguard", .setAutoguard);
   L.register("setPowerShare", .setPowerShare);

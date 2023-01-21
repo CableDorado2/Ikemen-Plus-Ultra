@@ -17,7 +17,7 @@ public bool end = false, fskip = false, full = false, esc = false,
 		 zeroKey = false, oneKey = false, twoKey = false, threeKey = false, fourKey = false,
 		 fiveKey = false, sixKey = false, sevenKey = false, eightKey = false, nineKey = false,
 		 returnKey = false, lshiftKey = false, rshiftKey = false,
-		 joystickA = false;
+		 getGamepadKeyA = false, getGamepadKeyB = false, getGamepadKeyC = false;
 public &Key
 {
   public |.sdl.K key = .sdl.K::UNKNOWN;
@@ -289,6 +289,15 @@ public bool eventUpdate()
         case .sdl.K::RSHIFT:
           .rshiftKey = true;
         }
+    if(.sdl.JoystickButtonState(:0,0:)){
+          .getGamepadKeyA = true;
+	}
+	if(.sdl.JoystickButtonState(:1,1:)){
+          .getGamepadKeyB = true;
+	}
+	if(.sdl.JoystickButtonState(:2,2:)){
+          .getGamepadKeyC = true;
+	}
       }
     }
   while .sdl.PollEvent(:.sdle=:):
@@ -381,5 +390,8 @@ public bool event(int fps)
   .returnKey = false;
   .lshiftKey = false;
   .rshiftKey = false;
+  .getGamepadKeyA = false;
+  .getGamepadKeyB = false;
+  .getGamepadKeyC = false;
   ret .eventUpdate();
 }

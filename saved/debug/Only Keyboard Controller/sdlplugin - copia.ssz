@@ -431,7 +431,6 @@ const ubyte BUTTON_WHEELDOWN = 5;
     SLEEP = 282,
     APP1 = 283,
     APP2 = 284,
-	PAD1 = 285,
 
     NUM_SCANCODES = 512
 }

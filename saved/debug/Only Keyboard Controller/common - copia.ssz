@@ -16,10 +16,6 @@ public float team1VS2Life = 1.0;
 public float turnsRecoveryRate = 1.0 / 300.0;
 public bool sharedLife = true;
 
-public int sysControls = 0; //0 = Fight, 10 = Menu, set back to 10
-public int gameState = 0; //1 = Fight, 0 = Menu, temporary
-public bool exitMatch;
-
 //TEAM MODE TYPE
 |TeamMode
 {
