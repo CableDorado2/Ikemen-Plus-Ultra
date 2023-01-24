@@ -3276,8 +3276,9 @@ fvalue = 0
 type = ChangeState
 triggerAll = NumEnemy
 triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = P2Name = "UZUKI" || P4Name = "UZUKI"
+trigger1 = P2Name = "Sakura" || P4Name = "Sakura"
 trigger2 = P2Name = "KungFuGirl UZUKI" || P4Name = "KungFuGirl UZUKI"
+trigger3 = P2Name = "Sakura Kasugano" || P4Name = "Sakura Kasugano"
 value = 19400
 
 [State 5900, Intro vs Kung Fu Girl]
@@ -3288,6 +3289,11 @@ trigger1 = P2Name = "Kung Fu girl" || P4Name = "Kung Fu girl"
 trigger2 = P2Name = "K.F. Girl" || P4Name = "K.F. Girl"
 trigger3 = P2Name = "Another Kung Fu girl" || P4Name = "Another Kung Fu girl"
 trigger4 = P2Name = "Another Kung Fu girl Z" || P4Name = "Another Kung Fu girl Z"
+trigger5 = P2Name = "Master Kung Fu Girl" || P4Name = "Master Kung Fu Girl"
+trigger6 = P2Name = "Master of Elements" || P4Name = "Master of Elements"
+trigger7 = P2Name = "MOE" || P4Name = "MOE"
+trigger8 = P2Name = "Kung Fu Girl MOE" || P4Name = "Kung Fu Girl MOE"
+trigger9 = P2Name = "MOE Kung Fu Girl" || P4Name = "MOE Kung Fu Girl"
 value = 19404
 
 [State 5900, Intro vs kung fu series&yoga]
@@ -3317,16 +3323,16 @@ trigger20 = P2Name = "Xiangfei" || P4Name = "Xiangfei"
 trigger21 = P2Name = "Arima_Miyako" || P4Name = "Arima_Miyako"
 trigger22 = P2Name = "Asamiya Athena" || P4Name = "Asamiya Athena"
 trigger23 = P2Name = "aDark Athena 2nd" || P4Name = "Dark Athena 2nd"
-trigger24 = P2Name = "Athena94sp" || P4Name = "Athena94sp"
+trigger24 = P2Name = "Ryu" || P4Name = "Ryu"
 trigger25 = P2Name = "Athena95" || P4Name = "Athena95"
 trigger26 = P2Name = "Athena96" || P4Name = "Athena 96"
 trigger27 = P2Name = "Athena97" || P4Name = "Athena97"
 trigger28 = P2Name = "Athena98" || P4Name = "Athena98"
 trigger29 = P2Name = "Athena99" || P4Name = "Athena99"
 trigger30 = P2Name = "Athena99" || P4Name = "Athena99"
-trigger31 = P2Name = "Athena 96" || P4Name = "Athena 96"
+trigger31 = P2Name = "EX Ryu" || P4Name = "EX Ryu"
 trigger32 = P2Name = "Athena Asamiya" || P4Name = "Athena Asamiya"
-trigger33 = P2Name = "athena-K97" || P4Name = "athena-K97"
+trigger33 = P2Name = "Master Ryu" || P4Name = "Master Ryu"
 trigger34 = P2Name = "AthenaXI" || P4Name = "AthenaXI"
 trigger35 = P2Name = "Athena95ex" || P4Name = "Athena95ex"
 trigger36 = P2Name = "Athena TYPE-M" || P4Name = "Athena TYPE-M"
@@ -3350,10 +3356,10 @@ trigger53 = P2Name = "DAO-LONG" || P4Name = "DAO-LONG"
 trigger54 = P2Name = "DAO LONG" || P4Name = "DAO LONG"
 trigger52 = P2Name = "yuen joe" || P4Name = "yuen joe"
 trigger53 = P2Name = "Athena" || P4Name = "Athena"
-trigger54 = P2Name = "svcDhalsim" || P4Name = "svcDhalsim"
+trigger54 = P2Name = "Ken Masters" || P4Name = "Ken Masters"
 trigger55 = P2Name = "Dhalsim" || P4Name = "Dhalsim"
-trigger56 = P2Name = "RajaaDhalsim" || P4Name = "RajaaDhalsim"
-trigger57 = P2Name = "cvsDhalsim" || P4Name = "cvsDhalsim"
+trigger56 = P2Name = "Daigo Ken" || P4Name = "Daigo Ken"
+trigger57 = P2Name = "Master Ken" || P4Name = "Master Ken"
 trigger58 = P2Name = "Shampoo" || P4Name = "Shampoo"
 trigger59 = P2Name = "Cheng_Fu" || P4Name = "Cheng_Fu"
 trigger60 = P2Name = "Duke" || P4Name = "Duke"
@@ -3371,10 +3377,9 @@ value = 19500
 ;type = ChangeState
 ;triggerAll = NumEnemy
 ;triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-;trigger1 = P2Name = "chin tao" || P4Name = "chin tao"
-;trigger2 = P2Name = "CLAUS" || P4Name = "CLAUS"
+;trigger1 = P2Name = "CLAUS" || P4Name = "CLAUS"
+;trigger2 = P2Name = "" || P4Name = ""
 ;trigger3 = P2Name = "" || P4Name = ""
-;trigger4 = P2Name = "" || P4Name = ""
 ;value = 19501
 
 [State 5900, Intro vs Peketo]
@@ -3382,7 +3387,7 @@ type = ChangeState
 triggerall = RoundNo = 1
 triggerall = TeamMode = Single
 triggerall = enemynear, TeamMode = Single
-trigger1 = P2Name = "Peketo" || P4Name = "Peketo"
+trigger1 = P2Name = "Drossrotzank" || P4Name = "Drossrotzank"
 value = 19504
 
 [State 5900, Intro vs cute series]
@@ -3402,7 +3407,7 @@ trigger10 = P2Name = "car navi" || P4Name = "car navi"
 trigger11 = P2Name = "InuSakuya" || P4Name = "InuSakuya"
 trigger12 = P2Name = "Rion" || P4Name = "Rion"
 trigger13 = (P2Name = "Unyuho" || P4Name = "Unyuho") && enemy,life = 882
-;trigger1 = P2Name = "" || P4Name = ""
+trigger14 = P2Name = "Dragon Claw" || P4Name = "Dragon Claw"
 ;trigger2 = P2Name = "" || P4Name = ""
 ;trigger3 = P2Name = "" || P4Name = ""
 ;trigger4 = P2Name = "" || P4Name = ""
@@ -3417,8 +3422,8 @@ value = 19505
 type = ChangeState
 triggerAll = NumEnemy
 triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = P2Name = "Unyuho" || P4Name = "Unyuho"
-trigger1 = enemy,life = 950	
+trigger1 = P2Name = "Invisible Man" || P4Name = "Invisible Man"
+;trigger1 = enemy,life = 950	
 value = 19506
 
 [State 5900, Intro vs acquaintance]
@@ -3435,6 +3440,18 @@ trigger7 = P2Name = "Nero" || P4Name = "Nero" ;(+)
 trigger8 = P2Name = "Superman" || P4Name = "Superman" ;(+)
 trigger9 = P2Name = "Freedom Gundam" || P4Name = "Freedom Gundam" ;(+)
 trigger10 = P2Name = "Iari" || P4Name = "Iari" ;(+)
+trigger11 = P2Name = "Thanos" || P4Name = "Thanos"
+trigger12 = P2Name = "Iori Yagami" || P4Name = "Iori Yagami"
+trigger13 = P2Name = "Iori" || P4Name = "Iori"
+trigger14 = P2Name = "Rugal" || P4Name = "Rugal"
+trigger15 = P2Name = "Rugal Bernstein" || P4Name = "Rugal Bernstein"
+trigger16 = P2Name = "Orochi" || P4Name = "Orochi"
+trigger17 = P2Name = "M. Bison" || P4Name = "M. Bison"
+trigger18 = P2Name = "Omega Rugal" || P4Name = "Omega Rugal"
+trigger19 = P2Name = "Vergil" || P4Name = "Vergil"
+trigger20 = P2Name = "Dante" || P4Name = "Dante"
+trigger21 = P2Name = "K'" || P4Name = "K'"
+trigger22 = P2Name = "Akuma" || P4Name = "Akuma"
 value = 19510
 
 [State 5900, Intro vs acquaintance]
@@ -3442,7 +3459,7 @@ type = ChangeState
 triggerAll = NumEnemy
 triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
 trigger1 = P2Name = "fungi" || P4Name = "fungi"
-;trigger2 = P2Name = "" || P4Name = ""
+trigger2 = P2Name = "Yuri" || P4Name = "Yuri"
 ;trigger3 = P2Name = "" || P4Name = ""
 ;trigger4 = P2Name = "" || P4Name = ""
 ;trigger5 = P2Name = "" || P4Name = ""
@@ -3457,6 +3474,7 @@ value = 19511
 type = ChangeState
 trigger1 = fvar(35) = 1
 trigger1 = P2Name = "saimon" || P4Name = "saimon"
+trigger2 = P2Name = "Smashbox" || P4Name = "Smashbox"
 value = 19520
 
 [State 5900, Intro vs USHIROMIYA ANGE]
@@ -3471,6 +3489,7 @@ type = ChangeState
 triggerAll = NumEnemy
 triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
 trigger1 = P2Name = "Kazuya Akatsuki" || P4Name = "Kazuya Akatsuki"
+trigger2 = P2Name = "All JUS" || P4Name = "All JUS"
 value = 19540
 
 [State 5900, Intro vs niconico_Ichigo]
@@ -3480,21 +3499,22 @@ triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !
 trigger1 = P2Name = "Ichigo Kurosaki" || P4Name = "Ichigo Kurosaki"
 trigger2 = P2Name = "Ichigo" || P4Name = "Ichigo"
 trigger3 = P2Name = "Ichigo_InnerHollow" || P4Name = "Ichigo_InnerHollow"
+trigger4 = P2Name = "Jotaro Kujo" || P4Name = "Jotaro Kujo"
 value = 19800
 
-[State 5900, Intro vs niconico_Chad]
-type = ChangeState
-triggerAll = NumEnemy
-triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = P2Name = "Chad" || P4Name = "Chad"
-value = 19800
+;[State 5900, Intro vs niconico_Chad]
+;type = ChangeState
+;triggerAll = NumEnemy
+;triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
+;trigger1 = P2Name = "Chad" || P4Name = "Chad"
+;value = 19800
 
-[State 5900, Intro vs niconico_dulton]
-type = ChangeState
-triggerAll = NumEnemy
-triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = P2Name = "dulton" || P4Name = "dulton"
-value = 19802
+;[State 5900, Intro vs niconico_dulton]
+;type = ChangeState
+;triggerAll = NumEnemy
+;triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
+;trigger1 = P2Name = "dulton" || P4Name = "dulton"
+;value = 19802
 
 [State 5900, Intro vs sasuke]
 type = ChangeState
@@ -3522,7 +3542,7 @@ trigger11 = P2Name = "AI Nasi Kung Fu Man" || P4Name = "AI Nasi Kung Fu Man" && 
 trigger12 = P2Name = "KAN CHO MAN" || P4Name = "KAN CHO MAN" && P3Name = "KAN CHO MAN"
 trigger13 = P2Name = "0 Frame Kung Fu Man" || P4Name = "0 Frame Kung Fu Man" && P3Name = "0 Frame Kung Fu Man"
 trigger14 = P2Name = "Kung Fu Man Helper" || P4Name = "Kung Fu Man Helper" && P3Name = "Kung Fu Man Helper"
-trigger15 = P2Name = "WAKA MOTO MAN" || P4Name = "WAKA MOTO MAN" && P3Name = "WAKA MOTO MAN"
+trigger15 = P2Name = "EX Kung Fu Man" || P4Name = "EX Kung Fu Man" && P3Name = "EX Kung Fu Man"
 trigger16 = P2Name = "Angle Kung Fu Man" || P4Name = "Angle Kung Fu Man" && P3Name = "Angle Kung Fu Man"
 trigger17 = P2Name = "Kung Fu Head" || P4Name = "Kung Fu Head" && P3Name = "Kung Fu Head"
 trigger18 = P2Name = "GOD KFMAN" || P4Name = "GOD KFMAN" && P3Name = "GOD KFMAN"
@@ -3531,7 +3551,7 @@ trigger20 = P2Name = "250% K.F.M.FRIA" || P4Name = "250% K.F.M.FRIA" && P3Name =
 trigger21 = P2Name = "MEKAKFM" || P4Name = "MEKAKFM" && P3Name = "MEKAKFM"
 trigger22 = P2Name = "Kung Fu Man Super Big" || P4Name = "Kung Fu Man Super Big" && P3Name = "Kung Fu Man Super Big"
 trigger23 = P2Name = "Black Kung Fu Man" || P4Name = "Black Kung Fu Man" && P3Name = "Black Kung Fu Man"
-trigger24 = P2Name = "Kung Fu Man 3" || P4Name = "Kung Fu Man 3" && P3Name = "Kung Fu Man 3"
+trigger24 = P2Name = "Master Kung Fu Man" || P4Name = "Master Kung Fu Man" && P3Name = "Master Kung Fu Man"
 trigger25 = P2Name = "Kung Fu Man 3.5" || P4Name = "Kung Fu Man 3.5" && P3Name = "Kung Fu Man 3.5"
 trigger26 = P2Name = "Kung Fu Man Helper 2" || P4Name = "Kung Fu Man Helper 2" && P3Name = "Kung Fu Man Helper 2"
 trigger27 = P2Name = "Kung Fu Fiunn" || P4Name = "Kung Fu Fiunn" && P3Name = "Kung Fu Fiunn"
@@ -3564,7 +3584,8 @@ trigger8 = P2Name = "the kung fu man" || P4Name = "the kung fu man"
 trigger9 = P2Name = "Kung Fu Man" && Enemy, AuthorName = "Elecbyte&DivineWolf" || Enemy, Name = "Kung Fu Man" && enemy,authorname = "Elecbyte" || Enemy, Name = "Kung Fu Man 720" && enemy,authorname = "Elecbyte"
 trigger10 = P2Name = "Kung Fu Man Ctrl" || P4Name = "Kung Fu Man Ctrl"
 trigger11 = P2Name = "Arc" && Enemy,AuthorName = "ShowBuySpirit" || P4Name = "Arc" && Enemy,AuthorName = "ShowBuySpirit"
-;trigger12 = P2Name = "" || P4Name = ""
+trigger12 = P2Name = "Master Kung Fu Man" || P4Name = "Master Kung Fu Man"
+trigger13 = P2Name = "EX Kung Fu Man" || P4Name = "EX Kung Fu Man"
 value = 19900;19910
 
 [State 5900, Intro vs kfm...?]
@@ -3601,6 +3622,9 @@ trigger10 = P2Name = "Kung Fu Man 3.5" || P4Name = "Kung Fu Man 3.5"
 trigger11 = P2Name = "Kung Fu Man Helper 2" || P4Name = "Kung Fu Man Helper 2"
 trigger12 = P2Name = "Kung Fu Fiunn" || P4Name = "Kung Fu Fiunn"
 trigger13 = P2Name = "Minimum Kung Fu Man" || P4Name = "Minimum Kung Fu Man" 
+trigger14 = P2Name = "KFM ULTRA" || P4Name = "KFM ULTRA"
+trigger15 = P2Name = "Ultra Kung Fu Man" || P4Name = "Ultra Kung Fu Man"
+trigger16 = P2Name = "Kung Fu Man Ultra" || P4Name = "Kung Fu Man Ultra"
 value = 19930
 
 [State 5900, Turns Intro]

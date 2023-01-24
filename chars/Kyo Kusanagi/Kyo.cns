@@ -483,23 +483,25 @@ ctrl = 0
 anim = 0
 velset = 0,0
 
-;[State 190, 対庵]
-;type = ChangeState
-;trigger1 = p2name = "Iori Yagami" || p4name = "Iori Yagami"
-;trigger1 = EnemyNear,AuthorName = "ikaruga"
-;value = 192
+[State 190, 対庵]
+type = ChangeState
+trigger1 = p2name = "Iori Yagami" || p4name = "Iori Yagami"
+trigger1 = EnemyNear,AuthorName = "ikaruga"
+value = 192
 
-;[State 190, 対K']
-;type = ChangeState
-;trigger1 = p2name = "K'" || p4name = "K'"
-;trigger1 = EnemyNear,AuthorName = "ikaruga"
-;value = 193
+[State 190, 対K']
+type = ChangeState
+trigger1 = p2name = "K'" || p4name = "K'"
+trigger1 = EnemyNear,AuthorName = "ikaruga"
+trigger2 = p2name = "Ash Crimson" || p4name = "Ash Crimson"
+value = 193
 
-;[State 190, 対リュウ]
-;type = ChangeState
-;trigger1 = Enemy,Name = "Ryu"
-;trigger1 = Enemy,AuthorName = "ikaruga" || Enemy,AuthorName = "Soy Sauce"
-;value = 990
+[State 190, 対リュウ]
+type = ChangeState
+trigger1 = Enemy,Name = "Ryu"
+trigger1 = Enemy,AuthorName = "ikaruga" || Enemy,AuthorName = "Soy Sauce"
+trigger2 = Enemy,Name = "Kyo Kusanagi" || Enemy,Name = "Kyo NESTS" || Enemy,Name = "NEST Kyo"
+value = 990
 
 [State 190, ステート変更]
 type = ChangeState

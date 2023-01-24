@@ -2,6 +2,19 @@
 [Statedef -2]
 ;===========================================================================
 
+;=========================================================================
+;Victory Quotes
+;=========================================================================
+[State 180, Generic Victory Quote]
+type = VictoryQuote
+trigger1 = 1
+value = (Random % 5)
+
+[State 180, Victory Quote vs. KFM]
+type = VictoryQuote
+trigger1 = enemy,name = "Kung Fu Man" || enemy,name = "Master Kung Fu Man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "EX Kung Fu Man" || enemy,name = "Kung Fu Man EX" || enemy,name = "Another Kung Fu Man" || enemy,name = "Kung Fu Man 720" || enemy,name = "kfm 720"
+value = 6
+
 [State -2,Var(27)] ;バーストゲージ位置調整（X軸）
 type = Varset
 trigger1 = 1
@@ -149,15 +162,15 @@ ignorehitpause = 1
 
 [State -2, -2]
 type = varset
-trigger1 = P2Name = "kfm" || P4Name = "kfm"
-trigger2 = P2Name = "Kung Fu Man" || P4Name = "Kung Fu Man"
+trigger1 = P2Name = "kfg" || P4Name = "kfg"
+trigger2 = P2Name = "Kung Fu Girl" || P4Name = "Kung Fu Girl"
 trigger3 = P2Name = "akfm" || P4Name = "akfm"
-trigger4 = P2Name = "another Kung Fu Man" || P4Name = "another Kung Fu Man"
+trigger4 = P2Name = "AI Kung Fu Man" || P4Name = "AI Kung Fu Man"
 trigger5 = P2Name = "Kung Fu Man V-ISM" || P4Name = "Kung Fu Man V-ISM"
 trigger6 = P2Name = "AI Tuki Kung Fu Man" || P4Name = "AI Tuki Kung Fu Man"
 trigger7 = P2Name = "Kung Fu Man 720" || P4Name = "Kung Fu Man 720"
 trigger8 = P2Name = "the kung fu man" || P4Name = "the kung fu man"
-trigger9 = P2Name = "Kung Fu Man" && Enemy, AuthorName = "Elecbyte&DivineWolf" || Enemy, Name = "Kung Fu Man" && enemy,authorname = "Elecbyte" || Enemy, Name = "Kung Fu Man 720" && enemy,authorname = "Elecbyte"
+trigger9 = P2Name = "Suave Dude"
 trigger10 = P2Name = "Kung Fu Man Ctrl" || P4Name = "Kung Fu Man Ctrl"
 trigger11 = P2Name = "AI Nasi Kung Fu Man" || P4Name = "AI Nasi Kung Fu Man"
 trigger12 = P2Name = "KAN CHO MAN" || P4Name = "KAN CHO MAN"
@@ -177,7 +190,7 @@ trigger25 = P2Name = "Kung Fu Man 3.5" || P4Name = "Kung Fu Man 3.5"
 trigger26 = P2Name = "Kung Fu Man Helper 2" || P4Name = "Kung Fu Man Helper 2"
 trigger27 = P2Name = "Kung Fu Fiunn" || P4Name = "Kung Fu Fiunn"
 trigger27 = P2Name = "Boss Kung Fu Man" || P4Name = "Boss Kung Fu Man"
-trigger28 = P2Name = "Evil Kung Fu Man" || P4Name = "Evil Kung Fu Man"
+trigger28 = P2Name = "Ryu" || P4Name = "Ryu"
 trigger29 = P2Name = "Arc" && Enemy,AuthorName = "ShowBuySpirit" || P4Name = "Arc" && Enemy,AuthorName = "ShowBuySpirit";(+)
 trigger30 = P2Name = "King Fancy Man" || P4Name = "King Fancy Man" ;(+)
 trigger31 = P2Name = "kymm" || P4Name = "kymm" ;(+)
@@ -190,6 +203,7 @@ type = varset
 triggerall = roundstate = 0 
 trigger1 = P2Name = "UZUKI" || P4Name = "UZUKI"
 trigger2 = P2Name = "KungFuGirl UZUKI" || P4Name = "KungFuGirl UZUKI"
+trigger3 = P2Name = "Ken Masters" || P4Name = "Ken Masters"
 var(7) = 2
 
 
@@ -201,6 +215,7 @@ trigger2 = P2Name = "cvsingrid" || P4Name = "cvsingrid"
 trigger3 = P2Name = "Ingrid" || P4Name = "Ingrid"
 trigger4 = P2Name = "fungi" || P4Name = "fungi"
 trigger5 = P2Name = "Ingrid_MB" || P4Name = "Ingrid_MB"
+trigger6 = P2Name = "Kung Fu Man" || enemy,name = "Master Kung Fu Man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "EX Kung Fu Man" || enemy,name = "Kung Fu Man EX" || enemy,name = "Another Kung Fu Man" || enemy,name = "Kung Fu Man 720" || enemy,name = "kfm 720"
 var(7) = 6
 
 [State -2, -2]
@@ -220,6 +235,7 @@ trigger11 = P2Name = "Stinger" || P4Name = "Stinger"
 trigger12 = P2Name = "Taitan" || P4Name = "Taitan"
 trigger13 = P2Name = "wraith" || P4Name = "wraith"
 trigger14 = P2Name = "Zalazof" || P4Name = "Zalazof"
+trigger15 = P2Name = "Kyo Kusanagi" || P4Name = "Kyo Kusanagi"
 var(7) = 8
 
 [State -2, -2]
@@ -229,6 +245,7 @@ trigger1 = P2Name = "Major Alan 'Dutch' Schaefer" || P4Name = "Major Alan 'Dutch
 trigger2 = P2Name = "CCO" || P4Name = "CCO"
 trigger3 = P2Name = "KenCyan" || P4Name = "KenCyan"
 trigger4 = P2Name = "Himura Kenshin" || P4Name = "Himura Kenshin" && authorName = "Aoshi24"
+trigger5 = P2Name = "Smashbox" || P4Name = "Smashbox"
 var(7) = 9
 
 ;------------------------------------------------------------------------------

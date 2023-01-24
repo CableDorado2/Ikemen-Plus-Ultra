@@ -1177,6 +1177,7 @@ type = ChangeState
 triggerall = PalNo < 7
 trigger1 = Enemy, Name = "K'" && enemy,authorname = "NAO&M."
 trigger2 = Enemy, Name = "Kusanagi"
+trigger3 = p2name = "K'" || p4name = "K'"
 value = 1191
 
 [State 190,]
@@ -1184,6 +1185,7 @@ type = ChangeState
 trigger1 = Enemy, Name = "Ash"
 trigger2 = Enemy, Name = "Ash Crimson"
 trigger3 = Enemy, Name = "Nao"
+trigger4 = p2name = "Kyo Kusanagi" || p4name = "Kyo Kusanagi"
 value = 197
 
 [State 190,]
