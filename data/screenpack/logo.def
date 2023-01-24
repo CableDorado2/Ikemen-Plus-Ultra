@@ -1,26 +1,76 @@
 [Info]
-localcoord = 320,240
+localcoord = 640,508;640,360
 
 [SceneDef]
 spr = logo.sff
 
 ;------------------------------------
-[Scene 0]
+;[Scene 0]
+
+; Fade
+;fadein.time = 60
+;fadeout.time = 60
+
+; Screen color
+clearcolor = 255,255,255
+
+; Overlay Anims (from 0 to 9)
+;layerall.pos = 160,120 ;Default position for all layers
+;layer0.anim =  0       ;Anim action number
+
+; Music
+;bgm = sound/      ;Name of music file to play
+;bgm.loop = 0
+
+; Total time
+;end.time = 180
+
+;Animation for Logo
+;[Begin Action 0]
+;0,0, 0,0, -1
+
+;------------------------------------
+[Scene 1]
+
 ; Fade
 fadein.time = 60
 fadeout.time = 60
+
 ; Screen color
 clearcolor = 255,255,255
+
 ; Overlay Anims (from 0 to 9)
 layerall.pos = 160,120 ;Default position for all layers
-layer0.anim =  0       ;Anim action number
+layer0.anim =  1       ;Anim action number
+
 ; Music
 bgm = sound/      ;Name of music file to play
 bgm.loop = 0
+
 ; Total time
 end.time = 180
 
+;Animation for HD Logo
+[Begin Action 1]
+0,1, 0,0, -1
+
 ;------------------------------------
-;Animation for logo
-[Begin Action 0]
-0,0, 0,0, -1
+[Scene 2]
+
+; Fade
+fadein.time = 60
+fadeout.time = 60
+
+; Screen color
+clearcolor = 255,255,255
+
+; Overlay Anims (from 0 to 9)
+layerall.pos = 160,120 ;Default position for all layers
+layer0.anim =  2       ;Anim action number
+
+; Total time
+end.time = 222
+
+;Animation for Engine Logo
+[Begin Action 2]
+0,2, 0,0, -1

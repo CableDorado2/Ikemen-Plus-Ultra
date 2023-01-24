@@ -806,7 +806,11 @@ function f_selectAdvance()
 			--script.storyboard.f_storyboard('data/screenpack/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			f_menuMusic()
+			if data.rosterMode == 'event' then
+				playBGM(bgmEvents)
+			else
+				f_menuMusic()
+			end
 			return
 		--player lost but can continue
 		else
@@ -2962,7 +2966,7 @@ function f_selectWin()
 			p1Wins = p1Wins + 1
 			f_winCoins()
 			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
-			if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
+			if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
 				--Do nothing and don't save mission/event progress
 			else 
 				f_missionStatus()
@@ -3278,6 +3282,8 @@ function f_winParse(winner, looser, pal)
 		return ''
 	end
 end
+
+
 
 --;===========================================================
 --; SERVICE MENU
@@ -3792,13 +3798,13 @@ function f_continue()
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
 				--service screen
-				if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
+				if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
 					--Do nothing and don't show the screen
 				elseif data.serviceScreen == true then
 					f_service()
 				end
 				--challenger screen
-				if data.gameMode == 'arcade' and data.missionNo == 'mission 5' then
+				if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
 					playBGM(bgmSelect) --and don't show the screen
 				elseif data.challengerScreen == true then
 					f_selectChallenger()

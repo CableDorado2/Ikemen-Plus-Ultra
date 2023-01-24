@@ -201,6 +201,7 @@ function f_eventMenu()
 					data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
 					data.versusScreen = true
 					data.gameMode = 'survival'
+					data.rosterMode = 'event'
 					data.eventNo = 'event 3'
 					script.select.f_selectAdvance()
 				elseif event3Status == false then

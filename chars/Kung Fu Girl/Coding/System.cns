@@ -56,9 +56,9 @@ victory1 = "Tee-hee! I'm a lot stonger than you thought huh?"
 victory2 = "H-Hey! It's not nice to stare y'know!"
 victory3 = "Oh my... Are you alright? I guess I don't know my own strength!"
 victory4 = "That was fun! Well, see ya later!"
+victory5 = "You need more training. UwU"
 ; VS. Kung Fu Man
-victory5 = "Thank you for your time, sensei. This should make us both stronger!"
-victory6 = "You need more training. UwU"
+victory6 = "Thank you for your time, sensei. This should make us both stronger!"
 ;---------------------------------------------------------------------------
 ; Lose by Time Over
 [Statedef 170]
@@ -90,8 +90,8 @@ value = (Random % 5)
 
 [State 180, Victory Quote vs. KFM]
 type = VictoryQuote
-trigger1 = enemy,name = "Kung Fu Man"
-value = 5
+trigger1 = enemy,name = "Kung Fu Man" || enemy,name = "Master Kung Fu Man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "EX Kung Fu Man" || enemy,name = "Kung Fu Man EX" || enemy,name = "Another Kung Fu Man" || enemy,name = "Kung Fu Man 720" || enemy,name = "kfm 720"
+value = 6
 
 [State 180, Win match]
 type = Changestate
@@ -247,7 +247,7 @@ fvalue = 0
 type = ChangeState
 triggerAll = NumEnemy
 triggerAll = RoundNo = 1 || (!(Enemy, RoundsExisted) && !(TeamMode = Simul) && !(Enemy, TeamMode = Simul))
-trigger1 = Enemy, Name = "Kung Fu Man" && Enemy, AuthorName = "Elecbyte&DivineWolf" || Enemy, Name = "Kung Fu Man" && enemy,authorname = "Elecbyte" || Enemy, Name = "Kung Fu Man 720" && enemy,authorname = "Elecbyte"
+trigger1 = Enemy, Name = "Kung Fu Man" && Enemy, AuthorName = "Elecbyte&DivineWolf" || Enemy, Name = "Kung Fu Man" && enemy,authorname = "Elecbyte" || Enemy, Name = "Kung Fu Man 720" && enemy,authorname = "Elecbyte" || Enemy, Name = "Master Kung Fu Man" || Enemy, Name = "Kung Fu Man" && enemy,authorname = "Sennou-Room" || Enemy, Name = "Kung Fu Man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "EX Kung Fu Man" || enemy,name = "Kung Fu Man EX" || enemy,name = "Another Kung Fu Man" || enemy,name = "Kung Fu Man 720" || enemy,name = "kfm 720"
 value = 192
 
 [State 5900, Turns Intro]

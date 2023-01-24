@@ -138,20 +138,19 @@ victory3 = "Your moves are too predictable. You want to learn Kung Fu Palm? It's
 victory4 = "That was a good workout."
 victory5 = "I want to challenge more skilled fighters."
 victory6 = "What do you mean my girlfriend is in another temple?"
+victory7 = "Go home and be a family man!"
+victory8 = "Sign up for my dojo later, I'll give you a discount."
+victory9 = "I have no time for you, I must press on."
+victory10 = "Where's Suave Dude hiding?! What do you mean there's no Suave Dude?!"
+victory11 = "Who knew rescuing my girlfriend would be so difficult..."
+victory12 = "What strength! But don't forget there are guys like you all over the world!"
+victory13 = "You must defeat my Kung Fu Palm to stand a chance."
 
 ;Kung Fu Man
-victory7 = "I cannot be defeated by my clones."
+victory14 = "I cannot be defeated by my clones."
 
 ;Kung Fu Girl
-victory8 = "You still need more training. You can be stronger than you are now."
+victory15 = "You still need more training. You can be stronger than you are now."
 
 ;Suave Dude
-victory9 = "So much for our history together. Now, let's get her back!"
-
-victory10 = "Go home and be a family man!"
-victory11 = "Sign up for my dojo later, I'll give you a discount."
-victory12 = "I have no time for you, I must press on."
-victory13 = "Where's Suave Dude hiding?! What do you mean there's no Suave Dude?!"
-victory14 = "Who knew rescuing my girlfriend would be so difficult..."
-victory15 = "What strength! But don't forget there are guys like you all over the world!"
-victory16 = "You must defeat my Kung Fu Palm to stand a chance."
+victory16 = "So much for our history together. Now, let's get her back!"

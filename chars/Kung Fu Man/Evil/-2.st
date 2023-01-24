@@ -1,6 +1,37 @@
 ;---------------------------------------------------------------------------
 ; States that are always executed (use statedef -2)
 ;---------------------------------------------------------------------------
+;=========================================================================
+;Victory Quotes
+;=========================================================================
+[State -2, Victory Quotes(non-specific)]
+type = VictoryQuote
+trigger1 = 1
+value = random%8
+
+[State -2, Victory Quote vs. Kung Fu Man]
+type = VictoryQuote
+triggerall = NumEnemy
+trigger1 = Enemy, Name = "Kung Fu Man" || enemy,name = "Master Kung Fu Man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "EX Kung Fu Man" || enemy,name = "Kung Fu Man EX" || enemy,name = "Another Kung Fu Man" || enemy,name = "Kung Fu Man 720" || enemy,name = "kfm 720"
+value = 10
+
+[State -2, Victory Quote vs. Kung Fu Girl]
+type = VictoryQuote
+triggerall = NumEnemy
+trigger1 = Enemy, Name = "Kung Fu Girl" || Enemy, Name = "Another Kung Fu Girl" || Enemy, Name = "Master Kung Fu Girl" || Enemy, Name = "EX Kung Fu Girl" || Enemy, Name = "kfg"
+value = 11
+
+[State -2, Victory Quote vs. Suave Dude]
+type = VictoryQuote
+triggerall = NumEnemy
+trigger1 = Enemy, Name = "Suave Dude" || enemy,name = "evil kfm" || enemy,name = "Evil Kung Fu Man"
+value = 9
+
+[State -2, Victory Quote vs. Himself]
+type = VictoryQuote
+triggerall = NumEnemy
+trigger1 = enemy,name = "evil kfm" || enemy,name = "Evil Kung Fu Man"
+value = 12
 
 [StateDef -2]
 

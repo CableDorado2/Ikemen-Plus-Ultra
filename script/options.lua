@@ -3005,19 +3005,17 @@ end
 txt_inputCfg = createTextImg(jgFnt, 0, 0, 'INPUT SETTINGS', 159, 13)
 
 t_inputCfg = {
-	{id = '', text = 'Player 1 (Keyboard Config)'},
-	{id = '', text = 'Player 1 (Gamepad Config)'},
-	{id = '', text = 'Player 2 (Keyboard Config)'},
-	{id = '', text = 'Player 2 (Gamepad Config)'},
-	{id = '', text = 'Player 1 (Gamepad Status):', varID = textImgNew(), varText = s_disablePadP1},
-	{id = '', text = 'Player 2 (Gamepad Status):', varID = textImgNew(), varText = s_disablePadP2},
+	{id = '', text = 'Keyboard Settings'},
+	{id = '', text = 'Gamepad Settings'},
+	{id = '', text = 'Player 1 Gamepad Status', varID = textImgNew(), varText = s_disablePadP1},
+	{id = '', text = 'Player 2 Gamepad Status', varID = textImgNew(), varText = s_disablePadP2},
 	{id = '', text = 'Swap Gamepads', varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Controls'},
 	{id = '', text = 'Test Controls'},
 	{id = '', text = '             BACK'},
 }
 for i=1, #t_inputCfg do
-	t_inputCfg[i].id = createTextImg(font2, 0, 1, t_inputCfg[i].text, 70, 15+i*15)
+	t_inputCfg[i].id = createTextImg(font2, 0, 1, t_inputCfg[i].text, 73, 15+i*15)
 end
 
 function f_inputCfg()
@@ -3039,40 +3037,16 @@ function f_inputCfg()
 			inputCfg = inputCfg + 1
 			if inputCfg > #t_inputCfg then inputCfg = 1 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--Player 1 Keyboard Config
+			--Keyboard Config
 			if inputCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
-				controllerSet = 1
-				commandBufReset(p1Cmd)
-				f_inputRead(0, -1)
-				f_keyCfg(0, -1)
-			--Player 1 Gamepad Config
+				f_keyMenu()
+			--Gamepad Config
 			elseif inputCfg == 2 then
 				sndPlay(sysSnd, 100, 1)
-				gamepadID = 1
-				controllerSet = 2
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				f_inputRead(2, data.p1Gamepad)
-				f_keyCfg(2, data.p1Gamepad)
-			--Player 2 Keyboard Config
-			elseif inputCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
-				controllerSet = 1
-				commandBufReset(p2Cmd)
-				f_inputRead(1, -1)
-				f_keyCfg(1, -1)
-			--Player 2 Gamepad Config
-			elseif inputCfg == 4 then
-				sndPlay(sysSnd, 100, 1)
-				gamepadID = 2
-				controllerSet = 2
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				f_inputRead(3, data.p2Gamepad)
-				f_keyCfg(3, data.p2Gamepad)
+				f_joyMenu()
 			--Player 1 Gamepad Status
-			elseif inputCfg == 5 then
+			elseif inputCfg == 3 then
 				sndPlay(sysSnd, 100, 0)
 				if data.disablePadP1 == false then
 					data.disablePadP1 = true
@@ -3085,7 +3059,7 @@ function f_inputCfg()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 			--Player 2 Gamepad Status
-			elseif inputCfg == 6 then
+			elseif inputCfg == 4 then
 				sndPlay(sysSnd, 100, 0)
 				if data.disablePadP2 == false then
 					data.disablePadP2 = true
@@ -3098,7 +3072,7 @@ function f_inputCfg()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 			--Swap Controller
-			elseif inputCfg == 7 then --and commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') then
+			elseif inputCfg == 5 then --and commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') then
 				sndPlay(sysSnd, 100, 0)
 				f_swapGamepad(data.p2Gamepad, data.p1Gamepad)
 				if data.p1Gamepad == 0 then
@@ -3112,11 +3086,11 @@ function f_inputCfg()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 			--Default Inputs
-			elseif inputCfg == 8 then
+			elseif inputCfg == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_inputDefault()
 			--Input Test
-			elseif inputCfg == 9 then
+			elseif inputCfg == 7 then
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 2
@@ -3137,19 +3111,19 @@ function f_inputCfg()
 			if inputCfg == 5 or inputCfg == 6 then disableGamepad(data.disablePadP1,data.disablePadP2) end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 62,20, 190,#t_inputCfg*15)
+		animSetWindow(optionsBG1, 68,20, 184,#t_inputCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_inputCfg)
-		t_inputCfg[5].varText = s_disablePadP1
-		t_inputCfg[6].varText = s_disablePadP2
-		t_inputCfg[7].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1
+		t_inputCfg[3].varText = s_disablePadP1
+		t_inputCfg[4].varText = s_disablePadP2
+		t_inputCfg[5].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1
 		for i=1, #t_inputCfg do
 			textImgDraw(t_inputCfg[i].id)
 			if t_inputCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 245, 15+i*15))
+				textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 248, 15+i*15))
 			end
 		end
-		animSetWindow(cursorBox, 62,5+inputCfg*15, 190,15)
+		animSetWindow(cursorBox, 68,5+inputCfg*15, 184,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)
@@ -3173,6 +3147,148 @@ function f_swapGamepad(gamepadP1, gamepadP2)
 	swapGamepad(gamepadP1, gamepadP2)
 end
 
+--;===========================================================
+--; KEYBOARD MENU
+--;===========================================================
+txt_keyMenu = createTextImg(jgFnt, 0, 0, 'KEYBOARD SETTINGS', 159, 13)
+
+t_keyMenu = {
+	{id = '', text = 'Player 1 Keyboard'},
+	{id = '', text = 'Player 2 Keyboard'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_keyMenu do
+	t_keyMenu[i].id = createTextImg(font2, 0, 1, t_keyMenu[i].text, 85, 15+i*15)
+end
+
+function f_keyMenu()
+	cmdInput()
+	local keyMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			keyMenu = keyMenu - 1
+			if keyMenu < 1 then keyMenu = #t_keyMenu end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			keyMenu = keyMenu + 1
+			if keyMenu > #t_keyMenu then keyMenu = 1 end
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			--PLAYER 1 KEYBOARD
+			if keyMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				controllerSet = 1
+				commandBufReset(p1Cmd)
+				f_inputRead(0, -1)
+				f_keyCfg(0, -1)
+			--PLAYER 2 KEYBOARD
+			elseif keyMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				controllerSet = 1
+				commandBufReset(p2Cmd)
+				f_inputRead(1, -1)
+				f_keyCfg(1, -1)
+			--Back
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_keyMenu*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_keyMenu)
+		for i=1, #t_keyMenu do
+			textImgDraw(t_keyMenu[i].id)
+			if t_keyMenu[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_keyMenu[i].varID, font2, 0, -1, t_keyMenu[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+keyMenu*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; JOYSTICK MENU
+--;===========================================================
+txt_joyMenu = createTextImg(jgFnt, 0, 0, 'JOYSTICK SETTINGS', 159, 13)
+
+t_joyMenu = {
+	{id = '', text = 'Player 1 Gamepad'},
+	{id = '', text = 'Player 2 Gamepad'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_joyMenu do
+	t_joyMenu[i].id = createTextImg(font2, 0, 1, t_joyMenu[i].text, 85, 15+i*15)
+end
+
+function f_joyMenu()
+	cmdInput()
+	local joyMenu = 1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			joyMenu = joyMenu - 1
+			if joyMenu < 1 then joyMenu = #t_joyMenu end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			joyMenu = joyMenu + 1
+			if joyMenu > #t_joyMenu then joyMenu = 1 end
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			--PLAYER 1 JOYSTICK
+			if joyMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				gamepadID = 1
+				controllerSet = 2
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				f_inputRead(2, data.p1Gamepad)
+				f_keyCfg(2, data.p1Gamepad)
+			--PLAYER 2 JOYSTICK
+			elseif joyMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				gamepadID = 2
+				controllerSet = 2
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				f_inputRead(3, data.p2Gamepad)
+				f_keyCfg(3, data.p2Gamepad)
+			--Back
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_joyMenu*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_joyMenu)
+		for i=1, #t_joyMenu do
+			textImgDraw(t_joyMenu[i].id)
+			if t_joyMenu[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_joyMenu[i].varID, font2, 0, -1, t_joyMenu[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+joyMenu*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		cmdInput()
+		refresh()
+	end
+end
+
 t_newinput = {
 	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
 }
@@ -3181,9 +3297,9 @@ for i=1, #t_newinput do
 end
 
 --;===========================================================
---; KEYBOARD/JOYSTICK SETTINGS
+--; KEYBOARD/JOYSTICK BUTTONS
 --;===========================================================
-txt_keyCfg = createTextImg(jgFnt, 0, 0, 'KEY SETTINGS', 159, 13)
+txt_keyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING', 159, 13)
 
 t_keyCfg = {
 	{id = '', text = 'Up',    varID = textImgNew(), varText = ''},
@@ -3197,7 +3313,7 @@ t_keyCfg = {
 	{id = '', text = 'Y',     varID = textImgNew(), varText = ''},
 	{id = '', text = 'Z',     varID = textImgNew(),	varText = ''},
 	{id = '', text = 'Start', varID = textImgNew(),	varText = ''},
-	{id = '', text = 'BACK'},
+	{id = '', text = 'END'},
 }
 for i=1, #t_keyCfg do
 	t_keyCfg[i].id = createTextImg(font2, 0, 1, t_keyCfg[i].text, 85, 15+i*15)

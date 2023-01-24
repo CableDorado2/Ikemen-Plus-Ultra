@@ -85,12 +85,20 @@ victory3 = "I just met my firstborn."
 victory4 = "Still butthurt about the flame effect, mang?"
 victory5 = "At least you can help me get rid of my past I regret so fucking much."
 victory6 = "Join our quest, you will get chicks for your bravery!"
-victory7 = "Dude, I need your gun. Chicks dig the big guns.";VS Suave Dude
-victory8 = "Oh fuck no I am not just seeing that.";VS Himself
-victory9 = "I finally have you now, bitch!"; VS Kung Fu Man
-victory10 = "Gawdemmit, not another Loli! I had seriously enough of you!"; VS Kung Fu Girl
-victory11 = "You are past the expiration date, PAL!"
-victory12 = "Listen... I am the Goddamn Bad Man, simple as that!"
+victory7 = "You are past the expiration date, PAL!"
+victory8 = "Listen... I am the Goddamn Bad Man, simple as that!"
+
+;VS Suave Dude
+victory9 = "Dude, I need your gun. Chicks dig the big guns."
+
+; VS Kung Fu Man
+victory10 = "I finally have you now, bitch!"
+
+; VS Kung Fu Girl
+victory11 = "Gawdemmit, not another Loli! I had seriously enough of you!"
+
+;VS Himself
+victory12 = "Oh fuck no I am not just seeing that."
 
 ;---------------------------------------------------------------------------
 ; Variable usage:

@@ -4523,25 +4523,25 @@ ignorehitpause=1
 [State -2, Victory Quotes(non-specific)]
 type = VictoryQuote
 trigger1 = 1
-value = random%7
+value = random%13
 
 [State -2, Victory Quote vs. Kung Fu Man]
 type = VictoryQuote
 triggerall = NumEnemy
-trigger1 = Enemy, Name = "Kung Fu Man"
-value = 7
+trigger1 = Enemy, Name = "Kung Fu Man" || enemy,name = "Master Kung Fu Man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "EX Kung Fu Man" || enemy,name = "Kung Fu Man EX" || enemy,name = "Another Kung Fu Man" || enemy,name = "Kung Fu Man 720" || enemy,name = "kfm 720" || enemy,name = "evil kfm" || enemy,name = "Evil Kung Fu Man"
+value = 14
 
 [State -2, Victory Quote vs. Kung Fu Girl]
 type = VictoryQuote
 triggerall = NumEnemy
-trigger1 = Enemy, Name = "Kung Fu Girl" || Enemy, Name = "Another Kung Fu Girl"
-value = 8
+trigger1 = Enemy, Name = "Kung Fu Girl" || Enemy, Name = "Another Kung Fu Girl" || Enemy, Name = "Master Kung Fu Girl" || Enemy, Name = "EX Kung Fu Girl" || Enemy, Name = "kfg"
+value = 15
 
 [State -2, Victory Quote vs. Suave Dude]
 type = VictoryQuote
 triggerall = NumEnemy
 trigger1 = Enemy, Name = "Suave Dude"
-value = 9
+value = 16
 
 ;----------------------------------------------------------
 [State -2, Debug]

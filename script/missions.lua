@@ -6,10 +6,10 @@ module(..., package.seeall)
 --;===========================================================
 t_missionMenu = {
 	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
-	{id = '', text = 'Clone of The Past',    varID = textImgNew(), varText = mission2Progress},
-	{id = '', text = 'Devil Blood',  	     varID = textImgNew(), varText = mission3Progress},
-	{id = '', text = 'Power Instinct',       varID = textImgNew(), varText = mission4Progress},
-	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission5Progress},
+	{id = '', text = 'Target Confirmed',     varID = textImgNew(), varText = mission2Progress},
+	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission3Progress},
+	{id = '', text = 'Devil Blood',  	     varID = textImgNew(), varText = mission4Progress},
+	{id = '', text = 'Power Instinct',       varID = textImgNew(), varText = mission5Progress},
 	{id = '', text = 'Eternal Rivals',  	 varID = textImgNew(), varText = mission6Progress},
 	{id = '', text = '                 BACK'},
 }
@@ -19,11 +19,11 @@ end
 
 t_mInfo = {
 	{id = '1', text = "The ancient Dragon Claw is back!           "},
-	{id = '2', text = "Defeat Kyo Kusanagi NESTS Clone          "},
-	{id = '3', text = "Use the Orochi's Power to destroy everyone!      "},
-	{id = '4', text = "Awaken the hidden power of Ryu            "},
-	{id = '5', text = "Use the full power of Kung Fu Man!         "},
-	{id = '6', text = "A classic versus.                "},
+	{id = '2', text = "Defeat Original Kung Fu Man             "},
+	{id = '3', text = "Use the full power of Kung Fu Man!         "},
+	{id = '4', text = "Use the Orochi's Power to destroy everyone!      "},
+	{id = '5', text = "Awaken the hidden power of Ryu            "},
+	{id = '6', text = "A classic versus                 "},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
@@ -108,7 +108,7 @@ function f_missionMenu()
 				data.missionNo = 'mission 1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
-			--EX KYO
+			--EVIL KUNG FU MAN
 			elseif missionMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -116,16 +116,29 @@ function f_missionMenu()
 				data.p2In = 0
 				data.p1TeamMenu = {mode = 0, chars = 1}				
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kyo kusanagi/ex/ex kyo.def']}
-				data.p2Char = {t_charAdd['kyo kusanagi']}
-				data.stageMenu = false
-				data.versusScreen = true
+				data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
+				data.p2Char = {t_charAdd['kung fu man']}
+				data.stageMenu = true
+				data.versusScreen = false
 				data.rosterMode = 'mission'
 				data.missionNo = 'mission 2'
 				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
 				script.select.f_selectSimple()
-			--OMEGA RUGAL
+			--MASTER KUNG FU MAN
 			elseif missionMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1)
+				data.p2In = 1
+				data.p1TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				data.versusScreen = true
+				data.gameMode = 'arcade'
+				data.rosterMode = 'mission'
+				data.missionNo = 'mission 3'
+				script.select.f_selectAdvance()
+			--OMEGA RUGAL
+			elseif missionMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
@@ -136,11 +149,10 @@ function f_missionMenu()
 				data.p1Char = {t_charAdd['rugal bernstein/omega/omega rugal.def']}
 				data.versusScreen = true
 				data.gameMode = 'survival'
-				data.missionNo = 'mission 3'
-				textImgSetText(txt_mainSelect, 'MISSION 3 [' .. mission3Progress .. ']')
+				data.missionNo = 'mission 4'
 				script.select.f_selectAdvance()
 			--EVIL RYU
-			elseif missionMenu == 4 then
+			elseif missionMenu == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
@@ -153,24 +165,9 @@ function f_missionMenu()
 				data.stageMenu = false
 				data.versusScreen = false
 				data.rosterMode = 'mission'
-				data.missionNo = 'mission 4'
-				textImgSetText(txt_mainSelect, 'MISSION 4 [' .. mission4Progress .. ']')
-				script.select.f_selectSimple()
-			--MASTER KUNG FU MAN
-			elseif missionMenu == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 1
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
-				data.versusScreen = true
-				data.gameMode = 'arcade'
-				data.rosterMode = 'mission'
 				data.missionNo = 'mission 5'
-				textImgSetText(txt_mainSelect, 'MISSION 5 [' .. mission5Progress .. ']')
-				script.select.f_selectAdvance()
-			--EX KYO VS IORI
+				script.select.f_selectSimple()
+			--EX KYO VS IORI YAGAMI
 			elseif missionMenu == 6 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -184,7 +181,6 @@ function f_missionMenu()
 				data.versusScreen = true
 				data.rosterMode = 'mission'
 				data.missionNo = 'mission 6'
-				textImgSetText(txt_mainSelect, 'MISSION 6 [' .. mission6Progress .. ']')
 				script.select.f_selectSimple()
 			--Back
 			else

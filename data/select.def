@@ -115,7 +115,7 @@
 ;===================================================================================
 Ryu, order=3, 3=Ken Masters/Violent Ken.def, 4=M. Bison
 randomselect
-Kung Fu Man, stages/Mountainside Temple.def, order=1, 1=Kung Fu Man, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+Kung Fu Man, stages/Mountainside Temple.def, order=1, 1=Suave Dude/Minion/Minion.def, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
 Kyo Kusanagi, stages/Neo-Geo Land.def, music=sound/Esaka.mp3, includestage=0, order=3, 3=Iori Yagami, 4=Rugal Bernstein/Omega/Omega Rugal.def
 Ken Masters, order=3, 3=Ryu/Evil Ryu.def, 4=Ryu
@@ -247,7 +247,7 @@ Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=s
 ;===========================================================
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
-Suave Dude/Minion/Minion.def
+Suave Dude/Minion/Minion.def, stages/Mountainside Temple.def, order=1
 Dragon Claw, stages/Far Mountains.def, includestage=0, order=4
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
 Kyo Kusanagi/EX/EX Kyo.def, stages/Way Out.def, order=1
