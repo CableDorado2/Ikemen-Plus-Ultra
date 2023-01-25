@@ -1,23 +1,18 @@
 Rank: 0 
-chars/m. bison/m. bison.def
-randomselect
-chars/ryu/ryu.def
-chars/kyo kusanagi/kyo kusanagi.def
-chars/iori yagami/iori yagami.def
 randomselect
 randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-chars/rugal bernstein/rugal bernstein.def
 chars/ken masters/ken masters.def
 randomselect
 randomselect
 randomselect
-chars/suave dude/suave dude.def
-chars/kung fu man/kung fu man.def
-chars/kung fu girl/kung fu girl.def
 randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+chars/m. bison/m. bison.def
+randomselect
+randomselect
+randomselect
+chars/rugal bernstein/rugal bernstein.def
+chars/kung fu girl/kung fu girl.def

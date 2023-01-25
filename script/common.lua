@@ -371,25 +371,3 @@ end
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
-
---Screenshot function
---addHotkeyMain('F12', false, false, false, 'takeScreenshot()') --Takes a screenshot and saves it to "screenshots" folder
---function takeScreenshotVS()
-	--sysSnd = sndNew('data/screenpack/winmugen/system.snd')
-	--if data.screenshotSnd == 1 then
-		--sndPlay(sysSnd, 22, 0)
-	--elseif data.screenshotSnd == 2 then
-		--sndPlay(sysSnd, 22, 1)
-	--elseif data.screenshotSnd == 3 then
-		--sndPlay(sysSnd, 22, 2)
-	--elseif data.screenshotSnd == 4 then
-		--sndPlay(sysSnd, 22, 3)
-	--end
-	--batOpen("tools", "screenshot.vbs")
-	--Set time to capture the correct screenshot
-	--ltn12.pump.all(
-	--(echo nircmd savescreenshotwin "..\screenshots\Screenshot.dat" ^| del x.vbs x.bat)>x.bat   Backup Bat Code
-	--ltn12.source.file(assert(io.open("tools/screenshot.dat", "rb"))),
-	--ltn12.sink.file(assert(io.open("screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
-	--)
---end

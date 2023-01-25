@@ -9,6 +9,24 @@ ltn12 = require('ltn12')
 --json = require('json')
 --package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
 --dkjson = require('dkjson')
+--package.path = package.path..';./lib/net/http.lua' --load http lua library
+--http = require('http')
+--package.path = package.path..';./lib/net/socket.lua' --load socket lua library
+--socket = require('socket')
+--package.path = package.path..';./lib/net/ftp.lua' --load ftp lua library
+--ftp = require('ftp')
+--package.path = package.path..';./lib/net/headers.lua' --load headers lua library
+--headers = require('headers')
+--package.path = package.path..';./lib/net/mbox.lua' --load mbox lua library
+--mbox = require('mbox')
+--package.path = package.path..';./lib/net/mime.lua' --load mime lua library
+--mime = require('mime')
+--package.path = package.path..';./lib/net/smtp.lua' --load smtp lua library
+--smtp = require('smtp')
+--package.path = package.path..';./lib/net/tp.lua' --load tp lua library
+--tp = require('tp')
+--package.path = package.path..';./lib/net/url.lua' --load url lua library
+--url = require('url')
 
 --Create global space (accessing variables between modules)
 data = require('saved.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
@@ -341,6 +359,10 @@ txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black 
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
 function f_sysTime() --clock and date features
+	--local http = require("socket.http") -- import the socket.http module
+	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
+	--local date = headers.date -- LuaSocket makes all header names lowercase
+	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
 	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 	--sysTime3 = tonumber(os.date("%m"))

@@ -2333,14 +2333,26 @@ function f_orderSelect()
 	bossNo = bossNo+1
 	bonusNo = bonusNo+1
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	--Arcade Match Text
 	if data.gameMode == 'arcade' and matchNo == lastMatch - 1 then --If rival is in another match, replace [lastMatch - 1] with the match number where is your rival)
 		textImgSetText(txt_matchNo, 'RIVAL MATCH') --Text for versus screen when you fighting against rival before final boss.
 	else
 		textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
 	end	
 	textImgSetText(txt_matchFinal, 'FINAL STAGE')
-	textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
-	textImgSetText(txt_bossNo, 'BOSS: ' .. bossNo)
+	--Survival Match Text
+	if data.gameMode == 'survival' then
+		textImgSetText(txt_gameNo, 'REMAINING MATCHES: ' .. lastMatch - gameNo)
+	--elseif data.gameMode == 'survival' and (lastMatch - gameNo == 0) then
+		--textImgSetText(txt_gameNo, 'FINAL MATCH')
+	--Boss Rush Match Text
+	elseif data.gameMode == 'bossrush' then
+		textImgSetText(txt_bossNo, 'REMAINING BOSSES: ' .. lastMatch - bossNo)
+	--elseif data.gameMode == 'bossrush' and (lastMatch - bossNo == 0) then
+		--textImgSetText(txt_bossNo, 'FINAL BOSS')
+	else
+		textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
+	end
 	textImgSetText(txt_bonusNo, 'BONUS: ' .. bonusNo)
 	local i = 0
 	if not data.orderSelect then --Order Select off
@@ -3496,12 +3508,40 @@ function f_selectChallenger()
 end
 
 --;===========================================================
---; RESULT
+--; RESULTS SCREEN
 --;===========================================================
 txt_result = textImgNew()
 txt_resultTime = textImgNew()
+txt_resultRank = createTextImg(jgFnt, 0, 1, '', 88, 228)
+txt_sresultName = createTextImg(jgFnt, 0, 1, '', 10, 50)
+txt_eresultName = createTextImg(jgFnt, 0, 1, '', 84, 228)
 
 function f_result(state)
+	if winCnt >= 0 and winCnt < 3 then
+		rankGrade = 'F'
+	elseif winCnt >= 3 and winCnt < 6 then
+		rankGrade = 'E'
+	elseif winCnt >= 6 and winCnt < 8 then
+		rankGrade = 'D'
+	elseif winCnt >= 8 and winCnt < 12 then
+		rankGrade = 'C'
+	elseif winCnt >= 12 and winCnt < 16 then
+		rankGrade = 'B'
+	elseif winCnt >= 16 and winCnt < 20 then
+		rankGrade = 'A'
+	elseif winCnt >= 20 and winCnt < 25 then
+		rankGrade = 'AA'
+	elseif winCnt >= 25 and winCnt < 30 then
+		rankGrade = 'AAA'
+	elseif winCnt >= 30 and winCnt < 40 then
+		rankGrade = 'AAA'
+	elseif winCnt >= 40 and winCnt < 50 then
+		rankGrade = 'S'
+	elseif winCnt >= 50 and winCnt < 100 then
+		rankGrade = 'SS'
+	elseif winCnt >= 100 then
+		rankGrade = 'SSS'
+	end
 	--if state == 'win' then
 	--elseif state == 'lost' then
 	--end
@@ -3511,12 +3551,15 @@ function f_result(state)
 		textImgSetFont(txt_result, survBarsFnt)
 		textImgSetPos(txt_result, 159, 239)
 		textImgSetText(txt_result, 'X' .. winCnt .. 'WINS')
+		textImgSetText(txt_resultRank, 'RANK: ' ..rankGrade.. '')
+		textImgSetText(txt_sresultName, 'PLAYER: ' ..f_getName(data.t_p1selected[1].cel).. '')
 	elseif data.gameMode == 'endless' then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survNumFnt)
 		textImgSetPos(txt_result, 159, 150)
-		textImgSetText(txt_result, winCnt .. ' WINS' .. looseCnt .. ' LOSES')	
+		textImgSetText(txt_result, winCnt .. ' WINS' .. looseCnt .. ' LOSES')
+		textImgSetText(txt_eresultName, 'PLAYER: ' ..f_getName(data.t_p1selected[1].cel).. '')
 	else
 		return
 	end
@@ -3527,6 +3570,12 @@ function f_result(state)
 			break
 		end
 		textImgDraw(txt_result)
+		if data.gameMode == 'survival' then
+			textImgDraw(txt_sresultName)
+			textImgDraw(txt_resultRank)
+		else 
+			textImgDraw(txt_eresultName)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		
 		cmdInput()
