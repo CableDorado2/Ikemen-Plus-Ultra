@@ -1,8 +1,5 @@
-data = require('saved.data')
-assert(loadfile('saved/data_sav.lua'))() --For load options like screenshot sfx, etc
-
-package.path = package.path..';./lib/ltn12.lua'
-ltn12 = require('ltn12')
+assert(loadfile('script/common.lua'))() --For load options data like screenshot sfx, data.debugMode and Menu assets
+--require('script.pause')
 
 if data.debugMode == true then
 --Keys available on lib/alpha/sdlpluing.ssz
@@ -45,6 +42,11 @@ end
 
 addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
 addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game (OLD = RETURN)
+addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu
+
+function pauseMenu(p, st, esc)
+  script.pause.f_pauseMain(p, st, esc)
+end
 
 speed = 1.0
 
@@ -145,7 +147,6 @@ function status(p)
 end
 
 function takeScreenshotVS()
-	sysSnd = sndNew('data/screenpack/winmugen/system.snd')
 	sndPlay(sysSnd, 22, 0)
 	batOpen("tools", "screenshot.vbs")
 	--Set time to capture the correct screenshot

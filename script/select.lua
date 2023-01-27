@@ -781,7 +781,11 @@ function f_selectAdvance()
 					script.storyboard.f_storyboard('data/screenpack/gameover.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					f_menuMusic()
+					if data.rosterMode == 'event' then
+						playBGM(bgmEvents)
+					else
+						f_menuMusic()
+					end
 					return
 				end	
 			--next match available
@@ -2941,7 +2945,7 @@ end
 function f_winCoins()
 	if onlinegame == false then	
 		if coinSystem == true then
-			data.coins = data.coins + 3 --Earn 3 Coins by Win :)
+			data.coins = data.coins + 1 --Earn 1 Coin by Win :)
 			sndPlay(sysSnd, 200, 0) --Coin Earned Song
 			f_saveUnlockData()
 		elseif coinSystem == false then
@@ -3294,8 +3298,6 @@ function f_winParse(winner, looser, pal)
 		return ''
 	end
 end
-
-
 
 --;===========================================================
 --; SERVICE MENU

@@ -1,0 +1,721 @@
+
+
+lib s = <string.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib m = <math.ssz>;
+lib sff = "sff.ssz";
+lib com = "common.ssz";
+
+public ^^/char splitParams(^/char paramStr)
+{
+  %^/char params;
+  loop{
+    ^/char tmp = paramStr;
+    index cidx, bidx;
+  do:
+    tmp = .s.trim(tmp);
+    cidx = .s.find(",", tmp);
+    bidx = .s.cFind(.s.blank, tmp);
+    if(bidx >= 0 && bidx < cidx){
+      params .= tmp[0..bidx];
+      break, break;
+    }
+    params .= .s.trim(tmp[0..cidx]);
+    if(cidx < 0) break;
+    tmp = tmp[cidx+1 .. -1];
+  while true:
+  }
+  ret params;
+}
+
+public ..cta<_t>(^/char csv) ^_t
+{
+  ^^/char spl = .splitParams(csv);
+  ^_t ary.new(#spl);
+  loop{index i = 0; while; do:
+    ary[i] = .com.atonOF!_t?(spl[i]);
+    i++;
+  while i < #ary:}
+  ret ary;
+}
+
+public void readPair<_t>(_t x=, _t y=, ^/char data)
+{
+  ^^/char spl = .splitParams(data);
+  spl[0] = .s.trim(spl[0]);
+  if(#spl[0] > 0) x = .com.atonOF!_t?(spl[0]);
+  if(#spl >= 2){
+    spl[1] = .s.trim(spl[1]);
+    if(#spl[1] > 0) y = .com.atonOF!_t?(spl[1]);
+  }
+}
+
+
+public &Frame
+{
+  public ^float ex;
+  public int time = -1;
+  public short group = -1, number = 0;
+  public short x = 0, y = 0;
+  public ubyte salpha = 255, dalpha = 0;
+  public byte h = 1, v = 1;
+  type anim_t = &.sff.Anim!self?;
+  &.sff.FrameMethods!self? fam;
+}
+
+
+public &BGAction
+{
+  public float xoffset, yoffset, sinxoffset, sinyoffset;
+  public float x, y, vx, vy;
+  public float xradius, yradius;
+  public int sinxtime, sinytime;
+  public int sinxlooptime, sinylooptime;
+  new()
+  {
+    `clear();
+  }
+  public void clear()
+  {
+    `xoffset = 0.0; `yoffset = 0.0;
+    `sinxoffset = 0.0; `sinyoffset = 0.0;
+    `x = 0.0; `y = 0.0; `vx = 0.0; `vy = 0.0;
+    `xradius = 0.0; `yradius = 0.0;
+    `sinxtime = 0; `sinytime = 0;
+    `sinxlooptime = 0; `sinylooptime = 0;
+  }
+  public void action()
+  {
+    `x += `vx;
+    branch{
+    cond `sinxlooptime > 0:
+      `sinxoffset =
+        `xradius*.m.sin(2.0*.m.PI*(double)`sinxtime / (double)`sinxlooptime);
+      `sinxtime++;
+      if(`sinxtime >= `sinxlooptime) `sinxtime = 0;
+    else:
+      `sinxoffset = 0.0;
+    }
+    `xoffset = `x + `sinxoffset;
+    //
+    `y += `vy;
+    branch{
+    cond `sinylooptime > 0:
+      `sinyoffset =
+        `yradius*.m.sin(2.0*.m.PI*(double)`sinytime / (double)`sinylooptime);
+      `sinytime++;
+      if(`sinytime >= `sinylooptime) `sinytime = 0;
+    else:
+      `sinyoffset = 0.0;
+    }
+    `yoffset = `y + `sinyoffset;
+  }
+}
+
+public &Action
+{
+  public int no;
+  public %&.Frame frames;
+  public index loopstart = 0;
+  /index numFrames()
+  {
+    ret #`frames;
+  }
+  public void copy(`self a=)
+  {
+    `no = a.no;
+    `frames = a.frames;
+    `loopstart = a.loopstart;
+  }
+  public void read(^^/char lines, index i=)
+  {
+    `frames.new(0);
+    index ols = 0;
+    loop{
+      ^int ary;
+      ^/char line;
+      while;
+    do:
+      if(#lines[i] > 0 && lines[i][0] == '['){
+        i--;
+        break, break;
+      }
+      line = .s.trim(lines[i][0...s.find(";", lines[i])]);
+      branch{
+      cond #line > 0 && ((line[0] >= '0' && line[0] <= '9') || line[0] == '-'):
+        ary = .com.ctaOF!int?(line);
+        if(#ary < 5) break;
+        ols = `loopstart;
+        `frames.new[-1].readData(ary, line);
+      else:
+        line = .s.toLower()<, line;
+        if(.s.equ("loopstart")<, line[0..9]) `loopstart = #`frames;
+      }
+      i++;
+    while i < #lines:
+    }
+    if(`loopstart >= #`frames) `loopstart = ols;
+  }
+}
+
+public &BackGround
+{
+  public &.sff.Anim!&.Frame? anim;
+  public &.BGAction bga;
+  public int id = 0;
+  public float startx = 0.0, starty = 0.0, xofs = 0.0, camstartx = 0.0;
+  public float deltax = 1.0, deltay = 1.0;
+  public float xtscale = 1.0, xbscale = 1.0;
+  public float rasterxtspeed = 1.0, rasterxbspeed = 1.0;
+  public float yscalestart = 100.0;
+  public float yscaledelta = 0.0;
+  public int actionno = -1;
+  public float startvx = 0.0, startvy = 0.0;
+  public float startxrad = 0.0, startyrad = 0.0;
+  public int startsinxt = 0, startsinyt = 0;
+  public int startsinxlt = 0, startsinylt = 0;
+  public ushort twidth = 0, bwidth = 0;
+  public bool visible = true, active = true;
+  public bool positionlink = false, toplayer = false;
+  public &.sdl.Rect startrect;
+  public float windowdeltax = 0.0, windowdeltay = 0.0;
+  new()
+  {
+    `startrect.set(-32768, -32768, 65535, 65535);
+  }
+  public void reset()
+  {
+    `anim.reset();
+    `bga.clear();
+    `bga.vx = `startvx;
+    `bga.vy = `startvy;
+    `bga.xradius = `startxrad;
+    `bga.yradius = `startyrad;
+    `bga.sinxtime = `startsinxt;
+    `bga.sinytime = `startsinyt;
+    `bga.sinxlooptime = `startsinxlt;
+    `bga.sinylooptime = `startsinylt;
+  }
+  public void read(&.com.Section sc=, ^/`self link)
+  {
+    int typ = 4;//0:normal, 1:anim, 2:parallax, 3:dummy, 4:error
+    ^/char data;
+    if(#(data = sc.get("type")) > 0){
+      data = .s.toLower(data);
+      branch{
+      cond .s.equ(data[0..1], "n"):
+        typ = 0;
+      cond .s.equ(data[0..1], "a"):
+        typ = 1;
+      cond .s.equ(data[0..1], "p"):
+        typ = 2;
+      cond .s.equ(data[0..1], "d"):
+        typ = 3;
+      }
+    }
+    if(typ == 4) ret;
+    if(#(data = sc.get("layerno")) > 0){
+      int ln = .com.atonOF!int?(data);
+      `toplayer = ln == 1;
+      if(ln < 0 || ln > 1) typ = 3;
+    }
+    if((typ == 0 || typ == 2) && #(data = sc.get("spriteno")) > 0){
+      `anim.frames.new(1);
+      .readPair!short?(`anim.frames~group=, `anim.frames~number=, data);
+      `anim.frames[0].time = -1;
+    }
+    if(typ == 1 && #(data = sc.get("actionno")) > 0){
+      `actionno = .com.atonOF!`actionno.self?(data);
+      `anim.mask = 0;
+    }
+    if(#(data = sc.get("positionlink")) > 0){
+      `positionlink = .com.atonOF!int?(data) != 0;
+      if(`positionlink && #link > 0){
+        `startvx = link~startvx;
+        `startvy = link~startvy;
+        `deltax = link~deltax;
+        `deltay = link~deltay;
+      }
+    }
+    if(#(data = sc.get("start")) > 0){
+      .readPair!float?(`startx=, `starty=, data);
+    }
+    if(#(data = sc.get("delta")) > 0){
+      .readPair!float?(`deltax=, `deltay=, data);
+    }
+    if(typ != 1 && #(data = sc.get("mask")) > 0){
+      `anim.mask = .com.atonOF!int?(data) != 0 ? 0 : -1;
+    }
+    if(typ != 1 && #(data = sc.get("trans")) > 0){
+      branch{
+        ^char d = .s.toLower(data);
+      cond .s.equ(d, "add"):
+        `anim.mask = 0;
+        `anim.salpha = 255;
+        `anim.dalpha = 255;
+      cond .s.equ(d, "add1"):
+        `anim.mask = 0;
+        `anim.salpha = 255;
+        `anim.dalpha = !255;
+        if(#(data = sc.get("alpha")) > 0){
+          int src = `anim.salpha, dst = 255;
+          .readPair!int?(src=, dst=, data);
+          if(src > 255) src = 255;
+          `anim.salpha = src;
+          `anim.dalpha = !.m.max!int?(0, .m.min!int?(255, dst));
+        }
+      cond .s.equ(d, "addalpha"):
+        `anim.mask = 0;
+        if(#(data = sc.get("alpha")) > 0){
+          int src = `anim.salpha, dst = `anim.dalpha;
+          .readPair!int?(src=, dst=, data);
+          if(src > 255) src = 255;
+          `anim.salpha = src;
+          .m.limRange!int?(dst=, 0, 255);
+          `anim.dalpha = dst;
+          if(`anim.salpha == 1 && `anim.dalpha == 255) `anim.salpha = 0;
+        }
+      cond .s.equ(d, "sub"):
+        `anim.mask = 0;
+        `anim.salpha = 1;
+        `anim.dalpha = 255;
+      cond .s.equ(d, "none"):
+        `anim.salpha = -1;
+        `anim.dalpha = 0;
+      }
+    }
+    if(#(data = sc.get("tile")) > 0){
+      .readPair!int?(`anim.tile.w=, `anim.tile.h=, data);
+      if(typ == 2) `anim.tile.h = 0;
+    }
+    if(typ != 2 && #(data = sc.get("tilespacing")) > 0){
+      `anim.tile.x = `anim.tile.y = .com.atonOF!`anim.tile.x.self?(data);
+    }
+    if(typ == 2) branch{
+    cond #(data = sc.get("width")) > 0:
+      .readPair!ushort?(`twidth=, `bwidth=, data);
+    cond #(data = sc.get("xscale")) > 0:
+      .readPair!float?(`rasterxtspeed=, `rasterxbspeed=, data);
+    }
+    if(typ == 2 && #(data = sc.get("yscalestart")) > 0){
+      `yscalestart = .com.atof(data);
+    }
+    if(typ == 2 && #(data = sc.get("yscaledelta")) > 0){
+      `yscaledelta = .com.atof(data);
+    }
+    if(#(data = sc.get("window")) > 0){
+      ^^/char spl = .splitParams(data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `startrect.x = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `startrect.y = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0){
+        `startrect.w =
+          .m.max!int?(0, .com.atonOF!int?(spl[2])+1 - `startrect.x);
+      }
+      if(#spl < 4) break;
+      spl[3] = .s.trim(spl[3]);
+      if(#spl[3] > 0){
+        `startrect.h =
+          .m.max!int?(0, .com.atonOF!int?(spl[3])+1 - `startrect.y);
+      }
+    }
+    if(#(data = sc.get("windowdelta")) > 0){
+      .readPair!float?(`windowdeltax=, `windowdeltay=, data);
+    }
+    if(#(data = sc.get("id")) > 0) `id = .com.atonOF!`id.self?(data);
+    if(#(data = sc.get("velocity")) > 0){
+      .readPair!float?(`startvx=, `startvy=, data);
+    }
+    if(#(data = sc.get("sin.x")) > 0){
+      ^^/char spl = .splitParams(data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `startxrad = `bga.xradius = .com.atonOF!float?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0){
+        `startsinxlt = `bga.sinxlooptime = .com.atonOF!int?(spl[1]);
+      }
+      if(#spl < 3 || `bga.sinxlooptime <= 0) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0){
+        `bga.sinxtime =
+          (int)(
+            .com.atonOF!float?(spl[2])*(float)`bga.sinxlooptime/360.0)
+          % `bga.sinxlooptime;
+        if(`bga.sinxtime < 0) `bga.sinxtime += `bga.sinxlooptime;
+        `startsinxt = `bga.sinxtime;
+      }
+    }
+    if(#(data = sc.get("sin.y")) > 0){
+      ^^/char spl = .splitParams(data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `startyrad = `bga.yradius = .com.atonOF!float?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0){
+        `startsinylt = `bga.sinylooptime = .com.atonOF!int?(spl[1]);
+      }
+      if(#spl < 3 || `bga.sinylooptime <= 0) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0){
+        `bga.sinytime =
+          (int)(
+            .com.atonOF!float?(spl[2])*(float)`bga.sinylooptime/360.0)
+          % `bga.sinylooptime;
+        if(`bga.sinytime < 0) `bga.sinytime += `bga.sinylooptime;
+        `startsinyt = `bga.sinytime;
+      }
+    }
+  }
+  public void setup(
+    ^&.sff.Sff sf, float camstartx, ~$void(^&.Action=, int) getact)
+  {
+    `camstartx = camstartx;
+    ^&.sff.Sprite spr;
+    if(#`anim.frames > 0 && (`twidth != 0d0 || `bwidth != 0d0)){
+      spr = sf~getSprite(`anim.frames[0].group, `anim.frames[0].number);
+      if(#spr == 0) break;
+      `xtscale = (float)`twidth / (float)spr~rct.w;
+      `xbscale = (float)`bwidth / (float)spr~rct.w;
+      `xofs = -(float)`twidth / 2.0 + (float)spr~rct.x*`xtscale;
+    }
+    branch{
+    cond `actionno >= 0:
+      {
+        ^&.Action act;
+        getact(:act=, `actionno:);
+        if(#act == 0) break, else;
+        `anim.setFrames(act~frames, act~loopstart);
+      }
+    else:
+      if(
+        #spr > 0 || (
+          #`anim.frames > 0 && #(
+            spr = sf~getSprite(
+              `anim.frames[0].group, `anim.frames[0].number)) > 0))
+      {
+        `anim.tile.x += (int)spr~rct.w;
+        `anim.tile.y += (int)spr~rct.h;
+      }
+    }
+    `anim.setup(sf);
+  }
+  public void draw(
+    float x, float y, float scl, ^&.com.PalFX fx,
+    float bgscl, float localscl, float xscale, float yscale, float shakeY)
+  {
+    float xras = (`rasterxbspeed-`rasterxtspeed) / `rasterxtspeed;
+    float xbs = `xbscale;
+    float dx = .m.max!float?(0.0, `deltax*bgscl);
+    float sclx = .m.max!float?(0.0, scl + (1.0 - scl)*(1.0 - dx));
+    float lxscl = localscl * xscale, lyscl = localscl * yscale;
+    if(sclx != 0.0){
+      float tmp = 1.0 / sclx;
+      xbs *= 
+        .m.max!float?(0.0, scl + (1.0 - scl)*(1.0 - dx*(xbs/`xtscale))) * tmp;
+      tmp *= .m.max!float?(0.0, scl + (1.0 - scl)*(1.0 - dx*(xras+1.0)));
+      xras -= tmp - 1.0;
+      xbs *= tmp;
+    }
+    sclx *= lxscl;
+    float scly =
+      .m.max!float?(
+        0.0, scl + (1.0 - scl)*(1.0 - .m.max!float?(0.0, `deltay*bgscl)))
+      * localscl;
+    float x2 = `startx + `xofs - (x/xscale+`camstartx)*`deltax + `bga.xoffset;
+    float y2 = `starty - (y/yscale)*`deltay + `bga.yoffset;
+    if(!.com.cam.zoom){
+      if(
+        `rasterxbspeed == `rasterxtspeed
+        && `bga.sinxlooptime <= 0 && `bga.sinxoffset == 0.0)
+      {
+        x2 = .m.floor(x2/bgscl)*bgscl;
+      }
+      if(`bga.sinylooptime <= 0 && `bga.sinyoffset == 0.0){
+        y2 = .m.floor(y2/bgscl)*bgscl;
+      }
+    }
+    float ys = (100.0 - y * `yscaledelta) * bgscl /`yscalestart;
+    x2 *= bgscl;
+    y2 = y2*bgscl + (((float).com.GameHeight - shakeY) / scly - 240.0)/yscale;
+    scly *= yscale;
+    &.sdl.Rect rect = `startrect;
+    float wsclx =
+      .m.max!float?(
+        0.0, scl + (1.0 - scl)*(1.0 - .m.max!float?(0.0, `windowdeltax*bgscl)))
+      * bgscl * lxscl;
+    float wscly =
+      .m.max!float?(
+        0.0, scl + (1.0 - scl)*(1.0 - .m.max!float?(0.0, `windowdeltay*bgscl)))
+      * bgscl * lyscl;
+    rect.x =
+      (int).m.floor(
+        ((float)rect.x - (x+`camstartx) * `windowdeltax)
+        * .com.WidthScale * wsclx);
+    rect.y =
+      (int).m.floor(
+        (
+          ((float)rect.y - y * `windowdeltay) * wscly - shakeY
+          + (float)(.com.GameHeight - 240))
+        * .com.HeightScale);
+    rect.w = (int).m.ceil((float)rect.w * .com.WidthScale * wsclx);
+    rect.h = (int).m.ceil((float)rect.h * .com.HeightScale * wscly);
+    `anim.draw(
+      rect=, x2, y2, sclx, scly, `xtscale*bgscl, xbs*bgscl, ys,
+      xras * x2 / (#ys*lyscl*(float)`anim.spr~rct.h),
+      (float).com.GameWidth/2.0, fx, true);
+  }
+}
+
+|BgcType
+{
+  Null, Anim, Visible, Enable, PosSet, PosAdd, SinX, SinY, VelSet, VelAdd
+}
+
+public &BGCtrl
+{
+  public %^&.BackGround ctrlbg;
+  public int currenttime = 0, starttime = 0, endtime = 0, looptime = -1;
+  public |.BgcType typ = .BgcType::Null;
+  public float x = 0.0, y = 0.0;
+  public int v1 = 0, v2 = 0, v3 = 0;
+  public bool setx = false, sety = false;
+  public bool positionlink = false, flag = false;
+  /index idx = 0;
+  public void read(&.com.Section sc=, index idx)
+  {
+    `idx = idx;
+    bool xy = false;
+    ^/char data;
+    if(#(data = sc.get("type")) > 0){
+      branch{
+        ^char typ = .s.toLower(data);
+      cond .s.equ(typ, "anim"):
+        `typ = .BgcType::Anim;
+      cond .s.equ(typ, "visible"):
+        `typ = .BgcType::Visible;
+      cond .s.equ(typ, "enable"):
+        `typ = .BgcType::Enable;
+      cond .s.equ(typ, "null"):
+        `typ = .BgcType::Null;
+      cond .s.equ(typ, "posset"):
+        `typ = .BgcType::PosSet;
+        xy = true;
+      cond .s.equ(typ, "posadd"):
+        `typ = .BgcType::PosAdd;
+        xy = true;
+      cond .s.equ(typ, "sinx"):
+        `typ = .BgcType::SinX;
+      cond .s.equ(typ, "siny"):
+        `typ = .BgcType::SinY;
+      cond .s.equ(typ, "velset"):
+        `typ = .BgcType::VelSet;
+        xy = true;
+      cond .s.equ(typ, "veladd"):
+        `typ = .BgcType::VelAdd;
+        xy = true;
+      }
+    }
+    if(#(data = sc.get("time")) > 0){
+      ^^/char spl = .splitParams(data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `starttime = `endtime = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `endtime = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `looptime = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("positionlink")) > 0){
+      `positionlink = .com.atonOF!int?(data) != 0;
+    }
+    if(!xy && #(data = sc.get("value")) > 0){
+      ^int val = .cta!int?(data);
+      if(#val < 1) break;
+      `v1 = val[0];
+      if(#val < 2) break;
+      `v2 = val[1];
+      if(#val < 3) break;
+      `v3 = val[2];
+      `x = .com.atof(data);
+    }
+    if(xy && #(data = sc.get("x")) > 0){
+      `setx = true;
+      `x = .com.atof(data);
+    }
+    if(xy && #(data = sc.get("y")) > 0){
+      `sety = true;
+      `y = .com.atof(data);
+    }
+  }
+}
+
+public &ActiveCtrlList
+{
+  &Cell
+  {
+    public ^&.BGCtrl bgc;
+    public ^self next;
+  }
+  ^&Cell top;
+  public void add(^&.BGCtrl bgc)
+  {
+    if(#`top == 0){
+      `top.new(1);
+      `top~bgc = bgc;
+      ret;
+    }
+    if(bgc~idx < `top~bgc~idx){
+      ^&`Cell tmp;
+      tmp.new(1);
+      tmp~bgc = bgc;
+      tmp~next = `top;
+      `top = tmp;
+      ret;
+    }
+    loop{
+      ^&`Cell tmp = `top;
+      while;
+    do:
+      tmp = tmp~next;
+      if(bgc~idx < tmp~bgc~idx){
+        ^&`Cell tmp2;
+        tmp2.new(1);
+        tmp2~bgc = tmp~bgc;
+        tmp2~next = tmp~next;
+        tmp~bgc = bgc;
+        tmp~next = tmp2;
+        break, break;
+      }
+    while #tmp~next > 0:
+      tmp~next.new(1);
+      tmp~next~bgc = bgc;
+    }
+  }
+  public ^^&.BGCtrl act<_t>(_t s=)
+  {
+    %^&.BGCtrl endlist;
+    loop{
+      ^&`Cell tmp = `top, pre;
+      while;
+    do:
+      s.bgCtrl(tmp~bgc<>=);
+      branch{
+      cond tmp~bgc~currenttime > tmp~bgc~endtime:
+        endlist.new[-1] = tmp~bgc;
+        branch{
+        cond tmp == `top:
+          `top = `top~next;
+          tmp = `top;
+          break, break;
+        else:
+          pre~next = tmp~next;
+          if(#pre == 0) break, break, break;
+         }
+      else:
+        pre = tmp;
+      comm:
+       tmp = pre~next;
+      }
+    while #tmp > 0:
+    }
+    ret endlist;
+  }
+  public void clear()
+  {
+    `top.new(0);
+  }
+}
+
+public &BGCTimeLine
+{
+  &BGCTLNode
+  {
+    public ^self nextnode;
+    public %^&.BGCtrl bgcList;
+    public int waittime = 0;
+  }
+  ^&BGCTLNode top;
+  &.ActiveCtrlList al;
+  public void add(^&.BGCtrl bgc)
+  {
+    if(bgc~looptime >= 0 && bgc~endtime > bgc~looptime){
+      bgc~endtime = bgc~looptime;
+    }
+    if(
+      bgc~starttime < 0 || bgc~starttime > bgc~endtime
+      || (bgc~looptime >= 0 && bgc~starttime >= bgc~looptime)) ret;
+    int wtime = 0;
+    if(bgc~currenttime != 0){
+      if(bgc~looptime < 0) ret;
+      wtime += bgc~looptime - bgc~currenttime;
+    }
+    wtime += bgc~starttime;
+    bgc~currenttime = bgc~starttime;
+    if(wtime < 0){
+      bgc~currenttime -= wtime;
+      wtime = 0;
+    }
+    if(#`top == 0){
+      `top.new(1);
+      `top~waittime = wtime;
+      `top~bgcList .= bgc;
+      ret;
+    }
+    loop{
+      ^&`BGCTLNode tmp = `top;
+      while;
+    do:
+      wtime -= tmp~waittime;
+      if(#tmp~nextnode == 0){
+        tmp~nextnode.new(1);
+        tmp~nextnode~waittime = wtime;
+        tmp~nextnode~bgcList .= bgc;
+        break, break;
+      }
+      tmp = tmp~nextnode;
+    while wtime > tmp~waittime:
+      branch{
+      cond wtime == tmp~waittime:
+        tmp~bgcList .= bgc;
+      else:
+        {
+          ^&`BGCTLNode tmp2.new(1);
+          tmp2~waittime = tmp~waittime - wtime;
+          tmp2~bgcList = tmp~bgcList;
+          tmp2~nextnode = tmp~nextnode;
+          tmp~waittime = wtime;
+          tmp~bgcList.new(1);
+          tmp~bgcList[0] = bgc;
+          tmp~nextnode = tmp2;
+        }
+      }
+    }
+  }
+  public void step<_t>(_t s=)
+  {
+    if(#`top != 0 && `top~waittime <= 0) loop{
+      index i = 0;
+      while;
+    do:
+      `al.add(`top~bgcList[i]);
+      i++;
+    while i < #`top~bgcList:
+      `top = `top~nextnode;
+    }
+    if(#`top != 0) `top~waittime--;
+    ^^&.BGCtrl el = `al.act!_t?(s=);
+    el:<-[void(i=){`add(i);}];
+  }
+  public void clear()
+  {
+    `top.new(0);
+    `al.clear();
+  }
+}
+

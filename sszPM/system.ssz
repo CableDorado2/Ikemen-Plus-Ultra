@@ -1,0 +1,270 @@
+
+lib file = <file.ssz>;
+lib s = <string.ssz>;
+lib m = <math.ssz>;
+lib al = <alert.ssz>;
+lib com = "common.ssz";
+lib fgt = "fight.ssz";
+lib sff = "sff.ssz";
+lib cfg = "config.ssz";
+
+
+public &Select
+{
+  public &Char
+  {
+    public ^/char def;
+    public ^/char name;
+    public ^/char sprite;
+    public ^&.sff.Sprite sportrait;
+    public ^&.sff.Sprite lportrait;
+  }
+  public &Stage
+  {
+    public ^/char def;
+    public ^/char name;
+  }
+  public int columns = 5, rows = 2;
+  public float cellsizex = 29.0, cellsizey = 29.0;
+  public float cellscalex = 1.0, cellscaley = 1.0;
+  public int sportg = 9000, sportn = 0;
+  public int lportg = 9000, lportn = 1;
+  public ^&.sff.Sprite randomspr;
+  public float randxscl = 1.0, randyscl = 1.0;
+  public %&Char charlist;
+  public %&Stage stagelist;
+  public index curStageNo = 0, selectedStageNo = -1;
+  public index getCharNo(index i)
+  {
+    index n = i;
+    if(#`charlist > 0){
+      n %= #`charlist;
+      if(n < 0) n += #`charlist;
+    }
+    ret n;
+  }
+  public ^&Char getChar(index i)
+  {
+    index n = `getCharNo(i);
+    ret `charlist[n..n+1];
+  }
+  public index setStageNo(index i)
+  {
+    `curStageNo = i;
+    `curStageNo %= #`stagelist + 1;
+    if(`curStageNo < 0) `curStageNo += #`stagelist + 1;
+    ret `curStageNo;
+  }
+  public void selectStage(index no)
+  {
+    `selectedStageNo = no;
+  }
+  public ^/char getStageName(index i)
+  {
+    index n = i;
+    n %= #`stagelist + 1;
+    if(n < 0) n += #`stagelist + 1;
+    if(n == 0) ret "Random";
+    ret `stagelist[n-1].name;
+  }
+  public bool addChar(^/char def)
+  {:<-
+    public void info(&.com.Section sc=)
+    {
+      ^/char data;
+      branch{
+      cond #(data = sc.get("displayname")) > 0:
+        `charlist[-1].name = data;
+      cond #(data = sc.get("name")) > 0:
+        `charlist[-1].name = data;
+      }
+    }
+    public void files(&.com.Section sc=, bool unicode)
+    {
+      ^/char data;
+      if(#(data = sc.get("sprite")) > 0){
+        `charlist[-1].sprite = .com.readFileName(data, unicode);
+      }
+    }
+    bool unicode = false;
+    bool infoflg = true, filesflg = true;
+    ~$void(^^/char, index=) section = [void(^^/char lines, index i=){
+      ^/char sec = lines[i];
+      ^/char secname = .com.sectionName(sec=);
+      if(#secname == 0) ret;
+      i++;
+      &.com.Section sc.parse(lines, i=);
+      branch{
+      cond .s.equ(secname, "info"):
+        if(infoflg) info(sc=);
+        infoflg = false;
+      cond .s.equ(secname, "files"):
+        if(filesflg) files(sc=, unicode);
+        filesflg = false;
+      }
+    }];
+    ^/char error;
+    ^^/char defs =
+      .s.each!def.self?([void(def.self s=){s = .s.trim(s);}])<,
+      .s.split(",", def);
+    ^char mainbuf;
+    `charlist.new[-1];
+    if(.s.equ("randomselect")<, .s.toLower(defs[0])){
+      `charlist[-1].def = "randomselect";
+      `charlist[-1].name = "Random";
+      ret true;
+    }
+    ^/char d = defs[0];
+    index delimiter = .s.cFind("\/", d);
+    branch{
+    cond .s.equ(.s.toLower(d[#d-4 .. -1]), ".def"):
+      if(delimiter < 0) ret true;
+    cond delimiter < 0:
+      d = d + "/" + d + ".def";
+    else:
+      d = d + ".def";
+    }
+    if(delimiter < 0 || (delimiter > 0 &&.s.find(":", d[0 .. delimiter]) < 0)){
+      d = "chars/" + d;
+    }
+    if(#.com.loadText(d, unicode=)=>mainbuf == 0) ret true;
+    `charlist[-1].def = d;
+    %^/char lines = .com.splitLines(mainbuf);
+    .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
+    loop{index i = 0; while; do:
+      section(:lines, i=:);
+      i++;
+    while i < #lines:}
+    ^/char spr = `charlist[-1].sprite;
+    .com.loadFile(`charlist[-1].def, spr=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `sportg, `sportn)=>error > 0) ret error;
+      `charlist[-1].sportrait = s;
+      ret "";
+    }];
+    .com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `lportg, `lportn)=>error > 0) ret error;
+      `charlist[-1].lportrait = s;
+      ret "";
+    }];
+    ret true;
+  }
+  public ^/char addStage(^/char def)
+  {:<-
+    public void info(&.com.Section sc=)
+    {
+      ^/char data;
+      branch{
+      cond #(data = sc.get("displayname")) > 0:
+        `stagelist[-1].name = data;
+      cond #(data = sc.get("name")) > 0:
+        `stagelist[-1].name = data;
+      else:
+        `stagelist[-1].name = `stagelist[-1].def;
+      }
+    }
+    void section(%^/char lines, index i=)
+    {
+      ^/char sec = lines[i];
+      ^/char secname = .com.sectionName(sec=);
+      if(#secname == 0) ret;
+      i++;
+      &.com.Section sc.parse(lines, i=);
+      branch{
+      cond .s.equ(secname, "info"):
+        `addStage:<-info(sc=);
+      }
+    }
+    ^/char error;
+    ^char mainbuf;
+    ^/char d = .s.trim(def);
+    if(
+      #.com.loadFile("stages/", d=)=>error <, [^/char(^/char f){
+        ret
+          #.file.loadAsciiText(f)=>mainbuf > 0
+          ? "" : .com.FileReadError;
+      }] > 0)
+    {
+      ret error;
+    }
+    `stagelist.new[-1];
+    `stagelist[-1].def = d;
+    %^/char lines = .com.splitLines(mainbuf);
+    .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
+    loop{index i = 0; while; do:
+      section(lines, i=);
+      i++;
+    while i < #lines:}
+    ret "";
+  }
+}
+
+
+&SelectInfo
+{
+  &Player
+  {
+    &Selected
+    {
+      public index i;
+      public int pal;
+    }
+    public %&Selected selchr;
+    public void reset()
+    {
+      `selchr.new(0);
+    }
+  }
+  public ^&Player p;
+  public &.Select sel;
+  new()
+  {
+    `p.new(2);
+  }
+  public bool addSelchr(int pn, int cn, int pl)
+  {
+    int n = `sel.getCharNo(cn);
+    if(#`sel.charlist[n].def == 0) ret false;
+    int p = pl;
+    loop{
+      int m = 0;
+      while;
+    do:
+      n = .m.rand(0, #`sel.charlist-1);
+      p = .m.rand(1, 12);
+      if(++m > 100000) ret false;
+    while
+      #`sel.charlist[n].def == 0
+      || .s.equ(`sel.charlist[n].def, "randomselect")
+      :
+    }
+    lock(`p){
+      `p[pn].selchr.new[-1];
+      `p[pn].selchr[-1].i = n;
+      `p[pn].selchr[-1].pal = p;
+    }
+    ret true;
+  }
+  public void reset()
+  {
+    `p[0].reset();
+    `p[1].reset();
+    `sel.selectedStageNo = -1;
+  }
+}
+
+public &System
+{
+  public ^&.fgt.Fight fig;
+  public &.SelectInfo selinf;
+  public void selReset()
+  {
+    `selinf.reset();
+  }
+}
+

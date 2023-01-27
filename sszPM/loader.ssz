@@ -1,0 +1,279 @@
+
+lib s = <string.ssz>;
+lib m = <math.ssz>;
+lib se = <alpha/sdlevent.ssz>;
+lib stb = "statebuilder.ssz";
+lib chr = "char.ssz";
+lib com = "common.ssz";
+lib stg = "stage.ssz";
+lib sff = "sff.ssz";
+lib sc = "system-script.ssz";
+lib lua = <alpha/lua.ssz>;
+lib th = <thread.ssz>;
+lib sdl = <alpha/sdlplugin.ssz>;
+lib cfg = "config.ssz";
+
+/^^/char code.new(#.chr.chars);
+/^/char errorMes;
+public ^&.lua.SszCompiler sszc;
+
+|State
+{
+  NotYet, Loading, Complete, Error, Cancel
+}
+/|State state = State::NotYet;
+
+public void error(^/char m)
+{
+  .errorMes = m;
+}
+
+bool stage()
+{
+  if(.com.round != 1) ret true;
+  ^/char stag;
+  branch{
+  cond .sc.syst.selinf.sel.curStageNo == 0:
+    stag =
+      .sc.syst.selinf.sel.stagelist[
+        .m.rand(0, #.sc.syst.selinf.sel.stagelist-1)].def;
+  else:
+    stag = .sc.syst.selinf.sel.stagelist[.sc.syst.selinf.sel.curStageNo-1].def;
+  }
+  if(#.chr.stg > 0 && .s.equ(stag, .chr.stg~def)) ret true;
+  .chr.stg.new(1);
+  ^/char error = .chr.stg~load(stag);
+  if(#error > 0){
+    .error(error);
+    .chr.stg.new(0);
+    ret false;
+  }
+  ret true;
+}
+
+int chara(int pn)
+{
+  int nsel = #.sc.syst.selinf.p[pn&1].selchr;
+  branch{
+  cond .com.tmode[pn&1] == (int).com.TeamMode::Simul:
+    if(pn >> 1 >= .com.numSimul[pn&1]){
+      .code[pn] = "";
+      .chr.chars[pn].new(0);
+      ret 1;
+    }
+  cond pn >= 2:
+    ret 0;
+  }
+  if(
+    .com.tmode[pn&1] == (int).com.TeamMode::Turns
+    && nsel < .com.numturns[pn&1]) ret 0;
+  int memberNo = pn>>1;
+  if(.com.tmode[pn&1] == (int).com.TeamMode::Turns){
+    memberNo = pn == 0 ? .com.p2wins : .com.p1wins;
+  }
+  if(nsel <= memberNo) ret 0;
+  int pal;
+  ^index idx.new(nsel);
+  lock(.sc.syst.selinf.p){
+    pal = .sc.syst.selinf.p[pn&1].selchr[memberNo].pal;
+    loop{index i = 0; while; do:
+      idx[i] = .sc.syst.selinf.p[pn&1].selchr[i].i;
+      i++;
+    while i < nsel:}
+  }
+  ^/char cha = .sc.syst.selinf.sel.charlist[idx[memberNo]].def;
+  ^&.chr.Char p;
+  branch{
+  cond #.chr.chars[pn] > 0 && .s.equ(cha, .chr.cgi[pn].def):
+    p = .chr.chars[pn][0];
+    p~key = .com.com[pn] != 0 ? !pn : pn;
+  else:
+    p.new(1);
+    .chr.cgi[pn].sf.new(0);
+    .chr.charInit(p<>=, pn, 0);
+  }
+  .chr.chars[pn].new(1);
+  .chr.chars[pn][0] = p;
+  if(.com.rexisted[pn&1] == 0) .chr.cgi[pn].palno = pal;
+  ^/char error;
+  if(#.chr.cgi[pn].sf == 0){
+    &.stb.StateBuilder chara;
+    if(
+      #chara.build(p~playerno, cha, .code[pn]=)=>error > 0
+      || #p~load(cha)=>error > 0)
+    {
+      .error(error);
+      .chr.chars[pn].new(0);
+      ret -1;
+    }
+  }
+  if(pn < #.chr.fight~fa[.com.tmode[pn&1]]){
+    .chr.fight~fa[.com.tmode[pn&1]][pn].face_spr =
+      .chr.cgi[pn].sf~getOwnPalSprite(
+        .chr.fight~fa[.com.tmode[pn&1]][pn].face_sprg,
+        .chr.fight~fa[.com.tmode[pn&1]][pn].face_spri);
+  }
+  if(.com.tmode[pn&1] == (int).com.TeamMode::Turns && .com.round == 1){
+    const int turns = (int).com.TeamMode::Turns;
+    .chr.fight~fa[turns][pn].numko = 0;
+    loop{
+      index i = 0;
+      .chr.fight~fa[turns][pn].teammate_face_spr.new(nsel);
+      ^/char tmp;
+      while;
+    do:
+      tmp = .sc.syst.selinf.sel.charlist[idx[i]].sprite;
+      error = .com.loadFile(
+        .sc.syst.selinf.sel.charlist[idx[i]].def, tmp=,
+        [^/char(^/char f){
+          ^&.sff.Sprite s.new(1);
+          if(
+            #s~loadFromSff(
+              f, .chr.fight<>
+                .fa[(int).com.TeamMode::Turns][pn].teammate_face_sprg,
+              .chr.fight<>
+                .fa[(int).com.TeamMode::Turns][pn].teammate_face_spri
+            )=>error > 0)
+          {
+            ret error;
+          }
+          .chr.fight~fa[turns][pn].teammate_face_spr[i] = s;
+          ret "";
+        }]);
+      i++;
+    while i < nsel:}
+  }
+  ret 1;
+}
+
+bool stateCompile()
+{
+  if(#.sszc > 0) ret true;
+  %char codeBuf .=
+    "lib c = "\""char.ssz"\"", f = "\""fighting.ssz"\"";"\r\n
+    "f.main();"\r\n;
+  loop{index i = 0; while; do:
+    codeBuf.= .code[i];
+    i++;
+  while i < #.code:}
+  //lib file = <file.ssz>;
+  //&file.File f.open("state.ssz", "wb");
+  //f.writeAry!ubyte?(.s.sToU8(codeBuf));
+  .sszc.new(1);
+  ^/char error = .sszc~compileString(codeBuf, "ssz");
+  if(#error > 0){
+    .error(error);
+    .sszc.new(0);
+    ret false;
+  }
+  ret true;
+}
+
+void load()
+{
+/?/*.cfg.OpenGL:
+  &.sdl.UseGlContext ugc;
+/*?*/
+  ^bool charDone.new(#.chr.chars);
+  loop{index i = 0; while; do:
+    charDone[i] = false;
+    i++;
+  while i < #charDone:}
+  bool codeDone = false;
+  bool stageDone = false;
+  bool allCharDone()
+  {
+    loop{index i = 0; while; do:
+      if(!`charDone[i]) ret false;
+      i++;
+    while i < #`charDone:}
+    ret true;
+  }
+  bool allDone()
+  {
+    ret `codeDone && `stageDone && `allCharDone();
+  }
+  loop{while; do:
+    loop{index i = 0; while; do:
+      if(!charDone[i]){
+        int foo = .chara(i);
+        branch{
+        cond foo > 0:
+          charDone[i] = true;
+        cond foo < 0:
+          .state = .State::Error;
+          ret;
+        }
+      }
+      i++;
+    while i < #charDone:}
+    if(
+      !charDone[2] && #.sc.syst.selinf.p[0].selchr > 0
+      && .com.tmode[0] != (int).com.TeamMode::Simul) loop
+    {
+      index i = 2;
+      while;
+    do:
+      .chr.chars[i].new(0);
+      .code[i] = "";
+      charDone[i] = true;
+      .chr.wakewakaLength[i] = 0;
+      i += 2;
+    while i < #.chr.chars:}
+    if(
+      !charDone[3] && #.sc.syst.selinf.p[1].selchr > 0
+      && .com.tmode[1] != (int).com.TeamMode::Simul) loop
+    {
+      index i = 3;
+      while;
+    do:
+      .chr.chars[i].new(0);
+      .code[i] = "";
+      charDone[i] = true;
+      .chr.wakewakaLength[i] = 0;
+      i += 2;
+    while i < #.chr.chars:}
+    if(!codeDone && allCharDone()){
+      if(!.stateCompile()){
+        .state = .State::Error;
+        ret;
+      }
+      codeDone = true;
+    }
+    if(!stageDone && .sc.syst.selinf.sel.selectedStageNo >= 0){
+      if(!.stage()){
+        .state = .State::Error;
+        ret;
+      }
+      stageDone = true;
+    }
+    .th.sleep(0d10);
+    if(.se.end) .state = .State::Cancel;
+    if(.state == .State::Cancel) ret;
+  while !allDone():}
+  .state = .State::Complete;
+}
+
+thread!load? loadThread;
+
+public void reset()
+{
+  .state = .State::Cancel;
+  <wait>(.loadThread);
+  .state = .State::NotYet;
+  .errorMes = "";
+  .sszc.new(0);
+  loop{index i = 0; while; do:
+    if(.com.rexisted[i&1] == 0) .chr.cgi[i].drawpalno = -1;
+    i++;
+  while i < #.chr.cgi:}
+}
+
+public bool runTread()
+{
+  if(.state != .State::NotYet) ret false;
+  .state = .State::Loading;
+  .loadThread..();
+  ret true;
+}
+

@@ -1,180 +1,27 @@
---;===========================================================
---; LIBRARY AND DATA DEFINITION
---;===========================================================
+
 math.randomseed(os.time())
-lfs = require('lfs') --load lfs.dll
-package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
-ltn12 = require('ltn12')
---package.path = package.path..';./lib/json.lua' --load json lua library
---json = require('json')
---package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
---dkjson = require('dkjson')
---package.path = package.path..';./lib/net/http.lua' --load http lua library
---http = require('http')
---package.path = package.path..';./lib/net/socket.lua' --load socket lua library
---socket = require('socket')
---package.path = package.path..';./lib/net/ftp.lua' --load ftp lua library
---ftp = require('ftp')
---package.path = package.path..';./lib/net/headers.lua' --load headers lua library
---headers = require('headers')
---package.path = package.path..';./lib/net/mbox.lua' --load mbox lua library
---mbox = require('mbox')
---package.path = package.path..';./lib/net/mime.lua' --load mime lua library
---mime = require('mime')
---package.path = package.path..';./lib/net/smtp.lua' --load smtp lua library
---smtp = require('smtp')
---package.path = package.path..';./lib/net/tp.lua' --load tp lua library
---tp = require('tp')
---package.path = package.path..';./lib/net/url.lua' --load url lua library
---url = require('url')
 
---Create global space (accessing variables between modules)
-data = require('saved.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
-
---Load saved variables
-assert(loadfile('saved/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile('saved/stats_sav.lua'))()
-
---;===========================================================
---; SCREENPACK DEFINITION
---;===========================================================
 --Assign Lifebar
-loadLifebar(data.lifebar) --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
+loadLifebar('data/screenpack/winmugen/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
 
 --Debug stuff
 loadDebugFont('data/font/14x14.fnt')
 setDebugScript('script/debug.lua')	
 
---SFF
-fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
-eventSff = sffNew('data/screenpack/events.sff') --load events menu sprites
-missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
-gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
-stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
-sysSff = sffNew('data/screenpack/winmugen/system.sff') --load screenpack/menu sprites
-contSff = sffNew('data/screenpack/winmugen/continue.sff') --load continue sprites
-
---SND (Sound effects do not interrupt music/bgm)
-sysSnd = sndNew('data/screenpack/winmugen/system.snd')
-announcerSnd = sndNew('data/screenpack/winmugen/announcer.snd')
-contSnd = sndNew('data/screenpack/winmugen/continue.snd')
-
---Fonts
-padFnt = fontNew('data/font/f-pad.fnt')
-survBarsFnt = fontNew('data/font/survival_bars.fnt')
-survNumFnt = fontNew('data/font/survival_nums.fnt')
-jgFnt = fontNew('data/font/JG.fnt')
-font1 = fontNew('data/font/f-4x6.fnt')
-font2 = fontNew('data/font/f-6x9.fnt')
-font3 = fontNew('data/font/14x14.fnt')
-font4 = fontNew('data/font/18x18.fnt')
-font5 = fontNew('data/font/Qoh_small.fnt')
-font6 = fontNew('data/font/QOH_BIG.fnt')
-font7 = fontNew('data/font/f-6x8f.fnt')
-font8 = fontNew('data/font/f-6x9f.fnt')
-font9 = fontNew('data/font/font3.fnt')
-font10 = fontNew('data/font/font4.fnt')
-font11 = fontNew('data/font/font5.fnt')
-font12 = fontNew('data/font/score1.fnt')
-font13 = fontNew('data/font/kof99.fnt')
-font14 = fontNew('data/font/MvcName.fnt')
-font15 = fontNew('data/font/name1.fnt')
-font16 = fontNew('data/font/num1.fnt')
-font17 = fontNew('data/font/sf2_name.fnt')
-font18 = fontNew('data/font/sf2_small.fnt')
-font19 = fontNew('data/font/sf2_sys.fnt')
-font20 = fontNew('data/font/sfz2a_system.fnt')
-font21 = fontNew('data/font/ssf2x_10.fnt')
-font22 = fontNew('data/font/ssf2x_s.fnt')
-font23 = fontNew('data/font/ssf2x_sL.fnt')
-font24 = fontNew('data/font/ssf2x_vL.fnt')
-
---Music
-bgmNothing = 'Nothing.mp3'
-bgmTitle = 'sound/Title.mp3'
-bgmSelect = 'sound/Select.mp3'
-bgmSelectChallenger = 'sound/The Challenger.mp3'
-bgmSelectBoss = 'sound/Select Boss.mp3'
---bgmSelectOrder = 'sound/Order Select.mp3'
-bgmSelectOrderFinal = 'sound/Order Select Final.mp3'
-bgmVS = 'sound/VS.mp3'
-bgmVSFinal = 'sound/VS Final.mp3'
-bgmVictory = 'sound/Victory.mp3'
-bgmResults = 'sound/Results.mp3'
-bgmService = 'sound/Service.mp3'
-bgmContinue = 'sound/Continue.mp3'
-bgmGameOver = 'sound/Game Over.mp3'
-bgmEvents = 'sound/Events.mp3'
-
---Random Versus Music
-function f_bgmrandomVS()
-	local randomTrack = {"sound/Random 1.mp3", "sound/Random 2.mp3"}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
-end
-
---Random Menu Music
-function f_bgmrandomMenu()
-	local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3", "sound/Menu 3.ogg"}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
-end
-
---Random Select Challenger Menu Music
-function f_bgmrandomChallenger()
-	local randomTrack = {bgmSelectChallenger, bgmSelect, bgmSelectBoss}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
-end
-
---Menu Music
-function f_menuMusic()
-	if data.menuSong == 'Theme 1' then
-		bgmMenu = 'sound/Menu 1.mp3'
-		playBGM(bgmMenu)
-	elseif data.menuSong == 'Theme 2' then
-		bgmMenu = 'sound/Menu 2.mp3'
-		playBGM(bgmMenu)
-	elseif data.menuSong == 'Theme 3' then
-		bgmMenu = 'sound/Menu 3.ogg'
-		playBGM(bgmMenu)	
-	elseif data.menuSong == 'Random' then
-		f_bgmrandomMenu()
-	end
-end
-
---Select Challenger Menu Music
-function f_challengerMusic()
-	if data.challengerSong == 'Fixed' then
-		bgmChallenger = bgmSelectChallenger
-		playBGM(bgmChallenger)
-	elseif data.challengerSong == 'Original' then
-		bgmChallenger = bgmSelect
-		playBGM(bgmChallenger)
-	elseif data.challengerSong == 'Boss' then
-		bgmChallenger = bgmSelectBoss
-		playBGM(bgmChallenger)	
-	elseif data.challengerSong == 'Random' then
-		f_bgmrandomChallenger()
-	end
-end		
-
---Video
---videoHowToPlay = "data/movie/How To Play.wmv"
-
---Load Common stuff
+--Load Common stuff (shared with pause.lua)
 require('script.common')
 
 --Loading Text
 txt_loading = createTextImg(font1, 0, -1, 'LOADING FILES...', 310, 230)
 
 --;===========================================================
---; LOAD ADDITIONAL SCRIPTS
+--; LOAD MAIN SCRIPTS
 --;===========================================================
-require('script.randomtest')
 assert(loadfile('script/parser.lua'))()
 require('script.options')
 require('script.missions')
 require('script.events')
 require('script.select')
-require('script.storyboard')
 
 --;===========================================================
 --; MAIN MENU SCREEN DEFINITION

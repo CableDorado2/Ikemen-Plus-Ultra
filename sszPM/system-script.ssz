@@ -22,7 +22,8 @@ lib vid = "video.ssz";
 .sdl.setVolume(.cfg.GlVol, .cfg.SEVol, .cfg.BGMVol);
 
 public bool keyReset = false, p1PadReset = false, p2PadReset = false;
-public int p1PadButtonID = 101, p2PadButtonID = 101;
+public bool padReset = false;
+public int padButtonID = 101;
 
 public &sys.System syst;
 
@@ -597,45 +598,13 @@ void swapGamepad(&.lua.State L=, int re=)
   .cfg.in[13].jn = jnP2;
 }
 
-void getInputKey(&.lua.State L=, int re=)
+void disableGamepad(&.lua.State L=, int re=)
 {
-  re = 1;
-  branch{
-	cond .sdl.KeyState(:.se.sdle.key.keysym.scancode:) == true && .keyReset == false:
-	  L.pushNumber((double).se.sdle.key.keysym.scancode);
-	  //.keyReset = true;
-	else:
-	  L.pushNumber((double)0);
-  }
-  if(.sdl.KeyState(:.se.sdle.key.keysym.scancode:) == false && .keyReset == true) .keyReset = false;
-}
-
-void getInputID(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 1;
-  int j = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  L.pushNumber((double)101); //Something outside the range we're checking.
-    loop{index i = -100; while; do:
-      if((int).sdl.JoystickButtonState(:j,i:) == 1){
-        branch{ //Can't use a switch function here apparently.
-        cond j == .cfg.in[2].jn:
-          .p1PadButtonID = i;
-          if(!.p1PadReset) L.pushNumber((double)i);
-          .p1PadReset = true;
-        cond j == .cfg.in[3].jn:
-          .p2PadButtonID = i;
-          if(!.p2PadReset) L.pushNumber((double)i);
-          .p2PadReset = true;
-        }
-      }
-      i++;
-    while i <= 100:}
-  branch{
-  cond j == .cfg.in[2].jn:
-    if((int).sdl.JoystickButtonState(:j,.p1PadButtonID:) == 0 && .p1PadReset) .p1PadReset = false;
-  cond j == .cfg.in[3].jn:
-    if((int).sdl.JoystickButtonState(:j,.p2PadButtonID:) == 0 && .p2PadReset) .p2PadReset = false;
-  }
+  int argc = 0, nret = 0;
+  bool P1 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  bool P2 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .cmd.disablePadP1 = P1;
+  .cmd.disablePadP2 = P2;
 }
 
 void inputReset(&.lua.State L=, int re=)
@@ -649,49 +618,373 @@ void inputReset(&.lua.State L=, int re=)
   }
 }
 
+void getInputID(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int cn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber((double)101); //Something outside the range we're checking.
+  loop{index i = -100; while; do:
+	if((int).sdl.JoystickButtonState(:cn,i:) == 1){
+	  .padButtonID = i;
+	  if(.padReset == false) L.pushNumber((double)i);
+	  //.padReset = true;
+	}
+	i++;
+  while i <= 100:}
+  //if((int).sdl.JoystickButtonState(:cn,.padButtonID:) == 0 && .padReset == true) .padReset = false;
+}
+
+public int keySwap(^/char key)
+{
+  branch{
+  //KEYBOARD KEYS
+  cond .s.equ(key, "a") || .s.equ(key, "A"): ret 4;
+  cond .s.equ(key, "b") || .s.equ(key, "B"): ret 5;
+  cond .s.equ(key, "c") || .s.equ(key, "C"): ret 6;
+  cond .s.equ(key, "d") || .s.equ(key, "D"): ret 7;
+  cond .s.equ(key, "e") || .s.equ(key, "E"): ret 8;
+  cond .s.equ(key, "f") || .s.equ(key, "F"): ret 9;
+  cond .s.equ(key, "g") || .s.equ(key, "G"): ret 10;
+  cond .s.equ(key, "h") || .s.equ(key, "H"): ret 11;
+  cond .s.equ(key, "i") || .s.equ(key, "I"): ret 12;
+  cond .s.equ(key, "j") || .s.equ(key, "J"): ret 13;
+  cond .s.equ(key, "k") || .s.equ(key, "K"): ret 14;
+  cond .s.equ(key, "l") || .s.equ(key, "L"): ret 15;
+  cond .s.equ(key, "m") || .s.equ(key, "M"): ret 16;
+  cond .s.equ(key, "n") || .s.equ(key, "N"): ret 17;
+  cond .s.equ(key, "o") || .s.equ(key, "O"): ret 18;
+  cond .s.equ(key, "p") || .s.equ(key, "P"): ret 19;
+  cond .s.equ(key, "q") || .s.equ(key, "Q"): ret 20;
+  cond .s.equ(key, "r") || .s.equ(key, "R"): ret 21;
+  cond .s.equ(key, "s") || .s.equ(key, "S"): ret 22;
+  cond .s.equ(key, "t") || .s.equ(key, "T"): ret 23;
+  cond .s.equ(key, "u") || .s.equ(key, "U"): ret 24;
+  cond .s.equ(key, "v") || .s.equ(key, "V"): ret 25;
+  cond .s.equ(key, "w") || .s.equ(key, "W"): ret 26;
+  cond .s.equ(key, "x") || .s.equ(key, "X"): ret 27;
+  cond .s.equ(key, "y") || .s.equ(key, "Y"): ret 28;
+  cond .s.equ(key, "z") || .s.equ(key, "Z"): ret 29;
+  cond .s.equ(key, "_1"): ret 30;
+  cond .s.equ(key, "_2"): ret 31;
+  cond .s.equ(key, "_3"): ret 32;
+  cond .s.equ(key, "_4"): ret 33;
+  cond .s.equ(key, "_5"): ret 34;
+  cond .s.equ(key, "_6"): ret 35;
+  cond .s.equ(key, "_7"): ret 36;
+  cond .s.equ(key, "_8"): ret 37;
+  cond .s.equ(key, "_9"): ret 38;
+  cond .s.equ(key, "_0"): ret 39;
+  cond .s.equ(key, "RETURN"): ret 40;
+  cond .s.equ(key, "ESCAPE"): ret 41;
+  cond .s.equ(key, "BACKSPACE"): ret 42;
+  cond .s.equ(key, "TAB"): ret 43;
+  cond .s.equ(key, "SPACE"): ret 44;
+  cond .s.equ(key, "MINUS"): ret 45;
+  cond .s.equ(key, "EQUALS"): ret 46;
+  cond .s.equ(key, "LEFTBRACKET"): ret 47;
+  cond .s.equ(key, "RIGHTBRACKET"): ret 48;
+  cond .s.equ(key, "BACKSLASH"): ret 49;
+  cond .s.equ(key, "NONUSHASH"): ret 50;
+  cond .s.equ(key, "SEMICOLON"): ret 51;
+  cond .s.equ(key, "APOSTROPHE"): ret 52;
+  cond .s.equ(key, "GRAVE"): ret 53;
+  cond .s.equ(key, "COMMA"): ret 54;
+  cond .s.equ(key, "PERIOD"): ret 55;
+  cond .s.equ(key, "SLASH"): ret 56;
+  cond .s.equ(key, "CAPSLOCK"): ret 57;
+  cond .s.equ(key, "F1"): ret 58;
+  cond .s.equ(key, "F2"): ret 59;
+  cond .s.equ(key, "F3"): ret 60;
+  cond .s.equ(key, "F4"): ret 61;
+  cond .s.equ(key, "F5"): ret 62;
+  cond .s.equ(key, "F6"): ret 63;
+  cond .s.equ(key, "F7"): ret 64;
+  cond .s.equ(key, "F8"): ret 65;
+  cond .s.equ(key, "F9"): ret 66;
+  cond .s.equ(key, "F10"): ret 67;
+  cond .s.equ(key, "F11"): ret 68;
+  cond .s.equ(key, "F12"): ret 69;
+  cond .s.equ(key, "PRINTSCREEN"): ret 70;
+  cond .s.equ(key, "SCROLLLOCK"): ret 71;
+  cond .s.equ(key, "PAUSE"): ret 72;
+  cond .s.equ(key, "INSERT"): ret 73;
+  cond .s.equ(key, "HOME"): ret 74;
+  cond .s.equ(key, "PAGEUP"): ret 75;
+  cond .s.equ(key, "DELETE"): ret 76;
+  cond .s.equ(key, "END"): ret 77;
+  cond .s.equ(key, "PAGEDOWN"): ret 78;
+  cond .s.equ(key, "RIGHT"): ret 79;
+  cond .s.equ(key, "LEFT"): ret 80;
+  cond .s.equ(key, "DOWN"): ret 81;
+  cond .s.equ(key, "UP"): ret 82;
+  cond .s.equ(key, "NUMLOCKCLEAR"): ret 83;
+  cond .s.equ(key, "KP_DIVIDE"): ret 84;
+  cond .s.equ(key, "KP_MULTIPLY"): ret 85;
+  cond .s.equ(key, "KP_MINUS"): ret 86;
+  cond .s.equ(key, "KP_PLUS"): ret 87;
+  cond .s.equ(key, "KP_ENTER"): ret 88;
+  cond .s.equ(key, "KP_1"): ret 89;
+  cond .s.equ(key, "KP_2"): ret 90;
+  cond .s.equ(key, "KP_3"): ret 91;
+  cond .s.equ(key, "KP_4"): ret 92;
+  cond .s.equ(key, "KP_5"): ret 93;
+  cond .s.equ(key, "KP_6"): ret 94;
+  cond .s.equ(key, "KP_7"): ret 95;
+  cond .s.equ(key, "KP_8"): ret 96;
+  cond .s.equ(key, "KP_9"): ret 97;
+  cond .s.equ(key, "KP_0"): ret 98;
+  cond .s.equ(key, "KP_PERIOD"): ret 99;
+  cond .s.equ(key, "NONUSBACKSLASH"): ret 100;
+  cond .s.equ(key, "APPLICATION"): ret 101;
+  cond .s.equ(key, "POWER"): ret 102;
+  cond .s.equ(key, "KP_EQUALS"): ret 103;
+  cond .s.equ(key, "F13"): ret 104;
+  cond .s.equ(key, "F14"): ret 105;
+  cond .s.equ(key, "F15"): ret 106;
+  cond .s.equ(key, "F16"): ret 107;
+  cond .s.equ(key, "F17"): ret 108;
+  cond .s.equ(key, "F18"): ret 109;
+  cond .s.equ(key, "F19"): ret 110;
+  cond .s.equ(key, "F20"): ret 111;
+  cond .s.equ(key, "F21"): ret 112;
+  cond .s.equ(key, "F22"): ret 113;
+  cond .s.equ(key, "F23"): ret 114;
+  cond .s.equ(key, "F24"): ret 115;
+  cond .s.equ(key, "EXECUTE"): ret 116;
+  cond .s.equ(key, "HELP"): ret 117;
+  cond .s.equ(key, "MENU"): ret 118;
+  cond .s.equ(key, "SELECT"): ret 119;
+  cond .s.equ(key, "STOP"): ret 120;
+  cond .s.equ(key, "AGAIN"): ret 121;
+  cond .s.equ(key, "UNDO"): ret 122;
+  cond .s.equ(key, "CUT"): ret 123;
+  cond .s.equ(key, "COPY"): ret 124;
+  cond .s.equ(key, "PASTE"): ret 125;
+  cond .s.equ(key, "FIND"): ret 126;
+  cond .s.equ(key, "MUTE"): ret 127;
+  cond .s.equ(key, "VOLUMEUP"): ret 128;
+  cond .s.equ(key, "VOLUMEDOWN"): ret 129;
+  cond .s.equ(key, "KP_COMMA"): 133;
+  cond .s.equ(key, "KP_EQUALSAS400"): 134;
+  cond .s.equ(key, "INTERNATIONAL1"): 135;
+  cond .s.equ(key, "INTERNATIONAL2"): 136;
+  cond .s.equ(key, "INTERNATIONAL3"): 137;
+  cond .s.equ(key, "INTERNATIONAL4"): 138;
+  cond .s.equ(key, "INTERNATIONAL5"): 139;
+  cond .s.equ(key, "INTERNATIONAL6"): 140;
+  cond .s.equ(key, "INTERNATIONAL7"): 141;
+  cond .s.equ(key, "INTERNATIONAL8"): 142;
+  cond .s.equ(key, "INTERNATIONAL9"): 143;
+  cond .s.equ(key, "LANG1"): 144;
+  cond .s.equ(key, "LANG2"): 145;
+  cond .s.equ(key, "LANG3"): 146;
+  cond .s.equ(key, "LANG4"): 147;
+  cond .s.equ(key, "LANG5"): 148;
+  cond .s.equ(key, "LANG6"): 149;
+  cond .s.equ(key, "LANG7"): 150;
+  cond .s.equ(key, "LANG8"): 151;
+  cond .s.equ(key, "LANG9"): 152;
+  cond .s.equ(key, "ALTERASE"): 153;
+  cond .s.equ(key, "SYSREQ"): 154;
+  cond .s.equ(key, "CANCEL"): 155;
+  cond .s.equ(key, "CLEAR"): 156;
+  cond .s.equ(key, "PRIOR"): 157;
+  cond .s.equ(key, "RETURN2"): 158;
+  cond .s.equ(key, "SEPARATOR"): 159;
+  cond .s.equ(key, "OUT"): 160;
+  cond .s.equ(key, "OPER"): 161;
+  cond .s.equ(key, "CLEARAGAIN"): 162;
+  cond .s.equ(key, "CRSEL"): 163;
+  cond .s.equ(key, "EXSEL"): 164;
+  cond .s.equ(key, "KP_00"): 176;
+  cond .s.equ(key, "KP_000"): 177;
+  cond .s.equ(key, "THOUSANDSSEPARATOR"): 178;
+  cond .s.equ(key, "DECIMALSEPARATOR"): 179;
+  cond .s.equ(key, "CURRENCYUNIT"): 180;
+  cond .s.equ(key, "CURRENCYSUBUNIT"): 181;
+  cond .s.equ(key, "KP_LEFTPAREN"): 182;
+  cond .s.equ(key, "KP_RIGHTPAREN"): 183;
+  cond .s.equ(key, "KP_LEFTBRACE"): 184;
+  cond .s.equ(key, "KP_RIGHTBRACE"): 185;
+  cond .s.equ(key, "KP_TAB"): 186;
+  cond .s.equ(key, "KP_BACKSPACE"): 187;
+  cond .s.equ(key, "KP_A"): 188;
+  cond .s.equ(key, "KP_B"): 189;
+  cond .s.equ(key, "KP_C"): 190;
+  cond .s.equ(key, "KP_D"): 191;
+  cond .s.equ(key, "KP_E"): 192;
+  cond .s.equ(key, "KP_F"): 193;
+  cond .s.equ(key, "KP_XOR"): 194;
+  cond .s.equ(key, "KP_POWER"): 195;
+  cond .s.equ(key, "KP_PERCENT"): 196;
+  cond .s.equ(key, "KP_LESS"): 197;
+  cond .s.equ(key, "KP_GREATER"): 198;
+  cond .s.equ(key, "KP_AMPERSAND"): 199;
+  cond .s.equ(key, "KP_DBLAMPERSAND"): 200;
+  cond .s.equ(key, "KP_VERTICALBAR"): 201;
+  cond .s.equ(key, "KP_DBLVERTICALBAR"): 202;
+  cond .s.equ(key, "KP_COLON"): 203;
+  cond .s.equ(key, "KP_HASH"): 204;
+  cond .s.equ(key, "KP_SPACE"): 205;
+  cond .s.equ(key, "KP_AT"): 206;
+  cond .s.equ(key, "KP_EXCLAM"): 207;
+  cond .s.equ(key, "KP_MEMSTORE"): 208;
+  cond .s.equ(key, "KP_MEMRECALL"): 209;
+  cond .s.equ(key, "KP_MEMCLEAR"): 210;
+  cond .s.equ(key, "KP_MEMADD"): 211;
+  cond .s.equ(key, "KP_MEMSUBTRACT"): 212;
+  cond .s.equ(key, "KP_MEMMULTIPLY"): 213;
+  cond .s.equ(key, "KP_MEMDIVIDE"): 214;
+  cond .s.equ(key, "KP_PLUSMINUS"): 215;
+  cond .s.equ(key, "KP_CLEAR"): 216;
+  cond .s.equ(key, "KP_CLEARENTRY"): 217;
+  cond .s.equ(key, "KP_BINARY"): 218;
+  cond .s.equ(key, "KP_OCTAL"): 219;
+  cond .s.equ(key, "KP_DECIMAL"): 220;
+  cond .s.equ(key, "KP_HEXADECIMAL"): 221;
+  cond .s.equ(key, "LCTRL"): 224;
+  cond .s.equ(key, "LSHIFT"): 225;
+  cond .s.equ(key, "LALT"): 226;
+  cond .s.equ(key, "LGUI"): 227;
+  cond .s.equ(key, "RCTRL"): 228;
+  cond .s.equ(key, "RSHIFT"): 229;
+  cond .s.equ(key, "RALT"): 230;
+  cond .s.equ(key, "RGUI"): 231;
+  cond .s.equ(key, "MODE"): 257;
+  cond .s.equ(key, "AUDIONEXT"): 258;
+  cond .s.equ(key, "AUDIOPREV"): 259;
+  cond .s.equ(key, "AUDIOSTOP"): 260;
+  cond .s.equ(key, "AUDIOPLAY"): 261;
+  cond .s.equ(key, "AUDIOMUTE"): 262;
+  cond .s.equ(key, "MEDIASELECT"): 263;
+  cond .s.equ(key, "WWW"): 264;
+  cond .s.equ(key, "MAIL"): 265;
+  cond .s.equ(key, "CALCULATOR"): 266;
+  cond .s.equ(key, "COMPUTER"): 267;
+  cond .s.equ(key, "AC_SEARCH"): 268;
+  cond .s.equ(key, "AC_HOME"): 269;
+  cond .s.equ(key, "AC_BACK"): 270;
+  cond .s.equ(key, "AC_FORWARD"): 271;
+  cond .s.equ(key, "AC_STOP"): 272;
+  cond .s.equ(key, "AC_REFRESH"): 273;
+  cond .s.equ(key, "AC_BOOKMARKS"): 274;
+  cond .s.equ(key, "BRIGHTNESSDOWN"): 275;
+  cond .s.equ(key, "BRIGHTNESSUP"): 276;
+  cond .s.equ(key, "DISPLAYSWITCH"): 277;
+  cond .s.equ(key, "KBDILLUMTOGGLE"): 278;
+  cond .s.equ(key, "KBDILLUMDOWN"): 279;
+  cond .s.equ(key, "KBDILLUMUP"): 280;
+  cond .s.equ(key, "EJECT"): 281;
+  cond .s.equ(key, "SLEEP"): 282;
+  cond .s.equ(key, "APP1"): 283;
+  cond .s.equ(key, "APP2"): 284;
+  cond .s.equ(key, "NUM_SCANCODES"): 512;
+  }
+  ret 0;
+}
+
+void swapController(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int pnO = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int pnN = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int tmpJN = .cfg.in[pnO].jn;
+  int tmpU = .cfg.in[pnO].u;
+  int tmpD = .cfg.in[pnO].d;
+  int tmpL = .cfg.in[pnO].l;
+  int tmpR = .cfg.in[pnO].r;
+  int tmpA = .cfg.in[pnO].a;
+  int tmpB = .cfg.in[pnO].b;
+  int tmpC = .cfg.in[pnO].c;
+  int tmpX = .cfg.in[pnO].x;
+  int tmpY = .cfg.in[pnO].y;
+  int tmpZ = .cfg.in[pnO].z;
+  int tmpS = .cfg.in[pnO].s;
+  .cfg.in[pnO].set(
+	.cfg.in[pnN].jn,
+	.cfg.in[pnN].u,
+	.cfg.in[pnN].d,
+	.cfg.in[pnN].l,
+	.cfg.in[pnN].r,
+	.cfg.in[pnN].a,
+	.cfg.in[pnN].b,
+	.cfg.in[pnN].c,
+	.cfg.in[pnN].x,
+	.cfg.in[pnN].y,
+	.cfg.in[pnN].z,
+	.cfg.in[pnN].s);
+  .cfg.in[pnN].set(
+	tmpJN,
+	tmpU,
+	tmpD,
+	tmpL,
+	tmpR,
+	tmpA,
+	tmpB,
+	tmpC,
+	tmpX,
+	tmpY,
+	tmpZ,
+	tmpS);
+}
+
 void setInputConfig(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   int cn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int u = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int d = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int l = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int r = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int a = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int b = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int c = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int x = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int y = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int z = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int se = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .cfg.in[pn].set(
-    cn,
-    u,
-    d,
-    l,
-    r,
-    a,
-    b,
-    c,
-    x,
-    y,
-    z,
-    se);
-  .cfg.in[pn+10].set(
-    cn,
-    u,
-    d,
-    l,
-    r,
-    a,
-    b,
-    c,
-    x,
-    y,
-    z,
-    st);
+  if(cn == -1){
+	^/char u = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char d = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char l = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char r = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char a = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char b = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char c = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char x = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char y = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char z = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char s = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	.cfg.in[pn].set(
+	  cn,
+	  .keySwap(u),
+	  .keySwap(d),
+	  .keySwap(l),
+	  .keySwap(r),
+	  .keySwap(a),
+	  .keySwap(b),
+	  .keySwap(c),
+	  .keySwap(x),
+	  .keySwap(y),
+	  .keySwap(z),
+	  .keySwap(s));
+  }
+  if(cn > -1){
+	int u = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int d = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int l = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int r = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int a = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int b = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int c = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int x = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int y = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int z = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int s = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	.cfg.in[pn].set(
+	  cn,
+	  u,
+	  d,
+	  l,
+	  r,
+	  a,
+	  b,
+	  c,
+	  x,
+	  y,
+	  z,
+	  s);
+  }
 }
 
 void addChar(&.lua.State L=, int re=)
@@ -1124,8 +1417,10 @@ public void init(&.lua.State L=)
   L.register("setZoomMin", .setZoomMin);
   L.register("setZoomMax", .setZoomMax);
   L.register("setZoomSpeed", .setZoomSpeed);
+  L.register("swapController", .swapController);
   L.register("swapGamepad", .swapGamepad);
-  L.register("getInputKey", .getInputKey);
+  L.register("disableGamepad", .disableGamepad);
+  //L.register("getInputKey", .getInputKey);
   L.register("getInputID", .getInputID);
   L.register("inputReset", .inputReset);
   L.register("setInputConfig", .setInputConfig);  

@@ -521,6 +521,85 @@ function f_strSub(str, t)
 	return str, txt
 end
 
+--Menu Background
+menuBG = animNew(sysSff, [[
+300,1, 0,0, -1
+]])
+animSetPos(menuBG, 40, 30)
+animSetAlpha(menuBG, 20, 50)
+animUpdate(menuBG)
+
+--Scrollbar (for below function)
+menuScrollbar = animNew(sysSff, [[
+1002,0, 0,0, -1
+]])
+
+--Dynamically draw menu window based on given parameters
+function f_drawBorder(x1, y1, x2, y2, pn, i, duration, sb, sbSize, sbLimit, sbCurPos)
+	x2 = x2 or 320-x1
+	y2 = y2 or 240-y1
+	duration = duration or 10
+	sb = sb or false
+	if pn == 2 then
+		menuCorner = animNew(sysSff, [[
+		1001,0, 0,0, -1
+		]])
+		menuHEdge = animNew(sysSff, [[
+		1001,1, 0,0, -1
+		]])
+		menuVEdge = animNew(sysSff, [[
+		1001,2, 0,0, -1
+		]])
+		menuCorner2 = animNew(sysSff, [[
+		1000,0, 0,0, -1
+		]])
+		menuHEdge2 = animNew(sysSff, [[
+		1000,1, 0,0, -1
+		]])
+		menuVEdge2 = animNew(sysSff, [[
+		1000,2, 0,0, -1
+		]])
+	else
+		menuCorner = animNew(sysSff, [[
+		1000,0, 0,0, -1
+		]])
+		menuHEdge = animNew(sysSff, [[
+		1000,1, 0,0, -1
+		]])
+		menuVEdge = animNew(sysSff, [[
+		1000,2, 0,0, -1
+		]])
+		menuCorner2 = animNew(sysSff, [[
+		1001,0, 0,0, -1
+		]])
+		menuHEdge2 = animNew(sysSff, [[
+		1001,1, 0,0, -1
+		]])
+		menuVEdge2 = animNew(sysSff, [[
+		1001,2, 0,0, -1
+		]])
+	end
+	animFullDraw(menuBG, x1, ((y1 + y2) / 2) - ((((y2 - y1) / duration) * math.abs(i))/2), x2 - x1, ((y2 - y1) / duration) * math.abs(i), x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3))
+	animFullDraw(menuHEdge, x1, ((y1 + y2) / 2) - ((((y2 - y1) / duration) * math.abs(i))/2), x2 - x1, 0.5, x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3))
+	animFullDraw(menuVEdge, x1, ((y1 + y2) / 2) - ((((y2 - y1) / duration) * math.abs(i))/2), 0.5, ((y2 - y1) / duration) * math.abs(i), x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3))
+	animFullDraw(menuHEdge, x1, ((y1 + y2) / 2) + ((((y2 - y1) / duration) * math.abs(i))/2), x2 - x1, -0.5, x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3))
+	animFullDraw(menuVEdge, x2, ((y1 + y2) / 2) - ((((y2 - y1) / duration) * math.abs(i))/2), -0.5, ((y2 - y1) / duration) * math.abs(i), x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3))
+	animFullDraw(menuCorner, x1, ((y1 + y2) / 2) - ((((y2 - y1) / duration) * math.abs(i))/2), 0.5, 0.5, x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3)) --TL
+	animFullDraw(menuCorner, x2, ((y1 + y2) / 2) - ((((y2 - y1) / duration) * math.abs(i))/2), -0.5, 0.5, x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3)) --TR
+	animFullDraw(menuCorner, x1, ((y1 + y2) / 2) + ((((y2 - y1) / duration) * math.abs(i))/2), 0.5, -0.5, x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3)) --BL
+	animFullDraw(menuCorner, x2, ((y1 + y2) / 2) + ((((y2 - y1) / duration) * math.abs(i))/2), -0.5, -0.5, x1-3, y1-3, (x2+3)-(x1-3), (y2+3)-(y1-3)) --BR
+	if sb then
+		animFullDraw(menuBG, x2+9, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), (x2+13) - (x2+9), (((y2+3) - (y1-3)) / duration) * math.abs(i), x2+6, y1-3, (x2+16)-(x2+6), (y2+3)-(y1-3))
+		animFullDraw(menuScrollbar, x2+9, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), (x2+13) - (x2+9), 1, x2+6, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), (x2+16)-(x2+6), (y2+3)-(y1-3))
+		animFullDraw(menuScrollbar, x2+8, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), 1, (((y2+3) - (y1-3)) / duration) * math.abs(i), x2+8, y1-3, (x2+14)-(x2+8), (y2+3)-(y1-3))
+		animFullDraw(menuScrollbar, x2+9, ((y1 + y2) / 2) + (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), (x2+13) - (x2+9), -1, x2+6, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), (x2+16)-(x2+6), (y2+3)-(y1-3))
+		animFullDraw(menuScrollbar, x2+14, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), -1, (((y2+3) - (y1-3)) / duration) * math.abs(i), x2+8, y1-3, (x2+14)-(x2+8), (y2+3)-(y1-3))
+		if i >= duration then
+			animFullDraw(menuScrollbar, x2+8, (y1-2) + (((y2+2)-(y1-2)) - (((y2+2)-(y1-2)) / ((sbSize+1) - sbLimit) * ((sbSize+1) - sbCurPos))), 6, ((y2+2)-(y1-2)) / ((sbSize+1) - sbLimit), x2+6, ((y1 + y2) / 2) - (((((y2+3) - (y1-3)) / duration) * math.abs(i))/2), (x2+16)-(x2+6), (y2+3)-(y1-3))
+		end
+	end
+end
+
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))

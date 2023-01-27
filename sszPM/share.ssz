@@ -7,6 +7,8 @@ lib com = "common.ssz";
 lib se = <alpha/sdlevent.ssz>;
 lib lua = <alpha/lua.ssz>;
 lib snd = "sound.ssz";
+lib cfg = "config.ssz";
+lib sc = "system-script.ssz";
 
 public &Share
 {
@@ -42,6 +44,10 @@ public &Share
   public int gameType;
   public int serviceType;
   public float panStr;
+  /%&.cfg.Keys in;
+  public bool disablePadP1;
+  public bool disablePadP2;
+  public bool exitMatch;
   public void copy()
   {
     `c = .chr.chars;
@@ -88,6 +94,10 @@ public &Share
 	`gameType = .com.gameType;
 	`serviceType = .com.serviceType;
 	`panStr = .snd.panstr;
+	`in = .cfg.in;
+	`disablePadP1 = .cmd.disablePadP1;
+	`disablePadP2 = .cmd.disablePadP2;
+	`exitMatch = .com.exitMatch;
   }
   public void push()
   {
@@ -135,6 +145,17 @@ public &Share
 	.com.gameType = `gameType;
 	.com.serviceType = `serviceType;
 	.snd.panstr = `panStr;
+	.cfg.in[0] = `in[0];
+    .cfg.in[1] = `in[1];
+    .cfg.in[2] = `in[2];
+    .cfg.in[3] = `in[3];
+    .cfg.in[10] = `in[10];
+    .cfg.in[11] = `in[11];
+    .cfg.in[12] = `in[12];
+    .cfg.in[13] = `in[13];
+    .cmd.disablePadP1 = `disablePadP1;
+    .cmd.disablePadP2 = `disablePadP2;
+	.com.exitMatch = `exitMatch;
   }
 }
 

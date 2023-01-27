@@ -1,9 +1,9 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
-data.coins = 282
+data.coins = 4
 data.event1Status = 0
 data.event2Status = 0
-data.event3Status = 0
+data.event3Status = 100
 data.mission1Status = 100
 data.mission2Status = 100
 data.mission3Status = 100
