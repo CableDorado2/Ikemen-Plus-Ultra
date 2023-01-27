@@ -1314,6 +1314,7 @@ const index iSYSFLAG           = 56;
 const index iZ_WIDTH              = 57;
 const index iATTACK_Z_WIDTH_FRONT = 58;
 const index iATTACK_Z_WIDTH_BACK  = 59;
+const index iIGNORETIMESTOP    = 60;
 
 const index fX                = 10;
 const index fY                = 11;
@@ -1410,6 +1411,7 @@ const int lsBACKWCHANGE   = 0b00000000000010000000000000000000;
 const int lsFEDGECHANGE   = 0b00000000000100000000000000000000;
 const int lsBEDGECHANGE   = 0b00000000001000000000000000000000;
 const int lsDESTROY       = 0b00000000010000000000000000000000;
+const int lsTSIGNORE      = 0b00000010000000000000000000000000;
 
 const int lasMask =
   lsNOAUTOTURN | lsNOWALK | lsNOSTANDGUARD | lsNOCROUCHGUARD | lsNOAIRGUARD
@@ -1534,6 +1536,7 @@ public &PlayerList!&Char? players;
 public int id = cfg.HelperMax;
 /int pause = 0, pausetime = 0, pausebg = 0, pauseendcmdbuftime = 0;
 /int super = 0, supertime = 0, superpausebg = 0, superendcmdbuftime = 0;
+/bool timestop = false;
 int pauseplayer = -1, superplayer = -1;
 ^&.act.Action superanim;
 ^&.com.PalFX superpmap.new(1);
@@ -1951,7 +1954,9 @@ public &Projectile
   bool paused(int playerNo)
   {
     if(!.chars[playerNo]<>~isPaused()) branch{
-    cond .super > 0:
+    cond .timestop:
+      ret true;
+	cond .super > 0:
       if(`supermovetime == 0) ret true;
     cond .pause > 0:
       if(`pausemovetime == 0) ret true;
@@ -1983,7 +1988,7 @@ public &Projectile
   public void anime(bool oVer, int playerNo)
   {
     bool notpause = `hitpause <= 0 && !`paused(playerNo);
-    if(.com.tickFrame() && #`ani > 0 && notpause){
+    if(.com.tickFrame() && #`ani > 0){//&& notpause){
       `ani~ani.updateSprite();
     }
     if(.com.clsndraw && #`ani > 0){
@@ -2115,6 +2120,7 @@ public &Char
     `sysivar[.iUNIQHITCOUNT] = 0;
     `sysivar[.iPAUSEMOVETIME] = 0;
     `sysivar[.iSUPERMOVETIME] = 0;
+	`sysivar[.iIGNORETIMESTOP] = 0;
     `sysivar[.iBINDTIME] = 0;
     `sysivar[.iBINDTOID] = -1;
     `sysivar[.iHITPAUSETIME] = 0;
@@ -3266,8 +3272,8 @@ public &Char
   public void action()
   {
     if(`minus != 2 || `ls(.lsDESTROY)) ret;
-    bool p =
-      .super > 0 ? `sysivar[.iSUPERMOVETIME] == 0
+    bool p = .timestop ? (!`ls(.lsTSIGNORE) && `sysivar[.iIGNORETIMESTOP] == 0)
+      : .super > 0 ? `sysivar[.iSUPERMOVETIME] == 0
       : .pause > 0 && `sysivar[.iPAUSEMOVETIME] == 0;
     if(#`cmd == 0) p = false;
     `acttmp = -(int)p * 2;
@@ -3369,10 +3375,11 @@ public &Char
           if(`stVal.ho[i].time > 0) `stVal.ho[i].time--;
           i++;
         while i < #`stVal.ho:}
+		bool ts = .timestop && !`ls(.lsTSIGNORE) && `sysivar[.iIGNORETIMESTOP] == 0;
         branch{
-        cond .super > 0:
-          if(`sysivar[.iSUPERMOVETIME] > 0) `sysivar[.iSUPERMOVETIME]--;
-        cond .pause > 0 && `sysivar[.iPAUSEMOVETIME] > 0:
+        cond .super > 0 && `sysivar[.iSUPERMOVETIME] > 0 && !ts:
+          `sysivar[.iSUPERMOVETIME]--;
+        cond .pause > 0 && `sysivar[.iPAUSEMOVETIME] > 0 && !ts:
           `sysivar[.iPAUSEMOVETIME]--;
         }
       }
@@ -3585,6 +3592,7 @@ public &Char
         cond `stVal.mov == .MovTy::H:
           if(`stVal.hb.guarded) `getcombo = 0;
           if(`stVal.hb.hitshaketime > 0) `stVal.hb.hitshaketime--;
+		  if(`stVal.hb.hitshaketime <= 0) `sysivar[.iIGNORETIMESTOP] = 0;
           if(`stVal.hb.hitshaketime <= 0 && `stVal.hb.hittime >= 0){
             `stVal.hb.hittime--;
           }
@@ -3715,6 +3723,29 @@ public &Char
   {
     .chars[`playerno&(.com.powerShare[`playerno&1]?1:-1)]<>
       ~setPower(`getSharePower() + p);
+  }
+  public void cmdUpdate(int f)
+  {
+    bool act =
+      .timestop ? (`ls(.lsTSIGNORE) || `sysivar[.iIGNORETIMESTOP] != 0)
+      : .super > 0 ? `sysivar[.iSUPERMOVETIME] != 0
+      : .pause <= 0 || `sysivar[.iPAUSEMOVETIME] != 0;
+      if(`helperindex == 0 &&`cmd~input(`key, f)) loop
+      {
+        index i = 0;
+        bool hp = `isHitPaused();
+        int buftime = (int)(hp && `mver0() != 1);
+        branch{
+        cond .super > 0:
+          if(!act && .super <= .superendcmdbuftime) hp = true;
+        cond .pause > 0:
+          if(!act && .pause <= .pauseendcmdbuftime) hp = true;
+        }
+        while;
+      do:
+        `cmd[i].step(f, `key < 0, hp, buftime + (int)hp);
+        i++;
+      while i < #`cmd:}
   }
   public void setFacing(int f)
   {
@@ -5452,8 +5483,14 @@ public void Explod::update(bool oVer, int playerNo)
   if(`id == .com.IERR) ret;
   ^&.Char c;
   if(`ignorehitpause == 0 || `removeongethit != 0) c = .players.get(`player);
+  ^&.Char c2 = .players.get(`player);
   bool p = false;
+  bool ts = false;
+  bool hit = #c > 0 && c~ls(.lsGETHIT);
+  if(.timestop && #c2 > 0) ts = !(c2~ls(.lsTSIGNORE)||c2~sysivar[.iIGNORETIMESTOP]!=0);
   branch{
+  cond .timestop:
+    p = ts;
   cond .super > 0:
     p = `supermovetime >= 0 && `time >= `supermovetime;
   cond .pause > 0:
@@ -5974,6 +6011,8 @@ public void PlayerList!&Char?::clsn(&.Char pyr=, bool pro)
         absdamage = hitting == 1 ? hit.hitdamage : hit.guarddamage;
       }
       branch{
+      cond .timestop:
+        if(`pyr.stVal.hb.hitshaketime > 0) `pyr.sysivar[.iIGNORETIMESTOP] = 1;
       cond .super > 0:
         `pyr.sysivar[.iSUPERMOVETIME] =
           .m.max!int?(
@@ -6565,7 +6604,8 @@ void commandUpdate()
     .chars[i].[void(p){
       p<>~[void(r=){
         bool act =
-          .super > 0 ? r.sysivar[.iSUPERMOVETIME] != 0
+          .timestop ? (r.ls(.lsTSIGNORE) || r.sysivar[.iIGNORETIMESTOP] != 0)
+          : .super > 0 ? r.sysivar[.iSUPERMOVETIME] != 0
           : .pause <= 0 || r.sysivar[.iPAUSEMOVETIME] != 0;
         if(
           act && !r.ls(.lsNOAUTOTURN)
@@ -6645,17 +6685,19 @@ public float action(
     if(.com.xmin > .com.xmax){
       .com.xmin = .com.xmax = (.com.xmin + .com.xmax) * 0.5;
     }
-    .sff.allPalFX~step();
-    .stage.bgPalFX~step();
-    .stage.envShake.next();
-    if(.envcol_time > 0) .envcol_time--;
+	if(!.timestop){
+     .sff.allPalFX~step();
+     .stage.bgPalFX~step();
+     .stage.envShake.next();
+     if(.envcol_time > 0) .envcol_time--;
+	}
     .com.drawscale = 0.0/0.0;
     .com.zoomposx = 0.0;
     .com.zoomposy = 0.0;
     branch{
-    cond .super > 0:
+    cond .super > 0 && !.timestop:
       .super--;
-    cond .pause > 0:
+    cond .pause > 0 && !.timestop:
       .pause--;
     }
     if(.pausetime < 0){
@@ -6667,10 +6709,16 @@ public float action(
       .super = .supertime;
     }
     branch{
-    cond .super <= 0 && .pause <= 0:
-      .specialFlag = 0d0;
+    cond .gs(.gsTIMESTOP):
+      .timestop = true;
     else:
-      .specialFlag &= !.gsROUNDNOTOVER;
+      .timestop = false;
+    }
+    branch{
+    cond .timestop: 
+      .specialFlag &= !.gsTIMESTOP & !.gsNOHUDDISPLAY;
+    cond .super > 0 || .pause > 0: .specialFlag = 0d0 + (.specialFlag & .gsNOKO);
+    else: .specialFlag = 0d0;
     }
     if(#.superanim > 0) .superanim~ani.action();
     .players.action(x, cvmin=, cvmax=, highest=, lowest=, leftest=, rightest=);
@@ -7002,7 +7050,7 @@ public float action(
   }
   if(.com.turbo == 0.0 || .com.tickNextFrame()) branch{
     int slowt = -(.fight~ro.over_hittime+((.fight~ro.slow_time+3)>>2));
-    float spd = .com.pause && !.com.step ? 0.0 : .com.Speed*.com.accel;
+    float spd = (.com.pauseMenu > 0 || (.com.pause && !.com.step)) ? 0.0 : .com.Speed*.com.accel;
     int slowfade = .fight~ro.slow_time * 2 / 5;
     if(.gs(.gsNOKOSLOW) || .com.time == 0) else;
   cond .m.inRange!int?(slowt, -.fight~ro.over_hittime-1, .com.intro):
@@ -7013,6 +7061,7 @@ public float action(
   else:
     .com.turbo = spd;
   }
+  if(.com.pauseMenu > 0) .specialFlag|=.gsNOHUDDISPLAY;
   .sdl.pauseBGM(.gs(.gsNOMUSIC));
   .playSound();
   if(introSkip) tmp = 1.0 / scl;

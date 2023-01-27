@@ -10,7 +10,7 @@ randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 chars/iori yagami/iori yagami.def, 0 1 0 0 0 0 0 0 0 0 0 0
 chars/m. bison/m. bison.def, 0 0 0 0 0 0 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/suave dude/suave dude.def, -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+chars/suave dude/suave dude.def, 0 0 0 0 0 0 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 chars/rugal bernstein/rugal bernstein.def, 0 0 0 0 0 0 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0

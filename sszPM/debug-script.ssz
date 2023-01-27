@@ -62,13 +62,13 @@ void addHotkey(&.lua.State L=, int re=)
 void toggleClsnDraw(&.lua.State L=, int re=)
 {
   re = 0;
-  .com.clsndraw!!;
+  if(#.cmd.net == 0) .com.clsndraw!!;
 }
 
 void toggleDebugDraw(&.lua.State L=, int re=)
 {
   re = 0;
-  .com.debugdraw!!;
+  if(#.cmd.net == 0) .com.debugdraw!!;
 }
 
 void togglePause(&.lua.State L=, int re=)
@@ -160,7 +160,6 @@ void clear(&.lua.State L=, int re=)
   re = 0;
   .com.clipboardText:<-[void(cb=){cb.new(0);}];
 }
-
 
 public &.lua.State L;
 

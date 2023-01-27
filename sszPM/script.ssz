@@ -249,6 +249,25 @@ void commandBufReset(&.lua.State L=, int re=)
   command~bufReset();
 }
 
+void startButton(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int pn = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushBoolean(.cmd.startButton(pn));
+}
+
+void getSysCtrl(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  L.pushNumber((double).com.sysControls);
+}
+void setSysCtrl(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int v = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(.com.sysControls == v) ret;
+  .com.sysControls = v;
+}
 
 void inputThread(^/char title, ^^char str, ^bool done)
 {
@@ -768,6 +787,23 @@ void exitMatch(&.lua.State L=, int re=)
   .com.exitMatch = true;
 }
 
+void setSharedString(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char str = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  branch{
+  cond .s.equ(str, "end"):
+    .se.end = true;
+  cond .s.equ(str, "reload"):
+    .chr.chars.new(#.chr.chars);
+  }
+}
+
+//void debugKey(&.lua.State L=, int re=)
+//{
+//  .se.debugkey = true;
+//}
+
 public void init(&.lua.State L=)
 {
   L.register("sffNew", .sffNew);
@@ -779,6 +815,9 @@ public void init(&.lua.State L=)
   L.register("commandGetState", .commandGetState);
   L.register("commandInput", .commandInput);
   L.register("commandBufReset", .commandBufReset);
+  L.register("startButton", .startButton);
+  L.register("getSysCtrl", .getSysCtrl);
+  L.register("setSysCtrl", .setSysCtrl);
   L.register("inputDialogNew", .inputDialogNew);
   L.register("inputDialogPopup", .inputDialogPopup);
   L.register("inputDialogIsDone", .inputDialogIsDone);
@@ -854,6 +893,8 @@ public void init(&.lua.State L=)
   L.register("setHomeTeam", .setHomeTeam);
   L.register("setMatchNo", .setMatchNo);
   L.register("exitMatch", .exitMatch);
+  L.register("setSharedString", .setSharedString);
+  //L.register("debugKey", .debugKey);
 }
 
 

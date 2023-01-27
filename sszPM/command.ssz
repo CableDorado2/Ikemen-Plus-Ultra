@@ -1241,16 +1241,18 @@ public &CommandList
   }
 }
 
-//public bool startButton(int pn)
-//{
-  //int jn = .cfg.in[pn-1].jn;
-  //if(#.net > 0 || pn < 1 || pn > 2) ret false;
-  //branch{
-  //cond jn >= -1 && (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[pn+9].s:),jn,.cfg.in[pn+9].s) || .sdl.JoystickButtonState(:.cfg.in[pn+11].jn, .cfg.in[pn+11].s:)): .sBuf[pn-1]++;
-  //else: .sBuf[pn-1] = 0;
-  //}
-  //ret .sBuf[pn-1] == 1 || .sBuf[pn-1] == 2;
-//}
+public ^int sBuf.new(2);
+
+public bool startButton(int pn)
+{
+  int jn = .cfg.in[pn-1].jn;
+  if(#.net > 0 || pn < 1 || pn > 2) ret false;
+  branch{
+  cond jn >= -1 && (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[pn+9].s:),jn,.cfg.in[pn+9].s) || .sdl.JoystickButtonState(:.cfg.in[pn+11].jn, .cfg.in[pn+11].s:)): .sBuf[pn-1]++;
+  else: .sBuf[pn-1] = 0;
+  }
+  ret .sBuf[pn-1] == 1 || .sBuf[pn-1] == 2;
+}
 
 bool anyHardButton()
 {

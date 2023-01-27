@@ -245,6 +245,7 @@ void game()
     .com.p1wins = `oldp1wins;
     .com.p2wins = `oldp2wins;
     .com.draws = `olddraws;
+	.com.forceOver = false;
     loop{index i = 0; do:
       if(#.chr.chars[i] > 0){
         .chr.chars[i][0]~sysivar[.chr.iLIFE] = `lif[i];
@@ -402,6 +403,7 @@ void game()
       {
         .chr.chars[i][0]~sysivar[.chr.iLIFE] =
           .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
+		//.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0;
       }
       copyVar(i);
@@ -413,6 +415,8 @@ void game()
       .chr.stg~action();
       i++;
     while i < stagetime:}
+	.com.sysControls = 0; //Fight
+    .com.gameState = 1;
     //if(.com.round == 1) .snd.bgm~play(.chr.stg~bgmusic);
     .com.cam.init();
     .com.screenleft = (float).chr.stg~screenleft * .chr.stg~localscl;
@@ -520,7 +524,7 @@ void game()
     if(!.com.cam.zoom) x = .m.ceil(x*4.0 - 0.5)/4.0;
     y = .com.cam.yBound(scl, newy);
     if(
-      .com.tickFrame() && (.chr.super <= 0 || .chr.superpausebg == 0)
+      .com.tickFrame() && !.chr.timestop && (.chr.super <= 0 || .chr.superpausebg == 0)
       && (.chr.pause <= 0 || .chr.pausebg == 0)) 
     {
       .chr.stg~action();

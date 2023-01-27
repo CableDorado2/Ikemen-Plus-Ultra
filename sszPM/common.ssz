@@ -218,10 +218,11 @@ public bool addHotkey(
   ret true;
 }
 
+public bool forceOver = false;
 
 public bool matchOver()
 {
-  ret .p1wins >= .p1mw || .p2wins >= .p2mw;
+  ret .p1wins >= .p1mw || .p2wins >= .p2mw || .forceOver;
 }
 
 public int nextLine(index i=, ^/char str)
@@ -1049,3 +1050,20 @@ public &SuperDangerousRef
   }
 }
 
+public void printVar(^/char v, ^/char file)
+{
+  &.file.File f.open(file, "wb");
+  f.writeAry!ubyte?(.s.sToU8(v));
+  f.close();
+}
+
+public void printArray(%^/char a, ^/char file)
+{
+  &.file.File f.open(file, "wb");
+  loop{index i = 0; while; do:
+    f.writeAry!ubyte?(.s.sToU8(a[i]));
+    if(i < #a-1) f.writeAry!ubyte?(.s.sToU8(\n));
+    i++;
+  while i < #a:}
+  f.close();
+}

@@ -11,6 +11,8 @@ lib act = "action.ssz";
 lib fnt = "font.ssz";
 lib bg = "bg.ssz";
 lib cfg = "config.ssz";
+lib cmd = "command.ssz";
+lib al = <alert.ssz>;
 
 
 public &LifePower
