@@ -252,6 +252,7 @@ function f_saveCfg()
 		['data.menuSong'] = data.menuSong,
 		['data.clock'] = data.clock,
 		['data.date'] = data.date,
+		['data.selectType'] = data.selectType,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
 		['data.debugMode'] = data.debugMode,
@@ -338,6 +339,7 @@ function f_netsaveCfg()
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
+		['data.selectType'] = data.selectType,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
 		['data.challengerScreen'] = data.challengerScreen,
@@ -455,6 +457,7 @@ function f_onlineDefault()
 	data.vsDisplayWin = true
 	s_vsDisplayWin = 'Yes'
 	data.lifebar = 'data/screenpack/winmugen/fight.def'
+	data.selectType = 'Fixed'
 	data.stageType = 'Classic'
 	data.winscreen = 'Classic'
 	data.debugMode = false
@@ -1340,6 +1343,7 @@ t_UICfg = {
 	{id = '', text = 'Date Format',            	 varID = textImgNew(), varText = data.date},
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
 	{id = '', text = 'Char Presentation',        varID = textImgNew(), varText = data.charPresentation},
+	{id = '', text = 'Character Select Type',    varID = textImgNew(), varText = data.selectType},
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = 'New Challenger Screen',	 varID = textImgNew(), varText = s_challengerScreen},
@@ -1511,8 +1515,24 @@ function f_UICfg()
 				data.sffConversion = true
 				modified = 1	
 			end
-		--Stage Select Display Type
+		--Character Select Display Type
 		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.selectType == 'Fixed' then
+				data.selectType = 'Variable'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.selectType == 'Variable' then
+				data.selectType = 'Fixed'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.selectType == 'Fixed' then
+				data.selectType = 'Variable'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.selectType == 'Variable' then
+				data.selectType = 'Fixed'
+				modified = 1
+			end
+		--Stage Select Display Type
+		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.stageType == 'Classic' then
 				data.stageType = 'Modern'
@@ -1536,7 +1556,7 @@ function f_UICfg()
 				--modified = 1
 			end
 		--Win Screen Display Type
-		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 				data.winscreen = 'Modern'
@@ -1564,7 +1584,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--New Challenger Screen Display
-		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.challengerScreen then
 				data.challengerScreen = false
@@ -1576,7 +1596,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--Char change at Continue
-		elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.contSelection then
 				data.contSelection = false
@@ -1588,7 +1608,7 @@ function f_UICfg()
 				modified = 1
 			end	
 		--Service Screen Display
-		elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif UICfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
 			if data.serviceScreen then
 				data.serviceScreen = false
@@ -1600,7 +1620,7 @@ function f_UICfg()
 				modified = 1
 			end	
 		--Back
-		elseif UICfg == 11 and btnPalNo(p1Cmd) > 0 then
+		elseif UICfg == 12 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1618,11 +1638,12 @@ function f_UICfg()
 		t_UICfg[3].varText = data.date
 		t_UICfg[4].varText = s_vsDisplayWin
 		t_UICfg[5].varText = data.charPresentation
-		t_UICfg[6].varText = data.stageType
-		t_UICfg[7].varText = data.winscreen
-		t_UICfg[8].varText = s_challengerScreen
-		t_UICfg[9].varText = s_contSelection	
-		t_UICfg[10].varText = s_serviceScreen
+		t_UICfg[6].varText = data.selectType
+		t_UICfg[7].varText = data.stageType
+		t_UICfg[8].varText = data.winscreen
+		t_UICfg[9].varText = s_challengerScreen
+		t_UICfg[10].varText = s_contSelection	
+		t_UICfg[11].varText = s_serviceScreen
 		for i=1, #t_UICfg do
 			textImgDraw(t_UICfg[i].id)
 			if t_UICfg[i].varID ~= nil then

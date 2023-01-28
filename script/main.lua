@@ -2533,21 +2533,31 @@ function f_songMenu()
 	local moveTxt = 0
 	local songMenu = 1
 	t_songList = {}
-	for file in lfs.dir[[.\\sound\\]] do --Read Dir
-		if file:match('^.*(%.)mp3$') or file:match('^.*(%.)MP3$') or file:match('^.*(%.)ogg$') or file:match('^.*(%.)OGG$') then --Filtrar archivos (Solo admite Mp3 y Ogg)
+	for file in lfs.dir[[.\\sound\\]] do --Read Dir (Only Supports MP3 and OGG)
+		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
 			row = #t_songList+1
 			t_songList[row] = {}
 			t_songList[row]['id'] = ''
-			if file:match('^.*(%.)mp3$') then
-				t_songList[row]['MP3'] = file:gsub('^(.*)[%.]mp3$', '%1')
-			elseif file:match('^.*(%.)ogg$') then
-				t_songList[row]['MP3'] = file:gsub('^(.*)[%.]ogg$', '%1')
-			end	
-			--t_songList[row]['MP3'] = file:gsub('^(.*)[%.]mp3$', '%1') --original
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		elseif file:match('^.*(%.)MP3$') then --Filter Files .mp3
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		end
 	end
 	t_songList[#t_songList+1] = {
-		id = '', MP3 = '          BACK'
+		id = '', playlist = '          BACK'
 	}
 	while true do
 		if esc() then
@@ -2569,11 +2579,8 @@ function f_songMenu()
 				break
 			else
 				--Play Song
-				if t_songList[songMenu].MP3 .. '.mp3' then
-					playBGM('sound/' .. t_songList[songMenu].MP3 .. '.mp3')
-				elseif t_songList[songMenu].MP3 .. '.ogg' then
-					playBGM('sound/' .. t_songList[songMenu].MP3 .. '.ogg')
-				end
+				playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
+				playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
 			end
 		end
 		--Cursor position calculation
@@ -2612,11 +2619,11 @@ function f_songMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxSongs do
-			if t_songList[i].MP3:len() > 26 then
-				songText = string.sub(t_songList[i].MP3, 1, 24)
+			if t_songList[i].playlist:len() > 26 then
+				songText = string.sub(t_songList[i].playlist, 1, 24)
 				songText = tostring(songText .. '...')
 			else
-				songText = t_songList[i].MP3
+				songText = t_songList[i].playlist
 			end
 			if i > songMenu - cursorPosY then
 				t_songList[i].id = createTextImg(font2, 0, 1, songText, 85, 15+i*15-moveTxt)
@@ -2642,16 +2649,21 @@ function f_videoMenu()
 	local moveTxt = 0
 	local videoMenu = 1
 	t_videoList = {}
-	for file in lfs.dir[[.\\data\\movie\\]] do --Read Dir
-		if file:match('^.*(%.)wmv$') or file:match('^.*(%.)WMV$') then --Filtrar archivos
+	for file in lfs.dir[[.\\data\\movie\\]] do --Read Dir (Only Supports WMV)
+		if file:match('^.*(%.)wmv$') then --Filter Files .wmv
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
-			t_videoList[row]['replay'] = file:gsub('^(.*)[%.]wmv$', '%1')
+			t_videoList[row]['playlist'] = file:gsub('^(.*)[%.]wmv$', '%1')
+		elseif file:match('^.*(%.)WMV$') then --Filter Files .WMV
+			row = #t_videoList+1
+			t_videoList[row] = {}
+			t_videoList[row]['id'] = ''
+			t_videoList[row]['playlist'] = file:gsub('^(.*)[%.]WMV$', '%1')
 		end
 	end
 	t_videoList[#t_videoList+1] = {
-		id = '', replay = '          BACK'
+		id = '', playlist = '          BACK'
 	}
 	while true do
 		if esc() then
@@ -2671,7 +2683,7 @@ function f_videoMenu()
 				break
 			else
 				--Play Video
-				playVideo('data/movie/' .. t_videoList[videoMenu].replay .. '.wmv')
+				playVideo('data/movie/' .. t_videoList[videoMenu].playlist .. '.wmv')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 			end
@@ -2712,11 +2724,11 @@ function f_videoMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxVideos do
-			if t_videoList[i].replay:len() > 26 then
-				VideoText = string.sub(t_videoList[i].replay, 1, 24)
+			if t_videoList[i].playlist:len() > 26 then
+				VideoText = string.sub(t_videoList[i].playlist, 1, 24)
 				VideoText = tostring(VideoText .. '...')
 			else
-				VideoText = t_videoList[i].replay
+				VideoText = t_videoList[i].playlist
 			end
 			if i > videoMenu - cursorPosY then
 				t_videoList[i].id = createTextImg(font2, 0, 1, VideoText, 85, 15+i*15-moveTxt)
@@ -2743,15 +2755,20 @@ function f_storyboardMenu()
 	local storyboardMenu = 1
 	t_storyboardList = {}
 	for file in lfs.dir[[.\\data\\storyboards\\]] do --Read Dir
-		if file:match('^.*(%.)def$') or file:match('^.*(%.)DEF$') then --Filtrar archivos
+		if file:match('^.*(%.)def$') then --Filter Files .def
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
-			t_storyboardList[row]['replay'] = file:gsub('^(.*)[%.]def$', '%1')
+			t_storyboardList[row]['playlist'] = file:gsub('^(.*)[%.]def$', '%1')
+		elseif file:match('^.*(%.)DEF$') then --Filter Files .DEF
+			row = #t_storyboardList+1
+			t_storyboardList[row] = {}
+			t_storyboardList[row]['id'] = ''
+			t_storyboardList[row]['playlist'] = file:gsub('^(.*)[%.]DEF$', '%1')
 		end
 	end
 	t_storyboardList[#t_storyboardList+1] = {
-		id = '', replay = '          BACK'
+		id = '', playlist = '          BACK'
 	}
 	while true do
 		if esc() then
@@ -2771,7 +2788,7 @@ function f_storyboardMenu()
 				break
 			else
 				--Play Storyboard
-				storyboardFile = ('data/storyboards/' .. t_storyboardList[storyboardMenu].replay .. '.def')
+				storyboardFile = ('data/storyboards/' .. t_storyboardList[storyboardMenu].playlist .. '.def')
 				cmdInput()
 				script.storyboard.f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -2826,11 +2843,11 @@ function f_storyboardMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxStoryboards do
-			if t_storyboardList[i].replay:len() > 26 then
-				storyboardText = string.sub(t_storyboardList[i].replay, 1, 24)
+			if t_storyboardList[i].playlist:len() > 26 then
+				storyboardText = string.sub(t_storyboardList[i].playlist, 1, 24)
 				storyboardText = tostring(storyboardText .. '...')
 			else
-				storyboardText = t_storyboardList[i].replay
+				storyboardText = t_storyboardList[i].playlist
 			end
 			if i > storyboardMenu - cursorPosY then
 				t_storyboardList[i].id = createTextImg(font2, 0, 1, storyboardText, 85, 15+i*15-moveTxt)
@@ -2859,15 +2876,20 @@ function f_mainReplay()
 	coinSystem = false
 	t_replayList = {}
 	for file in lfs.dir[[.\\saved\\replays\\]] do --Read Dir
-		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then --Filtrar archivos
+		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then --Filter Files .replay
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
-			t_replayList[row]['replay'] = file:gsub('^(.*)[%.]replay$', '%1')
+			t_replayList[row]['playlist'] = file:gsub('^(.*)[%.]replay$', '%1')
+		elseif file:match('^.*(%.)REPLAY$') and not file:match('^data.replay$') then --Filter Files .REPLAY
+			row = #t_replayList+1
+			t_replayList[row] = {}
+			t_replayList[row]['id'] = ''
+			t_replayList[row]['playlist'] = file:gsub('^(.*)[%.]REPLAY$', '%1')
 		end
 	end
 	t_replayList[#t_replayList+1] = {
-		id = '', replay = '          BACK'
+		id = '', playlist = '          BACK'
 	}
 	while true do
 		if esc() then
@@ -2898,7 +2920,7 @@ function f_mainReplay()
 				--Set Default values to prevent desync.
 				script.options.f_onlineDefault()
 				script.options.f_netsaveCfg()
-				enterReplay('saved/replays/' .. t_replayList[mainReplay].replay .. '.replay')
+				enterReplay('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
 				synchronize()
 				math.randomseed(sszRandom())
 				script.options.f_onlineCfg()
@@ -2943,11 +2965,11 @@ function f_mainReplay()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxReplays do
-			if t_replayList[i].replay:len() > 26 then
-				replayText = string.sub(t_replayList[i].replay, 1, 24)
+			if t_replayList[i].playlist:len() > 26 then
+				replayText = string.sub(t_replayList[i].playlist, 1, 24)
 				replayText = tostring(replayText .. '...')
 			else
-				replayText = t_replayList[i].replay
+				replayText = t_replayList[i].playlist
 			end
 			if i > mainReplay - cursorPosY then
 				t_replayList[i].id = createTextImg(font2, 0, 1, replayText, 85, 15+i*15-moveTxt)

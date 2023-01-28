@@ -24,6 +24,7 @@ data.language = 'ENGLISH'
 data.menuSong = 'Random'
 data.clock = 'Standard'
 data.date = 'Type B'
+data.selectType = 'Fixed'
 data.stageType = 'Classic'
 data.winscreen = 'Classic'
 data.debugMode = true

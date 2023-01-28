@@ -4,7 +4,7 @@ module(..., package.seeall)
 --;===========================================================
 --; GENERAL CONFIG
 --;===========================================================
---default turns/simul count after starting the game
+--Default turns/simul count after starting the game
 p1numTurns = 2
 p1numSimul = 2
 p2numTurns = 2
@@ -21,39 +21,7 @@ wrappingY = true
 --;===========================================================
 txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
 
---Up Arrows for Single Roster
-arrowsUSR = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUSR, 156, 160)
-animUpdate(arrowsUSR)
-animSetScale(arrowsUSR, 0.95, 0.95)
-
---Down Arrows for Single Roster
-arrowsDSR = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDSR, 156, 223)
-animUpdate(arrowsDSR)
-animSetScale(arrowsDSR, 0.95, 0.95)
-
---Up Arrows 1 for Muti Roster 1 (Left Side)
+--Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
 arrowsUMR = animNew(sysSff, [[
 222,5, 0,0, 10
 222,6, 0,0, 10
@@ -69,7 +37,7 @@ animAddPos(arrowsUMR, 5, 160)
 animUpdate(arrowsUMR)
 animSetScale(arrowsUMR, 0.95, 0.95)
 
---Down Arrows 1 for Muti Roster 1 (Left Side)
+--Down Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
 arrowsDMR = animNew(sysSff, [[
 222,0, 0,0, 10
 222,1, 0,0, 10
@@ -85,7 +53,7 @@ animAddPos(arrowsDMR, 5, 223)
 animUpdate(arrowsDMR)
 animSetScale(arrowsDMR, 0.95, 0.95)
 
---Up Arrows 1 for Muti Roster 2 (Right Side)
+--Up Arrows 1 for Muti Roster 2 (Right Side) [Fixed Type]
 arrowsUMR2 = animNew(sysSff, [[
 222,5, 0,0, 10
 222,6, 0,0, 10
@@ -101,7 +69,7 @@ animAddPos(arrowsUMR2, 307, 160)
 animUpdate(arrowsUMR2)
 animSetScale(arrowsUMR2, 0.95, 0.95)
 
---Down Arrows 2 for Muti Roster 2 (Right Side)
+--Down Arrows 2 for Muti Roster 2 (Right Side) [Fixed Type]
 arrowsDMR2 = animNew(sysSff, [[
 222,0, 0,0, 10
 222,1, 0,0, 10
@@ -117,9 +85,41 @@ animAddPos(arrowsDMR2, 307, 223)
 animUpdate(arrowsDMR2)
 animSetScale(arrowsDMR2, 0.95, 0.95)
 
+--Up Arrows for Single Roster (Variable Type)
+arrowsUSR = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUSR, 156, 160)
+animUpdate(arrowsUSR)
+animSetScale(arrowsUSR, 0.95, 0.95)
+
+--Down Arrows for Single Roster (Variable Type)
+arrowsDSR = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDSR, 156, 223)
+animUpdate(arrowsDSR)
+animSetScale(arrowsDSR, 0.95, 0.95)
+
 function f_selectReset()
 	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
-	if data.p2Faces then
+	if data.p2Faces or data.selectType == 'Fixed' then
 		selectColumns = 5 --Number of Character Select Columns
 		selectRows = 2 --Number of Character Select Rows
 		offsetRows = 1 --Number of Character Select Hidden Slots below
@@ -127,12 +127,19 @@ function f_selectReset()
 		setRandomSpr(sysSff, 151, 0, 1, 1) --Random Icon
 		setSelCellSize(27+2, 27+2) --Slot Size
 		setSelCellScale(1, 1) --Slot Scale
-		p1FaceX = 10
-		p1FaceY = 170
-		p2FaceX = 169
-		p2FaceY = 170
-	--When data.p2Faces is false then when you play 1P you will see the expanded roster, as there is no 2P to select it will not be cut:
-	else
+		if data.p2Faces then --When you play in a Multiplayer Mode
+			p1FaceX = 10
+			p1FaceY = 170
+			p2FaceX = 169
+			p2FaceY = 170
+		elseif data.selectType == 'Fixed' then --When you play in a Single Mode
+			p1FaceX = 90
+			p1FaceY = 170
+			--p2FaceX = 90
+			--p2FaceY = 170
+		end
+	--When data.p2Faces is false and you play in 1P you will see an expanded roster, as there is no 2P to select it will not be cut:
+	elseif data.selectType == 'Variable' then
 		selectColumns = 11
         selectRows = 2
         offsetRows = 0
@@ -144,8 +151,8 @@ function f_selectReset()
 		p1FaceX = 2.5
 		p1FaceY = 170
 		--Position of the character boxes for P2
-		p2FaceX = 2
-		p2FaceY = 170
+		--p2FaceX = 2
+		--p2FaceY = 170
 	end
 	p1Cell = nil
 	p2Cell = nil
@@ -1182,7 +1189,11 @@ function f_selectScreen()
 		animSetWindow(selectBG1b, 164, 0, 151, 239)
 	else
 		animDraw(f_animVelocity(selectBG1c, -1, 0))
-		animSetWindow(selectBG1c, -2, 0, 324, 239)
+		if data.selectType == 'Fixed' then
+			animSetWindow(selectBG1c, 85, 0, 151, 239)
+		elseif data.selectType == 'Variable' then
+			animSetWindow(selectBG1c, -2, 0, 324, 239)
+		end
 	end
 	animDraw(f_animVelocity(selectBG2a, -1, 0))
 	animDraw(f_animVelocity(selectBG2b, -3, 0))
