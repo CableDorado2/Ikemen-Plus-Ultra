@@ -1,0 +1,69 @@
+; motif: mm2 game over
+
+;-------------------
+[Info]
+	localcoord=320,180
+
+;-------------------
+[scenedef]
+	spr=system.sff
+
+;-------------------
+;-------------------
+[scene 0]
+	bgm=gameover.mp3
+	bgm.loop=0
+	fadein.time=20
+	fadeout.time=120
+	fadeout.col=0,0,0
+	bg.name=bg1
+	clearcolor=0,0,0
+	end.time=500;;380
+
+;-------------------
+[bg1def]
+;-------------------
+
+;--- cloud
+[bg1 0]
+	type=normal
+	spriteno=102,310 ;;[480x280]
+	layerno=0
+	start=0,0
+	tile=1,1
+	velocity=-0.2,-0.2
+	sin.x=240,1200
+	sin.y=120,1000
+	window=0,55,319,125
+;---
+[bg1 0] ; fg
+	type=normal
+	spriteno=100,600
+	start=-160,0
+	mask=1
+	window=0,55,319,125
+;---
+[bg1 0]
+	type=normal
+	spriteno=102,300 ;;[480x280]
+	start=0,120
+	trans=sub
+	mask=1
+	sin.x=80,1200
+	sin.y=40,1000
+	window=0,55,319,125
+
+;---
+;--- gameover
+[bg1 0]
+	type=anim
+	actionno=100
+	start=0,90
+	mask=1
+	window=0,55,319,125
+;---
+[begin action 100]
+120,100,0, 0,-1
+
+
+;[EOF]

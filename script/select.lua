@@ -510,8 +510,12 @@ function f_backMenu()
 			if btnPalNo(p1Cmd) > 0 then
 				--YES
 				if backMenu == 1 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					if data.rosterMode == 'event' or data.rosterMode == 'mission' then
+						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+					end
 					sndPlay(sysSnd, 100, 2)
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
 					setGameType(0)
 					setServiceType(0)
 					backmenu = true
@@ -519,8 +523,10 @@ function f_backMenu()
 				--NO
 				else
 					backmenu = false
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
 					f_selectReset()
 					if data.rosterAdvance == true then
 						stageEnd = true
@@ -2812,7 +2818,8 @@ function f_selectVersus()
 			break
 		elseif btnPalNo(p1Cmd) > 0 then
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-			commandBufReset(p1Cmd, 1)
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
 			break
 		end
 		--draw names
@@ -2975,14 +2982,14 @@ function f_loseCoins()
 			data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
 			f_saveUnlockData()
 		end
-	elseif coinSystem == false or data.gameMode == 'arcade' then
+	elseif coinSystem == false then
 		--Do nothing and don't lose or win coins
 	end
 end
 
 function f_selectWin()
 	setServiceType(0) --Erase Service
-	if data.winscreen == 'None' or data.eventNo == 'event 1' or data.eventNo == 'event 2' then
+	if data.winscreen == 'None' or data.eventNo == 'event 2' or data.eventNo == 'event 3' then
 		f_selectWinOFF()
 	elseif data.winscreen == 'Fixed' then
 		f_selectWinFix()
@@ -3685,10 +3692,10 @@ function f_continue()
 		animDraw(contBG0)
 		i = i + 1
 		if esc() then
-			cmdInput()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			playBGM(bgmTitle)
-			break
+			--cmdInput()
+			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			--playBGM(bgmTitle)
+			--break
 		elseif data.continue == 0 then --waiting for player's decision
 			if anim4 then
 				animDraw(anim4)

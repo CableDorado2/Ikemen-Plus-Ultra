@@ -1,0 +1,1944 @@
+# Zantei State Script
+#; #20200516a56 (helpers)
+
+
+
+
+
+
+##==================
+##==================
+#;[.01ds]; clean helpers ; ヘルパー掃除
+[Function Fnc_CleanHelper()]
+ignorehitpause if ishelper(90900)
+	 || ishelper(99997) && (var(57)=11111) && (var(58)=22222) && (var(59)=33333)
+	 || ishelper && (var(15)=10311) && (var(16)=10212) && (var(17)=10113) && (var(18)=30636) {
+	   selfstate{value: 159990} }
+
+
+
+
+##==================
+#;addon変数参照
+[Function Fnc_VarAddoo(VarNo) ret]
+if ishelper { sysfvar(0):=root,sysfvar(0); }
+if sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+	if playerid(floor(sysfvar(0))),var(0)=90900 {
+		let ret = playerid(floor(sysfvar(0))),var($VarNo);
+	}
+}
+
+
+
+
+##========================
+##========================
+#;--- ---
+[Function Fnc_SparkGuard()]
+#Def i_SpNo, i_SpXY, i_ID
+if gethitvar(ctrltime)>0 && playeridexist(gethitvar(ctrltime)) { let i_ID = gethitvar(ctrltime); }
+if $i_ID>0 {
+	if playerid($i_ID),map(a4b_sparkxy)>0 && playerid($i_ID),map(a4b_sparkno)>0 {
+		let i_SpXY = playerid($i_ID),var(playerid($i_ID),map(a4b_sparkxy));
+		let i_SpNo = playerid($i_ID),var(playerid($i_ID),map(a4b_sparkno));
+	}else if playerid($i_ID),const(data.sparkno)=[8800,8859]
+	 && playerid($i_ID),var(playerid($i_ID),const(data.sparkno)-8800)>=0
+	 && playerid($i_ID),const(data.guard.sparkno)=[8800,8859]
+	 && playerid($i_ID),var(playerid($i_ID),const(data.guard.sparkno)-8800)>0 {
+		let i_SpNo = playerid($i_ID),var(playerid($i_ID),const(data.sparkno)-8800)%10;
+		let i_SpXY = playerid($i_ID),var(playerid($i_ID),const(data.guard.sparkno)-8800); }
+}
+if $i_SpXY>0 {
+	helper {
+	id:152100;
+	stateno:152100;
+	helpertype:normal;
+	keyctrl:0;
+	postype:p1;
+	pos:((($i_SpXY/1000)%1000)-500),ceil((500-($i_SpXY%1000))*playerid($i_ID),const(size.yscale)+playerid($i_ID),pos y-pos y);
+	size.height:40+$i_SpNo;
+	ownpal:1 }
+}
+
+
+##========================
+#;--- ---
+[Function Fnc_SparkHit()]
+#Def i_SpNo, i_SpXY, i_ID
+if gethitvar(fall.envshake.time)>0 && gethitvar(fall.envshake.ampl)=0 && playeridexist(gethitvar(fall.envshake.time)) { let i_ID=gethitvar(fall.envshake.time); }
+if $i_ID>0 {
+	if playerid($i_ID),map(a4b_sparkxy)>0 && playerid($i_ID),map(a4b_sparkno)>0 {
+		let i_SpXY = playerid($i_ID),var(playerid($i_ID),map(a4b_sparkxy));
+		let i_SpNo = playerid($i_ID),var(playerid($i_ID),map(a4b_sparkno));
+	} else if playerid($i_ID),const(data.sparkno)=[8800,8859]
+	 && playerid($i_ID),var(playerid($i_ID),const(data.sparkno)-8800)>=0
+	 && playerid($i_ID),const(data.guard.sparkno)=[8800,8859]
+	 && playerid($i_ID),var(playerid($i_ID),const(data.guard.sparkno)-8800)>0 {
+		let i_SpNo = playerid($i_ID),var(playerid($i_ID),const(data.sparkno)-8800)%10;
+		let i_SpXY = playerid($i_ID),var(playerid($i_ID),const(data.guard.sparkno)-8800); }
+}
+if $i_SpXY>0 {
+	helper {
+	id:152100;
+	stateno:152100;
+	helpertype:normal;
+	keyctrl:0;
+	postype:p1;
+	pos:((($i_SpXY/1000)%1000)-500),ceil((500-($i_SpXY%1000))*playerid($i_ID),const(size.yscale)+playerid($i_ID),pos y-pos y);
+	size.height:$i_SpNo;
+	facing:ifelse(playerid($i_ID),facing=facing,-1,1);
+	ownpal:1 }
+}
+
+
+
+
+
+
+##==================
+#; dizzy_birds
+[Function Fnc_DizzyBird()]
+if roundstate=2 && !ishelper && alive && life>1 {
+	let va = call Fnc_VarAddoo(50);
+	if $va>=1000 {
+		if !numhelper(88892) && !numhelper(403000) {
+			#; dizzy bg
+			helper{
+				id:88892;
+				stateno:88892;
+				ownpal:1 }
+			#; dizzy birds
+			helper{
+				id:403000;
+				stateno:190140;
+				size.height:ifelse(life<200,3,(random%3));
+				ownpal:1 }
+		}
+	}
+}
+
+##==================
+#; Draw_Color_BG
+[Function Fnc_DrawCBG(iCNo)]
+explod {
+	anim:f3530;
+	sprpriority:-6000;
+	space:screen;
+	postype:left;
+	pos:-$iCNo*ScreenWidth,ScreenHeight/2;
+	scale:ScreenWidth,7.5*ScreenWidth/320.0;
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+
+
+
+
+##;==========================
+##;==========================
+##; Dizzy Birds [helper]
+##;==========================
+[statedef 190140; type:a; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+if (parent,stateno=190116) { var(0):=-1; }  ##;; in dizzy/stun state
+if (roundstate!=2) || (parent,alive=0) || (parent,ctrl) || (parent,movetype=a) || (var(0)=-1 && (parent,stateno!=190116)) {
+	var(0):=1; } ##; over
+
+if var(0)<1 { posset{ x:(parent,pos x); y:(parent,pos y) } }
+
+if (parent,statetype!=c) && (parent,anim!=[5110,5119]) && (parent,anim!=[5170,5179]) {
+	fvar(12):=parent,const(size.head.pos.y)+1;
+	fvar(11):=fvar(11)+ (fvar(12)-fvar(11))*0.25;
+}
+if (parent,statetype=c) {
+	fvar(12):=parent,const(size.head.pos.y)*0.5;
+	fvar(11):=fvar(11)+ (fvar(12)-fvar(11))*0.25;
+}
+if (parent,anim=[5110,5119])||(parent,anim=[5170,5179]) {
+	fvar(12):=parent,const(size.head.pos.y)*0.2;
+	fvar(11):=fvar(11)+ (fvar(12)-fvar(11))*0.25;
+}
+if !time {
+	fvar(12):=parent,const(size.head.pos.y)-3;
+	fvar(11):=fvar(11)+ (fvar(12)-fvar(11))*0.25;
+}
+
+#;[.05] ; init
+persistent(0) if !time {
+	var(2):=(parent,const(size.ground.back)+parent,const(size.ground.front)); ##; bird type
+	var(10):= (random%6); ##; width
+	fvar(11):=fvar(12); ##; pos y
+}
+
+removeexplod{id:0}
+
+#;---
+#;[.07a] ; bird_1/4
+var(1):=var(1)+1;
+if (parent,stateno=[5000,5199])||(parent,stateno=190116)||(parent,stateno=195050)||(parent,stateno=195110)||(parent,stateno=[195200,195205]) {
+	var(3):=1; } else { var(3):=0; }
+if var(3) {
+	explod{
+	id:0;
+	anim:f403000+var(10);
+	postype:p1;
+	pos:floor(sin(fvar(14):=var(1)*0.0698)*var(2)) , floor( (fvar(15):= cos(fvar(14))*var(2)*0.25) +fvar(11));
+	sprpriority:ifelse(fvar(15)>0,6,-6);
+	ownpal:1;
+	scale:(fvar(16):=(cos(fvar(14))+3)*0.12 *ifelse((fvar(15)<0),-1,1) *(fvar(17):=(time%9)*0.05+1) ) , abs(fvar(16));
+	vel:0,-var(2)*0.05;
+	facing:-1 }
+
+	#; bird_2/4
+	explod{
+	id:0;
+	anim:f403000+var(10);
+	postype:p1;
+	pos:floor(sin(fvar(14):=(var(1)+22.5)*0.0698)*var(2)) , floor( (fvar(15):= cos(fvar(14))*var(2)*0.25) +fvar(11));
+	sprpriority:ifelse(fvar(15)>0,6,-6);
+	ownpal:1;
+	scale:(fvar(16):=(cos(fvar(14))+3)*0.12 *ifelse((fvar(15)<0),-1,1) *fvar(17) ) , abs(fvar(16));
+	vel:0,-var(2)*0.05;
+	facing:-1 }
+
+	#; bird_3/4
+	explod{
+	id:0;
+	anim:f403000+var(10);
+	postype:p1;
+	pos:floor(sin(fvar(14):=(var(1)+45)*0.0698)*var(2)) , floor( (fvar(15):= cos(fvar(14))*var(2)*0.25) +fvar(11));
+	sprpriority:ifelse(fvar(15)>0,6,-6);
+	ownpal:1;
+	scale:(fvar(16):=(cos(fvar(14))+3)*0.12 *ifelse((fvar(15)<0),-1,1) *fvar(17) ) , abs(fvar(16));
+	vel:0,-var(2)*0.05;
+	facing:-1 }
+
+	#; bird_4/4
+	explod{
+	anim:f403000+var(10);
+	id:0;
+	postype:p1;
+	pos:floor(sin(fvar(14):=(var(1)+67.5)*0.0698)*var(2)) , floor( (fvar(15):= cos(fvar(14))*var(2)*0.25) +fvar(11));
+	sprpriority:ifelse(fvar(15)>0,6,-6);
+	ownpal:1;
+	scale:(fvar(16):=(cos(fvar(14))+3)*0.12 *ifelse((fvar(15)<0),-1,1) *fvar(17) ) , abs(fvar(16));
+	vel:0,-var(2)*0.05;
+	facing:-1 }
+}
+#;---
+ignorehitpause if var(0)>0 { destroyself{} }
+
+
+
+
+
+
+#;==========================
+#;==========================
+#; Super Pause [helper] ; スーパーコンボ効果
+#;==========================
+#; level 1
+[statedef 88880; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause { assertspecial{flag:timerfreeze} }
+ignorehitpause persistent(0) if !time {
+	var(0):=18;
+	let va = call Fnc_VarAddoo(22);
+	var(20):=$va;
+}
+
+if !time && roundstate<=2 {
+	pause{time:var(0); movetime:var(0) }
+	playsnd{value:f20,0}
+}
+
+persistent(0) if !time {
+	var(7):=ifelse(var(20)=3,152,ifelse(var(20)=2,128,88));
+	bgpalfx{
+	time:10;
+	add:0,0,0;
+	mul:255,255,255;
+	sinadd:-var(7),-var(7),-var(7),20 }
+}
+if (time>5) && (time<var(0)-8) {
+	bgpalfx {
+	time:15;
+	add:-var(7),-var(7),-var(7);
+	mul:255,255,255;
+	sinadd:var(7),var(7),var(7),60 }
+}
+
+ignorehitpause persistent(0) if !time && roundstate<=2 {
+	explod {
+	anim:f33000+(var(20)=3);
+	id:10;
+	postype:p1;
+	sprpriority:6;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:var(0);
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+ignorehitpause if numexplod(10) {
+	modifyexplod {
+	id:10;
+	scale:fvar(1):=(var(0)-time)*3.0/var(0),fvar(1);
+	trans:addalpha;
+	alpha:ifelse(time>=var(0)/3, 256, time*768/var(0) ) ,  256 }
+}
+
+ignorehitpause persistent(0) if (time=var(0)/4) && roundstate<=2 {
+	explod {
+	anim:f33020+(var(20)=3);
+	id:12;
+	postype:p1;
+	sprpriority:-128;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:var(0)-time;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+ignorehitpause if numexplod(12) {
+	modifyexplod {
+	id:12;
+	scale:fvar(1):=sin((time-var(0)*0.25)*90/(var(0)*0.75)*0.0174)*1.8+0.15 ,fvar(1);
+	trans:addalpha;
+	alpha:floor(cos((time-var(0)*0.25)*90/(var(0)*0.75)*0.0174)*256),256 }
+}
+
+ignorehitpause persistent(0) if (time=var(0)/4) && (var(20)=[2,3]) && roundstate<=2 {
+	explod {
+	anim:f33010+(var(20)=3);
+	id:11;
+	postype:p1;
+	sprpriority:-128;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:var(0)-time;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+ignorehitpause if numexplod(11) {
+	modifyexplod {
+	id:11;
+	scale:fvar(1):=(time+1-var(0)*0.25)*5.0/var(0),fvar(1);
+	trans:addalpha;
+	alpha:ifelse(time<var(0)/2, 256,  (var(0)-time)*512/var(0) ) ,  256 }
+}
+
+ignorehitpause if time>=var(0) { destroyself{} }
+
+
+##;==========================
+##;==========================
+##; Level 2 (Max) [helper]
+##;==========================
+[statedef 88882; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause { assertspecial{flag:timerfreeze} }
+ignorehitpause persistent(0) if !time {
+	var(0):=28;
+	var(3):=floor(screenwidth);
+	var(4):=floor(screenheight);
+	fvar(0):=var(3)/320.0;
+	let va = call Fnc_VarAddoo(22);
+	var(20):=$va;
+}
+
+if !time && roundstate<=2 {
+	pause{time:var(0); movetime:var(0) }
+	playsnd{value:f20,1}
+}
+
+persistent(0) if !time {
+	var(7):=ifelse(var(20)=3,255,ifelse(var(20)=2,188,168)); ##;<-dark_depth
+	bgpalfx{
+	time:10; ##;(5+5)
+	add:0,0,0;
+	mul:255,255,255;
+	sinadd:-var(7),-var(7),-var(7),20 }
+}
+if (time>5) && (time<var(0)-8) {
+	bgpalfx{
+	time:15;
+	add:-var(7),-var(7),-var(7);
+	mul:255,255,255;
+	sinadd:var(7),var(7),var(7),60 }
+}
+
+ignorehitpause persistent(0) if !time && roundstate<=2 {
+	explod {
+	anim:f33001-(var(20)=2);
+	id:10;
+	postype:p1;
+	sprpriority:6;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:var(0);
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+ignorehitpause if numexplod(10) {
+	modifyexplod {
+	id:10;
+	scale:fvar(2):=(var(0)-time)*4.5/var(0)*fvar(0),fvar(2);
+	trans:addalpha;
+	alpha:ifelse(time>=var(0)/3, 256, time*768/var(0) ) ,  256 }
+}
+
+ignorehitpause if (time<=var(0)*0.8) && roundstate<=2 {
+	explod {
+	anim:f33001-(var(20)=2);
+	postype:p1;
+	sprpriority:-127;
+	bindtime:-1;
+	scale:0.5*ifelse(random<500,-1,1),0.5*ifelse(random<500,-1,1);
+	removetime:1;
+	trans:add;
+	alpha:256,256;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#;[.30] ; ring_out
+ignorehitpause persistent(0) if (time=var(0)/4) && roundstate<=2 {
+	explod {
+	anim:f33021-(var(20)=2);
+	id:12;
+	postype:p1;
+	sprpriority:-127;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:var(0)-time;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#---
+ignorehitpause {
+	if numexplod(12) {
+		modifyexplod {
+		id:12;
+		scale:fvar(2):=sin((time-var(0)*0.25)*90/(var(0)*0.75)*0.0174)*2.5+0.15 ,fvar(2);
+		trans:addalpha;
+		alpha:floor(cos((time-var(0)*0.25)*90/(var(0)*0.75)*0.0174)*256),256 }
+	}
+
+	persistent(0) if (time=var(0)/4) && (var(20)=[2,3]) && roundstate<=2 {
+		explod {
+		anim:f33011-(var(20)=2);
+		id:11;
+		postype:p1;
+		sprpriority:-127;
+		bindtime:-1;
+		facing: ifelse(random<500,-1,1);
+		vfacing:ifelse(random<500,-1,1);
+		removetime:var(0)-time;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	if numexplod(11) {
+		modifyexplod {
+		id:11;
+		scale:fvar(2):=(time+1-var(0)*0.25)*5.0/var(0)*fvar(0),fvar(2);
+		trans:addalpha;
+		alpha:ifelse(time<var(0)/2, 256,  (var(0)-time)*512/var(0) ) ,  256 }
+	}
+
+	persistent(0) if !time && (var(20)=[2,4]) && roundstate<=2 {
+		explod {
+		anim:f33051-(var(20)=2); ##BG
+		id:15;
+		space:screen;
+		postype:left;
+		pos:var(3)/2,var(4)/2;
+		scale:fvar(0),fvar(0);
+		facing: ifelse(random<500,-1,1);
+		vfacing:ifelse(random<500,-1,1);
+		sprpriority:-128;
+		bindtime:-1;
+		removetime:var(0);
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	if numexplod(15) {
+		modifyexplod {
+		id:15;
+		trans:addalpha;
+		alpha:floor(sin(time*180.0/var(0)*0.0174)*256),256 }
+	}
+}
+
+ignorehitpause if time>=var(0) { destroyself{} }
+
+#;==========================
+#;==========================
+#; Level 3 (Max2) [helper]
+#;==========================
+[statedef 88883; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause { assertspecial{flag:timerfreeze; flag2:nofg } }
+	
+persistent(0) if !time {
+	poweradd{value:-2000}
+	var(0):=38; ##;<-timer
+
+	pause{time:var(0); movetime:var(0) }
+
+	if roundstate<=2 {
+		playsnd{value:f20,2}
+		bgpalfx{
+			time:13;
+			add:0,0,0;
+			mul:255,255,255;
+			sinadd:-(var(2):=214),-var(2),-var(2),52 }
+	}
+}
+
+#;[.15] ; fx_end
+ignorehitpause if (time>=13) && roundstate<=2 {
+	bgpalfx {
+		time:13;
+		add:-var(2),-var(2),-var(2);
+		mul:255,255,255;
+		sinadd:var(2),var(2),var(2),52 }
+}
+
+ignorehitpause persistent(0) if !time && roundstate<=2 {
+	explod {
+	anim:f33000;
+	id:10;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	removetime:20;
+	supermovetime:-1;
+	pausemovetime:-1 }
+
+	explod {
+	anim:f33001;
+	id:10;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	facing: -1;
+	vfacing:-1;
+	removetime:20;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+ignorehitpause if numexplod(10) {
+	modifyexplod {
+	id:10;
+	scale:fvar(1):=(21-time)*0.1,fvar(1);
+	trans:addalpha;
+	alpha:ifelse(time>=10, 256, (time+1)*25 ) ,  256 }
+}
+
+ignorehitpause if roundstate<=2 {
+	explod {
+	anim:f33000+(time%2);
+	postype:p1;
+	sprpriority:-128;
+	ownpal:1;
+	bindtime:-1;
+	scale:0.5*ifelse(random<500,-1,1),0.5*ifelse(random<500,-1,1);
+	removetime:1;
+	trans:add;
+	alpha:256,256;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+ignorehitpause persistent(0) if !time && roundstate<=2 {
+	explod {
+	anim:f33020;
+	id:12;
+	postype:p1;
+	sprpriority:-128;
+	ownpal:1;
+	bindtime:-1;
+	removetime:21;
+	supermovetime:-1;
+	pausemovetime:-1 }
+
+	explod {
+	anim:f33021;
+	id:12;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	facing: -1;
+	vfacing:-1;
+	removetime:21;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+ignorehitpause if numexplod(12) {
+	modifyexplod {
+	id:12;
+	scale:fvar(1):=(22-time)*0.16,fvar(1);
+	trans:addalpha;
+	alpha:ifelse(time>=10, 256, (time+1)*25 ) ,  256 }
+}
+
+ignorehitpause persistent(0) if (time=7) && roundstate<=2 {
+	explod {
+	anim:f33010;
+	id:11;
+	postype:p1;
+	sprpriority:-128;
+	ownpal:1;
+	bindtime:-1;
+	removetime:28;
+	supermovetime:-1;
+	pausemovetime:-1 }
+
+	explod {
+	anim:f33011;
+	id:11;
+	postype:p1;
+	sprpriority:-128;
+	ownpal:1;
+	bindtime:-1;
+	facing: -1;
+	vfacing:-1;
+	removetime:28;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+ignorehitpause if numexplod(11) {
+	modifyexplod {
+	id:11;
+	scale:fvar(1):=(time-6)*0.2,fvar(1);
+	trans:addalpha;
+	alpha:ifelse(time<18, 256, (29-time)*25 ) ,  256 }
+}
+
+ignorehitpause if time>var(0) { destroyself{} }
+
+
+
+
+#;==========================
+#;==========================
+#; Max2 BG [helper] ; MAX2 背景
+#;==========================
+[statedef 88870; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+#; stop_switch
+ignorehitpause if !parent,numexplod(88879) {
+	if (roundstate!=2) || (parent,ctrl) || (parent,stateno<1000) || (parent,movetype=h)
+	|| (parent,stateno=[190190,190196])
+	|| (parent,numhelper(88870)>1) || (parent,numexplod(88870))
+	|| cond(numenemy, (enemy,numhelper(88870)>1) || (enemy,numexplod(88870)), 0) {
+		var(0):=1;
+	}
+}
+
+#;--- init
+ignorehitpause persistent(0) if !time {
+	var(1):=const(size.height);
+	var(1):=var(1)*(var(1)=[0,8]);
+	var(2):=214;
+	var(4):=floor(screenheight);
+	var(20):=ifelse(root,facing=1,1,-1);
+	fvar(1):=ScreenWidth/320.0;
+
+	let va = call Fnc_VarAddoo(46);
+	var(46):=$va; #;SprPriority
+	
+}
+
+ignorehitpause {
+	assertspecial{flag:timerfreeze; flag2:nofg }
+	if (time>0) {
+		bgpalfx {
+		time:40;
+		add:-var(2),-var(2),-var(2);
+		mul:255,255,255;
+		sinadd:var(2),var(2),var(2),160 }
+	}
+}
+
+ignorehitpause persistent(0) if !time && !var(0) && roundstate<=2 {
+	explod {
+	id:1;
+	anim:f3510;
+	space:screen;
+	postype:left;
+	pos:-var(1)*960*fvar(1),var(4)/2;
+	scale:320*fvar(1),7.5*fvar(1);
+	sprpriority:var(46)-31;
+	bindtime:-1;
+	removetime:-1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+
+	if var(0) && numexplod(1) {
+		explod {
+		anim:f3560;
+		space:screen;
+		postype:left;
+		pos:-var(1)*960*fvar(1),var(4)/2;
+		scale:320*fvar(1),7.5*fvar(1);
+		sprpriority:var(46)-31;
+		bindtime:-1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+}
+
+
+#;[.24] ; bg_lines
+ignorehitpause {
+	if (time%2) && numexplod(2)<5 {
+		explod {
+		id:2;
+		anim:f3511;
+		postype:p1;
+		pos:floor(50-(random%100) +(parent,pos x-pos x)*facing), ((random%26)-13)*10 +floor(parent,pos y-pos y);
+		scale:fvar(3):=(1+(random*0.0025)),fvar(3)*0.025;
+		sprpriority:var(46)-30;
+		ownpal:1;
+		supermovetime:-1;
+		pausemovetime:-1 }
+	}
+	if var(0) {
+		removeexplod{id:1}
+		destroyself{}
+	}
+}
+
+
+#;==========================
+#;==========================
+#; Guard Breaking [helper] ; ガードブレ－キング
+#;==========================
+[statedef 88890; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+if !time { var(2):=22; }
+
+ignorehitpause if (parent,movetype=h) { var(3):=1; }
+
+ignorehitpause persistent(0) if !time && roundstate=2 {
+	playsnd{value:f2100,1}
+
+	bgpalfx{
+	time:var(2);
+	add:0,0,0;
+	mul:255,255,255;
+	sinadd:(var(10):=-96),var(10),var(10),var(2)*2 }
+
+	explod {
+	anim:f33000;
+	id:10;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:20;
+	supermovetime:-1;
+	pausemovetime:-1 }
+
+	explod {
+	anim:f33000;
+	id:11;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	facing: ifelse(random<500,-1,1);
+	vfacing:ifelse(random<500,-1,1);
+	removetime:20;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+ignorehitpause {
+	if numexplod(10) {
+		modifyexplod {
+		id:10;
+		scale:(21-time)*0.012,(21-time)*0.318;
+		trans:addalpha;
+		alpha:ifelse(time>=10, 256, (time+1)*25 ) ,  256 }
+	}
+	if numexplod(11) {
+		modifyexplod {
+		id:11;
+		scale:(21-time)*0.318,(21-time)*0.012;
+		trans:addalpha;
+		alpha:ifelse(time>=10, 256, (time+1)*25 ) ,  256 }
+	}
+
+	if roundstate=2 {
+		explod {
+		anim:f33000;
+		postype:p1;
+		sprpriority:-128;
+		ownpal:1;
+		bindtime:-1;
+		scale:0.5*ifelse(random<500,-1,1),0.5*ifelse(random<500,-1,1);
+		trans:add;
+		alpha:256,256;
+		removetime:1;
+		supermovetime:-1;
+		pausemovetime:-1 }
+	}
+	if var(3) { removeexplod{} }
+
+	if time>=var(2) || var(3) {
+		poweradd{value:-1000}
+		destroyself{}
+	}
+}
+
+
+#;==========================
+#;==========================
+#; Guard Cancel [helper] ; ガードキャンセル
+#;==========================
+[statedef 88891; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0;]
+ignorehitpause persistent(0) if !time {
+	superpause {
+	time:var(2):=9;
+	sound:10010,0;
+	poweradd:-1000;
+	anim:-1;
+	pos:0,0;
+	darken:0;
+	unhittable:1 }
+
+	if roundstate=2 {
+		bgpalfx {
+		time:var(2);
+		add:0,0,0;
+		mul:255,255,255;
+		sinadd:(var(10):=128),var(10),var(10),var(2)*2 }
+
+		explod {
+		anim:f6565;
+		postype:p1;
+		scale:0.28,2.3;
+		sprpriority:2;
+		ownpal:1;
+		bindtime:-1;
+		trans:add;
+		alpha:256,256;
+		supermovetime:-1;
+		pausemovetime:-1 }
+
+		explod {
+		anim:f6560;
+		postype:p1;
+		scale:0.28,2.3;
+		sprpriority:3;
+		ownpal:1;
+		bindtime:-1;
+		trans:sub;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1 }
+
+		explod {
+		anim:f2560;
+		postype:p1;
+		pos:0,floor(-pos y);
+		scale:3,1200;
+		sprpriority:-9;
+		ownpal:1;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1 }
+
+		explod {
+		anim:f2561;
+		postype:p1;
+		pos:0,floor(-pos y);
+		scale:1.5*ifelse((gametime%2),1,-1),2.25;
+		sprpriority:6;
+		ownpal:1;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1 }
+	}
+}
+ignorehitpause if time>var(2) { destroyself{} }
+
+
+#;==========================
+#;==========================
+#; Guard Crush [helper] ; ガードクラッシュ
+#; Dizzy/Stun/Danger BG [helper] ; 危険
+#;==========================
+[statedef 88892; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+persistent(0) ignorehitpause if !time {
+	call Fnc_DrawCBG(3);
+	destroyself{}
+}
+
+
+
+#;==========================
+#;==========================
+#; Ground Wave [helper] ; 地面衝突用
+#;==========================
+[statedef 159005; type:c; physics:n; anim:909601; ctrl:0;]
+if !time {
+	var(0):= const(size.height) *(const(size.height)=[0,9]);
+	fvar(0):=(var(0)+8)*0.041;
+	fvar(1):=fvar(0)*0.85;
+	fvar(2):=(var(0)*2+9)*0.05;
+	fvar(10):=(const(size.ground.back)+const(size.ground.front))*0.031; ##;<-localcoord
+	if root,sysfvar(0)>0 && playeridexist(floor(root,sysfvar(0))) {
+	if playerid(floor(root,sysfvar(0))),var(0)=90900 {
+		var(24):=playerid(floor(root,sysfvar(0))),var(24); ##;<-stage_type
+	}}
+}
+
+ignorehitpause if !time && var(0)>1 {
+	envshake{time:ifelse(var(0)>4,12,6); ampl:ifelse(var(0)>4, 4,2) }
+}
+
+persistent(0) if !time {
+
+	explod{
+	anim:f6565 +(var(0)>0) +(var(0)>4); #; <MASK>
+	scale:fvar(0),fvar(1);
+	postype:p1;
+	sprpriority:-7;
+	ownpal:1}
+
+	explod{
+	anim:f6560 +(var(0)>0) +(var(0)>4);
+	scale:fvar(0),fvar(1);
+	postype:p1;
+	sprpriority:-6;
+	ownpal:1}
+
+	#; water_sound ; 水 - 効果音
+	if var(24)=1 {
+		playsnd{value:f127,0}
+
+		#; water_land ; 水 - 離陸/着陸/移動
+		explod{
+		anim:f10330;
+		postype:p1;
+		sprpriority:7;
+		ownpal:1;
+		pos:0,floor(-pos y*10)/10;
+		scale:1.25*ifelse(random<500,1,-1)*const(size.xscale),1.25*const(size.yscale)}
+	}
+
+	#;--- hit_ground_sound
+	playsnd{value:f7,(var(0)>1)+(var(0)>4)}
+	
+	#;--- dust ; 埃
+	if var(0)>4 {
+		explod{
+		anim:f210502-(var(0)>4);
+		postype:p1;
+		sprpriority:-6;
+		ownpal:1;
+		facing:  1;
+		vfacing:-1;
+		pos:floor(-12*const(size.xscale)),-3;
+		scale:1.6*fvar(2)*const(size.xscale),0.5*fvar(2)*const(size.yscale);
+		vel:-1.5*const(size.xscale)*fvar(10);
+		accel:0.016*const(size.xscale)*fvar(10),-0.012*const(size.yscale)*fvar(10)}
+
+		explod{
+		anim:f210502-(var(0)>4);
+		postype:p1;
+		sprpriority:-6;
+		ownpal:1;
+		facing: -1;
+		vfacing:-1;
+		pos:floor(12*const(size.xscale)),-3;
+		scale:1.6*fvar(2)*const(size.xscale),0.5*fvar(2)*const(size.yscale);
+		vel:1.5*const(size.xscale)*fvar(10);
+		accel:-0.016*const(size.xscale)*fvar(10),-0.012*const(size.yscale)*fvar(10)}
+	}
+	
+	if var(0)>1 {
+		explod{
+		anim:f210502-(var(0)>1)-(var(0)>4);
+		postype:p1;
+		sprpriority:6;
+		ownpal:1;
+		facing:  1;
+		vfacing:-1;
+		pos:floor(-23*const(size.xscale)),3;
+		scale:1.8*fvar(2)*const(size.xscale),0.6*fvar(2)*const(size.yscale);
+		vel:-2*const(size.xscale)*fvar(10);
+		accel:0.02*const(size.xscale)*fvar(10),-0.02*const(size.yscale)*fvar(10)}
+
+		explod{
+		anim:f210502-(var(0)>1)-(var(0)>4);
+		postype:p1;
+		sprpriority:6;
+		ownpal:1;
+		facing: -1;
+		vfacing:-1;
+		pos:floor(23*const(size.xscale)),3;
+		scale:1.8*fvar(2)*const(size.xscale),0.6*fvar(2)*const(size.yscale);
+		vel:2*const(size.xscale)*fvar(10);
+		accel:-0.02*const(size.xscale)*fvar(10),-0.02*const(size.yscale)*fvar(10)}
+	}
+
+	#;--- spark ; 火花
+	if var(0)>4 {
+		explod{
+		anim:f280+(random%4);
+		postype:p1;
+		sprpriority:6;
+		ownpal:1;
+		pos:10*floor(fvar(4):=((random%13)-6)*const(size.xscale)*fvar(10)), floor(fvar(5):=-(5+random*0.005)*const(size.yscale)*fvar(10));
+		scale:fvar(3):=(random*0.0002+0.25),fvar(3);
+		vel:fvar(4),fvar(5);
+		accel:0,-fvar(5)*0.05}
+
+		explod{
+		anim:f280+(random%4);
+		postype:p1;
+		sprpriority:6;
+		ownpal:1;
+		pos:10*floor(fvar(4):=((random%13)-6)*const(size.xscale)*fvar(10)), floor(fvar(5):=-(5+random*0.005)*const(size.yscale)*fvar(10));
+		scale:fvar(3):=(random*0.0002+0.25),fvar(3);
+		vel:fvar(4),fvar(5);
+		accel:0,-fvar(5)*0.05}
+
+		explod{
+		anim:f280+(random%4);
+		postype:p1;
+		sprpriority:6;
+		ownpal:1;
+		pos:10*floor(fvar(4):=((random%13)-6)*const(size.xscale)*fvar(10)), floor(fvar(5):=-(5+random*0.005)*const(size.yscale)*fvar(10));
+		scale:fvar(3):=(random*0.0002+0.25),fvar(3);
+		vel:fvar(4),fvar(5);
+		accel:0,-fvar(5)*0.05}
+
+		explod{
+		anim:f280+(random%4);
+		postype:p1;
+		sprpriority:6;
+		ownpal:1;
+		pos:10*floor(fvar(4):=((random%13)-6)*const(size.xscale)*fvar(10)), floor(fvar(5):=-(5+random*0.005)*const(size.yscale)*fvar(10));
+		scale:fvar(3):=(random*0.0002+0.25),fvar(3);
+		vel:fvar(4),fvar(5);
+		accel:0,-fvar(5)*0.05}
+	}
+}
+
+ignorehitpause{ destroyself{} }
+
+
+#;==========================
+#;==========================
+#; Jump Land Dust [helper] ; 通常着地衝撃波
+#;==========================
+[statedef 152000; type:c; physics:n; anim:909601; velset:0,0; ctrl:0;]
+posset{y:0}
+if !time {
+	var(0):=ifelse(ishelper(152010),1,0);
+	fvar(1):=(const(size.ground.back)+const(size.ground.front)+15)*0.031; #;<- scale
+	if (root,sysfvar(0)>0) && playeridexist(floor(root,sysfvar(0))) {
+	if (playerid(floor(root,sysfvar(0))),var(0)=90900) {
+		var(24):=playerid(floor(root,sysfvar(0))),var(24); #;<-stage type
+	}}
+
+	if !var(24) {
+		explod{
+		anim:f6550;
+		postype:p1;
+		sprpriority:-3;
+		ownpal:1;
+		scale:fvar(1)*ifelse(var(0),0.36,0.18),fvar(1)*0.13}
+
+		playsnd{value:f0+ifelse(var(0),7,52),0}
+
+		explod{
+		anim:f210558; #<MASK>
+		postype:p1;
+		sprpriority:-5;
+		ownpal:1;
+		pos:-parent,const(size.ground.back);
+		scale:fvar(1)*0.5,fvar(1)*0.4;
+		vel:-3*fvar(1),-1*fvar(1);
+		accel:0.1*fvar(1),0.06*fvar(1)}
+		
+		explod{
+		anim:f210552;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		pos:-parent,const(size.ground.back);
+		scale:fvar(1)*0.5,fvar(1)*0.4;
+		vel:-3*fvar(1),-1*fvar(1);
+		accel:0.1*fvar(1),0.06*fvar(1)}
+
+		explod{
+		anim:f210558; #; <MASK>
+		postype:p1;
+		sprpriority:-5;
+		ownpal:1;
+		pos:parent,const(size.ground.front);
+		scale:fvar(1)*0.5,fvar(1)*0.4;
+		vel:3*fvar(1),-1*fvar(1);
+		accel:-0.1*fvar(1),0.06*fvar(1)}
+
+		explod{
+		anim:f210552;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		pos:parent,const(size.ground.front);
+		scale:fvar(1)*0.5,fvar(1)*0.4;
+		vel:3*fvar(1),-1*fvar(1);
+		accel:-0.1*fvar(1),0.06*fvar(1)}
+	}
+
+	#; water sound ; 水 - 効果音
+	if var(24)=1 {
+		playsnd{value:f127,0}
+		
+	#; water land ; 水 - 離陸/着陸/移動
+		explod{
+		anim:f10330;
+		postype:p1;
+		pos:0,0;
+		sprpriority:7;
+		ownpal:1;
+		scale:fvar(1)*0.75,fvar(1)*0.75}
+	}
+}
+
+ignorehitpause { destroyself{} }
+
+
+#;==========================
+#;==========================
+#; Jump Dust [helper] ; 跳躍煙
+#;==========================
+[statedef 152020; type:c; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+posset{y:0}
+#;--- init
+if !time {
+	fvar(1):=(const(size.ground.back)+const(size.ground.front)+15)*0.031; #;<- scale
+	if (root,sysfvar(0)>0) && playeridexist(floor(root,sysfvar(0))) {
+	if (playerid(floor(root,sysfvar(0))),var(0)=90900) {
+		var(24):=playerid(floor(root,sysfvar(0))),var(24); #;<-stage type
+	}}
+
+	playsnd{value:f50,0}
+
+	if !var(24) {
+		explod{
+		anim:f210558; #; <MASK>
+		postype:p1;
+		sprpriority:-5;
+		ownpal:1;
+		pos:-parent,const(size.ground.back);
+		scale:fvar(1)*0.4,fvar(1)*0.3;
+		vel:-2*fvar(1),-0.5*fvar(1);
+		accel:0.06*fvar(1),0.05*fvar(1)}
+
+		explod{
+		anim:f210552;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		pos:-parent,const(size.ground.back);
+		scale:fvar(1)*0.4,fvar(1)*0.3;
+		vel:-2*fvar(1),-0.5*fvar(1);
+		accel:0.06*fvar(1),0.05*fvar(1)}
+
+		explod{
+		anim:f210558; #; <MASK>
+		postype:p1;
+		sprpriority:-5;
+		ownpal:1;
+		pos:parent,const(size.ground.front);
+		scale:fvar(1)*0.4,fvar(1)*0.3;
+		vel:2*fvar(1),-0.5*fvar(1);
+		accel:-0.06*fvar(1),0.05*fvar(1)}
+
+		explod{
+		anim:f210552;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		pos:parent,const(size.ground.front);
+		scale:fvar(1)*0.4,fvar(1)*0.3;
+		vel:2*fvar(1),-0.5*fvar(1);
+		accel:-0.06*fvar(1),0.05*fvar(1)}
+	}
+
+	#; water sound ; 水 - 効果音
+	if var(24)=1 {
+		playsnd{Value:f127,0}
+		#; water land ; 水 - 離陸/着陸/移動
+		explod{
+		anim:f10330;
+		postype:p1;
+		pos:0,0;
+		sprpriority:7;
+		ownpal:1;
+		scale:fvar(1)*0.65,fvar(1)*0.45}
+	}
+}
+
+ignorehitpause{ destroyself{} }
+
+
+#;==========================
+#;==========================
+#; Dash Dust [helper] ; 突進煙
+#;==========================
+[statedef 152040; type:c; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+if !time {
+	fvar(0):=const(size.xscale);
+	fvar(1):=const(size.yscale);
+	fvar(10):=(const(size.ground.back)+const(size.ground.front))*0.06; #;<-localcoord
+	
+	if (root,sysfvar(0)>0) && playeridexist(floor(root,sysfvar(0))) {
+	if (playerid(floor(root,sysfvar(0))),var(0)=90900) {
+		var(24):=playerid(floor(root,sysfvar(0))),var(24); #;<-stage type
+	}}
+
+	if !var(24) {
+		explod{
+		anim:f210557; #; <MASK>
+		postype:p1;
+		sprpriority:-3;
+		ownpal:1;
+		pos:0,floor(-8*fvar(1));
+		scale:1.02*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.6*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+		vel:-2*fvar(0)*fvar(10),-2*fvar(1)*fvar(10);
+		accel:0.04*fvar(0)*fvar(10),0.04*fvar(1)*fvar(10)}
+
+		explod{
+		anim:f210551;
+		postype:p1;
+		sprpriority:5;
+		ownpal:1;
+		pos:0,floor(-8*fvar(1));
+		scale:1.02*fvar(0)*var(3),0.6*fvar(1)*var(4);
+		vel:-2*fvar(0)*fvar(10),-2*fvar(1)*fvar(10);
+		accel:0.04*fvar(0)*fvar(10),0.04*fvar(1)*fvar(10)}
+
+		explod{
+		anim:f210557; #; <MASK>
+		postype:p1;
+		sprpriority:-3;
+		ownpal:1;
+		pos:floor(-6*fvar(0)),0;
+		scale:1.03*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.62*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+		vel:-1.5*fvar(0)*fvar(10),-1.5*fvar(1)*fvar(10);
+		accel:0.04*fvar(0)*fvar(10),0.04*fvar(1)*fvar(10)}
+
+		explod{
+		anim:f210551;
+		postype:p1;
+		sprpriority:5;
+		ownpal:1;
+		pos:floor(-6*fvar(0)),0;
+		scale:1.03*fvar(0)*var(3),0.62*fvar(1)*var(4);
+		vel:-1.5*fvar(0)*fvar(10),-1.5*fvar(1)*fvar(10);
+		accel:0.04*fvar(0)*fvar(10),0.04*fvar(1)*fvar(10)}
+
+		if (vel y<=0) && (pos y>-110) {
+			explod{
+			anim:f210557; #; <MASK>
+			postype:p1;
+			sprpriority:-2;
+			ownpal:1;
+			pos:floor(16*fvar(0)),floor(5*fvar(1));
+			scale:1.6*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.5*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+			vel:-2*fvar(0)*fvar(10),-0.3*fvar(1)*fvar(10);
+			accel:0.01*fvar(0)*fvar(10),0.003*fvar(1)*fvar(10)}
+
+			explod{
+			anim:f210551;
+			postype:p1;
+			sprpriority:7;
+			ownpal:1;
+			pos:floor(16*fvar(0)),floor(5*fvar(1));
+			scale:1.6*fvar(0)*var(3),0.5*fvar(1)*var(4);
+			vel:-2*fvar(0)*fvar(10),-0.3*fvar(1)*fvar(10);
+			accel:0.01*fvar(0)*fvar(10),0.003*fvar(1)*fvar(10)}
+
+			explod{
+			anim:f210556; #; <MASK>
+			postype:p1;
+			sprpriority:-2;
+			ownpal:1;
+			pos:floor(21*fvar(0)),floor(8*fvar(1));
+			scale:1.8*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.6*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+			vel:-2.5*fvar(0)*fvar(10),-0.6*fvar(1)*fvar(10);
+			accel:0.01*fvar(0)*fvar(10),0.003*fvar(1)*fvar(10)}
+
+			explod{
+			anim:f210550;
+			postype:p1;
+			sprpriority:7;
+			ownpal:1;
+			pos:floor(21*fvar(0)),floor(8*fvar(1));
+			scale:1.8*fvar(0)*var(3),0.6*fvar(1)*var(4);
+			vel:-2.5*fvar(0)*fvar(10),-0.6*fvar(1)*fvar(10);
+			accel:0.01*fvar(0)*fvar(10),0.003*fvar(1)*fvar(10)}
+		}
+	}
+	#; water
+	if var(24)=1 && (pos y>-110) {
+		explod{
+		anim:f10340+(random%3);
+		postype:p1;
+		sprpriority:7;
+		ownpal:1;
+		pos:floor(-20*fvar(0)),floor(-pos y*10)/10;
+		scale:1.5*fvar(0),1*fvar(1);
+		vel:-2*fvar(0)*fvar(10),0;
+		accel:0.02*fvar(0)*fvar(10)}
+
+		explod{
+		anim:f10340+(random%3);
+		postype:p1;
+		sprpriority:7;
+		ownpal:1;
+		pos:floor(-20*fvar(0)),floor(-pos y*10)/10;
+		scale:1*fvar(0),1.5*fvar(1);
+		vel:-1.25*fvar(0)*fvar(10),0;
+		accel:0.01*fvar(0)*fvar(10)}
+	}
+}
+ignorehitpause{ destroyself{} }
+
+
+#;==========================
+#;==========================
+#; Slide Dust [helper] ; 滑り煙
+#;==========================
+[statedef 152050; type:c; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+if !time {
+	var(9):=0;
+	fvar(10):=(const(size.ground.back)+const(size.ground.front))*0.031;#415926;;<-localcoord
+	fvar(0):=const(size.xscale)*const(size.xscale);
+	fvar(1):=const(size.yscale)*const(size.yscale);
+	if (root,sysfvar(0)>0) && playeridexist(floor(root,sysfvar(0))) {
+	if (playerid(floor(root,sysfvar(0))),var(0)=90900) {
+		var(24):=playerid(floor(root,sysfvar(0))),var(24); #;<-stage type
+	}}
+
+	if !var(24) {
+		explod{
+		anim:f210557; #; <MASK>
+		postype:p1;
+		sprpriority:-3;
+		ownpal:1;
+		bindtime:var(9)+1;
+		pos:floor(-12*fvar(0)),0;
+		scale:1.1*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.8*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+		vel:-4.5*fvar(0)*fvar(10),-2*fvar(1)*fvar(10);
+		accel:0.002*fvar(0)*fvar(10),0.001*fvar(1)*fvar(10)}
+		
+		explod{
+		anim:f210551;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		bindtime:var(9)+1;
+		pos:floor(-12*fvar(0)),0;
+		scale:1.1*fvar(0)*var(3),0.8*fvar(1)*var(4);
+		vel:-4.5*fvar(0)*fvar(10),-2*fvar(1)*fvar(10);
+		accel:0.002*fvar(0)*fvar(10),0.001*fvar(1)*fvar(10)}
+
+		explod{
+		anim:f210557; #; <MASK>
+		postype:p1;
+		sprpriority:-3;
+		ownpal:1;
+		bindtime:var(9)+1;
+		pos:floor(-28*fvar(0)),floor(3*fvar(0));
+		scale:1.36*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.66*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+		vel:-6*fvar(0)*fvar(10),-0.3*fvar(1)*fvar(10);
+		accel:0.01*fvar(0)*fvar(10),0.003*fvar(1)*fvar(10)}
+
+		explod{
+		anim:f210551;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		bindtime:var(9)+1;
+		pos:floor(-28*fvar(0)),floor(3*fvar(0));
+		scale:1.36*fvar(0)*var(3),0.66*fvar(1)*var(4);
+		vel:-6*fvar(0)*fvar(10),-0.3*fvar(1)*fvar(10);
+		accel:0.01*fvar(0)*fvar(10),0.003*fvar(1)*fvar(10)}
+	}
+
+	if (vel y<=0) && (pos y>-110) {
+		explod{
+		anim:f210557; #; <MASK>
+		postype:p1;
+		sprpriority:-3;
+		ownpal:1;
+		bindtime:var(9)+1;
+		pos:floor(18*fvar(0)),floor(3*fvar(0));
+		scale:1.8*fvar(0)*(var(3):=ifelse(random<500,1,-1)),0.86*fvar(1)*(var(4):=ifelse(random<500,1,-1));
+		vel:1.5*fvar(0)*fvar(10),-0.6*fvar(1)*fvar(10);
+		accel:-0.002*fvar(0)*fvar(10),0.001*fvar(1)*fvar(10)}
+
+		explod{
+		anim:f210551;
+		postype:p1;
+		sprpriority:3;
+		ownpal:1;
+		bindtime:var(9)+1;
+		pos:floor(18*fvar(0)),floor(3*fvar(0));
+		scale:1.8*fvar(0)*var(3),0.86*fvar(1)*var(4);
+		vel:1.5*fvar(0)*fvar(10),-0.6*fvar(1)*fvar(10);
+		accel:-0.002*fvar(0)*fvar(10),0.001*fvar(1)*fvar(10)}
+	}
+	#; water
+	if var(24)=1 && (pos y>-110) {
+		explod{
+		anim:f10340+(random%3);
+		postype:p1;
+		sprpriority:7;
+		ownpal:1;
+		pos:floor(-20*fvar(0)),floor(-pos y*10)/10;
+		scale:1.5*fvar(0),1*fvar(1);
+		vel:-6*fvar(0)*fvar(10),0;
+		accel:0.03*fvar(0)*fvar(10)}
+
+		explod{
+		anim:f10340+(random%3);
+		postype:p1;
+		sprpriority:7;
+		ownpal:1;
+		pos:floor(-20*fvar(0)),floor(-pos y*10)/10;
+		scale:1.2*fvar(0),1*fvar(1);
+		vel:3*fvar(0)*fvar(10),0;
+		accel:-0.02*fvar(0)*fvar(10)}
+	}
+}
+ignorehitpause if time>=var(9) { destroyself{} }
+
+
+
+
+#;==========================
+#;==========================
+#; Grab Spark [helper] ; 掴みスパーク
+#;==========================
+[statedef 152080; type:c; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause persistent(0) if !time {
+	var(0):=(const(size.height)%100);
+	var(1):=((const(size.height)/100)%10); #; img type _ sound flag
+
+	if var(1)=1 { playsnd{value:f800,0} }
+	
+	explod{
+	id:1;
+	anim:f5+stateno+var(0); #<MASK>
+	postype:p1;
+	pos:0,0;
+	sprpriority:4;
+	ownpal:1;
+	bindtime:-1;
+	scale:fvar(0):=const(size.xscale)*0.16,fvar(1):=const(size.yscale)*1.28;
+	supermovetime:-1;
+	pausemovetime:-1}
+
+	explod{
+	id:1;
+	anim:f0+stateno+var(0);
+	postype:p1;
+	pos:0,0;
+	sprpriority:5;
+	ownpal:1;
+	bindtime:-1;
+	scale:fvar(0),fvar(1);
+	supermovetime:-1;
+	pausemovetime:-1}
+
+	destroyself{}
+}
+
+
+
+
+##;==========================
+##;==========================
+##; Hit/Guard Spark [helper] ; 火花
+##;==========================
+[statedef 152100; type:c; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+if !time {
+	var(0):=const(size.height);
+
+	if (var(0)=[0,9]) {
+		explod {
+		id:1;
+		anim:f6600 +(var(0)=[3,4])*var(0) +(var(0)>4)*5 +(var(0)>5);
+		postype:p1;
+		pos:0,0;
+		sprpriority:5;
+		scale:(fvar(0):=(0.35+(var(0)%5)*0.1)*ifelse(random<500,1,-1)),(fvar(1):=(0.35+(var(0)%5)*0.1)*ifelse(random<500,1,-1));
+		angle:fvar(2):=random*0.36 *(var(0)=[5,9]);
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6650 +(var(0)>4)*5; #;<MASK>
+		postype:p1;
+		pos:0,0;
+		sprpriority:3;
+		scale:fvar(0),fvar(1);
+		angle:fvar(2);
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6610 +(var(0)=[3,4])*var(0) +(var(0)>4)*5;
+		postype:p1;
+		pos:0,0;
+		sprpriority:4;
+		scale:(fvar(0):=(0.5+(var(0)%5)*0.1)*ifelse(random<500,1,-1)),(fvar(1):=(0.5+(var(0)%5)*0.1)*ifelse(random<500,1,-1));
+		angle:fvar(2);
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6660 +(var(0)>4)*5; #;<MASK>
+		postype:p1;
+		pos:0,0;
+		sprpriority:3;
+		scale:fvar(0),fvar(1);
+		angle:fvar(2);
+		ownpal:1 }
+	}
+	
+	if (var(0)=[0,4]) {
+		explod {
+		anim:f6621+(var(0)%5=3);
+		postype:p1;
+		pos:0,0;
+		sprpriority:3;
+		bindtime:1;
+		scale:fvar(0),fvar(1);
+		vel:fvar(3):=-3-(var(0)%5);
+		accel:-fvar(3)*0.05;
+		ownpal:1 }
+
+		explod {
+		anim:f6623; #; <MASK>
+		postype:p1;
+		pos:0,0;
+		sprpriority:2;
+		bindtime:1;
+		scale:fvar(0),fvar(1);
+		vel:fvar(3),0;
+		accel:-fvar(3)*0.05;
+		ownpal:1 }
+	}
+	#;--- guard spark
+	if (var(0)=[40,49]) {
+		explod {
+		id:1;
+		anim:f6740+(var(0)%5>2);
+		postype:p1;
+		pos:0,0;
+		sprpriority:5;
+		scale: (fvar(0):=((var(0)%5)+9)*0.12) *0.25, fvar(0)*0.5;
+		vel:fvar(2):=((var(0)%5)+6)*0.1;
+		accel:-fvar(2)*0.01;
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6750; #;<MASK>
+		postype:p1;
+		pos:0,0;
+		sprpriority:4;
+		scale:fvar(0),fvar(0)*2;
+		vel:fvar(2);
+		accel:-fvar(2)*0.01;
+		ownpal:1 }
+
+	#;--- guard_shock_wave
+		explod {
+		id:1;
+		anim:f6745+(var(0)%5>2);
+		postype:p1;
+		pos:0,0;
+		sprpriority:7;
+		scale:fvar(0)*0.15,fvar(0)*0.3;
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6755; #;<MASK>
+		postype:p1;
+		pos:0,0;
+		sprpriority:6;
+		scale:fvar(0)*0.15,fvar(0)*0.3;
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6745+(var(0)%5>2);
+		postype:p1;
+		pos:0,0;
+		sprpriority:7;
+		scale:-fvar(0)*0.06,fvar(0)*0.12;
+		vel:fvar(2);
+		accel:-fvar(2)*0.01;
+		ownpal:1 }
+
+		explod {
+		id:1;
+		anim:f6755; #;<MASK>
+		postype:p1;
+		pos:0,0;
+		sprpriority:3;
+		scale:-fvar(0)*0.06,fvar(0)*0.12;
+		vel:fvar(2);
+		accel:-fvar(2)*0.01;
+		ownpal:1 }
+	}
+	#;--- hit_shock_wave
+	if (var(0)=[3,4]) {
+		explod {
+		id:1;
+		anim:f6800;
+		postype:p1;
+		pos:0,0;
+		sprpriority:4;
+		scale: ( fvar(0):=ifelse(var(0)=4,0.72,0.62) ) , fvar(0);
+		ownpal:1 }
+	}
+
+	if numexplod(2)=0 && numenemy {
+	if (enemy,sysfvar(0)>0) && (playeridexist(floor(enemy,sysfvar(0)))) {
+	if (playerid(floor(enemy,sysfvar(0))),var(0)=90900) && (playerid(floor(enemy,sysfvar(0))),var(9)&49152)=49152 {
+		explod {
+		id:2;
+		anim:f6560;
+		postype:p1;
+		pos:0,0;
+		sprpriority:5;
+		scale:fvar(0)*0.5,fvar(0)*4;
+		ownpal:1 }
+
+		explod {
+		id:2;
+		anim:f6565;
+		postype:p1;
+		pos:0,0;
+		sprpriority:4;
+		scale:fvar(0)*0.5,fvar(0)*4;
+		ownpal:1 }
+	}}}
+	#;--- frag
+	if (var(0)=[0,4]) {
+		explod {
+		anim:f6910 +((var(0)>2)+(var(0)>3))*10;
+		postype:p1;
+		sprpriority:4;
+		pos:floor(( fvar(0):= (fvar(3):=(1+(random%12))*((var(0)%5)*0.1+1) ) *cos( (fvar(4):=(random%160)+100) *0.0174) )), floor(fvar(1):=-fvar(3)*sin(fvar(4)*0.0174));
+		vel:fvar(0),fvar(1);
+		accel:-fvar(0)*0.06,-fvar(1)*0.06;
+		scale:(fvar(5):=((var(0)%5)+12)*(random+200)*0.00001),fvar(5);
+		## angle:fvar(4);
+		ownpal:1 }
+
+		explod {
+		anim:f6910 +((var(0)>2)+(var(0)>3))*10;
+		postype:p1;
+		sprpriority:4;
+		pos:floor(( fvar(0):= (fvar(3):=(1+(random%12))*((var(0)%5)*0.1+1) ) *cos( (fvar(4):=(random%160)+100) *0.0174) )), floor(fvar(1):=-fvar(3)*sin(fvar(4)*0.0174));
+		vel:fvar(0),fvar(1);
+		accel:-fvar(0)*0.06,-fvar(1)*0.06;
+		scale:(fvar(5):=((var(0)%5)+12)*(random+200)*0.00001),fvar(5);
+		## angle:fvar(4);
+		ownpal:1 }
+
+		explod {
+		anim:f6910 +((var(0)>2)+(var(0)>3))*10;
+		postype:p1;
+		sprpriority:4;
+		pos:floor(( fvar(0):= (fvar(3):=(1+(random%12))*((var(0)%5)*0.1+1) ) *cos( (fvar(4):=(random%160)+100) *0.0174) )), floor(fvar(1):=-fvar(3)*sin(fvar(4)*0.0174));
+		vel:fvar(0),fvar(1);
+		accel:-fvar(0)*0.06,-fvar(1)*0.06;
+		scale:(fvar(5):=((var(0)%5)+12)*(random+200)*0.00001),fvar(5);
+		## angle:fvar(4);
+		ownpal:1 }
+
+	#	explod {
+	#	anim:f6910 +((var(0)>2)+(var(0)>3))*10;
+	#	postype:p1;
+	#	sprpriority:4;
+	#	pos:floor(( fvar(0):= (fvar(3):=(1+(random%12))*((var(0)%5)*0.1+1) ) *cos( (fvar(4):=(random%160)+100) *0.0174) )), floor(fvar(1):=-fvar(3)*sin(fvar(4)*0.0174));
+	#	vel:fvar(0),fvar(1);
+	#	accel:-fvar(0)*0.06,-fvar(1)*0.06;
+	#	scale:(fvar(5):=((var(0)%5)+12)*(random+200)*0.00001),fvar(5);
+	#	## angle:fvar(4);
+	#	ownpal:1 }
+
+	#	explod {
+	#	anim:f6910 +((var(0)>2)+(var(0)>3))*10;
+	#	postype:p1;
+	#	sprpriority:4;
+	#	pos:floor(( fvar(0):= (fvar(3):=(1+(random%12))*((var(0)%5)*0.1+1) ) *cos( (fvar(4):=(random%160)+100) *0.0174) )), floor(fvar(1):=-fvar(3)*sin(fvar(4)*0.0174));
+	#	vel:fvar(0),fvar(1);
+	#	accel:-fvar(0)*0.06,-fvar(1)*0.06;
+	#	scale:(fvar(5):=((var(0)%5)+12)*(random+200)*0.00001),fvar(5);
+	#	## angle:fvar(4);
+	#	ownpal:1 }
+	}
+	if (var(0)=[2,4]) {
+		explod {
+		anim:f6910 +((var(0)>2)+(var(0)>3))*10;
+		postype:p1;
+		sprpriority:4;
+		pos:floor(( fvar(0):= (fvar(3):=(1+(random%12))*((var(0)%5)*0.1+1) ) *cos( (fvar(4):=(random%160)+100) *0.0174) )), floor(fvar(1):=-fvar(3)*sin(fvar(4)*0.0174));
+		vel:fvar(0),fvar(1);
+		accel:-fvar(0)*0.06,-fvar(1)*0.06;
+		scale:(fvar(5):=((var(0)%5)+12)*(random+200)*0.00001),fvar(5);
+		## angle:fvar(4);
+		ownpal:1 }
+	}
+}
+
+ignorehitpause { destroyself{} }
+
+
+##;==========================
+##;==========================
+##; Fire / Burn Spark [helper] ; 燃焼効果演出
+##;==========================
+[statedef 152200; type:s; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause if !time {
+	var(0):=(const(size.height)/10); ## player id ||
+	var(0):=ifelse(var(0)<1||playeridexist(var(0))=0,(id),var(0));
+	var(1):=(const(size.height)%10);
+	var(1):=var(1)*(var(1)=[0,1]); ## flame type [0:red / 1:blue]
+
+	if var(0)>0 && playeridexist(var(0)) { var(10):=playerid(var(0)),const(size.head.pos.y); }
+	if (var(10)!=[-160,0]) || (var(0)=id) { var(10):=0; }
+	fvar(0):=abs(var(10))*0.0012+1.0; ##scale
+
+	playsnd{value:f300,21} ##burn_snd
+}
+ignorehitpause if time>2 { destroyself{} }
+
+#;[.03] ; bind to target
+ignorehitpause if var(0)>0 && playeridexist(var(0)) {
+	posset{ x:playerid(var(0)),pos x; y:playerid(var(0)),pos y }
+}
+
+ignorehitpause {
+	fvar(1):=((random%9)*0.02+0.75)*fvar(0)*ifelse(random<500,1,-1);
+	fvar(2):=fvar(1)*1.5*fvar(0)*ifelse(random<500,1,-1);
+	fvar(3):=-0.2-(random%6)*0.2;
+	var(4):=var(10);
+	var(5):=(random%57)-28;
+	var(6):=(random%abs(var(10)+21))-10;
+	var(7):=(random%4);
+	var(9):=(random%3);
+}
+ignorehitpause if var(0)>0 && playeridexist(var(0)) {
+	ignorehitpause if (playerid(var(0)),statetype=c) { var(4):=var(4)/2; }
+	ignorehitpause if (playerid(var(0)),statetype=l) { var(4):=-10; var(5):=(random%91)-45; var(6):=(random%33)-16; }
+}
+ignorehitpause {
+	#;--- flames
+	explod {
+		anim:f210506+var(9);
+		id:1;
+		postype:p1;
+		pos:var(3)+var(5),var(4)+var(6);
+		scale:fvar(1),fvar(2);
+		vel:0,fvar(3);
+		sprpriority:-5;
+		ownpal:1 }
+	explod {
+		anim:f210500+var(9)+var(1)*3;
+		id:2;
+		postype:p1;
+		pos:var(3)+var(5),var(4)+var(6);
+		scale:fvar(1),fvar(2);
+		vel:0,fvar(3);
+		sprpriority:6;
+		ownpal:1 }
+	#;--- sparks
+	explod {
+		anim:f290+var(7);
+		postype:p1;
+		sprpriority:5;
+		scale:0.25,0.25;
+		pos:var(3)+var(5)+(var(8):=(random%80)-40), var(4)+var(6)+(var(9):=(random%30)-15);
+		vel:  fvar(4):=(random-500)/1200.0, fvar(5):=(random-500)/1200.0;
+		accel:fvar(6):=(random-500)/2800.0, fvar(7):=(random-500)/2800.0;
+		ownpal:1 }
+	explod {
+		anim:f280+var(1)*5+var(7);
+		postype:p1;
+		sprpriority:6;
+		scale:0.25,0.25;
+		pos:var(3)+var(5)+var(8),var(4)+var(6)+var(9);
+		vel:  fvar(4),fvar(5);
+		accel:fvar(6),fvar(7);
+		ownpal:1 }
+}
+
+
+##;==========================
+##;==========================
+##; Explosion [helper] ; 爆発効果演出
+##;==========================
+[statedef 152220; type:s; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause {
+	fvar(1):=ifelse(!time,1,(random%6)*0.1+0.2);
+
+	explod {
+	anim:f210516+(var(9):=(random%3)*(time>0));
+	id:1;
+	postype:p1;
+	pos:var(3):=floor(((random%161)-80)*const(size.xscale))*(time>0), var(4):=floor(((random%161)-80)*const(size.yscale))*(time>0);
+	scale:fvar(1)*(var(5):=ifelse(random<500,1,-1))*const(size.xscale),fvar(1)*(var(6):=ifelse(random<500,1,-1))*const(size.yscale);
+	sprpriority:5;
+	ownpal:1;
+	vel:var(3)*0.01,var(4)*0.01 }
+
+	explod {
+	anim:f210510+var(9)+(ishelper(152221))*3;
+	id:2;
+	postype:p1;
+	pos:var(3),var(4);
+	scale:fvar(1)*var(5)*const(size.xscale),fvar(1)*var(6)*const(size.yscale);
+	sprpriority:6;
+	ownpal:1;
+	vel:var(3)*0.01,var(4)*0.01 }
+
+	explod {
+	anim:f290+(var(7):=(random%4));
+	postype:p1;
+	sprpriority:5;
+	ownpal:1;
+	pos:(var(8):=(random%(floor(const(size.xscale)*66)))+8)*var(5),(var(9):=(random%(floor(const(size.yscale)*28)))+6)*var(6);
+	vel:   (fvar(4):=(random+500)/250.0 *const(size.xscale))*var(5) , (fvar(5):=(random+500)/250.0 *const(size.yscale))*var(6);
+	accel:-(fvar(6):=(random+500)/7500.0*const(size.xscale))*var(5) ,-(fvar(7):=(random+500)/7500.0*const(size.yscale))*var(6);
+	scale:0.25+const(size.xscale)*0.05,0.25+const(size.yscale)*0.05 }
+
+ 	explod {
+	anim:f280+var(7)+(ishelper(152221))*5;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	pos:var(8)*var(5),var(9)*var(6);
+	vel:fvar(4)*var(5),fvar(5)*var(6);
+	accel:-fvar(6)*var(5),-fvar(7)*var(6);
+	scale:0.25+const(size.xscale)*0.05,0.25+const(size.yscale)*0.05 }
+
+	explod {
+	anim:f290+(var(7):=(random%4));
+	postype:p1;
+	sprpriority:5;
+	ownpal:1;
+	pos:-var(8)*var(5),-var(9)*var(6);
+	vel:-fvar(4)*var(5),-fvar(5)*var(6);
+	accel:fvar(6)*var(5),fvar(7)*var(6);
+	scale:0.25+const(size.xscale)*0.05,0.25+const(size.yscale)*0.05 }
+
+	explod {
+	anim:f280+var(7)+(ishelper(152221))*5;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	pos:-var(8)*var(5),-var(9)*var(6);
+	vel:-fvar(4)*var(5),-fvar(5)*var(6);
+	accel:fvar(6)*var(5),fvar(7)*var(6);
+	scale:0.25+const(size.xscale)*0.05,0.25+const(size.yscale)*0.05 }
+
+if time>3 { destroyself{} }
+
+}
+
+
+
+##;==========================
+##;==========================
+##; DestroySelf State [helper] ; ヘルパー用自己消去ステート
+##;==========================
+[statedef 159990; type:s; anim:909601; velset:0,0; ctrl:0;]
+ignorehitpause if ishelper { destroyself{} }
+
+
+
+
+
+
+
+#;==========================
+[statedef -4]
+#;==========================
+if ishelper {
+	if stateno=0 || stateno=5000 || stateno=5010 || stateno=5020 || stateno=5030 || stateno=5070 || stateno=5080 {
+		call Fnc_CleanHelper();
+	}
+}
+
+
+
+
+#;==========================
+[statedef -2]
+#;==========================
+
+
+## Guard_Spark
+ignorehitpause if (stateno=150 || stateno=152 || stateno=154) && !time {
+	call Fnc_SparkGuard();
+}
+
+## Hit_Spark
+ignorehitpause if (stateno=5000 || stateno=5010 || stateno=5020 || stateno=5070 || stateno=5080) && !time {
+	call Fnc_SparkHit();
+}
+
+
+
+
+
+
+#;;---
+#;;---
+#;//[EOF]

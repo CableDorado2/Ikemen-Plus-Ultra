@@ -1,0 +1,263 @@
+; motif: mm2 logo
+
+;-------------------
+[Info]
+	localcoord=320,180
+
+;-------------------
+[scenedef]
+	spr=logo.sff
+
+;;-------------------
+;; first temp
+;; êÊì™ãÛîí
+;;-------------------
+[scene 0]
+;;	bgm=
+;;	bgm.loop=0
+	fadein.col= 0,0,0
+	fadeout.col=0,0,0
+	clearcolor= 0,0,0
+	end.time=10
+
+;-------------------
+[scene 1]
+;;	bgm=
+;;	bgm.loop=0
+	fadein.time= 50
+	fadeout.time=0
+	fadein.col= 0,0,0
+	fadeout.col=255,255,255
+	clearcolor= 255,255,255
+	end.time=50
+
+;-------------------
+; logo
+;-------------------
+[scene 100]
+;;	bgm=
+;;	bgm.loop=0
+	fadein.time= 50
+	fadeout.time=50
+	fadein.col= 255,255,255
+	fadeout.col=255,255,255
+	clearcolor= 255,255,255
+	bg.name=bg100
+	end.time=700
+
+;-------------------
+[bg100def]
+;-------------------
+
+;---
+;--- bg
+[bg100 0]
+	id=101
+	type=anim
+	actionno=101
+	tile=1,0
+	tilespacing=80,0
+	start= 0,90
+	window=90,70,229,109
+[bg100 0]
+	id=102
+	type=anim
+	actionno=102
+	tile=1,0
+	tilespacing=100,0
+	start= 0,91
+	window=90,70,229,109
+[bg100 0]
+	id=103
+	type=anim
+	actionno=103
+	tile=1,0
+	tilespacing=120,0
+	start= 0,92
+	window=90,70,229,109
+;---
+[begin action 101]
+1,1,0,0,-1
+[begin action 102]
+1,2,0,0,-1
+[begin action 103]
+1,3,0,0,-1
+
+
+;---
+;--- snow
+[bg100 0]
+	id=103
+	type=anim
+	actionno=122
+	tile=1,1
+	tilespacing=60,60
+	velocity=0,0.1
+	sin.x=2,160
+	sin.y=1,120
+	start= 0,90
+	window=90,70,229,109
+;---
+[begin action 122]
+1,5,0,0,1
+
+
+;---
+;--- logo_elecbyte
+[bg100 0]
+	id=110
+	type=anim
+	actionno=110
+	start= -210,94
+	window=90,70,229,109
+;--- logo_tsmugen
+[bg100 0]
+	id=111
+	type=anim
+	actionno=111
+	start= -420,94
+	window=90,70,229,109
+;---
+[begin action 110]
+2,1,0,0,1,,as192d064
+2,1,0,0,1,,as128d128
+2,1,0,0,1,,as192d064
+2,1,0,0,1
+[begin action 111]
+2,2,0,0,1,,as192d064
+2,2,0,0,1,,as128d128
+2,2,0,0,1,,as192d064
+2,2,0,0,1
+
+
+;---
+;--- snow
+[bg100 0]
+	id=120
+	type=anim
+	actionno=120
+	tile=1,1
+	tilespacing=60,60
+	velocity=0,0.2
+	sin.x=3,180
+	sin.y=1,160
+	start= 0,90
+	window=90,70,229,109
+;--- snow
+[bg100 0]
+	id=121
+	type=anim
+	actionno=121
+	tile=1,1
+	tilespacing=60,60
+	velocity=0,0.3
+	sin.x=4,360
+	sin.y=2,280
+	start= 80,40
+	window=90,70,229,109
+;---
+[begin action 120]
+1,4,0,0,1
+[begin action 121]
+1,4,0,0,1,hv
+
+
+
+;---
+;---
+[bg100ctrldef]
+looptime=249
+;---
+;---
+[bg100ctrl]
+	type=velset
+	time=100
+	x=0
+	ctrlid=101,102,103,110,111,120,121
+;---
+[bg100ctrl]
+	type=veladd
+	time=100,150
+	x=0.01
+	ctrlid=101,102,103,110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=100,150
+	x=0.01
+	ctrlid=102,103,110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=100,150
+	x=0.01
+	ctrlid=103,110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=100,150
+	x=0.01
+	ctrlid=110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=100,150
+	x=0.01
+	ctrlid=120,121
+[bg100ctrl]
+	type=veladd
+	time=100,150
+	x=0.01
+	ctrlid=121
+;---
+[bg100ctrl]
+	type=veladd
+	time=200,250
+	x=-0.01
+	ctrlid=101,102,103,110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=200,250
+	x=-0.01
+	ctrlid=102,103,110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=200,250
+	x=-0.01
+	ctrlid=103,110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=200,250
+	x=-0.01
+	ctrlid=110,111,120,121
+[bg100ctrl]
+	type=veladd
+	time=200,250
+	x=-0.01
+	ctrlid=120,121
+[bg100ctrl]
+	type=veladd
+	time=200,250
+	x=-0.01
+	ctrlid=121
+;---
+;---
+
+;---
+;---
+
+
+
+
+
+;;-------------------
+;; last temp
+;; èIóπãÛîí
+;;-------------------
+[scene 200]
+	fadeout.time=50
+	fadein.col= 255,255,255
+	fadeout.col=0,0,0
+	clearcolor= 255,255,255
+	end.time=50
+
+
+
+;[EOF]
+

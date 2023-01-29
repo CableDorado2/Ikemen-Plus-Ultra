@@ -1,0 +1,927 @@
+# Zantei State Script
+#; #20200516a56 (helpers)
+
+
+
+
+
+
+##==================
+##==================
+
+
+##;==========================
+##;==========================
+##; Projctile [helper] ; 飛び道具
+##;==========================
+[statedef 91000; type:a; movetype:a; physics:n; anim:const(size.head.pos.x); sprpriority:5;
+poweradd:0; velset:0,0; ctrl:0; ]
+ignorehitpause {
+	assertspecial{flag:invisible}
+	nothitby{value:sca}
+
+	#; affectteam_reset
+	if var(31) {
+		turn{}
+		var(19):=!var(19); ##; E -> F
+
+		modifyexplod { id:1; scale:ifelse(var(19),-1,1)*const(size.xscale); trans:sub }
+		modifyexplod { id:2; scale:ifelse(var(19),-1,1)*const(size.xscale) }
+
+		#; re_init
+		var(30):=0;
+		var(31):=0;
+	}
+
+	#;--- {init.start}
+	#;; all_helper_id (attack_id -> target,id)
+	#;; 1000: special proj / 3000: hyper/super_proj
+	if !var(32) { var(2):=ishelper(1000)*1000+ishelper(3000)*3000; }
+
+	##---
+	if !var(30) {
+		var(1):=ifelse(ishelper(3000),60000,10000)+(gametime%40000);
+			#;//; * use "gametime" to avoid ID dublication (id range [10000-60000])
+			#;//; * IDを重複させない為に"gametime"を使います
+		var(4):=ifelse((const(size.height)%1000)<1,1,const(size.height)%1000); ##;<- remove_time
+		fvar(0):=const(size.mid.pos.x)/1000.000;
+		fvar(1):=const(size.mid.pos.y)/1000.000; ##;<- speed_x / y
+		fvar(6):=-(((const(size.air.front)/1000)%1000)-500)/10.0;
+		fvar(7):=-((const(size.air.front)%1000)-500)/10.0; ##;<- vel_xy_hit
+		fvar(8):=-(((const(size.air.back)/1000)%1000)-500)/10.0;
+		fvar(9):=-((const(size.air.back)%1000)-500)/10.0; ##;<- vel_xy_guard
+		var(6):=const(size.ground.front)/1000;
+		var(7):=const(size.ground.front)%1000; ##;<- max_hits / hittime
+		var(8):=const(size.ground.back)/10000;
+		var(9):=const(size.ground.back)%10000; ##;<- damage_hit / damage_guard
+		var(10):=const(size.shadowoffset); ##;<- fall_ground
+		var(11):=(const(size.height)/1000)%100; ##;<- options_type
+			#;//; 00:hado / 10:fire_hado / 11:blue_fire_hado / 20:air_hado(no_hit_crouch)
+			#;//: 40:knife
+		var(12):=0; ##;<- counter/timer reset
+		var(13):=(const(size.height)/100000)%10; ##;<- hit_anim_type
+			#;//; animtype:: 0:light / 1:medium / 2:hard / 3:back / 4:up / 5:diag-up
+		var(14):=(const(size.height)/1000000)%10; ##;<- remove_type
+		var(37):=(const(size.height)/10000000)%10; ##;<- cangethit_flag
+			#;;//; cangethit flag:: 0:normal / 1:cangethit
+		var(34):= (var(11)=[10,12])*20 +(var(11)=40)*41 +(var(11)=13)*50;
+		var(34):=ifelse(var(34),var(34),30); ##;<-hitsound / default
+		var(35):=((var(2)>=1000)+(var(2)>=3000)+2) +(var(11)=40)*5; ##;<-hitspark ;;normal{0-2/s3/h4] /sharp{+5}
+	}
+
+}
+
+
+#[.10c2] ; damage_revise
+if !var(30) && numenemy && root,sysfvar(0)>0 && playeridexist(floor(root,sysfvar(0))) && enemy,sysfvar(0)>0 && playeridexist(floor(enemy,sysfvar(0))) {
+if playerid(floor(root,sysfvar(0))),var(0)=90900 && playerid(floor(root,sysfvar(0))),var(51)<1 && playerid(floor(enemy,sysfvar(0))),var(0)=90900 && playerid(floor(enemy,sysfvar(0))),var(51)>0 {
+	var(8):=floor(var(8)/((roundno*0.5+matchno*0.5+ (playerid(floor(enemy,sysfvar(0))),var(51)) )*0.1+0.7));
+	var(9):=floor(var(9)/((roundno*0.5+matchno*0.5+ (playerid(floor(enemy,sysfvar(0))),var(51)) )*0.1+0.7));
+}}
+
+
+#; countter / ticks_elapsed
+#; 発射後時間経過(カウントダウン)
+ignorehitpause if hitpausetime<1 { var(12):=var(12)+1; }
+ignorehitpause { var(30):=var(30)+1; }  ##; (reinit flag)
+
+ignorehitpause {
+	palfx{
+	time:1;
+	add:0,0,0;
+	mul:384,384,384;
+	color:0 }
+}
+
+
+ignorehitpause if !time && !numexplod(1) {
+	#;[.13b5] ; mask/sub
+	explod {
+	anim:anim;
+	id:1;
+	postype:p1;
+	sprpriority:5;
+	ownpal:0;
+	bindtime:-1;
+	removetime:-1;
+	scale:const(size.xscale),const(size.yscale);
+	trans:sub }
+}
+
+ignorehitpause if !time && !numexplod(2) {
+	explod {
+	anim:anim;
+	id:2;
+	postype:p1;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	removetime:-1;
+	scale:const(size.xscale),const(size.yscale) }
+}
+
+#; fall_switch ; 倒れスイッチ
+ignorehitpause if (var(3)+1>=var(6))&&((var(10)%10=1)||(var(10)%10>2)) { var(20):=1; }
+
+#; pal_eff ; パレット効果
+#; v21-23:add/mul/sin(RRRGGGBBB-500500500), v24:time(AAATTT)
+if var(30)<2 {
+	if var(11)=10 {
+	##;;<-Fire_Red (208,0,-208)(255,200,200),(255,196,196,20),(18+)
+		var(21):=708500292;
+		var(22):=755700700;
+		var(23):=755696696;
+		var(24):=20018+var(7);
+	} else if var(11)=11 {
+	## ;;<-Fire_Blue (48,0,168)(196,196,255),(168,128,255,20),(18+)
+		var(21):=548500668;
+		var(22):=696696755;
+		var(23):=668628755;
+		var(24):=20018+var(7);
+	} else if var(11)=13 {
+	## ;;<-Ice (0,196,255)(200,255,255),(32,64,96,15),(16+)
+		var(21):=500696755;
+		var(22):=700755755;
+		var(23):=532564596;
+		var(24):=15016+var(7);
+	} else if var(11)=14 {
+	## ;;<-Electr (128,128,128)(200,200,200),(-128,-128,-128,10),(16+)
+		var(21):=628628628;
+		var(22):=700700700;
+		var(23):=372372372;
+		var(24):=10016+var(7);
+	} else {
+	## ;;<-default
+		var(21):=500500500;
+		var(22):=var(21);
+		var(23):=var(21);
+		var(24):=0;
+	}
+}
+
+##;---
+#; CanGetHit_Type:: 0:Normal
+ignorehitpause{
+	if !var(0) && var(12)>1 {
+		hitby{value:sca,np,sp,hp}
+		hitoverride{attr:sca,np,sp,hp; stateno:stateno }
+
+		if var(37)=1 {
+			hitby{value:sca,na,sa,ha,np,sp,hp}
+			hitoverride{ attr:sca,na,sa,ha,np,sp,hp; stateno:stateno }
+		}
+	}
+	#; for_Reflection
+	if var(19)=1 { nothitby{value:sca} }
+}
+
+##;---
+##;---; v11:hittype / v13:animtype=sca / v19:affectteam=e
+if !var(0) && var(11)!=20 && var(13)=0 && var(19)=0 {
+	hitdef{
+	attr:a,sp;
+	affectteam:e;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:back;
+	ground.type:high;
+	air.type:low;
+	hitflag:mhaf;
+	guardflag:ma;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+
+##;---; v11:hittype / v13:animtype=sca / v19:affectteam=f
+if !var(0) && var(11)!=20 && var(13)=0 && var(19)=1 {
+	hitdef{
+	attr:a,sp;
+	affectteam:f;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:back;
+	ground.type:high;
+	air.type:low;
+	hitflag:mhaf;
+	guardflag:ma;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;--- ---
+##;---; v11:hittype_c / v13:animtype / v19:affectteam=e
+if !var(0) && var(11)=20 && var(13)=0 && var(19)=0 {
+	hitdef{
+	attr:a,sp;
+	affectteam:e;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:back;
+	ground.type:high;
+	air.type:low;
+	hitflag:haf;
+	guardflag:ma;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;---; v11:hittype_c / v13:animtype / v19:affectteam=f
+if !var(0) && var(11)=20 && var(13)=0 && var(19)=1 {
+	hitdef{
+	attr:a,sp;
+	affectteam:f;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:back;
+	ground.type:high;
+	air.type:low;
+	hitflag:haf;
+	guardflag:ma;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;--- ---
+##;---; v11:hittype_sca / v13:animtype=diagup / v19:affectteam=e
+if !var(0) && var(11)!=20 && var(13)=5 && var(19)=0 {
+	hitdef{
+	attr:a,hp;
+	affectteam:e;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:diagup;
+	ground.type:high;
+	air.type:low;
+	hitflag:mhaf;
+	guardflag:m;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;---; v11:hittype_sca / v13:animtype=diagup / v19:affectteam=f
+if !var(0) && var(11)!=20 && var(13)=5 && var(19)=1 {
+	hitdef{
+	attr:a,hp;
+	affectteam:f;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:diagup;
+	ground.type:high;
+	air.type:low;
+	hitflag:mhaf;
+	guardflag:m;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;---
+##;---; v11:hittype_c / v13:animtype=diagup / v19:affectteam=e
+if !var(0) && var(11)=20 && var(13)=5 && var(19)=0 {
+	hitdef{
+	attr:a,hp;
+	affectteam:e;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:diagup;
+	ground.type:high;
+	air.type:low;
+	hitflag:haf;
+	guardflag:m;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;---; v11:hittype_c / v13:animtype=diagup / v19:affectteam=f
+if !var(0) && var(11)=20 && var(13)=5 && var(19)=1 {
+	hitdef{
+	attr:a,hp;
+	affectteam:f;
+	id:var(2);
+	damage:var(8),var(9);
+	animtype:heavy;
+	air.animtype:back;
+	fall.animtype:diagup;
+	ground.type:high;
+	air.type:low;
+	hitflag:haf;
+	guardflag:m;
+	hitsound:-1;
+	guardsound:41,0;
+	pausetime:var(7),var(7)+1;
+	sparkno:-1;
+	guard.sparkno:-1;
+	sparkxy:0,0;
+	ground.slidetime:var(7)+12;
+	ground.hittime:  var(7)+12;
+	air.hittime:     var(7)+12;
+	ground.velocity:   fvar(6)*ifelse(var(20),0.5,1), fvar(7)*var(20);
+	guard.velocity:    fvar(8);
+	air.velocity:      fvar(6)*0.5, fvar(7);
+	airguard.velocity: fvar(8)*0.5, fvar(9);
+	yaccel:0.5;
+	fall:var(20);
+	air.fall:(var(10)%10>=2);
+	fall.recover:((var(10)/10)%10=0);
+	air.juggle:(!var(3))*const(data.airjuggle);
+	ground.cornerpush.veloff:0;
+	air.cornerpush.veloff:0;
+	guard.ctrltime:0;
+	guard.dist:32;
+	fall.envshake.time:id;
+	fall.envshake.ampl:0;
+	palfx.time:  var(24)%1000;
+	palfx.add:   ((var(21)/1000000)%1000-500),((var(21)/1000)%1000-500),(var(21)%1000-500);
+	palfx.mul:   ((var(22)/1000000)%1000-500),((var(22)/1000)%1000-500),(var(22)%1000-500);
+	palfx.sinadd:((var(23)/1000000)%1000-500),((var(23)/1000)%1000-500),(var(23)%1000-500),(var(24)/1000)%1000;
+	palfx.color:0;
+	palfx.invertall:1 }
+}
+##;--- ---
+##;--- *Reflection ; *反射判定
+
+#; player id set
+persistent(0) if (!time) || (movecontact) { var(33):=id; }
+ignorehitpause if (movecontact) && numtarget(var(2)) { var(33):=target(var(2)),id; }
+
+#; check enemy type: reflection
+ignorehitpause if var(33)>0 && playeridexist(var(33)) {
+ignorehitpause if (playerid(var(33)),ishelper) && (playerid(var(33)),var(15)=10311) && (playerid(var(33)),var(16)=10212) && (playerid(var(33)),var(17)=10113) && (playerid(var(33)),var(18)=30636)
+&& var(30)>2 {
+		var(31):=1;
+}}
+
+#; flag reset***
+ignorehitpause if var(31) {
+	var(3):=0;
+	movehitreset{}
+}
+
+ignorehitpause if var(19)=1 {
+	ignorehitpause if var(30)<9 { statetypeset{ movetype:i } }
+	ignorehitpause if var(30)>8 { statetypeset{ movetype:a } }
+}
+
+#;--- hit_sound
+ignorehitpause if (movehit=1) && numtarget && (hitpausetime>0) && (hitpausetime=[var(7)-1,var(7)]) && var(31)!=1 {
+	playsnd{value:f300,var(34); channel:1 }
+}
+
+#;--- hit_spark_dist_x
+ignorehitpause if (movecontact=1) && var(31)!=1 {
+	fvar(4):=0;
+	ignorehitpause if var(33)>0 && playeridexist(var(33)) { fvar(4):=(playerid(var(33)),pos x-pos x)*facing; }
+}
+
+##;--- hit_spark
+ignorehitpause if (movecontact=1) && (!movereversed) && numtarget && (hitpausetime>0) && (hitpausetime=[var(7)-1,var(7)]) && var(31)!=1 {
+	helper{
+	id:152100;
+	stateno:152100;
+	helpertype:normal;
+	ownpal:1;
+	keyctrl:0;
+	postype:p1;
+	pos:floor(fvar(4));
+	size.height:ifelse(movehit,var(35),40+var(35));
+	facing:-1 }
+}
+
+
+#;--- burn_spark
+ignorehitpause persistent(0) if (movehit=1) && (!movereversed) && numtarget(var(2)) && (hitpausetime>0) && (hitpausetime=[var(7)-1,var(7)]) {
+ignorehitpause if var(31)!=1 && (var(11)=[10,12]) && (numhelper(152200)=0) && (root,numhelper(152200)=0) && var(33)>0 && playeridexist(var(33)) {
+ignorehitpause if (playerid(var(33)),var(15)!=10311)||(playerid(var(33)),var(16)!=10212)||(playerid(var(33)),var(17)!=10113)||(playerid(var(33)),var(18)!=30636) {
+	helper{
+	id:152200;
+	stateno:152200;
+	helpertype:normal;
+	ownpal:1;
+	keyctrl:0;
+	size.height:(var(33)*10)+(var(11)%10); ##; player_id * 10 + type(0:red/1:blue)
+	size.head.pos:(root,const(size.head.pos.x)),(root,const(size.head.pos.y)); ##; <-anim,hitanim
+	size.mid.pos: (root,const(size.mid.pos.x)), (root,const(size.mid.pos.y)); ##; <-speed_x,y(1/1000)
+	size.ground.front:root,const(size.ground.front); ##; <-max_hits/miss_time
+	size.ground.back: root,const(size.ground.back);  ##; <-damage hit/guard
+	size.air.front:   root,const(size.air.front);    ##; <-hit_x(1/1000)
+	size.air.back:    root,const(size.air.back);     ##; <-hit_y(1/1000)
+	size.shadowoffset:root,const(size.shadowoffset); ##; <-fall(10=recovery/1=ground/2=air/3=g&a)
+	size.xscale:1;
+	size.yscale:1 }
+}}}
+
+
+#;--- getpower/givepower
+if (movecontact=1) && numtarget && (hitpausetime>0) && (hitpausetime=[var(7)-1,var(7)]) {
+if var(31)!=1 {
+	poweradd{value:ifelse(movehit,80,40) *(var(2)<3000)}
+}}
+
+
+#;---
+#;--- moving
+velset{
+	x:fvar(0):=fvar(0)+fvar(10);
+	y:fvar(1):=fvar(1)+fvar(11) }
+
+#---
+ignorehitpause if (movecontact && !var(31)) || cond(numtarget(var(2)) && !var(31), (target(var(2)),hitshakeover=0), 0) || (!time && var(30)>1) || var(0) {
+	posfreeze{}
+}
+
+#; count contacts ; 接触数加算
+ignorehitpause if (!time && var(30)>1) || (movecontact=1) && !var(31) { var(3):=var(3)+1; }
+ignorehitpause if (var(12)>1 && (root,numprojid(var(1))=0) && (root,projcanceltime(var(1))=1) && var(19)=0) {
+	var(3):=var(3)+1; }
+
+#; check-out ; 消滅判定
+ignorehitpause if var(3)>=var(6) || (fvar(1)>0 && (pos y+vel y>=0)) || var(12)>var(4) || time>3456 {
+	var(0):=1; ##;;<-contact_switch ;接触消滅スイッチ
+}
+
+ignorehitpause if (var(12)>var(4) && var(14)>=5) || (frontedgedist<=-128) {
+	var(0):=2; ##;<- non-contact ;無接触消滅スイッチ
+}
+
+
+#;---
+#; temp_proj_for_contact ; プロジェ接触判定用ダミー
+ignorehitpause if !var(0) && var(19)=0 {
+	projectile{
+	projid:var(1);
+	affectteam:e;
+	projanim:909601;
+	projscale:0,0;
+	sparkno:-1;
+	projhitanim:-1;
+	projedgebound:600;
+	projstagebound:600;
+	getpower:0,0;
+	givepower:0,0;
+	projremovetime:1 }
+}
+
+ignorehitpause if !var(0) && var(19)=1 {
+	projectile{
+	projid:var(1);
+	affectteam:f;
+	projanim:909601;
+	projscale:0,0;
+	sparkno:-1;
+	projhitanim:-1;
+	projedgebound:600;
+	projstagebound:600;
+	getpower:0,0;
+	givepower:0,0;
+	projremovetime:1 }
+}
+
+#;---
+ignorehitpause { movehitreset{} }
+
+#;---
+#;--- temp proj for screen-in ; 出現判定用ダミー
+ignorehitpause if var(19)=0 {
+	projectile{
+	projid:stateno;
+	projanim:909601;
+	projscale:0,0;
+	sparkno:-1;
+	projhitanim:-1;
+	projremovetime:1 }
+}
+
+#;--- --- temy_proj_for_distance_check ; 距離計用ダミー
+#; give opponent informatimes to_against_proj
+#; 飛び道具対処(相手)
+#; ID	action
+#; 010	guard
+#; 020	guard/roll/jump
+#; 030	roll/jump
+#; 040	jump
+#; 050	jump_fwd
+ignorehitpause if numenemy { var(40):=floor((enemynear,screenpos x-screenpos x)*facing/ifelse(fvar(0),fvar(0),0.0001)); }
+
+#;//;v(40):相手に接触までのフレーム数カウントダウン(概算)
+ignorehitpause { var(41):=(1+(var(40)>17)+(var(40)>26)+(var(40)>36)+(var(40)>188))*10; }
+
+ignorehitpause if var(40)>0 && var(19)=0 {
+	projectile{
+	projid:stateno+var(41);
+	projanim:909601;
+	projscale:0,0;
+	sparkno:-1;
+	projhitanim:-1;
+	projremovetime:1 }
+}
+
+#;[.25d] ; hit_end
+ignorehitpause persistent(0) if var(0)=1 {
+	helper{
+	stateno:91100;
+	postype:p1;
+	pos:0,0;
+	size.head.pos:const(size.head.pos.y),0;
+	size.height: ( var(31) || (var(0)=1 && var(3)>=var(6)) );
+	ownpal:1 }
+}
+
+#;[.25e] ;; ground_wave
+ignorehitpause if var(0)=1 && (pos y+vel y>0) {
+	persistent(0) {
+		helper{
+		id:159005;
+		stateno:159005;
+		ownpal:1;
+		pos:0,floor(-pos y);
+		size.height:0;
+		size.ground.front:(root,const(size.ground.front));
+		size.ground.back: (root,const(size.ground.back)) }}
+	persistent(0) {
+		helper{
+		id:152040;
+		stateno:152040;
+		ownpal:1;
+		pos:floor(-18*const(size.xscale)),floor(-pos y);
+		size.xscale:0.5*const(size.xscale);
+		size.yscale:0.5*const(size.yscale);
+		size.ground.front:(root,const(size.ground.front));
+		size.ground.back: (root,const(size.ground.back)) }}
+	persistent(0) {
+		helper{
+		id:152040;
+		stateno:152040;
+		ownpal:1;
+		pos:floor(18*const(size.xscale)),floor(-pos y);
+		size.xscale:-0.5*const(size.xscale);
+		size.yscale: 0.5*const(size.yscale);
+		size.ground.front:(root,const(size.ground.front));
+		size.ground.back: (root,const(size.ground.back)) }	}
+}
+
+#;---
+#;---
+ignorehitpause if var(0) {
+	removeexplod{ id:1 }
+	removeexplod{ id:2 }
+	destroyself{}
+}
+
+
+#;---
+#;--- eject_effect ; 射出演出
+persistent(0) if !var(32) && (root,pos y>-18) && !root,numprojid(91005) {
+	explod{
+	anim:f210560;
+	postype:p1;
+	pos:floor(root,pos x-pos x)*facing,floor(-pos y);
+	scale:-ifelse(ishelper(3000),1.5,1),ifelse(ishelper(3000),2.2,1.5);
+	sprpriority:-8;
+	ownpal:1;
+	trans:sub }
+}
+
+persistent(0) if !var(32) && (root,pos y>-18) && !root,numprojid(91005) {
+	explod{
+	anim:f210560;
+	postype:p1;
+	pos:floor(root,pos x-pos x)*facing,floor(-pos y);
+	scale:-ifelse(ishelper(3000),1.5,1),ifelse(ishelper(3000),2.2,1.5);
+	sprpriority:5;
+	ownpal:1 }
+}
+
+#;---
+#;[.25q] ;; dash_dust - eject
+persistent(0) if !var(32) && (vel y<=0) && (pos y>-100) && !root,numprojid(91005) {
+	helper{
+	id:152040;
+	stateno:152040;
+	ownpal:1;
+	pos:floor(-52*root,const(size.xscale)),floor(-pos y);
+	size.xscale:ifelse(ishelper(3000),1.10,0.75);
+	size.yscale:ifelse(ishelper(3000),1.10,0.75);
+	size.ground.front:(root,const(size.ground.front));
+	size.ground.back: (root,const(size.ground.back)) }
+}
+
+#;[.25r] ;; dash_dust - ejject
+persistent(0) if !var(32) && (vel y<=0) && (pos y>-100) && !root,numprojid(91005) {
+	helper{
+	id:152040;
+	stateno:152040;
+	ownpal:1;
+	pos:floor(-12*root,const(size.xscale)),floor(-pos y);
+	size.xscale:-ifelse(ishelper(3000),0.65,0.45);
+	size.yscale: ifelse(ishelper(3000),0.65,0.45);
+	size.ground.front:(root,const(size.ground.front));
+	size.ground.back: (root,const(size.ground.back)) }
+}
+
+#;; eject_flag
+if !var(32) {
+	projectile{
+	projid:91005;
+	projanim:909601;
+	projscale:0,0;
+	sparkno:-1;
+	projhitanim:-1;
+	projremovetime:32 }
+}
+
+#;---
+#;--- counter
+ignorehitpause{ var(32):=var(32)+1; }
+#;--- ---
+#;--- ---
+
+
+
+
+#;==========================
+#;==========================
+#; Proj Disappearing [helper] ; 飛び道具消滅
+#;==========================
+[statedef 91100; type:a; sprpriority:5; anim:const(size.head.pos.x); velset:0,0; ctrl:0; ]
+#; temp_proj_for_ending_flag ; 出現判定用ダミー
+ignorehitpause persistent(0) if !time {
+	projectile{
+	projid:91100+anim;
+	projanim:909601;
+	projscale:0,0;
+	sparkno:-1;
+	projhitanim:-1;
+	projremovetime:1 }
+}
+
+ignorehitpause{
+	assertspecial{flag:invisible}
+	nothitby{value:sca}
+}
+
+palfx{
+	time:1;
+	add:0,0,0;
+	mul:384,384,384;
+	color:0 }
+
+if !time {
+
+	explod {
+	anim:anim;
+	postype:p1;
+	pos:0,0;
+	sprpriority:5;
+	ownpal:0;
+	bindtime:-1;
+	scale:const(size.xscale),const(size.yscale);
+	trans:sub }
+
+	explod {
+	anim:anim;
+	postype:p1;
+	pos:0,0;
+	sprpriority:6;
+	ownpal:1;
+	bindtime:-1;
+	scale:const(size.xscale),const(size.yscale) }
+
+	ignorehitpause if const(size.height)=1 {
+		explod {
+		anim:f6565;
+		postype:p1;
+		pos:0,0;
+		scale:0.28*ifelse(ishelper(3000),1.5,1),2.3*ifelse(ishelper(3000),1.5,1);
+		sprpriority:2;
+		ownpal:1;
+		trans:add;
+		alpha:256,256;
+		supermovetime:-1;
+		pausemovetime:-1 }
+
+		explod {
+		anim:f6560;
+		postype:p1;
+		pos:0,0;
+		scale:0.28*ifelse(ishelper(3000),1.5,1),2.3*ifelse(ishelper(3000),1.5,1);
+		sprpriority:3;
+		ownpal:1;
+		trans:sub;
+		supermovetime:-1;
+		pausemovetime:-1 }
+	}
+}
+
+ignorehitpause if (animtime=0) || (time>=256) { destroyself{} }
+
+
+
+
+
+
+#;;---
+#;;---
+#;//[EOF]

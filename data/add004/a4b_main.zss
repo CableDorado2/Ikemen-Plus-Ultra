@@ -1,0 +1,4362 @@
+# Zantei State Script
+#; #20200830a62 (addoo4 main)
+
+
+#;;---
+#;; Find these Marks to Config.
+#;; この標記を検索して設定を変えてください。
+
+#;;>>@Config.
+#;;>>@Config.System_Switch>>
+#;;>>@Config.Stage_Type>>
+#;;>>@Config.Power_Mode>>
+#;;>>@Config.LifeBar>>
+#;;>>@Config.LifeBar_Draw>>
+#;;>>@Config.GuardBar>>
+#;;>>@Config.PowerBar>>
+#;;>>@Config.PowerBar_Draw>>
+#;;>>@Config.Name_Info>>
+#;;>>@Config.Face_Info>>
+#;;>>@Config.Face>>
+#;;>>@Config.Combo.Pos>>
+#;;>>@Config.Counter_Hit>>
+#;;>>@Config.DamageToPower>>
+#;;>>@Config.Icon_FirstAttack_Pos>>
+#;;>>@Config.Icon_CPU_Pos>>
+#;;>>@Config.Score>>
+#;;>>@Config.Message_Pos>>
+#;;>>@Config.KO>>
+#;;>>@Config.Ground_Dust_Effect>>
+#;;>>@Config.AI>>
+#;;>>@Config.AI_Ref>>
+#;;>>@Config.Display_Input>>
+#;;>>@Config.Tag_Command>>
+#;;>>@Config.Tag_FirstPlayer_Select>>
+#;;>>@Config.Camera>>
+
+
+
+
+
+
+##==================
+#; Draw_Color_BG
+[Function Fnc_DrawCBG(iCNo)]
+explod {
+	anim:f3530;
+	sprpriority:-6000;
+	space:screen;
+	postype:left;
+	pos:-$iCNo*ScreenWidth,ScreenHeight/2;
+	scale:ScreenWidth,7.5*ScreenWidth/320.0;
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+
+
+
+#;==========================
+#;==========================
+#; Guard Crush [helper] ; ガードクラッシュ
+#; Dizzy/Stun/Danger BG [helper] ; 危険
+#;==========================
+[statedef 88892; type:a; physics:n; movetype:i; anim:909601; velset:0,0; ctrl:0; ]
+persistent(0) ignorehitpause if !time {
+	call Fnc_DrawCBG(3);
+	destroyself{}
+}
+
+
+
+##;==========================
+##;==========================
+##; Addon Main [Helper] ; アドオン中心
+##;==========================
+#; sv00:		root_id
+#; sv01-03:	xxx partner_index/id
+#; --- ---
+#; v00:		helper_id # const=90900
+#; v01-02:	xxx
+#; v03-04:	gamewidth/gameheight
+#; v05:	xxx
+#; v06:		<<bit flag>>
+#;	01-10:	aliveflag
+#; v07:		<<bit flag>> system_switch
+#; v08:		<<bit flag>>
+#;	01:	---modify_life
+#;	02:	---modify_power
+#;	03:	---modify_guard_point
+#;	04:	---modify_score_redraw
+#;	05-06:	---modify_pos_y>=0_p1,p2
+#;	07:	xxx
+#;	08-11:	xxx---alive_flag
+#;	12:	---screenbound_switch
+#;	13:	xxx
+#;	14-25:	---key_pressed_switch
+#; v09:		<<bit flag>>
+#;	01:	---getting_nums_of_combo
+#;	02:	x--timer_check
+#;	03:	---draw_lifebar
+#;	04:	---draw_power
+#;	05:	---getting_damage
+#;	06-07:	---first_attack
+#;	08:	x--hyper_combo_finish
+#;	09:	x--speci_combo_finish
+#;	10:	---round_over
+#;	11:	x--(perfect) not_used
+#;	12:	---bonus_statge/no_result/no_combo
+#;	13:	---red_1/3_life
+#;	14-15:	---counter_hit
+#;	16:	---options-noko
+#;	17-18:	---options-mod-life
+#;	19:	---options-mod-face
+#;	20-24:	xxx
+#;	25:	---finest_ko_flag
+#; v10:		xxx
+#; v11-13:	combo/real_combo/counter_pos/hits_type
+#; v14:		temp
+#; v15-16:	current_player/enemy ID //プレーヤー/相手識別番号
+#; v17:		against_throw //投げ外し
+#; v18-19:	ReAction_ID_Ref.(for a.i.) / 行動対処参照用(主にAIに提供)
+#; v20-21:	power0/power_view
+#; v22:		players_type
+#; v23:		life-mod(recover-damage...)
+#; v24:		stages_type(1:water...)
+#; v25:		pow-max_mode_timer
+#; v26-27:	player_time
+#; v28:		roundstate_time
+#; v29:		--- power_bar_coloring_counter
+#; v30:		options_lifebar_width
+#; v31-32:	lifebar_draw_x/y
+#; v33-34:	powerbar_draw_x/y
+#; v35-37:	guard_crush
+#; v38-39:	message_type/pos(index)
+#; v40:		life0/players_life(!=root,life)
+#; v41:		options_life-mod
+#; v42:		damage_real
+#; v43:		life_view
+#; v44:		jump_counter
+#; v45:		xxx
+#; v46:		draw_depth//描画深度
+#; v47:		debug_key_input
+#; v48:		switch_tag_mode_change_call_striker
+#; v49:		partner_id_in_tag-mode
+#; v50:		dizzy
+#; v51:		ai(def:/player:-1/cpu:1-8)
+#; v52:		xxx
+#; v53-56:	striker_stateno(p1-p4)
+#; v57-58:	score
+#; v59:		majorversion for ikemen(暫定)
+#; --- ---
+#; f00:		zoom/local/scale1/2/3[const240/480/720p]
+#; f01-02:	xxx
+#; --- ---	[ranking]
+#; f03:		maxhitcombo
+#; f04:		xxx
+#; f05:		rank_counter_hits
+#; f06:		rank_bk/jd
+#; f07:		rank_defence
+#; f08:		rank_attack
+#; --- ---
+#; f09:		- zoom
+#; --- ---	
+#; f10-19:	[main/partner_name_info]
+#; --- ---
+#; f20-36:	[main/partner_face_info]
+#; f37-39:	xxx
+
+##;==========================
+##; starter [helper for init]
+##; 初期化用
+##;==========================
+[Statedef 90909; type:S; movetype:I; physics:N; anim:909601; velset:0,0; ctrl:0;]
+assertspecial{flag:nobardisplay}
+if !time {
+	var(0):=90900; #;>>sys::addon_id
+	var(15):=(root,id);
+	sysvar(0):=(root,id);
+	posset{y:0}
+	var(49):=var(15)+(numpartner>0); #;>>sys::partner_id_search_init
+	if numenemy { var(16):=var(15)+ifelse(teamside=1,numpartner+1,-(enemy,numpartner)-1); } #;>>sys::enemy_id
+
+
+	#;>>sys::init::system_switch_plus
+	#;;>>@Config.System_Switch>>
+	#;; システム設定
+	#; v07: bit flag
+#	var(7):= 1073741823; ## ;;2147483647 ;; ;; default (enable all) (初期値全有効)
+#	#; uncomment to disable (コメントを外すと無効にできます)
+#	var(7):=(var(7)^1);        #; 1st - dizzy/stun system
+#	var(7):=(var(7)^2);        #; 2nd - guard_break system
+#;	var(7):=(var(7)^4);        #; 3rd - show combo_counter
+#;	var(7):=(var(7)^8);        #; 4th - show message
+#;	var(7):=(var(7)^16);       #; 5th - show score/cpu_level
+#;	var(7):=(var(7)^32);       #; 6th - show result_panel
+#;	var(7):=(var(7)^64);       #; 7th - play system voice
+#;	var(7):=(var(7)^128);      #; 8th - show key_input
+#;	var(7):=(var(7)^256);      #; 9th - show lifebar
+#;	var(7):=(var(7)^512);      #;10th - show powerbar
+#	var(7):=(var(7)^1024);     #;11th - tag system
+#;	var(7):=(var(7)^2048);     #;12th - tag_assist
+#;	var(7):=(var(7)^4096);     #;13th - round_call
+#;	var(7):=(var(7)^8192);     #;14th - ko_call
+#;	var(7):=(var(7)^16384);    #;15th - show ground_dust effect
+#;	var(7):=(var(7)^32768);    #;16th - show portrait / face
+#	var(7):=(var(7)^65536);    #;17th - slow camera (warning: this may break your characters)
+#	var(7):=(var(7)^131072);   #;18th - tag_special_partners
+#	var(7):=(var(7)^262144);   #;19th - ai action switch
+#;	var(7):=(var(7)^524288);   #;20th - show vs_screen (1f lag)
+#;	var(7):=(var(7)^1048576);  #;21th - mode_select
+
+
+if const(Default.Enable.Dizzy)			{ var(7):=(var(7)|const(Bit1)); }
+if const(Default.Enable.GuardBreak)		{ var(7):=(var(7)|const(Bit2)); }
+if const(Default.Enable.SW.Combo)		{ var(7):=(var(7)|const(Bit3)); }
+if const(Default.Enable.SW.Message)		{ var(7):=(var(7)|const(Bit4)); }
+if const(Default.Enable.Score)			{ var(7):=(var(7)|const(Bit5)); }
+if const(Default.Enable.SW.Result)		{ var(7):=(var(7)|const(Bit6)); }
+if const(Default.Enable.SW.SysVoice)	{ var(7):=(var(7)|const(Bit7)); }
+if const(Default.Enable.SW.KeyInput)	{ var(7):=(var(7)|const(Bit8)); }
+if const(Default.Enable.SW.LifeBar)		{ var(7):=(var(7)|const(Bit9)); }
+if const(Default.Enable.SW.PowerBar)	{ var(7):=(var(7)|const(Bit10)); }
+if const(Default.Enable.Tag) && (teammode=tag)	{ var(7):=(var(7)|const(Bit11)); }
+if const(Default.Enable.SW.TagAssist)	{ var(7):=(var(7)|const(Bit12)); }
+if const(Default.Enable.SW.CallRound)	{ var(7):=(var(7)|const(Bit13)); }
+if const(Default.Enable.SW.CallKO)		{ var(7):=(var(7)|const(Bit14)); }
+if const(Default.Enable.SW.GroundDust)	{ var(7):=(var(7)|const(Bit15)); }
+if const(Default.Enable.SW.DrawFace)	{ var(7):=(var(7)|const(Bit16)); }
+if const(Default.Enable.SW.SlowCamera)	{ var(7):=(var(7)|const(Bit17)); }
+if const(Default.Enable.SW.vsScreen)	{ var(7):=(var(7)|const(Bit20)); }
+if const(Default.Enable.SW.ModeSelect)	{ var(7):=(var(7)|const(Bit21)); }
+
+
+##******
+# 画面比率
+	## MUGEM:  const240p(1) = ScreenWidth / 320.0
+	## IKEMEN: const240p(1) = ScreenHeight / 240.0
+
+	#;;>>sys::init::localcoord
+#old#	fvar(0):=const240p(1);
+
+	fvar(0):=ScreenWidth/320.0;  ## MUGEN
+##	fvar(0):=ScreenHeight/240.0; ## IKEMEN
+
+##	fvar(1):=1; ## MUGEN
+	fvar(1):=fvar(0); ## IKEMEN
+
+	var(3):=ceil(screenwidth);
+	var(4):=ceil(screenheight);
+	var(59):=(majorversion=0);
+###	if teammode=tag { var(7):=(var(7)|1024); }
+}
+
+#;;>>sys::bonus_stages_flag ; (12th bit)
+#; no result panel / no combo
+#; ボーナスステージ
+if root,numexplod(920000) || cond(numenemy, (enemy,numexplod(920000)), 0) {
+	var(9):=(var(9)|4096);
+}
+
+#;>>sys::stage_type_set
+#;;>>@Config.Stage_Type>>
+#; stage type: ( 0: normal 1: water... )
+if !time && (var(7)&16384) && stagevar(info.author)="WATER" { var(24):=1; }
+
+#;;>>@Config.Power_Mode>>
+#; powerbar mode setting (v22: mode:1-4 / 10:off)
+#; パワーバーモード設定
+if !time {
+	var(22):=1; #default
+	if (root,teammode=tag) && (var(7)&1024) { var(22):=4; }
+	#;--- mode_select helper
+	#;sys::helper::mode_select
+	if (var(7)&1048576) && (root,numpartner=0) && (root,teammode=single) && (roundno>=1) && !numhelper(180030) {
+		helper{ id:180030; stateno:180030; supermovetime:-1; pausemovetime:-1; ownpal:1 }
+	}
+}
+
+#;---
+#;;>>@Config.Power_Start>>
+#;sys::powerbar_start_power ;; パワー量開始時
+persistent(0) if !time && roundno=1 && power<1000 { poweradd{value:1000} }
+
+
+#;---
+#;---
+if !time {
+#---
+	#;;>>@Config.LifeBar>>
+	#;; lifebar init ; ライフバー 初期値
+	#;sys::init_lifebar
+	var(30):=ceil(var(3)/3.2/fvar(0)); #;[100] ;;<- LifeBar_Width ;(横幅)
+	var(31):=ceil(ifelse(teamside=1,-18,18)*fvar(0)+var(3)*0.5); #;<- LifeBar_Pos_X ;(X座標)
+##	var(32):=ceil(16*fvar(0)); #;<- LifeBar_Pos_Y - Fix ;(Y座標-固定)
+##	var(32):=ceil( const240p(0.08875) *ScreenHeight ); #;<- LifeBar_Pos_Y - Var ;(Y座標-対照)
+	var(32):=ceil( 0.08875 *ScreenHeight ); #;<- LifeBar_Pos_Y - Var ;(Y座標-対照)
+
+	#;;>>@Config.PowerBar>>
+	#;; powerbar init ; パワーバー 初期値
+	#;sys::init_powerbar
+	var(33):=var(3)*(teamside=2)+floor(92*fvar(0))*ifelse(teamside=1,1,-1); # ;<- powerbar_pos_x ;(X座標)
+##	var(34):=var(4)-ceil(8*fvar(0)); # ;<- powerbar_pos_y - Fix;(Y座標-固定)
+##	var(34):=var(4)-ceil( const240p(0.04958) *ScreenHeight ); # ;<- powerbar_pos_y - Var;(Y座標-対照)
+	var(34):=var(4)-ceil( 0.04958 *ScreenHeight ); # ;<- powerbar_pos_y - Var;(Y座標-対照)
+
+	var(46):=-5200; #;<- draw_depth ;(描画深度)
+	#;---
+##	var(57):=ifelse((root,sysvar(4)),(root,var(58)),0); #;<- get_root_scores ;(親の点数取得)
+	var(57):=floor(scoretotal); #;<- get_scores ;(点数取得)
+
+
+
+	#;;>>@Config.Name_Info>>
+	#;---name draw info ; 名前描画情報
+	#;; fv10-19
+	#;; player-main:     f10,f12: pos_x/y,  f14,f16: scale_x/y,  f18: alpha_SSS/DDD
+	#;; player-partners: fv+1
+	#;;--- player-main
+	fvar(10):=var(31)/fvar(0) + var(30) *ifelse(teamside=1,-1,1); #;Pos_X
+	fvar(12):=var(32)/fvar(0) + 7; #;Pos_Y
+	fvar(14):=1;
+	fvar(16):=1; #;Sacle_X/Y
+	fvar(18):=256000; #;Alpha_SSS/DDD
+	#;;--- partners
+	fvar(11):=var(31)/fvar(0) + (var(30)+32) *ifelse(teamside=1,-1,1); #;Pos_X
+	fvar(13):=var(32)/fvar(0) + 21; #;Pos_Y
+	fvar(15):=0.5;
+	fvar(17):=0.5; #;Sacle_X/Y
+	fvar(19):=096160; #;Alpha_SSS/DDD
+
+	#;;>>@Config.Face_Info>>
+	#;---face draw info ; 顔描画情報
+	#;; fv20-36
+	#;; player-main:     f20,f22: pos_x/y,  f24,f26: scale_x/y,  f28: alpha_SSS/DDD,  f32: spr-priority
+	#;; player-partners: fv+1, f34-35: offset_x/y, f36: offset_scale_x&y
+	#;;--- player-main
+	fvar(20):=var(31)/fvar(0) + (var(30)+42) *ifelse(teamside=1,-1,1); #;Pos_X [142]
+	fvar(22):=var(32)/fvar(0) - 3; #;Pos_Y
+	fvar(24):=1.0;
+	fvar(26):=1.0; #;Sacle_X/Y
+	fvar(28):=256000; #;Alpha_SSS/DDD
+	fvar(32):=var(46)+1; #;Spr-Priority
+	#;;--- partners
+	fvar(21):=var(31)/fvar(0) + (var(30)+42) *ifelse(teamside=1,-1,1); #;Pos_X [136]
+	fvar(23):=var(32)/fvar(0) + 18; #;Pos_Y
+	fvar(25):=0.5;
+	fvar(27):=0.5; #;Sacle_X/Y
+	fvar(29):=256000; #;Alpha_SSS/DDD
+	fvar(33):=var(46)+5; #;Spr-Priority
+	#;---
+	fvar(34):=ifelse(teamside=1,6,-6);
+	fvar(35):=6; #;OffSet_X/Y
+	fvar(36):=0; #;OffSet_Scale_X&Y
+
+#;---
+}
+
+
+##; Get Tag-Team assist-stateno (v53-56)
+##; タッグ時支援ステート番号取得
+##;sys::tag_assist_stno-1
+if numpartner {
+	var(53):=ifelse((root,sysvar(0)>159), (root,sysvar(0)), 1000);
+	if playeridexist(var(15)+1) { var(54):=ifelse((playerid(var(15)+1),sysvar(0)>159), (playerid(var(15)+1),sysvar(0)), 1000); }
+	if numpartner>1 && playeridexist(var(15)+2) { var(55):=ifelse((playerid(var(15)+2),sysvar(0)>159), (playerid(var(15)+2),sysvar(0)), 1000); }
+	if numpartner>2 && playeridexist(var(15)+3) { var(56):=ifelse((playerid(var(15)+3),sysvar(0)>159), (playerid(var(15)+3),sysvar(0)), 1000); }
+}
+
+
+##;sys::a4b_data_score_input
+#if !time {
+#	loadfile{savedata:map; path:"a4b_data1.gob"}
+#	var(57):=ifelse(teamside=1, map(a4b_data_score_p1), map(a4b_data_score_p2));
+#}
+
+
+
+if (var(7)&65536) { screenbound{value:0; movecamera:1,1} }
+
+##;>>sys::addon_version_check
+##;; アドオン版番確認
+#persistent(0) if !time && floor(const(size.air.front))!=1911115 {
+#	explod{
+#	anim:f231330;
+#	space:screen;
+#	postype:left;
+#	sprpriority:800;
+#	pos:floor(ifelse(teamside=1,60*fvar(0),var(3)-60*fvar(0))), 0;
+#	scale:1,1;
+#	bindtime:-1;
+#	ontop:1;
+#	removetime:-1;
+#	supermovetime:-1;
+#	pausemovetime:-1;
+#	ownpal:1 }
+#}
+
+#;sys::over
+if time>=numpartner { selfstate{ value:90900 } }
+
+
+
+
+##;==========================
+##; サブ / 関数
+##;==========================
+
+##;==========================
+
+[Function Fnc_IsPartnerID0(iID) ret]
+let ret = (($iID - (root,id) + numpartner + 1) % (numpartner + 1)) + (root,id);
+##;==========================
+
+[Function Fnc_IsPartnerID(iID) ret]
+let ret = 0;
+let va = call Fnc_IsPartnerID0($iID);
+if numpartner && playeridexist($va) {
+if playerid($va),ishelper=0 && playerid($va),alive && playerid($va),teamside=teamside {
+	let ret = $va;
+}}
+##;==========================
+
+[Function Fnc_IsPartnerID2(iID) ret]
+let ret = 0;
+let va = call Fnc_IsPartnerID0($iID);
+if numpartner && playeridexist($va) {
+if playerid($va),ishelper=0 && playerid($va),alive && playerid($va),teamside=teamside && playerid($va),sysfvar(4)<1 {
+	let ret = $va;
+}}
+##;==========================
+
+[Function Fnc_IsPartnerID3(iID) ret]
+let ret = 0;
+let va = call Fnc_IsPartnerID0($iID);
+if numpartner && playeridexist($va) {
+if playerid($va),ishelper=0 && playerid($va),alive && playerid($va),teamside=teamside && (playerid($va),stateno=[190191,190192]) {
+	let ret = $va;
+}}
+##;==========================
+
+
+
+##;==========================
+##;==========================
+##; タイマー描画サブ
+##; draw timer sub
+[Function Fnc_DrawTimer()]
+#; new trigger v0.90 "TimeLeft" (-1 if time is disabled)
+##"fight.def">[time]>"framespercount"
+let i_framespercount = 60;
+
+##;---timer_d_cls
+if map(i_Timer)/($i_framespercount)%10!=(TimeLeft/($i_framespercount)%10) || !numexplod(490000) { removeexplod{id:490300} }
+if map(i_Timer)/($i_framespercount*10)%10!=(TimeLeft/($i_framespercount*10)%10) || !numexplod(490000) { removeexplod{id:490301} }
+if map(i_Timer)/($i_framespercount*100)%10!=(TimeLeft/($i_framespercount*100)%10) || !numexplod(490000) { removeexplod{id:490302} }
+
+if time<2 {mapset{map:"i_Timer"; value: 0} }
+if map(i_Timer)!=timeleft { mapset{map:"i_Timer"; value: timeleft} }
+
+##;---counter{0-999}
+if map(i_Timer)>=0 && numexplod(490000) && !numexplod(490300) {
+	let i_swth = 7 - (map(i_Timer)>=$i_framespercount*100)*2;
+	let i_sscale = 1 - (map(i_Timer)>=$i_framespercount*100)*0.2 ;
+	let i_spx = ( (map(i_Timer)>=$i_framespercount*10) +(map(i_Timer)>=$i_framespercount*100) )*$i_swth;
+	explod{
+	id:490300;
+	anim:f200650+floor(map(i_Timer)/($i_framespercount))%10;
+	space:screen;
+	sprpriority:var(46)+5;
+	postype:left;
+	pos:var(3)/2 +floor(( $i_spx )*fvar(0)) ,  var(32) +floor(4*fvar(0));
+	scale:fvar(1),fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if map(i_Timer)>=$i_framespercount*10 && numexplod(490000) && !numexplod(490301) {
+	explod{
+	id:490301;
+	anim:f200650+floor(map(i_Timer)/($i_framespercount*10))%10;
+	space:screen;
+	sprpriority:var(46)+4;
+	postype:left;
+	pos:var(3)/2 +floor(( $i_spx -$i_swth*2 )*fvar(0)) ,  var(32) +floor(4*fvar(0));
+	scale:$i_sscale*fvar(1),$i_sscale*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if map(i_Timer)>=$i_framespercount*100 && numexplod(490000) && !numexplod(490302) {
+	explod{
+	id:490302;
+	anim:f200650+floor(map(i_Timer)/($i_framespercount*100))%10;
+	space:screen;
+	sprpriority:var(46)+3;
+	postype:left;
+	pos:var(3)/2 +floor(( $i_spx -$i_swth*3.8 )*fvar(0)) ,  var(32) +floor(4*fvar(0));
+	scale:$i_sscale*fvar(1),$i_sscale*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if map(i_Timer)=-1 && numexplod(490000) && !numexplod(490300) {
+	explod{
+	id:490300;
+	anim:f200690;
+	space:screen;
+	sprpriority:var(46)+3;
+	postype:left;
+	pos:var(3)/2, var(32) +floor(4*fvar(0));
+	scale:fvar(1),fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+
+
+
+##;==========================
+##; main-loop
+##;==========================
+[statedef 90900; type:s; movetype:i; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+
+if (roundstate!=2) || (var(9)&4096) || (win) || (lose) { assertspecial{flag:nobardisplay} }
+#;>>sys::starter
+persistent(0) if !var(0) { changestate{value:90909} }
+
+#;>>sys::camera::set
+#;; screenbound (12th bit)
+#; init -on
+if (var(8)&4096) { var(8):=(var(8)^4096); }
+
+#; check -off
+if !(var(8)&4096) {
+if var(15)>0 && (playeridexist(var(15))) {
+if (playerid(var(15)),gethitvar(isbound)>0)||(playerid(var(15)),numprojid(920851))||(playerid(var(15)),numexplod(920851)) {
+	var(8):=(var(8)|4096);
+}}}
+
+if (var(7)&65536) { screenbound{ value:0; movecamera:1,1 } }
+
+#;--- bind helper(me) to players position ; プレーヤーに位置を合わせる
+if !(var(8)&4096) {
+if (roundstate>=2) && var(15)>0 && playeridexist(var(15)) {
+if (playerid(var(15)),stateno!=[190190,190196]) {
+	posadd{
+	x: (playerid(var(15)),pos x-pos x!=[-1,1]) *(playerid(var(15)),pos x-pos x) *facing /20.0;
+	y: (playerid(var(15)),pos y-pos y-const240p(50) ) /20.0 }
+}}}
+	
+if (var(8)&4096) {
+if (roundstate>=2) && pos y<-const240p(50) {
+	posadd{y:1-(pos y / 5.0)}
+}}
+
+#;>>sys::ai_switch
+#;;>>@Config.AI>>
+var(51):=(root,ailevel);
+
+#;==========================
+#;==========================
+#; current player ID / player change
+#; 現在プレーヤー識別番号 / 切換
+#;------------------------
+# def: iIDme #ID取得変数
+#;>>sys::mod-face-flag
+if (var(9)&262144) { var(9):=(var(9)^262144); }
+
+
+##---
+#;>>sys::partner_id_get1-N
+if numpartner && roundstate=2 && (var(7)&1024) {
+	if numpartner>0 && var(15)!=sysvar(0)+1 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+1);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+	if numpartner>1 && var(15)!=sysvar(0)+2 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+2);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+	if numpartner>2 && var(15)!=sysvar(0)+3 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+3);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+	if numpartner>3 && var(15)!=sysvar(0)+4 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+4);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+	if numpartner>4 && var(15)!=sysvar(0)+5 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+5);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+	if numpartner>5 && var(15)!=sysvar(0)+6 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+6);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+	if numpartner>6 && var(15)!=sysvar(0)+7 { let iIDme = call Fnc_IsPartnerID2(sysvar(0)+7);
+		if $iIDme { var(15):=$iIDme; var(9):=(var(9)|262144); } }
+}
+
+
+##;>>sys::partner_id_get2
+if var(15)!=root,id {
+if root,alive && roundstate=2 && root,sysfvar(4)<1 {
+	var(15):=root,id;
+	var(9):=(var(9)|262144);
+}}
+
+
+##;>>sys::partner_id_get3
+if !(var(7)&1024) && numpartner && var(15)>0 && playerid(var(15)),alive=0 && roundstate=2 {
+	var(9):=(var(9)|262144);
+	if numpartner>0 { let iIDme = call Fnc_IsPartnerID(var(15)+1);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+	if numpartner>1 { let iIDme = call Fnc_IsPartnerID(var(15)+2);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+	if numpartner>2 { let iIDme = call Fnc_IsPartnerID(var(15)+3);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+	if numpartner>3 { let iIDme = call Fnc_IsPartnerID(var(15)+4);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+	if numpartner>4 { let iIDme = call Fnc_IsPartnerID(var(15)+5);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+	if numpartner>5 { let iIDme = call Fnc_IsPartnerID(var(15)+6);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+	if numpartner>6 { let iIDme = call Fnc_IsPartnerID(var(15)+7);
+		if $iIDme { var(15):=$iIDme; removeexplod{id:490000} } }
+}
+
+
+##;;>>@Config.Tag_FirstPlayer_Select>>
+##;>>sys::first_player_select
+##;; 先発キャラ選択
+#if numpartner && roundstate<2 && var(22)=4 && root,stateno!=5500 {
+#if (root,command="holdfwd" || root,command="holdback") && (var(7)&1024) {
+#	var(15):=(root,id)+(root,command="holdback");
+#	explod{
+#	postype:p1;
+#	facing:root,facing;
+#	anim:f296000+teamside;
+#	pos: floor(playerid(var(15)),pos x-pos x)*facing , floor(playerid(var(15)),pos y-pos y +playerid(var(15)),const(size.head.pos.y)-12*fvar(0));
+#	scale:0.25,0.25;
+#	sprpriority:6;
+#	bindtime:-1;
+#	removetime:1;
+#	ownpal:1 }
+#}}
+
+
+#;;<-for safety
+if !playeridexist(var(15)) { var(15):=root,id; }
+
+#;>>sys::oppenent_id_get1
+#; current enemy/oppenents ID ; 相手識別番号
+if numenemy {
+if enemy,sysfvar(0)>0 && playeridexist(floor(enemy,sysfvar(0))) {
+if var(16)!=playerid(floor(enemy,sysfvar(0))),var(15) && playerid(floor(enemy,sysfvar(0))),var(0)=90900 {
+	var(16):=playerid(floor(enemy,sysfvar(0))),var(15);
+}}}
+
+
+#;==========================
+#;>>sys::tag_mode_Assist/Change_Interval
+#; 支援/交替 間隔
+if var(48)    { mapset{map:"i_Assist_Interval"; value: 30} }
+if var(48)=12 { mapset{map:"i_Assist_Interval"; value: 160} }
+if map(i_Assist_Interval)>0 { mapset{map:"i_Assist_Interval"; value: map(i_Assist_Interval) - 1} }
+
+
+
+#;;>>@Config.Tag_Command>>
+#; Tag-Mode Command:: "Change","Partner-Assist" (v48)
+#; タッグモード時操作コマンド
+#;>>sys::tag_mode_cmd_reset
+if var(48) { var(48):=0; }
+
+#;; change [v48=11] ; 交替
+#;>>sys::tag_mode_cmd_change
+if roundstate=2 && numpartner && var(22)=4 && !var(48) && map(i_Assist_Interval)=0 {
+if var(15)!=var(49) && playeridexist(var(49)) {
+if (playerid(var(49)),stateno=[190191,190192]) {
+	##;;--- player-controlled ;; 操作交替
+	if (root,command="shift_fwd") || (root,command="shift_back") {
+	if var(51)<1 && var(28)>200 && (var(7)&1024) {
+		var(48):=11;
+	}}	
+	##;;--- ai
+	if var(51)>0 && var(28)>200 && (var(7)&1024) {
+	if playerid(var(15)),sysfvar(4)<1 && (random%50=0) && playerid(var(15)),life<playerid(var(49)),life {
+		var(48):=11;
+	}}
+	##;;--- forced change (not-alive, stand-by) ;; 強制交替（終止、待機中）
+	if playeridexist(var(15)) {
+	if (playerid(var(15)),alive=0 && playerid(var(15)),stateno=5150) || (playerid(var(15)),stateno=[190191,190192]) {
+		var(48):=11;
+	}}
+}}}
+
+
+#;; change-interrupted [v48=21] ; 割り込み交替
+#;>>sys::tag_mode_cmd_change_interrupted
+#;; "Switch-Canceling"
+if var(48)=11 && var(15)!=var(49) && playeridexist(var(49)) {
+if playerid(var(49)),stateno=190192 && power>=500 {
+if playerid(var(15)),sysfvar(4)<1 && playerid(var(15)),alive && playerid(var(15)),stateno<3000 && playerid(var(15)),time>2 {
+if playerid(var(15)),movetype!=h && playerid(var(15)),gethitvar(isbound)=0 {
+	var(48):=21;
+}}}}
+
+
+#;; striker-call / summon [v48=12] ; ストライカー呼出
+#;>>sys::tag_mode_cmd_call
+if roundstate=2 && numpartner && var(22)=4 && !var(48) && (var(7)&2048) && map(i_Assist_Interval)=0 {
+if playerid(var(15)),sysfvar(4)<1 && playerid(var(15)),movetype!=h && playerid(var(15)),gethitvar(isbound)=0 && (playerid(var(15)),stateno!=[190190,190199]) {
+	#;;--- player-controlled
+	if ((root,command="assist_fwd") || (root,command="assist_back")) && var(51)<1 {
+	if (root,command!="shift_fwd") && (root,command!="shift_back") {
+		var(48):=12;
+	}}
+	#;;--- ai
+	if var(51)>0 && var(15)!=var(49) && playeridexist(var(49)) {
+	if (random%180=0) && random>(playerid(var(49)),life-playerid(var(15)),life)*100 {
+		var(48):=12;
+	}}
+}}
+
+
+#;;--- search partner for change or strike
+#; v14: temp v49: partners id
+#;; メモ：
+#;;   パートナー検索処理
+#;;   もっと条件を付けて、必要に応じて実行させると良いのですが、 オイラのスキルの限界です(- -;
+
+if numpartner && var(22)=4 && (var(48)=12 || var(15)=var(49)
+ || (playerid(var(15)),alive=0 && playerid(var(15)),stateno=5150 && playerid(var(15)),time=1)) {
+	let iKeyD = ifelse( root,command="shift_fwd" || root,command="assist_fwd", -1, 1);
+	if numpartner>0 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>1 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD*2);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>2 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD*3);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>3 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD*4);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>4 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD*5);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>5 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD*6);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>6 {
+		let iIDme = call Fnc_IsPartnerID(var(15)+$iKeyD*7);
+		if $iIDme { var(49):=$iIDme; }
+	}}}}}}}
+}
+
+#;>>sys::partner_id_search_change1
+if (var(48)=11 || var(48)=21) {
+	let iKeyD = ifelse( root,command="shift_fwd" || root,command="assist_fwd", -1, 1);
+	if numpartner>0 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>1 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD*2);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>2 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD*3);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>3 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD*4);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>4 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD*5);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>5 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD*6);
+		if $iIDme { var(49):=$iIDme; }
+	else if numpartner>6 {
+		let iIDme = call Fnc_IsPartnerID3(var(15)+$iKeyD*7);
+		if $iIDme { var(49):=$iIDme; }
+	}}}}}}}
+}
+
+
+#; Get Tag-Team assist-stateno (v53-56) (for 4-partners)
+#; タッグ時支援ステート番号取得 (4人まで対応)
+#;sys::tag_assist_stno-1
+if (playerid(var(49)),stateno=190193) && (playerid(var(49)),sysvar(1)>0) {
+	var(53-sysvar(0)+var(49)%4):=playerid(var(49)),sysvar(1);
+}
+
+
+#;==========================
+#;==========================
+#;; round-call helper ("fight!") ; ラウンド開始ヘルパー
+#;sys::helper::round_call
+persistent(0) ignorehitpause if (var(7)&4096) && roundstate=2 && !numhelper(180000) && (teamside=1) {
+	helper{
+	id:180000;
+	stateno:180000;
+	supermovetime:88888;
+	pausemovetime:88888;
+	ownpal:1 }
+}
+
+
+
+#;==========================
+#; Message / 発信 v09,38-39,53
+#;==========================
+#; No	Color	Message
+#; --	---	---
+#; 01	Yellow	First Attack	(先制攻撃)
+#; 02	Yellow	Counter Hit.	(後発攻撃)
+#; 03	Blue..	Technical...	(技巧)
+#; 04	White.	Blocking....	(ブローキング)
+#; 05	Red...	Just Defenced	(ジャストディフェンス)
+#; 06	Green.	Reversal....	(復帰)
+#; 07	Red...	Danger......	(危険)
+#; 08	Red...	Stun........	(眩暈)
+#; 10	Green.	Good........	(連続ヒット評価 1/6)
+#; 11	Blue..	Great.......	(2/6)
+#; 12	Yellow	Beautiful...	(3/6)
+#; 13	Red...	Fantastic...	(4/6)
+#; 14	White.	Marvelous...	(5/6)
+#; 15	Color.	I.K.E.M.E.N.	(6/6 最上位)
+#; 20	Blue..	Partner Assist	(僚機支援/ストライカー発動)
+#; 21	Green.	Change.....	(交替)
+#; 22	Red...	Down.......	(倒れ)
+#; 23	White.	P-Asisst OK	(僚機支援準備よし/ストライカー待機)
+
+#;--- msg type set
+#;sys::msg_counter_hit
+if var(38)<99999999{
+if (var(9)&49152)=49152 {
+	var(38):=var(38)*100+2;
+}}
+#;---
+#;sys::msg_first_attack
+if var(38)<99999999 && roundstate=2 {
+if (var(9)&96)=64 {
+	var(38):=var(38)*100+1;
+}}
+#;---
+#;sys::msg_technical
+if var(38)<99999999 && roundstate=2 {
+if (playerid(var(15)),time=2) && (var(26)!=playerid(var(15)),time) {
+	if (playerid(var(15)),stateno=5201) || (playerid(var(15)),stateno=5210)
+	 || (playerid(var(15)),stateno=115) && (playerid(var(15)),prevstateno=5201)
+	 || (playerid(var(15)),prevstateno=5112)
+	 || (playerid(var(15)),stateno=190130) && (playerid(var(15)),numtarget=0)
+	 || (playerid(var(15)),stateno=110 || playerid(var(15)),stateno=115) && (playerid(var(15)),prevstateno=[150,152]) {
+		var(38):=var(38)*100+3;
+}}}
+#;---
+#;sys::msg_change 21
+if var(38)<99999999 && roundstate=2 && numpartner {
+if playerid(var(15)),stateno=190193 && playerid(var(15)),time=2 && var(26)!=playerid(var(15)),time {
+	var(38):=var(38)*100+21;
+}}
+#;sys::msg_p-assist_ok 23
+#;sys::msg_partner_assist 20
+if var(38)<99999999 && roundstate=2 && numpartner {
+if var(15)!=var(49) && (playerid(var(49)),stateno=[190192,190193]) && playerid(var(49)),time=2 && var(27)!=playerid(var(49)),time {
+	var(38):=var(38)*100+20 +(playerid(var(49)),stateno=190192)*3;
+}}
+
+
+##;---
+#; player_alive_flag (8-11th bit) (for 3 partners) ; プレーヤー生存確認
+#;sys::partner::down
+#if numpartner && roundstate=2 && !numhelper(180020) && var(38)<99999999 {
+#if !(var(8)&(256*(2**( var(14):=time%(numpartner+1) )))) && playerid(sysvar(0)+var(14)),alive=0 {
+##if playerid(sysvar(0)),alive || playerid(sysvar(0)+1),alive || playerid(sysvar(0)+2*(numpartner>1) ),alive || playerid(sysvar(0)+3*(numpartner>2) ),alive {
+#if (var(8)&((256*(2**(numpartner+1)))-1)) != (256*(2**(numpartner+1)))-1 {
+#	helper{
+#	id:180020;
+#	stateno:180020  +(var(8):=(var(8)|(256*(2**var(14)))))*0  +(var(9):=(var(9)|262144))*0  +(var(38):=var(38)*100+22)*0;
+#	#;--- dead / redraw_lifebars / msg_down
+#	supermovetime:88888;
+#	pausemovetime:88888;
+#	ownpal:1 }
+#}}}
+
+##;--- NEW v08 -> v06 (for more than 7 partners)
+if numpartner && roundstate=2 {
+if !(var(6)&(2**( var(14):=time%(numpartner+1) ))) && playerid(sysvar(0)+var(14)),alive=0 {
+	var(6):=(var(6)|(2**var(14)));  ## dead
+	var(9):=(var(9)|262144);  ## redraw_lifebars
+	if (var(6)&((2**(numpartner+1))-1)) != (2**(numpartner+1))-1 {
+	if !numhelper(180020) && var(38)<99999999 {
+		var(38):=var(38)*100+22;  ## msg_down
+		helper{
+			id:180020;
+			stateno:180020;
+			supermovetime:88888;
+			pausemovetime:88888;
+			ownpal:1 }
+	}}
+}}
+
+
+
+#;---
+#;sys::msg_bk/jd
+if var(38)<99999999 && roundstate=2 {
+if playerid(var(15)),stateno=195500 && playerid(var(15)),time=2 && var(26)!=playerid(var(15)),time {
+	var(38):=var(38)*100+4+(var(22)=3);
+	var(57):=var(57)+100; #;score/bonus_up
+}}
+#;---
+#;sys::msg_danger
+if var(38)<99999999 && roundstate=2 {
+	if playerid(var(15)),stateno=190010 && playerid(var(15)),time=2 && var(26)!=playerid(var(15)),time {
+		var(38):=var(38)*100+7; }
+	else if var(22)=2 && !(var(9)&8192) && (playerid(var(15)),life)<=(playerid(var(15)),lifemax)/3 {
+		var(38):=var(38)*100+7; }
+}
+#;---
+#;sys::msg_stun
+if var(38)<99999999 && roundstate=2 {
+if playerid(var(15)),stateno=190116 && playerid(var(15)),time=2 && var(26)!=playerid(var(15)),time {
+	var(38):=var(38)*100+8;
+}}
+#;---
+#; warnning sound / announcer.danger! (get danger)
+#;sys::sound_danger
+if (var(38)%100=[7,8]) && (var(7)&64) {
+	playsnd{value:f10200,1; channel:0; abspan:ifelse(teamside=1,-1,1)*facing*320 }
+}
+#;---
+#;sys::msg_reversal
+if var(38)<99999999 && roundstate=2 && playerid(var(15)),time=2 && (var(26)!=playerid(var(15)),time) {
+	if playerid(var(15)),stateno=190119 || numexplod(1856852) && (playerid(var(15)),movetype=a) && (playerid(var(15)),stateno>=1000) {
+		var(38):=var(38)*100+6;
+		var(57):=var(57)+500; #;score/bonus_up
+		removeexplod{id:1856852}
+	}
+}
+#;sys::msg_reversal_checker
+if !numexplod(1856852) {
+	if (playerid(var(15)),stateno=151 || playerid(var(15)),stateno=153 || playerid(var(15)),stateno=5001 || playerid(var(15)),stateno=5011) && playerid(var(15)),hitover
+	|| playerid(var(15)),stateno=5120 && playerid(var(15)),animtime=-1 {
+		explod{ anim:0; id:1856852; scale:0,0; removetime:5 }
+}}
+
+#;--- allocate pos_y(index) max=5 ; 描画番号(位置)を割り当てる 五個まで
+#;sys::msg_pos_y
+if (var(38)%100>0) && (var(7)&8) {
+	var(39):=ifelse(!numexplod(66001),1,ifelse(!numexplod(66002),2,ifelse(!numexplod(66003),3,ifelse(!numexplod(66004),4,ifelse(!numexplod(66005),5,ifelse(!numexplod(66006),6,0))))));
+}
+#;;>>@Config.Message_Pos>>
+#;sys::msg_draw ;; draw_messages
+#; bg
+ignorehitpause if (var(38)%100>0) && var(39) && !numexplod(66100+var(39)) {
+	explod{
+	id:66100+var(39);
+	anim:f66005+(var(38)%100)*10;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+20;
+	pos:floor(ifelse(teamside=1,50*fvar(0),var(3)-50*fvar(0))), floor((76+var(39)*10)*fvar(0));
+	scale:0.5*ifelse(teamside=1,1,-1)*fvar(1),0.15*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#; msg
+ignorehitpause if (var(38)%100>0) && var(39) && !numexplod(66000+var(39)) {
+	explod{
+	id:66000+var(39);
+	anim:f66000+(var(38)%100)*10+teamside;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+21;
+	pos:floor(ifelse(teamside=1,50*fvar(0),var(3)-50*fvar(0))), floor((76+var(39)*10-6)*fvar(0));
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::rank_get_tech1/2
+if roundstate=2 && var(38) && (var(38)%100=[1,6]) { fvar(5):=fvar(5)+0.025; }
+#;---
+#;sys::msg_id_init ;; (right_shift)
+if var(38) { var(38):=(var(38)/100); }
+
+
+
+#;==========================
+#; against throw ; 投げ外し判定 v17
+#;==========================
+#;sys::counter_against_throw
+if roundstate=2 && numenemy {
+if (enemynear,ctrl) || (enemynear,stateno=[120,159]) {
+	var(17):=10;
+}}
+if var(17)>0 && numenemy {
+if (enemynear,gethitvar(isbound)=0) {
+	var(17):=var(17)-1;
+}}
+
+
+
+#;==========================
+#; life setting ; ライフ設定
+#;==========================
+#; indicate_lifebar (3rd bit) v10,40-43 ; ライフバー表示スイッチ
+#;sys::lifebar_display_switch
+if !(var(9)&4) && roundstate=2 { var(9):=(var(9)|4); }
+if (var(9)&4) {
+	if (roundstate!=2) || win || lose || drawgame || (var(9)&4096) {
+		var(9):=(var(9)^4); }
+	if playerid(var(15)),numexplod(920861) || cond(numenemy, (enemy,numexplod(920861)), 0) {
+		var(9):=(var(9)^4); }
+}
+
+#;------------------------
+#; getting_damage_switch (5th bit) ; ダメージ時判定
+#;sys::lifebar_get_damage_switch
+if (var(9)&16) { var(9):=(var(9)^16); }
+if !(var(9)&16) && (playerid(var(15)),ctrl=0) {
+	if (playerid(var(15)),movetype=h) || (playerid(var(15)),gethitvar(isbound)) {
+		var(9):=(var(9)|16); }
+	if (playerid(var(15)),stateno=[5000,5120]) || (playerid(var(15)),stateno=[190110,190116]) {
+		var(9):=(var(9)|16); }
+	if (playerid(var(15)),gethitvar(hittime)>0) {
+		var(9):=(var(9)|16); }
+}
+#;------------------------
+#;------------------------
+#;; [OPTIONS]
+#;sys::options_noKO-off (16th bit,17th bit)
+if (var(9)&65536) {
+if !(var(9)&16) {
+	var(9):=(var(9)^65536);
+}}
+#;sys::options_mod-life-stop
+if (var(9)&131072) && !(var(9)&65536) {
+	if var(41)<=(playerid(var(15)),life) {
+		var(9):=(var(9)^131072); }
+	if (playerid(var(15)),movetype=h) && (playerid(var(15)),stateno!=[120,159]) && (playerid(var(15)),stateno!=195500) {
+		var(9):=(var(9)^131072); }
+}
+#;sys::options_noko_set
+if playerid(var(15)),gethitvar(chainid)=8200 {
+	var(9):=(var(9)|196608);
+}
+if var(16)>0 && playeridexist(var(16)) {
+if playerid(var(16)),stateno=8200 && playerid(var(16)),movehit=1 {
+	var(9):=(var(9)|196608);
+}}
+#;sys::options_mod-life v23
+if var(23) {var(23):=0;}
+if (var(9)&131072) {
+	if var(41)>playerid(var(15)),life && playerid(var(15)),movetype!=h && (time%3=0) {
+		var(23):=1; }
+	if playerid(var(15)),life<=0 {
+		var(23):=1; }
+}
+
+#;------------------------
+#;------------------------
+#; red_life_flag, under_1/3 (13th bit) ; 赤体力判定、三分の一以下
+#;sys::lifebar_red_switch
+if (var(9)&8192) && var(22)=2 {
+if (playerid(var(15)),life>playerid(var(15)),lifemax/3) {
+	var(9):=(var(9)^8192);
+}}
+if !(var(9)&8192) && var(22)=2 {
+if (playerid(var(15)),life<=playerid(var(15)),lifemax/3) {
+	var(9):=(var(9)|8192);
+}}
+
+
+
+#;------------------------
+#;------------------------
+#;;>>@Config.LifeBar_Draw>>
+#; draw life bar ; ライフバー描画
+#;------------------------
+#;sys::lifebar_cls0
+if !(var(9)&4) || (roundstate!=2) {
+	removeexplod{id:490000}
+}
+if !numexplod(490000) {
+	removeexplod{id:490100}
+	removeexplod{id:490200}
+	removeexplod{id:490205}
+	removeexplod{id:490210}
+	removeexplod{id:490215}
+}
+#; face-bg / mask
+if !numexplod(490000) || (var(9)&262144) {
+	removeexplod{id:490600}
+}
+if !numexplod(490600){
+	removeexplod{id:490601}
+	removeexplod{id:490602}
+	removeexplod{id:490603}
+	removeexplod{id:490604}
+	removeexplod{id:490605}
+	removeexplod{id:490606}
+	removeexplod{id:490607}
+	removeexplod{id:490608}
+	removeexplod{id:490609}
+	removeexplod{id:490611}
+	removeexplod{id:490612}
+	removeexplod{id:490613}
+	removeexplod{id:490614}
+	removeexplod{id:490615}
+	removeexplod{id:490616}
+	removeexplod{id:490617}
+	removeexplod{id:490618}
+	removeexplod{id:490619}
+}
+
+
+#;------------------------
+#;sys::lifebar_draw0
+#;sys::lifebar_d_shadow ; 半透明影
+ignorehitpause if (var(9)&4) && (var(7)&256) {
+	ignorehitpause if !numexplod(490000) {
+		explod{
+		id:490000;
+		anim:f200101;
+		sprpriority:var(46)-3;
+		space:screen;
+		postype:left;
+		facing:ifelse(teamside=1,1,-1);
+		pos:var(31)+floor(var(30)*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+		removetime:-1;
+		scale:0.25*fvar(1),0.25*fvar(1);
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	ignorehitpause if numexplod(490000)=1 {
+		explod{
+		id:490000;
+		anim:f200102 +(var(59)=1&&teamside=2)*5;
+		sprpriority:var(46)-3;
+		space:screen;
+		postype:left;
+		facing:ifelse(teamside=1,1,-1);
+		pos:var(31)+floor(ifelse(teamside=1,-5,5)*fvar(0)),var(32);
+		removetime:-1;
+		scale:(var(30)-5)*fvar(1),0.25*fvar(1);
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	ignorehitpause if numexplod(490000)=2 {
+		explod{
+		id:490000;
+		anim:f200103;
+		sprpriority:var(46)-3;
+		ownpal:1;
+		space:screen;
+		postype:left;
+		facing:ifelse(teamside=1,1,-1);
+		pos:var(31)+floor(100*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+		removetime:-1;
+		scale:0.25*fvar(1),0.25*fvar(1);
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+}
+#;---
+#;sys::lifebar_d_timer_bg ; 時間背景
+ignorehitpause if teamside=1 && numexplod(490000)=3 {
+	explod{
+	id:490000;
+	anim:f200600;
+	sprpriority:var(46)-2;
+	space:screen;
+	postype:left;
+	pos:var(3)/2,var(32);
+	removetime:-1;
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#;sys::timer_draw ; 時間描画
+#;;>>@Config.DrawTimer>>
+ignorehitpause if teamside=1 { call Fnc_DrawTimer(); }
+
+#;---
+#;sys::lifebar_d_mod-life_bar ; ライフ変量バー
+if !numexplod(490000) || !(var(9)&131072) { removeexplod{id:490203} }
+ignorehitpause if var(41)>playerid(var(15)),life && var(41)>1 {
+ignorehitpause if numexplod(490000) && !numexplod(490203) {
+	explod{
+	id:490203;
+	anim:f200020 +(var(59)=1&&teamside=2)*5;
+	sprpriority:var(46);
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14):=var(31)+ceil(var(41)*var(30)*fvar(0)/(playerid(var(15)),lifemax))*ifelse(teamside=1,-1,1), var(32);
+	scale:var(41)*var(30)*1.00/(playerid(var(15)),lifemax)*fvar(1), 0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	trans:addalpha;
+	alpha:128,128;
+	ownpal:1 }
+}}
+ignorehitpause if numexplod(490000) && numexplod(490203)=1 {
+	explod{
+	id:490203;
+	anim:f200010;
+	sprpriority:var(46);
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	trans:addalpha;
+	alpha:128,128;
+	ownpal:1 }
+}
+#;---
+#;sys::lifebar_d_damage_bar ; ダメージバー
+if !numexplod(490000) {removeexplod{id:490201} }
+if var(40)!=(playerid(var(15)),life) {removeexplod{id:490201} }
+if var(42)!=(playerid(var(15)),life) && !(var(9)&16) {removeexplod{id:490201} }
+
+ignorehitpause if var(42)>playerid(var(15)),life {
+ignorehitpause if numexplod(490000) && !numexplod(490201) && !numexplod(490203) {
+	explod{
+	id:490201;
+	anim:f200060 +ifelse((var(9)&16),0,1) +(var(59)=1&&teamside=2)*5;
+	sprpriority:var(46)-1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14):=var(31)+ceil(var(42)*var(30)*fvar(0)/(playerid(var(15)),lifemax))*ifelse(teamside=1,-1,1), var(32);
+	scale:var(42)*var(30)*1.00/(playerid(var(15)),lifemax)*fvar(1), 0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1-ifelse((var(9)&16),0,1);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+ignorehitpause if numexplod(490000) && numexplod(490201)=1 {
+	explod{
+	id:490201;
+	anim:f200050+ifelse((var(9)&16),0,1);
+	sprpriority:var(46)-1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1-ifelse((var(9)&16),0,1);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::lifebar_d_life_bar ; ライフバー
+ignorehitpause if numexplod(490000) && !numexplod(490200) {
+	explod{
+	id:490200;
+	anim:f200020 +(var(59)=1&&teamside=2)*5;
+	sprpriority:var(46)+1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+ignorehitpause if numexplod(490000) && !numexplod(490210) {
+	explod{
+	id:490210;
+	anim:f200010;
+	sprpriority:var(46)+1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::lifebar_d_life_bar_color2 ; ライフバー - 色２
+ignorehitpause if numexplod(490000) && !numexplod(490205) {
+	explod{
+	id:490205;
+	anim:f200040 +(var(59)=1&&teamside=2)*5;
+	sprpriority:var(46)+2;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+ignorehitpause if numexplod(490000) && !numexplod(490215) {
+	explod{
+	id:490215;
+	anim:f200030;
+	sprpriority:var(46)+2;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::lifebar_d_life_changed ; ライフ変化
+if (var(8)&1) {
+	modifyexplod{
+	id:490200;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14):=var(31)+floor(var(43)*var(30)*fvar(0)/(playerid(var(15)),lifemax))*ifelse(teamside=1,-1,1), var(32);
+	scale:var(43)*var(30)*1.00/(playerid(var(15)),lifemax)*fvar(1), 0.25 *(var(43)>1)*fvar(1) }
+}
+if (var(8)&1) {
+	modifyexplod{
+	id:490210;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:0.25*fvar(1), 0.25 *(var(43)>1)*fvar(1) }
+}
+#;sys::lifebar_d_life_changed_color2
+if (var(8)&1) {
+	modifyexplod{
+	id:490205;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:var(43)*var(30)*1.00/(playerid(var(15)),lifemax)*fvar(1), 0.25 *(var(43)>1)*fvar(1);
+	trans:addalpha;
+	alpha:256-( var(19):=ifelse(var(43)>(playerid(var(15)),lifemax)*7/8, 256, var(43)*8/7*256/(playerid(var(15)),lifemax)) ),  var(19) }
+}
+if (var(8)&1) {
+	modifyexplod{
+	id:490215;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:0.25*fvar(1), 0.25 *(var(43)>1)*fvar(1);
+	trans:addalpha;
+	alpha:256-var(19),var(19) }
+}
+#;sys::lifebar_d_life_changed_color2_warnning
+if (var(8)&1) && (var(9)&8192)>0 {
+	modifyexplod{
+	id:490205;
+	trans:addalpha;
+	alpha:256-( var(19):=abs((gametime%33)-16)*16 ), var(19) }
+}
+if (var(8)&1) && (var(9)&8192)>0 {
+	modifyexplod{
+	id:490215;
+	trans:addalpha;
+	alpha:256-var(19),var(19) }
+}
+#;---
+#;sys::lifebar_d_life_no_damage ; ライフバー ダメージなし
+if !numexplod(490000) || var(43)<(playerid(var(15)),lifemax) {removeexplod{id:490206} }
+ignorehitpause if var(43)>=(playerid(var(15)),lifemax) {
+ignorehitpause if numexplod(490000) && !numexplod(490206) {
+	explod{
+	id:490206;
+	anim:f200000;
+	sprpriority:var(46)+2;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14):=var(31)+floor(var(30)*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+ignorehitpause if var(43)>=(playerid(var(15)),lifemax) {
+ignorehitpause if numexplod(490000) && numexplod(490206)=1 {
+	explod{
+	id:490206;
+	anim:f200001 +(var(59)=1&&teamside=2)*5;
+	sprpriority:var(46)+2;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:var(30)*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+#;---
+#;sys::lifebar_d_frame ; 外枠
+ignorehitpause if numexplod(490200) && !numexplod(490100) {
+	explod{
+	id:490100;
+	anim:f200200 +!(var(7)&2);
+	sprpriority:var(46)+3;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14):=var(31)+floor(100*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::lifebar_d_frame_light ; 外枠光沢
+ignorehitpause if numexplod(490100)=1 {
+	explod{
+	id:490100;
+	anim:f200220;
+	sprpriority:var(46)+4;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::lifebar_d_bar_stun_alert ; ピヨリ警告
+ignorehitpause if (var(50)>800)||(playerid(var(15)),anim=5300)||(playerid(var(15)),numhelper(403000)) {
+ignorehitpause if (numexplod(490100)=2) && (time%12=0) {
+	explod{
+	id:490100;
+	anim:f200300;
+	sprpriority:var(46)+4;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31)+floor(100*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+#;---
+#;sys::lifebar_d_get_damage_light ; ダメージ時 ライト
+if !numexplod(490000) {removeexplod{id:490225} }
+if var(40)!=(playerid(var(15)),life) {removeexplod{id:490225} }
+if var(42)!=(playerid(var(15)),life) && !(var(9)&16) {removeexplod{id:490225} }
+
+ignorehitpause if var(40)>(playerid(var(15)),life) {
+ignorehitpause if numexplod(490200) && !numexplod(490225) {
+	explod{
+	id:490225;
+	anim:f200500;
+	sprpriority:var(46)+4;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.5*fvar(1),0.5*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+
+if numexplod(490225) {
+	modifyexplod{
+	id:490225;
+	postype:left;
+	pos:var(31)+floor(var(43)*var(30)*fvar(0)/(playerid(var(15)),lifemax))*ifelse(teamside=1,-1,1), var(32) }
+}
+
+#;---
+#;---face draw info ; 顔描画情報
+#;; fv20-36
+#;; player-main:     f20,f22: pos_x/y,  f24,f26: scale_x/y,  f28: alpha_SSS/DDD,  f32: spr-priority
+#;; player-partners: fv+1, f34-35: offset_x/y, f36: offset_scale_x&y
+#;---
+#;sys::lifebar_d_face_shadow ; 顔影
+ignorehitpause if (var(9)&4) && (var(7)&32768) {
+ignorehitpause if !numexplod(490600) && selfanimexist(909002) {
+	explod{
+	id:490600;
+	anim:f200114;
+	sprpriority:floor(fvar(32))+1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:floor((fvar(20)-2*ifelse(teamside=1,1,-1))*fvar(0)), floor((fvar(22)+25)*fvar(0));
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+#;---
+ignorehitpause if numpartner {
+	var(14):= var(15)+1+(time%numpartner) -(var(15)-sysvar(0)+1+(time%numpartner)>numpartner)*(numpartner+1);
+	ignorehitpause if playeridexist(var(14)) && playerid(var(14)),ishelper=0 && playerid(var(14)),teamside=teamside {
+
+		ignorehitpause if playerid(var(14)),alive && numexplod(490600) {
+			#;sys::lifebar_d_partner_lifebar_bg ; パートナー - ライフ背景
+			ignorehitpause if !numexplod(490601+(time%numpartner)) {
+				explod{
+				id:490601+(time%numpartner);
+				anim:f200115+(time%numpartner%3);
+				sprpriority:floor(fvar(33)) +(time%numpartner)*10 +1;
+				space:screen;
+				postype:left;
+				facing:ifelse(teamside=1,1,-1);
+				pos:floor((fvar(21) +10*ifelse(teamside=1,1,-1) +fvar(34)*(time%numpartner) )*fvar(0)) , floor((fvar(23) +2 +fvar(35)*(time%numpartner) )*fvar(0));
+				scale:0.25*fvar(1),0.25*fvar(1);
+				bindtime:-1;
+				removetime:-1;
+				ignorehitpause:1;
+				supermovetime:-1;
+				pausemovetime:-1;
+				ownpal:1 }
+			}
+			#;sys::lifebar_d_partner_lifebar_bar ; パートナー - ライフ
+			ignorehitpause if !numexplod(490611+(time%numpartner)) {
+				explod{
+				id:490611+(time%numpartner);
+				anim:f200110+var(14)%(numpartner+1)%4;
+				sprpriority:floor(fvar(33)) +(time%numpartner)*10 +2;
+				space:screen;
+				postype:left;
+				facing:ifelse(teamside=1,1,-1);
+				pos:floor((fvar(21) +10*ifelse(teamside=1,1,-1) +fvar(34)*(time%numpartner) )*fvar(0)) , floor((fvar(23) +2 +fvar(35)*(time%numpartner) )*fvar(0));
+				scale:1*fvar(1),1*fvar(1);
+				bindtime:-1;
+				removetime:-1;
+				ignorehitpause:1;
+				supermovetime:-1;
+				pausemovetime:-1;
+				ownpal:1 }
+			}
+		}
+
+		#;sys::lifebar_partner_life_changed
+		ignorehitpause if numexplod(490611+(time%numpartner)) {
+			modifyexplod{
+			id:490611+(time%numpartner);
+			scale:(playerid(var(14)),life)*2.0/(playerid(var(14)),lifemax)*fvar(1), 1*fvar(1);
+			trans:addalpha;
+			alpha:ifelse(playerid(var(14)),stateno=190192, (playerid(var(14)),time%32>10)*128+128, 256), 0 }
+		}
+
+		#;sys::lifebar_partner_alive_changed
+		ignorehitpause if playerid(var(14)),alive=0 && numexplod(490601+(time%numpartner)) {
+			removeexplod{ id:490601+(time%numpartner) }
+			###var(9):=(var(9)|262144);
+		}
+
+	}
+}
+
+
+#;------------------------
+#;------------------------
+#;sys::sound_announcer_big_damage ;; (opponent)
+#; 放送音.大ダメージ (相手)
+if (roundstate=2) && (playerid(var(15)),life)>0 && var(40)-(playerid(var(15)),life)>228 {
+if (var(7)&64) {
+if (playerid(var(15)),movetype=h) && (playerid(var(15)),gethitvar(guarded)=0) && (playerid(var(15)),stateno!=[190190,190199]) {
+	playsnd{value:f10100,2; channel:0; abspan:ifelse(teamside=1,1,-1)*facing*320 }
+}}}
+
+
+
+
+
+#;------------------------
+#;------------------------
+#; combo indicator, code by k' d(^-^)b
+#; modified by MageKing17
+#; コンボ数表示、K'さんより、MageKing17さん改良
+#; v11:	nums temp + now ([0-9999]*1000 + [0-9999])
+#; v12:	real combo + timer (timer[0-9999]*1000 + [0-9999])
+#; v13:	pos_x / timer
+#; v14:	temp: combo_counter / hittype
+#;--- ---
+#; >03 hits: good
+#; >05 hits: great
+#; >10 hits: beautiful
+#; >15 hits: fantastic
+#; >20 hits: marvelous
+#; >25 hits: m.u.g.e.n
+#;;--- announcer.combine + msg_combo (opponent)
+#;sys::sound_announcer_combo
+if (roundstate=2) && var(38)<99999999 && numenemy {
+if (enemy,sysfvar(0)>0) && (playeridexist(floor(enemy,sysfvar(0)))) {
+if (playerid(floor(enemy,sysfvar(0))),var(0)=90900) && (playerid(floor(enemy,sysfvar(0))),var(11)%10000<1) && (var(14):=(playerid(floor(enemy,sysfvar(0))),var(12)%10000)) && var(14)>2 {
+if (var(38):=var(38)*100+10+(var(14)>4)+(var(14)>9)+(var(14)>14)+(var(14)>19)+(var(14)>24)) && (var(14)>4) && (var(7)&64) {
+	playsnd{value:f10100,3 +(var(14)>9); channel:0; abspan:ifelse(teamside=1,-1,1)*facing*320 }
+}}}}
+#;;sys::combo_real_reset
+if (var(11)%10000<1) { var(12):=0; }
+#;---
+#;sys::combo_indicate_nums
+#;; コンボ数計算
+if (var(11)/10000)=(var(11)%10000) && (var(11)%10000)<9999 {
+if (playerid(var(15)),ctrl=0) && (playerid(var(15)),stateno!=[120,159]) && (playerid(var(15)),stateno!=[190190,190199]) && (playerid(var(15)),stateno!=195500) {
+	if var(40)>(playerid(var(15)),life) && (var(9)&16) 
+	 || playerid(var(15)),gethitvar(hitshaketime)>0 && playerid(var(15)),gethitvar(damage)=0 && playerid(var(15)),time=1 && (var(26)!=playerid(var(15)),time) {
+		var(11):=var(11)+1;
+		var(12):=var(12)+(playerid(var(15)),stateno=[5000,5199]); ##;<-real combo set
+	}
+	#;--- ;memo; v#=v#+(P#,gethitvar(hitcount))*(!P#,gethitvar(guarded))
+}}
+#;sys::combo_indicate_init
+if (var(11)%10000)>0 {
+if (roundstate>3) || !(var(9)&16) || (playerid(var(15)),ctrl) || (playerid(var(15)),stateno<160) || (playerid(var(15)),stateno=8200) || (var(9)&4096) {
+	var(11):=0;
+}}
+#;---
+#;;;>>@Config.Combo.Pos>>
+#;;sys::combo_d_pos ;; v13: pos x (240p)
+if (var(11)%10000=2) && ((var(11)/10000)!=(var(11)%10000)) {
+	var(13):=ifelse(teamside=2,-150,floor(var(3)/fvar(0))+150);
+}
+if (var(11)%10000>1) && (var(11)/10000)<(var(11)%10000) {
+	var(13):=var(13)+4*ifelse(teamside=2,-1,1);
+}
+if numexplod(97800) && ((teamside=2 && var(13)<50) || (teamside=1 && var(13)>floor(var(3)/fvar(0))-50)) {
+	var(13):=var(13)+(ifelse(teamside=2,50,floor(var(3)/fvar(0))-50)-var(13))/3 +teamside*2-3;
+}
+#;---
+#;sys::combo_d_cls
+if (var(11)%10000>1) && ((var(11)/10000)!=(var(11)%10000) || (var(12)/10000=0)) {
+	removeexplod{id:97800}
+	var(12):= (var(12)%10000) +280000; ##;;<-view time reset
+}
+if !numexplod(97800) {
+	removeexplod{id:97801}
+	removeexplod{id:97802}
+	removeexplod{id:97803}
+	removeexplod{id:97804}
+	removeexplod{id:97805}
+}
+#;---
+#;sys::combo_d_bg
+if (var(7)&4) {
+if (var(11)%10000>1) && !numexplod(97800) {
+	explod{
+	id:97800;
+	anim:f300155 +( var(14):=(playerid(var(15)),stateno!=[5000,5199]) );
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+22;
+	scale:0.5*fvar(1),0.15*fvar(1);
+	facing:ifelse(teamside=1,-1,1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+#;sys::combo_d_bg_shadow
+if numexplod(97800)=1 {
+	explod{
+	id:97800;
+	anim:f300157;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+20;
+	scale:0.7*fvar(1),1*fvar(1);
+	facing:ifelse(teamside=1,-1,1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::combo_d_hits
+if numexplod(97800) && !numexplod(97801) {
+	explod{
+	id:97801;
+	anim:f300150+var(14);
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+23;
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::combo_d_nums
+if numexplod(97800) && !numexplod(97802) {
+	explod{
+	id:97802;
+	anim:f300050+((var(11)%10000)%10)  +var(14)*10;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+24;
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if (var(11)%10000>9) && numexplod(97800) && !numexplod(97803) {
+	explod{
+	id:97803;
+	anim:f300050+(((var(11)%10000)/10)%10)  +var(14)*10;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+24;
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if (var(11)%10000>99) && numexplod(97800) && !numexplod(97804) {
+	explod{
+	id:97804;
+	anim:f300050+(((var(11)%10000)/100)%10)  +var(14)*10;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+24;
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if (var(11)%10000>999) && numexplod(97800) && !numexplod(97805) {
+	explod{
+	id:97805;
+	anim:f300050+(((var(11)%10000)/1000)%10)  +var(14)*10;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+24;
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::combo_d_changed
+if numexplod(97800) {
+	modifyexplod{
+	id:97800;
+	postype:left;
+	pos:floor(var(13)*fvar(0)), floor(75*fvar(0)) }
+}
+if numexplod(97801) {
+	modifyexplod{
+	id:97801;
+	postype:left;
+	pos:floor((var(13)+(numexplod(97803)+numexplod(97804)+numexplod(97805))*7.5-42)*fvar(0)), floor(69*fvar(0)) }
+}
+if numexplod(97802) {
+	modifyexplod{
+	id:97802;
+	postype:left;
+	pos:floor((var(13)+(numexplod(97803)+numexplod(97804)+numexplod(97805))*7.5-9)*fvar(0)), floor(79*fvar(0)) }
+}
+if numexplod(97803) {
+	modifyexplod{
+	id:97803;
+	postype:left;
+	pos:floor((var(13)+(numexplod(97803)+numexplod(97804)+numexplod(97805))*7.5-24)*fvar(0)), floor(79*fvar(0)) }
+}
+if numexplod(97804) {
+	modifyexplod{
+	id:97804;
+	postype:left;
+	pos:floor((var(13)+(numexplod(97803)+numexplod(97804)+numexplod(97805))*7.5-39)*fvar(0)), floor(79*fvar(0)) }
+}
+if numexplod(97805) {
+	modifyexplod{
+	id:97805;
+	postype:left;
+	pos:floor((var(13)+(numexplod(97803)+numexplod(97804)+numexplod(97805))*7.5-54)*fvar(0)), floor(79*fvar(0)) }
+}
+#;---
+#;sys::combo_update_counter
+if (var(11)/10000)!=(var(11)%10000) { var(11):=(var(11)%10000)*10001; }
+#;sys::combo_d_display_time
+if (var(12)>=10000) { var(12):=var(12)-10000; }
+
+
+
+
+
+
+
+#;------------------------
+#;------------------------
+#; modify life bar switch (1st bit)
+#; 描画変動
+#;sys::life_changed
+if (var(8)&1) {
+if var(43)=(playerid(var(15)),life) {
+	var(8):=(var(8)|1);
+}}
+if !(var(8)&1) {
+if var(43)!=(playerid(var(15)),life) {
+	var(8):=(var(8)^1);
+}}
+
+#;;>>@Config.DamageToPower>>
+#;sys::manage_damage_to_pow ; パワー管理 ; pow type v22 [1,2,3,4]
+if roundstate=2 && var(20)=power && (var(22)=1||var(22)=4) {
+if var(40)-(playerid(var(15)),life)>0 {
+	poweradd{value:(var(40)-(playerid(var(15)),life))*ifelse(playerid(var(15)),gethitvar(guarded),3,1)}
+}}
+if roundstate=2 && var(20)=power && (var(22)=3) {
+	if var(40)-(playerid(var(15)),life)>0 {
+		poweradd{value:floor((var(40)-(playerid(var(15)),life)+10)*ifelse(playerid(var(15)),gethitvar(guarded),5,1))}
+	}
+	if playerid(var(15)),stateno=150||playerid(var(15)),stateno=152||playerid(var(15)),stateno=154 {
+	if playerid(var(15)),time=1 && (var(26)!=playerid(var(15)),time) {
+		poweradd{value:floor((var(40)-(playerid(var(15)),life)+10)*ifelse(playerid(var(15)),gethitvar(guarded),5,1))}
+	}}
+}
+#;---
+#;sys::memo_life ;; ライフ保存
+if var(40)!=(playerid(var(15)),life) && roundstate=2 {
+	var(40):=(playerid(var(15)),life);
+}
+#;sys::memo_mod-life ;; ライフ変動保存
+if var(41)!=(playerid(var(15)),life) {
+if !(var(9)&131072) {
+	var(41):=(playerid(var(15)),life) +(playerid(var(15)),life<=0);
+}}
+#;sys::memo_damage ;; ダメージ保存
+if var(42)!=(playerid(var(15)),life) {
+if !(var(9)&16) {
+	var(42):=(playerid(var(15)),life);
+}}
+#;sys::modify_life_for_view ;; ライフ変化
+if var(43)!=(playerid(var(15)),life) && roundstate=2 {
+	var(43):=var(43)+((playerid(var(15)),life)-var(43))/8+ifelse(var(43)>(playerid(var(15)),life),-1,1);
+}
+
+#;------------------------
+#;------------------------
+
+
+
+
+
+#;==========================
+#; guard crush point
+#; ガード クラッシュ ポイント
+#;==========================
+#; v35-36
+#;sys::guard_b_recover1 ;; recover -> stop ; (回復 -> 停止)
+if var(35) && playerid(var(15)),movetype=h { var(35):=0; }
+#;sys::guard_b_recover2 ;; recover -> start_normal_speed ; (回復 -> 開始 - 通常速度)
+if !var(35) && playeridexist(var(16)) {
+if playerid(var(16)),movetype=h {
+	var(35):=1;
+}}
+#;sys::guard_b_cost ;; guard_point_consumptiom ; (ガードポイント消耗)
+if (var(7)&2) {
+if (playerid(var(15)),stateno=150)||(playerid(var(15)),stateno=152)||(playerid(var(15)),stateno=154) {
+if (playerid(var(15)),time=1) && (var(26)!=playerid(var(15)),time) {
+	var(36):=var(36) +2 +playerid(var(15)),gethitvar(damage) +playerid(var(15)),gethitvar(hitshaketime)*2;
+}}}
+#;sys::guard_b_recover ; (回復)
+if var(36)>0{
+if var(35)=1 && (time%125=0) || (playerid(var(15)),stateno=190010) {
+	var(36):=var(36)-50;
+}}
+#;sys::guard_b_range ; (範囲)
+if (var(36)!=[0,1000]) { var(36):=ifelse(var(36)<0,0,1000); }
+#;------------------------
+#;;>>@Config.GuardBar>>
+#; draw guard bar ; ガードゲージ描画
+#;sys::guardbar_d_cls
+#; bar1
+if !(var(9)&4) {
+	removeexplod{id:493000}
+}
+if !numexplod(493000) {
+	removeexplod{id:493010}
+	removeexplod{id:493020}
+}
+
+if !numexplod(493000)||var(37)<800 {
+	removeexplod{id:493030}
+}
+#;---
+#;sys::guardbar_d_bar ; ガードゲージ
+if (var(7)&2) {
+if (var(9)&4) && numexplod(490000) && numexplod(490100) && !numexplod(493000) {
+	explod{
+	id:493000;
+	anim:f210000;
+	sprpriority:var(46)+1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+if numexplod(493000) && !numexplod(493010) {
+	explod{
+	id:493010;
+	anim:f210005;
+	sprpriority:var(46)+2;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::guardbar_d_bar_bg
+if numexplod(493000) && !numexplod(493020) {
+	explod{
+	id:493020;
+	anim:f210010;
+	sprpriority:var(46)-3;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31)+floor(100*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::guardbar_d_changed ; ガードバー変化
+if (var(8)&4) {
+	modifyexplod{
+	id:493000;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14):=var(31)-floor(((1000-var(37))*39/1000-3)*fvar(0))*ifelse(teamside=1,1,-1), var(32)+floor(6*fvar(0));
+	scale:(1000-var(37))/4000.0*fvar(1), 0.25 *(var(37)<1000)*fvar(1) }
+
+	modifyexplod{
+	id:493010;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(14),var(32)+floor(6*fvar(0));
+	scale:0.25*fvar(1),0.25 *(var(37)<1000)*fvar(1) }
+}
+#;---
+#;sys::guardbar_d_frame_warnning ; 外枠2 警告
+if var(37)>800 && numexplod(493010) && !numexplod(493030) {
+	explod{
+	id:493030;
+	anim:f210012;
+	sprpriority:var(46)+6;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31)+floor(100*fvar(0))*ifelse(teamside=1,-1,1), var(32);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;------------------------
+#;------------------------
+#;sys::guard_b_modify ; (3rd bit)
+#; 描画変動
+if (var(8)&4) && var(37)=var(36) {var(8):=(var(8)|4);}
+if !(var(8)&4) && var(37)!=var(36)||!time {var(8):=(var(8)^4);}
+#;sys::guard_b_memo_guard_point
+#; ガードポイント保存
+if var(37)!=var(36) { var(37):=var(36); }
+
+
+
+
+
+
+#;==========================
+#; power bar ; パワーバー
+#;==========================
+#; v20-22,25,30
+#; v22: type
+#; 1: N(normal)
+#; 2: C(blocking)
+#; 3: S(just defense)
+#; 4: T(team mode striker)
+
+#;sys::powerbar_indicate_switch ;; (4th bit)
+#; パワーバー表示スイッチ
+
+if !(var(9)&8) && roundstate=2 { var(9):=(var(9)|8); }
+
+if (var(9)&8) {
+	if (roundstate!=2) || win || lose || drawgame || (var(9)&4096) || const(size.height)=1 || !(var(7)&512) {
+		var(9):=(var(9)^8); }
+	if (playerid(var(15)),numexplod(920861)) || (playerid(var(15)),numexplod(920862)) {
+		var(9):=(var(9)^8); }
+	if numenemy {
+	if enemy,numexplod(920861) {
+		var(9):=(var(9)^8); }}
+}
+#;------------------------
+#; modify power ; パワー制御
+#;------------------------
+
+#;sys::powerbar_manage_get
+if var(20)>0 && power>var(20) {
+if (playerid(var(15)),stateno!=195500) && (playerid(var(15)),movetype!=h) {
+if (var(22)=2 && power<1000) || (var(22)=3 && power<2000) {
+	poweradd{value:-(power-var(20))/ifelse(var(22)=2,2,1)}
+}}}
+
+#;------------------------
+#; type 1 N (normal)
+#;------------------------
+
+#;------------------------
+#; type 2 C (blocking)
+#;------------------------
+#;sys::powerbar_up1 ;; powerup during (1/3)redlife ;; 赤体力(1/3)時増加
+if var(22)=2 && power<1000 {
+if (var(9)&8192) {
+	poweradd{value:2}
+}}
+#;sys::powerbar_range2
+if var(22)=2 && power>=1000 && var(20)<=power {
+	powerset{value:ifelse(!(var(9)&8192),1000,powermax)}
+}
+if var(22)=2 && var(20)>power {
+if power<ifelse(!(var(9)&8192),1000,powermax) {
+	powerset{value:0}
+}}
+
+#;------------------------
+#; type 3 S (just defense / max mode)
+#;------------------------
+#; v25:	max mode timer(マックス状態時間)
+#;sys::powerbar_max-mode_on ; マックスモード開始
+if roundstate=2 && var(22)=3 && var(25)=0 {
+if power>=2000 {
+	var(25):=2000; ##;;<- max_mode_time&flag
+}}
+#;---
+#;sys::powerbar_max-mode_eff ; パワーマックス時効果
+#;sys::sound_power-max-mode
+if roundstate=2 && var(22)=3 && var(25)=2000 {
+	playsnd{value:f10200,3; channel:1 }
+}
+#; bg
+if roundstate=2 && var(22)=3 && var(25)=2000 {
+if !numexplod(21310) {
+	explod{
+	id:21310;
+	anim:f210310;
+	sprpriority:-52;
+	postype:p1;
+	scale:playerid(var(15)),const(size.xscale)*1.5*ifelse(random<500,1,-1)*fvar(1), playerid(var(15)),const(size.yscale)*1.15*ifelse(random<500,1,-1)*fvar(1);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+if numexplod(21310) {
+	modifyexplod{
+	id:21310;
+	postype:p1;
+	pos:floor(playerid(var(15)),pos x-pos x+const(size.mid.pos.x))*facing,floor(playerid(var(15)),pos y-pos y+const(size.mid.pos.y)) }
+}
+if var(22)=3 && var(25)=2000 { powerset{value:powermax} }
+#;---
+#;sys::powerbar_max-mode_to-max ; パワー制御
+if var(22)=3 && var(25)>0 {
+	var(25):=var(25)-ifelse(power>=powermax,2, ifelse(powermax-power>var(25),var(25)-2,(powermax-power)) );
+}
+#;sys::powerbar_max-mode_free-pow
+if var(22)=3 && var(25)>0 && power<powermax { powerset{value:powermax} }
+#;---
+#;sys::powerbar_max-mode_over
+if var(22)=3 && var(25)<1 && power>=powermax { var(25):=-2000; }
+#;sys::powerbar_max-mode_pow-reset
+if var(22)=3 {
+	if var(25)=-2000 {
+		var(21):=0;
+		powerset{value:powermax/3}
+	}
+	if !time && power>=powermax*2/3 {
+		powerset{value:powermax/3}
+	}
+}
+#;sys::powerbar_max-mode_init
+if var(22)=3 && var(25)=-2000 { var(25):=0; }
+
+#;------------------------
+#;------------------------
+#;;>>@Config.PowerBar_Draw>>
+#; draw power bar ; パワー描画
+#;------------------------
+#;sys::powerbar_d_cls
+if numexplod(492000) {
+if !(var(9)&8) || (var(20)/1000)!=(power/1000) {
+	removeexplod{id:492000}
+}}
+if !numexplod(492000) {
+	removeexplod{id:492300}
+	removeexplod{id:492200}
+	removeexplod{id:492201}
+	removeexplod{id:492100}
+}
+
+#;------------------------
+#; type 1 N (normal)
+#;------------------------
+#;sys::powerbar_d_bg ; 背景
+if (var(9)&8) && !numexplod(492000) {
+	explod{
+	id:492000;
+	anim:f100050+var(22);
+	sprpriority:-1;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,-1,1);
+	pos:var(33),var(34);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	removetime:-1;
+	bindtime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::powerbar_d_bar1-1/2 ; パワーバー
+if numexplod(492000) && !numexplod(492200) {
+	explod{
+	id:492200;
+	anim:f100100 +( var(14):= ifelse(power>=powermax||power>=10000||(power>=2000&&(var(22)=[2,3])), 10, (power/1000)%6) +((var(22)-1)%3)*1000 );
+	sprpriority:0;
+	space:screen;
+	postype:left;
+	pos:0,800;
+	facing:ifelse(teamside=1,-1,1);
+	scale:1*fvar(1),1*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::powerbar_d_bar1-2/2
+if numexplod(492000) && !numexplod(492201) {
+	explod{
+	id:492201;
+	anim:f100200+var(14);
+	sprpriority:0;
+	space:screen;
+	postype:left;
+	pos:0,800;
+	facing:ifelse(teamside=1,-1,1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::powerbar_d_bar2-1/2 ; パワーバー
+if numexplod(492000) && numexplod(492200)=1 {
+	explod{
+	id:492200;
+	anim:f100300+var(14);
+	sprpriority:1;
+	space:screen;
+	postype:left;
+	pos:0,800;
+	facing:ifelse(teamside=1,-1,1);
+	scale:1*fvar(1),1*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::powerbar_d_bar2-2/2
+if numexplod(492000) && numexplod(492201)=1 {
+	explod{
+	id:492201;
+	anim:f100400+var(14);
+	sprpriority:1;
+	space:screen;
+	postype:left;
+	pos:0,800;
+	facing:ifelse(teamside=1,-1,1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::powerbar_d_power_changed-1 ; パワー変化1
+if (var(22)!=[2,3]) && (var(9)&8) && (var(8)&2) {
+	modifyexplod{
+	id:492200;
+	postype:left;
+	facing:ifelse(teamside=1,-1,1);
+	pos:var(14):=var(33)+floor((ifelse((var(21)>=powermax||var(21)>=10000),1000,(var(21)%1000))*80/1000-80)*fvar(0))*ifelse(teamside=1,1,-1),var(34);
+	scale:ifelse(var(21)>=powermax||var(21)>=10000,0.25,(var(21)%1000)*0.25/1000.00)*fvar(1), 0.25*fvar(1) }
+}
+#;---
+#;sys::powerbar_d_power_changed-2 ; パワー変化2
+if (var(22)=2) && (var(9)&8) && (var(8)&2) {
+	modifyexplod{
+	id:492200;
+	postype:left;
+	facing:ifelse(teamside=1,-1,1);
+	pos:var(14):=var(33)+floor((ifelse((var(21)>0&&var(21)%1000=0),1000,(var(21)%1000))*80/1000-80)*fvar(0))*ifelse(teamside=1,1,-1),var(34);
+	scale:ifelse(var(21)>0&&(var(21)%1000=0),0.25,(var(21)%1000)*0.25/1000.00)*fvar(1), 0.25*fvar(1) }
+}
+#;---
+#;sys::powerbar_d_power_changed-3a ; パワー変化3a
+if (var(22)=3) && (var(9)&8) && (var(8)&2) && !var(25) {
+	modifyexplod{
+	id:492200;
+	postype:left;
+	facing:ifelse(teamside=1,-1,1);
+	pos:var(14):=var(33)+floor((ifelse((var(21)>0&&var(21)%2000=0),1000,(var(21)%2000))*80/2000-80)*fvar(0))*ifelse(teamside=1,1,-1),var(34);
+	scale:ifelse(var(21)>0&&(var(21)%2000=0),0.25,(var(21)%2000)*0.25/2000.00)*fvar(1), 0.25*fvar(1) }
+}
+#;sys::powerbar_d_power_changed-3b ; パワー変化3b
+if (var(22)=3) && (var(9)&8) && (var(8)&2) && var(25)>0 {
+	modifyexplod{
+	id:492200;
+	postype:left;
+	facing:ifelse(teamside=1,-1,1);
+	pos:var(14):=var(33)+floor((var(25)*80/2000-80)*fvar(0))*ifelse(teamside=1,1,-1),var(34);
+	scale:var(25)*0.25/2000.00*fvar(1), 0.25*fvar(1) }
+}
+#;---
+if (var(9)&8) && (var(8)&2) {
+	modifyexplod{
+	id:492201;
+	postype:left;
+	facing:ifelse(teamside=1,-1,1);
+	pos:var(14),var(34) }
+}
+#;---
+#;sys::powerbar_d_frame ; 外枠
+if numexplod(492200)>1 && !numexplod(492100) {
+	explod{
+	id:492100;
+	anim:f100000+var(22);
+	sprpriority:4;
+	space:screen;
+	postype:left;
+	pos:var(33),var(34);
+	facing:ifelse(teamside=1,-1,1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	removetime:-1;
+	bindtime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::powerbar_d_frame_light ; 外枠光沢
+if numexplod(492100)=1 {
+	explod{
+	id:492100;
+	anim:f100060;
+	sprpriority:5;
+	space:screen;
+	postype:left;
+	pos:var(33),var(34);
+	facing:ifelse(teamside=1,-1,1);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	removetime:-1;
+	bindtime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::powerbar_d_nums ; 数字
+if (var(9)&8) && power>=1000 && !numexplod(492300) && numexplod(492100) {
+	explod{
+	id:492300;
+	anim:f100500 +ifelse(power>=ifelse((var(22)=[2,3]),2000,10000), 10, power/1000) +((var(22)-1)%3)*1000;
+	sprpriority:6;
+	space:screen;
+	postype:left;
+	pos:var(33)+floor(60*fvar(0))*ifelse(teamside=1,-1,1), var(34);
+	scale:0.25*fvar(1),0.25*fvar(1);
+	removetime:-1;
+	bindtime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#;------------------------
+#;------------------------
+#;sys::power_changed ;; (2nd bit) ; 描画変動
+if var(8)&2 && var(21)=var(20) { var(8):=(var(8)|2); }
+if !(var(8)&2) && var(21)!=var(20) { var(8):=(var(8)^2); }
+#;sys::memo_power ; パワー存用
+if var(20)!=power && (roundstate=2) { var(20):=power; }
+#;sys::modify_power_for_view ; パワー変化
+if var(21)!=var(20) && (roundstate=2) {
+	var(21):=var(21)+ (var(20)-var(21))/8+ifelse(var(21)>var(20),-1,1);
+}
+
+
+
+
+
+
+#;==========================
+#;==========================
+#;sys::jump_counter ;; v44 ; ジャンプ計
+if (root,command="holddown") && var(44)<2 && playerid(var(15)),statetype!=a { var(44):=16; }
+if var(44)>0 { var(44):=var(44)-1; }
+
+#;sys::blocking/jd_system ; ブロキング/ジャストD (projid=195502/195503)
+if (var(22)=[2,3]) && roundstate=2 && (root,numprojid(195502)<3) && (root,numprojid(195503)<3) {
+if (root,command="holdfwd"&&!(var(8)&16384)&&var(22)=2) || (root,command="holdback"&&!(var(8)&32768)&&var(22)=3) || var(51)*120>random {
+	projectile{
+	projid:195500+var(22);
+	projanim:anim;
+	projscale:0,0;
+	projhitanim:-1;
+	projremovetime:6;
+	attr:a,nt;
+	guard.dist:0;
+	projedgebound:8000;
+	projstagebound:8000;
+	projheightbound:-8000,8000;
+	postype:left;
+	offset:ifelse(teamside=1,1,-1)*2000;
+	sparkno:-1 }
+}}
+
+
+
+
+
+
+#;==========================
+#;==========================
+#; First Attack (6th-7th bit) ; 専制攻撃
+#; for special chars and stages ; 特殊キャラ、ステージ用
+#;sys::fa_switch
+if !(var(9)&32) && roundstate=2 && win=0 && lose=0 {
+	if (var(9)&64) {
+		var(9):=(var(9)|32); }
+	if playerid(var(15)),gethitvar(isbound) {
+		var(9):=(var(9)|32); }
+	if playerid(var(15)),movetype=h && playerid(var(15)),gethitvar(guarded)=0 && (playerid(var(15)),stateno!=[190190,190196]) && playerid(var(15)),stateno!=195500 {
+		var(9):=(var(9)|32); }
+}
+#;__;	triggerall=!(var(9)&32) && !(var(9)&64)
+if !(var(9)&96) {
+if roundstate=2 && win=0 && lose=0 && playeridexist(var(16)) {
+	if playerid(var(16)),gethitvar(isbound) {
+		var(9):=(var(9)|64); }
+	if playerid(var(16)),movetype=h && playerid(var(16)),gethitvar(guarded)=0 && (playerid(var(16)),stateno!=[190190,190196]) && playerid(var(16)),stateno!=195500 {
+		var(9):=(var(9)|64); }
+}}
+#;---
+#;;>>@Config.Icon_FirstAttack_Pos>>
+#;;先制攻撃アイコン
+#;sys::fa_d_icon
+if (var(7)&16) {
+if (var(9)&68)=68 && !numexplod(400010) {
+	explod{
+	id:400010;
+	anim:f400010;
+	sprpriority:var(46);
+	space:screen;
+	postype:left;
+	pos:var(31) +floor(98*fvar(0)) *ifelse(teamside=1,-1,1) ,  var(32)-floor(11*fvar(0));
+	scale:0.25*fvar(1),0.25*fvar(1);
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+#;sys::fa_d_cls
+if !(var(9)&4) && numexplod(400010) { removeexplod{id:400010} }
+#;---
+if (var(9)&96)=64 && (roundstate=2) {
+	#;sys::fa_bonus
+	var(57):=var(57)+1000;
+	#;sys::sound_announcer_first_attack
+	if (var(7)&64) { playsnd{value:f10100,1; channel:0; abspan:ifelse(teamside=1,-1,1)*facing*320 }}
+}
+
+
+#;==========================
+#;;>>@Config.Counter_Hit>>
+#;==========================
+#;sys::counter_hit ;; (14-15th bit) ; カウンター
+if (var(9)&49152) {
+if (playerid(var(15)),movetype!=a)||(playerid(var(15)),stateno=195500) {
+if playeridexist(var(16)) {
+if (playerid(var(16)),movetype!=a)||(playerid(var(16)),stateno=195500) {
+	var(9):=((var(9)|49152)^49152);
+}}}}
+
+if (var(9)&49152)=49152 { var(9):=(var(9)^32768); }
+
+if !(var(9)&49152) && (roundstate=2) {
+if (playerid(var(15)),movetype!=a) {
+if playeridexist(var(16)) {
+if (playerid(var(16)),movetype=a) && (playerid(var(16)),stateno!=195500) {
+	var(9):=(var(9)|32768);
+}}}}
+
+if (var(9)&49152)=32768 && (roundstate=2) {
+if (playerid(var(15)),movetype!=h) {
+if playeridexist(var(16)) {
+if (playerid(var(16)),movetype=h) && (playerid(var(16)),stateno!=[120,159]) {
+if (playerid(var(16)),stateno!=[190190,190199]) {
+if (playerid(var(16)),stateno!=195500) && (playerid(var(16)),alive) {
+	var(9):=(var(9)|16384);
+}}}}}}
+
+#;sys::sound_announcer_counter_hit
+if (var(7)&64) {
+if (var(9)&49152)=49152 && (roundstate=2) {
+	playsnd{value:f10200,0; abspan:ifelse(teamside=1,-1,1)*facing*320 }
+}}
+#;sys::counter_hit_bonus
+if (var(9)&49152)=49152 && (roundstate=2) { var(57):=var(57)+500; }
+
+#;sys::screen_edge_dark_counter_hit
+if (var(9)&49152)=49152 && (roundstate=2) {
+	explod{
+	anim:f3020;
+	sprpriority:var(46)-20;
+	space:screen;
+	postype:left;
+	pos:-floor(35*fvar(0)),var(4)/2;
+	scale:0.5*fvar(1),var(4)/240.0/fvar(0)*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+if (var(9)&49152)=49152 && (roundstate=2) {
+	explod{
+	anim:f3020;
+	sprpriority:var(46)-20;
+	space:screen;
+	postype:left;
+	pos:var(3)+floor(35*fvar(0)),var(4)/2;
+	scale:-0.5*fvar(1),var(4)/240.0/fvar(0)*fvar(1);
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+
+
+#;==========================
+#;==========================
+#; stop envshake, use screen zoom instead ;; fv09
+#; 画面振動のかわりに、焦点使用
+if fvar(9)<=30 {
+if var(15)>0 && var(15)!=var(16) && numenemy {
+if playerid(var(15)),gethitvar(fall.envshake.ampl)=0 && playerid(var(15)),time=1 && var(26)!=playerid(var(15)),time {
+	if ((playerid(var(15)),stateno=[150,154])&&(playerid(var(15)),stateno%2=0))||((playerid(var(15)),stateno=[5000,5020])&&(playerid(var(15)),stateno%10=0))||playerid(var(15)),stateno=5070 {
+	if (playerid(var(15)),gethitvar(chainid)=[1000,3999]) || (playerid(var(15)),gethitvar(chainid)=8200) || ((playerid(var(16)),movecontact=1) && !(playerid(var(16)),hitdefattr=sca,na,np)) {
+		fvar(9):=180 +( (playerid(var(15)),gethitvar(chainid)>=3000) || (enemynear,hitdefattr=sca,ha,hp) );
+	}}
+	if playerid(var(15)),stateno=5100 { fvar(9):=180; }
+}}}
+
+if fvar(9)>=30 {
+	fvar(9):=fvar(9)-30;
+	zoom{scale: 1 + cos((fvar(9)-90)*0.0174)  *ifelse(floor(fvar(9))%30>0, 0.03, 0.02); pos:0,0 }
+}
+
+
+
+#;==========================
+#; indicate scores v57-58
+#; 点数表示
+#;==========================
+##; score up ; スコア増
+##;sys::bonus_up
+#if roundstate=2 && playeridexist(var(15)) && playeridexist(var(16)) {
+#	if (playerid(var(16)),gethitvar(guarded)=0 && playerid(var(16)),gethitvar(hittime)>0) || playerid(var(16)),gethitvar(isbound) || playerid(var(15)),movehit {
+#		var(57):=var(57)+1
+#			+(playerid(var(15)),hitdefattr=sca,sa,sp,st||(playerid(var(16)),gethitvar(chainid)=[1000,2999]))*4
+#			+(playerid(var(15)),hitdefattr=sca,ha,hp,ht||playerid(var(16)),gethitvar(chainid)>2999)*9;
+#	}
+#}
+
+#;get_scores ;(点数取得)
+if var(57)!=floor(scoretotal) && roundstate=2 { var(57):=floor(scoretotal); }
+
+
+#;------------------------
+#;;>>@Config.Score>>
+#; draw scores
+#; * remove this part to improve speed if you have a slow pc
+#; 点数描画
+#; * 「処理落ち」がひどい時は、この部分を削除すれば改善できます。
+#;------------------------
+#;sys::flag_score_redraw (v08 4th bit)
+if !(var(8)&8) && var(57)!=var(58) && playerid(var(16)),gethitvar(hittime)<0 && (time%60=0) { var(8):=(var(8)|8); }
+#;sys::score_d_cls
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)!=var(58)) { removeexplod{id:98000} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/10!=var(58)/10) { removeexplod{id:98001} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/100!=var(58)/100) { removeexplod{id:98002} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/1000!=var(58)/1000) { removeexplod{id:98003} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/10000!=var(58)/10000) { removeexplod{id:98004} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/100000!=var(58)/100000) { removeexplod{id:98005} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/1000000!=var(58)/1000000) { removeexplod{id:98006} }
+if !(var(9)&4) || var(51)>0 || ((var(8)&8) && var(57)/10000000!=var(58)/10000000) { removeexplod{id:98007} }
+#;---
+#;sys::memo_score ;; 点数保存
+if var(58)!=var(57) && (var(8)&8) { var(58):=var(57); }
+if (var(8)&8) { var(8):=(var(8)^8); }
+#;---
+#;sys::score_d ;; draw scores (00000000)
+if (var(9)&4) && (var(7)&16) && var(51)<1 {
+	#;1/8
+	if !numexplod(98000) && var(58)>0 {
+		explod{
+		id:98000;
+		anim:f300010+(var(58)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-67,62)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;2/8
+	if !numexplod(98001) && var(58)>9 {
+		explod{
+		id:98001;
+		anim:f300010+((var(58)/10)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-73,56)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;3/8
+	if !numexplod(98002) && var(58)>99 {
+		explod{
+		id:98002;
+		anim:f300010+((var(58)/100)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-79,50)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;4/8
+	if !numexplod(98003) && var(58)>999 {
+		explod{
+		id:98003;
+		anim:f300010+((var(58)/1000)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-85,44)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;5/8
+	if !numexplod(98004) && var(58)>9999 {
+		explod{
+		id:98004;
+		anim:f300010+((var(58)/10000)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-91,38)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;6/8
+	if !numexplod(98005) && var(58)>99999 {
+		explod{
+		id:98005;
+		anim:f300010+((var(58)/100000)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-97,32)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;7/8
+	if !numexplod(98006) && var(58)>999999 {
+		explod{
+		id:98006;
+		anim:f300010+((var(58)/1000000)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-103,26)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+	#;8/8
+	if !numexplod(98007) && var(58)>9999999 {
+		explod{
+		id:98007;
+		anim:f300010+((var(58)/10000000)%10);
+		space:screen;
+		postype:left;
+		pos:var(31)+floor(ifelse(teamside=1,floor(log(10,var(58)))*6-109,20)*fvar(0)), var(32)-floor(9*fvar(0));
+		sprpriority:var(46);
+		scale:0.5*fvar(1),0.325*fvar(1);
+		bindtime:-1;
+		removetime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	}
+}
+
+
+
+
+#;==========================
+#;==========================
+#;;>>@Config.Icon_CPU_Pos>>
+#;sys::cpu_icon ; CPU-標記
+if (var(7)&16) {
+if (var(9)&4) && (var(51)>0) && !numexplod(297000) {
+	explod{
+	id:297000;
+	anim:f297000+ifelse(var(51)>8,8,var(51));
+	space:screen;
+	postype:left;
+	pos:var(31) +floor(46*fvar(0)) *ifelse(teamside=1,-1,1) ,  var(32)-floor(7*fvar(0));
+	sprpriority:var(46);
+	removetime:-1;
+	bindtime:-1;
+	scale:0.5*fvar(1),0.5*fvar(1);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}}
+if numexplod(297000) && (var(51)<1 || !(var(9)&4)) {
+	removeexplod{id:297000}
+}
+
+#;==========================
+#;==========================
+#; stun/dizzy process v50,52
+#; 気絶処理
+#;sys::dizzy_recover
+if var(50)>0 && (gametime%2=0) {
+if playerid(var(15)),movetype=i || playerid(var(15)),movetype=a || playerid(var(15)),ctrl {
+	var(50):=var(50)-1;
+}}
+
+#;sys::dizzy_reset
+if playerid(var(15)),stateno=190116 { var(50):=0; }
+
+#;sys::dizzy_accumulate
+if (var(7)&1) {
+if (playerid(var(15)),stateno=5000)||(playerid(var(15)),stateno=5010)||(playerid(var(15)),stateno=5020)||(playerid(var(15)),stateno=5070) {
+if (playerid(var(15)),time=3)&&(playerid(var(15)),gethitvar(isbound)=0)&&(playerid(var(15)),gethitvar(hittime)>0)&&(playerid(var(15)),hitover=0)&&(playerid(var(15)),gethitvar(hitcount)>0) {
+if numenemy && var(50)<=1000 {
+if !(enemy,hitdefattr=sca,ha,hp,ht) {
+	if (enemy,projhittime(0)>=0)&&(enemy,numtarget(3000)=0) || enemy,projhittime(0)<0 {
+		var(50):=var(50)+ (playerid(var(15)),gethitvar(hitshaketime)*16+1)/playerid(var(15)),gethitvar(hitcount);
+	}
+}}}}}
+
+
+#;==========================
+#;==========================
+#; evaluate / rank ; (評価)
+#;sys::rank_get_hitcombo
+if numenemy && roundstate=2 {
+if (enemy,sysfvar(0)>0) && (playeridexist(floor(enemy,sysfvar(0)))) {
+if (playerid(floor(enemy,sysfvar(0))),var(0)=90900) && fvar(3)<(playerid(floor(enemy,sysfvar(0))),var(12)%10000) {
+	fvar(3):=(playerid(floor(enemy,sysfvar(0))),var(12)%10000); ##;<-real combo
+}}}
+#;sys::rank_get_tech3
+if roundstate=2 && playeridexist(var(15)) && playeridexist(var(16)) {
+if (playerid(var(15)),stateno=[20,119]) && (playerid(var(15)),inguarddist) && (var(26)!=playerid(var(15)),time) {
+	fvar(5):=fvar(5)+0.00001;
+}}
+#;sys::rank_get_bk/jd2
+if roundstate=2 && playeridexist(var(15)) {
+if (playerid(var(15)),stateno=195500) && (var(26)!=playerid(var(15)),time) {
+	fvar(6):=fvar(6)+0.001;
+}}
+#;sys::rank_get_guard/def
+if roundstate=2 && playeridexist(var(15)) {
+if ((playerid(var(15)),stateno=[120,155])||(playerid(var(15)),stateno=195500)) && (var(26)!=playerid(var(15)),time) {
+	fvar(7):=fvar(7)+0.05;
+}}
+#;sys::rank_get_attack/off
+if roundstate=2 && playeridexist(var(16)) {
+if (playerid(var(16)),stateno=5000)||(playerid(var(16)),stateno=5010)||(playerid(var(16)),stateno=5020)||(playerid(var(16)),stateno=5070)
+ || (playerid(var(16)),gethitvar(isbound)) || (playerid(var(16)),stateno=190116) {
+	fvar(8):=fvar(8)+0.05;
+}}
+
+
+
+#;==========================
+#;==========================
+#;sys::flag_finest_ko (v09 25th bit)
+if (var(9)&33554432) && playerid(var(16)),ctrl {var(9):=(var(9)^33554432); }
+if !(var(9)&33554432) && roundstate=2 {
+if playerid(var(16)),hitdefattr=sca,ha,ht,hp || playerid(var(16)),numhelper(88870) {
+	var(9):=(var(9)|33554432);
+}}
+#;;>>@Config.KO>>
+#; call KO_Helper (new helper) ; KOを呼び出す (新ﾍﾙﾊﾟｰ)
+#;sys::helper::ko
+ignorehitpause persistent(0) if (var(7)&8192) && win && !(var(9)&512) && !numhelper(180010) && !(var(9)&4096) {
+	helper{
+	id:180010;
+	stateno:180010;
+	supermovetime:88888;
+	pausemovetime:88888;
+	ownpal:1 }
+}
+
+
+
+#;------------------------
+#;------------------------
+#;sys::roundover-flag ;; (10th bit) ; 終了判定
+ignorehitpause if win && !(var(9)&512) {var(9):=(var(9)|512); }
+
+#;==========================
+#;==========================
+#; call Result_Helper (new helper) ; 結果を呼び出す (新ﾍﾙﾊﾟｰ)
+#;sys::helper::result
+ignorehitpause persistent(0) if roundstate>3 && !numhelper(99980) {
+	helper{
+	id:99980;
+	stateno:99980;
+	supermovetime:88888;
+	pausemovetime:88888;
+	ownpal:1 }
+}
+##;---
+##;sys::score_up_to_parent ; 親に加算
+#if numhelper(99980) && parent,sysvar(4) && var(58)>parent,var(58) {
+#	parent,var(58):=var(58);
+#}
+
+
+
+#;==========================
+#;==========================
+#;;>>@Config.Ground_Dust_Effect>>
+#;; Ground_Dust ; 埃
+#;sys::slide_dust
+if (var(7)&16384) && var(28)>1 {
+	#---
+	if playeridexist(var(14):=var(15)) {
+	if (playerid(var(14)),stateno!=[190190,190193]) {
+	if (playerid(var(14)),stateno=151 || playerid(var(14)),stateno=153 || playerid(var(14)),stateno=5001 || playerid(var(14)),stateno=5011) {
+	if playerid(var(14)),time=1 && var(26)!=playerid(var(14)),time && playerid(var(14)),pos y=0 && playerid(var(14)),vel x && playerid(var(14)),numhelper(152050)=0 && !numhelper(152050) {
+		helper{
+		id:152050;
+		stateno:152050;
+		facing:playerid(var(14)),facing*facing;
+		pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+		size.xscale:ifelse((playerid(var(14)),stateno<5000), 0.7, 0.8);
+		size.yscale:ifelse((playerid(var(14)),stateno<5000), 0.6, 0.7);
+		ownpal:1 }
+	}}}}
+	#;sys::slide_dust_partner
+	if numpartner && var(15)!=var(49) && playeridexist(var(14):=var(49)) {
+	if (playerid(var(14)),stateno!=[190190,190193]) {
+	if (playerid(var(14)),stateno=151 || playerid(var(14)),stateno=153 || playerid(var(14)),stateno=5001 || playerid(var(14)),stateno=5011) {
+	if playerid(var(14)),time=1 && var(27)!=playerid(var(14)),time && playerid(var(14)),pos y=0 && playerid(var(14)),vel x && playerid(var(14)),numhelper(152050)=0 && !numhelper(152050) {
+		helper{
+		id:152050;
+		stateno:152050;
+		facing:playerid(var(14)),facing*facing;
+		pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+		size.xscale:ifelse((playerid(var(14)),stateno<5000), 0.7, 0.8);
+		size.yscale:ifelse((playerid(var(14)),stateno<5000), 0.6, 0.7);
+		ownpal:1 }
+	}}}}
+	#;sys::ground_wave
+	if playeridexist(var(14):=var(15)) {
+	if (playerid(var(14)),stateno=5100 || (playerid(var(14)),stateno=[5110,5111])) && playerid(var(14)),time=1 && var(26)!=playerid(var(14)),time {
+	if playerid(var(14)),numhelper(159005)=0 && numhelper(159005)=0 && numhelper(159006)=0 {
+		helper{
+		id:159005;
+		stateno:159005;
+		facing:playerid(var(14)),facing*facing;
+		pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+		size.height:1+(playerid(var(14)),stateno=5100);
+		size.ground.front:floor(playerid(var(14)),const(size.ground.front)/fvar(0));
+		size.ground.back: floor(playerid(var(14)),const(size.ground.back)/fvar(0));
+		ownpal:1 }
+	}}}
+	#;sys::ground_wave_partner
+	if numpartner && var(15)!=var(49) && playeridexist(var(14):=var(49)) {
+	if (playerid(var(14)),stateno=5100 || (playerid(var(14)),stateno=[5110,5111])) && playerid(var(14)),time=1 && var(27)!=playerid(var(14)),time {
+	if playerid(var(14)),numhelper(159005)=0 && numhelper(159005)=0 && numhelper(159006)=0 {
+		helper{
+		id:159006;
+		stateno:159005;
+		facing:playerid(var(14)),facing*facing;
+		pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+		size.height:1+(playerid(var(14)),stateno=5100);
+		size.ground.front:floor(playerid(var(14)),const(size.ground.front)/fvar(0));
+		size.ground.back: floor(playerid(var(14)),const(size.ground.back)/fvar(0));
+		ownpal:1 }
+	}}}
+
+	#;sys::ground_land_dust
+	if playeridexist(var(14):=var(15)) {
+	if (var(26)!=playerid(var(14)),time) && !numhelper(152000) && !numhelper(152020) {
+	if playerid(var(14)),numhelper(159005)=0 && numhelper(159005)=0 && numhelper(159006)=0 {
+	if (playerid(var(14)),stateno!=[190190,190193]) {
+		if (playerid(var(14)),pos y=0) && (playerid(var(14)),vel y=0) && (var(8)&16) {
+			var(8):=(var(8)^16);
+			if (playerid(var(14)),stateno!=5030) && (playerid(var(14)),stateno!=5050) && (playerid(var(14)),stateno!=5071) && (playerid(var(14)),stateno!=5100) && (playerid(var(14)),stateno!=[5110,5111]) {
+				helper{
+				id:152000      +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				stateno:152000 +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				facing:playerid(var(14)),facing*facing;
+				pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+				size.ground.front:floor(playerid(var(14)),const(size.ground.front)/fvar(0));
+				size.ground.back: floor(playerid(var(14)),const(size.ground.back)/fvar(0));
+				ownpal:1 }
+			}
+		}
+		if (playerid(var(14)),pos y<0) && !(var(8)&16) {
+			var(8):=(var(8)|16);
+			if (playerid(var(14)),vel y<0) && (playerid(var(14)),stateno!=5030) && (playerid(var(14)),stateno!=5050) && (playerid(var(14)),stateno!=5071) && (playerid(var(14)),stateno!=5100) && (playerid(var(14)),stateno!=[5110,5111]) {
+				helper{
+				id:152000      +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				stateno:152000 +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				facing:playerid(var(14)),facing*facing;
+				pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+				size.ground.front:floor(playerid(var(14)),const(size.ground.front)/fvar(0));
+				size.ground.back: floor(playerid(var(14)),const(size.ground.back)/fvar(0));
+				ownpal:1 }
+			}
+		}
+	}}}}
+
+	#;sys::ground_land_dust_partner
+	if numpartner && var(15)!=var(49) && playeridexist(var(14):=var(49)) {
+	if (var(27)!=playerid(var(14)),time) && !numhelper(152000) && !numhelper(152020) {
+	if playerid(var(14)),numhelper(159005)=0 && numhelper(159005)=0 && numhelper(159006)=0 {
+	if (playerid(var(14)),stateno!=[190190,190193]) {
+		if (playerid(var(14)),pos y=0) && (playerid(var(14)),vel y=0) && (var(8)&32) {
+			var(8):=(var(8)^32);
+			if (playerid(var(14)),stateno!=5030) && (playerid(var(14)),stateno!=5050) && (playerid(var(14)),stateno!=5071) && (playerid(var(14)),stateno!=5100) && (playerid(var(14)),stateno!=[5110,5111]) {
+				helper{
+				id:152000      +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				stateno:152000 +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				facing:playerid(var(14)),facing*facing;
+				pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+				size.ground.front:floor(playerid(var(14)),const(size.ground.front)/fvar(0));
+				size.ground.back: floor(playerid(var(14)),const(size.ground.back)/fvar(0));
+				ownpal:1 }
+			}
+		}
+		if (playerid(var(14)),pos y<0) && !(var(8)&32) {
+			var(8):=(var(8)|32);
+			if (playerid(var(14)),vel y<0) && (playerid(var(14)),stateno!=5030) && (playerid(var(14)),stateno!=5050) && (playerid(var(14)),stateno!=5071) && (playerid(var(14)),stateno!=5100) && (playerid(var(14)),stateno!=[5110,5111]) {
+				helper{
+				id:152000      +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				stateno:152000 +ifelse((playerid(var(14)),pos y<0), 20, 0);
+				facing:playerid(var(14)),facing*facing;
+				pos:floor(playerid(var(14)),pos x-pos x)*facing,floor(-pos y);
+				size.ground.front:floor(playerid(var(14)),const(size.ground.front)/fvar(0));
+				size.ground.back: floor(playerid(var(14)),const(size.ground.back)/fvar(0));
+				ownpal:1 }
+			}
+		}
+	}}}}
+	#---
+}
+
+
+#;---
+#;sys::water_move ; (水_移動)
+if var(24)=1 && var(28)>1 {
+	#---
+	if (playerid(var(15)),pos y=0) && (playerid(var(15)),vel x) && (time%16=0) && var(26)!=playerid(var(15)),time && !numexplod(119900) {
+		explod{
+		id:119900;
+		anim:f10330;
+		postype:p1;
+		sprpriority:7;
+		facing:playerid(var(15)),facing*facing*ifelse((playerid(var(15)),vel x>0), 1, -1);
+		pos:floor((playerid(var(15)),pos x-pos x)*facing*10)/10,floor(-pos y*10)/10;
+		scale:(playerid(var(15)),const(size.ground.front)+playerid(var(15)),const(size.ground.back))*0.031/fvar(0)*fvar(1), (playerid(var(15)),const(size.ground.front)+playerid(var(15)),const(size.ground.back))*0.02/fvar(0)*fvar(1);
+		ownpal:1 }
+	}
+	#;;sys::water_move_sound
+	#;if (playerid(var(15)),pos y=0) && (playerid(var(15)),vel x) && (time%32=0) && var(26)!=playerid(var(15)),time {
+	#;	playsnd{
+	#;	pan:floor(playerid(var(15)),pos x-pos x)*facing;
+	#;	value:f127,(random%2)+1;
+	#;	channel:2 }
+	#}
+	#;sys::water_move_partner
+	if numpartner && !numexplod(119901) {
+	if (playerid(var(49)),pos y=0) && (playerid(var(49)),vel x) && (time%16=8) && var(27)!=playerid(var(49)),time {
+		explod{
+		id:119901;
+		anim:f10330;
+		sprpriority:7;
+		ownpal:1;
+		facing:-playerid(var(49)),facing*facing*ifelse((playerid(var(49)),vel x>0), 1, -1);
+		pos:floor((playerid(var(49)),pos x-pos x)*facing*10)/10,floor(-pos y*10)/10;
+		scale:(playerid(var(49)),const(size.ground.front)+playerid(var(49)),const(size.ground.back))*0.031/fvar(0)*fvar(1), (playerid(var(49)),const(size.ground.front)+playerid(var(49)),const(size.ground.back))*0.02/fvar(0)*fvar(1);
+		postype:p1 }
+	}}
+	#;sys::water_ground ; (水_足元)
+	if !numexplod(119902) {
+		explod{
+		id:119902;
+		anim:f10335;
+		sprpriority:7;
+		ownpal:1;
+		removetime:-1;
+		postype:p1 }
+	}
+	#;sys::water_ground_partner
+	if numpartner && !numexplod(119903) {
+		explod{
+		id:119903;
+		anim:f10335;
+		sprpriority:7;
+		ownpal:1;
+		removetime:-1;
+		postype:p1 }
+	}
+	#;sys::water_effect
+	if numexplod(119902) {
+		modifyexplod{
+		id:119902;
+		facing:playerid(var(15)),facing*facing;
+		pos:floor((playerid(var(15)),pos x-pos x)*facing*10)/10,floor(-pos y*10)/10;
+		scale:(playerid(var(15)),const(size.ground.front)+playerid(var(15)),const(size.ground.back))*0.031/fvar(0)*ifelse(playerid(var(15)),statetype=l,2,1)*fvar(1), 0.75*(playerid(var(15)),pos y=0)*fvar(1);
+		postype:p1 }
+	}
+	#;sys::water_effect_partner
+	if numexplod(119903) && numpartner {
+		modifyexplod{
+		id:119903;
+		facing:playerid(var(49)),facing*facing;
+		pos:floor((playerid(var(49)),pos x-pos x)*facing*10)/10,floor(-pos y*10)/10;
+		scale:(playerid(var(49)),const(size.ground.front)+playerid(var(49)),const(size.ground.back))*0.031/fvar(0)*ifelse(playerid(var(49)),statetype=l,2,1)*fvar(1), 0.75*(playerid(var(49)),pos y=0)*fvar(1);
+		postype:p1 }
+	}
+#---
+}
+#---
+
+
+
+#;==========================
+#;;>>@Config.AI_Ref>>
+#; [ai] ReActions ID Ref. / 行動対処参照番号
+#;==========================
+#; v14: temp: enemynear,id {=v16}
+#; v15: current player ID //プレーヤー識別番号
+#; v16: current enemy ID //相手識別番号
+#; v18: action/state no. // 行動/状態番号
+#; v19: enemy state //相手状態
+#;---
+
+#;sys::ai_projid(910#0)_counter_me
+if roundstate=2 && playeridexist(var(14):=sysvar(0)+(time%(numpartner+1))) {
+if playerid(var(14)),numprojid(var(19):=91050)||playerid(var(14)),numprojid(var(19):=91040)||playerid(var(14)),numprojid(var(19):=91030)
+	 || playerid(var(14)),numprojid(var(19):=91020)||playerid(var(14)),numprojid(var(19):=91010) {
+		projectile{
+		projid:var(19)+5;
+		projanim:909601;
+		projscale:0,0;
+		projhitanim:-1;
+		projremovetime:1+numpartner }
+}}
+
+#;sys::ai_get_enemy-id
+#;sys::ai_act_id
+#; init
+var(14):=var(16); #;def_enemy_id
+var(18):=0; #;init_ai_act_id2
+var(19):=0; #;init
+
+#;sys::ai_projid(910#5)_counter_opponent
+if numenemy && roundstate=2 {
+if enemy,numprojid(91015)||enemy,numprojid(91025)||enemy,numprojid(91035)||enemy,numprojid(91045)||enemy,numprojid(91055) {
+	var(19):=(enemy,numprojid(91015)>0)*10+(enemy,numprojid(91025)>0)*100+(enemy,numprojid(91035)>0)*1000+(enemy,numprojid(91045)>0)*10000+(enemy,numprojid(91055)>0)*100000;
+}}
+#;---
+#;sys::ai_act_san ; 立_近_攻 ; standing attack near
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) {
+if playerid(var(15)),statetype!=a && playerid(var(15)),ctrl && playerid(var(14)),statetype!=l {
+if playerid(var(14)),movetype!=a && (playerid(var(15)),pos x-playerid(var(14)),pos x=[-55,55]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,55]) {
+	var(18):=var(18)+1; ######1
+}}}
+#;---
+#;sys::ai_act_sar ; 地_遠_牽制 ; standing retrain
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) {
+if playerid(var(15)),statetype!=a && playerid(var(15)),ctrl && (gametime%50>25) && random<200 {
+if playerid(var(14)),stateno!=190116 && (!var(19)%10 || (!(var(19)/10)%10 && !(var(19)/100)%10)) {
+if playerid(var(14)),statetype!=l && playerid(var(14)),movetype!=a && (abs(playerid(var(15)),pos x-playerid(var(14)),pos x)=[90,230]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,85]) {
+	var(18):=2; ######2
+}}}}
+#;---
+#;sys::ai_act_ca ; 屈_近_攻 ; crouching attack
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) {
+if playerid(var(15)),statetype!=a && playerid(var(15)),ctrl && playerid(var(14)),statetype!=l {
+if playerid(var(14)),statetype!=a && playerid(var(14)),movetype!=a && (playerid(var(15)),pos x-playerid(var(14)),pos x=[-55,55]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,55]) {
+	var(18):=var(18)+10; #####1#
+}}}
+#;---
+#;sys::ai_act_aa ; 空_攻 ; jumping attack
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) {
+if playerid(var(15)),statetype=a && playerid(var(15)),ctrl {
+
+if (playerid(var(15)),pos x-playerid(var(14)),pos x=[-75,75]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[-50,50])
+	|| (playerid(var(15)),pos y>-75) && (playerid(var(15)),vel y>0) && random<500 {
+	var(18):=var(18)+100; ####1##
+}}}
+#;---
+#;sys::ai_act_upper-cut ; 対空
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) {
+if playerid(var(15)),statetype!=a && playerid(var(15)),ctrl && playerid(var(14)),statetype=a {
+if (playerid(var(15)),pos x-playerid(var(14)),pos x=[-50,50]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,70]) {
+	var(18):=var(18)+1000; ###1###
+}}}
+#;---
+#;sys::ai_act_guard ; 防御
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) && random<(roundno+matchno+var(51))*100 {
+if playerid(var(15)),inguarddist {
+	#;--- against proj ; 飛び道具対処 ;{ 91#10 guard ;91#20 guard/roll/jump ; 91#30 roll/jump ; 91#40 jump ; 91#50 jump fwd }
+	if (var(19)/10)%10 || ((var(19)/100)%10 && random<200) {
+		var(18):=var(18)+10000; ##1####
+	}
+	#;--- ground_guard
+	if ((playerid(var(15)),pos x-playerid(var(14)),pos x=[-85,85])||random<250) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,120]) {
+	if (playerid(var(15)),statetype!=a) && playerid(var(14)),movetype=a && !(playerid(var(14)),hitdefattr=sca,nt,st,ht) {
+		var(18):=var(18)+10000; ##1####
+	}}
+	#;--- air_guard
+	if (playerid(var(15)),pos x-playerid(var(14)),pos x=[-70,70]) && ((playerid(var(15)),pos y-playerid(var(14)),pos y=[-56,56]) || random<250) {
+	if (var(22)!=[2,3]) && (playerid(var(15)),statetype=a) && playerid(var(14)),movetype=a && !(playerid(var(14)),hitdefattr=sca,nt,st,ht) {
+	if (playerid(var(14)),hitdefattr=sca,sa,sp && random<500) {
+		var(18):=var(18)+10000; ##1####
+	}}}
+}}
+#;sys::ai_act_guard_from_getup ; 起き上がり防御
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) && random<(roundno+matchno+var(51))*250 {
+if (playerid(var(15)),stateno=0 && playerid(var(15)),ctrl && playerid(var(15)),time<8 && playerid(var(15)),inguarddist && playerid(var(15)),prevstateno=5120) || playerid(var(15)),stateno=5120 {
+if playerid(var(14)),movetype=a && !(playerid(var(14)),hitdefattr=sca,nt,st,ht) && (playerid(var(15)),pos x-playerid(var(14)),pos x=[-60,60]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,90]) {
+	var(18):=var(18)+10000; ##1####
+}}}
+#;---
+#;sys::ai_act_roll ; 回避
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) && random<(roundno+matchno+var(51))*50 {
+if (var(22)!=[2,3]) && playerid(var(15)),statetype!=a && playerid(var(15)),ctrl {
+	#;---
+	if playerid(var(14)),movetype=a && !(playerid(var(14)),hitdefattr=sca,nt,st,ht) && (playerid(var(15)),pos x-playerid(var(14)),pos x=[-70,70]) && (playerid(var(15)),pos y-playerid(var(14)),pos y=[0,70])
+	#;--- against proj ; 飛び道具対処 ;91#20 guard/roll/jump ; 91#30 roll/jump
+	 || ((var(19)/100)%10 && random<580) || ((var(19)/1000)%10 && random<400) {
+	#;---
+	var(18):=var(18)+100000; #[1-3]#####
+}}}
+#;---
+#;sys::ai_act_jump ; 跳躍
+
+if var(51)>1 && (var(7)&262144) && roundstate=2 && playeridexist(var(14)) && playeridexist(var(15)) {
+if playerid(var(15)),statetype!=a && playerid(var(15)),ctrl {
+	#;;--- jump { 142000 + / n:00 l:+10 s:+20 m+30 / N:+0 F:+1 B:+2 }
+	if (playerid(var(15)),pos x-playerid(var(14)),pos x=[-200,200]) && playerid(var(14)),movetype!=a && !((var(19)/100)%10) && random<25 {
+		var(18):= (var(18)%100000)+100000 *(ifelse(random<650,10,(random<650)*20) +4+(random<300)); #;[0-2][4-7]#####
+	}
+	#;;--- jump long_fwd [142011]
+	if (playerid(var(15)),pos x-playerid(var(14)),pos x!=[-200,200]) && playerid(var(14)),movetype!=a && !((var(19)/100)%10) && random<50 {
+		var(18):= (var(18)%100000)+100000 *(ifelse(random<750,10,(random<100)*20) +5); #;[0-2][4-7]#####
+	}
+	#;;--- small [142020] / mid [142030] / leap [48]
+	if (var(22)=2) && (playerid(var(15)),pos x-playerid(var(14)),pos x=[-100,100]) && (playerid(var(14)),statetype=c || random<250) && random<100 {
+		var(18):= (var(18)%100000)+100000 *(ifelse(random<650,10,(random<500)*20) +6+(p2bodydist x>50));
+	}
+	#;;--- against proj ; 飛び道具対処 ;{ 91#10 guard ; 91#20 guard/roll/jump ; 91#30 roll/jump ; 91#40 jump ; 91#50 jump fwd }
+	if ((var(19)/100)%10 && random<160) || ((var(19)/1000)%10 && random<520) || ((var(19)/10000)%10 && random<680) || ((var(19)/100000)%10 && random<880) || playerid(var(14)),hitdefattr=sca,nt,st,ht {
+	if random<(roundno+matchno+var(51))*80 {
+		var(18):= (var(18)%100000)+100000 *( (playerid(var(15)),pos x-playerid(var(14)),pos x!=[-52,52])*10 +4+((var(19)/100)%10 || (var(19)/1000)%10) );
+	}}
+	#;;--- after guard cancel ;{  }
+	if playerid(var(15)),time<3 && playerid(var(15)),prevstateno=8200 && playerid(var(15)),numtarget && random<500 {
+		var(18):= (var(18)%100000)+100000 *(14+(random<500)); #;[1][4-5]#####
+	}
+}}
+
+
+
+#;==========================
+#;==========================
+#;;>>@Config.Display_Input>>
+#;; (v.180728) display input v47 ; (操作入力表示)
+#;; (* the result seems NOT always corect. especially when the player has been placed in a custom state)
+#;; (* 結果がいつも正しいとは限りません、特にステートが奪われたとき)
+
+##---
+if (var(8)&33554432) {
+##---
+
+	##;sys::ki_arrow_key_pressed
+	if root,command="holdfwd"   && !(var(8)&16384)
+	 || root,command="holdback" && !(var(8)&32768)
+	 || root,command="holdup"   && !(var(8)&65536)
+	 || root,command="holddown" && !(var(8)&131072)
+	#;---
+	 || (var(8)&16384)
+	 && ((root,command!="holddown" && var(8)&131072) || (root,command!="holdup" && var(8)&65536) || (root,command!="holdback" && var(8)&32768))
+	#;---
+	 || (var(8)&32768)
+	 && ((root,command!="holddown" && var(8)&131072) || (root,command!="holdup" && var(8)&65536) || (root,command!="holdfwd" && var(8)&16384))
+	#;---
+	 || (var(8)&65536)
+	 && ((root,command!="holddown" && var(8)&131072) || (root,command!="holdfwd" && var(8)&16384) || (root,command!="holdback" && var(8)&32768))
+	#;---
+	 || (var(8)&131072)
+	 && ((root,command!="holdup" && var(8)&65536) || (root,command!="holdfwd" && var(8)&16384) || (root,command!="holdback" && var(8)&32768))
+	 {
+		explod{
+		id:230100 +( (var(47):=var(47)+30101) %100); ##;v47 {AABBCC: AA:Timer / BB:Pos_X++ / CC:Pos_Y++}
+		anim:f230150 +((root,command="holdfwd")-(root,command="holdback"&&root,command!="holdfwd"))*20*(root,facing) +((root,command="holddown"&&root,command!="holdup")-(root,command="holdup"))*5;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.25*fvar(1),0.25*fvar(1);
+		pos:var(3)*(teamside=2)+floor(13*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+
+	#;;sys::ki_arrow_key_hold
+	if (root,command="holdfwd")||(root,command="holdback")||(root,command="holdup")||(root,command="holddown") {
+		explod{
+		id:230199;
+		anim:f230150 +((root,command="holdfwd")-(root,command="holdback"))*20*(root,facing) +((root,command="holddown")-(root,command="holdup"))*5;
+		ontop:1;
+		postype:left;
+		ownpal:1;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.25*fvar(1),0.25*fvar(1);
+		pos:var(3)*(teamside=2)+floor(5*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		removetime:1;
+		trans:addalpha;
+		alpha:128,128 }
+	}
+	#;--- button_all
+	#;sys::ki_key_simultaneously ;同時押し判定
+	if (root,command="x") && !(var(8)&262144)
+		 || (root,command="y") && !(var(8)&524288)
+		 || (root,command="z") && !(var(8)&1048576)
+		 || (root,command="a") && !(var(8)&2097152)
+		 || (root,command="b") && !(var(8)&4194304)
+		 || (root,command="c") && !(var(8)&8388608) {
+		var(47):=var(47)+ ifelse(var(47)>99,100,1) + 10000; ## ;;30000  ;;(tickspersecond%60)*500 ;; 
+	}
+	#;--- button
+	#;sys::ki_key_x
+	if (root,command="x") && !(var(8)&262144) {
+		explod{
+		id:230100 +(var(47)%100);
+		anim:f230203;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.28*fvar(1),0.28*fvar(1);
+		pos:var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+	#;sys::ki_key_y
+	if (root,command="y") && !(var(8)&524288) {
+		explod{
+		id:230100 +(var(47)%100);
+		anim:f230204;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.28*fvar(1),0.28*fvar(1);
+		pos:var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+	#;sys::ki_key_z
+	if (root,command="z") && !(var(8)&1048576) {
+		explod{
+		id:230100 +(var(47)%100);
+		anim:f230205;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.28*fvar(1),0.28*fvar(1);
+		pos:var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+	#;sys::ki_key_a
+	if (root,command="a") && !(var(8)&2097152) {
+		explod{
+		id:230100 +(var(47)%100);
+		anim:f230200;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.28*fvar(1),0.28*fvar(1);
+		pos:var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+	#;sys::ki_key_b
+	if (root,command="b") && !(var(8)&4194304) {
+		explod{
+		id:230100 +(var(47)%100);
+		anim:f230201;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.28*fvar(1),0.28*fvar(1);
+		pos:var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+	#;sys::ki_key_c
+	if (root,command="c") && !(var(8)&8388608) {
+		explod{
+		id:230100 +(var(47)%100);
+		anim:f230202;
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		scale:0.28*fvar(1),0.28*fvar(1);
+		pos:var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0));
+		ownpal:1 }
+	}
+	#;--- Curent_Pos_Y_UnderLine
+	if numexplod(230100+(var(47)%100)) && var(47)>9999 {
+		explod{
+		id:230000+(var(47)%100);
+		anim:f200111+(teamside);
+		ontop:1;
+		postype:left;
+		bindtime:-1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		pos:var(3)*(teamside=2), floor((56+(var(47)%100)*8)*fvar(0));
+		scale:ifelse(teamside=1,3,-3)*fvar(1),1*fvar(1);
+		sprpriority:-1;
+		removetime:1;
+		ownpal:1 }
+	}
+##---
+}
+##;;--- ---
+#;sys::ki_icon_index/pos_reset
+if (var(47)%100>12) || (var(47) && !(numexplod(230100)||numexplod(230101)||numexplod(230102))) {
+	var(47):=0; ##; Pos_Y_ReSet
+}
+if (var(47)>99) {
+	var(47):= (var(47)%100) +var(47)/10000*10000 -(var(47)>9999)*10000; ##; Pos_X_ReSet / Timer_Count_Down
+}
+#;sys::ki_icon_index_cls
+if numexplod(230101 +(var(47)%100)) {
+	removeexplod{id:230101 +(var(47)%100)}
+}
+
+#;==========================
+#;==========================
+#;; Key Pressed Switch / ボタン開閉
+#;; v08: bit flag (15th-24th,26th)
+#;;---
+#;sys::ki_switch00
+#;;---
+if (var(8)&16384) && (root,command!="holdfwd") {var(8):=(var(8)^16384); }
+if (root,command="holdfwd") && !(var(8)&16384) {var(8):=(var(8)|16384); }
+#;;---
+if (var(8)&32768) && (root,command!="holdback") {var(8):=(var(8)^32768); }
+if (root,command="holdback") && !(var(8)&32768) {var(8):=(var(8)|32768); }
+#;;---
+if (var(8)&65536) && (root,command!="holdup") {var(8):=(var(8)^65536); }
+if (root,command="holdup") && !(var(8)&65536) {var(8):=(var(8)|65536); }
+#;;---
+if (var(8)&131072) && (root,command!="holddown") {var(8):=(var(8)^131072); }
+if (root,command="holddown") && !(var(8)&131072) {var(8):=(var(8)|131072); }
+#;;---
+if (var(8)&262144) && (root,command!="x") {var(8):=(var(8)^262144); }
+if (root,command="x") && !(var(8)&262144) {var(8):=(var(8)|262144); }
+#;;---
+if (var(8)&524288) && (root,command!="y") {var(8):=(var(8)^524288); }
+if (root,command="y") && !(var(8)&524288) {var(8):=(var(8)|524288); }
+#;;---
+if (var(8)&1048576) && (root,command!="z") {var(8):=(var(8)^1048576); }
+if (root,command="z") && !(var(8)&1048576) {var(8):=(var(8)|1048576); }
+#;;---
+if (var(8)&2097152) && (root,command!="a") {var(8):=(var(8)^2097152); }
+if (root,command="a") && !(var(8)&2097152) {var(8):=(var(8)|2097152); }
+#;;---
+if (var(8)&4194304) && (root,command!="b") {var(8):=(var(8)^4194304); }
+if (root,command="b") && !(var(8)&4194304) {var(8):=(var(8)|4194304); }
+#;;---
+if (var(8)&8388608) && (root,command!="c") {var(8):=(var(8)^8388608); }
+if (root,command="c") && !(var(8)&8388608) {var(8):=(var(8)|8388608); }
+##;;---
+##;;--- display flag
+if (var(8)&33554432) {var(8):=(var(8)^33554432); }
+if !(var(8)&33554432) {
+if var(51)<1 && (var(7)&128) {
+if (root,movetype!=h)||(root,stateno=[120,159])||(root,stateno=[5000,5199])||(root,stateno=[190190,190196]) {
+	var(8):=(var(8)|33554432);
+}}}
+
+
+
+
+#;==========================
+#; info. update
+#;==========================
+#;--- Player Time
+#;sys::update_player_time
+if playeridexist(var(15)) { var(26):=ifelse(var(26)<=(playerid(var(15)),time) , (playerid(var(15)),time) , -1 ); }
+#;sys::update_partner_time
+if numpartner && var(15)!=var(49) && playeridexist(var(49)) {
+	var(27):=ifelse(var(27)<=(playerid(var(49)),time) , (playerid(var(49)),time) , -1 ); }
+
+#;--- RoundState Time
+#;sys::update_helpers_timer ; 内部経過時間
+var(28):=var(28)+1;
+
+#;sys::timer-reset_roundstate2 ; roundstate2 時再設定
+persistent(0) if (roundstate=2) { var(28):=0; }
+#;sys::timer-reset_roundstate3 ; roundstate3 時再設定
+persistent(0) if (roundstate=3) { var(28):=0; }
+
+
+
+
+
+
+##;==========================
+##;==========================
+##;;>>@Config.Round_Fight>>
+##; "round 1 fight!" (round-call) [helper]
+##; ラウンド開始
+##;==========================
+[statedef 180000; type:s; movetype:i; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+ignorehitpause { assertspecial{flag:timerfreeze} }
+#;sys::over-flag
+if var(1)>100 || var(0) { var(0):=var(0)+1; }
+#;sys::f1-key_pressed ; F1キーが押された場合
+if roundstate>2 || win || lose { var(0):=999; }
+#;sys::init
+if !time {
+	fvar(0):=screenwidth/320.0;
+	fvar(2):=(random%31)-15;
+	#;;--- fv0: localcoord , fv1: angle_img_"fight"
+	var(9):=(random%4);
+	var(10):=roundno;
+	var(11):=floor(screenwidth)/2;
+	var(12):=floor(screenheight)/2;
+	var(21):=ifelse(roundno%2,-1,1);
+	#;;--- v9: rounds_color , v10: roundno , v11-12: center_pos_x/y , v21: facing
+	var(13):=var(11)-floor(15*fvar(0));
+	var(14):=var(12)+floor(26*fvar(0));
+	#;;--- v13-14: rounds pos_x/y , v15-16: num pos_x/y
+	posset{x:0; y:0}
+}
+#;sys::skip2
+if roundstate=2 { var(1):=var(1)+1; }
+#;sys::sound_announcer_round-call
+if var(1)=1 {playsnd{value:f10500,(var(10)%4); channel:1; pan:0; abspan:0 } }
+#;sys::sound_ex-panel-wind
+if !var(20) && var(1)=8 {playsnd{value:f2100,101; abspan:0 } }
+#;---
+#;sys::screen_edge_dark_ready
+ignorehitpause if !var(20) && var(1)=2 {
+	explod{
+	anim:f3020;
+	sprpriority:parent,var(46)-10;
+	space:screen;
+	postype:left;
+	pos:-floor(100*fvar(0)),var(12);
+	scale:1*fvar(0),var(12)/80.0/fvar(0);
+	bindtime:-1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+
+	explod{
+	anim:f3020;
+	sprpriority:parent,var(46)-10;
+	space:screen;
+	postype:left;
+	pos:var(11)*2+floor(100*fvar(0)),var(12);
+	scale:-1*fvar(0),var(12)/80.0/fvar(0);
+	bindtime:-1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_ready1
+persistent(0) if !var(20) && var(1)=1 && !numexplod(1) {
+	explod{
+	anim:f199130;
+	id:1;
+	space:screen;
+	postype:left;
+	sprpriority:2;
+	bindtime:-1;
+	pos:var(11),var(12);
+	scale:0.25*fvar(0),0.25*fvar(0);
+	ontop:1;
+	removetime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_ready2
+persistent(0) if !var(20) && var(1)=1 && !numexplod(3) {
+	explod{
+	anim:f199139;
+	id:3;
+	space:screen;
+	postype:left;
+	sprpriority:-2;
+	bindtime:-1;
+	pos:var(11),var(12);
+	scale:0.5*fvar(0),0.5*fvar(0);
+	ontop:1;
+	removetime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_ready3
+persistent(0) if !var(20) && var(1)=1 && numexplod(3)=1 {
+	explod{
+	anim:f199138;
+	id:3;
+	space:screen;
+	postype:left;
+	sprpriority:-1;
+	bindtime:-1;
+	pos:var(11),var(12);
+	scale:0.5*fvar(0),0.5*fvar(0);
+	ontop:1;
+	ownpal:1 }
+}
+
+#;sys::img_d_mod1
+#; f03: temp
+modifyexplod{id:1; scale:fvar(3):=((var(1)<30)*((30-var(1))**3)*0.0001+1-var(1)*0.001)*0.25*fvar(0), fvar(3) }
+#;sys::img_d_mod2
+modifyexplod{id:3; scale:fvar(3)*2,fvar(3)*2 }
+
+#;---
+#;sys::img_d_rounds
+if !var(20) && (var(1)=[1,99]) {
+	explod{
+	anim:f199120 +ifelse(time%8>3,var(9),4);
+	space:screen;
+	postype:left;
+	sprpriority:-5;
+	bindtime:-1;
+	ontop:1;
+	removetime:1;
+	scale:fvar(3):=(1.1-var(1)*0.0015)*fvar(0), fvar(3);
+	pos:var(13)-fvar(3)*2,var(14)-fvar(3)*1.5;
+	trans:addalpha;
+	alpha:var(52):=ifelse(var(1)<64,var(1)*4,256), 256-var(52);
+	ownpal:1 }
+
+	#;---
+	#;sys::img_d_nums1 ;; numbers v6:color
+	if var(10)>0 {
+		explod{
+		anim:f300000+(var(10)%10) +(var(6):=ifelse((time%16=[8,11]),60,ifelse((time%16=[0,3]),50,0)));
+		space:screen;
+		postype:left;
+		sprpriority:-5;
+		bindtime:-1;
+		ontop:1;
+		removetime:1;
+		trans:addalpha;
+		alpha:var(52),256-var(52);
+		pos:var(13) +floor( (50 +((var(10)>9)+(var(10)>99))*30)*fvar(3) ), var(51):=var(14)+floor(30*fvar(3));
+		scale:fvar(3)*0.5,fvar(3)*0.5;
+		ownpal:1 }
+	}
+	#;sys::img_d_nums2
+	if var(10)>9 {
+		explod{
+		anim:f300000+((var(10)/10)%10) +var(6);
+		space:screen;
+		postype:left;
+		sprpriority:-5;
+		bindtime:-1;
+		ontop:1;
+		removetime:1;
+		pos:var(13)+floor( (50 +(var(10)>99)*30)*fvar(3) ), var(51);
+		trans:addalpha;
+		alpha:var(52),256-var(52);
+		scale:fvar(3)*0.5,fvar(3)*0.5;
+		ownpal:1 }
+	}
+	#;sys::img_d_nums3
+	if var(10)>99 {
+		explod{
+		anim:f300000+((var(10)/100)%10) +var(6);
+		space:screen;
+		postype:left;
+		sprpriority:-5;
+		bindtime:-1;
+		ontop:1;
+		removetime:1;
+		trans:addalpha;
+		alpha:var(52),256-var(52);
+		scale:fvar(3)*0.5,fvar(3)*0.5;
+		pos:var(13)+floor(50*fvar(3)), var(51);
+##		pos:var(13),var(51);
+		ownpal:1 }
+	}
+}
+#;---
+#;sys::img_d_light1
+if !var(20) && (var(1)=[60,61]) {
+	explod{
+	anim:f151;
+	space:screen;
+	postype:left;
+	sprpriority:-4;
+	pos:var(13)+floor(46*fvar(0)),var(51)-floor(32*fvar(0));
+	vel:-0.5*fvar(0),0;
+	scale:ifelse(var(1)%2,0.3,6)*fvar(0),ifelse(var(1)%2,6,0.3)*fvar(0);
+	ontop:1;
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_fight1
+if var(0)=1 {
+	explod{
+	id:9;
+	anim:f199006;
+	space:screen;
+	postype:left;
+	sprpriority:0;
+	pos:var(11),var(12);
+	scale:1.25*fvar(0),1.25*fvar(0);
+	bindtime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	angle:fvar(2);
+	ownpal:1 }
+
+	#;sys::img_d_fight2
+	explod{
+	id:9;
+	anim:f199001;
+	space:screen;
+	postype:left;
+	sprpriority:7;
+	pos:var(11),var(12);
+	scale:1.25*fvar(0),1.25*fvar(0);
+	bindtime:-1;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	angle:fvar(2);
+	ownpal:1 }
+}
+if numexplod(9) {
+	modifyexplod{id:9; scale:fvar(3):=(((110-var(1))**3)*0.01+1.25)*fvar(0), fvar(3) }
+}
+#;---
+#;sys::img_d_flash
+if var(0)=1 {
+	explod{
+	anim:f151;
+	space:screen;
+	postype:left;
+	sprpriority:-5;
+	pos:var(11),var(12);
+	scale:100,100;
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	trans:add;
+	alpha:256,256;
+	ownpal:1 }
+}
+#;---
+#;sys::sound_announcer_fight
+ignorehitpause if var(0)=1 {
+	stopsnd{channel:1}
+	playsnd{value:f20000,10; channel:1; abspan:0 }
+}
+#;---
+#;sys::parent_timer-reset_round_start
+if var(0)=1 || (parent,stateno=90900) && (parent,var(28)>10) {parent,var(28):=0;}
+#;---
+#;sys::img_d_cls
+ignorehitpause if var(0)=1 || var(0)>=999 {
+	removeexplod{id:1}
+	removeexplod{id:2}
+	removeexplod{id:3}
+	removeexplod{id:4}
+}
+#;sys::over
+ignorehitpause if var(0)>=10 || var(0)>=999 { destroyself{} }
+
+
+
+
+
+##;==========================
+##;==========================
+##;;>>@Config.Round_KO>>
+##; Round-KO [helper]
+##; ラウンド終了
+##;==========================
+[statedef 180010; type:s; movetype:i; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+#;sys::init
+persistent(0) if !time {
+	var(0):=0; ##init
+	var(2):=28; ##timer
+	var(3):=parent,var(3);
+	var(4):=parent,var(4);
+	var(15):=parent,var(15);
+	var(16):=parent,var(16);
+	fvar(0):=parent,fvar(0);
+	fvar(1):=parent,fvar(1);
+	var(5):=var(3)/2;
+	var(6):=var(4)/2;
+	if playeridexist(var(16)) {
+		var(5):=floor(playerid(var(16)),screenpos x);
+		var(6):=floor(playerid(var(16)),screenpos y-const240p(50));
+		var(5):=var(5)*(var(5)=[0,var(3)])+(var(5)>var(3))*var(3);
+		var(6):=var(6)*(var(6)=[0,var(4)])+(var(6)>var(4))*var(4);
+	}
+}
+#;sys::hyper-finish
+#; スーパーコンボ・フィニッシュ
+persistent(0) if !time && winko {
+	if (root,movehit) && (root,hitdefattr=sca,ha,hp,ht) {
+		var(0):=2;
+	}
+	if numpartner {
+	if (partner,movehit) && (partner,hitdefattr=sca,ha,hp,ht) {
+		var(0):=2;
+	}}
+	#;;--- check from attack id special:[1000-2999] hyper:[3000-]
+	if playeridexist(var(16)) {
+	if (playerid(var(16)),gethitvar(chainid)>2999) {
+		var(0):=2;
+	}}
+	#;;---
+	if playeridexist(var(15)) {
+	if (playerid(var(15)),movehit) && (playerid(var(15)),hitdefattr=sca,ha,hp,ht) {
+		var(0):=2;
+	}}
+}
+
+#;sys::special-finish
+#; スペシャル・フィニッシュ
+persistent(0) if !time && winko {
+	if (root,movehit) && (root,hitdefattr=sca,sa,sp,st) {
+		var(0):=1;
+	}
+	if numpartner {
+	if (partner,movehit) && (partner,hitdefattr=sca,sa,sp,st) {
+		var(0):=1;
+	}}
+	#;;--- check from attack id special:[1000-2999] hyper:[3000-]
+	if playeridexist(var(16)) {
+	if (playerid(var(16)),gethitvar(chainid)=[1000,2999]) {
+		var(0):=1;
+	}}
+	#;;---
+	if playeridexist(var(15)) {
+	if (playerid(var(15)),movehit) && (playerid(var(15)),hitdefattr=sca,sa,sp,st) {
+		var(0):=1;
+	}}
+}
+#;---
+#;sys::sent2parent_ko_type ;; (8-9th bit)
+if (var(0)=[1,2]) {
+	parent,var(9):=parent,var(9)|(ifelse(var(0)=1,256,128));
+}
+#;---
+#;---
+#;;>>@Config.KO>>
+#;sys::ko_pause
+persistent(0) if !time && var(0) && (var(2):=ifelse(var(0)=2,42,28)) {
+	pause{time:var(2); movetime:var(2) }
+}
+#;sys::ko_disable_bgm
+ignorehitpause if numexplod(199300) {assertspecial{flag:nomusic} }
+#;sys::ko_disable_shake
+ignorehitpause if winko {envshake{time:1; ampl:0 } }
+
+#;---
+#;sys::sound_announcer_ko
+persistent(0) if !time && winko {
+	playsnd{value:f20000,20; abspan:ifelse(teamside=1,-1,1)*facing*320; channel:1 }
+
+	#;sys::sound_announcer_ko_finest
+	var(7):=((parent,var(9)&33554432) && (var(0)=[1,2]));
+	if var(7) {playsnd{value:f20000,21; abspan:ifelse(teamside=1,-1,1)*facing*320; channel:1 } }
+}
+#;---
+#;sys::sound_ko_hyper-eff
+persistent(0) if !time && var(0)=2 {playsnd{value:f3000,0; abspan:0; channel:2 } }
+
+#;---
+#;sys::ko_d_hyper-finifsh_mask
+ignorehitpause persistent(0) if var(0)=2 && !numexplod(199310) {
+	explod{
+	id:199310;
+	anim:f3001;
+	sprpriority:(parent,var(46)-12);
+	space:screen;
+	postype:left;
+	pos:var(5),var(6);
+	scale:var(3)/320.0/fvar(0)*fvar(1)+0.01,var(4)/240.0/fvar(0)*fvar(1)+0.01;
+	bindtime:-1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+ignorehitpause if numexplod(199310) {
+	modifyexplod{
+	id:199310;
+	scale:var(3)/160.0/fvar(0)*fvar(1)+0.01*time,var(4)/120.0/fvar(0)*fvar(1)+0.01*time }
+}
+#;---
+#;sys::ko_d_hyper-finifsh_wave
+ignorehitpause persistent(0) if (!time) && numexplod(199310) {
+	explod{
+	id:199315;
+	anim:f3002;
+	sprpriority:(parent,var(46)-11);
+	space:screen;
+	postype:left;
+	pos:var(5),var(6);
+	scale:0,0;
+	bindtime:-1;
+	removetime:var(2);
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+ignorehitpause if numexplod(199315) {
+	modifyexplod{
+	id:199315;
+	scale:fvar(12):=((time%(var(2)/3))+0.1)**2*0.02*fvar(1) , fvar(12)*0.75 }
+}
+#;---
+#;sys::ko_d_hyper-finifsh_color
+persistent(0) if numexplod(199310) && !numexplod(199311) && !numexplod(199312) {
+	explod{
+	id:199311 +(playerid(var(15)),numhelper(88870)>0);
+	anim:f3010;
+	sprpriority:(parent,var(46)-10);
+	space:screen;
+	postype:left;
+#;op;	pos:-5*var(3),0;
+	pos:-(random%30)*var(3),0;
+#;;old	scale:var(3),var(4);
+	scale:floor(var(3)/fvar(0)*fvar(1)),floor(var(4)/fvar(0)*fvar(1));
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#;sys::ko_d_hyper-finifsh_color-swap
+ignorehitpause if numexplod(199312) {
+	modifyexplod{
+	id:199312;
+	postype:left;
+	pos:-(time%30)*var(3),0 }
+}
+#;sys::ko_no-bg ;; during hyper
+#;;ignorehitpause if playerid(var(15)),numhelper(88880)=0 && playerid(var(15)),numhelper(88870)>0 {
+#;;	assertspecial{flag:nobg; flag2:nofg } }
+	
+
+#;---
+#;sys::ko_d_img_k
+if winko && (time=[1,2]) && numexplod(199300)<2 {
+	explod{
+#;;--- mugen
+#;;	anim:f199300   + numexplod(199300)*2;
+#;--- ikemen
+#;;	anim:f199300   +(numexplod(199300)-1)*2;
+#;--- mugen & ikemen
+	anim:f199300   +(time-1)*2;
+	id:199300;
+	space:screen;
+	postype:left;
+	sprpriority:-6 +(time-1)*2;
+	bindtime:-1;
+	ontop:(var(7)=0);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::ko_d_img_o
+if winko && (time=[1,2]) && numexplod(199301)<2 {
+	explod{
+	anim:f199301   +(time-1)*2;
+	id:199301;
+	space:screen;
+	postype:left;
+	sprpriority:-7 +(time-1)*2;
+	bindtime:-1;
+	ontop:(var(7)=0);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::ko_d_img_mod
+ignorehitpause if numexplod(199300) {
+	modifyexplod{
+	id:199300;
+	scale:fvar(8):=( ifelse(var(7),0.75,0.55) + (time<13)*(13-time)**3*0.001 -time*0.002 )*fvar(1) ,  fvar(8);
+	postype:left;
+	pos:var(3)/2 -(time*0.2), var(4)/2 }
+}
+ignorehitpause if numexplod(199301) {
+	modifyexplod{
+	id:199301;
+	scale:fvar(8),fvar(8);
+	postype:left;
+	pos:var(3)/2 +(time*0.2), var(4)/2 }
+}
+#;---
+#;---
+#;sys::over
+ignorehitpause if time>=var(2) { destroyself{} }
+
+
+
+##;==========================
+##;==========================
+##;;>>@Config.Round_Down>>
+##; Round-Down [helper]
+##; ラウンド-ダウン
+##;==========================
+[statedef 180020; type:s; movetype:i; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+persistent(0) if !time {
+	call Fnc_DrawCBG(3);
+	let bDrawBG = 1;
+}
+if (time=1) && $bDrawBG && (roundstate=2) { pause{time:20; movetime:20 } }
+ignorehitpause if (time=1) || (roundstate!=2) { destroyself{} }
+
+
+
+##;==========================
+##; Mode_Select_Screen [helper] ; モード選択画面
+##;==========================
+[statedef 180030; type:s; movetype:i; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+persistent(0) if !time {
+	var(3):=parent,var(3)/2+floor(const240p(ifelse(teamside=1,-120,120)));
+	var(4):=parent,var(4)/2+floor(const240p(72));
+	var(22):=parent,var(22);
+	var(25):=15; #width
+	var(26):=10; #heigh
+	var(27):=ifelse(teamside=1,1,-1); #facing
+	fvar(19):=0.5; #scale 
+}
+var(30):=(root,command="holdup" && root,command!="holddown");
+var(31):=(root,command="holddown" && root,command!="holdup");
+if (var(30)||var(31)) && !var(23) {
+	var(22):=var(22)+var(31)-var(30);
+	if (var(22)!=[1,3]) { var(22):=ifelse(var(22)<1,3,1); }
+	parent,var(22):=var(22);
+	playsnd{ value:f10300,20; channel:0 }
+	var(23):=6;
+	var(24):=ifelse(var(30),-1,1)*var(23);
+}
+if var(23)>0 && !var(30) && !var(31) { var(23):=var(23)-1; }
+if var(24)!=0 { var(24):=var(24)+ifelse(var(24)>0,-1,1); }
+#;---
+fvar(14):=(var(24)*24+90)*0.0174;
+explod{
+	anim:f100010+var(22); space:screen; postype:left; facing:1; bindtime:-1; removetime:1;
+	pos:var(3) +((sin(fvar(14))*var(25)))*var(27), var(4) +((fvar(15):=cos(fvar(14))*var(26)));
+	scale:(fvar(16):=sin(fvar(14))*fvar(19)+1.5 ) , fvar(16);
+	sprpriority:165+floor(fvar(16)*10); ignorehitpause:1; supermovetime:-1; pausemovetime:-1; ownpal:1}
+fvar(14):=(var(24)*24+90-120)*0.0174;
+explod{
+	anim:f100010+var(22)+ifelse(var(22)>1,-1,2); space:screen; postype:left; facing:1; bindtime:-1; removetime:1;
+	pos:var(3) +((sin(fvar(14))*var(25)))*var(27), var(4) +((fvar(15):=cos(fvar(14))*var(26)));
+	scale:(fvar(16):=sin(fvar(14))*fvar(19)+1.5 ) , fvar(16);
+	sprpriority:165+floor(fvar(16)*10); ignorehitpause:1; supermovetime:-1; pausemovetime:-1; ownpal:1}
+fvar(14):=(var(24)*24+90+120)*0.0174;
+explod{
+	anim:f100010+var(22)+ifelse(var(22)<3,1,-2); space:screen; postype:left; facing:1; bindtime:-1; removetime:1;
+	pos:var(3)+((sin(fvar(14))*var(25)))*var(27), var(4) +((fvar(15):=cos(fvar(14))*var(26)));
+	scale:(fvar(16):=sin(fvar(14))*fvar(19)+1.5 ) , fvar(16);
+	sprpriority:165+floor(fvar(16)*10); ignorehitpause:1; supermovetime:-1; pausemovetime:-1; ownpal:1}
+#;---
+if ((roundno=1)&&(root,numhelper(185905)=0)) || (roundstate>=2) { destroyself{} }
+
+
+
+##;==========================
+##;==========================
+## 顔描画サブ
+##;;>>@Config.Face>>
+[Function Fnc_DrawFace()]
+#addon_ID
+let vi = floor(sysfvar(0));
+
+#;sys::-2::face_d_mod
+let va = call Fnc_VarAddoo(9);
+if !($va&4) || ($va&262144) {
+	removeexplod{id:490600}
+}
+
+ignorehitpause if roundstate!=2 || (stateno=5150 && time=5 && !alive) {
+	removeexplod{id:490600}
+}
+
+ignorehitpause if !numexplod(490600) {
+ignorehitpause if movetype!=h || (stateno=[120,159]) || (stateno=[5000,5199]) || (stateno=[190190,190196]) {
+ignorehitpause if alive && roundstate=2 && $vi>0 && playeridexist($vi) {
+ignorehitpause if playerid($vi),var(0)=90900 {
+ignorehitpause if playerid($vi),numexplod(490600) {
+
+	let idps = ScreenWidth/320.0; ## MUGEN
+##	let idps = ScreenHeight/240.0; ## IKEMEN
+
+	ignorehitpause if id=playerid($vi),var(15) {
+
+		#;sys::-2::face_d_main ; portrait (顔)
+		ignorehitpause if selfanimexist(909002) {
+			let idpx = playerid($vi),fvar(20) *$idps;
+			let idpy = playerid($vi),fvar(22) *$idps;
+			let idpsx = playerid($vi),fvar(24) *$idps;
+			let idpsy = playerid($vi),fvar(26) *$idps;
+			explod{
+				id:490600;
+				anim:909002;
+				space:screen;
+				postype:left;
+				facing:ifelse(teamside=1,1,-1);
+				bindtime:-1;
+				removetime:-1;
+				pos: $idpx, $idpy;
+				scale: $idpsx, $idpsy;
+				sprpriority:floor(playerid($vi),fvar(32));
+				trans:addalpha;
+				alpha:floor(playerid($vi),fvar(28))/1000, floor(playerid($vi),fvar(28))%1000;
+				ignorehitpause:1;
+				supermovetime:-1;
+				pausemovetime:-1;
+				ownpal:1 }
+		}
+
+		#;#Options_Char_Name
+		#;sys::-2::name_d_main_left&right
+		ignorehitpause if selfanimexist(909010+teamside) {
+			let idpx = playerid($vi),fvar(10) *$idps;
+			let idpy = playerid($vi),fvar(12) *$idps;
+			let idpsx = playerid($vi),fvar(14) *$idps;
+			let idpsy = playerid($vi),fvar(16) *$idps;
+			explod{
+				id:490600;
+				anim:909010+teamside;
+				space:screen;
+				postype:left;
+				facing:1;
+				bindtime:-1;
+				removetime:-1;
+				pos: $idpx, $idpy;
+				scale: $idpsx, $idpsy;
+				sprpriority:floor(playerid($vi),fvar(32))+2;
+				trans:addalpha;
+				alpha:floor(playerid($vi),fvar(18))/1000, floor(playerid($vi),fvar(18))%1000;
+				ignorehitpause:1;
+				supermovetime:-1;
+				pausemovetime:-1;
+				ownpal:1 }
+		}
+
+	}
+
+	#---
+	ignorehitpause if numpartner {
+	ignorehitpause if (id+numpartner+1-playerid($vi),var(15))%(numpartner+1)=(gametime%numpartner)+1 {
+	ignorehitpause if playerid($vi),numexplod(490601+(gametime%numpartner)) {
+
+		#;;sys::-2::face_d_partner_#+option
+		ignorehitpause if selfanimexist(909001) {
+			let idpx = (playerid($vi),fvar(21) +playerid($vi),fvar(34)*(gametime%numpartner) ) *$idps;
+			let idpy = (playerid($vi),fvar(23) +playerid($vi),fvar(35)*(gametime%numpartner) ) *$idps;
+			let idpsx = playerid($vi),fvar(25) +playerid($vi),fvar(36)*(gametime%numpartner) *$idps;
+			let idpsy = playerid($vi),fvar(27) +playerid($vi),fvar(36)*(gametime%numpartner) *$idps;
+			explod{
+				id:490600;
+				anim:909001;
+				space:screen;
+				postype:left;
+				facing:ifelse(teamside=1,1,-1);
+				bindtime:-1;
+				removetime:-1;
+				pos: $idpx, $idpy;
+				scale: $idpsx, $idpsy;
+				sprpriority:floor(playerid($vi),fvar(33))+(gametime%numpartner)*10;
+				trans:addalpha;
+				alpha:floor(playerid($vi),fvar(29))/1000, floor(playerid($vi),fvar(29))%1000;
+				ignorehitpause:1;
+				supermovetime:-1;
+				pausemovetime:-1;
+				ownpal:1 }
+		}
+
+		#;;sys::-2::name_d_partner_#left&right
+		ignorehitpause if selfanimexist(909010+teamside) {
+			let idpx = (playerid($vi),fvar(11) +playerid($vi),fvar(34)*(gametime%numpartner) ) *$idps;
+			let idpy = (playerid($vi),fvar(13) +playerid($vi),fvar(35)*(gametime%numpartner) ) *$idps;
+			let idpsx = playerid($vi),fvar(15) +playerid($vi),fvar(36)*(gametime%numpartner) *$idps;
+			let idpsy = playerid($vi),fvar(17) +playerid($vi),fvar(36)*(gametime%numpartner) *$idps;
+			explod{
+				id:490600;
+				anim:909010+teamside;
+				space:screen;
+				postype:left;
+				facing:1;
+				bindtime:-1;
+				removetime:-1;
+				pos: $idpx, $idpy;
+				scale: $idpsx, $idpsy;
+				sprpriority:floor(playerid($vi),fvar(33))+(gametime%numpartner)*10+3;
+				trans:addalpha;
+				alpha:floor(playerid($vi),fvar(19))/1000, floor(playerid($vi),fvar(19))%1000;
+				ignorehitpause:1;
+				supermovetime:-1;
+				pausemovetime:-1;
+				ownpal:1 }
+		}
+
+	}}}
+
+}}}}}
+
+
+
+
+
+
+
+
+#===============================================================================
+#===============================================================================
+
+#;==========================
+[statedef -4]
+#;==========================
+
+
+#;sys::-2::helper::bar004 ; ライフバー
+ignorehitpause if !ishelper && !numhelper(90900) {
+ignorehitpause if cond(numpartner, id<(partner,id) && partner,numhelper(90900)=0, 1) {
+	helper{
+		id:90900;
+		stateno:90900;
+		helpertype:normal;
+		size.air.front:1911115; ##; <<-version
+		size.height:0; ## 1;; <<-powerbar off mode
+		supermovetime:88888;pausemovetime:88888;
+		pos:0,88888;ownpal:1 }
+}}
+
+#;sys::-2::get_helper::bar004_id ; ID取得
+if !ishelper && numhelper(90900) {
+if (helper(90900),var(0)=90900) && (sysfvar(0)!=helper(90900),id) {
+	sysfvar(0):=(helper(90900),id);
+}}
+
+#;sys::-2::get_players_id2
+if !ishelper && numpartner {
+if !numhelper(90900) && (partner,numhelper(90900)) && (sysfvar(0)!=(partner,sysfvar(0))) {
+	sysfvar(0):=(partner,sysfvar(0));
+}}
+
+
+
+
+
+
+#;==========================
+[statedef -2]
+#;==========================
+
+
+#;sys::-2::bk/jd_system ; ブロキング/ジャストD
+ignorehitpause if roundstate=2 && !ishelper && alive && (ctrl || stateno=52) {
+ignorehitpause if numprojid(195502)||numprojid(195503)|| cond(numpartner, (partner,numprojid(195502))||(partner,numprojid(195503)), 0) {
+	hitoverride{
+	attr:sca,na,sa,ha,np,sp,hp;
+	stateno:195500;
+	time:1 }
+}}
+
+
+#;;>>@Config.Face>>
+ignorehitpause if !ishelper { call Fnc_DrawFace(); }
+
+
+#;//==========================
+#;;>>@Config.Camera>>
+#;sys::-2::camera_nc ; 焦点変更
+ignorehitpause if !ishelper && (sysfvar(0)>0) && playeridexist(floor(sysfvar(0))) {
+ignorehitpause if playerid(floor(sysfvar(0))),var(0)=90900 {
+	ignorehitpause if numpartner && (sysfvar(4)>0 || stateno=5150) {
+		screenbound{value:0; movecamera:0,0 }
+		playerpush{ value:0 }
+	}
+	ignorehitpause if (playerid(floor(sysfvar(0))),var(7)&65536) {
+		screenbound{ value: ((numpartner && sysfvar(4)<1) || !numpartner); movecamera:0,0 }
+	}
+}}
+
+
+#;//==========================
+ignorehitpause if !ishelper && (sysfvar(0)>0) && playeridexist(floor(sysfvar(0))) {
+ignorehitpause if playerid(floor(sysfvar(0))),var(0)=90900 {
+	ignorehitpause if id=playerid(floor(sysfvar(0))),var(15) {
+		#;sys::-2::add.option2-noko
+		ignorehitpause if (playerid(floor(sysfvar(0))),var(9)&65536) { assertspecial{flag:noko} }
+		#;sys::-2::add.option3-life-mod
+		ignorehitpause if playerid(floor(sysfvar(0))),var(23)!=0 { lifeadd{value:playerid(floor(sysfvar(0))),var(23); kill:0 } }
+	}
+}}
+
+
+#;//==========================
+ignorehitpause if alive && !ishelper && roundstate=2 && (sysfvar(0)>0) && playeridexist(floor(sysfvar(0))) {
+ignorehitpause if playerid(floor(sysfvar(0))),var(0)=90900 {
+
+	#;sys::-2::guard_crush
+	ignorehitpause if (stateno=150 || stateno=152) {
+		if (gametime%5=0) && playerid(floor(sysfvar(0))),var(36)>=800 {
+			palfx{time:2; add:200,0,0}
+		}
+		ignorehitpause if playerid(floor(sysfvar(0))),var(36)>=1000 {
+			changestate{value:190010}
+		}
+	}
+
+	if playerid(floor(sysfvar(0))),var(50)>=1000 {
+		#;sys::-2::goto-dizzy_s/c
+		if (stateno=5001 || stateno=5011) && hitover { selfstate{value:195201} }
+		if (stateno=5030 || stateno=5071) && hitshakeover { selfstate{value:195050} }
+		#;sys::-2::goto-dizzy_fd
+		if (stateno=[5110,5111]) { call Fnc_GotoDizzy(195110); } ##selfstate{value:195110}
+	}
+}}
+
+
+#;;--- fadeout when KOed ; KO後消える
+if stateno=5150 && alive=0 && !ishelper && numpartner {
+	if time=1 {sysvar(1):=(roundstate<=2); }
+	if sysvar(1) && (((time=[80,150]) && time%10<5) || time>150) { assertspecial{flag:invisible; flag2:noshadow } }
+}
+
+
+
+
+
+#;;---
+#;;---
+#;//[EOF]

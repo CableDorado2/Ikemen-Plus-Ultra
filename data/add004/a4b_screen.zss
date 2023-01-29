@@ -1,0 +1,475 @@
+# Zantei State Script
+#; #20200614a60 (screens)
+
+
+
+
+
+
+#;------------------------
+#;------------------------
+#; Continue
+[Statedef 5500; type: S; ctrl: 0; anim: 5300; velset:0,0;]
+if !time {
+	if selfanimexist(5300) {changeanim{value:5300} }
+	if selfanimexist(5500) {changeanim{value:5500} }
+	removeexplod{}
+}
+#;---
+#; for_arcade_mode
+#;---
+	assertspecial{flag:nobg; flag2:nofg }
+	assertspecial{flag:invisible }
+
+if !numpartner || cond(numpartner, id<(partner,id), 0) {
+	explod{
+	anim:f3530;
+	ontop:0; sprpriority:100;
+	space:screen; postype:left;
+	pos:-((matchno-1)%10)*3000,0;
+	scale:1000,20 +cos(time*0.005)*5;
+	bindtime:-1;
+	removetime:1;
+	trans:none;
+	ownpal:1 }
+}
+
+#;[.21] ; shadow_light
+explod{
+	anim:f151;
+	space:screen; postype:left;
+	ontop:0; sprpriority:102;
+	pos:floor(const240p(ifelse(id%2,60,260))),floor(const240p(176));
+	scale:5,0.75;
+	removetime:1;
+	trans:add; alpha:256,256;
+	ownpal:1 }
+
+if !time {
+	#;[.22] ; char_img_shadow
+	explod{
+	anim:anim;
+	space:screen; postype:left;
+	ontop:0; sprpriority:101;
+	facing:ifelse(id%2,1,-1);
+	pos:floor(const240p(ifelse(id%2,60,260))),floor(const240p(168));
+	scale:const(size.xscale),const(size.yscale);
+	bindtime:-1;
+	removetime:-1;
+	trans:add; alpha:0,128;
+	ownpal: 1}
+
+	#;[.22] ; char_img
+	explod{
+	anim:anim;
+	space:screen; postype:left;
+	ontop:0; sprpriority:103;
+	facing:ifelse(id%2,1,-1);
+	pos:floor(const240p(ifelse(id%2,50,270))),floor(const240p(168));
+	scale:const(size.xscale),const(size.yscale);
+	bindtime:-1;
+	removetime:-1;
+	ownpal: 1}
+}
+
+
+
+
+##;------------------------
+##;------------------------
+##; Default Init ; デフォルト・開始ステート
+[Statedef 5900; type:S;]
+
+#if roundsexisted=0 {
+#    VarRangeSet{value:0}
+#    VarRangeSet{fvalue:0}
+#}
+
+RemapPal{source:1,1; dest:1, ifelse(ishelper, palno, drawpalno)}
+ChangeState{value:195900}
+
+
+
+
+##;==========================
+##; * Additions
+##;==========================
+
+##;==========================
+##; Init2 / Partner Assist-Stateno Registration ; パートナー支援ステート登録
+##; * override this statedef to regist partner-assist-stateno
+##;==========================
+[statedef 195900; type:s; ]
+#;;>>@Config.Tag_Assist_StateNo>>
+sysvar(0):=1000; #;;<-def * set to 1000 (temp)
+changestate{value:190000}
+
+
+#;------------------------
+#; default assist-action ; (協力技初期設定)
+[Statedef 1000; type:S; physics:S; movetype:I;
+anim:ifelse(selfanimexist(195),195,0);
+sprpriority:-2; velset:0,0; ctrl:0; ]
+if !time { posset{y:0} }
+if (anim=195) && (animtime=0) { poweradd{value:1000} }
+if (anim!=195) && (time>16) || (anim=195) && (animtime=0) || time>256 { changestate{value:0; ctrl:1} }
+
+
+#;==========================
+#; preintro ; 予備イントロ
+#;==========================
+[Statedef 190000; ctrl:0; ]
+#; sys::goto_cotinue_screen
+if !ishelper {
+	if numpartner {
+	if partner,stateno=5500 {
+		changestate{value:0}
+	}}
+	if numenemy {
+	if enemy,stateno=5500 {
+		changestate{value:0}
+	}}
+}
+#;---
+#; intro for round 1 / turns mode
+if roundno=1 {
+	changestate{value:190}
+}
+if roundno>1 && numenemy {
+if (teammode=turns)||(enemy,teammode=turns) {
+	changestate{value:190}
+}}
+#;---
+changestate{value:0}
+
+
+
+
+##;==========================
+##; VS_Screen [helper] ; VS画面
+##;==========================
+[statedef 185905; type:s; movetype:i; physics:n; anim:0; velset:0,0; ctrl:0; ]
+#;[.02] ;init
+if !time {
+	fvar(0):=screenwidth/320.0;  ## mugen
+##	fvar(0):=screenheight/240.0; ## ikemen
+	var(4):=ceil(screenheight/2);
+	var(5):=ceil(screenwidth);
+	var(9):=(roundno=1);
+}
+
+#; fade-in
+ignorehitpause persistent(0) if var(9) && root,numhelper(90900) {
+	explod{
+	id:185900;
+	anim:f233305;
+	space:screen; postype:left;
+	pos:0,0;
+	bindtime:-1;
+	sprpriority:6;
+	scale:800,800;
+	ontop:1;
+	supermovetime:-1; pausemovetime:-1;
+	ownpal:1 }
+}
+
+if (time>0) && var(9) && (root,stateno!=[5900,5999]) {
+	superpause{anim:-1; sound:-1; darken:0; time:2; movetime:2 }
+}
+
+#;---
+assertspecial{flag:invisible}
+nothitby{value:sca}
+
+if (time>1) && var(9) { assertspecial{flag:nobg; flag2:nofg; flag3:nobardisplay} }
+
+if var(9) {
+	assertspecial{ flag:nomusic; flag2:timerfreeze; flag3:noko}
+	assertspecial{ flag:intro; flag2:roundnotskip}
+}
+
+#; addon_ID
+if !var(0) && (root,sysfvar(0)>0) && playeridexist(floor(root,sysfvar(0))) {
+if (playerid(floor(root,sysfvar(0))),var(0)=90900) {
+	var(0):=floor(root,sysfvar(0));
+	var(3):=-1;
+}}
+#; index from id
+if (var(0)>0) && playeridexist(var(0)) {
+if playerid(var(0)),var(0)=90900 {
+	var(3):=(root,id)-(playerid(var(0)),sysvar(0));
+}}
+
+if facing=ifelse(teamside=1,-1,1) { turn{} }
+
+posset{x: (75 +var(3) *(26-numpartner*2) )*fvar(0) *ifelse(teamside=1,-1,1); y: 0 }
+
+#; bg
+if (time>0) && var(3)=0 && teamside=1 {
+	explod{
+	id:4;
+	sprpriority:50;
+	space:screen;
+	postype:left;
+	anim:f3530;
+	pos:-8100*fvar(0),var(4);
+	scale:300*fvar(0),20+time*0.05;
+	bindtime:-1;
+	removetime:1;
+	trans:none;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#; eff
+if (time>0) && var(3)=0 {
+	explod{
+	id:4;
+	anim:f160303-teamside;
+	scale:2.5,-5;
+	pos: var(5)*(teamside=2) , var(4) +ceil((40-(!majorversion)*5)*fvar(0));
+	sprpriority:180;
+	space:screen;
+	postype:left;
+	bindtime:-1;
+	removetime:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#; versus
+persistent(0) if (time=20) && var(3)=0 && teamside=1 && !numexplod(2) {
+	explod{
+	id:2;
+	anim:f233320;
+	sprpriority:181;
+	space:screen;
+	postype:left;
+	pos:var(5)/2,var(4) -ceil(60*fvar(0));
+	bindtime:-1;
+	removetime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+if (time=[20,40]) {
+	modifyexplod{
+	id:2;
+	scale:(40-time)**2*0.025+1, (40-time)**2*0.025+1 }
+}
+
+#; fg_light/mask
+if (time>0) && var(3)=0 {
+	explod{
+	id:4;
+	anim:f3020;
+	sprpriority:180;
+	space:screen;
+	facing:ifelse(teamside=1,1,-1);
+	postype:left;
+	pos:var(5)*(teamside=2), var(4) -ceil(81*fvar(0));
+	scale:fvar(0),fvar(0);
+	bindtime:-1;
+	removetime:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#; fg
+if (time>0) && var(3)=0 && teamside=1 {
+	explod{
+	id:4;
+	anim:f233310;
+	sprpriority:182;
+	space:screen;
+	postype:left;
+	pos:0,0;
+	scale:fvar(0),fvar(0);
+	bindtime:-1;
+	removetime:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#; slide
+if (time<=236) {
+	fvar(1):= var(5)*(teamside=2)  +ifelse(teamside=2,-1,1)*
+		floor(fvar(0)* (   var(3)*(32-numpartner*2)  -(time<=25)*((25-time)*(var(3)*0.2+1))**3*0.01  +time*var(3)*0.05  ));
+}
+
+#; face
+if (time>6) && (selfanimexist(909002) || selfanimexist(909003)) {
+	explod{
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	ownpal:1;
+	bindtime:-1;
+	removetime:1;
+	sprpriority:100-var(3)*10;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	#;---
+	anim:ifelse(selfanimexist(909003),909003,909002);
+	pos:floor(fvar(1)), var(4) -ceil((20 -var(3)*8 )*fvar(0));
+	scale:0.75-var(3)*0.1, 0.75-var(3)*0.1 }
+}
+
+#; name
+if (time>1) && selfanimexist(909010+teamside) {
+	explod{
+	anim:909010+teamside;
+	space:screen;
+	postype:left;
+	pos:floor(fvar(0)* (  ((time<=25) *((25-time)*(0.2+var(3)*0.1))**2 -time*var(3)*0.05 ) *ifelse(teamside=1,-1,1) +ifelse(teamside=1,20,300)  ))   ,var(4) +ceil(fvar(0)*(40+var(3)*12));
+	ownpal:0;
+	bindtime:-1;
+	removetime:1;
+	scale:2,2;
+	sprpriority:180;
+	trans:sub;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+if (time>1) {
+	palfx{
+	time:1;
+	add:-256*(teamside=2), -abs(50-time%101)*3 ,-256*(teamside=1) }
+}
+
+#; char_anim
+if (time=25) || (animtime=0) {
+	removeexplod{id:1}
+	changeanim{value:ifelse(time=25 && selfanimexist(195),195,0) }
+}
+
+if var(9) && !numexplod(1) {
+	explod{
+	id:1;
+	anim:anim;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	ownpal:1;
+	bindtime:-1;
+	removetime:-1;
+	removeongethit:1;
+	sprpriority:220-var(3);
+	scale:0,0;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+if (time>0) {
+	modifyexplod{
+	id:1;
+	postype:left;
+	pos:floor(fvar(0)* (  ifelse(teamside=1, 25, 295) +(var(3)*(26-numpartner*2) -time*0.05) *ifelse(teamside=1,1,-1)  ))   ,var(4) +ceil(fvar(0)*38);
+	scale:0.5*const(size.xscale),0.5*const(size.yscale) }
+}
+
+#;--- explos
+if (time=[30,80]) && (time%15=0) && var(3)=0 {
+	explod{
+	anim:f33010+(teamside=2);
+	id:5;
+	space:screen;
+	postype:left;
+	facing:ifelse(random<500,1,-1);
+	vfacing:ifelse(random<500,1,-1);
+	pos:var(5)/2, var(4) +ceil(26*fvar(0));
+	scale:0,0;
+	sprpriority:51;
+	removetime:15;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1 }
+}
+
+if numexplod(5) {
+	modifyexplod{
+	id:5;
+	scale:(time%15)*0.5+0.1, (time%15)*0.25+0.1;
+	trans:addalpha;
+	alpha:256-(time%15)*17,  256 }
+}
+#;---
+#;--- flash-finish
+if (time=143) && var(3)=0 {
+	explod{
+	anim:f233301;
+	space:screen;
+	postype:left;
+	pos:0,0;
+	bindtime:-1;
+	sprpriority:5;
+	scale:800,800;
+	ontop:1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;---
+if (time=6) && var(3)=0 && teamside=2 { playsnd{value:f10300,20; abspan:0; channel:1} }
+if (time=18) && var(3)=0 && teamside=1 { playsnd{value:f20300,1; abspan:0; channel:1} }
+if (time=150) && var(3)=0 && teamside=2 { playsnd{value:f2100,100; abspan:0 } }
+#;---
+#; clear_img / end_flag
+if (time>=160) || (roundstate>=2) || (root,alive=0) || !var(9) { removeexplod{id:1} }
+if root,stateno=5500 && numpartner {
+	if partner,stateno=5500 { removeexplod{id:1} }
+}
+#;--- system_switch
+if !const(Default.Enable.SW.vsScreen) {
+#if (var(0)>0) && playeridexist(var(0)) {
+#if (playerid(var(0)),var(0)=90900) && !(playerid(var(0)),var(7)&524288) {
+	removeexplod{id:1}
+	if var(9) { stopsnd{channel:-1} } ## ;all_snd
+	##;; メモ:  参照のため1F遅れる、対策の消音
+#}}
+}
+
+
+if !numexplod(1) {
+	removeexplod{id:2}
+	removeexplod{id:4}
+	removeexplod{id:5}
+	stopsnd{channel:1}
+	selfstate{value:159990}
+}
+
+
+
+
+
+#===============================================================================
+#===============================================================================
+[statedef -4;]
+
+#;sys::-2::helper::intro
+ignorehitpause if (stateno=5900) && !ishelper && !numhelper(185905) {
+	helper{
+		id:185905;stateno:185905;helpertype:normal;
+		supermovetime:88888;pausemovetime:88888;ownpal:1 }
+}
+
+
+
+
+
+
+#;;---
+#;;---
+#;//[EOF]

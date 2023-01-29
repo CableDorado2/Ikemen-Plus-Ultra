@@ -22,25 +22,25 @@ end
 --end
 
 t_tInfo = {
-	{id = '1', text = 'WILL BE AVAILABLE FROM 1AM/1:00 TO 1PM/13:00 '},
-	{id = '2', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 8PM/20:00'},
-	{id = '3', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
+	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
+	{id = '2', text = 'WILL BE AVAILABLE FROM 1AM/1:00 TO 1PM/13:00 '},
+	{id = '3', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 8PM/20:00'},
 }
 for i=1, #t_tInfo do
 	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 39)
 end
 
 t_mInfo = {
-	{id = '1', text = "Find A Generator in an Unknown Zone  "},
-	{id = '2', text = "Survive 40 Rounds in The Call of Zombies!"},
-	{id = '3', text = "Play as Master Kung Fu Girl!     "},
+	{id = '1', text = "Play as Master Kung Fu Girl!     "},
+	{id = '2', text = "Find A Generator in an Unknown Zone  "},
+	{id = '3', text = "Survive 40 Rounds in The Call of Zombies!"},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
 end
 
 function f_drawEvent1() --Draw Event 1 Preview
-	if sysTime >= 1 and sysTime <= 12 then --Event Available! FROM 1AM/1:00 TO 1PM/13:00
+	if sysTime >= 20 and sysTime <= 23 then
 		event1Status = true
 		event1 = animNew(eventSff, [[
 		0,0, 0,0,
@@ -60,7 +60,7 @@ function f_drawEvent1() --Draw Event 1 Preview
 end
 
 function f_drawEvent2() --Draw Event 2 Preview
-	if sysTime >= 13 and sysTime <= 19 then --Event Available! FROM 1PM/13:00 TO 8PM/20:00
+	if sysTime >= 1 and sysTime <= 12 then
 		event2Status = true
 		event2 = animNew(eventSff, [[
 		1,0, 0,0,
@@ -80,7 +80,7 @@ function f_drawEvent2() --Draw Event 2 Preview
 end
 
 function f_drawEvent3() --Draw Event 3 Preview
-	if sysTime >= 20 and sysTime <= 23 then --Event Available! FROM 8PM/20:00 TO 11PM/23:00
+	if sysTime >= 13 and sysTime <= 19 then
 		event3Status = true
 		event3 = animNew(eventSff, [[
 		2,0, 0,0,
@@ -148,49 +148,9 @@ function f_eventMenu()
 				end
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--UNKNOW ZONE
+			--Master Kung Fu Girl
 			if eventMenu == 1 then
 				if event1Status == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-					setRoundTime(-1)
-					data.p2In = 0
-					data.p1TeamMenu = {mode = 0, chars = 1}				
-					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.p2Char = {t_charAdd['unknown zone']}
-					data.stageMenu = false
-					data.versusScreen = false
-					data.rosterMode = 'event'
-					data.eventNo = 'event 1'
-					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-					script.select.f_selectSimple()
-				elseif event1Status == false then
-					sndPlay(sysSnd, 100, 1)
-					f_eventLocked()
-				end
-			--CALL OF ZOMBIES
-			elseif eventMenu == 2 then
-				if event2Status == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-					setRoundTime(-1)
-					data.p2In = 0
-					data.p1TeamMenu = {mode = 0, chars = 1}				
-					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.p2Char = {t_charAdd['call of zombies']}
-					data.stageMenu = false
-					data.versusScreen = false
-					data.rosterMode = 'event'
-					data.eventNo = 'event 2'
-					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-					script.select.f_selectSimple()
-				elseif event2Status == false then
-					sndPlay(sysSnd, 100, 1)
-					f_eventLocked()
-				end
-			--Master Kung Fu Girl
-			elseif eventMenu == 3 then
-				if event3Status == true then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
 					setRoundTime(-1)
@@ -202,8 +162,48 @@ function f_eventMenu()
 					data.versusScreen = true
 					data.gameMode = 'survival'
 					data.rosterMode = 'event'
-					data.eventNo = 'event 3'
+					data.eventNo = 'event 1'
 					script.select.f_selectAdvance()
+				elseif event1Status == false then
+					sndPlay(sysSnd, 100, 1)
+					f_eventLocked()
+				end
+			--UNKNOW ZONE
+			elseif eventMenu == 2 then
+				if event2Status == true then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+					setRoundTime(-1)
+					data.p2In = 0
+					data.p1TeamMenu = {mode = 0, chars = 1}				
+					data.p2TeamMenu = {mode = 0, chars = 1}
+					data.p2Char = {t_charAdd['unknown zone']}
+					data.stageMenu = false
+					data.versusScreen = false
+					data.rosterMode = 'event'
+					data.eventNo = 'event 2'
+					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+					script.select.f_selectSimple()
+				elseif event2Status == false then
+					sndPlay(sysSnd, 100, 1)
+					f_eventLocked()
+				end
+			--CALL OF ZOMBIES
+			elseif eventMenu == 3 then
+				if event3Status == true then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+					setRoundTime(-1)
+					data.p2In = 0
+					data.p1TeamMenu = {mode = 0, chars = 1}				
+					data.p2TeamMenu = {mode = 0, chars = 1}
+					data.p2Char = {t_charAdd['call of zombies']}
+					data.stageMenu = false
+					data.versusScreen = false
+					data.rosterMode = 'event'
+					data.eventNo = 'event 3'
+					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+					script.select.f_selectSimple()
 				elseif event3Status == false then
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()

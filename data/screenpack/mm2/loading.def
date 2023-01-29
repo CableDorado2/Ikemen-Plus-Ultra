@@ -1,0 +1,32 @@
+; motif: mm2 loading...
+
+;-------------------
+[Info]
+	localcoord=320,180
+
+;---------------
+[scenedef]
+	spr=system.sff
+
+;---------------
+;"loading..."
+;---------------
+[scene 0]
+	fadein.time=30
+	fadeout.time=0
+	clearcolor=0,0,0
+	bg.name=bg1
+	end.time=60
+
+;---------------
+[bg1def]
+;---------------
+
+[bg1 0]
+	type=normal
+	spriteno=100,1
+	start=-80,20
+	mask=1
+	window=0,0,319,239
+
+;[EOF]

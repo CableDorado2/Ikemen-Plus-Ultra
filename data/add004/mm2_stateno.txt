@@ -1,0 +1,87 @@
+
+ "common1.cns" Reserved State Numbers (when conflict with chars, please change "common1.cns")
+ "common1.cns" 予約ステート番号(キャラと競合したら適当に"common1.cns"を変更してください)
+
+
+ ======================
+ StateNo   [Type]    Purpose
+ ------- ------ -------
+ 142000-02 [player]  ai_Jump_normal / fwd / back ;CPU専用跳躍ステート
+ 142020-22 [player]  -Small ;小ジャンプ
+ 142030-32 [player]  -Mid ;中ジャンプ
+ 5111      [player]  Hit-LieDown custom* ;倒れ調整
+ -------
+ 195050    [player]  Dizzy_Fall ;気絶専用落下
+ 195110    [player]  Downed_Get-Hit (lying down)
+ 195900    [player]  Partner-Assist-Stateno-Registration ;パートナー支援ステート登録
+ 190000    [player]  PreIntro ;予備イントロ
+ 185900 xx [player]  VS_Screen ;VS画面
+ 185905    [helper]  VS_Screen ;VS画面
+ -------
+ 195500    [player]  Blocking/Just-Defended ;ブロキング・ジャストディフェンド
+ 195505    [player]  Jump-down-after_bk/jd
+ 195200    [player]  Fall-Down ;崩れ倒れ
+ 195201    [player]  Fall-Down-Alive ;崩れ倒れ-生存時
+ -------
+ 190010-11 [player]  Guard_Crush ;ガードクラッシュ
+ 190116    [player]  Dizzy/Stun ; 気絶
+ 190119    [player]  Recover/Reserval; 回復
+ 190140    [helper]  Dizzy_Birds ; 気絶時鳥
+ 190120    [player]  Guard_Breaking-p2state ;ガードブレーキングやられ
+ 190130    [player]  Against_Throw(p1&p2) ;投げ外し
+ -------
+ 190190-96 [player]  Partner_Action_in_TagMode ;タッグモード時パートナー処理
+ 190190    [player]  Out-Screen ;画面外へ
+ 190191    [player]  Stand-By1 (Change OK) ;待機中1(交替可)
+ 190192    [player]  Stand-By2 (Change / Partner-Assist-OK, Life-Recover) ;待機中2(交替/支援可,体力回復)
+ 190193-95 [player]  -in ; 登場
+ 190194    [player]  Striker-Call / Summon ;ストライカー召喚
+ 190195    [player]  Land > RoundOver ;着地>ラウンド終了
+ 190196    [player]  Empty_States_for_override ;ストライカー出現 上書き用中間ステート
+ 190202    [helper]  Static-Pos ;座標固定
+ -------
+ 91000     [helper]  Projctile ;飛び道具
+ 91050     [helper]  Projctile_Chaser_after_Reflecsion ;飛び道具反射後追跡用
+  * Reflector_ID:
+    var(18)=(var(15):=10311)+(var(16):=10212)+(var(17):=10113)
+    options: sysvar(0)=var(18)
+  * 反射後の飛び道具を,発射主がガードできないため、防御誘発用ヘルパー(反射後飛び道具に同行)
+    a "movetype=A" Helper which helps root going into a guard state.
+    "Guard.Dist" only takes effect when enemy has "movetype=A".
+  * IKEMENには必要ありません
+
+ 91100     [helper]  Proj_Disappearing ;飛び道具消滅
+ -------
+ 88880     [helper]  Super_Pause-Level_1 ;スーパー発動時演出 Lv1-2(MAX)
+ 88882     [helper]  Super_Pause-Level_2_Max
+ 88883     [helper]  Super_Pause-Level_3_Max2
+ 88870     [helper]  Super_Pause-Max2_BG
+ 88872     [helper]  Super_Pause-Type_2
+ 88890     [helper]  Guard-Breaking ;ガード崩れ
+ 88891     [helper]  Guard-Cancel ;ガードキャンセル
+ 88892     [helper]  Guard-Crush/Dizzy_BG ;ガード崩れ＞硬直
+ -------
+ 90909     [helper]  add004_Main-Starter ;初期化用
+ 90900     [helper]  add004_Main-Loop ;バー表示など、主要処理ヘルパー・ステート
+ 99980     [helper]  Ranking ;ランキング
+ -------
+ 180000    [helper]  Round-Call ;ラウンド開始
+ 180010    [helper]  Round-KO   ;ラウンド終了
+ 180020    [helper]  Round-DOWN ;ラウンド-ダウン
+ -------
+ 159005    [helper]  Ground_Wave ;地面衝突用
+ -------
+ 152000    [helper]  Jump_Land_Dust ;通常着地衝撃波
+ 152020    [helper]  Jump_Dust  ;跳躍煙
+ 152040    [helper]  Dash_Dust  ;突進煙
+ 152050    [helper]  Slide_Dust ;滑り煙
+ 152080    [helper]  Grab_Spark ;掴みスパーク
+ 152100    [helper]  Hit/Guard_Spark ;火花
+ 152200    [helper]  Fire/Burn_Spark ;燃焼効果演出
+ 152220    [helper]  Explosion  ;爆発効果演出
+ -------
+ 155000    [helper]  SP-Eff_BackLight ;特殊効果_後光
+ -------
+ 159990    [helper]  DestroySelf-State ;ヘルパー用自己消去ステート
+
+

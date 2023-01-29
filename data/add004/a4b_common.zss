@@ -1,0 +1,2186 @@
+# Zantei State Script
+#; #20200516a56 (common state file for I.K.E.M.E.N)
+
+
+
+
+
+
+##==================
+##==================
+#;addon変数参照
+[Function Fnc_VarAddoo(VarNo) ret]
+if ishelper { sysfvar(0):=root,sysfvar(0); }
+if sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+	if playerid(floor(sysfvar(0))),var(0)=90900 {
+		let ret = playerid(floor(sysfvar(0))),var($VarNo);
+	}
+}
+
+
+##==================
+##==================
+[Statedef 0; type: S; physics: S; sprpriority: 0;]
+
+if cond(Anim=5, AnimTime=0, Anim!=0) { changeanim{value: 0} }
+if !time { velset{y:0} }
+
+if Time=4 || abs(Vel X) < ifelse(MajorVersion = 1,
+    Const(movement.stand.friction.threshold), 2) {
+    VelSet{x: 0}
+}
+if !alive { changestate{value:5050; ctrl:0} }
+
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+
+#;[.01b] ; partner_standby ; パートナー待機
+if !time && numpartner && !ishelper && sysfvar(4)>0 && alive && roundstate=2 {
+	let va = call Fnc_VarAddoo(22);
+	if $va=4 { selfstate{value:190190} }
+}
+
+#;--- AI
+if roundstate=2 && ctrl && ailevel {
+	let va = call Fnc_VarAddoo(18);
+	if inguarddist && ($va/10000)%10 { changestate{value:120; ctrl:0} }
+	if selfanimexist(195200) && ($va/100000)%10=1 { changestate{value:110} }
+	if time>0 && (($va/100000)%10=[4,7]) { changestate{
+		value:ifelse( (($va/100000)%10=[6,7]), 48, 142000 +((($va/100000)%10)-4)*10 +(($va/1000000)%10) ) } }
+	if time>5 {
+		let va = call Fnc_VarAddoo(19);
+		if (p2bodydist x!=[-58,58]) && ($va/1000)%1000=0 {
+			if random<p2bodydist x*2 || (p2movetype=i && random<100) || p2stateno=190116 { changestate{value:100} }
+		}
+		if ($va/10)%10=0 && random<200 { changestate{value:21} }
+		if (p2bodydist x=[-80,80]) && p2stateno!=190116 && random<80 { changestate{value:105} }
+	}
+}
+#;---
+
+if time>80 && (lose || drawgame) && (prevstateno=190195) && roundstate>2 {
+	changestate{ value:ifelse(selfanimexist(170),170,175); ctrl:1 }
+}
+
+
+##==================
+[Statedef 10; type: C; physics: C;]
+if !time && (anim!=10) { changeanim{value:10} }
+velmul{x:0.75}
+if abs(vel x) < const(movement.crouch.friction.threshold) { velset{x:0} }
+if animtime=0 { changestate{value:11} }
+
+
+##==================
+[Statedef 11; type: C; physics: C; sprpriority: 0;]
+#; partner_standby ; パートナー待機
+if !time && numpartner && !ishelper && sysfvar(4)>0 && alive && roundstate=2 {
+	let va = call Fnc_VarAddoo(22);
+	if $va=4 { selfstate{value:190190} }
+}
+if (anim!=11 && anim!=6) || (anim=6 && animTime=0) { changeanim{value:11} }
+if abs(vel x) < const(movement.crouch.friction.threshold) { velset{x:0} }
+
+#;--- AI
+if roundstate=2 && ctrl && ailevel {
+	let va = call Fnc_VarAddoo(18);
+	if inguarddist && ($va/10000)%10 { changestate{value:120; ctrl:0} }
+	if selfanimexist(195200) && ($va/100000)%10=1 { changestate{value:110} }
+	if time>0 && (($va/100000)%10=[4,7]) { changestate{
+		value:ifelse( (($va/100000)%10=[6,7]), 48, 142000 +((($va/100000)%10)-4)*10 +(($va/1000000)%10) ) } }
+}
+#;---
+
+
+##==================
+[Statedef 12; type: S; physics: S;]
+if !time && (anim!=12) { changeanim{value:12} }
+if animtime=0 { changestate{value:0} }
+
+
+##==================
+[Statedef 20; type: S; physics: S; sprpriority: 0;]
+#;---
+#;[.01b] ; partner_standby ; パートナー待機
+if !time && numpartner && !ishelper && sysfvar(4)>0 && alive && roundstate=2 {
+	let va = call Fnc_VarAddoo(22);
+	if $va=4 { selfstate{value:190190} }
+}
+
+#;---
+if !time && roundstate=2 && ctrl && ailevel { selfstate{value:21} }
+#;---
+
+
+if Command = "holdback" {
+    VelSet{x: Const(velocity.walk.back.x)}
+} else if Command = "holdfwd" {
+    VelSet{x: Const(velocity.walk.fwd.x)}
+}
+if Vel X > 0 {
+    if cond(Anim = 5, AnimTime = 0, Anim != 20) {
+        ChangeAnim{value: 20}
+    }
+} else if Vel X < 0 {
+    if cond(Anim = 5, AnimTime = 0, Anim != 21) {
+        ChangeAnim{value: 21}
+    }
+}
+
+
+##==================
+##; Walk_ai
+[statedef 21; type:s; physics:n; sprpriority:0; ctrl:0; facep2:1; ]
+if !time {
+	if random>350 { velset{x:const(velocity.walk.fwd.x) } }
+	else { velset{x:const(velocity.walk.back.x) } }
+}
+
+if ((gametime+id)%32=0) && (random<500) {
+	if (p2bodydist x>120) || random<100 { velset{x:const(velocity.walk.fwd.x)  } }
+	if (p2bodydist x<60)  || random<100 { velset{x:const(velocity.walk.back.x) } }
+}
+
+if (vel x>0) && ((anim=5 && animtime=0) || (anim!=5 && anim!=20)) { changeanim{value:20} }
+if (vel x<0) && ((anim=5 && animtime=0) || (anim!=5 && anim!=21)) { changeanim{value:21} }
+
+#;--- AI
+if roundstate=2 && ctrl && ailevel {
+	let va = call Fnc_VarAddoo(18);
+	if inguarddist && ($va/10000)%10 { changestate{value:120; ctrl:0} }
+	if selfanimexist(195200) && ($va/100000)%10=1 { changestate{value:110} }
+	if time>0 && (($va/100000)%10=[4,7]) { changestate{
+		value:ifelse( (($va/100000)%10=[6,7]), 48, 142000 +((($va/100000)%10)-4)*10 +(($va/1000000)%10) ) } }
+	if time>9 {
+		let va = call Fnc_VarAddoo(19);
+		if (p2bodydist x!=[-58,58]) && ($va/1000)%1000=0 {
+			if random<p2bodydist x/2 || (p2movetype!=a && random<80) || p2stateno=190116 { changestate{value:100;ctrl:1} }
+		}
+		if (p2bodydist x=[-80,80]) && p2stateno!=190116 && (vel x<0) && random<80 { changestate{value:105} }
+	}
+}
+#;---
+
+
+##;---
+if (time>60 || roundstate!=2)
+	|| (time>9 && ((backedgebodydist<=0) || (frontedgebodydist<=0) || (p2bodydist x=[-36,36])))
+	|| (time>1 && (p2dist x<0)) {
+	changestate{value:0; ctrl:1 }
+}
+#;---
+if (vel x<0) && ((anim=5 && animtime=0) || (anim!=5 && anim!=21)) { changeanim{value:21 } }
+
+
+
+##==================
+##; Jump start
+##; sv01:	0:normal / 1:long / 2:small / 3:middle
+##;-----------------
+[Statedef 40; type: u; physics: u; ]
+#;[.00]
+if !time && roundstate=2 && selfanimexist(195200) && ailevel {
+	changestate{value:0} ##;; ifelse(prevstateno!=stateno,prevstateno,10) ;; cancel
+}
+#;---
+if !time {
+	changeanim{value:40 }
+	sprpriority{value:1 }
+	ctrlset{value:0 }
+	velset{x:0; y:0 }
+	statetypeset{statetype:s; physics:s }
+	sysvar(1):=0;
+}
+if command="holdfwd" || prevstateno=100 { sysvar(1):=1; }
+if command="holdback" && command!="holdfwd" && prevstateno!=100 { sysvar(1):=-1; }
+#;---
+#; jump type ; ジャンプ種類
+#; normal (=0 def)
+if !time {
+	sysfvar(1):=0;
+	#; long jump (=1)
+	let va = call Fnc_VarAddoo(44);
+	if prevstateno=100 || $va>0 { sysfvar(1):=1; }
+}
+
+if command!="holdup" && sysfvar(1)=0 {
+	let va = call Fnc_VarAddoo(22);
+	if $va!=2 {
+		if sysfvar(1)=0 { sysfvar(1):=2; } ##; small jump (=2)
+		if sysfvar(1)=1 { sysfvar(1):=3; } ##; mid hump (=3)
+	}
+}
+
+#;---
+if animtime=0 {
+	#; vel x - normal / small
+	if (sysfvar(1)=0 || sysfvar(1)=2) {
+		velset{
+		x:ifelse(sysvar(1)=0,const(velocity.jump.neu.x),ifelse(sysvar(1)=1,const(velocity.jump.fwd.x),const(velocity.jump.back.x)))
+		}
+	}
+	#; vel x - mid / long
+	if (sysfvar(1)=1 || sysfvar(1)=3) {
+		velset{
+		x:ifelse(sysvar(1)=0,const(velocity.jump.neu.x),ifelse(sysvar(1)=1,const(velocity.runjump.fwd.x),const(velocity.runjump.back.x)))
+		}
+	}
+
+	velset{y:const(velocity.jump.y) } #; vel y - normal
+	if sysfvar(1)=1 { velset{y:const(velocity.runjump.y) } } #; vel y - long
+	if sysfvar(1)>=2 { velset{y:-const(movement.yaccel)*13.32 } } #; vel y - small / mid
+	##;; const(movement.yaccel)/0.50*6.66
+	##;; const(velocity.runjump.y)/1.41
+
+	changestate{value:50; ctrl:1 }
+}
+
+
+##==================
+[Statedef 45; type: A; physics: N;
+ ctrl: 0; velset: 0, 0;]
+ChangeAnim{value: ifelse(SelfAnimExist(44), 44, 41)}
+if Time = 0 {
+    SysVar(1) := 0;
+}
+if Command = "holdback" {
+    SysVar(1) := -1;
+} else if Command = "holdfwd" {
+    SysVar(1) := 1;
+}
+if Time = 2 {
+    if SysVar(1) = 0 {
+        let x = Const(velocity.airjump.neu.x);
+    } else if SysVar(1) = 1 {
+        let x = Const(velocity.airjump.fwd.x);
+    } else {
+        let x = Const(velocity.airjump.back.x);
+    }
+    VelSet{x: $x; y: Const(velocity.airjump.y)}
+    ChangeState{value: 50; ctrl: 1}
+}
+
+
+##==================
+[Statedef 50; type: A; physics: A;]
+if !time {
+	if (prevstateno!=40) { playsnd{value:f50,0; channel:1 } }
+	if (sysfvar(1)<2) { changeanim{value:ifelse((vel x)=0,41,ifelse((vel x)>0,42,43)) } }
+	if (sysfvar(1)>=2) { changeanim{value:41 } }
+}
+persistent(0) if (vel y>-2) && selfanimexist(anim+3) { changeanim{ value:anim+3 } }
+#;---
+#; Guard ; 防御
+let va = call Fnc_VarAddoo(18);
+if ($va/10000)%10 { changestate{value:120; ctrl:0} }
+
+
+[Statedef 51; type: A; physics: A;]
+
+
+[Statedef 52; type: S; physics: S; velset:0,0; ctrl: 0; anim: 47;]
+if Time = 0 {
+    VelSet{y: 0}
+    PosSet{y: 0}
+} else if Time = 3 {
+    CtrlSet{value: 1}
+}
+if MajorVersion = 1 && abs(Vel X) < Const(movement.stand.friction.threshold){
+    VelSet{x: 0}
+}
+if AnimTime = 0 {
+    ChangeState{value: 0; ctrl: 1}
+}
+
+
+##==================
+#; Jump Up
+[statedef 58; type:a; physics:a; anim:41; ]
+if !time { playsnd{value:f50,0; channel:1} }
+persistent(0) if (vel y>-2) && selfanimexist(anim+3) { changeanim{value:anim+3} }
+
+
+##==================
+[Statedef 100; type: S; physics: S; anim: 100; sprpriority: 1;]
+
+
+#;[.01b] ; partner_standby ; パートナー待機
+if !time && numpartner && !ishelper && sysfvar(4)>0 && alive && roundstate=2 {
+	let va = call Fnc_VarAddoo(22);
+	if $va=4 { selfstate{value:190190} }
+}
+
+#;--- AI
+if roundstate=2 && ctrl && ailevel {
+	let va = call Fnc_VarAddoo(18);
+	if inguarddist && ($va/10000)%10 { changestate{value:120; ctrl:0} }
+	if selfanimexist(195200) && ($va/100000)%10=1 { changestate{value:110} }
+	if time>5 && (($va/100000)%10=[4,7]) { changestate{ value:ifelse( (($va/100000)%10=[1,2]), 142011, 142031) } }
+}
+#;---
+
+if !time && (anim!=100) { changeanim{ value:100 } }
+
+#; step sound ; 足音
+if (time%12=6) && const(velocity.run.fwd.y)=0 { playsnd{ value:f100,0; channel:1 } }
+
+#; dash_dust
+persistent(0) if (time=2) && (pos y=0) && (vel x=0) && !numhelper(152040) {
+	helper{
+	id:152040;
+	stateno:152040;
+	pos:floor(8*const(size.xscale)),floor(-pos y);
+	size.xscale:0.35;
+	size.yscale:0.35;
+	ownpal: 1 }
+}
+
+if (time>=2) || (prevstateno=40) { velset{ x:const(velocity.run.fwd.x) } }
+
+assertspecial{ flag:nowalk; flag2:noautoturn }
+
+#===
+if time>16 {
+	if roundstate!=2 { changestate{value:0} }
+	if ailevel && ((p2bodydist x=[-42,42]) || random>p2bodydist x*8 || frontedgebodydist<0 || time>60) { changestate{value:0} }
+	if command!="holdfwd" && !ailevel { changestate{value:0} }
+}
+
+
+##==================
+##; Run Back / Back Step
+[Statedef 105; type: a; physics: s; movetype:i; anim: 105; sprpriority: 1; velset:0,0; ctrl: 0; ]
+
+#; dash_dust
+persistent(0) if (time=2) && (pos y<=0) && (prevstateno!=stateno) && !numhelper(152040) {
+	helper{
+	id:152040;
+	stateno:152040;
+	pos:floor(8*const(size.xscale)),floor(-pos y);
+	size.xscale:-0.35;
+	size.yscale: 0.35;
+	ownpal:1 }
+}
+
+if time=2 {
+	velset{ x:const(velocity.run.back.x); y:const(velocity.run.back.y) }
+	if const(velocity.run.back.y)>=0 { velset{y:-0.001 } }
+	statetypeset{ physics:n }
+	playsnd{value:f50,0; channel:1 }
+}
+
+if time>2 && vel x<0 { veladd{ x:0.02 } }
+
+#;[.07] ; gravity
+if (time>2 && const(velocity.run.back.y)<0)
+	|| (time>12 && const(velocity.run.back.y)>=0 && time>const(velocity.run.back.y)) {
+	veladd{ y:const(movement.yaccel) }
+}
+
+if time>2 && (pos y+vel y>=0) && (vel y>0) { changestate{ value:52 } } ## ;; 106
+
+#;[.09] ; edited
+if time<16 { nothitby{ value:sca,na,sa,ha,np,sp,hp } }
+
+
+##==================
+[Statedef 106; type: S; physics: S;
+ ctrl: 0; anim: 47;]
+if MajorVersion = 1 && abs(Vel X) < Const(movement.stand.friction.threshold) {
+    VelSet{x: 0}
+}
+if Time = 0 {
+    VelSet{y: 0}
+    PosSet{y: 0}
+} else if Time = 2 {
+    if MajorVersion = 1 {
+        MakeDust{pos: 0, 0; spacing: 1}
+    } else {
+        MakeDust{pos: -5, -2; spacing: 1}
+    }
+} else if Time = 7 {
+    ChangeState{value: 0; ctrl: 1}
+}
+
+
+##==================
+[Statedef 110; type: S; physics: N;]
+if Time = 0 {
+    CtrlSet{value: 0}
+    ChangeAnim{value: 110}
+    HitBy{value: SCA, NT, ST, HT; time: 30}
+    VelSet{x: 0}
+}
+if AnimTime = 0 {
+    ChangeState{value: 0; ctrl: 1}
+}
+
+
+##==================
+[Statedef 115; type: S; physics: N;]
+if Time = 0 {
+    CtrlSet{value: 0}
+    ChangeAnim{value: 110}
+    HitBy{value: SCA, NT, ST, HT; time: 30}
+    VelSet{x: 0}
+}
+if AnimTime = 0 {
+    ChangeState{value: 0; ctrl: 1}
+}
+
+
+
+
+
+
+##=========================
+##; ai jump (StNo.142###) ; AIジャンプ
+##; normal
+##;------------------------
+[statedef 142000; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=0;
+	sysfvar(1):=0;
+}
+if animtime=0 {
+	velset{
+	x:const(velocity.jump.neu.x);
+	y:const(velocity.jump.y) }
+	changestate{ value:50; ctrl:1 }
+}
+##;----------------
+##; normal_fwd
+[statedef 142001; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=1;
+	sysfvar(1):=0;
+}
+if animtime=0 {
+	velset{
+	x:const(velocity.jump.fwd.x);
+	y:const(velocity.jump.y) }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; normal_back
+[statedef 142002; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=-1;
+	sysfvar(1):=0;
+}
+if animtime=0 {
+	velset{
+	x:const(velocity.jump.back.x);
+	y:const(velocity.jump.y) }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; long
+[statedef 142010; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=0;
+	sysfvar(1):=1;
+}
+if animtime=0 {
+	velset{
+	x:const(velocity.jump.neu.x);
+	y:const(velocity.runjump.y) }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; long_fwd
+[statedef 142011; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=1;
+	sysfvar(1):=1;
+}
+if animtime=0 {
+	velset{
+	x:const(velocity.runjump.fwd.x);
+	y:const(velocity.runjump.y) }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; long_back
+[statedef 142012; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=-1;
+	sysfvar(1):=1;
+}
+if animtime=0 {
+	velset{
+	x:const(velocity.runjump.back.x);
+	y:const(velocity.runjump.y) }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; small
+[statedef 142020; type:s: physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=0;
+	sysfvar(1):=2;
+}
+if animtime=0 {
+	velset{
+	x: const(velocity.jump.neu.x);
+	y:-const(movement.yaccel)*13.32 }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; small_fwd
+[statedef 142021; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=1;
+	sysfvar(1):=2;
+}
+if animtime=0 {
+	velset{
+	x: const(velocity.jump.fwd.x);
+	y:-const(movement.yaccel)*13.32 }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; small_back
+[statedef 142022; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=-1;
+	sysfvar(1):=1;
+}
+if animtime=0 {
+	velset{
+	x: const(velocity.jump.back.x);
+	y:-const(movement.yaccel)*13.32 }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; mid
+[statedef 142030; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=0;
+	sysfvar(1):=3;
+}
+if animtime=0 {
+	velset{
+	x: const(velocity.jump.neu.x);
+	y:-const(movement.yaccel)*13.32 }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; mid_fwd
+[statedef 142031; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=1;
+	sysfvar(1):=3;
+}
+if animtime=0 {
+	velset{
+	x: const(velocity.runjump.fwd.x);
+	y:-const(movement.yaccel)*13.32 }
+	changestate{value:50; ctrl:1 }
+}
+##;----------------
+##; mid_back
+[statedef 142032; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; facep2:1; ]
+if !time {
+	sysvar(1):=-1;
+	sysfvar(1):=3;
+}
+if animtime=0 {
+	velset{
+	x: const(velocity.runjump.back.x);
+	y:-const(movement.yaccel)*13.32 }
+	changestate{value:50; ctrl:1 }
+}
+
+##;------------------------
+##; Low Jump > Leap Attack ; 低ジャンプ → リープアタック
+##; Jump start
+##;------------------------
+[statedef 48; type:s; physics:s; anim:40; sprpriority:1; velset:0,0; ctrl:0; ]
+if animtime=0 {
+	velset{
+	x:ifelse(command="holdfwd",const(velocity.walk.fwd.x),ifelse(command="holdback",const(velocity.walk.back.x),0));
+	y:-const(movement.yaccel)*12.5 }
+
+	if ailevel>1 && (p2bodydist x>36) {
+		velset{x:const(velocity.walk.fwd.x) }
+	}
+	changestate{value:58; ctrl:0 }
+}
+if (vel y>1.82) { ctrlset{value:1 } }
+
+
+
+##;------------------------
+##;------------------------
+##; Guard (start)
+[statedef 120; type:u; physics:u; ]
+changeanim{value:120+(statetype=c)+(statetype=a)*2}
+if !time {
+	if statetype=s { statetypeset{physics:s} }
+	if statetype=c { statetypeset{physics:c} }
+	if statetype=a { statetypeset{physics:a} }
+}
+if statetype=s && command="holddown" { statetypeset{statetype:c; physics:c } }
+if statetype=c && command!="holddown" { statetypeset{statetype:s; physics:s } }
+
+#; ai_g
+if ailevel && numenemy {
+	if statetype=s && (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) { statetypeset{statetype:c; physics:c } }
+	if statetype=c && (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) {statetypeset{statetype:s; physics:s } }
+}
+#;---
+if animtime=0 { changestate{value:130+(statetype=c)+(statetype=a)*2} }
+if command!="holdback" && !ailevel || !inguarddist { changestate{value:140} }
+
+#;; added
+if pos y>=0 { velset{x:0} }
+
+
+##;------------------------
+##; Stand Guard (guarding)
+[statedef 130; type:s; physics:s; ]
+if !time {
+	afterimagetime{time:0}
+	stopsnd{channel:0}
+}
+if anim!=130 { changeanim{value:130} }
+
+#; ai_g
+if ailevel && time>0 && numenemy {
+if (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) {
+	changestate{value:131}
+}}
+
+if command="holddown" && !ailevel { changestate{value:131} }
+if command!="holdback" && !ailevel || !inguarddist { changestate{value:140} }
+
+
+##;------------------------
+##; Crouch Guard (Guarding)
+[statedef 131; type:c; physics:c; ]
+if !time {
+	afterimagetime{time:0}
+	stopsnd{channel:0}
+}
+if anim!=131 { changeanim{value:131} }
+
+
+#; ai_g
+if ailevel && time>0 && numenemy {
+if (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) {
+	changestate{value:130}
+}}
+
+if command!="holddown" && !ailevel { changestate{value:130} }
+if command!="holdback" && !ailevel || !inguarddist { changestate{value:140} }
+
+
+##;------------------------
+##; Air Guard (Guarding)
+[statedef 132; type:a; physics:n; ]
+if !time {
+	afterimagetime{time:0}
+	stopsnd{channel:0}
+}
+if anim!=132 { changeanim{value:132} }
+veladd{y:const(movement.yaccel)}
+if (pos y+vel y>=0) && (vel y>0) {
+	velset{y:0}
+	posset{y:0}
+	if command="holdback" && inguarddist { changestate{value:130} }
+	changestate{value:52}
+}
+if command!="holdback" && !ailevel || !inguarddist { changestate{value:140} }
+
+
+##;------------------------
+##; Guard (End)
+[statedef 140; type:u; physics:u; ctrl:1; ]
+if !time {
+	changeanim{value:140+(statetype=c)+(statetype=a)*2}
+	if statetype=s { statetypeset{physics:s} }
+	if statetype=c { statetypeset{physics:c} }
+	if statetype=a { statetypeset{physics:a} }
+}
+if statetype=s && command="holddown" { statetypeset{statetype:c; physics:c } }
+if statetype=c && command!="holddown" { statetypeset{statetype:s; physics:s; } }
+
+#; ai_g
+if ailevel && numenemy {
+	if statetype=s && (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) { statetypeset{statetype:c; physics:c} }
+	if statetype=c && (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) { statetypeset{statetype:s; physics:s} }
+}
+
+
+
+##;------------------------
+##; Stand Guard Hit (Shaking/Get Hit)
+[Statedef 150; type: S; movetype: H; physics: N; velset: 0, 0;]
+changeanim{ value:150 }
+#; ai_g
+if hitshakeover && ailevel && numenemy {
+if (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) {
+	changestate{value:153}
+}}
+if hitshakeover { changestate{value:151+2*(command="holddown") } }
+if statetype=s && command="holddown"  { statetypeset{statetype:c; physics:c } }
+if statetype=c && command!="holddown" { statetypeset{statetype:s; physics:s } }
+
+#; ai_g
+if ailevel && numenemy {
+	if statetype=s && (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) { statetypeset{statetype:c; physics:c } }
+	if statetype=c && (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) { statetypeset{statetype:s; physics:s } }
+}
+
+#;--- ---
+###ignorehitpause persistent(0) if !time { call Fnc_SparkGuard(); }
+
+#;--- ---
+#; guard crush ; ガードクラッシュ
+#;--- ---
+let va = call Fnc_VarAddoo(36);
+if (gametime%5=0) && $va>=800 { palfx{time:2; add:200,0,0 } }
+ignorehitpause if alive && $va>=1000 { changestate{value:190010} }
+
+
+##;------------------------
+##;------------------------
+##; S Guard Hit 2 (Knocked Back)
+[Statedef 151; type:S; movetype:H; physics:S; anim:150;]
+if !time { hitvelset{x:1} }
+if time=gethitvar(slidetime) || hitover { velset{x:0} }
+if statetype=s && command="holddown" { statetypeset{statetype:c; physics:c } }
+if statetype=c && command!="holddown" { statetypeset{statetype:s; physics:s } }
+
+#; ai_g
+if ailevel && numenemy {
+	if statetype=s && (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) { statetypeset{statetype:c; physics:c } }
+	if statetype=c && (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) { statetypeset{statetype:s; physics:s } }
+}
+
+if hitover { changestate{value:130; ctrl:1} }
+
+
+##;------------------------
+##;------------------------
+##; C Guard Hit (Dhaking)
+[Statedef 152; type:C; movetype:H; physics:N; velset:0,0;]
+changeanim{value:151}
+
+#; ai_g
+if hitshakeover && ailevel && numenemy {
+if (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) {
+	changestate{value:153}
+}}
+
+if hitshakeover { changestate{value:151+2*(command="holddown")} }
+if statetype=s && command="holddown" { statetypeset{statetype:c; physics:c } }
+if statetype=c && command!="holddown" { statetypeset{statetype:s; physics:s } }
+
+#; ai_g
+if ailevel && numenemy {
+	if statetype=s && (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) { statetypeset{statetype:c; physics:c } }
+	if statetype=c && (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) { statetypeset{statetype:s; physics:s } }
+}
+
+#;--- ---
+###ignorehitpause persistent(0) if !time { call Fnc_SparkGuard(); }
+
+#;--- ---
+#; guard crush ; ガードクラッシュ
+#;--- ---
+let va = call Fnc_VarAddoo(36);
+if !time && $va>=800 { palfx{time:2; add:200,0,0 } }
+ignorehitpause if alive && $va>=1000 { changestate{value:190010} }
+
+
+##;------------------------
+##;------------------------
+##; C Guard Hit 2 (Knocked Back)
+[Statedef 153; type:C; movetype:H; physics:C; anim:151; ]
+if !time { hitvelset{x:1} }
+if time=gethitvar(slidetime) || hitover { velset{x:0} }
+if statetype=s && command="holddown" { statetypeset{statetype:c; physics:c } }
+if statetype=c && command!="holddown" { statetypeset{statetype:s; physics:s } }
+
+#; ai_g
+if ailevel && numenemy {
+	if statetype=s && (p2statetype=c || enemynear,hitdefattr=c,na,sa,ha) { statetypeset{statetype:c; physics:c } }
+	if statetype=c && (p2statetype=s || p2statetype=a || enemynear,hitdefattr=sa,na,sa,ha) { statetypeset{statetype:s; physics:s } }
+}
+
+if hitover{ changestate{value:131; ctrl:1 } }
+
+
+##;------------------------
+##;------------------------
+##; Air Guard Hit (Shaking) ; 空中ガード中
+[Statedef 154; type:A; movetype:H; physics:N; velset:0,0; ]
+ChangeAnim{value:152}
+if HitShakeOver {ChangeState{value:155} }
+
+###ignorehitpause persistent(0) if !time { call Fnc_SparkGuard(); }
+
+
+##;------------------------
+##;------------------------
+##; A Guard Hit 2 (Knocked Away) ; 空中ガード後
+[Statedef 155; type:A; movetype:H; physics:N; anim:152; ]
+if !time { hitvelset{x:1; y:1 } }
+veladd{y:const(movement.yaccel) }
+if (pos y+vel y>=0) && (vel y>0){
+	velset{y:0}
+	posset{y:0}
+	if command="holdback" && inguarddist { changestate{ value:130 } }
+	changestate{value:52}
+}
+
+
+
+
+##;------------------------
+##;------------------------
+##; Lose / Time Over
+[Statedef 170; type: S;
+ ctrl: 0; anim: 170; velset: 0, 0;]
+NotHitBy{value: SCA; time: 1}
+
+
+[Statedef 175; type: S;
+ ctrl: 0; velset: 0, 0;]
+if Time = 0 {
+    if !SelfAnimExist(175) {
+        ChangeState{value: 170}
+    }
+    ChangeAnim{value: 175}
+}
+NotHitBy{value: SCA; time: 1}
+
+
+[Statedef 190; type: S;
+ ctrl: 0; velset: 0, 0;]
+if SelfAnimExist(190) {
+    ChangeAnim{value: 190}
+}
+if Time = 0 {
+    ChangeState{value: 191}
+}
+
+
+[Statedef 191; type: S;
+ ctrl: 0;]
+if Time = 0 {
+    ChangeState{value: 0}
+}
+
+
+
+
+
+##==================
+##==================
+#;goto dizzy
+[Function Fnc_GotoDizzy(vStateNo)]
+if roundstate=2 && !ishelper && alive {
+	let va = call Fnc_VarAddoo(50);
+	if $va>=1000 { selfstate{value:$vStateNo} }
+}
+
+##==================
+#; dizzy_birds
+[Function Fnc_DizzyBird()]
+if roundstate=2 && !ishelper && alive {
+	let va = call Fnc_VarAddoo(50);
+	if $va>=1000 {
+		if !numhelper(88892) && !numhelper(403000) {
+			#; dizzy bg
+			helper{
+				id:88892;
+				stateno:88892;
+				ownpal:1 }
+			#; dizzy birds
+			helper{
+				id:403000;
+				stateno:190140;
+				size.height:ifelse(life<200,3,(random%3));
+				ownpal:1 }
+		}
+	}
+}
+
+##==================
+#; Draw_Color_BG
+[Function Fnc_DrawCBG(iCNo)]
+explod {
+	anim:f3530;
+	sprpriority:-6000;
+	space:screen;
+	postype:left;
+	pos:-$iCNo*ScreenWidth,ScreenHeight/2;
+	scale:ScreenWidth,7.5*ScreenWidth/320.0;
+	bindtime:-1;
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+
+
+
+
+
+
+
+
+
+
+#;==========================
+#;==========================
+##;------------------------
+##;------------------------
+##; hit_shake
+##;------------------------
+[Statedef 5000; type: S; movetype: H; physics: N; velset: 0, 0;]
+
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+###ignorehitpause persistent(0) if !time { call Fnc_SparkHit(); }
+if time=0 {afterimagetime{time: 0} }
+
+#; Cheap KO down ; 崩れダウン
+ignorehitpause if !time && (gethitvar(damage)>=life) && selfanimexist(195200) && (prevstateno=[120,153]) { selfstate{value:195200 } }
+#;---
+#; anim for hit_light to hit_hard
+if !time && (gethitvar(animtype)!=[3,5]) {
+	changeanim{value:ifelse((gethitvar(groundtype)=1),5000,5010)+gethitvar(animtype) }
+}
+
+#; anim for hit_back
+if !time && (gethitvar(animtype)=[3,5]) {
+	changeanim{value:5030}
+}
+
+#; anim for hit_up/hit_diagup (only if it exists)
+if (!time || hitshakeover) && (gethitvar(animtype)=[4,5]) && (selfanimexist(5047+gethitvar(animtype))) {
+	changeanim{value:5047 + gethitvar(animtype) }
+}
+
+#; freeze anim
+if time>0 { changeanim{value:anim} }
+
+#; state type gets set to aerial if getting hit up
+if !time && ((gethitvar(yvel)!=0) || (gethitvar(fall))) || pos y<0 { statetypeset{statetype:a} }
+
+#;--- added***
+if !time && gethitvar(fall) && selfanimexist(195200) { changeanim{value:5017} }
+#;---
+if hitshakeover && gethitvar(yvel)=0 && !gethitvar(fall) { changestate{value:5001} }
+if hitshakeover { changestate{value:5030; anim:ifelse((anim=[5015,5017]),5030,anim) } }
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Slide
+[Statedef 5001; type: S; movetype: H; physics: S;]
+
+if !time { hitvelset{x:1} }
+if animtime=0 { changeanim{value:5005+gethitvar(animtype)+(gethitvar(groundtype)=2)*10 } }
+#; stop sliding back
+if time>=gethitvar(slidetime) { velmul{x:0.6} }
+if gethitvar(hittime)=0 {call Fnc_DizzyBird(); }
+if hitover {
+	velset{x:0}
+	#;---
+	call Fnc_GotoDizzy(195201);
+	#;---
+	changestate{value:0; ctrl:1}
+}
+
+
+##;------------------------
+##;------------------------
+##; Hit Shake C
+[Statedef 5010; type: C; movetype: H; physics: N; velset: 0, 0;]
+
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+###ignorehitpause persistent(0) if !time { call Fnc_SparkHit(); }
+
+if !time { afterimagetime{ time:0 } }
+
+#; anim for hit_light to hit_hard
+if !time && (gethitvar(animtype)!=[3,5]) {
+	changeanim{value:5020+gethitvar(animtype)} }
+
+#; anim for hit_back
+if !time && (gethitvar(animtype)=[3,5]) {
+	changeanim{value:5030} }
+
+#; anim for hit_up/hit_diagup (only if it exists)
+if (!time || hitshakeover) && (gethitvar(animtype)=[4,5]) && (selfanimexist(5047+gethitvar(animtype))) {
+	changeanim{value:5047 + gethitvar(animtype)} }
+
+#; freeze anim
+if time>0 { changeanim{value:anim} }
+
+#; state type gets set to aerial if getting hit up
+if !time && ((gethitvar(yvel)!=0) || (gethitvar(fall))) || pos y<0 {
+	statetypeset{statetype:a} }
+
+#;--- added***
+if !time && gethitvar(fall) && selfanimexist(195200) {
+	changeanim{value:5017} }
+
+#;---
+if hitshakeover && gethitvar(yvel)=0 && !gethitvar(fall) {
+	changestate{value:5011} } ##;;<-hitc_slide
+
+if hitshakeover {
+	changestate{value:5030; anim:ifelse((anim=[5015,5017]),5030,anim)} }
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Slide C
+[Statedef 5011; type: C; movetype: H; physics: C;]
+
+if !time { hitvelset{x:1} }
+if animtime=0 { changeanim{value:5025 + gethitvar(animtype)} }
+if time>=gethitvar(slidetime) { velmul{x:0.6} }
+if gethitvar(hittime)=0 {call Fnc_DizzyBird(); }
+if hitover {
+	velset{x:0}
+	#;---
+	call Fnc_GotoDizzy(195201);
+	#;---
+	changestate{value:11; ctrl:1}
+}
+
+
+
+
+##;------------------------
+##; Hit Shake Air
+##;------------------------
+[Statedef 5020; type: A; movetype: H; physics: N; velset: 0, 0;]
+
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+###ignorehitpause persistent(0) if !time { call Fnc_SparkHit(); }
+if !time { afterimagetime{ time:0 } }
+
+#;---
+#; anim for hit_light to hit_hard
+if !time && (gethitvar(animtype)!=[3,5]) {
+	changeanim{value:ifelse((gethitvar(airtype)=1),5000,5010)+gethitvar(animtype) }
+}
+
+#; anim for hit_back
+if !time && (gethitvar(animtype)=[3,5]) { changeanim{ value:5030 } }
+
+#; anim for hit_up/hit_diagup (only if it exists)
+if (!time || hitshakeover) && (gethitvar(animtype)=[4,5]) && (selfanimexist(5047+gethitvar(animtype))) {
+	changeanim{value:5047+gethitvar(animtype) }
+}
+
+#; freeze anim
+if time>0 { changeanim{value:anim } }
+
+#;;--- added***
+if !time && selfanimexist(195200) {
+	changeanim{
+	value:ifelse( gethitvar(fall)||gethitvar(groundtype)=2||gethitvar(airtype)=2, 5017, 5030)
+}}
+#;---
+if hitshakeover { changestate{value:5030; anim:ifelse((anim=[5015,5017]),5030,anim) } }
+
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Up Air (initial going up)
+[Statedef 5030; type: A; movetype: H; physics: N; ctrl: 0;]
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+
+if SelfAnimExist(5030) && (Anim!=[5000,5199]) {ChangeAnim{value:5030} }
+VelAdd{y: GetHitVar(yaccel)}
+if !time { HitVelSet{x:1; y:1} }
+#;---
+if hitshakeover { call Fnc_GotoDizzy(195050); }
+#;---
+if hitover || ((pos y+vel y>=0) && (vel y>0)) {
+	if hitfall {
+		ChangeState{value: 5050}
+	} else {
+		ChangeState{value: 5040}
+	}
+}
+if AnimTime=0 {ChangeState{value: 5035} }
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Up A (Transition)
+[Statedef 5035; type: A; movetype: H; physics: N;]
+if !time && selfanimexist(5035) && (anim!=[5051,5059]) && (anim!=5090) {
+	changeanim{value:5035} }
+
+veladd{y:gethitvar(yaccel) }
+
+if hitover || (animtime=0) || (vel y>0) && (pos y>=0) || !time && anim!=5035 {
+	#; recovering in air(not-falling)
+	if !hitfall { changestate{value:5040} }
+	#; air get-hit(falling)
+	if hitfall  { changestate{value:5050} }
+}
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit A Recov (Recovering in air, not falling) 
+##; 空中体勢回復後>落下中 (無敵+操作不可)
+[Statedef 5040; type: A; movetype: H; physics: N;]
+
+if !alive {changestate{value:5050; ctrl:0 } }
+if (animtime=0) && anim!=5040 || !time && anim!=5035 { changeanim{value:5040} }
+
+#;---edit-----------
+ctrlset{value:0}
+if hitover {
+	nothitby{value:sca; time:3 }
+	statetypeset{movetype:i}
+}
+veladd{y:gethitvar(yaccel) }
+if (pos y+vel y>=0) && (vel y>0) { changestate{value:52 } }
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Fall A (Knocked up, Falling)
+[Statedef 5050; type: A; movetype: H; physics: N;]
+if anim=5035 && (animtime=0) {changeanim{value:5050 } }
+if !time && anim!=5035 && (anim!=[5051,5059]) && (anim!=[5061,5069]) && anim!=5090 {changeanim{value:5050 } }
+
+##; coming down anim
+if (anim=[5050,5059]) && selfanimexist(anim+10) {
+	if (anim=5050 && vel y>=-1)
+	 || (anim=5051 && vel y>=0)
+	 || ((anim=[5052,5059]) && vel y>=0 && (animtime=0 || time>12)) {
+	 	changeanim{value:anim+10}
+}}
+
+veladd{y:gethitvar(yaccel)}
+
+#;; recover near ground
+if (vel y>0) && (pos y>=const(movement.air.gethit.groundrecover.ground.threshold)) {
+if alive && canrecover && (command="recovery" || command="holdback") {
+	changestate{value:5200}
+}}
+
+#;; recover in mid air
+if (vel y>const(movement.air.gethit.airrecover.threshold)) {
+if alive && canrecover && (command="recovery") && !selfanimexist(195200) {
+	changestate{value:5210}
+}}
+
+if (vel y>0) && (pos y>=ifelse((anim=[5051,5059])||(anim=[5061,5069]), 0, const(movement.air.gethit.groundlevel))) {
+	changestate{value:5100}
+}
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Trip (Shaking)
+[Statedef 5070; type: A; movetype: H; physics: N; velset: 0, 0;]
+
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+###ignorehitpause persistent(0) if !time { call Fnc_SparkHit(); }
+if !time {afterimagetime{time:0 } }
+ChangeAnim{value: 5070}
+if HitShakeOver {ChangeState{value: 5071} }
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Trip 2 (Fall through air)
+[Statedef 5071; type: A; movetype: H; physics: N;]
+if !time { HitVelSet{x: 1; y: 1} }
+
+#; acceleration
+veladd{y:gethitvar(yaccel) }
+
+#; edited
+if !time && !alive { velset{x:vel x*0.5 } }
+
+#;---
+call Fnc_GotoDizzy(195050);
+
+#;---
+if !time { sysvar(1):=0; }
+if time && alive && roundstate=2 {
+	if (command="x"||command="y"||command="a"||command="b"||command="holdback"||command="holddown")
+	 || (ailevel && random<90) {
+	sysvar(1):=10; }
+}
+#;---
+if time && roundstate=2 && sysvar(1)=10 {
+if (pos y+vel y>=0) && (vel y>0) {
+	changestate{ value:5201 }
+}}
+#;---
+#; hit ground ;/ edited
+if (vel y>0) && (pos y>=const(movement.air.gethit.trip.groundlevel))
+	 || (const(movement.air.gethit.trip.groundlevel)=0) && (pos y+vel y>=0) && (vel y>0) {
+	changestate{value:5100} ##;;<-5101
+}
+
+
+##;------------------------
+[Function SelfAnimExistAddMod10(cond, base) ret]
+let ret = cond($cond && SelfAnimExist($base + Anim % 10),
+    $base + Anim % 10, $base);
+
+
+##;------------------------
+##;------------------------
+##; Hit Shake L
+[Statedef 5080; type: L; movetype: H; physics: N; velset: 0, 0;]
+#;[.01ds]; clean helpers ; ヘルパー掃除
+###call Fnc_CleanHelper();
+###ignorehitpause persistent(0) if !time { call Fnc_SparkHit(); }
+if !time { afterimagetime{time:0 } }
+
+if Time = 0 {
+    SysVar(2) := ifelse (GetHitVar(yvel) = 0, 5080, 5090);
+    if (Anim = [5081, 5089] || Anim = [5111, 5119]) &&
+        SelfAnimExist(SysVar(2) + Anim % 10) {
+        SysVar(2) := SysVar(2) + Anim % 10;
+    }
+    if SysVar(2) = 5090 && !SelfAnimExist(5090) {
+        SysVar(2) := 5030;
+    }
+}
+ChangeAnim{value: SysVar(2)}
+if HitShakeOver {
+    if GetHitVar(yvel) {
+        ChangeState{value: 5030}
+    } else {
+        ChangeState{value: 5081}
+    }
+}
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Slide L
+[Statedef 5081; type: L; movetype: H; physics: C;]
+if Time = 0 {
+    HitVelSet{x: 1}
+    SysVar(0) := 1;
+}
+if HitOver {
+    VelSet{x: 0}
+    ChangeState{value: 5110}
+}
+
+
+[Function HitGroundEffect(vely)]
+if MajorVersion = 1 {
+    Explod{
+        anim: F(60 + ($vely > Const240p(5)) + ($vely > Const240p(14)));
+        postype: none;
+        pos: Pos X + camerapos X, 0;
+        facing: facing;
+        sprpriority: ifelse ($vely <= Const240p(14), -10, 10);
+    }
+} else {
+    GameMakeAnim{
+        value: 60 + ($vely > 5) + ($vely > 14);
+        pos: 0, 0;
+        under: $vely <= 14;
+    }
+}
+PlaySnd{value: F7, ($vely > Const240p(5)) + ($vely > Const240p(14))}
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Bounce (Hit Ground)
+[Statedef 5100; type: L; movetype: H; physics: N;]
+if !time {afterimagetime{time:0 } }
+
+if Time = 0 {
+    if MajorVersion != 1 && GetHitVar(fall.yvel) = 0 && Vel X > 1 {
+        VelSet{x: 1}
+    }
+    FallEnvShake{}
+    SysVar(1) := floor(Vel Y);
+    let a = call SelfAnimExistAddMod10(Anim = [5051, 5059] ||
+        Anim = [5061, 5069], 5100);
+    ChangeAnim{value: $a}
+    PosSet{y: 0}
+    VelSet{y: 0}
+    VelMul{x: .75}
+    if GetHitVar(fall.yvel) = 0 {
+        ChangeState{value: 5110}
+    }
+} else if Time = 1 {
+    call HitGroundEffect(SysVar(1));
+} else if Time = 3 {
+    HitFallDamage{}
+}
+PosFreeze{}
+if AnimTime = 0 { ChangeState{value: 5101} }
+
+
+
+##;------------------------
+##;------------------------
+##; Hit Bounce (Bounce into air)
+[Statedef 5101; type: L; movetype: H; physics: N;]
+if Time = 0 {
+    let a = call SelfAnimExistAddMod10(Anim = [5101, 5109], 5160);
+    ChangeAnim{value: $a}
+    HitFallVel{}
+    PosSet{y: Const(movement.down.bounce.offset.y)}
+    PosAdd{x: Const(movement.down.bounce.offset.x)}
+}
+VelAdd{y: Const(movement.down.bounce.yaccel)}
+if Vel Y > 0 && Pos Y >= Const(movement.down.bounce.groundlevel) {
+    ChangeState{value: 5110}
+}
+
+
+#;; acceleration (edited)
+if const(movement.down.bounce.yaccel)<const(movement.yaccel)*1.28 { veladd{ y:0.2 } }
+#;; hit ground (edited)
+if (pos y>=const(movement.down.bounce.groundlevel) && vel y>0)
+	 || (const(movement.down.bounce.groundlevel)=0) && (vel y>0) && (pos y>=10) {
+	changestate{value:ifelse(selfanimexist(195200),5111,5110) }
+}
+
+
+##;------------------------
+##;------------------------
+##; Hit Liedown
+[Statedef 5110; type: L; movetype: H; physics: N;]
+if !time {afterimagetime{time:0} }
+
+persistent(0) if SelfAnimExist(5110 + Anim % 10) && Anim = [5081, 5089] {
+    ChangeAnim{value: 5110 + Anim % 10}
+}
+if Time = 0 {
+    FallEnvShake{}
+    if Anim != [5110, 5119] {
+        let a = call SelfAnimExistAddMod10(Anim = [5161, 5169], 5170);
+        ChangeAnim{value: $a}
+    }
+    HitFallDamage{}
+    PosSet{y: 0}
+    if GetHitVar(fall.yvel) {
+        SysVar(1) := floor(Vel Y);
+    }
+    if !SysVar(0) {
+        call HitGroundEffect(SysVar(1));
+    }
+    VelSet{y: 0}
+}
+let atEq0OrSv0 = AnimTime = 0 || SysVar(0);
+if $atEq0OrSv0 {
+    persistent(0) if Anim = [5171, 5179] && SelfAnimExist(5110 + Anim % 10) {
+        ChangeAnim{value: 5110 + Anim % 10}
+    }
+    persistent(0) if Anim != [5111, 5119] {
+        ChangeAnim{value: 5110}
+    }
+}
+if !Alive && ($atEq0OrSv0 || Anim = [5110, 5119]) {
+    ChangeState{value: 5150}
+}
+if Time = 0 { SysVar(0) := 0; }
+VelMul{x: .85}
+if MajorVersion = 1 && abs(Vel X) < Const(movement.down.friction.threshold) {
+    VelSet{x: 0}
+}
+
+
+#;---
+call Fnc_GotoDizzy(195110);
+
+
+
+##;------------------------
+##;------------------------
+##; Hit LieDown custom*
+[statedef 5111; type:l; movetype:h; physics:n; velset:0,0; ctrl:0; ]
+if !time {
+	afterimagetime{time:0}
+	fallenvshake{}
+}
+
+#;---
+call Fnc_GotoDizzy(195110);
+
+#;; for hit up/up-diag type (from state 5081)
+persistent(0) if (anim=[5081,5089]) && selfanimexist(5110+(anim%10)) { changeanim{value:5110+(anim%10) } }
+
+#;; hit ground anim (normal)
+if !time && (anim!=[5110,5119]) {
+	if (anim!=[5161,5169]) || !selfanimexist(5170+(anim%10)) {
+		changeanim{value:5170}
+	}
+}
+
+#;; hit ground anim (for hit up)
+if !time && (anim!=[5110,5119]) && (anim=[5161,5169]) && selfanimexist(5170+(anim%10)) {
+	changeanim{value:5170+(anim%10) }
+}
+
+if !time {
+	hitfalldamage{}
+	posset{y:0}
+}
+#;---
+#;; for hit up type
+persistent(0) if (anim=[5171,5179]) && selfanimexist(5110+(anim%10)) {
+	if animtime=0 || sysvar(0) { ##;;<-sysvar(0)=1 ;;avoids hit ground anim
+	changeanim{value:5110+(anim%10)}
+}}
+#; for normal
+persistent(0) if (anim!=[5111,5119]) {
+	if animtime=0 || sysvar(0) { ##;;<-sysvar(0)=1 ;;avoids hit ground frame
+	changeanim{value:5110}
+}}
+
+#;; if just died
+if !alive && time>0 {
+	if animtime=0 || (anim=[5110,5119]) || sysvar(0) { changestate{value:5150} }
+}
+
+if time>0 && sysvar(0) { sysvar(0):=0; }
+
+#;; friction
+velmul{x:0.85}
+
+#;; friction
+persistent(0) if time>3 { velset{x:0 } }
+#;---
+#;; edited
+if alive && (time=[2,3]) {
+if (command="holdup")||(command="holdback")||(command="holdfwd") {
+	changestate{value:5112} ##;; quick standing
+}}
+if time>28 && (command!="holddown") || time>68 { changestate{value:5120} }
+
+
+#;------------------------
+#;------------------------
+[statedef 5112; type:l; movetype:h; physics:n; velset:0,0; ctrl:0; ]
+nothitby{value:sca}
+changestate{value:5120} ##;;<-getup state
+
+
+
+##;------------------------
+##;------------------------
+##; Hit GetUp
+[Statedef 5120; type: L; movetype: I; physics: N;]
+if Time = 0 {
+    let a = call SelfAnimExistAddMod10(Anim = [5111, 5119], 5120);
+    ChangeAnim{value: $a}
+    VelSet{x: 0}
+}
+NotHitBy{value: SCA; time: 1}
+if AnimTime = 0 {
+    HitFallSet{value: 1}
+    NotHitBy{value: , NT,ST,HT; time: 12}
+    NotHitBy{value2: SCA; time: 3}
+    ChangeState{value: 0; ctrl: 1}
+}
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit LieDead
+[Statedef 5150; type: L; movetype: H; physics: N; sprpriority: -3; ctrl: 0;]
+if !time {afterimagetime{time:0} }
+
+if Time = 0 {
+    let a = call SelfAnimExistAddMod10(Anim = [5111, 5119] ||
+        Anim = [5171, 5179], 5140);
+    if SelfAnimExist($a) {
+        ChangeAnim{value: $a}
+    }
+    if Anim != [5140, 5159] && Anim != [5110, 5119] {
+        ChangeAnim{value: 5110}
+    }
+}
+persistent(0) if MatchOver = 1 && Anim = [5140, 5149] &&
+    SelfAnimExist(Anim + 10) {
+    ChangeAnim{value: Anim + 10}
+}
+VelMul{x: .85}
+persistent(0) if abs(Vel X) < Const(movement.down.friction.threshold) {
+    VelSet{x: 0}
+}
+NotHitBy{value: SCA; time: 1}
+
+
+#;---
+if time=1 && alive=0 && !ishelper && numpartner { sysvar(1):=(roundstate<=2); }
+if alive=0 && !ishelper && numpartner && sysvar(1) && (((time=[80,150]) && time%10<5) || time>150) {
+	assertspecial{flag:invisible; flag2:noshadow } }
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit FallRecover (still falling)
+[Statedef 5200; type: A; movetype: H; physics: N;]
+if Anim = 5035 && AnimTime = 0 {
+    ChangeAnim{value: 5050}
+}
+VelAdd{y: GetHitVar(yaccel)}
+
+##;; edited
+if (pos y+vel y>=0) && (vel y>0) { selfstate{value:5201} }
+
+
+
+
+##;------------------------
+##;------------------------
+##; Hit FallRecover (on the ground)
+[Statedef 5201; type: A; movetype: H; physics: A; anim: 5200;]
+if !time {
+	if (p2dist x<const240p(-5)) { turn{} }
+	velset{
+	x:const(velocity.air.gethit.groundrecover.x);
+	y:const(velocity.air.gethit.groundrecover.y) }
+	posset{y:0}
+	palfx{time:2; add:128,128,128 }
+}
+nothitby{value:sca; time:1 }
+
+
+
+##;------------------------
+##;------------------------
+##; Air Get Hit (fall recovery in air)
+[Statedef 5210; type: A; movetype: I; physics: N;
+ anim: 5210; ctrl: 0;]
+if Time = 0 {
+     PalFX{time: 3; add: 128, 128, 128}
+     PosFreeze{}
+     if p2dist X < Const240p(-20) {
+        Turn{}
+     }
+     NotHitBy{value: SCA; time: 15}
+} else if Time < 4 {
+    if MajorVersion = 1 {
+        PosFreeze{}
+    }
+} else {
+    if Time = 4 {
+        if MajorVersion = 1 {
+            VelMul{
+                x: Const(velocity.air.gethit.airrecover.mul.x);
+                y: Const(velocity.air.gethit.airrecover.mul.y);
+            }
+        } else {
+            VelMul{x: .8; y: .8}
+        }
+        VelAdd{
+            x: Const(velocity.air.gethit.airrecover.add.x);
+            y: Const(velocity.air.gethit.airrecover.add.y);
+        }
+        if MajorVersion != 1 {
+            if Vel Y > 0 {
+                VelMul{y: .5}
+            }
+            if Vel Y > -3 {
+                VelAdd{y: -2}
+            }
+            if Vel Y > -2 {
+                VelAdd{y: -1}
+            }
+        }
+        if Command = "holdup" {
+            VelAdd{y: Const(velocity.air.gethit.airrecover.up)}
+        }
+        if Command = "holddown" {
+            VelAdd{y: Const(velocity.air.gethit.airrecover.down)}
+        }
+        if Command = "holdfwd" {
+            VelAdd{x: Const(velocity.air.gethit.airrecover.fwd)}
+        }
+        if Command = "holdback" {
+            VelAdd{x: Const(velocity.air.gethit.airrecover.back)}
+        }
+    } else if Time = 20 {
+        CtrlSet{value: 1}
+    }
+    VelAdd{y: Const(movement.air.gethit.airrecover.yaccel)}
+}
+if Vel Y > 0 && Pos Y >= 0 {
+    ChangeState{value: 52; ctrl: 1}
+}
+
+
+
+##;------------------------
+##;; plus - dizzy fall
+##;------------------------
+[statedef 195050; type:a; movetype:h; physics:n; anim:5050; ctrl:0; ]
+if !time {
+	afterimagetime{time:0 }
+	nothitby{value:sca; time:1 }
+	if selfanimexist(5052) {changeanim{value:5052} }
+}
+persistent(0) if !time && !numhelper(88892) && !numhelper(403000) {
+#; dizzy bg
+	helper{
+	id:88892;
+	stateno:88892;
+	ownpal:1 }
+#; dizzy birds
+	helper{
+	id:403000;
+	stateno:190140;
+	ownpal:1;
+	size.height:ifelse(life<200,3,(random%3)) }
+}
+
+if (anim=[5050,5052]) {
+	veladd{y:gethitvar(yaccel) }
+	if (pos y+vel y>=0) && (vel y>0) {
+		statetypeset{statetype:l}
+		changeanim{value:5100}
+	}
+}
+
+#;;--- Hit_Ground + Get_Up
+if (anim!=[5050,5052]) {nothitby{value:sca} }
+
+#;---
+persistent(0) if (animtime=0) && (anim=5100) { changeanim{value:5160} }
+persistent(0) if (anim=5160) {
+	hitfallvel{}
+	posset{y:const(movement.down.bounce.offset.y) }
+	posadd{
+	x:const(movement.down.bounce.offset.x);
+	y:ifelse(const(movement.down.bounce.offset.y)>-5, -5, const(movement.down.bounce.offset.y)) }
+}
+if (anim=5160) { veladd{y:const240p(0.5) } }
+#;---
+if (anim=5160) && (vel y>0) {
+if (pos y>=const(movement.down.bounce.groundlevel))
+ || (pos y>=const240p(10) && const(movement.down.bounce.groundlevel)=0) {
+	changestate{value:195110}
+}}
+#;;---
+if (anim=[5100,5109]) {
+	posset{y:0}
+	velset{y:0}
+	posfreeze{}
+
+	#;[.33] ; ground_wave
+	if (animelem=1) {
+		helper{
+		id:159005;
+		stateno:159005;
+		pos:0,floor(-pos y);
+		ownpal:1;
+		size.height:2 }
+	}
+}
+
+
+##;;---------
+##;; Downed get-hit (lying down)
+[Statedef 195110; type:l; movetype:h; physics:n; velset:0,0; ctrl:0; ]
+if !time {
+	posset{y:0}
+
+	#;[.1b] ;; ground_wave
+	helper{
+	id:159005;
+	stateno:159005;
+	pos:0,0;
+	ownpal:1;
+	size.height:2 }
+}
+
+#;[.15e] ;; anim_down
+if !time && (anim!=[5110,5119])  { changeanim{value:5110 +(anim%10)*selfanimexist(5110+(anim%10)) } }
+#;[.16b2] ;; anim_get_up
+if (anim=[5110,5119]) && time>32 { changeanim{value:5120 +(anim%10)*selfanimexist(5120+(anim%10)) } }
+#;--- goto dizzy / stun state
+if (animtime=0) && (anim=[5120,5129]) || time>96 { changestate{value:190116} }
+#;---
+nothitby{value:sca; time:1 }
+
+
+
+
+
+
+##;==========================
+##;==========================
+##; Blocking / Just Defended ; ブロッキング/ジャストディフェンス
+##;==========================
+[statedef 195500; type:u; movetype:h; physics:n; sprpriority:3; velset:0,0; ctrl:0; facep2:1; ]
+persistent(0) if !time {
+	let va = call Fnc_VarAddoo(22);
+	sysvar(0):=$va;
+	sysvar(1):=ifelse(gethitvar(hitshaketime)>999,999,gethitvar(hitshaketime))+ifelse(gethitvar(hittime)>999,999000,gethitvar(hittime)*1000);
+### sysvar(2)は浮動小数扱いされるバグ？？？
+### sysvar(1)に置き換えると整数(正常)になる
+
+	if statetype=a && (pos y<0) {
+		if sysvar(0)=2 {
+			velset{
+			x:gethitvar(xvel)*0.3*facing;
+			y:gethitvar(yvel)*0.5 }
+		}
+		if sysvar(0)=3 {
+			velset{
+			x:-abs(gethitvar(xvel))*0.2;
+			y:-const(movement.yaccel)*7.25 }
+		}
+	}
+	#---
+	statetypeset{movetype:i}
+	if statetype=s && (command="holddown") {statetypeset{statetype:c} }
+	if statetype=c && (command!="holddown") {statetypeset{statetype:s} }
+	#;--- motion/animetion for blocking/jd:
+	#;; (stand:195500/130) (squat:195501/131) (air:195502/132)
+	#; air ; 空
+	if statetype=a {changeanim{value:ifelse(selfanimexist(195502),195502,132)} }
+	#; crouch ; 屈
+	if statetype=c {changeanim{value:ifelse(selfanimexist(195501),195501,131)} }
+	#; stand ; 立
+	if statetype=s {changeanim{value:ifelse(selfanimexist(195500),195500,130)} }
+
+}
+posfreeze{}
+#;---
+#; freeze ; フリーズ
+if time<=sysvar(1)%1000 {changeanim{value:anim} }
+
+#;--- reset-width
+ignorehitpause if (time>sysvar(1)%1000) && (time<(sysvar(1)/1000)%1000) {
+	let va = call Fnc_VarAddoo(7);
+	ignorehitpause if ($va&65536) {
+		width{
+		player:const(size.ground.front)*2,const(size.ground.back)*2;
+		edge:floor(frontedgedist),floor(backedgedist) }
+	}
+}
+ignorehitpause if time=1 {width{player:const(size.ground.front),0} }
+#; stop-envshave
+ignorehitpause {envshake{time:1; ampl:0} }
+#; life-recover ; 体力回復
+if !time && (sysvar(0)=3) {lifeadd{value:lifemax/500} }
+persistent(0) if !time {
+	playsnd{value:f2500,ifelse(sysvar(0)=2,1,0); channel:1}
+	#;--- spark
+	explod{
+		anim:f210245+(sysvar(0)=3);
+		postype:p1;
+		pos:const(size.mid.pos.x)+const(size.ground.front), const(size.mid.pos.y);
+		sprpriority:-3;
+		ownpal:1;
+		scale:1.25,1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	explod{
+		anim:f210240+(sysvar(0)=3);
+		postype:p1;
+		pos:const(size.mid.pos.x)+const(size.ground.front), const(size.mid.pos.y);
+		sprpriority:7;
+		scale:1.25,1;
+		ignorehitpause:1;
+		supermovetime:-1;
+		pausemovetime:-1;
+		ownpal:1 }
+	palfx{add:ifelse(sysvar(0)=2,-100,120),ifelse(sysvar(0)=2,120,-50),ifelse(sysvar(0)=2,120,-100); time:5}
+	afterimagetime{time:0}
+	poweradd{value:118}
+	pause{time:5; movetime:0}
+}
+
+ignorehitpause {nothitby{value:sca; time:8} }
+ignorehitpause {assertspecial{flag:nowalk; flag2:noautoturn} }
+ignorehitpause {assertspecial{flag:nostandguard; flag2:nocrouchguard; flag3:noairguard} }
+
+if !ctrl && (time>1) && (time>=(sysvar(1)%1000)/2) {
+	if statetype=s && (command="holddown") {statetypeset{statetype:c} }
+	if statetype=c && (command!="holddown") {statetypeset{statetype:s} }
+	ctrlset{value:1}
+}
+ignorehitpause if (time>=sysvar(1)%1000) {
+	hitby{value:sca,na,sa,ha,np,sp,hp; time:6}
+	hitoverride{attr:sca,na,sa,ha,np,sp,hp; stateno:stateno; time:6; slot:0 }
+}
+#;---
+if time>(sysvar(1)/1000)%1000 { changestate{value:ifelse(statetype=s,0,ifelse(statetype=a,195505,11)); ctrl:1} }
+
+
+##;------------
+##; Jump-down-after_bk/jd
+[statedef 195505; type:a; physics:a; movetype:i; anim:ifelse(selfanimexist(41),41,142); ctrl:1; ]
+persistent(0) if (vel y>-2) && selfanimexist(anim+3) {changeanim{value:anim+3} }
+
+
+
+
+
+##;==========================
+##;==========================
+##; fall-down ; (崩れ倒れ)
+##;==========================
+[statedef 195200; type:u; movetype:h; physics:n; velset:0,0; ctrl:0; ]
+nothitby{value:sca}
+if !time {changeanim{value:ifelse(statetype=s, ifelse((anim>5010), 5002, 5012), 5022) } }
+if (anim=[5002,5012]) && ((animtime=0)||(time>16)) {changeanim{ value:5022} }
+if (anim=5022) && ((animtime=0)||(time>26)) {changeanim{ value:5080} }
+if (anim=5080) && ((animtime=0)||(time>36)) {selfstate{value:5110} }
+
+##;==========================
+##; fall-down-alive ; (崩れ倒れ-生存時)
+##;==========================
+[statedef 195201; type:u; movetype:h; physics:n; velset:0,0; ctrl:0; ]
+nothitby{value:sca}
+if selfanimexist(195200) { selfstate{value:195200} }
+if !time {changeanim{value:ifelse(statetype=s, ifelse((anim>5010), 5002, 5012), 5022) } }
+if (anim=[5002,5012]) && ((animtime=0)||(time>16)) {changeanim{value:5022} }
+if (anim=5022) && ((animtime=0)||(time>26)) {changeanim{value:5080} }
+if (anim=5080) && ((animtime=0)||(time>36)) { selfstate{value:195110} }
+
+
+
+
+
+##;==========================
+##;==========================
+##; Guard Crush [player] ; (ガードクラッシュ)
+##;==========================
+[statedef 190010; type:u; physics:u; velset:0,0; ctrl:0; ]
+if !time {
+	playsnd{value:f10010,0}
+	#;[.10] ; ring
+	explod{
+	anim:f6567;
+	postype:p1;
+	pos:floor((const(size.mid.pos.x))*const(size.xscale)),floor(const(size.mid.pos.y)*const(size.yscale)*ifelse(statetype=c,0.5,1));
+	sprpriority:7;
+	ownpal:1;
+	scale:0.15,4.5;
+	trans:add;
+	alpha:256,256;
+	ignorehitpause:1;
+	pausemovetime:-1;
+	ignorehitpause:1 }
+}
+#; glass
+if time<13 {
+	explod{
+	anim:f210100+(random%3);
+	postype:p1;
+	pos:floor((const(size.mid.pos.x))*const(size.xscale)),floor(const(size.mid.pos.y)*const(size.yscale)*ifelse(statetype=c,0.5,1));
+	sprpriority:6;
+	ownpal:1;
+	random:floor(const(size.height)/8*const(size.xscale)),floor(const(size.height)*const(size.yscale));
+	scale:(random%9)*0.03+0.25,(random%9)*0.03+0.25;
+	vel:-((random%18)+5)*0.36,((random%19)-8)*0.36;
+	accel:0.038,0;
+	facing: ifelse(random<500,1,-1);
+	vfacing:ifelse(random<500,1,-1);
+	ignorehitpause:1;
+	pausemovetime:-1;
+	ignorehitpause:1 }
+}
+
+persistent(0) if !time {
+	call Fnc_DrawCBG(0);
+	pause{time:13; movetime:13 }
+	statetypeset{physics:statetype}
+	changeanim{value:ifelse(statetype=s,5002,ifelse(statetype=c,5022,5012))}
+}
+
+if (time>13 && animtime=0) || time>36 { selfstate{value:190011} }
+
+
+##;----------------
+[statedef 190011; type:u; physics:u; velset:0,0; ctrl:0; ]
+if !time {
+	statetypeset{physics:statetype}
+	changeanim{value:ifelse(statetype=s,5007,ifelse(statetype=c,5027,5017)) }
+}
+if time<=80 {changeanim{value:anim} }
+if time<=80 && (time%2=0) {offset{x:ifelse(time%4,-1,1) } }
+if animtime=0||time>99 {selfstate{value:190119 } }
+
+
+
+
+##;==========================
+##;==========================
+##; Dizzy / Stun ; 気絶
+##;==========================
+[statedef 190116; type:s;
+movetype:i;
+##; h: ヒットは連続しますが、投げられません
+##; i: 投げられますが、ヒットは連続しません
+##; u: 直前のタイプを継承
+physics:s;
+anim:5300; movehitpersist:1; velset:0,0; ctrl:0; ]
+
+if !time {
+	posset{y:0}
+	sysvar(1):=0; ##;;init_dir_key_flag
+	sysfvar(1):=0; ##;;init_dizzy_time
+}
+
+#; dizzy bg
+persistent(0) if !time && (prevstateno=[5001,5051]) && !numhelper(88892) && !numhelper(403000) {
+	helper{
+	id:88892;
+	stateno:88892;
+	ownpal:1 }
+}
+#; dizzy birds
+persistent(0) if !numhelper(403000) {
+	helper{
+	id:403000;
+	stateno:190140;
+	size.height:ifelse(life<200,3,(random%3));
+	ownpal:1 }
+}
+#; dizzy sound
+if (time%42=0) {playsnd{value:f10400,0; channel:2 } }
+
+#;;sys::dizzy_self_recover
+if time>0 && prevstateno!=190120 {
+	sysfvar(1):=sysfvar(1)+1;
+	if (command="x")||(command="y")||(command="z")||(command="a")||(command="b")||(command="c")
+	|| (command="holdfwd"&&sysvar(1)%10=0)||(command="holdback"&&sysvar(1)/10%10=0)||(command="holdup"&&sysvar(1)/100%10=0)||(command="holddown"&&sysvar(1)/1000%10=0)
+	|| (ailevel && random<ailevel*90 && random<500) {
+		sysfvar(1):=sysfvar(1)+9;
+	}
+	if (command="holdfwd")||(command="holdback")||(command="holdup")||(command="holddown") {
+		sysvar(1):=(command="holdfwd")+(command="holdback")*10+(command="holdup")*100+(command="holddown")*1000;
+	}
+}
+
+if time>8 {
+	if (sysfvar(1)>300 && (prevstateno!=190120)) || (time>88 && prevstateno=190120) || (roundstate>2) || (time>312) {
+		selfstate{value:190119 }
+	}
+}
+
+
+##;==========================
+##;==========================
+##; Recover/Reversal [player]
+##;==========================
+[statedef 190119; type:u; movetype:i; physics:u; velset:0,0; ctrl:0; ]
+if time=2 {selfstate{value:ifelse(statetype=s,0,11); ctrl:1 } }
+
+
+
+
+##;==========================
+##;==========================
+##; Guard Breaking p2state ; (ガードブレーキングやられ)
+##;==========================
+[statedef 190120; type:u; movetype:i; physics:n; velset:0,0; ctrl:0; ]
+ignorehitpause { nothitby{value:sca} }
+
+if !time {
+	changeanim{
+	value:ifelse(statetype=s,5002,ifelse(statetype=c,5022,5012)) } }
+#;;	5002-5007:	立-(stand hit -hard) ; loop-no loop
+#;;	5012-5017:	空-(stand/air low -hard)
+#;;	5022-5027:	屈-(crouch hit -hard)
+
+if animtime=0 && pos y>=0 && (anim=5002||anim=5012||anim=5022) {
+	changeanim{value:anim+5}
+}
+
+if !time { velset{x:-ifelse(statetype=a,4,8); y:9 } }
+if (pos y+vel y>=0) { posset{y:0} }
+
+if (pos y>=0) {
+	velset{y:0}
+	velmul{x:0.9}
+}
+
+ignorehitpause if time=1 {
+	envshake{time:6; ampl:3 }
+	lifeadd{value:-180}
+	statetypeset{movetype:h}
+}
+
+ignorehitpause if time>0 && pos y>=0 {
+	statetypeset{statetype:s; movetype:h; physics:n }
+}
+
+ignorehitpause if (anim=5007||anim=5017||anim=5027) && (animelem=1,>12) {
+	statetypeset{movetype:i}
+}
+
+
+if (anim=5007||anim=5017||anim=5027) && (animelem=1,>12) || time>36 {
+	selfstate{value:ifelse(!win && roundstate>2,195200,190116); ctrl:0 }
+}
+
+ignorehitpause if !time { playsnd{value:f10010,0 } }
+
+#;[.08a] ; fx_bg
+if !time && roundstate=2 {
+	bgpalfx{
+	time:16;
+	add:0,0,0;
+	mul:255,255,255;
+	sinadd:96,96,96,32 }
+}
+#;[.08b] ; lighting
+ignorehitpause if numexplod(505000)<8 && (gametime%3<2) {
+	explod{
+	id:505000;
+	anim:f210520+(random%4);
+	postype:p1;
+	pos:0,-ifelse(statetype=c,30,50);
+	random:80,ifelse(statetype=c,80,160);
+	scale:0.5*ifelse(random<500,1,-1),0.5*ifelse(random<500,1,-1);
+	sprpriority:7;
+	ownpal:1 }
+}
+
+
+
+
+##;==========================
+##;==========================
+##; Against Throw (p1&p2) ; 投げ外し
+##;==========================
+[statedef 190130; type:u; movetype:u; physics:n; velset:0,0; ctrl:0; ]
+
+ignorehitpause {
+	nothitby{value:sca}
+	playerpush{value:0}
+}
+
+if !time {
+	posset{ x:pos x-const(size.ground.front)*facing; y:0 }
+	afterimagetime{time:0}
+}
+
+if !time && !numtarget { changeanim{value:150} }
+
+#; freeze
+if time>8 && numtarget { changeanim{value:anim; elem:animelemno(0) } }
+
+if numtarget { targetfacing{value:-1 } }
+
+#; opponent ; 投げ外し_相手
+if !time && numtarget {
+	targetstate{value:stateno }
+	playsnd{value:f2500,1}
+	targetbind{pos:floor(const(size.ground.front)+target,const(size.ground.front)) }
+}
+if time { velset{x:-0.6} }
+
+
+if numtarget {
+if facing=target,facing {
+	targetfacing{value:-facing}
+}}
+
+#;---
+#;[.05] ; ground_wave
+if !time && !numtarget {
+	helper{
+	id:159005;
+	stateno:159005;
+	ownpal:1;
+	size.height:2 }
+
+	#;[.05a] ; spark
+	explod{
+	anim:f6567;
+	scale:0.06,2.8;
+	postype:p1;
+	pos:floor(const(size.ground.front)),floor(const(size.mid.pos.y));
+	sprpriority:5;
+	ownpal:1;
+	bindtime:1;
+	trans:add;
+	alpha:256,256 }
+
+	explod{
+	anim:f6562;
+	scale:0.06,2.8;
+	postype:p1;
+	pos:floor(const(size.ground.front)),floor(const(size.mid.pos.y));
+	sprpriority:6;
+	ownpal:1;
+	bindtime:1;
+	trans:sub }
+}
+
+#;--- mark; 標記
+persistent(0) if time=18 {
+	explod{
+	anim:f296000+teamside;
+	postype:p1;
+	pos:0,floor( (const(size.head.pos.y)-const(size.ground.front)/2-const(size.ground.back)/2) );
+	sprpriority:5;
+	ownpal:1;
+	facing:ifelse(facing=1,1,-1);
+	scale:0.25,0.25;
+	bindtime:-1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ignorehitpause:1;
+	removeongethit:1 }
+}
+#;---
+if time>18 { selfstate{value:105; ctrl:0 } }
+
+
+
+
+
+
+
+
+
+
+
+#;;---
+#;;---
+#;//[EOF]

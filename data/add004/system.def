@@ -1,0 +1,903 @@
+﻿; Motif: MM2
+; Optimal resolution: 320x180
+; Supported languages: en, ja
+
+;------------------
+[Info]
+	name="Mugen Match 2.1"
+	author="Tatsu"
+	versiondate=01,01,2016
+	mugenversion=1.0
+	localcoord=320,180
+
+;------------------
+[Files]
+	spr=mm2/system.sff
+	snd=mm2/system.snd
+	logo.storyboard=mm2/loading.def
+	intro.storyboard=mm2/intro.def
+
+	fight=data/add004/res/fight.def
+
+	select=select.def
+
+	font2=data/mm2/font.fnt
+	font3=data/add004/res/null.fnt
+	font7=data/mm2/font-s.fnt
+;op;	font8=data/mm2/vq.def
+
+
+;------------------
+[Music]
+	title.bgm=data/mm2/select.mp3
+	title.bgm.loop=1
+	select.bgm=data/mm2/select.mp3
+	select.bgm.loop=1
+;op;	vs.bgm=data/mm2/vs.mp3
+;op;	vs.bgm.loop=0
+	victory.bgm=data/mm2/select.mp3
+	victory.bgm.loop=0
+
+
+;------------------
+;//Title//
+;------------------
+[Title Info]
+	fadein.time=20
+	fadeout.time=20
+	cursor.move.snd=0,0
+	cursor.done.snd=0,1
+	cancel.snd=0,2
+	menu.pos=46,56
+
+	menu.item.font=       2,8,1
+	menu.item.active.font=2,11,1
+	menu.item.spacing=0,16
+
+;	menu.itemname.arcade=      "Arcade"
+;	menu.itemname.versus=      "Versus"
+;	menu.itemname.teamarcade=  "TeamArcade"
+;	menu.itemname.teamversus=  "TeamVersus"
+;	menu.itemname.teamcoop=    "Team-Coop"
+;	menu.itemname.survival=    "Survival"
+;	menu.itemname.survivalcoop="Survival-Coop"
+;	menu.itemname.training=    "Training"
+;	menu.itemname.watch=       "Watch"
+;	menu.itemname.options=     "Option"
+;	menu.itemname.exit=        "Exit"
+
+	menu.window.margins.y=40,20
+	menu.window.visibleitems=8
+	menu.boxcursor.visible=1
+	menu.boxcursor.coords=-100,-15,10,0
+
+
+
+;@@@@@@
+;Ikemen feature
+;@@@@@@
+menu.itemname.menuarcade = "ARCADE"                          ;Ikemen feature
+menu.itemname.menuarcade.teamarcade = "TEAM ARCADE"
+menu.itemname.menuarcade.teamcoop = "TEAM CO-OP"
+menu.itemname.menuarcade.back = "BACK"                       ;Ikemen feature
+; Versus
+menu.itemname.teamversus = "VS MODE"
+; Submenu: Network
+menu.itemname.menunetwork = "NETWORK"                        ;Ikemen feature
+menu.itemname.menunetwork.serverhost = "HOST GAME"           ;Ikemen feature
+menu.itemname.menunetwork.serverjoin = "JOIN GAME"           ;Ikemen feature
+menu.itemname.menunetwork.back = "BACK"                      ;Ikemen feature
+; known IP addresses show up before serverjoin.back item
+menu.itemname.menunetwork.serverjoin.joinadd = "NEW ADDRESS" ;Ikemen feature
+menu.itemname.menunetwork.serverjoin.back = "BACK"           ;Ikemen feature
+menu.itemname.server.netplayversus = "VERSUS"                ;Ikemen feature
+menu.itemname.server.back = "EXIT"                           ;Ikemen feature
+; Submenu: Practice
+menu.itemname.menupractice = "PRACTICE"                      ;Ikemen feature
+menu.itemname.menupractice.training = "TRAINING"             ;Ikemen feature
+menu.itemname.menupractice.freebattle = "QUICK MATCH"        ;Ikemen feature
+;menu.itemname.menupractice.trials = "TRIALS"                 ;Ikemen feature (not implemented yet)
+menu.itemname.menupractice.back = "BACK"                     ;Ikemen feature
+; Submenu: Mission
+menu.itemname.menumission = "MISSION"                        ;Ikemen feature
+menu.itemname.menumission.timeattack = "TIME ATTACK"         ;Ikemen feature
+menu.itemname.menumission.survival = "SURVIVAL"
+menu.itemname.menumission.survivalcoop = "SURVIVAL CO-OP"
+menu.itemname.menumission.bossrush = "BOSS RUSH"             ;Ikemen feature
+menu.itemname.menumission.vs100kumite = "VS 100 KUMITE"      ;Ikemen feature
+menu.itemname.menumission.timechallenge = "TIME CHALLENGE"   ;Ikemen feature (not implemented yet)
+menu.itemname.menumission.scorechallenge = "SCORE CHALLENGE" ;Ikemen feature (not implemented yet)
+menu.itemname.menumission.bonusgames = "BONUS GAMES"         ;Ikemen feature
+menu.itemname.menumission.back = "BACK"                      ;Ikemen feature
+; names of bonus characters show up before bonusgames.back item
+menu.itemname.menumission.bonusgames.back = "BACK"           ;Ikemen feature
+; Submenu: Watch Mode
+menu.itemname.menuwatch = "WATCH MODE"                       ;Ikemen feature
+menu.itemname.menuwatch.watch = "SELECT"
+menu.itemname.menuwatch.randomtest = "RANDOM"                ;Ikemen feature
+menu.itemname.menuwatch.replay = "REPLAY"                    ;Ikemen feature
+menu.itemname.menuwatch.back = "BACK"                        ;Ikemen feature
+; Options
+menu.itemname.options = "OPTIONS"
+; Exit Game
+menu.itemname.exit = "EXIT"
+;@@@@@@
+;Ikemen feature
+;@@@@@@
+
+
+;------------------
+[TitleBGdef]
+;op;	bgclearcolor=225,220,230
+;---
+[titlebg 0]
+	type=normal
+	spriteno=100,300
+	start=0,0
+	mask=0
+	tile=1,1
+	velocity=0.1,0
+	window=-60,0,379,239
+;---
+[titlebg 0] ; cloud_bg
+	type=normal
+	spriteno=102,310 ;; [480x280]
+	start=0,120
+	mask=0
+	tile=1,1
+	velocity=0.2,0.2
+	sin.x=240,8000,0
+	sin.y=120,4000,0
+	window=-60,50,379,146
+;---
+[titlebg 0] ; dot_fg
+	type=normal
+	spriteno=100,600 ;; [320x240]
+	start=-160,0
+	mask=1
+	tile=1,1
+	tilespacing=1,1
+	window=-60,50,379,146
+;---
+;---
+[titlebg 0] ; title_shadow
+	type=anim
+	actionno=1010
+	start=6,22
+	mask=1
+[titlebg 0] ; title
+	type=anim
+	actionno=1011
+	start=6,22
+	mask=1
+;---
+[begin action 1010]
+101,110,1,1,1,,as0d224
+[begin action 1011]
+101,110,0,0,1
+
+
+;----------------
+
+
+;-----------------
+;//Character select//
+;-----------------
+[Select Info]
+	fadein.time=10
+	fadeout.time=0
+	title.offset=270,12
+	title.font=7,0,-1
+	rows=8
+	columns=4
+	wrapping=1
+	showemptyboxes=0
+	moveoveremptyboxes=0
+
+	cell.random.spr=200,160
+	cell.random.switchtime=6
+
+	p1.cursor.startcell= 0,0
+	p2.cursor.startcell= 0,7
+	p1.cursor.active.anim=2000
+	p2.cursor.active.anim=2001
+	p1.cursor.done.anim=  2010
+	p2.cursor.done.anim=  2011
+
+	;;---
+	portrait.spr=9000,0
+	pos= 110,20
+	cell.size=25,25
+
+	portrait.scale= 1,1
+	cell.spacing= 1,1
+;op;	cell.bg.scale=1,1
+;op;	cell.random.scale=1,1
+	;;---
+	cell.bg.spr=-1
+	;;---
+	p1.cursor.active.scale=25,25
+	p2.cursor.active.scale=25,25
+	p1.cursor.done.scale=  25,25
+	p2.cursor.done.scale=  25,25
+
+	;;---
+	;;--- big face (notmal MUGEN style [120x140])
+	p1.face.spr=9000,1
+	p2.face.spr=9000,1
+	p1.face.offset=  0,15
+	p2.face.offset=319,15
+	;;---
+	p1.face.scale=1,1
+	p2.face.scale=1,1
+	p1.face.facing= 1
+	p2.face.facing=-1
+
+	;;---
+	p1.name.font=2,0, 1
+	p2.name.font=2,0,-1
+	p1.name.offset=  8,176
+	p2.name.offset=312,176
+	p1.name.spacing=0,-16
+	p2.name.spacing=0,-16
+	;;---
+	stage.pos=2,18
+	stage.active.font= 2,2,1
+	stage.active2.font=2,1,1
+	stage.done.font=   2,3,1
+
+	;;---
+	p1.cursor.move.snd= 1,0
+	p2.cursor.move.snd= 1,0
+	p1.cursor.done.snd= 1,1
+	p2.cursor.done.snd= 1,1
+	p1.random.move.snd= 1,0
+	p2.random.move.snd= 1,0
+
+	p2.cursor.blink=1
+
+	random.move.snd.cancel=0
+	stage.move.snd= 1,0
+	stage.done.snd= 1,1
+	cancel.snd=     0,2
+	;;---
+
+
+	teammenu.move.wrapping=1
+
+;	p1.teammenu.pos=  2,58
+;	p2.teammenu.pos=318,58
+
+;	;;---
+;	;;p1.teammenu.selftitle.offset= 10,20
+;	p1.teammenu.selftitle.font=    ;2,0, 1
+;	p1.teammenu.enemytitle.font=   ;2,0, 1
+;	p1.teammenu.item.font=         2,0, 1
+;	p1.teammenu.item.active.font=  2,0, 1
+;	p1.teammenu.item.active2.font= 2,0, 1
+;	p2.teammenu.selftitle.font=    ;2,0,-1
+;	p2.teammenu.enemytitle.font=   ;2,0,-1
+;	p2.teammenu.item.font=         2,0,-1
+;	p2.teammenu.item.active.font=  2,0,-1
+;	p2.teammenu.item.active2.font= 2,0,-1
+
+;	p1.teammenu.selftitle.text=    ;;"TeamMode"
+;	p1.teammenu.enemytitle.text=   ;;"TeamMode"
+;	p2.teammenu.selftitle.text=    ;;"TeamMode"
+;	p2.teammenu.enemytitle.text=   ;;"TeamMode"
+	;;---
+
+	p1.teammenu.move.snd=  1,0
+	p2.teammenu.move.snd=  1,0
+	p1.teammenu.value.snd= 1,0
+	p2.teammenu.value.snd= 1,0
+	p1.teammenu.done.snd=  1,1
+	p2.teammenu.done.snd=  1,1
+
+	p1.teammenu.bg.anim=               2020
+	p2.teammenu.bg.anim=               2020
+	p1.teammenu.value.icon.anim=       2020
+	p2.teammenu.value.icon.anim=       2020
+	p1.teammenu.value.empty.icon.anim= 2030
+	p2.teammenu.value.empty.icon.anim= 2030
+	p1.teammenu.item.cursor.anim=      2040
+	p2.teammenu.item.cursor.anim=      2041
+
+;	p1.teammenu.bg.offset=                32,25
+;	p2.teammenu.bg.offset=               -32,25
+;	p1.teammenu.item.offset=             -32,30
+;	p2.teammenu.item.offset=              32,30
+;	p1.teammenu.item.cursor.offset=       22,-4
+;	p2.teammenu.item.cursor.offset=      -22,-4
+;	p1.teammenu.value.icon.offset=        64,-5
+;	p2.teammenu.value.icon.offset=       -64,-5
+;	p1.teammenu.value.empty.icon.offset=  64,-5
+;	p2.teammenu.value.empty.icon.offset= -64,-5
+
+;	p1.teammenu.item.spacing=   0,20
+;	p2.teammenu.item.spacing=   0,20
+;	p1.teammenu.value.spacing=  15,0
+;	p2.teammenu.value.spacing= -15,0
+
+
+
+;@@@@@@
+;Ikemen feature
+;@@@@@@
+
+;;---
+; <for 4:3>
+p1.teammenu.pos=88,60
+p2.teammenu.pos=232,60
+
+; <for wide-screen / 16:9>
+;p1.teammenu.pos=55,60
+;p2.teammenu.pos=265,60
+
+;;---
+p1.teammenu.item.spacing=   0,18
+p2.teammenu.item.spacing=   0,18
+p1.teammenu.value.spacing=  12,0
+p2.teammenu.value.spacing= -12,0
+
+;p1.teammenu.selftitle.offset=  10,-20
+;p2.teammenu.selftitle.offset= -10,-20
+
+;p1.teammenu.selftitle.font=    2,8, -1
+;p1.teammenu.enemytitle.font=   2,8, -1
+
+p1.teammenu.item.font=         2,8, -1
+p1.teammenu.item.active.font=  2,9, -1
+p1.teammenu.item.active2.font= 2,8, -1
+
+;p2.teammenu.selftitle.font=    2,8,1
+;p2.teammenu.enemytitle.font=   2,8,1
+
+p2.teammenu.item.font=         2,8,1
+p2.teammenu.item.active.font=  2,9,1
+p2.teammenu.item.active2.font= 2,8,1
+
+p1.teammenu.bg.offset=             -29,-7
+p2.teammenu.bg.offset=             -50,-7
+
+;p1.teammenu.item.offset=             0,0
+;p2.teammenu.item.offset=             0,0
+
+p1.teammenu.item.cursor.offset=      -30,-6
+p2.teammenu.item.cursor.offset=       30,-6
+p1.teammenu.value.icon.offset=        10,-7
+p2.teammenu.value.icon.offset=       -10,-7
+p1.teammenu.value.empty.icon.offset=  10,-7
+p2.teammenu.value.empty.icon.offset= -10,-7
+
+;p1.teammenu.selftitle.text=   "TeamMode"
+;p1.teammenu.enemytitle.text=  "TeamMode"
+;p2.teammenu.selftitle.text=   "TeamMode"
+;p2.teammenu.enemytitle.text=  "TeamMode"
+
+teammenu.itemname.single = Single ;Ikemen feature
+teammenu.itemname.tag = Tag       ;Ikemen feature
+teammenu.itemname.simul = Simul   ;Ikemen feature
+teammenu.itemname.turns = Turns   ;Ikemen feature
+teammenu.itemname.ratio = Ratio   ;Ikemen feature
+
+;@@@@@@
+p1.teammenu.ratio1.icon.spr = 200,200      ;Ikemen feature
+p1.teammenu.ratio2.icon.spr = 200,210      ;Ikemen feature
+p1.teammenu.ratio3.icon.spr = 200,220      ;Ikemen feature
+p1.teammenu.ratio4.icon.spr = 200,230      ;Ikemen feature
+p1.teammenu.ratio5.icon.spr = 200,240      ;Ikemen feature
+p1.teammenu.ratio6.icon.spr = 200,250      ;Ikemen feature
+p1.teammenu.ratio7.icon.spr = 200,260      ;Ikemen feature
+p2.teammenu.ratio1.icon.spr = 200,200      ;Ikemen feature
+p2.teammenu.ratio2.icon.spr = 200,210      ;Ikemen feature
+p2.teammenu.ratio3.icon.spr = 200,220      ;Ikemen feature
+p2.teammenu.ratio4.icon.spr = 200,230      ;Ikemen feature
+p2.teammenu.ratio5.icon.spr = 200,240      ;Ikemen feature
+p2.teammenu.ratio6.icon.spr = 200,250      ;Ikemen feature
+p2.teammenu.ratio7.icon.spr = 200,260      ;Ikemen feature
+p1.teammenu.ratio1.icon.facing = 1         ;Ikemen feature
+p1.teammenu.ratio2.icon.facing = 1         ;Ikemen feature
+p1.teammenu.ratio3.icon.facing = 1         ;Ikemen feature
+p1.teammenu.ratio4.icon.facing = 1         ;Ikemen feature
+p1.teammenu.ratio5.icon.facing = 1         ;Ikemen feature
+p1.teammenu.ratio6.icon.facing = 1         ;Ikemen feature
+p1.teammenu.ratio7.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio1.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio2.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio3.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio4.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio5.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio6.icon.facing = 1         ;Ikemen feature
+p2.teammenu.ratio7.icon.facing = 1         ;Ikemen feature
+
+p1.teammenu.ratio1.icon.scale = 1, 1 ;Ikemen feature
+p1.teammenu.ratio2.icon.scale = 1, 1 ;Ikemen feature
+p1.teammenu.ratio3.icon.scale = 1, 1 ;Ikemen feature
+p1.teammenu.ratio4.icon.scale = 1, 1 ;Ikemen feature
+p1.teammenu.ratio5.icon.scale = 1, 1 ;Ikemen feature
+p1.teammenu.ratio6.icon.scale = 1, 1 ;Ikemen feature
+p1.teammenu.ratio7.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio1.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio2.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio3.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio4.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio5.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio6.icon.scale = 1, 1 ;Ikemen feature
+p2.teammenu.ratio7.icon.scale = 1, 1 ;Ikemen feature
+
+p1.teammenu.ratio1.icon.offset = -12,65  ;Ikemen feature
+p1.teammenu.ratio2.icon.offset = -12,65  ;Ikemen feature
+p1.teammenu.ratio3.icon.offset = -12,65  ;Ikemen feature
+p1.teammenu.ratio4.icon.offset = -12,65  ;Ikemen feature
+p1.teammenu.ratio5.icon.offset = -12,65  ;Ikemen feature
+p1.teammenu.ratio6.icon.offset = -12,65  ;Ikemen feature
+p1.teammenu.ratio7.icon.offset = -12,65  ;Ikemen feature
+p2.teammenu.ratio1.icon.offset = -67,65  ;Ikemen feature
+p2.teammenu.ratio2.icon.offset = -67,65  ;Ikemen feature
+p2.teammenu.ratio3.icon.offset = -67,65  ;Ikemen feature
+p2.teammenu.ratio4.icon.offset = -67,65  ;Ikemen feature
+p2.teammenu.ratio5.icon.offset = -67,65  ;Ikemen feature
+p2.teammenu.ratio6.icon.offset = -67,65  ;Ikemen feature
+p2.teammenu.ratio7.icon.offset = -67,65  ;Ikemen feature
+
+
+;@@@@@@
+;@@@@@@
+
+;;---
+;;---
+;; p1.cursor.active.anim
+[begin action 2000]
+200,120,0,0,3,,as064d192
+200,120,0,0,3,,as128d128
+200,120,0,0,3,,as192d064
+200,120,0,0,3,,as256d000
+200,120,0,0,3,,as192d064
+200,120,0,0,3,,as128d128
+
+;; p2.cursor.active.anim
+[begin action 2001]
+200,130,0,0,3,,as064d192
+200,130,0,0,3,,as128d128
+200,130,0,0,3,,as192d064
+200,130,0,0,3,,as256d000
+200,130,0,0,3,,as192d064
+200,130,0,0,3,,as128d128
+
+;; p1.cursor.done.anim
+[begin action 2010]
+200,120,0,0,32,,as128d128
+200,120,0,0,8
+
+;; p2.cursor.done.anim
+[begin action 2011]
+200,130,0,0,32,,as128d128
+200,130,0,0,8
+
+;; p1.teammenu.bg.anim
+;; p2.teammenu.bg.anim
+;; p1.teammenu.value.icon.anim
+;; p2.teammenu.value.icon.anim
+[begin action 2020]
+200,320,0,0,5
+200,320,-1,0,5,h
+200,320,-1,0,5,vh
+200,320,0,0,5,v
+
+;; teammenu.value.empty.icon
+[begin action 2030]
+200,320,0,0,5,,as0d0
+200,320,-1,0,5,h,as0d0
+200,320,-1,0,5,vh,as0d0
+200,320,0,0,5,v,as0d0
+
+;; p1.teammenu.item.cursor.anim
+[begin action 2040]
+110,220,0,0,1
+110,220,1,0,1
+110,220,2,0,1
+110,220,3,0,1
+110,220,4,0,2
+110,220,5,0,3
+110,220,6,0,4
+110,220,7,0,6
+110,220,8,0,8
+110,220,9,0,26
+
+;; p2.teammenu.item.cursor.anim
+[begin action 2041]
+110,220, 0,0,1,h
+110,220,-1,0,1,h
+110,220,-2,0,1,h
+110,220,-3,0,1,h
+110,220,-4,0,2,h
+110,220,-5,0,3,h
+110,220,-6,0,4,h
+110,220,-7,0,6,h
+110,220,-8,0,8,h
+110,220,-9,0,26,h
+
+
+;------------------
+[SelectBGdef]
+;op;	bgclearcolor=225,220,230
+;---
+[selectbg 0] ; bg
+	type=normal
+	spriteno=100,300
+	start=0,0
+	mask=0
+	tile=1,1
+	velocity=0.1,0
+	window=-60,0,379,239
+;---
+[selectbg 0] ; cloud_bg
+	type=normal
+	spriteno=102,310
+	layerno=0
+	start=0,120
+	tile=1,1
+	velocity=-0.2,0.2
+	sin.x=240,5000,0
+	sin.y=120,2600,0
+	window=-60,20,379,154
+;---
+[selectbg 0] ; dot_fg
+	type=normal
+	spriteno=100,600
+	start=-160,0
+	mask=1
+	tile=1,1
+	tilespacing=1,1
+;	window=99,20,220,154
+;;---
+;[selectbg 0] ; dot_fg_left
+;	type=normal
+;	spriteno=100,600
+;	start=-160,0
+;	mask=1
+;	tile=1,1
+;	tilespacing=1,1
+;	layerno=1
+;	window=-60,20,98,154
+;[selectbg 0] ; dot_fg_right
+;	type=normal
+;	spriteno=100,600
+;	start=-160,0
+;	mask=1
+;	tile=1,1
+;	tilespacing=1,1
+;	layerno=1
+;	window=221,20,379,154
+;;---
+;;---
+
+;------------------
+;//vs screen//
+;------------------
+[VS Screen]
+	time=0
+	fadein.time=0
+	fadeout.time=0
+;***	match.text="Match. %i"
+;***	match.offset=310,12
+	match.font=-1;;7,0,-1
+
+;;******
+match.offset=0,-200
+p1.spr=9000,1
+p2.spr=9000,1
+p1.scale=0,0
+p2.scale=0,0
+p1.offset=0,-200
+p2.offset=0,-200
+p1.name.pos=0,-200
+p2.name.pos=0,-200
+;;******
+
+;;------------------
+[VersusBGdef]
+[versusbg 0] ; bg_top
+	type=anim
+	actionno=1201
+	start=-80,20
+[Begin Action 1201] ;;loading
+100,1,0,0,-1
+
+
+
+;------------------
+;//Demo mode definition//
+;------------------
+[Demo Mode]
+	enabled=0
+	select.enabled=0
+	vsscreen.enabled=0
+	title.waittime=800
+	fight.endtime= 800
+	fight.playbgm=1
+	fight.bars.display=1
+	intro.waitcycles=2
+	debuginfo=1
+
+
+;------------------
+;//Continue screen definition//
+;------------------
+[Continue Screen]
+	enabled=1
+	pos=160,60
+;; * fighter.defで定義されたフォントを使うらしい
+	continue.text="countinue ?"
+	yes.text="yes"
+	yes.active.text="(YES)"
+	no.text="no"
+	no.active.text="(NO)"
+
+	continue.font=  2,2,0
+	yes.font=       2,2,0
+	yes.active.font=2,2,0
+	no.font=        2,2,0
+	no.active.font= 2,2,0
+
+	continue.offset=    0, 0
+	yes.offset=       -36,42
+	yes.active.offset=-36,42
+	no.offset=         46,42
+	no.active.offset=  46,42
+
+
+;------------------
+;//Win screen definition//
+;------------------
+[Win Screen]
+	enabled=1
+	wintext.text="Congratulations!"
+	wintext.font=2,1,0
+	wintext.offset=159,70
+	wintext.displaytime=-1
+	wintext.layerno=2
+	fadein.time=32
+	pose.time=100
+	fadeout.time=60
+
+
+;------------------
+;//Victory screen definition//
+;------------------
+[Victory Screen]
+	enabled=1
+	time=880
+	fadein.time=32
+	fadeout.time=32
+	;;---
+	p1.spr=9000,2
+	p1.offset=319,17 ;;(15+2)
+	p1.facing=-1
+	p1.scale=1,1
+	;;---
+	p1.name.font=2,0,-1
+	p1.name.offset=312,176
+	winquote.textwrap= w ;; word wrap
+	winquote.text="わたしの勝ちだ！" ;;<- jp
+	winquote.font=8,0,1, 0,0,0
+	winquote.offset=10,120
+	winquote.window=0,0,210,240
+
+
+;------------------
+;------------------
+[Default Ending]
+	enabled=1
+	storyboard=credits.def
+;------------------
+[End Credits]
+	enabled=1
+	storyboard=mm2/gameclear.def
+;------------------
+[Game Over Screen]
+	enabled=1
+	storyboard=mm2/gameover.def
+
+;------------------
+[Survival Results Screen]
+	enabled=1
+	winstext.text="Rounds Survived %i"
+	winstext.font=2,2,0
+	winstext.offset=159,70
+	winstext.displaytime=-1
+	winstext.layerno=2
+	fadein.time=64
+	show.time=500
+	fadeout.time=64
+	roundstowin=5
+
+
+;------------------
+;//Options screen//
+;------------------
+[Option Info]
+	cursor.move.snd=1,0
+	cursor.done.snd=1,1
+	cancel.snd=     0,2
+	fadein.time=10
+	fadeout.time=10
+	title.offset=270,12
+	title.font=7,0,-1, 180,160,160
+
+
+;Ikemen feature
+menu.itemname.menuarcade = "Arcade Settings"
+menu.itemname.menuarcade.roundtime = "Time Limit"
+menu.itemname.menuarcade.roundsnumsingle = "Rounds to Win Single"
+menu.itemname.menuarcade.roundsnumteam = "Rounds to Win Simul/Tag"
+menu.itemname.menuarcade.maxdrawgames = "Max Draw Games"
+menu.itemname.menuarcade.difficulty = "Difficulty Level"
+menu.itemname.menuarcade.credits = "Credits"
+menu.itemname.menuarcade.quickcontinue = "Quick Continue"
+menu.itemname.menuarcade.airamping = "AI Ramping"
+menu.itemname.menuarcade.aipalette = "AI Palette"
+menu.itemname.menuarcade.empty = ""
+menu.itemname.menuarcade.back = "Back"
+
+menu.itemname.menuvideo = "Video Settings"
+menu.itemname.menuvideo.resolution = "Resolution" ;reserved submenu
+; Resolution is assigned based on values used in itemname suffix (e.g. 320x240)
+menu.itemname.menuvideo.resolution.320x240 = "320x240    (4:3 QVGA)"
+menu.itemname.menuvideo.resolution.640x480 = "640x480    (4:3 VGA)"
+menu.itemname.menuvideo.resolution.960x720 = "960x720    (4:3 HD)"
+menu.itemname.menuvideo.resolution.1280x720 = "1280x720   (16:9 HD)"
+menu.itemname.menuvideo.resolution.1600x900 = "1600x900   (16:9 HD+)"
+menu.itemname.menuvideo.resolution.1920x1080 = "1920x1080  (16:9 FHD)"
+menu.itemname.menuvideo.resolution.empty = ""
+menu.itemname.menuvideo.resolution.customres = "Custom"
+menu.itemname.menuvideo.resolution.back = "Back"
+menu.itemname.menuvideo.fullscreen = "Fullscreen"
+menu.itemname.menuvideo.msaa = "MSAA"
+menu.itemname.menuvideo.shaders = "Shaders" ;reserved submenu
+; This list is populated with shaders existing in 'external/shaders' directory
+menu.itemname.menuvideo.shaders.empty = ""
+menu.itemname.menuvideo.shaders.noshader = "Disable"
+menu.itemname.menuvideo.shaders.back = "Back"
+menu.itemname.menuvideo.empty = ""
+menu.itemname.menuvideo.back = "Back"
+
+menu.itemname.menuaudio = "Audio Settings"
+menu.itemname.menuaudio.mastervolume = "Master Volume"
+menu.itemname.menuaudio.bgmvolume = "BGM Volume"
+menu.itemname.menuaudio.sfxvolume = "SFX Volume"
+menu.itemname.menuaudio.audioducking = "Audio Ducking"
+menu.itemname.menuaudio.empty = ""
+menu.itemname.menuaudio.back = "Back"
+
+menu.itemname.menuinput = "Input Settings"
+menu.itemname.menuinput.keyboard = "Key Config"
+menu.itemname.menuinput.gamepad = "Joystick Config"
+menu.itemname.menuinput.empty = ""
+menu.itemname.menuinput.inputdefault = "Default"
+menu.itemname.menuinput.back = "Back"
+
+menu.itemname.menugameplay = "Gameplay Settings"
+menu.itemname.menugameplay.lifemul = "Life"
+menu.itemname.menugameplay.gamespeed = "Game Speed"
+menu.itemname.menugameplay.autoguard = "Auto-Guard"
+menu.itemname.menugameplay.empty = ""
+menu.itemname.menugameplay.singlevsteamlife = "Single VS Team Life"
+menu.itemname.menugameplay.teamlifeadjustment = "Team Life Adjustment"
+menu.itemname.menugameplay.teampowershare = "Team Power Share"
+menu.itemname.menugameplay.simulloseko = "Simul Player KOed Lose"
+menu.itemname.menugameplay.tagloseko = "Tag Partner KOed Lose"
+menu.itemname.menugameplay.turnsrecoverybase = "Turns Recovery Base"
+menu.itemname.menugameplay.turnsrecoverybonus = "Turns Recovery Bonus"
+menu.itemname.menugameplay.empty = ""
+menu.itemname.menugameplay.menuratio = "Ratio Settings"
+menu.itemname.menugameplay.menuratio.ratio1life = "Ratio 1 Life"
+menu.itemname.menugameplay.menuratio.ratio1attack = "Ratio 1 Damage"
+menu.itemname.menugameplay.menuratio.ratio2life = "Ratio 2 Life"
+menu.itemname.menugameplay.menuratio.ratio2attack = "Ratio 2 Damage"
+menu.itemname.menugameplay.menuratio.ratio3life = "Ratio 3 Life"
+menu.itemname.menugameplay.menuratio.ratio3attack = "Ratio 3 Damage"
+menu.itemname.menugameplay.menuratio.ratio4life = "Ratio 4 Life"
+menu.itemname.menugameplay.menuratio.ratio4attack = "Ratio 4 Damage"
+menu.itemname.menugameplay.menuratio.empty = ""
+menu.itemname.menugameplay.menuratio.back = "Back"
+menu.itemname.menugameplay.menuadvanced = "Advanced Settings"
+menu.itemname.menugameplay.menuadvanced.attackpowermul = "Attack.LifeToPowerMul"
+menu.itemname.menugameplay.menuadvanced.gethitpowermul = "GetHit.LifeToPowerMul"
+menu.itemname.menugameplay.menuadvanced.superdefencemul = "Super.TargetDefenceMul"
+menu.itemname.menugameplay.menuadvanced.empty = ""
+menu.itemname.menugameplay.menuadvanced.minturns = "Min Turns Chars"
+menu.itemname.menugameplay.menuadvanced.maxturns = "Max Turns Chars"
+menu.itemname.menugameplay.menuadvanced.minsimul = "Min Simul Chars"
+menu.itemname.menugameplay.menuadvanced.maxsimul = "Max Simul Chars"
+menu.itemname.menugameplay.menuadvanced.mintag = "Min Tag Chars"
+menu.itemname.menugameplay.menuadvanced.maxtag = "Max Tag Chars"
+menu.itemname.menugameplay.menuadvanced.empty = ""
+menu.itemname.menugameplay.menuadvanced.back = "Back"
+menu.itemname.menugameplay.back = "Back"
+
+menu.itemname.menuengine = "Engine Settings"
+menu.itemname.menuengine.debugkeys = "Debug Keys"
+menu.itemname.menuengine.quicklaunch = "Quick Launch"
+menu.itemname.menuengine.lifebarfontscale = "Lifebar Font Scale"
+menu.itemname.menuengine.empty = ""
+menu.itemname.menuengine.helpermax = "HelperMax"
+menu.itemname.menuengine.projectilemax = "PlayerProjectileMax"
+menu.itemname.menuengine.explodmax = "ExplodMax"
+menu.itemname.menuengine.afterimagemax = "AfterImageMax"
+menu.itemname.menuengine.empty = ""
+menu.itemname.menuengine.zoomactive = "Zoom Active"
+menu.itemname.menuengine.maxzoomout = "Default Max Zoom Out"
+menu.itemname.menuengine.maxzoomin = "Default Max Zoom In"
+menu.itemname.menuengine.zoomspeed = "Default Zoom Speed"
+menu.itemname.menuengine.empty = ""
+menu.itemname.menuengine.back = "Back"
+
+menu.itemname.empty = ""
+menu.itemname.portchange = "Port Change"
+menu.itemname.default = "Default Values"
+menu.itemname.empty = ""
+menu.itemname.savereturn = "Save and Return"
+menu.itemname.return = "Return Without Saving"
+
+
+
+;------------------
+[OptionBGdef]
+;op;	bgclearcolor=100,200,255
+;---
+[optionbg 0]
+	type=normal
+	spriteno=100,300
+	start=160,0
+	mask=0
+	tile=1,1
+	velocity=0.1,0
+	window=-60,0,379,239
+;---
+[optionbg 0] ; cloud_bg
+	type=normal
+	spriteno=102,310 ;; [480x280]
+	layerno=0
+	start=160,120
+	mask=0
+	tile=1,1
+	velocity=0.2,0.2
+	sin.x=240,9000,0
+	sin.y=120,4500,0
+	window=-60,50,379,146
+;---
+[optionbg 0] ; dot_fg
+	type=normal
+	spriteno=100,600 ;; [320x240]
+	start=-160,0
+	mask=1
+	tile=1,1
+	tilespacing=1,1
+	window=-60,50,379,146
+;---
+;---
+[optionbg 0] ; title_shadow
+	type=anim
+	actionno=1010
+	start=6,22
+	mask=1
+;---
+
+
+
+
+
+
+;------------------
+;------------------
+
+;------------------
+;------------------
+
+
+
+
+
+;[EOF]

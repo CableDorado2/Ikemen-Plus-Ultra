@@ -1,0 +1,370 @@
+# Zantei State Script
+#; #20200830a62 (player tag states)
+
+
+
+
+
+
+##;==========================
+##;==========================
+##; Partner Action in TagMode ; (タッグモード時パートナー処理)
+##; [190190-190196]
+##;==========================
+#; out screen ; (画面外へ)
+[Statedef 190190; type: A; movetype: I; physics: N; anim: 40; sprpriority:-2;
+velset: 0,0; ctrl: 0; facep2: 1; ]
+
+#;sys::partner_life-recover1
+if !time {
+	removeexplod{id:490600} #;sys::face_d_clear
+	posset{y:0}
+	afterimagetime{time:0}
+	if life<1 { lifeadd{value:1} }
+}
+
+nothitby{value: sca}
+playerpush{value:0}
+
+if sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if playerid(floor(sysfvar(0))),var(0)=90900 && playerid(floor(sysfvar(0))),var(28)<200 {
+	screenbound{value:0; movecamera:0,0}
+}}
+
+if pos y!=0 { assertspecial{flag:noshadow} }
+
+#;sys::partner_run-anim2
+persistent(0) if (anim=40) && (animtime=0) && selfanimexist(100) { changeanim{value:100} }
+persistent(0) if (anim=100) { turn{} }
+
+#;sys::partner_run-vel2
+if (anim=100) { velset{x:9.6*const(movement.yaccel); y:0} }
+
+#; take off ; 離陸
+#;sys::partner_jump-anim1
+if (anim=40) && (animtime=0) { changeanim{value:41} }
+if (anim=[41,43]) && (animtime=0) && selfanimexist(anim+3) { changeanim{value:anim+3} }
+
+#;sys::partner_jump-vel1
+if (anim=[41,46]) || (anim=909601) {
+	velset{x:-20*const(movement.yaccel); y:-7*const(movement.yaccel) }
+}
+
+#;sys::player_type_change1
+sysfvar(4):=1; #; (0:main / 1:assist)
+
+#;sys::player_pos_y_outscreen1
+if backedgedist<-const240p(160) || frontedgedist<-const240p(160) {
+	posset{y:0}
+	velset{x:0; y:0}
+}
+
+#;sys::partner_goto-standby1
+if time>59 {
+if backedgedist<-const240p(100) || frontedgedist<-const240p(100) || pos y>100 || time>218 {
+	if sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+	if playerid(floor(sysfvar(0))),var(0)=90900 && playerid(floor(sysfvar(0))),var(28)>200 {
+		changestate{value:190191}
+	}}
+	if roundstate>2 {
+		changestate{value:190191}
+	}
+}}
+
+
+#;------------------------
+#; Stand-By1 (Change OK) ; 待機中1(交替可)
+#;------------------------
+[Statedef 190191; type: A; movetype: I; physics: N; anim: 909601; velset: 0, 0; ctrl: 0; ]
+
+screenbound{value:0; movecamera:0,0}
+
+#;sys::partner-standby_id_input2
+if !time { sysvar(0):=0; }
+
+if !ishelper && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if playerid(floor(sysfvar(0))),var(0)=90900 && playerid(floor(sysfvar(0))),var(15)!=id {
+	sysvar(0):=playerid(floor(sysfvar(0))),var(15);
+}}
+
+#;sys::partner-standby-set3
+if sysvar(0)>0 && playeridexist(sysvar(0)) {
+	if facing!=playerid(sysvar(0)),facing { turn{} }
+	posset{
+	x:playerid(sysvar(0)),pos x -8*playerid(sysvar(0)),facing;
+	y:playerid(sysvar(0)),pos y-playerid(sysvar(0)),screenpos y }
+}
+
+#;sys::partner-standby-out1 ; 出る
+if !ishelper && roundstate=2 && numpartner && sysvar(0)>0 && playeridexist(sysvar(0)) && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if (playerid(sysvar(0)),alive=0 && playerid(sysvar(0)),stateno=5150) || (playerid(sysvar(0)),sysfvar(4)>0) {
+if id=playerid(floor(sysfvar(0))),var(49) {
+	sysfvar(4):=0; #; (0:main / 1:assist)
+}}}
+
+#;sys::partner-standby-out2
+if (time>0 && sysfvar(4)<1) || (roundstate>2) { changestate{value:190193} }
+
+#;sys::partner_goto-standby2
+#;;<<- (158F) interval / charge-time ; 間隔/蓄積期間
+if time>=158 { changestate{value:190192} }
+
+
+#;------------------------
+#; Stand-By2 (Change / Partner-Assist-OK, Life-Recover) ; 待機中2(交替/支援可,体力回復)
+#;------------------------
+[Statedef 190192; type: U; movetype: U; physics: N; velset: 0,0; ctrl: 0;]
+
+screenbound{value: 0; movecamera: 0,0}
+
+#;sys::partner_life-recover3
+if (time%20=19) && (life<lifemax-1) { lifeadd{value:1} }
+
+#;sys::partner-standby_id_input3
+if !ishelper && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if playerid(floor(sysfvar(0))),var(0)=90900 {
+	sysvar(0):=playerid(floor(sysfvar(0))),var(15);
+}}
+
+#;sys::partner-standby-set5
+if sysvar(0)>0 && playeridexist(sysvar(0)) {
+	if facing!=playerid(sysvar(0)),facing { turn{} }
+	posset{
+	x:playerid(sysvar(0)),pos x -8*playerid(sysvar(0)),facing;
+	y:playerid(sysvar(0)),pos y-playerid(sysvar(0)),screenpos y }
+}
+
+#;sys::partner-standby-out3 ; 出る
+if !ishelper && roundstate=2 && numpartner && sysvar(0)>0 && playeridexist(sysvar(0)) && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if (playerid(sysvar(0)),alive=0 && playerid(sysvar(0)),stateno=5150) || (playerid(sysvar(0)),sysfvar(4)>0) {
+if id=playerid(floor(sysfvar(0))),var(49) {
+	sysfvar(4):=0; ##; to main-player
+}}}
+
+#;sys::partner_goto-out1
+if (time>1 && sysfvar(4)<1) || (roundstate>2) {
+	changestate{value:190193}
+}
+if sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if playerid(floor(sysfvar(0))),var(0)=90900 && playerid(floor(sysfvar(0))),var(48)=12 && id=playerid(floor(sysfvar(0))),var(49) {
+	changestate{value:190193}
+}}
+
+
+#;------------------------
+#; in (190193-190195) ; 登場
+#;------------------------
+[Statedef 190193; type: U; movetype: U; physics: N; sprpriority: -2; velset: 0,0; ctrl: 0;]
+
+nothitby{value:sca}
+screenbound{value:0; movecamera:0,0}
+playerpush{value:0}
+assertspecial{flag:invisible}
+
+#;sys::face_d_clear
+if !time {
+	removeexplod{id:490600}
+	sysvar(1):=-1; #;sys::init_assist_no
+}
+
+#;;--- for_ikemen
+#; タッグ時支援ステート番号設定
+#;sys::tag_assist_stno_set
+if (sysvar(1)>159) && selfstatenoexist(sysvar(1)) && map(a4b_assist1)<160 {
+	mapset{map:"a4b_assist1"; value:sysvar(1) }
+}
+
+#;sys::partner-out-set2
+if sysvar(0)>0 && playeridexist(sysvar(0)) {
+
+	if facing!=playerid(sysvar(0)),facing { turn{} }
+	posset{
+	x: (playerid(sysvar(0)),pos x) - ( playerid(sysvar(0)),backedgebodydist +const240p(90) )*facing;
+	y:-const240p(180) }
+
+	#;sys::partner-landing-pos2
+	if !time && !ishelper && roundstate=2 && sysfvar(4)=0 && !numhelper(909606) && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+	if (playerid(floor(sysfvar(0))),var(0)=90900) && !(playerid(floor(sysfvar(0))),var(7)&65536) {
+		helper{
+		pos:floor(playerid(sysvar(0)),pos x-pos x)*facing, floor(playerid(sysvar(0)),pos y-pos y);
+		id:909606; stateno:190202 }
+	}}
+
+	#;sys::partner-out-vel2
+	velset{x:abs(pos x-playerid(sysvar(0)),pos x)*0.05; y:abs(pos y)*0.05 }
+	#;sys::partner-out-vel3
+	if (roundstate>2) {
+		velset{x:abs(pos x-playerid(sysvar(0)),pos x +const240p(28)*(id-sysvar(0))*facing )*0.035;
+		y:abs(pos y)*0.035 }
+	}
+
+}
+
+#;sys::partner_goto-out2
+if time>ifelse(roundstate<=2, 1, ifelse(win,100,160)+(id-sysvar(0))*8 ) {
+	changestate{value:ifelse((sysfvar(4)<1), 190194, 190196)}
+}
+
+
+#;------------------------
+#; Empty States for override ; ストライカー出現 上書き用中間ステート
+#;------------------------
+[Statedef 190196; type:U; movetype:U; ctrl:0;]
+
+#;sys::partner_goto-out3
+if !time { changestate{value:190194} }
+
+#;------------------------
+#; Striker-Call / Summon ; ストライカー召喚
+#;------------------------
+[Statedef 190194; type: A; movetype: U; physics: N; anim: ifelse(selfanimexist(44),44,41);
+sprpriority: -2; ctrl: 0;]
+
+#;sys::partner_assist-mark1
+# ;; Mark: "p-1" / "p-2" / "cpu"
+if !time && roundstate=2 && !numexplod(296000) && numpartner {
+	explod{
+	id:296000;
+	anim:f296000+(matchno<2||ishometeam=0)*teamside;
+	postype:p1;
+	pos:0,floor( (const(size.head.pos.y)-const(size.ground.front)/2-const(size.ground.back)/2) );
+	facing:ifelse(facing=1,1,-1);
+	scale:0.25,0.25;
+	sprpriority:5;
+	bindtime:-1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ignorehitpause:1;
+	ownpal:1}
+}
+
+#;sys::partner-out-set4
+if !time && sysvar(0)>0 && playeridexist(sysvar(0)) {
+	nothitby{value:sca; time:ifelse(playerid(sysvar(0)),alive=0,25,10) }
+}
+
+if (pos y<0) { assertspecial{flag:noshadow} }
+
+screenbound{value:0; movecamera:0,0}
+playerpush{value:0}
+
+#;sys::partner_goto-assist1
+if (anim=[41,46]) {
+	if (roundstate>2) { veladd{y:0.35} }
+	if (pos y>=0) || ((pos y+vel y>=0)&&(vel y>0)) { changestate{value:190195} }
+}
+
+#;; "switch-canneling"
+if !time && sysfvar(4)=0 && sysvar(0)>0 && playeridexist(sysvar(0)) {
+if playerid(sysvar(0)),sysfvar(4)=2 {
+	palfx{ time:20; add:-256,0,256}
+	poweradd{value:-500} #;sys::player_cost_sc0 ;; パワー消費量
+}}
+
+#;sys::partner_run-anim2
+if !time && roundstate=2 && selfanimexist(100) { changeanim{value:100} }
+
+if (anim=100) { 
+	velset{y:0}
+	posset{y:0}
+}
+
+#;sys::partner_goto-assist1
+if (anim=100) && (time>=20) { changestate{value:190195} }
+
+
+#;------------------------
+#; Land > RoundOver ; 着地>ラウンド終了
+#;------------------------
+[Statedef 190195; type:S; movetype:I; physics:S; anim:47; sprpriority:-2; velset:0,0; ctrl:0;]
+if !time && ( (animtime>0) || (animtime<-5) ) { changeanim{value:40} }
+if !time { posset{y:0} }
+
+#;sys::partner_goto-assist2
+if (animtime=0) && roundstate=2 && sysfvar(4)>0 {
+	let va = 1000;
+	if map(a4b_assist1)>159 && selfstatenoexist(map(a4b_assist1)) { let va = map(a4b_assist1); }
+	changestate{ value:$va; ctrl:0 }
+}
+#;sys::partner_ex-change_safety
+if (animtime=0) { changestate{ value:0; ctrl:1 } }
+
+
+##;==========================
+##;==========================
+#; Static Pos [helper] ; 座標固定
+[Statedef 190202; type:S; movetype:I; physics:N; anim:909601; velset:0,0; ctrl:0;]
+screenbound{value:1; movecamera:1,1}
+if (parent,stateno!=[190190,190196]) || (roundstate!=2) || time>56 { destroyself{} }
+
+
+#===============================================================================
+#===============================================================================
+[statedef -4]
+
+##;sys::-2::helper::intro
+#ignorehitpause if (stateno=5900) && !ishelper && !numhelper(185905) {
+#	helper{
+#		id:185905;stateno:185905;helpertype:normal;
+#		supermovetime:88888;pausemovetime:88888;ownpal:1 }
+#}
+
+#;sys::-2::partners_standby ; パートナー待機
+ignorehitpause if !ishelper && numpartner && roundstate=2 && alive && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+ignorehitpause if (stateno!=[190190,190199]) && playerid(floor(sysfvar(0))),var(0)=90900 && playerid(floor(sysfvar(0))),var(22)=4 {
+
+	if (pos y>=0) && movetype!=h && gethitvar(isbound)=0 && (stateno!=5120) && (stateno!=[5200,5210]) {
+		#;;---// switch / change ;(交替)
+		if sysfvar(4)<1 && ( ctrl || (time<2 && stateno<600) ) && playerid(floor(sysfvar(0))),var(48)=11 {
+			selfstate{value:190190 } }
+		#;;---// assist ;(協力)
+		###if sysfvar(4)=1 && ( ctrl || (stateno-playerid(floor(sysfvar(0))),var(53+id-playerid(floor(sysfvar(0))),sysvar(0))!=[0,999]) ) {
+		###if sysfvar(4)=1 && ( ctrl || map(a4b_assist1)>=160 && (stateno-map(a4b_assist1))!=[0,999]) ) {
+		#;;---// switch-canceling ;(割り込み交替)
+		###if sysfvar(4)=2 && ( ctrl || stateno<160 ) {
+		###	selfstate{value:190190 } }
+		#;;---// assist or switch-canceling ;(協力/割り込み交替)
+		if (sysfvar(4)=[1,2]) && ( ctrl || stateno<160 ) { selfstate{value:190190 } }
+	}
+
+	#;;---// player-priority ;(順位)
+	if sysfvar(4)<1 && playerid(floor(sysfvar(0))),var(15)!=id {
+		selfstate{value:190190 } }
+}}
+
+#;sys::-2::partners_change_interrupted ; 割り込み交替
+if !ishelper && numpartner && roundstate=2 && alive && sysfvar(0)>0 && playeridexist(floor(sysfvar(0))) {
+if playerid(floor(sysfvar(0))),var(0)=90900 && playerid(floor(sysfvar(0))),var(48)=21 && sysfvar(4)<1 {
+	sysfvar(4):=2; ##;; (0:main / 1:assist / 2:switch-canceling)
+}}
+
+##;sys::-2::helper::bar004 ; ライフバー
+#ignorehitpause if !ishelper && !numhelper(90900) {
+#ignorehitpause if cond(numpartner, id<(partner,id) && partner,numhelper(90900)=0, 1) {
+#	helper{
+#		id:90900;
+#		stateno:90900;
+#		helpertype:normal;
+#		size.air.front:1911115; ##; <<-version
+#		size.height:0; ## 1;; <<-powerbar off mode
+#		supermovetime:88888;pausemovetime:88888;
+#		pos:0,88888;ownpal:1 }
+#}}
+
+##;sys::-2::get_helper::bar004_id ; ID取得
+#if !ishelper && numhelper(90900) {
+#if (helper(90900),var(0)=90900) && (sysfvar(0)!=helper(90900),id) {
+#	sysfvar(0):=(helper(90900),id);
+#}}
+
+##;sys::-2::get_players_id2
+#if !ishelper && numpartner {
+#if !numhelper(90900) && (partner,numhelper(90900)) && (sysfvar(0)!=(partner,sysfvar(0))) {
+#	sysfvar(0):=(partner,sysfvar(0));
+#}}
+
+
+
+#;;---
+#;;---
+#;//[EOF]

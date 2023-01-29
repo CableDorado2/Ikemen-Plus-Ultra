@@ -1,0 +1,12 @@
+﻿[fnt v2]
+	fntversion=2,00
+	name="PixelMplus10 Regular"
+	author="M+ Font Project 2013"
+
+[def]
+	type=truetype
+	size=10,10
+	spacing=0,5
+	offset=0,0
+	file=vq.ttf
+	blend=1

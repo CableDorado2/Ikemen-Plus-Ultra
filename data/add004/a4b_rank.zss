@@ -1,0 +1,680 @@
+# Zantei State Script
+#; #20200614a60 (rank)
+
+
+
+
+
+##;==========================
+##;==========================
+##;;>>@Config.Ranking>>
+##; Ranking [helper] ; ランキング
+##;==========================
+[statedef 99980; type:s; movetype:i; physics:n; anim:909601; velset:0,0; ctrl:0; ]
+#;--- ---
+#; v41:	players life >> life / vital bonus
+#; v42:	damage >> wait time
+#; v43:	life_view >> contents grid (pos y)
+#; v44:	jumpcounter >> rank
+#; v46:	draw depth ;描画深度
+#; v29-30:	(options_lifebar_width) panel_pos_x
+#; v31-32:	(lifebar) draw pos x y
+#; v33-36:	(power/graph) bar draw x y
+#; v37:	panel_color ;色合 (1-4) (+2)
+#; v44:	rank (0-14) (O1-C3-B3-A3-S3-M)
+#; f12-15:	bar scale (w or h)
+#; f16>f25:	bonus_tech
+#; f17>f1:	bonus_life
+#; f23>f8:	bonus_offence
+#; f24>f7:	bonus_defence
+##;--- ---
+ignorehitpause{ assertspecial{flag:nobardisplay} }
+width{value:0,0}
+#;---
+#;sys::init1
+persistent(0) if !time && ishelper(stateno) {
+	var(3):=parent,var(3);
+	var(4):=parent,var(4);
+	var(5):=parent,var(5);
+	var(6):=parent,var(6);
+	var(7):=parent,var(7);
+	var(8):=parent,var(8);
+	var(9):=parent,var(9);
+	var(15):=parent,var(15);
+	var(24):=parent,var(24);
+	var(46):=parent,var(46);
+	var(51):=parent,var(51);
+	var(57):=parent,var(57);
+	var(58):=var(57);
+	fvar(0):=parent,fvar(0);
+	fvar(1):=parent,fvar(1);
+	fvar(3):=parent,fvar(3);
+	fvar(5):=parent,fvar(5);
+	fvar(6):=parent,fvar(6);
+	fvar(7):=parent,fvar(7);
+	fvar(8):=parent,fvar(8);
+	fvar(25):=parent,fvar(25);
+}
+#;sys::init2
+persistent(0) if !time {
+	var(42):=8; ##;<-init wait time
+	var(31):=var(3)/2 +floor(280*fvar(0))*ifelse(teamside=1,-1,1);
+	var(32):=floor(var(4)*0.4); ## ;;<- panel_pos_x/y (gameheight*0.4)
+}
+
+#;sys::keep-win1
+ignorehitpause if win {assertspecial{flag:roundnotover} }
+#;---
+#;sys::draw-flag ;; (=lifebar flag) (4th bit)
+if !time && win && (var(7)&32) && !(var(9)&4096) { var(9):=(var(9)|4); }
+#;---
+#;sys::panel_side_scroll
+#; v30: (options_lifebar_width) panel_pos_x
+var(30):=var(3)/2 + floor( ifelse((parent,frontedgedist)>(parent,backedgedist), 50, -80 )  *fvar(0)*(parent,facing) );
+if (time-var(42)=[20,220]) && (time%10=0) { var(29):=var(29)+ifelse(teamside=1,1,-1); }
+if (time-var(42)=[0,20]) { var(31):=var(30) +var(29) +floor((20+var(42)-time)**3 *0.05 *fvar(0)) *ifelse(teamside=1,-1,1); }
+if (time-var(42)=[21,199]) { var(31):=var(30) +var(29); }
+if (time-var(42)=[200,220]) { var(31):=var(30) +var(29) +floor((time-var(42)-200)**3 *0.05 *fvar(0)) *ifelse(teamside=1,1,-1); }
+
+#;---------------
+#; calculate bonus ; ボーナス計算
+#;---------------
+#;sys::bonus_life
+persistent(0) if !time {
+	var(41):=floor(root,life*30.0/root,lifemax);
+	if numpartner>0 { var(41):=var(41)/2+floor(playerid(root,id+1),life*15.0/playerid(root,id+1),lifemax); }
+	if numpartner>1 { var(41):=var(41)/2+floor(playerid(root,id+2),life*15.0/playerid(root,id+2),lifemax); }
+	if numpartner>2 { var(41):=var(41)/2+floor(playerid(root,id+3),life*15.0/playerid(root,id+3),lifemax); }
+}
+#;;---
+#;; (var(9)&68)=68 : first attack (+5)
+#;; (var(41)>=30) : life / perfect (+25)
+#;; (var(9)&128)=128 : super/hyper finish (+30)
+#;; (var(9)&256)=256 : special finish (+20)
+#;; f03:  maxhitcombo
+#;; f05:  rank counter hits
+#;; f06:  rank bk/jd
+#;;---
+#;sys::rank_input1
+persistent(0) if !time {
+	fvar(7):=ifelse(fvar(7)>31,31,fvar(7)); #; bonus_guard/defence
+	fvar(8):=ifelse(fvar(8)>36,36,fvar(8)); #; bonus_hit/offence
+	fvar(25):=((var(9)&68)=68)*5 +((var(9)&128)=128)*30 +((var(9)&256)=256)*20 +(var(41)>=30)*25 +fvar(3)+fvar(5)+fvar(6);
+	fvar(25):=ifelse(fvar(25)>38,38,fvar(25)) *(fvar(25)>0); #; bonus_tech
+	var(44):=ceil(fvar(8)+fvar(7)+fvar(25))+var(41); #; rank
+	var(44):=ifelse(var(44)<0,0,ifelse(var(44)>99,14,var(44)/8)); #; rank to int
+	var(37):=(var(44)<1)*4 +(var(44)=1)*5 +(var(44)=[2,4])*1 +(var(44)=[5,7])*3 +(var(44)=[8,10])*2; #; color by rank
+#;debug;	var(46):=100; #; sprpriority
+}
+
+#;---
+#;sys::img_pos2 ;; bar/bonus/score/rank_pos (x,y)
+var(33):=-floor((fvar(16)+fvar(17)+fvar(23)+fvar(24)) *0.5 *fvar(0)*fvar(12)); #;<- bar_pos.x
+var(34):=floor((((!(var(9)&64))+(var(41)<30)+(!(var(9)&384)))*4   -5)*fvar(0)*fvar(12)); #;<- bar_pos.y
+var(43):=floor((((!(var(9)&64))+(var(41)<30)+(!(var(9)&384)>0))*2+16)*fvar(0)*fvar(12)); #;<- bonus_pos.y
+
+#;---
+#;sys::img_graph_var ; 変量
+if time>var(42)+26 {
+	fvar(16):=fvar(16)+(fvar(16)<fvar(25));
+	fvar(17):=fvar(17)+(fvar(17)<var(41));
+	fvar(23):=fvar(23)+(fvar(23)<fvar(8));
+	fvar(24):=fvar(24)+(fvar(24)<fvar(7));
+}
+
+#;---
+#;sys::img_scale ;; bar/tip/bonus scaling ; バー縮尺
+#; init ; 初期値
+persistent(0) if !time {
+	fvar(12):=0.8; #;all_scale
+	fvar(13):=0;   #;bar_scale
+	fvar(14):=0;   #;bonus_scale
+	fvar(15):=0;   #;rank_scale
+}
+
+#; modify scales ; 縮尺変更
+if (time>var(42)+10) { fvar(12):=fvar(12) +0.01; }
+if fvar(12)>1 { fvar(12):=1; }
+if (time>var(42)+20) { fvar(13):=fvar(13) +0.05; }
+if fvar(13)>0.5 { fvar(13):=0.5; }
+if (time>var(42)+30) { fvar(14):=fvar(14) +0.1; }
+if fvar(14)>0.25 { fvar(14):=0.25; }
+if (time>var(42)+40) { fvar(15):=fvar(15) +0.1; }
+if fvar(15)>0.5 { fvar(15):=0.5; }
+
+#;---
+#; drawing ; 描画
+#;---
+#;sys::img_d_cls ; 再描画
+removeexplod{id:1} ##;;<- id painted in this state
+
+#;---
+#;sys::screen_edge_dark_win
+#; v35-36 temp pos x/y
+if (var(9)&4) && (time-var(42)=10) {
+	explod{
+	id:2;
+	anim:f3021;
+	sprpriority:var(46)-20;
+	space:screen;
+	postype:left;
+	pos:-floor(75*fvar(0)),var(4)/2;
+	scale:1*fvar(1),var(4)/240.0/fvar(0)*fvar(1);
+	bindtime:-1;
+	accel:-0.0005*fvar(0);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+
+	explod{
+	id:2;
+	anim:f3021;
+	sprpriority:var(46)-20;
+	space:screen;
+	postype:left;
+	pos:var(3)+floor(75*fvar(0)),var(4)/2;
+	scale:-1*fvar(1),var(4)/240.0/fvar(0)*fvar(1);
+	bindtime:-1;
+	accel:0.0005*fvar(0);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+#;---
+#;sys::over
+if ishelper(stateno) && ( time-var(42)>=256 || (!(win) && time>2) ) { destroyself{} }
+
+#;---
+#;sys::img_d_bg_shadow
+if (var(9)&4) {
+	explod{
+	id:1;
+	anim:f160300;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31), var(32) -floor(42*fvar(0)*fvar(12));
+	scale:fvar(12)*1.25*fvar(1), floor(84*fvar(12))*fvar(1);
+	sprpriority:var(46);
+	bindtime:-1;
+	ownpal:1 }
+
+#;sys::img_d_bg_top
+	explod{
+	id:1;
+	anim:f160301 +var(37);
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31), var(32) -floor(42*fvar(0)*fvar(12));
+	scale:1.75*fvar(12)*fvar(1),fvar(12)*fvar(1);
+	sprpriority:var(46)+1;
+	bindtime:-1;
+	ownpal:1 }
+
+#;sys::img_bg_bottom
+	explod{
+	id:1;
+	anim:f160301 +var(37);
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31), var(32) +floor(42*fvar(0)*fvar(12));
+	scale:1.75*fvar(12)*fvar(1),-0.5*fvar(12)*fvar(1);
+	sprpriority:var(46)+1;
+	bindtime:-1;
+	ownpal:1 }
+}
+
+#;---
+#;sys::img_d_color-blending-top
+if (var(9)&4) && (var(44)>13) && (time>var(42)+36) {
+	explod{
+	id:1;
+	anim:f160301 +((time-var(42))/24)%5;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31), var(32) -floor(42*fvar(0)*fvar(12));
+	scale:1.85*fvar(12)*fvar(1),fvar(12)*fvar(1);
+	sprpriority:var(46)+1;
+	bindtime:-1;
+	trans:addalpha;
+	alpha:abs(((time-var(42)+12)%24)-12)*20,256;
+	ownpal:1 }
+#;sys::img_d_color-blending-bottom
+	explod{
+	id:1;
+	anim:f160301 +((time-var(42))/24)%5;
+	space:screen;
+	postype:left;
+	facing:ifelse(teamside=1,1,-1);
+	pos:var(31), var(32) +floor(42*fvar(0)*fvar(12));
+	scale:1.85*fvar(12)*fvar(1),-0.5*fvar(12)*fvar(1);
+	sprpriority:var(46)+1;
+	bindtime:-1;
+	trans:addalpha;
+	alpha:abs(((time-var(42)+12)%24)-12)*20,256;
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_first_attack
+if (var(9)&68)=68 {
+	explod{
+	id:1;
+	anim:f160030;
+	space:screen;
+	postype:left;
+	pos:var(31), var(32)+var(34)+var(43);
+	scale:0.5*fvar(13)*fvar(12)*fvar(1),0.25*fvar(12)*fvar(1);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_perfect_match
+if (var(9)&4) && (var(41)>=30) {
+	explod{
+	id:1;
+	anim:f160033;
+	space:screen;
+	postype:left;
+	pos:var(31), var(32)+var(34)+var(43) +floor((((var(9)&64)>0)*9)*fvar(0)*fvar(12));
+	scale:0.5*fvar(13)*fvar(12)*fvar(1),0.25*fvar(12)*fvar(1);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_hyper_finish ;; super/hyper-combo-finish
+if (var(9)&4) && (var(9)&384) {
+	explod{
+	id:1;
+	anim:f160030+ifelse((var(9)&128)>0,2,1);
+	space:screen;
+	postype:left;
+	pos:var(31), var(32)+var(34)+var(43) +floor(((((var(9)&64)>0)+(var(41)>=30))*9)*fvar(0)*fvar(12));
+	scale:0.5*fvar(13)*fvar(12)*fvar(1),0.25*fvar(12)*fvar(1);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_bar_tech
+if (var(9)&4) && (fvar(16)>0) {
+	explod{
+	id:1;
+	anim:f160004;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33), var(32)+var(34);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	scale:fvar(16)*fvar(12)*fvar(1),fvar(14)*fvar(12)*fvar(1);
+	ownpal:1 }
+}
+#;sys::img_d_bar_attack ;; / offence
+if (var(9)&4) && (fvar(23)>0) {
+	explod{
+	id:1;
+	anim:f160001;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33)+floor(fvar(16)*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	scale:fvar(23)*fvar(12)*fvar(1),fvar(14)*fvar(12)*fvar(1);
+	ownpal:1 }
+}
+#;sys::img_d_bar_guard ;; / defence
+if (var(9)&4) && (fvar(24)>0) {
+	explod{
+	id:1;
+	anim:f160002;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33)+floor((fvar(16)+fvar(23))*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	scale:fvar(24)*fvar(12)*fvar(1),fvar(14)*fvar(12)*fvar(1);
+	ownpal:1 }
+}
+#;sys::img_d_bar_life
+if (var(9)&4) && (fvar(17)>0) {
+	explod{
+	id:1;
+	anim:f160003;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33)+floor((fvar(16)+fvar(23)+fvar(24))*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	sprpriority:var(46)+4;
+	bindtime:-1;
+	scale:fvar(17)*fvar(12)*fvar(1),fvar(14)*fvar(12)*fvar(1);
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_tip_tech ;; "TECH"
+if (var(9)&4) && (fvar(16)>2) {
+	explod{
+	id:1;
+	anim:f160013;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33) +ceil(fvar(16)*0.5*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	scale:fvar(12)*fvar(1), fvar(12)*fvar(1);
+	sprpriority:var(46)+5;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_tip_hit ;; "ATT"
+if (var(9)&4) && (fvar(23)>2) {
+	explod{
+	id:1;
+	anim:f160011;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33) +ceil((fvar(16)+fvar(23)*0.5-1)*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	scale:fvar(12)*fvar(1), fvar(12)*fvar(1);
+	sprpriority:var(46)+5;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_tip_guard ;; "DEF"
+if (var(9)&4) && (fvar(24)>2) {
+	explod{
+	id:1;
+	anim:f160010;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33) +ceil((fvar(16)+fvar(23)+fvar(24)*0.5)*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	scale:fvar(12)*fvar(1), fvar(12)*fvar(1);
+	sprpriority:var(46)+5;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_tip_life ;; "VITAL"
+if (var(9)&4) && (fvar(17)>2) {
+	explod{
+	id:1;
+	anim:f160012;
+	space:screen;
+	postype:left;
+	pos:var(31)+var(33) +ceil((fvar(16)+fvar(23)+fvar(24)+fvar(17)*0.5)*fvar(0)*fvar(12)) ,  var(32)+var(34);
+	scale:fvar(12)*fvar(1), fvar(12)*fvar(1);
+	sprpriority:var(46)+5;
+	bindtime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_rank2
+if (var(9)&4) {
+	explod{
+	id:1;
+	anim:f160100+var(44);
+	space:screen;
+	postype:left;
+	pos:var(31) -floor(36*fvar(0)*fvar(12)) *ifelse(teamside=1,1,-1) ,  var(32) -floor(fvar(0)*fvar(12) *28);
+	sprpriority:var(46)+7;
+##	scale:fvar(15)*fvar(12)*1.5*fvar(1),fvar(12)*0.75*fvar(1);
+	scale:fvar(15)*fvar(12)*0.375*fvar(1),fvar(12)*0.1875*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::sound_ex_applause ;拍手・喝采
+if (var(7)&64) {
+if (var(9)&4) && (time-var(42)=42) {
+if (var(51)<1) && (var(44)<3 || var(44)>13) {
+	playsnd{value:f20202, ifelse(var(44)>13,(random%2),6) }
+}}}
+#;sys::sound_ex_panel_wind2
+if (var(9)&4) && (time-var(42)=8) {
+	playsnd{value:f2100,101; channel:0; abspan:ifelse(teamside=1,-1,1)*facing*320 }
+}
+#;sys::sound_ex_panel_wind3
+if (var(9)&4) && (time-var(42)=200) {
+	playsnd{value:f2100,100; abspan:ifelse(teamside=1,1,-1)*facing*320; channel:0 }
+}
+#;sys::sound_announcer_player1win
+if (var(7)&64) {
+if (var(9)&4) && (time-var(42)=56) {
+	playsnd{value:f10300,ifelse(matchno>1,ishometeam=1,teamside+10); abspan:ifelse(teamside=1,-1,1)*facing*320; channel:1 }
+}}
+#;0: "you_win"
+#;1: "you_lose"
+#;11:"player_1_win"
+#;12:"player_2_win"
+#;sys::sound_announcer_perfect
+if (var(7)&64) {
+if (var(9)&4) && (time-var(42)=128) {
+if var(51)<1 && var(41)=30 {
+	playsnd{value:f10300,2; abspan:ifelse(teamside=1,-1,1)*facing*320; channel:1 }
+}}}
+#;sys::sound_ex_panel_wind4 ;; eff: don for rank
+if (var(9)&4) && (time-var(42)=42) {
+	playsnd{value:f10300,20; abspan:ifelse(teamside=1,-1,1)*facing*320 }
+}
+##;---
+##;sys::scores_and_bonus ; 点数・ボーナス
+#if !time {
+#	var(57):=var(57)+var(44)*1000; ## v44:rank{0-14}
+#	scoreadd{ value:var(57) }
+#}
+
+##;sys::score_to_parent ; 親に加算
+#if !time && ishelper(stateno) && !(var(9)&4096) { parent,var(57):=var(57); }
+##;sys::score_to_parent_bonus-stage
+#if time && ishelper(stateno) && numenemy && (var(9)&4096) {
+#if root,sysvar(4) && enemy,sysvar(4) && enemy,var(57)>parent,var(57) {
+#	parent,var(57):=enemy,var(57);
+#}}
+
+
+##;sys_img_score_increasing ; 点数増加
+#if time>var(42)+18 && var(51)<1 && var(58)<var(57) {
+#	var(58):=var(58)+(var(57)-var(58))/10+1;
+#}
+
+#;sys_img_score_increasing ; 点数増加
+if time>var(42)+18 && var(51)<1 && var(58)<floor(scoretotal) {
+	var(58):=var(58)+(floor(scoretotal)-var(58))/10+1;
+}
+
+##;;--- for_ikemen
+##;sys::a4b_data_score_output
+#if !time && var(51)<1 {
+#	if teamside=1 { mapset{map:"a4b_data_score_p1"; value:var(57) } }
+#	if teamside=2 { mapset{map:"a4b_data_score_p2"; value:var(57) } }
+#	savefile{savedata:map; path:"a4b_data1.gob"}
+#}
+
+
+#;---
+#;sys::img_d_score2 ; 点数描画
+if (var(9)&4) && var(51)<1 && var(58)>0 {
+	explod{
+	id:1;
+	anim:f300000+(var(58)%10);
+	space:screen;
+	postype:left;
+	pos: (var(35):=var(31) +floor((ifelse(teamside=1,46,-46) +floor(log(10,var(58)))*5+3)*fvar(0)*fvar(12)) ),  (var(36):=var(32) -floor(fvar(0)*fvar(12) *20));
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>9 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/10)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(10*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>99 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/100)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(20*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>999 {
+	explod{
+	id:1;
+	anim:f300080;
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(26*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>999 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/1000)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(33*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>9999 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/10000)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(43*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>99999 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/100000)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(53*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>999999 {
+	explod{
+	id:1;
+	anim:f300080;
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(59*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>999999 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/1000000)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(66*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>9999999 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/10000000)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(76*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+if (var(9)&4) && var(51)<1 && var(58)>99999999 {
+	explod{
+	id:1;
+	anim:f300000+((var(58)/100000000)%10);
+	space:screen;
+	postype:left;
+	pos:var(35)-floor(86*fvar(0)*fvar(12)),var(36);
+	sprpriority:var(46)+6;
+	scale:0.15*fvar(12)*fvar(1),0.15*fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+#;---
+#;sys::img_d_cpu-mark ; ("cpu"標記)
+if (var(9)&4) && (var(51)>0) {
+	var(52):=ifelse(time<50, 1, var(52):=var(52)+ ((var(52)<var(51))&&(var(52)<9)&&(time%5=0)) );
+	explod{
+	id:1;
+	anim:f297000 +var(52);
+	space:screen;
+	postype:left;
+	pos:var(31) +floor(30*fvar(0)*fvar(12)) *ifelse(teamside=1,1,-1) ,  var(32) -floor(26*fvar(0)*fvar(12));
+	sprpriority:var(46)+6;
+	scale:fvar(15)*fvar(12)*2*fvar(1),fvar(12)*fvar(1);
+	bindtime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_lights2
+if (var(9)&4) && (time-var(42)=50) {
+	explod{
+	anim:f151;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+8;
+	pos: (var(35):=var(31) -floor(30*fvar(0)*fvar(12))*ifelse(teamside=1,1,-1)) ,  var(36):=var(32) -floor(fvar(0)*fvar(12) *28);
+	vel:-1.15*fvar(0)*ifelse(teamside=1,1,-1),0;
+	scale:0.1*fvar(1),2.5*fvar(1);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+#;sys::img_d_lights3
+if (var(9)&4) && (time-var(42)=50) {
+	explod{
+	anim:f151;
+	space:screen;
+	postype:left;
+	sprpriority:var(46)+8;
+	pos:var(35),var(36);
+	vel:-1.15*fvar(0)*ifelse(teamside=1,1,-1),0;
+	scale:2.5*fvar(1),0.1*fvar(1);
+	ignorehitpause:1;
+	supermovetime:-1;
+	pausemovetime:-1;
+	ownpal:1 }
+}
+
+
+
+
+
+
+#;;---
+#;;---
+#;//[EOF]
