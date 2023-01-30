@@ -28,7 +28,7 @@ layer0.anim =  0
 layer0.offset = -160,0 
 layer0.starttime = 0   
 
-bgm = op_Scene 0.mp3    
+bgm = Scene 0.mp3    
 bgm.loop = 0        
 
 end.time = 1400
@@ -43,7 +43,7 @@ layer0.anim =  4
 layer0.offset = -160,0   
 layer0.starttime = 0   
 
-bgm = op_Scene 1.mp3 
+bgm = Scene 1.mp3 
 bgm.loop = 0  
 
 end.time = 400
@@ -221,7 +221,7 @@ layer9.anim =  38
 layer9.offset = -160,0
 layer9.starttime = 400
 
-bgm = op_Scene 5.mp3   
+bgm = Scene 5.mp3   
 bgm.loop = 0    
 
 end.time = 500
@@ -364,7 +364,7 @@ layer8.anim =  68
 layer8.offset = -160,0
 layer8.starttime = 700
 
-bgm = op_Scene 8.mp3   
+bgm = Scene 8.mp3   
 bgm.loop = 0  
 
 end.time = 900
@@ -479,7 +479,7 @@ layer7.anim =  90
 layer7.offset = -160,0
 layer7.starttime = 250
 
-bgm = op_Scene 11.mp3    
+bgm = Scene 11.mp3    
 bgm.loop = 0     
 
 end.time = 500

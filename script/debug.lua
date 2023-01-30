@@ -42,7 +42,7 @@ end
 
 addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
 addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game (OLD = RETURN)
-addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu
+--addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu
 
 function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)

@@ -276,19 +276,34 @@ function f_default()
 end
 
 --;===========================================================
---; LOAD UNLOCKED CONTENT
+--; LOAD STATISTICS CONTENT
 --;===========================================================
 --Data loading from stats_sav.lua
 local file = io.open("saved/stats_sav.lua","r")
 s_dataLUA = file:read("*all")
 file:close()
 
-function f_saveUnlockData()
+function f_saveProgress()
 	--Data saving to stats_sav.lua
-	local t_savesUnlock = {
+	local t_progress = {
 		['data.arcadeUnlocks'] = data.arcadeUnlocks,
 		['data.survivalUnlocks'] = data.survivalUnlocks,
 		['data.coins'] = data.coins,
+		['data.preferredMode'] = data.preferredMode,
+		['data.arcademodeCnt'] = data.arcademodeCnt,
+		['data.vsmodeCnt'] = data.vsmodeCnt,
+		['data.survivalmodeCnt'] = data.survivalmodeCnt,
+		['data.bossrushmodeCnt'] = data.bossrushmodeCnt,
+		['data.bonusrushmodeCnt'] = data.bonusrushmodeCnt,
+		['data.timeattackmodeCnt'] = data.timeattackmodeCnt,
+		['data.suddendeathmodeCnt'] = data.suddendeathmodeCnt,
+		['data.cpumatchmodeCnt'] = data.cpumatchmodeCnt,
+		['data.eventsmodeCnt'] = data.eventsmodeCnt,
+		['data.missionsmodeCnt'] = data.missionsmodeCnt,
+		['data.endlessmodeCnt'] = data.endlessmodeCnt,
+		['data.timetrialsmodeCnt'] = data.timetrialsmodeCnt,
+		['data.storymodeCnt'] = data.storymodeCnt,
+		['data.tourneymodeCnt'] = data.tourneymodeCnt,
 		['data.event1Status'] = data.event1Status,
 		['data.event2Status'] = data.event2Status,
 		['data.event3Status'] = data.event3Status,
@@ -299,7 +314,7 @@ function f_saveUnlockData()
 		['data.mission5Status'] = data.mission5Status,
 		['data.mission6Status'] = data.mission6Status
 	}
-	s_dataLUA = f_strSub(s_dataLUA, t_savesUnlock)
+	s_dataLUA = f_strSub(s_dataLUA, t_progress)
 	local file = io.open("saved/stats_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
@@ -594,6 +609,7 @@ function f_arcadeMenu()
 				data.p2In = 1 --P1 controls P2 side of the select screen
 				data.p2SelectMenu = false --P2 character selection disabled
 				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
+				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen				
 				script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
 			--CO-OP MODE
@@ -604,6 +620,7 @@ function f_arcadeMenu()
 				data.p2Faces = true
 				data.coop = true --P2 fighting on P1 side enabled
 				data.gameMode = 'arcade'
+				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')				
 				script.select.f_selectAdvance()
 			--BACK
@@ -709,6 +726,7 @@ function f_vsMenu()
 				data.stageMenu = true
 				data.p2Faces = true
 				data.gameMode = 'versus'
+				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')				
 				script.select.f_selectSimple()
 			--P1 VS P2
@@ -720,6 +738,7 @@ function f_vsMenu()
 				data.stageMenu = true --stage selection enabled
 				data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
 				data.gameMode = 'versus'
+				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')				
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 			--P1 & P2 VS CPU
@@ -731,6 +750,7 @@ function f_vsMenu()
 				--data.p2Faces = true
 				--data.stageMenu = true
 				--data.coop = true
+				--data.rosterMode = 'versus'
 				--textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')				
 				--script.select.f_selectSimple()	
 			--BACK
@@ -947,6 +967,7 @@ function f_practiceMenu()
 					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 character as Sandbag char
 				end
 				data.gameMode = 'training'
+				data.rosterMode = 'training'
 				setGameType(2)
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
@@ -962,6 +983,7 @@ function f_practiceMenu()
 				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
+				data.rosterMode = 'training'
 				setGameType(2)
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()			
@@ -979,6 +1001,7 @@ function f_practiceMenu()
 				--data.p2TeamMenu = {mode = 0, chars = 1}
 				--data.p3Char = {t_charAdd['training']}
 				--data.gameMode = 'training'
+				--data.rosterMode = 'training'
 				--setGameType(2)
 				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')				
 				--script.select.f_selectSimple()			
@@ -1190,6 +1213,7 @@ function f_survivalMenu()
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.gameMode = 'survival'
+				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')				
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -1200,6 +1224,7 @@ function f_survivalMenu()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'survival'
+				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')				
 				script.select.f_selectAdvance()			
 			--BACK
@@ -1388,6 +1413,7 @@ function f_bossChars()
 				sndPlay(sysSnd, 100, 1)
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bossChars[bossChars]}
+				data.rosterMode = 'bosssingle'
 				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)				
 				script.select.f_selectSimple()
 			--BACK
@@ -1487,6 +1513,7 @@ function f_bossrushMenu()
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.gameMode = 'bossrush'
+					data.rosterMode = 'bossrush'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
 				end	
@@ -1499,6 +1526,7 @@ function f_bossrushMenu()
 					data.p2Faces = true
 					data.coop = true
 					data.gameMode = 'bossrush'
+					data.rosterMode = 'bossrush'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end			
@@ -1689,6 +1717,7 @@ function f_bonusExtras()
 				data.versusScreen = false
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bonusChars[bonusExtras]}
+				data.rosterMode = 'singlebonus'
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
 				script.select.f_selectSimple()
 			--BACK
@@ -1790,6 +1819,7 @@ function f_bonusrushMenu()
 					data.p2TeamMenu = {mode = 0, chars = 1}
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
+					data.rosterMode = 'bonusrush'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
 				end	
@@ -1803,6 +1833,7 @@ function f_bonusrushMenu()
 					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
+					data.rosterMode = 'bonusrush'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end					
@@ -2018,6 +2049,7 @@ function f_timeMenu()
 				data.p2In = 1				
 				data.p2SelectMenu = false
 				data.gameMode = 'allroster'
+				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -2030,6 +2062,7 @@ function f_timeMenu()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'allroster'
+				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()					
 			--BACK
@@ -2128,6 +2161,7 @@ function f_allcharsMenu()
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.gameMode = 'endless'
+				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')			
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -2138,6 +2172,7 @@ function f_allcharsMenu()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'endless'
+				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')			
 				script.select.f_selectAdvance()			
 			--BACK
@@ -2282,6 +2317,7 @@ function f_watchMenu()
 				data.stageMenu = true
 				data.p2Faces = true
 				data.gameMode = 'versus'
+				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
 			--CREDITS
@@ -3192,6 +3228,7 @@ function f_mainHost()
 				data.p2Faces = true
 				setRoundTime(-1)
 				data.gameMode = 'versus'
+				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
@@ -3206,6 +3243,7 @@ function f_mainHost()
 				data.versusScreen = true
 				data.p2Faces = true
 				data.gameMode = 'training'
+				data.rosterMode = 'training'
 				setGameType(2)
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
@@ -3217,6 +3255,7 @@ function f_mainHost()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'arcade'
+				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
                 script.select.f_selectAdvance()
 			--ONLINE SURVIVAL	
@@ -3227,6 +3266,7 @@ function f_mainHost()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'survival'
+				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
 			--ONLINE ENDLESS
@@ -3237,6 +3277,7 @@ function f_mainHost()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'endless'
+				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')			
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
@@ -3248,6 +3289,7 @@ function f_mainHost()
 					data.p2Faces = true
 					data.coop = true
 					data.gameMode = 'bossrush'
+					data.rosterMode = 'bossrush'
 					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end	
@@ -3261,6 +3303,7 @@ function f_mainHost()
 					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
+					data.rosterMode = 'bonusrush'
 					textImgSetText(txt_mainSelect, 'ONLINE BONUS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end	
@@ -3287,6 +3330,7 @@ function f_mainHost()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'allroster'
+				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
@@ -3402,6 +3446,7 @@ function f_mainJoin()
 				data.p2Faces = true
 				setRoundTime(-1)
 				data.gameMode = 'versus'
+				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
@@ -3416,6 +3461,7 @@ function f_mainJoin()
 				data.versusScreen = true
 				data.p2Faces = true
 				data.gameMode = 'training'
+				data.rosterMode = 'training'
 				setGameType(2)
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
@@ -3427,6 +3473,7 @@ function f_mainJoin()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'arcade'
+				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
                 script.select.f_selectAdvance()
 			--ONLINE SURVIVAL	
@@ -3437,6 +3484,7 @@ function f_mainJoin()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'survival'
+				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
 			--ONLINE ENDLESS
@@ -3447,6 +3495,7 @@ function f_mainJoin()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'endless'
+				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')			
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
@@ -3458,6 +3507,7 @@ function f_mainJoin()
 					data.p2Faces = true
 					data.coop = true
 					data.gameMode = 'bossrush'
+					data.rosterMode = 'bossrush'
 					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end	
@@ -3471,6 +3521,7 @@ function f_mainJoin()
 					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
+					data.rosterMode = 'bonusrush'
 					textImgSetText(txt_mainSelect, 'ONLINE BONUS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end	
@@ -3497,6 +3548,7 @@ function f_mainJoin()
 				data.p2Faces = true
 				data.coop = true
 				data.gameMode = 'allroster'
+				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
@@ -3985,11 +4037,11 @@ end
 --; STATISTICS LOOP
 --;===========================================================
 t_statisticsMenu = {	
-	{id = '', text = 'Collected Coins',    varID = textImgNew(), varText = data.coins},
+	{id = '', text = 'Collected Coins',    	varID = textImgNew(), varText = data.coins},
 	{id = '', text = 'Time Played             W.I.P'},
 	{id = '', text = 'Favorite Character        W.I.P'},
 	{id = '', text = 'Favorite Stage          W.I.P'},
-	{id = '', text = 'Preferred Game Mode    W.I.P'},
+	{id = '', text = 'Preferred Game Mode',  varID = textImgNew(), varText = data.preferredMode},
 	--{id = '', text = 'Victories             W.I.P'},
 	--{id = '', text = 'Defeats              W.I.P'},
 	{id = '', text = '          BACK'},
@@ -4055,6 +4107,7 @@ function f_statisticsMenu()
 			end
 		end			
 		t_statisticsMenu[1].varText = data.coins
+		t_statisticsMenu[5].varText = data.preferredMode
 		for i=1, #t_statisticsMenu do
 			textImgDraw(t_statisticsMenu[i].id)
 			if t_statisticsMenu[i].varID ~= nil then

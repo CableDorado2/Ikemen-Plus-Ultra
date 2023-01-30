@@ -608,7 +608,7 @@ function f_mainCfg()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			if data.erase == true then
-				f_saveUnlockData()
+				f_saveProgress()
 			end
 			if needReload == 1 then
 				f_exitInfo()
@@ -698,7 +698,7 @@ function f_mainCfg()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				if data.erase == true then
-					f_saveUnlockData()
+					f_saveProgress()
 				end
 				if needReload == 1 then
 					f_exitInfo()
@@ -1901,6 +1901,21 @@ function f_unlocksWarning()
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
 			data.coins = 0
+			data.preferredMode = 'Menu'
+			data.arcademodeCnt = 0
+			data.vsmodeCnt = 0
+			data.survivalmodeCnt = 0
+			data.bossrushmodeCnt = 0
+			data.bonusrushmodeCnt = 0
+			data.timeattackmodeCnt = 0
+			data.suddendeathmodeCnt = 0
+			data.cpumatchmodeCnt = 0
+			data.eventsmodeCnt = 0
+			data.missionsmodeCnt = 0
+			data.endlessmodeCnt = 0
+			data.timetrialsmodeCnt = 0
+			data.storymodeCnt = 0
+			data.tourneymodeCnt = 0
 			data.event1Status = 0
 			data.event2Status = 0
 			data.event3Status = 0

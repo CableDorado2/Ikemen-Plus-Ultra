@@ -2,17 +2,17 @@ Rank: 0
 randomselect
 randomselect
 randomselect
-chars/kung fu girl/kung fu girl.def
-randomselect
-chars/suave dude/suave dude.def
-chars/ken masters/ken masters.def
 randomselect
 randomselect
 randomselect
 chars/m. bison/m. bison.def
-randomselect
+chars/ken masters/ken masters.def
 randomselect
 chars/rugal bernstein/rugal bernstein.def
+randomselect
+chars/suave dude/suave dude.def
+chars/kung fu girl/kung fu girl.def
+randomselect
 randomselect
 randomselect
 randomselect

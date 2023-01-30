@@ -1,5 +1,5 @@
 [Data]
-life = 1000		
+life = 1500		
 attack = 1		
 defence = 100		
 fall.defence_up = 50	

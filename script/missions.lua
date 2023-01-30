@@ -149,6 +149,7 @@ function f_missionMenu()
 				data.p1Char = {t_charAdd['rugal bernstein/omega/omega rugal.def']}
 				data.versusScreen = true
 				data.gameMode = 'survival'
+				data.rosterMode = 'mission'
 				data.missionNo = 'mission 4'
 				script.select.f_selectAdvance()
 			--EVIL RYU
