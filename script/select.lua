@@ -510,7 +510,7 @@ function f_backMenu()
 			if btnPalNo(p1Cmd) > 0 then
 				--YES
 				if backMenu == 1 then
-					if data.rosterMode == 'event' or data.rosterMode == 'mission' then
+					if data.rosterMode == 'inputtest' or data.rosterMode == 'event' or data.rosterMode == 'mission' then
 						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 					end
 					sndPlay(sysSnd, 100, 2)
@@ -730,7 +730,7 @@ function f_selectAdvance()
 			if data.gameMode == 'arcade' then
 				local tPos = t_selChars[data.t_p1selected[1].cel+1]
 				if tPos.intro ~= nil and io.open(tPos.intro or '','r') ~= nil then
-					script.storyboard.f_storyboard(tPos.intro)
+					f_storyboard(tPos.intro)
 				end
 			end
 		--player exit the match via ESC in Endless mode
@@ -763,7 +763,7 @@ function f_selectAdvance()
 				if data.gameMode == 'arcade' then
 					local tPos = t_selChars[data.t_p1selected[1].cel+1]
 					if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
-						script.storyboard.f_storyboard(tPos.ending)
+						f_storyboard(tPos.ending)
 					end
 				end
 				--result
@@ -778,21 +778,21 @@ function f_selectAdvance()
 					--complete events verification
 					f_eventStatus()
 					--credits
-					script.storyboard.f_storyboard('data/screenpack/credits.def')
+					f_storyboard('data/screenpack/credits.def')
 					--unlocks
 					data.arcadeUnlocks = true --Unlock Extras Menu when complete Arcade Mode
 					f_saveProgress()
 					--game over
-					script.storyboard.f_storyboard('data/screenpack/gameover.def')
+					f_storyboard('data/screenpack/gameover.def')
 					--intro
-					script.storyboard.f_storyboard('data/screenpack/intro.def')
+					f_storyboard('data/screenpack/intro.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					f_menuMusic()
 					return
 				else
 					--game over
-					script.storyboard.f_storyboard('data/screenpack/gameover.def')
+					f_storyboard('data/screenpack/gameover.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.rosterMode == 'event' then
@@ -821,7 +821,7 @@ function f_selectAdvance()
 			--game over
 			f_gameOver()
 			--intro
-			--script.storyboard.f_storyboard('data/screenpack/intro.def')
+			--f_storyboard('data/screenpack/intro.def')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			if data.rosterMode == 'event' then
@@ -842,7 +842,7 @@ function f_selectAdvance()
 			f_continue()
 			if data.continue == 2 then --Continue = NO
 				--intro
-				--script.storyboard.f_storyboard('data/screenpack/intro.def')
+				--f_storyboard('data/screenpack/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				f_menuMusic()
@@ -3787,12 +3787,12 @@ function f_continue()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		if esc() then
+		--if esc() then
 			--cmdInput()
 			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			--playBGM(bgmTitle)
 			--break
-		elseif data.continue == 0 then --waiting for player's decision
+		if data.continue == 0 then --waiting for player's decision
 			if anim4 then
 				animDraw(anim4)
 				animUpdate(anim4)
@@ -4062,7 +4062,7 @@ function f_gameOver()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		if esc() then
+		if esc() or btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			playBGM(bgmTitle)
 			break

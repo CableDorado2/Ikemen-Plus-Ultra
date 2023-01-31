@@ -1,16 +1,16 @@
 Rank: 0 
 randomselect
+chars/kyo kusanagi/kyo kusanagi.def
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
 randomselect
 randomselect
 randomselect
 randomselect
 randomselect
 chars/m. bison/m. bison.def
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-chars/kyo kusanagi/kyo kusanagi.def
-randomselect

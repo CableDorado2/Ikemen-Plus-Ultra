@@ -1088,7 +1088,7 @@ t_teamCfg = {
 	{id = '', text = 'Disadvantage Life Share', varID = textImgNew(), varText = s_teamLifeShare},
 	{id = '', text = 'Turns Players Limit',     varID = textImgNew(), varText = data.numTurns},
 	{id = '', text = 'Simul Players Limit',     varID = textImgNew(), varText = data.numSimul},
-	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
+	--{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
 	{id = '', text = 'Co-op CPU Team',          varID = textImgNew(), varText = data.coopenemy},
 	{id = '', text = '          BACK'},
 }
@@ -1167,18 +1167,18 @@ function f_teamCfg()
 				data.numSimul = data.numSimul - 1
 				modified = 1
 			end
-		--Simul Type
-		elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			sndPlay(sysSnd, 100, 0)
-			if data.simulType == 'Tag' then
-				data.simulType = 'Assist'
-				modified = 1
-			else
-				data.simulType = 'Tag'
-				modified = 1
-			end
+		--Simul Type (Fix Error When you play in data.simulType = Tag)
+		--elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--sndPlay(sysSnd, 100, 0)
+			--if data.simulType == 'Tag' then
+				--data.simulType = 'Assist'
+				--modified = 1
+			--else
+				--data.simulType = 'Tag'
+				--modified = 1
+			--end
 		--Co-op CPU Team Mode
-		elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.coopenemy == 'Single' then
 				data.coopenemy = 'Simul'
@@ -1200,7 +1200,7 @@ function f_teamCfg()
 				modified = 1
 			end
 		--Back
-		elseif teamCfg == 8 and btnPalNo(p1Cmd) > 0 then
+		elseif teamCfg == 7 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1213,8 +1213,8 @@ function f_teamCfg()
 		t_teamCfg[3].varText = s_teamLifeShare
 		t_teamCfg[4].varText = data.numTurns
 		t_teamCfg[5].varText = data.numSimul
-		t_teamCfg[6].varText = data.simulType
-		t_teamCfg[7].varText = data.coopenemy
+		--t_teamCfg[6].varText = data.simulType
+		t_teamCfg[6].varText = data.coopenemy
 		for i=1, #t_teamCfg do
 			textImgDraw(t_teamCfg[i].id)
 			if t_teamCfg[i].varID ~= nil then
@@ -3136,6 +3136,7 @@ function f_inputCfg()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['training/sandbag.def']}
 				data.gameMode = 'training'
+				data.rosterMode = 'inputtest'
 				setGameType(4)
 				textImgSetText(txt_mainSelect, 'INPUT TEST')
 				script.select.f_selectSimple()
@@ -3446,7 +3447,7 @@ function f_inputRead(playerNo, controller)
 		tmp = tmp..','..tmp2
 	end
 	for i, c
-		in ipairs(script.randomtest.strsplit(',', tmp)) --split string using "," delimiter
+		in ipairs(strsplit(',', tmp)) --split string using "," delimiter
 	do
 		t_keyCfg[i].varText = c
 	end

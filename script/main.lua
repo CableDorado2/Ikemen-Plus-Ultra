@@ -5,7 +5,7 @@ math.randomseed(os.time())
 loadLifebar('data/screenpack/winmugen/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
 
 --Debug stuff
-loadDebugFont('data/font/14x14.fnt')
+loadDebugFont('font/14x14.fnt')
 setDebugScript('script/debug.lua')
 
 --Load Common stuff (shared with pause.lua)
@@ -15,7 +15,7 @@ require('script.common')
 txt_loading = createTextImg(font1, 0, -1, 'LOADING FILES...', 310, 230)
 
 --;===========================================================
---; LOAD MAIN SCRIPTS
+--; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
 assert(loadfile('script/parser.lua'))()
 require('script.options')
@@ -24,7 +24,7 @@ require('script.events')
 require('script.select')
 
 --;===========================================================
---; MAIN MENU SCREEN DEFINITION
+--; MAIN MENU BACKGROUND DEFINITION
 --;===========================================================
 --Buttons Background
 titleBG0 = animNew(sysSff, [[
@@ -195,8 +195,30 @@ animSetAlpha(missionBG1, 20, 100)
 animUpdate(missionBG1)
 
 --;===========================================================
---; MAIN MENU STUFF DEFINITION
+--; LOGOS LOOP
 --;===========================================================
+function f_mainStart()
+	f_storyboard('data/screenpack/logo.def')
+	f_storyboard('data/screenpack/intro.def')
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	--f_howtoplay()
+	f_mainTitle()
+end
+
+--;===========================================================
+--; HOW TO PLAY LOOP
+--;===========================================================
+function f_howtoplay()
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	--playVideo(videoHowToPlay)
+	f_mainTitle()
+end	
+
+--;===========================================================
+--; TITLE SCREEN LOOP
+--;===========================================================
+txt_mainTitleOn = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
+txt_mainTitleOff = createTextImg(jgFnt, 2, 0, '', 159, 190)
 --txt_subTitle = createTextImg(font3, 0, 1, 'S-SIZE', 122, 120)
 --txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
 txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
@@ -239,32 +261,6 @@ function f_sysTime() --clock and date features
 	textImgDraw(txt_titleFt3)
 end
 
---;===========================================================
---; LOGOS LOOP
---;===========================================================
-function f_mainStart()
-	script.storyboard.f_storyboard('data/screenpack/logo.def')
-	script.storyboard.f_storyboard('data/screenpack/intro.def')
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
-	--f_howtoplay()
-	f_mainTitle()
-end
-
---;===========================================================
---; HOW TO PLAY LOOP
---;===========================================================
-function f_howtoplay()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-	--playVideo(videoHowToPlay)
-	f_mainTitle()
-end	
-
---;===========================================================
---; TITLE SCREEN LOOP
---;===========================================================
-txt_mainTitleOn = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
-txt_mainTitleOff = createTextImg(jgFnt, 2, 0, '', 159, 190)
-
 function f_mainTitle()
 	cmdInput()
 	local i = 0
@@ -274,7 +270,7 @@ function f_mainTitle()
 		   cmdInput()
 		   setGameType(1)
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-		   script.randomtest.run()
+		   runDemo()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
 		   sndPlay(sysSnd, 100, 1)
@@ -767,18 +763,18 @@ function f_randomMenu()
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				--sndPlay(sysSnd, 100, 1)
-				script.randomtest.singleVersus()
+				randomsingleVS()
 			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				--sndPlay(sysSnd, 100, 1)
-				script.randomtest.multiVersus()
+				randommultiVS()
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				--sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
-				--script.randomtest.coopVersus()
+				--randomcoopVS()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2249,7 +2245,7 @@ function f_watchMenu()
 				local cursorPosY = 0
 				local moveTxt = 0
 				local playCredits = 1
-				script.storyboard.f_storyboard('data/screenpack/credits.def')
+				f_storyboard('data/screenpack/credits.def')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				while true do
@@ -2748,7 +2744,7 @@ function f_storyboardMenu()
 				--Play Storyboard
 				storyboardFile = ('data/storyboards/' .. t_storyboardList[storyboardMenu].playlist .. '.def')
 				cmdInput()
-				script.storyboard.f_storyboard(storyboardFile)
+				f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				while true do

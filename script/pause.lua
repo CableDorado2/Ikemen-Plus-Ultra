@@ -8,12 +8,12 @@ module(..., package.seeall)
 --;===========================================================
 --; FONTS
 --;===========================================================
-pmTitle = fontNew('data/font/JG.fnt')
-pmHeader = fontNew('data/font/font5.fnt')
-pmText = fontNew('data/font/f-6x9.fnt')
-pmCma = fontNew('data/font/f-6x9.fnt')
-pmCmaS = fontNew('data/font/f-6x9.fnt')
-pmCmaText = fontNew('data/font/f-6x9.fnt')
+pmTitle = fontNew('font/JG.fnt')
+pmHeader = fontNew('font/font5.fnt')
+pmText = fontNew('font/f-6x9.fnt')
+pmCma = fontNew('font/f-6x9.fnt')
+pmCmaS = fontNew('font/f-6x9.fnt')
+pmCmaText = fontNew('font/f-6x9.fnt')
 
 --;===========================================================
 --; ANIMATIONS

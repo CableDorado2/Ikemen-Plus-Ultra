@@ -1,51 +1,122 @@
-master kung fu man
+ryu
 condition: 1
  trigger
-  before: 1
-  after: true
+  before: var(1) != 2
+  after: 0~= 2
   result: true
  value
-  before: random%13
-  after: math.random(0,999)*1/1000*13
+  before: 1 + (random % 12)
+  after: 1+(math.random(0,999)*1/1000*12)
   result: 2
 condition: 2
  trigger
-  before: enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man"
-  after:  "dragon claw"== "kung fu man"  or  "dragon claw"== "master kung fu man"  or  "dragon claw"== "kfm"  or  "dragon claw"== "master kfm"  or  "dragon claw"== "ex kfm"  or  "dragon claw"== "kfm ex"  or  "dragon claw"== "ex kung fu man"  or  "dragon claw"== "kung fu man ex"  or  "dragon claw"== "another kung fu man"  or  "dragon claw"== "kung fu man 720"  or  "dragon claw"== "kfm 720"  or  "dragon claw"== "evil kfm"  or  "dragon claw"== "evil kung fu man"
+  before: var(1) = 2
+  after: 0== 2
   result: false
  value
-  before: 14
-  after: 14
-  result: 14
- triggerall
-  before: numenemy
-  after: true
-  result: true
+  before: 50 + (random % 5)
+  after: 50+(math.random(0,999)*1/1000*5)
+  result: 54
 condition: 3
  trigger
-  before: enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg"
-  after:  "dragon claw"== "kung fu girl"  or   "dragon claw"== "another kung fu girl"  or   "dragon claw"== "master kung fu girl"  or   "dragon claw"== "ex kung fu girl"  or   "dragon claw"== "kfg"
+  before: enemy, name = "ken" || enemy, name = "ken masters"
+  after:  "kung fu man"== "ken"  or   "kung fu man"== "ken masters"
+  result: false
+ trigger
+  before: enemy, name = "cvsken" || enemy, name = "svcken"
+  after:  "kung fu man"== "cvsken"  or   "kung fu man"== "svcken"
   result: false
  value
-  before: 15
-  after: 15
-  result: 15
+  before: 30
+  after: 30
+  result: 30
  triggerall
-  before: numenemy
-  after: true
+  before: numenemy && var(1) != 2
+  after: true  and  0~= 2
   result: true
 condition: 4
  trigger
-  before: (enemy, name = "suave dude") && (1)
-  after: ( "dragon claw"== "suave dude")  and  (1)
+  before: enemy, name = "sagat"
+  after:  "kung fu man"== "sagat"
+  result: false
+ trigger
+  before: enemy, name = "cvssagat" || enemy, name = "svcsagat"
+  after:  "kung fu man"== "cvssagat"  or   "kung fu man"== "svcsagat"
   result: false
  value
-  before: 16
-  after: 16
-  result: 16
+  before: ifelse(var(1) = 2, 81, 31)
+  after: (31)
+  result: 31
  triggerall
   before: numenemy
   after: true
+  result: true
+condition: 5
+ trigger
+  before: enemy, name = "gouki" || enemy, name = "akuma"
+  after:  "kung fu man"== "gouki"  or   "kung fu man"== "akuma"
+  result: false
+ trigger
+  before: enemy, name = "shin gouki" || enemy, name = "shin akuma"
+  after:  "kung fu man"== "shin gouki"  or   "kung fu man"== "shin akuma"
+  result: false
+ trigger
+  before: enemy, name = "cyber akuma" || enemy, name = "mech gouki"
+  after:  "kung fu man"== "cyber akuma"  or   "kung fu man"== "mech gouki"
+  result: false
+ trigger
+  before: enemy, name = "cvsgouki" || enemy, name = "svcgouki"
+  after:  "kung fu man"== "cvsgouki"  or   "kung fu man"== "svcgouki"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: ifelse(var(1) = 2, 80, 32)
+  after: (32)
+  result: 32
+condition: 6
+ trigger
+  before: enemy, name = "sakura kasugano" || enemy, name = "cvssakura"
+  after:  "kung fu man"== "sakura kasugano"  or   "kung fu man"== "cvssakura"
+  result: false
+ triggerall
+  before: numenemy && var(1) != 2
+  after: true  and  0~= 2
+  result: true
+ value
+  before: 33
+  after: 33
+  result: 33
+condition: 7
+ trigger
+  before: enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server"
+  after:  "kung fu man"== "vega"  and   "elecbyte"== "phantom.of.the.server"
+  result: false
+ trigger
+  before: enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")
+  after:  "kung fu man"== "cvsvega"  and  ( "elecbyte"== "warusaki3"  or   "elecbyte"== "gargoyle")
+  result: false
+ trigger
+  before: enemynear, name = "m.bison" && enemynear, authorname = "n -mario"
+  after:  "kung fu man"== "m.bison"  and   "elecbyte"== "n -mario"
+  result: false
+ trigger
+  before: enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous"
+  after:  "kung fu man"== "m. bison"  and   "elecbyte"== "vk, updated by terry kuo, adapted by tenebrous"
+  result: false
+ trigger
+  before: enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)"
+  after:  "kung fu man"== "cvsbison"  and   "elecbyte"== "team kai (saiai and koga)"
+  result: false
+ value
+  before: 34
+  after: 34
+  result: 34
+ triggerall
+  before: numenemy && var(1) != 2
+  after: true  and  0~= 2
   result: true
 
 quote: 2

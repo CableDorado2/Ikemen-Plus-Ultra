@@ -1,1 +1,1 @@
-rd /S /Q "..\data\charTrash"
+rd /S /Q "..\saved\charTrash"

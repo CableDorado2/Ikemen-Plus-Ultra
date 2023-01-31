@@ -24,7 +24,7 @@ addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display
 addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug information display
 addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles display of the life and power bars
 addHotkey('i', true, false, false, 'stand(1);stand(2);stand(3);stand(4)') --CTRL+I: Forces both players into stand state
---addHotkey('v', true, false, false, 'changeVsync()') --CTRL+V: Enable V-sync (stops "shearing")
+--addHotkey('v', true, false, false, 'changeVsync()') --CTRL+V: Enable V-sync (stops "shearing") TO-DO
 
 --Ctrl-# (where # is from 1-4) Toggles AI for the #th player OR Ctrl-Alt-# (where # is from 1-4) Enables/Disables the player
 addHotkey('1', true, false, false, 'toggleAI(1)')

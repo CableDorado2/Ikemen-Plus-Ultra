@@ -1,10 +1,10 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
-data.coins = 2
+data.coins = 8
 data.preferredMode = 'Arcade'
-data.arcademodeCnt = 5
-data.vsmodeCnt = 1
-data.survivalmodeCnt = 2
+data.arcademodeCnt = 17
+data.vsmodeCnt = 21
+data.survivalmodeCnt = 3
 data.bossrushmodeCnt = 5
 data.bonusrushmodeCnt = 9
 data.timeattackmodeCnt = 0
