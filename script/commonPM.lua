@@ -98,25 +98,13 @@ bgmContinue = 'sound/Continue.mp3'
 bgmGameOver = 'sound/Game Over.mp3'
 bgmEvents = 'sound/Events.mp3'
 
---Random Versus Music
-function f_bgmrandomVS()
-	local randomTrack = {"sound/Random 1.mp3", "sound/Random 2.mp3"}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
-end
-
---Random Menu Music
+--Simple Random Select for Main Menu Song
 function f_bgmrandomMenu()
 	local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3", "sound/Menu 3.ogg"}
 	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
---Random Select Challenger Menu Music
-function f_bgmrandomChallenger()
-	local randomTrack = {bgmSelectChallenger, bgmSelect, bgmSelectBoss}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
-end
-
---Menu Music
+--Select Main Menu Song
 function f_menuMusic()
 	if data.menuSong == 'Theme 1' then
 		bgmMenu = 'sound/Menu 1.mp3'
@@ -132,7 +120,7 @@ function f_menuMusic()
 	end
 end
 
---Select Challenger Menu Music
+--Select Challenger Menu Song
 function f_challengerMusic()
 	if data.challengerSong == 'Fixed' then
 		bgmChallenger = bgmSelectChallenger
@@ -146,7 +134,36 @@ function f_challengerMusic()
 	elseif data.challengerSong == 'Random' then
 		f_bgmrandomChallenger()
 	end
-end		
+end
+
+--Simple Random Select for Challenger Menu Song
+function f_bgmrandomChallenger()
+	local randomTrack = {bgmSelectChallenger, bgmSelect, bgmSelectBoss}
+	playBGM(randomTrack[math.random(1, #randomTrack)])
+end
+
+--Advanced Random Select for Quick Versus Song
+function f_bgmrandomVS()
+	t_randomsongList = {}
+	for file in lfs.dir[[.\\sound\\Quick Versus Songs\\]] do --Read "Sound/Quick Versus Songs" Song Dir (Only Supports MP3 and OGG)
+		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
+			row = #t_randomsongList+1
+			t_randomsongList[row] = {}
+			t_randomsongList[row]['id'] = ''
+			t_randomsongList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
+			row = #t_randomsongList+1
+			t_randomsongList[row] = {}
+			t_randomsongList[row]['id'] = ''
+			t_randomsongList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		end
+	end
+	t_randomsongList[#t_randomsongList+1] = {
+		id = '', playlist = ' '
+	}
+	playBGM('sound/Quick Versus Songs/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.mp3')
+	playBGM('sound/Quick Versus Songs/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.ogg')
+end
 
 --Video
 --videoHowToPlay = "data/movie/How To Play.wmv"
@@ -600,6 +617,42 @@ function f_drawBorder(x1, y1, x2, y2, pn, i, duration, sb, sbSize, sbLimit, sbCu
 	end
 end
 
+function f_default()
+	setAutoLevel(false) --generate autolevel.txt in debug dir
+	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
+	resetRemapInput()
+	--settings adjustable via options
+	setAutoguard(1, data.autoguard)
+	setAutoguard(2, data.autoguard)
+	setRoundTime(data.roundTime * 60)
+	setLifeMul(data.lifeMul / 100)
+	setTeam1VS2Life(data.team1VS2Life / 100)
+	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
+	setSharedLife(data.teamLifeShare)
+	--default values for all modes
+	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
+	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
+	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y})
+	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y})
+	data.aiFight = false --AI = data.difficulty for all characters disabled
+	data.stageMenu = false --stage selection disabled
+	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
+	data.coop = false --P2 fighting on P1 side disabled
+	data.p2SelectMenu = true --P2 character selection enabled
+	data.orderSelect = true --order select screen enabled
+	data.versusScreen = true --versus screen enabled
+	data.p1In = 1 --P1 controls P1 side of the select screen
+	data.p2In = 0 --P2 controls in the select screen disabled
+	data.gameMode = '' --additional variable used to distinguish modes in select screen
+	data.rosterMode = '' --additional variable used to identify special modes in select screen
+	data.rosterAdvance = false --additional variable used to identify advanced games in select screen
+	data.missionNo = '' --additional variable used to identify missions in select screen
+	data.eventNo = '' --additional variable used to identify events in select screen
+	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
+	setServiceType(0) --don't touch
+	setGameType(0) --set game type to identify in minus.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
+end
+
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
@@ -609,3 +662,48 @@ sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based
 --;===========================================================
 require('script.randomtest')
 require('script.storyboard')
+
+--;===========================================================
+--; LOAD STATISTICS CONTENT
+--;===========================================================
+--Data loading from stats_sav.lua
+local file = io.open("saved/stats_sav.lua","r")
+s_dataLUA = file:read("*all")
+file:close()
+
+function f_saveProgress()
+	--Data saving to stats_sav.lua
+	local t_progress = {
+		['data.arcadeUnlocks'] = data.arcadeUnlocks,
+		['data.survivalUnlocks'] = data.survivalUnlocks,
+		['data.coins'] = data.coins,
+		['data.preferredMode'] = data.preferredMode,
+		['data.arcademodeCnt'] = data.arcademodeCnt,
+		['data.vsmodeCnt'] = data.vsmodeCnt,
+		['data.survivalmodeCnt'] = data.survivalmodeCnt,
+		['data.bossrushmodeCnt'] = data.bossrushmodeCnt,
+		['data.bonusrushmodeCnt'] = data.bonusrushmodeCnt,
+		['data.timeattackmodeCnt'] = data.timeattackmodeCnt,
+		['data.suddendeathmodeCnt'] = data.suddendeathmodeCnt,
+		['data.cpumatchmodeCnt'] = data.cpumatchmodeCnt,
+		['data.eventsmodeCnt'] = data.eventsmodeCnt,
+		['data.missionsmodeCnt'] = data.missionsmodeCnt,
+		['data.endlessmodeCnt'] = data.endlessmodeCnt,
+		['data.timetrialsmodeCnt'] = data.timetrialsmodeCnt,
+		['data.storymodeCnt'] = data.storymodeCnt,
+		['data.tourneymodeCnt'] = data.tourneymodeCnt,
+		['data.event1Status'] = data.event1Status,
+		['data.event2Status'] = data.event2Status,
+		['data.event3Status'] = data.event3Status,
+		['data.mission1Status'] = data.mission1Status,
+		['data.mission2Status'] = data.mission2Status,
+		['data.mission3Status'] = data.mission3Status,
+		['data.mission4Status'] = data.mission4Status,
+		['data.mission5Status'] = data.mission5Status,
+		['data.mission6Status'] = data.mission6Status
+	}
+	s_dataLUA = f_strSub(s_dataLUA, t_progress)
+	local file = io.open("saved/stats_sav.lua","w+")
+	file:write(s_dataLUA)
+	file:close()
+end

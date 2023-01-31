@@ -682,26 +682,30 @@ f_printTable(t_bonusChars, "saved/debug/t_bonusChars.txt")
 f_printTable(t_stageDef, "saved/debug/t_stageDef.txt")
 f_printTable(t_charAdd, "saved/debug/t_charAdd.txt")
 
-t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error
-local endFor = #t_bossChars+1
-for i=1, endFor do
-t_bossSingle[#t_bossSingle+1] = {}
-t_bossSingle[i]['id'] = textImgNew()
-if i < endFor then
-	t_bossSingle[i]['text'] = t_selChars[t_bossChars[i]+1].displayname:upper()
-else
-    t_bossSingle[i]['text'] = 'BACK'
-	end
-end	
-
-t_bonusExtras = {} --This is the bonus chars table, it must be loaded after this parser script or it will give an error
-local endFor = #t_bonusChars+1
-for i=1, endFor do
-	t_bonusExtras[#t_bonusExtras+1] = {}
-	t_bonusExtras[i]['id'] = textImgNew()
+function f_rushTables()
+	t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error
+	local endFor = #t_bossChars+1
+	for i=1, endFor do
+	t_bossSingle[#t_bossSingle+1] = {}
+	t_bossSingle[i]['id'] = textImgNew()
 	if i < endFor then
-		t_bonusExtras[i]['text'] = t_selChars[t_bonusChars[i]+1].displayname:upper()
+		t_bossSingle[i]['text'] = t_selChars[t_bossChars[i]+1].displayname:upper()
 	else
-		t_bonusExtras[i]['text'] = 'BACK'
+		t_bossSingle[i]['text'] = 'BACK'
+		end
+	end	
+
+	t_bonusExtras = {} --This is the bonus chars table, it must be loaded after this parser script or it will give an error
+	local endFor = #t_bonusChars+1
+	for i=1, endFor do
+		t_bonusExtras[#t_bonusExtras+1] = {}
+		t_bonusExtras[i]['id'] = textImgNew()
+		if i < endFor then
+			t_bonusExtras[i]['text'] = t_selChars[t_bonusChars[i]+1].displayname:upper()
+		else
+			t_bonusExtras[i]['text'] = 'BACK'
+		end
 	end
 end
+
+f_rushTables() --This function prevents that the table getting messed up when playing single boss or single bonus mode, since the table that loads the chars after playing boss rush or bonus rush, randomizes the items.

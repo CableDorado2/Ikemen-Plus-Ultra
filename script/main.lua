@@ -6,7 +6,7 @@ loadLifebar('data/screenpack/winmugen/fight.def') --path to lifebar stored in 's
 
 --Debug stuff
 loadDebugFont('data/font/14x14.fnt')
-setDebugScript('script/debug.lua')	
+setDebugScript('script/debug.lua')
 
 --Load Common stuff (shared with pause.lua)
 require('script.common')
@@ -239,87 +239,6 @@ function f_sysTime() --clock and date features
 	textImgDraw(txt_titleFt3)
 end
 
-function f_default()
-	setAutoLevel(false) --generate autolevel.txt in debug dir
-	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
-	resetRemapInput()
-	--settings adjustable via options
-	setAutoguard(1, data.autoguard)
-	setAutoguard(2, data.autoguard)
-	setRoundTime(data.roundTime * 60)
-	setLifeMul(data.lifeMul / 100)
-	setTeam1VS2Life(data.team1VS2Life / 100)
-	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
-	setSharedLife(data.teamLifeShare)
-	--default values for all modes
-	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
-	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
-	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y})
-	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y})
-	data.aiFight = false --AI = data.difficulty for all characters disabled
-	data.stageMenu = false --stage selection disabled
-	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
-	data.coop = false --P2 fighting on P1 side disabled
-	data.p2SelectMenu = true --P2 character selection enabled
-	data.orderSelect = true --order select screen enabled
-	data.versusScreen = true --versus screen enabled
-	data.p1In = 1 --P1 controls P1 side of the select screen
-	data.p2In = 0 --P2 controls in the select screen disabled
-	data.gameMode = '' --additional variable used to distinguish modes in select screen
-	data.rosterMode = '' --additional variable used to identify special modes in select screen
-	data.rosterAdvance = false --additional variable used to identify advanced games in select screen
-	data.missionNo = '' --additional variable used to identify missions in select screen
-	data.eventNo = '' --additional variable used to identify events in select screen
-	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
-	setServiceType(0) --don't touch
-	setGameType(0) --set game type to identify in minus.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
-end
-
---;===========================================================
---; LOAD STATISTICS CONTENT
---;===========================================================
---Data loading from stats_sav.lua
-local file = io.open("saved/stats_sav.lua","r")
-s_dataLUA = file:read("*all")
-file:close()
-
-function f_saveProgress()
-	--Data saving to stats_sav.lua
-	local t_progress = {
-		['data.arcadeUnlocks'] = data.arcadeUnlocks,
-		['data.survivalUnlocks'] = data.survivalUnlocks,
-		['data.coins'] = data.coins,
-		['data.preferredMode'] = data.preferredMode,
-		['data.arcademodeCnt'] = data.arcademodeCnt,
-		['data.vsmodeCnt'] = data.vsmodeCnt,
-		['data.survivalmodeCnt'] = data.survivalmodeCnt,
-		['data.bossrushmodeCnt'] = data.bossrushmodeCnt,
-		['data.bonusrushmodeCnt'] = data.bonusrushmodeCnt,
-		['data.timeattackmodeCnt'] = data.timeattackmodeCnt,
-		['data.suddendeathmodeCnt'] = data.suddendeathmodeCnt,
-		['data.cpumatchmodeCnt'] = data.cpumatchmodeCnt,
-		['data.eventsmodeCnt'] = data.eventsmodeCnt,
-		['data.missionsmodeCnt'] = data.missionsmodeCnt,
-		['data.endlessmodeCnt'] = data.endlessmodeCnt,
-		['data.timetrialsmodeCnt'] = data.timetrialsmodeCnt,
-		['data.storymodeCnt'] = data.storymodeCnt,
-		['data.tourneymodeCnt'] = data.tourneymodeCnt,
-		['data.event1Status'] = data.event1Status,
-		['data.event2Status'] = data.event2Status,
-		['data.event3Status'] = data.event3Status,
-		['data.mission1Status'] = data.mission1Status,
-		['data.mission2Status'] = data.mission2Status,
-		['data.mission3Status'] = data.mission3Status,
-		['data.mission4Status'] = data.mission4Status,
-		['data.mission5Status'] = data.mission5Status,
-		['data.mission6Status'] = data.mission6Status
-	}
-	s_dataLUA = f_strSub(s_dataLUA, t_progress)
-	local file = io.open("saved/stats_sav.lua","w+")
-	file:write(s_dataLUA)
-	file:close()
-end
-
 --;===========================================================
 --; LOGOS LOOP
 --;===========================================================
@@ -354,6 +273,7 @@ function f_mainTitle()
 		if i == 500 then
 		   cmdInput()
 		   setGameType(1)
+		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 		   script.randomtest.run()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -845,17 +765,17 @@ function f_randomMenu()
 			f_default()
 			--P1 VS CPU
 			if randomMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				--sndPlay(sysSnd, 100, 1)
 				script.randomtest.singleVersus()
 			--P1 VS P2
 			elseif randomMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				--sndPlay(sysSnd, 100, 1)
 				script.randomtest.multiVersus()
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				--sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 				--script.randomtest.coopVersus()
@@ -1319,6 +1239,7 @@ function f_bossMenu()
 			--SINGLE BOSS
 			if bossMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
+				f_rushTables() --From Parser.lua
 				f_bossChars()
 			--BOSS RUSH
 			elseif bossMenu == 2 then
@@ -1622,6 +1543,7 @@ function f_bonusMenu()
 			--SINGLE BONUS
 			if bonusMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
+				f_rushTables()
 				f_bonusExtras()
 			--BONUS RUSH
 			elseif bonusMenu == 2 then
@@ -2575,7 +2497,7 @@ function f_songMenu()
 			t_songList[row] = {}
 			t_songList[row]['id'] = ''
 			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
-		elseif file:match('^.*(%.)MP3$') then --Filter Files .mp3
+		elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
 			row = #t_songList+1
 			t_songList[row] = {}
 			t_songList[row]['id'] = ''
