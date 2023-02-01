@@ -61,10 +61,10 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 | → | Right Arrow | KP_3 | -2 |
 | A/***LK*** | A | U | 0 |
 | B/***MK*** | S | I | 1 |
-| C/***SK*** | D | O | 4 |
+| C/***HK*** | D | O | 4 |
 | X/***LP*** | Z | J | 2 |
 | Y/***MP*** | X | L | 3 |
-| Z/***SP*** | C | L | 5 |
+| Z/***HP*** | C | L | 5 |
 | **Taunt**/Start | Enter/Return | KP_0 | 9 |
 | **Pause**/Resume | SpaceBar |  |  |
 | UI Confirm | Enter/Return |  |  |
@@ -156,7 +156,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
-- [ ] Adventure Mode. Background Made by: https://www.pinterest.de/pin/459789443207079748/
+- [ ] Adventure Mode (Background Made by): https://www.pinterest.de/pin/459789443207079748/
 ![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)
 
 **v1.8**
