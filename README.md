@@ -74,18 +74,33 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir y entender estupendo!):
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto Demo Mode en esquina superior derecha)
 - [ ] Hacer que las capturas de pantallas se emitan correctamente como los replays y no con 1 foto de retraso
+- [ ] Implementar para la selección de stage, la posibilidad de asignarle la música original, una random o alguna de las que tienes guardadas en la carpeta sounds
 - [ ] Corregir el backMenu que al volver al char select del arcade mode, no recuerda contra quien vas a luchar y salta este error:
-[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
-- [ ] 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
+- [ ] Agregar snd e img como KO para cuando obtengas perfect, debe ser en fight.ssz
+- [ ] Que el sprite del char en el single boss fight, aparezca de una vez como ocurre al seleccionar un char en el char select del modo versus
+- [ ] Agregar la opción de que cuando juegues contra la CPU que tiene más de 1 jugador en su equipo, que puedas elegir contra quien luchar en el order select.
+- [ ] Reemplazar los diálogo de ventana cuando se vaya a asignar un valor como la IP u online port. Básicamente que los datos se puedan introducir en la misma pantalla (Touhou Gensokyo Reloaded)
+- [ ] En fight.ssz programar 2 nuevas funciones de onlinematch.maxdrawgames = 2 y onlinematch.wins = 1 que puedan ser configuradas en options.lua para ponerlas en fight.def de modo que esos sean los valores para las opciones del online que se carguen y cambien
+- [ ] Agregar la opción de incrementar desde las opciones los offsetRows (Puede ser un data.offsetrows y que esa variable almacena el número) y por cada nuevo que se agregue escribir en el select.def un randomselect
+- [ ] Implementar una opción de Rematch en la winner screen. Si =  luchar con los mismos personajes. No = Here comes a New Challenger
+![Alt text](https://i.postimg.cc/76DCkwMN/Rematch.png)
+- [ ] Implementar la selección de paleta del personaje que escojas en el char select (Para esto el sprite que se muestra como preview debe ser leído directamente desde la carpeta del char como hace ikemen go)
+- [ ] Añadir el tag system como un 4to modo de juego (Sobre el tag mode integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+- [ ] Implementar menú de pausa
+- [ ] Crear sistema de guardado para el modo arcade. Ejemplo: estas en el match 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, el ikemen debe guardar el match 6 y que cuando vuelvas a elegir el modo arcade te pregunte si deseas comenzar una nueva partida (Empezaría desde match 1) o si quieres continuar donde lo dejaste, que ponga en paréntesis el porcentaje en el que te quedaste, ejemplo (match 6 = 60% considerando al match 10 como el 100%) y use el match 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de nivel 1 empiece con los de nivel 6, saltándose los 5 anteriores niveles
+- [ ] Agregar ventana de ver o borrar en el menú de replays al seleccionarlos (Ver - Borrar) con desplazamiento lateral
+- [ ] Implementar un sistema de lista de ranking al completar el modo arcade
+- [ ] Que el Ikemen pueda leer los movelist de los chars y si lo logramos, crear en el menú de extras un menú para acceder a ellos
+- [ ] Programar sistema de puntos basado en el ADD004 y de acuerdo a dicho sistema asignar un rango o nivel de experiencia en la pantalla principal
+- [ ] Agregar al select.def las otras bondades del ikemen go
+- [ ] Conseguir portear la interactividad en stages de ikemen go
+- [ ] Crear perfiles de usuarios
+- [ ] Para el online del host incluir una opción de esperar en el training, pero que ya se esté ejecutando la espera del que se vaya a unir. Como en KOF 13
+- [ ] Integrar una librería de c++ que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en local replays
+- [ ] Que se pueda jugar de 3 y 4 jugadores en multiplayer local y online
+- [ ] Modo espectador para el modo online
+- [ ] Ordenar código y simplificar lo necesario
 - [ ] Portear el Engine a Linux, MacOS y Android
 
 ## Tutorials
