@@ -156,16 +156,14 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
-- [ ] Soporte para Fntv2.
-
-- [ ] Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
+- [ ] Adventure Mode.
 
 **v1.8**
 ------------
 
 - [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
-- [ ] Adventure Mode.
+- [ ] Soporte para Fntv2.
 
 - [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
 
@@ -187,6 +185,8 @@ v2.0 (Final Release)
 - [ ] Añadir Rollback Netcode.
 
 - [ ] Ordenar código y simplificar lo necesario.
+
+- [ ] Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
 
 - [ ] Portear el Engine a Linux, MacOS y Android.
 
