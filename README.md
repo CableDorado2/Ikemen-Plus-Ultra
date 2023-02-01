@@ -156,14 +156,15 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
-- [ ] Adventure Mode.
+- [ ] Adventure Mode. Background Made by: https://www.pinterest.de/pin/459789443207079748/
+![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)
 
 **v1.8**
 ------------
 
-- [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
-
 - [ ] Soporte para Fntv2.
+
+- [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
 - [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
 
