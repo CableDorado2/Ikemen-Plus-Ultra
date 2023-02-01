@@ -114,7 +114,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-**v1.4:**
+**v1.4**
 ------------
 
 - [ ] Time Trials Mode.
@@ -137,7 +137,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Selección de paletas en char select.
 
-**v1.5:**
+**v1.5**
 ------------
 
 - [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
@@ -169,7 +169,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 - [ ] Modo espectador para el online.
 
 ---------------
-Final Release:
+Final Release
 ---------------
 
 - [ ] Añadir Rollback Netcode.
