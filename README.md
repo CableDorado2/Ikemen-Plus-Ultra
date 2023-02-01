@@ -112,6 +112,8 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
 
+- [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
+
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 **v1.4**
@@ -141,7 +143,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 **v1.6**
 ------------
 
-- [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
+- [ ] 3er tipo de visualización de stages estilo “chart” (lógica basada en el char select).
 ![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
