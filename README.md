@@ -71,8 +71,12 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 | UI Back | Esc |  |  |
 
 ## TODO List
-CD2: En Español porque así es como entiendo mis ideas:
+CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir y entender estupendo!):
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto Demo Mode en esquina superior derecha)
+- [ ] Hacer que las capturas de pantallas se emitan correctamente como los replays y no con 1 foto de retraso
+- [ ] Corregir el backMenu que al volver al char select del arcade mode, no recuerda contra quien vas a luchar y salta este error:
+[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
+- [ ] 
 - [ ]
 - [ ]
 - [ ]
@@ -80,6 +84,9 @@ CD2: En Español porque así es como entiendo mis ideas:
 - [ ]
 - [ ]
 - [ ]
+- [ ]
+- [ ]
+- [ ] Portear el Engine a Linux, MacOS y Android
 
 ## Tutorials
 *Coming Soon!*
