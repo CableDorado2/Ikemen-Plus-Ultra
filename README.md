@@ -96,7 +96,7 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Mejorar el Rendimiento del engine actualizando el SDL2.dll
 
-- [ ]  Lograr que se pueda editar el username de las opciones de un texto con espacio a un texto sin espacios para que se pueda actualizar en el config.ssz
+- [ ]  Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
 
 - [ ] Agregar un icono para el menú que te indique y detecte si estás usando Mando o Teclado
 
@@ -111,11 +111,11 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 - [ ] Corregir el backMenu que al volver al char select del arcade mode, no recuerda contra quien vas a luchar y salta este error:
 ![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
 
-- [ ] Agregar snd e img como KO para cuando obtengas perfect, debe ser en fight.ssz
+- [ ] Agregar un snd y sprite para cuando obtengas perfect, first attack, etc. Como funciona el KO (fight.ssz)
 
-- [ ] Que el sprite del char en el single boss fight, aparezca de una vez como ocurre al seleccionar un char en el char select del modo versus
+- [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre al seleccionar un char.
 
-- [ ] Agregar la opción de que cuando juegues contra la CPU que tiene más de 1 jugador en su equipo, que puedas elegir contra quien luchar en el order select
+- [ ] Al jugar contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd puede tener control para elegir contra qué miembro luchar primero en order select screen (Así como funciona escoger el adversario en 1P VS CPU).
 
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
@@ -131,6 +131,8 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
 ![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
+
+- [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
@@ -149,7 +151,7 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
-- [ ] En sala de espera del Host del online, incluir una opción para acceder al training y esperar mientras juegas.
+- [ ] En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
 
 - [ ] Modo espectador para el online.
 
