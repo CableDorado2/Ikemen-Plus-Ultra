@@ -1,0 +1,280 @@
+
+const uint T_MASK = !0;
+const uint T1  = /* 0xd76aa478 */ (T_MASK ^ 0x28955b87);
+const uint T2  = /* 0xe8c7b756 */ (T_MASK ^ 0x173848a9);
+const uint T3  =    0x242070db                         ;
+const uint T4  = /* 0xc1bdceee */ (T_MASK ^ 0x3e423111);
+const uint T5  = /* 0xf57c0faf */ (T_MASK ^ 0x0a83f050);
+const uint T6  =    0x4787c62a                         ;
+const uint T7  = /* 0xa8304613 */ (T_MASK ^ 0x57cfb9ec);
+const uint T8  = /* 0xfd469501 */ (T_MASK ^ 0x02b96afe);
+const uint T9  =    0x698098d8                         ;
+const uint T10 = /* 0x8b44f7af */ (T_MASK ^ 0x74bb0850);
+const uint T11 = /* 0xffff5bb1 */ (T_MASK ^ 0x0000a44e);
+const uint T12 = /* 0x895cd7be */ (T_MASK ^ 0x76a32841);
+const uint T13 =    0x6b901122                         ;
+const uint T14 = /* 0xfd987193 */ (T_MASK ^ 0x02678e6c);
+const uint T15 = /* 0xa679438e */ (T_MASK ^ 0x5986bc71);
+const uint T16 =    0x49b40821                         ;
+const uint T17 = /* 0xf61e2562 */ (T_MASK ^ 0x09e1da9d);
+const uint T18 = /* 0xc040b340 */ (T_MASK ^ 0x3fbf4cbf);
+const uint T19 =    0x265e5a51                         ;
+const uint T20 = /* 0xe9b6c7aa */ (T_MASK ^ 0x16493855);
+const uint T21 = /* 0xd62f105d */ (T_MASK ^ 0x29d0efa2);
+const uint T22 =    0x02441453                         ;
+const uint T23 = /* 0xd8a1e681 */ (T_MASK ^ 0x275e197e);
+const uint T24 = /* 0xe7d3fbc8 */ (T_MASK ^ 0x182c0437);
+const uint T25 =    0x21e1cde6                         ;
+const uint T26 = /* 0xc33707d6 */ (T_MASK ^ 0x3cc8f829);
+const uint T27 = /* 0xf4d50d87 */ (T_MASK ^ 0x0b2af278);
+const uint T28 =    0x455a14ed                         ;
+const uint T29 = /* 0xa9e3e905 */ (T_MASK ^ 0x561c16fa);
+const uint T30 = /* 0xfcefa3f8 */ (T_MASK ^ 0x03105c07);
+const uint T31 =    0x676f02d9                         ;
+const uint T32 = /* 0x8d2a4c8a */ (T_MASK ^ 0x72d5b375);
+const uint T33 = /* 0xfffa3942 */ (T_MASK ^ 0x0005c6bd);
+const uint T34 = /* 0x8771f681 */ (T_MASK ^ 0x788e097e);
+const uint T35 =    0x6d9d6122                         ;
+const uint T36 = /* 0xfde5380c */ (T_MASK ^ 0x021ac7f3);
+const uint T37 = /* 0xa4beea44 */ (T_MASK ^ 0x5b4115bb);
+const uint T38 =    0x4bdecfa9                         ;
+const uint T39 = /* 0xf6bb4b60 */ (T_MASK ^ 0x0944b49f);
+const uint T40 = /* 0xbebfbc70 */ (T_MASK ^ 0x4140438f);
+const uint T41 =    0x289b7ec6                         ;
+const uint T42 = /* 0xeaa127fa */ (T_MASK ^ 0x155ed805);
+const uint T43 = /* 0xd4ef3085 */ (T_MASK ^ 0x2b10cf7a);
+const uint T44 =    0x04881d05                         ;
+const uint T45 = /* 0xd9d4d039 */ (T_MASK ^ 0x262b2fc6);
+const uint T46 = /* 0xe6db99e5 */ (T_MASK ^ 0x1924661a);
+const uint T47 =    0x1fa27cf8                         ;
+const uint T48 = /* 0xc4ac5665 */ (T_MASK ^ 0x3b53a99a);
+const uint T49 = /* 0xf4292244 */ (T_MASK ^ 0x0bd6ddbb);
+const uint T50 =    0x432aff97                         ;
+const uint T51 = /* 0xab9423a7 */ (T_MASK ^ 0x546bdc58);
+const uint T52 = /* 0xfc93a039 */ (T_MASK ^ 0x036c5fc6);
+const uint T53 =    0x655b59c3                         ;
+const uint T54 = /* 0x8f0ccc92 */ (T_MASK ^ 0x70f3336d);
+const uint T55 = /* 0xffeff47d */ (T_MASK ^ 0x00100b82);
+const uint T56 = /* 0x85845dd1 */ (T_MASK ^ 0x7a7ba22e);
+const uint T57 =    0x6fa87e4f                         ;
+const uint T58 = /* 0xfe2ce6e0 */ (T_MASK ^ 0x01d3191f);
+const uint T59 = /* 0xa3014314 */ (T_MASK ^ 0x5cfebceb);
+const uint T60 =    0x4e0811a1                         ;
+const uint T61 = /* 0xf7537e82 */ (T_MASK ^ 0x08ac817d);
+const uint T62 = /* 0xbd3af235 */ (T_MASK ^ 0x42c50dca);
+const uint T63 =    0x2ad7d2bb                         ;
+const uint T64 = /* 0xeb86d391 */ (T_MASK ^ 0x14792c6e);
+
+public &Md5
+{
+  /^uint count; /* message length in bits, lsw first */
+  /^uint abcd;  /* digest buffer */
+  /^ubyte buf;  /* accumulate block */
+  new()
+  {
+    `count.new(2);
+    `abcd.new(4);
+    `buf.new(64);
+    `init();
+  }
+  public void init()
+  {
+    `count[0] = `count[1] = 0d0;
+    `abcd[0] =   0x67452301                        ;
+    `abcd[1] = /*0xefcdab89*/ .T_MASK ^ 0x10325476;
+    `abcd[2] = /*0x98badcfe*/ .T_MASK ^ 0x67452301;
+    `abcd[3] =   0x10325476                        ;
+  }
+  void process(^/ubyte data /*[64]*/)
+  {
+    uint a = `abcd[0], b = `abcd[1], c = `abcd[2], d = `abcd[3];
+    uint t;
+    ^uint xbuf.new(16);
+    ^/uint X;
+    loop{index i = 0; do:
+      xbuf[i] = data[i*4];
+      xbuf[i] |= (uint)data[i*4+1] << 0d8;
+      xbuf[i] |= (uint)data[i*4+2] << 0d16;
+      xbuf[i] |= (uint)data[i*4+3] << 0d24;
+      i++;
+    while i < 16:
+    }
+    X = xbuf;
+    uint ROTATE_LEFT(uint x, uint n)
+    {
+      ret (((x) << (n)) | ((x) >> (0d32 - (n))));
+    }
+    void SET1(uint a=, uint b, uint c, uint d, uint k, uint s, uint Ti)
+    {
+      uint F(uint x, uint y, uint z)
+      {
+        ret (((x) & (y)) | (!(x) & (z)));
+      }
+      `t = a + F(b,c,d) + `X[(index)k] + Ti;
+      a = `ROTATE_LEFT(`t, s) + b;
+    }
+    SET1(a=, b, c, d,  0d0,  0d7,  .T1);
+    SET1(d=, a, b, c,  0d1, 0d12,  .T2);
+    SET1(c=, d, a, b,  0d2, 0d17,  .T3);
+    SET1(b=, c, d, a,  0d3, 0d22,  .T4);
+    SET1(a=, b, c, d,  0d4,  0d7,  .T5);
+    SET1(d=, a, b, c,  0d5, 0d12,  .T6);
+    SET1(c=, d, a, b,  0d6, 0d17,  .T7);
+    SET1(b=, c, d, a,  0d7, 0d22,  .T8);
+    SET1(a=, b, c, d,  0d8,  0d7,  .T9);
+    SET1(d=, a, b, c,  0d9, 0d12, .T10);
+    SET1(c=, d, a, b, 0d10, 0d17, .T11);
+    SET1(b=, c, d, a, 0d11, 0d22, .T12);
+    SET1(a=, b, c, d, 0d12,  0d7, .T13);
+    SET1(d=, a, b, c, 0d13, 0d12, .T14);
+    SET1(c=, d, a, b, 0d14, 0d17, .T15);
+    SET1(b=, c, d, a, 0d15, 0d22, .T16);
+    void SET2(uint a=, uint b, uint c, uint d, uint k, uint s, uint Ti)
+    {
+      uint G(uint x, uint y, uint z)
+      {
+        ret (((x) & (z)) | ((y) & !(z)));
+      }
+      `t = a + G(b,c,d) + `X[(index)k] + Ti;
+      a = `ROTATE_LEFT(`t, s) + b;
+    }
+    SET2(a=, b, c, d,  0d1,  0d5, .T17);
+    SET2(d=, a, b, c,  0d6,  0d9, .T18);
+    SET2(c=, d, a, b, 0d11, 0d14, .T19);
+    SET2(b=, c, d, a,  0d0, 0d20, .T20);
+    SET2(a=, b, c, d,  0d5,  0d5, .T21);
+    SET2(d=, a, b, c, 0d10,  0d9, .T22);
+    SET2(c=, d, a, b, 0d15, 0d14, .T23);
+    SET2(b=, c, d, a,  0d4, 0d20, .T24);
+    SET2(a=, b, c, d,  0d9,  0d5, .T25);
+    SET2(d=, a, b, c, 0d14,  0d9, .T26);
+    SET2(c=, d, a, b,  0d3, 0d14, .T27);
+    SET2(b=, c, d, a,  0d8, 0d20, .T28);
+    SET2(a=, b, c, d, 0d13,  0d5, .T29);
+    SET2(d=, a, b, c,  0d2,  0d9, .T30);
+    SET2(c=, d, a, b,  0d7, 0d14, .T31);
+    SET2(b=, c, d, a, 0d12, 0d20, .T32);
+    void SET3(uint a=, uint b, uint c, uint d, uint k, uint s, uint Ti)
+    {
+      uint H(uint x, uint y, uint z)
+      {
+        ret ((x) ^ (y) ^ (z));
+      }
+      `t = a + H(b,c,d) + `X[(index)k] + Ti;
+      a = `ROTATE_LEFT(`t, s) + b;
+    }
+    SET3(a=, b, c, d,  0d5,  0d4, .T33);
+    SET3(d=, a, b, c,  0d8, 0d11, .T34);
+    SET3(c=, d, a, b, 0d11, 0d16, .T35);
+    SET3(b=, c, d, a, 0d14, 0d23, .T36);
+    SET3(a=, b, c, d,  0d1,  0d4, .T37);
+    SET3(d=, a, b, c,  0d4, 0d11, .T38);
+    SET3(c=, d, a, b,  0d7, 0d16, .T39);
+    SET3(b=, c, d, a, 0d10, 0d23, .T40);
+    SET3(a=, b, c, d, 0d13,  0d4, .T41);
+    SET3(d=, a, b, c,  0d0, 0d11, .T42);
+    SET3(c=, d, a, b,  0d3, 0d16, .T43);
+    SET3(b=, c, d, a,  0d6, 0d23, .T44);
+    SET3(a=, b, c, d,  0d9,  0d4, .T45);
+    SET3(d=, a, b, c, 0d12, 0d11, .T46);
+    SET3(c=, d, a, b, 0d15, 0d16, .T47);
+    SET3(b=, c, d, a,  0d2, 0d23, .T48);
+    void SET4(uint a=, uint b, uint c, uint d, uint k, uint s, uint Ti)
+    {
+      uint I(uint x, uint y, uint z)
+      {
+        ret ((y) ^ ((x) | !(z)));
+      }
+      `t = a + I(b,c,d) + `X[(index)k] + Ti;
+      a = `ROTATE_LEFT(`t, s) + b;
+    }
+    SET4(a=, b, c, d,  0d0,  0d6, .T49);
+    SET4(d=, a, b, c,  0d7, 0d10, .T50);
+    SET4(c=, d, a, b, 0d14, 0d15, .T51);
+    SET4(b=, c, d, a,  0d5, 0d21, .T52);
+    SET4(a=, b, c, d, 0d12,  0d6, .T53);
+    SET4(d=, a, b, c,  0d3, 0d10, .T54);
+    SET4(c=, d, a, b, 0d10, 0d15, .T55);
+    SET4(b=, c, d, a,  0d1, 0d21, .T56);
+    SET4(a=, b, c, d,  0d8,  0d6, .T57);
+    SET4(d=, a, b, c, 0d15, 0d10, .T58);
+    SET4(c=, d, a, b,  0d6, 0d15, .T59);
+    SET4(b=, c, d, a, 0d13, 0d21, .T60);
+    SET4(a=, b, c, d,  0d4,  0d6, .T61);
+    SET4(d=, a, b, c, 0d11, 0d10, .T62);
+    SET4(c=, d, a, b,  0d2, 0d15, .T63);
+    SET4(b=, c, d, a,  0d9, 0d21, .T64);
+    `abcd[0] += a;
+    `abcd[1] += b;
+    `abcd[2] += c;
+    `abcd[3] += d;
+  }
+  public void append(^/ubyte data)
+  {
+    ^/ubyte p = data;
+    index offset = (index)((`count[0] >> 0d3) & 0d63);
+    uint nbits = (uint)(#data << 3);
+    if(#data <= 0) ret;
+    `count[1] += (uint)(#data >> 29);
+    `count[0] += nbits;
+    if(`count[0] < nbits) `count[1]++;
+    if(offset > 0){
+      index copy = offset + #data > 64 ? 64 - offset : #data;
+      loop{index i = 0; while; do:
+        `buf[offset + i] = p[i];
+        i++;
+      while i < copy:
+      }
+      if(offset + copy < 64) ret;
+      p = p[copy..-1];
+      `process(`buf);
+    }
+    loop{while; do:
+      `process(p);
+      p = p[64..-1];
+    while #p >= 64:
+    }
+    loop{index i = 0; while; do:
+      `buf[i] = p[i];
+      i++;
+    while i < #p:
+    }
+  }
+  public ^ubyte finish()
+  {
+    ^/ubyte pad = (ubyte)[
+      0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      ];
+    ^ubyte data.new(8);
+    loop{index i = 0; do:
+      data[i] = (ubyte)(`count[i >> 2] >> (uint)((i & 3) << 3));
+      i++;
+    while i < 8:
+    }
+    `append(pad[0..((55 - (index)(`count[0] >> 0d3)) & 63) + 1]);
+    `append(data);
+    ^ubyte digest.new(16);
+    loop{index i = 0; do:
+      digest[i] = (ubyte)(`abcd[i >> 2] >> (uint)((i & 3) << 3));
+      i++;
+    while i < 16:
+    }
+    ret digest;
+  }
+}
+
+public ^ubyte md5(^/ubyte data)
+{
+  &.Md5 m.append(data);
+  ret m.finish();
+}
+
+public ^char md5str(^/ubyte data)
+{
+  lib str = <string.ssz>;
+  ret str.toHex!ubyte?()<, .md5(data);
+}
+

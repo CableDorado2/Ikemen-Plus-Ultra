@@ -1,0 +1,74 @@
+
+public &Arcfour
+{
+  uint x, y;
+  ^ubyte state;
+  new()
+  {
+    `state.new(256);
+  }
+  public void init(^/ubyte key)
+  {
+    uint t, u;
+    index keyindex;
+    index stateindex;
+    index counter;
+    `x = 0d0;
+    `y = 0d0;
+    loop{
+      counter = 0;
+    do:
+      `state[counter] = (ubyte)counter;
+      counter++;
+    while counter < 256:
+    }
+    keyindex = 0;
+    stateindex = 0;
+    loop{
+      counter = 0;
+    do:
+      t = `state[counter];
+      stateindex = (index)(((uint)stateindex + key[keyindex] + t) & 0xff);
+      u = `state[stateindex];
+      `state[stateindex] = t;
+      `state[counter] = u;
+      if(++keyindex >= #key) keyindex = 0;
+      counter++;
+    while counter < 256:
+    }
+  }
+  public ubyte getByte()
+  {
+    uint x;
+    uint y;
+    uint sx, sy;
+    x = (`x + 0d1) & 0xff;
+    sx = `state[(index)x];
+    y = (sx + `y) & 0xff;
+    sy = `state[(index)y];
+    `x = x;
+    `y = y;
+    `state[(index)y] = sx;
+    `state[(index)x] = sy;
+    ret `state[(index)((sx + sy) & 0xff)];
+  }
+  public ^ubyte encrypt(^/ubyte src)
+  {
+    ^ubyte dest.new(#src);
+    loop{index i = 0; while; do:
+      dest[i] = src[i] ^ `getByte();
+      i++;
+    while i < #src:
+    }
+    ret dest;
+  }
+}
+
+public bool arcfourEnc(^ubyte dest=, ^/ubyte key, ^/ubyte src)
+{
+  if(#key == 0) ret false;
+  &.Arcfour rc4.init(key);
+  dest = rc4.encrypt(src);
+  ret true;
+}
+

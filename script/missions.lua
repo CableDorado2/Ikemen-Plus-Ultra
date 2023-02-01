@@ -40,6 +40,38 @@ function f_missionPreview() --Based on stage preview code
 	return missionPreview
 end
 
+--Down Missions Menu Arrows
+arrowsMD = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsMD, 15, 170)
+animUpdate(arrowsMD)
+animSetScale(arrowsMD, 1.7, 1.7)
+
+--Up Missions Menu Arrows
+arrowsMU = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsMU, 287, 170)
+animUpdate(arrowsMU)
+animSetScale(arrowsMU, 1.7, 1.7)
+
 function f_missionMenu()
 	cmdInput()
 	local missionMenu = 1	
@@ -252,6 +284,10 @@ function f_missionMenu()
 		animSetWindow(cursorBox, 40,120+missionMenu*15, 240,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(arrowsMD)
+		animUpdate(arrowsMD)
+		animDraw(arrowsMU)
+		animUpdate(arrowsMU)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

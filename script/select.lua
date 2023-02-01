@@ -245,7 +245,7 @@ function f_makeRoster()
 				end
 			end
 		end
-	--Survival / Boss Rush / Endless / Bonus Rush
+	--Survival / Boss Rush / Bonus Rush / All Roster / Endless
 	else
 		if data.gameMode == 'survival' then
 			t = t_randomChars
@@ -667,7 +667,7 @@ end
 --; TOURNAMENT LOOP
 --;================================================================
 function f_selectTournament()
---TODO
+--TO-DO
 end
 
 --;=====================================================================================
@@ -733,8 +733,8 @@ function f_selectAdvance()
 					f_storyboard(tPos.intro)
 				end
 			end
-		--player exit the match via ESC in Endless mode
-		elseif winner == -1 and data.gameMode == 'endless' then
+		--player exit the match via ESC in Endless or All Roster modes
+		elseif winner == -1 and (data.gameMode == 'endless' or data.gameMode == 'allroster') then
 			--counter
 			looseCnt = looseCnt + 1
 			--result
@@ -743,12 +743,12 @@ function f_selectAdvance()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			f_menuMusic()
 			return	
-		--player won (also if lost in Endless mode)
-		elseif winner == 1 or data.gameMode == 'endless' then
+		--player won (also if lost in Endless or All Roster modes)
+		elseif winner == 1 or data.gameMode == 'endless' or data.gameMode == 'allroster' then
 			--counter
 			if winner == 1 then
 				winCnt = winCnt + 1
-			else --only true in Endless mode
+			else --only true in Endless or All Roster modes
 				looseCnt = looseCnt + 1
 			end	
 			--win screen
@@ -2136,7 +2136,7 @@ function f_selectStage()
 	if data.stageMenu then
 		--if commandGetState(p1Cmd, 's') then
 			--sndPlay(sysSnd, 100, 0)
-			--TODO: Alternative Stage Code
+			--TO-DO: Alternative Stage Code
 		if commandGetState(p1Cmd, 'u') then
 			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
 				--sndPlay(sysSnd, 100, 1)
@@ -2362,8 +2362,8 @@ function f_orderSelect()
 		textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
 	end	
 	textImgSetText(txt_matchFinal, 'FINAL STAGE')
-	--Survival Match Text
-	if data.gameMode == 'survival' then
+	--All Roster Match Text
+	if data.gameMode == 'survival' or data.gameMode == 'allroster' then
 		textImgSetText(txt_gameNo, 'REMAINING MATCHES: ' .. lastMatch - gameNo)
 	--elseif data.gameMode == 'survival' and (lastMatch - gameNo == 0) then
 		--textImgSetText(txt_gameNo, 'FINAL MATCH')
@@ -2834,7 +2834,7 @@ function f_selectVersus()
 				elseif matchNo == lastMatch then
 					textImgDraw(txt_matchFinal)
 				end
-			elseif data.gameMode == 'survival' then
+			elseif data.gameMode == 'survival' or data.gameMode == 'allroster' then
 				--if gameNo ~= lastMatch then
 					textImgDraw(txt_gameNo)
 				--else
@@ -3511,7 +3511,7 @@ function f_result(state)
 		textImgSetText(txt_result, 'X' .. winCnt .. 'WINS')
 		textImgSetText(txt_resultRank, 'RANK: ' ..rankGrade.. '')
 		textImgSetText(txt_sresultName, 'PLAYER: ' ..f_getName(data.t_p1selected[1].cel).. '')
-	elseif data.gameMode == 'endless' then
+	elseif data.gameMode == 'endless' or data.gameMode == 'allroster' then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survNumFnt)

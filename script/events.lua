@@ -99,6 +99,8 @@ function f_drawEvent3() --Draw Event 3 Preview
 	end
 end
 
+
+
 function f_eventMenu()
 	cmdInput()
 	playBGM(bgmEvents)
@@ -277,6 +279,10 @@ function f_eventMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		f_sysTime()
+		animDraw(arrowsED)
+		animUpdate(arrowsED)
+		animDraw(arrowsEU)
+		animUpdate(arrowsEU)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
