@@ -73,7 +73,9 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
 
-v1.2:
+------------
+**v1.2**
+------------
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
@@ -90,9 +92,9 @@ v1.2:
 
 - [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
 
-
-v1.3:
-
+------------
+**v1.3:**
+------------
 
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
@@ -100,13 +102,13 @@ v1.3:
 
 - [ ] Ranking al completar o perder en Modo Arcade.
 
-- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana.png"
+- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana.png".
 
 - [ ] Opciones de video que permitan personalizar la ventana del Ikemen (Cambiar entre modo ventana, fullscreen y pantalla completa sin bordes). Así como activar o desactivar los bordes del modo ventanas.
 
 - [ ] Cargar archivos de video.
 
-- [ ] Más parametros para el Select.def
+- [ ] Más parametros para el Select.def.
 
 - [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
 
@@ -114,13 +116,13 @@ v1.3:
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- [ ] Time Trials Mode
+- [ ] Time Trials Mode.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 
-- [ ] Implementar menú de pausa
+- [ ] Pause Menu/Screen.
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
@@ -134,9 +136,9 @@ v1.3:
 
 - [ ] Selección de paletas en char select.
 
-
-v1.4:
-
+------------
+**v1.4:**
+------------
 
 - [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
 ![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
@@ -166,8 +168,9 @@ v1.4:
 
 - [ ] Modo espectador para el online.
 
-
+---------------
 Final Release:
+---------------
 
 - [ ] Añadir Rollback Netcode.
 
