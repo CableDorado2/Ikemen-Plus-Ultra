@@ -13,15 +13,26 @@
 
 - Your help and cooperation are appreciated.
 
+## Minimum System Requirements
+- **System:** Windows XP SP3 - 32 Bits (Yeah it works in WinXP)
+- **Proccessor:** Intel(R) Atom(TM) CPU N455 1.66GHz
+- **Memory:** 1GB RAM
+- **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
+- **OpenGL:** Is not need, works with DirectX 11
+
+## Engine Preview
+https://www.youtube.com/watch?v=j2VIMyAp624
+
+[![Alt text](https://i.ytimg.com/vi/pPL9SF8ZjZQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=j2VIMyAp624)
+
+## Download
+Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
+
 ## Table of Contents
 
->[Minimum System Requirements](#minimum-system-requirements)
->
->[Engine Preview](#engine-preview)
->
->[Download](#download)
->
 >[Default Controls](#default-controls)
+>
+>[TODO List](#todo-list)
 >
 >[Tutorials](#tutorials)
 >
@@ -41,21 +52,6 @@
 >
 >[Projects Powered By Ikemen Plus Ultra](#projects-powered-by-ikemen-plus-ultra)
 
-## Minimum System Requirements
-- **System:** Windows XP SP3 - 32 Bits (Yeah it works in WinXP)
-- **Proccessor:** Intel(R) Atom(TM) CPU N455 1.66GHz
-- **Memory:** 1GB RAM
-- **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
-- **OpenGL:** Is not need, works with DirectX 11
-
-## Engine Preview
-https://www.youtube.com/watch?v=j2VIMyAp624
-
-[![Alt text](https://i.ytimg.com/vi/pPL9SF8ZjZQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=j2VIMyAp624)
-
-## Download
-Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
-
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(It will be supported in a near future)* |
 | --- | --- | --- | --- |
@@ -73,6 +69,17 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 | **Pause**/Resume | SpaceBar |  |  |
 | UI Confirm | Enter/Return |  |  |
 | UI Back | Esc |  |  |
+
+## TODO List
+CD2: En Español porque así es como entiendo mis ideas:
+- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto Demo Mode en esquina superior derecha)
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
 
 ## Tutorials
 *Coming Soon!*
@@ -95,8 +102,8 @@ Here you can find some tools that help you in development of your projects (Some
 
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation, is still under development...
-- But at the moments, to understand or modify the scripts, you will need knowledge of the LUA programming language. There you have an official Lua Manual: https://www.lua.org/manual/5.2/
-- Also (for create characters and stages), there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
+- To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There you have the official Lua Manual: https://www.lua.org/manual/5.2/
+- For create characters and stages, there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
