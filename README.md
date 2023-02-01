@@ -71,7 +71,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 | UI Back | Esc |  |  |
 
 ## TODO List
-CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir y entender estupendo!):
+CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto Demo Mode en esquina superior derecha)
 
 - [ ] Hacer que las capturas de pantallas se emitan correctamente como los replays y no con 1 foto de retraso
@@ -92,33 +92,11 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 
 - [ ] Agregar un icono para el menú que te indique y detecte si estás usando Mando o Teclado
 
-- [ ] Agregar opciones de video que permitan personalizar la ventana del ikemen, cambiar entre modo ventana, fullscreen y . Así como activar o desactivar los bordes de las ventanas
+- [ ] Agregar opciones de video que permitan personalizar la ventana del ikemen, cambiar entre modo ventana, fullscreen y pantalla completa sin bordes. Así como activar o desactivar los bordes del modo ventanas
 
-- [ ] 
+- [ ] Implementar el Modo Time Trials
 
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
-
-- [ ] 
+- [ ] Agregar el modo de juego Co-Op (1P & 2P) Vs CPU en versus, quick match y training
 
 - [ ] Implementar para la selección de stage, la posibilidad de asignarle la música original, una random o alguna de las que tienes guardadas en la carpeta sounds
 
@@ -171,13 +149,13 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 
 - [ ] Crear Modo Aventura
 
-- [ ] Para el online del host incluir una opción de esperar en el training, pero que ya se esté ejecutando la espera del que se vaya a unir. Como en KOF 13
+- [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays"
 
-- [ ] Integrar una librería de c++ que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en local replays
+- [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online
 
-- [ ] Que se pueda jugar de 3 y 4 jugadores en multiplayer local y online
+- [ ] En sala de espera del Host del online, incluir una opción para acceder al training
 
-- [ ] Modo espectador para el modo online
+- [ ] Modo espectador para el online
 
 - [ ] Añadir Rollback Netcode
 
