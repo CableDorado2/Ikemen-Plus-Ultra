@@ -127,15 +127,12 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Implementar la selección de paleta del personaje que escojas en el char select (Para esto el sprite que se muestra como preview debe ser leído directamente desde la carpeta del char como hace ikemen go)
 
-- [ ] Crear Tournament Mode
-![Alt text](https://i.imgur.com/9eU9lsC.png)
+- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE
 
-- [ ] Agregar nuevo modo de visualización de stages “chart” como en SF4 basado en el char select
+- [ ] Visualización de stages “chart” como en SF4 basado en el char select
 ![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
 
-- [ ] Tower Mode.
-
-![Alt text](https://i.postimg.cc/SsFy0dqF/tower-mode.png)
+- [ ] Tower Mode: https://youtube.com/clip/Ugkx8Y_-farAQ0xXTpMwBeICSnwmw0-i17Xb
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
