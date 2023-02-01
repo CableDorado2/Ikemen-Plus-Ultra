@@ -94,9 +94,17 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 - [ ] Agregar la opción de incrementar desde las opciones los offsetRows (Puede ser un data.offsetrows y que esa variable almacena el número) y por cada nuevo que se agregue escribir en el select.def un randomselect.
 
 - [ ] Implementar una opción de Rematch en la winner screen. Si =  luchar con los mismos personajes. No = Here comes a New Challenger
-![Alt text](https://i.postimg.cc/76DCkwMN/Rematch.png)
 
 - [ ] Implementar la selección de paleta del personaje que escojas en el char select (Para esto el sprite que se muestra como preview debe ser leído directamente desde la carpeta del char como hace ikemen go)
+
+- [ ] Crear Tournament Mode
+![Alt text](https://i.imgur.com/9eU9lsC.png)
+
+- [ ] Agregar nuevo modo de visualización de stages “chart” como en SF4 basado en el char select
+![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
+
+- [ ] Crear un Tower Mode
+![Alt text](https://i.postimg.cc/SsFy0dqF/tower-mode.png)
 
 - [ ] Pantalla de logros
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
@@ -120,6 +128,8 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 - [ ] Conseguir portear la interactividad en stages de ikemen go
 
 - [ ] Crear perfiles de usuarios
+
+- [ ] Crear Modo Aventura
 
 - [ ] Para el online del host incluir una opción de esperar en el training, pero que ya se esté ejecutando la espera del que se vaya a unir. Como en KOF 13
 
