@@ -82,6 +82,14 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Implementar menú de pausa
 
+- [ ] Agregar ventana de ver o borrar en el menú de replays al seleccionarlos (Ver - Borrar) con desplazamiento lateral.
+
+- [ ] Ranking al completar o perder en el modo arcade.
+
+- [ ] Más parametros para el Select.def
+
+- [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+
 - [ ] Traducir los textos de menus a Español y Japonés para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screnpack
 
 - [ ]  Agregar soporte para Fntv2
@@ -125,43 +133,36 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 - [ ] Agregar nuevo modo de visualización de stages “chart” como en SF4 basado en el char select
 ![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
 
-- [ ] Crear un Tower Mode
+- [ ] Tower Mode.
+
 ![Alt text](https://i.postimg.cc/SsFy0dqF/tower-mode.png)
 
-- [ ] Pantalla de logros
+- [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
+
+- [ ] Leer archivos movelist.dat dentro de los chars.
+
+- [ ] Sistema de puntos basado en el ADD004.
+
+- [ ] Aviso de desbloqueos de logros durante el juego + Pantalla de Logros.
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
 
-- [ ] Crear sistema de guardado para el modo arcade. Ejemplo: estas en el match 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, el ikemen debe guardar el match 6 y que cuando vuelvas a elegir el modo arcade te pregunte si deseas comenzar una nueva partida (Empezaría desde match 1) o si quieres continuar donde lo dejaste, que ponga en paréntesis el porcentaje en el que te quedaste, ejemplo (match 6 = 60% considerando al match 10 como el 100%) y use el match 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de nivel 1 empiece con los de nivel 6, saltándose los 5 anteriores niveles
+- [ ] Perfiles de usuarios.
 
-- [ ] Agregar ventana de ver o borrar en el menú de replays al seleccionarlos (Ver - Borrar) con desplazamiento lateral
+- [ ] Adventure Mode.
 
-- [ ] Implementar un sistema de lista de ranking al completar el modo arcade
+- [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
 
-- [ ] Que el Ikemen pueda leer los movelist de los chars y si lo logramos, crear en el menú de extras un menú para acceder a ellos
+- [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
-- [ ] Programar sistema de puntos basado en el ADD004 y de acuerdo a dicho sistema asignar un rango o nivel de experiencia en la pantalla principal
+- [ ] En sala de espera del Host del online, incluir una opción para acceder al training y esperar mientras juegas.
 
-- [ ] Agregar al select.def las otras bondades del ikemen go
+- [ ] Modo espectador para el online.
 
-- [ ] Conseguir portear la interactividad en stages de ikemen go
+- [ ] Añadir Rollback Netcode.
 
-- [ ] Crear perfiles de usuarios
+- [ ] Ordenar código y simplificar lo necesario.
 
-- [ ] Crear Modo Aventura
-
-- [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays"
-
-- [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online
-
-- [ ] En sala de espera del Host del online, incluir una opción para acceder al training
-
-- [ ] Modo espectador para el online
-
-- [ ] Añadir Rollback Netcode
-
-- [ ] Ordenar código y simplificar lo necesario
-
-- [ ] Portear el Engine a Linux, MacOS y Android
+- [ ] Portear el Engine a Linux, MacOS y Android.
 
 ## Tutorials
 *Coming Soon!*
