@@ -53,7 +53,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >[Projects Powered By Ikemen Plus Ultra](#projects-powered-by-ikemen-plus-ultra)
 
 ## Default Controls
-| Action | Keyboard P1 | Keyboard P2 | Gamepad *(It will be supported in a near future)* |
+| Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
 | --- | --- | --- | --- |
 | ↑ | Up Arrow | KP_5 |  |
 | ↓ | Down Arrow | KP_2 |  |
@@ -73,8 +73,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
 
-------------
-**v1.2**
+**v1.2.1**
 ------------
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
@@ -92,8 +91,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
 
-------------
-**v1.3:**
+**v1.3**
 ------------
 
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
@@ -116,6 +114,9 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
+**v1.4:**
+------------
+
 - [ ] Time Trials Mode.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
@@ -136,8 +137,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Selección de paletas en char select.
 
-------------
-**v1.4:**
+**v1.5:**
 ------------
 
 - [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
