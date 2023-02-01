@@ -55,17 +55,17 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
 | --- | --- | --- | --- |
-| ↑ | Up Arrow | KP_5 |  |
-| ↓ | Down Arrow | KP_2 |  |
-| ← | Left Arrow | KP_1 |  |
-| → | Right Arrow | KP_3 |  |
-| A/***LK*** | A | U |  |
-| B/***MK*** | S | I |  |
-| C/***SK*** | D | O |  |
-| X/***LP*** | Z | J |  |
-| Y/***MP*** | X | L |  |
-| Z/***SP*** | C | L |  |
-| **Taunt**/Start | Enter/Return | KP_0 |  |
+| ↑ | Up Arrow | KP_5 | -3 |
+| ↓ | Down Arrow | KP_2 | -4 |
+| ← | Left Arrow | KP_1 | -1 |
+| → | Right Arrow | KP_3 | -2 |
+| A/***LK*** | A | U | 0 |
+| B/***MK*** | S | I | 1 |
+| C/***SK*** | D | O | 4 |
+| X/***LP*** | Z | J | 2 |
+| Y/***MP*** | X | L | 3 |
+| Z/***SP*** | C | L | 5 |
+| **Taunt**/Start | Enter/Return | KP_0 | 9 |
 | **Pause**/Resume | SpaceBar |  |  |
 | UI Confirm | Enter/Return |  |  |
 | UI Back | Esc |  |  |
@@ -121,11 +121,12 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
-- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
-
 - [ ] Pause Menu/Screen.
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
+
+**v1.5**
+------------
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
@@ -137,7 +138,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Selección de paletas en char select.
 
-**v1.5**
+**v1.6**
 ------------
 
 - [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
@@ -146,7 +147,12 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
 
+- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
+
 - [ ] Perfiles de usuarios.
+
+**v1.7**
+------------
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
@@ -154,11 +160,17 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
 
+**v1.8**
+------------
+
 - [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
 - [ ] Adventure Mode.
 
 - [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
+
+**v1.9**
+------------
 
 - [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
@@ -168,9 +180,9 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Modo espectador para el online.
 
----------------
-Final Release
----------------
+---------------------
+v2.0 (Final Release)
+---------------------
 
 - [ ] Añadir Rollback Netcode.
 
