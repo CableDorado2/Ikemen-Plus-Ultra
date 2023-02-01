@@ -76,6 +76,50 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 
 - [ ] Hacer que las capturas de pantallas se emitan correctamente como los replays y no con 1 foto de retraso
 
+- [ ] Agregar carga de videos
+
+- [ ] Añadir el tag system como un 4to modo de juego (Sobre el tag mode integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+
+- [ ] Implementar menú de pausa
+
+- [ ] Traducir los textos de menus a Español y Japonés para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screnpack
+
+- [ ]  Agregar soporte para Fntv2
+
+- [ ] Mejorar el Rendimiento del engine actualizando el SDL2.dll
+
+- [ ]  Lograr que se pueda editar el username de las opciones de un texto con espacio a un texto sin espacios para que se pueda actualizar en el config.ssz
+
+- [ ] Agregar un icono para el menú que te indique y detecte si estás usando Mando o Teclado
+
+- [ ] Agregar opciones de video que permitan personalizar la ventana del ikemen, cambiar entre modo ventana, fullscreen y . Así como activar o desactivar los bordes de las ventanas
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
+- [ ] 
+
 - [ ] Implementar para la selección de stage, la posibilidad de asignarle la música original, una random o alguna de las que tienes guardadas en la carpeta sounds
 
 - [ ] Corregir el backMenu que al volver al char select del arcade mode, no recuerda contra quien vas a luchar y salta este error:
@@ -109,10 +153,6 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 - [ ] Pantalla de logros
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
 
-- [ ] Añadir el tag system como un 4to modo de juego (Sobre el tag mode integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
-- [ ] Implementar menú de pausa
-
 - [ ] Crear sistema de guardado para el modo arcade. Ejemplo: estas en el match 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, el ikemen debe guardar el match 6 y que cuando vuelvas a elegir el modo arcade te pregunte si deseas comenzar una nueva partida (Empezaría desde match 1) o si quieres continuar donde lo dejaste, que ponga en paréntesis el porcentaje en el que te quedaste, ejemplo (match 6 = 60% considerando al match 10 como el 100%) y use el match 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de nivel 1 empiece con los de nivel 6, saltándose los 5 anteriores niveles
 
 - [ ] Agregar ventana de ver o borrar en el menú de replays al seleccionarlos (Ver - Borrar) con desplazamiento lateral
@@ -138,6 +178,8 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir 
 - [ ] Que se pueda jugar de 3 y 4 jugadores en multiplayer local y online
 
 - [ ] Modo espectador para el modo online
+
+- [ ] Añadir Rollback Netcode
 
 - [ ] Ordenar código y simplificar lo necesario
 
