@@ -117,22 +117,20 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Agregar la opción de que cuando juegues contra la CPU que tiene más de 1 jugador en su equipo, que puedas elegir contra quien luchar en el order select
 
-- [ ] Reemplazar los diálogo de ventana cuando se vaya a asignar un valor como la IP u online port. Básicamente que los datos se puedan introducir en la misma pantalla
+- [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
-- [ ] En fight.ssz programar 2 nuevas funciones de onlinematch.maxdrawgames = 2 y onlinematch.wins = 1 que puedan ser configuradas en options.lua para ponerlas en fight.def de modo que esos sean los valores para las opciones del online que se carguen y cambien.
+- [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
 
-- [ ] Agregar la opción de incrementar desde las opciones los offsetRows (Puede ser un data.offsetrows y que esa variable almacena el número) y por cada nuevo que se agregue escribir en el select.def un randomselect.
+- [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
-- [ ] Implementar una opción de Rematch en la winner screen. Si =  luchar con los mismos personajes. No = Here comes a New Challenger
+- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 
-- [ ] Implementar la selección de paleta del personaje que escojas en el char select (Para esto el sprite que se muestra como preview debe ser leído directamente desde la carpeta del char como hace ikemen go)
+- [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
 
-- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE
+- [ ] Selección de paletas en char select.
 
-- [ ] Visualización de stages “chart” como en SF4 basado en el char select
+- [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
 ![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
-
-- [ ] Tower Mode: https://youtube.com/clip/Ugkx8Y_-farAQ0xXTpMwBeICSnwmw0-i17Xb
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
@@ -140,7 +138,7 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Sistema de puntos basado en el ADD004.
 
-- [ ] Aviso de desbloqueos de logros durante el juego + Pantalla de Logros.
+- [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
 
 - [ ] Perfiles de usuarios.
