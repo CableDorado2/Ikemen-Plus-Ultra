@@ -71,66 +71,56 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 | UI Back | Esc |  |  |
 
 ## TODO List
-CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
-- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto Demo Mode en esquina superior derecha)
+CD2: Plans for future updates, they are in Spanish, porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
 
-- [ ] Hacer que las capturas de pantallas se emitan correctamente como los replays y no con 1 foto de retraso
+v1.2:
 
-- [ ] Agregar carga de videos
+- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
-- [ ] Añadir el tag system como un 4to modo de juego (Sobre el tag mode integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+- [ ] Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
 
-- [ ] Implementar menú de pausa
-
-- [ ] Agregar ventana de ver o borrar en el menú de replays al seleccionarlos (Ver - Borrar) con desplazamiento lateral.
-
-- [ ] Ranking al completar o perder en el modo arcade.
-
-- [ ] Más parametros para el Select.def
-
-- [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
-
-- [ ] Traducir los textos de menus a Español y Japonés para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screnpack
-
-- [ ]  Agregar soporte para Fntv2
-
-- [ ] Mejorar el Rendimiento del engine actualizando el SDL2.dll
-
-- [ ]  Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
-
-- [ ] Agregar un icono para el menú que te indique y detecte si estás usando Mando o Teclado
-
-- [ ] Agregar opciones de video que permitan personalizar la ventana del ikemen, cambiar entre modo ventana, fullscreen y pantalla completa sin bordes. Así como activar o desactivar los bordes del modo ventanas
-
-- [ ] Implementar el Modo Time Trials
-
-- [ ] Agregar el modo de juego Co-Op (1P & 2P) Vs CPU en versus, quick match y training
-
-- [ ] Implementar para la selección de stage, la posibilidad de asignarle la música original, una random o alguna de las que tienes guardadas en la carpeta sounds
-
-- [ ] Corregir el backMenu que al volver al char select del arcade mode, no recuerda contra quien vas a luchar y salta este error:
+- [ ] Corregir en función "backMenu" que al volver al char select desde el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
 ![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
-
-- [ ] Agregar un snd y sprite para cuando obtengas perfect, first attack, etc. Como funciona el KO (fight.ssz)
 
 - [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre al seleccionar un char.
 
 - [ ] Al jugar contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd puede tener control para elegir contra qué miembro luchar primero en order select screen (Así como funciona escoger el adversario en 1P VS CPU).
 
+- [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
+
+- [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
+
+
+v1.3:
+
+
+- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
+- [ ] Ranking al completar o perder en Modo Arcade.
+
+- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana.png"
+
+- [ ] Opciones de video que permitan personalizar la ventana del Ikemen (Cambiar entre modo ventana, fullscreen y pantalla completa sin bordes). Así como activar o desactivar los bordes del modo ventanas.
+
+- [ ] Cargar archivos de video.
+
+- [ ] Más parametros para el Select.def
+
 - [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
+
+- [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
+
+- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- [ ] Time Trials Mode
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 
-- [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
-
-- [ ] Selección de paletas en char select.
-
-- [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
-![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
+- [ ] Implementar menú de pausa
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
@@ -140,10 +130,29 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Sistema de puntos basado en el ADD004.
 
+- [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
+
+- [ ] Selección de paletas en char select.
+
+
+v1.4:
+
+
+- [ ] Visualización de stages tipo “chart” (lógica basada en el char select).
+![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
+
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
 
 - [ ] Perfiles de usuarios.
+
+- [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+
+- [ ] Soporte para Fntv2.
+
+- [ ] Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
+
+- [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
 - [ ] Adventure Mode.
 
@@ -151,9 +160,14 @@ CD2: En Español porque así es como entiendo mis ideas (Si las puedes traducir,
 
 - [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
+- [ ] Incorporar un Looby al Modo Online.
+
 - [ ] En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
 
 - [ ] Modo espectador para el online.
+
+
+Final Release:
 
 - [ ] Añadir Rollback Netcode.
 
