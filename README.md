@@ -85,7 +85,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre al seleccionar un char.
 
-- [ ] Al jugar contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd puede tener control para elegir contra qué miembro luchar primero en order select screen (Así como funciona escoger el adversario en 1P VS CPU).
+- [ ] Al jugar en versus como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
 
 - [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
 
