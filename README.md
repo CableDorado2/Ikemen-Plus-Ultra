@@ -78,29 +78,29 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
-- [ ] Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
-
-- [ ] Corregir en función "backMenu" que al volver al char select desde el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
-![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
-
 - [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre al seleccionar un char.
 
 - [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
 
 - [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
 
-- [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
+- [ ] Corregir en función "backMenu" que al volver al char select desde el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
+![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
 
 **v1.3**
 ------------
 
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
+- [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
+
+- [ ] Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
+
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
 - [ ] Ranking al completar o perder en Modo Arcade.
 
-- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana.png".
+- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
 - [ ] Opciones de video que permitan personalizar la ventana del Ikemen (Cambiar entre modo ventana, fullscreen y pantalla completa sin bordes). Así como activar o desactivar los bordes del modo ventanas.
 
@@ -116,6 +116,8 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
+- [ ] Pause Menu/Screen.
+
 **v1.4**
 ------------
 
@@ -123,22 +125,18 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
-- [ ] Pause Menu/Screen.
+- [ ] Story Mode Concept.
 
-- [ ] Mejorar el Training Mode con más parametros para el Dummy.
+- [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
 **v1.5**
 ------------
 
-- [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
+- [ ] Sistema de puntos basado en el ADD004.
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
-- [ ] Sistema de puntos basado en el ADD004.
-
-- [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
-
-- [ ] Selección de paletas en char select.
+- [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
 **v1.6**
 ------------
@@ -157,6 +155,10 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 ------------
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+
+- [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
+
+- [ ] Selección de paletas en char select.
 
 - [ ] Adventure Mode (Background Made by): https://www.pinterest.de/pin/459789443207079748/
 ![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)
