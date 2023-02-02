@@ -2390,32 +2390,19 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
-	elseif p1teamMode == 0 and data.p2In == 1 then --Order Select off when P1 is playing in Single Team Mode and P2 is Controlled by AI
-		while true do
-			if i == 0 then
-				f_selectChar(1, data.t_p1selected)
-				f_selectChar(2, data.t_p2selected)
-			elseif i == 10 then
-				cmdInput()
-				break
-			end
-			i = i + 1
-			cmdInput()
-			refresh()
-		end
-	elseif data.coop == true then --Order Select off when playing in CO-OP Mode
-		while true do
-			if i == 0 then
-				f_selectChar(1, data.t_p1selected)
-				f_selectChar(2, data.t_p2selected)
-			elseif i == 10 then
-				cmdInput()
-				break
-			end
-			i = i + 1
-			cmdInput()
-			refresh()
-		end	
+	--elseif data.coop == true then --Order Select off when playing in CO-OP Mode
+		--while true do
+			--if i == 0 then
+				--f_selectChar(1, data.t_p1selected)
+				--f_selectChar(2, data.t_p2selected)
+			--elseif i == 10 then
+				--cmdInput()
+				--break
+			--end
+			--i = i + 1
+			--cmdInput()
+			--refresh()
+		--end	
 	elseif p1teamMode == 0 and p2teamMode == 0 then --Order Select off when P1 and P2 playing in Single Team Mode
 		while true do
 			if i == 0 then
@@ -2459,9 +2446,9 @@ function f_orderSelect()
 		local orderTime = 0
 		local orderhintTime = 0
 		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) and not data.coop then
+		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 			orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60
-		elseif #data.t_p1selected > 1 and not data.coop then
+		elseif #data.t_p1selected > 1 or data.coop == true then
 			orderTime = #data.t_p1selected * 60
 		else
 			f_selectChar(1, data.t_p1selected)
@@ -2483,7 +2470,7 @@ function f_orderSelect()
 				drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 				drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			end	
-			--end loop after at least 120 ticks (extended if sound has been triggered)
+		--end loop after at least 120 ticks (extended if sound has been triggered)
 			--draw info text
 			if p1Confirmed == false then
 				txt_p1State = createTextImg(jgFnt, 3, 0, 'WAITING ORDER', 78, 25)
@@ -2554,13 +2541,14 @@ function f_orderSelect()
 							sndNumber = 1
 							f_selectChar(1, data.t_p1selected)
 							p1Confirmed = true
+							commandBufReset(p1Cmd)
 						end
-						if data.p2In ~= 2 then
-							if not p2Confirmed then
-								f_selectChar(2, data.t_p2selected)
-								p2Confirmed = true
-							end
-						end
+						--if data.p2In ~= 2 then
+							--if not p2Confirmed then
+								--f_selectChar(2, data.t_p2selected)
+								--p2Confirmed = true
+							--end
+						--end
 					elseif commandGetState(p1Cmd, 'u') then
 						if #data.t_p1selected > 1 then
 							sndNumber = 0
@@ -2607,6 +2595,63 @@ function f_orderSelect()
 						end
 					end
 					animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+					animDraw(f_animVelocity(cursorBox, -1, -1))
+				end
+				--if Player2 has not confirmed the order yet and IS controlled by IA
+				if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
+					if btnPalNo(p1Cmd) > 0 then
+						if not p2Confirmed then
+							sndNumber = 1
+							f_selectChar(2, data.t_p2selected)
+							p2Confirmed = true
+						end
+					elseif commandGetState(p1Cmd, 'u') then
+						if #data.t_p2selected > 1 then
+							sndNumber = 0
+							p2Row = p2Row - 1
+							if p2Row == 0 then p2Row = #data.t_p2selected end
+						end
+					elseif commandGetState(p1Cmd, 'd') then
+						if #data.t_p2selected > 1 then
+							sndNumber = 0
+							p2Row = p2Row + 1
+							if p2Row > #data.t_p2selected then p2Row = 1 end
+						end
+					elseif commandGetState(p1Cmd, 'l') then
+						if p2Row+1 <= #data.t_p2selected then
+							sndNumber = 0
+							p2Row = p2Row + 1
+							t_tmp = {}
+							t_tmp[p2Row] = data.t_p2selected[p2Row-1]
+							for i=1, #data.t_p2selected do
+								for j=1, #data.t_p2selected do
+									if t_tmp[j] == nil and i ~= p2Row-1 then
+										t_tmp[j] = data.t_p2selected[i]
+										break
+									end
+								end
+							end
+							data.t_p2selected = t_tmp
+						end
+					elseif commandGetState(p1Cmd, 'r') then
+						if p2Row-1 > 0 then
+							sndNumber = 0
+							p2Row = p2Row - 1
+							t_tmp = {}
+							t_tmp[p2Row] = data.t_p2selected[p2Row+1]
+							for i=1, #data.t_p2selected do
+								for j=1, #data.t_p2selected do
+									if t_tmp[j] == nil and i ~= p2Row+1 then
+										t_tmp[j] = data.t_p2selected[i]
+										break
+									end
+								end
+							end
+							data.t_p2selected = t_tmp
+						end
+					end
+					animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
 					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 					animDraw(f_animVelocity(cursorBox, -1, -1))
 				end

@@ -99,7 +99,37 @@ function f_drawEvent3() --Draw Event 3 Preview
 	end
 end
 
+--Right Events Menu Arrows
+arrowsER = animNew(sysSff, [[
+221,0, 0,0, 10
+221,1, 0,0, 10
+221,2, 0,0, 10
+221,3, 0,0, 10
+221,4, 0,0, 10
+221,3, 0,0, 10
+221,2, 0,0, 10
+221,1, 0,0, 10
+221,0, 0,0, 10
+]])
+animAddPos(arrowsER, 303, 129)
+animUpdate(arrowsER)
+animSetScale(arrowsER, 1.7, 1.7)
 
+--Left Events Menu Arrows
+arrowsEL = animNew(sysSff, [[
+221,5, 0,0, 10
+221,6, 0,0, 10
+221,7, 0,0, 10
+221,8, 0,0, 10
+221,9, 0,0, 10
+221,8, 0,0, 10
+221,7, 0,0, 10
+221,6, 0,0, 10
+221,5, 0,0, 10
+]])
+animAddPos(arrowsEL, 0, 129)
+animUpdate(arrowsEL)
+animSetScale(arrowsEL, 1.7, 1.7)
 
 function f_eventMenu()
 	cmdInput()
@@ -279,10 +309,10 @@ function f_eventMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		f_sysTime()
-		animDraw(arrowsED)
-		animUpdate(arrowsED)
-		animDraw(arrowsEU)
-		animUpdate(arrowsEU)
+		animDraw(arrowsER)
+		animUpdate(arrowsER)
+		animDraw(arrowsEL)
+		animUpdate(arrowsEL)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

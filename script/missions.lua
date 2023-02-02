@@ -52,7 +52,7 @@ arrowsMD = animNew(sysSff, [[
 222,1, 0,0, 10
 222,0, 0,0, 10
 ]])
-animAddPos(arrowsMD, 15, 170)
+animAddPos(arrowsMD, 16, 170)
 animUpdate(arrowsMD)
 animSetScale(arrowsMD, 1.7, 1.7)
 
