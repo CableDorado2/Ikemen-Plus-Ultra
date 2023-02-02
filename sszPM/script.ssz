@@ -332,6 +332,63 @@ void inputDialogGetStr(&.lua.State L=, int re=)
   L.pushString(inputDialog~getStr());
 }
 
+public %char line;
+
+void inputText(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char mod = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  bool dot = .blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  char lastChar = .sdl.getLastChar();
+  switch(lastChar){
+    case '\0':
+    case '\x8':
+      {
+        ^char tmp = .line[0..#.line-1];
+        .line.new(0);
+        .line .= tmp;
+      }
+    default:
+      branch{
+      cond .s.equ(mod,"text"):
+        if((lastChar >= '\x20' && lastChar < '\x30') || (lastChar >= '\x3a' && lastChar < '\x7f')) .line .= lastChar;
+      cond .s.equ(mod,"num"):
+        if((lastChar >= '\x30' && lastChar < '\x3a') || (lastChar == '\x2e' && dot)) .line .= lastChar;
+      else:
+        if(lastChar >= '\x20' && lastChar < '\x7f') .line .= lastChar;
+      }
+  }
+  L.pushString(.line);
+}
+
+void setInputText(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char str = .strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .line.new(0);
+  .line .= str;
+}
+
+void clearInputText(&.lua.State L=, int re=)
+{
+  re = 0;
+  .line.new(0);
+}
+
+void clipboardPaste(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.paste);
+}
+
+void getClipboardText(&.lua.State L=, int re=)
+{
+  re = 1;
+  ^char str;
+  .mes.GetClipboardStr(:str=:);
+  L.pushString(str);
+}
+
 void playVideo(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -822,6 +879,11 @@ public void init(&.lua.State L=)
   L.register("inputDialogPopup", .inputDialogPopup);
   L.register("inputDialogIsDone", .inputDialogIsDone);
   L.register("inputDialogGetStr", .inputDialogGetStr);
+  L.register("inputText", .inputText);
+  L.register("setInputText", .setInputText);
+  L.register("clearInputText", .clearInputText);
+  L.register("clipboardPaste", .clipboardPaste);
+  L.register("getClipboardText", .getClipboardText);
   L.register("playBGM", .playBGM);
   L.register("playVideo", .playVideo);
   L.register("sszOpen", .sszOpen);

@@ -4,7 +4,7 @@ lib sdl = <alpha/sdlplugin.ssz>;
 uint nexttime = 0x0, lastdraw = 0x0;
 float nexttimeFractionalPart = 0.0;
 public &sdl.Event sdle;
-public bool end = false, fskip = false, full = false, esc = false,
+public bool end = false, fskip = false, full = false, esc = false, paste = false,
 		 upKey = false, downKey = false, leftKey = false, rightKey = false, 
 		 aKey = false, bKey = false, cKey = false, dKey = false, eKey = false,
 		 fKey = false, gKey = false, hKey = false, iKey = false, jKey = false,
@@ -72,6 +72,10 @@ public bool eventUpdate()
           ret false;
         }
       cond (.sdle.key.keysym.mod & (.sdl.KMOD_LCTRL | .sdl.KMOD_RCTRL)) != 0x0:
+        switch(.sdle.key.keysym.sym){
+        case .sdl.K::v:
+            .paste = true;
+        }
       else:
         switch(.sdle.key.keysym.sym){
         case .sdl.K::ESCAPE:
@@ -337,6 +341,7 @@ public bool event(int fps)
     .fskip = false;
   }
   .esc = false;
+  .paste = false;
   .upKey = false;
   .downKey = false;
   .leftKey = false;
