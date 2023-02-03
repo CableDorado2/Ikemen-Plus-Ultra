@@ -11,7 +11,7 @@ const int Width = 1280;
 const int Height = 720;
 const bool FullScreen = false;
 
-const float GlVol = 0;
+const float GlVol = 1;
 const float SEVol = 0.7;
 const float BGMVol = 0.3;
 const float PanStr = 1.2;
@@ -22,8 +22,8 @@ const int GameSpeed = 60;//frames/second
 
 const float LifebarFontScale = 0.5;
 
-const ^/char listenPort = "1234";
-const ^/char UserName = "123";
+const ^/char listenPort = "7500";
+const ^/char UserName = "Name";
 
 const ^/char system = "script/main.lua";
 

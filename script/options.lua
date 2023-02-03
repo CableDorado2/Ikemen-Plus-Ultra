@@ -750,9 +750,7 @@ function f_mainCfg()
 			for i=1, #t_restart do
 				textImgDraw(t_restart[i].id)
 			end
-		end			
-		--t_mainCfg[7].varText = getUserName()
-		--t_mainCfg[8].varText = getListenPort()
+		end
 		--Player Name Change
 		if not done and nameEdit == true then
 			if esc() then
@@ -762,32 +760,32 @@ function f_mainCfg()
 				nameEdit = false
 				done = true
 			end
-			playerName = inputText('num',true)
+			playerName = inputText('text',true)
 			if clipboardPaste() then
-				if string.match(getClipboardText(),'^%d+$') then 
+				if string.match(getClipboardText(),'^(.*)') then
 					setInputText(getClipboardText())
 				else
 					sndPlay(sysSnd, 100, 5)
 				end
 			end
 			if playerName:len() > 5 then
-				playerName = playerName:sub(1,5)
+				playerName = playerName:sub(1,16)
 				setInputText(playerName)
 			end
 			if playerName ~= '' and playerName ~= nil then
-				if tonumber(playerName) > 65535 then
-					playerName = '65535'
-					setInputText(playerName)
-				elseif playerName:match('^0(%d+)$') then
+				if playerName:match('^0(%d+)$') then
 					playerName = playerName:gsub('^0(%d+)$','%1')
 					setInputText(playerName)
 				end
 			end
-			if btnPalNo(p1Cmd) > 0 then
+			if commandGetState(p1Cmd, 's') then
 				if playerName ~= '' and playerName ~= nil then
 					clearInputText()
 					sndPlay(sysSnd, 100, 1)
-					setUserName(tonumber(playerName))
+					--What if you want to get certain pieces out of a string of text? This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures will be returned from string.match.
+					--> = string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
+					--foo 123 bar 456
+					setUserName(tostring(playerName))
 					modified = 1
 					nameEdit = false
 					done = true
