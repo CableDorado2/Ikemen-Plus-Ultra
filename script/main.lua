@@ -135,6 +135,30 @@ animAddPos(wirelessBG, -4.5, 0)
 animUpdate(wirelessBG)
 animSetScale(wirelessBG, 1.2, 1)
 
+--Scrolling background
+optionsBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(optionsBG0, 160, 0)
+animSetTile(optionsBG0, 1, 1)
+animSetColorKey(optionsBG0, -1)
+
+--Transparent background
+optionsBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(optionsBG1, 1, 1)
+animSetAlpha(optionsBG1, 20, 100)
+animUpdate(optionsBG1)
+
+--Mission Above Transparent background
+missionBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(missionBG1, 1, 1)
+animSetAlpha(missionBG1, 20, 100)
+animUpdate(missionBG1)
+
 --Down Menu Arrows
 arrowsD = animNew(sysSff, [[
 222,0, 0,0, 10
@@ -163,36 +187,39 @@ arrowsU = animNew(sysSff, [[
 222,6, 0,0, 10
 222,5, 0,0, 10
 ]])
-animAddPos(arrowsU, 247, 170)
+animAddPos(arrowsU, 252, 170)
 animUpdate(arrowsU)
 animSetScale(arrowsU, 2, 2)
 
---;===========================================================
---; OPTIONS BACKGROUND DEFINITION
---;===========================================================
---Scrolling background
-optionsBG0 = animNew(sysSff, [[
-100,0, 0,0, -1
+--Up Special Arrow
+arrowsSU = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
 ]])
-animAddPos(optionsBG0, 160, 0)
-animSetTile(optionsBG0, 1, 1)
-animSetColorKey(optionsBG0, -1)
+animAddPos(arrowsSU, 222, 22)
+animUpdate(arrowsSU)
+animSetScale(arrowsSU, 0.5, 0.5)
 
---Transparent background
-optionsBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
+--Down Special Arrow
+arrowsSD = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
 ]])
-animSetTile(optionsBG1, 1, 1)
-animSetAlpha(optionsBG1, 20, 100)
-animUpdate(optionsBG1)
-
---Mission Above Transparent background
-missionBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
-]])
-animSetTile(missionBG1, 1, 1)
-animSetAlpha(missionBG1, 20, 100)
-animUpdate(missionBG1)
+animAddPos(arrowsSD, 222, 229)
+animUpdate(arrowsSD)
+animSetScale(arrowsSD, 0.5, 0.5)
 
 --;===========================================================
 --; LOGOS LOOP
@@ -2303,6 +2330,36 @@ end
 --;===========================================================
 --; GALLERY LOGIC
 --;===========================================================
+--Left Gallery Arrow
+arrowsGL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsGL, 264, 220.5)
+animUpdate(arrowsGL)
+animSetScale(arrowsGL, 0.5, 0.5)
+
+--Right Gallery Arrow
+arrowsGR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsGR, 312, 220.5)
+animUpdate(arrowsGR)
+animSetScale(arrowsGR, 0.5, 0.5)
+
 function f_gallery() --Based on stage preview code
 	gallery = ''
 	gallery = '0,' .. galleryList-1 .. ', 0,0, 0'
@@ -2420,9 +2477,16 @@ function f_extrasMenu()
 						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt - 1
 					end
-					
 					galleryList = moveArt --Uses menu position to show image in these order
 					f_gallery()
+					if moveArt > 1 then
+						animDraw(arrowsGL)
+						animUpdate(arrowsGL)
+					end
+					if moveArt <= 10 then
+						animDraw(arrowsGR)
+						animUpdate(arrowsGR)
+					end
 					animDraw(data.fadeTitle)
 					animUpdate(data.fadeTitle)
 					cmdInput()
@@ -2930,6 +2994,14 @@ function f_mainReplay()
 				textImgDraw(t_replayList[i].id)
 			end
 		end
+		if maxReplays > 14 then
+			animDraw(arrowsSU)
+			animUpdate(arrowsSU)
+		end
+		if maxReplays >= 14 then
+			animDraw(arrowsSD)
+			animUpdate(arrowsSD)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		--exitNetPlay()
@@ -2942,8 +3014,6 @@ end
 --;===========================================================
 --; ONLINE MENU LOOP
 --;===========================================================
-txt_starting = createTextImg(jgFnt, 0, 1, '', 37, 228)
-txt_connecting = createTextImg(jgFnt, 0, 1, '', 10, 228)
 
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE GAME]'},
@@ -3077,6 +3147,169 @@ function f_mainNetplay()
 		cmdInput()
 		refresh()		
 	end
+end
+
+--;===========================================================
+--; HOST LOOP
+--;===========================================================
+txt_hosting = createTextImg(jgFnt, 0, 1, '', 37, 228)
+
+function f_create()
+	cmdInput()
+	textImgSetText(txt_hosting, 'Waiting for Player 2... ' .. getListenPort())
+	enterNetPlay(inputDialogGetStr(inputdia))
+	netPlayer = 'Host' --For Replay Identify
+	--data.p1In = 1
+	--f_exitMenu() --Try to Wait client in Training Mode?
+	while not connected() do
+		if esc() then
+		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			netPlayer = ''
+			return true		
+		end
+		textImgDraw(txt_hosting)
+		cmdInput()
+		refresh()
+		animDraw(wirelessBG)
+		animUpdate(wirelessBG)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+	end
+	return false
+end
+
+--;===========================================================
+--; OLD CLIENT/JOIN LOOP LOGIC
+--;===========================================================
+--function f_connect()
+	--inputDialogPopup(inputdia, 'To Join enter IP address of your Host')
+	--while not inputDialogIsDone(inputdia) do
+		--animDraw(wirelessBG)
+		--animUpdate(wirelessBG)
+		--refresh()
+	--end
+	--sndPlay(sysSnd, 100, 1)
+	--textImgSetText(txt_connecting, 'Now connecting with... ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
+	--enterNetPlay(inputDialogGetStr(inputdia))
+	--netPlayer = 'Client'
+	--while not connected() do
+		--if esc() then
+		    --data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			--sndPlay(sysSnd, 100, 2)
+			--netPlayer = ''
+			--return true
+		--end
+		--textImgDraw(txt_connecting)
+		--animDraw(wirelessBG)
+		--animUpdate(wirelessBG)
+		--refresh()	
+		--animDraw(data.fadeTitle)
+		--animUpdate(data.fadeTitle)
+	--end
+	--return false
+--end
+
+--;===========================================================
+--; CLIENT/JOIN LOOP
+--;===========================================================
+txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 155, 90)
+txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 128,.5,.5,255,255)
+txt_ip = createTextImg(font14, 0, 0, '', 160, 128)
+txt_conOption = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_connecting = createTextImg(jgFnt, 0, 1, '', -40, 228)
+
+function f_connect()
+	local ip = ''
+	local done = false
+	local conSel = 1 -- Ok/Cancel Buttons
+	local i = 0
+	joinExit = false
+	while true do
+		if (esc() or (btnPalNo(p1Cmd) > 0 and conSel == 2)) and not done then
+			clearInputText()
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			joinExit = true
+			netPlayer = ''
+		elseif not done then
+			ip = inputText('num',true)
+			if clipboardPaste() then
+				if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+					setInputText(getClipboardText())				
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+			if ip:match('^%.') then
+				ip = ''
+				setInputText(ip)
+			elseif ip:len() > 15 then
+				ip = ip:sub(1,15)
+				setInputText(ip)
+			elseif ip:match('%.%.+') then
+				ip = ip:gsub('%.%.+','.')
+				setInputText(ip)
+			elseif ip:match('%d%d%d%d+') then
+				ip = ip:gsub('(%d%d%d)%d+','%1')
+				setInputText(ip)
+			elseif ip:match('%d+%.%d+%.%d+%.%d+%.') then
+				ip = ip:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
+				setInputText(ip)
+			end
+			if commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'r') then
+				sndPlay(sysSnd, 100, 0)
+				conSel = conSel == 1 and 2 or 1
+			end
+			if (btnPalNo(p1Cmd) > 0 and conSel == 1) then
+				if ip:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+					sndPlay(sysSnd, 100, 1)
+					enterNetPlay(ip) --Connect to entered IP address
+					netPlayer = 'Client'
+					done = true
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+		end
+		textImgDraw(txt_client)
+		textImgSetText(txt_ip,ip)
+		textImgDraw(txt_ip)
+		textImgSetWindow(txt_bar, 121, 115, 78.5, 12)
+		if i%60 < 30 then 
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),128)
+		end
+		for i=1, 2 do
+			textImgDraw(f_updateTextImg(txt_conOption, jgFnt, (i == conSel and 1 or 0), 0, (i == 1 and 'ENTER' or 'BACK'), 40+i*80, 162))
+		end
+		if joinExit == true then
+			netPlayer = ''
+			return true
+		end
+		if done == true then
+			while not connected() do
+				if esc() then
+					clearInputText()
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					netPlayer = ''
+					joinExit = true
+					return true
+				end
+				textImgSetText(txt_connecting, 'Now connecting with Host ' .. ip .. ' By Port ' .. getListenPort())
+				textImgDraw(txt_connecting)
+				animDraw(wirelessBG)
+				animUpdate(wirelessBG)
+				refresh()
+				animDraw(data.fadeTitle)
+				animUpdate(data.fadeTitle)
+			end
+		end
+		cmdInput()
+		refresh()
+	end
+	clearInputText()
+	return false
 end
 
 --;===========================================================
@@ -3513,66 +3746,6 @@ function f_mainJoin()
 		cmdInput()
 		refresh()
 	end
-end	
-	
---;===========================================================
---; HOST LOOP
---;===========================================================
-function f_create()
-	cmdInput()
-	textImgSetText(txt_starting, 'Waiting for Player 2... ' .. getListenPort())
-	enterNetPlay(inputDialogGetStr(inputdia))
-	netPlayer = 'Host' --For Replay Identify
-	--data.p1In = 1
-	--f_exitMenu() --Try to Wait client in Training Mode?
-	while not connected() do
-		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
-			return true		
-		end
-		textImgDraw(txt_starting)
-		cmdInput()
-		refresh()
-		animDraw(wirelessBG)
-		animUpdate(wirelessBG)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-	end
-	return false
-end
-
---;===========================================================
---; CLIENT/JOIN LOOP
---;===========================================================
-function f_connect()
-	inputDialogPopup(inputdia, 'To Join enter IP address of your Host')
-	while not inputDialogIsDone(inputdia) do
-		animDraw(wirelessBG)
-		animUpdate(wirelessBG)
-		refresh()
-	end
-	sndPlay(sysSnd, 100, 1)
-	textImgSetText(txt_connecting, 'Now connecting with... ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
-	enterNetPlay(inputDialogGetStr(inputdia))
-	netPlayer = 'Client'
-	
-	while not connected() do
-		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
-			return true
-		end
-		textImgDraw(txt_connecting)
-		animDraw(wirelessBG)
-		animUpdate(wirelessBG)
-		refresh()	
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-	end
-	return false
 end
 
 easteregg = animNew(sysSff, [[
@@ -3700,7 +3873,7 @@ t_exitMenu = {
 	{id = textImgNew(), text = 'RESTART ENGINE'},
 	{id = textImgNew(), text = 'BACK TO MAIN MENU'},
 }	
-	
+
 function f_exitMenu()
 	cmdInput()
 	local cursorPosY = 0
@@ -3773,6 +3946,10 @@ function f_exitMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '               CLOSE OR RESTART ENGINE')	
 		f_sysTime()
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3858,6 +4035,10 @@ function f_closeMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '             THE ENGINE WILL BE CLOSED')	
 		f_sysTime()
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3944,6 +4125,10 @@ function f_restartMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '           THE ENGINE WILL BE RESTARTED')	
 		f_sysTime()
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

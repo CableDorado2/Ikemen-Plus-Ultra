@@ -1,6 +1,123 @@
-kung fu man
-0 triggers found
-quote = random value from all 7 available quotes
+ryu
+condition: 1
+ trigger
+  before: var(1) != 2
+  after: 0~= 2
+  result: true
+ value
+  before: 1 + (random % 12)
+  after: 1+(math.random(0,999)*1/1000*12)
+  result: 10
+condition: 2
+ trigger
+  before: var(1) = 2
+  after: 0== 2
+  result: false
+ value
+  before: 50 + (random % 5)
+  after: 50+(math.random(0,999)*1/1000*5)
+  result: 50
+condition: 3
+ trigger
+  before: enemy, name = "ken" || enemy, name = "ken masters"
+  after:  "suave dude's minion"== "ken"  or   "suave dude's minion"== "ken masters"
+  result: false
+ trigger
+  before: enemy, name = "cvsken" || enemy, name = "svcken"
+  after:  "suave dude's minion"== "cvsken"  or   "suave dude's minion"== "svcken"
+  result: false
+ triggerall
+  before: numenemy && var(1) != 2
+  after: true  and  0~= 2
+  result: true
+ value
+  before: 30
+  after: 30
+  result: 30
+condition: 4
+ trigger
+  before: enemy, name = "sagat"
+  after:  "suave dude's minion"== "sagat"
+  result: false
+ trigger
+  before: enemy, name = "cvssagat" || enemy, name = "svcsagat"
+  after:  "suave dude's minion"== "cvssagat"  or   "suave dude's minion"== "svcsagat"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: ifelse(var(1) = 2, 81, 31)
+  after: (31)
+  result: 31
+condition: 5
+ trigger
+  before: enemy, name = "gouki" || enemy, name = "akuma"
+  after:  "suave dude's minion"== "gouki"  or   "suave dude's minion"== "akuma"
+  result: false
+ trigger
+  before: enemy, name = "shin gouki" || enemy, name = "shin akuma"
+  after:  "suave dude's minion"== "shin gouki"  or   "suave dude's minion"== "shin akuma"
+  result: false
+ trigger
+  before: enemy, name = "cyber akuma" || enemy, name = "mech gouki"
+  after:  "suave dude's minion"== "cyber akuma"  or   "suave dude's minion"== "mech gouki"
+  result: false
+ trigger
+  before: enemy, name = "cvsgouki" || enemy, name = "svcgouki"
+  after:  "suave dude's minion"== "cvsgouki"  or   "suave dude's minion"== "svcgouki"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: ifelse(var(1) = 2, 80, 32)
+  after: (32)
+  result: 32
+condition: 6
+ trigger
+  before: enemy, name = "sakura kasugano" || enemy, name = "cvssakura"
+  after:  "suave dude's minion"== "sakura kasugano"  or   "suave dude's minion"== "cvssakura"
+  result: false
+ triggerall
+  before: numenemy && var(1) != 2
+  after: true  and  0~= 2
+  result: true
+ value
+  before: 33
+  after: 33
+  result: 33
+condition: 7
+ trigger
+  before: enemynear, name = "vega" && enemynear, authorname = "phantom.of.the.server"
+  after:  "suave dude's minion"== "vega"  and   "masukenpu-kun / donaldeus"== "phantom.of.the.server"
+  result: false
+ trigger
+  before: enemynear, name = "cvsvega" && (enemynear, authorname = "warusaki3" || enemynear, authorname = "gargoyle")
+  after:  "suave dude's minion"== "cvsvega"  and  ( "masukenpu-kun / donaldeus"== "warusaki3"  or   "masukenpu-kun / donaldeus"== "gargoyle")
+  result: false
+ trigger
+  before: enemynear, name = "m.bison" && enemynear, authorname = "n -mario"
+  after:  "suave dude's minion"== "m.bison"  and   "masukenpu-kun / donaldeus"== "n -mario"
+  result: false
+ trigger
+  before: enemynear, name = "m. bison" && enemynear, authorname = "vk, updated by terry kuo, adapted by tenebrous"
+  after:  "suave dude's minion"== "m. bison"  and   "masukenpu-kun / donaldeus"== "vk, updated by terry kuo, adapted by tenebrous"
+  result: false
+ trigger
+  before: enemynear, name = "cvsbison" && enemynear, authorname = "team kai (saiai and koga)"
+  after:  "suave dude's minion"== "cvsbison"  and   "masukenpu-kun / donaldeus"== "team kai (saiai and koga)"
+  result: false
+ triggerall
+  before: numenemy && var(1) != 2
+  after: true  and  0~= 2
+  result: true
+ value
+  before: 34
+  after: 34
+  result: 34
 
-quote: 4
+quote: 10
 exists: yes

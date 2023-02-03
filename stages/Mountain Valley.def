@@ -64,7 +64,7 @@ intensity = 64
 intensity = 0
 
 [Music]
-bgmusic = sound/Mountain Valley.mp3
+bgmusic = sound/Student.mp3
 bgvolume = 100
 
 [BGdef]
