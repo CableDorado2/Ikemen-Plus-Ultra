@@ -660,6 +660,8 @@ function f_selectSimple()
 			end
 			return
 		end
+		f_favoriteChar() --Store Favorite Character
+		f_favoriteStage() --Store Favorite Stage
 		f_preferredMode() --Store Favorite Game Mode
 		playBGM('')
 		cmdInput()
@@ -2986,6 +2988,7 @@ function f_selectWin()
 		if winner == 1 then
 			p1Wins = p1Wins + 1
 			f_winCoins()
+			f_victories() --Store Player Victories
 			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
 			if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
 				--Do nothing and don't save mission/event progress
@@ -2996,6 +2999,7 @@ function f_selectWin()
 		else--if winner == 2 then
 			p2Wins = p2Wins + 1
 			--f_loseCoins()
+			f_defeats() --Store Player Losses
 			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
 		end
 		local i = 0
@@ -3103,12 +3107,14 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		f_winCoins()
+		f_victories() --Store Player Victories
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
 		f_missionStatus()
 		f_eventStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		--f_loseCoins()
+		f_defeats() --Store Player Losses
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P2 wins
 	end
 	local i = 0
@@ -3141,11 +3147,13 @@ function f_selectWinOFF()
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		f_winCoins()
+		f_victories() --Store Player Victories
 		f_missionStatus()
 		f_eventStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		--f_loseCoins()
+		f_defeats() --Store Player Losses
 	end		
 	while true do
 		break
@@ -3618,6 +3626,30 @@ function f_loseCoins()
 	elseif coinSystem == false then
 		--Do nothing and don't lose or win coins
 	end
+end
+
+function f_victories()
+	data.victories = data.victories + 1
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+function f_defeats()
+	data.defeats = data.defeats + 1
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+function f_favoriteChar()
+	data.favoriteChar = f_getName(data.t_p1selected[1].cel)
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+function f_favoriteStage()
+	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1')
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
 end
 
 function f_preferredMode()

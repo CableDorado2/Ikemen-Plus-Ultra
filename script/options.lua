@@ -1292,7 +1292,7 @@ function f_teamCfg()
 				data.numSimul = data.numSimul - 1
 				modified = 1
 			end
-		--Simul Type (Fix Error When you play in data.simulType = Tag)
+		--Simul Type (Fix Critical Error When you play in data.simulType = Tag)
 		--elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			--sndPlay(sysSnd, 100, 0)
 			--if data.simulType == 'Tag' then
@@ -2026,6 +2026,11 @@ function f_unlocksWarning()
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
 			data.coins = 0
+			data.playTime = 'WIP'
+			data.favoriteChar = 'None'
+			data.favoriteStage = 'None'
+			data.victories = 0
+			data.defeats = 0
 			data.preferredMode = 'Menu'
 			data.arcademodeCnt = 0
 			data.vsmodeCnt = 0

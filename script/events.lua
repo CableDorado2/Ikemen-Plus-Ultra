@@ -32,7 +32,7 @@ end
 
 t_mInfo = {
 	{id = '1', text = "Play as Master Kung Fu Girl!     "},
-	{id = '2', text = "Find A Generator in an Unknown Zone  "},
+	{id = '2', text = "Rescue a General in an Unknown Building"},
 	{id = '3', text = "Survive 40 Rounds in The Call of Zombies!"},
 }
 for i=1, #t_mInfo do
@@ -203,9 +203,10 @@ function f_eventMenu()
 			--UNKNOW ZONE
 			elseif eventMenu == 2 then
 				if event2Status == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
 					setRoundTime(-1)
+					f_forceRounds() --Force play 2 Rounds
 					data.p2In = 0
 					data.p1TeamMenu = {mode = 0, chars = 1}				
 					data.p2TeamMenu = {mode = 0, chars = 1}
@@ -215,6 +216,15 @@ function f_eventMenu()
 					data.rosterMode = 'event'
 					data.eventNo = 'event 2'
 					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+					--Data loading from config.ssz
+					local file = io.open("ssz/config.ssz","r")
+					s_configSSZ = file:read("*all")
+					file:close()
+					resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+					resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+					if (resolutionHeight / 3 * 4) ~= resolutionWidth then --A 4:3 Resolution is recommended to play
+						f_eventWarning()
+					end
 					script.select.f_selectSimple()
 				elseif event2Status == false then
 					sndPlay(sysSnd, 100, 1)
@@ -340,5 +350,50 @@ function f_eventLocked()
         animUpdate(data.fadeTitle)
 		cmdInput()
         refresh()
+    end
+end
+
+--;===========================================================
+--; EVENT INFO LOOP
+--;===========================================================
+function f_eventWarning()
+	local i = 0
+	txt = 'FOR A BETTER EXPERIENCE, SET A 4:3 GAME RESOLUTION TO PLAY THIS EVENT.'
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			sndPlay(sysSnd, 100, 1)
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			break
+		end
+        i = i + 1
+        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1, 35)
+        animDraw(data.fadeTitle)
+        animUpdate(data.fadeTitle)
+		cmdInput()
+        refresh()
     end		
+end
+
+--;===========================================================
+--; FORCE TO PLAY X ROUNDS
+--;===========================================================
+function f_forceRounds()
+--Data loading from lifebar
+	local file = io.open(data.lifebar,"r")
+	s_lifebarDEF = file:read("*all")
+	file:close()
+	roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
+	--drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
+--Rounds Number to Force
+	roundsNum = 2
+--Data saving to lifebar
+	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
+	--s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
+	local file = io.open(data.lifebar,"w+")
+	file:write(s_lifebarDEF)
+	file:close()
+	--Reload lifebar
+	loadLifebar(data.lifebar)
 end

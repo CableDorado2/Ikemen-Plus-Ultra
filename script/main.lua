@@ -4165,20 +4165,20 @@ end
 --;===========================================================
 t_statisticsMenu = {	
 	{id = '', text = 'Collected Coins',    	varID = textImgNew(), varText = data.coins},
-	{id = '', text = 'Time Played             W.I.P'},
-	{id = '', text = 'Favorite Character        W.I.P'},
-	{id = '', text = 'Favorite Stage          W.I.P'},
-	{id = '', text = 'Preferred Game Mode',  varID = textImgNew(), varText = data.preferredMode},
-	--{id = '', text = 'Victories             W.I.P'},
-	--{id = '', text = 'Defeats              W.I.P'},
-	{id = '', text = '          BACK'},
+	{id = '', text = 'Time Played',  		varID = textImgNew(), varText = data.playTime},
+	{id = '', text = 'Favorite Character',  varID = textImgNew(), varText = data.favoriteChar},
+	{id = '', text = 'Favorite Stage',		varID = textImgNew(), varText = data.favoriteStage},
+	{id = '', text = 'Preferred Game Mode', varID = textImgNew(), varText = data.preferredMode},
+	{id = '', text = 'Victories',     		varID = textImgNew(), varText = data.victories},
+	{id = '', text = 'Defeats',     		varID = textImgNew(), varText = data.defeats},
+	{id = '', text = '                   BACK'},
 }
 for i=1, #t_statisticsMenu do
-	t_statisticsMenu[i].id = createTextImg(font2, 0, 1, t_statisticsMenu[i].text, 85, 15+i*15)
+	t_statisticsMenu[i].id = createTextImg(font2, 0, 1, t_statisticsMenu[i].text, 34, 15+i*15)
 end
 
 function f_statisticsMenu()
-	txt_statisticsMenu = createTextImg(jgFnt, 0, 0, '' .. getUserName() .. ' STATISTICS ', 159, 13) --needs to be inside of statistics Menu function, to load a updated data
+	txt_statisticsMenu = createTextImg(jgFnt, 0, 0, '' .. getUserName() .. ' STATISTICS ', 160.5, 13) --needs to be inside of statistics Menu function, to load a updated data
 	cmdInput()
 	local statisticsMenu = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -4186,7 +4186,7 @@ function f_statisticsMenu()
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
-			break --return
+			break
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			statisticsMenu = statisticsMenu - 1
@@ -4195,7 +4195,7 @@ function f_statisticsMenu()
 			sndPlay(sysSnd, 100, 0)
 			statisticsMenu = statisticsMenu + 1
 			if statisticsMenu > #t_statisticsMenu then statisticsMenu = 1 end			
-		elseif btnPalNo(p1Cmd) > 0 then --To see more statistics details
+		elseif btnPalNo(p1Cmd) > 0 then --To see more statistics details, currently is not necessary
 			--Collected Coins
 			if statisticsMenu == 1 then
 				--sndPlay(sysSnd, 100, 1)	
@@ -4212,10 +4212,10 @@ function f_statisticsMenu()
 			elseif statisticsMenu == 5 then
 				--sndPlay(sysSnd, 100, 1)
 			--Victories
-			--elseif statisticsMenu == 6 then
+			elseif statisticsMenu == 6 then
 				--sndPlay(sysSnd, 100, 1)
 			--Defeats
-			--elseif statisticsMenu == 7 then
+			elseif statisticsMenu == 7 then
 				--sndPlay(sysSnd, 100, 1)
 			--Back
 			else
@@ -4225,7 +4225,7 @@ function f_statisticsMenu()
 			end			
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_statisticsMenu*15)
+		animSetWindow(optionsBG1, 30,20, 260,#t_statisticsMenu*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_statisticsMenu)
 		if needReload == 1 then
@@ -4234,14 +4234,19 @@ function f_statisticsMenu()
 			end
 		end			
 		t_statisticsMenu[1].varText = data.coins
+		t_statisticsMenu[2].varText = data.playTime
+		t_statisticsMenu[3].varText = data.favoriteChar
+		t_statisticsMenu[4].varText = data.favoriteStage
 		t_statisticsMenu[5].varText = data.preferredMode
+		t_statisticsMenu[6].varText = data.victories
+		t_statisticsMenu[7].varText = data.defeats
 		for i=1, #t_statisticsMenu do
 			textImgDraw(t_statisticsMenu[i].id)
 			if t_statisticsMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_statisticsMenu[i].varID, font2, 0, -1, t_statisticsMenu[i].varText, 235, 15+i*15))
+				textImgDraw(f_updateTextImg(t_statisticsMenu[i].varID, font2, 0, -1, t_statisticsMenu[i].varText, 287, 15+i*15))
 			end
 		end
-		animSetWindow(cursorBox, 80,5+statisticsMenu*15, 160,15)
+		animSetWindow(cursorBox, 30,5+statisticsMenu*15, 260,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)
