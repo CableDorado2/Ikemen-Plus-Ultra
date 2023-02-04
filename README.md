@@ -78,7 +78,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
-- [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre al seleccionar un char.
+- [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre en un Co-Op Mode.
 
 - [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
 
