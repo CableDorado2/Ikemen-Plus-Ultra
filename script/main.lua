@@ -2648,6 +2648,14 @@ function f_songMenu()
 				textImgDraw(t_songList[i].id)
 			end
 		end
+		if maxSongs > 14 then
+			animDraw(arrowsSU)
+			animUpdate(arrowsSU)
+		end
+		if maxSongs >= 14 then
+			animDraw(arrowsSD)
+			animUpdate(arrowsSD)
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2752,6 +2760,14 @@ function f_videoMenu()
 				t_videoList[i].id = createTextImg(font2, 0, 1, VideoText, 85, 15+i*15-moveTxt)
 				textImgDraw(t_videoList[i].id)
 			end
+		end
+		if maxVideos > 14 then
+			animDraw(arrowsSU)
+			animUpdate(arrowsSU)
+		end
+		if maxVideos >= 14 then
+			animDraw(arrowsSD)
+			animUpdate(arrowsSD)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -2871,6 +2887,14 @@ function f_storyboardMenu()
 				t_storyboardList[i].id = createTextImg(font2, 0, 1, storyboardText, 85, 15+i*15-moveTxt)
 				textImgDraw(t_storyboardList[i].id)
 			end
+		end
+		if maxStoryboards > 14 then
+			animDraw(arrowsSU)
+			animUpdate(arrowsSU)
+		end
+		if maxStoryboards >= 14 then
+			animDraw(arrowsSD)
+			animUpdate(arrowsSD)
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -3090,7 +3114,7 @@ function f_mainNetplay()
 				script.options.f_netsaveCfg()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				cancel = f_connect()
+				cancel = f_OLDconnect()
 				if not cancel then
 					synchronize()
 					math.randomseed(sszRandom())
@@ -3152,11 +3176,11 @@ end
 --;===========================================================
 --; HOST LOOP
 --;===========================================================
-txt_hosting = createTextImg(jgFnt, 0, 1, '', 37, 228)
+txt_hosting = createTextImg(jgFnt, 0, 1, '', 22, 228)
 
 function f_create()
 	cmdInput()
-	textImgSetText(txt_hosting, 'Waiting for Player 2... ' .. getListenPort())
+	textImgSetText(txt_hosting, 'Waiting for Player 2... ' .. 'Port: ' .. getListenPort())
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Host' --For Replay Identify
 	--data.p1In = 1
@@ -3182,33 +3206,33 @@ end
 --;===========================================================
 --; OLD CLIENT/JOIN LOOP LOGIC
 --;===========================================================
---function f_connect()
-	--inputDialogPopup(inputdia, 'To Join enter IP address of your Host')
-	--while not inputDialogIsDone(inputdia) do
-		--animDraw(wirelessBG)
-		--animUpdate(wirelessBG)
-		--refresh()
-	--end
-	--sndPlay(sysSnd, 100, 1)
-	--textImgSetText(txt_connecting, 'Now connecting with... ' .. inputDialogGetStr(inputdia) .. ' ' .. getListenPort())
-	--enterNetPlay(inputDialogGetStr(inputdia))
-	--netPlayer = 'Client'
-	--while not connected() do
-		--if esc() then
-		    --data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			--sndPlay(sysSnd, 100, 2)
-			--netPlayer = ''
-			--return true
-		--end
-		--textImgDraw(txt_connecting)
-		--animDraw(wirelessBG)
-		--animUpdate(wirelessBG)
-		--refresh()	
-		--animDraw(data.fadeTitle)
-		--animUpdate(data.fadeTitle)
-	--end
-	--return false
---end
+function f_OLDconnect()
+	inputDialogPopup(inputdia, 'To Join enter IP address of your Host')
+	while not inputDialogIsDone(inputdia) do
+		animDraw(wirelessBG)
+		animUpdate(wirelessBG)
+		refresh()
+	end
+	sndPlay(sysSnd, 100, 1)
+	textImgSetText(txt_connecting, 'Now connecting with Host ' .. inputDialogGetStr(inputdia) .. ' Port: ' .. getListenPort())
+	enterNetPlay(inputDialogGetStr(inputdia))
+	netPlayer = 'Client'
+	while not connected() do
+		if esc() then
+		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			netPlayer = ''
+			return true
+		end
+		textImgDraw(txt_connecting)
+		animDraw(wirelessBG)
+		animUpdate(wirelessBG)
+		refresh()	
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+	end
+	return false
+end
 
 --;===========================================================
 --; CLIENT/JOIN LOOP
@@ -3296,7 +3320,7 @@ function f_connect()
 					joinExit = true
 					return true
 				end
-				textImgSetText(txt_connecting, 'Now connecting with Host ' .. ip .. ' By Port ' .. getListenPort())
+				textImgSetText(txt_connecting, 'Now connecting with Host ' .. ip .. 'Port: ' .. getListenPort())
 				textImgDraw(txt_connecting)
 				animDraw(wirelessBG)
 				animUpdate(wirelessBG)

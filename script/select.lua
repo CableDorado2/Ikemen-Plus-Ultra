@@ -1188,7 +1188,7 @@ animSetWindow(charBG3, 200, 20, 120, 140)
 
 function f_selectScreen()
 	--draw
-	if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+	if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Sprite Animation (Diagonal Movement around left direction)
 	else
 		animDraw(f_animVelocity(selectBG0, -1, -1))
@@ -2140,7 +2140,7 @@ function f_selectStage()
 	if data.stageMenu then
 		--if commandGetState(p1Cmd, 's') then
 			--sndPlay(sysSnd, 100, 0)
-			--TO-DO: Alternative Stage Code
+			--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
 		if commandGetState(p1Cmd, 'u') then
 			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
 				--sndPlay(sysSnd, 100, 1)
@@ -2463,7 +2463,7 @@ function f_orderSelect()
 		cmdInput()
 		while true do
 			--draw background on top
-			if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -2547,12 +2547,12 @@ function f_orderSelect()
 							p1Confirmed = true
 							commandBufReset(p1Cmd)
 						end
-						--if data.p2In ~= 2 then
-							--if not p2Confirmed then
-								--f_selectChar(2, data.t_p2selected)
-								--p2Confirmed = true
-							--end
-						--end
+						if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
+							if not p2Confirmed then
+								f_selectChar(2, data.t_p2selected)
+								p2Confirmed = true
+							end
+						end
 					elseif commandGetState(p1Cmd, 'u') then
 						if #data.t_p1selected > 1 then
 							sndNumber = 0
@@ -2839,7 +2839,7 @@ function f_selectVersus()
 		cmdInput()
 		while true do
 		--draw background on top
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -2895,7 +2895,7 @@ function f_selectVersus()
 				textImgDraw(txt_bonusNo)			
 			elseif data.gameMode == 'versus' then
 				textImgDraw(txt_gameNo)
-			end	
+			end
 		--draw background on bottom
 		animUpdate(versusBG4)
 		animDraw(versusBG4)
@@ -3016,7 +3016,7 @@ function f_selectWin()
 				commandBufReset(p1Cmd, 1)
 				break
 			end
-			if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -3498,7 +3498,7 @@ function f_selectChallenger()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
