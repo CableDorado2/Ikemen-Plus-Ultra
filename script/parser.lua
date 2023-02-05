@@ -581,6 +581,7 @@ if generate and data.sffConversion then
 	local parserCfg = 1
 	while true do
 		if esc() then
+			f_playTime()
 			os.exit()
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)

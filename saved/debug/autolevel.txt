@@ -1,22 +1,14 @@
-﻿chars/ryu/ryu.def, 0 0 0 0 0 0 0 2 0 0 3 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kung fu man/kung fu man.def, 0 0 0 0 -1 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kyo kusanagi/kyo kusanagi.def, 0 0 0 0 0 0 0 0 1 -1 0 0
-chars/ken masters/ken masters.def, 0 0 0 0 0 0 1 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kung fu girl/kung fu girl.def, 0 0 0 0 0 0 1 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/iori yagami/iori yagami.def, 0 1 1 0 0 0 0 0 0 -1 0 0
-chars/m. bison/m. bison.def, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+﻿chars/kung fu man/kung fu man.def, 0 0 0 0 -1 0 0 0 0 0 0 0
+chars/ken masters/ken masters.def, 0 0 0 0 0 0 0 0 0 0 0 0
 chars/suave dude/suave dude.def, -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+chars/kyo kusanagi/kyo kusanagi.def, 0 0 0 0 0 0 0 0 1 -1 0 -1
+chars/ryu/master ryu.def, 0 0 0 0 0 0 0 -1 0 0 0 0
+chars/kung fu girl/kung fu girl.def, 0 0 0 0 0 0 1 0 0 0 0 0
+chars/kung fu man/ex/ex kung fu man.def, 4 4 4 4 4 4 4 4 4 4 4 4
+chars/training/sandbag.def, 0 0 0 -1 0 0 0 0 0 0 0 0
+chars/ken masters/master ken.def, 0 0 0 0 0 0 0 0 -1 0 0 0
+chars/ryu/ryu.def, 0 0 0 0 0 0 0 2 0 0 3 0
 chars/rugal bernstein/rugal bernstein.def, 0 0 0 0 0 0 0 0 0 -1 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+chars/iori yagami/iori yagami.def, 0 1 1 0 0 0 0 0 0 -1 0 0
+chars/m. bison/m. bison.def, 0 0 0 0 0 0 0 0 0 0 1 0

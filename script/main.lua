@@ -1,5 +1,6 @@
 
 math.randomseed(os.time())
+gameTime = os.clock()
 
 --Assign Lifebar
 loadLifebar('data/screenpack/winmugen/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
@@ -2637,7 +2638,7 @@ function f_songMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxSongs do
-			if t_songList[i].playlist:len() > 26 then
+			if t_songList[i].playlist:len() > 26 then --If name is too long, shortcut with ...
 				songText = string.sub(t_songList[i].playlist, 1, 24)
 				songText = tostring(songText .. '...')
 			else
@@ -4028,7 +4029,8 @@ function f_closeMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			--YES
 			if closeMenu == 1 then
-			    os.exit()					
+			    f_playTime()
+				os.exit()
 			--NO
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -4117,8 +4119,9 @@ function f_restartMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			--YES
 			if restartMenu == 1 then
+				f_playTime()
 			    sszReload()
-				os.exit()					
+				os.exit()
 			--NO
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -4234,7 +4237,7 @@ function f_statisticsMenu()
 			end
 		end			
 		t_statisticsMenu[1].varText = data.coins
-		t_statisticsMenu[2].varText = data.playTime
+		t_statisticsMenu[2].varText = ''.. data.playTime .. ' Minutes' --still missing programing in .. String .. a Rounding, to get minutes exactly
 		t_statisticsMenu[3].varText = data.favoriteChar
 		t_statisticsMenu[4].varText = data.favoriteStage
 		t_statisticsMenu[5].varText = data.preferredMode
@@ -4256,8 +4259,14 @@ function f_statisticsMenu()
 	end
 end
 
+function f_playTime()
+	data.playTime = data.playTime + ((os.clock() - gameTime) / 60000) --To get minutes
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
-
+f_playTime()
 f_mainStart() --Start Menu

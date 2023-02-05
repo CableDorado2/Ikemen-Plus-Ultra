@@ -313,6 +313,7 @@ function f_saveCfg()
 	--Reload game if needed
 	if needReload == 1 then
 		--os.execute ("TASKKILL /IM Ikemen DRP.exe /F")
+		f_playTime()
 		sszReload() --Native Reboot, added via ikemen.ssz
 		os.exit()
 	end
@@ -2026,7 +2027,7 @@ function f_unlocksWarning()
 			data.arcadeUnlocks = false
 			data.survivalUnlocks = false
 			data.coins = 0
-			data.playTime = 'WIP'
+			data.playTime = 0
 			data.favoriteChar = 'None'
 			data.favoriteStage = 'None'
 			data.victories = 0
