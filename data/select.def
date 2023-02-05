@@ -56,9 +56,13 @@
  ;   IKEMEN feature: Set the paramvalue between 0 and 8 to force
  ;   AI Level regardless of difficulty and AI ramping settings.
  ;
- ; - winscreen
+ ; - vsscreen
+ ;   IKEMEN feature: Set the paramvalue to 0 to avoid displaying versus screen
+ ;   when facing this character.
+ ;
+ ; - victoryscreen
  ;   IKEMEN feature: Set the paramvalue to 0 to avoid displaying
- ;   win screen after beating this character.
+ ;   victory screen after beating this character.
  ;
  ; - includestage
  ;   Set the paramvalue to 0 to avoid including this stage
@@ -95,7 +99,7 @@
  ;   opposite team leader, other characters follow normal order.
  ;
  ;   Full Order Reference:
- ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, winscreen=0, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+ ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=1, 1=charname, 4=charname
  ;
  ;   Some examples:
  ;        kfm, stages/mybg.def, includestage=0
@@ -103,7 +107,7 @@
  ;        kfm, stages/mybg.def, music=sound/song.mp3, includestage=0
  ;        kfm, stages/mybg.def, order=3, 3=kfm, 6=SuaveDude
  ;        kfm, stages/mybg.def, stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3, zoom=0
- ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=3
+ ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=3
  ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, boss=1, ai=8, includestage=0, exclude=1, order=5
  ;
  ;You can also add a randomize icon to the select screen. To do
@@ -255,10 +259,10 @@ Ken Masters/Daigo Ken.def, stages/New York.def, order=4
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
-Break The Car, stages/Way Out.def, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
-Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
-Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, winscreen=0, includestage=0, exclude=1, order=2
-Catwalk, stages/Neo-Geo Land.def, includestage=0, zoom=0, bonus=1, winscreen=0, exclude=1, order=2
+Break The Car, stages/Way Out.def, zoom=0, bonus=1, victoryscreen=0, exclude=1, order=2
+Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, victoryscreen=0, includestage=0, exclude=1, order=2
+Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=2
+Catwalk, stages/Neo-Geo Land.def, includestage=0, zoom=0, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, order=2
 ;===========================================================
 ; INSERT YOUR EVENTS CHARACTERS BELOW
 ;===========================================================
@@ -267,8 +271,8 @@ Unknown Zone, stages/Training Room 2.def, zoom=0, exclude=1, order=6
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================
-Training/Sandbag.def, winscreen=0, exclude=1, order=6
-Stage Viewer, winscreen=0, exclude=1, order=6
+Training/Sandbag.def, victoryscreen=0, exclude=1, order=6
+Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
 ;===========================================================
 ; HOW TO ADD STAGES
 ;===========================================================

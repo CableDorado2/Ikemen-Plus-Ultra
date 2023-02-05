@@ -213,6 +213,7 @@ function f_eventMenu()
 					data.p2Char = {t_charAdd['unknown zone']}
 					data.stageMenu = false
 					data.versusScreen = false
+					data.victoryscreen = false
 					data.rosterMode = 'event'
 					data.eventNo = 'event 2'
 					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
@@ -242,6 +243,7 @@ function f_eventMenu()
 					data.p2Char = {t_charAdd['call of zombies']}
 					data.stageMenu = false
 					data.versusScreen = false
+					data.victoryscreen = false
 					data.rosterMode = 'event'
 					data.eventNo = 'event 3'
 					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')

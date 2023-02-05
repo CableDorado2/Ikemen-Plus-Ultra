@@ -635,13 +635,18 @@ function f_selectSimple()
 		end
 		f_aiLevel()
 		f_orderSelect()
-		f_selectVersus()
+		--versus screen
+		if data.gameMode == 'versus' then
+			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+				f_selectVersus()
+			end
+		end
 		f_setZoom()
 		f_assignMusic()
 		winner = game()
-		--versus win screen
+		--win screen
 		if data.gameMode == 'versus' then
-			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
+			if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 				f_selectWin()
 				if data.challengerScreen == true then
 					f_selectChallenger()
@@ -650,7 +655,7 @@ function f_selectSimple()
 				end
 			end
 		elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
-			if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
+			if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 				f_selectWin()
 			end
 			if data.rosterMode == 'event' then
@@ -759,7 +764,7 @@ function f_selectAdvance()
 			end	
 			--win screen
 			if data.gameMode == 'arcade' then
-				if t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1 then
+				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
 				end
 			end
@@ -818,7 +823,7 @@ function f_selectAdvance()
 			looseCnt = looseCnt + 1
 			--win screen
 			if data.gameMode == 'arcade' then
-				if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1) then
+				if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 					f_selectWin()
 				end
 			end
@@ -841,7 +846,7 @@ function f_selectAdvance()
 			--counter
 			looseCnt = looseCnt + 1
 			--win screen
-			if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].winscreen == nil or t_selChars[data.t_p2selected[1].cel+1].winscreen == 1) then
+			if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 				f_selectWin()
 			end
 			--continue screen
@@ -928,7 +933,10 @@ function f_selectAdvance()
 		f_aiLevel()
 		f_selectStage()
 		f_orderSelect()
-		f_selectVersus()
+		--versus screen
+		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+			f_selectVersus()
+		end
 		f_setZoom()
 		--inputs
 		if data.coop then
@@ -3006,7 +3014,7 @@ end
 
 function f_selectWin()
 	setServiceType(0) --Erase Service
-	if data.winscreen == 'None' or data.eventNo == 'event 2' or data.eventNo == 'event 3' then
+	if data.winscreen == 'None' or data.victoryscreen == false then
 		f_selectWinOFF()
 	elseif data.winscreen == 'Fixed' then
 		f_selectWinFix()
@@ -4020,13 +4028,13 @@ function f_continue()
 				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				cmdInput()
 				--service screen
-				if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
+				if data.serviceScreen == false then
 					--Do nothing and don't show the screen
 				elseif data.serviceScreen == true then
 					f_service()
 				end
 				--challenger screen
-				if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
+				if data.challengerScreen == false then
 					playBGM(bgmSelect) --and don't show the screen
 				elseif data.challengerScreen == true then
 					f_selectChallenger()

@@ -1695,6 +1695,9 @@ function f_default()
 	data.p2SelectMenu = true --P2 character selection enabled
 	data.orderSelect = true --order select screen enabled
 	data.versusScreen = true --versus screen enabled
+	data.victoryscreen = true --victory screen enabled
+	data.serviceScreen = false --service screen disabled
+	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.p1In = 1 --P1 controls P1 side of the select screen
 	data.p2In = 0 --P2 controls in the select screen disabled
 	data.gameMode = '' --additional variable used to distinguish modes in select screen

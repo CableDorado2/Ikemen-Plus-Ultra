@@ -1,5 +1,17 @@
-table: 0296DE38 {
-  [teammaxmatches] => table: 0296DE38 {
+table: 0E0ECB58 {
+  [teamend] => table: 0E0ECB58 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [arcadeend] => table: 0E0ECB58 {
+                   [offset] => 2
+                   [wins] => 4
+                 }
+  [survivalend] => table: 0E0ECB58 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [teammaxmatches] => table: 0E0ECB58 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -11,11 +23,7 @@ table: 0296DE38 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadeend] => table: 0296DE38 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
-  [arcademaxmatches] => table: 0296DE38 {
+  [arcademaxmatches] => table: 0E0ECB58 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -27,24 +35,16 @@ table: 0296DE38 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadestart] => table: 0296DE38 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [teamend] => table: 0296DE38 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [teamstart] => table: 0296DE38 {
-                   [wins] => 1
+  [teamstart] => table: 0E0ECB58 {
                    [offset] => 0
+                   [wins] => 1
                  }
-  [survivalstart] => table: 0296DE38 {
-                       [wins] => 0
+  [survivalstart] => table: 0E0ECB58 {
                        [offset] => -3
+                       [wins] => 0
                      }
-  [survivalend] => table: 0296DE38 {
-                     [wins] => 16
-                     [offset] => 4
+  [arcadestart] => table: 0E0ECB58 {
+                     [offset] => 0
+                     [wins] => 2
                    }
 }

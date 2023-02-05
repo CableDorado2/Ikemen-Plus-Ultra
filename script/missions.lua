@@ -165,6 +165,7 @@ function f_missionMenu()
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
 				data.versusScreen = true
+				data.challengerScreen = false
 				data.gameMode = 'arcade'
 				data.rosterMode = 'mission'
 				data.missionNo = 'mission 3'

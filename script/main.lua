@@ -552,6 +552,7 @@ function f_arcadeMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1 --P1 controls P2 side of the select screen
 				data.p2SelectMenu = false --P2 character selection disabled
+				data.serviceScreen = true
 				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
 				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen				
@@ -563,6 +564,7 @@ function f_arcadeMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true --P2 fighting on P1 side enabled
+				data.serviceScreen = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')				
@@ -3430,6 +3432,7 @@ function f_mainHost()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
+				data.serviceScreen = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
@@ -3648,6 +3651,7 @@ function f_mainJoin()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
+				data.serviceScreen = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
@@ -4237,7 +4241,7 @@ function f_statisticsMenu()
 			end
 		end			
 		t_statisticsMenu[1].varText = data.coins
-		t_statisticsMenu[2].varText = ''.. data.playTime .. ' Minutes' --still missing programing in .. String .. a Rounding, to get minutes exactly
+		t_statisticsMenu[2].varText = ''.. data.playTime .. ' Miliseconds' --still missing programing in .. String .. a Rounding, to get minutes exactly
 		t_statisticsMenu[3].varText = data.favoriteChar
 		t_statisticsMenu[4].varText = data.favoriteStage
 		t_statisticsMenu[5].varText = data.preferredMode
@@ -4268,5 +4272,4 @@ end
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
-f_playTime()
 f_mainStart() --Start Menu
