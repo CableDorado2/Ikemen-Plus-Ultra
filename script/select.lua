@@ -510,7 +510,7 @@ function f_backMenu()
 			if btnPalNo(p1Cmd) > 0 then
 				--YES
 				if backMenu == 1 then
-					if data.rosterMode == 'inputtest' or data.rosterMode == 'event' or data.rosterMode == 'mission' then
+					if data.rosterMode == 'event' or data.rosterMode == 'mission' then
 						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 					end
 					sndPlay(sysSnd, 100, 2)

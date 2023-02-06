@@ -3121,8 +3121,8 @@ txt_inputCfg = createTextImg(jgFnt, 0, 0, 'INPUT SETTINGS', 159, 13)
 t_inputCfg = {
 	{id = '', text = 'Keyboard Settings'},
 	{id = '', text = 'Gamepad Settings'},
-	{id = '', text = 'Player 1 Gamepad Status', varID = textImgNew(), varText = s_disablePadP1},
-	{id = '', text = 'Player 2 Gamepad Status', varID = textImgNew(), varText = s_disablePadP2},
+	--{id = '', text = 'Player 1 Gamepad Status', varID = textImgNew(), varText = s_disablePadP1},
+	--{id = '', text = 'Player 2 Gamepad Status', varID = textImgNew(), varText = s_disablePadP2},
 	{id = '', text = 'Swap Gamepads', varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Controls'},
 	{id = '', text = 'Test Controls'},
@@ -3160,34 +3160,34 @@ function f_inputCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_joyMenu()
 			--Player 1 Gamepad Status
-			elseif inputCfg == 3 then
-				sndPlay(sysSnd, 100, 0)
-				if data.disablePadP1 == false then
-					data.disablePadP1 = true
-					s_disablePadP1 = 'Disabled'
-				else
-					data.disablePadP1 = false
-					s_disablePadP1 = 'Enabled'
-				end
-				modified = 1
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
+			--elseif inputCfg == 3 then
+				--sndPlay(sysSnd, 100, 1)
+				--if data.disablePadP1 == false then
+					--data.disablePadP1 = true
+					--s_disablePadP1 = 'Disabled'
+				--else
+					--data.disablePadP1 = false
+					--s_disablePadP1 = 'Enabled'
+				--end
+				--modified = 1
+				--commandBufReset(p1Cmd)
+				--commandBufReset(p2Cmd)
 			--Player 2 Gamepad Status
-			elseif inputCfg == 4 then
-				sndPlay(sysSnd, 100, 0)
-				if data.disablePadP2 == false then
-					data.disablePadP2 = true
-					s_disablePadP2 = 'Disabled'
-				else
-					data.disablePadP2 = false
-					s_disablePadP2 = 'Enabled'
-				end
-				modified = 1
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
+			--elseif inputCfg == 4 then
+				--sndPlay(sysSnd, 100, 1)
+				--if data.disablePadP2 == false then
+					--data.disablePadP2 = true
+					--s_disablePadP2 = 'Disabled'
+				--else
+					--data.disablePadP2 = false
+					--s_disablePadP2 = 'Enabled'
+				--end
+				--modified = 1
+				--commandBufReset(p1Cmd)
+				--commandBufReset(p2Cmd)
 			--Swap Controller
-			elseif inputCfg == 5 then --and commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') then
-				sndPlay(sysSnd, 100, 0)
+			elseif inputCfg == 3 then --and commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') then
+				sndPlay(sysSnd, 100, 1)
 				f_swapGamepad(data.p2Gamepad, data.p1Gamepad)
 				if data.p1Gamepad == 0 then
 					data.p1Gamepad = 1
@@ -3200,24 +3200,13 @@ function f_inputCfg()
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 			--Default Inputs
-			elseif inputCfg == 6 then
+			elseif inputCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_inputDefault()
 			--Input Test
-			elseif inputCfg == 7 then
+			elseif inputCfg == 5 then
 				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 2
-				data.stageMenu = false
-				data.versusScreen = false
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd['training/sandbag.def']}
-				data.gameMode = 'training'
-				data.rosterMode = 'inputtest'
-				setGameType(4)
-				textImgSetText(txt_mainSelect, 'INPUT TEST')
-				script.select.f_selectSimple()
+				f_testMenu()
 			--Back
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -3229,9 +3218,9 @@ function f_inputCfg()
 		animSetWindow(optionsBG1, 68,20, 184,#t_inputCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_inputCfg)
-		t_inputCfg[3].varText = s_disablePadP1
-		t_inputCfg[4].varText = s_disablePadP2
-		t_inputCfg[5].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1
+		--t_inputCfg[3].varText = s_disablePadP1
+		--t_inputCfg[4].varText = s_disablePadP2
+		t_inputCfg[3].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1
 		for i=1, #t_inputCfg do
 			textImgDraw(t_inputCfg[i].id)
 			if t_inputCfg[i].varID ~= nil then
@@ -3241,6 +3230,128 @@ function f_inputCfg()
 		animSetWindow(cursorBox, 68,5+inputCfg*15, 184,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; INPUT TEST MENU LOOP
+--;===========================================================
+t_testMenu = {
+	{id = textImgNew(), text = 'P1 TEST'},
+	{id = textImgNew(), text = 'P1&P2 TEST'},
+	{id = textImgNew(), text = 'BACK'},	
+}
+	
+function f_testMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local testMenu = 1
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	while true do
+		if esc() then
+			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			testMenu = testMenu - 1
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			testMenu = testMenu + 1
+		end
+		if testMenu < 1 then
+			testMenu = #t_testMenu
+			if #t_testMenu > 4 then
+				cursorPosY = 4
+			else
+				cursorPosY = #t_testMenu-1
+			end
+		elseif testMenu > #t_testMenu then
+			testMenu = 1
+			cursorPosY = 0
+		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 4 then
+			moveTxt = (testMenu - 5) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (testMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--SINGLE TEST
+			if testMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1)
+				data.p2In = 2
+				data.stageMenu = false
+				data.versusScreen = false
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p2Char = {t_charAdd['training/sandbag.def']}
+				data.gameMode = 'training'
+				data.rosterMode = 'inputtest'
+				setGameType(4)
+				textImgSetText(txt_mainSelect, 'P1 INPUT TEST')
+				script.select.f_selectSimple()
+			--MULTIPLAYER TEST
+			elseif testMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1)
+				data.p2In = 2
+				data.p2Faces = true
+				data.stageMenu = false
+				data.versusScreen = false
+				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.gameMode = 'training'
+				data.rosterMode = 'inputtest'
+				setGameType(4)
+				textImgSetText(txt_mainSelect, 'P1 & P2 INPUT TEST')
+				script.select.f_selectSimple()
+			--BACK
+			else
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_testMenu do
+			if i == testMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_testMenu[i].id, jgFnt, bank, 0, t_testMenu[i].text, 159, 144+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)		
+		textImgSetText(txt_titleFt, 'INPUT TEST MODE')
+		textImgDraw(txt_titleFt1)
+		f_sysTime()
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)		
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
