@@ -73,7 +73,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
 
-**v1.2.1**
+**v1.3**
 ------------
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
@@ -89,18 +89,21 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 - [ ] Corregir en función "backMenu" que al volver al char select desde el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
 ![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
 
-**v1.3**
-------------
-
-- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
 - [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
 
 - [ ] Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
 
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
+- [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
+
+- [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
+
+- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
 - [ ] Ranking al completar o perder en Modo Arcade.
+
+- [ ] Más parametros para el Select.def.
 
 - [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
@@ -108,15 +111,9 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Cargar archivos de video.
 
-- [ ] Más parametros para el Select.def.
+- [ ] Agregar soporte para reconocer a un 2do Gamepad.
 
-- [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
-
-- [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
-
-- [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
-
-- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - [ ] Pause Menu/Screen.
 
@@ -130,6 +127,8 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 - [ ] Story Mode Concept.
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
+
+- [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
 
 **v1.5**
 ------------
