@@ -95,6 +95,12 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
+- [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
+
+- [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
+
+- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
 - [ ] Ranking al completar o perder en Modo Arcade.
 
 - [ ] Más parametros para el Select.def.
@@ -106,12 +112,6 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 - [ ] Cargar archivos de video.
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
-
-- [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
-
-- [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
-
-- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
