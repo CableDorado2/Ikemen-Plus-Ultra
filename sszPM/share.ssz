@@ -21,6 +21,7 @@ public &Share
   public int chr_p1mw, chr_p2mw, chr_p1w, chr_p2w, chr_drw;
   public int stt;
   public ^int com;
+  public ^int taglevel;
   public ^bool autoguard, powsh;
   public ^int inputRemap;
   public ^&.cmd.NetInput net;
@@ -66,6 +67,7 @@ public &Share
     `chr_p2w = .com.p2wins;
     `chr_drw = .com.draws;
     `com = .com.com;
+	`taglevel = .com.taglevel;
     `autoguard = .com.autoguard;
     `inputRemap = .com.inputRemap;
     `net = .cmd.net;
@@ -117,6 +119,7 @@ public &Share
     .com.p2wins = `chr_p2w;
     .com.draws = `chr_drw;
     .com.com = `com;
+	.com.taglevel = `taglevel;
     .com.autoguard = `autoguard;
     .com.inputRemap = `inputRemap;
     .cmd.net = `net;

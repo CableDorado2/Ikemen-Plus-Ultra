@@ -5425,6 +5425,10 @@ public &Char
   {
     ret `mver0() != 1 || `helperindex == 0 ? .com.com[`playerno] : 0;
   }
+  public int trTagMode()
+  {
+    ret `mver0() != 1 || `helperindex == 0 ? .com.taglevel[`playerno] : 0;
+  }
   public int trGameType()
   {
     ret .com.gameType;

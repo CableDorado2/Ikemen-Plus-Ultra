@@ -2281,6 +2281,9 @@ public &StateBuilder
     cond .s.equ("ailevel", token):
       out .= obj .= "trAILevel()";
       typ = 2;
+	cond .s.equ("tagmode", token):
+      out .= obj .= "trTagMode()";
+      typ = 2;
 	cond .s.equ("gametype", token):
       out .= obj .= "trGameType()";
       typ = 2;
@@ -7674,7 +7677,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!stateno){
-        `lasterror = "statenoが指定されていません";
+        `lasterror = "stateno is not specified";
         ret false;
       }
       if(!`stateParam(param=, "partnerstateno", [`paraF_t(data=){

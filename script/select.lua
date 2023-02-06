@@ -363,9 +363,33 @@ function f_difficulty(player, offset)
 	end
 end
 
+function f_tagMode(player, tagset)
+	local t = {}
+	if player % 2 ~= 0 then --odd value
+		pos = math.floor(player / 2 + 0.5)
+		t = t_selChars[data.t_p1selected[pos].cel+1]
+	else --even value
+		pos = math.floor(player / 2)
+		t = t_selChars[data.t_p2selected[pos].cel+1]
+	end
+	if t.tag ~= nil then
+		return t.tag
+	else
+		return data.tagmode + tagset
+	end
+end
+
 function f_aiLevel()
 	--Offset
 	local offset = 0
+	local tagset = 0
+	--local tagSystem = 0
+		--if tagSystem == 0 then
+			--setTag(1, f_tagMode(1, tagset))
+			--setTag(2, f_tagMode(2, tagset))
+			--setTag(3, f_tagMode(3, tagset))
+			--setTag(4, f_tagMode(4, tagset))
+		--end
 	if data.aiRamping and data.gameMode == 'arcade' or data.gameMode == 'survival' then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
@@ -374,37 +398,50 @@ function f_aiLevel()
 		setCom(1, 0)
 		setCom(2, f_difficulty(2, offset))
 		setCom(3, 0)
+		setTag(1, f_tagMode(1, tagset))
+		setTag(2, f_tagMode(2, tagset))
+		setTag(3, f_tagMode(3, tagset))
 		if not restoreTeam then
 			setCom(4, f_difficulty(4, offset))
+			setTag(4, f_tagMode(4, tagset))
 		end
 	else
 		--Player 1
 		if p1teamMode == 0 then --Single
 			if data.p1In == 1 and not data.aiFight then
 				setCom(1, 0)
+				setTag(1, f_tagMode(1, tagset))
 			else
 				setCom(1, f_difficulty(1, offset))
+				setTag(1, f_tagMode(1, tagset))
 			end
 		elseif p1teamMode == 1 then --Simul
 			if data.simulType == 'Tag' then
 				for i=1, p1numChars*2 do
 					if i % 2 ~= 0 then --odd value
-						if data.p1In == 1 and not data.aiFight then
+						if data.p1In == 1 and data.aiFight == false and data.tagmode == 1 then
 							setCom(i, 0)
+							remapInput(i,1)
+							setTag(i, f_tagMode(i, tagset))
 						else
+							setCom(1, f_difficulty(i, offset))
 							setCom(i, f_difficulty(i, offset))
+							setTag(i, f_tagMode(i, tagset))
 						end
 					end
 				end
 			else --data.simulType == 'Assist'
 				if data.p1In == 1 and not data.aiFight then
 					setCom(1, 0)
+					setTag(1, f_tagMode(1, tagset))
 				else
 					setCom(1, f_difficulty(1, offset))
+					setTag(1, f_tagMode(1, tagset))
 				end
 				for i=3, p1numChars*2 do
 					if i % 2 ~= 0 then
 						setCom(i, f_difficulty(i, offset))
+						setTag(i, f_tagMode(i, tagset))
 					end
 				end
 			end
@@ -413,8 +450,10 @@ function f_aiLevel()
 				if i % 2 ~= 0 then
 					if data.p1In == 1 and not data.aiFight then
 						setCom(i, 0)
+						setTag(i, f_tagMode(i, tagset))
 					else
 						setCom(i, f_difficulty(i, offset))
+						setTag(i, f_tagMode(i, tagset))
 					end
 				end
 			end
@@ -423,41 +462,52 @@ function f_aiLevel()
 		if p2teamMode == 0 then --Single
 			if data.p2In == 2 and not data.aiFight then
 				setCom(2, 0)
-			elseif data.p2In == 3 and not data.aiFight then
+				setTag(2, f_tagMode(2, tagset))
+			elseif data.p2In == 3 and not data.aiFight then --For Free Training Mode Type
 				setCom(2, 0)
+				setTag(2, f_tagMode(2, tagset))
 			else
 				setCom(2, f_difficulty(2, offset))
+				setTag(2, f_tagMode(2, tagset))
 			end
 		elseif p2teamMode == 1 then --Simul
 			if data.simulType == 'Tag' then
 				for i=2, p2numChars*2 do
 					if i % 2 == 0 then --even value
-						if data.p2In == 2 and not data.aiFight then
+						if data.p2In == 2 and not data.aiFight and data.tagmode == 1 then
 							setCom(i, 0)
+							remapInput(i,2)
+							setTag(i, f_tagMode(i, tagset))
 						else
 							setCom(i, f_difficulty(i, offset))
+							setTag(i, f_tagMode(i, tagset))
 						end
 					end
 				end
 			else --data.simulType == 'Assist'
 				if data.p2In == 2 and not data.aiFight then
 					setCom(2, 0)
+					setTag(2, f_tagMode(2, tagset))
 				else
 					setCom(2, f_difficulty(2, offset))
+					setTag(2, f_tagMode(2, tagset))
 				end
 				for i=4, p2numChars*2 do
 					if i % 2 == 0 then
 						setCom(i, f_difficulty(i, offset))
+						setTag(i, f_tagMode(i, tagset))
 					end
 				end
 			end
-		elseif p2teamMode == 2 then --Turns
+		elseif p2teamMode == 2 then --Turns --and not data.gameMode == 'bossrush' then
 			for i=2, p2numChars*2 do
 				if i % 2 == 0 then
 					if data.p2In == 2 and not data.aiFight then
 						setCom(i, 0)
+						--setTag(i, f_tagMode(i, tagset))
 					else
 						setCom(i, f_difficulty(i, offset))
+						--setTag(i, f_tagMode(i, tagset))
 					end
 				end
 			end

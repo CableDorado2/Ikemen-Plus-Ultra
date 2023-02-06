@@ -39,12 +39,15 @@ numSimul[0] = numSimul[1] = 2;
 public ^%%char clipboardText.new(maxSimul*2);
 
 public ^int com;
+public ^int taglevel;
 public ^bool autoguard;
 public ^bool powerShare;
 void flagInit()
 {
   .com.new(.maxSimul*2);
   .s.each!int?([void(int c=){c = 4;}], .com);
+  .taglevel.new(.maxSimul*4);
+  .s.each!int?([void(int c=){c = 8;}], .taglevel);
   .autoguard.new(.maxSimul*2);
   .s.each!bool?([void(bool a=){a = false;}], .autoguard);
   .powerShare.new(2);

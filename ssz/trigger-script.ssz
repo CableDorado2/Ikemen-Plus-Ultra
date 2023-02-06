@@ -164,6 +164,12 @@ void ailevel(&.lua.State L=, int re=)
   L.pushNumber((double)(#.cwc > 0 ? .com.com[.cwc~playerno] : 0));
 }
 
+void tagmode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double)(#.cwc > 0 ? .com.taglevel[.cwc~playerno] : 0));
+}
+
 void alive(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1128,6 +1134,7 @@ public void registerFunction(&.lua.State L=)
   L.register("enemynear", .enemynear);
   L.register("playerid", .playerid);
   L.register("ailevel", .ailevel);
+  L.register("tagmode", .tagmode);
   L.register("alive", .alive);
   L.register("anim", .anim);
   L.register("animelemno", .animelemno);

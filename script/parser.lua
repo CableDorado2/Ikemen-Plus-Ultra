@@ -1,6 +1,7 @@
 
 onlinegame = false
 coinSystem = true
+data.tagmode = 1
 data.includestage = 0
 
 --parse character data

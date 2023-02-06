@@ -229,7 +229,7 @@ function f_saveCfg()
 		['data.simulType'] = data.simulType,
 		['data.disablePadP1'] = data.disablePadP1,
 		['data.disablePadP2'] = data.disablePadP2,
-		['data.difficulty'] = data.difficulty,	
+		['data.difficulty'] = data.difficulty,
 		['data.contSelection'] = data.contSelection,
 		['data.vsDisplayWin'] = data.vsDisplayWin,		
 		['data.aiRamping'] = data.aiRamping,
@@ -1203,7 +1203,7 @@ t_teamCfg = {
 	{id = '', text = 'Disadvantage Life Share', varID = textImgNew(), varText = s_teamLifeShare},
 	{id = '', text = 'Turns Players Limit',     varID = textImgNew(), varText = data.numTurns},
 	{id = '', text = 'Simul Players Limit',     varID = textImgNew(), varText = data.numSimul},
-	--{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
+	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
 	{id = '', text = 'Co-op CPU Team',          varID = textImgNew(), varText = data.coopenemy},
 	{id = '', text = '          BACK'},
 }
@@ -1282,18 +1282,18 @@ function f_teamCfg()
 				data.numSimul = data.numSimul - 1
 				modified = 1
 			end
-		--Simul Type (Fix Critical Error When you play in data.simulType = Tag)
-		--elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			--sndPlay(sysSnd, 100, 0)
-			--if data.simulType == 'Tag' then
-				--data.simulType = 'Assist'
-				--modified = 1
-			--else
-				--data.simulType = 'Tag'
-				--modified = 1
-			--end
+		--Simul Type (Fixed by Strong FS)
+		elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			sndPlay(sysSnd, 100, 0)
+			if data.simulType == 'Tag' then
+				data.simulType = 'Assist'
+				modified = 1
+			else
+				data.simulType = 'Tag'
+				modified = 1
+			end
 		--Co-op CPU Team Mode
-		elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.coopenemy == 'Single' then
 				data.coopenemy = 'Simul'
@@ -1315,7 +1315,7 @@ function f_teamCfg()
 				modified = 1
 			end
 		--Back
-		elseif teamCfg == 7 and btnPalNo(p1Cmd) > 0 then
+		elseif teamCfg == 8 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1328,8 +1328,8 @@ function f_teamCfg()
 		t_teamCfg[3].varText = s_teamLifeShare
 		t_teamCfg[4].varText = data.numTurns
 		t_teamCfg[5].varText = data.numSimul
-		--t_teamCfg[6].varText = data.simulType
-		t_teamCfg[6].varText = data.coopenemy
+		t_teamCfg[6].varText = data.simulType
+		t_teamCfg[7].varText = data.coopenemy
 		for i=1, #t_teamCfg do
 			textImgDraw(t_teamCfg[i].id)
 			if t_teamCfg[i].varID ~= nil then
