@@ -2,44 +2,8 @@
 module(..., package.seeall)
 
 --;===========================================================
---; MISSIONS MENU LOOP
+--; MISSIONS SCREENPACK
 --;===========================================================
-t_missionMenu = {
-	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
-	{id = '', text = 'Target Confirmed',     varID = textImgNew(), varText = mission2Progress},
-	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission3Progress},
-	{id = '', text = 'Devil Blood',  	     varID = textImgNew(), varText = mission4Progress},
-	{id = '', text = 'Power Instinct',       varID = textImgNew(), varText = mission5Progress},
-	{id = '', text = 'Eternal Rivals',  	 varID = textImgNew(), varText = mission6Progress},
-	{id = '', text = '                 BACK'},
-}
-for i=1, #t_missionMenu do
-	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
-end
-
-t_mInfo = {
-	{id = '1', text = "The ancient Dragon Claw is back!           "},
-	{id = '2', text = "Defeat Original Kung Fu Man             "},
-	{id = '3', text = "Use the full power of Kung Fu Man!         "},
-	{id = '4', text = "Use the Orochi's Power to destroy everyone!      "},
-	{id = '5', text = "Awaken the hidden power of Ryu            "},
-	{id = '6', text = "A classic versus                 "},
-}
-for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
-end
-
-function f_missionPreview() --Based on stage preview code
-	missionPreview = ''
-	missionPreview = '0,' .. missionList-1 .. ', 0,0, 0'
-	missionPreview = animNew(missionSff, missionPreview)
-	animSetScale(missionPreview, 0.4, 0.25)
-	animSetPos(missionPreview, 50, 21)
-	animUpdate(missionPreview)
-	animDraw(missionPreview)
-	return missionPreview
-end
-
 --Down Missions Menu Arrows
 arrowsMD = animNew(sysSff, [[
 222,0, 0,0, 10
@@ -71,6 +35,45 @@ arrowsMU = animNew(sysSff, [[
 animAddPos(arrowsMU, 287, 170)
 animUpdate(arrowsMU)
 animSetScale(arrowsMU, 1.7, 1.7)
+
+function f_missionPreview() --Based on stage preview code
+	missionPreview = ''
+	missionPreview = '0,' .. missionList-1 .. ', 0,0, 0'
+	missionPreview = animNew(missionSff, missionPreview)
+	animSetScale(missionPreview, 0.4, 0.25)
+	animSetPos(missionPreview, 50, 21)
+	animUpdate(missionPreview)
+	animDraw(missionPreview)
+	return missionPreview
+end
+
+--;===========================================================
+--; MISSIONS MENU
+--;===========================================================
+t_missionMenu = {
+	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
+	{id = '', text = 'Target Confirmed',     varID = textImgNew(), varText = mission2Progress},
+	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission3Progress},
+	{id = '', text = 'Devil Blood',  	     varID = textImgNew(), varText = mission4Progress},
+	{id = '', text = 'Power Instinct',       varID = textImgNew(), varText = mission5Progress},
+	{id = '', text = 'Eternal Rivals',  	 varID = textImgNew(), varText = mission6Progress},
+	{id = '', text = '                 BACK'},
+}
+for i=1, #t_missionMenu do
+	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
+end
+
+t_mInfo = {
+	{id = '1', text = "The ancient Dragon Claw is back!           "},
+	{id = '2', text = "Defeat Original Kung Fu Man             "},
+	{id = '3', text = "Use the full power of Kung Fu Man!         "},
+	{id = '4', text = "Use the Orochi's Power to destroy everyone!      "},
+	{id = '5', text = "Awaken the hidden power of Ryu            "},
+	{id = '6', text = "A classic versus                 "},
+}
+for i=1, #t_mInfo do
+	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
+end
 
 function f_missionMenu()
 	cmdInput()

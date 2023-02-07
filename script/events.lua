@@ -2,42 +2,39 @@
 module(..., package.seeall)
 
 --;===========================================================
---; EVENTS MENU LOOP
+--; EVENTS SCREENPACK
 --;===========================================================
-t_eventMenu = {
-	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
-	{id = '', text = '', varID = textImgNew(), varText = event2Progress},
-	{id = '', text = '', varID = textImgNew(), varText = event3Progress},
-}
-for i=1, #t_eventMenu do
-	t_eventMenu[i].id = createTextImg(jgFnt, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
-end
+--Right Events Menu Arrows
+arrowsER = animNew(sysSff, [[
+221,0, 0,0, 10
+221,1, 0,0, 10
+221,2, 0,0, 10
+221,3, 0,0, 10
+221,4, 0,0, 10
+221,3, 0,0, 10
+221,2, 0,0, 10
+221,1, 0,0, 10
+221,0, 0,0, 10
+]])
+animAddPos(arrowsER, 303, 129)
+animUpdate(arrowsER)
+animSetScale(arrowsER, 1.7, 1.7)
 
---function countdown(t)
-  --local d = math.floor(t / 86400)
-  --local h = math.floor((t % 86400) / 3600)
-  --local m = math.floor((t % 3600) / 60)
-  --local s = math.floor((t % 60))
-  --return string.format("%d:%02d:%02d:%02d", d, h, m, s)
---end
-
-t_tInfo = {
-	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
-	{id = '2', text = 'WILL BE AVAILABLE FROM 1AM/1:00 TO 1PM/13:00 '},
-	{id = '3', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 8PM/20:00'},
-}
-for i=1, #t_tInfo do
-	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 39)
-end
-
-t_mInfo = {
-	{id = '1', text = "Play as Master Kung Fu Girl!     "},
-	{id = '2', text = "Rescue a General in an Unknown Building"},
-	{id = '3', text = "Survive 40 Rounds in The Call of Zombies!"},
-}
-for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
-end
+--Left Events Menu Arrows
+arrowsEL = animNew(sysSff, [[
+221,5, 0,0, 10
+221,6, 0,0, 10
+221,7, 0,0, 10
+221,8, 0,0, 10
+221,9, 0,0, 10
+221,8, 0,0, 10
+221,7, 0,0, 10
+221,6, 0,0, 10
+221,5, 0,0, 10
+]])
+animAddPos(arrowsEL, 0, 129)
+animUpdate(arrowsEL)
+animSetScale(arrowsEL, 1.7, 1.7)
 
 function f_drawEvent1() --Draw Event 1 Preview
 	if sysTime >= 20 and sysTime <= 23 then
@@ -99,37 +96,43 @@ function f_drawEvent3() --Draw Event 3 Preview
 	end
 end
 
---Right Events Menu Arrows
-arrowsER = animNew(sysSff, [[
-221,0, 0,0, 10
-221,1, 0,0, 10
-221,2, 0,0, 10
-221,3, 0,0, 10
-221,4, 0,0, 10
-221,3, 0,0, 10
-221,2, 0,0, 10
-221,1, 0,0, 10
-221,0, 0,0, 10
-]])
-animAddPos(arrowsER, 303, 129)
-animUpdate(arrowsER)
-animSetScale(arrowsER, 1.7, 1.7)
+--;===========================================================
+--; EVENTS MENU
+--;===========================================================
+t_eventMenu = {
+	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
+	{id = '', text = '', varID = textImgNew(), varText = event2Progress},
+	{id = '', text = '', varID = textImgNew(), varText = event3Progress},
+}
+for i=1, #t_eventMenu do
+	t_eventMenu[i].id = createTextImg(jgFnt, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
+end
 
---Left Events Menu Arrows
-arrowsEL = animNew(sysSff, [[
-221,5, 0,0, 10
-221,6, 0,0, 10
-221,7, 0,0, 10
-221,8, 0,0, 10
-221,9, 0,0, 10
-221,8, 0,0, 10
-221,7, 0,0, 10
-221,6, 0,0, 10
-221,5, 0,0, 10
-]])
-animAddPos(arrowsEL, 0, 129)
-animUpdate(arrowsEL)
-animSetScale(arrowsEL, 1.7, 1.7)
+--function countdown(t)
+  --local d = math.floor(t / 86400)
+  --local h = math.floor((t % 86400) / 3600)
+  --local m = math.floor((t % 3600) / 60)
+  --local s = math.floor((t % 60))
+  --return string.format("%d:%02d:%02d:%02d", d, h, m, s)
+--end
+
+t_tInfo = {
+	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
+	{id = '2', text = 'WILL BE AVAILABLE FROM 1AM/1:00 TO 1PM/13:00 '},
+	{id = '3', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 8PM/20:00'},
+}
+for i=1, #t_tInfo do
+	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 39)
+end
+
+t_mInfo = {
+	{id = '1', text = "Play as Master Kung Fu Girl!     "},
+	{id = '2', text = "Rescue a General in an Unknown Building"},
+	{id = '3', text = "Survive 40 Rounds in The Call of Zombies!"},
+}
+for i=1, #t_mInfo do
+	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
+end
 
 function f_eventMenu()
 	cmdInput()

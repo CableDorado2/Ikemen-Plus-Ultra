@@ -1,4 +1,6 @@
-
+--;===========================================================
+--; INITIAL ACTIONS
+--;===========================================================
 math.randomseed(os.time())
 gameTime = os.clock()
 
@@ -25,7 +27,7 @@ require('script.events')
 require('script.select')
 
 --;===========================================================
---; MAIN MENU BACKGROUND DEFINITION
+--; MAIN MENU SCREENPACK
 --;===========================================================
 --Buttons Background
 titleBG0 = animNew(sysSff, [[
@@ -223,7 +225,7 @@ animUpdate(arrowsSD)
 animSetScale(arrowsSD, 0.5, 0.5)
 
 --;===========================================================
---; LOGOS LOOP
+--; LOGOS SCREEN
 --;===========================================================
 function f_mainStart()
 	f_storyboard('data/screenpack/logo.def')
@@ -234,7 +236,7 @@ function f_mainStart()
 end
 
 --;===========================================================
---; HOW TO PLAY LOOP
+--; HOW TO PLAY DEMO
 --;===========================================================
 function f_howtoplay()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -243,7 +245,7 @@ function f_howtoplay()
 end	
 
 --;===========================================================
---; TITLE SCREEN LOOP
+--; TITLE SCREEN
 --;===========================================================
 txt_mainTitleOn = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
 txt_mainTitleOff = createTextImg(jgFnt, 2, 0, '', 159, 190)
@@ -335,7 +337,7 @@ function f_mainTitle()
 end
 
 --;===========================================================
---; MAIN MENU LOOP
+--; MAIN MENU
 --;===========================================================
 t_mainMenu = {
 	--{id = textImgNew(), text = 'STORY'},
@@ -500,7 +502,7 @@ function f_mainMenu()
 end
 
 --;===========================================================
---; ARCADE MENU LOOP
+--; ARCADE MENU
 --;===========================================================
 t_arcadeMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -612,7 +614,7 @@ function f_arcadeMenu()
 end
 
 --;===========================================================
---; VERSUS MENU LOOP
+--; VERSUS MENU
 --;===========================================================
 t_vsMenu = {
 	{id = textImgNew(), text = 'QUICK MATCH'},
@@ -742,7 +744,7 @@ function f_vsMenu()
 end
 
 --;===========================================================
---; RANDOM MATCH MENU LOOP
+--; RANDOM MATCH MENU
 --;===========================================================
 t_randomMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -848,7 +850,7 @@ function f_randomMenu()
 end
 
 --;===========================================================
---; PRACTICE MENU LOOP
+--; PRACTICE MENU
 --;===========================================================
 t_practiceMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -994,7 +996,7 @@ function f_practiceMenu()
 end
 
 --;===========================================================
---; CHALLENGES MENU LOOP
+--; CHALLENGES MENU
 --;===========================================================
 t_challengeMenu = {
 	{id = textImgNew(), text = 'SURVIVAL'},
@@ -1106,7 +1108,7 @@ function f_challengeMenu()
 end
 
 --;===========================================================
---; SURVIVAL MENU LOOP
+--; SURVIVAL MENU
 --;===========================================================
 t_survivalMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -1216,7 +1218,7 @@ function f_survivalMenu()
 end
 
 --;===========================================================
---; BOSS FIGHT MENU LOOP
+--; BOSS FIGHT MENU
 --;===========================================================
 t_bossMenu = {
 	{id = textImgNew(), text = 'VS SINGLE BOSS'},
@@ -1314,7 +1316,7 @@ function f_bossMenu()
 end
 
 --;===========================================================
---; SINGLE BOSS MENU LOOP
+--; SINGLE BOSS MENU
 --;===========================================================
 function f_bossChars()
 	cmdInput()
@@ -1406,7 +1408,7 @@ function f_bossChars()
 end
 
 --;===========================================================
---; BOSS RUSH MENU LOOP
+--; BOSS RUSH MENU
 --;===========================================================
 t_bossrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -1520,7 +1522,7 @@ function f_bossrushMenu()
 end
 
 --;===========================================================
---; BONUS GAMES MENU LOOP
+--; BONUS GAMES MENU
 --;===========================================================
 t_bonusMenu = {
 	{id = textImgNew(), text = 'SINGLE MODE'},
@@ -1618,7 +1620,7 @@ function f_bonusMenu()
 end
 
 --;===========================================================
---; SINGLE BONUS GAMES MENU LOOP
+--; SINGLE BONUS GAMES MENU
 --;===========================================================
 function f_bonusExtras()
 	cmdInput()
@@ -1711,7 +1713,7 @@ function f_bonusExtras()
 end
 
 --;===========================================================
---; BONUS RUSH MENU LOOP
+--; BONUS RUSH MENU
 --;===========================================================
 t_bonusrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -1828,7 +1830,7 @@ function f_bonusrushMenu()
 end
 
 --;===========================================================
---; SUDDEN DEATH MENU LOOP
+--; SUDDEN DEATH MENU
 --;===========================================================
 t_suddenMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -1942,7 +1944,7 @@ function f_suddenMenu()
 end
 
 --;===========================================================
---; TIME ATTACK MENU LOOP
+--; TIME ATTACK MENU
 --;===========================================================
 t_timeMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -2056,7 +2058,7 @@ function f_timeMenu()
 end
 
 --;===========================================================
---; ENDLESS MENU LOOP
+--; ENDLESS MENU
 --;===========================================================
 t_allcharsMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
@@ -2166,7 +2168,7 @@ function f_allcharsMenu()
 end
 
 --;===========================================================
---; WATCH MENU LOOP
+--; WATCH MENU
 --;===========================================================
 t_watchMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
@@ -2331,7 +2333,7 @@ function f_watchMenu()
 end
 
 --;===========================================================
---; GALLERY LOGIC
+--; GALLERY SCREENPACK
 --;===========================================================
 --Left Gallery Arrow
 arrowsGL = animNew(sysSff, [[
@@ -2377,7 +2379,7 @@ function f_gallery() --Based on stage preview code
 end
 
 --;===========================================================
---; EXTRAS MENU LOOP
+--; EXTRAS MENU
 --;===========================================================
 t_extrasMenu = {
 	{id = textImgNew(), text = 'EVENTS'},
@@ -2459,7 +2461,7 @@ function f_extrasMenu()
 			elseif extrasMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				f_videoMenu()
-			--GALLERY
+			--GALLERY SUB-MENU
 			elseif extrasMenu == 8 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -2542,7 +2544,7 @@ function f_extrasMenu()
 end
 
 --;===========================================================
---; SOUND TEST MENU LOOP
+--; SOUND TEST MENU
 --;===========================================================
 txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
 
@@ -2667,7 +2669,7 @@ function f_songMenu()
 end
 
 --;===========================================================
---; CUTSCENES MENU LOOP
+--; CUTSCENES MENU
 --;===========================================================
 txt_video = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
 
@@ -2780,7 +2782,7 @@ function f_videoMenu()
 end
 
 --;===========================================================
---; STORYBOARDS MENU LOOP
+--; STORYBOARDS MENU
 --;===========================================================
 txt_storyboard = createTextImg(jgFnt, 0, 0, 'STORYBOARD SELECT', 159, 13)
 
@@ -2907,7 +2909,7 @@ function f_storyboardMenu()
 end
 
 --;===========================================================
---; REPLAY MENU LOOP
+--; REPLAY MENU
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
 
@@ -3039,9 +3041,8 @@ function f_mainReplay()
 end
 
 --;===========================================================
---; ONLINE MENU LOOP
+--; ONLINE MENU
 --;===========================================================
-
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE GAME]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A GAME]'},
@@ -3177,7 +3178,7 @@ function f_mainNetplay()
 end
 
 --;===========================================================
---; HOST LOOP
+--; HOST MENU
 --;===========================================================
 txt_hosting = createTextImg(jgFnt, 0, 1, '', 22, 228)
 
@@ -3207,7 +3208,7 @@ function f_create()
 end
 
 --;===========================================================
---; OLD CLIENT/JOIN LOOP LOGIC
+--; OLD CLIENT/JOIN MENU
 --;===========================================================
 function f_OLDconnect()
 	inputDialogPopup(inputdia, 'To Join enter IP address of your Host')
@@ -3238,7 +3239,7 @@ function f_OLDconnect()
 end
 
 --;===========================================================
---; CLIENT/JOIN LOOP
+--; CLIENT/JOIN MENU (WIP)
 --;===========================================================
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 155, 90)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 128,.5,.5,255,255)
@@ -3340,7 +3341,7 @@ function f_connect()
 end
 
 --;===========================================================
---; HOST MENU LOOP
+--; HOST ONLINE MENU
 --;===========================================================
 t_mainHost = {
 	{id = textImgNew(), text = 'VERSUS PLAYER 2'},
@@ -3559,7 +3560,7 @@ function f_mainHost()
 end
 
 --;===========================================================
---; CLIENT/JOIN MENU LOOP
+--; CLIENT/JOIN ONLINE MENU
 --;===========================================================
 t_mainJoin = {
 	{id = textImgNew(), text = 'VERSUS PLAYER 1'},
@@ -3777,33 +3778,8 @@ function f_mainJoin()
 	end
 end
 
-easteregg = animNew(sysSff, [[
-666,0, 0,0, -1
-]])
-animAddPos(easteregg, -10, -5)
-animUpdate(easteregg)
-animSetScale(easteregg, 1.059, 1.041)
-
-
-function f_tournamentMenu()
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			f_comingSoon()
-			break 
-		end
-		animDraw(easteregg)	
-	    animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
 --;===========================================================
---; WARNING LOOP
+--; COMING SOON INFO SCREEN
 --;===========================================================
 function f_comingSoon()
 	local i = 0
@@ -3826,7 +3802,7 @@ function f_comingSoon()
 end
 
 --;===========================================================
---; UNLOCK INFO LOOP
+--; UNLOCK INFO SCREEN
 --;===========================================================
 function f_secret()
 	local i = 0
@@ -3849,7 +3825,7 @@ function f_secret()
 end
 
 --;===========================================================
---; NETPLAY INFO LOOP
+--; NETPLAY INFO SCREEN
 --;===========================================================
 function f_netWarning()
 	local i = 0
@@ -3872,7 +3848,7 @@ function f_netWarning()
 end
 
 --;===========================================================
---; REPLAY INFO LOOP
+--; REPLAY INFO SCREEN
 --;===========================================================
 function f_replayWarning()
 	local i = 0
@@ -3895,7 +3871,7 @@ function f_replayWarning()
 end
 
 --;===========================================================
---; EXIT LOOP
+--; EXIT MENU
 --;===========================================================
 t_exitMenu = {
 	{id = textImgNew(), text = 'CLOSE ENGINE'},
@@ -3987,7 +3963,7 @@ function f_exitMenu()
 end
 
 --;===========================================================
---; CLOSE LOOP
+--; CLOSE SCREEN
 --;===========================================================
 t_closeMenu = {
 	{id = textImgNew(), text = 'YES'},
@@ -4077,7 +4053,7 @@ function f_closeMenu()
 end
 
 --;===========================================================
---; RESTART LOOP
+--; RESTART SCREEN
 --;===========================================================
 t_restartMenu = {
 	{id = textImgNew(), text = 'YES'},
@@ -4168,7 +4144,34 @@ function f_restartMenu()
 end
 
 --;===========================================================
---; STATISTICS LOOP
+--; EASTER EGG STUFF
+--;===========================================================
+easteregg = animNew(sysSff, [[
+666,0, 0,0, -1
+]])
+animAddPos(easteregg, -10, -5)
+animUpdate(easteregg)
+animSetScale(easteregg, 1.059, 1.041)
+
+function f_tournamentMenu()
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			f_comingSoon()
+			break 
+		end
+		animDraw(easteregg)	
+	    animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; STATISTICS MENU
 --;===========================================================
 t_statisticsMenu = {	
 	{id = '', text = 'Collected Coins',    	varID = textImgNew(), varText = data.coins},
@@ -4190,6 +4193,7 @@ function f_statisticsMenu()
 	local statisticsMenu = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
+		--f_playTime() Update Played Time on live...
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)

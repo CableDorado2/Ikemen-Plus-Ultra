@@ -2,7 +2,48 @@
 module(..., package.seeall)
 
 --;===========================================================
---; LOAD DATA
+--; OPTIONS SCREENPACK --They are already in main.lua, soo.. delete here?
+--;===========================================================
+--Scrolling background
+optionsBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(optionsBG0, 160, 0)
+animSetTile(optionsBG0, 1, 1)
+animSetColorKey(optionsBG0, -1)
+
+--Transparent background
+optionsBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(optionsBG1, 1, 1)
+animSetAlpha(optionsBG1, 20, 100)
+animUpdate(optionsBG1)
+
+--;===========================================================
+--; ON EXIT
+--;===========================================================
+modified = 0
+needReload = 0
+
+function f_strSub(str, t) --Is already in common.lua, soo.. delete here?
+	local txt = ''
+	for row, val in pairs(t) do
+		if type(val) == 'string' then
+			val = "'" .. tostring(val) .. "'"
+		elseif type(var) == 'number' then
+			val = var
+		else
+			val = tostring(val)
+		end
+		str = str:gsub(row .. '%s*=%s*[^\n]+', row .. ' = ' .. val)
+		txt = txt .. row .. ' = ' .. val .. '\n'
+	end
+	return str, txt
+end
+
+--;===========================================================
+--; LOAD DATA FUNCTIONS
 --;===========================================================
 function f_loadCfg()
 	--Data loading from data_sav.lua
@@ -172,46 +213,8 @@ elseif onlinegame == true then
 end
 
 --;===========================================================
---; BACKGROUND DEFINITION
+--; SAVE DATA FUNCTIONS
 --;===========================================================
---Scrolling background
-optionsBG0 = animNew(sysSff, [[
-100,0, 0,0, -1
-]])
-animAddPos(optionsBG0, 160, 0)
-animSetTile(optionsBG0, 1, 1)
-animSetColorKey(optionsBG0, -1)
-
---Transparent background
-optionsBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
-]])
-animSetTile(optionsBG1, 1, 1)
-animSetAlpha(optionsBG1, 20, 100)
-animUpdate(optionsBG1)
-
---;===========================================================
---; ON EXIT
---;===========================================================
-modified = 0
-needReload = 0
-
-function f_strSub(str, t)
-	local txt = ''
-	for row, val in pairs(t) do
-		if type(val) == 'string' then
-			val = "'" .. tostring(val) .. "'"
-		elseif type(var) == 'number' then
-			val = var
-		else
-			val = tostring(val)
-		end
-		str = str:gsub(row .. '%s*=%s*[^\n]+', row .. ' = ' .. val)
-		txt = txt .. row .. ' = ' .. val .. '\n'
-	end
-	return str, txt
-end
-
 function f_saveCfg()
 	--Data saving to data_sav.lua
 	local t_saves = {
@@ -357,7 +360,7 @@ function f_netsaveCfg()
 end
 
 --;===========================================================
---; INFO BOXES
+--; INFO STUFF
 --;===========================================================
 txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 13)
 txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)
@@ -559,7 +562,7 @@ function f_inputDefault()
 end
 
 --;===========================================================
---; MAIN OPTIONS LOOP
+--; OPTIONS MENU
 --;===========================================================
 txt_mainCfg = createTextImg(jgFnt, 0, 0, 'OPTIONS', 159, 13)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 235, 17.5+5*15, .5, .5, 255, 255)
@@ -854,7 +857,7 @@ function f_mainCfg()
 end
 
 --;===========================================================
---; ONLINE SETTINGS LOOP
+--; ONLINE SETTINGS
 --;===========================================================
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
 
@@ -1950,73 +1953,6 @@ function f_engineCfg()
 		animSetWindow(cursorBox, 80,5+engineCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; ERASE/RESET STATISTICS DATA WARNING
---;===========================================================
-t_unlocksWarning = {
-	{id = '', text = "   All unlocked data or progress will be delete."},
-	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
-}
-for i=1, #t_unlocksWarning do
-	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
-end
-
-function f_unlocksWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			data.arcadeUnlocks = false
-			data.survivalUnlocks = false
-			data.coins = 0
-			data.playTime = 0
-			data.favoriteChar = 'None'
-			data.favoriteStage = 'None'
-			data.victories = 0
-			data.defeats = 0
-			data.preferredMode = 'Menu'
-			data.arcademodeCnt = 0
-			data.vsmodeCnt = 0
-			data.survivalmodeCnt = 0
-			data.bossrushmodeCnt = 0
-			data.bonusrushmodeCnt = 0
-			data.timeattackmodeCnt = 0
-			data.suddendeathmodeCnt = 0
-			data.cpumatchmodeCnt = 0
-			data.eventsmodeCnt = 0
-			data.missionsmodeCnt = 0
-			data.endlessmodeCnt = 0
-			data.timetrialsmodeCnt = 0
-			data.storymodeCnt = 0
-			data.tourneymodeCnt = 0
-			data.event1Status = 0
-			data.event2Status = 0
-			data.event3Status = 0
-			data.mission1Status = 0
-			data.mission2Status = 0
-			data.mission3Status = 0
-			data.mission4Status = 0
-			data.mission5Status = 0
-			data.mission6Status = 0
-			data.erase = true
-			modified = 1
-			break
-		elseif esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_unlocksWarning do
-			textImgDraw(t_unlocksWarning[i].id)
-		end
 		cmdInput()
 		refresh()
 	end
@@ -3237,8 +3173,22 @@ function f_inputCfg()
 	end
 end
 
+function f_swapController(playerOld, playerNew, controllerOld, controllerNew)
+	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerOld .. '%]%.set%(\n*%s*' .. controllerOld, 'in.new[' .. playerNew .. 'deleteMe].set(\n  ' .. controllerOld)
+	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNew .. '%]%.set%(\n*%s*' .. controllerNew, 'in.new[' .. playerOld .. '].set(\n  ' .. controllerNew)
+	s_configSSZ = s_configSSZ:gsub('deleteMe', '')
+end
+
+function f_swapGamepad(gamepadP1, gamepadP2)
+	s_configSSZ = s_configSSZ:gsub('in.new%[2%]%.set%(\n*%s*[01]', 'in.new[2].set(\n  ' .. gamepadP1) --P1 Battle
+	s_configSSZ = s_configSSZ:gsub('in.new%[3%]%.set%(\n*%s*[01]', 'in.new[3].set(\n  ' .. gamepadP2) --P2 Battle
+	s_configSSZ = s_configSSZ:gsub('in.new%[12%]%.set%(\n*%s*[01]', 'in.new[12].set(\n  ' .. gamepadP1) --P1 Menu
+	s_configSSZ = s_configSSZ:gsub('in.new%[13%]%.set%(\n*%s*[01]', 'in.new[13].set(\n  ' .. gamepadP2) --P2 Menu
+	swapGamepad(gamepadP1, gamepadP2)
+end
+
 --;===========================================================
---; INPUT TEST MENU LOOP
+--; INPUT TEST MENU
 --;===========================================================
 t_testMenu = {
 	{id = textImgNew(), text = 'P1 TEST'},
@@ -3357,20 +3307,6 @@ function f_testMenu()
 		cmdInput()
 		refresh()
 	end
-end
-
-function f_swapController(playerOld, playerNew, controllerOld, controllerNew)
-	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerOld .. '%]%.set%(\n*%s*' .. controllerOld, 'in.new[' .. playerNew .. 'deleteMe].set(\n  ' .. controllerOld)
-	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNew .. '%]%.set%(\n*%s*' .. controllerNew, 'in.new[' .. playerOld .. '].set(\n  ' .. controllerNew)
-	s_configSSZ = s_configSSZ:gsub('deleteMe', '')
-end
-
-function f_swapGamepad(gamepadP1, gamepadP2)
-	s_configSSZ = s_configSSZ:gsub('in.new%[2%]%.set%(\n*%s*[01]', 'in.new[2].set(\n  ' .. gamepadP1) --P1 Battle
-	s_configSSZ = s_configSSZ:gsub('in.new%[3%]%.set%(\n*%s*[01]', 'in.new[3].set(\n  ' .. gamepadP2) --P2 Battle
-	s_configSSZ = s_configSSZ:gsub('in.new%[12%]%.set%(\n*%s*[01]', 'in.new[12].set(\n  ' .. gamepadP1) --P1 Menu
-	s_configSSZ = s_configSSZ:gsub('in.new%[13%]%.set%(\n*%s*[01]', 'in.new[13].set(\n  ' .. gamepadP2) --P2 Menu
-	swapGamepad(gamepadP1, gamepadP2)
 end
 
 --;===========================================================
@@ -4048,4 +3984,71 @@ function f_keySave(playerNo, controller)
 	--Gamepad
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[11].varText .. ');')
-end 
+end
+
+--;===========================================================
+--; ERASE/RESET STATISTICS DATA WARNING
+--;===========================================================
+t_unlocksWarning = {
+	{id = '', text = "   All unlocked data or progress will be delete."},
+	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
+}
+for i=1, #t_unlocksWarning do
+	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
+end
+
+function f_unlocksWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			data.arcadeUnlocks = false
+			data.survivalUnlocks = false
+			data.coins = 0
+			data.playTime = 0
+			data.favoriteChar = 'None'
+			data.favoriteStage = 'None'
+			data.victories = 0
+			data.defeats = 0
+			data.preferredMode = 'Menu'
+			data.arcademodeCnt = 0
+			data.vsmodeCnt = 0
+			data.survivalmodeCnt = 0
+			data.bossrushmodeCnt = 0
+			data.bonusrushmodeCnt = 0
+			data.timeattackmodeCnt = 0
+			data.suddendeathmodeCnt = 0
+			data.cpumatchmodeCnt = 0
+			data.eventsmodeCnt = 0
+			data.missionsmodeCnt = 0
+			data.endlessmodeCnt = 0
+			data.timetrialsmodeCnt = 0
+			data.storymodeCnt = 0
+			data.tourneymodeCnt = 0
+			data.event1Status = 0
+			data.event2Status = 0
+			data.event3Status = 0
+			data.mission1Status = 0
+			data.mission2Status = 0
+			data.mission3Status = 0
+			data.mission4Status = 0
+			data.mission5Status = 0
+			data.mission6Status = 0
+			data.erase = true
+			modified = 1
+			break
+		elseif esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_unlocksWarning do
+			textImgDraw(t_unlocksWarning[i].id)
+		end
+		cmdInput()
+		refresh()
+	end
+end

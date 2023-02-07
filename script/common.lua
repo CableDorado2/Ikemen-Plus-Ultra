@@ -170,9 +170,8 @@ end
 --videoHowToPlay = "data/movie/How To Play.wmv"
 
 --;===========================================================
---; COMMON SECTION
+--; COMMON FUNCTIONS
 --;===========================================================
-
 --input stuff
 inputdia = inputDialogNew()
 data.p1In = 1

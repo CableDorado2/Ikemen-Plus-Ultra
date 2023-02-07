@@ -1,6 +1,543 @@
-kung fu man
-0 triggers found
-quote = random value from all 7 available quotes
+ken masters
+condition: 1
+ trigger
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: (random % (46 + (var(40) = 2)))
+  after: (math.random(0,999)*1/1000*(46+(0*2)))
+  result: 4
+condition: 2
+ trigger
+  before: var(40) = 1
+  after: 0== 1
+  result: false
+ value
+  before: 52 + (random % 4)
+  after: 52+(math.random(0,999)*1/1000*4)
+  result: 53
+condition: 3
+ trigger
+  before: enemy, name = "adon" || enemy, name = "cvsadon"
+  after:  "ex kyo"== "adon"  or   "ex kyo"== "cvsadon"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 58
+  after: 58
+  result: 58
+condition: 4
+ trigger
+  before: enemy, name = "akuma" || enemy, name = "cvsgouki" || enemy, name = "gouki" || enemy, name = "shin akuma" || enemy, name = "shin gouki" || enemy, name = "shinakuma" || enemy, name = "shingouki" || enemy, name = "pocket shin gouki"
+  after:  "ex kyo"== "akuma"  or   "ex kyo"== "cvsgouki"  or   "ex kyo"== "gouki"  or   "ex kyo"== "shin akuma"  or   "ex kyo"== "shin gouki"  or   "ex kyo"== "shinakuma"  or   "ex kyo"== "shingouki"  or   "ex kyo"== "pocket shin gouki"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 59
+  after: 59
+  result: 59
+condition: 5
+ trigger
+  before: enemy, name = "alex"
+  after:  "ex kyo"== "alex"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 60
+  after: 60
+  result: 60
+condition: 6
+ trigger
+  before: enemy, name = "balrog" || enemy, name = "cvsbison"
+  after:  "ex kyo"== "balrog"  or   "ex kyo"== "cvsbison"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 61
+  after: 61
+  result: 61
+condition: 7
+ trigger
+  before: enemy, name = "blanka" || enemy, name = "cvsblanka"
+  after:  "ex kyo"== "blanka"  or   "ex kyo"== "cvsblanka"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 62
+  after: 62
+  result: 62
+condition: 8
+ trigger
+  before: enemy, name = "cammy" || enemy, name = "cvscammy"
+  after:  "ex kyo"== "cammy"  or   "ex kyo"== "cvscammy"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 63
+  after: 63
+  result: 63
+condition: 9
+ trigger
+  before: enemy, name = "chun-li" || enemy, name = "cvschunli" || enemy, name = "chun li" || enemy, name = "chunli"
+  after:  "ex kyo"== "chun-li"  or   "ex kyo"== "cvschunli"  or   "ex kyo"== "chun li"  or   "ex kyo"== "chunli"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 64
+  after: 64
+  result: 64
+condition: 10
+ trigger
+  before: enemy, name = "cody" || enemy, name = "cvscody"
+  after:  "ex kyo"== "cody"  or   "ex kyo"== "cvscody"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 65
+  after: 65
+  result: 65
+condition: 11
+ trigger
+  before: enemy, name = "dan" || enemy, name = "cvsdan" || enemy, name = "dan hibiki"
+  after:  "ex kyo"== "dan"  or   "ex kyo"== "cvsdan"  or   "ex kyo"== "dan hibiki"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 66
+  after: 66
+  result: 66
+condition: 12
+ trigger
+  before: enemy, name = "dee jay" || enemy, name = "deejay"
+  after:  "ex kyo"== "dee jay"  or   "ex kyo"== "deejay"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 67
+  after: 67
+  result: 67
+condition: 13
+ trigger
+  before: enemy, name = "dhalsim" || enemy, name = "cvsdhalsim" || enemy, name = "rajaadhalsim"
+  after:  "ex kyo"== "dhalsim"  or   "ex kyo"== "cvsdhalsim"  or   "ex kyo"== "rajaadhalsim"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 68
+  after: 68
+  result: 68
+condition: 14
+ trigger
+  before: enemy, name = "dudley"
+  after:  "ex kyo"== "dudley"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 69
+  after: 69
+  result: 69
+condition: 15
+ trigger
+  before: enemy, name = "e. honda" || enemy, name = "cvshonda" || enemy, name = "e.honda" || enemy, name = "honda"
+  after:  "ex kyo"== "e. honda"  or   "ex kyo"== "cvshonda"  or   "ex kyo"== "e.honda"  or   "ex kyo"== "honda"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 70
+  after: 70
+  result: 70
+condition: 16
+ trigger
+  before: enemy, name = "elena"
+  after:  "ex kyo"== "elena"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 71
+  after: 71
+  result: 71
+condition: 17
+ trigger
+  before: enemy, name = "fei long" || enemy, name = "cvsfeilong" || enemy, name = "feilong" || enemy, name = "fei-long"
+  after:  "ex kyo"== "fei long"  or   "ex kyo"== "cvsfeilong"  or   "ex kyo"== "feilong"  or   "ex kyo"== "fei-long"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 72
+  after: 72
+  result: 72
+condition: 18
+ trigger
+  before: enemy, name = "gill"
+  after:  "ex kyo"== "gill"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 73
+  after: 73
+  result: 73
+condition: 19
+ trigger
+  before: enemy, name = "gen"
+  after:  "ex kyo"== "gen"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 74
+  after: 74
+  result: 74
+condition: 20
+ trigger
+  before: enemy, name = "gouken"
+  after:  "ex kyo"== "gouken"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 75
+  after: 75
+  result: 75
+condition: 21
+ trigger
+  before: enemy, name = "guile" || enemy, name = "cvsguile"
+  after:  "ex kyo"== "guile"  or   "ex kyo"== "cvsguile"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 76
+  after: 76
+  result: 76
+condition: 22
+ trigger
+  before: enemy, name = "guy" || enemy, name = "cvsguy"
+  after:  "ex kyo"== "guy"  or   "ex kyo"== "cvsguy"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 77
+  after: 77
+  result: 77
+condition: 23
+ trigger
+  before: enemy, name = "ibuki"
+  after:  "ex kyo"== "ibuki"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 78
+  after: 78
+  result: 78
+condition: 24
+ trigger
+  before: enemy, name = "hugo"
+  after:  "ex kyo"== "hugo"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 79
+  after: 79
+  result: 79
+condition: 25
+ trigger
+  before: enemy, name = "ken" || enemy, name = "cvsken" || enemy, name = "ken masters"
+  after:  "ex kyo"== "ken"  or   "ex kyo"== "cvsken"  or   "ex kyo"== "ken masters"
+  result: false
+ value
+  before: ifelse(var(40) = 1, 56, 80 + (random % 2))
+  after: (80+(math.random(0,999)*1/1000*2))
+  result: 80
+condition: 26
+ trigger
+  before: enemy, name = "makoto"
+  after:  "ex kyo"== "makoto"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 82
+  after: 82
+  result: 82
+condition: 27
+ trigger
+  before: enemy, name = "m. bison" || enemy, name = "cvsvega" || (enemy, name = "vega" && enemy, authorname = "phantom.of.the.server") || enemy, name = "m.bison" || enemy, name = "bison"
+  after:  "ex kyo"== "m. bison"  or   "ex kyo"== "cvsvega"  or  ( "ex kyo"== "vega"  and   "ahuron"== "phantom.of.the.server")  or   "ex kyo"== "m.bison"  or   "ex kyo"== "bison"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 83 + (var(40) = 2)
+  after: 83+(0*2)
+  result: 83
+condition: 28
+ trigger
+  before: enemy, name = "necro"
+  after:  "ex kyo"== "necro"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 85
+  after: 85
+  result: 85
+condition: 29
+ trigger
+  before: enemy, name = "oro"
+  after:  "ex kyo"== "oro"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 86
+  after: 86
+  result: 86
+condition: 30
+ trigger
+  before: enemy, name = "rose"
+  after:  "ex kyo"== "rose"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 87
+  after: 87
+  result: 87
+condition: 31
+ trigger
+  before: enemy, name = "ryu" || enemy, name = "cvsryu"
+  after:  "ex kyo"== "ryu"  or   "ex kyo"== "cvsryu"
+  result: false
+ value
+  before: ifelse(var(40) = 1, 57, 88 + (random % 2))
+  after: (88+(math.random(0,999)*1/1000*2))
+  result: 89
+condition: 32
+ trigger
+  before: enemy, name = "sagat" || enemy, name = "cvssagat" || enemy, name = "sagatmg"
+  after:  "ex kyo"== "sagat"  or   "ex kyo"== "cvssagat"  or   "ex kyo"== "sagatmg"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 90
+  after: 90
+  result: 90
+condition: 33
+ trigger
+  before: enemy, name = "sakura" || enemy, name = "cvssakura" || enemy, name = "sakura kasugano"
+  after:  "ex kyo"== "sakura"  or   "ex kyo"== "cvssakura"  or   "ex kyo"== "sakura kasugano"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 91
+  after: 91
+  result: 91
+condition: 34
+ trigger
+  before: (var(40) != 1) && (enemy,name="morrigan aensland" || enemy,name="lilith aensland" || enemy,name="morrigan" || enemy,name="lilith")
+  after: (0~= 1)  and  ("ex kyo"=="morrigan aensland"  or  "ex kyo"=="lilith aensland"  or  "ex kyo"=="morrigan"  or  "ex kyo"=="lilith")
+  result: false
+ value
+  before: 92
+  after: 92
+  result: 92
+condition: 35
+ trigger
+  before: enemy, name = "sean"
+  after:  "ex kyo"== "sean"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 93
+  after: 93
+  result: 93
+condition: 36
+ trigger
+  before: enemy, name = "t. hawk" || enemy, name = "t.hawk"
+  after:  "ex kyo"== "t. hawk"  or   "ex kyo"== "t.hawk"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 94
+  after: 94
+  result: 94
+condition: 37
+ trigger
+  before: enemy, name = "urien"
+  after:  "ex kyo"== "urien"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 95
+  after: 95
+  result: 95
+condition: 38
+ trigger
+  before: enemy, name = "vega" || enemy, name = "cvsbalrog"
+  after:  "ex kyo"== "vega"  or   "ex kyo"== "cvsbalrog"
+  result: false
+ triggerall
+  before: (var(40) != 1) && (enemy, authorname != "phantom.of.the.server")
+  after: (0~= 1)  and  ( authorname ~= "phantom.of.the.server")
+  result: true
+ value
+  before: 96
+  after: 96
+  result: 96
+condition: 39
+ trigger
+  before: enemy, name = "yang"
+  after:  "ex kyo"== "yang"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 97
+  after: 97
+  result: 97
+condition: 40
+ trigger
+  before: enemy, name = "yun"
+  after:  "ex kyo"== "yun"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 98
+  after: 98
+  result: 98
+condition: 41
+ trigger
+  before: enemy, name = "zangief" || enemy, name = "cvszangief"
+  after:  "ex kyo"== "zangief"  or   "ex kyo"== "cvszangief"
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 99
+  after: 99
+  result: 99
+condition: 42
+ trigger
+  before: (enemy, name = "akuma") && (enemy, authorname = "phantom.of.the.server")
+  after: ( "ex kyo"== "akuma")  and  ( "ahuron"== "phantom.of.the.server")
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 47+random%2
+  after: 47+math.random(0,999)*1/1000*2
+  result: 47
+condition: 43
+ trigger
+  before: (enemy, name = "chun li") && (enemy, authorname = "beterhans")
+  after: ( "ex kyo"== "chun li")  and  ( "ahuron"== "beterhans")
+  result: false
+ triggerall
+  before: var(40) != 1
+  after: 0~= 1
+  result: true
+ value
+  before: 49+random%3
+  after: 49+math.random(0,999)*1/1000*3
+  result: 50
 
-quote: 3
+quote: 4
 exists: yes

@@ -17,106 +17,8 @@ wrappingX = true
 wrappingY = true
 
 --;===========================================================
---; SELECT LOOP FUNCTIONS
+--; GLOBAL FUNCTIONS
 --;===========================================================
-txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
-
---Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
-arrowsUMR = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUMR, 5, 160)
-animUpdate(arrowsUMR)
-animSetScale(arrowsUMR, 0.95, 0.95)
-
---Down Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
-arrowsDMR = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDMR, 5, 223)
-animUpdate(arrowsDMR)
-animSetScale(arrowsDMR, 0.95, 0.95)
-
---Up Arrows 1 for Muti Roster 2 (Right Side) [Fixed Type]
-arrowsUMR2 = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUMR2, 307, 160)
-animUpdate(arrowsUMR2)
-animSetScale(arrowsUMR2, 0.95, 0.95)
-
---Down Arrows 2 for Muti Roster 2 (Right Side) [Fixed Type]
-arrowsDMR2 = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDMR2, 307, 223)
-animUpdate(arrowsDMR2)
-animSetScale(arrowsDMR2, 0.95, 0.95)
-
---Up Arrows for Single Roster (Variable Type)
-arrowsUSR = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUSR, 156, 160)
-animUpdate(arrowsUSR)
-animSetScale(arrowsUSR, 0.95, 0.95)
-
---Down Arrows for Single Roster (Variable Type)
-arrowsDSR = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDSR, 156, 223)
-animUpdate(arrowsDSR)
-animSetScale(arrowsDSR, 0.95, 0.95)
-
 function f_selectReset()
 	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
 	if data.p2Faces or data.selectType == 'Fixed' then
@@ -515,8 +417,171 @@ function f_aiLevel()
 	end
 end
 
+function f_findCelYAdd(selY, faceOffset, offsetRow)
+	selY = selY + 1
+	if selY >= selectRows+offsetRows then
+		if wrappingY then
+			faceOffset = 0
+			offsetRow = 0
+			selY = 0
+		else
+			selY = selY - 1
+		end
+	elseif selY >= selectRows+offsetRow then
+		faceOffset = faceOffset + selectColumns
+		offsetRow = offsetRow + 1
+	end
+	return selY, faceOffset, offsetRow
+end
+
+function f_findCelYSub(selY, faceOffset, offsetRow)
+	selY = selY - 1
+	if selY < 0 then
+		if wrappingY then
+			faceOffset = offsetRows * selectColumns
+			offsetRow = offsetRows
+			selY = selectRows + offsetRows - 1
+		else
+			selY = selY + 1
+		end
+	elseif selY < offsetRow then
+		faceOffset = faceOffset - selectColumns
+		offsetRow = offsetRow - 1
+	end
+	return selY, faceOffset, offsetRow
+end
+
+function f_findCelXAdd(selX, wrapX)
+	selX = selX + 1
+	if selX >= selectColumns then
+		if wrapX then
+			selX = 0
+		else
+			selX = selX - 1
+		end
+	end
+	return selX
+end
+
+function f_findCelXSub(selX, wrapX)
+	selX = selX - 1
+	if selX < 0 then
+		if wrapX then
+			selX = selectColumns - 1
+		else
+			selX = selX + 1
+		end
+	end
+	return selX
+end
+
+function f_drawSelectName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel))
+		textImgSetPos(id, x, y)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, 3) --Color of P1 on VS screen
+			else
+				textImgSetBank(id, bankUnique) --Color of Team Member on VS screen
+			end
+		else
+			textImgSetBank(id, 3) --Color of P1 when select him on Character Select
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
+
+function f_drawSelectNameP2(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel))
+		textImgSetPos(id, x, y)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, 1)
+			else
+				textImgSetBank(id, bank)
+			end
+		else
+			textImgSetBank(id, 1)
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
+
+function f_drawCharAnim(t, data, x, y, update)
+	if t ~= nil and t[data] ~= nil then
+		animSetPos(t[data], x, y)
+		animDraw(t[data])
+		if update then
+			animUpdate(t[data])
+		end
+		return true
+	end
+	return false
+end
+
+function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique) --Unused
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel)) --f_getName(t[i].cel if you want to get all names
+		textImgSetPos(id, x, y)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, bankUnique)
+			else
+				textImgSetBank(id, bank)
+			end
+		else
+			textImgSetBank(id, bank)
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
+
+function f_selectChar(player, t)
+	for i=1, #t do
+		selectChar(player, t[i].cel, t[i].pal)
+	end
+end
+
+function f_winCoins()
+	if onlinegame == false then	
+		if coinSystem == true then
+			data.coins = data.coins + 1 --Earn 1 Coin by Win :)
+			sndPlay(sysSnd, 200, 0) --Coin Earned Song
+			f_saveProgress()
+		elseif coinSystem == false then
+			--Do nothing and don't lose or win coins
+		end
+	elseif onlinegame == true then
+		--Do nothing and don't lose or win coins
+	end
+end
+
+function f_loseCoins()
+	if coinSystem == true then
+		if data.coins < 1 then
+			data.coins = 0
+		elseif data.coins >= 1 then
+			data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+			f_saveProgress()
+		end
+	elseif coinSystem == false then
+		--Do nothing and don't lose or win coins
+	end
+end
+
 --;===========================================================
---; BACK TO MAIN MENU LOOP
+--; BACK TO MAIN MENU SCREEN
 --;===========================================================
 t_backMenu = {
 	{id = textImgNew(), text = 'YES'},
@@ -638,9 +703,9 @@ function f_backOnline()
 	end
 end
 
---;================================================================
---; SIMPLE LOOP (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
---;================================================================
+--;==============================================================================
+--; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
+--;==============================================================================
 function f_selectSimple()
 	p1SelX = 0
 	p1SelY = 0
@@ -724,16 +789,9 @@ function f_selectSimple()
 	end
 end
 
---;================================================================
---; TOURNAMENT LOOP
---;================================================================
-function f_selectTournament()
---TO-DO
-end
-
---;=====================================================================================
---; ADVANCE LOOP (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
---;=====================================================================================
+--;=================================================================================================
+--; ADVANCED CHARACTER SELECT (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
+--;=================================================================================================
 function f_selectAdvance()
 	data.rosterAdvance = true
 	p1SelX = 0
@@ -1011,12 +1069,23 @@ function f_selectAdvance()
 	end
 end
 
---;===========================================================
---; SELECT SCREEN
---;===========================================================
-txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
-txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
+--;=================================================================================================
+--; SPECIAL CHARACTER SELECT (TOWER, TOURNAMENT)
+--;=================================================================================================
+function f_selectSpecial()
+--TODO
+end
 
+--;=================================================================================================
+--; FREEDOM CHARACTER SELECT (STORY, ADVENTURE)
+--;=================================================================================================
+function f_selectFreedom()
+--TODO
+end
+
+--;===========================================================
+--; CHARACTER SELECT SCREENPACK
+--;===========================================================
 --Scrolling background
 selectBG0 = animNew(sysSff, [[
 100,0, 0,0, -1
@@ -1093,138 +1162,6 @@ p2ActiveCursor = animNew(sysSff, [[
 170,0, 0,0, -1
 ]])
 
---P1 Team cursor
-p1TmCursor = animNew(sysSff, [[
-180,0, 0,0, -1
-]])
-
---P2 Team cursor
-p2TmCursor = animNew(sysSff, [[
-190,0, 0,0, -1
-]])
-
---P1 Team icon
-p1TmIcon = animNew(sysSff, [[
-181,0, 0,0, -1
-]])
-
---P1 Empty Team icon 1
-p1EmptyIcon = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon, 81, 66)
-animUpdate(p1EmptyIcon)
-
---P1 Empty Team icon 2
-p1EmptyIcon2 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon2, 87, 66)
-animUpdate(p1EmptyIcon2)
-
---P1 Empty Team icon 3
-p1EmptyIcon3 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon3, 93, 66)
-animUpdate(p1EmptyIcon3)
-
---P1 Empty Team icon 4
-p1EmptyIcon4 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon4, 99, 66)
-animUpdate(p1EmptyIcon4)
-
---P1 Empty Turns icon 1
-p1EmptyIcon5 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon5, 81, 81)
-animUpdate(p1EmptyIcon5)
-
---P1 Empty Turns icon 2
-p1EmptyIcon6 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon6, 87, 81)
-animUpdate(p1EmptyIcon6)
-
---P1 Empty Turns icon 3
-p1EmptyIcon7 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon7, 93, 81)
-animUpdate(p1EmptyIcon7)
-
---P1 Empty Turns icon 4
-p1EmptyIcon8 = animNew(sysSff, [[
-182,0, 0,0, -1
-]])
-animAddPos(p1EmptyIcon8, 99, 81)
-animUpdate(p1EmptyIcon8)
-
---P2 Team icon
-p2TmIcon = animNew(sysSff, [[
-191,0, 0,0, -1
-]])
-
---P2 Empty Team icon
-p2EmptyIcon = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon, 239, 66)
-animUpdate(p2EmptyIcon)
-
---P2 Empty Team icon 2
-p2EmptyIcon2 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon2, 233, 66)
-animUpdate(p2EmptyIcon2)
-
---P2 Empty Team icon 3
-p2EmptyIcon3 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon3, 227, 66)
-animUpdate(p2EmptyIcon3)
-
---P2 Empty Team icon 4
-p2EmptyIcon4 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon4, 221, 66)
-animUpdate(p2EmptyIcon4)
-
---P2 Empty Turns icon 5
-p2EmptyIcon5 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon5, 239, 81)
-animUpdate(p2EmptyIcon5)
-
---P2 Empty Turns icon 6
-p2EmptyIcon6 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon6, 233, 81)
-animUpdate(p2EmptyIcon6)
-
---P2 Empty Turns icon 7
-p2EmptyIcon7 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon7, 227, 81)
-animUpdate(p2EmptyIcon7)
-
---P2 Empty Turns icon 8
-p2EmptyIcon8 = animNew(sysSff, [[
-192,0, 0,0, -1
-]])
-animAddPos(p2EmptyIcon8, 221, 81)
-animUpdate(p2EmptyIcon8)
-
 --nothing but changed to fade if needed
 data.fadeSelect = animNew(sysSff, [[
 -1,-1, 0,0, -1
@@ -1245,6 +1182,12 @@ charBG3 = animNew(sysSff, [[
 animAddPos(charBG3, 160, 0)
 animSetTile(charBG3, 1, 1)
 animSetWindow(charBG3, 200, 20, 120, 140)
+
+--;===========================================================
+--; CHARACTER SELECT SCREEN
+--;===========================================================
+txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
+txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
 
 function f_selectScreen()
 	--draw
@@ -1320,23 +1263,76 @@ function f_selectScreen()
 end
 
 --;===========================================================
---; TOURNAMENT SCREEN
+--; PLAYER 1 TEAM SELECT SCREENPACK
 --;===========================================================
-function f_selectTournamentScreen()
-	--draw layerno = 0 backgrounds
-	
-	--draw layerno = 1 backgrounds
+--P1 Team cursor
+p1TmCursor = animNew(sysSff, [[
+180,0, 0,0, -1
+]])
 
-	animDraw(data.fadeSelect)
-	animUpdate(data.fadeSelect)
-	animDraw(data.fadeTitle)
-	animUpdate(data.fadeTitle)
-	cmdInput()
-	refresh()
-end
+--P1 Team icon
+p1TmIcon = animNew(sysSff, [[
+181,0, 0,0, -1
+]])
+
+--P1 Empty Team (icon 1)
+p1EmptyIcon = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon, 81, 66)
+animUpdate(p1EmptyIcon)
+
+--P1 Empty Team (icon 2)
+p1EmptyIcon2 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon2, 87, 66)
+animUpdate(p1EmptyIcon2)
+
+--P1 Empty Team (icon 3)
+p1EmptyIcon3 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon3, 93, 66)
+animUpdate(p1EmptyIcon3)
+
+--P1 Empty Team (icon 4)
+p1EmptyIcon4 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon4, 99, 66)
+animUpdate(p1EmptyIcon4)
+
+--P1 Empty Turns (icon 1)
+p1EmptyIcon5 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon5, 81, 81)
+animUpdate(p1EmptyIcon5)
+
+--P1 Empty Turns (icon 2)
+p1EmptyIcon6 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon6, 87, 81)
+animUpdate(p1EmptyIcon6)
+
+--P1 Empty Turns (icon 3)
+p1EmptyIcon7 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon7, 93, 81)
+animUpdate(p1EmptyIcon7)
+
+--P1 Empty Turns (icon 4)
+p1EmptyIcon8 = animNew(sysSff, [[
+182,0, 0,0, -1
+]])
+animAddPos(p1EmptyIcon8, 99, 81)
+animUpdate(p1EmptyIcon8)
 
 --;===========================================================
---; PLAYER 1 TEAM MENU
+--; PLAYER 1 TEAM SELECT
 --;===========================================================
 p1SelTmTxt = createTextImg(jgFnt, 0, 1, 'TEAM MODE', 20, 30)
 
@@ -1442,7 +1438,76 @@ function f_p1TeamMenu()
 end
 
 --;===========================================================
---; PLAYER 2 TEAM MENU
+--; PLAYER 2 TEAM SELECT SCREENPACK
+--;===========================================================
+--P2 Team cursor
+p2TmCursor = animNew(sysSff, [[
+190,0, 0,0, -1
+]])
+
+--P2 Team icon
+p2TmIcon = animNew(sysSff, [[
+191,0, 0,0, -1
+]])
+
+--P2 Empty Team (icon 1)
+p2EmptyIcon = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon, 239, 66)
+animUpdate(p2EmptyIcon)
+
+--P2 Empty Team (icon 2)
+p2EmptyIcon2 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon2, 233, 66)
+animUpdate(p2EmptyIcon2)
+
+--P2 Empty Team (icon 3)
+p2EmptyIcon3 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon3, 227, 66)
+animUpdate(p2EmptyIcon3)
+
+--P2 Empty Team (icon 4)
+p2EmptyIcon4 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon4, 221, 66)
+animUpdate(p2EmptyIcon4)
+
+--P2 Empty Turns (icon 1)
+p2EmptyIcon5 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon5, 239, 81)
+animUpdate(p2EmptyIcon5)
+
+--P2 Empty Turns (icon 2)
+p2EmptyIcon6 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon6, 233, 81)
+animUpdate(p2EmptyIcon6)
+
+--P2 Empty Turns (icon 3)
+p2EmptyIcon7 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon7, 227, 81)
+animUpdate(p2EmptyIcon7)
+
+--P2 Empty Turns (icon 4)
+p2EmptyIcon8 = animNew(sysSff, [[
+192,0, 0,0, -1
+]])
+animAddPos(p2EmptyIcon8, 221, 81)
+animUpdate(p2EmptyIcon8)
+
+--;===========================================================
+--; PLAYER 2 TEAM SELECT
 --;===========================================================
 p2SelTmTxt = createTextImg(jgFnt, 0, -1, 'TEAM MODE', 300, 30)
 IASelTmTxt = createTextImg(jgFnt, 0, -1, 'CPU MODE', 300, 30)
@@ -1560,120 +1625,108 @@ function f_p2TeamMenu()
 end
 
 --;===========================================================
---; SELECT MENU ASSETS
+--; CHARACTER SELECT PLAYERS SCREENPACK
 --;===========================================================
-function f_findCelYAdd(selY, faceOffset, offsetRow)
-	selY = selY + 1
-	if selY >= selectRows+offsetRows then
-		if wrappingY then
-			faceOffset = 0
-			offsetRow = 0
-			selY = 0
-		else
-			selY = selY - 1
-		end
-	elseif selY >= selectRows+offsetRow then
-		faceOffset = faceOffset + selectColumns
-		offsetRow = offsetRow + 1
-	end
-	return selY, faceOffset, offsetRow
-end
+txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
 
-function f_findCelYSub(selY, faceOffset, offsetRow)
-	selY = selY - 1
-	if selY < 0 then
-		if wrappingY then
-			faceOffset = offsetRows * selectColumns
-			offsetRow = offsetRows
-			selY = selectRows + offsetRows - 1
-		else
-			selY = selY + 1
-		end
-	elseif selY < offsetRow then
-		faceOffset = faceOffset - selectColumns
-		offsetRow = offsetRow - 1
-	end
-	return selY, faceOffset, offsetRow
-end
+--Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
+arrowsUMR = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUMR, 5, 160)
+animUpdate(arrowsUMR)
+animSetScale(arrowsUMR, 0.95, 0.95)
 
-function f_findCelXAdd(selX, wrapX)
-	selX = selX + 1
-	if selX >= selectColumns then
-		if wrapX then
-			selX = 0
-		else
-			selX = selX - 1
-		end
-	end
-	return selX
-end
+--Down Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
+arrowsDMR = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDMR, 5, 223)
+animUpdate(arrowsDMR)
+animSetScale(arrowsDMR, 0.95, 0.95)
 
-function f_findCelXSub(selX, wrapX)
-	selX = selX - 1
-	if selX < 0 then
-		if wrapX then
-			selX = selectColumns - 1
-		else
-			selX = selX + 1
-		end
-	end
-	return selX
-end
+--Up Arrows 1 for Muti Roster 2 (Right Side) [Fixed Type]
+arrowsUMR2 = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUMR2, 307, 160)
+animUpdate(arrowsUMR2)
+animSetScale(arrowsUMR2, 0.95, 0.95)
 
-function f_drawSelectName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
-	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel))
-		textImgSetPos(id, x, y)
-		if rowUnique ~= nil then
-			if i == rowUnique then
-				textImgSetBank(id, 3) --Color of P1 on VS screen
-			else
-				textImgSetBank(id, bankUnique) --Color of Team Member on VS screen
-			end
-		else
-			textImgSetBank(id, 3) --Color of P1 when select him on Character Select
-		end
-		textImgDraw(id)
-		x = x + spacingX
-		y = y + spacingY
-	end
-	return x, y
-end
+--Down Arrows 2 for Muti Roster 2 (Right Side) [Fixed Type]
+arrowsDMR2 = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDMR2, 307, 223)
+animUpdate(arrowsDMR2)
+animSetScale(arrowsDMR2, 0.95, 0.95)
 
-function f_drawSelectNameP2(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique)
-	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel))
-		textImgSetPos(id, x, y)
-		if rowUnique ~= nil then
-			if i == rowUnique then
-				textImgSetBank(id, 1)
-			else
-				textImgSetBank(id, bank)
-			end
-		else
-			textImgSetBank(id, 1)
-		end
-		textImgDraw(id)
-		x = x + spacingX
-		y = y + spacingY
-	end
-	return x, y
-end
+--Up Arrows for Single Roster (Variable Type)
+arrowsUSR = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUSR, 156, 160)
+animUpdate(arrowsUSR)
+animSetScale(arrowsUSR, 0.95, 0.95)
 
-function f_drawCharAnim(t, data, x, y, update)
-	if t ~= nil and t[data] ~= nil then
-		animSetPos(t[data], x, y)
-		animDraw(t[data])
-		if update then
-			animUpdate(t[data])
-		end
-		return true
-	end
-	return false
-end
+--Down Arrows for Single Roster (Variable Type)
+arrowsDSR = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDSR, 156, 223)
+animUpdate(arrowsDSR)
+animSetScale(arrowsDSR, 0.95, 0.95)
 
 --;===========================================================
---; PLAYER 1 SELECT MENU
+--; PLAYER 1 CHARACTER SELECT
 --;===========================================================
 txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0) --Text color when scrolling through the roster
 
@@ -1878,7 +1931,7 @@ function f_p1SelectMenu()
 end
 
 --;===========================================================
---; PLAYER 2 SELECT MENU
+--; PLAYER 2 CHARACTER SELECT
 --;===========================================================
 txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0)
 
@@ -2084,24 +2137,8 @@ function f_p2SelectMenu()
 end
 
 --;===========================================================
---; STAGE SELECT
+--; STAGE SELECT SCREENPACK
 --;===========================================================
-function f_stagePreview()
-	stagePreview = ''
-	stagePreview = '0,' .. stageList-1 .. ', 0,0, 0'
-	stagePreview = animNew(stageSff, stagePreview)
-	if data.stageType == 'Classic' then
-		animSetScale(stagePreview, 0.0705, 0.0705)
-		animSetPos(stagePreview, 114.9, 171.5)
-	elseif data.stageType == 'Modern' then
-		animSetScale(stagePreview, 0.151, 0.150)
-		animSetPos(stagePreview, 62.1, 74)
-	end
-	animUpdate(stagePreview)
-	animDraw(stagePreview)
-	return stagePreview
-end
-
 --Stage Title background
 selectSBG2a = animNew(sysSff, [[
 102,0, 0,2, -1, 0, s
@@ -2178,6 +2215,25 @@ animSetPos(stage0M, 62, 74)
 animUpdate(stage0M)
 animSetScale(stage0M, 2.15, 2.15)
 
+function f_stagePreview()
+	stagePreview = ''
+	stagePreview = '0,' .. stageList-1 .. ', 0,0, 0'
+	stagePreview = animNew(stageSff, stagePreview)
+	if data.stageType == 'Classic' then
+		animSetScale(stagePreview, 0.0705, 0.0705)
+		animSetPos(stagePreview, 114.9, 171.5)
+	elseif data.stageType == 'Modern' then
+		animSetScale(stagePreview, 0.151, 0.150)
+		animSetPos(stagePreview, 62.1, 74)
+	end
+	animUpdate(stagePreview)
+	animDraw(stagePreview)
+	return stagePreview
+end
+
+--;===========================================================
+--; STAGE SELECT
+--;===========================================================
 function f_selectStage()
 	local bufl = 0
 	local bufr = 0
@@ -2347,18 +2403,8 @@ function f_assignMusic()
 end
 
 --;===========================================================
---; ORDER SELECT AND VERSUS SCREEN
+--; ORDER SELECT AND VERSUS SCREEN SCREENPACK
 --;===========================================================
-txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_orderHint = createTextImg(font5, 0, -1, '', 308, 239)
-txt_vsHint = createTextImg(font5, 0, -1, '', 308, 239)
-txt_matchNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_matchFinal = createTextImg(font21, 0, 0, '', 160, 20)
-txt_gameNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
-txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
-
 --VS background
 versusBG1 = animNew(sysSff, [[
 100,0, 0,0, -1
@@ -2415,6 +2461,16 @@ animSetScale(p2OrderCursor, 0.10, 0.10)
 --;===========================================================
 --; ORDER SELECT
 --;===========================================================
+txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_orderHint = createTextImg(font5, 0, -1, '', 308, 239)
+txt_vsHint = createTextImg(font5, 0, -1, '', 308, 239)
+txt_matchNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_matchFinal = createTextImg(font21, 0, 0, '', 160, 20)
+txt_gameNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
+txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
+
 function f_orderSelect()
 	gameNo = gameNo+1
 	bossNo = bossNo+1
@@ -2971,18 +3027,9 @@ function f_selectVersus()
 	end
 end
 
-function f_selectChar(player, t)
-	for i=1, #t do
-		selectChar(player, t[i].cel, t[i].pal)
-	end
-end
-
 --;===========================================================
---; WIN SCREEN
+--; WIN SCREEN SCREENPACK
 --;===========================================================
-txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
-txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
-
 --Win Char Modern Transparent BG
 wincharBG = animNew(sysSff, [[
 100,1, 20,13, -1, 0, s
@@ -3015,52 +3062,11 @@ animAddPos(quoteBG, 160, 0)
 animSetTile(quoteBG, 1, 1)
 animSetWindow(quoteBG, 14, 167, 290, 62)
 
-function f_drawWinnerName(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique) --Unused
-	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel)) --f_getName(t[i].cel if you want to get all names
-		textImgSetPos(id, x, y)
-		if rowUnique ~= nil then
-			if i == rowUnique then
-				textImgSetBank(id, bankUnique)
-			else
-				textImgSetBank(id, bank)
-			end
-		else
-			textImgSetBank(id, bank)
-		end
-		textImgDraw(id)
-		x = x + spacingX
-		y = y + spacingY
-	end
-	return x, y
-end
-
-function f_winCoins()
-	if onlinegame == false then	
-		if coinSystem == true then
-			data.coins = data.coins + 1 --Earn 1 Coin by Win :)
-			sndPlay(sysSnd, 200, 0) --Coin Earned Song
-			f_saveProgress()
-		elseif coinSystem == false then
-			--Do nothing and don't lose or win coins
-		end
-	elseif onlinegame == true then
-		--Do nothing and don't lose or win coins
-	end
-end
-
-function f_loseCoins()
-	if coinSystem == true then
-		if data.coins < 1 then
-			data.coins = 0
-		elseif data.coins >= 1 then
-			data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
-			f_saveProgress()
-		end
-	elseif coinSystem == false then
-		--Do nothing and don't lose or win coins
-	end
-end
+--;===========================================================
+--; WIN SCREEN
+--;===========================================================
+txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
+txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
 
 function f_selectWin()
 	setServiceType(0) --Erase Service
@@ -3547,7 +3553,7 @@ function f_service()
 end
 
 --;===========================================================
---; HERE COMES A NEW CHALLENGER SCREEN
+--; HERE COMES A NEW CHALLENGER SCREENPACK
 --;===========================================================
 --Challenger Transparent BG
 versusBG5 = animNew(sysSff, [[
@@ -3574,6 +3580,9 @@ animAddPos(challengerText1, 19, 100)
 animUpdate(challengerText1)
 --animSetScale(challengerText1, 1.2, 1)
 
+--;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREEN
+--;===========================================================
 function f_selectChallenger()
 	if data.contSelection == false and data.rosterAdvance == true then return end
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3609,14 +3618,8 @@ function f_selectChallenger()
 end
 
 --;===========================================================
---; RESULTS SCREEN
+--; RESULTS SCREENPACK
 --;===========================================================
-txt_result = textImgNew()
-txt_resultTime = textImgNew()
-txt_resultRank = createTextImg(jgFnt, 0, 1, '', 262, 205)
-txt_sresultName = createTextImg(jgFnt, 0, 1, '', 10, 50)
-txt_eresultName = createTextImg(jgFnt, 0, 1, '', 84, 228)
-
 --Rank F
 rankF = animNew(sysSff, [[
 210,0, 0,0,
@@ -3729,6 +3732,15 @@ animAddPos(rankGDLK, 240, 205)
 animUpdate(rankGDLK)
 animSetScale(rankGDLK, 0.5, 0.5)
 
+--;===========================================================
+--; RESULTS SCREEN
+--;===========================================================
+txt_result = textImgNew()
+txt_resultTime = textImgNew()
+txt_resultRank = createTextImg(jgFnt, 0, 1, '', 262, 205)
+txt_sresultName = createTextImg(jgFnt, 0, 1, '', 10, 50)
+txt_eresultName = createTextImg(jgFnt, 0, 1, '', 84, 228)
+
 function f_result(state)
 	--if state == 'win' then
 	--elseif state == 'lost' then
@@ -3815,12 +3827,8 @@ function f_result(state)
 end
 
 --;===========================================================
---; CONTINUE SCREEN
+--; CONTINUE SCREENPACK
 --;===========================================================
---Coins left text
-txt_coins = createTextImg(jgFnt, 0, 1, '', 15, 30)
-txt_cont = createTextImg(jgFnt, 0, 1, '', 158, 30)
-
 --Background
 contBG0 = animNew(contSff, [[
 1000,0, -32,8, -1
@@ -3846,6 +3854,13 @@ animSetTile(contBG2, 1, 0)
 animSetWindow(contBG2, 0, 200, 320, 40)
 animSetAlpha(contBG2, 0, 0)
 animUpdate(contBG2)
+
+--;===========================================================
+--; CONTINUE SCREEN
+--;===========================================================
+--Coins left text
+txt_coins = createTextImg(jgFnt, 0, 1, '', 15, 30)
+txt_cont = createTextImg(jgFnt, 0, 1, '', 158, 30)
 
 function f_continue()
 	setServiceType(0)
@@ -4111,128 +4126,8 @@ function f_continue()
 end
 
 --;===========================================================
---; GAME OVER
+--; GAME OVER SCREENPACK
 --;===========================================================
-function f_gameOver()
-	playBGM(bgmGameOver)
-	sndPlay(contSnd, 1, 0)
-	f_gameOverReset()
-	local tablePos = ''
-	local tablePos2 = ''
-	local tablePos3 = ''
-	local tablePos4 = ''
-	local anim = false
-	local anim2 = false
-	local anim3 = false
-	local anim4 = false
-	local animLength = 0
-	local animLength2 = 0
-	local animLength3 = 0
-	local animLength4 = 0
-	local i = 0
-	if p1numChars == 1 then
-		tablePos = t_selChars[data.t_p1selected[1].cel+1]
-	elseif p1numChars == 2 then
-		tablePos = t_selChars[data.t_p1selected[1].cel+1]
-		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-	elseif p1numChars == 3 then
-		tablePos = t_selChars[data.t_p1selected[1].cel+1]
-		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
-	elseif p1numChars == 4 then
-		tablePos = t_selChars[data.t_p1selected[1].cel+1]
-		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
-		tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
-	end
-	if tablePos.sffData ~= nil then
-		if tablePos.cheese ~= nil then
-			anim, animLength = f_animFromTable(tablePos['cheese'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
-		elseif tablePos.lieDown ~= nil then
-			anim, animLength = f_animFromTable(tablePos['lieDown'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
-		end
-	end
-	if tablePos2.sffData ~= nil then
-		if tablePos2.cheese ~= nil then
-			anim2, animLength2 = f_animFromTable(tablePos2['cheese'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
-		elseif tablePos2.lieDown ~= nil then
-			anim2, animLength2 = f_animFromTable(tablePos2['lieDown'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
-		end
-	end
-	if tablePos3.sffData ~= nil then
-		if tablePos3.cheese ~= nil then
-			anim3, animLength3 = f_animFromTable(tablePos3['cheese'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
-		elseif tablePos3.lieDown ~= nil then
-			anim3, animLength3 = f_animFromTable(tablePos3['lieDown'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
-		end
-	end
-	if tablePos4.sffData ~= nil then
-		if tablePos4.cheese ~= nil then
-			anim4, animLength4 = f_animFromTable(tablePos4['cheese'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
-		elseif tablePos4.lieDown ~= nil then
-			anim4, animLength4 = f_animFromTable(tablePos4['lieDown'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
-		end
-	end
-	cmdInput()
-	while true do
-		animDraw(contBG0)
-		i = i + 1
-		if esc() or btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			playBGM(bgmTitle)
-			break
-		else
-			if anim4 then
-				animDraw(anim4)
-				animLength4 = animLength4 - 1
-				if animLength4 > 0 then
-					animUpdate(anim4)
-				end
-			end
-			if anim3 then
-				animDraw(anim3)
-				animLength3 = animLength3 - 1
-				if animLength3 > 0 then
-					animUpdate(anim3)
-				end
-			end
-			if anim2 then
-				animDraw(anim2)
-				animLength2 = animLength2 - 1
-				if animLength2 > 0 then
-					animUpdate(anim2)
-				end
-			end
-			if anim then
-				animDraw(anim)
-				animLength = animLength - 1
-				if animLength > 0 then
-					animUpdate(anim)
-				end
-				animDraw(contBG1)
-				animDraw(contBG2)
-			end
-			if i <= 226+60 then
-				animDraw(gameOver)
-				animUpdate(gameOver)
-				if i == 190 then --music is shorter than animation and we don't want looping here
-					playBGM('')
-				elseif i == 226 then --create fading animation
-					fadeGameOver = f_fadeAnim(60, 'fadeout', 'black', fadeSff)
-				elseif i > 226 then --start fading the screen
-					animDraw(fadeGameOver)
-					animUpdate(fadeGameOver)
-				end
-			else
-				cmdInput()
-				break
-			end
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
 function f_contTimerReset()
 	contTimer = animNew(contSff, [[
 	2,0, 0,0, 1 --1
@@ -4672,6 +4567,129 @@ function f_gameOverReset()
 	]])
 	--black background for 24 frames
 	animAddPos(gameOver, -53, 0)
+end
+
+--;===========================================================
+--; GAME OVER SCREEN
+--;===========================================================
+function f_gameOver()
+	playBGM(bgmGameOver)
+	sndPlay(contSnd, 1, 0)
+	f_gameOverReset()
+	local tablePos = ''
+	local tablePos2 = ''
+	local tablePos3 = ''
+	local tablePos4 = ''
+	local anim = false
+	local anim2 = false
+	local anim3 = false
+	local anim4 = false
+	local animLength = 0
+	local animLength2 = 0
+	local animLength3 = 0
+	local animLength4 = 0
+	local i = 0
+	if p1numChars == 1 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+	elseif p1numChars == 2 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+	elseif p1numChars == 3 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+	elseif p1numChars == 4 then
+		tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+		tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
+	end
+	if tablePos.sffData ~= nil then
+		if tablePos.cheese ~= nil then
+			anim, animLength = f_animFromTable(tablePos['cheese'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+		elseif tablePos.lieDown ~= nil then
+			anim, animLength = f_animFromTable(tablePos['lieDown'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
+		end
+	end
+	if tablePos2.sffData ~= nil then
+		if tablePos2.cheese ~= nil then
+			anim2, animLength2 = f_animFromTable(tablePos2['cheese'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
+		elseif tablePos2.lieDown ~= nil then
+			anim2, animLength2 = f_animFromTable(tablePos2['lieDown'], tablePos2.sffData, 60, 180, tablePos2.xscale, tablePos2.yscale, 0, 1)
+		end
+	end
+	if tablePos3.sffData ~= nil then
+		if tablePos3.cheese ~= nil then
+			anim3, animLength3 = f_animFromTable(tablePos3['cheese'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
+		elseif tablePos3.lieDown ~= nil then
+			anim3, animLength3 = f_animFromTable(tablePos3['lieDown'], tablePos3.sffData, 40, 180, tablePos3.xscale, tablePos3.yscale, 0, 1)
+		end
+	end
+	if tablePos4.sffData ~= nil then
+		if tablePos4.cheese ~= nil then
+			anim4, animLength4 = f_animFromTable(tablePos4['cheese'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
+		elseif tablePos4.lieDown ~= nil then
+			anim4, animLength4 = f_animFromTable(tablePos4['lieDown'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
+		end
+	end
+	cmdInput()
+	while true do
+		animDraw(contBG0)
+		i = i + 1
+		if esc() or btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			playBGM(bgmTitle)
+			break
+		else
+			if anim4 then
+				animDraw(anim4)
+				animLength4 = animLength4 - 1
+				if animLength4 > 0 then
+					animUpdate(anim4)
+				end
+			end
+			if anim3 then
+				animDraw(anim3)
+				animLength3 = animLength3 - 1
+				if animLength3 > 0 then
+					animUpdate(anim3)
+				end
+			end
+			if anim2 then
+				animDraw(anim2)
+				animLength2 = animLength2 - 1
+				if animLength2 > 0 then
+					animUpdate(anim2)
+				end
+			end
+			if anim then
+				animDraw(anim)
+				animLength = animLength - 1
+				if animLength > 0 then
+					animUpdate(anim)
+				end
+				animDraw(contBG1)
+				animDraw(contBG2)
+			end
+			if i <= 226+60 then
+				animDraw(gameOver)
+				animUpdate(gameOver)
+				if i == 190 then --music is shorter than animation and we don't want looping here
+					playBGM('')
+				elseif i == 226 then --create fading animation
+					fadeGameOver = f_fadeAnim(60, 'fadeout', 'black', fadeSff)
+				elseif i > 226 then --start fading the screen
+					animDraw(fadeGameOver)
+					animUpdate(fadeGameOver)
+				end
+			else
+				cmdInput()
+				break
+			end
+		end
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
