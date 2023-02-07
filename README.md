@@ -78,13 +78,13 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
-- [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente como ocurre en un Co-Op Mode.
-
 - [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
 
 - [ ] Mejorar lógica del desplazamiento para menú de Misiones y Eventos (Al agregar más del límite de pantalla, entonces automáticamente sube como el menú sound test)
 
 - [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
+
+- [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente en character select como ocurre en Co-Op Mode.
 
 - [ ] Corregir en función "backMenu" que al volver al char select desde el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
 ![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
@@ -103,7 +103,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Ranking al completar o perder en Modo Arcade.
 
-- [ ] Más parametros para el Select.def.
+- [ ] Time Trials Mode.
 
 - [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
@@ -120,7 +120,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 **v1.4**
 ------------
 
-- [ ] Time Trials Mode.
+- [ ] Más parametros para el Select.def.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
@@ -133,7 +133,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 **v1.5**
 ------------
 
-- [ ] Sistema de puntos basado en el ADD004.
+- [ ] Sistema de puntos basado en el Add004.
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
