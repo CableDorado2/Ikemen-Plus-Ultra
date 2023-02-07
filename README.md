@@ -91,6 +91,10 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
 
+- [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
+
+- [ ] Mejorar lógica del menú de estadísticas
+
 - [ ] Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
 
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
@@ -113,14 +117,14 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
 
-- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
-- [ ] Pause Menu/Screen.
-
 **v1.4**
 ------------
 
 - [ ] Más parametros para el Select.def.
+
+- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+
+- [ ] Pause Menu/Screen.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
