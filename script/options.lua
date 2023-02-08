@@ -452,7 +452,7 @@ function f_onlineDefault()
 	s_debugMode = 'Disabled'
 	data.charPresentation = 'Sprite'
 	data.sffConversion = true
-	data.training = 'Free'
+	data.training = 'Fixed'
 	data.coopenemy = 'Simul'
 	--lifebar
 	roundsNum = 2
@@ -1207,7 +1207,7 @@ t_teamCfg = {
 	{id = '', text = 'Turns Players Limit',     varID = textImgNew(), varText = data.numTurns},
 	{id = '', text = 'Simul Players Limit',     varID = textImgNew(), varText = data.numSimul},
 	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
-	{id = '', text = 'Co-op CPU Team',          varID = textImgNew(), varText = data.coopenemy},
+	{id = '', text = 'Co-Op CPU Team',          varID = textImgNew(), varText = data.coopenemy},
 	{id = '', text = '          BACK'},
 }
 for i=1, #t_teamCfg do
@@ -4010,7 +4010,7 @@ function f_unlocksWarning()
 			data.favoriteStage = 'None'
 			data.victories = 0
 			data.defeats = 0
-			data.preferredMode = 'Menu'
+			data.preferredMode = 'WIP'
 			data.arcademodeCnt = 0
 			data.vsmodeCnt = 0
 			data.survivalmodeCnt = 0
@@ -4023,8 +4023,12 @@ function f_unlocksWarning()
 			data.missionsmodeCnt = 0
 			data.endlessmodeCnt = 0
 			data.timetrialsmodeCnt = 0
+			data.towermodeCnt = 0
 			data.storymodeCnt = 0
 			data.tourneymodeCnt = 0
+			data.adventuremodeCnt = 0
+			data.eventsProgress = 0
+			data.missionsProgress = 0
 			data.event1Status = 0
 			data.event2Status = 0
 			data.event3Status = 0

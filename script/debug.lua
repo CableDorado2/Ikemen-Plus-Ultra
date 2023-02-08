@@ -1,8 +1,11 @@
+--;===========================================================
+--; MATCH ACCESS FUNCTIONS
+--;===========================================================
 assert(loadfile('script/common.lua'))() --For load options data like screenshot sfx, data.debugMode and Menu assets
 --require('script.pause')
 
 if data.debugMode == true then
---Keys available on lib/alpha/sdlpluing.ssz
+--Keys definition on lib/alpha/sdlpluing.ssz
 addHotkey('F1', false, false, false, 'kill(1);kill(2);kill(3);kill(4);kill(5);kill(6);kill(7);kill(8)') --Sets Double KO
 addHotkey('F1', true, false, false, 'kill(2);kill(4);kill(6);kill(8)') --Ctrl+F1: Sets Player 2's life to zero
 addHotkey('F1', false, false, true, 'kill(1);kill(3);kill(5);kill(7)') --Shift+F1: Player 1's life to zero
@@ -19,13 +22,12 @@ addHotkey('F6', false, false, false, 'powMax(1);powMax(2);powMax(3);powMax(4);po
 addHotkey('F6', true, false, false, 'barAdd(2)') --Ctrl+F6: Increases Player 2's power to 1
 addHotkey('F6', false, false, true, 'barAdd(1)') --Shift+F6: Increases Player 1's power to 1
 addHotkey('F7', false, false, false, 'full(1);full(2);full(3);full(4);full(5);full(6);full(7);full(8);setTime(getRoundTime())') --Restores full life and power to all players
-
+--Debug Info
 addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display of collision boxes, target data (including remaining juggle points) and NotHitBy attributes
 addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug information display
 addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles display of the life and power bars
 addHotkey('i', true, false, false, 'stand(1);stand(2);stand(3);stand(4)') --CTRL+I: Forces both players into stand state
 --addHotkey('v', true, false, false, 'changeVsync()') --CTRL+V: Enable V-sync (stops "shearing") TO-DO
-
 --Ctrl-# (where # is from 1-4) Toggles AI for the #th player OR Ctrl-Alt-# (where # is from 1-4) Enables/Disables the player
 addHotkey('1', true, false, false, 'toggleAI(1)')
 addHotkey('2', true, false, false, 'toggleAI(2)')
@@ -35,14 +37,14 @@ addHotkey('5', true, false, false, 'toggleAI(5)')
 addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
-
+--Engine functions
 addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as fast as possible
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 end
-
+--Miscellaneous functions
 addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
-addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game (OLD = RETURN)
---addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu
+addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game
+--addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu (WIP)
 
 function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)

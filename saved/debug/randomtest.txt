@@ -1,11 +1,10 @@
 Rank: 0 
 randomselect
 randomselect
-chars/kyo kusanagi/kyo kusanagi.def
 randomselect
 randomselect
+chars/ken masters/ken masters.def
 randomselect
-chars/m. bison/m. bison.def
 randomselect
 randomselect
 randomselect

@@ -1,11 +1,14 @@
 --;===========================================================
---; INITIAL ACTIONS
+--; GLOBAL VARIABLES DEFINITION
 --;===========================================================
 onlinegame = false
 coinSystem = true
 data.tagmode = 1
 data.includestage = 0
 
+--;===========================================================
+--; INITIAL ACTIONS
+--;===========================================================
 --parse character data
 function f_parseChar(t, cel)
 	local line = ''

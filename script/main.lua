@@ -2,7 +2,6 @@
 --; INITIAL ACTIONS
 --;===========================================================
 math.randomseed(os.time())
-gameTime = os.clock()
 
 --Assign Lifebar
 loadLifebar('data/screenpack/winmugen/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
@@ -228,6 +227,7 @@ animSetScale(arrowsSD, 0.5, 0.5)
 --; LOGOS SCREEN
 --;===========================================================
 function f_mainStart()
+	gameTime = os.clock()
 	f_storyboard('data/screenpack/logo.def')
 	f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
@@ -906,7 +906,8 @@ function f_practiceMenu()
 				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 				if data.training == 'Free' then
-					data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
+					--data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
+					data.p2In = 1
 					data.p2Faces = true
 					data.versusScreen = false --versus screen disabled
 				elseif data.training == 'Fixed' then
@@ -2257,6 +2258,8 @@ function f_watchMenu()
 			--STATISTICS
 			elseif watchMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
+				--assert(loadfile('saved/stats_sav.lua'))()
+				script.select.f_modeplayTime()
 				f_statisticsMenu()
 			--CPU MATCH
 			elseif watchMenu == 5 then
@@ -2556,7 +2559,7 @@ function f_songMenu()
 	local moveTxt = 0
 	local songMenu = 1
 	t_songList = {}
-	for file in lfs.dir[[.\\sound\\]] do --Read Dir (Only Supports MP3 and OGG)
+	for file in lfs.dir[[.\\sound\\]] do --Read Dir
 		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
 			row = #t_songList+1
 			t_songList[row] = {}
@@ -2680,7 +2683,7 @@ function f_videoMenu()
 	local moveTxt = 0
 	local videoMenu = 1
 	t_videoList = {}
-	for file in lfs.dir[[.\\data\\movie\\]] do --Read Dir (Only Supports WMV)
+	for file in lfs.dir[[.\\data\\movie\\]] do --Read Dir
 		if file:match('^.*(%.)wmv$') then --Filter Files .wmv
 			row = #t_videoList+1
 			t_videoList[row] = {}
@@ -4187,13 +4190,28 @@ for i=1, #t_statisticsMenu do
 	t_statisticsMenu[i].id = createTextImg(font2, 0, 1, t_statisticsMenu[i].text, 34, 15+i*15)
 end
 
+--Time Variable
+gameTime = 0
+
+function f_playTime()
+	gameTime = os.clock() - gameTime
+	data.playTime = (data.playTime + gameTime)
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+--Progress Variables
+data.missionsProgress = 0
+data.eventsProgress = 0
+
 function f_statisticsMenu()
-	txt_statisticsMenu = createTextImg(jgFnt, 0, 0, '' .. getUserName() .. ' STATISTICS ', 160.5, 13) --needs to be inside of statistics Menu function, to load a updated data
 	cmdInput()
 	local statisticsMenu = 1	
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-		--f_playTime() Update Played Time on live...
+		--f_playTime() --Test Played Time on live...
+		data.gameProgress = (math.floor(((data.missionsProgress + data.eventsProgress) * 100 / 200) + 0.5)) --The number (200) is the summation of all data.gameProgress values in parentheses
+		txt_statisticsMenu = createTextImg(jgFnt, 0, 0, '' .. getUserName() .. ' PROGRESS: [' .. data.gameProgress .. '%]', 160.5, 13) --needs to be inside of statistics Menu function, to load a updated data
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -4245,7 +4263,7 @@ function f_statisticsMenu()
 			end
 		end			
 		t_statisticsMenu[1].varText = data.coins
-		t_statisticsMenu[2].varText = ''.. data.playTime .. ' Miliseconds' --still missing programing in .. String .. a Rounding, to get minutes exactly
+		t_statisticsMenu[2].varText = ''.. data.playTime .. ' Seconds' --TODO: Should be shown in hours:minutes format
 		t_statisticsMenu[3].varText = data.favoriteChar
 		t_statisticsMenu[4].varText = data.favoriteStage
 		t_statisticsMenu[5].varText = data.preferredMode
@@ -4267,10 +4285,58 @@ function f_statisticsMenu()
 	end
 end
 
-function f_playTime()
-	data.playTime = data.playTime + ((os.clock() - gameTime) / 60000) --To get minutes
-	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+--;===========================================================
+--; LOAD STATISTICS DATA
+--;===========================================================
+--Data loading from stats_sav.lua
+local file = io.open("saved/stats_sav.lua","r")
+s_dataLUA = file:read("*all")
+file:close()
+
+function f_saveProgress()
+	--Data saving to stats_sav.lua
+	local t_progress = {
+		['data.arcadeUnlocks'] = data.arcadeUnlocks,
+		['data.survivalUnlocks'] = data.survivalUnlocks,
+		['data.coins'] = data.coins,
+		['data.playTime'] = data.playTime,
+		['data.favoriteChar'] = data.favoriteChar,
+		['data.favoriteStage'] = data.favoriteStage,
+		['data.victories'] = data.victories,
+		['data.defeats'] = data.defeats,
+		['data.preferredMode'] = data.preferredMode,
+		['data.arcademodeCnt'] = data.arcademodeCnt,
+		['data.vsmodeCnt'] = data.vsmodeCnt,
+		['data.survivalmodeCnt'] = data.survivalmodeCnt,
+		['data.bossrushmodeCnt'] = data.bossrushmodeCnt,
+		['data.bonusrushmodeCnt'] = data.bonusrushmodeCnt,
+		['data.timeattackmodeCnt'] = data.timeattackmodeCnt,
+		['data.suddendeathmodeCnt'] = data.suddendeathmodeCnt,
+		['data.cpumatchmodeCnt'] = data.cpumatchmodeCnt,
+		['data.eventsmodeCnt'] = data.eventsmodeCnt,
+		['data.missionsmodeCnt'] = data.missionsmodeCnt,
+		['data.endlessmodeCnt'] = data.endlessmodeCnt,
+		['data.timetrialsmodeCnt'] = data.timetrialsmodeCnt,
+		['data.towermodeCnt'] = data.towermodeCnt,
+		['data.storymodeCnt'] = data.storymodeCnt,
+		['data.tourneymodeCnt'] = data.tourneymodeCnt,
+		['data.adventuremodeCnt'] = data.adventuremodeCnt,
+		['data.eventsProgress'] = data.eventsProgress,
+		['data.missionsProgress'] = data.missionsProgress,
+		['data.event1Status'] = data.event1Status,
+		['data.event2Status'] = data.event2Status,
+		['data.event3Status'] = data.event3Status,
+		['data.mission1Status'] = data.mission1Status,
+		['data.mission2Status'] = data.mission2Status,
+		['data.mission3Status'] = data.mission3Status,
+		['data.mission4Status'] = data.mission4Status,
+		['data.mission5Status'] = data.mission5Status,
+		['data.mission6Status'] = data.mission6Status
+	}
+	s_dataLUA = f_strSub(s_dataLUA, t_progress)
+	local file = io.open("saved/stats_sav.lua","w+")
+	file:write(s_dataLUA)
+	file:close()
 end
 
 --;===========================================================

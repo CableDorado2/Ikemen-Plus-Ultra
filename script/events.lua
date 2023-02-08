@@ -142,13 +142,14 @@ function f_eventMenu()
 	local moveTxt = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-	--Event Status Logic
-	data.eventsStatus = (math.floor(((data.event1Status + data.event2Status + data.event3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.eventsStatus values in parentheses
+	--Event Progress Logic
 	if data.event1Status == 100 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
 	if data.event2Status == 100 then event2Progress = 'COMPLETED' elseif data.event2Status == 0 then event2Progress = 'INCOMPLETE' end
 	if data.event3Status == 100 then event3Progress = 'COMPLETED' elseif data.event3Status == 0 then event3Progress = 'INCOMPLETE' end
-	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsStatus .. '%]', 159, 12) --needs to be inside of event Menu function, to load event data %
+	data.eventsProgress = (math.floor(((data.event1Status + data.event2Status + data.event3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.eventStatus values in parentheses
+	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsProgress .. '%]', 159, 12) --needs to be inside of event Menu function, to load event data %
 		if esc() then
+			f_saveProgress()
 			f_menuMusic()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)

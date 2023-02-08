@@ -83,16 +83,17 @@ function f_missionMenu()
 	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-	--Missions Status Logic
-	data.missionsStatus = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status + data.mission6Status) * 100 / 600) + 0.5)) --The number (600) is the summation of all data.missionStatus values in parentheses
+	--Missions Progress Logic
 	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
 	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
 	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
 	if data.mission4Status == 100 then mission4Progress = 'COMPLETED' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
 	if data.mission5Status == 100 then mission5Progress = 'COMPLETED' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
 	if data.mission6Status == 100 then mission6Progress = 'COMPLETED' elseif data.mission6Status == 0 then mission6Progress = 'INCOMPLETE' end
-	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsStatus .. '%]', 159, 128) --needs to be inside of mission Menu function, to load mission data %
+	data.missionsProgress = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status + data.mission6Status) * 100 / 600) + 0.5)) --The number (600) is the summation of all data.missionStatus values in parentheses
+	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsProgress .. '%]', 159, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
+			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -221,6 +222,7 @@ function f_missionMenu()
 				script.select.f_selectSimple()
 			--Back
 			else
+				f_saveProgress()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break

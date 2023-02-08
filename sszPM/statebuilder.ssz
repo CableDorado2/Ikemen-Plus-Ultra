@@ -8805,7 +8805,7 @@ public &StateBuilder
     if(#`stcommon > 0 && #`stateBulid(buf=, def, `stcommon=)=>error > 0){
       ret error;
     }
-	^/char minus = "data/minus.cns";
+	^/char minus = "data/match.cns";
 	if(#`stateBulid(buf=, def, minus=)=>error > 0) ret error;
     buf .=
       "public void c.Char::stateInit" .= ''`playerno .= "P()"\r\n

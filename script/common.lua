@@ -1,5 +1,5 @@
 --;===========================================================
---; LIBRARY AND DATA DEFINITION
+--; LIBRARY DEFINITION
 --;===========================================================
 lfs = require('lfs') --load lfs.dll
 package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
@@ -27,6 +27,9 @@ ltn12 = require('ltn12')
 --package.path = package.path..';./lib/net/url.lua' --load url lua library
 --url = require('url')
 
+--;===========================================================
+--; DATA DEFINITION
+--;===========================================================
 --Create global space (accessing variables between modules)
 data = require('saved.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
 
@@ -51,7 +54,7 @@ sysSnd = sndNew('data/screenpack/winmugen/system.snd')
 announcerSnd = sndNew('data/screenpack/winmugen/announcer.snd')
 contSnd = sndNew('data/screenpack/winmugen/continue.snd')
 
---Fonts
+--Fonts (At the moments only FNT Format is Supported)
 padFnt = fontNew('font/f-pad.fnt')
 survBarsFnt = fontNew('font/survival_bars.fnt')
 survNumFnt = fontNew('font/survival_nums.fnt')
@@ -82,7 +85,9 @@ font22 = fontNew('font/ssf2x_s.fnt')
 font23 = fontNew('font/ssf2x_sL.fnt')
 font24 = fontNew('font/ssf2x_vL.fnt')
 
---Music
+--;===========================================================
+--; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
+--;===========================================================
 bgmNothing = 'Nothing.mp3'
 bgmTitle = 'sound/Title.mp3'
 bgmSelect = 'sound/Select.mp3'
@@ -146,7 +151,7 @@ end
 --Advanced Random Select for Quick Versus Song
 function f_bgmrandomVS()
 	t_randomsongList = {}
-	for file in lfs.dir[[.\\sound\\Quick Versus Songs\\]] do --Read "Sound/Quick Versus Songs" Song Dir (Only Supports MP3 and OGG)
+	for file in lfs.dir[[.\\sound\\Quick Versus Songs\\]] do --Read "Sound/Quick Versus Songs" Song Dir
 		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
 			row = #t_randomsongList+1
 			t_randomsongList[row] = {}
@@ -166,11 +171,13 @@ function f_bgmrandomVS()
 	playBGM('sound/Quick Versus Songs/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.ogg')
 end
 
---Video
+--;===========================================================
+--; MOVIE DEFINITION (WIP)
+--;===========================================================
 --videoHowToPlay = "data/movie/How To Play.wmv"
 
 --;===========================================================
---; COMMON FUNCTIONS
+--; COMMON FUNCTIONS DEFINITION
 --;===========================================================
 --input stuff
 inputdia = inputDialogNew()
@@ -197,8 +204,8 @@ function setCommand(c)
 	commandAdd(c, 'y', 'y')
 	commandAdd(c, 'z', 'z')
 	commandAdd(c, 's', 's') --Return/Enter Button
-	commandAdd(c, 'v', 'v') --For Left Tag
-	commandAdd(c, 'w', 'w') --For Right Tag
+	commandAdd(c, 'v', 'v') --For Left Tag (WIP)
+	commandAdd(c, 'w', 'w') --For Right Tag (WIP)
 	commandAdd(c, 'holds', '/s')
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
@@ -1706,59 +1713,9 @@ function f_default()
 	data.eventNo = '' --additional variable used to identify events in select screen
 	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
 	setServiceType(0) --don't touch
-	setGameType(0) --set game type to identify in minus.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
+	setGameType(0) --set game type to identify in match.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
 end
 
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
-
---;===========================================================
---; LOAD STATISTICS CONTENT
---;===========================================================
---Data loading from stats_sav.lua
-local file = io.open("saved/stats_sav.lua","r")
-s_dataLUA = file:read("*all")
-file:close()
-
-function f_saveProgress()
-	--Data saving to stats_sav.lua
-	local t_progress = {
-		['data.arcadeUnlocks'] = data.arcadeUnlocks,
-		['data.survivalUnlocks'] = data.survivalUnlocks,
-		['data.coins'] = data.coins,
-		['data.playTime'] = data.playTime,
-		['data.favoriteChar'] = data.favoriteChar,
-		['data.favoriteStage'] = data.favoriteStage,
-		['data.victories'] = data.victories,
-		['data.defeats'] = data.defeats,
-		['data.preferredMode'] = data.preferredMode,
-		['data.arcademodeCnt'] = data.arcademodeCnt,
-		['data.vsmodeCnt'] = data.vsmodeCnt,
-		['data.survivalmodeCnt'] = data.survivalmodeCnt,
-		['data.bossrushmodeCnt'] = data.bossrushmodeCnt,
-		['data.bonusrushmodeCnt'] = data.bonusrushmodeCnt,
-		['data.timeattackmodeCnt'] = data.timeattackmodeCnt,
-		['data.suddendeathmodeCnt'] = data.suddendeathmodeCnt,
-		['data.cpumatchmodeCnt'] = data.cpumatchmodeCnt,
-		['data.eventsmodeCnt'] = data.eventsmodeCnt,
-		['data.missionsmodeCnt'] = data.missionsmodeCnt,
-		['data.endlessmodeCnt'] = data.endlessmodeCnt,
-		['data.timetrialsmodeCnt'] = data.timetrialsmodeCnt,
-		['data.storymodeCnt'] = data.storymodeCnt,
-		['data.tourneymodeCnt'] = data.tourneymodeCnt,
-		['data.event1Status'] = data.event1Status,
-		['data.event2Status'] = data.event2Status,
-		['data.event3Status'] = data.event3Status,
-		['data.mission1Status'] = data.mission1Status,
-		['data.mission2Status'] = data.mission2Status,
-		['data.mission3Status'] = data.mission3Status,
-		['data.mission4Status'] = data.mission4Status,
-		['data.mission5Status'] = data.mission5Status,
-		['data.mission6Status'] = data.mission6Status
-	}
-	s_dataLUA = f_strSub(s_dataLUA, t_progress)
-	local file = io.open("saved/stats_sav.lua","w+")
-	file:write(s_dataLUA)
-	file:close()
-end
