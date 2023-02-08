@@ -1632,19 +1632,23 @@ function f_UICfg()
 			end
 		--Character Select Display Type
 		elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-			sndPlay(sysSnd, 100, 0)
-			if commandGetState(p1Cmd, 'r') and data.selectType == 'Fixed' then
-				data.selectType = 'Variable'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.selectType == 'Variable' then
-				data.selectType = 'Fixed'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.selectType == 'Fixed' then
-				data.selectType = 'Variable'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.selectType == 'Variable' then
-				data.selectType = 'Fixed'
-				modified = 1
+			if onlinegame == true then
+				lockSetting = true
+			elseif onlinegame == false then
+				sndPlay(sysSnd, 100, 0)
+				if commandGetState(p1Cmd, 'r') and data.selectType == 'Fixed' then
+					data.selectType = 'Variable'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.selectType == 'Variable' then
+					data.selectType = 'Fixed'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.selectType == 'Fixed' then
+					data.selectType = 'Variable'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.selectType == 'Variable' then
+					data.selectType = 'Fixed'
+					modified = 1
+				end
 			end
 		--Stage Select Display Type
 		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
