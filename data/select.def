@@ -117,29 +117,29 @@
 ;===================================================================================
 ; INSERT YOUR PLAYABLE CHARACTERS BELOW (120 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
 ;===================================================================================
-Ryu, order=3, 3=Ken Masters/Violent Ken.def, 4=M. Bison
-randomselect
 Kung Fu Man, stages/Mountainside Temple.def, order=1, 1=Suave Dude/Minion/Minion.def, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-randomselect
-Kyo Kusanagi, stages/Neo-Geo Land.def, music=sound/Esaka.mp3, includestage=0, order=3, 3=Iori Yagami, 4=Rugal Bernstein/Omega/Omega Rugal.def
-Ken Masters, order=3, 3=Ryu/Evil Ryu.def, 4=Ryu
-randomselect
 Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=1, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
-Iori Yagami, stages/Way Out.def, music=sound/Stormy Saxophone.mp3, music=sound/New Order.mp3, order=3, 3=Kyo Kusanagi, 4=Rugal Bernstein
-M. Bison, stages/Psy-Drive.def, music=sound/The Dictator.mp3, boss=1, includestage=0, order=4, 3=Ken Masters, 4=Ryu/Master Ryu.def
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
 randomselect
 Suave Dude, stages/Suave's Corridor.def, boss=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
-randomselect
-Rugal Bernstein, stages/Hall of Dead Women.def, boss=1, includestage=0, order=3
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
 randomselect
 randomselect
 randomselect
@@ -240,12 +240,7 @@ randomselect
 ;===========================================================
 ; INSERT YOUR BOSS CHARACTERS BELOW
 ;===========================================================
-Rugal Bernstein/Omega/Omega Rugal.def, stages/Control Center.def, boss=1, order=4
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple - Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
-Ryu/Evil Ryu.def, stages/Suzaku Castle - Night.def, music=sound/Evil Energy.mp3, boss=1, includestage=0, order=4
-Ken Masters/Violent Ken.def, stages/Jet.def, boss=1, order=4
-Ryu/Master Ryu.def, stages/Suzaku Castle.def, boss=1, order=4
-Ken Masters/Master Ken.def, stages/Boat.def, boss=1, order=4
 Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple - Roof.def, boss=1, includestage=0, order=4
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, boss=1, includestage=0, order=5
 ;===========================================================
@@ -254,20 +249,11 @@ Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=s
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple.def, order=1
 Dragon Claw, stages/Far Mountains.def, includestage=0, order=4
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
-Kyo Kusanagi/EX/EX Kyo.def, stages/Way Out.def, order=1
-Ken Masters/Daigo Ken.def, stages/New York.def, order=4
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
-Break The Car, stages/Way Out.def, zoom=0, bonus=1, victoryscreen=0, exclude=1, order=2
-Bonus Barrel, stages/Dojo.def, zoom=0, bonus=1, victoryscreen=0, includestage=0, exclude=1, order=2
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=2
-Catwalk, stages/Neo-Geo Land.def, includestage=0, zoom=0, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, order=2
-;===========================================================
-; INSERT YOUR EVENTS CHARACTERS BELOW
-;===========================================================
-Call of Zombies, stages/Training Room 2.def, zoom=0, exclude=1, order=6
-Unknown Zone, stages/Training Room 2.def, zoom=0, exclude=1, order=6
+Catwalk, zoom=0, bonus=1, victoryscreen=0, exclude=1, order=2
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================
