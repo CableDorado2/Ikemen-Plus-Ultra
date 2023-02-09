@@ -1,0 +1,52 @@
+master kung fu man
+condition: 1
+ trigger
+  before: 1
+  after: true
+  result: true
+ value
+  before: random%13
+  after: math.random(0,999)*1/1000*13
+  result: 7
+condition: 2
+ trigger
+  before: enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man"
+  after:  "kung fu girl"== "kung fu man"  or  "kung fu girl"== "master kung fu man"  or  "kung fu girl"== "kfm"  or  "kung fu girl"== "master kfm"  or  "kung fu girl"== "ex kfm"  or  "kung fu girl"== "kfm ex"  or  "kung fu girl"== "ex kung fu man"  or  "kung fu girl"== "kung fu man ex"  or  "kung fu girl"== "another kung fu man"  or  "kung fu girl"== "kung fu man 720"  or  "kung fu girl"== "kfm 720"  or  "kung fu girl"== "evil kfm"  or  "kung fu girl"== "evil kung fu man"
+  result: false
+ value
+  before: 14
+  after: 14
+  result: 14
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+condition: 3
+ trigger
+  before: enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg"
+  after:  "kung fu girl"== "kung fu girl"  or   "kung fu girl"== "another kung fu girl"  or   "kung fu girl"== "master kung fu girl"  or   "kung fu girl"== "ex kung fu girl"  or   "kung fu girl"== "kfg"
+  result: true
+ value
+  before: 15
+  after: 15
+  result: 15
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+condition: 4
+ trigger
+  before: (enemy, name = "suave dude") && (1)
+  after: ( "kung fu girl"== "suave dude")  and  (1)
+  result: false
+ value
+  before: 16
+  after: 16
+  result: 16
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+
+quote: 15
+exists: yes
