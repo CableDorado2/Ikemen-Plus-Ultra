@@ -7,13 +7,13 @@ const int AfterImageMax = 8;
 const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 
-const int Width = 853;
-const int Height = 480;
+const int Width = 1280;
+const int Height = 720;
 const bool FullScreen = false;
 
 const float GlVol = 1;
 const float SEVol = 0.7;
-const float BGMVol = 0.3;
+const float BGMVol = 0.32;
 const float PanStr = 0.8;
 
 const float Super_TargetDefenceMul = 1.5;
@@ -23,7 +23,7 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 const ^/char listenPort = "7500";
-const ^/char UserName = "CD";
+const ^/char UserName = "CD2";
 
 const ^/char system = "script/main.lua";
 
@@ -60,7 +60,7 @@ in.new[1].set(
   (int)k_t::KP_0);
 
 in.new[2].set(
-  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
+  0, -3, -4, -1, -2, 14, 13, 15, 12, 10, 11, 3);
 
 in.new[3].set(
   1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
@@ -96,7 +96,7 @@ in.new[11].set(
   (int)k_t::KP_0);
 
 in.new[12].set(
-  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
+  0, -3, -4, -1, -2, 14, 13, 15, 12, 10, 11, 3);
 
 in.new[13].set(
   1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);

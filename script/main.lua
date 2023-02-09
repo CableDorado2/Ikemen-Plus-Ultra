@@ -253,7 +253,7 @@ txt_mainTitleOff = createTextImg(jgFnt, 2, 0, '', 159, 190)
 --txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
 txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 txt_titleFt = createTextImg(font5, 0, 1, '', 2, 240)
-txt_titleFt1 = createTextImg(font1, 0, -1, 'v1.2.0', 319, 240)
+txt_titleFt1 = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
 txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black screen important message
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
