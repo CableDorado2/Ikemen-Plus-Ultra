@@ -20,11 +20,6 @@
 - **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
 - **OpenGL:** Is not need, runs with DirectX 11
 
-## Engine Preview
-https://www.youtube.com/watch?v=j2VIMyAp624
-
-[![Alt text](https://i.postimg.cc/Kj2bZDnK/Ikemen-Plus-Ultra-Title-Screen.png)](https://www.youtube.com/watch?v=j2VIMyAp624)
-
 ## Download
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
