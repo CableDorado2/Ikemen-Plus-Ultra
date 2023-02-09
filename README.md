@@ -147,7 +147,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 ------------
 
 - [ ] 3er tipo de visualización de stages estilo “chart” (lógica basada en el char select).
-[![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)]()
+[![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)](https://youtu.be/FHwlSkCkQ50)
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 [![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
