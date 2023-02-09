@@ -22,7 +22,7 @@
 
 ## Download
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
-![Alt text](https://i.postimg.cc/XvX7yhw5/1561.jpg)
+[![Alt text](https://i.postimg.cc/XvX7yhw5/1561.jpg)](https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases)
 
 ## Table of Contents
 
@@ -83,7 +83,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente en character select como ocurre en Co-Op Mode.
 
 - [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
-![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)
+[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)]()
 
 - [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
 
@@ -103,7 +103,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Ranking al completar o perder en Modo Arcade.
 
-![Alt text](https://angryjellyfish.files.wordpress.com/2019/11/yvqrnyn.png?w=584)
+[![Alt text](https://angryjellyfish.files.wordpress.com/2019/11/yvqrnyn.png?w=584)]()
 
 - [ ] Time Trials Mode.
 
@@ -126,7 +126,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
-![Alt text](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ad49932b-3169-4a62-aa57-11781a185d36/db6apa4-1ba4bb8d-6e9c-41c2-a526-326548059503.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FkNDk5MzJiLTMxNjktNGE2Mi1hYTU3LTExNzgxYTE4NWQzNlwvZGI2YXBhNC0xYmE0YmI4ZC02ZTljLTQxYzItYTUyNi0zMjY1NDgwNTk1MDMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.1QvFT8IITRX15T_INE13ntmAT9nUdeupQDID6Y1Zd2E)
+[![Alt text](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ad49932b-3169-4a62-aa57-11781a185d36/db6apa4-1ba4bb8d-6e9c-41c2-a526-326548059503.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FkNDk5MzJiLTMxNjktNGE2Mi1hYTU3LTExNzgxYTE4NWQzNlwvZGI2YXBhNC0xYmE0YmI4ZC02ZTljLTQxYzItYTUyNi0zMjY1NDgwNTk1MDMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.1QvFT8IITRX15T_INE13ntmAT9nUdeupQDID6Y1Zd2E)](https://youtu.be/GAoGLx411Sk?t=3)
 
 - [ ] Story Mode Concept.
 
@@ -147,13 +147,13 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 ------------
 
 - [ ] 3er tipo de visualización de stages estilo “chart” (lógica basada en el char select).
-![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)
+[![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)]()
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
-![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
+[![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
-![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)
+[![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
 
 - [ ] Perfiles de usuarios.
 
@@ -166,8 +166,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Selección de paletas en char select.
 
-- [ ] Adventure Mode (Background Made by): https://www.pinterest.de/pin/459789443207079748/
-![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)
+- [ ] Adventure Mode (Background Made by https://www.pinterest.de/pin/459789443207079748/)
+[![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)]()
 
 **v1.8**
 ------------
