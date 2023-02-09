@@ -1,0 +1,85 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0, 0, saved\charTrash\Kung_Fu_Girl\s002.png,  23, 97
+   0, 1, saved\charTrash\Kung_Fu_Girl\s003.png,  23, 97
+   0, 2, saved\charTrash\Kung_Fu_Girl\s004.png,  22, 97
+   0, 3, saved\charTrash\Kung_Fu_Girl\s005.png,  22, 97
+   0, 4, saved\charTrash\Kung_Fu_Girl\s006.png,  21, 97
+   0, 5, saved\charTrash\Kung_Fu_Girl\s007.png,  21, 97
+   0, 6, saved\charTrash\Kung_Fu_Girl\s008.png,  22, 97
+   0, 7, saved\charTrash\Kung_Fu_Girl\s009.png,  22, 97
+   0, 8, saved\charTrash\Kung_Fu_Girl\s010.png,  23, 97
+   0, 9, saved\charTrash\Kung_Fu_Girl\s011.png,  23, 97
+   0,10, saved\charTrash\Kung_Fu_Girl\s012.png,  23, 97
+   0,11, saved\charTrash\Kung_Fu_Girl\s013.png,  23, 97
+   0,12, saved\charTrash\Kung_Fu_Girl\s014.png,  23, 97
+   0,13, saved\charTrash\Kung_Fu_Girl\s015.png,  23, 97
+   0,14, saved\charTrash\Kung_Fu_Girl\s016.png,  23, 97
+ 180, 0, saved\charTrash\Kung_Fu_Girl\s102.png,  21, 97
+ 180, 1, saved\charTrash\Kung_Fu_Girl\s103.png,  33, 85
+ 180, 2, saved\charTrash\Kung_Fu_Girl\s104.png,  14,107
+ 180, 3, saved\charTrash\Kung_Fu_Girl\s105.png,  10,100
+ 180, 4, saved\charTrash\Kung_Fu_Girl\s106.png,  10,100
+ 180, 5, saved\charTrash\Kung_Fu_Girl\s107.png,  10,100
+ 180, 6, saved\charTrash\Kung_Fu_Girl\s108.png,  10,101
+ 180, 7, saved\charTrash\Kung_Fu_Girl\s109.png,  29,101
+ 180, 8, saved\charTrash\Kung_Fu_Girl\s110.png,  43, 85
+ 180, 9, saved\charTrash\Kung_Fu_Girl\s111.png,  43, 86
+ 180,10, saved\charTrash\Kung_Fu_Girl\s112.png,  43, 85
+ 180,11, saved\charTrash\Kung_Fu_Girl\s113.png,  43, 85
+ 180,12, saved\charTrash\Kung_Fu_Girl\s114.png,  43, 85
+ 180,13, saved\charTrash\Kung_Fu_Girl\s115.png,  43, 85
+ 180,14, saved\charTrash\Kung_Fu_Girl\s116.png,  43, 85
+ 180,15, saved\charTrash\Kung_Fu_Girl\s117.png,  43, 85
+ 180,16, saved\charTrash\Kung_Fu_Girl\s118.png,  43, 85
+ 180,17, saved\charTrash\Kung_Fu_Girl\s119.png,  43, 85
+ 180,18, saved\charTrash\Kung_Fu_Girl\s120.png,  43, 85
+ 180,19, saved\charTrash\Kung_Fu_Girl\s121.png,  43, 85
+ 180,20, saved\charTrash\Kung_Fu_Girl\s122.png,  43, 85
+ 180,21, saved\charTrash\Kung_Fu_Girl\s123.png,  43, 85
+ 180,22, saved\charTrash\Kung_Fu_Girl\s124.png,  43, 85
+ 180,23, saved\charTrash\Kung_Fu_Girl\s125.png,  43, 85
+5040, 1, saved\charTrash\Kung_Fu_Girl\s649.png,  40, 36
+5040,20, saved\charTrash\Kung_Fu_Girl\s654.png,  40, 34
+5101, 6, saved\charTrash\Kung_Fu_Girl\s692.png,  67, 19
+5300, 0, saved\charTrash\Kung_Fu_Girl\s701.png,  25, 78
+5300, 1, saved\charTrash\Kung_Fu_Girl\s702.png,  25, 79
+5300, 2, saved\charTrash\Kung_Fu_Girl\s703.png,  25, 81
+5300, 3, saved\charTrash\Kung_Fu_Girl\s704.png,  25, 80
+5300, 4, saved\charTrash\Kung_Fu_Girl\s705.png,  25, 81
+5300, 5, saved\charTrash\Kung_Fu_Girl\s706.png,  25, 80
+5300, 6, saved\charTrash\Kung_Fu_Girl\s707.png,  25, 77
+5950, 0, saved\charTrash\Kung_Fu_Girl\s708.png,  18, 89
+5950, 1, saved\charTrash\Kung_Fu_Girl\s709.png,  28, 86
+5950, 2, saved\charTrash\Kung_Fu_Girl\s710.png,  32, 78
+5950, 3, saved\charTrash\Kung_Fu_Girl\s711.png,  31, 63
+5950, 4, saved\charTrash\Kung_Fu_Girl\s712.png,  27, 62
+5950, 5, saved\charTrash\Kung_Fu_Girl\s713.png,  24, 61
+5950, 6, saved\charTrash\Kung_Fu_Girl\s714.png,  24, 60
+5950, 7, saved\charTrash\Kung_Fu_Girl\s715.png,  24, 60
+5950, 8, saved\charTrash\Kung_Fu_Girl\s716.png,  31, 64
+5950, 9, saved\charTrash\Kung_Fu_Girl\s717.png,  34, 67
+5950,10, saved\charTrash\Kung_Fu_Girl\s718.png,  36, 51
+5950,11, saved\charTrash\Kung_Fu_Girl\s719.png,  41, 39

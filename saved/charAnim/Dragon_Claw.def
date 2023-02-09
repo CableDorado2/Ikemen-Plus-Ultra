@@ -1,0 +1,88 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0,11, saved\charTrash\Dragon_Claw\s001.png,  50,109
+   0,12, saved\charTrash\Dragon_Claw\s002.png,  50,108
+   0,13, saved\charTrash\Dragon_Claw\s003.png,  50,109
+   0,14, saved\charTrash\Dragon_Claw\s004.png,  50,108
+   0,15, saved\charTrash\Dragon_Claw\s005.png,  50,109
+   0,16, saved\charTrash\Dragon_Claw\s006.png,  50,109
+   0,17, saved\charTrash\Dragon_Claw\s007.png,  50,108
+   0,18, saved\charTrash\Dragon_Claw\s008.png,  50,108
+   0,19, saved\charTrash\Dragon_Claw\s009.png,  50,109
+   0,20, saved\charTrash\Dragon_Claw\s010.png,  50,108
+   0,21, saved\charTrash\Dragon_Claw\s011.png,  50,109
+   0,22, saved\charTrash\Dragon_Claw\s012.png,  50,108
+   0,23, saved\charTrash\Dragon_Claw\s013.png,  50,109
+   0,24, saved\charTrash\Dragon_Claw\s014.png,  50,108
+   0,25, saved\charTrash\Dragon_Claw\s015.png,  50,108
+   0,26, saved\charTrash\Dragon_Claw\s016.png,  50,108
+   0,27, saved\charTrash\Dragon_Claw\s017.png,  50,108
+   0,28, saved\charTrash\Dragon_Claw\s018.png,  50,108
+   0,29, saved\charTrash\Dragon_Claw\s019.png,  50,107
+   0,30, saved\charTrash\Dragon_Claw\s020.png,  50,108
+   0,31, saved\charTrash\Dragon_Claw\s021.png,  50,107
+   0,32, saved\charTrash\Dragon_Claw\s022.png,  50,107
+   0,33, saved\charTrash\Dragon_Claw\s023.png,  50,107
+   0,34, saved\charTrash\Dragon_Claw\s024.png,  50,108
+   0,35, saved\charTrash\Dragon_Claw\s025.png,  50,108
+   0,36, saved\charTrash\Dragon_Claw\s026.png,  50,108
+   0,37, saved\charTrash\Dragon_Claw\s027.png,  50,108
+   0,38, saved\charTrash\Dragon_Claw\s028.png,  50,108
+   0,10, saved\charTrash\Dragon_Claw\s029.png,  50,108
+5040, 1, saved\charTrash\Dragon_Claw\s788.png,  63, 79
+5040, 2, saved\charTrash\Dragon_Claw\s789.png,  63, 69
+5040, 3, saved\charTrash\Dragon_Claw\s790.png,  56, 49
+5040,10, saved\charTrash\Dragon_Claw\s791.png,  54, 26
+ 170, 1, saved\charTrash\Dragon_Claw\s1303.png,  42, 78
+ 170, 2, saved\charTrash\Dragon_Claw\s1304.png,  42, 78
+ 170, 3, saved\charTrash\Dragon_Claw\s1305.png,  42, 79
+ 170, 4, saved\charTrash\Dragon_Claw\s1306.png,  42, 80
+ 170, 5, saved\charTrash\Dragon_Claw\s1307.png,  42, 81
+ 170, 6, saved\charTrash\Dragon_Claw\s1308.png,  42, 81
+ 170, 7, saved\charTrash\Dragon_Claw\s1309.png,  42, 81
+ 170, 8, saved\charTrash\Dragon_Claw\s1310.png,  42, 80
+ 170, 9, saved\charTrash\Dragon_Claw\s1311.png,  42, 79
+ 170,10, saved\charTrash\Dragon_Claw\s1312.png,  42, 78
+ 170,11, saved\charTrash\Dragon_Claw\s1313.png,  42, 78
+  35, 0, saved\charTrash\Dragon_Claw\s1672.png,  50,107
+  35, 1, saved\charTrash\Dragon_Claw\s1673.png,  46,108
+  35, 2, saved\charTrash\Dragon_Claw\s1674.png,  57,111
+  35, 3, saved\charTrash\Dragon_Claw\s1675.png,  61,113
+  35, 4, saved\charTrash\Dragon_Claw\s1676.png,  67,115
+  35, 5, saved\charTrash\Dragon_Claw\s1677.png,  61,118
+  35, 6, saved\charTrash\Dragon_Claw\s1678.png,  62,120
+  35, 7, saved\charTrash\Dragon_Claw\s1679.png,  74,123
+  35, 8, saved\charTrash\Dragon_Claw\s1680.png,  77,121
+  35, 9, saved\charTrash\Dragon_Claw\s1681.png, 102,117
+  35,10, saved\charTrash\Dragon_Claw\s1682.png, 103,116
+  35,11, saved\charTrash\Dragon_Claw\s1683.png, 100,117
+   1, 0, saved\charTrash\Dragon_Claw\s1790.png,  49,108
+   1, 1, saved\charTrash\Dragon_Claw\s1791.png,  50,107
+   1, 2, saved\charTrash\Dragon_Claw\s1792.png,  51,107
+   1, 3, saved\charTrash\Dragon_Claw\s1793.png,  53,107
+   1, 4, saved\charTrash\Dragon_Claw\s1794.png,  53,108
+   1, 5, saved\charTrash\Dragon_Claw\s1795.png,  50,107
+   1, 6, saved\charTrash\Dragon_Claw\s1796.png,  50,108
+   1, 7, saved\charTrash\Dragon_Claw\s1797.png,  50,108

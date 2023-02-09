@@ -4034,14 +4034,9 @@ function f_unlocksWarning()
 			data.eventsProgress = 0
 			data.missionsProgress = 0
 			data.event1Status = 0
-			data.event2Status = 0
-			data.event3Status = 0
 			data.mission1Status = 0
 			data.mission2Status = 0
 			data.mission3Status = 0
-			data.mission4Status = 0
-			data.mission5Status = 0
-			data.mission6Status = 0
 			data.erase = true
 			modified = 1
 			break

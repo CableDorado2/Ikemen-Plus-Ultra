@@ -1,7 +1,7 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 14
-data.playTime = -1151459.99
+data.playTime = -1151220.68
 data.favoriteChar = 'Ryu'
 data.favoriteStage = 'Training Room'
 data.victories = 10

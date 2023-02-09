@@ -54,9 +54,6 @@ t_missionMenu = {
 	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
 	{id = '', text = 'Target Confirmed',     varID = textImgNew(), varText = mission2Progress},
 	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission3Progress},
-	{id = '', text = 'Devil Blood',  	     varID = textImgNew(), varText = mission4Progress},
-	{id = '', text = 'Power Instinct',       varID = textImgNew(), varText = mission5Progress},
-	{id = '', text = 'Eternal Rivals',  	 varID = textImgNew(), varText = mission6Progress},
 	{id = '', text = '                 BACK'},
 }
 for i=1, #t_missionMenu do
@@ -67,9 +64,6 @@ t_mInfo = {
 	{id = '1', text = "The ancient Dragon Claw is back!           "},
 	{id = '2', text = "Defeat Original Kung Fu Man             "},
 	{id = '3', text = "Use the full power of Kung Fu Man!         "},
-	{id = '4', text = "Use the Orochi's Power to destroy everyone!      "},
-	{id = '5', text = "Awaken the hidden power of Ryu            "},
-	{id = '6', text = "A classic versus                 "},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
@@ -87,10 +81,7 @@ function f_missionMenu()
 	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
 	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
 	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
-	if data.mission4Status == 100 then mission4Progress = 'COMPLETED' elseif data.mission4Status == 0 then mission4Progress = 'INCOMPLETE' end
-	if data.mission5Status == 100 then mission5Progress = 'COMPLETED' elseif data.mission5Status == 0 then mission5Progress = 'INCOMPLETE' end
-	if data.mission6Status == 100 then mission6Progress = 'COMPLETED' elseif data.mission6Status == 0 then mission6Progress = 'INCOMPLETE' end
-	data.missionsProgress = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status + data.mission4Status + data.mission5Status + data.mission6Status) * 100 / 600) + 0.5)) --The number (600) is the summation of all data.missionStatus values in parentheses
+	data.missionsProgress = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.missionStatus values in parentheses
 	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsProgress .. '%]', 159, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			f_saveProgress()
@@ -174,52 +165,6 @@ function f_missionMenu()
 				data.rosterMode = 'mission'
 				data.missionNo = 'mission 3'
 				script.select.f_selectAdvance()
-			--OMEGA RUGAL
-			elseif missionMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 1
-	            data.p2SelectMenu = false
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				--data.p2TeamMenu = {mode = 2, chars = 4}
-				data.p1Char = {t_charAdd['rugal bernstein/omega/omega rugal.def']}
-				data.versusScreen = true
-				data.gameMode = 'survival'
-				data.rosterMode = 'mission'
-				data.missionNo = 'mission 4'
-				script.select.f_selectAdvance()
-			--EVIL RYU
-			elseif missionMenu == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 0
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['ryu/master ryu.def']}
-				data.p2Char = {t_charAdd['ryu/evil ryu.def']}
-				setLifeMul(4)
-				data.stageMenu = false
-				data.versusScreen = false
-				data.rosterMode = 'mission'
-				data.missionNo = 'mission 5'
-				script.select.f_selectSimple()
-			--EX KYO VS IORI YAGAMI
-			elseif missionMenu == 6 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 0
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kyo kusanagi/ex/ex kyo.def']}
-				data.p2Char = {t_charAdd['iori yagami']}
-				data.stageMenu = false
-				data.versusScreen = true
-				data.rosterMode = 'mission'
-				data.missionNo = 'mission 6'
-				script.select.f_selectSimple()
 			--Back
 			else
 				f_saveProgress()
@@ -262,25 +207,10 @@ function f_missionMenu()
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[3].id)
 			end
-		elseif missionMenu == 4 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[4].id)
-			end
-		elseif missionMenu == 5 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[5].id)
-			end
-		elseif missionMenu == 6 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[6].id)
-			end
 		end	
 		t_missionMenu[1].varText = mission1Progress
 		t_missionMenu[2].varText = mission2Progress
 		t_missionMenu[3].varText = mission3Progress
-		t_missionMenu[4].varText = mission4Progress
-		t_missionMenu[5].varText = mission5Progress
-		t_missionMenu[6].varText = mission6Progress
 		for i=1, #t_missionMenu do
 			textImgDraw(t_missionMenu[i].id)
 			if t_missionMenu[i].varID ~= nil then

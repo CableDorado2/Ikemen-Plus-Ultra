@@ -1,0 +1,50 @@
+table: 028BD9D8 {
+  [arcadestart] => table: 028BD9D8 {
+                     [wins] => 2
+                     [offset] => 0
+                   }
+  [arcadeend] => table: 028BD9D8 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
+  [teamstart] => table: 028BD9D8 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
+  [survivalend] => table: 028BD9D8 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
+  [teammaxmatches] => table: 028BD9D8 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 1
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [survivalstart] => table: 028BD9D8 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [teamend] => table: 028BD9D8 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [arcademaxmatches] => table: 028BD9D8 {
+                          [1] => 1
+                          [2] => 1
+                          [3] => 1
+                          [4] => 1
+                          [5] => 0
+                          [6] => 0
+                          [7] => 0
+                          [8] => 0
+                          [9] => 0
+                          [10] => 0
+                        }
+}

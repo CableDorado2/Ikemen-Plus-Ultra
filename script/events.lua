@@ -57,43 +57,23 @@ function f_drawEvent1() --Draw Event 1 Preview
 end
 
 function f_drawEvent2() --Draw Event 2 Preview
-	if sysTime >= 1 and sysTime <= 12 then
-		event2Status = true
-		event2 = animNew(eventSff, [[
-		1,0, 0,0,
-		]])
-		animSetPos(event2, 110, 60)
-		animUpdate(event2)
-		animDraw(event2)
-	else --Event Unavailable...
-		event2Status = false
-		event2L = animNew(eventSff, [[
-		1,1, 0,0,
-		]])
-		animSetPos(event2L, 110, 60)
-		animUpdate(event2L)
-		animDraw(event2L)
-	end
+	event2Status = true
+	event2 = animNew(eventSff, [[
+	1,0, 0,0,
+	]])
+	animSetPos(event2, 110, 60)
+	animUpdate(event2)
+	animDraw(event2)
 end
 
 function f_drawEvent3() --Draw Event 3 Preview
-	if sysTime >= 13 and sysTime <= 19 then
-		event3Status = true
-		event3 = animNew(eventSff, [[
-		2,0, 0,0,
-		]])
-		animSetPos(event3, 215, 60)
-		animUpdate(event3)
-		animDraw(event3)
-	else --Event Unavailable...
-		event3Status = false
-		event3L = animNew(eventSff, [[
-		2,1, 0,0,
-		]])
-		animSetPos(event3L, 215, 60)
-		animUpdate(event3L)
-		animDraw(event3L)
-	end
+	event3Status = true
+	event3 = animNew(eventSff, [[
+	2,0, 0,0,
+	]])
+	animSetPos(event3, 215, 60)
+	animUpdate(event3)
+	animDraw(event3)
 end
 
 --;===========================================================
@@ -101,8 +81,8 @@ end
 --;===========================================================
 t_eventMenu = {
 	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
-	{id = '', text = '', varID = textImgNew(), varText = event2Progress},
-	{id = '', text = '', varID = textImgNew(), varText = event3Progress},
+	{id = '', text = ''},
+	{id = '', text = ''},
 }
 for i=1, #t_eventMenu do
 	t_eventMenu[i].id = createTextImg(jgFnt, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
@@ -118,8 +98,8 @@ end
 
 t_tInfo = {
 	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
-	{id = '2', text = 'WILL BE AVAILABLE FROM 1AM/1:00 TO 1PM/13:00 '},
-	{id = '3', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 8PM/20:00'},
+	{id = '2', text = 'POST YOUR SCHEDULE HERE                  '},
+	{id = '3', text = 'POST YOUR SCHEDULE HERE                  '},
 }
 for i=1, #t_tInfo do
 	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 39)
@@ -127,8 +107,8 @@ end
 
 t_mInfo = {
 	{id = '1', text = "Play as Master Kung Fu Girl!     "},
-	{id = '2', text = "Rescue a General in an Unknown Building"},
-	{id = '3', text = "Survive 40 Rounds in The Call of Zombies!"},
+	{id = '2', text = "PROGRAM YOUR EVENT HERE        "},
+	{id = '3', text = "PROGRAM YOUR EVENT HERE        "},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
@@ -144,9 +124,7 @@ function f_eventMenu()
 	while true do
 	--Event Progress Logic
 	if data.event1Status == 100 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
-	if data.event2Status == 100 then event2Progress = 'COMPLETED' elseif data.event2Status == 0 then event2Progress = 'INCOMPLETE' end
-	if data.event3Status == 100 then event3Progress = 'COMPLETED' elseif data.event3Status == 0 then event3Progress = 'INCOMPLETE' end
-	data.eventsProgress = (math.floor(((data.event1Status + data.event2Status + data.event3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.eventStatus values in parentheses
+	data.eventsProgress = (math.floor(((data.event1Status) * 100 / 100) + 0.5)) --The number (100) is the summation of all data.eventStatus values in parentheses
 	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsProgress .. '%]', 159, 12) --needs to be inside of event Menu function, to load event data %
 		if esc() then
 			f_saveProgress()
@@ -204,54 +182,20 @@ function f_eventMenu()
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()
 				end
-			--UNKNOW ZONE
+			--EVENT 2
 			elseif eventMenu == 2 then
 				if event2Status == true then
-					data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
+					--data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-					setRoundTime(-1)
-					f_forceRounds() --Force play 2 Rounds
-					data.p2In = 0
-					data.p1TeamMenu = {mode = 0, chars = 1}				
-					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.p2Char = {t_charAdd['unknown zone']}
-					data.stageMenu = false
-					data.versusScreen = false
-					data.victoryscreen = false
-					data.rosterMode = 'event'
-					data.eventNo = 'event 2'
-					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-					--Data loading from config.ssz
-					local file = io.open("ssz/config.ssz","r")
-					s_configSSZ = file:read("*all")
-					file:close()
-					resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-					resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-					if (resolutionHeight / 3 * 4) ~= resolutionWidth then --A 4:3 Resolution is recommended to play
-						f_eventWarning()
-					end
-					script.select.f_selectSimple()
 				elseif event2Status == false then
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()
 				end
-			--CALL OF ZOMBIES
+			--EVENT 3
 			elseif eventMenu == 3 then
 				if event3Status == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-					setRoundTime(-1)
-					data.p2In = 0
-					data.p1TeamMenu = {mode = 0, chars = 1}				
-					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.p2Char = {t_charAdd['call of zombies']}
-					data.stageMenu = false
-					data.versusScreen = false
-					data.victoryscreen = false
-					data.rosterMode = 'event'
-					data.eventNo = 'event 3'
-					textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-					script.select.f_selectSimple()
 				elseif event3Status == false then
 					sndPlay(sysSnd, 100, 1)
 					f_eventLocked()
@@ -313,8 +257,6 @@ function f_eventMenu()
 			end
 		end	
 		t_eventMenu[1].varText = event1Progress
-		t_eventMenu[2].varText = event2Progress
-		t_eventMenu[3].varText = event3Progress
 		for i=1, #t_eventMenu do
 			textImgDraw(t_eventMenu[i].id)
 			if t_eventMenu[i].varID ~= nil then

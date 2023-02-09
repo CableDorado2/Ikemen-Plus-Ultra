@@ -4836,12 +4836,6 @@ function f_eventStatus()
 	if data.eventNo == 'event 1' then
 		data.event1Status = 100
 		f_saveProgress()
-	elseif data.eventNo == 'event 2' then
-		data.event2Status = 100
-		f_saveProgress()
-	elseif data.eventNo == 'event 3' then
-		data.event3Status = 100
-		f_saveProgress()
 	end
 	assert(loadfile('saved/stats_sav.lua'))()
 end
@@ -4855,15 +4849,6 @@ function f_missionStatus()
 		f_saveProgress()
 	elseif data.missionNo == 'mission 3' then
 		data.mission3Status = 100
-		f_saveProgress()
-	elseif data.missionNo == 'mission 4' then
-		data.mission4Status = 100
-		f_saveProgress()
-	elseif data.missionNo == 'mission 5' then
-		data.mission5Status = 100
-		f_saveProgress()
-	elseif data.missionNo == 'mission 6' then
-		data.mission6Status = 100
 		f_saveProgress()
 	end
 	assert(loadfile('saved/stats_sav.lua'))()

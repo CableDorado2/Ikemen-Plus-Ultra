@@ -4324,14 +4324,9 @@ function f_saveProgress()
 		['data.eventsProgress'] = data.eventsProgress,
 		['data.missionsProgress'] = data.missionsProgress,
 		['data.event1Status'] = data.event1Status,
-		['data.event2Status'] = data.event2Status,
-		['data.event3Status'] = data.event3Status,
 		['data.mission1Status'] = data.mission1Status,
 		['data.mission2Status'] = data.mission2Status,
-		['data.mission3Status'] = data.mission3Status,
-		['data.mission4Status'] = data.mission4Status,
-		['data.mission5Status'] = data.mission5Status,
-		['data.mission6Status'] = data.mission6Status
+		['data.mission3Status'] = data.mission3Status
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_progress)
 	local file = io.open("saved/stats_sav.lua","w+")

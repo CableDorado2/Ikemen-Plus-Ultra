@@ -1,0 +1,49 @@
+[Output]
+ ;Filename of the SFF file to create (required).
+;filename = 
+
+[Option]
+input.dir =
+sprite.compress.5 = lz5 ;none/lz5/rle5
+sprite.compress.8 = png8 ;none/rle8/png8
+sprite.compress.24 = png24 ;none/png24
+sprite.compress.32 = png32 ;none/png32
+sprite.decompressonload = 0 ;0/1
+sprite.detectduplicates = 0 ;0/1
+sprite.autocrop = 1 ;0/1
+pal.detectduplicates = 1 ;0/1
+pal.discardduplicates = 1 ;0/1
+
+[Pal]
+;Enter pals here (png or act files)
+;0,0, filename.png, 0,255 ;grp,idx, fname, startcol,endcol
+
+[Option]
+sprite.usepal = -1 ;Set this to the right pal
+
+[Sprite]
+   0, 0, saved\charTrash\Suave_Dude\s002.png,  21,107
+   0, 1, saved\charTrash\Suave_Dude\s003.png,  21,107
+   0, 2, saved\charTrash\Suave_Dude\s004.png,  21,107
+   0, 3, saved\charTrash\Suave_Dude\s005.png,  22,107
+ 181, 0, saved\charTrash\Suave_Dude\s052.png,  17,109
+ 181, 1, saved\charTrash\Suave_Dude\s053.png,  20,111
+ 181, 2, saved\charTrash\Suave_Dude\s054.png,  20,111
+ 181, 3, saved\charTrash\Suave_Dude\s055.png,  20,112
+ 181, 4, saved\charTrash\Suave_Dude\s056.png,  20,113
+ 181, 5, saved\charTrash\Suave_Dude\s057.png,  20,113
+ 181, 6, saved\charTrash\Suave_Dude\s058.png,  20,111
+ 181, 7, saved\charTrash\Suave_Dude\s059.png,  20,110
+ 181, 8, saved\charTrash\Suave_Dude\s060.png,  20,109
+5040, 0, saved\charTrash\Suave_Dude\s115.png,  51, 51
+5040,10, saved\charTrash\Suave_Dude\s118.png,  50, 21
+5040,20, saved\charTrash\Suave_Dude\s122.png,  50, 49
+5300, 0, saved\charTrash\Suave_Dude\s140.png,  23, 84
+5300, 1, saved\charTrash\Suave_Dude\s141.png,  23, 84
+5300, 2, saved\charTrash\Suave_Dude\s142.png,  23, 84
+5300, 3, saved\charTrash\Suave_Dude\s143.png,  23, 84
+5300, 4, saved\charTrash\Suave_Dude\s144.png,  23, 84
+5300, 5, saved\charTrash\Suave_Dude\s145.png,  23, 84
+5300, 6, saved\charTrash\Suave_Dude\s146.png,  23, 84
+5300, 7, saved\charTrash\Suave_Dude\s147.png,  23, 84
+ 200, 0, saved\charTrash\Suave_Dude\s148.png,  21,107
