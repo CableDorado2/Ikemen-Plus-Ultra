@@ -23,6 +23,7 @@
 ## Download
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
+
 ## Table of Contents
 
 >[Default Controls](#default-controls)
@@ -66,7 +67,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 | UI Back | Esc |  |  |
 
 ## TODO List
-CD2: Plans for future updates, they are in Spanish, porque así es como entiendo mis ideas (Si las puedes traducir, entender y ofrecer ayuda estupendo!):
+CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
 
 **v1.3**
 ------------
@@ -148,6 +149,7 @@ CD2: Plans for future updates, they are in Spanish, porque así es como entiendo
 ![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
+![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)
 
 - [ ] Perfiles de usuarios.
 
