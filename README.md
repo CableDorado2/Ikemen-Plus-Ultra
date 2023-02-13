@@ -221,7 +221,7 @@ Here you can find some tools that help you in development of your projects (Some
 - Radmin VPN (For Online Netplay): https://www.radmin-vpn.com/
 
 ## Engine Manual
-S-SIZE is the programing core language used. It documentation, is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
+S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
 - To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There you have the official Lua Manual: https://www.lua.org/manual/5.2/
 - For create characters and stages, there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
