@@ -1,220 +1,208 @@
-table: 02CD2730 {
-  [1] => table: 02CD2730 {
-           [stage] => "stages/training room.def"
+table: 02B7E428 {
+  [1] => table: 02B7E428 {
            [name] => "Training Room"
-           [music] => table: 02CCD2F8 {
-                        [1] => table: 02CD2D98 {
+           [stage] => "stages/training room.def"
+           [music] => table: 02B81CE0 {
+                        [1] => table: 02B7FE90 {
                                  [bgmusic] => "sound/Training Room.mp3"
                                  [bgmvolume] => 100
                                }
                       }
          }
-  [2] => table: 02CD2730 {
-           [stage] => "stages/training room 2.def"
+  [2] => table: 02B7E428 {
            [name] => "Training Room 2"
-           [music] => table: 02CCF8C8 {
-                        [1] => table: 02CCFD78 {
+           [stage] => "stages/training room 2.def"
+           [music] => table: 02B7C948 {
+                        [1] => table: 02B7F008 {
                                  [bgmusic] => "sound/Training Room 2.mp3"
                                  [bgmvolume] => 100
                                }
                       }
          }
-  [3] => table: 02CD2730 {
-           [stage] => "stages/mountainside temple.def"
-           [name] => "Mountainside Temple"
+  [3] => table: 02B7E428 {
+           [zoommin] => 1
            [zoommax] => 1
-           [music] => table: 02CD0D68 {
-                        [1] => table: 02CCF968 {
+           [music] => table: 02B81790 {
+                        [1] => table: 02B7CC68 {
                                  [bgmusic] => "sound/Mountainside Temple.mp3"
                                  [bgmvolume] => 100
                                }
-                        [2] => table: 02CCF968 {
+                        [2] => table: 02B7CC68 {
                                  [bgmusic] => "sound/temple.mp3"
                                  [bgmvolume] => 100
                                }
                       }
-           [zoommin] => 1
+           [name] => "Mountainside Temple"
+           [stage] => "stages/mountainside temple.def"
          }
-  [4] => table: 02CD2730 {
-           [stage] => "stages/mountainside temple - hidden path.def"
+  [4] => table: 02B7E428 {
            [name] => "Mountainside Temple Hidden Path"
-           [music] => table: 02CCE428 {
-                        [1] => table: 02CD2F28 {
+           [stage] => "stages/mountainside temple - hidden path.def"
+           [music] => table: 02B7C3D0 {
+                        [1] => table: 02B81BF0 {
                                  [bgmusic] => "sound/Wind.mp3"
                                  [bgmvolume] => 100
                                }
                       }
          }
-  [5] => table: 02CD2730 {
-           [stage] => "stages/control center.def"
-           [name] => "Control Center"
-           [zoommax] => 0.8
-           [music] => table: 02CD2B68 {
-                        [1] => table: 02CD0048 {
-                                 [bgmusic] => "sound/Omega.mp3"
-                                 [bgmvolume] => 100
-                               }
-                      }
-           [zoommin] => 0.8
-         }
-  [6] => table: 02CD2730 {
-           [stage] => "stages/china.def"
-           [name] => "China"
+  [5] => table: 02B7E428 {
+           [zoommin] => 1
            [zoommax] => 1
-           [music] => table: 02CD3720 {
-                        [1] => table: 02CD2DE8 {
+           [music] => table: 02B7F8A0 {
+                        [1] => table: 02B7DCF8 {
                                  [bgmusic] => "sound/China.mp3"
                                  [bgmvolume] => 100
                                }
                       }
-           [zoommin] => 1
+           [name] => "China"
+           [stage] => "stages/china.def"
          }
-  [7] => table: 02CD2730 {
-           [stage] => "stages/hd test/nyc alley.def"
+  [6] => table: 02B7E428 {
            [name] => "Nyc Alley [HD]"
-           [music] => table: 02CD3838 {
-                        [1] => table: 02CD37E8 {
+           [stage] => "stages/hd test/nyc alley.def"
+           [music] => table: 02B836A8 {
+                        [1] => table: 02B7D690 {
                                  [bgmusic] => "sound/New York.mp3"
                                  [bgmvolume] => 100
                                }
                       }
          }
-  [8] => table: 02CD2730 {
-           [stage] => "stages/hd test/australian outback.def"
-           [name] => "Australian Outback [HD]"
+  [7] => table: 02B7E428 {
+           [zoommin] => 0.7
            [zoommax] => 0.8
-           [music] => table: 02CD15D8 {
-                        [1] => table: 02CCE680 {
+           [music] => table: 02B7E860 {
+                        [1] => table: 02B7C3F8 {
                                  [bgmusic] => "sound/Australian Outback.mp3"
                                  [bgmvolume] => 100
                                }
                       }
-           [zoommin] => 0.7
+           [name] => "Australian Outback [HD]"
+           [stage] => "stages/hd test/australian outback.def"
          }
-  [9] => table: 02CD2730 {
-           [stage] => "stages/hd test/fairy day 4_3.def"
+  [8] => table: 02B7E428 {
            [name] => "Fairy Day (4:3) [HD]"
-           [music] => table: 02CCFE90 {
-                        [1] => table: 028FB5A0 {
+           [stage] => "stages/hd test/fairy day 4_3.def"
+           [music] => table: 02B7E608 {
+                        [1] => table: 02760150 {
                                  [bgmusic] => "sound/Fairy Day.mp3"
                                  [bgmvolume] => 100
                                }
                       }
          }
-  [10] => table: 02CD2730 {
-            [stage] => "stages/hd test/fairy day 16_9.def"
-            [name] => "Fairy Day (16:9) [HD]"
-            [zoommax] => 0.8
-            [music] => table: 028FCB08 {
-                         [1] => table: 02CD23E8 {
-                                  [bgmusic] => "sound/Fairy Day.mp3"
-                                  [bgmvolume] => 100
-                                }
-                       }
-            [zoommin] => 0.7
-          }
-  [11] => table: 02CD2730 {
-            [stage] => "stages/hd test/aensland castle.def"
+  [9] => table: 02B7E428 {
+           [zoommin] => 0.7
+           [zoommax] => 0.8
+           [music] => table: 02760F38 {
+                        [1] => table: 02B80200 {
+                                 [bgmusic] => "sound/Fairy Day.mp3"
+                                 [bgmvolume] => 100
+                               }
+                      }
+           [name] => "Fairy Day (16:9) [HD]"
+           [stage] => "stages/hd test/fairy day 16_9.def"
+         }
+  [10] => table: 02B7E428 {
             [name] => "Aensland Castle [HD]"
-            [music] => table: 07F70600 {
-                         [1] => table: 07F70718 {
+            [stage] => "stages/hd test/aensland castle.def"
+            [music] => table: 02B82F28 {
+                         [1] => table: 02B7BE30 {
                                   [bgmusic] => "sound/Aensland Castle.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
           }
-  [12] => table: 02CD2730 {
-            [stage] => "stages/hd test/training room.def"
-            [name] => "Training Room [HD]"
-            [zoommax] => 0.8
-            [music] => table: 07F706A0 {
-                         [1] => table: 07F706C8 {
-                                  [bgmusic] => "sound/Training Room.mp3"
-                                  [bgmvolume] => 100
-                                }
-                       }
+  [11] => table: 02B7E428 {
             [zoommin] => 0.5
-          }
-  [13] => table: 02CD2730 {
-            [music] => table: 07F70538 {
-                         [1] => table: 07F705D8 {
+            [zoommax] => 0.8
+            [music] => table: 02B7DC08 {
+                         [1] => table: 02B7FBC0 {
                                   [bgmusic] => "sound/Training Room.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
-            [stage] => "stages/hd test/training room(scale).def"
-            [name] => "Training Room (Scale)"
-            [zoommin] => 0.65
+            [name] => "Training Room [HD]"
+            [stage] => "stages/hd test/training room.def"
           }
-  [14] => table: 02CD2730 {
-            [stage] => "stages/sakura.def"
-            [name] => "Sakura"
+  [12] => table: 02B7E428 {
+            [stage] => "stages/hd test/training room(scale).def"
+            [zoommin] => 0.65
+            [name] => "Training Room (Scale)"
+            [music] => table: 02B7DED8 {
+                         [1] => table: 02B7DF00 {
+                                  [bgmusic] => "sound/Training Room.mp3"
+                                  [bgmvolume] => 100
+                                }
+                       }
+          }
+  [13] => table: 02B7E428 {
+            [zoommin] => 0.85
             [zoommax] => 1
-            [music] => table: 0D4E3E98 {
-                         [1] => table: 0D4E3EC0 {
+            [music] => table: 02B7D348 {
+                         [1] => table: 02B807A0 {
                                   [bgmusic] => "sound/Student.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
-            [zoommin] => 0.85
+            [name] => "Sakura"
+            [stage] => "stages/sakura.def"
           }
-  [15] => table: 02CD2730 {
-            [stage] => "stages/suave's corridor.def"
+  [14] => table: 02B7E428 {
             [name] => "Suave's Corridor"
-            [music] => table: 02E245B8 {
-                         [1] => table: 02E245E0 {
+            [stage] => "stages/suave's corridor.def"
+            [music] => table: 02B7C0D8 {
+                         [1] => table: 02B7E1D0 {
                                   [bgmusic] => "sound/Suave's Corridor.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
           }
-  [16] => table: 02CD2730 {
-            [stage] => "stages/mountainside temple - hidden room.def"
+  [15] => table: 02B7E428 {
             [name] => "Mountainside Temple Hidden Room"
-            [music] => table: 02E24770 {
-                         [1] => table: 0D4E3FB0 {
+            [stage] => "stages/mountainside temple - hidden room.def"
+            [music] => table: 02B7FDA0 {
+                         [1] => table: 02B80EA8 {
                                   [bgmusic] => "sound/Wind.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
           }
-  [17] => table: 02CD2730 {
-            [stage] => "stages/mountainside temple - roof.def"
+  [16] => table: 02B7E428 {
             [name] => "Mountainside Temple Roof"
-            [music] => table: 07F704E8 {
-                         [1] => table: 07F707B8 {
+            [stage] => "stages/mountainside temple - roof.def"
+            [music] => table: 0CD07DE0 {
+                         [1] => table: 0CD07E08 {
                                   [bgmusic] => "sound/Thunderstorm.ogg"
                                   [bgmvolume] => 100
                                 }
                        }
           }
-  [18] => table: 02CD2730 {
-            [stage] => "stages/mountain valley.def"
+  [17] => table: 02B7E428 {
             [name] => "Mountain Valley"
-            [music] => table: 02E24860 {
-                         [1] => table: 02E24900 {
+            [stage] => "stages/mountain valley.def"
+            [music] => table: 0CD07EF8 {
+                         [1] => table: 0CD07F20 {
                                   [bgmusic] => "sound/Student.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
           }
-  [19] => table: 02CD2730 {
-            [stage] => "stages/far mountains.def"
-            [name] => "Far Mountains"
+  [18] => table: 02B7E428 {
+            [zoommin] => 0.85
             [zoommax] => 1.25
-            [music] => table: 0D4E37C8 {
-                         [1] => table: 0D4E37F0 {
+            [music] => table: 0CD08100 {
+                         [1] => table: 0CE33698 {
                                   [bgmusic] => "sound/Far Mountains.mp3"
                                   [bgmvolume] => 100
                                 }
                        }
-            [zoommin] => 0.85
+            [name] => "Far Mountains"
+            [stage] => "stages/far mountains.def"
           }
-  [20] => table: 02CD2730 {
-            [stage] => "stages/sunday afternoon.def"
+  [19] => table: 02B7E428 {
             [name] => "Sunday Afternoon"
-            [music] => table: 0D4E3908 {
-                         [1] => table: 0D4E3890 {
+            [stage] => "stages/sunday afternoon.def"
+            [music] => table: 0CE337B0 {
+                         [1] => table: 0CE33738 {
                                   [bgmusic] => "sound/Ultimate Warrior.mp3"
                                   [bgmvolume] => 100
                                 }

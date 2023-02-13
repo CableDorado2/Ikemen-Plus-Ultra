@@ -39,10 +39,11 @@ trigger1 = StateNo = 5110
 trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
 
-[State 500, No HUD In Round 1]
+[State 500, Intro for Round 1]
 type = assertspecial
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
+flag2 = nomusic
 
 [State 500, No HUD]
 type = assertspecial

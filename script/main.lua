@@ -472,9 +472,9 @@ function f_mainMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 144+i*13-moveTxt)) --Text Position
+			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 141+i*13-moveTxt)) --Text Position
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13) --Position and Size of the selection cursor
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		animDraw(titleBG1)
@@ -584,9 +584,9 @@ function f_arcadeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -714,9 +714,9 @@ function f_vsMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -820,9 +820,9 @@ function f_randomMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -967,9 +967,9 @@ function f_practiceMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1079,9 +1079,9 @@ function f_challengeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1189,9 +1189,9 @@ function f_survivalMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1287,9 +1287,9 @@ function f_bossMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1379,9 +1379,9 @@ function f_bossChars()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1493,9 +1493,9 @@ function f_bossrushMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossrushMenu[i].id, jgFnt, bank, 0, t_bossrushMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossrushMenu[i].id, jgFnt, bank, 0, t_bossrushMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1591,9 +1591,9 @@ function f_bonusMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1684,9 +1684,9 @@ function f_bonusExtras()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1801,9 +1801,9 @@ function f_bonusrushMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusrushMenu[i].id, jgFnt, bank, 0, t_bonusrushMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusrushMenu[i].id, jgFnt, bank, 0, t_bonusrushMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1915,9 +1915,9 @@ function f_suddenMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_suddenMenu[i].id, jgFnt, bank, 0, t_suddenMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_suddenMenu[i].id, jgFnt, bank, 0, t_suddenMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2029,9 +2029,9 @@ function f_timeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_timeMenu[i].id, jgFnt, bank, 0, t_timeMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_timeMenu[i].id, jgFnt, bank, 0, t_timeMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2139,9 +2139,9 @@ function f_allcharsMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2306,9 +2306,9 @@ function f_watchMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2517,9 +2517,9 @@ function f_extrasMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -3149,9 +3149,9 @@ function f_mainNetplay()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -3533,9 +3533,9 @@ function f_mainHost()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainHost[i].id, jgFnt, bank, 0, t_mainHost[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainHost[i].id, jgFnt, bank, 0, t_mainHost[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -3752,9 +3752,9 @@ function f_mainJoin()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainJoin[i].id, jgFnt, bank, 0, t_mainJoin[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainJoin[i].id, jgFnt, bank, 0, t_mainJoin[i].text, 159, 141+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
