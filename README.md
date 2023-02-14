@@ -176,6 +176,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
+- [ ] Soporte para imágenes RGB/32bits y shaders
+
 - [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
 
 **v1.9**
