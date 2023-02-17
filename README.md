@@ -76,6 +76,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
 
+- [ ] El jefe final o algún char que tenga un parametro aparezca en modo single tal como funcionan los bonus games, dado que la cpu en modo simul mostrará 2, 3 o 4 jefes finales y es mejor controlar eso bajo un parametro.
+
 - [ ] Mejorar lógica del desplazamiento para menú de Misiones y Eventos (Al agregar más del límite de pantalla, entonces automáticamente sube como el menú sound test)
 
 - [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
