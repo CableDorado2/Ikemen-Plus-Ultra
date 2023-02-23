@@ -28,6 +28,8 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 ## Table of Contents
 
+>[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
+>
 >[Default Controls](#default-controls)
 >
 >[TODO List](#todo-list)
@@ -42,13 +44,19 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >
 >[Discord Support](#discord-support)
 >
->[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
->
 >[References](#references)
 >
 >[License](#license)
 >
 >[Projects Powered By Ikemen Plus Ultra](#projects-powered-by-ikemen-plus-ultra)
+
+## Ikemen Plus Ultra VS Ikemen Go
+To understand this:
+
+"**IKEMEN SSZ** (Currently Called "Plus Ultra") is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language. **Ikemen Plus Ultra it's a facelift to the Classic/Old Ikemen Engine.**
+
+"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
+specific build environment and necessity to compile changes to an executable each time". **Ikemen Go it's the latest version of Ikemen Engine.**
 
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
@@ -233,14 +241,6 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 
 ## Discord Support
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
-
-## Ikemen Plus Ultra VS Ikemen Go
-To understand this, once again the special contributor ***PlasmoidThunder*** says:
-
-"**IKEMEN SSZ** (Currently Called: Plus Ultra) is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. It's a quick option to test changes".
-
-"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
-specific build environment and necessity to compile changes to an executable each time".
 
 ## References
 >- Original Repository Source Code:
