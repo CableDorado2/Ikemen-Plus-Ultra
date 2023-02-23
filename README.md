@@ -1,6 +1,8 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
 *Ikemen Plus Ultra* is an updated version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. It's an open source fighting game engine that supports **M.U.G.E.N** resources. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
 
+- Consider this version of Ikemen engine, an **alternative** in case Ikemen GO doesn't work for you.
+
 - This engine can be used to **create advanced MUGENS** or **Fighting Games**, which can be run on any PC from 2008 onwards, without a graphics card (Runs under DirectX Render).
 
 - According to the words of one of the special contributors to this engine ***PlasmoidThunder***: "The benefits that S-SIZE (Ikemen Plus) has over Ikemen GO are":
