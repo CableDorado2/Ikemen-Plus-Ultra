@@ -1,5 +1,5 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. It's an open source fighting game engine that supports **M.U.G.E.N** resources. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
+*Ikemen Plus Ultra* is an updated version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
 
 - Consider this version of Ikemen engine an **alternative** in case Ikemen GO doesn't work for you.
 
@@ -239,7 +239,7 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 - For create characters and stages, there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
-If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
+If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, consult in particular with the user **PlasmoidThunder#1542** which is one of the main contributors for this version): https://discord.gg/KV5EPnMuA7
 
 ## References
 >- Original Repository Source Code:
@@ -248,7 +248,7 @@ If you need help, you can find support from developers and contributors for this
 >- Original Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
->- Current Ikemen Engine (Ikemen Go) Source Code:
+>- Lastest Ikemen Engine (Ikemen Go) Source Code:
 >https://github.com/Windblade-GR01/Ikemen-GO
 
 ## License
