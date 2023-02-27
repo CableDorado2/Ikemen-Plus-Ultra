@@ -1,13 +1,13 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
-data.coins = 15
-data.playTime = -1150760.708
+data.coins = 13
+data.playTime = 0
 data.favoriteChar = 'Kung Fu Man'
 data.favoriteStage = 'Fairy Day (16:9) [HD]'
 data.victories = 12
 data.defeats = 25
 data.preferredMode = 'WIP'
-data.arcademodeCnt = 117.513
+data.arcademodeCnt = 120.963
 data.vsmodeCnt = 1075.11
 data.survivalmodeCnt = 0
 data.bossrushmodeCnt = 0

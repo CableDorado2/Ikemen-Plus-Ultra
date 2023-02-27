@@ -67,6 +67,8 @@ function f_selectReset()
 	p1SelEnd = false
 	p2TeamEnd = false
 	p2SelEnd = false
+	p1BG = false
+	p2BG = false
 	if data.p2In == 1 or data.p2In == 3 then
 		p2TeamEnd = true
 		p2SelEnd = true
@@ -1357,11 +1359,13 @@ function f_p1TeamMenu()
 		p1numChars = 2
 		setTeamMode(1, p1teamMode, p1numChars)
 		p1TeamEnd = true
+		p1BG = true
 	elseif data.p1TeamMenu ~= nil then
 		p1numChars = data.p1TeamMenu.chars
 		p1teamMode = data.p1TeamMenu.mode
 		setTeamMode(1, p1teamMode, p1numChars)
 		p1TeamEnd = true
+		p1BG = true
 	else
 		if commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
@@ -1438,6 +1442,7 @@ function f_p1TeamMenu()
 			end
 			setTeamMode(1, p1teamMode, p1numChars)
 			p1TeamEnd = true
+			p1BG = true
 			cmdInput()
 		end
 	end
@@ -1541,11 +1546,13 @@ function f_p2TeamMenu()
 		end
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
+		p2BG = true
 	elseif data.p2TeamMenu ~= nil then
 		p2numChars = data.p2TeamMenu.chars
 		p2teamMode = data.p2TeamMenu.mode
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
+		p2BG = true
 	else
 		if commandGetState(p2Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
@@ -1625,6 +1632,7 @@ function f_p2TeamMenu()
 			end
 			setTeamMode(2, p2teamMode, p2numChars)
 			p2TeamEnd = true
+			p2BG = true
 			cmdInput()
 		end
 	end
@@ -1751,7 +1759,7 @@ function f_p1SelectMenu()
 		p1SelEnd = true
 	else
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-			animDraw(f_animVelocity(charBG2, -2, 0)) --P1 Portrait BG location
+			if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --P1 Portrait BG location
 			if p1Portrait then drawPortrait(p1Portrait, 0, 20, 1, 1) end --P1 Portrait location
 		end
 		local numChars = p1numChars
@@ -1781,7 +1789,7 @@ function f_p1SelectMenu()
 			for j=#data.t_p1selected, 1, -1 do
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 					--drawPortrait(data.t_p1selected[p1numChars].cel, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select (This detects random select portrait)
-					drawPortrait(p1Portrait, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select
+					--drawPortrait(p1Portrait, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
@@ -1959,7 +1967,7 @@ function f_p2SelectMenu()
 		p2SelEnd = true
 	else
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-			animDraw(f_animVelocity(charBG3, 2, 0))
+			if p2BG == true then animDraw(f_animVelocity(charBG3, 2, 0)) end
 			if p2Portrait then drawPortrait(p2Portrait, 320, 20, -1, 1) end
 		end	
 		local numChars = p2numChars
@@ -1992,7 +2000,8 @@ function f_p2SelectMenu()
 			end
 			for j=#t_selected, 1, -1 do
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-					drawPortrait(p2Portrait, 320, 20, -1, 1)
+					--drawPortrait(data.t_p2selected[p2numChars].cel, 320, 20, -1, 1)
+					--drawPortrait(p2Portrait, 320, 20, -1, 1)
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 290 - 28*(j-1), 133, t_selected[j].up)
@@ -2246,6 +2255,8 @@ function f_selectStage()
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 239)
 	elseif data.stageType == 'Modern' then
+		p2BG = false
+		p1BG = false
 		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 205)
 		--Draw Stage Select Title BG
 		animDraw(f_animVelocity(selectSTBG2a, -1, 0))

@@ -17,12 +17,12 @@
 [Files]
 sff = fight.sff
 snd = fight.snd
-font1 = font/jg.fnt
-font2 = font/num1.fnt
-font3 = font/name1.fnt
-font4 = font/sfz2a_system.fnt
-font5 = font/MvcName.fnt
-font6 = font/score1.fnt
+font1 = font/jg.fnt ;Rush Text and Power Level
+font2 = font/num1.fnt ;Combos and Timer Numbers
+font3 = font/name1.fnt ;Name Text
+font4 = font/sfz2a_system.fnt ;Rounds Text
+font5 = font/MvcName.fnt ;Winner Text
+font6 = font/score1.fnt ;Draw Text
 fightfx.sff = fightfx.sff
 fightfx.air = fightfx.air
 common.snd = common.snd

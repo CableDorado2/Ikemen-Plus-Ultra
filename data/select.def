@@ -118,11 +118,10 @@
 ; INSERT YOUR PLAYABLE CHARACTERS BELOW (120 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
 ;===================================================================================
 Kung Fu Man, stages/Mountainside Temple.def, order=1, 1=Suave Dude/Minion/Minion.def, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+randomselect
+randomselect
+randomselect
 Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=1, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
-randomselect
-randomselect
-randomselect
-randomselect
 randomselect
 randomselect
 randomselect
