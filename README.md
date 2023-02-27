@@ -1,5 +1,7 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. It's an open source fighting game engine that supports **M.U.G.E.N** resources. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***.
+*Ikemen Plus Ultra* is an updated version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
+
+- Consider this version of Ikemen engine an **alternative** in case Ikemen GO doesn't work for you.
 
 - This engine can be used to **create advanced MUGENS** or **Fighting Games**, which can be run on any PC from 2008 onwards, without a graphics card (Runs under DirectX Render).
 
@@ -26,6 +28,8 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 ## Table of Contents
 
+>[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
+>
 >[Default Controls](#default-controls)
 >
 >[TODO List](#todo-list)
@@ -40,13 +44,18 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >
 >[Discord Support](#discord-support)
 >
->[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
->
 >[References](#references)
 >
 >[License](#license)
 >
 >[Projects Powered By Ikemen Plus Ultra](#projects-powered-by-ikemen-plus-ultra)
+
+## Ikemen Plus Ultra VS Ikemen Go
+
+"**IKEMEN SSZ** (Currently Called "Plus Ultra") is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language. **Ikemen Plus Ultra it's a facelift to the Classic/Old Ikemen Engine.**
+
+"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
+specific build environment and necessity to compile changes to an executable each time". **Ikemen Go it's the latest version of Ikemen Engine.**
 
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
@@ -75,6 +84,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
 - [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
+
+- [ ] El jefe final o algún char que tenga un parametro aparezca en modo single tal como funcionan los bonus games, dado que la cpu en modo simul mostrará 2, 3 o 4 jefes finales y es mejor controlar eso bajo un parametro.
 
 - [ ] Mejorar lógica del desplazamiento para menú de Misiones y Eventos (Al agregar más del límite de pantalla, entonces automáticamente sube como el menú sound test)
 
@@ -176,6 +187,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
+- [ ] Soporte para imágenes RGB/32bits y shaders
+
 - [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
 
 **v1.9**
@@ -226,15 +239,7 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 - For create characters and stages, there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
-If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server: https://discord.gg/KV5EPnMuA7
-
-## Ikemen Plus Ultra VS Ikemen Go
-To understand this, once again the special contributor ***PlasmoidThunder*** says:
-
-"**IKEMEN SSZ** (Currently Called: Plus Ultra) is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. It's a quick option to test changes".
-
-"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
-specific build environment and necessity to compile changes to an executable each time".
+If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, consult in particular with the user **PlasmoidThunder#1542** which is one of the main contributors for this version): https://discord.gg/KV5EPnMuA7
 
 ## References
 >- Original Repository Source Code:
@@ -243,7 +248,7 @@ specific build environment and necessity to compile changes to an executable eac
 >- Original Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
->- Current Ikemen Engine (Ikemen Go) Source Code:
+>- Lastest Ikemen Engine (Ikemen Go) Source Code:
 >https://github.com/Windblade-GR01/Ikemen-GO
 
 ## License
