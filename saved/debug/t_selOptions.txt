@@ -1,25 +1,9 @@
-table: 0CDC1348 {
-  [survivalend] => table: 0CDC1348 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [survivalstart] => table: 0CDC1348 {
-                       [offset] => -3
+table: 0CC70688 {
+  [survivalstart] => table: 0CC70688 {
                        [wins] => 0
+                       [offset] => -3
                      }
-  [arcadeend] => table: 0CDC1348 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [arcadestart] => table: 0CDC1348 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teamstart] => table: 0CDC1348 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [arcademaxmatches] => table: 0CDC1348 {
+  [arcademaxmatches] => table: 0CC70688 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -31,11 +15,19 @@ table: 0CDC1348 {
                           [9] => 0
                           [10] => 0
                         }
-  [teamend] => table: 0CDC1348 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [teammaxmatches] => table: 0CDC1348 {
+  [teamstart] => table: 0CC70688 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
+  [arcadestart] => table: 0CC70688 {
+                     [wins] => 2
+                     [offset] => 0
+                   }
+  [arcadeend] => table: 0CC70688 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
+  [teammaxmatches] => table: 0CC70688 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -47,4 +39,12 @@ table: 0CDC1348 {
                         [9] => 0
                         [10] => 0
                       }
+  [teamend] => table: 0CC70688 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [survivalend] => table: 0CC70688 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
 }

@@ -1,7 +1,7 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 13
-data.playTime = 0
+data.playTime = 146.541
 data.favoriteChar = 'Kung Fu Man'
 data.favoriteStage = 'Fairy Day (16:9) [HD]'
 data.victories = 12

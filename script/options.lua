@@ -250,7 +250,8 @@ function f_saveCfg()
 		['data.challengerSong'] = data.challengerSong,
 		['data.charPresentation'] = data.charPresentation,
 		['data.training'] = data.training,
-		['data.coopenemy'] = data.coopenemy
+		['data.coopenemy'] = data.coopenemy,
+		['data.userName'] = data.userName
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("saved/data_sav.lua","w+")
@@ -280,7 +281,7 @@ function f_saveCfg()
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
 	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
-	s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
+	--s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
 	local file = io.open("ssz/config.ssz","w+")
 	file:write(s_configSSZ)
 	file:close()
@@ -498,7 +499,8 @@ function f_offlineDefault()
 	s_channels = 'Stereo'
 	buffer = 2048
 	--other
-	setUserName('MUGENUSER')
+	data.userName = 'MUGENUSER'
+	--setUserName('MUGENUSER')
 	setListenPort(7500)
 end
 
@@ -574,7 +576,7 @@ t_mainCfg = {
 	{id = '', text = 'Audio Settings'},
 	{id = '', text = 'Input Settings'},
 	{id = '', text = 'Engine Settings'},	
-	{id = '', text = 'Player Name',        varID = textImgNew(), varText = getUserName()}, --set and get UserName added via system-script.ssz
+	{id = '', text = 'Player Name',        varID = textImgNew(), varText = data.userName},
 	{id = '', text = 'Port Change',        varID = textImgNew(), varText = getListenPort()},
 	{id = '', text = 'Default Values'},
 	{id = '', text = '              Save and Back'},
@@ -659,13 +661,13 @@ function f_mainCfg()
 				--end
 				--local playerName = inputDialogGetStr(inputdia)
 				--if playerName == '' then --if the field is empty
-					--setUserName('MUGENUSER') --set a default username
+					--data.userName = 'MUGENUSER' --set a default username
 					--modified = 1
 				--else
-					--setUserName(inputDialogGetStr(inputdia)) --set username introduced
+					--data.userName = (inputDialogGetStr(inputdia)) --set username introduced
 					--modified = 1
 				--end
-				--setUserName(inputDialogGetStr(inputdia))
+				--data.userName = (inputDialogGetStr(inputdia))
 				--modified = 1
 			--Edit Online Port
 			elseif mainCfg == 8 then
@@ -740,7 +742,7 @@ function f_mainCfg()
 			if esc() then
 				clearInputText()
 				sndPlay(sysSnd, 100, 2)
-				t_mainCfg[7].varText = getUserName()
+				t_mainCfg[7].varText = data.userName--getUserName()
 				nameEdit = false
 				done = true
 			end
@@ -769,7 +771,7 @@ function f_mainCfg()
 					--What if you want to get certain pieces out of a string of text? This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures will be returned from string.match.
 					--> = string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
 					--foo 123 bar 456
-					setUserName(tostring(playerName))
+					data.userName = (tostring(playerName))
 					modified = 1
 					nameEdit = false
 					done = true
