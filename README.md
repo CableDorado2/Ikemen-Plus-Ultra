@@ -261,6 +261,6 @@ Check [License.txt](License.txt) for more details.
 >
 >[![Alt text](https://img.youtube.com/vi/TezLZpIdbac/maxresdefault.jpg)](https://www.youtube.com/watch?v=TezLZpIdbac)
 
->***ULTIMATE SMASHBOX:*** In development...
+>***ULTIMATE SMASHBOX:*** https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg
 >
->[![Alt text](https://i.ytimg.com/vi/C5VTzhcFa3g/maxresdefault.jpg)](https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg)
+>[![Alt text](https://i.postimg.cc/13sh5ZxB/USX-Wallpaper.png)](https://sites.google.com/view/ultimatesmashbox/home)
