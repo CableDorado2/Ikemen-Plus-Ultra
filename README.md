@@ -264,3 +264,7 @@ Check [License.txt](License.txt) for more details.
 >***ULTIMATE SMASHBOX:*** https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg
 >
 >[![Alt text](https://i.postimg.cc/13sh5ZxB/USX-Wallpaper.png)](https://sites.google.com/view/ultimatesmashbox/home)
+
+>***TOUHOU: GENSOKYO RELOADED:*** https://twitter.com/official_thgr
+>
+>[![Alt text](https://i.postimg.cc/Vvk1hxm0/tgr.png)](https://1drv.ms/f/s!ApLvCUDLkbLnkXnS3xZ5rXRS4UN1)
