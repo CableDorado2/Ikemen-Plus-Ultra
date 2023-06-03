@@ -166,8 +166,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
 
-- [ ] Perfiles de usuarios.
-
 **v1.7**
 ------------
 
@@ -175,10 +173,10 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
 
-- [ ] Selección de paletas en char select.
-
 - [ ] Adventure Mode (Background Made by https://www.pinterest.de/pin/459789443207079748/)
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)]()
+
+- [ ] Perfiles de usuarios.
 
 **v1.8**
 ------------
