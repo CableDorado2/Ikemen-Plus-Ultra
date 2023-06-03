@@ -2476,11 +2476,11 @@ function f_extrasMenu()
 						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						break				
-					elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'd')) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
+					elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u')) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
 						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt + 1
-					elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'u')) and moveArt > 1 then --Keep in image 0,0 when press left until finish
+					elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd')) and moveArt > 1 then --Keep in image 0,0 when press left until finish
 						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt - 1
