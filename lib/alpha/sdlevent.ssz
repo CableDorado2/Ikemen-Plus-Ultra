@@ -1,5 +1,6 @@
 ﻿
 lib sdl = <alpha/sdlplugin.ssz>;
+lib sh = <shell.ssz>;
 
 uint nexttime = 0x0, lastdraw = 0x0;
 float nexttimeFractionalPart = 0.0;

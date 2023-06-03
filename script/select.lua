@@ -64,6 +64,8 @@ function f_selectReset()
 	data.t_p2selected = {}
 	selectStart()
 	p1TeamEnd = false
+	p1palEnd = true
+	p2palEnd = true
 	p1SelEnd = false
 	p2TeamEnd = false
 	p2SelEnd = false
@@ -1253,7 +1255,24 @@ function f_selectScreen()
 		textImgSetText(txt_p2Wins, 'WINS: ' .. p2Wins)
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
-	end	
+	end
+	if data.palType == 'Classic' then
+		txt_palHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
+	elseif data.palType == 'Modern' then
+		if p1palEnd == true and p2palEnd == true then
+			txt_palHint = createTextImg(font1, 0, -1, 'PRESS START BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS', 287, 239)
+		else
+			txt_palHint = createTextImg(font1, 0, -1, ' ', 295, 239)
+		end
+		--Player1
+		if not p1palEnd then
+			f_p1palList()
+		end
+		--Player2
+		if not p2palEnd then
+			f_p2palList()
+		end
+	end
 	if p1SelEnd and p2SelEnd then
 		--Stage select
 		if not stageEnd then
@@ -1641,7 +1660,6 @@ end
 --;===========================================================
 --; CHARACTER SELECT PLAYERS SCREENPACK
 --;===========================================================
-txt_selectHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
 
 --Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
 arrowsUMR = animNew(sysSff, [[
@@ -1739,10 +1757,101 @@ animAddPos(arrowsDSR, 156, 223)
 animUpdate(arrowsDSR)
 animSetScale(arrowsDSR, 0.95, 0.95)
 
+--Left Arrow for Player 1 Palette Select (Modern Type)
+arrowsPL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsPL, 67, 227.5)
+animUpdate(arrowsPL)
+animSetScale(arrowsPL, 0.5, 0.5)
+
+--Left Arrow for Player 2 Palette Select (Modern Type)
+arrowsPL2 = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsPL2, 194, 227.5)
+animUpdate(arrowsPL2)
+animSetScale(arrowsPL2, 0.5, 0.5)
+
+--Right Arrow for Player 1 Palette Select (Modern Type)
+arrowsPR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsPR, 115, 227.5)
+animUpdate(arrowsPR)
+animSetScale(arrowsPR, 0.5, 0.5)
+
+--Right Arrow for Player 2 Palette Select (Modern Type)
+arrowsPR2 = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsPR2, 242, 227.5)
+animUpdate(arrowsPR2)
+animSetScale(arrowsPR2, 0.5, 0.5)
+
 --;===========================================================
 --; PLAYER 1 CHARACTER SELECT
 --;===========================================================
 txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0) --Text color when scrolling through the roster
+p1palSelect = 1
+p1movePal = 1
+
+function f_p1palList() --Palette Menu
+	cmdInput()
+	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u')) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
+		sndPlay(sysSnd, 100, 0)
+		p1movePal = p1movePal + 1
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd')) and p1movePal > 1 then --Keep in palette 1 when press left until finish
+		sndPlay(sysSnd, 100, 0)
+		p1movePal = p1movePal - 1
+	end
+	p1palSelect = p1movePal --Uses menu position to show palette in these order
+	txt_pal = createTextImg(jgFnt, 5, 1, 'PALETTE:', 5, 237)
+	txt_palNumber = createTextImg(font14, 0, 0, ' ' .. p1palSelect .. '/12', 93, 237) --draw palette limit numbers text
+	textImgDraw(txt_pal)
+	textImgDraw(txt_palNumber)
+	if p1movePal > 1 then
+		animDraw(arrowsPL)
+		animUpdate(arrowsPL)
+	end
+	if p1movePal <= 11 then
+		animDraw(arrowsPR)
+		animUpdate(arrowsPR)
+	end
+	if btnPalNo(p1Cmd) > 0 then
+		sndPlay(sysSnd, 100, 1)
+		p1palEnd = true
+		cmdInput()
+	end
+end
 
 function f_p1SelectMenu()
 	if data.p1Char ~= nil then
@@ -1886,6 +1995,14 @@ function f_p1SelectMenu()
 				if tmpCelX ~= p1SelX then
 					sndPlay(sysSnd, 100, 0)
 				end
+			elseif commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
+				if data.palType == 'Modern' then
+					p1palEnd = false
+					sndPlay(sysSnd, 100, 3)
+					f_p1palList()
+				else
+					--Do not show Modern Palette Menu
+				end
 			end
 			p1Cell = p1SelX + selectColumns*p1SelY
 			p1Portrait = p1Cell
@@ -1902,7 +2019,7 @@ function f_p1SelectMenu()
 				animUpdate(arrowsDMR)
 			end
 			--Draw Character Select Hint
-			textImgDraw(txt_selectHint)
+			textImgDraw(txt_palHint)
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
 			textImgPosDraw(txt_p1Name, 10, nameY)
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
@@ -1920,11 +2037,17 @@ function f_p1SelectMenu()
 						updateAnim = false
 					end
 				end
+				--p1palSelect = 1 --Load Default Palette (In case that you do not open the palette menu with Start Button in data.palType = Modern)
+				if data.palType == 'Classic' then
+					p1palSelect = btnPalNo(p1Cmd)
+				elseif data.palType == 'Modern' then
+					p1palSelect = p1palSelect
+				end
 				if data.coop then
-					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = btnPalNo(p1Cmd), ['up'] = updateAnim}
+					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
 					p1SelEnd = true
 				else
-					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = btnPalNo(p1Cmd), ['up'] = updateAnim}
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
 					if #data.t_p1selected == p1numChars then
 						if data.p2In == 1 and matchNo == 0 then
 							p2TeamEnd = false
@@ -1948,6 +2071,37 @@ end
 --; PLAYER 2 CHARACTER SELECT
 --;===========================================================
 txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0)
+p2palSelect = 1
+p2movePal = 1
+
+function f_p2palList()
+	cmdInput()
+	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u')) and p2movePal <= 11 then
+		sndPlay(sysSnd, 100, 0)
+		p2movePal = p2movePal + 1
+	elseif (commandGetState(p2Cmd, 'l') or commandGetState(p2Cmd, 'd')) and p2movePal > 1 then
+		sndPlay(sysSnd, 100, 0)
+		p2movePal = p2movePal - 1
+	end
+	p2palSelect = p2movePal
+	txt_pal2 = createTextImg(jgFnt, 5, 1, ':PALETTE', 250, 237)
+	txt_pal2Number = createTextImg(font14, 0, 0, ' ' .. p2palSelect .. '/12', 220, 237)
+	textImgDraw(txt_pal2)
+	textImgDraw(txt_pal2Number)
+	if p2movePal > 1 then
+		animDraw(arrowsPL2)
+		animUpdate(arrowsPL2)
+	end
+	if p2movePal <= 11 then
+		animDraw(arrowsPR2)
+		animUpdate(arrowsPR2)
+	end
+	if btnPalNo(p2Cmd) > 0 then
+		sndPlay(sysSnd, 100, 1)
+		p2palEnd = true
+		cmdInput()
+	end
+end
 
 function f_p2SelectMenu()
 	if data.p2Char ~= nil then
@@ -2098,6 +2252,14 @@ function f_p2SelectMenu()
 				if tmpCelX ~= p2SelX then
 					sndPlay(sysSnd, 100, 0)
 				end
+			elseif commandGetState(p2Cmd, 's') then
+				if data.palType == 'Modern' then
+					p2palEnd = false
+					sndPlay(sysSnd, 100, 3)
+					f_p2palList()
+				else
+					--Do not show Modern Palette Menu
+				end
 			end
 			p2Cell = p2SelX + selectColumns*p2SelY
 			p2Portrait = p2Cell
@@ -2113,7 +2275,7 @@ function f_p2SelectMenu()
 				animDraw(arrowsDMR2)
 				animUpdate(arrowsDMR2)
 			end
-			textImgDraw(txt_selectHint)
+			textImgDraw(txt_palHint)
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
 			textImgPosDraw(txt_p2Name, 309, nameY)
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
@@ -2126,13 +2288,19 @@ function f_p2SelectMenu()
                     sndPlay(announcerSnd, 2, 0)
 				end
 				local updateAnim = true
+				--p2palSelect = 1 --Load Default Palette (In case that you do not open the palette menu with Start Button in data.palType = Modern)
+				if data.palType == 'Classic' then
+					p2palSelect = btnPalNo(p2Cmd)
+				elseif data.palType == 'Modern' then
+					p2palSelect = p2palSelect
+				end
 				if data.coop then
 					for i=1, #data.t_p1selected do
 						if data.t_p1selected[i].cel == p2Cell then 
 							updateAnim = false
 						end
 					end
-					data.t_p1selected[2] = {['cel'] = cel, ['pal'] = btnPalNo(p2Cmd), ['up'] = updateAnim}
+					data.t_p1selected[2] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
 					p2SelEnd = true
 				else
 					for i=1, #data.t_p2selected do
@@ -2140,7 +2308,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
-					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = btnPalNo(p2Cmd), ['up'] = updateAnim}
+					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
 					if #data.t_p2selected == p2numChars then
 						p2SelEnd = true
 					end

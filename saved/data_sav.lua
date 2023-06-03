@@ -25,6 +25,7 @@ data.menuSong = 'Random'
 data.clock = 'Standard'
 data.date = 'Type A'
 data.selectType = 'Variable'
+data.palType = 'Classic'
 data.stageType = 'Classic'
 data.winscreen = 'Classic'
 data.debugMode = true

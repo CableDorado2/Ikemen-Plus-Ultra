@@ -244,6 +244,7 @@ function f_saveCfg()
 		['data.clock'] = data.clock,
 		['data.date'] = data.date,
 		['data.selectType'] = data.selectType,
+		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
 		['data.debugMode'] = data.debugMode,
@@ -331,6 +332,7 @@ function f_netsaveCfg()
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
 		['data.selectType'] = data.selectType,
+		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
 		['data.charPresentation'] = data.charPresentation,
@@ -447,6 +449,7 @@ function f_onlineDefault()
 	s_vsDisplayWin = 'Yes'
 	data.lifebar = 'data/screenpack/winmugen/fight.def'
 	data.selectType = 'Fixed'
+	data.palType = 'Modern'
 	data.stageType = 'Classic'
 	data.winscreen = 'Classic'
 	data.debugMode = false
@@ -1464,6 +1467,7 @@ t_UICfg = {
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
 	{id = '', text = 'Char Presentation',        varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Character Select Type',    varID = textImgNew(), varText = data.selectType},
+	{id = '', text = 'Palette Select Type',    	 varID = textImgNew(), varText = data.palType},
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = '          BACK'},
@@ -1652,8 +1656,24 @@ function f_UICfg()
 					modified = 1
 				end
 			end
-		--Stage Select Display Type
+		--Palette Select Display Type
 		elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.palType == 'Classic' then
+				data.palType = 'Modern'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'r') and data.palType == 'Modern' then
+				data.palType = 'Classic'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.palType == 'Classic' then
+				data.palType = 'Modern'
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') and data.palType == 'Modern' then
+				data.palType = 'Classic'
+				modified = 1
+			end
+		--Stage Select Display Type
+		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.stageType == 'Classic' then
 				data.stageType = 'Modern'
@@ -1677,7 +1697,7 @@ function f_UICfg()
 				--modified = 1
 			end
 		--Win Screen Display Type
-		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+		elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 				data.winscreen = 'Modern'
@@ -1705,7 +1725,7 @@ function f_UICfg()
 				modified = 1
 			end
 		--Back
-		elseif UICfg == 9 and btnPalNo(p1Cmd) > 0 then
+		elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -1724,8 +1744,9 @@ function f_UICfg()
 		t_UICfg[4].varText = s_vsDisplayWin
 		t_UICfg[5].varText = data.charPresentation
 		t_UICfg[6].varText = data.selectType
-		t_UICfg[7].varText = data.stageType
-		t_UICfg[8].varText = data.winscreen
+		t_UICfg[7].varText = data.palType
+		t_UICfg[8].varText = data.stageType
+		t_UICfg[9].varText = data.winscreen
 		for i=1, #t_UICfg do
 			textImgDraw(t_UICfg[i].id)
 			if t_UICfg[i].varID ~= nil then
