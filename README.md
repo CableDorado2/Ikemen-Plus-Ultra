@@ -137,8 +137,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 
-[![Alt text](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ad49932b-3169-4a62-aa57-11781a185d36/db6apa4-1ba4bb8d-6e9c-41c2-a526-326548059503.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FkNDk5MzJiLTMxNjktNGE2Mi1hYTU3LTExNzgxYTE4NWQzNlwvZGI2YXBhNC0xYmE0YmI4ZC02ZTljLTQxYzItYTUyNi0zMjY1NDgwNTk1MDMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.1QvFT8IITRX15T_INE13ntmAT9nUdeupQDID6Y1Zd2E)](https://youtu.be/GAoGLx411Sk?t=3)
-
 - [ ] Story Mode Concept.
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
@@ -154,6 +152,9 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
+- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
+[![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
+
 **v1.6**
 ------------
 
@@ -163,8 +164,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 [![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
 
-- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
-[![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
+- [ ] Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
+[![Alt text](https://imagen.nextn.es/wp-content/uploads/2019/01/1901-31-BlazBlue-Central-Fiction-Special-Edition-an%C3%A1lisis-Nintendo-Switch-07.jpg?strip=all&lossy=1&quality=80&webp=92&ssl=1)](https://youtu.be/5UI_nFAORnE?t=281)
 
 **v1.7**
 ------------
@@ -174,7 +175,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
 
 - [ ] Adventure Mode (Background Made by https://www.pinterest.de/pin/459789443207079748/)
-[![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)]()
+[![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
 
 - [ ] Perfiles de usuarios.
 
