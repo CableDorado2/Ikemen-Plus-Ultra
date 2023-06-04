@@ -26,22 +26,6 @@ animUpdate(optionsBG1)
 modified = 0
 needReload = 0
 
-function f_strSub(str, t) --Is already in common.lua, soo.. delete here?
-	local txt = ''
-	for row, val in pairs(t) do
-		if type(val) == 'string' then
-			val = "'" .. tostring(val) .. "'"
-		elseif type(var) == 'number' then
-			val = var
-		else
-			val = tostring(val)
-		end
-		str = str:gsub(row .. '%s*=%s*[^\n]+', row .. ' = ' .. val)
-		txt = txt .. row .. ' = ' .. val .. '\n'
-	end
-	return str, txt
-end
-
 --;===========================================================
 --; LOAD DATA FUNCTIONS
 --;===========================================================

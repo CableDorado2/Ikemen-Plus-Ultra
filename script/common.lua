@@ -533,7 +533,7 @@ function f_strSub(str, t)
 	local txt = ''
 	for row, val in pairs(t) do
 		if type(val) == 'string' then
-			val = "'" .. tostring(val) .. "'"
+			val = '"' .. tostring(val) .. '"' --OLD: val = "'" .. tostring(val) .. "'"
 		elseif type(var) == 'number' then
 			val = var
 		else

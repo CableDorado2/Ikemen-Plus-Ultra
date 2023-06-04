@@ -1,9 +1,9 @@
-table: 0D59B4F8 {
-  [survivalend] => table: 0D59B4F8 {
-                     [wins] => 16
-                     [offset] => 4
-                   }
-  [arcademaxmatches] => table: 0D59B4F8 {
+table: 0CAB1B98 {
+  [arcadeend] => table: 0CAB1B98 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
+  [arcademaxmatches] => table: 0CAB1B98 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -15,19 +15,7 @@ table: 0D59B4F8 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 0D59B4F8 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
-  [arcadestart] => table: 0D59B4F8 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [teamend] => table: 0D59B4F8 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [teammaxmatches] => table: 0D59B4F8 {
+  [teammaxmatches] => table: 0CAB1B98 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -39,11 +27,23 @@ table: 0D59B4F8 {
                         [9] => 0
                         [10] => 0
                       }
-  [survivalstart] => table: 0D59B4F8 {
+  [arcadestart] => table: 0CAB1B98 {
+                     [wins] => 2
+                     [offset] => 0
+                   }
+  [survivalstart] => table: 0CAB1B98 {
                        [wins] => 0
                        [offset] => -3
                      }
-  [teamstart] => table: 0D59B4F8 {
+  [teamend] => table: 0CAB1B98 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [survivalend] => table: 0CAB1B98 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
+  [teamstart] => table: 0CAB1B98 {
                    [wins] => 1
                    [offset] => 0
                  }
