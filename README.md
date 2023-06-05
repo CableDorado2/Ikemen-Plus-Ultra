@@ -164,9 +164,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 [![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
 
-- [ ] Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
-[![Alt text](https://imagen.nextn.es/wp-content/uploads/2019/01/1901-31-BlazBlue-Central-Fiction-Special-Edition-an%C3%A1lisis-Nintendo-Switch-07.jpg?strip=all&lossy=1&quality=80&webp=92&ssl=1)](https://youtu.be/5UI_nFAORnE?t=281)
-
 **v1.7**
 ------------
 
@@ -174,7 +171,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
 
-- [ ] Adventure Mode (Background Made by https://www.pinterest.de/pin/459789443207079748/)
+- [ ] Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
 
 - [ ] Perfiles de usuarios.
