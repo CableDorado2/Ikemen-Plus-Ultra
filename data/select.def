@@ -121,7 +121,7 @@ Kung Fu Man, stages/Mountainside Temple.def, order=1, 1=Suave Dude/Minion/Minion
 randomselect
 randomselect
 randomselect
-Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=1, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
+Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
 randomselect
 randomselect

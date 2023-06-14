@@ -720,6 +720,7 @@ function f_selectSimple()
 	p1OffsetRow = 0
 	p2OffsetRow = 0
 	stageList = 0
+	musicList = 0
 	gameNo = 0
 	bossNo = 0
 	bonusNo = 0
@@ -753,6 +754,17 @@ function f_selectSimple()
 				end
 			end
 			f_selectScreen()
+			--if musicList == 0 then
+				--setMusic(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
+			--elseif musicList == 1 then
+				--f_assignMusic()
+			--end
+			
+			if p1SelEnd and p2SelEnd then
+				if musicList > 0 and commandGetState(p1Cmd, 'return') then
+					playBGM(t_selMusic[musicList+1].bgmfile)
+				end
+			end
 		end
 		f_aiLevel()
 		f_orderSelect()

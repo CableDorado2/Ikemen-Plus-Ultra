@@ -9,6 +9,7 @@ lib chr = "char.ssz";
 lib cmd = chr.cmd;
 lib com = "common.ssz";
 lib cfg = "config.ssz";
+lib al = <alert.ssz>;
 
 const ^/char enzansiMoji = "=<>|&+*/%^";
 const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
@@ -59,6 +60,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   RemapPal,
   Zoom,
   ExitMatch,
+  PlayBGM,
   Null
 }
 &StateCtrl
@@ -3275,6 +3277,8 @@ public &StateBuilder
         if(!`zoom(am=)) ret false;
 	  case .CtrlTy::ExitMatch:
         if(!`exitMatch(am=)) ret false;
+	  case .CtrlTy::PlayBGM:
+        if(!`playBGM(am=)) ret false;
       default:
         {
           bool error = false;
@@ -7775,6 +7779,29 @@ public &StateBuilder
       ret true;
     }]);
   }
+  bool playBGM(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      bool path = false;
+      if(!`stateParam(param=, "path", [`paraF_t(data=){
+        path = true;
+        if(!(#data >= 2 && data[0] == '"')){
+          `lasterror = \""で囲まれていません";
+          ret false;
+        }
+        branch{
+        cond #data == 2: `state.ctrlList[-1].task .= "if(.bgmflag){.snd.bgm~play(.stage.bgmusic);.bgmflag = false;}";
+        else: `state.ctrlList[-1].task .= ".snd.bgm~play(" .= data .= "); .bgmflag = true;";
+        }
+        ret true;
+      }])) ret false;
+      if(!path){
+        `lasterror = "pathが指定されていません";
+        ret false;
+      }
+      ret true;
+    }]);
+  }
   ^/char stateBulid(%char buf=, ^/char def, ^/char st=)
   {:<-
     public bool statedef(^/char sec, ^/char name, ^/char data)
@@ -7977,6 +8004,8 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::Zoom;
 		cond .s.equ(s, "exitmatch"):
           `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
+		cond .s.equ(s, "playbgm"):
+          `state.ctrlList[-1].typ = .CtrlTy::PlayBGM;
         cond .s.equ(s, "null"):
           `state.ctrlList[-1].typ = .CtrlTy::Null;
         else:

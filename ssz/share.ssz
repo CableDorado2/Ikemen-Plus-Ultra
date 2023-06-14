@@ -45,6 +45,7 @@ public &Share
   public int gameType;
   public int serviceType;
   public float panStr;
+  public ^/char bgmusic;
   /%&.cfg.Keys in;
   public bool disablePadP1;
   public bool disablePadP2;
@@ -95,6 +96,7 @@ public &Share
 	`gameType = .com.gameType;
 	`serviceType = .com.serviceType;
 	`panStr = .snd.panstr;
+	`bgmusic = .stage.bgmusic;
 	`in = .cfg.in;
 	`disablePadP1 = .cmd.disablePadP1;
 	`disablePadP2 = .cmd.disablePadP2;
@@ -146,6 +148,7 @@ public &Share
 	.com.gameType = `gameType;
 	.com.serviceType = `serviceType;
 	.snd.panstr = `panStr;
+	.stage.bgmusic = `bgmusic;
 	.cfg.in[0] = `in[0];
     .cfg.in[1] = `in[1];
     .cfg.in[2] = `in[2];

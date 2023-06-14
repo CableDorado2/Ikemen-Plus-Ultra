@@ -12,6 +12,7 @@ lib tbl = <table.ssz>;
 
 public ^&com.PalFX bgPalFX;
 bgPalFX.new(1);
+public ^/char bgmusic;
 
 &EnvShake
 {
