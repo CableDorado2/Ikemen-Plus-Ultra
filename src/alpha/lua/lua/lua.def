@@ -1,0 +1,22 @@
+EXPORTS
+        Init
+        NewState
+        Close
+        RunFile
+        RunString
+        GetTop
+        GetGlobal
+        Register
+        Pcall
+        Pop
+        PushNumber
+        IsNumber
+        ToNumber
+        PushBoolean
+        IsBoolean
+        ToBoolean
+        PushString
+        IsString
+        ToString
+        PushRef
+        ToRef

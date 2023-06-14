@@ -1,0 +1,7 @@
+EXPORTS
+    Run
+    NewCompiler
+    DeleteCompiler
+    CompilerCompile
+    CompilerCompileString
+    CompilerRun
