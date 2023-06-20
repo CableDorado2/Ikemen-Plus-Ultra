@@ -87,7 +87,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] El jefe final o algún char que tenga un parametro aparezca en modo single tal como funcionan los bonus games, dado que la cpu en modo simul mostrará 2, 3 o 4 jefes finales y es mejor controlar eso bajo un parametro.
 
-- [ ] Mejorar lógica del desplazamiento para menú de Misiones y Eventos (Al agregar más del límite de pantalla, entonces automáticamente sube como el menú sound test)
+- [ ] Mejorar lógica del desplazamiento para menú de Misiones y Eventos (Al agregar más del límite de pantalla, entonces automáticamente sube como el menú sound test).
 
 - [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
 
@@ -96,13 +96,9 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
 [![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)]()
 
-- [ ] Asignar en Stage Select: Música original, random o alguna de las que se tienen guardadas en la carpeta sounds.
-
 - [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
 
-- [ ] Mejorar lógica del menú de estadísticas
-
-- [ ] Arreglar para options.lua que un username escrito con espacios, se pueda editar a uno sin espacios. Ejemplo: Si registro "Strong FS", cuando quiera editarlo y registrar "CD2", me debe dejar guardar este último (Actualmente no lo guarda y se mantiene en el ssz "Strong FS").
+- [ ] Mejorar lógica del menú de estadísticas.
 
 - [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
 
@@ -163,6 +159,9 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 [![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
+
+- [ ] Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
+[![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
 
 **v1.7**
 ------------
