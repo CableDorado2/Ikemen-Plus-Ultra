@@ -3390,9 +3390,9 @@ function f_keyMenu()
 end
 
 --;===========================================================
---; JOYSTICK MENU
+--; GAMEPAD MENU
 --;===========================================================
-txt_joyMenu = createTextImg(jgFnt, 0, 0, 'JOYSTICK SETTINGS', 159, 13)
+txt_joyMenu = createTextImg(jgFnt, 0, 0, 'GAMEPAD SETTINGS', 159, 13)
 
 t_joyMenu = {
 	{id = '', text = 'Player 1 Gamepad'},
@@ -3420,7 +3420,7 @@ function f_joyMenu()
 			if joyMenu > #t_joyMenu then joyMenu = 1 end
 		end
 		if btnPalNo(p1Cmd) > 0 then
-			--PLAYER 1 JOYSTICK
+			--PLAYER 1 GAMEPAD
 			if joyMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
 				gamepadID = 1
@@ -3429,7 +3429,7 @@ function f_joyMenu()
 				commandBufReset(p2Cmd)
 				f_inputRead(2, data.p1Gamepad)
 				f_keyCfg(2, data.p1Gamepad)
-			--PLAYER 2 JOYSTICK
+			--PLAYER 2 GAMEPAD
 			elseif joyMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				gamepadID = 2
@@ -3470,7 +3470,7 @@ for i=1, #t_newinput do
 end
 
 --;===========================================================
---; KEYBOARD/JOYSTICK BUTTONS
+--; KEYBOARD/GAMEPAD BUTTONS
 --;===========================================================
 txt_keyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING', 159, 13)
 
