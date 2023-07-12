@@ -71,6 +71,8 @@ function f_selectReset()
 	p2SelEnd = false
 	p1BG = false
 	p2BG = false
+	stageSelect = true
+	songSelect = false
 	if data.p2In == 1 or data.p2In == 3 then
 		p2TeamEnd = true
 		p2SelEnd = true
@@ -827,6 +829,7 @@ function f_selectAdvance()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
+	musicList = 0
 	gameNo = 0
 	bossNo = 0
 	bonusNo = 0
@@ -1909,8 +1912,7 @@ function f_p1SelectMenu()
 			end
 			for j=#data.t_p1selected, 1, -1 do
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-					--drawPortrait(data.t_p1selected[p1numChars].cel, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select (This detects random select portrait)
-					--drawPortrait(p1Portrait, 0, 20, 1, 1) --Location of P1 Portrait chosen ONLY in the Char Select
+					--drawPortrait(data.t_p1selected[j].cel, 0, 20+60*(j-1), 1, 1) --Location of Multiple P1 Portrait chosen ONLY in the Char Select (This detects random select portrait)
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
@@ -2434,10 +2436,12 @@ function f_selectStage()
 	local bufr = 0
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 239)
+		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
 	elseif data.stageType == 'Modern' then
 		p2BG = false
 		p1BG = false
 		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 205)
+		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 181)
 		--Draw Stage Select Title BG
 		animDraw(f_animVelocity(selectSTBG2a, -1, 0))
 		animDraw(f_animVelocity(selectSTBG2b, -3, 0))
@@ -2446,31 +2450,69 @@ function f_selectStage()
 		animDraw(f_animVelocity(selectSBG2a, 1, 0))
 		animDraw(f_animVelocity(selectSBG2b, 3, 0))
 		animDraw(f_animVelocity(selectSBG2c, 6, 0))
-		--Draw Title Text
+		--Draw Stage Title Text
 		txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 60)
 		textImgDraw(txt_stageSelect)
 	end
 	if data.stageMenu then
-		--if commandGetState(p1Cmd, 's') then
-			--sndPlay(sysSnd, 100, 0)
-			--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
-		if commandGetState(p1Cmd, 'u') then
-			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Down Button on StageList Numbered
+		if commandGetState(p1Cmd, 's') then
+			if stageSelect == true then
+				--sndPlay(sysSnd, 100, 0)
+				--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
+			end
+			if songSelect == true then
+				playBGM(t_selMusic[musicList+1].bgmfile)
+			end
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 3)
+			--Allow Stage Select
+			if stageSelect == true then
+				stageSelect = false
+			elseif stageSelect == false then
+				stageSelect = true
+			end
+			--Allow Song Select
+			if songSelect == true then
+				songSelect = false
+			elseif songSelect == false then
+				songSelect = true
+			end
+			--Go back 5 by 5 Logic:
+			--for i=1, 5 do
+				--stageList = stageList - 1
+				--if stageList < 0 then stageList = data.includestage end
+			--end
+			
+			--Alternative Stage Available By Down Button on StageList Numbered Logic:
+			--if stageList == 1 or stageList == 14 or stageList == 17 then
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList + 1
 			--elseif stageList == 2 or stageList == 15 or stageList == 18 then
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList - 1
 			--end
-			sndPlay(sysSnd, 100, 3)
-			for i=1, 5 do --Go back 5 by 5
-				stageList = stageList - 1
-				if stageList < 0 then stageList = data.includestage end
-			end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') then
-			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available By Up Button on StageList Numbered
+			sndPlay(sysSnd, 100, 3)
+			--Allow Stage Select
+			if stageSelect == true then
+				stageSelect = false
+			elseif stageSelect == false then
+				stageSelect = true
+			end
+			--Allow Song Select
+			if songSelect == true then
+				songSelect = false
+			elseif songSelect == false then
+				songSelect = true
+			end
+			--Advance 5 by 5 Logic:
+			--for i=1, 5 do
+				--stageList = stageList + 1
+				--if stageList > data.includestage then stageList = 0 end
+			--end
+			
+			--Alternative Stage Available By Up Button on StageList Numbered Logic:
+			--if stageList == 1 or stageList == 14 or stageList == 17 then
 				--sndPlay(sysSnd, 100, 1)
 				--stageList = stageList + 1
 			--elseif stageList == 2 or stageList == 15 or stageList == 18 then
@@ -2479,13 +2521,6 @@ function f_selectStage()
 			--else
 			
 			--end
-			sndPlay(sysSnd, 100, 3)
-			for i=1, 5 do --Advance 5 by 5
-				stageList = stageList + 1
-				if stageList > data.includestage then stageList = 0 end
-			end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available For Stage 1
 				--sndPlay(sysSnd, 100, 0)
@@ -2493,8 +2528,15 @@ function f_selectStage()
 			--elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
 			--else --No Alternative Stage Available
 				sndPlay(sysSnd, 100, 0)
-				stageList = stageList + 1
-				if stageList > data.includestage then stageList = 0 end
+				if stageSelect == true then
+					stageList = stageList + 1
+					if stageList > data.includestage then stageList = 0 end
+				end
+				if songSelect == true then
+					musicList = musicList + 1
+					--if musicList > #t_selMusic-1 then musicList = 0 end
+					if musicList > 5 then musicList = 0 end
+				end
 			--end
 		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 			--if stageList == 3 or stageList == 16 or stageList == 19 then --Alternative Stage Available For Stage 1
@@ -2503,8 +2545,15 @@ function f_selectStage()
 			--elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
 			--else --No Alternative Stage Available
 				sndPlay(sysSnd, 100, 0)
-				stageList = stageList - 1
-				if stageList < 0 then stageList = data.includestage end
+				if stageSelect == true then
+					stageList = stageList - 1
+					if stageList < 0 then stageList = data.includestage end
+				end
+				if songSelect == true then
+					musicList = musicList - 1
+					--if musicList < #t_selMusic-1 then musicList = 5 end
+					if musicList < 0 then musicList = 5 end
+				end
 			--end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufl = 0
@@ -2546,8 +2595,10 @@ function f_selectStage()
 			end
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
-		textImgDraw(txt_selStage)		
-		if commandGetState(p1Cmd, 's') or commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
+		textImgDraw(txt_selStage)
+		textImgSetText(txt_selectMusic, 'BGM: ' .. t_selMusic[musicList+1].bgmname)
+		textImgDraw(txt_selectMusic)
+		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 			sndPlay(sysSnd, 100, 1)
 			if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
 			elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
@@ -2596,7 +2647,11 @@ function f_assignMusic()
 		end
 		stageEnd = true
 	end
-	playBGM(track)
+	if musicList == 0 then
+		playBGM(track)
+	else
+		playBGM(t_selMusic[musicList+1].bgmfile)
+	end
 end
 
 --;===========================================================

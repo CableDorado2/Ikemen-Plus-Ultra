@@ -1,0 +1,63 @@
+﻿
+lib file = <file.ssz>;
+lib math = <math.ssz>;
+
+void foo(double d=, index その他=)
+{
+  branch{
+  cond d < 0.0:
+    branch{
+    cond d <= -1.0:
+      d -= -1.0;
+      その他 = -1;
+    else:
+      その他 = 0;
+    }
+  else:
+    branch{
+    cond d >= 1.0:
+      d -= 1.0;
+      その他 = 1;
+    else:
+      その他 = 0;
+    }
+  }
+}
+&file.File f;
+f.open("kakudo.txt", "wb");
+
+loop{
+  index i = 0;
+do:
+  loop{
+    index j = 0, dx, dy, dtmp = 0;
+    double kakudo = (math.PI * (double)i) / 512.0;
+    double kx = (math.cos(kakudo) < 0.0 ? -0.5 : 0.5),
+      ky = -(math.sin(kakudo) < 0.0 ? -0.5 : 0.5);
+    %char buf;
+    buf .= "{"\r\n;
+  do:
+    kx += math.cos(kakudo);
+    ky += -math.sin(kakudo);
+    foo(ky=, dy=);
+    foo(kx=, dx=);
+    branch{
+    cond dtmp != 0:
+      if(dy == 0){
+        dy = dtmp;
+        dtmp = 0;
+      }
+    cond dy != 0 && dx == 0:
+      dtmp = dy;
+      dy = 0;
+    }
+    buf .= "{" .= ''dx .= "," .= ''dy .= "}";
+    j++;
+    if(j < 256) buf .= ",";
+    if(j % 16 == 0) buf .= \r\n;
+  while j < 256:
+    f.writeAry!char?(buf .= "},"\r\n);
+  }
+  i++;
+while i <= 128:
+}

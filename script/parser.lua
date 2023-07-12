@@ -560,8 +560,8 @@ end
 
 --Generate Table with Music List
 t_selMusic = {
-	{bgmfile = '', bgmname = 'Random', bgmchar = 0},
-	{bgmfile = '', bgmname = 'Auto', bgmchar = 0}
+	{bgmfile = '', bgmname = 'Auto', bgmchar = 0},
+	{bgmfile = '', bgmname = 'Random', bgmchar = 0}
 }
 
 --Populate table with stage music
@@ -579,19 +579,23 @@ end
 --Stage music names and associated character
 --t_selMusic[3].bgmname = 'Mystic Oriental Love Consultation'
 --t_selMusic[3].bgmchar = 1
+
 --t_selMusic[4].bgmname = 'Complete Darkness'
 --t_selMusic[4].bgmchar = 7
+
 --t_selMusic[5].bgmname = 'Necrofantasia'
 --t_selMusic[5].bgmchar = 19
+
 --t_selMusic[6].bgmname = 'Meiji 17th ~Last Fight Began~'
 --t_selMusic[6].bgmchar = 12
+
 --t_selMusic[7].bgmname = 'Magus Night'
 --t_selMusic[7].bgmchar = 2
 
 --Extra music
---t_selMusic[35].bgmfile = 'sound/UnknownX.logg'
---t_selMusic[35].bgmname = 'Unknown X ~ Unfound Adventure'
---t_selMusic[35].bgmchar = 100
+t_selMusic[3].bgmfile = 'sound/VS Final.mp3'
+t_selMusic[3].bgmname = 'Test'
+t_selMusic[3].bgmchar = 100
 
 --if sprite generation is needed and conversion has not been permanently disabled
 if generate and data.sffConversion then

@@ -1,13 +1,21 @@
-table: 0CBD34D8 {
-  [arcadeend] => table: 0CBD34D8 {
-                   [offset] => 2
+table: 0CA136C8 {
+  [survivalend] => table: 0CA136C8 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
+  [teamend] => table: 0CA136C8 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [arcadeend] => table: 0CA136C8 {
                    [wins] => 4
+                   [offset] => 2
                  }
-  [survivalstart] => table: 0CBD34D8 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [arcademaxmatches] => table: 0CBD34D8 {
+  [teamstart] => table: 0CA136C8 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
+  [arcademaxmatches] => table: 0CA136C8 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -19,19 +27,15 @@ table: 0CBD34D8 {
                           [9] => 0
                           [10] => 0
                         }
-  [teamstart] => table: 0CBD34D8 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [teamend] => table: 0CBD34D8 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [survivalend] => table: 0CBD34D8 {
-                     [offset] => 4
-                     [wins] => 16
+  [survivalstart] => table: 0CA136C8 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [arcadestart] => table: 0CA136C8 {
+                     [wins] => 2
+                     [offset] => 0
                    }
-  [teammaxmatches] => table: 0CBD34D8 {
+  [teammaxmatches] => table: 0CA136C8 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -43,8 +47,4 @@ table: 0CBD34D8 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadestart] => table: 0CBD34D8 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
 }
