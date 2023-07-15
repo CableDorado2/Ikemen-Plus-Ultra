@@ -1,0 +1,40 @@
+
+const int Freq = 48000;
+const int Channels = 2;
+const int BufferSamples = 2048;
+
+public &Client
+{
+  index cl = 0;
+  new()
+  {
+    plugin index NewClient(::) = <dll/sound.dll>;
+    `cl = NewClient(::);
+  }
+  delete()
+  {
+    plugin void DeleteClient(:index:) = <dll/sound.dll>;
+    DeleteClient(:`cl:);
+  }
+  public bool start()
+  {
+    plugin bool ClientStart(:index:) = <dll/sound.dll>;
+    ret ClientStart(:`cl:);
+  }
+  public bool stop()
+  {
+    plugin bool ClientStop(:index:) = <dll/sound.dll>;
+    ret ClientStop(:`cl:);
+  }
+  public bool bufferReady()
+  {
+    plugin bool ClientBufferReady(:index:) = <dll/sound.dll>;
+    ret ClientBufferReady(:`cl:);
+  }
+  public bool setBuffer(^/float buffer)
+  {
+    plugin bool ClientSetBuffer(:index, ^/float:) = <dll/sound.dll>;
+    ret ClientSetBuffer(:`cl, buffer:);
+  }
+}
+

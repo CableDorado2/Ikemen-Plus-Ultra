@@ -1,0 +1,175 @@
+
+lib time = <time.ssz>;
+lib consts = <consts.ssz>;
+
+
+const double PI = 3.141592653589793238462643383279502884197;
+const double E  = 2.718281828459045235360287471352662497757;
+
+
+public double sin(double x)
+{
+  plugin double Sin(:double:) = <dll/math.dll>;
+  ret Sin(:x:);
+}
+
+public double cos(double x)
+{
+  plugin double Cos(:double:) = <dll/math.dll>;
+  ret Cos(:x:);
+}
+
+public double tan(double x)
+{
+  plugin double Tan(:double:) = <dll/math.dll>;
+  ret Tan(:x:);
+}
+
+public double asin(double x)
+{
+  plugin double ASin(:double:) = <dll/math.dll>;
+  ret ASin(:x:);
+}
+
+public double acos(double x)
+{
+  plugin double ACos(:double:) = <dll/math.dll>;
+  ret ACos(:x:);
+}
+
+public double atan(double x)
+{
+  plugin double ATan(:double:) = <dll/math.dll>;
+  ret ATan(:x:);
+}
+
+public double log(double x, double y)
+{
+  plugin double Log(:double, double:) = <dll/math.dll>;
+  ret Log(:x, y:);
+}
+
+public double ln(double x)
+{
+  plugin double Ln(:double:) = <dll/math.dll>;
+  ret Ln(:x:);
+}
+
+public double exp(double x)
+{
+  plugin double Exp(:double:) = <dll/math.dll>;
+  ret Exp(:x:);
+}
+
+public double sqrt(double x)
+{
+  plugin double Sqrt(:double:) = <dll/math.dll>;
+  ret Sqrt(:x:);
+}
+
+public double ceil(double x)
+{
+  plugin double Ceil(:double:) = <dll/math.dll>;
+  ret Ceil(:x:);
+}
+
+public double floor(double x)
+{
+  plugin double Floor(:double:) = <dll/math.dll>;
+  ret Floor(:x:);
+}
+
+public bool isfinite(double x)
+{
+  plugin bool IsFinite(:double:) = <dll/math.dll>;
+  ret IsFinite(:x:);
+}
+
+public bool isinf(double x)
+{
+  plugin bool IsInf(:double:) = <dll/math.dll>;
+  ret IsInf(:x:);
+}
+
+public bool isnan(double x)
+{
+  plugin bool IsNaN(:double:) = <dll/math.dll>;
+  ret IsNaN(:x:);
+}
+
+const int RANDMAX = .consts.int_t::MAX;
+
+int randseed = (time.unixTime() ^ (long)time.tickCount()<<16) & RANDMAX;
+
+public int random()
+{
+  int w;
+  w = .randseed / 127773;
+  if((.randseed = (.randseed - w * 127773) * 16807 - w * 2836) <= 0){
+    .randseed += .RANDMAX - (int)(.randseed == 0);
+  }
+  ret .randseed;
+}
+
+public void srand(int s)
+{
+  .randseed = s;
+}
+
+public int rand(int min, int max)
+{
+  ret min + .random() / (.RANDMAX / (max - min + 1) + 1);
+}
+
+public int randI(int x, int y)
+{
+  if(y < x){
+    if(x - y < 0) ret y + (long).random() * ((long)x - y) / .RANDMAX;
+    ret .rand(y, x);
+  }
+  if(y - x < 0) ret x + (long).random() * ((long)y - x) / .RANDMAX;
+  ret .rand(x, y);
+}
+
+public float randF(float x, float y)
+{
+  ret x + (float).random()*(y - x) / (float).RANDMAX;
+}
+
+public ..min<_t>(_t x, _t y) _t
+{
+  ret x < y ? x : y;
+}
+
+public ..max<_t>(_t x, _t y) _t
+{
+  ret x > y ? x : y;
+}
+
+public bool inRange<_t>(_t start, _t end, _t x)
+{
+  ret start <= x && x <= end;
+}
+
+public void limMax<_t>(_t x=, _t y)
+{
+  x = .min!_t?(x, y);
+}
+
+public void limMin<_t>(_t x=, _t y)
+{
+  x = .max!_t?(x, y);
+}
+
+public void limRange<_t>(_t x=, _t low, _t high)
+{
+  x = .max!_t?(.min!_t?(x, high), low);
+}
+
+public void swap<_t>(_t x=, _t y=)
+{
+  *_t tmp = x;
+  x = y;
+  y = tmp;
+}
+

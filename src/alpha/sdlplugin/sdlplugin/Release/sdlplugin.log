@@ -1,0 +1,29 @@
+﻿Build started 25/05/2023 01:34:35 a.m..
+     1>Project "D:\Games\Mugen\Ikemen-Plus-master\src\alpha\sdlplugin\sdlplugin\sdlplugin.vcxproj" on node 2 (build target(s)).
+       Project file contains ToolsVersion="14.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(299,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>InitializeBuildStatus:
+         Creating "Release\sdlplugin.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\..\lib\alpha\dll\sdlplugin.dll" /NOLOGO /LIBPATH:C:\d\lib\glew\lib\Release\Win32 /LIBPATH:C:\d\lib\SDL2\lib\x86 /LIBPATH:C:\d\lib\SDL2\SDL2_image\lib\x86 /LIBPATH:C:\d\lib\SDL2\SDL2_ttf\lib\x86 /LIBPATH:C:\d\lib\zlib\projects\visualc6\Win32_DLL_Release /LIBPATH:C:\d\lib\libpng\projects\visualc71\Win32_LIB_Release /LIBPATH:"C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib" /LIBPATH:"C:\Program Files\Microsoft SDKs\Windows\v7.0A\Lib" Strmiids.lib Quartz.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"sdlplugin.def" /MANIFEST /ManifestFile:"Release\sdlplugin.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"D:\Games\Mugen\Ikemen-Plus-master\lib\alpha\dll\sdlplugin.pdb" /LTCG /TLBID:1 /DYNAMICBASE /IMPLIB:"..\..\..\..\lib\alpha\dll\sdlplugin.lib" /MACHINE:X86 /DLL Release\sdlplugin.obj
+         Release\playback.obj
+         Release\video.obj
+            Creating library ..\..\..\..\lib\alpha\dll\sdlplugin.lib and object ..\..\..\..\lib\alpha\dll\sdlplugin.exp
+         Generating code
+     1>d:\games\mugen\ikemen-plus-master\src\alpha\sdlplugin\sdlplugin\sdlplugin.cpp(994): warning C4700: uninitialized local variable 'nCmdShow' used
+     1>d:\games\mugen\ikemen-plus-master\src\alpha\sdlplugin\sdlplugin\sdlplugin.cpp(994): warning C4700: uninitialized local variable 'pCmdLine' used
+     1>d:\games\mugen\ikemen-plus-master\src\alpha\sdlplugin\sdlplugin\sdlplugin.cpp(994): warning C4700: uninitialized local variable 'hInstance' used
+         Finished generating code
+         sdlplugin.vcxproj -> D:\Games\Mugen\Ikemen-Plus-master\src\alpha\sdlplugin\sdlplugin\..\..\..\..\lib\alpha\dll\sdlplugin.dll
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\mt.exe /nologo /verbose /outputresource:"..\..\..\..\lib\alpha\dll\sdlplugin.dll;#2" /manifest Release\sdlplugin.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\sdlplugin.unsuccessfulbuild".
+         Touching "Release\sdlplugin.lastbuildstate".
+     1>Done Building Project "D:\Games\Mugen\Ikemen-Plus-master\src\alpha\sdlplugin\sdlplugin\sdlplugin.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.90

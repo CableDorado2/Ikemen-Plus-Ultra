@@ -1,0 +1,156 @@
+
+|Seek
+{
+  SET = 0, CUR = 1, END = 2
+}
+
+public &File
+{
+  index fh = 0;
+  delete()
+  {
+    `close();
+  }
+  public bool isOpened()
+  {
+    ret `fh != 0;
+  }
+  public bool open(^/char fn, ^/char mode)
+  {
+    `close();
+    plugin index Open(:^/char, ^/char:) = <dll/file.dll>;
+    `fh = Open(:fn, mode:);
+    ret `fh != 0;
+  }
+  public void close()
+  {
+    plugin index Close(:index:) = <dll/file.dll>;
+    Close(:`fh:);
+    `fh = 0;
+  }
+  public bool read<_t>(_t x=)
+  {
+  /?/*typeid(_t) < 0:
+    ret false;
+  /*true:
+    x = x;//代入でコピーできないものをファイルから読み込んではいけない。
+    plugin bool Read(:index, _t=, index:) = <dll/file.dll>;
+    ret Read(:`fh, x=, typesize(_t):);
+  /*?*/
+  }
+  public index readAry<_t>(^_t x)
+  {
+  /?/*typeid(_t) < 0:
+    ret -1;
+  /*true:
+    if(#x == 0) ret 0;
+    x<> = x<>;//代入でコピーできないものをファイルから読み込んではいけない。
+    plugin index ReadAry(:index, ^_t, index:) = <dll/file.dll>;
+    ret ReadAry(:`fh, x, typesize(_t):);
+  /*?*/
+  }
+  public bool write<_t>(_t x=)
+  {
+    plugin bool Write(:index, _t=, index:) = <dll/file.dll>;
+    ret Write(:`fh, x=, typesize(_t):);
+  }
+  public index writeAry<_t>(^/_t x)
+  {
+    plugin index WriteAry(:index, ^/_t, index:) = <dll/file.dll>;
+    ret WriteAry(:`fh, x, typesize(_t):);
+  }
+  public bool seek(long offset, |.Seek origin)
+  {
+    plugin bool Seek(:index, long, |.Seek:) = <dll/file.dll>;
+    ret Seek(:`fh, offset, origin:);
+  }
+}
+
+public ..readAll<_t>(^/char fln) ^_t
+{
+  %_t buf;
+  loop{
+    &.File f.open(fln, "rb");
+    *_t x;
+    while;
+  do:
+    buf .= x;
+  while f.read!_t?(x=):
+  }
+  ret buf;
+}
+
+public ^char loadAsciiText(^/char fn)
+{
+  plugin void LoadAsciiText(:^/char, ^char=:) = <dll/file.dll>;
+  ^char buf;
+  LoadAsciiText(:fn, buf=:);
+  ret buf;
+}
+
+public bool saveAsciiText(^/char fn, ^/char txt)
+{
+  plugin bool SaveAsciiText(:^/char, ^/char:) = <dll/file.dll>;
+  ret SaveAsciiText(:fn, txt:);
+}
+
+public bool remove(^/char fn)
+{
+  plugin bool Delete(:^/char:) = <dll/file.dll>;
+  ret Delete(:fn:);
+}
+
+public bool move(^/char oldn, ^/char newn)
+{
+  plugin bool Move(:^/char, ^/char:) = <dll/file.dll>;
+  ret Move(:oldn, newn:);
+}
+
+public bool copy(^/char source, ^/char dist, bool overwrite)
+{
+  plugin bool Copy(:^/char, ^/char, bool:) = <dll/file.dll>;
+  ret Copy(:source, dist, overwrite:);
+}
+
+public ^^char find(^/char fn)
+{
+  plugin void Find(:^/char, %^char=:) = <dll/file.dll>;
+  %^char ls;
+  Find(:fn, ls=:);
+  ret ls;
+}
+
+public ^^char findDir(^/char fn)
+{
+  plugin void FindDir(:^/char, %^char=:) = <dll/file.dll>;
+  %^char ls;
+  FindDir(:fn, ls=:);
+  ret ls;
+}
+
+public bool createDir(^/char dir)
+{
+  plugin bool CreateDir(:^/char:) = <dll/file.dll>;
+  ret CreateDir(:dir:);
+}
+
+public bool removeDir(^/char dir)
+{
+  plugin bool RemoveDir(:^/char:) = <dll/file.dll>;
+  ret RemoveDir(:dir:);
+}
+
+public bool setCurrentDir(^/char cdir)
+{
+  plugin bool SetCurrentDir(:^/char:) = <dll/file.dll>;
+  ret SetCurrentDir(:cdir:);
+}
+
+public ^/char getCurrentDir()
+{
+  plugin bool GetCurrentDir(:^char=:) = <dll/file.dll>;
+  ^char cdir;
+  GetCurrentDir(:cdir=:);
+  ret cdir;
+}
+

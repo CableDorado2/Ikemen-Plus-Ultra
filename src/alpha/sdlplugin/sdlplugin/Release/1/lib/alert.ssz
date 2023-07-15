@@ -1,0 +1,8 @@
+
+
+public void alert<_t>(^/char mes)
+{
+  plugin void Alert(:^/char, ^/char:) = <dll/alert.dll>;
+  Alert(:mes, <idname>(typeid(_t)):);
+}
+

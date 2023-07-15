@@ -1,0 +1,74 @@
+
+const index INVALID_SOCKET = !0;
+
+public &Socket
+{
+  /index soc = .INVALID_SOCKET;
+  delete()
+  {
+    `close();
+  }
+  void setSoc(index s)
+  {
+    `soc = s;
+  }
+  public bool isOpen()
+  {
+    ret `soc != .INVALID_SOCKET;
+  }
+  public void close()
+  {
+    plugin void SocketClose(:index=:) = <dll/socket.dll>;
+    SocketClose(:`soc=:);
+  }
+  public bool connect(^/char host, ^/char port, int timeout, bool nodelay)
+  {
+    plugin bool SocketConnect(:index=, ^/char, ^/char, int, bool:) =
+      <dll/socket.dll>;
+    ret SocketConnect(:`soc=, host, port, timeout, nodelay:);
+  }
+  public bool listen(^/char port, int backlog, bool ipv4)
+  {
+    plugin bool SocketListen(:index=, ^/char, int, bool:) = <dll/socket.dll>;
+    ret SocketListen(:`soc=, port, backlog, ipv4:);
+  }
+  public bool accept(`self s=, int timeout, bool nodelay)
+  {
+    s.close();
+    plugin index SocketAccept(:index, int, bool:) = <dll/socket.dll>;
+    s.setSoc(SocketAccept(:`soc, timeout, nodelay:));
+    ret s.soc != .INVALID_SOCKET;
+  }
+  public bool recv<_t>(_t x=)
+  {
+  /?/*typeid(_t) < 0:
+    ret false;
+  /*true:
+    x = x;//代入でコピーできないものを読み込んではいけない。
+    plugin bool SocketRecv(:index=, _t=, index:) = <dll/socket.dll>;
+    ret SocketRecv(:`soc=, x=, typesize(_t):);
+  /*?*/
+  }
+  public index recvAry<_t>(^_t x)
+  {
+  /?/*typeid(_t) < 0:
+    ret -1;
+  /*true:
+    if(len(x) == 0) ret 0;
+    x<> = x<>;//代入でコピーできないものを読み込んではいけない。
+    plugin index SocketRecvAry(:index=, ^_t, index:) = <dll/socket.dll>;
+    ret SocketRecvAry(:`soc=, x, typesize(_t):);
+  /*?*/
+  }
+  public bool send<_t>(_t x=)
+  {
+    plugin bool SocketSend(:index=, _t=, index:) = <dll/socket.dll>;
+    ret SocketSend(:`soc=, x=, typesize(_t):);
+  }
+  public index sendAry<_t>(^/_t x)
+  {
+    plugin index SocketSendAry(:index=, ^/_t, index:) = <dll/socket.dll>;
+    ret SocketSendAry(:`soc=, x, typesize(_t):);
+  }
+}
+

@@ -1,0 +1,14 @@
+
+public bool open(
+  ^/char file, ^/char arg, ^/char cdir, bool waitfor, bool active)
+{
+  plugin bool ShellOpen(:
+    ^/char, ^/char, ^/char, bool, bool:) = <dll/shell.dll>;
+  ret ShellOpen(:file, arg, cdir, waitfor, active:);
+}
+
+public bool moveToTrash(^/char file)
+{
+  plugin bool MoveTrash(:^/char:) = <dll/shell.dll>;
+  ret MoveTrash(:file:);
+}

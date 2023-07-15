@@ -1,0 +1,6 @@
+
+public void sleep(uint milliseconds)
+{
+  plugin bool Delay(:uint:) = <dll/thread.dll>;
+  Delay(:milliseconds:);
+}
