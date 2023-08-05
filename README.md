@@ -100,8 +100,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
 
-- [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
-
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 - [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
