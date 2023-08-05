@@ -757,16 +757,10 @@ function f_selectSimple()
 			end
 			f_selectScreen()
 			--if musicList == 0 then
-				--setMusic(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
-			--elseif musicList == 1 then
 				--f_assignMusic()
+			--elseif musicList == 1 then
+				--setMusic(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
 			--end
-			
-			if p1SelEnd and p2SelEnd then
-				if musicList > 0 and commandGetState(p1Cmd, 'return') then
-					playBGM(t_selMusic[musicList+1].bgmfile)
-				end
-			end
 		end
 		f_aiLevel()
 		f_orderSelect()
@@ -2428,6 +2422,23 @@ function f_stagePreview()
 	return stagePreview
 end
 
+function f_musicPreview()
+	song = ''
+	if musicList == 0 then --Auto Song
+		--song = 
+		--playBGM(song)
+		playBGM(bgmEvents)
+	elseif musicList == 1 then --Random Song
+		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
+	elseif musicList == 2 then --Mute Song
+		playBGM(bgmNothing)
+	else --Sound Folder Song
+		playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.mp3')
+		--playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.ogg')
+		--playBGM(t_selMusic[musicList+1].bgmfile)
+	end
+end
+
 --;===========================================================
 --; STAGE SELECT
 --;===========================================================
@@ -2460,8 +2471,9 @@ function f_selectStage()
 				--sndPlay(sysSnd, 100, 0)
 				--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
 			end
-			if songSelect == true then
-				playBGM(t_selMusic[musicList+1].bgmfile)
+			if songSelect == true then --Song Preview
+				f_musicPreview()
+				--playBGM(t_selMusic[musicList+1].bgmfile)
 			end
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 3)
@@ -2534,8 +2546,8 @@ function f_selectStage()
 				end
 				if songSelect == true then
 					musicList = musicList + 1
-					--if musicList > #t_selMusic-1 then musicList = 0 end
-					if musicList > 5 then musicList = 0 end
+					if musicList > #t_selMusic-1 then musicList = 0 end
+					--if musicList > 5 then musicList = 0 end
 				end
 			--end
 		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
@@ -2551,8 +2563,8 @@ function f_selectStage()
 				end
 				if songSelect == true then
 					musicList = musicList - 1
-					--if musicList < #t_selMusic-1 then musicList = 5 end
-					if musicList < 0 then musicList = 5 end
+					if musicList < 0 then musicList = #t_selMusic-1 end
+					--if musicList < 0 then musicList = 5 end
 				end
 			--end
 		if commandGetState(p1Cmd, 'holdr') then
@@ -2647,9 +2659,15 @@ function f_assignMusic()
 		end
 		stageEnd = true
 	end
-	if musicList == 0 then
+	if musicList == 0 then --Auto Song
 		playBGM(track)
-	else
+	elseif musicList == 1 then --Random Song
+		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
+	elseif musicList == 2 then --Mute Song
+		playBGM(bgmNothing)
+	else --Sound Folder Song
+		--playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.mp3')
+		--playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.ogg')
 		playBGM(t_selMusic[musicList+1].bgmfile)
 	end
 end

@@ -402,6 +402,13 @@ for i=1, #t_erase do
 	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 210+i*15)
 end
 
+t_wip = {
+	{id = '', text = "This option is still Under Development."},
+}
+for i=1, #t_wip do
+	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 210+i*15)
+end
+
 --;===========================================================
 --; LOAD DEFAULT DATA
 --;===========================================================
@@ -630,7 +637,8 @@ function f_mainCfg()
 			--Engine Settings
 			elseif mainCfg == 6 then
 				sndPlay(sysSnd, 100, 1)
-				f_engineCfg()
+				--f_engineCfg()
+				f_netplayCfg()
 			--Edit Player Name
 			elseif mainCfg == 7 then
 				sndPlay(sysSnd, 100, 1)
@@ -854,6 +862,7 @@ t_onlineCfg = {
 	{id = '', text = 'Gameplay Settings'},
 	{id = '', text = 'Screenpack Settings'},
 	{id = '', text = 'Engine Settings'},
+	{id = '', text = 'Room Settings'},
 	{id = '', text = '      SAVE AND PLAY'},
 }
 for i=1, #t_onlineCfg do
@@ -862,7 +871,7 @@ end
 
 function f_onlineCfg()
 	cmdInput()
-	local onlineCfg = 1	
+	local onlineCfg = 1
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() then
@@ -876,7 +885,7 @@ function f_onlineCfg()
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			onlineCfg = onlineCfg + 1
-			if onlineCfg > #t_onlineCfg then onlineCfg = 1 end	
+			if onlineCfg > #t_onlineCfg then onlineCfg = 1 end
 		elseif btnPalNo(p1Cmd) > 0 then
 			--Gameplay Settings
 			if onlineCfg == 1 then
@@ -889,9 +898,13 @@ function f_onlineCfg()
 			--Engine Settings
 			elseif onlineCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
-				f_engineCfg()	
-			--Save and Play
+				f_engineCfg()
+			--Online Room Settings
 			elseif onlineCfg == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_netplayCfg()
+			--Save and Play
+			elseif onlineCfg == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if modified == 1 then
@@ -920,6 +933,113 @@ function f_onlineCfg()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; NETPLAY SETTINGS
+--;===========================================================
+txt_netplayCfg = createTextImg(jgFnt, 0, 0, 'NETPLAY ROOM SETTINGS', 159, 13)
+
+t_netplayCfg = {
+	{id = '', text = 'VS Match Type',	varID = textImgNew(), varText = data.ftcontrol},
+	{id = '', text = 'Room Name',		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Pause Menu',		varID = textImgNew(), varText = 'No'},
+	{id = '', text = 'Looby Size',		varID = textImgNew(), varText = '2'},
+	{id = '', text = 'Spectate',		varID = textImgNew(), varText = 'No'},
+	{id = '', text = 'Private Game',	varID = textImgNew(), varText = 'Yes'},
+	{id = '', text = 'Show Names',		varID = textImgNew(), varText = 'No'},
+	{id = '', text = 'Show Input Delay',varID = textImgNew(), varText = 'No'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_netplayCfg do
+	t_netplayCfg[i].id = createTextImg(font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15)
+end
+
+function f_netplayCfg()
+	cmdInput()
+	local netplayCfg = 1
+	data.ftcontrol = -1
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			lockSetting = false
+			break
+		elseif commandGetState(p1Cmd, 'u') then
+			sndPlay(sysSnd, 100, 0)
+			lockSetting = false
+			netplayCfg = netplayCfg - 1
+			if netplayCfg < 1 then netplayCfg = #t_netplayCfg end
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 0)
+			lockSetting = false
+			netplayCfg = netplayCfg + 1
+			if netplayCfg > #t_netplayCfg then netplayCfg = 1 end
+		--Ranked Matchs
+		elseif netplayCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			sndPlay(sysSnd, 100, 0)
+			if commandGetState(p1Cmd, 'r') and data.ftcontrol == -1 then
+				data.ftcontrol = 2
+			elseif commandGetState(p1Cmd, 'r') and data.ftcontrol == 2 then
+				data.ftcontrol = 3
+			elseif commandGetState(p1Cmd, 'r') and data.ftcontrol == 3 then
+				data.ftcontrol = 5
+			elseif commandGetState(p1Cmd, 'r') and data.ftcontrol == 5 then
+				data.ftcontrol = 10
+			elseif commandGetState(p1Cmd, 'r') and data.ftcontrol == 10 then
+				data.ftcontrol = 15
+			elseif commandGetState(p1Cmd, 'r') and data.ftcontrol == 15 then
+				data.ftcontrol = 20
+			elseif commandGetState(p1Cmd, 'r') and data.ftcontrol == 20 then
+				data.ftcontrol = -1
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == -1 then
+				data.ftcontrol = 20
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == 20 then
+				data.ftcontrol = 15
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == 15 then
+				data.ftcontrol = 10
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == 10 then
+				data.ftcontrol = 5
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == 5 then
+				data.ftcontrol = 3
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == 3 then
+				data.ftcontrol = 2
+			elseif commandGetState(p1Cmd, 'l') and data.ftcontrol == 2 then
+				data.ftcontrol = -1				
+			end
+		--WIP
+		elseif (netplayCfg == 2 or netplayCfg == 3 or netplayCfg == 4 or netplayCfg == 5 or netplayCfg == 6 or netplayCfg == 7 or netplayCfg == 8) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			lockSetting = true
+		--Back
+		elseif netplayCfg == 9 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetWindow(optionsBG1, 80,20, 160,#t_netplayCfg*15)
+		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_netplayCfg)
+		if lockSetting == true then
+			for i=1, #t_wip do
+				textImgDraw(t_wip[i].id)
+			end
+		end	
+		if data.ftcontrol == -1 then
+			t_netplayCfg[1].varText = 'Unranked/FFA'
+		else
+			t_netplayCfg[1].varText = 'Ranked/FT'.. data.ftcontrol .. ''
+		end
+		for i=1, #t_netplayCfg do
+			textImgDraw(t_netplayCfg[i].id)
+			if t_netplayCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+netplayCfg*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		cmdInput()
 		refresh()
 	end

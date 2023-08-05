@@ -560,42 +560,62 @@ end
 
 --Generate Table with Music List
 t_selMusic = {
-	{bgmfile = '', bgmname = 'Auto', bgmchar = 0},
-	{bgmfile = '', bgmname = 'Random', bgmchar = 0}
+	{bgmfile = '', bgmname = 'AUTO', bgmchar = 0},
+	{bgmfile = '', bgmname = 'RANDOM', bgmchar = 0},
+	{bgmfile = '', bgmname = 'MUTE', bgmchar = 0}
 }
 
---Populate table with stage music
-for i=1, #t_selStages+3 do
-	t_selMusic[i+2] = {}
-	if i <= #t_selStages then
-		t_selMusic[i+2]['bgmfile'] = t_selStages[i].music[1].bgmusic
-	else
-		t_selMusic[i+2]['bgmfile'] = ''
+--Populate table with STAGE SONG
+--for i=1, #t_selStages+3 do
+	--t_selMusic[i+3] = {}
+	--if i <= #t_selStages then
+		--t_selMusic[i+3]['bgmfile'] = t_selStages[i].music[1].bgmusic
+	--else
+		--t_selMusic[i+3]['bgmfile'] = ''
+	--end
+	--t_selMusic[i+3]['bgmname'] = 'Song Name'
+	--t_selMusic[i+3]['bgmchar'] = 0
+--end
+
+--Populate table with SOUND FOLDER
+for file in lfs.dir[[.\\sound\\]] do --Read Dir
+	if file:match('^.*(%.)mp3$') then --Filter Files .mp3
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
 	end
-	t_selMusic[i+2]['bgmname'] = ''
-	t_selMusic[i+2]['bgmchar'] = 0
 end
 
---Stage music names and associated character
---t_selMusic[3].bgmname = 'Mystic Oriental Love Consultation'
---t_selMusic[3].bgmchar = 1
-
---t_selMusic[4].bgmname = 'Complete Darkness'
---t_selMusic[4].bgmchar = 7
-
---t_selMusic[5].bgmname = 'Necrofantasia'
---t_selMusic[5].bgmchar = 19
-
---t_selMusic[6].bgmname = 'Meiji 17th ~Last Fight Began~'
---t_selMusic[6].bgmchar = 12
-
---t_selMusic[7].bgmname = 'Magus Night'
---t_selMusic[7].bgmchar = 2
-
 --Extra music
-t_selMusic[3].bgmfile = 'sound/VS Final.mp3'
-t_selMusic[3].bgmname = 'Test'
-t_selMusic[3].bgmchar = 100
+--t_selMusic[4].bgmfile = 'sound/Quick Versus Songs/Random 1.mp3'
+--t_selMusic[4].bgmname = 'Extra Song Name'
+--t_selMusic[4].bgmchar = 999
+
+--Stage music names and associated character
+--t_selMusic[5].bgmname = 'Character 1 Name'
+--t_selMusic[5].bgmchar = 1
+--t_selMusic[6].bgmname = 'Character 2 Name'
+--t_selMusic[6].bgmchar = 2
 
 --if sprite generation is needed and conversion has not been permanently disabled
 if generate and data.sffConversion then

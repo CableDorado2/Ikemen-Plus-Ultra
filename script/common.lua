@@ -88,7 +88,7 @@ font24 = fontNew('font/ssf2x_vL.fnt')
 --;===========================================================
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
 --;===========================================================
-bgmNothing = 'Nothing.mp3'
+bgmNothing = ' .mp3'
 bgmTitle = 'sound/Title.mp3'
 bgmSelect = 'sound/Select.mp3'
 bgmSelectChallenger = 'sound/The Challenger.mp3'
