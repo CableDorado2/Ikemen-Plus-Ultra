@@ -637,8 +637,7 @@ function f_mainCfg()
 			--Engine Settings
 			elseif mainCfg == 6 then
 				sndPlay(sysSnd, 100, 1)
-				--f_engineCfg()
-				f_netplayCfg()
+				f_engineCfg()
 			--Edit Player Name
 			elseif mainCfg == 7 then
 				sndPlay(sysSnd, 100, 1)
