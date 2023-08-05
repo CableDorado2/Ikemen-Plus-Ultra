@@ -16,6 +16,16 @@ p2teamMode = 0
 wrappingX = true
 wrappingY = true
 
+if onlinegame == true then
+	if p1Wins == data.ftcontrol then
+		while true do
+			break
+			cmdInput()
+			refresh()
+		end
+	end
+end
+
 --;===========================================================
 --; GLOBAL FUNCTIONS
 --;===========================================================

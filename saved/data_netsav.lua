@@ -28,6 +28,7 @@ data.selectType = "Fixed"
 data.palType = "Modern"
 data.stageType = "Classic"
 data.winscreen = "Classic"
+data.ftcontrol = 2
 data.debugMode = true
 data.challengerSong = "Fixed"
 data.charPresentation = "Sprite"

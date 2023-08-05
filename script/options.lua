@@ -231,6 +231,7 @@ function f_saveCfg()
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
+		['data.ftcontrol'] = data.ftcontrol,
 		['data.debugMode'] = data.debugMode,
 		['data.challengerSong'] = data.challengerSong,
 		['data.charPresentation'] = data.charPresentation,
@@ -319,6 +320,7 @@ function f_netsaveCfg()
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
 		['data.winscreen'] = data.winscreen,
+		['data.ftcontrol'] = data.ftcontrol,
 		['data.charPresentation'] = data.charPresentation,
 		['data.coopenemy'] = data.coopenemy
 	}
@@ -443,6 +445,7 @@ function f_onlineDefault()
 	data.palType = 'Modern'
 	data.stageType = 'Classic'
 	data.winscreen = 'Classic'
+	data.ftcontrol = -1
 	data.debugMode = false
 	s_debugMode = 'Disabled'
 	data.charPresentation = 'Sprite'
@@ -960,7 +963,6 @@ end
 function f_netplayCfg()
 	cmdInput()
 	local netplayCfg = 1
-	data.ftcontrol = -1
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
