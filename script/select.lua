@@ -16,16 +16,6 @@ p2teamMode = 0
 wrappingX = true
 wrappingY = true
 
-if onlinegame == true then
-	if p1Wins == data.ftcontrol then
-		while true do
-			break
-			cmdInput()
-			refresh()
-		end
-	end
-end
-
 --;===========================================================
 --; GLOBAL FUNCTIONS
 --;===========================================================
@@ -788,6 +778,12 @@ function f_selectSimple()
 		clearTime = clearTime + matchTime
 		--win screen
 		if data.gameMode == 'versus' then
+			--if onlinegame == true then
+				--if p1Wins == data.ftcontrol then
+					--break
+					--script.options.f_onlineCfg()
+				--end
+			--end
 			if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 				f_selectWin()
 				if data.challengerScreen == true then

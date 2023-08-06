@@ -2916,6 +2916,13 @@ end
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
 
+replayMenuBG = animNew(sysSff, [[
+250,0, 0,0,
+]])
+animSetPos(replayMenuBG, -40, 60)
+animUpdate(replayMenuBG)
+animDraw(replayMenuBG)
+
 function f_mainReplay()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	cmdInput()
@@ -2964,19 +2971,78 @@ function f_mainReplay()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				onlinegame = true --only for identify purposes
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)	
-				--Set Default values to prevent desync.
-				script.options.f_onlineDefault()
-				script.options.f_netsaveCfg()
-				enterReplay('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
-				synchronize()
-				math.randomseed(sszRandom())
-				script.options.f_onlineCfg()
-				exitNetPlay()
-    			exitReplay()
-				commandBufReset(p1Cmd, 1)
+				--OPEN REPLAY CONTROL MENU
+				sndPlay(sysSnd, 100, 1)
+				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159, 51)--Show Replay Selected Name
+				txt_replaySize = createTextImg(jgFnt, 0, 0, '[8MB]', 159, 62)--Show Replay Selected Size
+				replayControlCursor = 2
+				cmdInput()
+				while true do
+					if esc() then
+						sndPlay(sysSnd, 100, 2)
+						break
+					elseif commandGetState(p1Cmd, 'r') then
+						sndPlay(sysSnd, 100, 0)
+						replayControlCursor = replayControlCursor + 1
+					elseif commandGetState(p1Cmd, 'l') then
+						sndPlay(sysSnd, 100, 0)
+						replayControlCursor = replayControlCursor - 1
+					end
+					if replayControlCursor < 1 then replayControlCursor = 3 elseif replayControlCursor > 3 then replayControlCursor = 1 end
+					--Draw Cursor in Delete Image
+					--if replayControlCursor == 1 then
+						--animDraw(replayCursor1)
+						--animUpdate(replayCursor1)
+					--Draw Cursor in Watch Image
+					--elseif replayControlCursor == 2 then
+						--animDraw(replayCursor2)
+						--animUpdate(replayCursor2)
+					--Draw Cursor in Back Image
+					--elseif replayControlCursor == 3 then
+						--animDraw(replayCursor3)
+						--animUpdate(replayCursor3)
+					--end
+					if btnPalNo(p1Cmd) > 0 then
+						--DELETE SELECTED REPLAY
+						if replayControlCursor == 1 then
+							sndPlay(sysSnd, 100, 1)
+							os.remove('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
+							return
+						--WATCH SELECTED REPLAY	
+						elseif replayControlCursor == 2 then
+							onlinegame = true --only for identify purposes
+							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+							sndPlay(sysSnd, 100, 1)	
+							--Set Default values to prevent desync.
+							script.options.f_onlineDefault()
+							script.options.f_netsaveCfg()
+							enterReplay('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
+							synchronize()
+							math.randomseed(sszRandom())
+							script.options.f_onlineCfg()
+							exitNetPlay()
+							exitReplay()
+							commandBufReset(p1Cmd, 1)
+						--BACK TO REPLAY SELECT MENU
+						elseif replayControlCursor == 3 then
+							sndPlay(sysSnd, 100, 2)
+							break
+						end
+					end
+					animDraw(f_animVelocity(optionsBG0, -1, -1))
+					--Draw Event Title Table
+					animSetWindow(missionBG1, 0,41, 320,25)
+					animDraw(f_animVelocity(missionBG1, -1, -1))
+					textImgDraw(txt_replayName)
+					textImgDraw(txt_replaySize)
+					--Draw Mini Menu
+					animDraw(replayMenuBG)
+					animUpdate(replayMenuBG)
+					animDraw(data.fadeTitle)
+					animUpdate(data.fadeTitle)
+					cmdInput()
+					refresh()
+				end
 			end
 		end
 		--Cursor position calculation
@@ -3036,8 +3102,6 @@ function f_mainReplay()
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		--exitNetPlay()
-    	--exitReplay()
 		cmdInput()
 		refresh()
 	end
