@@ -5,7 +5,7 @@
 
 - This engine can be used to **create advanced MUGENS** or **Fighting Games**, which can be run on any PC from 2008 onwards, without a graphics card (Runs under DirectX Render).
 
-- According to the words of one of the special contributors to this engine ***PlasmoidThunder***: "The benefits that S-SIZE (Ikemen Plus) has over Ikemen GO are":
+- According to the words of one special user of this engine ***PlasmoidThunder***: "The benefits that S-SIZE (Ikemen Plus) are":
   - "Better sound engine for the most part".
   - "Native system renderer".
   - "Winamp plugin support".
