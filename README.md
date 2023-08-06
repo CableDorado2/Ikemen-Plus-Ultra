@@ -89,8 +89,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Mejorar lógica del desplazamiento para menú de Misiones y Eventos (Al agregar más del límite de pantalla, entonces automáticamente sube como el menú sound test).
 
-- [ ] Agregar modo de juego Co-Op (1P & 2P) Vs CPU en: Versus, Quick match y Training.
-
 - [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente en character select como ocurre en Co-Op Mode.
 
 - [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
@@ -100,19 +98,11 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Mejorar lógica del menú de estadísticas.
 
-- [ ] Asignar los offsetRows desde las opciones de Screenpack (Puede ser un data.offsetrows y que esa variable almacene el número). Por cada nuevo offsetRows que se agregue, Ikemen debe escribir automaticamente en el select.def un randomselect.
-
 - [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
 
 - [ ] Al seleccionar un replay, abrir una ventana que permita: [Ver --- Regresar --- Borrar].
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
-
-- [ ] Ranking al completar o perder en Modo Arcade.
-
-[![Alt text](https://angryjellyfish.files.wordpress.com/2019/11/yvqrnyn.png?w=584)]()
-
-- [ ] Time Trials Mode.
 
 - [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
@@ -137,12 +127,14 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
-- [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
-
 **v1.5**
 ------------
 
 - [ ] Sistema de puntos basado en el Add004.
+
+- [ ] Ranking al completar o perder en Modo Arcade.
+
+[![Alt text](https://angryjellyfish.files.wordpress.com/2019/11/yvqrnyn.png?w=584)]()
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
@@ -168,12 +160,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
-- [ ] Cargar sprite de chars, para el char select directamente desde su archivo sff; eliminando por completo el uso de herramientas externas como sprmake2.exe.
-
 - [ ] Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
-
-- [ ] Perfiles de usuarios.
 
 **v1.8**
 ------------
@@ -191,11 +179,13 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
-- [ ] Incorporar un Looby al Modo Online.
+- [ ] Hacer realidad las funciones del menú Netplay Settings.
 
 - [ ] En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
 
-- [ ] Modo espectador para el online.
+- [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
+
+- [ ] Perfiles de usuarios.
 
 ---------------------
 v2.0 (Final Release)
