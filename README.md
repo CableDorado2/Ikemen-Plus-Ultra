@@ -3,17 +3,11 @@
 
 - Consider this version of Ikemen engine an **alternative** in case Ikemen GO doesn't work for you.
 
-- This engine can be used to **create advanced MUGENS** or **Fighting Games**, which can be run on any PC from 2008 onwards, without a graphics card (Runs under DirectX Render).
+- This engine can be used to **create advanced MUGENS** or **Fighting Games**, which can be run on potato PC, without a graphics card (Runs under DirectX Render).
 
-- According to the words of one special user of this engine ***PlasmoidThunder***: "The benefits that S-SIZE (Ikemen Plus) are":
-  - "Better sound engine for the most part".
-  - "Native system renderer".
-  - "Winamp plugin support".
-  - "Easier to tweak engine code".
+- The current version is a public development release for testing purposes, may contain bugs and incomplete features that we hope will be finished in the final release.
 
-- The current version is a public development release for testing purposes, may contain bugs and incomplete features that will be finished in the final release.
-
-- Your help and cooperation are appreciated.
+- Help and cooperation are appreciated.
 
 ## Minimum System Requirements
 - **System:** Windows XP SP3 - 32 Bits (Yeah it works in WinXP)
@@ -47,8 +41,6 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >[References](#references)
 >
 >[License](#license)
->
->[Projects Powered By Ikemen Plus Ultra](#projects-powered-by-ikemen-plus-ultra)
 
 ## Ikemen Plus Ultra VS Ikemen Go
 
@@ -222,7 +214,7 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 - For create characters and stages, there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
-If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, consult in particular with the user **PlasmoidThunder#1542** which is one of the main contributors for this version): https://discord.gg/KV5EPnMuA7
+If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of the hands**): https://discord.gg/KV5EPnMuA7
 
 ## References
 >- Original Repository Source Code:
@@ -238,16 +230,3 @@ If you need help, you can find support from developers and contributors for this
 The code is under the MIT Licence.
 Non-code assets are under CC-BY 3.0.
 Check [License.txt](License.txt) for more details.
-
-## Projects Powered By Ikemen Plus Ultra
->***MUGENGERS 4 - THE OROCHI'S ORIGIN:*** https://www.youtube.com/watch?v=TezLZpIdbac
->
->[![Alt text](https://img.youtube.com/vi/TezLZpIdbac/maxresdefault.jpg)](https://www.youtube.com/watch?v=TezLZpIdbac)
-
->***ULTIMATE SMASHBOX:*** https://www.youtube.com/channel/UCPEISiiXtH494o63xeBu3Xg
->
->[![Alt text](https://i.postimg.cc/13sh5ZxB/USX-Wallpaper.png)](https://sites.google.com/view/ultimatesmashbox/home)
-
->***TOUHOU: GENSOKYO RELOADED:*** https://twitter.com/official_thgr
->
->[![Alt text](https://i.postimg.cc/Vvk1hxm0/tgr.png)](https://1drv.ms/f/s!ApLvCUDLkbLnkXnS3xZ5rXRS4UN1)
