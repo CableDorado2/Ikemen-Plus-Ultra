@@ -2916,6 +2916,13 @@ end
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
 
+t_replayOption = {
+	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'BACK'},
+}
+for i=1, #t_replayOption do
+	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, 20, 35+i*15)
+end
+
 replayMenuBG = animNew(sysSff, [[
 250,0, 0,0,
 ]])
@@ -2974,8 +2981,10 @@ function f_mainReplay()
 				--OPEN REPLAY CONTROL MENU
 				sndPlay(sysSnd, 100, 1)
 				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159, 51)--Show Replay Selected Name
-				txt_replaySize = createTextImg(jgFnt, 0, 0, '[8MB]', 159, 62)--Show Replay Selected Size
-				replayControlCursor = 2
+				local fileSize = lfs.attributes('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
+				local replaySize = (math.floor(((fileSize/1048576) + 0.50)))--Conversion of Bytes to Megabytes
+				txt_replaySize = createTextImg(jgFnt, 0, 0, '['.. replaySize .. 'MB]', 159, 62)--Show Replay Selected Size
+				local replayOption = 2
 				cmdInput()
 				while true do
 					if esc() then
@@ -2983,33 +2992,33 @@ function f_mainReplay()
 						break
 					elseif commandGetState(p1Cmd, 'r') then
 						sndPlay(sysSnd, 100, 0)
-						replayControlCursor = replayControlCursor + 1
+						replayOption = replayOption + 1
 					elseif commandGetState(p1Cmd, 'l') then
 						sndPlay(sysSnd, 100, 0)
-						replayControlCursor = replayControlCursor - 1
+						replayOption = replayOption - 1
 					end
-					if replayControlCursor < 1 then replayControlCursor = 3 elseif replayControlCursor > 3 then replayControlCursor = 1 end
+					if replayOption < 1 then replayOption = 3 elseif replayOption > 3 then replayOption = 1 end
 					--Draw Cursor in Delete Image
-					--if replayControlCursor == 1 then
+					--if replayOption == 1 then
 						--animDraw(replayCursor1)
 						--animUpdate(replayCursor1)
 					--Draw Cursor in Watch Image
-					--elseif replayControlCursor == 2 then
+					--elseif replayOption == 2 then
 						--animDraw(replayCursor2)
 						--animUpdate(replayCursor2)
 					--Draw Cursor in Back Image
-					--elseif replayControlCursor == 3 then
+					--elseif replayOption == 3 then
 						--animDraw(replayCursor3)
 						--animUpdate(replayCursor3)
 					--end
 					if btnPalNo(p1Cmd) > 0 then
 						--DELETE SELECTED REPLAY
-						if replayControlCursor == 1 then
+						if replayOption == 1 then
 							sndPlay(sysSnd, 100, 1)
 							os.remove('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
 							return
 						--WATCH SELECTED REPLAY	
-						elseif replayControlCursor == 2 then
+						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
 							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 							sndPlay(sysSnd, 100, 1)	
@@ -3024,7 +3033,7 @@ function f_mainReplay()
 							exitReplay()
 							commandBufReset(p1Cmd, 1)
 						--BACK TO REPLAY SELECT MENU
-						elseif replayControlCursor == 3 then
+						elseif replayOption == 3 then
 							sndPlay(sysSnd, 100, 2)
 							break
 						end
@@ -3038,6 +3047,14 @@ function f_mainReplay()
 					--Draw Mini Menu
 					animDraw(replayMenuBG)
 					animUpdate(replayMenuBG)
+					for i=1, #t_replayOption do
+						if i == replayOption + 1 then
+							textImgSetBank(t_replayOption[i].id, 5)
+						else
+							textImgSetBank(t_replayOption[i].id, 0)
+						end
+						textImgDraw(t_replayOption[i].id)
+					end
 					animDraw(data.fadeTitle)
 					animUpdate(data.fadeTitle)
 					cmdInput()
