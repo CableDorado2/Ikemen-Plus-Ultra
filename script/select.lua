@@ -2566,7 +2566,16 @@ function f_selectStage()
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
 		textImgDraw(txt_selStage)
-		textImgSetText(txt_selectMusic, 'BGM: ' .. t_selMusic[musicList+1].bgmname)
+		if musicList == 0 then
+			musicNo = ''
+		elseif musicList == 1 then
+			musicNo = ''
+		elseif musicList == 2 then
+			musicNo = ''
+		else
+			musicNo = ' ' .. musicList-2 .. ''
+		end
+		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
 		textImgDraw(txt_selectMusic)
 		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 			sndPlay(sysSnd, 100, 1)
