@@ -2917,10 +2917,10 @@ end
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
 
 t_replayOption = {
-	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'BACK'},
+	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'RETURN'},
 }
 for i=1, #t_replayOption do
-	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, 20, 35+i*15)
+	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, -136+i*140, 172)
 end
 
 replayMenuBG = animNew(sysSff, [[
@@ -2983,7 +2983,7 @@ function f_mainReplay()
 				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159, 51)--Show Replay Selected Name
 				local fileSize = lfs.attributes('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
 				local replaySize = (math.floor(((fileSize/1048576) + 0.50)))--Conversion of Bytes to Megabytes
-				txt_replaySize = createTextImg(jgFnt, 0, 0, '['.. replaySize .. 'MB]', 159, 62)--Show Replay Selected Size
+				txt_replaySize = createTextImg(jgFnt, 0, 0, 'SIZE:'.. replaySize .. 'MB', 159, 62)--Show Replay Selected Size
 				local replayOption = 2
 				cmdInput()
 				while true do
@@ -3032,7 +3032,7 @@ function f_mainReplay()
 							exitNetPlay()
 							exitReplay()
 							commandBufReset(p1Cmd, 1)
-						--BACK TO REPLAY SELECT MENU
+						--RETURN TO REPLAY SELECT MENU
 						elseif replayOption == 3 then
 							sndPlay(sysSnd, 100, 2)
 							break
@@ -3048,7 +3048,7 @@ function f_mainReplay()
 					animDraw(replayMenuBG)
 					animUpdate(replayMenuBG)
 					for i=1, #t_replayOption do
-						if i == replayOption + 1 then
+						if i == replayOption + 0 then -- +0 To start center
 							textImgSetBank(t_replayOption[i].id, 5)
 						else
 							textImgSetBank(t_replayOption[i].id, 0)

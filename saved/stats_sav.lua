@@ -1,7 +1,7 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 14
-data.playTime = 26071.645
+data.playTime = 28590.838
 data.favoriteChar = "Kung Fu Man"
 data.favoriteStage = "Training Room"
 data.victories = 35
