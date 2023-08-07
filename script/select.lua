@@ -759,7 +759,7 @@ function f_selectSimple()
 			--if musicList == 0 then
 				--f_assignMusic()
 			--elseif musicList == 1 then
-				--setMusic(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
+				--setMusic(t_selMusic[math.random(3, #t_selMusic)].bgmname)
 			--end
 		end
 		f_aiLevel()
@@ -2428,23 +2428,6 @@ function f_stagePreview()
 	return stagePreview
 end
 
-function f_musicPreview()
-	song = ''
-	if musicList == 0 then --Auto Song
-		--song = 
-		--playBGM(song)
-		playBGM(bgmEvents)
-	elseif musicList == 1 then --Random Song
-		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
-	elseif musicList == 2 then --Mute Song
-		playBGM(bgmNothing)
-	else --Sound Folder Song
-		playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.mp3')
-		--playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.ogg')
-		--playBGM(t_selMusic[musicList+1].bgmfile)
-	end
-end
-
 --;===========================================================
 --; STAGE SELECT
 --;===========================================================
@@ -2458,7 +2441,7 @@ function f_selectStage()
 		p2BG = false
 		p1BG = false
 		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 205)
-		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 181)
+		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
 		--Draw Stage Select Title BG
 		animDraw(f_animVelocity(selectSTBG2a, -1, 0))
 		animDraw(f_animVelocity(selectSTBG2b, -3, 0))
@@ -2468,7 +2451,7 @@ function f_selectStage()
 		animDraw(f_animVelocity(selectSBG2b, 3, 0))
 		animDraw(f_animVelocity(selectSBG2c, 6, 0))
 		--Draw Stage Title Text
-		txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 60)
+		txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 20)
 		textImgDraw(txt_stageSelect)
 	end
 	if data.stageMenu then
@@ -2478,38 +2461,13 @@ function f_selectStage()
 				--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
 			end
 			if songSelect == true then --Song Preview
-				f_musicPreview()
-				--playBGM(t_selMusic[musicList+1].bgmfile)
+				if stageList == 0 then
+				--Do Nothing because Song Preview for Random Stage will get an Error because it can't detect which Stage will be Selected (can be resolved by adding a Song selection Menu Apart from the stage selection, it will work when a Stage was selected)
+				else 
+					f_musicPreview()
+				end
 			end
 		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 3)
-			--Allow Stage Select
-			if stageSelect == true then
-				stageSelect = false
-			elseif stageSelect == false then
-				stageSelect = true
-			end
-			--Allow Song Select
-			if songSelect == true then
-				songSelect = false
-			elseif songSelect == false then
-				songSelect = true
-			end
-			--Go back 5 by 5 Logic:
-			--for i=1, 5 do
-				--stageList = stageList - 1
-				--if stageList < 0 then stageList = data.includestage end
-			--end
-			
-			--Alternative Stage Available By Down Button on StageList Numbered Logic:
-			--if stageList == 1 or stageList == 14 or stageList == 17 then
-				--sndPlay(sysSnd, 100, 1)
-				--stageList = stageList + 1
-			--elseif stageList == 2 or stageList == 15 or stageList == 18 then
-				--sndPlay(sysSnd, 100, 1)
-				--stageList = stageList - 1
-			--end
-		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 3)
 			--Allow Stage Select
 			if stageSelect == true then
@@ -2528,51 +2486,46 @@ function f_selectStage()
 				--stageList = stageList + 1
 				--if stageList > data.includestage then stageList = 0 end
 			--end
-			
-			--Alternative Stage Available By Up Button on StageList Numbered Logic:
-			--if stageList == 1 or stageList == 14 or stageList == 17 then
-				--sndPlay(sysSnd, 100, 1)
-				--stageList = stageList + 1
-			--elseif stageList == 2 or stageList == 15 or stageList == 18 then
-				--sndPlay(sysSnd, 100, 1)
+		elseif commandGetState(p1Cmd, 'd') then
+			sndPlay(sysSnd, 100, 3)
+			--Allow Stage Select
+			if stageSelect == true then
+				stageSelect = false
+			elseif stageSelect == false then
+				stageSelect = true
+			end
+			--Allow Song Select
+			if songSelect == true then
+				songSelect = false
+			elseif songSelect == false then
+				songSelect = true
+			end
+			--Go back 5 by 5 Logic:
+			--for i=1, 5 do
 				--stageList = stageList - 1
-			--else
-			
+				--if stageList < 0 then stageList = data.includestage end
 			--end
 		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-			--if stageList == 1 or stageList == 14 or stageList == 17 then --Alternative Stage Available For Stage 1
-				--sndPlay(sysSnd, 100, 0)
-				--stageList = stageList + 2
-			--elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
-			--else --No Alternative Stage Available
-				sndPlay(sysSnd, 100, 0)
-				if stageSelect == true then
-					stageList = stageList + 1
-					if stageList > data.includestage then stageList = 0 end
-				end
-				if songSelect == true then
-					musicList = musicList + 1
-					if musicList > #t_selMusic-1 then musicList = 0 end
-					--if musicList > 5 then musicList = 0 end
-				end
-			--end
+			sndPlay(sysSnd, 100, 0)
+			if stageSelect == true then
+				stageList = stageList + 1
+				if stageList > data.includestage then stageList = 0 end
+			end
+			if songSelect == true then
+				musicList = musicList + 1
+				if musicList > #t_selMusic-1 then musicList = 0 end
+			end
 		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-			--if stageList == 3 or stageList == 16 or stageList == 19 then --Alternative Stage Available For Stage 1
-				--sndPlay(sysSnd, 100, 0)
-				--stageList = stageList - 2
-			--elseif stageList == 2 or stageList == 15 or stageList == 18 then --Not Move
-			--else --No Alternative Stage Available
-				sndPlay(sysSnd, 100, 0)
-				if stageSelect == true then
-					stageList = stageList - 1
-					if stageList < 0 then stageList = data.includestage end
-				end
-				if songSelect == true then
-					musicList = musicList - 1
-					if musicList < 0 then musicList = #t_selMusic-1 end
-					--if musicList < 0 then musicList = 5 end
-				end
-			--end
+			sndPlay(sysSnd, 100, 0)
+			if stageSelect == true then
+				stageList = stageList - 1
+				if stageList < 0 then stageList = data.includestage end
+			end
+			if songSelect == true then
+				musicList = musicList - 1
+				if musicList < 0 then musicList = #t_selMusic-1 end
+			end
+		end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
@@ -2582,8 +2535,7 @@ function f_selectStage()
 		else
 			bufr = 0
 			bufl = 0
-			end
-		end		
+		end
 		animSetWindow(selectBG1a, 0, 0, 0, 0)
 		animSetWindow(selectBG1b, 0, 0, 0, 0)
 		animSetWindow(selectBG1c, 0, 0, 0, 0)
@@ -2668,13 +2620,40 @@ function f_assignMusic()
 	if musicList == 0 then --Auto Song
 		playBGM(track)
 	elseif musicList == 1 then --Random Song
-		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
+		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
+		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
 	elseif musicList == 2 then --Mute Song
 		playBGM(bgmNothing)
 	else --Sound Folder Song
-		--playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.mp3')
-		--playBGM('sound/' .. t_selMusic[musicList+1].bgmfile .. '.ogg')
-		playBGM(t_selMusic[musicList+1].bgmfile)
+		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.mp3')
+		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.ogg')
+	end
+end
+
+function f_musicPreview()
+	song = ''
+	if t_selStages[stageList].music ~= nil then
+		song = math.random(1,#t_selStages[stageList].music)
+		song = t_selStages[stageList].music[song].bgmusic
+	end
+	--if not data.stageMenu then --Extra Song for a Character logic from select.def
+		--if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
+			--song = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
+			--song = t_selChars[data.t_p2selected[1].cel+1].music[song].bgmusic
+		--elseif t_selStages[stageList].music ~= nil then
+			--song = math.random(1,#t_selStages[stageList].music)
+			--song = t_selStages[stageList].music[song].bgmusic
+		--end
+	--end
+	if musicList == 0 then
+		playBGM(song)
+	elseif musicList == 1 then
+		--None because Random Preview Will be different of selected
+	elseif musicList == 2 then
+		--playBGM(bgmNothing)
+	else
+		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.mp3')
+		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.ogg')
 	end
 end
 
