@@ -4154,7 +4154,7 @@ function f_unlocksWarning()
 			data.eventsmodeCnt = 0
 			data.missionsmodeCnt = 0
 			data.endlessmodeCnt = 0
-			data.timetrialsmodeCnt = 0
+			data.legionmodeCnt = 0
 			data.towermodeCnt = 0
 			data.storymodeCnt = 0
 			data.tourneymodeCnt = 0

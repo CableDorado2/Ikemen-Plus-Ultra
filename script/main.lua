@@ -1001,6 +1001,7 @@ end
 --;===========================================================
 t_challengeMenu = {
 	{id = textImgNew(), text = 'SURVIVAL'},
+	{id = textImgNew(), text = 'MISSIONS'},
 	{id = textImgNew(), text = 'BOSS FIGHT'},
 	{id = textImgNew(), text = 'BONUS GAMES'},
 	{id = textImgNew(), text = 'TIME ATTACK'},
@@ -1050,20 +1051,24 @@ function f_challengeMenu()
 			if challengeMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_survivalMenu()
-			--BOSS FIGHT
+			--MISSIONS MODE
 			elseif challengeMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				script.missions.f_missionMenu()
+			--BOSS FIGHT
+			elseif challengeMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_bossMenu()
 			--BONUS GAMES
-			elseif challengeMenu == 3 then
+			elseif challengeMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_bonusMenu()
 			--TIME ATTACK
-			elseif challengeMenu == 4 then
+			elseif challengeMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_timeMenu()
 			--SUDDEN DEATH
-			elseif challengeMenu == 5 then
+			elseif challengeMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				f_suddenMenu()								
 			--BACK
@@ -2387,13 +2392,14 @@ end
 t_extrasMenu = {
 	{id = textImgNew(), text = 'EVENTS'},
 	{id = textImgNew(), text = 'ENDLESS'},
-	{id = textImgNew(), text = 'MISSIONS'},
-	{id = textImgNew(), text = 'TIME TRIALS'},
+	{id = textImgNew(), text = 'GALLERY'},
 	{id = textImgNew(), text = 'SOUND TEST'},
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'CUTSCENES'},
-	{id = textImgNew(), text = 'GALLERY'},
+	{id = textImgNew(), text = 'TOWER'},
+	{id = textImgNew(), text = 'LEGION'},
 	{id = textImgNew(), text = 'TOURNEY'},
+	{id = textImgNew(), text = 'ADVENTURE'},
 	{id = textImgNew(), text = 'BACK'},	
 }	
 	
@@ -2442,30 +2448,9 @@ function f_extrasMenu()
 			--ENDLESS MODE
 			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
-				f_allcharsMenu()	
-			--MISSIONS MODE
-			elseif extrasMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				script.missions.f_missionMenu()
-			--TIME TRIALS
-			elseif extrasMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				--f_trialsMenu()
-				f_comingSoon()
-			--SOUND TEST
-			elseif extrasMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				f_songMenu()
-			--STORYBOARDS
-			elseif extrasMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				f_storyboardMenu()
-			--CUTSCENES
-			elseif extrasMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
-				f_videoMenu()
+				f_allcharsMenu()
 			--GALLERY SUB-MENU
-			elseif extrasMenu == 8 then
+			elseif extrasMenu == 3 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				local moveArt = 1 --Start in image 0,0
@@ -2500,10 +2485,37 @@ function f_extrasMenu()
 					cmdInput()
 					refresh()
 				end
+			--SOUND TEST
+			elseif extrasMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_songMenu()
+			--STORYBOARDS
+			elseif extrasMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				f_storyboardMenu()
+			--CUTSCENES
+			elseif extrasMenu == 6 then
+				sndPlay(sysSnd, 100, 1)
+				f_videoMenu()
+			--TOWER MODE
+			elseif extrasMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				--f_towerMenu()
+				f_comingSoon()
+			--LEGION MODE
+			elseif extrasMenu == 8 then
+				sndPlay(sysSnd, 100, 1)
+				--f_legionMenu()
+				f_comingSoon()
 			--TOURNEY MODE
 			elseif extrasMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
 				f_tournamentMenu()
+			--ADVENTURE MODE
+			elseif extrasMenu == 10 then
+				sndPlay(sysSnd, 100, 1)
+				--f_adventureMenu()
+				f_comingSoon()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2930,14 +2942,7 @@ animSetPos(replayMenuBG, -40, 60)
 animUpdate(replayMenuBG)
 animDraw(replayMenuBG)
 
-function f_mainReplay()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local mainReplay = 1
-	netPlayer = 'Host'
-	coinSystem = false
+function f_replayTable()
 	t_replayList = {}
 	for file in lfs.dir[[.\\saved\\replays\\]] do --Read Dir
 		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then --Filter Files .replay
@@ -2955,6 +2960,17 @@ function f_mainReplay()
 	t_replayList[#t_replayList+1] = {
 		id = '', playlist = '          BACK'
 	}
+end
+
+function f_mainReplay()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local mainReplay = 1
+	netPlayer = 'Host'
+	coinSystem = false
+	f_replayTable() --Load table
 	while true do
 		if esc() then
 			onlinegame = false --only for identify purposes
@@ -2998,25 +3014,14 @@ function f_mainReplay()
 						replayOption = replayOption - 1
 					end
 					if replayOption < 1 then replayOption = 3 elseif replayOption > 3 then replayOption = 1 end
-					--Draw Cursor in Delete Image
-					--if replayOption == 1 then
-						--animDraw(replayCursor1)
-						--animUpdate(replayCursor1)
-					--Draw Cursor in Watch Image
-					--elseif replayOption == 2 then
-						--animDraw(replayCursor2)
-						--animUpdate(replayCursor2)
-					--Draw Cursor in Back Image
-					--elseif replayOption == 3 then
-						--animDraw(replayCursor3)
-						--animUpdate(replayCursor3)
-					--end
 					if btnPalNo(p1Cmd) > 0 then
 						--DELETE SELECTED REPLAY
 						if replayOption == 1 then
 							sndPlay(sysSnd, 100, 1)
 							os.remove('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
-							return
+							t_replayList = nil --Delete the Table an Idea by Strong FS
+							f_replayTable() --Just reload the table with applied changes
+							break
 						--WATCH SELECTED REPLAY	
 						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
@@ -4397,7 +4402,7 @@ function f_saveProgress()
 		['data.eventsmodeCnt'] = data.eventsmodeCnt,
 		['data.missionsmodeCnt'] = data.missionsmodeCnt,
 		['data.endlessmodeCnt'] = data.endlessmodeCnt,
-		['data.timetrialsmodeCnt'] = data.timetrialsmodeCnt,
+		['data.legionmodeCnt'] = data.legionmodeCnt,
 		['data.towermodeCnt'] = data.towermodeCnt,
 		['data.storymodeCnt'] = data.storymodeCnt,
 		['data.tourneymodeCnt'] = data.tourneymodeCnt,
