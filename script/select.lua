@@ -92,6 +92,8 @@ function f_selectReset()
 	p2numSimul = 2		
 	matchNo = 0
 	setMatchNo(matchNo)
+	rematchEnd = false
+	battleOption = 0
 end
 
 function f_setZoom()
@@ -756,11 +758,6 @@ function f_selectSimple()
 				end
 			end
 			f_selectScreen()
-			--if musicList == 0 then
-				--f_assignMusic()
-			--elseif musicList == 1 then
-				--setMusic(t_selMusic[math.random(3, #t_selMusic)].bgmname)
-			--end
 		end
 		f_aiLevel()
 		f_orderSelect()
@@ -780,10 +777,38 @@ function f_selectSimple()
 		if data.gameMode == 'versus' then
 			if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 				f_selectWin()
-				if data.challengerScreen == true then
-					f_selectChallenger()
-				else
-				--Do Nothing and don't show the screen
+				if battleOption == 1 then --Rematch
+					--if getCharName(p1Cell) == 'Random' then
+					--data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+					--data.t_p1selected[1].pal = math.random(1,12)
+					--end
+					--if getCharName(p2Cell) == 'Random' then
+						--data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						--data.t_p2selected[1].pal = math.random(1,12)
+					--end
+					if stageList == 0 then
+						stageNo = math.random(1, data.includestage)
+						setStage(stageNo)
+					end
+					selectStage(stageNo)
+					if musicList == 0 then
+						f_assignMusic()
+					elseif musicList == 1 then
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+					end
+				elseif battleOption == 2 then --Back to Character Select
+					if data.challengerScreen == true then
+						f_selectChallenger()
+					else
+					--Do Nothing and don't show the screen
+					end
+					--f_selectReset()
+					--while not selScreenEnd do
+						--f_selectScreen()
+					--end
+				elseif battleOption == 3 then --Back to Main Menu
+					break
 				end
 			end
 		elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
@@ -3326,13 +3351,15 @@ txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
 txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
 
 function f_selectWin()
+	local menuReady = false
+	p1Cursor = 1
 	setServiceType(0) --Erase Service
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 	if data.winscreen == 'None' or data.victoryscreen == false then
 		f_selectWinOFF()
 	elseif data.winscreen == 'Fixed' then
 		f_selectWinFix()
-	else	
+	else
 		playBGM(bgmVictory)
 		local txt = ''
 		if winner == 1 then
@@ -3356,21 +3383,6 @@ function f_selectWin()
 		local i = 0
 		cmdInput()
 		while true do
-			if i == 510 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.orderSelect == true and data.gameMode == 'arcade' then
-					playBGM(bgmSelect)
-				end
-				break
-			elseif btnPalNo(p1Cmd) > 0 then
-				cmdInput()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.orderSelect == true and data.gameMode == 'arcade' then
-					playBGM(bgmSelect)
-				end
-				commandBufReset(p1Cmd, 1)
-				break
-			end
 			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
@@ -3439,11 +3451,31 @@ function f_selectWin()
 					end
 					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
 					--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14)
-				end	
+				end
 			end
 			i = i + 1
 			f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
 			textImgDraw(txt_winnername)
+			if not menuReady then
+				if i == 510 or btnPalNo(p1Cmd) > 0 then
+					cmdInput()
+					menuReady = true
+				end
+			elseif menuReady then
+				if data.gameMode == 'versus' then
+					f_rematch()
+				else --Don't Show Rematch Menu
+					rematchEnd = true
+				end
+			end
+			if rematchEnd then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				if data.orderSelect == true and data.gameMode == 'arcade' then
+					playBGM(bgmSelect)
+				end
+				commandBufReset(p1Cmd, 1)
+				break
+			end
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
 			cmdInput()
@@ -3664,6 +3696,166 @@ function f_winParse(winner, looser, pal)
 end
 
 --;===========================================================
+--; RANKED MATCH LOGIC
+--;===========================================================
+function f_ftcontrol()
+	if onlinegame == true and data.gameMode == 'versus' then
+		if p1Wins == data.ftcontrol then
+			--os.exit()
+			while true do
+				break
+				--animDraw(data.fadeTitle)
+				--animUpdate(data.fadeTitle)
+				--cmdInput()
+				--refresh()
+			end
+			--cancel = true
+		elseif p2Wins == data.ftcontrol then
+			--os.exit()
+			--return
+			--cancel = true
+		end
+	end
+end
+
+--;===========================================================
+--; REMATCH MENU
+--;===========================================================
+txt_rematch = createTextImg(jgFnt, 0, 0, 'BATTLE OPTION', 159, 84)
+
+--Rematch Window BG
+rematchWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(rematchWindowBG, 73.4, 87)
+animUpdate(rematchWindowBG)
+animDraw(rematchWindowBG)
+animSetScale(rematchWindowBG, 1.1, 1.1)
+
+--Rematch Window
+rematchWindow = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(rematchWindow, 160, 0)
+animSetTile(rematchWindow, 1, 1)
+animSetWindow(rematchWindow, 82, 92, 150, 60)
+
+t_battleOption = {
+	{id = textImgNew(), text = '     REMATCH'},
+	{id = textImgNew(), text = ' CHARACTER SELECT'},
+	{id = textImgNew(), text = '    MAIN MENU'},
+}
+for i=1, #t_battleOption do
+	t_battleOption[i].id = createTextImg(jgFnt, 0, 1, t_battleOption[i].text, 85, 95+i*15)
+end
+
+function f_rematch()
+	if commandGetState(p1Cmd, 'u') then
+		sndPlay(sysSnd, 100, 0)
+		p1Cursor = p1Cursor - 1
+	elseif commandGetState(p1Cmd, 'd') then
+		sndPlay(sysSnd, 100, 0)
+		p1Cursor = p1Cursor + 1
+	end
+	if p1Cursor < 1 then
+		p1Cursor = #t_battleOption
+	elseif p1Cursor > #t_battleOption then
+		p1Cursor = 1
+	end
+	animDraw(rematchWindowBG)
+	animUpdate(rematchWindowBG)
+	--animDraw(f_animVelocity(rematchWindow, 0, 1.5)) --Extra Rematch Window
+	textImgDraw(txt_rematch)
+	for i=1, #t_battleOption do
+		if i == p1Cursor + 0 then -- +0 To start center
+			textImgSetBank(t_battleOption[i].id, 5)
+		else
+			textImgSetBank(t_battleOption[i].id, 0)
+		end
+		textImgDraw(t_battleOption[i].id)
+	end
+	if btnPalNo(p1Cmd) > 0 then
+		if p1Cursor == 1 then
+			sndPlay(sysSnd, 100, 1)
+			battleOption = 1 --Rematch
+		elseif p1Cursor == 2 then
+			sndPlay(sysSnd, 100, 1)
+			battleOption = 2 --Back to Character Select
+		elseif p1Cursor == 3 then
+			sndPlay(sysSnd, 100, 2)
+			battleOption = 3 --Back to Main Menu
+		end
+		rematchEnd = true
+		cmdInput()
+	end
+end
+
+--;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREENPACK
+--;===========================================================
+--Challenger Transparent BG
+versusBG5 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(versusBG5, 160, 0)
+animSetTile(versusBG5, 1, 1)
+animSetWindow(versusBG5, -54, 67, 428, 100)
+
+--Challenger Text
+challengerText1 = animNew(sysSff, [[
+500,0, 0,0, 5
+500,1, 0,0, 5
+500,2, 0,0, 5
+500,3, 0,0, 5
+500,4, 0,0, 5
+500,5, 0,0, 5
+500,6, 0,0, 5
+500,7, 0,0, 5
+500,8, 0,0, 5
+500,9, 0,0, 5
+]])
+animAddPos(challengerText1, 19, 100)
+animUpdate(challengerText1)
+--animSetScale(challengerText1, 1.2, 1)
+
+--;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREEN
+--;===========================================================
+function f_selectChallenger()
+	if data.contSelection == false and data.rosterAdvance == true then return end
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	playBGM(bgmNothing)
+	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
+	local txt = ''
+	local i = 0
+	data.rosterMode = 'challenger'
+	cmdInput()
+	while true do
+		if i == 150 then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		elseif btnPalNo(p1Cmd) > 0 then
+			cmdInput()
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			break
+		end
+		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
+		else
+			animDraw(f_animVelocity(versusBG1, 0, 1.5))
+		end
+		animDraw(f_animVelocity(versusBG5, 0, 1.5))
+		i = i + 1
+		animDraw(challengerText1)
+		animUpdate(challengerText1)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; SERVICE MENU
 --;===========================================================
 txt_service = createTextImg(jgFnt, 0, 0, 'SELECT A SERVICE', 159, 13)
@@ -3804,71 +3996,6 @@ function f_service()
 		animSetWindow(cursorBox, 80,5+service*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; HERE COMES A NEW CHALLENGER SCREENPACK
---;===========================================================
---Challenger Transparent BG
-versusBG5 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(versusBG5, 160, 0)
-animSetTile(versusBG5, 1, 1)
-animSetWindow(versusBG5, -54, 67, 428, 100)
-
---Challenger Text
-challengerText1 = animNew(sysSff, [[
-500,0, 0,0, 5
-500,1, 0,0, 5
-500,2, 0,0, 5
-500,3, 0,0, 5
-500,4, 0,0, 5
-500,5, 0,0, 5
-500,6, 0,0, 5
-500,7, 0,0, 5
-500,8, 0,0, 5
-500,9, 0,0, 5
-]])
-animAddPos(challengerText1, 19, 100)
-animUpdate(challengerText1)
---animSetScale(challengerText1, 1.2, 1)
-
---;===========================================================
---; HERE COMES A NEW CHALLENGER SCREEN
---;===========================================================
-function f_selectChallenger()
-	if data.contSelection == false and data.rosterAdvance == true then return end
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	playBGM(bgmNothing)
-	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
-	local txt = ''
-	local i = 0
-	data.rosterMode = 'challenger'
-	cmdInput()
-	while true do
-		if i == 150 then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			break
-		elseif btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			break
-		end
-		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
-			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
-		else
-			animDraw(f_animVelocity(versusBG1, 0, 1.5))
-		end
-		animDraw(f_animVelocity(versusBG5, 0, 1.5))
-		i = i + 1
-		animDraw(challengerText1)
-		animUpdate(challengerText1)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4948,26 +5075,6 @@ function f_gameOver()
 		end
 		cmdInput()
 		refresh()
-	end
-end
-
-function f_ftcontrol()
-	if onlinegame == true and data.gameMode == 'versus' then
-		if p1Wins == data.ftcontrol then
-			--os.exit()
-			while true do
-				break
-				--animDraw(data.fadeTitle)
-				--animUpdate(data.fadeTitle)
-				--cmdInput()
-				--refresh()
-			end
-			--cancel = true
-		elseif p2Wins == data.ftcontrol then
-			--os.exit()
-			--return
-			--cancel = true
-		end
 	end
 end
 
