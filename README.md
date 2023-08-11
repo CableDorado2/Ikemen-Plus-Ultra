@@ -73,8 +73,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.3**
 ------------
 
-- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
-
 - [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
 
 - [ ] El jefe final o algún char que tenga un parametro aparezca en modo single tal como funcionan los bonus games, dado que la cpu en modo simul mostrará 2, 3 o 4 jefes finales y es mejor controlar eso bajo un parametro.
@@ -83,22 +81,22 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente en character select como ocurre en Co-Op Mode.
 
-- [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
-[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)]()
-
-- [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
-
 - [ ] Mejorar lógica del menú de estadísticas.
 
-- [ ] Opción de Rematch en Winner Screen (YES = Luchar con los mismos personajes --- NO = Here comes a New Challenger/Volver a Char Select).
-
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
 
 - [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
 - [ ] Opciones de video que permitan personalizar la ventana del Ikemen (Cambiar entre modo ventana, fullscreen y pantalla completa sin bordes). Así como activar o desactivar los bordes del modo ventanas.
 
 - [ ] Cargar archivos de video.
+
+- [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
+[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)]()
+
+- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
 
