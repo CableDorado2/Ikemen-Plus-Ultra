@@ -73,6 +73,9 @@ function f_selectReset()
 	p2BG = false
 	stageSelect = true
 	songSelect = false
+	stageAnnouncer = false
+	stageTimer = 0 --Restart Stage Announcer Timer
+	dontTouch = false
 	if data.p2In == 1 or data.p2In == 3 then
 		p2TeamEnd = true
 		p2SelEnd = true
@@ -82,6 +85,7 @@ function f_selectReset()
 	end
 	selScreenEnd = false
 	stageEnd = false
+	if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --Restore Game Mode Name
 	p1numChars = 1
 	p2numChars = 1
 	p1teamMode = 0
@@ -89,7 +93,7 @@ function f_selectReset()
 	p1numTurns = 2
 	p1numSimul = 2
 	p2numTurns = 2
-	p2numSimul = 2		
+	p2numSimul = 2
 	matchNo = 0
 	setMatchNo(matchNo)
 	rematchEnd = false
@@ -1315,6 +1319,9 @@ function f_selectScreen()
 			selScreenEnd = true
 		end
 	end
+	if stageAnnouncer == true then
+		stageTimer = stageTimer + 1
+	end
 	animDraw(data.fadeSelect)
 	animUpdate(data.fadeSelect)
 	animDraw(data.fadeTitle)
@@ -2453,13 +2460,14 @@ end
 function f_selectStage()
 	local bufl = 0
 	local bufr = 0
+	local cursorSelect = 0
 	if data.stageType == 'Classic' then
-		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 239)
+		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
 		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
 	elseif data.stageType == 'Modern' then
 		p2BG = false
 		p1BG = false
-		txt_selStage = createTextImg(jgFnt, 5, 0, '', 160, 205)
+		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
 		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
 		--Draw Stage Select Title BG
 		animDraw(f_animVelocity(selectSTBG2a, -1, 0))
@@ -2470,7 +2478,7 @@ function f_selectStage()
 		animDraw(f_animVelocity(selectSBG2b, 3, 0))
 		animDraw(f_animVelocity(selectSBG2c, 6, 0))
 		--Draw Stage Title Text
-		txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 20)
+		txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 13)
 		textImgDraw(txt_stageSelect)
 	end
 	if data.stageMenu then
@@ -2488,6 +2496,7 @@ function f_selectStage()
 			end
 		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 3)
+			cursorSelect = cursorSelect + 1
 			--Allow Stage Select
 			if stageSelect == true then
 				stageSelect = false
@@ -2507,6 +2516,7 @@ function f_selectStage()
 			--end
 		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 3)
+			cursorSelect = cursorSelect - 1
 			--Allow Stage Select
 			if stageSelect == true then
 				stageSelect = false
@@ -2545,6 +2555,7 @@ function f_selectStage()
 				if musicList < 0 then musicList = #t_selMusic-1 end
 			end
 		end
+		if cursorSelect < 1 then cursorSelect = 2 elseif cursorSelect > 2 then cursorSelect = 1 end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
@@ -2555,13 +2566,14 @@ function f_selectStage()
 			bufr = 0
 			bufl = 0
 		end
+		--Delete content from previous menu
 		animSetWindow(selectBG1a, 0, 0, 0, 0)
 		animSetWindow(selectBG1b, 0, 0, 0, 0)
 		animSetWindow(selectBG1c, 0, 0, 0, 0)
 		p1FaceX = 99
 		p1FaceY = 999
 		p2FaceX = 999
-		p2FaceY = 999	
+		p2FaceY = 999
 		if data.stageType == 'Classic' then
 			animUpdate(selStage)
 			animDraw(selStage)
@@ -2572,6 +2584,7 @@ function f_selectStage()
 			p2Cell = nil
 			p1Portrait = nil
 			p2Portrait = nil
+			textImgSetPos(txt_mainSelect, 999,999)
 		end
 		f_stagePreview() --Stages Preview Managed via Stages.sff
 		if stageList == 0 then --Random Stage Preview Using Old Logic
@@ -2584,7 +2597,6 @@ function f_selectStage()
 			end
 		end
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
-		textImgDraw(txt_selStage)
 		if musicList == 0 then
 			musicNo = ''
 		elseif musicList == 1 then
@@ -2595,8 +2607,23 @@ function f_selectStage()
 			musicNo = ' ' .. musicList-2 .. ''
 		end
 		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
-		textImgDraw(txt_selectMusic)
-		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
+		if stageSelect == true then
+			textImgSetBank(txt_selStage, 5)
+			textImgSetBank(txt_selectMusic, 0)
+			textImgDraw(txt_selStage)
+			textImgDraw(txt_selectMusic)
+		else
+			textImgSetBank(txt_selStage, 0)
+			textImgSetBank(txt_selectMusic, 5)
+			textImgDraw(txt_selStage)
+			textImgDraw(txt_selectMusic)
+		end
+		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and dontTouch == false then
+			stageSelect = false
+			songSelect = false
+			--cursorSelect = 0
+			stageAnnouncer = true
+			dontTouch = true
 			sndPlay(sysSnd, 100, 1)
 			if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
 			elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
@@ -2611,9 +2638,14 @@ function f_selectStage()
 				setStage(stageNo)
 				selectStage(stageNo)
 			end
-			--create a timer to hear full announcer voice
+		elseif (btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds')) and dontTouch == true then
+			--Just Don't Touch!
+		end
+		--create a timer to hear full announcer voice
+		if stageTimer > 55 then
 			stageEnd = true
 			cmdInput()
+			--stageTimer = 0 --Restart Stage Announcer Timer
 		end
 	else
 		if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then

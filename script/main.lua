@@ -3022,7 +3022,7 @@ function f_mainReplay()
 							t_replayList = nil --Delete the Table an Idea by Strong FS
 							f_replayTable() --Just reload the table with applied changes
 							break
-						--WATCH SELECTED REPLAY	
+						--WATCH SELECTED REPLAY
 						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
 							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
