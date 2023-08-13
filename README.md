@@ -1,5 +1,5 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
+*Ikemen Plus Ultra* is an update version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
 
 - Consider this version of Ikemen engine an **alternative** in case Ikemen GO doesn't work for you.
 
@@ -18,11 +18,11 @@
 
 ## Download
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
-[![Alt text](https://i.postimg.cc/XvX7yhw5/1561.jpg)](https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases)
+![IKMP](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/7bd87695-cab6-4270-a255-8a9475e8c400)
 
 ## Table of Contents
 
->[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
+>[Meaning of All IKEMEN Versions](#meaning-of-all-ikemen-Versions)
 >
 >[Default Controls](#default-controls)
 >
@@ -42,12 +42,20 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >
 >[License](#license)
 
-## Ikemen Plus Ultra VS Ikemen Go
+## Meaning of All IKEMEN Versions
+**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the First version of the engine.
 
-"**IKEMEN SSZ** (Currently Called "Plus Ultra") is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language. **Ikemen Plus Ultra it's a facelift to the Classic/Old Ikemen Engine.**
+**IKEMEN Plus** is an unofficial update of the Vanilla version. Is for people who want to mess with the engine beyond modification of Lua files.
+It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language.
 
-"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
-specific build environment and necessity to compile changes to an executable each time". **Ikemen Go it's the latest version of Ikemen Engine.**
+**IKEMEN Plus Ultra** is an unofficial modify/update of the previous version using the same programing language (S-SIZE and Lua) with new features
+inspired from Ikemen Go and Commercial Fighting Games.
+
+**IKEMEN GO** is the official latest version of the engine. The original creator (SUEHIRO) abandoned Vanilla in favour of rewriting the engine in 
+Google's Go language (hence the name). This version is for people who want their game to follow what MUGEN does but with extra features/fixes. 
+Modifying the engine code is beyond most people due to the specific build environment and necessity to compile changes to an executable each time.
+
+**IKEMEN GO Plus** is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
@@ -94,7 +102,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Cargar archivos de video.
 
 - [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
-[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)]()
+![Fix1](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/85c78494-7586-4bfe-acd1-cd703d9e3548)
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
@@ -110,6 +118,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Pause Menu/Screen.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
+[![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
 
 - [ ] Story Mode Concept.
 
@@ -122,7 +131,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Ranking al completar o perder en Modo Arcade.
 
-[![Alt text](https://angryjellyfish.files.wordpress.com/2019/11/yvqrnyn.png?w=584)]()
+![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
@@ -134,11 +143,11 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.6**
 ------------
 
-- [ ] 3er tipo de visualización de stages estilo “chart” (lógica basada en el char select).
-[![Alt text](https://i.postimg.cc/C52PtPTb/Stages-en-Casillas.png)](https://youtu.be/FHwlSkCkQ50)
+- [ ] 3er tipo de visualización de stages estilo “chart” (lógica basada en el char select): https://www.youtube.com/watch?v=FHwlSkCkQ50
+[![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
-[![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
+![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
 
 - [ ] Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
 [![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
@@ -222,7 +231,7 @@ If you need help, you can find support from developers and contributors for this
 >https://github.com/acdgames/Ikemen-Plus
 >
 >- Lastest Ikemen Engine (Ikemen Go) Source Code:
->https://github.com/Windblade-GR01/Ikemen-GO
+>https://github.com/ikemen-engine/Ikemen-GO
 
 ## License
 The code is under the MIT Licence.
