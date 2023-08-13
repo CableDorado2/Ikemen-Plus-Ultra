@@ -102,7 +102,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Cargar archivos de video.
 
 - [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
-[![Alt text](https://i.postimg.cc/HnYTSL0f/back-Menu-Arcade-Error.png)]()
+![Fix1](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/85c78494-7586-4bfe-acd1-cd703d9e3548)
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
@@ -118,6 +118,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Pause Menu/Screen.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
+[![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
 
 - [ ] Story Mode Concept.
 
@@ -129,8 +130,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Sistema de puntos basado en el Add004.
 
 - [ ] Ranking al completar o perder en Modo Arcade.
-
-[![Alt text](https://angryjellyfish.files.wordpress.com/2019/11/yvqrnyn.png?w=584)]()
+![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
@@ -146,7 +146,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 [![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
-[![Alt text](https://i.postimg.cc/L8LLKCF2/Logros.jpg)]()
+![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
 
 - [ ] Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
 [![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
