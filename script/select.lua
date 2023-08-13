@@ -56,6 +56,8 @@ function f_selectReset()
 		--p2FaceX = 2
 		--p2FaceY = 170
 	end
+	bufl = 0
+	bufr = 0
 	p1Cell = nil
 	p2Cell = nil
 	p1Portrait = nil
@@ -2458,8 +2460,6 @@ end
 --; STAGE SELECT
 --;===========================================================
 function f_selectStage()
-	local bufl = 0
-	local bufr = 0
 	local cursorSelect = 0
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
@@ -2495,7 +2495,9 @@ function f_selectStage()
 				end
 			end
 		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 3)
+			sndPlay(sysSnd, 100, 0)
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
 			cursorSelect = cursorSelect + 1
 			--Allow Stage Select
 			if stageSelect == true then
@@ -2515,7 +2517,9 @@ function f_selectStage()
 				--if stageList > data.includestage then stageList = 0 end
 			--end
 		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 3)
+			sndPlay(sysSnd, 100, 0)
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
 			cursorSelect = cursorSelect - 1
 			--Allow Stage Select
 			if stageSelect == true then

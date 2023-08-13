@@ -1,9 +1,9 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 113
-data.playTime = 44221.544
+data.playTime = 49014.704
 data.favoriteChar = "Kung Fu Man"
-data.favoriteStage = "Random"
+data.favoriteStage = "Nyc Alley [HD]"
 data.victories = 146
 data.defeats = 64
 data.preferredMode = "WIP"

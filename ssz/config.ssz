@@ -12,7 +12,7 @@ const int Height = 720;
 const bool FullScreen = false;
 
 const float GlVol = 1;
-const float SEVol = 0.7;
+const float SEVol = 1;
 const float BGMVol = 0;
 const float PanStr = 0.8;
 

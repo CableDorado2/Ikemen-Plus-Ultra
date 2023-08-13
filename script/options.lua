@@ -590,7 +590,11 @@ function f_mainCfg()
 	local playerName = ''
 	local nameEdit = false
 	local done = true
-	local mainCfg = 1	
+	local mainCfg = 1
+	local bufl = 0
+	local bufr = 0
+	local bufu = 0
+	local bufd = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if not done then
@@ -606,11 +610,11 @@ function f_mainCfg()
 			end
 			f_saveCfg()
 			return
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg - 1
 			if mainCfg < 1 then mainCfg = #t_mainCfg end		
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg + 1
 			if mainCfg > #t_mainCfg then mainCfg = 1 end
@@ -848,6 +852,16 @@ function f_mainCfg()
 		animSetWindow(cursorBox, 80,5+mainCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -880,11 +894,11 @@ function f_onlineCfg()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			onlineCfg = onlineCfg - 1
 			if onlineCfg < 1 then onlineCfg = #t_onlineCfg end		
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			onlineCfg = onlineCfg + 1
 			if onlineCfg > #t_onlineCfg then onlineCfg = 1 end
@@ -933,6 +947,16 @@ function f_onlineCfg()
 		animSetWindow(cursorBox, 80,5+onlineCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -968,12 +992,12 @@ function f_netplayCfg()
 			sndPlay(sysSnd, 100, 2)
 			lockSetting = false
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			lockSetting = false
 			netplayCfg = netplayCfg - 1
 			if netplayCfg < 1 then netplayCfg = #t_netplayCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			lockSetting = false
 			netplayCfg = netplayCfg + 1
@@ -1041,6 +1065,16 @@ function f_netplayCfg()
 		animSetWindow(cursorBox, 80,5+netplayCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -1073,37 +1107,49 @@ end
 function f_gameCfg()
 	cmdInput()
 	local gameCfg = 1
-	local bufl = 0
-	local bufr = 0	
 	while true do
 		if esc() then
 			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 0)
 			gameCfg = gameCfg - 1
 			if gameCfg < 1 then gameCfg = #t_gameCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end			
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 0)
 			gameCfg = gameCfg + 1
 			if gameCfg > #t_gameCfg then gameCfg = 1 end
 			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end			
+			if bufr then bufr = 0 end
 		--Difficulty Level
 		elseif gameCfg == 1 then
-			if commandGetState(p1Cmd, 'r') and data.difficulty < 8 then
-				sndPlay(sysSnd, 100, 0)
-				data.difficulty = data.difficulty + 1
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.difficulty < 8 then sndPlay(sysSnd, 100, 0) end
+				if data.difficulty < 8 then
+					data.difficulty = data.difficulty + 1
+				end
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.difficulty > 1 then
-				sndPlay(sysSnd, 100, 0)
-				data.difficulty = data.difficulty - 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.difficulty > 1 then sndPlay(sysSnd, 100, 0) end
+				if data.difficulty > 1 then
+					data.difficulty = data.difficulty - 1
+				end
 				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
 			end
 		--Round Time			
 		elseif gameCfg == 2 then
@@ -1134,39 +1180,81 @@ function f_gameCfg()
 				bufr = 0
 				bufl = 0
 			end
-		--Rounds to Win			
+		--Rounds to Win
 		elseif gameCfg == 3 then
-			if commandGetState(p1Cmd, 'r') and roundsNum < 5 then
-				sndPlay(sysSnd, 100, 0)
-				roundsNum = roundsNum + 1
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and roundsNum < 5 then sndPlay(sysSnd, 100, 0) end
+				if roundsNum < 5 then
+					roundsNum = roundsNum + 1
+				end
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and roundsNum > 1 then
-				sndPlay(sysSnd, 100, 0)
-				roundsNum = roundsNum - 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and roundsNum > 1 then sndPlay(sysSnd, 100, 0) end
+				if roundsNum > 1 then
+					roundsNum = roundsNum - 1
+				end
 				modified = 1
 			end
-		--Max Draw Games			
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--Max Draw Games
 		elseif gameCfg == 4 then
-			if commandGetState(p1Cmd, 'r') and drawNum < 2 then
-				sndPlay(sysSnd, 100, 0)
-				drawNum = drawNum + 1
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and drawNum < 2 then sndPlay(sysSnd, 100, 0) end
+				if drawNum < 2 then
+					drawNum = drawNum + 1
+				end
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and drawNum > 0 then
-				sndPlay(sysSnd, 100, 0)
-				drawNum = drawNum - 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and drawNum > 0 then sndPlay(sysSnd, 100, 0) end
+				if drawNum > 0 then
+					drawNum = drawNum - 1
+				end
 				modified = 1
-			end				
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
 		--Life
 		elseif gameCfg == 5 then
-			if commandGetState(p1Cmd, 'r') and data.lifeMul < 300 then
-				sndPlay(sysSnd, 100, 0)
-				data.lifeMul = data.lifeMul + 10
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if commandGetState(p1Cmd, 'r') and data.lifeMul < 300 then sndPlay(sysSnd, 100, 0) end
+				if data.lifeMul < 300 then 
+					data.lifeMul = data.lifeMul + 10
+				end
 				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.lifeMul > 10 then
-				sndPlay(sysSnd, 100, 0)
-				data.lifeMul = data.lifeMul - 10
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if commandGetState(p1Cmd, 'l') and data.lifeMul > 10 then sndPlay(sysSnd, 100, 0) end
+				if data.lifeMul > 10 then
+					data.lifeMul = data.lifeMul - 10
+				end
 				modified = 1
-			end				
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
 		--AI ramping
 		elseif gameCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 			sndPlay(sysSnd, 100, 0)
@@ -1267,7 +1355,7 @@ function f_gameCfg()
 		elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
-		end	
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetWindow(optionsBG1, 80,20, 160,#t_gameCfg*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
@@ -1300,6 +1388,16 @@ function f_gameCfg()
 		animSetWindow(cursorBox, 80,5+gameCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -1331,11 +1429,11 @@ function f_teamCfg()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			teamCfg = teamCfg - 1
 			if teamCfg < 1 then teamCfg = #t_teamCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			teamCfg = teamCfg + 1
 			if teamCfg > #t_teamCfg then teamCfg = 1 end
@@ -1396,7 +1494,7 @@ function f_teamCfg()
 				modified = 1
 			end
 		--Simul Type (Fixed by Strong FS)
-		elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		elseif teamCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			sndPlay(sysSnd, 100, 0)
 			if data.simulType == 'Tag' then
 				data.simulType = 'Assist'
@@ -1407,23 +1505,20 @@ function f_teamCfg()
 			end
 		--Co-op CPU Team Mode
 		elseif teamCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-			sndPlay(sysSnd, 100, 0)
 			if commandGetState(p1Cmd, 'r') and data.coopenemy == 'Single' then
+				sndPlay(sysSnd, 100, 0)
 				data.coopenemy = 'Simul'
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.coopenemy == 'Simul' then
-				data.coopenemy = 'Turns'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.coopenemy == 'Turns' then
-				data.coopenemy = 'Single'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.coopenemy == 'Single' then
+				sndPlay(sysSnd, 100, 0)
 				data.coopenemy = 'Turns'
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.coopenemy == 'Simul' then
+				sndPlay(sysSnd, 100, 0)
 				data.coopenemy = 'Single'
 				modified = 1
 			elseif commandGetState(p1Cmd, 'l') and data.coopenemy == 'Turns' then
+				sndPlay(sysSnd, 100, 0)
 				data.coopenemy = 'Simul'
 				modified = 1
 			end
@@ -1452,6 +1547,16 @@ function f_teamCfg()
 		animSetWindow(cursorBox, 80,5+teamCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -1480,11 +1585,11 @@ function f_zoomCfg()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			zoomCfg = zoomCfg - 1
 			if zoomCfg < 1 then zoomCfg = #t_zoomCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			zoomCfg = zoomCfg + 1
 			if zoomCfg > #t_zoomCfg then zoomCfg = 1 end
@@ -1555,6 +1660,16 @@ function f_zoomCfg()
 		animSetWindow(cursorBox, 80,5+zoomCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -1589,12 +1704,12 @@ function f_UICfg()
 			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			lockSetting = false
 			sndPlay(sysSnd, 100, 0)
 			UICfg = UICfg - 1
 			if UICfg < 1 then UICfg = #t_UICfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			lockSetting = false
 			sndPlay(sysSnd, 100, 0)
 			UICfg = UICfg + 1
@@ -1861,6 +1976,16 @@ function f_UICfg()
 		animSetWindow(cursorBox, 80,5+UICfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -1892,7 +2017,7 @@ function f_engineCfg()
 			lockSetting = false
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			lockSetting = false
 			eraseStatus = true
 			sndPlay(sysSnd, 100, 0)
@@ -1900,7 +2025,7 @@ function f_engineCfg()
 			if engineCfg < 1 then engineCfg = #t_engineCfg end
 			if bufl then bufl = 0 end --New
 			if bufr then bufr = 0 end --New
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			lockSetting = false
 			eraseStatus = true
 			sndPlay(sysSnd, 100, 0)
@@ -2085,6 +2210,16 @@ function f_engineCfg()
 		animSetWindow(cursorBox, 80,5+engineCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2126,12 +2261,12 @@ function f_videoCfg()
 			sndPlay(sysSnd, 100, 2)
 			lockSetting = false
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			lockSetting = false
 			videoCfg = videoCfg - 1
 			if videoCfg < 1 then videoCfg = #t_videoCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			lockSetting = false
 			videoCfg = videoCfg + 1
@@ -2221,6 +2356,16 @@ function f_videoCfg()
 		animSetWindow(cursorBox, 80,5+videoCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2344,11 +2489,11 @@ function f_resCfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
-		if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg - 1
 			if resCfg < 1 then resCfg = #t_resCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg + 1
 			if resCfg > #t_resCfg then resCfg = 1 end
@@ -2396,6 +2541,16 @@ function f_resCfg()
 		animSetWindow(cursorBox, 80,5+resCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2517,6 +2672,16 @@ function f_resCfg4_3()
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2621,6 +2786,16 @@ function f_resCfg16_9()
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2725,6 +2900,16 @@ function f_resCfg16_10()
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2840,6 +3025,16 @@ function f_EXresCfg()
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -2874,13 +3069,13 @@ function f_audioCfg()
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			audioCfg = audioCfg - 1
 			if audioCfg < 1 then audioCfg = #t_audioCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end			
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			audioCfg = audioCfg + 1
 			if audioCfg > #t_audioCfg then audioCfg = 1 end
@@ -3176,6 +3371,16 @@ function f_audioCfg()
 		animSetWindow(cursorBox, 80,5+audioCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -3210,11 +3415,11 @@ function f_inputCfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
-		if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			inputCfg = inputCfg - 1
 			if inputCfg < 1 then inputCfg = #t_inputCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			inputCfg = inputCfg + 1
 			if inputCfg > #t_inputCfg then inputCfg = 1 end
@@ -3298,6 +3503,16 @@ function f_inputCfg()
 		animSetWindow(cursorBox, 68,5+inputCfg*15, 184,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3462,11 +3677,11 @@ function f_keyMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyMenu = keyMenu - 1
 			if keyMenu < 1 then keyMenu = #t_keyMenu end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyMenu = keyMenu + 1
 			if keyMenu > #t_keyMenu then keyMenu = 1 end
@@ -3505,6 +3720,16 @@ function f_keyMenu()
 		animSetWindow(cursorBox, 80,5+keyMenu*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -3531,11 +3756,11 @@ function f_joyMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			joyMenu = joyMenu - 1
 			if joyMenu < 1 then joyMenu = #t_joyMenu end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			joyMenu = joyMenu + 1
 			if joyMenu > #t_joyMenu then joyMenu = 1 end
@@ -3578,6 +3803,16 @@ function f_joyMenu()
 		animSetWindow(cursorBox, 80,5+joyMenu*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end
@@ -3632,11 +3867,11 @@ function f_keyCfg(playerNo, controller)
 			sndPlay(sysSnd, 100, 2)
 			f_keySave(playerNo, controller)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyCfg = keyCfg - 1
 			if keyCfg < 1 then keyCfg = #t_keyCfg end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyCfg = keyCfg + 1
 			if keyCfg > #t_keyCfg then keyCfg = 1 end
@@ -3676,6 +3911,16 @@ function f_keyCfg(playerNo, controller)
 		animSetWindow(cursorBox, 80,5+keyCfg*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		cmdInput()
 		refresh()
 	end

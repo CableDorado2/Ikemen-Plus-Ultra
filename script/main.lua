@@ -362,6 +362,7 @@ function f_mainMenu()
 	f_menuMusic()
 	while true do
 		if esc() then
+			sndPlay(sysSnd, 100, 2)
 			playBGM(bgmTitle)
 			return
 		elseif commandGetState(p1Cmd, 'u') then
