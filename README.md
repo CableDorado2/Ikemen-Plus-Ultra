@@ -1,5 +1,5 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** version uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
+*Ikemen Plus Ultra* is an update version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. (If you are looking for the latest Ikemen Engine, is called Ikemen GO).
 
 - Consider this version of Ikemen engine an **alternative** in case Ikemen GO doesn't work for you.
 
@@ -22,7 +22,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 ## Table of Contents
 
->[Ikemen Plus Ultra VS Ikemen Go](#ikemen-plus-ultra-vs-ikemen-go)
+>[Meaning of All IKEMEN Versions](#meaning-of-all-ikemen-Versions)
 >
 >[Default Controls](#default-controls)
 >
@@ -42,12 +42,20 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >
 >[License](#license)
 
-## Ikemen Plus Ultra VS Ikemen Go
+## Meaning of All IKEMEN Versions
+**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the First version of the engine.
 
-"**IKEMEN SSZ** (Currently Called "Plus Ultra") is for people who want to mess with the engine beyond modification of Lua files. Literally altering behaviour as they see fit. It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language. **Ikemen Plus Ultra it's a facelift to the Classic/Old Ikemen Engine.**
+**IKEMEN Plus** is an unofficial update of the Vanilla version. Is for people who want to mess with the engine beyond modification of Lua files.
+It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language.
 
-"**IKEMEN GO** is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the 
-specific build environment and necessity to compile changes to an executable each time". **Ikemen Go it's the latest version of Ikemen Engine.**
+**IKEMEN Plus Ultra** is an unofficial modify/update of the previous version using the same programing language (S-SIZE and Lua) with new features
+inspired from Ikemen Go and Commercial Fighting Games.
+
+**IKEMEN GO** is the official latest version of the engine. The original creator (SUEHIRO) abandoned Vanilla in favour of rewriting the engine in 
+Google's Go language (hence the name). This version is for people who want their game to follow what MUGEN does but with extra features/fixes. 
+Modifying the engine code is beyond most people due to the specific build environment and necessity to compile changes to an executable each time.
+
+**IKEMEN GO Plus** is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## Default Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
