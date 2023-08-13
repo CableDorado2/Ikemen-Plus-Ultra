@@ -231,7 +231,7 @@ If you need help, you can find support from developers and contributors for this
 >https://github.com/acdgames/Ikemen-Plus
 >
 >- Lastest Ikemen Engine (Ikemen Go) Source Code:
->https://github.com/Windblade-GR01/Ikemen-GO
+>https://github.com/ikemen-engine/Ikemen-GO
 
 ## License
 The code is under the MIT Licence.
