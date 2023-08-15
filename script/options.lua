@@ -2722,10 +2722,10 @@ function f_resCfg4_3()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg4_3 = resCfg4_3 - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg4_3 = resCfg4_3 + 1
 		end
@@ -2740,9 +2740,9 @@ function f_resCfg4_3()
 		elseif resCfg4_3 > #t_resCfg4_3 then
 			resCfg4_3 = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -2836,10 +2836,10 @@ function f_resCfg16_9()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_9 = resCfg16_9 - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_9 = resCfg16_9 + 1
 		end
@@ -2854,9 +2854,9 @@ function f_resCfg16_9()
 		elseif resCfg16_9 > #t_resCfg16_9 then
 			resCfg16_9 = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -2950,10 +2950,10 @@ function f_resCfg16_10()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_10 = resCfg16_10 - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_10 = resCfg16_10 + 1
 		end
@@ -2968,9 +2968,9 @@ function f_resCfg16_10()
 		elseif resCfg16_10 > #t_resCfg16_10 then
 			resCfg16_10 = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -3075,10 +3075,10 @@ function f_EXresCfg()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			EXresCfg = EXresCfg - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			EXresCfg = EXresCfg + 1
 		end
@@ -3093,9 +3093,9 @@ function f_EXresCfg()
 		elseif EXresCfg > #t_EXresCfg then
 			EXresCfg = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -3657,10 +3657,10 @@ function f_testMenu()
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			testMenu = testMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			testMenu = testMenu + 1
 		end
@@ -3674,9 +3674,9 @@ function f_testMenu()
 		elseif testMenu > #t_testMenu then
 			testMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -3751,7 +3751,17 @@ function f_testMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

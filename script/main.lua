@@ -358,6 +358,10 @@ function f_mainMenu()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local mainMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	closeText = 1
 	f_menuMusic()
 	while true do
@@ -365,10 +369,10 @@ function f_mainMenu()
 			sndPlay(sysSnd, 100, 2)
 			playBGM(bgmTitle)
 			return
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainMenu = mainMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainMenu = mainMenu + 1
 		end
@@ -383,9 +387,9 @@ function f_mainMenu()
 		elseif mainMenu > #t_mainMenu then
 			mainMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -495,6 +499,16 @@ function f_mainMenu()
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
 		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -520,10 +534,10 @@ function f_arcadeMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			arcadeMenu = arcadeMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			arcadeMenu = arcadeMenu + 1
 		end
@@ -537,9 +551,9 @@ function f_arcadeMenu()
 		elseif arcadeMenu > #t_arcadeMenu then
 			arcadeMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -606,7 +620,17 @@ function f_arcadeMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -634,10 +658,10 @@ function f_vsMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			vsMenu = vsMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			vsMenu = vsMenu + 1
 		end
@@ -651,9 +675,9 @@ function f_vsMenu()
 		elseif vsMenu > #t_vsMenu then
 			vsMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -736,7 +760,17 @@ function f_vsMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -763,10 +797,10 @@ function f_randomMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			randomMenu = randomMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			randomMenu = randomMenu + 1
 		end
@@ -780,9 +814,9 @@ function f_randomMenu()
 		elseif randomMenu > #t_randomMenu then
 			randomMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -842,7 +876,17 @@ function f_randomMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -869,10 +913,10 @@ function f_practiceMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			practiceMenu = practiceMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			practiceMenu = practiceMenu + 1
 		end
@@ -886,9 +930,9 @@ function f_practiceMenu()
 		elseif practiceMenu > #t_practiceMenu then
 			practiceMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -989,7 +1033,17 @@ function f_practiceMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1019,10 +1073,10 @@ function f_challengeMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			challengeMenu = challengeMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			challengeMenu = challengeMenu + 1
 		end
@@ -1036,9 +1090,9 @@ function f_challengeMenu()
 		elseif challengeMenu > #t_challengeMenu then
 			challengeMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1106,7 +1160,17 @@ function f_challengeMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1132,10 +1196,10 @@ function f_survivalMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			survivalMenu = survivalMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			survivalMenu = survivalMenu + 1
 		end
@@ -1149,9 +1213,9 @@ function f_survivalMenu()
 		elseif survivalMenu > #t_survivalMenu then
 			survivalMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1216,7 +1280,17 @@ function f_survivalMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1242,10 +1316,10 @@ function f_bossMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bossMenu = bossMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bossMenu = bossMenu + 1
 		end
@@ -1259,9 +1333,9 @@ function f_bossMenu()
 		elseif bossMenu > #t_bossMenu then
 			bossMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1314,7 +1388,17 @@ function f_bossMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1334,10 +1418,10 @@ function f_bossChars()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bossChars = bossChars - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bossChars = bossChars + 1
 		end
@@ -1351,9 +1435,9 @@ function f_bossChars()
 		elseif bossChars > #t_bossSingle then
 			bossChars = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1406,7 +1490,17 @@ function f_bossChars()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1432,10 +1526,10 @@ function f_bossrushMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bossrushMenu = bossrushMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bossrushMenu = bossrushMenu + 1
 		end
@@ -1449,9 +1543,9 @@ function f_bossrushMenu()
 		elseif bossrushMenu > #t_bossrushMenu then
 			bossrushMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1520,7 +1614,17 @@ function f_bossrushMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1546,10 +1650,10 @@ function f_bonusMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bonusMenu = bonusMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bonusMenu = bonusMenu + 1
 		end
@@ -1563,9 +1667,9 @@ function f_bonusMenu()
 		elseif bonusMenu > #t_bonusMenu then
 			bonusMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1618,7 +1722,17 @@ function f_bonusMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1638,10 +1752,10 @@ function f_bonusExtras()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bonusExtras = bonusExtras - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bonusExtras = bonusExtras + 1
 		end
@@ -1655,9 +1769,9 @@ function f_bonusExtras()
 		elseif bonusExtras > #t_bonusExtras then
 			bonusExtras = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1711,7 +1825,17 @@ function f_bonusExtras()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1737,10 +1861,10 @@ function f_bonusrushMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bonusrushMenu = bonusrushMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			bonusrushMenu = bonusrushMenu + 1
 		end
@@ -1754,9 +1878,9 @@ function f_bonusrushMenu()
 		elseif bonusrushMenu > #t_bonusrushMenu then
 			bonusrushMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1828,7 +1952,17 @@ function f_bonusrushMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1854,10 +1988,10 @@ function f_suddenMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			suddenMenu = suddenMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			suddenMenu = suddenMenu + 1
 		end
@@ -1871,9 +2005,9 @@ function f_suddenMenu()
 		elseif suddenMenu > #t_suddenMenu then
 			suddenMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -1942,7 +2076,17 @@ function f_suddenMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1968,10 +2112,10 @@ function f_timeMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			timeMenu = timeMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			timeMenu = timeMenu + 1
 		end
@@ -1985,9 +2129,9 @@ function f_timeMenu()
 		elseif timeMenu > #t_timeMenu then
 			timeMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -2056,7 +2200,17 @@ function f_timeMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2082,10 +2236,10 @@ function f_allcharsMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			allcharsMenu = allcharsMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			allcharsMenu = allcharsMenu + 1
 		end
@@ -2099,9 +2253,9 @@ function f_allcharsMenu()
 		elseif allcharsMenu > #t_allcharsMenu then
 			allcharsMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -2166,7 +2320,17 @@ function f_allcharsMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2196,10 +2360,10 @@ function f_watchMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			watchMenu = watchMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			watchMenu = watchMenu + 1
 		end
@@ -2213,9 +2377,9 @@ function f_watchMenu()
 		elseif watchMenu > #t_watchMenu then
 			watchMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -2333,7 +2497,17 @@ function f_watchMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2413,10 +2587,10 @@ function f_extrasMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			extrasMenu = extrasMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			extrasMenu = extrasMenu + 1
 		end
@@ -2430,9 +2604,9 @@ function f_extrasMenu()
 		elseif extrasMenu > #t_extrasMenu then
 			extrasMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -2461,15 +2635,33 @@ function f_extrasMenu()
 					if esc() then
 						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
-						break				
-					elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u')) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
+						break
+					elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
 						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt + 1
-					elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd')) and moveArt > 1 then --Keep in image 0,0 when press left until finish
+					elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and moveArt > 1 then --Keep in image 0,0 when press left until finish
 						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 3)
 						moveArt = moveArt - 1
+					end
+					if commandGetState(p1Cmd, 'holdu') then
+						bufd = 0
+						bufu = bufu + 1
+					elseif commandGetState(p1Cmd, 'holdd') then
+						bufu = 0
+						bufd = bufd + 1
+					elseif commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufu = 0
+						bufd = 0
+						bufr = 0
+						bufl = 0
 					end
 					galleryList = moveArt --Uses menu position to show image in these order
 					f_gallery()
@@ -2551,7 +2743,17 @@ function f_extrasMenu()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2604,10 +2806,10 @@ function f_songMenu()
 			f_menuMusic()
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			songMenu = songMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			songMenu = songMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -2633,9 +2835,9 @@ function f_songMenu()
 		elseif songMenu > #t_songList then
 			songMenu = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -2677,6 +2879,16 @@ function f_songMenu()
 			animDraw(arrowsSD)
 			animUpdate(arrowsSD)
 		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2717,10 +2929,10 @@ function f_videoMenu()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			videoMenu = videoMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			videoMenu = videoMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -2746,9 +2958,9 @@ function f_videoMenu()
 		elseif videoMenu > #t_videoList then
 			videoMenu = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -2790,6 +3002,16 @@ function f_videoMenu()
 			animDraw(arrowsSD)
 			animUpdate(arrowsSD)
 		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2830,10 +3052,10 @@ function f_storyboardMenu()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			storyboardMenu = storyboardMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			storyboardMenu = storyboardMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -2873,9 +3095,9 @@ function f_storyboardMenu()
 		elseif storyboardMenu > #t_storyboardList then
 			storyboardMenu = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -2916,6 +3138,16 @@ function f_storyboardMenu()
 		if maxStoryboards >= 14 then
 			animDraw(arrowsSD)
 			animUpdate(arrowsSD)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -2980,10 +3212,10 @@ function f_mainReplay()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay + 1
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -3079,9 +3311,9 @@ function f_mainReplay()
 		elseif mainReplay > #t_replayList then
 			mainReplay = 1
 			cursorPosY = 1
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 1 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -3123,6 +3355,16 @@ function f_mainReplay()
 			animDraw(arrowsSD)
 			animUpdate(arrowsSD)
 		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3152,10 +3394,10 @@ function f_mainNetplay()
 			sndPlay(sysSnd, 100, 2)
 			return
 		end
-		if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainNetplay = mainNetplay - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainNetplay = mainNetplay + 1
 		end
@@ -3169,9 +3411,9 @@ function f_mainNetplay()
 		elseif mainNetplay > #t_mainNetplay then
 			mainNetplay = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -3257,7 +3499,17 @@ function f_mainNetplay()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		exitNetPlay()
@@ -3458,10 +3710,10 @@ function f_mainHost()
 			sndPlay(sysSnd, 100, 2)
 			return
 		end
-		if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainHost = mainHost - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainHost = mainHost + 1
 		end
@@ -3475,9 +3727,9 @@ function f_mainHost()
 		elseif mainHost > #t_mainHost then
 			mainHost = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -3641,7 +3893,17 @@ function f_mainHost()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		
 		cmdInput()
@@ -3677,10 +3939,10 @@ function f_mainJoin()
 			sndPlay(sysSnd, 100, 2)
 			return
 		end
-		if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainJoin = mainJoin - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainJoin = mainJoin + 1
 		end
@@ -3694,9 +3956,9 @@ function f_mainJoin()
 		elseif mainJoin > #t_mainJoin then
 			mainJoin = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -3860,7 +4122,17 @@ function f_mainJoin()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
-		animUpdate(arrowsU)		
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		
 		cmdInput()
@@ -3975,10 +4247,10 @@ function f_exitMenu()
 	local moveTxt = 0
 	local exitMenu = 1
 	while true do
-		if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			exitMenu = exitMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			exitMenu = exitMenu + 1
 		end
@@ -3992,9 +4264,9 @@ function f_exitMenu()
 		elseif exitMenu > #t_exitMenu then
 			exitMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -4045,6 +4317,16 @@ function f_exitMenu()
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
 		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4069,10 +4351,10 @@ function f_closeMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			closeMenu = closeMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			closeMenu = closeMenu + 1
 		end
@@ -4086,9 +4368,9 @@ function f_closeMenu()
 		elseif closeMenu > #t_closeMenu then
 			closeMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -4135,6 +4417,16 @@ function f_closeMenu()
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
 		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4159,10 +4451,10 @@ function f_restartMenu()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			restartMenu = restartMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			restartMenu = restartMenu + 1
 		end
@@ -4176,9 +4468,9 @@ function f_restartMenu()
 		elseif restartMenu > #t_restartMenu then
 			restartMenu = 1
 			cursorPosY = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
@@ -4226,6 +4518,16 @@ function f_restartMenu()
 		animUpdate(arrowsD)
 		animDraw(arrowsU)
 		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4303,11 +4605,11 @@ function f_statisticsMenu()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			statisticsMenu = statisticsMenu - 1
 			if statisticsMenu < 1 then statisticsMenu = #t_statisticsMenu end		
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			statisticsMenu = statisticsMenu + 1
 			if statisticsMenu > #t_statisticsMenu then statisticsMenu = 1 end			
@@ -4365,6 +4667,16 @@ function f_statisticsMenu()
 		animSetWindow(cursorBox, 30,5+statisticsMenu*15, 260,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

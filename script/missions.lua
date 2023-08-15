@@ -88,11 +88,11 @@ function f_missionMenu()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			missionMenu = missionMenu - 1
 			if missionMenu < 1 then missionMenu = #t_missionMenu end		
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			missionMenu = missionMenu + 1
 			if missionMenu > #t_missionMenu then missionMenu = 1 end
@@ -106,9 +106,9 @@ function f_missionMenu()
 				elseif missionMenu > #t_missionMenu then
 					missionMenu = 1
 					cursorPosY = 0
-				elseif commandGetState(p1Cmd, 'u') and cursorPosY > 0 then
+				elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 					cursorPosY = cursorPosY - 1
-				elseif commandGetState(p1Cmd, 'd') and cursorPosY < 4 then
+				elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
 					cursorPosY = cursorPosY + 1
 				end
 				if cursorPosY == 4 then
@@ -224,6 +224,16 @@ function f_missionMenu()
 		animUpdate(arrowsMD)
 		animDraw(arrowsMU)
 		animUpdate(arrowsMU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()

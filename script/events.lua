@@ -132,11 +132,11 @@ function f_eventMenu()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'l') then
+		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			eventMenu = eventMenu - 1
 			if eventMenu < 1 then eventMenu = #t_eventMenu end		
-		elseif commandGetState(p1Cmd, 'r') then
+		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			eventMenu = eventMenu + 1
 			if eventMenu > #t_eventMenu then eventMenu = 1 end
@@ -150,9 +150,9 @@ function f_eventMenu()
 				elseif eventMenu > #t_eventMenu then
 					eventMenu = 1
 					cursorPosY = 0
-				elseif commandGetState(p1Cmd, 'l') and cursorPosY > 0 then
+				elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosY > 0 then
 					cursorPosY = cursorPosY - 1
-				elseif commandGetState(p1Cmd, 'r') and cursorPosY < 4 then
+				elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosY < 4 then
 					cursorPosY = cursorPosY + 1
 				end
 				if cursorPosY == 4 then
@@ -271,6 +271,16 @@ function f_eventMenu()
 		animUpdate(arrowsER)
 		animDraw(arrowsEL)
 		animUpdate(arrowsEL)
+		if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufr = 0
+			bufl = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
