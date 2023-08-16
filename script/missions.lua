@@ -54,6 +54,11 @@ t_missionMenu = {
 	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
 	{id = '', text = 'Target Confirmed',     varID = textImgNew(), varText = mission2Progress},
 	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission3Progress},
+	{id = '', text = '                 TEST'},
+	{id = '', text = '                 HOLA'},
+	{id = '', text = '                 XDD'},
+	{id = '', text = '                 CD2'},
+	{id = '', text = '                 LAST MISSION'},
 	{id = '', text = '                 BACK'},
 }
 for i=1, #t_missionMenu do
@@ -91,31 +96,9 @@ function f_missionMenu()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			missionMenu = missionMenu - 1
-			if missionMenu < 1 then missionMenu = #t_missionMenu end		
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			missionMenu = missionMenu + 1
-			if missionMenu > #t_missionMenu then missionMenu = 1 end
-				if missionMenu < 1 then
-					missionMenu = #t_missionMenu
-					if #t_missionMenu > 4 then
-						cursorPosY = 4
-					else
-						cursorPosY = #t_missionMenu-1
-					end
-				elseif missionMenu > #t_missionMenu then
-					missionMenu = 1
-					cursorPosY = 0
-				elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-					cursorPosY = cursorPosY - 1
-				elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
-					cursorPosY = cursorPosY + 1
-				end
-				if cursorPosY == 4 then
-					moveTxt = (missionMenu - 5) * 13
-				elseif cursorPosY == 0 then
-					moveTxt = (missionMenu - 1) * 13
-				end
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--DRAGON CLAW
@@ -173,22 +156,41 @@ function f_missionMenu()
 				break
 			end			
 		end
-		--if cursorPosY == 4 then
-			--moveTxt = (missionMenu - 4) * 15
-		--elseif cursorPosY == 1 then
-			--moveTxt = (missionMenu - 1) * 15
-		--end	
-		--if #t_missionMenu <= 4 then
-			--maxMissions = #t_missionMenu
-		--elseif missionMenu - cursorPosY > 0 then
-			--maxMissions = missionMenu + 14 - cursorPosY
-		--else
-			--maxMissions = 4
-		--end		
+		--Cursor position calculation
+		if missionMenu < 1 then
+			missionMenu = #t_missionMenu
+			if #t_missionMenu > 6 then
+				cursorPosY = 6
+			else
+				cursorPosY = #t_missionMenu     -- -1
+			end
+		elseif missionMenu > #t_missionMenu then
+			missionMenu = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 6 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 6 then
+			moveTxt = (missionMenu - 6) * 15
+		elseif cursorPosY == 0 then
+			moveTxt = (missionMenu - 1) * 15
+		end
+		if #t_missionMenu <= 6 then
+			maxMissions = #t_missionMenu
+		elseif missionMenu - cursorPosY > 0 then
+			maxMissions = missionMenu + 6 - cursorPosY
+		else
+			maxMissions = 6
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		--Draw Below Table
 		animSetWindow(optionsBG1, 40,135, 240,#t_missionMenu*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetWindow(cursorBox, 40,135+cursorPosY*15, 240,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Above Table
 		animSetWindow(missionBG1, 0,5, 320,110)
 		animDraw(f_animVelocity(missionBG1, -1, -1))
@@ -211,15 +213,22 @@ function f_missionMenu()
 		t_missionMenu[1].varText = mission1Progress
 		t_missionMenu[2].varText = mission2Progress
 		t_missionMenu[3].varText = mission3Progress
-		for i=1, #t_missionMenu do
-			textImgDraw(t_missionMenu[i].id)
-			if t_missionMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 130+i*15))
-			end
+		--Draw Text for Below Table
+		
+		--for i=1, #t_missionMenu do
+			--textImgDraw(t_missionMenu[i].id)
+			--if t_missionMenu[i].varID ~= nil then
+				--textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 130+i*15))
+			--end
+		--end
+		if maxMissions > 7 then
+			animDraw(arrowsSU)
+			animUpdate(arrowsSU)
 		end
-		animSetWindow(cursorBox, 40,120+missionMenu*15, 240,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxMissions >= 7 then
+			animDraw(arrowsSD)
+			animUpdate(arrowsSD)
+		end
 		animDraw(arrowsMD)
 		animUpdate(arrowsMD)
 		animDraw(arrowsMU)

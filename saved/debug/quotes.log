@@ -7,7 +7,7 @@ condition: 1
  value
   before: (random % 5)
   after: (math.random(0,999)*1/1000*5)
-  result: 4
+  result: 1
 condition: 2
  trigger
   before: enemy,name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720"
