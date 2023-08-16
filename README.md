@@ -101,9 +101,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Cargar archivos de video.
 
-- [ ] Corregir en función "backMenu" que al volver al char select durante el Arcade Mode, no recuerda contra quién vas a luchar y salta este error:
-![Fix1](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/85c78494-7586-4bfe-acd1-cd703d9e3548)
-
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
