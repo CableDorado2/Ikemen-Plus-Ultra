@@ -19,7 +19,7 @@ wrappingY = true
 --;===========================================================
 --; GLOBAL FUNCTIONS
 --;===========================================================
-function f_selectReset()
+function f_rosterReset()
 	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
 	if data.p2Faces or data.selectType == 'Fixed' then
 		selectColumns = 5 --Number of Character Select Columns
@@ -56,30 +56,47 @@ function f_selectReset()
 		--p2FaceX = 2
 		--p2FaceY = 170
 	end
+end
+
+function f_p1sideReset()
+p1Cell = nil
+p1Portrait = nil
+data.t_p1selected = {}
+p1TeamEnd = false
+p1palEnd = true
+p1SelEnd = false
+p1BG = false
+end
+
+function f_p2sideReset()
+p2Cell = nil
+p2Portrait = nil
+data.t_p2selected = {}
+p2palEnd = true
+p2TeamEnd = false
+p2SelEnd = false
+p2BG = false
+end
+
+function f_stageSelectReset()
+stageSelect = true
+songSelect = false
+stageAnnouncer = false
+stageTimer = 0 --Restart Stage Announcer Timer
+dontTouch = false
+if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --Restore Game Mode Name
+end
+
+function f_selectReset()
 	bufu = 0
 	bufd = 0
 	bufl = 0
 	bufr = 0
-	p1Cell = nil
-	p2Cell = nil
-	p1Portrait = nil
-	p2Portrait = nil
-	data.t_p1selected = {}
-	data.t_p2selected = {}
+	f_rosterReset()
+	f_p1sideReset()
+	f_p2sideReset()
 	selectStart()
-	p1TeamEnd = false
-	p1palEnd = true
-	p2palEnd = true
-	p1SelEnd = false
-	p2TeamEnd = false
-	p2SelEnd = false
-	p1BG = false
-	p2BG = false
-	stageSelect = true
-	songSelect = false
-	stageAnnouncer = false
-	stageTimer = 0 --Restart Stage Announcer Timer
-	dontTouch = false
+	f_stageSelectReset()
 	if data.p2In == 1 or data.p2In == 3 then
 		p2TeamEnd = true
 		p2SelEnd = true
@@ -89,7 +106,6 @@ function f_selectReset()
 	end
 	selScreenEnd = false
 	stageEnd = false
-	if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --Restore Game Mode Name
 	p1numChars = 1
 	p2numChars = 1
 	p1teamMode = 0
@@ -649,23 +665,27 @@ function f_backMenu()
 					commandBufReset(p2Cmd)
 					setGameType(0)
 					setServiceType(0)
-					backmenu = true
+					back = true
 					break
 				--NO
 				else
-					backmenu = false
+					back = false
 					data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
-					f_selectReset()
+					if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+						f_rosterReset()
+						p1Cell = nil
+						p1Portrait = nil
+						data.t_p1selected = {}
+						p1palEnd = true
+						p1SelEnd = false
+					else
+						f_selectReset()
+					end
 					if data.rosterAdvance == true then
 						stageEnd = true
-						--f_aiLevel()
-						--f_orderSelect()
-						--f_selectVersus()
-						--f_setZoom()
-						--f_assignMusic()
 					end
 					break
 				end
@@ -722,7 +742,7 @@ function f_backOnline()
 	while true do
 		--setGameType(0)
 		--setServiceType(0)
-		backmenu = true
+		back = true
 		break
 		cmdInput()
 		refresh()
@@ -763,16 +783,38 @@ function f_selectSimple()
 		f_selectReset()
 		while not selScreenEnd do
 			if esc() then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				f_backMenu()
-				if backmenu == true then
-					if data.rosterMode == 'event' then
-						--playBGM('')
-					else
-						f_menuMusic()
+				if p1SelEnd and p2SelEnd then
+					sndPlay(sysSnd, 100, 2)
+					f_stageSelectReset()
+					f_p2sideReset()
+					f_rosterReset()
+					--selectStart()
+					
+					--if data.p2In == 1 or data.p2In == 3 then
+						--p2TeamEnd = true
+						--p2SelEnd = true
+					--end
+					--if not data.p2SelectMenu then
+						--p2SelEnd = true
+					--end
+				elseif p2TeamEnd == true then
+					sndPlay(sysSnd, 100, 2)
+					
+				elseif p1TeamEnd == true then
+					sndPlay(sysSnd, 100, 2)
+					f_p1sideReset()
+				elseif p1TeamEnd == false then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					f_backMenu()
+					if back == true then
+						if data.rosterMode == 'event' then
+							--playBGM('')
+						else
+							f_menuMusic()
+						end
+						return
 					end
-					return
 				end
 			end
 			f_selectScreen()
@@ -890,7 +932,7 @@ function f_selectAdvance()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				f_backMenu()
-				if backmenu == true then
+				if back == true then
 					f_menuMusic()
 					return
 				end
@@ -1042,7 +1084,7 @@ function f_selectAdvance()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						f_backMenu()
-						if backmenu == true then
+						if back == true then
 							f_menuMusic()
 							return
 						end
