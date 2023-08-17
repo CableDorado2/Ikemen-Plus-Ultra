@@ -4,37 +4,35 @@ module(..., package.seeall)
 --;===========================================================
 --; MISSIONS SCREENPACK
 --;===========================================================
---Down Missions Menu Arrows
-arrowsMD = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
+--Up Mission Special Arrow
+arrowsMSU = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
 ]])
-animAddPos(arrowsMD, 16, 170)
-animUpdate(arrowsMD)
-animSetScale(arrowsMD, 1.7, 1.7)
+animAddPos(arrowsMSU, 155, 130)
+animUpdate(arrowsMSU)
+animSetScale(arrowsMSU, 0.5, 0.5)
 
---Up Missions Menu Arrows
-arrowsMU = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
+--Down Mission Special Arrow
+arrowsMSD = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
 ]])
-animAddPos(arrowsMU, 287, 170)
-animUpdate(arrowsMU)
-animSetScale(arrowsMU, 1.7, 1.7)
+animAddPos(arrowsMSD, 155, 229)
+animUpdate(arrowsMSD)
+animSetScale(arrowsMSD, 0.5, 0.5)
 
 function f_missionPreview() --Based on stage preview code
 	missionPreview = ''
@@ -51,19 +49,19 @@ end
 --; MISSIONS MENU
 --;===========================================================
 t_missionMenu = {
-	{id = '', text = 'Legendary Warrior',    varID = textImgNew(), varText = mission1Progress},
-	{id = '', text = 'Target Confirmed',     varID = textImgNew(), varText = mission2Progress},
-	{id = '', text = 'True Kung Fu Spirit',  varID = textImgNew(), varText = mission3Progress},
-	{id = '', text = '                 TEST'},
-	{id = '', text = '                 HOLA'},
-	{id = '', text = '                 XDD'},
-	{id = '', text = '                 CD2'},
-	{id = '', text = '                 LAST MISSION'},
-	{id = '', text = '                 BACK'},
+	{id = '', text = 'Legendary Warrior',    			varID = textImgNew(), varText = mission1Progress},
+	{id = '', text = 'Target Confirmed',     			varID = textImgNew(), varText = mission2Progress},
+	{id = '', text = 'True Kung Fu Spirit',  			varID = textImgNew(), varText = mission3Progress},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '                 BACK',			varID = textImgNew(), varText = ''},
 }
-for i=1, #t_missionMenu do
-	t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
-end
+--for i=1, #t_missionMenu do
+	--t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
+--end
 
 t_mInfo = {
 	{id = '1', text = "The ancient Dragon Claw is back!           "},
@@ -77,7 +75,7 @@ end
 function f_missionMenu()
 	cmdInput()
 	local missionMenu = 1	
-	local cursorPosY = 0
+	local cursorPosY = 1
 	local moveTxt = 0
 	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -162,19 +160,19 @@ function f_missionMenu()
 			if #t_missionMenu > 6 then
 				cursorPosY = 6
 			else
-				cursorPosY = #t_missionMenu     -- -1
+				cursorPosY = #t_missionMenu
 			end
 		elseif missionMenu > #t_missionMenu then
 			missionMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
 		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 6 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 6 then
 			moveTxt = (missionMenu - 6) * 15
-		elseif cursorPosY == 0 then
+		elseif cursorPosY == 1 then
 			moveTxt = (missionMenu - 1) * 15
 		end
 		if #t_missionMenu <= 6 then
@@ -188,7 +186,7 @@ function f_missionMenu()
 		--Draw Below Table
 		animSetWindow(optionsBG1, 40,135, 240,#t_missionMenu*15)
 		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		animSetWindow(cursorBox, 40,135+cursorPosY*15, 240,15)
+		animSetWindow(cursorBox, 40,120+cursorPosY*15, 240,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Above Table
@@ -197,6 +195,7 @@ function f_missionMenu()
 		textImgDraw(txt_missionMenu)
 		missionList = missionMenu --Uses menu position to show image in these order
 		f_missionPreview() --Show mission image preview
+		--Draw Mission Info
 		if missionMenu == 1 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[1].id)
@@ -214,25 +213,22 @@ function f_missionMenu()
 		t_missionMenu[2].varText = mission2Progress
 		t_missionMenu[3].varText = mission3Progress
 		--Draw Text for Below Table
-		
-		--for i=1, #t_missionMenu do
-			--textImgDraw(t_missionMenu[i].id)
-			--if t_missionMenu[i].varID ~= nil then
-				--textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 130+i*15))
-			--end
-		--end
-		if maxMissions > 7 then
-			animDraw(arrowsSU)
-			animUpdate(arrowsSU)
+		for i=1, maxMissions do
+			if i > missionMenu - cursorPosY then
+				if t_missionMenu[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].text, 45, 130+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 130+i*15-moveTxt))
+				end
+			end
 		end
-		if maxMissions >= 7 then
-			animDraw(arrowsSD)
-			animUpdate(arrowsSD)
+		if maxMissions > 6 then
+			animDraw(arrowsMSU)
+			animUpdate(arrowsMSU)
 		end
-		animDraw(arrowsMD)
-		animUpdate(arrowsMD)
-		animDraw(arrowsMU)
-		animUpdate(arrowsMU)
+		if maxMissions >= 6 then
+			animDraw(arrowsMSD)
+			animUpdate(arrowsMSD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
