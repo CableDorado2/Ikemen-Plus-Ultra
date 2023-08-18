@@ -4,6 +4,30 @@ module(..., package.seeall)
 --;===========================================================
 --; EVENTS SCREENPACK
 --;===========================================================
+--Scrolling background
+eventBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(eventBG0, 160, 0)
+animSetTile(eventBG0, 1, 1)
+animSetColorKey(eventBG0, -1)
+
+--Transparent background
+eventBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(eventBG1, 1, 1)
+animSetAlpha(eventBG1, 20, 100)
+animUpdate(eventBG1)
+
+--Event Above Transparent background
+eventBG2 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(eventBG2, 1, 1)
+animSetAlpha(eventBG2, 20, 100)
+animUpdate(eventBG2)
+
 --Right Events Menu Arrows
 arrowsER = animNew(sysSff, [[
 221,0, 0,0, 10
@@ -214,14 +238,14 @@ function f_eventMenu()
 		--else
 			--maxEvents = 4
 		--end		
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animDraw(f_animVelocity(eventBG0, -1, -1))
 		--Draw Event Title Table
-		animSetWindow(missionBG1, 0,23, 320,25)
-		animDraw(f_animVelocity(missionBG1, -1, -1))
+		animSetWindow(eventBG2, 0,23, 320,25)
+		animDraw(f_animVelocity(eventBG2, -1, -1))
 		textImgDraw(txt_eventMenu)
 		--Draw Content Table
-		animSetWindow(optionsBG1, 0,60, 320,150)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetWindow(eventBG1, 0,60, 320,150)
+		animDraw(f_animVelocity(eventBG1, -1, -1))
 		f_drawEvent1()
 		f_drawEvent2()
 		f_drawEvent3()

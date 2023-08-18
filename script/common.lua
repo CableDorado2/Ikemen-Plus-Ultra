@@ -285,6 +285,13 @@ function f_animVelocity(animName, addX, addY)
 	return animName
 end
 
+--shortcut for updating scale
+--function animScaleDraw(a, w, h)
+	--animSetScale(a, w, h)
+	--animUpdate(a)
+	--animDraw(a)
+--end
+
 --dynamically adjusts alpha blending each time called based on specified values
 alpha1cur = 0
 alpha2cur = 0

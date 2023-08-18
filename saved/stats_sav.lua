@@ -1,13 +1,13 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
-data.coins = 83
-data.playTime = 58185.424
+data.coins = 82
+data.playTime = 61929.974
 data.favoriteChar = "Kung Fu Man"
-data.favoriteStage = "Training Room"
+data.favoriteStage = "Random"
 data.victories = 147
 data.defeats = 71
 data.preferredMode = "WIP"
-data.arcademodeCnt = 1032.361
+data.arcademodeCnt = 1036.801
 data.vsmodeCnt = 2511.891
 data.survivalmodeCnt = 375.454
 data.bossrushmodeCnt = 14.853

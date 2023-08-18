@@ -4,6 +4,30 @@ module(..., package.seeall)
 --;===========================================================
 --; MISSIONS SCREENPACK
 --;===========================================================
+--Scrolling background
+missionBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(missionBG0, 160, 0)
+animSetTile(missionBG0, 1, 1)
+animSetColorKey(missionBG0, -1)
+
+--Transparent background
+missionBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(missionBG1, 1, 1)
+animSetAlpha(missionBG1, 20, 100)
+animUpdate(missionBG1)
+
+--Mission Above Transparent background
+missionBG2 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(missionBG2, 1, 1)
+animSetAlpha(missionBG2, 20, 100)
+animUpdate(missionBG2)
+
 --Up Mission Special Arrow
 arrowsMSU = animNew(sysSff, [[
 225,0, 0,0, 10
@@ -54,9 +78,9 @@ t_missionMenu = {
 	{id = '', text = 'True Kung Fu Spirit',  			varID = textImgNew(), varText = mission3Progress},
 	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
 	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	--{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	--{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	--{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
 	{id = '', text = '                 BACK',			varID = textImgNew(), varText = ''},
 }
 --for i=1, #t_missionMenu do
@@ -182,16 +206,16 @@ function f_missionMenu()
 		else
 			maxMissions = 6
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animDraw(f_animVelocity(missionBG0, -1, -1))
 		--Draw Below Table
-		animSetWindow(optionsBG1, 40,135, 240,#t_missionMenu*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetWindow(missionBG1, 40,135, 240,#t_missionMenu*15-15)
+		animDraw(f_animVelocity(missionBG1, -1, -1))
 		animSetWindow(cursorBox, 40,120+cursorPosY*15, 240,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Above Table
-		animSetWindow(missionBG1, 0,5, 320,110)
-		animDraw(f_animVelocity(missionBG1, -1, -1))
+		animSetWindow(missionBG2, 0,5, 320,110)
+		animDraw(f_animVelocity(missionBG2, -1, -1))
 		textImgDraw(txt_missionMenu)
 		missionList = missionMenu --Uses menu position to show image in these order
 		f_missionPreview() --Show mission image preview
@@ -225,7 +249,7 @@ function f_missionMenu()
 			animDraw(arrowsMSU)
 			animUpdate(arrowsMSU)
 		end
-		if maxMissions >= 6 then
+		if maxMissions >= 7 then
 			animDraw(arrowsMSD)
 			animUpdate(arrowsMSD)
 		end

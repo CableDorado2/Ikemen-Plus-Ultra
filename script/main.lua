@@ -123,43 +123,13 @@ cursorBox = animNew(sysSff, [[
 ]])
 animSetTile(cursorBox, 1, 1)
 
---Online Background
-wirelessBG = animNew(sysSff, [[
-400,0, 0,0, 18
-400,1, 0,0, 18
-400,2, 0,0, 18
-400,3, 0,0, 18
-400,4, 0,0, 18
-400,5, 0,0, 18
-400,6, 0,0, 18
-]])
-animAddPos(wirelessBG, -4.5, 0)
-animUpdate(wirelessBG)
-animSetScale(wirelessBG, 1.2, 1)
-
---Scrolling background
-optionsBG0 = animNew(sysSff, [[
-100,0, 0,0, -1
-]])
-animAddPos(optionsBG0, 160, 0)
-animSetTile(optionsBG0, 1, 1)
-animSetColorKey(optionsBG0, -1)
-
---Transparent background
-optionsBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
-]])
-animSetTile(optionsBG1, 1, 1)
-animSetAlpha(optionsBG1, 20, 100)
-animUpdate(optionsBG1)
-
---Mission Above Transparent background
-missionBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
-]])
-animSetTile(missionBG1, 1, 1)
-animSetAlpha(missionBG1, 20, 100)
-animUpdate(missionBG1)
+--Optimized Cursor Box
+--cursorBox = animNew(sysSff, [[
+--3,1, 0,0, -1
+--]])
+--animSetPos(cursorBox, 80, 20)
+--animSetAlpha(cursorBox, 20, 100)
+--animUpdate(cursorBox)
 
 --Down Menu Arrows
 arrowsD = animNew(sysSff, [[
@@ -192,36 +162,6 @@ arrowsU = animNew(sysSff, [[
 animAddPos(arrowsU, 252, 170)
 animUpdate(arrowsU)
 animSetScale(arrowsU, 2, 2)
-
---Up Special Arrow
-arrowsSU = animNew(sysSff, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(arrowsSU, 222, 22)
-animUpdate(arrowsSU)
-animSetScale(arrowsSU, 0.5, 0.5)
-
---Down Special Arrow
-arrowsSD = animNew(sysSff, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(arrowsSD, 222, 229)
-animUpdate(arrowsSD)
-animSetScale(arrowsSD, 0.5, 0.5)
 
 --;===========================================================
 --; LOGOS SCREEN
@@ -2356,6 +2296,8 @@ function f_watchMenu()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local watchMenu = 1
+	local bufd = 0
+	local bufu = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -2766,6 +2708,52 @@ end
 --;===========================================================
 txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
 
+--Scrolling background
+songBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(songBG0, 160, 0)
+animSetTile(songBG0, 1, 1)
+animSetColorKey(songBG0, -1)
+
+--Transparent background
+songBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(songBG1, 20, 20)
+animSetAlpha(songBG1, 20, 100)
+animUpdate(songBG1)
+
+--Up Arrow
+songUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(songUpArrow, 228, 11)
+animUpdate(songUpArrow)
+animSetScale(songUpArrow, 0.5, 0.5)
+
+--Down Arrow
+songDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(songDownArrow, 228, 231)
+animUpdate(songDownArrow)
+animSetScale(songDownArrow, 0.5, 0.5)
+
 function f_songMenu()
 	playBGM(bgmNothing)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2773,7 +2761,7 @@ function f_songMenu()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local songMenu = 1
-	t_songList = {}
+	t_songList = {} --Create Table
 	for file in lfs.dir[[.\\sound\\]] do --Read Dir
 		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
 			row = #t_songList+1
@@ -2797,9 +2785,7 @@ function f_songMenu()
 			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		end
 	end
-	t_songList[#t_songList+1] = {
-		id = '', playlist = '          BACK'
-	}
+	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the table Created
 	while true do
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2814,6 +2800,7 @@ function f_songMenu()
 			songMenu = songMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			if songMenu == #t_songList then
+				--Back
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				sndPlay(sysSnd, 100, 2)
@@ -2852,10 +2839,15 @@ function f_songMenu()
 		else
 			maxSongs = 14
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,(#t_songList)*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--Draw Menu BG
+		animDraw(f_animVelocity(songBG0, -1, -1))
+		--Draw Transparent Table BG
+		animSetScale(songBG1, 220, maxSongs*15)
+		animSetWindow(songBG1, 80,20, 160,210)
+		animDraw(songBG1)
+		--Draw Title Menu
 		textImgDraw(txt_song)
+		--Draw Table Cursor
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -2871,13 +2863,15 @@ function f_songMenu()
 				textImgDraw(t_songList[i].id)
 			end
 		end
+		--Draw Up Animated Cursor
 		if maxSongs > 14 then
-			animDraw(arrowsSU)
-			animUpdate(arrowsSU)
+			animDraw(songUpArrow)
+			animUpdate(songUpArrow)
 		end
-		if maxSongs >= 14 then
-			animDraw(arrowsSD)
-			animUpdate(arrowsSD)
+		--Draw Down Animated Cursor
+		if #t_songList > 14 and maxSongs < #t_songList then
+			animDraw(songDownArrow)
+			animUpdate(songDownArrow)
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -2901,6 +2895,52 @@ end
 --;===========================================================
 txt_video = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
 
+--Scrolling background
+videoBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(videoBG0, 160, 0)
+animSetTile(videoBG0, 1, 1)
+animSetColorKey(videoBG0, -1)
+
+--Transparent background
+videoBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(videoBG1, 20, 20)
+animSetAlpha(videoBG1, 20, 100)
+animUpdate(videoBG1)
+
+--Up Arrow
+videoUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(videoUpArrow, 228, 11)
+animUpdate(videoUpArrow)
+animSetScale(videoUpArrow, 0.5, 0.5)
+
+--Down Arrow
+videoDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(videoDownArrow, 228, 231)
+animUpdate(videoDownArrow)
+animSetScale(videoDownArrow, 0.5, 0.5)
+
 function f_videoMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	cmdInput()
@@ -2908,22 +2948,20 @@ function f_videoMenu()
 	local moveTxt = 0
 	local videoMenu = 1
 	t_videoList = {}
-	for file in lfs.dir[[.\\data\\movie\\]] do --Read Dir
-		if file:match('^.*(%.)wmv$') then --Filter Files .wmv
+	for file in lfs.dir[[.\\data\\movie\\]] do
+		if file:match('^.*(%.)wmv$') then
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
 			t_videoList[row]['playlist'] = file:gsub('^(.*)[%.]wmv$', '%1')
-		elseif file:match('^.*(%.)WMV$') then --Filter Files .WMV
+		elseif file:match('^.*(%.)WMV$') then
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
 			t_videoList[row]['playlist'] = file:gsub('^(.*)[%.]WMV$', '%1')
 		end
 	end
-	t_videoList[#t_videoList+1] = {
-		id = '', playlist = '          BACK'
-	}
+	t_videoList[#t_videoList+1] = {id = '', playlist = '          BACK'}
 	while true do
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2941,13 +2979,11 @@ function f_videoMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				--Play Video
 				playVideo('data/movie/' .. t_videoList[videoMenu].playlist .. '.wmv')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 			end
 		end
-		--Cursor position calculation
 		if videoMenu < 1 then
 			videoMenu = #t_videoList
 			if #t_videoList > 14 then
@@ -2975,9 +3011,10 @@ function f_videoMenu()
 		else
 			maxVideos = 14
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,(#t_videoList)*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animDraw(f_animVelocity(videoBG0, -1, -1))
+		animSetScale(videoBG1, 220, maxVideos*15)
+		animSetWindow(videoBG1, 80,20, 160,210)
+		animDraw(videoBG1)
 		textImgDraw(txt_video)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -2995,12 +3032,12 @@ function f_videoMenu()
 			end
 		end
 		if maxVideos > 14 then
-			animDraw(arrowsSU)
-			animUpdate(arrowsSU)
+			animDraw(videoUpArrow)
+			animUpdate(videoUpArrow)
 		end
-		if maxVideos >= 14 then
-			animDraw(arrowsSD)
-			animUpdate(arrowsSD)
+		if #t_videoList > 14 and maxVideos < #t_videoList then
+			animDraw(videoDownArrow)
+			animUpdate(videoDownArrow)
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -3024,6 +3061,52 @@ end
 --;===========================================================
 txt_storyboard = createTextImg(jgFnt, 0, 0, 'STORYBOARD SELECT', 159, 13)
 
+--Scrolling background
+storyboardBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(storyboardBG0, 160, 0)
+animSetTile(storyboardBG0, 1, 1)
+animSetColorKey(storyboardBG0, -1)
+
+--Transparent background
+storyboardBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(storyboardBG1, 20, 20)
+animSetAlpha(storyboardBG1, 20, 100)
+animUpdate(storyboardBG1)
+
+--Up Arrow
+storyboardUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(storyboardUpArrow, 228, 11)
+animUpdate(storyboardUpArrow)
+animSetScale(storyboardUpArrow, 0.5, 0.5)
+
+--Down Arrow
+storyboardDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(storyboardDownArrow, 228, 231)
+animUpdate(storyboardDownArrow)
+animSetScale(storyboardDownArrow, 0.5, 0.5)
+
 function f_storyboardMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	cmdInput()
@@ -3031,22 +3114,20 @@ function f_storyboardMenu()
 	local moveTxt = 0
 	local storyboardMenu = 1
 	t_storyboardList = {}
-	for file in lfs.dir[[.\\data\\storyboards\\]] do --Read Dir
-		if file:match('^.*(%.)def$') then --Filter Files .def
+	for file in lfs.dir[[.\\data\\storyboards\\]] do
+		if file:match('^.*(%.)def$') then
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
 			t_storyboardList[row]['playlist'] = file:gsub('^(.*)[%.]def$', '%1')
-		elseif file:match('^.*(%.)DEF$') then --Filter Files .DEF
+		elseif file:match('^.*(%.)DEF$') then
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
 			t_storyboardList[row]['playlist'] = file:gsub('^(.*)[%.]DEF$', '%1')
 		end
 	end
-	t_storyboardList[#t_storyboardList+1] = {
-		id = '', playlist = '          BACK'
-	}
+	t_storyboardList[#t_storyboardList+1] = {id = '', playlist = '          BACK'}
 	while true do
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3064,7 +3145,6 @@ function f_storyboardMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				--Play Storyboard
 				storyboardFile = ('data/storyboards/' .. t_storyboardList[storyboardMenu].playlist .. '.def')
 				cmdInput()
 				f_storyboard(storyboardFile)
@@ -3084,7 +3164,6 @@ function f_storyboardMenu()
 				end				
 			end
 		end
-		--Cursor position calculation
 		if storyboardMenu < 1 then
 			storyboardMenu = #t_storyboardList
 			if #t_storyboardList > 14 then
@@ -3112,13 +3191,14 @@ function f_storyboardMenu()
 		else
 			maxStoryboards = 14
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,(#t_storyboardList)*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animDraw(f_animVelocity(storyboardBG0, -1, -1))
+		animSetScale(storyboardBG1, 220, maxStoryboards*15)
+		animSetWindow(storyboardBG1, 80,20, 160,210)
+		animDraw(storyboardBG1)
 		textImgDraw(txt_storyboard)
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(f_animVelocity(cursorBox, -1, -1))		
 		for i=1, maxStoryboards do
 			if t_storyboardList[i].playlist:len() > 26 then
 				storyboardText = string.sub(t_storyboardList[i].playlist, 1, 24)
@@ -3132,12 +3212,12 @@ function f_storyboardMenu()
 			end
 		end
 		if maxStoryboards > 14 then
-			animDraw(arrowsSU)
-			animUpdate(arrowsSU)
+			animDraw(storyboardUpArrow)
+			animUpdate(storyboardUpArrow)
 		end
-		if maxStoryboards >= 14 then
-			animDraw(arrowsSD)
-			animUpdate(arrowsSD)
+		if #t_storyboardList > 14 and maxStoryboards < #t_storyboardList then
+			animDraw(storyboardDownArrow)
+			animUpdate(storyboardDownArrow)
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -3168,6 +3248,53 @@ for i=1, #t_replayOption do
 	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, -136+i*140, 172)
 end
 
+--Scrolling background
+replayBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(replayBG0, 160, 0)
+animSetTile(replayBG0, 1, 1)
+animSetColorKey(replayBG0, -1)
+
+--Transparent background
+replayBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(replayBG1, 20, 20)
+animSetAlpha(replayBG1, 20, 100)
+animUpdate(replayBG1)
+
+--Up Arrow
+replayUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(replayUpArrow, 228, 11)
+animUpdate(replayUpArrow)
+animSetScale(replayUpArrow, 0.5, 0.5)
+
+--Down Arrow
+replayDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(replayDownArrow, 228, 231)
+animUpdate(replayDownArrow)
+animSetScale(replayDownArrow, 0.5, 0.5)
+
+--Replay Option background
 replayMenuBG = animNew(sysSff, [[
 250,0, 0,0,
 ]])
@@ -3175,24 +3302,30 @@ animSetPos(replayMenuBG, -40, 60)
 animUpdate(replayMenuBG)
 animDraw(replayMenuBG)
 
+--Mission Above Transparent background
+replayMenuBG2 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(replayMenuBG2, 1, 1)
+animSetAlpha(replayMenuBG2, 20, 100)
+animUpdate(replayMenuBG2)
+
 function f_replayTable()
 	t_replayList = {}
-	for file in lfs.dir[[.\\saved\\replays\\]] do --Read Dir
-		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then --Filter Files .replay
+	for file in lfs.dir[[.\\saved\\replays\\]] do
+		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
 			t_replayList[row]['playlist'] = file:gsub('^(.*)[%.]replay$', '%1')
-		elseif file:match('^.*(%.)REPLAY$') and not file:match('^data.replay$') then --Filter Files .REPLAY
+		elseif file:match('^.*(%.)REPLAY$') and not file:match('^data.replay$') then
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
 			t_replayList[row]['playlist'] = file:gsub('^(.*)[%.]REPLAY$', '%1')
 		end
 	end
-	t_replayList[#t_replayList+1] = {
-		id = '', playlist = '          BACK'
-	}
+	t_replayList[#t_replayList+1] = {id = '', playlist = '          BACK'}
 end
 
 function f_mainReplay()
@@ -3276,10 +3409,10 @@ function f_mainReplay()
 							break
 						end
 					end
-					animDraw(f_animVelocity(optionsBG0, -1, -1))
-					--Draw Event Title Table
-					animSetWindow(missionBG1, 0,41, 320,25)
-					animDraw(f_animVelocity(missionBG1, -1, -1))
+					animDraw(f_animVelocity(replayBG0, -1, -1))
+					--Draw Replay Title Table
+					animSetWindow(replayMenuBG2, 0,41, 320,25)
+					animDraw(f_animVelocity(replayMenuBG2, -1, -1))
 					textImgDraw(txt_replayName)
 					textImgDraw(txt_replaySize)
 					--Draw Mini Menu
@@ -3300,7 +3433,6 @@ function f_mainReplay()
 				end
 			end
 		end
-		--Cursor position calculation
 		if mainReplay < 1 then
 			mainReplay = #t_replayList
 			if #t_replayList > 14 then
@@ -3328,10 +3460,12 @@ function f_mainReplay()
 		else
 			maxReplays = 14
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,(#t_replayList)*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animDraw(f_animVelocity(replayBG0, -1, -1))
+		animSetScale(replayBG1, 220, maxReplays*15)
+		animSetWindow(replayBG1, 80,20, 160,210)
+		animDraw(replayBG1)
 		textImgDraw(txt_replay)
+		--animSetScale(cursorBox, 160,maxReplays*15) --For Optimized Cursor Box
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -3348,12 +3482,12 @@ function f_mainReplay()
 			end
 		end
 		if maxReplays > 14 then
-			animDraw(arrowsSU)
-			animUpdate(arrowsSU)
+			animDraw(replayUpArrow)
+			animUpdate(replayUpArrow)
 		end
-		if maxReplays >= 14 then
-			animDraw(arrowsSD)
-			animUpdate(arrowsSD)
+		if #t_replayList > 14 and maxReplays < #t_replayList then
+			animDraw(replayDownArrow)
+			animUpdate(replayDownArrow)
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -3523,6 +3657,20 @@ end
 --; HOST MENU
 --;===========================================================
 txt_hosting = createTextImg(jgFnt, 0, 1, '', 22, 228)
+
+--Online Background
+wirelessBG = animNew(sysSff, [[
+400,0, 0,0, 18
+400,1, 0,0, 18
+400,2, 0,0, 18
+400,3, 0,0, 18
+400,4, 0,0, 18
+400,5, 0,0, 18
+400,6, 0,0, 18
+]])
+animAddPos(wirelessBG, -4.5, 0)
+animUpdate(wirelessBG)
+animSetScale(wirelessBG, 1.2, 1)
 
 function f_create()
 	cmdInput()
@@ -4565,6 +4713,22 @@ end
 --;===========================================================
 --; STATISTICS MENU
 --;===========================================================
+--Scrolling background
+statsBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(statsBG0, 160, 0)
+animSetTile(statsBG0, 1, 1)
+animSetColorKey(statsBG0, -1)
+
+--Transparent background
+statsBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(statsBG1, 1, 1)
+animSetAlpha(statsBG1, 20, 100)
+animUpdate(statsBG1)
+
 t_statisticsMenu = {	
 	{id = '', text = 'Collected Coins',    	varID = textImgNew(), varText = data.coins},
 	{id = '', text = 'Time Played',  		varID = textImgNew(), varText = data.playTime},
@@ -4642,9 +4806,9 @@ function f_statisticsMenu()
 				break
 			end			
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 30,20, 260,#t_statisticsMenu*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animDraw(f_animVelocity(statsBG0, -1, -1))
+		animSetWindow(statsBG1, 30,20, 260,#t_statisticsMenu*15)
+		animDraw(f_animVelocity(statsBG1, -1, -1))
 		textImgDraw(txt_statisticsMenu)
 		if needReload == 1 then
 			for i=1, #t_restart do

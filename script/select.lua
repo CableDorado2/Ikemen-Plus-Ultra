@@ -4116,6 +4116,22 @@ end
 --;===========================================================
 txt_service = createTextImg(jgFnt, 0, 0, 'SELECT A SERVICE', 159, 13)
 
+--Scrolling background
+serviceBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(serviceBG0, 160, 0)
+animSetTile(serviceBG0, 1, 1)
+animSetColorKey(serviceBG0, -1)
+
+--Transparent background
+serviceBG1 = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(serviceBG1, 1, 1)
+animSetAlpha(serviceBG1, 20, 100)
+animUpdate(serviceBG1)
+
 t_service = {
 	{id = '', text = '  DIFFICULTY LEVEL DOWN'},
 	{id = '', text = ' POWER WILL START AT MAX'},
@@ -4224,9 +4240,9 @@ function f_service()
 			end
 			commandBufReset(p1Cmd, 1)
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_service*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animDraw(f_animVelocity(serviceBG0, -1, -1))
+		animSetWindow(serviceBG1, 80,20, 160,#t_service*15)
+		animDraw(f_animVelocity(serviceBG1, -1, -1))
 		textImgDraw(txt_service)
 		if lockService == true then
 			for i=1, #t_lockedService do
