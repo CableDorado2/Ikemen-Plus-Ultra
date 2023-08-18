@@ -209,7 +209,7 @@ function f_eventMenu()
 			--EVENT 2
 			elseif eventMenu == 2 then
 				if event2Status == true then
-					--data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
+					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
 				elseif event2Status == false then
 					sndPlay(sysSnd, 100, 1)

@@ -12,7 +12,7 @@ animAddPos(missionBG0, 160, 0)
 animSetTile(missionBG0, 1, 1)
 animSetColorKey(missionBG0, -1)
 
---Transparent background
+--Above Transparent background
 missionBG1 = animNew(sysSff, [[
 100,1, 0,0, -1
 ]])
@@ -20,15 +20,15 @@ animSetTile(missionBG1, 1, 1)
 animSetAlpha(missionBG1, 20, 100)
 animUpdate(missionBG1)
 
---Mission Above Transparent background
+--Below Transparent background
 missionBG2 = animNew(sysSff, [[
-100,1, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetTile(missionBG2, 1, 1)
+animSetPos(missionBG2, 40, 140)
 animSetAlpha(missionBG2, 20, 100)
 animUpdate(missionBG2)
 
---Up Mission Special Arrow
+--Up Special Arrow
 arrowsMSU = animNew(sysSff, [[
 225,0, 0,0, 10
 225,1, 0,0, 10
@@ -39,11 +39,11 @@ arrowsMSU = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(arrowsMSU, 155, 130)
+animAddPos(arrowsMSU, 155, 131)
 animUpdate(arrowsMSU)
 animSetScale(arrowsMSU, 0.5, 0.5)
 
---Down Mission Special Arrow
+--Down Special Arrow
 arrowsMSD = animNew(sysSff, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
@@ -54,7 +54,7 @@ arrowsMSD = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(arrowsMSD, 155, 229)
+animAddPos(arrowsMSD, 155, 231)
 animUpdate(arrowsMSD)
 animSetScale(arrowsMSD, 0.5, 0.5)
 
@@ -78,19 +78,25 @@ t_missionMenu = {
 	{id = '', text = 'True Kung Fu Spirit',  			varID = textImgNew(), varText = mission3Progress},
 	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
 	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	--{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	--{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	--{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
 	{id = '', text = '                 BACK',			varID = textImgNew(), varText = ''},
 }
---for i=1, #t_missionMenu do
-	--t_missionMenu[i].id = createTextImg(font2, 0, 1, t_missionMenu[i].text, 44, 130+i*15)
---end
 
 t_mInfo = {
 	{id = '1', text = "The ancient Dragon Claw is back!           "},
 	{id = '2', text = "Defeat Original Kung Fu Man             "},
 	{id = '3', text = "Use the full power of Kung Fu Man!         "},
+	{id = '4', text = "???                      "},
+	{id = '5', text = "???                      "},
+	{id = '6', text = "???                      "},
+	{id = '7', text = "???                      "},
+	{id = '8', text = "???                      "},
+	{id = '9', text = "???                      "},
+	{id = '10', text = "???                      "},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
@@ -170,6 +176,34 @@ function f_missionMenu()
 				data.rosterMode = 'mission'
 				data.missionNo = 'mission 3'
 				script.select.f_selectAdvance()
+			--MISSION 4
+			elseif missionMenu == 4 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--MISSION 5
+			elseif missionMenu == 5 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--MISSION 6
+			elseif missionMenu == 6 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--MISSION 7
+			elseif missionMenu == 7 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--MISSION 8
+			elseif missionMenu == 8 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--MISSION 9
+			elseif missionMenu == 9 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--MISSION 10
+			elseif missionMenu == 10 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
 			--Back
 			else
 				f_saveProgress()
@@ -207,16 +241,18 @@ function f_missionMenu()
 			maxMissions = 6
 		end
 		animDraw(f_animVelocity(missionBG0, -1, -1))
-		--Draw Below Table
-		animSetWindow(missionBG1, 40,135, 240,#t_missionMenu*15-15)
+		--Draw Above Transparent BG
+		animSetWindow(missionBG1, 0,5, 320,110)
 		animDraw(f_animVelocity(missionBG1, -1, -1))
-		animSetWindow(cursorBox, 40,120+cursorPosY*15, 240,15)
+		textImgDraw(txt_missionMenu)
+		--Draw Below Transparent Table BG
+		animSetScale(missionBG2, 240, maxMissions*15)
+		animSetWindow(missionBG2, 10,20, 269,210)
+		animDraw(missionBG2)
+		--Draw Below Table Cursor
+		animSetWindow(cursorBox, 40,125+cursorPosY*15, 239,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Above Table
-		animSetWindow(missionBG2, 0,5, 320,110)
-		animDraw(f_animVelocity(missionBG2, -1, -1))
-		textImgDraw(txt_missionMenu)
 		missionList = missionMenu --Uses menu position to show image in these order
 		f_missionPreview() --Show mission image preview
 		--Draw Mission Info
@@ -232,7 +268,36 @@ function f_missionMenu()
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[3].id)
 			end
-		end	
+		elseif missionMenu == 4 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[4].id)
+			end
+		elseif missionMenu == 5 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[5].id)
+			end
+		elseif missionMenu == 6 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[6].id)
+			end
+		elseif missionMenu == 7 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[7].id)
+			end
+		elseif missionMenu == 8 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[8].id)
+			end
+		elseif missionMenu == 9 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[9].id)
+			end
+		elseif missionMenu == 10 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[10].id)
+			end
+		end
+		--Set mission status
 		t_missionMenu[1].varText = mission1Progress
 		t_missionMenu[2].varText = mission2Progress
 		t_missionMenu[3].varText = mission3Progress
@@ -240,16 +305,18 @@ function f_missionMenu()
 		for i=1, maxMissions do
 			if i > missionMenu - cursorPosY then
 				if t_missionMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].text, 45, 130+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 130+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].text, 45, 135+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 135+i*15-moveTxt))
 				end
 			end
 		end
+		--Draw Up Animated Cursor
 		if maxMissions > 6 then
 			animDraw(arrowsMSU)
 			animUpdate(arrowsMSU)
 		end
-		if maxMissions >= 7 then
+		--Draw Down Animated Cursor
+		if #t_missionMenu > 6 and maxMissions < #t_missionMenu then
 			animDraw(arrowsMSD)
 			animUpdate(arrowsMSD)
 		end
