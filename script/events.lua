@@ -12,7 +12,7 @@ animAddPos(eventBG0, 160, 0)
 animSetTile(eventBG0, 1, 1)
 animSetColorKey(eventBG0, -1)
 
---Transparent background
+--Above Transparent background
 eventBG1 = animNew(sysSff, [[
 100,1, 0,0, -1
 ]])
@@ -20,7 +20,7 @@ animSetTile(eventBG1, 1, 1)
 animSetAlpha(eventBG1, 20, 100)
 animUpdate(eventBG1)
 
---Event Above Transparent background
+--Below Transparent background
 eventBG2 = animNew(sysSff, [[
 100,1, 0,0, -1
 ]])
@@ -28,7 +28,7 @@ animSetTile(eventBG2, 1, 1)
 animSetAlpha(eventBG2, 20, 100)
 animUpdate(eventBG2)
 
---Right Events Menu Arrows
+--Right Menu Arrow
 arrowsER = animNew(sysSff, [[
 221,0, 0,0, 10
 221,1, 0,0, 10
@@ -44,7 +44,7 @@ animAddPos(arrowsER, 303, 129)
 animUpdate(arrowsER)
 animSetScale(arrowsER, 1.7, 1.7)
 
---Left Events Menu Arrows
+--Left Menu Arrow
 arrowsEL = animNew(sysSff, [[
 221,5, 0,0, 10
 221,6, 0,0, 10
@@ -81,7 +81,6 @@ function f_drawEvent1() --Draw Event 1 Preview
 end
 
 function f_drawEvent2() --Draw Event 2 Preview
-	event2Status = true
 	event2 = animNew(eventSff, [[
 	1,0, 0,0,
 	]])
@@ -91,7 +90,6 @@ function f_drawEvent2() --Draw Event 2 Preview
 end
 
 function f_drawEvent3() --Draw Event 3 Preview
-	event3Status = true
 	event3 = animNew(eventSff, [[
 	2,0, 0,0,
 	]])
@@ -105,14 +103,14 @@ end
 --;===========================================================
 t_eventMenu = {
 	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
-	{id = '', text = ''},
-	{id = '', text = ''},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
 }
-for i=1, #t_eventMenu do
-	t_eventMenu[i].id = createTextImg(jgFnt, 0, 1, t_eventMenu[i].text, 44, 130+i*15)
-end
 
---function countdown(t)
+--function countdown(t) --TODO make a Countdown for the sysTime Event
   --local d = math.floor(t / 86400)
   --local h = math.floor((t % 86400) / 3600)
   --local m = math.floor((t % 3600) / 60)
@@ -124,6 +122,9 @@ t_tInfo = {
 	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
 	{id = '2', text = 'POST YOUR SCHEDULE HERE                  '},
 	{id = '3', text = 'POST YOUR SCHEDULE HERE                  '},
+	{id = '4', text = 'POST YOUR SCHEDULE HERE                  '},
+	{id = '5', text = 'POST YOUR SCHEDULE HERE                  '},
+	{id = '6', text = 'POST YOUR SCHEDULE HERE                  '},
 }
 for i=1, #t_tInfo do
 	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 39)
@@ -133,6 +134,9 @@ t_mInfo = {
 	{id = '1', text = "Play as Master Kung Fu Girl!     "},
 	{id = '2', text = "PROGRAM YOUR EVENT HERE        "},
 	{id = '3', text = "PROGRAM YOUR EVENT HERE        "},
+	{id = '4', text = "PROGRAM YOUR EVENT HERE        "},
+	{id = '5', text = "PROGRAM YOUR EVENT HERE        "},
+	{id = '6', text = "PROGRAM YOUR EVENT HERE        "},
 }
 for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 39)
@@ -141,8 +145,8 @@ end
 function f_eventMenu()
 	cmdInput()
 	playBGM(bgmEvents)
-	local eventMenu = 1	
-	local cursorPosY = 0
+	local eventMenu = 1
+	local cursorPosX = 1
 	local moveTxt = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
@@ -159,31 +163,9 @@ function f_eventMenu()
 		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			eventMenu = eventMenu - 1
-			if eventMenu < 1 then eventMenu = #t_eventMenu end		
 		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			eventMenu = eventMenu + 1
-			if eventMenu > #t_eventMenu then eventMenu = 1 end
-				if eventMenu < 1 then
-					eventMenu = #t_eventMenu
-					if #t_eventMenu > 4 then
-						cursorPosY = 4
-					else
-						cursorPosY = #t_eventMenu-1
-					end
-				elseif eventMenu > #t_eventMenu then
-					eventMenu = 1
-					cursorPosY = 0
-				elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosY > 0 then
-					cursorPosY = cursorPosY - 1
-				elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosY < 4 then
-					cursorPosY = cursorPosY + 1
-				end
-				if cursorPosY == 4 then
-					moveTxt = (eventMenu - 5) * 13
-				elseif cursorPosY == 0 then
-					moveTxt = (eventMenu - 1) * 13
-				end
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--Master Kung Fu Girl
@@ -208,96 +190,125 @@ function f_eventMenu()
 				end
 			--EVENT 2
 			elseif eventMenu == 2 then
-				if event2Status == true then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-				elseif event2Status == false then
-					sndPlay(sysSnd, 100, 1)
-					f_eventLocked()
-				end
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
 			--EVENT 3
 			elseif eventMenu == 3 then
-				if event3Status == true then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-				elseif event3Status == false then
-					sndPlay(sysSnd, 100, 1)
-					f_eventLocked()
-				end
-			end			
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--EVENT 4
+			elseif eventMenu == 4 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--EVENT 5
+			elseif eventMenu == 5 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--EVENT 6
+			elseif eventMenu == 6 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			end
 		end
-		--if cursorPosY == 4 then
-			--moveTxt = (eventMenu - 4) * 15
-		--elseif cursorPosY == 1 then
-			--moveTxt = (eventMenu - 1) * 15
-		--end	
-		--if #t_eventMenu <= 4 then
-			--maxEvents = #t_eventMenu
-		--elseif eventMenu - cursorPosY > 0 then
-			--maxEvents = eventMenu + 14 - cursorPosY
-		--else
-			--maxEvents = 4
-		--end		
+		--Cursor position calculation
+		if eventMenu < 1 then
+			eventMenu = #t_eventMenu
+			if #t_eventMenu > 3 then
+				cursorPosX = 3
+			else
+				cursorPosX = #t_eventMenu
+			end
+		elseif eventMenu > #t_eventMenu then
+			eventMenu = 1
+			cursorPosX = 1
+		elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosX > 1 then
+			cursorPosX = cursorPosX - 1
+		elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 3 then
+			cursorPosX = cursorPosX + 1
+		end
+		if cursorPosX == 3 then
+			moveTxt = (eventMenu - 3) * 105 --Set how many space will move Event Status text
+		elseif cursorPosX == 1 then
+			moveTxt = (eventMenu - 1) * 105
+		end
+		if #t_eventMenu <= 3 then
+			maxEvents = #t_eventMenu
+		elseif eventMenu - cursorPosX > 0 then
+			maxEvents = eventMenu + 3 - cursorPosX
+		else
+			maxEvents = 3
+		end
 		animDraw(f_animVelocity(eventBG0, -1, -1))
-		--Draw Event Title Table
-		animSetWindow(eventBG2, 0,23, 320,25)
-		animDraw(f_animVelocity(eventBG2, -1, -1))
-		textImgDraw(txt_eventMenu)
-		--Draw Content Table
-		animSetWindow(eventBG1, 0,60, 320,150)
+		--Draw Event Title Transparent BG
+		animSetWindow(eventBG1, 0,23, 320,25)
 		animDraw(f_animVelocity(eventBG1, -1, -1))
+		textImgDraw(txt_eventMenu)
+		--Draw Content Transparent BG
+		animSetWindow(eventBG2, 0,60, 320,150)
+		animDraw(f_animVelocity(eventBG2, -1, -1))
 		f_drawEvent1()
 		f_drawEvent2()
 		f_drawEvent3()
+		--Draw Event Cursor
+		animSetWindow(cursorBox, -100+cursorPosX*104.5,60, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Event Info
 		if eventMenu == 1 then
 			if event1Status == true then
 				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[1].id)
+					textImgDraw(t_mInfo[1].id) --Draw Event Info
 				end
 			elseif 	event1Status == false then
 				for i=1, #t_tInfo do
-					textImgDraw(t_tInfo[1].id)
+					textImgDraw(t_tInfo[1].id) --Draw Time to start Info
 				end
 			end
 		elseif eventMenu == 2 then
-			if event2Status == true then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[2].id)
-				end
-			elseif event2Status == false then
-				for i=1, #t_tInfo do
-					textImgDraw(t_tInfo[2].id)
-				end
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[2].id)
 			end
 		elseif eventMenu == 3 then
-			if event3Status == true then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[3].id)
-				end
-			elseif event3Status == false then
-				for i=1, #t_tInfo do
-					textImgDraw(t_tInfo[3].id)
-				end
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[3].id)
 			end
-		end	
-		t_eventMenu[1].varText = event1Progress
-		for i=1, #t_eventMenu do
-			textImgDraw(t_eventMenu[i].id)
-			if t_eventMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, 0, -1, t_eventMenu[i].varText, -10+i*104, 230))
+		elseif eventMenu == 4 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[4].id)
+			end
+		elseif eventMenu == 5 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[5].id)
+			end
+		elseif eventMenu == 6 then
+			for i=1, #t_mInfo do
+				textImgDraw(t_mInfo[6].id)
 			end
 		end
-		animSetWindow(cursorBox, -100+eventMenu*104.5,60, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+eventMenu*104.5, 60)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Set event status
+		t_eventMenu[1].varText = event1Progress
+		--Draw Text for Event Status
+		for i=1, maxEvents do
+			if i > eventMenu - cursorPosX then
+				if t_eventMenu[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, 0, -1, t_eventMenu[i].varText, -16+i*105-moveTxt, 222)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+				end
+			end
+		end
 		f_sysTime()
-		animDraw(arrowsER)
-		animUpdate(arrowsER)
-		animDraw(arrowsEL)
-		animUpdate(arrowsEL)
+		--Draw Left Animated Cursor
+		if maxEvents > 3 then
+			animDraw(arrowsEL)
+			animUpdate(arrowsEL)
+		end
+		--Draw Right Animated Cursor
+		if #t_eventMenu > 3 and maxEvents < #t_eventMenu then
+			animDraw(arrowsER)
+			animUpdate(arrowsER)
+		end
 		if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
+			bufl = 0
+			bufr = bufr + 1
 		elseif commandGetState(p1Cmd, 'holdl') then
 			bufr = 0
 			bufl = bufl + 1

@@ -1,9 +1,13 @@
-table: 02DF7AA0 {
-  [survivalend] => table: 02DF7AA0 {
-                     [wins] => 16
-                     [offset] => 4
-                   }
-  [teammaxmatches] => table: 02DF7AA0 {
+table: 07F95B50 {
+  [teamstart] => table: 07F95B50 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [teamend] => table: 07F95B50 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [teammaxmatches] => table: 07F95B50 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -15,15 +19,23 @@ table: 02DF7AA0 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadeend] => table: 02DF7AA0 {
-                   [wins] => 4
+  [arcadeend] => table: 07F95B50 {
                    [offset] => 2
+                   [wins] => 4
                  }
-  [teamend] => table: 02DF7AA0 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [arcademaxmatches] => table: 02DF7AA0 {
+  [survivalstart] => table: 07F95B50 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [survivalend] => table: 07F95B50 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [arcadestart] => table: 07F95B50 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [arcademaxmatches] => table: 07F95B50 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -35,16 +47,4 @@ table: 02DF7AA0 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadestart] => table: 02DF7AA0 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [teamstart] => table: 02DF7AA0 {
-                   [wins] => 1
-                   [offset] => 0
-                 }
-  [survivalstart] => table: 02DF7AA0 {
-                       [wins] => 0
-                       [offset] => -3
-                     }
 }

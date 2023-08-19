@@ -104,7 +104,7 @@ end
 
 function f_missionMenu()
 	cmdInput()
-	local missionMenu = 1	
+	local missionMenu = 1
 	local cursorPosY = 1
 	local moveTxt = 0
 	missionList = 0 --Important to avoid errors when read missionPreview
