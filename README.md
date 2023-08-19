@@ -101,7 +101,17 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
+**v1.3.1**
+------------
+
+- [ ] Las animaciones de cuando los chars son elegidos en char select, se deben reiniciar cada que vuelvas al char select.
+
+- [ ] Cargar la preview de los stages desde el propio sff de la stage.
+
+- [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
+
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
+
 
 **v1.4**
 ------------
@@ -110,7 +120,13 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
-- [ ] Pause Menu/Screen.
+- [ ] Pause Menu/Screen que contenga:
+Continuar/Reanudar
+Lista de Movimientos
+Configuración del Training (Solo se mostrará cuando estés jugando el Training Mode)
+Opciones (Dentro podrás acceder a las opciones de sonido y opciones de controles)
+Ocultar Menú (Ideal para tomar screenshots like BlazBlue)
+Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin guardar)
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
@@ -131,6 +147,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
+
+- [ ] Traducir errores en ssz
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
@@ -189,7 +207,7 @@ v2.0 (Final Release)
 
 - [ ] Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
 
-- [ ] Portear el Engine a Linux, MacOS y Android.
+- [ ] Portear el Engine a Linux, MacOS, Android y iOS.
 
 ## Tutorials
 *Coming Soon!*
