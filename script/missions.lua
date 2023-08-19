@@ -14,9 +14,9 @@ animSetColorKey(missionBG0, -1)
 
 --Above Transparent background
 missionBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetTile(missionBG1, 1, 1)
+animSetPos(missionBG1, 48, 19)
 animSetAlpha(missionBG1, 20, 100)
 animUpdate(missionBG1)
 
@@ -87,19 +87,19 @@ t_missionMenu = {
 }
 
 t_mInfo = {
-	{id = '1', text = "The ancient Dragon Claw is back!           "},
-	{id = '2', text = "Defeat Original Kung Fu Man             "},
-	{id = '3', text = "Use the full power of Kung Fu Man!         "},
-	{id = '4', text = "???                      "},
-	{id = '5', text = "???                      "},
-	{id = '6', text = "???                      "},
-	{id = '7', text = "???                      "},
-	{id = '8', text = "???                      "},
-	{id = '9', text = "???                      "},
-	{id = '10', text = "???                      "},
+	{id = '1', text = "The ancient Dragon Claw is back!  "},
+	{id = '2', text = "Defeat Original Kung Fu Man!    "},
+	{id = '3', text = "Use the full power of Kung Fu Man!"},
+	{id = '4', text = "???                    "},
+	{id = '5', text = "???                    "},
+	{id = '6', text = "???                    "},
+	{id = '7', text = "???                    "},
+	{id = '8', text = "???                    "},
+	{id = '9', text = "???                    "},
+	{id = '10', text = "???                    "},
 }
 for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font2, 0, -1, t_mInfo[i].text, 300, 15)
+	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 283, 13.5)
 end
 
 function f_missionMenu()
@@ -115,7 +115,7 @@ function f_missionMenu()
 	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
 	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
 	data.missionsProgress = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.missionStatus values in parentheses
-	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsProgress .. '%]', 159, 128) --needs to be inside of mission Menu function, to load mission data %
+	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsProgress .. '%]', 159, 126) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -241,9 +241,14 @@ function f_missionMenu()
 			maxMissions = 6
 		end
 		animDraw(f_animVelocity(missionBG0, -1, -1))
-		--Draw Above Transparent BG
-		animSetWindow(missionBG1, 0,5, 320,110)
-		animDraw(f_animVelocity(missionBG1, -1, -1))
+		if missionMenu == #t_missionMenu then --If you are in the last item from table
+			--Dont Draw Above Transparent BG
+		else
+			--Draw Above Transparent BG
+			animSetScale(missionBG1, 219.5, 94)
+			animSetWindow(missionBG1, 0,5, 320,110)
+			animDraw(missionBG1)
+		end
 		textImgDraw(txt_missionMenu)
 		--Draw Below Transparent Table BG
 		animSetScale(missionBG2, 240, maxMissions*15)

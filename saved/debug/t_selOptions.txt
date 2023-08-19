@@ -1,41 +1,21 @@
-table: 07F95B50 {
-  [teamstart] => table: 07F95B50 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [teamend] => table: 07F95B50 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [teammaxmatches] => table: 07F95B50 {
-                        [1] => 2
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 1
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [arcadeend] => table: 07F95B50 {
-                   [offset] => 2
+table: 028FAAB0 {
+  [arcadeend] => table: 028FAAB0 {
                    [wins] => 4
+                   [offset] => 2
                  }
-  [survivalstart] => table: 07F95B50 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [survivalend] => table: 07F95B50 {
-                     [offset] => 4
+  [survivalend] => table: 028FAAB0 {
                      [wins] => 16
+                     [offset] => 4
                    }
-  [arcadestart] => table: 07F95B50 {
-                     [offset] => 0
+  [arcadestart] => table: 028FAAB0 {
                      [wins] => 2
+                     [offset] => 0
                    }
-  [arcademaxmatches] => table: 07F95B50 {
+  [survivalstart] => table: 028FAAB0 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [arcademaxmatches] => table: 028FAAB0 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -47,4 +27,24 @@ table: 07F95B50 {
                           [9] => 0
                           [10] => 0
                         }
+  [teamend] => table: 028FAAB0 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [teammaxmatches] => table: 028FAAB0 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 1
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [teamstart] => table: 028FAAB0 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
 }

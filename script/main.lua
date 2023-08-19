@@ -1293,7 +1293,7 @@ function f_bossMenu()
 			--BOSS RUSH
 			elseif bossMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
-				f_bossrushMenu()		
+				f_bossrushMenu()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -1506,7 +1506,7 @@ function f_bossrushMenu()
 					data.rosterMode = 'bossrush'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
-				end	
+				end
 			--CO-OP MODE
 			elseif bossrushMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
