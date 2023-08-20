@@ -2,7 +2,7 @@
 module(..., package.seeall)
 
 --;===========================================================
---; OPTIONS SCREENPACK --They are already in main.lua, soo.. delete here?
+--; OPTIONS SCREENPACK
 --;===========================================================
 --Scrolling background
 optionsBG0 = animNew(sysSff, [[
