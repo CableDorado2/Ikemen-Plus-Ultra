@@ -14,11 +14,41 @@ animSetColorKey(optionsBG0, -1)
 
 --Transparent background
 optionsBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetTile(optionsBG1, 1, 1)
+animSetPos(optionsBG1, 30, 20)
 animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
+
+--Up Arrow
+optionsUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(optionsUpArrow, 228, 11)
+animUpdate(optionsUpArrow)
+animSetScale(optionsUpArrow, 0.5, 0.5)
+
+--Down Arrow
+optionsDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(optionsDownArrow, 228, 231)
+animUpdate(optionsDownArrow)
+animSetScale(optionsDownArrow, 0.5, 0.5)
 
 --;===========================================================
 --; ON EXIT
@@ -354,6 +384,9 @@ end
 txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 13)
 txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)
 
+--;===========================================================
+--; REBOOT INFORMATION
+--;===========================================================
 t_exitInfo = {
 	{id = '', text = "Some selected options require restart Ikemen. Press"},
 	{id = '', text = "start key to reboot Ikemen and load your new settings."},
@@ -371,8 +404,8 @@ function f_exitInfo()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_exitInfo*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 20,20, 280,#t_exitInfo*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_exitInfo)
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
@@ -382,6 +415,9 @@ function f_exitInfo()
 	end
 end
 
+--;===========================================================
+--; INFORMATION
+--;===========================================================
 t_restart = {
 	{id = '', text = "The changes that you have made"},
 	{id = '', text = "require Save and Back.    "},
@@ -390,6 +426,9 @@ for i=1, #t_restart do
 	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 180+i*15)
 end
 
+--;===========================================================
+--; ONLINE INFORMATION
+--;===========================================================
 t_locked = {
 	{id = '', text = "This option is Unavailable in Online Mode."},
 }
@@ -397,6 +436,9 @@ for i=1, #t_locked do
 	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 210+i*15)
 end
 
+--;===========================================================
+--; ERASE DATA INFORMATION
+--;===========================================================
 t_erase = {
 	{id = '', text = "There's no have any data saved to delete."},
 }
@@ -404,11 +446,107 @@ for i=1, #t_erase do
 	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 210+i*15)
 end
 
+--;===========================================================
+--; WORK IN PROGRESS INFORMATION
+--;===========================================================
 t_wip = {
 	{id = '', text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
 	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 210+i*15)
+end
+
+--;===========================================================
+--; OPENGL 2.0 WARNING
+--;===========================================================
+t_glWarning = {
+	{id = '', text = "You won't be able to start the game if your system"},
+	{id = '', text = "doesn't support OpenGL 2.0 or later."},
+	{id = '', text = " "},	
+	{id = '', text = "In such case, you will need to edit ssz/config.ssz:"},
+	{id = '', text = "const bool OpenGL = false"},
+}
+for i=1, #t_glWarning do
+	t_glWarning[i].id = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 15+i*15)
+end
+
+function f_glWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 or esc() then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		--animSetWindow(optionsBG1, 20,20, 280,#t_glWarning*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_glWarning do
+			textImgDraw(t_glWarning[i].id)
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; SAVE MEMORY WARNING
+--;===========================================================
+t_memWarning = {
+	{id = '', text = "Enabling 'Save memory' option negatively affects FPS."},
+	{id = '', text = "It's not yet known if disabling it has any drawbacks."},
+}
+for i=1, #t_memWarning do
+	t_memWarning[i].id = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 15+i*15)
+end
+
+function f_memWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 or esc() then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		--animSetWindow(optionsBG1, 20,20, 280,#t_memWarning*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_memWarning do
+			textImgDraw(t_memWarning[i].id)
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ASPECT RATIO WARNING
+--;===========================================================
+t_resWarning = {
+	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
+	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
+}
+for i=1, #t_resWarning do
+	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
+end
+
+function f_resWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 or esc() then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		--animSetWindow(optionsBG1, 20,20, 280,#t_resWarning*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_Warning)
+		for i=1, #t_resWarning do
+			textImgDraw(t_resWarning[i].id)
+		end
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
@@ -567,17 +705,17 @@ txt_mainCfg = createTextImg(jgFnt, 0, 0, 'OPTIONS', 159, 13)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 235, 17.5+5*15, .5, .5, 255, 255)
 
 t_mainCfg = {
-	{id = '', text = 'Gameplay Settings'},
-	{id = '', text = 'Screenpack Settings'},
-	{id = '', text = 'Video Settings'},
-	{id = '', text = 'Audio Settings'},
-	{id = '', text = 'Input Settings'},
-	{id = '', text = 'Engine Settings'},	
-	{id = '', text = 'Player Name',        varID = textImgNew(), varText = data.userName},
-	{id = '', text = 'Port Change',        varID = textImgNew(), varText = getListenPort()},
-	{id = '', text = 'Default Values'},
-	{id = '', text = '              Save and Back'},
-	{id = '', text = '          Back Without Saving'},
+	{id = '', text = 'Gameplay Settings',  					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Screenpack Settings',  				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Video Settings',  					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Audio Settings',  					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Input Settings',  					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Engine Settings',  					varID = textImgNew(), varText = ''},	
+	{id = '', text = 'Player Name',        					varID = textImgNew(), varText = data.userName},
+	{id = '', text = 'Port Change',        					varID = textImgNew(), varText = getListenPort()},
+	{id = '', text = 'Default Values',  					varID = textImgNew(), varText = ''},
+	{id = '', text = '              Save and Back',  		varID = textImgNew(), varText = ''},
+	{id = '', text = '          Back Without Saving',  		varID = textImgNew(), varText = ''},
 }
 for i=1, #t_mainCfg do
 	t_mainCfg[i].id = createTextImg(font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15)
@@ -590,6 +728,8 @@ function f_mainCfg()
 	local playerName = ''
 	local nameEdit = false
 	local done = true
+	local cursorPosY = 1
+	local moveTxt = 0
 	local mainCfg = 1
 	local bufl = 0
 	local bufr = 0
@@ -734,8 +874,8 @@ function f_mainCfg()
 			end			
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_mainCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_mainCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_mainCfg)
 		if needReload == 1 then
 			for i=1, #t_restart do
@@ -891,6 +1031,8 @@ end
 
 function f_onlineCfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local onlineCfg = 1
 	local bufl = 0
 	local bufr = 0
@@ -947,8 +1089,8 @@ function f_onlineCfg()
 			end			
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_onlineCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_onlineCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_onlineCfg)
 		for i=1, #t_onlineCfg do
 			textImgDraw(t_onlineCfg[i].id)
@@ -982,15 +1124,15 @@ end
 txt_netplayCfg = createTextImg(jgFnt, 0, 0, 'NETPLAY ROOM SETTINGS', 159, 13)
 
 t_netplayCfg = {
-	{id = '', text = 'VS Match Type',	varID = textImgNew(), varText = data.ftcontrol},
-	{id = '', text = 'Room Name',		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Pause Menu',		varID = textImgNew(), varText = 'No'},
-	{id = '', text = 'Looby Size',		varID = textImgNew(), varText = '2'},
-	{id = '', text = 'Spectate',		varID = textImgNew(), varText = 'No'},
-	{id = '', text = 'Private Game',	varID = textImgNew(), varText = 'Yes'},
-	{id = '', text = 'Show Names',		varID = textImgNew(), varText = 'No'},
-	{id = '', text = 'Show Input Delay',varID = textImgNew(), varText = 'No'},
-	{id = '', text = '          BACK'},
+	{id = '', text = 'VS Match Type',		varID = textImgNew(), varText = data.ftcontrol},
+	{id = '', text = 'Room Name',			varID = textImgNew(), varText = ''},
+	{id = '', text = 'Pause Menu',			varID = textImgNew(), varText = 'No'},
+	{id = '', text = 'Looby Size',			varID = textImgNew(), varText = '2'},
+	{id = '', text = 'Spectate',			varID = textImgNew(), varText = 'No'},
+	{id = '', text = 'Private Game',		varID = textImgNew(), varText = 'Yes'},
+	{id = '', text = 'Show Names',			varID = textImgNew(), varText = 'No'},
+	{id = '', text = 'Show Input Delay',	varID = textImgNew(), varText = 'No'},
+	{id = '', text = '          BACK',  	varID = textImgNew(), varText = ''},
 }
 for i=1, #t_netplayCfg do
 	t_netplayCfg[i].id = createTextImg(font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15)
@@ -998,6 +1140,8 @@ end
 
 function f_netplayCfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local netplayCfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -1059,8 +1203,8 @@ function f_netplayCfg()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_netplayCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_netplayCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_netplayCfg)
 		if lockSetting == true then
 			for i=1, #t_wip do
@@ -1112,16 +1256,15 @@ t_gameCfg = {
 	{id = '', text = 'Game Speed',  	         varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Training Character',  	 varID = textImgNew(), varText = data.training},
 	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},
-	{id = '', text = 'Team Settings'},
-	{id = '', text = 'Zoom Settings'},
-	{id = '', text = '          BACK'},
+	{id = '', text = 'Team Settings',  			 varID = textImgNew(), varText = ''},
+	{id = '', text = 'Zoom Settings',  			 varID = textImgNew(), varText = ''},
+	{id = '', text = '          BACK',  		 varID = textImgNew(), varText = ''},
 }
-for i=1, #t_gameCfg do
-	t_gameCfg[i].id = createTextImg(font2, 0, 1, t_gameCfg[i].text, 85, 15+i*15)
-end
 
 function f_gameCfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local gameCfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -1136,14 +1279,12 @@ function f_gameCfg()
 			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 0)
 			gameCfg = gameCfg - 1
-			if gameCfg < 1 then gameCfg = #t_gameCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
 			sndPlay(sysSnd, 100, 0)
 			gameCfg = gameCfg + 1
-			if gameCfg > #t_gameCfg then gameCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		--Difficulty Level
@@ -1376,15 +1517,46 @@ function f_gameCfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
+		if gameCfg < 1 then
+			gameCfg = #t_gameCfg
+			if #t_gameCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_gameCfg
+			end
+		elseif gameCfg > #t_gameCfg then
+			gameCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (gameCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (gameCfg - 1) * 15
+		end	
+		if #t_gameCfg <= 14 then
+			maxGameCfg = #t_gameCfg
+		elseif gameCfg - cursorPosY > 0 then
+			maxGameCfg = gameCfg + 14 - cursorPosY
+		else
+			maxGameCfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_gameCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxGameCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_gameCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if lockSetting == true then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
 			end
-		end	
+		end
 		t_gameCfg[1].varText = data.difficulty
 		if data.roundTime ~= -1 then
 			t_gameCfg[2].varText = data.roundTime
@@ -1398,16 +1570,23 @@ function f_gameCfg()
 		t_gameCfg[7].varText = s_autoguard
 		t_gameCfg[8].varText = s_gameSpeed
 		t_gameCfg[9].varText = data.training
-		t_gameCfg[10].varText = s_contSelection
-		for i=1, #t_gameCfg do
-			textImgDraw(t_gameCfg[i].id)
-			if t_gameCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 235, 15+i*15))
+		t_gameCfg[10].varText = s_contSelection	
+		for i=1, maxGameCfg do	
+			if i > gameCfg - cursorPosY then
+				if t_gameCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, 1, t_gameCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_gameCfg[i].varID, font2, 0, -1, t_gameCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
 			end
 		end
-		animSetWindow(cursorBox, 80,5+gameCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxGameCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_gameCfg > 14 and maxGameCfg < #t_gameCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1436,14 +1615,13 @@ t_teamCfg = {
 	{id = '', text = 'Simul Players Limit',     varID = textImgNew(), varText = data.numSimul},
 	{id = '', text = 'Simul Type',              varID = textImgNew(), varText = data.simulType},
 	{id = '', text = 'Co-Op CPU Team',          varID = textImgNew(), varText = data.coopenemy},
-	{id = '', text = '          BACK'},
+	{id = '', text = '          BACK',  		varID = textImgNew(), varText = ''},
 }
-for i=1, #t_teamCfg do
-	t_teamCfg[i].id = createTextImg(font2, 0, 1, t_teamCfg[i].text, 85, 15+i*15)
-end
 
 function f_teamCfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local teamCfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -1456,13 +1634,11 @@ function f_teamCfg()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			teamCfg = teamCfg - 1
-			if teamCfg < 1 then teamCfg = #t_teamCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			teamCfg = teamCfg + 1
-			if teamCfg > #t_teamCfg then teamCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		--P1 Vs Team Life
@@ -1611,10 +1787,41 @@ function f_teamCfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
+		if teamCfg < 1 then
+			teamCfg = #t_teamCfg
+			if #t_teamCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_teamCfg
+			end
+		elseif teamCfg > #t_teamCfg then
+			teamCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (teamCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (teamCfg - 1) * 15
+		end	
+		if #t_teamCfg <= 14 then
+			maxTeamCfg = #t_teamCfg
+		elseif teamCfg - cursorPosY > 0 then
+			maxTeamCfg = teamCfg + 14 - cursorPosY
+		else
+			maxTeamCfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_teamCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxTeamCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_teamCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		t_teamCfg[1].varText = data.team1VS2Life .. '%'
 		t_teamCfg[2].varText = data.turnsRecoveryRate .. '%'
 		t_teamCfg[3].varText = s_teamLifeShare
@@ -1622,15 +1829,22 @@ function f_teamCfg()
 		t_teamCfg[5].varText = data.numSimul
 		t_teamCfg[6].varText = data.simulType
 		t_teamCfg[7].varText = data.coopenemy
-		for i=1, #t_teamCfg do
-			textImgDraw(t_teamCfg[i].id)
-			if t_teamCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, -1, t_teamCfg[i].varText, 235, 15+i*15))
+		for i=1, maxTeamCfg do
+			if i > teamCfg - cursorPosY then
+				if t_teamCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, 1, t_teamCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_teamCfg[i].varID, font2, 0, -1, t_teamCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
 			end
 		end
-		animSetWindow(cursorBox, 80,5+teamCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxTeamCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_teamCfg > 14 and maxTeamCfg < #t_teamCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1652,18 +1866,17 @@ end
 txt_zoomCfg = createTextImg(jgFnt, 0, 0, 'ZOOM SETTINGS', 159, 13)
 
 t_zoomCfg = {
-	{id = '', text = 'Zoom Active',  varID = textImgNew(), varText = s_zoomActive},
-	{id = '', text = 'Max Zoom Out', varID = textImgNew(), varText = data.zoomMin},
-	{id = '', text = 'Max Zoom In',  varID = textImgNew(), varText = data.zoomMax},
-	{id = '', text = 'Zoom Speed',   varID = textImgNew(), varText = data.zoomSpeed},
-	{id = '', text = '          BACK'},
+	{id = '', text = 'Zoom Active',    varID = textImgNew(), varText = s_zoomActive},
+	{id = '', text = 'Max Zoom Out',   varID = textImgNew(), varText = data.zoomMin},
+	{id = '', text = 'Max Zoom In',    varID = textImgNew(), varText = data.zoomMax},
+	{id = '', text = 'Zoom Speed',     varID = textImgNew(), varText = data.zoomSpeed},
+	{id = '', text = '          BACK', varID = textImgNew(), varText = ''},
 }
-for i=1, #t_zoomCfg do
-	t_zoomCfg[i].id = createTextImg(font2, 0, 1, t_zoomCfg[i].text, 85, 15+i*15)
-end
 
 function f_zoomCfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local zoomCfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -1676,13 +1889,11 @@ function f_zoomCfg()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			zoomCfg = zoomCfg - 1
-			if zoomCfg < 1 then zoomCfg = #t_zoomCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			zoomCfg = zoomCfg + 1
-			if zoomCfg > #t_zoomCfg then zoomCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		--Zoom Active
@@ -1777,23 +1988,61 @@ function f_zoomCfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
+		if zoomCfg < 1 then
+			zoomCfg = #t_zoomCfg
+			if #t_zoomCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_zoomCfg
+			end
+		elseif zoomCfg > #t_zoomCfg then
+			zoomCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (zoomCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (zoomCfg - 1) * 15
+		end	
+		if #t_zoomCfg <= 14 then
+			maxZoomCfg = #t_zoomCfg
+		elseif zoomCfg - cursorPosY > 0 then
+			maxZoomCfg = zoomCfg + 14 - cursorPosY
+		else
+			maxZoomCfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_zoomCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxZoomCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_zoomCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		t_zoomCfg[1].varText = s_zoomActive
 		t_zoomCfg[2].varText = data.zoomMin
 		t_zoomCfg[3].varText = data.zoomMax
 		t_zoomCfg[4].varText = data.zoomSpeed
-		for i=1, #t_zoomCfg do
-			textImgDraw(t_zoomCfg[i].id)
-			if t_zoomCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15+i*15))
+		for i=1, maxZoomCfg do
+			if i > zoomCfg - cursorPosY then
+				if t_zoomCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, 1, t_zoomCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_zoomCfg[i].varID, font2, 0, -1, t_zoomCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
 			end
 		end
-		animSetWindow(cursorBox, 80,5+zoomCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxZoomCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_zoomCfg > 14 and maxZoomCfg < #t_zoomCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1824,14 +2073,13 @@ t_UICfg = {
 	{id = '', text = 'Palette Select Type',    	 varID = textImgNew(), varText = data.palType},
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
-	{id = '', text = '          BACK'},
+	{id = '', text = '          BACK',  		 varID = textImgNew(), varText = ''},
 }
-for i=1, #t_UICfg do
-	t_UICfg[i].id = createTextImg(font2, 0, 1, t_UICfg[i].text, 85, 15+i*15)
-end
 
 function f_UICfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local UICfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -1846,14 +2094,12 @@ function f_UICfg()
 			lockSetting = false
 			sndPlay(sysSnd, 100, 0)
 			UICfg = UICfg - 1
-			if UICfg < 1 then UICfg = #t_UICfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			lockSetting = false
 			sndPlay(sysSnd, 100, 0)
 			UICfg = UICfg + 1
-			if UICfg > #t_UICfg then UICfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		--Language Settings
@@ -2074,10 +2320,41 @@ function f_UICfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
+		if UICfg < 1 then
+			UICfg = #t_UICfg
+			if #t_UICfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_UICfg
+			end
+		elseif UICfg > #t_UICfg then
+			UICfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (UICfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (UICfg - 1) * 15
+		end	
+		if #t_UICfg <= 14 then
+			maxUICfg = #t_UICfg
+		elseif UICfg - cursorPosY > 0 then
+			maxUICfg = UICfg + 14 - cursorPosY
+		else
+			maxUICfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_UICfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxUICfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_UICfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if lockSetting == true then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
@@ -2092,1100 +2369,22 @@ function f_UICfg()
 		t_UICfg[7].varText = data.palType
 		t_UICfg[8].varText = data.stageType
 		t_UICfg[9].varText = data.winscreen
-		for i=1, #t_UICfg do
-			textImgDraw(t_UICfg[i].id)
-			if t_UICfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, -1, t_UICfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+UICfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; ENGINE SETTINGS
---;===========================================================
-txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
-
-t_engineCfg = {
-	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
-	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
-	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
-	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
-	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
-	{id = '', text = 'Erase/Reset Statistics'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_engineCfg do
-	t_engineCfg[i].id = createTextImg(font2, 0, 1, t_engineCfg[i].text, 85, 15+i*15)
-end
-
-function f_engineCfg()
-	cmdInput()
-	local engineCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if esc() then
-			lockSetting = false
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			lockSetting = false
-			eraseStatus = true
-			sndPlay(sysSnd, 100, 0)
-			engineCfg = engineCfg - 1
-			if engineCfg < 1 then engineCfg = #t_engineCfg end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			lockSetting = false
-			eraseStatus = true
-			sndPlay(sysSnd, 100, 0)
-			engineCfg = engineCfg + 1
-			if engineCfg > #t_engineCfg then engineCfg = 1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end					
-		--Debug Mode
-		elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-		if onlinegame == true then
-			lockSetting = true
-		elseif onlinegame == false then	
-			sndPlay(sysSnd, 100, 0)
-			if data.debugMode then
-				data.debugMode = false
-				s_debugMode = 'Disabled'
-				modified = 1
-			else
-				data.debugMode = true
-				s_debugMode = 'Enabled'
-				modified = 1
-			end
-		end
-		--HelperMax
-		elseif engineCfg == 2 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if HelperMaxEngine < 1000 then --You can increase this limit
-					HelperMaxEngine = HelperMaxEngine + 1
-				else
-					HelperMaxEngine = 56 --Minimum Value
+		for i=1, maxUICfg do
+			if i > UICfg - cursorPosY then
+				if t_UICfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, 1, t_UICfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_UICfg[i].varID, font2, 0, -1, t_UICfg[i].varText, 235, 15+i*15-moveTxt))
 				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if HelperMaxEngine > 56 then --Minimum Value
-					HelperMaxEngine = HelperMaxEngine - 1
-				else
-					HelperMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--PlayerProjectileMax
-		elseif engineCfg == 3 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
-					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
-				else
-					PlayerProjectileMaxEngine = 50 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if PlayerProjectileMaxEngine > 50 then --Minimum Value
-					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine - 1
-				else
-					PlayerProjectileMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--ExplodMax
-		elseif engineCfg == 4 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if ExplodMaxEngine < 1000 then --You can increase this limit
-					ExplodMaxEngine = ExplodMaxEngine + 1
-				else
-					ExplodMaxEngine = 128 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if ExplodMaxEngine > 128 then --Minimum Value
-					ExplodMaxEngine = ExplodMaxEngine - 1
-				else
-					ExplodMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		--AfterImageMax
-		elseif engineCfg == 5 then
-			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-				if AfterImageMaxEngine < 1000 then --You can increase this limit
-					AfterImageMaxEngine = AfterImageMaxEngine + 1
-				else
-					AfterImageMaxEngine = 8 --Minimum Value
-				end
-				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-				if AfterImageMaxEngine > 8 then --Minimum Value
-					AfterImageMaxEngine = AfterImageMaxEngine - 1
-				else
-					AfterImageMaxEngine = 1000 --You can increase this limit
-				end
-				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-				modified = 1
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end		
-		--Erase/Reset Statistics
-		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
-		if onlinegame == true then
-			lockSetting = true
-		elseif onlinegame == false then	
-			if data.arcadeUnlocks == false and data.survivalUnlocks == false then --This means that at least you have some progress saved
-				eraseStatus = false
-			elseif data.arcadeUnlocks == true or data.survivalUnlocks == true then
-				sndPlay(sysSnd, 100, 1)
-				f_unlocksWarning()
 			end
 		end
-		--Back
-		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
+		if maxUICfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_engineCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_engineCfg)
-		if lockSetting == true then
-			for i=1, #t_locked do
-				textImgDraw(t_locked[i].id)
-			end
-		end	
-		if eraseStatus == false then
-			for i=1, #t_erase do
-				textImgDraw(t_erase[i].id)
-			end
+		if #t_UICfg > 14 and maxUICfg < #t_UICfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
 		end
-		t_engineCfg[1].varText = s_debugMode
-		t_engineCfg[2].varText = HelperMaxEngine
-		t_engineCfg[3].varText = PlayerProjectileMaxEngine
-		t_engineCfg[4].varText = ExplodMaxEngine
-		t_engineCfg[5].varText = AfterImageMaxEngine
-		for i=1, #t_engineCfg do
-			textImgDraw(t_engineCfg[i].id)
-			if t_engineCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+engineCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; VIDEO SETTINGS
---;===========================================================
-txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
-
-t_videoCfg = {
-	{id = '', text = 'Resolution',  varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
-	{id = '', text = 'Fullscreen',  varID = textImgNew(), varText = s_screenMode},	
-	--{id = '', text = 'OpenGL 2.0', varID = textImgNew(), varText = s_openGL},
-	--{id = '', text = 'Save Memory', varID = textImgNew(), varText = s_saveMemory},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_videoCfg do
-	t_videoCfg[i].id = createTextImg(font2, 0, 1, t_videoCfg[i].text, 85, 15+i*15)
-end
-
-function f_videoCfg()
-	cmdInput()
-	local videoCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local hasChanged = true
-	while true do
-		if b_screenMode ~= getScreenMode() then
-			if getScreenMode() then
-				b_screenMode = true
-				s_screenMode = 'Yes'
-			else
-				b_screenMode = false
-				s_screenMode = 'No'
-			end
-			t_videoCfg[2].varText = s_screenMode
-			modified = 1
-		end
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			lockSetting = false
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			lockSetting = false
-			videoCfg = videoCfg - 1
-			if videoCfg < 1 then videoCfg = #t_videoCfg end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			lockSetting = false
-			videoCfg = videoCfg + 1
-			if videoCfg > #t_videoCfg then videoCfg = 1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		--Resolution
-		elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			if f_resCfg() then
-				modified = 1
-				hasChanged = true
-			end
-		--Fullscreen			
-		elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-		if onlinegame == true then
-			lockSetting = true
-		elseif onlinegame == false then
-			sndPlay(sysSnd, 100, 0)
-			if not b_screenMode then
-				b_screenMode = true
-				s_screenMode = 'Yes'
-			else
-				b_screenMode = false
-				s_screenMode = 'No'
-			end
-			modified = 1
-			setScreenMode(b_screenMode) --added via system-script.ssz
-			hasChanged = true
-		end
-		--OpenGL 2.0
-		--elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			--sndPlay(sysSnd, 100, 0)
-			--if b_openGL == false then
-				--b_openGL = true
-				--s_openGL = 'Yes'
-				--f_glWarning()
-				--modified = 1
-				--needReload = 1				
-			--else
-				--b_openGL = false
-				--s_openGL = 'No'
-				--modified = 1
-				--needReload = 0
-			--end
-		--Save memory
-		--elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			--sndPlay(sysSnd, 100, 0)
-			--if b_saveMemory == false then
-				--b_saveMemory = true
-				--s_saveMemory = 'Yes'
-				--f_memWarning()
-				--modified = 1
-				--needReload = 1
-			--else
-				--b_saveMemory = false
-				--s_saveMemory = 'No'
-				--f_memWarning()
-				--modified = 1
-				--needReload = 1
-			--end
-		--Back
-		elseif videoCfg == 3 and btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_videoCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_videoCfg)
-		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
-		if hasChanged then
-			t_videoCfg[2].varText = s_screenMode		
-			--t_videoCfg[3].varText = s_openGL
-			--t_videoCfg[4].varText = s_saveMemory
-			hasChanged = false
-		end
-		if lockSetting == true then
-			for i=1, #t_locked do
-				textImgDraw(t_locked[i].id)
-			end
-		end	
-		for i=1, #t_videoCfg do
-			textImgDraw(t_videoCfg[i].id)
-			if t_videoCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, -1, t_videoCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+videoCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; OPENGL 2.0 WARNING
---;===========================================================
-t_glWarning = {
-	{id = '', text = "You won't be able to start the game if your system"},
-	{id = '', text = "doesn't support OpenGL 2.0 or later."},
-	{id = '', text = " "},	
-	{id = '', text = "In such case, you will need to edit ssz/config.ssz:"},
-	{id = '', text = "const bool OpenGL = false"},
-}
-for i=1, #t_glWarning do
-	t_glWarning[i].id = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 15+i*15)
-end
-
-function f_glWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 1)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_glWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_glWarning do
-			textImgDraw(t_glWarning[i].id)
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; SAVE MEMORY WARNING
---;===========================================================
-t_memWarning = {
-	{id = '', text = "Enabling 'Save memory' option negatively affects FPS."},
-	{id = '', text = "It's not yet known if disabling it has any drawbacks."},
-}
-for i=1, #t_memWarning do
-	t_memWarning[i].id = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 15+i*15)
-end
-
-function f_memWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 1)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_memWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_memWarning do
-			textImgDraw(t_memWarning[i].id)
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; ASPECT RATIO WARNING
---;===========================================================
-t_resWarning = {
-	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
-	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
-}
-for i=1, #t_resWarning do
-	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
-end
-
-function f_resWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 1)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_resWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_resWarning do
-			textImgDraw(t_resWarning[i].id)
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; ASPECT RATIO SETTINGS
---;===========================================================
-txt_resCfg = createTextImg(jgFnt, 0, 0, 'ASPECT RATIO SETTINGS', 159, 13)
-
-t_resCfg = {
-	{id = '', text = '4:3 Resolutions'},
-	{id = '', text = '16:9 Resolutions'},
-	{id = '', text = '16:10 Resolutions'},
-	{id = '', text = 'Extra Resolutions'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_resCfg do
-	t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15)
-end
-
-function f_resCfg()
-	cmdInput()
-	local resCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local hasChanged = true
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg = resCfg - 1
-			if resCfg < 1 then resCfg = #t_resCfg end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg = resCfg + 1
-			if resCfg > #t_resCfg then resCfg = 1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif btnPalNo(p1Cmd) > 0 then
-			--4:3 Resolutions
-			if resCfg == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_resCfg4_3()
-				hasChanged = true
-			--16:9 Resolutions
-			elseif resCfg == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_resCfg16_9()
-				hasChanged = true
-			--16:10 Resolutions
-			elseif resCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_resCfg16_10()
-				hasChanged = true
-			--Extra Resolutions
-			elseif resCfg == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_EXresCfg()
-				hasChanged = true
-			--Back
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_resCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_resCfg)
-		if hasChanged then
-			setGameRes(resolutionWidth,resolutionHeight)
-			hasChanged = false
-		end
-		for i=1, #t_resCfg do
-			textImgDraw(t_resCfg[i].id)
-			if t_resCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_resCfg[i].varID, font2, 0, -1, t_resCfg[i].varText, 235, 15+i*15))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+resCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; 4:3 RESOLUTIONS
---;===========================================================
-txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (4:3)', 159, 13)
-
-t_resCfg4_3 = {
-	{id = '', x = 320,  y = 240,  text = '320x240             (QVGA)'},
-	{id = '', x = 512,  y = 384,  text = '512x384        (MACINTOSH)'},
-	{id = '', x = 640,  y = 480,  text = '640x480              (VGA)'},
-	{id = '', x = 800,  y = 600,  text = '800x600             (SVGA)'},
-	{id = '', x = 960,  y = 720,  text = '960x720               (HD)'},
-	{id = '', x = 1024, y = 768,  text = '1024x768             (XGA)'},
-	{id = '', x = 1152, y = 864,  text = '1152x864            (XGA+)'},
-	{id = '', x = 1200, y = 900,  text = '1200x900             (HD+)'},
-	{id = '', x = 1280, y = 960,  text = '1280x960        (Quad-VGA)'},
-	{id = '', x = 1440, y = 1080, text = '1440x1080            (FHD)'},
-	{id = '', x = 1600, y = 1200, text = '1600x1200            (XGA)'},
-	{id = '', x = 1920, y = 1440, text = '1920x1440          (UXGA+)'},
-	{id = '', x = 2048, y = 1536, text = '2048x1536           (QXGA)'},
-	{id = '', x = 3200, y = 2400, text = '3200x2400          (QUXGA)'},
-	{id = '', x = 6400, y = 4800, text = '6400x4800          (HUXGA)'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_resCfg4_3 do
-	--if t_resCfg4_3[i].x ~= nil and t_resCfg4_3[i].y ~= nil then t_resCfg4_3[i].text = t_resCfg4_3[i].x .. 'x' .. t_resCfg4_3[i].y end --position the cursor at the chosen resolution
-	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
-end
---for i=1, #t_resCfg4_3-1 do
-	--if t_resCfg4_3[i].x > getWidth() or t_resCfg4_3[i].y > getHeight() then
-		--for j=i, #t_resCfg4_3-1 do
-			--table.remove(t_resCfg4_3,i) --Show only resolutions recommended for your PC
-		--end
-		--break
-	--end
---end
-
-function f_resCfg4_3()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local resCfg4_3 = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	for i=1, #t_resCfg4_3 do
-		if t_resCfg4_3[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-			resCfg4_3 = i
-			break
-		end
-	end
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg4_3 = resCfg4_3 - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg4_3 = resCfg4_3 + 1
-		end
-		--Cursor position calculation
-		if resCfg4_3 < 1 then
-			resCfg4_3 = #t_resCfg4_3
-			if #t_resCfg4_3 > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_resCfg4_3
-			end
-		elseif resCfg4_3 > #t_resCfg4_3 then
-			resCfg4_3 = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg4_3 - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (resCfg4_3 - 1) * 15
-		end
-		--Options
-		if btnPalNo(p1Cmd) > 0 then
-			--Back
-			if resCfg4_3 == #t_resCfg4_3 then
-				sndPlay(sysSnd, 100, 2)
-				return false
-			--Resolution
-			else
-				sndPlay(sysSnd, 100, 1)
-				resolutionWidth = t_resCfg4_3[resCfg4_3].x
-				resolutionHeight = t_resCfg4_3[resCfg4_3].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg4_3*15)
-		end
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_resCfg4_3)
-		for i=1, #t_resCfg4_3 do
-			if i > resCfg4_3 - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg4_3[i].id, font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; 16:9 RESOLUTIONS
---;===========================================================
-txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:9)', 159, 13)
-
-t_resCfg16_9 = {
-	{id = '', x = 427,  y = 240,  text = '427x240        (ULTRA LOW)'},
-	{id = '', x = 640,  y = 360,  text = '640x360              (LOW)'},
-	{id = '', x = 853,  y = 480,  text = '853x480               (SD)'},
-	{id = '', x = 1280, y = 720,  text = '1280x720              (HD)'},
-	{id = '', x = 1600, y = 900,  text = '1600x900             (HD+)'},
-	{id = '', x = 1920, y = 1080, text = '1920x1080        (FULL HD)'},
-	{id = '', x = 2048, y = 1152, text = '2048x1152          (QWXGA)'},
-	{id = '', x = 2560, y = 1440, text = '2560x1440            (QHD)'},
-	{id = '', x = 3840, y = 2160, text = '3840x2160        (4K UHDV)'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_resCfg16_9 do
-	t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15)
-end
-
-function f_resCfg16_9()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local resCfg16_9 = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	for i=1, #t_resCfg16_9 do
-		if t_resCfg16_9[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-			resCfg16_9 = i
-			break
-		end
-	end
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg16_9 = resCfg16_9 - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg16_9 = resCfg16_9 + 1
-		end
-		--Cursor position calculation
-		if resCfg16_9 < 1 then
-			resCfg16_9 = #t_resCfg16_9
-			if #t_resCfg16_9 > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_resCfg16_9
-			end
-		elseif resCfg16_9 > #t_resCfg16_9 then
-			resCfg16_9 = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg16_9 - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (resCfg16_9 - 1) * 15
-		end
-		--Options
-		if btnPalNo(p1Cmd) > 0 then
-			--Back
-			if resCfg16_9 == #t_resCfg16_9 then
-				sndPlay(sysSnd, 100, 2)
-				return false
-			--Resolution
-			else
-				sndPlay(sysSnd, 100, 1)
-				resolutionWidth = t_resCfg16_9[resCfg16_9].x
-				resolutionHeight = t_resCfg16_9[resCfg16_9].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_9*15)
-		end
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_resCfg16_9)
-		for i=1, #t_resCfg16_9 do
-			if i > resCfg16_9 - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg16_9[i].id, font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; 16:10 RESOLUTIONS
---;===========================================================
-txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:10)', 159, 13)
-
-t_resCfg16_10 = {
-	{id = '', x = 320,  y = 200,  text = '320x200              (CGA)'},
-	{id = '', x = 1280, y = 800,  text = '1280x800            (WXGA)'},
-	{id = '', x = 1440, y = 900,  text = '1440x900           (WXGA+)'},
-	{id = '', x = 1680, y = 1050, text = '1680x1050         (WSXGA+)'},
-	{id = '', x = 1920, y = 1200, text = '1920x1200          (WUXGA)'},
-	{id = '', x = 2560, y = 1600, text = '2560x1600          (WQXGA)'},
-	{id = '', x = 2880, y = 1800, text = '2880x1800  (RETINA DISPLAY)'},
-	{id = '', x = 3840, y = 2400, text = '3840x2400         (WQUXGA)'},
-	{id = '', x = 7680, y = 4800, text = '7680x4800         (WHUXGA)'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_resCfg16_10 do
-	t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15)
-end
-
-function f_resCfg16_10()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local resCfg16_10 = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	for i=1, #t_resCfg16_10 do
-		if t_resCfg16_10[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-			resCfg16_10 = i
-			break
-		end
-	end
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg16_10 = resCfg16_10 - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			resCfg16_10 = resCfg16_10 + 1
-		end
-		--Cursor position calculation
-		if resCfg16_10 < 1 then
-			resCfg16_10 = #t_resCfg16_10
-			if #t_resCfg16_10 > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_resCfg16_10
-			end
-		elseif resCfg16_10 > #t_resCfg16_10 then
-			resCfg16_10 = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (resCfg16_10 - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (resCfg16_10 - 1) * 15
-		end
-		--Options
-		if btnPalNo(p1Cmd) > 0 then
-			--Back
-			if resCfg16_10 == #t_resCfg16_10 then
-				sndPlay(sysSnd, 100, 2)
-				return false
-			--Resolution
-			else
-				sndPlay(sysSnd, 100, 1)
-				resolutionWidth = t_resCfg16_10[resCfg16_10].x
-				resolutionHeight = t_resCfg16_10[resCfg16_10].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_10*15)
-		end
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_resCfg16_10)
-		for i=1, #t_resCfg16_10 do
-			if i > resCfg16_10 - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg16_10[i].id, font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; EXTRA RESOLUTIONS
---;===========================================================
-txt_EXresCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT', 159, 13)
-
-t_EXresCfg = {
-	{id = '', x = 400,  y = 254,  text = '400x254           (ARCADE)'},
-	{id = '', x = 800,  y = 508,  text = '400x508        (ARCADE x2)'},
-	{id = '', x = 640,  y = 350,  text = '640x350         (EGA 11:6)'},
-	{id = '', x = 720,  y = 348,  text = '720x348         (HGC 60:9)'},
-	{id = '', x = 720,  y = 350,  text = '720x350        (MDA 72:35)'},
-	{id = '', x = 720,  y = 360,  text = '720x360    (APPLE LISA 2:1)'},
-	{id = '', x = 1024, y = 600,  text = '1024x600 (CANAIMA MG101A4)'},
-	{id = '', x = 1360, y = 768,  text = '1360x768      (WXGA 85:48)'},
-	{id = '', x = 1366, y = 728,  text = '1366x728 (CANAIMA EF10M12)'},
-	{id = '', x = 1200, y = 762,  text = '1200x762       (ARCADE x3)'},
-	{id = '', x = 1280, y = 1024, text = '1280x1024       (SXGA 5:4)'},
-	{id = '', x = 1600, y = 1016, text = '1600x1016      (ARCADE x4)'},
-	{id = '', x = 2048, y = 1080, text = '2048x1080        (2K 17:9)'},
-	{id = '', x = 2560, y = 2048, text = '2560x2048       (QSXA 5:4)'},
-	{id = '', x = 3200, y = 2048, text = '3200x2048    (WQSXA 25:16)'},
-	{id = '', x = 4096, y = 2160, text = '4096x2160  (4K CINEMA 17:9)'},
-	{id = '', x = 5120, y = 4096, text = '5120x4096      (HSXGA 5:4)'},
-	{id = '', x = 6400, y = 4096, text = '6400x4096   (WHSXGA 25:16)'},
-	{id = '', x = 7680, y = 4320, text = '7680x4320         (8K UHD)'},
-	--{id = '', x = 30720, y = 17208, text = '30720x17208 (24K SUPER DEATH BATMETAL)'},
-	{id = '', text = '          BACK'},
-}
-for i=1, #t_EXresCfg do
-	t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15)
-end
-
-function f_EXresCfg()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local EXresCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	for i=1, #t_EXresCfg do
-		if t_EXresCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
-			EXresCfg = i
-			break
-		end
-	end
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			EXresCfg = EXresCfg - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			EXresCfg = EXresCfg + 1
-		end
-		--Cursor position calculation
-		if EXresCfg < 1 then
-			EXresCfg = #t_EXresCfg
-			if #t_EXresCfg > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_EXresCfg
-			end
-		elseif EXresCfg > #t_EXresCfg then
-			EXresCfg = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (EXresCfg - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (EXresCfg - 1) * 15
-		end
-		--Options
-		if btnPalNo(p1Cmd) > 0 then
-			--Back
-			if EXresCfg == #t_EXresCfg then
-				sndPlay(sysSnd, 100, 2)
-				return false
-			--Resolution
-			else
-				sndPlay(sysSnd, 100, 1)
-				resolutionWidth = t_EXresCfg[EXresCfg].x
-				resolutionHeight = t_EXresCfg[EXresCfg].y
-				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
-					f_resWarning()
-				end
-				modified = 1
-				needReload = 1
-				return true
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			animSetWindow(optionsBG1, 80,20, 160,#t_EXresCfg*15)
-		end
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_EXresCfg)
-		for i=1, #t_EXresCfg do
-			if i > EXresCfg - cursorPosY then
-				textImgDraw(f_updateTextImg(t_EXresCfg[i].id, font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3207,23 +2406,22 @@ end
 txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS', 159, 13)
 
 t_audioCfg = {
-	{id = '', text = 'Master Volume',	varID = textImgNew(), varText = gl_vol .. '%'},
-	{id = '', text = 'SFX Volume',		varID = textImgNew(), varText = se_vol .. '%'},
-	{id = '', text = 'BGM Volume',		varID = textImgNew(), varText = bgm_vol .. '%'},
-	{id = '', text = 'Audio Panning',   varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{id = '', text = 'Sample Rate',     varID = textImgNew(), varText = freq},
-	{id = '', text = 'Channels',        varID = textImgNew(), varText = s_channels},
-	{id = '', text = 'Buffer Samples',  varID = textImgNew(), varText = buffer},
-	{id = '', text = 'Main Menu Song', 	varID = textImgNew(), varText = data.menuSong},
+	{id = '', text = 'Master Volume',			varID = textImgNew(), varText = gl_vol .. '%'},
+	{id = '', text = 'SFX Volume',				varID = textImgNew(), varText = se_vol .. '%'},
+	{id = '', text = 'BGM Volume',				varID = textImgNew(), varText = bgm_vol .. '%'},
+	{id = '', text = 'Audio Panning',   		varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{id = '', text = 'Sample Rate',     		varID = textImgNew(), varText = freq},
+	{id = '', text = 'Channels',        		varID = textImgNew(), varText = s_channels},
+	{id = '', text = 'Buffer Samples',  		varID = textImgNew(), varText = buffer},
+	{id = '', text = 'Main Menu Song', 			varID = textImgNew(), varText = data.menuSong},
 	{id = '', text = 'Challenger Select Song', 	varID = textImgNew(), varText = data.challengerSong},
-	{id = '', text = '          BACK'},
+	{id = '', text = '          BACK',  		varID = textImgNew(), varText = ''},
 }
-for i=1, #t_audioCfg do
-	t_audioCfg[i].id = createTextImg(font2, 0, 1, t_audioCfg[i].text, 85, 15+i*15)
-end
 
 function f_audioCfg()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local audioCfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -3237,13 +2435,11 @@ function f_audioCfg()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			audioCfg = audioCfg - 1
-			if audioCfg < 1 then audioCfg = #t_audioCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			audioCfg = audioCfg + 1
-			if audioCfg > #t_audioCfg then audioCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end			
 		--Master Volume
@@ -3498,10 +2694,41 @@ function f_audioCfg()
 			f_menuMusic()
 			break
 		end
+		if audioCfg < 1 then
+			audioCfg = #t_audioCfg
+			if #t_audioCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_audioCfg
+			end
+		elseif audioCfg > #t_audioCfg then
+			audioCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (audioCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (audioCfg - 1) * 15
+		end	
+		if #t_audioCfg <= 14 then
+			maxAudioCfg = #t_audioCfg
+		elseif audioCfg - cursorPosY > 0 then
+			maxAudioCfg = audioCfg + 14 - cursorPosY
+		else
+			maxAudioCfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_audioCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxAudioCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_audioCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		t_audioCfg[1].varText = gl_vol .. '%'
 		t_audioCfg[2].varText = se_vol .. '%'
 		t_audioCfg[3].varText = bgm_vol .. '%'
@@ -3513,13 +2740,1083 @@ function f_audioCfg()
 		t_audioCfg[9].varText = data.challengerSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
 		setPanStr(pan_str / 100);
-		for i=1, #t_audioCfg do
-			textImgDraw(t_audioCfg[i].id)
-			if t_audioCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 15+i*15))
+		for i=1, maxAudioCfg do
+			if i > audioCfg - cursorPosY then
+				if t_audioCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, 1, t_audioCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
 			end
 		end
-		animSetWindow(cursorBox, 80,5+audioCfg*15, 160,15)
+		if maxAudioCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_audioCfg > 14 and maxAudioCfg < #t_audioCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; ENGINE SETTINGS
+--;===========================================================
+txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
+
+t_engineCfg = {
+	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
+	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
+	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
+	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
+	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
+	{id = '', text = 'Erase/Reset Statistics',varID = textImgNew(), varText = ''},
+	{id = '', text = '          BACK',  	  varID = textImgNew(), varText = ''},
+}
+
+function f_engineCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local engineCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() then
+			lockSetting = false
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			lockSetting = false
+			eraseStatus = true
+			sndPlay(sysSnd, 100, 0)
+			engineCfg = engineCfg - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			lockSetting = false
+			eraseStatus = true
+			sndPlay(sysSnd, 100, 0)
+			engineCfg = engineCfg + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end					
+		--Debug Mode
+		elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
+			sndPlay(sysSnd, 100, 0)
+			if data.debugMode then
+				data.debugMode = false
+				s_debugMode = 'Disabled'
+				modified = 1
+			else
+				data.debugMode = true
+				s_debugMode = 'Enabled'
+				modified = 1
+			end
+		end
+		--HelperMax
+		elseif engineCfg == 2 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if HelperMaxEngine < 1000 then --You can increase this limit
+					HelperMaxEngine = HelperMaxEngine + 1
+				else
+					HelperMaxEngine = 56 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if HelperMaxEngine > 56 then --Minimum Value
+					HelperMaxEngine = HelperMaxEngine - 1
+				else
+					HelperMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--PlayerProjectileMax
+		elseif engineCfg == 3 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
+					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
+				else
+					PlayerProjectileMaxEngine = 50 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if PlayerProjectileMaxEngine > 50 then --Minimum Value
+					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine - 1
+				else
+					PlayerProjectileMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--ExplodMax
+		elseif engineCfg == 4 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if ExplodMaxEngine < 1000 then --You can increase this limit
+					ExplodMaxEngine = ExplodMaxEngine + 1
+				else
+					ExplodMaxEngine = 128 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if ExplodMaxEngine > 128 then --Minimum Value
+					ExplodMaxEngine = ExplodMaxEngine - 1
+				else
+					ExplodMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		--AfterImageMax
+		elseif engineCfg == 5 then
+			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if AfterImageMaxEngine < 1000 then --You can increase this limit
+					AfterImageMaxEngine = AfterImageMaxEngine + 1
+				else
+					AfterImageMaxEngine = 8 --Minimum Value
+				end
+				if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if AfterImageMaxEngine > 8 then --Minimum Value
+					AfterImageMaxEngine = AfterImageMaxEngine - 1
+				else
+					AfterImageMaxEngine = 1000 --You can increase this limit
+				end
+				if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				modified = 1
+			end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufl = 0
+				bufr = bufr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end		
+		--Erase/Reset Statistics
+		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
+			if data.arcadeUnlocks == false and data.survivalUnlocks == false then --This means that at least you have some progress saved
+				eraseStatus = false
+			elseif data.arcadeUnlocks == true or data.survivalUnlocks == true then
+				sndPlay(sysSnd, 100, 1)
+				f_unlocksWarning()
+			end
+		end
+		--Back
+		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		if engineCfg < 1 then
+			engineCfg = #t_engineCfg
+			if #t_engineCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_engineCfg
+			end
+		elseif engineCfg > #t_engineCfg then
+			engineCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (engineCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (engineCfg - 1) * 15
+		end	
+		if #t_engineCfg <= 14 then
+			maxEngineCfg = #t_engineCfg
+		elseif engineCfg - cursorPosY > 0 then
+			maxEngineCfg = engineCfg + 14 - cursorPosY
+		else
+			maxEngineCfg = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxEngineCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_engineCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if lockSetting == true then
+			for i=1, #t_locked do
+				textImgDraw(t_locked[i].id)
+			end
+		end	
+		if eraseStatus == false then
+			for i=1, #t_erase do
+				textImgDraw(t_erase[i].id)
+			end
+		end
+		t_engineCfg[1].varText = s_debugMode
+		t_engineCfg[2].varText = HelperMaxEngine
+		t_engineCfg[3].varText = PlayerProjectileMaxEngine
+		t_engineCfg[4].varText = ExplodMaxEngine
+		t_engineCfg[5].varText = AfterImageMaxEngine
+		for i=1, maxEngineCfg do
+			if i > engineCfg - cursorPosY then
+				if t_engineCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, 1, t_engineCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_engineCfg[i].varID, font2, 0, -1, t_engineCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxEngineCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_engineCfg > 14 and maxEngineCfg < #t_engineCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; VIDEO SETTINGS
+--;===========================================================
+txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
+
+t_videoCfg = {
+	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
+	{id = '', text = 'Fullscreen',  		varID = textImgNew(), varText = s_screenMode},	
+	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = s_openGL},
+	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = s_saveMemory},
+	{id = '', text = '          BACK',  	varID = textImgNew(), varText = ''},
+}
+
+function f_videoCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local videoCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local hasChanged = true
+	while true do
+		if b_screenMode ~= getScreenMode() then
+			if getScreenMode() then
+				b_screenMode = true
+				s_screenMode = 'Yes'
+			else
+				b_screenMode = false
+				s_screenMode = 'No'
+			end
+			t_videoCfg[2].varText = s_screenMode
+			modified = 1
+		end
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			lockSetting = false
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			lockSetting = false
+			videoCfg = videoCfg - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			lockSetting = false
+			videoCfg = videoCfg + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		--Resolution
+		elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			if f_resCfg() then
+				modified = 1
+				hasChanged = true
+			end
+		--Fullscreen			
+		elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then
+			sndPlay(sysSnd, 100, 0)
+			if not b_screenMode then
+				b_screenMode = true
+				s_screenMode = 'Yes'
+			else
+				b_screenMode = false
+				s_screenMode = 'No'
+			end
+			modified = 1
+			setScreenMode(b_screenMode) --added via system-script.ssz
+			hasChanged = true
+		end
+		--OpenGL 2.0
+		--elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--sndPlay(sysSnd, 100, 0)
+			--if b_openGL == false then
+				--b_openGL = true
+				--s_openGL = 'Yes'
+				--f_glWarning()
+				--modified = 1
+				--needReload = 1				
+			--else
+				--b_openGL = false
+				--s_openGL = 'No'
+				--modified = 1
+				--needReload = 0
+			--end
+		--Save memory
+		--elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--sndPlay(sysSnd, 100, 0)
+			--if b_saveMemory == false then
+				--b_saveMemory = true
+				--s_saveMemory = 'Yes'
+				--f_memWarning()
+				--modified = 1
+				--needReload = 1
+			--else
+				--b_saveMemory = false
+				--s_saveMemory = 'No'
+				--f_memWarning()
+				--modified = 1
+				--needReload = 1
+			--end
+		--Back
+		elseif videoCfg == 3 and btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		if videoCfg < 1 then
+			videoCfg = #t_videoCfg
+			if #t_videoCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_videoCfg
+			end
+		elseif videoCfg > #t_videoCfg then
+			videoCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (videoCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (videoCfg - 1) * 15
+		end	
+		if #t_videoCfg <= 14 then
+			maxVideoCfg = #t_videoCfg
+		elseif videoCfg - cursorPosY > 0 then
+			maxVideoCfg = videoCfg + 14 - cursorPosY
+		else
+			maxVideoCfg = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxVideoCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_videoCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
+		if hasChanged then
+			t_videoCfg[2].varText = s_screenMode		
+			--t_videoCfg[3].varText = s_openGL
+			--t_videoCfg[4].varText = s_saveMemory
+			hasChanged = false
+		end
+		if lockSetting == true then
+			for i=1, #t_locked do
+				textImgDraw(t_locked[i].id)
+			end
+		end	
+		for i=1, maxVideoCfg do
+			if i > videoCfg - cursorPosY then
+				if t_videoCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, 1, t_videoCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_videoCfg[i].varID, font2, 0, -1, t_videoCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxVideoCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_videoCfg > 14 and maxVideoCfg < #t_videoCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+--;===========================================================
+--; ASPECT RATIO SETTINGS
+--;===========================================================
+txt_resCfg = createTextImg(jgFnt, 0, 0, 'ASPECT RATIO SETTINGS', 159, 13)
+
+t_resCfg = {
+	{id = '', text = '4:3 Resolutions'},
+	{id = '', text = '16:9 Resolutions'},
+	{id = '', text = '16:10 Resolutions'},
+	{id = '', text = 'Extra Resolutions'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_resCfg do
+	t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15)
+end
+
+function f_resCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local hasChanged = true
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg = resCfg - 1
+			if resCfg < 1 then resCfg = #t_resCfg end
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg = resCfg + 1
+			if resCfg > #t_resCfg then resCfg = 1 end
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif btnPalNo(p1Cmd) > 0 then
+			--4:3 Resolutions
+			if resCfg == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_resCfg4_3()
+				hasChanged = true
+			--16:9 Resolutions
+			elseif resCfg == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_resCfg16_9()
+				hasChanged = true
+			--16:10 Resolutions
+			elseif resCfg == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_resCfg16_10()
+				hasChanged = true
+			--Extra Resolutions
+			elseif resCfg == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_EXresCfg()
+				hasChanged = true
+			--Back
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg)
+		if hasChanged then
+			setGameRes(resolutionWidth,resolutionHeight)
+			hasChanged = false
+		end
+		for i=1, #t_resCfg do
+			textImgDraw(t_resCfg[i].id)
+			if t_resCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_resCfg[i].varID, font2, 0, -1, t_resCfg[i].varText, 235, 15+i*15))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+resCfg*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; 4:3 RESOLUTIONS
+--;===========================================================
+txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (4:3)', 159, 13)
+
+t_resCfg4_3 = {
+	{id = '', x = 320,  y = 240,  text = '320x240             (QVGA)'},
+	{id = '', x = 512,  y = 384,  text = '512x384        (MACINTOSH)'},
+	{id = '', x = 640,  y = 480,  text = '640x480              (VGA)'},
+	{id = '', x = 800,  y = 600,  text = '800x600             (SVGA)'},
+	{id = '', x = 960,  y = 720,  text = '960x720               (HD)'},
+	{id = '', x = 1024, y = 768,  text = '1024x768             (XGA)'},
+	{id = '', x = 1152, y = 864,  text = '1152x864            (XGA+)'},
+	{id = '', x = 1200, y = 900,  text = '1200x900             (HD+)'},
+	{id = '', x = 1280, y = 960,  text = '1280x960        (Quad-VGA)'},
+	{id = '', x = 1440, y = 1080, text = '1440x1080            (FHD)'},
+	{id = '', x = 1600, y = 1200, text = '1600x1200            (XGA)'},
+	{id = '', x = 1920, y = 1440, text = '1920x1440          (UXGA+)'},
+	{id = '', x = 2048, y = 1536, text = '2048x1536           (QXGA)'},
+	{id = '', x = 3200, y = 2400, text = '3200x2400          (QUXGA)'},
+	{id = '', x = 6400, y = 4800, text = '6400x4800          (HUXGA)'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_resCfg4_3 do
+	--if t_resCfg4_3[i].x ~= nil and t_resCfg4_3[i].y ~= nil then t_resCfg4_3[i].text = t_resCfg4_3[i].x .. 'x' .. t_resCfg4_3[i].y end --position the cursor at the chosen resolution
+	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
+end
+--for i=1, #t_resCfg4_3-1 do
+	--if t_resCfg4_3[i].x > getWidth() or t_resCfg4_3[i].y > getHeight() then
+		--for j=i, #t_resCfg4_3-1 do
+			--table.remove(t_resCfg4_3,i) --Show only resolutions recommended for your PC
+		--end
+		--break
+	--end
+--end
+
+function f_resCfg4_3()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg4_3 = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	for i=1, #t_resCfg4_3 do
+		if t_resCfg4_3[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg4_3 = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			return false
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg4_3 = resCfg4_3 - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg4_3 = resCfg4_3 + 1
+		end
+		--Cursor position calculation
+		if resCfg4_3 < 1 then
+			resCfg4_3 = #t_resCfg4_3
+			if #t_resCfg4_3 > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg4_3
+			end
+		elseif resCfg4_3 > #t_resCfg4_3 then
+			resCfg4_3 = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg4_3 - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg4_3 - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if resCfg4_3 == #t_resCfg4_3 then
+				sndPlay(sysSnd, 100, 2)
+				return false
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_resCfg4_3[resCfg4_3].x
+				resolutionHeight = t_resCfg4_3[resCfg4_3].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				return true
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			--animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg4_3*15)
+		end
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg4_3)
+		for i=1, #t_resCfg4_3 do
+			if i > resCfg4_3 - cursorPosY then
+				textImgDraw(f_updateTextImg(t_resCfg4_3[i].id, font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; 16:9 RESOLUTIONS
+--;===========================================================
+txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:9)', 159, 13)
+
+t_resCfg16_9 = {
+	{id = '', x = 427,  y = 240,  text = '427x240        (ULTRA LOW)'},
+	{id = '', x = 640,  y = 360,  text = '640x360              (LOW)'},
+	{id = '', x = 853,  y = 480,  text = '853x480               (SD)'},
+	{id = '', x = 1280, y = 720,  text = '1280x720              (HD)'},
+	{id = '', x = 1600, y = 900,  text = '1600x900             (HD+)'},
+	{id = '', x = 1920, y = 1080, text = '1920x1080        (FULL HD)'},
+	{id = '', x = 2048, y = 1152, text = '2048x1152          (QWXGA)'},
+	{id = '', x = 2560, y = 1440, text = '2560x1440            (QHD)'},
+	{id = '', x = 3840, y = 2160, text = '3840x2160        (4K UHDV)'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_resCfg16_9 do
+	t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15)
+end
+
+function f_resCfg16_9()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg16_9 = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	for i=1, #t_resCfg16_9 do
+		if t_resCfg16_9[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg16_9 = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			return false
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_9 = resCfg16_9 - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_9 = resCfg16_9 + 1
+		end
+		--Cursor position calculation
+		if resCfg16_9 < 1 then
+			resCfg16_9 = #t_resCfg16_9
+			if #t_resCfg16_9 > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg16_9
+			end
+		elseif resCfg16_9 > #t_resCfg16_9 then
+			resCfg16_9 = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg16_9 - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg16_9 - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if resCfg16_9 == #t_resCfg16_9 then
+				sndPlay(sysSnd, 100, 2)
+				return false
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_resCfg16_9[resCfg16_9].x
+				resolutionHeight = t_resCfg16_9[resCfg16_9].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				return true
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			--animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_9*15)
+		end
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg16_9)
+		for i=1, #t_resCfg16_9 do
+			if i > resCfg16_9 - cursorPosY then
+				textImgDraw(f_updateTextImg(t_resCfg16_9[i].id, font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; 16:10 RESOLUTIONS
+--;===========================================================
+txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:10)', 159, 13)
+
+t_resCfg16_10 = {
+	{id = '', x = 320,  y = 200,  text = '320x200              (CGA)'},
+	{id = '', x = 1280, y = 800,  text = '1280x800            (WXGA)'},
+	{id = '', x = 1440, y = 900,  text = '1440x900           (WXGA+)'},
+	{id = '', x = 1680, y = 1050, text = '1680x1050         (WSXGA+)'},
+	{id = '', x = 1920, y = 1200, text = '1920x1200          (WUXGA)'},
+	{id = '', x = 2560, y = 1600, text = '2560x1600          (WQXGA)'},
+	{id = '', x = 2880, y = 1800, text = '2880x1800  (RETINA DISPLAY)'},
+	{id = '', x = 3840, y = 2400, text = '3840x2400         (WQUXGA)'},
+	{id = '', x = 7680, y = 4800, text = '7680x4800         (WHUXGA)'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_resCfg16_10 do
+	t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15)
+end
+
+function f_resCfg16_10()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local resCfg16_10 = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	for i=1, #t_resCfg16_10 do
+		if t_resCfg16_10[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			resCfg16_10 = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			return false
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_10 = resCfg16_10 - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			resCfg16_10 = resCfg16_10 + 1
+		end
+		--Cursor position calculation
+		if resCfg16_10 < 1 then
+			resCfg16_10 = #t_resCfg16_10
+			if #t_resCfg16_10 > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg16_10
+			end
+		elseif resCfg16_10 > #t_resCfg16_10 then
+			resCfg16_10 = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg16_10 - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg16_10 - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if resCfg16_10 == #t_resCfg16_10 then
+				sndPlay(sysSnd, 100, 2)
+				return false
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_resCfg16_10[resCfg16_10].x
+				resolutionHeight = t_resCfg16_10[resCfg16_10].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				return true
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			--animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_10*15)
+		end
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_resCfg16_10)
+		for i=1, #t_resCfg16_10 do
+			if i > resCfg16_10 - cursorPosY then
+				textImgDraw(f_updateTextImg(t_resCfg16_10[i].id, font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; EXTRA RESOLUTIONS
+--;===========================================================
+txt_EXresCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT', 159, 13)
+
+t_EXresCfg = {
+	{id = '', x = 400,  y = 254,  text = '400x254           (ARCADE)'},
+	{id = '', x = 800,  y = 508,  text = '400x508        (ARCADE x2)'},
+	{id = '', x = 640,  y = 350,  text = '640x350         (EGA 11:6)'},
+	{id = '', x = 720,  y = 348,  text = '720x348         (HGC 60:9)'},
+	{id = '', x = 720,  y = 350,  text = '720x350        (MDA 72:35)'},
+	{id = '', x = 720,  y = 360,  text = '720x360    (APPLE LISA 2:1)'},
+	{id = '', x = 1024, y = 600,  text = '1024x600 (CANAIMA MG101A4)'},
+	{id = '', x = 1360, y = 768,  text = '1360x768      (WXGA 85:48)'},
+	{id = '', x = 1366, y = 728,  text = '1366x728 (CANAIMA EF10M12)'},
+	{id = '', x = 1200, y = 762,  text = '1200x762       (ARCADE x3)'},
+	{id = '', x = 1280, y = 1024, text = '1280x1024       (SXGA 5:4)'},
+	{id = '', x = 1600, y = 1016, text = '1600x1016      (ARCADE x4)'},
+	{id = '', x = 2048, y = 1080, text = '2048x1080        (2K 17:9)'},
+	{id = '', x = 2560, y = 2048, text = '2560x2048       (QSXA 5:4)'},
+	{id = '', x = 3200, y = 2048, text = '3200x2048    (WQSXA 25:16)'},
+	{id = '', x = 4096, y = 2160, text = '4096x2160  (4K CINEMA 17:9)'},
+	{id = '', x = 5120, y = 4096, text = '5120x4096      (HSXGA 5:4)'},
+	{id = '', x = 6400, y = 4096, text = '6400x4096   (WHSXGA 25:16)'},
+	{id = '', x = 7680, y = 4320, text = '7680x4320         (8K UHD)'},
+	--{id = '', x = 30720, y = 17208, text = '30720x17208 (24K SUPER DEATH BATMETAL)'},
+	{id = '', text = '          BACK'},
+}
+for i=1, #t_EXresCfg do
+	t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15)
+end
+
+function f_EXresCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local EXresCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	for i=1, #t_EXresCfg do
+		if t_EXresCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+			EXresCfg = i
+			break
+		end
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			return false
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			EXresCfg = EXresCfg - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			EXresCfg = EXresCfg + 1
+		end
+		--Cursor position calculation
+		if EXresCfg < 1 then
+			EXresCfg = #t_EXresCfg
+			if #t_EXresCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_EXresCfg
+			end
+		elseif EXresCfg > #t_EXresCfg then
+			EXresCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (EXresCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (EXresCfg - 1) * 15
+		end
+		--Options
+		if btnPalNo(p1Cmd) > 0 then
+			--Back
+			if EXresCfg == #t_EXresCfg then
+				sndPlay(sysSnd, 100, 2)
+				return false
+			--Resolution
+			else
+				sndPlay(sysSnd, 100, 1)
+				resolutionWidth = t_EXresCfg[EXresCfg].x
+				resolutionHeight = t_EXresCfg[EXresCfg].y
+				if (resolutionHeight / 3 * 4) ~= resolutionWidth then
+					f_resWarning()
+				end
+				modified = 1
+				needReload = 1
+				return true
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		if moveTxt == 180 then
+			--animSetWindow(optionsBG1, 80,20, 160,210)
+		else
+			--animSetWindow(optionsBG1, 80,20, 160,#t_EXresCfg*15)
+		end
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		textImgDraw(txt_EXresCfg)
+		for i=1, #t_EXresCfg do
+			if i > EXresCfg - cursorPosY then
+				textImgDraw(f_updateTextImg(t_EXresCfg[i].id, font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15-moveTxt))
+			end
+		end
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if commandGetState(p1Cmd, 'holdu') then
@@ -3543,14 +3840,14 @@ end
 txt_inputCfg = createTextImg(jgFnt, 0, 0, 'INPUT SETTINGS', 159, 13)
 
 t_inputCfg = {
-	{id = '', text = 'Keyboard Settings'},
-	{id = '', text = 'Gamepad Settings'},
+	{id = '', text = 'Keyboard Settings',  		 varID = textImgNew(), varText = ''},
+	{id = '', text = 'Gamepad Settings',  		 varID = textImgNew(), varText = ''},
 	--{id = '', text = 'Player 1 Gamepad Status', varID = textImgNew(), varText = s_disablePadP1},
 	--{id = '', text = 'Player 2 Gamepad Status', varID = textImgNew(), varText = s_disablePadP2},
-	{id = '', text = 'Swap Gamepads', varID = textImgNew(), varText = ''},
-	{id = '', text = 'Default Controls'},
-	{id = '', text = 'Test Controls'},
-	{id = '', text = '             BACK'},
+	{id = '', text = 'Swap Gamepads', 			 varID = textImgNew(), varText = ''},
+	{id = '', text = 'Default Controls',  		 varID = textImgNew(), varText = ''},
+	{id = '', text = 'Test Controls',  		 	 varID = textImgNew(), varText = ''},
+	{id = '', text = '             BACK',  		 varID = textImgNew(), varText = ''},
 }
 for i=1, #t_inputCfg do
 	t_inputCfg[i].id = createTextImg(font2, 0, 1, t_inputCfg[i].text, 73, 15+i*15)
@@ -3560,6 +3857,8 @@ function f_inputCfg()
 	gamepadID = 1
 	data.p2In = 2
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local inputCfg = 1
 	local bufu = 0
 	local bufd = 0
@@ -3647,8 +3946,8 @@ function f_inputCfg()
 			if inputCfg == 5 or inputCfg == 6 then disableGamepad(data.disablePadP1,data.disablePadP2) end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 68,20, 184,#t_inputCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 68,20, 184,#t_inputCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_inputCfg)
 		--t_inputCfg[3].varText = s_disablePadP1
 		--t_inputCfg[4].varText = s_disablePadP2
@@ -3704,7 +4003,7 @@ t_testMenu = {
 	
 function f_testMenu()
 	cmdInput()
-	local cursorPosY = 0
+	local cursorPosY = 1
 	local moveTxt = 0
 	local testMenu = 1
 	local bufu = 0
@@ -3806,7 +4105,7 @@ function f_testMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)		
 		textImgSetText(txt_titleFt, 'INPUT TEST MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -3845,6 +4144,8 @@ end
 
 function f_keyMenu()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local keyMenu = 1
 	local bufu = 0
 	local bufd = 0
@@ -3885,8 +4186,8 @@ function f_keyMenu()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_keyMenu*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_keyMenu*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_keyMenu)
 		for i=1, #t_keyMenu do
 			textImgDraw(t_keyMenu[i].id)
@@ -3928,6 +4229,8 @@ end
 
 function f_joyMenu()
 	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
 	local joyMenu = 1
 	local bufu = 0
 	local bufd = 0
@@ -3972,8 +4275,8 @@ function f_joyMenu()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_joyMenu*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_joyMenu*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_joyMenu)
 		for i=1, #t_joyMenu do
 			textImgDraw(t_joyMenu[i].id)
@@ -4023,7 +4326,7 @@ t_keyCfg = {
 	{id = '', text = 'Y',     varID = textImgNew(), varText = ''},
 	{id = '', text = 'Z',     varID = textImgNew(),	varText = ''},
 	{id = '', text = 'Start', varID = textImgNew(),	varText = ''},
-	{id = '', text = 'END'},
+	{id = '', text = 'END',   varID = textImgNew(), varText = ''},
 }
 for i=1, #t_keyCfg do
 	t_keyCfg[i].id = createTextImg(font2, 0, 1, t_keyCfg[i].text, 85, 15+i*15)
@@ -4088,8 +4391,8 @@ function f_keyCfg(playerNo, controller)
 			--needReload = 1
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_keyCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_keyCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_keyCfg)
 		for i=1, #t_keyCfg do
 			textImgDraw(t_keyCfg[i].id)
@@ -4176,8 +4479,8 @@ function f_readInput(oldkey)
 	readTime = 0
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 80,20, 160,#t_keyCfg*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 80,20, 160,#t_keyCfg*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		readTime = readTime + 1
 		textImgDraw(txt_keyCfg)
 		if getKeyboard == '' then
@@ -4607,8 +4910,8 @@ function f_unlocksWarning()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
-		animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
+		--animDraw(f_animVelocity(optionsBG1, -1, -1))
 		textImgDraw(txt_Warning)
 		for i=1, #t_unlocksWarning do
 			textImgDraw(t_unlocksWarning[i].id)

@@ -163,7 +163,7 @@ function f_statsMenu()
 		t_statsMenu[4].varText = data.favoriteStage
 		t_statsMenu[5].varText = data.preferredMode
 		t_statsMenu[6].varText = data.victories
-		t_statsMenu[7].varText = data.defeats	
+		t_statsMenu[7].varText = data.defeats
 		--Draw Text for Table
 		for i=1, maxStats do
 			if i > statsMenu - cursorPosY then

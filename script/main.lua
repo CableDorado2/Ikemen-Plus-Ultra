@@ -225,19 +225,19 @@ end
 --;===========================================================
 --; TITLE SCREEN
 --;===========================================================
-txt_mainTitleOn = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
-txt_mainTitleOff = createTextImg(jgFnt, 2, 0, '', 159, 190)
+txt_mainTitle = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
 --txt_subTitle = createTextImg(font3, 0, 1, 'S-SIZE', 122, 120)
 --txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
 txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 txt_titleFt = createTextImg(font5, 0, 1, '', 2, 240)
-txt_titleFt1 = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
+txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
 txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black screen important message
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
 function f_mainTitle()
 	cmdInput()
 	local i = 0
+	local t = 0
 	playBGM(bgmTitle)
 	while true do
 		if i == 500 then
@@ -271,7 +271,10 @@ function f_mainTitle()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '          WELCOME TO SUEHIRO IKEMEN ENGINE')
 		f_sysTime()
-		textImgDraw(txt_mainTitleOn)
+		if t%60 < 30 then
+			textImgDraw(txt_mainTitle)
+		end
+		t = t >= 60 and 0 or t + 1
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		i = i + 1
@@ -752,7 +755,7 @@ function f_mainMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'MAIN MENU')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -878,7 +881,7 @@ function f_arcadeMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)		
 		textImgSetText(txt_titleFt, 'ARCADE MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1022,7 +1025,7 @@ function f_vsMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'VERSUS MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1142,7 +1145,7 @@ function f_randomMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'RANDOM MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1303,7 +1306,7 @@ function f_practiceMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'TRAINING MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1434,7 +1437,7 @@ function f_challengeMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'CHALLENGES')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1558,7 +1561,7 @@ function f_survivalMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'SURVIVAL MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1670,7 +1673,7 @@ function f_bossMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BOSS FIGHT')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1776,7 +1779,7 @@ function f_bossChars()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BOSS FIGHT')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -1904,7 +1907,7 @@ function f_bossrushMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BOSS RUSH')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2016,7 +2019,7 @@ function f_bonusMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'MINI-GAMES')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2123,7 +2126,7 @@ function f_bonusExtras()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BONUS STAGES')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2254,7 +2257,7 @@ function f_bonusrushMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'BONUS RUSH')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2382,7 +2385,7 @@ function f_timeMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'TIME ATTACK MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2510,7 +2513,7 @@ function f_suddenMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'SUDDEN DEATH MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2634,7 +2637,7 @@ function f_allcharsMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'INFINITE MODE')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -2815,7 +2818,7 @@ function f_watchMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'WATCH CONTENT')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -3019,7 +3022,7 @@ function f_extrasMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'EXTRAS UNLOCKED')
-		textImgDraw(txt_titleFt1)
+		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
 		animUpdate(arrowsD)
@@ -4000,23 +4003,6 @@ function f_comingSoon()
 end
 
 --;===========================================================
---; STATISTICS LOGIC
---;===========================================================
---Time Variable
-gameTime = 0
-
-function f_playTime()
-	gameTime = os.clock() - gameTime
-	data.playTime = (data.playTime + gameTime)
-	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
-end
-
---Progress Variables
-data.missionsProgress = 0
-data.eventsProgress = 0
-
---;===========================================================
 --; LOAD STATISTICS DATA
 --;===========================================================
 --Data loading from stats_sav.lua
@@ -4064,6 +4050,23 @@ function f_saveProgress()
 	file:write(s_dataLUA)
 	file:close()
 end
+
+--;===========================================================
+--; STATISTICS LOGIC
+--;===========================================================
+--Time Variable
+gameTime = 0
+
+function f_playTime()
+	gameTime = os.clock() - gameTime
+	data.playTime = (data.playTime + gameTime)
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+--Progress Variables
+data.missionsProgress = 0
+data.eventsProgress = 0
 
 --;===========================================================
 --; INITIALIZE LOOPS
