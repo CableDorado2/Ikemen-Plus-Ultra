@@ -1,7 +1,7 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 82
-data.playTime = 75931.898
+data.playTime = 75990.908
 data.favoriteChar = "Master Kung Fu Girl"
 data.favoriteStage = "Random"
 data.victories = 147
