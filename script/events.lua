@@ -149,6 +149,10 @@ function f_eventMenu()
 	local cursorPosX = 1
 	local moveTxt = 0
 	local eventSelect = true
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 	--Event Progress Logic
@@ -275,6 +279,7 @@ function f_eventMenu()
 		--Draw Event Title Transparent BG
 		animSetWindow(eventBG1, 0,21, 320,25)
 		animDraw(f_animVelocity(eventBG1, -1, -1))
+		--Draw Title Menu
 		textImgDraw(txt_eventMenu)
 		--Draw Content Transparent BG
 		animSetWindow(eventBG2, 0,54, 320,150)

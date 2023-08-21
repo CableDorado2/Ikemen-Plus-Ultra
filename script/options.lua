@@ -999,6 +999,10 @@ end
 function f_netplayCfg()
 	cmdInput()
 	local netplayCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -1119,6 +1123,10 @@ end
 function f_gameCfg()
 	cmdInput()
 	local gameCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			lockSetting = false --Boolean to remove the Lock setting message, if the above or below option is available for online settings
@@ -1437,6 +1445,10 @@ end
 function f_teamCfg()
 	cmdInput()
 	local teamCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -1653,6 +1665,10 @@ end
 function f_zoomCfg()
 	cmdInput()
 	local zoomCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -1817,6 +1833,10 @@ end
 function f_UICfg()
 	cmdInput()
 	local UICfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			lockSetting = false
@@ -2117,6 +2137,10 @@ end
 function f_engineCfg()
 	cmdInput()
 	local engineCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			lockSetting = false
@@ -2349,6 +2373,10 @@ end
 function f_videoCfg()
 	cmdInput()
 	local videoCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	local hasChanged = true
 	while true do
 		if b_screenMode ~= getScreenMode() then
@@ -2592,6 +2620,10 @@ end
 function f_resCfg()
 	cmdInput()
 	local resCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	local hasChanged = true
 	while true do
 		if esc() then
@@ -2712,6 +2744,10 @@ function f_resCfg4_3()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local resCfg4_3 = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	for i=1, #t_resCfg4_3 do
 		if t_resCfg4_3[i].text == resolutionWidth .. 'x' .. resolutionHeight then
 			resCfg4_3 = i
@@ -2826,6 +2862,10 @@ function f_resCfg16_9()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local resCfg16_9 = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	for i=1, #t_resCfg16_9 do
 		if t_resCfg16_9[i].text == resolutionWidth .. 'x' .. resolutionHeight then
 			resCfg16_9 = i
@@ -2940,6 +2980,10 @@ function f_resCfg16_10()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local resCfg16_10 = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	for i=1, #t_resCfg16_10 do
 		if t_resCfg16_10[i].text == resolutionWidth .. 'x' .. resolutionHeight then
 			resCfg16_10 = i
@@ -3065,6 +3109,10 @@ function f_EXresCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local EXresCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	for i=1, #t_EXresCfg do
 		if t_EXresCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
 			EXresCfg = i
@@ -3177,6 +3225,10 @@ end
 function f_audioCfg()
 	cmdInput()
 	local audioCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -3509,6 +3561,10 @@ function f_inputCfg()
 	data.p2In = 2
 	cmdInput()
 	local inputCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -3651,6 +3707,10 @@ function f_testMenu()
 	local cursorPosY = 0
 	local moveTxt = 0
 	local testMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() then
@@ -3786,6 +3846,10 @@ end
 function f_keyMenu()
 	cmdInput()
 	local keyMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -3865,6 +3929,10 @@ end
 function f_joyMenu()
 	cmdInput()
 	local joyMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -3968,6 +4036,10 @@ end
 
 function f_keyCfg(playerNo, controller)
 	cmdInput()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	keyCfg = 1
 	keyCfgSide = 0
 	controllerNum = controller

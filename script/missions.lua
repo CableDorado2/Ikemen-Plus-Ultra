@@ -107,6 +107,10 @@ function f_missionMenu()
 	local missionMenu = 1
 	local cursorPosY = 1
 	local moveTxt = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
@@ -249,6 +253,7 @@ function f_missionMenu()
 			animSetWindow(missionBG1, 0,5, 320,110)
 			animDraw(missionBG1)
 		end
+		--Draw Title Menu
 		textImgDraw(txt_missionMenu)
 		--Draw Below Transparent Table BG
 		animSetScale(missionBG2, 240, maxMissions*15)

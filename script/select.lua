@@ -626,6 +626,10 @@ function f_backMenu()
 		local cursorPosY = 0
 		local moveTxt = 0
 		local backMenu = 1
+		local bufu = 0
+		local bufd = 0
+		local bufr = 0
+		local bufl = 0
 		while true do
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
@@ -1174,16 +1178,44 @@ function f_selectAdvance()
 end
 
 --;=================================================================================================
---; SPECIAL CHARACTER SELECT (TOWER, TOURNAMENT)
+--; TOWER CHARACTER SELECT
 --;=================================================================================================
-function f_selectSpecial()
+function f_selectTower()
 --TODO
 end
 
 --;=================================================================================================
---; FREEDOM CHARACTER SELECT (STORY, ADVENTURE)
+--; TOURNAMENT CHARACTER SELECT
 --;=================================================================================================
-function f_selectFreedom()
+easteregg = animNew(sysSff, [[
+666,0, 0,0, -1
+]])
+animAddPos(easteregg, -10, -5)
+animUpdate(easteregg)
+animSetScale(easteregg, 1.059, 1.041)
+
+function f_selectTourney()
+--TODO
+data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			f_comingSoon()
+			break
+		end
+		animDraw(easteregg)	
+	    animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;=================================================================================================
+--; LEGION CHARACTER SELECT
+--;=================================================================================================
+function f_selectLegion()
 --TODO
 end
 
@@ -1470,6 +1502,10 @@ for i=1, #t_p1selTeam do
 end
 
 function f_p1TeamMenu()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	if data.coop then --Simul coop
 		p1teamMode = 1
 		p1numChars = 2
@@ -1691,6 +1727,10 @@ for i=1, #t_p2selTeam do
 end
 
 function f_p2TeamMenu()
+	local buf2u = 0
+	local buf2d = 0
+	local buf2r = 0
+	local buf2l = 0
 	if data.coop then --Simul co-op
 		if data.coopenemy == 'Single' then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
 			p2teamMode = 0
@@ -2007,6 +2047,10 @@ p1movePal = 1
 
 function f_p1palList() --Palette Menu
 	cmdInput()
+	local bufPalu = 0
+	local bufPald = 0
+	local bufPalr = 0
+	local bufPall = 0
 	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
 		sndPlay(sysSnd, 100, 0)
 		p1movePal = p1movePal + 1
@@ -2053,6 +2097,10 @@ function f_p1palList() --Palette Menu
 end
 
 function f_p1SelectMenu()
+	local bufSelu = 0
+	local bufSeld = 0
+	local bufSelr = 0
+	local bufSell = 0
 	if data.p1Char ~= nil then
 		local t = {}
 		for i=1, #data.p1Char do
@@ -2292,6 +2340,10 @@ p2movePal = 1
 
 function f_p2palList()
 	cmdInput()
+	local bufPal2u = 0
+	local bufPal2d = 0
+	local bufPal2r = 0
+	local bufPal2l = 0
 	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
 		sndPlay(sysSnd, 100, 0)
 		p2movePal = p2movePal + 1
@@ -2338,6 +2390,10 @@ function f_p2palList()
 end
 
 function f_p2SelectMenu()
+	local bufSel2u = 0
+	local bufSel2d = 0
+	local bufSel2r = 0
+	local bufSel2l = 0
 	if data.p2Char ~= nil then
 		local t = {}
 		for i=1, #data.p2Char do
@@ -2671,6 +2727,10 @@ end
 --;===========================================================
 function f_selectStage()
 	local cursorSelect = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
 		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
@@ -3001,6 +3061,10 @@ txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
 txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
 
 function f_orderSelect()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	gameNo = gameNo+1
 	bossNo = bossNo+1
 	bonusNo = bonusNo+1
@@ -3996,6 +4060,10 @@ for i=1, #t_battleOption do
 end
 
 function f_rematch()
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 		sndPlay(sysSnd, 100, 0)
 		p1Cursor = p1Cursor - 1
@@ -4112,7 +4180,7 @@ function f_selectChallenger()
 end
 
 --;===========================================================
---; SERVICE MENU
+--; SERVICE SCREENPACK
 --;===========================================================
 txt_service = createTextImg(jgFnt, 0, 0, 'SELECT A SERVICE', 159, 13)
 
@@ -4126,12 +4194,45 @@ animSetColorKey(serviceBG0, -1)
 
 --Transparent background
 serviceBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetTile(serviceBG1, 1, 1)
+animSetPos(serviceBG1, 20, 20)
 animSetAlpha(serviceBG1, 20, 100)
 animUpdate(serviceBG1)
 
+--Up Arrow
+serviceUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(serviceUpArrow, 228, 11)
+animUpdate(serviceUpArrow)
+animSetScale(serviceUpArrow, 0.5, 0.5)
+
+--Down Arrow
+serviceDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(serviceDownArrow, 228, 231)
+animUpdate(serviceDownArrow)
+animSetScale(serviceDownArrow, 0.5, 0.5)
+
+--;===========================================================
+--; SERVICE MENU
+--;===========================================================
 t_service = {
 	{id = '', text = '  DIFFICULTY LEVEL DOWN'},
 	{id = '', text = ' POWER WILL START AT MAX'},
@@ -4140,9 +4241,6 @@ t_service = {
 	{id = '', text = '      DOUBLE DEFENCE'},
 	{id = '', text = '        NO SERVICE'},
 }
-for i=1, #t_service do
-	t_service[i].id = createTextImg(font2, 0, 1, t_service[i].text, 85, 15+i*15)
-end
 
 t_lockedService = {
 	{id = '', text = "This service is Unavailable in Co-Op Mode."},
@@ -4166,7 +4264,13 @@ for i=1, #t_devService do
 end
 
 function f_service()
-	local service = 1
+	local cursorPosY = 1
+	local moveTxt = 0
+	local serviceMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmService)
 	cmdInput()
@@ -4176,18 +4280,16 @@ function f_service()
 			devService = false
 			noService = false
 			sndPlay(sysSnd, 100, 0)
-			service = service - 1
-			if service < 1 then service = #t_service end		
+			serviceMenu = serviceMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			lockService = false --Boolean to remove the Lock service message
 			devService = false
 			noService = false
 			sndPlay(sysSnd, 100, 0)
-			service = service + 1
-			if service > #t_service then service = 1 end
+			serviceMenu = serviceMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
-			if service == 1 then
+			if serviceMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
 				if data.difficulty == 1 then
 					data.difficulty = 1
@@ -4201,17 +4303,17 @@ function f_service()
 				end	
 				break
 			--FULL POWER
-			elseif service == 2 then
+			elseif serviceMenu == 2 then
 				setServiceType(1)
 				sndPlay(sysSnd, 100, 1)
 				break
 			--LOW CPU LIFE
-			elseif service == 3 then
+			elseif serviceMenu == 3 then
 				setServiceType(2)
 				sndPlay(sysSnd, 100, 1)
 				break
 			--CHANGE PLAYER TEAM MODE
-			elseif service == 4 then
+			elseif serviceMenu == 4 then
 				if data.coop == true then
 					lockService = true
 				elseif data.contSelection == false then
@@ -4222,12 +4324,12 @@ function f_service()
 					break
 				end
 			--PLAYER DEFENCE X2
-			elseif service == 5 then
+			elseif serviceMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				setServiceType(3)
 				break
 			--???
-			--elseif service == 6 then
+			--elseif serviceMenu == 6 then
 				--devService = true
 				--sndPlay(sysSnd, 100, 1)
 				--setServiceType(?)
@@ -4240,10 +4342,46 @@ function f_service()
 			end
 			commandBufReset(p1Cmd, 1)
 		end
+		--Cursor position calculation
+		if serviceMenu < 1 then
+			serviceMenu = #t_service
+			if #t_service > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_service
+			end
+		elseif serviceMenu > #t_service then
+			serviceMenu = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (serviceMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (serviceMenu - 1) * 15
+		end	
+		if #t_service <= 14 then
+			maxService = #t_service
+		elseif serviceMenu - cursorPosY > 0 then
+			maxService = serviceMenu + 14 - cursorPosY
+		else
+			maxService = 14
+		end		
 		animDraw(f_animVelocity(serviceBG0, -1, -1))
-		animSetWindow(serviceBG1, 80,20, 160,#t_service*15)
-		animDraw(f_animVelocity(serviceBG1, -1, -1))
+		--Draw Transparent Table BG		
+		animSetScale(serviceBG1, 220, maxService*15)
+		animSetWindow(serviceBG1, 80,20, 160,210)
+		animDraw(serviceBG1)
+		--Draw Title Menu
 		textImgDraw(txt_service)
+		--Draw Stats Table Cursor
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Service Info
 		if lockService == true then
 			for i=1, #t_lockedService do
 				textImgDraw(t_lockedService[i].id)
@@ -4258,16 +4396,24 @@ function f_service()
 			for i=1, #t_devService do
 				textImgDraw(t_devService[i].id)
 			end
-		end	
-		for i=1, #t_service do
-			textImgDraw(t_service[i].id)
-			if t_service[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_service[i].varID, font2, 0, -1, t_service[i].varText, 235, 15+i*15))
+		end
+		--Draw Text for Table		
+		for i=1, maxService do	
+			if i > serviceMenu - cursorPosY then
+				t_service[i].id = createTextImg(font2, 0, 1, t_service[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_service[i].id)
 			end
 		end
-		animSetWindow(cursorBox, 80,5+service*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Up Animated Cursor
+		if maxService > 14 then
+			animDraw(serviceUpArrow)
+			animUpdate(serviceUpArrow)
+		end
+		--Draw Down Animated Cursor
+		if #t_service > 14 and maxService < #t_service then
+			animDraw(serviceDownArrow)
+			animUpdate(serviceDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
