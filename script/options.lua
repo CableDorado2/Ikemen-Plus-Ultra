@@ -31,7 +31,7 @@ optionsUpArrow = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(optionsUpArrow, 228, 11)
+animAddPos(optionsUpArrow, 242, 23)
 animUpdate(optionsUpArrow)
 animSetScale(optionsUpArrow, 0.5, 0.5)
 
@@ -46,9 +46,24 @@ optionsDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrow, 228, 231)
+animAddPos(optionsDownArrow, 242, 220)
 animUpdate(optionsDownArrow)
 animSetScale(optionsDownArrow, 0.5, 0.5)
+
+--Down Arrow For mainCfg (12 Limit)
+optionsDownArrowmainCfg = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(optionsDownArrowmainCfg, 242, 190)
+animUpdate(optionsDownArrowmainCfg)
+animSetScale(optionsDownArrowmainCfg, 0.5, 0.5)
 
 --;===========================================================
 --; ON EXIT
@@ -405,7 +420,7 @@ function f_exitInfo()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		--animSetWindow(optionsBG1, 20,20, 280,#t_exitInfo*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--animDraw(optionsBG1)
 		textImgDraw(txt_exitInfo)
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
@@ -423,7 +438,7 @@ t_restart = {
 	{id = '', text = "require Save and Back.    "},
 }
 for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 180+i*15)
+	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 200+i*15)
 end
 
 --;===========================================================
@@ -433,7 +448,7 @@ t_locked = {
 	{id = '', text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 210+i*15)
+	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 222.5+i*15)
 end
 
 --;===========================================================
@@ -443,7 +458,7 @@ t_erase = {
 	{id = '', text = "There's no have any data saved to delete."},
 }
 for i=1, #t_erase do
-	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 210+i*15)
+	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 222.5+i*15)
 end
 
 --;===========================================================
@@ -453,7 +468,7 @@ t_wip = {
 	{id = '', text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
-	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 210+i*15)
+	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 222.5+i*15)
 end
 
 --;===========================================================
@@ -716,7 +731,9 @@ t_mainCfg = {
 	{id = '', text = 'Default Values',  					varID = textImgNew(), varText = ''},
 	{id = '', text = '              Save and Back',  		varID = textImgNew(), varText = ''},
 	{id = '', text = '          Back Without Saving',  		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Online Settings',  					varID = textImgNew(), varText = ''}, --Only for Dev Purposes (Delete when test are finished)
+	{id = '', text = '              Online Settings',		varID = textImgNew(), varText = ''}, --Only for Dev Purposes (Delete when test are finished)
+	{id = '', text = '              Online Settings',		varID = textImgNew(), varText = ''},
+	{id = '', text = '              Online Settings',		varID = textImgNew(), varText = ''},
 }
 
 function f_mainCfg()
@@ -729,6 +746,7 @@ function f_mainCfg()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local mainCfg = 1
+	local t = 0
 	local bufl = 0
 	local bufr = 0
 	local bufu = 0
@@ -876,8 +894,8 @@ function f_mainCfg()
 		--Cursor position calculation
 		if mainCfg < 1 then
 			mainCfg = #t_mainCfg
-			if #t_mainCfg > 14 then
-				cursorPosY = 14
+			if #t_mainCfg > 12 then
+				cursorPosY = 12
 			else
 				cursorPosY = #t_mainCfg
 			end
@@ -886,26 +904,26 @@ function f_mainCfg()
 			cursorPosY = 1
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 12 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 14 then
-			moveTxt = (mainCfg - 14) * 15
+		if cursorPosY == 12 then
+			moveTxt = (mainCfg - 12) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (mainCfg - 1) * 15
 		end	
-		if #t_mainCfg <= 14 then
+		if #t_mainCfg <= 12 then
 			maxMainCfg = #t_mainCfg
 		elseif mainCfg - cursorPosY > 0 then
-			maxMainCfg = mainCfg + 14 - cursorPosY
+			maxMainCfg = mainCfg + 12 - cursorPosY
 		else
-			maxMainCfg = 14
+			maxMainCfg = 12
 		end
 		--Draw Menu BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		--Draw Transparent Table BG
 		animSetScale(optionsBG1, 220, maxMainCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
+		animSetWindow(optionsBG1, 80,20, 160,180)
 		animDraw(optionsBG1)
 		--Draw Title Menu
 		textImgDraw(txt_mainCfg)
@@ -916,7 +934,10 @@ function f_mainCfg()
 		--Draw Menu Info
 		if needReload == 1 then
 			for i=1, #t_restart do
-				textImgDraw(t_restart[i].id)
+				if t%60 < 40 then
+					textImgDraw(t_restart[i].id)
+				end
+				t = t >= 60 and 0 or t + 1
 			end
 		end
 		--Player Name Change
@@ -1035,14 +1056,14 @@ function f_mainCfg()
 			i = i >= 60 and 0 or i + 1
 		end
 		--Draw Up Animated Cursor
-		if maxMainCfg > 14 then
+		if maxMainCfg > 12 then
 			animDraw(optionsUpArrow)
 			animUpdate(optionsUpArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_mainCfg > 14 and maxMainCfg < #t_mainCfg then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
+		if #t_mainCfg > 12 and maxMainCfg < #t_mainCfg then
+			animDraw(optionsDownArrowmainCfg)
+			animUpdate(optionsDownArrowmainCfg)
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -3504,18 +3525,6 @@ t_resCfg4_3 = {
 	{id = '', x = 6400, y = 4800, text = '6400x4800          (HUXGA)'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_resCfg4_3 do
-	--if t_resCfg4_3[i].x ~= nil and t_resCfg4_3[i].y ~= nil then t_resCfg4_3[i].text = t_resCfg4_3[i].x .. 'x' .. t_resCfg4_3[i].y end --position the cursor at the chosen resolution
-	t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15)
-end
---for i=1, #t_resCfg4_3-1 do
-	--if t_resCfg4_3[i].x > getWidth() or t_resCfg4_3[i].y > getHeight() then
-		--for j=i, #t_resCfg4_3-1 do
-			--table.remove(t_resCfg4_3,i) --Show only resolutions recommended for your PC
-		--end
-		--break
-	--end
---end
 
 function f_resCfg4_3()
 	cmdInput()
@@ -3543,7 +3552,6 @@ function f_resCfg4_3()
 			sndPlay(sysSnd, 100, 0)
 			resCfg4_3 = resCfg4_3 + 1
 		end
-		--Cursor position calculation
 		if resCfg4_3 < 1 then
 			resCfg4_3 = #t_resCfg4_3
 			if #t_resCfg4_3 > 14 then
@@ -3563,6 +3571,13 @@ function f_resCfg4_3()
 			moveTxt = (resCfg4_3 - 14) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg4_3 - 1) * 15
+		end
+		if #t_resCfg4_3 <= 14 then
+			maxResCfg4_3 = #t_resCfg4_3
+		elseif resCfg4_3 - cursorPosY > 0 then
+			maxResCfg4_3 = resCfg4_3 + 14 - cursorPosY
+		else
+			maxResCfg4_3 = 14
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
@@ -3584,21 +3599,27 @@ function f_resCfg4_3()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			--animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg4_3*15)
-		end
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxResCfg4_3*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg4_3)
-		for i=1, #t_resCfg4_3 do
-			if i > resCfg4_3 - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg4_3[i].id, font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxResCfg4_3 do
+			if i > resCfg4_3 - cursorPosY then
+				t_resCfg4_3[i].id = createTextImg(font2, 0, 1, t_resCfg4_3[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_resCfg4_3[i].id)
+			end
+		end
+		if maxResCfg4_3 > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_resCfg4_3 > 14 and maxResCfg4_3 < #t_resCfg4_3 then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3631,9 +3652,6 @@ t_resCfg16_9 = {
 	{id = '', x = 3840, y = 2160, text = '3840x2160        (4K UHDV)'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_resCfg16_9 do
-	t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15)
-end
 
 function f_resCfg16_9()
 	cmdInput()
@@ -3661,7 +3679,6 @@ function f_resCfg16_9()
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_9 = resCfg16_9 + 1
 		end
-		--Cursor position calculation
 		if resCfg16_9 < 1 then
 			resCfg16_9 = #t_resCfg16_9
 			if #t_resCfg16_9 > 14 then
@@ -3681,6 +3698,13 @@ function f_resCfg16_9()
 			moveTxt = (resCfg16_9 - 14) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg16_9 - 1) * 15
+		end
+		if #t_resCfg16_9 <= 14 then
+			maxResCfg16_9 = #t_resCfg16_9
+		elseif resCfg16_9 - cursorPosY > 0 then
+			maxResCfg16_9 = resCfg16_9 + 14 - cursorPosY
+		else
+			maxResCfg16_9 = 14
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
@@ -3702,21 +3726,27 @@ function f_resCfg16_9()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			--animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_9*15)
-		end
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxResCfg16_9*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg16_9)
-		for i=1, #t_resCfg16_9 do
-			if i > resCfg16_9 - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg16_9[i].id, font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxResCfg16_9 do
+			if i > resCfg16_9 - cursorPosY then
+				t_resCfg16_9[i].id = createTextImg(font2, 0, 1, t_resCfg16_9[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_resCfg16_9[i].id)
+			end
+		end
+		if maxResCfg16_9 > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_resCfg16_9 > 14 and maxResCfg16_9 < #t_resCfg16_9 then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3749,9 +3779,6 @@ t_resCfg16_10 = {
 	{id = '', x = 7680, y = 4800, text = '7680x4800         (WHUXGA)'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_resCfg16_10 do
-	t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15)
-end
 
 function f_resCfg16_10()
 	cmdInput()
@@ -3779,7 +3806,6 @@ function f_resCfg16_10()
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_10 = resCfg16_10 + 1
 		end
-		--Cursor position calculation
 		if resCfg16_10 < 1 then
 			resCfg16_10 = #t_resCfg16_10
 			if #t_resCfg16_10 > 14 then
@@ -3799,6 +3825,13 @@ function f_resCfg16_10()
 			moveTxt = (resCfg16_10 - 14) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (resCfg16_10 - 1) * 15
+		end
+		if #t_resCfg16_10 <= 14 then
+			maxResCfg16_10 = #t_resCfg16_10
+		elseif resCfg16_10 - cursorPosY > 0 then
+			maxResCfg16_10 = resCfg16_10 + 14 - cursorPosY
+		else
+			maxResCfg16_10 = 14
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
@@ -3820,21 +3853,27 @@ function f_resCfg16_10()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			--animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg16_10*15)
-		end
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxResCfg16_10*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg16_10)
-		for i=1, #t_resCfg16_10 do
-			if i > resCfg16_10 - cursorPosY then
-				textImgDraw(f_updateTextImg(t_resCfg16_10[i].id, font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxResCfg16_10 do
+			if i > resCfg16_10 - cursorPosY then
+				t_resCfg16_10[i].id = createTextImg(font2, 0, 1, t_resCfg16_10[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_resCfg16_10[i].id)
+			end
+		end
+		if maxResCfg16_10 > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_resCfg16_10 > 14 and maxResCfg16_10 < #t_resCfg16_10 then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3878,9 +3917,6 @@ t_EXresCfg = {
 	--{id = '', x = 30720, y = 17208, text = '30720x17208 (24K SUPER DEATH BATMETAL)'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_EXresCfg do
-	t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15)
-end
 
 function f_EXresCfg()
 	cmdInput()
@@ -3908,7 +3944,6 @@ function f_EXresCfg()
 			sndPlay(sysSnd, 100, 0)
 			EXresCfg = EXresCfg + 1
 		end
-		--Cursor position calculation
 		if EXresCfg < 1 then
 			EXresCfg = #t_EXresCfg
 			if #t_EXresCfg > 14 then
@@ -3928,6 +3963,13 @@ function f_EXresCfg()
 			moveTxt = (EXresCfg - 14) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (EXresCfg - 1) * 15
+		end
+		if #t_EXresCfg <= 14 then
+			maxEXresCfg = #t_EXresCfg
+		elseif EXresCfg - cursorPosY > 0 then
+			maxEXresCfg = EXresCfg + 14 - cursorPosY
+		else
+			maxEXresCfg = 14
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
@@ -3949,21 +3991,27 @@ function f_EXresCfg()
 			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		if moveTxt == 180 then
-			--animSetWindow(optionsBG1, 80,20, 160,210)
-		else
-			--animSetWindow(optionsBG1, 80,20, 160,#t_EXresCfg*15)
-		end
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxEXresCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_EXresCfg)
-		for i=1, #t_EXresCfg do
-			if i > EXresCfg - cursorPosY then
-				textImgDraw(f_updateTextImg(t_EXresCfg[i].id, font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15-moveTxt))
-			end
-		end
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxEXresCfg do
+			if i > EXresCfg - cursorPosY then
+				t_EXresCfg[i].id = createTextImg(font2, 0, 1, t_EXresCfg[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_EXresCfg[i].id)
+			end
+		end
+		if maxEXresCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_EXresCfg > 14 and maxEXresCfg < #t_EXresCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
