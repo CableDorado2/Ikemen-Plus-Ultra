@@ -634,8 +634,8 @@ function f_offlineDefault()
 	s_channels = 'Stereo'
 	buffer = 2048
 	--other
-	data.userName = 'MUGENUSER'
-	--setUserName('MUGENUSER')
+	data.userName = 'USERNAME'
+	--setUserName('USERNAME')
 	setListenPort(7500)
 end
 
@@ -716,10 +716,8 @@ t_mainCfg = {
 	{id = '', text = 'Default Values',  					varID = textImgNew(), varText = ''},
 	{id = '', text = '              Save and Back',  		varID = textImgNew(), varText = ''},
 	{id = '', text = '          Back Without Saving',  		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Online Settings',  					varID = textImgNew(), varText = ''}, --Only for Dev Purposes (Delete when test are finished)
 }
-for i=1, #t_mainCfg do
-	t_mainCfg[i].id = createTextImg(font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15)
-end
 
 function f_mainCfg()
 	cmdInput()
@@ -753,13 +751,11 @@ function f_mainCfg()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg - 1
-			if mainCfg < 1 then mainCfg = #t_mainCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainCfg = mainCfg + 1
-			if mainCfg > #t_mainCfg then mainCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -806,7 +802,7 @@ function f_mainCfg()
 				--end
 				--local playerName = inputDialogGetStr(inputdia)
 				--if playerName == '' then --if the field is empty
-					--data.userName = 'MUGENUSER' --set a default username
+					--data.userName = 'USERNAME' --set a default username
 					--modified = 1
 				--else
 					--data.userName = (inputDialogGetStr(inputdia)) --set username introduced
@@ -859,7 +855,7 @@ function f_mainCfg()
 				f_saveCfg()
 				break	
 			--Back Without Save
-			else
+			elseif mainCfg == 11 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				assert(loadfile('saved/data_sav.lua'))() --Load old data no saved
@@ -871,12 +867,53 @@ function f_mainCfg()
 				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 				setPanStr(pan_str / 100)
 				break
-			end			
+			--Online Settings from Offline Mode	
+			else --Only for Dev Purposes (Delete when test are finished)
+				sndPlay(sysSnd, 100, 1)
+				f_onlineCfg()
+			end
 		end
+		--Cursor position calculation
+		if mainCfg < 1 then
+			mainCfg = #t_mainCfg
+			if #t_mainCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_mainCfg
+			end
+		elseif mainCfg > #t_mainCfg then
+			mainCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (mainCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (mainCfg - 1) * 15
+		end	
+		if #t_mainCfg <= 14 then
+			maxMainCfg = #t_mainCfg
+		elseif mainCfg - cursorPosY > 0 then
+			maxMainCfg = mainCfg + 14 - cursorPosY
+		else
+			maxMainCfg = 14
+		end
+		--Draw Menu BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_mainCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		--Draw Transparent Table BG
+		animSetScale(optionsBG1, 220, maxMainCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		--Draw Title Menu
 		textImgDraw(txt_mainCfg)
+		--Draw Table Cursor
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Menu Info
 		if needReload == 1 then
 			for i=1, #t_restart do
 				textImgDraw(t_restart[i].id)
@@ -906,6 +943,9 @@ function f_mainCfg()
 			if playerName ~= '' and playerName ~= nil then
 				if playerName:match('^0(%d+)$') then
 					playerName = playerName:gsub('^0(%d+)$','%1')
+					--What if you want to get certain pieces out of a string of text? This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures will be returned from string.match.
+					--> = string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
+					--foo 123 bar 456
 					setInputText(playerName)
 				end
 			end
@@ -913,9 +953,6 @@ function f_mainCfg()
 				if playerName ~= '' and playerName ~= nil then
 					clearInputText()
 					sndPlay(sysSnd, 100, 1)
-					--What if you want to get certain pieces out of a string of text? This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures will be returned from string.match.
-					--> = string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
-					--foo 123 bar 456
 					data.userName = (tostring(playerName))
 					modified = 1
 					nameEdit = false
@@ -974,28 +1011,39 @@ function f_mainCfg()
 				t_mainCfg[8].varText = onlinePort
 			end
 		end
-		for i=1, #t_mainCfg do
-			t_mainCfg[i].id = createTextImg(font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15)
-			textImgDraw(t_mainCfg[i].id)
-			if t_mainCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15+i*15))
+		--Draw Text for Table
+		for i=1, maxMainCfg do	
+			if i > mainCfg - cursorPosY then
+				if t_mainCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, 1, t_mainCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_mainCfg[i].varID, font2, 0, -1, t_mainCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
 			end
 		end
+		--Draw Blinking Cursor for Username Field
 		if not done and nameEdit == true then
 			if i%60 < 30 then 
 				textImgPosDraw(txt_bar,235+1.5,17.5+5*21)
 			end
 			i = i >= 60 and 0 or i + 1
 		end
+		--Draw Blinking Cursor for Online Port Field
 		if not done and portEdit == true then
 			if i%60 < 30 then 
 				textImgPosDraw(txt_bar,235+1.5,17.5+5*24)
 			end
 			i = i >= 60 and 0 or i + 1
 		end
-		animSetWindow(cursorBox, 80,5+mainCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Up Animated Cursor
+		if maxMainCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		--Draw Down Animated Cursor
+		if #t_mainCfg > 14 and maxMainCfg < #t_mainCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1019,15 +1067,12 @@ end
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, 'ONLINE SETTINGS', 159, 13)
 
 t_onlineCfg = {
-	{id = '', text = 'Gameplay Settings'},
-	{id = '', text = 'Screenpack Settings'},
-	{id = '', text = 'Engine Settings'},
-	{id = '', text = 'Room Settings'},
-	{id = '', text = '      SAVE AND PLAY'},
+	{id = '', text = 'Gameplay Settings',			varID = textImgNew(), varText = ''},
+	{id = '', text = 'Screenpack Settings',			varID = textImgNew(), varText = ''},
+	{id = '', text = 'Engine Settings',				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Room Settings',				varID = textImgNew(), varText = ''},
+	{id = '', text = '      SAVE AND PLAY',			varID = textImgNew(), varText = ''},
 }
-for i=1, #t_onlineCfg do
-	t_onlineCfg[i].id = createTextImg(font2, 0, 1, t_onlineCfg[i].text, 85, 15+i*15)
-end
 
 function f_onlineCfg()
 	cmdInput()
@@ -1047,13 +1092,11 @@ function f_onlineCfg()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			onlineCfg = onlineCfg - 1
-			if onlineCfg < 1 then onlineCfg = #t_onlineCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			onlineCfg = onlineCfg + 1
-			if onlineCfg > #t_onlineCfg then onlineCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -1080,27 +1123,65 @@ function f_onlineCfg()
 				if modified == 1 then
 					f_netsaveCfg()
 				end
-				if netPlayer == 'Host' then --Declared in main.lua
-					f_mainHost()
-				elseif netPlayer == 'Client' then --Declared in main.lua
-					f_mainJoin()
-				end	
+				if netPlayer == 'Host' then --Declared in netplay.lua
+					script.netplay.f_mainHost()
+				elseif netPlayer == 'Client' then --Declared in netplay.lua
+					script.netplay.f_mainJoin()
+				end
 				break
 			end			
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_onlineCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_onlineCfg)
-		for i=1, #t_onlineCfg do
-			textImgDraw(t_onlineCfg[i].id)
-			if t_onlineCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, -1, t_onlineCfg[i].varText, 235, 15+i*15))
+		if onlineCfg < 1 then
+			onlineCfg = #t_onlineCfg
+			if #t_onlineCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_onlineCfg
 			end
+		elseif onlineCfg > #t_onlineCfg then
+			onlineCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
 		end
-		animSetWindow(cursorBox, 80,5+onlineCfg*15, 160,15)
+		if cursorPosY == 14 then
+			moveTxt = (onlineCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (onlineCfg - 1) * 15
+		end	
+		if #t_onlineCfg <= 14 then
+			maxOnlineCfg = #t_onlineCfg
+		elseif onlineCfg - cursorPosY > 0 then
+			maxOnlineCfg = onlineCfg + 14 - cursorPosY
+		else
+			maxOnlineCfg = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxOnlineCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_onlineCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxOnlineCfg do	
+			if i > onlineCfg - cursorPosY then
+				if t_onlineCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, 1, t_onlineCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_onlineCfg[i].varID, font2, 0, -1, t_onlineCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxOnlineCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_onlineCfg > 14 and maxOnlineCfg < #t_onlineCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1134,9 +1215,6 @@ t_netplayCfg = {
 	{id = '', text = 'Show Input Delay',	varID = textImgNew(), varText = 'No'},
 	{id = '', text = '          BACK',  	varID = textImgNew(), varText = ''},
 }
-for i=1, #t_netplayCfg do
-	t_netplayCfg[i].id = createTextImg(font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15)
-end
 
 function f_netplayCfg()
 	cmdInput()
@@ -1156,14 +1234,12 @@ function f_netplayCfg()
 			sndPlay(sysSnd, 100, 0)
 			lockSetting = false
 			netplayCfg = netplayCfg - 1
-			if netplayCfg < 1 then netplayCfg = #t_netplayCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			lockSetting = false
 			netplayCfg = netplayCfg + 1
-			if netplayCfg > #t_netplayCfg then netplayCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		--Ranked Matchs
@@ -1202,10 +1278,41 @@ function f_netplayCfg()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
+		if netplayCfg < 1 then
+			netplayCfg = #t_netplayCfg
+			if #t_netplayCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_netplayCfg
+			end
+		elseif netplayCfg > #t_netplayCfg then
+			netplayCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (netplayCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (netplayCfg - 1) * 15
+		end	
+		if #t_netplayCfg <= 14 then
+			maxNetplayCfg = #t_netplayCfg
+		elseif netplayCfg - cursorPosY > 0 then
+			maxNetplayCfg = netplayCfg + 14 - cursorPosY
+		else
+			maxNetplayCfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_netplayCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxNetplayCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_netplayCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if lockSetting == true then
 			for i=1, #t_wip do
 				textImgDraw(t_wip[i].id)
@@ -1215,16 +1322,23 @@ function f_netplayCfg()
 			t_netplayCfg[1].varText = 'Unranked/FFA'
 		else
 			t_netplayCfg[1].varText = 'Ranked/FT'.. data.ftcontrol .. ''
-		end
-		for i=1, #t_netplayCfg do
-			textImgDraw(t_netplayCfg[i].id)
-			if t_netplayCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15))
+		end		
+		for i=1, maxNetplayCfg do	
+			if i > netplayCfg - cursorPosY then
+				if t_netplayCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, 1, t_netplayCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_netplayCfg[i].varID, font2, 0, -1, t_netplayCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
 			end
 		end
-		animSetWindow(cursorBox, 80,5+netplayCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxNetplayCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_netplayCfg > 14 and maxNetplayCfg < #t_netplayCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4434,21 +4548,21 @@ end
 txt_keyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING', 159, 13)
 
 t_keyCfg = {
-	{id = '', text = 'Up',    		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Down',  		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Back',  		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Forward', 	varID = textImgNew(), varText = ''},
-	{id = '', text = 'A',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'B',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'C',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'X',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Y',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Z',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Start', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Select', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'D', 			varID = textImgNew(), varText = ''},
-	{id = '', text = 'W', 			varID = textImgNew(), varText = ''},
-	{id = '', text = 'END', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'UP/ Up',    				varID = textImgNew(), varText = ''},
+	{id = '', text = 'DOWN/ Down',  			varID = textImgNew(), varText = ''},
+	{id = '', text = 'BACK/ Left',  			varID = textImgNew(), varText = ''},
+	{id = '', text = 'FORWARD/ Right', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'A/ Confirm',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'B/ Confirm',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'C/ Confirm',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'X/ Confirm',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Y/ Confirm',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Z/ Confirm',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'START/ Confirm', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'SELECT/ Back', 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'L/ D', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'R/ W', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},
 }
 
 controllerNum = -1
@@ -4647,8 +4761,11 @@ function f_readInput(oldkey)
 		animSetScale(optionsBG1, 220, maxKeyCfg*15)
 		animSetWindow(optionsBG1, 80,20, 160,210)
 		animDraw(optionsBG1)
-		readTime = readTime + 1
 		textImgDraw(txt_keyCfg)
+		animSetWindow(cursorBox, 80,5+inputCursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		readTime = readTime + 1
 		if getKeyboard == '' then
 			for i=1, #t_newinput do
 				if t%60 < 30 then

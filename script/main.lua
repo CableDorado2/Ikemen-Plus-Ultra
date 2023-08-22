@@ -220,7 +220,7 @@ function f_howtoplay()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	--playVideo(videoHowToPlay)
 	f_mainTitle()
-end	
+end
 
 --;===========================================================
 --; TITLE SCREEN
@@ -290,7 +290,7 @@ t_exitMenu = {
 	{id = textImgNew(), text = 'CLOSE ENGINE'},
 	{id = textImgNew(), text = 'RESTART ENGINE'},
 	{id = textImgNew(), text = 'BACK TO MAIN MENU'},
-}	
+}
 
 function f_exitMenu()
 	cmdInput()
@@ -3243,6 +3243,7 @@ function f_songMenu()
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Text for Table
 		for i=1, maxSongs do
 			if t_songList[i].playlist:len() > 26 then --If name is too long, shortcut with ...
 				songText = string.sub(t_songList[i].playlist, 1, 24)
@@ -3745,6 +3746,7 @@ function f_mainReplay()
 		if esc() then
 			onlinegame = false --only for identify purposes
 			coinSystem = true --only for identify purposes
+			--netPlayer = '' Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
 			assert(loadfile('saved/data_sav.lua'))()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -3759,6 +3761,7 @@ function f_mainReplay()
 			if mainReplay == #t_replayList then
 				onlinegame = false --only for identify purposes
 				coinSystem = true --only for identify purposes
+				--netPlayer = '' Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
 				assert(loadfile('saved/data_sav.lua'))()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
