@@ -3244,9 +3244,6 @@ t_resCfg = {
 	{id = '', text = 'Extra Resolutions'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_resCfg do
-	t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15)
-end
 
 function f_resCfg()
 	cmdInput()
@@ -3266,13 +3263,11 @@ function f_resCfg()
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg - 1
-			if resCfg < 1 then resCfg = #t_resCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg + 1
-			if resCfg > #t_resCfg then resCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -3302,23 +3297,59 @@ function f_resCfg()
 				break
 			end
 		end
+		if resCfg < 1 then
+			resCfg = #t_resCfg
+			if #t_resCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_resCfg
+			end
+		elseif resCfg > #t_resCfg then
+			resCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (resCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (resCfg - 1) * 15
+		end	
+		if #t_resCfg <= 14 then
+			maxResCfg = #t_resCfg
+		elseif resCfg - cursorPosY > 0 then
+			maxResCfg = resCfg + 14 - cursorPosY
+		else
+			maxResCfg = 14
+		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_resCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxResCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		textImgDraw(txt_resCfg)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if hasChanged then
 			setGameRes(resolutionWidth,resolutionHeight)
 			hasChanged = false
 		end
-		for i=1, #t_resCfg do
-			textImgDraw(t_resCfg[i].id)
-			if t_resCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_resCfg[i].varID, font2, 0, -1, t_resCfg[i].varText, 235, 15+i*15))
+		for i=1, maxResCfg do
+			if i > resCfg - cursorPosY then
+				t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_resCfg[i].id)
 			end
 		end
-		animSetWindow(cursorBox, 80,5+resCfg*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if maxResCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_resCfg > 14 and maxResCfg < #t_resCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3849,9 +3880,6 @@ t_inputCfg = {
 	{id = '', text = 'Test Controls',  		 	 varID = textImgNew(), varText = ''},
 	{id = '', text = '             BACK',  		 varID = textImgNew(), varText = ''},
 }
-for i=1, #t_inputCfg do
-	t_inputCfg[i].id = createTextImg(font2, 0, 1, t_inputCfg[i].text, 73, 15+i*15)
-end
 
 function f_inputCfg()
 	gamepadID = 1
@@ -3872,13 +3900,11 @@ function f_inputCfg()
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			inputCfg = inputCfg - 1
-			if inputCfg < 1 then inputCfg = #t_inputCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			inputCfg = inputCfg + 1
-			if inputCfg > #t_inputCfg then inputCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -3945,22 +3971,60 @@ function f_inputCfg()
 			end
 			if inputCfg == 5 or inputCfg == 6 then disableGamepad(data.disablePadP1,data.disablePadP2) end
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 68,20, 184,#t_inputCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_inputCfg)
-		--t_inputCfg[3].varText = s_disablePadP1
-		--t_inputCfg[4].varText = s_disablePadP2
-		t_inputCfg[3].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1
-		for i=1, #t_inputCfg do
-			textImgDraw(t_inputCfg[i].id)
-			if t_inputCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 248, 15+i*15))
+		if inputCfg < 1 then
+			inputCfg = #t_inputCfg
+			if #t_inputCfg > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_inputCfg
 			end
+		elseif inputCfg > #t_inputCfg then
+			inputCfg = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
 		end
-		animSetWindow(cursorBox, 68,5+inputCfg*15, 184,15)
+		if cursorPosY == 14 then
+			moveTxt = (inputCfg - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (inputCfg - 1) * 15
+		end	
+		if #t_inputCfg <= 14 then
+			maxInputCfg = #t_inputCfg
+		elseif inputCfg - cursorPosY > 0 then
+			maxInputCfg = inputCfg + 14 - cursorPosY
+		else
+			maxInputCfg = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 222, maxInputCfg*15)
+		animSetWindow(optionsBG1, 68,20, 184,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_inputCfg)
+		animSetWindow(cursorBox, 68,5+cursorPosY*15, 184,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--t_inputCfg[3].varText = s_disablePadP1
+		--t_inputCfg[4].varText = s_disablePadP2
+		t_inputCfg[3].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1		
+		for i=1, maxInputCfg do
+			if i > inputCfg - cursorPosY then
+				if t_inputCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, 1, t_inputCfg[i].text, 73, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_inputCfg[i].varID, font2, 0, -1, t_inputCfg[i].varText, 248, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxInputCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_inputCfg > 14 and maxInputCfg < #t_inputCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4138,9 +4202,6 @@ t_keyMenu = {
 	{id = '', text = 'Player 2 Keyboard'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_keyMenu do
-	t_keyMenu[i].id = createTextImg(font2, 0, 1, t_keyMenu[i].text, 85, 15+i*15)
-end
 
 function f_keyMenu()
 	cmdInput()
@@ -4158,11 +4219,9 @@ function f_keyMenu()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyMenu = keyMenu - 1
-			if keyMenu < 1 then keyMenu = #t_keyMenu end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyMenu = keyMenu + 1
-			if keyMenu > #t_keyMenu then keyMenu = 1 end
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			--PLAYER 1 KEYBOARD
@@ -4185,19 +4244,55 @@ function f_keyMenu()
 				break
 			end
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_keyMenu*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_keyMenu)
-		for i=1, #t_keyMenu do
-			textImgDraw(t_keyMenu[i].id)
-			if t_keyMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyMenu[i].varID, font2, 0, -1, t_keyMenu[i].varText, 235, 15+i*15))
+		if keyMenu < 1 then
+			keyMenu = #t_keyMenu
+			if #t_keyMenu > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_keyMenu
 			end
+		elseif keyMenu > #t_keyMenu then
+			keyMenu = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
 		end
-		animSetWindow(cursorBox, 80,5+keyMenu*15, 160,15)
+		if cursorPosY == 14 then
+			moveTxt = (keyMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (keyMenu - 1) * 15
+		end	
+		if #t_keyMenu <= 14 then
+			maxKeyMenu = #t_keyMenu
+		elseif keyMenu - cursorPosY > 0 then
+			maxKeyMenu = keyMenu + 14 - cursorPosY
+		else
+			maxKeyMenu = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxKeyMenu*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_keyMenu)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxKeyMenu do
+			if i > keyMenu - cursorPosY then
+				t_keyMenu[i].id = createTextImg(font2, 0, 1, t_keyMenu[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_keyMenu[i].id)
+			end
+		end
+		if maxKeyMenu > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_keyMenu > 14 and maxKeyMenu < #t_keyMenu then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4223,9 +4318,6 @@ t_joyMenu = {
 	{id = '', text = 'Player 2 Gamepad'},
 	{id = '', text = '          BACK'},
 }
-for i=1, #t_joyMenu do
-	t_joyMenu[i].id = createTextImg(font2, 0, 1, t_joyMenu[i].text, 85, 15+i*15)
-end
 
 function f_joyMenu()
 	cmdInput()
@@ -4243,11 +4335,9 @@ function f_joyMenu()
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			joyMenu = joyMenu - 1
-			if joyMenu < 1 then joyMenu = #t_joyMenu end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			joyMenu = joyMenu + 1
-			if joyMenu > #t_joyMenu then joyMenu = 1 end
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			--PLAYER 1 GAMEPAD
@@ -4274,19 +4364,55 @@ function f_joyMenu()
 				break
 			end
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_joyMenu*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_joyMenu)
-		for i=1, #t_joyMenu do
-			textImgDraw(t_joyMenu[i].id)
-			if t_joyMenu[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_joyMenu[i].varID, font2, 0, -1, t_joyMenu[i].varText, 235, 15+i*15))
+		if joyMenu < 1 then
+			joyMenu = #t_joyMenu
+			if #t_joyMenu > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_joyMenu
 			end
+		elseif joyMenu > #t_joyMenu then
+			joyMenu = 1
+			cursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
 		end
-		animSetWindow(cursorBox, 80,5+joyMenu*15, 160,15)
+		if cursorPosY == 14 then
+			moveTxt = (joyMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (joyMenu - 1) * 15
+		end	
+		if #t_joyMenu <= 14 then
+			maxJoyMenu = #t_joyMenu
+		elseif joyMenu - cursorPosY > 0 then
+			maxJoyMenu = joyMenu + 14 - cursorPosY
+		else
+			maxJoyMenu = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxJoyMenu*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_joyMenu)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxJoyMenu do
+			if i > joyMenu - cursorPosY then
+				t_joyMenu[i].id = createTextImg(font2, 0, 1, t_joyMenu[i].text, 85, 15+i*15-moveTxt)
+				textImgDraw(t_joyMenu[i].id)
+			end
+		end
+		if maxJoyMenu > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_joyMenu > 14 and maxJoyMenu < #t_joyMenu then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4302,35 +4428,28 @@ function f_joyMenu()
 	end
 end
 
-t_newinput = {
-	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
-}
-for i=1, #t_newinput do
-	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 180+i*15)
-end
-
 --;===========================================================
 --; KEYBOARD/GAMEPAD BUTTONS
 --;===========================================================
 txt_keyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING', 159, 13)
 
 t_keyCfg = {
-	{id = '', text = 'Up',    varID = textImgNew(), varText = ''},
-	{id = '', text = 'Down',  varID = textImgNew(), varText = ''},
-	{id = '', text = 'Left',  varID = textImgNew(), varText = ''},
-	{id = '', text = 'Right', varID = textImgNew(), varText = ''},
-	{id = '', text = 'A',     varID = textImgNew(), varText = ''},
-	{id = '', text = 'B',     varID = textImgNew(), varText = ''},
-	{id = '', text = 'C',     varID = textImgNew(), varText = ''},
-	{id = '', text = 'X',     varID = textImgNew(), varText = ''},
-	{id = '', text = 'Y',     varID = textImgNew(), varText = ''},
-	{id = '', text = 'Z',     varID = textImgNew(),	varText = ''},
-	{id = '', text = 'Start', varID = textImgNew(),	varText = ''},
-	{id = '', text = 'END',   varID = textImgNew(), varText = ''},
+	{id = '', text = 'Up',    		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Down',  		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Back',  		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Forward', 	varID = textImgNew(), varText = ''},
+	{id = '', text = 'A',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'B',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'C',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'X',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Y',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Z',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Start', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Select', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'D', 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'W', 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'END', 		varID = textImgNew(), varText = ''},
 }
-for i=1, #t_keyCfg do
-	t_keyCfg[i].id = createTextImg(font2, 0, 1, t_keyCfg[i].text, 85, 15+i*15)
-end
 
 controllerNum = -1
 
@@ -4343,6 +4462,8 @@ function f_keyCfg(playerNo, controller)
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	inputCursorPosY = 1
+	inputMoveTxt = 0
 	keyCfg = 1
 	keyCfgSide = 0
 	controllerNum = controller
@@ -4358,13 +4479,11 @@ function f_keyCfg(playerNo, controller)
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyCfg = keyCfg - 1
-			if keyCfg < 1 then keyCfg = #t_keyCfg end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyCfg = keyCfg + 1
-			if keyCfg > #t_keyCfg then keyCfg = 1 end
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
@@ -4390,19 +4509,57 @@ function f_keyCfg(playerNo, controller)
 			modified = 1
 			--needReload = 1
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_keyCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_keyCfg)
-		for i=1, #t_keyCfg do
-			textImgDraw(t_keyCfg[i].id)
-			if t_keyCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyCfg[i].varID, font2, 0, -1, t_keyCfg[i].varText, 235, 15+i*15))
+		if keyCfg < 1 then
+			keyCfg = #t_keyCfg
+			if #t_keyCfg > 14 then
+				inputCursorPosY = 14
+			else
+				inputCursorPosY = #t_keyCfg
 			end
+		elseif keyCfg > #t_keyCfg then
+			keyCfg = 1
+			inputCursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and inputCursorPosY > 1 then
+			inputCursorPosY = inputCursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 14 then
+			inputCursorPosY = inputCursorPosY + 1
 		end
-		animSetWindow(cursorBox, 80,5+keyCfg*15, 160,15)
+		if inputCursorPosY == 14 then
+			inputMoveTxt = (keyCfg - 14) * 15
+		elseif inputCursorPosY == 1 then
+			inputMoveTxt = (keyCfg - 1) * 15
+		end	
+		if #t_keyCfg <= 14 then
+			maxKeyCfg = #t_keyCfg
+		elseif keyCfg - inputCursorPosY > 0 then
+			maxKeyCfg = keyCfg + 14 - inputCursorPosY
+		else
+			maxKeyCfg = 14
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxKeyCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_keyCfg)
+		animSetWindow(cursorBox, 80,5+inputCursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxKeyCfg do
+			if i > keyCfg - inputCursorPosY then
+				if t_keyCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_keyCfg[i].varID, font2, 0, 1, t_keyCfg[i].text, 85, 15+i*15-inputMoveTxt))
+					textImgDraw(f_updateTextImg(t_keyCfg[i].varID, font2, 0, -1, t_keyCfg[i].varText, 235, 15+i*15-inputMoveTxt))
+				end
+			end
+		end
+		if maxKeyCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_keyCfg > 14 and maxKeyCfg < #t_keyCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4473,27 +4630,49 @@ t_keySwap = {
 	{key = '9',  swap1 = '9',      swap2 = 'KP_9'},
 }
 
+t_newinput = {
+	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
+}
+for i=1, #t_newinput do
+	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 210+i*15)
+end
+
 function f_readInput(oldkey)
 	getKeyboard = ''
 	local readInput = 1
+	local t = 0
 	readTime = 0
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 80,20, 160,#t_keyCfg*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG1, 220, maxKeyCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
 		readTime = readTime + 1
 		textImgDraw(txt_keyCfg)
 		if getKeyboard == '' then
 			for i=1, #t_newinput do
-				textImgDraw(t_newinput[i].id)
+				if t%60 < 30 then
+					textImgDraw(t_newinput[i].id)
+				end
+				t = t >= 60 and 0 or t + 1
 			end
-		end	
-		for i=1, #t_keyCfg do
-			textImgDraw(t_keyCfg[i].id)
-			if t_keyCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyCfg[i].varID, font2, 0, -1, t_keyCfg[i].varText, 235, 15+i*15))
+		end
+		for i=1, maxKeyCfg do
+			if i > keyCfg - inputCursorPosY then
+				if t_keyCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_keyCfg[i].varID, font2, 0, 1, t_keyCfg[i].text, 85, 15+i*15-inputMoveTxt))
+					textImgDraw(f_updateTextImg(t_keyCfg[i].varID, font2, 0, -1, t_keyCfg[i].varText, 235, 15+i*15-inputMoveTxt))
+				end
 			end
-		end	
+		end
+		if maxKeyCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_keyCfg > 14 and maxKeyCfg < #t_keyCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		--cmdInput()
 		if readTime > 15 then
 			if esc() then
