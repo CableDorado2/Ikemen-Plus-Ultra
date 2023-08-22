@@ -36,8 +36,8 @@ function f_mainNetplay()
 		end
 		if mainNetplay < 1 then
 			mainNetplay = #t_mainNetplay
-			if #t_mainNetplay > 4 then
-				cursorPosY = 4
+			if #t_mainNetplay > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_mainNetplay-1
 			end
@@ -46,11 +46,11 @@ function f_mainNetplay()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (mainNetplay - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (mainNetplay - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainNetplay - 1) * 13
 		end
@@ -111,9 +111,9 @@ function f_mainNetplay()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -370,8 +370,8 @@ function f_mainHost()
 		end
 		if mainHost < 1 then
 			mainHost = #t_mainHost
-			if #t_mainHost > 4 then
-				cursorPosY = 4
+			if #t_mainHost > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_mainHost-1
 			end
@@ -380,11 +380,11 @@ function f_mainHost()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (mainHost - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (mainHost - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainHost - 1) * 13
 		end
@@ -523,9 +523,9 @@ function f_mainHost()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainHost[i].id, jgFnt, bank, 0, t_mainHost[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainHost[i].id, jgFnt, bank, 0, t_mainHost[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -603,8 +603,8 @@ function f_mainJoin()
 		end
 		if mainJoin < 1 then
 			mainJoin = #t_mainJoin
-			if #t_mainJoin > 4 then
-				cursorPosY = 4
+			if #t_mainJoin > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_mainJoin-1
 			end
@@ -613,11 +613,11 @@ function f_mainJoin()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 4 then
-			moveTxt = (mainJoin - 5) * 13
+			moveTxt = (mainJoin - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainJoin - 1) * 13
 		end
@@ -756,9 +756,9 @@ function f_mainJoin()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainJoin[i].id, jgFnt, bank, 0, t_mainJoin[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainJoin[i].id, jgFnt, bank, 0, t_mainJoin[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)

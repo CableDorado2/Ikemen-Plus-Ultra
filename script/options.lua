@@ -1129,7 +1129,7 @@ function f_onlineCfg()
 					script.netplay.f_mainJoin()
 				end
 				break
-			end			
+			end
 		end
 		if onlineCfg < 1 then
 			onlineCfg = #t_onlineCfg
@@ -4176,12 +4176,16 @@ end
 t_testMenu = {
 	{id = textImgNew(), text = 'P1 TEST'},
 	{id = textImgNew(), text = 'P1&P2 TEST'},
-	{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'BACK'},
+	{id = textImgNew(), text = 'TEST'},
+	{id = textImgNew(), text = 'TEST'},
+	{id = textImgNew(), text = 'TEST'},
+	{id = textImgNew(), text = 'TEST'},
 }
 	
 function f_testMenu()
 	cmdInput()
-	local cursorPosY = 1
+	local cursorPosY = 0
 	local moveTxt = 0
 	local testMenu = 1
 	local bufu = 0
@@ -4203,8 +4207,8 @@ function f_testMenu()
 		end
 		if testMenu < 1 then
 			testMenu = #t_testMenu
-			if #t_testMenu > 4 then
-				cursorPosY = 4
+			if #t_testMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_testMenu-1
 			end
@@ -4213,11 +4217,11 @@ function f_testMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (testMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (testMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (testMenu - 1) * 13
 		end
@@ -4267,9 +4271,9 @@ function f_testMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_testMenu[i].id, jgFnt, bank, 0, t_testMenu[i].text, 159, 144+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_testMenu[i].id, jgFnt, bank, 0, t_testMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,147+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)

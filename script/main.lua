@@ -38,7 +38,7 @@ titleBG0 = animNew(sysSff, [[
 ]])
 animAddPos(titleBG0, 160, 0)
 animSetTile(titleBG0, 1, 1)
-animSetWindow(titleBG0, 0, 145, 320, 75)
+animSetWindow(titleBG0, 0, 145, 320, 78)
 --parallax is not supported in ikemen
 --type  = parallax
 --width = 400, 1200
@@ -641,8 +641,8 @@ function f_mainMenu()
 		--mode titles/cursor position calculation
 		if mainMenu < 1 then
 			mainMenu = #t_mainMenu
-			if #t_mainMenu > 4 then
-				cursorPosY = 4
+			if #t_mainMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_mainMenu-1
 			end
@@ -651,11 +651,11 @@ function f_mainMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (mainMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (mainMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainMenu - 1) * 13
 		end
@@ -739,9 +739,9 @@ function f_mainMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 141+i*13-moveTxt)) --Text Position
+			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 142+i*13-moveTxt)) --Text Position
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13) --Position and Size of the selection cursor
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		animDraw(titleBG1)
@@ -809,8 +809,8 @@ function f_arcadeMenu()
 		end
 		if arcadeMenu < 1 then
 			arcadeMenu = #t_arcadeMenu
-			if #t_arcadeMenu > 4 then
-				cursorPosY = 4
+			if #t_arcadeMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_arcadeMenu-1
 			end
@@ -819,11 +819,11 @@ function f_arcadeMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (arcadeMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (arcadeMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (arcadeMenu - 1) * 13
 		end
@@ -865,9 +865,9 @@ function f_arcadeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -937,8 +937,8 @@ function f_vsMenu()
 		end
 		if vsMenu < 1 then
 			vsMenu = #t_vsMenu
-			if #t_vsMenu > 4 then
-				cursorPosY = 4
+			if #t_vsMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_vsMenu-1
 			end
@@ -947,11 +947,11 @@ function f_vsMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (vsMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (vsMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (vsMenu - 1) * 13
 		end
@@ -1009,9 +1009,9 @@ function f_vsMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1080,8 +1080,8 @@ function f_randomMenu()
 		end
 		if randomMenu < 1 then
 			randomMenu = #t_randomMenu
-			if #t_randomMenu > 4 then
-				cursorPosY = 4
+			if #t_randomMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_randomMenu-1
 			end
@@ -1090,11 +1090,11 @@ function f_randomMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (randomMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (randomMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (randomMenu - 1) * 13
 		end
@@ -1129,9 +1129,9 @@ function f_randomMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1200,8 +1200,8 @@ function f_practiceMenu()
 		end
 		if practiceMenu < 1 then
 			practiceMenu = #t_practiceMenu
-			if #t_practiceMenu > 4 then
-				cursorPosY = 4
+			if #t_practiceMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_practiceMenu-1
 			end
@@ -1210,11 +1210,11 @@ function f_practiceMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (practiceMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (practiceMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (practiceMenu - 1) * 13
 		end
@@ -1290,9 +1290,9 @@ function f_practiceMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_practiceMenu[i].id, jgFnt, bank, 0, t_practiceMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1364,8 +1364,8 @@ function f_challengeMenu()
 		end
 		if challengeMenu < 1 then
 			challengeMenu = #t_challengeMenu
-			if #t_challengeMenu > 4 then
-				cursorPosY = 4
+			if #t_challengeMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_challengeMenu-1
 			end
@@ -1374,11 +1374,11 @@ function f_challengeMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (challengeMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (challengeMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (challengeMenu - 1) * 13
 		end
@@ -1421,9 +1421,9 @@ function f_challengeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1491,8 +1491,8 @@ function f_survivalMenu()
 		end
 		if survivalMenu < 1 then
 			survivalMenu = #t_survivalMenu
-			if #t_survivalMenu > 4 then
-				cursorPosY = 4
+			if #t_survivalMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_survivalMenu-1
 			end
@@ -1501,11 +1501,11 @@ function f_survivalMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (survivalMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (survivalMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (survivalMenu - 1) * 13
 		end
@@ -1545,9 +1545,9 @@ function f_survivalMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1615,8 +1615,8 @@ function f_bossMenu()
 		end
 		if bossMenu < 1 then
 			bossMenu = #t_bossMenu
-			if #t_bossMenu > 4 then
-				cursorPosY = 4
+			if #t_bossMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_bossMenu-1
 			end
@@ -1625,11 +1625,11 @@ function f_bossMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (bossMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (bossMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (bossMenu - 1) * 13
 		end
@@ -1657,9 +1657,9 @@ function f_bossMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1721,8 +1721,8 @@ function f_bossChars()
 		end
 		if bossChars < 1 then
 			bossChars = #t_bossSingle
-			if #t_bossSingle > 4 then
-				cursorPosY = 4
+			if #t_bossSingle > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_bossSingle-1
 			end
@@ -1731,11 +1731,11 @@ function f_bossChars()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (bossChars - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (bossChars - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (bossChars - 1) * 13
 		end
@@ -1763,9 +1763,9 @@ function f_bossChars()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1833,8 +1833,8 @@ function f_bossrushMenu()
 		end
 		if bossrushMenu < 1 then
 			bossrushMenu = #t_bossrushMenu
-			if #t_bossrushMenu > 4 then
-				cursorPosY = 4
+			if #t_bossrushMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_bossrushMenu-1
 			end
@@ -1843,11 +1843,11 @@ function f_bossrushMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (bossrushMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (bossrushMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (bossrushMenu - 1) * 13
 		end
@@ -1891,9 +1891,9 @@ function f_bossrushMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossrushMenu[i].id, jgFnt, bank, 0, t_bossrushMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossrushMenu[i].id, jgFnt, bank, 0, t_bossrushMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1961,8 +1961,8 @@ function f_bonusMenu()
 		end
 		if bonusMenu < 1 then
 			bonusMenu = #t_bonusMenu
-			if #t_bonusMenu > 4 then
-				cursorPosY = 4
+			if #t_bonusMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_bonusMenu-1
 			end
@@ -1971,11 +1971,11 @@ function f_bonusMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (bonusMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (bonusMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (bonusMenu - 1) * 13
 		end
@@ -2003,9 +2003,9 @@ function f_bonusMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2067,8 +2067,8 @@ function f_bonusExtras()
 		end
 		if bonusExtras < 1 then
 			bonusExtras = #t_bonusExtras
-			if #t_bonusExtras > 4 then
-				cursorPosY = 4
+			if #t_bonusExtras > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_bonusExtras-1
 			end
@@ -2077,11 +2077,11 @@ function f_bonusExtras()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (bonusExtras - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (bonusExtras - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (bonusExtras - 1) * 13
 		end
@@ -2110,9 +2110,9 @@ function f_bonusExtras()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2180,8 +2180,8 @@ function f_bonusrushMenu()
 		end
 		if bonusrushMenu < 1 then
 			bonusrushMenu = #t_bonusrushMenu
-			if #t_bonusrushMenu > 4 then
-				cursorPosY = 4
+			if #t_bonusrushMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_bonusrushMenu-1
 			end
@@ -2190,11 +2190,11 @@ function f_bonusrushMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (bonusrushMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (bonusrushMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (bonusrushMenu - 1) * 13
 		end
@@ -2241,9 +2241,9 @@ function f_bonusrushMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusrushMenu[i].id, jgFnt, bank, 0, t_bonusrushMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusrushMenu[i].id, jgFnt, bank, 0, t_bonusrushMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2311,8 +2311,8 @@ function f_timeMenu()
 		end
 		if timeMenu < 1 then
 			timeMenu = #t_timeMenu
-			if #t_timeMenu > 4 then
-				cursorPosY = 4
+			if #t_timeMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_timeMenu-1
 			end
@@ -2321,11 +2321,11 @@ function f_timeMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (timeMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (timeMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (timeMenu - 1) * 13
 		end
@@ -2369,9 +2369,9 @@ function f_timeMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_timeMenu[i].id, jgFnt, bank, 0, t_timeMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_timeMenu[i].id, jgFnt, bank, 0, t_timeMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2439,8 +2439,8 @@ function f_suddenMenu()
 		end
 		if suddenMenu < 1 then
 			suddenMenu = #t_suddenMenu
-			if #t_suddenMenu > 4 then
-				cursorPosY = 4
+			if #t_suddenMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_suddenMenu-1
 			end
@@ -2449,11 +2449,11 @@ function f_suddenMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (suddenMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (suddenMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (suddenMenu - 1) * 13
 		end
@@ -2497,9 +2497,9 @@ function f_suddenMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_suddenMenu[i].id, jgFnt, bank, 0, t_suddenMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_suddenMenu[i].id, jgFnt, bank, 0, t_suddenMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2567,8 +2567,8 @@ function f_allcharsMenu()
 		end
 		if allcharsMenu < 1 then
 			allcharsMenu = #t_allcharsMenu
-			if #t_allcharsMenu > 4 then
-				cursorPosY = 4
+			if #t_allcharsMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_allcharsMenu-1
 			end
@@ -2577,11 +2577,11 @@ function f_allcharsMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (allcharsMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (allcharsMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (allcharsMenu - 1) * 13
 		end
@@ -2621,9 +2621,9 @@ function f_allcharsMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2695,8 +2695,8 @@ function f_watchMenu()
 		end
 		if watchMenu < 1 then
 			watchMenu = #t_watchMenu
-			if #t_watchMenu > 4 then
-				cursorPosY = 4
+			if #t_watchMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_watchMenu-1
 			end
@@ -2705,11 +2705,11 @@ function f_watchMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (watchMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (watchMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (watchMenu - 1) * 13
 		end
@@ -2802,9 +2802,9 @@ function f_watchMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -2880,8 +2880,8 @@ function f_extrasMenu()
 		end
 		if extrasMenu < 1 then
 			extrasMenu = #t_extrasMenu
-			if #t_extrasMenu > 4 then
-				cursorPosY = 4
+			if #t_extrasMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_extrasMenu-1
 			end
@@ -2890,11 +2890,11 @@ function f_extrasMenu()
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 4 then
-			moveTxt = (extrasMenu - 5) * 13
+		if cursorPosY == 5 then
+			moveTxt = (extrasMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (extrasMenu - 1) * 13
 		end
@@ -2908,60 +2908,10 @@ function f_extrasMenu()
 			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_allcharsMenu()
-			--GALLERY SUB-MENU
+			--GALLERY
 			elseif extrasMenu == 3 then
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				local moveArt = 1 --Start in image 0,0
-				galleryList = 0 --Important to avoid errors when read
-				cmdInput()
-				while true do
-					if esc() then
-						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 2)
-						break
-					elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
-						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 3)
-						moveArt = moveArt + 1
-					elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and moveArt > 1 then --Keep in image 0,0 when press left until finish
-						data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 3)
-						moveArt = moveArt - 1
-					end
-					if commandGetState(p1Cmd, 'holdu') then
-						bufd = 0
-						bufu = bufu + 1
-					elseif commandGetState(p1Cmd, 'holdd') then
-						bufu = 0
-						bufd = bufd + 1
-					elseif commandGetState(p1Cmd, 'holdr') then
-						bufl = 0
-						bufr = bufr + 1
-					elseif commandGetState(p1Cmd, 'holdl') then
-						bufr = 0
-						bufl = bufl + 1
-					else
-						bufu = 0
-						bufd = 0
-						bufr = 0
-						bufl = 0
-					end
-					galleryList = moveArt --Uses menu position to show image in these order
-					f_gallery()
-					if moveArt > 1 then
-						animDraw(arrowsGL)
-						animUpdate(arrowsGL)
-					end
-					if moveArt <= 10 then
-						animDraw(arrowsGR)
-						animUpdate(arrowsGR)
-					end
-					animDraw(data.fadeTitle)
-					animUpdate(data.fadeTitle)
-					cmdInput()
-					refresh()
-				end
+				f_galleryMenu()
 			--SOUND TEST
 			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
@@ -2987,7 +2937,7 @@ function f_extrasMenu()
 			--TOURNEY MODE
 			elseif extrasMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
-				script.select.f_selectTourney()
+				f_tourneyMenu()
 			--ADVENTURE MODE
 			elseif extrasMenu == 10 then
 				sndPlay(sysSnd, 100, 1)
@@ -3006,9 +2956,9 @@ function f_extrasMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 141+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,144+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -3022,6 +2972,140 @@ function f_extrasMenu()
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'EXTRAS UNLOCKED')
+		textImgDraw(txt_version)
+		f_sysTime()
+		animDraw(arrowsD)
+		animUpdate(arrowsD)
+		animDraw(arrowsU)
+		animUpdate(arrowsU)
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; TOURNAMENT MENU (WIP)
+--;===========================================================
+t_tourneyMenu = {
+	{id = textImgNew(), text = 'ROUND OF 16'},
+	{id = textImgNew(), text = 'ROUND OF 8'},
+	{id = textImgNew(), text = 'ROUND OF 4'},
+	{id = textImgNew(), text = 'BACK'},
+}
+
+function f_tourneyMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local tourneyMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			tourneyMenu = tourneyMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			tourneyMenu = tourneyMenu + 1
+		end
+		if tourneyMenu < 1 then
+			tourneyMenu = #t_tourneyMenu
+			if #t_tourneyMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_tourneyMenu-1
+			end
+		elseif tourneyMenu > #t_tourneyMenu then
+			tourneyMenu = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (tourneyMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (tourneyMenu - 1) * 13
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--ROUND OF 16
+			if tourneyMenu == 1 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				--data.p2In = 1
+				--data.p2SelectMenu = false
+				--data.gameMode = 'tourney'
+				--data.rosterMode = 'tourney'
+				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')			
+				script.select.f_selectTourney()
+			--QUARTERFINALS
+			elseif tourneyMenu == 2 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				--data.p2In = 1
+				--data.p2SelectMenu = false
+				--data.gameMode = 'tourney'
+				--data.rosterMode = 'tourney'
+				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')			
+				script.select.f_selectTourney()
+			--SEMIFINALS
+			elseif tourneyMenu == 3 then
+				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				--data.p2In = 1
+				--data.p2SelectMenu = false
+				--data.gameMode = 'tourney'
+				--data.rosterMode = 'tourney'
+				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')			
+				script.select.f_selectTourney()
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_tourneyMenu do
+			if i == tourneyMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_tourneyMenu[i].id, jgFnt, bank, 0, t_tourneyMenu[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'TOURNAMENT MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
 		animDraw(arrowsD)
@@ -3078,6 +3162,9 @@ animAddPos(arrowsGR, 312, 220.5)
 animUpdate(arrowsGR)
 animSetScale(arrowsGR, 0.5, 0.5)
 
+--;===========================================================
+--; GALLERY MENU
+--;===========================================================
 function f_gallery() --Based on stage preview code
 	gallery = ''
 	gallery = '0,' .. galleryList-1 .. ', 0,0, 0'
@@ -3091,8 +3178,62 @@ function f_gallery() --Based on stage preview code
 	return gallery
 end
 
+function f_galleryMenu()
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	local moveArt = 1 --Start in image 0,0
+	galleryList = 0 --Important to avoid errors when read
+	cmdInput()
+	while true do
+		if esc() or btnPalNo(p1Cmd) > 0 then
+			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 3)
+			moveArt = moveArt + 1
+		elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and moveArt > 1 then --Keep in image 0,0 when press left until finish
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 3)
+			moveArt = moveArt - 1
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufu = 0
+			bufd = 0
+			bufr = 0
+			bufl = 0
+		end
+		galleryList = moveArt --Use menu position to show image in these order
+		f_gallery()
+		if moveArt > 1 then
+			animDraw(arrowsGL)
+			animUpdate(arrowsGL)
+		end
+		if moveArt <= 10 then
+			animDraw(arrowsGR)
+			animUpdate(arrowsGR)
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
 --;===========================================================
---; SOUND TEST MENU
+--; SOUND TEST SCREENPACK
 --;===========================================================
 txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
 
@@ -3142,6 +3283,9 @@ animAddPos(songDownArrow, 228, 231)
 animUpdate(songDownArrow)
 animSetScale(songDownArrow, 0.5, 0.5)
 
+--;===========================================================
+--; SOUND TEST MENU
+--;===========================================================
 function f_songMenu()
 	playBGM(bgmNothing)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3284,7 +3428,7 @@ function f_songMenu()
 end
 
 --;===========================================================
---; CUTSCENES MENU
+--; CUTSCENES SCREENPACK
 --;===========================================================
 txt_video = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
 
@@ -3334,6 +3478,9 @@ animAddPos(videoDownArrow, 228, 231)
 animUpdate(videoDownArrow)
 animSetScale(videoDownArrow, 0.5, 0.5)
 
+--;===========================================================
+--; CUTSCENES MENU
+--;===========================================================
 function f_videoMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	cmdInput()
@@ -3454,7 +3601,7 @@ function f_videoMenu()
 end
 
 --;===========================================================
---; STORYBOARDS MENU
+--; STORYBOARDS SCREENPACK
 --;===========================================================
 txt_storyboard = createTextImg(jgFnt, 0, 0, 'STORYBOARD SELECT', 159, 13)
 
@@ -3504,6 +3651,9 @@ animAddPos(storyboardDownArrow, 228, 231)
 animUpdate(storyboardDownArrow)
 animSetScale(storyboardDownArrow, 0.5, 0.5)
 
+--;===========================================================
+--; STORYBOARDS MENU
+--;===========================================================
 function f_storyboardMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	cmdInput()
@@ -3638,16 +3788,9 @@ function f_storyboardMenu()
 end
 
 --;===========================================================
---; REPLAY MENU
+--; REPLAY SCREENPACK
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
-
-t_replayOption = {
-	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'RETURN'},
-}
-for i=1, #t_replayOption do
-	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, -136+i*140, 172)
-end
 
 --Scrolling background
 replayBG0 = animNew(sysSff, [[
@@ -3710,6 +3853,16 @@ replayMenuBG2 = animNew(sysSff, [[
 animSetTile(replayMenuBG2, 1, 1)
 animSetAlpha(replayMenuBG2, 20, 100)
 animUpdate(replayMenuBG2)
+
+--;===========================================================
+--; REPLAY MENU
+--;===========================================================
+t_replayOption = {
+	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'RETURN'},
+}
+for i=1, #t_replayOption do
+	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, -136+i*140, 172)
+end
 
 function f_replayTable()
 	t_replayList = {}

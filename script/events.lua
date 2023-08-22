@@ -155,7 +155,7 @@ function f_eventMenu()
 	local bufl = 0
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-	--Event Progress Logic
+--Event Progress Logic
 	if data.event1Status == 100 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
 	data.eventsProgress = (math.floor(((data.event1Status) * 100 / 100) + 0.5)) --The number (100) is the summation of all data.eventStatus values in parentheses
 	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsProgress .. '%]', 159, 10) --needs to be inside of event Menu function, to load event data %
@@ -193,7 +193,7 @@ function f_eventMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
 			if eventSelect == true then
 				f_default()
-				--Master Kung Fu Girl
+			--Master Kung Fu Girl
 				if eventMenu == 1 then
 					if event1Status == true then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -213,28 +213,28 @@ function f_eventMenu()
 						sndPlay(sysSnd, 100, 1)
 						f_eventLocked()
 					end
-				--EVENT 2
+			--EVENT 2
 				elseif eventMenu == 2 then
 					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-				--EVENT 3
+			--EVENT 3
 				elseif eventMenu == 3 then
 					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-				--EVENT 4
+			--EVENT 4
 				elseif eventMenu == 4 then
 					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-				--EVENT 5
+			--EVENT 5
 				elseif eventMenu == 5 then
 					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-				--EVENT 6
+			--EVENT 6
 				elseif eventMenu == 6 then
 					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
 				end
-			--BACK
+		--BACK
 			else
 				f_saveProgress()
 				f_menuMusic()
@@ -243,7 +243,7 @@ function f_eventMenu()
 				break
 			end
 		end
-		--Cursor position calculation
+	--Cursor position calculation
 		if eventMenu < 1 then
 			eventMenu = #t_eventMenu
 			if #t_eventMenu > 3 then
@@ -276,56 +276,58 @@ function f_eventMenu()
 			maxEvents = 3
 		end
 		animDraw(f_animVelocity(eventBG0, -1, -1))
-		--Draw Event Title Transparent BG
+	--Draw Event Title Transparent BG
 		animSetWindow(eventBG1, 0,21, 320,25)
 		animDraw(f_animVelocity(eventBG1, -1, -1))
-		--Draw Title Menu
+	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
-		--Draw Content Transparent BG
+	--Draw Content Transparent BG
 		animSetWindow(eventBG2, 0,54, 320,150)
 		animDraw(f_animVelocity(eventBG2, -1, -1))
 		f_drawEvent1()
 		f_drawEvent2()
 		f_drawEvent3()
+		if eventSelect == true then
 		--Draw Event Cursor
-		animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Event Info
-		if eventMenu == 1 then
-			if event1Status == true then
+			if eventMenu == 1 then
+				if event1Status == true then
+					for i=1, #t_mInfo do
+						textImgDraw(t_mInfo[1].id) --Draw Event Info
+					end
+				elseif 	event1Status == false then
+					for i=1, #t_tInfo do
+						textImgDraw(t_tInfo[1].id) --Draw Time to start Info
+					end
+				end
+			elseif eventMenu == 2 then
 				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[1].id) --Draw Event Info
+					textImgDraw(t_mInfo[2].id)
 				end
-			elseif 	event1Status == false then
-				for i=1, #t_tInfo do
-					textImgDraw(t_tInfo[1].id) --Draw Time to start Info
+			elseif eventMenu == 3 then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[3].id)
 				end
-			end
-		elseif eventMenu == 2 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[2].id)
-			end
-		elseif eventMenu == 3 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[3].id)
-			end
-		elseif eventMenu == 4 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[4].id)
-			end
-		elseif eventMenu == 5 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[5].id)
-			end
-		elseif eventMenu == 6 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[6].id)
+			elseif eventMenu == 4 then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[4].id)
+				end
+			elseif eventMenu == 5 then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[5].id)
+				end
+			elseif eventMenu == 6 then
+				for i=1, #t_mInfo do
+					textImgDraw(t_mInfo[6].id)
+				end
 			end
 		end
-		--Set event status
+	--Set event status
 		t_eventMenu[1].varText = event1Progress
-		--Draw Text for Event Status
+	--Draw Text for Event Status
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
 				if t_eventMenu[i].varID ~= nil then
@@ -334,12 +336,12 @@ function f_eventMenu()
 			end
 		end
 		f_sysTime()
-		--Draw Left Animated Cursor
+	--Draw Left Animated Cursor
 		if maxEvents > 3 then
 			animDraw(arrowsEL)
 			animUpdate(arrowsEL)
 		end
-		--Draw Right Animated Cursor
+	--Draw Right Animated Cursor
 		if #t_eventMenu > 3 and maxEvents < #t_eventMenu then
 			animDraw(arrowsER)
 			animUpdate(arrowsER)
@@ -369,7 +371,7 @@ function f_eventMenu()
 end
 
 --;===========================================================
---; EVENT LOCKED INFO LOOP
+--; EVENT LOCKED INFO SCREEN
 --;===========================================================
 function f_eventLocked()
 	local i = 0
@@ -392,7 +394,7 @@ function f_eventLocked()
 end
 
 --;===========================================================
---; EVENT INFO LOOP
+--; EVENT INFO SCREEN
 --;===========================================================
 function f_eventWarning()
 	local i = 0
@@ -432,6 +434,6 @@ function f_forceRounds()
 	local file = io.open(data.lifebar,"w+")
 	file:write(s_lifebarDEF)
 	file:close()
-	--Reload lifebar
+--Reload lifebar
 	loadLifebar(data.lifebar)
 end

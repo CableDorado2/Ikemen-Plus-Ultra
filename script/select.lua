@@ -1196,11 +1196,10 @@ animSetScale(easteregg, 1.059, 1.041)
 
 function f_selectTourney()
 --TODO
-data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 2)
 			f_comingSoon()
 			break
 		end
@@ -4397,7 +4396,7 @@ function f_service()
 				textImgDraw(t_devService[i].id)
 			end
 		end
-		--Draw Text for Table		
+		--Draw Text for Table
 		for i=1, maxService do	
 			if i > serviceMenu - cursorPosY then
 				t_service[i].id = createTextImg(font2, 0, 1, t_service[i].text, 85, 15+i*15-moveTxt)
