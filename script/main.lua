@@ -330,6 +330,7 @@ function f_exitMenu()
 			moveTxt = (exitMenu - 1) * 13
 		end
 		if btnPalNo(p1Cmd) > 0 then
+			restartEngine = false
 			--EXIT
 			if exitMenu == 1 then
 			    sndPlay(sysSnd, 100, 1)
@@ -337,7 +338,8 @@ function f_exitMenu()
 			--RESTART
 			elseif exitMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
-				f_restartMenu()
+				restartEngine = true
+				f_closeMenu()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -386,7 +388,7 @@ function f_exitMenu()
 end
 
 --;===========================================================
---; CLOSE SCREEN
+--; CLOSE/RESTART SCREEN
 --;===========================================================
 t_closeMenu = {
 	{id = textImgNew(), text = 'YES'},
@@ -437,6 +439,9 @@ function f_closeMenu()
 			--YES
 			if closeMenu == 1 then
 			    f_playTime()
+				if restartEngine == true then
+					sszReload()
+				end
 				os.exit()
 			--NO
 			else
@@ -466,108 +471,11 @@ function f_closeMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, '             THE ENGINE WILL BE CLOSED')	
-		f_sysTime()
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
+		if restartEngine == true then
+			textImgSetText(txt_titleFt, '           THE ENGINE WILL BE RESTARTED')
 		else
-			bufu = 0
-			bufd = 0
+			textImgSetText(txt_titleFt, '             THE ENGINE WILL BE CLOSED')
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; RESTART SCREEN
---;===========================================================
-t_restartMenu = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
-}	
-	
-function f_restartMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local restartMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			restartMenu = restartMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			restartMenu = restartMenu + 1
-		end
-		if restartMenu < 1 then
-			restartMenu = #t_restartMenu
-			if #t_restartMenu > 4 then
-				cursorPosY = 4
-			else
-				cursorPosY = #t_restartMenu-1
-			end
-		elseif restartMenu > #t_restartMenu then
-			restartMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 4 then
-			moveTxt = (restartMenu - 5) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (restartMenu - 1) * 13
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			--YES
-			if restartMenu == 1 then
-				f_playTime()
-			    sszReload()
-				os.exit()
-			--NO
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_restartMenu do
-			if i == restartMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_restartMenu[i].id, jgFnt, bank, 0, t_restartMenu[i].text, 159, 165+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
-		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, '           THE ENGINE WILL BE RESTARTED')	
 		f_sysTime()
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -2890,7 +2798,7 @@ function f_watchMenu()
 			if watchMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				--Data loading from config.ssz
+			--Load resolution Data from config.ssz
 				local file = io.open("ssz/config.ssz","r")
 				s_configSSZ = file:read("*all")
 				file:close()
@@ -2898,8 +2806,8 @@ function f_watchMenu()
 				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
 				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
-				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To watch an online replay you need to set a 16:9 Resolution to avoid desync
-					f_replayWarning()
+				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then
+					f_replayWarning() --To watch an online replay you need to set a 16:9 Resolution to avoid desync
 				else
 					f_mainReplay()
 				end
@@ -3248,7 +3156,7 @@ function f_tourneyMenu()
 				--data.p2SelectMenu = false
 				--data.gameMode = 'tourney'
 				--data.rosterMode = 'tourney'
-				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')			
+				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')
 				script.select.f_selectTourney()
 			--QUARTERFINALS
 			elseif tourneyMenu == 2 then
@@ -3258,7 +3166,7 @@ function f_tourneyMenu()
 				--data.p2SelectMenu = false
 				--data.gameMode = 'tourney'
 				--data.rosterMode = 'tourney'
-				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')			
+				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE - QUARTERFINALS')
 				script.select.f_selectTourney()
 			--SEMIFINALS
 			elseif tourneyMenu == 3 then
@@ -3268,7 +3176,7 @@ function f_tourneyMenu()
 				--data.p2SelectMenu = false
 				--data.gameMode = 'tourney'
 				--data.rosterMode = 'tourney'
-				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')			
+				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE - SEMIFINALS')
 				script.select.f_selectTourney()
 			--BACK
 			else
@@ -3533,7 +3441,7 @@ function f_songMenu()
 			songMenu = songMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			if songMenu == #t_songList then
-				--Back
+				--BACK
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				sndPlay(sysSnd, 100, 2)
@@ -4043,7 +3951,7 @@ animSetPos(replayMenuBG, -40, 60)
 animUpdate(replayMenuBG)
 animDraw(replayMenuBG)
 
---Mission Above Transparent background
+--Replay Above Transparent background
 replayMenuBG2 = animNew(sysSff, [[
 100,1, 0,0, -1
 ]])

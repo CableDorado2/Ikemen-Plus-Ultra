@@ -20,6 +20,14 @@ animSetPos(optionsBG1, 30, 20)
 animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
+--Transparent Info background
+optionsBG2 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(optionsBG2, 20, 20)
+animSetAlpha(optionsBG2, 20, 100)
+animUpdate(optionsBG2)
+
 --Up Arrow
 optionsUpArrow = animNew(sysSff, [[
 225,0, 0,0, 10
@@ -419,8 +427,9 @@ function f_exitInfo()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 20,20, 280,#t_exitInfo*15)
-		--animDraw(optionsBG1)
+		animSetScale(optionsBG2, 300, 94)
+		animSetWindow(optionsBG2, 0,20, 295.5,#t_exitInfo*15)
+		animDraw(optionsBG2)
 		textImgDraw(txt_exitInfo)
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
@@ -431,44 +440,34 @@ function f_exitInfo()
 end
 
 --;===========================================================
---; INFORMATION
+--; ASPECT RATIO WARNING
 --;===========================================================
-t_restart = {
-	{id = '', text = "The changes that you have made"},
-	{id = '', text = "require Save and Back.    "},
+t_resWarning = {
+	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
+	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
 }
-for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 200+i*15)
+for i=1, #t_resWarning do
+	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
 end
 
---;===========================================================
---; ONLINE INFORMATION
---;===========================================================
-t_locked = {
-	{id = '', text = "This option is Unavailable in Online Mode."},
-}
-for i=1, #t_locked do
-	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 222.5+i*15)
-end
-
---;===========================================================
---; ERASE DATA INFORMATION
---;===========================================================
-t_erase = {
-	{id = '', text = "There's no have any data saved to delete."},
-}
-for i=1, #t_erase do
-	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 222.5+i*15)
-end
-
---;===========================================================
---; WORK IN PROGRESS INFORMATION
---;===========================================================
-t_wip = {
-	{id = '', text = "This option is still Under Development."},
-}
-for i=1, #t_wip do
-	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 222.5+i*15)
+function f_resWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 or esc() then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG2, 300, 94)
+		animSetWindow(optionsBG2, 0,20, 297,#t_resWarning*15)
+		animDraw(optionsBG2)
+		textImgDraw(txt_Warning)
+		for i=1, #t_resWarning do
+			textImgDraw(t_resWarning[i].id)
+		end
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
@@ -493,8 +492,9 @@ function f_glWarning()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 20,20, 280,#t_glWarning*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG2, 300, 94)
+		animSetWindow(optionsBG2, 0,20, 296,#t_glWarning*15)
+		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
 		for i=1, #t_glWarning do
 			textImgDraw(t_glWarning[i].id)
@@ -523,8 +523,9 @@ function f_memWarning()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 20,20, 280,#t_memWarning*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG2, 300, 94)
+		animSetWindow(optionsBG2, 0,20, 297,#t_memWarning*15)
+		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
 		for i=1, #t_memWarning do
 			textImgDraw(t_memWarning[i].id)
@@ -535,33 +536,44 @@ function f_memWarning()
 end
 
 --;===========================================================
---; ASPECT RATIO WARNING
+--; WORK IN PROGRESS INFORMATION
 --;===========================================================
-t_resWarning = {
-	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
-	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
+t_wip = {
+	{id = '', text = "This option is still Under Development."},
 }
-for i=1, #t_resWarning do
-	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
+for i=1, #t_wip do
+	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 222.5+i*15)
 end
 
-function f_resWarning()
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
-			sndPlay(sysSnd, 100, 1)
-			break
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 20,20, 280,#t_resWarning*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
-		textImgDraw(txt_Warning)
-		for i=1, #t_resWarning do
-			textImgDraw(t_resWarning[i].id)
-		end
-		cmdInput()
-		refresh()
-	end
+--;===========================================================
+--; ONLINE INFORMATION
+--;===========================================================
+t_locked = {
+	{id = '', text = "This option is Unavailable in Online Mode."},
+}
+for i=1, #t_locked do
+	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 222.5+i*15)
+end
+
+--;===========================================================
+--; ERASE DATA INFORMATION
+--;===========================================================
+t_erase = {
+	{id = '', text = "There's no have any data saved to delete."},
+}
+for i=1, #t_erase do
+	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 222.5+i*15)
+end
+
+--;===========================================================
+--; SAVE CONFIGURATION INFORMATION
+--;===========================================================
+t_restart = {
+	{id = '', text = "The changes that you have made"},
+	{id = '', text = "require Save and Back.    "},
+}
+for i=1, #t_restart do
+	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 200+i*15)
 end
 
 --;===========================================================
@@ -1292,7 +1304,7 @@ function f_netplayCfg()
 		--WIP
 		elseif (netplayCfg == 2 or netplayCfg == 3 or netplayCfg == 4 or netplayCfg == 5 or netplayCfg == 6 or netplayCfg == 7 or netplayCfg == 8) and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			lockSetting = true
-		--Back
+		--BACK
 		elseif netplayCfg == 9 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -1645,7 +1657,7 @@ function f_gameCfg()
 		elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then	
 			sndPlay(sysSnd, 100, 1)
 			f_zoomCfg()
-		--Back
+		--BACK
 		elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -1915,7 +1927,7 @@ function f_teamCfg()
 				data.coopenemy = 'Simul'
 				modified = 1
 			end
-		--Back
+		--BACK
 		elseif teamCfg == 8 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -2116,7 +2128,7 @@ function f_zoomCfg()
 				bufr = 0
 				bufl = 0
 			end
-		--Back
+		--BACK
 		elseif zoomCfg == 5 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -2448,7 +2460,7 @@ function f_UICfg()
 				data.winscreen = 'Fixed'
 				modified = 1
 			end
-		--Back
+		--BACK
 		elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -2821,7 +2833,7 @@ function f_audioCfg()
 				f_challengerMusic()
 				modified = 1
 			end
-		--Back
+		--BACK
 		elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
@@ -3091,7 +3103,7 @@ function f_engineCfg()
 				f_unlocksWarning()
 			end
 		end
-		--Back
+		--BACK
 		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -3283,7 +3295,7 @@ function f_videoCfg()
 				--modified = 1
 				--needReload = 1
 			--end
-		--Back
+		--BACK
 		elseif videoCfg == 3 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -3424,7 +3436,7 @@ function f_resCfg()
 				sndPlay(sysSnd, 100, 1)
 				f_EXresCfg()
 				hasChanged = true
-			--Back
+			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -3579,11 +3591,11 @@ function f_resCfg4_3()
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
-			--Back
+			--BACK
 			if resCfg4_3 == #t_resCfg4_3 then
 				sndPlay(sysSnd, 100, 2)
 				return false
-			--Resolution
+			--CHOOSE RESOLUTION
 			else
 				sndPlay(sysSnd, 100, 1)
 				resolutionWidth = t_resCfg4_3[resCfg4_3].x
@@ -3706,11 +3718,11 @@ function f_resCfg16_9()
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
-			--Back
+			--BACK
 			if resCfg16_9 == #t_resCfg16_9 then
 				sndPlay(sysSnd, 100, 2)
 				return false
-			--Resolution
+			--CHOOSE RESOLUTION
 			else
 				sndPlay(sysSnd, 100, 1)
 				resolutionWidth = t_resCfg16_9[resCfg16_9].x
@@ -3833,11 +3845,11 @@ function f_resCfg16_10()
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
-			--Back
+			--BACK
 			if resCfg16_10 == #t_resCfg16_10 then
 				sndPlay(sysSnd, 100, 2)
 				return false
-			--Resolution
+			--CHOOSE RESOLUTION
 			else
 				sndPlay(sysSnd, 100, 1)
 				resolutionWidth = t_resCfg16_10[resCfg16_10].x
@@ -3971,11 +3983,11 @@ function f_EXresCfg()
 		end
 		--Options
 		if btnPalNo(p1Cmd) > 0 then
-			--Back
+			--BACK
 			if EXresCfg == #t_EXresCfg then
 				sndPlay(sysSnd, 100, 2)
 				return false
-			--Resolution
+			--CHOOSE RESOLUTION
 			else
 				sndPlay(sysSnd, 100, 1)
 				resolutionWidth = t_EXresCfg[EXresCfg].x
@@ -4124,7 +4136,7 @@ function f_inputCfg()
 			elseif inputCfg == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_testMenu()
-			--Back
+			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -4409,7 +4421,7 @@ function f_keyMenu()
 				commandBufReset(p2Cmd)
 				f_inputRead(1, -1)
 				f_keyCfg(1, -1)
-			--Back
+			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -4529,7 +4541,7 @@ function f_joyMenu()
 				commandBufReset(p2Cmd)
 				f_inputRead(3, data.p2Gamepad)
 				f_keyCfg(3, data.p2Gamepad)
-			--Back
+			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -4671,7 +4683,7 @@ function f_keyCfg(playerNo, controller)
 				end
 				t_keyCfg[keyCfg].varText = f_readInput(t_keyCfg[keyCfg].varText)
 				setInputConfig(playerNo, controller, t_keyCfg[1].varText, t_keyCfg[2].varText, t_keyCfg[3].varText, t_keyCfg[4].varText, t_keyCfg[5].varText, t_keyCfg[6].varText, t_keyCfg[7].varText, t_keyCfg[8].varText, t_keyCfg[9].varText, t_keyCfg[10].varText, t_keyCfg[11].varText)
-			--Back
+			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keySave(playerNo, controller)
@@ -5263,8 +5275,9 @@ function f_unlocksWarning()
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		--animSetWindow(optionsBG1, 20,20, 280,#t_unlocksWarning*15)
-		--animDraw(f_animVelocity(optionsBG1, -1, -1))
+		animSetScale(optionsBG2, 300, 94)
+		animSetWindow(optionsBG2, 0,20, 297,#t_unlocksWarning*15)
+		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
 		for i=1, #t_unlocksWarning do
 			textImgDraw(t_unlocksWarning[i].id)

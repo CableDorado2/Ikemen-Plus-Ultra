@@ -114,7 +114,7 @@ function f_missionMenu()
 	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-	--Missions Progress Logic
+--Missions Progress Logic
 	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
 	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
 	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
@@ -133,7 +133,7 @@ function f_missionMenu()
 			missionMenu = missionMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--DRAGON CLAW
+		--DRAGON CLAW
 			if missionMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -150,7 +150,7 @@ function f_missionMenu()
 				data.missionNo = 'mission 1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
-			--EVIL KUNG FU MAN
+		--EVIL KUNG FU MAN
 			elseif missionMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -166,7 +166,7 @@ function f_missionMenu()
 				data.missionNo = 'mission 2'
 				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
 				script.select.f_selectSimple()
-			--MASTER KUNG FU MAN
+		--MASTER KUNG FU MAN
 			elseif missionMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -180,35 +180,35 @@ function f_missionMenu()
 				data.rosterMode = 'mission'
 				data.missionNo = 'mission 3'
 				script.select.f_selectAdvance()
-			--MISSION 4
+		--MISSION 4
 			elseif missionMenu == 4 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--MISSION 5
+		--MISSION 5
 			elseif missionMenu == 5 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--MISSION 6
+		--MISSION 6
 			elseif missionMenu == 6 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--MISSION 7
+		--MISSION 7
 			elseif missionMenu == 7 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--MISSION 8
+		--MISSION 8
 			elseif missionMenu == 8 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--MISSION 9
+		--MISSION 9
 			elseif missionMenu == 9 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--MISSION 10
+		--MISSION 10
 			elseif missionMenu == 10 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-			--Back
+		--BACK
 			else
 				f_saveProgress()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -216,7 +216,7 @@ function f_missionMenu()
 				break
 			end			
 		end
-		--Cursor position calculation
+	--Cursor position calculation
 		if missionMenu < 1 then
 			missionMenu = #t_missionMenu
 			if #t_missionMenu > 6 then
@@ -246,26 +246,26 @@ function f_missionMenu()
 		end
 		animDraw(f_animVelocity(missionBG0, -1, -1))
 		if missionMenu == #t_missionMenu then --If you are in the last item from table
-			--Dont Draw Above Transparent BG
+		--Dont Draw Above Transparent BG
 		else
-			--Draw Above Transparent BG
+		--Draw Above Transparent BG
 			animSetScale(missionBG1, 219.5, 94)
 			animSetWindow(missionBG1, 0,5, 320,110)
 			animDraw(missionBG1)
 		end
-		--Draw Title Menu
+	--Draw Title Menu
 		textImgDraw(txt_missionMenu)
-		--Draw Below Transparent Table BG
+	--Draw Below Transparent Table BG
 		animSetScale(missionBG2, 240, maxMissions*15)
 		animSetWindow(missionBG2, 10,20, 269,210)
 		animDraw(missionBG2)
-		--Draw Below Table Cursor
+	--Draw Below Table Cursor
 		animSetWindow(cursorBox, 40,125+cursorPosY*15, 239,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		missionList = missionMenu --Uses menu position to show image in these order
 		f_missionPreview() --Show mission image preview
-		--Draw Mission Info
+	--Draw Mission Info
 		if missionMenu == 1 then
 			for i=1, #t_mInfo do
 				textImgDraw(t_mInfo[1].id)
@@ -307,11 +307,11 @@ function f_missionMenu()
 				textImgDraw(t_mInfo[10].id)
 			end
 		end
-		--Set mission status
+	--Set mission status
 		t_missionMenu[1].varText = mission1Progress
 		t_missionMenu[2].varText = mission2Progress
 		t_missionMenu[3].varText = mission3Progress
-		--Draw Text for Below Table
+	--Draw Text for Below Table
 		for i=1, maxMissions do
 			if i > missionMenu - cursorPosY then
 				if t_missionMenu[i].varID ~= nil then
@@ -320,12 +320,12 @@ function f_missionMenu()
 				end
 			end
 		end
-		--Draw Up Animated Cursor
+	--Draw Up Animated Cursor
 		if maxMissions > 6 then
 			animDraw(arrowsMSU)
 			animUpdate(arrowsMSU)
 		end
-		--Draw Down Animated Cursor
+	--Draw Down Animated Cursor
 		if #t_missionMenu > 6 and maxMissions < #t_missionMenu then
 			animDraw(arrowsMSD)
 			animUpdate(arrowsMSD)

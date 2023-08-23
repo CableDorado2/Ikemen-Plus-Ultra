@@ -2054,10 +2054,10 @@ p1movePal = 1
 
 function f_p1palList() --Palette Menu
 	cmdInput()
-	local bufPalu = 0
-	local bufPald = 0
-	local bufPalr = 0
-	local bufPall = 0
+	--local bufPalu = 0
+	--local bufPald = 0
+	--local bufPalr = 0
+	--local bufPall = 0
 	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
 		sndPlay(sysSnd, 100, 0)
 		p1movePal = p1movePal + 1
@@ -2104,10 +2104,10 @@ function f_p1palList() --Palette Menu
 end
 
 function f_p1SelectMenu()
-	local bufSelu = 0
-	local bufSeld = 0
-	local bufSelr = 0
-	local bufSell = 0
+	--local bufSelu = 0
+	--local bufSeld = 0
+	--local bufSelr = 0
+	--local bufSell = 0
 	if data.p1Char ~= nil then
 		local t = {}
 		for i=1, #data.p1Char do

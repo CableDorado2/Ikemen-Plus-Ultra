@@ -110,7 +110,7 @@ function f_statsMenu()
 			--Defeats
 			elseif statsMenu == 7 then
 				--sndPlay(sysSnd, 100, 1)
-			--Back
+			--BACK
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
