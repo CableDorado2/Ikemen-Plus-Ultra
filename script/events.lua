@@ -14,17 +14,17 @@ animSetColorKey(eventBG0, -1)
 
 --Above Transparent background
 eventBG1 = animNew(sysSff, [[
-100,1, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetTile(eventBG1, 1, 1)
+animSetPos(eventBG1, 0, 21)
 animSetAlpha(eventBG1, 20, 100)
 animUpdate(eventBG1)
 
 --Below Transparent background
 eventBG2 = animNew(sysSff, [[
-100,1, 0,0, -1
+3,0, 0,0, -1
 ]])
-animSetTile(eventBG2, 1, 1)
+animSetPos(eventBG2, 3, 52)
 animSetAlpha(eventBG2, 20, 100)
 animUpdate(eventBG2)
 
@@ -60,7 +60,9 @@ animAddPos(arrowsEL, 0, 123)
 animUpdate(arrowsEL)
 animSetScale(arrowsEL, 1.7, 1.7)
 
-function f_drawEvent1() --Draw Event 1 Preview
+--Draw Event 1 Preview
+function f_drawEvent1()
+--Event Available at this Time!
 	if sysTime >= 20 and sysTime <= 23 then
 		event1Status = true
 		event1 = animNew(eventSff, [[
@@ -69,7 +71,8 @@ function f_drawEvent1() --Draw Event 1 Preview
 		animSetPos(event1, 5, 54)
 		animUpdate(event1)
 		animDraw(event1)
-	else --Event Unavailable...
+--Event Unavailable...
+	else
 		event1Status = false
 		event1L = animNew(eventSff, [[
 		0,1, 0,0,
@@ -80,7 +83,8 @@ function f_drawEvent1() --Draw Event 1 Preview
 	end
 end
 
-function f_drawEvent2() --Draw Event 2 Preview
+--Draw Event 2 Preview
+function f_drawEvent2()
 	event2 = animNew(eventSff, [[
 	1,0, 0,0,
 	]])
@@ -89,7 +93,8 @@ function f_drawEvent2() --Draw Event 2 Preview
 	animDraw(event2)
 end
 
-function f_drawEvent3() --Draw Event 3 Preview
+--Draw Event 3 Preview
+function f_drawEvent3()
 	event3 = animNew(eventSff, [[
 	2,0, 0,0,
 	]])
@@ -277,13 +282,15 @@ function f_eventMenu()
 		end
 		animDraw(f_animVelocity(eventBG0, -1, -1))
 	--Draw Event Title Transparent BG
+		animSetScale(eventBG1, 319.5, 94)
 		animSetWindow(eventBG1, 0,21, 320,25)
-		animDraw(f_animVelocity(eventBG1, -1, -1))
+		animDraw(eventBG1)
 	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
 	--Draw Content Transparent BG
-		animSetWindow(eventBG2, 0,54, 320,150)
-		animDraw(f_animVelocity(eventBG2, -1, -1))
+		animSetScale(eventBG2, 318, 154)
+		animSetWindow(eventBG2, 3,52, 314,154)
+		animDraw(eventBG2)
 		f_drawEvent1()
 		f_drawEvent2()
 		f_drawEvent3()
@@ -330,16 +337,15 @@ function f_eventMenu()
 	--Draw Text for Event Status
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
-					--if i == eventMenu then
-						--bank = 5
-					--elseif eventSelect == false then
-						--bank = 0
-					--else
-						--bank = 0
-					--end
-					--textImgDraw(f_updateTextImg(t_eventMenu[i].id, jgFnt, bank, 0, t_eventMenu[i].varText, -16+i*105-moveTxt, 214))
+				if i == eventMenu and eventSelect == true then
+					bank = 5
+				elseif eventSelect == false then
+					bank = 0
+				else
+					bank = 0
+				end
 				if t_eventMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, 0, -1, t_eventMenu[i].varText, -16+i*105-moveTxt, 214)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, -1, t_eventMenu[i].varText, -16+i*105-moveTxt, 218)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			end
 		end
@@ -355,11 +361,18 @@ function f_eventMenu()
 			animUpdate(arrowsER)
 		end
 		if eventSelect == true then
+			--Set Back Text Color to White
 			textImgSetBank(txt_selEvent, 0)
 			textImgDraw(txt_selEvent)
 		else
+			--Set Back Text Color to Yellow
 			textImgSetBank(txt_selEvent, 5)
 			textImgDraw(txt_selEvent)
+			--Show a Cursor in Back Text
+			animSetWindow(cursorBox, -56, 228, 432, 13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+			
 		end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufl = 0

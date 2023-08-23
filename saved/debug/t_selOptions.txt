@@ -1,33 +1,13 @@
-table: 02D29030 {
-  [teamend] => table: 02D29030 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [survivalstart] => table: 02D29030 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [arcadestart] => table: 02D29030 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teammaxmatches] => table: 02D29030 {
-                        [1] => 2
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 1
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [survivalend] => table: 02D29030 {
+table: 02CD2838 {
+  [survivalend] => table: 02CD2838 {
                      [offset] => 4
                      [wins] => 16
                    }
-  [arcademaxmatches] => table: 02D29030 {
+  [arcadestart] => table: 02CD2838 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [arcademaxmatches] => table: 02CD2838 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -39,12 +19,32 @@ table: 02D29030 {
                           [9] => 0
                           [10] => 0
                         }
-  [teamstart] => table: 02D29030 {
+  [survivalstart] => table: 02CD2838 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [teamstart] => table: 02CD2838 {
                    [offset] => 0
                    [wins] => 1
                  }
-  [arcadeend] => table: 02D29030 {
+  [arcadeend] => table: 02CD2838 {
                    [offset] => 2
                    [wins] => 4
                  }
+  [teammaxmatches] => table: 02CD2838 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 1
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [teamend] => table: 02CD2838 {
+                 [offset] => 2
+                 [wins] => 3
+               }
 }

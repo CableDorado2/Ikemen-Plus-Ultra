@@ -2347,10 +2347,10 @@ p2movePal = 1
 
 function f_p2palList()
 	cmdInput()
-	local bufPal2u = 0
-	local bufPal2d = 0
-	local bufPal2r = 0
-	local bufPal2l = 0
+	--local bufPal2u = 0
+	--local bufPal2d = 0
+	--local bufPal2r = 0
+	--local bufPal2l = 0
 	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
 		sndPlay(sysSnd, 100, 0)
 		p2movePal = p2movePal + 1
@@ -2397,10 +2397,10 @@ function f_p2palList()
 end
 
 function f_p2SelectMenu()
-	local bufSel2u = 0
-	local bufSel2d = 0
-	local bufSel2r = 0
-	local bufSel2l = 0
+	--local bufSel2u = 0
+	--local bufSel2d = 0
+	--local bufSel2r = 0
+	--local bufSel2l = 0
 	if data.p2Char ~= nil then
 		local t = {}
 		for i=1, #data.p2Char do
@@ -2734,10 +2734,10 @@ end
 --;===========================================================
 function f_selectStage()
 	local cursorSelect = 0
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
+	--local bufu = 0
+	--local bufd = 0
+	--local bufr = 0
+	--local bufl = 0
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
 		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
@@ -4046,7 +4046,6 @@ rematchWindowBG = animNew(sysSff, [[
 ]])
 animSetPos(rematchWindowBG, 73.4, 87)
 animUpdate(rematchWindowBG)
-animDraw(rematchWindowBG)
 animSetScale(rematchWindowBG, 1.1, 1.1)
 
 --Rematch Window

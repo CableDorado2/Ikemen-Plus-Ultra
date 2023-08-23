@@ -3943,20 +3943,19 @@ animAddPos(replayDownArrow, 228, 231)
 animUpdate(replayDownArrow)
 animSetScale(replayDownArrow, 0.5, 0.5)
 
---Replay Option background
+--Replay Title Transparent background
 replayMenuBG = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(replayMenuBG, -5.5, 41)
+animSetAlpha(replayMenuBG, 20, 100)
+animUpdate(replayMenuBG)
+
+--Replay Option background
+replayMenuBG2 = animNew(sysSff, [[
 250,0, 0,0,
 ]])
-animSetPos(replayMenuBG, -40, 60)
-animUpdate(replayMenuBG)
-animDraw(replayMenuBG)
-
---Replay Above Transparent background
-replayMenuBG2 = animNew(sysSff, [[
-100,1, 0,0, -1
-]])
-animSetTile(replayMenuBG2, 1, 1)
-animSetAlpha(replayMenuBG2, 20, 100)
+animSetPos(replayMenuBG2, -40, 60)
 animUpdate(replayMenuBG2)
 
 --;===========================================================
@@ -4016,6 +4015,7 @@ function f_mainReplay()
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay + 1
 		elseif btnPalNo(p1Cmd) > 0 then
+		--BACK
 			if mainReplay == #t_replayList then
 				onlinegame = false --only for identify purposes
 				coinSystem = true --only for identify purposes
@@ -4024,8 +4024,8 @@ function f_mainReplay()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
+		--OPEN REPLAY CONTROL MENU
 			else
-				--OPEN REPLAY CONTROL MENU
 				sndPlay(sysSnd, 100, 1)
 				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159, 51)--Show Replay Selected Name
 				local fileSize = lfs.attributes('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
@@ -4046,14 +4046,14 @@ function f_mainReplay()
 					end
 					if replayOption < 1 then replayOption = 3 elseif replayOption > 3 then replayOption = 1 end
 					if btnPalNo(p1Cmd) > 0 then
-						--DELETE SELECTED REPLAY
+					--DELETE SELECTED REPLAY
 						if replayOption == 1 then
 							sndPlay(sysSnd, 100, 1)
 							os.remove('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
 							t_replayList = nil --Delete the Table an Idea by Strong FS
 							f_replayTable() --Just reload the table with applied changes
 							break
-						--WATCH SELECTED REPLAY
+					--WATCH SELECTED REPLAY
 						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
 							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -4068,21 +4068,23 @@ function f_mainReplay()
 							exitNetPlay()
 							exitReplay()
 							commandBufReset(p1Cmd, 1)
-						--RETURN TO REPLAY SELECT MENU
+					--RETURN TO REPLAY SELECT MENU
 						elseif replayOption == 3 then
 							sndPlay(sysSnd, 100, 2)
 							break
 						end
 					end
 					animDraw(f_animVelocity(replayBG0, -1, -1))
-					--Draw Replay Title Table
-					animSetWindow(replayMenuBG2, 0,41, 320,25)
-					animDraw(f_animVelocity(replayMenuBG2, -1, -1))
+				--Draw Replay Title
+					animSetScale(replayMenuBG, 320, 94)
+					animSetWindow(replayMenuBG, 0,20, 320,46)
+					animDraw(replayMenuBG)
 					textImgDraw(txt_replayName)
 					textImgDraw(txt_replaySize)
-					--Draw Mini Menu
-					animDraw(replayMenuBG)
-					animUpdate(replayMenuBG)
+				--Draw Mini Menu BG
+					animDraw(replayMenuBG2)
+					animUpdate(replayMenuBG2)
+				--Draw Replay Option Text
 					for i=1, #t_replayOption do
 						if i == replayOption + 0 then -- +0 To start center
 							textImgSetBank(t_replayOption[i].id, 5)
