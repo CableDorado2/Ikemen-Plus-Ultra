@@ -718,10 +718,6 @@ function f_backMenu()
 			textImgDraw(txt_titleFt)
 			textImgSetText(txt_titleFt, '            YOU WILL BACK TO MAIN MENU')
 			f_sysTime()
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
 			if commandGetState(p1Cmd, 'holdu') then
 				bufd = 0
 				bufu = bufu + 1
@@ -1501,10 +1497,10 @@ for i=1, #t_p1selTeam do
 end
 
 function f_p1TeamMenu()
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
+	--local bufu = 0
+	--local bufd = 0
+	--local bufr = 0
+	--local bufl = 0
 	if data.coop then --Simul coop
 		p1teamMode = 1
 		p1numChars = 2
@@ -1518,77 +1514,83 @@ function f_p1TeamMenu()
 		p1TeamEnd = true
 		p1BG = true
 	else
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		if commandGetState(p1Cmd, 'u') then
+		--if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p1teamMode = p1teamMode - 1
 			if p1teamMode < 0 then p1teamMode = #t_p1selTeam-1 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			--if bufl then bufl = 0 end
+			--if bufr then bufr = 0 end
+		elseif commandGetState(p1Cmd, 'd') then
+		--elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p1teamMode = p1teamMode + 1
 			if p1teamMode > #t_p1selTeam-1 then p1teamMode = 0 end
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
+			--if bufl then bufl = 0 end
+			--if bufr then bufr = 0 end
 		elseif p1teamMode == 1 then --Simul
-			if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			if commandGetState(p1Cmd, 'l') then
+			--if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if commandGetState(p1Cmd, 'l') and p1numSimul > 2 then sndPlay(sysSnd, 100, 0) end
 				p1numSimul = p1numSimul - 1
 				if p1numSimul < 2 then p1numSimul = 2 end
-				if bufu then bufu = 0 end
-				if bufd then bufd = 0 end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				--if bufu then bufu = 0 end
+				--if bufd then bufd = 0 end
+			elseif commandGetState(p1Cmd, 'r') then
+			--elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and p1numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
 				p1numSimul = p1numSimul + 1
 				if p1numSimul > data.numSimul then p1numSimul = data.numSimul end
-				if bufu then bufu = 0 end
-				if bufd then bufd = 0 end
+				--if bufu then bufu = 0 end
+				--if bufd then bufd = 0 end
 			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
+			--if commandGetState(p1Cmd, 'holdr') then
+				--bufl = 0
+				--bufr = bufr + 1
+			--elseif commandGetState(p1Cmd, 'holdl') then
+				--bufr = 0
+				--bufl = bufl + 1
+			--else
+				--bufr = 0
+				--bufl = 0
+			--end
 		elseif p1teamMode == 2 then --Turns
-			if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			if commandGetState(p1Cmd, 'l') then
+			--if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
 				if commandGetState(p1Cmd, 'l') and p1numTurns > 2 then sndPlay(sysSnd, 100, 0) end
 				p1numTurns = p1numTurns - 1
 				if p1numTurns < 2 then p1numTurns = 2 end
-				if bufu then bufu = 0 end
-				if bufd then bufd = 0 end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				--if bufu then bufu = 0 end
+				--if bufd then bufd = 0 end
+			elseif commandGetState(p1Cmd, 'r') then
+			--elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if commandGetState(p1Cmd, 'r') and p1numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
 				p1numTurns = p1numTurns + 1
 				if p1numTurns > data.numTurns then p1numTurns = data.numTurns end
-				if bufu then bufu = 0 end
-				if bufd then bufd = 0 end
+				--if bufu then bufu = 0 end
+				--if bufd then bufd = 0 end
 			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufl = 0
-				bufr = bufr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
+			--if commandGetState(p1Cmd, 'holdr') then
+				--bufl = 0
+				--bufr = bufr + 1
+			--elseif commandGetState(p1Cmd, 'holdl') then
+				--bufr = 0
+				--bufl = bufl + 1
+			--else
+				--bufr = 0
+				--bufl = 0
+			--end
 		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
+		--if commandGetState(p1Cmd, 'holdu') then
+			--bufd = 0
+			--bufu = bufu + 1
+		--elseif commandGetState(p1Cmd, 'holdd') then
+			--bufu = 0
+			--bufd = bufd + 1
+		--else
+			--bufu = 0
+			--bufd = 0
+		--end
 		textImgDraw(p1SelTmTxt)
 		for i=1, #t_p1selTeam do
 			if i == p1teamMode + 1 then
@@ -1726,10 +1728,10 @@ for i=1, #t_p2selTeam do
 end
 
 function f_p2TeamMenu()
-	local buf2u = 0
-	local buf2d = 0
-	local buf2r = 0
-	local buf2l = 0
+	--local buf2u = 0
+	--local buf2d = 0
+	--local buf2r = 0
+	--local buf2l = 0
 	if data.coop then --Simul co-op
 		if data.coopenemy == 'Single' then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
 			p2teamMode = 0
@@ -1751,77 +1753,83 @@ function f_p2TeamMenu()
 		p2TeamEnd = true
 		p2BG = true
 	else
-		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and buf2u >= 30) then
+		if commandGetState(p2Cmd, 'u') then
+		--if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and buf2u >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p2teamMode = p2teamMode - 1
 			if p2teamMode < 0 then p2teamMode = #t_p2selTeam-1 end
-			if buf2l then buf2l = 0 end
-			if buf2r then buf2r = 0 end
-		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and buf2d >= 30) then
+			--if buf2l then buf2l = 0 end
+			--if buf2r then buf2r = 0 end
+		elseif commandGetState(p2Cmd, 'd') then
+		--elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and buf2d >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p2teamMode = p2teamMode + 1
 			if p2teamMode > #t_p2selTeam-1 then p2teamMode = 0 end
-			if buf2l then buf2l = 0 end
-			if buf2r then buf2r = 0 end
+			--if buf2l then buf2l = 0 end
+			--if buf2r then buf2r = 0 end
 		elseif p2teamMode == 1 then --Simul
-			if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buf2r >= 30) then
+			if commandGetState(p2Cmd, 'r') then
+			--if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buf2r >= 30) then
 				if commandGetState(p2Cmd, 'r') and p2numSimul > 2 then sndPlay(sysSnd, 100, 0) end
 				p2numSimul = p2numSimul - 1
 				if p2numSimul < 2 then p2numSimul = 2 end
-				if buf2u then buf2u = 0 end
-				if buf2d then buf2d = 0 end
-			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buf2l >= 30) then
+				--if buf2u then buf2u = 0 end
+				--if buf2d then buf2d = 0 end
+			elseif commandGetState(p2Cmd, 'l') then
+			--elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buf2l >= 30) then
 				if commandGetState(p2Cmd, 'l') and p2numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
 				p2numSimul = p2numSimul + 1
 				if p2numSimul > data.numSimul then p2numSimul = data.numSimul end
-				if buf2u then buf2u = 0 end
-				if buf2d then buf2d = 0 end
+				--if buf2u then buf2u = 0 end
+				--if buf2d then buf2d = 0 end
 			end
-			if commandGetState(p2Cmd, 'holdr') then
-				buf2l = 0
-				buf2r = buf2r + 1
-			elseif commandGetState(p2Cmd, 'holdl') then
-				buf2r = 0
-				buf2l = buf2l + 1
-			else
-				buf2r = 0
-				buf2l = 0
-			end
+			--if commandGetState(p2Cmd, 'holdr') then
+				--buf2l = 0
+				--buf2r = buf2r + 1
+			--elseif commandGetState(p2Cmd, 'holdl') then
+				--buf2r = 0
+				--buf2l = buf2l + 1
+			--else
+				--buf2r = 0
+				--buf2l = 0
+			--end
 		elseif p2teamMode == 2 then --Turns
-			if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buf2r >= 30) then
+			if commandGetState(p2Cmd, 'r') then
+			--if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buf2r >= 30) then
 				if commandGetState(p2Cmd, 'r') and p2numTurns > 2 then sndPlay(sysSnd, 100, 0) end
 				p2numTurns = p2numTurns - 1
 				if p2numTurns < 2 then p2numTurns = 2 end
-				if buf2u then buf2u = 0 end
-				if buf2d then buf2d = 0 end
-			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buf2l >= 30) then
+				--if buf2u then buf2u = 0 end
+				--if buf2d then buf2d = 0 end
+			elseif commandGetState(p2Cmd, 'l') then
+			--elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buf2l >= 30) then
 				if commandGetState(p2Cmd, 'l') and p2numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
 				p2numTurns = p2numTurns + 1
 				if p2numTurns > data.numTurns then p2numTurns = data.numTurns end
-				if buf2u then buf2u = 0 end
-				if buf2d then buf2d = 0 end
+				--if buf2u then buf2u = 0 end
+				--if buf2d then buf2d = 0 end
 			end
-			if commandGetState(p2Cmd, 'holdr') then
-				buf2l = 0
-				buf2r = buf2r + 1
-			elseif commandGetState(p2Cmd, 'holdl') then
-				buf2r = 0
-				buf2l = buf2l + 1
-			else
-				buf2r = 0
-				buf2l = 0
-			end
+			--if commandGetState(p2Cmd, 'holdr') then
+				--buf2l = 0
+				--buf2r = buf2r + 1
+			--elseif commandGetState(p2Cmd, 'holdl') then
+				--buf2r = 0
+				--buf2l = buf2l + 1
+			--else
+				--buf2r = 0
+				--buf2l = 0
+			--end
 		end
-		if commandGetState(p2Cmd, 'holdu') then
-			buf2d = 0
-			buf2u = buf2u + 1
-		elseif commandGetState(p2Cmd, 'holdd') then
-			buf2u = 0
-			buf2d = buf2d + 1
-		else
-			buf2u = 0
-			buf2d = 0
-		end
+		--if commandGetState(p2Cmd, 'holdu') then
+			--buf2d = 0
+			--buf2u = buf2u + 1
+		--elseif commandGetState(p2Cmd, 'holdd') then
+			--buf2u = 0
+			--buf2d = buf2d + 1
+		--else
+			--buf2u = 0
+			--buf2d = 0
+		--end
 		if data.p2In == 2 then
 			textImgDraw(p2SelTmTxt)
 		else

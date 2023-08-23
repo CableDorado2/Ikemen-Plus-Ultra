@@ -732,8 +732,6 @@ t_mainCfg = {
 	{id = '', text = '              Save and Back',  		varID = textImgNew(), varText = ''},
 	{id = '', text = '          Back Without Saving',  		varID = textImgNew(), varText = ''},
 	{id = '', text = '              Online Settings',		varID = textImgNew(), varText = ''}, --Only for Dev Purposes (Delete when test are finished)
-	{id = '', text = '              Online Settings',		varID = textImgNew(), varText = ''},
-	{id = '', text = '              Online Settings',		varID = textImgNew(), varText = ''},
 }
 
 function f_mainCfg()
@@ -4225,10 +4223,6 @@ t_testMenu = {
 	{id = textImgNew(), text = 'P1 TEST'},
 	{id = textImgNew(), text = 'P1&P2 TEST'},
 	{id = textImgNew(), text = 'BACK'},
-	{id = textImgNew(), text = 'TEST'},
-	{id = textImgNew(), text = 'TEST'},
-	{id = textImgNew(), text = 'TEST'},
-	{id = textImgNew(), text = 'TEST'},
 }
 	
 function f_testMenu()
@@ -4272,6 +4266,13 @@ function f_testMenu()
 			moveTxt = (testMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (testMenu - 1) * 13
+		end
+		if #t_testMenu <= 5 then
+			maxTestMenu = #t_testMenu
+		elseif testMenu - cursorPosY > 0 then
+			maxTestMenu = testMenu + 5 - cursorPosY
+		else
+			maxTestMenu = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
@@ -4337,10 +4338,14 @@ function f_testMenu()
 		textImgSetText(txt_titleFt, 'INPUT TEST MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxTestMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_testMenu > 6 and maxTestMenu < #t_testMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4600,20 +4605,20 @@ end
 txt_keyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING', 159, 13)
 
 t_keyCfg = {
-	{id = '', text = 'UP/ Up',    				varID = textImgNew(), varText = ''},
-	{id = '', text = 'DOWN/ Down',  			varID = textImgNew(), varText = ''},
-	{id = '', text = 'BACK/ Left',  			varID = textImgNew(), varText = ''},
-	{id = '', text = 'FORWARD/ Right', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'A/ Confirm',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'B/ Confirm',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'C/ Confirm',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'X/ Confirm',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Y/ Confirm',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Z/ Confirm',     		varID = textImgNew(), varText = ''},
-	{id = '', text = 'START/ Confirm', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'SELECT/ Back', 			varID = textImgNew(), varText = ''},
-	{id = '', text = 'L/ D', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'R/ W', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'UP',    					varID = textImgNew(), varText = ''},
+	{id = '', text = 'DOWN',  					varID = textImgNew(), varText = ''},
+	{id = '', text = 'LEFT',  					varID = textImgNew(), varText = ''},
+	{id = '', text = 'RIGHT', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'A',     					varID = textImgNew(), varText = ''},
+	{id = '', text = 'B',     					varID = textImgNew(), varText = ''},
+	{id = '', text = 'C',     					varID = textImgNew(), varText = ''},
+	{id = '', text = 'X',     					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Y',     					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Z',     					varID = textImgNew(), varText = ''},
+	{id = '', text = 'START', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'SELECT/Back', 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'L', 						varID = textImgNew(), varText = ''},
+	{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
 	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},
 }
 
@@ -4848,25 +4853,25 @@ function f_readInput(oldkey)
 				getKeyboard = oldkey
 				break
 			elseif upKey() and controllerSet == 1 then
-				getKeyboard = 'UP'
+				getKeyboard = 'Up'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
 				break
 			elseif downKey() and controllerSet == 1 then
-				getKeyboard = 'DOWN'
+				getKeyboard = 'Down'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
 				break
 			elseif leftKey() and controllerSet == 1 then
-				getKeyboard = 'LEFT'
+				getKeyboard = 'Left'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
 				break
 			elseif rightKey() and controllerSet == 1 then
-				getKeyboard = 'RIGHT'
+				getKeyboard = 'Right'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)

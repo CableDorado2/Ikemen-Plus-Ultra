@@ -54,6 +54,13 @@ function f_mainNetplay()
 		elseif cursorPosY == 0 then
 			moveTxt = (mainNetplay - 1) * 13
 		end
+		if #t_mainNetplay <= 5 then
+			maxMainNetplay = #t_mainNetplay
+		elseif mainNetplay - cursorPosY > 0 then
+			maxMainNetplay = mainNetplay + 5 - cursorPosY
+		else
+			maxMainNetplay = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--HOST
@@ -129,10 +136,14 @@ function f_mainNetplay()
 		textImgSetText(txt_titleFt, 'ONLINE MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxMainNetplay > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_mainNetplay > 6 and maxMainNetplay < #t_mainNetplay then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -388,6 +399,13 @@ function f_mainHost()
 		elseif cursorPosY == 0 then
 			moveTxt = (mainHost - 1) * 13
 		end
+		if #t_mainHost <= 5 then
+			maxMainHost = #t_mainHost
+		elseif mainHost - cursorPosY > 0 then
+			maxMainHost = mainHost + 5 - cursorPosY
+		else
+			maxMainHost = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--ONLINE VERSUS
@@ -541,10 +559,14 @@ function f_mainHost()
 		textImgSetText(txt_titleFt, 'ONLINE MENU')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxMainHost > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_mainHost > 6 and maxMainHost < #t_mainHost then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -620,6 +642,13 @@ function f_mainJoin()
 			moveTxt = (mainJoin - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainJoin - 1) * 13
+		end
+		if #t_mainJoin <= 5 then
+			maxMainJoin = #t_mainJoin
+		elseif mainJoin - cursorPosY > 0 then
+			maxMainJoin = mainJoin + 5 - cursorPosY
+		else
+			maxMainJoin = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
@@ -774,10 +803,14 @@ function f_mainJoin()
 		textImgSetText(txt_titleFt, 'ONLINE MENU')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxMainJoin > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_mainJoin > 6 and maxMainJoin < #t_mainJoin then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1

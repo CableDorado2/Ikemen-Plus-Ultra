@@ -330,6 +330,14 @@ function f_eventMenu()
 	--Draw Text for Event Status
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
+					--if i == eventMenu then
+						--bank = 5
+					--elseif eventSelect == false then
+						--bank = 0
+					--else
+						--bank = 0
+					--end
+					--textImgDraw(f_updateTextImg(t_eventMenu[i].id, jgFnt, bank, 0, t_eventMenu[i].varText, -16+i*105-moveTxt, 214))
 				if t_eventMenu[i].varID ~= nil then
 					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, 0, -1, t_eventMenu[i].varText, -16+i*105-moveTxt, 214)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end

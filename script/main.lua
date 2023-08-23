@@ -368,10 +368,6 @@ function f_exitMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '               CLOSE OR RESTART ENGINE')	
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -472,10 +468,6 @@ function f_closeMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '             THE ENGINE WILL BE CLOSED')	
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -577,10 +569,6 @@ function f_restartMenu()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, '           THE ENGINE WILL BE RESTARTED')	
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -658,6 +646,13 @@ function f_mainMenu()
 			moveTxt = (mainMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (mainMenu - 1) * 13
+		end
+		if #t_mainMenu <= 5 then
+			maxMainMenu = #t_mainMenu
+		elseif mainMenu - cursorPosY > 0 then
+			maxMainMenu = mainMenu + 5 - cursorPosY
+		else
+			maxMainMenu = 5
 		end
 		--mode selected
 		if btnPalNo(p1Cmd) > 0 then
@@ -757,10 +752,14 @@ function f_mainMenu()
 		textImgSetText(txt_titleFt, 'MAIN MENU')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxMainMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_mainMenu > 6 and maxMainMenu < #t_mainMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -827,6 +826,13 @@ function f_arcadeMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (arcadeMenu - 1) * 13
 		end
+		if #t_arcadeMenu <= 5 then
+			maxArcadeMenu = #t_arcadeMenu
+		elseif arcadeMenu - cursorPosY > 0 then
+			maxArcadeMenu = arcadeMenu + 5 - cursorPosY
+		else
+			maxArcadeMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -883,10 +889,14 @@ function f_arcadeMenu()
 		textImgSetText(txt_titleFt, 'ARCADE MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxArcadeMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_arcadeMenu > 6 and maxArcadeMenu < #t_arcadeMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -954,6 +964,13 @@ function f_vsMenu()
 			moveTxt = (vsMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (vsMenu - 1) * 13
+		end
+		if #t_vsMenu <= 5 then
+			maxVSMenu = #t_vsMenu
+		elseif vsMenu - cursorPosY > 0 then
+			maxVSMenu = vsMenu + 5 - cursorPosY
+		else
+			maxVSMenu = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
@@ -1027,10 +1044,14 @@ function f_vsMenu()
 		textImgSetText(txt_titleFt, 'VERSUS MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxVSMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_vsMenu > 6 and maxVSMenu < #t_vsMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1098,6 +1119,13 @@ function f_randomMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (randomMenu - 1) * 13
 		end
+		if #t_randomMenu <= 5 then
+			maxRandomMenu = #t_randomMenu
+		elseif randomMenu - cursorPosY > 0 then
+			maxRandomMenu = randomMenu + 5 - cursorPosY
+		else
+			maxRandomMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--P1 VS CPU
@@ -1147,10 +1175,14 @@ function f_randomMenu()
 		textImgSetText(txt_titleFt, 'RANDOM MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxRandomMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_randomMenu > 6 and maxRandomMenu < #t_randomMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1217,6 +1249,13 @@ function f_practiceMenu()
 			moveTxt = (practiceMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (practiceMenu - 1) * 13
+		end
+		if #t_practiceMenu <= 5 then
+			maxPracticeMenu = #t_practiceMenu
+		elseif practiceMenu - cursorPosY > 0 then
+			maxPracticeMenu = practiceMenu + 5 - cursorPosY
+		else
+			maxPracticeMenu = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
@@ -1308,10 +1347,14 @@ function f_practiceMenu()
 		textImgSetText(txt_titleFt, 'TRAINING MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxPracticeMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_practiceMenu > 6 and maxPracticeMenu < #t_practiceMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1382,6 +1425,13 @@ function f_challengeMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (challengeMenu - 1) * 13
 		end
+		if #t_challengeMenu <= 5 then
+			maxChallengeMenu = #t_challengeMenu
+		elseif challengeMenu - cursorPosY > 0 then
+			maxChallengeMenu = challengeMenu + 5 - cursorPosY
+		else
+			maxChallengeMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SURVIVAL
@@ -1439,10 +1489,14 @@ function f_challengeMenu()
 		textImgSetText(txt_titleFt, 'CHALLENGES')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxChallengeMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_challengeMenu > 6 and maxChallengeMenu < #t_challengeMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1509,6 +1563,13 @@ function f_survivalMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (survivalMenu - 1) * 13
 		end
+		if #t_survivalMenu <= 5 then
+			maxSurvivalMenu = #t_survivalMenu
+		elseif survivalMenu - cursorPosY > 0 then
+			maxSurvivalMenu = survivalMenu + 5 - cursorPosY
+		else
+			maxSurvivalMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -1563,10 +1624,14 @@ function f_survivalMenu()
 		textImgSetText(txt_titleFt, 'SURVIVAL MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxSurvivalMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_survivalMenu > 6 and maxSurvivalMenu < #t_survivalMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1633,6 +1698,13 @@ function f_bossMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (bossMenu - 1) * 13
 		end
+		if #t_bossMenu <= 5 then
+			maxBossMenu = #t_bossMenu
+		elseif bossMenu - cursorPosY > 0 then
+			maxBossMenu = bossMenu + 5 - cursorPosY
+		else
+			maxBossMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE BOSS
@@ -1675,10 +1747,14 @@ function f_bossMenu()
 		textImgSetText(txt_titleFt, 'BOSS FIGHT')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxBossMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_bossMenu > 6 and maxBossMenu < #t_bossMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1739,6 +1815,13 @@ function f_bossChars()
 		elseif cursorPosY == 0 then
 			moveTxt = (bossChars - 1) * 13
 		end
+		if #t_bossSingle <= 5 then
+			maxBossChars = #t_bossSingle
+		elseif bossChars - cursorPosY > 0 then
+			maxBossChars = bossChars + 5 - cursorPosY
+		else
+			maxBossChars = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			if bossChars < #t_bossSingle then --This table refers to the one at the end of the parser.lua script
@@ -1781,10 +1864,14 @@ function f_bossChars()
 		textImgSetText(txt_titleFt, 'BOSS FIGHT')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxBossChars > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_bossSingle > 6 and maxBossChars < #t_bossSingle then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1851,6 +1938,13 @@ function f_bossrushMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (bossrushMenu - 1) * 13
 		end
+		if #t_bossrushMenu <= 5 then
+			maxBossRushMenu = #t_bossrushMenu
+		elseif bossrushMenu - cursorPosY > 0 then
+			maxBossRushMenu = bossrushMenu + 5 - cursorPosY
+		else
+			maxBossRushMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -1909,10 +2003,14 @@ function f_bossrushMenu()
 		textImgSetText(txt_titleFt, 'BOSS RUSH')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxBossRushMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_bossrushMenu > 6 and maxBossRushMenu < #t_bossrushMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1979,6 +2077,13 @@ function f_bonusMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (bonusMenu - 1) * 13
 		end
+		if #t_bonusMenu <= 5 then
+			maxBonusMenu = #t_bonusMenu
+		elseif bonusMenu - cursorPosY > 0 then
+			maxBonusMenu = bonusMenu + 5 - cursorPosY
+		else
+			maxBonusMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE BONUS
@@ -2021,10 +2126,14 @@ function f_bonusMenu()
 		textImgSetText(txt_titleFt, 'MINI-GAMES')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxBonusMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_bonusMenu > 6 and maxBonusMenu < #t_bonusMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2085,6 +2194,13 @@ function f_bonusExtras()
 		elseif cursorPosY == 0 then
 			moveTxt = (bonusExtras - 1) * 13
 		end
+		if #t_bonusExtras <= 5 then
+			maxBonusExtras = #t_bonusExtras
+		elseif bonusExtras - cursorPosY > 0 then
+			maxBonusExtras = bonusExtras + 5 - cursorPosY
+		else
+			maxBonusExtras = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			if bonusExtras < #t_bonusExtras then --This table refers to the one at the end of the parser.lua script
@@ -2128,10 +2244,14 @@ function f_bonusExtras()
 		textImgSetText(txt_titleFt, 'BONUS STAGES')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxBonusExtras > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_bonusExtras > 6 and maxBonusExtras < #t_bonusExtras then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2198,6 +2318,13 @@ function f_bonusrushMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (bonusrushMenu - 1) * 13
 		end
+		if #t_bonusrushMenu <= 5 then
+			maxBonusRushMenu = #t_bonusrushMenu
+		elseif bonusrushMenu - cursorPosY > 0 then
+			maxBonusRushMenu = bonusrushMenu + 5 - cursorPosY
+		else
+			maxBonusRushMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -2259,10 +2386,14 @@ function f_bonusrushMenu()
 		textImgSetText(txt_titleFt, 'BONUS RUSH')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxBonusRushMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_bonusrushMenu > 6 and maxBonusRushMenu < #t_bonusrushMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2329,6 +2460,13 @@ function f_timeMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (timeMenu - 1) * 13
 		end
+		if #t_timeMenu <= 5 then
+			maxTimeMenu = #t_timeMenu
+		elseif timeMenu - cursorPosY > 0 then
+			maxTimeMenu = timeMenu + 5 - cursorPosY
+		else
+			maxTimeMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -2387,10 +2525,14 @@ function f_timeMenu()
 		textImgSetText(txt_titleFt, 'TIME ATTACK MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxTimeMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_timeMenu > 6 and maxTimeMenu < #t_timeMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2457,6 +2599,13 @@ function f_suddenMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (suddenMenu - 1) * 13
 		end
+		if #t_suddenMenu <= 5 then
+			maxSuddenMenu = #t_suddenMenu
+		elseif suddenMenu - cursorPosY > 0 then
+			maxSuddenMenu = suddenMenu + 5 - cursorPosY
+		else
+			maxSuddenMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -2515,10 +2664,14 @@ function f_suddenMenu()
 		textImgSetText(txt_titleFt, 'SUDDEN DEATH MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxSuddenMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_suddenMenu > 6 and maxSuddenMenu < #t_suddenMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2585,6 +2738,13 @@ function f_allcharsMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (allcharsMenu - 1) * 13
 		end
+		if #t_allcharsMenu <= 5 then
+			maxAllCharsMenu = #t_allcharsMenu
+		elseif allcharsMenu - cursorPosY > 0 then
+			maxAllCharsMenu = allcharsMenu + 5 - cursorPosY
+		else
+			maxAllCharsMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
@@ -2639,10 +2799,14 @@ function f_allcharsMenu()
 		textImgSetText(txt_titleFt, 'INFINITE MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxAllCharsMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_allcharsMenu > 6 and maxAllCharsMenu < #t_allcharsMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2712,6 +2876,13 @@ function f_watchMenu()
 			moveTxt = (watchMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (watchMenu - 1) * 13
+		end
+		if #t_watchMenu <= 5 then
+			maxWatchMenu = #t_watchMenu
+		elseif watchMenu - cursorPosY > 0 then
+			maxWatchMenu = watchMenu + 5 - cursorPosY
+		else
+			maxWatchMenu = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
@@ -2820,10 +2991,14 @@ function f_watchMenu()
 		textImgSetText(txt_titleFt, 'WATCH CONTENT')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxWatchMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2897,6 +3072,13 @@ function f_extrasMenu()
 			moveTxt = (extrasMenu - 6) * 13
 		elseif cursorPosY == 0 then
 			moveTxt = (extrasMenu - 1) * 13
+		end
+		if #t_extrasMenu <= 5 then
+			maxExtrasMenu = #t_extrasMenu
+		elseif extrasMenu - cursorPosY > 0 then
+			maxExtrasMenu = extrasMenu + 5 - cursorPosY
+		else
+			maxExtrasMenu = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
@@ -2974,10 +3156,14 @@ function f_extrasMenu()
 		textImgSetText(txt_titleFt, 'EXTRAS UNLOCKED')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxExtrasMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3045,6 +3231,13 @@ function f_tourneyMenu()
 		elseif cursorPosY == 0 then
 			moveTxt = (tourneyMenu - 1) * 13
 		end
+		if #t_tourneyMenu <= 5 then
+			maxTourneyMenu = #t_tourneyMenu
+		elseif tourneyMenu - cursorPosY > 0 then
+			maxTourneyMenu = tourneyMenu + 5 - cursorPosY
+		else
+			maxTourneyMenu = 5
+		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--ROUND OF 16
@@ -3108,10 +3301,14 @@ function f_tourneyMenu()
 		textImgSetText(txt_titleFt, 'TOURNAMENT MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
-		animDraw(arrowsD)
-		animUpdate(arrowsD)
-		animDraw(arrowsU)
-		animUpdate(arrowsU)
+		if maxTourneyMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_tourneyMenu > 6 and maxTourneyMenu < #t_tourneyMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
