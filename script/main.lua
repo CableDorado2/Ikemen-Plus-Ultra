@@ -3285,6 +3285,10 @@ end
 
 function f_galleryMenu()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	local moveArt = 1 --Start in image 0,0
 	galleryList = 0 --Important to avoid errors when read
 	cmdInput()
