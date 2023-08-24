@@ -60,48 +60,36 @@ animAddPos(arrowsEL, 0, 123)
 animUpdate(arrowsEL)
 animSetScale(arrowsEL, 1.7, 1.7)
 
---Draw Event 1 Preview
-function f_drawEvent1()
---Event Available at this Time!
-	if sysTime >= 20 and sysTime <= 23 then
-		event1Status = true
-		event1 = animNew(eventSff, [[
-		0,0, 0,0,
-		]])
-		animSetPos(event1, 5, 54)
-		animUpdate(event1)
-		animDraw(event1)
---Event Unavailable...
-	else
-		event1Status = false
-		event1L = animNew(eventSff, [[
-		0,1, 0,0,
-		]])
-		animSetPos(event1L, 5, 54)
-		animUpdate(event1L)
-		animDraw(event1L)
-	end
-end
+--;===========================================================
+--; EVENTS IMAGES
+--;===========================================================
+--Event 1 Unlocked Preview
+event1 = animNew(eventSff, [[
+0,0, 0,0,
+]])
+animSetPos(event1, 5, 54)
+animUpdate(event1)
 
---Draw Event 2 Preview
-function f_drawEvent2()
-	event2 = animNew(eventSff, [[
-	1,0, 0,0,
-	]])
-	animSetPos(event2, 110, 54)
-	animUpdate(event2)
-	animDraw(event2)
-end
+--Event 1 Locked Preview
+event1L = animNew(eventSff, [[
+0,1, 0,0,
+]])
+animSetPos(event1L, 5, 54)
+animUpdate(event1L)
 
---Draw Event 3 Preview
-function f_drawEvent3()
-	event3 = animNew(eventSff, [[
-	2,0, 0,0,
-	]])
-	animSetPos(event3, 215, 54)
-	animUpdate(event3)
-	animDraw(event3)
-end
+--Event 2 Unlocked Preview
+event2 = animNew(eventSff, [[
+1,0, 0,0,
+]])
+animSetPos(event2, 110, 54)
+animUpdate(event2)
+
+--Event 3 Unlocked Preview
+event3 = animNew(eventSff, [[
+2,0, 0,0,
+]])
+animSetPos(event3, 215, 54)
+animUpdate(event3)
 
 --;===========================================================
 --; EVENTS MENU
@@ -270,8 +258,14 @@ function f_eventMenu()
 		end
 		if cursorPosX == 3 then
 			moveTxt = (eventMenu - 3) * 105 --Set how many space will move Event Status text
+			moveImg = (eventMenu - 3) * 160 --Set how many space will move Event Preview image
+			moveImg2 = (eventMenu - 3) * 105
+			moveImg3 = (eventMenu - 3) * 60
 		elseif cursorPosX == 1 then
 			moveTxt = (eventMenu - 1) * 105
+			moveImg = (eventMenu - 1) * 160
+			moveImg2 = (eventMenu - 1) * 105
+			moveImg3 = (eventMenu - 1) * 60
 		end
 		if #t_eventMenu <= 3 then
 			maxEvents = #t_eventMenu
@@ -291,9 +285,24 @@ function f_eventMenu()
 		animSetScale(eventBG2, 318, 154)
 		animSetWindow(eventBG2, 3,52, 314,154)
 		animDraw(eventBG2)
-		f_drawEvent1()
-		f_drawEvent2()
-		f_drawEvent3()
+	--Draw Event 1
+		if sysTime >= 20 and sysTime <= 23 then --Event Available at this Time!
+			event1Status = true
+		--Draw and Move Event Available Image
+			animPosDraw(event1, 5-moveImg, 54)
+			animUpdate(event1)
+		else --Event Unavailable...
+			event1Status = false
+			--Draw and Move Event Locked Image
+			animPosDraw(event1L, 5-moveImg, 54)
+			animUpdate(event1L)
+		end
+	--Draw Event 2
+		animPosDraw(event2, 5*24-moveImg2, 54)
+		animUpdate(event2)
+	--Draw Event 3
+		animPosDraw(event3, 8*34-moveImg3, 54)
+		animUpdate(event3)
 		if eventSelect == true then
 		--Draw Event Cursor
 			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
