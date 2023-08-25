@@ -2737,6 +2737,7 @@ end
 --;===========================================================
 t_watchMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
+	{id = textImgNew(), text = 'LEADERBOARDS'},
 	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'SCREENSHOTS'},
 	{id = textImgNew(), text = 'STATISTICS'},
@@ -2811,8 +2812,12 @@ function f_watchMenu()
 				else
 					f_mainReplay()
 				end
-			--STAGE VIEWER
+			--LEADERBOARDS
 			elseif watchMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+			--STAGE VIEWER
+			elseif watchMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1) --round time disabled
@@ -2827,17 +2832,17 @@ function f_watchMenu()
 				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
 				script.select.f_selectSimple()
 			--SCREENSHOTS
-			elseif watchMenu == 3 then
+			elseif watchMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				sszOpen("saved/screenshots", "") --added via script.ssz
 			--STATISTICS
-			elseif watchMenu == 4 then
+			elseif watchMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				--assert(loadfile('saved/stats_sav.lua'))()
 				script.select.f_modeplayTime()
 				script.statistics.f_statsMenu()
 			--CPU MATCH
-			elseif watchMenu == 5 then
+			elseif watchMenu == 6 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
@@ -2849,7 +2854,7 @@ function f_watchMenu()
 				textImgSetText(txt_mainSelect, 'WATCH MODE')			
 				script.select.f_selectSimple()
 			--CREDITS
-			elseif watchMenu == 6 then
+			elseif watchMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
 				cmdInput()
 				local cursorPosY = 0

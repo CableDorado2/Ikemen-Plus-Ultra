@@ -675,6 +675,7 @@ function f_inputDefault()
 	s_disablePadP1 = 'Enabled'
 	data.disablePadP2 = false
 	s_disablePadP2 = 'Enabled'
+	--P1 KEYBOARD
 	t_keyCfg[1].varText = 'UP'
 	t_keyCfg[2].varText = 'DOWN'
 	t_keyCfg[3].varText = 'LEFT'
@@ -686,7 +687,9 @@ function f_inputDefault()
 	t_keyCfg[9].varText = 'x'
 	t_keyCfg[10].varText = 'c'
 	t_keyCfg[11].varText = 'RETURN'
+	t_keyCfg[12].varText = 'f'
 	f_keySave(0,-1)
+	--P2 KEYBOARD
 	t_keyCfg[1].varText = 'KP_5'
 	t_keyCfg[2].varText = 'KP_2'
 	t_keyCfg[3].varText = 'KP_1'
@@ -698,7 +701,9 @@ function f_inputDefault()
 	t_keyCfg[9].varText = 'k'
 	t_keyCfg[10].varText = 'l'
 	t_keyCfg[11].varText = 'KP_0'
+	t_keyCfg[12].varText = 'p'
 	f_keySave(1,-1)
+	--P1 GAMEPAD
 	t_keyCfg[1].varText = '-3'
 	t_keyCfg[2].varText = '-4'
 	t_keyCfg[3].varText = '-1'
@@ -710,7 +715,9 @@ function f_inputDefault()
 	t_keyCfg[9].varText = '3'
 	t_keyCfg[10].varText = '5'
 	t_keyCfg[11].varText = '9'
+	t_keyCfg[12].varText = '7'
 	f_keySave(2,0)
+	--P2 GAMEPAD
 	t_keyCfg[1].varText = '-3'
 	t_keyCfg[2].varText = '-4'
 	t_keyCfg[3].varText = '-1'
@@ -722,6 +729,7 @@ function f_inputDefault()
 	t_keyCfg[9].varText = '3'
 	t_keyCfg[10].varText = '5'
 	t_keyCfg[11].varText = '9'
+	t_keyCfg[12].varText = '7'
 	f_keySave(3,1)
 end
 
@@ -4628,9 +4636,9 @@ t_keyCfg = {
 	{id = '', text = 'Y',     					varID = textImgNew(), varText = ''},
 	{id = '', text = 'Z',     					varID = textImgNew(), varText = ''},
 	{id = '', text = 'START', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'SELECT/Back', 			varID = textImgNew(), varText = ''},
-	{id = '', text = 'L', 						varID = textImgNew(), varText = ''},
-	{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
+	{id = '', text = 'SELECT',		 			varID = textImgNew(), varText = ''},
+	--{id = '', text = 'L', 						varID = textImgNew(), varText = ''},
+	--{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
 	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},
 }
 
@@ -4682,7 +4690,7 @@ function f_keyCfg(playerNo, controller)
 					controllerNum = 10
 				end
 				t_keyCfg[keyCfg].varText = f_readInput(t_keyCfg[keyCfg].varText)
-				setInputConfig(playerNo, controller, t_keyCfg[1].varText, t_keyCfg[2].varText, t_keyCfg[3].varText, t_keyCfg[4].varText, t_keyCfg[5].varText, t_keyCfg[6].varText, t_keyCfg[7].varText, t_keyCfg[8].varText, t_keyCfg[9].varText, t_keyCfg[10].varText, t_keyCfg[11].varText)
+				setInputConfig(playerNo, controller, t_keyCfg[1].varText, t_keyCfg[2].varText, t_keyCfg[3].varText, t_keyCfg[4].varText, t_keyCfg[5].varText, t_keyCfg[6].varText, t_keyCfg[7].varText, t_keyCfg[8].varText, t_keyCfg[9].varText, t_keyCfg[10].varText, t_keyCfg[11].varText, t_keyCfg[12].varText)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -5207,18 +5215,18 @@ function f_readInput(oldkey)
 end
 
 function f_keySave(playerNo, controller)
-	--Keyboard
+	--Keyboard - Battle
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[11].varText .. ');')
-	--Gamepad
+	--Gamepad - Battle
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[11].varText .. ');')
-	--Keyboard
+	--Keyboard - Menu
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[11].varText .. ');')
-	--Gamepad
+	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyCfg[1].varText .. ',\n  (int)k_t::' .. t_keyCfg[2].varText .. ',\n  (int)k_t::' .. t_keyCfg[3].varText .. ',\n  (int)k_t::' .. t_keyCfg[4].varText .. ',\n  (int)k_t::' .. t_keyCfg[5].varText .. ',\n  (int)k_t::' .. t_keyCfg[6].varText .. ',\n  (int)k_t::' .. t_keyCfg[7].varText .. ',\n  (int)k_t::' .. t_keyCfg[8].varText .. ',\n  (int)k_t::' .. t_keyCfg[9].varText .. ',\n  (int)k_t::' .. t_keyCfg[10].varText .. ',\n  (int)k_t::' .. t_keyCfg[12].varText .. ');')
+	--Gamepad - Menu
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[11].varText .. ');')
+	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyCfg[1].varText .. ', ' .. t_keyCfg[2].varText .. ', ' .. t_keyCfg[3].varText .. ', ' .. t_keyCfg[4].varText .. ', ' .. t_keyCfg[5].varText .. ', ' .. t_keyCfg[6].varText .. ', ' .. t_keyCfg[7].varText .. ', ' .. t_keyCfg[8].varText .. ', ' .. t_keyCfg[9].varText .. ', ' .. t_keyCfg[10].varText .. ', ' .. t_keyCfg[12].varText .. ');')
 end
 
 --;===========================================================
