@@ -802,17 +802,33 @@ function f_selectSimple()
 		end
 		f_selectReset()
 		while not selScreenEnd do
-			if esc() and p1TeamBack == true then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				f_backMenu()
-				if back == true then
-					if data.rosterMode == 'event' then
-						--playBGM('')
-					else
-						f_menuMusic()
+			if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+				if p1TeamBack == true then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					f_backMenu()
+					if back == true then
+						if data.rosterMode == 'event' then
+							--playBGM('')
+						else
+							f_menuMusic()
+						end
+						return
 					end
-					return
+				end
+			elseif esc() and data.p2In == 2 then
+				if p1TeamBack == true and p2TeamBack == true then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					f_backMenu()
+					if back == true then
+						if data.rosterMode == 'event' then
+							--playBGM('')
+						else
+							f_menuMusic()
+						end
+						return
+					end
 				end
 			end
 			f_selectScreen()
@@ -946,7 +962,7 @@ function f_selectAdvance()
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		selectStart()
 		while not selScreenEnd do
-			if esc() and test == true then
+			if esc() and p1TeamBack == true then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				f_backMenu()
@@ -1652,6 +1668,7 @@ function f_p1TeamMenu()
 			setTeamMode(1, p1teamMode, p1numChars)
 			p1TeamEnd = true
 			p1BG = true
+			p1SelBack = true
 			p1TeamBack = false
 			cmdInput()
 		end
@@ -1765,9 +1782,18 @@ function f_p2TeamMenu()
 		p2BG = true
 	else
 		if esc() and p2TeamBack == true then
-			--data.t_p1selected = {}
-			f_p1sideReset()
-			p1TeamEnd = false
+			if data.p2In == 1 or data.p2In == 3 then
+				f_p2sideReset()
+				p2TeamEnd = true
+				p2SelEnd = true
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+				p1SelBack = true
+				p1TeamBack = false
+			elseif data.p2In == 2 then
+				
+			end
 		end
 		if commandGetState(p2Cmd, 'u') then
 		--if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and buf2u >= 30) then
@@ -1896,6 +1922,7 @@ function f_p2TeamMenu()
 			setTeamMode(2, p2teamMode, p2numChars)
 			p2TeamEnd = true
 			p2BG = true
+			p2SelBack = true
 			p2TeamBack = false
 			cmdInput()
 		end
@@ -2171,7 +2198,6 @@ function f_p1SelectMenu()
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
-			p1SelBack = true
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
 				local foundCel = false
 				while true do
@@ -2470,7 +2496,6 @@ function f_p2SelectMenu()
 		if not p2SelEnd then
 			local tmpCelX = p2SelX
 			local tmpCelY = p2SelY
-			p2SelBack = true
 			if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30 and p2palEnd) then
 				local foundCel = false
 				while true do
