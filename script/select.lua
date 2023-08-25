@@ -685,6 +685,13 @@ function f_backMenu()
 						data.t_p1selected = {}
 						p1palEnd = true
 						p1SelEnd = false
+						if data.coop then
+							p2Cell = nil
+							p2Portrait = nil
+							data.t_p2selected = {}
+							p2palEnd = true
+							p2SelEnd = false
+						end
 					else
 						f_selectReset()
 					end
@@ -2349,7 +2356,7 @@ function f_p1SelectMenu()
 						updateAnim = false
 					end
 				end
-				--p1palSelect = 1 --Load Default Palette (In case that you do not open the palette menu with Start Button in data.palType = Modern)
+				--p1palSelect = 1 --Load Default Palette (In case that you do not open the palette menu with Start Button for data.palType = Modern)
 				if data.palType == 'Classic' then
 					p1palSelect = btnPalNo(p1Cmd)
 				elseif data.palType == 'Modern' then
@@ -4979,6 +4986,12 @@ function f_continue()
 					--Do nothing and don't show the screen
 				elseif data.serviceScreen == true then
 					f_service()
+				end
+				if serviceTeam == false then --Draw Portrait BG when select a service different of Change Team
+					p1BG = true
+					if data.coop then
+						p2BG = true
+					end
 				end
 				--challenger screen
 				if data.challengerScreen == false then
