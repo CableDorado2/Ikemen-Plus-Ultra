@@ -106,6 +106,7 @@ function f_selectReset()
 	end
 	selScreenEnd = false
 	stageEnd = false
+	charSelect = true
 	p1numChars = 1
 	p2numChars = 1
 	p1teamMode = 0
@@ -1437,12 +1438,56 @@ function f_selectScreen()
 	end
 	if p1SelEnd and p2SelEnd then
 		--Stage select
+		charSelect = false
 		if not stageEnd then
 			f_selectStage()
 		else
 			selScreenEnd = true
 		end
 	end
+	--Deselect in Multiplayer Modes
+	if data.coop then
+		--if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and p1SelEnd == true then
+		if btnPalNo(p1Cmd) > 0 and p1SelEnd == true then
+			sndPlay(sysSnd, 100, 2)
+			p1SelEnd = false
+			data.t_p1selected = {}
+		end
+	else
+		--if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and p1SelEnd and charSelect == false then
+		if btnPalNo(p1Cmd) > 0 and p1SelEnd and charSelect == true then
+			sndPlay(sysSnd, 100, 2)
+			p1SelEnd = false
+			data.t_p1selected = {}
+			if data.p2In == 1 then
+				p2TeamEnd = true
+				p2SelEnd = true
+				p2Portrait = nil
+			end
+		end
+	end
+	if data.p2In == 2 then
+		if data.coop then
+			--if (commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z')) and p2SelEnd then
+			if btnPalNo(p2Cmd) > 0 and p2SelEnd then
+				sndPlay(sysSnd, 100, 2)
+				if data.p2In == 2 then
+					p2SelEnd = false
+				end
+				data.t_p2selected = {}
+			end
+		else
+			--if (commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z')) and p2SelEnd and charSelect == false then 
+			if btnPalNo(p2Cmd) > 0 and p2SelEnd and charSelect == true then 
+				sndPlay(sysSnd, 100, 2)
+				if data.p2In == 2 then
+					p2SelEnd = false
+				end
+				data.t_p2selected = {}
+			end
+		end
+	end
+	--Activate Stage Announcer Timer
 	if stageAnnouncer == true then
 		stageTimer = stageTimer + 1
 	end
