@@ -23,7 +23,7 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 const ^/char listenPort = "7500";
-const ^/char UserName = "CD2";
+const ^/char UserName = "CableDorado2";
 
 const ^/char system = "script/main.lua";
 
@@ -31,6 +31,7 @@ lib sdl = <alpha/sdlplugin.ssz>;
 type k_t = |sdl.SDLKey;
 /%&Keys in;
 
+//P1 KEYBOARD - BATTLE
 in.new[0].set(
   -1,
   (int)k_t::UP,
@@ -45,6 +46,7 @@ in.new[0].set(
   (int)k_t::c,
   (int)k_t::RETURN);
 
+//P2 KEYBOARD - BATTLE
 in.new[1].set(
   -1,
   (int)k_t::KP_5,
@@ -59,14 +61,15 @@ in.new[1].set(
   (int)k_t::l,
   (int)k_t::KP_0);
 
+//P1 GAMEPAD - BATTLE
 in.new[2].set(
   0, -3, -4, -1, -2, 14, 13, 15, 12, 10, 11, 3);
 
+//P2 GAMEPAD - BATTLE
 in.new[3].set(
   1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
 
-
-
+//P1 KEYBOARD - MENU
 in.new[10].set(
   -1,
   (int)k_t::UP,
@@ -81,6 +84,7 @@ in.new[10].set(
   (int)k_t::c,
   (int)k_t::RETURN);
 
+//P2 KEYBOARD - MENU
 in.new[11].set(
   -1,
   (int)k_t::KP_5,
@@ -95,21 +99,17 @@ in.new[11].set(
   (int)k_t::l,
   (int)k_t::KP_0);
 
+//P1 GAMEPAD - MENU
 in.new[12].set(
   0, -3, -4, -1, -2, 14, 13, 15, 12, 10, 11, 3);
 
+//P2 GAMEPAD - MENU
 in.new[13].set(
   1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
 
-
 const bool SaveMemory = false;
-
-
 const bool IgnoreMostErrors = true;
 const bool OpenGL = false;
-
-
-
 
 public &Keys
 {

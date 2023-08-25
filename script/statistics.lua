@@ -59,8 +59,17 @@ t_statsMenu = {
 	{id = '', text = 'Favorite Character',  		varID = textImgNew(), varText = data.favoriteChar},
 	{id = '', text = 'Favorite Stage',				varID = textImgNew(), varText = data.favoriteStage},
 	{id = '', text = 'Preferred Game Mode', 		varID = textImgNew(), varText = data.preferredMode},
+	{id = '', text = 'Online Rank',     			varID = textImgNew(), varText = 'WIP'},
 	{id = '', text = 'Victories',     				varID = textImgNew(), varText = data.victories},
 	{id = '', text = 'Defeats',     				varID = textImgNew(), varText = data.defeats},
+	{id = '', text = 'Arcade Status',     			varID = textImgNew(), varText = ''},
+	{id = '', text = 'Survival Status',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Missions Completed',     		varID = textImgNew(), varText = '?/3'},
+	{id = '', text = 'Events Completed',     		varID = textImgNew(), varText = '?/1'},
+	{id = '', text = 'Time Attack Record',    		varID = textImgNew(), varText = 'WIP'},
+	{id = '', text = 'Boss Rush Record',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Endless Record',    			varID = textImgNew(), varText = '? Wins'},
+	{id = '', text = 'Sudden Death Record',    		varID = textImgNew(), varText = '? Wins'},
 	{id = '', text = '                   BACK',    	varID = textImgNew(), varText = ''},
 }
 
@@ -88,34 +97,11 @@ function f_statsMenu()
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			statsMenu = statsMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 then --To see more statistics details, currently is not necessary
-			--Collected Coins
-			if statsMenu == 1 then
-				--sndPlay(sysSnd, 100, 1)	
-			--Time Played
-			elseif statsMenu == 2 then
-				--sndPlay(sysSnd, 100, 1)
-			--Favorite Character
-			elseif statsMenu == 3 then
-				--sndPlay(sysSnd, 100, 1)
-			--Favorite Stage
-			elseif statsMenu == 4 then
-				--sndPlay(sysSnd, 100, 1)
-			--Preferred Game Mode
-			elseif statsMenu == 5 then
-				--sndPlay(sysSnd, 100, 1)
-			--Victories
-			elseif statsMenu == 6 then
-				--sndPlay(sysSnd, 100, 1)
-			--Defeats
-			elseif statsMenu == 7 then
-				--sndPlay(sysSnd, 100, 1)
-			--BACK
-			else
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
-			end			
+		--BACK
+		elseif btnPalNo(p1Cmd) > 0 and statsMenu == #t_statsMenu then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
 		end
 		--Cursor position calculation
 		if statsMenu < 1 then
@@ -162,8 +148,8 @@ function f_statsMenu()
 		t_statsMenu[3].varText = data.favoriteChar
 		t_statsMenu[4].varText = data.favoriteStage
 		t_statsMenu[5].varText = data.preferredMode
-		t_statsMenu[6].varText = data.victories
-		t_statsMenu[7].varText = data.defeats
+		t_statsMenu[7].varText = data.victories
+		t_statsMenu[8].varText = data.defeats
 		--Draw Text for Table
 		for i=1, maxStats do
 			if i > statsMenu - cursorPosY then
