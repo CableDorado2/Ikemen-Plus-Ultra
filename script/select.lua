@@ -119,6 +119,7 @@ function f_selectReset()
 	setMatchNo(matchNo)
 	rematchEnd = false
 	battleOption = 0
+	--rankedEnd = false
 end
 
 function f_setZoom()
@@ -4136,19 +4137,22 @@ end
 function f_ftcontrol()
 	if onlinegame == true and data.gameMode == 'versus' then
 		if p1Wins == data.ftcontrol then
-			os.exit()
+			--os.exit() --Fightcade System
+			battleOption = 3
+			rematchEnd = true
+			rankedEnd = true
 			while true do
-				break
 				--animDraw(data.fadeTitle)
 				--animUpdate(data.fadeTitle)
+				break
 				--cmdInput()
 				--refresh()
 			end
-			--cancel = true
 		elseif p2Wins == data.ftcontrol then
-			os.exit()
-			--return
-			--cancel = true
+			--os.exit() --Fightcade System
+			battleOption = 3
+			rematchEnd = true
+			rankedEnd = true
 		end
 	end
 end

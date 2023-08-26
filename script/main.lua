@@ -4548,9 +4548,9 @@ function f_mainHost()
 	local bufl = 0
 	local cancel = false
 	while true do
-		if esc() then
+		if esc() or rankedEnd == true then
 			sndPlay(sysSnd, 100, 2)
-			return
+			break
 		end
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
@@ -4599,7 +4599,11 @@ function f_mainHost()
 				setRoundTime(-1)
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
+				if data.ftcontrol > 0 then
+					textImgSetText(txt_mainSelect, 'ONLINE RANKED VERSUS')
+				else
+					textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
+				end
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
 			elseif mainHost == 2 then
@@ -4792,9 +4796,9 @@ function f_mainJoin()
 	local bufl = 0
 	local cancel = false
 	while true do
-		if esc() then
+		if esc() or rankedEnd == true then
 			sndPlay(sysSnd, 100, 2)
-			return
+			break
 		end
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
@@ -4843,7 +4847,11 @@ function f_mainJoin()
 				setRoundTime(-1)
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
+				if data.ftcontrol > 0 then
+					textImgSetText(txt_mainSelect, 'ONLINE RANKED VERSUS')
+				else
+					textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
+				end
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
 			elseif mainJoin == 2 then
