@@ -4136,7 +4136,7 @@ end
 function f_ftcontrol()
 	if onlinegame == true and data.gameMode == 'versus' then
 		if p1Wins == data.ftcontrol then
-			--os.exit()
+			os.exit()
 			while true do
 				break
 				--animDraw(data.fadeTitle)
@@ -4146,7 +4146,7 @@ function f_ftcontrol()
 			end
 			--cancel = true
 		elseif p2Wins == data.ftcontrol then
-			--os.exit()
+			os.exit()
 			--return
 			--cancel = true
 		end

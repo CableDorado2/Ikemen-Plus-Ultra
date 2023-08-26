@@ -1,37 +1,29 @@
-table: 0CA45AE0 {
-  [arcademaxmatches] => table: 0CA45AE0 {
-                          [1] => 1
-                          [2] => 1
-                          [3] => 1
-                          [4] => 1
-                          [5] => 0
-                          [6] => 0
-                          [7] => 0
-                          [8] => 0
-                          [9] => 0
-                          [10] => 0
-                        }
-  [arcadestart] => table: 0CA45AE0 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [survivalend] => table: 0CA45AE0 {
+table: 08C1C368 {
+  [survivalend] => table: 08C1C368 {
                      [offset] => 4
                      [wins] => 16
                    }
-  [teamstart] => table: 0CA45AE0 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [survivalstart] => table: 0CA45AE0 {
+  [survivalstart] => table: 08C1C368 {
                        [offset] => -3
                        [wins] => 0
                      }
-  [teamend] => table: 0CA45AE0 {
+  [teamstart] => table: 08C1C368 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [arcadestart] => table: 08C1C368 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [arcadeend] => table: 08C1C368 {
+                   [offset] => 2
+                   [wins] => 4
+                 }
+  [teamend] => table: 08C1C368 {
                  [offset] => 2
                  [wins] => 3
                }
-  [teammaxmatches] => table: 0CA45AE0 {
+  [teammaxmatches] => table: 08C1C368 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -43,8 +35,16 @@ table: 0CA45AE0 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadeend] => table: 0CA45AE0 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
+  [arcademaxmatches] => table: 08C1C368 {
+                          [1] => 1
+                          [2] => 1
+                          [3] => 1
+                          [4] => 1
+                          [5] => 0
+                          [6] => 0
+                          [7] => 0
+                          [8] => 0
+                          [9] => 0
+                          [10] => 0
+                        }
 }

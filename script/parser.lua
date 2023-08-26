@@ -2,6 +2,7 @@
 --; GLOBAL VARIABLES DEFINITION
 --;===========================================================
 onlinegame = false
+--netPlayer = ''
 coinSystem = true
 data.tagmode = 1
 data.includestage = 0

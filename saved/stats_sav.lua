@@ -1,9 +1,9 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 49
-data.playTime = 114649.018
+data.playTime = 115110.427
 data.favoriteChar = "Kung Fu Man"
-data.favoriteStage = "Mountainside Temple Hidden Path"
+data.favoriteStage = "Training Room"
 data.victories = 148
 data.defeats = 106
 data.preferredMode = "WIP"

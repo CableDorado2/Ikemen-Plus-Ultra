@@ -1162,10 +1162,10 @@ function f_onlineCfg()
 				if modified == 1 then
 					f_netsaveCfg()
 				end
-				if netPlayer == 'Host' then --Declared in netplay.lua
-					script.netplay.f_mainHost()
-				elseif netPlayer == 'Client' then --Declared in netplay.lua
-					script.netplay.f_mainJoin()
+				if netPlayer == 'Host' then --Declared in main.lua
+					f_mainHost()
+				elseif netPlayer == 'Client' then --Declared in main.lua
+					f_mainJoin()
 				end
 				break
 			end
