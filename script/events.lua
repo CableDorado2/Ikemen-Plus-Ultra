@@ -113,26 +113,26 @@ t_eventMenu = {
 
 t_tInfo = {
 	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
-	{id = '2', text = 'POST YOUR SCHEDULE HERE                  '},
-	{id = '3', text = 'POST YOUR SCHEDULE HERE                  '},
-	{id = '4', text = 'POST YOUR SCHEDULE HERE                  '},
-	{id = '5', text = 'POST YOUR SCHEDULE HERE                  '},
-	{id = '6', text = 'POST YOUR SCHEDULE HERE                  '},
+	{id = '2', text = 'POST YOUR SCHEDULE HERE'},
+	{id = '3', text = 'POST YOUR SCHEDULE HERE'},
+	{id = '4', text = 'POST YOUR SCHEDULE HERE'},
+	{id = '5', text = 'POST YOUR SCHEDULE HERE'},
+	{id = '6', text = 'POST YOUR SCHEDULE HERE'},
 }
 for i=1, #t_tInfo do
-	t_tInfo[i].id = createTextImg(font11, 0, -1, t_tInfo[i].text, 313, 37)
+	t_tInfo[i].id = createTextImg(font11, 0, 0, t_tInfo[i].text, 160, 37)
 end
 
 t_mInfo = {
-	{id = '1', text = "Play as Master Kung Fu Girl!     "},
-	{id = '2', text = "PROGRAM YOUR EVENT HERE        "},
-	{id = '3', text = "PROGRAM YOUR EVENT HERE        "},
-	{id = '4', text = "PROGRAM YOUR EVENT HERE        "},
-	{id = '5', text = "PROGRAM YOUR EVENT HERE        "},
-	{id = '6', text = "PROGRAM YOUR EVENT HERE        "},
+	{id = '1', text = "Play as Master Kung Fu Girl!"},
+	{id = '2', text = "PROGRAM YOUR EVENT HERE"},
+	{id = '3', text = "PROGRAM YOUR EVENT HERE"},
+	{id = '4', text = "PROGRAM YOUR EVENT HERE"},
+	{id = '5', text = "PROGRAM YOUR EVENT HERE"},
+	{id = '6', text = "PROGRAM YOUR EVENT HERE"},
 }
 for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 300, 37)
+	t_mInfo[i].id = createTextImg(font11, 0, 0, t_mInfo[i].text, 160, 37)
 end
 
 function f_eventMenu()

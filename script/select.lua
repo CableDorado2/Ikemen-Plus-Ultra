@@ -3217,15 +3217,9 @@ animSetScale(p2OrderCursor, 0.10, 0.10)
 --;===========================================================
 --; ORDER SELECT
 --;===========================================================
-txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_orderHint = createTextImg(font5, 0, -1, '', 308, 239)
-txt_vsHint = createTextImg(font5, 0, -1, '', 308, 239)
-txt_matchNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_matchFinal = createTextImg(font21, 0, 0, '', 160, 20)
-txt_gameNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
-txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_p1NameOrder = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_p2NameOrder = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_orderHint = createTextImg(font5, 0, 0, '', 160, 239)
 
 function f_orderSelect()
 	gameNo = gameNo+1
@@ -3385,13 +3379,13 @@ function f_orderSelect()
 			end	
 			--set random hints for order select
 			if randomHintOrder == 1 then
-				textImgSetText(txt_orderHint, "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER ")
+				textImgSetText(txt_orderHint, "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER")
 				textImgDraw(txt_orderHint)
 			elseif randomHintOrder == 2 then
-				textImgSetText(txt_orderHint, "PRESS UP OR DOWN TO CHOOSE A CHARACTER       ")
+				textImgSetText(txt_orderHint, "PRESS UP OR DOWN TO CHOOSE A CHARACTER")
 				textImgDraw(txt_orderHint)
 			elseif randomHintOrder == 3 then
-				textImgSetText(txt_orderHint, "PRESS ENTER TO CONFIRM THE ORDER SELECTED      ")
+				textImgSetText(txt_orderHint, "PRESS ENTER TO CONFIRM THE ORDER SELECTED")
 				textImgDraw(txt_orderHint)
 			--elseif randomHintOrder == 4 then
 				--textImgSetText(txt_orderHint, "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE")
@@ -3627,8 +3621,8 @@ function f_orderSelect()
 				end
 			end
 			--draw names
-			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
-			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
+			f_drawSelectName(txt_p1NameOrder, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
+			f_drawSelectNameP2(txt_p2NameOrder, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
 			--p1 order cursor position
 			animUpdate(p1OrderCursor)
 			animPosDraw(p1OrderCursor, 1, 172)
@@ -3711,6 +3705,15 @@ end
 --;===========================================================
 --; VERSUS SCREEN
 --;===========================================================
+txt_matchNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_matchFinal = createTextImg(font21, 0, 0, '', 160, 20)
+txt_gameNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
+txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
+txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
+txt_vsHint = createTextImg(font5, 0, 0, '', 160, 239)
+
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	local i = 0
@@ -3770,7 +3773,7 @@ function f_selectVersus()
 			textImgSetText(txt_vsHint, "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
 			textImgDraw(txt_vsHint)
 		elseif randomHintVS == 3 then
-			textImgSetText(txt_vsHint, "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT   ")
+			textImgSetText(txt_vsHint, "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT")
 			textImgDraw(txt_vsHint)	
 		end
 		if vshintTime > 150 then --Time for show a new random hint
@@ -4260,9 +4263,25 @@ function f_ftcontrol()
 end
 
 --;===========================================================
---; REMATCH MENU
+--; REMATCH SCREENPACK
 --;===========================================================
-txt_rematch = createTextImg(jgFnt, 0, 0, 'BATTLE OPTION', 159, 84)
+txt_rematch = createTextImg(jgFnt, 0, 0, 'BATTLE OPTION', 159, 90)
+
+--Scrolling background
+rematchBG = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(rematchBG, 160, 0)
+animSetTile(rematchBG, 1, 1)
+animSetColorKey(rematchBG, -1)
+
+--Rematch Title Transparent background
+rematchWindow = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(rematchWindow, 0, 78)
+animSetAlpha(rematchWindow, 20, 100)
+animUpdate(rematchWindow)
 
 --Rematch Window BG
 rematchWindowBG = animNew(sysSff, [[
@@ -4272,21 +4291,16 @@ animSetPos(rematchWindowBG, 73.4, 87)
 animUpdate(rematchWindowBG)
 animSetScale(rematchWindowBG, 1.1, 1.1)
 
---Rematch Window
-rematchWindow = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(rematchWindow, 160, 0)
-animSetTile(rematchWindow, 1, 1)
-animSetWindow(rematchWindow, 82, 92, 150, 60)
-
+--;===========================================================
+--; REMATCH MENU
+--;===========================================================
 t_battleOption = {
-	{id = textImgNew(), text = '     REMATCH'},
-	{id = textImgNew(), text = ' CHARACTER SELECT'},
-	{id = textImgNew(), text = '    MAIN MENU'},
+	{id = textImgNew(), text = 'REMATCH'},
+	{id = textImgNew(), text = 'CHARACTER SELECT'},
+	{id = textImgNew(), text = 'MAIN MENU'},
 }
 for i=1, #t_battleOption do
-	t_battleOption[i].id = createTextImg(jgFnt, 0, 1, t_battleOption[i].text, 85, 95+i*15)
+	t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 154.8, 94.5+i*15)
 end
 
 function f_rematch()
@@ -4302,10 +4316,17 @@ function f_rematch()
 	elseif p1Cursor > #t_battleOption then
 		p1Cursor = 1
 	end
+	if data.winscreen == 'None' or data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
+	--Draw Menu BG
 	animDraw(rematchWindowBG)
 	animUpdate(rematchWindowBG)
-	--animDraw(f_animVelocity(rematchWindow, 0, 1.5)) --Extra Rematch Window
+	--Draw Transparent Title BG
+	animSetScale(rematchWindow, 220, 54)
+	animSetWindow(rematchWindow, 102,47, 115,46)
+	animDraw(rematchWindow)
+	--Draw Title
 	textImgDraw(txt_rematch)
+	--Set Color to Buttons
 	for i=1, #t_battleOption do
 		if i == p1Cursor + 0 then -- +0 To start center
 			textImgSetBank(t_battleOption[i].id, 5)
@@ -4314,6 +4335,10 @@ function f_rematch()
 		end
 		textImgDraw(t_battleOption[i].id)
 	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 77, 84.5+p1Cursor*15, 159.5, 13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
 	if commandGetState(p1Cmd, 'holdu') then
 		bufrematchd = 0
 		bufrematchu = bufrematchu + 1
@@ -4460,19 +4485,19 @@ animSetScale(serviceDownArrow, 0.5, 0.5)
 --; SERVICE MENU
 --;===========================================================
 t_service = {
-	{id = '', text = '  DIFFICULTY LEVEL DOWN'},
-	{id = '', text = ' POWER WILL START AT MAX'},
-	{id = '', text = '    ENEMY LIFE AT 1/3'},
-	{id = '', text = ' 	   CHANGE TEAM MODE'},
-	{id = '', text = '      DOUBLE DEFENCE'},
-	{id = '', text = '        NO SERVICE'},
+	{id = '', text = 'DIFFICULTY LEVEL DOWN'},
+	{id = '', text = 'POWER WILL START AT MAX'},
+	{id = '', text = 'ENEMY LIFE AT 1/3'},
+	{id = '', text = 'CHANGE TEAM MODE'},
+	{id = '', text = 'DOUBLE DEFENCE'},
+	{id = '', text = 'NO SERVICE'},
 }
 
 t_lockedService = {
 	{id = '', text = "This service is Unavailable in Co-Op Mode."},
 }
 for i=1, #t_lockedService do
-	t_lockedService[i].id = createTextImg(font2, 0, -1, t_lockedService[i].text, 260, 210+i*15)
+	t_lockedService[i].id = createTextImg(font2, 0, 0, t_lockedService[i].text, 157, 210+i*15)
 end
 
 t_noService = {

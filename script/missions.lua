@@ -87,19 +87,19 @@ t_missionMenu = {
 }
 
 t_mInfo = {
-	{id = '1', text = "The ancient Dragon Claw is back!  "},
-	{id = '2', text = "Defeat Original Kung Fu Man!    "},
+	{id = '1', text = "The ancient Dragon Claw is back!"},
+	{id = '2', text = "Defeat Original Kung Fu Man!"},
 	{id = '3', text = "Use the full power of Kung Fu Man!"},
-	{id = '4', text = "???                    "},
-	{id = '5', text = "???                    "},
-	{id = '6', text = "???                    "},
-	{id = '7', text = "???                    "},
-	{id = '8', text = "???                    "},
-	{id = '9', text = "???                    "},
-	{id = '10', text = "???                    "},
+	{id = '4', text = "???"},
+	{id = '5', text = "???"},
+	{id = '6', text = "???"},
+	{id = '7', text = "???"},
+	{id = '8', text = "???"},
+	{id = '9', text = "???"},
+	{id = '10', text = "???"},
 }
 for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font11, 0, -1, t_mInfo[i].text, 283, 13.5)
+	t_mInfo[i].id = createTextImg(font11, 0, 0, t_mInfo[i].text, 157, 13.5)
 end
 
 function f_missionMenu()
