@@ -119,6 +119,7 @@ function f_selectReset()
 	setMatchNo(matchNo)
 	rematchEnd = false
 	battleOption = 0
+	battleOption2 = 0
 	--rankedEnd = false
 end
 
@@ -725,7 +726,7 @@ function f_backMenu()
 			animDraw(titleBG6)
 			textImgDraw(txt_subTitle)
 			textImgDraw(txt_titleFt)
-			textImgSetText(txt_titleFt, '            YOU WILL BACK TO MAIN MENU')
+			textImgSetText(txt_titleFt, 'YOU WILL BACK TO MAIN MENU')
 			f_sysTime()
 			if commandGetState(p1Cmd, 'holdu') then
 				bufd = 0
@@ -762,6 +763,14 @@ end
 --; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
 --;==============================================================================
 function f_selectSimple()
+	bufTmu = 0
+	bufTmd = 0
+	bufTmr = 0
+	bufTml = 0
+	bufTm2u = 0
+	bufTm2d = 0
+	bufTm2r = 0
+	bufTm2l = 0
 	bufSelu = 0
 	bufSeld = 0
 	bufSelr = 0
@@ -855,31 +864,14 @@ function f_selectSimple()
 				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
 				end
-				--REMATCH
-				if battleOption == 1 then
-					rematchEnd = false
-					battleOption = 0 --Reset Rematch Battle Option
-					--if getCharName(p1Cell) == 'Random' then
-						--data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						--data.t_p1selected[1].pal = math.random(1,12)
-					--end
-					--if getCharName(p2Cell) == 'Random' then
-						--data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						--data.t_p2selected[1].pal = math.random(1,12)
-					--end
-					if stageList == 0 then
-						stageNo = math.random(1, data.includestage)
-						setStage(stageNo)
-					end
-					selectStage(stageNo)
-					if musicList == 0 then
-						f_assignMusic()
-					elseif musicList == 1 then
-						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
-						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
-					end
+				--BACK TO MAIN MENU
+				if battleOption == 3 or battleOption2 == 3 then
+					f_favoriteChar() --Store Favorite Character (WIP)
+					f_favoriteStage() --Store Favorite Stage (WIP)
+					f_menuMusic()
+					break
 				--BACK TO CHARACTER SELECT
-				elseif battleOption == 2 then
+				elseif battleOption == 2 or battleOption2 == 2 then
 					if data.challengerScreen == true then
 						f_selectChallenger()
 					else
@@ -918,12 +910,30 @@ function f_selectSimple()
 						end
 						f_selectScreen()
 					end
-				--BACK TO MAIN MENU
-				elseif battleOption == 3 then
-					f_favoriteChar() --Store Favorite Character (WIP)
-					f_favoriteStage() --Store Favorite Stage (WIP)
-					f_menuMusic()
-					break
+				--REMATCH
+				elseif battleOption == 1 and battleOption2 == 1 then
+					rematchEnd = false
+					battleOption = 0 --Reset Rematch Battle Option
+					battleOption2 = 0
+					--if getCharName(p1Cell) == 'Random' then
+						--data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						--data.t_p1selected[1].pal = math.random(1,12)
+					--end
+					--if getCharName(p2Cell) == 'Random' then
+						--data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						--data.t_p2selected[1].pal = math.random(1,12)
+					--end
+					if stageList == 0 then
+						stageNo = math.random(1, data.includestage)
+						setStage(stageNo)
+					end
+					selectStage(stageNo)
+					if musicList == 0 then
+						f_assignMusic()
+					elseif musicList == 1 then
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+					end				
 				end
 			--For Missions or Events
 			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
@@ -1001,6 +1011,14 @@ end
 --;=================================================================================================
 function f_selectAdvance()
 	data.rosterAdvance = true
+	bufTmu = 0
+	bufTmd = 0
+	bufTmr = 0
+	bufTml = 0
+	bufTm2u = 0
+	bufTm2d = 0
+	bufTm2r = 0
+	bufTm2l = 0
 	bufSelu = 0
 	bufSeld = 0
 	bufSelr = 0
@@ -1680,83 +1698,83 @@ function f_p1TeamMenu()
 		p1TeamEnd = true
 		p1BG = true
 	else
-		if commandGetState(p1Cmd, 'u') then
-		--if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		--if commandGetState(p1Cmd, 'u') then
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufTmu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p1teamMode = p1teamMode - 1
 			if p1teamMode < 0 then p1teamMode = #t_p1selTeam-1 end
-			--if bufl then bufl = 0 end
-			--if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') then
-		--elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			if bufTml then bufTml = 0 end
+			if bufTmr then bufTmr = 0 end
+		--elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufTmd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p1teamMode = p1teamMode + 1
 			if p1teamMode > #t_p1selTeam-1 then p1teamMode = 0 end
-			--if bufl then bufl = 0 end
-			--if bufr then bufr = 0 end
+			if bufTml then bufTml = 0 end
+			if bufTmr then bufTmr = 0 end
 		elseif p1teamMode == 1 then --Simul
-			if commandGetState(p1Cmd, 'l') then
-			--if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			--if commandGetState(p1Cmd, 'l') then
+			if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufTml >= 30) then
 				if commandGetState(p1Cmd, 'l') and p1numSimul > 2 then sndPlay(sysSnd, 100, 0) end
 				p1numSimul = p1numSimul - 1
 				if p1numSimul < 2 then p1numSimul = 2 end
-				--if bufu then bufu = 0 end
-				--if bufd then bufd = 0 end
-			elseif commandGetState(p1Cmd, 'r') then
-			--elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if bufTmu then bufTmu = 0 end
+				if bufTmd then bufTmd = 0 end
+			--elseif commandGetState(p1Cmd, 'r') then
+			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufTmr >= 30) then
 				if commandGetState(p1Cmd, 'r') and p1numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
 				p1numSimul = p1numSimul + 1
 				if p1numSimul > data.numSimul then p1numSimul = data.numSimul end
-				--if bufu then bufu = 0 end
-				--if bufd then bufd = 0 end
+				if bufTmu then bufTmu = 0 end
+				if bufTmd then bufTmd = 0 end
 			end
-			--if commandGetState(p1Cmd, 'holdr') then
-				--bufl = 0
-				--bufr = bufr + 1
-			--elseif commandGetState(p1Cmd, 'holdl') then
-				--bufr = 0
-				--bufl = bufl + 1
-			--else
-				--bufr = 0
-				--bufl = 0
-			--end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufTml = 0
+				bufTmr = bufTmr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufTmr = 0
+				bufTml = bufTml + 1
+			else
+				bufTmr = 0
+				bufTml = 0
+			end
 		elseif p1teamMode == 2 then --Turns
-			if commandGetState(p1Cmd, 'l') then
-			--if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			--if commandGetState(p1Cmd, 'l') then
+			if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufTml >= 30) then
 				if commandGetState(p1Cmd, 'l') and p1numTurns > 2 then sndPlay(sysSnd, 100, 0) end
 				p1numTurns = p1numTurns - 1
 				if p1numTurns < 2 then p1numTurns = 2 end
-				--if bufu then bufu = 0 end
-				--if bufd then bufd = 0 end
-			elseif commandGetState(p1Cmd, 'r') then
-			--elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if bufTmu then bufTmu = 0 end
+				if bufTmd then bufTmd = 0 end
+			--elseif commandGetState(p1Cmd, 'r') then
+			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufTmr >= 30) then
 				if commandGetState(p1Cmd, 'r') and p1numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
 				p1numTurns = p1numTurns + 1
 				if p1numTurns > data.numTurns then p1numTurns = data.numTurns end
-				--if bufu then bufu = 0 end
-				--if bufd then bufd = 0 end
+				if bufTmu then bufTmu = 0 end
+				if bufTmd then bufTmd = 0 end
 			end
-			--if commandGetState(p1Cmd, 'holdr') then
-				--bufl = 0
-				--bufr = bufr + 1
-			--elseif commandGetState(p1Cmd, 'holdl') then
-				--bufr = 0
-				--bufl = bufl + 1
-			--else
-				--bufr = 0
-				--bufl = 0
-			--end
+			if commandGetState(p1Cmd, 'holdr') then
+				bufTml = 0
+				bufTmr = bufTmr + 1
+			elseif commandGetState(p1Cmd, 'holdl') then
+				bufTmr = 0
+				bufTml = bufTml + 1
+			else
+				bufTmr = 0
+				bufTml = 0
+			end
 		end
-		--if commandGetState(p1Cmd, 'holdu') then
-			--bufd = 0
-			--bufu = bufu + 1
-		--elseif commandGetState(p1Cmd, 'holdd') then
-			--bufu = 0
-			--bufd = bufd + 1
-		--else
-			--bufu = 0
-			--bufd = 0
-		--end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufTmd = 0
+			bufTmu = bufTmu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufTmu = 0
+			bufTmd = bufTmd + 1
+		else
+			bufTmu = 0
+			bufTmd = 0
+		end
 		textImgDraw(p1SelTmTxt)
 		for i=1, #t_p1selTeam do
 			if i == p1teamMode + 1 then
@@ -1931,83 +1949,83 @@ function f_p2TeamMenu()
 				
 			end
 		end
-		if commandGetState(p2Cmd, 'u') then
-		--if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and buf2u >= 30) then
+		--if commandGetState(p2Cmd, 'u') then
+		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufTm2u >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p2teamMode = p2teamMode - 1
 			if p2teamMode < 0 then p2teamMode = #t_p2selTeam-1 end
-			--if buf2l then buf2l = 0 end
-			--if buf2r then buf2r = 0 end
-		elseif commandGetState(p2Cmd, 'd') then
-		--elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and buf2d >= 30) then
+			if bufTm2l then bufTm2l = 0 end
+			if bufTm2r then bufTm2r = 0 end
+		--elseif commandGetState(p2Cmd, 'd') then
+		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufTm2d >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			p2teamMode = p2teamMode + 1
 			if p2teamMode > #t_p2selTeam-1 then p2teamMode = 0 end
-			--if buf2l then buf2l = 0 end
-			--if buf2r then buf2r = 0 end
+			if bufTm2l then bufTm2l = 0 end
+			if bufTm2r then bufTm2r = 0 end
 		elseif p2teamMode == 1 then --Simul
-			if commandGetState(p2Cmd, 'r') then
-			--if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buf2r >= 30) then
+			--if commandGetState(p2Cmd, 'r') then
+			if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufTm2r >= 30) then
 				if commandGetState(p2Cmd, 'r') and p2numSimul > 2 then sndPlay(sysSnd, 100, 0) end
 				p2numSimul = p2numSimul - 1
 				if p2numSimul < 2 then p2numSimul = 2 end
-				--if buf2u then buf2u = 0 end
-				--if buf2d then buf2d = 0 end
-			elseif commandGetState(p2Cmd, 'l') then
-			--elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buf2l >= 30) then
+				if bufTm2u then bufTm2u = 0 end
+				if bufTm2d then bufTm2d = 0 end
+			--elseif commandGetState(p2Cmd, 'l') then
+			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufTm2l >= 30) then
 				if commandGetState(p2Cmd, 'l') and p2numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
 				p2numSimul = p2numSimul + 1
 				if p2numSimul > data.numSimul then p2numSimul = data.numSimul end
-				--if buf2u then buf2u = 0 end
-				--if buf2d then buf2d = 0 end
+				if bufTm2u then bufTm2u = 0 end
+				if bufTm2d then bufTm2d = 0 end
 			end
-			--if commandGetState(p2Cmd, 'holdr') then
-				--buf2l = 0
-				--buf2r = buf2r + 1
-			--elseif commandGetState(p2Cmd, 'holdl') then
-				--buf2r = 0
-				--buf2l = buf2l + 1
-			--else
-				--buf2r = 0
-				--buf2l = 0
-			--end
+			if commandGetState(p2Cmd, 'holdr') then
+				bufTm2l = 0
+				bufTm2r = bufTm2r + 1
+			elseif commandGetState(p2Cmd, 'holdl') then
+				bufTm2r = 0
+				bufTm2l = bufTm2l + 1
+			else
+				bufTm2r = 0
+				bufTm2l = 0
+			end
 		elseif p2teamMode == 2 then --Turns
-			if commandGetState(p2Cmd, 'r') then
-			--if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buf2r >= 30) then
+			--if commandGetState(p2Cmd, 'r') then
+			if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufTm2r >= 30) then
 				if commandGetState(p2Cmd, 'r') and p2numTurns > 2 then sndPlay(sysSnd, 100, 0) end
 				p2numTurns = p2numTurns - 1
 				if p2numTurns < 2 then p2numTurns = 2 end
-				--if buf2u then buf2u = 0 end
-				--if buf2d then buf2d = 0 end
-			elseif commandGetState(p2Cmd, 'l') then
-			--elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buf2l >= 30) then
+				if bufTm2u then bufTm2u = 0 end
+				if bufTm2d then bufTm2d = 0 end
+			--elseif commandGetState(p2Cmd, 'l') then
+			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufTm2l >= 30) then
 				if commandGetState(p2Cmd, 'l') and p2numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
 				p2numTurns = p2numTurns + 1
 				if p2numTurns > data.numTurns then p2numTurns = data.numTurns end
-				--if buf2u then buf2u = 0 end
-				--if buf2d then buf2d = 0 end
+				if bufTm2u then bufTm2u = 0 end
+				if bufTm2d then bufTm2d = 0 end
 			end
-			--if commandGetState(p2Cmd, 'holdr') then
-				--buf2l = 0
-				--buf2r = buf2r + 1
-			--elseif commandGetState(p2Cmd, 'holdl') then
-				--buf2r = 0
-				--buf2l = buf2l + 1
-			--else
-				--buf2r = 0
-				--buf2l = 0
-			--end
+			if commandGetState(p2Cmd, 'holdr') then
+				bufTm2l = 0
+				bufTm2r = bufTm2r + 1
+			elseif commandGetState(p2Cmd, 'holdl') then
+				bufTm2r = 0
+				bufTm2l = bufTm2l + 1
+			else
+				bufTm2r = 0
+				bufTm2l = 0
+			end
 		end
-		--if commandGetState(p2Cmd, 'holdu') then
-			--buf2d = 0
-			--buf2u = buf2u + 1
-		--elseif commandGetState(p2Cmd, 'holdd') then
-			--buf2u = 0
-			--buf2d = buf2d + 1
-		--else
-			--buf2u = 0
-			--buf2d = 0
-		--end
+		if commandGetState(p2Cmd, 'holdu') then
+			bufTm2d = 0
+			bufTm2u = bufTm2u + 1
+		elseif commandGetState(p2Cmd, 'holdd') then
+			bufTm2u = 0
+			bufTm2d = bufTm2d + 1
+		else
+			bufTm2u = 0
+			bufTm2d = 0
+		end
 		if data.p2In == 2 then
 			textImgDraw(p2SelTmTxt)
 		else
@@ -2068,7 +2086,6 @@ end
 --;===========================================================
 --; CHARACTER SELECT PLAYERS SCREENPACK
 --;===========================================================
-
 --Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
 arrowsUMR = animNew(sysSff, [[
 222,5, 0,0, 10
@@ -3307,14 +3324,14 @@ function f_orderSelect()
 		200,0, 0,0, -1
 		]])
 		animAddPos(versusBG4, 160, 95)
-		local buforderu = 0
-		local buforderd = 0
-		local buforderr = 0
-		local buforderl = 0
-		local buforder2u = 0
-		local buforder2d = 0
-		local buforder2r = 0
-		local buforder2l = 0
+		local bufOrderu = 0
+		local bufOrderd = 0
+		local bufOrderr = 0
+		local bufOrderl = 0
+		local bufOrder2u = 0
+		local bufOrder2d = 0
+		local bufOrder2r = 0
+		local bufOrder2l = 0
 		local sndNumber = -1
 		local p1Confirmed = false
 		local p2Confirmed = false
@@ -3428,19 +3445,19 @@ function f_orderSelect()
 								p2Confirmed = true
 							end
 						end
-					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and buforderu >= 30) then
+					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
 						if #data.t_p1selected > 1 then
 							sndNumber = 0
 							p1Row = p1Row - 1
 							if p1Row == 0 then p1Row = #data.t_p1selected end
 						end
-					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and buforderd >= 30) then
+					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
 						if #data.t_p1selected > 1 then
 							sndNumber = 0
 							p1Row = p1Row + 1
 							if p1Row > #data.t_p1selected then p1Row = 1 end
 						end
-					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and buforderl >= 30) then
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
 						if p1Row-1 > 0 then
 							sndNumber = 0
 							p1Row = p1Row - 1
@@ -3456,7 +3473,7 @@ function f_orderSelect()
 							end
 							data.t_p1selected = t_tmp
 						end
-					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and buforderr >= 30) then
+					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
 						if p1Row+1 <= #data.t_p1selected then
 							sndNumber = 0
 							p1Row = p1Row + 1
@@ -3485,19 +3502,19 @@ function f_orderSelect()
 							f_selectChar(2, data.t_p2selected)
 							p2Confirmed = true
 						end
-					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and buforderu >= 30) then
+					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
 						if #data.t_p2selected > 1 then
 							sndNumber = 0
 							p2Row = p2Row - 1
 							if p2Row == 0 then p2Row = #data.t_p2selected end
 						end
-					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and buforderd >= 30) then
+					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
 						if #data.t_p2selected > 1 then
 							sndNumber = 0
 							p2Row = p2Row + 1
 							if p2Row > #data.t_p2selected then p2Row = 1 end
 						end
-					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and buforderl >= 30) then
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
 						if p2Row+1 <= #data.t_p2selected then
 							sndNumber = 0
 							p2Row = p2Row + 1
@@ -3513,7 +3530,7 @@ function f_orderSelect()
 							end
 							data.t_p2selected = t_tmp
 						end
-					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and buforderr >= 30) then
+					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
 						if p2Row-1 > 0 then
 							sndNumber = 0
 							p2Row = p2Row - 1
@@ -3542,19 +3559,19 @@ function f_orderSelect()
 							f_selectChar(2, data.t_p2selected)
 							p2Confirmed = true
 						end
-					elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and buforder2u >= 30) then
+					elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufOrder2u >= 30) then
 						if #data.t_p2selected > 1 then
 							sndNumber = 0
 							p2Row = p2Row - 1
 							if p2Row == 0 then p2Row = #data.t_p2selected end
 						end
-					elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and buforder2d >= 30) then
+					elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufOrder2d >= 30) then
 						if #data.t_p2selected > 1 then
 							sndNumber = 0
 							p2Row = p2Row + 1
 							if p2Row > #data.t_p2selected then p2Row = 1 end
 						end
-					elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and buforder2l >= 30) then
+					elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufOrder2l >= 30) then
 						if p2Row+1 <= #data.t_p2selected then
 							sndNumber = 0
 							p2Row = p2Row + 1
@@ -3570,7 +3587,7 @@ function f_orderSelect()
 							end
 							data.t_p2selected = t_tmp
 						end
-					elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and buforder2r >= 30) then
+					elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufOrder2r >= 30) then
 						if p2Row-1 > 0 then
 							sndNumber = 0
 							p2Row = p2Row - 1
@@ -3663,38 +3680,38 @@ function f_orderSelect()
 			textImgDraw(txt_orderHint)
 			orderhintTime = orderhintTime + 1 --Start timer for randoms hints
 			if commandGetState(p1Cmd, 'holdu') then
-				buforderd = 0
-				buforderu = buforderu + 1
+				bufOrderd = 0
+				bufOrderu = bufOrderu + 1
 			elseif commandGetState(p1Cmd, 'holdd') then
-				buforderu = 0
-				buforderd = buforderd + 1
+				bufOrderu = 0
+				bufOrderd = bufOrderd + 1
 			elseif commandGetState(p1Cmd, 'holdr') then
-				buforderl = 0
-				buforderr = buforderr + 1
+				bufOrderl = 0
+				bufOrderr = bufOrderr + 1
 			elseif commandGetState(p1Cmd, 'holdl') then
-				buforderr = 0
-				buforderl = buforderl + 1
+				bufOrderr = 0
+				bufOrderl = bufOrderl + 1
 			elseif commandGetState(p2Cmd, 'holdu') then
-				buforder2d = 0
-				buforder2u = buforder2u + 1
+				bufOrder2d = 0
+				bufOrder2u = bufOrder2u + 1
 			elseif commandGetState(p2Cmd, 'holdd') then
-				buforder2u = 0
-				buforder2d = buforder2d + 1
+				bufOrder2u = 0
+				bufOrder2d = bufOrder2d + 1
 			elseif commandGetState(p2Cmd, 'holdr') then
-				buforder2l = 0
-				buforder2r = buforder2r + 1
+				bufOrder2l = 0
+				bufOrder2r = bufOrder2r + 1
 			elseif commandGetState(p2Cmd, 'holdl') then
-				buforder2r = 0
-				buforder2l = buforder2l + 1
+				bufOrder2r = 0
+				bufOrder2l = bufOrder2l + 1
 			else
-				buforderu = 0
-				buforderd = 0
-				buforderr = 0
-				buforderl = 0
-				buforder2u = 0
-				buforder2d = 0
-				buforder2r = 0
-				buforder2l = 0
+				bufOrderu = 0
+				bufOrderd = 0
+				bufOrderr = 0
+				bufOrderl = 0
+				bufOrder2u = 0
+				bufOrder2d = 0
+				bufOrder2r = 0
+				bufOrder2l = 0
 			end
 			cmdInput()
 			refresh()
@@ -3868,12 +3885,19 @@ animSetWindow(quoteBG, 14, 167, 290, 62)
 function f_selectWin()
 	txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
 	txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
-	local bufrematchu = 0
-	local bufrematchd = 0
-	local bufrematchr = 0
-	local bufrematchl = 0
+	local bufRematchu = 0
+	local bufRematchd = 0
+	local bufRematchr = 0
+	local bufRematchl = 0
+	local bufRematch2u = 0
+	local bufRematch2d = 0
+	local bufRematch2r = 0
+	local bufRematch2l = 0
 	local menuReady = false
 	p1Cursor = 1
+	p2Cursor = 1
+	p1Ready = false
+	p2Ready = false
 	setServiceType(0) --Erase Service
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 	if data.winscreen == 'None' or data.victoryscreen == false then
@@ -3914,9 +3938,9 @@ function f_selectWin()
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
 					drawPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
-					drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
+					drawPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
-					animSetWindow(wincharBGC2, 165, 20, 120, 140)
+					animSetWindow(wincharBGC2, 169, 20, 120, 140)
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
 					--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14)
@@ -3947,8 +3971,8 @@ function f_selectWin()
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
-					animSetWindow(wincharBGC2, 165, 20, 120, 140)
-					drawPortrait(data.t_p2selected[1].cel, 285, 20, -1, 1)
+					animSetWindow(wincharBGC2, 169, 20, 120, 140)
+					drawPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
 					--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14)
@@ -4265,7 +4289,8 @@ end
 --;===========================================================
 --; REMATCH SCREENPACK
 --;===========================================================
-txt_rematch = createTextImg(jgFnt, 0, 0, 'BATTLE OPTION', 159, 90)
+txt_rematch = createTextImg(jgFnt, 0, 0, 'OPTION BATTLE P1', 86, 102)
+txt_rematch2 = createTextImg(jgFnt, 0, 0, 'P2 BATTLE OPTION', 237, 102)
 
 --Scrolling background
 rematchBG = animNew(sysSff, [[
@@ -4275,21 +4300,21 @@ animAddPos(rematchBG, 160, 0)
 animSetTile(rematchBG, 1, 1)
 animSetColorKey(rematchBG, -1)
 
---Rematch Title Transparent background
-rematchWindow = animNew(sysSff, [[
-3,0, 0,0, -1
-]])
-animSetPos(rematchWindow, 0, 78)
-animSetAlpha(rematchWindow, 20, 100)
-animUpdate(rematchWindow)
-
 --Rematch Window BG
 rematchWindowBG = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(rematchWindowBG, 73.4, 87)
+animSetPos(rematchWindowBG, 0.4, 97)
 animUpdate(rematchWindowBG)
-animSetScale(rematchWindowBG, 1.1, 1.1)
+animSetScale(rematchWindowBG, 1.005, 1.1)
+
+--Rematch Window BG Player 2
+rematch2WindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(rematch2WindowBG, 168.4, 97)
+animUpdate(rematch2WindowBG)
+animSetScale(rematch2WindowBG, 1.005, 1.1)
 
 --;===========================================================
 --; REMATCH MENU
@@ -4300,30 +4325,54 @@ t_battleOption = {
 	{id = textImgNew(), text = 'MAIN MENU'},
 }
 for i=1, #t_battleOption do
-	t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 154.8, 94.5+i*15)
+	t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*15)
+end
+
+t_battleOption2 = {
+	{id = textImgNew(), text = 'REMATCH'},
+	{id = textImgNew(), text = 'CHARACTER SELECT'},
+	{id = textImgNew(), text = 'MAIN MENU'},
+}
+for i=1, #t_battleOption2 do
+	t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 104.5+i*15)
 end
 
 function f_rematch()
-	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufrematchu >= 30) then
-		sndPlay(sysSnd, 100, 0)
-		p1Cursor = p1Cursor - 1
-	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufrematchd >= 30) then
-		sndPlay(sysSnd, 100, 0)
-		p1Cursor = p1Cursor + 1
+	if not p1Ready then
+		--Player 1 Cursor
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufRematchu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			p1Cursor = p1Cursor - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufRematchd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			p1Cursor = p1Cursor + 1
+		end
+		if p1Cursor < 1 then
+			p1Cursor = #t_battleOption
+		elseif p1Cursor > #t_battleOption then
+			p1Cursor = 1
+		end
 	end
-	if p1Cursor < 1 then
-		p1Cursor = #t_battleOption
-	elseif p1Cursor > #t_battleOption then
-		p1Cursor = 1
+	if not p2Ready then
+		--Player 2 Cursor
+		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufRematch2u >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			p2Cursor = p2Cursor - 1
+		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufRematch2d >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			p2Cursor = p2Cursor + 1
+		end
+		if p2Cursor < 1 then
+			p2Cursor = #t_battleOption2
+		elseif p2Cursor > #t_battleOption2 then
+			p2Cursor = 1
+		end
 	end
+	--Draw BG only when Winscreen is off
 	if data.winscreen == 'None' or data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
 	--Draw Menu BG
 	animDraw(rematchWindowBG)
 	animUpdate(rematchWindowBG)
-	--Draw Transparent Title BG
-	animSetScale(rematchWindow, 220, 54)
-	animSetWindow(rematchWindow, 102,47, 115,46)
-	animDraw(rematchWindow)
 	--Draw Title
 	textImgDraw(txt_rematch)
 	--Set Color to Buttons
@@ -4335,34 +4384,89 @@ function f_rematch()
 		end
 		textImgDraw(t_battleOption[i].id)
 	end
-	--Draw Cursor
-	animSetWindow(cursorBox, 77, 84.5+p1Cursor*15, 159.5, 13)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
-	if commandGetState(p1Cmd, 'holdu') then
-		bufrematchd = 0
-		bufrematchu = bufrematchu + 1
-	elseif commandGetState(p1Cmd, 'holdd') then
-		bufrematchu = 0
-		bufrematchd = bufrematchd + 1
-	else
-		bufrematchu = 0
-		bufrematchd = 0
+	if not p1Ready then
+		--Draw Cursor
+		animSetWindow(cursorBox, 4, 94.5+p1Cursor*15, 145, 13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
-	if btnPalNo(p1Cmd) > 0 then
-		if p1Cursor == 1 then
-			sndPlay(sysSnd, 100, 1)
-			battleOption = 1 --Rematch
-		elseif p1Cursor == 2 then
-			sndPlay(sysSnd, 100, 1)
-			battleOption = 2 --Back to Character Select
-		elseif p1Cursor == 3 then
-			sndPlay(sysSnd, 100, 2)
-			battleOption = 3 --Back to Main Menu
+	--Player 2 Mirror Assets
+	animDraw(rematch2WindowBG)
+	animUpdate(rematch2WindowBG)
+	textImgDraw(txt_rematch2)
+	--Set Color to Buttons
+	for i=1, #t_battleOption2 do
+		if i == p2Cursor + 0 then
+			textImgSetBank(t_battleOption2[i].id, 5)
+		else
+			textImgSetBank(t_battleOption2[i].id, 0)
 		end
-		rematchEnd = true
-		cmdInput()
+		textImgDraw(t_battleOption2[i].id)
 	end
+	if not p2Ready then
+		animSetWindow(cursorBox, 172, 94.5+p2Cursor*15, 145, 13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	end
+	if commandGetState(p1Cmd, 'holdu') then
+		bufRematchd = 0
+		bufRematchu = bufRematchu + 1
+	elseif commandGetState(p2Cmd, 'holdu') then
+		bufRematch2d = 0
+		bufRematch2u = bufRematch2u + 1
+	elseif commandGetState(p1Cmd, 'holdd') then
+		bufRematchu = 0
+		bufRematchd = bufRematchd + 1
+	elseif commandGetState(p2Cmd, 'holdd') then
+		bufRematch2u = 0
+		bufRematch2d = bufRematch2d + 1
+	else
+		bufRematchu = 0
+		bufRematchd = 0
+		bufRematch2u = 0
+		bufRematch2d = 0
+	end
+	if not p1Ready then
+		if btnPalNo(p1Cmd) > 0 then
+			if p1Cursor == 1 then
+				sndPlay(sysSnd, 100, 1)
+				battleOption = 1 --Rematch
+				p1Ready = true
+			elseif p1Cursor == 2 then
+				sndPlay(sysSnd, 100, 1)
+				battleOption = 2 --Back to Character Select
+				p1Ready = true
+				p2Ready = true
+			elseif p1Cursor == 3 then
+				sndPlay(sysSnd, 100, 2)
+				battleOption = 3 --Back to Main Menu
+				p1Ready = true
+				p2Ready = true
+			end
+			cmdInput()
+		end
+	end
+	if not p2Ready then
+		if btnPalNo(p2Cmd) > 0 then
+			if p2Cursor == 1 then
+				sndPlay(sysSnd, 100, 1)
+				battleOption2 = 1 --Rematch
+				p2Ready = true
+			elseif p2Cursor == 2 then
+				sndPlay(sysSnd, 100, 1)
+				battleOption2 = 2 --Back to Character Select
+				p1Ready = true
+				p2Ready = true
+			elseif p2Cursor == 3 then
+				sndPlay(sysSnd, 100, 2)
+				battleOption2 = 3 --Back to Main Menu
+				p1Ready = true
+				p2Ready = true
+			end
+			cmdInput()
+		end
+	end
+	if p1Ready and p2Ready then rematchEnd = true end
 end
 
 --;===========================================================
@@ -4651,7 +4755,7 @@ function f_service()
 		--Draw Text for Table
 		for i=1, maxService do	
 			if i > serviceMenu - cursorPosY then
-				t_service[i].id = createTextImg(font2, 0, 1, t_service[i].text, 85, 15+i*15-moveTxt)
+				t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15+i*15-moveTxt)
 				textImgDraw(t_service[i].id)
 			end
 		end

@@ -1,25 +1,17 @@
-table: 0D88C800 {
-  [survivalend] => table: 0D88C800 {
-                     [offset] => 4
+table: 0CCE4A78 {
+  [teamstart] => table: 0CCE4A78 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
+  [survivalend] => table: 0CCE4A78 {
                      [wins] => 16
+                     [offset] => 4
                    }
-  [survivalstart] => table: 0D88C800 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [teammaxmatches] => table: 0D88C800 {
-                        [1] => 2
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 1
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [arcademaxmatches] => table: 0D88C800 {
+  [teamend] => table: 0CCE4A78 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [arcademaxmatches] => table: 0CCE4A78 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -31,20 +23,28 @@ table: 0D88C800 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 0D88C800 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [teamstart] => table: 0D88C800 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [arcadestart] => table: 0D88C800 {
-                     [offset] => 0
+  [survivalstart] => table: 0CCE4A78 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [teammaxmatches] => table: 0CCE4A78 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 1
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [arcadestart] => table: 0CCE4A78 {
                      [wins] => 2
+                     [offset] => 0
                    }
-  [teamend] => table: 0D88C800 {
-                 [offset] => 2
-                 [wins] => 3
-               }
+  [arcadeend] => table: 0CCE4A78 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
 }

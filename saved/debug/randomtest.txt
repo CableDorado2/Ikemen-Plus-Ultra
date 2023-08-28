@@ -1,10 +1,10 @@
 Rank: 0 
-randomselect
+chars/kung fu girl/kung fu girl.def
 randomselect
 randomselect
 randomselect
 randomselect
 randomselect
 chars/kung fu man/kung fu man.def
-chars/kung fu girl/kung fu girl.def
+randomselect
 randomselect
