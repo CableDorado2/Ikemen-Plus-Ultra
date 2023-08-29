@@ -298,51 +298,62 @@ function f_exitMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	--
+	exitScreen = false
+	cursorPosYExit = 0 --Cursor pos in YES
+	moveTxtExit = 0
+	closeMenu = 1 --Cursor pos in YES
+	bufExitu = 0
+	bufExitd = 0
+	bufExitr = 0
+	bufExitl = 0
 	while true do
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			exitMenu = exitMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			exitMenu = exitMenu + 1
-		end
-		if exitMenu < 1 then
-			exitMenu = #t_exitMenu
-			if #t_exitMenu > 4 then
-				cursorPosY = 4
-			else
-				cursorPosY = #t_exitMenu-1
+		if exitScreen == false then
+			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				exitMenu = exitMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				exitMenu = exitMenu + 1
 			end
-		elseif exitMenu > #t_exitMenu then
-			exitMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 4 then
-			moveTxt = (exitMenu - 5) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (exitMenu - 1) * 13
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			restartEngine = false
-			--EXIT
-			if exitMenu == 1 then
-			    sndPlay(sysSnd, 100, 1)
-				f_closeMenu()					
-			--RESTART
-			elseif exitMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				restartEngine = true
-				f_closeMenu()
-			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			if exitMenu < 1 then
+				exitMenu = #t_exitMenu
+				if #t_exitMenu > 4 then
+					cursorPosY = 4
+				else
+					cursorPosY = #t_exitMenu-1
+				end
+			elseif exitMenu > #t_exitMenu then
+				exitMenu = 1
+				cursorPosY = 0
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
+				cursorPosY = cursorPosY + 1
 			end
-		end	
+			if cursorPosY == 4 then
+				moveTxt = (exitMenu - 5) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (exitMenu - 1) * 13
+			end
+			if btnPalNo(p1Cmd) > 0 then
+				restartEngine = false
+				--EXIT
+				if exitMenu == 1 then
+					sndPlay(sysSnd, 100, 1)
+					exitScreen = true
+				--RESTART
+				elseif exitMenu == 2 then
+					sndPlay(sysSnd, 100, 1)
+					restartEngine = true
+					exitScreen = true
+				--BACK
+				else
+					sndPlay(sysSnd, 100, 2)
+					break
+				end
+			end
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_exitMenu do
 			if i == exitMenu then
@@ -352,9 +363,11 @@ function f_exitMenu()
 			end
 			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 165+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if exitScreen == false then
+			animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -365,8 +378,9 @@ function f_exitMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE')	
+		if exitScreen == false then	textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE') end
 		f_sysTime()
+		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -385,110 +399,114 @@ function f_exitMenu()
 end
 
 --;===========================================================
---; CLOSE/RESTART SCREEN
+--; CLOSE/RESTART MESSAGE
 --;===========================================================
+txt_question = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+
+--Exit Window BG
+exitWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(exitWindowBG, 83.5, 97)
+animUpdate(exitWindowBG)
+animSetScale(exitWindowBG, 1, 1)
+
 t_closeMenu = {
 	{id = textImgNew(), text = 'YES'},
 	{id = textImgNew(), text = 'NO'},
-}	
+}
 	
 function f_closeMenu()
 	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local closeMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			closeMenu = closeMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			closeMenu = closeMenu + 1
-		end
-		if closeMenu < 1 then
-			closeMenu = #t_closeMenu
-			if #t_closeMenu > 4 then
-				cursorPosY = 4
-			else
-				cursorPosY = #t_closeMenu-1
-			end
-		elseif closeMenu > #t_closeMenu then
-			closeMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 4 then
-			moveTxt = (closeMenu - 5) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (closeMenu - 1) * 13
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			--YES
-			if closeMenu == 1 then
-			    f_playTime()
-				if restartEngine == true then
-					sszReload()
-				end
-				os.exit()
-			--NO
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_closeMenu do
-			if i == closeMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_closeMenu[i].id, jgFnt, bank, 0, t_closeMenu[i].text, 159, 165+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
-		textImgDraw(txt_titleFt)
-		if restartEngine == true then
-			textImgSetText(txt_titleFt, 'THE ENGINE WILL BE RESTARTED')
-		else
-			textImgSetText(txt_titleFt, 'THE ENGINE WILL BE CLOSED')
-		end
-		f_sysTime()
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufExitu >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		closeMenu = closeMenu - 1
+	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufExitd >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		closeMenu = closeMenu + 1
 	end
+	if closeMenu < 1 then
+		closeMenu = #t_closeMenu
+		if #t_closeMenu > 4 then
+			cursorPosYExit = 4
+		else
+			cursorPosYExit = #t_closeMenu-1
+		end
+	elseif closeMenu > #t_closeMenu then
+		closeMenu = 1
+		cursorPosYExit = 0
+	elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufExitu >= 30)) and cursorPosYExit > 0 then
+		cursorPosYExit = cursorPosYExit - 1
+	elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufExitd >= 30)) and cursorPosYExit < 4 then
+		cursorPosYExit = cursorPosYExit + 1
+	end
+	if cursorPosYExit == 4 then
+		moveTxtExit = (closeMenu - 5) * 13
+	elseif cursorPosYExit == 0 then
+		moveTxtExit = (closeMenu - 1) * 13
+	end
+	if commandGetState(p1Cmd, 'holdu') then
+		bufExitd = 0
+		bufExitu = bufExitu + 1
+	elseif commandGetState(p1Cmd, 'holdd') then
+		bufExitu = 0
+		bufExitd = bufExitd + 1
+	else
+		bufExitu = 0
+		bufExitd = 0
+	end
+	--Draw Menu BG
+	animDraw(exitWindowBG)
+	animUpdate(exitWindowBG)
+	--Draw Title
+	textImgDraw(txt_question)
+	--Draw Table Text
+	for i=1, #t_closeMenu do
+		if i == closeMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_closeMenu[i].id, jgFnt, bank, 0, t_closeMenu[i].text, 159, 120+i*13-moveTxtExit))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYExit*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Bottom Text
+	textImgDraw(txt_titleFt)
+	if restartEngine == true then
+		textImgSetText(txt_titleFt, 'THE ENGINE WILL BE RESTARTED')
+	else
+		textImgSetText(txt_titleFt, 'THE ENGINE WILL BE CLOSED')
+	end
+	--Actions
+	if esc() then
+		sndPlay(sysSnd, 100, 2)
+		--Cursor pos in YES
+		cursorPosYExit = 0
+		closeMenu = 1
+		exitScreen = false
+	elseif btnPalNo(p1Cmd) > 0 then
+		--YES
+		if closeMenu == 1 then
+		    f_playTime()
+			if restartEngine == true then
+				sszReload()
+			end
+			os.exit()
+		--NO
+		else
+			sndPlay(sysSnd, 100, 2)
+			--Cursor pos in YES
+			cursorPosYExit = 0
+			closeMenu = 1
+			exitScreen = false
+			return
+		end
+	end
+	cmdInput()
 end
 
 --;===========================================================

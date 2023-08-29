@@ -872,10 +872,13 @@ function f_selectSimple()
 					break
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
-					if data.challengerScreen == true then
+					if data.challengerScreen == false then
+						playBGM(bgmSelect) --and don't show the screen
+					elseif data.challengerScreen == true then
 						f_selectChallenger()
+						f_challengerMusic()
 					else
-					--Do Nothing and don't show the screen
+						playBGM(bgmSelect) --play original char select song instead of challenger song
 					end
 					f_selectReset()
 					while not selScreenEnd do
@@ -1006,9 +1009,9 @@ function f_selectSimple()
 	end
 end
 
---;=================================================================================================
+--;==================================================================================================
 --; ADVANCED CHARACTER SELECT (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
---;=================================================================================================
+--;==================================================================================================
 function f_selectAdvance()
 	data.rosterAdvance = true
 	bufTmu = 0
@@ -1936,6 +1939,7 @@ function f_p2TeamMenu()
 		p2BG = true
 	else
 		if esc() and p2TeamBack == true then
+			sndPlay(sysSnd, 100, 2)
 			if data.p2In == 1 or data.p2In == 3 then
 				f_p2sideReset()
 				p2TeamEnd = true
@@ -2924,7 +2928,6 @@ end
 --; STAGE SELECT MENU
 --;===========================================================
 function f_selectStage()
-	local cursorSelect = 0
 	if data.stageType == 'Classic' then
 		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
 		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
@@ -2946,74 +2949,73 @@ function f_selectStage()
 		textImgDraw(txt_stageSelect)
 	end
 	if data.stageMenu then
-		if commandGetState(p1Cmd, 's') then
-			if stageSelect == true then
-				--sndPlay(sysSnd, 100, 0)
-				--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
-			end
-			if songSelect == true then --Song Preview
-				if stageList == 0 then
-				--Do Nothing because Song Preview for Random Stage will get an Error because it can't detect which Stage will be Selected (can be resolved by adding a Song selection Menu Apart from the stage selection, it will work when a Stage was selected)
-				else 
-					f_musicPreview()
+		if dontTouch == false then
+			if commandGetState(p1Cmd, 's') then
+				if stageSelect == true then
+					--sndPlay(sysSnd, 100, 0)
+					--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
+				end
+				if songSelect == true then --Song Preview
+					if stageList == 0 then
+					--Do Nothing because Song Preview for Random Stage will get an Error because it can't detect which Stage will be Selected (can be resolved by adding a Song selection Menu Apart from the stage selection, it will work when a Stage was selected)
+					else 
+						f_musicPreview()
+					end
+				end
+			elseif commandGetState(p1Cmd, 'u') then
+				sndPlay(sysSnd, 100, 0)
+				if bufStagel then bufStagel = 0 end
+				if bufStager then bufStager = 0 end
+				--Allow Stage Select
+				if stageSelect == true then
+					stageSelect = false
+				elseif stageSelect == false then
+					stageSelect = true
+				end
+				--Allow Song Select
+				if songSelect == true then
+					songSelect = false
+				elseif songSelect == false then
+					songSelect = true
+				end
+			elseif commandGetState(p1Cmd, 'd') then
+				sndPlay(sysSnd, 100, 0)
+				if bufStagel then bufStagel = 0 end
+				if bufStager then bufStager = 0 end
+				--Allow Stage Select
+				if stageSelect == true then
+					stageSelect = false
+				elseif stageSelect == false then
+					stageSelect = true
+				end
+				--Allow Song Select
+				if songSelect == true then
+					songSelect = false
+				elseif songSelect == false then
+					songSelect = true
+				end
+			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				if stageSelect == true then
+					stageList = stageList + 1
+					if stageList > data.includestage then stageList = 0 end
+				end
+				if songSelect == true then
+					musicList = musicList + 1
+					if musicList > #t_selMusic-1 then musicList = 0 end
+				end
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				if stageSelect == true then
+					stageList = stageList - 1
+					if stageList < 0 then stageList = data.includestage end
+				end
+				if songSelect == true then
+					musicList = musicList - 1
+					if musicList < 0 then musicList = #t_selMusic-1 end
 				end
 			end
-		elseif commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			if bufStagel then bufStagel = 0 end
-			if bufStager then bufStager = 0 end
-			cursorSelect = cursorSelect + 1
-			--Allow Stage Select
-			if stageSelect == true then
-				stageSelect = false
-			elseif stageSelect == false then
-				stageSelect = true
-			end
-			--Allow Song Select
-			if songSelect == true then
-				songSelect = false
-			elseif songSelect == false then
-				songSelect = true
-			end
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			if bufStagel then bufStagel = 0 end
-			if bufStager then bufStager = 0 end
-			cursorSelect = cursorSelect - 1
-			--Allow Stage Select
-			if stageSelect == true then
-				stageSelect = false
-			elseif stageSelect == false then
-				stageSelect = true
-			end
-			--Allow Song Select
-			if songSelect == true then
-				songSelect = false
-			elseif songSelect == false then
-				songSelect = true
-			end
-		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			if stageSelect == true then
-				stageList = stageList + 1
-				if stageList > data.includestage then stageList = 0 end
-			end
-			if songSelect == true then
-				musicList = musicList + 1
-				if musicList > #t_selMusic-1 then musicList = 0 end
-			end
-		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			if stageSelect == true then
-				stageList = stageList - 1
-				if stageList < 0 then stageList = data.includestage end
-			end
-			if songSelect == true then
-				musicList = musicList - 1
-				if musicList < 0 then musicList = #t_selMusic-1 end
-			end
 		end
-		if cursorSelect < 1 then cursorSelect = 2 elseif cursorSelect > 2 then cursorSelect = 1 end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufStagel = 0
 			bufStager = bufStager + 1
@@ -3070,7 +3072,7 @@ function f_selectStage()
 			textImgSetBank(txt_selectMusic, 0)
 			textImgDraw(txt_selStage)
 			textImgDraw(txt_selectMusic)
-		else
+		elseif songSelect == true then
 			textImgSetBank(txt_selStage, 0)
 			textImgSetBank(txt_selectMusic, 5)
 			textImgDraw(txt_selStage)
@@ -3079,7 +3081,6 @@ function f_selectStage()
 		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and dontTouch == false then
 			stageSelect = false
 			songSelect = false
-			--cursorSelect = 0
 			stageAnnouncer = true
 			dontTouch = true
 			sndPlay(sysSnd, 100, 1)

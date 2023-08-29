@@ -649,9 +649,9 @@ function f_offlineDefault()
 	resolutionWidth = 853
 	resolutionHeight = 480
 	setGameRes(resolutionWidth,resolutionHeight)
-	gl_vol = 100
-	se_vol = 70
-	bgm_vol = 30
+	gl_vol = 80
+	se_vol = 80
+	bgm_vol = 50
 	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 	pan_str = 80
 	setPanStr(pan_str / 100)
@@ -2426,6 +2426,7 @@ function f_UICfg()
 		--Stage Select Display Type
 		elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 			if commandGetState(p1Cmd, 'r') and data.stageType == 'Classic' then
+				sndPlay(sysSnd, 100, 0)
 				data.stageType = 'Modern'
 				modified = 1
 			elseif commandGetState(p1Cmd, 'r') and data.stageType == 'Modern' then
@@ -4354,8 +4355,8 @@ function f_testMenu()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
-		textImgDraw(txt_titleFt)		
-		textImgSetText(txt_titleFt, 'INPUT TEST MODE')
+		textImgDraw(txt_gameFt)		
+		textImgSetText(txt_gameFt, 'INPUT TEST MODE')
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxTestMenu > 6 then
@@ -4874,25 +4875,25 @@ function f_readInput(oldkey)
 				getKeyboard = oldkey
 				break
 			elseif upKey() and controllerSet == 1 then
-				getKeyboard = 'Up'
+				getKeyboard = 'UP'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
 				break
 			elseif downKey() and controllerSet == 1 then
-				getKeyboard = 'Down'
+				getKeyboard = 'DOWN'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
 				break
 			elseif leftKey() and controllerSet == 1 then
-				getKeyboard = 'Left'
+				getKeyboard = 'LEFT'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
 				break
 			elseif rightKey() and controllerSet == 1 then
-				getKeyboard = 'Right'
+				getKeyboard = 'RIGHT'
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				sndPlay(sysSnd, 100, 1)
