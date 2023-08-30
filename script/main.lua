@@ -306,15 +306,11 @@ function f_exitMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	--
-	exitScreen = false
-	cursorPosYExit = 0 --Cursor pos in YES
-	moveTxtExit = 0
-	closeMenu = 1 --Cursor pos in YES
 	bufExitu = 0
 	bufExitd = 0
 	bufExitr = 0
 	bufExitl = 0
+	f_exitReset()
 	while true do
 		if exitScreen == false then
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -406,6 +402,14 @@ function f_exitMenu()
 	end
 end
 
+function f_exitReset()
+	exitScreen = false
+	moveTxtExit = 0
+	--Cursor pos in YES
+	cursorPosYExit = 0
+	closeMenu = 1
+end
+
 --;===========================================================
 --; CLOSE/RESTART MESSAGE
 --;===========================================================
@@ -494,10 +498,7 @@ function f_closeMenu()
 	--Actions
 	if esc() then
 		sndPlay(sysSnd, 100, 2)
-		--Cursor pos in YES
-		cursorPosYExit = 0
-		closeMenu = 1
-		exitScreen = false
+		f_exitReset()
 	elseif btnPalNo(p1Cmd) > 0 then
 		--YES
 		if closeMenu == 1 then
@@ -509,12 +510,8 @@ function f_closeMenu()
 		--NO
 		else
 			sndPlay(sysSnd, 100, 2)
-			--Cursor pos in YES
-			cursorPosYExit = 0
-			closeMenu = 1
-			exitScreen = false
-			return
 		end
+		f_exitReset()
 	end
 	cmdInput()
 end

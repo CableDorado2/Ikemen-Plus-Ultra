@@ -620,7 +620,7 @@ end
 --;===========================================================
 --; BACK TO MAIN MENU MESSAGE
 --;===========================================================
-txt_backquestion = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU?', 160.5, 110)
+txt_backquestion = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU?', 160.5, 110,0.9,0.9)
 
 --Back Window BG
 backWindowBG = animNew(sysSff, [[
@@ -711,10 +711,6 @@ function f_backMenu()
 				setGameType(0)
 				setServiceType(0)
 				back = true
-				backScreen = false
-				--Cursor pos in YES
-				cursorPosYBack = 0
-				backMenu = 1
 			--NO
 			else
 				sndPlay(sysSnd, 100, 1)
@@ -741,11 +737,8 @@ function f_backMenu()
 					stageEnd = true
 				end
 				back = false
-				backScreen = false
-				--Cursor pos in YES
-				cursorPosYBack = 0
-				backMenu = 1
 			end
+			f_backReset()
 		end	
 		cmdInput()
 	elseif onlinegame == true then
@@ -764,15 +757,20 @@ function f_backOnline()
 	end
 end
 
+function f_backReset()
+	backScreen = false
+	moveTxtBack = 0
+	--Cursor pos in YES
+	cursorPosYBack = 0
+	backMenu = 1
+end
+
 --;==============================================================================
 --; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
 --;==============================================================================
 function f_selectSimple()
-	backScreen = false
+	f_backReset()
 	back = false
-	cursorPosYBack = 0
-	moveTxtBack = 0
-	backMenu = 1
 	bufBacku = 0
 	bufBackd = 0
 	bufBackr = 0
@@ -997,16 +995,13 @@ end
 --; ADVANCED CHARACTER SELECT (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;==================================================================================================
 function f_selectAdvance()
-	backScreen = false
+	data.rosterAdvance = true
+	f_backReset()
 	back = false
-	cursorPosYBack = 0
-	moveTxtBack = 0
-	backMenu = 1
 	bufBacku = 0
 	bufBackd = 0
 	bufBackr = 0
 	bufBackl = 0
-	data.rosterAdvance = true
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0

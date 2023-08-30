@@ -736,8 +736,6 @@ end
 --;===========================================================
 --; DEFAULT VALUES MESSAGE
 --;===========================================================
-txt_defaultquestion = createTextImg(jgFnt, 0, 0, 'LOAD DEFAULT SETTINGS?', 160, 110)
-
 --Default Window BG
 defaultWindowBG = animNew(sysSff, [[
 230,1, 0,0,
@@ -791,12 +789,19 @@ function f_defaultMenu()
 		bufDefaultu = 0
 		bufDefaultd = 0
 	end
-	--Draw Fade BG
-	animDraw(fadeWindowBG)
+	if resetStats == false then
+		--Draw Fade BG
+		animDraw(fadeWindowBG)
+	end
 	--Draw Menu BG
 	animDraw(defaultWindowBG)
 	animUpdate(defaultWindowBG)
 	--Draw Title
+	if resetStats == true then
+		txt_defaultquestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+	else
+		txt_defaultquestion = createTextImg(jgFnt, 0, 0, 'LOAD DEFAULT SETTINGS?', 160, 110,0.8,0.8)
+	end
 	textImgDraw(txt_defaultquestion)
 	--Draw Table Text
 	for i=1, #t_defaultMenu do
@@ -819,19 +824,19 @@ function f_defaultMenu()
 		--YES
 		if defaultMenu == 1 then
 			if defaultAll == true then
+				sndPlay(sysSnd, 100, 0)
 				f_onlineDefault() --Set Default Options for Online/Offline Game
 				f_offlineDefault() --Set ONLY Default Options for Offline Game
 				modified = 1
 				needReload = 1
 			elseif defaultInput == true then
 				f_inputDefault()
+			elseif resetStats == true then
+				f_defaultStats()
 			end
-			--f_defaultReset()
 		--NO
 		else
 			sndPlay(sysSnd, 100, 2)
-			--f_defaultReset()
-			--return
 		end
 		f_defaultReset()
 	end
@@ -839,12 +844,15 @@ function f_defaultMenu()
 end
 
 function f_defaultReset()
-	cursorPosYDefault = 1 --Cursor pos in NO
 	moveTxtDefault = 0
-	defaultMenu = 2 --Cursor pos in NO
+	--Cursor pos in NO
+	cursorPosYDefault = 1
+	defaultMenu = 2
+	--Reset
 	defaultScreen = false
 	defaultAll = false
 	defaultInput = false
+	resetStats = false
 end
 
 --;===========================================================
@@ -883,11 +891,10 @@ function f_mainCfg()
 	local bufr = 0
 	local bufu = 0
 	local bufd = 0
-	--
-	bufDefaultu = 0
-	bufDefaultd = 0
-	bufDefaultr = 0
-	bufDefaultl = 0
+	--bufDefaultu = 0
+	--bufDefaultd = 0
+	--bufDefaultr = 0
+	--bufDefaultl = 0
 	f_defaultReset()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
@@ -5369,7 +5376,6 @@ end
 --;===========================================================
 t_unlocksWarning = {
 	{id = '', text = "   All unlocked data or progress will be delete."},
-	{id = '', text = "   Press ESC to Cancel or Press Enter to Accept."},
 }
 for i=1, #t_unlocksWarning do
 	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
@@ -5377,47 +5383,10 @@ end
 
 function f_unlocksWarning()
 	cmdInput()
+	f_defaultReset()
+	resetStats = true
+	defaultScreen = true
 	while true do
-		if btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			data.arcadeUnlocks = false
-			data.survivalUnlocks = false
-			data.coins = 0
-			data.playTime = 0
-			data.favoriteChar = 'None'
-			data.favoriteStage = 'None'
-			data.victories = 0
-			data.defeats = 0
-			data.preferredMode = 'WIP'
-			data.arcademodeCnt = 0
-			data.vsmodeCnt = 0
-			data.survivalmodeCnt = 0
-			data.bossrushmodeCnt = 0
-			data.bonusrushmodeCnt = 0
-			data.timeattackmodeCnt = 0
-			data.suddendeathmodeCnt = 0
-			data.cpumatchmodeCnt = 0
-			data.eventsmodeCnt = 0
-			data.missionsmodeCnt = 0
-			data.endlessmodeCnt = 0
-			data.legionmodeCnt = 0
-			data.towermodeCnt = 0
-			data.storymodeCnt = 0
-			data.tourneymodeCnt = 0
-			data.adventuremodeCnt = 0
-			data.eventsProgress = 0
-			data.missionsProgress = 0
-			data.event1Status = 0
-			data.mission1Status = 0
-			data.mission2Status = 0
-			data.mission3Status = 0
-			data.erase = true
-			modified = 1
-			break
-		elseif esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG2, 300, 94)
 		animSetWindow(optionsBG2, 0,20, 297,#t_unlocksWarning*15)
@@ -5426,7 +5395,45 @@ function f_unlocksWarning()
 		for i=1, #t_unlocksWarning do
 			textImgDraw(t_unlocksWarning[i].id)
 		end
+		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
+		if defaultScreen == false and resetStats == false then break end
 		cmdInput()
 		refresh()
 	end
+end
+
+function f_defaultStats()
+	data.arcadeUnlocks = false
+	data.survivalUnlocks = false
+	data.coins = 0
+	data.playTime = 0
+	data.favoriteChar = 'None'
+	data.favoriteStage = 'None'
+	data.victories = 0
+	data.defeats = 0
+	data.preferredMode = 'WIP'
+	data.arcademodeCnt = 0
+	data.vsmodeCnt = 0
+	data.survivalmodeCnt = 0
+	data.bossrushmodeCnt = 0
+	data.bonusrushmodeCnt = 0
+	data.timeattackmodeCnt = 0
+	data.suddendeathmodeCnt = 0
+	data.cpumatchmodeCnt = 0
+	data.eventsmodeCnt = 0
+	data.missionsmodeCnt = 0
+	data.endlessmodeCnt = 0
+	data.legionmodeCnt = 0
+	data.towermodeCnt = 0
+	data.storymodeCnt = 0
+	data.tourneymodeCnt = 0
+	data.adventuremodeCnt = 0
+	data.eventsProgress = 0
+	data.missionsProgress = 0
+	data.event1Status = 0
+	data.mission1Status = 0
+	data.mission2Status = 0
+	data.mission3Status = 0
+	data.erase = true
+	modified = 1
 end
