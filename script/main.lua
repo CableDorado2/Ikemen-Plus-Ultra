@@ -134,6 +134,14 @@ animSetTile(cursorBox, 1, 1)
 --animSetAlpha(cursorBox, 20, 100)
 --animUpdate(cursorBox)
 
+--Message Fade BG
+fadeWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1, 0, AS256D102
+]])
+animSetPos(fadeWindowBG, -54, 0)
+animSetScale(fadeWindowBG, 427, 240)
+animUpdate(fadeWindowBG)
+
 --Down Menu Arrows
 arrowsD = animNew(sysSff, [[
 222,0, 0,0, 10
@@ -415,7 +423,7 @@ t_closeMenu = {
 	{id = textImgNew(), text = 'YES'},
 	{id = textImgNew(), text = 'NO'},
 }
-	
+
 function f_closeMenu()
 	cmdInput()
 	--Cursor Position
@@ -456,6 +464,8 @@ function f_closeMenu()
 		bufExitu = 0
 		bufExitd = 0
 	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
 	--Draw Menu BG
 	animDraw(exitWindowBG)
 	animUpdate(exitWindowBG)

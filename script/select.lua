@@ -121,6 +121,8 @@ function f_selectReset()
 	battleOption = 0
 	battleOption2 = 0
 	--rankedEnd = false
+	backScreen = false
+	back = false
 end
 
 function f_setZoom()
@@ -616,8 +618,18 @@ function f_loseCoins()
 end
 
 --;===========================================================
---; BACK TO MAIN MENU SCREEN
+--; BACK TO MAIN MENU MESSAGE
 --;===========================================================
+txt_backquestion = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU?', 160.5, 110)
+
+--Back Window BG
+backWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(backWindowBG, 83.5, 97)
+animUpdate(backWindowBG)
+animSetScale(backWindowBG, 1, 1)
+
 t_backMenu = {
 	{id = textImgNew(), text = 'YES'},
 	{id = textImgNew(), text = 'NO'},
@@ -626,123 +638,116 @@ t_backMenu = {
 function f_backMenu()
 	if onlinegame == false then
 		cmdInput()
-		local cursorPosY = 0
-		local moveTxt = 0
-		local backMenu = 1
-		local bufu = 0
-		local bufd = 0
-		local bufr = 0
-		local bufl = 0
-		while true do
-			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				backMenu = backMenu - 1
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				backMenu = backMenu + 1
-			end
-			if backMenu < 1 then
-				backMenu = #t_backMenu
-				if #t_backMenu > 4 then
-					cursorPosY = 4
-				else
-					cursorPosY = #t_backMenu-1
-				end
-			elseif backMenu > #t_backMenu then
-				backMenu = 1
-				cursorPosY = 0
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 4 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 4 then
-				moveTxt = (backMenu - 5) * 13
-			elseif cursorPosY == 0 then
-				moveTxt = (backMenu - 1) * 13
-			end
-			if btnPalNo(p1Cmd) > 0 then
-				--YES
-				if backMenu == 1 then
-					if data.rosterMode == 'event' or data.rosterMode == 'mission' then
-						data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-					end
-					sndPlay(sysSnd, 100, 2)
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					setGameType(0)
-					setServiceType(0)
-					back = true
-					break
-				--NO
-				else
-					back = false
-					data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
-						f_rosterReset()
-						p1Cell = nil
-						p1Portrait = nil
-						data.t_p1selected = {}
-						p1palEnd = true
-						p1SelEnd = false
-						if data.coop then
-							p2Cell = nil
-							p2Portrait = nil
-							data.t_p2selected = {}
-							p2palEnd = true
-							p2SelEnd = false
-						end
-					else
-						f_selectReset()
-					end
-					if data.rosterAdvance == true then
-						stageEnd = true
-					end
-					break
-				end
-			end	
-			animDraw(f_animVelocity(titleBG0, -2.15, 0))
-			for i=1, #t_backMenu do
-				if i == backMenu then
-					bank = 5
-				else
-					bank = 0
-				end
-				textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 165+i*13-moveTxt))
-			end
-			animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-			animDraw(titleBG1)
-			animAddPos(titleBG2, -1, 0)
-			animUpdate(titleBG2)
-			animDraw(titleBG2)
-			animDraw(titleBG3)
-			animDraw(titleBG4)
-			animDraw(titleBG5)
-			animDraw(titleBG6)
-			textImgDraw(txt_subTitle)
-			textImgDraw(txt_titleFt)
-			textImgSetText(txt_titleFt, 'YOU WILL BACK TO MAIN MENU')
-			f_sysTime()
-			if commandGetState(p1Cmd, 'holdu') then
-				bufd = 0
-				bufu = bufu + 1
-			elseif commandGetState(p1Cmd, 'holdd') then
-				bufu = 0
-				bufd = bufd + 1
-			else
-				bufu = 0
-				bufd = 0
-			end
-			animDraw(data.fadeTitle)
-			animUpdate(data.fadeTitle)
-			cmdInput()
-			refresh()
+		--Cursor position
+		if commandGetState(p1Cmd, 'u')  or (commandGetState(p1Cmd, 'holdu') and bufBacku >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			backMenu = backMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufBackd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			backMenu = backMenu + 1
 		end
+		if backMenu < 1 then
+			backMenu = #t_backMenu
+			if #t_backMenu > 4 then
+				cursorPosYBack = 4
+			else
+				cursorPosYBack = #t_backMenu-1
+			end
+		elseif backMenu > #t_backMenu then
+			backMenu = 1
+			cursorPosYBack = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufBacku >= 30)) and cursorPosYBack > 0 then
+			cursorPosYBack = cursorPosYBack - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufBackd >= 30)) and cursorPosYBack < 4 then
+			cursorPosYBack = cursorPosYBack + 1
+		end
+		if cursorPosYBack == 4 then
+			moveTxtBack = (backMenu - 5) * 13
+		elseif cursorPosYBack == 0 then
+			moveTxtBack = (backMenu - 1) * 13
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufBackd = 0
+			bufBacku = bufBacku + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufBacku = 0
+			bufBackd = bufBackd + 1
+		else
+			bufBacku = 0
+			bufBackd = 0
+		end
+		--Draw Fade BG
+		animDraw(fadeWindowBG)
+		--Draw Menu BG
+		animDraw(backWindowBG)
+		animUpdate(backWindowBG)
+		--Draw Title
+		textImgDraw(txt_backquestion)
+		--Draw Table Text
+		for i=1, #t_backMenu do
+			if i == backMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 120+i*13-moveTxtBack))
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, 87,123+cursorPosYBack*13, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Actions
+		if btnPalNo(p1Cmd) > 0 then
+			--YES
+			if backMenu == 1 then
+				sndPlay(sysSnd, 100, 2)
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				if data.rosterMode == 'event' or data.rosterMode == 'mission' then
+					data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				else
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				end
+				setGameType(0)
+				setServiceType(0)
+				back = true
+				backScreen = false
+				--Cursor pos in YES
+				cursorPosYBack = 0
+				backMenu = 1
+			--NO
+			else
+				sndPlay(sysSnd, 100, 1)
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+					f_rosterReset()
+					p1Cell = nil
+					p1Portrait = nil
+					data.t_p1selected = {}
+					p1palEnd = true
+					p1SelEnd = false
+					if data.coop then
+						p2Cell = nil
+						p2Portrait = nil
+						data.t_p2selected = {}
+						p2palEnd = true
+						p2SelEnd = false
+					end
+				else
+					f_selectReset()
+				end
+				if data.rosterAdvance == true then
+					stageEnd = true
+				end
+				back = false
+				backScreen = false
+				--Cursor pos in YES
+				cursorPosYBack = 0
+				backMenu = 1
+			end
+		end	
+		cmdInput()
 	elseif onlinegame == true then
 		f_backOnline()
 	end
@@ -763,6 +768,15 @@ end
 --; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
 --;==============================================================================
 function f_selectSimple()
+	backScreen = false
+	back = false
+	cursorPosYBack = 0
+	moveTxtBack = 0
+	backMenu = 1
+	bufBacku = 0
+	bufBackd = 0
+	bufBackr = 0
+	bufBackl = 0
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
@@ -829,34 +843,24 @@ function f_selectSimple()
 		while not selScreenEnd do
 			if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 				if p1TeamBack == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
-					f_backMenu()
-					if back == true then
-						if data.rosterMode == 'event' then
-							--playBGM('')
-						else
-							f_menuMusic()
-						end
-						return
-					end
+					if backScreen == false then sndPlay(sysSnd, 100, 2) end
+					backScreen = true
 				end
 			elseif esc() and data.p2In == 2 then
 				if p1TeamBack == true and p2TeamBack == true then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
-					f_backMenu()
-					if back == true then
-						if data.rosterMode == 'event' then
-							--playBGM('')
-						else
-							f_menuMusic()
-						end
-						return
-					end
+					if backScreen == false then sndPlay(sysSnd, 100, 2) end
+					backScreen = true
 				end
 			end
 			f_selectScreen()
+			if back == true then
+				if data.rosterMode == 'event' then
+					--playBGM('')
+				else
+					f_menuMusic()
+				end
+				return
+			end
 		end
 		if winner > 0 then
 			--win screen
@@ -884,34 +888,24 @@ function f_selectSimple()
 					while not selScreenEnd do
 						if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 							if p1TeamBack == true then
-								data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-								sndPlay(sysSnd, 100, 2)
-								f_backMenu()
-								if back == true then
-									if data.rosterMode == 'event' then
-										--playBGM('')
-									else
-										f_menuMusic()
-									end
-									return
-								end
+								if backScreen == false then sndPlay(sysSnd, 100, 2) end
+								backScreen = true
 							end
 						elseif esc() and data.p2In == 2 then
 							if p1TeamBack == true and p2TeamBack == true then
-								data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-								sndPlay(sysSnd, 100, 2)
-								f_backMenu()
-								if back == true then
-									if data.rosterMode == 'event' then
-										--playBGM('')
-									else
-										f_menuMusic()
-									end
-									return
-								end
+								if backScreen == false then sndPlay(sysSnd, 100, 2) end
+								backScreen = true
 							end
 						end
 						f_selectScreen()
+						if back == true then
+							if data.rosterMode == 'event' then
+								--playBGM('')
+							else
+								f_menuMusic()
+							end
+							return
+						end
 					end
 				--REMATCH
 				elseif battleOption == 1 and battleOption2 == 1 then
@@ -956,34 +950,24 @@ function f_selectSimple()
 				while not selScreenEnd do
 					if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 						if p1TeamBack == true then
-							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-							sndPlay(sysSnd, 100, 2)
-							f_backMenu()
-							if back == true then
-								if data.rosterMode == 'event' then
-									--playBGM('')
-								else
-									f_menuMusic()
-								end
-								return
-							end
+							if backScreen == false then sndPlay(sysSnd, 100, 2) end
+							backScreen = true
 						end
 					elseif esc() and data.p2In == 2 then
 						if p1TeamBack == true and p2TeamBack == true then
-							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-							sndPlay(sysSnd, 100, 2)
-							f_backMenu()
-							if back == true then
-								if data.rosterMode == 'event' then
-									--playBGM('')
-								else
-									f_menuMusic()
-								end
-								return
-							end
+							if backScreen == false then sndPlay(sysSnd, 100, 2) end
+							backScreen = true
 						end
 					end
 					f_selectScreen()
+					if back == true then
+						if data.rosterMode == 'event' then
+							--playBGM('')
+						else
+							f_menuMusic()
+						end
+						return
+					end
 				end
 			end
 		end
@@ -1013,6 +997,15 @@ end
 --; ADVANCED CHARACTER SELECT (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;==================================================================================================
 function f_selectAdvance()
+	backScreen = false
+	back = false
+	cursorPosYBack = 0
+	moveTxtBack = 0
+	backMenu = 1
+	bufBacku = 0
+	bufBackd = 0
+	bufBackr = 0
+	bufBackl = 0
 	data.rosterAdvance = true
 	bufTmu = 0
 	bufTmd = 0
@@ -1076,15 +1069,14 @@ function f_selectAdvance()
 		selectStart()
 		while not selScreenEnd do
 			if esc() and p1TeamBack == true then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				f_backMenu()
-				if back == true then
-					f_menuMusic()
-					return
-				end
+				if backScreen == false then sndPlay(sysSnd, 100, 2) end
+				backScreen = true
 			end
 			f_selectScreen()
+			if back == true then
+				f_menuMusic()
+				return
+			end
 		end
 		--first match
 		if matchNo == 0 then
@@ -1228,15 +1220,14 @@ function f_selectAdvance()
 				selScreenEnd = false
 				while not selScreenEnd do
 					if esc() then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 2)
-						f_backMenu()
-						if back == true then
-							f_menuMusic()
-							return
-						end
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
 					end
 					f_selectScreen()
+					if back == true then
+						f_menuMusic()
+						return
+					end
 				end
 			elseif esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1596,6 +1587,10 @@ function f_selectScreen()
 	if stageAnnouncer == true then
 		stageTimer = stageTimer + 1
 	end
+	--Show Back Menu
+	if backScreen == true then
+		f_backMenu()
+	end
 	animDraw(data.fadeSelect)
 	animUpdate(data.fadeSelect)
 	animDraw(data.fadeTitle)
@@ -1701,82 +1696,78 @@ function f_p1TeamMenu()
 		p1TeamEnd = true
 		p1BG = true
 	else
-		--if commandGetState(p1Cmd, 'u') then
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufTmu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			p1teamMode = p1teamMode - 1
-			if p1teamMode < 0 then p1teamMode = #t_p1selTeam-1 end
-			if bufTml then bufTml = 0 end
-			if bufTmr then bufTmr = 0 end
-		--elseif commandGetState(p1Cmd, 'd') then
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufTmd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			p1teamMode = p1teamMode + 1
-			if p1teamMode > #t_p1selTeam-1 then p1teamMode = 0 end
-			if bufTml then bufTml = 0 end
-			if bufTmr then bufTmr = 0 end
-		elseif p1teamMode == 1 then --Simul
-			--if commandGetState(p1Cmd, 'l') then
-			if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufTml >= 30) then
-				if commandGetState(p1Cmd, 'l') and p1numSimul > 2 then sndPlay(sysSnd, 100, 0) end
-				p1numSimul = p1numSimul - 1
-				if p1numSimul < 2 then p1numSimul = 2 end
-				if bufTmu then bufTmu = 0 end
-				if bufTmd then bufTmd = 0 end
-			--elseif commandGetState(p1Cmd, 'r') then
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufTmr >= 30) then
-				if commandGetState(p1Cmd, 'r') and p1numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
-				p1numSimul = p1numSimul + 1
-				if p1numSimul > data.numSimul then p1numSimul = data.numSimul end
-				if bufTmu then bufTmu = 0 end
-				if bufTmd then bufTmd = 0 end
+		if backScreen == false then
+			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufTmu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				p1teamMode = p1teamMode - 1
+				if p1teamMode < 0 then p1teamMode = #t_p1selTeam-1 end
+				if bufTml then bufTml = 0 end
+				if bufTmr then bufTmr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufTmd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				p1teamMode = p1teamMode + 1
+				if p1teamMode > #t_p1selTeam-1 then p1teamMode = 0 end
+				if bufTml then bufTml = 0 end
+				if bufTmr then bufTmr = 0 end
+			elseif p1teamMode == 1 then --Simul
+				if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufTml >= 30) then
+					if commandGetState(p1Cmd, 'l') and p1numSimul > 2 then sndPlay(sysSnd, 100, 0) end
+					p1numSimul = p1numSimul - 1
+					if p1numSimul < 2 then p1numSimul = 2 end
+					if bufTmu then bufTmu = 0 end
+					if bufTmd then bufTmd = 0 end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufTmr >= 30) then
+					if commandGetState(p1Cmd, 'r') and p1numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
+					p1numSimul = p1numSimul + 1
+					if p1numSimul > data.numSimul then p1numSimul = data.numSimul end
+					if bufTmu then bufTmu = 0 end
+					if bufTmd then bufTmd = 0 end
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufTml = 0
+					bufTmr = bufTmr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufTmr = 0
+					bufTml = bufTml + 1
+				else
+					bufTmr = 0
+					bufTml = 0
+				end
+			elseif p1teamMode == 2 then --Turns
+				if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufTml >= 30) then
+					if commandGetState(p1Cmd, 'l') and p1numTurns > 2 then sndPlay(sysSnd, 100, 0) end
+					p1numTurns = p1numTurns - 1
+					if p1numTurns < 2 then p1numTurns = 2 end
+					if bufTmu then bufTmu = 0 end
+					if bufTmd then bufTmd = 0 end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufTmr >= 30) then
+					if commandGetState(p1Cmd, 'r') and p1numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
+					p1numTurns = p1numTurns + 1
+					if p1numTurns > data.numTurns then p1numTurns = data.numTurns end
+					if bufTmu then bufTmu = 0 end
+					if bufTmd then bufTmd = 0 end
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufTml = 0
+					bufTmr = bufTmr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufTmr = 0
+					bufTml = bufTml + 1
+				else
+					bufTmr = 0
+					bufTml = 0
+				end
 			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufTml = 0
-				bufTmr = bufTmr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufTmr = 0
-				bufTml = bufTml + 1
+			if commandGetState(p1Cmd, 'holdu') then
+				bufTmd = 0
+				bufTmu = bufTmu + 1
+			elseif commandGetState(p1Cmd, 'holdd') then
+				bufTmu = 0
+				bufTmd = bufTmd + 1
 			else
-				bufTmr = 0
-				bufTml = 0
+				bufTmu = 0
+				bufTmd = 0
 			end
-		elseif p1teamMode == 2 then --Turns
-			--if commandGetState(p1Cmd, 'l') then
-			if commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufTml >= 30) then
-				if commandGetState(p1Cmd, 'l') and p1numTurns > 2 then sndPlay(sysSnd, 100, 0) end
-				p1numTurns = p1numTurns - 1
-				if p1numTurns < 2 then p1numTurns = 2 end
-				if bufTmu then bufTmu = 0 end
-				if bufTmd then bufTmd = 0 end
-			--elseif commandGetState(p1Cmd, 'r') then
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufTmr >= 30) then
-				if commandGetState(p1Cmd, 'r') and p1numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
-				p1numTurns = p1numTurns + 1
-				if p1numTurns > data.numTurns then p1numTurns = data.numTurns end
-				if bufTmu then bufTmu = 0 end
-				if bufTmd then bufTmd = 0 end
-			end
-			if commandGetState(p1Cmd, 'holdr') then
-				bufTml = 0
-				bufTmr = bufTmr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufTmr = 0
-				bufTml = bufTml + 1
-			else
-				bufTmr = 0
-				bufTml = 0
-			end
-		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufTmd = 0
-			bufTmu = bufTmu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufTmu = 0
-			bufTmd = bufTmd + 1
-		else
-			bufTmu = 0
-			bufTmd = 0
 		end
 		textImgDraw(p1SelTmTxt)
 		for i=1, #t_p1selTeam do
@@ -1950,85 +1941,81 @@ function f_p2TeamMenu()
 				p1SelBack = true
 				p1TeamBack = false
 			elseif data.p2In == 2 then
-				
+				--ToDo?
 			end
 		end
-		--if commandGetState(p2Cmd, 'u') then
-		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufTm2u >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			p2teamMode = p2teamMode - 1
-			if p2teamMode < 0 then p2teamMode = #t_p2selTeam-1 end
-			if bufTm2l then bufTm2l = 0 end
-			if bufTm2r then bufTm2r = 0 end
-		--elseif commandGetState(p2Cmd, 'd') then
-		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufTm2d >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			p2teamMode = p2teamMode + 1
-			if p2teamMode > #t_p2selTeam-1 then p2teamMode = 0 end
-			if bufTm2l then bufTm2l = 0 end
-			if bufTm2r then bufTm2r = 0 end
-		elseif p2teamMode == 1 then --Simul
-			--if commandGetState(p2Cmd, 'r') then
-			if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufTm2r >= 30) then
-				if commandGetState(p2Cmd, 'r') and p2numSimul > 2 then sndPlay(sysSnd, 100, 0) end
-				p2numSimul = p2numSimul - 1
-				if p2numSimul < 2 then p2numSimul = 2 end
-				if bufTm2u then bufTm2u = 0 end
-				if bufTm2d then bufTm2d = 0 end
-			--elseif commandGetState(p2Cmd, 'l') then
-			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufTm2l >= 30) then
-				if commandGetState(p2Cmd, 'l') and p2numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
-				p2numSimul = p2numSimul + 1
-				if p2numSimul > data.numSimul then p2numSimul = data.numSimul end
-				if bufTm2u then bufTm2u = 0 end
-				if bufTm2d then bufTm2d = 0 end
+		if backScreen == false then	
+			if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufTm2u >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				p2teamMode = p2teamMode - 1
+				if p2teamMode < 0 then p2teamMode = #t_p2selTeam-1 end
+				if bufTm2l then bufTm2l = 0 end
+				if bufTm2r then bufTm2r = 0 end
+			elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufTm2d >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				p2teamMode = p2teamMode + 1
+				if p2teamMode > #t_p2selTeam-1 then p2teamMode = 0 end
+				if bufTm2l then bufTm2l = 0 end
+				if bufTm2r then bufTm2r = 0 end
+			elseif p2teamMode == 1 then --Simul
+				if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufTm2r >= 30) then
+					if commandGetState(p2Cmd, 'r') and p2numSimul > 2 then sndPlay(sysSnd, 100, 0) end
+					p2numSimul = p2numSimul - 1
+					if p2numSimul < 2 then p2numSimul = 2 end
+					if bufTm2u then bufTm2u = 0 end
+					if bufTm2d then bufTm2d = 0 end
+				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufTm2l >= 30) then
+					if commandGetState(p2Cmd, 'l') and p2numSimul < data.numSimul then sndPlay(sysSnd, 100, 0) end
+					p2numSimul = p2numSimul + 1
+					if p2numSimul > data.numSimul then p2numSimul = data.numSimul end
+					if bufTm2u then bufTm2u = 0 end
+					if bufTm2d then bufTm2d = 0 end
+				end
+				if commandGetState(p2Cmd, 'holdr') then
+					bufTm2l = 0
+					bufTm2r = bufTm2r + 1
+				elseif commandGetState(p2Cmd, 'holdl') then
+					bufTm2r = 0
+					bufTm2l = bufTm2l + 1
+				else
+					bufTm2r = 0
+					bufTm2l = 0
+				end
+			elseif p2teamMode == 2 then --Turns
+				if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufTm2r >= 30) then
+					if commandGetState(p2Cmd, 'r') and p2numTurns > 2 then sndPlay(sysSnd, 100, 0) end
+					p2numTurns = p2numTurns - 1
+					if p2numTurns < 2 then p2numTurns = 2 end
+					if bufTm2u then bufTm2u = 0 end
+					if bufTm2d then bufTm2d = 0 end
+				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufTm2l >= 30) then
+					if commandGetState(p2Cmd, 'l') and p2numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
+					p2numTurns = p2numTurns + 1
+					if p2numTurns > data.numTurns then p2numTurns = data.numTurns end
+					if bufTm2u then bufTm2u = 0 end
+					if bufTm2d then bufTm2d = 0 end
+				end
+				if commandGetState(p2Cmd, 'holdr') then
+					bufTm2l = 0
+					bufTm2r = bufTm2r + 1
+				elseif commandGetState(p2Cmd, 'holdl') then
+					bufTm2r = 0
+					bufTm2l = bufTm2l + 1
+				else
+					bufTm2r = 0
+					bufTm2l = 0
+				end
 			end
-			if commandGetState(p2Cmd, 'holdr') then
-				bufTm2l = 0
-				bufTm2r = bufTm2r + 1
-			elseif commandGetState(p2Cmd, 'holdl') then
-				bufTm2r = 0
-				bufTm2l = bufTm2l + 1
+			if commandGetState(p2Cmd, 'holdu') then
+				bufTm2d = 0
+				bufTm2u = bufTm2u + 1
+			elseif commandGetState(p2Cmd, 'holdd') then
+				bufTm2u = 0
+				bufTm2d = bufTm2d + 1
 			else
-				bufTm2r = 0
-				bufTm2l = 0
+				bufTm2u = 0
+				bufTm2d = 0
 			end
-		elseif p2teamMode == 2 then --Turns
-			--if commandGetState(p2Cmd, 'r') then
-			if commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufTm2r >= 30) then
-				if commandGetState(p2Cmd, 'r') and p2numTurns > 2 then sndPlay(sysSnd, 100, 0) end
-				p2numTurns = p2numTurns - 1
-				if p2numTurns < 2 then p2numTurns = 2 end
-				if bufTm2u then bufTm2u = 0 end
-				if bufTm2d then bufTm2d = 0 end
-			--elseif commandGetState(p2Cmd, 'l') then
-			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufTm2l >= 30) then
-				if commandGetState(p2Cmd, 'l') and p2numTurns < data.numTurns then sndPlay(sysSnd, 100, 0) end
-				p2numTurns = p2numTurns + 1
-				if p2numTurns > data.numTurns then p2numTurns = data.numTurns end
-				if bufTm2u then bufTm2u = 0 end
-				if bufTm2d then bufTm2d = 0 end
-			end
-			if commandGetState(p2Cmd, 'holdr') then
-				bufTm2l = 0
-				bufTm2r = bufTm2r + 1
-			elseif commandGetState(p2Cmd, 'holdl') then
-				bufTm2r = 0
-				bufTm2l = bufTm2l + 1
-			else
-				bufTm2r = 0
-				bufTm2l = 0
-			end
-		end
-		if commandGetState(p2Cmd, 'holdu') then
-			bufTm2d = 0
-			bufTm2u = bufTm2u + 1
-		elseif commandGetState(p2Cmd, 'holdd') then
-			bufTm2u = 0
-			bufTm2d = bufTm2d + 1
-		else
-			bufTm2u = 0
-			bufTm2d = 0
 		end
 		if data.p2In == 2 then
 			textImgDraw(p2SelTmTxt)
@@ -2355,60 +2342,17 @@ function f_p1SelectMenu()
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
-			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
-				local foundCel = false
-				while true do
-					if foundCel then
-						break
-					end
-					p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYSub(p1SelY, p1FaceOffset, p1OffsetRow)
-					if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-						foundCel = true
-					else
-						for i=0, tmpCelX do
-							p1SelX = f_findCelXSub(p1SelX, false)
-							if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-								foundCel = true
-								break
-							end
+			if backScreen == false then
+				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
+					local foundCel = false
+					while true do
+						if foundCel then
+							break
 						end
-						if not foundCel then
-							p1SelX = tmpCelX
-							for i=1, selectColumns-tmpCelX do
-								p1SelX = f_findCelXAdd(p1SelX, false)
-								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-									foundCel = true
-									break
-								end
-							end
-							if not foundCel then
-								p1SelX = tmpCelX
-							end
-						end
-					end
-				end
-				if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
-					sndPlay(sysSnd, 100, 0)
-				end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30 and p1palEnd) then
-				local foundCel = false
-				while true do
-					if foundCel then
-						break
-					end
-					p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYAdd(p1SelY, p1FaceOffset, p1OffsetRow)
-					if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-						foundCel = true
-					else
-						for i=1, selectColumns-tmpCelX do
-							p1SelX = f_findCelXAdd(p1SelX, false)
-							if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-								foundCel = true
-								break
-							end
-						end
-						if not foundCel then
-							p1SelX = tmpCelX
+						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYSub(p1SelY, p1FaceOffset, p1OffsetRow)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+							foundCel = true
+						else
 							for i=0, tmpCelX do
 								p1SelX = f_findCelXSub(p1SelX, false)
 								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
@@ -2418,56 +2362,101 @@ function f_p1SelectMenu()
 							end
 							if not foundCel then
 								p1SelX = tmpCelX
+								for i=1, selectColumns-tmpCelX do
+									p1SelX = f_findCelXAdd(p1SelX, false)
+									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+										foundCel = true
+										break
+									end
+								end
+								if not foundCel then
+									p1SelX = tmpCelX
+								end
 							end
 						end
 					end
+					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30 and p1palEnd) then
+					local foundCel = false
+					while true do
+						if foundCel then
+							break
+						end
+						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYAdd(p1SelY, p1FaceOffset, p1OffsetRow)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+							foundCel = true
+						else
+							for i=1, selectColumns-tmpCelX do
+								p1SelX = f_findCelXAdd(p1SelX, false)
+								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+									foundCel = true
+									break
+								end
+							end
+							if not foundCel then
+								p1SelX = tmpCelX
+								for i=0, tmpCelX do
+									p1SelX = f_findCelXSub(p1SelX, false)
+									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+										foundCel = true
+										break
+									end
+								end
+								if not foundCel then
+									p1SelX = tmpCelX
+								end
+							end
+						end
+					end
+					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30 and p1palEnd) then
+					while true do
+						p1SelX = f_findCelXSub(p1SelX, wrappingX)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
+					end
+					if tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30 and p1palEnd) then
+					while true do
+						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
+					end
+					if tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
 				end
-				if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
-					sndPlay(sysSnd, 100, 0)
+				if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
+					if data.palType == 'Modern' then
+						p1palEnd = false
+						sndPlay(sysSnd, 100, 3)
+						f_p1palList()
+					else
+						--Do not show Modern Palette Menu
+					end
 				end
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30 and p1palEnd) then
-				while true do
-					p1SelX = f_findCelXSub(p1SelX, wrappingX)
-					if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
-				end
-				if tmpCelX ~= p1SelX then
-					sndPlay(sysSnd, 100, 0)
-				end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30 and p1palEnd) then
-				while true do
-					p1SelX = f_findCelXAdd(p1SelX, wrappingX)
-					if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
-				end
-				if tmpCelX ~= p1SelX then
-					sndPlay(sysSnd, 100, 0)
-				end
-			end
-			if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
-				if data.palType == 'Modern' then
-					p1palEnd = false
-					sndPlay(sysSnd, 100, 3)
-					f_p1palList()
+				if commandGetState(p1Cmd, 'holdu') then
+					bufSeld = 0
+					bufSelu = bufSelu + 1
+				elseif commandGetState(p1Cmd, 'holdd') then
+					bufSelu = 0
+					bufSeld = bufSeld + 1
+				elseif commandGetState(p1Cmd, 'holdr') then
+					bufSell = 0
+					bufSelr = bufSelr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufSelr = 0
+					bufSell = bufSell + 1
 				else
-					--Do not show Modern Palette Menu
+					bufSelu = 0
+					bufSeld = 0
+					bufSelr = 0
+					bufSell = 0
 				end
-			end
-			if commandGetState(p1Cmd, 'holdu') then
-				bufSeld = 0
-				bufSelu = bufSelu + 1
-			elseif commandGetState(p1Cmd, 'holdd') then
-				bufSelu = 0
-				bufSeld = bufSeld + 1
-			elseif commandGetState(p1Cmd, 'holdr') then
-				bufSell = 0
-				bufSelr = bufSelr + 1
-			elseif commandGetState(p1Cmd, 'holdl') then
-				bufSelr = 0
-				bufSell = bufSell + 1
-			else
-				bufSelu = 0
-				bufSeld = 0
-				bufSelr = 0
-				bufSell = 0
 			end
 			p1Cell = p1SelX + selectColumns*p1SelY
 			p1Portrait = p1Cell
@@ -2653,60 +2642,17 @@ function f_p2SelectMenu()
 		if not p2SelEnd then
 			local tmpCelX = p2SelX
 			local tmpCelY = p2SelY
-			if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30 and p2palEnd) then
-				local foundCel = false
-				while true do
-					if foundCel then
-						break
-					end
-					p2SelY, p2FaceOffset, p2OffsetRow = f_findCelYSub(p2SelY, p2FaceOffset, p2OffsetRow)
-					if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
-						foundCel = true
-					else
-						for i=0, tmpCelX do
-							p2SelX = f_findCelXSub(p2SelX, false)
-							if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
-								foundCel = true
-								break
-							end
+			if backScreen == false then
+				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30 and p2palEnd) then
+					local foundCel = false
+					while true do
+						if foundCel then
+							break
 						end
-						if not foundCel then
-							p2SelX = tmpCelX
-							for i=1, selectColumns-tmpCelX do
-								p2SelX = f_findCelXAdd(p2SelX, false)
-								if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
-									foundCel = true
-									break
-								end
-							end
-							if not foundCel then
-								p2SelX = tmpCelX
-							end
-						end
-					end
-				end
-				if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
-					sndPlay(sysSnd, 100, 0)
-				end
-			elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30 and p2palEnd) then
-				local foundCel = false
-				while true do
-					if foundCel then
-						break
-					end
-					p2SelY, p2FaceOffset, p2OffsetRow = f_findCelYAdd(p2SelY, p2FaceOffset, p2OffsetRow)
-					if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
-						foundCel = true
-					else
-						for i=1, selectColumns-tmpCelX do
-							p2SelX = f_findCelXAdd(p2SelX, false)
-							if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
-								foundCel = true
-								break
-							end
-						end
-						if not foundCel then
-							p2SelX = tmpCelX
+						p2SelY, p2FaceOffset, p2OffsetRow = f_findCelYSub(p2SelY, p2FaceOffset, p2OffsetRow)
+						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+							foundCel = true
+						else
 							for i=0, tmpCelX do
 								p2SelX = f_findCelXSub(p2SelX, false)
 								if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
@@ -2716,56 +2662,101 @@ function f_p2SelectMenu()
 							end
 							if not foundCel then
 								p2SelX = tmpCelX
+								for i=1, selectColumns-tmpCelX do
+									p2SelX = f_findCelXAdd(p2SelX, false)
+									if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+										foundCel = true
+										break
+									end
+								end
+								if not foundCel then
+									p2SelX = tmpCelX
+								end
 							end
 						end
 					end
+					if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30 and p2palEnd) then
+					local foundCel = false
+					while true do
+						if foundCel then
+							break
+						end
+						p2SelY, p2FaceOffset, p2OffsetRow = f_findCelYAdd(p2SelY, p2FaceOffset, p2OffsetRow)
+						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+							foundCel = true
+						else
+							for i=1, selectColumns-tmpCelX do
+								p2SelX = f_findCelXAdd(p2SelX, false)
+								if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+									foundCel = true
+									break
+								end
+							end
+							if not foundCel then
+								p2SelX = tmpCelX
+								for i=0, tmpCelX do
+									p2SelX = f_findCelXSub(p2SelX, false)
+									if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then
+										foundCel = true
+										break
+									end
+								end
+								if not foundCel then
+									p2SelX = tmpCelX
+								end
+							end
+						end
+					end
+					if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30 and p2palEnd) then
+					while true do
+						p2SelX = f_findCelXSub(p2SelX, wrappingX)
+						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
+					end
+					if tmpCelX ~= p2SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30 and p2palEnd) then
+					while true do
+						p2SelX = f_findCelXAdd(p2SelX, wrappingX)
+						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
+					end
+					if tmpCelX ~= p2SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
 				end
-				if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
-					sndPlay(sysSnd, 100, 0)
+				if commandGetState(p2Cmd, 's') then
+					if data.palType == 'Modern' then
+						p2palEnd = false
+						sndPlay(sysSnd, 100, 3)
+						f_p2palList()
+					else
+						--Do not show Modern Palette Menu
+					end
 				end
-			elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30 and p2palEnd) then
-				while true do
-					p2SelX = f_findCelXSub(p2SelX, wrappingX)
-					if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
-				end
-				if tmpCelX ~= p2SelX then
-					sndPlay(sysSnd, 100, 0)
-				end
-			elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30 and p2palEnd) then
-				while true do
-					p2SelX = f_findCelXAdd(p2SelX, wrappingX)
-					if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
-				end
-				if tmpCelX ~= p2SelX then
-					sndPlay(sysSnd, 100, 0)
-				end
-			end
-			if commandGetState(p2Cmd, 's') then
-				if data.palType == 'Modern' then
-					p2palEnd = false
-					sndPlay(sysSnd, 100, 3)
-					f_p2palList()
+				if commandGetState(p2Cmd, 'holdu') then
+					bufSel2d = 0
+					bufSel2u = bufSel2u + 1
+				elseif commandGetState(p2Cmd, 'holdd') then
+					bufSel2u = 0
+					bufSel2d = bufSel2d + 1
+				elseif commandGetState(p2Cmd, 'holdr') then
+					bufSel2l = 0
+					bufSel2r = bufSel2r + 1
+				elseif commandGetState(p2Cmd, 'holdl') then
+					bufSel2r = 0
+					bufSel2l = bufSel2l + 1
 				else
-					--Do not show Modern Palette Menu
+					bufSel2u = 0
+					bufSel2d = 0
+					bufSel2r = 0
+					bufSel2l = 0
 				end
-			end
-			if commandGetState(p2Cmd, 'holdu') then
-				bufSel2d = 0
-				bufSel2u = bufSel2u + 1
-			elseif commandGetState(p2Cmd, 'holdd') then
-				bufSel2u = 0
-				bufSel2d = bufSel2d + 1
-			elseif commandGetState(p2Cmd, 'holdr') then
-				bufSel2l = 0
-				bufSel2r = bufSel2r + 1
-			elseif commandGetState(p2Cmd, 'holdl') then
-				bufSel2r = 0
-				bufSel2l = bufSel2l + 1
-			else
-				bufSel2u = 0
-				bufSel2d = 0
-				bufSel2r = 0
-				bufSel2l = 0
 			end
 			p2Cell = p2SelX + selectColumns*p2SelY
 			p2Portrait = p2Cell
@@ -2950,69 +2941,71 @@ function f_selectStage()
 	end
 	if data.stageMenu then
 		if dontTouch == false then
-			if commandGetState(p1Cmd, 's') then
-				if stageSelect == true then
-					--sndPlay(sysSnd, 100, 0)
-					--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
-				end
-				if songSelect == true then --Song Preview
-					if stageList == 0 then
-					--Do Nothing because Song Preview for Random Stage will get an Error because it can't detect which Stage will be Selected (can be resolved by adding a Song selection Menu Apart from the stage selection, it will work when a Stage was selected)
-					else 
-						f_musicPreview()
+			if backScreen == false then
+				if commandGetState(p1Cmd, 's') then
+					if stageSelect == true then
+						--sndPlay(sysSnd, 100, 0)
+						--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
 					end
-				end
-			elseif commandGetState(p1Cmd, 'u') then
-				sndPlay(sysSnd, 100, 0)
-				if bufStagel then bufStagel = 0 end
-				if bufStager then bufStager = 0 end
-				--Allow Stage Select
-				if stageSelect == true then
-					stageSelect = false
-				elseif stageSelect == false then
-					stageSelect = true
-				end
-				--Allow Song Select
-				if songSelect == true then
-					songSelect = false
-				elseif songSelect == false then
-					songSelect = true
-				end
-			elseif commandGetState(p1Cmd, 'd') then
-				sndPlay(sysSnd, 100, 0)
-				if bufStagel then bufStagel = 0 end
-				if bufStager then bufStager = 0 end
-				--Allow Stage Select
-				if stageSelect == true then
-					stageSelect = false
-				elseif stageSelect == false then
-					stageSelect = true
-				end
-				--Allow Song Select
-				if songSelect == true then
-					songSelect = false
-				elseif songSelect == false then
-					songSelect = true
-				end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				if stageSelect == true then
-					stageList = stageList + 1
-					if stageList > data.includestage then stageList = 0 end
-				end
-				if songSelect == true then
-					musicList = musicList + 1
-					if musicList > #t_selMusic-1 then musicList = 0 end
-				end
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				if stageSelect == true then
-					stageList = stageList - 1
-					if stageList < 0 then stageList = data.includestage end
-				end
-				if songSelect == true then
-					musicList = musicList - 1
-					if musicList < 0 then musicList = #t_selMusic-1 end
+					if songSelect == true then --Song Preview
+						if stageList == 0 then
+						--Do Nothing because Song Preview for Random Stage will get an Error because it can't detect which Stage will be Selected (can be resolved by adding a Song selection Menu Apart from the stage selection, it will work when a Stage was selected)
+						else 
+							f_musicPreview()
+						end
+					end
+				elseif commandGetState(p1Cmd, 'u') then
+					sndPlay(sysSnd, 100, 0)
+					if bufStagel then bufStagel = 0 end
+					if bufStager then bufStager = 0 end
+					--Allow Stage Select
+					if stageSelect == true then
+						stageSelect = false
+					elseif stageSelect == false then
+						stageSelect = true
+					end
+					--Allow Song Select
+					if songSelect == true then
+						songSelect = false
+					elseif songSelect == false then
+						songSelect = true
+					end
+				elseif commandGetState(p1Cmd, 'd') then
+					sndPlay(sysSnd, 100, 0)
+					if bufStagel then bufStagel = 0 end
+					if bufStager then bufStager = 0 end
+					--Allow Stage Select
+					if stageSelect == true then
+						stageSelect = false
+					elseif stageSelect == false then
+						stageSelect = true
+					end
+					--Allow Song Select
+					if songSelect == true then
+						songSelect = false
+					elseif songSelect == false then
+						songSelect = true
+					end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
+					sndPlay(sysSnd, 100, 0)
+					if stageSelect == true then
+						stageList = stageList + 1
+						if stageList > data.includestage then stageList = 0 end
+					end
+					if songSelect == true then
+						musicList = musicList + 1
+						if musicList > #t_selMusic-1 then musicList = 0 end
+					end
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
+					sndPlay(sysSnd, 100, 0)
+					if stageSelect == true then
+						stageList = stageList - 1
+						if stageList < 0 then stageList = data.includestage end
+					end
+					if songSelect == true then
+						musicList = musicList - 1
+						if musicList < 0 then musicList = #t_selMusic-1 end
+					end
 				end
 			end
 		end
@@ -4031,6 +4024,7 @@ function f_selectWin()
 end
 
 function f_selectWinFix() --Use this while fixing recognition of victory quotes for any other character that causes crash
+	playBGM(bgmNothing)
 	--playBGM(bgmVictory)
 	local txt = ''
 	if winner == 1 then
@@ -4080,6 +4074,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 end
 
 function f_selectWinOFF()
+	playBGM(bgmNothing)
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		f_winCoins()
