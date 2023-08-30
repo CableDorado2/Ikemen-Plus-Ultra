@@ -752,10 +752,10 @@ t_defaultMenu = {
 function f_defaultMenu()
 	cmdInput()
 	--Cursor Position
-	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufDefaultu >= 30) then
+	if commandGetState(p1Cmd, 'u') then
 		sndPlay(sysSnd, 100, 0)
 		defaultMenu = defaultMenu - 1
-	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufDefaultd >= 30) then
+	elseif commandGetState(p1Cmd, 'd') then
 		sndPlay(sysSnd, 100, 0)
 		defaultMenu = defaultMenu + 1
 	end
@@ -769,25 +769,15 @@ function f_defaultMenu()
 	elseif defaultMenu > #t_defaultMenu then
 		defaultMenu = 1
 		cursorPosYDefault = 0
-	elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufDefaultu >= 30)) and cursorPosYDefault > 0 then
+	elseif commandGetState(p1Cmd, 'u') and cursorPosYDefault > 0 then
 		cursorPosYDefault = cursorPosYDefault - 1
-	elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufDefaultd >= 30)) and cursorPosYDefault < 4 then
+	elseif commandGetState(p1Cmd, 'd') and cursorPosYDefault < 4 then
 		cursorPosYDefault = cursorPosYDefault + 1
 	end
 	if cursorPosYDefault == 4 then
 		moveTxtDefault = (defaultMenu - 5) * 13
 	elseif cursorPosYDefault == 0 then
 		moveTxtDefault = (defaultMenu - 1) * 13
-	end
-	if commandGetState(p1Cmd, 'holdu') then
-		bufDefaultd = 0
-		bufDefaultu = bufDefaultu + 1
-	elseif commandGetState(p1Cmd, 'holdd') then
-		bufDefaultu = 0
-		bufDefaultd = bufDefaultd + 1
-	else
-		bufDefaultu = 0
-		bufDefaultd = 0
 	end
 	if resetStats == false then
 		--Draw Fade BG
@@ -891,10 +881,6 @@ function f_mainCfg()
 	local bufr = 0
 	local bufu = 0
 	local bufd = 0
-	--bufDefaultu = 0
-	--bufDefaultd = 0
-	--bufDefaultr = 0
-	--bufDefaultl = 0
 	f_defaultReset()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do

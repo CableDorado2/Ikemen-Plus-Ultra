@@ -639,10 +639,10 @@ function f_backMenu()
 	if onlinegame == false then
 		cmdInput()
 		--Cursor position
-		if commandGetState(p1Cmd, 'u')  or (commandGetState(p1Cmd, 'holdu') and bufBacku >= 30) then
+		if commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			backMenu = backMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufBackd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			backMenu = backMenu + 1
 		end
@@ -656,25 +656,15 @@ function f_backMenu()
 		elseif backMenu > #t_backMenu then
 			backMenu = 1
 			cursorPosYBack = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufBacku >= 30)) and cursorPosYBack > 0 then
+		elseif commandGetState(p1Cmd, 'u') and cursorPosYBack > 0 then
 			cursorPosYBack = cursorPosYBack - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufBackd >= 30)) and cursorPosYBack < 4 then
+		elseif commandGetState(p1Cmd, 'd') and cursorPosYBack < 4 then
 			cursorPosYBack = cursorPosYBack + 1
 		end
 		if cursorPosYBack == 4 then
 			moveTxtBack = (backMenu - 5) * 13
 		elseif cursorPosYBack == 0 then
 			moveTxtBack = (backMenu - 1) * 13
-		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufBackd = 0
-			bufBacku = bufBacku + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufBacku = 0
-			bufBackd = bufBackd + 1
-		else
-			bufBacku = 0
-			bufBackd = 0
 		end
 		--Draw Fade BG
 		animDraw(fadeWindowBG)
@@ -771,10 +761,6 @@ end
 function f_selectSimple()
 	f_backReset()
 	back = false
-	bufBacku = 0
-	bufBackd = 0
-	bufBackr = 0
-	bufBackl = 0
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
@@ -998,10 +984,6 @@ function f_selectAdvance()
 	data.rosterAdvance = true
 	f_backReset()
 	back = false
-	bufBacku = 0
-	bufBackd = 0
-	bufBackr = 0
-	bufBackl = 0
 	bufTmu = 0
 	bufTmd = 0
 	bufTmr = 0
