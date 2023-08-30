@@ -402,6 +402,163 @@ function f_netsaveCfg()
 end
 
 --;===========================================================
+--; LOAD DEFAULT DATA
+--;===========================================================
+--Set Offline game Default Options shared with Online game Below
+function f_onlineDefault()
+	--saves.ini
+	data.lifeMul = 100
+	data.team1VS2Life = 120
+	data.turnsRecoveryRate = 300
+	data.teamLifeShare = false
+	s_teamLifeShare = 'No'
+	data.zoomActive = true
+	s_zoomActive = 'Yes'
+	data.zoomMin = 0.75
+	data.zoomMax = 1.1
+	data.zoomSpeed = 1.0
+	data.roundTime = 99
+	data.numTurns = 4
+	data.numSimul = 4
+	data.simulType = 'Assist'
+	data.difficulty = 8
+	data.contSelection = true
+	s_contSelection = 'Yes'
+	data.aiRamping = true
+	s_aiRamping = 'Yes'
+	data.autoguard = false
+	s_autoguard = 'No'
+	data.vsDisplayWin = true
+	s_vsDisplayWin = 'Yes'
+	data.lifebar = 'data/screenpack/winmugen/fight.def'
+	data.selectType = 'Fixed'
+	data.palType = 'Modern'
+	data.stageType = 'Classic'
+	data.winscreen = 'Classic'
+	data.ftcontrol = -1
+	data.debugMode = false
+	s_debugMode = 'Disabled'
+	data.charPresentation = 'Sprite'
+	data.sffConversion = true
+	data.training = 'Fixed'
+	data.coopenemy = 'Simul'
+	--lifebar
+	roundsNum = 2
+	drawNum = 2
+	--config.ssz
+	HelperMaxEngine = 56
+	PlayerProjectileMaxEngine = 50
+	ExplodMaxEngine = 256
+	AfterImageMaxEngine = 8
+	gameSpeed = 60
+	s_gameSpeed = 'Normal'
+end
+
+--Set ONLY Offline Default Options Below
+function f_offlineDefault()
+	--saves.ini
+	data.language = 'ENGLISH'
+	data.menuSong = 'Random'
+	data.clock = 'Standard'
+	data.date = 'Type A'
+	data.challengerSong = 'Fixed'
+	--config.ssz
+	f_inputDefault()
+	--b_saveMemory = false
+	--s_saveMemory = 'No'
+	b_openGL = false
+	s_openGL = 'No'
+	b_screenMode = false
+	s_screenMode = 'No'
+	setScreenMode(b_screenMode)
+	resolutionWidth = 853
+	resolutionHeight = 480
+	setGameRes(resolutionWidth,resolutionHeight)
+	gl_vol = 80
+	se_vol = 80
+	bgm_vol = 50
+	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+	pan_str = 80
+	setPanStr(pan_str / 100)
+	--sound.ssz
+	freq = 48000
+	channels = 2
+	s_channels = 'Stereo'
+	buffer = 2048
+	--other
+	data.userName = 'USERNAME'
+	--setUserName('USERNAME')
+	setListenPort(7500)
+end
+
+--Default Inputs Values
+function f_inputDefault()
+	data.p1Gamepad = 0
+	data.p2Gamepad = 1
+	f_swapGamepad(0, 1)
+	data.disablePadP1 = false
+	s_disablePadP1 = 'Enabled'
+	data.disablePadP2 = false
+	s_disablePadP2 = 'Enabled'
+	--P1 KEYBOARD
+	t_keyCfg[1].varText = 'UP'
+	t_keyCfg[2].varText = 'DOWN'
+	t_keyCfg[3].varText = 'LEFT'
+	t_keyCfg[4].varText = 'RIGHT'
+	t_keyCfg[5].varText = 'a'
+	t_keyCfg[6].varText = 's'
+	t_keyCfg[7].varText = 'd'
+	t_keyCfg[8].varText = 'z'
+	t_keyCfg[9].varText = 'x'
+	t_keyCfg[10].varText = 'c'
+	t_keyCfg[11].varText = 'RETURN'
+	t_keyCfg[12].varText = 'f'
+	f_keySave(0,-1)
+	--P2 KEYBOARD
+	t_keyCfg[1].varText = 'KP_5'
+	t_keyCfg[2].varText = 'KP_2'
+	t_keyCfg[3].varText = 'KP_1'
+	t_keyCfg[4].varText = 'KP_3'
+	t_keyCfg[5].varText = 'u'
+	t_keyCfg[6].varText = 'i'
+	t_keyCfg[7].varText = 'o'
+	t_keyCfg[8].varText = 'j'
+	t_keyCfg[9].varText = 'k'
+	t_keyCfg[10].varText = 'l'
+	t_keyCfg[11].varText = 'KP_0'
+	t_keyCfg[12].varText = 'p'
+	f_keySave(1,-1)
+	--P1 GAMEPAD
+	t_keyCfg[1].varText = '-3'
+	t_keyCfg[2].varText = '-4'
+	t_keyCfg[3].varText = '-1'
+	t_keyCfg[4].varText = '-2'
+	t_keyCfg[5].varText = '0'
+	t_keyCfg[6].varText = '1'
+	t_keyCfg[7].varText = '4'
+	t_keyCfg[8].varText = '2'
+	t_keyCfg[9].varText = '3'
+	t_keyCfg[10].varText = '5'
+	t_keyCfg[11].varText = '9'
+	t_keyCfg[12].varText = '7'
+	f_keySave(2,0)
+	--P2 GAMEPAD
+	t_keyCfg[1].varText = '-3'
+	t_keyCfg[2].varText = '-4'
+	t_keyCfg[3].varText = '-1'
+	t_keyCfg[4].varText = '-2'
+	t_keyCfg[5].varText = '0'
+	t_keyCfg[6].varText = '1'
+	t_keyCfg[7].varText = '4'
+	t_keyCfg[8].varText = '2'
+	t_keyCfg[9].varText = '3'
+	t_keyCfg[10].varText = '5'
+	t_keyCfg[11].varText = '9'
+	t_keyCfg[12].varText = '7'
+	f_keySave(3,1)
+end
+
+--;===========================================================
 --; INFO STUFF
 --;===========================================================
 txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 13)
@@ -577,160 +734,117 @@ for i=1, #t_restart do
 end
 
 --;===========================================================
---; LOAD DEFAULT DATA
+--; DEFAULT VALUES MESSAGE
 --;===========================================================
---Set Offline game Default Options shared with Online game Below
-function f_onlineDefault()
-	--saves.ini
-	data.lifeMul = 100
-	data.team1VS2Life = 120
-	data.turnsRecoveryRate = 300
-	data.teamLifeShare = false
-	s_teamLifeShare = 'No'
-	data.zoomActive = true
-	s_zoomActive = 'Yes'
-	data.zoomMin = 0.75
-	data.zoomMax = 1.1
-	data.zoomSpeed = 1.0
-	data.roundTime = 99
-	data.numTurns = 4
-	data.numSimul = 4
-	data.simulType = 'Assist'
-	data.difficulty = 8
-	data.contSelection = true
-	s_contSelection = 'Yes'
-	data.aiRamping = true
-	s_aiRamping = 'Yes'
-	data.autoguard = false
-	s_autoguard = 'No'
-	data.vsDisplayWin = true
-	s_vsDisplayWin = 'Yes'
-	data.lifebar = 'data/screenpack/winmugen/fight.def'
-	data.selectType = 'Fixed'
-	data.palType = 'Modern'
-	data.stageType = 'Classic'
-	data.winscreen = 'Classic'
-	data.ftcontrol = -1
-	data.debugMode = false
-	s_debugMode = 'Disabled'
-	data.charPresentation = 'Sprite'
-	data.sffConversion = true
-	data.training = 'Fixed'
-	data.coopenemy = 'Simul'
-	--lifebar
-	roundsNum = 2
-	drawNum = 2
-	--config.ssz
-	HelperMaxEngine = 56
-	PlayerProjectileMaxEngine = 50
-	ExplodMaxEngine = 256
-	AfterImageMaxEngine = 8
-	gameSpeed = 60
-	s_gameSpeed = 'Normal'
+txt_defaultquestion = createTextImg(jgFnt, 0, 0, 'LOAD DEFAULT SETTINGS?', 160, 110)
+
+--Default Window BG
+defaultWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(defaultWindowBG, 83.5, 97)
+animUpdate(defaultWindowBG)
+animSetScale(defaultWindowBG, 1, 1)
+
+t_defaultMenu = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}
+
+function f_defaultMenu()
+	cmdInput()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufDefaultu >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		defaultMenu = defaultMenu - 1
+	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufDefaultd >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		defaultMenu = defaultMenu + 1
+	end
+	if defaultMenu < 1 then
+		defaultMenu = #t_defaultMenu
+		if #t_defaultMenu > 4 then
+			cursorPosYDefault = 4
+		else
+			cursorPosYDefault = #t_defaultMenu-1
+		end
+	elseif defaultMenu > #t_defaultMenu then
+		defaultMenu = 1
+		cursorPosYDefault = 0
+	elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufDefaultu >= 30)) and cursorPosYDefault > 0 then
+		cursorPosYDefault = cursorPosYDefault - 1
+	elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufDefaultd >= 30)) and cursorPosYDefault < 4 then
+		cursorPosYDefault = cursorPosYDefault + 1
+	end
+	if cursorPosYDefault == 4 then
+		moveTxtDefault = (defaultMenu - 5) * 13
+	elseif cursorPosYDefault == 0 then
+		moveTxtDefault = (defaultMenu - 1) * 13
+	end
+	if commandGetState(p1Cmd, 'holdu') then
+		bufDefaultd = 0
+		bufDefaultu = bufDefaultu + 1
+	elseif commandGetState(p1Cmd, 'holdd') then
+		bufDefaultu = 0
+		bufDefaultd = bufDefaultd + 1
+	else
+		bufDefaultu = 0
+		bufDefaultd = 0
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(defaultWindowBG)
+	animUpdate(defaultWindowBG)
+	--Draw Title
+	textImgDraw(txt_defaultquestion)
+	--Draw Table Text
+	for i=1, #t_defaultMenu do
+		if i == defaultMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_defaultMenu[i].id, jgFnt, bank, 0, t_defaultMenu[i].text, 159, 120+i*13-moveTxtDefault))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYDefault*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if esc() then
+		sndPlay(sysSnd, 100, 2)
+		f_defaultReset()
+	elseif btnPalNo(p1Cmd) > 0 then
+		--YES
+		if defaultMenu == 1 then
+			if defaultAll == true then
+				f_onlineDefault() --Set Default Options for Online/Offline Game
+				f_offlineDefault() --Set ONLY Default Options for Offline Game
+				modified = 1
+				needReload = 1
+			elseif defaultInput == true then
+				f_inputDefault()
+			end
+			--f_defaultReset()
+		--NO
+		else
+			sndPlay(sysSnd, 100, 2)
+			--f_defaultReset()
+			--return
+		end
+		f_defaultReset()
+	end
+	cmdInput()
 end
 
---Set ONLY Offline Default Options Below
-function f_offlineDefault()
-	--saves.ini
-	data.language = 'ENGLISH'
-	data.menuSong = 'Random'
-	data.clock = 'Standard'
-	data.date = 'Type A'
-	data.challengerSong = 'Fixed'
-	--config.ssz
-	f_inputDefault()
-	--b_saveMemory = false
-	--s_saveMemory = 'No'
-	b_openGL = false
-	s_openGL = 'No'
-	b_screenMode = false
-	s_screenMode = 'No'
-	setScreenMode(b_screenMode)
-	resolutionWidth = 853
-	resolutionHeight = 480
-	setGameRes(resolutionWidth,resolutionHeight)
-	gl_vol = 80
-	se_vol = 80
-	bgm_vol = 50
-	setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
-	pan_str = 80
-	setPanStr(pan_str / 100)
-	--sound.ssz
-	freq = 48000
-	channels = 2
-	s_channels = 'Stereo'
-	buffer = 2048
-	--other
-	data.userName = 'USERNAME'
-	--setUserName('USERNAME')
-	setListenPort(7500)
-end
-
---Default Inputs Values
-function f_inputDefault()
-	data.p1Gamepad = 0
-	data.p2Gamepad = 1
-	f_swapGamepad(0, 1)
-	data.disablePadP1 = false
-	s_disablePadP1 = 'Enabled'
-	data.disablePadP2 = false
-	s_disablePadP2 = 'Enabled'
-	--P1 KEYBOARD
-	t_keyCfg[1].varText = 'UP'
-	t_keyCfg[2].varText = 'DOWN'
-	t_keyCfg[3].varText = 'LEFT'
-	t_keyCfg[4].varText = 'RIGHT'
-	t_keyCfg[5].varText = 'a'
-	t_keyCfg[6].varText = 's'
-	t_keyCfg[7].varText = 'd'
-	t_keyCfg[8].varText = 'z'
-	t_keyCfg[9].varText = 'x'
-	t_keyCfg[10].varText = 'c'
-	t_keyCfg[11].varText = 'RETURN'
-	t_keyCfg[12].varText = 'f'
-	f_keySave(0,-1)
-	--P2 KEYBOARD
-	t_keyCfg[1].varText = 'KP_5'
-	t_keyCfg[2].varText = 'KP_2'
-	t_keyCfg[3].varText = 'KP_1'
-	t_keyCfg[4].varText = 'KP_3'
-	t_keyCfg[5].varText = 'u'
-	t_keyCfg[6].varText = 'i'
-	t_keyCfg[7].varText = 'o'
-	t_keyCfg[8].varText = 'j'
-	t_keyCfg[9].varText = 'k'
-	t_keyCfg[10].varText = 'l'
-	t_keyCfg[11].varText = 'KP_0'
-	t_keyCfg[12].varText = 'p'
-	f_keySave(1,-1)
-	--P1 GAMEPAD
-	t_keyCfg[1].varText = '-3'
-	t_keyCfg[2].varText = '-4'
-	t_keyCfg[3].varText = '-1'
-	t_keyCfg[4].varText = '-2'
-	t_keyCfg[5].varText = '0'
-	t_keyCfg[6].varText = '1'
-	t_keyCfg[7].varText = '4'
-	t_keyCfg[8].varText = '2'
-	t_keyCfg[9].varText = '3'
-	t_keyCfg[10].varText = '5'
-	t_keyCfg[11].varText = '9'
-	t_keyCfg[12].varText = '7'
-	f_keySave(2,0)
-	--P2 GAMEPAD
-	t_keyCfg[1].varText = '-3'
-	t_keyCfg[2].varText = '-4'
-	t_keyCfg[3].varText = '-1'
-	t_keyCfg[4].varText = '-2'
-	t_keyCfg[5].varText = '0'
-	t_keyCfg[6].varText = '1'
-	t_keyCfg[7].varText = '4'
-	t_keyCfg[8].varText = '2'
-	t_keyCfg[9].varText = '3'
-	t_keyCfg[10].varText = '5'
-	t_keyCfg[11].varText = '9'
-	t_keyCfg[12].varText = '7'
-	f_keySave(3,1)
+function f_defaultReset()
+	cursorPosYDefault = 1 --Cursor pos in NO
+	moveTxtDefault = 0
+	defaultMenu = 2 --Cursor pos in NO
+	defaultScreen = false
+	defaultAll = false
+	defaultInput = false
 end
 
 --;===========================================================
@@ -769,117 +883,18 @@ function f_mainCfg()
 	local bufr = 0
 	local bufu = 0
 	local bufd = 0
+	--
+	bufDefaultu = 0
+	bufDefaultd = 0
+	bufDefaultr = 0
+	bufDefaultl = 0
+	f_defaultReset()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-		if not done then
-			--Stay in Options screen (For Username and Online Port fields)
-		elseif esc() then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			if data.erase == true then
-				f_saveProgress()
-			end
-			if needReload == 1 then
-				f_exitInfo()
-			end
-			f_saveCfg()
-			return
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			mainCfg = mainCfg - 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			mainCfg = mainCfg + 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif btnPalNo(p1Cmd) > 0 then
-			--Gameplay Settings
-			if mainCfg == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_gameCfg()
-			--Screenpack Settings
-			elseif mainCfg == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_UICfg()	
-			--Video Settings
-			elseif mainCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_videoCfg()
-			--Audio Settings
-			elseif mainCfg == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_audioCfg()
-			--Input Settings
-			elseif mainCfg == 5 then
-				sndPlay(sysSnd, 100, 1)
-				--commandBufReset(p1Cmd)
-				--commandBufReset(p2Cmd)
-				f_inputCfg()
-			--Engine Settings
-			elseif mainCfg == 6 then
-				sndPlay(sysSnd, 100, 1)
-				f_engineCfg()
-			--Edit Player Name
-			elseif mainCfg == 7 then
-				sndPlay(sysSnd, 100, 1)
-				playerName = ''
-				nameEdit = true
-				done = false
-				i = 0
-				commandBufReset(p1Cmd)
-			--OLD Logic
-				--sndPlay(sysSnd, 100, 1)
-				--inputDialogPopup(inputdia, 'Introduce an Username')
-				--while not inputDialogIsDone(inputdia) do
-					--animDraw(f_animVelocity(optionsBG0, -1, -1))
-					--refresh()
-				--end
-				--local playerName = inputDialogGetStr(inputdia)
-				--if playerName == '' then --if the field is empty
-					--data.userName = 'USERNAME' --set a default username
-					--modified = 1
-				--else
-					--data.userName = (inputDialogGetStr(inputdia)) --set username introduced
-					--modified = 1
-				--end
-				--data.userName = (inputDialogGetStr(inputdia))
-				--modified = 1
-			--Edit Online Port
-			elseif mainCfg == 8 then
-				sndPlay(sysSnd, 100, 1)
-				onlinePort = ''
-				portEdit = true
-				done = false
-				i = 0
-				commandBufReset(p1Cmd)
-			--OLD Logic
-				--sndPlay(sysSnd, 100, 1)
-				--inputDialogPopup(inputdia, 'Introduce a new Port (Default: 7500)')
-				--while not inputDialogIsDone(inputdia) do
-					--animDraw(f_animVelocity(optionsBG0, -1, -1))
-					--refresh()
-				--end
-				--local onlinePort = inputDialogGetStr(inputdia)
-				--if onlinePort == '' then
-					--setListenPort('7500')
-					--modified = 1
-				--else
-					--setListenPort(inputDialogGetStr(inputdia))
-					--modified = 1
-				--end
-				--setListenPort(inputDialogGetStr(inputdia))
-				--modified = 1
-			--Default Values
-			elseif mainCfg == 9 then
-				sndPlay(sysSnd, 100, 1)
-				f_onlineDefault() --Set Default Options for Online/Offline Game
-				f_offlineDefault() --Set ONLY Default Options for Offline Game
-				modified = 1
-				needReload = 1
-			--Save and Back
-			elseif mainCfg == 10 then
+		if defaultScreen == false then
+			if not done then
+				--Stay in Options screen (For Username and Online Port fields)
+			elseif esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				if data.erase == true then
@@ -889,53 +904,158 @@ function f_mainCfg()
 					f_exitInfo()
 				end
 				f_saveCfg()
-				break	
-			--Back Without Save
-			elseif mainCfg == 11 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				assert(loadfile('saved/data_sav.lua'))() --Load old data no saved
-				assert(loadfile('saved/stats_sav.lua'))() --Load old data no saved
-				f_loadCfg()
-				f_loadEXCfg()
-				setScreenMode(b_screenMode)
-				setGameRes(resolutionWidth,resolutionHeight)
-				setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
-				setPanStr(pan_str / 100)
-				break
-			--Online Settings from Offline Mode	
-			else --Only for Dev Purposes (Delete when test are finished)
-				sndPlay(sysSnd, 100, 1)
-				f_onlineCfg()
+				return
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				mainCfg = mainCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				mainCfg = mainCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif btnPalNo(p1Cmd) > 0 then
+				--Gameplay Settings
+				if mainCfg == 1 then
+					sndPlay(sysSnd, 100, 1)
+					f_gameCfg()
+				--Screenpack Settings
+				elseif mainCfg == 2 then
+					sndPlay(sysSnd, 100, 1)
+					f_UICfg()	
+				--Video Settings
+				elseif mainCfg == 3 then
+					sndPlay(sysSnd, 100, 1)
+					f_videoCfg()
+				--Audio Settings
+				elseif mainCfg == 4 then
+					sndPlay(sysSnd, 100, 1)
+					f_audioCfg()
+				--Input Settings
+				elseif mainCfg == 5 then
+					sndPlay(sysSnd, 100, 1)
+					--commandBufReset(p1Cmd)
+					--commandBufReset(p2Cmd)
+					f_inputCfg()
+				--Engine Settings
+				elseif mainCfg == 6 then
+					sndPlay(sysSnd, 100, 1)
+					f_engineCfg()
+				--Edit Player Name
+				elseif mainCfg == 7 then
+					sndPlay(sysSnd, 100, 1)
+					playerName = ''
+					nameEdit = true
+					done = false
+					i = 0
+					commandBufReset(p1Cmd)
+				--OLD Logic
+					--sndPlay(sysSnd, 100, 1)
+					--inputDialogPopup(inputdia, 'Introduce an Username')
+					--while not inputDialogIsDone(inputdia) do
+						--animDraw(f_animVelocity(optionsBG0, -1, -1))
+						--refresh()
+					--end
+					--local playerName = inputDialogGetStr(inputdia)
+					--if playerName == '' then --if the field is empty
+						--data.userName = 'USERNAME' --set a default username
+						--modified = 1
+					--else
+						--data.userName = (inputDialogGetStr(inputdia)) --set username introduced
+						--modified = 1
+					--end
+					--data.userName = (inputDialogGetStr(inputdia))
+					--modified = 1
+				--Edit Online Port
+				elseif mainCfg == 8 then
+					sndPlay(sysSnd, 100, 1)
+					onlinePort = ''
+					portEdit = true
+					done = false
+					i = 0
+					commandBufReset(p1Cmd)
+				--OLD Logic
+					--sndPlay(sysSnd, 100, 1)
+					--inputDialogPopup(inputdia, 'Introduce a new Port (Default: 7500)')
+					--while not inputDialogIsDone(inputdia) do
+						--animDraw(f_animVelocity(optionsBG0, -1, -1))
+						--refresh()
+					--end
+					--local onlinePort = inputDialogGetStr(inputdia)
+					--if onlinePort == '' then
+						--setListenPort('7500')
+						--modified = 1
+					--else
+						--setListenPort(inputDialogGetStr(inputdia))
+						--modified = 1
+					--end
+					--setListenPort(inputDialogGetStr(inputdia))
+					--modified = 1
+				--Default Values
+				elseif mainCfg == 9 then
+					sndPlay(sysSnd, 100, 1)
+					defaultAll = true
+					defaultScreen = true
+				--Save and Back
+				elseif mainCfg == 10 then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					if data.erase == true then
+						f_saveProgress()
+					end
+					if needReload == 1 then
+						f_exitInfo()
+					end
+					f_saveCfg()
+					break	
+				--Back Without Save
+				elseif mainCfg == 11 then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					assert(loadfile('saved/data_sav.lua'))() --Load old data no saved
+					assert(loadfile('saved/stats_sav.lua'))() --Load old data no saved
+					f_loadCfg()
+					f_loadEXCfg()
+					setScreenMode(b_screenMode)
+					setGameRes(resolutionWidth,resolutionHeight)
+					setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
+					setPanStr(pan_str / 100)
+					break
+				--Online Settings from Offline Mode	
+				else --Only for Dev Purposes (Delete when test are finished)
+					sndPlay(sysSnd, 100, 1)
+					f_onlineCfg()
+				end
 			end
-		end
-		--Cursor position calculation
-		if mainCfg < 1 then
-			mainCfg = #t_mainCfg
-			if #t_mainCfg > 12 then
-				cursorPosY = 12
+			--Cursor position calculation
+			if mainCfg < 1 then
+				mainCfg = #t_mainCfg
+				if #t_mainCfg > 12 then
+					cursorPosY = 12
+				else
+					cursorPosY = #t_mainCfg
+				end
+			elseif mainCfg > #t_mainCfg then
+				mainCfg = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 12 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 12 then
+				moveTxt = (mainCfg - 12) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (mainCfg - 1) * 15
+			end	
+			if #t_mainCfg <= 12 then
+				maxMainCfg = #t_mainCfg
+			elseif mainCfg - cursorPosY > 0 then
+				maxMainCfg = mainCfg + 12 - cursorPosY
 			else
-				cursorPosY = #t_mainCfg
+				maxMainCfg = 12
 			end
-		elseif mainCfg > #t_mainCfg then
-			mainCfg = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 12 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 12 then
-			moveTxt = (mainCfg - 12) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (mainCfg - 1) * 15
-		end	
-		if #t_mainCfg <= 12 then
-			maxMainCfg = #t_mainCfg
-		elseif mainCfg - cursorPosY > 0 then
-			maxMainCfg = mainCfg + 12 - cursorPosY
-		else
-			maxMainCfg = 12
 		end
 		--Draw Menu BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
@@ -945,10 +1065,12 @@ function f_mainCfg()
 		animDraw(optionsBG1)
 		--Draw Title Menu
 		textImgDraw(txt_mainCfg)
-		--Draw Table Cursor
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if defaultScreen == false then
+			--Draw Table Cursor
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		--Draw Menu Info
 		if needReload == 1 then
 			for i=1, #t_restart do
@@ -1083,6 +1205,7 @@ function f_mainCfg()
 			animDraw(optionsDownArrowmainCfg)
 			animUpdate(optionsDownArrowmainCfg)
 		end
+		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2444,30 +2567,34 @@ function f_UICfg()
 			end
 		--Win Screen Display Type
 		elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-			if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
-				sndPlay(sysSnd, 100, 0)
-				data.winscreen = 'Modern'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
-				sndPlay(sysSnd, 100, 0)
-				data.winscreen = 'Fixed'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Fixed' then
-				sndPlay(sysSnd, 100, 0)
-				data.winscreen = 'None'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Modern' then
-				sndPlay(sysSnd, 100, 0)
-				data.winscreen = 'Classic'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Fixed' then
-				sndPlay(sysSnd, 100, 0)
-				data.winscreen = 'Modern'
-				modified = 1
-			elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
-				sndPlay(sysSnd, 100, 0)
-				data.winscreen = 'Fixed'
-				modified = 1
+			if onlinegame == true then
+				lockSetting = true
+			elseif onlinegame == false then
+				if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Modern'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Fixed'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Fixed' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'None'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Modern' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Classic'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Fixed' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Modern'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Fixed'
+					modified = 1
+				end
 			end
 		--BACK
 		elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
@@ -4073,120 +4200,126 @@ function f_inputCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_defaultReset()
 	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			inputCfg = inputCfg - 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			inputCfg = inputCfg + 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			--Keyboard Config
-			if inputCfg == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_keyMenu()
-			--Gamepad Config
-			elseif inputCfg == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_joyMenu()
-			--Player 1 Gamepad Status
-			--elseif inputCfg == 3 then
-				--sndPlay(sysSnd, 100, 1)
-				--if data.disablePadP1 == false then
-					--data.disablePadP1 = true
-					--s_disablePadP1 = 'Disabled'
-				--else
-					--data.disablePadP1 = false
-					--s_disablePadP1 = 'Enabled'
-				--end
-				--modified = 1
-				--commandBufReset(p1Cmd)
-				--commandBufReset(p2Cmd)
-			--Player 2 Gamepad Status
-			--elseif inputCfg == 4 then
-				--sndPlay(sysSnd, 100, 1)
-				--if data.disablePadP2 == false then
-					--data.disablePadP2 = true
-					--s_disablePadP2 = 'Disabled'
-				--else
-					--data.disablePadP2 = false
-					--s_disablePadP2 = 'Enabled'
-				--end
-				--modified = 1
-				--commandBufReset(p1Cmd)
-				--commandBufReset(p2Cmd)
-			--Swap Controller
-			elseif inputCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_swapGamepad(data.p2Gamepad, data.p1Gamepad)
-				if data.p1Gamepad == 0 then
-					data.p1Gamepad = 1
-					data.p2Gamepad = 0
-				else
-					data.p1Gamepad = 0
-					data.p2Gamepad = 1
-				end
-				modified = 1
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-			--Default Inputs
-			elseif inputCfg == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_inputDefault()
-			--Input Test
-			elseif inputCfg == 5 then
-				sndPlay(sysSnd, 100, 1)
-				f_testMenu()
-			--BACK
-			else
+		if defaultScreen == false then
+			if esc() then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
-			if inputCfg == 5 or inputCfg == 6 then disableGamepad(data.disablePadP1,data.disablePadP2) end
-		end
-		if inputCfg < 1 then
-			inputCfg = #t_inputCfg
-			if #t_inputCfg > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_inputCfg
+			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				inputCfg = inputCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				inputCfg = inputCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				--Keyboard Config
+				if inputCfg == 1 then
+					sndPlay(sysSnd, 100, 1)
+					f_keyMenu()
+				--Gamepad Config
+				elseif inputCfg == 2 then
+					sndPlay(sysSnd, 100, 1)
+					f_joyMenu()
+				--Player 1 Gamepad Status
+				--elseif inputCfg == 3 then
+					--sndPlay(sysSnd, 100, 1)
+					--if data.disablePadP1 == false then
+						--data.disablePadP1 = true
+						--s_disablePadP1 = 'Disabled'
+					--else
+						--data.disablePadP1 = false
+						--s_disablePadP1 = 'Enabled'
+					--end
+					--modified = 1
+					--commandBufReset(p1Cmd)
+					--commandBufReset(p2Cmd)
+				--Player 2 Gamepad Status
+				--elseif inputCfg == 4 then
+					--sndPlay(sysSnd, 100, 1)
+					--if data.disablePadP2 == false then
+						--data.disablePadP2 = true
+						--s_disablePadP2 = 'Disabled'
+					--else
+						--data.disablePadP2 = false
+						--s_disablePadP2 = 'Enabled'
+					--end
+					--modified = 1
+					--commandBufReset(p1Cmd)
+					--commandBufReset(p2Cmd)
+				--Swap Controller
+				elseif inputCfg == 3 then
+					sndPlay(sysSnd, 100, 1)
+					f_swapGamepad(data.p2Gamepad, data.p1Gamepad)
+					if data.p1Gamepad == 0 then
+						data.p1Gamepad = 1
+						data.p2Gamepad = 0
+					else
+						data.p1Gamepad = 0
+						data.p2Gamepad = 1
+					end
+					modified = 1
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+				--Default Inputs
+				elseif inputCfg == 4 then
+					sndPlay(sysSnd, 100, 1)
+					defaultInput = true
+					defaultScreen = true
+				--Input Test
+				elseif inputCfg == 5 then
+					sndPlay(sysSnd, 100, 1)
+					f_testMenu()
+				--BACK
+				else
+					sndPlay(sysSnd, 100, 2)
+					break
+				end
+				if inputCfg == 5 or inputCfg == 6 then disableGamepad(data.disablePadP1,data.disablePadP2) end
 			end
-		elseif inputCfg > #t_inputCfg then
-			inputCfg = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (inputCfg - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (inputCfg - 1) * 15
-		end	
-		if #t_inputCfg <= 14 then
-			maxInputCfg = #t_inputCfg
-		elseif inputCfg - cursorPosY > 0 then
-			maxInputCfg = inputCfg + 14 - cursorPosY
-		else
-			maxInputCfg = 14
+			if inputCfg < 1 then
+				inputCfg = #t_inputCfg
+				if #t_inputCfg > 14 then
+					cursorPosY = 14
+				else
+					cursorPosY = #t_inputCfg
+				end
+			elseif inputCfg > #t_inputCfg then
+				inputCfg = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 14 then
+				moveTxt = (inputCfg - 14) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (inputCfg - 1) * 15
+			end	
+			if #t_inputCfg <= 14 then
+				maxInputCfg = #t_inputCfg
+			elseif inputCfg - cursorPosY > 0 then
+				maxInputCfg = inputCfg + 14 - cursorPosY
+			else
+				maxInputCfg = 14
+			end
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 222, maxInputCfg*15)
 		animSetWindow(optionsBG1, 68,20, 184,210)
 		animDraw(optionsBG1)
 		textImgDraw(txt_inputCfg)
-		animSetWindow(cursorBox, 68,5+cursorPosY*15, 184,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if defaultScreen == false then
+			animSetWindow(cursorBox, 68,5+cursorPosY*15, 184,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		--t_inputCfg[3].varText = s_disablePadP1
 		--t_inputCfg[4].varText = s_disablePadP2
 		t_inputCfg[3].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1		
@@ -4206,6 +4339,7 @@ function f_inputCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
