@@ -2337,7 +2337,7 @@ t_UICfg = {
 	{id = '', text = 'Clock Format',             varID = textImgNew(), varText = data.clock},
 	{id = '', text = 'Date Format',            	 varID = textImgNew(), varText = data.date},
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
-	{id = '', text = 'Char Presentation',        varID = textImgNew(), varText = data.charPresentation},
+	{id = '', text = 'Character Presentation',   varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Character Select Type',    varID = textImgNew(), varText = data.selectType},
 	{id = '', text = 'Palette Select Type',    	 varID = textImgNew(), varText = data.palType},
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},

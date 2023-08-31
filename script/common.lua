@@ -238,6 +238,9 @@ function btnPalNo(cmd)
 	return 0
 end
 
+--Constants/Standards
+gameTick = 20
+
 --animDraw at specified coordinates
 function animPosDraw(a, x, y)
 	animSetPos(a, x, y)

@@ -1,17 +1,13 @@
-table: 0CB7D160 {
-  [teamstart] => table: 0CB7D160 {
-                   [wins] => 1
+table: 0D6F5BD0 {
+  [survivalend] => table: 0D6F5BD0 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [teamstart] => table: 0D6F5BD0 {
                    [offset] => 0
+                   [wins] => 1
                  }
-  [arcadeend] => table: 0CB7D160 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
-  [survivalstart] => table: 0CB7D160 {
-                       [wins] => 0
-                       [offset] => -3
-                     }
-  [teammaxmatches] => table: 0CB7D160 {
+  [teammaxmatches] => table: 0D6F5BD0 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -23,11 +19,15 @@ table: 0CB7D160 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadestart] => table: 0CB7D160 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [arcademaxmatches] => table: 0CB7D160 {
+  [survivalstart] => table: 0D6F5BD0 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [arcadeend] => table: 0D6F5BD0 {
+                   [offset] => 2
+                   [wins] => 4
+                 }
+  [arcademaxmatches] => table: 0D6F5BD0 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -39,12 +39,12 @@ table: 0CB7D160 {
                           [9] => 0
                           [10] => 0
                         }
-  [survivalend] => table: 0CB7D160 {
-                     [wins] => 16
-                     [offset] => 4
+  [arcadestart] => table: 0D6F5BD0 {
+                     [offset] => 0
+                     [wins] => 2
                    }
-  [teamend] => table: 0CB7D160 {
-                 [wins] => 3
+  [teamend] => table: 0D6F5BD0 {
                  [offset] => 2
+                 [wins] => 3
                }
 }

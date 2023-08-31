@@ -86,7 +86,7 @@ function f_stageSelectReset()
 stageSelect = true
 songSelect = false
 stageAnnouncer = false
-stageTimer = 0 --Restart Stage Announcer Timer
+announcerTimer = 0 --Restart Stage Announcer Timer
 dontTouch = false
 if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --Restore Game Mode Name
 end
@@ -802,6 +802,8 @@ function f_selectSimple()
 	gameNo = 0
 	bossNo = 0
 	bonusNo = 0
+	selectSeconds = 10 --Edit your Seconds for Timer
+	selectTimer = selectSeconds*gameTick --Set time for Character Select, don't touch if you want to see the timer in minutes
 	clearTime = 0
 	matchTime = 0
 	p1Wins = 0
@@ -1025,6 +1027,8 @@ function f_selectAdvance()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
+	selectSeconds = 10 --Edit your Seconds for Timer
+	selectTimer = selectSeconds*gameTick --Set time for Character Select, don't touch if you want to see the timer in minutes
 	musicList = 0
 	gameNo = 0
 	bossNo = 0
@@ -1473,6 +1477,16 @@ function f_selectScreen()
 			end
 		end
 	end
+	txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70)
+	if selectTimer > 0 then
+		selectTimer = selectTimer - 0.5 --Enable/Disable selectTimer
+	else --when selectTimer <= 0
+		--p1TeamEnd = true
+		--p2TeamEnd = true
+		--p1SelEnd = true
+		--p2SelEnd = true
+	end
+	textImgDraw(txt_charTime)
 	--Player1		
 	if not p1TeamEnd then
 		f_p1TeamMenu()
@@ -1562,7 +1576,7 @@ function f_selectScreen()
 	end
 	--Activate Stage Announcer Timer
 	if stageAnnouncer == true then
-		stageTimer = stageTimer + 1
+		announcerTimer = announcerTimer + 1
 	end
 	--Show Back Menu
 	if backScreen == true then
@@ -1781,7 +1795,7 @@ function f_p1TeamMenu()
 		end
 		animUpdate(p1TmCursor)
 		animPosDraw(p1TmCursor, 10, 50 + p1teamMode*15)
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or selectTimer == 0 then
 			sndPlay(sysSnd, 100, 1)
 			if p1teamMode == 0 then --Single
 				p1numChars = 1
@@ -2032,7 +2046,7 @@ function f_p2TeamMenu()
 		end
 		animUpdate(p2TmCursor)
 		animPosDraw(p2TmCursor, 310, 50 + p2teamMode*15)
-		if btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p2Cmd) > 0 or selectTimer == 0 then
 			sndPlay(sysSnd, 100, 1)
 			if p2teamMode == 0 then --Single
 				p2numChars = 1
@@ -2458,7 +2472,7 @@ function f_p1SelectMenu()
 				sndPlay(sysSnd, 100, 2)
 				f_p1sideReset()
 			end
-			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
+			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or selectTimer == 0 then
 				sndPlay(sysSnd, 100, 1)
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
@@ -2757,7 +2771,7 @@ function f_p2SelectMenu()
 				sndPlay(sysSnd, 100, 2)
 				f_p2sideReset()
 			end
-			if commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') then
+			if commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') or selectTimer == 0 then
 				sndPlay(sysSnd, 100, 1)
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
@@ -3071,10 +3085,10 @@ function f_selectStage()
 			--Just Don't Touch!
 		end
 		--create a timer to hear full announcer voice
-		if stageTimer > 55 then
+		if announcerTimer > 55 then
 			stageEnd = true
 			cmdInput()
-			--stageTimer = 0 --Restart Stage Announcer Timer
+			--announcerTimer = 0 --Restart Stage Announcer Timer
 		end
 	else
 		if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
@@ -3313,18 +3327,22 @@ function f_orderSelect()
 		local orderTime = 0
 		local orderhintTime = 0
 		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+		local seconds = 30 --Edit your Seconds for Timer
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
-			orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60
+			--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
 		elseif #data.t_p1selected > 1 or data.coop == true then
-			orderTime = #data.t_p1selected * 60
+			--orderTime = #data.t_p1selected * 60 --Order Time is setting by the amount of characters selected
 		else
 			f_selectChar(1, data.t_p1selected)
 			p1Confirmed = true
 			f_selectChar(2, data.t_p2selected)
 			p2Confirmed = true
 		end
+		local orderTime = seconds*gameTick --Set time for Order Select, don't touch if you want to see the timer in minutes
 		cmdInput()
 		while true do
+			--OrderTimer = ((orderTime/gameTick)+0.5)
+			txt_orderTime = createTextImg(jgFnt, 0, 0, ''..orderTime/gameTick..'', 160, 70)
 			--draw background on top
 			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
@@ -3344,6 +3362,7 @@ function f_orderSelect()
 				textImgDraw(txt_p1State)
 			elseif p1Confirmed == true and p2Confirmed == true then
 				txt_p1State = createTextImg(jgFnt, 2, 0, 'START MATCH', 79, 25)
+				orderTime = 0
 				textImgDraw(txt_p1State)	
 				animSetWindow(cursorBox, 20, 14, 120, 16)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -3393,13 +3412,13 @@ function f_orderSelect()
 			--end
 			if sndTime > 0 then
 				sndTime = sndTime - 1
-			elseif btnPalNo(p1Cmd) > 0 and p1Confirmed and p2Confirmed then --Original Time To Select: elseif i > 120 and p1Confirmed and p2Confirmed then
+			elseif orderTime == 0 and p1Confirmed and p2Confirmed then --Original Time To Select: elseif i > 120 and p1Confirmed and p2Confirmed then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				break
 			end
 			--option to adjust Team Mode characters order if timer is > 0
 			if orderTime > 0 then
-				--orderTime = orderTime - 1                                    Activate Original OrderTime
+				orderTime = orderTime - 0.5 --Enable/Disable orderTime
 				sndNumber = -1
 				--if Player 1 has not confirmed the order yet
 				if not p1Confirmed then
@@ -3584,7 +3603,7 @@ function f_orderSelect()
 					sndPlay(sysSnd, 100, sndNumber)
 					sndTime = 30
 				end
-			else --orderTime <= 0
+			else --when orderTime <= 0
 				if not p1Confirmed then
 					f_selectChar(1, data.t_p1selected)
 					p1Confirmed = true
@@ -3649,6 +3668,7 @@ function f_orderSelect()
 			animUpdate(data.fadeTitle)
 			animDraw(vsBG6)
 			textImgDraw(txt_orderHint)
+			textImgDraw(txt_orderTime)
 			orderhintTime = orderhintTime + 1 --Start timer for randoms hints
 			if commandGetState(p1Cmd, 'holdu') then
 				bufOrderd = 0
@@ -3769,10 +3789,7 @@ function f_selectVersus()
 			vshintTime = 0 --Restart timer for a new random hint
 		end
 		vsTime = vsTime + 1
-		if vsTime == 2222 then
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-			break
-		elseif btnPalNo(p1Cmd) > 0 then
+		if vsTime == 300 or btnPalNo(p1Cmd) > 0 then
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
