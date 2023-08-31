@@ -802,8 +802,10 @@ function f_selectSimple()
 	gameNo = 0
 	bossNo = 0
 	bonusNo = 0
-	selectSeconds = 10 --Edit your Seconds for Timer
-	selectTimer = selectSeconds*gameTick --Set time for Character Select, don't touch if you want to see the timer in minutes
+	selectSeconds = 16 --Edit your Seconds for Character Select Timer
+	stageSeconds = 11 --Edit your Seconds for Stage Select Timer
+	selectTimer = selectSeconds*gameTick --Set time for Character Select
+	stageTimer = stageSeconds*gameTick --Set time for Stage Select
 	clearTime = 0
 	matchTime = 0
 	p1Wins = 0
@@ -971,6 +973,8 @@ function f_selectSimple()
 		winner = game()
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
+		selectTimer = selectSeconds*gameTick
+		stageTimer = stageSeconds*gameTick
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
 		playBGM('')
@@ -1027,8 +1031,10 @@ function f_selectAdvance()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
-	selectSeconds = 10 --Edit your Seconds for Timer
-	selectTimer = selectSeconds*gameTick --Set time for Character Select, don't touch if you want to see the timer in minutes
+	selectSeconds = 16 --Edit your Seconds for Character Select Timer
+	stageSeconds = 11 --Edit your Seconds for Stage Select Timer
+	selectTimer = selectSeconds*gameTick --Set time for Character Select
+	stageTimer = stageSeconds*gameTick --Set time for Stage Select
 	musicList = 0
 	gameNo = 0
 	bossNo = 0
@@ -1278,6 +1284,8 @@ function f_selectAdvance()
 		playBGM('')
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
+		selectTimer = selectSeconds*gameTick
+		stageTimer = stageSeconds*gameTick
 		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		--restore P2 Team settings if needed
@@ -1477,16 +1485,14 @@ function f_selectScreen()
 			end
 		end
 	end
+	--Character Select Timer
 	txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70)
 	if selectTimer > 0 then
-		selectTimer = selectTimer - 0.5 --Enable/Disable selectTimer
+		selectTimer = selectTimer - 0.5 --Activate Character Select Timer
+		textImgDraw(txt_charTime)
 	else --when selectTimer <= 0
-		--p1TeamEnd = true
-		--p2TeamEnd = true
-		--p1SelEnd = true
-		--p2SelEnd = true
+		
 	end
-	textImgDraw(txt_charTime)
 	--Player1		
 	if not p1TeamEnd then
 		f_p1TeamMenu()
@@ -1506,6 +1512,7 @@ function f_selectScreen()
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
+	--Palette Sub-Menu
 	if data.palType == 'Classic' then
 		txt_palHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
 	elseif data.palType == 'Modern' then
@@ -1523,14 +1530,19 @@ function f_selectScreen()
 			f_p2palList()
 		end
 	end
+	--Stage select
 	if p1SelEnd and p2SelEnd then
-		--Stage select
 		charSelect = false
+		selectTimer = 0
 		if not stageEnd then
 			f_selectStage()
 		else
 			selScreenEnd = true
 		end
+	end
+	--Activate Stage Announcer Timer
+	if stageAnnouncer == true then
+		announcerTimer = announcerTimer + 1
 	end
 	--Deselect in Multiplayer Modes
 	if data.coop then
@@ -1573,10 +1585,6 @@ function f_selectScreen()
 				data.t_p2selected = {}
 			end
 		end
-	end
-	--Activate Stage Announcer Timer
-	if stageAnnouncer == true then
-		announcerTimer = announcerTimer + 1
 	end
 	--Show Back Menu
 	if backScreen == true then
@@ -3062,7 +3070,19 @@ function f_selectStage()
 			textImgDraw(txt_selStage)
 			textImgDraw(txt_selectMusic)
 		end
-		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and dontTouch == false then
+		--Stage Select Timer
+		if data.stageType == 'Classic' then
+			txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
+		elseif data.stageType == 'Modern' then
+			txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 234)
+		end
+		if stageTimer > 0 then
+			stageTimer = stageTimer - 0.5 --Activate Stage Select Timer
+			textImgDraw(txt_stageTime)
+		else --when stageTimer <= 0
+			
+		end
+		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or stageTimer == 0) and dontTouch == false then
 			stageSelect = false
 			songSelect = false
 			stageAnnouncer = true
@@ -3327,7 +3347,7 @@ function f_orderSelect()
 		local orderTime = 0
 		local orderhintTime = 0
 		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-		local seconds = 30 --Edit your Seconds for Timer
+		local seconds = 15 --Edit your Seconds for Order Select
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 			--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
 		elseif #data.t_p1selected > 1 or data.coop == true then
@@ -3338,10 +3358,9 @@ function f_orderSelect()
 			f_selectChar(2, data.t_p2selected)
 			p2Confirmed = true
 		end
-		local orderTime = seconds*gameTick --Set time for Order Select, don't touch if you want to see the timer in minutes
+		local orderTime = seconds*gameTick --Set time for Order Select
 		cmdInput()
 		while true do
-			--OrderTimer = ((orderTime/gameTick)+0.5)
 			txt_orderTime = createTextImg(jgFnt, 0, 0, ''..orderTime/gameTick..'', 160, 70)
 			--draw background on top
 			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
@@ -3418,7 +3437,7 @@ function f_orderSelect()
 			end
 			--option to adjust Team Mode characters order if timer is > 0
 			if orderTime > 0 then
-				orderTime = orderTime - 0.5 --Enable/Disable orderTime
+				orderTime = orderTime - 0.5 --Activate Order Select Timer
 				sndNumber = -1
 				--if Player 1 has not confirmed the order yet
 				if not p1Confirmed then
