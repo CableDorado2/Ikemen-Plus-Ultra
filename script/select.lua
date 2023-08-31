@@ -804,8 +804,12 @@ function f_selectSimple()
 	bonusNo = 0
 	selectSeconds = 16 --Edit your Seconds for Character Select Timer
 	stageSeconds = 11 --Edit your Seconds for Stage Select Timer
+	rematchSeconds = 11 --Edit your Seconds for Rematch Option Timer
+	serviceSeconds = 11 --Edit your Seconds for Service Option Timer
 	selectTimer = selectSeconds*gameTick --Set time for Character Select
 	stageTimer = stageSeconds*gameTick --Set time for Stage Select
+	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
+	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
 	clearTime = 0
 	matchTime = 0
 	p1Wins = 0
@@ -975,6 +979,8 @@ function f_selectSimple()
 		clearTime = clearTime + matchTime
 		selectTimer = selectSeconds*gameTick
 		stageTimer = stageSeconds*gameTick
+		rematchTimer = rematchSeconds*gameTick
+		serviceTimer = serviceSeconds*gameTick
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
 		playBGM('')
@@ -1031,10 +1037,14 @@ function f_selectAdvance()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
-	selectSeconds = 16 --Edit your Seconds for Character Select Timer
-	stageSeconds = 11 --Edit your Seconds for Stage Select Timer
-	selectTimer = selectSeconds*gameTick --Set time for Character Select
-	stageTimer = stageSeconds*gameTick --Set time for Stage Select
+	selectSeconds = 16
+	stageSeconds = 11
+	rematchSeconds = 11
+	serviceSeconds = 11
+	selectTimer = selectSeconds*gameTick
+	stageTimer = stageSeconds*gameTick
+	rematchTimer = rematchSeconds*gameTick
+	serviceTimer = serviceSeconds*gameTick
 	musicList = 0
 	gameNo = 0
 	bossNo = 0
@@ -1286,6 +1296,8 @@ function f_selectAdvance()
 		clearTime = clearTime + matchTime
 		selectTimer = selectSeconds*gameTick
 		stageTimer = stageSeconds*gameTick
+		rematchTimer = rematchSeconds*gameTick
+		serviceTimer = serviceSeconds*gameTick
 		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		--restore P2 Team settings if needed
@@ -4291,6 +4303,13 @@ function f_ftcontrol()
 			battleOption = 3
 			rematchEnd = true
 			rankedEnd = true
+			while true do
+				--animDraw(data.fadeTitle)
+				--animUpdate(data.fadeTitle)
+				break
+				--cmdInput()
+				--refresh()
+			end
 		end
 	end
 end
@@ -4298,6 +4317,7 @@ end
 --;===========================================================
 --; REMATCH SCREENPACK
 --;===========================================================
+txt_rematchCPU = createTextImg(jgFnt, 0, 0, 'BATTLE OPTION', 160, 102)
 txt_rematch = createTextImg(jgFnt, 0, 0, 'OPTION BATTLE P1', 86, 102)
 txt_rematch2 = createTextImg(jgFnt, 0, 0, 'P2 BATTLE OPTION', 237, 102)
 
@@ -4317,6 +4337,14 @@ animSetPos(rematchWindowBG, 0.4, 97)
 animUpdate(rematchWindowBG)
 animSetScale(rematchWindowBG, 1.005, 1.1)
 
+--Rematch Window BG CPU
+rematchCPUWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(rematchCPUWindowBG, 83.5, 97)
+animUpdate(rematchCPUWindowBG)
+animSetScale(rematchCPUWindowBG, 1.005, 1.1)
+
 --Rematch Window BG Player 2
 rematch2WindowBG = animNew(sysSff, [[
 230,1, 0,0,
@@ -4333,18 +4361,12 @@ t_battleOption = {
 	{id = textImgNew(), text = 'CHARACTER SELECT'},
 	{id = textImgNew(), text = 'MAIN MENU'},
 }
-for i=1, #t_battleOption do
-	t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*15)
-end
 
 t_battleOption2 = {
 	{id = textImgNew(), text = 'REMATCH'},
 	{id = textImgNew(), text = 'CHARACTER SELECT'},
 	{id = textImgNew(), text = 'MAIN MENU'},
 }
-for i=1, #t_battleOption2 do
-	t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 104.5+i*15)
-end
 
 function f_rematch()
 	if not p1Ready then
@@ -4362,31 +4384,27 @@ function f_rematch()
 			p1Cursor = 1
 		end
 	end
-	if not p2Ready then
-		--Player 2 Cursor
-		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufRematch2u >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			p2Cursor = p2Cursor - 1
-		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufRematch2d >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			p2Cursor = p2Cursor + 1
-		end
-		if p2Cursor < 1 then
-			p2Cursor = #t_battleOption2
-		elseif p2Cursor > #t_battleOption2 then
-			p2Cursor = 1
-		end
-	end
 	--Draw BG only when Winscreen is off
 	if data.winscreen == 'None' or data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
-	--Draw Menu BG
-	animDraw(rematchWindowBG)
-	animUpdate(rematchWindowBG)
-	--Draw Title
-	textImgDraw(txt_rematch)
-	--Set Color to Buttons
+	if data.p2In == 1 then --VS CPU
+		--Draw Menu BG
+		animDraw(rematchCPUWindowBG)
+		animUpdate(rematchCPUWindowBG)
+		--Draw Title
+		textImgDraw(txt_rematchCPU)
+	else
+		animDraw(rematchWindowBG)
+		animUpdate(rematchWindowBG)
+		textImgDraw(txt_rematch)
+	end
+	--Set Color and Text Position
 	for i=1, #t_battleOption do
-		if i == p1Cursor + 0 then -- +0 To start center
+		if data.p2In == 1 then --VS CPU
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 104.5+i*15)
+		else
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*15)
+		end
+		if i == p1Cursor + 0 then
 			textImgSetBank(t_battleOption[i].id, 5)
 		else
 			textImgSetBank(t_battleOption[i].id, 0)
@@ -4394,28 +4412,56 @@ function f_rematch()
 		textImgDraw(t_battleOption[i].id)
 	end
 	if not p1Ready then
-		--Draw Cursor
-		animSetWindow(cursorBox, 4, 94.5+p1Cursor*15, 145, 13)
+	--Draw Cursor
+		if data.p2In == 1 then --VS CPU
+			animSetWindow(cursorBox, 87.1, 94.5+p1Cursor*15, 145, 13)
+		else
+			animSetWindow(cursorBox, 4, 94.5+p1Cursor*15, 145, 13)
+		end
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
 	--Player 2 Mirror Assets
-	animDraw(rematch2WindowBG)
-	animUpdate(rematch2WindowBG)
-	textImgDraw(txt_rematch2)
-	--Set Color to Buttons
-	for i=1, #t_battleOption2 do
-		if i == p2Cursor + 0 then
-			textImgSetBank(t_battleOption2[i].id, 5)
-		else
-			textImgSetBank(t_battleOption2[i].id, 0)
+	if data.p2In == 2 then
+		if not p2Ready then
+			if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufRematch2u >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				p2Cursor = p2Cursor - 1
+			elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufRematch2d >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				p2Cursor = p2Cursor + 1
+			end
+			if p2Cursor < 1 then
+				p2Cursor = #t_battleOption2
+			elseif p2Cursor > #t_battleOption2 then
+				p2Cursor = 1
+			end
 		end
-		textImgDraw(t_battleOption2[i].id)
+		animDraw(rematch2WindowBG)
+		animUpdate(rematch2WindowBG)
+		textImgDraw(txt_rematch2)
+		for i=1, #t_battleOption2 do
+			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 104.5+i*15)
+			if i == p2Cursor + 0 then
+				textImgSetBank(t_battleOption2[i].id, 5)
+			else
+				textImgSetBank(t_battleOption2[i].id, 0)
+			end
+			textImgDraw(t_battleOption2[i].id)
+		end
+		if not p2Ready then
+			animSetWindow(cursorBox, 172, 94.5+p2Cursor*15, 145, 13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 	end
-	if not p2Ready then
-		animSetWindow(cursorBox, 172, 94.5+p2Cursor*15, 145, 13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Rematch Option Timer
+	txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
+	if rematchTimer > 0 then
+		rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
+		textImgDraw(txt_rematchTime)
+	else --when rematchTimer <= 0
+		
 	end
 	if commandGetState(p1Cmd, 'holdu') then
 		bufRematchd = 0
@@ -4436,7 +4482,7 @@ function f_rematch()
 		bufRematch2d = 0
 	end
 	if not p1Ready then
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or rematchTimer == 0 then
 			if p1Cursor == 1 then
 				sndPlay(sysSnd, 100, 1)
 				battleOption = 1 --Rematch
@@ -4452,27 +4498,33 @@ function f_rematch()
 				p1Ready = true
 				p2Ready = true
 			end
+			if data.p2In == 1 then --Logic for CPU
+				battleOption2 = battleOption
+				p2Ready = true
+			end
 			cmdInput()
 		end
 	end
 	if not p2Ready then
-		if btnPalNo(p2Cmd) > 0 then
-			if p2Cursor == 1 then
-				sndPlay(sysSnd, 100, 1)
-				battleOption2 = 1 --Rematch
-				p2Ready = true
-			elseif p2Cursor == 2 then
-				sndPlay(sysSnd, 100, 1)
-				battleOption2 = 2 --Back to Character Select
-				p1Ready = true
-				p2Ready = true
-			elseif p2Cursor == 3 then
-				sndPlay(sysSnd, 100, 2)
-				battleOption2 = 3 --Back to Main Menu
-				p1Ready = true
-				p2Ready = true
+		if data.p2In == 2 then
+			if btnPalNo(p2Cmd) > 0 or rematchTimer == 0 then
+				if p2Cursor == 1 then
+					sndPlay(sysSnd, 100, 1)
+					battleOption2 = 1
+					p2Ready = true
+				elseif p2Cursor == 2 then
+					sndPlay(sysSnd, 100, 1)
+					battleOption2 = 2
+					p1Ready = true
+					p2Ready = true
+				elseif p2Cursor == 3 then
+					sndPlay(sysSnd, 100, 2)
+					battleOption2 = 3
+					p1Ready = true
+					p2Ready = true
+				end
+				cmdInput()
 			end
-			cmdInput()
 		end
 	end
 	if p1Ready and p2Ready then rematchEnd = true end
@@ -4651,7 +4703,7 @@ function f_service()
 			noService = false
 			sndPlay(sysSnd, 100, 0)
 			serviceMenu = serviceMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 then
+		elseif btnPalNo(p1Cmd) > 0 or serviceTimer == 0 then
 			--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
 			if serviceMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
@@ -4767,6 +4819,14 @@ function f_service()
 				t_service[i].id = createTextImg(font2, 0, 0, t_service[i].text, 158.5, 15+i*15-moveTxt)
 				textImgDraw(t_service[i].id)
 			end
+		end
+		--Service Option Timer
+		txt_serviceTime = createTextImg(jgFnt, 0, 0, ''..serviceTimer/gameTick..'', 160, 122)
+		if serviceTimer > 0 then
+			serviceTimer = serviceTimer - 0.5 --Activate Service Timer
+			textImgDraw(txt_serviceTime)
+		else --when serviceTimer <= 0
+			
 		end
 		--Draw Up Animated Cursor
 		if maxService > 14 then
