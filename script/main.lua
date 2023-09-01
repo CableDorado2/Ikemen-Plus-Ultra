@@ -235,21 +235,24 @@ end
 
 function f_mainAttract()
 	cmdInput()
-	local demoSeconds = 21
-	local demoTimer = demoSeconds*gameTick --Set time for Title Screen
 	local t = 0
+	local attractSeconds = 6
+	local attractTimer = attractSeconds*gameTick --Set time for Title Screen
+	local demoTimer = 0
 	playBGM(bgmTitle)
 	while true do
 		--INSERT COIN
 		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 		   sndPlay(sysSnd, 200, 0)
+		   demoTimer = 0
 		   attractCoins = attractCoins + 1
-		   demoTimer = demoSeconds*gameTick --Reset Timer
+		   attractTimer = attractSeconds*gameTick --Reset Timer
 		--START GAME MODE
-		elseif commandGetState(p1Cmd, 's') and attractCoins > 0 then
+		elseif (commandGetState(p1Cmd, 's') or attractTimer == 0) and attractCoins > 0 then
 		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		   sndPlay(sysSnd, 100, 1)
-		   demoTimer = demoSeconds*gameTick
+		   attractCoins = attractCoins - 1
+		   attractTimer = attractSeconds*gameTick
 		   f_default()
 		   --data.p1TeamMenu = {mode = 0, chars = 1}
 		   --data.p2TeamMenu = {mode = 0, chars = 1}
@@ -260,17 +263,18 @@ function f_mainAttract()
 		   data.rosterMode = 'arcade'
 		   textImgSetText(txt_mainSelect, 'ARCADE')
 		   script.select.f_selectAdvance()
-		--START DEMO SCREEN
-		elseif demoTimer == 0 then
+		--START DEMO MODE
+		elseif demoTimer == 150 then
 		   cmdInput()
 		   setGameType(1)
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 		   runDemo()
-		   demoTimer = demoSeconds*gameTick
+		   demoTimer = 0
+		   attractTimer = attractSeconds*gameTick
 		--EXIT
 		elseif esc() then
 			sndPlay(sysSnd, 100, 2)
-			demoTimer = demoSeconds*gameTick
+			attractTimer = attractSeconds*gameTick
 			f_exitMenu()
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -286,12 +290,12 @@ function f_mainAttract()
 		animDraw(titleBG5)
 		textImgDraw(txt_subTitle)
 		f_attractCredits()
-		txt_timer = createTextImg(font1, 0, 0, ''..demoTimer/gameTick..'', 302, 235)
-		if demoTimer > 0 then
-			demoTimer = demoTimer - 0.5 --Activate Title Screen Timer
+		txt_timer = createTextImg(font1, 0, 0, ''..attractTimer/gameTick..'', 302, 235)
+		if attractTimer > 0 and attractCoins > 0 then
+			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
 			textImgDraw(txt_timer)
-		else --when demoTimer <= 0
-			
+		else --when attractTimer <= 0
+			demoTimer = demoTimer + 1
 		end
 		f_sysTime()
 		if t%60 < 30 then

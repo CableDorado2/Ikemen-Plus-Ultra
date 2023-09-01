@@ -1164,7 +1164,7 @@ function f_selectAdvance()
 				matchNo = matchNo + 1
 			end
 		--player lost in special game mode or don't have any coins left for Arcade
-		elseif data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' then
+		elseif data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and attractCoins == 0) then
 			--counter
 			looseCnt = looseCnt + 1
 			--win screen
@@ -5155,8 +5155,12 @@ function f_continue()
 	if tablePos4.sffData ~= nil and tablePos4.dizzy ~= nil then
 		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
-	textImgSetText(txt_coins, 'COINS: ' .. data.coins)
-	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)	
+	if data.attractMode == true then
+		textImgSetText(txt_coins, 'CREDITS: ' .. attractCoins)
+	else
+		textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+	end
+	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)
 	cmdInput()
 	while true do
 		animDraw(contBG0)
@@ -5207,17 +5211,29 @@ function f_continue()
 					animLength4 = 0
 				end
 				if onlinegame == false then
-					if data.coins < 1 then
-						data.coins = 0
-					elseif data.coins >= 1 then
-						data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+					if data.attractMode == true then
+						if attractCoins < 1 then
+							attractCoins = 0
+						elseif attractCoins >= 1 then
+							attractCoins = attractCoins - 1
+						end
+					else
+						if data.coins < 1 then
+							data.coins = 0
+						elseif data.coins >= 1 then
+							data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+						end
+						f_saveProgress()
 					end
-					f_saveProgress()
 				elseif onlinegame == true then
-					--Do nothing (Free Online Arcade)
+					--Free Online Arcade to Avoid Desync
 				end
 				data.continueCount = data.continueCount + 1 --Times Continue
-				textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+				if data.attractMode == true then
+					textImgSetText(txt_coins, 'CREDITS: ' .. attractCoins)
+				else
+					textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+				end
 				textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)				
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', fadeSff)
 				data.continue = 1

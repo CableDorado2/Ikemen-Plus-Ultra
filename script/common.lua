@@ -1501,9 +1501,10 @@ function initCoop()
 end
 
 function runDemo()
+  local t = 0
   init()
   refresh()
-  while not esc() do
+  while not esc() or t == 100 do
     randSel(1, winner)
     randSel(2, winner)
     loadStart()
@@ -1520,9 +1521,12 @@ function runDemo()
     if winner <= 0 or wins >= 20 or wins == oldwins then
       init()
     end
+	t = t + 1
     refresh()
   end
   if data.attractMode == true then
+	f_storyboard('data/screenpack/logo.def')
+	f_storyboard('data/screenpack/intro.def')
 	f_mainAttract()
   else
 	f_mainTitle()
