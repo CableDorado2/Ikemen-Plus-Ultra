@@ -239,6 +239,12 @@ function f_loadEXCfg()
 	else
 		s_debugMode = 'Disabled'
 	end
+	
+	if data.attractMode then
+		s_attractMode = 'Enabled'
+	else
+		s_attractMode = 'Disabled'
+	end
 end
 
 if onlinegame == false then
@@ -286,6 +292,7 @@ function f_saveCfg()
 		['data.winscreen'] = data.winscreen,
 		['data.ftcontrol'] = data.ftcontrol,
 		['data.debugMode'] = data.debugMode,
+		['data.attractMode'] = data.attractMode,
 		['data.challengerSong'] = data.challengerSong,
 		['data.charPresentation'] = data.charPresentation,
 		['data.training'] = data.training,
@@ -438,6 +445,8 @@ function f_onlineDefault()
 	data.ftcontrol = -1
 	data.debugMode = false
 	s_debugMode = 'Disabled'
+	data.attractMode = false
+	s_attractMode = 'Disabled'
 	data.charPresentation = 'Sprite'
 	data.sffConversion = true
 	data.training = 'Fixed'
@@ -591,6 +600,7 @@ function f_exitInfo()
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -622,6 +632,7 @@ function f_resWarning()
 		for i=1, #t_resWarning do
 			textImgDraw(t_resWarning[i].id)
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -656,6 +667,7 @@ function f_glWarning()
 		for i=1, #t_glWarning do
 			textImgDraw(t_glWarning[i].id)
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -687,6 +699,7 @@ function f_memWarning()
 		for i=1, #t_memWarning do
 			textImgDraw(t_memWarning[i].id)
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -1209,6 +1222,7 @@ function f_mainCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1347,6 +1361,7 @@ function f_onlineCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1504,6 +1519,7 @@ function f_netplayCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -1866,6 +1882,7 @@ function f_gameCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2124,6 +2141,7 @@ function f_teamCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2322,6 +2340,7 @@ function f_zoomCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2669,6 +2688,7 @@ function f_UICfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3040,6 +3060,7 @@ function f_audioCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3052,6 +3073,7 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 
 t_engineCfg = {
 	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
+	{id = '', text = 'Attract Mode',  	      varID = textImgNew(), varText = s_attractMode},
 	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
 	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
 	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
@@ -3104,8 +3126,26 @@ function f_engineCfg()
 				modified = 1
 			end
 		end
+		--Attract Mode
+		elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+		if onlinegame == true then
+			lockSetting = true
+		elseif onlinegame == false then	
+			sndPlay(sysSnd, 100, 0)
+			if data.attractMode then
+				data.attractMode = false
+				s_attractMode = 'Disabled'
+				modified = 1
+				needReload = 1
+			else
+				data.attractMode = true
+				s_attractMode = 'Enabled'
+				modified = 1
+				needReload = 1
+			end
+		end
 		--HelperMax
-		elseif engineCfg == 2 then
+		elseif engineCfg == 3 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if HelperMaxEngine < 1000 then --You can increase this limit
 					HelperMaxEngine = HelperMaxEngine + 1
@@ -3134,7 +3174,7 @@ function f_engineCfg()
 				bufl = 0
 			end
 		--PlayerProjectileMax
-		elseif engineCfg == 3 then
+		elseif engineCfg == 4 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
 					PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
@@ -3163,7 +3203,7 @@ function f_engineCfg()
 				bufl = 0
 			end
 		--ExplodMax
-		elseif engineCfg == 4 then
+		elseif engineCfg == 5 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if ExplodMaxEngine < 1000 then --You can increase this limit
 					ExplodMaxEngine = ExplodMaxEngine + 1
@@ -3192,7 +3232,7 @@ function f_engineCfg()
 				bufl = 0
 			end
 		--AfterImageMax
-		elseif engineCfg == 5 then
+		elseif engineCfg == 6 then
 			if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 				if AfterImageMaxEngine < 1000 then --You can increase this limit
 					AfterImageMaxEngine = AfterImageMaxEngine + 1
@@ -3221,7 +3261,7 @@ function f_engineCfg()
 				bufl = 0
 			end		
 		--Erase/Reset Statistics
-		elseif engineCfg == 6 and btnPalNo(p1Cmd) > 0 then	
+		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then	
 		if onlinegame == true then
 			lockSetting = true
 		elseif onlinegame == false then	
@@ -3233,7 +3273,7 @@ function f_engineCfg()
 			end
 		end
 		--BACK
-		elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then
+		elseif engineCfg == 8 and btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -3283,10 +3323,11 @@ function f_engineCfg()
 			end
 		end
 		t_engineCfg[1].varText = s_debugMode
-		t_engineCfg[2].varText = HelperMaxEngine
-		t_engineCfg[3].varText = PlayerProjectileMaxEngine
-		t_engineCfg[4].varText = ExplodMaxEngine
-		t_engineCfg[5].varText = AfterImageMaxEngine
+		t_engineCfg[2].varText = s_attractMode
+		t_engineCfg[3].varText = HelperMaxEngine
+		t_engineCfg[4].varText = PlayerProjectileMaxEngine
+		t_engineCfg[5].varText = ExplodMaxEngine
+		t_engineCfg[6].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
 				if t_engineCfg[i].varID ~= nil then
@@ -3313,6 +3354,7 @@ function f_engineCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3502,6 +3544,7 @@ function f_videoCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3634,6 +3677,7 @@ function f_resCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -3769,6 +3813,7 @@ function f_resCfg4_3()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3896,6 +3941,7 @@ function f_resCfg16_9()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4023,6 +4069,7 @@ function f_resCfg16_10()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4161,6 +4208,7 @@ function f_EXresCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4343,6 +4391,7 @@ function f_inputCfg()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4504,6 +4553,7 @@ function f_testMenu()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4622,6 +4672,7 @@ function f_keyMenu()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4742,6 +4793,7 @@ function f_joyMenu()
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4889,6 +4941,7 @@ function f_keyCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5334,7 +5387,8 @@ function f_readInput(oldkey)
 			end 
 			cmdInput()
 		end
-        animDraw(data.fadeTitle)
+        if data.attractMode == true then f_attractCredits() end
+		animDraw(data.fadeTitle)
 	    animUpdate(data.fadeTitle)			
 		refresh()
 	end
@@ -5383,6 +5437,7 @@ function f_unlocksWarning()
 		end
 		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
 		if defaultScreen == false and resetStats == false then break end
+		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
 	end

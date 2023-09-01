@@ -209,24 +209,104 @@ function f_sysTime() --clock and date features
 end
 
 --;===========================================================
---; LOGOS SCREEN
+--; LOGOS
 --;===========================================================
 function f_mainStart()
 	gameTime = os.clock()
 	f_storyboard('data/screenpack/logo.def')
 	f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
-	--f_howtoplay()
-	f_mainTitle()
+	--playVideo(videoHowToPlay)
+	if data.attractMode == true then
+		f_mainAttract()
+	else
+		f_mainTitle()
+	end
 end
 
 --;===========================================================
---; HOW TO PLAY DEMO
+--; ATTRACT MODE
 --;===========================================================
-function f_howtoplay()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-	--playVideo(videoHowToPlay)
-	f_mainTitle()
+txt_coinTitle = createTextImg(jgFnt, 0, 0, '-- INSERT COIN --', 159, 190)
+function f_attractCredits()
+	txt_credits = createTextImg(font1, 0, -1, 'Credits: '..attractCoins..'', 181.5, 235)
+	textImgDraw(txt_credits)
+end
+
+function f_mainAttract()
+	cmdInput()
+	local demoSeconds = 21
+	local demoTimer = demoSeconds*gameTick --Set time for Title Screen
+	local t = 0
+	playBGM(bgmTitle)
+	while true do
+		--INSERT COIN
+		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
+		   sndPlay(sysSnd, 200, 0)
+		   attractCoins = attractCoins + 1
+		   demoTimer = demoSeconds*gameTick --Reset Timer
+		--START GAME MODE
+		elseif commandGetState(p1Cmd, 's') and attractCoins > 0 then
+		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		   sndPlay(sysSnd, 100, 1)
+		   demoTimer = demoSeconds*gameTick
+		   f_default()
+		   --data.p1TeamMenu = {mode = 0, chars = 1}
+		   --data.p2TeamMenu = {mode = 0, chars = 1}
+		   data.p2In = 1
+		   data.p2SelectMenu = false
+		   data.serviceScreen = true
+		   data.gameMode = 'arcade'
+		   data.rosterMode = 'arcade'
+		   textImgSetText(txt_mainSelect, 'ARCADE')
+		   script.select.f_selectAdvance()
+		--START DEMO SCREEN
+		elseif demoTimer == 0 then
+		   cmdInput()
+		   setGameType(1)
+		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
+		   runDemo()
+		   demoTimer = demoSeconds*gameTick
+		--EXIT
+		elseif esc() then
+			sndPlay(sysSnd, 100, 2)
+			demoTimer = demoSeconds*gameTick
+			f_exitMenu()
+		end
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		animSetWindow(cursorBox, 0, 180, 290, 13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		textImgDraw(txt_subTitle)
+		f_attractCredits()
+		txt_timer = createTextImg(font1, 0, 0, ''..demoTimer/gameTick..'', 302, 235)
+		if demoTimer > 0 then
+			demoTimer = demoTimer - 0.5 --Activate Title Screen Timer
+			textImgDraw(txt_timer)
+		else --when demoTimer <= 0
+			
+		end
+		f_sysTime()
+		if t%60 < 30 then
+			if attractCoins > 0 then
+				textImgDraw(txt_mainTitle)
+			else
+				textImgDraw(txt_coinTitle)
+			end
+		end
+		t = t >= 60 and 0 or t + 1
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
@@ -296,6 +376,9 @@ t_exitMenu = {
 	{id = textImgNew(), text = 'RESTART ENGINE'},
 	{id = textImgNew(), text = 'BACK TO MAIN MENU'},
 }
+if data.attractMode == true then
+	table.insert(t_exitMenu,1,{id = textImgNew(), text = 'OPTIONS'})
+end
 
 function f_exitMenu()
 	cmdInput()
@@ -338,12 +421,27 @@ function f_exitMenu()
 			end
 			if btnPalNo(p1Cmd) > 0 then
 				restartEngine = false
-				--EXIT
-				if exitMenu == 1 then
+				--OPTIONS FOR ATTRACT MODE
+				if exitMenu == 1 and data.attractMode == true then
+					sndPlay(sysSnd, 100, 1)
+					onlinegame = false
+					assert(loadfile('saved/data_sav.lua'))()
+					script.options.f_mainCfg()
+				--EXIT FOR ATTRACT MODE
+				elseif exitMenu == 2 and data.attractMode == true then
 					sndPlay(sysSnd, 100, 1)
 					exitScreen = true
-				--RESTART
-				elseif exitMenu == 2 then
+				--RESTART FOR ATTRACT MODE
+				elseif exitMenu == 3 and data.attractMode == true then
+					sndPlay(sysSnd, 100, 1)
+					restartEngine = true
+					exitScreen = true
+				--NORMAL EXIT
+				elseif exitMenu == 1 and data.attractMode == false then
+					sndPlay(sysSnd, 100, 1)
+					exitScreen = true
+				--NORMAL RESTART
+				elseif exitMenu == 2 and data.attractMode == false then
 					sndPlay(sysSnd, 100, 1)
 					restartEngine = true
 					exitScreen = true
@@ -5222,7 +5320,7 @@ function f_comingSoon()
         animUpdate(data.fadeTitle)
 		cmdInput()
         refresh()
-    end		
+    end
 end
 
 --;===========================================================

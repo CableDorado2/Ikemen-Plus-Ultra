@@ -30,6 +30,7 @@ data.stageType = "Classic"
 data.winscreen = "Classic"
 data.ftcontrol = -1
 data.debugMode = true
+data.attractMode = false
 data.challengerSong = "Fixed"
 data.charPresentation = "Sprite"
 data.training = "Fixed"

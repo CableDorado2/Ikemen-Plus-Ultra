@@ -240,6 +240,7 @@ end
 
 --Constants/Standards
 gameTick = 20
+attractCoins = 0
 
 --animDraw at specified coordinates
 function animPosDraw(a, x, y)
@@ -1521,7 +1522,11 @@ function runDemo()
     end
     refresh()
   end
-  f_mainTitle()
+  if data.attractMode == true then
+	f_mainAttract()
+  else
+	f_mainTitle()
+  end
 end
 
 function randomsingleVS()

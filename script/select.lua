@@ -1498,12 +1498,14 @@ function f_selectScreen()
 		end
 	end
 	--Character Select Timer
-	txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70)
-	if selectTimer > 0 then
-		selectTimer = selectTimer - 0.5 --Activate Character Select Timer
-		textImgDraw(txt_charTime)
-	else --when selectTimer <= 0
-		
+	if data.gameMode == 'arcade' or data.ftcontrol > 0 then
+		txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70)
+		if selectTimer > 0 then
+			selectTimer = selectTimer - 0.5 --Activate Character Select Timer
+			textImgDraw(txt_charTime)
+		else --when selectTimer <= 0
+			
+		end
 	end
 	--Player1		
 	if not p1TeamEnd then
@@ -3083,16 +3085,18 @@ function f_selectStage()
 			textImgDraw(txt_selectMusic)
 		end
 		--Stage Select Timer
-		if data.stageType == 'Classic' then
-			txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
-		elseif data.stageType == 'Modern' then
-			txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 234)
-		end
-		if stageTimer > 0 then
-			stageTimer = stageTimer - 0.5 --Activate Stage Select Timer
-			textImgDraw(txt_stageTime)
-		else --when stageTimer <= 0
-			
+		if data.gameMode == 'arcade' or data.ftcontrol > 0 then
+			if data.stageType == 'Classic' then
+				txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
+			elseif data.stageType == 'Modern' then
+				txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 234)
+			end
+			if stageTimer > 0 then
+				stageTimer = stageTimer - 0.5 --Activate Stage Select Timer
+				textImgDraw(txt_stageTime)
+			else --when stageTimer <= 0
+				
+			end
 		end
 		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or stageTimer == 0) and dontTouch == false then
 			stageSelect = false
@@ -4456,12 +4460,14 @@ function f_rematch()
 		end
 	end
 	--Rematch Option Timer
-	txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
-	if rematchTimer > 0 then
-		rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
-		textImgDraw(txt_rematchTime)
-	else --when rematchTimer <= 0
-		
+	if data.gameMode == 'arcade' or data.ftcontrol > 0 then
+		txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
+		if rematchTimer > 0 then
+			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
+			textImgDraw(txt_rematchTime)
+		else --when rematchTimer <= 0
+			
+		end
 	end
 	if commandGetState(p1Cmd, 'holdu') then
 		bufRematchd = 0
