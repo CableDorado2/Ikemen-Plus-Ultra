@@ -218,6 +218,7 @@ function f_mainStart()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--playVideo(videoHowToPlay)
 	if data.attractMode == true then
+		coinSystem = false
 		f_mainAttract()
 	else
 		f_mainTitle()

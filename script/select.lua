@@ -3947,7 +3947,9 @@ function f_selectWin()
 			f_defeats() --Store Player Losses
 			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
 		end
-		f_ftcontrol()
+		if onlinegame == true and data.gameMode == 'versus' then
+			f_ftcontrol()
+		end
 		local i = 0
 		cmdInput()
 		while true do
@@ -4024,25 +4026,30 @@ function f_selectWin()
 			i = i + 1
 			f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
 			textImgDraw(txt_winnername)
-			if not menuReady then
+			if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then --Show Rematch Menu for these modes
+				if not menuReady then
+					if i == 510 or btnPalNo(p1Cmd) > 0 then
+						cmdInput()
+						menuReady = true
+					end
+				elseif menuReady then
+					f_rematch()
+				end
+				if rematchEnd then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					commandBufReset(p1Cmd, 1)
+					break
+				end
+			else --Don't Show Rematch Menu
 				if i == 510 or btnPalNo(p1Cmd) > 0 then
 					cmdInput()
-					menuReady = true
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					if data.orderSelect == true and data.gameMode == 'arcade' then
+						playBGM(bgmSelect)
+					end
+					commandBufReset(p1Cmd, 1)
+					break
 				end
-			elseif menuReady then
-				if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then
-					f_rematch()
-				else --Don't Show Rematch Menu
-					rematchEnd = true
-				end
-			end
-			if rematchEnd then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.orderSelect == true and data.gameMode == 'arcade' then
-					playBGM(bgmSelect)
-				end
-				commandBufReset(p1Cmd, 1)
-				break
 			end
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
@@ -4069,31 +4076,38 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 		f_defeats() --Store Player Losses
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P2 wins
 	end
-	f_ftcontrol()
+	if onlinegame == true and data.gameMode == 'versus' then
+		f_ftcontrol()
+	end
 	local i = 0
 	cmdInput()
 	while true do
 		i = i + 1
 		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
-		if not menuReady then
+		if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then --Show Rematch Menu for these modes
+			if not menuReady then
+				if i == 510 or btnPalNo(p1Cmd) > 0 then
+					cmdInput()
+					menuReady = true
+				end
+			elseif menuReady then
+				f_rematch()
+			end
+			if rematchEnd then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				commandBufReset(p1Cmd, 1)
+				break
+			end
+		else --Don't Show Rematch Menu
 			if i == 510 or btnPalNo(p1Cmd) > 0 then
 				cmdInput()
-				menuReady = true
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				if data.orderSelect == true and data.gameMode == 'arcade' then
+					playBGM(bgmSelect)
+				end
+				commandBufReset(p1Cmd, 1)
+				break
 			end
-		elseif menuReady then
-			if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then
-				f_rematch()
-			else --Don't Show Rematch Menu
-				rematchEnd = true
-			end
-		end
-		if rematchEnd then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			if data.orderSelect == true and data.gameMode == 'arcade' then
-				playBGM(bgmSelect)
-			end
-			commandBufReset(p1Cmd, 1)
-			break
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -4115,7 +4129,9 @@ function f_selectWinOFF()
 		--f_loseCoins()
 		f_defeats() --Store Player Losses
 	end
-	f_ftcontrol()
+	if onlinegame == true and data.gameMode == 'versus' then
+		f_ftcontrol()
+	end
 	while true do
 		if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then
 			f_rematch()
@@ -4289,7 +4305,7 @@ end
 --; RANKED MATCH LOGIC
 --;===========================================================
 function f_ftcontrol()
-	if onlinegame == true and data.gameMode == 'versus' then
+	--if onlinegame == true and data.gameMode == 'versus' then
 		if p1Wins == data.ftcontrol then
 			--os.exit() --Fightcade System
 			battleOption = 3
@@ -4315,7 +4331,7 @@ function f_ftcontrol()
 				--refresh()
 			end
 		end
-	end
+	--end
 end
 
 --;===========================================================

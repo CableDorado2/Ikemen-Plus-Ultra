@@ -1,25 +1,5 @@
-table: 02CF26D0 {
-  [arcadestart] => table: 02CF26D0 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teamstart] => table: 02CF26D0 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [arcadeend] => table: 02CF26D0 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [survivalstart] => table: 02CF26D0 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [teamend] => table: 02CF26D0 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [teammaxmatches] => table: 02CF26D0 {
+table: 0C9307C0 {
+  [teammaxmatches] => table: 0C9307C0 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -31,11 +11,11 @@ table: 02CF26D0 {
                         [9] => 0
                         [10] => 0
                       }
-  [survivalend] => table: 02CF26D0 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [arcademaxmatches] => table: 02CF26D0 {
+  [arcadeend] => table: 0C9307C0 {
+                   [offset] => 2
+                   [wins] => 4
+                 }
+  [arcademaxmatches] => table: 0C9307C0 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -47,4 +27,24 @@ table: 02CF26D0 {
                           [9] => 0
                           [10] => 0
                         }
+  [arcadestart] => table: 0C9307C0 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [teamend] => table: 0C9307C0 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [survivalstart] => table: 0C9307C0 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [survivalend] => table: 0C9307C0 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [teamstart] => table: 0C9307C0 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
 }
