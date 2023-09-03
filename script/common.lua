@@ -1457,49 +1457,6 @@ function init()
   saikyou = rank == tuyoiBorder+juuni-1
 end
 
-function initSingle()
-  setCom(1, 0)
-  setAutoLevel(true)
-  setMatchNo(1)
-  selectStage(0)
-  rakuBenry()
-  winner = 0
-  wins = 0
-  rosterTxt()
-  nextChar = 1
-  saikyou = rank == tuyoiBorder+juuni-1
-end
-
-function initMulti()
-  setCom(1, 0)
-  setCom(2, 0)
-  setAutoLevel(true)
-  setMatchNo(1)
-  selectStage(0)
-  rakuBenry()
-  winner = 0
-  wins = 0
-  rosterTxt()
-  nextChar = 1
-  saikyou = rank == tuyoiBorder+juuni-1
-end
-
-function initCoop()
-  --setHomeTeam(1)
-  setCom(1, 0)
-  setCom(2, 2)
-  --setCom(3, 0)
-  setAutoLevel(true)
-  setMatchNo(1)
-  selectStage(0)
-  rakuBenry()
-  winner = 0
-  wins = 0
-  rosterTxt()
-  nextChar = 1
-  saikyou = rank == tuyoiBorder+juuni-1
-end
-
 function runDemo()
   local t = 0
   init()
@@ -1533,6 +1490,19 @@ function runDemo()
   end
 end
 
+function initSingle()
+  setCom(1, 0)
+  setAutoLevel(true)
+  setMatchNo(1)
+  selectStage(0)
+  rakuBenry()
+  winner = 0
+  wins = 0
+  rosterTxt()
+  nextChar = 1
+  saikyou = rank == tuyoiBorder+juuni-1
+end
+
 function randomsingleVS()
   f_bgmrandomVS()
   initSingle()
@@ -1552,11 +1522,25 @@ function randomsingleVS()
     end
     setMatchNo(wins)
     if winner <= 0 or wins >= 20 or wins == oldwins then
-      init()
+      initSingle()
     end
 	refresh()
   end
   f_menuMusic()
+end
+
+function initMulti()
+  setCom(1, 0)
+  setCom(2, 0)
+  setAutoLevel(true)
+  setMatchNo(1)
+  selectStage(0)
+  rakuBenry()
+  winner = 0
+  wins = 0
+  rosterTxt()
+  nextChar = 1
+  saikyou = rank == tuyoiBorder+juuni-1
 end
 
 function randommultiVS()
@@ -1578,11 +1562,27 @@ function randommultiVS()
     end
     setMatchNo(wins)
     if winner <= 0 or wins >= 20 or wins == oldwins then
-      init()
+      initMulti()
     end
     refresh()
   end
   f_menuMusic()
+end
+
+function initCoop()
+  --setHomeTeam(1)
+  setCom(1, 0)
+  setCom(2, 2)
+  --setCom(3, 0)
+  setAutoLevel(true)
+  setMatchNo(1)
+  selectStage(0)
+  rakuBenry()
+  winner = 0
+  wins = 0
+  rosterTxt()
+  nextChar = 1
+  saikyou = rank == tuyoiBorder+juuni-1
 end
 
 function randomcoopVS()
@@ -1604,7 +1604,48 @@ function randomcoopVS()
     end
     setMatchNo(wins)
     if winner <= 0 or wins >= 20 or wins == oldwins then
-      init()
+      initCoop()
+    end
+    refresh()
+  end
+  f_menuMusic()
+end
+
+function initCpu()
+  for i = 1, 8 do
+    setCom(i, 8)
+  end
+  setAutoLevel(true)
+  setMatchNo(1)
+  selectStage(0)
+  rakuBenry()
+  winner = 0
+  wins = 0
+  rosterTxt()
+  nextChar = 1
+  saikyou = rank == tuyoiBorder+juuni-1
+end
+
+function randomcpuVS()
+  f_bgmrandomVS()
+  initCpu()
+  refresh()
+  while not esc() do
+    randSel(1, winner)
+    randSel(2, winner)
+    loadStart()
+    local oldwinner = winner
+    winner = game()
+    if winner < 0 or esc() then break end
+    oldwins = wins
+    wins = wins + 1
+    if winner ~= oldwinner then
+      wins = 1
+      setHomeTeam(winner == 1 and 2 or 1)
+    end
+    setMatchNo(wins)
+    if winner <= 0 or wins >= 20 or wins == oldwins then
+      initCpu()
     end
     refresh()
   end

@@ -617,11 +617,11 @@ t_mainMenu = {
 	{id = textImgNew(), text = 'VERSUS'},
 	{id = textImgNew(), text = 'NETPLAY'},
 	{id = textImgNew(), text = 'PRACTICE'},
-	{id = textImgNew(), text = 'CHALLENGES'},	
-	{id = textImgNew(), text = 'WATCH'},
+	{id = textImgNew(), text = 'CHALLENGES'},
 	{id = textImgNew(), text = 'EXTRAS'},
+	{id = textImgNew(), text = 'WATCH'},
 	{id = textImgNew(), text = 'OPTIONS'},
-	{id = textImgNew(), text = 'EXIT'},	
+	{id = textImgNew(), text = 'EXIT'},
 	{id = textImgNew(), text = 'CHECK UPDATES'},
 }
 
@@ -720,12 +720,8 @@ function f_mainMenu()
 			elseif mainMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_challengeMenu()
-			--WATCH
-			elseif mainMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				f_watchMenu()
 			--EXTRAS
-			elseif mainMenu == 7 then
+			elseif mainMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				assert(loadfile('saved/stats_sav.lua'))()
 				if data.arcadeUnlocks == true then
@@ -733,6 +729,10 @@ function f_mainMenu()
 				else
 					f_secret()
 				end
+			--WATCH
+			elseif mainMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				f_watchMenu()
 			--OPTIONS
 			elseif mainMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
@@ -805,7 +805,8 @@ end
 t_arcadeMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_arcadeMenu()
@@ -866,7 +867,7 @@ function f_arcadeMenu()
 				data.serviceScreen = true
 				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
 				data.rosterMode = 'arcade' --to record statistics
-				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen				
+				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
 				script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
 			--CO-OP MODE
 			elseif arcadeMenu == 2 then
@@ -878,7 +879,19 @@ function f_arcadeMenu()
 				data.serviceScreen = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
-				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')				
+				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
+				script.select.f_selectAdvance()
+			--CPU MODE
+			elseif arcadeMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p2In = 1
+				data.p2SelectMenu = false
+				data.aiFight = true
+				data.serviceScreen = true
+				data.gameMode = 'arcade'
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH ARCADE')
 				script.select.f_selectAdvance()
 			--BACK
 			else
@@ -943,8 +956,9 @@ t_vsMenu = {
 	{id = textImgNew(), text = 'QUICK MATCH'},
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
-	{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_vsMenu()
@@ -1009,7 +1023,7 @@ function f_vsMenu()
 				data.p2Faces = true
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'FREE VERSUS')				
+				textImgSetText(txt_mainSelect, 'FREE VERSUS')
 				script.select.f_selectSimple()
 			--P1 VS P2
 			elseif vsMenu == 3 then
@@ -1021,7 +1035,7 @@ function f_vsMenu()
 				data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'VERSUS MODE')				
+				textImgSetText(txt_mainSelect, 'VERSUS MODE')
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 			--P1 & P2 VS CPU
 			elseif vsMenu == 4 then
@@ -1033,8 +1047,20 @@ function f_vsMenu()
 				--data.stageMenu = true
 				--data.coop = true
 				--data.rosterMode = 'versus'
-				--textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')				
-				--script.select.f_selectSimple()	
+				--textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
+				--script.select.f_selectSimple()
+			--CPU MATCH
+			elseif vsMenu == 5 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p2In = 1
+				data.aiFight = true --AI = data.difficulty for all characters enabled
+				data.stageMenu = true
+				data.p2Faces = true
+				data.gameMode = 'versus'
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH VERSUS')
+				script.select.f_selectSimple()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -1098,7 +1124,8 @@ t_randomMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_randomMenu()
@@ -1153,19 +1180,20 @@ function f_randomMenu()
 			--P1 VS CPU
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 1)
 				randomsingleVS()
 			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 1)
 				randommultiVS()
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				--sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 				--randomcoopVS()
+			--CPU VS CPU
+			elseif randomMenu == 4 then
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				randomcpuVS()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -1231,7 +1259,7 @@ t_practiceMenu = {
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
 	{id = textImgNew(), text = 'BACK'},	
 }
-	
+
 function f_practiceMenu()
 	cmdInput()
 	local cursorPosY = 0
@@ -1336,7 +1364,7 @@ function f_practiceMenu()
 				--data.gameMode = 'training'
 				--data.rosterMode = 'training'
 				--setGameType(2)
-				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')				
+				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')
 				--script.select.f_selectSimple()			
 			--BACK
 			else
@@ -1403,8 +1431,8 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'BOSS FIGHT'},
 	{id = textImgNew(), text = 'BONUS GAMES'},
 	{id = textImgNew(), text = 'TIME ATTACK'},
-	{id = textImgNew(), text = 'SUDDEN DEATH'},		
-	{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'SUDDEN DEATH'},
+	{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_challengeMenu()
@@ -1479,7 +1507,7 @@ function f_challengeMenu()
 			--SUDDEN DEATH
 			elseif challengeMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
-				f_suddenMenu()								
+				f_suddenMenu()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -1541,7 +1569,8 @@ end
 --;===========================================================
 t_survivalMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1602,7 +1631,7 @@ function f_survivalMenu()
 				data.p2SelectMenu = false
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
-				textImgSetText(txt_mainSelect, 'SURVIVAL')				
+				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
 			elseif survivalMenu == 2 then
@@ -1613,8 +1642,19 @@ function f_survivalMenu()
 				data.coop = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
-				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')				
-				script.select.f_selectAdvance()			
+				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
+				script.select.f_selectAdvance()
+			--CPU MODE
+			elseif survivalMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p2In = 1
+				data.p2SelectMenu = false
+				data.aiFight = true
+				data.gameMode = 'survival'
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH SURVIVAL')
+				script.select.f_selectAdvance()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -1917,6 +1957,7 @@ end
 t_bossrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -1993,7 +2034,20 @@ function f_bossrushMenu()
 					data.rosterMode = 'bossrush'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
-				end			
+				end
+			--CPU MODE
+			elseif bossrushMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				if #t_bossChars ~= 0 then
+					data.p2In = 1
+					data.p2SelectMenu = false
+					data.aiFight = true
+					data.gameMode = 'bossrush'
+					data.rosterMode = 'cpu'
+					textImgSetText(txt_mainSelect, 'WATCH BOSS RUSH')
+					script.select.f_selectAdvance()
+				end
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2438,7 +2492,8 @@ end
 --;===========================================================
 t_timeMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2515,7 +2570,20 @@ function f_timeMenu()
 				data.gameMode = 'allroster'
 				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
-				script.select.f_selectAdvance()					
+				script.select.f_selectAdvance()
+			--CPU MODE
+			elseif timeMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(3600)
+				setLifeMul(2)
+				data.p2In = 1
+				data.p2SelectMenu = false
+				data.aiFight = true
+				data.gameMode = 'allroster'
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH TIME ATTACK')
+				script.select.f_selectAdvance()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2577,7 +2645,8 @@ end
 --;===========================================================
 t_suddenMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2636,7 +2705,7 @@ function f_suddenMenu()
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(1000)
 				setLifeMul(0)
-				data.p2In = 1				
+				data.p2In = 1
 				data.p2SelectMenu = false
 				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
@@ -2654,7 +2723,19 @@ function f_suddenMenu()
 				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
-				script.select.f_selectAdvance()					
+				script.select.f_selectAdvance()
+			--CPU MODE
+			elseif suddenMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setLifeMul(0)
+				data.p2In = 1
+				data.p2SelectMenu = false
+				data.aiFight = true
+				data.gameMode = 'allroster'
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH SUDDEN DEATH')
+				script.select.f_selectAdvance()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2712,11 +2793,157 @@ function f_suddenMenu()
 end
 
 --;===========================================================
+--; EXTRAS MENU
+--;===========================================================
+t_extrasMenu = {
+	{id = textImgNew(), text = 'ENDLESS'},
+	{id = textImgNew(), text = 'EVENTS'},
+	{id = textImgNew(), text = 'TOWER'},
+	{id = textImgNew(), text = 'LEGION'},
+	{id = textImgNew(), text = 'TOURNEY'},
+	{id = textImgNew(), text = 'ADVENTURE'},
+	{id = textImgNew(), text = 'BACK'},
+}	
+	
+function f_extrasMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local extrasMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			extrasMenu = extrasMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			extrasMenu = extrasMenu + 1
+		end
+		if extrasMenu < 1 then
+			extrasMenu = #t_extrasMenu
+			if #t_extrasMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_extrasMenu-1
+			end
+		elseif extrasMenu > #t_extrasMenu then
+			extrasMenu = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (extrasMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (extrasMenu - 1) * 13
+		end
+		if #t_extrasMenu <= 5 then
+			maxExtrasMenu = #t_extrasMenu
+		elseif extrasMenu - cursorPosY > 0 then
+			maxExtrasMenu = extrasMenu + 5 - cursorPosY
+		else
+			maxExtrasMenu = 5
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--ENDLESS MODE
+			if extrasMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_allcharsMenu()
+			--EVENTS MODE
+			elseif extrasMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				script.events.f_eventMenu()
+			--TOWER MODE
+			elseif extrasMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				--script.select.f_selectTower()
+				f_comingSoon()
+			--LEGION MODE
+			elseif extrasMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				--script.select.f_selectLegion()
+				f_comingSoon()
+			--TOURNEY MODE
+			elseif extrasMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				f_tourneyMenu()
+			--ADVENTURE MODE
+			elseif extrasMenu == 6 then
+				sndPlay(sysSnd, 100, 1)
+				--script.adventure.f_mainAdventure()
+				f_comingSoon()
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_extrasMenu do
+			if i == extrasMenu then
+				bank = 2
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, 'EXTRAS UNLOCKED')
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxExtrasMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; ENDLESS MENU
 --;===========================================================
 t_allcharsMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -2777,7 +3004,7 @@ function f_allcharsMenu()
 				data.p2SelectMenu = false
 				data.gameMode = 'endless'
 				data.rosterMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ENDLESS MODE')			
+				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
 			elseif allcharsMenu == 2 then
@@ -2788,8 +3015,19 @@ function f_allcharsMenu()
 				data.coop = true
 				data.gameMode = 'endless'
 				data.rosterMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')			
-				script.select.f_selectAdvance()			
+				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
+				script.select.f_selectAdvance()
+			--CPU MODE
+			elseif allcharsMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p2In = 1
+				data.p2SelectMenu = false
+				data.aiFight = true
+				data.gameMode = 'endless'
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH ENDLESS')
+				script.select.f_selectAdvance()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2826,368 +3064,6 @@ function f_allcharsMenu()
 			animUpdate(arrowsU)
 		end
 		if #t_allcharsMenu > 6 and maxAllCharsMenu < #t_allcharsMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
-		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; WATCH MENU
---;===========================================================
-t_watchMenu = {
-	{id = textImgNew(), text = 'ONLINE REPLAYS'},
-	{id = textImgNew(), text = 'LEADERBOARDS'},
-	{id = textImgNew(), text = 'STAGE VIEWER'},
-	{id = textImgNew(), text = 'SCREENSHOTS'},
-	{id = textImgNew(), text = 'STATISTICS'},
-	{id = textImgNew(), text = 'CPU MATCH'},
-	{id = textImgNew(), text = 'CREDITS'},
-	{id = textImgNew(), text = 'BACK'},
-}	
-	
-function f_watchMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local watchMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			watchMenu = watchMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			watchMenu = watchMenu + 1
-		end
-		if watchMenu < 1 then
-			watchMenu = #t_watchMenu
-			if #t_watchMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_watchMenu-1
-			end
-		elseif watchMenu > #t_watchMenu then
-			watchMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (watchMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (watchMenu - 1) * 13
-		end
-		if #t_watchMenu <= 5 then
-			maxWatchMenu = #t_watchMenu
-		elseif watchMenu - cursorPosY > 0 then
-			maxWatchMenu = watchMenu + 5 - cursorPosY
-		else
-			maxWatchMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--ONLINE REPLAYS
-			if watchMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-			--Load resolution Data from config.ssz
-				local file = io.open("ssz/config.ssz","r")
-				s_configSSZ = file:read("*all")
-				file:close()
-				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
-				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
-				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then
-					f_replayWarning() --To watch an online replay you need to set a 16:9 Resolution to avoid desync
-				else
-					f_mainReplay()
-				end
-			--LEADERBOARDS
-			elseif watchMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
-			--STAGE VIEWER
-			elseif watchMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1) --round time disabled
-				data.p2In = 2
-				data.stageMenu = true
-				data.versusScreen = false --versus screen disabled
-				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
-				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
-				data.gameMode = 'stage viewer'
-				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
-				script.select.f_selectSimple()
-			--SCREENSHOTS
-			elseif watchMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				sszOpen("saved/screenshots", "") --added via script.ssz
-			--STATISTICS
-			elseif watchMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				--assert(loadfile('saved/stats_sav.lua'))()
-				script.select.f_modeplayTime()
-				script.statistics.f_statsMenu()
-			--CPU MATCH
-			elseif watchMenu == 6 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 1
-				data.aiFight = true --AI = data.difficulty for all characters enabled
-				data.stageMenu = true
-				data.p2Faces = true
-				data.gameMode = 'versus'
-				data.rosterMode = 'cpu'
-				textImgSetText(txt_mainSelect, 'WATCH MODE')			
-				script.select.f_selectSimple()
-			--CREDITS
-			elseif watchMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
-				cmdInput()
-				local cursorPosY = 0
-				local moveTxt = 0
-				local playCredits = 1
-				f_storyboard('data/screenpack/credits.def')
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				f_menuMusic()
-				while true do
-					if esc() then
-						sndPlay(sysSnd, 100, 2)
-						break
-					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
-						f_default()
-						sndPlay(sysSnd, 100, 2)
-						break
-					end
-				end
-			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_watchMenu do
-			if i == watchMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 142+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'WATCH CONTENT')
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxWatchMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
-		end
-		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
-		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; EXTRAS MENU
---;===========================================================
-t_extrasMenu = {
-	{id = textImgNew(), text = 'EVENTS'},
-	{id = textImgNew(), text = 'ENDLESS'},
-	{id = textImgNew(), text = 'GALLERY'},
-	{id = textImgNew(), text = 'SOUND TEST'},
-	{id = textImgNew(), text = 'STORYBOARDS'},
-	{id = textImgNew(), text = 'CUTSCENES'},
-	{id = textImgNew(), text = 'TOWER'},
-	{id = textImgNew(), text = 'LEGION'},
-	{id = textImgNew(), text = 'TOURNEY'},
-	{id = textImgNew(), text = 'ADVENTURE'},
-	{id = textImgNew(), text = 'BACK'},	
-}	
-	
-function f_extrasMenu()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local extrasMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			extrasMenu = extrasMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			extrasMenu = extrasMenu + 1
-		end
-		if extrasMenu < 1 then
-			extrasMenu = #t_extrasMenu
-			if #t_extrasMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_extrasMenu-1
-			end
-		elseif extrasMenu > #t_extrasMenu then
-			extrasMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (extrasMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (extrasMenu - 1) * 13
-		end
-		if #t_extrasMenu <= 5 then
-			maxExtrasMenu = #t_extrasMenu
-		elseif extrasMenu - cursorPosY > 0 then
-			maxExtrasMenu = extrasMenu + 5 - cursorPosY
-		else
-			maxExtrasMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--EVENTS MODE
-			if extrasMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				script.events.f_eventMenu()
-			--ENDLESS MODE
-			elseif extrasMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_allcharsMenu()
-			--GALLERY
-			elseif extrasMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_galleryMenu()
-			--SOUND TEST
-			elseif extrasMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_songMenu()
-			--STORYBOARDS
-			elseif extrasMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				f_storyboardMenu()
-			--CUTSCENES
-			elseif extrasMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				f_videoMenu()
-			--TOWER MODE
-			elseif extrasMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
-				--script.select.f_selectTower()
-				f_comingSoon()
-			--LEGION MODE
-			elseif extrasMenu == 8 then
-				sndPlay(sysSnd, 100, 1)
-				--script.select.f_selectLegion()
-				f_comingSoon()
-			--TOURNEY MODE
-			elseif extrasMenu == 9 then
-				sndPlay(sysSnd, 100, 1)
-				f_tourneyMenu()
-			--ADVENTURE MODE
-			elseif extrasMenu == 10 then
-				sndPlay(sysSnd, 100, 1)
-				--script.adventure.f_mainAdventure()
-				f_comingSoon()
-			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_extrasMenu do
-			if i == extrasMenu then
-				bank = 2
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 142+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'EXTRAS UNLOCKED')
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxExtrasMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
-		end
-		if #t_extrasMenu > 6 and maxExtrasMenu < #t_extrasMenu then
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
@@ -3333,6 +3209,333 @@ function f_tourneyMenu()
 			animUpdate(arrowsU)
 		end
 		if #t_tourneyMenu > 6 and maxTourneyMenu < #t_tourneyMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; WATCH MENU
+--;===========================================================
+t_watchMenu = {
+	{id = textImgNew(), text = 'REPLAYS'},
+	{id = textImgNew(), text = 'STAGE VIEWER'},
+	{id = textImgNew(), text = 'LEADERBOARDS'},
+	{id = textImgNew(), text = 'ACHIEVEMENTS'},
+	{id = textImgNew(), text = 'STATISTICS'},
+	{id = textImgNew(), text = 'STORYBOARDS'},
+	{id = textImgNew(), text = 'CUTSCENES'},
+	{id = textImgNew(), text = 'SOUND TEST'},
+	{id = textImgNew(), text = 'SCREENSHOTS'},
+	{id = textImgNew(), text = 'GALLERY'},
+	{id = textImgNew(), text = 'CREDITS'},
+	{id = textImgNew(), text = 'BACK'},
+}	
+	
+function f_watchMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local watchMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			watchMenu = watchMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			watchMenu = watchMenu + 1
+		end
+		if watchMenu < 1 then
+			watchMenu = #t_watchMenu
+			if #t_watchMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_watchMenu-1
+			end
+		elseif watchMenu > #t_watchMenu then
+			watchMenu = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (watchMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (watchMenu - 1) * 13
+		end
+		if #t_watchMenu <= 5 then
+			maxWatchMenu = #t_watchMenu
+		elseif watchMenu - cursorPosY > 0 then
+			maxWatchMenu = watchMenu + 5 - cursorPosY
+		else
+			maxWatchMenu = 5
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--ONLINE REPLAYS
+			if watchMenu == 1 then
+				sndPlay(sysSnd, 100, 1)
+				f_replayMenu()
+			--STAGE VIEWER
+			elseif watchMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(-1) --round time disabled
+				data.p2In = 2
+				data.stageMenu = true
+				data.versusScreen = false --versus screen disabled
+				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
+				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
+				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
+				data.gameMode = 'stage viewer'
+				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
+				script.select.f_selectSimple()
+			--LEADERBOARDS
+			elseif watchMenu == 3 then
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+			--ACHIEVEMENTS
+			elseif watchMenu == 4 then
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+			--STATISTICS
+			elseif watchMenu == 5 then
+				sndPlay(sysSnd, 100, 1)
+				--assert(loadfile('saved/stats_sav.lua'))()
+				script.select.f_modeplayTime()
+				script.statistics.f_statsMenu()
+			--STORYBOARDS
+			elseif watchMenu == 6 then
+				sndPlay(sysSnd, 100, 1)
+				f_storyboardMenu()
+			--CUTSCENES
+			elseif watchMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				f_videoMenu()
+			--SOUND TEST
+			elseif watchMenu == 8 then
+				sndPlay(sysSnd, 100, 1)
+				f_songMenu()
+			--SCREENSHOTS
+			elseif watchMenu == 9 then
+				sndPlay(sysSnd, 100, 1)
+				sszOpen("saved/screenshots", "") --added via script.ssz
+			--GALLERY
+			elseif watchMenu == 10 then
+				sndPlay(sysSnd, 100, 1)
+				f_galleryMenu()
+			--CREDITS
+			elseif watchMenu == 11 then
+				sndPlay(sysSnd, 100, 1)
+				cmdInput()
+				f_storyboard('data/screenpack/credits.def')
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				f_menuMusic()
+				while true do
+					if esc() then
+						sndPlay(sysSnd, 100, 2)
+						break
+					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+						f_default()
+						sndPlay(sysSnd, 100, 2)
+						break
+					end
+				end
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_watchMenu do
+			if i == watchMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, 'WATCH CONTENT')
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxWatchMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_watchMenu > 6 and maxWatchMenu < #t_watchMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; REPLAY MENU
+--;===========================================================
+t_replayMenu = {
+	{id = textImgNew(), text = 'ONLINE REPLAYS'},
+	{id = textImgNew(), text = 'LOCAL REPLAYS'},
+	{id = textImgNew(), text = 'BACK'},
+}
+
+function f_replayMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local replayMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			replayMenu = replayMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			replayMenu = replayMenu + 1
+		end
+		if replayMenu < 1 then
+			replayMenu = #t_replayMenu
+			if #t_replayMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_replayMenu-1
+			end
+		elseif replayMenu > #t_replayMenu then
+			replayMenu = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (replayMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (replayMenu - 1) * 13
+		end
+		if #t_replayMenu <= 5 then
+			maxreplayMenu = #t_replayMenu
+		elseif replayMenu - cursorPosY > 0 then
+			maxreplayMenu = replayMenu + 5 - cursorPosY
+		else
+			maxreplayMenu = 5
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			--ONLINE REPLAYS
+			if replayMenu == 1 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+			--Load resolution Data from config.ssz
+				local file = io.open("ssz/config.ssz","r")
+				s_configSSZ = file:read("*all")
+				file:close()
+				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
+				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
+				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then
+					f_replayWarning() --To watch an online replay you need to set a 16:9 Resolution to avoid desync
+				else
+					f_mainReplay()
+				end
+			--LOCAL REPLAYS
+			elseif replayMenu == 2 then
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+			--BACK
+			else
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_replayMenu do
+			if i == replayMenu then
+				bank = 2
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, 'REPLAY MODE')
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxreplayMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_replayMenu > 6 and maxreplayMenu < #t_replayMenu then
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
@@ -4082,7 +4285,7 @@ animSetPos(replayMenuBG2, -40, 60)
 animUpdate(replayMenuBG2)
 
 --;===========================================================
---; REPLAY MENU
+--; ONLINE REPLAYS MENU
 --;===========================================================
 t_replayOption = {
 	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'RETURN'},
@@ -4405,7 +4608,7 @@ end
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE GAME]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A GAME]'},
-	{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'BACK'},
 }
 
 function f_mainNetplay()
@@ -4555,9 +4758,9 @@ function f_mainNetplay()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		exitNetPlay()
-    	exitReplay()		
+    	exitReplay()
 		cmdInput()
-		refresh()		
+		refresh()
 	end
 end
 
@@ -4743,14 +4946,14 @@ end
 --;===========================================================
 t_mainHost = {
 	{id = textImgNew(), text = 'VERSUS PLAYER 2'},
-	{id = textImgNew(), text = 'PRACTICE'},	
+	{id = textImgNew(), text = 'PRACTICE'},
 	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'SURVIVAL'},
 	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
 	{id = textImgNew(), text = 'BONUS RUSH'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
-	{id = textImgNew(), text = 'TIME ATTACK'},	
+	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'ONLINE SETTINGS'},
 	{id = textImgNew(), text = 'LEAVE ONLINE'},
 }
@@ -4991,16 +5194,16 @@ end
 --;===========================================================
 t_mainJoin = {
 	{id = textImgNew(), text = 'VERSUS PLAYER 1'},
-	{id = textImgNew(), text = 'PRACTICE'},	
+	{id = textImgNew(), text = 'PRACTICE'},
 	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'SURVIVAL'},
 	{id = textImgNew(), text = 'ENDLESS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
 	{id = textImgNew(), text = 'BONUS RUSH'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
-	{id = textImgNew(), text = 'TIME ATTACK'},	
+	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'ONLINE SETTINGS'},
-	{id = textImgNew(), text = 'LEAVE ONLINE'},	
+	{id = textImgNew(), text = 'LEAVE ONLINE'},
 }
 
 function f_mainJoin()
@@ -5228,7 +5431,7 @@ function f_mainJoin()
 			bufd = 0
 		end
 		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)		
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end

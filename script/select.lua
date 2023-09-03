@@ -68,6 +68,8 @@ p1SelEnd = false
 p1BG = false
 p1SelBack = false
 p1TeamBack = true
+p1palSelect = 1
+p1movePal = 1
 end
 
 function f_p2sideReset()
@@ -80,13 +82,15 @@ p2SelEnd = false
 p2BG = false
 p2SelBack = false
 p2TeamBack = true
+p2palSelect = 1
+p2movePal = 1
 end
 
 function f_stageSelectReset()
 stageSelect = true
 songSelect = false
 stageAnnouncer = false
-announcerTimer = 0 --Restart Stage Announcer Timer
+announcerTimer = 0
 dontTouch = false
 if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --Restore Game Mode Name
 end
@@ -1498,7 +1502,7 @@ function f_selectScreen()
 		end
 	end
 	--Character Select Timer
-	if data.gameMode == 'arcade' or data.ftcontrol > 0 then
+	if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
 		txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70)
 		if selectTimer > 0 then
 			selectTimer = selectTimer - 0.5 --Activate Character Select Timer
@@ -2250,8 +2254,6 @@ animSetScale(arrowsPR2, 0.5, 0.5)
 --; PLAYER 1 CHARACTER SELECT
 --;===========================================================
 txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0) --Text color when scrolling through the roster
-p1palSelect = 1
-p1movePal = 1
 
 function f_p1palList() --Palette Menu
 	cmdInput()
@@ -2297,6 +2299,8 @@ function f_p1palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p1palEnd = true
 		cmdInput()
+	elseif esc() then
+		p1palEnd = true
 	end
 end
 
@@ -2508,7 +2512,6 @@ function f_p1SelectMenu()
 						updateAnim = false
 					end
 				end
-				--p1palSelect = 1 --Load Default Palette (In case that you do not open the palette menu with Start Button for data.palType = Modern)
 				if data.palType == 'Classic' then
 					p1palSelect = btnPalNo(p1Cmd)
 				elseif data.palType == 'Modern' then
@@ -2542,8 +2545,6 @@ end
 --; PLAYER 2 CHARACTER SELECT
 --;===========================================================
 txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0)
-p2palSelect = 1
-p2movePal = 1
 
 function f_p2palList() --Palette Menu
 	cmdInput()
@@ -2589,6 +2590,8 @@ function f_p2palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p2palEnd = true
 		cmdInput()
+	elseif esc() then
+		p2palEnd = true
 	end
 end
 
@@ -2802,7 +2805,6 @@ function f_p2SelectMenu()
                     sndPlay(announcerSnd, 2, 0)
 				end
 				local updateAnim = true
-				--p2palSelect = 1 --Load Default Palette (In case that you do not open the palette menu with Start Button in data.palType = Modern)
 				if data.palType == 'Classic' then
 					p2palSelect = btnPalNo(p2Cmd)
 				elseif data.palType == 'Modern' then
@@ -3085,7 +3087,7 @@ function f_selectStage()
 			textImgDraw(txt_selectMusic)
 		end
 		--Stage Select Timer
-		if data.gameMode == 'arcade' or data.ftcontrol > 0 then
+		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
 			if data.stageType == 'Classic' then
 				txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
 			elseif data.stageType == 'Modern' then
@@ -4476,7 +4478,7 @@ function f_rematch()
 		end
 	end
 	--Rematch Option Timer
-	if data.gameMode == 'arcade' or data.ftcontrol > 0 then
+	if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
 		txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
 		if rematchTimer > 0 then
 			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer

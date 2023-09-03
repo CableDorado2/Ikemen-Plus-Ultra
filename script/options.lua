@@ -827,7 +827,7 @@ function f_defaultMenu()
 		--YES
 		if defaultMenu == 1 then
 			if defaultAll == true then
-				sndPlay(sysSnd, 100, 0)
+				sndPlay(sysSnd, 100, 1)
 				f_onlineDefault() --Set Default Options for Online/Offline Game
 				f_offlineDefault() --Set ONLY Default Options for Offline Game
 				modified = 1

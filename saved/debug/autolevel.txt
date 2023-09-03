@@ -1,9 +1,7 @@
-﻿chars/kung fu man/kung fu man.def, 0 0 0 0 0 0 0 0 0 0 0 0
+﻿chars/kung fu man/kung fu man.def, 0 0 0 0 0 -1 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kung fu girl/kung fu girl.def, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+chars/strength training/strength training.def, 0 0 0 0 0 0 -1 0 0 0 0 0
+chars/kung fu girl/kung fu girl.def, 0 0 -1 0 0 0 0 0 0 -1 0 0
+chars/kung fu man/master/master kung fu man.def, 0 0 0 0 0 1 0 0 0 0 0 0
+chars/kung fu girl/master/master kung fu girl.def, 2 0 0 0 0 0 0 0 0 0 0 0
+chars/catwalk/catwalk.def, -1 0 0 0 0 0 0 0 0 0 0 0
