@@ -287,6 +287,11 @@ function f_saveCfg()
 		['data.menuSong'] = data.menuSong,
 		['data.clock'] = data.clock,
 		['data.date'] = data.date,
+		['data.selectTime'] = data.selectTime,
+		['data.stageTime'] = data.stageTime,
+		['data.orderTime'] = data.orderTime,
+		['data.rematchTime'] = data.rematchTime,
+		['data.serviceTime'] = data.serviceTime,
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
@@ -377,6 +382,11 @@ function f_netsaveCfg()
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
+		--['data.selectTime'] = data.selectTime,
+		--['data.stageTime'] = data.stageTime,
+		--['data.orderTime'] = data.orderTime,
+		--['data.rematchTime'] = data.rematchTime,
+		--['data.serviceTime'] = data.serviceTime,
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
@@ -417,6 +427,7 @@ end
 function f_onlineDefault()
 	f_gameDefault()
 	f_systemDefault()
+	f_timeDefault()
 	f_teamDefault()
 	f_zoomDefault()
 	f_engineDefault()
@@ -487,6 +498,15 @@ function f_systemDefault()
 	data.winscreen = 'Classic'
 	data.charPresentation = 'Sprite'
 	data.sffConversion = true
+end
+
+--Default Timers Values
+function f_timeDefault()
+	data.selectTime = 31
+	data.stageTime = 21
+	data.orderTime = 16
+	data.rematchTime = 16
+	data.serviceTime = 16
 end
 
 --Default Video Values
@@ -875,6 +895,9 @@ function f_defaultMenu()
 			elseif defaultSystem == true then
 				f_systemDefault()
 				modified = 1
+			elseif defaultTime == true then
+				f_timeDefault()
+				modified = 1
 			elseif defaultAudio == true then
 				f_audioDefault()
 				modified = 1
@@ -911,6 +934,7 @@ function f_defaultReset()
 	defaultAll = false
 	defaultGame = false
 	defaultSystem = false
+	defaultTime = false
 	defaultTeam = false
 	defaultZoom = false
 	defaultVideo = false
@@ -2456,6 +2480,7 @@ t_UICfg = {
 	{id = '', text = 'Palette Select Type',    	 varID = textImgNew(), varText = data.palType},
 	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
 	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
+	{id = '', text = 'Timers Settings',  	  	 varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Settings',  	  	 varID = textImgNew(), varText = ''},
 	{id = '', text = '          BACK',  		 varID = textImgNew(), varText = ''},
 }
@@ -2705,13 +2730,17 @@ function f_UICfg()
 						modified = 1
 					end
 				end
-			--Default Values
+			--Timers Settings
 			elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				f_timeCfg()
+			--Default Values
+			elseif UICfg == 11 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 			--BACK
-			elseif UICfg == 11 and btnPalNo(p1Cmd) > 0 then
+			elseif UICfg == 12 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -2780,6 +2809,276 @@ function f_UICfg()
 			animUpdate(optionsUpArrow)
 		end
 		if #t_UICfg > 14 and maxUICfg < #t_UICfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if defaultScreen == true then f_defaultMenu() end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		if data.attractMode == true then f_attractCredits() end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; TIMERS SETTINGS
+--;===========================================================
+txt_timeCfg = createTextImg(jgFnt, 0, 0, 'TIMERS SETTINGS', 159, 13)
+
+t_timeCfg = {
+	{id = '', text = 'Char Select Time',    		varID = textImgNew(), varText = data.selectTime .. ' Seconds'},
+	{id = '', text = 'Stage Select Time',   		varID = textImgNew(), varText = data.stageTime .. ' Seconds'},
+	{id = '', text = 'Order Select Time',     		varID = textImgNew(), varText = data.orderTime .. ' Seconds'},
+	{id = '', text = 'Rematch Time', 		   		varID = textImgNew(), varText = data.rematchTime .. ' Seconds'},
+	{id = '', text = 'Service Time',     			varID = textImgNew(), varText = data.serviceTime .. ' Seconds'},
+	{id = '', text = 'Default Values',  	 		varID = textImgNew(), varText = ''},
+	{id = '', text = '          BACK', 				varID = textImgNew(), varText = ''},
+}
+
+function f_timeCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local timeCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if defaultScreen == false then
+			if esc() then
+				sndPlay(sysSnd, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				timeCfg = timeCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				timeCfg = timeCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			--Character Select Time
+			elseif timeCfg == 1 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.selectTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.selectTime == -1 then
+						data.selectTime = 11
+					elseif data.selectTime < 61 then
+						data.selectTime = data.selectTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.selectTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.selectTime > 11 then
+						data.selectTime = data.selectTime - 1
+					elseif data.selectTime == 11 then
+						data.selectTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Stage Select Time
+			elseif timeCfg == 2 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.stageTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.stageTime == -1 then
+						data.stageTime = 11
+					elseif data.stageTime < 61 then
+						data.stageTime = data.stageTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.stageTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.stageTime > 11 then
+						data.stageTime = data.stageTime - 1
+					elseif data.stageTime == 11 then
+						data.stageTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Order Select Time
+			elseif timeCfg == 3 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.orderTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.orderTime == -1 then
+						data.orderTime = 11
+					elseif data.orderTime < 61 then
+						data.orderTime = data.orderTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.orderTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.orderTime > 11 then
+						data.orderTime = data.orderTime - 1
+					elseif data.orderTime == 11 then
+						data.orderTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Rematch Option Time
+			elseif timeCfg == 4 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.rematchTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.rematchTime == -1 then
+						data.rematchTime = 11
+					elseif data.rematchTime < 61 then
+						data.rematchTime = data.rematchTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.rematchTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.rematchTime > 11 then
+						data.rematchTime = data.rematchTime - 1
+					elseif data.rematchTime == 11 then
+						data.rematchTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Service Select Time
+			elseif timeCfg == 5 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.serviceTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.serviceTime == -1 then
+						data.serviceTime = 11
+					elseif data.serviceTime < 61 then
+						data.serviceTime = data.serviceTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.serviceTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.serviceTime > 11 then
+						data.serviceTime = data.serviceTime - 1
+					elseif data.serviceTime == 11 then
+						data.serviceTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Default Values
+			elseif timeCfg == 6 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				defaultTime = true
+				defaultScreen = true
+			--BACK
+			elseif timeCfg == 7 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+			if timeCfg < 1 then
+				timeCfg = #t_timeCfg
+				if #t_timeCfg > 14 then
+					cursorPosY = 14
+				else
+					cursorPosY = #t_timeCfg
+				end
+			elseif timeCfg > #t_timeCfg then
+				timeCfg = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 14 then
+				moveTxt = (timeCfg - 14) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (timeCfg - 1) * 15
+			end	
+			if #t_timeCfg <= 14 then
+				maxtimeCfg = #t_timeCfg
+			elseif timeCfg - cursorPosY > 0 then
+				maxtimeCfg = timeCfg + 14 - cursorPosY
+			else
+				maxtimeCfg = 14
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxtimeCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_timeCfg)
+		if defaultScreen == false then
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		if data.selectTime ~= -1 then t_timeCfg[1].varText = data.selectTime .. ' Seconds' else t_timeCfg[1].varText = 'Infinite' end
+		if data.stageTime ~= -1 then t_timeCfg[2].varText = data.stageTime .. ' Seconds' else t_timeCfg[2].varText = 'Infinite' end
+		if data.orderTime ~= -1 then t_timeCfg[3].varText = data.orderTime .. ' Seconds' else t_timeCfg[3].varText = 'Infinite' end
+		if data.rematchTime ~= -1 then t_timeCfg[4].varText = data.rematchTime .. ' Seconds' else t_timeCfg[4].varText = 'Infinite' end
+		if data.serviceTime ~= -1 then t_timeCfg[5].varText = data.serviceTime .. ' Seconds' else t_timeCfg[5].varText = 'Infinite' end
+		for i=1, maxtimeCfg do
+			if i > timeCfg - cursorPosY then
+				if t_timeCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, 1, t_timeCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_timeCfg[i].varID, font2, 0, -1, t_timeCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxtimeCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_timeCfg > 14 and maxtimeCfg < #t_timeCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end

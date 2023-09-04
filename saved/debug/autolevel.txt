@@ -1,5 +1,9 @@
 ﻿chars/kung fu man/kung fu man.def, 0 0 0 0 0 -1 0 0 0 0 0 0
-chars/suave dude/suave dude.def, -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
 chars/kung fu girl/kung fu girl.def, 0 0 -1 0 0 0 0 0 0 -1 0 0
-chars/kung fu man/master/master kung fu man.def, 0 0 0 0 0 1 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+randomselect, 0 0 0 0 0 0 0 0 0 0 0 0

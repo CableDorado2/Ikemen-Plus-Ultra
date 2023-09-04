@@ -806,10 +806,10 @@ function f_selectSimple()
 	gameNo = 0
 	bossNo = 0
 	bonusNo = 0
-	selectSeconds = 16 --Edit your Seconds for Character Select Timer
-	stageSeconds = 11 --Edit your Seconds for Stage Select Timer
-	rematchSeconds = 11 --Edit your Seconds for Rematch Option Timer
-	serviceSeconds = 11 --Edit your Seconds for Service Option Timer
+	selectSeconds = data.selectTime
+	stageSeconds = data.stageTime
+	rematchSeconds = data.rematchTime
+	serviceSeconds = data.serviceTime
 	selectTimer = selectSeconds*gameTick --Set time for Character Select
 	stageTimer = stageSeconds*gameTick --Set time for Stage Select
 	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
@@ -1041,10 +1041,10 @@ function f_selectAdvance()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
-	selectSeconds = 16
-	stageSeconds = 11
-	rematchSeconds = 11
-	serviceSeconds = 11
+	selectSeconds = data.selectTime
+	stageSeconds = data.stageTime
+	rematchSeconds = data.rematchTime
+	serviceSeconds = data.serviceTime
 	selectTimer = selectSeconds*gameTick
 	stageTimer = stageSeconds*gameTick
 	rematchTimer = rematchSeconds*gameTick
@@ -3455,7 +3455,7 @@ function f_orderSelect()
 		local orderTime = 0
 		local orderhintTime = 0
 		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-		local seconds = 15 --Edit your Seconds for Order Select
+		local seconds = data.orderTime --Edit your Seconds for Order Select
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 			--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
 		elseif #data.t_p1selected > 1 or data.coop == true then
