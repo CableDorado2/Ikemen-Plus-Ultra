@@ -89,37 +89,42 @@ font24 = fontNew('font/ssf2x_vL.fnt')
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
 --;===========================================================
 bgmNothing = ' .mp3'
-bgmTitle = 'sound/Title.mp3'
-bgmSelect = 'sound/Select.mp3'
-bgmSelectChallenger = 'sound/The Challenger.mp3'
-bgmSelectBoss = 'sound/Select Boss.mp3'
---bgmSelectOrder = 'sound/Order Select.mp3'
-bgmSelectOrderFinal = 'sound/Order Select Final.mp3'
-bgmVS = 'sound/VS.mp3'
-bgmVSFinal = 'sound/VS Final.mp3'
-bgmVictory = 'sound/Victory.mp3'
-bgmResults = 'sound/Results.mp3'
-bgmService = 'sound/Service.mp3'
-bgmContinue = 'sound/Continue.mp3'
-bgmGameOver = 'sound/Game Over.mp3'
-bgmEvents = 'sound/Events.mp3'
+bgmTitle = 'sound/System/Title.mp3'
+bgmSelect = 'sound/System/Select.mp3'
+bgmSelectChallenger = 'sound/System/The Challenger.mp3'
+bgmSelectBoss = 'sound/System/Select Boss.mp3'
+--bgmSelectOrder = 'sound/System/Order Select.mp3'
+bgmSelectOrderFinal = 'sound/System/Order Select Final.mp3'
+bgmVS = 'sound/System/VS.mp3'
+bgmVSFinal = 'sound/System/VS Final.mp3'
+bgmVictory = 'sound/System/Victory.mp3'
+bgmResults = 'sound/System/Results.mp3'
+bgmService = 'sound/System/Service.mp3'
+bgmContinue = 'sound/System/Continue.mp3'
+bgmGameOver = 'sound/System/Game Over.mp3'
+bgmStory = 'sound/System/Story.mp3'
+bgmEvents = 'sound/System/Events.mp3'
+bgmTower = 'sound/System/Tower.mp3'
+bgmTourney = 'sound/System/Tourney.mp3'
+bgmLegion = 'sound/System/Legion.mp3'
+bgmAdventure = 'sound/System/Adventure.mp3'
 
 --Simple Random Select for Main Menu Song
 function f_bgmrandomMenu()
-	local randomTrack = {"sound/Menu 1.mp3", "sound/Menu 2.mp3", "sound/Menu 3.ogg"}
+	local randomTrack = {"sound/System/Menu 1.mp3", "sound/System/Menu 2.mp3", "sound/System/Menu 3.ogg"}
 	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
 --Select Main Menu Song
 function f_menuMusic()
 	if data.menuSong == 'Theme 1' then
-		bgmMenu = 'sound/Menu 1.mp3'
+		bgmMenu = 'sound/System/Menu 1.mp3'
 		playBGM(bgmMenu)
 	elseif data.menuSong == 'Theme 2' then
-		bgmMenu = 'sound/Menu 2.mp3'
+		bgmMenu = 'sound/System/Menu 2.mp3'
 		playBGM(bgmMenu)
 	elseif data.menuSong == 'Theme 3' then
-		bgmMenu = 'sound/Menu 3.ogg'
+		bgmMenu = 'sound/System/Menu 3.ogg'
 		playBGM(bgmMenu)	
 	elseif data.menuSong == 'Random' then
 		f_bgmrandomMenu()
@@ -151,7 +156,7 @@ end
 --Advanced Random Select for Quick Versus Song
 function f_bgmrandomVS()
 	t_randomsongList = {}
-	for file in lfs.dir[[.\\sound\\Quick Versus Songs\\]] do --Read "Sound/Quick Versus Songs" Song Dir
+	for file in lfs.dir[[.\\sound\\]] do --Read "Sound Dir
 		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
 			row = #t_randomsongList+1
 			t_randomsongList[row] = {}
@@ -167,8 +172,8 @@ function f_bgmrandomVS()
 	t_randomsongList[#t_randomsongList+1] = {
 		id = '', playlist = ' '
 	}
-	playBGM('sound/Quick Versus Songs/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.mp3')
-	playBGM('sound/Quick Versus Songs/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.ogg')
+	playBGM('sound/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.mp3')
+	playBGM('sound/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.ogg')
 end
 
 --;===========================================================

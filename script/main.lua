@@ -2865,13 +2865,13 @@ function f_extrasMenu()
 			--TOWER MODE
 			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
-				--script.select.f_selectTower()
-				f_comingSoon()
+				textImgSetText(txt_mainSelect, 'TOWER MODE')
+				script.select.f_selectTower()
 			--LEGION MODE
 			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
-				--script.select.f_selectLegion()
-				f_comingSoon()
+				textImgSetText(txt_mainSelect, 'LEGION MODE')
+				script.select.f_selectLegion()
 			--TOURNEY MODE
 			elseif extrasMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
@@ -2879,8 +2879,7 @@ function f_extrasMenu()
 			--ADVENTURE MODE
 			elseif extrasMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
-				--script.adventure.f_mainAdventure()
-				f_comingSoon()
+				script.select.f_selectAdventure()--script.adventure.f_mainAdventure()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -3149,9 +3148,9 @@ function f_tourneyMenu()
 				sndPlay(sysSnd, 100, 1)
 				--data.p2In = 1
 				--data.p2SelectMenu = false
-				--data.gameMode = 'tourney'
+				data.gameMode = 'tourney16'
 				--data.rosterMode = 'tourney'
-				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')
+				textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')
 				script.select.f_selectTourney()
 			--QUARTERFINALS
 			elseif tourneyMenu == 2 then
@@ -3159,9 +3158,9 @@ function f_tourneyMenu()
 				sndPlay(sysSnd, 100, 1)
 				--data.p2In = 1
 				--data.p2SelectMenu = false
-				--data.gameMode = 'tourney'
+				data.gameMode = 'tourney8'
 				--data.rosterMode = 'tourney'
-				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE - QUARTERFINALS')
+				textImgSetText(txt_mainSelect, 'TOURNAMENT - QUARTERFINALS')
 				script.select.f_selectTourney()
 			--SEMIFINALS
 			elseif tourneyMenu == 3 then
@@ -3169,9 +3168,9 @@ function f_tourneyMenu()
 				sndPlay(sysSnd, 100, 1)
 				--data.p2In = 1
 				--data.p2SelectMenu = false
-				--data.gameMode = 'tourney'
+				data.gameMode = 'tourney4'
 				--data.rosterMode = 'tourney'
-				--textImgSetText(txt_mainSelect, 'TOURNAMENT MODE - SEMIFINALS')
+				textImgSetText(txt_mainSelect, 'TOURNAMENT - SEMIFINALS')
 				script.select.f_selectTourney()
 			--BACK
 			else

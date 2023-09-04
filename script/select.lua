@@ -1317,32 +1317,24 @@ function f_selectAdvance()
 end
 
 --;=================================================================================================
---; TOWER CHARACTER SELECT
+--; TOWER CHARACTER SELECT (WIP)
 --;=================================================================================================
 function f_selectTower()
 --TODO
-end
-
---;=================================================================================================
---; TOURNAMENT CHARACTER SELECT
---;=================================================================================================
-easteregg = animNew(sysSff, [[
-666,0, 0,0, -1
-]])
-animAddPos(easteregg, -10, -5)
-animUpdate(easteregg)
-animSetScale(easteregg, 1.059, 1.041)
-
-function f_selectTourney()
---TODO
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	playBGM(bgmTower)
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
 			f_comingSoon()
+			f_menuMusic()
 			break
 		end
-		animDraw(easteregg)	
+		animDraw(f_animVelocity(selectBG0, -1, -1))
+		animDraw(f_animVelocity(selectBG2a, -1, 0))
+		animDraw(f_animVelocity(selectBG2b, -3, 0))
+		animDraw(f_animVelocity(selectBG2c, -6, 0))
+		textImgDraw(txt_mainSelect)
 	    animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1351,10 +1343,108 @@ function f_selectTourney()
 end
 
 --;=================================================================================================
---; LEGION CHARACTER SELECT
+--; TOURNAMENT CHARACTER SELECT (WIP)
+--;=================================================================================================
+tourney16 = animNew(sysSff, [[
+666,0, 0,0, -1
+]])
+animAddPos(tourney16, -10, -5)
+animUpdate(tourney16)
+animSetScale(tourney16, 1.059, 1.041)
+
+tourney8 = animNew(sysSff, [[
+666,1, 0,0, -1
+]])
+animAddPos(tourney8, -10, -5)
+animUpdate(tourney8)
+animSetScale(tourney8, 1.059, 1.041)
+
+tourney4 = animNew(sysSff, [[
+666,2, 0,0, -1
+]])
+animAddPos(tourney4, -10, -5)
+animUpdate(tourney4)
+animSetScale(tourney4, 1.059, 1.041)
+
+function f_selectTourney()
+--TODO
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	playBGM(bgmTourney)
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			f_comingSoon()
+			f_menuMusic()
+			break
+		end
+		animDraw(f_animVelocity(selectBG0, -1, -1))
+		animDraw(f_animVelocity(selectBG2a, -1, 0))
+		animDraw(f_animVelocity(selectBG2b, -3, 0))
+		animDraw(f_animVelocity(selectBG2c, -6, 0))
+		if data.gameMode == 'tourney16' then animDraw(tourney16)
+		elseif data.gameMode == 'tourney8' then animDraw(tourney8)
+		elseif data.gameMode == 'tourney4' then animDraw(tourney4) end
+		textImgDraw(txt_mainSelect)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;=================================================================================================
+--; LEGION CHARACTER SELECT (WIP)
 --;=================================================================================================
 function f_selectLegion()
 --TODO
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	playBGM(bgmLegion)
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			f_comingSoon()
+			f_menuMusic()
+			break
+		end
+		animDraw(f_animVelocity(selectBG0, -1, -1))
+		animDraw(f_animVelocity(selectBG2a, -1, 0))
+		animDraw(f_animVelocity(selectBG2b, -3, 0))
+		animDraw(f_animVelocity(selectBG2c, -6, 0))
+		textImgDraw(txt_mainSelect)
+	    animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;=================================================================================================
+--; ADVENTURE CHARACTER SELECT (WIP)
+--;=================================================================================================
+adventureMap = animNew(sysSff, [[
+2000,0, 0,0, -1
+]])
+animAddPos(adventureMap, -55, 0)
+animUpdate(adventureMap)
+animSetScale(adventureMap, 0.335, 0.335)
+
+function f_selectAdventure()
+--TODO
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	playBGM(bgmAdventure)
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			f_comingSoon()
+			f_menuMusic()
+			break
+		end
+		animDraw(adventureMap)
+	    animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 --;===========================================================
