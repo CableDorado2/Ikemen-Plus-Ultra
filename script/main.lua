@@ -4,7 +4,7 @@
 math.randomseed(os.time())
 
 --Assign Lifebar
-loadLifebar('data/screenpack/winmugen/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
+loadLifebar('data/screenpack/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
 
 --Debug stuff
 loadDebugFont('font/14x14.fnt')
@@ -3343,7 +3343,7 @@ function f_watchMenu()
 			--SCREENSHOTS
 			elseif watchMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
-				sszOpen("saved/screenshots", "") --added via script.ssz
+				sszOpen("screenshots", "") --added via script.ssz
 			--GALLERY
 			elseif watchMenu == 10 then
 				sndPlay(sysSnd, 100, 1)
@@ -3922,7 +3922,7 @@ function f_videoMenu()
 	local bufr = 0
 	local bufl = 0
 	t_videoList = {}
-	for file in lfs.dir[[.\\data\\movie\\]] do
+	for file in lfs.dir[[.\\movie\\]] do
 		if file:match('^.*(%.)wmv$') then
 			row = #t_videoList+1
 			t_videoList[row] = {}
@@ -3953,7 +3953,7 @@ function f_videoMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				playVideo('data/movie/' .. t_videoList[videoMenu].playlist .. '.wmv')
+				playVideo('movie/' .. t_videoList[videoMenu].playlist .. '.wmv')
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 			end
@@ -4095,7 +4095,7 @@ function f_storyboardMenu()
 	local bufr = 0
 	local bufl = 0
 	t_storyboardList = {}
-	for file in lfs.dir[[.\\data\\storyboards\\]] do
+	for file in lfs.dir[[.\\storyboard\\]] do
 		if file:match('^.*(%.)def$') then
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
@@ -4126,7 +4126,7 @@ function f_storyboardMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				storyboardFile = ('data/storyboards/' .. t_storyboardList[storyboardMenu].playlist .. '.def')
+				storyboardFile = ('storyboard/' .. t_storyboardList[storyboardMenu].playlist .. '.def')
 				cmdInput()
 				f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -4295,7 +4295,7 @@ end
 
 function f_replayTable()
 	t_replayList = {}
-	for file in lfs.dir[[.\\saved\\replays\\]] do
+	for file in lfs.dir[[.\\replays\\]] do
 		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then
 			row = #t_replayList+1
 			t_replayList[row] = {}
@@ -4353,7 +4353,7 @@ function f_mainReplay()
 			else
 				sndPlay(sysSnd, 100, 1)
 				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159, 51)--Show Replay Selected Name
-				local fileSize = lfs.attributes('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
+				local fileSize = lfs.attributes('replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
 				local replaySize = (math.floor(((fileSize/1048576) + 0.50)))--Conversion of Bytes to Megabytes
 				txt_replaySize = createTextImg(jgFnt, 0, 0, 'SIZE:'.. replaySize .. 'MB', 159, 62)--Show Replay Selected Size
 				local replayOption = 2
@@ -4386,7 +4386,7 @@ function f_mainReplay()
 							--Set Default values to prevent desync.
 							script.options.f_onlineDefault()
 							script.options.f_netsaveCfg()
-							enterReplay('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
+							enterReplay('replays/' .. t_replayList[mainReplay].playlist .. '.replay')
 							synchronize()
 							math.randomseed(sszRandom())
 							script.options.f_onlineCfg()
@@ -4421,7 +4421,7 @@ function f_mainReplay()
 					if confirmScreen == true then f_confirmMenu() end
 					--DELETE SELECTED REPLAY
 					if deleteReplay == true then
-						os.remove('saved/replays/' .. t_replayList[mainReplay].playlist .. '.replay')
+						os.remove('replays/' .. t_replayList[mainReplay].playlist .. '.replay')
 						t_replayList = nil --Delete the Table
 						f_replayTable() --Just reload the table with applied changes
 						deleteReplay = false
@@ -4681,7 +4681,7 @@ function f_mainNetplay()
 				commandBufReset(p1Cmd, 1)
 				ltn12.pump.all(
 				  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
-				  ltn12.sink.file(assert(io.open("saved/replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+				  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 				)
 			--CLIENT/JOIN
 			elseif mainNetplay == 2 then
@@ -4701,7 +4701,7 @@ function f_mainNetplay()
 				commandBufReset(p1Cmd, 1)
 				ltn12.pump.all(
 				  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
-				  ltn12.sink.file(assert(io.open("saved/replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+				  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 				)
 			--BACK
 			else

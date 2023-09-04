@@ -40,5 +40,5 @@ z = 6
 ;c2 = 12
 
 [Arcade]
-intro.storyboard = ..\../data/storyboards/Kung Fu Man [Intro].def
-ending.storyboard = ..\../data/storyboards/Kung Fu Man [Ending].def
+intro.storyboard = ..\../storyboard/Kung Fu Man [Intro].def
+ending.storyboard = ..\../storyboard/Kung Fu Man [Ending].def

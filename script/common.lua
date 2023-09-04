@@ -46,13 +46,13 @@ eventSff = sffNew('data/screenpack/events.sff') --load events menu sprites
 missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
 gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
 stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
-sysSff = sffNew('data/screenpack/winmugen/system.sff') --load screenpack/menu sprites
-contSff = sffNew('data/screenpack/winmugen/continue.sff') --load continue sprites
+sysSff = sffNew('data/screenpack/system.sff') --load screenpack/menu sprites
+contSff = sffNew('data/screenpack/continue.sff') --load continue sprites
 
 --SND (Sound effects do not interrupt music/bgm)
-sysSnd = sndNew('data/screenpack/winmugen/system.snd')
-announcerSnd = sndNew('data/screenpack/winmugen/announcer.snd')
-contSnd = sndNew('data/screenpack/winmugen/continue.snd')
+sysSnd = sndNew('data/screenpack/system.snd')
+announcerSnd = sndNew('data/screenpack/announcer.snd')
+contSnd = sndNew('data/screenpack/continue.snd')
 
 --Fonts (At the moments only FNT Format is Supported)
 padFnt = fontNew('font/f-pad.fnt')

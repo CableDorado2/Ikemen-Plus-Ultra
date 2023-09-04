@@ -34,7 +34,3 @@ pal12=ekfm12.act
 st1=-2.st
 st2=CHOKINONDATONE.st
 st3=config.txt
-
-[Arcade]
-intro.storyboard = ..\../data/storyboards/Evil Kung Fu Man [Intro].def
-ending.storyboard = ..\../data/storyboards/Evil Kung Fu Man [Ending].def

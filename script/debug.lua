@@ -155,6 +155,6 @@ function takeScreenshotVS()
 	ltn12.pump.all(
 	--(echo nircmd savescreenshotwin "..\screenshots\Screenshot.dat" ^| del x.vbs x.bat)>x.bat   Backup Bat Code
 	ltn12.source.file(assert(io.open("tools/screenshot.dat", "rb"))),
-	ltn12.sink.file(assert(io.open("saved/screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
+	ltn12.sink.file(assert(io.open("screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
 	)
 end

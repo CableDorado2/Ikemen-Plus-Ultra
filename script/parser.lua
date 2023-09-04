@@ -451,7 +451,7 @@ sprite.usepal = -1 ;Set this to the right pal
 ]]
 local generate = false
 local name = ''
-local batch = 'mkdir saved\\charAnim\nmkdir debug'
+local batch = 'mkdir data\\charAnim\nmkdir debug'
 local t_gen = {}
 t_bossChars = {}
 t_bonusChars = {}
@@ -522,17 +522,17 @@ for i=1, #t_selChars do
 		end
 		--create variable with character's name, whitespace replaced with underscore
 		displayname = t_selChars[i].displayname:gsub('%s+', '_')
-		--if saved/charAnim/displayname.def doesn't exist
-		if io.open('saved/charAnim/' .. displayname .. '.def','r') == nil then
-			--create a batch variable used to create 'saved/charTrash/charName' folder and to extract all character's sprites there
-			batch = batch .. '\n' .. 'mkdir "saved\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "saved\\charTrash\\' .. displayname .. '\\s"'
+		--if data/charAnim/displayname.def doesn't exist
+		if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
+			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
+			batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
 			--store character's reference that needs conversion into table to save time later on
 			t_gen[#t_gen+1] = i
 			--enable sprite generation later on
 			generate = true
 		--otherwise load SFF file
 		else
-			t_selChars[i]['sffData'] = sffNew('saved/charAnim/' .. displayname .. '.sff')
+			t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
 			if t_selChars[i].stand ~= nil then
 				t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 				t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
@@ -690,20 +690,20 @@ if generate and data.sffConversion then
 		batch = ''
 		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
-		--open each line in saved/charTrash/charName/s-sff.def to compare
+		--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
 			local append = ''
 			displayname = t_selChars[t_gen[i]].displayname:gsub('%s+', '_')
-			for line in io.lines('saved/charTrash/' .. displayname .. '/s-sff.def') do
+			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 				--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
 				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)
 			end
 			--remove duplicated sprites from string via f_uniq function
 			append = f_uniq(append .. '\n', '[^\n]+\n', '^%s*[0-9-]-%s*,%s*[0-9-]-%s*,')
 			--print variable for both debugging and sprite generation purpose
-			f_printVar(sff2png .. append, 'saved/charAnim/' .. displayname .. '.def')
+			f_printVar(sff2png .. append, 'data/charAnim/' .. displayname .. '.def')
 			--create a batch variable used to generate sff files all at once
-			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "saved\\charAnim\\' .. displayname .. '.sff" "saved\\charAnim\\' .. displayname .. '.def" >> saved\\debug\\sprmake2.log'
+			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> saved\\debug\\sprmake2.log'
 		end
 		batch = batch .. '\n' .. 'del batch.bat'
 		f_printVar(batch, 'batch.bat')
@@ -711,7 +711,7 @@ if generate and data.sffConversion then
 		os.execute('batch.bat')
 		for i=1, #t_gen do
 			displayname = t_selChars[t_gen[i]].displayname:gsub('%s+', '_')
-			t_selChars[t_gen[i]]['sffData'] = sffNew('saved/charAnim/' .. displayname .. '.sff')
+			t_selChars[t_gen[i]]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
 			if t_selChars[t_gen[i]].stand ~= nil then
 				t_selChars[t_gen[i]]['p1AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
 				t_selChars[t_gen[i]]['p2AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
@@ -733,7 +733,7 @@ if generate and data.sffConversion then
 				t_selChars[t_gen[i]]['p2AnimDizzy'] = f_animFromTable(t_selChars[t_gen[i]].dizzy, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
 			end
 			batOpen("tools", "trash.bat") --added via script.ssz
-			--lfs.rmdir ("./saved/charTrash") --Directory needs to be empty to work
+			--lfs.rmdir ("./data/charTrash") --Directory needs to be empty to work
 			refresh()
 		end
 	end

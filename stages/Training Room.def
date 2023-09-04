@@ -160,7 +160,7 @@ intensity = 0
  ;0 will play a random audio track. For example, to play
  ;track 3 from a music CD, use:
  ;  bgmusic = 3.da
-bgmusic = sound/Training Room.mp3
+bgmusic = sound/Training Room 1.mp3
 
 ;bgmloopstart = <sample number>
 ;bgmloopend = <sample number>
