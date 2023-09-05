@@ -1,9 +1,1 @@
-﻿chars/kung fu man/kung fu man.def, 0 0 0 0 0 -1 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-chars/kung fu girl/kung fu girl.def, 0 0 -1 0 0 0 0 0 0 -1 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
-randomselect, 0 0 0 0 0 0 0 0 0 0 0 0
+﻿

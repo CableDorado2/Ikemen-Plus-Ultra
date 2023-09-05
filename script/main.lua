@@ -174,7 +174,70 @@ animAddPos(arrowsU, 252, 170)
 animUpdate(arrowsU)
 animSetScale(arrowsU, 2, 2)
 
-function f_sysTime() --clock and date features
+--;===========================================================
+--; OK MESSAGE
+--;===========================================================
+--Info Window BG
+infoWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(infoWindowBG, 83.5, 97)
+animUpdate(infoWindowBG)
+animSetScale(infoWindowBG, 1, 1)
+
+t_infoMenu = {
+	{id = textImgNew(), text = 'OK'},
+}
+
+function f_infoMenu()
+	cmdInput()
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(infoWindowBG)
+	animUpdate(infoWindowBG)
+	--Draw Title
+	if charsInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO CHARACTERS FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+	elseif stagesInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO STAGES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+	elseif bossInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO BOSSES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+	elseif bonusInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO BONUSES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+	end
+	textImgDraw(txt_info)
+	--Draw Table Text
+	for i=1, #t_infoMenu do
+		textImgDraw(f_updateTextImg(t_infoMenu[i].id, jgFnt, 5, 0, t_infoMenu[i].text, 159, 130+i*13))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,133, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Bottom Text
+	textImgDraw(txt_titleFt)
+	textImgSetText(txt_titleFt, 'INFORMATION')
+	--Actions
+	if esc() or btnPalNo(p1Cmd) > 0 then
+		sndPlay(sysSnd, 100, 2)
+		f_infoReset()
+	end
+	cmdInput()
+end
+
+function f_infoReset()
+	infoScreen = false
+	charsInfo = false
+	stagesInfo = false
+	bossInfo = false
+	bonusInfo = false
+end
+
+--;===========================================================
+--; CLOCK AND DATE FEATURES
+--;===========================================================
+function f_sysTime()
 	--local http = require("socket.http") -- import the socket.http module
 	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
 	--local date = headers.date -- LuaSocket makes all header names lowercase
@@ -217,11 +280,28 @@ function f_mainStart()
 	f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--playVideo(videoHowToPlay)
-	if data.attractMode == true then
-		coinSystem = false
-		f_mainAttract()
-	else
-		f_mainTitle()
+	if #t_selChars == 0 then --If the Engine not detect Characters
+		charsInfo = true
+		infoScreen = true
+		f_exitMenu()
+	elseif #t_selStages == 0 then --If the Engine not detect Stages
+		stagesInfo = true
+		infoScreen = true
+		f_exitMenu()
+	elseif #t_selChars ~= 0 then
+		if data.attractMode == true then
+			coinSystem = false
+			f_mainAttract()
+		else
+			f_mainTitle()
+		end
+	elseif #t_selStages ~= 0 then
+		if data.attractMode == true then
+			coinSystem = false
+			f_mainAttract()
+		else
+			f_mainTitle()
+		end
 	end
 end
 
@@ -396,7 +476,7 @@ function f_exitMenu()
 	local bufl = 0
 	f_exitReset()
 	while true do
-		if exitScreen == false then
+		if exitScreen == false and infoScreen == false then
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				exitMenu = exitMenu - 1
@@ -466,7 +546,7 @@ function f_exitMenu()
 			end
 			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 165+i*13-moveTxt))
 		end
-		if exitScreen == false then
+		if exitScreen == false and infoScreen == false then
 			animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -484,6 +564,7 @@ function f_exitMenu()
 		if exitScreen == false then	textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE') end
 		f_sysTime()
 		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
+		if infoScreen == true then f_infoMenu() end --Show Info Screen Message
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1444,76 +1525,89 @@ function f_challengeMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_infoReset()
 	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			challengeMenu = challengeMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			challengeMenu = challengeMenu + 1
-		end
-		if challengeMenu < 1 then
-			challengeMenu = #t_challengeMenu
-			if #t_challengeMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_challengeMenu-1
-			end
-		elseif challengeMenu > #t_challengeMenu then
-			challengeMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (challengeMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (challengeMenu - 1) * 13
-		end
-		if #t_challengeMenu <= 5 then
-			maxChallengeMenu = #t_challengeMenu
-		elseif challengeMenu - cursorPosY > 0 then
-			maxChallengeMenu = challengeMenu + 5 - cursorPosY
-		else
-			maxChallengeMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--SURVIVAL
-			if challengeMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_survivalMenu()
-			--MISSIONS MODE
-			elseif challengeMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				script.missions.f_missionMenu()
-			--BOSS FIGHT
-			elseif challengeMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				f_bossMenu()
-			--BONUS GAMES
-			elseif challengeMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_bonusMenu()
-			--TIME ATTACK
-			elseif challengeMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				f_timeMenu()
-			--SUDDEN DEATH
-			elseif challengeMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				f_suddenMenu()
-			--BACK
-			else
+		if infoScreen == false then
+			if esc() then
 				sndPlay(sysSnd, 100, 2)
 				break
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				challengeMenu = challengeMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				challengeMenu = challengeMenu + 1
 			end
-		end	
+			if challengeMenu < 1 then
+				challengeMenu = #t_challengeMenu
+				if #t_challengeMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_challengeMenu-1
+				end
+			elseif challengeMenu > #t_challengeMenu then
+				challengeMenu = 1
+				cursorPosY = 0
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (challengeMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (challengeMenu - 1) * 13
+			end
+			if #t_challengeMenu <= 5 then
+				maxChallengeMenu = #t_challengeMenu
+			elseif challengeMenu - cursorPosY > 0 then
+				maxChallengeMenu = challengeMenu + 5 - cursorPosY
+			else
+				maxChallengeMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 then
+				f_default()
+				--SURVIVAL
+				if challengeMenu == 1 then
+					sndPlay(sysSnd, 100, 1)
+					f_survivalMenu()
+				--MISSIONS MODE
+				elseif challengeMenu == 2 then
+					sndPlay(sysSnd, 100, 1)
+					script.missions.f_missionMenu()
+				--BOSS FIGHT
+				elseif challengeMenu == 3 then
+					sndPlay(sysSnd, 100, 1)
+					if #t_bossChars ~= 0 then
+						f_bossMenu()
+					else
+						bossInfo = true
+						infoScreen = true
+					end
+				--BONUS GAMES
+				elseif challengeMenu == 4 then
+					sndPlay(sysSnd, 100, 1)
+					if #t_bonusChars ~= 0 then
+						f_bonusMenu()
+					else
+						bonusInfo = true
+						infoScreen = true
+					end
+				--TIME ATTACK
+				elseif challengeMenu == 5 then
+					sndPlay(sysSnd, 100, 1)
+					f_timeMenu()
+				--SUDDEN DEATH
+				elseif challengeMenu == 6 then
+					sndPlay(sysSnd, 100, 1)
+					f_suddenMenu()
+				--BACK
+				else
+					sndPlay(sysSnd, 100, 2)
+					break
+				end
+			end
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_challengeMenu do
 			if i == challengeMenu then
@@ -1523,9 +1617,11 @@ function f_challengeMenu()
 			end
 			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if infoScreen == false then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -1547,6 +1643,7 @@ function f_challengeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if infoScreen == true then f_infoMenu() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1783,7 +1880,7 @@ function f_bossMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
-		end	
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_bossMenu do
 			if i == bossMenu then
@@ -2011,10 +2108,10 @@ function f_bossrushMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			--SINGLE MODE
-			if bossrushMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
+			if bossrushMenu == 1 then		
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)	
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.gameMode = 'bossrush'
@@ -2024,9 +2121,9 @@ function f_bossrushMenu()
 				end
 			--CO-OP MODE
 			elseif bossrushMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true
@@ -2037,9 +2134,9 @@ function f_bossrushMenu()
 				end
 			--CPU MODE
 			elseif bossrushMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.aiFight = true
@@ -2053,7 +2150,7 @@ function f_bossrushMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
-		end	
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_bossrushMenu do
 			if i == bossrushMenu then
