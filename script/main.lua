@@ -198,7 +198,7 @@ function f_infoMenu()
 	animUpdate(infoWindowBG)
 	--Draw Title
 	if charsInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO CHARACTERS FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO CHARACTERS FOUND IN SELECT.DEF', 160, 118,0.56,0.56)
 	elseif stagesInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, 'NO STAGES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
 	elseif bossInfo == true then
@@ -280,6 +280,7 @@ function f_mainStart()
 	f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--playVideo(videoHowToPlay)
+	f_infoReset() --Allow select options below if the Engine detects characters or stages
 	if #t_selChars == 0 then --If the Engine not detect Characters
 		charsInfo = true
 		infoScreen = true
@@ -321,6 +322,7 @@ function f_mainAttract()
 	local attractTimer = attractSeconds*gameTick --Set time for Title Screen
 	local demoTimer = 0
 	playBGM(bgmTitle)
+	f_attractExitItem()
 	while true do
 		--INSERT COIN
 		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
@@ -461,8 +463,10 @@ t_exitMenu = {
 	{id = textImgNew(), text = 'RESTART ENGINE'},
 	{id = textImgNew(), text = 'BACK TO MAIN MENU'},
 }
-if data.attractMode == true then
-	table.insert(t_exitMenu,1,{id = textImgNew(), text = 'OPTIONS'})
+function f_attractExitItem()
+	if data.attractMode == true and infoScreen == false then
+		table.insert(t_exitMenu,1,{id = textImgNew(), text = 'OPTIONS'})
+	end
 end
 
 function f_exitMenu()
@@ -507,14 +511,23 @@ function f_exitMenu()
 			if btnPalNo(p1Cmd) > 0 then
 				restartEngine = false
 				--OPTIONS FOR ATTRACT MODE
-				if exitMenu == 1 and data.attractMode == true then
+				if exitMenu == 1 and data.attractMode == true and #t_selChars ~= 0 then
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false
 					assert(loadfile('saved/data_sav.lua'))()
 					script.options.f_mainCfg()
-				--EXIT FOR ATTRACT MODE
-				elseif exitMenu == 2 and data.attractMode == true then
+				--EXIT FOR ATTRACT MODE (NO CONTENT)
+				elseif exitMenu == 1 and data.attractMode == true and #t_selChars == 0 then
 					sndPlay(sysSnd, 100, 1)
+					exitScreen = true
+				--EXIT FOR ATTRACT MODE
+				elseif exitMenu == 2 and data.attractMode == true and #t_selChars ~= 0 then
+					sndPlay(sysSnd, 100, 1)
+					exitScreen = true
+				--RESTART FOR ATTRACT MODE (NO CONTENT)
+				elseif exitMenu == 2 and data.attractMode == true and #t_selChars == 0 then
+					sndPlay(sysSnd, 100, 1)
+					restartEngine = true
 					exitScreen = true
 				--RESTART FOR ATTRACT MODE
 				elseif exitMenu == 3 and data.attractMode == true then
@@ -546,6 +559,9 @@ function f_exitMenu()
 			end
 			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 165+i*13-moveTxt))
 		end
+		if infoScreen == true then
+			table.remove(t_exitMenu,3) --Remove Option 3 in table if characters or stages are not detected
+		end
 		if exitScreen == false and infoScreen == false then
 			animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -561,7 +577,7 @@ function f_exitMenu()
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
 		textImgDraw(txt_titleFt)
-		if exitScreen == false then	textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE') end
+		if exitScreen == false and infoScreen == false then	textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE') end
 		f_sysTime()
 		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
 		if infoScreen == true then f_infoMenu() end --Show Info Screen Message
