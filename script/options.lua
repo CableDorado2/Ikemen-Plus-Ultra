@@ -292,6 +292,7 @@ function f_saveCfg()
 		['data.orderTime'] = data.orderTime,
 		['data.rematchTime'] = data.rematchTime,
 		['data.serviceTime'] = data.serviceTime,
+		['data.attractTime'] = data.attractTime,
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
@@ -387,6 +388,7 @@ function f_netsaveCfg()
 		--['data.orderTime'] = data.orderTime,
 		--['data.rematchTime'] = data.rematchTime,
 		--['data.serviceTime'] = data.serviceTime,
+		--['data.attractTime'] = data.attractTime,
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
@@ -507,6 +509,7 @@ function f_timeDefault()
 	data.orderTime = 16
 	data.rematchTime = 16
 	data.serviceTime = 16
+	data.attractTime = 11
 end
 
 --Default Video Values
@@ -2835,13 +2838,14 @@ end
 txt_timeCfg = createTextImg(jgFnt, 0, 0, 'TIMERS SETTINGS', 159, 13)
 
 t_timeCfg = {
-	{id = '', text = 'Char Select Time',    		varID = textImgNew(), varText = data.selectTime .. ' Seconds'},
-	{id = '', text = 'Stage Select Time',   		varID = textImgNew(), varText = data.stageTime .. ' Seconds'},
-	{id = '', text = 'Order Select Time',     		varID = textImgNew(), varText = data.orderTime .. ' Seconds'},
-	{id = '', text = 'Rematch Time', 		   		varID = textImgNew(), varText = data.rematchTime .. ' Seconds'},
-	{id = '', text = 'Service Time',     			varID = textImgNew(), varText = data.serviceTime .. ' Seconds'},
-	{id = '', text = 'Default Values',  	 		varID = textImgNew(), varText = ''},
-	{id = '', text = '          BACK', 				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Character Select',    	varID = textImgNew(), varText = data.selectTime .. ' Seconds'},
+	{id = '', text = 'Stage Select',   			varID = textImgNew(), varText = data.stageTime .. ' Seconds'},
+	{id = '', text = 'Order Select',     		varID = textImgNew(), varText = data.orderTime .. ' Seconds'},
+	{id = '', text = 'Rematch Option',	   		varID = textImgNew(), varText = data.rematchTime .. ' Seconds'},
+	{id = '', text = 'Service Screen', 			varID = textImgNew(), varText = data.serviceTime .. ' Seconds'},
+	{id = '', text = 'Attract Title', 			varID = textImgNew(), varText = data.attractTime .. ' Seconds'},
+	{id = '', text = 'Default Values',  	 	varID = textImgNew(), varText = ''},
+	{id = '', text = '          BACK', 			varID = textImgNew(), varText = ''},
 }
 
 function f_timeCfg()
@@ -3013,13 +3017,42 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
+			--Attract Title Screen Time
+			elseif timeCfg == 6 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.attractTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.attractTime == -1 then
+						data.attractTime = 11
+					elseif data.attractTime < 61 then
+						data.attractTime = data.attractTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.attractTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.attractTime > 11 then
+						data.attractTime = data.attractTime - 1
+					elseif data.attractTime == 11 then
+						data.attractTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 			--Default Values
-			elseif timeCfg == 6 and btnPalNo(p1Cmd) > 0 then
+			elseif timeCfg == 7 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultTime = true
 				defaultScreen = true
 			--BACK
-			elseif timeCfg == 7 and btnPalNo(p1Cmd) > 0 then
+			elseif timeCfg == 8 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3066,6 +3099,7 @@ function f_timeCfg()
 		if data.orderTime ~= -1 then t_timeCfg[3].varText = data.orderTime .. ' Seconds' else t_timeCfg[3].varText = 'Infinite' end
 		if data.rematchTime ~= -1 then t_timeCfg[4].varText = data.rematchTime .. ' Seconds' else t_timeCfg[4].varText = 'Infinite' end
 		if data.serviceTime ~= -1 then t_timeCfg[5].varText = data.serviceTime .. ' Seconds' else t_timeCfg[5].varText = 'Infinite' end
+		if data.attractTime ~= -1 then t_timeCfg[6].varText = data.attractTime .. ' Seconds' else t_timeCfg[6].varText = 'Infinite' end
 		for i=1, maxtimeCfg do
 			if i > timeCfg - cursorPosY then
 				if t_timeCfg[i].varID ~= nil then

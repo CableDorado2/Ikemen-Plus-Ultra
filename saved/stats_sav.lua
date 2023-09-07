@@ -1,7 +1,7 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 238
-data.playTime = 177200.378
+data.playTime = 179474.044
 data.favoriteChar = "Dragon Claw"
 data.favoriteStage = "Random"
 data.victories = 434

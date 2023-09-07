@@ -289,14 +289,7 @@ function f_mainStart()
 		stagesInfo = true
 		infoScreen = true
 		f_exitMenu()
-	elseif #t_selChars ~= 0 then
-		if data.attractMode == true then
-			coinSystem = false
-			f_mainAttract()
-		else
-			f_mainTitle()
-		end
-	elseif #t_selStages ~= 0 then
+	elseif #t_selChars or #t_selStages ~= 0 then
 		if data.attractMode == true then
 			coinSystem = false
 			f_mainAttract()
@@ -318,8 +311,8 @@ end
 function f_mainAttract()
 	cmdInput()
 	local t = 0
-	local attractSeconds = 6
-	local attractTimer = attractSeconds*gameTick --Set time for Title Screen
+	attractSeconds = data.attractTime
+	attractTimer = attractSeconds*gameTick --Set time for Attract Title Screen
 	local demoTimer = 0
 	playBGM(bgmTitle)
 	f_attractExitItem()
@@ -359,6 +352,7 @@ function f_mainAttract()
 			sndPlay(sysSnd, 100, 2)
 			attractTimer = attractSeconds*gameTick
 			f_exitMenu()
+			--attractSeconds = data.attractTime --Load New Attract Time settings in case that you modify them
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		animSetWindow(cursorBox, 0, 180, 290, 13)
@@ -510,24 +504,31 @@ function f_exitMenu()
 			end
 			if btnPalNo(p1Cmd) > 0 then
 				restartEngine = false
-				--OPTIONS FOR ATTRACT MODE
-				if exitMenu == 1 and data.attractMode == true and #t_selChars ~= 0 then
-					sndPlay(sysSnd, 100, 1)
-					onlinegame = false
-					assert(loadfile('saved/data_sav.lua'))()
-					script.options.f_mainCfg()
 				--EXIT FOR ATTRACT MODE (NO CONTENT)
-				elseif exitMenu == 1 and data.attractMode == true and #t_selChars == 0 then
+				if exitMenu == 1 and data.attractMode == true and #t_selChars == 0 then
 					sndPlay(sysSnd, 100, 1)
 					exitScreen = true
-				--EXIT FOR ATTRACT MODE
-				elseif exitMenu == 2 and data.attractMode == true and #t_selChars ~= 0 then
+				elseif exitMenu == 1 and data.attractMode == true and #t_selStages == 0 then
 					sndPlay(sysSnd, 100, 1)
 					exitScreen = true
 				--RESTART FOR ATTRACT MODE (NO CONTENT)
 				elseif exitMenu == 2 and data.attractMode == true and #t_selChars == 0 then
 					sndPlay(sysSnd, 100, 1)
 					restartEngine = true
+					exitScreen = true
+				elseif exitMenu == 2 and data.attractMode == true and #t_selStages == 0 then
+					sndPlay(sysSnd, 100, 1)
+					restartEngine = true
+					exitScreen = true
+				--OPTIONS FOR ATTRACT MODE
+				elseif exitMenu == 1 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
+					sndPlay(sysSnd, 100, 1)
+					onlinegame = false
+					assert(loadfile('saved/data_sav.lua'))()
+					script.options.f_mainCfg()
+				--EXIT FOR ATTRACT MODE
+				elseif exitMenu == 2 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
+					sndPlay(sysSnd, 100, 1)
 					exitScreen = true
 				--RESTART FOR ATTRACT MODE
 				elseif exitMenu == 3 and data.attractMode == true then

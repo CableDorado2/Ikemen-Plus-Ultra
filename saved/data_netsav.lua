@@ -29,6 +29,7 @@ data.stageTime = 11
 data.orderTime = 15
 data.rematchTime = 11
 data.serviceTime = 11
+data.attractTime = 11
 data.selectType = "Fixed"
 data.palType = "Modern"
 data.stageType = "Classic"
