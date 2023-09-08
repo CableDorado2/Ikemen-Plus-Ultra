@@ -1,9 +1,9 @@
 data.arcadeUnlocks = true
 data.survivalUnlocks = false
 data.coins = 238
-data.playTime = 179474.044
-data.favoriteChar = "Dragon Claw"
-data.favoriteStage = "Random"
+data.playTime = 181718.845
+data.favoriteChar = "Kung Fu Man"
+data.favoriteStage = "Training Room"
 data.victories = 434
 data.defeats = 219
 data.preferredMode = "WIP"

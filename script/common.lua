@@ -1463,10 +1463,9 @@ function init()
 end
 
 function runDemo()
-  local t = 0
   init()
   refresh()
-  while not esc() or t == 100 do
+  while not esc() do
     randSel(1, winner)
     randSel(2, winner)
     loadStart()
@@ -1483,7 +1482,6 @@ function runDemo()
     if winner <= 0 or wins >= 20 or wins == oldwins then
       init()
     end
-	t = t + 1
     refresh()
   end
   if data.attractMode == true then
@@ -1777,6 +1775,7 @@ function f_default()
 	data.missionNo = '' --additional variable used to identify missions in select screen
 	data.eventNo = '' --additional variable used to identify events in select screen
 	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
+	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
 	setServiceType(0) --don't touch
 	setGameType(0) --set game type to identify in match.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
 end

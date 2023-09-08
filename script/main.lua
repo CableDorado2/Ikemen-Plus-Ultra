@@ -408,7 +408,7 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 		   cmdInput()
-		   setGameType(1)
+		   setGameType(1)--setGameMode('demo')
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 		   runDemo()
 		   f_mainMenu()

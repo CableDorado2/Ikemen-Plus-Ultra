@@ -42,6 +42,7 @@ public &Share
   public ^int numSimul;
   public ^index wakewakaLength;
   public &.com.Camera::Stage camstg;
+  public ^/char gameMode;
   public int gameType;
   public int serviceType;
   public float panStr;
@@ -93,6 +94,7 @@ public &Share
     `numSimul = .com.numSimul;
     `wakewakaLength = .chr.wakewakaLength;
     `camstg = .com.cam.stg;
+	`gameMode = .com.gameMode;
 	`gameType = .com.gameType;
 	`serviceType = .com.serviceType;
 	`panStr = .snd.panstr;
@@ -145,6 +147,7 @@ public &Share
     .com.numSimul = `numSimul;
     .chr.wakewakaLength = `wakewakaLength;
     .com.cam.stg = `camstg;
+	.com.gameMode = `gameMode;
 	.com.gameType = `gameType;
 	.com.serviceType = `serviceType;
 	.snd.panstr = `panStr;
