@@ -1,17 +1,17 @@
-table: 0CE73338 {
-  [teamstart] => table: 0CE73338 {
-                   [wins] => 1
-                   [offset] => 0
+table: 0CCAF140 {
+  [arcadeend] => table: 0CCAF140 {
+                   [offset] => 2
+                   [wins] => 4
                  }
-  [survivalstart] => table: 0CE73338 {
-                       [wins] => 0
-                       [offset] => -3
-                     }
-  [teamend] => table: 0CE73338 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [teammaxmatches] => table: 0CE73338 {
+  [arcadestart] => table: 0CCAF140 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [teamstart] => table: 0CCAF140 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [teammaxmatches] => table: 0CCAF140 {
                         [1] => 2
                         [2] => 1
                         [3] => 1
@@ -23,15 +23,19 @@ table: 0CE73338 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadestart] => table: 0CE73338 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [survivalend] => table: 0CE73338 {
-                     [wins] => 16
+  [teamend] => table: 0CCAF140 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [survivalend] => table: 0CCAF140 {
                      [offset] => 4
+                     [wins] => 16
                    }
-  [arcademaxmatches] => table: 0CE73338 {
+  [survivalstart] => table: 0CCAF140 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [arcademaxmatches] => table: 0CCAF140 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -43,8 +47,4 @@ table: 0CE73338 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 0CE73338 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
 }

@@ -61,6 +61,58 @@ animUpdate(arrowsEL)
 animSetScale(arrowsEL, 1.7, 1.7)
 
 --;===========================================================
+--; EVENT LOCKED INFO SCREEN
+--;===========================================================
+txt_lockedinfoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 156.5, 111)
+
+--Info Window BG
+infoEventWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(infoEventWindowBG, 83.5, 97)
+animUpdate(infoEventWindowBG)
+animSetScale(infoEventWindowBG, 1, 1)
+
+t_lockedinfoMenu = {
+	{id = textImgNew(), text = 'OK'},
+}
+
+function f_lockedInfo()
+	cmdInput()
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(infoEventWindowBG)
+	animUpdate(infoEventWindowBG)
+	--Draw Title
+	if eventInfo == true then
+		txt_lockedInfo = createTextImg(jgFnt, 0, 0, 'EVENT NOT AVAILABLE, TRY LATER', 160, 130,0.6,0.6)
+	end
+	textImgDraw(txt_lockedInfo)
+	--Draw Table Text
+	for i=1, #t_lockedinfoMenu do
+		textImgDraw(f_updateTextImg(t_lockedinfoMenu[i].id, jgFnt, 5, 0, t_lockedinfoMenu[i].text, 159, 135+i*13))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,138, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Info Title Text
+	textImgDraw(txt_lockedinfoTitle)
+	--Actions
+	if esc() or btnPalNo(p1Cmd) > 0 then
+		sndPlay(sysSnd, 100, 2)
+		f_lockedInfoReset()
+	end
+	cmdInput()
+end
+
+function f_lockedInfoReset()
+	lockedScreen = false
+	eventInfo = false
+end
+
+--;===========================================================
 --; EVENTS IMAGES
 --;===========================================================
 --Event 1 Unlocked Preview
@@ -94,15 +146,6 @@ animUpdate(event3)
 --;===========================================================
 --; EVENTS MENU
 --;===========================================================
-t_eventMenu = {
-	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-}
-
 --function countdown(t) --TODO make a Countdown for the sysTime Event
   --local d = math.floor(t / 86400)
   --local h = math.floor((t % 86400) / 3600)
@@ -135,6 +178,15 @@ for i=1, #t_mInfo do
 	t_mInfo[i].id = createTextImg(font11, 0, 0, t_mInfo[i].text, 160, 37)
 end
 
+t_eventMenu = {
+	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+}
+
 function f_eventMenu()
 	cmdInput()
 	playBGM(bgmEvents)
@@ -146,114 +198,118 @@ function f_eventMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	f_lockedInfoReset()
+	--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 --Event Progress Logic
 	if data.event1Status == 100 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
 	data.eventsProgress = (math.floor(((data.event1Status) * 100 / 100) + 0.5)) --The number (100) is the summation of all data.eventStatus values in parentheses
 	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsProgress .. '%]', 159, 10) --needs to be inside of event Menu function, to load event data %
 	txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
-		if esc() then
-			f_saveProgress()
-			f_menuMusic()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-			if eventSelect == true then
-				sndPlay(sysSnd, 100, 0)
-				eventMenu = eventMenu - 1
-			end
-		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-			if eventSelect == true then
-				sndPlay(sysSnd, 100, 0)
-				eventMenu = eventMenu + 1
-			end
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			if eventSelect == true then
-				eventSelect = false
-			elseif eventSelect == false then
-				eventSelect = true
-			end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			if eventSelect == true then
-				eventSelect = false
-			elseif eventSelect == false then
-				eventSelect = true
-			end
-		elseif btnPalNo(p1Cmd) > 0 then
-			if eventSelect == true then
-				f_default()
-			--Master Kung Fu Girl
-				if eventMenu == 1 then
-					if event1Status == true then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 1)
-						setRoundTime(-1)
-						data.p2In = 1
-						data.p2SelectMenu = false
-						data.p1TeamMenu = {mode = 0, chars = 1}				
-						--data.p2TeamMenu = {mode = 2, chars = 4}
-						data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
-						data.versusScreen = true
-						data.gameMode = 'survival'
-						data.rosterMode = 'event'
-						data.eventNo = 'event 1'
-						script.select.f_selectAdvance()
-					elseif event1Status == false then
-						sndPlay(sysSnd, 100, 1)
-						f_eventLocked()
-					end
-			--EVENT 2
-				elseif eventMenu == 2 then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-			--EVENT 3
-				elseif eventMenu == 3 then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-			--EVENT 4
-				elseif eventMenu == 4 then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-			--EVENT 5
-				elseif eventMenu == 5 then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-			--EVENT 6
-				elseif eventMenu == 6 then
-					--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
-				end
-		--BACK
-			else
+		if lockedScreen == false then
+			if esc() then
 				f_saveProgress()
 				f_menuMusic()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				if eventSelect == true then
+					sndPlay(sysSnd, 100, 0)
+					eventMenu = eventMenu - 1
+				end
+			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				if eventSelect == true then
+					sndPlay(sysSnd, 100, 0)
+					eventMenu = eventMenu + 1
+				end
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				if eventSelect == true then
+					eventSelect = false
+				elseif eventSelect == false then
+					eventSelect = true
+				end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				if eventSelect == true then
+					eventSelect = false
+				elseif eventSelect == false then
+					eventSelect = true
+				end
+			elseif btnPalNo(p1Cmd) > 0 then
+				if eventSelect == true then
+					f_default()
+				--Master Kung Fu Girl
+					if eventMenu == 1 then
+						if event1Status == true then
+							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+							sndPlay(sysSnd, 100, 1)
+							setRoundTime(-1)
+							data.p2In = 1
+							data.p2SelectMenu = false
+							data.p1TeamMenu = {mode = 0, chars = 1}				
+							--data.p2TeamMenu = {mode = 2, chars = 4}
+							data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
+							data.versusScreen = true
+							data.gameMode = 'survival'
+							data.rosterMode = 'event'
+							data.eventNo = 'event 1'
+							script.select.f_selectAdvance()
+						elseif event1Status == false then
+							sndPlay(sysSnd, 100, 1)
+							eventInfo = true
+							lockedScreen = true
+						end
+				--EVENT 2
+					elseif eventMenu == 2 then
+						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 1)
+				--EVENT 3
+					elseif eventMenu == 3 then
+						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 1)
+				--EVENT 4
+					elseif eventMenu == 4 then
+						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 1)
+				--EVENT 5
+					elseif eventMenu == 5 then
+						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 1)
+				--EVENT 6
+					elseif eventMenu == 6 then
+						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 1)
+					end
+			--BACK
+				else
+					f_saveProgress()
+					f_menuMusic()
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 2)
+					break
+				end
 			end
-		end
-	--Cursor position calculation
-		if eventMenu < 1 then
-			eventMenu = #t_eventMenu
-			if #t_eventMenu > 3 then
-				cursorPosX = 3
-			else
-				cursorPosX = #t_eventMenu
-			end
-		elseif eventMenu > #t_eventMenu then
-			eventMenu = 1
-			cursorPosX = 1
-		elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosX > 1 then
-			if eventSelect == true then
-				cursorPosX = cursorPosX - 1
-			end
-		elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 3 then
-			if eventSelect == true then
-				cursorPosX = cursorPosX + 1
+		--Cursor position calculation
+			if eventMenu < 1 then
+				eventMenu = #t_eventMenu
+				if #t_eventMenu > 3 then
+					cursorPosX = 3
+				else
+					cursorPosX = #t_eventMenu
+				end
+			elseif eventMenu > #t_eventMenu then
+				eventMenu = 1
+				cursorPosX = 1
+			elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosX > 1 then
+				if eventSelect == true then
+					cursorPosX = cursorPosX - 1
+				end
+			elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 3 then
+				if eventSelect == true then
+					cursorPosX = cursorPosX + 1
+				end
 			end
 		end
 		if cursorPosX == 3 then
@@ -305,9 +361,11 @@ function f_eventMenu()
 		animUpdate(event3)
 		if eventSelect == true then
 		--Draw Event Cursor
-			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
+			if lockedScreen == false then
+				animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
 		--Draw Event Info
 			if eventMenu == 1 then
 				if event1Status == true then
@@ -381,8 +439,8 @@ function f_eventMenu()
 			animSetWindow(cursorBox, -56, 228, 432, 13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
-			
 		end
+		if lockedScreen == true then f_lockedInfo() end --Show Locked Event Info Message
 		if commandGetState(p1Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
@@ -398,52 +456,6 @@ function f_eventMenu()
 		cmdInput()
 		refresh()
 	end
-end
-
---;===========================================================
---; EVENT LOCKED INFO SCREEN
---;===========================================================
-function f_eventLocked()
-	local i = 0
-	txt = 'THIS EVENT IS UNAVAILABLE ON THIS HOUR. TRY LATER...'
-	cmdInput()
-	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			sndPlay(sysSnd, 100, 2)
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-			break
-		end
-        i = i + 1
-        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1.8, 35)
-        animDraw(data.fadeTitle)
-        animUpdate(data.fadeTitle)
-		cmdInput()
-        refresh()
-    end
-end
-
---;===========================================================
---; EVENT INFO SCREEN
---;===========================================================
-function f_eventWarning()
-	local i = 0
-	txt = 'FOR A BETTER EXPERIENCE, SET A 4:3 GAME RESOLUTION TO PLAY THIS EVENT.'
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			sndPlay(sysSnd, 100, 1)
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-			break
-		end
-        i = i + 1
-        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1, 35)
-        animDraw(data.fadeTitle)
-        animUpdate(data.fadeTitle)
-		cmdInput()
-        refresh()
-    end		
 end
 
 --;===========================================================

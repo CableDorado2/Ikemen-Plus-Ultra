@@ -624,18 +624,29 @@ end
 --;===========================================================
 --; INFO STUFF
 --;===========================================================
-txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 13)
-txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)
+txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 63)
+txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 63)
+txt_okOptions = createTextImg(jgFnt, 5, 0, 'OK', 159, 143)
+
+--Info Window BG
+infoOptionsWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(infoOptionsWindowBG, 83.5, 130)
+animUpdate(infoOptionsWindowBG)
+animSetScale(infoOptionsWindowBG, 1, 0.3)
 
 --;===========================================================
 --; REBOOT INFORMATION
 --;===========================================================
 t_exitInfo = {
+	{id = '', text = ""},
 	{id = '', text = "Some selected options require restart Ikemen. Press"},
 	{id = '', text = "start key to reboot Ikemen and load your new settings."},
+	{id = '', text = ""},
 }
 for i=1, #t_exitInfo do
-	t_exitInfo[i].id = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 15+i*15)
+	t_exitInfo[i].id = createTextImg(font2, 0, 1, t_exitInfo[i].text, 25, 65+i*15)
 end
 
 function f_exitInfo()
@@ -646,14 +657,27 @@ function f_exitInfo()
 			f_saveCfg()
 			break
 		end
+		--Draw BG
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG2, 300, 94)
-		animSetWindow(optionsBG2, 0,20, 295.5,#t_exitInfo*15)
-		animDraw(optionsBG2)
+		--Draw Info Title Text
 		textImgDraw(txt_exitInfo)
+		--Draw Above Window BG
+		animSetScale(optionsBG2, 300, 111)
+		animSetWindow(optionsBG2, 0,70, 295.5,#t_exitInfo*15)
+		animDraw(optionsBG2)
+		--Draw Above Info Text
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
 		end
+		--Draw Message Menu BG
+		animDraw(infoOptionsWindowBG)
+		animUpdate(infoOptionsWindowBG)
+		--Draw OK Below Info Text
+		textImgDraw(txt_okOptions)
+		--Draw Below Cursor
+		animSetWindow(cursorBox, 87,133, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
@@ -664,28 +688,36 @@ end
 --; ASPECT RATIO WARNING
 --;===========================================================
 t_resWarning = {
+	{id = '', text = ""},
 	{id = '', text = "Non 4:3 resolutions requires stages coded for different"},
 	{id = '', text = "aspect ratio. Change it back to 4:3 if stages look off."},
+	{id = '', text = ""},
 }
 for i=1, #t_resWarning do
-	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 15+i*15)
+	t_resWarning[i].id = createTextImg(font2, 0, 1, t_resWarning[i].text, 25, 65+i*15)
 end
 
 function f_resWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
+		if btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG2, 300, 94)
-		animSetWindow(optionsBG2, 0,20, 297,#t_resWarning*15)
-		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
+		animSetScale(optionsBG2, 300, 111)
+		animSetWindow(optionsBG2, 0,70, 297,#t_resWarning*15)
+		animDraw(optionsBG2)
 		for i=1, #t_resWarning do
 			textImgDraw(t_resWarning[i].id)
 		end
+		animDraw(infoOptionsWindowBG)
+		animUpdate(infoOptionsWindowBG)
+		textImgDraw(txt_okOptions)
+		animSetWindow(cursorBox, 87,133, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
@@ -696,31 +728,36 @@ end
 --; OPENGL 2.0 WARNING
 --;===========================================================
 t_glWarning = {
-	{id = '', text = "You won't be able to start the game if your system"},
-	{id = '', text = "doesn't support OpenGL 2.0 or later."},
-	{id = '', text = " "},	
-	{id = '', text = "In such case, you will need to edit ssz/config.ssz:"},
-	{id = '', text = "const bool OpenGL = false"},
+	{id = '', text = ""},
+	{id = '', text = "If your system doesn't support OpenGL 2.0 or later"},
+	{id = '', text = "edit in ssz/config.ssz: const bool OpenGL = false"},
+	{id = '', text = ""},
 }
 for i=1, #t_glWarning do
-	t_glWarning[i].id = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 15+i*15)
+	t_glWarning[i].id = createTextImg(font2, 0, 1, t_glWarning[i].text, 25, 65+i*15)
 end
 
 function f_glWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
+		if btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG2, 300, 94)
-		animSetWindow(optionsBG2, 0,20, 296,#t_glWarning*15)
-		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
+		animSetScale(optionsBG2, 300, 111)
+		animSetWindow(optionsBG2, 0,70, 296,#t_glWarning*15)
+		animDraw(optionsBG2)
 		for i=1, #t_glWarning do
 			textImgDraw(t_glWarning[i].id)
 		end
+		animDraw(infoOptionsWindowBG)
+		animUpdate(infoOptionsWindowBG)
+		textImgDraw(txt_okOptions)
+		animSetWindow(cursorBox, 87,133, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
@@ -731,28 +768,36 @@ end
 --; SAVE MEMORY WARNING
 --;===========================================================
 t_memWarning = {
+	{id = '', text = ""},
 	{id = '', text = "Enabling 'Save memory' option negatively affects FPS."},
 	{id = '', text = "It's not yet known if disabling it has any drawbacks."},
+	{id = '', text = ""},
 }
 for i=1, #t_memWarning do
-	t_memWarning[i].id = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 15+i*15)
+	t_memWarning[i].id = createTextImg(font2, 0, 1, t_memWarning[i].text, 25, 65+i*15)
 end
 
 function f_memWarning()
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 or esc() then
+		if btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			break
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG2, 300, 94)
-		animSetWindow(optionsBG2, 0,20, 297,#t_memWarning*15)
-		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
+		animSetScale(optionsBG2, 300, 111)
+		animSetWindow(optionsBG2, 0,70, 297,#t_memWarning*15)
+		animDraw(optionsBG2)
 		for i=1, #t_memWarning do
 			textImgDraw(t_memWarning[i].id)
 		end
+		animDraw(infoOptionsWindowBG)
+		animUpdate(infoOptionsWindowBG)
+		textImgDraw(txt_okOptions)
+		animSetWindow(cursorBox, 87,133, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
@@ -5890,7 +5935,7 @@ t_unlocksWarning = {
 	{id = '', text = "   All unlocked data or progress will be delete."},
 }
 for i=1, #t_unlocksWarning do
-	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 15+i*15)
+	t_unlocksWarning[i].id = createTextImg(font2, 0, 1, t_unlocksWarning[i].text, 25, 65+i*15)
 end
 
 function f_unlocksWarning()
@@ -5901,7 +5946,7 @@ function f_unlocksWarning()
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG2, 300, 94)
-		animSetWindow(optionsBG2, 0,20, 297,#t_unlocksWarning*15)
+		animSetWindow(optionsBG2, 0,70, 297,#t_unlocksWarning*15)
 		animDraw(optionsBG2)
 		textImgDraw(txt_Warning)
 		for i=1, #t_unlocksWarning do

@@ -177,6 +177,8 @@ animSetScale(arrowsU, 2, 2)
 --;===========================================================
 --; OK MESSAGE
 --;===========================================================
+txt_infoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 156.5, 111)
+
 --Info Window BG
 infoWindowBG = animNew(sysSff, [[
 230,1, 0,0,
@@ -198,26 +200,25 @@ function f_infoMenu()
 	animUpdate(infoWindowBG)
 	--Draw Title
 	if charsInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO CHARACTERS FOUND IN SELECT.DEF', 160, 118,0.56,0.56)
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO CHARACTERS FOUND IN SELECT.DEF', 160, 130,0.56,0.56)
 	elseif stagesInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO STAGES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO STAGES FOUND IN SELECT.DEF', 160, 130,0.6,0.6)
 	elseif bossInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO BOSSES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO BOSSES FOUND IN SELECT.DEF', 160, 130,0.6,0.6)
 	elseif bonusInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO BONUSES FOUND IN SELECT.DEF', 160, 118,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, 'NO BONUSES FOUND IN SELECT.DEF', 160, 130,0.6,0.6)
 	end
 	textImgDraw(txt_info)
 	--Draw Table Text
 	for i=1, #t_infoMenu do
-		textImgDraw(f_updateTextImg(t_infoMenu[i].id, jgFnt, 5, 0, t_infoMenu[i].text, 159, 130+i*13))
+		textImgDraw(f_updateTextImg(t_infoMenu[i].id, jgFnt, 5, 0, t_infoMenu[i].text, 159, 135+i*13))
 	end
 	--Draw Cursor
-	animSetWindow(cursorBox, 87,133, 144,13)
+	animSetWindow(cursorBox, 87,138, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Draw Bottom Text
-	textImgDraw(txt_titleFt)
-	textImgSetText(txt_titleFt, 'INFORMATION')
+	--Draw Info Title Text
+	textImgDraw(txt_infoTitle)
 	--Actions
 	if esc() or btnPalNo(p1Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
@@ -2975,6 +2976,7 @@ function f_extrasMenu()
 			--EVENTS MODE
 			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				script.events.f_eventMenu()
 			--TOWER MODE
 			elseif extrasMenu == 3 then
