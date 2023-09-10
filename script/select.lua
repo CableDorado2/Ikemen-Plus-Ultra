@@ -1641,7 +1641,7 @@ function f_selectScreen()
 	--Stage select
 	if p1SelEnd and p2SelEnd then
 		charSelect = false
-		selectTimer = 0
+		--selectTimer = 0
 		if not stageEnd then
 			f_selectStage()
 		else
@@ -2389,7 +2389,7 @@ function f_p1palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p1palEnd = true
 		cmdInput()
-	elseif esc() then
+	elseif esc() or selectTimer == 0 then
 		p1palEnd = true
 	end
 end
@@ -2588,7 +2588,7 @@ function f_p1SelectMenu()
 				sndPlay(sysSnd, 100, 2)
 				f_p1sideReset()
 			end
-			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or selectTimer == 0 then
+			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 				sndPlay(sysSnd, 100, 1)
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
@@ -2604,6 +2604,44 @@ function f_p1SelectMenu()
 				end
 				if data.palType == 'Classic' then
 					p1palSelect = btnPalNo(p1Cmd)
+				elseif data.palType == 'Modern' then
+					p1palSelect = p1palSelect
+				end
+				if data.coop then
+					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+					p1SelEnd = true
+				else
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+					if #data.t_p1selected == p1numChars then
+						if data.p2In == 1 and matchNo == 0 then
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						end
+						p1SelEnd = true
+					end
+				end
+				cmdInput()
+			elseif selectTimer == 0 then
+				sndPlay(sysSnd, 100, 1)
+				local cel = p1Cell
+				if getCharName(cel) == 'Random' then
+					cel = math.random(1, #t_randomChars)-1
+				elseif f_getName(p1Cell) == 'Kung Fu Man' then
+                    sndPlay(announcerSnd, 1, 0)
+				end
+				local updateAnim = true
+				for i=1, #data.t_p1selected do
+					if data.t_p1selected[i].cel == p1Cell then 
+						updateAnim = false
+					end
+				end
+				if data.palType == 'Classic' then
+					p1palSelect = 1 --Avoid crash when Character Select timer is over and there is not are a palette selected
 				elseif data.palType == 'Modern' then
 					p1palSelect = p1palSelect
 				end
@@ -2680,7 +2718,7 @@ function f_p2palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p2palEnd = true
 		cmdInput()
-	elseif esc() then
+	elseif esc() or selectTimer == 0 then
 		p2palEnd = true
 	end
 end
@@ -2886,7 +2924,7 @@ function f_p2SelectMenu()
 				sndPlay(sysSnd, 100, 2)
 				f_p2sideReset()
 			end
-			if commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') or selectTimer == 0 then
+			if commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') then
 				sndPlay(sysSnd, 100, 1)
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
@@ -2897,6 +2935,40 @@ function f_p2SelectMenu()
 				local updateAnim = true
 				if data.palType == 'Classic' then
 					p2palSelect = btnPalNo(p2Cmd)
+				elseif data.palType == 'Modern' then
+					p2palSelect = p2palSelect
+				end
+				if data.coop then
+					for i=1, #data.t_p1selected do
+						if data.t_p1selected[i].cel == p2Cell then 
+							updateAnim = false
+						end
+					end
+					data.t_p1selected[2] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
+					p2SelEnd = true
+				else
+					for i=1, #data.t_p2selected do
+						if data.t_p2selected[i].cel == p2Cell then 
+							updateAnim = false
+						end
+					end
+					data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
+					if #data.t_p2selected == p2numChars then
+						p2SelEnd = true
+					end
+				end
+				cmdInput()
+			elseif selectTimer == 0 then
+				sndPlay(sysSnd, 100, 1)
+				local cel = p2Cell
+				if getCharName(cel) == 'Random' then
+					cel = math.random(1, #t_randomChars)-1
+				elseif f_getName(p2Cell) == 'Kung Fu Man' then
+                    sndPlay(announcerSnd, 2, 0)
+				end
+				local updateAnim = true
+				if data.palType == 'Classic' then
+					p2palSelect = 1 --Avoid crash when Character Select timer is over and there is not are a palette selected
 				elseif data.palType == 'Modern' then
 					p2palSelect = p2palSelect
 				end
@@ -5123,53 +5195,54 @@ function f_result(state)
 		end
 		textImgDraw(txt_result)
 		if data.gameMode == 'survival' then
-			textImgDraw(txt_sresultName)
+			textImgDraw(txt_sresultName) --Player Text position for Survival Mode
 			textImgDraw(txt_resultRank)
-		else 
-			textImgDraw(txt_eresultName)
-		end
-		if winCnt >= 0 and winCnt < 2 then
-			animUpdate(rankF)
-			animDraw(rankF)
-		elseif winCnt >= 2 and winCnt < 6 then
-			animUpdate(rankDM)
-			animDraw(rankDM)
-		elseif winCnt >= 6 and winCnt < 8 then
-			animUpdate(rankD)
-			animDraw(rankD)
-		elseif winCnt >= 8 and winCnt < 12 then
-			animUpdate(rankDP)
-			animDraw(rankDP)
-		elseif winCnt >= 12 and winCnt < 16 then
-			animUpdate(rankC)
-			animDraw(rankC)
-		elseif winCnt >= 16 and winCnt < 20 then
-			animUpdate(rankCP)
-			animDraw(rankCP)
-		elseif winCnt >= 20 and winCnt < 25 then
-			animUpdate(rankB)
-			animDraw(rankB)
-		elseif winCnt >= 25 and winCnt < 30 then
-			animUpdate(rankBP)
-			animDraw(rankBP)
-		elseif winCnt >= 30 and winCnt < 35 then
-			animUpdate(rankA)
-			animDraw(rankA)
-		elseif winCnt >= 35 and winCnt < 40 then
-			animUpdate(rankAP)
-			animDraw(rankAP)
-		elseif winCnt >= 40 and winCnt < 45 then
-			animUpdate(rankS)
-			animDraw(rankS)
-		elseif winCnt >= 45 and winCnt < 50 then
-			animUpdate(rankSP)
-			animDraw(rankSP)
-		elseif winCnt >= 50 and winCnt < 100 then
-			animUpdate(rankXS)
-			animDraw(rankXS)
-		elseif winCnt >= 100 then
-			animUpdate(rankGDLK)
-			animDraw(rankGDLK)
+			--Show Ranks
+			if winCnt >= 0 and winCnt < 2 then
+				animUpdate(rankF)
+				animDraw(rankF)
+			elseif winCnt >= 2 and winCnt < 6 then
+				animUpdate(rankDM)
+				animDraw(rankDM)
+			elseif winCnt >= 6 and winCnt < 8 then
+				animUpdate(rankD)
+				animDraw(rankD)
+			elseif winCnt >= 8 and winCnt < 12 then
+				animUpdate(rankDP)
+				animDraw(rankDP)
+			elseif winCnt >= 12 and winCnt < 16 then
+				animUpdate(rankC)
+				animDraw(rankC)
+			elseif winCnt >= 16 and winCnt < 20 then
+				animUpdate(rankCP)
+				animDraw(rankCP)
+			elseif winCnt >= 20 and winCnt < 25 then
+				animUpdate(rankB)
+				animDraw(rankB)
+			elseif winCnt >= 25 and winCnt < 30 then
+				animUpdate(rankBP)
+				animDraw(rankBP)
+			elseif winCnt >= 30 and winCnt < 35 then
+				animUpdate(rankA)
+				animDraw(rankA)
+			elseif winCnt >= 35 and winCnt < 40 then
+				animUpdate(rankAP)
+				animDraw(rankAP)
+			elseif winCnt >= 40 and winCnt < 45 then
+				animUpdate(rankS)
+				animDraw(rankS)
+			elseif winCnt >= 45 and winCnt < 50 then
+				animUpdate(rankSP)
+				animDraw(rankSP)
+			elseif winCnt >= 50 and winCnt < 100 then
+				animUpdate(rankXS)
+				animDraw(rankXS)
+			elseif winCnt >= 100 then
+				animUpdate(rankGDLK)
+				animDraw(rankGDLK)
+			end
+		else
+			textImgDraw(txt_eresultName) --Player Text position for other challenges modes
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		

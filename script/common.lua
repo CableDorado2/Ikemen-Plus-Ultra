@@ -245,7 +245,6 @@ end
 
 --Constants/Standards
 gameTick = 20
-attractCoins = 0
 
 --animDraw at specified coordinates
 function animPosDraw(a, x, y)

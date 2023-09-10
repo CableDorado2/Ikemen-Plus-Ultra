@@ -1019,7 +1019,7 @@ function f_mainCfg()
 	local portEdit = false
 	local playerName = ''
 	local nameEdit = false
-	local done = true
+	local editDone = true
 	local cursorPosY = 1
 	local moveTxt = 0
 	local mainCfg = 1
@@ -1031,10 +1031,8 @@ function f_mainCfg()
 	f_defaultReset()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
-		if defaultScreen == false then
-			if not done then
-				--Stay in Options screen (For Username and Online Port fields)
-			elseif esc() then
+		if defaultScreen == false and editDone == true then --Stay in Options screen (For Pop-Ups messages or Username and Online Port fields)
+			if esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				if data.erase == true then
@@ -1087,51 +1085,17 @@ function f_mainCfg()
 					sndPlay(sysSnd, 100, 1)
 					playerName = ''
 					nameEdit = true
-					done = false
+					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
-				--OLD Logic
-					--sndPlay(sysSnd, 100, 1)
-					--inputDialogPopup(inputdia, 'Introduce an Username')
-					--while not inputDialogIsDone(inputdia) do
-						--animDraw(f_animVelocity(optionsBG0, -1, -1))
-						--refresh()
-					--end
-					--local playerName = inputDialogGetStr(inputdia)
-					--if playerName == '' then --if the field is empty
-						--data.userName = 'USERNAME' --set a default username
-						--modified = 1
-					--else
-						--data.userName = (inputDialogGetStr(inputdia)) --set username introduced
-						--modified = 1
-					--end
-					--data.userName = (inputDialogGetStr(inputdia))
-					--modified = 1
 				--Edit Online Port
 				elseif mainCfg == 8 then
 					sndPlay(sysSnd, 100, 1)
 					onlinePort = ''
 					portEdit = true
-					done = false
+					editDone = false
 					i = 0
 					commandBufReset(p1Cmd)
-				--OLD Logic
-					--sndPlay(sysSnd, 100, 1)
-					--inputDialogPopup(inputdia, 'Introduce a new Port (Default: 7500)')
-					--while not inputDialogIsDone(inputdia) do
-						--animDraw(f_animVelocity(optionsBG0, -1, -1))
-						--refresh()
-					--end
-					--local onlinePort = inputDialogGetStr(inputdia)
-					--if onlinePort == '' then
-						--setListenPort('7500')
-						--modified = 1
-					--else
-						--setListenPort(inputDialogGetStr(inputdia))
-						--modified = 1
-					--end
-					--setListenPort(inputDialogGetStr(inputdia))
-					--modified = 1
 				--Default Values
 				elseif mainCfg == 9 then
 					sndPlay(sysSnd, 100, 1)
@@ -1221,15 +1185,15 @@ function f_mainCfg()
 			end
 		end
 		--Player Name Change
-		if not done and nameEdit == true then
+		if not editDone and nameEdit == true then
 			if esc() then
 				clearInputText()
 				sndPlay(sysSnd, 100, 2)
 				t_mainCfg[7].varText = data.userName--getUserName()
 				nameEdit = false
-				done = true
+				editDone = true
 			end
-			playerName = inputText('text',true)
+			playerName = inputText('',true) --For not numbers use inputText('text',true)
 			if clipboardPaste() then
 				if string.match(getClipboardText(),'^(.*)') then
 					setInputText(getClipboardText())
@@ -1257,23 +1221,23 @@ function f_mainCfg()
 					data.userName = (tostring(playerName))
 					modified = 1
 					nameEdit = false
-					done = true
+					editDone = true
 				else 
 					sndPlay(sysSnd, 100, 5)
 				end
 			end
-			if not done and nameEdit == true then
+			if not editDone and nameEdit == true then
 				t_mainCfg[7].varText = playerName
 			end
 		end
 		--Online Port Change
-		if not done and portEdit == true then
+		if not editDone and portEdit == true then
 			if esc() then
 				clearInputText()
 				sndPlay(sysSnd, 100, 2)
 				t_mainCfg[8].varText = getListenPort()
 				portEdit = false
-				done = true
+				editDone = true
 			end
 			onlinePort = inputText('num',true)
 			if clipboardPaste() then
@@ -1291,24 +1255,24 @@ function f_mainCfg()
 				if tonumber(onlinePort) > 65535 then
 					onlinePort = '65535'
 					setInputText(onlinePort)
-				elseif onlinePort:match('^0(%d+)$') then
-					onlinePort = onlinePort:gsub('^0(%d+)$','%1')
+				elseif onlinePort:match('^.*(%.)$') then --Allow Points: match('^0(%d+)$')
+					onlinePort = onlinePort:gsub('^(.*)[%.]$','%1') --Allow Points: gsub('^0(%d+)$','%1')
 					setInputText(onlinePort)
 				end
 			end
-			if btnPalNo(p1Cmd) > 0 then
+			if commandGetState(p1Cmd, 's') then
 				if onlinePort ~= '' and onlinePort ~= nil then
 					clearInputText()
 					sndPlay(sysSnd, 100, 1)
 					setListenPort(tonumber(onlinePort))
 					modified = 1
 					portEdit = false
-					done = true
+					editDone = true
 				else 
 					sndPlay(sysSnd, 100, 5)
 				end
 			end
-			if not done and portEdit == true then
+			if not editDone and portEdit == true then
 				t_mainCfg[8].varText = onlinePort
 			end
 		end
@@ -1322,14 +1286,14 @@ function f_mainCfg()
 			end
 		end
 		--Draw Blinking Cursor for Username Field
-		if not done and nameEdit == true then
+		if not editDone and nameEdit == true then
 			if i%60 < 30 then 
 				textImgPosDraw(txt_bar,235+1.5,17.5+5*21)
 			end
 			i = i >= 60 and 0 or i + 1
 		end
 		--Draw Blinking Cursor for Online Port Field
-		if not done and portEdit == true then
+		if not editDone and portEdit == true then
 			if i%60 < 30 then 
 				textImgPosDraw(txt_bar,235+1.5,17.5+5*24)
 			end
@@ -3676,12 +3640,12 @@ function f_engineCfg()
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
 						PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
 					else
-						PlayerProjectileMaxEngine = 50 --Minimum Value
+						PlayerProjectileMaxEngine = 32 --Minimum Value
 					end
 					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if PlayerProjectileMaxEngine > 50 then --Minimum Value
+					if PlayerProjectileMaxEngine > 32 then --Minimum Value
 						PlayerProjectileMaxEngine = PlayerProjectileMaxEngine - 1
 					else
 						PlayerProjectileMaxEngine = 1000 --You can increase this limit

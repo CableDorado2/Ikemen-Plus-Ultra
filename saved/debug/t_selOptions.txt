@@ -1,41 +1,17 @@
-table: 0CCAF140 {
-  [arcadeend] => table: 0CCAF140 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [arcadestart] => table: 0CCAF140 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teamstart] => table: 0CCAF140 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [teammaxmatches] => table: 0CCAF140 {
-                        [1] => 2
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 1
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [teamend] => table: 0CCAF140 {
+table: 0CCAC450 {
+  [teamend] => table: 0CCAC450 {
                  [offset] => 2
                  [wins] => 3
                }
-  [survivalend] => table: 0CCAF140 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [survivalstart] => table: 0CCAF140 {
+  [survivalstart] => table: 0CCAC450 {
                        [offset] => -3
                        [wins] => 0
                      }
-  [arcademaxmatches] => table: 0CCAF140 {
+  [arcadeend] => table: 0CCAC450 {
+                   [offset] => 2
+                   [wins] => 4
+                 }
+  [arcademaxmatches] => table: 0CCAC450 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -47,4 +23,28 @@ table: 0CCAF140 {
                           [9] => 0
                           [10] => 0
                         }
+  [teammaxmatches] => table: 0CCAC450 {
+                        [1] => 2
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 1
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [survivalend] => table: 0CCAC450 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [teamstart] => table: 0CCAC450 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [arcadestart] => table: 0CCAC450 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
 }

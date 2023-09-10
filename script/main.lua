@@ -304,6 +304,7 @@ end
 --; ATTRACT MODE
 --;===========================================================
 txt_coinTitle = createTextImg(jgFnt, 0, 0, '-- INSERT COIN --', 159, 190)
+attractCoins = 0
 function f_attractCredits()
 	txt_credits = createTextImg(font1, 0, -1, 'Credits: '..attractCoins..'', 181.5, 235)
 	textImgDraw(txt_credits)
