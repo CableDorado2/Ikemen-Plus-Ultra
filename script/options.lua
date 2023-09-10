@@ -1206,8 +1206,8 @@ function f_mainCfg()
 				setInputText(playerName)
 			end
 			if playerName ~= '' and playerName ~= nil then
-				if playerName:match('^0(%d+)$') then
-					playerName = playerName:gsub('^0(%d+)$','%1')
+				if playerName:match('^"*(%")$') then
+					playerName = playerName:gsub('^("*)[%"]$','%1')
 					--What if you want to get certain pieces out of a string of text? This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures will be returned from string.match.
 					--> = string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
 					--foo 123 bar 456
