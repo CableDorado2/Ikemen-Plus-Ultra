@@ -1593,7 +1593,10 @@ function f_selectScreen()
 	end
 	--Character Select Timer
 	if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
-		txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70)
+		--txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70) --Original Decimal Timer
+		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
+		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
+		txt_charTime = createTextImg(jgFnt, 0, 0, nodecimalCharTime, 160, 70)
 		if selectTimer > 0 then
 			selectTimer = selectTimer - 0.5 --Activate Character Select Timer
 			textImgDraw(txt_charTime)
@@ -3251,9 +3254,15 @@ function f_selectStage()
 		--Stage Select Timer
 		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
 			if data.stageType == 'Classic' then
-				txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
+				--txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
+				stageTimeNumber = stageTimer/gameTick
+				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
+				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 70)
 			elseif data.stageType == 'Modern' then
-				txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 234)
+				--txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 234)
+				stageTimeNumber = stageTimer/gameTick
+				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
+				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 234)
 			end
 			if stageTimer > 0 then
 				stageTimer = stageTimer - 0.5 --Activate Stage Select Timer
@@ -4641,7 +4650,10 @@ function f_rematch()
 	end
 	--Rematch Option Timer
 	if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
-		txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
+		--txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
+		rematchTimeNumber = rematchTimer/gameTick
+		nodecimalRematchTime = string.format("%.0f",rematchTimeNumber)
+		txt_rematchTime = createTextImg(jgFnt, 0, 0, nodecimalRematchTime, 160, 70)
 		if rematchTimer > 0 then
 			rematchTimer = rematchTimer - 0.5 --Activate Rematch Timer
 			textImgDraw(txt_rematchTime)
@@ -5007,7 +5019,10 @@ function f_service()
 			end
 		end
 		--Service Option Timer
-		txt_serviceTime = createTextImg(jgFnt, 0, 0, ''..serviceTimer/gameTick..'', 160, 122)
+		--txt_serviceTime = createTextImg(jgFnt, 0, 0, ''..serviceTimer/gameTick..'', 160, 122)
+		serviceTimeNumber = serviceTimer/gameTick
+		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
+		txt_serviceTime = createTextImg(jgFnt, 0, 0, nodecimalServiceTime, 160, 122)
 		if serviceTimer > 0 then
 			serviceTimer = serviceTimer - 0.5 --Activate Service Timer
 			textImgDraw(txt_serviceTime)

@@ -1,16 +1,16 @@
-table: 02D61778 {
+table: 02EBEE38 {
   [suave dude/minion/minion.def] => 122
-  [kung fu man] => 0
-  [suave dude] => 11
-  [dragon claw] => 123
-  [randomselect] => 118
-  [kung fu man/evil/evil kung fu man.def] => 119
   [stage viewer] => 128
-  [kung fu girl] => 4
+  [randomselect] => 118
+  [kung fu girl/master/master kung fu girl.def] => 121
+  [kung fu man/master/master kung fu man.def] => 124
   [training/sandbag.def] => 127
   [kung fu man/ex/ex kung fu man.def] => 120
-  [catwalk] => 126
   [strength training] => 125
-  [kung fu man/master/master kung fu man.def] => 124
-  [kung fu girl/master/master kung fu girl.def] => 121
+  [kung fu man/evil/evil kung fu man.def] => 119
+  [kung fu man] => 0
+  [suave dude] => 11
+  [kung fu girl] => 4
+  [dragon claw] => 123
+  [catwalk] => 126
 }
