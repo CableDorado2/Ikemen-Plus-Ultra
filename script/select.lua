@@ -3533,10 +3533,10 @@ function f_orderSelect()
 		local p2Row = 1
 		local t_tmp = {}
 		local sndTime = 0
-		local orderTime = 0
 		local orderhintTime = 0
 		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-		local seconds = data.orderTime --Edit your Seconds for Order Select
+		local seconds = data.orderTime
+		local orderTime = seconds*gameTick --Set time for Order Select
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 			--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
 		elseif #data.t_p1selected > 1 or data.coop == true then
@@ -3547,10 +3547,12 @@ function f_orderSelect()
 			f_selectChar(2, data.t_p2selected)
 			p2Confirmed = true
 		end
-		local orderTime = seconds*gameTick --Set time for Order Select
 		cmdInput()
 		while true do
-			txt_orderTime = createTextImg(jgFnt, 0, 0, ''..orderTime/gameTick..'', 160, 70)
+			--txt_orderTime = createTextImg(jgFnt, 0, 0, ''..orderTime/gameTick..'', 160, 70)
+			orderTimeNumber = orderTime/gameTick
+			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
+			txt_orderTime = createTextImg(jgFnt, 0, 0, nodecimalOrderTime, 160, 70)
 			--draw background on top
 			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))

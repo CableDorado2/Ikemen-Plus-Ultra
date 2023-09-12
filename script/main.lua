@@ -3868,6 +3868,29 @@ function f_songMenu()
 			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		end
 	end
+	for file in lfs.dir[[.\\sound\system\\]] do
+		if file:match('^.*(%.)mp3$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		elseif file:match('^.*(%.)MP3$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		elseif file:match('^.*(%.)ogg$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		elseif file:match('^.*(%.)OGG$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		end
+	end
 	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the table Created
 	while true do
 		if esc() then
@@ -3892,6 +3915,8 @@ function f_songMenu()
 				--Play Song
 				playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
 				playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
+				playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.mp3')
+				playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.ogg')
 			end
 		end
 		--Cursor position calculation
