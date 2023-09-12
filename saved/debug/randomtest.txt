@@ -7,4 +7,3 @@ randomselect
 randomselect
 randomselect
 chars/kung fu man/kung fu man.def
-chars/kung fu girl/kung fu girl.def

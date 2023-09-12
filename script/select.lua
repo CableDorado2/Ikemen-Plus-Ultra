@@ -853,7 +853,7 @@ function f_selectSimple()
 				if data.rosterMode == 'event' then
 					--playBGM('')
 				else
-					f_menuMusic()
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
 				return
 			end
@@ -868,7 +868,7 @@ function f_selectSimple()
 				if battleOption == 3 or battleOption2 == 3 then
 					f_favoriteChar() --Store Favorite Character (WIP)
 					f_favoriteStage() --Store Favorite Stage (WIP)
-					f_menuMusic()
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					break
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
@@ -898,7 +898,7 @@ function f_selectSimple()
 							if data.rosterMode == 'event' then
 								--playBGM('')
 							else
-								f_menuMusic()
+								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 							end
 							return
 						end
@@ -936,7 +936,7 @@ function f_selectSimple()
 				if data.rosterMode == 'event' then
 					playBGM(bgmEvents)
 				else
-					f_menuMusic()
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
 				return
 			--For Training and Single Bonus
@@ -960,7 +960,7 @@ function f_selectSimple()
 						if data.rosterMode == 'event' then
 							--playBGM('')
 						else
-							f_menuMusic()
+							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						end
 						return
 					end
@@ -1075,7 +1075,7 @@ function f_selectAdvance()
 			end
 			f_selectScreen()
 			if back == true then
-				f_menuMusic()
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				return
 			end
 		end
@@ -1102,7 +1102,7 @@ function f_selectAdvance()
 			f_result('lost')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			f_menuMusic()
+			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			return	
 		--player won (also if lost in Endless or All Roster modes)
 		elseif winner == 1 or data.gameMode == 'endless' or data.gameMode == 'allroster' then
@@ -1149,7 +1149,7 @@ function f_selectAdvance()
 					f_storyboard('data/screenpack/intro.def')
 					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					f_menuMusic()
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					return
 				else
 					--game over
@@ -1159,7 +1159,7 @@ function f_selectAdvance()
 					if data.rosterMode == 'event' then
 						playBGM(bgmEvents)
 					else
-						f_menuMusic()
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					end
 					return
 				end	
@@ -1168,7 +1168,8 @@ function f_selectAdvance()
 				matchNo = matchNo + 1
 			end
 		--player lost in special game mode or don't have any coins left for Arcade
-		elseif data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and attractCoins == 0) then
+		--elseif data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
+		elseif data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
 			--counter
 			looseCnt = looseCnt + 1
 			--win screen
@@ -1188,7 +1189,7 @@ function f_selectAdvance()
 			if data.rosterMode == 'event' then
 				playBGM(bgmEvents)
 			else
-				f_menuMusic()
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			end
 			return
 		--player lost but can continue
@@ -1206,7 +1207,7 @@ function f_selectAdvance()
 				--f_storyboard('data/screenpack/intro.def')
 				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				f_menuMusic()
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				return
 			end
 			if data.contSelection then --true if 'Char change at Continue' option is enabled
@@ -1226,14 +1227,14 @@ function f_selectAdvance()
 					end
 					f_selectScreen()
 					if back == true then
-						f_menuMusic()
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					end
 				end
 			elseif esc() then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
-				f_menuMusic()
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				return
 			end
 		end
@@ -1327,7 +1328,7 @@ function f_selectTower()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
 			f_comingSoon()
-			f_menuMusic()
+			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			break
 		end
 		animDraw(f_animVelocity(selectBG0, -1, -1))
@@ -1374,7 +1375,7 @@ function f_selectTourney()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
 			f_comingSoon()
-			f_menuMusic()
+			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			break
 		end
 		animDraw(f_animVelocity(selectBG0, -1, -1))
@@ -1403,7 +1404,7 @@ function f_selectLegion()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
 			f_comingSoon()
-			f_menuMusic()
+			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			break
 		end
 		animDraw(f_animVelocity(selectBG0, -1, -1))
@@ -1436,7 +1437,7 @@ function f_selectAdventure()
 	while true do
 		if btnPalNo(p1Cmd) > 0 then
 			f_comingSoon()
-			f_menuMusic()
+			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			break
 		end
 		animDraw(adventureMap)
@@ -5354,9 +5355,9 @@ function f_continue()
 		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
 	if data.attractMode == true then
-		textImgSetText(txt_coins, 'CREDITS: ' .. attractCoins)
-	else
-		textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+		textImgSetText(txt_coins, 'CREDITS: ' .. data.attractCoins)
+	--else
+		--textImgSetText(txt_coins, 'COINS: ' .. data.coins)
 	end
 	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)
 	cmdInput()
@@ -5410,27 +5411,28 @@ function f_continue()
 				end
 				if onlinegame == false then
 					if data.attractMode == true then
-						if attractCoins < 1 then
-							attractCoins = 0
-						elseif attractCoins >= 1 then
-							attractCoins = attractCoins - 1
-						end
-					else
-						if data.coins < 1 then
-							data.coins = 0
-						elseif data.coins >= 1 then
-							data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+						if data.attractCoins < 1 then
+							data.attractCoins = 0
+						elseif data.attractCoins >= 1 then
+							data.attractCoins = data.attractCoins - 1
 						end
 						f_saveProgress()
+					--else
+						--if data.coins < 1 then
+							--data.coins = 0
+						--elseif data.coins >= 1 then
+							--data.coins = data.coins - 1 --Lose 1 Coin by be defeated :c
+						--end
+						--f_saveProgress()
 					end
 				elseif onlinegame == true then
 					--Free Online Arcade to Avoid Desync
 				end
 				data.continueCount = data.continueCount + 1 --Times Continue
 				if data.attractMode == true then
-					textImgSetText(txt_coins, 'CREDITS: ' .. attractCoins)
-				else
-					textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+					textImgSetText(txt_coins, 'CREDITS: ' .. data.attractCoins)
+				--else
+					--textImgSetText(txt_coins, 'COINS: ' .. data.coins)
 				end
 				textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)				
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', fadeSff)

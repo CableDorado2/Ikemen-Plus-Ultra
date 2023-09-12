@@ -3174,7 +3174,7 @@ function f_audioCfg()
 		if defaultScreen == false then
 			if esc() then
 				sndPlay(sysSnd, 100, 2)
-				f_menuMusic()
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
@@ -3440,7 +3440,7 @@ function f_audioCfg()
 			--BACK
 			elseif audioCfg == 11 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
-				f_menuMusic()
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			end
 			if audioCfg < 1 then

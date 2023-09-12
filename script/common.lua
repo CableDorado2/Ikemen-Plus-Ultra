@@ -169,9 +169,9 @@ function f_bgmrandomVS()
 			t_randomsongList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
 		end
 	end
-	t_randomsongList[#t_randomsongList+1] = {
-		id = '', playlist = ' '
-	}
+	--t_randomsongList[#t_randomsongList+1] = {
+		--id = '', playlist = ' '
+	--}
 	playBGM('sound/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.mp3')
 	playBGM('sound/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.ogg')
 end

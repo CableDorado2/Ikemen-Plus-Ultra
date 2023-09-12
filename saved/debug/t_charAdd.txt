@@ -1,16 +1,16 @@
-table: 0231C538 {
-  [kung fu man/master/master kung fu man.def] => 124
+table: 0D4F4CF0 {
+  [kung fu man/evil/evil kung fu man.def] => 119
   [kung fu man] => 0
+  [kung fu girl] => 4
   [kung fu man/ex/ex kung fu man.def] => 120
+  [strength training] => 125
+  [kung fu man/master/master kung fu man.def] => 124
+  [suave dude/minion/minion.def] => 122
+  [kung fu girl/master/master kung fu girl.def] => 121
   [stage viewer] => 128
   [training/sandbag.def] => 127
   [catwalk] => 126
-  [strength training] => 125
-  [dragon claw] => 123
-  [suave dude/minion/minion.def] => 122
-  [kung fu girl/master/master kung fu girl.def] => 121
-  [kung fu man/evil/evil kung fu man.def] => 119
-  [randomselect] => 118
   [suave dude] => 11
-  [kung fu girl] => 4
+  [randomselect] => 118
+  [dragon claw] => 123
 }

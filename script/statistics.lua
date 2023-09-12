@@ -53,7 +53,7 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --;===========================================================
 --; STATISTICS MENU
 --;===========================================================
-t_statsMenu = {	
+t_statsMenu = {
 	{id = '', text = 'Collected Coins',    			varID = textImgNew(), varText = data.coins},
 	{id = '', text = 'Time Played',  				varID = textImgNew(), varText = data.playTime},
 	{id = '', text = 'Favorite Character',  		varID = textImgNew(), varText = data.favoriteChar},

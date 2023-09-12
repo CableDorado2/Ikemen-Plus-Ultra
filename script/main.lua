@@ -293,6 +293,8 @@ function f_mainStart()
 	elseif #t_selChars or #t_selStages ~= 0 then
 		if data.attractMode == true then
 			coinSystem = false
+			--data.attractCoins = 0 --Enable for Restart Credits for Attract Mode
+			--f_saveProgress() --Enable for Restart Credits for Attract Mode
 			f_mainAttract()
 		else
 			f_mainTitle()
@@ -304,9 +306,8 @@ end
 --; ATTRACT MODE
 --;===========================================================
 txt_coinTitle = createTextImg(jgFnt, 0, 0, '-- INSERT COIN --', 159, 190)
-attractCoins = 0
 function f_attractCredits()
-	txt_credits = createTextImg(font1, 0, -1, 'Credits: '..attractCoins..'', 181.5, 235)
+	txt_credits = createTextImg(font1, 0, -1, 'Credits: '..data.attractCoins..'', 181.5, 235)
 	textImgDraw(txt_credits)
 end
 
@@ -323,13 +324,15 @@ function f_mainAttract()
 		if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
 		   sndPlay(sysSnd, 200, 0)
 		   demoTimer = 0
-		   attractCoins = attractCoins + 1
+		   data.attractCoins = data.attractCoins + 1
+		   f_saveProgress()
 		   attractTimer = attractSeconds*gameTick --Reset Timer
 		--START GAME MODE
-		elseif (commandGetState(p1Cmd, 's') or attractTimer == 0) and attractCoins > 0 then
+		elseif (commandGetState(p1Cmd, 's') or attractTimer == 0) and data.attractCoins > 0 then
 		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		   sndPlay(sysSnd, 100, 1)
-		   attractCoins = attractCoins - 1
+		   data.attractCoins = data.attractCoins - 1
+		   f_saveProgress()
 		   attractTimer = attractSeconds*gameTick
 		   f_default()
 		   --data.p1TeamMenu = {mode = 0, chars = 1}
@@ -370,7 +373,7 @@ function f_mainAttract()
 		textImgDraw(txt_subTitle)
 		f_attractCredits()
 		txt_timer = createTextImg(font1, 0, 0, ''..attractTimer/gameTick..'', 302, 235)
-		if attractTimer > 0 and attractCoins > 0 then
+		if attractTimer > 0 and data.attractCoins > 0 then
 			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
 			textImgDraw(txt_timer)
 		else --when attractTimer <= 0
@@ -378,7 +381,7 @@ function f_mainAttract()
 		end
 		f_sysTime()
 		if t%60 < 30 then
-			if attractCoins > 0 then
+			if data.attractCoins > 0 then
 				textImgDraw(txt_mainTitle)
 			else
 				textImgDraw(txt_coinTitle)
@@ -3675,7 +3678,7 @@ end
 --;===========================================================
 --; GALLERY SCREENPACK
 --;===========================================================
---Left Gallery Arrow
+--Left Page Arrow
 arrowsGL = animNew(sysSff, [[
 223,0, 0,0, 10
 223,1, 0,0, 10
@@ -3690,7 +3693,7 @@ animAddPos(arrowsGL, 264, 220.5)
 animUpdate(arrowsGL)
 animSetScale(arrowsGL, 0.5, 0.5)
 
---Right Gallery Arrow
+--Right Page Arrow
 arrowsGR = animNew(sysSff, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
@@ -3815,7 +3818,7 @@ animAddPos(songUpArrow, 228, 11)
 animUpdate(songUpArrow)
 animSetScale(songUpArrow, 0.5, 0.5)
 
---Down Arrow
+--Down Page Arrow
 songDownArrow = animNew(sysSff, [[
 226,0, 0,0, 10
 226,1, 0,0, 10
@@ -3830,20 +3833,40 @@ animAddPos(songDownArrow, 228, 231)
 animUpdate(songDownArrow)
 animSetScale(songDownArrow, 0.5, 0.5)
 
+--Left Page Arrow
+songLeftArrow = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(songLeftArrow, 69, 112)
+animUpdate(songLeftArrow)
+animSetScale(songLeftArrow, 0.5, 0.5)
+
+--Right Arrow
+songRightArrow = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(songRightArrow, 242, 112)
+animUpdate(songRightArrow)
+animSetScale(songRightArrow, 0.5, 0.5)
+
 --;===========================================================
 --; SOUND TEST MENU
 --;===========================================================
-function f_songMenu()
-	playBGM(bgmNothing)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local songMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
+function f_soundPage1()
 	t_songList = {} --Create Table
 	for file in lfs.dir[[.\\sound\\]] do --Read Dir
 		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
@@ -3868,6 +3891,11 @@ function f_songMenu()
 			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		end
 	end
+	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the table Created
+end
+
+function f_soundPage2()
+	t_songList = {} --Create Table
 	for file in lfs.dir[[.\\sound\system\\]] do
 		if file:match('^.*(%.)mp3$') then
 			row = #t_songList+1
@@ -3891,7 +3919,22 @@ function f_songMenu()
 			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		end
 	end
-	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the table Created
+	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'}
+end
+
+function f_songMenu()
+	playBGM(bgmNothing)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local songMenu = 1
+	local page = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	f_soundPage1() --Load Main Table
 	while true do
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3904,6 +3947,30 @@ function f_songMenu()
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			songMenu = songMenu + 1
+		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			if page > 0 then
+				sndPlay(sysSnd, 100, 0)
+				page = page - 1
+			end
+			if page == 0 then
+				t_songList = nil
+				f_soundPage1()
+			elseif page == 1 then
+				t_songList = nil --Delete the Table
+				f_soundPage2() --Just reload the table with applied changes
+			end
+		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+			if page < 1 then
+				sndPlay(sysSnd, 100, 0)
+				page = page + 1
+			end
+			if page == 0 then
+				t_songList = nil
+				f_soundPage1()
+			elseif page == 1 then
+				t_songList = nil
+				f_soundPage2()
+			end
 		elseif btnPalNo(p1Cmd) > 0 then
 			if songMenu == #t_songList then
 				--BACK
@@ -3913,10 +3980,13 @@ function f_songMenu()
 				break
 			else
 				--Play Song
-				playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
-				playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
-				playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.mp3')
-				playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.ogg')
+				if page == 0 then
+					playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
+					playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
+				elseif page == 1 then
+					playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.mp3')
+					playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.ogg')
+				end
 			end
 		end
 		--Cursor position calculation
@@ -3982,15 +4052,33 @@ function f_songMenu()
 			animDraw(songDownArrow)
 			animUpdate(songDownArrow)
 		end
+		--Draw Left Animated Cursor
+		if page > 0 then
+			animDraw(songLeftArrow)
+			animUpdate(songLeftArrow)
+		end
+		--Draw Right Animated Cursor
+		if page < 1 then
+			animDraw(songRightArrow)
+			animUpdate(songRightArrow)
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
 		elseif commandGetState(p1Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
+		elseif commandGetState(p1Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
 		else
 			bufu = 0
 			bufd = 0
+			bufr = 0
+			bufl = 0
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -5686,6 +5774,7 @@ function f_saveProgress()
 		['data.arcadeUnlocks'] = data.arcadeUnlocks,
 		['data.survivalUnlocks'] = data.survivalUnlocks,
 		['data.coins'] = data.coins,
+		['data.attractCoins'] = data.attractCoins,
 		['data.playTime'] = data.playTime,
 		['data.favoriteChar'] = data.favoriteChar,
 		['data.favoriteStage'] = data.favoriteStage,
