@@ -1267,7 +1267,7 @@ function f_selectAdvance()
 		if p2numChars > 1 then
 			for i=1, #data.t_p2selected do
 				if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
-					--setGameType(3) --Disable HUD for All Bonus
+					--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
 					p2teamMode = 0
 					p2numChars = 1
 					setTeamMode(2, 0, 1)
@@ -1616,6 +1616,24 @@ function f_selectScreen()
 		f_p2TeamMenu()
 	elseif data.p2In > 0 or data.p2Char ~= nil then
 		f_p2SelectMenu()
+		--Draw VS Single Bosses Portraits
+		if data.rosterMode == 'bosssingle' then
+			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
+			end
+			if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+				for j=#data.t_p2selected, 1, -1 do
+					--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
+				end
+			end
+		end
+		--Draw VS Single Bonus Portraits
+		if data.rosterMode == 'singlebonus' then
+			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
+			end
+		end
 	end
 	--Win Counter
 	if data.gameMode == 'versus' and data.vsDisplayWin == true then
@@ -3485,7 +3503,7 @@ function f_orderSelect()
 			--i = i + 1
 			--cmdInput()
 			--refresh()
-		--end	
+		--end
 	elseif p1teamMode == 0 and p2teamMode == 0 then --Order Select off when P1 and P2 playing in Single Team Mode
 		while true do
 			if i == 0 then
@@ -3546,7 +3564,7 @@ function f_orderSelect()
 			f_selectChar(1, data.t_p1selected)
 			p1Confirmed = true
 			f_selectChar(2, data.t_p2selected)
-			p2Confirmed = true
+			--p2Confirmed = true --Activate to don't order CPU characters in team modes
 		end
 		cmdInput()
 		while true do
@@ -3594,7 +3612,7 @@ function f_orderSelect()
 			else
 				txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
 				textImgDraw(txt_p2State)
-			end	
+			end
 			--set random hints for order select
 			if randomHintOrder == 1 then
 				textImgSetText(txt_orderHint, "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER")

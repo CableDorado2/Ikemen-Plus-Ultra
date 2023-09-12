@@ -2012,7 +2012,7 @@ function f_bossChars()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bossChars[bossChars]}
 				data.rosterMode = 'bosssingle'
-				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)				
+				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
 				script.select.f_selectSimple()
 			--BACK
 			else
