@@ -81,17 +81,11 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.3**
 ------------
 
-- [ ] Al jugar como single contra la CPU, si tiene a más de 1 miembro en su equipo, el p1cmd debe tener control para elegir contra qué miembro luchar primero en order select screen.
-
 - [ ] El jefe final o algún char que tenga un parametro aparezca en modo single tal como funcionan los bonus games, dado que la cpu en modo simul mostrará 2, 3 o 4 jefes finales y es mejor controlar eso bajo un parametro.
-
-- [ ] El sprite/Portrait del char en Single Boss Fight, debe aparecer inmediatamente en character select como ocurre en Co-Op Mode.
 
 - [ ] Mejorar lógica del menú de estadísticas.
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
-
-- [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
 
 - [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
@@ -103,8 +97,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 **v1.3.1**
 ------------
-
-- [ ] Las animaciones de cuando los chars son elegidos en char select, se deben reiniciar cada que vuelvas al char select.
 
 - [ ] Cargar la preview de los stages desde el propio sff de la stage.
 
@@ -118,8 +110,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Más parametros para el Select.def.
 
-- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
 - [ ] Pause Menu/Screen que contenga:
 Continuar/Reanudar
 Lista de Movimientos
@@ -130,6 +120,8 @@ Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
+
+- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - [ ] Story Mode Concept.
 
@@ -169,6 +161,8 @@ Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin
 ------------
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+
+- [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
 
 - [ ] Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
