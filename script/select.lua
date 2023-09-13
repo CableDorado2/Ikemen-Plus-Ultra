@@ -1618,6 +1618,7 @@ function f_selectScreen()
 		f_p2SelectMenu()
 		--Draw VS Single Bosses Portraits
 		if data.rosterMode == 'bosssingle' then
+			animDraw(f_animVelocity(charBG3, 2, 0))
 			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 			end
@@ -1630,6 +1631,7 @@ function f_selectScreen()
 		end
 		--Draw VS Single Bonus Portraits
 		if data.rosterMode == 'singlebonus' then
+			animDraw(f_animVelocity(charBG3, 2, 0))
 			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 			end
