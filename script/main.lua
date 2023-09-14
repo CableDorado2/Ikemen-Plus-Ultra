@@ -5027,7 +5027,8 @@ end
 --; ONLINE SCREENPACK
 --;===========================================================
 txt_hostTitle = createTextImg(jgFnt, 0, 0, 'ONLINE ROOM CREATED', 159, 13)
-txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 110)
+txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 111)
+txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110,0.9,0.9)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
 txt_ip = createTextImg(font14, 0, 0, '', 160, 138)
 txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
@@ -5226,8 +5227,10 @@ function f_directConnect()
 			end
 			--BUTTON SELECT
 			if btnPalNo(p1Cmd) > 0 then
+				--BACK
 				if connectMenu == 1 then
 					joinExit = true
+				--JOIN
 				elseif connectMenu == 2 then
 					if ip:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
 						doneIP = true
@@ -5254,7 +5257,7 @@ function f_directConnect()
 			if i%60 < 30 then 
 				textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
 			end
-			--Draw Replay Option Text
+			--Draw Button Option Text
 			for i=1, #t_connectMenu do
 				if i == connectMenu then
 					textImgSetBank(t_connectMenu[i].id, 5)
@@ -5340,101 +5343,90 @@ function f_clientList()
 	local bufr = 0
 	local bufl = 0
 	local t_tmp = {}
+	f_addClientReset()
 	--local cancel = false
 	while true do
-		if esc() then
-			--onlinegame = false --only for identify purposes
-			--assert(loadfile('saved/data_sav.lua'))()
-			sndPlay(sysSnd, 100, 2)
-			break
-			--return
-		end
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			clientList = clientList - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			clientList = clientList + 1
-		end
-		if clientList < 1 then
-			clientList = #t_clientList
-			if #t_clientList > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_clientList-1
-			end
-		elseif clientList > #t_clientList then
-			clientList = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (clientList - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (clientList - 1) * 13
-		end
-		if #t_clientList <= 5 then
-			maxclientList = #t_clientList
-		elseif clientList - cursorPosY > 0 then
-			maxclientList = clientList + 5 - cursorPosY
-		else
-			maxclientList = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--ADD NEW ADDRESS
-			if clientList == 1 then
-				sndPlay(sysSnd, 100, 1)
-				config.IP[name] = address
-				t_tmp = {}
-				for i = 1, #t do
-					if i < #t then
-						t_tmp[i] = t[i]
-					else
-						t_tmp[i] = {id = textImgNew(), text = name, address = address}
-						t_tmp[i + 1] = t[i]
-					end
-				end
-				t_clientList = t_tmp
-				--t = t_netplayJoin
-				local file = io.open("saved/config.json","w+")
-				file:write(json.encode(config, {indent = true}))
-				file:close()
-			--BACK
-			elseif clientList == #t_clientList then
-				sndPlay(sysSnd, 100, 2)
+		if editScreen == false then
+			if esc() then
 				--onlinegame = false --only for identify purposes
 				--assert(loadfile('saved/data_sav.lua'))()
-				break				
-			--JOIN
-			else
-				onlinegame = true --only for identify purposes
-				script.options.f_onlineDefault()
-				script.options.f_netsaveCfg()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				cancel = f_quickConnect()
-				if not cancel then
-					synchronize()
-					math.randomseed(sszRandom())
-					script.options.f_onlineCfg()
+				sndPlay(sysSnd, 100, 2)
+				break
+				--return
+			end
+			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				clientList = clientList - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				clientList = clientList + 1
+			end
+			if clientList < 1 then
+				clientList = #t_clientList
+				if #t_clientList > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_clientList-1
 				end
-				exitNetPlay()
-				exitReplay()
-				commandBufReset(p1Cmd, 1)
-				local netplayFile = io.open("saved/data.replay","rb")
-				if netplayFile ~= nil and not joinExit then
-					if lfs.attributes("saved/data.replay", "size") > 0 then
-						ltn12.pump.all(
-						  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
-						  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
-						)
+			elseif clientList > #t_clientList then
+				clientList = 1
+				cursorPosY = 0
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (clientList - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (clientList - 1) * 13
+			end
+			if #t_clientList <= 5 then
+				maxclientList = #t_clientList
+			elseif clientList - cursorPosY > 0 then
+				maxclientList = clientList + 5 - cursorPosY
+			else
+				maxclientList = 5
+			end
+			if btnPalNo(p1Cmd) > 0 then
+				f_default()
+				--ADD NEW ADDRESS
+				if clientList == 1 then
+					sndPlay(sysSnd, 100, 1)
+					editScreen = true
+				--BACK
+				elseif clientList == #t_clientList then
+					sndPlay(sysSnd, 100, 2)
+					--onlinegame = false --only for identify purposes
+					--assert(loadfile('saved/data_sav.lua'))()
+					break				
+				--JOIN
+				else
+					onlinegame = true --only for identify purposes
+					script.options.f_onlineDefault()
+					script.options.f_netsaveCfg()
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+					cancel = f_quickConnect()
+					if not cancel then
+						synchronize()
+						math.randomseed(sszRandom())
+						script.options.f_onlineCfg()
 					end
-					netplayFile:close()
-					netplayFile = nil
+					exitNetPlay()
+					exitReplay()
+					commandBufReset(p1Cmd, 1)
+					local netplayFile = io.open("saved/data.replay","rb")
+					if netplayFile ~= nil and not joinExit then
+						if lfs.attributes("saved/data.replay", "size") > 0 then
+							ltn12.pump.all(
+							  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+							  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+							)
+						end
+						netplayFile:close()
+						netplayFile = nil
+					end
 				end
 			end
 		end
@@ -5447,9 +5439,11 @@ function f_clientList()
 			end
 			textImgDraw(f_updateTextImg(t_clientList[i].id, jgFnt, bank, 0, t_clientList[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if editScreen == false then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -5471,6 +5465,8 @@ function f_clientList()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		textBar = textBar >= 60 and 0 or textBar + 1
+		if editScreen == true then f_clientRegister() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5490,6 +5486,313 @@ function f_clientList()
 	end
 end
 
+--;===========================================================
+--; ENTER NAME AND IP MESSAGE
+--;===========================================================
+t_registerOption = {
+	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = '  ENTER'},
+}
+for i=1, #t_registerOption do
+	t_registerOption[i].id = createTextImg(jgFnt, 0, 0, t_registerOption[i].text, 12+i*95, 171)
+end
+
+function f_clientRegister()
+	cmdInput()
+	--ENTER NAME
+	if not doneName then
+		if commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			addMenu = addMenu + 1
+		elseif commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			addMenu = addMenu - 1
+		end
+		if addMenu < 2 then addMenu = 1 elseif addMenu > 1 then addMenu = 2 end
+		hostName = inputText('',true)
+		if clipboardPaste() then
+			if string.match(getClipboardText(),'^(.*)') then
+				setInputText(getClipboardText())
+			else
+				sndPlay(sysSnd, 100, 5)
+			end
+		end
+		if hostName:len() > 5 then
+			hostName = hostName:sub(1,16)
+			setInputText(hostName)
+		end
+		if hostName ~= '' and hostName ~= nil then
+			if hostName:match('^"*(%")$') then
+				hostName = hostName:gsub('^("*)[%"]$','%1')
+				setInputText(hostName)
+			end
+		end
+		--ACTIONS
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			f_addClientReset()
+		--BUTTON SELECTED
+		elseif commandGetState(p1Cmd, 's') then
+			--BACK
+			if addMenu == 1 then
+				sndPlay(sysSnd, 100, 2)
+				f_addClientReset()
+			--ENTER NAME
+			elseif addMenu == 2 then
+				if hostName ~= '' and hostName ~= nil then
+					clearInputText()
+					sndPlay(sysSnd, 100, 1)
+					name = (tostring(hostName))
+					doneName = true
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+		end
+		--Draw Fade BG
+		animDraw(fadeWindowBG)
+		--Draw Name Window BG
+		animDraw(ipWindowBG)
+		animUpdate(ipWindowBG)
+		--Draw Name Window Title
+		textImgDraw(txt_clientName)
+		--Draw Name Text
+		textImgSetText(txt_ip,hostName)
+		textImgDraw(txt_ip)
+		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
+		if textBar%60 < 30 then
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+		end
+		--Draw Button Option Text
+		for i=1, #t_registerOption do
+			if i == addMenu then
+				textImgSetBank(t_registerOption[i].id, 5)
+			else
+				textImgSetBank(t_registerOption[i].id, 0)
+			end
+			textImgDraw(t_registerOption[i].id)
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, -16+addMenu*100,159, 50,16)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	--ENTER IP ADDRESS
+	else
+		if commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			addMenu = addMenu + 1
+		elseif commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			addMenu = addMenu - 1
+		end
+		if addMenu < 2 then addMenu = 1 elseif addMenu > 1 then addMenu = 2 end
+		address = inputText('num',true)
+		if clipboardPaste() then
+			if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+				setInputText(getClipboardText())
+			elseif string.match(getClipboardText(),'^localhost$') then
+				setInputText(getClipboardText())
+			else
+				sndPlay(sysSnd, 100, 5)
+			end
+		end
+		if address:match('^%.') then
+			address = ''
+			setInputText(address)
+		elseif address:len() > 15 then
+			address = address:sub(1,15)
+			setInputText(address)
+		elseif address:match('%.%.+') then
+			address = address:gsub('%.%.+','.')
+			setInputText(address)
+		elseif address:match('%d%d%d%d+') then
+			address = address:gsub('(%d%d%d)%d+','%1')
+			setInputText(address)
+		elseif address:match('%d+%.%d+%.%d+%.%d+%.') then
+			address = address:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
+			setInputText(address)
+		end
+		--ACTIONS
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			f_addClientReset()
+		--BUTTON SELECTED
+		elseif btnPalNo(p1Cmd) > 0 then
+			--BACK
+			if addMenu == 1 then
+				sndPlay(sysSnd, 100, 2)
+				f_addClientReset()
+			--ENTER IP
+			elseif addMenu == 2 then
+				if address:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+					doneClient = true
+				elseif address:match('^localhost$') then
+					doneClient = true
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+		end
+		--Draw Fade BG
+		animDraw(fadeWindowBG)
+		--Draw IP Window BG
+		animDraw(ipWindowBG)
+		animUpdate(ipWindowBG)
+		--Draw IP Window Title
+		textImgSetText(txt_client, 'Enter Host\'s IPv4')
+		textImgDraw(txt_client)
+		--Draw IP Text
+		textImgSetText(txt_ip,address)
+		textImgDraw(txt_ip)
+		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
+		if textBar%60 < 30 then 
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+		end
+		--Draw Button Option Text
+		for i=1, #t_registerOption do
+			if i == addMenu then
+				textImgSetBank(t_registerOption[i].id, 5)
+			else
+				textImgSetBank(t_registerOption[i].id, 0)
+			end
+			textImgDraw(t_registerOption[i].id)
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, -16+addMenu*100,159, 50,16)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	end
+	--SAVE ALL DATA
+	if doneClient == true then
+		sndPlay(sysSnd, 100, 1)
+		config.IP[name] = address
+		t_tmp = {}
+		for i = 1, #t_clientList do
+			if i < #t_clientList then
+				t_tmp[i] = t_clientList[i]
+			else
+				t_tmp[i] = {id = textImgNew(), text = name, address = address}
+				t_tmp[i + 1] = t_clientList[i]
+			end
+		end
+		t_clientList = t_tmp
+		local file = io.open("saved/config.json","w+")
+		file:write(json.encode(config, {indent = true}))
+		file:close()
+		f_addClientReset()
+	end
+	cmdInput()
+end
+
+function f_addClientReset()
+	clearInputText()
+	editScreen = false
+	--addExit = false
+	doneClient = false
+	doneName = false
+	--doneAddress = false
+	name = ''
+	address = ''
+	textBar = 0
+	--Cursor pos in ENTER
+	--cursorPosYAdd = 1
+	addMenu = 2
+end
+
+--;===========================================================
+--; DELETE/EDIT REGISTER
+--;===========================================================
+txt_clientQuestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+
+--Question Window BG
+clientWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(clientWindowBG, 83.5, 97)
+animUpdate(clientWindowBG)
+animSetScale(clientWindowBG, 1, 1)
+
+t_clientOptions = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}
+
+function f_clientOptionsMenu()
+	cmdInput()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') then
+		sndPlay(sysSnd, 100, 0)
+		clientOptionsMenu = clientOptionsMenu - 1
+	elseif commandGetState(p1Cmd, 'd') then
+		sndPlay(sysSnd, 100, 0)
+		clientOptionsMenu = clientOptionsMenu + 1
+	end
+	if clientOptionsMenu < 1 then
+		clientOptionsMenu = #clientOptions
+		if #clientOptions > 4 then
+			cursorPosYClient = 4
+		else
+			cursorPosYClient = #clientOptions-1
+		end
+	elseif clientOptionsMenu > #clientOptions then
+		clientOptionsMenu = 1
+		cursorPosYClient = 0
+	elseif commandGetState(p1Cmd, 'u') and cursorPosYClient > 0 then
+		cursorPosYClient = cursorPosYClient - 1
+	elseif commandGetState(p1Cmd, 'd') and cursorPosYClient < 4 then
+		cursorPosYClient = cursorPosYClient + 1
+	end
+	if cursorPosYClient == 4 then
+		moveTxtClient = (clientOptionsMenu - 5) * 13
+	elseif cursorPosYClient == 0 then
+		moveTxtClient = (clientOptionsMenu - 1) * 13
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(clientWindowBG)
+	animUpdate(clientWindowBG)
+	--Draw Title
+	textImgDraw(txt_clientQuestion)
+	--Draw Table Text
+	for i=1, #clientOptions do
+		if i == clientOptionsMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(clientOptions[i].id, jgFnt, bank, 0, clientOptions[i].text, 159, 120+i*13-moveTxtClient))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYClient*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if esc() then
+		sndPlay(sysSnd, 100, 2)
+		f_exitReset()
+	elseif btnPalNo(p1Cmd) > 0 then
+		--YES
+		if clientOptionsMenu == 1 then
+		--NO
+		else
+			sndPlay(sysSnd, 100, 2)
+		end
+		f_clientOptionsReset()
+	end
+	cmdInput()
+end
+
+function f_clientOptionsReset()
+	clientOptionsScreen = false
+	moveTxtClient = 0
+	--Cursor pos in NO
+	cursorPosYClient = 1
+	clientOptionsMenu = 2
+end
+
+--;===========================================================
+--; QUICK CLIENT/JOIN CONNECTING MENU
+--;===========================================================
 function f_quickConnect()
 	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'USERNAME ROOM', 159, 13)
 	local ip = ''
