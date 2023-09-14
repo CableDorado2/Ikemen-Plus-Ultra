@@ -4933,30 +4933,35 @@ function f_mainNetplay()
 				end
 			--CLIENT/JOIN
 			elseif mainNetplay == 2 then
-				onlinegame = true --only for identify purposes
-				script.options.f_onlineDefault()
-				script.options.f_netsaveCfg()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				cancel = f_connect() --f_OLDconnect()
-				if not cancel then
-					synchronize()
-					math.randomseed(sszRandom())
-					script.options.f_onlineCfg()
-				end
-				exitNetPlay()
-				exitReplay()
-				commandBufReset(p1Cmd, 1)
-				local netplayFile = io.open("saved/data.replay","rb")
-				if netplayFile ~= nil and not joinExit then
-					if lfs.attributes("saved/data.replay", "size") > 0 then
-						ltn12.pump.all(
-						  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
-						  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
-						)
+				if data.connectMode == 'Direct' then
+					onlinegame = true --only for identify purposes
+					script.options.f_onlineDefault()
+					script.options.f_netsaveCfg()
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+					cancel = f_directConnect()
+					if not cancel then
+						synchronize()
+						math.randomseed(sszRandom())
+						script.options.f_onlineCfg()
 					end
-					netplayFile:close()
-					netplayFile = nil
+					exitNetPlay()
+					exitReplay()
+					commandBufReset(p1Cmd, 1)
+					local netplayFile = io.open("saved/data.replay","rb")
+					if netplayFile ~= nil and not joinExit then
+						if lfs.attributes("saved/data.replay", "size") > 0 then
+							ltn12.pump.all(
+							  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+							  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+							)
+						end
+						netplayFile:close()
+						netplayFile = nil
+					end
+				elseif data.connectMode == 'Quick' then
+					sndPlay(sysSnd, 100, 1)
+					f_clientList()
 				end
 			--BACK
 			else
@@ -5021,14 +5026,14 @@ end
 --;===========================================================
 --; ONLINE SCREENPACK
 --;===========================================================
-txt_hostTitle = createTextImg(jgFnt, 0, 0, 'ROOM CREATED', 159, 13)
-txt_clientTitle = createTextImg(jgFnt, 0, 0, 'SEARCH ROOM', 159, 13)
+txt_hostTitle = createTextImg(jgFnt, 0, 0, 'ONLINE ROOM CREATED', 159, 13)
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 110)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
 txt_ip = createTextImg(font14, 0, 0, '', 160, 138)
-txt_hosting = createTextImg(jgFnt, 0, 1, '', 22, 228)
-txt_connecting = createTextImg(jgFnt, 0, 1, '', -40, 228)
-txt_cancel = createTextImg(jgFnt, 0, 0, 'CANCEL', 159, 165)
+txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 70,0.9,0.9)
+txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
+txt_connecting = createTextImg(jgFnt, 0, 0, '', 159, 228)
+txt_cancel = createTextImg(jgFnt, 5, 0, 'CANCEL', 161, 170)
 
 --Scrolling background
 onlineBG0 = animNew(sysSff, [[
@@ -5084,6 +5089,14 @@ animSetPos(ipWindowBG, 83.5, 97)
 animUpdate(ipWindowBG)
 animSetScale(ipWindowBG, 1, 1)
 
+--Connecting Window BG
+joinWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(joinWindowBG, 83.5, 54)
+animUpdate(joinWindowBG)
+animSetScale(joinWindowBG, 1, 2)
+
 --Online Icon
 wirelessBG = animNew(sysSff, [[
 400,0, 0,0, 18
@@ -5094,9 +5107,9 @@ wirelessBG = animNew(sysSff, [[
 400,5, 0,0, 18
 400,6, 0,0, 18
 ]])
-animAddPos(wirelessBG, -4.5, 0)
+animAddPos(wirelessBG, 125, 85)
 animUpdate(wirelessBG)
-animSetScale(wirelessBG, 0.5, 0.5)
+animSetScale(wirelessBG, 0.25, 0.25)
 
 --;===========================================================
 --; HOST MENU
@@ -5104,7 +5117,7 @@ animSetScale(wirelessBG, 0.5, 0.5)
 function f_create()
 	cmdInput()
 	createExit = false
-	textImgSetText(txt_hosting, 'Waiting for Player 2... ' .. 'Port: ' .. getListenPort())
+	textImgSetText(txt_hosting, 'Waiting for Player 2...')
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Host' --For Replay Identify
 	--data.p1In = 1
@@ -5120,10 +5133,16 @@ function f_create()
 		animDraw(f_animVelocity(onlineBG0, -1, -1))
 		--Draw Menu Title
 		textImgDraw(txt_hostTitle)
-		--Draw Hosting Info
-		textImgDraw(txt_hosting)
+		--Draw Window BG
+		animDraw(joinWindowBG)
+		animUpdate(joinWindowBG)
+		--Draw Port Info
+		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgDraw(txt_netPort)
 		--Draw Cancel Button
 		textImgDraw(txt_cancel)
+		--Draw Hosting Info
+		textImgDraw(txt_hosting)
 		--Draw Animated Icon
 		animDraw(wirelessBG)
 		animUpdate(wirelessBG)
@@ -5136,47 +5155,17 @@ function f_create()
 end
 
 --;===========================================================
---; OLD CLIENT/JOIN MENU
---;===========================================================
-function f_OLDconnect()
-	inputDialogPopup(inputdia, 'To Join enter IP address of your Host')
-	while not inputDialogIsDone(inputdia) do
-		animDraw(wirelessBG)
-		animUpdate(wirelessBG)
-		refresh()
-	end
-	sndPlay(sysSnd, 100, 1)
-	textImgSetText(txt_connecting, 'Now connecting with Host ' .. inputDialogGetStr(inputdia) .. ' Port: ' .. getListenPort())
-	enterNetPlay(inputDialogGetStr(inputdia))
-	netPlayer = 'Client'
-	while not connected() do
-		if esc() then
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
-			return true
-		end
-		textImgDraw(txt_connecting)
-		animDraw(wirelessBG)
-		animUpdate(wirelessBG)
-		refresh()
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-	end
-	return false
-end
-
---;===========================================================
---; CLIENT/JOIN MENU
+--; DIRECT CLIENT/JOIN MENU
 --;===========================================================
 t_connectMenu = {
-	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'CONNECT'},
+	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'JOIN'},
 }
 for i=1, #t_connectMenu do
 	t_connectMenu[i].id = createTextImg(jgFnt, 0, 0, t_connectMenu[i].text, 12+i*95, 172)
 end
 
-function f_connect()
+function f_directConnect()
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'SEARCH ROOM', 159, 13)
 	local ip = ''
 	local doneIP = false
 	local connectMenu = 2
@@ -5282,7 +5271,7 @@ function f_connect()
 	sndPlay(sysSnd, 100, 1)
 	enterNetPlay(ip) --Connect to entered IP address
 	netPlayer = 'Client'
-	textImgSetText(txt_connecting, 'Now connecting with Host ' .. ip .. 'Port: ' .. getListenPort())
+	textImgSetText(txt_connecting, 'Now connecting to ['..ip..']')
 	while not connected() do
 		--CANCEL CONNECTION
 		if esc() then
@@ -5296,8 +5285,328 @@ function f_connect()
 		--Draw Connecting BG
 		animDraw(f_animVelocity(onlineBG0, -1, -1))
 		--Draw Connecting Title
-		textImgSetText(txt_clientTitle, 'USERNAME ROOM')
+		textImgSetText(txt_clientTitle, 'SEARCHING HOST ROOM')
 		textImgDraw(txt_clientTitle)
+		--Draw Window BG
+		animDraw(joinWindowBG)
+		animUpdate(joinWindowBG)
+		--Draw Port Info
+		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgDraw(txt_netPort)
+		--Draw Connecting Info
+		textImgDraw(txt_connecting)
+		--Draw Cancel Button
+		textImgDraw(txt_cancel)
+		--Draw Animated Icon
+		animDraw(wirelessBG)
+		animUpdate(wirelessBG)
+		--cmdInput()
+		refresh()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+	end
+	clearInputText()
+	return false
+end
+
+--;===========================================================
+--; QUICK CLIENT/JOIN MENU
+--;===========================================================
+t_clientList = {{id = textImgNew(), text = 'NEW ADDRESS'},}
+for k, v in pairs(config.IP) do
+	t_clientList[#t_clientList + 1] = {id = textImgNew(), text = k, address = v}
+end
+t_clientList[#t_clientList+1] = {id = textImgNew(), text = 'BACK'}
+
+function f_clientList()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local clientList = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	local t_tmp = {}
+	--local cancel = false
+	while true do
+		if esc() then
+			--onlinegame = false --only for identify purposes
+			--assert(loadfile('saved/data_sav.lua'))()
+			sndPlay(sysSnd, 100, 2)
+			break
+			--return
+		end
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			clientList = clientList - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			clientList = clientList + 1
+		end
+		if clientList < 1 then
+			clientList = #t_clientList
+			if #t_clientList > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_clientList-1
+			end
+		elseif clientList > #t_clientList then
+			clientList = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (clientList - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (clientList - 1) * 13
+		end
+		if #t_clientList <= 5 then
+			maxclientList = #t_clientList
+		elseif clientList - cursorPosY > 0 then
+			maxclientList = clientList + 5 - cursorPosY
+		else
+			maxclientList = 5
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			--ADD NEW ADDRESS
+			if clientList == 1 then
+				sndPlay(sysSnd, 100, 1)
+				config.IP[name] = address
+				t_tmp = {}
+				for i = 1, #t do
+					if i < #t then
+						t_tmp[i] = t[i]
+					else
+						t_tmp[i] = {id = textImgNew(), text = name, address = address}
+						t_tmp[i + 1] = t[i]
+					end
+				end
+				t_clientList = t_tmp
+				--t = t_netplayJoin
+				local file = io.open("saved/config.json","w+")
+				file:write(json.encode(config, {indent = true}))
+				file:close()
+			--BACK
+			elseif clientList == #t_clientList then
+				sndPlay(sysSnd, 100, 2)
+				--onlinegame = false --only for identify purposes
+				--assert(loadfile('saved/data_sav.lua'))()
+				break				
+			--JOIN
+			else
+				onlinegame = true --only for identify purposes
+				script.options.f_onlineDefault()
+				script.options.f_netsaveCfg()
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				cancel = f_quickConnect()
+				if not cancel then
+					synchronize()
+					math.randomseed(sszRandom())
+					script.options.f_onlineCfg()
+				end
+				exitNetPlay()
+				exitReplay()
+				commandBufReset(p1Cmd, 1)
+				local netplayFile = io.open("saved/data.replay","rb")
+				if netplayFile ~= nil and not joinExit then
+					if lfs.attributes("saved/data.replay", "size") > 0 then
+						ltn12.pump.all(
+						  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+						  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+						)
+					end
+					netplayFile:close()
+					netplayFile = nil
+				end
+			end
+		end
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_clientList do
+			if i == clientList then
+				bank = 3
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_clientList[i].id, jgFnt, bank, 0, t_clientList[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		textImgDraw(txt_subTitle)
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, 'CLIENT MENU')
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxclientList > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_clientList > 6 and maxclientList < #t_clientList then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		exitNetPlay()
+    	exitReplay()
+		cmdInput()
+		refresh()
+	end
+end
+
+function f_quickConnect()
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'SEARCH ROOM', 159, 13)
+	local ip = ''
+	local doneIP = false
+	local connectMenu = 2
+	local i = 0
+	joinExit = false
+	cmdInput()
+	--ENTER IP SCREEN
+	while true do
+		--EXIT LOGIC
+		if joinExit == true then
+			clearInputText()
+			netPlayer = ''
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			return true
+		end
+		--MAIN SCREEN
+		if not doneIP then
+			if esc() then
+				joinExit = true
+			elseif commandGetState(p1Cmd, 'r') then
+				sndPlay(sysSnd, 100, 0)
+				connectMenu = connectMenu + 1
+			elseif commandGetState(p1Cmd, 'l') then
+				sndPlay(sysSnd, 100, 0)
+				connectMenu = connectMenu - 1
+			end
+			if connectMenu < 2 then connectMenu = 1 elseif connectMenu > 1 then connectMenu = 2 end
+			ip = inputText('num',true)
+			if clipboardPaste() then
+				if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+					setInputText(getClipboardText())
+				elseif string.match(getClipboardText(),'^localhost$') then
+					setInputText(getClipboardText())
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+			if ip:match('^%.') then
+				ip = ''
+				setInputText(ip)
+			elseif ip:len() > 15 then
+				ip = ip:sub(1,15)
+				setInputText(ip)
+			elseif ip:match('%.%.+') then
+				ip = ip:gsub('%.%.+','.')
+				setInputText(ip)
+			elseif ip:match('%d%d%d%d+') then
+				ip = ip:gsub('(%d%d%d)%d+','%1')
+				setInputText(ip)
+			elseif ip:match('%d+%.%d+%.%d+%.%d+%.') then
+				ip = ip:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
+				setInputText(ip)
+			end
+			--BUTTON SELECT
+			if btnPalNo(p1Cmd) > 0 then
+				if connectMenu == 1 then
+					joinExit = true
+				elseif connectMenu == 2 then
+					if ip:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+						doneIP = true
+					elseif ip:match('^localhost$') then
+						doneIP = true
+					else
+						sndPlay(sysSnd, 100, 5)
+					end
+				end
+			end
+			--Draw BG
+			animDraw(f_animVelocity(onlineBG0, -1, -1))
+			--Draw Menu Title
+			textImgDraw(txt_clientTitle)
+			--Draw IP Window BG
+			animDraw(ipWindowBG)
+			animUpdate(ipWindowBG)
+			--Draw IP Window Title
+			textImgDraw(txt_client)
+			--Draw IP Text
+			textImgSetText(txt_ip,ip)
+			textImgDraw(txt_ip)
+			textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
+			if i%60 < 30 then 
+				textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+			end
+			--Draw Replay Option Text
+			for i=1, #t_connectMenu do
+				if i == connectMenu then
+					textImgSetBank(t_connectMenu[i].id, 5)
+				else
+					textImgSetBank(t_connectMenu[i].id, 0)
+				end
+				textImgDraw(t_connectMenu[i].id)
+			end
+		end
+		i = i >= 60 and 0 or i + 1
+		if doneIP then break end --Exit for this bucle to start below
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+	--CONNECTING SCREEN
+	sndPlay(sysSnd, 100, 1)
+	enterNetPlay(ip) --Connect to entered IP address
+	netPlayer = 'Client'
+	textImgSetText(txt_connecting, 'Now connecting to ['..ip..']')
+	while not connected() do
+		--CANCEL CONNECTION
+		if esc() then
+			clearInputText()
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			netPlayer = ''
+			joinExit = true
+			return true
+		end
+		--Draw Connecting BG
+		animDraw(f_animVelocity(onlineBG0, -1, -1))
+		--Draw Connecting Title
+		textImgSetText(txt_clientTitle, 'SEARCHING HOST ROOM')
+		textImgDraw(txt_clientTitle)
+		--Draw Window BG
+		animDraw(joinWindowBG)
+		animUpdate(joinWindowBG)
+		--Draw Port Info
+		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgDraw(txt_netPort)
 		--Draw Connecting Info
 		textImgDraw(txt_connecting)
 		--Draw Cancel Button

@@ -304,6 +304,7 @@ function f_saveCfg()
 		['data.charPresentation'] = data.charPresentation,
 		['data.training'] = data.training,
 		['data.coopenemy'] = data.coopenemy,
+		['data.connectMode'] = data.connectMode,
 		['data.userName'] = data.userName
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
@@ -441,6 +442,7 @@ function f_offlineDefault()
 	f_videoDefault()
 	f_audioDefault()
 	f_inputDefault()
+	data.connectMode = 'Direct'
 	data.userName = 'USERNAME'--setUserName('USERNAME')
 	setListenPort(7500)
 end
@@ -1004,9 +1006,10 @@ t_mainCfg = {
 	{id = '', text = 'Video Settings',  					varID = textImgNew(), varText = ''},
 	{id = '', text = 'Audio Settings',  					varID = textImgNew(), varText = ''},
 	{id = '', text = 'Input Settings',  					varID = textImgNew(), varText = ''},
-	{id = '', text = 'Engine Settings',  					varID = textImgNew(), varText = ''},	
+	{id = '', text = 'Engine Settings',  					varID = textImgNew(), varText = ''},
 	{id = '', text = 'Nickname',        					varID = textImgNew(), varText = data.userName},
 	{id = '', text = 'Netplay Port',        				varID = textImgNew(), varText = getListenPort()},
+	{id = '', text = 'Netplay Connection',     				varID = textImgNew(), varText = data.connectMode},
 	{id = '', text = 'All Default Values',					varID = textImgNew(), varText = ''},
 	{id = '', text = '              Save and Back',  		varID = textImgNew(), varText = ''},
 	{id = '', text = '          Back Without Saving',  		varID = textImgNew(), varText = ''},
@@ -1053,6 +1056,22 @@ function f_mainCfg()
 				mainCfg = mainCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
+			elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) and mainCfg == 9 then
+				if commandGetState(p1Cmd, 'r') and data.connectMode == 'Direct' then
+					sndPlay(sysSnd, 100, 0)
+					data.connectMode = 'Quick'
+					modified = 1
+				--elseif commandGetState(p1Cmd, 'r') and data.connectMode == 'Quick' then
+					--data.connectMode = 'Server'
+					--modified = 1
+				--elseif commandGetState(p1Cmd, 'l') and data.connectMode == 'Server' then
+					--data.connectMode = 'Quick'
+					--modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.connectMode == 'Quick' then
+					sndPlay(sysSnd, 100, 0)
+					data.connectMode = 'Direct'
+					modified = 1
+				end
 			elseif btnPalNo(p1Cmd) > 0 then
 				--Game Settings
 				if mainCfg == 1 then
@@ -1097,12 +1116,12 @@ function f_mainCfg()
 					i = 0
 					commandBufReset(p1Cmd)
 				--Default Values
-				elseif mainCfg == 9 then
+				elseif mainCfg == 10 then
 					sndPlay(sysSnd, 100, 1)
 					defaultAll = true
 					defaultScreen = true
 				--Save and Back
-				elseif mainCfg == 10 then
+				elseif mainCfg == 11 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 2)
 					if data.erase == true then
@@ -1114,7 +1133,7 @@ function f_mainCfg()
 					f_saveCfg()
 					break	
 				--Back Without Save
-				elseif mainCfg == 11 then
+				elseif mainCfg == 12 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 2)
 					assert(loadfile('saved/data_sav.lua'))() --Load old data no saved
@@ -1184,6 +1203,7 @@ function f_mainCfg()
 				t = t >= 60 and 0 or t + 1
 			end
 		end
+		t_mainCfg[9].varText = data.connectMode
 		--Player Name Change
 		if not editDone and nameEdit == true then
 			if esc() then

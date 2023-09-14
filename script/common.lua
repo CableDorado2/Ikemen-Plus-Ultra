@@ -4,10 +4,10 @@
 lfs = require('lfs') --load lfs.dll
 package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
 ltn12 = require('ltn12')
+package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
+dkjson = require('dkjson')
 --package.path = package.path..';./lib/json.lua' --load json lua library
 --json = require('json')
---package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
---dkjson = require('dkjson')
 --package.path = package.path..';./lib/net/http.lua' --load http lua library
 --http = require('http')
 --package.path = package.path..';./lib/net/socket.lua' --load socket lua library
@@ -36,6 +36,14 @@ data = require('saved.data') --Require function, allows use the content inside i
 --Load saved variables
 assert(loadfile('saved/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
 assert(loadfile('saved/stats_sav.lua'))()
+
+--One-time load of the json routines
+json = (loadfile 'lib/dkjson.lua')()
+
+-- Data loading from config.json
+local file = io.open("saved/config.json","r")
+config = json.decode(file:read("*all"))
+file:close()
 
 --;===========================================================
 --; SCREENPACK DEFINITION
