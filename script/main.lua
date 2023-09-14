@@ -5030,10 +5030,10 @@ txt_hostTitle = createTextImg(jgFnt, 0, 0, 'ONLINE ROOM CREATED', 159, 13)
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 110)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
 txt_ip = createTextImg(font14, 0, 0, '', 160, 138)
-txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 70,0.9,0.9)
+txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
 txt_connecting = createTextImg(jgFnt, 0, 0, '', 159, 228)
-txt_cancel = createTextImg(jgFnt, 5, 0, 'CANCEL', 161, 170)
+txt_cancel = createTextImg(jgFnt, 5, 0, 'CANCEL', 161, 165)
 
 --Scrolling background
 onlineBG0 = animNew(sysSff, [[
@@ -5107,7 +5107,7 @@ wirelessBG = animNew(sysSff, [[
 400,5, 0,0, 18
 400,6, 0,0, 18
 ]])
-animAddPos(wirelessBG, 125, 85)
+animAddPos(wirelessBG, 125, 87.5)
 animUpdate(wirelessBG)
 animSetScale(wirelessBG, 0.25, 0.25)
 
@@ -5141,6 +5141,10 @@ function f_create()
 		textImgDraw(txt_netPort)
 		--Draw Cancel Button
 		textImgDraw(txt_cancel)
+		--Draw Cursor
+		animSetWindow(cursorBox, 87,155, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Hosting Info
 		textImgDraw(txt_hosting)
 		--Draw Animated Icon
@@ -5161,7 +5165,7 @@ t_connectMenu = {
 	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'JOIN'},
 }
 for i=1, #t_connectMenu do
-	t_connectMenu[i].id = createTextImg(jgFnt, 0, 0, t_connectMenu[i].text, 12+i*95, 172)
+	t_connectMenu[i].id = createTextImg(jgFnt, 0, 0, t_connectMenu[i].text, 12+i*95, 171)
 end
 
 function f_directConnect()
@@ -5259,6 +5263,10 @@ function f_directConnect()
 				end
 				textImgDraw(t_connectMenu[i].id)
 			end
+			--Draw Cursor
+			animSetWindow(cursorBox, -16+connectMenu*100,159, 50,16)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		i = i >= 60 and 0 or i + 1
 		if doneIP then break end --Exit for this bucle to start below
@@ -5297,6 +5305,10 @@ function f_directConnect()
 		textImgDraw(txt_connecting)
 		--Draw Cancel Button
 		textImgDraw(txt_cancel)
+		--Draw Cursor
+		animSetWindow(cursorBox, 87,155, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Animated Icon
 		animDraw(wirelessBG)
 		animUpdate(wirelessBG)
@@ -5479,7 +5491,7 @@ function f_clientList()
 end
 
 function f_quickConnect()
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'SEARCH ROOM', 159, 13)
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'USERNAME ROOM', 159, 13)
 	local ip = ''
 	local doneIP = false
 	local connectMenu = 2
