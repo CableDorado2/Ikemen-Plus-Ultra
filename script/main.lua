@@ -5354,7 +5354,7 @@ function f_hostRooms()
 	local t_tmp = {}
 	f_hostTable()
 	f_addHostReset()
-	local cancel = false
+	--local cancel = false
 	while true do
 		if editScreen == false then
 			if esc() then
@@ -5493,8 +5493,8 @@ function f_hostRooms()
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		exitNetPlay()
-    	exitReplay()
+		--exitNetPlay()
+    	--exitReplay()
 		cmdInput()
 		refresh()
 	end

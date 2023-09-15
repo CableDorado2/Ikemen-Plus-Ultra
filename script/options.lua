@@ -384,12 +384,6 @@ function f_netsaveCfg()
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
-		--['data.selectTime'] = data.selectTime,
-		--['data.stageTime'] = data.stageTime,
-		--['data.orderTime'] = data.orderTime,
-		--['data.rematchTime'] = data.rematchTime,
-		--['data.serviceTime'] = data.serviceTime,
-		--['data.attractTime'] = data.attractTime,
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
@@ -1370,6 +1364,7 @@ function f_onlineCfg()
 	local bufr = 0
 	local bufu = 0
 	local bufd = 0
+	f_defaultReset() --To avoid maxCfg erros when enter in any sub-menu when reset settings
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() then
@@ -1493,7 +1488,7 @@ end
 txt_netplayCfg = createTextImg(jgFnt, 0, 0, 'NETPLAY ROOM SETTINGS', 159, 13)
 
 t_netplayCfg = {
-	{id = '', text = 'VS Match',		varID = textImgNew(), varText = data.ftcontrol},
+	{id = '', text = 'VS Match',			varID = textImgNew(), varText = data.ftcontrol},
 	{id = '', text = 'Room Name',			varID = textImgNew(), varText = ''},
 	{id = '', text = 'Pause Menu',			varID = textImgNew(), varText = 'No'},
 	{id = '', text = 'Looby Size',			varID = textImgNew(), varText = '2'},
@@ -2643,15 +2638,19 @@ function f_UICfg()
 			end
 			--Display Versus Win Counter
 			elseif UICfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
-				if data.vsDisplayWin then
-					data.vsDisplayWin = false
-					s_vsDisplayWin = 'No'
-					modified = 1
-				else
-					data.vsDisplayWin = true
-					s_vsDisplayWin = 'Yes'
-					modified = 1
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then
+					sndPlay(sysSnd, 100, 0)
+					if data.vsDisplayWin then
+						data.vsDisplayWin = false
+						s_vsDisplayWin = 'No'
+						modified = 1
+					else
+						data.vsDisplayWin = true
+						s_vsDisplayWin = 'Yes'
+						modified = 1
+					end
 				end
 			--Character Presentation Display Type
 			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
@@ -2733,34 +2732,30 @@ function f_UICfg()
 				end
 			--Win Screen Display Type
 			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if onlinegame == true then
-					lockSetting = true
-				elseif onlinegame == false then
-					if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
-						sndPlay(sysSnd, 100, 0)
-						data.winscreen = 'Modern'
-						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
-						sndPlay(sysSnd, 100, 0)
-						data.winscreen = 'Fixed'
-						modified = 1
-					elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Fixed' then
-						sndPlay(sysSnd, 100, 0)
-						data.winscreen = 'None'
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Modern' then
-						sndPlay(sysSnd, 100, 0)
-						data.winscreen = 'Classic'
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Fixed' then
-						sndPlay(sysSnd, 100, 0)
-						data.winscreen = 'Modern'
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
-						sndPlay(sysSnd, 100, 0)
-						data.winscreen = 'Fixed'
-						modified = 1
-					end
+				if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Modern'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Modern' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Fixed'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.winscreen == 'Fixed' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'None'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Modern' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Classic'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'Fixed' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Modern'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.winscreen == 'None' then
+					sndPlay(sysSnd, 100, 0)
+					data.winscreen = 'Fixed'
+					modified = 1
 				end
 			--Timers Settings
 			elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then

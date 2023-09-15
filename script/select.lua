@@ -1665,7 +1665,7 @@ function f_selectScreen()
 	--Stage select
 	if p1SelEnd and p2SelEnd then
 		charSelect = false
-		--selectTimer = 0
+		selectTimer = 0 --Disappear Char Select Timer to don't disturb Stage Timer
 		if not stageEnd then
 			f_selectStage()
 		else
