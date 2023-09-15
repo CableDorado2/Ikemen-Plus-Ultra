@@ -5121,10 +5121,12 @@ function f_create()
 	textImgSetText(txt_hosting, 'Waiting for Player 2...')
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Host' --For Replay Identify
-	--data.p1In = 1
-	--f_exitMenu() --Try to Wait client in Training Mode?
+	--if waitingRoom == 'Training' then
+		--data.p1In = 1
+		--f_practiceMenu() --Try to Wait client in Training Mode
+	--end
 	while not connected() do
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if esc() or btnPalNo(p1Cmd) > 0 then --btnPalNo(p1Cmd) > 0 does not work when engine is waiting a connection, only esc, that's why still we can't program an Training Waiting Room
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ''
@@ -5407,6 +5409,8 @@ function f_clientList()
 					script.options.f_netsaveCfg()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
+					serverName = (t_clientList[clientList].name)
+					hostIP = (t_clientList[clientList].address) --Send IP Selected to f_quickConnect()
 					cancel = f_quickConnect()
 					if not cancel then
 						synchronize()
@@ -5585,7 +5589,7 @@ function f_clientRegister()
 			addMenu = addMenu - 1
 		end
 		if addMenu < 2 then addMenu = 1 elseif addMenu > 1 then addMenu = 2 end
-		address = inputText('num',true)
+		hostAddress = inputText('num',true)
 		if clipboardPaste() then
 			if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
 				setInputText(getClipboardText())
@@ -5595,21 +5599,21 @@ function f_clientRegister()
 				sndPlay(sysSnd, 100, 5)
 			end
 		end
-		if address:match('^%.') then
-			address = ''
-			setInputText(address)
-		elseif address:len() > 15 then
-			address = address:sub(1,15)
-			setInputText(address)
-		elseif address:match('%.%.+') then
-			address = address:gsub('%.%.+','.')
-			setInputText(address)
-		elseif address:match('%d%d%d%d+') then
-			address = address:gsub('(%d%d%d)%d+','%1')
-			setInputText(address)
-		elseif address:match('%d+%.%d+%.%d+%.%d+%.') then
-			address = address:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
-			setInputText(address)
+		if hostAddress:match('^%.') then
+			hostAddress = ''
+			setInputText(hostAddress)
+		elseif hostAddress:len() > 15 then
+			hostAddress = hostAddress:sub(1,15)
+			setInputText(hostAddress)
+		elseif hostAddress:match('%.%.+') then
+			hostAddress = hostAddress:gsub('%.%.+','.')
+			setInputText(hostAddress)
+		elseif hostAddress:match('%d%d%d%d+') then
+			hostAddress = hostAddress:gsub('(%d%d%d)%d+','%1')
+			setInputText(hostAddress)
+		elseif hostAddress:match('%d+%.%d+%.%d+%.%d+%.') then
+			hostAddress = hostAddress:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
+			setInputText(hostAddress)
 		end
 		--ACTIONS
 		if esc() then
@@ -5623,9 +5627,9 @@ function f_clientRegister()
 				f_addClientReset()
 			--ENTER IP
 			elseif addMenu == 2 then
-				if address:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+				if hostAddress:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
 					doneClient = true
-				elseif address:match('^localhost$') then
+				elseif hostAddress:match('^localhost$') then
 					doneClient = true
 				else
 					sndPlay(sysSnd, 100, 5)
@@ -5641,7 +5645,7 @@ function f_clientRegister()
 		textImgSetText(txt_client, 'Enter Host\'s IPv4')
 		textImgDraw(txt_client)
 		--Draw IP Text
-		textImgSetText(txt_ip,address)
+		textImgSetText(txt_ip,hostAddress)
 		textImgDraw(txt_ip)
 		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
 		if textBar%60 < 30 then 
@@ -5664,6 +5668,7 @@ function f_clientRegister()
 	--SAVE ALL DATA
 	if doneClient == true then
 		sndPlay(sysSnd, 100, 1)
+		address = hostAddress
 		config.IP[name] = address
 		t_tmp = {}
 		for i = 1, #t_clientList do
@@ -5690,8 +5695,8 @@ function f_addClientReset()
 	doneClient = false
 	doneName = false
 	--doneAddress = false
-	name = ''
-	address = ''
+	hostName = ''
+	hostAddress = ''
 	textBar = 0
 	--Cursor pos in ENTER
 	--cursorPosYAdd = 1
@@ -5794,117 +5799,16 @@ end
 --; QUICK CLIENT/JOIN CONNECTING MENU
 --;===========================================================
 function f_quickConnect()
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'USERNAME ROOM', 159, 13)
-	local ip = ''
-	local doneIP = false
-	local connectMenu = 2
-	local i = 0
-	joinExit = false
 	cmdInput()
-	--ENTER IP SCREEN
-	while true do
-		--EXIT LOGIC
-		if joinExit == true then
-			clearInputText()
-			netPlayer = ''
-			sndPlay(sysSnd, 100, 2)
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			return true
-		end
-		--MAIN SCREEN
-		if not doneIP then
-			if esc() then
-				joinExit = true
-			elseif commandGetState(p1Cmd, 'r') then
-				sndPlay(sysSnd, 100, 0)
-				connectMenu = connectMenu + 1
-			elseif commandGetState(p1Cmd, 'l') then
-				sndPlay(sysSnd, 100, 0)
-				connectMenu = connectMenu - 1
-			end
-			if connectMenu < 2 then connectMenu = 1 elseif connectMenu > 1 then connectMenu = 2 end
-			ip = inputText('num',true)
-			if clipboardPaste() then
-				if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
-					setInputText(getClipboardText())
-				elseif string.match(getClipboardText(),'^localhost$') then
-					setInputText(getClipboardText())
-				else
-					sndPlay(sysSnd, 100, 5)
-				end
-			end
-			if ip:match('^%.') then
-				ip = ''
-				setInputText(ip)
-			elseif ip:len() > 15 then
-				ip = ip:sub(1,15)
-				setInputText(ip)
-			elseif ip:match('%.%.+') then
-				ip = ip:gsub('%.%.+','.')
-				setInputText(ip)
-			elseif ip:match('%d%d%d%d+') then
-				ip = ip:gsub('(%d%d%d)%d+','%1')
-				setInputText(ip)
-			elseif ip:match('%d+%.%d+%.%d+%.%d+%.') then
-				ip = ip:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
-				setInputText(ip)
-			end
-			--BUTTON SELECT
-			if btnPalNo(p1Cmd) > 0 then
-				if connectMenu == 1 then
-					joinExit = true
-				elseif connectMenu == 2 then
-					if ip:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
-						doneIP = true
-					elseif ip:match('^localhost$') then
-						doneIP = true
-					else
-						sndPlay(sysSnd, 100, 5)
-					end
-				end
-			end
-			--Draw BG
-			animDraw(f_animVelocity(onlineBG0, -1, -1))
-			--Draw Menu Title
-			textImgDraw(txt_clientTitle)
-			--Draw IP Window BG
-			animDraw(ipWindowBG)
-			animUpdate(ipWindowBG)
-			--Draw IP Window Title
-			textImgDraw(txt_client)
-			--Draw IP Text
-			textImgSetText(txt_ip,ip)
-			textImgDraw(txt_ip)
-			textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
-			if i%60 < 30 then 
-				textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
-			end
-			--Draw Replay Option Text
-			for i=1, #t_connectMenu do
-				if i == connectMenu then
-					textImgSetBank(t_connectMenu[i].id, 5)
-				else
-					textImgSetBank(t_connectMenu[i].id, 0)
-				end
-				textImgDraw(t_connectMenu[i].id)
-			end
-		end
-		i = i >= 60 and 0 or i + 1
-		if doneIP then break end --Exit for this bucle to start below
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-	--CONNECTING SCREEN
 	sndPlay(sysSnd, 100, 1)
-	enterNetPlay(ip) --Connect to entered IP address
+	joinExit = false
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, "'s ROOM", 159, 13)
+	enterNetPlay(hostIP) --Connect to entered IP address
 	netPlayer = 'Client'
-	textImgSetText(txt_connecting, 'Now connecting to ['..ip..']')
+	textImgSetText(txt_connecting, 'Now connecting to ['..hostIP..']')
 	while not connected() do
 		--CANCEL CONNECTION
 		if esc() then
-			clearInputText()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ''
@@ -5914,7 +5818,6 @@ function f_quickConnect()
 		--Draw Connecting BG
 		animDraw(f_animVelocity(onlineBG0, -1, -1))
 		--Draw Connecting Title
-		textImgSetText(txt_clientTitle, 'SEARCHING HOST ROOM')
 		textImgDraw(txt_clientTitle)
 		--Draw Window BG
 		animDraw(joinWindowBG)
@@ -5934,7 +5837,6 @@ function f_quickConnect()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 	end
-	clearInputText()
 	return false
 end
 
