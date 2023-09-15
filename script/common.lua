@@ -40,9 +40,9 @@ assert(loadfile('saved/stats_sav.lua'))()
 --One-time load of the json routines
 json = (loadfile 'lib/dkjson.lua')()
 
--- Data loading from config.json
-local file = io.open("saved/config.json","r")
-config = json.decode(file:read("*all"))
+--Data loading from host_rooms.json
+local file = io.open("saved/host_rooms.json","r")
+host_rooms = json.decode(file:read("*all"))
 file:close()
 
 --;===========================================================

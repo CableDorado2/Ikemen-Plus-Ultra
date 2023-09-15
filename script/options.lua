@@ -1009,7 +1009,7 @@ t_mainCfg = {
 	{id = '', text = 'Engine Settings',  					varID = textImgNew(), varText = ''},
 	{id = '', text = 'Nickname',        					varID = textImgNew(), varText = data.userName},
 	{id = '', text = 'Netplay Port',        				varID = textImgNew(), varText = getListenPort()},
-	{id = '', text = 'Netplay Connection',     				varID = textImgNew(), varText = data.connectMode},
+	{id = '', text = 'Netplay Connection',					varID = textImgNew(), varText = data.connectMode},
 	{id = '', text = 'All Default Values',					varID = textImgNew(), varText = ''},
 	{id = '', text = '              Save and Back',  		varID = textImgNew(), varText = ''},
 	{id = '', text = '          Back Without Saving',  		varID = textImgNew(), varText = ''},
@@ -1059,15 +1059,15 @@ function f_mainCfg()
 			elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) and mainCfg == 9 then
 				if commandGetState(p1Cmd, 'r') and data.connectMode == 'Direct' then
 					sndPlay(sysSnd, 100, 0)
-					data.connectMode = 'Quick'
+					data.connectMode = 'Database'
 					modified = 1
-				--elseif commandGetState(p1Cmd, 'r') and data.connectMode == 'Quick' then
+				--elseif commandGetState(p1Cmd, 'r') and data.connectMode == 'Database' then
 					--data.connectMode = 'Server'
 					--modified = 1
 				--elseif commandGetState(p1Cmd, 'l') and data.connectMode == 'Server' then
-					--data.connectMode = 'Quick'
+					--data.connectMode = 'Database'
 					--modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.connectMode == 'Quick' then
+				elseif commandGetState(p1Cmd, 'l') and data.connectMode == 'Database' then
 					sndPlay(sysSnd, 100, 0)
 					data.connectMode = 'Direct'
 					modified = 1
@@ -1493,7 +1493,7 @@ end
 txt_netplayCfg = createTextImg(jgFnt, 0, 0, 'NETPLAY ROOM SETTINGS', 159, 13)
 
 t_netplayCfg = {
-	{id = '', text = 'VS Match Type',		varID = textImgNew(), varText = data.ftcontrol},
+	{id = '', text = 'VS Match',		varID = textImgNew(), varText = data.ftcontrol},
 	{id = '', text = 'Room Name',			varID = textImgNew(), varText = ''},
 	{id = '', text = 'Pause Menu',			varID = textImgNew(), varText = 'No'},
 	{id = '', text = 'Looby Size',			varID = textImgNew(), varText = '2'},
@@ -2509,9 +2509,9 @@ t_UICfg = {
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
 	{id = '', text = 'Character Presentation',   varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Character Select Type',    varID = textImgNew(), varText = data.selectType},
-	{id = '', text = 'Palette Select Type',    	 varID = textImgNew(), varText = data.palType},
-	{id = '', text = 'Stage Select Type',        varID = textImgNew(), varText = data.stageType},
-	{id = '', text = 'Win Screen Type',    		 varID = textImgNew(), varText = data.winscreen},
+	{id = '', text = 'Palette Select',	    	 varID = textImgNew(), varText = data.palType},
+	{id = '', text = 'Stage Select',	         varID = textImgNew(), varText = data.stageType},
+	{id = '', text = 'Win Screen',	    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = 'Timers Settings',  	  	 varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Settings',  	  	 varID = textImgNew(), varText = ''},
 	{id = '', text = '          BACK',  		 varID = textImgNew(), varText = ''},
