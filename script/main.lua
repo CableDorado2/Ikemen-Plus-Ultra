@@ -246,6 +246,100 @@ function f_infoReset()
 end
 
 --;===========================================================
+--; CONFIRM MESSAGE
+--;===========================================================
+txt_confirmQuestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+
+--Confirm Window BG
+confirmWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(confirmWindowBG, 83.5, 97)
+animUpdate(confirmWindowBG)
+animSetScale(confirmWindowBG, 1, 1)
+
+t_confirmMenu = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}
+
+function f_confirmMenu()
+	cmdInput()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') then
+		sndPlay(sysSnd, 100, 0)
+		confirmMenu = confirmMenu - 1
+	elseif commandGetState(p1Cmd, 'd') then
+		sndPlay(sysSnd, 100, 0)
+		confirmMenu = confirmMenu + 1
+	end
+	if confirmMenu < 1 then
+		confirmMenu = #t_confirmMenu
+		if #t_confirmMenu > 4 then
+			cursorPosYConfirm = 4
+		else
+			cursorPosYConfirm = #t_confirmMenu-1
+		end
+	elseif confirmMenu > #t_confirmMenu then
+		confirmMenu = 1
+		cursorPosYConfirm = 0
+	elseif commandGetState(p1Cmd, 'u') and cursorPosYConfirm > 0 then
+		cursorPosYConfirm = cursorPosYConfirm - 1
+	elseif commandGetState(p1Cmd, 'd') and cursorPosYConfirm < 4 then
+		cursorPosYConfirm = cursorPosYConfirm + 1
+	end
+	if cursorPosYConfirm == 4 then
+		moveTxtConfirm = (confirmMenu - 5) * 13
+	elseif cursorPosYConfirm == 0 then
+		moveTxtConfirm = (confirmMenu - 1) * 13
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(confirmWindowBG)
+	animUpdate(confirmWindowBG)
+	--Draw Title
+	textImgDraw(txt_confirmQuestion)
+	--Draw Table Text
+	for i=1, #t_confirmMenu do
+		if i == confirmMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 120+i*13-moveTxtConfirm))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYConfirm*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if esc() then
+		sndPlay(sysSnd, 100, 2)
+		f_confirmReset()
+	elseif btnPalNo(p1Cmd) > 0 then
+		--YES
+		if confirmMenu == 1 then
+			sndPlay(sysSnd, 100, 1)
+			deleteReplay = true
+		--NO
+		else
+			sndPlay(sysSnd, 100, 2)
+		end
+		f_confirmReset()
+	end
+	cmdInput()
+end
+
+function f_confirmReset()
+	confirmScreen = false
+	moveTxtConfirm = 0
+	--Cursor pos in NO
+	cursorPosYConfirm = 1
+	confirmMenu = 2
+end
+
+--;===========================================================
 --; CLOCK AND DATE FEATURES
 --;===========================================================
 function f_sysTime()
@@ -4461,6 +4555,7 @@ end
 --; REPLAY SCREENPACK
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
+txt_replayData = createTextImg(jgFnt, 0, 0, 'REPLAY DATA', 159, 72)
 
 --Scrolling background
 replayBG0 = animNew(sysSff, [[
@@ -4512,7 +4607,7 @@ animSetScale(replayDownArrow, 0.5, 0.5)
 replayMenuBG = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(replayMenuBG, -5.5, 41)
+animSetPos(replayMenuBG, 0, 5)
 animSetAlpha(replayMenuBG, 20, 100)
 animUpdate(replayMenuBG)
 
@@ -4520,8 +4615,9 @@ animUpdate(replayMenuBG)
 replayMenuBG2 = animNew(sysSff, [[
 250,0, 0,0,
 ]])
-animSetPos(replayMenuBG2, -40, 60)
+animSetPos(replayMenuBG2, -13, 77)
 animUpdate(replayMenuBG2)
+animSetScale(replayMenuBG2, 0.9, 0.9)
 
 --;===========================================================
 --; ONLINE REPLAYS MENU
@@ -4530,7 +4626,7 @@ t_replayOption = {
 	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'RETURN'},
 }
 for i=1, #t_replayOption do
-	t_replayOption[i].id = createTextImg(jgFnt, 0, 1, t_replayOption[i].text, -136+i*140, 172)
+	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80+i*120, 172)
 end
 
 function f_replayTable()
@@ -4592,10 +4688,10 @@ function f_mainReplay()
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sysSnd, 100, 1)
-				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159, 51)--Show Replay Selected Name
+				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159.5, 16)--Show Replay Selected Name
 				local fileSize = lfs.attributes('replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
 				local replaySize = (math.floor(((fileSize/1048576) + 0.50)))--Conversion of Bytes to Megabytes
-				txt_replaySize = createTextImg(jgFnt, 0, 0, 'SIZE:'.. replaySize .. 'MB', 159, 62)--Show Replay Selected Size
+				txt_replaySize = createTextImg(jgFnt, 0, 0, 'SIZE:'.. replaySize .. 'MB', 159.5, 27)--Show Replay Selected Size
 				local replayOption = 2
 				f_confirmReset()
 				cmdInput()
@@ -4641,11 +4737,12 @@ function f_mainReplay()
 					end
 					animDraw(f_animVelocity(replayBG0, -1, -1))
 				--Draw Replay Title
-					animSetScale(replayMenuBG, 320, 94)
-					animSetWindow(replayMenuBG, 0,20, 320,46)
+					animSetScale(replayMenuBG, 324, 74)
+					animSetWindow(replayMenuBG, 0,5, 324,25)
 					animDraw(replayMenuBG)
 					textImgDraw(txt_replayName)
 					textImgDraw(txt_replaySize)
+					textImgDraw(txt_replayData)
 				--Draw Mini Menu BG
 					animDraw(replayMenuBG2)
 					animUpdate(replayMenuBG2)
@@ -4745,100 +4842,6 @@ function f_mainReplay()
 		cmdInput()
 		refresh()
 	end
-end
-
---;===========================================================
---; CONFIRM DELETE REPLAY MESSAGE
---;===========================================================
-txt_replayquestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
-
---Confirm Window BG
-confirmWindowBG = animNew(sysSff, [[
-230,1, 0,0,
-]])
-animSetPos(confirmWindowBG, 83.5, 97)
-animUpdate(confirmWindowBG)
-animSetScale(confirmWindowBG, 1, 1)
-
-t_confirmMenu = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
-}
-
-function f_confirmMenu()
-	cmdInput()
-	--Cursor Position
-	if commandGetState(p1Cmd, 'u') then
-		sndPlay(sysSnd, 100, 0)
-		confirmMenu = confirmMenu - 1
-	elseif commandGetState(p1Cmd, 'd') then
-		sndPlay(sysSnd, 100, 0)
-		confirmMenu = confirmMenu + 1
-	end
-	if confirmMenu < 1 then
-		confirmMenu = #t_confirmMenu
-		if #t_confirmMenu > 4 then
-			cursorPosYConfirm = 4
-		else
-			cursorPosYConfirm = #t_confirmMenu-1
-		end
-	elseif confirmMenu > #t_confirmMenu then
-		confirmMenu = 1
-		cursorPosYConfirm = 0
-	elseif commandGetState(p1Cmd, 'u') and cursorPosYConfirm > 0 then
-		cursorPosYConfirm = cursorPosYConfirm - 1
-	elseif commandGetState(p1Cmd, 'd') and cursorPosYConfirm < 4 then
-		cursorPosYConfirm = cursorPosYConfirm + 1
-	end
-	if cursorPosYConfirm == 4 then
-		moveTxtConfirm = (confirmMenu - 5) * 13
-	elseif cursorPosYConfirm == 0 then
-		moveTxtConfirm = (confirmMenu - 1) * 13
-	end
-	--Draw Fade BG
-	animDraw(fadeWindowBG)
-	--Draw Menu BG
-	animDraw(confirmWindowBG)
-	animUpdate(confirmWindowBG)
-	--Draw Title
-	textImgDraw(txt_replayquestion)
-	--Draw Table Text
-	for i=1, #t_confirmMenu do
-		if i == confirmMenu then
-			bank = 5
-		else
-			bank = 0
-		end
-		textImgDraw(f_updateTextImg(t_confirmMenu[i].id, jgFnt, bank, 0, t_confirmMenu[i].text, 159, 120+i*13-moveTxtConfirm))
-	end
-	--Draw Cursor
-	animSetWindow(cursorBox, 87,123+cursorPosYConfirm*13, 144,13)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Actions
-	if esc() then
-		sndPlay(sysSnd, 100, 2)
-		f_confirmReset()
-	elseif btnPalNo(p1Cmd) > 0 then
-		--YES
-		if confirmMenu == 1 then
-			sndPlay(sysSnd, 100, 1)
-			deleteReplay = true
-		--NO
-		else
-			sndPlay(sysSnd, 100, 2)
-		end
-		f_confirmReset()
-	end
-	cmdInput()
-end
-
-function f_confirmReset()
-	confirmScreen = false
-	moveTxtConfirm = 0
-	--Cursor pos in NO
-	cursorPosYConfirm = 1
-	confirmMenu = 2
 end
 
 --;===========================================================

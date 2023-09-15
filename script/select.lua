@@ -4020,7 +4020,7 @@ function f_selectVersus()
 			vshintTime = 0 --Restart timer for a new random hint
 		end
 		vsTime = vsTime + 1
-		if vsTime == 300 or btnPalNo(p1Cmd) > 0 then
+		if vsTime == 300 then --or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
