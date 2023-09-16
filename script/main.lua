@@ -187,7 +187,8 @@ animSetScale(arrowsU, 2, 2)
 --;===========================================================
 --; OK MESSAGE
 --;===========================================================
-txt_infoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 156.5, 111)
+txt_infoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 157, 111)
+txt_ok = createTextImg(jgFnt, 5, 0, 'OK', 159, 151)
 
 --Info Window BG
 infoWindowBG = animNew(sysSff, [[
@@ -197,10 +198,6 @@ animSetPos(infoWindowBG, 83.5, 97)
 animUpdate(infoWindowBG)
 animSetScale(infoWindowBG, 1, 1)
 
-t_infoMenu = {
-	{id = textImgNew(), text = 'OK'},
-}
-
 function f_infoMenu()
 	cmdInput()
 	--Draw Fade BG
@@ -208,23 +205,28 @@ function f_infoMenu()
 	--Draw Menu BG
 	animDraw(infoWindowBG)
 	animUpdate(infoWindowBG)
-	--Draw Title
+	--Draw Info Text
 	if charsInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO CHARACTERS FOUND IN SELECT.DEF', 160, 130,0.56,0.56)
+		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
+		txtInfo = 'NO CHARACTERS FOUND IN SELECT.DEF'
 	elseif stagesInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO STAGES FOUND IN SELECT.DEF', 160, 130,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
+		txtInfo = 'NO STAGES FOUND IN SELECT.DEF'
 	elseif bossInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO BOSSES FOUND IN SELECT.DEF', 160, 130,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
+		txtInfo = 'NO BOSSES FOUND IN SELECT.DEF'
 	elseif bonusInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, 'NO BONUSES FOUND IN SELECT.DEF', 160, 130,0.6,0.6)
+		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
+		txtInfo = 'NO BONUSES FOUND IN SELECT.DEF'
+	elseif resolutionInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
+		txtInfo = 'SET A 16:9 RESOLUTION TO AVOID DESYNC'
 	end
-	textImgDraw(txt_info)
-	--Draw Table Text
-	for i=1, #t_infoMenu do
-		textImgDraw(f_updateTextImg(t_infoMenu[i].id, jgFnt, 5, 0, t_infoMenu[i].text, 159, 135+i*13))
-	end
+	f_textRender(txt_info, txtInfo, 0, 160, 125, 10, 0, 25)
+	--Draw Ok Text
+	textImgDraw(txt_ok)
 	--Draw Cursor
-	animSetWindow(cursorBox, 87,138, 144,13)
+	animSetWindow(cursorBox, 87,141, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Info Title Text
@@ -243,6 +245,7 @@ function f_infoReset()
 	stagesInfo = false
 	bossInfo = false
 	bonusInfo = false
+	resolutionInfo = false
 end
 
 --;===========================================================
@@ -843,117 +846,116 @@ function f_mainMenu()
 	local bufl = 0
 	closeText = 1
 	f_menuMusic()
+	f_infoReset()
 	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			playBGM(bgmTitle)
-			return
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			mainMenu = mainMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			mainMenu = mainMenu + 1
-		end
-		--mode titles/cursor position calculation
-		if mainMenu < 1 then
-			mainMenu = #t_mainMenu
-			if #t_mainMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_mainMenu-1
+		if infoScreen == false then
+			if esc() then
+				sndPlay(sysSnd, 100, 2)
+				playBGM(bgmTitle)
+				return
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				mainMenu = mainMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				mainMenu = mainMenu + 1
 			end
-		elseif mainMenu > #t_mainMenu then
-			mainMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (mainMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (mainMenu - 1) * 13
-		end
-		if #t_mainMenu <= 5 then
-			maxMainMenu = #t_mainMenu
-		elseif mainMenu - cursorPosY > 0 then
-			maxMainMenu = mainMenu + 5 - cursorPosY
-		else
-			maxMainMenu = 5
-		end
-		--mode selected
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			--STORY
-			--if mainMenu == 1 then
-				--sndPlay(sysSnd, 100, 1)
-				--script.story.f_mainStory()
-			--ARCADE
-			if mainMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				f_arcadeMenu()
-			--VERSUS
-			elseif mainMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_vsMenu()
-			--NETPLAY
-			elseif mainMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				--Data loading from config.ssz
-				local file = io.open("ssz/config.ssz","r")
-				s_configSSZ = file:read("*all")
-				file:close()
-				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
-				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
-				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
-				--Rounding Example
-				--local number = 15.57
-				--local number2 = 15.23
-				--print(math.floor(number + 0.5)) --Result will be = 16
-				--print(math.floor(number2 + 0.5)) --Result will be = 15
-					f_netWarning()
+			--mode titles/cursor position calculation
+			if mainMenu < 1 then
+				mainMenu = #t_mainMenu
+				if #t_mainMenu > 5 then
+					cursorPosY = 5
 				else
-					f_mainNetplay()
+					cursorPosY = #t_mainMenu-1
 				end
-			--PRACTICE
-			elseif mainMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				f_practiceMenu()		
-			--CHALLENGES
-			elseif mainMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
-				f_challengeMenu()
-			--EXTRAS
-			elseif mainMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				assert(loadfile('saved/stats_sav.lua'))()
-				if data.arcadeUnlocks == true then
-					f_extrasMenu()
-				else
-					f_secret()
-				end
-			--WATCH
-			elseif mainMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
-				f_watchMenu()
-			--OPTIONS
-			elseif mainMenu == 8 then
-				sndPlay(sysSnd, 100, 1)
-				onlinegame = false --only for identify purposes
-				assert(loadfile('saved/data_sav.lua'))()
-				script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
-			--EXIT
-			elseif mainMenu == 9 then
-				sndPlay(sysSnd, 100, 1)
-				f_exitMenu()
-			--CHECK UPDATES
+			elseif mainMenu > #t_mainMenu then
+				mainMenu = 1
+				cursorPosY = 0
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (mainMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (mainMenu - 1) * 13
+			end
+			if #t_mainMenu <= 5 then
+				maxMainMenu = #t_mainMenu
+			elseif mainMenu - cursorPosY > 0 then
+				maxMainMenu = mainMenu + 5 - cursorPosY
 			else
-				sndPlay(sysSnd, 100, 1)	
-				webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
+				maxMainMenu = 5
+			end
+			--mode selected
+			if btnPalNo(p1Cmd) > 0 then
+				f_default()
+				--STORY
+				--if mainMenu == 1 then
+					--sndPlay(sysSnd, 100, 1)
+					--script.story.f_mainStory()
+				--ARCADE
+				if mainMenu == 1 then
+					sndPlay(sysSnd, 100, 1)
+					f_arcadeMenu()
+				--VERSUS
+				elseif mainMenu == 2 then
+					sndPlay(sysSnd, 100, 1)
+					f_vsMenu()
+				--NETPLAY
+				elseif mainMenu == 3 then
+					sndPlay(sysSnd, 100, 1)
+					--Data loading from config.ssz
+					local file = io.open("ssz/config.ssz","r")
+					s_configSSZ = file:read("*all")
+					file:close()
+					resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+					resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
+					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
+					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
+						resolutionInfo = true
+						infoScreen = true
+					else
+						f_mainNetplay()
+					end
+				--PRACTICE
+				elseif mainMenu == 4 then
+					sndPlay(sysSnd, 100, 1)
+					f_practiceMenu()		
+				--CHALLENGES
+				elseif mainMenu == 5 then
+					sndPlay(sysSnd, 100, 1)
+					f_challengeMenu()
+				--EXTRAS
+				elseif mainMenu == 6 then
+					sndPlay(sysSnd, 100, 1)
+					assert(loadfile('saved/stats_sav.lua'))()
+					if data.arcadeUnlocks == true then
+						f_extrasMenu()
+					else
+						f_secret()
+					end
+				--WATCH
+				elseif mainMenu == 7 then
+					sndPlay(sysSnd, 100, 1)
+					f_watchMenu()
+				--OPTIONS
+				elseif mainMenu == 8 then
+					sndPlay(sysSnd, 100, 1)
+					onlinegame = false --only for identify purposes
+					assert(loadfile('saved/data_sav.lua'))()
+					script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
+				--EXIT
+				elseif mainMenu == 9 then
+					sndPlay(sysSnd, 100, 1)
+					f_exitMenu()
+				--CHECK UPDATES
+				else
+					sndPlay(sysSnd, 100, 1)	
+					webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
+				end
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -965,9 +967,11 @@ function f_mainMenu()
 			end
 			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 142+i*13-moveTxt)) --Text Position
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13) --Position and Size of the selection cursor
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
+		if infoScreen == false then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -989,6 +993,7 @@ function f_mainMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if infoScreen == true then f_infoMenu() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3663,72 +3668,76 @@ function f_replayMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_infoReset()
 	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			replayMenu = replayMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			replayMenu = replayMenu + 1
-		end
-		if replayMenu < 1 then
-			replayMenu = #t_replayMenu
-			if #t_replayMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_replayMenu-1
-			end
-		elseif replayMenu > #t_replayMenu then
-			replayMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (replayMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (replayMenu - 1) * 13
-		end
-		if #t_replayMenu <= 5 then
-			maxreplayMenu = #t_replayMenu
-		elseif replayMenu - cursorPosY > 0 then
-			maxreplayMenu = replayMenu + 5 - cursorPosY
-		else
-			maxreplayMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			--ONLINE REPLAYS
-			if replayMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-			--Load resolution Data from config.ssz
-				local file = io.open("ssz/config.ssz","r")
-				s_configSSZ = file:read("*all")
-				file:close()
-				resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-				resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-				--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
-				--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
-				if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then
-					f_replayWarning() --To watch an online replay you need to set a 16:9 Resolution to avoid desync
-				else
-					f_mainReplay()
-				end
-			--LOCAL REPLAYS
-			elseif replayMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
-			--BACK
-			else
+		if infoScreen == false then
+			if esc() then
 				sndPlay(sysSnd, 100, 2)
 				break
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				replayMenu = replayMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				replayMenu = replayMenu + 1
 			end
-		end	
+			if replayMenu < 1 then
+				replayMenu = #t_replayMenu
+				if #t_replayMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_replayMenu-1
+				end
+			elseif replayMenu > #t_replayMenu then
+				replayMenu = 1
+				cursorPosY = 0
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (replayMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (replayMenu - 1) * 13
+			end
+			if #t_replayMenu <= 5 then
+				maxreplayMenu = #t_replayMenu
+			elseif replayMenu - cursorPosY > 0 then
+				maxreplayMenu = replayMenu + 5 - cursorPosY
+			else
+				maxreplayMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 then
+				--ONLINE REPLAYS
+				if replayMenu == 1 then
+					sndPlay(sysSnd, 100, 1)
+				--Load resolution Data from config.ssz
+					local file = io.open("ssz/config.ssz","r")
+					s_configSSZ = file:read("*all")
+					file:close()
+					resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+					resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
+					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
+					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To watch an online replay you need to set a 16:9 Resolution to avoid desync
+						resolutionInfo = true
+						infoScreen = true
+					else
+						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						f_mainReplay()
+					end
+				--LOCAL REPLAYS
+				elseif replayMenu == 2 then
+					sndPlay(sysSnd, 100, 1)
+					f_comingSoon()
+				--BACK
+				else
+					sndPlay(sysSnd, 100, 2)
+					break
+				end
+			end
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_replayMenu do
 			if i == replayMenu then
@@ -3738,9 +3747,11 @@ function f_replayMenu()
 			end
 			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if infoScreen == false then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -3762,6 +3773,7 @@ function f_replayMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if infoScreen == true then f_infoMenu() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4760,6 +4772,10 @@ function f_mainReplay()
 						end
 						textImgDraw(t_replayOption[i].id)
 					end
+					--Draw Cursor
+					animSetWindow(cursorBox, -108+replayOption*120,159, 55,17)
+					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+					animDraw(f_animVelocity(cursorBox, -1, -1))
 					if confirmScreen == true then f_confirmMenu() end
 					--DELETE SELECTED REPLAY
 					if deleteReplay == true then
@@ -5108,7 +5124,7 @@ animSetPos(joinWindowBG, 83.5, 54)
 animUpdate(joinWindowBG)
 animSetScale(joinWindowBG, 1, 2)
 
---Online Icon
+--Connecting Icon
 wirelessBG = animNew(sysSff, [[
 400,0, 0,0, 18
 400,1, 0,0, 18
@@ -5476,8 +5492,8 @@ function f_hostRooms()
 		if editScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, 'HOST ROOMS')
+			textImgDraw(txt_version)
 		end
-		textImgDraw(txt_version)
 		f_sysTime()
 		if maxhostList > 6 then
 			animDraw(arrowsU)
@@ -6385,53 +6401,7 @@ function f_secret()
         animUpdate(data.fadeTitle)
 		cmdInput()
         refresh()
-    end		
-end
-
---;===========================================================
---; NETPLAY INFO SCREEN
---;===========================================================
-function f_netWarning()
-	local i = 0
-	txt = 'BEFORE TO PLAY ONLINE, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
-	cmdInput()
-	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			sndPlay(sysSnd, 100, 2)
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-			break
-		end
-        i = i + 1
-        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1, 35)
-        animDraw(data.fadeTitle)
-        animUpdate(data.fadeTitle)
-		cmdInput()
-        refresh()
-    end		
-end
-
---;===========================================================
---; REPLAY INFO SCREEN
---;===========================================================
-function f_replayWarning()
-	local i = 0
-	txt = 'BEFORE TO WATCH AN ONLINE REPLAY, SET A 16:9 GAME RESOLUTION TO AVOID DESYNC.'
-	cmdInput()
-	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
-			cmdInput()
-			sndPlay(sysSnd, 100, 2)
-			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-			break
-		end
-        i = i + 1
-        f_textRender(txt_msgMenu, txt, i, 20, 178, 15, 1, 35)
-        animDraw(data.fadeTitle)
-        animUpdate(data.fadeTitle)
-		cmdInput()
-        refresh()
-    end		
+    end
 end
 
 --;===========================================================
