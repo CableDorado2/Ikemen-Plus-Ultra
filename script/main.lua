@@ -152,37 +152,35 @@ animSetPos(fadeWindowBG, -54, 0)
 animSetScale(fadeWindowBG, 427, 240)
 animUpdate(fadeWindowBG)
 
---Down Menu Arrows
-arrowsD = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsD, 50, 170)
-animUpdate(arrowsD)
-animSetScale(arrowsD, 2, 2)
-
---Up Menu Arrows
+--Up Menu Arrow
 arrowsU = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
 ]])
-animAddPos(arrowsU, 252, 170)
+animAddPos(arrowsU, 153.5, 136)
 animUpdate(arrowsU)
-animSetScale(arrowsU, 2, 2)
+animSetScale(arrowsU, 0.5, 0.5)
+
+--Down Menu Arrow
+arrowsD = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(arrowsD, 153.5, 224)
+animUpdate(arrowsD)
+animSetScale(arrowsD, 0.5, 0.5)
 
 --;===========================================================
 --; OK MESSAGE
@@ -4773,7 +4771,7 @@ function f_mainReplay()
 						textImgDraw(t_replayOption[i].id)
 					end
 					--Draw Cursor
-					animSetWindow(cursorBox, -108+replayOption*120,159, 55,17)
+					animSetWindow(cursorBox, -108+replayOption*120,96, 60,80)
 					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 					animDraw(f_animVelocity(cursorBox, -1, -1))
 					if confirmScreen == true then f_confirmMenu() end

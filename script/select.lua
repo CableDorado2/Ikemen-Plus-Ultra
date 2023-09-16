@@ -70,6 +70,7 @@ p1SelBack = false
 p1TeamBack = true
 p1palSelect = 1
 p1movePal = 1
+randomP1Rematch = false
 end
 
 function f_p2sideReset()
@@ -84,6 +85,7 @@ p2SelBack = false
 p2TeamBack = true
 p2palSelect = 1
 p2movePal = 1
+randomP2Rematch = false
 end
 
 function f_stageSelectReset()
@@ -872,21 +874,20 @@ function f_selectSimple()
 					break
 				--BACK TO STAGE SELECT
 				elseif battleOption == 3 or battleOption2 == 3 then
-					--if data.challengerScreen == false then
-						--playBGM(bgmSelect) --and don't show the screen
-					--elseif data.challengerScreen == true then
-						--f_selectChallenger()
-						--f_challengerMusic()
-					--else
-						--playBGM(bgmSelect) --play original char select song instead of challenger song
-					--end
-					--f_selectReset()
+					playBGM(bgmSelect)
+					if randomP1Rematch == true then--if getCharName(p1Cell) == 'Random' then
+						data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						data.t_p1selected[1].pal = math.random(1,12)
+					end
+					if randomP2Rematch == true then--if getCharName(p2Cell) == 'Random' then
+						data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						data.t_p2selected[1].pal = math.random(1,12)
+					end
 					f_stageSelectReset()
 					--selectStart()
 					selScreenEnd = false
 					stageEnd = false
 					charSelect = true
-					--setMatchNo(matchNo)
 					rematchEnd = false
 					battleOption = 0
 					battleOption2 = 0
@@ -894,26 +895,7 @@ function f_selectSimple()
 					--backScreen = false
 					--back = false
 					while not selScreenEnd do
-						if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-							if p1TeamBack == true then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
-							end
-						elseif esc() and data.p2In == 2 then
-							if p1TeamBack == true and p2TeamBack == true then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
-							end
-						end
 						f_selectScreen()
-						if back == true then
-							if data.rosterMode == 'event' then
-								--playBGM('')
-							else
-								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-							end
-							return
-						end
 					end
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
@@ -953,14 +935,14 @@ function f_selectSimple()
 					rematchEnd = false
 					battleOption = 0 --Reset Rematch Battle Option
 					battleOption2 = 0
-					--if getCharName(p1Cell) == 'Random' then
-						--data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						--data.t_p1selected[1].pal = math.random(1,12)
-					--end
-					--if getCharName(p2Cell) == 'Random' then
-						--data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						--data.t_p2selected[1].pal = math.random(1,12)
-					--end
+					if randomP1Rematch == true then--if getCharName(p1Cell) == 'Random' then
+						data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						data.t_p1selected[1].pal = math.random(1,12)
+					end
+					if randomP2Rematch == true then--if getCharName(p2Cell) == 'Random' then
+						data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+						data.t_p2selected[1].pal = math.random(1,12)
+					end
 					if stageList == 0 then
 						stageNo = math.random(1, data.includestage)
 						setStage(stageNo)
@@ -2661,7 +2643,8 @@ function f_p1SelectMenu()
 				sndPlay(sysSnd, 100, 1)
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
-					cel = math.random(1, #t_randomChars)-1
+					randomP1Rematch = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p1Cell) == 'Kung Fu Man' then --Character Voice when is selected Example for Player 1 Side
                     sndPlay(announcerSnd, 1, 0)
 				end
@@ -2699,7 +2682,8 @@ function f_p1SelectMenu()
 				sndPlay(sysSnd, 100, 1)
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
-					cel = math.random(1, #t_randomChars)-1
+					randomP1Rematch = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p1Cell) == 'Kung Fu Man' then
                     sndPlay(announcerSnd, 1, 0)
 				end
@@ -2997,7 +2981,8 @@ function f_p2SelectMenu()
 				sndPlay(sysSnd, 100, 1)
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
-					cel = math.random(1, #t_randomChars)-1
+					randomP2Rematch = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p2Cell) == 'Kung Fu Man' then --Another Character Voice when is selected Example for Player 2 Side
                     sndPlay(announcerSnd, 2, 0)
 				end
@@ -3031,7 +3016,8 @@ function f_p2SelectMenu()
 				sndPlay(sysSnd, 100, 1)
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
-					cel = math.random(1, #t_randomChars)-1
+					randomP2Rematch = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p2Cell) == 'Kung Fu Man' then
                     sndPlay(announcerSnd, 2, 0)
 				end
@@ -4578,9 +4564,9 @@ end
 --;===========================================================
 --; REMATCH SCREENPACK
 --;===========================================================
-txt_rematchCPU = createTextImg(jgFnt, 0, 0, 'BATTLE OPTION', 160, 102)
-txt_rematch = createTextImg(jgFnt, 0, 0, 'OPTION BATTLE P1', 86, 102)
-txt_rematch2 = createTextImg(jgFnt, 0, 0, 'P2 BATTLE OPTION', 237, 102)
+txt_rematchCPU = createTextImg(font6, 0, 0, 'BATTLE OPTION', 160, 102)
+txt_rematch = createTextImg(font6, 0, 0, 'OPTION BATTLE P1', 86, 102)
+txt_rematch2 = createTextImg(font6, 0, 0, 'P2 BATTLE OPTION', 237, 102)
 
 --Scrolling background
 rematchBG = animNew(sysSff, [[
@@ -4663,9 +4649,9 @@ function f_rematch()
 	--Set Color and Text Position
 	for i=1, #t_battleOption do
 		if data.p2In == 1 then --VS CPU
-			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 104.5+i*15)
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 104.5+i*13,0.95,0.95)
 		else
-			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*15)
+			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*13,0.95,0.95)
 		end
 		if i == p1Cursor + 0 then
 			textImgSetBank(t_battleOption[i].id, 5)
@@ -4677,9 +4663,9 @@ function f_rematch()
 	if not p1Ready then
 	--Draw Cursor
 		if data.p2In == 1 then --VS CPU
-			animSetWindow(cursorBox, 87.1, 94.5+p1Cursor*15, 145, 13)
+			animSetWindow(cursorBox, 87.1, 94.5+p1Cursor*13, 145, 13)
 		else
-			animSetWindow(cursorBox, 4, 94.5+p1Cursor*15, 145, 13)
+			animSetWindow(cursorBox, 4, 94.5+p1Cursor*13, 145, 13)
 		end
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -4704,7 +4690,7 @@ function f_rematch()
 		animUpdate(rematch2WindowBG)
 		textImgDraw(txt_rematch2)
 		for i=1, #t_battleOption2 do
-			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 104.5+i*15)
+			t_battleOption2[i].id = createTextImg(jgFnt, 0, 0, t_battleOption2[i].text, 244, 104.5+i*13,0.9,0.9)
 			if i == p2Cursor + 0 then
 				textImgSetBank(t_battleOption2[i].id, 5)
 			else
@@ -4713,7 +4699,7 @@ function f_rematch()
 			textImgDraw(t_battleOption2[i].id)
 		end
 		if not p2Ready then
-			animSetWindow(cursorBox, 172, 94.5+p2Cursor*15, 145, 13)
+			animSetWindow(cursorBox, 172, 94.5+p2Cursor*13, 145, 13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
