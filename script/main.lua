@@ -4688,10 +4688,15 @@ function f_mainReplay()
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sysSnd, 100, 1)
-				txt_replayName = createTextImg(jgFnt, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159.5, 16)--Show Replay Selected Name
+				txt_replayName = createTextImg(font2, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159.5, 16)--Show Replay Selected Name
 				local fileSize = lfs.attributes('replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
-				local replaySize = (math.floor(((fileSize/1048576) + 0.50)))--Conversion of Bytes to Megabytes
-				txt_replaySize = createTextImg(jgFnt, 0, 0, 'SIZE:'.. replaySize .. 'MB', 159.5, 27)--Show Replay Selected Size
+				if fileSize > 1048576 then
+					local replaySize = (math.floor(((fileSize/1048576)+0.50)))--Conversion from Bytes to Megabytes
+					txt_replaySize = createTextImg(font2, 0, 0, ''..replaySize..'MB', 159.5, 27)
+				else
+					local replaySize = (math.floor(((fileSize/1024)+0.50)))--Conversion from Bytes to Kilobytes
+					txt_replaySize = createTextImg(font2, 0, 0, ''..replaySize..'KB', 159.5, 27)
+				end
 				local replayOption = 2
 				f_confirmReset()
 				cmdInput()
@@ -4738,7 +4743,7 @@ function f_mainReplay()
 					animDraw(f_animVelocity(replayBG0, -1, -1))
 				--Draw Replay Title
 					animSetScale(replayMenuBG, 324, 74)
-					animSetWindow(replayMenuBG, 0,5, 324,25)
+					animSetWindow(replayMenuBG, 0,5, 324,27)
 					animDraw(replayMenuBG)
 					textImgDraw(txt_replayName)
 					textImgDraw(txt_replaySize)
