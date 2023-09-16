@@ -865,11 +865,56 @@ function f_selectSimple()
 					f_selectWin()
 				end
 				--BACK TO MAIN MENU
-				if battleOption == 3 or battleOption2 == 3 then
+				if battleOption == 4 or battleOption2 == 4 then
 					f_favoriteChar() --Store Favorite Character (WIP)
 					f_favoriteStage() --Store Favorite Stage (WIP)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					break
+				--BACK TO STAGE SELECT
+				elseif battleOption == 3 or battleOption2 == 3 then
+					--if data.challengerScreen == false then
+						--playBGM(bgmSelect) --and don't show the screen
+					--elseif data.challengerScreen == true then
+						--f_selectChallenger()
+						--f_challengerMusic()
+					--else
+						--playBGM(bgmSelect) --play original char select song instead of challenger song
+					--end
+					--f_selectReset()
+					f_stageSelectReset()
+					--selectStart()
+					selScreenEnd = false
+					stageEnd = false
+					charSelect = true
+					--setMatchNo(matchNo)
+					rematchEnd = false
+					battleOption = 0
+					battleOption2 = 0
+					--rankedEnd = false
+					--backScreen = false
+					--back = false
+					while not selScreenEnd do
+						if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+							if p1TeamBack == true then
+								if backScreen == false then sndPlay(sysSnd, 100, 2) end
+								backScreen = true
+							end
+						elseif esc() and data.p2In == 2 then
+							if p1TeamBack == true and p2TeamBack == true then
+								if backScreen == false then sndPlay(sysSnd, 100, 2) end
+								backScreen = true
+							end
+						end
+						f_selectScreen()
+						if back == true then
+							if data.rosterMode == 'event' then
+								--playBGM('')
+							else
+								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+							end
+							return
+						end
+					end
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
 					if data.challengerScreen == false then
@@ -926,7 +971,7 @@ function f_selectSimple()
 					elseif musicList == 1 then
 						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
 						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
-					end				
+					end
 				end
 			--For Missions or Events
 			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
@@ -4020,7 +4065,7 @@ function f_selectVersus()
 			vshintTime = 0 --Restart timer for a new random hint
 		end
 		vsTime = vsTime + 1
-		if vsTime == 300 then --or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
+		if vsTime == 300 or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
@@ -4575,12 +4620,14 @@ animSetScale(rematch2WindowBG, 1.005, 1.1)
 t_battleOption = {
 	{id = textImgNew(), text = 'REMATCH'},
 	{id = textImgNew(), text = 'CHARACTER SELECT'},
+	{id = textImgNew(), text = 'STAGE SELECT'},
 	{id = textImgNew(), text = 'MAIN MENU'},
 }
 
 t_battleOption2 = {
 	{id = textImgNew(), text = 'REMATCH'},
 	{id = textImgNew(), text = 'CHARACTER SELECT'},
+	{id = textImgNew(), text = 'STAGE SELECT'},
 	{id = textImgNew(), text = 'MAIN MENU'},
 }
 
@@ -4714,8 +4761,13 @@ function f_rematch()
 				p1Ready = true
 				p2Ready = true
 			elseif p1Cursor == 3 then
+				sndPlay(sysSnd, 100, 1)
+				battleOption = 3 --Back to Stage Select
+				p1Ready = true
+				p2Ready = true
+			elseif p1Cursor == 4 then
 				sndPlay(sysSnd, 100, 2)
-				battleOption = 3 --Back to Main Menu
+				battleOption = 4 --Back to Main Menu
 				p1Ready = true
 				p2Ready = true
 			end
@@ -4739,8 +4791,13 @@ function f_rematch()
 					p1Ready = true
 					p2Ready = true
 				elseif p2Cursor == 3 then
-					sndPlay(sysSnd, 100, 2)
+					sndPlay(sysSnd, 100, 1)
 					battleOption2 = 3
+					p1Ready = true
+					p2Ready = true
+				elseif p2Cursor == 4 then
+					sndPlay(sysSnd, 100, 2)
+					battleOption2 = 4
 					p1Ready = true
 					p2Ready = true
 				end
