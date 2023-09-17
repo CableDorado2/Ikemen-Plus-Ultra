@@ -1237,7 +1237,7 @@ function f_selectAdvance()
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				return
 			end
-			if data.contSelection then --true if 'Char change at Continue' option is enabled
+			if not data.quickCont then --if 'Quick Arcade Continue' option is disable
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if serviceTeam == true then p1TeamEnd = false end
 				data.t_p1selected = {}
@@ -1275,7 +1275,11 @@ function f_selectAdvance()
 			else
 				p2Cell = t_roster[matchNo*p2numChars-i+1]
 			end
-			p2Pal = math.random(1,6)
+			if data.aipal == 'Default' then
+				p2Pal = 1
+			elseif data.aipal == 'Random' then
+				p2Pal = math.random(1,12)
+			end
 			local updateAnim = true
 			for j=1, #data.t_p2selected do
 				if data.t_p2selected[j].cel == p2Cell then 
@@ -2454,7 +2458,7 @@ function f_p1SelectMenu()
 				updateAnim = true
 				t[data.p1Char[i]] = ''
 			end
-			data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,6), ['up'] = updateAnim}
+			data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 		end
 		p1Portrait = data.p1Char[1]
 		p1SelEnd = true
@@ -2462,6 +2466,7 @@ function f_p1SelectMenu()
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 			if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --P1 Portrait BG location
 			if p1Portrait then drawPortrait(p1Portrait, 0, 20, 1, 1) end --P1 Portrait location
+			if randomP1Rematch == true then drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) end--Draw Portrait Chosen by Random Select
 		end
 		local numChars = p1numChars
 		if data.coop then numChars = 1 end
@@ -2473,22 +2478,28 @@ function f_p1SelectMenu()
 						updateAnim = false
 					end
 				end
+				--Waiting Selection
 				if getCharName(p1Cell) == 'Random' then
 					--sndPlay(sysSnd, 100, 0) --Cursor SFX in Random...
 					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-						drawPortrait(math.random(1, #t_randomChars), 0, 20, 1, 1) --P1 RANDOM Portrait location.
+						drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 1) --P1 RANDOM Portrait location.
 					end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
 					end
 				else
+					--if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						--drawPortrait(p1Portrait, 0, 20, 1, 1) --P1 Portrait location
+					--end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 animation location ONLY in character select
 					end
 				end
 			end
+			--When a Character is Selected
 			for j=#data.t_p1selected, 1, -1 do
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					--drawPortrait(p1Portrait, 0, 20, 1, 1)
 					--drawPortrait(data.t_p1selected[j].cel, 0, 20+60*(j-1), 1, 1) --Location of Multiple P1 Portrait chosen ONLY in the Char Select (This detects random select portrait)
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
@@ -2785,7 +2796,7 @@ function f_p2SelectMenu()
 				updateAnim = true
 				t[data.p2Char[i]] = ''
 			end
-			data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,6), ['up'] = updateAnim}
+			data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 			--f_printTable(data.t_p2selected)
 		end
 		p2Portrait = data.p2Char[1]
@@ -2814,7 +2825,7 @@ function f_p2SelectMenu()
 				if getCharName(p2Cell) == 'Random' then
 					--sndPlay(sysSnd, 100, 0)
 					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-						drawPortrait(math.random(1, #t_randomChars), 320, 20, -1, 1)
+						drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
 					end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
@@ -2827,7 +2838,7 @@ function f_p2SelectMenu()
 			end
 			for j=#t_selected, 1, -1 do
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-					--drawPortrait(data.t_p2selected[p2numChars].cel, 320, 20, -1, 1)
+					--drawPortrait(data.t_p2selected[p2numChars].cel, 320, 20, -1, 1) --Draw Multiple Portraits Choosen
 					--drawPortrait(p2Portrait, 320, 20, -1, 1)
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
@@ -4826,7 +4837,7 @@ animUpdate(challengerText1)
 --; HERE COMES A NEW CHALLENGER SCREEN
 --;===========================================================
 function f_selectChallenger()
-	if data.contSelection == false and data.rosterAdvance == true then return end
+	if data.quickCont == true and data.rosterAdvance == true then return end
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmNothing)
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
@@ -4926,21 +4937,21 @@ t_lockedService = {
 	{id = '', text = "This service is Unavailable in Co-Op Mode."},
 }
 for i=1, #t_lockedService do
-	t_lockedService[i].id = createTextImg(font2, 0, 0, t_lockedService[i].text, 157, 210+i*15)
+	t_lockedService[i].id = createTextImg(font2, 0, 0, t_lockedService[i].text, 161, 210+i*15)
 end
 
 t_noService = {
-	{id = '', text = "You have Disabled Change Characters when Continuing."},
+	{id = '', text = "You have Disabled Change Characters by Quick Continue."},
 }
 for i=1, #t_noService do
-	t_noService[i].id = createTextImg(font2, 0, -1, t_noService[i].text, 289, 210+i*15)
+	t_noService[i].id = createTextImg(font2, 0, 0, t_noService[i].text, 159.5, 210+i*15)
 end
 
 t_devService = {
 	{id = '', text = "This service will be available coming soon."},
 }
 for i=1, #t_devService do
-	t_devService[i].id = createTextImg(font2, 0, -1, t_devService[i].text, 259, 210+i*15)
+	t_devService[i].id = createTextImg(font2, 0, 0, t_devService[i].text, 161, 210+i*15)
 end
 
 function f_service()
@@ -4956,13 +4967,11 @@ function f_service()
 	cmdInput()
 	while true do
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			lockService = false --Boolean to remove the Lock service message
 			devService = false
 			noService = false
 			sndPlay(sysSnd, 100, 0)
 			serviceMenu = serviceMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			lockService = false --Boolean to remove the Lock service message
 			devService = false
 			noService = false
 			sndPlay(sysSnd, 100, 0)
@@ -4995,8 +5004,8 @@ function f_service()
 			--CHANGE PLAYER TEAM MODE
 			elseif serviceMenu == 4 then
 				if data.coop == true then
-					lockService = true
-				elseif data.contSelection == false then
+					noService = true
+				elseif data.quickCont == true then
 					noService = true
 				else
 					sndPlay(sysSnd, 100, 1)
@@ -5062,14 +5071,15 @@ function f_service()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Service Info
-		if lockService == true then
-			for i=1, #t_lockedService do
-				textImgDraw(t_lockedService[i].id)
-			end
-		end
 		if noService == true then
-			for i=1, #t_noService do
-				textImgDraw(t_noService[i].id)
+			if data.coop == true then
+				for i=1, #t_lockedService do
+					textImgDraw(t_lockedService[i].id)
+				end
+			else
+				for i=1, #t_noService do
+					textImgDraw(t_noService[i].id)
+				end
 			end
 		end
 		if devService == true then
@@ -5089,6 +5099,7 @@ function f_service()
 		serviceTimeNumber = serviceTimer/gameTick
 		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
 		txt_serviceTime = createTextImg(jgFnt, 0, 0, nodecimalServiceTime, 160, 122)
+		if serviceTimer == 1 and noService == true then serviceTimer = data.serviceTime end --Reset the timer to avoid being trapped because the service is unavailable.
 		if serviceTimer > 0 then
 			serviceTimer = serviceTimer - 0.5 --Activate Service Timer
 			textImgDraw(txt_serviceTime)

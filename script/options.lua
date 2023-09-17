@@ -211,10 +211,10 @@ function f_loadEXCfg()
 	s_disablePadP1 = data.disablePadP1 and 'Disabled' or 'Enabled'
 	s_disablePadP2 = data.disablePadP2 and 'Disabled' or 'Enabled'
 
-	if data.contSelection then
-		s_contSelection = 'Yes'
+	if data.quickCont then
+		s_quickCont = 'Yes'
 	else
-		s_contSelection = 'No'
+		s_quickCont = 'No'
 	end
 
 	if data.aiRamping then
@@ -277,8 +277,9 @@ function f_saveCfg()
 		['data.disablePadP1'] = data.disablePadP1,
 		['data.disablePadP2'] = data.disablePadP2,
 		['data.difficulty'] = data.difficulty,
-		['data.contSelection'] = data.contSelection,
-		['data.vsDisplayWin'] = data.vsDisplayWin,		
+		['data.quickCont'] = data.quickCont,
+		['data.vsDisplayWin'] = data.vsDisplayWin,
+		['data.aipal'] = data.aipal,
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
@@ -379,8 +380,9 @@ function f_netsaveCfg()
 		['data.numSimul'] = data.numSimul,
 		['data.simulType'] = data.simulType,
 		['data.difficulty'] = data.difficulty,
-		['data.contSelection'] = data.contSelection,
-		['data.vsDisplayWin'] = data.vsDisplayWin,		
+		['data.quickCont'] = data.quickCont,
+		['data.vsDisplayWin'] = data.vsDisplayWin,
+		['data.aipal'] = data.aipal,
 		['data.aiRamping'] = data.aiRamping,
 		['data.autoguard'] = data.autoguard,
 		['data.lifebar'] = data.lifebar,
@@ -435,6 +437,7 @@ end
 function f_offlineDefault()
 	f_videoDefault()
 	f_audioDefault()
+	f_songDefault()
 	f_inputDefault()
 	data.connectMode = 'Direct'
 	data.userName = 'USERNAME'--setUserName('USERNAME')
@@ -449,14 +452,15 @@ function f_gameDefault()
 	roundsNum = 2
 	drawNum = 2
 	data.lifeMul = 100
+	data.aipal = 'Default'
 	data.aiRamping = true
 	s_aiRamping = 'Yes'
 	data.autoguard = false
 	s_autoguard = 'No'
 	gameSpeed = 60
 	s_gameSpeed = 'Normal'
-	data.contSelection = true
-	s_contSelection = 'Yes'
+	data.quickCont = false
+	s_quickCont = 'No'
 	data.training = 'Fixed'
 end
 
@@ -491,7 +495,7 @@ function f_systemDefault()
 	data.vsDisplayWin = true
 	s_vsDisplayWin = 'Yes'
 	data.selectType = 'Fixed'
-	data.palType = 'Modern'
+	data.palType = 'Classic'
 	data.stageType = 'Classic'
 	data.winscreen = 'Classic'
 	data.charPresentation = 'Sprite'
@@ -506,6 +510,12 @@ function f_timeDefault()
 	data.rematchTime = 16
 	data.serviceTime = 16
 	data.attractTime = 11
+end
+
+--Default Songs Values
+function f_songDefault()
+	data.menuSong = 'Random'
+	data.challengerSong = 'Fixed'
 end
 
 --Default Video Values
@@ -534,8 +544,6 @@ function f_audioDefault()
 	channels = 2
 	s_channels = 'Stereo'
 	buffer = 2048
-	data.menuSong = 'Random'
-	data.challengerSong = 'Fixed'
 end
 
 --Default Engine Values
@@ -807,7 +815,7 @@ t_wip = {
 	{id = '', text = "This option is still Under Development."},
 }
 for i=1, #t_wip do
-	t_wip[i].id = createTextImg(font2, 0, -1, t_wip[i].text, 252, 222.5+i*15)
+	t_wip[i].id = createTextImg(font2, 0, 0, t_wip[i].text, 164, 222.5+i*15)
 end
 
 --;===========================================================
@@ -817,7 +825,7 @@ t_locked = {
 	{id = '', text = "This option is Unavailable in Online Mode."},
 }
 for i=1, #t_locked do
-	t_locked[i].id = createTextImg(font2, 0, -1, t_locked[i].text, 260, 222.5+i*15)
+	t_locked[i].id = createTextImg(font2, 0, 0, t_locked[i].text, 163, 222.5+i*15)
 end
 
 --;===========================================================
@@ -827,7 +835,7 @@ t_erase = {
 	{id = '', text = "There's no have any data saved to delete."},
 }
 for i=1, #t_erase do
-	t_erase[i].id = createTextImg(font2, 0, -1, t_erase[i].text, 261, 222.5+i*15)
+	t_erase[i].id = createTextImg(font2, 0, 0, t_erase[i].text, 161, 222.5+i*15)
 end
 
 --;===========================================================
@@ -835,10 +843,10 @@ end
 --;===========================================================
 t_restart = {
 	{id = '', text = "The changes that you have made"},
-	{id = '', text = "require Save and Back.    "},
+	{id = '', text = "require Save and Back."},
 }
 for i=1, #t_restart do
-	t_restart[i].id = createTextImg(font2, 0, -1, t_restart[i].text, 238, 200+i*15)
+	t_restart[i].id = createTextImg(font2, 0, 0, t_restart[i].text, 168, 200+i*15)
 end
 
 --;===========================================================
@@ -946,6 +954,9 @@ function f_defaultMenu()
 				f_audioDefault()
 				modified = 1
 				needReload = 1
+			elseif defaultSong == true then
+				f_songDefault()
+				modified = 1
 			elseif defaultVideo == true then
 				f_videoDefault()
 				modified = 1
@@ -983,6 +994,7 @@ function f_defaultReset()
 	defaultZoom = false
 	defaultVideo = false
 	defaultAudio = false
+	defaultSong = false
 	defaultInput = false
 	defaultEngine = false
 	resetStats = false
@@ -1645,15 +1657,16 @@ txt_gameCfg = createTextImg(jgFnt, 0, 0, 'GAMEPLAY SETTINGS', 159, 13)
 
 t_gameCfg = {
 	{id = '', text = 'Difficulty Level',         varID = textImgNew(), varText = data.difficulty},
-	{id = '', text = 'Round Time',         		 varID = textImgNew(), varText = data.roundTime},	
+	{id = '', text = 'Time Limit',         		 varID = textImgNew(), varText = data.roundTime},	
 	{id = '', text = 'Rounds to Win',      		 varID = textImgNew(), varText = roundsNum},
 	{id = '', text = 'Max Draw Games',      	 varID = textImgNew(), varText = drawNum},	
 	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},		
-	{id = '', text = 'AI ramping',               varID = textImgNew(), varText = s_aiRamping},
+	{id = '', text = 'AI Palette',  	    	 varID = textImgNew(), varText = data.aipal},
+	{id = '', text = 'AI Ramping',               varID = textImgNew(), varText = s_aiRamping},
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
 	{id = '', text = 'Game Speed',  	         varID = textImgNew(), varText = s_gameSpeed},
 	{id = '', text = 'Training Character',  	 varID = textImgNew(), varText = data.training},
-	{id = '', text = 'Char change at Continue',  varID = textImgNew(), varText = s_contSelection},
+	{id = '', text = 'Quick Arcade Continue',	 varID = textImgNew(), varText = s_quickCont},
 	{id = '', text = 'Team Settings',  			 varID = textImgNew(), varText = ''},
 	{id = '', text = 'Zoom Settings',  			 varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Values',		     varID = textImgNew(), varText = ''},
@@ -1816,8 +1829,26 @@ function f_gameCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--AI ramping
-			elseif gameCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--AI Palette
+			elseif gameCfg == 6 then
+				if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+					sndPlay(sysSnd, 100, 0)
+					if commandGetState(p1Cmd, 'r') and data.aipal == 'Default' then
+						data.aipal = 'Random'
+						modified = 1
+					elseif commandGetState(p1Cmd, 'r') and data.aipal == 'Random' then
+						data.aipal = 'Default'
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') and data.aipal == 'Random' then
+						data.aipal = 'Default'
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') and data.aipal == 'Default' then
+						data.aipal = 'Random'
+						modified = 1
+					end
+				end
+			--AI Ramping
+			elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.aiRamping then
 					data.aiRamping = false
@@ -1829,7 +1860,7 @@ function f_gameCfg()
 					modified = 1
 				end
 			--Auto-Guard
-			elseif gameCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif gameCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.autoguard then
 					data.autoguard = false
@@ -1841,7 +1872,7 @@ function f_gameCfg()
 					modified = 1
 				end
 			--Game Speed
-			elseif gameCfg == 8 then
+			elseif gameCfg == 9 then
 			if onlinegame == true then --Detects if this option needs to be locked in online settings
 				lockSetting = true --Boolean to show a Lock setting message
 			elseif onlinegame == false then --allow use the option offline
@@ -1871,7 +1902,7 @@ function f_gameCfg()
 				end
 			end
 			--Training Character
-			elseif gameCfg == 9 then
+			elseif gameCfg == 10 then
 			if onlinegame == true then
 				lockSetting = true
 			elseif onlinegame == false then
@@ -1892,33 +1923,33 @@ function f_gameCfg()
 					end
 				end
 			end
-			--Char change at Continue
-			elseif gameCfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--Quick Continue for Arcade
+			elseif gameCfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
-				if data.contSelection then
-					data.contSelection = false
-					s_contSelection = 'No'
+				if data.quickCont then
+					data.quickCont = false
+					s_quickCont = 'No'
 					modified = 1
 				else
-					data.contSelection = true
-					s_contSelection = 'Yes'
+					data.quickCont = true
+					s_quickCont = 'Yes'
 					modified = 1
 				end
 			--Team Settings
-			elseif gameCfg == 11 and btnPalNo(p1Cmd) > 0 then
+			elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				f_teamCfg()
 			--Zoom Settings
-			elseif gameCfg == 12 and btnPalNo(p1Cmd) > 0 then	
+			elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then	
 				sndPlay(sysSnd, 100, 1)
 				f_zoomCfg()
 			--Default Values
-			elseif gameCfg == 13 and btnPalNo(p1Cmd) > 0 then
+			elseif gameCfg == 14 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultGame = true
 				defaultScreen = true
 			--BACK
-			elseif gameCfg == 14 and btnPalNo(p1Cmd) > 0 then
+			elseif gameCfg == 15 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -1973,12 +2004,13 @@ function f_gameCfg()
 		end
 		t_gameCfg[3].varText = roundsNum
 		t_gameCfg[4].varText = drawNum		
-		t_gameCfg[5].varText = data.lifeMul .. '%'			
-		t_gameCfg[6].varText = s_aiRamping
-		t_gameCfg[7].varText = s_autoguard
-		t_gameCfg[8].varText = s_gameSpeed
-		t_gameCfg[9].varText = data.training
-		t_gameCfg[10].varText = s_contSelection	
+		t_gameCfg[5].varText = data.lifeMul .. '%'
+		t_gameCfg[6].varText = data.aipal
+		t_gameCfg[7].varText = s_aiRamping
+		t_gameCfg[8].varText = s_autoguard
+		t_gameCfg[9].varText = s_gameSpeed
+		t_gameCfg[10].varText = data.training
+		t_gameCfg[11].varText = s_quickCont	
 		for i=1, maxGameCfg do	
 			if i > gameCfg - cursorPosY then
 				if t_gameCfg[i].varID ~= nil then
@@ -3170,8 +3202,7 @@ t_audioCfg = {
 	{id = '', text = 'Sample Rate',     		varID = textImgNew(), varText = freq},
 	{id = '', text = 'Channels',        		varID = textImgNew(), varText = s_channels},
 	{id = '', text = 'Buffer Samples',  		varID = textImgNew(), varText = buffer},
-	{id = '', text = 'Main Menu Song', 			varID = textImgNew(), varText = data.menuSong},
-	{id = '', text = 'Challenger Select Song', 	varID = textImgNew(), varText = data.challengerSong},
+	{id = '', text = 'Menu Songs Settings',	    varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Values',		    varID = textImgNew(), varText = ''},
 	{id = '', text = '          BACK',  		varID = textImgNew(), varText = ''},
 }
@@ -3189,7 +3220,6 @@ function f_audioCfg()
 		if defaultScreen == false then
 			if esc() then
 				sndPlay(sysSnd, 100, 2)
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
@@ -3381,81 +3411,18 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				end
-			--Main Menu Song
-			elseif audioCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 2'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 2' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 3'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 3' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Random'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 1'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 3' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 2'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Random' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 3'
-					f_menuMusic()
-					modified = 1
-				end
-			--Challenger Select Song
-			elseif audioCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.challengerSong == 'Fixed' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Original'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Original' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Boss'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Boss' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Random'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Original' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Fixed'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Boss' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Original'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Random' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Boss'
-					f_challengerMusic()
-					modified = 1
-				end
+			--Menu Songs Settings
+			elseif audioCfg == 8 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				f_songCfg()
 			--Default Values
-			elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
+			elseif audioCfg == 9 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
 			--BACK
-			elseif audioCfg == 11 and btnPalNo(p1Cmd) > 0 then
+			elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
 			end
 			if audioCfg < 1 then
@@ -3503,8 +3470,6 @@ function f_audioCfg()
 		t_audioCfg[5].varText = freq
 		t_audioCfg[6].varText = s_channels
 		t_audioCfg[7].varText = buffer
-		t_audioCfg[8].varText = data.menuSong
-		t_audioCfg[9].varText = data.challengerSong
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
 		setPanStr(pan_str / 100);
 		for i=1, maxAudioCfg do
@@ -3520,6 +3485,193 @@ function f_audioCfg()
 			animUpdate(optionsUpArrow)
 		end
 		if #t_audioCfg > 14 and maxAudioCfg < #t_audioCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if defaultScreen == true then f_defaultMenu() end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		if data.attractMode == true then f_attractCredits() end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; SONGS SETTINGS
+--;===========================================================
+txt_songCfg = createTextImg(jgFnt, 0, 0, 'SONG SETTINGS', 159, 13)
+
+t_songCfg = {
+	{id = '', text = 'Main Menu', 				varID = textImgNew(), varText = data.menuSong},
+	{id = '', text = 'Challenger Select', 		varID = textImgNew(), varText = data.challengerSong},
+	{id = '', text = 'Default Values',  	 	varID = textImgNew(), varText = ''},
+	{id = '', text = '          BACK', 			varID = textImgNew(), varText = ''},
+}
+
+function f_songCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local songCfg = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if defaultScreen == false then
+			if esc() then
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				sndPlay(sysSnd, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				songCfg = songCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				songCfg = songCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			--Main Menu Song
+			elseif songCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+				if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
+					sndPlay(sysSnd, 100, 0)
+					data.menuSong = 'Theme 2'
+					f_menuMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 2' then
+					sndPlay(sysSnd, 100, 0)
+					data.menuSong = 'Theme 3'
+					f_menuMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 3' then
+					sndPlay(sysSnd, 100, 0)
+					data.menuSong = 'Random'
+					f_menuMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
+					sndPlay(sysSnd, 100, 0)
+					data.menuSong = 'Theme 1'
+					f_menuMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 3' then
+					sndPlay(sysSnd, 100, 0)
+					data.menuSong = 'Theme 2'
+					f_menuMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Random' then
+					sndPlay(sysSnd, 100, 0)
+					data.menuSong = 'Theme 3'
+					f_menuMusic()
+					modified = 1
+				end
+			--Challenger Select Song
+			elseif songCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+				if commandGetState(p1Cmd, 'r') and data.challengerSong == 'Fixed' then
+					sndPlay(sysSnd, 100, 0)
+					data.challengerSong = 'Original'
+					f_challengerMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Original' then
+					sndPlay(sysSnd, 100, 0)
+					data.challengerSong = 'Boss'
+					f_challengerMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Boss' then
+					sndPlay(sysSnd, 100, 0)
+					data.challengerSong = 'Random'
+					f_challengerMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Original' then
+					sndPlay(sysSnd, 100, 0)
+					data.challengerSong = 'Fixed'
+					f_challengerMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Boss' then
+					sndPlay(sysSnd, 100, 0)
+					data.challengerSong = 'Original'
+					f_challengerMusic()
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Random' then
+					sndPlay(sysSnd, 100, 0)
+					data.challengerSong = 'Boss'
+					f_challengerMusic()
+					modified = 1
+				end
+			--Default Values
+			elseif songCfg == 3 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				defaultSong = true
+				defaultScreen = true
+			--BACK
+			elseif songCfg == 4 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 2)
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				break
+			end
+			if songCfg < 1 then
+				songCfg = #t_songCfg
+				if #t_songCfg > 14 then
+					cursorPosY = 14
+				else
+					cursorPosY = #t_songCfg
+				end
+			elseif songCfg > #t_songCfg then
+				songCfg = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 14 then
+				moveTxt = (songCfg - 14) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (songCfg - 1) * 15
+			end	
+			if #t_songCfg <= 14 then
+				maxsongCfg = #t_songCfg
+			elseif songCfg - cursorPosY > 0 then
+				maxsongCfg = songCfg + 14 - cursorPosY
+			else
+				maxsongCfg = 14
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxsongCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_songCfg)
+		if defaultScreen == false then
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		t_songCfg[1].varText = data.menuSong
+		t_songCfg[2].varText = data.challengerSong
+		for i=1, maxsongCfg do
+			if i > songCfg - cursorPosY then
+				if t_songCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, 1, t_songCfg[i].text, 85, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, -1, t_songCfg[i].varText, 235, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxsongCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_songCfg > 14 and maxsongCfg < #t_songCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
