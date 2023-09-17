@@ -18,7 +18,8 @@
 
 ## Download
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
-![IKMP](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/7bd87695-cab6-4270-a255-8a9475e8c400)
+![v1 3](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/3eee08af-8687-49f9-85b3-d1b43c7f750b)
+
 
 ## Table of Contents
 
@@ -95,20 +96,16 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
-**v1.3.1**
+**v1.4**
 ------------
+
+- [ ] Más parametros para el Select.def.
 
 - [ ] Cargar la preview de los stages desde el propio sff de la stage.
 
 - [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
-
-
-**v1.4**
-------------
-
-- [ ] Más parametros para el Select.def.
 
 - [ ] Pause Menu/Screen que contenga:
 Continuar/Reanudar
