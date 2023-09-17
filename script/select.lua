@@ -2807,6 +2807,7 @@ function f_p2SelectMenu()
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 			if p2BG == true then animDraw(f_animVelocity(charBG3, 2, 0)) end
 			if p2Portrait then drawPortrait(p2Portrait, 320, 20, -1, 1) end
+			if randomP2Rematch == true then drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1) end
 		end	
 		local numChars = p2numChars
 		local t_selected = data.t_p2selected

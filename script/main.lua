@@ -5374,11 +5374,13 @@ function f_hostRooms()
 	local bufr = 0
 	local bufl = 0
 	local t_tmp = {}
+	--crudHostCursor = 0
 	f_hostTable()
 	f_addHostReset()
+	f_crudHostReset()
 	--local cancel = false
 	while true do
-		if editScreen == false then
+		if editScreen == false and crudHostScreen == false then
 			if esc() then
 				--onlinegame = false
 				--assert(loadfile('saved/data_sav.lua'))()
@@ -5432,35 +5434,10 @@ function f_hostRooms()
 					--onlinegame = false
 					--assert(loadfile('saved/data_sav.lua'))()
 					break
-				--JOIN TO A HOST ADDRESS
+				--OPEN CRUD MENU
 				else
-					onlinegame = true
-					script.options.f_onlineDefault()
-					script.options.f_netsaveCfg()
-					hostRoomName = (t_hostList[hostList].text) --Send Name Selected to f_databaseConnect()
-					hostIP = (t_hostList[hostList].address) --Send IP Selected to f_databaseConnect()
 					sndPlay(sysSnd, 100, 1)
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					cancel = f_databaseConnect()
-					if not cancel then
-						synchronize()
-						math.randomseed(sszRandom())
-						script.options.f_onlineCfg()
-					end
-					exitNetPlay()
-					exitReplay()
-					commandBufReset(p1Cmd, 1)
-					local netplayFile = io.open("saved/data.replay","rb")
-					if netplayFile ~= nil and not joinExit then
-						if lfs.attributes("saved/data.replay", "size") > 0 then
-							ltn12.pump.all(
-							  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
-							  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
-							)
-						end
-						netplayFile:close()
-						netplayFile = nil
-					end
+					crudHostScreen = true
 				end
 			end
 		end
@@ -5473,7 +5450,7 @@ function f_hostRooms()
 			end
 			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 142+i*13-moveTxt))
 		end
-		if editScreen == false then
+		if editScreen == false and crudHostScreen == false then
 			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5487,7 +5464,7 @@ function f_hostRooms()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
-		if editScreen == false then
+		if editScreen == false and crudHostScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, 'HOST ROOMS')
 			textImgDraw(txt_version)
@@ -5503,6 +5480,40 @@ function f_hostRooms()
 		end
 		textBar = textBar >= 60 and 0 or textBar + 1
 		if editScreen == true then f_addHost() end
+		if crudHostScreen == true then f_crudHostScreen() end
+		--CRUD ACTIONS
+		if crudHostOption == 1 then
+		
+		elseif crudHostOption == 2 then
+			f_crudHostReset()
+			onlinegame = true
+			script.options.f_onlineDefault()
+			script.options.f_netsaveCfg()
+			hostRoomName = (t_hostList[hostList].text) --Send Name Selected to f_databaseConnect()
+			hostIP = (t_hostList[hostList].address) --Send IP Selected to f_databaseConnect()
+			sndPlay(sysSnd, 100, 1)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			cancel = f_databaseConnect()
+			if not cancel then
+				synchronize()
+				math.randomseed(sszRandom())
+				script.options.f_onlineCfg()
+			end
+			exitNetPlay()
+			exitReplay()
+			commandBufReset(p1Cmd, 1)
+			local netplayFile = io.open("saved/data.replay","rb")
+			if netplayFile ~= nil and not joinExit then
+				if lfs.attributes("saved/data.replay", "size") > 0 then
+					ltn12.pump.all(
+					  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+					  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
+					)
+				end
+				netplayFile:close()
+				netplayFile = nil
+			end
+		end			
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5525,6 +5536,87 @@ end
 --;===========================================================
 --; CRUD MENU
 --;===========================================================
+t_crudHostOption = {
+	{id = '', text = 'DELETE'}, {id = '', text = 'JOIN'},
+	{id = '', text = 'EDIT'}, {id = '', text = 'RETURN'},
+}
+for i=1, #t_crudHostOption do
+	t_crudHostOption[i].id = createTextImg(jgFnt, 0, 0, t_crudHostOption[i].text, -80+i*120, 172)
+end
+
+function f_crudHostScreen()
+	cmdInput()
+	--Cursor Logic
+	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufCrudHostu >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		crudHostCursor = crudHostCursor - 1
+	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufCrudHostd >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		crudHostCursor = crudHostCursor + 1
+	end
+	if crudHostCursor < 1 then
+		crudHostCursor = #t_crudHostOption
+	elseif crudHostCursor > #t_crudHostOption then
+		crudHostCursor = 1
+	end
+	for i=1, #t_crudHostOption do
+		t_crudHostOption[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOption[i].text, 159, 142+i*13)
+		if i == crudHostCursor then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(t_crudHostOption[i].id)
+	end
+	if commandGetState(p1Cmd, 'holdu') then
+		bufCrudHostd = 0
+		bufCrudHostu = bufCrudHostu + 1
+	elseif commandGetState(p2Cmd, 'holdu') then
+		bufCrudHost2d = 0
+		bufCrudHost2u = bufCrudHost2u + 1
+	elseif commandGetState(p1Cmd, 'holdd') then
+		bufCrudHostu = 0
+		bufCrudHostd = bufCrudHostd + 1
+	elseif commandGetState(p2Cmd, 'holdd') then
+		bufCrudHost2u = 0
+		bufCrudHost2d = bufCrudHost2d + 1
+	else
+		bufCrudHostu = 0
+		bufCrudHostd = 0
+		bufCrudHost2u = 0
+		bufCrudHost2d = 0
+	end
+	--ACTIONS
+	if esc() then
+		sndPlay(sysSnd, 100, 2)
+		f_crudHostReset()
+	--BUTTON SELECTED
+	elseif btnPalNo(p1Cmd) > 0 then
+		--DELETE HOST ADDRESS
+		if crudHostCursor == 1 then
+			sndPlay(sysSnd, 100, 1)
+			
+		--JOIN TO HOST ADDRESS
+		elseif crudHostCursor == 2 then
+			crudHostOption = 2
+			crudHostScreen = false
+		--EDIT HOST ADDRESS
+		elseif crudHostCursor == 3 then
+			sndPlay(sysSnd, 100, 1)
+			
+		--BACK
+		elseif crudHostCursor == 4 then
+			sndPlay(sysSnd, 100, 2)
+			f_crudHostReset()
+		end
+	end
+end
+
+function f_crudHostReset()
+	crudHostScreen = false
+	crudHostCursor = 2 --Cursor pos in JOIN
+	crudHostOption = 0
+end
 
 --;===========================================================
 --; CREATE HOST DATA
