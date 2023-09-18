@@ -1291,7 +1291,7 @@ function f_selectAdvance()
 				f_shuffleTable(data.t_p2selected)
 			end
 		end
-		--Team conversion to Single match if bonus paramvalue on any opponents is detected
+		--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
 		restoreTeam = false
 		local teamMode = p2teamMode
 		local numChars = p2numChars
@@ -1299,6 +1299,15 @@ function f_selectAdvance()
 			for i=1, #data.t_p2selected do
 				if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
 					--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
+					p2teamMode = 0
+					p2numChars = 1
+					setTeamMode(2, 0, 1)
+					p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
+					data.t_p2selected = {}
+					data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
+					restoreTeam = true
+					break
+				elseif t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1 then
 					p2teamMode = 0
 					p2numChars = 1
 					setTeamMode(2, 0, 1)

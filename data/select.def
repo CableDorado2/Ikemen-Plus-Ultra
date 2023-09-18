@@ -64,6 +64,10 @@
  ;   IKEMEN feature: Set the paramvalue to 0 to avoid displaying
  ;   victory screen after beating this character.
  ;
+ ; - single
+ ;   IKEMEN feature: Set the paramvalue to 1 to force facing this character
+ ;   individually in arcade team modes.
+ ;
  ; - includestage
  ;   Set the paramvalue to 0 to avoid including this stage
  ;   in the stage select list (in VS, training modes, etc)
@@ -99,7 +103,7 @@
  ;   opposite team leader, other characters follow normal order.
  ;
  ;   Full Order Reference:
- ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+ ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
  ;
  ;   Some examples:
  ;        kfm, stages/mybg.def, includestage=0
@@ -128,7 +132,7 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude, stages/Suave's Corridor.def, boss=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Suave Dude, stages/Suave's Corridor.def, boss=1, single=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 randomselect
 randomselect
 randomselect
@@ -241,13 +245,13 @@ randomselect
 ;===========================================================
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple - Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
 Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple - Roof.def, boss=1, includestage=0, order=4
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, boss=1, includestage=0, order=5
+Suave Dude/Minion/Minion.def, stages/Mountainside Temple.def, boss=1, order=1
 ;===========================================================
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
-Suave Dude/Minion/Minion.def, stages/Mountainside Temple.def, order=1
-Dragon Claw, stages/Far Mountains.def, includestage=0, order=4
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
+Dragon Claw, stages/Far Mountains.def, single=1, includestage=0, order=4
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, single=1, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
@@ -328,7 +332,7 @@ arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
 
  ;Maximum number of matches to fight before game ends in Team Mode.
  ;Like arcade.maxmatches, but applies to Team Battle.
-team.maxmatches = 2,1,1,1,1,0,0,0,0,0
+team.maxmatches = 1,1,1,1,0,0,0,0,0,0
 
  ;IKEMEN feature: AI ramping settings has been moved here from mugen.cfg
  ;You can view AI ramping output for all battles from the last chosen mode

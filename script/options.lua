@@ -459,8 +459,8 @@ function f_gameDefault()
 	s_autoguard = 'No'
 	gameSpeed = 60
 	s_gameSpeed = 'Normal'
-	data.quickCont = false
-	s_quickCont = 'No'
+	data.quickCont = true
+	s_quickCont = 'Yes'
 	data.training = 'Fixed'
 end
 
