@@ -4565,7 +4565,7 @@ end
 --; REPLAY SCREENPACK
 --;===========================================================
 txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
-txt_replayData = createTextImg(jgFnt, 0, 0, 'REPLAY DATA', 159, 72)
+txt_replayData = createTextImg(jgFnt, 0, 0, 'REPLAY OPTIONS', 159, 72)
 
 --Scrolling background
 replayBG0 = animNew(sysSff, [[
@@ -5058,7 +5058,7 @@ txt_ip = createTextImg(font14, 0, 0, '', 160, 138)
 txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
 txt_connecting = createTextImg(jgFnt, 0, 0, '', 159, 228)
-txt_cancel = createTextImg(jgFnt, 5, 0, 'CANCEL', 161, 165)
+txt_cancel = createTextImg(jgFnt, 5, 0, 'CANCEL(ESC)', 161, 165)
 
 --Scrolling background
 onlineBG0 = animNew(sysSff, [[
@@ -5374,13 +5374,13 @@ function f_hostRooms()
 	local bufr = 0
 	local bufl = 0
 	local t_tmp = {}
-	--crudHostCursor = 0
 	f_hostTable()
 	f_addHostReset()
 	f_crudHostReset()
+	f_editHostReset()
 	--local cancel = false
 	while true do
-		if editScreen == false and crudHostScreen == false then
+		if addHostScreen == false and crudHostScreen == false and editHostScreen == false then
 			if esc() then
 				--onlinegame = false
 				--assert(loadfile('saved/data_sav.lua'))()
@@ -5427,7 +5427,7 @@ function f_hostRooms()
 				--ADD NEW HOST ADDRESS
 				if hostList == 1 then
 					sndPlay(sysSnd, 100, 1)
-					editScreen = true
+					addHostScreen = true
 				--BACK
 				elseif hostList == #t_hostList then
 					sndPlay(sysSnd, 100, 2)
@@ -5450,7 +5450,7 @@ function f_hostRooms()
 			end
 			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 142+i*13-moveTxt))
 		end
-		if editScreen == false and crudHostScreen == false then
+		if addHostScreen == false and crudHostScreen == false and editHostScreen == false then
 			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5464,34 +5464,35 @@ function f_hostRooms()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
-		if editScreen == false and crudHostScreen == false then
+		if addHostScreen == false and editHostScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, 'HOST ROOMS')
 			textImgDraw(txt_version)
 		end
 		f_sysTime()
-		if maxhostList > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
-		end
-		if #t_hostList > 6 and maxhostList < #t_hostList then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+		if crudHostScreen == false then
+			if maxhostList > 6 then
+				animDraw(arrowsU)
+				animUpdate(arrowsU)
+			end
+			if #t_hostList > 6 and maxhostList < #t_hostList then
+				animDraw(arrowsD)
+				animUpdate(arrowsD)
+			end
 		end
 		textBar = textBar >= 60 and 0 or textBar + 1
-		if editScreen == true then f_addHost() end
+		if addHostScreen == true then f_addHost() end
 		if crudHostScreen == true then f_crudHostScreen() end
-		--CRUD ACTIONS
-		if crudHostOption == 1 then
-		
-		elseif crudHostOption == 2 then
+		if editHostScreen == true then f_editHost() end
+	--CRUD ACTIONS
+		hostRoomName = (t_hostList[hostList].text) --Host Name Selected
+		hostIP = (t_hostList[hostList].address) --Host IP Address Selected
+	--READ DATA
+		if crudHostOption == 2 then
 			f_crudHostReset()
 			onlinegame = true
 			script.options.f_onlineDefault()
 			script.options.f_netsaveCfg()
-			hostRoomName = (t_hostList[hostList].text) --Send Name Selected to f_databaseConnect()
-			hostIP = (t_hostList[hostList].address) --Send IP Selected to f_databaseConnect()
-			sndPlay(sysSnd, 100, 1)
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			cancel = f_databaseConnect()
 			if not cancel then
@@ -5513,7 +5514,25 @@ function f_hostRooms()
 				netplayFile:close()
 				netplayFile = nil
 			end
-		end			
+	--UPDATE DATA
+		elseif crudHostOption == 3 then
+			f_crudHostReset()
+			editHostScreen = true
+	--DELETE DATA
+		elseif crudHostOption == 1 then
+			f_crudHostReset()
+			host_rooms.IP[t_hostList[hostList].text] = nil
+			t_tmp = {}
+			for i = 1, #t_hostList do
+				if i ~= hostList then
+					t_tmp[#t_tmp + 1] = t_hostList[i]
+				end
+			end
+			t_hostList = t_tmp
+			local file = io.open("saved/host_rooms.json","w+")
+			file:write(json.encode(host_rooms, {indent = true}))
+			file:close()
+		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5536,55 +5555,101 @@ end
 --;===========================================================
 --; CRUD MENU
 --;===========================================================
-t_crudHostOption = {
-	{id = '', text = 'DELETE'}, {id = '', text = 'JOIN'},
-	{id = '', text = 'EDIT'}, {id = '', text = 'RETURN'},
-}
-for i=1, #t_crudHostOption do
-	t_crudHostOption[i].id = createTextImg(jgFnt, 0, 0, t_crudHostOption[i].text, -80+i*120, 172)
-end
+--CRUD Window BG
+crudHostWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(crudHostWindowBG, 60.5, 145)
+animUpdate(crudHostWindowBG)
+animSetScale(crudHostWindowBG, 1.3, 1.3)
+
+t_crudHostOptionU = {{id = '', text = 'DELETE'},{id = '', text = 'JOIN'},}
+t_crudHostOptionD = {{id = '', text = 'EDIT'}, {id = '', text = 'RETURN'},}
 
 function f_crudHostScreen()
 	cmdInput()
 	--Cursor Logic
-	if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufCrudHostu >= 30) then
+	if commandGetState(p1Cmd, 'u') then
 		sndPlay(sysSnd, 100, 0)
-		crudHostCursor = crudHostCursor - 1
-	elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufCrudHostd >= 30) then
+		crudHostRow = crudHostRow - 1
+		crudHostCursorU = crudHostCursorD
+	elseif commandGetState(p1Cmd, 'd') then
 		sndPlay(sysSnd, 100, 0)
-		crudHostCursor = crudHostCursor + 1
+		crudHostRow = crudHostRow + 1
+		crudHostCursorD = crudHostCursorU
 	end
-	if crudHostCursor < 1 then
-		crudHostCursor = #t_crudHostOption
-	elseif crudHostCursor > #t_crudHostOption then
-		crudHostCursor = 1
+	if crudHostRow < 1 then
+		crudHostRow = 2
+	elseif crudHostRow > 2 then
+		crudHostRow = 1
 	end
-	for i=1, #t_crudHostOption do
-		t_crudHostOption[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOption[i].text, 159, 142+i*13)
-		if i == crudHostCursor then
+	if crudHostRow == 1 then
+		if commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			crudHostCursorU = crudHostCursorU - 1
+			crudHostCursorD = crudHostCursorD - 1
+		elseif commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			crudHostCursorU = crudHostCursorU + 1
+			crudHostCursorD = crudHostCursorD + 1
+		end
+		
+	elseif crudHostRow == 2 then
+		if commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			crudHostCursorD = crudHostCursorD - 1
+			crudHostCursorU = crudHostCursorU - 1
+		elseif commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			crudHostCursorD = crudHostCursorD + 1
+			crudHostCursorU = crudHostCursorU + 1
+		end
+		
+	end
+	if crudHostCursorU < 1 then
+		crudHostCursorU = #t_crudHostOptionU
+	elseif crudHostCursorU > #t_crudHostOptionU then
+		crudHostCursorU = 1
+	end
+	if crudHostCursorD < 1 then
+		crudHostCursorD = #t_crudHostOptionD
+	elseif crudHostCursorD > #t_crudHostOptionD then
+		crudHostCursorD = 1
+	end
+	--Draw Crud Window BG
+	animDraw(crudHostWindowBG)
+	animUpdate(crudHostWindowBG)
+	--Draw Crud Title
+	txt_crudTitle = createTextImg(font6, 0, 0, ''..hostRoomName..' ROOM', 160, 163)
+	textImgDraw(txt_crudTitle)
+	--Draw Crud Menu Text
+	for i=1, #t_crudHostOptionU do
+		if i == crudHostCursorU and crudHostRow == 1 then
 			bank = 5
 		else
 			bank = 0
 		end
-		textImgDraw(t_crudHostOption[i].id)
+		t_crudHostOptionU[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionU[i].text, 12+i*100, 190)
+		textImgDraw(t_crudHostOptionU[i].id)
 	end
-	if commandGetState(p1Cmd, 'holdu') then
-		bufCrudHostd = 0
-		bufCrudHostu = bufCrudHostu + 1
-	elseif commandGetState(p2Cmd, 'holdu') then
-		bufCrudHost2d = 0
-		bufCrudHost2u = bufCrudHost2u + 1
-	elseif commandGetState(p1Cmd, 'holdd') then
-		bufCrudHostu = 0
-		bufCrudHostd = bufCrudHostd + 1
-	elseif commandGetState(p2Cmd, 'holdd') then
-		bufCrudHost2u = 0
-		bufCrudHost2d = bufCrudHost2d + 1
-	else
-		bufCrudHostu = 0
-		bufCrudHostd = 0
-		bufCrudHost2u = 0
-		bufCrudHost2d = 0
+	for i=1, #t_crudHostOptionD do
+		if i == crudHostCursorD and crudHostRow == 2 then
+			bank = 5
+		else
+			bank = 0
+		end
+		t_crudHostOptionD[i].id = createTextImg(jgFnt, bank, 0, t_crudHostOptionD[i].text, 12+i*100, 210)
+		textImgDraw(t_crudHostOptionD[i].id)
+	end
+	--Draw Cursor
+	if crudHostRow == 1 then
+		animSetWindow(cursorBox, -16+crudHostCursorU*100,178, 55,16)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	elseif crudHostRow == 2 then
+		animSetWindow(cursorBox, -16+crudHostCursorD*100,199, 55,16)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
 	--ACTIONS
 	if esc() then
@@ -5593,19 +5658,22 @@ function f_crudHostScreen()
 	--BUTTON SELECTED
 	elseif btnPalNo(p1Cmd) > 0 then
 		--DELETE HOST ADDRESS
-		if crudHostCursor == 1 then
+		if crudHostCursorU == 1 and crudHostRow == 1 then
 			sndPlay(sysSnd, 100, 1)
-			
+			crudHostOption = 1
+			crudHostScreen = false
 		--JOIN TO HOST ADDRESS
-		elseif crudHostCursor == 2 then
+		elseif crudHostCursorU == 2 and crudHostRow == 1 then
+			sndPlay(sysSnd, 100, 1)
 			crudHostOption = 2
 			crudHostScreen = false
 		--EDIT HOST ADDRESS
-		elseif crudHostCursor == 3 then
+		elseif crudHostCursorD == 1 and crudHostRow == 2 then
 			sndPlay(sysSnd, 100, 1)
-			
+			crudHostOption = 3
+			crudHostScreen = false
 		--BACK
-		elseif crudHostCursor == 4 then
+		elseif crudHostCursorD == 2 and crudHostRow == 2 then
 			sndPlay(sysSnd, 100, 2)
 			f_crudHostReset()
 		end
@@ -5614,8 +5682,11 @@ end
 
 function f_crudHostReset()
 	crudHostScreen = false
-	crudHostCursor = 2 --Cursor pos in JOIN
 	crudHostOption = 0
+	--Cursor pos in JOIN
+	crudHostRow = 1
+	crudHostCursorU = 2
+	crudHostCursorD = 2
 end
 
 --;===========================================================
@@ -5822,110 +5893,17 @@ end
 
 function f_addHostReset()
 	clearInputText()
-	editScreen = false
+	addHostScreen = false
 	doneAddress = false
 	doneName = false
 	addHostName = ''
 	hostAddress = ''
 	textBar = 0
 	addHostMenu = 2 --Cursor pos in ENTER
-	--addHostExit = false
 end
 
 --;===========================================================
---; DELETE/EDIT REGISTER
---;===========================================================
-txt_clientQuestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
-
---Question Window BG
-clientWindowBG = animNew(sysSff, [[
-230,1, 0,0,
-]])
-animSetPos(clientWindowBG, 83.5, 97)
-animUpdate(clientWindowBG)
-animSetScale(clientWindowBG, 1, 1)
-
-t_clientOptions = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
-}
-
-function f_clientOptionsMenu()
-	cmdInput()
-	--Cursor Position
-	if commandGetState(p1Cmd, 'u') then
-		sndPlay(sysSnd, 100, 0)
-		clientOptionsMenu = clientOptionsMenu - 1
-	elseif commandGetState(p1Cmd, 'd') then
-		sndPlay(sysSnd, 100, 0)
-		clientOptionsMenu = clientOptionsMenu + 1
-	end
-	if clientOptionsMenu < 1 then
-		clientOptionsMenu = #clientOptions
-		if #clientOptions > 4 then
-			cursorPosYClient = 4
-		else
-			cursorPosYClient = #clientOptions-1
-		end
-	elseif clientOptionsMenu > #clientOptions then
-		clientOptionsMenu = 1
-		cursorPosYClient = 0
-	elseif commandGetState(p1Cmd, 'u') and cursorPosYClient > 0 then
-		cursorPosYClient = cursorPosYClient - 1
-	elseif commandGetState(p1Cmd, 'd') and cursorPosYClient < 4 then
-		cursorPosYClient = cursorPosYClient + 1
-	end
-	if cursorPosYClient == 4 then
-		moveTxtClient = (clientOptionsMenu - 5) * 13
-	elseif cursorPosYClient == 0 then
-		moveTxtClient = (clientOptionsMenu - 1) * 13
-	end
-	--Draw Fade BG
-	animDraw(fadeWindowBG)
-	--Draw Menu BG
-	animDraw(clientWindowBG)
-	animUpdate(clientWindowBG)
-	--Draw Title
-	textImgDraw(txt_clientQuestion)
-	--Draw Table Text
-	for i=1, #clientOptions do
-		if i == clientOptionsMenu then
-			bank = 5
-		else
-			bank = 0
-		end
-		textImgDraw(f_updateTextImg(clientOptions[i].id, jgFnt, bank, 0, clientOptions[i].text, 159, 120+i*13-moveTxtClient))
-	end
-	--Draw Cursor
-	animSetWindow(cursorBox, 87,123+cursorPosYClient*13, 144,13)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
-	--Actions
-	if esc() then
-		sndPlay(sysSnd, 100, 2)
-		f_exitReset()
-	elseif btnPalNo(p1Cmd) > 0 then
-		--YES
-		if clientOptionsMenu == 1 then
-		--NO
-		else
-			sndPlay(sysSnd, 100, 2)
-		end
-		f_clientOptionsReset()
-	end
-	cmdInput()
-end
-
-function f_clientOptionsReset()
-	clientOptionsScreen = false
-	moveTxtClient = 0
-	--Cursor pos in NO
-	cursorPosYClient = 1
-	clientOptionsMenu = 2
-end
-
---;===========================================================
---; LOCAL DATABASE CONNECTING MENU
+--; READ LOCAL DATABASE TO CONNECTING MENU
 --;===========================================================
 function f_databaseConnect()
 	cmdInput()
@@ -5971,6 +5949,330 @@ function f_databaseConnect()
 		animUpdate(data.fadeTitle)
 	end
 	return false
+end
+
+--;===========================================================
+--; UPDATE HOST DATA
+--;===========================================================
+t_editOption = {
+	{id = textImgNew(), text = ' CANCEL'}, {id = textImgNew(), text = '  ENTER'},
+}
+for i=1, #t_editOption do
+	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 171)
+end
+
+function f_editHost()
+	cmdInput()
+	--ENTER HOST NAME
+	if not doneName then
+		if commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			editHostMenu = editHostMenu + 1
+		elseif commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			editHostMenu = editHostMenu - 1
+		end
+		if editHostMenu < 1 then editHostMenu = 2 elseif editHostMenu > 2 then editHostMenu = 1 end
+		editHostName = inputText('',true)
+		if clipboardPaste() then
+			if string.match(getClipboardText(),'^(.*)') then
+				setInputText(getClipboardText())
+			else
+				sndPlay(sysSnd, 100, 5)
+			end
+		end
+		if editHostName:len() > 5 then
+			editHostName = editHostName:sub(1,16)
+			setInputText(editHostName)
+		end
+		if editHostName ~= '' and editHostName ~= nil then
+			if editHostName:match('^"*(%")$') then
+				editHostName = editHostName:gsub('^("*)[%"]$','%1')
+				setInputText(editHostName)
+			end
+		end
+		--ACTIONS
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			f_editHostReset()
+		elseif commandGetState(p1Cmd, 's') then
+			--BACK
+			if editHostMenu == 1 then
+				sndPlay(sysSnd, 100, 2)
+				f_editHostReset()
+			--SAVE NAME
+			elseif editHostMenu == 2 then
+				if editHostName ~= '' and editHostName ~= nil then
+					clearInputText()
+					sndPlay(sysSnd, 100, 1)
+					hostName = (tostring(editHostName))
+					doneName = true
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+		end
+		--Draw Fade BG
+		animDraw(fadeWindowBG)
+		--Draw Name Window BG
+		animDraw(textWindowBG)
+		animUpdate(textWindowBG)
+		--Draw Name Window Title
+		textImgDraw(txt_clientName)
+		--Draw Name Text
+		textImgSetText(txt_ip,editHostName)
+		textImgDraw(txt_ip)
+		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
+		if textBar%60 < 30 then
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+		end
+		--Draw Button Option Text
+		for i=1, #t_editOption do
+			if i == editHostMenu then
+				textImgSetBank(t_editOption[i].id, 5)
+			else
+				textImgSetBank(t_editOption[i].id, 0)
+			end
+			textImgDraw(t_editOption[i].id)
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, -16+editHostMenu*100,159, 50,16)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Hint Info
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'COPIED TEXT CAN BE PASTED WITH CTRL V')
+	--ENTER HOST IP ADDRESS
+	else
+		if commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			editHostMenu = editHostMenu + 1
+		elseif commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			editHostMenu = editHostMenu - 1
+		end
+		if editHostMenu < 1 then editHostMenu = 2 elseif editHostMenu > 2 then editHostMenu = 1 end
+		hostAddress = inputText('num',true)
+		if clipboardPaste() then
+			if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+				setInputText(getClipboardText())
+			elseif string.match(getClipboardText(),'^localhost$') then
+				setInputText(getClipboardText())
+			else
+				sndPlay(sysSnd, 100, 5)
+			end
+		end
+		if hostAddress:match('^%.') then
+			hostAddress = ''
+			setInputText(hostAddress)
+		elseif hostAddress:len() > 15 then
+			hostAddress = hostAddress:sub(1,15)
+			setInputText(hostAddress)
+		elseif hostAddress:match('%.%.+') then
+			hostAddress = hostAddress:gsub('%.%.+','.')
+			setInputText(hostAddress)
+		elseif hostAddress:match('%d%d%d%d+') then
+			hostAddress = hostAddress:gsub('(%d%d%d)%d+','%1')
+			setInputText(hostAddress)
+		elseif hostAddress:match('%d+%.%d+%.%d+%.%d+%.') then
+			hostAddress = hostAddress:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
+			setInputText(hostAddress)
+		end
+		--ACTIONS
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			f_editHostReset()
+		--BUTTON SELECTED
+		elseif btnPalNo(p1Cmd) > 0 then
+			--BACK
+			if editHostMenu == 1 then
+				sndPlay(sysSnd, 100, 2)
+				f_editHostReset()
+			--ENTER IP
+			elseif editHostMenu == 2 then
+				if hostAddress:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
+					doneAddress = true
+				elseif hostAddress:match('^localhost$') then
+					doneAddress = true
+				else
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+		end
+		--Draw Fade BG
+		animDraw(fadeWindowBG)
+		--Draw IP Window BG
+		animDraw(textWindowBG)
+		animUpdate(textWindowBG)
+		--Draw IP Window Title
+		textImgSetText(txt_client, 'Enter Host\'s IPv4')
+		textImgDraw(txt_client)
+		--Draw IP Text
+		textImgSetText(txt_ip,hostAddress)
+		textImgDraw(txt_ip)
+		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
+		if textBar%60 < 30 then 
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+		end
+		--Draw Button Option Text
+		for i=1, #t_editOption do
+			if i == editHostMenu then
+				textImgSetBank(t_editOption[i].id, 5)
+			else
+				textImgSetBank(t_editOption[i].id, 0)
+			end
+			textImgDraw(t_editOption[i].id)
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, -16+editHostMenu*100,159, 50,16)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Hint Info
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'COPIED IP CAN BE PASTED WITH CTRL V')
+	end
+	--SAVE ALL DATA
+	if doneAddress == true then
+		sndPlay(sysSnd, 100, 1)
+		host_rooms.IP[hostName] = hostAddress
+		t_tmp = {}
+		for i = 1, #t_hostList do
+			if i ~= hostList then
+				t_tmp[i] = {id = textImgNew(), text = hostName, address = hostAddress}
+				t_tmp[i + 1] = t_hostList[i]
+			end
+		end
+		t_hostList = t_tmp
+		local file = io.open("saved/host_rooms.json","w+")
+		file:write(json.encode(host_rooms, {indent = true}))
+		file:close()
+		f_editHostReset()
+	end
+	cmdInput()
+end
+
+--ADD CODE
+	--host_rooms.IP[hostName] = hostAddress
+	--t_tmp = {}
+	--for i = 1, #t_hostList do
+		--if i < #t_hostList then
+			--t_tmp[i] = t_hostList[i]
+		--else
+			--t_tmp[i] = {id = textImgNew(), text = hostName, address = hostAddress}
+			--t_tmp[i + 1] = t_hostList[i]
+		--end
+	--end
+
+--DELETE CODE
+	--host_rooms.IP[t_hostList[hostList].text] = nil
+	--t_tmp = {}
+	--for i = 1, #t_hostList do
+		--if i ~= hostList then
+			--t_tmp[#t_tmp + 1] = t_hostList[i]
+		--end
+	--end
+
+function f_editHostReset()
+	clearInputText()
+	editHostScreen = false
+	doneAddress = false
+	doneName = false
+	editHostName = ''
+	hostAddress = ''
+	textBar = 0
+	editHostMenu = 2 --Cursor pos in ENTER
+end
+
+--;===========================================================
+--; DELETE HOST DATA
+--;===========================================================
+txt_hostcrudQuestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+
+--Question Window BG
+clientWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(clientWindowBG, 83.5, 97)
+animUpdate(clientWindowBG)
+animSetScale(clientWindowBG, 1, 1)
+
+t_clientOptions = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}
+
+function f_clientOptionsMenu()
+	cmdInput()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') then
+		sndPlay(sysSnd, 100, 0)
+		clientOptionsMenu = clientOptionsMenu - 1
+	elseif commandGetState(p1Cmd, 'd') then
+		sndPlay(sysSnd, 100, 0)
+		clientOptionsMenu = clientOptionsMenu + 1
+	end
+	if clientOptionsMenu < 1 then
+		clientOptionsMenu = #t_clientOptions
+		if #t_clientOptions > 4 then
+			cursorPosYClient = 4
+		else
+			cursorPosYClient = #t_clientOptions-1
+		end
+	elseif clientOptionsMenu > #t_clientOptions then
+		clientOptionsMenu = 1
+		cursorPosYClient = 0
+	elseif commandGetState(p1Cmd, 'u') and cursorPosYClient > 0 then
+		cursorPosYClient = cursorPosYClient - 1
+	elseif commandGetState(p1Cmd, 'd') and cursorPosYClient < 4 then
+		cursorPosYClient = cursorPosYClient + 1
+	end
+	if cursorPosYClient == 4 then
+		moveTxtClient = (clientOptionsMenu - 5) * 13
+	elseif cursorPosYClient == 0 then
+		moveTxtClient = (clientOptionsMenu - 1) * 13
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(clientWindowBG)
+	animUpdate(clientWindowBG)
+	--Draw Title
+	textImgDraw(txt_clientQuestion)
+	--Draw Table Text
+	for i=1, #t_clientOptions do
+		if i == clientOptionsMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_clientOptions[i].id, jgFnt, bank, 0, t_clientOptions[i].text, 159, 120+i*13-moveTxtClient))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYClient*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if esc() then
+		sndPlay(sysSnd, 100, 2)
+		f_exitReset()
+	elseif btnPalNo(p1Cmd) > 0 then
+		--YES
+		if clientOptionsMenu == 1 then
+		--NO
+		else
+			sndPlay(sysSnd, 100, 2)
+		end
+		f_clientOptionsReset()
+	end
+	cmdInput()
+end
+
+function f_clientOptionsReset()
+	clientOptionsScreen = false
+	moveTxtClient = 0
+	--Cursor pos in NO
+	cursorPosYClient = 1
+	clientOptionsMenu = 2
 end
 
 --;===========================================================

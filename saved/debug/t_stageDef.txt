@@ -1,14 +1,14 @@
-table: 02E01940 {
+table: 02E50E78 {
   [stages/training room 2.def] => 2
-  [stages/hd test/australian outback.def] => 7
-  [stages/hd test/fairy day 16_9.def] => 9
   [stages/hd test/nyc alley.def] => 6
-  [stages/mountainside temple.def] => 3
-  [stages/training room.def] => 1
-  [stages/china.def] => 5
+  [stages/hd test/australian outback.def] => 7
   [stages/hd test/training room(scale).def] => 12
-  [stages/mountainside temple - hidden path.def] => 4
   [stages/hd test/training room.def] => 11
   [stages/hd test/aensland castle.def] => 10
+  [stages/hd test/fairy day 16_9.def] => 9
+  [stages/china.def] => 5
   [stages/hd test/fairy day 4_3.def] => 8
+  [stages/training room.def] => 1
+  [stages/mountainside temple.def] => 3
+  [stages/mountainside temple - hidden path.def] => 4
 }
