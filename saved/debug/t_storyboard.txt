@@ -1,563 +1,561 @@
-table: 0D6AE470 {
-  [startscene] => 1
-  [sff] => "data/screenpack/intro.sff"
-  [fnt] => table: 0D6AE470 {
+table: 0DD087B8 {
+  [fnt] => table: 0DD087B8 {
            }
-  [ctrldef] => table: 0D6AE470 {
-               }
-  [scenes] => table: 0D6AE470 {
-                [1] => table: 0D6AE1A0 {
-                         [layerallPosX] => 0
-                         [backgrounds] => table: 0D6AE240 {
-                                            [1] => table: 0D874040 {
-                                                     [tileX] => "1"
-                                                     [layer] => 0
-                                                     [trans] => ""
-                                                     [sprite] => "0"
-                                                     [id] => 0
-                                                     [anim] => "0,0, 0,48, 240"
-                                                     [startY] => "48"
+  [yScale] => 1
+  [scenes] => table: 0DD087B8 {
+                [1] => table: 0DD090A0 {
+                         [bgmLoop] => 0
+                         [bgm] => "sound/"
+                         [clearcolor] => "black"
+                         [windowY2] => 240
+                         [fadeinCol] => "black"
+                         [windowX1] => 0
+                         [endTime] => 240
+                         [windowX2] => 320
+                         [windowY1] => 0
+                         [fadeinData] => userdata: 08AA2820
+                         [fadeoutCol] => "black"
+                         [backgrounds] => table: 0DD093C0 {
+                                            [1] => table: 0D6C5350 {
+                                                     [tilespacingY] => 0
                                                      [velocityX] => 6
                                                      [tileY] => "0"
+                                                     [layer] => 0
+                                                     [tileX] => "1"
+                                                     [trans] => ""
                                                      [windowX1] => 0
-                                                     [windowX2] => 320
-                                                     [bgData] => userdata: 0CE060F8
-                                                     [tilespacingY] => 0
+                                                     [bgData] => userdata: 08AA3000
+                                                     [tilespacingX] => 0
+                                                     [group] => "0"
+                                                     [windowY1] => 0
+                                                     [anim] => "0,0, 0,48, 240"
+                                                     [startY] => "48"
                                                      [windowY2] => 240
                                                      [velocityY] => 0
                                                      [startX] => "0"
-                                                     [windowY1] => 0
-                                                     [group] => "0"
-                                                     [tilespacingX] => 0
-                                                   }
-                                            [2] => table: 0D874040 {
-                                                     [tileX] => "1"
-                                                     [layer] => 0
-                                                     [trans] => ""
-                                                     [sprite] => "0"
                                                      [id] => 0
-                                                     [anim] => "1,0, 0,48, 240"
-                                                     [startY] => "48"
+                                                     [windowX2] => 320
+                                                     [sprite] => "0"
+                                                   }
+                                            [2] => table: 0D6C5350 {
+                                                     [tilespacingY] => 0
                                                      [velocityX] => 12
                                                      [tileY] => "0"
+                                                     [layer] => 0
+                                                     [tileX] => "1"
+                                                     [trans] => ""
                                                      [windowX1] => 0
-                                                     [windowX2] => 320
-                                                     [bgData] => userdata: 0CE050D8
-                                                     [tilespacingY] => 0
+                                                     [bgData] => userdata: 08AA38D0
+                                                     [tilespacingX] => 0
+                                                     [group] => "1"
+                                                     [windowY1] => 0
+                                                     [anim] => "1,0, 0,48, 240"
+                                                     [startY] => "48"
                                                      [windowY2] => 240
                                                      [velocityY] => 0
                                                      [startX] => "0"
-                                                     [windowY1] => 0
-                                                     [group] => "1"
-                                                     [tilespacingX] => 0
-                                                   }
-                                            [3] => table: 0D874040 {
-                                                     [tileX] => "2"
-                                                     [layer] => 0
-                                                     [trans] => "s"
-                                                     [sprite] => "0"
                                                      [id] => 0
-                                                     [anim] => "5,0, -7000,48, 240, , s"
-                                                     [startY] => "48"
+                                                     [windowX2] => 320
+                                                     [sprite] => "0"
+                                                   }
+                                            [3] => table: 0D6C5350 {
+                                                     [tilespacingY] => 0
                                                      [velocityX] => 36
                                                      [tileY] => "0"
+                                                     [layer] => 0
+                                                     [tileX] => "2"
+                                                     [trans] => "s"
                                                      [windowX1] => 0
-                                                     [windowX2] => 320
-                                                     [bgData] => userdata: 0CE04F88
-                                                     [tilespacingY] => 0
+                                                     [bgData] => userdata: 08AA3150
+                                                     [tilespacingX] => 480
+                                                     [group] => "5"
+                                                     [windowY1] => 0
+                                                     [anim] => "5,0, -7000,48, 240, , s"
+                                                     [startY] => "48"
                                                      [windowY2] => 240
                                                      [velocityY] => 0
                                                      [startX] => "-7000"
-                                                     [windowY1] => 0
-                                                     [group] => "5"
-                                                     [tilespacingX] => 480
+                                                     [id] => 0
+                                                     [windowX2] => 320
+                                                     [sprite] => "0"
                                                    }
                                           }
-                         [clearcolorData] => userdata: 0CE06068
-                         [fadeoutCol] => "black"
-                         [windowY2] => 240
-                         [layerallPosY] => 0
-                         [fadeoutData] => userdata: 0CE04FB8
-                         [windowX1] => 0
-                         [windowX2] => 320
-                         [bgmLoop] => 0
-                         [endTime] => 240
-                         [bgm] => "sound/"
-                         [sounds] => table: 0D6AE240 {
+                         [sounds] => table: 0DD093C0 {
                                      }
                          [fadeinTime] => 120
-                         [layers] => table: 0D6AE240 {
-                                       [1] => table: 0D6ADD68 {
-                                                [textdelay] => 0
-                                                [offsetY] => 0
+                         [fadeoutTime] => 30
+                         [layers] => table: 0DD093C0 {
+                                       [1] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [2] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [2] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [3] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [3] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [4] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [4] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [5] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [5] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [6] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [6] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [7] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [7] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [8] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [8] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
-                                              }
-                                       [9] => table: 0D6ADD68 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [9] => table: 0DD08808 {
                                                 [starttime] => 0
                                                 [endtime] => 240
                                                 [offsetX] => 0
+                                                [offsetY] => 0
+                                                [textdelay] => 0
                                               }
-                                       [10] => table: 0D6ADD68 {
-                                                 [textdelay] => 0
-                                                 [offsetY] => 0
+                                       [10] => table: 0DD08808 {
                                                  [starttime] => 0
                                                  [endtime] => 240
                                                  [offsetX] => 0
+                                                 [offsetY] => 0
+                                                 [textdelay] => 0
                                                }
                                      }
-                         [clearcolor] => "black"
-                         [fadeinCol] => "black"
-                         [fadeinData] => userdata: 0CE049B8
-                         [windowY1] => 0
-                         [fadeoutTime] => 30
+                         [fadeoutData] => userdata: 08A9FEE0
+                         [layerallPosY] => 0
+                         [clearcolorData] => userdata: 08AA1C80
+                         [layerallPosX] => 0
                        }
-                [2] => table: 0D6AE1A0 {
-                         [layerallPosX] => "160"
-                         [clearcolorData] => userdata: 0CE04C28
-                         [fadeoutCol] => "black"
+                [2] => table: 0DD090A0 {
+                         [clearcolor] => "white"
                          [windowY2] => 240
-                         [layerallPosY] => "24"
-                         [fadeoutData] => userdata: 0CE04E08
+                         [fadeinCol] => "white"
                          [windowX1] => 0
-                         [windowX2] => 320
                          [endTime] => 45
-                         [sounds] => table: 0D74FE98 {
+                         [windowX2] => 320
+                         [windowY1] => 0
+                         [fadeinData] => userdata: 08A9FF40
+                         [fadeoutCol] => "black"
+                         [sounds] => table: 0D6C5328 {
                                      }
                          [fadeinTime] => 15
-                         [layers] => table: 0D74FE98 {
-                                       [1] => table: 0D74FDF8 {
+                         [fadeoutTime] => 30
+                         [layers] => table: 0D6C5328 {
+                                       [1] => table: 0D6C5530 {
                                                 [endtime] => 45
+                                                [animData] => userdata: 08AA08A0
                                                 [starttime] => 0
                                                 [animNumber] => 10
-                                                [offsetY] => "150"
-                                                [anim] => table: 0D74FCB8 {
+                                                [anim] => table: 0D6C6AC0 {
                                                             [1] => "10,0, 0,0, -1"
                                                           }
-                                                [textdelay] => 0
-                                                [animData] => userdata: 0CE04778
                                                 [offsetX] => "-40"
-                                              }
-                                       [2] => table: 0D74FDF8 {
+                                                [offsetY] => "150"
                                                 [textdelay] => 0
-                                                [offsetY] => 0
+                                              }
+                                       [2] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [3] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [3] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [4] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [4] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [5] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [5] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [6] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [6] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [7] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [7] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [8] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [8] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [9] => table: 0D74FDF8 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [9] => table: 0D6C5530 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
+                                                [offsetY] => 0
+                                                [textdelay] => 0
                                               }
-                                       [10] => table: 0D74FDF8 {
-                                                 [textdelay] => 0
-                                                 [offsetY] => 0
+                                       [10] => table: 0D6C5530 {
                                                  [starttime] => 0
                                                  [endtime] => 45
                                                  [offsetX] => 0
+                                                 [offsetY] => 0
+                                                 [textdelay] => 0
                                                }
                                      }
-                         [clearcolor] => "white"
-                         [fadeinCol] => "white"
-                         [fadeinData] => userdata: 0CE04DD8
-                         [windowY1] => 0
-                         [fadeoutTime] => 30
-                       }
-                [3] => table: 0D6AE1A0 {
+                         [fadeoutData] => userdata: 08AA1710
                          [layerallPosX] => "160"
-                         [clearcolorData] => userdata: 0CE04E38
-                         [fadeoutCol] => "black"
-                         [windowY2] => 240
+                         [clearcolorData] => userdata: 08AA00F0
                          [layerallPosY] => "24"
-                         [fadeoutData] => userdata: 0CE05558
+                       }
+                [3] => table: 0DD090A0 {
+                         [clearcolor] => "black"
+                         [windowY2] => 240
+                         [fadeinCol] => "black"
                          [windowX1] => 0
-                         [windowX2] => 320
                          [endTime] => 15
-                         [sounds] => table: 0D900188 {
+                         [windowX2] => 320
+                         [windowY1] => 0
+                         [fadeinData] => userdata: 08A9FC40
+                         [fadeoutCol] => "black"
+                         [sounds] => table: 0D6C67F0 {
                                      }
                          [fadeinTime] => 0
-                         [layers] => table: 0D900188 {
-                                       [1] => table: 0D697A10 {
-                                                [textdelay] => 0
-                                                [offsetY] => 0
+                         [fadeoutTime] => 0
+                         [layers] => table: 0D6C67F0 {
+                                       [1] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [2] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [2] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [3] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [3] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [4] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [4] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [5] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [5] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [6] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [6] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [7] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [7] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [8] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [8] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
-                                              }
-                                       [9] => table: 0D697A10 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [9] => table: 0D6C60E8 {
                                                 [starttime] => 0
                                                 [endtime] => 15
                                                 [offsetX] => 0
+                                                [offsetY] => 0
+                                                [textdelay] => 0
                                               }
-                                       [10] => table: 0D697A10 {
-                                                 [textdelay] => 0
-                                                 [offsetY] => 0
+                                       [10] => table: 0D6C60E8 {
                                                  [starttime] => 0
                                                  [endtime] => 15
                                                  [offsetX] => 0
+                                                 [offsetY] => 0
+                                                 [textdelay] => 0
                                                }
                                      }
-                         [clearcolor] => "black"
-                         [fadeinCol] => "black"
-                         [fadeinData] => userdata: 0CE05C48
-                         [windowY1] => 0
-                         [fadeoutTime] => 0
-                       }
-                [4] => table: 0D6AE1A0 {
-                         [layerallPosX] => "160"
-                         [clearcolorData] => userdata: 0CE05F48
-                         [fadeoutCol] => "black"
-                         [windowY2] => 240
+                         [fadeoutData] => userdata: 08AA2DF0
                          [layerallPosY] => "24"
-                         [fadeoutData] => userdata: 0CE044D8
+                         [clearcolorData] => userdata: 08AA1B30
+                         [layerallPosX] => "160"
+                       }
+                [4] => table: 0DD090A0 {
+                         [clearcolor] => "white"
+                         [windowY2] => 240
+                         [fadeinCol] => "white"
                          [windowX1] => 0
-                         [windowX2] => 320
                          [endTime] => 45
-                         [sounds] => table: 0CDF6D48 {
+                         [windowX2] => 320
+                         [windowY1] => 0
+                         [fadeinData] => userdata: 08AA31B0
+                         [fadeoutCol] => "black"
+                         [sounds] => table: 0D6C5FF8 {
                                      }
                          [fadeinTime] => 15
-                         [layers] => table: 0CDF6D48 {
-                                       [1] => table: 0D769F70 {
+                         [fadeoutTime] => 30
+                         [layers] => table: 0D6C5FF8 {
+                                       [1] => table: 0D6C6E80 {
                                                 [endtime] => 45
+                                                [animData] => userdata: 08A9FEB0
                                                 [starttime] => 0
                                                 [animNumber] => 11
-                                                [offsetY] => "150"
-                                                [anim] => table: 0D769DE0 {
+                                                [anim] => table: 0D6C5A08 {
                                                             [1] => "11,0, 0,0, -1"
                                                           }
-                                                [textdelay] => 0
-                                                [animData] => userdata: 0CE04B98
                                                 [offsetX] => "40"
-                                              }
-                                       [2] => table: 0D769F70 {
+                                                [offsetY] => "150"
                                                 [textdelay] => 0
-                                                [offsetY] => 0
+                                              }
+                                       [2] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [3] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [3] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [4] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [4] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [5] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [5] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [6] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [6] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [7] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [7] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [8] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [8] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
-                                              }
-                                       [9] => table: 0D769F70 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [9] => table: 0D6C6E80 {
                                                 [starttime] => 0
                                                 [endtime] => 45
                                                 [offsetX] => 0
+                                                [offsetY] => 0
+                                                [textdelay] => 0
                                               }
-                                       [10] => table: 0D769F70 {
-                                                 [textdelay] => 0
-                                                 [offsetY] => 0
+                                       [10] => table: 0D6C6E80 {
                                                  [starttime] => 0
                                                  [endtime] => 45
                                                  [offsetX] => 0
+                                                 [offsetY] => 0
+                                                 [textdelay] => 0
                                                }
                                      }
-                         [clearcolor] => "white"
-                         [fadeinCol] => "white"
-                         [fadeinData] => userdata: 0CE045F8
-                         [windowY1] => 0
-                         [fadeoutTime] => 30
-                       }
-                [5] => table: 0D6AE1A0 {
+                         [fadeoutData] => userdata: 08AA0570
                          [layerallPosX] => "160"
-                         [clearcolorData] => userdata: 0CE04508
-                         [fadeoutCol] => "black"
-                         [windowY2] => 240
+                         [clearcolorData] => userdata: 08A9FD60
                          [layerallPosY] => "24"
-                         [fadeoutData] => userdata: 0CE05498
+                       }
+                [5] => table: 0DD090A0 {
+                         [clearcolor] => "black"
+                         [windowY2] => 240
+                         [fadeinCol] => "black"
                          [windowX1] => 0
-                         [windowX2] => 320
                          [endTime] => 30
-                         [sounds] => table: 0D97F0F8 {
+                         [windowX2] => 320
+                         [windowY1] => 0
+                         [fadeinData] => userdata: 08AA0D50
+                         [fadeoutCol] => "black"
+                         [sounds] => table: 0D6C6110 {
                                      }
                          [fadeinTime] => 0
-                         [layers] => table: 0D97F0F8 {
-                                       [1] => table: 0D97F170 {
-                                                [textdelay] => 0
-                                                [offsetY] => 0
+                         [fadeoutTime] => 0
+                         [layers] => table: 0D6C6110 {
+                                       [1] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [2] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [2] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [3] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [3] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [4] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [4] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [5] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [5] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [6] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [6] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [7] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [7] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [8] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [8] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
-                                              }
-                                       [9] => table: 0D97F170 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [9] => table: 0D6C6598 {
                                                 [starttime] => 0
                                                 [endtime] => 30
                                                 [offsetX] => 0
+                                                [offsetY] => 0
+                                                [textdelay] => 0
                                               }
-                                       [10] => table: 0D97F170 {
-                                                 [textdelay] => 0
-                                                 [offsetY] => 0
+                                       [10] => table: 0D6C6598 {
                                                  [starttime] => 0
                                                  [endtime] => 30
                                                  [offsetX] => 0
+                                                 [offsetY] => 0
+                                                 [textdelay] => 0
                                                }
                                      }
-                         [clearcolor] => "black"
-                         [fadeinCol] => "black"
-                         [fadeinData] => userdata: 0CE05288
-                         [windowY1] => 0
-                         [fadeoutTime] => 0
-                       }
-                [6] => table: 0D6AE1A0 {
-                         [layerallPosX] => "160"
-                         [clearcolorData] => userdata: 0CE05C18
-                         [fadeoutCol] => "black"
-                         [windowY2] => 240
+                         [fadeoutData] => userdata: 08AA2AC0
                          [layerallPosY] => "24"
-                         [fadeoutData] => userdata: 0CE04A78
+                         [clearcolorData] => userdata: 08AA0F00
+                         [layerallPosX] => "160"
+                       }
+                [6] => table: 0DD090A0 {
+                         [clearcolor] => "white"
+                         [windowY2] => 240
+                         [fadeinCol] => "black"
                          [windowX1] => 0
-                         [windowX2] => 320
                          [endTime] => 180
-                         [sounds] => table: 0D97F350 {
+                         [windowX2] => 320
+                         [windowY1] => 0
+                         [fadeinData] => userdata: 08AA0B70
+                         [fadeoutCol] => "black"
+                         [sounds] => table: 0D6C6700 {
                                      }
                          [fadeinTime] => 5
-                         [layers] => table: 0D97F350 {
-                                       [1] => table: 0D97F3A0 {
+                         [fadeoutTime] => 30
+                         [layers] => table: 0D6C6700 {
+                                       [1] => table: 0D6C6A70 {
                                                 [endtime] => 180
+                                                [animData] => userdata: 08A9F9A0
                                                 [starttime] => 30
                                                 [animNumber] => 100
-                                                [offsetY] => "26"
-                                                [anim] => table: 0D97F3C8 {
+                                                [anim] => table: 0D6C53C8 {
                                                             [1] => "100,0, 0,20, 1"
                                                             [2] => "100,0, 0,-15, 1"
                                                             [3] => "100,0, 0,11, 1"
@@ -568,16 +566,16 @@ table: 0D6AE470 {
                                                             [8] => "100,0, 0,-1, 1"
                                                             [9] => "100,0, 0,0, -1"
                                                           }
-                                                [textdelay] => 0
-                                                [animData] => userdata: 0CE04958
                                                 [offsetX] => "0"
+                                                [offsetY] => "26"
+                                                [textdelay] => 0
                                               }
-                                       [2] => table: 0D97F3A0 {
+                                       [2] => table: 0D6C6A70 {
                                                 [endtime] => 180
+                                                [animData] => userdata: 08A9FD00
                                                 [starttime] => 60
                                                 [animNumber] => 101
-                                                [offsetY] => "26"
-                                                [anim] => table: 0D97F418 {
+                                                [anim] => table: 0D6C56C0 {
                                                             [1] => "100,1, 0,20, 1"
                                                             [2] => "100,1, 0,-15, 1"
                                                             [3] => "100,1, 0,11, 1"
@@ -588,16 +586,16 @@ table: 0D6AE470 {
                                                             [8] => "100,1, 0,-1, 1"
                                                             [9] => "100,1, 0,0, -1"
                                                           }
-                                                [textdelay] => 0
-                                                [animData] => userdata: 0CE05D08
                                                 [offsetX] => "0"
+                                                [offsetY] => "26"
+                                                [textdelay] => 0
                                               }
-                                       [3] => table: 0D97F3A0 {
+                                       [3] => table: 0D6C6A70 {
                                                 [endtime] => 180
+                                                [animData] => userdata: 08AA2790
                                                 [starttime] => 90
                                                 [animNumber] => 102
-                                                [offsetY] => "26"
-                                                [anim] => table: 0D97F468 {
+                                                [anim] => table: 0D6C5A30 {
                                                             [1] => "100,2, 0,20, 1"
                                                             [2] => "100,2, 0,-15, 1"
                                                             [3] => "100,2, 0,11, 1"
@@ -608,67 +606,69 @@ table: 0D6AE470 {
                                                             [8] => "100,2, 0,-1, 1"
                                                             [9] => "100,2, 0,0, -1"
                                                           }
-                                                [textdelay] => 0
-                                                [animData] => userdata: 0CE04D48
                                                 [offsetX] => "0"
-                                              }
-                                       [4] => table: 0D97F3A0 {
+                                                [offsetY] => "26"
                                                 [textdelay] => 0
-                                                [offsetY] => 0
+                                              }
+                                       [4] => table: 0D6C6A70 {
                                                 [starttime] => 0
                                                 [endtime] => 180
                                                 [offsetX] => 0
-                                              }
-                                       [5] => table: 0D97F3A0 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [5] => table: 0D6C6A70 {
                                                 [starttime] => 0
                                                 [endtime] => 180
                                                 [offsetX] => 0
-                                              }
-                                       [6] => table: 0D97F3A0 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [6] => table: 0D6C6A70 {
                                                 [starttime] => 0
                                                 [endtime] => 180
                                                 [offsetX] => 0
-                                              }
-                                       [7] => table: 0D97F3A0 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [7] => table: 0D6C6A70 {
                                                 [starttime] => 0
                                                 [endtime] => 180
                                                 [offsetX] => 0
-                                              }
-                                       [8] => table: 0D97F3A0 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [8] => table: 0D6C6A70 {
                                                 [starttime] => 0
                                                 [endtime] => 180
                                                 [offsetX] => 0
-                                              }
-                                       [9] => table: 0D97F3A0 {
-                                                [textdelay] => 0
                                                 [offsetY] => 0
+                                                [textdelay] => 0
+                                              }
+                                       [9] => table: 0D6C6A70 {
                                                 [starttime] => 0
                                                 [endtime] => 180
                                                 [offsetX] => 0
+                                                [offsetY] => 0
+                                                [textdelay] => 0
                                               }
-                                       [10] => table: 0D97F3A0 {
-                                                 [textdelay] => 0
-                                                 [offsetY] => 0
+                                       [10] => table: 0D6C6A70 {
                                                  [starttime] => 0
                                                  [endtime] => 180
                                                  [offsetX] => 0
+                                                 [offsetY] => 0
+                                                 [textdelay] => 0
                                                }
                                      }
-                         [clearcolor] => "white"
-                         [fadeinCol] => "black"
-                         [fadeinData] => userdata: 0CE058B8
-                         [windowY1] => 0
-                         [fadeoutTime] => 30
+                         [fadeoutData] => userdata: 08AA1DD0
+                         [layerallPosX] => "160"
+                         [clearcolorData] => userdata: 08AA0600
+                         [layerallPosY] => "24"
                        }
               }
+  [ctrldef] => table: 0DD087B8 {
+               }
   [xScale] => 1
-  [yScale] => 1
+  [sff] => "data/screenpack/intro.sff"
+  [startscene] => 1
 }

@@ -4771,7 +4771,7 @@ function f_mainReplay()
 						textImgDraw(t_replayOption[i].id)
 					end
 					--Draw Cursor
-					animSetWindow(cursorBox, -108+replayOption*120,96, 60,80)
+					animSetWindow(cursorBox, -108+replayOption*120,161, 56,15)
 					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 					animDraw(f_animVelocity(cursorBox, -1, -1))
 					if confirmScreen == true then f_confirmMenu() end
@@ -5054,7 +5054,7 @@ txt_hostTitle = createTextImg(jgFnt, 0, 0, 'ONLINE ROOM CREATED', 159, 13)
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 111)
 txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110,0.9,0.9)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
-txt_ip = createTextImg(font14, 0, 0, '', 160, 138)
+txt_ip = createTextImg(font14, 0, 0, '', 160, 132)
 txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
 txt_connecting = createTextImg(jgFnt, 0, 0, '', 159, 228)
@@ -5192,7 +5192,7 @@ t_directJoinMenu = {
 	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'JOIN'},
 }
 for i=1, #t_directJoinMenu do
-	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12+i*95, 171)
+	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12+i*95, 151)
 end
 
 function f_directConnect()
@@ -5281,7 +5281,7 @@ function f_directConnect()
 			textImgDraw(txt_ip)
 			textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
 			if i%60 < 30 then 
-				textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+				textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),133.5)
 			end
 			--Draw Button Option Text
 			for i=1, #t_directJoinMenu do
@@ -5293,7 +5293,7 @@ function f_directConnect()
 				textImgDraw(t_directJoinMenu[i].id)
 			end
 			--Draw Cursor
-			animSetWindow(cursorBox, -16+directJoinMenu*100,159, 50,16)
+			animSetWindow(cursorBox, -9+directJoinMenu*96,141, 48.5,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
@@ -5375,12 +5375,11 @@ function f_hostRooms()
 	local bufl = 0
 	local t_tmp = {}
 	f_hostTable()
-	f_addHostReset()
-	f_crudHostReset()
 	f_editHostReset()
+	f_crudHostReset()
 	--local cancel = false
 	while true do
-		if addHostScreen == false and crudHostScreen == false and editHostScreen == false then
+		if editHostScreen == false and crudHostScreen == false then
 			if esc() then
 				--onlinegame = false
 				--assert(loadfile('saved/data_sav.lua'))()
@@ -5427,7 +5426,7 @@ function f_hostRooms()
 				--ADD NEW HOST ADDRESS
 				if hostList == 1 then
 					sndPlay(sysSnd, 100, 1)
-					addHostScreen = true
+					editHostScreen = true
 				--BACK
 				elseif hostList == #t_hostList then
 					sndPlay(sysSnd, 100, 2)
@@ -5450,7 +5449,7 @@ function f_hostRooms()
 			end
 			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 142+i*13-moveTxt))
 		end
-		if addHostScreen == false and crudHostScreen == false and editHostScreen == false then
+		if editHostScreen == false and crudHostScreen == false then
 			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -5464,7 +5463,7 @@ function f_hostRooms()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		textImgDraw(txt_subTitle)
-		if addHostScreen == false and editHostScreen == false then
+		if editHostScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, 'HOST ROOMS')
 			textImgDraw(txt_version)
@@ -5481,12 +5480,11 @@ function f_hostRooms()
 			end
 		end
 		textBar = textBar >= 60 and 0 or textBar + 1
-		if addHostScreen == true then f_addHost() end
-		if crudHostScreen == true then f_crudHostScreen() end
-		if editHostScreen == true then f_editHost() end
 	--CRUD ACTIONS
 		hostRoomName = (t_hostList[hostList].text) --Host Name Selected
 		hostIP = (t_hostList[hostList].address) --Host IP Address Selected
+		if crudHostScreen == true then f_crudHostScreen() end
+		if editHostScreen == true then f_editHost() end
 	--READ DATA
 		if crudHostOption == 2 then
 			f_crudHostReset()
@@ -5517,6 +5515,7 @@ function f_hostRooms()
 	--UPDATE DATA
 		elseif crudHostOption == 3 then
 			f_crudHostReset()
+			editHostRoom = true --To Update Data
 			editHostScreen = true
 	--DELETE DATA
 		elseif crudHostOption == 1 then
@@ -5532,6 +5531,7 @@ function f_hostRooms()
 			local file = io.open("saved/host_rooms.json","w+")
 			file:write(json.encode(host_rooms, {indent = true}))
 			file:close()
+			f_hostTable() --Refresh
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -5647,7 +5647,7 @@ function f_crudHostScreen()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	elseif crudHostRow == 2 then
-		animSetWindow(cursorBox, -16+crudHostCursorD*100,199, 55,16)
+		animSetWindow(cursorBox, -16+crudHostCursorD*100,198, 55,16)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -5690,275 +5690,13 @@ function f_crudHostReset()
 end
 
 --;===========================================================
---; CREATE HOST DATA
---;===========================================================
-t_addOption = {
-	{id = textImgNew(), text = ' CANCEL'}, {id = textImgNew(), text = '  ENTER'},
-}
-for i=1, #t_addOption do
-	t_addOption[i].id = createTextImg(jgFnt, 0, 0, t_addOption[i].text, 12+i*95, 171)
-end
-
-function f_addHost()
-	cmdInput()
-	--ENTER HOST NAME
-	if not doneName then
-		if commandGetState(p1Cmd, 'r') then
-			sndPlay(sysSnd, 100, 0)
-			addHostMenu = addHostMenu + 1
-		elseif commandGetState(p1Cmd, 'l') then
-			sndPlay(sysSnd, 100, 0)
-			addHostMenu = addHostMenu - 1
-		end
-		if addHostMenu < 1 then addHostMenu = 2 elseif addHostMenu > 2 then addHostMenu = 1 end
-		addHostName = inputText('',true)
-		if clipboardPaste() then
-			if string.match(getClipboardText(),'^(.*)') then
-				setInputText(getClipboardText())
-			else
-				sndPlay(sysSnd, 100, 5)
-			end
-		end
-		if addHostName:len() > 5 then
-			addHostName = addHostName:sub(1,16)
-			setInputText(addHostName)
-		end
-		if addHostName ~= '' and addHostName ~= nil then
-			if addHostName:match('^"*(%")$') then
-				addHostName = addHostName:gsub('^("*)[%"]$','%1')
-				setInputText(addHostName)
-			end
-		end
-		--ACTIONS
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			f_addHostReset()
-		elseif commandGetState(p1Cmd, 's') then
-			--BACK
-			if addHostMenu == 1 then
-				sndPlay(sysSnd, 100, 2)
-				f_addHostReset()
-			--SAVE NAME
-			elseif addHostMenu == 2 then
-				if addHostName ~= '' and addHostName ~= nil then
-					clearInputText()
-					sndPlay(sysSnd, 100, 1)
-					hostName = (tostring(addHostName))
-					doneName = true
-				else
-					sndPlay(sysSnd, 100, 5)
-				end
-			end
-		end
-		--Draw Fade BG
-		animDraw(fadeWindowBG)
-		--Draw Name Window BG
-		animDraw(textWindowBG)
-		animUpdate(textWindowBG)
-		--Draw Name Window Title
-		textImgDraw(txt_clientName)
-		--Draw Name Text
-		textImgSetText(txt_ip,addHostName)
-		textImgDraw(txt_ip)
-		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
-		if textBar%60 < 30 then
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
-		end
-		--Draw Button Option Text
-		for i=1, #t_addOption do
-			if i == addHostMenu then
-				textImgSetBank(t_addOption[i].id, 5)
-			else
-				textImgSetBank(t_addOption[i].id, 0)
-			end
-			textImgDraw(t_addOption[i].id)
-		end
-		--Draw Cursor
-		animSetWindow(cursorBox, -16+addHostMenu*100,159, 50,16)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Hint Info
-		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'COPIED TEXT CAN BE PASTED WITH CTRL V')
-	--ENTER HOST IP ADDRESS
-	else
-		if commandGetState(p1Cmd, 'r') then
-			sndPlay(sysSnd, 100, 0)
-			addHostMenu = addHostMenu + 1
-		elseif commandGetState(p1Cmd, 'l') then
-			sndPlay(sysSnd, 100, 0)
-			addHostMenu = addHostMenu - 1
-		end
-		if addHostMenu < 1 then addHostMenu = 2 elseif addHostMenu > 2 then addHostMenu = 1 end
-		hostAddress = inputText('num',true)
-		if clipboardPaste() then
-			if string.match(getClipboardText(),'^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
-				setInputText(getClipboardText())
-			elseif string.match(getClipboardText(),'^localhost$') then
-				setInputText(getClipboardText())
-			else
-				sndPlay(sysSnd, 100, 5)
-			end
-		end
-		if hostAddress:match('^%.') then
-			hostAddress = ''
-			setInputText(hostAddress)
-		elseif hostAddress:len() > 15 then
-			hostAddress = hostAddress:sub(1,15)
-			setInputText(hostAddress)
-		elseif hostAddress:match('%.%.+') then
-			hostAddress = hostAddress:gsub('%.%.+','.')
-			setInputText(hostAddress)
-		elseif hostAddress:match('%d%d%d%d+') then
-			hostAddress = hostAddress:gsub('(%d%d%d)%d+','%1')
-			setInputText(hostAddress)
-		elseif hostAddress:match('%d+%.%d+%.%d+%.%d+%.') then
-			hostAddress = hostAddress:gsub('(%d+%.%d+%.%d+%.%d+)%.','%1')
-			setInputText(hostAddress)
-		end
-		--ACTIONS
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			f_addHostReset()
-		--BUTTON SELECTED
-		elseif btnPalNo(p1Cmd) > 0 then
-			--BACK
-			if addHostMenu == 1 then
-				sndPlay(sysSnd, 100, 2)
-				f_addHostReset()
-			--ENTER IP
-			elseif addHostMenu == 2 then
-				if hostAddress:match('^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$') then
-					doneAddress = true
-				elseif hostAddress:match('^localhost$') then
-					doneAddress = true
-				else
-					sndPlay(sysSnd, 100, 5)
-				end
-			end
-		end
-		--Draw Fade BG
-		animDraw(fadeWindowBG)
-		--Draw IP Window BG
-		animDraw(textWindowBG)
-		animUpdate(textWindowBG)
-		--Draw IP Window Title
-		textImgSetText(txt_client, 'Enter Host\'s IPv4')
-		textImgDraw(txt_client)
-		--Draw IP Text
-		textImgSetText(txt_ip,hostAddress)
-		textImgDraw(txt_ip)
-		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
-		if textBar%60 < 30 then 
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
-		end
-		--Draw Button Option Text
-		for i=1, #t_addOption do
-			if i == addHostMenu then
-				textImgSetBank(t_addOption[i].id, 5)
-			else
-				textImgSetBank(t_addOption[i].id, 0)
-			end
-			textImgDraw(t_addOption[i].id)
-		end
-		--Draw Cursor
-		animSetWindow(cursorBox, -16+addHostMenu*100,159, 50,16)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Hint Info
-		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'COPIED IP CAN BE PASTED WITH CTRL V')
-	end
-	--SAVE ALL DATA
-	if doneAddress == true then
-		sndPlay(sysSnd, 100, 1)
-		host_rooms.IP[hostName] = hostAddress
-		t_tmp = {}
-		for i = 1, #t_hostList do
-			if i < #t_hostList then
-				t_tmp[i] = t_hostList[i]
-			else
-				t_tmp[i] = {id = textImgNew(), text = hostName, address = hostAddress}
-				t_tmp[i + 1] = t_hostList[i]
-			end
-		end
-		t_hostList = t_tmp
-		local file = io.open("saved/host_rooms.json","w+")
-		file:write(json.encode(host_rooms, {indent = true}))
-		file:close()
-		f_addHostReset()
-	end
-	cmdInput()
-end
-
-function f_addHostReset()
-	clearInputText()
-	addHostScreen = false
-	doneAddress = false
-	doneName = false
-	addHostName = ''
-	hostAddress = ''
-	textBar = 0
-	addHostMenu = 2 --Cursor pos in ENTER
-end
-
---;===========================================================
---; READ LOCAL DATABASE TO CONNECTING MENU
---;===========================================================
-function f_databaseConnect()
-	cmdInput()
-	sndPlay(sysSnd, 100, 1)
-	joinExit = false
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, ""..hostRoomName.."'s ROOM", 159, 13)
-	enterNetPlay(hostIP) --Connect to entered IP address
-	netPlayer = 'Client'
-	textImgSetText(txt_connecting, 'Now connecting to ['..hostIP..']')
-	while not connected() do
-		--CANCEL CONNECTION
-		if esc() then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
-			joinExit = true
-			return true
-		end
-		--Draw Connecting BG
-		animDraw(f_animVelocity(onlineBG0, -1, -1))
-		--Draw Connecting Title
-		textImgDraw(txt_clientTitle)
-		--Draw Window BG
-		animDraw(joinWindowBG)
-		animUpdate(joinWindowBG)
-		--Draw Port Info
-		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
-		textImgDraw(txt_netPort)
-		--Draw Connecting Info
-		textImgDraw(txt_connecting)
-		--Draw Cancel Button
-		textImgDraw(txt_cancel)
-		--Draw Cursor
-		animSetWindow(cursorBox, 87,155, 144,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Draw Animated Icon
-		animDraw(wirelessBG)
-		animUpdate(wirelessBG)
-		cmdInput()
-		refresh()
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-	end
-	return false
-end
-
---;===========================================================
---; UPDATE HOST DATA
+--; CREATE/UPDATE HOST DATA
 --;===========================================================
 t_editOption = {
 	{id = textImgNew(), text = ' CANCEL'}, {id = textImgNew(), text = '  ENTER'},
 }
 for i=1, #t_editOption do
-	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 171)
+	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 151)
 end
 
 function f_editHost()
@@ -6024,7 +5762,7 @@ function f_editHost()
 		textImgDraw(txt_ip)
 		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
 		if textBar%60 < 30 then
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),133.5)
 		end
 		--Draw Button Option Text
 		for i=1, #t_editOption do
@@ -6036,7 +5774,7 @@ function f_editHost()
 			textImgDraw(t_editOption[i].id)
 		end
 		--Draw Cursor
-		animSetWindow(cursorBox, -16+editHostMenu*100,159, 50,16)
+		animSetWindow(cursorBox, -9+editHostMenu*96,141, 48.5,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Hint Info
@@ -6112,7 +5850,7 @@ function f_editHost()
 		textImgDraw(txt_ip)
 		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
 		if textBar%60 < 30 then 
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),139.5)
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),133.5)
 		end
 		--Draw Button Option Text
 		for i=1, #t_editOption do
@@ -6124,7 +5862,7 @@ function f_editHost()
 			textImgDraw(t_editOption[i].id)
 		end
 		--Draw Cursor
-		animSetWindow(cursorBox, -16+editHostMenu*100,159, 50,16)
+		animSetWindow(cursorBox, -9+editHostMenu*96,141, 48.5,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Hint Info
@@ -6134,10 +5872,13 @@ function f_editHost()
 	--SAVE ALL DATA
 	if doneAddress == true then
 		sndPlay(sysSnd, 100, 1)
+		if editHostRoom == true then host_rooms.IP[hostRoomName] = nil end --To Update Data
 		host_rooms.IP[hostName] = hostAddress
 		t_tmp = {}
 		for i = 1, #t_hostList do
-			if i ~= hostList then
+			if i < #t_hostList then
+				t_tmp[i] = t_hostList[i]
+			else
 				t_tmp[i] = {id = textImgNew(), text = hostName, address = hostAddress}
 				t_tmp[i + 1] = t_hostList[i]
 			end
@@ -6146,41 +5887,71 @@ function f_editHost()
 		local file = io.open("saved/host_rooms.json","w+")
 		file:write(json.encode(host_rooms, {indent = true}))
 		file:close()
+		f_hostTable() --Refresh
 		f_editHostReset()
 	end
 	cmdInput()
 end
 
---ADD CODE
-	--host_rooms.IP[hostName] = hostAddress
-	--t_tmp = {}
-	--for i = 1, #t_hostList do
-		--if i < #t_hostList then
-			--t_tmp[i] = t_hostList[i]
-		--else
-			--t_tmp[i] = {id = textImgNew(), text = hostName, address = hostAddress}
-			--t_tmp[i + 1] = t_hostList[i]
-		--end
-	--end
-
---DELETE CODE
-	--host_rooms.IP[t_hostList[hostList].text] = nil
-	--t_tmp = {}
-	--for i = 1, #t_hostList do
-		--if i ~= hostList then
-			--t_tmp[#t_tmp + 1] = t_hostList[i]
-		--end
-	--end
-
 function f_editHostReset()
 	clearInputText()
 	editHostScreen = false
+	editHostRoom = false
 	doneAddress = false
 	doneName = false
 	editHostName = ''
 	hostAddress = ''
 	textBar = 0
 	editHostMenu = 2 --Cursor pos in ENTER
+end
+
+--;===========================================================
+--; READ LOCAL DATABASE TO CONNECTING MENU
+--;===========================================================
+function f_databaseConnect()
+	cmdInput()
+	sndPlay(sysSnd, 100, 1)
+	joinExit = false
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, ""..hostRoomName.."'s ROOM", 159, 13)
+	enterNetPlay(hostIP) --Connect to entered IP address
+	netPlayer = 'Client'
+	textImgSetText(txt_connecting, 'Now connecting to ['..hostIP..']')
+	while not connected() do
+		--CANCEL CONNECTION
+		if esc() then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			netPlayer = ''
+			joinExit = true
+			return true
+		end
+		--Draw Connecting BG
+		animDraw(f_animVelocity(onlineBG0, -1, -1))
+		--Draw Connecting Title
+		textImgDraw(txt_clientTitle)
+		--Draw Window BG
+		animDraw(joinWindowBG)
+		animUpdate(joinWindowBG)
+		--Draw Port Info
+		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgDraw(txt_netPort)
+		--Draw Connecting Info
+		textImgDraw(txt_connecting)
+		--Draw Cancel Button
+		textImgDraw(txt_cancel)
+		--Draw Cursor
+		animSetWindow(cursorBox, 87,155, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw Animated Icon
+		animDraw(wirelessBG)
+		animUpdate(wirelessBG)
+		cmdInput()
+		refresh()
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+	end
+	return false
 end
 
 --;===========================================================
