@@ -3893,9 +3893,9 @@ function f_engineCfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					if data.arcadeUnlocks == false and data.survivalUnlocks == false then --This means that at least you have some progress saved
+					if data.arcadeUnlocks == false and data.survivalUnlocks == false and data.eventsProgress == 0 and data.missionsProgress == 0 then --This means that at least you have some progress saved
 						eraseStatus = false
-					elseif data.arcadeUnlocks == true or data.survivalUnlocks == true then
+					elseif data.arcadeUnlocks == true or data.survivalUnlocks == true or data.eventsProgress > 0 or data.missionsProgress > 0 then
 						sndPlay(sysSnd, 100, 1)
 						f_unlocksWarning()
 					end

@@ -1127,12 +1127,14 @@ function f_selectAdvance()
 		elseif winner == -1 and (data.gameMode == 'endless' or data.gameMode == 'allroster') then
 			--counter
 			looseCnt = looseCnt + 1
+			--save record progress
+			f_records()
 			--result
 			f_result('lost')
 			--reset title screen fading
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-			return	
+			return
 		--player won (also if lost in Endless or All Roster modes)
 		elseif winner == 1 or data.gameMode == 'endless' or data.gameMode == 'allroster' then
 			--counter
@@ -1140,7 +1142,7 @@ function f_selectAdvance()
 				winCnt = winCnt + 1
 			else --only true in Endless or All Roster modes
 				looseCnt = looseCnt + 1
-			end	
+			end
 			--win screen
 			if data.gameMode == 'arcade' then
 				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
@@ -1156,6 +1158,8 @@ function f_selectAdvance()
 						f_storyboard(tPos.ending)
 					end
 				end
+				--save record progress
+				f_records()
 				--result
 				f_result('win')
 				--complete missions verification
@@ -1188,8 +1192,6 @@ function f_selectAdvance()
 						data.survivalUnlocks = true
 						f_saveProgress()
 					end
-					--save record progress
-					f_records()
 					--game over
 					f_storyboard('data/screenpack/gameover.def')
 					--reset title screen fading
@@ -1358,8 +1360,9 @@ function f_selectAdvance()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
-		f_modeplayTime() --Store Favorite Game Mode
+		f_modeplayTime() --Store Favorite Game Mode (WIP)
 		f_favoriteChar() --Store Favorite Character (WIP)
+		f_records() --save record progress
 		--restore P2 Team settings if needed
 		if restoreTeam then
 			p2teamMode = teamMode
