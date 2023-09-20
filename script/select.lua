@@ -70,6 +70,7 @@ p1SelBack = false
 p1TeamBack = true
 p1palSelect = 1
 p1movePal = 1
+randomP1Portrait = false
 randomP1Rematch = false
 end
 
@@ -85,6 +86,7 @@ p2SelBack = false
 p2TeamBack = true
 p2palSelect = 1
 p2movePal = 1
+randomP2Portrait = false
 randomP2Rematch = false
 end
 
@@ -599,7 +601,7 @@ end
 function f_winCoins()
 	if onlinegame == false then	
 		if coinSystem == true then
-			data.coins = data.coins + 1 --Earn 1 Coin by Win :)
+			data.coins = data.coins + 5 --Earn 5 Coins by Win :)
 			sndPlay(sysSnd, 200, 0) --Coin Earned Song
 			f_saveProgress()
 		elseif coinSystem == false then
@@ -1165,11 +1167,13 @@ function f_selectAdvance()
 					f_missionStatus()
 					--complete events verification
 					f_eventStatus()
+					if data.rosterMode == 'arcade' then
+						--unlocks
+						data.arcadeUnlocks = true
+						f_saveProgress()
+					end
 					--credits
 					f_storyboard('data/screenpack/credits.def')
-					--unlocks
-					data.arcadeUnlocks = true --Unlock Extras Menu when complete Arcade Mode
-					f_saveProgress()
 					--game over
 					f_storyboard('data/screenpack/gameover.def')
 					--intro
@@ -1179,6 +1183,13 @@ function f_selectAdvance()
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					return
 				else
+					--unlocks
+					if data.rosterMode == 'survival' then
+						data.survivalUnlocks = true
+						f_saveProgress()
+					end
+					--save record progress
+					f_records()
 					--game over
 					f_storyboard('data/screenpack/gameover.def')
 					--reset title screen fading
@@ -1189,7 +1200,7 @@ function f_selectAdvance()
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					end
 					return
-				end	
+				end
 			--next match available
 			else
 				matchNo = matchNo + 1
@@ -1205,6 +1216,8 @@ function f_selectAdvance()
 					f_selectWin()
 				end
 			end
+			--save record progress
+			f_records()
 			--result
 			f_result('lost')
 			--game over
@@ -1223,6 +1236,8 @@ function f_selectAdvance()
 		else
 			--counter
 			looseCnt = looseCnt + 1
+			--save record progress
+			f_records()
 			--win screen
 			if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 				f_selectWin()
@@ -2475,7 +2490,7 @@ function f_p1SelectMenu()
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 			if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --P1 Portrait BG location
 			if p1Portrait then drawPortrait(p1Portrait, 0, 20, 1, 1) end --P1 Portrait location
-			if randomP1Rematch == true then drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) end--Draw Portrait Chosen by Random Select
+			if randomP1Portrait == true then drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) end--Draw Portrait Chosen by Random Select
 		end
 		local numChars = p1numChars
 		if data.coop then numChars = 1 end
@@ -2494,7 +2509,7 @@ function f_p1SelectMenu()
 						drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 1) --P1 RANDOM Portrait location.
 					end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
+						f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
 					end
 				else
 					--if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
@@ -2664,6 +2679,7 @@ function f_p1SelectMenu()
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
 					randomP1Rematch = true
+					randomP1Portrait = true
 					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p1Cell) == 'Kung Fu Man' then --Character Voice when is selected Example for Player 1 Side
                     sndPlay(announcerSnd, 1, 0)
@@ -2703,6 +2719,7 @@ function f_p1SelectMenu()
 				local cel = p1Cell
 				if getCharName(cel) == 'Random' then
 					randomP1Rematch = true
+					randomP1Portrait = true
 					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p1Cell) == 'Kung Fu Man' then
                     sndPlay(announcerSnd, 1, 0)
@@ -2816,7 +2833,7 @@ function f_p2SelectMenu()
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 			if p2BG == true then animDraw(f_animVelocity(charBG3, 2, 0)) end
 			if p2Portrait then drawPortrait(p2Portrait, 320, 20, -1, 1) end
-			if randomP2Rematch == true then drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1) end
+			if randomP2Portrait == true then drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1) end
 		end	
 		local numChars = p2numChars
 		local t_selected = data.t_p2selected
@@ -2838,7 +2855,7 @@ function f_p2SelectMenu()
 						drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
 					end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						f_drawCharAnim(t_selChars[math.random(1, #t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
+						f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 290 - 28*#t_selected, 133, updateAnim)
 					end
 				else
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
@@ -3003,6 +3020,7 @@ function f_p2SelectMenu()
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
 					randomP2Rematch = true
+					randomP2Portrait = true
 					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p2Cell) == 'Kung Fu Man' then --Another Character Voice when is selected Example for Player 2 Side
                     sndPlay(announcerSnd, 2, 0)
@@ -3038,6 +3056,7 @@ function f_p2SelectMenu()
 				local cel = p2Cell
 				if getCharName(cel) == 'Random' then
 					randomP2Rematch = true
+					randomP2Portrait = true
 					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p2Cell) == 'Kung Fu Man' then
                     sndPlay(announcerSnd, 2, 0)
@@ -3178,6 +3197,8 @@ function f_selectStage()
 	elseif data.stageType == 'Modern' then
 		p2BG = false
 		p1BG = false
+		randomP1Portrait = false
+		randomP2Portrait = false
 		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
 		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
 		--Draw Stage Select Title BG
@@ -4072,7 +4093,7 @@ function f_selectVersus()
 			vshintTime = 0 --Restart timer for a new random hint
 		end
 		vsTime = vsTime + 1
-		if vsTime == 300 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
+		if vsTime == 50 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
@@ -6257,6 +6278,46 @@ function f_defeats()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
 
+function f_records()
+	if data.rosterMode == 'bossrush' then
+		if winCnt > data.bossrecord then
+			data.bossrecord = winCnt
+		end
+	elseif data.rosterMode == 'suddendeath' then
+		if winCnt > data.suddenrecord then
+			data.suddenrecord = winCnt
+		end
+	elseif data.rosterMode == 'endless' then
+		if winCnt > data.endlessrecord then
+			data.endlessrecord = winCnt
+		end
+	end
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+function f_modeplayTime()
+	if data.rosterMode == 'arcade' then data.arcademodeCnt = data.arcademodeCnt + clearTime
+	elseif data.rosterMode == 'versus' then data.vsmodeCnt = data.vsmodeCnt + clearTime
+	elseif data.rosterMode == 'survival' then data.survivalmodeCnt = data.survivalmodeCnt + clearTime
+	elseif data.rosterMode == 'bossrush' then data.bossrushmodeCnt = data.bossrushmodeCnt + clearTime
+	elseif data.rosterMode == 'bonusrush' then data.bonusrushmodeCnt = data.bonusrushmodeCnt + clearTime
+	elseif data.rosterMode == 'timeattack' then data.timeattackmodeCnt = data.timeattackmodeCnt + clearTime
+	elseif data.rosterMode == 'suddendeath' then data.suddendeathmodeCnt = data.suddendeathmodeCnt + clearTime
+	elseif data.rosterMode == 'cpu' then data.cpumatchmodeCnt = data.cpumatchmodeCnt + clearTime
+	elseif data.rosterMode == 'event' then data.eventsmodeCnt = data.eventsmodeCnt + clearTime
+	elseif data.rosterMode == 'mission' then data.missionsmodeCnt = data.missionsmodeCnt + clearTime
+	elseif data.rosterMode == 'endless' then data.endlessmodeCnt = data.endlessmodeCnt + clearTime
+	elseif data.rosterMode == 'trials' then data.legionmodeCnt = data.legionmodeCnt + clearTime
+	elseif data.rosterMode == 'story' then data.storymodeCnt = data.storymodeCnt + clearTime
+	elseif data.rosterMode == 'tower' then data.towermodeCnt = data.towermodeCnt + clearTime
+	elseif data.rosterMode == 'tourney' then data.tourneymodeCnt = data.tourneymodeCnt + clearTime
+	elseif data.rosterMode == 'adventure' then data.adventuremodeCnt = data.adventuremodeCnt + clearTime
+	end
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
 function f_favoriteChar()
 	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic
 	f_saveProgress()
@@ -6269,131 +6330,18 @@ function f_favoriteStage()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
 
-function f_modeplayTime()
-	if data.rosterMode == 'arcade' then
-		data.arcademodeCnt = data.arcademodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'versus' then
-		data.vsmodeCnt = data.vsmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'survival' then
-		data.survivalmodeCnt = data.survivalmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'bossrush' then
-		data.bossrushmodeCnt = data.bossrushmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'bonusrush' then
-		data.bonusrushmodeCnt = data.bonusrushmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'timeattack' then
-		data.timeattackmodeCnt = data.timeattackmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'suddendeath' then
-		data.suddendeathmodeCnt = data.suddendeathmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'cpu' then
-		data.cpumatchmodeCnt = data.cpumatchmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'event' then
-		data.eventsmodeCnt = data.eventsmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'mission' then
-		data.missionsmodeCnt = data.missionsmodeCnt + clearTime
-		f_saveProgress()
-	elseif data.rosterMode == 'endless' then
-		data.endlessmodeCnt = data.endlessmodeCnt + clearTime
-		f_saveProgress()
-	--elseif data.rosterMode == 'trials' then
-		--data.legionmodeCnt = data.legionmodeCnt + clearTime
-		--f_saveProgress()
-	--elseif data.rosterMode == 'story' then
-		--data.storymodeCnt = data.storymodeCnt + clearTime
-		--f_saveProgress()
-	--elseif data.rosterMode == 'tower' then
-		--data.towermodeCnt = data.towermodeCnt + clearTime
-		--f_saveProgress()
-	--elseif data.rosterMode == 'tourney' then
-		--data.tourneymodeCnt = data.tourneymodeCnt + clearTime
-		--f_saveProgress()
-	--elseif data.rosterMode == 'adventure' then
-		--data.adventuremodeCnt = data.adventuremodeCnt + clearTime
-		--f_saveProgress()
-	end
-	assert(loadfile('saved/stats_sav.lua'))()
-end
-
-function f_preferredMode() --WIP
-	assert(loadfile('saved/stats_sav.lua'))()
-	if data.arcademodeCnt > (data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.arcademodeCnt then
-		data.preferredMode = 'Arcade'
-		f_saveProgress()
-	elseif data.vsmodeCnt > (data.arcademodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.vsmodeCnt then
-		data.preferredMode = 'Versus'
-		f_saveProgress()
-	elseif data.survivalmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.survivalmodeCnt then
-		data.preferredMode = 'Survival'
-		f_saveProgress()
-	elseif data.bossrushmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.bossrushmodeCnt then
-		data.preferredMode = 'Boss Rush'
-		f_saveProgress()
-	elseif data.bonusrushmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.bonusrushmodeCnt then
-		data.preferredMode = 'Bonus Rush'
-		f_saveProgress()
-	elseif data.timeattackmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.timeattackmodeCnt then
-		data.preferredMode = 'Time Attack'
-		f_saveProgress()
-	elseif data.suddendeathmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.suddendeathmodeCnt then
-		data.preferredMode = 'Sudden Death'
-		f_saveProgress()
-	elseif data.cpumatchmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.cpumatchmodeCnt then
-		data.preferredMode = 'CPU Match'
-		f_saveProgress()
-	elseif data.eventsmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.eventsmodeCnt then
-		data.preferredMode = 'Events'
-		f_saveProgress()
-	elseif data.missionsmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.missionsmodeCnt then
-		data.preferredMode = 'Missions'
-		f_saveProgress()
-	elseif data.endlessmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.endlessmodeCnt then
-		data.preferredMode = 'Endless'
-		f_saveProgress()
-	elseif data.legionmodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.legionmodeCnt then
-		data.preferredMode = 'Legion'
-		f_saveProgress()
-	elseif data.towermodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.storymodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.towermodeCnt then
-		data.preferredMode = 'Tower'
-		f_saveProgress()
-	elseif data.storymodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.tourneymodeCnt or data.adventuremodeCnt) < data.storymodeCnt then
-		data.preferredMode = 'Story'
-		f_saveProgress()
-	elseif data.tourneymodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.adventuremodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.adventuremodeCnt) < data.tourneymodeCnt then
-		data.preferredMode = 'Tourney'
-		f_saveProgress()
-	elseif data.adventuremodeCnt > (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt) and (data.arcademodeCnt or data.vsmodeCnt or data.survivalmodeCnt or data.bossrushmodeCnt or data.bonusrushmodeCnt or data.timeattackmodeCnt or data.suddendeathmodeCnt or data.cpumatchmodeCnt or data.eventsmodeCnt or data.missionsmodeCnt or data.endlessmodeCnt or data.legionmodeCnt or data.towermodeCnt or data.storymodeCnt or data.tourneymodeCnt) < data.adventuremodeCnt then
-		data.preferredMode = 'Adventure'
-		f_saveProgress()
-	end
-	assert(loadfile('saved/stats_sav.lua'))()
-end
-
 function f_eventStatus()
-	if data.eventNo == 'event 1' then
-		data.event1Status = 100
-		f_saveProgress()
+	if data.eventNo == 'event 1' then data.event1Status = 1
 	end
+	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
 
 function f_missionStatus()
-	if data.missionNo == 'mission 1' then
-		data.mission1Status = 100
-		f_saveProgress()
-	elseif data.missionNo == 'mission 2' then
-		data.mission2Status = 100
-		f_saveProgress()
-	elseif data.missionNo == 'mission 3' then
-		data.mission3Status = 100
-		f_saveProgress()
+	if data.missionNo == 'mission 1' then data.mission1Status = 1
+	elseif data.missionNo == 'mission 2' then data.mission2Status = 1
+	elseif data.missionNo == 'mission 3' then data.mission3Status = 1
 	end
+	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()
 end

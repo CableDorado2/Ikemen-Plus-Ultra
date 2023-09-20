@@ -115,11 +115,12 @@ function f_missionMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 --Missions Progress Logic
-	if data.mission1Status == 100 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
-	if data.mission2Status == 100 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
-	if data.mission3Status == 100 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
-	data.missionsProgress = (math.floor(((data.mission1Status + data.mission2Status + data.mission3Status) * 100 / 300) + 0.5)) --The number (300) is the summation of all data.missionStatus values in parentheses
-	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. data.missionsProgress .. '%]', 159, 126) --needs to be inside of mission Menu function, to load mission data %
+	if data.mission1Status == 1 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
+	if data.mission2Status == 1 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
+	if data.mission3Status == 1 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
+	data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
+	missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
+	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. missionsData .. '%]', 159, 126) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)

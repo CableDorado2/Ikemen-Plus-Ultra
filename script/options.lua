@@ -6095,12 +6095,16 @@ function f_defaultStats()
 	data.arcadeUnlocks = false
 	data.survivalUnlocks = false
 	data.coins = 0
+	--data.attractCoins = 0
 	data.playTime = 0
 	data.favoriteChar = 'None'
 	data.favoriteStage = 'None'
 	data.victories = 0
 	data.defeats = 0
-	data.preferredMode = 'WIP'
+	data.timerecord = 0
+	data.bossrecord = 0
+	data.suddenrecord = 0
+	data.endlessrecord = 0
 	data.arcademodeCnt = 0
 	data.vsmodeCnt = 0
 	data.survivalmodeCnt = 0

@@ -155,7 +155,7 @@ animUpdate(event3)
 --end
 
 t_tInfo = {
-	{id = '1', text = 'WILL BE AVAILABLE FROM 8PM/20:00 TO 11PM/23:00'},
+	{id = '1', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00'},
 	{id = '2', text = 'POST YOUR SCHEDULE HERE'},
 	{id = '3', text = 'POST YOUR SCHEDULE HERE'},
 	{id = '4', text = 'POST YOUR SCHEDULE HERE'},
@@ -202,9 +202,10 @@ function f_eventMenu()
 	--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 --Event Progress Logic
-	if data.event1Status == 100 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
-	data.eventsProgress = (math.floor(((data.event1Status) * 100 / 100) + 0.5)) --The number (100) is the summation of all data.eventStatus values in parentheses
-	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. data.eventsProgress .. '%]', 159, 10) --needs to be inside of event Menu function, to load event data %
+	if data.event1Status == 1 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
+	data.eventsProgress = (data.event1Status)-- + data.event2Status + data.event3Status)
+	eventsData = (math.floor((data.eventsProgress * 100 / 1) + 0.5)) --The number (1) is the amount of all data.eventStatus
+	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. eventsData .. '%]', 159, 10) --needs to be inside of event Menu function, to load event data %
 	txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
 		if lockedScreen == false then
 			if esc() then
@@ -342,7 +343,7 @@ function f_eventMenu()
 		animSetWindow(eventBG2, 3,52, 314,154)
 		animDraw(eventBG2)
 	--Draw Event 1
-		if sysTime >= 20 and sysTime <= 23 then --Event Available at this Time!
+		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
 			event1Status = true
 		--Draw and Move Event Available Image
 			animPosDraw(event1, 5-moveImg, 54)

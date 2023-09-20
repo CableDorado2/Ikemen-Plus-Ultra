@@ -3572,7 +3572,6 @@ function f_watchMenu()
 			elseif watchMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				--assert(loadfile('saved/stats_sav.lua'))()
-				script.select.f_modeplayTime()
 				script.statistics.f_statsMenu()
 			--STORYBOARDS
 			elseif watchMenu == 6 then
@@ -6512,6 +6511,20 @@ end
 --;===========================================================
 --; LOAD STATISTICS DATA
 --;===========================================================
+--Time Variable
+gameTime = 0
+
+function f_playTime()
+	gameTime = os.clock() - gameTime
+	data.playTime = (data.playTime + gameTime)
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
+end
+
+--Progress Variables
+--data.missionsProgress = 0
+--data.eventsProgress = 0
+
 --Data loading from stats_sav.lua
 local file = io.open("saved/stats_sav.lua","r")
 s_dataLUA = file:read("*all")
@@ -6529,7 +6542,10 @@ function f_saveProgress()
 		['data.favoriteStage'] = data.favoriteStage,
 		['data.victories'] = data.victories,
 		['data.defeats'] = data.defeats,
-		['data.preferredMode'] = data.preferredMode,
+		['data.timerecord'] = data.timerecord,
+		['data.bossrecord'] = data.bossrecord,
+		['data.suddenrecord'] = data.suddenrecord,
+		['data.endlessrecord'] = data.endlessrecord,
 		['data.arcademodeCnt'] = data.arcademodeCnt,
 		['data.vsmodeCnt'] = data.vsmodeCnt,
 		['data.survivalmodeCnt'] = data.survivalmodeCnt,
@@ -6558,23 +6574,6 @@ function f_saveProgress()
 	file:write(s_dataLUA)
 	file:close()
 end
-
---;===========================================================
---; STATISTICS LOGIC
---;===========================================================
---Time Variable
-gameTime = 0
-
-function f_playTime()
-	gameTime = os.clock() - gameTime
-	data.playTime = (data.playTime + gameTime)
-	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
-end
-
---Progress Variables
-data.missionsProgress = 0
-data.eventsProgress = 0
 
 --;===========================================================
 --; INITIALIZE LOOPS
