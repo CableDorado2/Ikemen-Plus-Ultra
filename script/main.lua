@@ -3482,7 +3482,7 @@ t_watchMenu = {
 	{id = textImgNew(), text = 'STAGE VIEWER'},
 	{id = textImgNew(), text = 'LEADERBOARDS'},
 	{id = textImgNew(), text = 'ACHIEVEMENTS'},
-	{id = textImgNew(), text = 'STATISTICS'},
+	{id = textImgNew(), text = 'PLAYER RECORDS'},
 	{id = textImgNew(), text = 'STORYBOARDS'},
 	{id = textImgNew(), text = 'CUTSCENES'},
 	{id = textImgNew(), text = 'SOUND TEST'},
