@@ -5369,8 +5369,10 @@ animSetScale(rankGDLK, 0.5, 0.5)
 txt_result = textImgNew()
 txt_resultTime = textImgNew()
 txt_resultRank = createTextImg(jgFnt, 0, 1, '', 262, 205)
-txt_sresultName = createTextImg(jgFnt, 0, 1, '', 10, 50)
-txt_eresultName = createTextImg(jgFnt, 0, 1, '', 84, 228)
+txt_resultText = createTextImg(jgFnt, 0, 1, 'PLAYER:', 10, 50)
+txt_resultName = createTextImg(font6, 0, 1, '', 70, 50)
+txt_resultText2 = createTextImg(jgFnt, 0, 1, 'PLAYER:', 74, 228)
+txt_resultName2 = createTextImg(font6, 0, 1, '', 134, 228)
 
 function f_result(state)
 	--if state == 'win' then
@@ -5383,14 +5385,14 @@ function f_result(state)
 		textImgSetPos(txt_result, 159, 239)
 		textImgSetText(txt_result, 'X' .. winCnt .. 'WINS')
 		textImgSetText(txt_resultRank, 'RANK')
-		textImgSetText(txt_sresultName, 'PLAYER: ' ..f_getName(data.t_p1selected[1].cel).. '')
+		textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
 	elseif data.gameMode == 'endless' or data.gameMode == 'allroster' then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survNumFnt)
 		textImgSetPos(txt_result, 159, 150)
 		textImgSetText(txt_result, winCnt .. ' WINS' .. looseCnt .. ' LOSES')
-		textImgSetText(txt_eresultName, 'PLAYER: ' ..f_getName(data.t_p1selected[1].cel).. '')
+		textImgSetText(txt_resultName2, f_getName(data.t_p1selected[1].cel))
 	else
 		return
 	end
@@ -5402,7 +5404,8 @@ function f_result(state)
 		end
 		textImgDraw(txt_result)
 		if data.gameMode == 'survival' then
-			textImgDraw(txt_sresultName) --Player Text position for Survival Mode
+			textImgDraw(txt_resultText)
+			textImgDraw(txt_resultName) --Player Name position for Survival Mode
 			textImgDraw(txt_resultRank)
 			--Show Ranks
 			if winCnt >= 0 and winCnt < 2 then
@@ -5449,7 +5452,8 @@ function f_result(state)
 				animDraw(rankGDLK)
 			end
 		else
-			textImgDraw(txt_eresultName) --Player Text position for other challenges modes
+			textImgDraw(txt_resultText2)
+			textImgDraw(txt_resultName2) --Player Name position for other challenges modes
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		
