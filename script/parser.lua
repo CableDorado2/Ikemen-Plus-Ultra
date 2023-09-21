@@ -2,7 +2,6 @@
 --; GLOBAL VARIABLES DEFINITION
 --;===========================================================
 onlinegame = false
-rankedEnd = false
 coinSystem = true
 data.tagmode = 1
 data.includestage = 0

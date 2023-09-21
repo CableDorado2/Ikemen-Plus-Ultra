@@ -128,7 +128,6 @@ function f_selectReset()
 	rematchEnd = false
 	battleOption = 0
 	battleOption2 = 0
-	--rankedEnd = false
 	backScreen = false
 	back = false
 end
@@ -893,7 +892,6 @@ function f_selectSimple()
 					rematchEnd = false
 					battleOption = 0
 					battleOption2 = 0
-					--rankedEnd = false
 					--backScreen = false
 					--back = false
 					while not selScreenEnd do
@@ -4597,33 +4595,88 @@ function f_winParse(winner, looser, pal)
 end
 
 --;===========================================================
---; RANKED MATCH LOGIC
+--; RANKED MATCH SCREEN
 --;===========================================================
+txt_rankInfo = createTextImg(font5, 0, 0, 'INFORMATION', 157, 111)
+txt_rankESC = createTextImg(jgFnt, 5, 0, 'PRESS ESC TO EXIT', 159, 151)
+txt_rankText = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
+txt_rankMsg = 'ONLINE MATCH RANKED HAS FINISHED'
+	
+--Scrolling background
+rankedBG = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(rankedBG, 160, 0)
+animSetTile(rankedBG, 1, 1)
+animSetColorKey(rankedBG, -1)
+
+--Ranked Info Window BG
+rankWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(rankWindowBG, 83.5, 97)
+animUpdate(rankWindowBG)
+animSetScale(rankWindowBG, 1, 1)
+
 function f_ftcontrol()
 	if p1Wins == data.ftcontrol then
-		--os.exit() --Fightcade System
-		battleOption = 4
-		rematchEnd = true
-		rankedEnd = true
-		--while true do
-			--animDraw(data.fadeTitle)
-			--animUpdate(data.fadeTitle)
-			--break
-			--cmdInput()
-			--refresh()
-		--end
+		--os.exit()--Fightcade System
+		cmdInput()
+		while true do
+			--Draw BG
+			animDraw(f_animVelocity(rankedBG, -1, -1))
+			--Draw Menu BG
+			animDraw(rankWindowBG)
+			animUpdate(rankWindowBG)
+			--Draw Info Text
+			f_textRender(txt_rankText, txt_rankMsg, 0, 160, 125, 10, 0, 25)
+			--Draw Esc Text
+			textImgDraw(txt_rankESC)
+			--Draw Cursor
+			animSetWindow(cursorBox, 87,141, 144,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+			--Draw Info Title Text
+			textImgDraw(txt_rankInfo)
+			--Actions
+			if esc() then
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+			animDraw(data.fadeTitle)
+			animUpdate(data.fadeTitle)
+			cmdInput()
+			refresh()
+		end
 	elseif p2Wins == data.ftcontrol then
-		--os.exit() --Fightcade System
-		battleOption = 4
-		rematchEnd = true
-		rankedEnd = true
-		--while true do
-			--animDraw(data.fadeTitle)
-			--animUpdate(data.fadeTitle)
-			--break
-			--cmdInput()
-			--refresh()
-		--end
+		--os.exit()--Fightcade System
+		cmdInput()
+		while true do
+			--Draw BG
+			animDraw(f_animVelocity(rankedBG, -1, -1))
+			--Draw Menu BG
+			animDraw(rankWindowBG)
+			animUpdate(rankWindowBG)
+			--Draw Info Text
+			f_textRender(txt_rankText, txt_rankMsg, 0, 160, 125, 10, 0, 25)
+			--Draw Ok Text
+			textImgDraw(txt_rankESC)
+			--Draw Cursor
+			animSetWindow(cursorBox, 87,141, 144,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+			--Draw Info Title Text
+			textImgDraw(txt_rankInfo)
+			--Actions
+			if esc() then
+				sndPlay(sysSnd, 100, 2)
+				break
+			end
+			animDraw(data.fadeTitle)
+			animUpdate(data.fadeTitle)
+			cmdInput()
+			refresh()
+		end
 	end
 end
 

@@ -5992,7 +5992,7 @@ function f_mainHost()
 	local bufl = 0
 	local cancel = false
 	while true do
-		if esc() or rankedEnd == true then
+		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -6240,7 +6240,7 @@ function f_mainJoin()
 	local bufl = 0
 	local cancel = false
 	while true do
-		if esc() or rankedEnd == true then
+		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
