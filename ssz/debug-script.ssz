@@ -4,9 +4,12 @@ lib sc = "script.ssz";
 lib chr = "char.ssz";
 lib al = <alert.ssz>;
 lib tscri = "trigger-script.ssz";
+lib sscri = "system-script.ssz";
 lib cmd = "command.ssz";
 lib com = "common.ssz";
 lib m = <math.ssz>;
+lib s = <string.ssz>;
+lib snd = "sound.ssz";
 
 
 public bool roundResetFlg = false, reloadFlg = false;
@@ -59,37 +62,65 @@ void addHotkey(&.lua.State L=, int re=)
 void toggleClsnDraw(&.lua.State L=, int re=)
 {
   re = 0;
-  .com.clsndraw!!;
+  if(#.cmd.net == 0) .com.clsndraw!!;
 }
 
 void toggleDebugDraw(&.lua.State L=, int re=)
 {
   re = 0;
-  .com.debugdraw!!;
+  if(#.cmd.net == 0) .com.debugdraw!!;
 }
 
 void togglePause(&.lua.State L=, int re=)
 {
   re = 0;
-  if(#.cmd.net == 0) .com.pause!!;
+  int tmp =
+    .chr.fight~ro.over_hittime + .chr.fight~ro.over_waittime
+    + (.chr.fight~ro.over_time - .chr.fight~ro.start_waittime);
+  if(#.cmd.net == 0 && .com.pauseMenu == 0 &&
+  !(.com.intro > .chr.fight~ro.ctrl_time+1 || (.chr.fight~ro.over_time >= .chr.fight~ro.start_waittime && .com.intro < -tmp))) .com.pause!!;
+}
+
+bool noHUDDisplay = false;
+
+void togglePauseMenu(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int toggle = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int tmp =
+    .chr.fight~ro.over_hittime + .chr.fight~ro.over_waittime
+    + (.chr.fight~ro.over_time - .chr.fight~ro.start_waittime);
+  if(#.cmd.net == 0 &&
+  !(.com.intro > .chr.fight~ro.ctrl_time+1 || (.chr.fight~ro.over_time >= .chr.fight~ro.start_waittime && .com.intro < -tmp)) &&
+  ((.com.pauseMenu == 0 && toggle > 0) || (.com.pauseMenu > 0 && toggle == 0))){
+    if(toggle > 0){
+      .com.pause = false;
+      .noHUDDisplay = .chr.gs(.chr.gsNOHUDDISPLAY);
+    }
+    .com.pauseMenu = toggle;
+    if(!.noHUDDisplay) .chr.specialFlag &= !.chr.gsNOHUDDISPLAY;
+  }
 }
 
 void step(&.lua.State L=, int re=)
 {
   re = 0;
-  .com.step = true;
+  if(#.cmd.net == 0 && .com.pauseMenu == 0) .com.step = true;
 }
 
 void toggleStatusDraw(&.lua.State L=, int re=)
 {
   re = 0;
-  .com.statusDraw!!;
+  if(#.cmd.net == 0) .com.statusDraw!!;
 }
 
 void roundReset(&.lua.State L=, int re=)
 {
   re = 0;
-  if(#.cmd.net == 0 && #.cmd.replay == 0) .roundResetFlg = true;
+  if(#.cmd.net == 0 && #.cmd.replay == 0 && .com.pauseMenu == 0){
+    .com.pause = false;
+    .roundResetFlg = true;
+  }
 }
 
 void reload(&.lua.State L=, int re=)
@@ -130,13 +161,13 @@ void clear(&.lua.State L=, int re=)
   .com.clipboardText:<-[void(cb=){cb.new(0);}];
 }
 
-
 public &.lua.State L;
 
 public ^/char loadFile(^/char file)
 {
   .sc.init(.L=);
   .tscri.registerFunction(.L=);
+  .sscri.init(.L=);
   .L.register("puts", .puts);
   .L.register("setLife", .setLife);
   .L.register("setPower", .setPower);
@@ -145,6 +176,7 @@ public ^/char loadFile(^/char file)
   .L.register("toggleClsnDraw", .toggleClsnDraw);
   .L.register("toggleDebugDraw", .toggleDebugDraw);
   .L.register("togglePause", .togglePause);
+  .L.register("togglePauseMenu", .togglePauseMenu);
   .L.register("step", .step);
   .L.register("toggleStatusDraw", .toggleStatusDraw);
   .L.register("roundReset", .roundReset);
@@ -160,4 +192,8 @@ public ^/char loadFile(^/char file)
   ret "";
 }
 
-
+public ^/char runFile(^/char file)
+{
+  .L.runFile(file);
+  ret "";
+}

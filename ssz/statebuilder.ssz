@@ -59,6 +59,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   VictoryQuote,
   RemapPal,
   Zoom,
+  ExitMatch,
   PlayBGM,
   Null
 }
@@ -2320,6 +2321,9 @@ public &StateBuilder
     cond .s.equ("screenheight", token):
       out .= obj .= "trScreenHeight()";
       typ = 1;
+	cond .s.equ("esc", token):
+      out .= obj .= "trEsc()";
+      typ = 3;
     cond .s.equ("cond", token):
       out .= '(';
       if(!.s.equ("(", `tokenizer(in=))){
@@ -3271,6 +3275,8 @@ public &StateBuilder
         if(!`remapPal(am=)) ret false;
       case .CtrlTy::Zoom:
         if(!`zoom(am=)) ret false;
+	  case .CtrlTy::ExitMatch:
+        if(!`exitMatch(am=)) ret false;
 	  case .CtrlTy::PlayBGM:
         if(!`playBGM(am=)) ret false;
       default:
@@ -7766,6 +7772,13 @@ public &StateBuilder
       ret true;
     }]);
   }
+  bool exitMatch(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      `state.ctrlList[-1].task .= "`trExitMatch();";
+      ret true;
+    }]);
+  }
   bool playBGM(&.tbl.NameTable!^/char? param=)
   {
     ret `stateSec(param=,[bool(){
@@ -7989,6 +8002,8 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::RemapPal;
         cond .s.equ(s, "zoom"):
           `state.ctrlList[-1].typ = .CtrlTy::Zoom;
+		cond .s.equ(s, "exitmatch"):
+          `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
 		cond .s.equ(s, "playbgm"):
           `state.ctrlList[-1].typ = .CtrlTy::PlayBGM;
         cond .s.equ(s, "null"):

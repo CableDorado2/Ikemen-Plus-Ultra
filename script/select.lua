@@ -130,6 +130,7 @@ function f_selectReset()
 	battleOption2 = 0
 	backScreen = false
 	back = false
+	serviceBack = false
 end
 
 function f_setZoom()
@@ -719,13 +720,15 @@ function f_backMenu()
 				data.t_p1selected = {}
 				p1palEnd = true
 				p1SelEnd = false
+				--randomP1Portrait = false
+				--randomP1Rematch = false
 				if data.coop then
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
 					p2palEnd = true
 					p2SelEnd = false
-				end
+				end				
 			else
 				f_selectReset()
 			end
@@ -2694,7 +2697,11 @@ function f_p1SelectMenu()
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
 			textImgPosDraw(txt_p1Name, 10, nameY)
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-			if esc() and p1SelBack == true then
+			if esc() and serviceBack == true then
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+			elseif esc() and p1SelBack == true then
 				sndPlay(sysSnd, 100, 2)
 				f_p1sideReset()
 			end
@@ -5104,17 +5111,20 @@ function f_service()
 					script.options.f_netsaveCfg()
 				elseif onlinegame == false then
 					script.options.f_saveCfg()
-				end	
+				end
+				serviceBack = true
 				break
 			--FULL POWER
 			elseif serviceMenu == 2 then
 				setServiceType(1)
 				sndPlay(sysSnd, 100, 1)
+				serviceBack = true
 				break
 			--LOW CPU LIFE
 			elseif serviceMenu == 3 then
 				setServiceType(2)
 				sndPlay(sysSnd, 100, 1)
+				serviceBack = true
 				break
 			--CHANGE PLAYER TEAM MODE
 			elseif serviceMenu == 4 then
@@ -5131,6 +5141,7 @@ function f_service()
 			elseif serviceMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				setServiceType(3)
+				serviceBack = true
 				break
 			--???
 			--elseif serviceMenu == 6 then
@@ -5142,6 +5153,7 @@ function f_service()
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				serviceBack = true
 				break
 			end
 			commandBufReset(p1Cmd, 1)
@@ -5181,7 +5193,7 @@ function f_service()
 		animDraw(serviceBG1)
 		--Draw Title Menu
 		textImgDraw(txt_service)
-		--Draw Stats Table Cursor
+		--Draw Cursor
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))

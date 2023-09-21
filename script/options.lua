@@ -579,7 +579,7 @@ function f_inputDefault()
 	t_keyCfg[9].varText = 'x'
 	t_keyCfg[10].varText = 'c'
 	t_keyCfg[11].varText = 'RETURN'
-	t_keyCfg[12].varText = 'f'
+	t_keyCfg[12].varText = 'p'
 	f_keySave(0,-1)
 	--P2 KEYBOARD
 	t_keyCfg[1].varText = 'KP_5'
@@ -593,7 +593,7 @@ function f_inputDefault()
 	t_keyCfg[9].varText = 'k'
 	t_keyCfg[10].varText = 'l'
 	t_keyCfg[11].varText = 'KP_0'
-	t_keyCfg[12].varText = 'p'
+	t_keyCfg[12].varText = 'm'
 	f_keySave(1,-1)
 	--P1 GAMEPAD
 	t_keyCfg[1].varText = '-3'
@@ -5464,7 +5464,7 @@ t_keyCfg = {
 	{id = '', text = 'Y',     					varID = textImgNew(), varText = ''},
 	{id = '', text = 'Z',     					varID = textImgNew(), varText = ''},
 	{id = '', text = 'START', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'SELECT',		 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'PAUSE',		 			varID = textImgNew(), varText = ''},
 	--{id = '', text = 'L', 						varID = textImgNew(), varText = ''},
 	--{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
 	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},

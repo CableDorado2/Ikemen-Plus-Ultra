@@ -11,8 +11,6 @@ lib act = "action.ssz";
 lib fnt = "font.ssz";
 lib bg = "bg.ssz";
 lib cfg = "config.ssz";
-lib cmd = "command.ssz";
-lib al = <alert.ssz>;
 
 
 public &LifePower
@@ -867,7 +865,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   }
   public void action()
   {
-    if(!(.com.pauseMenu > 0 || (.com.pause && !.com.step))) `anim.action();
+    `anim.action();
   }
   public void draw(float x, float y, int layerno, ^&.fnt.Font f)
   {

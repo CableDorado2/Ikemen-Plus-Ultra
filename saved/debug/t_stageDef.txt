@@ -1,14 +1,14 @@
-table: 02913128 {
+table: 027A6DB8 {
+  [stages/hd test/fairy day 4_3.def] => 8
+  [stages/hd test/training room.def] => 11
+  [stages/hd test/nyc alley.def] => 6
+  [stages/hd test/fairy day 16_9.def] => 9
+  [stages/hd test/training room(scale).def] => 12
+  [stages/china.def] => 5
+  [stages/hd test/aensland castle.def] => 10
+  [stages/mountainside temple.def] => 3
   [stages/mountainside temple - hidden path.def] => 4
   [stages/training room.def] => 1
-  [stages/hd test/training room(scale).def] => 12
-  [stages/hd test/training room.def] => 11
-  [stages/mountainside temple.def] => 3
-  [stages/hd test/fairy day 16_9.def] => 9
-  [stages/hd test/aensland castle.def] => 10
   [stages/hd test/australian outback.def] => 7
-  [stages/china.def] => 5
-  [stages/hd test/nyc alley.def] => 6
-  [stages/hd test/fairy day 4_3.def] => 8
   [stages/training room 2.def] => 2
 }

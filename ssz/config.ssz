@@ -11,8 +11,8 @@ const int Width = 1280;
 const int Height = 720;
 const bool FullScreen = false;
 
-const float GlVol = 0;
-const float SEVol = 0.8;
+const float GlVol = 1;
+const float SEVol = 0.7;
 const float BGMVol = 0.5;
 const float PanStr = 0.8;
 
@@ -82,7 +82,7 @@ in.new[10].set(
   (int)k_t::z,
   (int)k_t::x,
   (int)k_t::c,
-  (int)k_t::f);
+  (int)k_t::p);
 
 //P2 KEYBOARD - MENU
 in.new[11].set(
@@ -97,7 +97,7 @@ in.new[11].set(
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::p);
+  (int)k_t::m);
 
 //P1 GAMEPAD - MENU
 in.new[12].set(

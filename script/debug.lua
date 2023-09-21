@@ -2,7 +2,7 @@
 --; MATCH ACCESS FUNCTIONS
 --;===========================================================
 assert(loadfile('script/common.lua'))() --For load options data like screenshot sfx, data.debugMode and Menu assets
---require('script.pause')
+require('script.pause')
 
 if data.debugMode == true then
 --Keys definition on lib/alpha/sdlpluing.ssz
@@ -44,7 +44,7 @@ end
 --Miscellaneous functions
 addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
 addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game
---addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu (WIP)
+addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu
 
 function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)

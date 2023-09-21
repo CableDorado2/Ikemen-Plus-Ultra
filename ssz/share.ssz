@@ -50,6 +50,7 @@ public &Share
   /%&.cfg.Keys in;
   public bool disablePadP1;
   public bool disablePadP2;
+  public bool exitMatch;
   public void copy()
   {
     `c = .chr.chars;
@@ -102,6 +103,7 @@ public &Share
 	`in = .cfg.in;
 	`disablePadP1 = .cmd.disablePadP1;
 	`disablePadP2 = .cmd.disablePadP2;
+	`exitMatch = .com.exitMatch;
   }
   public void push()
   {
@@ -162,6 +164,7 @@ public &Share
     .cfg.in[13] = `in[13];
     .cmd.disablePadP1 = `disablePadP1;
     .cmd.disablePadP2 = `disablePadP2;
+	.com.exitMatch = `exitMatch;
   }
 }
 

@@ -33,7 +33,7 @@ public bool clsndraw = false;
 //DEBUG DISPLAY FLAG
 public bool debugdraw = false;
 
-const int maxSimul = 10;
+const int maxSimul = 5;
 public ^int numSimul.new(2);
 numSimul[0] = numSimul[1] = 2;
 
@@ -65,7 +65,6 @@ public void resetRemapInput()
 resetRemapInput();
 
 public bool pause = false, step = false;
-public int pauseMenu = 0;
 public bool statusDraw = true;
 public float accel = 1.0;
 
@@ -222,11 +221,10 @@ public bool addHotkey(
   ret true;
 }
 
-public bool forceOver = false;
 
 public bool matchOver()
 {
-  ret .p1wins >= .p1mw || .p2wins >= .p2mw || .forceOver;
+  ret .p1wins >= .p1mw || .p2wins >= .p2mw;
 }
 
 public int nextLine(index i=, ^/char str)
@@ -1054,20 +1052,3 @@ public &SuperDangerousRef
   }
 }
 
-public void printVar(^/char v, ^/char file)
-{
-  &.file.File f.open(file, "wb");
-  f.writeAry!ubyte?(.s.sToU8(v));
-  f.close();
-}
-
-public void printArray(%^/char a, ^/char file)
-{
-  &.file.File f.open(file, "wb");
-  loop{index i = 0; while; do:
-    f.writeAry!ubyte?(.s.sToU8(a[i]));
-    if(i < #a-1) f.writeAry!ubyte?(.s.sToU8(\n));
-    i++;
-  while i < #a:}
-  f.close();
-}

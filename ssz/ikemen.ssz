@@ -47,6 +47,7 @@ void loadStart(&.lua.State L=, int re=)
 
 void selectStart(&.lua.State L=, int re=)
 {
+  .com.exitMatch = false;
   .sc.syst.selReset();
   .loadStart(L=, re=);
 }

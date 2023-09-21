@@ -159,15 +159,6 @@ void game()
     .sff.allPalFX~enable = tmp;
   }
   %char line;
-  void drawPauseMenu(bool st, bool esc)
-  {:<-
-    if(.com.pauseMenu == 0) ret;
-    .dscri.L.getGlobal("pauseMenu");
-    .dscri.L.pushNumber((double)(.com.pauseMenu));
-    .dscri.L.pushBoolean(st);
-    .dscri.L.pushBoolean(esc);
-    if(!.dscri.L.pcall(3, 1)) ret;
-  }
   void drawDebug()
   {:<-
     if(!.com.debugdraw || #.fnt.debugFont == 0) ret;
@@ -229,7 +220,6 @@ void game()
   float scl = 1.0, sclmul = 1.0;
   float newx = x, newy = y;
   int oldp1wins, oldp2wins, olddraws;
-  bool pmSt = false, pmEsc = false;
   ^int lif.new(#.chr.chars), pow.new(#.chr.chars);
   ^^/int var.new(#.chr.chars);
   ^^/float fvar.new(#.chr.chars);
@@ -245,7 +235,6 @@ void game()
     .com.p1wins = `oldp1wins;
     .com.p2wins = `oldp2wins;
     .com.draws = `olddraws;
-	.com.forceOver = false;
     loop{index i = 0; do:
       if(#.chr.chars[i] > 0){
         .chr.chars[i][0]~sysivar[.chr.iLIFE] = `lif[i];
@@ -261,7 +250,6 @@ void game()
     `y = `newy = 0.0;
     `l = `r = 0.0;
     `scl = `sclmul = 1.0;
-	`pmSt = `pmEsc = false;
     .com.cam.update!.chr.stg<>.self?(`scl, `x, `y, .chr.stg<>=);
   }
   loop{
@@ -278,9 +266,8 @@ void game()
     sdr.p = .s.sToN!index?(sss[1]);
     sdr.copyToRef!&.sha.Share?(share=);
     share~push();
-    ^/char err;
-    if(#.com.debugScript > 0 && #.cmd.net == 0){
-      err = .dscri.loadFile(.com.debugScript);
+    if(#.com.debugScript > 0){
+      ^/char err = .dscri.loadFile(.com.debugScript);
       if(#err > 0) .al.alert!.self?(err);
     }
     stagetime = share~stt;
@@ -403,7 +390,6 @@ void game()
       {
         .chr.chars[i][0]~sysivar[.chr.iLIFE] =
           .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
-		//.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0;
       }
       copyVar(i);
@@ -415,8 +401,6 @@ void game()
       .chr.stg~action();
       i++;
     while i < stagetime:}
-	.com.sysControls = 0; //Fight
-    .com.gameState = 1;
     //if(.com.round == 1) .snd.bgm~play(.chr.stg~bgmusic);
     .com.cam.init();
     .com.screenleft = (float).chr.stg~screenleft * .chr.stg~localscl;
@@ -439,13 +423,7 @@ void game()
       }
       i++;
     while i < #.se.eventKeys:}
-	branch{
-    cond .cmd.startButton(1) && .com.pauseMenu != 2: .dscri.L.runString("togglePauseMenu(1)");
-    cond .cmd.startButton(2) && .com.pauseMenu != 1 && .com.com[1] == 0: .dscri.L.runString("togglePauseMenu(2)");
-    }
-    if(.dscri.roundResetFlg){
-	  reset();
-	}
+    if(.dscri.roundResetFlg) reset();
     if(.dscri.reloadFlg){
       .mes.SetSharedString(:"reload":);
       ret;
@@ -524,7 +502,7 @@ void game()
     if(!.com.cam.zoom) x = .m.ceil(x*4.0 - 0.5)/4.0;
     y = .com.cam.yBound(scl, newy);
     if(
-      .com.tickFrame() && !.chr.timestop && (.chr.super <= 0 || .chr.superpausebg == 0)
+      .com.tickFrame() && (.chr.super <= 0 || .chr.superpausebg == 0)
       && (.chr.pause <= 0 || .chr.pausebg == 0)) 
     {
       .chr.stg~action();
@@ -538,8 +516,6 @@ void game()
       if(!.se.eventUpdate()) break, while;
       break, do;
     }
-	if(.cmd.startButton(.com.pauseMenu)) pmSt = true;
-    if(.se.esc) pmEsc = true;
     if(.se.fskip) while;
     {
       float dx = x, dy = y, dscl = scl;
@@ -555,19 +531,15 @@ void game()
       }
       .chr.draw(dx, dy, dscl);
     }
-	drawPauseMenu(pmSt, pmEsc);
-	pmSt = pmEsc = false;
     drawDebug();
   /?/*.cfg.OpenGL:
     .sdl.GlSwapBuffers(::);
   /*true:
     .sdl.flip();
   /*?*/
-  while !(.se.esc && (.com.pause || #err > 0 || #.cmd.net > 0)) && !.com.exitMatch && .cmd.update():
-    if(.se.esc || .com.exitMatch) .mes.SetSharedString(:"esc":);
+  while !.se.esc && .cmd.update():
+    if(.se.esc) .mes.SetSharedString(:"esc":);
   break:
-	.com.sysControls = 0; //Fight, set back to 10;
-	.com.gameState = 0;
     .chr.stg~bgctl.clear();//Open bgctrl with fighting
     if(#.cmd.net > 0) .cmd.net~stop();
     share~copy();

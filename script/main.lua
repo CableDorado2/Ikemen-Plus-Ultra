@@ -27,6 +27,7 @@ require('script.missions')
 require('script.events')
 --require('script.adventure')
 --require('script.story')
+--require('script.pauseGuide') --Pause Test
 
 --;===========================================================
 --; MAIN MENU SCREENPACK
@@ -404,6 +405,7 @@ function f_mainStart()
 	f_storyboard('data/screenpack/logo.def')
 	f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	--script.pauseGuide.f_pauseMain() --Pause Test
 	--playVideo(videoHowToPlay)
 	f_infoReset() --Allow select options below if the Engine detects characters or stages
 	if #t_selChars == 0 then --If the Engine not detect Characters
