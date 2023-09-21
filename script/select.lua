@@ -644,104 +644,100 @@ t_backMenu = {
 }
 
 function f_backMenu()
-	if onlinegame == false then
-		cmdInput()
-		--Cursor position
-		if commandGetState(p1Cmd, 'u') then
-			sndPlay(sysSnd, 100, 0)
-			backMenu = backMenu - 1
-		elseif commandGetState(p1Cmd, 'd') then
-			sndPlay(sysSnd, 100, 0)
-			backMenu = backMenu + 1
-		end
-		if backMenu < 1 then
-			backMenu = #t_backMenu
-			if #t_backMenu > 4 then
-				cursorPosYBack = 4
-			else
-				cursorPosYBack = #t_backMenu-1
-			end
-		elseif backMenu > #t_backMenu then
-			backMenu = 1
-			cursorPosYBack = 0
-		elseif commandGetState(p1Cmd, 'u') and cursorPosYBack > 0 then
-			cursorPosYBack = cursorPosYBack - 1
-		elseif commandGetState(p1Cmd, 'd') and cursorPosYBack < 4 then
-			cursorPosYBack = cursorPosYBack + 1
-		end
-		if cursorPosYBack == 4 then
-			moveTxtBack = (backMenu - 5) * 13
-		elseif cursorPosYBack == 0 then
-			moveTxtBack = (backMenu - 1) * 13
-		end
-		--Draw Fade BG
-		animDraw(fadeWindowBG)
-		--Draw Menu BG
-		animDraw(backWindowBG)
-		animUpdate(backWindowBG)
-		--Draw Title
-		textImgDraw(txt_backquestion)
-		--Draw Table Text
-		for i=1, #t_backMenu do
-			if i == backMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 120+i*13-moveTxtBack))
-		end
-		--Draw Cursor
-		animSetWindow(cursorBox, 87,123+cursorPosYBack*13, 144,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		--Actions
-		if btnPalNo(p1Cmd) > 0 then
-			--YES
-			if backMenu == 1 then
-				sndPlay(sysSnd, 100, 2)
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				if data.rosterMode == 'event' or data.rosterMode == 'mission' then
-					data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				else
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				end
-				setGameType(0)
-				setServiceType(0)
-				back = true
-			--NO
-			else
-				sndPlay(sysSnd, 100, 1)
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
-					f_rosterReset()
-					p1Cell = nil
-					p1Portrait = nil
-					data.t_p1selected = {}
-					p1palEnd = true
-					p1SelEnd = false
-					if data.coop then
-						p2Cell = nil
-						p2Portrait = nil
-						data.t_p2selected = {}
-						p2palEnd = true
-						p2SelEnd = false
-					end
-				else
-					f_selectReset()
-				end
-				if data.rosterAdvance == true then
-					stageEnd = true
-				end
-				back = false
-			end
-			f_backReset()
-		end	
-		cmdInput()
-	elseif onlinegame == true then
-		f_backOnline()
+	cmdInput()
+	--Cursor position
+	if commandGetState(p1Cmd, 'u') then
+		sndPlay(sysSnd, 100, 0)
+		backMenu = backMenu - 1
+	elseif commandGetState(p1Cmd, 'd') then
+		sndPlay(sysSnd, 100, 0)
+		backMenu = backMenu + 1
 	end
+	if backMenu < 1 then
+		backMenu = #t_backMenu
+		if #t_backMenu > 4 then
+			cursorPosYBack = 4
+		else
+			cursorPosYBack = #t_backMenu-1
+		end
+	elseif backMenu > #t_backMenu then
+		backMenu = 1
+		cursorPosYBack = 0
+	elseif commandGetState(p1Cmd, 'u') and cursorPosYBack > 0 then
+		cursorPosYBack = cursorPosYBack - 1
+	elseif commandGetState(p1Cmd, 'd') and cursorPosYBack < 4 then
+		cursorPosYBack = cursorPosYBack + 1
+	end
+	if cursorPosYBack == 4 then
+		moveTxtBack = (backMenu - 5) * 13
+	elseif cursorPosYBack == 0 then
+		moveTxtBack = (backMenu - 1) * 13
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(backWindowBG)
+	animUpdate(backWindowBG)
+	--Draw Title
+	textImgDraw(txt_backquestion)
+	--Draw Table Text
+	for i=1, #t_backMenu do
+		if i == backMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_backMenu[i].id, jgFnt, bank, 0, t_backMenu[i].text, 159, 120+i*13-moveTxtBack))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYBack*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if btnPalNo(p1Cmd) > 0 then
+		--YES
+		if backMenu == 1 then
+			sndPlay(sysSnd, 100, 2)
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			if data.rosterMode == 'event' or data.rosterMode == 'mission' then
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			else
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			end
+			setGameType(0)
+			setServiceType(0)
+			back = true
+		--NO
+		else
+			sndPlay(sysSnd, 100, 1)
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+				f_rosterReset()
+				p1Cell = nil
+				p1Portrait = nil
+				data.t_p1selected = {}
+				p1palEnd = true
+				p1SelEnd = false
+				if data.coop then
+					p2Cell = nil
+					p2Portrait = nil
+					data.t_p2selected = {}
+					p2palEnd = true
+					p2SelEnd = false
+				end
+			else
+				f_selectReset()
+			end
+			if data.rosterAdvance == true then
+				stageEnd = true
+			end
+			back = false
+		end
+		f_backReset()
+	end
+	cmdInput()
 end
 
 function f_backOnline()
@@ -841,16 +837,20 @@ function f_selectSimple()
 			commandBufReset(p2Cmd)
 		end
 		while not selScreenEnd do
-			if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-				if p1TeamBack == true then
-					if backScreen == false then sndPlay(sysSnd, 100, 2) end
-					backScreen = true
+			if onlinegame == false then
+				if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+					if p1TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				elseif esc() and data.p2In == 2 then
+					if p1TeamBack == true and p2TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
 				end
-			elseif esc() and data.p2In == 2 then
-				if p1TeamBack == true and p2TeamBack == true then
-					if backScreen == false then sndPlay(sysSnd, 100, 2) end
-					backScreen = true
-				end
+			elseif onlinegame == true then
+				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
 			if back == true then
@@ -897,7 +897,18 @@ function f_selectSimple()
 					--backScreen = false
 					--back = false
 					while not selScreenEnd do
+						if onlinegame == true then
+							if esc() then f_backOnline() end
+						end
 						f_selectScreen()
+						if back == true then
+							if data.rosterMode == 'event' then
+								--playBGM('')
+							else
+								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+							end
+							return
+						end
 					end
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
@@ -911,16 +922,20 @@ function f_selectSimple()
 					end
 					f_selectReset()
 					while not selScreenEnd do
-						if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-							if p1TeamBack == true then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
+						if onlinegame == false then
+							if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+								if p1TeamBack == true then
+									if backScreen == false then sndPlay(sysSnd, 100, 2) end
+									backScreen = true
+								end
+							elseif esc() and data.p2In == 2 then
+								if p1TeamBack == true and p2TeamBack == true then
+									if backScreen == false then sndPlay(sysSnd, 100, 2) end
+									backScreen = true
+								end
 							end
-						elseif esc() and data.p2In == 2 then
-							if p1TeamBack == true and p2TeamBack == true then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
-							end
+						elseif onlinegame == true then
+							if esc() then f_backOnline() end
 						end
 						f_selectScreen()
 						if back == true then
@@ -1098,9 +1113,13 @@ function f_selectAdvance()
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		selectStart()
 		while not selScreenEnd do
-			if esc() and p1TeamBack == true then
-				if backScreen == false then sndPlay(sysSnd, 100, 2) end
-				backScreen = true
+			if onlinegame == false then
+				if esc() and p1TeamBack == true then
+					if backScreen == false then sndPlay(sysSnd, 100, 2) end
+					backScreen = true
+				end
+			elseif onlinegame == true then
+				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
 			if back == true then
@@ -1778,7 +1797,11 @@ function f_selectScreen()
 	end
 	--Show Back Menu
 	if backScreen == true then
-		f_backMenu()
+		if onlinegame == false then
+			f_backMenu()
+		elseif onlinegame == true then
+			f_backOnline()
+		end
 	end
 	animDraw(data.fadeSelect)
 	animUpdate(data.fadeSelect)
@@ -4577,33 +4600,31 @@ end
 --; RANKED MATCH LOGIC
 --;===========================================================
 function f_ftcontrol()
-	--if onlinegame == true and data.gameMode == 'versus' then
-		if p1Wins == data.ftcontrol then
-			--os.exit() --Fightcade System
-			battleOption = 3
-			rematchEnd = true
-			rankedEnd = true
-			while true do
-				--animDraw(data.fadeTitle)
-				--animUpdate(data.fadeTitle)
-				break
-				--cmdInput()
-				--refresh()
-			end
-		elseif p2Wins == data.ftcontrol then
-			--os.exit() --Fightcade System
-			battleOption = 3
-			rematchEnd = true
-			rankedEnd = true
-			while true do
-				--animDraw(data.fadeTitle)
-				--animUpdate(data.fadeTitle)
-				break
-				--cmdInput()
-				--refresh()
-			end
-		end
-	--end
+	if p1Wins == data.ftcontrol then
+		--os.exit() --Fightcade System
+		battleOption = 4
+		rematchEnd = true
+		rankedEnd = true
+		--while true do
+			--animDraw(data.fadeTitle)
+			--animUpdate(data.fadeTitle)
+			--break
+			--cmdInput()
+			--refresh()
+		--end
+	elseif p2Wins == data.ftcontrol then
+		--os.exit() --Fightcade System
+		battleOption = 4
+		rematchEnd = true
+		rankedEnd = true
+		--while true do
+			--animDraw(data.fadeTitle)
+			--animUpdate(data.fadeTitle)
+			--break
+			--cmdInput()
+			--refresh()
+		--end
+	end
 end
 
 --;===========================================================
@@ -4837,6 +4858,13 @@ function f_rematch()
 		end
 	end
 	if p1Ready and p2Ready then rematchEnd = true end
+	if onlinegame == true then
+		if esc() then
+			battleOption = 4
+			rematchEnd = true
+			f_backOnline()
+		end
+	end
 end
 
 --;===========================================================
