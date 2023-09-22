@@ -471,6 +471,13 @@ function f_sysTime()
 	textImgDraw(txt_titleDate) --Draw Date
 end
 
+function f_titleText()
+	if data.vault == 'Ultra' then txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+	elseif data.vault == 'Zen' then txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
+	elseif data.vault == 'Size' then txt_subTitle = createTextImg(font3, 0, 1, 'S-SIZE', 122, 120) end
+	textImgDraw(txt_subTitle)
+end
+
 --;===========================================================
 --; LOGOS
 --;===========================================================
@@ -569,7 +576,7 @@ function f_mainAttract()
 		animDraw(titleBG3)
 		animDraw(titleBG4)
 		animDraw(titleBG5)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		f_attractCredits()
 		--txt_attractTimer = createTextImg(font1, 0, 0, ''..attractTimer/gameTick..'', 302, 235) --Original Decimal Timer
 		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
@@ -600,9 +607,6 @@ end
 --;===========================================================
 --; TITLE SCREEN
 --;===========================================================
---txt_subTitle = createTextImg(font3, 0, 1, 'S-SIZE', 122, 120)
---txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
-txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
 txt_mainTitle = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
 txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240) --font1, 0, [-1] : [1]= Align text left | [0]= Center Text | [-1]= Align text right
 txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
@@ -640,7 +644,7 @@ function f_mainTitle()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, 'WELCOME TO SUEHIRO IKEMEN ENGINE')
 		f_sysTime()
@@ -783,7 +787,7 @@ function f_exitMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_titleFt)
 		if exitScreen == false and infoScreen == false then	textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE') end
 		f_sysTime()
@@ -1069,7 +1073,7 @@ function f_mainMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'MAIN MENU')
 		textImgDraw(txt_version)
@@ -1220,7 +1224,7 @@ function f_arcadeMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)		
 		textImgSetText(txt_gameFt, 'ARCADE MODE')
 		textImgDraw(txt_version)
@@ -1388,7 +1392,7 @@ function f_vsMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'VERSUS MODE')
 		textImgDraw(txt_version)
@@ -1521,7 +1525,7 @@ function f_randomMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'RANDOM MODE')
 		textImgDraw(txt_version)
@@ -1693,7 +1697,7 @@ function f_practiceMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'TRAINING MODE')
 		textImgDraw(txt_version)
@@ -1850,7 +1854,7 @@ function f_challengeMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'CHALLENGES MODES')
 		textImgDraw(txt_version)
@@ -1998,7 +2002,7 @@ function f_survivalMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'SURVIVAL MODE')
 		textImgDraw(txt_version)
@@ -2121,7 +2125,7 @@ function f_bossMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'BOSS FIGHT MODES')
 		textImgDraw(txt_version)
@@ -2238,7 +2242,7 @@ function f_bossChars()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'BOSS FIGHT')
 		textImgDraw(txt_version)
@@ -2391,7 +2395,7 @@ function f_bossrushMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'BOSS RUSH MODE')
 		textImgDraw(txt_version)
@@ -2514,7 +2518,7 @@ function f_bonusMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'MINI-GAMES')
 		textImgDraw(txt_version)
@@ -2632,7 +2636,7 @@ function f_bonusExtras()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'BONUS STAGES')
 		textImgDraw(txt_version)
@@ -2774,7 +2778,7 @@ function f_bonusrushMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'BONUS RUSH MODE')
 		textImgDraw(txt_version)
@@ -2927,7 +2931,7 @@ function f_timeMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'TIME ATTACK MODE')
 		textImgDraw(txt_version)
@@ -3079,7 +3083,7 @@ function f_suddenMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'SUDDEN DEATH MODE')
 		textImgDraw(txt_version)
@@ -3119,6 +3123,7 @@ t_extrasMenu = {
 	{id = textImgNew(), text = 'LEGION'},
 	{id = textImgNew(), text = 'TOURNEY'},
 	{id = textImgNew(), text = 'ADVENTURE'},
+	{id = textImgNew(), text = 'THE VAULT'},
 	{id = textImgNew(), text = 'BACK'},
 }	
 	
@@ -3198,6 +3203,10 @@ function f_extrasMenu()
 			elseif extrasMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				script.select.f_selectAdventure()--script.adventure.f_mainAdventure()
+			--THE VAULT MODE
+			elseif extrasMenu == 7 then
+				sndPlay(sysSnd, 100, 1)
+				f_theVault()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -3224,7 +3233,7 @@ function f_extrasMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'EXTRAS UNLOCKED')
 		textImgDraw(txt_version)
@@ -3371,7 +3380,7 @@ function f_allcharsMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'INFINITE MODE')
 		textImgDraw(txt_version)
@@ -3516,7 +3525,7 @@ function f_tourneyMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'TOURNAMENT MODE')
 		textImgDraw(txt_version)
@@ -3708,7 +3717,7 @@ function f_watchMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'WATCH CONTENT')
 		textImgDraw(txt_version)
@@ -3842,7 +3851,7 @@ function f_replayMenu()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'REPLAY MODE')
 		textImgDraw(txt_version)
@@ -5101,7 +5110,7 @@ function f_mainNetplay()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'ONLINE MODE')
 		textImgDraw(txt_version)
@@ -5548,7 +5557,7 @@ function f_hostRooms()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		if editHostScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, 'HOST ROOMS')
@@ -6248,7 +6257,7 @@ function f_mainHost()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'ONLINE MENU')
 		textImgDraw(txt_version)
@@ -6496,7 +6505,7 @@ function f_mainJoin()
 		animDraw(titleBG4)
 		animDraw(titleBG5)
 		animDraw(titleBG6)
-		textImgDraw(txt_subTitle)
+		f_titleText()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, 'ONLINE MENU')
 		textImgDraw(txt_version)
@@ -6524,6 +6533,168 @@ function f_mainJoin()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===========================================================
+--; THE VAULT SCREENPACK
+--;===========================================================
+txt_vaultTitle = createTextImg(jgFnt, 5, 0, 'THE VAULT', 159, 24,1.2,1.2)
+txt_vaultWords = createTextImg(jgFnt, 0, 0, '', 160, 62,0.9,0.9)
+txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
+txt_vaultText = createTextImg(font14, 0, 0, '', 160, 87)
+
+--Background
+vaultBG0 = animNew(sysSff, [[
+2000,1, 0,0,
+]])
+animSetPos(vaultBG0, 160, 119)
+animUpdate(vaultBG0)
+animSetScale(vaultBG0, 0.30, 0.305)
+
+--Text Window BG
+vaultWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(vaultWindowBG, 20, 70)
+animSetAlpha(vaultWindowBG, 20, 100)
+animUpdate(vaultWindowBG)
+
+--;===========================================================
+--; THE VAULT MENU
+--;===========================================================
+t_vaultMenu = {
+	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'ENTER'},
+}
+for i=1, #t_vaultMenu do
+	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 178)
+end
+
+function f_randomWords()
+	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "S-Size is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database..."}
+	if data.userName == 'Strong FS' or data.userName == 'strong fs' or data.userName == 'StrongFS' or data.userName == 'strongfs' or data.userName == 'Strong Fs' or data.userName == 'STRONG FS' or data.userName == 'STRONGFS' then
+		table.insert(t_randomWord,1, "Hey Strong! CD2 te manda Saludoss")
+		table.insert(t_randomWord,2, "Hmmm Strong XD")
+	end
+	textImgSetText(txt_vaultWords,(t_randomWord[math.random(1, #t_randomWord)]))
+end
+
+function f_theVault()
+	local word = ''
+	local vaultMenu = 2
+	local i = 0
+	f_randomWords() --Get Random Words
+	vaultExit = false
+	cmdInput()
+	playBGM(bgmVault)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	while true do
+		--EXIT LOGIC
+		if vaultExit == true then
+			clearInputText()
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			f_menuMusic()
+			break
+		end
+		--MAIN SCREEN
+		if esc() then
+			vaultExit = true
+		elseif commandGetState(p1Cmd, 'r') then
+			sndPlay(sysSnd, 100, 0)
+			vaultMenu = vaultMenu + 1
+		elseif commandGetState(p1Cmd, 'l') then
+			sndPlay(sysSnd, 100, 0)
+			vaultMenu = vaultMenu - 1
+		end
+		if vaultMenu < 1 then vaultMenu = 2 elseif vaultMenu > 2 then vaultMenu = 1 end
+		word = inputText('',true)
+		if clipboardPaste() then
+			if string.match(getClipboardText(),'^(.*)') then
+				setInputText(getClipboardText())
+			else
+				sndPlay(sysSnd, 100, 5)
+			end
+		end
+		if word:len() > 5 then
+			word = word:sub(1,18)
+			setInputText(word)
+		end
+		if word ~= '' and word ~= nil then
+			if word:match('^0(%d+)$') then
+				word = word:gsub('^0(%d+)$','%1')
+				setInputText(word)
+			end
+		end
+		--BUTTON SELECT
+		if commandGetState(p1Cmd, 's') then
+			--BACK
+			if vaultMenu == 1 then
+				vaultExit = true
+			--ENTER
+			elseif vaultMenu == 2 then
+				if word ~= '' and word ~= nil then
+					vaultKey = (tostring(word))
+					if vaultKey == 'ultra' or vaultKey == 'Ultra' or vaultKey == 'ULTRA' then
+						data.vault = 'Ultra'
+						f_saveProgress()
+						assert(loadfile('saved/stats_sav.lua'))()
+					elseif vaultKey == 'zen' or vaultKey == 'Zen' or vaultKey == 'ZEN' then
+						data.vault = 'Zen'
+						f_saveProgress()
+						assert(loadfile('saved/stats_sav.lua'))()
+					elseif vaultKey == 's-size' or vaultKey == 'S-Size' or vaultKey == 'S-SIZE' then
+						data.vault = 'Size'
+						f_saveProgress()
+						assert(loadfile('saved/stats_sav.lua'))()
+					end
+					sndPlay(sysSnd, 100, 1)
+					clearInputText()
+				else
+					clearInputText()
+					sndPlay(sysSnd, 100, 1)
+				end
+				f_randomWords()
+			end
+		end
+		--Draw BG
+		animDraw(vaultBG0)
+		animUpdate(vaultBG0)
+		--Draw Menu Title
+		textImgDraw(txt_vaultTitle)
+		--Draw Text Window BG
+		animSetScale(vaultWindowBG, 220, 30)
+		animSetWindow(vaultWindowBG, 80,70, 160,30)
+		animDraw(vaultWindowBG)
+		--Draw Valt Words
+		textImgDraw(txt_vaultWords)
+		--Draw Text
+		textImgSetText(txt_vaultText,word)
+		textImgDraw(txt_vaultText)
+		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
+		if i%60 < 30 then 
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)>0 and 2 or 0),88.5)
+		end
+		--Draw Button Option Text
+		for i=1, #t_vaultMenu do
+			if i == vaultMenu then
+				textImgSetBank(t_vaultMenu[i].id, 5)
+			else
+				textImgSetBank(t_vaultMenu[i].id, 0)
+			end
+			textImgDraw(t_vaultMenu[i].id)
+		end
+		--Draw Cursor
+		animSetWindow(cursorBox, 30+vaultMenu*70,168, 48.5,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		i = i >= 60 and 0 or i + 1
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+	clearInputText()
+	--return false
 end
 
 --;===========================================================
@@ -6603,6 +6774,7 @@ function f_saveProgress()
 		['data.survivalUnlocks'] = data.survivalUnlocks,
 		['data.coins'] = data.coins,
 		['data.attractCoins'] = data.attractCoins,
+		['data.vault'] = data.vault,
 		['data.playTime'] = data.playTime,
 		['data.favoriteChar'] = data.favoriteChar,
 		['data.favoriteStage'] = data.favoriteStage,

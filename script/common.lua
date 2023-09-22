@@ -116,6 +116,7 @@ bgmTower = 'sound/System/Tower.mp3'
 bgmTourney = 'sound/System/Tourney.mp3'
 bgmLegion = 'sound/System/Legion.mp3'
 bgmAdventure = 'sound/System/Adventure.mp3'
+bgmVault = 'sound/System/The Vault.mp3'
 
 --Simple Random Select for Main Menu Song
 function f_bgmrandomMenu()

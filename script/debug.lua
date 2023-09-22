@@ -1,7 +1,7 @@
 --;===========================================================
 --; MATCH ACCESS FUNCTIONS
 --;===========================================================
-assert(loadfile('script/common.lua'))() --For load options data like screenshot sfx, data.debugMode and Menu assets
+assert(loadfile('script/common.lua'))() --For load options data like screenshot sfx, data_sav and Menu assets
 require('script.pause')
 
 if data.debugMode == true then
@@ -42,12 +42,11 @@ addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as f
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 end
 --Miscellaneous functions
-addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
 if data.pauseMode == 'Classic' then
 addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
 end
 addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
-
+addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
 
 function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)
