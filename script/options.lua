@@ -3446,7 +3446,7 @@ function f_audioCfg()
 				moveTxt = (audioCfg - 14) * 15
 			elseif cursorPosY == 1 then
 				moveTxt = (audioCfg - 1) * 15
-			end	
+			end
 			if #t_audioCfg <= 14 then
 				maxAudioCfg = #t_audioCfg
 			elseif audioCfg - cursorPosY > 0 then
