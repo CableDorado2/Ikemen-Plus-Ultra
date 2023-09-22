@@ -571,10 +571,13 @@ function f_mainAttract()
 		animDraw(titleBG5)
 		textImgDraw(txt_subTitle)
 		f_attractCredits()
-		txt_timer = createTextImg(font1, 0, 0, ''..attractTimer/gameTick..'', 302, 235)
+		--txt_attractTimer = createTextImg(font1, 0, 0, ''..attractTimer/gameTick..'', 302, 235) --Original Decimal Timer
+		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
+		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
+		txt_attractTimer = createTextImg(font1, 0, 0, nodecimalAttractTime, 302, 235)
 		if attractTimer > 0 and data.attractCoins > 0 then
 			attractTimer = attractTimer - 0.5 --Activate Title Screen Timer
-			textImgDraw(txt_timer)
+			textImgDraw(txt_attractTimer)
 		else --when attractTimer <= 0
 			demoTimer = demoTimer + 1
 		end

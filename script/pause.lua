@@ -135,8 +135,7 @@ end
 --;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
-pmTitle = fontNew('font/JG.fnt')
-pmText = fontNew('font/f-6x9.fnt')
+txt_attractCredits = createTextImg(font1, 0, -1, 'Credits: '..data.attractCoins..'', 181.5, 235)
 
 --Scrolling background
 pauseBG0 = animNew(sysSff, [[
@@ -412,6 +411,7 @@ function f_pauseMain(p, st, esc)
 			end
 			textImgDraw(txt_titleClock) --Draw Clock
 			textImgDraw(txt_titleDate) --Draw Date
+			if data.attractMode == true then textImgDraw(txt_attractCredits) end --Draw Attract Credits
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -614,6 +614,7 @@ function f_pauseSettings()
 			end
 			textImgDraw(txt_titleClock)
 			textImgDraw(txt_titleDate)
+			if data.attractMode == true then textImgDraw(txt_attractCredits) end
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -787,7 +788,7 @@ function f_pauseSongs()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxSongs do
-			if t_songList[i].playlist:len() > 26 then --If name is too long, shortcut with ...
+			if t_songList[i].playlist:len() > 26 then
 				songText = string.sub(t_songList[i].playlist, 1, 24)
 				songText = tostring(songText .. '...')
 			else
@@ -808,6 +809,7 @@ function f_pauseSongs()
 		end
 		textImgDraw(txt_titleClock)
 		textImgDraw(txt_titleDate)
+		if data.attractMode == true then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
@@ -1025,6 +1027,7 @@ function f_pauseAudio()
 		end
 		textImgDraw(txt_titleClock)
 		textImgDraw(txt_titleDate)
+		if data.attractMode == true then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1
