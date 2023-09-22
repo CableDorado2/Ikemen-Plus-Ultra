@@ -339,7 +339,7 @@ function f_pauseMain(p, st, esc)
 				P2bufd = 0
 			end
 		end
-	elseif pauseMode == 'Settings' then
+	elseif pauseMode == 'Settings' or pauseMode == 'Audio' then
 		f_pauseSettings()
 	end
 end
@@ -421,10 +421,10 @@ function f_pauseSettings()
 				--Audio Settings
 				if gameCfg == 1 then
 					sndPlay(sysSnd, 100, 1)
+					cfgGoTo = 'Audio'
 					audioCfg = 1
 					cursorPosY = 1
 					moveTxt = 0
-					cfgGoTo = 'Audio'
 					rectScale = -10
 				--Input Settings
 				elseif gameCfg == 2 then
@@ -547,7 +547,7 @@ t_audioCfg = {
 	{id = '', text = 'SFX Volume',       	varID = textImgNew(), varText = se_vol},
 	{id = '', text = 'BGM Volume',      	varID = textImgNew(), varText = bgm_vol},
 	{id = '', text = 'Audio Panning',   	varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{id = '', text = '          BACK',   	varID = textImgNew(), varText = ''},
+	{id = '', text = '              BACK',  varID = textImgNew(), varText = ''},
 }
 
 function f_pauseAudio()
@@ -717,8 +717,8 @@ function f_pauseAudio()
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then
 				if t_audioCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, 1, t_audioCfg[i].text, 85, 65+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font2, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font14, 0, 1, t_audioCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_audioCfg[i].varID, font14, 0, -1, t_audioCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
 				end
 			end
 		end
