@@ -3702,7 +3702,7 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 t_engineCfg = {
 	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
 	{id = '', text = 'Attract Mode',  	      varID = textImgNew(), varText = s_attractMode},
-	{id = '', text = 'Pause Mode',  	      varID = textImgNew(), varText = data.pauseMode},
+	{id = '', text = 'Pause Menu',  	      varID = textImgNew(), varText = data.pauseMode},
 	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
 	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
 	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
@@ -4754,7 +4754,7 @@ t_EXresCfg = {
 	{id = '', x = 720,  y = 348,  text = '720x348         (HGC 60:9)'},
 	{id = '', x = 720,  y = 350,  text = '720x350        (MDA 72:35)'},
 	{id = '', x = 720,  y = 360,  text = '720x360    (APPLE LISA 2:1)'},
-	{id = '', x = 1024, y = 600,  text = '1024x600 (CANAIMA MG101A4)'},
+	{id = '', x = 1024, y = 600,  text = '1024x600 (CANAIMA MG101A3)'},
 	{id = '', x = 1360, y = 768,  text = '1360x768      (WXGA 85:48)'},
 	{id = '', x = 1366, y = 728,  text = '1366x728 (CANAIMA EF10M12)'},
 	{id = '', x = 1200, y = 762,  text = '1200x762       (ARCADE x3)'},

@@ -11,6 +11,96 @@ gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d
 se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
 pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
+resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+
+if (resolutionHeight / 3 * 4) == resolutionWidth then
+	--Clock
+	if data.clock == 'Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 229)
+	elseif data.clock == 'Full Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 229)
+	elseif data.clock == 'Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 229)
+	elseif data.clock == 'Full Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 229)
+	end
+	--Date
+	if data.date == 'Type A' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 314, 239)
+	elseif data.date == 'Type B' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 314, 239)
+	elseif data.date == 'Type C' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 314, 239)
+	elseif data.date == 'Type D' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 314, 239)
+	elseif data.date == 'Type E' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 314, 239)
+	end
+elseif (resolutionHeight / 10 * 16) == resolutionWidth then
+	if data.clock == 'Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
+	elseif data.clock == 'Full Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
+	elseif data.clock == 'Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
+	elseif data.clock == 'Full Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
+	end
+	if data.date == 'Type A' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
+	elseif data.date == 'Type B' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
+	elseif data.date == 'Type C' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
+	elseif data.date == 'Type D' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
+	elseif data.date == 'Type E' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
+	end
+elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
+	if data.clock == 'Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 229)
+	elseif data.clock == 'Full Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 229)
+	elseif data.clock == 'Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 229)
+	elseif data.clock == 'Full Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 229)
+	end
+	if data.date == 'Type A' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 365, 239)
+	elseif data.date == 'Type B' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 365, 239)
+	elseif data.date == 'Type C' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 365, 239)
+	elseif data.date == 'Type D' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 365, 239)
+	elseif data.date == 'Type E' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 365, 239)
+	end
+else
+	if data.clock == 'Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
+	elseif data.clock == 'Full Standard' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
+	elseif data.clock == 'Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
+	elseif data.clock == 'Full Military' then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
+	end
+	if data.date == 'Type A' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
+	elseif data.date == 'Type B' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
+	elseif data.date == 'Type C' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
+	elseif data.date == 'Type D' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
+	elseif data.date == 'Type E' then
+		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
+	end
+end
 
 gl_vol = f_minMax(gl_vol,0,100)
 se_vol = f_minMax(se_vol,0,100)
@@ -320,6 +410,8 @@ function f_pauseMain(p, st, esc)
 				animDraw(pauseDownArrow)
 				animUpdate(pauseDownArrow)
 			end
+			textImgDraw(txt_titleClock) --Draw Clock
+			textImgDraw(txt_titleDate) --Draw Date
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -339,7 +431,7 @@ function f_pauseMain(p, st, esc)
 				P2bufd = 0
 			end
 		end
-	elseif pauseMode == 'Settings' or pauseMode == 'Audio' then
+	elseif pauseMode == 'Settings' or pauseMode == 'Audio' or pauseMode == 'Songs' then
 		f_pauseSettings()
 	end
 end
@@ -431,17 +523,22 @@ function f_pauseSettings()
 					sndPlay(sysSnd, 100, 5)
 				--Play/Change Song
 				elseif gameCfg == 4 then
-					--sndPlay(sysSnd, 100, 1)
-					playBGM(bgmTitle)
+					sndPlay(sysSnd, 100, 1)
+					cfgGoTo = 'Songs'
+					songMenu = 1
+					cursorPosY = 1
+					moveTxt = 0
+					f_soundPage1()
+					rectScale = -10
 				end
 			end
 			--HUD Status
 			if gameCfg == 3 then
-				if commandGetState(p1Cmd, 'r') and hudStatus == 'Yes' then
+				if (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) and hudStatus == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
 					hudStatus = 'No'
-				elseif commandGetState(p1Cmd, 'l') and hudStatus == 'No' then
+				elseif (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) and hudStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
 					hudStatus = 'Yes'
@@ -515,6 +612,8 @@ function f_pauseSettings()
 				animDraw(pauseDownArrow)
 				animUpdate(pauseDownArrow)
 			end
+			textImgDraw(txt_titleClock)
+			textImgDraw(txt_titleDate)
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
 				Pbufu = Pbufu + 1
@@ -536,6 +635,197 @@ function f_pauseSettings()
 		end
 	elseif pauseMode == 'Audio' then
 		f_pauseAudio()
+	elseif pauseMode == 'Songs' then
+		f_pauseSongs()
+	end
+end
+
+--;===========================================================
+--; PLAY SONG
+--;===========================================================
+function f_soundPage1()
+	t_songList = {}
+	for file in lfs.dir[[.\\sound\\]] do
+		if file:match('^.*(%.)mp3$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		elseif file:match('^.*(%.)MP3$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		elseif file:match('^.*(%.)ogg$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		elseif file:match('^.*(%.)OGG$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		end
+	end
+	t_songList[#t_songList+1] = {id = '', playlist = '              BACK'}
+end
+
+function f_pauseSongs()
+	if pn == 1 then txt_songMenu = createTextImg(jgFnt, 0, 0, 'SONG SELECT [P1]', 159, 63)
+	elseif pn == 2 then txt_songMenu = createTextImg(jgFnt, 0, 0, 'SONG SELECT [P2]', 159, 63)
+	end
+	if rectScale == 10 then
+		if start then
+			sndPlay(sysSnd, 100, 2)
+			animReset(darkenOut)
+			animUpdate(darkenOut)
+			pauseMenuActive = false
+			bufl = 0
+			bufr = 0
+		--BACK
+		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList) then
+			sndPlay(sysSnd, 100, 2)
+			rectScale = -10
+			bufl = 0
+			bufr = 0
+		end
+	end
+	if pauseMenuActive == true and rectScale < 10 then
+		rectScale = rectScale + 1
+	elseif pauseMenuActive == false and rectScale > 0 then
+		rectScale = rectScale - 1
+		animUpdate(darkenOut)
+	end
+	if pauseMenuActive == false and rectScale == 0 then
+		togglePauseMenu(0)
+		setSysCtrl(0)
+		rectScale = -1
+		pauseMode = ''
+		bufl = 0
+		bufr = 0
+		return
+	end
+	if pauseMenuActive then
+		animDraw(darkenIn)
+	else
+		animDraw(darkenOut)
+	end
+	if rectScale == -1 then
+		pauseMode = 'Settings'
+		gameCfg = 1
+		cursorPosY = 1
+		moveTxt = 0
+		rectScale = 0
+	end
+	if rectScale == 10 then
+		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			songMenu = songMenu - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			songMenu = songMenu + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		end
+		--Play Song
+		if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+			playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
+			playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
+		end
+		if songMenu < 1 then
+			songMenu = #t_songList
+			if #t_songList > 7 then
+				cursorPosY = 7
+			else
+				cursorPosY = #t_songList
+			end
+		elseif songMenu > #t_songList then
+			songMenu = 1
+			cursorPosY = 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 7 then
+			moveTxt = (songMenu - 7) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (songMenu - 1) * 15
+		end	
+		if #t_songList <= 7 then
+			maxSongs = #t_songList
+		elseif songMenu - cursorPosY > 0 then
+			maxSongs = songMenu + 7 - cursorPosY
+		else
+			maxSongs = 7
+		end
+		if songMenu < 4 then
+			if (pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr')) then
+				bufl = 0
+				bufr = bufr + 1
+			elseif (pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl')) then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		end
+		animSetScale(pauseBG1, 220, maxSongs*15)
+		animSetWindow(pauseBG1, 80,70, 160,105)
+		animDraw(pauseBG1)
+		--animUpdate(pauseBG1)
+		textImgDraw(txt_songMenu)
+		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxSongs do
+			if t_songList[i].playlist:len() > 26 then --If name is too long, shortcut with ...
+				songText = string.sub(t_songList[i].playlist, 1, 24)
+				songText = tostring(songText .. '...')
+			else
+				songText = t_songList[i].playlist
+			end
+			if i > songMenu - cursorPosY then
+				t_songList[i].id = createTextImg(font14, 0, 1, songText, 85, 65+i*15-moveTxt,0.85,0.85)
+				textImgDraw(t_songList[i].id)
+			end
+		end
+		if maxSongs > 7 then
+			animDraw(pauseUpArrow)
+			animUpdate(pauseUpArrow)
+		end
+		if #t_songList > 7 and maxSongs < #t_songList then
+			animDraw(pauseDownArrow)
+			animUpdate(pauseDownArrow)
+		end
+		textImgDraw(txt_titleClock)
+		textImgDraw(txt_titleDate)
+		if commandGetState(p1Cmd, 'holdu') then
+			Pbufd = 0
+			Pbufu = Pbufu + 1
+		elseif commandGetState(p2Cmd, 'holdu') then
+			P2bufd = 0
+			P2bufu = P2bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			Pbufu = 0
+			Pbufd = Pbufd + 1
+		elseif commandGetState(p2Cmd, 'holdd') then
+			P2bufu = 0
+			P2bufd = P2bufd + 1
+		else
+			Pbufu = 0
+			Pbufd = 0
+			P2bufu = 0
+			P2bufd = 0
+		end
 	end
 end
 
@@ -593,7 +883,10 @@ function f_pauseAudio()
 		animDraw(darkenOut)
 	end
 	if rectScale == -1 then
-		pauseMode = ''
+		pauseMode = 'Settings'
+		gameCfg = 1
+		cursorPosY = 1
+		moveTxt = 0
 		rectScale = 0
 	end
 	if rectScale == 10 then
@@ -730,6 +1023,8 @@ function f_pauseAudio()
 			animDraw(pauseDownArrow)
 			animUpdate(pauseDownArrow)
 		end
+		textImgDraw(txt_titleClock)
+		textImgDraw(txt_titleDate)
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
 			Pbufu = Pbufu + 1

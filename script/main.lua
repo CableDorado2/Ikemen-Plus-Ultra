@@ -28,6 +28,12 @@ require('script.events')
 --require('script.adventure')
 --require('script.story')
 
+local file = io.open("ssz/config.ssz","r")
+s_configSSZ = file:read("*all")
+file:close()
+resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+
 --;===========================================================
 --; MAIN MENU SCREENPACK
 --;===========================================================
@@ -370,30 +376,99 @@ function f_sysTime()
 	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 	--sysTime3 = tonumber(os.date("%m"))
-	--Clock
-	if data.clock == 'Standard' then
-		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
-	elseif data.clock == 'Full Standard' then
-		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
-	elseif data.clock == 'Military' then
-		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
-	elseif data.clock == 'Full Military' then
-		txt_titleFt2 = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
-	end	
-	textImgDraw(txt_titleFt2)
-	--Date
-	if data.date == 'Type A' then
-		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 50, 8)
-	elseif data.date == 'Type B' then
-		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 65, 8)
-	elseif data.date == 'Type C' then
-		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 95, 8)
-	elseif data.date == 'Type D' then
-		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%A")), 49, 8)
-	elseif data.date == 'Type E' then
-		txt_titleFt3 = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 97, 8)
-	end	
-	textImgDraw(txt_titleFt3)
+	--4:3
+	if (resolutionHeight / 3 * 4) == resolutionWidth then
+		--Clock
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
+		end
+		--Date
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
+		end
+	--16:10
+	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
+		end
+	--16:9
+	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 8)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -45, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -45, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -45, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -45, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -45, 8)
+		end
+	--Extra
+	else
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
+		end
+	end
+	textImgDraw(txt_titleClock) --Draw Clock
+	textImgDraw(txt_titleDate) --Draw Date
 end
 
 --;===========================================================
@@ -923,12 +998,6 @@ function f_mainMenu()
 				--NETPLAY
 				elseif mainMenu == 3 then
 					sndPlay(sysSnd, 100, 1)
-					--Data loading from config.ssz
-					local file = io.open("ssz/config.ssz","r")
-					s_configSSZ = file:read("*all")
-					file:close()
-					resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-					resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
 					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
 					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
@@ -3728,12 +3797,6 @@ function f_replayMenu()
 				--ONLINE REPLAYS
 				if replayMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
-				--Load resolution Data from config.ssz
-					local file = io.open("ssz/config.ssz","r")
-					s_configSSZ = file:read("*all")
-					file:close()
-					resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-					resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
 					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
 					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To watch an online replay you need to set a 16:9 Resolution to avoid desync
