@@ -43,8 +43,11 @@ addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 end
 --Miscellaneous functions
 addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
-addHotkey('SPACE', false, false, false, 'togglePause()') --Pause the game
-addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause Menu
+if data.pauseMode == 'Classic' then
+addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
+end
+addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
+
 
 function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)

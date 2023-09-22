@@ -306,6 +306,7 @@ function f_saveCfg()
 		['data.training'] = data.training,
 		['data.coopenemy'] = data.coopenemy,
 		['data.connectMode'] = data.connectMode,
+		['data.pauseMode'] = data.pauseMode,
 		['data.userName'] = data.userName
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
@@ -552,6 +553,7 @@ function f_engineDefault()
 	s_debugMode = 'Disabled'
 	data.attractMode = false
 	s_attractMode = 'Disabled'
+	data.pauseMode = 'Modern'
 	HelperMaxEngine = 56
 	PlayerProjectileMaxEngine = 50
 	ExplodMaxEngine = 256
@@ -3700,6 +3702,7 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
 t_engineCfg = {
 	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
 	{id = '', text = 'Attract Mode',  	      varID = textImgNew(), varText = s_attractMode},
+	{id = '', text = 'Pause Mode',  	      varID = textImgNew(), varText = data.pauseMode},
 	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
 	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
 	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
@@ -3740,40 +3743,55 @@ function f_engineCfg()
 				if bufr then bufr = 0 end					
 			--Debug Mode
 			elseif engineCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			if onlinegame == true then
-				lockSetting = true
-			elseif onlinegame == false then	
-				sndPlay(sysSnd, 100, 0)
-				if data.debugMode then
-					data.debugMode = false
-					s_debugMode = 'Disabled'
-					modified = 1
-				else
-					data.debugMode = true
-					s_debugMode = 'Enabled'
-					modified = 1
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then	
+					sndPlay(sysSnd, 100, 0)
+					if data.debugMode then
+						data.debugMode = false
+						s_debugMode = 'Disabled'
+						modified = 1
+					else
+						data.debugMode = true
+						s_debugMode = 'Enabled'
+						modified = 1
+					end
 				end
-			end
 			--Attract Mode
 			elseif engineCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			if onlinegame == true then
-				lockSetting = true
-			elseif onlinegame == false then	
-				sndPlay(sysSnd, 100, 0)
-				if data.attractMode then
-					data.attractMode = false
-					s_attractMode = 'Disabled'
-					modified = 1
-					needReload = 1
-				else
-					data.attractMode = true
-					s_attractMode = 'Enabled'
-					modified = 1
-					needReload = 1
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then	
+					sndPlay(sysSnd, 100, 0)
+					if data.attractMode then
+						data.attractMode = false
+						s_attractMode = 'Disabled'
+						modified = 1
+						needReload = 1
+					else
+						data.attractMode = true
+						s_attractMode = 'Enabled'
+						modified = 1
+						needReload = 1
+					end
 				end
-			end
-			--HelperMax
+			--Pause Mode
 			elseif engineCfg == 3 then
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then	
+					if commandGetState(p1Cmd, 'r') and data.pauseMode == 'Classic' then
+						sndPlay(sysSnd, 100, 0)
+						data.pauseMode = 'Modern'
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') and data.pauseMode == 'Modern' then
+						sndPlay(sysSnd, 100, 0)
+						data.pauseMode = 'Classic'
+						modified = 1
+					end
+				end
+			--HelperMax
+			elseif engineCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if HelperMaxEngine < 1000 then --You can increase this limit
 						HelperMaxEngine = HelperMaxEngine + 1
@@ -3802,7 +3820,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--PlayerProjectileMax
-			elseif engineCfg == 4 then
+			elseif engineCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
 						PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
@@ -3831,7 +3849,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--ExplodMax
-			elseif engineCfg == 5 then
+			elseif engineCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if ExplodMaxEngine < 1000 then --You can increase this limit
 						ExplodMaxEngine = ExplodMaxEngine + 1
@@ -3860,7 +3878,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--AfterImageMax
-			elseif engineCfg == 6 then
+			elseif engineCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if AfterImageMaxEngine < 1000 then --You can increase this limit
 						AfterImageMaxEngine = AfterImageMaxEngine + 1
@@ -3889,7 +3907,7 @@ function f_engineCfg()
 					bufl = 0
 				end		
 			--Erase/Reset Statistics
-			elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then	
+			elseif engineCfg == 8 and btnPalNo(p1Cmd) > 0 then	
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
@@ -3901,12 +3919,12 @@ function f_engineCfg()
 					end
 				end
 			--Default Values
-			elseif engineCfg == 8 and btnPalNo(p1Cmd) > 0 then
+			elseif engineCfg == 9 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
 			--BACK
-			elseif engineCfg == 9 and btnPalNo(p1Cmd) > 0 then
+			elseif engineCfg == 10 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3960,10 +3978,11 @@ function f_engineCfg()
 		end
 		t_engineCfg[1].varText = s_debugMode
 		t_engineCfg[2].varText = s_attractMode
-		t_engineCfg[3].varText = HelperMaxEngine
-		t_engineCfg[4].varText = PlayerProjectileMaxEngine
-		t_engineCfg[5].varText = ExplodMaxEngine
-		t_engineCfg[6].varText = AfterImageMaxEngine
+		t_engineCfg[3].varText = data.pauseMode
+		t_engineCfg[4].varText = HelperMaxEngine
+		t_engineCfg[5].varText = PlayerProjectileMaxEngine
+		t_engineCfg[6].varText = ExplodMaxEngine
+		t_engineCfg[7].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
 				if t_engineCfg[i].varID ~= nil then
