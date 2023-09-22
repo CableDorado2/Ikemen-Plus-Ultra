@@ -65,15 +65,15 @@ Modifying the engine code is beyond most people due to the specific build enviro
 | ↓ | Down Arrow | KP_2 | -4 |
 | ← | Left Arrow | KP_1 | -1 |
 | → | Right Arrow | KP_3 | -2 |
-| A/***LK*** | A | U | 0 |
-| B/***MK*** | S | I | 1 |
-| C/***HK*** | D | O | 4 |
-| X/***LP*** | Z | J | 2 |
-| Y/***MP*** | X | L | 3 |
-| Z/***HP*** | C | L | 5 |
-| **Taunt**/Start | Enter/Return | KP_0 | 9 |
-| **Pause**/Resume | SpaceBar |  |  |
-| UI Confirm | Enter/Return |  |  |
+| A | A | U | 0 |
+| B | S | I | 1 |
+| C | D | O | 4 |
+| X | Z | J | 2 |
+| Y | X | L | 3 |
+| Z | C | L | 5 |
+| **Taunt**/Start | Enter | KP_0 | 9 |
+| **Pause**/Resume | P | M | 7 |
+| UI Confirm | Enter |  |  |
 | UI Back | Esc |  |  |
 
 ## TODO List
@@ -87,8 +87,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Opciones de video que permitan personalizar la ventana del Ikemen (Cambiar entre modo ventana, fullscreen y pantalla completa sin bordes). Así como activar o desactivar los bordes del modo ventanas.
 
 - [ ] Cargar archivos de video.
-
-- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar (Agregar texto "Demo Mode" en la esquina superior derecha).
 
 **v1.4**
 ------------
@@ -104,20 +102,18 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
 
-- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
-
-- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
-
 - [ ] Story Mode Concept.
-
-- [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
 - [ ] Mejorar Pause Menu/Screen:
 Configuración del Training (Solo se mostrará cuando estés jugando el Training Mode)
-Opciones (Dentro podrás acceder a las opciones de sonido y opciones de controles)
-Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin guardar)
+
+- [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
+
+- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
+
+- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "saved/screenshots/NombreDeVentana000.png".
 
 **v1.5**
 ------------
@@ -130,6 +126,8 @@ Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
+
+- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
@@ -164,9 +162,9 @@ Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin
 
 - [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
-- [ ] Soporte para imágenes RGB/32bits y shaders
+- [ ] Soporte para imágenes RGB/32bits y Shaders
 
-- [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en "local replays".
+- [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en ¿local replays?.
 
 **v1.9**
 ------------
@@ -178,8 +176,6 @@ Salir (En Story Mode debe salir una opción para guardar el progreso o salir sin
 - [ ] En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
 
 - [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
-
-- [ ] Perfiles de usuarios.
 
 ---------------------
 v2.0 (Final Release)
