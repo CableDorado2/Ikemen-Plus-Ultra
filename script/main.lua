@@ -6699,10 +6699,6 @@ function f_theVault()
 			end
 			textImgDraw(t_vaultMenu[i].id)
 		end
-		--Draw Cursor
-		--animSetWindow(cursorBox, 30+vaultMenu*70,168, 48.5,13)
-		--f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		--animDraw(f_animVelocity(cursorBox, -1, -1))
 		i = i >= 60 and 0 or i + 1
 		t = t + 1
 		animDraw(data.fadeTitle)
@@ -6774,10 +6770,6 @@ function f_playTime()
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
-
---Progress Variables
---data.missionsProgress = 0
---data.eventsProgress = 0
 
 --Data loading from stats_sav.lua
 local file = io.open("saved/stats_sav.lua","r")

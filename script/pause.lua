@@ -534,11 +534,11 @@ function f_pauseSettings()
 			end
 			--HUD Status
 			if gameCfg == 3 then
-				if (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) and hudStatus == 'Yes' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hudStatus == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
 					hudStatus = 'No'
-				elseif (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) and hudStatus == 'No' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hudStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
 					hudStatus = 'Yes'
