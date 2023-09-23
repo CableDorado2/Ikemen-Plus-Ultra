@@ -82,8 +82,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.3**
 ------------
 
-- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
-
 - [ ] Opciones de video que permitan personalizar la ventana del Ikemen (Cambiar entre modo ventana, fullscreen y pantalla completa sin bordes). Así como activar o desactivar los bordes del modo ventanas.
 
 - [ ] Cargar archivos de video.
@@ -149,6 +147,8 @@ Configuración del Training (Solo se mostrará cuando estés jugando el Training
 ------------
 
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+
+- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 - [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
 
