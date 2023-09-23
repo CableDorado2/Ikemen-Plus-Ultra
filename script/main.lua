@@ -6538,10 +6538,9 @@ end
 --;===========================================================
 --; THE VAULT SCREENPACK
 --;===========================================================
-txt_vaultTitle = createTextImg(jgFnt, 5, 0, 'THE VAULT', 159, 24,1.2,1.2)
-txt_vaultWords = createTextImg(jgFnt, 0, 0, '', 160, 62,0.9,0.9)
+txt_vaultTitle = createTextImg(font6, 0, 0, 'THE VAULT', 159, 28)
 txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
-txt_vaultText = createTextImg(font14, 0, 0, '', 160, 87)
+txt_vaultText = createTextImg(font14, 0, 0, '', 160, 117)
 
 --Background
 vaultBG0 = animNew(sysSff, [[
@@ -6555,7 +6554,7 @@ animSetScale(vaultBG0, 0.30, 0.305)
 vaultWindowBG = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(vaultWindowBG, 20, 70)
+animSetPos(vaultWindowBG, 20, 100)
 animSetAlpha(vaultWindowBG, 20, 100)
 animUpdate(vaultWindowBG)
 
@@ -6566,22 +6565,31 @@ t_vaultMenu = {
 	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'ENTER'},
 }
 for i=1, #t_vaultMenu do
-	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 178)
+	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
 end
 
 function f_randomWords()
-	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "S-Size is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database..."}
+	txt_vaultWords = createTextImg(jgFnt, 0, 0, '', 0, 0,0.9,0.9)
+	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "S-Size is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Let's send greetings to some people that I watch on YouTube and support this", "Greetings! BRUCELEE-wt7hk", "Greetings! cristopeleslee", "Greetings! Strong FS", "Greetings! 2Dee4Ever", "Greetings! Alfaomega7446", "Greetings! Lasombrademon", "Greetings! ALEX TV G.T.M", "Greetings! PintaX724", "Greetings! MEGA X", "Greetings! LEVEN2IS2LIJDEN", "Greetings! Ramleh", "Greetings! Milsam", "Greetings! Street Gamer", "Greetings! Liam Kuroshi"}
 	if data.userName == 'Strong FS' or data.userName == 'strong fs' or data.userName == 'StrongFS' or data.userName == 'strongfs' or data.userName == 'Strong Fs' or data.userName == 'STRONG FS' or data.userName == 'STRONGFS' then
 		table.insert(t_randomWord,1, "Hey Strong! CD2 te manda Saludoss")
 		table.insert(t_randomWord,2, "Hmmm Strong XD")
 	end
-	textImgSetText(txt_vaultWords,(t_randomWord[math.random(1, #t_randomWord)]))
+	txtRandom = (t_randomWord[math.random(1, #t_randomWord)])
+end
+
+function f_prizeWords()
+	txt_vaultWords = createTextImg(jgFnt, 5, 0, '', 0, 0,0.9,0.9)
+	local t_randomWord = {"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0", "Well, this is a little Minigame to show you what the LUA is capable of"}
+	txtRandom = (t_randomWord[math.random(1, #t_randomWord)])
 end
 
 function f_theVault()
 	local word = ''
 	local vaultMenu = 2
 	local i = 0
+	local t = 0
+	local prize = false
 	f_randomWords() --Get Random Words
 	vaultExit = false
 	cmdInput()
@@ -6632,28 +6640,36 @@ function f_theVault()
 				vaultExit = true
 			--ENTER
 			elseif vaultMenu == 2 then
+				t = 0 --Reset Vault Words Delay Time
 				if word ~= '' and word ~= nil then
 					vaultKey = (tostring(word))
 					if vaultKey == 'ultra' or vaultKey == 'Ultra' or vaultKey == 'ULTRA' then
+						sndPlay(sysSnd, 100, 1)
 						data.vault = 'Ultra'
 						f_saveProgress()
 						assert(loadfile('saved/stats_sav.lua'))()
+						prize = true
 					elseif vaultKey == 'zen' or vaultKey == 'Zen' or vaultKey == 'ZEN' then
+						sndPlay(sysSnd, 100, 1)
 						data.vault = 'Zen'
 						f_saveProgress()
 						assert(loadfile('saved/stats_sav.lua'))()
+						prize = true
 					elseif vaultKey == 's-size' or vaultKey == 'S-Size' or vaultKey == 'S-SIZE' then
+						sndPlay(sysSnd, 100, 1)
 						data.vault = 'Size'
 						f_saveProgress()
 						assert(loadfile('saved/stats_sav.lua'))()
+						prize = true
+					else
+						prize = false
 					end
-					sndPlay(sysSnd, 100, 1)
 					clearInputText()
 				else
 					clearInputText()
-					sndPlay(sysSnd, 100, 1)
+					prize = false
 				end
-				f_randomWords()
+				if not prize then f_randomWords() else f_prizeWords() end
 			end
 		end
 		--Draw BG
@@ -6663,16 +6679,16 @@ function f_theVault()
 		textImgDraw(txt_vaultTitle)
 		--Draw Text Window BG
 		animSetScale(vaultWindowBG, 220, 30)
-		animSetWindow(vaultWindowBG, 80,70, 160,30)
+		animSetWindow(vaultWindowBG, 80,100, 160,30)
 		animDraw(vaultWindowBG)
 		--Draw Valt Words
-		textImgDraw(txt_vaultWords)
+		f_textRender(txt_vaultWords, txtRandom, t, 160, 78, 15, 2.5, 45)
 		--Draw Text
 		textImgSetText(txt_vaultText,word)
 		textImgDraw(txt_vaultText)
 		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
 		if i%60 < 30 then 
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)>0 and 2 or 0),88.5)
+			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)>0 and 2 or 0),118.5)
 		end
 		--Draw Button Option Text
 		for i=1, #t_vaultMenu do
@@ -6684,10 +6700,11 @@ function f_theVault()
 			textImgDraw(t_vaultMenu[i].id)
 		end
 		--Draw Cursor
-		animSetWindow(cursorBox, 30+vaultMenu*70,168, 48.5,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--animSetWindow(cursorBox, 30+vaultMenu*70,168, 48.5,13)
+		--f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		--animDraw(f_animVelocity(cursorBox, -1, -1))
 		i = i >= 60 and 0 or i + 1
+		t = t + 1
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
