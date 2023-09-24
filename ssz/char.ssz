@@ -33,6 +33,184 @@ public ^index wakewakaLength;
 
 public ^&.stage.Stage stg;
 
+const index iLIFE              = 10;
+const index iLIFEMAX           = 11;
+const index iLIFEMAX2          = 12;
+const index iPOWER             = 13;
+const index iPOWERMAX          = 14;
+const index iPOWERMAX2         = 15;
+const index iATTACK            = 16;
+const index iDEFENCE           = 17;
+const index iLIEDOWN_TIME      = 18;
+const index iAIRJUGGLE         = 19;
+const index iSPARKNO           = 20;
+const index iGUARD_SPARKNO     = 21;
+const index iKO_ECHO           = 22;
+const index iVOLUME            = 23;
+const index iINTPERSISTINDEX   = 24;
+const index iFLOATPERSISTINDEX = 25;
+const index iGROUND_BACK       = 26;
+const index iGROUND_FRONT      = 27;
+const index iAIR_BACK          = 28;
+const index iAIR_FRONT         = 29;
+const index iHEIGHT            = 30;
+const index iATTACK_DIST       = 31;
+const index iPROJ_ATTACK_DIST  = 32;
+const index iPROJ_DOSCALE      = 33;
+const index iHEAD_POSX         = 34;
+const index iHEAD_POSY         = 35;
+const index iMID_POSX          = 36;
+const index iMID_POSY          = 37;
+const index iSHADOWOFFSET      = 38;
+const index iDRAW_OFFSETX      = 39;
+const index iDRAW_OFFSETY      = 40;
+const index iAIRJUMP_CNT       = 41;
+const index iAIRJUMP_NUM       = 42;
+const index iAIRJUMP_HEIGHT    = 43;
+const index iHITCOUNT          = 44;
+const index iUNIQHITCOUNT      = 45;
+const index iPAUSEMOVETIME     = 46;
+const index iSUPERMOVETIME     = 47;
+const index iBINDTIME          = 48;
+const index iBINDTOID          = 49;
+const index iBINDFACING        = 50;
+const index iHITPAUSETIME      = 51;
+const index iALPHAS            = 52;
+const index iALPHAD            = 53;
+const index iRECOVERTIME       = 54;
+const index iSPECIALFLAG       = 55;
+const index iSYSFLAG           = 56;
+const index iZ_WIDTH              = 57;
+const index iATTACK_Z_WIDTH_FRONT = 58;
+const index iATTACK_Z_WIDTH_BACK  = 59;
+const index iIGNORETIMESTOP    = 60;
+
+const index fX                = 10;
+const index fY                = 11;
+const index fVX               = 12;
+const index fVY               = 13;
+const index fFALL_DEFENCE_MUL = 14;
+const index fXSCALE           = 15;
+const index fYSCALE           = 16;
+const index fWALK_FWD         = 17;
+const index fWALK_BACK        = 18;
+const index fRUN_FWDX         = 19;
+const index fRUN_FWDY         = 20;
+const index fRUN_BACKX        = 21;
+const index fRUN_BACKY        = 22;
+const index fJUMP_NEUX        = 23;
+const index fJUMP_NEUY        = 24;
+const index fJUMP_BACK        = 25;
+const index fJUMP_FWD         = 26;
+const index fRUNJUMP_BACKX    = 27;
+const index fRUNJUMP_BACKY    = 28;
+const index fRUNJUMP_FWDX     = 29;
+const index fRUNJUMP_FWDY     = 30;
+const index fAIRJUMP_NEUX     = 31;
+const index fAIRJUMP_NEUY     = 32;
+const index fAIRJUMP_BACK     = 33;
+const index fAIRJUMP_FWD      = 34;
+const index fYACCEL           = 35;
+const index fSTAND_FRICTION   = 36;
+const index fCROUCH_FRICTION  = 37;
+const index fBINDPOSX         = 38;
+const index fBINDPOSY         = 39;
+const index fANGLE            = 40;
+const index fANGLESCALEX      = 41;
+const index fANGLESCALEY      = 42;
+const index fCLSNXSCALE       = 43;
+const index fCLSNYSCALE       = 44;
+const index fAIR_GETHIT_GROUNDRECOVERX                 = 45;
+const index fAIR_GETHIT_GROUNDRECOVERY                 = 46;
+const index fAIR_GETHIT_AIRRECOVER_MULX                = 47;
+const index fAIR_GETHIT_AIRRECOVER_MULY                = 48;
+const index fAIR_GETHIT_AIRRECOVER_ADDX                = 49;
+const index fAIR_GETHIT_AIRRECOVER_ADDY                = 50;
+const index fAIR_GETHIT_AIRRECOVER_BACK                = 51;
+const index fAIR_GETHIT_AIRRECOVER_FWD                 = 52;
+const index fAIR_GETHIT_AIRRECOVER_UP                  = 53;
+const index fAIR_GETHIT_AIRRECOVER_DOWN                = 54;
+const index fSTAND_FRICTION_THRESHOLD                  = 55;
+const index fCROUCH_FRICTION_THRESHOLD                 = 56;
+const index fAIR_GETHIT_GROUNDLEVEL                    = 57;
+const index fAIR_GETHIT_GROUNDRECOVER_GROUND_THRESHOLD = 58;
+const index fAIR_GETHIT_GROUNDRECOVER_GROUNDLEVEL      = 59;
+const index fAIR_GETHIT_AIRRECOVER_THRESHOLD           = 60;
+const index fAIR_GETHIT_AIRRECOVER_YACCEL              = 61;
+const index fAIR_GETHIT_TRIP_GROUNDLEVEL               = 62;
+const index fDOWN_BOUNCE_OFFSETX                       = 63;
+const index fDOWN_BOUNCE_OFFSETY                       = 64;
+const index fDOWN_BOUNCE_YACCEL                        = 65;
+const index fDOWN_BOUNCE_GROUNDLEVEL                   = 66;
+const index fDOWN_FRICTION_THRESHOLD                   = 67;
+const index fWALK_UP_X                                 = 68;
+const index fWALK_DOWN_X                               = 69;
+const index fRUN_UP_X                                  = 70;
+const index fRUN_UP_Y                                  = 71;
+const index fRUN_DOWN_X                                = 72;
+const index fRUN_DOWN_Y                                = 73;
+const index fJUMP_UP_X                                 = 74;
+const index fJUMP_DOWN_X                               = 75;
+const index fRUNJUMP_UP_X                              = 76;
+const index fRUNJUMP_DOWN_X                            = 77;
+const index fAIRJUMP_UP_X                              = 78;
+const index fAIRJUMP_DOWN_X                            = 79;
+
+
+const int lsINVISIBLE     = 0b00000000000000000000000000000001;
+const int lsNOSTANDGUARD  = 0b00000000000000000000000000000010;
+const int lsNOCROUCHGUARD = 0b00000000000000000000000000000100;
+const int lsNOAIRGUARD    = 0b00000000000000000000000000001000;
+const int lsNOAUTOTURN    = 0b00000000000000000000000000010000;
+const int lsNOJUGGLECHECK = 0b00000000000000000000000000100000;
+const int lsNOSHADOW      = 0b00000000000000000000000001000000;
+const int lsNOWALK        = 0b00000000000000000000000010000000;
+const int lsUNGUARDABLE   = 0b00000000000000000000000100000000;
+const int lsPOSFREEZEX    = 0b00000000000000000000001000000000;
+const int lsPOSFREEZEY    = 0b00000000000000000000010000000000;
+const int lsPLAYERPUSH    = 0b00000000000000000000100000000000;
+const int lsSCREENBOUND   = 0b00000000000000000001000000000000;
+const int lsMOVECAMERAX   = 0b00000000000000000010000000000000;
+const int lsMOVECAMERAY   = 0b00000000000000000100000000000000;
+const int lsGETHIT        = 0b00000000000000001000000000000000;
+const int lsANGLEDRAW     = 0b00000000000000010000000000000000;
+const int lsTRANS         = 0b00000000000000100000000000000000;
+const int lsFRONTWCHANGE  = 0b00000000000001000000000000000000;
+const int lsBACKWCHANGE   = 0b00000000000010000000000000000000;
+const int lsFEDGECHANGE   = 0b00000000000100000000000000000000;
+const int lsBEDGECHANGE   = 0b00000000001000000000000000000000;
+const int lsDESTROY       = 0b00000000010000000000000000000000;
+const int lsTSIGNORE      = 0b00000010000000000000000000000000;
+
+const int lasMask =
+  lsNOAUTOTURN | lsNOWALK | lsNOSTANDGUARD | lsNOCROUCHGUARD | lsNOAIRGUARD
+  | lsNOSHADOW | lsINVISIBLE | lsUNGUARDABLE | lsNOJUGGLECHECK;
+
+public uint specialFlag;
+const uint gsINTRO          = 0b00000000000000000000000000000001;
+const uint gsROUNDNOTOVER   = 0b00000000000000000000000000000010;
+const uint gsNOBARDISPLAY   = 0b00000000000000000000000000000100;
+const uint gsNOHUDDISPLAY   = 0b00000000000000000000000000001000;
+const uint gsNOBG           = 0b00000000000000000000000000001000;
+const uint gsNOFG           = 0b00000000000000000000000000010000;
+const uint gsNOKOSLOW       = 0b00000000000000000000000000100000;
+const uint gsGLOBALNOSHADOW = 0b00000000000000000000000001000000;
+const uint gsNOMUSIC        = 0b00000000000000000000000010000000;
+const uint gsTIMERFREEZE    = 0b00000000000000000000000100000000;
+const uint gsNOKO           = 0b00000000000000000000001000000000;
+const uint gsNOKOSND        = 0b00000000000000000000010000000000;
+const uint gsTIMESTOP       = 0b00000000000000000001000000000000;
+public bool gs(uint mask)
+{
+  ret (.specialFlag & mask) == mask;
+}
+
+const int sfAIRJUMP         = 0b00000000000000000000000000000001;
+const int sfOVER            = 0b00000000000000000000000000000010;
+const int sfKO              = 0b00000000000000000000000000000100;
+const int sfKO_ROUND_MIDDLE = 0b00000000000000000000000000001000;
+const int sfGUARD           = 0b00000000000000000000000000010000;
+
 %&act.DrawnClsn drawc1, drawc2, drawc2sp, drawc2mtk, drawwh;
 void resetDrawnClsnList()
 {
@@ -1265,183 +1443,6 @@ const int ATP =
     `hb.fallf |= fall;
   }
 }
-const index iLIFE              = 10;
-const index iLIFEMAX           = 11;
-const index iLIFEMAX2          = 12;
-const index iPOWER             = 13;
-const index iPOWERMAX          = 14;
-const index iPOWERMAX2         = 15;
-const index iATTACK            = 16;
-const index iDEFENCE           = 17;
-const index iLIEDOWN_TIME      = 18;
-const index iAIRJUGGLE         = 19;
-const index iSPARKNO           = 20;
-const index iGUARD_SPARKNO     = 21;
-const index iKO_ECHO           = 22;
-const index iVOLUME            = 23;
-const index iINTPERSISTINDEX   = 24;
-const index iFLOATPERSISTINDEX = 25;
-const index iGROUND_BACK       = 26;
-const index iGROUND_FRONT      = 27;
-const index iAIR_BACK          = 28;
-const index iAIR_FRONT         = 29;
-const index iHEIGHT            = 30;
-const index iATTACK_DIST       = 31;
-const index iPROJ_ATTACK_DIST  = 32;
-const index iPROJ_DOSCALE      = 33;
-const index iHEAD_POSX         = 34;
-const index iHEAD_POSY         = 35;
-const index iMID_POSX          = 36;
-const index iMID_POSY          = 37;
-const index iSHADOWOFFSET      = 38;
-const index iDRAW_OFFSETX      = 39;
-const index iDRAW_OFFSETY      = 40;
-const index iAIRJUMP_CNT       = 41;
-const index iAIRJUMP_NUM       = 42;
-const index iAIRJUMP_HEIGHT    = 43;
-const index iHITCOUNT          = 44;
-const index iUNIQHITCOUNT      = 45;
-const index iPAUSEMOVETIME     = 46;
-const index iSUPERMOVETIME     = 47;
-const index iBINDTIME          = 48;
-const index iBINDTOID          = 49;
-const index iBINDFACING        = 50;
-const index iHITPAUSETIME      = 51;
-const index iALPHAS            = 52;
-const index iALPHAD            = 53;
-const index iRECOVERTIME       = 54;
-const index iSPECIALFLAG       = 55;
-const index iSYSFLAG           = 56;
-const index iZ_WIDTH              = 57;
-const index iATTACK_Z_WIDTH_FRONT = 58;
-const index iATTACK_Z_WIDTH_BACK  = 59;
-const index iIGNORETIMESTOP    = 60;
-
-const index fX                = 10;
-const index fY                = 11;
-const index fVX               = 12;
-const index fVY               = 13;
-const index fFALL_DEFENCE_MUL = 14;
-const index fXSCALE           = 15;
-const index fYSCALE           = 16;
-const index fWALK_FWD         = 17;
-const index fWALK_BACK        = 18;
-const index fRUN_FWDX         = 19;
-const index fRUN_FWDY         = 20;
-const index fRUN_BACKX        = 21;
-const index fRUN_BACKY        = 22;
-const index fJUMP_NEUX        = 23;
-const index fJUMP_NEUY        = 24;
-const index fJUMP_BACK        = 25;
-const index fJUMP_FWD         = 26;
-const index fRUNJUMP_BACKX    = 27;
-const index fRUNJUMP_BACKY    = 28;
-const index fRUNJUMP_FWDX     = 29;
-const index fRUNJUMP_FWDY     = 30;
-const index fAIRJUMP_NEUX     = 31;
-const index fAIRJUMP_NEUY     = 32;
-const index fAIRJUMP_BACK     = 33;
-const index fAIRJUMP_FWD      = 34;
-const index fYACCEL           = 35;
-const index fSTAND_FRICTION   = 36;
-const index fCROUCH_FRICTION  = 37;
-const index fBINDPOSX         = 38;
-const index fBINDPOSY         = 39;
-const index fANGLE            = 40;
-const index fANGLESCALEX      = 41;
-const index fANGLESCALEY      = 42;
-const index fCLSNXSCALE       = 43;
-const index fCLSNYSCALE       = 44;
-const index fAIR_GETHIT_GROUNDRECOVERX                 = 45;
-const index fAIR_GETHIT_GROUNDRECOVERY                 = 46;
-const index fAIR_GETHIT_AIRRECOVER_MULX                = 47;
-const index fAIR_GETHIT_AIRRECOVER_MULY                = 48;
-const index fAIR_GETHIT_AIRRECOVER_ADDX                = 49;
-const index fAIR_GETHIT_AIRRECOVER_ADDY                = 50;
-const index fAIR_GETHIT_AIRRECOVER_BACK                = 51;
-const index fAIR_GETHIT_AIRRECOVER_FWD                 = 52;
-const index fAIR_GETHIT_AIRRECOVER_UP                  = 53;
-const index fAIR_GETHIT_AIRRECOVER_DOWN                = 54;
-const index fSTAND_FRICTION_THRESHOLD                  = 55;
-const index fCROUCH_FRICTION_THRESHOLD                 = 56;
-const index fAIR_GETHIT_GROUNDLEVEL                    = 57;
-const index fAIR_GETHIT_GROUNDRECOVER_GROUND_THRESHOLD = 58;
-const index fAIR_GETHIT_GROUNDRECOVER_GROUNDLEVEL      = 59;
-const index fAIR_GETHIT_AIRRECOVER_THRESHOLD           = 60;
-const index fAIR_GETHIT_AIRRECOVER_YACCEL              = 61;
-const index fAIR_GETHIT_TRIP_GROUNDLEVEL               = 62;
-const index fDOWN_BOUNCE_OFFSETX                       = 63;
-const index fDOWN_BOUNCE_OFFSETY                       = 64;
-const index fDOWN_BOUNCE_YACCEL                        = 65;
-const index fDOWN_BOUNCE_GROUNDLEVEL                   = 66;
-const index fDOWN_FRICTION_THRESHOLD                   = 67;
-const index fWALK_UP_X                                 = 68;
-const index fWALK_DOWN_X                               = 69;
-const index fRUN_UP_X                                  = 70;
-const index fRUN_UP_Y                                  = 71;
-const index fRUN_DOWN_X                                = 72;
-const index fRUN_DOWN_Y                                = 73;
-const index fJUMP_UP_X                                 = 74;
-const index fJUMP_DOWN_X                               = 75;
-const index fRUNJUMP_UP_X                              = 76;
-const index fRUNJUMP_DOWN_X                            = 77;
-const index fAIRJUMP_UP_X                              = 78;
-const index fAIRJUMP_DOWN_X                            = 79;
-
-
-const int lsINVISIBLE     = 0b00000000000000000000000000000001;
-const int lsNOSTANDGUARD  = 0b00000000000000000000000000000010;
-const int lsNOCROUCHGUARD = 0b00000000000000000000000000000100;
-const int lsNOAIRGUARD    = 0b00000000000000000000000000001000;
-const int lsNOAUTOTURN    = 0b00000000000000000000000000010000;
-const int lsNOJUGGLECHECK = 0b00000000000000000000000000100000;
-const int lsNOSHADOW      = 0b00000000000000000000000001000000;
-const int lsNOWALK        = 0b00000000000000000000000010000000;
-const int lsUNGUARDABLE   = 0b00000000000000000000000100000000;
-const int lsPOSFREEZEX    = 0b00000000000000000000001000000000;
-const int lsPOSFREEZEY    = 0b00000000000000000000010000000000;
-const int lsPLAYERPUSH    = 0b00000000000000000000100000000000;
-const int lsSCREENBOUND   = 0b00000000000000000001000000000000;
-const int lsMOVECAMERAX   = 0b00000000000000000010000000000000;
-const int lsMOVECAMERAY   = 0b00000000000000000100000000000000;
-const int lsGETHIT        = 0b00000000000000001000000000000000;
-const int lsANGLEDRAW     = 0b00000000000000010000000000000000;
-const int lsTRANS         = 0b00000000000000100000000000000000;
-const int lsFRONTWCHANGE  = 0b00000000000001000000000000000000;
-const int lsBACKWCHANGE   = 0b00000000000010000000000000000000;
-const int lsFEDGECHANGE   = 0b00000000000100000000000000000000;
-const int lsBEDGECHANGE   = 0b00000000001000000000000000000000;
-const int lsDESTROY       = 0b00000000010000000000000000000000;
-const int lsTSIGNORE      = 0b00000010000000000000000000000000;
-
-const int lasMask =
-  lsNOAUTOTURN | lsNOWALK | lsNOSTANDGUARD | lsNOCROUCHGUARD | lsNOAIRGUARD
-  | lsNOSHADOW | lsINVISIBLE | lsUNGUARDABLE | lsNOJUGGLECHECK;
-
-public uint specialFlag;
-const uint gsINTRO          = 0b00000000000000000000000000000001;
-const uint gsROUNDNOTOVER   = 0b00000000000000000000000000000010;
-const uint gsNOBARDISPLAY   = 0b00000000000000000000000000000100;
-const uint gsNOHUDDISPLAY   = 0b00000000000000000000000000001000;
-const uint gsNOBG           = 0b00000000000000000000000000001000;
-const uint gsNOFG           = 0b00000000000000000000000000010000;
-const uint gsNOKOSLOW       = 0b00000000000000000000000000100000;
-const uint gsGLOBALNOSHADOW = 0b00000000000000000000000001000000;
-const uint gsNOMUSIC        = 0b00000000000000000000000010000000;
-const uint gsTIMERFREEZE    = 0b00000000000000000000000100000000;
-const uint gsNOKO           = 0b00000000000000000000001000000000;
-const uint gsNOKOSND        = 0b00000000000000000000010000000000;
-const uint gsTIMESTOP       = 0b00000000000000000001000000000000;
-public bool gs(uint mask)
-{
-  ret (.specialFlag & mask) == mask;
-}
-
-const int sfAIRJUMP         = 0b00000000000000000000000000000001;
-const int sfOVER            = 0b00000000000000000000000000000010;
-const int sfKO              = 0b00000000000000000000000000000100;
-const int sfKO_ROUND_MIDDLE = 0b00000000000000000000000000001000;
-const int sfGUARD           = 0b00000000000000000000000000010000;
 
 &PlayerList<_t>
 {
@@ -1532,7 +1533,6 @@ public bool roundEnd()
   ret .com.intro < -.fight~ro.over_hittime;
 }
 
-
 public &PlayerList!&Char? players;
 public int id = cfg.HelperMax;
 /int pause = 0, pausetime = 0, pausebg = 0, pauseendcmdbuftime = 0;
@@ -1547,6 +1547,8 @@ int superdarken = 1;
 float superp2defmul = 1.0;
 /int envcol_time = 0;
 /int envcol_under = 0;
+/int envcol_over = 0;
+/int envcol_alpha = 0;
 int envcol_r = 255;
 int envcol_g = 255;
 int envcol_b = 255;
@@ -6682,23 +6684,6 @@ public float action(
   bool introSkip = false;
   branch{
   cond .com.tickFrame():
-    .com.xmin =
-      .com.cam.screenX + .com.cam.xOffset + .com.screenleft;
-    .com.xmax =
-      .com.cam.screenX + .com.cam.xOffset
-      + ((float).com.GameWidth / .com.cam.scale) - .com.screenright;
-    if(.com.xmin > .com.xmax){
-      .com.xmin = .com.xmax = (.com.xmin + .com.xmax) * 0.5;
-    }
-	if(!.timestop){
-     .sff.allPalFX~step();
-     .stage.bgPalFX~step();
-     .stage.envShake.next();
-     if(.envcol_time > 0) .envcol_time--;
-	}
-    .com.drawscale = 0.0/0.0;
-    .com.zoomposx = 0.0;
-    .com.zoomposy = 0.0;
     branch{
     cond .super > 0 && !.timestop:
       .super--;
@@ -6719,6 +6704,23 @@ public float action(
     else:
       .timestop = false;
     }
+	.com.xmin =
+      .com.cam.screenX + .com.cam.xOffset + .com.screenleft;
+    .com.xmax =
+      .com.cam.screenX + .com.cam.xOffset
+      + ((float).com.GameWidth / .com.cam.scale) - .com.screenright;
+    if(.com.xmin > .com.xmax){
+      .com.xmin = .com.xmax = (.com.xmin + .com.xmax) * 0.5;
+    }
+	if(!.timestop){
+      .sff.allPalFX~step();
+      .stage.bgPalFX~step();
+      .stage.envShake.next();
+      if(.envcol_time > 0) .envcol_time--;
+	}
+    .com.drawscale = 0.0/0.0;
+    .com.zoomposx = 0.0;
+    .com.zoomposy = 0.0;
     branch{
     cond .timestop: 
       .specialFlag &= !.gsTIMESTOP & !.gsNOHUDDISPLAY;
@@ -7066,7 +7068,7 @@ public float action(
   else:
     .com.turbo = spd;
   }
-  if(.com.pauseMenu > 0) .specialFlag|=.gsNOHUDDISPLAY;
+  //if(.com.pauseMenu > 0) .specialFlag|=.gsNOHUDDISPLAY; //Disable BG when pause is active
   .sdl.pauseBGM(.gs(.gsNOMUSIC));
   .playSound();
   if(introSkip) tmp = 1.0 / scl;
@@ -7109,7 +7111,7 @@ public void draw(float x, float y, float scl)
   int ob = .com.brightness;
   .com.brightness = 256 >> (int)(.super > 0 && .superdarken != 0);
   float bgx = x / .stg~localscl, bgy = y / .stg~localscl;
-  if(.envcol_time == 0) branch{
+  if(.envcol_time == 0 || .envcol_time > 0 && .envcol_alpha < 255) branch{
   cond .gs(.gsNOBG):
     {
       uint c = 0x0;

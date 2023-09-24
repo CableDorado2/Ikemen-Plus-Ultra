@@ -646,7 +646,7 @@ public &Layout
       `vfacing = .aton!`vfacing.self?(data) < 0 ? -1: 1;
     }
     if(#(data = sc.benri(img, "layerno")) > 0){
-      `layerno = .m.min!int?(2)<, .aton!`layerno.self?(data);
+      `layerno = .aton!`layerno.self?(data);
     }
     if(#(data = sc.benri(img, "scale")) > 0){
       .readPair!float?(`scale.x=, `scale.y=, data);
@@ -849,7 +849,7 @@ public &PalFX
     {
       int sr = 0, sg = 0, sb = 0;
       if(`neg){
-        r *= -1; g *= -1; b *= -1;
+        r = g = b = -1;//r *= -1; g *= -1; b *= -1;
       }
       void bar(int s=, int c=)
       {
@@ -872,9 +872,10 @@ public &PalFX
       float ac;
       branch{
       cond neg:
-        mr = (`emulg + `emulb) >> 1;
-        mg = (`emulr + `emulb) >> 1;
-        mb = (`emulr + `emulg) >> 1;
+        mr = mg = mb = 256;
+        //mr = (`emulg + `emulb) >> 1;
+        //mg = (`emulr + `emulb) >> 1;
+        //mb = (`emulr + `emulg) >> 1;
       else:
         mr = `emulr;
         mg = `emulg;

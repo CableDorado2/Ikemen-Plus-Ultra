@@ -18,6 +18,9 @@ public &Select
     public ^/char sprite;
     public ^&.sff.Sprite sportrait;
     public ^&.sff.Sprite lportrait;
+	public ^&.sff.Sprite vsportrait;
+    public ^&.sff.Sprite svsportrait;
+    public ^&.sff.Sprite winportrait;
   }
   public &Stage
   {
@@ -29,6 +32,9 @@ public &Select
   public float cellscalex = 1.0, cellscaley = 1.0;
   public int sportg = 9000, sportn = 0;
   public int lportg = 9000, lportn = 1;
+  public int winportg = 9000, winportn = 2;
+  public int vsportg = 9000, vsportn = 3;
+  public int svsportg = 9000, svsportn = 4;
   public ^&.sff.Sprite randomspr;
   public float randxscl = 1.0, randyscl = 1.0;
   public %&Char charlist;
@@ -150,6 +156,30 @@ public &Select
       s.new(1);
       if(#s~loadFromSff(f, `lportg, `lportn)=>error > 0) ret error;
       `charlist[-1].lportrait = s;
+      ret "";
+    }];
+	.com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `vsportg, `vsportn)=>error > 0) ret error;
+      `charlist[-1].vsportrait = s;
+      ret "";
+    }];
+    .com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `svsportg, `svsportn)=>error > 0) ret error;
+      `charlist[-1].svsportrait = s;
+      ret "";
+    }];
+    .com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `winportg, `winportn)=>error > 0) ret error;
+      `charlist[-1].winportrait = s;
       ret "";
     }];
     ret true;

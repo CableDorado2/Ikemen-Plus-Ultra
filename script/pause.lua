@@ -14,92 +14,96 @@ pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 
-if (resolutionHeight / 3 * 4) == resolutionWidth then
-	--Clock
-	if data.clock == 'Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 229)
-	elseif data.clock == 'Full Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 229)
-	elseif data.clock == 'Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 229)
-	elseif data.clock == 'Full Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 229)
+function f_sysTimeP()
+	if (resolutionHeight / 3 * 4) == resolutionWidth then
+		--Clock
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 229)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 229)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 229)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 229)
+		end
+		--Date
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 314, 239)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 314, 239)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 314, 239)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 314, 239)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 314, 239)
+		end
+	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
+		end
+	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 229)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 229)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 229)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 229)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 365, 239)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 365, 239)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 365, 239)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 365, 239)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 365, 239)
+		end
+	else
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
+		end
 	end
-	--Date
-	if data.date == 'Type A' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 314, 239)
-	elseif data.date == 'Type B' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 314, 239)
-	elseif data.date == 'Type C' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 314, 239)
-	elseif data.date == 'Type D' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 314, 239)
-	elseif data.date == 'Type E' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 314, 239)
-	end
-elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-	if data.clock == 'Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
-	elseif data.clock == 'Full Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
-	elseif data.clock == 'Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
-	elseif data.clock == 'Full Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
-	end
-	if data.date == 'Type A' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
-	elseif data.date == 'Type B' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
-	elseif data.date == 'Type C' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
-	elseif data.date == 'Type D' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
-	elseif data.date == 'Type E' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
-	end
-elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-	if data.clock == 'Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 229)
-	elseif data.clock == 'Full Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 229)
-	elseif data.clock == 'Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 229)
-	elseif data.clock == 'Full Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 229)
-	end
-	if data.date == 'Type A' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 365, 239)
-	elseif data.date == 'Type B' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 365, 239)
-	elseif data.date == 'Type C' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 365, 239)
-	elseif data.date == 'Type D' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 365, 239)
-	elseif data.date == 'Type E' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 365, 239)
-	end
-else
-	if data.clock == 'Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
-	elseif data.clock == 'Full Standard' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
-	elseif data.clock == 'Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
-	elseif data.clock == 'Full Military' then
-		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
-	end
-	if data.date == 'Type A' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
-	elseif data.date == 'Type B' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
-	elseif data.date == 'Type C' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
-	elseif data.date == 'Type D' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
-	elseif data.date == 'Type E' then
-		txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
-	end
+	textImgDraw(txt_titleClock) --Draw Clock
+	textImgDraw(txt_titleDate) --Draw Date
 end
 
 gl_vol = f_minMax(gl_vol,0,100)
@@ -214,7 +218,7 @@ darkenIn = animNew(sysSff, [[
 300,1, 0,0, 1, 0, AS256D117
 300,1, 0,0, -1, 0, AS256D102
 ]])
-animSetPos(darkenIn, 0, 0)
+animSetPos(darkenIn, -54, 0)
 animSetScale(darkenIn, 427, 240)
 
 --Transparent Background (fade out)
@@ -230,7 +234,7 @@ darkenOut = animNew(sysSff, [[
 300,1, 0,0, 1, 0, AS256D240
 300,1, 0,0, -1, 0, AS256D256
 ]])
-animSetPos(darkenOut, 0, 0)
+animSetPos(darkenOut, -54, 0)
 animSetScale(darkenOut, 427, 240)
 
 --;===========================================================
@@ -409,8 +413,7 @@ function f_pauseMain(p, st, esc)
 				animDraw(pauseDownArrow)
 				animUpdate(pauseDownArrow)
 			end
-			textImgDraw(txt_titleClock) --Draw Clock
-			textImgDraw(txt_titleDate) --Draw Date
+			f_sysTimeP()
 			if data.attractMode == true then textImgDraw(txt_attractCredits) end --Draw Attract Credits
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
@@ -588,6 +591,7 @@ function f_pauseSettings()
 				end
 			end
 			t_gameCfg[3].varText = hudStatus
+			--animDraw(f_animVelocity(pauseBG0, -1, -1))
 			animSetScale(pauseBG1, 220, maxgameCfg*15)
 			animSetWindow(pauseBG1, 80,70, 160,105)
 			animDraw(pauseBG1)
@@ -612,8 +616,7 @@ function f_pauseSettings()
 				animDraw(pauseDownArrow)
 				animUpdate(pauseDownArrow)
 			end
-			textImgDraw(txt_titleClock)
-			textImgDraw(txt_titleDate)
+			f_sysTimeP()
 			if data.attractMode == true then textImgDraw(txt_attractCredits) end
 			if commandGetState(p1Cmd, 'holdu') then
 				Pbufd = 0
@@ -779,6 +782,7 @@ function f_pauseSongs()
 				bufl = 0
 			end
 		end
+		--animDraw(f_animVelocity(pauseBG0, -1, -1))
 		animSetScale(pauseBG1, 220, maxSongs*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
@@ -807,8 +811,7 @@ function f_pauseSongs()
 			animDraw(pauseDownArrow)
 			animUpdate(pauseDownArrow)
 		end
-		textImgDraw(txt_titleClock)
-		textImgDraw(txt_titleDate)
+		f_sysTimeP()
 		if data.attractMode == true then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0
@@ -1001,6 +1004,7 @@ function f_pauseAudio()
 			setPanStr(pan_str / 100)
 			hasChanged = false
 		end
+		--animDraw(f_animVelocity(pauseBG0, -1, -1))
 		animSetScale(pauseBG1, 220, maxAudioCfg*15)
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
@@ -1025,8 +1029,7 @@ function f_pauseAudio()
 			animDraw(pauseDownArrow)
 			animUpdate(pauseDownArrow)
 		end
-		textImgDraw(txt_titleClock)
-		textImgDraw(txt_titleDate)
+		f_sysTimeP()
 		if data.attractMode == true then textImgDraw(txt_attractCredits) end
 		if commandGetState(p1Cmd, 'holdu') then
 			Pbufd = 0

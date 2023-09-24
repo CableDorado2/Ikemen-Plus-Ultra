@@ -5932,6 +5932,8 @@ public &StateBuilder
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOMUSIC;";
         cond .s.equ(text, "nobardisplay"):
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOBARDISPLAY;";
+		cond .s.equ(text, "nohuddisplay"):
+          `state.ctrlList[-1].task .= ".specialFlag|=.gsNOHUDDISPLAY;";
         cond .s.equ(text, "noshadow"):
           `state.ctrlList[-1].task .=
             "`sysivar[.iSPECIALFLAG]|=.lsNOSHADOW;";
@@ -5952,6 +5954,9 @@ public &StateBuilder
           `state.ctrlList[-1].task .= ".specialFlag|=.gsTIMERFREEZE;";
         cond .s.equ(text, "nokoslow"):
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOKOSLOW;";
+		cond .s.equ(text, "autoguard"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsAUTOGUARD;";
         cond .s.equ(text, "unguardable"):
           `state.ctrlList[-1].task .=
             "`sysivar[.iSPECIALFLAG]|=.lsUNGUARDABLE;";
@@ -5960,6 +5965,20 @@ public &StateBuilder
             "`sysivar[.iSPECIALFLAG]|=.lsNOJUGGLECHECK;";
         cond .s.equ(text, "noko"):
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOKO;";
+		cond .s.equ(text, "timestop"):
+          `state.ctrlList[-1].task .= "
+          .specialFlag|=.gsTIMESTOP;
+          .specialFlag|=.gsTIMERFREEZE;
+          `sysivar[.iSPECIALFLAG]|=.lsTSIGNORE;"; 
+        cond .s.equ(text, "autocrouch"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsAUTOCROUCH;";
+        cond .s.equ(text, "nodamage"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsNODAMAGE;"; 
+        cond .s.equ(text, "noguarddamage"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsNOGUARDDAMAGE;";
         else:
           `lasterror = data + "が無効な値です";
           ret false;

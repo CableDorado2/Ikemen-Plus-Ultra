@@ -403,7 +403,7 @@ void game()
       {
         .chr.chars[i][0]~sysivar[.chr.iLIFE] =
           .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
-		//.com.clsndraw = false;
+		  //.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0;
       }
       copyVar(i);
@@ -510,7 +510,8 @@ void game()
       while i < #.com.tmode:}
       break, break;
     }
-    if(.com.turbo < 1.0) sclmul **= .com.turbo;
+    //if(.chr.roundOver() && .s.equ(.com.gameType, "practice")) reset();
+	if(.com.turbo < 1.0) sclmul **= .com.turbo;
     scl = .com.cam.scaleBound(scl * sclmul);
     tmp = ((float).com.GameWidth/2.0) / scl;
     if(#((l + r) - (newx - x)*2.0) >= tmp / 2.0){

@@ -1227,6 +1227,69 @@ void drawPortrait(&.lua.State L=, int re=)
   }
 }
 
+void drawWinPortrait(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  index n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float xscl = 1.0, yscl = 1.0;
+  if(L.getTop() > argc){
+    xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(!.se.fskip){
+    ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
+    if(#c > 0 && #c~winportrait > 0){
+      c~winportrait~draw(x, y, xscl, yscl, c~winportrait~colorPallet);
+    }
+  }
+}
+
+void drawSVSPortrait(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  index n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float xscl = 1.0, yscl = 1.0;
+  if(L.getTop() > argc){
+    xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(!.se.fskip){
+    ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
+    if(#c > 0 && #c~svsportrait > 0){
+      c~svsportrait~draw(x, y, xscl, yscl, c~svsportrait~colorPallet);
+    }
+  }
+}
+
+void drawVSPortrait(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  index n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float x = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float y = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  float xscl = 1.0, yscl = 1.0;
+  if(L.getTop() > argc){
+    xscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(L.getTop() > argc){
+    yscl = .sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  }
+  if(!.se.fskip){
+    ^&.sys.Select::Char c = .syst.selinf.sel.getChar(n);
+    if(#c > 0 && #c~vsportrait > 0){
+      c~vsportrait~draw(x, y, xscl, yscl, c~vsportrait~colorPallet);
+    }
+  }
+}
+
 void drawFace(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1444,6 +1507,9 @@ public void init(&.lua.State L=)
   L.register("getStageName", .getStageName);
   L.register("refresh", .refresh);
   L.register("drawPortrait", .drawPortrait);
+  L.register("drawWinPortrait", .drawWinPortrait);
+  L.register("drawSVSPortrait", .drawSVSPortrait);
+  L.register("drawVSPortrait", .drawVSPortrait);
   L.register("drawFace", .drawFace);
   L.register("loadLifebar", .loadLifebar);
   L.register("loadDebugFont", .loadDebugFont);
