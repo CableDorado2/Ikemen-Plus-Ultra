@@ -64,6 +64,7 @@ animSetScale(arrowsEL, 1.7, 1.7)
 --; EVENT LOCKED INFO SCREEN
 --;===========================================================
 txt_lockedinfoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 156.5, 111)
+txt_lockedOk = createTextImg(jgFnt, 5, 0, 'OK', 159, 151)
 
 --Info Window BG
 infoEventWindowBG = animNew(sysSff, [[
@@ -72,10 +73,6 @@ infoEventWindowBG = animNew(sysSff, [[
 animSetPos(infoEventWindowBG, 83.5, 97)
 animUpdate(infoEventWindowBG)
 animSetScale(infoEventWindowBG, 1, 1)
-
-t_lockedinfoMenu = {
-	{id = textImgNew(), text = 'OK'},
-}
 
 function f_lockedInfo()
 	cmdInput()
@@ -89,12 +86,10 @@ function f_lockedInfo()
 		txt_lockedInfo = createTextImg(jgFnt, 0, 0, 'EVENT NOT AVAILABLE, TRY LATER', 160, 130,0.6,0.6)
 	end
 	textImgDraw(txt_lockedInfo)
-	--Draw Table Text
-	for i=1, #t_lockedinfoMenu do
-		textImgDraw(f_updateTextImg(t_lockedinfoMenu[i].id, jgFnt, 5, 0, t_lockedinfoMenu[i].text, 159, 135+i*13))
-	end
+	--Draw Ok Text
+	textImgDraw(txt_lockedOk)
 	--Draw Cursor
-	animSetWindow(cursorBox, 87,138, 144,13)
+	animSetWindow(cursorBox, 87,141, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Draw Info Title Text
