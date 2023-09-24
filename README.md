@@ -91,6 +91,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Más parametros para el Select.def.
 
+- [ ] Añadir Portraits para Winner, VS y Order Select
+
 - [ ] Cargar la preview de los stages desde el propio sff de la stage.
 
 - [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
