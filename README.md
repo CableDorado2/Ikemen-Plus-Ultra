@@ -20,6 +20,9 @@
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 ![v1 3](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/3eee08af-8687-49f9-85b3-d1b43c7f750b)
 
+## Games Made in Ikemen Plus Ultra
+- *MUGENGERS: THE OROCHI'S ORIGIN*
+- *ULTIMATE SMASHBOX*
 
 ## Table of Contents
 
