@@ -84,13 +84,19 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Más parametros para el Select.def.
 
-- [ ] Añadir Portraits para Winner, VS y Order Select
+- [ ] Añadir Portraits para Winner, VS y Order Select.
 
 - [ ] Cargar la preview de los stages desde el propio sff de la stage.
+
+- [ ] Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
+
+- [ ] Probar qué posibilidad hay de que los replays en versus se guarden al terminar 1 match y que se vuelvan a grabar cuando inice uno nuevo. Además, incluir pregunta para guardar o no el replay.
 
 - [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
+
+- [ ] Quick Match y Demo dejan de funcionar tras usar 1 vez el menú de pausa.
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
