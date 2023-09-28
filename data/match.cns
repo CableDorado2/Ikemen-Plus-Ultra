@@ -56,7 +56,7 @@ flag = nobardisplay
 type = PowerAdd
 trigger1 = GameType = 2 && Stateno = 0 && Time > 10 ;Power Recovery for Training
 trigger2 = GameType = 4 ;Power Recovery for Input Test
-value = 100
+value = PowerMax;100
 
 [State 0, Life Recovery]
 type = LifeAdd

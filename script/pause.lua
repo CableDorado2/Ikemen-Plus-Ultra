@@ -137,6 +137,21 @@ function f_saveCfg()
 end
 
 --;===========================================================
+--; LOAD TEMP DATA (JUST WHILE FOUND A BETTER WAY TO BACK)
+--;===========================================================
+local tempFile = io.open("saved/temp_sav.lua","r")
+s_tempdataLUA = tempFile:read("*all")
+tempFile:close()
+
+function f_saveTemp()
+	local t_temp = {['data.tempBack'] = data.tempBack,['data.replayDone'] = data.replayDone}
+	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
+	local tempFile = io.open("saved/temp_sav.lua","w+")
+	tempFile:write(s_tempdataLUA)
+	tempFile:close()
+end
+
+--;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
 txt_attractCredits = createTextImg(font1, 0, -1, 'Credits: '..data.attractCoins..'', 181.5, 235)
@@ -148,62 +163,6 @@ pauseBG0 = animNew(sysSff, [[
 animAddPos(pauseBG0, 160, 0)
 animSetTile(pauseBG0, 1, 1)
 animSetColorKey(pauseBG0, -1)
-
---Solid Window BG
-pWindowBG = animNew(sysSff, [[
-230,1, 0,0,
-]])
-animSetPos(pWindowBG, 83.5, 130)
-animSetScale(pWindowBG, 1, 0.3)
-
---Transparent background
-pauseBG1 = animNew(sysSff, [[
-3,0, 0,0, -1
-]])
-animSetPos(pauseBG1, 20, 70)
-animSetAlpha(pauseBG1, 20, 100)
-
---Up Arrow
-pauseUpArrow = animNew(sysSff, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(pauseUpArrow, 228, 61)
-animSetScale(pauseUpArrow, 0.5, 0.5)
-
---Down Arrow
-pauseDownArrow = animNew(sysSff, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(pauseDownArrow, 228, 176)
-animSetScale(pauseDownArrow, 0.5, 0.5)
-
---Cursor Box
-cursorBox = animNew(sysSff, [[
-100,1, 0,0, -1
-]])
-animSetTile(cursorBox, 1, 1)
-
---Optimized Cursor Box
---cursorBox = animNew(sysSff, [[
---3,1, 0,0, -1
---]])
---animSetPos(cursorBox, 80, 20)
---animSetAlpha(cursorBox, 20, 100)
---animUpdate(cursorBox)
 
 --Transparent Background (fade in)
 darkenIn = animNew(sysSff, [[
@@ -237,6 +196,63 @@ darkenOut = animNew(sysSff, [[
 animSetPos(darkenOut, -54, 0)
 animSetScale(darkenOut, 427, 240)
 
+--Transparent background
+pauseBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(pauseBG1, 20, 70)
+animSetAlpha(pauseBG1, 20, 100)
+
+--Message Fade BG
+fadeWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1, 0, AS256D102
+]])
+animSetPos(fadeWindowBG, -54, 0)
+animSetScale(fadeWindowBG, 427, 240)
+animUpdate(fadeWindowBG)
+
+--Cursor Box
+cursorBox = animNew(sysSff, [[
+100,1, 0,0, -1
+]])
+animSetTile(cursorBox, 1, 1)
+
+--Optimized Cursor Box
+--cursorBox = animNew(sysSff, [[
+--3,1, 0,0, -1
+--]])
+--animSetPos(cursorBox, 80, 20)
+--animSetAlpha(cursorBox, 20, 100)
+--animUpdate(cursorBox)
+
+--Up Arrow
+pauseUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(pauseUpArrow, 228, 61)
+animSetScale(pauseUpArrow, 0.5, 0.5)
+
+--Down Arrow
+pauseDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(pauseDownArrow, 228, 176)
+animSetScale(pauseDownArrow, 0.5, 0.5)
+
 --;===========================================================
 --; PAUSE MENU
 --;===========================================================
@@ -245,11 +261,24 @@ t_pauseMain = {
 	{id = '', text = 'MOVELIST'},
 	{id = '', text = 'SETTINGS'},
 	{id = '', text = 'HIDE MENU'},
-	{id = '', text = 'CHARACTER SELECT'},
+	{id = '', text = 'GIVE UP'},
 	{id = '', text = 'MAIN MENU'}
 }
+if getGameMode() == "practice" or getGameMode() == "vs" then
+	t_pauseMain[5].text = 'CHARACTER SELECT'
+	if getGameMode() == "practice" then table.insert(t_pauseMain,7,{id = '', text = 'TRAINING MENU'}) end
+elseif getGameMode() == "replay" or getGameMode() == "demo" then
+	table.remove(t_pauseMain,6)
+	table.remove(t_pauseMain,2)
+	t_pauseMain[4].text = 'EXIT'
+elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
+elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = 'STAGE SELECT'
+elseif getGameMode() == "mission" then t_pauseMain[6].text = 'MISSION SELECT'
+elseif getGameMode() == "event" then t_pauseMain[6].text = 'EVENT SELECT'
+end
 
 pauseMenuActive = false
+mainMenuBack = false
 rectScale = -1
 pauseMode = ''
 PcursorPosY = 1
@@ -265,12 +294,56 @@ Pbufl = 0
 P2bufl = 0
 data.p2In = 2 --Player 2 Can Control
 hudStatus = 'Yes'
+hitboxStatus = 'No'
+debugStatus = 'No'
+dummyMode = 'AI'
+
+function f_pauseMenuReset()
+	togglePauseMenu(0)
+	setSysCtrl(0)
+	rectScale = -1
+	pauseMode = ''
+	bufl = 0
+	bufr = 0
+end
+
+function f_gameCfgMenuReset()
+	gameCfg = 1
+	cursorPosY = 1
+	moveTxt = 0
+	mainGoTo = 'Settings'
+	rectScale = -10
+end
+
+function f_gameCfgMenuReset2()
+	pauseMode = 'Settings'
+	gameCfg = 1
+	cursorPosY = 1
+	moveTxt = 0
+	rectScale = 0
+end
+
+function f_confirmReset()
+	mainMenuBack = false
+	confirmScreen = false
+	moveTxtConfirm = 0
+	--Cursor pos in NO
+	cursorPosYConfirm = 1
+	confirmPause = 2
+end
 
 function f_pauseMain(p, st, esc)
 	pn = p
 	escape = esc
 	start = st
-	if data.pauseMode == 'Classic' then exitMatch() end --Mugen Exit Type
+	if data.pauseMode == 'Classic' then --Mugen Exit Type
+		if getGameMode() == "replay" then
+			data.replayDone = true
+			data.tempBack = true
+			f_saveTemp()
+		end
+		exitMatch()
+	end
 	if pauseMenuActive == false and rectScale == -1 then
 		animReset(darkenIn)
 		animUpdate(darkenIn)
@@ -280,11 +353,15 @@ function f_pauseMain(p, st, esc)
 	end
 	cmdInput()
 	if pauseMode == '' or mainGoTo ~= '' then
-		if pn == 1 then txt_pause = createTextImg(jgFnt, 0, 0, 'PAUSE [P1]', 159, 63)
-		elseif pn == 2 then txt_pause = createTextImg(jgFnt, 0, 0, 'PAUSE [P2]', 159, 63)
+		if pn == 1 then txt_pause = createTextImg(jgFnt, 5, 0, 'PAUSE [P1]', 159, 63)
+		elseif pn == 2 then txt_pause = createTextImg(jgFnt, 1, 0, 'PAUSE [P2]', 159, 63)
 		end
 		--HIDE MENU
-		if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == #t_pauseMain-2 then hide = true end
+		if getGameMode() == "replay" or getGameMode() == "demo" then
+			if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
+		else
+			if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
+		end
 		--RESUME GAME
 		if (escape or start or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and rectScale == 10 then
 			sndPlay(sysSnd, 100, 2)
@@ -329,25 +406,57 @@ function f_pauseMain(p, st, esc)
 				pauseMenu = pauseMenu + 1
 			end
 			if data.pauseMode == 'Modern' then
-				if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-					--EXIT TO MAIN MENU
-					if pauseMenu == #t_pauseMain then
-						sndPlay(sysSnd, 100, 5)
-					--MOVELIST
-					elseif pauseMenu == 2 then
-						sndPlay(sysSnd, 100, 5)
-					--SETTINGS
-					elseif pauseMenu == 3 then
-						sndPlay(sysSnd, 100, 1)
-						gameCfg = 1
-						cursorPosY = 1
-						moveTxt = 0
-						mainGoTo = 'Settings'
-						rectScale = -10
-					--BACK TO CHARACTER SELECT
-					elseif pauseMenu == 5 then
-						if hudStatus == 'No' then toggleStatusDraw() end
-						exitMatch()
+				--Actions in Demo or Replay Modes
+				if getGameMode() == "replay" or getGameMode() == "demo" then
+					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+						--SETTINGS
+						if pauseMenu == 2 then
+							sndPlay(sysSnd, 100, 1)
+							f_gameCfgMenuReset()
+						--EXIT
+						elseif pauseMenu == 4 then
+							sndPlay(sysSnd, 100, 1)
+							f_confirmReset()
+							mainGoTo = 'Confirm'
+							if getGameMode() == "replay" then
+								mainMenuBack = true
+								data.replayDone = true
+							end
+							rectScale = -10
+						end
+					end
+				--Actions in rest of Game Modes
+				else
+					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+						--MOVELIST
+						if pauseMenu == 2 then
+							sndPlay(sysSnd, 100, 5)
+						--SETTINGS
+						elseif pauseMenu == 3 then
+							sndPlay(sysSnd, 100, 1)
+							f_gameCfgMenuReset()
+						--BACK TO CHARACTER SELECT
+						elseif pauseMenu == 5 then
+							sndPlay(sysSnd, 100, 1)
+							f_confirmReset()
+							mainGoTo = 'Confirm'
+							rectScale = -10
+						--EXIT TO MAIN MENU
+						elseif pauseMenu == 6 then
+							sndPlay(sysSnd, 100, 1)
+							f_confirmReset()
+							mainGoTo = 'Confirm'
+							mainMenuBack = true
+							rectScale = -10
+						--TRAINING SETTINGS
+						elseif pauseMenu == 7 then
+							sndPlay(sysSnd, 100, 1)
+							trainingCfg = 1
+							cursorPosY = 1
+							moveTxt = 0
+							mainGoTo = 'Training'
+							rectScale = -10
+						end
 					end
 				end
 			end
@@ -436,6 +545,174 @@ function f_pauseMain(p, st, esc)
 		end
 	elseif pauseMode == 'Settings' or pauseMode == 'Audio' or pauseMode == 'Songs' then
 		f_pauseSettings()
+	elseif pauseMode == 'Training' then
+		f_pauseTraining()
+	elseif pauseMode == 'Confirm' then
+		f_pauseConfirm()
+	end
+end
+
+--;===========================================================
+--; PAUSE CONFIRM MESSAGE
+--;===========================================================
+txt_pauseQuestion = createTextImg(font14, 0, 0, '', 160, 70,0.7,0.7)
+txt_pauseConfirm = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 90)
+
+--Confirm Window BG
+confirmPauseBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(confirmPauseBG, 83.5, 77)
+animUpdate(confirmPauseBG)
+animSetScale(confirmPauseBG, 1, 1)
+
+t_confirmPause = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}
+
+function f_pauseConfirm()
+	if mainMenuBack == true then
+		if pn == 1 then
+			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MISSION SELECT')
+			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO EVENT SELECT')
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO REPLAY SELECT')
+			else textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MAIN MENU')
+			end
+		elseif pn == 2 then
+			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MISSION SELECT')
+			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO EVENT SELECT')
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO REPLAY SELECT')
+			else textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MAIN MENU')
+			end
+		end
+	elseif mainMenuBack == false then
+		if pn == 1 then
+			if getGameMode() == "vs" or getGameMode() == "practice" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO CHARACTER SELECT')
+			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO STAGE SELECT')
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO REPLAY SELECT')
+			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MAIN MENU')
+			else textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL LEAVE THIS MATCH')
+			end
+		elseif pn == 2 then
+			if getGameMode() == "vs" or getGameMode() == "practice" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO CHARACTER SELECT')
+			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO STAGE SELECT')
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO REPLAY SELECT')
+			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MAIN MENU')
+			else textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL LEAVE THIS MATCH')
+			end
+		end
+	end
+	if pauseMode == 'Confirm' or okGoTo ~= '' then
+		if rectScale == 10 then
+			if start then
+				sndPlay(sysSnd, 100, 2)
+				animReset(darkenOut)
+				animUpdate(darkenOut)
+				pauseMenuActive = false
+				bufl = 0
+				bufr = 0
+			--BACK/NO ACTION
+			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == #t_confirmPause) then
+				sndPlay(sysSnd, 100, 2)
+				rectScale = -10
+				bufl = 0
+				bufr = 0
+			end
+		end
+		if pauseMenuActive == true and rectScale < 10 then
+			rectScale = rectScale + 1
+		elseif pauseMenuActive == false and rectScale > 0 then
+			rectScale = rectScale - 1
+			animUpdate(darkenOut)
+		end
+		if pauseMenuActive == false and rectScale == 0 then
+			f_pauseMenuReset()
+			return
+		end
+		if pauseMenuActive then
+			animDraw(darkenIn)
+		else
+			animDraw(darkenOut)
+		end
+		if rectScale == -1 then
+			if okGoTo == nil or okGoTo == '' then
+				pauseMode = ''
+			else
+				pauseMode = okGoTo
+				okGoTo = ''
+			end
+			rectScale = 0
+		end
+		if rectScale == 10 then
+			if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 2 and commandGetState(p2Cmd, 'u')) then
+				sndPlay(sysSnd, 100, 0)
+				confirmPause = confirmPause - 1
+			elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 2 and commandGetState(p2Cmd, 'd')) then
+				sndPlay(sysSnd, 100, 0)
+				confirmPause = confirmPause + 1
+			end
+			if confirmPause < 1 then
+				confirmPause = #t_confirmPause
+				if #t_confirmPause > 4 then
+					cursorPosYConfirm = 4
+				else
+					cursorPosYConfirm = #t_confirmPause-1
+				end
+			elseif confirmPause > #t_confirmPause then
+				confirmPause = 1
+				cursorPosYConfirm = 0
+			elseif (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 2 and commandGetState(p2Cmd, 'u')) and cursorPosYConfirm > 0 then
+				cursorPosYConfirm = cursorPosYConfirm - 1
+			elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 2 and commandGetState(p2Cmd, 'd')) and cursorPosYConfirm < 4 then
+				cursorPosYConfirm = cursorPosYConfirm + 1
+			end
+			if cursorPosYConfirm == 4 then
+				moveTxtConfirm = (confirmPause - 5) * 13
+			elseif cursorPosYConfirm == 0 then
+				moveTxtConfirm = (confirmPause - 1) * 13
+			end
+			animDraw(confirmPauseBG)
+			animUpdate(confirmPauseBG)
+			textImgDraw(txt_pauseConfirm)
+			textImgDraw(txt_pauseQuestion)
+			for i=1, #t_confirmPause do
+				if i == confirmPause then
+					bank = 5
+				else
+					bank = 0
+				end
+				textImgDraw(f_updateTextImg(t_confirmPause[i].id, jgFnt, bank, 0, t_confirmPause[i].text, 159, 100+i*13-moveTxtConfirm))
+			end
+			animSetWindow(cursorBox, 87,103+cursorPosYConfirm*13, 144,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+			f_sysTimeP()
+			if data.attractMode == true then textImgDraw(txt_attractCredits) end
+			--BACK TO MAIN MENU (TEMP)
+			if mainMenuBack == true then
+				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
+					sndPlay(sysSnd, 100, 1)
+					if hudStatus == 'No' then toggleStatusDraw() end
+					if hitboxStatus == 'Yes' then toggleClsnDraw() end
+					if debugStatus == 'Yes' then toggleDebugDraw() end
+					data.tempBack = true
+					f_saveTemp()
+					exitMatch()
+				end
+			--BACK TO CHARACTER SELECT
+			elseif mainMenuBack == false then
+				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
+					sndPlay(sysSnd, 100, 1)
+					if hudStatus == 'No' then toggleStatusDraw() end
+					if hitboxStatus == 'Yes' then toggleClsnDraw() end
+					if debugStatus == 'Yes' then toggleDebugDraw() end
+					exitMatch()
+				end
+			end
+		end
+	--elseif pauseMode == 'Save' then
+		--f_pauseSave()
 	end
 end
 
@@ -446,13 +723,15 @@ t_gameCfg = {
 	{id = '', text = 'Audio Settings',   		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Input Settings',   		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Show HUD', 				varID = textImgNew(), varText = ''},
-	{id = '', text = 'Change Stage Song',		varID = textImgNew(), varText = ''}, --Coming Soon will appear only for Training Mode
+	{id = '', text = 'Change Stage Song',		varID = textImgNew(), varText = ''},
 	{id = '', text = '              BACK',   	varID = textImgNew(), varText = ''},
 }
 
+if getGameMode() ~= "practice" and getGameMode() ~= "vs" and getGameMode() ~= "replay" and getGameMode() ~= "demo" then table.remove(t_gameCfg,4) end
+
 function f_pauseSettings()
-	if pn == 1 then txt_gameCfg = createTextImg(jgFnt, 0, 0, 'GAME SETTINGS [P1]', 159, 63)
-	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 0, 0, 'GAME SETTINGS [P2]', 159, 63)
+	if pn == 1 then txt_gameCfg = createTextImg(jgFnt, 5, 0, 'GAME SETTINGS [P1]', 159, 63)
+	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 1, 0, 'GAME SETTINGS [P2]', 159, 63)
 	end
 	if pauseMode == 'Settings' or cfgGoTo ~= '' then
 		if rectScale == 10 then
@@ -478,12 +757,7 @@ function f_pauseSettings()
 			animUpdate(darkenOut)
 		end
 		if pauseMenuActive == false and rectScale == 0 then
-			togglePauseMenu(0)
-			setSysCtrl(0)
-			rectScale = -1
-			pauseMode = ''
-			bufl = 0
-			bufr = 0
+			f_pauseMenuReset()
 			return
 		end
 		if pauseMenuActive then
@@ -537,14 +811,14 @@ function f_pauseSettings()
 			end
 			--HUD Status
 			if gameCfg == 3 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hudStatus == 'Yes' then
-					sndPlay(sysSnd, 100, 1)
-					toggleStatusDraw()
-					hudStatus = 'No'
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hudStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hudStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
 					hudStatus = 'Yes'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hudStatus == 'Yes' then
+					sndPlay(sysSnd, 100, 1)
+					toggleStatusDraw()
+					hudStatus = 'No'
 				end
 			end
 			if gameCfg < 1 then
@@ -645,196 +919,6 @@ function f_pauseSettings()
 end
 
 --;===========================================================
---; PLAY SONG
---;===========================================================
-function f_soundPage1()
-	t_songList = {}
-	for file in lfs.dir[[.\\sound\\]] do
-		if file:match('^.*(%.)mp3$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
-		elseif file:match('^.*(%.)MP3$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		elseif file:match('^.*(%.)ogg$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		elseif file:match('^.*(%.)OGG$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
-		end
-	end
-	t_songList[#t_songList+1] = {id = '', playlist = '              BACK'}
-end
-
-function f_pauseSongs()
-	if pn == 1 then txt_songMenu = createTextImg(jgFnt, 0, 0, 'SONG SELECT [P1]', 159, 63)
-	elseif pn == 2 then txt_songMenu = createTextImg(jgFnt, 0, 0, 'SONG SELECT [P2]', 159, 63)
-	end
-	if rectScale == 10 then
-		if start then
-			sndPlay(sysSnd, 100, 2)
-			animReset(darkenOut)
-			animUpdate(darkenOut)
-			pauseMenuActive = false
-			bufl = 0
-			bufr = 0
-		--BACK
-		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList) then
-			sndPlay(sysSnd, 100, 2)
-			rectScale = -10
-			bufl = 0
-			bufr = 0
-		end
-	end
-	if pauseMenuActive == true and rectScale < 10 then
-		rectScale = rectScale + 1
-	elseif pauseMenuActive == false and rectScale > 0 then
-		rectScale = rectScale - 1
-		animUpdate(darkenOut)
-	end
-	if pauseMenuActive == false and rectScale == 0 then
-		togglePauseMenu(0)
-		setSysCtrl(0)
-		rectScale = -1
-		pauseMode = ''
-		bufl = 0
-		bufr = 0
-		return
-	end
-	if pauseMenuActive then
-		animDraw(darkenIn)
-	else
-		animDraw(darkenOut)
-	end
-	if rectScale == -1 then
-		pauseMode = 'Settings'
-		gameCfg = 1
-		cursorPosY = 1
-		moveTxt = 0
-		rectScale = 0
-	end
-	if rectScale == 10 then
-		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
-			sndPlay(sysSnd, 100, 0)
-			songMenu = songMenu - 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
-			sndPlay(sysSnd, 100, 0)
-			songMenu = songMenu + 1
-			if bufl then bufl = 0 end
-			if bufr then bufr = 0 end
-		end
-		--Play Song
-		if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-			playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
-			playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
-		end
-		if songMenu < 1 then
-			songMenu = #t_songList
-			if #t_songList > 7 then
-				cursorPosY = 7
-			else
-				cursorPosY = #t_songList
-			end
-		elseif songMenu > #t_songList then
-			songMenu = 1
-			cursorPosY = 1
-		elseif ((pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18))) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18))) and cursorPosY < 7 then
-			cursorPosY = cursorPosY + 1
-		elseif ((pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18))) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18))) and cursorPosY < 7 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 7 then
-			moveTxt = (songMenu - 7) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (songMenu - 1) * 15
-		end	
-		if #t_songList <= 7 then
-			maxSongs = #t_songList
-		elseif songMenu - cursorPosY > 0 then
-			maxSongs = songMenu + 7 - cursorPosY
-		else
-			maxSongs = 7
-		end
-		if songMenu < 4 then
-			if (pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr')) then
-				bufl = 0
-				bufr = bufr + 1
-			elseif (pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl')) then
-				bufr = 0
-				bufl = bufl + 1
-			else
-				bufr = 0
-				bufl = 0
-			end
-		end
-		--animDraw(f_animVelocity(pauseBG0, -1, -1))
-		animSetScale(pauseBG1, 220, maxSongs*15)
-		animSetWindow(pauseBG1, 80,70, 160,105)
-		animDraw(pauseBG1)
-		--animUpdate(pauseBG1)
-		textImgDraw(txt_songMenu)
-		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxSongs do
-			if t_songList[i].playlist:len() > 26 then
-				songText = string.sub(t_songList[i].playlist, 1, 24)
-				songText = tostring(songText .. '...')
-			else
-				songText = t_songList[i].playlist
-			end
-			if i > songMenu - cursorPosY then
-				t_songList[i].id = createTextImg(font14, 0, 1, songText, 85, 65+i*15-moveTxt,0.85,0.85)
-				textImgDraw(t_songList[i].id)
-			end
-		end
-		if maxSongs > 7 then
-			animDraw(pauseUpArrow)
-			animUpdate(pauseUpArrow)
-		end
-		if #t_songList > 7 and maxSongs < #t_songList then
-			animDraw(pauseDownArrow)
-			animUpdate(pauseDownArrow)
-		end
-		f_sysTimeP()
-		if data.attractMode == true then textImgDraw(txt_attractCredits) end
-		if commandGetState(p1Cmd, 'holdu') then
-			Pbufd = 0
-			Pbufu = Pbufu + 1
-		elseif commandGetState(p2Cmd, 'holdu') then
-			P2bufd = 0
-			P2bufu = P2bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			Pbufu = 0
-			Pbufd = Pbufd + 1
-		elseif commandGetState(p2Cmd, 'holdd') then
-			P2bufu = 0
-			P2bufd = P2bufd + 1
-		else
-			Pbufu = 0
-			Pbufd = 0
-			P2bufu = 0
-			P2bufd = 0
-		end
-	end
-end
-
---;===========================================================
 --; AUDIO SETTINGS
 --;===========================================================
 t_audioCfg = {
@@ -847,8 +931,8 @@ t_audioCfg = {
 
 function f_pauseAudio()
 	local hasChanged = false
-	if pn == 1 then txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS [P1]', 159, 63)
-	elseif pn == 2 then txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS [P2]', 159, 63)
+	if pn == 1 then txt_audioCfg = createTextImg(jgFnt, 5, 0, 'AUDIO SETTINGS [P1]', 159, 63)
+	elseif pn == 2 then txt_audioCfg = createTextImg(jgFnt, 1, 0, 'AUDIO SETTINGS [P2]', 159, 63)
 	end
 	if rectScale == 10 then
 		if start then
@@ -874,12 +958,7 @@ function f_pauseAudio()
 		animUpdate(darkenOut)
 	end
 	if pauseMenuActive == false and rectScale == 0 then
-		togglePauseMenu(0)
-		setSysCtrl(0)
-		rectScale = -1
-		pauseMode = ''
-		bufl = 0
-		bufr = 0
+		f_pauseMenuReset()
 		return
 	end
 	if pauseMenuActive then
@@ -887,13 +966,7 @@ function f_pauseAudio()
 	else
 		animDraw(darkenOut)
 	end
-	if rectScale == -1 then
-		pauseMode = 'Settings'
-		gameCfg = 1
-		cursorPosY = 1
-		moveTxt = 0
-		rectScale = 0
-	end
+	if rectScale == -1 then f_gameCfgMenuReset2() end
 	if rectScale == 10 then
 		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
 			sndPlay(sysSnd, 100, 0)
@@ -1049,5 +1122,390 @@ function f_pauseAudio()
 			P2bufu = 0
 			P2bufd = 0
 		end
+	end
+end
+
+--;===========================================================
+--; PLAY SONG
+--;===========================================================
+function f_soundPage1()
+	t_songList = {}
+	for file in lfs.dir[[.\\sound\\]] do
+		if file:match('^.*(%.)mp3$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		elseif file:match('^.*(%.)MP3$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		elseif file:match('^.*(%.)ogg$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		elseif file:match('^.*(%.)OGG$') then
+			row = #t_songList+1
+			t_songList[row] = {}
+			t_songList[row]['id'] = ''
+			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		end
+	end
+	t_songList[#t_songList+1] = {id = '', playlist = '              BACK'}
+end
+
+function f_pauseSongs()
+	if pn == 1 then txt_songMenu = createTextImg(jgFnt, 5, 0, 'SONG SELECT [P1]', 159, 63)
+	elseif pn == 2 then txt_songMenu = createTextImg(jgFnt, 1, 0, 'SONG SELECT [P2]', 159, 63)
+	end
+	if rectScale == 10 then
+		if start then
+			sndPlay(sysSnd, 100, 2)
+			animReset(darkenOut)
+			animUpdate(darkenOut)
+			pauseMenuActive = false
+			bufl = 0
+			bufr = 0
+		--BACK
+		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList) then
+			sndPlay(sysSnd, 100, 2)
+			rectScale = -10
+			bufl = 0
+			bufr = 0
+		end
+	end
+	if pauseMenuActive == true and rectScale < 10 then
+		rectScale = rectScale + 1
+	elseif pauseMenuActive == false and rectScale > 0 then
+		rectScale = rectScale - 1
+		animUpdate(darkenOut)
+	end
+	if pauseMenuActive == false and rectScale == 0 then
+		f_pauseMenuReset()
+		return
+	end
+	if pauseMenuActive then
+		animDraw(darkenIn)
+	else
+		animDraw(darkenOut)
+	end
+	if rectScale == -1 then f_gameCfgMenuReset2() end
+	if rectScale == 10 then
+		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			songMenu = songMenu - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			songMenu = songMenu + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		end
+		--Play Song
+		if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+			playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
+			playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
+		end
+		if songMenu < 1 then
+			songMenu = #t_songList
+			if #t_songList > 7 then
+				cursorPosY = 7
+			else
+				cursorPosY = #t_songList
+			end
+		elseif songMenu > #t_songList then
+			songMenu = 1
+			cursorPosY = 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 7 then
+			moveTxt = (songMenu - 7) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (songMenu - 1) * 15
+		end	
+		if #t_songList <= 7 then
+			maxSongs = #t_songList
+		elseif songMenu - cursorPosY > 0 then
+			maxSongs = songMenu + 7 - cursorPosY
+		else
+			maxSongs = 7
+		end
+		if songMenu < 4 then
+			if (pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr')) then
+				bufl = 0
+				bufr = bufr + 1
+			elseif (pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl')) then
+				bufr = 0
+				bufl = bufl + 1
+			else
+				bufr = 0
+				bufl = 0
+			end
+		end
+		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		animSetScale(pauseBG1, 220, maxSongs*15)
+		animSetWindow(pauseBG1, 80,70, 160,105)
+		animDraw(pauseBG1)
+		--animUpdate(pauseBG1)
+		textImgDraw(txt_songMenu)
+		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxSongs do
+			if t_songList[i].playlist:len() > 26 then
+				songText = string.sub(t_songList[i].playlist, 1, 24)
+				songText = tostring(songText .. '...')
+			else
+				songText = t_songList[i].playlist
+			end
+			if i > songMenu - cursorPosY then
+				t_songList[i].id = createTextImg(font14, 0, 1, songText, 85, 65+i*15-moveTxt,0.85,0.85)
+				textImgDraw(t_songList[i].id)
+			end
+		end
+		if maxSongs > 7 then
+			animDraw(pauseUpArrow)
+			animUpdate(pauseUpArrow)
+		end
+		if #t_songList > 7 and maxSongs < #t_songList then
+			animDraw(pauseDownArrow)
+			animUpdate(pauseDownArrow)
+		end
+		f_sysTimeP()
+		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		if commandGetState(p1Cmd, 'holdu') then
+			Pbufd = 0
+			Pbufu = Pbufu + 1
+		elseif commandGetState(p2Cmd, 'holdu') then
+			P2bufd = 0
+			P2bufu = P2bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			Pbufu = 0
+			Pbufd = Pbufd + 1
+		elseif commandGetState(p2Cmd, 'holdd') then
+			P2bufu = 0
+			P2bufd = P2bufd + 1
+		else
+			Pbufu = 0
+			Pbufd = 0
+			P2bufu = 0
+			P2bufd = 0
+		end
+	end
+end
+
+--;===========================================================
+--; TRAINING SETTINGS
+--;===========================================================
+t_trainingCfg = {
+	--{id = '', text = '???',   						varID = textImgNew(), varText = ''},
+	{id = '', text = 'Dummy Control', 				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Show Hitbox', 				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Show Debug Info',				varID = textImgNew(), varText = ''},
+	{id = '', text = '              BACK',   		varID = textImgNew(), varText = ''},
+}
+
+function f_pauseTraining()
+	if pn == 1 then txt_trainingCfg = createTextImg(jgFnt, 5, 0, 'TRAINING SETTINGS [P1]', 159, 63)
+	elseif pn == 2 then txt_trainingCfg = createTextImg(jgFnt, 1, 0, 'TRAINING SETTINGS [P2]', 159, 63)
+	end
+	if pauseMode == 'Training' or trainingGoTo ~= '' then
+		if rectScale == 10 then
+			if start then
+				sndPlay(sysSnd, 100, 2)
+				animReset(darkenOut)
+				animUpdate(darkenOut)
+				pauseMenuActive = false
+				bufl = 0
+				bufr = 0
+			--BACK
+			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and trainingCfg == #t_trainingCfg) then
+				sndPlay(sysSnd, 100, 2)
+				rectScale = -10
+				bufl = 0
+				bufr = 0
+			end
+		end
+		if pauseMenuActive == true and rectScale < 10 then
+			rectScale = rectScale + 1
+		elseif pauseMenuActive == false and rectScale > 0 then
+			rectScale = rectScale - 1
+			animUpdate(darkenOut)
+		end
+		if pauseMenuActive == false and rectScale == 0 then
+			f_pauseMenuReset()
+			return
+		end
+		if pauseMenuActive then
+			animDraw(darkenIn)
+		else
+			animDraw(darkenOut)
+		end
+		if rectScale == -1 then
+			if trainingGoTo == nil or trainingGoTo == '' then
+				pauseMode = ''
+			else
+				pauseMode = trainingGoTo
+				trainingGoTo = ''
+			end
+			rectScale = 0
+		end
+		if rectScale == 10 then
+			if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
+				sndPlay(sysSnd, 100, 0)
+				trainingCfg = trainingCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
+				sndPlay(sysSnd, 100, 0)
+				trainingCfg = trainingCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			end
+			--if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+				--??? Settings
+				--if trainingCfg == 1 then
+					--sndPlay(sysSnd, 100, 1)
+					--trainingGoTo = '???'
+				--end
+			--end
+			--Dummy Control
+			if trainingCfg == 1 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and dummyMode == 'AI' then
+					sndPlay(sysSnd, 100, 1)
+					toggleAI(2)
+					dummyMode = 'Manual'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and dummyMode == 'Manual' then
+					sndPlay(sysSnd, 100, 1)
+					toggleAI(2)
+					dummyMode = 'AI'
+				end
+			--Hitbox Status
+			elseif trainingCfg == 2 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hitboxStatus == 'No' then
+					sndPlay(sysSnd, 100, 1)
+					toggleClsnDraw()
+					hitboxStatus = 'Yes'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hitboxStatus == 'Yes' then
+					sndPlay(sysSnd, 100, 1)
+					toggleClsnDraw()
+					hitboxStatus = 'No'
+				end
+			--Debug Info Status
+			elseif trainingCfg == 3 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and debugStatus == 'No' then
+					sndPlay(sysSnd, 100, 1)
+					toggleDebugDraw()
+					debugStatus = 'Yes'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and debugStatus == 'Yes' then
+					sndPlay(sysSnd, 100, 1)
+					toggleDebugDraw()
+					debugStatus = 'No'
+				end
+			end
+			if trainingCfg < 1 then
+				trainingCfg = #t_trainingCfg
+				if #t_trainingCfg > 7 then
+					cursorPosY = 7
+				else
+					cursorPosY = #t_trainingCfg
+				end
+			elseif trainingCfg > #t_trainingCfg then
+				trainingCfg = 1
+				cursorPosY = 1
+			elseif ((pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18))) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18))) and cursorPosY < 7 then
+				cursorPosY = cursorPosY + 1
+			elseif ((pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18))) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif ((pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18))) and cursorPosY < 7 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 7 then
+				moveTxt = (trainingCfg - 7) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (trainingCfg - 1) * 15
+			end	
+			if #t_trainingCfg <= 7 then
+				maxtrainingCfg = #t_trainingCfg
+			elseif trainingCfg - cursorPosY > 0 then
+				maxtrainingCfg = trainingCfg + 7 - cursorPosY
+			else
+				maxtrainingCfg = 7
+			end
+			if trainingCfg < 4 then
+				if (pn == 1 and commandGetState(p1Cmd, 'holdr')) or (pn == 2 and commandGetState(p2Cmd, 'holdr')) then
+					bufl = 0
+					bufr = bufr + 1
+				elseif (pn == 1 and commandGetState(p1Cmd, 'holdl')) or (pn == 2 and commandGetState(p2Cmd, 'holdl')) then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			end
+			t_trainingCfg[1].varText = dummyMode
+			t_trainingCfg[2].varText = hitboxStatus
+			t_trainingCfg[3].varText = debugStatus
+			--animDraw(f_animVelocity(pauseBG0, -1, -1))
+			animSetScale(pauseBG1, 220, maxtrainingCfg*15)
+			animSetWindow(pauseBG1, 80,70, 160,105)
+			animDraw(pauseBG1)
+			--animUpdate(pauseBG1)
+			textImgDraw(txt_trainingCfg)
+			animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+			for i=1, maxtrainingCfg do
+				if i > trainingCfg - cursorPosY then
+					if t_trainingCfg[i].varID ~= nil then
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, 1, t_trainingCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, -1, t_trainingCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
+					end
+				end
+			end
+			if maxtrainingCfg > 7 then
+				animDraw(pauseUpArrow)
+				animUpdate(pauseUpArrow)
+			end
+			if #t_trainingCfg > 7 and maxtrainingCfg < #t_trainingCfg then
+				animDraw(pauseDownArrow)
+				animUpdate(pauseDownArrow)
+			end
+			f_sysTimeP()
+			if data.attractMode == true then textImgDraw(txt_attractCredits) end
+			if commandGetState(p1Cmd, 'holdu') then
+				Pbufd = 0
+				Pbufu = Pbufu + 1
+			elseif commandGetState(p2Cmd, 'holdu') then
+				P2bufd = 0
+				P2bufu = P2bufu + 1
+			elseif commandGetState(p1Cmd, 'holdd') then
+				Pbufu = 0
+				Pbufd = Pbufd + 1
+			elseif commandGetState(p2Cmd, 'holdd') then
+				P2bufu = 0
+				P2bufd = P2bufd + 1
+			else
+				Pbufu = 0
+				Pbufd = 0
+				P2bufu = 0
+				P2bufd = 0
+			end
+		end
+	--elseif pauseMode == '???' then
+		--f_pause???()
 	end
 end

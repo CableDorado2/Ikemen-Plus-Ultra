@@ -630,8 +630,8 @@ end
 --;===========================================================
 --; INFO STUFF
 --;===========================================================
-txt_exitInfo = createTextImg(jgFnt, 0, 0, 'INFORMATION', 159, 63)
-txt_Warning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 63)
+txt_exitInfo = createTextImg(jgFnt, 5, 0, 'INFORMATION', 159, 63)
+txt_Warning = createTextImg(jgFnt, 5, 0, 'WARNING', 159, 63)
 txt_okOptions = createTextImg(jgFnt, 5, 0, 'OK', 159, 143)
 
 --Info Window BG
@@ -906,9 +906,9 @@ function f_defaultMenu()
 	animUpdate(defaultWindowBG)
 	--Draw Title
 	if resetStats == true then
-		txt_defaultquestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+		txt_defaultquestion = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 110)
 	else
-		txt_defaultquestion = createTextImg(jgFnt, 0, 0, 'LOAD DEFAULT SETTINGS?', 160, 110,0.8,0.8)
+		txt_defaultquestion = createTextImg(jgFnt, 1, 0, 'LOAD DEFAULT SETTINGS?', 160, 110,0.8,0.8)
 	end
 	textImgDraw(txt_defaultquestion)
 	--Draw Table Text
@@ -5153,6 +5153,7 @@ function f_testMenu()
 				data.gameMode = 'training'
 				data.rosterMode = 'inputtest'
 				setGameType(4)
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'P1 INPUT TEST')
 				script.select.f_selectSimple()
 			--MULTIPLAYER TEST
@@ -5168,6 +5169,7 @@ function f_testMenu()
 				data.gameMode = 'training'
 				data.rosterMode = 'inputtest'
 				setGameType(4)
+				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'P1 & P2 INPUT TEST')
 				script.select.f_selectSimple()
 			--BACK

@@ -36,6 +36,7 @@ data = require('saved.data') --Require function, allows use the content inside i
 --Load saved variables
 assert(loadfile('saved/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
 assert(loadfile('saved/stats_sav.lua'))()
+assert(loadfile('saved/temp_sav.lua'))() --temp data
 
 --One-time load of the json routines
 json = (loadfile 'lib/dkjson.lua')()

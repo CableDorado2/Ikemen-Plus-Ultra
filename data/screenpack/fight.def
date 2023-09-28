@@ -316,14 +316,14 @@ p2.counter.scale = 1.5,1.5
 
 ; --level sounds---
 level1.snd = 21,0
-level2.snd = 21,1
-level3.snd = 21,2
+level2.snd = 21,0
+level3.snd = 21,0
 level4.snd = 21,0
-level5.snd = 21,1
-level6.snd = 21,2
+level5.snd = 21,0
+level6.snd = 21,0
 level7.snd = 21,0
-level8.snd = 21,1
-level9.snd = 21,2
+level8.snd = 21,0
+level9.snd = 21,0
 
 [Begin Action 40] ;Darkened powerbar background 
 40,0, 0,0, 1, , S
@@ -631,11 +631,11 @@ framespercount = 60
 [Combo]
 pos = 10,80         ;Coords to show
 start.x = -400       ;Starting x-coords
-counter.font = 2,4
+counter.font = 2,5
 counter.scale = 2,2
 counter.shake = 1   ;Set to 1 to shake count on hit
 text.text = Rush!   ;You can use %i to show count in the text, eg "%i Hit!"
-text.font = 1,0
+text.font = 1,5
 text.scale = 2,2
 text.offset = 3,0   ;Offset of text
 displaytime = 90    ;Time to show text

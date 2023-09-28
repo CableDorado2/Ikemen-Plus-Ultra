@@ -255,7 +255,7 @@ end
 --;===========================================================
 --; CONFIRM MESSAGE
 --;===========================================================
-txt_confirmQuestion = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+txt_confirmQuestion = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 110)
 
 --Confirm Window BG
 confirmWindowBG = animNew(sysSff, [[
@@ -472,9 +472,9 @@ function f_sysTime()
 end
 
 function f_titleText()
-	if data.vault == 'Ultra' then txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ULTRA', 102, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
-	elseif data.vault == 'Zen' then txt_subTitle = createTextImg(font3, 0, 1, 'PLUS ZEN', 111, 120)
-	elseif data.vault == 'Size' then txt_subTitle = createTextImg(font3, 0, 1, 'S-SIZE', 122, 120) end
+	if data.vault == 'Ultra' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ULTRA', 159, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+	elseif data.vault == 'Zen' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ZEN', 159, 120)
+	elseif data.vault == 'SSZ' then txt_subTitle = createTextImg(font3, 0, 0, 'SSZ', 159, 120) end
 	textImgDraw(txt_subTitle)
 end
 
@@ -482,7 +482,10 @@ end
 --; LOGOS
 --;===========================================================
 function f_mainStart()
-	gameTime = os.clock()
+	gameTime = (os.clock()/1000)
+	data.tempBack = false
+	data.replayDone = false
+	f_saveTemp() --Save Temp Default Values to Prevent Issues
 	f_storyboard('data/screenpack/logo.def')
 	f_storyboard('data/screenpack/intro.def')
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
@@ -551,9 +554,10 @@ function f_mainAttract()
 		   textImgSetText(txt_mainSelect, 'ARCADE')
 		   script.select.f_selectAdvance()
 		--START DEMO MODE
-		elseif demoTimer == 150 then
+		elseif demoTimer == 350 then
 		   cmdInput()
 		   setGameType(1)
+		   setGameMode('demo')
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 		   runDemo()
 		   demoTimer = 0
@@ -607,7 +611,7 @@ end
 --;===========================================================
 --; TITLE SCREEN
 --;===========================================================
-txt_mainTitle = createTextImg(jgFnt, 2, 0, '-- PRESS START --', 159, 190)
+txt_mainTitle = createTextImg(jgFnt, 5, 0, '-- PRESS START --', 159, 190)
 txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240) --font1, 0, [-1] : [1]= Align text left | [0]= Center Text | [-1]= Align text right
 txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
 
@@ -619,7 +623,8 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 		   cmdInput()
-		   setGameType(1)--setGameMode('demo')
+		   setGameType(1)
+		   setGameMode('demo')
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 		   runDemo()
 		   f_mainMenu()
@@ -813,7 +818,7 @@ end
 --;===========================================================
 --; CLOSE/RESTART MESSAGE
 --;===========================================================
-txt_question = createTextImg(jgFnt, 0, 0, 'ARE YOU SURE?', 160, 110)
+txt_question = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 110)
 
 --Exit Window BG
 exitWindowBG = animNew(sysSff, [[
@@ -1054,7 +1059,7 @@ function f_mainMenu()
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_mainMenu do
 			if i == mainMenu then
-				bank = 5 --Text Color (0=Nothing, 1=Red, 2=Green, 3=Blue, 4=Nothing, 5=Yellow, 6=Pink 7=Shadow, 8=Black, 9=¿?)
+				bank = 5 --Text Color (0=Nothing, 1=Red, 2=Green, 3=Blue, 4=Nothing, 5=Yellow, 6=Pink, 7=Shadow, 8=Black, 9=¿?)
 			else
 				bank = 0
 			end
@@ -1315,6 +1320,7 @@ function f_vsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setGameMode('vs')
 			--QUICK VERSUS	
 			if vsMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
@@ -1482,6 +1488,7 @@ function f_randomMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setGameMode('random')
 			--P1 VS CPU
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -1614,6 +1621,8 @@ function f_practiceMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setGameMode('practice')
+			setGameType(2)
 			--SINGLE MODE
 			if practiceMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1634,7 +1643,6 @@ function f_practiceMenu()
 				end
 				data.gameMode = 'training'
 				data.rosterMode = 'training'
-				setGameType(2)
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 			--MULTIPLAYER MODE
@@ -1650,7 +1658,6 @@ function f_practiceMenu()
 				data.p2Faces = true
 				data.gameMode = 'training'
 				data.rosterMode = 'training'
-				setGameType(2)
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()			
 			--CO-OP MODE
@@ -1668,7 +1675,6 @@ function f_practiceMenu()
 				--data.p3Char = {t_charAdd['training']}
 				--data.gameMode = 'training'
 				--data.rosterMode = 'training'
-				--setGameType(2)
 				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')
 				--script.select.f_selectSimple()			
 			--BACK
@@ -3639,6 +3645,7 @@ function f_watchMenu()
 				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
 				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
 				data.gameMode = 'stage viewer'
+				setGameMode('stageviewer')
 				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
 				script.select.f_selectSimple()
 			--LEADERBOARDS
@@ -3992,7 +3999,7 @@ end
 --;===========================================================
 --; SOUND TEST SCREENPACK
 --;===========================================================
-txt_song = createTextImg(jgFnt, 0, 0, 'SONG SELECT', 159, 13)
+txt_song = createTextImg(jgFnt, 0, 0, '', 159, 13)
 
 --Scrolling background
 songBG0 = animNew(sysSff, [[
@@ -4231,6 +4238,7 @@ function f_songMenu()
 		animSetWindow(songBG1, 80,20, 160,210)
 		animDraw(songBG1)
 		--Draw Title Menu
+		if page == 0 then textImgSetText(txt_song, 'SONG SELECT [SOUND]') elseif page == 1 then textImgSetText(txt_song, 'SONG SELECT [SYSTEM]') end
 		textImgDraw(txt_song)
 		--Draw Table Cursor
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -4760,18 +4768,22 @@ function f_mainReplay()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local exitReplayMenu = false
 	netPlayer = 'Host'
 	coinSystem = false
 	f_replayTable() --Load table
 	while true do
-		if esc() then
+		if exitReplayMenu == true then
 			onlinegame = false --only for identify purposes
-			coinSystem = true --only for identify purposes
+			replaygame = false
+			coinSystem = true
 			--netPlayer = '' Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
 			assert(loadfile('saved/data_sav.lua'))()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
+		end
+		if esc() then exitReplayMenu = true
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay - 1
@@ -4780,14 +4792,7 @@ function f_mainReplay()
 			mainReplay = mainReplay + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 		--BACK
-			if mainReplay == #t_replayList then
-				onlinegame = false --only for identify purposes
-				coinSystem = true --only for identify purposes
-				--netPlayer = '' Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
-				assert(loadfile('saved/data_sav.lua'))()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
+			if mainReplay == #t_replayList then exitReplayMenu = true
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sysSnd, 100, 1)
@@ -4825,6 +4830,7 @@ function f_mainReplay()
 					--WATCH SELECTED REPLAY
 						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
+							replaygame = true
 							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 							sndPlay(sysSnd, 100, 1)	
 							--Set Default values to prevent desync.
@@ -5145,15 +5151,15 @@ end
 --;===========================================================
 --; ONLINE ROOM SCREENPACK
 --;===========================================================
-txt_hostTitle = createTextImg(jgFnt, 0, 0, 'ONLINE ROOM CREATED', 159, 13)
+txt_hostTitle = createTextImg(jgFnt, 5, 0, 'ONLINE ROOM CREATED', 159, 13)
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 111)
 txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110,0.9,0.9)
 txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
 txt_ip = createTextImg(font14, 0, 0, '', 160, 132)
 txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
-txt_connecting = createTextImg(jgFnt, 0, 0, '', 159, 228)
-txt_cancel = createTextImg(jgFnt, 5, 0, 'CANCEL(ESC)', 161, 165)
+txt_connecting = createTextImg(jgFnt, 5, 0, '', 159, 228)
+txt_cancel = createTextImg(jgFnt, 1, 0, 'CANCEL(ESC)', 161, 165)
 
 --Scrolling background
 onlineBG0 = animNew(sysSff, [[
@@ -6067,8 +6073,11 @@ function f_mainHost()
 	local bufl = 0
 	local cancel = false
 	while true do
-		if esc() then
+		--assert(loadfile('saved/temp_sav.lua'))()
+		if esc() or data.replayDone == true then
 			sndPlay(sysSnd, 100, 2)
+			data.replayDone = false
+			f_saveTemp()
 			break
 		end
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -6107,6 +6116,7 @@ function f_mainHost()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			if replaygame == true then setGameMode('replay') end
 			--ONLINE VERSUS
 			if mainHost == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -6355,6 +6365,7 @@ function f_mainJoin()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			if replaygame == true then setGameMode('replay') end
 			--ONLINE VERSUS
 			if mainJoin == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -6570,7 +6581,7 @@ end
 
 function f_randomWords()
 	txt_vaultWords = createTextImg(jgFnt, 0, 0, '', 0, 0,0.9,0.9)
-	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "S-Size is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Let's send greetings to some people that I watch on YouTube and support this", "Greetings! BRUCELEE-wt7hk", "Greetings! cristopeleslee", "Greetings! Strong FS", "Greetings! 2Dee4Ever", "Greetings! Alfaomega7446", "Greetings! Lasombra Demon", "Greetings! ALEX TV G.T.M", "Greetings! PintaX724", "Greetings! MEGA X", "Greetings! LEVEN2IS2LIJDEN", "Greetings! Ramleh", "Greetings! Milsam", "Greetings! Street Gamer", "Greetings! Liam Kuroshi"}
+	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "SSZ is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Let's send greetings to some people that I watch on YouTube and support this", "Greetings! BRUCELEE-wt7hk", "Greetings! cristopeleslee", "Greetings! Strong FS", "Greetings! 2Dee4Ever", "Greetings! Alfaomega7446", "Greetings! Lasombra Demon", "Greetings! ALEX TV G.T.M", "Greetings! PintaX724", "Greetings! MEGA X", "Greetings! LEVEN2IS2LIJDEN", "Greetings! Ramleh", "Greetings! Milsam", "Greetings! Street Gamer", "Greetings! Liam Kuroshi"}
 	if data.userName == 'Strong FS' or data.userName == 'strong fs' or data.userName == 'StrongFS' or data.userName == 'strongfs' or data.userName == 'Strong Fs' or data.userName == 'STRONG FS' or data.userName == 'STRONGFS' then
 		table.insert(t_randomWord,1, "Hey Strong! CD2 te manda Saludoss")
 		table.insert(t_randomWord,2, "Hmmm Strong XD")
@@ -6655,9 +6666,9 @@ function f_theVault()
 						f_saveProgress()
 						assert(loadfile('saved/stats_sav.lua'))()
 						prize = true
-					elseif vaultKey == 's-size' or vaultKey == 'S-Size' or vaultKey == 'S-SIZE' then
+					elseif vaultKey == 'ssz' or vaultKey == 'Ssz' or vaultKey == 'SSZ' then
 						sndPlay(sysSnd, 100, 1)
-						data.vault = 'Size'
+						data.vault = 'SSZ'
 						f_saveProgress()
 						assert(loadfile('saved/stats_sav.lua'))()
 						prize = true
@@ -6760,12 +6771,9 @@ end
 --;===========================================================
 --; LOAD STATISTICS DATA
 --;===========================================================
---Time Variable
-gameTime = 0
-
 function f_playTime()
-	gameTime = os.clock() - gameTime
-	data.playTime = (data.playTime + gameTime)
+	gTime = os.clock() - gameTime
+	data.playTime = (data.playTime + gTime)
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
@@ -6819,6 +6827,21 @@ function f_saveProgress()
 	local file = io.open("saved/stats_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
+end
+
+--;===========================================================
+--; LOAD TEMP DATA (JUST WHILE FOUND A BETTER WAY TO BACK)
+--;===========================================================
+local tempFile = io.open("saved/temp_sav.lua","r")
+s_tempdataLUA = tempFile:read("*all")
+tempFile:close()
+
+function f_saveTemp()
+	local t_temp = {['data.tempBack'] = data.tempBack,['data.replayDone'] = data.replayDone}
+	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
+	local tempFile = io.open("saved/temp_sav.lua","w+")
+	tempFile:write(s_tempdataLUA)
+	tempFile:close()
 end
 
 --;===========================================================

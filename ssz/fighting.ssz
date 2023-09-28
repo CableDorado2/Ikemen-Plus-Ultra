@@ -406,6 +406,16 @@ void game()
 		  //.com.clsndraw = false;
         if(.com.round == 1) .chr.chars[i][0]~sysivar[.chr.iPOWER] = 0;
       }
+	  if(.s.equ(.com.gameMode, "practice")){
+        branch{
+        cond .com.round != -1:
+          .com.round = -1;
+          .com.rexisted[0] = .com.rexisted[1] = 0;
+        else:
+        .chr.chars[i][0]~sysivar[.chr.iLIFE] =
+          .chr.chars[i][0]~sysivar[.chr.iLIFEMAX];
+        }
+      }
       copyVar(i);
     continue:
       i++;
@@ -450,7 +460,7 @@ void game()
       .mes.SetSharedString(:"reload":);
       ret;
     }
-    if(.chr.roundOver()) branch{
+    if(.chr.roundOver() && !.s.equ(.com.gameMode,"practice")) branch{
       .com.round++;
       loop{index i = 0; while; do:
         .com.rexisted[i]++;
@@ -510,7 +520,7 @@ void game()
       while i < #.com.tmode:}
       break, break;
     }
-    //if(.chr.roundOver() && .s.equ(.com.gameType, "practice")) reset();
+    if(.chr.roundOver() && .s.equ(.com.gameMode, "practice")) reset();
 	if(.com.turbo < 1.0) sclmul **= .com.turbo;
     scl = .com.cam.scaleBound(scl * sclmul);
     tmp = ((float).com.GameWidth/2.0) / scl;

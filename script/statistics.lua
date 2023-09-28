@@ -54,9 +54,10 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; STATISTICS MENU
 --;===========================================================
 t_statsMenu = {
-	{id = '', text = 'Time Played',  				varID = textImgNew(), varText = ''},
-	{id = '', text = 'Victories',     				varID = textImgNew(), varText = ''},
-	{id = '', text = 'Defeats',     				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Play Time',	  				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Matchs Played',  				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Wins',	     				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Losses',	     				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Favorite Character',  		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Favorite Stage',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Preferred Game Mode', 		varID = textImgNew(), varText = ''},
@@ -105,7 +106,8 @@ function f_statsMenu()
 		if data.survivalUnlocks == true then survivalProgress = 1 elseif data.survivalUnlocks == false then survivalProgress = 0 end
 		gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress)
 		gameData = (math.floor((gameProgress * 100 / 6) + 0.5)) --The number (6) is the sumation of true amount of all gameProgress values (arcadeProgress = 1 + survivalProgress = 1 + missionsProgress = 3 + eventsProgress = 1)
-		txt_statsMenu = createTextImg(jgFnt, 0, 0, '' .. data.userName .. ' PROGRESS: [' .. gameData .. '%]', 160.5, 13) --needs to be inside of statistics Menu function, to load a updated data
+		txt_statsMenu = createTextImg(jgFnt, 0, -1, '' .. data.userName .. ' PROGRESS:', 202, 13)
+		txt_statsProgress = createTextImg(jgFnt, 2, 1, '['..gameData..'%]', 208, 13) --needs to be inside of statistics Menu function, to load a updated data
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -157,22 +159,24 @@ function f_statsMenu()
 		animDraw(statsBG1)
 		--Draw Title Menu
 		textImgDraw(txt_statsMenu)
+		textImgDraw(txt_statsProgress)
 		--Draw Stats Table Cursor
 		animSetWindow(cursorBox, 30,5+cursorPosY*15, 260,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Stats Info
-		SecondPlaytime = (data.playTime/gameTick)
-		MinutePlaytime = (data.playTime/1200)--60
-		HourPlaytime = (data.playTime/72000)--3600
-		nodecimalSecondPlaytime = string.format("%.0f",SecondPlaytime)
-		nodecimalMinutePlaytime = string.format("%.0f",MinutePlaytime)
-		nodecimalHourPlaytime = string.format("%.0f",HourPlaytime)
-		t_statsMenu[1].varText = nodecimalHourPlaytime..' Hours '..nodecimalMinutePlaytime..' Minutes '..nodecimalSecondPlaytime..' Seconds'
-		t_statsMenu[2].varText = data.victories
-		t_statsMenu[3].varText = data.defeats
-		t_statsMenu[4].varText = data.favoriteChar
-		t_statsMenu[5].varText = data.favoriteStage
+		s = math.floor((data.playTime%60))
+		m = math.floor((data.playTime%3600)/60)
+		h = math.floor((data.playTime%86400)/3600)
+		d = math.floor(data.playTime/86400)
+		--timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes %02d:Seconds", d, h, m, s)
+		timePlayed = string.format("%d:Days %02d:Hours %02d:Minutes", d, h, m)
+		t_statsMenu[1].varText = timePlayed
+		t_statsMenu[2].varText = (data.victories+data.defeats)
+		t_statsMenu[3].varText = data.victories
+		t_statsMenu[4].varText = data.defeats
+		t_statsMenu[5].varText = data.favoriteChar
+		t_statsMenu[6].varText = data.favoriteStage
 		--Preferred Mode Logic
 		if data.arcademodeCnt > data.vsmodeCnt and data.vsmodeCnt < data.arcademodeCnt then arcadeWins = true
 		elseif data.arcademodeCnt < data.vsmodeCnt and data.vsmodeCnt > data.arcademodeCnt then arcadeWins = false
@@ -206,34 +210,34 @@ function f_statsMenu()
 		elseif data.bossrushmodeCnt < data.survivalmodeCnt and data.survivalmodeCnt > data.bossrushmodeCnt then bossWins = false
 		end
 		--AAAAAAAAAAAAAAAAAAAAAAAAA
-		if arcadeWins == true then t_statsMenu[6].varText = 'Arcade'
-		elseif vsWins == true then t_statsMenu[6].varText = 'Versus'
-		elseif survivalWins == true then t_statsMenu[6].varText = 'Survival'
-		elseif bossWins == true then t_statsMenu[6].varText = 'Boss Rush'
-		--elseif bonusWins == true then t_statsMenu[6].varText = 'Bonus Rush'
-		--elseif timeWins == true then t_statsMenu[6].varText = 'Time Attack'
-		--elseif suddenWins == true then t_statsMenu[6].varText = 'Sudden Death'
-		--elseif cpuWins == true then t_statsMenu[6].varText = 'CPU Match'
-		--elseif eventWins == true then t_statsMenu[6].varText = 'Events'
-		--elseif missionWins == true then t_statsMenu[6].varText = 'Missions'
-		--elseif endlessWins == true then t_statsMenu[6].varText = 'Endless'
-		--elseif legionWins == true then t_statsMenu[6].varText = 'Legion'
-		--elseif towerWins == true then t_statsMenu[6].varText = 'Tower'
-		--elseif storyWins == true then t_statsMenu[6].varText = 'Story'
-		--elseif tourneyWins == true then t_statsMenu[6].varText = 'Tourney'
-		--elseif adventureWins == true then t_statsMenu[6].varText = 'Adventure'
+		if arcadeWins == true then t_statsMenu[7].varText = 'Arcade'
+		elseif vsWins == true then t_statsMenu[7].varText = 'Versus'
+		elseif survivalWins == true then t_statsMenu[7].varText = 'Survival'
+		elseif bossWins == true then t_statsMenu[7].varText = 'Boss Rush'
+		--elseif bonusWins == true then t_statsMenu[7].varText = 'Bonus Rush'
+		--elseif timeWins == true then t_statsMenu[7].varText = 'Time Attack'
+		--elseif suddenWins == true then t_statsMenu[7].varText = 'Sudden Death'
+		--elseif cpuWins == true then t_statsMenu[7].varText = 'CPU Match'
+		--elseif eventWins == true then t_statsMenu[7].varText = 'Events'
+		--elseif missionWins == true then t_statsMenu[7].varText = 'Missions'
+		--elseif endlessWins == true then t_statsMenu[7].varText = 'Endless'
+		--elseif legionWins == true then t_statsMenu[7].varText = 'Legion'
+		--elseif towerWins == true then t_statsMenu[7].varText = 'Tower'
+		--elseif storyWins == true then t_statsMenu[7].varText = 'Story'
+		--elseif tourneyWins == true then t_statsMenu[7].varText = 'Tourney'
+		--elseif adventureWins == true then t_statsMenu[7].varText = 'Adventure'
 		--else t_statsMenu[6].varText = 'None'
 		end
-		t_statsMenu[6].varText = 'WIP'
-		t_statsMenu[7].varText = data.coins
-		if data.arcadeUnlocks == false then t_statsMenu[8].varText = 'INCOMPLETE' elseif data.arcadeUnlocks == true then t_statsMenu[8].varText = 'COMPLETED' end
-		if data.survivalUnlocks == false then t_statsMenu[9].varText = 'INCOMPLETE' elseif data.survivalUnlocks == true then t_statsMenu[9].varText = 'COMPLETED' end
-		t_statsMenu[10].varText = data.missionsProgress..'/3'
-		t_statsMenu[11].varText = data.eventsProgress..'/1'
-		t_statsMenu[12].varText = data.bossrecord..' Wins'
-		t_statsMenu[13].varText = data.suddenrecord..' Wins'
-		t_statsMenu[14].varText = data.endlessrecord..' Wins'
-		t_statsMenu[15].varText = 'WIP'--timerecord..''
+		t_statsMenu[7].varText = 'WIP'
+		t_statsMenu[8].varText = data.coins
+		if data.arcadeUnlocks == false then t_statsMenu[9].varText = 'INCOMPLETE' elseif data.arcadeUnlocks == true then t_statsMenu[9].varText = 'COMPLETED' end
+		if data.survivalUnlocks == false then t_statsMenu[10].varText = 'INCOMPLETE' elseif data.survivalUnlocks == true then t_statsMenu[10].varText = 'COMPLETED' end
+		t_statsMenu[11].varText = data.missionsProgress..'/3'
+		t_statsMenu[12].varText = data.eventsProgress..'/1'
+		t_statsMenu[13].varText = data.bossrecord..' Wins'
+		t_statsMenu[14].varText = data.suddenrecord..' Wins'
+		t_statsMenu[15].varText = data.endlessrecord..' Wins'
+		t_statsMenu[16].varText = 'WIP'--timerecord..''
 		--Draw Text for Table
 		for i=1, maxStats do
 			if i > statsMenu - cursorPosY then

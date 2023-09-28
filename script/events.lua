@@ -200,7 +200,8 @@ function f_eventMenu()
 	if data.event1Status == 1 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
 	data.eventsProgress = (data.event1Status)-- + data.event2Status + data.event3Status)
 	eventsData = (math.floor((data.eventsProgress * 100 / 1) + 0.5)) --The number (1) is the amount of all data.eventStatus
-	txt_eventMenu = createTextImg(jgFnt, 0, 0, 'EVENT SELECT [' .. eventsData .. '%]', 159, 10) --needs to be inside of event Menu function, to load event data %
+	txt_eventMenu = createTextImg(jgFnt, 0, -1, 'EVENT SELECT:', 195, 10)
+	txt_eventProgress = createTextImg(jgFnt, 2, 1, '['..eventsData..'%]', 202, 10) --needs to be inside of event Menu function, to load event data %
 	txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
 		if lockedScreen == false then
 			if esc() then
@@ -236,6 +237,7 @@ function f_eventMenu()
 			elseif btnPalNo(p1Cmd) > 0 then
 				if eventSelect == true then
 					f_default()
+					setGameMode('event')
 				--Master Kung Fu Girl
 					if eventMenu == 1 then
 						if event1Status == true then
@@ -333,6 +335,7 @@ function f_eventMenu()
 		animDraw(eventBG1)
 	--Draw Title Menu
 		textImgDraw(txt_eventMenu)
+		textImgDraw(txt_eventProgress)
 	--Draw Content Transparent BG
 		animSetScale(eventBG2, 318, 154)
 		animSetWindow(eventBG2, 3,52, 314,154)
@@ -424,8 +427,8 @@ function f_eventMenu()
 			animUpdate(arrowsER)
 		end
 		if eventSelect == true then
-			--Set Back Text Color to White
-			textImgSetBank(txt_selEvent, 0)
+			--Set Back Text Color to Shadow
+			textImgSetBank(txt_selEvent, 7)
 			textImgDraw(txt_selEvent)
 		else
 			--Set Back Text Color to Yellow

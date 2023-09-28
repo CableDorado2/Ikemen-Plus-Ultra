@@ -120,7 +120,8 @@ function f_missionMenu()
 	if data.mission3Status == 1 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
 	data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
 	missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-	txt_missionMenu = createTextImg(jgFnt, 0, 0, 'MISSION SELECT [' .. missionsData .. '%]', 159, 126) --needs to be inside of mission Menu function, to load mission data %
+	txt_missionMenu = createTextImg(jgFnt, 0, -1, 'MISSION SELECT:', 195, 128)
+	txt_missionProgress = createTextImg(jgFnt, 2, 1, '['..missionsData..'%]', 202, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -134,6 +135,7 @@ function f_missionMenu()
 			missionMenu = missionMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setGameMode('mission')
 		--DRAGON CLAW
 			if missionMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -256,6 +258,7 @@ function f_missionMenu()
 		end
 	--Draw Title Menu
 		textImgDraw(txt_missionMenu)
+		textImgDraw(txt_missionProgress)
 	--Draw Below Transparent Table BG
 		animSetScale(missionBG2, 240, maxMissions*15)
 		animSetWindow(missionBG2, 10,20, 269,210)

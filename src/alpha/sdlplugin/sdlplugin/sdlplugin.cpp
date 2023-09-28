@@ -64,7 +64,6 @@ SDL_AudioSpec g_desired;
 HGLRC g_hglrc, g_hglrc2;
 HDC g_hdc;
 DWORD g_mainTreadId;
-bool OpenGLChecker = false;
 
 WNDPROC g_orgProc;
 char16_t g_lastChar = '\0', g_newChar = '\0';
@@ -469,18 +468,18 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		return false;
 	}else{
 		TTF_Init();
-		g_scrflag = SDL_WINDOW_BORDERLESS | SDL_RLEACCEL;
+		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL es para crear ventanas con bordes y SDL_WINDOW_BORDERLESS | SDL_RLEACCEL es para crear ventana sin bordes
 		g_window = SDL_CreateWindow(
 			pu->refToAstr(CP_UTF8, cap).c_str(),
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			w, h, g_scrflag);
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); //Filtro nearest(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); //Filtro Linear(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Filtro Anisotropico(2): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 		if(mugen){
 			g_target =
 				SDL_CreateTexture(
-					g_renderer, SDL_PIXELFORMAT_RGB888, //ARGB8888
+					g_renderer, SDL_PIXELFORMAT_ARGB8888, //SDL_PIXELFORMAT_ARGB8888 //SDL_PIXELFORMAT_RGB888
 					SDL_TEXTUREACCESS_STREAMING, w, h);
 			SDL_SetTextureBlendMode(g_target, SDL_BLENDMODE_NONE);
 			lockTarget();
@@ -503,7 +502,7 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 		TTF_Init();
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-		g_scrflag = SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS;
+		g_scrflag = SDL_WINDOW_OPENGL; //SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS
 		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 		g_window = SDL_CreateWindow(
 			pu->refToAstr(CP_UTF8, cap).c_str(),
@@ -552,7 +551,7 @@ TUserFunc(bool, FullScreen, bool fs)
 	}
 
 	return
-	SDL_SetWindowFullscreen(g_window, fs ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0)
+	SDL_SetWindowFullscreen(g_window, fs ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) //SDL_WINDOW_FULLSCREEN_DESKTOP es para que el full screen sea del tipo Bordeless y SDL_WINDOW_FULLSCREEN es el full screen tradicional
 	== 0;
 }
 
@@ -719,7 +718,7 @@ TUserFunc(
 	intptr_t, CreatePaletteSurface,
 	int32_t h, int32_t w, SDL_Color* ppl, uint8_t* ppx)
 {
-	SDL_Surface* psrc = SDL_CreateRGBSurfaceFrom(ppx, w, h, 16, w, 0, 0, 0, 0);
+	SDL_Surface* psrc = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0); //(ppx, w, h, 16, w, 0, 0, 0, 0);
 	SDL_SetPaletteColors(psrc->format->palette, ppl, 0, 256);
 	SDL_Surface* pdst = SDL_ConvertSurface(psrc, psrc->format, SDL_RLEACCEL);
 	SDL_FreeSurface(psrc);
@@ -745,7 +744,7 @@ TUserFunc(intptr_t, AllocSurface, int32_t h, int32_t w)
 {
 	return
 		(intptr_t)SDL_CreateRGBSurface(
-			SDL_RLEACCEL, w, h, 16, 0x00FF0000, //32 BPP / Bits / BitsPerPixel
+			SDL_RLEACCEL, w, h, 32, 0x00FF0000, //, w, h, 16, 0x00FF0000,   //32 BPP / Bits / BitsPerPixel
 			0x0000FF00, 0x000000FF, 0xFF000000);
 }
 

@@ -3061,7 +3061,7 @@ public &Char
       if(!`cs1tmp) branch{
       cond 
         `helperindex == 0 && (!`isKO() || `stVal.no == 0)
-        && `sysivar[.iLIFE] <= 0 && `stVal.mov != .MovTy::H && !.gs(.gsNOKO) //&& !.s.equ(.com.gameType, "practice")
+        && `sysivar[.iLIFE] <= 0 && `stVal.mov != .MovTy::H && !.gs(.gsNOKO) && !.s.equ(.com.gameMode, "practice")
         :
         `stVal.hb.fallf = true;
         `trSelfState(5030, -1, -1);
@@ -3170,7 +3170,7 @@ public &Char
   }
   /bool isKO()
   {
-    ret `sf(.sfKO); //&& !.s.equ(.com.gameType, "practice");
+    ret `sf(.sfKO) && !.s.equ(.com.gameMode, "practice");
   }
   /bool isAlive()
   {
@@ -6038,7 +6038,7 @@ public void PlayerList!&Char?::clsn(&.Char pyr=, bool pro)
           (double)absdamage, kill, false, by.attackmul*by.attackmult);
       if(hbset && `pyr.stVal.hb.damage >= `pyr.sysivar[.iLIFE]) branch{
       cond kill || !live:
-        //if(!.s.equ(.com.gameType, "practice")){
+        if(!.s.equ(.com.gameMode, "practice")){
 		`pyr.stVal.hb.fallf = true;
           if((int)`pyr.stVal.hb.fall.animtype < (int).AnimTy::Back){
             `pyr.stVal.hb.fall.animtype = .AnimTy::Back;
@@ -6058,7 +6058,7 @@ public void PlayerList!&Char?::clsn(&.Char pyr=, bool pro)
               if(`pyr.stVal.hb.yvel > -6.0) `pyr.stVal.hb.yvel = -6.0;
             }
           }
-		//}
+		}
         `pyr.stVal.hb.damage = `pyr.sysivar[.iLIFE];
       else:
         `pyr.stVal.hb.damage = `pyr.sysivar[.iLIFE] - 1;

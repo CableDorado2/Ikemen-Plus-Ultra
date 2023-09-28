@@ -628,7 +628,7 @@ end
 --;===========================================================
 --; BACK TO MAIN MENU MESSAGE
 --;===========================================================
-txt_backquestion = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU?', 160.5, 110,0.9,0.9)
+txt_backquestion = createTextImg(jgFnt, 1, 0, 'BACK TO MAIN MENU?', 160.5, 110,0.9,0.9)
 
 --Back Window BG
 backWindowBG = animNew(sysSff, [[
@@ -855,12 +855,15 @@ function f_selectSimple()
 				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
-			if back == true then
+			assert(loadfile('saved/temp_sav.lua'))()
+			if back == true or data.tempBack == true then
 				if data.rosterMode == 'event' then
 					--playBGM('')
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
+				data.tempBack = false
+				f_saveTemp()
 				return
 			end
 		end
@@ -986,7 +989,6 @@ function f_selectSimple()
 				return
 			--For Training and Single Bonus
 			else
-				--f_selectWin()
 				f_selectReset()
 				while not selScreenEnd do
 					if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
@@ -1123,8 +1125,11 @@ function f_selectAdvance()
 				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
-			if back == true then
+			assert(loadfile('saved/temp_sav.lua'))()
+			if back == true or data.tempBack == true then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				data.tempBack = false
+				f_saveTemp()
 				return
 			end
 		end
@@ -1147,6 +1152,17 @@ function f_selectAdvance()
 		elseif winner == -1 and (data.gameMode == 'endless' or data.gameMode == 'allroster') then
 			--counter
 			looseCnt = looseCnt + 1
+			assert(loadfile('saved/temp_sav.lua'))()
+			if data.tempBack == true then
+				data.tempBack = false
+				f_saveTemp()
+				if data.rosterMode == 'event' then
+					playBGM(bgmEvents)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+				return
+			end
 			--save record progress
 			f_records()
 			--result
@@ -1238,6 +1254,17 @@ function f_selectAdvance()
 					f_selectWin()
 				end
 			end
+			assert(loadfile('saved/temp_sav.lua'))()
+			if data.tempBack == true then
+				data.tempBack = false
+				f_saveTemp()
+				if data.rosterMode == 'event' then
+					playBGM(bgmEvents)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+				return
+			end
 			--save record progress
 			f_records()
 			--result
@@ -1258,6 +1285,17 @@ function f_selectAdvance()
 		else
 			--counter
 			looseCnt = looseCnt + 1
+			assert(loadfile('saved/temp_sav.lua'))()
+			if data.tempBack == true then
+				data.tempBack = false
+				f_saveTemp()
+				if data.rosterMode == 'event' then
+					playBGM(bgmEvents)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+				return
+			end
 			--save record progress
 			f_records()
 			--win screen
@@ -1884,7 +1922,7 @@ animUpdate(p1EmptyIcon8)
 --;===========================================================
 --; PLAYER 1 TEAM SELECT
 --;===========================================================
-p1SelTmTxt = createTextImg(jgFnt, 0, 1, 'TEAM MODE', 20, 30)
+p1SelTmTxt = createTextImg(jgFnt, 5, 1, 'TEAM MODE', 20, 30)
 
 t_p1selTeam = {
 	{id = '', text = 'SINGLE'},
@@ -2108,8 +2146,8 @@ animUpdate(p2EmptyIcon8)
 --;===========================================================
 --; PLAYER 2 TEAM SELECT
 --;===========================================================
-p2SelTmTxt = createTextImg(jgFnt, 0, -1, 'TEAM MODE', 300, 30)
-IASelTmTxt = createTextImg(jgFnt, 0, -1, 'CPU MODE', 300, 30)
+p2SelTmTxt = createTextImg(jgFnt, 5, -1, 'TEAM MODE', 300, 30)
+IASelTmTxt = createTextImg(jgFnt, 5, -1, 'CPU MODE', 300, 30)
 
 t_p2selTeam = {
 	{id = '', text = 'SINGLE'},
@@ -4124,7 +4162,7 @@ function f_selectVersus()
 			vshintTime = 0 --Restart timer for a new random hint
 		end
 		vsTime = vsTime + 1
-		if vsTime == 50 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
+		if vsTime == 150 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)

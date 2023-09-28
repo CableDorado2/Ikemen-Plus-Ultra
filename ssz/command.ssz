@@ -1160,7 +1160,7 @@ public &CommandList
     }
     branch{
       if(input < 0) else;
-    cond #.replay > 0:
+    cond #.replay > 0 && .com.sysControls == 0: //Pause Menu can be controlled in Replay Mode
       .replay~input(`buffer<>=, input, facing);
     cond #.net > 0:
       .net~input(`buffer<>=, input, facing);
