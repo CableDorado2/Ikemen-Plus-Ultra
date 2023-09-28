@@ -30,7 +30,7 @@ layer0.starttime = 0   ;Time to start display
 layer1.anim =  11
 layer1.offset = 0,215
 ; Music
-bgm = sound/credits.mp3      ;Name of music file to play
+bgm = sound/system/credits.mp3      ;Name of music file to play
 bgm.loop = 0
 ; Total time
 end.time = 1600

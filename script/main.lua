@@ -612,6 +612,7 @@ end
 --; TITLE SCREEN
 --;===========================================================
 txt_mainTitle = createTextImg(jgFnt, 5, 0, '-- PRESS START --', 159, 190)
+--txt_version = createTextImg(font1, 0, -1, 'v1.?.0', 319, 240)
 txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240) --font1, 0, [-1] : [1]= Align text left | [0]= Center Text | [-1]= Align text right
 txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
 
@@ -3933,7 +3934,7 @@ function f_gallery()
 	animSetPos(gallery, 160, 119)
 	animUpdate(gallery)
 	animDraw(gallery)
-	txt_artNumber = createTextImg(font14, 0, 0, ' ' .. galleryList .. '/11', 290, 230) --draw gallery limit numbers text
+	txt_artNumber = createTextImg(font14, 0, 0, ' ' .. galleryList .. '/10', 290, 230) --draw gallery limit numbers text
 	textImgDraw(txt_artNumber)
 	return gallery
 end
@@ -3952,7 +3953,7 @@ function f_galleryMenu()
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and moveArt <= 10 then --moveArt <= Number of your Gallery Limit
+		elseif (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and moveArt <= 9 then --moveArt <= Number of your Gallery Limit
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 3)
 			moveArt = moveArt + 1
@@ -3985,7 +3986,7 @@ function f_galleryMenu()
 			animDraw(arrowsGL)
 			animUpdate(arrowsGL)
 		end
-		if moveArt <= 10 then
+		if moveArt <= 9 then
 			animDraw(arrowsGR)
 			animUpdate(arrowsGR)
 		end

@@ -824,12 +824,10 @@ function f_selectSimple()
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		if data.rosterMode == 'challenger' then
-			f_challengerMusic()
-		elseif data.rosterMode == 'event' then
-			--playBGM('')
-		else	
-			playBGM(bgmSelect)
+		if data.rosterMode == 'challenger' then f_challengerMusic()
+		elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
+		elseif data.rosterMode == 'event' then --playBGM('')
+		else playBGM(bgmSelect)
 		end
 		if winner < 1 then
 			f_selectReset()
@@ -869,10 +867,10 @@ function f_selectSimple()
 		end
 		if winner > 0 then
 			--win screen
-			if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
+			if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+				f_selectWin()
+			end
+			if data.gameMode == 'versus' then
 				--BACK TO MAIN MENU
 				if battleOption == 4 or battleOption2 == 4 then
 					f_favoriteChar() --Store Favorite Character (WIP)
@@ -978,16 +976,13 @@ function f_selectSimple()
 				end
 			--For Missions or Events
 			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
 				if data.rosterMode == 'event' then
 					playBGM(bgmEvents)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
 				return
-			--For Training and Single Bonus
+			--For Single Boss/Bonus
 			else
 				f_selectReset()
 				while not selScreenEnd do
@@ -1106,13 +1101,10 @@ function f_selectAdvance()
 	f_selectReset()
 	stageEnd = true
 	while true do
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then
-			playBGM(bgmSelectBoss)
-		elseif data.rosterMode == 'challenger' then
-			f_challengerMusic()
-		else	
-			playBGM(bgmSelect)
-		end	
+		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then playBGM(bgmSelectBoss)
+		elseif data.rosterMode == 'challenger' then f_challengerMusic()
+		else playBGM(bgmSelect)
+		end
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		selectStart()
 		while not selScreenEnd do
@@ -4112,7 +4104,7 @@ function f_selectVersus()
 			refresh()
 		end
 	else	
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
+		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
 		else	
 			playBGM(bgmVS)
@@ -4364,7 +4356,7 @@ function f_selectWin()
 			i = i + 1
 			f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
 			textImgDraw(txt_winnername)
-			if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then --Show Rematch Menu for these modes
+			if data.gameMode == 'versus' then --Show Rematch Menu for these modes
 				if not menuReady then
 					if i == 510 or btnPalNo(p1Cmd) > 0 then
 						cmdInput()
@@ -4382,8 +4374,8 @@ function f_selectWin()
 				if i == 510 or btnPalNo(p1Cmd) > 0 then
 					cmdInput()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.orderSelect == true and data.gameMode == 'arcade' then
-						playBGM(bgmSelect)
+					if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
+					elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
 					end
 					commandBufReset(p1Cmd, 1)
 					break
@@ -4422,7 +4414,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 	while true do
 		i = i + 1
 		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
-		if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then --Show Rematch Menu for these modes
+		if data.gameMode == 'versus' then --Show Rematch Menu for these modes
 			if not menuReady then
 				if i == 510 or btnPalNo(p1Cmd) > 0 then
 					cmdInput()
@@ -4440,8 +4432,8 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 			if i == 510 or btnPalNo(p1Cmd) > 0 then
 				cmdInput()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.orderSelect == true and data.gameMode == 'arcade' then
-					playBGM(bgmSelect)
+				if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
+				elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
 				end
 				commandBufReset(p1Cmd, 1)
 				break
@@ -4471,15 +4463,15 @@ function f_selectWinOFF()
 		f_ftcontrol()
 	end
 	while true do
-		if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then
+		if data.gameMode == 'versus' then
 			f_rematch()
 		else --Don't Show Rematch Menu
 			rematchEnd = true
 		end
 		if rematchEnd then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			if data.orderSelect == true and data.gameMode == 'arcade' then
-				playBGM(bgmSelect)
+			if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
+			elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
 			end
 			commandBufReset(p1Cmd, 1)
 			break
