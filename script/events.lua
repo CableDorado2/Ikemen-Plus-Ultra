@@ -111,36 +111,19 @@ end
 --; EVENTS IMAGES
 --;===========================================================
 --Event 1 Unlocked Preview
-event1 = animNew(eventSff, [[
-0,0, 0,0,
-]])
-animSetPos(event1, 5, 54)
-animUpdate(event1)
+event1 = animNew(eventSff, [[0,0, 0,0,]])
 
 --Event 1 Locked Preview
-event1L = animNew(eventSff, [[
-0,1, 0,0,
-]])
-animSetPos(event1L, 5, 54)
-animUpdate(event1L)
+event1L = animNew(eventSff, [[0,1, 0,0,]])
 
 --Event 2 Unlocked Preview
-event2 = animNew(eventSff, [[
-1,0, 0,0,
-]])
-animSetPos(event2, 110, 54)
-animUpdate(event2)
-
---Event 3 Unlocked Preview
-event3 = animNew(eventSff, [[
-2,0, 0,0,
-]])
-animSetPos(event3, 215, 54)
-animUpdate(event3)
+event2 = animNew(eventSff, [[1,0, 0,0,]])
 
 --;===========================================================
 --; EVENTS MENU
 --;===========================================================
+txtEventInfo = createTextImg(font11, 0, 0, "", 160, 37)
+
 --function countdown(t) --TODO make a Countdown for the sysTime Event
   --local d = math.floor(t / 86400)
   --local h = math.floor((t % 86400) / 3600)
@@ -149,37 +132,13 @@ animUpdate(event3)
   --return string.format("%d:%02d:%02d:%02d", d, h, m, s)
 --end
 
-t_tInfo = {
-	{id = '1', text = 'WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00'},
-	{id = '2', text = 'POST YOUR SCHEDULE HERE'},
-	{id = '3', text = 'POST YOUR SCHEDULE HERE'},
-	{id = '4', text = 'POST YOUR SCHEDULE HERE'},
-	{id = '5', text = 'POST YOUR SCHEDULE HERE'},
-	{id = '6', text = 'POST YOUR SCHEDULE HERE'},
-}
-for i=1, #t_tInfo do
-	t_tInfo[i].id = createTextImg(font11, 0, 0, t_tInfo[i].text, 160, 37)
-end
-
-t_mInfo = {
-	{id = '1', text = "Play as Master Kung Fu Girl!"},
-	{id = '2', text = "PROGRAM YOUR EVENT HERE"},
-	{id = '3', text = "PROGRAM YOUR EVENT HERE"},
-	{id = '4', text = "PROGRAM YOUR EVENT HERE"},
-	{id = '5', text = "PROGRAM YOUR EVENT HERE"},
-	{id = '6', text = "PROGRAM YOUR EVENT HERE"},
-}
-for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font11, 0, 0, t_mInfo[i].text, 160, 37)
-end
-
 t_eventMenu = {
-	{id = '', text = '', varID = textImgNew(), varText = event1Progress},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '', varID = textImgNew(), varText = 'UNDEFINED'},
+	{varImg = '', varID = textImgNew(), varStatus = ''}, --Add Event Slot
+	{varImg = '', varID = textImgNew(), varStatus = ''},
+	{varImg = '', varID = textImgNew(), varStatus = ''},
+	{varImg = '', varID = textImgNew(), varStatus = ''},
+	{varImg = '', varID = textImgNew(), varStatus = ''},
+	{varImg = '', varID = textImgNew(), varStatus = ''},
 }
 
 function f_eventMenu()
@@ -313,13 +272,9 @@ function f_eventMenu()
 		if cursorPosX == 3 then
 			moveTxt = (eventMenu - 3) * 105 --Set how many space will move Event Status text
 			moveImg = (eventMenu - 3) * 160 --Set how many space will move Event Preview image
-			moveImg2 = (eventMenu - 3) * 105
-			moveImg3 = (eventMenu - 3) * 60
 		elseif cursorPosX == 1 then
 			moveTxt = (eventMenu - 1) * 105
 			moveImg = (eventMenu - 1) * 160
-			moveImg2 = (eventMenu - 1) * 105
-			moveImg3 = (eventMenu - 1) * 60
 		end
 		if #t_eventMenu <= 3 then
 			maxEvents = #t_eventMenu
@@ -340,67 +295,47 @@ function f_eventMenu()
 		animSetScale(eventBG2, 318, 154)
 		animSetWindow(eventBG2, 3,52, 314,154)
 		animDraw(eventBG2)
-	--Draw Event 1
+	--Set Event Info, Preview and Progress
+	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
 			event1Status = true
-		--Draw and Move Event Available Image
-			animPosDraw(event1, 5-moveImg, 54)
-			animUpdate(event1)
+			event1Desc = "Play as Master Kung Fu Girl!"
+			t_eventMenu[1].varImg = event1
 		else --Event Unavailable...
 			event1Status = false
-			--Draw and Move Event Locked Image
-			animPosDraw(event1L, 5-moveImg, 54)
-			animUpdate(event1L)
+			event1Desc = "WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00"
+			t_eventMenu[1].varImg = event1L
 		end
-	--Draw Event 2
-		animPosDraw(event2, 5*24-moveImg2, 54)
-		animUpdate(event2)
-	--Draw Event 3
-		animPosDraw(event3, 8*34-moveImg3, 54)
-		animUpdate(event3)
-		if eventSelect == true then
-		--Draw Event Cursor
-			if lockedScreen == false then
-				animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
-				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-				animDraw(f_animVelocity(cursorBox, -1, -1))
-			end
-		--Draw Event Info
-			if eventMenu == 1 then
-				if event1Status == true then
-					for i=1, #t_mInfo do
-						textImgDraw(t_mInfo[1].id) --Draw Event Info
-					end
-				elseif 	event1Status == false then
-					for i=1, #t_tInfo do
-						textImgDraw(t_tInfo[1].id) --Draw Time to start Info
-					end
-				end
-			elseif eventMenu == 2 then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[2].id)
-				end
-			elseif eventMenu == 3 then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[3].id)
-				end
-			elseif eventMenu == 4 then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[4].id)
-				end
-			elseif eventMenu == 5 then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[5].id)
-				end
-			elseif eventMenu == 6 then
-				for i=1, #t_mInfo do
-					textImgDraw(t_mInfo[6].id)
-				end
-			end
+		t_eventMenu[1].varStatus = event1Progress
+	--Event 2
+		event2Desc = "PROGRAM YOUR EVENT HERE"
+		t_eventMenu[2].varImg = event2
+		t_eventMenu[2].varStatus = 'UNDEFINED2'
+	--Event 3
+		event3Desc = "PROGRAM YOUR EVENT HERE"
+		t_eventMenu[3].varImg = event2
+		t_eventMenu[3].varStatus = 'UNDEFINED3'
+	--Event 4
+		event4Desc = "PROGRAM YOUR EVENT HERE"
+		t_eventMenu[4].varImg = event2
+		t_eventMenu[4].varStatus = 'UNDEFINED4'
+	--Event 5
+		event5Desc = "PROGRAM YOUR EVENT HERE"
+		t_eventMenu[5].varImg = event2
+		t_eventMenu[5].varStatus = 'UNDEFINED5'
+	--Event 6
+		event6Desc = "PROGRAM YOUR EVENT HERE"
+		t_eventMenu[6].varImg = event2
+		t_eventMenu[6].varStatus = 'UNDEFINED6'
+	--Set Event Description
+		if eventMenu == 1 then textImgSetText(txtEventInfo, event1Desc)
+		elseif eventMenu == 2 then textImgSetText(txtEventInfo, event2Desc)
+		elseif eventMenu == 3 then textImgSetText(txtEventInfo, event3Desc)
+		elseif eventMenu == 4 then textImgSetText(txtEventInfo, event4Desc)
+		elseif eventMenu == 5 then textImgSetText(txtEventInfo, event5Desc)
+		elseif eventMenu == 6 then textImgSetText(txtEventInfo, event6Desc)
 		end
-	--Set event status
-		t_eventMenu[1].varText = event1Progress
-	--Draw Text for Event Status
+	--Set Scroll Logic
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
 				if i == eventMenu and eventSelect == true then
@@ -410,10 +345,25 @@ function f_eventMenu()
 				else
 					bank = 0
 				end
+			--Draw Text for Event Status
 				if t_eventMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, -1, t_eventMenu[i].varText, -16+i*105-moveTxt, 218)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, 0, t_eventMenu[i].varStatus, -50.5+i*105-moveTxt, 218)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
+			--Draw Event Preview Image
+				animSetPos(t_eventMenu[i].varImg, -100+i*105-moveTxt, 54)
+				animUpdate(t_eventMenu[i].varImg)
+				animDraw(t_eventMenu[i].varImg)
 			end
+		end
+		if eventSelect == true then
+		--Draw Event Cursor
+			if lockedScreen == false then
+				animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
+		--Draw Event Info
+			textImgDraw(txtEventInfo)
 		end
 		f_sysTime()
 	--Draw Left Animated Cursor
