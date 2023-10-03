@@ -47,6 +47,8 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >[License](#license)
 
 ## Meaning of All IKEMEN Versions
+In the words of one most prominent contributors and developers for Ikemen, *PlasmoidThunder:*
+
 **IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the First version of the engine.
 
 **IKEMEN Plus** is an unofficial update of the Vanilla version. Is for people who want to mess with the engine beyond modification of Lua files.
