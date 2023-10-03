@@ -1031,7 +1031,7 @@ function f_mainMenu()
 				elseif mainMenu == 6 then
 					sndPlay(sysSnd, 100, 1)
 					assert(loadfile('saved/stats_sav.lua'))()
-					if data.arcadeUnlocks == true then
+					if data.arcadeClear == true then
 						f_extrasMenu()
 					else
 						f_secret()
@@ -6787,12 +6787,13 @@ file:close()
 function f_saveProgress()
 	--Data saving to stats_sav.lua
 	local t_progress = {
-		['data.arcadeUnlocks'] = data.arcadeUnlocks,
-		['data.survivalUnlocks'] = data.survivalUnlocks,
+		['data.arcadeClear'] = data.arcadeClear,
+		['data.survivalClear'] = data.survivalClear,
 		['data.coins'] = data.coins,
 		['data.attractCoins'] = data.attractCoins,
 		['data.vault'] = data.vault,
 		['data.playTime'] = data.playTime,
+		['data.trainingTime'] = data.trainingTime,
 		['data.favoriteChar'] = data.favoriteChar,
 		['data.favoriteStage'] = data.favoriteStage,
 		['data.victories'] = data.victories,

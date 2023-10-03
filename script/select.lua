@@ -1027,6 +1027,7 @@ function f_selectSimple()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
+		if data.rosterMode == 'training' then f_modeplayTime() end --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
 		playBGM('')
@@ -1201,7 +1202,7 @@ function f_selectAdvance()
 					f_eventStatus()
 					if data.rosterMode == 'arcade' then
 						--unlocks
-						data.arcadeUnlocks = true
+						data.arcadeClear = true
 						f_saveProgress()
 					end
 					--credits
@@ -1217,7 +1218,7 @@ function f_selectAdvance()
 				else
 					--unlocks
 					if data.rosterMode == 'survival' then
-						data.survivalUnlocks = true
+						data.survivalClear = true
 						f_saveProgress()
 					end
 					--game over
@@ -1410,7 +1411,7 @@ function f_selectAdvance()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
-		f_modeplayTime() --Store Favorite Game Mode (WIP)
+		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
 		--restore P2 Team settings if needed
@@ -6427,7 +6428,7 @@ function f_records()
 end
 
 function f_modeplayTime()
-	if data.rosterMode == 'arcade' then data.arcademodeCnt = data.arcademodeCnt + clearTime
+	if data.rosterMode == 'arcade' then data.arcademodeCnt = data.arcademodeCnt + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
 	elseif data.rosterMode == 'versus' then data.vsmodeCnt = data.vsmodeCnt + clearTime
 	elseif data.rosterMode == 'survival' then data.survivalmodeCnt = data.survivalmodeCnt + clearTime
 	elseif data.rosterMode == 'bossrush' then data.bossrushmodeCnt = data.bossrushmodeCnt + clearTime
@@ -6443,6 +6444,7 @@ function f_modeplayTime()
 	elseif data.rosterMode == 'tower' then data.towermodeCnt = data.towermodeCnt + clearTime
 	elseif data.rosterMode == 'tourney' then data.tourneymodeCnt = data.tourneymodeCnt + clearTime
 	elseif data.rosterMode == 'adventure' then data.adventuremodeCnt = data.adventuremodeCnt + clearTime
+	elseif data.rosterMode == 'training' then data.trainingTime = data.trainingTime + clearTime
 	end
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()

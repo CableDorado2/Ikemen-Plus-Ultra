@@ -169,3 +169,28 @@ filesize: 23790 bytes (0 bytes saved by optimization before cropping)
 mem use : 29434 bytes
 
 13 sprite(s) compressed; 48174 bytes saved; avg compression 31.23%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+
+Stats
+22 sprites (22 unique), 1 palettes (1 unique, 21 discarded)
+22 unique 8-bit sprite(s)
+ldata   : 58872 bytes 	tdata   : 0 bytes
+filesize: 60016 bytes (0 bytes saved by optimization before cropping)
+mem use : 70744 bytes
+
+1 sprite(s) cropped; 524 bytes (524 pixels) eliminated
+22 sprite(s) compressed; 130533 bytes saved; avg compression 30.71%
+SprMaker ver 2.01beta  (2010-06-16)				  Elecbyte 2010
+Processing sprites: done.                                      
+Overwriting output file: data\charAnim\Evil_Ryu.sff
+
+Stats
+22 sprites (22 unique), 1 palettes (1 unique, 21 discarded)
+22 unique 8-bit sprite(s)
+ldata   : 58872 bytes 	tdata   : 0 bytes
+filesize: 60016 bytes (0 bytes saved by optimization before cropping)
+mem use : 70744 bytes
+
+1 sprite(s) cropped; 524 bytes (524 pixels) eliminated
+22 sprite(s) compressed; 130533 bytes saved; avg compression 30.71%
