@@ -825,7 +825,7 @@ function f_selectSimple()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		if data.rosterMode == 'challenger' then f_challengerMusic()
-		elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
+		elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == 'event' then --playBGM('')
 		else playBGM(bgmSelect)
 		end
@@ -1012,7 +1012,7 @@ function f_selectSimple()
 		f_aiLevel()
 		f_orderSelect()
 		--versus screen
-		if data.gameMode == 'versus' or data.rosterMode == 'bosssingle' then
+		if data.gameMode == 'versus' or data.gameMode == 'singleboss' then
 			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
 				f_selectVersus()
 			end
@@ -1665,7 +1665,7 @@ txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
 
 function f_selectScreen()
 	--draw
-	if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+	if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Sprite Animation (Diagonal Movement around left direction)
 	else
 		animDraw(f_animVelocity(selectBG0, -1, -1))
@@ -1726,7 +1726,7 @@ function f_selectScreen()
 	elseif data.p2In > 0 or data.p2Char ~= nil then
 		f_p2SelectMenu()
 		--Draw VS Single Bosses Portraits
-		if data.rosterMode == 'bosssingle' then
+		if data.gameMode == 'singleboss' then
 			animDraw(f_animVelocity(charBG3, 2, 0))
 			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
@@ -1739,7 +1739,7 @@ function f_selectScreen()
 			end
 		end
 		--Draw VS Single Bonus Portraits
-		if data.rosterMode == 'singlebonus' then
+		if data.gameMode == 'singlebonus' then
 			animDraw(f_animVelocity(charBG3, 2, 0))
 			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
@@ -3710,7 +3710,7 @@ function f_orderSelect()
 			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
 			txt_orderTime = createTextImg(jgFnt, 0, 0, nodecimalOrderTime, 160, 70)
 			--draw background on top
-			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+			if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -4105,7 +4105,7 @@ function f_selectVersus()
 			refresh()
 		end
 	else	
-		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
+		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
 		else	
 			playBGM(bgmVS)
@@ -4124,13 +4124,13 @@ function f_selectVersus()
 		200,0, 0,0, -1
 		]])
 		animAddPos(versusBG4, 160, 95)
-		local vsTime = 0
+		local versusTimer = 0
 		local vshintTime = 0
 		local randomHintVS = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
 		cmdInput()
 		while true do
 		--draw background on top
-		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -4154,8 +4154,8 @@ function f_selectVersus()
 			randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
 			vshintTime = 0 --Restart timer for a new random hint
 		end
-		vsTime = vsTime + 1
-		if vsTime == 150 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
+		versusTimer = versusTimer + 1
+		if versusTimer == 150 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
@@ -4284,7 +4284,7 @@ function f_selectWin()
 		local i = 0
 		cmdInput()
 		while true do
-			if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+			if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -4376,7 +4376,7 @@ function f_selectWin()
 					cmdInput()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
-					elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
+					elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 					end
 					commandBufReset(p1Cmd, 1)
 					break
@@ -4434,7 +4434,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 				cmdInput()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
-				elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
+				elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 				end
 				commandBufReset(p1Cmd, 1)
 				break
@@ -4472,7 +4472,7 @@ function f_selectWinOFF()
 		if rematchEnd then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
-			elseif data.rosterMode == 'bosssingle' then playBGM(bgmSelectBoss)
+			elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 			end
 			commandBufReset(p1Cmd, 1)
 			break
@@ -5007,7 +5007,7 @@ function f_selectChallenger()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
-		if data.gameMode == 'bossrush' or data.rosterMode == 'bosssingle' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -6410,7 +6410,7 @@ function f_defeats()
 end
 
 function f_records()
-	if data.rosterMode == 'bossrush' then
+	if data.gameMode == 'bossrush' then
 		if winCnt > data.bossrecord then
 			data.bossrecord = winCnt
 		end
@@ -6428,23 +6428,23 @@ function f_records()
 end
 
 function f_modeplayTime()
-	if data.rosterMode == 'arcade' then data.arcademodeCnt = data.arcademodeCnt + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
-	elseif data.rosterMode == 'versus' then data.vsmodeCnt = data.vsmodeCnt + clearTime
-	elseif data.rosterMode == 'survival' then data.survivalmodeCnt = data.survivalmodeCnt + clearTime
-	elseif data.rosterMode == 'bossrush' then data.bossrushmodeCnt = data.bossrushmodeCnt + clearTime
-	elseif data.rosterMode == 'bonusrush' then data.bonusrushmodeCnt = data.bonusrushmodeCnt + clearTime
-	elseif data.rosterMode == 'timeattack' then data.timeattackmodeCnt = data.timeattackmodeCnt + clearTime
-	elseif data.rosterMode == 'suddendeath' then data.suddendeathmodeCnt = data.suddendeathmodeCnt + clearTime
-	elseif data.rosterMode == 'cpu' then data.cpumatchmodeCnt = data.cpumatchmodeCnt + clearTime
-	elseif data.rosterMode == 'event' then data.eventsmodeCnt = data.eventsmodeCnt + clearTime
-	elseif data.rosterMode == 'mission' then data.missionsmodeCnt = data.missionsmodeCnt + clearTime
-	elseif data.rosterMode == 'endless' then data.endlessmodeCnt = data.endlessmodeCnt + clearTime
-	elseif data.rosterMode == 'trials' then data.legionmodeCnt = data.legionmodeCnt + clearTime
-	elseif data.rosterMode == 'story' then data.storymodeCnt = data.storymodeCnt + clearTime
-	elseif data.rosterMode == 'tower' then data.towermodeCnt = data.towermodeCnt + clearTime
-	elseif data.rosterMode == 'tourney' then data.tourneymodeCnt = data.tourneymodeCnt + clearTime
-	elseif data.rosterMode == 'adventure' then data.adventuremodeCnt = data.adventuremodeCnt + clearTime
+	if data.rosterMode == 'story' then data.storyTime = data.storyTime + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
+	elseif data.rosterMode == 'arcade' then data.arcadeTime = data.arcadeTime + clearTime
+	elseif data.rosterMode == 'versus' then data.vsTime = data.vsTime + clearTime
 	elseif data.rosterMode == 'training' then data.trainingTime = data.trainingTime + clearTime
+	elseif data.rosterMode == 'cpu' then data.cpumatchTime = data.cpumatchTime + clearTime
+	elseif data.rosterMode == 'survival' then data.survivalTime = data.survivalTime + clearTime
+	elseif data.rosterMode == 'boss' then data.bossTime = data.bossTime + clearTime
+	elseif data.rosterMode == 'bonus' then data.bonusTime = data.bonusTime + clearTime
+	elseif data.rosterMode == 'timeattack' then data.timeattackTime = data.timeattackTime + clearTime
+	elseif data.rosterMode == 'suddendeath' then data.suddendeathTime = data.suddendeathTime + clearTime
+	elseif data.rosterMode == 'endless' then data.endlessTime = data.endlessTime + clearTime
+	elseif data.rosterMode == 'event' then data.eventsTime = data.eventsTime + clearTime
+	elseif data.rosterMode == 'mission' then data.missionsTime = data.missionsTime + clearTime
+	elseif data.rosterMode == 'tower' then data.towerTime = data.towerTime + clearTime
+	elseif data.rosterMode == 'legion' then data.legionTime = data.legionTime + clearTime
+	elseif data.rosterMode == 'tourney' then data.tourneyTime = data.tourneyTime + clearTime
+	elseif data.rosterMode == 'adventure' then data.adventureTime = data.adventureTime + clearTime
 	end
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()

@@ -1,6 +1,22 @@
-kung fu man
-0 triggers found
-quote = random value from all 7 available quotes
+kung fu girl
+condition: 1
+ trigger
+  before: 1
+  after: true
+  result: true
+ value
+  before: (random % 5)
+  after: (math.random(0,999)*1/1000*5)
+  result: 3
+condition: 2
+ trigger
+  before: enemy,name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720"
+  after: "suave dude"== "kung fu man"  or  "suave dude"== "master kung fu man"  or  "suave dude"== "kfm"  or  "suave dude"== "master kfm"  or  "suave dude"== "ex kfm"  or  "suave dude"== "kfm ex"  or  "suave dude"== "ex kung fu man"  or  "suave dude"== "kung fu man ex"  or  "suave dude"== "another kung fu man"  or  "suave dude"== "kung fu man 720"  or  "suave dude"== "kfm 720"
+  result: false
+ value
+  before: 6
+  after: 6
+  result: 6
 
-quote: 4
+quote: 3
 exists: yes

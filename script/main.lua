@@ -2220,7 +2220,8 @@ function f_bossChars()
 				sndPlay(sysSnd, 100, 1)
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bossChars[bossChars]}
-				data.rosterMode = 'bosssingle'
+				data.gameMode = 'singleboss'
+				data.rosterMode = 'boss'
 				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
 				script.select.f_selectSimple()
 			--BACK
@@ -2346,7 +2347,7 @@ function f_bossrushMenu()
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.gameMode = 'bossrush'
-					data.rosterMode = 'bossrush'
+					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
 				end
@@ -2359,7 +2360,7 @@ function f_bossrushMenu()
 					data.p2Faces = true
 					data.coop = true
 					data.gameMode = 'bossrush'
-					data.rosterMode = 'bossrush'
+					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end
@@ -2614,7 +2615,8 @@ function f_bonusExtras()
 				data.versusScreen = false
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bonusChars[bonusExtras]}
-				data.rosterMode = 'singlebonus'
+				data.gameMode = 'singlebonus'
+				data.rosterMode = 'bonus'
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
 				script.select.f_selectSimple()
 			--BACK
@@ -2741,7 +2743,7 @@ function f_bonusrushMenu()
 					data.p2TeamMenu = {mode = 0, chars = 1}
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonusrush'
+					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
 				end	
@@ -2755,7 +2757,7 @@ function f_bonusrushMenu()
 					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonusrush'
+					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 				end					
@@ -6194,7 +6196,7 @@ function f_mainHost()
 					data.p2Faces = true
 					data.coop = true
 					data.gameMode = 'bossrush'
-					data.rosterMode = 'bossrush'
+					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')
 					script.select.f_selectAdvance()
 				end	
@@ -6208,7 +6210,7 @@ function f_mainHost()
 					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonusrush'
+					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'ONLINE BONUS RUSH COOPERATIVE')
 					script.select.f_selectAdvance()
 				end	
@@ -6443,7 +6445,7 @@ function f_mainJoin()
 					data.p2Faces = true
 					data.coop = true
 					data.gameMode = 'bossrush'
-					data.rosterMode = 'bossrush'
+					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')
 					script.select.f_selectAdvance()
 				end	
@@ -6457,7 +6459,7 @@ function f_mainJoin()
 					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonusrush'
+					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'ONLINE BONUS RUSH COOPERATIVE')
 					script.select.f_selectAdvance()
 				end	
@@ -6802,22 +6804,22 @@ function f_saveProgress()
 		['data.bossrecord'] = data.bossrecord,
 		['data.suddenrecord'] = data.suddenrecord,
 		['data.endlessrecord'] = data.endlessrecord,
-		['data.arcademodeCnt'] = data.arcademodeCnt,
-		['data.vsmodeCnt'] = data.vsmodeCnt,
-		['data.survivalmodeCnt'] = data.survivalmodeCnt,
-		['data.bossrushmodeCnt'] = data.bossrushmodeCnt,
-		['data.bonusrushmodeCnt'] = data.bonusrushmodeCnt,
-		['data.timeattackmodeCnt'] = data.timeattackmodeCnt,
-		['data.suddendeathmodeCnt'] = data.suddendeathmodeCnt,
-		['data.cpumatchmodeCnt'] = data.cpumatchmodeCnt,
-		['data.eventsmodeCnt'] = data.eventsmodeCnt,
-		['data.missionsmodeCnt'] = data.missionsmodeCnt,
-		['data.endlessmodeCnt'] = data.endlessmodeCnt,
-		['data.legionmodeCnt'] = data.legionmodeCnt,
-		['data.towermodeCnt'] = data.towermodeCnt,
-		['data.storymodeCnt'] = data.storymodeCnt,
-		['data.tourneymodeCnt'] = data.tourneymodeCnt,
-		['data.adventuremodeCnt'] = data.adventuremodeCnt,
+		['data.arcadeTime'] = data.arcadeTime,
+		['data.vsTime'] = data.vsTime,
+		['data.survivalTime'] = data.survivalTime,
+		['data.bossTime'] = data.bossTime,
+		['data.bonusTime'] = data.bonusTime,
+		['data.timeattackTime'] = data.timeattackTime,
+		['data.suddendeathTime'] = data.suddendeathTime,
+		['data.cpumatchTime'] = data.cpumatchTime,
+		['data.eventsTime'] = data.eventsTime,
+		['data.missionsTime'] = data.missionsTime,
+		['data.endlessTime'] = data.endlessTime,
+		['data.legionTime'] = data.legionTime,
+		['data.towerTime'] = data.towerTime,
+		['data.storyTime'] = data.storyTime,
+		['data.tourneyTime'] = data.tourneyTime,
+		['data.adventureTime'] = data.adventureTime,
 		['data.eventsProgress'] = data.eventsProgress,
 		['data.missionsProgress'] = data.missionsProgress,
 		['data.event1Status'] = data.event1Status,
