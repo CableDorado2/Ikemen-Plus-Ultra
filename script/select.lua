@@ -1027,7 +1027,7 @@ function f_selectSimple()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
-		if data.rosterMode == 'training' then f_modeplayTime() end --Store Favorite Game Mode
+		if data.rosterMode == 'training' then f_modeplayTime() end --Store Training Time
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
 		playBGM('')
