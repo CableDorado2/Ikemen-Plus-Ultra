@@ -33,6 +33,8 @@ s_configSSZ = file:read("*all")
 file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+--b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)') == 'true' and true or false --WMV Videos are not center when save fullscreen config is read
+--setScreenMode(b_screenMode)
 
 --;===========================================================
 --; MAIN MENU SCREENPACK
@@ -488,8 +490,8 @@ function f_mainStart()
 	f_saveTemp() --Save Temp Default Values to Prevent Issues
 	f_storyboard('data/screenpack/logo.def')
 	f_storyboard('data/screenpack/intro.def')
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	--playVideo(videoHowToPlay)
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	f_infoReset() --Allow select options below if the Engine detects characters or stages
 	if #t_selChars == 0 then --If the Engine not detect Characters
 		charsInfo = true

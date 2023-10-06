@@ -81,7 +81,7 @@ public bool playBGM(^/char pldir, ^/char fn)
 
 public void playVideo(^/char vldir, ^/char fn)
 {
-  plugin void PlayVideo(:^/char, ^/char:) = "dll/sdlplugin.dll";
+  plugin void PlayVideo(:^/char, ^/char:) = "dll/sdlpluginV.dll";
   PlayVideo(:vldir, fn:);
 }
 

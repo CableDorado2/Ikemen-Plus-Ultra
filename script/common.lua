@@ -189,7 +189,7 @@ end
 --;===========================================================
 --; MOVIE DEFINITION (WIP)
 --;===========================================================
---videoHowToPlay = "data/movie/How To Play.wmv"
+--videoHowToPlay = "movie/How To Play.wmv"
 
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION

@@ -203,8 +203,6 @@ void main()
     ret;
   }
 /*?*/
-  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
-  if(.cfg.FullScreen) .se.full = true;
   &.lua.State L;
   if(!.init(L=)) ret;
   if(!L.runFile(.cfg.system)){

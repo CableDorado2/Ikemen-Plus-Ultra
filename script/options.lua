@@ -99,7 +99,7 @@ function f_loadCfg()
 	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
-	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)') == 'true' and true or false
+	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
@@ -193,9 +193,15 @@ function f_loadEXCfg()
 		b_openGL = false
 		s_openGL = 'No'
 	end
-
-	s_screenMode = b_screenMode and 'Yes' or 'No'
-
+	
+	if b_screenMode == 'true' then
+		b_screenMode = true
+		s_screenMode = 'Yes'
+	elseif b_screenMode == 'false' then
+		b_screenMode = false
+		s_screenMode = 'No'
+	end
+	
 	if data.teamLifeShare then
 		s_teamLifeShare = 'Yes'
 	else
@@ -307,6 +313,7 @@ function f_saveCfg()
 		['data.coopenemy'] = data.coopenemy,
 		['data.connectMode'] = data.connectMode,
 		['data.pauseMode'] = data.pauseMode,
+		['data.sdl'] = data.sdl,
 		['data.userName'] = data.userName
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
@@ -324,7 +331,11 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
 	end
-	s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = ' .. tostring(b_screenMode))
+	if b_screenMode then
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
+	end
 	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
@@ -360,6 +371,17 @@ function f_saveCfg()
 	if needReload == 1 then
 		--os.execute ("TASKKILL /IM Ikemen DRP.exe /F")
 		f_playTime()
+		if data.sdl == 'Stable' then
+			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginV.dll")
+			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginV.ssz")
+			os.rename("lib/alpha/dll/sdlpluginS.dll", "lib/alpha/dll/sdlplugin.dll")
+			os.rename("lib/alpha/sdlpluginS.ssz", "lib/alpha/sdlplugin.ssz")
+		elseif data.sdl == 'Beta' then
+			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginS.dll")
+			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginS.ssz")
+			os.rename("lib/alpha/dll/sdlpluginV.dll", "lib/alpha/dll/sdlplugin.dll")
+			os.rename("lib/alpha/sdlpluginV.ssz", "lib/alpha/sdlplugin.ssz")
+		end
 		sszReload() --Native Reboot, added via ikemen.ssz
 		os.exit()
 	end
@@ -530,7 +552,8 @@ function f_videoDefault()
 	setScreenMode(b_screenMode)
 	resolutionWidth = 853
 	resolutionHeight = 480
-	setGameRes(resolutionWidth,resolutionHeight)
+	--setGameRes(resolutionWidth,resolutionHeight)
+	data.sdl = 'Stable'
 end
 
 --Default Audio Values
@@ -717,6 +740,46 @@ function f_resWarning()
 		animDraw(optionsBG2)
 		for i=1, #t_resWarning do
 			textImgDraw(t_resWarning[i].id)
+		end
+		animDraw(infoOptionsWindowBG)
+		animUpdate(infoOptionsWindowBG)
+		textImgDraw(txt_okOptions)
+		animSetWindow(cursorBox, 87,133, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if data.attractMode == true then f_attractCredits() end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
+--; SDL VIDEO WARNING
+--;===========================================================
+t_sdlWarning = {
+	{id = '', text = "The Beta version of the Sdlplugin allows loading video"},
+	{id = '', text = "files in WMV format. However, still in development and"},
+	{id = '', text = "ONLY SFF sprites Version 2.0.0.0 or Version 1.0.1.0"},
+	{id = '', text = "are supported."},
+}
+for i=1, #t_sdlWarning do
+	t_sdlWarning[i].id = createTextImg(font2, 0, 1, t_sdlWarning[i].text, 25, 65+i*15)
+end
+
+function f_sdlWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_Warning)
+		animSetScale(optionsBG2, 300, 111)
+		animSetWindow(optionsBG2, 0,70, 296,#t_sdlWarning*15)
+		animDraw(optionsBG2)
+		for i=1, #t_sdlWarning do
+			textImgDraw(t_sdlWarning[i].id)
 		end
 		animDraw(infoOptionsWindowBG)
 		animUpdate(infoOptionsWindowBG)
@@ -1149,9 +1212,10 @@ function f_mainCfg()
 					f_loadCfg()
 					f_loadEXCfg()
 					setScreenMode(b_screenMode)
-					setGameRes(resolutionWidth,resolutionHeight)
+					--setGameRes(resolutionWidth,resolutionHeight)
 					setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 					setPanStr(pan_str / 100)
+					needReload = 0
 					break
 				--Online Settings from Offline Mode	
 				else --Only for Dev Purposes (Delete when test are finished)
@@ -4023,7 +4087,8 @@ txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
 
 t_videoCfg = {
 	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
-	{id = '', text = 'Fullscreen',  		varID = textImgNew(), varText = s_screenMode},	
+	{id = '', text = 'Fullscreen',  		varID = textImgNew(), varText = s_screenMode},
+	{id = '', text = 'Sdlplugin',	  		varID = textImgNew(), varText = data.sdl},
 	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = s_openGL},
 	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = s_saveMemory},
 	{id = '', text = 'Default Graphics',    varID = textImgNew(), varText = ''},
@@ -4039,7 +4104,6 @@ function f_videoCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local hasChanged = true
 	while true do
 		if b_screenMode ~= getScreenMode() then
 			if getScreenMode() then
@@ -4074,27 +4138,40 @@ function f_videoCfg()
 				sndPlay(sysSnd, 100, 1)
 				if f_resCfg() then
 					modified = 1
-					hasChanged = true
 				end
 			--Fullscreen			
 			elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-			if onlinegame == true then
-				lockSetting = true
-			elseif onlinegame == false then
-				sndPlay(sysSnd, 100, 0)
-				if not b_screenMode then
-					b_screenMode = true
-					s_screenMode = 'Yes'
-				else
-					b_screenMode = false
-					s_screenMode = 'No'
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then
+					sndPlay(sysSnd, 100, 0)
+					if not b_screenMode then
+						b_screenMode = true
+						s_screenMode = 'Yes'
+					else
+						b_screenMode = false
+						s_screenMode = 'No'
+					end
+					modified = 1
+					setScreenMode(b_screenMode) --added via system-script.ssz
 				end
-				modified = 1
-				setScreenMode(b_screenMode) --added via system-script.ssz
-				hasChanged = true
-			end
+			--Sdlplugin
+			elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then
+					sndPlay(sysSnd, 100, 0)
+					if data.sdl == 'Stable' then
+						data.sdl = 'Beta'
+						f_sdlWarning()
+					elseif data.sdl == 'Beta' then
+						data.sdl = 'Stable'
+					end
+					modified = 1
+					needReload = 1
+				end
 			--OpenGL 2.0
-			--elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				--sndPlay(sysSnd, 100, 0)
 				--if b_openGL == false then
 					--b_openGL = true
@@ -4109,7 +4186,7 @@ function f_videoCfg()
 					--needReload = 0
 				--end
 			--Save memory
-			--elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--elseif videoCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				--sndPlay(sysSnd, 100, 0)
 				--if b_saveMemory == false then
 					--b_saveMemory = true
@@ -4125,12 +4202,12 @@ function f_videoCfg()
 					--needReload = 1
 				--end
 			--Default Values
-			elseif videoCfg == 3 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 4 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 			--BACK
-			elseif videoCfg == 4 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 5 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4173,12 +4250,10 @@ function f_videoCfg()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
-		if hasChanged then
-			t_videoCfg[2].varText = s_screenMode		
-			--t_videoCfg[3].varText = s_openGL
-			--t_videoCfg[4].varText = s_saveMemory
-			hasChanged = false
-		end
+		t_videoCfg[2].varText = s_screenMode
+		t_videoCfg[3].varText = data.sdl
+		--t_videoCfg[3].varText = s_openGL
+		--t_videoCfg[4].varText = s_saveMemory
 		if lockSetting == true then
 			for i=1, #t_locked do
 				textImgDraw(t_locked[i].id)
@@ -4238,7 +4313,6 @@ function f_resCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local hasChanged = true
 	while true do
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
@@ -4259,22 +4333,18 @@ function f_resCfg()
 			if resCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_resCfg4_3()
-				hasChanged = true
 			--16:9 Resolutions
 			elseif resCfg == 2 then
 				sndPlay(sysSnd, 100, 1)
 				f_resCfg16_9()
-				hasChanged = true
 			--16:10 Resolutions
 			elseif resCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_resCfg16_10()
-				hasChanged = true
 			--Extra Resolutions
 			elseif resCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_EXresCfg()
-				hasChanged = true
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -4316,10 +4386,6 @@ function f_resCfg()
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if hasChanged then
-			setGameRes(resolutionWidth,resolutionHeight)
-			hasChanged = false
-		end
 		for i=1, maxResCfg do
 			if i > resCfg - cursorPosY then
 				t_resCfg[i].id = createTextImg(font2, 0, 1, t_resCfg[i].text, 85, 15+i*15-moveTxt)
