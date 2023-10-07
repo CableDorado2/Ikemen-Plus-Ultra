@@ -42,7 +42,7 @@ addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as f
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 end
 --Miscellaneous functions
-if data.pauseMode == 'Classic' then
+if data.pauseMode == 'No' then
 addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
 end
 addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way

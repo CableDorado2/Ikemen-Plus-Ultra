@@ -576,7 +576,7 @@ function f_engineDefault()
 	s_debugMode = 'Disabled'
 	data.attractMode = false
 	s_attractMode = 'Disabled'
-	data.pauseMode = 'Modern'
+	data.pauseMode = 'Yes'
 	HelperMaxEngine = 56
 	PlayerProjectileMaxEngine = 50
 	ExplodMaxEngine = 256
@@ -3840,19 +3840,15 @@ function f_engineCfg()
 					end
 				end
 			--Pause Mode
-			elseif engineCfg == 3 then
+			elseif engineCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				sndPlay(sysSnd, 100, 0)
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
-					if commandGetState(p1Cmd, 'r') and data.pauseMode == 'Classic' then
-						sndPlay(sysSnd, 100, 0)
-						data.pauseMode = 'Modern'
-						modified = 1
-					elseif commandGetState(p1Cmd, 'l') and data.pauseMode == 'Modern' then
-						sndPlay(sysSnd, 100, 0)
-						data.pauseMode = 'Classic'
-						modified = 1
+					if data.pauseMode == 'No' then data.pauseMode = 'Yes'
+					elseif data.pauseMode == 'Yes' then data.pauseMode = 'No'
 					end
+					modified = 1
 				end
 			--HelperMax
 			elseif engineCfg == 4 then

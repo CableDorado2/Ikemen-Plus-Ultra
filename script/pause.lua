@@ -336,7 +336,7 @@ function f_pauseMain(p, st, esc)
 	pn = p
 	escape = esc
 	start = st
-	if data.pauseMode == 'Classic' then --Mugen Exit Type
+	if data.pauseMode == 'No' then --Mugen Exit Type
 		if getGameMode() == "replay" then
 			data.replayDone = true
 			data.tempBack = true
@@ -405,7 +405,7 @@ function f_pauseMain(p, st, esc)
 				sndPlay(sysSnd, 100, 0)
 				pauseMenu = pauseMenu + 1
 			end
-			if data.pauseMode == 'Modern' then
+			if data.pauseMode == 'Yes' then
 				--Actions in Demo or Replay Modes
 				if getGameMode() == "replay" or getGameMode() == "demo" then
 					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then

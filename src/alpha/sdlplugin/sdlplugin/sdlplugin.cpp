@@ -58,7 +58,7 @@ SDL_Texture* g_target = nullptr;
 uint32_t* g_pix;
 SDL_GLContext g_gl = nullptr;
 int g_pitch;
-int g_w = 854, g_h = 480;
+int g_w = 427, g_h = 240;
 uint32_t g_scrflag = 0;
 SDL_AudioSpec g_desired;
 HGLRC g_hglrc, g_hglrc2;
@@ -468,14 +468,14 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		return false;
 	}else{
 		TTF_Init();
-		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL es para crear ventanas con bordes y SDL_WINDOW_BORDERLESS | SDL_RLEACCEL es para crear ventana sin bordes
-		g_window = SDL_CreateWindow(
+		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
+		g_window = SDL_CreateWindow(//https://wiki.libsdl.org/SDL2/SDL_CreateWindow
 			pu->refToAstr(CP_UTF8, cap).c_str(),
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			w, h, g_scrflag);
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); //Filtro nearest(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); //Filtro Linear(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); //Filtro Anisotropico(2): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); Anisotropic Filter(2): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 		if(mugen){
 			g_target =
 				SDL_CreateTexture(
@@ -486,7 +486,7 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		}
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
-		SDL_RenderSetLogicalSize(g_renderer, 854,480);
+		SDL_RenderSetLogicalSize(g_renderer, 427,240);
 		sndjoyinit();
 	}
 	g_w = w;
@@ -510,7 +510,7 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 		g_gl = SDL_GL_CreateContext(g_window);
-		SDL_RenderSetLogicalSize(g_renderer, 854,480);
+		SDL_RenderSetLogicalSize(g_renderer, 427,240);
 		if(glewInit() != GLEW_OK) return false;
 		winProcInit();
 		if(h == 0) h = 1; 
@@ -551,8 +551,18 @@ TUserFunc(bool, FullScreen, bool fs)
 	}
 
 	return
-	SDL_SetWindowFullscreen(g_window, fs ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) //SDL_WINDOW_FULLSCREEN_DESKTOP es para que el full screen sea del tipo Bordeless y SDL_WINDOW_FULLSCREEN es el full screen tradicional
+	SDL_SetWindowFullscreen(g_window, fs ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
 	== 0;
+}
+
+TUserFunc(void, WindowResizable, bool wr)
+{
+	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
+}
+
+TUserFunc(void, WindowBordered, bool wb)
+{
+	SDL_SetWindowBordered(g_window, wb ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_BORDERLESS flag and add or remove the border from the actual window. This is a no-op if the window's border already matches the requested state. You can't change the border state of a fullscreen window.
 }
 
 TUserFunc(void, End)
