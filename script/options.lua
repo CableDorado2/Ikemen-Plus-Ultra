@@ -756,10 +756,26 @@ end
 --;===========================================================
 --; SDL VIDEO WARNING
 --;===========================================================
+--SDL Beta Info 1
+sdlImg1 = animNew(sysSff, [[
+3000,0, 0,0,
+]])
+animSetPos(sdlImg1, 76, 190)
+animUpdate(sdlImg1)
+animSetScale(sdlImg1, 0.35, 0.35)
+
+--SDL Beta Info 1
+sdlImg2 = animNew(sysSff, [[
+3000,1, 0,0,
+]])
+animSetPos(sdlImg2, 243, 190)
+animUpdate(sdlImg2)
+animSetScale(sdlImg2, 0.35, 0.35)
+
 t_sdlWarning = {
 	{id = '', text = "The Beta version of the Sdlplugin allows loading video"},
 	{id = '', text = "files in WMV format. However, still in development and"},
-	{id = '', text = "ONLY SFF sprites Version 2.0.0.0 or Version 1.0.1.0"},
+	{id = '', text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
 	{id = '', text = "are supported."},
 }
 for i=1, #t_sdlWarning do
@@ -787,6 +803,11 @@ function f_sdlWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
+		--Draw SDL Beta Reference
+		animDraw(sdlImg1)
+		animUpdate(sdlImg1)
+		animDraw(sdlImg2)
+		animUpdate(sdlImg2)
 		if data.attractMode == true then f_attractCredits() end
 		cmdInput()
 		refresh()
