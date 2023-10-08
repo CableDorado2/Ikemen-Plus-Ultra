@@ -12,19 +12,34 @@ animAddPos(storyBG0, 160, 0)
 animSetTile(storyBG0, 1, 1)
 animSetColorKey(storyBG0, -1)
 
---Above Transparent background
+--Background
 storyBG1 = animNew(sysSff, [[
-3,0, 0,0, -1
+104,0, 0,0,
 ]])
-animSetPos(storyBG1, 48, 19)
-animSetAlpha(storyBG1, 20, 100)
+animAddPos(storyBG1, 160, 0)
 animUpdate(storyBG1)
+
+--Below Wood background
+woodBG1 = animNew(sysSff, [[
+105,0, 0,0,
+]])
+animSetPos(woodBG1, -45, 95)
+animSetScale(woodBG1, 1.55, 1.5)
+animUpdate(woodBG1)
+
+--Below Bamboo background
+bambooBG1 = animNew(sysSff, [[
+106,0, 0,0, -1
+]])
+animSetPos(bambooBG1, 155, 86)
+animSetScale(bambooBG1, 0.75, 0.6)
+animUpdate(bambooBG1)
 
 --Below Transparent background
 storyBG2 = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(storyBG2, 40, 140)
+animSetPos(storyBG2, 156, 94)
 animSetAlpha(storyBG2, 20, 100)
 animUpdate(storyBG2)
 
@@ -39,7 +54,7 @@ storyLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(storyLeftArrow, -20, 51)
+animAddPos(storyLeftArrow, -10, 51)
 animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.5, 0.5)
 
@@ -54,7 +69,7 @@ storyRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(storyRightArrow, 345, 51)
+animAddPos(storyRightArrow, 325, 51)
 animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.5, 0.5)
 
@@ -69,7 +84,7 @@ storyUpArrow = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(storyUpArrow, -40, 80)
+animAddPos(storyUpArrow, -40, 85)
 animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
 
@@ -84,15 +99,21 @@ storyDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(storyDownArrow, -40, 220)
+animAddPos(storyDownArrow, -40, 218)
 animUpdate(storyDownArrow)
 animSetScale(storyDownArrow, 0.5, 0.5)
 
 --;===========================================================
 --; ARC SELECT
 --;===========================================================
+--Arc Folder Icon
+arcFolder = animNew(storySff, [[0,2, 0,0, -1]])
+
 --Unknown Arc Icon
 arcUnknown = animNew(storySff, [[0,0, 0,0,]])
+
+--Arc Selected
+arcSel = animNew(storySff, [[0,1, 0,0,]])
 
 --Arc 1 Icon
 arc1 = animNew(storySff, [[1,0, 0,0,]])
@@ -116,11 +137,13 @@ arc3 = animNew(storySff, [[3,0, 0,0,]])
 --end
 
 t_storySelect = {
-	{Name = 'KUNG FU MAN',		Img = arc1, 	  ID = textImgNew(), Status = ''},
-	{Name = 'KUNG FU GIRL',	    Img = arc2, 	  ID = textImgNew(), Status = ''},
-	{Name = 'SUAVE DUDE',  		Img = arc3, 	  ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, ID = textImgNew(), Status = ''},
+	{Name = 'KUNG FU MAN',		Img = arc1, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '100%'},
+	{Name = 'KUNG FU GIRL',	    Img = arc2, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '28%'},
+	{Name = 'SUAVE DUDE',  		Img = arc3, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
 }
 
 --;===========================================================
@@ -147,6 +170,8 @@ t_arc1 = {
 	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arc2 = {
@@ -156,6 +181,16 @@ t_arc2 = {
 	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+}
+
+t_arc3 = {
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+}
+
+t_arcNull = {
+	{Name = 'NO DATA', Img = '', ID = textImgNew(), Status = ''},
 }
 
 --;===========================================================
@@ -185,8 +220,8 @@ function f_storyMenu()
 	--data.storysProgress = data.story1Status + data.story2Status + data.story3Status
 	--storyData = (math.floor((data.storysProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.storyStatus
 	storyData = 100
-	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 15)
-	txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 193.5, 15) --needs to be inside of story Menu function, to load story data %
+	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 13)
+	txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 193.5, 13) --needs to be inside of story Menu function, to load story data %
 	--BACK
 		if esc() then
 			--f_saveProgress()
@@ -280,6 +315,8 @@ function f_storyMenu()
 	--Chapter Cursor position calculation
 		if storyMenu == 1 then t_chapter = t_arc1
 		elseif storyMenu == 2 then t_chapter = t_arc2
+		elseif storyMenu == 3 then t_chapter = t_arc3
+		else t_chapter = t_arcNull
 		end
 		if chapterMenu < 1 then
 			chapterMenu = #t_chapter
@@ -309,33 +346,26 @@ function f_storyMenu()
 			maxchapters = 6
 		end
 		animDraw(f_animVelocity(storyBG0, -1, -1))
+		--animDraw(storyBG1)
 	--Draw Title Menu
 		textImgDraw(txt_storyMenu)
 		textImgDraw(txt_storyProgress)
-	--Draw Above Transparent BG
-		--animSetScale(storyBG1, 219.5, 94)
-		--animSetWindow(storyBG1, 0,5, 320,110)
-		--animDraw(storyBG1)
-	--Draw Below Transparent Table BG
-		--animSetScale(storyBG2, 240, maxarcs*15)
-		--animSetWindow(storyBG2, 10,20, 269,210)
-		--animDraw(storyBG2)
-	--Draw Below Table Cursor
-		--animSetWindow(cursorBox, 40,125+cursorPosX*15, 239,15)
-		--f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		--animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Draw Chapter Transparent Text BG
+		animSetScale(storyBG2, 205, 137)
+		animSetWindow(storyBG2, 156,94, 269,210)
+		animDraw(storyBG2)
+	--Draw Below Bamboo BG
+		animDraw(bambooBG1)
+	--Draw Chapter Wood BG
+		animDraw(woodBG1)
+	--Draw Chapter Table Cursor
+		animSetWindow(cursorBox, -45,79+cursorPosY*20, 198,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--arcList = storyMenu --Uses menu position to show image in these order
 		--f_arcPreview() --Show story image preview
 	--Draw story Info
-		--if storyMenu == 1 then
-			--for i=1, #t_arc1 do
-				--textImgDraw(t_arc1[1].id)
-			--end
-		--elseif storyMenu == 2 then
-			--for i=1, #t_arc1 do
-				--textImgDraw(t_arc1[2].id)
-			--end
-		--end
+		
 	--Set story status
 		--t_storySelect[1].Status = story1Progress
 		--t_storySelect[2].Status = story2Progress
@@ -343,20 +373,30 @@ function f_storyMenu()
 	--Set Scroll Logic
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
+				--Draw Arc BG
+				animSetPos(t_storySelect[i].File, -95+i*105-moveArc, 20)
+				animSetScale(t_storySelect[i].File, 0.05, 0.05)
+				animSetAlpha(t_storySelect[i].File, 20, 100)
+				animUpdate(t_storySelect[i].File)
+				animDraw(t_storySelect[i].File)
+				--Draw Arc Preview Image
+				animSetPos(t_storySelect[i].Img, -62+i*105-moveArc, 31.5)
+				animUpdate(t_storySelect[i].Img)
+				animDraw(t_storySelect[i].Img)
 				if i == storyMenu then
 					bank = 1
+				--Draw Arc Sel Cursor
+					animSetPos(t_storySelect[i].Sel, -64+i*105-moveArc, 29.5)
+					animUpdate(t_storySelect[i].Sel)
+					animDraw(t_storySelect[i].Sel)
 				else
 					bank = 0
 				end
 			--Draw Text for Arcs Table
 				if t_storySelect[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -47.5+i*105-moveArc, 70,0.85,0.85))
-					--t_storySelect[i].Status
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51+i*105-moveArc, 68,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -51+i*105-moveArc, 80,0.95,0.95))
 				end
-			--Draw Arc Preview Image
-				animSetPos(t_storySelect[i].Img, -57+i*105-moveArc, 35.5)
-				animUpdate(t_storySelect[i].Img)
-				animDraw(t_storySelect[i].Img)
 			end
 		end
 	--Draw Left Animated Cursor
@@ -378,7 +418,7 @@ function f_storyMenu()
 					bank = 0
 				end
 				if t_chapter[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -40, 88+i*20-moveChapter))
+					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -36, 89.5+i*20-moveChapter))
 				end
 			end
 		end
