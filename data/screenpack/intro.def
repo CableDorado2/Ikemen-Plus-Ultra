@@ -17,8 +17,8 @@ fadeout.time = 30
 ; BG
 bg.name = BG0          ;Name of BG to show (no spaces allowed)
 ; Music
-bgm = sound/      ;Name of music file to play
-bgm.loop = 0
+;bgm = sound/      ;Name of music file to play
+;bgm.loop = 0
 ; Total time
 end.time = 240
 

@@ -489,6 +489,8 @@ function f_mainStart()
 	data.replayDone = false
 	f_saveTemp() --Save Temp Default Values to Prevent Issues
 	f_storyboard('data/screenpack/logo.def')
+	playBGM(bgmIntro)
+	--playBGM(bgmIntroJP)
 	f_storyboard('data/screenpack/intro.def')
 	--playVideo(videoHowToPlay)
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua

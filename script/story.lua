@@ -39,7 +39,7 @@ storyLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(storyLeftArrow, 69, 112)
+animAddPos(storyLeftArrow, -20, 51)
 animUpdate(storyLeftArrow)
 animSetScale(storyLeftArrow, 0.5, 0.5)
 
@@ -54,7 +54,7 @@ storyRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(storyRightArrow, 242, 112)
+animAddPos(storyRightArrow, 345, 51)
 animUpdate(storyRightArrow)
 animSetScale(storyRightArrow, 0.5, 0.5)
 
@@ -69,7 +69,7 @@ storyUpArrow = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(storyUpArrow, 155, 131)
+animAddPos(storyUpArrow, -40, 80)
 animUpdate(storyUpArrow)
 animSetScale(storyUpArrow, 0.5, 0.5)
 
@@ -84,65 +84,78 @@ storyDownArrow = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(storyDownArrow, 155, 231)
+animAddPos(storyDownArrow, -40, 220)
 animUpdate(storyDownArrow)
 animSetScale(storyDownArrow, 0.5, 0.5)
 
 --;===========================================================
 --; ARC SELECT
 --;===========================================================
-t_storySelect = {
-	{Name = 'KUNG FU MAN',		Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'KUNG FU GIRL',	    Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'SUAVE DUDE',  		Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = '', ID = textImgNew(), Status = ''},
-}
+--Unknown Arc Icon
+arcUnknown = animNew(storySff, [[0,0, 0,0,]])
 
---Arc Icon Preview
---function f_storyPreview()
-	--storyPreview = ''
-	--storyPreview = '0,' .. storyList-1 .. ', 0,0, 0'
-	--storyPreview = animNew(storySff, storyPreview)
-	--animSetScale(storyPreview, 0.4, 0.25)
-	--animSetPos(storyPreview, 50, 21)
-	--animUpdate(storyPreview)
-	--animDraw(storyPreview)
-	--return storyPreview
+--Arc 1 Icon
+arc1 = animNew(storySff, [[1,0, 0,0,]])
+
+--Arc 2 Icon
+arc2 = animNew(storySff, [[2,0, 0,0,]])
+
+--Arc 3 Icon
+arc3 = animNew(storySff, [[3,0, 0,0,]])
+
+--Arc Icon
+--function f_arcPreview()
+	--arcPreview = ''
+	--arcPreview = '0,' .. arcList-1 .. ', 0,0, 0'
+	--arcPreview = animNew(storySff, arcPreview)
+	--animSetScale(arcPreview, 0.4, 0.25)
+	--animSetPos(arcPreview, 50, 21)
+	--animUpdate(arcPreview)
+	--animDraw(arcPreview)
+	--return arcPreview
 --end
+
+t_storySelect = {
+	{Name = 'KUNG FU MAN',		Img = arc1, 	  ID = textImgNew(), Status = ''},
+	{Name = 'KUNG FU GIRL',	    Img = arc2, 	  ID = textImgNew(), Status = ''},
+	{Name = 'SUAVE DUDE',  		Img = arc3, 	  ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, ID = textImgNew(), Status = ''},
+}
 
 --;===========================================================
 --; CHAPTER SELECT
 --;===========================================================
-t_arc1 = {
-	{Name = 'Lost Chapter 1',		    	   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'Lost Chapter 2',	     		   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'Lost Chapter 3',  			 	   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'Lost Chapter 4', 				   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-}
-
 --Chapter Preview
---function f_storyPreview()
-	--storyPreview = ''
-	--storyPreview = '0,' .. storyList-1 .. ', 0,0, 0'
-	--storyPreview = animNew(storySff, storyPreview)
-	--animSetScale(storyPreview, 0.4, 0.25)
-	--animSetPos(storyPreview, 50, 21)
-	--animUpdate(storyPreview)
-	--animDraw(storyPreview)
-	--return storyPreview
+--function f_chapterPreview()
+	--chapterPreview = ''
+	--chapterPreview = '0,' .. chapterList-1 .. ', 0,0, 0'
+	--chapterPreview = animNew(storySff, chapterPreview)
+	--animSetScale(chapterPreview, 0.4, 0.25)
+	--animSetPos(chapterPreview, 50, 21)
+	--animUpdate(chapterPreview)
+	--animDraw(chapterPreview)
+	--return chapterPreview
 --end
 
+t_arc1 = {
+	{Name = 'LOST CHAPTER 1',		    	   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'LOST CHAPTER 2',	     		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'LOST CHAPTER 3',  			 	   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'LOST CHAPTER 4', 				   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+}
+
 t_arc2 = {
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'PROGRAM YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
 }
 
 --;===========================================================
@@ -161,7 +174,8 @@ function f_storyMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	--storyList = 0 --Important to avoid errors when read storyPreview
+	--arcList = 0 --Important to avoid errors when read arcPreview
+	playBGM(bgmStory)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 --Story Progress Logic
@@ -170,20 +184,22 @@ function f_storyMenu()
 	--if data.story3Status == 1 then story3Progress = 'COMPLETED' elseif data.story3Status == 0 then story3Progress = 'INCOMPLETE' end
 	--data.storysProgress = data.story1Status + data.story2Status + data.story3Status
 	--storyData = (math.floor((data.storysProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.storyStatus
-	txt_storyMenu = createTextImg(jgFnt, 0, -1, 'STORY SELECT:', 80, 12)
-	--txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 202, 128) --needs to be inside of story Menu function, to load story data %
+	storyData = 100
+	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 15)
+	txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 193.5, 15) --needs to be inside of story Menu function, to load story data %
 	--BACK
 		if esc() then
 			--f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
+			f_menuMusic()
 			break
 	--Arc Selection
 		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu - 1
 		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-			sndPlay(sysSnd, 100, 0)
+			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu + 1
 	--Chapter Selection
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -236,8 +252,8 @@ function f_storyMenu()
 	--Arc Cursor position calculation
 		if storyMenu < 1 then
 			storyMenu = #t_storySelect
-			if #t_storySelect > 4 then
-				cursorPosX = 4
+			if #t_storySelect > 3 then
+				cursorPosX = 3
 			else
 				cursorPosX = #t_storySelect
 			end
@@ -246,20 +262,20 @@ function f_storyMenu()
 			cursorPosX = 1
 		elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosX > 1 then
 			cursorPosX = cursorPosX - 1
-		elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 4 then
+		elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 3 then
 			cursorPosX = cursorPosX + 1
 		end
-		if cursorPosX == 4 then
-			moveArc = (storyMenu - 4) * 105
+		if cursorPosX == 3 then
+			moveArc = (storyMenu - 3) * 105
 		elseif cursorPosX == 1 then
 			moveArc = (storyMenu - 1) * 105
 		end
-		if #t_storySelect <= 4 then
+		if #t_storySelect <= 3 then
 			maxarcs = #t_storySelect
 		elseif storyMenu - cursorPosX > 0 then
-			maxarcs = storyMenu + 4 - cursorPosX
+			maxarcs = storyMenu + 3 - cursorPosX
 		else
-			maxarcs = 4
+			maxarcs = 3
 		end
 	--Chapter Cursor position calculation
 		if storyMenu == 1 then t_chapter = t_arc1
@@ -295,7 +311,7 @@ function f_storyMenu()
 		animDraw(f_animVelocity(storyBG0, -1, -1))
 	--Draw Title Menu
 		textImgDraw(txt_storyMenu)
-		--textImgDraw(txt_storyProgress)
+		textImgDraw(txt_storyProgress)
 	--Draw Above Transparent BG
 		--animSetScale(storyBG1, 219.5, 94)
 		--animSetWindow(storyBG1, 0,5, 320,110)
@@ -308,8 +324,8 @@ function f_storyMenu()
 		--animSetWindow(cursorBox, 40,125+cursorPosX*15, 239,15)
 		--f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		--animDraw(f_animVelocity(cursorBox, -1, -1))
-		--storyList = storyMenu --Uses menu position to show image in these order
-		--f_storyPreview() --Show story image preview
+		--arcList = storyMenu --Uses menu position to show image in these order
+		--f_arcPreview() --Show story image preview
 	--Draw story Info
 		--if storyMenu == 1 then
 			--for i=1, #t_arc1 do
@@ -324,7 +340,7 @@ function f_storyMenu()
 		--t_storySelect[1].Status = story1Progress
 		--t_storySelect[2].Status = story2Progress
 		--t_storySelect[3].Status = story3Progress
-	--Draw Text for Arcs Table
+	--Set Scroll Logic
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
 				if i == storyMenu then
@@ -332,19 +348,24 @@ function f_storyMenu()
 				else
 					bank = 0
 				end
+			--Draw Text for Arcs Table
 				if t_storySelect[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -110.5+i*105-moveArc, 60,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -47.5+i*105-moveArc, 70,0.85,0.85))
 					--t_storySelect[i].Status
 				end
+			--Draw Arc Preview Image
+				animSetPos(t_storySelect[i].Img, -57+i*105-moveArc, 35.5)
+				animUpdate(t_storySelect[i].Img)
+				animDraw(t_storySelect[i].Img)
 			end
 		end
 	--Draw Left Animated Cursor
-		if maxarcs > 4 then
+		if maxarcs > 3 then
 			animDraw(storyLeftArrow)
 			animUpdate(storyLeftArrow)
 		end
 	--Draw Right Animated Cursor
-		if #t_storySelect > 4 and maxarcs < #t_storySelect then
+		if #t_storySelect > 3 and maxarcs < #t_storySelect then
 			animDraw(storyRightArrow)
 			animUpdate(storyRightArrow)
 		end
@@ -357,7 +378,7 @@ function f_storyMenu()
 					bank = 0
 				end
 				if t_chapter[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -40, 70+i*20-moveChapter))
+					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -40, 88+i*20-moveChapter))
 				end
 			end
 		end

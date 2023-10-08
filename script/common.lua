@@ -51,12 +51,17 @@ file:close()
 --;===========================================================
 --SFF
 fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
+sysSff = sffNew('data/screenpack/system.sff') --load screenpack/menu sprites
+contSff = sffNew('data/screenpack/continue.sff') --load continue sprites
+stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
 eventSff = sffNew('data/screenpack/events.sff') --load events menu sprites
 missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
 gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
-stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
-sysSff = sffNew('data/screenpack/system.sff') --load screenpack/menu sprites
-contSff = sffNew('data/screenpack/continue.sff') --load continue sprites
+storySff = sffNew('data/screenpack/story.sff') --load story sprites
+--towerSff = sffNew('data/screenpack/tower.sff') --load tower sprites
+--tourneySff = sffNew('data/screenpack/tourney.sff') --load tourney sprites
+--legionSff = sffNew('data/screenpack/legion.sff') --load legion sprites
+--adventureSff = sffNew('data/screenpack/adventure.sff') --load adventure sprites
 
 --SND (Sound effects do not interrupt music/bgm)
 sysSnd = sndNew('data/screenpack/system.snd')
@@ -98,6 +103,8 @@ font24 = fontNew('font/ssf2x_vL.fnt')
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
 --;===========================================================
 bgmNothing = ' .mp3'
+bgmIntro = 'sound/System/Opening.mp3'
+bgmIntroJP = 'sound/System/Opening Lyrics.mp3'
 bgmTitle = 'sound/System/Title.mp3'
 bgmSelect = 'sound/System/Select.mp3'
 bgmSelectChallenger = 'sound/System/The Challenger.mp3'
@@ -111,13 +118,13 @@ bgmResults = 'sound/System/Results.mp3'
 bgmService = 'sound/System/Service.mp3'
 bgmContinue = 'sound/System/Continue.mp3'
 bgmGameOver = 'sound/System/Game Over.mp3'
-bgmStory = 'sound/System/Story.mp3'
+bgmVault = 'sound/System/The Vault.mp3'
 bgmEvents = 'sound/System/Events.mp3'
+bgmStory = 'sound/System/Story.mp3'
 bgmTower = 'sound/System/Tower.mp3'
 bgmTourney = 'sound/System/Tourney.mp3'
 bgmLegion = 'sound/System/Legion.mp3'
 bgmAdventure = 'sound/System/Adventure.mp3'
-bgmVault = 'sound/System/The Vault.mp3'
 
 --Simple Random Select for Main Menu Song
 function f_bgmrandomMenu()
@@ -187,9 +194,13 @@ function f_bgmrandomVS()
 end
 
 --;===========================================================
---; MOVIE DEFINITION (WIP)
+--; MOVIE DEFINITION
 --;===========================================================
---videoHowToPlay = "movie/How To Play.wmv"
+videoHowToPlay = "movie/How To Play.wmv"
+videoChapter1 = "movie/Lost Chapter 1.wmv"
+videoChapter2 = "movie/Lost Chapter 2.wmv"
+videoChapter3 = "movie/Lost Chapter 3.wmv"
+videoChapter4 = "movie/Lost Chapter 4.wmv"
 
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
