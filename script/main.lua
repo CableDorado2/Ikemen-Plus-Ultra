@@ -25,8 +25,8 @@ require('script.select')
 require('script.statistics')
 require('script.missions')
 require('script.events')
+require('script.story')
 --require('script.adventure')
---require('script.story')
 
 local file = io.open("ssz/config.ssz","r")
 s_configSSZ = file:read("*all")
@@ -929,7 +929,7 @@ txt_gameFt = createTextImg(font5, 0, 1, '', 2, 240) --Text to identify the game 
 txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
 
 t_mainMenu = {
-	--{id = textImgNew(), text = 'STORY'},
+	{id = textImgNew(), text = 'STORY'},
 	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'VERSUS'},
 	{id = textImgNew(), text = 'NETPLAY'},
@@ -999,19 +999,19 @@ function f_mainMenu()
 			if btnPalNo(p1Cmd) > 0 then
 				f_default()
 				--STORY
-				--if mainMenu == 1 then
-					--sndPlay(sysSnd, 100, 1)
-					--script.story.f_mainStory()
-				--ARCADE
 				if mainMenu == 1 then
+					sndPlay(sysSnd, 100, 1)
+					script.story.f_storyMenu()
+				--ARCADE
+				elseif mainMenu == 2 then
 					sndPlay(sysSnd, 100, 1)
 					f_arcadeMenu()
 				--VERSUS
-				elseif mainMenu == 2 then
+				elseif mainMenu == 3 then
 					sndPlay(sysSnd, 100, 1)
 					f_vsMenu()
 				--NETPLAY
-				elseif mainMenu == 3 then
+				elseif mainMenu == 4 then
 					sndPlay(sysSnd, 100, 1)
 					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
 					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
@@ -1022,15 +1022,15 @@ function f_mainMenu()
 						f_mainNetplay()
 					end
 				--PRACTICE
-				elseif mainMenu == 4 then
+				elseif mainMenu == 5 then
 					sndPlay(sysSnd, 100, 1)
 					f_practiceMenu()		
 				--CHALLENGES
-				elseif mainMenu == 5 then
+				elseif mainMenu == 6 then
 					sndPlay(sysSnd, 100, 1)
 					f_challengeMenu()
 				--EXTRAS
-				elseif mainMenu == 6 then
+				elseif mainMenu == 7 then
 					sndPlay(sysSnd, 100, 1)
 					assert(loadfile('saved/stats_sav.lua'))()
 					if data.arcadeClear == true then
@@ -1039,17 +1039,17 @@ function f_mainMenu()
 						f_secret()
 					end
 				--WATCH
-				elseif mainMenu == 7 then
+				elseif mainMenu == 8 then
 					sndPlay(sysSnd, 100, 1)
 					f_watchMenu()
 				--OPTIONS
-				elseif mainMenu == 8 then
+				elseif mainMenu == 9 then
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false --only for identify purposes
 					assert(loadfile('saved/data_sav.lua'))()
 					script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 				--EXIT
-				elseif mainMenu == 9 then
+				elseif mainMenu == 10 then
 					sndPlay(sysSnd, 100, 1)
 					f_exitMenu()
 				--CHECK UPDATES
@@ -3708,7 +3708,7 @@ function f_watchMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
-		end	
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_watchMenu do
 			if i == watchMenu then
@@ -4067,7 +4067,7 @@ animAddPos(songLeftArrow, 69, 112)
 animUpdate(songLeftArrow)
 animSetScale(songLeftArrow, 0.5, 0.5)
 
---Right Arrow
+--Right Page Arrow
 songRightArrow = animNew(sysSff, [[
 224,0, 0,0, 10
 224,1, 0,0, 10
