@@ -31,16 +31,23 @@ animUpdate(woodBG1)
 bambooBG1 = animNew(sysSff, [[
 106,0, 0,0, -1
 ]])
-animSetPos(bambooBG1, 155, 86)
-animSetScale(bambooBG1, 0.75, 0.6)
+animSetPos(bambooBG1, -46, 86)
+animSetScale(bambooBG1, 0.72, 0.6)
 animUpdate(bambooBG1)
 
 --Below Transparent background
+--storyBG2 = animNew(sysSff, [[
+--3,0, 0,0, -1
+--]])
+--animSetPos(storyBG2, 156, 94)
+--animSetAlpha(storyBG2, 20, 100)
+--animUpdate(storyBG2)
+
+--Below Info Window BG
 storyBG2 = animNew(sysSff, [[
-3,0, 0,0, -1
+230,1, 0,0,
 ]])
-animSetPos(storyBG2, 156, 94)
-animSetAlpha(storyBG2, 20, 100)
+animSetPos(storyBG2, 158, 87)
 animUpdate(storyBG2)
 
 --Arc Left Arrow
@@ -54,9 +61,9 @@ storyLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(storyLeftArrow, -10, 51)
+animAddPos(storyLeftArrow, -10, 48)
 animUpdate(storyLeftArrow)
-animSetScale(storyLeftArrow, 0.5, 0.5)
+animSetScale(storyLeftArrow, 0.6, 0.6)
 
 --Arc Right Arrow
 storyRightArrow = animNew(sysSff, [[
@@ -69,9 +76,9 @@ storyRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(storyRightArrow, 325, 51)
+animAddPos(storyRightArrow, 320, 48)
 animUpdate(storyRightArrow)
-animSetScale(storyRightArrow, 0.5, 0.5)
+animSetScale(storyRightArrow, 0.6, 0.6)
 
 --Chapter Up Arrow
 storyUpArrow = animNew(sysSff, [[
@@ -149,6 +156,8 @@ t_storySelect = {
 --;===========================================================
 --; CHAPTER SELECT
 --;===========================================================
+txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.7,0.7)
+
 --Chapter Preview
 --function f_chapterPreview()
 	--chapterPreview = ''
@@ -192,7 +201,6 @@ t_arc3 = {
 t_arcNull = {
 	{Name = 'NO DATA', Img = '', ID = textImgNew(), Status = ''},
 }
-
 --;===========================================================
 --; STORY MENU
 --;===========================================================
@@ -205,6 +213,7 @@ function f_storyMenu()
 	local cursorPosY = 1
 	local moveChapter = 0
 	local t_chapter = nil
+	local t = 0
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -231,16 +240,20 @@ function f_storyMenu()
 			break
 	--Arc Selection
 		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			t = 0 --Reset Story Info Delay Time
 			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu - 1
 		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+			t = 0
 			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu + 1
 	--Chapter Selection
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			t = 0
 			sndPlay(sysSnd, 100, 0)
 			chapterMenu = chapterMenu - 1
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			t = 0
 			sndPlay(sysSnd, 100, 0)
 			chapterMenu = chapterMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
@@ -278,10 +291,9 @@ function f_storyMenu()
 			elseif chapterMenu == 5 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-		--CHAPTER 6
-			elseif chapterMenu == 6 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+		--NO DATA
+			else
+				sndPlay(sysSnd, 100, 5)
 			end
 		end
 	--Arc Cursor position calculation
@@ -345,32 +357,29 @@ function f_storyMenu()
 		else
 			maxchapters = 6
 		end
-		animDraw(f_animVelocity(storyBG0, -1, -1))
-		--animDraw(storyBG1)
+		animDraw(f_animVelocity(storyBG0, -1, -1)) --animDraw(storyBG1)
 	--Draw Title Menu
 		textImgDraw(txt_storyMenu)
 		textImgDraw(txt_storyProgress)
-	--Draw Chapter Transparent Text BG
-		animSetScale(storyBG2, 205, 137)
-		animSetWindow(storyBG2, 156,94, 269,210)
+	--Draw Chapter Text BG
+		--animSetScale(storyBG2, 205, 137)
+		--animSetWindow(storyBG2, 156,94, 269,210)
 		animDraw(storyBG2)
-	--Draw Below Bamboo BG
-		animDraw(bambooBG1)
 	--Draw Chapter Wood BG
 		animDraw(woodBG1)
+	--Draw Below Bamboo BG
+		animDraw(bambooBG1)
 	--Draw Chapter Table Cursor
 		animSetWindow(cursorBox, -45,79+cursorPosY*20, 198,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--arcList = storyMenu --Uses menu position to show image in these order
 		--f_arcPreview() --Show story image preview
-	--Draw story Info
-		
-	--Set story status
+	--Set Arc status
 		--t_storySelect[1].Status = story1Progress
 		--t_storySelect[2].Status = story2Progress
 		--t_storySelect[3].Status = story3Progress
-	--Set Scroll Logic
+	--Set Arcs Scroll Logic
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
 				--Draw Arc BG
@@ -399,17 +408,14 @@ function f_storyMenu()
 				end
 			end
 		end
-	--Draw Left Animated Cursor
-		if maxarcs > 3 then
-			animDraw(storyLeftArrow)
-			animUpdate(storyLeftArrow)
+	--Set Chapter Info
+		if storyMenu == 1 and chapterMenu == 1 then txt_storyInfo = 'KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOON SOMETHING UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE.'
+		elseif storyMenu == 1 and chapterMenu == 2 then txt_storyInfo = 'ESTE ES EL CAPITULO 2 DE KUNG FU MAN'
+		else txt_storyInfo = ''
 		end
-	--Draw Right Animated Cursor
-		if #t_storySelect > 3 and maxarcs < #t_storySelect then
-			animDraw(storyRightArrow)
-			animUpdate(storyRightArrow)
-		end
-	--Draw Text for Chapter Table
+	--Draw Chapter Info
+		f_textRender(txt_storyText, txt_storyInfo, t, 160, 160, 15, 1.2, 40)
+	--Set Chapters Scroll Logic
 		for i=1, maxchapters do
 			if i > chapterMenu - cursorPosY then
 				if i == chapterMenu then
@@ -421,6 +427,16 @@ function f_storyMenu()
 					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -36, 89.5+i*20-moveChapter))
 				end
 			end
+		end
+	--Draw Left Animated Cursor
+		if maxarcs > 3 then
+			animDraw(storyLeftArrow)
+			animUpdate(storyLeftArrow)
+		end
+	--Draw Right Animated Cursor
+		if #t_storySelect > 3 and maxarcs < #t_storySelect then
+			animDraw(storyRightArrow)
+			animUpdate(storyRightArrow)
 		end
 	--Draw Up Animated Cursor
 		if maxchapters > 6 then
@@ -450,6 +466,7 @@ function f_storyMenu()
 			bufr = 0
 			bufl = 0
 		end
+		t = t + 1
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
