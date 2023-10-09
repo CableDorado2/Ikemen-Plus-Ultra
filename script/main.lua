@@ -1056,7 +1056,7 @@ function f_mainMenu()
 					f_exitMenu()
 				--CHECK UPDATES
 				else
-					sndPlay(sysSnd, 100, 1)	
+					sndPlay(sysSnd, 100, 1)
 					webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
 				end
 			end

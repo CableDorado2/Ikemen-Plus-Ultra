@@ -156,7 +156,7 @@ t_storySelect = {
 --;===========================================================
 --; CHAPTER SELECT
 --;===========================================================
-txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.7,0.7)
+txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.65,0.65)
 
 --Chapter Preview
 --function f_chapterPreview()
@@ -170,12 +170,36 @@ txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.7,0.7)
 	--return chapterPreview
 --end
 
+--Unknown Chapter Preview
+chaptUnknown = animNew(storySff, [[0,3, 0,0,]])
+
+--Arc 1 - Chapter 1 Preview
+chapt1 = animNew(storySff, [[1,1, 0,0,]])
+
+--Arc 1 - Chapter 2 Preview
+chapt2 = animNew(storySff, [[1,2, 0,0,]])
+
+--Arc 1 - Chapter 3 Preview
+chapt3 = animNew(storySff, [[1,3, 0,0,]])
+
+--Arc 1 - Chapter 4 Preview
+chapt4 = animNew(storySff, [[1,4, 0,0,]])
+
+--Arc 1 - Chapter 5 Preview
+chapt5 = animNew(storySff, [[1,5, 0,0,]])
+
+--Arc 1 - Chapter 5-1 Preview
+chapt5_1 = animNew(storySff, [[1,51, 0,0,]])
+
+--Arc 1 - Chapter 5-2 Preview
+chapt5_2 = animNew(storySff, [[1,52, 0,0,]])
+
 t_arc1 = {
-	{Name = 'LOST CHAPTER 1',		    	   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'LOST CHAPTER 2',	     		   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'LOST CHAPTER 3',  			 	   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'LOST CHAPTER 4', 				   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'THE LOST CHAPTER 1',		       Img = '',       ID = textImgNew(), Status = ''},
+	{Name = 'THE LOST CHAPTER 2',	     	   Img = '',       ID = textImgNew(), Status = ''},
+	{Name = 'THE LOST CHAPTER 3',  			   Img = '',   	   ID = textImgNew(), Status = ''},
+	{Name = 'THE LOST CHAPTER 4', 			   Img = '',  	   ID = textImgNew(), Status = ''},
+	{Name = 'EXTRA CHAPTER',		 		   Img = '', 	   ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
 	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
@@ -409,10 +433,30 @@ function f_storyMenu()
 			end
 		end
 	--Set Chapter Info
-		if storyMenu == 1 and chapterMenu == 1 then txt_storyInfo = 'KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOON SOMETHING UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE.'
-		elseif storyMenu == 1 and chapterMenu == 2 then txt_storyInfo = 'ESTE ES EL CAPITULO 2 DE KUNG FU MAN'
-		else txt_storyInfo = ''
+		if storyMenu == 1 and chapterMenu == 1 then
+			chaptPreview = chapt1
+			txt_storyInfo = "KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..."
+		elseif storyMenu == 1 and chapterMenu == 2 then
+			chaptPreview = chapt2
+			txt_storyInfo = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
+		elseif storyMenu == 1 and chapterMenu == 3 then
+			chaptPreview = chapt3
+			txt_storyInfo = "EVIL KUNG FU MAN HAS BEEN DEFEATED, THE PATH IS NOW FREE AND SUAVE DUDE USES A HIDDEN PATH TO ACTIVATE THE TEMPLE'S SELF-DESTRUCT. CAN KUNG FU MAN AVOID IT?"
+		elseif storyMenu == 1 and chapterMenu == 4 then
+			chaptPreview = chapt4
+			txt_storyInfo = "SUAVE DUDE HAS FALLEN, IT'S TIME TO RESCUE KUNG FU MAN'S GIRLFRIEND AND COMPLETE THE ELECBYTE'S STORY!"
+		elseif storyMenu == 1 and chapterMenu == 5 then
+			chaptPreview = chapt5
+			txt_storyInfo = "IN ORDER TO PROTECT THE MOUNTAINSIDE TEMPLE, KUNG FU MAN IS TRAINING HIS NEW STUDENT."
+		else
+			chaptPreview = chaptUnknown
+			txt_storyInfo = "???"
 		end
+	--Draw Chapter Preview Image
+		animSetPos(chaptPreview, 162, 89)
+		animSetScale(chaptPreview, 0.113, 0.106)
+		animUpdate(chaptPreview)
+		animDraw(chaptPreview)
 	--Draw Chapter Info
 		f_textRender(txt_storyText, txt_storyInfo, t, 160, 160, 15, 1.2, 40)
 	--Set Chapters Scroll Logic
@@ -423,6 +467,7 @@ function f_storyMenu()
 				else
 					bank = 0
 				end
+			--Draw Chapter Name
 				if t_chapter[i].ID ~= nil then
 					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -36, 89.5+i*20-moveChapter))
 				end
