@@ -614,6 +614,34 @@ void setScreenMode(&.lua.State L=, int re=)
   .se.full = f;
 }
 
+void getBorderMode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.borders);
+}
+
+void setBorderMode(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool bor = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.windowBorders(bor);
+  .se.borders = bor;
+}
+
+void getResizableMode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.resizable);
+}
+
+void setResizableMode(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool resz = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.windowResizable(resz);
+  .se.resizable = resz;
+}
+
 void swapGamepad(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1487,7 +1515,11 @@ public void init(&.lua.State L=)
   //L.register("getHeight", .getHeight);
   //L.register("setGameRes", .setGameRes);
   L.register("getScreenMode", .getScreenMode);
-  L.register("setScreenMode", .setScreenMode); 
+  L.register("setScreenMode", .setScreenMode);
+  L.register("getBorderMode", .getBorderMode);
+  L.register("setBorderMode", .setBorderMode);
+  L.register("getResizableMode", .getResizableMode);
+  L.register("setResizableMode", .setResizableMode);
   L.register("connected", .connected);
   L.register("synchronize", .synchronize);
   L.register("addChar", .addChar);

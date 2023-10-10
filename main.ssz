@@ -22,6 +22,8 @@ const float GetHit_LifeToPowerMul = 0.6;
 const int Width = 640;
 const int Height = 480;
 const bool FullScreen = false;
+const bool WindowBordered = true;
+const bool WindowResizable = false;
 
 const float GlVol = 1;
 const float SEVol = 0.5;

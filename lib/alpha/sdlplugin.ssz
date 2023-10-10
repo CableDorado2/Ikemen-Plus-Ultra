@@ -895,6 +895,18 @@ public bool fullScreen(bool full)
   ret FullScreen(:full:);
 }
 
+public void windowBorders(bool borders)
+{
+  plugin void WindowBordered(:bool:) = "dll/sdlplugin.dll";
+  WindowBordered(:borders:);
+}
+
+public void windowResizable(bool resizable)
+{
+  plugin void WindowResizable(:bool:) = "dll/sdlplugin.dll";
+  WindowResizable(:resizable:);
+}
+
 public void showCursor(bool show)
 {
   plugin void CursorShow(:bool:) = "dll/sdlplugin.dll";

@@ -10,10 +10,12 @@ const float GetHit_LifeToPowerMul = 0.6;
 const int Width = 1280;
 const int Height = 720;
 const bool FullScreen = false;
+const bool WindowBordered = true;
+const bool WindowResizable = false;
 
 const float GlVol = 0.8;
 const float SEVol = 0.6;
-const float BGMVol = 0.38;
+const float BGMVol = 0;
 const float PanStr = 0.8;
 
 const float Super_TargetDefenceMul = 1.5;

@@ -486,7 +486,9 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		}
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
-		SDL_RenderSetLogicalSize(g_renderer, 427,240);
+		//SDL_RenderSetLogicalSize(g_renderer, 427,240);
+		//SDL_RenderSetIntegerScale(g_renderer, SDL_TRUE);
+		//SDL_RenderSetVSync(g_renderer, 1);
 		sndjoyinit();
 	}
 	g_w = w;
@@ -555,14 +557,14 @@ TUserFunc(bool, FullScreen, bool fs)
 	== 0;
 }
 
+TUserFunc(void, WindowBordered, bool wb) //WindowBordered need to be register in sdlplugin.def to work in lib/alpha/sdlplugin.ssz
+{
+	SDL_SetWindowBordered(g_window, wb ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_BORDERLESS flag and add or remove the border from the actual window. This is a no-op if the window's border already matches the requested state. You can't change the border state of a fullscreen window.
+}
+
 TUserFunc(void, WindowResizable, bool wr)
 {
 	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
-}
-
-TUserFunc(void, WindowBordered, bool wb)
-{
-	SDL_SetWindowBordered(g_window, wb ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_BORDERLESS flag and add or remove the border from the actual window. This is a no-op if the window's border already matches the requested state. You can't change the border state of a fullscreen window.
 }
 
 TUserFunc(void, End)

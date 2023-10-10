@@ -5,7 +5,7 @@ lib sh = <shell.ssz>;
 uint nexttime = 0x0, lastdraw = 0x0;
 float nexttimeFractionalPart = 0.0;
 public &sdl.Event sdle;
-public bool end = false, fskip = false, full = false, esc = false, paste = false,
+public bool end = false, fskip = false, full = false, borders = false, resizable = false, esc = false, paste = false,
 		 upKey = false, downKey = false, leftKey = false, rightKey = false, 
 		 aKey = false, bKey = false, cKey = false, dKey = false, eKey = false,
 		 fKey = false, gKey = false, hKey = false, iKey = false, jKey = false,

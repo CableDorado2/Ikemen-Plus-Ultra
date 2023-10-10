@@ -450,10 +450,10 @@ function f_storyMenu()
 			txt_storyInfo = "IN ORDER TO PROTECT THE MOUNTAINSIDE TEMPLE, KUNG FU MAN IS TRAINING HIS NEW STUDENT."
 		else
 			chaptPreview = chaptUnknown
-			txt_storyInfo = "???"
+			txt_storyInfo = ""
 		end
 	--Draw Chapter Preview Image
-		animSetPos(chaptPreview, 162, 89)
+		animSetPos(chaptPreview, 161, 91)
 		animSetScale(chaptPreview, 0.113, 0.106)
 		animUpdate(chaptPreview)
 		animDraw(chaptPreview)

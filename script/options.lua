@@ -100,6 +100,8 @@ function f_loadCfg()
 	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
+	b_borderMode = s_configSSZ:match('const bool WindowBordered%s*=%s*([^;%s]+)')
+	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
@@ -200,6 +202,17 @@ function f_loadEXCfg()
 	elseif b_screenMode == 'false' then
 		b_screenMode = false
 		s_screenMode = 'No'
+	end
+	
+	if data.windowType == 'Original' then
+		b_borderMode = true
+		b_resizableMode = false
+	elseif data.windowType == 'No Border' then
+		b_borderMode = false
+		b_resizableMode = false
+	elseif data.windowType == 'Resizable' then
+		b_borderMode = true
+		b_resizableMode = true
 	end
 	
 	if data.teamLifeShare then
@@ -313,6 +326,7 @@ function f_saveCfg()
 		['data.coopenemy'] = data.coopenemy,
 		['data.connectMode'] = data.connectMode,
 		['data.pauseMode'] = data.pauseMode,
+		['data.windowType'] = data.windowType,
 		['data.sdl'] = data.sdl,
 		['data.userName'] = data.userName
 	}
@@ -335,6 +349,16 @@ function f_saveCfg()
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = true')
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
+	end
+	if b_borderMode then
+		s_configSSZ = s_configSSZ:gsub('const bool WindowBordered%s*=%s*[^;%s]+', 'const bool WindowBordered = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool WindowBordered%s*=%s*[^;%s]+', 'const bool WindowBordered = false')
+	end
+	if b_resizableMode then
+		s_configSSZ = s_configSSZ:gsub('const bool WindowResizable%s*=%s*[^;%s]+', 'const bool WindowResizable = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool WindowResizable%s*=%s*[^;%s]+', 'const bool WindowResizable = false')
 	end
 	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
@@ -550,6 +574,11 @@ function f_videoDefault()
 	b_screenMode = false
 	s_screenMode = 'No'
 	setScreenMode(b_screenMode)
+	data.windowType = 'Original'
+	b_resizableMode = false
+	b_borderMode = true
+	setResizableMode(b_resizableMode)
+	setBorderMode(b_borderMode)
 	resolutionWidth = 853
 	resolutionHeight = 480
 	--setGameRes(resolutionWidth,resolutionHeight)
@@ -1233,6 +1262,8 @@ function f_mainCfg()
 					f_loadCfg()
 					f_loadEXCfg()
 					setScreenMode(b_screenMode)
+					setResizableMode(b_resizableMode)
+					setBorderMode(b_borderMode)
 					--setGameRes(resolutionWidth,resolutionHeight)
 					setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 					setPanStr(pan_str / 100)
@@ -4105,6 +4136,7 @@ txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
 t_videoCfg = {
 	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
 	{id = '', text = 'Fullscreen',  		varID = textImgNew(), varText = s_screenMode},
+	{id = '', text = 'Window Type', 		varID = textImgNew(), varText = data.windowType},
 	{id = '', text = 'Sdlplugin',	  		varID = textImgNew(), varText = data.sdl},
 	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = s_openGL},
 	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = s_saveMemory},
@@ -4131,6 +4163,22 @@ function f_videoCfg()
 				s_screenMode = 'No'
 			end
 			t_videoCfg[2].varText = s_screenMode
+			modified = 1
+		end
+		if b_borderMode ~= getBorderMode() then
+			if getBorderMode() then
+				b_borderMode = true
+			else
+				b_borderMode = false
+			end
+			modified = 1
+		end
+		if b_resizableMode ~= getResizableMode() then
+			if getResizableMode() then
+				b_resizableMode = true
+			else
+				b_resizableMode = false
+			end
 			modified = 1
 		end
 		if defaultScreen == false then
@@ -4172,8 +4220,40 @@ function f_videoCfg()
 					modified = 1
 					setScreenMode(b_screenMode) --added via system-script.ssz
 				end
+			--Window Type
+			elseif videoCfg == 3 then
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then
+					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+						if commandGetState(p1Cmd, 'r') and data.windowType == 'Original' then
+							sndPlay(sysSnd, 100, 0)
+							data.windowType = 'No Border'
+							b_resizableMode = false
+							b_borderMode = false
+						elseif commandGetState(p1Cmd, 'r') and data.windowType == 'No Border' then
+							sndPlay(sysSnd, 100, 0)
+							data.windowType = 'Resizable'
+							b_resizableMode = true
+							b_borderMode = true
+						elseif commandGetState(p1Cmd, 'l') and data.windowType == 'Resizable' then
+							sndPlay(sysSnd, 100, 0)
+							data.windowType = 'No Border'
+							b_borderMode = false
+							b_resizableMode = false
+						elseif commandGetState(p1Cmd, 'l') and data.windowType == 'No Border' then
+							sndPlay(sysSnd, 100, 0)
+							data.windowType = 'Original'
+							b_resizableMode = false
+							b_borderMode = true
+						end
+						modified = 1
+						setResizableMode(b_resizableMode)
+						setBorderMode(b_borderMode)
+					end
+				end
 			--Sdlplugin
-			elseif videoCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
@@ -4219,12 +4299,12 @@ function f_videoCfg()
 					--needReload = 1
 				--end
 			--Default Values
-			elseif videoCfg == 4 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 5 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 			--BACK
-			elseif videoCfg == 5 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 6 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4268,7 +4348,8 @@ function f_videoCfg()
 		end
 		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
 		t_videoCfg[2].varText = s_screenMode
-		t_videoCfg[3].varText = data.sdl
+		t_videoCfg[3].varText = data.windowType
+		t_videoCfg[4].varText = data.sdl
 		--t_videoCfg[3].varText = s_openGL
 		--t_videoCfg[4].varText = s_saveMemory
 		if lockSetting == true then

@@ -203,6 +203,12 @@ void main()
     ret;
   }
 /*?*/
+  //if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
+  //if(.cfg.FullScreen) .se.full = true;
+  .sdl.windowBorders(.cfg.WindowBordered);
+  if(.cfg.WindowBordered) .se.borders = true;
+  .sdl.windowResizable(.cfg.WindowResizable);
+  if(.cfg.WindowResizable) .se.resizable = true;
   &.lua.State L;
   if(!.init(L=)) ret;
   if(!L.runFile(.cfg.system)){
