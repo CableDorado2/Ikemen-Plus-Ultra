@@ -16,9 +16,11 @@ EXPORTS
     CloseFont
     RenderFont
     AllocSurface
+	FullScreenReal
     FullScreen
 	WindowBordered
 	WindowResizable
+	AspectRatio
     CreatePaletteSurface
     SetColorKey
     RenderMugenZoom

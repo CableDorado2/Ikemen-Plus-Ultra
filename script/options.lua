@@ -99,7 +99,9 @@ function f_loadCfg()
 	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+	b_fullscreenMode = s_configSSZ:match('const bool FullScreenReal%s*=%s*([^;%s]+)')
 	b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)')
+	b_aspectMode = s_configSSZ:match('const bool AspectRatio%s*=%s*([^;%s]+)')
 	b_borderMode = s_configSSZ:match('const bool WindowBordered%s*=%s*([^;%s]+)')
 	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
@@ -196,12 +198,26 @@ function f_loadEXCfg()
 		s_openGL = 'No'
 	end
 	
+	if data.fullscreenType == 'Exclusive' then
+		b_fullscreenMode = true
+	elseif data.fullscreenType == 'Borderless' then
+		b_fullscreenMode = false
+	end
+	
 	if b_screenMode == 'true' then
 		b_screenMode = true
-		s_screenMode = 'Yes'
+		s_screenMode = 'Fullscreen'
 	elseif b_screenMode == 'false' then
 		b_screenMode = false
-		s_screenMode = 'No'
+		s_screenMode = 'Window'
+	end
+	
+	if b_aspectMode == 'true' then
+		b_aspectMode = true
+		s_aspectMode = 'Yes'
+	elseif b_aspectMode == 'false' then
+		b_aspectMode = false
+		s_aspectMode = 'No'
 	end
 	
 	if data.windowType == 'Original' then
@@ -327,6 +343,7 @@ function f_saveCfg()
 		['data.connectMode'] = data.connectMode,
 		['data.pauseMode'] = data.pauseMode,
 		['data.windowType'] = data.windowType,
+		['data.fullscreenType'] = data.fullscreenType,
 		['data.sdl'] = data.sdl,
 		['data.userName'] = data.userName
 	}
@@ -345,10 +362,20 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
 	end
+	if b_fullscreenMode then
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = false')
+	end
 	if b_screenMode then
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = true')
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
+	end
+	if b_aspectMode then
+		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = false')
 	end
 	if b_borderMode then
 		s_configSSZ = s_configSSZ:gsub('const bool WindowBordered%s*=%s*[^;%s]+', 'const bool WindowBordered = true')
@@ -572,8 +599,14 @@ function f_videoDefault()
 	b_openGL = false
 	s_openGL = 'No'
 	b_screenMode = false
-	s_screenMode = 'No'
+	s_screenMode = 'Window'
 	setScreenMode(b_screenMode)
+	data.fullscreenType = 'Borderless'
+	b_fullscreenMode = false
+	setFullScreenMode(b_fullscreenMode)
+	b_aspectMode = false
+	s_aspectMode = 'No'
+	setAspectRatio(b_aspectMode)
 	data.windowType = 'Original'
 	b_resizableMode = false
 	b_borderMode = true
@@ -1268,7 +1301,9 @@ function f_mainCfg()
 					assert(loadfile('saved/stats_sav.lua'))() --Load old data no saved
 					f_loadCfg()
 					f_loadEXCfg()
+					setFullScreenMode(b_fullscreenMode)
 					setScreenMode(b_screenMode)
+					setAspectRatio(b_aspectMode)
 					setResizableMode(b_resizableMode)
 					setBorderMode(b_borderMode)
 					--setGameRes(resolutionWidth,resolutionHeight)
@@ -4141,12 +4176,14 @@ end
 txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
 
 t_videoCfg = {
-	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
-	{id = '', text = 'Fullscreen',  		varID = textImgNew(), varText = s_screenMode},
-	{id = '', text = 'Window Type', 		varID = textImgNew(), varText = data.windowType},
-	{id = '', text = 'Sdlplugin Version',	varID = textImgNew(), varText = data.sdl},
-	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = s_openGL},
-	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = s_saveMemory},
+	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Screen Mode',  		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Window Type', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Fullscreen Type',		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Aspect Ratio', 		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Sdlplugin Version',	varID = textImgNew(), varText = ''},
+	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = ''},
+	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Graphics',    varID = textImgNew(), varText = ''},
 	{id = '', text = '          BACK',  	varID = textImgNew(), varText = ''},
 }
@@ -4161,15 +4198,34 @@ function f_videoCfg()
 	local bufr = 0
 	local bufl = 0
 	while true do
+		if b_fullscreenMode ~= getFullScreenMode() then
+			if getFullScreenMode() then
+				b_fullscreenMode = true
+			else
+				b_fullscreenMode = false
+			end
+			modified = 1
+		end
 		if b_screenMode ~= getScreenMode() then
 			if getScreenMode() then
 				b_screenMode = true
-				s_screenMode = 'Yes'
+				s_screenMode = 'Fullscreen'
 			else
 				b_screenMode = false
-				s_screenMode = 'No'
+				s_screenMode = 'Window'
 			end
 			t_videoCfg[2].varText = s_screenMode
+			modified = 1
+		end
+		if b_aspectMode ~= getAspectRatio() then
+			if getAspectRatio() then
+				b_aspectMode = true
+				s_aspectMode = 'Yes'
+			else
+				b_aspectMode = false
+				s_aspectMode = 'No'
+			end
+			t_videoCfg[5].varText = s_aspectMode
 			modified = 1
 		end
 		if b_borderMode ~= getBorderMode() then
@@ -4211,15 +4267,15 @@ function f_videoCfg()
 				if f_resCfg() then
 					modified = 1
 				end
-			--Fullscreen			
+			--Fullscreen
 			elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if not b_screenMode then
 					b_screenMode = true
-					s_screenMode = 'Yes'
+					s_screenMode = 'Fullscreen'
 				else
 					b_screenMode = false
-					s_screenMode = 'No'
+					s_screenMode = 'Window'
 				end
 				modified = 1
 				setScreenMode(b_screenMode) --added via system-script.ssz
@@ -4255,8 +4311,46 @@ function f_videoCfg()
 						setBorderMode(b_borderMode)
 					end
 				end
+			--Fullscreen Type
+			elseif videoCfg == 4 then
+				if data.sdl == 'Stable' then
+					lockSetting = true
+				elseif data.sdl == 'Beta' then
+					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+						sndPlay(sysSnd, 100, 0)
+						if data.fullscreenType == 'Exclusive' then
+							data.fullscreenType = 'Borderless'
+							--b_aspectMode = false
+							b_fullscreenMode = false
+						elseif data.fullscreenType == 'Borderless' then
+							data.fullscreenType = 'Exclusive'
+							--b_aspectMode = false
+							b_fullscreenMode = true
+						end
+						modified = 1
+						--setAspectRatio(b_aspectMode)
+						setFullScreenMode(b_fullscreenMode)
+					end
+				end
+			--Keep Aspect Ratio
+			elseif videoCfg == 5 then
+				if data.sdl == 'Stable' then
+					lockSetting = true
+				elseif data.sdl == 'Beta' and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				sndPlay(sysSnd, 100, 0)
+					if not b_aspectMode then
+						b_aspectMode = true
+						s_aspectMode = 'Yes'
+					else
+						b_aspectMode = false
+						s_aspectMode = 'No'
+					end
+					modified = 1
+					needReload = 1
+					setAspectRatio(b_aspectMode)
+				end
 			--Sdlplugin
-			elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif videoCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
@@ -4271,7 +4365,7 @@ function f_videoCfg()
 					needReload = 1
 				end
 			--OpenGL 2.0
-			--elseif videoCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--elseif videoCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				--sndPlay(sysSnd, 100, 0)
 				--if b_openGL == false then
 					--b_openGL = true
@@ -4286,7 +4380,7 @@ function f_videoCfg()
 					--needReload = 0
 				--end
 			--Save memory
-			--elseif videoCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				--sndPlay(sysSnd, 100, 0)
 				--if b_saveMemory == false then
 					--b_saveMemory = true
@@ -4302,12 +4396,12 @@ function f_videoCfg()
 					--needReload = 1
 				--end
 			--Default Values
-			elseif videoCfg == 5 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 7 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 			--BACK
-			elseif videoCfg == 6 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 8 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4352,9 +4446,11 @@ function f_videoCfg()
 		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
 		t_videoCfg[2].varText = s_screenMode
 		t_videoCfg[3].varText = data.windowType
-		t_videoCfg[4].varText = data.sdl
-		--t_videoCfg[3].varText = s_openGL
-		--t_videoCfg[4].varText = s_saveMemory
+		t_videoCfg[4].varText = data.fullscreenType
+		t_videoCfg[5].varText = s_aspectMode
+		t_videoCfg[6].varText = data.sdl
+		--t_videoCfg[7].varText = s_openGL
+		--t_videoCfg[8].varText = s_saveMemory
 		if lockSetting == true then
 			for i=1, #t_sdlBeta do
 				textImgDraw(t_sdlBeta[i].id)

@@ -33,8 +33,6 @@ s_configSSZ = file:read("*all")
 file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
---b_screenMode = s_configSSZ:match('const bool FullScreen%s*=%s*([^;%s]+)') == 'true' and true or false --WMV Videos are not center when save fullscreen config is read
---setScreenMode(b_screenMode)
 
 --;===========================================================
 --; MAIN MENU SCREENPACK

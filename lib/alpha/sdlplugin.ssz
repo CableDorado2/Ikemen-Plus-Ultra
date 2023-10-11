@@ -867,8 +867,8 @@ public bool init(^/char t, int w, int h, bool gl, bool mugen)
 {
   plugin bool GlInit(:^/char, int, int:) = "dll/sdlplugin.dll";
   plugin bool Init(:^/char, int, int, bool:) = "dll/sdlplugin.dll";
-  if(gl) ret GlInit(:t, w, h:);
-  ret Init(:t, w, h, mugen:);
+  if(gl) ret GlInit(:t, w, h:); //Start OpenGL Render
+  ret Init(:t, w, h, mugen:); //Start DirectX Render
 }
 
 //public int getWidth()
@@ -889,6 +889,12 @@ public bool init(^/char t, int w, int h, bool gl, bool mugen)
   //WindowSize(:w, h:);
 //}
 
+public void fullScreenMode(bool fullReal)
+{
+  plugin void FullScreenReal(:bool:) = "dll/sdlplugin.dll";
+  FullScreenReal(:fullReal:);
+}
+
 public bool fullScreen(bool full)
 {
   plugin bool FullScreen(:bool:) = "dll/sdlplugin.dll";
@@ -905,6 +911,12 @@ public void windowResizable(bool resizable)
 {
   plugin void WindowResizable(:bool:) = "dll/sdlplugin.dll";
   WindowResizable(:resizable:);
+}
+
+public void keepAspectRatio(bool aspect)
+{
+  plugin void AspectRatio(:bool:) = "dll/sdlplugin.dll";
+  AspectRatio(:aspect:);
 }
 
 public void showCursor(bool show)

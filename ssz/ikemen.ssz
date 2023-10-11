@@ -203,8 +203,12 @@ void main()
     ret;
   }
 /*?*/
-  //if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
-  //if(.cfg.FullScreen) .se.full = true;
+  .sdl.fullScreenMode(.cfg.FullScreenReal);
+  if(.cfg.FullScreenReal) .se.fullReal = true;
+  if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
+  if(.cfg.FullScreen) .se.full = true;
+  .sdl.keepAspectRatio(.cfg.AspectRatio);
+  if(.cfg.AspectRatio) .se.aspect = true;
   .sdl.windowBorders(.cfg.WindowBordered);
   if(.cfg.WindowBordered) .se.borders = true;
   .sdl.windowResizable(.cfg.WindowResizable);

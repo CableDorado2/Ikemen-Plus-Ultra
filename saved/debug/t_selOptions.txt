@@ -1,9 +1,5 @@
-table: 02EF72F8 {
-  [survivalend] => table: 02EF72F8 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [teammaxmatches] => table: 02EF72F8 {
+table: 00ED1F08 {
+  [teammaxmatches] => table: 00ED1F08 {
                         [1] => 1
                         [2] => 1
                         [3] => 1
@@ -15,23 +11,7 @@ table: 02EF72F8 {
                         [9] => 0
                         [10] => 0
                       }
-  [survivalstart] => table: 02EF72F8 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [arcadestart] => table: 02EF72F8 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teamend] => table: 02EF72F8 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [teamstart] => table: 02EF72F8 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [arcademaxmatches] => table: 02EF72F8 {
+  [arcademaxmatches] => table: 00ED1F08 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -43,8 +23,28 @@ table: 02EF72F8 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadeend] => table: 02EF72F8 {
+  [survivalstart] => table: 00ED1F08 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [arcadeend] => table: 00ED1F08 {
                    [offset] => 2
                    [wins] => 4
                  }
+  [teamstart] => table: 00ED1F08 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [arcadestart] => table: 00ED1F08 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [teamend] => table: 00ED1F08 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [survivalend] => table: 00ED1F08 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
 }

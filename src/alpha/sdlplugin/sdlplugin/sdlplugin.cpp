@@ -54,7 +54,6 @@ int32_t ransuutane;
 SDL_Window* g_window;
 SDL_Renderer* g_renderer;
 SDL_Texture* g_target = nullptr;
-//SDL_Surface *g_window = SDL_SetVideoMode();
 uint32_t* g_pix;
 SDL_GLContext g_gl = nullptr;
 int g_pitch;
@@ -112,14 +111,11 @@ void winProcInit()
 	SetWindowLong(info.info.win.window, GWL_WNDPROC, (LONG)wrapProc);
 }
 
-
 const int g_samples = 2048;
 const int g_sndfreq = 44100;
 int16_t g_sndzero[g_samples*2] = {0};
 int16_t g_sndbuf[g_samples*2] = {0};
 int16_t *g_snddata = g_sndzero;
-
-//int g_volume = 256;
 
 float g_vol = 1.0;
 float wav_vol = 1.0;
@@ -260,14 +256,6 @@ int om_isplaying()
 	return 1;
 }
 
-//int om_notify(int notify)
-//{
-//	int prev = (int)om_notified;
-//	om_notified = notify != 0;
-//	return prev;
-//	//om_notified = true;
-//}
-
 int om_pause(int pause)
 {
 	AutoLocker al(&g_sndmtx);
@@ -290,7 +278,6 @@ int om_getwrittentime()
 		/ (double)(om_numchannels*(om_bitspersamp>>3)*om_samplerate));
 }
 
-
 void dummySAVAInit(int maxlatancy_in_ms, int srate){}
 void dummySAVADeInit(){}
 void dummySAAddPCMData(void* PCMData, int nch, int bps, int timestamp){}
@@ -305,8 +292,6 @@ int dummydsp_dosamples(
 	short int* samples, int numsamples, int bps, int nch, int srate)
 {return numsamples;}
 void dummySetInfo(int bitrate, int srate, int stereo, int synched){}
-
-
 
 void sndcallback(void* unused, Uint8* stream, int len)
 {
@@ -330,7 +315,6 @@ void bgmclear(bool stop)
 	}
 	bgmFlush(0);
 }
-
 
 class Joystick
 {
@@ -427,7 +411,6 @@ static GLint g_uniformMul = 0;
 static GLint g_uniformColor = 0;
 static GLuint g_paltex = 0;
 
-
 void sndjoyinit()
 {
 	g_desired.freq = g_sndfreq;
@@ -462,7 +445,7 @@ void sndjoyinit()
 	g_js.init();
 }
 
-TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
+TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX Render
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
 		return false;
@@ -486,7 +469,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		}
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
-		//SDL_RenderSetLogicalSize(g_renderer, 427,240); //Keep Aspect Ratio Option
 		//SDL_RenderSetIntegerScale(g_renderer, SDL_TRUE);
 		//SDL_RenderSetVSync(g_renderer, 1);
 		sndjoyinit();
@@ -496,7 +478,7 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 	return true;
 }
 
-TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
+TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap) //OpenGL Render
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
 		return false;;
@@ -512,7 +494,6 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 		g_gl = SDL_GL_CreateContext(g_window);
-		SDL_RenderSetLogicalSize(g_renderer, 427,240); //Keep Aspect Ratio Option
 		if(glewInit() != GLEW_OK) return false;
 		winProcInit();
 		if(h == 0) h = 1; 
@@ -542,20 +523,30 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 	return true;
 }
 
+int fsMode = 0;
+
+TUserFunc(void, FullScreenReal, bool fsr)
+{
+	if(fsr == true){
+		fsMode = SDL_WINDOW_FULLSCREEN;
+	}else{
+		fsMode = SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
+	(fsr ? fsMode : fsMode);
+}
+
 bool fullscreenChecker = false;
-//bool resizescreenChecker = false;
 
 TUserFunc(bool, FullScreen, bool fs)
 {
-	if(fullscreenChecker == false){
+	//fullscreenChecker = !fullscreenChecker; //Change the value of fullscreen Checker to its opposite
+	if(fs == true){
 		fullscreenChecker = true;
 	}else{
 		fullscreenChecker = false;
 	}
-
 	return
-	SDL_SetWindowFullscreen(g_window, fs ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
-	== 0;
+	SDL_SetWindowFullscreen(g_window, fs ? fsMode : 0) == 0; //flags may be SDL_WINDOW_FULLSCREEN, for "real" fullscreen with a videomode change; SDL_WINDOW_FULLSCREEN_DESKTOP for "fake" fullscreen that takes the size of the desktop; and 0 for windowed mode.
 }
 
 TUserFunc(void, WindowBordered, bool wb) //WindowBordered need to be register in sdlplugin.def to work in lib/alpha/sdlplugin.ssz
@@ -565,12 +556,20 @@ TUserFunc(void, WindowBordered, bool wb) //WindowBordered need to be register in
 
 TUserFunc(void, WindowResizable, bool wr)
 {
-	//if(resizescreenChecker == false){
-		//resizescreenChecker = true;
-	//}else{
-		//resizescreenChecker = false;
-	//}
 	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
+}
+
+int cube = 0;
+int rectan = 0;
+
+TUserFunc(void, AspectRatio, bool aspect)
+{
+	if(aspect == true){
+		rectan = SDL_RenderSetLogicalSize(g_renderer, 427,240);
+	}else{
+		//cube = SDL_RenderSetLogicalSize(g_renderer, 320,240);
+	}
+	(aspect ? cube : rectan);
 }
 
 TUserFunc(void, End)
@@ -976,10 +975,8 @@ TUserFunc(bool, SetSndBuf, int32_t* buf)
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////// DirectShow Test Start ////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-// Globals
+//DirectShow Test Start
+//Globals
 DShowPlayer *g_pPlayer = NULL;
 bool videoChecker = false;
 //static std::wstring videoRenderer = L"";
@@ -1250,9 +1247,7 @@ void NotifyError(HWND hwndDirectShow, PCWSTR pszMessage)
 {
     MessageBox(hwndDirectShow, pszMessage, TEXT("Error"), MB_OK | MB_ICONERROR);
 }
-/////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////// Direct Show Test End ////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
+// Direct Show Test End
 
 TUserFunc(bool, PlayBGM, Reference fn, Reference pldir)
 {
@@ -1426,8 +1421,6 @@ TUserFunc(void, SetVolume, float bv, float wv, float gv)
 		g_vol = 1.0;
 	}
 }
-
-
 
 void kaiten(float& x, float& y, float angle, float rcx, float rcy, float vscl)
 {
@@ -2498,7 +2491,6 @@ TUserFunc(
 	}
 	return true;
 }
-
 
 template<typename Img> void mzlShadowLoop(
 	uint32_t* pdpx, Img& pri, uint32_t color, uint32_t alpha,

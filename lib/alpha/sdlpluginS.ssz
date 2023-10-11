@@ -889,6 +889,13 @@ public bool init(^/char t, int w, int h, bool gl, bool mugen)
   //WindowSize(:w, h:);
 //}
 
+public void fullScreenMode(bool fullReal)
+{
+  plugin void FullScreenReal(:bool:) = "dll/sdlpluginV.dll";
+  FullScreenReal(:fullReal:);
+}
+
+
 public bool fullScreen(bool full)
 {
   plugin bool FullScreen(:bool:) = "dll/sdlplugin.dll";
@@ -905,6 +912,12 @@ public void windowResizable(bool resizable)
 {
   plugin void WindowResizable(:bool:) = "dll/sdlpluginV.dll";
   WindowResizable(:resizable:);
+}
+
+public void keepAspectRatio(bool aspect)
+{
+  plugin void AspectRatio(:bool:) = "dll/sdlpluginV.dll";
+  AspectRatio(:aspect:);
 }
 
 public void showCursor(bool show)

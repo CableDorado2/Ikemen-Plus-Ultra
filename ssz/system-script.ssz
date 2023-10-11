@@ -600,6 +600,20 @@ void synchronize(&.lua.State L=, int re=)
   //.sdl.windowSize(w,h);
 //}
 
+void getFullScreenMode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.fullReal);
+}
+
+void setFullScreenMode(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool fs = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.fullScreenMode(fs);
+  .se.fullReal = fs;
+}
+
 void getScreenMode(&.lua.State L=, int re=)
 {
   re = 1;
@@ -640,6 +654,20 @@ void setResizableMode(&.lua.State L=, int re=)
   bool resz = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
   .sdl.windowResizable(resz);
   .se.resizable = resz;
+}
+
+void getAspectRatio(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.aspect);
+}
+
+void setAspectRatio(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  bool kar = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.keepAspectRatio(kar);
+  .se.aspect = kar;
 }
 
 void swapGamepad(&.lua.State L=, int re=)
@@ -1514,8 +1542,12 @@ public void init(&.lua.State L=)
   //L.register("getWidth", .getWidth);
   //L.register("getHeight", .getHeight);
   //L.register("setGameRes", .setGameRes);
+  L.register("getFullScreenMode", .getFullScreenMode);
+  L.register("setFullScreenMode", .setFullScreenMode);
   L.register("getScreenMode", .getScreenMode);
   L.register("setScreenMode", .setScreenMode);
+  L.register("getAspectRatio", .getAspectRatio);
+  L.register("setAspectRatio", .setAspectRatio);
   L.register("getBorderMode", .getBorderMode);
   L.register("setBorderMode", .setBorderMode);
   L.register("getResizableMode", .getResizableMode);
