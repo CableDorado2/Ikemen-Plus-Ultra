@@ -486,7 +486,7 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 		}
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
-		//SDL_RenderSetLogicalSize(g_renderer, 427,240);
+		//SDL_RenderSetLogicalSize(g_renderer, 427,240); //Keep Aspect Ratio Option
 		//SDL_RenderSetIntegerScale(g_renderer, SDL_TRUE);
 		//SDL_RenderSetVSync(g_renderer, 1);
 		sndjoyinit();
@@ -512,7 +512,7 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 		if(!g_window) return false;
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 		g_gl = SDL_GL_CreateContext(g_window);
-		SDL_RenderSetLogicalSize(g_renderer, 427,240);
+		SDL_RenderSetLogicalSize(g_renderer, 427,240); //Keep Aspect Ratio Option
 		if(glewInit() != GLEW_OK) return false;
 		winProcInit();
 		if(h == 0) h = 1; 
@@ -543,6 +543,7 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 }
 
 bool fullscreenChecker = false;
+//bool resizescreenChecker = false;
 
 TUserFunc(bool, FullScreen, bool fs)
 {
@@ -564,6 +565,11 @@ TUserFunc(void, WindowBordered, bool wb) //WindowBordered need to be register in
 
 TUserFunc(void, WindowResizable, bool wr)
 {
+	//if(resizescreenChecker == false){
+		//resizescreenChecker = true;
+	//}else{
+		//resizescreenChecker = false;
+	//}
 	SDL_SetWindowResizable(g_window, wr ? SDL_TRUE : SDL_FALSE); //Add or remove the window's SDL_WINDOW_RESIZABLE flag and allow/disallow user resizing of the window. This is a no-op if the window's resizable state already matches the requested state. You can't change the resizable state of a fullscreen window.
 }
 

@@ -933,6 +933,13 @@ for i=1, #t_wip do
 	t_wip[i].id = createTextImg(font2, 0, 0, t_wip[i].text, 164, 222.5+i*15)
 end
 
+t_sdlBeta = {
+	{id = '', text = "This option requires Sdlplugin Beta Version."},
+}
+for i=1, #t_sdlBeta do
+	t_sdlBeta[i].id = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 164, 222.5+i*15)
+end
+
 --;===========================================================
 --; ONLINE INFORMATION
 --;===========================================================
@@ -4137,7 +4144,7 @@ t_videoCfg = {
 	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = resolutionWidth .. 'x' .. resolutionHeight},
 	{id = '', text = 'Fullscreen',  		varID = textImgNew(), varText = s_screenMode},
 	{id = '', text = 'Window Type', 		varID = textImgNew(), varText = data.windowType},
-	{id = '', text = 'Sdlplugin',	  		varID = textImgNew(), varText = data.sdl},
+	{id = '', text = 'Sdlplugin Version',	varID = textImgNew(), varText = data.sdl},
 	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = s_openGL},
 	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = s_saveMemory},
 	{id = '', text = 'Default Graphics',    varID = textImgNew(), varText = ''},
@@ -4206,25 +4213,21 @@ function f_videoCfg()
 				end
 			--Fullscreen			
 			elseif videoCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				if onlinegame == true then
-					lockSetting = true
-				elseif onlinegame == false then
-					sndPlay(sysSnd, 100, 0)
-					if not b_screenMode then
-						b_screenMode = true
-						s_screenMode = 'Yes'
-					else
-						b_screenMode = false
-						s_screenMode = 'No'
-					end
-					modified = 1
-					setScreenMode(b_screenMode) --added via system-script.ssz
+				sndPlay(sysSnd, 100, 0)
+				if not b_screenMode then
+					b_screenMode = true
+					s_screenMode = 'Yes'
+				else
+					b_screenMode = false
+					s_screenMode = 'No'
 				end
+				modified = 1
+				setScreenMode(b_screenMode) --added via system-script.ssz
 			--Window Type
 			elseif videoCfg == 3 then
-				if onlinegame == true then
+				if data.sdl == 'Stable' then
 					lockSetting = true
-				elseif onlinegame == false then
+				elseif data.sdl == 'Beta' then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 						if commandGetState(p1Cmd, 'r') and data.windowType == 'Original' then
 							sndPlay(sysSnd, 100, 0)
@@ -4353,10 +4356,10 @@ function f_videoCfg()
 		--t_videoCfg[3].varText = s_openGL
 		--t_videoCfg[4].varText = s_saveMemory
 		if lockSetting == true then
-			for i=1, #t_locked do
-				textImgDraw(t_locked[i].id)
+			for i=1, #t_sdlBeta do
+				textImgDraw(t_sdlBeta[i].id)
 			end
-		end	
+		end
 		for i=1, maxVideoCfg do
 			if i > videoCfg - cursorPosY then
 				if t_videoCfg[i].varID ~= nil then
