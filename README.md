@@ -112,8 +112,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
 
-- [ ] Capturar pantalla en cualquier momento con tecla "Impr Pant" y guardar la screenshot en directorio: "screenshots/NombreDeVentana000.png".
-
 **v1.5**
 ------------
 
