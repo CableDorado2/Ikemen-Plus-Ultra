@@ -142,10 +142,15 @@ function f_missionMenu()
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 0
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['dragon claw']}
+				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				--stageList = 3
+				--stageNo = 3
+				--setStage(stageNo)
+				--selectStage(stageNo)
+				--stageEnd = true
 				--data.stage = {t_stageDef['training room']}
 				data.stageMenu = true
 				data.versusScreen = true
@@ -160,9 +165,11 @@ function f_missionMenu()
 				setRoundTime(-1)
 				data.p2In = 0
 				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
+				data.p1Pal = 1
+				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man']}
+				data.p2Pal = 1
 				data.stageMenu = true
 				data.versusScreen = false
 				data.rosterMode = 'mission'
@@ -177,6 +184,7 @@ function f_missionMenu()
 				data.p2In = 1
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				data.p1Pal = 1
 				data.versusScreen = true
 				data.challengerScreen = false
 				data.gameMode = 'arcade'

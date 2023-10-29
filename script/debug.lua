@@ -151,12 +151,5 @@ function status(p)
 end
 
 function takeScreenshotVS()
-	sndPlay(sysSnd, 22, 0)
-	batOpen("tools", "screenshot.vbs")
-	--Set time to capture the correct screenshot
-	ltn12.pump.all(
-	--(echo nircmd savescreenshotwin "..\screenshots\Screenshot.dat" ^| del x.vbs x.bat)>x.bat   Backup Bat Code
-	ltn12.source.file(assert(io.open("tools/screenshot.dat", "rb"))),
-	ltn12.sink.file(assert(io.open("screenshots/" .. os.date("%Y-%m-%d %I-%M%p-%S") .. ".png", "wb"))) --Currently works but show the previous screenshot taken
-	)
+	f_screenShot()
 end

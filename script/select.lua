@@ -602,7 +602,7 @@ function f_winCoins()
 	if onlinegame == false then	
 		if coinSystem == true then
 			data.coins = data.coins + 5 --Earn 5 Coins by Win :)
-			sndPlay(sysSnd, 200, 0) --Coin Earned Song
+			--sndPlay(sysSnd, 200, 0) --Coin Earned Song
 			f_saveProgress()
 		elseif coinSystem == false then
 			--Do nothing and don't lose or win coins
@@ -1414,6 +1414,176 @@ function f_selectAdvance()
 		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
+		--restore P2 Team settings if needed
+		if restoreTeam then
+			p2teamMode = teamMode
+			p2numChars = numChars
+			setTeamMode(2, p2teamMode, p2numChars)
+		end
+		resetRemapInput()
+		cmdInput()
+		refresh()
+	end
+end
+
+--;==============================================================================
+--; STORY CHARACTER SELECT
+--;==============================================================================
+function f_selectStory()
+	f_backReset()
+	back = false
+	bufTmu = 0
+	bufTmd = 0
+	bufTmr = 0
+	bufTml = 0
+	bufTm2u = 0
+	bufTm2d = 0
+	bufTm2r = 0
+	bufTm2l = 0
+	bufSelu = 0
+	bufSeld = 0
+	bufSelr = 0
+	bufSell = 0
+	bufSel2u = 0
+	bufSel2d = 0
+	bufSel2r = 0
+	bufSel2l = 0
+	bufPalu = 0
+	bufPald = 0
+	bufPalr = 0
+	bufPall = 0
+	bufPal2u = 0
+	bufPal2d = 0
+	bufPal2r = 0
+	bufPal2l = 0
+	bufStageu = 0
+	bufStaged = 0
+	bufStager = 0
+	bufStagel = 0
+	p1SelX = 0
+	p1SelY = 0
+	p2SelX = 4 --Cursor position after choosing the Team Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
+	p2SelY = 0
+	p1FaceOffset = 0
+	p2FaceOffset = 0
+	p1OffsetRow = 0
+	p2OffsetRow = 0
+	stageList = 0
+	musicList = 0
+	gameNo = 0
+	bossNo = 0
+	bonusNo = 0
+	selectSeconds = data.selectTime
+	stageSeconds = data.stageTime
+	rematchSeconds = data.rematchTime
+	serviceSeconds = data.serviceTime
+	selectTimer = selectSeconds*gameTick
+	stageTimer = stageSeconds*gameTick
+	rematchTimer = rematchSeconds*gameTick
+	serviceTimer = serviceSeconds*gameTick
+	clearTime = 0
+	matchTime = 0
+	p1Wins = 0
+	p2Wins = 0
+	winner = 0
+	cmdInput()
+	while true do
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		--playBGM(bgmSelect)
+		if winner < 1 then
+			f_selectReset()
+		else
+			selectStart()
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+		end
+		while not selScreenEnd do
+			if onlinegame == false then
+				if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+					if p1TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				elseif esc() and data.p2In == 2 then
+					if p1TeamBack == true and p2TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				end
+			elseif onlinegame == true then
+				if esc() then f_backOnline() end
+			end
+			f_selectScreen()
+			assert(loadfile('saved/temp_sav.lua'))()
+			if back == true or data.tempBack == true then
+				if data.rosterMode == 'story' then
+					playBGM(bgmStory)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+				data.tempBack = false
+				f_saveTemp()
+				return
+			end
+		end
+		if winner > 0 then
+			--win screen
+			if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
+				f_selectWin()
+			end
+			if data.rosterMode == 'story' then
+				playBGM(bgmStory)
+			else
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+			end
+			return
+		end
+		--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
+		restoreTeam = false
+		local teamMode = p2teamMode
+		local numChars = p2numChars
+		if p2numChars > 1 then
+			for i=1, #data.t_p2selected do
+				if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
+					--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
+					p2teamMode = 0
+					p2numChars = 1
+					setTeamMode(2, 0, 1)
+					p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
+					data.t_p2selected = {}
+					data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
+					restoreTeam = true
+					break
+				elseif t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1 then
+					p2teamMode = 0
+					p2numChars = 1
+					setTeamMode(2, 0, 1)
+					p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
+					data.t_p2selected = {}
+					data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
+					restoreTeam = true
+					break
+				end
+			end
+		end
+		f_aiLevel()
+		f_orderSelect()
+		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+			f_selectVersus()
+		end
+		f_setZoom()
+		matchTime = os.clock()
+		f_assignMusic()
+		winner = game()
+		matchTime = os.clock() - matchTime
+		clearTime = clearTime + matchTime
+		selectTimer = selectSeconds*gameTick
+		stageTimer = stageSeconds*gameTick
+		rematchTimer = rematchSeconds*gameTick
+		serviceTimer = serviceSeconds*gameTick
+		--f_favoriteChar() --Store Favorite Character (WIP)
+		--f_favoriteStage() --Store Favorite Stage (WIP)
+		playBGM('')
 		--restore P2 Team settings if needed
 		if restoreTeam then
 			p2teamMode = teamMode
@@ -2540,7 +2710,11 @@ function f_p1SelectMenu()
 				updateAnim = true
 				t[data.p1Char[i]] = ''
 			end
-			data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+			if data.p1Pal ~= nil then --Set Manual Palette
+				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = data.p1Pal, ['up'] = updateAnim}
+			else
+				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+			end
 		end
 		p1Portrait = data.p1Char[1]
 		p1SelEnd = true
@@ -2884,7 +3058,11 @@ function f_p2SelectMenu()
 				updateAnim = true
 				t[data.p2Char[i]] = ''
 			end
-			data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+			if data.p2Pal ~= nil then
+				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = data.p2Pal, ['up'] = updateAnim}
+			else
+				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+			end
 			--f_printTable(data.t_p2selected)
 		end
 		p2Portrait = data.p2Char[1]

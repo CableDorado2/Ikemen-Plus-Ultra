@@ -572,6 +572,14 @@ TUserFunc(void, AspectRatio, bool aspect)
 	(aspect ? cube : rectan);
 }
 
+TUserFunc(void, TakeScreenShot, Reference dir)
+{   
+    SDL_Surface *screenshot = SDL_CreateRGBSurface(0, g_w, g_h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+    SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
+    SDL_SaveBMP(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
+    SDL_FreeSurface(screenshot);
+}
+
 TUserFunc(void, End)
 {
 	wglDeleteContext(g_hglrc2);

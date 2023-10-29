@@ -670,6 +670,13 @@ void setAspectRatio(&.lua.State L=, int re=)
   .se.aspect = kar;
 }
 
+void takeScreenShot(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char dir = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.takeScreenShot(dir);
+}
+
 void swapGamepad(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1552,6 +1559,7 @@ public void init(&.lua.State L=)
   L.register("setBorderMode", .setBorderMode);
   L.register("getResizableMode", .getResizableMode);
   L.register("setResizableMode", .setResizableMode);
+  L.register("takeScreenShot", .takeScreenShot);
   L.register("connected", .connected);
   L.register("synchronize", .synchronize);
   L.register("addChar", .addChar);

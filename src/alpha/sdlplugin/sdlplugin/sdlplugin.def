@@ -21,6 +21,7 @@ EXPORTS
 	WindowBordered
 	WindowResizable
 	AspectRatio
+	TakeScreenShot
     CreatePaletteSurface
     SetColorKey
     RenderMugenZoom

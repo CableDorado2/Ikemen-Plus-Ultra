@@ -122,14 +122,14 @@ arcUnknown = animNew(storySff, [[0,0, 0,0,]])
 --Arc Selected
 arcSel = animNew(storySff, [[0,1, 0,0,]])
 
---Arc 1 Icon
-arc1 = animNew(storySff, [[1,0, 0,0,]])
+--Arc 1 Icon (TODO Load from Character SFF)
+arc1 = animNew(storySff, [[0,4, 0,0,]])
 
 --Arc 2 Icon
-arc2 = animNew(storySff, [[2,0, 0,0,]])
+arc2 = animNew(storySff, [[0,5, 0,0,]])
 
 --Arc 3 Icon
-arc3 = animNew(storySff, [[3,0, 0,0,]])
+arc3 = animNew(storySff, [[0,6, 0,0,]])
 
 --Arc Icon
 --function f_arcPreview()
@@ -173,38 +173,47 @@ txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.65,0.65)
 --Unknown Chapter Preview
 chaptUnknown = animNew(storySff, [[0,3, 0,0,]])
 
+--Arc 1 - Prologue Preview
+chapt0 = animNew(storySff, [[1,0, 0,0,]])
+
 --Arc 1 - Chapter 1 Preview
-chapt1 = animNew(storySff, [[1,1, 0,0,]])
+chapt1 = animNew(storySff, [[1,10, 0,0,]])
 
 --Arc 1 - Chapter 2 Preview
-chapt2 = animNew(storySff, [[1,2, 0,0,]])
+chapt2 = animNew(storySff, [[1,20, 0,0,]])
 
---Arc 1 - Chapter 3 Preview
-chapt3 = animNew(storySff, [[1,3, 0,0,]])
+--Arc 1 - Chapter 3.1 Preview
+chapt3_1 = animNew(storySff, [[1,30, 0,0,]])
 
---Arc 1 - Chapter 4 Preview
-chapt4 = animNew(storySff, [[1,4, 0,0,]])
+--Arc 1 - Chapter 3.1 Preview
+chapt3_2 = animNew(storySff, [[1,31, 0,0,]])
 
---Arc 1 - Chapter 5 Preview
-chapt5 = animNew(storySff, [[1,5, 0,0,]])
+--Arc 1 - Chapter 4.1 Preview
+chapt4_1 = animNew(storySff,
+[[
+1,40, 0,0, 40
+1,41, 0,0, 40
+1,42, 0,0, 40
+1,43, 0,0, 40
+]])
 
---Arc 1 - Chapter 5-1 Preview
-chapt5_1 = animNew(storySff, [[1,51, 0,0,]])
+--Arc 1 - Chapter 4.2 Preview
+chapt4_2 = animNew(storySff, [[1,44, 0,0,]])
 
---Arc 1 - Chapter 5-2 Preview
-chapt5_2 = animNew(storySff, [[1,52, 0,0,]])
+--Arc 1 - Chapter 4.3 Preview
+chapt4_3 = animNew(storySff, [[1,45, 0,0,]])
 
 t_arc1 = {
-	{Name = 'THE LOST CHAPTER 1',		       Img = '',       ID = textImgNew(), Status = ''},
-	{Name = 'THE LOST CHAPTER 2',	     	   Img = '',       ID = textImgNew(), Status = ''},
-	{Name = 'THE LOST CHAPTER 3',  			   Img = '',   	   ID = textImgNew(), Status = ''},
-	{Name = 'THE LOST CHAPTER 4', 			   Img = '',  	   ID = textImgNew(), Status = ''},
-	{Name = 'EXTRA CHAPTER',		 		   Img = '', 	   ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', 		   Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'PROLOGUE',		       		Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'KIDNAPPING',		     	Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'KILLER MIRROR',  			Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'THE ROOF OF TRUTH',		Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'BROKEN SPIRIT', 			Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'FOR THE OLD TIMES',  		Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'LIFE LESSON',		   		Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'THE FALL OF A MASTER', 	Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE',	Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arc2 = {
@@ -282,39 +291,23 @@ function f_storyMenu()
 			chapterMenu = chapterMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--setGameMode('story')
+		--PROLOGUE
+			if storyMenu == 1 and chapterMenu == 1 then f_arc1_prologue()
+			--elseif storyMenu == 2 and chapterMenu == 1 then f_arc2_prologue()
 		--CHAPTER 1
-			if chapterMenu == 1 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				--setRoundTime(-1)
-				--data.p2In = 0
-				--data.p1TeamMenu = {mode = 0, chars = 1}				
-				--data.p2TeamMenu = {mode = 0, chars = 1}
-				--data.p1Char = {t_charAdd['dragon claw']}
-				--data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
-				--data.stageMenu = true
-				--data.versusScreen = true
-				data.rosterMode = 'story'
-				--data.storyNo = 'story 1'
-				--textImgSetText(txt_mainSelect, 'story 1 [' .. story1Progress .. ']')
-				--script.select.f_selectSimple()
+			elseif storyMenu == 1 and chapterMenu == 2 then f_arc1_chapter1()
 		--CHAPTER 2
-			elseif chapterMenu == 2 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--CHAPTER 3
-			elseif chapterMenu == 3 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--CHAPTER 4
-			elseif chapterMenu == 4 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--CHAPTER 5
-			elseif chapterMenu == 5 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+			elseif storyMenu == 1 and chapterMenu == 3 then f_arc1_chapter2()
+		--CHAPTER 3.1
+			elseif storyMenu == 1 and chapterMenu == 4 then f_arc1_chapter3_1()
+		--CHAPTER 3.2
+			elseif storyMenu == 1 and chapterMenu == 5 then f_arc1_chapter3_2()
+		--CHAPTER 4.1
+			elseif storyMenu == 1 and chapterMenu == 6 then f_arc1_chapter4_1()
+		--CHAPTER 4.2
+			elseif storyMenu == 1 and chapterMenu == 7 then f_arc1_chapter4_2()
+		--CHAPTER 4.3
+			elseif storyMenu == 1 and chapterMenu == 8 then f_arc1_chapter4_3()
 		--NO DATA
 			else
 				sndPlay(sysSnd, 100, 5)
@@ -434,20 +427,29 @@ function f_storyMenu()
 		end
 	--Set Chapter Info
 		if storyMenu == 1 and chapterMenu == 1 then
+			chaptPreview = chapt0
+			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF CASUAL FIGHTING GAMES."
+		elseif storyMenu == 1 and chapterMenu == 2 then
 			chaptPreview = chapt1
 			txt_storyInfo = "KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..."
-		elseif storyMenu == 1 and chapterMenu == 2 then
+		elseif storyMenu == 1 and chapterMenu == 3 then
 			chaptPreview = chapt2
 			txt_storyInfo = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
-		elseif storyMenu == 1 and chapterMenu == 3 then
-			chaptPreview = chapt3
-			txt_storyInfo = "EVIL KUNG FU MAN HAS BEEN DEFEATED, THE PATH IS NOW FREE AND SUAVE DUDE USES A HIDDEN PATH TO ACTIVATE THE TEMPLE'S SELF-DESTRUCT. CAN KUNG FU MAN AVOID IT?"
 		elseif storyMenu == 1 and chapterMenu == 4 then
-			chaptPreview = chapt4
-			txt_storyInfo = "SUAVE DUDE HAS FALLEN, IT'S TIME TO RESCUE KUNG FU MAN'S GIRLFRIEND AND COMPLETE THE ELECBYTE'S STORY!"
+			chaptPreview = chapt3_1
+			txt_storyInfo = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO TAKE OUT SUAVE DUDE BUT HE WILL NOT BE ALONE..."
 		elseif storyMenu == 1 and chapterMenu == 5 then
-			chaptPreview = chapt5
-			txt_storyInfo = "IN ORDER TO PROTECT THE MOUNTAINSIDE TEMPLE, KUNG FU MAN IS TRAINING HIS NEW STUDENT."
+			chaptPreview = chapt3_2
+			txt_storyInfo = "KUNG FU MAN HAS NOT BEEN STRONG ENOUGH TO DEFEAT HIS CLONE, NOW HE MUST FACE THE CONSEQUENCES OF HIS PAST ACTIONS..."
+		elseif storyMenu == 1 and chapterMenu == 6 then
+			chaptPreview = chapt4_1
+			txt_storyInfo = "KUNG FU MAN RESCUE HIS GIRLFRIEND BUT ALSO RETURNS TRAINING WITH KUNG FU GIRL!"
+		elseif storyMenu == 1 and chapterMenu == 7 then
+			chaptPreview = chapt4_2
+			txt_storyInfo = "THERE IS NOTHING SADER THAN A MAN WHO HAS LOST HIS LOVE..."
+		elseif storyMenu == 1 and chapterMenu == 8 then
+			chaptPreview = chapt4_3
+			txt_storyInfo = "THE RAWEST END FOR ELECBYTE'S CHARACTER"
 		else
 			chaptPreview = chaptUnknown
 			txt_storyInfo = ""
@@ -517,4 +519,74 @@ function f_storyMenu()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===========================================================
+--; ARC 1 FIGHTS
+--;===========================================================
+function f_arc1_prologue()
+	playVideo("movie/KFM-Prologue.wmv") --Play Video Cutscene
+	f_arc1_chapter1() --Launch Next Story Fight
+end
+
+function f_arc1_chapter1()
+	playVideo("movie/KFM-Chapter 1.wmv")
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	--data.p2In = 0
+	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode
+	data.p1Char = {t_charAdd['kung fu man']} --Set P1 Character
+	data.p1Pal = 1 --Set P1 Character Palette
+	data.p2TeamMenu = {mode = 1, chars = 1} --SIMUL BATTLE MISSING!
+	data.p2Char = {t_charAdd['suave dude/minion/minion.def']}
+	data.p2Pal = 1
+	setRoundTime(-1)
+	data.stageMenu = false
+	data.orderSelect = false
+	data.versusScreen = false
+	data.victoryscreen = false
+	data.rosterMode = 'story'
+	setGameMode('story1')
+	script.select.f_selectStory() --Launch Story Fight
+	if script.select.winner == 1 then f_arc1_chapter2() end --Launch Next Story Fight only if you win
+end
+
+function f_arc1_chapter2()
+	playVideo("movie/KFM-Chapter 2.wmv")
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	--data.p2In = 0
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_charAdd['kung fu man']}
+	data.p1Pal = 1
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
+	data.p2Pal = 1
+	setRoundTime(-1)
+	data.stageMenu = false
+	data.orderSelect = false
+	data.versusScreen = false
+	data.victoryscreen = false
+	data.rosterMode = 'story'
+	setGameMode('story2')
+	script.select.f_selectStory()
+	if script.select.winner == 1 then f_arc1_chapter3_1() else f_arc1_chapter3_2() end
+end
+
+function f_arc1_chapter3_1()
+	playVideo("movie/KFM-Chapter 3.wmv")
+end
+
+function f_arc1_chapter3_2()
+	
+end
+
+function f_arc1_chapter4_1()
+	playVideo("movie/KFM-Chapter 4.wmv")
+end
+
+function f_arc1_chapter4_2()
+	
+end
+
+function f_arc1_chapter4_3()
+	
 end

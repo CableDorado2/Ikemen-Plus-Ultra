@@ -919,6 +919,12 @@ public void keepAspectRatio(bool aspect)
   AspectRatio(:aspect:);
 }
 
+public void takeScreenShot(^/char dir)
+{
+  plugin void TakeScreenShot(:^/char:) = "dll/sdlplugin.dll";
+  TakeScreenShot(:dir:);
+}
+
 public void showCursor(bool show)
 {
   plugin void CursorShow(:bool:) = "dll/sdlplugin.dll";

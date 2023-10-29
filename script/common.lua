@@ -197,10 +197,7 @@ end
 --; MOVIE DEFINITION
 --;===========================================================
 videoHowToPlay = "movie/How To Play.wmv"
-videoChapter1 = "movie/Lost Chapter 1.wmv"
-videoChapter2 = "movie/Lost Chapter 2.wmv"
-videoChapter3 = "movie/Lost Chapter 3.wmv"
-videoChapter4 = "movie/Lost Chapter 4.wmv"
+videoOpening = "movie/Opening.wmv"
 
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
@@ -266,6 +263,13 @@ end
 
 --Constants/Standards
 gameTick = 20
+
+--Take Screenshots
+function f_screenShot()
+	--sndPlay(sysSnd, 22, 0)
+	--sndPlay(sysSnd, 22, 1)
+	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".bmp")
+end
 
 --animDraw at specified coordinates
 function animPosDraw(a, x, y)
@@ -1701,6 +1705,8 @@ function f_default()
 	--default values for all modes
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
+	data.p1Pal = nil --no predefined P1 character palette
+	data.p2Pal = nil --no predefined P2 character palette
 	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y})
 	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y})
 	data.aiFight = false --AI = data.difficulty for all characters disabled
