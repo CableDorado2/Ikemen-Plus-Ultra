@@ -3383,7 +3383,7 @@ selStage = animNew(sysSff, [[
 110,1, 0,0, 10
 110,2, 0,0, 10
 ]])
-animAddPos(selStage, 85, 166)
+animAddPos(selStage, 83.5, 166)
 animUpdate(selStage)
 
 --Modern Stage Select
@@ -3392,35 +3392,36 @@ selStageM = animNew(sysSff, [[
 110,1, 0,0, 10
 110,2, 0,0, 10
 ]])
-animAddPos(selStageM, 0, 62)
+animAddPos(selStageM, 0.4, 63)
 animUpdate(selStageM)
-animSetScale(selStageM, 2.12, 2.12)
+animSetScale(selStageM, 2.10, 2.10)
 
---Classic Stage 0
+--Classic Stage 0 (Random Icon)
 stage0 = animNew(sysSff, [[
 110,3, 0,0,
 ]])
 animAddPos(stage0, 115, 172)
 animUpdate(stage0)
+animSetScale(stage0, 0.98, 0.98)
 
---Modern Stage 0
+--Modern Stage 0 (Random Icon)
 stage0M = animNew(sysSff, [[
 110,3, 0,0,
 ]])
-animSetPos(stage0M, 62, 74)
+animSetPos(stage0M, 66, 76)
 animUpdate(stage0M)
-animSetScale(stage0M, 2.15, 2.15)
+animSetScale(stage0M, 2.09, 2.09)
 
 function f_stagePreview()
 	stagePreview = ''
 	stagePreview = '0,' .. stageList-1 .. ', 0,0, 0'
 	stagePreview = animNew(stageSff, stagePreview)
 	if data.stageType == 'Classic' then
-		animSetScale(stagePreview, 0.0705, 0.0705)
-		animSetPos(stagePreview, 114.9, 171.5)
+		animSetScale(stagePreview, 0.0705, 0.0699)
+		animSetPos(stagePreview, 114.5, 172)
 	elseif data.stageType == 'Modern' then
-		animSetScale(stagePreview, 0.151, 0.150)
-		animSetPos(stagePreview, 62.1, 74)
+		animSetScale(stagePreview, 0.149, 0.148)
+		animSetPos(stagePreview, 64.600, 74.8)
 	end
 	animUpdate(stagePreview)
 	animDraw(stagePreview)

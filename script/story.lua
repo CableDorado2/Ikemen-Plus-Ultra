@@ -171,7 +171,7 @@ txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.65,0.65)
 --end
 
 --Unknown Chapter Preview
-chaptUnknown = animNew(storySff, [[0,3, 0,0,]])
+chaptUnknown = animNew(sysSff, [[110,4, 0,0,]])
 
 --Arc 1 - Prologue Preview
 chapt0 = animNew(storySff, [[1,0, 0,0,]])
@@ -421,7 +421,7 @@ function f_storyMenu()
 			--Draw Text for Arcs Table
 				if t_storySelect[i].ID ~= nil then
 					textImgDraw(f_updateTextImg(t_storySelect[i].ID, jgFnt, bank, 0, t_storySelect[i].Name, -51+i*105-moveArc, 68,0.85,0.85))
-					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -51+i*105-moveArc, 80,0.95,0.95))
+					textImgDraw(f_updateTextImg(t_storySelect[i].ID, font14, 0, 0, t_storySelect[i].Status, -49.2+i*105-moveArc, 80,0.95,0.95))
 				end
 			end
 		end

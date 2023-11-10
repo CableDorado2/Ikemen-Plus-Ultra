@@ -58,7 +58,11 @@ animAddPos(arrowsMSD, 155, 231)
 animUpdate(arrowsMSD)
 animSetScale(arrowsMSD, 0.5, 0.5)
 
-function f_missionPreview() --Based on stage preview code
+--Unknown Mission Preview
+missionUnknown = animNew(sysSff, [[110,4, 0,0,]])
+
+--Missions Preview
+function f_missionPreview()
 	missionPreview = ''
 	missionPreview = '0,' .. missionList-1 .. ', 0,0, 0'
 	missionPreview = animNew(missionSff, missionPreview)
@@ -263,6 +267,11 @@ function f_missionMenu()
 			animSetScale(missionBG1, 219.5, 94)
 			animSetWindow(missionBG1, 0,5, 320,110)
 			animDraw(missionBG1)
+		--Draw Empty Mission Icon
+			animSetPos(missionUnknown, 50, 21)
+			animSetScale(missionUnknown, 0.168, 0.18)
+			animUpdate(missionUnknown)
+			animDraw(missionUnknown)
 		end
 	--Draw Title Menu
 		textImgDraw(txt_missionMenu)
