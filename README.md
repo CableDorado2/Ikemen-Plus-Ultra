@@ -189,7 +189,15 @@ v2.0 (Final Release)
 - [ ] Portear el Engine a Linux, MacOS, Android y iOS.
 
 ## Tutorials
+**Basic:**
+- How to Add Chars, Stages, Songs and Edit Rows and Columns for Roster: [https://youtu.be/f0OA_4Ml7yE](https://www.youtube.com/watch?v=f0OA_4Ml7yE)
+[![Alt text](https://i.ytimg.com/vi/f0OA_4Ml7yE/maxresdefault.jpg)](https://www.youtube.com/watch?v=f0OA_4Ml7yE)
+
+- *Coming Soon!*
+
+**Advanced:**
 *Coming Soon!*
+
 
 ## Resources
 Here you can find content to build your projects or just for play on Ikemen.
