@@ -196,7 +196,7 @@ v2.0 (Final Release)
 - *Coming Soon!*
 
 **Advanced:**
-*Coming Soon!*
+- *Coming Soon!*
 
 
 ## Resources
