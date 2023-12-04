@@ -268,7 +268,7 @@ gameTick = 20
 function f_screenShot()
 	--sndPlay(sysSnd, 22, 0)
 	--sndPlay(sysSnd, 22, 1)
-	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".bmp")
+	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
 end
 
 --animDraw at specified coordinates

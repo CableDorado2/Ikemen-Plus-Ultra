@@ -540,6 +540,9 @@ function f_arc1_chapter1()
 	data.p2Char = {t_charAdd['suave dude/minion/minion.def']}
 	data.p2Pal = 1
 	setRoundTime(-1)
+	--setTeamMode(1, 2, 1)
+	--setTeamMode(2, 2, 1)
+	--data.p2SelectMenu = false
 	data.stageMenu = false
 	data.orderSelect = false
 	data.versusScreen = false
