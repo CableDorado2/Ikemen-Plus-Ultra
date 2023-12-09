@@ -150,12 +150,6 @@ function f_missionMenu()
 				data.p1Char = {t_charAdd['dragon claw']}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
-				--stageList = 3
-				--stageNo = 3
-				--setStage(stageNo)
-				--selectStage(stageNo)
-				--stageEnd = true
-				--data.stage = {t_stageDef['training room']}
 				data.stageMenu = true
 				data.versusScreen = true
 				data.rosterMode = 'mission'

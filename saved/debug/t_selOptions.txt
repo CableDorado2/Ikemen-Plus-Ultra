@@ -1,29 +1,5 @@
-table: 02BDAD48 {
-  [survivalend] => table: 02BDAD48 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [teammaxmatches] => table: 02BDAD48 {
-                        [1] => 1
-                        [2] => 1
-                        [3] => 1
-                        [4] => 1
-                        [5] => 0
-                        [6] => 0
-                        [7] => 0
-                        [8] => 0
-                        [9] => 0
-                        [10] => 0
-                      }
-  [arcadeend] => table: 02BDAD48 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [survivalstart] => table: 02BDAD48 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [arcademaxmatches] => table: 02BDAD48 {
+table: 0DAC1F50 {
+  [arcademaxmatches] => table: 0DAC1F50 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -35,16 +11,40 @@ table: 02BDAD48 {
                           [9] => 0
                           [10] => 0
                         }
-  [arcadestart] => table: 02BDAD48 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teamend] => table: 02BDAD48 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [teamstart] => table: 02BDAD48 {
-                   [offset] => 0
-                   [wins] => 1
+  [arcadeend] => table: 0DAC1F50 {
+                   [wins] => 4
+                   [offset] => 2
                  }
+  [teamend] => table: 0DAC1F50 {
+                 [wins] => 3
+                 [offset] => 2
+               }
+  [teamstart] => table: 0DAC1F50 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
+  [survivalend] => table: 0DAC1F50 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
+  [survivalstart] => table: 0DAC1F50 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [teammaxmatches] => table: 0DAC1F50 {
+                        [1] => 1
+                        [2] => 1
+                        [3] => 1
+                        [4] => 1
+                        [5] => 0
+                        [6] => 0
+                        [7] => 0
+                        [8] => 0
+                        [9] => 0
+                        [10] => 0
+                      }
+  [arcadestart] => table: 0DAC1F50 {
+                     [wins] => 2
+                     [offset] => 0
+                   }
 }

@@ -1711,6 +1711,7 @@ function f_default()
 	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y})
 	data.aiFight = false --AI = data.difficulty for all characters disabled
 	data.stageMenu = false --stage selection disabled
+	data.stageNo = 1 --temporal stage select for Story Mode
 	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
 	data.coop = false --P2 fighting on P1 side disabled
 	data.p2SelectMenu = true --P2 character selection enabled

@@ -3689,20 +3689,7 @@ function f_watchMenu()
 			--CREDITS
 			elseif watchMenu == 11 then
 				sndPlay(sysSnd, 100, 1)
-				cmdInput()
-				f_storyboard('data/screenpack/credits.def')
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				f_menuMusic()
-				while true do
-					if esc() then
-						sndPlay(sysSnd, 100, 2)
-						break
-					elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
-						f_default()
-						sndPlay(sysSnd, 100, 2)
-						break
-					end
-				end
+				f_playCredits()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -6771,6 +6758,32 @@ function f_comingSoon()
 		cmdInput()
         refresh()
     end
+end
+
+--;===========================================================
+--; CREDITS SCREEN
+--;===========================================================
+function f_playCredits()
+	cmdInput()
+	f_storyboard('data/screenpack/credits.def')
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then
+		playBGM(bgmTitle)
+	elseif data.rosterMode == 'story' then
+		playBGM(bgmStory)
+	else
+		f_menuMusic()
+	end
+	while true do
+		if esc() then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+			f_default()
+			sndPlay(sysSnd, 100, 2)
+			break
+		end
+	end
 end
 
 --;===========================================================

@@ -1468,7 +1468,6 @@ function f_selectStory()
 	p2FaceOffset = 0
 	p1OffsetRow = 0
 	p2OffsetRow = 0
-	stageList = 0
 	musicList = 0
 	gameNo = 0
 	bossNo = 0
@@ -1538,34 +1537,6 @@ function f_selectStory()
 			end
 			return
 		end
-		--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
-		restoreTeam = false
-		local teamMode = p2teamMode
-		local numChars = p2numChars
-		if p2numChars > 1 then
-			for i=1, #data.t_p2selected do
-				if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
-					--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
-					p2teamMode = 0
-					p2numChars = 1
-					setTeamMode(2, 0, 1)
-					p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
-					data.t_p2selected = {}
-					data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
-					restoreTeam = true
-					break
-				elseif t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1 then
-					p2teamMode = 0
-					p2numChars = 1
-					setTeamMode(2, 0, 1)
-					p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
-					data.t_p2selected = {}
-					data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
-					restoreTeam = true
-					break
-				end
-			end
-		end
 		f_aiLevel()
 		f_orderSelect()
 		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
@@ -1584,12 +1555,6 @@ function f_selectStory()
 		--f_favoriteChar() --Store Favorite Character (WIP)
 		--f_favoriteStage() --Store Favorite Stage (WIP)
 		playBGM('')
-		--restore P2 Team settings if needed
-		if restoreTeam then
-			p2teamMode = teamMode
-			p2numChars = numChars
-			setTeamMode(2, p2teamMode, p2numChars)
-		end
 		resetRemapInput()
 		cmdInput()
 		refresh()
@@ -3635,11 +3600,16 @@ function f_selectStage()
 			--announcerTimer = 0 --Restart Stage Announcer Timer
 		end
 	else
-		if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
-			stageNo = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].stage)
-			stageNo = t_selChars[data.t_p2selected[1].cel+1].stage[stageNo]
+		if data.rosterMode == 'story' then --Story Mode Stages (assigned stage via lua)
+			--stageList = data.stageNo
+			stageNo = data.stageNo
 		else
-			stageNo = math.random(1, data.includestage)
+			if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
+				stageNo = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].stage)
+				stageNo = t_selChars[data.t_p2selected[1].cel+1].stage[stageNo]
+			else
+				stageNo = math.random(1, data.includestage)
+			end
 		end
 		setStage(stageNo)
 		selectStage(stageNo)
