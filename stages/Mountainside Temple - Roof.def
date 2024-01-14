@@ -65,7 +65,7 @@ intensity = 0
 
 ;====================================================================
 [Music]
-bgmusic= sound/Thunderstorm.ogg
+bgmusic= sound/sfx/Thunderstorm.ogg
 bgvolume = 100
 
 ;====================================================================

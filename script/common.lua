@@ -1702,35 +1702,36 @@ function f_default()
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)
 	setSharedLife(data.teamLifeShare)
-	--default values for all modes
+	--values adjustable via lua scripts
 	data.p1Char = nil --no predefined P1 character (assigned via table: {X, Y, (...)})
 	data.p2Char = nil --no predefined P2 character (assigned via table: {X, Y, (...)})
 	data.p1Pal = nil --no predefined P1 character palette
 	data.p2Pal = nil --no predefined P2 character palette
 	data.p1TeamMenu = nil --no predefined P1 team mode (assigned via table: {mode = X, chars = Y})
 	data.p2TeamMenu = nil --no predefined P2 team mode (assigned via table: {mode = X, chars = Y})
+	data.p1In = 1 --P1 controls P1 side of the select screen
+	data.p2In = 0 --P2 controls in the select screen disabled
+	data.coop = false --P2 fighting on P1 side disabled
+	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
+	data.p2SelectMenu = true --P2 character selection enabled
 	data.aiFight = false --AI = data.difficulty for all characters disabled
 	data.stageMenu = false --stage selection disabled
-	data.stageNo = 1 --temporal stage select for Story Mode
-	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
-	data.coop = false --P2 fighting on P1 side disabled
-	data.p2SelectMenu = true --P2 character selection enabled
+	data.stageNo = nil --no predefined custom stage
+	data.bgm = nil --no predefined custom song route
 	data.orderSelect = true --order select screen enabled
 	data.versusScreen = true --versus screen enabled
 	data.victoryscreen = true --victory screen enabled
 	data.serviceScreen = false --service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
-	data.p1In = 1 --P1 controls P1 side of the select screen
-	data.p2In = 0 --P2 controls in the select screen disabled
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvance = false --additional variable used to identify advanced games in select screen
 	data.missionNo = '' --additional variable used to identify missions in select screen
 	data.eventNo = '' --additional variable used to identify events in select screen
 	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
+	setServiceType(0) --set different fight services for players (works via match.cns) [0:No Service, 1:MAX Power, 2:Enemy Life At 1/3, 3:Double Defence]
+	setGameType(0) --set game type to identify (works via match.cns) [0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match]
 	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
-	setServiceType(0) --don't touch
-	setGameType(0) --set game type to identify in match.cns (0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match)
 end
 
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.

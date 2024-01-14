@@ -3397,29 +3397,29 @@ end
 --; STAGE SELECT MENU
 --;===========================================================
 function f_selectStage()
-	if data.stageType == 'Classic' then
-		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
-		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
-	elseif data.stageType == 'Modern' then
-		p2BG = false
-		p1BG = false
-		randomP1Portrait = false
-		randomP2Portrait = false
-		txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
-		txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
-		--Draw Stage Select Title BG
-		animDraw(f_animVelocity(selectSTBG2a, -1, 0))
-		animDraw(f_animVelocity(selectSTBG2b, -3, 0))
-		animDraw(f_animVelocity(selectSTBG2c, -6, 0))
-		--Draw Stage Name BG
-		animDraw(f_animVelocity(selectSBG2a, 1, 0))
-		animDraw(f_animVelocity(selectSBG2b, 3, 0))
-		animDraw(f_animVelocity(selectSBG2c, 6, 0))
-		--Draw Stage Title Text
-		txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 13)
-		textImgDraw(txt_stageSelect)
-	end
-	if data.stageMenu then
+	if data.stageMenu then --If Stage Select is Enabled
+		if data.stageType == 'Classic' then
+			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
+			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
+		elseif data.stageType == 'Modern' then
+			p2BG = false
+			p1BG = false
+			randomP1Portrait = false
+			randomP2Portrait = false
+			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
+			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
+			--Draw Stage Select Title BG
+			animDraw(f_animVelocity(selectSTBG2a, -1, 0))
+			animDraw(f_animVelocity(selectSTBG2b, -3, 0))
+			animDraw(f_animVelocity(selectSTBG2c, -6, 0))
+			--Draw Stage Name BG
+			animDraw(f_animVelocity(selectSBG2a, 1, 0))
+			animDraw(f_animVelocity(selectSBG2b, 3, 0))
+			animDraw(f_animVelocity(selectSBG2c, 6, 0))
+			--Draw Stage Title Text
+			txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 13)
+			textImgDraw(txt_stageSelect)
+		end
 		if dontTouch == false then
 			if backScreen == false then
 				if commandGetState(p1Cmd, 's') then
@@ -3599,17 +3599,17 @@ function f_selectStage()
 			cmdInput()
 			--announcerTimer = 0 --Restart Stage Announcer Timer
 		end
-	else
-		if data.rosterMode == 'story' then --Story Mode Stages (assigned stage via lua)
-			--stageList = data.stageNo
-			stageNo = data.stageNo
-		else
+	else --If Stage Select is Disabled
+		if data.stageNo == nil then --Assign Default Stage via Select.def
 			if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
 				stageNo = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].stage)
 				stageNo = t_selChars[data.t_p2selected[1].cel+1].stage[stageNo]
 			else
 				stageNo = math.random(1, data.includestage)
 			end
+		else --Assign Custom Stage Loaded in select.def via lua script, with data.stageNo
+			--stageList = data.stageNo
+			stageNo = data.stageNo
 		end
 		setStage(stageNo)
 		selectStage(stageNo)
@@ -3618,20 +3618,25 @@ function f_selectStage()
 end
 
 function f_assignMusic()
-	track = ''
-	if data.stageMenu then
-		if t_selStages[stageNo].music ~= nil then
-			track = math.random(1,#t_selStages[stageNo].music)
-			track = t_selStages[stageNo].music[track].bgmusic
+	if data.bgm == nil then --Assign Stage Song via stage.def or select.def
+		track = ''
+		if data.stageMenu then
+			if t_selStages[stageNo].music ~= nil then
+				track = math.random(1,#t_selStages[stageNo].music)
+				track = t_selStages[stageNo].music[track].bgmusic
+			end
+		else
+			if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
+				track = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
+				track = t_selChars[data.t_p2selected[1].cel+1].music[track].bgmusic
+			elseif t_selStages[stageNo].music ~= nil then
+				track = math.random(1,#t_selStages[stageNo].music)
+				track = t_selStages[stageNo].music[track].bgmusic
+			end
+			stageEnd = true
 		end
-	else
-		if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-			track = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
-			track = t_selChars[data.t_p2selected[1].cel+1].music[track].bgmusic
-		elseif t_selStages[stageNo].music ~= nil then
-			track = math.random(1,#t_selStages[stageNo].music)
-			track = t_selStages[stageNo].music[track].bgmusic
-		end
+	else --Assign Custom Stage Song via lua script, with data.bgm
+		track = data.bgm
 		stageEnd = true
 	end
 	if musicList == 0 then --Auto Song

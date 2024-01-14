@@ -290,7 +290,6 @@ function f_storyMenu()
 			sndPlay(sysSnd, 100, 0)
 			chapterMenu = chapterMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
-			f_default()
 		--PROLOGUE
 			if storyMenu == 1 and chapterMenu == 1 then f_arc1_prologue()
 			--elseif storyMenu == 2 and chapterMenu == 1 then f_arc2_prologue()
@@ -526,11 +525,12 @@ end
 --;===========================================================
 function f_arc1_prologue()
 	playVideo("movie/KFM-Prologue.wmv") --Play Video Cutscene
-	f_arc1_chapter1() --Launch Next Story Fight
+	f_arc1_chapter1() --Launch Next Fight
 end
 
 function f_arc1_chapter1()
 	playVideo("movie/KFM-Chapter 1.wmv")
+	f_default() --Reset Settings for the custom fight
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
 	data.p1Char = {t_charAdd['kung fu man']} --Set P1 Characters
@@ -547,14 +547,18 @@ function f_arc1_chapter1()
 	data.victoryscreen = false
 	data.stageNo = 4 --Set Stage via Select.def List Number
 	--data.stage = {t_stageDef['training room']} --TODO
+	data.bgm = 'sound/Ultimate Warrior.mp3' --Set Custom Stage Song
 	data.rosterMode = 'story'
 	setGameMode('story1')
 	script.select.f_selectStory() --Launch Story Fight
-	if script.select.winner == 1 then f_arc1_chapter2() end --Launch Next Story Fight only if you win
+	if script.select.winner == 1 then
+		f_arc1_chapter2() --Launch Next Story Fight only if you win
+	end
 end
 
 function f_arc1_chapter2()
 	playVideo("movie/KFM-Chapter 2.wmv")
+	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_charAdd['kung fu man']}
@@ -568,6 +572,7 @@ function f_arc1_chapter2()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stageNo = 15
+	data.bgm = 'sound/Killer Mirror.mp3'
 	data.rosterMode = 'story'
 	setGameMode('story2')
 	script.select.f_selectStory()
@@ -580,6 +585,7 @@ end
 
 function f_arc1_chapter3_1()
 	playVideo("movie/KFM-Chapter 3.wmv")
+	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 1, chars = 2}
 	data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def'], t_charAdd['kung fu girl']}
@@ -594,6 +600,7 @@ function f_arc1_chapter3_1()
 	data.victoryscreen = false
 	data.rosterMode = 'story'
 	data.stageNo = 14
+	data.bgm = 'sound/system/opening.mp3'
 	setGameMode('story3_1')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
@@ -605,12 +612,13 @@ end
 
 function f_arc1_chapter3_2()
 	--playVideo("movie/KFM-Chapter 3-2.wmv")
+	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_charAdd['kung fu man']}
 	data.p1Pal = 1
 	data.p2TeamMenu = {mode = 2, chars = 3}
-	data.p2Char = {t_charAdd['suave dude'], t_charAdd['kung fu man/evil/evil kung fu man.def'], t_charAdd['kung fu girl']}
+	data.p2Char = {t_charAdd['kung fu man/evil/evil kung fu man.def'], t_charAdd['suave dude'], t_charAdd['kung fu girl']}
 	data.p2Pal = 1
 	setRoundTime(-1)
 	data.stageMenu = false
@@ -630,6 +638,7 @@ end
 
 function f_arc1_chapter4_1()
 	playVideo("movie/KFM-Chapter 4.wmv")
+	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
@@ -651,6 +660,7 @@ end
 
 function f_arc1_chapter4_2()
 	--playVideo("movie/KFM-Chapter 4-2.wmv")
+	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = 'story'
 	f_playCredits()
@@ -658,6 +668,7 @@ end
 
 function f_arc1_chapter4_3()
 	--playVideo("movie/KFM-Chapter 4-3.wmv")
+	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = 'story'
 	f_playCredits()
