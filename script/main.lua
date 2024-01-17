@@ -1001,7 +1001,7 @@ function f_mainMenu()
 				--STORY
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
-					script.story.f_storyMenu()
+					--script.story.f_storyMenu()
 				--ARCADE
 				elseif mainMenu == 2 then
 					sndPlay(sysSnd, 100, 1)
