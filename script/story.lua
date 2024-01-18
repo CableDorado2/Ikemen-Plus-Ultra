@@ -144,13 +144,13 @@ arc3 = animNew(storySff, [[0,6, 0,0,]])
 --end
 
 t_storySelect = {
-	{Name = 'KUNG FU MAN',		Img = arc1, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '100%'},
-	{Name = 'KUNG FU GIRL',	    Img = arc2, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '28%'},
-	{Name = 'SUAVE DUDE',  		Img = arc3, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = '0%'},
+	{Name = 'KUNG FU MAN',		Img = arc1, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''}, --Add Arc Slot
+	{Name = 'KUNG FU GIRL',	    Img = arc2, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = 'SUAVE DUDE',  		Img = arc3, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
 }
 
 --;===========================================================
@@ -204,31 +204,31 @@ chapt4_2 = animNew(storySff, [[1,44, 0,0,]])
 chapt4_3 = animNew(storySff, [[1,45, 0,0,]])
 
 t_arc1 = {
-	{Name = 'PROLOGUE',		       		Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'KIDNAPPING',		     	Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'KILLER MIRROR',  			Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'THE ROOF OF TRUTH',		Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'BROKEN SPIRIT', 			Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'FOR THE OLD TIMES',  		Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'LIFE LESSON',		   		Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'THE FALL OF A MASTER', 	Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE',	Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arc2 = {
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arc3 = {
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
-	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arcNull = {
@@ -255,13 +255,20 @@ function f_storyMenu()
 	playBGM(bgmStory)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
---Story Progress Logic
+--Load Chapters Progress
+	data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus
+	data.story2Progress = 0
+	data.story3Progress = 0
+--Arcs Progress Logic
+	story1Data = (math.floor((data.story1Progress * 100 / 8) + 0.5)) --The number (8) is the amount of all data.story1Progress
+	story2Data = (math.floor((data.story2Progress * 100 / 1) + 0.5))
+	story3Data = (math.floor((data.story3Progress * 100 / 1) + 0.5))
+--Story Mode Progress Logic
 	--if data.story1Status == 1 then story1Progress = 'COMPLETED' elseif data.story1Status == 0 then story1Progress = 'INCOMPLETE' end
 	--if data.story2Status == 1 then story2Progress = 'COMPLETED' elseif data.story2Status == 0 then story2Progress = 'INCOMPLETE' end
 	--if data.story3Status == 1 then story3Progress = 'COMPLETED' elseif data.story3Status == 0 then story3Progress = 'INCOMPLETE' end
-	--data.storysProgress = data.story1Status + data.story2Status + data.story3Status
-	--storyData = (math.floor((data.storysProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.storyStatus
-	storyData = 100
+	data.storysProgress = story1Data + story2Data + story3Data
+	storyData = (math.floor((data.storysProgress / 3) + 0.5)) --The number (3) is the amount of all data.storyStatus
 	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 13)
 	txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 193.5, 13) --needs to be inside of story Menu function, to load story data %
 	--BACK
@@ -290,24 +297,24 @@ function f_storyMenu()
 			sndPlay(sysSnd, 100, 0)
 			chapterMenu = chapterMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
-		--PROLOGUE
+		--SLOT 1
 			if storyMenu == 1 and chapterMenu == 1 then f_arc1_prologue()
-			--elseif storyMenu == 2 and chapterMenu == 1 then f_arc2_prologue()
-		--CHAPTER 1
-			elseif storyMenu == 1 and chapterMenu == 2 then f_arc1_chapter1()
-		--CHAPTER 2
-			elseif storyMenu == 1 and chapterMenu == 3 then f_arc1_chapter2()
-		--CHAPTER 3.1
-			elseif storyMenu == 1 and chapterMenu == 4 then f_arc1_chapter3_1()
-		--CHAPTER 3.2
-			elseif storyMenu == 1 and chapterMenu == 5 then f_arc1_chapter3_2()
-		--CHAPTER 4.1
-			elseif storyMenu == 1 and chapterMenu == 6 then f_arc1_chapter4_1()
-		--CHAPTER 4.2
-			elseif storyMenu == 1 and chapterMenu == 7 then f_arc1_chapter4_2()
-		--CHAPTER 4.3
-			elseif storyMenu == 1 and chapterMenu == 8 then f_arc1_chapter4_3()
-		--NO DATA
+			--elseif storyMenu == 2 and chapterMenu == 1 and data.story1_1Unlock == true then f_arc2_prologue()
+		--SLOT 2
+			elseif storyMenu == 1 and chapterMenu == 2 and data.story1_1Unlock == true then f_arc1_chapter1()
+		--SLOT 3
+			elseif storyMenu == 1 and chapterMenu == 3 and data.story1_2Unlock == true then f_arc1_chapter2()
+		--SLOT 4
+			elseif storyMenu == 1 and chapterMenu == 4 and data.story1_3AUnlock == true then f_arc1_chapter3_1()
+		--SLOT 5
+			elseif storyMenu == 1 and chapterMenu == 5 and data.story1_3BUnlock == true then f_arc1_chapter3_2()
+		--SLOT 6
+			elseif storyMenu == 1 and chapterMenu == 6 and data.story1_4AUnlock == true then f_arc1_chapter4_1()
+		--SLOT 7
+			elseif storyMenu == 1 and chapterMenu == 7 and data.story1_4BUnlock == true then f_arc1_chapter4_2()
+		--SLOT 8
+			elseif storyMenu == 1 and chapterMenu == 8 and data.story1_4CUnlock == true then f_arc1_chapter4_3()
+		--EMPTY SLOT OR LOCKED CHAPTER
 			else
 				sndPlay(sysSnd, 100, 5)
 			end
@@ -392,9 +399,9 @@ function f_storyMenu()
 		--arcList = storyMenu --Uses menu position to show image in these order
 		--f_arcPreview() --Show story image preview
 	--Set Arc status
-		--t_storySelect[1].Status = story1Progress
-		--t_storySelect[2].Status = story2Progress
-		--t_storySelect[3].Status = story3Progress
+		t_storySelect[1].Status = story1Data..'%'
+		t_storySelect[2].Status = story2Data..'%'
+		t_storySelect[3].Status = story3Data..'%'
 	--Set Arcs Scroll Logic
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
@@ -424,35 +431,93 @@ function f_storyMenu()
 				end
 			end
 		end
-	--Set Chapter Info
+	--Set Arc 1 - Chapter Info
 		if storyMenu == 1 and chapterMenu == 1 then
-			chaptPreview = chapt0
-			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF CASUAL FIGHTING GAMES."
+			chaptPreview = chapt0 --Load Chapter Preview
+			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF CASUAL FIGHTING GAMES." --Set Chapter Description
 		elseif storyMenu == 1 and chapterMenu == 2 then
-			chaptPreview = chapt1
-			txt_storyInfo = "KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..."
+			if data.story1_1Unlock == true then --If this chapters is unlocked
+				chaptPreview = chapt1
+				txt_storyInfo = "KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..."
+			else --If this chapters is not unlocked
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!"
+			end
 		elseif storyMenu == 1 and chapterMenu == 3 then
-			chaptPreview = chapt2
-			txt_storyInfo = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
+			if data.story1_2Unlock == true then
+				chaptPreview = chapt2
+				txt_storyInfo = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE."
+			end
 		elseif storyMenu == 1 and chapterMenu == 4 then
-			chaptPreview = chapt3_1
-			txt_storyInfo = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO TAKE OUT SUAVE DUDE BUT HE WILL NOT BE ALONE..."
+			if data.story1_3AUnlock == true then
+				chaptPreview = chapt3_1
+				txt_storyInfo = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO TAKE OUT SUAVE DUDE BUT HE WILL NOT BE ALONE..."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
+			end
 		elseif storyMenu == 1 and chapterMenu == 5 then
-			chaptPreview = chapt3_2
-			txt_storyInfo = "KUNG FU MAN HAS NOT BEEN STRONG ENOUGH TO DEFEAT HIS CLONE, NOW HE MUST FACE THE CONSEQUENCES OF HIS PAST ACTIONS..."
+			if data.story1_3BUnlock == true then
+				chaptPreview = chapt3_2
+				txt_storyInfo = "KUNG FU MAN HAS NOT BEEN STRONG ENOUGH TO DEFEAT HIS CLONE, NOW HE MUST FACE THE CONSEQUENCES OF HIS PAST ACTIONS..."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
+			end
 		elseif storyMenu == 1 and chapterMenu == 6 then
-			chaptPreview = chapt4_1
-			txt_storyInfo = "KUNG FU MAN RESCUE HIS GIRLFRIEND BUT ALSO RETURNS TRAINING WITH KUNG FU GIRL!"
+			if data.story1_4AUnlock == true then
+				chaptPreview = chapt4_1
+				txt_storyInfo = "KUNG FU MAN RESCUE HIS GIRLFRIEND BUT ALSO RETURNS TRAINING WITH KUNG FU GIRL!"
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
+			end
 		elseif storyMenu == 1 and chapterMenu == 7 then
-			chaptPreview = chapt4_2
-			txt_storyInfo = "THERE IS NOTHING SADER THAN A MAN WHO HAS LOST HIS LOVE..."
+			if data.story1_4BUnlock == true	then
+				chaptPreview = chapt4_2
+				txt_storyInfo = "THERE IS NOTHING SADER THAN A MAN WHO HAS LOST HIS LOVE..."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
+			end
 		elseif storyMenu == 1 and chapterMenu == 8 then
-			chaptPreview = chapt4_3
-			txt_storyInfo = "THE RAWEST END FOR ELECBYTE'S CHARACTER"
+			if data.story1_4CUnlock == true then
+				chaptPreview = chapt4_3
+				txt_storyInfo = "THE RAWEST END FOR ELECBYTE'S CHARACTER"
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
+			end
+	--Set Null Arc - Chapter Info
 		else
 			chaptPreview = chaptUnknown
 			txt_storyInfo = ""
 		end
+	--Set Arc 1 - Chapters Names
+		t_arc1[1].Name = 'PROLOGUE'
+		if data.story1_1Unlock == true then t_arc1[2].Name = 'KIDNAPPING' else t_arc1[2].Name = '???' end
+		if data.story1_2Unlock == true then t_arc1[3].Name = 'KILLER MIRROR' else t_arc1[3].Name = '???' end
+		if data.story1_3AUnlock == true then t_arc1[4].Name = 'THE ROOF OF TRUTH' else t_arc1[4].Name = '???' end
+		if data.story1_3BUnlock == true then t_arc1[5].Name = 'BROKEN SPIRIT' else t_arc1[5].Name = '???' end
+		if data.story1_4AUnlock == true then t_arc1[6].Name = 'FOR THE OLD TIMES' else t_arc1[6].Name = '???' end
+		if data.story1_4BUnlock == true then t_arc1[7].Name = 'LIFE LESSON' else t_arc1[7].Name = '???' end
+		if data.story1_4CUnlock == true then t_arc1[8].Name = 'THE FALL OF A MASTER' else t_arc1[8].Name = '???' end
+		t_arc1[9].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc1[10].Name = 'YOUR STORY CHAPTER HERE'
+	--Set Arc 2 - Chapters Names
+		t_arc2[1].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc2[2].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc2[3].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc2[4].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc2[5].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc2[6].Name = 'YOUR STORY CHAPTER HERE'
+	--Set Arc 3 - Chapters Names
+		t_arc3[1].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc3[2].Name = 'YOUR STORY CHAPTER HERE'
+		t_arc3[3].Name = 'YOUR STORY CHAPTER HERE'
 	--Draw Chapter Preview Image
 		animSetPos(chaptPreview, 161, 91)
 		animSetScale(chaptPreview, 0.113, 0.106)
@@ -460,6 +525,9 @@ function f_storyMenu()
 		animDraw(chaptPreview)
 	--Draw Chapter Info
 		f_textRender(txt_storyText, txt_storyInfo, t, 160, 160, 15, 1.2, 40)
+	--Set Chapters Status (COMPLETED OR INCOMPLETED)
+		--TODO
+		
 	--Set Chapters Scroll Logic
 		for i=1, maxchapters do
 			if i > chapterMenu - cursorPosY then
@@ -524,13 +592,16 @@ end
 --; ARC 1 FIGHTS
 --;===========================================================
 function f_arc1_prologue()
-	playVideo("movie/KFM-Prologue.wmv") --Play Video Cutscene
-	f_arc1_chapter1() --Launch Next Fight
+	playVideo("movie/KFM-Prologue.wmv") --Play video cutscene
+	data.storyNo = '1-0'
+	data.story1_1Unlock = true --Unlock next chapter
+	f_storyStatus() --Save progress
+	f_arc1_chapter1() --Launch next story fight
 end
 
 function f_arc1_chapter1()
 	playVideo("movie/KFM-Chapter 1.wmv")
-	f_default() --Reset Settings for the custom fight
+	f_default() --Reset settings for the custom fight
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
 	data.p1Char = {t_charAdd['kung fu man']} --Set P1 Characters
@@ -549,10 +620,13 @@ function f_arc1_chapter1()
 	--data.stage = {t_stageDef['training room']} --TODO
 	data.bgm = 'sound/Ultimate Warrior.mp3' --Set Custom Stage Song
 	data.rosterMode = 'story'
-	setGameMode('story1')
-	script.select.f_selectStory() --Launch Story Fight
-	if script.select.winner == 1 then
-		f_arc1_chapter2() --Launch Next Story Fight only if you win
+	data.storyNo = '1-1'
+	setGameMode('story1_1')
+	script.select.f_selectStory() --Start Fight with previous settings
+	if script.select.winner == 1 then --Only if you win do:
+		data.story1_2Unlock = true --Unlock next chapter
+		f_storyStatus() --Save progress
+		f_arc1_chapter2() --Launch next story fight
 	end
 end
 
@@ -574,11 +648,16 @@ function f_arc1_chapter2()
 	data.stageNo = 15
 	data.bgm = 'sound/Killer Mirror.mp3'
 	data.rosterMode = 'story'
-	setGameMode('story2')
+	data.storyNo = '1-2'
+	setGameMode('story1_2')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
+		data.story1_3AUnlock = true --Unlock Route A
+		f_storyStatus()
 		f_arc1_chapter3_1()
 	elseif script.select.winner == 2 then
+		data.story1_3BUnlock = true --Unlock Route B
+		f_storyStatus()
 		f_arc1_chapter3_2()
 	end
 end
@@ -598,14 +677,19 @@ function f_arc1_chapter3_1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.rosterMode = 'story'
 	data.stageNo = 14
 	data.bgm = 'sound/system/opening.mp3'
-	setGameMode('story3_1')
+	data.rosterMode = 'story'
+	data.storyNo = '1-3A'
+	setGameMode('story1_3A')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
+		data.story1_4AUnlock = true
+		f_storyStatus()
 		f_arc1_chapter4_1()
 	elseif script.select.winner == 2 then
+		data.story1_4BUnlock = true
+		f_storyStatus()
 		f_arc1_chapter4_2()
 	end
 end
@@ -627,11 +711,16 @@ function f_arc1_chapter3_2()
 	data.victoryscreen = false
 	data.stageNo = 14
 	data.rosterMode = 'story'
-	setGameMode('story3_2')
+	data.storyNo = '1-3B'
+	setGameMode('story1_3B')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
+		data.story1_4BUnlock = true
+		f_storyStatus()
 		f_arc1_chapter4_2()
 	elseif script.select.winner == 2 then
+		data.story1_4CUnlock = true
+		f_storyStatus()
 		f_arc1_chapter4_3()
 	end
 end
@@ -653,8 +742,10 @@ function f_arc1_chapter4_1()
 	data.victoryscreen = false
 	data.stageNo = 13
 	data.rosterMode = 'story'
-	setGameMode('story4_1')
+	data.storyNo = '1-4A'
+	setGameMode('story1_4A')
 	script.select.f_selectStory()
+	f_storyStatus()
 	f_playCredits() --Go to credits screen
 end
 
@@ -663,6 +754,8 @@ function f_arc1_chapter4_2()
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = 'story'
+	data.storyNo = '1-4B'
+	f_storyStatus()
 	f_playCredits()
 end
 
@@ -671,5 +764,24 @@ function f_arc1_chapter4_3()
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = 'story'
+	data.storyNo = '1-4C'
+	f_storyStatus()
 	f_playCredits()
+end
+
+--;===========================================================
+--; STORY SAVE DATA
+--;===========================================================
+function f_storyStatus()
+	if data.storyNo == '1-0' then data.story1_0Status = 1
+	elseif data.storyNo == '1-1' then data.story1_1Status = 1
+	elseif data.storyNo == '1-2' then data.story1_2Status = 1
+	elseif data.storyNo == '1-3A' then data.story1_3AStatus = 1
+	elseif data.storyNo == '1-3B' then data.story1_3BStatus = 1
+	elseif data.storyNo == '1-4A' then data.story1_4AStatus = 1
+	elseif data.storyNo == '1-4B' then data.story1_4BStatus = 1
+	elseif data.storyNo == '1-4C' then data.story1_4CStatus = 1
+	end
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
 end

@@ -139,6 +139,7 @@ function f_missionMenu()
 			missionMenu = missionMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
+			data.rosterMode = 'mission'
 			setGameMode('mission')
 		--DRAGON CLAW
 			if missionMenu == 1 then
@@ -152,8 +153,7 @@ function f_missionMenu()
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
 				data.stageMenu = true
 				data.versusScreen = true
-				data.rosterMode = 'mission'
-				data.missionNo = 'mission 1'
+				data.missionNo = '1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
 		--EVIL KUNG FU MAN
@@ -170,8 +170,7 @@ function f_missionMenu()
 				data.p2Pal = 1
 				data.stageMenu = true
 				data.versusScreen = false
-				data.rosterMode = 'mission'
-				data.missionNo = 'mission 2'
+				data.missionNo = '2'
 				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
 				script.select.f_selectSimple()
 		--MASTER KUNG FU MAN
@@ -186,8 +185,7 @@ function f_missionMenu()
 				data.versusScreen = true
 				data.challengerScreen = false
 				data.gameMode = 'arcade'
-				data.rosterMode = 'mission'
-				data.missionNo = 'mission 3'
+				data.missionNo = '3'
 				script.select.f_selectAdvance()
 		--MISSION 4
 			elseif missionMenu == 4 then

@@ -4420,7 +4420,7 @@ function f_selectWin()
 			f_winCoins()
 			f_victories() --Store Player Victories
 			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
-			if data.gameMode == 'arcade' and data.missionNo == 'mission 3' then
+			if data.gameMode == 'arcade' and data.missionNo == '3' then
 				--Do nothing and don't save mission/event progress
 			else 
 				f_missionStatus()
@@ -6549,7 +6549,7 @@ function f_gameOver()
 end
 
 --;===========================================================
---; STATISTICS LOGIC
+--; SAVE DATA
 --;===========================================================
 function f_victories()
 	data.victories = data.victories + 1
@@ -6617,16 +6617,16 @@ function f_favoriteStage()
 end
 
 function f_eventStatus()
-	if data.eventNo == 'event 1' then data.event1Status = 1
+	if data.eventNo == '1' then data.event1Status = 1
 	end
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()
 end
 
 function f_missionStatus()
-	if data.missionNo == 'mission 1' then data.mission1Status = 1
-	elseif data.missionNo == 'mission 2' then data.mission2Status = 1
-	elseif data.missionNo == 'mission 3' then data.mission3Status = 1
+	if data.missionNo == '1' then data.mission1Status = 1
+	elseif data.missionNo == '2' then data.mission2Status = 1
+	elseif data.missionNo == '3' then data.mission3Status = 1
 	end
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()

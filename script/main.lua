@@ -6815,10 +6815,12 @@ function f_saveProgress()
 		['data.favoriteStage'] = data.favoriteStage,
 		['data.victories'] = data.victories,
 		['data.defeats'] = data.defeats,
+	--Records Data
 		['data.timerecord'] = data.timerecord,
 		['data.bossrecord'] = data.bossrecord,
 		['data.suddenrecord'] = data.suddenrecord,
 		['data.endlessrecord'] = data.endlessrecord,
+	--Time Played Data
 		['data.arcadeTime'] = data.arcadeTime,
 		['data.vsTime'] = data.vsTime,
 		['data.survivalTime'] = data.survivalTime,
@@ -6835,12 +6837,31 @@ function f_saveProgress()
 		['data.storyTime'] = data.storyTime,
 		['data.tourneyTime'] = data.tourneyTime,
 		['data.adventureTime'] = data.adventureTime,
+	--Event Mode Data
 		['data.eventsProgress'] = data.eventsProgress,
-		['data.missionsProgress'] = data.missionsProgress,
 		['data.event1Status'] = data.event1Status,
+	--Mission Mode Data
+		['data.missionsProgress'] = data.missionsProgress,
 		['data.mission1Status'] = data.mission1Status,
 		['data.mission2Status'] = data.mission2Status,
-		['data.mission3Status'] = data.mission3Status
+		['data.mission3Status'] = data.mission3Status,
+	--Story Mode Data
+		['data.story1_0Status'] = data.story1_0Status,
+		['data.story1_1Status'] = data.story1_1Status,
+		['data.story1_2Status'] = data.story1_2Status,
+		['data.story1_3AStatus'] = data.story1_3AStatus,
+		['data.story1_3BStatus'] = data.story1_3BStatus,
+		['data.story1_4AStatus'] = data.story1_4AStatus,
+		['data.story1_4BStatus'] = data.story1_4BStatus,
+		['data.story1_4CStatus'] = data.story1_4CStatus,
+	--Story Mode - Arc 1 Chapters Unlocks
+		['data.story1_1Unlock'] = data.story1_1Unlock,
+		['data.story1_2Unlock'] = data.story1_2Unlock,
+		['data.story1_3AUnlock'] = data.story1_3AUnlock,
+		['data.story1_3BUnlock'] = data.story1_3BUnlock,
+		['data.story1_4AUnlock'] = data.story1_4AUnlock,
+		['data.story1_4BUnlock'] = data.story1_4BUnlock,
+		['data.story1_4CUnlock'] = data.story1_4CUnlock
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_progress)
 	local file = io.open("saved/stats_sav.lua","w+")

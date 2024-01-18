@@ -196,6 +196,7 @@ function f_eventMenu()
 			elseif btnPalNo(p1Cmd) > 0 then
 				if eventSelect == true then
 					f_default()
+					data.rosterMode = 'event'
 					setGameMode('event')
 				--Master Kung Fu Girl
 					if eventMenu == 1 then
@@ -210,8 +211,7 @@ function f_eventMenu()
 							data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
 							data.versusScreen = true
 							data.gameMode = 'survival'
-							data.rosterMode = 'event'
-							data.eventNo = 'event 1'
+							data.eventNo = '1'
 							script.select.f_selectAdvance()
 						elseif event1Status == false then
 							sndPlay(sysSnd, 100, 1)
