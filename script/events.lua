@@ -213,6 +213,7 @@ function f_eventMenu()
 							data.gameMode = 'survival'
 							data.eventNo = '1'
 							script.select.f_selectAdvance()
+							if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
 						elseif event1Status == false then
 							sndPlay(sysSnd, 100, 1)
 							eventInfo = true
@@ -427,4 +428,14 @@ function f_forceRounds()
 	file:close()
 --Reload lifebar
 	loadLifebar(data.lifebar)
+end
+
+--;===========================================================
+--; EVENT SAVE DATA
+--;===========================================================
+function f_eventStatus()
+	if data.eventNo == '1' then data.event1Status = 1
+	end
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
 end

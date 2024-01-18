@@ -156,6 +156,7 @@ function f_missionMenu()
 				data.missionNo = '1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
+				if script.select.winner == 1 then f_missionStatus() end --Save progress only if you win
 		--EVIL KUNG FU MAN
 			elseif missionMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -173,6 +174,7 @@ function f_missionMenu()
 				data.missionNo = '2'
 				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
 				script.select.f_selectSimple()
+				if script.select.winner == 1 then f_missionStatus() end
 		--MASTER KUNG FU MAN
 			elseif missionMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -187,6 +189,7 @@ function f_missionMenu()
 				data.gameMode = 'arcade'
 				data.missionNo = '3'
 				script.select.f_selectAdvance()
+				if script.select.winner == 1 then f_missionStatus() end
 		--MISSION 4
 			elseif missionMenu == 4 then
 				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -358,4 +361,16 @@ function f_missionMenu()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===========================================================
+--; MISSION SAVE DATA
+--;===========================================================
+function f_missionStatus()
+	if data.missionNo == '1' then data.mission1Status = 1
+	elseif data.missionNo == '2' then data.mission2Status = 1
+	elseif data.missionNo == '3' then data.mission3Status = 1
+	end
+	f_saveProgress()
+	assert(loadfile('saved/stats_sav.lua'))()
 end

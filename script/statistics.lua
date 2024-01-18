@@ -65,6 +65,7 @@ t_statsMenu = {
 	{id = '', text = 'Collected Coins',    			varID = textImgNew(), varText = ''},
 	{id = '', text = 'Arcade Status',     			varID = textImgNew(), varText = ''},
 	{id = '', text = 'Survival Status',     		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Stories Completed',     		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Missions Completed',     		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Events Completed',     		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Boss Rush Record',     		varID = textImgNew(), varText = ''},
@@ -447,12 +448,13 @@ function f_statsMenu()
 		t_statsMenu[9].varText = data.coins
 		if data.arcadeClear == false then t_statsMenu[10].varText = 'INCOMPLETE' elseif data.arcadeClear == true then t_statsMenu[10].varText = 'COMPLETED' end
 		if data.survivalClear == false then t_statsMenu[11].varText = 'INCOMPLETE' elseif data.survivalClear == true then t_statsMenu[11].varText = 'COMPLETED' end
-		t_statsMenu[12].varText = data.missionsProgress..'/3'
-		t_statsMenu[13].varText = data.eventsProgress..'/1'
-		t_statsMenu[14].varText = data.bossrecord..' Wins'
-		t_statsMenu[15].varText = data.suddenrecord..' Wins'
-		t_statsMenu[16].varText = data.endlessrecord..' Wins'
-		t_statsMenu[17].varText = 'WIP'--timerecord..''
+		t_statsMenu[12].varText = (data.storiesProgress/100)..'/3'
+		t_statsMenu[13].varText = data.missionsProgress..'/3'
+		t_statsMenu[14].varText = data.eventsProgress..'/1'
+		t_statsMenu[15].varText = data.bossrecord..' Wins'
+		t_statsMenu[16].varText = data.suddenrecord..' Wins'
+		t_statsMenu[17].varText = data.endlessrecord..' Wins'
+		t_statsMenu[18].varText = 'WIP'--timerecord..''
 		--Draw Text for Table
 		for i=1, maxStats do
 			if i > statsMenu - cursorPosY then

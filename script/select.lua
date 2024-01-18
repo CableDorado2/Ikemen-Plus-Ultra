@@ -1191,15 +1191,7 @@ function f_selectAdvance()
 				f_records()
 				--result
 				f_result('win')
-				--complete missions verification
-				f_missionStatus()
-				--complete events verification
-				f_eventStatus()
 				if data.gameMode == 'arcade' then
-					--complete missions verification
-					f_missionStatus()
-					--complete events verification
-					f_eventStatus()
 					if data.rosterMode == 'arcade' then
 						--unlocks
 						data.arcadeClear = true
@@ -4419,13 +4411,7 @@ function f_selectWin()
 			p1Wins = p1Wins + 1
 			f_winCoins()
 			f_victories() --Store Player Victories
-			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes		from each P1 char
-			if data.gameMode == 'arcade' and data.missionNo == '3' then
-				--Do nothing and don't save mission/event progress
-			else 
-				f_missionStatus()
-				f_eventStatus()
-			end
+			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes	from each P1 char
 		else--if winner == 2 then
 			p2Wins = p2Wins + 1
 			--f_loseCoins()
@@ -4553,8 +4539,6 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 		f_winCoins()
 		f_victories() --Store Player Victories
 		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
-		f_missionStatus()
-		f_eventStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		--f_loseCoins()
@@ -4607,8 +4591,6 @@ function f_selectWinOFF()
 		p1Wins = p1Wins + 1
 		f_winCoins()
 		f_victories() --Store Player Victories
-		f_missionStatus()
-		f_eventStatus()
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		--f_loseCoins()
@@ -6549,7 +6531,7 @@ function f_gameOver()
 end
 
 --;===========================================================
---; SAVE DATA
+--; PLAYER SAVE DATA
 --;===========================================================
 function f_victories()
 	data.victories = data.victories + 1
@@ -6612,22 +6594,6 @@ end
 
 function f_favoriteStage()
 	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic
-	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
-end
-
-function f_eventStatus()
-	if data.eventNo == '1' then data.event1Status = 1
-	end
-	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
-end
-
-function f_missionStatus()
-	if data.missionNo == '1' then data.mission1Status = 1
-	elseif data.missionNo == '2' then data.mission2Status = 1
-	elseif data.missionNo == '3' then data.mission3Status = 1
-	end
 	f_saveProgress()
 	assert(loadfile('saved/stats_sav.lua'))()
 end

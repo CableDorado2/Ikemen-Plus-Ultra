@@ -23,7 +23,6 @@ animUpdate(storyBG1)
 woodBG1 = animNew(sysSff, [[
 105,0, 0,0,
 ]])
-animSetPos(woodBG1, -45, 95)
 animSetScale(woodBG1, 1.55, 1.5)
 animUpdate(woodBG1)
 
@@ -31,9 +30,16 @@ animUpdate(woodBG1)
 bambooBG1 = animNew(sysSff, [[
 106,0, 0,0, -1
 ]])
-animSetPos(bambooBG1, -46, 86)
 animSetScale(bambooBG1, 0.72, 0.6)
 animUpdate(bambooBG1)
+
+--Lock
+padlock = animNew(sysSff, [[
+108,0, 0,0,
+]])
+animAddPos(padlock, 118, 130)
+animSetScale(padlock, 0.20, 0.20)
+animUpdate(padlock)
 
 --Below Transparent background
 --storyBG2 = animNew(sysSff, [[
@@ -144,20 +150,18 @@ arc3 = animNew(storySff, [[0,6, 0,0,]])
 --end
 
 t_storySelect = {
-	{Name = 'KUNG FU MAN',		Img = arc1, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''}, --Add Arc Slot
-	{Name = 'KUNG FU GIRL',	    Img = arc2, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = 'SUAVE DUDE',  		Img = arc3, 	  Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = 'YOUR ARC HERE', 	Img = arcUnknown, Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''}, --Add Arc Slot
+	{Name = '',	Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
 }
 
 --;===========================================================
 --; CHAPTER SELECT
 --;===========================================================
-txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.65,0.65)
-
 --Chapter Preview
 --function f_chapterPreview()
 	--chapterPreview = ''
@@ -218,21 +222,14 @@ t_arc1 = {
 
 t_arc2 = {
 	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arc3 = {
 	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arcNull = {
-	{Name = 'NO DATA', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
 }
 --;===========================================================
 --; STORY MENU
@@ -251,6 +248,7 @@ function f_storyMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local lockedStory = false
 	--arcList = 0 --Important to avoid errors when read arcPreview
 	playBGM(bgmStory)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -267,13 +265,13 @@ function f_storyMenu()
 	--if data.story1Status == 1 then story1Progress = 'COMPLETED' elseif data.story1Status == 0 then story1Progress = 'INCOMPLETE' end
 	--if data.story2Status == 1 then story2Progress = 'COMPLETED' elseif data.story2Status == 0 then story2Progress = 'INCOMPLETE' end
 	--if data.story3Status == 1 then story3Progress = 'COMPLETED' elseif data.story3Status == 0 then story3Progress = 'INCOMPLETE' end
-	data.storysProgress = story1Data + story2Data + story3Data
-	storyData = (math.floor((data.storysProgress / 3) + 0.5)) --The number (3) is the amount of all data.storyStatus
+	data.storiesProgress = story1Data + story2Data + story3Data
+	storyData = (math.floor((data.storiesProgress / 3) + 0.5)) --The number (3) is the amount of all data.storiesProgress
 	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 13)
 	txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 193.5, 13) --needs to be inside of story Menu function, to load story data %
 	--BACK
 		if esc() then
-			--f_saveProgress()
+			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
@@ -289,13 +287,17 @@ function f_storyMenu()
 			storyMenu = storyMenu + 1
 	--Chapter Selection
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			t = 0
-			sndPlay(sysSnd, 100, 0)
-			chapterMenu = chapterMenu - 1
+			if lockedStory == false then
+				t = 0
+				sndPlay(sysSnd, 100, 0)
+				chapterMenu = chapterMenu - 1
+			end
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			t = 0
-			sndPlay(sysSnd, 100, 0)
-			chapterMenu = chapterMenu + 1
+			if lockedStory == false then
+				t = 0
+				sndPlay(sysSnd, 100, 0)
+				chapterMenu = chapterMenu + 1
+			end
 		elseif btnPalNo(p1Cmd) > 0 then
 		--SLOT 1
 			if storyMenu == 1 and chapterMenu == 1 then f_arc1_prologue()
@@ -347,57 +349,128 @@ function f_storyMenu()
 		else
 			maxarcs = 3
 		end
-	--Chapter Cursor position calculation
-		if storyMenu == 1 then t_chapter = t_arc1
-		elseif storyMenu == 2 then t_chapter = t_arc2
-		elseif storyMenu == 3 then t_chapter = t_arc3
-		else t_chapter = t_arcNull
-		end
-		if chapterMenu < 1 then
-			chapterMenu = #t_chapter
-			if #t_chapter > 6 then
-				cursorPosY = 6
+	--Arc 1 Menu Settings
+		if storyMenu == 1 then
+			t_chapter = t_arc1 --Load Arc 1 Slots
+			lockedStory = false --This Arc always is unlocked
+			t_arc1[1].Name = 'PROLOGUE' --Set Chapters Names
+			if data.story1_1Unlock == true then t_arc1[2].Name = 'KIDNAPPING' else t_arc1[2].Name = '???' end
+			if data.story1_2Unlock == true then t_arc1[3].Name = 'KILLER MIRROR' else t_arc1[3].Name = '???' end
+			if data.story1_3AUnlock == true then t_arc1[4].Name = 'THE ROOF OF TRUTH' else t_arc1[4].Name = '???' end
+			if data.story1_3BUnlock == true then t_arc1[5].Name = 'BROKEN SPIRIT' else t_arc1[5].Name = '???' end
+			if data.story1_4AUnlock == true then t_arc1[6].Name = 'FOR THE OLD TIMES' else t_arc1[6].Name = '???' end
+			if data.story1_4BUnlock == true then t_arc1[7].Name = 'LIFE LESSON' else t_arc1[7].Name = '???' end
+			if data.story1_4CUnlock == true then t_arc1[8].Name = 'THE FALL OF A MASTER' else t_arc1[8].Name = '???' end
+			t_arc1[9].Name = 'YOUR STORY CHAPTER HERE'
+			t_arc1[10].Name = 'YOUR STORY CHAPTER HERE'
+	--Arc 2 Menu Settings
+		elseif storyMenu == 2 then
+			t_chapter = t_arc2
+			if data.story1_1Unlock == true then
+				lockedStory = false --This Arc needs to be unlocked
+				t_arc2[1].Name = 'COMING SOON?'
 			else
-				cursorPosY = #t_chapter
+				lockedStory = true
+				t_arc2[1].Name = '???'
 			end
-		elseif chapterMenu > #t_chapter then
-			chapterMenu = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 6 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 6 then
-			moveChapter = (chapterMenu - 6) * 20
-		elseif cursorPosY == 1 then
-			moveChapter = (chapterMenu - 1) * 20
-		end
-		if #t_chapter <= 6 then
-			maxchapters = #t_chapter
-		elseif chapterMenu - cursorPosY > 0 then
-			maxchapters = chapterMenu + 6 - cursorPosY
+	--Arc 3 Menu Settings
+		elseif storyMenu == 3 then
+			t_chapter = t_arc3
+			if data.story1_1Unlock == true then
+				lockedStory = false
+				t_arc3[1].Name = 'COMING SOON?'
+			else
+				lockedStory = true
+				t_arc3[1].Name = '???'
+			end
+	--Empty Arc Menu Settings
 		else
-			maxchapters = 6
+			t_chapter = t_arcNull
+			lockedStory = false
+		end
+	--Chapter Cursor position calculation
+		if lockedStory == false then
+			if chapterMenu < 1 then
+				chapterMenu = #t_chapter
+				if #t_chapter > 6 then
+					cursorPosY = 6
+				else
+					cursorPosY = #t_chapter
+				end
+			elseif chapterMenu > #t_chapter then
+				chapterMenu = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 6 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 6 then
+				moveChapter = (chapterMenu - 6) * 20
+			elseif cursorPosY == 1 then
+				moveChapter = (chapterMenu - 1) * 20
+			end
+			if #t_chapter <= 6 then
+				maxchapters = #t_chapter
+			elseif chapterMenu - cursorPosY > 0 then
+				maxchapters = chapterMenu + 6 - cursorPosY
+			else
+				maxchapters = 6
+			end
 		end
 		animDraw(f_animVelocity(storyBG0, -1, -1)) --animDraw(storyBG1)
 	--Draw Title Menu
 		textImgDraw(txt_storyMenu)
 		textImgDraw(txt_storyProgress)
-	--Draw Chapter Text BG
-		--animSetScale(storyBG2, 205, 137)
-		--animSetWindow(storyBG2, 156,94, 269,210)
-		animDraw(storyBG2)
-	--Draw Chapter Wood BG
-		animDraw(woodBG1)
-	--Draw Below Bamboo BG
-		animDraw(bambooBG1)
-	--Draw Chapter Table Cursor
-		animSetWindow(cursorBox, -45,79+cursorPosY*20, 198,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if lockedStory == false then
+		--Draw Chapter Text BG
+			--animSetScale(storyBG2, 205, 137)
+			--animSetWindow(storyBG2, 156,94, 269,210)
+			animDraw(storyBG2)
+		--Draw Chapter Wood BG
+			animSetPos(woodBG1, -45, 95)
+			animDraw(woodBG1)
+		--Draw Below Bamboo BG
+			animSetPos(bambooBG1, -46, 86)
+			animDraw(bambooBG1)
+		--Draw Chapter Table Cursor
+			animSetWindow(cursorBox, -45,79+cursorPosY*20, 198,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		else
+			animSetPos(woodBG1, 50, 95)
+			animDraw(woodBG1)
+			animSetPos(bambooBG1, 50, 86)
+			animDraw(bambooBG1)
+			animDraw(padlock)
+			animSetWindow(cursorBox, 50,99, 198,112) --198,30
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		--arcList = storyMenu --Uses menu position to show image in these order
 		--f_arcPreview() --Show story image preview
+	--Set Arc Info
+		t_storySelect[1].Name = 'KUNG FU MAN'
+		t_storySelect[1].Img = arc1
+		if data.story1_1Unlock == true then
+			t_storySelect[2].Name = 'KUNG FU GIRL'
+			t_storySelect[2].Img = arc2
+			t_storySelect[3].Name = 'SUAVE DUDE'
+			t_storySelect[3].Img = arc3
+		else
+			t_storySelect[2].Name = '???'
+			t_storySelect[2].Img = arcUnknown
+			t_storySelect[3].Name = '???'
+			t_storySelect[3].Img = arcUnknown
+		end
+		t_storySelect[4].Name = 'YOUR ARC HERE'
+		t_storySelect[4].Img = arcUnknown
+		t_storySelect[5].Name = 'YOUR ARC HERE'
+		t_storySelect[5].Img = arcUnknown
+		t_storySelect[6].Name = 'YOUR ARC HERE'
+		t_storySelect[6].Img = arcUnknown
+		t_storySelect[7].Name = 'YOUR ARC HERE'
+		t_storySelect[7].Img = arcUnknown
 	--Set Arc status
 		t_storySelect[1].Status = story1Data..'%'
 		t_storySelect[2].Status = story2Data..'%'
@@ -431,7 +504,7 @@ function f_storyMenu()
 				end
 			end
 		end
-	--Set Arc 1 - Chapter Info
+	--Set Arc 1 - Chapters Info
 		if storyMenu == 1 and chapterMenu == 1 then
 			chaptPreview = chapt0 --Load Chapter Preview
 			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF CASUAL FIGHTING GAMES." --Set Chapter Description
@@ -491,58 +564,71 @@ function f_storyMenu()
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
 			end
+	--Set Arc 2 - Chapter Info
+		elseif storyMenu == 2 and chapterMenu == 1 then
+			if data.story1_1Unlock == true then
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO WORK IN THIS ONE."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"
+			end
+	--Set Arc 3 - Chapter Info
+		elseif storyMenu == 3 and chapterMenu == 1 then
+			if data.story1_1Unlock == true then
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO WORK IN THIS ONE."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"
+			end
 	--Set Null Arc - Chapter Info
 		else
 			chaptPreview = chaptUnknown
 			txt_storyInfo = ""
 		end
-	--Set Arc 1 - Chapters Names
-		t_arc1[1].Name = 'PROLOGUE'
-		if data.story1_1Unlock == true then t_arc1[2].Name = 'KIDNAPPING' else t_arc1[2].Name = '???' end
-		if data.story1_2Unlock == true then t_arc1[3].Name = 'KILLER MIRROR' else t_arc1[3].Name = '???' end
-		if data.story1_3AUnlock == true then t_arc1[4].Name = 'THE ROOF OF TRUTH' else t_arc1[4].Name = '???' end
-		if data.story1_3BUnlock == true then t_arc1[5].Name = 'BROKEN SPIRIT' else t_arc1[5].Name = '???' end
-		if data.story1_4AUnlock == true then t_arc1[6].Name = 'FOR THE OLD TIMES' else t_arc1[6].Name = '???' end
-		if data.story1_4BUnlock == true then t_arc1[7].Name = 'LIFE LESSON' else t_arc1[7].Name = '???' end
-		if data.story1_4CUnlock == true then t_arc1[8].Name = 'THE FALL OF A MASTER' else t_arc1[8].Name = '???' end
-		t_arc1[9].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc1[10].Name = 'YOUR STORY CHAPTER HERE'
-	--Set Arc 2 - Chapters Names
-		t_arc2[1].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc2[2].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc2[3].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc2[4].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc2[5].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc2[6].Name = 'YOUR STORY CHAPTER HERE'
-	--Set Arc 3 - Chapters Names
-		t_arc3[1].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc3[2].Name = 'YOUR STORY CHAPTER HERE'
-		t_arc3[3].Name = 'YOUR STORY CHAPTER HERE'
 	--Draw Chapter Preview Image
-		animSetPos(chaptPreview, 161, 91)
-		animSetScale(chaptPreview, 0.113, 0.106)
-		animUpdate(chaptPreview)
-		animDraw(chaptPreview)
-	--Draw Chapter Info
-		f_textRender(txt_storyText, txt_storyInfo, t, 160, 160, 15, 1.2, 40)
+		if lockedStory == false then
+			animSetPos(chaptPreview, 161, 91)
+			animSetScale(chaptPreview, 0.113, 0.106)
+			animUpdate(chaptPreview)
+			animDraw(chaptPreview)
+			--Draw Chapter Info
+			txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.65,0.65)
+			f_textRender(txt_storyText, txt_storyInfo, t, 160, 160, 15, 1.2, 40)
+		else
+			txt_storyText = createTextImg(font6, 0, 0, '', 0, 0,0.65,0.65)
+			f_textRender(txt_storyText, txt_storyInfo, t, 150, 110, 15, 1.5, 40)
+		end
 	--Set Chapters Status (COMPLETED OR INCOMPLETED)
 		--TODO
-		
 	--Set Chapters Scroll Logic
-		for i=1, maxchapters do
-			if i > chapterMenu - cursorPosY then
-				if i == chapterMenu then
-					bank = 5
-				else
-					bank = 0
-				end
-			--Draw Chapter Name
-				if t_chapter[i].ID ~= nil then
-					textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -36, 89.5+i*20-moveChapter))
+		if lockedStory == false then
+			for i=1, maxchapters do
+				if i > chapterMenu - cursorPosY then
+					if i == chapterMenu then
+						bank = 5
+					else
+						bank = 0
+					end
+				--Draw Chapter Name
+					if t_chapter[i].ID ~= nil then
+						textImgDraw(f_updateTextImg(t_chapter[i].ID, jgFnt, bank, 1, t_chapter[i].Name, -36, 89.5+i*20-moveChapter))
+					end
 				end
 			end
+		--Draw Up Animated Cursor
+			if maxchapters > 6 then
+				animDraw(storyUpArrow)
+				animUpdate(storyUpArrow)
+			end
+		--Draw Down Animated Cursor
+			if #t_chapter > 6 and maxchapters < #t_chapter then
+				animDraw(storyDownArrow)
+				animUpdate(storyDownArrow)
+			end
 		end
-	--Draw Left Animated Cursor
+		--Draw Left Animated Cursor
 		if maxarcs > 3 then
 			animDraw(storyLeftArrow)
 			animUpdate(storyLeftArrow)
@@ -551,16 +637,6 @@ function f_storyMenu()
 		if #t_storySelect > 3 and maxarcs < #t_storySelect then
 			animDraw(storyRightArrow)
 			animUpdate(storyRightArrow)
-		end
-	--Draw Up Animated Cursor
-		if maxchapters > 6 then
-			animDraw(storyUpArrow)
-			animUpdate(storyUpArrow)
-		end
-	--Draw Down Animated Cursor
-		if #t_chapter > 6 and maxchapters < #t_chapter then
-			animDraw(storyDownArrow)
-			animUpdate(storyDownArrow)
 		end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0

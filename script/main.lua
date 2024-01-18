@@ -6846,6 +6846,7 @@ function f_saveProgress()
 		['data.mission2Status'] = data.mission2Status,
 		['data.mission3Status'] = data.mission3Status,
 	--Story Mode Data
+		['data.storiesProgress'] = data.storiesProgress,
 		['data.story1_0Status'] = data.story1_0Status,
 		['data.story1_1Status'] = data.story1_1Status,
 		['data.story1_2Status'] = data.story1_2Status,
