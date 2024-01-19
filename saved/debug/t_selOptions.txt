@@ -1,41 +1,25 @@
-table: 0D81C170 {
-  [survivalend] => table: 0D81C170 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [arcadeend] => table: 0D81C170 {
-                   [offset] => 2
-                   [wins] => 4
-                 }
-  [survivalstart] => table: 0D81C170 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [teamstart] => table: 0D81C170 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [arcademaxmatches] => table: 0D81C170 {
-                          [1] => 1
-                          [2] => 1
-                          [3] => 1
-                          [4] => 1
-                          [5] => 0
-                          [6] => 0
-                          [7] => 0
-                          [8] => 0
-                          [9] => 0
-                          [10] => 0
-                        }
-  [arcadestart] => table: 0D81C170 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [teamend] => table: 0D81C170 {
-                 [offset] => 2
+table: 0E158BD0 {
+  [teamend] => table: 0E158BD0 {
                  [wins] => 3
+                 [offset] => 2
                }
-  [teammaxmatches] => table: 0D81C170 {
+  [survivalstart] => table: 0E158BD0 {
+                       [wins] => 0
+                       [offset] => -3
+                     }
+  [arcadestart] => table: 0E158BD0 {
+                     [wins] => 2
+                     [offset] => 0
+                   }
+  [survivalend] => table: 0E158BD0 {
+                     [wins] => 16
+                     [offset] => 4
+                   }
+  [teamstart] => table: 0E158BD0 {
+                   [wins] => 1
+                   [offset] => 0
+                 }
+  [teammaxmatches] => table: 0E158BD0 {
                         [1] => 1
                         [2] => 1
                         [3] => 1
@@ -47,4 +31,20 @@ table: 0D81C170 {
                         [9] => 0
                         [10] => 0
                       }
+  [arcadeend] => table: 0E158BD0 {
+                   [wins] => 4
+                   [offset] => 2
+                 }
+  [arcademaxmatches] => table: 0E158BD0 {
+                          [1] => 1
+                          [2] => 1
+                          [3] => 1
+                          [4] => 1
+                          [5] => 0
+                          [6] => 0
+                          [7] => 0
+                          [8] => 0
+                          [9] => 0
+                          [10] => 0
+                        }
 }

@@ -503,7 +503,7 @@ function f_storyMenu()
 		if storyMenu == 1 and chapterMenu == 1 then
 			if data.story1_0Status == 1 then chaptCheck = checkIco else chaptCheck = checkNA end --Load Check Icon
 			chaptPreview = chapt0 --Load Chapter Preview
-			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF CASUAL FIGHTING GAMES." --Set Chapter Description
+			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES." --Set Chapter Description
 		elseif storyMenu == 1 and chapterMenu == 2 then
 			if data.story1_1Status == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_1Unlock == true then --If this chapters is unlocked
@@ -514,7 +514,7 @@ function f_storyMenu()
 				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!"
 			end
 		elseif storyMenu == 1 and chapterMenu == 3 then
-			if data.story1_2Status == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
+			if data.story1_2Status == 1 and data.story1_3AUnlock == true and data.story1_3BUnlock == true then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_2Unlock == true then
 				chaptPreview = chapt2
 				txt_storyInfo = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
@@ -523,7 +523,7 @@ function f_storyMenu()
 				txt_storyInfo = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE."
 			end
 		elseif storyMenu == 1 and chapterMenu == 4 then
-			if data.story1_3AStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
+			if data.story1_3AStatus == 1 and data.story1_4AUnlock == true and data.story1_4BUnlock == true then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_3AUnlock == true then
 				chaptPreview = chapt3_1
 				txt_storyInfo = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO TAKE OUT SUAVE DUDE BUT HE WILL NOT BE ALONE..."
@@ -532,7 +532,7 @@ function f_storyMenu()
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 5 then
-			if data.story1_3BStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
+			if data.story1_3BStatus == 1 and data.story1_4BUnlock == true and data.story1_4CUnlock == true then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_3BUnlock == true then
 				chaptPreview = chapt3_2
 				txt_storyInfo = "KUNG FU MAN HAS NOT BEEN STRONG ENOUGH TO DEFEAT HIS CLONE, NOW HE MUST FACE THE CONSEQUENCES OF HIS PAST ACTIONS..."
@@ -562,7 +562,7 @@ function f_storyMenu()
 			if data.story1_4CStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_4CUnlock == true then
 				chaptPreview = chapt4_3
-				txt_storyInfo = "THE RAWEST END FOR ELECBYTE'S CHARACTER"
+				txt_storyInfo = "THE BRUTAL END FOR ELECBYTE'S CHARACTER."
 			else
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
@@ -697,7 +697,6 @@ function f_arc1_chapter1()
 	data.p2Pal = 1
 	--setTeamMode(2, 2, 3)
 	setRoundTime(-1)
-	data.stageMenu = false
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -726,11 +725,10 @@ function f_arc1_chapter2()
 	data.p2Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
 	data.p2Pal = 1
 	setRoundTime(-1)
-	data.stageMenu = false
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 15
+	data.stageNo = 14
 	data.bgm = 'sound/Killer Mirror.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-2'
@@ -758,11 +756,10 @@ function f_arc1_chapter3_1()
 	data.p2Char = {t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude']}
 	data.p2Pal = 1
 	setRoundTime(-1)
-	data.stageMenu = false
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 14
+	data.stageNo = 13
 	data.bgm = 'sound/system/opening.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-3A'
@@ -790,11 +787,11 @@ function f_arc1_chapter3_2()
 	data.p2Char = {t_charAdd['kung fu man/evil/evil kung fu man.def'], t_charAdd['suave dude'], t_charAdd['kung fu girl']}
 	data.p2Pal = 1
 	setRoundTime(-1)
-	data.stageMenu = false
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 14
+	data.stageNo = 15
+	data.bgm = "sound/Suave's Corridor.mp3"
 	data.rosterMode = 'story'
 	data.storyNo = '1-3B'
 	setGameMode('story1_3B')
@@ -821,11 +818,10 @@ function f_arc1_chapter4_1()
 	data.p2Char = {t_charAdd['kung fu girl']}
 	data.p2Pal = 1
 	setRoundTime(-1)
-	data.stageMenu = false
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 13
+	data.stageNo = 12
 	data.rosterMode = 'story'
 	data.storyNo = '1-4A'
 	setGameMode('story1_4A')

@@ -146,13 +146,12 @@ function f_missionMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
-				data.p2In = 0
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['dragon claw']}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
-				data.stageMenu = true
 				data.versusScreen = true
+				data.stageNo = 16
 				data.missionNo = '1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()
@@ -162,7 +161,6 @@ function f_missionMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
-				data.p2In = 0
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
 				data.p1Pal = 1
@@ -184,7 +182,6 @@ function f_missionMenu()
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
 				data.p1Pal = 1
-				data.versusScreen = true
 				data.challengerScreen = false
 				data.gameMode = 'arcade'
 				data.missionNo = '3'

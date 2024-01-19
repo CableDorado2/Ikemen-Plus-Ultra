@@ -1,6 +1,52 @@
-dragon claw
-0 triggers found
-quote = random value from all 1 available quotes
+master kung fu man
+condition: 1
+ trigger
+  before: 1
+  after: true
+  result: true
+ value
+  before: random%13
+  after: math.random(0,999)*1/1000*13
+  result: 1
+condition: 2
+ trigger
+  before: enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man"
+  after:  "dragon claw"== "kung fu man"  or  "dragon claw"== "master kung fu man"  or  "dragon claw"== "kfm"  or  "dragon claw"== "master kfm"  or  "dragon claw"== "ex kfm"  or  "dragon claw"== "kfm ex"  or  "dragon claw"== "ex kung fu man"  or  "dragon claw"== "kung fu man ex"  or  "dragon claw"== "another kung fu man"  or  "dragon claw"== "kung fu man 720"  or  "dragon claw"== "kfm 720"  or  "dragon claw"== "evil kfm"  or  "dragon claw"== "evil kung fu man"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: 14
+  after: 14
+  result: 14
+condition: 3
+ trigger
+  before: enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg"
+  after:  "dragon claw"== "kung fu girl"  or   "dragon claw"== "another kung fu girl"  or   "dragon claw"== "master kung fu girl"  or   "dragon claw"== "ex kung fu girl"  or   "dragon claw"== "kfg"
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: 15
+  after: 15
+  result: 15
+condition: 4
+ trigger
+  before: (enemy, name = "suave dude") && (1)
+  after: ( "dragon claw"== "suave dude")  and  (1)
+  result: false
+ triggerall
+  before: numenemy
+  after: true
+  result: true
+ value
+  before: 16
+  after: 16
+  result: 16
 
 quote: 1
 exists: yes

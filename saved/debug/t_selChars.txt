@@ -1,34 +1,11 @@
-table: 0D75D1A0 {
-  [1] => table: 0D75D1A0 {
+table: 0DC775E0 {
+  [1] => table: 0DC775E0 {
            [1] => "suave dude/minion/minion.def"
            [3] => "kung fu girl"
            [4] => "kung fu man/evil/evil kung fu man.def"
-           [snd] => "chars/kung fu man/kfm.snd"
-           [p2AnimLieDown] => userdata: 0D7BF0E0
-           [dir] => "chars/kung fu man/"
-           [author] => "elecbyte"
-           [order] => 1
-           [trigger] => table: 0D75D1C8 {
-                        }
-           [displayname] => "Kung Fu Man"
-           [p1AnimDizzy] => userdata: 0D7C11E0
-           [p1AnimLieDown] => userdata: 0D7C4540
-           [p2AnimWin] => userdata: 0D7C10F0
-           [p1AnimStand] => userdata: 0D7C0970
-           [name] => "kung fu man"
-           [def] => "chars/kung fu man/kung fu man.def"
-           [sffData] => userdata: 0D7C0610
-           [p2AnimStand] => userdata: 0D7C4630
-           [air] => "chars/kung fu man/kfm.air"
-           [dizzy] => table: 0D75D1C8 {
-                        [1] => "5300,0, 0,0, 8"
-                        [2] => "5300,1, 0,0, 8"
-                        [3] => "5300,2, 0,0, 8"
-                        [4] => "5300,3, 0,0, 8"
-                        [5] => "5300,2, 0,0, 8"
-                        [6] => "5300,1, 0,0, 8"
-                      }
-           [win] => table: 0D75D1C8 {
+           [yscale] => "1"
+           [xscale] => "1"
+           [win] => table: 0DC77608 {
                       [1] => "200,0, 0,0, 4"
                       [2] => "181,0, 0,0, 5"
                       [3] => "181,1, 0,0, 5"
@@ -42,11 +19,39 @@ table: 0D75D1A0 {
                       [11] => "181,3, 0,0, 5"
                       [12] => "181,2, 0,0, -1"
                     }
-           [p1AnimWin] => userdata: 0D7C4300
-           [stage] => table: 0D75D1C8 {
+           [st] => table: 0DC77608 {
+                     [1] => "chars/kung fu man/kfm.cns"
+                   }
+           [p2AnimDizzy] => userdata: 0E0E5FD0
+           [p1AnimDizzy] => userdata: 0E0E4620
+           [p2AnimLieDown] => userdata: 0E0E4050
+           [snd] => "chars/kung fu man/kfm.snd"
+           [p1AnimLieDown] => userdata: 0E0E2AF0
+           [def] => "chars/kung fu man/kung fu man.def"
+           [char] => "kung fu man"
+           [p2AnimWin] => userdata: 0E0E34E0
+           [p1AnimWin] => userdata: 0E0E4A70
+           [sffData] => userdata: 0E0E3CC0
+           [quotes] => table: 0DC77608 {
+                         [7] => "What do you mean my girlfriend is in another temple?"
+                         [6] => "I want to challenge more skilled fighters."
+                         [5] => "That was a good workout."
+                         [4] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
+                         [3] => "You look familiar. Did I see you on TV?"
+                         [2] => "You need a lot of training. Come back in ten years."
+                         [1] => "You must defeat Tu Shou to stand a chance."
+                       }
+           [author] => "elecbyte"
+           [stage] => table: 0DC77608 {
                         [1] => 3
                       }
-           [stand] => table: 0D75D1C8 {
+           [name] => "kung fu man"
+           [trigger] => table: 0DC77608 {
+                        }
+           [dir] => "chars/kung fu man/"
+           [air] => "chars/kung fu man/kfm.air"
+           [intro] => "chars/kung fu man/../../storyboard/kung fu man [intro].def"
+           [stand] => table: 0DC77608 {
                         [1] => "0,0, 0,0, 10"
                         [2] => "0,1, 0,0, 7"
                         [3] => "0,2, 0,0, 7"
@@ -59,135 +64,41 @@ table: 0D75D1A0 {
                         [10] => "0,1, 0,0, 7"
                         [11] => "0,0, 0,0, 40"
                       }
-           [yscale] => "1"
-           [xscale] => "1"
-           [char] => "kung fu man"
-           [quotes] => table: 0D75D1C8 {
-                         [3] => "You look familiar. Did I see you on TV?"
-                         [4] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
-                         [1] => "You must defeat Tu Shou to stand a chance."
-                         [2] => "You need a lot of training. Come back in ten years."
-                         [7] => "What do you mean my girlfriend is in another temple?"
-                         [5] => "That was a good workout."
-                         [6] => "I want to challenge more skilled fighters."
-                       }
-           [st] => table: 0D75D1C8 {
-                     [1] => "chars/kung fu man/kfm.cns"
-                   }
-           [lieDown] => table: 0D75D1C8 {
+           [lieDown] => table: 0DC77608 {
                           [1] => "5040,20, 0,0, 4"
                           [2] => "5040, 0, 0,0, 4"
                           [3] => "5040,10, 0,0, -1"
                         }
-           [ending] => "chars/kung fu man/../../storyboard/kung fu man [ending].def"
+           [p2AnimStand] => userdata: 0E0E4350
+           [p1AnimStand] => userdata: 0E0E5BB0
            [sff] => "chars/kung fu man/kfm.sff"
-           [p2AnimDizzy] => userdata: 0D7C58F0
            [cns] => "chars/kung fu man/kfm.cns"
-           [intro] => "chars/kung fu man/../../storyboard/kung fu man [intro].def"
+           [displayname] => "Kung Fu Man"
+           [ending] => "chars/kung fu man/../../storyboard/kung fu man [ending].def"
+           [order] => 1
+           [dizzy] => table: 0DC77608 {
+                        [1] => "5300,0, 0,0, 8"
+                        [2] => "5300,1, 0,0, 8"
+                        [3] => "5300,2, 0,0, 8"
+                        [4] => "5300,3, 0,0, 8"
+                        [5] => "5300,2, 0,0, 8"
+                        [6] => "5300,1, 0,0, 8"
+                      }
          }
-  [2] => table: 0D75D1A0 {
+  [2] => table: 0DC775E0 {
            [char] => "randomselect"
          }
-  [3] => table: 0D75D1A0 {
+  [3] => table: 0DC775E0 {
            [char] => "randomselect"
          }
-  [4] => table: 0D75D1A0 {
+  [4] => table: 0DC775E0 {
            [char] => "randomselect"
          }
-  [5] => table: 0D75D1A0 {
+  [5] => table: 0DC775E0 {
            [1] => "kung fu man/evil/evil kung fu man.def"
            [3] => "kung fu man/master/master kung fu man.def"
            [4] => "suave dude"
-           [p1AnimLieDown] => userdata: 0D7C3250
-           [dir] => "chars/kung fu girl/"
-           [def] => "chars/kung fu girl/kung fu girl.def"
-           [air] => "chars/kung fu girl/kung fu girl.air"
-           [p2AnimWin] => userdata: 0D7C3010
-           [yscale] => "1"
-           [xscale] => "1"
-           [quotes] => table: 0D79EEA0 {
-                         [3] => "Oh my... Are you alright? I guess I don't know my own strength!"
-                         [4] => "That was fun! Well, see ya later!"
-                         [1] => "Tee-hee! I'm a lot stonger than you thought huh?"
-                         [2] => "H-Hey! It's not nice to stare y'know!"
-                         [0] => "W-What?! No! I'm not his girlfriend! He's just my sensei!"
-                         [5] => "You need more training. UwU"
-                         [6] => "Thank you for your time, sensei. This should make us both stronger!"
-                       }
-           [st] => table: 0D79EEA0 {
-                     [1] => "chars/kung fu girl/coding/system.cns"
-                     [2] => "chars/kung fu girl/coding/normal.cns"
-                     [3] => "chars/kung fu girl/coding/helpers.cns"
-                     [4] => "chars/kung fu girl/coding/specials.cns"
-                   }
-           [lieDown] => table: 0D79EEA0 {
-                          [1] => "5040,1, 0,0, 3"
-                          [2] => "5040,20, 0,0, -1"
-                        }
-           [sff] => "chars/kung fu girl/kung fu girl.sff"
-           [p2AnimDizzy] => userdata: 0D7C38E0
-           [cns] => "chars/kung fu girl/coding/system.cns"
-           [includestage] => 0
-           [snd] => "chars/kung fu girl/kung fu girl.snd"
-           [music] => table: 0D79EEA0 {
-                        [1] => table: 0D79EF40 {
-                                 [bgmusic] => "sound/student.mp3"
-                                 [bgmvolume] => 100
-                               }
-                      }
-           [stage] => table: 0D79EEA0 {
-                        [1] => 13
-                      }
-           [author] => "proud of ragequittin"
-           [trigger] => table: 0D79EEA0 {
-                          [1] => table: 0D79F288 {
-                                   [1] => "1"
-                                   [value] => "(random % 5)"
-                                 }
-                          [2] => table: 0D79F288 {
-                                   [1] => "enemy,name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720""
-                                   [value] => "6"
-                                 }
-                        }
-           [ending] => "chars/kung fu girl/../../storyboard/kung fu girl [ending].def"
-           [name] => "kung fu girl"
-           [sffData] => userdata: 0D7C2110
-           [cheese] => table: 0D79EEA0 {
-                         [1] => "5950,0, -5,0, 30"
-                         [2] => "5950,1, -5,0, 6"
-                         [3] => "5950,2, -5,0, 6"
-                         [4] => "5950,3, -10,3, 6"
-                         [5] => "5950,4, -10,3, 5"
-                         [6] => "5950,5, -10,3, 5"
-                         [7] => "5950,6, -10,3, 5"
-                         [8] => "5950,7, -10,3, 20"
-                         [9] => "5950,8, -12,3, 7"
-                         [10] => "5950,9, -15,3, 6"
-                         [11] => "5950,10, -26,3, 6"
-                         [12] => "5950,11, -26,3, 5"
-                         [13] => "5101,6, 0,0, 5"
-                       }
-           [dizzy] => table: 0D79EEA0 {
-                        [1] => "5300,0, 0,0, 7"
-                        [2] => "5300,1, 0,0, 7"
-                        [3] => "5300,2, 0,0, 7"
-                        [4] => "5300,3, 0,0, 7"
-                        [5] => "5300,0, 0,0, 7"
-                        [6] => "5300,1, 0,0, 7"
-                        [7] => "5300,2, 0,0, 7"
-                        [8] => "5300,3, 0,0, 7"
-                        [9] => "5300,0, 0,0, 7"
-                        [10] => "5300,1, 0,0, 7"
-                        [11] => "5300,2, 0,0, 7"
-                        [12] => "5300,3, 0,0, 7"
-                        [13] => "5300,0, 0,0, 7"
-                        [14] => "5300,1, 0,0, 7"
-                        [15] => "5300,2, 0,0, 7"
-                        [16] => "5300,4, 0,0, 7"
-                        [17] => "5300,5, 0,0, 7"
-                        [18] => "5300,6, 0,0, 7"
-                      }
-           [win] => table: 0D79EEA0 {
+           [win] => table: 0E0F3A28 {
                       [1] => "180,0, 0,0, 5"
                       [2] => "180,1, 0,0, 5"
                       [3] => "180,2, 0,0, 5"
@@ -213,14 +124,81 @@ table: 0D75D1A0 {
                       [23] => "180,22, 0,0, 4"
                       [24] => "180,23, 0,0, -1"
                     }
-           [p1AnimWin] => userdata: 0D7C0A00
-           [p1AnimDizzy] => userdata: 0D7C2FE0
-           [p2AnimLieDown] => userdata: 0D7C0E80
-           [char] => "kung fu girl"
-           [p2AnimCheese] => userdata: 0D7BECC0
-           [p1AnimCheese] => userdata: 0D7C1630
+           [st] => table: 0E0F3A28 {
+                     [1] => "chars/kung fu girl/coding/system.cns"
+                     [2] => "chars/kung fu girl/coding/normal.cns"
+                     [3] => "chars/kung fu girl/coding/helpers.cns"
+                     [4] => "chars/kung fu girl/coding/specials.cns"
+                   }
+           [snd] => "chars/kung fu girl/kung fu girl.snd"
+           [stage] => table: 0E0F3A28 {
+                        [1] => 12
+                      }
+           [p1AnimWin] => userdata: 0E0E32D0
+           [sffData] => userdata: 0E0E3E70
+           [trigger] => table: 0E0F3A28 {
+                          [1] => table: 0E0F3E10 {
+                                   [1] => "1"
+                                   [value] => "(random % 5)"
+                                 }
+                          [2] => table: 0E0F3E10 {
+                                   [1] => "enemy,name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720""
+                                   [value] => "6"
+                                 }
+                        }
+           [intro] => "chars/kung fu girl/../../storyboard/kung fu girl [intro].def"
+           [p1AnimLieDown] => userdata: 0E0E5F40
+           [p1AnimStand] => userdata: 0E0E5B50
            [displayname] => "Kung Fu Girl"
-           [stand] => table: 0D79EEA0 {
+           [ending] => "chars/kung fu girl/../../storyboard/kung fu girl [ending].def"
+           [dizzy] => table: 0E0F3A28 {
+                        [1] => "5300,0, 0,0, 7"
+                        [2] => "5300,1, 0,0, 7"
+                        [3] => "5300,2, 0,0, 7"
+                        [4] => "5300,3, 0,0, 7"
+                        [5] => "5300,0, 0,0, 7"
+                        [6] => "5300,1, 0,0, 7"
+                        [7] => "5300,2, 0,0, 7"
+                        [8] => "5300,3, 0,0, 7"
+                        [9] => "5300,0, 0,0, 7"
+                        [10] => "5300,1, 0,0, 7"
+                        [11] => "5300,2, 0,0, 7"
+                        [12] => "5300,3, 0,0, 7"
+                        [13] => "5300,0, 0,0, 7"
+                        [14] => "5300,1, 0,0, 7"
+                        [15] => "5300,2, 0,0, 7"
+                        [16] => "5300,4, 0,0, 7"
+                        [17] => "5300,5, 0,0, 7"
+                        [18] => "5300,6, 0,0, 7"
+                      }
+           [p2AnimWin] => userdata: 0E0E41A0
+           [quotes] => table: 0E0F3A28 {
+                         [0] => "W-What?! No! I'm not his girlfriend! He's just my sensei!"
+                         [6] => "Thank you for your time, sensei. This should make us both stronger!"
+                         [5] => "You need more training. UwU"
+                         [4] => "That was fun! Well, see ya later!"
+                         [3] => "Oh my... Are you alright? I guess I don't know my own strength!"
+                         [2] => "H-Hey! It's not nice to stare y'know!"
+                         [1] => "Tee-hee! I'm a lot stonger than you thought huh?"
+                       }
+           [p1AnimCheese] => userdata: 0E0E3A80
+           [cheese] => table: 0E0F3A28 {
+                         [1] => "5950,0, -5,0, 30"
+                         [2] => "5950,1, -5,0, 6"
+                         [3] => "5950,2, -5,0, 6"
+                         [4] => "5950,3, -10,3, 6"
+                         [5] => "5950,4, -10,3, 5"
+                         [6] => "5950,5, -10,3, 5"
+                         [7] => "5950,6, -10,3, 5"
+                         [8] => "5950,7, -10,3, 20"
+                         [9] => "5950,8, -12,3, 7"
+                         [10] => "5950,9, -15,3, 6"
+                         [11] => "5950,10, -26,3, 6"
+                         [12] => "5950,11, -26,3, 5"
+                         [13] => "5101,6, 0,0, 5"
+                       }
+           [def] => "chars/kung fu girl/kung fu girl.def"
+           [stand] => table: 0E0F3A28 {
                         [1] => "0,11, 0,0, 5"
                         [2] => "0,12, 0,0, 5"
                         [3] => "0,13, 0,0, 5"
@@ -249,85 +227,56 @@ table: 0D75D1A0 {
                         [26] => "0,9, 0,0, 5"
                         [27] => "0,8, 0,0, 5"
                       }
-           [order] => 3
-           [p1AnimStand] => userdata: 0D7C2230
-           [p2AnimStand] => userdata: 0D7BE810
-           [intro] => "chars/kung fu girl/../../storyboard/kung fu girl [intro].def"
-         }
-  [6] => table: 0D75D1A0 {
-           [char] => "randomselect"
-         }
-  [7] => table: 0D75D1A0 {
-           [char] => "randomselect"
-         }
-  [8] => table: 0D75D1A0 {
-           [char] => "randomselect"
-         }
-  [9] => table: 0D75D1A0 {
-           [char] => "randomselect"
-         }
-  [10] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [11] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [12] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [13] => table: 0D75D1A0 {
-            [p1AnimLieDown] => userdata: 0D7C3220
-            [dir] => "chars/suave dude/"
-            [boss] => 1
-            [single] => 1
-            [def] => "chars/suave dude/suave dude.def"
-            [air] => "chars/suave dude/sd.air"
-            [p2AnimWin] => userdata: 0D7C1540
-            [yscale] => "1"
-            [xscale] => "1"
-            [quotes] => table: 0D7AC290 {
-                          [3] => "I want to challenge more skilled fighters."
-                          [1] => "You must defeat Tu Shou to stand a chance."
-                          [2] => "Your moves are too predictable."
+           [p2AnimDizzy] => userdata: 0E0E3B10
+           [p1AnimDizzy] => userdata: 0E0E31E0
+           [xscale] => "1"
+           [name] => "kung fu girl"
+           [p2AnimCheese] => userdata: 0E0E3B40
+           [dir] => "chars/kung fu girl/"
+           [air] => "chars/kung fu girl/kung fu girl.air"
+           [sff] => "chars/kung fu girl/kung fu girl.sff"
+           [yscale] => "1"
+           [lieDown] => table: 0E0F3A28 {
+                          [1] => "5040,1, 0,0, 3"
+                          [2] => "5040,20, 0,0, -1"
                         }
-            [st] => table: 0D7AC290 {
-                      [1] => "chars/suave dude/sd.cns"
-                    }
-            [lieDown] => table: 0D7AC290 {
-                           [1] => "5040,20, 0,0, 4"
-                           [2] => "5040, 0, 0,0, 4"
-                           [3] => "5040,10, 0,0, -1"
-                         }
-            [sff] => "chars/suave dude/sd.sff"
-            [p2AnimDizzy] => userdata: 0D7C3940
-            [cns] => "chars/suave dude/sd.cns"
-            [includestage] => 0
-            [snd] => "chars/suave dude/sd.snd"
-            [p2AnimLieDown] => userdata: 0D7C5380
-            [stage] => table: 0D7AC290 {
-                         [1] => 14
-                       }
-            [author] => "masukenpu-kun"
-            [trigger] => table: 0D7AC290 {
-                         }
-            [ending] => "chars/suave dude/../../storyboard/suave dude [ending].def"
-            [name] => "suave dude"
-            [sffData] => userdata: 0D7C3670
-            [dizzy] => table: 0D7AC290 {
-                         [1] => "5300,  0,  0,  0,  5"
-                         [2] => "5300,  1,  0,  0,  5"
-                         [3] => "5300,  2,  0,  0,  5"
-                         [4] => "loopstart"
-                         [5] => "5300,  3,  0,  0, 10"
-                         [6] => "5300,4,0,0,10"
-                         [7] => "5300,5,0,0,10"
-                         [8] => "5300,  4,  0,  0, 10"
-                         [9] => "5300,  3,  0,  0, 10"
-                         [10] => "5300,6,0,0,10"
-                         [11] => "5300,7,0,0,10"
-                         [12] => "5300,  6,  0,  0, 10"
-                       }
-            [win] => table: 0D7AC290 {
+           [p2AnimStand] => userdata: 0E0E3210
+           [p2AnimLieDown] => userdata: 0E0E5EE0
+           [includestage] => 0
+           [cns] => "chars/kung fu girl/coding/system.cns"
+           [author] => "proud of ragequittin"
+           [char] => "kung fu girl"
+           [order] => 3
+           [music] => table: 0E0F3A28 {
+                        [1] => table: 0E0F3AC8 {
+                                 [bgmvolume] => 100
+                                 [bgmusic] => "sound/student.mp3"
+                               }
+                      }
+         }
+  [6] => table: 0DC775E0 {
+           [char] => "randomselect"
+         }
+  [7] => table: 0DC775E0 {
+           [char] => "randomselect"
+         }
+  [8] => table: 0DC775E0 {
+           [char] => "randomselect"
+         }
+  [9] => table: 0DC775E0 {
+           [char] => "randomselect"
+         }
+  [10] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [11] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [12] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [13] => table: 0DC775E0 {
+            [win] => table: 0E0F8338 {
                        [1] => "200,0, 0,0, 2"
                        [2] => "181,  0,  0,  0,  4"
                        [3] => "181,  1,  0,  0,  4"
@@ -341,11 +290,46 @@ table: 0D75D1A0 {
                        [11] => "181,  7,  0,  0,  4"
                        [12] => "181,  8,  0,  0, -1"
                      }
-            [p1AnimWin] => userdata: 0D7C33A0
-            [char] => "suave dude"
-            [p1AnimDizzy] => userdata: 0D7BE120
+            [st] => table: 0E0F8338 {
+                      [1] => "chars/suave dude/sd.cns"
+                    }
+            [snd] => "chars/suave dude/sd.snd"
+            [stage] => table: 0E0F8338 {
+                         [1] => 13
+                       }
+            [p1AnimWin] => userdata: 0E0E4770
+            [sffData] => userdata: 0E0E3030
+            [trigger] => table: 0E0F8338 {
+                         }
+            [intro] => "chars/suave dude/../../storyboard/suave dude [intro].def"
+            [p1AnimLieDown] => userdata: 0E0E39F0
+            [p1AnimStand] => userdata: 0E0E5100
             [displayname] => "Suave Dude"
-            [stand] => table: 0D7AC290 {
+            [ending] => "chars/suave dude/../../storyboard/suave dude [ending].def"
+            [dizzy] => table: 0E0F8338 {
+                         [1] => "5300,  0,  0,  0,  5"
+                         [2] => "5300,  1,  0,  0,  5"
+                         [3] => "5300,  2,  0,  0,  5"
+                         [4] => "loopstart"
+                         [5] => "5300,  3,  0,  0, 10"
+                         [6] => "5300,4,0,0,10"
+                         [7] => "5300,5,0,0,10"
+                         [8] => "5300,  4,  0,  0, 10"
+                         [9] => "5300,  3,  0,  0, 10"
+                         [10] => "5300,6,0,0,10"
+                         [11] => "5300,7,0,0,10"
+                         [12] => "5300,  6,  0,  0, 10"
+                       }
+            [p2AnimWin] => userdata: 0E0E3F00
+            [quotes] => table: 0E0F8338 {
+                          [3] => "I want to challenge more skilled fighters."
+                          [2] => "Your moves are too predictable."
+                          [1] => "You must defeat Tu Shou to stand a chance."
+                        }
+            [boss] => 1
+            [includestage] => 0
+            [def] => "chars/suave dude/suave dude.def"
+            [stand] => table: 0E0F8338 {
                          [1] => "0,  0,  0,  0, 18"
                          [2] => "0,  1,  0,  0,  8"
                          [3] => "0,  2,  0,  0,  8"
@@ -353,419 +337,348 @@ table: 0D75D1A0 {
                          [5] => "0,  2,  0,  0,  8"
                          [6] => "0,  1,  0,  0,  8"
                        }
-            [4] => "kung fu man/ex/ex kung fu man.def"
-            [order] => 1
-            [p1AnimStand] => userdata: 0D7C2740
-            [p2AnimStand] => userdata: 0D7C2EF0
-            [intro] => "chars/suave dude/../../storyboard/suave dude [intro].def"
-          }
-  [14] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [15] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [16] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [17] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [18] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [19] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [20] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [21] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [22] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [23] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [24] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [25] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [26] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [27] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [28] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [29] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [30] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [31] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [32] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [33] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [34] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [35] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [36] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [37] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [38] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [39] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [40] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [41] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [42] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [43] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [44] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [45] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [46] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [47] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [48] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [49] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [50] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [51] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [52] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [53] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [54] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [55] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [56] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [57] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [58] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [59] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [60] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [61] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [62] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [63] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [64] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [65] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [66] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [67] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [68] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [69] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [70] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [71] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [72] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [73] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [74] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [75] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [76] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [77] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [78] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [79] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [80] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [81] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [82] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [83] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [84] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [85] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [86] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [87] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [88] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [89] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [90] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [91] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [92] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [93] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [94] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [95] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [96] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [97] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [98] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [99] => table: 0D75D1A0 {
-            [char] => "randomselect"
-          }
-  [100] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [101] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [102] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [103] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [104] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [105] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [106] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [107] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [108] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [109] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [110] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [111] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [112] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [113] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [114] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [115] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [116] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [117] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [118] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [119] => table: 0D75D1A0 {
-             [char] => "randomselect"
-           }
-  [120] => table: 0D75D1A0 {
-             [p1AnimLieDown] => userdata: 0D7C3BB0
-             [dir] => "chars/kung fu man/evil/"
-             [boss] => 1
-             [def] => "chars/kung fu man/evil/evil kung fu man.def"
-             [air] => "chars/kung fu man/evil/ekfm.air"
-             [p2AnimWin] => userdata: 0D7C4000
-             [yscale] => "1"
-             [xscale] => "1"
-             [quotes] => table: 0D7707B0 {
-                           [3] => "I just met my firstborn."
-                           [4] => "Still butthurt about the flame effect, mang?"
-                           [1] => "The target has been neutralized."
-                           [2] => "Can anybody tell me for what I have to face this guy?!"
-                           [0] => "Die!"
-                           [11] => "Gawdemmit, not another Loli! I had seriously enough of you!"
-                           [12] => "Oh fuck no I am not just seeing that."
-                           [9] => "Dude, I need your gun. Chicks dig the big guns."
-                           [10] => "I finally have you now, bitch!"
-                           [7] => "You are past the expiration date, PAL!"
-                           [8] => "Listen... I am the Goddamn Bad Man, simple as that!"
-                           [5] => "At least you can help me get rid of my past I regret so fucking much."
-                           [6] => "Join our quest, you will get chicks for your bravery!"
+            [p2AnimDizzy] => userdata: 0E0E5B20
+            [p1AnimDizzy] => userdata: 0E0E2FA0
+            [name] => "suave dude"
+            [xscale] => "1"
+            [dir] => "chars/suave dude/"
+            [air] => "chars/suave dude/sd.air"
+            [sff] => "chars/suave dude/sd.sff"
+            [yscale] => "1"
+            [lieDown] => table: 0E0F8338 {
+                           [1] => "5040,20, 0,0, 4"
+                           [2] => "5040, 0, 0,0, 4"
+                           [3] => "5040,10, 0,0, -1"
                          }
-             [st] => table: 0D7707B0 {
-                       [1] => "chars/kung fu man/evil/ekfm.cns"
-                       [2] => "chars/kung fu man/evil/-2.st"
-                       [3] => "chars/kung fu man/evil/chokinondatone.st"
-                       [4] => "chars/kung fu man/evil/config.txt"
-                     }
-             [lieDown] => table: 0D7707B0 {
-                            [1] => "5040,20, 0,0, 4"
-                            [2] => "5040,0, 0,0, 4"
-                            [3] => "5040,10, 0,0, -1"
-                          }
-             [sff] => "chars/kung fu man/evil/ekfm.sff"
-             [p2AnimDizzy] => userdata: 0D7C0100
-             [cns] => "chars/kung fu man/evil/ekfm.cns"
-             [includestage] => 0
-             [snd] => "chars/kung fu man/evil/ekfm.snd"
-             [p2AnimLieDown] => userdata: 0D7C3BE0
-             [stage] => table: 0D7707B0 {
-                          [1] => 15
-                        }
-             [author] => "the_none"
-             [trigger] => table: 0D7707B0 {
-                            [1] => table: 0D770F80 {
-                                     [1] => "1"
-                                     [value] => "random%8"
-                                   }
-                            [2] => table: 0D770F80 {
-                                     [1] => "enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720""
-                                     [all] => "numenemy"
-                                     [value] => "10"
-                                   }
-                            [3] => table: 0D770F80 {
-                                     [1] => "enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg""
-                                     [all] => "numenemy"
-                                     [value] => "11"
-                                   }
-                            [4] => table: 0D770F80 {
-                                     [1] => "enemy, name = "suave dude" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man""
-                                     [all] => "numenemy"
-                                     [value] => "9"
-                                   }
-                            [5] => table: 0D770F80 {
-                                     [1] => "enemy,name = "evil kfm" || enemy,name = "evil kung fu man""
-                                     [all] => "numenemy"
-                                     [value] => "12"
-                                   }
-                          }
-             [displayname] => "Evil Kung Fu Man"
-             [name] => "evil kung fu man"
-             [sffData] => userdata: 0D7C4210
-             [dizzy] => table: 0D7707B0 {
-                          [1] => "5300,0, 0,0, 6"
-                          [2] => "5300,1, 0,0, 6"
-                          [3] => "5300,2, 0,0, 6"
-                          [4] => "5300,3, 0,0, 6"
-                          [5] => "5300,2, 0,0, 6"
-                          [6] => "5300,1, 0,0, 6"
-                          [7] => "5300,0, 0,0, 6"
-                          [8] => "5300,1, 0,0, 6"
-                          [9] => "5300,2, 0,0, 6"
-                          [10] => "5300,3, 0,0, 6"
-                          [11] => "5300,2, 0,0, 6"
-                          [12] => "5300,1, 0,0, 6"
-                        }
-             [win] => table: 0D7707B0 {
+            [p2AnimStand] => userdata: 0E0E3720
+            [p2AnimLieDown] => userdata: 0E0E49E0
+            [char] => "suave dude"
+            [cns] => "chars/suave dude/sd.cns"
+            [author] => "masukenpu-kun"
+            [single] => 1
+            [order] => 1
+            [4] => "kung fu man/ex/ex kung fu man.def"
+          }
+  [14] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [15] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [16] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [17] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [18] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [19] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [20] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [21] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [22] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [23] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [24] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [25] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [26] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [27] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [28] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [29] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [30] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [31] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [32] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [33] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [34] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [35] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [36] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [37] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [38] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [39] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [40] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [41] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [42] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [43] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [44] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [45] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [46] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [47] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [48] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [49] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [50] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [51] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [52] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [53] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [54] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [55] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [56] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [57] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [58] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [59] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [60] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [61] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [62] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [63] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [64] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [65] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [66] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [67] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [68] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [69] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [70] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [71] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [72] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [73] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [74] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [75] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [76] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [77] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [78] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [79] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [80] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [81] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [82] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [83] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [84] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [85] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [86] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [87] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [88] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [89] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [90] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [91] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [92] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [93] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [94] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [95] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [96] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [97] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [98] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [99] => table: 0DC775E0 {
+            [char] => "randomselect"
+          }
+  [100] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [101] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [102] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [103] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [104] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [105] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [106] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [107] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [108] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [109] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [110] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [111] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [112] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [113] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [114] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [115] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [116] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [117] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [118] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [119] => table: 0DC775E0 {
+             [char] => "randomselect"
+           }
+  [120] => table: 0DC775E0 {
+             [win] => table: 0E0C77A0 {
                         [1] => "1100,0, 0,0, 1"
                         [2] => "1100,0, 0,0, 1"
                         [3] => "1100,1, 0,0, 1"
@@ -793,19 +706,106 @@ table: 0D75D1A0 {
                         [25] => "1100,7, 0,0, 5"
                         [26] => "1100,6, 0,0, 5"
                       }
-             [p1AnimWin] => userdata: 0D7C4BD0
-             [char] => "kung fu man/evil/evil kung fu man.def"
-             [music] => table: 0D7707B0 {
-                          [1] => table: 0D770A80 {
-                                   [bgmusic] => "sound/danger toy.mp3"
+             [st] => table: 0E0C77A0 {
+                       [1] => "chars/kung fu man/evil/ekfm.cns"
+                       [2] => "chars/kung fu man/evil/-2.st"
+                       [3] => "chars/kung fu man/evil/chokinondatone.st"
+                       [4] => "chars/kung fu man/evil/config.txt"
+                     }
+             [snd] => "chars/kung fu man/evil/ekfm.snd"
+             [stage] => table: 0E0C77A0 {
+                          [1] => 14
+                        }
+             [p1AnimWin] => userdata: 0E0E5760
+             [sffData] => userdata: 0E0E3240
+             [trigger] => table: 0E0C77A0 {
+                            [1] => table: 00E444B0 {
+                                     [1] => "1"
+                                     [value] => "random%8"
+                                   }
+                            [2] => table: 00E444B0 {
+                                     [1] => "enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720""
+                                     [all] => "numenemy"
+                                     [value] => "10"
+                                   }
+                            [3] => table: 00E444B0 {
+                                     [1] => "enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg""
+                                     [all] => "numenemy"
+                                     [value] => "11"
+                                   }
+                            [4] => table: 00E444B0 {
+                                     [1] => "enemy, name = "suave dude" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man""
+                                     [all] => "numenemy"
+                                     [value] => "9"
+                                   }
+                            [5] => table: 00E444B0 {
+                                     [1] => "enemy,name = "evil kfm" || enemy,name = "evil kung fu man""
+                                     [all] => "numenemy"
+                                     [value] => "12"
+                                   }
+                          }
+             [p1AnimLieDown] => userdata: 0E0E4C80
+             [p1AnimStand] => userdata: 0E0E42F0
+             [displayname] => "Evil Kung Fu Man"
+             [dizzy] => table: 0E0C77A0 {
+                          [1] => "5300,0, 0,0, 6"
+                          [2] => "5300,1, 0,0, 6"
+                          [3] => "5300,2, 0,0, 6"
+                          [4] => "5300,3, 0,0, 6"
+                          [5] => "5300,2, 0,0, 6"
+                          [6] => "5300,1, 0,0, 6"
+                          [7] => "5300,0, 0,0, 6"
+                          [8] => "5300,1, 0,0, 6"
+                          [9] => "5300,2, 0,0, 6"
+                          [10] => "5300,3, 0,0, 6"
+                          [11] => "5300,2, 0,0, 6"
+                          [12] => "5300,1, 0,0, 6"
+                        }
+             [p2AnimWin] => userdata: 0E0E6840
+             [quotes] => table: 0E0C77A0 {
+                           [8] => "Listen... I am the Goddamn Bad Man, simple as that!"
+                           [7] => "You are past the expiration date, PAL!"
+                           [6] => "Join our quest, you will get chicks for your bravery!"
+                           [5] => "At least you can help me get rid of my past I regret so fucking much."
+                           [4] => "Still butthurt about the flame effect, mang?"
+                           [3] => "I just met my firstborn."
+                           [2] => "Can anybody tell me for what I have to face this guy?!"
+                           [1] => "The target has been neutralized."
+                           [0] => "Die!"
+                           [12] => "Oh fuck no I am not just seeing that."
+                           [11] => "Gawdemmit, not another Loli! I had seriously enough of you!"
+                           [10] => "I finally have you now, bitch!"
+                           [9] => "Dude, I need your gun. Chicks dig the big guns."
+                         }
+             [boss] => 1
+             [includestage] => 0
+             [def] => "chars/kung fu man/evil/evil kung fu man.def"
+             [music] => table: 0E0C77A0 {
+                          [1] => table: 0E0C72C8 {
                                    [bgmvolume] => 100
+                                   [bgmusic] => "sound/danger toy.mp3"
                                  }
                         }
-             [p1AnimDizzy] => userdata: 0D7C2950
+             [p2AnimDizzy] => userdata: 0E0E59A0
+             [name] => "evil kung fu man"
+             [yscale] => "1"
+             [dir] => "chars/kung fu man/evil/"
+             [air] => "chars/kung fu man/evil/ekfm.air"
+             [sff] => "chars/kung fu man/evil/ekfm.sff"
+             [xscale] => "1"
+             [lieDown] => table: 0E0C77A0 {
+                            [1] => "5040,20, 0,0, 4"
+                            [2] => "5040,0, 0,0, 4"
+                            [3] => "5040,10, 0,0, -1"
+                          }
+             [p2AnimStand] => userdata: 0E0E4530
+             [p2AnimLieDown] => userdata: 0E0E2EE0
+             [p1AnimDizzy] => userdata: 0E0E4B00
+             [cns] => "chars/kung fu man/evil/ekfm.cns"
+             [author] => "the_none"
+             [char] => "kung fu man/evil/evil kung fu man.def"
              [order] => 4
-             [p1AnimStand] => userdata: 0D7C4E40
-             [p2AnimStand] => userdata: 0D7C0EE0
-             [stand] => table: 0D7707B0 {
+             [stand] => table: 0E0C77A0 {
                           [1] => "0,0, 0,0, 10"
                           [2] => "0,1, 0,0, 7"
                           [3] => "0,2, 0,0, 7"
@@ -819,30 +819,10 @@ table: 0D75D1A0 {
                           [11] => "0,0, 0,0, 40"
                         }
            }
-  [121] => table: 0D75D1A0 {
-             [snd] => "chars/kung fu man/ex/kfm_k.snd"
-             [p2AnimLieDown] => userdata: 0D7C0550
-             [dir] => "chars/kung fu man/ex/"
-             [author] => "mage"
-             [sff] => "chars/kung fu man/ex/kfm_k.sff"
-             [boss] => 1
-             [displayname] => "EX Kung Fu Man"
-             [p1AnimDizzy] => userdata: 0D7C06A0
-             [p1AnimLieDown] => userdata: 0D7C4690
-             [p2AnimWin] => userdata: 0D7BF560
-             [p1AnimStand] => userdata: 0D7C2830
-             [name] => "ex kung fu man"
-             [def] => "chars/kung fu man/ex/ex kung fu man.def"
-             [sffData] => userdata: 0D7C0B80
-             [p2AnimStand] => userdata: 0D7C0BE0
-             [air] => "chars/kung fu man/ex/kfm_k.air"
-             [dizzy] => table: 0D7F7698 {
-                          [1] => "5300,0,0,0,11"
-                          [2] => "5300,1,0,0,9"
-                          [3] => "5300,2,0,0,11"
-                          [4] => "5300,1,0,0,9"
-                        }
-             [win] => table: 0D7F7698 {
+  [121] => table: 0DC775E0 {
+             [yscale] => "1"
+             [xscale] => "1"
+             [win] => table: 0E1462D8 {
                         [1] => "0,0,0,0,2"
                         [2] => "120,0,0,0,3"
                         [3] => "195,0,0,0,3"
@@ -878,17 +858,21 @@ table: 0D75D1A0 {
                         [33] => "290,6,0,0,3"
                         [34] => "290,5,0,0,3"
                       }
-             [p1AnimWin] => userdata: 0D7C1090
-             [quotes] => table: 0D7F7698 {
-                           [3] => "You look familiar. Did I see you on TV?"
-                           [4] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
-                           [1] => "You must defeat Tu Shou to stand a chance."
-                           [2] => "You need a lot of training. Come back in ten years."
-                           [7] => "What do you mean my girlfriend is in another temple?"
-                           [5] => "That was a good workout."
-                           [6] => "I want to challenge more skilled fighters."
-                         }
-             [stand] => table: 0D7F7698 {
+             [boss] => 1
+             [p2AnimDizzy] => userdata: 0E0E64B0
+             [p1AnimDizzy] => userdata: 0E0E3E40
+             [p2AnimLieDown] => userdata: 0E0E5DC0
+             [snd] => "chars/kung fu man/ex/kfm_k.snd"
+             [includestage] => 0
+             [def] => "chars/kung fu man/ex/ex kung fu man.def"
+             [stage] => table: 0E1462D8 {
+                          [1] => 15
+                        }
+             [p1AnimLieDown] => userdata: 0E0E4410
+             [p1AnimWin] => userdata: 0E0E5220
+             [sffData] => userdata: 0E0E4890
+             [p2AnimWin] => userdata: 0E0E30F0
+             [stand] => table: 0E1462D8 {
                           [1] => "0,0,0,0,49"
                           [2] => "0,1,0,0,8"
                           [3] => "0,2,0,0,8"
@@ -900,61 +884,48 @@ table: 0D75D1A0 {
                           [9] => "0,2,0,0,8"
                           [10] => "0,1,0,0,8"
                         }
-             [yscale] => "1"
-             [xscale] => "1"
-             [char] => "kung fu man/ex/ex kung fu man.def"
-             [trigger] => table: 0D7F7698 {
+             [quotes] => table: 0E1462D8 {
+                           [7] => "What do you mean my girlfriend is in another temple?"
+                           [6] => "I want to challenge more skilled fighters."
+                           [5] => "That was a good workout."
+                           [4] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
+                           [3] => "You look familiar. Did I see you on TV?"
+                           [2] => "You need a lot of training. Come back in ten years."
+                           [1] => "You must defeat Tu Shou to stand a chance."
+                         }
+             [name] => "ex kung fu man"
+             [trigger] => table: 0E1462D8 {
                           }
-             [st] => table: 0D7F7698 {
+             [dir] => "chars/kung fu man/ex/"
+             [air] => "chars/kung fu man/ex/kfm_k.air"
+             [sff] => "chars/kung fu man/ex/kfm_k.sff"
+             [char] => "kung fu man/ex/ex kung fu man.def"
+             [lieDown] => table: 0E1462D8 {
+                            [1] => "5040,20,0,0,5"
+                            [2] => "5040,0,0,0,-1"
+                          }
+             [p2AnimStand] => userdata: 0E0E64E0
+             [p1AnimStand] => userdata: 0E0E5C10
+             [author] => "mage"
+             [cns] => "chars/kung fu man/ex/kfm_k.cns"
+             [displayname] => "EX Kung Fu Man"
+             [st] => table: 0E1462D8 {
                        [1] => "chars/kung fu man/ex/kfm_k.cns"
                        [2] => "chars/kung fu man/ex/kfm_k2.cns"
                        [3] => "chars/kung fu man/ex/kfm_k3.cns"
                      }
-             [lieDown] => table: 0D7F7698 {
-                            [1] => "5040,20,0,0,5"
-                            [2] => "5040,0,0,0,-1"
-                          }
-             [stage] => table: 0D7F7698 {
-                          [1] => 16
-                        }
              [order] => 4
-             [p2AnimDizzy] => userdata: 0D7C5AD0
-             [cns] => "chars/kung fu man/ex/kfm_k.cns"
-             [includestage] => 0
+             [dizzy] => table: 0E1462D8 {
+                          [1] => "5300,0,0,0,11"
+                          [2] => "5300,1,0,0,9"
+                          [3] => "5300,2,0,0,11"
+                          [4] => "5300,1,0,0,9"
+                        }
            }
-  [122] => table: 0D75D1A0 {
-             [snd] => "chars/suave dude/minion/minions.snd"
-             [p2AnimLieDown] => userdata: 0D7C31C0
-             [dir] => "chars/suave dude/minion/"
-             [author] => "masukenpu-kun / donaldeus"
-             [boss] => 1
-             [displayname] => "Suave Dude's Minion"
-             [stage] => table: 0D7712A0 {
-                          [1] => 3
-                        }
-             [p1AnimDizzy] => userdata: 0D7BF710
-             [p1AnimLieDown] => userdata: 0D7C42D0
-             [p2AnimWin] => userdata: 0D7C1720
-             [name] => "suave dude's minion"
-             [def] => "chars/suave dude/minion/minion.def"
-             [sffData] => userdata: 0D7C2650
-             [p2AnimStand] => userdata: 0D7C4150
-             [air] => "chars/suave dude/minion/minions.air"
-             [dizzy] => table: 0D7712A0 {
-                          [1] => "5300,  0,  0,  0,  5"
-                          [2] => "5300,  1,  0,  0,  5"
-                          [3] => "5300,  2,  0,  0,  5"
-                          [4] => "loopstart"
-                          [5] => "5300,  3,  0,  0, 10"
-                          [6] => "5300,4,0,0,10"
-                          [7] => "5300,5,0,0,10"
-                          [8] => "5300,  4,  0,  0, 10"
-                          [9] => "5300,  3,  0,  0, 10"
-                          [10] => "5300,6,0,0,10"
-                          [11] => "5300,7,0,0,10"
-                          [12] => "5300,  6,  0,  0, 10"
-                        }
-             [win] => table: 0D7712A0 {
+  [122] => table: 0DC775E0 {
+             [yscale] => "1"
+             [xscale] => "1"
+             [win] => table: 0E1291C8 {
                         [1] => "200,0, 0,0, 2"
                         [2] => "181,  0,  0,  0,  4"
                         [3] => "181,  1,  0,  0,  4"
@@ -968,31 +939,20 @@ table: 0D75D1A0 {
                         [11] => "181,  7,  0,  0,  4"
                         [12] => "181,  8,  0,  0, -1"
                       }
-             [p1AnimWin] => userdata: 0D7BE6F0
-             [p1AnimStand] => userdata: 0D7BE960
-             [trigger] => table: 0D7712A0 {
-                          }
-             [yscale] => "1"
-             [xscale] => "1"
-             [char] => "suave dude/minion/minion.def"
-             [sff] => "chars/suave dude/minion/minions.sff"
-             [st] => table: 0D7712A0 {
-                       [1] => "chars/suave dude/minion/minions.cns"
-                     }
-             [lieDown] => table: 0D7712A0 {
-                            [1] => "5040,20, 0,0, 4"
-                            [2] => "5040, 0, 0,0, 4"
-                            [3] => "5040,10, 0,0, -1"
-                          }
-             [quotes] => table: 0D7712A0 {
-                           [3] => "I want to challenge more skilled fighters."
-                           [1] => "You must defeat Tu Shou to stand a chance."
-                           [2] => "Your moves are too predictable."
-                         }
-             [order] => 1
-             [p2AnimDizzy] => userdata: 0D7BFA70
-             [cns] => "chars/suave dude/minion/minions.cns"
-             [stand] => table: 0D7712A0 {
+             [boss] => 1
+             [p2AnimDizzy] => userdata: 0E0E6480
+             [p1AnimDizzy] => userdata: 0E0E5190
+             [snd] => "chars/suave dude/minion/minions.snd"
+             [p2AnimLieDown] => userdata: 0E0E37E0
+             [def] => "chars/suave dude/minion/minion.def"
+             [stage] => table: 0E1291C8 {
+                          [1] => 3
+                        }
+             [p1AnimLieDown] => userdata: 0E0E52B0
+             [p1AnimWin] => userdata: 0E0E50A0
+             [sffData] => userdata: 0E0E5E50
+             [p2AnimWin] => userdata: 0E0E3FF0
+             [stand] => table: 0E1291C8 {
                           [1] => "0,  0,  0,  0, 18"
                           [2] => "0,  1,  0,  0,  8"
                           [3] => "0,  2,  0,  0,  8"
@@ -1000,39 +960,51 @@ table: 0D75D1A0 {
                           [5] => "0,  2,  0,  0,  8"
                           [6] => "0,  1,  0,  0,  8"
                         }
-           }
-  [123] => table: 0D75D1A0 {
-             [snd] => "chars/dragon claw/dc.snd"
-             [p2AnimLieDown] => userdata: 0D7C1E10
-             [dir] => "chars/dragon claw/"
-             [author] => "reu"
-             [single] => 1
-             [trigger] => table: 088D7068 {
+             [quotes] => table: 0E1291C8 {
+                           [3] => "I want to challenge more skilled fighters."
+                           [2] => "Your moves are too predictable."
+                           [1] => "You must defeat Tu Shou to stand a chance."
+                         }
+             [name] => "suave dude's minion"
+             [trigger] => table: 0E1291C8 {
                           }
-             [displayname] => "Dragon Claw"
-             [p1AnimDizzy] => userdata: 0D7BFBF0
-             [p1AnimLieDown] => userdata: 0D7C1390
-             [p2AnimWin] => userdata: 0D7BF500
-             [p1AnimStand] => userdata: 0D7C2E00
-             [name] => "dragon claw"
-             [def] => "chars/dragon claw/dragon claw.def"
-             [sffData] => userdata: 0D7C4C00
-             [p2AnimStand] => userdata: 02218720
-             [air] => "chars/dragon claw/dc.air"
-             [dizzy] => table: 088D7068 {
-                          [1] => "170, 1, 0, 0, 4"
-                          [2] => "170, 2, 0, 0, 4"
-                          [3] => "170, 3, 0, 0, 4"
-                          [4] => "170, 4, 0, 0, 4"
-                          [5] => "170, 5, 0, 0, 4"
-                          [6] => "170, 6, 0, 0, 4"
-                          [7] => "170, 7, 0, 0, 4"
-                          [8] => "170, 8, 0, 0, 4"
-                          [9] => "170, 9, 0, 0, 4"
-                          [10] => "170, 10, 0, 0, 4"
-                          [11] => "170, 11, 0, 0, 4"
+             [dir] => "chars/suave dude/minion/"
+             [air] => "chars/suave dude/minion/minions.air"
+             [sff] => "chars/suave dude/minion/minions.sff"
+             [char] => "suave dude/minion/minion.def"
+             [lieDown] => table: 0E1291C8 {
+                            [1] => "5040,20, 0,0, 4"
+                            [2] => "5040, 0, 0,0, 4"
+                            [3] => "5040,10, 0,0, -1"
+                          }
+             [p2AnimStand] => userdata: 0E0E6210
+             [p1AnimStand] => userdata: 0E0E5A30
+             [st] => table: 0E1291C8 {
+                       [1] => "chars/suave dude/minion/minions.cns"
+                     }
+             [cns] => "chars/suave dude/minion/minions.cns"
+             [displayname] => "Suave Dude's Minion"
+             [author] => "masukenpu-kun / donaldeus"
+             [order] => 1
+             [dizzy] => table: 0E1291C8 {
+                          [1] => "5300,  0,  0,  0,  5"
+                          [2] => "5300,  1,  0,  0,  5"
+                          [3] => "5300,  2,  0,  0,  5"
+                          [4] => "loopstart"
+                          [5] => "5300,  3,  0,  0, 10"
+                          [6] => "5300,4,0,0,10"
+                          [7] => "5300,5,0,0,10"
+                          [8] => "5300,  4,  0,  0, 10"
+                          [9] => "5300,  3,  0,  0, 10"
+                          [10] => "5300,6,0,0,10"
+                          [11] => "5300,7,0,0,10"
+                          [12] => "5300,  6,  0,  0, 10"
                         }
-             [win] => table: 088D7068 {
+           }
+  [123] => table: 0DC775E0 {
+             [yscale] => "1"
+             [xscale] => "1"
+             [win] => table: 02E009A8 {
                         [1] => "35, 0, 0, 0, 2"
                         [2] => "35, 1, 0, 0, 2"
                         [3] => "35, 2, 0, 0, 2"
@@ -1046,11 +1018,21 @@ table: 0D75D1A0 {
                         [11] => "35, 10, 0, 0, 2"
                         [12] => "35, 11, 0, 0, -1"
                       }
-             [p1AnimWin] => userdata: 02218780
-             [stage] => table: 088D7068 {
-                          [1] => 17
-                        }
-             [stand] => table: 088D7068 {
+             [st] => table: 02E009A8 {
+                       [1] => "chars/dragon claw/dc.cns"
+                     }
+             [p2AnimDizzy] => userdata: 0E0E4E30
+             [p1AnimDizzy] => userdata: 0E0E32A0
+             [p2AnimLieDown] => userdata: 0E0E68D0
+             [snd] => "chars/dragon claw/dc.snd"
+             [includestage] => 0
+             [def] => "chars/dragon claw/dragon claw.def"
+             [char] => "dragon claw"
+             [p1AnimLieDown] => userdata: 0E0E3390
+             [p1AnimWin] => userdata: 00E42F58
+             [sffData] => userdata: 0E0E42C0
+             [p2AnimWin] => userdata: 00E42E98
+             [stand] => table: 02E009A8 {
                           [1] => "1, 1, 0, 0, 2"
                           [2] => "1, 0, 0, 0, 2"
                           [3] => "1, 2, 0, 0, 1"
@@ -1090,46 +1072,48 @@ table: 0D75D1A0 {
                           [37] => "0, 37, 0, 0, 3"
                           [38] => "0, 38, 0, 0, 3"
                         }
-             [yscale] => "1"
-             [xscale] => "1"
-             [char] => "dragon claw"
-             [quotes] => table: 088D7068 {
+             [quotes] => table: 02E009A8 {
                            [1] => "..."
                          }
-             [st] => table: 088D7068 {
-                       [1] => "chars/dragon claw/dc.cns"
-                     }
-             [lieDown] => table: 088D7068 {
+             [name] => "dragon claw"
+             [trigger] => table: 02E009A8 {
+                          }
+             [dir] => "chars/dragon claw/"
+             [air] => "chars/dragon claw/dc.air"
+             [sff] => "chars/dragon claw/dc.sff"
+             [stage] => table: 02E009A8 {
+                          [1] => 16
+                        }
+             [lieDown] => table: 02E009A8 {
                             [1] => "5040, 1, 0, 0, 3"
                             [2] => "5040, 2, 0, 0, 3"
                             [3] => "5040, 3, 0, 0, 3"
                             [4] => "5040, 10, 0, 0, -1"
                           }
-             [sff] => "chars/dragon claw/dc.sff"
-             [order] => 4
-             [p2AnimDizzy] => userdata: 0D7C2200
+             [p2AnimStand] => userdata: 0E0E4260
+             [p1AnimStand] => userdata: 0E0E4AA0
+             [author] => "reu"
              [cns] => "chars/dragon claw/dc.cns"
-             [includestage] => 0
-           }
-  [124] => table: 0D75D1A0 {
-             [p1AnimLieDown] => userdata: 0D7C5920
-             [dir] => "chars/kung fu girl/master/"
+             [displayname] => "Dragon Claw"
              [single] => 1
-             [def] => "chars/kung fu girl/master/master kung fu girl.def"
-             [air] => "chars/kung fu girl/master/akfgz.air"
-             [p2AnimWin] => userdata: 0D7C49C0
-             [yscale] => "1"
-             [xscale] => "1"
-             [quotes] => table: 0D7B6B88 {
-                           [3] => "Oh my... Are you alright? I guess I don't know my own strength!"
-                           [4] => "That was fun! Well, see ya later!"
-                           [1] => "Tee-hee! I'm a lot stonger than you thought huh?"
-                           [2] => "H-Hey! It's not nice to stare y'know!"
-                           [0] => "W-What?! No! I'm not his girlfriend! He's just my sensei!"
-                           [5] => "You need more training. UwU"
-                           [6] => "Thank you for your time, sensei. This should make us both stronger!"
-                         }
-             [st] => table: 0D7B6B88 {
+             [order] => 4
+             [dizzy] => table: 02E009A8 {
+                          [1] => "170, 1, 0, 0, 4"
+                          [2] => "170, 2, 0, 0, 4"
+                          [3] => "170, 3, 0, 0, 4"
+                          [4] => "170, 4, 0, 0, 4"
+                          [5] => "170, 5, 0, 0, 4"
+                          [6] => "170, 6, 0, 0, 4"
+                          [7] => "170, 7, 0, 0, 4"
+                          [8] => "170, 8, 0, 0, 4"
+                          [9] => "170, 9, 0, 0, 4"
+                          [10] => "170, 10, 0, 0, 4"
+                          [11] => "170, 11, 0, 0, 4"
+                        }
+           }
+  [124] => table: 0DC775E0 {
+             [p2AnimCheese] => userdata: 0E0E2DF0
+             [st] => table: 0E180F20 {
                        [1] => "chars/kung fu girl/master/cns/akfgz.cns"
                        [2] => "chars/kung fu girl/master/cns/akfgz-n.cns"
                        [3] => "chars/kung fu girl/master/cns/akfgz-s.cns"
@@ -1138,54 +1122,26 @@ table: 0D75D1A0 {
                        [6] => "chars/kung fu girl/master/cns/akfgz-3.cns"
                        [7] => "chars/kung fu girl/master/cns/akfgz-helper.cns"
                      }
-             [lieDown] => table: 0D7B6B88 {
-                            [1] => "5040, 1, 0, 0, 3"
-                            [2] => "5040, 20, 0, 0, -1"
-                          }
-             [sff] => "chars/kung fu girl/master/akfgz.sff"
-             [p2AnimDizzy] => userdata: 0D7BF0B0
-             [cns] => "chars/kung fu girl/master/cns/akfgz.cns"
-             [includestage] => 0
              [snd] => "chars/kung fu girl/master/akfgz.snd"
-             [music] => table: 0D7B6B88 {
-                          [1] => table: 0D7B6020 {
-                                   [bgmusic] => "sound/student.mp3"
-                                   [bgmvolume] => 100
-                                 }
+             [stage] => table: 0E180F20 {
+                          [1] => 17
                         }
-             [stage] => table: 0D7B6B88 {
-                          [1] => 18
-                        }
-             [author] => "s.y.d"
-             [trigger] => table: 0D7B6B88 {
-                            [1] => table: 0D770DA0 {
+             [p1AnimWin] => userdata: 0E0E4F20
+             [sffData] => userdata: 0E0E6540
+             [trigger] => table: 0E180F20 {
+                            [1] => table: 0E144258 {
                                      [1] => "1"
                                      [value] => "(random % 5)"
                                    }
-                            [2] => table: 0D770DA0 {
+                            [2] => table: 0E144258 {
                                      [1] => "enemy,name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720""
                                      [value] => "6"
                                    }
                           }
+             [p1AnimLieDown] => userdata: 0E0E5040
+             [p1AnimStand] => userdata: 0E0E6450
              [displayname] => "Master Kung Fu Girl"
-             [name] => "master kung fu girl"
-             [sffData] => userdata: 0D7C41B0
-             [cheese] => table: 0D7B6B88 {
-                           [1] => "5950, 0, -5, 0, 30"
-                           [2] => "5950, 1, -5, 0, 6"
-                           [3] => "5950, 2, -5, 0, 6"
-                           [4] => "5950, 3, -10, 3, 6"
-                           [5] => "5950, 4, -10, 3, 5"
-                           [6] => "5950, 5, -10, 3, 5"
-                           [7] => "5950, 6, -10, 3, 5"
-                           [8] => "5950, 7, -10, 3, 20"
-                           [9] => "5950, 8, -12, 3, 7"
-                           [10] => "5950, 9, -15, 3, 6"
-                           [11] => "5950, 10, -26, 3, 6"
-                           [12] => "5950, 11, -26, 3, 5"
-                           [13] => "5101, 6, 0, 0, 5"
-                         }
-             [dizzy] => table: 0D7B6B88 {
+             [dizzy] => table: 0E180F20 {
                           [1] => "5300, 0, 0, 0, 7"
                           [2] => "5300, 1, 0, 0, 7"
                           [3] => "5300, 2, 0, 0, 7"
@@ -1205,42 +1161,20 @@ table: 0D75D1A0 {
                           [17] => "5300, 5, 0, 0, 7"
                           [18] => "5300, 6, 0, 0, 7"
                         }
-             [win] => table: 0D7B6B88 {
-                        [1] => "180, 0, 0, 0, 5"
-                        [2] => "180, 1, 0, 0, 5"
-                        [3] => "180, 2, 0, 0, 5"
-                        [4] => "180, 3, 0, 0, 5"
-                        [5] => "180, 4, 0, 0, 5"
-                        [6] => "180, 5, 0, 0, 5"
-                        [7] => "180, 6, 0, 0, 5"
-                        [8] => "180, 7, 0, 0, 5"
-                        [9] => "180, 8, 0, 0, 5"
-                        [10] => "180, 9, 0, 0, 5"
-                        [11] => "180, 10, 0, 0, 5"
-                        [12] => "180, 11, 0, 0, 4"
-                        [13] => "180, 12, 0, 0, 4"
-                        [14] => "180, 13, 0, 0, 4"
-                        [15] => "180, 14, 0, 0, 4"
-                        [16] => "180, 15, 0, 0, 4"
-                        [17] => "180, 16, 0, 0, 4"
-                        [18] => "180, 17, 0, 0, 4"
-                        [19] => "180, 18, 0, 0, 4"
-                        [20] => "180, 19, 0, 0, 4"
-                        [21] => "180, 20, 0, 0, 4"
-                        [22] => "180, 21, 0, 0, 4"
-                        [23] => "180, 22, 0, 0, 4"
-                        [24] => "180, 23, 0, 0, -1"
-                      }
-             [p1AnimWin] => userdata: 0D7C5860
-             [char] => "kung fu girl/master/master kung fu girl.def"
-             [p1AnimDizzy] => userdata: 0D7C5680
-             [p2AnimLieDown] => userdata: 0D7C22F0
-             [p2AnimCheese] => userdata: 0D7BF950
-             [p1AnimCheese] => userdata: 0D7BFA40
-             [order] => 5
-             [p1AnimStand] => userdata: 0D7C2020
-             [p2AnimStand] => userdata: 0D7C44E0
-             [stand] => table: 0D7B6B88 {
+             [p2AnimWin] => userdata: 0E0E38A0
+             [quotes] => table: 0E180F20 {
+                           [0] => "W-What?! No! I'm not his girlfriend! He's just my sensei!"
+                           [6] => "Thank you for your time, sensei. This should make us both stronger!"
+                           [5] => "You need more training. UwU"
+                           [4] => "That was fun! Well, see ya later!"
+                           [3] => "Oh my... Are you alright? I guess I don't know my own strength!"
+                           [2] => "H-Hey! It's not nice to stare y'know!"
+                           [1] => "Tee-hee! I'm a lot stonger than you thought huh?"
+                         }
+             [p1AnimCheese] => userdata: 0E0E3510
+             [single] => 1
+             [def] => "chars/kung fu girl/master/master kung fu girl.def"
+             [stand] => table: 0E180F20 {
                           [1] => "0, 11, 0, 0, 5"
                           [2] => "0, 12, 0, 0, 5"
                           [3] => "0, 13, 0, 0, 5"
@@ -1269,40 +1203,80 @@ table: 0D75D1A0 {
                           [26] => "0, 9, 0, 0, 5"
                           [27] => "0, 8, 0, 0, 5"
                         }
+             [p2AnimDizzy] => userdata: 0E0E57F0
+             [p1AnimDizzy] => userdata: 0E0E5C40
+             [includestage] => 0
+             [yscale] => "1"
+             [name] => "master kung fu girl"
+             [xscale] => "1"
+             [dir] => "chars/kung fu girl/master/"
+             [air] => "chars/kung fu girl/master/akfgz.air"
+             [sff] => "chars/kung fu girl/master/akfgz.sff"
+             [win] => table: 0E180F20 {
+                        [1] => "180, 0, 0, 0, 5"
+                        [2] => "180, 1, 0, 0, 5"
+                        [3] => "180, 2, 0, 0, 5"
+                        [4] => "180, 3, 0, 0, 5"
+                        [5] => "180, 4, 0, 0, 5"
+                        [6] => "180, 5, 0, 0, 5"
+                        [7] => "180, 6, 0, 0, 5"
+                        [8] => "180, 7, 0, 0, 5"
+                        [9] => "180, 8, 0, 0, 5"
+                        [10] => "180, 9, 0, 0, 5"
+                        [11] => "180, 10, 0, 0, 5"
+                        [12] => "180, 11, 0, 0, 4"
+                        [13] => "180, 12, 0, 0, 4"
+                        [14] => "180, 13, 0, 0, 4"
+                        [15] => "180, 14, 0, 0, 4"
+                        [16] => "180, 15, 0, 0, 4"
+                        [17] => "180, 16, 0, 0, 4"
+                        [18] => "180, 17, 0, 0, 4"
+                        [19] => "180, 18, 0, 0, 4"
+                        [20] => "180, 19, 0, 0, 4"
+                        [21] => "180, 20, 0, 0, 4"
+                        [22] => "180, 21, 0, 0, 4"
+                        [23] => "180, 22, 0, 0, 4"
+                        [24] => "180, 23, 0, 0, -1"
+                      }
+             [lieDown] => table: 0E180F20 {
+                            [1] => "5040, 1, 0, 0, 3"
+                            [2] => "5040, 20, 0, 0, -1"
+                          }
+             [p2AnimStand] => userdata: 0E0E4860
+             [p2AnimLieDown] => userdata: 0E0E3300
+             [music] => table: 0E180F20 {
+                          [1] => table: 0E181F60 {
+                                   [bgmvolume] => 100
+                                   [bgmusic] => "sound/student.mp3"
+                                 }
+                        }
+             [cns] => "chars/kung fu girl/master/cns/akfgz.cns"
+             [author] => "s.y.d"
+             [cheese] => table: 0E180F20 {
+                           [1] => "5950, 0, -5, 0, 30"
+                           [2] => "5950, 1, -5, 0, 6"
+                           [3] => "5950, 2, -5, 0, 6"
+                           [4] => "5950, 3, -10, 3, 6"
+                           [5] => "5950, 4, -10, 3, 5"
+                           [6] => "5950, 5, -10, 3, 5"
+                           [7] => "5950, 6, -10, 3, 5"
+                           [8] => "5950, 7, -10, 3, 20"
+                           [9] => "5950, 8, -12, 3, 7"
+                           [10] => "5950, 9, -15, 3, 6"
+                           [11] => "5950, 10, -26, 3, 6"
+                           [12] => "5950, 11, -26, 3, 5"
+                           [13] => "5101, 6, 0, 0, 5"
+                         }
+             [order] => 5
+             [char] => "kung fu girl/master/master kung fu girl.def"
            }
-  [125] => table: 0D75D1A0 {
+  [125] => table: 0DC775E0 {
              [1] => "kung fu man/evil/evil kung fu man.def"
              [2] => "kung fu girl"
              [3] => "suave dude"
              [4] => "dragon claw"
-             [p1AnimLieDown] => userdata: 0D7BF590
-             [dir] => "chars/kung fu man/master/"
-             [single] => 1
-             [def] => "chars/kung fu man/master/master kung fu man.def"
-             [air] => "chars/kung fu man/master/anim.air"
-             [p2AnimWin] => userdata: 0D7C2290
-             [yscale] => "1"
-             [xscale] => "1"
-             [quotes] => table: 0D851830 {
-                           [3] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
-                           [4] => "That was a good workout."
-                           [1] => "You need a lot of training. Come back in ten years."
-                           [2] => "You look familiar. Did I see you on TV?"
-                           [0] => "You must defeat Tu Shou to stand a chance."
-                           [11] => "Who knew rescuing my girlfriend would be so difficult..."
-                           [12] => "What strength! But don't forget there are guys like you all over the world!"
-                           [13] => "You must defeat my Kung Fu Palm to stand a chance."
-                           [14] => "I cannot be defeated by my clones."
-                           [10] => "Where's Suave Dude hiding?! What do you mean there's no Suave Dude?!"
-                           [15] => "You still need more training. You can be stronger than you are now."
-                           [9] => "I have no time for you, I must press on."
-                           [16] => "So much for our history together. Now, let's get her back!"
-                           [7] => "Go home and be a family man!"
-                           [8] => "Sign up for my dojo later, I'll give you a discount."
-                           [5] => "I want to challenge more skilled fighters."
-                           [6] => "What do you mean my girlfriend is in another temple?"
-                         }
-             [st] => table: 0D851830 {
+             [p2AnimCheese] => userdata: 0E0E6000
+             [st] => table: 0E17E478 {
                        [1] => "chars/kung fu man/master/states/system.cns"
                        [2] => "chars/kung fu man/master/states/normal.cns"
                        [3] => "chars/kung fu man/master/states/special.cns"
@@ -1311,15 +1285,76 @@ table: 0D75D1A0 {
                        [6] => "chars/kung fu man/master/states/customs.cns"
                        [7] => "chars/kung fu man/master/config.txt"
                      }
-             [lieDown] => table: 0D851830 {
-                            [1] => "5040,20, 0,0, 4"
-                            [2] => "5040,0, 0,0, 4"
-                            [3] => "5040,10, 0,0, -1"
+             [snd] => "chars/kung fu man/master/sound.snd"
+             [char] => "kung fu man/master/master kung fu man.def"
+             [p1AnimWin] => userdata: 0E0E2F40
+             [sffData] => userdata: 0E0E5D60
+             [trigger] => table: 0E17E478 {
+                            [1] => table: 0E17F1E8 {
+                                     [1] => "1"
+                                     [value] => "random%13"
+                                   }
+                            [2] => table: 0E17F1E8 {
+                                     [1] => "enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man""
+                                     [all] => "numenemy"
+                                     [value] => "14"
+                                   }
+                            [3] => table: 0E17F1E8 {
+                                     [1] => "enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg""
+                                     [all] => "numenemy"
+                                     [value] => "15"
+                                   }
+                            [4] => table: 0E17F1E8 {
+                                     [1] => "(enemy, name = "suave dude") && (1)"
+                                     [all] => "numenemy"
+                                     [value] => "16"
+                                   }
                           }
-             [sff] => "chars/kung fu man/master/sprite.sff"
-             [p2AnimDizzy] => userdata: 0D7BF470
-             [cns] => "chars/kung fu man/master/constants.cns"
-             [stand] => table: 0D851830 {
+             [p1AnimLieDown] => userdata: 0E0E3780
+             [p1AnimStand] => userdata: 0E0E3120
+             [displayname] => "Master Kung Fu Man"
+             [dizzy] => table: 0E17E478 {
+                          [1] => "5300,0, 0,0, 8"
+                          [2] => "5300,1, 0,0, 8"
+                          [3] => "5300,2, 0,0, 8"
+                          [4] => "5300,3, 0,0, 8"
+                          [5] => "5300,2, 0,0, 8"
+                          [6] => "5300,1, 0,0, 8"
+                        }
+             [p2AnimWin] => userdata: 0E0E2E50
+             [quotes] => table: 0E17E478 {
+                           [8] => "Sign up for my dojo later, I'll give you a discount."
+                           [7] => "Go home and be a family man!"
+                           [6] => "What do you mean my girlfriend is in another temple?"
+                           [5] => "I want to challenge more skilled fighters."
+                           [4] => "That was a good workout."
+                           [3] => "Your moves are too predictable. You want to learn Kung Fu Palm? It's not for novices."
+                           [2] => "You look familiar. Did I see you on TV?"
+                           [1] => "You need a lot of training. Come back in ten years."
+                           [0] => "You must defeat Tu Shou to stand a chance."
+                           [16] => "So much for our history together. Now, let's get her back!"
+                           [15] => "You still need more training. You can be stronger than you are now."
+                           [13] => "You must defeat my Kung Fu Palm to stand a chance."
+                           [14] => "I cannot be defeated by my clones."
+                           [11] => "Who knew rescuing my girlfriend would be so difficult..."
+                           [12] => "What strength! But don't forget there are guys like you all over the world!"
+                           [10] => "Where's Suave Dude hiding?! What do you mean there's no Suave Dude?!"
+                           [9] => "I have no time for you, I must press on."
+                         }
+             [p1AnimCheese] => userdata: 0E0E3F60
+             [cheese] => table: 0E17E478 {
+                           [1] => "5000,0, 0,0, 30"
+                           [2] => "5010,0, 6,0, 6"
+                           [3] => "5010,10, 6,0, 6"
+                           [4] => "5010,20, 9,0, 12"
+                           [5] => "5010,10, 7,0, 6"
+                           [6] => "5020,20, 0,0, 5"
+                           [7] => "5040,0, 0,0, 5"
+                           [8] => "loopstart"
+                           [9] => "5040,10, 0,0, 1"
+                         }
+             [def] => "chars/kung fu man/master/master kung fu man.def"
+             [stand] => table: 0E17E478 {
                           [1] => "0,0, 0,0, 10"
                           [2] => "0,1, 0,0, 7"
                           [3] => "0,2, 0,0, 7"
@@ -1332,56 +1367,22 @@ table: 0D75D1A0 {
                           [10] => "0,1, 0,0, 7"
                           [11] => "0,0, 0,0, 40"
                         }
-             [snd] => "chars/kung fu man/master/sound.snd"
-             [p2AnimLieDown] => userdata: 0D7C50E0
-             [stage] => table: 0D851830 {
-                          [1] => 4
-                        }
-             [author] => "sennou-room"
-             [trigger] => table: 0D851830 {
-                            [1] => table: 0D850A48 {
-                                     [1] => "1"
-                                     [value] => "random%13"
-                                   }
-                            [2] => table: 0D850A48 {
-                                     [1] => "enemy, name = "kung fu man" || enemy,name = "master kung fu man" || enemy,name = "kfm" || enemy,name = "master kfm" || enemy,name = "ex kfm" || enemy,name = "kfm ex" || enemy,name = "ex kung fu man" || enemy,name = "kung fu man ex" || enemy,name = "another kung fu man" || enemy,name = "kung fu man 720" || enemy,name = "kfm 720" || enemy,name = "evil kfm" || enemy,name = "evil kung fu man""
-                                     [all] => "numenemy"
-                                     [value] => "14"
-                                   }
-                            [3] => table: 0D850A48 {
-                                     [1] => "enemy, name = "kung fu girl" || enemy, name = "another kung fu girl" || enemy, name = "master kung fu girl" || enemy, name = "ex kung fu girl" || enemy, name = "kfg""
-                                     [all] => "numenemy"
-                                     [value] => "15"
-                                   }
-                            [4] => table: 0D850A48 {
-                                     [1] => "(enemy, name = "suave dude") && (1)"
-                                     [all] => "numenemy"
-                                     [value] => "16"
-                                   }
-                          }
-             [displayname] => "Master Kung Fu Man"
+             [p2AnimDizzy] => userdata: 0E0E6750
+             [p1AnimDizzy] => userdata: 0E0E6330
              [name] => "master kung fu man"
-             [sffData] => userdata: 0D7BE990
-             [cheese] => table: 0D851830 {
-                           [1] => "5000,0, 0,0, 30"
-                           [2] => "5010,0, 6,0, 6"
-                           [3] => "5010,10, 6,0, 6"
-                           [4] => "5010,20, 9,0, 12"
-                           [5] => "5010,10, 7,0, 6"
-                           [6] => "5020,20, 0,0, 5"
-                           [7] => "5040,0, 0,0, 5"
-                           [8] => "loopstart"
-                           [9] => "5040,10, 0,0, 1"
-                         }
-             [dizzy] => table: 0D851830 {
-                          [1] => "5300,0, 0,0, 8"
-                          [2] => "5300,1, 0,0, 8"
-                          [3] => "5300,2, 0,0, 8"
-                          [4] => "5300,3, 0,0, 8"
-                          [5] => "5300,2, 0,0, 8"
-                          [6] => "5300,1, 0,0, 8"
-                        }
-             [win] => table: 0D851830 {
+             [yscale] => "1"
+             [dir] => "chars/kung fu man/master/"
+             [air] => "chars/kung fu man/master/anim.air"
+             [sff] => "chars/kung fu man/master/sprite.sff"
+             [xscale] => "1"
+             [lieDown] => table: 0E17E478 {
+                            [1] => "5040,20, 0,0, 4"
+                            [2] => "5040,0, 0,0, 4"
+                            [3] => "5040,10, 0,0, -1"
+                          }
+             [p2AnimStand] => userdata: 0E0E5EB0
+             [p2AnimLieDown] => userdata: 0E0E35D0
+             [win] => table: 0E17E478 {
                         [1] => "200,0, 0,0, 4"
                         [2] => "181,0, 0,0, 5"
                         [3] => "181,1, 0,0, 5"
@@ -1395,181 +1396,180 @@ table: 0D75D1A0 {
                         [11] => "181,3, 0,0, 5"
                         [12] => "181,2, 0,0, -1"
                       }
-             [p1AnimWin] => userdata: 0D7C2C20
-             [char] => "kung fu man/master/master kung fu man.def"
-             [p1AnimDizzy] => userdata: 0D7C35B0
-             [p2AnimCheese] => userdata: 0D7C27A0
+             [cns] => "chars/kung fu man/master/constants.cns"
+             [author] => "sennou-room"
+             [single] => 1
              [order] => 4
-             [p1AnimCheese] => userdata: 0D7C5230
-             [p2AnimStand] => userdata: 0D7C0760
-             [p1AnimStand] => userdata: 0D7C5B90
+             [stage] => table: 0E17E478 {
+                          [1] => 4
+                        }
            }
-  [126] => table: 0D75D1A0 {
-             [p1AnimLieDown] => userdata: 0D7C0C70
-             [bonus] => 1
-             [dir] => "chars/strength training/"
-             [victoryscreen] => 0
-             [def] => "chars/strength training/strength training.def"
-             [air] => "chars/strength training/anim.air"
-             [yscale] => "1"
-             [xscale] => "1"
-             [quotes] => table: 0D80EB48 {
-                           [1] => "You're not supposed to see this!"
-                         }
-             [st] => table: 0D80EB48 {
+  [126] => table: 0DC775E0 {
+             [p2AnimDizzy] => userdata: 0E0E47A0
+             [st] => table: 0E1292E0 {
                        [1] => "chars/strength training/states.st"
                        [2] => "chars/strength training/config.txt"
                      }
-             [lieDown] => table: 0D80EB48 {
-                            [1] => "-1,-1, 0,0, -1"
-                          }
-             [sff] => "chars/strength training/sprite.sff"
-             [p2AnimDizzy] => userdata: 0D7BF7D0
-             [cns] => "chars/strength training/constants.cns"
-             [includestage] => 0
              [snd] => "chars/strength training/sound.snd"
-             [p2AnimLieDown] => userdata: 0D7C1ED0
-             [stage] => table: 0D80EB48 {
-                          [1] => 19
-                        }
-             [author] => "phantom.of.the.server"
-             [trigger] => table: 0D80EB48 {
-                            [1] => table: 0D80E530 {
-                                     [1] => "1"
-                                     [value] => "1"
-                                   }
-                          }
-             [displayname] => "Strength Training"
-             [name] => "strength training"
-             [sffData] => userdata: 0D7C20B0
-             [dizzy] => table: 0D80EB48 {
-                          [1] => "-1,-1, 0,0, -1"
-                        }
-             [char] => "strength training"
-             [vsscreen] => 0
-             [music] => table: 0D80EB48 {
-                          [1] => table: 0D80CAA0 {
-                                   [bgmusic] => "sound/ultimate warrior.mp3"
-                                   [bgmvolume] => 100
-                                 }
-                        }
-             [p1AnimDizzy] => userdata: 0D7C47E0
-             [exclude] => 1
-             [order] => 2
-             [p1AnimStand] => userdata: 0D7C3850
-             [p2AnimStand] => userdata: 0D7C49F0
-             [stand] => table: 0D80EB48 {
-                          [1] => "-1,-1, 0,0, -1"
-                        }
-           }
-  [127] => table: 0D75D1A0 {
-             [snd] => "chars/catwalk/sound.snd"
-             [bonus] => 1
-             [dir] => "chars/catwalk/"
-             [author] => "phantom.of.the.server"
-             [trigger] => table: 0D7AC330 {
-                            [1] => table: 0D7AB2F0 {
-                                     [1] => "1"
-                                     [value] => "1"
-                                   }
-                          }
-             [displayname] => "Catwalk"
-             [sff] => "chars/catwalk/sprite.sff"
-             [p1AnimDizzy] => userdata: 0D7BE2D0
              [victoryscreen] => 0
-             [name] => "catwalk"
-             [def] => "chars/catwalk/catwalk.def"
-             [sffData] => userdata: 0D7C2800
-             [p2AnimLieDown] => userdata: 0D7C52C0
-             [exclude] => 1
-             [dizzy] => table: 0D7AC330 {
+             [char] => "strength training"
+             [sffData] => userdata: 0E0E4CE0
+             [bonus] => 1
+             [trigger] => table: 0E1292E0 {
+                            [1] => table: 0E129218 {
+                                     [1] => "1"
+                                     [value] => "1"
+                                   }
+                          }
+             [p1AnimLieDown] => userdata: 0E0E43E0
+             [p1AnimStand] => userdata: 0E0E4C50
+             [displayname] => "Strength Training"
+             [dizzy] => table: 0E1292E0 {
                           [1] => "-1,-1, 0,0, -1"
                         }
-             [p1AnimLieDown] => userdata: 0D7C4780
-             [p2AnimStand] => userdata: 0D7BF320
-             [p1AnimStand] => userdata: 0D7C5260
-             [quotes] => table: 0D7AC330 {
+             [yscale] => "1"
+             [quotes] => table: 0E1292E0 {
                            [1] => "You're not supposed to see this!"
                          }
+             [includestage] => 0
+             [def] => "chars/strength training/strength training.def"
+             [stand] => table: 0E1292E0 {
+                          [1] => "-1,-1, 0,0, -1"
+                        }
+             [vsscreen] => 0
+             [name] => "strength training"
+             [xscale] => "1"
+             [dir] => "chars/strength training/"
+             [air] => "chars/strength training/anim.air"
+             [sff] => "chars/strength training/sprite.sff"
+             [p1AnimDizzy] => userdata: 0E0E3750
+             [lieDown] => table: 0E1292E0 {
+                            [1] => "-1,-1, 0,0, -1"
+                          }
+             [p2AnimStand] => userdata: 0E0E2EB0
+             [p2AnimLieDown] => userdata: 0E0E2E80
+             [stage] => table: 0E1292E0 {
+                          [1] => 18
+                        }
+             [cns] => "chars/strength training/constants.cns"
+             [author] => "phantom.of.the.server"
+             [music] => table: 0E1292E0 {
+                          [1] => table: 0E129AD8 {
+                                   [bgmvolume] => 100
+                                   [bgmusic] => "sound/ultimate warrior.mp3"
+                                 }
+                        }
+             [order] => 2
+             [exclude] => 1
+           }
+  [127] => table: 0DC775E0 {
              [yscale] => "1"
              [xscale] => "1"
-             [char] => "catwalk"
-             [zoom] => 0
-             [st] => table: 0D7AC330 {
+             [p2AnimDizzy] => userdata: 0E0E5940
+             [st] => table: 0E169558 {
                        [1] => "chars/catwalk/states.st"
                        [2] => "chars/catwalk/config.txt"
                      }
-             [lieDown] => table: 0D7AC330 {
-                            [1] => "-1,-1, 0,0, -1"
-                          }
-             [air] => "chars/catwalk/anim.air"
-             [order] => 2
-             [p2AnimDizzy] => userdata: 0D7C48A0
-             [cns] => "chars/catwalk/constants.cns"
-             [stand] => table: 0D7AC330 {
+             [p1AnimDizzy] => userdata: 0E0E3AB0
+             [snd] => "chars/catwalk/sound.snd"
+             [p2AnimLieDown] => userdata: 0E0E3CF0
+             [def] => "chars/catwalk/catwalk.def"
+             [char] => "catwalk"
+             [p1AnimLieDown] => userdata: 0E0E5BE0
+             [quotes] => table: 0E169558 {
+                           [1] => "You're not supposed to see this!"
+                         }
+             [sffData] => userdata: 0E0E3A50
+             [name] => "catwalk"
+             [dizzy] => table: 0E169558 {
                           [1] => "-1,-1, 0,0, -1"
                         }
-           }
-  [128] => table: 0D75D1A0 {
-             [p1AnimLieDown] => userdata: 0D7C0C10
-             [p2AnimLieDown] => userdata: 0D7C3F10
-             [dir] => "chars/training/"
-             [author] => "n-mario"
-             [displayname] => "Sandbag"
+             [stand] => table: 0E169558 {
+                          [1] => "-1,-1, 0,0, -1"
+                        }
+             [bonus] => 1
+             [trigger] => table: 0E169558 {
+                            [1] => table: 0E169508 {
+                                     [1] => "1"
+                                     [value] => "1"
+                                   }
+                          }
+             [dir] => "chars/catwalk/"
+             [air] => "chars/catwalk/anim.air"
+             [sff] => "chars/catwalk/sprite.sff"
+             [zoom] => 0
+             [lieDown] => table: 0E169558 {
+                            [1] => "-1,-1, 0,0, -1"
+                          }
+             [p2AnimStand] => userdata: 0E0E6150
+             [p1AnimStand] => userdata: 0E0E3F90
+             [author] => "phantom.of.the.server"
+             [cns] => "chars/catwalk/constants.cns"
+             [displayname] => "Catwalk"
              [victoryscreen] => 0
-             [name] => "sandbag"
-             [def] => "chars/training/sandbag.def"
-             [sffData] => userdata: 0D7C3910
+             [order] => 2
              [exclude] => 1
-             [dizzy] => table: 0D83BB98 {
+           }
+  [128] => table: 0DC775E0 {
+             [yscale] => "1"
+             [xscale] => "1"
+             [p2AnimDizzy] => userdata: 0E0E49B0
+             [st] => table: 0E157DC0 {
+                       [1] => "chars/training/states.cns"
+                     }
+             [victoryscreen] => 0
+             [char] => "training/sandbag.def"
+             [sffData] => userdata: 0E0E2D60
+             [p1AnimDizzy] => userdata: 0E0E4E60
+             [p2AnimLieDown] => userdata: 0E0E3960
+             [p1AnimLieDown] => userdata: 0E0E4800
+             [name] => "sandbag"
+             [dizzy] => table: 0E157DC0 {
                           [1] => "5020,0, 0,0, 10"
                           [2] => "0,0, 0,0, 10"
                           [3] => "5010,0, 0,0, 10"
                           [4] => "0,0, 0,0, 10"
                         }
+             [dir] => "chars/training/"
+             [air] => "chars/training/animation.air"
              [sff] => "chars/training/sprite.sff"
-             [p1AnimDizzy] => userdata: 0D7C15D0
-             [p2AnimStand] => userdata: 0D7BF800
-             [yscale] => "1"
-             [xscale] => "1"
-             [char] => "training/sandbag.def"
-             [p1AnimStand] => userdata: 0D7C1B40
-             [st] => table: 0D83BB98 {
-                       [1] => "chars/training/states.cns"
-                     }
-             [lieDown] => table: 0D83BB98 {
+             [stand] => table: 0E157DC0 {
+                          [1] => "0,0, 0,0, 1"
+                        }
+             [lieDown] => table: 0E157DC0 {
                             [1] => "5040,20, 0,0, 1"
                             [2] => "5040,10, 0,0, -1"
                           }
-             [air] => "chars/training/animation.air"
-             [order] => 6
-             [p2AnimDizzy] => userdata: 0D7C0430
+             [p2AnimStand] => userdata: 0E0E4140
+             [p1AnimStand] => userdata: 0E0E40E0
+             [author] => "n-mario"
              [cns] => "chars/training/sandbag.def"
-             [stand] => table: 0D83BB98 {
-                          [1] => "0,0, 0,0, 1"
-                        }
-           }
-  [129] => table: 0D75D1A0 {
-             [snd] => "chars/stage viewer/stage viewer.snd"
-             [dir] => "chars/stage viewer/"
-             [author] => "yoshin222"
-             [displayname] => "Stage Viewer"
-             [victoryscreen] => 0
-             [name] => "stage viewer"
-             [def] => "chars/stage viewer/stage viewer.def"
-             [sffData] => userdata: 0D7BFF20
+             [displayname] => "Sandbag"
+             [def] => "chars/training/sandbag.def"
+             [order] => 6
              [exclude] => 1
+           }
+  [129] => table: 0DC775E0 {
              [yscale] => "1"
              [xscale] => "1"
-             [char] => "stage viewer"
-             [st] => table: 0D7F7670 {
+             [st] => table: 0E1462B0 {
                        [1] => "chars/stage viewer/stage viewer.cns"
                        [2] => "chars/stage viewer/stage_viewer_code.cns"
                      }
+             [snd] => "chars/stage viewer/stage viewer.snd"
+             [victoryscreen] => 0
+             [char] => "stage viewer"
+             [sffData] => userdata: 0E0E58E0
              [vsscreen] => 0
-             [order] => 6
+             [name] => "stage viewer"
+             [dir] => "chars/stage viewer/"
              [air] => "chars/stage viewer/stage viewer.air"
-             [cns] => "chars/stage viewer/stage viewer.cns"
              [sff] => "chars/stage viewer/stage viewer.sff"
+             [def] => "chars/stage viewer/stage viewer.def"
+             [cns] => "chars/stage viewer/stage viewer.cns"
+             [displayname] => "Stage Viewer"
+             [author] => "yoshin222"
+             [order] => 6
+             [exclude] => 1
            }
 }

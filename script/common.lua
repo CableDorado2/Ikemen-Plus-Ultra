@@ -1725,7 +1725,7 @@ function f_default()
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
-	data.rosterAdvance = false --additional variable used to identify advanced games in select screen
+	data.rosterAdvanced = false --additional variable used to identify advanced games in select screen
 	data.missionNo = '' --additional variable used to identify missions in select screen
 	data.eventNo = '' --additional variable used to identify events in select screen
 	data.storyNo = '' --additional variable used to identify stories in select screen

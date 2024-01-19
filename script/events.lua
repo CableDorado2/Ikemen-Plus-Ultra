@@ -206,10 +206,9 @@ function f_eventMenu()
 							setRoundTime(-1)
 							data.p2In = 1
 							data.p2SelectMenu = false
-							data.p1TeamMenu = {mode = 0, chars = 1}				
+							data.p1TeamMenu = {mode = 0, chars = 1}
 							--data.p2TeamMenu = {mode = 2, chars = 4}
 							data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
-							data.versusScreen = true
 							data.gameMode = 'survival'
 							data.eventNo = '1'
 							script.select.f_selectAdvance()

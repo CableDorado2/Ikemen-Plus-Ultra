@@ -133,6 +133,68 @@ function f_selectReset()
 	serviceBack = false
 end
 
+function f_selectInit()
+	p1SelX = 0
+	p1SelY = 0
+	p2SelX = 4 --Cursor position after choosing the Team Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
+	p2SelY = 0
+	p1FaceOffset = 0
+	p2FaceOffset = 0
+	p1OffsetRow = 0
+	p2OffsetRow = 0
+	back = false
+	--Quick Scrolling
+	bufTmu = 0
+	bufTmd = 0
+	bufTmr = 0
+	bufTml = 0
+	bufTm2u = 0
+	bufTm2d = 0
+	bufTm2r = 0
+	bufTm2l = 0
+	bufSelu = 0
+	bufSeld = 0
+	bufSelr = 0
+	bufSell = 0
+	bufSel2u = 0
+	bufSel2d = 0
+	bufSel2r = 0
+	bufSel2l = 0
+	bufPalu = 0
+	bufPald = 0
+	bufPalr = 0
+	bufPall = 0
+	bufPal2u = 0
+	bufPal2d = 0
+	bufPal2r = 0
+	bufPal2l = 0
+	bufStageu = 0
+	bufStaged = 0
+	bufStager = 0
+	bufStagel = 0
+	--Timers
+	selectSeconds = data.selectTime
+	stageSeconds = data.stageTime
+	rematchSeconds = data.rematchTime
+	serviceSeconds = data.serviceTime
+	selectTimer = selectSeconds*gameTick --Set time for Character Select
+	stageTimer = stageSeconds*gameTick --Set time for Stage Select
+	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
+	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
+	if data.rosterAdvanced == false then stageList = 0 end
+	musicList = 0
+	gameNo = 0
+	bossNo = 0
+	bonusNo = 0
+	p1Wins = 0
+	p2Wins = 0
+	winner = 0
+	winCnt = 0
+	looseCnt = 0
+	clearTime = 0
+	matchTime = 0
+end
+
 function f_setZoom()
 	local zoom = data.zoomActive
 	if t_selChars[data.t_p2selected[1].cel+1].zoom ~= nil then
@@ -732,7 +794,7 @@ function f_backMenu()
 			else
 				f_selectReset()
 			end
-			if data.rosterAdvance == true then
+			if data.rosterAdvanced == true then
 				stageEnd = true
 			end
 			back = false
@@ -766,61 +828,7 @@ end
 --;==============================================================================
 function f_selectSimple()
 	f_backReset()
-	back = false
-	bufTmu = 0
-	bufTmd = 0
-	bufTmr = 0
-	bufTml = 0
-	bufTm2u = 0
-	bufTm2d = 0
-	bufTm2r = 0
-	bufTm2l = 0
-	bufSelu = 0
-	bufSeld = 0
-	bufSelr = 0
-	bufSell = 0
-	bufSel2u = 0
-	bufSel2d = 0
-	bufSel2r = 0
-	bufSel2l = 0
-	bufPalu = 0
-	bufPald = 0
-	bufPalr = 0
-	bufPall = 0
-	bufPal2u = 0
-	bufPal2d = 0
-	bufPal2r = 0
-	bufPal2l = 0
-	bufStageu = 0
-	bufStaged = 0
-	bufStager = 0
-	bufStagel = 0
-	p1SelX = 0
-	p1SelY = 0
-	p2SelX = 4 --Cursor position after choosing the Team Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
-	p2SelY = 0
-	p1FaceOffset = 0
-	p2FaceOffset = 0
-	p1OffsetRow = 0
-	p2OffsetRow = 0
-	stageList = 0
-	musicList = 0
-	gameNo = 0
-	bossNo = 0
-	bonusNo = 0
-	selectSeconds = data.selectTime
-	stageSeconds = data.stageTime
-	rematchSeconds = data.rematchTime
-	serviceSeconds = data.serviceTime
-	selectTimer = selectSeconds*gameTick --Set time for Character Select
-	stageTimer = stageSeconds*gameTick --Set time for Stage Select
-	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
-	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
-	clearTime = 0
-	matchTime = 0
-	p1Wins = 0
-	p2Wins = 0
-	winner = 0
+	f_selectInit()
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1040,64 +1048,9 @@ end
 --; ADVANCED CHARACTER SELECT (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;==================================================================================================
 function f_selectAdvance()
-	data.rosterAdvance = true
+	data.rosterAdvanced = true
 	f_backReset()
-	back = false
-	bufTmu = 0
-	bufTmd = 0
-	bufTmr = 0
-	bufTml = 0
-	bufTm2u = 0
-	bufTm2d = 0
-	bufTm2r = 0
-	bufTm2l = 0
-	bufSelu = 0
-	bufSeld = 0
-	bufSelr = 0
-	bufSell = 0
-	bufSel2u = 0
-	bufSel2d = 0
-	bufSel2r = 0
-	bufSel2l = 0
-	bufPalu = 0
-	bufPald = 0
-	bufPalr = 0
-	bufPall = 0
-	bufPal2u = 0
-	bufPal2d = 0
-	bufPal2r = 0
-	bufPal2l = 0
-	bufStageu = 0
-	bufStaged = 0
-	bufStager = 0
-	bufStagel = 0
-	p1SelX = 0
-	p1SelY = 0
-	p2SelX = 4
-	p2SelY = 0
-	p1FaceOffset = 0
-	p2FaceOffset = 0
-	p1OffsetRow = 0
-	p2OffsetRow = 0
-	winner = 0
-	winCnt = 0
-	looseCnt = 0
-	clearTime = 0
-	matchTime = 0
-	selectSeconds = data.selectTime
-	stageSeconds = data.stageTime
-	rematchSeconds = data.rematchTime
-	serviceSeconds = data.serviceTime
-	selectTimer = selectSeconds*gameTick
-	stageTimer = stageSeconds*gameTick
-	rematchTimer = rematchSeconds*gameTick
-	serviceTimer = serviceSeconds*gameTick
-	musicList = 0
-	gameNo = 0
-	bossNo = 0
-	bonusNo = 0
-	p1Wins = 0
-	p2Wins = 0
+	f_selectInit()
 	cmdInput()
 	f_selectReset()
 	stageEnd = true
@@ -1423,60 +1376,7 @@ end
 --;==============================================================================
 function f_selectStory()
 	f_backReset()
-	back = false
-	bufTmu = 0
-	bufTmd = 0
-	bufTmr = 0
-	bufTml = 0
-	bufTm2u = 0
-	bufTm2d = 0
-	bufTm2r = 0
-	bufTm2l = 0
-	bufSelu = 0
-	bufSeld = 0
-	bufSelr = 0
-	bufSell = 0
-	bufSel2u = 0
-	bufSel2d = 0
-	bufSel2r = 0
-	bufSel2l = 0
-	bufPalu = 0
-	bufPald = 0
-	bufPalr = 0
-	bufPall = 0
-	bufPal2u = 0
-	bufPal2d = 0
-	bufPal2r = 0
-	bufPal2l = 0
-	bufStageu = 0
-	bufStaged = 0
-	bufStager = 0
-	bufStagel = 0
-	p1SelX = 0
-	p1SelY = 0
-	p2SelX = 4 --Cursor position after choosing the Team Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
-	p2SelY = 0
-	p1FaceOffset = 0
-	p2FaceOffset = 0
-	p1OffsetRow = 0
-	p2OffsetRow = 0
-	musicList = 0
-	gameNo = 0
-	bossNo = 0
-	bonusNo = 0
-	selectSeconds = data.selectTime
-	stageSeconds = data.stageTime
-	rematchSeconds = data.rematchTime
-	serviceSeconds = data.serviceTime
-	selectTimer = selectSeconds*gameTick
-	stageTimer = stageSeconds*gameTick
-	rematchTimer = rematchSeconds*gameTick
-	serviceTimer = serviceSeconds*gameTick
-	clearTime = 0
-	matchTime = 0
-	p1Wins = 0
-	p2Wins = 0
-	winner = 0
+	f_selectInit()
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -5126,7 +5026,7 @@ animUpdate(challengerText1)
 --; HERE COMES A NEW CHALLENGER SCREEN
 --;===========================================================
 function f_selectChallenger()
-	if data.quickCont == true and data.rosterAdvance == true then return end
+	if data.quickCont == true and data.rosterAdvanced == true then return end
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmNothing)
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
