@@ -163,7 +163,7 @@ function f_missionMenu()
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 0
-				data.p1TeamMenu = {mode = 0, chars = 1}				
+				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
 				data.p1Pal = 1
 				data.p2TeamMenu = {mode = 0, chars = 1}

@@ -12,13 +12,6 @@ animAddPos(storyBG0, 160, 0)
 animSetTile(storyBG0, 1, 1)
 animSetColorKey(storyBG0, -1)
 
---Background
-storyBG1 = animNew(sysSff, [[
-104,0, 0,0,
-]])
-animAddPos(storyBG1, 160, 0)
-animUpdate(storyBG1)
-
 --Below Wood background
 woodBG1 = animNew(sysSff, [[
 105,0, 0,0,
@@ -162,17 +155,10 @@ t_storySelect = {
 --;===========================================================
 --; CHAPTER SELECT
 --;===========================================================
---Chapter Preview
---function f_chapterPreview()
-	--chapterPreview = ''
-	--chapterPreview = '0,' .. chapterList-1 .. ', 0,0, 0'
-	--chapterPreview = animNew(storySff, chapterPreview)
-	--animSetScale(chapterPreview, 0.4, 0.25)
-	--animSetPos(chapterPreview, 50, 21)
-	--animUpdate(chapterPreview)
-	--animDraw(chapterPreview)
-	--return chapterPreview
---end
+--Chapter Complete Icon
+checkIco = animNew(sysSff, [[104,0, 0,0,]])
+
+checkNA = animNew(sysSff, [[9999,9999, 0,0,]])
 
 --Unknown Chapter Preview
 chaptUnknown = animNew(sysSff, [[110,4, 0,0,]])
@@ -206,6 +192,18 @@ chapt4_2 = animNew(storySff, [[1,44, 0,0,]])
 
 --Arc 1 - Chapter 4.3 Preview
 chapt4_3 = animNew(storySff, [[1,45, 0,0,]])
+
+--Chapter Preview
+--function f_chapterPreview()
+	--chapterPreview = ''
+	--chapterPreview = '0,' .. chapterList-1 .. ', 0,0, 0'
+	--chapterPreview = animNew(storySff, chapterPreview)
+	--animSetScale(chapterPreview, 0.4, 0.25)
+	--animSetPos(chapterPreview, 50, 21)
+	--animUpdate(chapterPreview)
+	--animDraw(chapterPreview)
+	--return chapterPreview
+--end
 
 t_arc1 = {
 	{Name = '',	Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot
@@ -262,9 +260,6 @@ function f_storyMenu()
 	story2Data = (math.floor((data.story2Progress * 100 / 1) + 0.5))
 	story3Data = (math.floor((data.story3Progress * 100 / 1) + 0.5))
 --Story Mode Progress Logic
-	--if data.story1Status == 1 then story1Progress = 'COMPLETED' elseif data.story1Status == 0 then story1Progress = 'INCOMPLETE' end
-	--if data.story2Status == 1 then story2Progress = 'COMPLETED' elseif data.story2Status == 0 then story2Progress = 'INCOMPLETE' end
-	--if data.story3Status == 1 then story3Progress = 'COMPLETED' elseif data.story3Status == 0 then story3Progress = 'INCOMPLETE' end
 	data.storiesProgress = story1Data + story2Data + story3Data
 	storyData = (math.floor((data.storiesProgress / 3) + 0.5)) --The number (3) is the amount of all data.storiesProgress
 	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 13)
@@ -418,7 +413,7 @@ function f_storyMenu()
 				maxchapters = 6
 			end
 		end
-		animDraw(f_animVelocity(storyBG0, -1, -1)) --animDraw(storyBG1)
+		animDraw(f_animVelocity(storyBG0, -1, -1))
 	--Draw Title Menu
 		textImgDraw(txt_storyMenu)
 		textImgDraw(txt_storyProgress)
@@ -506,9 +501,11 @@ function f_storyMenu()
 		end
 	--Set Arc 1 - Chapters Info
 		if storyMenu == 1 and chapterMenu == 1 then
+			if data.story1_0Status == 1 then chaptCheck = checkIco else chaptCheck = checkNA end --Load Check Icon
 			chaptPreview = chapt0 --Load Chapter Preview
 			txt_storyInfo = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF CASUAL FIGHTING GAMES." --Set Chapter Description
 		elseif storyMenu == 1 and chapterMenu == 2 then
+			if data.story1_1Status == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_1Unlock == true then --If this chapters is unlocked
 				chaptPreview = chapt1
 				txt_storyInfo = "KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..."
@@ -517,6 +514,7 @@ function f_storyMenu()
 				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!"
 			end
 		elseif storyMenu == 1 and chapterMenu == 3 then
+			if data.story1_2Status == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_2Unlock == true then
 				chaptPreview = chapt2
 				txt_storyInfo = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
@@ -525,6 +523,7 @@ function f_storyMenu()
 				txt_storyInfo = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE."
 			end
 		elseif storyMenu == 1 and chapterMenu == 4 then
+			if data.story1_3AStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_3AUnlock == true then
 				chaptPreview = chapt3_1
 				txt_storyInfo = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO TAKE OUT SUAVE DUDE BUT HE WILL NOT BE ALONE..."
@@ -533,6 +532,7 @@ function f_storyMenu()
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 5 then
+			if data.story1_3BStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_3BUnlock == true then
 				chaptPreview = chapt3_2
 				txt_storyInfo = "KUNG FU MAN HAS NOT BEEN STRONG ENOUGH TO DEFEAT HIS CLONE, NOW HE MUST FACE THE CONSEQUENCES OF HIS PAST ACTIONS..."
@@ -541,6 +541,7 @@ function f_storyMenu()
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 6 then
+			if data.story1_4AStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_4AUnlock == true then
 				chaptPreview = chapt4_1
 				txt_storyInfo = "KUNG FU MAN RESCUE HIS GIRLFRIEND BUT ALSO RETURNS TRAINING WITH KUNG FU GIRL!"
@@ -549,6 +550,7 @@ function f_storyMenu()
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 7 then
+			if data.story1_4BStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_4BUnlock == true	then
 				chaptPreview = chapt4_2
 				txt_storyInfo = "THERE IS NOTHING SADER THAN A MAN WHO HAS LOST HIS LOVE..."
@@ -557,6 +559,7 @@ function f_storyMenu()
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 8 then
+			if data.story1_4CStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_4CUnlock == true then
 				chaptPreview = chapt4_3
 				txt_storyInfo = "THE RAWEST END FOR ELECBYTE'S CHARACTER"
@@ -566,6 +569,7 @@ function f_storyMenu()
 			end
 	--Set Arc 2 - Chapter Info
 		elseif storyMenu == 2 and chapterMenu == 1 then
+			chaptCheck = checkNA
 			if data.story1_1Unlock == true then
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO WORK IN THIS ONE."
@@ -575,6 +579,7 @@ function f_storyMenu()
 			end
 	--Set Arc 3 - Chapter Info
 		elseif storyMenu == 3 and chapterMenu == 1 then
+			chaptCheck = checkNA
 			if data.story1_1Unlock == true then
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO WORK IN THIS ONE."
@@ -584,6 +589,7 @@ function f_storyMenu()
 			end
 	--Set Null Arc - Chapter Info
 		else
+			chaptCheck = checkNA
 			chaptPreview = chaptUnknown
 			txt_storyInfo = ""
 		end
@@ -593,15 +599,18 @@ function f_storyMenu()
 			animSetScale(chaptPreview, 0.113, 0.106)
 			animUpdate(chaptPreview)
 			animDraw(chaptPreview)
-			--Draw Chapter Info
+		--Draw Chapter Info
 			txt_storyText = createTextImg(font6, 0, 1, '', 0, 0,0.65,0.65)
 			f_textRender(txt_storyText, txt_storyInfo, t, 160, 160, 15, 1.2, 40)
+		--Draw Check Chapter Status Icon
+			animSetPos(chaptCheck, 320, 105)
+			animSetScale(chaptCheck, 0.4, 0.4)
+			animUpdate(chaptCheck)
+			animDraw(chaptCheck)
 		else
 			txt_storyText = createTextImg(font6, 0, 0, '', 0, 0,0.65,0.65)
 			f_textRender(txt_storyText, txt_storyInfo, t, 150, 110, 15, 1.5, 40)
 		end
-	--Set Chapters Status (COMPLETED OR INCOMPLETED)
-		--TODO
 	--Set Chapters Scroll Logic
 		if lockedStory == false then
 			for i=1, maxchapters do
