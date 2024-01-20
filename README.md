@@ -99,18 +99,20 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
 
-- [ ] Agregar soporte para reconocer a un 2do Gamepad.
-
-- [ ] Quick Match y Demo dejan de funcionar tras usar 1 vez el menú de pausa.
+- [ ] Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match)
 
 - [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
 
 - [ ] Mejorar el Training Mode con más parametros para el Dummy.
 
-- [ ] Sistema de guardado para el modo historia. Ejemplo: estas en el stage 6 y deseas salir, al presionar esc o abrir el menú de pausa, debe haber una opción entre las últimas que diga: “Salir sin guardar” y otra “GUARDAR Y SALIR”, al presionar guardar y salir, Ikemen debe guardar el progreso hasta la stage 6 y cuando vuelvas a elegir el modo historia pregunte si deseas comenzar una nueva partida (Empezaría desde stage 1) o si quieres continuar donde lo dejaste y use el stage 6 como el punto de partida. En otras palabras es como si en lugar de empezar con personajes de order 1 empiece con los de order 6, saltándose los 5 anteriores niveles.
+- [ ] Cambiar de personaje y stage como lo hace las músicas en training pause.
+
+- [ ] Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
+
+- [ ] Agregar soporte para reconocer a un 2do Gamepad.
 
 **v1.5**
 ------------
@@ -127,6 +129,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
+
+- [ ] Quick Match y Demo dejan de funcionar tras usar 1 vez el menú de pausa.
 
 - [ ] Traducir errores a Inglés en ssz.
 
