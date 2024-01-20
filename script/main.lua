@@ -1177,7 +1177,7 @@ function f_arcadeMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1 --P1 controls P2 side of the select screen
 				data.p2SelectMenu = false --P2 character selection disabled
-				data.serviceScreen = true
+				data.serviceScreen = true --Enable Service Screen if you lose and continue
 				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
 				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
@@ -1200,7 +1200,7 @@ function f_arcadeMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
-				data.aiFight = true
+				data.aiFight = true --AI = data.difficulty for all characters enabled
 				data.serviceScreen = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'cpu'
@@ -1368,7 +1368,7 @@ function f_vsMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
-				data.aiFight = true --AI = data.difficulty for all characters enabled
+				data.aiFight = true
 				data.stageMenu = true
 				data.p2Faces = true
 				data.gameMode = 'versus'
@@ -1642,7 +1642,7 @@ function f_practiceMenu()
 				elseif data.training == 'Fixed' then
 					data.p2In = 2
 					data.versusScreen = false
-					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 character as Sandbag char
+					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 training char
 				end
 				data.gameMode = 'training'
 				data.rosterMode = 'training'
@@ -2883,7 +2883,7 @@ function f_timeMenu()
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
-				setLifeMul(2)
+				setLifeMul(2) --overwrite players life
 				data.p2In = 1				
 				data.p2SelectMenu = false
 				data.gameMode = 'allroster'
@@ -3641,14 +3641,14 @@ function f_watchMenu()
 			elseif watchMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1) --round time disabled
+				setRoundTime(-1)
 				data.p2In = 2
 				data.stageMenu = true
-				data.versusScreen = false --versus screen disabled
-				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-				data.p1Char = {t_charAdd['stage viewer']} --predefined P1 character
-				data.p2Char = {t_charAdd['stage viewer']} --predefined P2 character
+				data.versusScreen = false
+				data.p1TeamMenu = {mode = 0, chars = 1}			
+				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['stage viewer']}
+				data.p2Char = {t_charAdd['stage viewer']}
 				data.gameMode = 'stage viewer'
 				setGameMode('stageviewer')
 				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
@@ -6135,7 +6135,7 @@ function f_mainHost()
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.stageMenu = true
-				data.versusScreen = true
+				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
 				data.rosterMode = 'training'
@@ -6384,7 +6384,7 @@ function f_mainJoin()
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.stageMenu = true
-				data.versusScreen = true
+				data.versusScreen = false
 				data.p2Faces = true
 				data.gameMode = 'training'
 				data.rosterMode = 'training'

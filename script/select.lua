@@ -1018,12 +1018,11 @@ function f_selectSimple()
 			end
 		end
 		f_aiLevel()
+		--order select screen
 		f_orderSelect()
 		--versus screen
-		if data.gameMode == 'versus' or data.gameMode == 'singleboss' then
-			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
+		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
+			f_selectVersus()
 		end
 		f_setZoom()
 		matchTime = os.clock()
@@ -2574,6 +2573,8 @@ function f_p1SelectMenu()
 			end
 		end
 		p1Portrait = data.p1Char[1]
+		--local numChars = p1numChars
+		--if data.coop then numChars = 1 end
 		p1SelEnd = true
 	else
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
@@ -2923,6 +2924,12 @@ function f_p2SelectMenu()
 			--f_printTable(data.t_p2selected)
 		end
 		p2Portrait = data.p2Char[1]
+		--local numChars = p2numChars
+		--local t_selected = data.t_p2selected
+		--if data.coop then
+			--numChars = 1
+			--t_selected = {}
+		--end
 		p2SelEnd = true
 	elseif not data.p2SelectMenu then
 		p2SelEnd = true
@@ -4150,12 +4157,12 @@ function f_selectVersus()
 			cmdInput()
 			refresh()
 		end
-	else	
+	else
 		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
-		else	
+		else
 			playBGM(bgmVS)
-		end	
+		end
 		--VS Logo
 		versusBG4 = animNew(sysSff, [[
 		200,4, 0,0, 1
@@ -4175,42 +4182,42 @@ function f_selectVersus()
 		local randomHintVS = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
 		cmdInput()
 		while true do
-		--draw background on top
-		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
-			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
-		else
-			animDraw(f_animVelocity(versusBG1, 0, 1.5))
-		end
-		animDraw(f_animVelocity(versusBG2, -2, 0))
-		animDraw(f_animVelocity(versusBG3, 2, 0))
-		drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-		drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
-		--set random hints for versus screen
-		if randomHintVS == 1 then
-			textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")
-			textImgDraw(txt_vsHint)
-		elseif randomHintVS == 2 then
-			textImgSetText(txt_vsHint, "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
-			textImgDraw(txt_vsHint)
-		elseif randomHintVS == 3 then
-			textImgSetText(txt_vsHint, "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT")
-			textImgDraw(txt_vsHint)	
-		end
-		if vshintTime > 150 then --Time for show a new random hint
-			randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-			vshintTime = 0 --Restart timer for a new random hint
-		end
-		versusTimer = versusTimer + 1
-		if versusTimer == 150 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-			commandBufReset(p1Cmd)
-			commandBufReset(p2Cmd)
-			break
-		end
-		--draw names
-		f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
-		f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
-		--draw match counter
+			--draw background on top
+			if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
+			else
+				animDraw(f_animVelocity(versusBG1, 0, 1.5))
+			end
+			animDraw(f_animVelocity(versusBG2, -2, 0))
+			animDraw(f_animVelocity(versusBG3, 2, 0))
+			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+			drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			--set random hints for versus screen
+			if randomHintVS == 1 then
+				textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")
+				textImgDraw(txt_vsHint)
+			elseif randomHintVS == 2 then
+				textImgSetText(txt_vsHint, "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
+				textImgDraw(txt_vsHint)
+			elseif randomHintVS == 3 then
+				textImgSetText(txt_vsHint, "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT")
+				textImgDraw(txt_vsHint)	
+			end
+			if vshintTime > 150 then --Time for show a new random hint
+				randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+				vshintTime = 0 --Restart timer for a new random hint
+			end
+			versusTimer = versusTimer + 1
+			if versusTimer == 150 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
+				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				break
+			end
+			--draw names
+			f_drawSelectName(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
+			f_drawSelectNameP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
+			--draw match counter
 			if data.gameMode == 'arcade' then
 				if matchNo ~= lastMatch then
 					textImgDraw(txt_matchNo)
@@ -4230,16 +4237,16 @@ function f_selectVersus()
 			elseif data.gameMode == 'versus' then
 				textImgDraw(txt_gameNo)
 			end
-		--draw background on bottom
-		animUpdate(versusBG4)
-		animDraw(versusBG4)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		animDraw(vsBG6)
-		textImgDraw(txt_vsHint)
-		vshintTime = vshintTime + 1 --Start timer for randoms hints
-		cmdInput()
-		refresh()
+			--draw background on bottom
+			animUpdate(versusBG4)
+			animDraw(versusBG4)
+			animDraw(data.fadeTitle)
+			animUpdate(data.fadeTitle)
+			animDraw(vsBG6)
+			textImgDraw(txt_vsHint)
+			vshintTime = vshintTime + 1 --Start timer for randoms hints
+			cmdInput()
+			refresh()
 		end
 	end
 end
