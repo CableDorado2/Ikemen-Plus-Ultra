@@ -216,6 +216,7 @@ Here you can find content to build your projects or just for play on Ikemen.
 Here you can find some tools that help you in development of your projects (Some missed tools are included in the main ikemen plus ultra folder called "tools")
 - Fighter Factory (A Powerfull Mugen editor): http://fighterfactory.virtualltek.com/
 - Notepad++ (Script editor): https://notepad-plus-plus.org/
+- Visual C++ 2010 Express (IDE - To open Source Code)
 - Mp3Tag (A music tag editor): https://www.mp3tag.de/en/
 - Radmin VPN (For Online Netplay): https://www.radmin-vpn.com/
 
