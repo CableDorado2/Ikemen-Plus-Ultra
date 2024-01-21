@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+<!-- v 1.1.0.9 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Get-DiagInput
+		</command:name>
+		<maml:description>
+			<maml:para>Displays interactions to user that are used to get information from the user or to provide information to the user.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Get</command:verb>
+		<command:noun>DiagInput</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>The Get-DiagInput cmdlet is used to ask the user questions and to provide information to the user. Specify an interaction from the manifest to display to the user. If the interaction requires parameter values or dynamic values, specify those values too.
+
+You use this cmdlet only if the RequiresInteractivity node in the manifest is set to true.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Get-DiagInput</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+				<maml:name>Id</maml:name>
+				<maml:description>
+					<maml:para>An identifier that identifies the interaction in the troubleshooting package manifest to display. The identifier is case sensitive.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+				<maml:name>Parameter</maml:name>
+				<maml:description>
+					<maml:para>A hash table of key/value pairs that define the parameters used by the interaction. Each key in the hash table must be unique and must match a parameter declared by the Parameters or ContextParameters nodes of the interaction. The key name is case-sensitive. You must include parameters that do not specify a default parameter value in the interaction; values that include a default value are optional.
+</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByValue)" position="3">
+				<maml:name>Choice</maml:name>
+				<maml:description>
+					<maml:para>An array of hash tables that specify the values for a single-response or multiple-response interaction. The array of hash tables define the dynamic values that the interaction adds to any static values that it defines in the manifest.  
+
+Each hash table in the array specifies a single choice. The hash table must contain the following key/value pairs:
+
+- Name - The value for this key is the display name for the choice. 
+- Value - The value for this key is the value to return if the user selects this choice.
+- Description - The value for this key is a description of the choice. 
+- ExtensionPoint - An XML string that contains one or more extension points that the client supports.
+
+You must specify a value for the Name and Value key/value pairs; however, the value for the Description and ExtensionPoint key/value pairs are optional. The key names are case-sensitive.
+</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">Hashtable[]</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByValue)" position="3">
+			<maml:name>Choice</maml:name>
+			<maml:description>
+				<maml:para>An array of hash tables that specify the values for a single-response or multiple-response interaction. The array of hash tables define the dynamic values that the interaction adds to any static values that it defines in the manifest.  
+
+Each hash table in the array specifies a single choice. The hash table must contain the following key/value pairs:
+
+- Name - The value for this key is the display name for the choice. 
+- Value - The value for this key is the value to return if the user selects this choice.
+- Description - The value for this key is a description of the choice. 
+- ExtensionPoint - An XML string that contains one or more extension points that the client supports.
+
+You must specify a value for the Name and Value key/value pairs; however, the value for the Description and ExtensionPoint key/value pairs are optional. The key names are case-sensitive.
+</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="true">Hashtable[]</command:parameterValue>
+			<dev:type>
+				<maml:name>Hashtable[]</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>Id</maml:name>
+			<maml:description>
+				<maml:para>An identifier that identifies the interaction in the troubleshooting package manifest to display. The identifier is case sensitive.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+			<maml:name>Parameter</maml:name>
+			<maml:description>
+				<maml:para>A hash table of key/value pairs that define the parameters used by the interaction. Each key in the hash table must be unique and must match a parameter declared by the Parameters or ContextParameters nodes of the interaction. The key name is case-sensitive. You must include parameters that do not specify a default parameter value in the interaction; values that include a default value are optional.
+</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			<dev:type>
+				<maml:name>hashtable</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name>Collections.Hashtable[]</maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					For single-response and multiple-response interactions, you can pipe an array of hash tables that contain the dynamic choices to add to the list of static choices defined by the interaction.
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name>String[]</maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					A array of strings. For single-response interactions, the array contains a single item that contains the selected choice. For multiple-response interactions, the array can contain multiple items that contain the selected choices. For text interactions, the array contains a single item that contains the input text. There is no output for pause and launch UI interactions.
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 1 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>Get-DiagInput -Id &quot;NetworkDown&quot;</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to display the NetworkDown interaction to the user.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 2 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>Get-DiagInput -Id &quot;NetworkDown&quot; -Parameter @{&quot;param&quot;=&quot;value&quot;}</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to pass a parameter value to the NetworkDown interaction.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 3 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>$input = Get-DiagInput -Id &quot;MultipleResponse&quot; -Choice @{&quot;Name&quot;=&quot;Choice1&quot;; &quot;Value&quot;=&quot;Value that Choice1 returns&quot;}</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to pass a list of choices to the NetworkDown interaction and receive the response.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+</helpItems>
+

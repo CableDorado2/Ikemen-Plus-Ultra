@@ -1,0 +1,84 @@
+;
+; VirtualLightSensorDriver.inf
+;
+
+[Version]
+Signature	= "$Windows NT$"
+Class		= Sensor
+ClassGuid	= {5175D334-C371-4806-B3BA-71FD53C9258D}
+Provider	= %MSFT%
+CatalogFile	= VirtualLightSensorDriver.cat
+DriverVer=06/21/2006,6.1.7600.16385
+
+; =================== Manufacturer/Models sections =======================
+
+[Manufacturer]
+%MSFT%                      = Microsoft,NTx86
+
+[Microsoft.NTx86]
+%VirtualLightSensorDriver.DeviceDesc% = VirtualLightSensorDriver_Install,Sensors\VirtualLightSensorDriver
+
+; =================== Virtual Light Sensor Device ==================================
+
+[VirtualLightSensorDriver_Install.NT]
+CopyFiles       = UMDriverCopy
+AddProperty     = DriverPropertiesSection
+
+[VirtualLightSensorDriver_Install.NT.hw]
+
+[VirtualLightSensorDriver_Install.NT.Services]
+AddService      = WUDFRd,0x000001fa,WUDFRD_ServiceInstall
+
+[VirtualLightSensorDriver_Install.NT.CoInstallers]
+AddReg          = WUDF_CoInstallers_AddReg
+
+[VirtualLightSensorDriver_Install.NT.Wdf]
+UmdfService             = VirtualLightSensorDriver,UMDFVirtualLightSensorDriver_Install
+UmdfServiceOrder        = VirtualLightSensorDriver
+UmdfImpersonationLevel  = Impersonation
+
+; =================== Driver Property section ===================
+
+[DriverPropertiesSection]
+DeviceIcon,,,,"%SystemRoot%\system32\sensorscpl.dll,-1008"
+
+; =================== UMDF Service Install section ===================
+
+[UMDFVirtualLightSensorDriver_Install]
+UmdfLibraryVersion      = 1.9.0
+ServiceBinary           = %12%\UMDF\VirtualLightSensorDriver.dll
+DriverCLSID             = {4df1cdcf-71fc-4a69-b444-919db30e0769}
+
+[WUDFRD_ServiceInstall]
+DisplayName     = %WudfRdDisplayName%
+ServiceType     = 1
+StartType       = 3
+ErrorControl    = 1
+ServiceBinary   = %12%\WUDFRd.sys
+LoadOrderGroup  = Base
+
+[SourceDisksFiles]
+VirtualLightSensorDriver.dll  = 1
+WudfCoInstaller.dll = 1
+
+[SourceDisksNames]
+1 = %MediaDescription%
+
+[WUDF_CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WUDFCoInstaller.dll"
+
+[DestinationDirs]
+UMDriverCopy            = 12,UMDF
+CoInstallers_CopyFiles  = 11
+
+[UMDriverCopy]
+VirtualLightSensorDriver.dll
+
+; =================== Generic ==================================
+
+[Strings]
+MSFT                        = "Microsoft Corporation"
+MediaDescription            = "Virtual Light Sensor Tool Installation Media"
+ClassName                   = "Virtual Light Sensor Driver"
+WudfRdDisplayName           = "Windows Driver Foundation - User-mode Driver Framework Reflector"
+VirtualLightSensorDriver.DeviceDesc  = "Microsoft Virtual Light Sensor Tool"

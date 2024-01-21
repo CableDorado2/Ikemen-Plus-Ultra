@@ -1,0 +1,167 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+
+<!--
+  DTD schema
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  This gives all the XML elements/attributes allowed in this file (Visual Studio uses it to flag errors).
+  See http://www.w3schools.com/DTD/dtd_intro.asp for more info.
+  Tags/attributes are case sensitive
+-->
+
+<!DOCTYPE providers [
+
+  <!ELEMENT providers (mfdetours?,provider*)>
+
+  <!-- 
+  
+  ~~~~~~ Providers ~~~~~ 
+  
+  Attributes:
+    ID: name or GUID of the provider
+    level: name (only for MFTrace) or number of the level
+
+  Use 'wevtutil.exe ep' to get the list of providers available on the system
+            
+  The MFDetours provider is special (it actually has multiple provider IDs)
+    
+  -->
+
+  <!ELEMENT mfdetours (keyword+)>
+
+  <!ATTLIST mfdetours 
+  level    CDATA #REQUIRED
+  >
+  
+  <!ELEMENT provider (keyword+)>
+
+  <!ATTLIST provider 
+  ID       CDATA #REQUIRED
+  level    CDATA #REQUIRED
+  >
+
+  <!-- 
+  
+  ~~~~~~ Keywords ~~~~~ 
+  
+  Attributes:
+    ID: name or mask of the keyword
+  
+  Some keyword masks (use 'wevtutil.exe gp <provider_name>' to list others):
+    0x0000000000000000 means 'all keywords' for Crimson (manifest-based) and MFDetours event providers
+    0xFFFFFFFF         means 'all keywords' for classic event providers
+  
+  MFTrace takes a bitwise-OR of the keyword masks (0x0 is the default mask).
+  
+  -->
+
+  <!ELEMENT keyword EMPTY>
+
+  <!ATTLIST keyword 
+  ID       CDATA #REQUIRED
+  >
+
+  <!--
+  
+  ~~~~~~ Levels ~~~~~ 
+  
+  Some level names and numbers (use 'wevtutil.exe gp <provider_name>' to list others):
+  
+      0 - none
+      1 - critical
+      2 - error
+      3 - warning
+      4 - info
+      5 - verbose
+  
+  -->
+  
+]>
+
+<!--
+  Trace provider configuration
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-->
+
+<providers>
+
+  <!-- MFDetours traces -->
+  
+  <mfdetours level="info">
+    <!-- Misc -->
+    <keyword ID="Default" />
+    <keyword ID="Detours" />
+    
+    <!-- DLL export functions -->
+    <keyword ID="Kernel32Export" />
+    <keyword ID="MFExport" />
+    <keyword ID="MFPlatExport" />
+    <keyword ID="MFPlayExport" />
+    <keyword ID="MFReadWriteExport" />
+    <keyword ID="Ole32Export" />
+    <keyword ID="wmvCoreExport" />
+    
+    <!-- COM interfaces -->
+    <keyword ID="IMFActivate" />
+    <keyword ID="IMFAttributes" />
+    <keyword ID="IMFClock" />
+    <keyword ID="IMFMediaEventGenerator" />
+    <keyword ID="IMFMediaSession" />
+    <keyword ID="IMFMediaSink" />
+    <keyword ID="IMFMediaSource" />
+    <keyword ID="IMFMediaStream" />
+    <keyword ID="IMFPMediaPlayer" />
+    <keyword ID="IMFPresentationClock" />
+    <keyword ID="IMFQualityAdvise" />
+    <keyword ID="IMFQualityAdvise2" />
+    <keyword ID="IMFQualityManager" />
+    <keyword ID="IMFReadWriteClassFactory" />
+    <keyword ID="IMFSample" />
+    <keyword ID="IMFSinkWriter" />
+    <keyword ID="IMFSourceReader" />
+    <keyword ID="IMFSourceReaderCallback" />
+    <keyword ID="IMFSourceResolver" />
+    <keyword ID="IMFStreamSink" />
+    <keyword ID="IMFTopology" />
+    <keyword ID="IMFTopologyNode" />
+    <keyword ID="IMFTopoLoader" />
+    <keyword ID="IMFTransform" />
+    <keyword ID="IMFPMediaItem" />
+    <keyword ID="IMFPMediaPlayerCallback" />
+    <keyword ID="IMediaObject" />
+    <keyword ID="IMFSchemeHandler" />
+    <keyword ID="IMFByteStream" />
+    <keyword ID="IMFByteStreamHandler" />
+    <keyword ID="IFilterGraph" />
+    <keyword ID="IGraphBuilder" />
+    <keyword ID="IMediaControl" />
+    <keyword ID="IMemInputPin"/>
+    <keyword ID="IWMReader"/>
+    <keyword ID="IWMReaderCallback"/>
+  </mfdetours>
+
+  
+  <!-- Manifest-based traces -->
+
+  <provider level="verbose" ID="Microsoft-Windows-MediaFoundation-MFReadWrite">
+    <keyword ID="0x0000000000000000" />
+  </provider>
+  <provider level="verbose" ID="Microsoft-Windows-MediaFoundation-Performance">
+    <keyword ID="0x0000000000000000" />
+  </provider>
+  <provider level="verbose" ID="Microsoft-Windows-MediaFoundation-Platform">
+    <keyword ID="0x0000000000000000" />
+  </provider>
+  <provider level="verbose" ID="Microsoft-Windows-MediaFoundation-PlayAPI" >
+    <keyword ID="0x0000000000000000" />
+  </provider>
+  <provider level="verbose" ID="Microsoft-Windows-DirectShow-Core" >
+    <keyword ID="0x0000000000000000" />
+  </provider>
+  <provider level="verbose" ID="Microsoft-Windows-WMP" >
+    <keyword ID="0x0000000000000000" />
+  </provider>
+  
+
+  <!-- WPP Traces -->
+
+</providers>

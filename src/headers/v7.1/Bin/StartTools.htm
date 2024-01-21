@@ -1,0 +1,1665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <title>Windows SDK Tools Listing</title>
+
+    <style type="text/css">
+    h3 {color: black; font-family: verdana; font-size:18px}
+    td {color: black; font-family: verdana; font-size:12px}
+    p {color: black; font-family: verdana; font-size:12px}
+    .style1 {
+		text-align: center;
+	}
+    .style2 {
+		font-family: Verdana;
+	}
+    </style>
+
+</head>
+
+<body>
+
+<h1 align="center" class="style2">Windows SDK Tools Listing</h1>
+
+<p>The Windows SDK tools are designed to make it easier for you to create, deploy, and manage applications and 
+components that target Windows and the Internet. The Windows SDK includes tools for 
+both the .NET 3.5 SP1 and 4 Frameworks - a managed programming model - and 
+tools for Win32® - the native (unmanaged) programming model for Windows.  Many of the Windows SDK tools are 
+listed on this page and categorized by target audience: managed, native and "common" (tools that could be used by 
+either managed or native developers).</p>
+
+<p>Please note that this release does not include .NET Framework 3.5 SP1 however some tools included in the 
+Windows SDK require it. You may need to install 
+<a href="http://go.microsoft.com/fwlink/?LinkID=147528">.NET Framework 3.5 SP1</a> to ensure the complete functionality 
+of all tools.</p>
+
+<p>These tools are typically installed on disk under the %Program Files%\Microsoft SDKs\Windows\v7.1\bin directory 
+or one of its subfolders and are expected to function properly on the latest service pack of the operating system as noted.</p>
+<p>
+<a href="#net">Tools for Managed (.NET) Developers</a><br />
+<a href="#win32">Tools for Native (Win32) Developers</a><br />
+<a href="#common">Common Tools for Both Managed (.NET) and Native (Win32) Developers</a><br />
+</p>
+
+<table width="100%">
+  <tr><td valign="top"><a name="net">&nbsp;</a></td></tr>
+  <tr>
+    <td valign="top" width="100%">
+      <table bgcolor="#dddddd">
+        <tr>
+          <td valign="top">
+            <h3 align="center">Tools for Managed (.NET) Developers</h3>
+            <table width="100%" border="1" cellspacing="2" cellpadding="5" bgcolor="#eeeeee">
+              <tr>
+                <th>Tool</th>
+                <th>Description</th>
+                <th>Windows XP</th>
+                <th>Windows Server 2003</th>
+                <th>Windows Vista</th>
+                <th>Windows Server 2008</th>
+                <th>Windows 7</th>
+              </tr>
+<!-- AL.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=184014">AL.exe</a></td>
+                <td valign="top"><em>Assembly Linker.</em><br />
+				The Assembly Linker generates a file with an assembly manifest from one or more files that are either modules or resource files. A module is a Microsoft intermediate language (MSIL) file that does not have an assembly manifest.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- ASPNET_MERGE.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=184015">
+				ASPNet_merge.exe</a></td>
+                <td valign="top"><em>ASP.NET Merge Tool.</em><br />
+				The ASP.NET Merge tool (Aspnet_merge.exe) enables you to combine 
+				and manage assemblies that are created by the ASP.NET 
+				Compilation tool (Aspnet_compiler.exe). The ASP.NET Merge tool 
+				works on assemblies that have been created by using ASP.NET 
+				version 2.0 or later. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- AXIMP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146172">AxImp.exe</a></td>
+                <td valign="top"><em>Windows Forms ActiveX Control Importer</em>.<br />
+				Converts type definitions in a COM type library for an ActiveX control into a Windows Forms control.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+	          </tr>
+<!-- CLRVER.EXE -->
+			  <tr>
+      			<td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146173">ClrVer.exe</a></td>
+      			<td valign="top"><em>CLR Version Detection Technology Sample.</em><br />
+				Displays all versions of the .NET Framework installed on the current system.</td>        
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- CORFLAGS.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146181">CorFlags.exe</a></td>
+                <td valign="top"><em>CorFlags Conversion Tool.</em><br />
+				Conversion tool allows you to configure the Flags section of the header of a portable executable image.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- DISCO.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146183">Disco.exe</a></td>
+                <td valign="top"><em>Web Services Discovery Tool.</em><br />
+				Discovers the URLs of XML Web services located on a Web server, and saves documents related to each XML Web service on a local disk.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- FUSLOGVW.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146184">FusLogVw.exe</a></td>
+                <td valign="top"><em>Assembly Binding Log Viewer.</em><br />
+				View assembly binding messages from Common Language Runtime. Allows to interactively explore assembly binding decisions of the Common Language Runtime, and helps to  determine the root cause of assembly binding errors.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- FXCOPSetup.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=155203">FXCopSetup.exe</a></td>
+                <td valign="top"><em>FXCop Tool.</em><br />
+				FxCop is an application that analyzes managed code assemblies and reports information about 
+				the assemblies, such as possible design, localization, performance, and security improvements.
+</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- GACUTIL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146185">GacUtil.exe</a></td>
+                <td valign="top"><em>Global Assembly Cache Tool.</em><br />
+				Allows you to view and manipulate the contents of the global assembly cache and download cache.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- ILDASM.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146187">ildasm.exe</a></td>
+                <td valign="top"><em>MSIL Disassembler.</em><br />
+				Takes a PE file that contains MSIL code and creates a text file suitable as input to the MSIL Assembler - ILAsm.exe that ships in the .NET Framework)</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- LC.EXE -->                            
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146190">LC.exe</a></td>
+                <td valign="top"><em>License Compiler.</em><br />
+				Reads text files that contain licensing information and produces a .licenses file that can be embedded in a common language runtime executable.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MAGE.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146192">Mage.exe</a></td>
+                <td valign="top"><em>Manifest Generation and Editing Tool.</em><br />
+				Mage.exe is a command-line tool that supports the creation and editing of application and deployment manifests.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MAGEUI.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146208">MageUI.exe</a></td>
+                <td valign="top"><em>Manifest Generation and Editing Tool, 
+				Graphical Client.</em><br />
+				MageUI.exe supports the same functionality as the command-line tool Mage.exe, but with a Windows Forms-based user interface (UI). With this tool you can create, edit, and sign deployment and application manifests.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MDBG.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146212">MDbg.exe</a></td>
+                <td valign="top">.<em>NET Framework Command-Line Debugger</em>.<br />
+				Provides command-line debugging services for managed applications.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MGMTCLASSGEN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146216">MgmtClassGen.exe</a></td>
+                <td valign="top"><em>Management Strongly Typed Class Generator.</em><br />
+				Allows you to quickly generate an early-bound class in C#, Visual Basic, or ript for a specified Windows Management Instrumentation (WMI) class.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- PEVERIFY.EXE -->            
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146220">PEVerify.exe</a></td>
+                <td valign="top"><em>PEVerify Tool.</em><br />
+				Performs MSIL type safety verification checks and metadata validation checks on a specified assembly.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			</tr>
+<!-- RESGEN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146222">ResGen.exe</a></td>
+                <td valign="top"><em>Resource File Generator.</em><br />
+				Converts text files and .x (XML-based resource format) files to .NET Common Language Runtime (CLR) binary .resources files that can be embedded in a runtime binary executable or compiled into satellite assemblies.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SECANNOTATE.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=183111">SecAnnotate.exe</a></td>
+                <td valign="top"><em>.NET Security Annotator tool.</em><br />
+				A command line application that identifies the SecurityCritical and SecuritySafeCritical portions of an assembly.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SGEN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146718">Sgen.exe</a></td>
+                <td valign="top"><em>XML Serializer Generator.</em><br />
+				Creates an XML serialization assembly for types in a specified assembly in order 
+				to improve the startup performance of a XmlSerializer when it serializes or deserializes 
+				objects of the specified types.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146230">sn.exe</a></td>
+                <td valign="top"><em>Strong Name Tool.</em><br />
+				Helps create assemblies with strong names. Sn.exe provides options for key management, signature generation, and signature verification.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SOAPSUDS.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146237">SoapSuds.exe</a></td>
+                <td valign="top"><em>Soapsuds Tool.</em><br />
+				Helps you compile client applications that communicate with XML Web services using a technique called oting.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SQLMETAL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146241">SqlMetal.exe</a></td>
+                <td valign="top"><em>Code Generation Tool.</em><br />
+				SqlMetal.exe generates classes from database tables and a default mapping for the classes. It can be used for generating either C# or VB.NET code and .NET attribute-based mapping in the code or separate mapping in an XML file.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- STOREADM.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146256">StoreAdm.exe</a></td>
+                <td valign="top"><em>Isolated Storage Tool.</em><br />
+				Lists or removes all existing stores for the currently logged-on user.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SVCCONFIGEDITOR.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146262">svcConfigEditor.exe</a></td>
+                <td valign="top"><em>Configuration Editor Tool.</em><br />
+				Used to configure WCF services and client applications.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SVCTRACEVIEWER.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146264">SvcTraceViewer.exe</a></td>
+                <td valign="top"><em>Service Trace Viewer Tool.</em><br />
+				Used to view and analyze WCF trace data and message logs.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SVCUTIL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146267">SvcUtil.exe</a></td>
+                <td valign="top"><em>Service Model Metadata Utility Tool.</em><br />
+				This tool is used to generate service model code from metadata documents and metadata documents from service model code.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TLBEXP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146268">TlbExp.exe</a></td>
+                <td valign="top"><em>Type Library Exporter.</em><br />
+				Generates a type library from a common language runtime assembly.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TLBIMP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146277">TlbImp.exe</a></td>
+                <td valign="top"><em>Type Library Importer.</em><br />
+				Converts the type definitions found within a COM type library into equivalent definitions in managed metadata format.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WCA.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146285">Wca.exe</a></td>
+                <td valign="top"><em>Windows Workflow communication activity command-line utility.</em><br />
+				This utility is used to generate code files for the 
+				strictly-bound HandleExternalEventActivity activity and 
+				CallExternalMethodActivity activity derived classes from an 
+				input assembly that contains one or more 
+				ExternalDataExchangeService interfaces.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WFC.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146285">Wfc.exe</a></td>
+                <td valign="top"><em>Windows Workflow command-line compiler.</em><br />
+				This utility is used to compile both workflows and activities. 
+				It takes workflow markup (.xoml) and C# or Visual Basic source 
+				files, validates the workflows or activities, and generates 
+				assemblies or executables.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WINRES.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146755">Winres.exe</a></td>
+                <td valign="top"><em>Windows Forms Resource Editor.</em><br />
+				Visual layout tool that helps localization experts localize Windows Forms user 
+				interface (UI) resources used by forms.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WDSL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146305">Wsdl.exe</a></td>
+                <td valign="top"><em>Web Services Description Language Tool.</em><br />
+				Generates code for XML Web services and XML Web services clients from Web Services Description Language (WSDL) contract files, XML Schema Definition (XSD) schema files, and .comap discovery documents.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- XSD.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146306">Xsd.exe</a></td>
+                <td valign="top"><em>XML Schema Definition Tool.</em><br />
+				Generates XML schemas that follow the XSD language proposed by the World Wide Web Consortium (W3C). This tool generates common language runtime classes and aSetclasses from an XSD schema file.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- XSLTC.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146769">Xsltc.exe</a></td>
+                <td valign="top"><em>XSLT Compiler.</em><br />
+				The XSLT compiler (xsltc.exe) compiles XSLT style sheets and generates an assembly. 
+				The compiled style sheet can then be passed directly into the XslCompiledTransform.Load(Type) 
+				method.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>  
+  <tr><td valign="top"><a name="win32">&nbsp;</a></td></tr>
+  <tr>
+    <td valign="top" width="100%">
+      <table bgcolor="#dddddd">
+        <tr>
+          <td valign="top">
+            <h3 align="center">Tools for Windows Native (Win32 API) Developers</h3>
+            <table width="100%" border="1" cellspacing="2" cellpadding="5" bgcolor="#eeeeee">
+              <tr>
+                <th>Tool</th>
+                <th>Description</th>
+                <th>Windows XP</th>
+                <th>Windows Server 2003</th>
+                <th>Windows Vista</th>
+                <th>Windows Server 2008</th>
+                <th>Windows 7</th>
+              </tr>
+<!-- BETEST.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=147071">BETest.exe</a><br />
+				  </td>
+                <td valign="top"><em>VSS Backup and Restore Test Tool.<br /></em>
+				BETest is a VSS requester that tests advanced backup and restore 
+				operations.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- CHECKV4.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146983">Checkv4.exe</a><br />
+				  </td>
+                <td valign="top"><em>IPv6 Compatibility Check Tool.</em><br />
+				Searches for IPv4-specific code in files and suggests changes 
+				needed to make the code IPv6-compatible.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- CTRPP.EXE -->
+              <tr>
+                <td valign="top"><a href="http://go.microsoft.com/fwlink/?LinkId=184051">CTRPP.exe</a></td>
+                <td valign="top"><em>Counter Pre-processor Tool.</em><br />
+				The CTRPP tool is a pre-processor that parses and validates your 
+				counters manifest. The tool also generates code that you use to 
+				provide your counter data.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				</tr>
+<!-- ECMANGEN.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=184052">Ecmangen.exe</a><br />
+				  </td>
+                <td valign="top"><em>ETW Manifest Generation Tool.</em><br />
+				Generates an instrumentation manifest that defines the event 
+				provider and the events that the event provider logs to ETW.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- ERR.EXE -->
+              <tr>
+                <td valign="top">
+				Err.exe<br />
+				  </td>
+                <td valign="top"><em>Error Lookup Tool.</em><br />
+				Looks up error constant values built out of header files accumulated from various Microsoft products (mostly from Windows).</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- ESPEXE.EXE -->
+              <tr>
+                <td valign="top">
+				EspExe.exe<br />
+				  </td>
+                <td valign="top"><em>TAPI Economical Service Provider.</em><br />
+				The ESP (Economical Service Provider) is a TAPI Service Provider 
+				that supports multiple virtual line and phone devices. It is 
+				configurable, requires no special hardware, and implements the 
+				entire Telephony Service Provider Interface.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- EXTIDGEN.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146593">ExtidGen.exe</a><br />
+				  </td>
+                <td valign="top"><em>TAPI Extension ID Generator.</em><br />
+				TAPI tool that generates extension identifiers.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- FDBROWSER.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146308">FDBrowser.exe</a><br />
+				<br />
+				  </td>
+                <td valign="top"><em>Function Discovery Browser.<br /></em> Displays all resources - such as devices - that can be discovered by Function Discovery.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- FILTDUMP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=150500">FiltDump.exe</a><br />
+				<br />
+				  </td>
+                <td valign="top"><em>FiltDump.exe<br /></em> The filtdump.exe program loads an IFilter 
+                interface implementation for a specified document and prints the output produced by the 
+                filter DLL.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- FILTREG.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=150502">FiltReg.exe</a><br />
+				<br />
+				  </td>
+                <td valign="top"><em>FiltReg.exe<br /></em> The filtreg.exe program inspects filter 
+                installation information in the registry. Filtreg.exe enumerates all file extensions 
+                that have filters associated with them by printing the file extension and the name of 
+                the filter DLL for the extension. This is a simple way to verify the correct installation 
+                of a filter.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- GC.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146613">GC.exe</a></td>
+                <td valign="top"><em>SAPI Grammar Compiler.<br />
+				</em>The SAPI grammar compiler (gc.exe) creates binary grammars from extensible markup language (XML) defined grammars.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- GENMANIFEST.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146617">Genmanifest.exe</a></td>
+                <td valign="top"><em>Generate Manifest Tool.<br />
+				</em>This is a command-line tool that generates a manifest.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- GRAPHEDT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146621">Graphedt.exe</a></td>
+                <td valign="top"><em>Multimedia Filter Graph Editor.<br />
+				</em>Graphedt is a development tool for visually building functional multimedia filter graphs using the DirectShow application programming interface.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- IFILTTST.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=150503">IFiltTst.exe</a><br />
+				<br />
+				  </td>
+                <td valign="top"><em>IFiltTst.exe<br /></em> The IFiltTst.exe program runs several tests to 
+                validate an IFilter interface implementation.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MC.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146309">MC.exe</a></td>
+                <td valign="top"><em>Message Compiler.<br />
+				</em>Creates messages that an application or DLL needs.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MFTrace.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=183164">MFTrace.exe</a></td>
+                <td valign="top"><em>Windows Media Foundation Trace Tool.<br />
+				</em>Creates debugging logs related to the Windows Media Foundation API.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MUIRCT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146310">MuiRct.exe</a></td>
+                <td valign="top"><em>MUIRCT Tool.<br />
+                </em>Utility for splitting a standard Win32 portable executable file into an LN file and a .mui file containing language-specific Win32 resources.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- PTCONFORM.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146312">PTConform.exe</a></td>
+                <td valign="top"><em>PrintTicket Conformance Test.<br />
+                </em>PTConform is a conformance tool used to check validity of PrintCapabilities and 
+                PrintTicket documents. PTConform checks that a given PrintCapabilities or PrintTicket 
+                XML document is syntactically and structurally conformant to the public Print Schema definition.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- RC.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146313">RC.Exe</a></td>
+                <td valign="top"><em>Resource Compiler.<br />
+                </em>Utility for compiling a resource definition script file (.rc extension) into resource 
+                files (.res extension). It allows you to build, from a single set of sources, an LN file and 
+                a separate .mui file containing language-specific Win32 resources.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SDDLGEN.EXE -->              
+              <tr>
+                <td valign="top">
+                sddlgen.exe</td>
+                <td valign="top"><em>SddlGen Tool.<br />
+                </em>Generate SDDL string from GUI based input. Parse a given SDDL string / access mask. 
+                Display them using intuitive GUI elements.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- SPORDER.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146726">Sporder.exe</a></td>
+                <td valign="top"><em>Protocol Reorder Tool.<br /></em>
+                Allows the catalog of installed protocols to be reordered interactively after protocols 
+                have already been installed.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TB3X.EXE -->              
+              <tr>
+                <td valign="top">
+				TB3x.exe</td>
+                <td valign="top"><em>TAPI 3.x Browser Tool.<br /></em>
+                Test tool for TAPI 3.x.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TOPOEDIT.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146513">Topoedit.exe</a></td>
+                <td valign="top"><em>Topology Editor.</em><br />
+				In Media Foundation, media data is processed through the pipeline layer and the media session 
+				controls the data flow and provides playback controls. Data in each pipeline component—source, 
+				transform, and sink—is represented as a topology node. The topology object is a collection 
+				of topology nodes and represents the entire path of data flow through the media session pipeline. 
+				Topoedit is a visual tool for building and testing topologies.</td>  
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TRACEFMT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146315">TraceFmt.exe</a></td>
+                <td valign="top"><em>TraceFmt Tool.<br />
+                </em>Formats and displays trace messages from an event trace log file or a real-time trace session.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TRACEPDB.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146316">TracePdb.exe</a></td>
+                <td valign="top"><em>TracePdb Tool.<br />
+                </em>Creates trace message format (.tmf) files by extracting trace message formatting instructions from the full or private PDB symbol file for a trace provider that uses WPP software tracing macros.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TRACEWPP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146317">TraceWpp.exe</a></td>
+                <td valign="top"><em>TraceWpp Tool.<br />
+                </em>Runs the Windows software trace preprocessor (WPP) on the source files of trace providers.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- UICC.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=184048">UICC.exe</a></td>
+                <td valign="top"><em>Ribbon Markup Compiler.<br /></em>
+                Generates a binary version of the Ribbon markup, an ID definition header file that exposes markup elements 
+                to the Ribbon host application, and a resource file that is used to link the binary markup to the host 
+                application at build time. Replaces IntentCL.exe.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- UTL2IDL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=184047">UTL2IDL.exe</a></td>
+                <td valign="top"><em>UTL2IDL Tool.<br /></em>
+			This tool is used in Universal Plug and Play scenarios to translate a service description in UTL to a COM interface in IDL.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VALIDATESD.EXE -->              
+              <tr>
+                <td valign="top">ValidateSD.exe</td>
+                <td valign="top"><em>ValidateSD Tool.<br />
+                </em>Validates if a file contains a valid UPnP service description document.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VSSAGENT.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146564">VSSAgent.exe</a><br />
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146564">
+				VSDiagview.exe</a></td>
+                <td valign="top"><em>VSS Diagnostic Tools.<br /></em>VSSAgent 
+				gathers data that can be viewed using VSDiagview and used to 
+				troubleshoot VSS applications.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VSHADOW.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146723">Vshadow.exe</a><br />
+				  </td>
+                <td valign="top"><em>VShadow Tool.<br /></em>
+                Command-line tool that you can use to create and manage volume shadow copies.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VSSTRACE.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=151417">VSSTrace.exe</a><br />
+				  </td>
+                <td valign="top"><em>VSSTrace Tool.<br /></em>
+                A command line tool that allows users to collect tracing information for the Volume 
+                Shadow Copy Service infrastructure.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VSTORCONTROL.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146566">Vstorcontrol.exe</a><br />
+				  </td>
+                <td valign="top"><em>VSS Sample Provider Tool.<br />
+                </em>Shows how to use the VSS interfaces to create a VSS 
+				Hardware provider.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VSWRITER.EXE -->
+             <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146567">VSWriter.exe</a></td>
+                <td valign="top"><em>VSS Test Writer Tool.<br /></em>
+                The Test Writer is a utility that you can use to test VSS requester 
+				applications. This writer can be configured to perform almost 
+				all of the actions that a VSS writer can perform. In addition, 
+				the Test Writer performs extensive checks to ensure that the 
+				requester has dealt with these writer actions correctly.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WSDCODEGEN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146756">WsdCodeGen.exe</a></td>
+                <td valign="top"><em>Web Services on Devices Code Generator.<br /></em>
+                Command-line utility that generates program code from a service description. The 
+                service description is stored in WSDL and/or XSD files. WsdCodeGen creates C++ and IDL 
+                (Interface Definition Language) files. Developers can use WsdCodeGen to create WSDAPI 
+                applications without worrying about how the data is marshaled and represented on the wire.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WSDDEBUG_CLIENT.EXE and WSDDEBUG_SERVER.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146758">Wsddebug_client.exe</a><br />
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146758">Wsddebug_host.exe</a></td>
+                <td valign="top"><em>Web Services on Devices Debugging Tools.<br /></em>
+                The WSD Debug Host (wsddebug_host.exe) and WSD Debug Client (wsddebug_client.exe) tools 
+                can be used to inspect the characteristics of DPWS clients or hosts. They can also be used 
+                to troubleshoot connectivity or configuration problems.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WSTRACEDUMP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=184054">WSTraceDump.exe</a></td>
+                <td valign="top"><em>Web Services Trace Dump Tool.<br /></em>
+                Assists with the analysis of web services trace dumps.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WSUTIL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146987">WSUtil.exe</a></td>
+                <td valign="top"><em>Web Services Compiler Tool.<br /></em>
+                The tool supports service model and serialization of data types. It processes WSDL, XML 
+                schema and policy documents documents, and generate C header and source files. This tool 
+                is similar to wsdl compiler tool for managed code with target to native code instead of 
+                managed code. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>  
+  <tr><td valign="top"><a name="common">&nbsp;</a></td></tr>
+  <tr>
+    <td valign="top" width="100%">
+      <table bgcolor="#dddddd">
+        <tr>
+          <td valign="top">
+            <h3 align="center">Common Tools for both Managed (.NET) and Native (Win32 API) Developers</h3>
+            <table width="100%" border="1" cellspacing="2" cellpadding="5" bgcolor="#eeeeee">
+              <tr>
+                <th>Tool</th>
+                <th>Description</th>
+                <th>Windows XP</th>
+                <th>Windows Server 2003</th>
+                <th>Windows Vista</th>
+                <th>Windows Server 2008</th>
+                <th>Windows 7</th>
+              </tr>
+<!-- ACCEVENT.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146685">AccEvent.exe</a></td>
+                <td valign="top"><em>Accessible Event Watcher.</em><br />
+				Allows developers 
+				and testers to validate that the user interface (UI) elements of 
+				an application raise proper Active Accessibility events when the 
+				UI changes. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- APATCH.EXE and MPATCH.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146584">Apatch.exe</a><br />
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146584">
+				Mpatch.exe</a></td>
+                <td valign="top"><em>Binary Patching Tools.</em><br />
+				The Mpatch.exe utility can be used to test the generation of 
+				binary patches for a single file and to check whether or not the 
+				symbols are valid.&nbsp; The Apatch.exe utility is used to apply 
+				the patches.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- APPLICATION VERIFIER -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=155172">Application Verifier</a><br />
+				  </td>
+                <td valign="top"><em>Application Verifier.<br /></em> 
+				Application Verifier is a runtime verification tool for 
+				unmanaged code. Application Verifier assists developers in 
+				quickly finding subtle programming errors that can be extremely 
+				difficult to identify with normal application testing.<br />
+				<br />
+				Please note - Application Verifier is an optional tool that you 
+				can choose to install as part of the SDK setup.&nbsp; If 
+				installed it will be located in an Application Verifier 
+				directory under your Program Files directory.<br />
+						</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+		</tr>
+<!-- BIND.EXE -->
+              <tr>
+                <td valign="top">
+				Bind.exe<br />
+				  </td>
+                <td valign="top"><em>Windows NT Image Binder.<br /></em> Minimizes load time by bypassing looking up exported DLL function addresses</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- CERTMGR.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146318">CertMgr.exe</a></td>
+                <td valign="top"><em>Certificate Manager Tool.</em><br />
+				Command line and GUI tool which configures system certificate stores.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- CERT2SPC.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146587">Cert2Spc.exe</a></td>
+                <td valign="top"><em>Software Publisher Certificate Test Tool.</em><br />
+				The Software Publisher Certificate Test tool creates a Software 
+				Publisher's Certificate (SPC) from one or more X.509 
+				certificates. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- CONSUME.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=147072">Consume.exe</a></td>
+                <td valign="top"><em>Consume Tool.</em><br />
+				Test tool that can consume various resources, such as memory, CPU and disk space.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				</tr>
+<!-- Debugging Tools For Windows -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=155214">Debugging Tools For Windows</a></td>
+                <td valign="top"><em>Debugging Tools For Windows.</em><br />
+				A package that includes a number of debuggers and other tools to aid in debugging and diagnostics.<br />
+				<br />
+				Please note - Debugging Tools For Windows is an optional tool that you 
+				can choose to install as part of the SDK setup.&nbsp; If 
+				installed it will be located in a Debugging Tools for Windows 
+				directory under your Program Files directory.<br />
+</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- DEVICESIMULATORFORWINDOWSSIDESHOW.MSI -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146967">DeviceSimulatorForWindowsSideShow.msi</a></td>
+                <td valign="top"><em>Device Simulator for Windows SideShow.</em><br />
+				Allows developers of gadgets for Windows SideShow to test their gadgets without physical 
+				hardware.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				</tr>
+<!-- FILETYPEVERIFIER.EXE -->
+              <tr>
+                <td valign="top"><a href="http://go.microsoft.com/fwlink/?LinkId=184020">FileTypeVerifier.exe</a></td>
+                <td valign="top"><em>File Type Verifier Tool.</em><br />
+				Checks properties, IFilters, and other settings to ensure a file 
+				format will register correctly with Windows 7.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				</tr>
+<!-- FTQUERY.EXE -->
+              <tr>
+                <td valign="top">FTQuery.exe</td>
+                <td valign="top"><em>FTQuery Tool.</em><br />
+				FTQuery is a diagnostic tool that can be used to verify and test the query functionality 
+				of the Windows Search Service.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				</tr>
+<!-- GUIDGEN.EXE -->
+			  <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146970">Guidgen.exe</a></td>
+                <td valign="top"><em>Create GUID Tool.</em><br />
+				Generates a GUID in a specified format.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- INSPECT.EXE -->
+			  <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146686">Inspect.exe</a></td>
+                <td valign="top"><em>Inspect Objects Tool.</em><br />
+				Allows developers and testers to examine the IAccessible property values of the the user 
+				interface (UI) items of an application and to navigate to other 
+				objects.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- ISXPS.EXE -->
+			  <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146319">isXPS.exe</a></td>
+                <td valign="top"><em>isXPS Conformance Tool.</em><br />
+				Tests a file's conformity to the XML Paper Specification (XPS) and the Open Packaging Conventions (OPC) Specification.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MAKE-SHELL.EXE -->
+	      	  <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146320">Make-Shell.exe</a></td>
+                <td valign="top"><em>Make-Shell Tool.</em><br />
+				Windows PowerShell provides a tool that is used to create a console shell that is not extensible. Shells created with this new tool cannot be extended later through a Windows PowerShell snap-in. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MAKECAT.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146321">MakeCat.Exe</a></td>
+                <td valign="top"><em>MakeCat Tool.</em><br />
+				Command line tool used for generating Authenticode catalogs.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MAKECERT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146435">MakeCert.exe</a></td>
+                <td valign="top"><em>Certificate Creation Tool.</em><br />
+				Command line tool used for generating self-signed and test certificates.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MIDL.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146689">Midl.exe/Midlc.exe</a></td>
+                <td valign="top"><em>MIDL Compiler.<br />
+				</em>Processes an IDL file to generate a type library and output files.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSICERT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146690">MSICert.exe</a></td>
+                <td valign="top"><em>MSI Certificate Tool.</em><br />
+				A command line utility that can be used to populate the MsiDigitalSignature 
+				table and MsiDigitalCertificate table with the digital signature 
+				information of an external cabinet file. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIDB.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146691">MSIDB.exe</a></td>
+                <td valign="top"><em>MSIDb Tool.</em><br />
+				Uses MsiDatabaseImport and MsiDatabaseExport to import and export database tables and streams.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIFILER.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146694">MSIFiler.exe</a></td>
+                <td valign="top"><em>MSIFiler Tool.</em><br />
+				Populates the File table with file versions, languages, and sizes based upon a source 
+				directory. It can also update the MsiFileHash table with file hashes.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIINFO.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146692">MSIInfo.exe</a></td>
+                <td valign="top"><em>MSIInfo Tool.</em><br />
+				Uses Database Functions and Installer Functions to edit or display the summary information 
+				stream of a database.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIMERG.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146696">MSIMerg.exe</a></td>
+                <td valign="top"><em>MSIMerg Tool.</em><br />
+				Uses MsiDatabaseMerge to merge a reference database into a base database.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIMSP.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146698">MSIMsp.exe</a></td>
+                <td valign="top"><em>MSIMsp Tool.</em><br />
+				Msimsp.exe is a executable file that calls Patchwiz.dll. The tool can be used to 
+				create a patch package by passing in the path to a patch creation properties file 
+				(.pcp file) and the path to the patch package that is being created.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSITRAN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146699">MSITran.exe</a></td>
+                <td valign="top"><em>MSITran Tool.</em><br />
+				Uses MsiDatabaseGenerateTransform, MsiCreateTransformSummaryInfo, and MsiDatabaseApplyTransform 
+				to generate or apply a transform file.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIVal2.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146702">
+				MSIVal2.msi</a></td>
+                <td valign="top"><em>MSIVal2 Tool.</em><br />
+				Msival2 is a command line utility that can run a suite of Internal Consistency 
+				Evaluators - ICEs.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MSIZap.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146704">MSIZap.exe</a></td>
+                <td valign="top"><em>MSIZap Tool.</em><br />
+				Msizap.exe is a command line utility that removes either all Windows Installer information 
+				for a product or all products installed on a computer.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- MT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href=" http://go.microsoft.com/fwlink/?LinkId=146971">MT.exe</a></td>
+                <td valign="top"><em>Manifest Tool.<br /></em>
+                Generates signed files and catalogs.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- OLEVIEW.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146311">OleView.Exe</a></td>
+                <td valign="top"><em>OLE/COM Object Viewer.<br />
+                </em> Enables you to browse, configure, and test installed COM classes.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- Orca.MSI -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146707">Orca.msi</a></td>
+                <td valign="top"><em>Orca Installer.</em><br />
+				Installer for Orca.exe, a database table editor for creating and editing Windows Installer packages 
+				and merge modules.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- PKTEXTRACT.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146710">PKTExtract.exe</a></td>
+                <td valign="top"><em>Public Key Token Extractor Tool.</em><br />
+				Extracts the publicKeyToken attribute from a certificate file. The output is the 
+				publicKeyToken, which is a unique 16-character (8-byte) identifier of the public 
+				key present in the certificate, in a format that can easily be pasted into an assembly 
+				identity statement. </td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- PVK2PFX.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146443">Pvk2Pfx.exe</a></td>
+                <td valign="top"><em>SPC / CER / PVK to PFX Conversion Tool.</em><br />
+				Command line tools used to convert a PVK file to a PFX file.</td>  
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- REBASE.EXE -->				
+              <tr>
+                <td valign="top">ReBase.Exe</td>
+                <td valign="top"><em>Rebase Tool.</em><br />
+				Specifies base addresses for the DLLs an application uses.</td>  
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- SDCATALOG.EXE -->				
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkID=147132">SDCatalog.Exe</a></td>
+                <td valign="top"><em>SDCatalog Tool.</em><br />
+				SDCatalog is used by Windows Troubleshooting Pack Designer to generate 
+				security catalogs for Windows Troubleshooting Packs.</td>  
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- SDMC.EXE -->				
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkID=147131">SDMC.Exe</a></td>
+                <td valign="top"><em>SDMC Tool.</em><br />
+				SDMC is used by Windows Troubleshooting Pack Designer to compile and validate 
+				Windows Troubleshooting Packs.</td>  
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- SETREG.EXE -->			  
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146713">SetReg.exe</a></td>
+                <td valign="top"><em>SetReg Tool.</em><br />
+				Sets the value of the registry keys that control the behavior of the Authenticode 
+				certificate verification process. These keys are called the Software Publishing State Keys. 
+				After completing the requested action, the tool displays the current state of the Software 
+				Publishing State Keys.</td>        
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- SIGNTOOL.EXE -->			  
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146448">SignTool.exe</a></td>
+                <td valign="top"><em>Sign Tool.</em><br />
+				Command line tool used for Authenticode signing applications, verifying Authenticode signatures, and configuring the system catalog database.</td>        
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+			  </tr>
+<!-- TCPANALYZER.EXE -->			  
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkID=147072">TcpAnalyzer.exe</a></td>
+                <td valign="top"><em>TCP Analyzer.</em><br />
+				Enables monitoring and diagnosis of individual TCP/IP connections. The tool enables a user to select any connection from a list of connections and view the sending rate, performance bottleneck, losses, retransmissions and various other detailed TCP/IP information for that connection in a graphical manner.</td>  
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- TSPDESIGNER.EXE -->			  
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkID=147130">TSPDesigner.exe</a></td>
+                <td valign="top"><em>Windows Troubleshooting Pack Designer.</em><br />
+				Windows Troubleshooting Pack Designer is a GUI application that is used to write Windows 
+				Troubleshooting Packs.<br /><br />
+				Requires .Net 3.5.<br /><br />
+				Recommended: Run TestModeSetup.ps1 to configure your computer for writing Windows 
+				Troubleshooting Packs.</td>  
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- UUIDGEN.EXE -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146453">UuidGen.exe</a></td>
+                <td valign="top"><em>UUID Generator Tool.</em><br />
+				This tool generates Universal Unique Identifiers (UUIDs) also known as a GUIDs.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- VIRTUALLIGHTSENSOR.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146540">
+				VirtualLightSensor.exe</a></td>
+                <td valign="top"><em>Virtual Light Sensor Tool.</em><br />
+				Windows 7 introduces a platform for using sensor devices, such 
+				as light sensors or GPS sensors, to create environmental or 
+				location awareness in programs. The tool simulates a 
+				hardware-based light sensor device.</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WILOGUTL.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146753">WiLogUtl.Exe</a></td>
+                <td valign="top"><em>Windows Installer Log Utility.</em><br />
+				Assists with the analysis of log files from a Windows Installer installation, 
+				and it displays suggested solutions to errors that are found in a log file.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- WINDIFF.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146456">WinDiff.Exe</a></td>
+                <td valign="top"><em>WinDiff Tool.</em><br />
+				Compares files and display graphically any differences between them.</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- Windows Performance Toolkit -->              
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146767">
+				Windows Performance Toolkit</a><br />
+				</td>
+                <td valign="top"><em>Windows Performance Toolkit.<br /></em>
+                The Windows Performance Toolkit provides a suite of tools to 
+				help capture and analyze traces. </br>
+				<br/>
+				Please note - Windows Performance Toolkit is an optional tool that you 
+				can choose to install as part of the SDK setup.&nbsp; If 
+				installed it will be located in a  
+				directory under your Program Files directory.<br /></td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+				<td class="style1">Yes</td>
+              </tr>
+<!-- XPSANALYZER.EXE -->
+              <tr>
+                <td valign="top">
+				<a href="http://go.microsoft.com/fwlink/?LinkId=146560">XPSAnalyzer.exe</a></td>
+                <td valign="top"><em>XPS Analyzer.</em><br />
+				A command-line tool that analyzes 
+				XML Paper Specification (XPS) files for compatibility with the XPS 1.0 specification.</td>  
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">No</td>
+				<td class="style1">Yes</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+</table>
+
+</body>
+</html>

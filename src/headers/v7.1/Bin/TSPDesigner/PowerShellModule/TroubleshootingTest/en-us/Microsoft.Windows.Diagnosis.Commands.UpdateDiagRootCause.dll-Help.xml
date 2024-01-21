@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+<!-- v 1.1.0.9 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Update-DiagRootCause
+		</command:name>
+		<maml:description>
+			<maml:para>Reports the status of a root cause.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Update</command:verb>
+		<command:noun>DiagRootCause</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>The Update-DaigRootCause cmdlet reports the status of a root-cause (indicates whether a root-cause exists on a computer). 
+
+You can call this cmdlet from a troubleshooting script and verification script but not from a resolution script.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Update-DiagRootCause</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+				<maml:name>Id</maml:name>
+				<maml:description>
+					<maml:para>The identifier of the root-cause whose status you want to update. The identifier is case-sensitive and must match the ID of a root-cause declared in the troubleshooting manifest.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+				<maml:name>Detected</maml:name>
+				<maml:description>
+					<maml:para>Determines whether the root-cause exists on the computer. Set to $true, if the root-cause exists on the computer; otherwise, $false. 
+</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+				<maml:name>InstanceId</maml:name>
+				<maml:description>
+					<maml:para>A unique string identifier that identifies a specific instance of the root cause. You would use an instance identifier to identify instances of a generic root cause. </maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+				<maml:name>Parameter</maml:name>
+				<maml:description>
+					<maml:para>A hash table of key/value pairs that define the parameters used by the root-cause or its children nodes. Each key in the hash table must be unique and must match a parameter declared by nodes of the root-cause. The key name is case-sensitive. You must include parameters that do not specify a default parameter value in the root-cause; parameters that include a default value are optional.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+			<maml:name>Detected</maml:name>
+			<maml:description>
+				<maml:para>Determines whether the root-cause exists on the computer. Set to $true, if the root-cause exists on the computer; otherwise, $false. 
+</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+			<dev:type>
+				<maml:name>Boolean</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>Id</maml:name>
+			<maml:description>
+				<maml:para>The identifier of the root-cause whose status you want to update. The identifier is case-sensitive and must match the ID of a root-cause declared in the troubleshooting manifest.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+			<maml:name>InstanceId</maml:name>
+			<maml:description>
+				<maml:para>A unique string identifier that identifies a specific instance of the root cause. You would use an instance identifier to identify instances of a generic root cause. </maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+			<maml:name>Parameter</maml:name>
+			<maml:description>
+				<maml:para>A hash table of key/value pairs that define the parameters used by the root-cause or its children nodes. Each key in the hash table must be unique and must match a parameter declared by nodes of the root-cause. The key name is case-sensitive. You must include parameters that do not specify a default parameter value in the root-cause; parameters that include a default value are optional.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			<dev:type>
+				<maml:name>hashtable</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 1 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>Update-DiagRootCause -Id &quot;MyRootCause&quot; -Detected $True</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to update the status of the MyRootCause root-cause. The affect that the Detected parameter has on the status depends on the current value of its status. For example, if the current status is Not Checked, setting Detected to true changes the status to Detected.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 2 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>Update-DiagRootCause -Id &quot;MyRootCause&quot; -Detected $False -Parameters @{&quot;Param1&quot;=&quot;ParamValue&quot;}</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to pass parameter values to the root-cause.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+
+
+</helpItems>
+

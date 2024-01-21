@@ -1,0 +1,51 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Windows Installer Policy Template File
+; 1.1 ADM for non Windows 2000 systems (down-level systems)
+; 1.1 ADM for Windows 2000 systems in system.adm file
+; 4.0 ADM for Windows Vista systems (up-level systems)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;
+CLASS MACHINE ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+CATEGORY !!WindowsComponents
+
+    CATEGORY !!MSI
+
+        KEYNAME "Software\Policies\Microsoft\Windows\Installer";
+
+        POLICY !!DisableFlyweightPatching
+            #if version >= 4
+            SUPPORTED !!SUPPORTED_MSI30
+            #endif
+
+            EXPLAIN !!DisableFlyweightPatching_Help
+            PART !!DisableFlyweightPatching DROPDOWNLIST NOSORT REQUIRED
+                VALUENAME "DisableFlyweightPatching"
+                ITEMLIST
+		    NAME !!PatchOptimizationOff	VALUE NUMERIC 1
+		    NAME !!PatchOptimizationOn	VALUE NUMERIC 0  DEFAULT
+                END ITEMLIST
+           END PART
+	END POLICY
+
+    END CATEGORY ; MSI
+
+END CATEGORY ; WindowsComponents
+
+;**************************************************************************************************
+
+
+[strings]
+Blank=" "
+MSI="Windows Installer"
+DisableFlyweightPatching="Prohibit Flyweight Patching"
+DisableFlyweightPatching_Help="This setting controls the ability to turn off all patch optimizations. \n\nIf you turn on this policy setting (set to 1), all Patch Optimization options are turned off during the installation.\n\nIf you turn off this policy setting, it enables faster application of patches by removing execution of unnecessary actions. The flyweight patching mode is primarily designed for patches that just update a few files or registry values. The Installer will analyze the patch for specific changes to determine if optimization is possible. If so, the patch will be applied using a minimal set of processing.."
+PatchOptimizationOff="Patch Optimization Off"
+PatchOptimizationOn="Patch Optimization On"
+SUPPORTED_MSI30="Windows Installer v3.0"
+WindowsComponents="Windows Components"
+;End of Strings

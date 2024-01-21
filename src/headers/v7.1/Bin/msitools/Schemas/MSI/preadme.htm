@@ -1,0 +1,470 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List
+href="Patch%20Sequencing%20Information%20Generation_files/filelist.xml">
+<title>Patch Authoring for MSI 3</title>
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:PMingLiU;
+	panose-1:2 2 3 0 0 0 0 0 0 0;
+	mso-font-alt:\65B0\7D30\660E\9AD4;
+	mso-font-charset:136;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:3 137232384 22 0 1048577 0;}
+@font-face
+	{font-family:"\@PMingLiU";
+	panose-1:2 2 3 0 0 0 0 0 0 0;
+	mso-font-charset:136;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:3 137232384 22 0 1048577 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:PMingLiU;}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:PMingLiU;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:200%'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:18.0pt;line-height:
+200%'>Windows® Installer sample patching<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>The samples in this folder assist developers in the
+development of file patches and updates that can be used with Windows®
+Installer installation packages. The bin directory of your SDK has useful patch
+creation utilities and sample patch creation files (PCP files) used to create a
+Windows® installer patch package. A PCP file may be used with the Msimsp.exe
+and Patchwiz.dll utilities to generate a Windows® Installer patch package (.<span
+class=SpellE>msp</span> extension). Neither the sample PCP files provided in
+this folder, nor the patch creation tools provided in the bin directory are
+supported by <span class=GramE>Microsoft®</span> Corporation. They are provided
+&quot;as is&quot; because we believe they may be useful to you.</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Template.pcp</span></b></span></p>
+
+<p class=MsoNormal>It is an empty patch creation properties file (PCP file).
+The PCP file is a binary database file with the same format as a Windows®
+Installer database (an MSI file) but uses a different database schema. Authors
+may create a PCP file by using a table editor such Orca to enter their
+information into the blank PCP database provided <span class=SpellE>template.pcp</span>.
+An example of the procedure is discussed in the help file &quot;A Small Update
+Patching Example&quot; in the SDK documentation. For more information about
+patch creation properties files see the help file &quot;Patchwiz.dll&quot; in
+the SDK documentation.<o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Example.pcp</span></b></span><b style='mso-bidi-font-weight:
+normal'><span style='font-size:14.0pt'><o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This file is an example of a populated patch creation
+properties file (PCP file). An example of the procedure is discussed in the
+help file &quot;A Small Update Patching Example&quot; in the SDK documentation.
+For more information about patch creation properties files see the help file
+&quot;Patchwiz.dll&quot; in the SDK documentation.</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Makecab.exe<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This is a data compression tool that developers can use to
+make compressed cabinet files for use with Windows® <span class=GramE>Installer
+installations.</span> For more information about makecab.exe see the help file &quot;<span
+class=SpellE>MakeCAB</span>: A Compression and Disk Layout Tool&quot; in the
+Platform SDK documentation. Windows® Installer developers must take care to
+properly author their installation database to match up with the files in their
+cabinets. For more information about how to use cabinet files with the Windows®
+Installer you should see the help file &quot;Using Cabinets and Compressed
+Sources&quot; in the SDK documentation. Type makcab.exe /? <span class=GramE>on</span>
+a command line to display makecab.exe syntax and options. <o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Apatch.exe<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This is a command line tool used to apply an ordinary patch
+file to a file. This utility is intended for use with ordinary patch files and
+will not work with Windows® Installer patch packages (.<span class=SpellE>msp</span>
+files). The utility is provided merely as an aid to development. Type
+apatch.exe /? <span class=GramE>on</span> a command line to display apatch.exe
+syntax.<span style='mso-spacerun:yes'>  </span><o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Mpatch.exe<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This is a command line tool that calls mspatchc.dll to
+generate a regular patch file. This utility is intended for use with ordinary
+patch files and will not work with Windows® Installer patch packages (.<span
+class=SpellE>msp</span> files). The utility is provided merely as an aid to
+development. Type mpatch.exe /? <span class=GramE>on</span> a command line to display
+apatch.exe syntax. <o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Mspatchc.dll<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This DLL is used by mpatch.exe.<o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Msimsp.exe<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This tool calls PatchWiz.dll to generate a Windows®
+Installer patch package (MSP file) by passing in a patch creation <span
+class=GramE>properties</span> file (PCP file) and the path to the patch package
+being created. The tool can also be used to create a log file and to specify a
+temporary folder in which the transforms, cabinets and files used to create the
+patch package are saved. Msimsp.exe is the recommended method of generating a Windows®
+Installer patch package. For more information sees the help files
+&quot;Patching&quot; and &quot;Msimsp.exe&quot; in the SDK documentation. Type
+msimsp.exe /? <span class=GramE>on</span> a command line to display msimsp.exe
+syntax and options. <o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt'>Patchwiz.dll<o:p></o:p></span></b></p>
+
+<p class=MsoNormal>This DLL is used by msimsp.exe. Patchwiz.dll called by
+msimsp.exe is the recommended method for generating Windows® Installer patch
+packages (.<span class=SpellE>msi</span> files). For more information see the
+help files &quot;Patching&quot; and &quot;Patchwiz.dll&quot; in the SDK
+documentation. Starting with Windows® Installer 3.0 SDK, <span class=SpellE>PatchWiz</span>
+helps patch authors generate sequencing information for Windows® Installer 3.0
+patches. The following sections describe this new functionality of <span
+class=SpellE>PatchWiz</span>.</p>
+
+<p class=MsoNormal><b><span style='font-size:12.0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b><i style='mso-bidi-font-style:normal'><span
+style='font-size:12.0pt'>PATCHWIZ: Patch Sequencing Information Generation</span></i></b><i
+style='mso-bidi-font-style:normal'><span style='font-size:12.0pt'><o:p></o:p></span></i></p>
+
+<p class=MsoNormal><b><span style='font-size:11.0pt'>Automatically Generating
+Sequencing Information</span></b><span style='font-size:11.0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal>The sequencing information will be generated automatically
+and an <span class=SpellE>MsiPatchSequence</span> table will be added to the
+patch by default for all patches that are created using the PATCHWIZ released
+with Windows® Installer 3.0 SDK. To suppress the automatic population of
+sequencing information the property SEQUENCE_DATA_GENERATION_DISABLED should be
+set to 1 in the PCP file’s Properties table. In the absence of this property
+sequencing information is generated automatically.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b>Automatically Generating the <span class=SpellE>PatchFamily</span></b></p>
+
+<p class=MsoNormal>All unique target product codes listed in the target images
+of the PCP file will serve as <span class=SpellE>PatchFamily</span> values. A
+new row is created for each unique target product code that the target image
+listed in the <span class=SpellE>TargetImages</span> table corresponds to. Each
+of these new rows has a <span class=SpellE>PatchFamily</span> that corresponds
+to the unique target product code of each of the target images.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b>Automatically Generating the Sequence Numbers</b></p>
+
+<p class=MsoNormal>Sequence numbers will be generated based on the highest
+product <a
+href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/msi/setup/version.asp">version</a>
+that the patch targets and the UTC time when the patch was generated. This
+ensures an optimal behavior with applicability testing API. Note that product
+versions are of the format: &lt;Product Major Version&gt;.&lt;Product Minor
+Version&gt;.&lt;Build Major Number&gt;.&lt;Build Minor Number&gt; and a product
+with a version number 2.1.0.0 is higher version than a product with version
+number 1.2.0.0.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The sequence number will be &lt;Product Minor
+Version&gt;.&lt;Build Major Number&gt;.&lt;Time Stamp 1&gt;.&lt;Time Stamp
+2&gt;; in other words the first field of the sequence number is the product
+version of the highest version of the product that the patch targets. <span
+class=SpellE>Simlarly</span>, the second field is the build major number of the
+highest version of the product that the patch targets. The two time stamp
+fields account for the 32 bit time stamp needed to count the seconds in UTC. </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b>Automatically Generating the Attributes</b></p>
+
+<p class=MsoNormal>By default, QFE (small update) patches will NOT have the <span
+class=SpellE>msidbPatchSequenceSupersedeEarlier</span> attribute set; whereas
+SP (minor update) patches will have the <span class=SpellE>msidbPatchSequenceSupersedeEarlier</span>
+attribute set. The assumption here is that SP will always contain fixes brought
+in by all the QFE that were released prior to it. If the patch authors feel
+otherwise, they will have the ability to control this behavior using the
+SEQUENCE_DATA_SUPERSEDENCE property. Patch authors can set the value of this
+property to 0 or 1. By setting this property in the PCP file, patch authors
+instruct PATCHWIZ to generate a patch that has all the rows in the <span
+class=SpellE>MsiPatchSequence</span> table to have the attributes column’s <span
+class=SpellE>supersedence</span> value set to the value specified by the
+SEQUENCE_DATA_SUPERSEDENCE property. Patch authors will have to manually
+generate the sequencing information if they want a finer control on the
+attributes column.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Note that the Target column will be left blank while
+generating sequencing information automatically.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b><span style='font-size:11.0pt'>Manually Generating
+Sequencing Information</span></b><span style='font-size:11.0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span class=SpellE>MsiPatchSequence</span> table can be
+populated based on the information provided in the <span class=SpellE>PatchSequence</span>
+table of the PCP file. If the PCP file contains the <span class=SpellE>PatchSequence</span>
+table, then the SEQUENCE_DATA_GENERATION_DISABLED property is not considered. </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><span class=SpellE><b>PatchSequence</b></span><b> Table</b></p>
+
+<p class=MsoBodyText>The <span class=SpellE>PatchSequence</span> table is a new
+table that only PATCHWIZ shipped with Windows® Installer 3.0 SDK can recognize.
+It is used to generate the <span class=SpellE>MsiPatchSequence</span> table in
+the created patch.</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:45.9pt;border-collapse:collapse;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=142 valign=top style='width:85.25pt;border-top:solid black 1.5pt;
+  border-left:solid black 1.5pt;border-bottom:none;border-right:none;
+  background:black;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText><span style='color:white'>Column Name</span></p>
+  </td>
+  <td width=51 valign=top style='width:30.45pt;border:none;border-top:solid black 1.5pt;
+  background:black;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText><span style='color:white'>Key</span></p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border:none;border-top:solid black 1.5pt;
+  background:black;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText><span style='color:white'>Type</span></p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border-top:solid black 1.5pt;
+  border-left:none;border-bottom:none;border-right:solid black 1.5pt;
+  background:black;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText><span class=SpellE><span style='color:white'>Nullable</span></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=142 valign=top style='width:85.25pt;border:none;border-left:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText><span class=SpellE>PatchFamily</span></p>
+  </td>
+  <td width=51 valign=top style='width:30.45pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Yes</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Identifier</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border:none;border-right:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>No</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=142 valign=top style='width:85.25pt;border:none;border-left:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Target</p>
+  </td>
+  <td width=51 valign=top style='width:30.45pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Yes</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Text</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border:none;border-right:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Yes</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=142 valign=top style='width:85.25pt;border:none;border-left:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Sequence</p>
+  </td>
+  <td width=51 valign=top style='width:30.45pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>No</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Version</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border:none;border-right:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Yes</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+  <td width=142 valign=top style='width:85.25pt;border-top:none;border-left:
+  solid black 1.5pt;border-bottom:solid black 1.5pt;border-right:none;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Supersede</p>
+  </td>
+  <td width=51 valign=top style='width:30.45pt;border:none;border-bottom:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>No</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border:none;border-bottom:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Integer</p>
+  </td>
+  <td width=111 valign=top style='width:66.45pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.5pt;border-right:solid black 1.5pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoBodyText>Yes</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b>Columns</b></p>
+
+<p class=MsoNormal><span class=SpellE>PatchFamily</span></p>
+
+<p class=MsoNormal style='margin-left:.5in'><span class=GramE>The identifier
+which indicates one of the sequence families to which this patch belongs to.</span>
+Together with the Target value, the <span class=SpellE>PatchFamily</span> value
+defines the primary key of the table. A patch which belongs to multiple
+sequence families or has different sequence behavior based on target product
+code will have one row for each distinct pairing. This value is used to
+populate the <span class=SpellE>PatchFamily</span> column of the <span
+class=SpellE>MsiPatchSequence</span> table in the patch.</p>
+
+<p class=MsoNormal>Target</p>
+
+<p class=MsoNormal style='margin-left:.5in'>The Target column is used to
+determine the product code filtering for the <span class=SpellE>PatchFamily</span>.
+A NULL value in this column indicates that this <span class=SpellE>PatchFamily</span>
+applies to all targets of the patch. If the column contains a foreign key to <span
+class=SpellE>TargetImages</span> table, the product code of the specified image
+is automatically retrieved and used to populate the product code value of the <span
+class=SpellE>MsiPatchSequence</span> row. If the value is a GUID, the specified
+GUID is used in the <span class=SpellE>MsiPatchSequence</span> row. If the data
+does not meet any of the above criteria, the patch creation will fail.</p>
+
+<p class=MsoNormal>Sequence</p>
+
+<p class=MsoNormal style='margin-left:.5in'>The value in the Sequence column is
+used to populate the Sequence column of the <span class=SpellE>MsiPatchSequence</span>
+table in the new patch file. If the value is NULL, a sequence number is
+automatically generated the same way while generating automatic sequencing
+information. </p>
+
+<p class=MsoNormal>Supersede</p>
+
+<p class=MsoNormal style='margin-left:.5in'>A non-NULL value indicates that
+this patch supersedes earlier QFE patches in this family. This value is used to
+set the Attributes column of the row in the <span class=SpellE>MsiPatchSequence</span>
+table of the new patch file.<o:p></o:p></p>
+
+</div>
+
+</body>
+
+</html>

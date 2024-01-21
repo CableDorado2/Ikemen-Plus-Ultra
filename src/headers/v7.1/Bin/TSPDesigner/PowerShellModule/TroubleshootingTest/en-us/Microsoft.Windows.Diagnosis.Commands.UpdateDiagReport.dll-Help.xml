@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+<!-- v 1.1.0.9 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Update-DiagReport
+		</command:name>
+		<maml:description>
+			<maml:para>Adds a custom section to the troubleshooting report.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Update</command:verb>
+		<command:noun>DiagReport</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>The Update-DiagReport cmdlet adds a custom section to the troubleshooting report that support professionals or administrators can use to further troubleshoot a problem.
+
+You can include the additional information directly in the report or you can include a link in the report that points the user to a file that contains the additional information. To include the information directly in the report, use the Xml parameter. To specify a link to a file that contains the additional information, use the File parameter. </maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Update-DiagReport</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+				<maml:name>File</maml:name>
+				<maml:description>
+					<maml:para>The name of the file that contains the additional information for this section of the report. The report will contain a link to the file. 
+
+</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+				<maml:name>Id</maml:name>
+				<maml:description>
+					<maml:para>A unique string identifier used to identify this custom section of the report. The identifier is used as a secondary sort after Verbosity for ordering content in the report.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para>The name to use as the title for the section of the report that you are adding.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+				<maml:name>Description</maml:name>
+				<maml:description>
+					<maml:para>A description that describes this section of the report.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+				<maml:name>Verbosity</maml:name>
+				<maml:description>
+					<maml:para>Determines the level of detail to include in the report when an error occurs. The possible values are:
+
+- Informational
+- Warning
+- Error
+- Debug
+
+The default is Informational (most verbose). For Informational, Warning, and Error, the information is displayed in the client and written to the ResultReport.xml file. For Debug, the information is written to the DebugReport.xml file. </maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>RootcauseId</maml:name>
+				<maml:description>
+					<maml:para>The identifier of the root-cause to which you want to add the information; the information is included with the root-cause in the Issues Found section of the report. If you do not specify an identifier, the information is included in the Detection Details section of the report.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>RootcauseInstanceId</maml:name>
+				<maml:description>
+					<maml:para>The identifier of an instance of the root-cause to which you want to add the information; the information is included with the root-cause instance in the Issues Found section of the report. If you do not specify an identifier, the information is included in the Detection Details section of the report.
+
+Use this parameter only if you specify the RootcauseId parameter.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Update-DiagReport</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+				<maml:name>Xml</maml:name>
+				<maml:description>
+					<maml:para>An XmlDocument object that contains the information to add to the custom section of the report. To ensure that the XML is valid, use ConvertTo-Xml to encode the object as an XML document.
+</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+				<maml:name>Id</maml:name>
+				<maml:description>
+					<maml:para>A unique string identifier used to identify this custom section of the report. The identifier is used as a secondary sort after Verbosity for ordering content in the report.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para>The name to use as the title for the section of the report that you are adding.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+				<maml:name>Description</maml:name>
+				<maml:description>
+					<maml:para>A description that describes this section of the report.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+				<maml:name>Verbosity</maml:name>
+				<maml:description>
+					<maml:para>Determines the level of detail to include in the report when an error occurs. The possible values are:
+
+- Informational
+- Warning
+- Error
+- Debug
+
+The default is Informational (most verbose). For Informational, Warning, and Error, the information is displayed in the client and written to the ResultReport.xml file. For Debug, the information is written to the DebugReport.xml file. </maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>RootcauseId</maml:name>
+				<maml:description>
+					<maml:para>The identifier of the root-cause to which you want to add the information; the information is included with the root-cause in the Issues Found section of the report. If you do not specify an identifier, the information is included in the Detection Details section of the report.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>RootcauseInstanceId</maml:name>
+				<maml:description>
+					<maml:para>The identifier of an instance of the root-cause to which you want to add the information; the information is included with the root-cause instance in the Issues Found section of the report. If you do not specify an identifier, the information is included in the Detection Details section of the report.
+
+Use this parameter only if you specify the RootcauseId parameter.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+			<maml:name>Description</maml:name>
+			<maml:description>
+				<maml:para>A description that describes this section of the report.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+			<maml:name>File</maml:name>
+			<maml:description>
+				<maml:para>The name of the file that contains the additional information for this section of the report. The report will contain a link to the file. 
+
+</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+			<maml:name>Id</maml:name>
+			<maml:description>
+				<maml:para>A unique string identifier used to identify this custom section of the report. The identifier is used as a secondary sort after Verbosity for ordering content in the report.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+			<maml:name>Name</maml:name>
+			<maml:description>
+				<maml:para>The name to use as the title for the section of the report that you are adding.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>RootcauseId</maml:name>
+			<maml:description>
+				<maml:para>The identifier of the root-cause to which you want to add the information; the information is included with the root-cause in the Issues Found section of the report. If you do not specify an identifier, the information is included in the Detection Details section of the report.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>RootcauseInstanceId</maml:name>
+			<maml:description>
+				<maml:para>The identifier of an instance of the root-cause to which you want to add the information; the information is included with the root-cause instance in the Issues Found section of the report. If you do not specify an identifier, the information is included in the Detection Details section of the report.
+
+Use this parameter only if you specify the RootcauseId parameter.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+			<maml:name>Verbosity</maml:name>
+			<maml:description>
+				<maml:para>Determines the level of detail to include in the report when an error occurs. The possible values are:
+
+- Informational
+- Warning
+- Error
+- Debug
+
+The default is Informational (most verbose). For Informational, Warning, and Error, the information is displayed in the client and written to the ResultReport.xml file. For Debug, the information is written to the DebugReport.xml file. </maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue>Informational</dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+			<maml:name>Xml</maml:name>
+			<maml:description>
+				<maml:para>An XmlDocument object that contains the information to add to the custom section of the report. To ensure that the XML is valid, use ConvertTo-Xml to encode the object as an XML document.
+</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+			<dev:type>
+				<maml:name>XmlDocument</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name>System.Xml.XmlDocument or System.String</maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					If you are using the Xml parameter, specify an XmlDocument object that contains the information to add to the report. If you are using the File parameter, specify a String object that contains the path to the file that contains the additional information.
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 1 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>$deletedFiles | ConvertTo-Xml | Update-DiagReport -Id &quot;Deleted_Files&quot; -Name &quot;Deleted Files&quot;</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to add additional information to the report using the pipeline. In this case, an array of file name strings are added to the report.
+
+The example pipes an array of file name strings to ConvertTo-Xml to encode the strings as a valid XmlDocument object. The XmlDocument object is then piped to the Update-DiagReport cmdlet (instead of using the Xml parameter).
+</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 2 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>Update-DiagReport -File &quot;SampleFile.ext&quot; -Name &quot;Sample File&quot;</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to add to the report a link to a file that contains the additional information.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 3 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>Update-DiagReport -Xml $events -Name &quot;Application Event Log&quot; -Description &quot;All application events with ID 100.&quot;</dev:code>
+  			<dev:remarks>
+  			        <maml:para>This example shows how to add additional information to the report using the Xml parameter. In this case, the Xml parameter is set to a variable that contains a valid XmlDocument object.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+
+
+</helpItems>
+

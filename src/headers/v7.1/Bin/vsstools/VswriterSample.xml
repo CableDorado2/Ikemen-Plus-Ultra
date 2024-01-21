@@ -1,0 +1,13 @@
+<TestWriter	usage="USER_DATA"
+			deleteFiles="no">
+
+    <RestoreMethod method="RESTORE_IF_CAN_BE_REPLACED" 
+                   writerRestore="always"
+                   rebootRequired="no" />
+    
+    <Component componentType="filegroup" 
+               componentName="TestFiles">
+        <ComponentFile path="c:\TestPath" filespec="*" recursive="no" />
+    </Component>
+
+</TestWriter>
