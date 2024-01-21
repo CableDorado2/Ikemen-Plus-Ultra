@@ -780,21 +780,21 @@ function f_backMenu()
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
-				f_rosterReset()
+				--f_rosterReset() --Delete?
 				p1Cell = nil
 				p1Portrait = nil
 				data.t_p1selected = {}
 				p1palEnd = true
 				p1SelEnd = false
-				--randomP1Portrait = false
-				--randomP1Rematch = false
+				--randomP1Portrait = false --Delete?
+				--randomP1Rematch = false --Delete?
 				if data.coop then
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
 					p2palEnd = true
 					p2SelEnd = false
-				end				
+				end
 			else
 				f_selectReset()
 			end
@@ -1270,12 +1270,14 @@ function f_selectAdvance()
 			if not data.quickCont then --if 'Quick Arcade Continue' option is disable
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if serviceTeam == true then p1TeamEnd = false end
+				randomP1Portrait = false
 				data.t_p1selected = {}
 				p1Portrait = nil
 				p1SelEnd = false
 				if data.coop then
 					p2SelEnd = false
 				end
+				f_rosterReset()
 				selScreenEnd = false
 				while not selScreenEnd do
 					if esc() then
@@ -2612,7 +2614,7 @@ function f_p1SelectMenu()
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 			if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --P1 Portrait BG location
 			if p1Portrait then drawPortrait(p1Portrait, 0, 20, 1, 1) end --P1 Portrait location
-			if randomP1Portrait == true then drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) end--Draw Portrait Chosen by Random Select
+			if randomP1Portrait == true then drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) end --Draw Portrait Chosen by Random Select
 		end
 		local numChars = p1numChars
 		if data.coop then numChars = 1 end

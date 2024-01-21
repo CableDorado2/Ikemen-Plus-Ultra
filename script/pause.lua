@@ -264,17 +264,21 @@ t_pauseMain = {
 	{id = '', text = 'GIVE UP'},
 	{id = '', text = 'MAIN MENU'}
 }
-if getGameMode() == "practice" or getGameMode() == "vs" then
+if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
 	t_pauseMain[5].text = 'CHARACTER SELECT'
-	if getGameMode() == "practice" then table.insert(t_pauseMain,7,{id = '', text = 'TRAINING MENU'}) end
+	if getGameMode() == "practice" then
+		table.insert(t_pauseMain,7,{id = '', text = 'TRAINING MENU'})
+	elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
+		t_pauseMain[6].text = 'STORY SELECT'
+	end
+elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = 'STAGE SELECT'
+elseif getGameMode() == "mission" then t_pauseMain[6].text = 'MISSION SELECT'
+elseif getGameMode() == "event" then t_pauseMain[6].text = 'EVENT SELECT'
+elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "replay" or getGameMode() == "demo" then
 	table.remove(t_pauseMain,6)
 	table.remove(t_pauseMain,2)
 	t_pauseMain[4].text = 'EXIT'
-elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
-elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = 'STAGE SELECT'
-elseif getGameMode() == "mission" then t_pauseMain[6].text = 'MISSION SELECT'
-elseif getGameMode() == "event" then t_pauseMain[6].text = 'EVENT SELECT'
 end
 
 pauseMenuActive = false
@@ -437,10 +441,14 @@ function f_pauseMain(p, st, esc)
 							f_gameCfgMenuReset()
 						--BACK TO CHARACTER SELECT
 						elseif pauseMenu == 5 then
-							sndPlay(sysSnd, 100, 1)
-							f_confirmReset()
-							mainGoTo = 'Confirm'
-							rectScale = -10
+							if getGameMode() == "story" then
+								sndPlay(sysSnd, 100, 5)
+							else
+								sndPlay(sysSnd, 100, 1)
+								f_confirmReset()
+								mainGoTo = 'Confirm'
+								rectScale = -10
+							end
 						--EXIT TO MAIN MENU
 						elseif pauseMenu == 6 then
 							sndPlay(sysSnd, 100, 1)
@@ -572,30 +580,34 @@ t_confirmPause = {
 }
 
 function f_pauseConfirm()
+	--MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
 		if pn == 1 then
 			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MISSION SELECT')
 			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO EVENT SELECT')
 			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO REPLAY SELECT')
+			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO STORY SELECT')
 			else textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MAIN MENU')
 			end
 		elseif pn == 2 then
 			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MISSION SELECT')
 			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO EVENT SELECT')
 			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO REPLAY SELECT')
+			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO STORY SELECT')
 			else textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MAIN MENU')
 			end
 		end
+	--MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
 		if pn == 1 then
-			if getGameMode() == "vs" or getGameMode() == "practice" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO CHARACTER SELECT')
+			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO CHARACTER SELECT')
 			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO STAGE SELECT')
 			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO REPLAY SELECT')
 			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MAIN MENU')
 			else textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL LEAVE THIS MATCH')
 			end
 		elseif pn == 2 then
-			if getGameMode() == "vs" or getGameMode() == "practice" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO CHARACTER SELECT')
+			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO CHARACTER SELECT')
 			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO STAGE SELECT')
 			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO REPLAY SELECT')
 			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MAIN MENU')

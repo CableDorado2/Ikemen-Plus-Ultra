@@ -311,6 +311,8 @@ function f_storyMenu()
 			elseif storyMenu == 1 and chapterMenu == 7 and data.story1_4BUnlock == true then f_arc1_chapter4_2()
 		--SLOT 8
 			elseif storyMenu == 1 and chapterMenu == 8 and data.story1_4CUnlock == true then f_arc1_chapter4_3()
+		--SLOT 9
+			elseif storyMenu == 1 and chapterMenu == 9 then f_storyRosterTest()
 		--EMPTY SLOT OR LOCKED CHAPTER
 			else
 				sndPlay(sysSnd, 100, 5)
@@ -705,7 +707,7 @@ function f_arc1_chapter1()
 	data.bgm = 'sound/Ultimate Warrior.mp3' --Set Custom Stage Song
 	data.rosterMode = 'story'
 	data.storyNo = '1-1'
-	setGameMode('story1_1')
+	setGameMode('story')
 	script.select.f_selectStory() --Start Fight with previous settings
 	if script.select.winner == 1 then --Only if you win do:
 		data.story1_2Unlock = true --Unlock next chapter
@@ -732,7 +734,7 @@ function f_arc1_chapter2()
 	data.bgm = 'sound/Killer Mirror.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-2'
-	setGameMode('story1_2')
+	setGameMode('story')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
 		data.story1_3AUnlock = true --Unlock Route A
@@ -763,7 +765,7 @@ function f_arc1_chapter3_1()
 	data.bgm = 'sound/system/opening.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-3A'
-	setGameMode('story1_3A')
+	setGameMode('story')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
 		data.story1_4AUnlock = true
@@ -794,7 +796,7 @@ function f_arc1_chapter3_2()
 	data.bgm = "sound/Suave's Corridor.mp3"
 	data.rosterMode = 'story'
 	data.storyNo = '1-3B'
-	setGameMode('story1_3B')
+	setGameMode('story')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
 		data.story1_4BUnlock = true
@@ -824,7 +826,7 @@ function f_arc1_chapter4_1()
 	data.stageNo = 12
 	data.rosterMode = 'story'
 	data.storyNo = '1-4A'
-	setGameMode('story1_4A')
+	setGameMode('story')
 	script.select.f_selectStory()
 	f_storyStatus()
 	f_playCredits() --Go to credits screen
@@ -848,6 +850,23 @@ function f_arc1_chapter4_3()
 	data.storyNo = '1-4C'
 	f_storyStatus()
 	f_playCredits()
+end
+
+function f_storyRosterTest()
+	f_default()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_charAdd['kung fu girl']}
+	data.p2Pal = 1
+	setRoundTime(-1)
+	data.orderSelect = false
+	data.versusScreen = false
+	data.victoryscreen = false
+	data.stageNo = 1
+	data.rosterMode = 'story'
+	setGameMode('storyRoster')
+	script.select.f_selectStory()
 end
 
 --;===========================================================

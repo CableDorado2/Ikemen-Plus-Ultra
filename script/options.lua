@@ -5402,37 +5402,25 @@ function f_testMenu()
 			maxTestMenu = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
 			f_default()
+			setGameType(4)
+			setGameMode('practice')
+			data.gameMode = 'training'
+			data.rosterMode = 'inputtest'
+			setRoundTime(-1)
+			data.p2In = 2
+			data.p1TeamMenu = {mode = 0, chars = 1}
+			data.p2TeamMenu = {mode = 0, chars = 1}
+			data.versusScreen = false
 			--SINGLE TEST
 			if testMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 2
-				data.stageMenu = false
-				data.versusScreen = false
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['training/sandbag.def']}
-				data.gameMode = 'training'
-				data.rosterMode = 'inputtest'
-				setGameType(4)
-				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'P1 INPUT TEST')
 				script.select.f_selectSimple()
 			--MULTIPLAYER TEST
 			elseif testMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1)
-				data.p2In = 2
 				data.p2Faces = true
-				data.stageMenu = false
-				data.versusScreen = false
-				data.p1TeamMenu = {mode = 0, chars = 1}				
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.gameMode = 'training'
-				data.rosterMode = 'inputtest'
-				setGameType(4)
-				setGameMode('practice')
 				textImgSetText(txt_mainSelect, 'P1 & P2 INPUT TEST')
 				script.select.f_selectSimple()
 			--BACK

@@ -1179,7 +1179,6 @@ function f_arcadeMenu()
 				data.p2In = 1 --P1 controls P2 side of the select screen
 				data.p2SelectMenu = false --P2 character selection disabled
 				data.serviceScreen = true --Enable Service Screen if you lose and continue
-				data.stageMenu = true
 				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
 				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
@@ -1356,16 +1355,19 @@ function f_vsMenu()
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 			--P1 & P2 VS CPU
 			elseif vsMenu == 4 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
-				--data.p2In = 2
-				--data.p2Faces = true
+				--f_comingSoon()
+				setHomeTeam(1)
+				data.p2In = 2
+				data.p2Faces = true
 				--data.stageMenu = true
-				--data.coop = true
-				--data.rosterMode = 'versus'
-				--textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
-				--script.select.f_selectSimple()
+				data.stageNo = 1
+				data.coop = true
+				data.gameMode = 'versus'
+				data.rosterMode = 'versus'
+				textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
+				script.select.f_selectSimple()
 			--CPU MATCH
 			elseif vsMenu == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -6598,7 +6600,7 @@ end
 
 function f_randomWords()
 	txt_vaultWords = createTextImg(jgFnt, 0, 0, '', 0, 0,0.9,0.9)
-	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "SSZ is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Let's send greetings to some people that I watch on YouTube and support this", "Greetings! BRUCELEE-wt7hk", "Greetings! cristopeleslee", "Greetings! Strong FS", "Greetings! 2Dee4Ever", "Greetings! Alfaomega7446", "Greetings! Lasombra Demon", "Greetings! ALEX TV G.T.M", "Greetings! PintaX724", "Greetings! MEGA X", "Greetings! LEVEN2IS2LIJDEN", "Greetings! Ramleh", "Greetings! Milsam", "Greetings! Street Gamer", "Greetings! Liam Kuroshi"}
+	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "SSZ is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Greetings! "..data.userName}
 	if data.userName == 'Strong FS' or data.userName == 'strong fs' or data.userName == 'StrongFS' or data.userName == 'strongfs' or data.userName == 'Strong Fs' or data.userName == 'STRONG FS' or data.userName == 'STRONGFS' then
 		table.insert(t_randomWord,1, "Hey Strong! CD2 te manda Saludoss")
 		table.insert(t_randomWord,2, "Hmmm Strong XD")

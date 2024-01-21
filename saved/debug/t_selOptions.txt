@@ -1,9 +1,13 @@
-table: 0D8D7628 {
-  [arcadeend] => table: 0D8D7628 {
-                   [offset] => 2
-                   [wins] => 4
+table: 02A09450 {
+  [teamstart] => table: 02A09450 {
+                   [offset] => 0
+                   [wins] => 1
                  }
-  [arcademaxmatches] => table: 0D8D7628 {
+  [teamend] => table: 02A09450 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [arcademaxmatches] => table: 02A09450 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -15,23 +19,7 @@ table: 0D8D7628 {
                           [9] => 0
                           [10] => 0
                         }
-  [survivalstart] => table: 0D8D7628 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [teamend] => table: 0D8D7628 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [arcadestart] => table: 0D8D7628 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [survivalend] => table: 0D8D7628 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [teammaxmatches] => table: 0D8D7628 {
+  [teammaxmatches] => table: 02A09450 {
                         [1] => 1
                         [2] => 1
                         [3] => 1
@@ -43,8 +31,20 @@ table: 0D8D7628 {
                         [9] => 0
                         [10] => 0
                       }
-  [teamstart] => table: 0D8D7628 {
-                   [offset] => 0
-                   [wins] => 1
+  [survivalend] => table: 02A09450 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [survivalstart] => table: 02A09450 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [arcadestart] => table: 02A09450 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [arcadeend] => table: 02A09450 {
+                   [offset] => 2
+                   [wins] => 4
                  }
 }
