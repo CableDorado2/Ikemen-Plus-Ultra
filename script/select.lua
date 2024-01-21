@@ -181,7 +181,11 @@ function f_selectInit()
 	stageTimer = stageSeconds*gameTick --Set time for Stage Select
 	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
 	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
-	if data.rosterAdvanced == false then stageList = 0 end
+	if data.rosterAdvanced == true and data.stageMenu == false then
+		--For Advanced Modes without Stage Select
+	else
+		stageList = 0
+	end
 	musicList = 0
 	gameNo = 0
 	bossNo = 0
@@ -1052,7 +1056,7 @@ function f_selectAdvance()
 	f_selectInit()
 	cmdInput()
 	f_selectReset()
-	stageEnd = true
+	if data.stageMenu == false then stageEnd = true end
 	while true do
 		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == 'challenger' then f_challengerMusic()
@@ -1179,6 +1183,20 @@ function f_selectAdvance()
 			--next match available
 			else
 				matchNo = matchNo + 1
+				--Load first stage selected for all next matches
+				if data.stageMenu == true then
+					if stageList == 0 then
+						stageNo = math.random(1, data.includestage)
+						setStage(stageNo)
+					end
+					selectStage(stageNo)
+					if musicList == 0 then
+						f_assignMusic()
+					elseif musicList == 1 then
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+					end
+				end
 			end
 		--player lost in special game mode or don't have any coins left for Arcade
 		--elseif data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
@@ -1276,6 +1294,20 @@ function f_selectAdvance()
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				return
 			end
+			--Load first stage selected for all next matches
+			if data.stageMenu == true then
+				if stageList == 0 then
+					stageNo = math.random(1, data.includestage)
+					setStage(stageNo)
+				end
+				selectStage(stageNo)
+				if musicList == 0 then
+					f_assignMusic()
+				elseif musicList == 1 then
+					playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
+					playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+				end
+			end
 		end
 		--assign enemy team
 		data.t_p2selected = {}
@@ -1333,7 +1365,7 @@ function f_selectAdvance()
 		end
 		setMatchNo(matchNo)
 		f_aiLevel()
-		f_selectStage()
+		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
 		f_orderSelect()
 		--versus screen
 		if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then

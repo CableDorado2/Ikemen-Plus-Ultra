@@ -551,6 +551,7 @@ function f_mainAttract()
 		   data.p2In = 1
 		   data.p2SelectMenu = false
 		   data.serviceScreen = true
+		   --data.stageMenu = true
 		   data.gameMode = 'arcade'
 		   data.rosterMode = 'arcade'
 		   textImgSetText(txt_mainSelect, 'ARCADE')
@@ -1178,6 +1179,7 @@ function f_arcadeMenu()
 				data.p2In = 1 --P1 controls P2 side of the select screen
 				data.p2SelectMenu = false --P2 character selection disabled
 				data.serviceScreen = true --Enable Service Screen if you lose and continue
+				data.stageMenu = true
 				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
 				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
@@ -1190,6 +1192,7 @@ function f_arcadeMenu()
 				data.p2Faces = true
 				data.coop = true --P2 fighting on P1 side enabled
 				data.serviceScreen = true
+				data.stageMenu = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
@@ -1959,6 +1962,7 @@ function f_survivalMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
+				--data.stageMenu = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
@@ -1970,6 +1974,7 @@ function f_survivalMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
+				--data.stageMenu = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
@@ -1981,6 +1986,7 @@ function f_survivalMenu()
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
+				--data.stageMenu = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SURVIVAL')
@@ -2222,6 +2228,7 @@ function f_bossChars()
 				sndPlay(sysSnd, 100, 1)
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bossChars[bossChars]}
+				--data.stageMenu = true
 				data.gameMode = 'singleboss'
 				data.rosterMode = 'boss'
 				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
@@ -2348,6 +2355,7 @@ function f_bossrushMenu()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)	
 					data.p2In = 1
 					data.p2SelectMenu = false
+					--data.stageMenu = true
 					data.gameMode = 'bossrush'
 					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
@@ -2361,6 +2369,7 @@ function f_bossrushMenu()
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true
+					--data.stageMenu = true
 					data.gameMode = 'bossrush'
 					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
@@ -2374,6 +2383,7 @@ function f_bossrushMenu()
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.aiFight = true
+					--data.stageMenu = true
 					data.gameMode = 'bossrush'
 					data.rosterMode = 'cpu'
 					textImgSetText(txt_mainSelect, 'WATCH BOSS RUSH')
@@ -2617,6 +2627,7 @@ function f_bonusExtras()
 				data.versusScreen = false
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bonusChars[bonusExtras]}
+				--data.stageMenu = true
 				data.gameMode = 'singlebonus'
 				data.rosterMode = 'bonus'
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
@@ -2744,6 +2755,7 @@ function f_bonusrushMenu()
 					data.p2SelectMenu = false
 					data.p2TeamMenu = {mode = 0, chars = 1}
 					data.versusScreen = false
+					--data.stageMenu = true
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
@@ -2758,6 +2770,7 @@ function f_bonusrushMenu()
 					data.p2Faces = true
 					data.coop = true
 					data.versusScreen = false
+					--data.stageMenu = true
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
@@ -2888,6 +2901,7 @@ function f_timeMenu()
 				data.p2SelectMenu = false
 				data.gameMode = 'allroster'
 				data.rosterMode = 'timeattack'
+				--data.stageMenu = true
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
 			--CO-OP MODE
@@ -2899,6 +2913,7 @@ function f_timeMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
+				--data.stageMenu = true
 				data.gameMode = 'allroster'
 				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
@@ -2912,6 +2927,7 @@ function f_timeMenu()
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
+				--data.stageMenu = true
 				data.gameMode = 'allroster'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH TIME ATTACK')
@@ -3039,6 +3055,7 @@ function f_suddenMenu()
 				setLifeMul(0)
 				data.p2In = 1
 				data.p2SelectMenu = false
+				--data.stageMenu = true
 				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
@@ -3052,6 +3069,7 @@ function f_suddenMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
+				--data.stageMenu = true
 				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
@@ -3064,6 +3082,7 @@ function f_suddenMenu()
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
+				--data.stageMenu = true
 				data.gameMode = 'allroster'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SUDDEN DEATH')
@@ -3339,6 +3358,7 @@ function f_allcharsMenu()
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
+				data.stageMenu = true
 				data.gameMode = 'endless'
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
@@ -3350,6 +3370,7 @@ function f_allcharsMenu()
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
+				--data.stageMenu = true
 				data.gameMode = 'endless'
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
@@ -3361,6 +3382,7 @@ function f_allcharsMenu()
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
+				data.stageMenu = true
 				data.gameMode = 'endless'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH ENDLESS')
@@ -3486,6 +3508,7 @@ function f_tourneyMenu()
 				sndPlay(sysSnd, 100, 1)
 				--data.p2In = 1
 				--data.p2SelectMenu = false
+				--data.stageMenu = true
 				data.gameMode = 'tourney16'
 				--data.rosterMode = 'tourney'
 				textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')
@@ -3496,6 +3519,7 @@ function f_tourneyMenu()
 				sndPlay(sysSnd, 100, 1)
 				--data.p2In = 1
 				--data.p2SelectMenu = false
+				--data.stageMenu = true
 				data.gameMode = 'tourney8'
 				--data.rosterMode = 'tourney'
 				textImgSetText(txt_mainSelect, 'TOURNAMENT - QUARTERFINALS')
@@ -3506,6 +3530,7 @@ function f_tourneyMenu()
 				sndPlay(sysSnd, 100, 1)
 				--data.p2In = 1
 				--data.p2SelectMenu = false
+				--data.stageMenu = true
 				data.gameMode = 'tourney4'
 				--data.rosterMode = 'tourney'
 				textImgSetText(txt_mainSelect, 'TOURNAMENT - SEMIFINALS')
