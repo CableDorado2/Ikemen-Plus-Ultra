@@ -1,0 +1,10 @@
+bin\Debug\IBurn.exe.manifest
+bin\Debug\IBurn.application
+bin\Debug\IBurn.exe
+bin\Debug\IBurn.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\IBurn.TrustInfo.xml
+obj\Debug\IBurn.exe.manifest
+obj\Debug\IBurn.application
+obj\Debug\IBurn.exe
+obj\Debug\IBurn.pdb
