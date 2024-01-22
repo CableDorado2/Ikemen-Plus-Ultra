@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="cutscene">
+</Property><Property Name="Solution File" Value="C:\d\lib\DirectShow\cutscene\cutscene.sln">
+</Property><Property Name="Date" Value="jueves, 18 de noviembre de 2021">
+</Property><Property Name="Time" Value="16:12 p.m.">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="cutscene.sln" Description="File successfully backed up as C:\d\lib\DirectShow\cutscene\cutscene.sln.old">
+</Event><Event ErrorLevel="0" Project="Cutscene" Source="Cutscene.vcproj" Description="Converting project file 'C:\d\lib\DirectShow\cutscene\Cutscene.vcproj'.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="This application has been updated to include settings related to the User Account Control (UAC) feature of Windows Vista. By default, when run on Windows Vista with UAC enabled, this application is marked to run with the same privileges as the process that launched it. This marking also disables the application from running with virtualization. You can change UAC related settings from the Property Pages of the project.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="Cutscene" Source="Cutscene.vcproj" Description="Web deployment to the local IIS server is no longer supported. The Web Deployment build tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine could not convert attribute ConfigurationType = 1 under Configuration Debug|x64.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine could not convert attribute CharacterSet = 1 under Configuration Debug|x64.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine could not convert attribute ConfigurationType = 1 under Configuration Release|x64.">
+</Event><Event ErrorLevel="1" Project="Cutscene" Source="Cutscene.vcproj" Description="VCConvertEngine could not convert attribute CharacterSet = 1 under Configuration Release|x64.">
+</Event><Event ErrorLevel="0" Project="Cutscene" Source="Cutscene.vcproj" Description="Done converting to new project file 'C:\d\lib\DirectShow\cutscene\Cutscene.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="Cutscene" Source="Cutscene.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="cutscene.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="cutscene.sln" Description="Converted">
+</Event></UpgradeLog>
