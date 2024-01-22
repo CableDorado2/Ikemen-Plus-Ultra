@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="DirectShowLib">
+</Property><Property Name="Solution File" Value="C:\d\lib\DirectShow\directshow\src\DirectShowLib.sln">
+</Property><Property Name="Date" Value="viernes, 24 de septiembre de 2021">
+</Property><Property Name="Time" Value="16:44 p.m.">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="DirectShowLib.sln" Description="File successfully backed up as C:\d\lib\DirectShow\directshow\src\Backup\DirectShowLib.sln">
+</Event><Event ErrorLevel="0" Project="" Source="DirectShowLib.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="DirectShowLib.sln" Description="Converted">
+</Event></UpgradeLog>

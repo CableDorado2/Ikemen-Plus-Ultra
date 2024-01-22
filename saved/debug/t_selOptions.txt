@@ -1,37 +1,9 @@
-table: 02CC5BB0 {
-  [arcademaxmatches] => table: 02CC5BB0 {
-                          [1] => 1
-                          [2] => 1
-                          [3] => 1
-                          [4] => 1
-                          [5] => 0
-                          [6] => 0
-                          [7] => 0
-                          [8] => 0
-                          [9] => 0
-                          [10] => 0
-                        }
-  [survivalend] => table: 02CC5BB0 {
-                     [wins] => 16
-                     [offset] => 4
-                   }
-  [arcadestart] => table: 02CC5BB0 {
-                     [wins] => 2
-                     [offset] => 0
-                   }
-  [arcadeend] => table: 02CC5BB0 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
-  [survivalstart] => table: 02CC5BB0 {
-                       [wins] => 0
-                       [offset] => -3
-                     }
-  [teamend] => table: 02CC5BB0 {
-                 [wins] => 3
+table: 02CF9570 {
+  [teamend] => table: 02CF9570 {
                  [offset] => 2
+                 [wins] => 3
                }
-  [teammaxmatches] => table: 02CC5BB0 {
+  [teammaxmatches] => table: 02CF9570 {
                         [1] => 1
                         [2] => 1
                         [3] => 1
@@ -43,8 +15,36 @@ table: 02CC5BB0 {
                         [9] => 0
                         [10] => 0
                       }
-  [teamstart] => table: 02CC5BB0 {
-                   [wins] => 1
+  [arcademaxmatches] => table: 02CF9570 {
+                          [1] => 1
+                          [2] => 1
+                          [3] => 1
+                          [4] => 1
+                          [5] => 0
+                          [6] => 0
+                          [7] => 0
+                          [8] => 0
+                          [9] => 0
+                          [10] => 0
+                        }
+  [teamstart] => table: 02CF9570 {
                    [offset] => 0
+                   [wins] => 1
+                 }
+  [arcadestart] => table: 02CF9570 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [survivalend] => table: 02CF9570 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [survivalstart] => table: 02CF9570 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [arcadeend] => table: 02CF9570 {
+                   [offset] => 2
+                   [wins] => 4
                  }
 }

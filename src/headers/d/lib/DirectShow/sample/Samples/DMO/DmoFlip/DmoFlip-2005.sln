@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C# Express 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DmoFlip-2005", "DMO\DmoFlip-2005.csproj", "{369D647A-7F80-4F06-BEDB-D62AC1627862}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormDMO-2005", "FormDMO\FormDMO-2005.csproj", "{B72919DC-C5B9-441A-9AD9-6CF9A97AFE85}"
+	ProjectSection(ProjectDependencies) = postProject
+		{369D647A-7F80-4F06-BEDB-D62AC1627862} = {369D647A-7F80-4F06-BEDB-D62AC1627862}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{369D647A-7F80-4F06-BEDB-D62AC1627862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{369D647A-7F80-4F06-BEDB-D62AC1627862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{369D647A-7F80-4F06-BEDB-D62AC1627862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{369D647A-7F80-4F06-BEDB-D62AC1627862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72919DC-C5B9-441A-9AD9-6CF9A97AFE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72919DC-C5B9-441A-9AD9-6CF9A97AFE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72919DC-C5B9-441A-9AD9-6CF9A97AFE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72919DC-C5B9-441A-9AD9-6CF9A97AFE85}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

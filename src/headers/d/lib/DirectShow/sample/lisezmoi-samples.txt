@@ -1,0 +1,207 @@
+Programmes d'exemples pour DirectShowLib 2010-02-21
+
+http://SourceForgeNet.SourceForge.net
+
+Cette archive contient une sélection de programmes d'exemples. Ces programmes étaient 
+dans le passé inclus avec la bibliothèque DirectShowLib mais avec la version 1.4 ils 
+ont été dissociés de celle-ci.
+
+Nous avons supprimé le support de vs2003 dans cette version. vs2005 est supporté depuis 
+deux ans mais il n'est plus installé par aucuns des développeurs.
+
+Nous avons ajoutés deux exemples depuis la précédente version :
+
+   BlackList
+   EVRPlayer
+
+Voir les descriptions ci-dessous.
+
+Ces programmes ne doivent pas être considérés comme des applications de qualité 
+commerciale. Ils ont juste pour but d'illustrer comment utiliser une ou un groupe de 
+fonctionnalités particulières de DirectShow. Vous êtes libre de les améliorer ou de les 
+utiliser en partie dans votre code. Chaque exemple a (au moins) un fichier "readme"; Si 
+vous chercher des informations sur un des ces programmes, ils sont toujours un bon 
+endroit où commencer.
+
+Aussi, bien que DirectShowLib soit publiée sous licence LGPL, ces exemples sont dans le 
+domaine public; Utilisez-les comme bon vous semble. Tous ces programmes nécessitent la 
+bibliothèque DirectShowLib qui n'est pas incluse dans cette archive.
+
+Les gens qui ont écrit ces exemples trainent souvent la 
+http://sourceforge.net/forum/forum.php?forum_id=460697. Si vous avez des questions, 
+des commentaires ou juste envie de remercier ceux qui ont passé du temps à créer tout ça,
+n'hésitez pas à y faire un tour.
+
+D'ailleurs, si vous avez des programmes d'exemples qui vous sembles avoir une valeur 
+pédagogique (ou si vous voulez en écrire), c'est aussi un bon endroit ou commencer.
+
+=====================================================================================
+
+Ceci est liste actuelle des programmes d'exemples acompagné d'une courte description. 
+Reportez vous au fichier readme.txt de chaque exemple pour plus de détails.
+
+Samples\BDA\DTViewer
+--------------------
+Utilise BDA pour afficher de la télévision digitale dans un Form Windows.
+
+
+Samples\Capture\CapWMV
+----------------------
+Capturer depuis un périphérique d'acquisition vidéo vers des fichiers WMV.
+
+
+Samples\Capture\DxLogo
+----------------------
+Une application démontrant comment superposez un logo sur un flux de données. Elle 
+utilise un périphérique de capture comme source vidéo, et extrait le résultat dans un 
+fichier.
+
+
+Samples\Capture\DxLogoVB
+------------------------
+Il s'agit du même exemple que DxLogo mais écrit en Visual Basic. En dehors des problèmes
+liés à la conversion de C# vers VB, ce n'est qu'un exercice trivial.
+
+
+Samples\Capture\DxPropPages
+---------------------------
+Démontre comment ajouter des filtres de compression vidéo à une capture vidéo, et 
+comment invoquer les pages de propriétés de périphériques de capture et de compresseurs 
+vidéo.
+
+
+Samples\Capture\DxSnap
+----------------------
+Utilise DirectShow pour prendre des instantanées de la "Still pin" d'un périphérique de 
+capture. Notez que MS encourage l'utilisation de WIA pour cela, mais si vous souhaitez 
+le faire avec DirectShow et C#, voici comment.
+
+
+Samples\Capture\DxTuner
+-----------------------
+Montre comment capturer depuis des tuners TV, ainsi que comment changer de chaine.
+
+
+Samples\Capture\PlayCap
+-----------------------
+Une traduction du programme PlayCap de DirectShow pour montrer à quoi cela peut 
+ressembler en C#.
+Cette application crée une fenêtre de prévisualisation pour le premier périphérique de 
+capture vidéo localisé sur le système de l'utilisateur (s'il y'en a un). Elle démontre 
+par un exemple simple comment utiliser les interfaces ICaptureGraphBuilder2 et 
+ICreateDevEnum pour construire un graphe de capture.
+
+
+Samples\DMO\DMOFlip
+------------------
+Un objet DMO pouvant être utilisé dans un graph DirectShow. Cet objet DMO permet de 
+d'inverser la vidéo sur les axes X ou Y (ou les deux). Un fichier d'aide en anglais 
+(IMediaObjectImpl.chm) est fourni pour monter comment écrire un objet DMO soi-même.
+
+
+Samples\DMO\DMOSplit
+--------------------
+Un objet DMO qui sépare un signal audio stéréo en deux flux mono.
+
+
+Samples\Editing\DESCombine
+--------------------------
+Une bibliothèque de classe qui utilise DirectShow Editing Services pour combiner des 
+fichiers audio et vidéo (ou des parties de fichiers) en un seul fichier de sortie. Un 
+fichier d'aide en anglais (DESCombine.chm) est fournis pour utiliser cette classe.
+
+
+Samples\Editing\DxScan
+----------------------
+Une application qui scanne un fichier à la recherche de trames noires.
+
+
+Samples\Misc\BlackList
+----------------------
+Cet exemple illustre comment utiliser l'interface IAMGraphBuilderCallback pour rejeter
+certains filtres durant la création d'un graph. Vous pouvez adapter cet exemple pour vos
+besoins si vous savez que certains filtres sont connus pour endommager votre application.
+
+
+Samples\Misc\DxWebCam
+---------------------
+Le programme de WebCam du pauvre. Cette application s'exécute en tant que service Win32.
+Il prend la sortie d'un graphe de capture, le convertie en flux de fichiers JPEG et 
+l'envoie via TCP/IP à une application cliente.
+
+
+Samples\Misc\GSSF
+-----------------
+Une façon d'implémenter un filtre source en C#. Si vous avez des échantillons (par 
+exemple des trames vidéo provenant de fichiers bitmap) que vous voulez utiliser comme source
+dans un graph, ce filtre vous montrera comment.
+
+
+Samples\Misc\Toolkit
+--------------------
+Un ensemble d'utilitaires pratiques.
+
+
+Samples\Players\DvdPlay
+-----------------------
+Un exemple basique montrant comment lire des DVD avec DirectShow.
+
+
+Samples\Players\DxPlay
+----------------------
+Une application démontrant comment lire des fichiers multimédia (AVI, WMV, etc.) et 
+prendre des instantanés.
+
+
+Samples\Players\DxText
+----------------------
+Une application démontrant comment superposez un texte sur un flux de données. Le flux 
+est lu depuis un fichier avi.
+
+
+Samples\Players\EVRPlayer
+-------------------------
+Ce projet est une taduction en c# de l'exemple c++ EVRPlayer fournis avec le Windows SDK.  Il montre
+comment utiliser le filtre EVR dans DirectShow.
+
+
+Samples\Players\GMFPlay
+-----------------------
+Un exmple qui montre comment utliser l'indispensable filtre de Geraint, le GMFBridge filter, pour jouer une 
+serie de fichier multimedia l'un après l'autre.
+
+
+Samples\Players\PlayVB
+----------------------
+Un "player" simple en VB.
+
+
+Samples\Players\PlayWnd
+-----------------------
+Une traduction du programme PlayWnd de DirectShow pour montrer à quoi cela peut 
+ressembler en C#.
+PlayWnd est un lecteur multimédia avec une interface utilisateur minimale.
+
+
+Samples\SBE\DvrMsCutter
+-----------------------
+Cet exemple extrait un morceau de fichier dvr-ms dans un autre fichier dvr-ms.
+
+
+Samples\VMR9\BitMapMixer
+------------------------
+BitmapMixer est un exemple démontrant comment dessiner des choses diverses par-dessus 
+une vidéo en utilisant VMR9.
+
+
+Samples\VMR9\VMR9Allocator
+--------------------------
+Une traduction du programme VMR9Allocator  de DirectShow pour monter à quoi cela peut 
+ressembler en c#.
+
+
+Samples\VMR9\VMR9Allocator2
+---------------------------
+Une alternative au programme VMR9Allocator de DirectShow.
+
+

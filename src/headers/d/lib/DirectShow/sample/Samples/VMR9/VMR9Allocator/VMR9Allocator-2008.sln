@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMR9Allocator-2008", "VMR9Allocator-2008.csproj", "{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectShowLib-2008", "..\..\..\src\DirectShowLib-2008.csproj", "{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Debug|x64.ActiveCfg = Debug|x64
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Debug|x64.Build.0 = Debug|x64
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Debug|x86.ActiveCfg = Debug|x86
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Debug|x86.Build.0 = Debug|x86
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Release|x64.ActiveCfg = Release|x64
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Release|x64.Build.0 = Release|x64
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Release|x86.ActiveCfg = Release|x86
+		{B3D9A91A-8F19-45DA-93FF-4C6248AFD6D1}.Release|x86.Build.0 = Release|x86
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|x64.ActiveCfg = Debug|x64
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|x64.Build.0 = Debug|x64
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|x86.ActiveCfg = Debug|x86
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Release|x64.ActiveCfg = Release|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

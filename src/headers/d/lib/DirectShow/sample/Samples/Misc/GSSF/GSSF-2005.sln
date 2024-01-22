@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C# Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GenericSampleSourceFilter", "filter\PushSource-2005.vcproj", "{70B24BBF-E59F-4F91-A74B-01288E1DECB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Render-2005", "render\Render-2005.csproj", "{6E8BB66C-D141-4333-8311-3CF33FACEC1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70B24BBF-E59F-4F91-A74B-01288E1DECB3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{70B24BBF-E59F-4F91-A74B-01288E1DECB3}.Debug|Win32.Build.0 = Debug|Win32
+		{70B24BBF-E59F-4F91-A74B-01288E1DECB3}.Release|Win32.ActiveCfg = Release|Win32
+		{70B24BBF-E59F-4F91-A74B-01288E1DECB3}.Release|Win32.Build.0 = Release|Win32
+		{6E8BB66C-D141-4333-8311-3CF33FACEC1B}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{6E8BB66C-D141-4333-8311-3CF33FACEC1B}.Debug|Win32.Build.0 = Debug|Any CPU
+		{6E8BB66C-D141-4333-8311-3CF33FACEC1B}.Release|Win32.ActiveCfg = Release|Any CPU
+		{6E8BB66C-D141-4333-8311-3CF33FACEC1B}.Release|Win32.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

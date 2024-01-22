@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DESCombineLib-2008", "DESCombineLib\DESCombineLib-2008.csproj", "{A10D4671-34C7-4AD8-B537-B2B9C48242F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCombine-2008", "TestCombine\TestCombine-2008.csproj", "{B20FEBE5-4895-4930-8017-C7614AB6C49B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A10D4671-34C7-4AD8-B537-B2B9C48242F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A10D4671-34C7-4AD8-B537-B2B9C48242F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A10D4671-34C7-4AD8-B537-B2B9C48242F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A10D4671-34C7-4AD8-B537-B2B9C48242F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B20FEBE5-4895-4930-8017-C7614AB6C49B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B20FEBE5-4895-4930-8017-C7614AB6C49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B20FEBE5-4895-4930-8017-C7614AB6C49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B20FEBE5-4895-4930-8017-C7614AB6C49B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
