@@ -66,7 +66,7 @@ value = 100
 
 [State -2, Max Power]
 type = PowerSet
-triggerall = ServiceType = 1 && TeamSide = 1 ;POWER WILL AT MAX SERVICE
+triggerall = (ServiceType = 1 || ServiceType = 4) && TeamSide = 1 ;POWER WILL AT MAX SERVICE
 trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = PowerMax
 
@@ -81,3 +81,9 @@ type = DefenceMulSet
 triggerall = ServiceType = 3 && TeamSide = 1 ;DOUBLE DEFENCE SERVICE
 trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = 0.5
+
+[State -2, Max Life]
+type = LifeSet
+triggerall = ServiceType = 4 && TeamSide = 1 ;LIFE WILL AT MAX FOR STORY MODE BATTLES
+trigger1 = RoundState = 2
+value = LifeMax

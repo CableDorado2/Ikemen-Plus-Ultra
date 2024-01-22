@@ -506,6 +506,15 @@ void servicetype(&.lua.State L=, int re=)
   L.pushNumber((double) .com.serviceType);
 }
 
+void gamemode(&.lua.State L=, int re=)
+{
+  re = 1;
+  //int argc = 0, nret = 0;
+  //^/char name = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //.com.gameMode = name;
+  L.pushString(.com.gameMode);
+}
+
 
 void gamewidth(&.lua.State L=, int re=)
 {
@@ -1164,6 +1173,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gametime", .gametime);
   L.register("gametype", .gametype);
   L.register("servicetype", .servicetype);
+  L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);
   L.register("hitcount", .hitcount);

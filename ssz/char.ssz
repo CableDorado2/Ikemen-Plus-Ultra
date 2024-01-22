@@ -5473,6 +5473,10 @@ public &Char
   {
     ret .com.serviceType;
   }
+  public ^/char trGameMode()
+  {
+    ret .com.gameMode;
+  }
   public void trExitMatch()
   {
     .com.exitMatch = true;

@@ -2293,6 +2293,9 @@ public &StateBuilder
 	cond .s.equ("servicetype", token):
       out .= obj .= "trServiceType()";
       typ = 2;
+	cond .s.equ("gamemode", token):
+      out .= obj .= "trGameMode()";
+      typ = 2;
     cond .s.equ("const240p", token):
       if(`oneArg(token, temp=, in=)=>typ < 0) ret -1;
       `expCast(out=, 1, typ, temp);
