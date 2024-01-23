@@ -46,5 +46,5 @@ y2 = 11
 z2 = 12
 
 [Arcade]
-intro.storyboard = ..\../storyboard/Kung Fu Girl [Intro].def
-ending.storyboard = ..\../storyboard/Kung Fu Girl [Ending].def
+intro.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Intro].def
+ending.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Ending].def

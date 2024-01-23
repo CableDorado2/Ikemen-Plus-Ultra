@@ -1095,6 +1095,8 @@ function f_selectAdvance()
 				local tPos = t_selChars[data.t_p1selected[1].cel+1]
 				if tPos.intro ~= nil and io.open(tPos.intro or '','r') ~= nil then
 					f_storyboard(tPos.intro)
+				elseif tPos.intro2 ~= nil and io.open(tPos.intro2 or '','r') ~= nil then
+					playVideo(tPos.intro2)
 				end
 			end
 		--player exit the match via ESC in Endless or All Roster modes
@@ -1141,6 +1143,8 @@ function f_selectAdvance()
 					local tPos = t_selChars[data.t_p1selected[1].cel+1]
 					if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
 						f_storyboard(tPos.ending)
+					elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
+						playVideo(tPos.ending2)
 					end
 				end
 				--save record progress

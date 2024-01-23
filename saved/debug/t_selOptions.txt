@@ -1,9 +1,5 @@
-table: 02CF9570 {
-  [teamend] => table: 02CF9570 {
-                 [offset] => 2
-                 [wins] => 3
-               }
-  [teammaxmatches] => table: 02CF9570 {
+table: 0D7FD690 {
+  [teammaxmatches] => table: 0D7FD690 {
                         [1] => 1
                         [2] => 1
                         [3] => 1
@@ -15,7 +11,11 @@ table: 02CF9570 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcademaxmatches] => table: 02CF9570 {
+  [survivalend] => table: 0D7FD690 {
+                     [offset] => 4
+                     [wins] => 16
+                   }
+  [arcademaxmatches] => table: 0D7FD690 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -27,24 +27,24 @@ table: 02CF9570 {
                           [9] => 0
                           [10] => 0
                         }
-  [teamstart] => table: 02CF9570 {
-                   [offset] => 0
-                   [wins] => 1
-                 }
-  [arcadestart] => table: 02CF9570 {
-                     [offset] => 0
-                     [wins] => 2
-                   }
-  [survivalend] => table: 02CF9570 {
-                     [offset] => 4
-                     [wins] => 16
-                   }
-  [survivalstart] => table: 02CF9570 {
-                       [offset] => -3
-                       [wins] => 0
-                     }
-  [arcadeend] => table: 02CF9570 {
+  [arcadeend] => table: 0D7FD690 {
                    [offset] => 2
                    [wins] => 4
                  }
+  [arcadestart] => table: 0D7FD690 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [survivalstart] => table: 0D7FD690 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [teamstart] => table: 0D7FD690 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [teamend] => table: 0D7FD690 {
+                 [offset] => 2
+                 [wins] => 3
+               }
 }

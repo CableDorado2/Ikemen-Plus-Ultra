@@ -21,7 +21,3 @@ Sound   = sd.snd
 ;--| カラーパレットファイル |-------------------------------------------------
 
 Pal1 = suave.act
-
-[Arcade]
-intro.storyboard = ..\../storyboard/Suave Dude [Intro].def
-ending.storyboard = ..\../storyboard/Suave Dude [Ending].def

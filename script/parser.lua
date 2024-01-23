@@ -104,6 +104,7 @@ function f_parseChar(t, cel)
 			elseif section == 3 then --[Palette Keymap]
 				--nothing until palletes swap function is implemented
 			elseif section == 4 then --[Arcade]
+				--Load Storyboard Files
 				if line:match('^%s*intro%.storyboard%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -118,6 +119,23 @@ function f_parseChar(t, cel)
 						line = line:gsub('\\', '/')
 						endingPath = dir .. line:gsub('^%s*ending%.storyboard%s*=%s*(.-)%s*$', '%1')
 						t['ending'] = endingPath
+					end
+					readLines = readLines - 1
+				--Load Video Files
+				elseif line:match('^%s*intro%.movie%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						introPath = dir .. line:gsub('^%s*intro%.movie%s*=%s*(.-)%s*$', '%1')
+						t['intro2'] = introPath
+					end
+					readLines = readLines - 1
+				elseif line:match('^%s*ending%.movie%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						endingPath = dir .. line:gsub('^%s*ending%.movie%s*=%s*(.-)%s*$', '%1')
+						t['ending2'] = endingPath
 					end
 					readLines = readLines - 1
 				end
