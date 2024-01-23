@@ -84,7 +84,7 @@ needReload = 0
 --;===========================================================
 function f_loadCfg()
 	--Data loading from data_sav.lua
-	local file = io.open("saved/data_sav.lua","r")
+	local file = io.open("save/data_sav.lua","r")
 	s_dataLUA = file:read("*all")
 	file:close()
 	disableGamepad(data.disablePadP1,data.disablePadP2)
@@ -117,7 +117,7 @@ end
 
 function f_loadNETCfg()
 	--Data loading from data_netsav.lua
-	local file = io.open("saved/data_netsav.lua","r")
+	local file = io.open("save/data_netsav.lua","r")
 	s_dataLUA = file:read("*all")
 	file:close()
 	
@@ -348,7 +348,7 @@ function f_saveCfg()
 		['data.userName'] = data.userName
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
-	local file = io.open("saved/data_sav.lua","w+")
+	local file = io.open("save/data_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
 	--Data saving to config.ssz
@@ -469,7 +469,7 @@ function f_netsaveCfg()
 		['data.coopenemy'] = data.coopenemy
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
-	local file = io.open("saved/data_netsav.lua","w+")
+	local file = io.open("save/data_netsav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
 	--Data saving to netconfig.ssz
@@ -1297,8 +1297,8 @@ function f_mainCfg()
 				elseif mainCfg == 12 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 2)
-					assert(loadfile('saved/data_sav.lua'))() --Load old data no saved
-					assert(loadfile('saved/stats_sav.lua'))() --Load old data no saved
+					assert(loadfile('save/data_sav.lua'))() --Load old data no saved
+					assert(loadfile('save/stats_sav.lua'))() --Load old data no saved
 					f_loadCfg()
 					f_loadEXCfg()
 					setFullScreenMode(b_fullscreenMode)

@@ -4,7 +4,7 @@
 math.randomseed(os.time())
 
 --Assign Lifebar
-loadLifebar('data/screenpack/fight.def') --path to lifebar stored in 'saved/data_sav.lua', also adjustable from options
+loadLifebar('data/screenpack/fight.def') --path to lifebar stored in 'save/data_sav.lua', also adjustable from options
 
 --Debug stuff
 loadDebugFont('font/14x14.fnt')
@@ -339,7 +339,7 @@ function f_confirmMenu()
 					end
 				end
 				t_hostList = t_tmp
-				local file = io.open("saved/host_rooms.json","w+")
+				local file = io.open("save/host_rooms.json","w+")
 				file:write(json.encode(host_rooms, {indent = true}))
 				file:close()
 				f_hostTable() --Refresh
@@ -744,7 +744,7 @@ function f_exitMenu()
 				elseif exitMenu == 1 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false
-					assert(loadfile('saved/data_sav.lua'))()
+					assert(loadfile('save/data_sav.lua'))()
 					script.options.f_mainCfg()
 				--EXIT FOR ATTRACT MODE
 				elseif exitMenu == 2 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
@@ -1033,7 +1033,7 @@ function f_mainMenu()
 				--EXTRAS
 				elseif mainMenu == 7 then
 					sndPlay(sysSnd, 100, 1)
-					assert(loadfile('saved/stats_sav.lua'))()
+					assert(loadfile('save/stats_sav.lua'))()
 					if data.arcadeClear == true then
 						f_extrasMenu()
 					else
@@ -1047,7 +1047,7 @@ function f_mainMenu()
 				elseif mainMenu == 9 then
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false --only for identify purposes
-					assert(loadfile('saved/data_sav.lua'))()
+					assert(loadfile('save/data_sav.lua'))()
 					script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 				--EXIT
 				elseif mainMenu == 10 then
@@ -1192,6 +1192,7 @@ function f_arcadeMenu()
 				data.coop = true --P2 fighting on P1 side enabled
 				data.serviceScreen = true
 				data.stageMenu = true
+				--data.stageNo = 1
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
@@ -3691,7 +3692,7 @@ function f_watchMenu()
 			--STATISTICS
 			elseif watchMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				--assert(loadfile('saved/stats_sav.lua'))()
+				--assert(loadfile('save/stats_sav.lua'))()
 				script.statistics.f_statsMenu()
 			--STORYBOARDS
 			elseif watchMenu == 6 then
@@ -4797,7 +4798,7 @@ function f_mainReplay()
 			replaygame = false
 			coinSystem = true
 			--netPlayer = '' Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
-			assert(loadfile('saved/data_sav.lua'))()
+			assert(loadfile('save/data_sav.lua'))()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -5005,7 +5006,7 @@ function f_mainNetplay()
 	while true do
 		if esc() then
 			onlinegame = false --only for identify purposes
-			assert(loadfile('saved/data_sav.lua'))()
+			assert(loadfile('save/data_sav.lua'))()
 			sndPlay(sysSnd, 100, 2)
 			return
 		end
@@ -5062,11 +5063,11 @@ function f_mainNetplay()
 				exitReplay()
 				commandBufReset(p1Cmd, 1)
 				--Create Replay File
-				local netplayFile = io.open("saved/data.replay","rb") --Read origin file
+				local netplayFile = io.open("save/data.replay","rb") --Read origin file
 				if netplayFile ~= nil and not createExit then
-					if lfs.attributes("saved/data.replay", "size") > 0 then --Save replay if have content
+					if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
 						ltn12.pump.all(
-						  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))), --Use this file to make a copy
+						  ltn12.source.file(assert(io.open("save/data.replay", "rb"))), --Use this file to make a copy
 						  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
 						)
 					end
@@ -5091,11 +5092,11 @@ function f_mainNetplay()
 					exitNetPlay()
 					exitReplay()
 					commandBufReset(p1Cmd, 1)
-					local netplayFile = io.open("saved/data.replay","rb")
+					local netplayFile = io.open("save/data.replay","rb")
 					if netplayFile ~= nil and not joinExit then
-						if lfs.attributes("saved/data.replay", "size") > 0 then
+						if lfs.attributes("save/data.replay", "size") > 0 then
 							ltn12.pump.all(
-							  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+							  ltn12.source.file(assert(io.open("save/data.replay", "rb"))),
 							  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 							)
 						end
@@ -5111,7 +5112,7 @@ function f_mainNetplay()
 			else
 				sndPlay(sysSnd, 100, 2)
 				onlinegame = false
-				assert(loadfile('saved/data_sav.lua'))()
+				assert(loadfile('save/data_sav.lua'))()
 				break
 			end	
 		end
@@ -5474,7 +5475,7 @@ end
 --; HOST ROOMS MENU
 --;===========================================================
 function f_hostTable()
-	local file = io.open("saved/host_rooms.json","r")
+	local file = io.open("save/host_rooms.json","r")
 	host_rooms = json.decode(file:read("*all"))
 	file:close()
 	t_hostList = {{id = textImgNew(), text = 'ADD NEW ROOM'},}
@@ -5502,7 +5503,7 @@ function f_hostRooms()
 		if editHostScreen == false and crudHostScreen == false then
 			if esc() then
 				--onlinegame = false
-				--assert(loadfile('saved/data_sav.lua'))()
+				--assert(loadfile('save/data_sav.lua'))()
 				sndPlay(sysSnd, 100, 2)
 				break
 				--return
@@ -5551,7 +5552,7 @@ function f_hostRooms()
 				elseif hostList == #t_hostList then
 					sndPlay(sysSnd, 100, 2)
 					--onlinegame = false
-					--assert(loadfile('saved/data_sav.lua'))()
+					--assert(loadfile('save/data_sav.lua'))()
 					break
 				--OPEN CRUD MENU
 				else
@@ -5621,11 +5622,11 @@ function f_hostRooms()
 			exitNetPlay()
 			exitReplay()
 			commandBufReset(p1Cmd, 1)
-			local netplayFile = io.open("saved/data.replay","rb")
+			local netplayFile = io.open("save/data.replay","rb")
 			if netplayFile ~= nil and not joinExit then
-				if lfs.attributes("saved/data.replay", "size") > 0 then
+				if lfs.attributes("save/data.replay", "size") > 0 then
 					ltn12.pump.all(
-					  ltn12.source.file(assert(io.open("saved/data.replay", "rb"))),
+					  ltn12.source.file(assert(io.open("save/data.replay", "rb"))),
 					  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
 					)
 				end
@@ -5994,7 +5995,7 @@ function f_editHost()
 			end
 		end
 		t_hostList = t_tmp
-		local file = io.open("saved/host_rooms.json","w+")
+		local file = io.open("save/host_rooms.json","w+")
 		file:write(json.encode(host_rooms, {indent = true}))
 		file:close()
 		f_hostTable() --Refresh
@@ -6092,7 +6093,7 @@ function f_mainHost()
 	local bufl = 0
 	local cancel = false
 	while true do
-		--assert(loadfile('saved/temp_sav.lua'))()
+		--assert(loadfile('save/temp_sav.lua'))()
 		if esc() or data.replayDone == true then
 			sndPlay(sysSnd, 100, 2)
 			data.replayDone = false
@@ -6677,19 +6678,19 @@ function f_theVault()
 						sndPlay(sysSnd, 100, 1)
 						data.vault = 'Ultra'
 						f_saveProgress()
-						assert(loadfile('saved/stats_sav.lua'))()
+						assert(loadfile('save/stats_sav.lua'))()
 						prize = true
 					elseif vaultKey == 'zen' or vaultKey == 'Zen' or vaultKey == 'ZEN' then
 						sndPlay(sysSnd, 100, 1)
 						data.vault = 'Zen'
 						f_saveProgress()
-						assert(loadfile('saved/stats_sav.lua'))()
+						assert(loadfile('save/stats_sav.lua'))()
 						prize = true
 					elseif vaultKey == 'ssz' or vaultKey == 'Ssz' or vaultKey == 'SSZ' then
 						sndPlay(sysSnd, 100, 1)
 						data.vault = 'SSZ'
 						f_saveProgress()
-						assert(loadfile('saved/stats_sav.lua'))()
+						assert(loadfile('save/stats_sav.lua'))()
 						prize = true
 					else
 						prize = false
@@ -6820,11 +6821,11 @@ function f_playTime()
 	gTime = os.clock() - gameTime
 	data.playTime = (data.playTime + gTime)
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end
 
 --Data loading from stats_sav.lua
-local file = io.open("saved/stats_sav.lua","r")
+local file = io.open("save/stats_sav.lua","r")
 s_dataLUA = file:read("*all")
 file:close()
 
@@ -6892,7 +6893,7 @@ function f_saveProgress()
 		['data.story1_4CUnlock'] = data.story1_4CUnlock
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_progress)
-	local file = io.open("saved/stats_sav.lua","w+")
+	local file = io.open("save/stats_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
 end
@@ -6900,14 +6901,14 @@ end
 --;===========================================================
 --; LOAD TEMP DATA (JUST WHILE FOUND A BETTER WAY TO BACK)
 --;===========================================================
-local tempFile = io.open("saved/temp_sav.lua","r")
+local tempFile = io.open("save/temp_sav.lua","r")
 s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
 function f_saveTemp()
 	local t_temp = {['data.tempBack'] = data.tempBack,['data.replayDone'] = data.replayDone}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
-	local tempFile = io.open("saved/temp_sav.lua","w+")
+	local tempFile = io.open("save/temp_sav.lua","w+")
 	tempFile:write(s_tempdataLUA)
 	tempFile:close()
 end

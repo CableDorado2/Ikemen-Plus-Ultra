@@ -307,7 +307,7 @@ function f_makeRoster()
 			end
 		end
 	end
-	f_printTable(t_roster, 'saved/debug/t_roster.txt')
+	f_printTable(t_roster, 'save/debug/t_roster.txt')
 end
 
 function f_aiRamp()
@@ -357,7 +357,7 @@ function f_aiRamp()
 			t_aiRamp[#t_aiRamp+1] = endAI
 		end
 	end
-	f_printTable(t_aiRamp, 'saved/debug/t_aiRamp.txt')
+	f_printTable(t_aiRamp, 'save/debug/t_aiRamp.txt')
 end
 
 function f_difficulty(player, offset)
@@ -865,7 +865,7 @@ function f_selectSimple()
 				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile('saved/temp_sav.lua'))()
+			assert(loadfile('save/temp_sav.lua'))()
 			if back == true or data.tempBack == true then
 				if data.rosterMode == 'event' then
 					--playBGM('')
@@ -1074,7 +1074,7 @@ function f_selectAdvance()
 				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile('saved/temp_sav.lua'))()
+			assert(loadfile('save/temp_sav.lua'))()
 			if back == true or data.tempBack == true then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				data.tempBack = false
@@ -1103,7 +1103,7 @@ function f_selectAdvance()
 		elseif winner == -1 and (data.gameMode == 'endless' or data.gameMode == 'allroster') then
 			--counter
 			looseCnt = looseCnt + 1
-			assert(loadfile('saved/temp_sav.lua'))()
+			assert(loadfile('save/temp_sav.lua'))()
 			if data.tempBack == true then
 				data.tempBack = false
 				f_saveTemp()
@@ -1213,7 +1213,7 @@ function f_selectAdvance()
 					f_selectWin()
 				end
 			end
-			assert(loadfile('saved/temp_sav.lua'))()
+			assert(loadfile('save/temp_sav.lua'))()
 			if data.tempBack == true then
 				data.tempBack = false
 				f_saveTemp()
@@ -1244,7 +1244,7 @@ function f_selectAdvance()
 		else
 			--counter
 			looseCnt = looseCnt + 1
-			assert(loadfile('saved/temp_sav.lua'))()
+			assert(loadfile('save/temp_sav.lua'))()
 			if data.tempBack == true then
 				data.tempBack = false
 				f_saveTemp()
@@ -1442,7 +1442,7 @@ function f_selectStory()
 				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile('saved/temp_sav.lua'))()
+			assert(loadfile('save/temp_sav.lua'))()
 			if back == true or data.tempBack == true then
 				if data.rosterMode == 'story' then
 					playBGM(bgmStory)
@@ -4701,14 +4701,14 @@ function f_winParse(winner, looser, pal)
 		end
 		quote = tostring(quote) --quotes table keys are strings
 		if winner.quotes[quote] ~= nil then
-			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: yes', 'saved/debug/quotes.log')
+			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: yes', 'save/debug/quotes.log')
 			return winner.quotes[quote]
 		else
-			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: no', 'saved/debug/quotes.log')
+			f_printVar(logVar .. '\nquote: ' .. quote .. '\nexists: no', 'save/debug/quotes.log')
 			return ''
 		end
 	else
-		f_printVar(logVar .. '0 triggers found\n0 quotes found\n\nquote: -1\nexists: no', 'saved/debug/quotes.log')
+		f_printVar(logVar .. '0 triggers found\n0 quotes found\n\nquote: -1\nexists: no', 'save/debug/quotes.log')
 		return ''
 	end
 end
@@ -6481,13 +6481,13 @@ end
 function f_victories()
 	data.victories = data.victories + 1
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end
 
 function f_defeats()
 	data.defeats = data.defeats + 1
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end
 
 function f_records()
@@ -6505,7 +6505,7 @@ function f_records()
 		end
 	end
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end
 
 function f_modeplayTime()
@@ -6528,17 +6528,17 @@ function f_modeplayTime()
 	elseif data.rosterMode == 'adventure' then data.adventureTime = data.adventureTime + clearTime
 	end
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end
 
 function f_favoriteChar()
 	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end
 
 function f_favoriteStage()
 	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end

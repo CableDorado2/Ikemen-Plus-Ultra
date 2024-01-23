@@ -1,0 +1,16 @@
+table: 02ED6D28 {
+  [suave dude] => 12
+  [training/sandbag.def] => 127
+  [suave dude/minion/minion.def] => 121
+  [kung fu girl/master/master kung fu girl.def] => 123
+  [kung fu man/ex/ex kung fu man.def] => 120
+  [catwalk] => 126
+  [dragon claw] => 122
+  [kung fu man/master/master kung fu man.def] => 124
+  [strength training] => 125
+  [kung fu girl] => 4
+  [kung fu man] => 0
+  [randomselect] => 118
+  [stage viewer] => 128
+  [kung fu man/evil/evil kung fu man.def] => 119
+}

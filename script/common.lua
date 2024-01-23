@@ -31,18 +31,18 @@ dkjson = require('dkjson')
 --; DATA DEFINITION
 --;===========================================================
 --Create global space (accessing variables between modules)
-data = require('saved.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
+data = require('save.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
 
 --Load saved variables
-assert(loadfile('saved/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile('saved/stats_sav.lua'))()
-assert(loadfile('saved/temp_sav.lua'))() --temp data
+assert(loadfile('save/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
+assert(loadfile('save/stats_sav.lua'))()
+assert(loadfile('save/temp_sav.lua'))() --temp data
 
 --One-time load of the json routines
 json = (loadfile 'lib/dkjson.lua')()
 
 --Data loading from host_rooms.json
-local file = io.open("saved/host_rooms.json","r")
+local file = io.open("save/host_rooms.json","r")
 host_rooms = json.decode(file:read("*all"))
 file:close()
 
@@ -379,7 +379,7 @@ end
 
 --prints "t" table content into "toFile" file
 function f_printTable(t, toFile)
-	local toFile = toFile or 'saved/debug/table_print.txt'
+	local toFile = toFile or 'save/debug/table_print.txt'
 	local txt = ''
 	local print_t_cache = {}
 	local function sub_print_t(t, indent)
@@ -419,7 +419,7 @@ end
 
 --prints "v" variable into "toFile" file
 function f_printVar(v, toFile)
-	local toFile = toFile or 'saved/debug/var_print.txt'
+	local toFile = toFile or 'save/debug/var_print.txt'
 	local file = io.open(toFile,"w+")
 	file:write(v)
 	file:close()
@@ -677,7 +677,7 @@ function f_storyboard(path)
 		end
 	end
 	file:close()
-	--f_printTable(t, 'saved/debug/t_' .. fileName)
+	--f_printTable(t, 'save/debug/t_' .. fileName)
 	f_storyboardPlay(t)
 	return
 end
@@ -1130,7 +1130,7 @@ function f_storyboardPlay(tIn)
 	tOut['ctrldef'] = {}
 	tOut.ctrldef = tIn.ctrldef
 	--Actual storyboard loop
-	f_printTable(tOut, 'saved/debug/t_storyboard.txt')
+	f_printTable(tOut, 'save/debug/t_storyboard.txt')
 	local velX = 0
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
@@ -1314,7 +1314,7 @@ function eachAllChars(f)
 end
 
 function rakuBenry()
-  local alf = 'saved/debug/autolevel.txt'
+  local alf = 'save/debug/autolevel.txt'
   local veljnz = {}
   local winct = {}
   local buf = '\239\187\191'
@@ -1473,7 +1473,7 @@ function rosterTxt()
   for i = 1, #roster do
     str = str .. '\n' .. getCharFileName(roster[i])
   end
-  dscr = io.open('saved/debug/randomtest.txt', 'w')
+  dscr = io.open('save/debug/randomtest.txt', 'w')
   dscr:write(str)
   io.close(dscr)
 end

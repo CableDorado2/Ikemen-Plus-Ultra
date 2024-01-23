@@ -696,11 +696,11 @@ if generate and data.sffConversion then
 	end
 	if parserCfg == 3 then
 		data.sffConversion = false
-		local file = io.open("saved/data_sav.lua","r")
+		local file = io.open("save/data_sav.lua","r")
 		local str = file:read("*all")
 		file:close()
 		str = str:gsub('data.sffConversion%s*=%s*[^\n]+', 'data.sffConversion = false')
-		file = io.open("saved/data_sav.lua","w+")
+		file = io.open("save/data_sav.lua","w+")
 		file:write(str)
 		file:close()
 	elseif parserCfg == 1 then
@@ -721,7 +721,7 @@ if generate and data.sffConversion then
 			--print variable for both debugging and sprite generation purpose
 			f_printVar(sff2png .. append, 'data/charAnim/' .. displayname .. '.def')
 			--create a batch variable used to generate sff files all at once
-			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> saved\\debug\\sprmake2.log'
+			batch = batch .. '\n' .. 'tools\\sprmake2.exe' .. ' -o "data\\charAnim\\' .. displayname .. '.sff" "data\\charAnim\\' .. displayname .. '.def" >> save\\debug\\sprmake2.log'
 		end
 		batch = batch .. '\n' .. 'del batch.bat'
 		f_printVar(batch, 'batch.bat')
@@ -757,15 +757,15 @@ if generate and data.sffConversion then
 	end
 end
 
-f_printTable(t_selChars, "saved/debug/t_selChars.txt")
-f_printTable(t_selStages, "saved/debug/t_selStages.txt")
-f_printTable(t_selOptions, "saved/debug/t_selOptions.txt")
-f_printTable(t_orderChars, "saved/debug/t_orderChars.txt")
-f_printTable(t_randomChars, "saved/debug/t_randomChars.txt")
-f_printTable(t_bossChars, "saved/debug/t_bossChars.txt")
-f_printTable(t_bonusChars, "saved/debug/t_bonusChars.txt")
-f_printTable(t_stageDef, "saved/debug/t_stageDef.txt")
-f_printTable(t_charAdd, "saved/debug/t_charAdd.txt")
+f_printTable(t_selChars, "save/debug/t_selChars.txt")
+f_printTable(t_selStages, "save/debug/t_selStages.txt")
+f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
+f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
+f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
+f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
+f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
+f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
+f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
 
 function f_rushTables()
 	t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error

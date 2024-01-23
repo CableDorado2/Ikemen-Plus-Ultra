@@ -885,5 +885,5 @@ function f_storyStatus()
 	elseif data.storyNo == '1-4C' then data.story1_4CStatus = 1
 	end
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end

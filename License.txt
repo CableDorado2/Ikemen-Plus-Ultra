@@ -8,7 +8,6 @@ Copyright (c) 2018 NeatUnsou
 Copyright (c) 2019 Windblade
 Copyright (c) 2019 Dan
 Copyright (c) 2019 Kidcy
-Copyright (c) 2019 PlasmoidThunder
 Copyright (c) 2020 Wintermourn
 Copyright (c) 2020 Shiyo Kakuge
 Copyright (c) 2021 Kamekaze
@@ -19,7 +18,8 @@ Copyright (c) 2021 Rodknee
 Copyright (c) 2021 Ros
 Copyright (c) 2021 Yamori X
 Copyright (c) 2021 Jade Midori
-Copyright (c) 2023 Strong FS
+Copyright (c) 2023 PlasmoidThunder
+Copyright (c) 2024 Strong FS
 Copyright (c) 2024 CD2
 
 

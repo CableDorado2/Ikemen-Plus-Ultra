@@ -22,7 +22,7 @@ const double lvmul = 2.0**(1.0/12.0);
 
 &WincntMgr
 {
-  /^/char wincFN = "saved/debug/autolevel.txt";
+  /^/char wincFN = "save/debug/autolevel.txt";
   &.tbl.NameTable!int? winct;
   ^int zeroAry(int sz)
   {

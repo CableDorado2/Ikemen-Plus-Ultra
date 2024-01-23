@@ -368,5 +368,5 @@ function f_missionStatus()
 	elseif data.missionNo == '3' then data.mission3Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile('saved/stats_sav.lua'))()
+	assert(loadfile('save/stats_sav.lua'))()
 end

@@ -139,14 +139,14 @@ end
 --;===========================================================
 --; LOAD TEMP DATA (JUST WHILE FOUND A BETTER WAY TO BACK)
 --;===========================================================
-local tempFile = io.open("saved/temp_sav.lua","r")
+local tempFile = io.open("save/temp_sav.lua","r")
 s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
 function f_saveTemp()
 	local t_temp = {['data.tempBack'] = data.tempBack,['data.replayDone'] = data.replayDone}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
-	local tempFile = io.open("saved/temp_sav.lua","w+")
+	local tempFile = io.open("save/temp_sav.lua","w+")
 	tempFile:write(s_tempdataLUA)
 	tempFile:close()
 end
