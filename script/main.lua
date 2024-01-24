@@ -1191,8 +1191,6 @@ function f_arcadeMenu()
 				data.p2Faces = true
 				data.coop = true --P2 fighting on P1 side enabled
 				data.serviceScreen = true
-				data.stageMenu = true
-				--data.stageNo = 1
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')

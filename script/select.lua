@@ -789,6 +789,7 @@ function f_backMenu()
 				--randomP1Portrait = false --Delete?
 				--randomP1Rematch = false --Delete?
 				if data.coop then
+					randomP2Portrait = false
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
@@ -798,9 +799,7 @@ function f_backMenu()
 			else
 				f_selectReset()
 			end
-			if data.rosterAdvanced == true then
-				stageEnd = true
-			end
+			if data.rosterAdvanced == true and data.stageMenu == false then stageEnd = true end
 			back = false
 		end
 		f_backReset()
@@ -1279,6 +1278,7 @@ function f_selectAdvance()
 				p1Portrait = nil
 				p1SelEnd = false
 				if data.coop then
+					--randomP2Portrait = false
 					p2SelEnd = false
 				end
 				f_rosterReset()
@@ -1856,6 +1856,7 @@ function f_selectScreen()
 			sndPlay(sysSnd, 100, 2)
 			p1SelEnd = false
 			data.t_p1selected = {}
+			randomP1Portrait = false
 		end
 	else
 		--if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and p1SelEnd and charSelect == false then
@@ -1879,6 +1880,7 @@ function f_selectScreen()
 					p2SelEnd = false
 				end
 				data.t_p2selected = {}
+				--randomP2Portrait = false
 			end
 		else
 			--if (commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z')) and p2SelEnd and charSelect == false then 
@@ -3163,6 +3165,7 @@ function f_p2SelectMenu()
 				if getCharName(cel) == 'Random' then
 					randomP2Rematch = true
 					randomP2Portrait = true
+					--if not data.coop then randomP2Portrait = true end
 					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 				elseif f_getName(p2Cell) == 'Kung Fu Man' then --Another Character Voice when is selected Example for Player 2 Side
                     sndPlay(announcerSnd, 2, 0)
@@ -3179,6 +3182,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
+					randomP2Portrait = false
 					data.t_p1selected[2] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
 					p2SelEnd = true
 				else
@@ -3215,6 +3219,7 @@ function f_p2SelectMenu()
 							updateAnim = false
 						end
 					end
+					randomP2Portrait = false
 					data.t_p1selected[2] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
 					p2SelEnd = true
 				else
@@ -3532,6 +3537,13 @@ function f_selectStage()
 		end
 		--create a timer to hear full announcer voice
 		if announcerTimer > 55 then
+			if data.coop == true then --To avoid issues in Stage Select with Arcade Co-Op
+				p2Cell = nil
+				p2Portrait = nil
+				data.t_p2selected = {}
+				p2palEnd = true
+				p2SelEnd = false
+			end
 			stageEnd = true
 			cmdInput()
 			--announcerTimer = 0 --Restart Stage Announcer Timer
@@ -3689,7 +3701,7 @@ function f_orderSelect()
 		textImgSetText(txt_matchNo, 'RIVAL MATCH') --Text for versus screen when you fighting against rival before final boss.
 	else
 		textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
-	end	
+	end
 	textImgSetText(txt_matchFinal, 'FINAL STAGE')
 	--All Roster Match Text
 	if data.gameMode == 'survival' or data.gameMode == 'allroster' then
