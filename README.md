@@ -84,7 +84,7 @@ Modifying the engine code is beyond most people due to the specific build enviro
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
 
-**v1.4**
+**v1.4 (Next Update)**
 ------------
 
 - [ ] Más parametros para el Select.def.
