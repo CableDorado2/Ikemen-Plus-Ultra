@@ -95,7 +95,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
-- [ ] Probar qué posibilidad hay de que los replays en versus se guarden al terminar 1 match y que se vuelvan a grabar cuando inice uno nuevo. Además, incluir pregunta para guardar o no el replay.
+- [ ] Incluir pregunta para guardar o no los replays.
 
 - [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
 
