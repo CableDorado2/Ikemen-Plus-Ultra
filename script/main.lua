@@ -1269,6 +1269,7 @@ end
 t_vsMenu = {
 	{id = textImgNew(), text = 'QUICK MATCH'},
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1 VS P2'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
@@ -1340,8 +1341,23 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')
 				script.select.f_selectSimple()
-			--P1 VS P2
+			--CPU VS P1
 			elseif vsMenu == 3 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				data.p1In = 2
+				data.p2In = 2
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				data.stageMenu = true
+				data.p2Faces = true
+				data.gameMode = 'versus'
+				data.rosterMode = 'versus'
+				textImgSetText(txt_mainSelect, 'FREE VERSUS')
+				script.select.f_selectSimple()
+			--P1 VS P2
+			elseif vsMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setHomeTeam(1) --P1 side considered the home team
@@ -1353,7 +1369,7 @@ function f_vsMenu()
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 			--P1 & P2 VS CPU
-			elseif vsMenu == 4 then
+			elseif vsMenu == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				--f_comingSoon()
@@ -1368,7 +1384,7 @@ function f_vsMenu()
 				textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
 				script.select.f_selectSimple()
 			--CPU MATCH
-			elseif vsMenu == 5 then
+			elseif vsMenu == 6 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1

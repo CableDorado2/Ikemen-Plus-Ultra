@@ -849,7 +849,7 @@ function f_selectSimple()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+				if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
 					if p1TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
@@ -1780,7 +1780,11 @@ function f_selectScreen()
 	end
 	--Player1		
 	if not p1TeamEnd then
-		f_p1TeamMenu()
+		if data.p1In == 2 then --P2 Choose first only when you play in p2 side (CPU VS P1)
+			if p2SelEnd then f_p1TeamMenu() end
+		else
+			f_p1TeamMenu()
+		end
 	elseif data.p1In > 0 or data.p1Char ~= nil then
 		f_p1SelectMenu()
 	end
@@ -1982,11 +1986,12 @@ animUpdate(p1EmptyIcon8)
 --; PLAYER 1 TEAM SELECT
 --;===========================================================
 p1SelTmTxt = createTextImg(jgFnt, 5, 1, 'TEAM MODE', 20, 30)
+IASelTmTxt = createTextImg(jgFnt, 5, 1, 'CPU MODE', 20, 30)
 
 t_p1selTeam = {
 	{id = '', text = 'SINGLE'},
 	{id = '', text = 'SIMUL'},
-	{id = '', text = 'TURNS'},	
+	{id = '', text = 'TURNS'},
 }
 for i=1, #t_p1selTeam do
 	t_p1selTeam[i].id = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35+i*15)
@@ -2079,7 +2084,11 @@ function f_p1TeamMenu()
 				bufTmd = 0
 			end
 		end
-		textImgDraw(p1SelTmTxt)
+		if data.p1In == 2 then
+			textImgDraw(IASelTmTxt)
+		else
+			textImgDraw(p1SelTmTxt)
+		end
 		for i=1, #t_p1selTeam do
 			if i == p1teamMode + 1 then
 				textImgSetBank(t_p1selTeam[i].id, 3)
@@ -2206,7 +2215,7 @@ animUpdate(p2EmptyIcon8)
 --; PLAYER 2 TEAM SELECT
 --;===========================================================
 p2SelTmTxt = createTextImg(jgFnt, 5, -1, 'TEAM MODE', 300, 30)
-IASelTmTxt = createTextImg(jgFnt, 5, -1, 'CPU MODE', 300, 30)
+IASelTmTxt2 = createTextImg(jgFnt, 5, -1, 'CPU MODE', 300, 30)
 
 t_p2selTeam = {
 	{id = '', text = 'SINGLE'},
@@ -2250,8 +2259,15 @@ function f_p2TeamMenu()
 				p1BG = true
 				p1SelBack = true
 				p1TeamBack = false
-			elseif data.p2In == 2 then
-				--ToDo?
+			elseif data.p2In == 2 and data.p1In == 2 then
+				f_p2sideReset()
+				p2TeamEnd = true
+				p2SelEnd = true
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+				p1SelBack = true
+				p1TeamBack = false
 			end
 		end
 		if backScreen == false then	
@@ -2330,7 +2346,7 @@ function f_p2TeamMenu()
 		if data.p2In == 2 then
 			textImgDraw(p2SelTmTxt)
 		else
-			textImgDraw(IASelTmTxt)
+			textImgDraw(IASelTmTxt2)
 		end
 		for i=1, #t_p2selTeam do
 			if i == p2teamMode + 1 then
@@ -3890,7 +3906,7 @@ function f_orderSelect()
 				orderTime = orderTime - 0.5 --Activate Order Select Timer
 				sndNumber = -1
 				--if Player 1 has not confirmed the order yet
-				if not p1Confirmed then
+				if not p1Confirmed and data.p1In ~= 2 then
 					if btnPalNo(p1Cmd) > 0 then
 						if not p1Confirmed then
 							sndNumber = 1
@@ -3953,7 +3969,71 @@ function f_orderSelect()
 					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 					animDraw(f_animVelocity(cursorBox, -1, -1))
 				end
-				--if Player2 has not confirmed the order yet and IS controlled by IA
+				--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
+				if not p1Confirmed and data.p1In == 2 and p2Confirmed == true then
+					if btnPalNo(p1Cmd) > 0 then
+						if not p1Confirmed then
+							sndNumber = 1
+							f_selectChar(1, data.t_p1selected)
+							p1Confirmed = true
+							commandBufReset(p1Cmd)
+						end
+						if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
+							if not p2Confirmed then
+								f_selectChar(2, data.t_p2selected)
+								p2Confirmed = true
+							end
+						end
+					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
+						if #data.t_p1selected > 1 then
+							sndNumber = 0
+							p1Row = p1Row - 1
+							if p1Row == 0 then p1Row = #data.t_p1selected end
+						end
+					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
+						if #data.t_p1selected > 1 then
+							sndNumber = 0
+							p1Row = p1Row + 1
+							if p1Row > #data.t_p1selected then p1Row = 1 end
+						end
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
+						if p1Row-1 > 0 then
+							sndNumber = 0
+							p1Row = p1Row - 1
+							t_tmp = {}
+							t_tmp[p1Row] = data.t_p1selected[p1Row+1]
+							for i=1, #data.t_p1selected do
+								for j=1, #data.t_p1selected do
+									if t_tmp[j] == nil and i ~= p1Row+1 then
+										t_tmp[j] = data.t_p1selected[i]
+										break
+									end
+								end
+							end
+							data.t_p1selected = t_tmp
+						end
+					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
+						if p1Row+1 <= #data.t_p1selected then
+							sndNumber = 0
+							p1Row = p1Row + 1
+							t_tmp = {}
+							t_tmp[p1Row] = data.t_p1selected[p1Row-1]
+							for i=1, #data.t_p1selected do
+								for j=1, #data.t_p1selected do
+									if t_tmp[j] == nil and i ~= p1Row-1 then
+										t_tmp[j] = data.t_p1selected[i]
+										break
+									end
+								end
+							end
+							data.t_p1selected = t_tmp
+						end
+					end
+					animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+					animDraw(f_animVelocity(cursorBox, -1, -1))
+				end
+				--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
 				if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
 					if btnPalNo(p1Cmd) > 0 then
 						if not p2Confirmed then
@@ -4010,7 +4090,7 @@ function f_orderSelect()
 					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 					animDraw(f_animVelocity(cursorBox, -1, -1))
 				end
-				--if Player2 has not confirmed the order yet and is not controlled by Player 1
+				--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
 				if not p2Confirmed and data.p2In ~= 1 then
 					if btnPalNo(p2Cmd) > 0 then
 						if not p2Confirmed then
@@ -4885,7 +4965,7 @@ function f_rematch()
 	end
 	--Draw BG only when Winscreen is off
 	if data.winscreen == 'None' or data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
-	if data.p2In == 1 then --VS CPU
+	if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
 		--Draw Menu BG
 		animDraw(rematchCPUWindowBG)
 		animUpdate(rematchCPUWindowBG)
@@ -4898,7 +4978,7 @@ function f_rematch()
 	end
 	--Set Color and Text Position
 	for i=1, #t_battleOption do
-		if data.p2In == 1 then --VS CPU
+		if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
 			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 159.1, 104.5+i*13,0.95,0.95)
 		else
 			t_battleOption[i].id = createTextImg(jgFnt, 0, 0, t_battleOption[i].text, 76, 104.5+i*13,0.95,0.95)
@@ -4912,7 +4992,7 @@ function f_rematch()
 	end
 	if not p1Ready then
 	--Draw Cursor
-		if data.p2In == 1 then --VS CPU
+		if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
 			animSetWindow(cursorBox, 87.1, 94.5+p1Cursor*13, 145, 13)
 		else
 			animSetWindow(cursorBox, 4, 94.5+p1Cursor*13, 145, 13)
@@ -4921,7 +5001,7 @@ function f_rematch()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
 	--Player 2 Mirror Assets
-	if data.p2In == 2 then
+	if data.p2In == 2 and data.p1In ~= 2 then
 		if not p2Ready then
 			if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufRematch2u >= 30) then
 				sndPlay(sysSnd, 100, 0)
@@ -5007,7 +5087,7 @@ function f_rematch()
 				p1Ready = true
 				p2Ready = true
 			end
-			if data.p2In == 1 then --Logic for CPU
+			if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --Logic for CPU
 				battleOption2 = battleOption
 				p2Ready = true
 			end
@@ -5015,7 +5095,7 @@ function f_rematch()
 		end
 	end
 	if not p2Ready then
-		if data.p2In == 2 then
+		if data.p2In == 2 and data.p1In ~= 2 then
 			if btnPalNo(p2Cmd) > 0 or rematchTimer == 0 then
 				if p2Cursor == 1 then
 					sndPlay(sysSnd, 100, 1)
