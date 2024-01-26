@@ -999,7 +999,7 @@ function f_mainMenu()
 			--mode selected
 			if btnPalNo(p1Cmd) > 0 then
 				f_default()
-				--STORY
+				--STORY (follow story mode arc designed for this engine)
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
 					--script.story.f_storyMenu()
@@ -1172,7 +1172,7 @@ function f_arcadeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE
+			--SINGLE MODE (fight against AI-controlled opponents in a customizable arcade ladder)
 			if arcadeMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1183,7 +1183,7 @@ function f_arcadeMenu()
 				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
 				script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
-			--CO-OP MODE
+			--CO-OP MODE (team up with another player against AI-controlled opponents in a customizable arcade ladder)
 			elseif arcadeMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1195,7 +1195,7 @@ function f_arcadeMenu()
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
 				script.select.f_selectAdvance()
-			--CPU MODE
+			--CPU MODE (watch CPU controlled matchs of your choice in a customizable arcade ladder)
 			elseif arcadeMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1271,6 +1271,7 @@ t_vsMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1 VS P2'},
+	{id = textImgNew(), text = 'P1&P3 VS P2&P4'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
@@ -1330,46 +1331,60 @@ function f_vsMenu()
 			if vsMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
 				f_randomMenu()
-			--P1 VS CPU
+			--P1 VS CPU (practice your skills against AI controlled CPU opponents of your choice from left side)
 			elseif vsMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
-				data.stageMenu = true
-				data.p2Faces = true
+				data.stageMenu = true --stage selection enabled
+				data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')
-				script.select.f_selectSimple()
-			--CPU VS P1
+				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
+			--CPU VS P1 (practice your skills against AI controlled CPU opponents of your choice from right side)
 			elseif vsMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				remapInput(1, 2) --P1 controls p2 side
+				remapInput(2, 1) --P2 controls p1 side
+				setCom(2, 0) --Not computer is controlling P2 side, only the human
 				data.p1In = 2
 				data.p2In = 2
-				remapInput(1, 2)
-				remapInput(2, 1)
-				setCom(2, 0)
 				data.stageMenu = true
 				data.p2Faces = true
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')
 				script.select.f_selectSimple()
-			--P1 VS P2
+			--P1 VS P2 (choose a fighter to defeat a human opponent)
 			elseif vsMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setHomeTeam(1) --P1 side considered the home team
 				data.p2In = 2 --P2 controls P2 side of the select screen
-				data.stageMenu = true --stage selection enabled
-				data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
+				data.stageMenu = true
+				data.p2Faces = true
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')
-				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
-			--P1 & P2 VS CPU
+				script.select.f_selectSimple()
+			--P1 & P3 VS P2 & P4 (team up with another player to defeat co-op team of human opponents)
 			elseif vsMenu == 5 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				f_comingSoon()
+				--setHomeTeam(1)
+				--data.p2In = 2
+				--data.p2Faces = true
+				--data.stageMenu = true
+				--data.coop = true
+				--data.gameMode = 'versus'
+				--data.rosterMode = 'versus'
+				--textImgSetText(txt_mainSelect, 'FREE VERSUS TEAM COOPERATIVE')
+				--script.select.f_selectSimple()
+			--P1 & P2 VS CPU (team up with another player to defeat AI controlled CPU opponents)
+			elseif vsMenu == 6 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				--f_comingSoon()
@@ -1383,8 +1398,8 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
 				script.select.f_selectSimple()
-			--CPU MATCH
-			elseif vsMenu == 6 then
+			--CPU MATCH (watch CPU controlled match of your choice)
+			elseif vsMenu == 7 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
@@ -1646,7 +1661,7 @@ function f_practiceMenu()
 			f_default()
 			setGameMode('practice')
 			setGameType(2)
-			--SINGLE MODE
+			--SINGLE MODE (practice special attacks and combos with training dummy character(s) of your choice)
 			if practiceMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1668,7 +1683,7 @@ function f_practiceMenu()
 				data.rosterMode = 'training'
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
-			--MULTIPLAYER MODE
+			--MULTIPLAYER MODE (practice special attacks and combos with a human opponent)
 			elseif practiceMenu == 2 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1682,8 +1697,8 @@ function f_practiceMenu()
 				data.gameMode = 'training'
 				data.rosterMode = 'training'
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
-				script.select.f_selectSimple()			
-			--CO-OP MODE
+				script.select.f_selectSimple()
+			--CO-OP MODE (team up with another player to practice special attacks and combos with a training dummy character(s) of your choice)
 			elseif practiceMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -1973,37 +1988,37 @@ function f_survivalMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE
+			--SINGLE MODE (defeat as many opponents as you can on a single Health Meter)
 			if survivalMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
-				--data.stageMenu = true
+				data.stageMenu = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
-			--CO-OP MODE
+			--CO-OP MODE (defeat as many opponents as you can with a human teammate, on a single Health Meter)
 			elseif survivalMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				--data.stageMenu = true
+				data.stageMenu = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
-			--CPU MODE
+			--CPU MODE (watch CPU controlled defeat as many opponents as it can on a single Health Meter)
 			elseif survivalMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
-				--data.stageMenu = true
+				data.stageMenu = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SURVIVAL')

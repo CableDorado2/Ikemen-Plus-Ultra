@@ -6,6 +6,7 @@
 #include <shlobj.h>
 #include <math.h>
 #include <float.h>
+//#include <iostream.h>
 
 #include <GL/glew.h>
 #pragma comment(lib, "glew32.Lib")
@@ -41,6 +42,17 @@
 #pragma comment(lib, "strmiids")
 #pragma comment (lib, "Quartz")            \
 //DirectShow End
+
+//Rich Presence Test
+#include <discord_register.h>
+#include <discord_rpc.h>
+#pragma comment(lib, "discord-rpc.lib")
+
+static const char* APPLICATION_ID = "1200228516554346567";
+static int FrustrationLevel = 0;
+static int32_t StartTime;
+static int SendPresence = 1;
+//Rich Presence End
 
 void* (__stdcall *sszrefnewfunc)(intptr_t);
 void (__stdcall *sszrefdeletefunc)(void*);
@@ -445,18 +457,66 @@ void sndjoyinit()
 	g_js.init();
 }
 
+//Discord Rich Presence Test Start
+static void updateDiscordPresence()
+{
+    if (SendPresence) {
+        char buffer[256];
+        DiscordRichPresence discordPresence;
+        memset(&discordPresence, 0, sizeof(discordPresence));
+        discordPresence.state = "Building a Fighting Game"; //Game State
+        //sprintf(buffer, "Frustration level: %d", FrustrationLevel);
+        discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
+        discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
+        //discordPresence.endTimestamp = time(0) + 5 * 60;
+        discordPresence.largeImageKey = "icon"; //Game Icon
+		discordPresence.largeImageText = "I.K.E.M.E.N. PLUS ULTRA"; //Game About
+        discordPresence.smallImageKey = "powered"; //Powered Icon
+		discordPresence.smallImageText = "Powered By Ikemen Plus Ultra Engine"; //Powered About
+        discordPresence.partyId = "party1234";
+        discordPresence.partySize = 0; //Add 1 when online mode with rich presence works
+        discordPresence.partyMax = 2;
+        //discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
+        discordPresence.matchSecret = "xyzzy";
+        discordPresence.joinSecret = "join";
+        discordPresence.spectateSecret = "look";
+        discordPresence.instance = 0;
+        Discord_UpdatePresence(&discordPresence);
+    }
+    else {
+        Discord_ClearPresence();
+    }
+}
+
+static void discordInit()
+{
+    DiscordEventHandlers handlers;
+    memset(&handlers, 0, sizeof(handlers));
+    //handlers.ready = handleDiscordReady;
+    //handlers.disconnected = handleDiscordDisconnected;
+    //handlers.errored = handleDiscordError;
+    //handlers.joinGame = handleDiscordJoin;
+    //handlers.spectateGame = handleDiscordSpectate;
+    //handlers.joinRequest = handleDiscordJoinRequest;
+    Discord_Initialize(APPLICATION_ID, &handlers, 1, NULL);
+}
+//Discord Rich Presence Test End
+
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX Render
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
 		return false;
 	}else{
 		TTF_Init();
+		discordInit();
+		updateDiscordPresence();
 		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
 		g_window = SDL_CreateWindow(//https://wiki.libsdl.org/SDL2/SDL_CreateWindow
 			pu->refToAstr(CP_UTF8, cap).c_str(),
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			w, h, g_scrflag);
 		if(!g_window) return false;
+		//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0"); //VSYNC TEST
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); //Nearest Filter(0): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest"); Linear Filter(1): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); Anisotropic Filter(2): SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 		if(mugen){
@@ -470,7 +530,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX
 		winProcInit();
 		g_mainTreadId = GetCurrentThreadId();
 		//SDL_RenderSetIntegerScale(g_renderer, SDL_TRUE);
-		//SDL_RenderSetVSync(g_renderer, 1);
 		sndjoyinit();
 	}
 	g_w = w;
@@ -592,6 +651,7 @@ TUserFunc(void, End)
 	wglDeleteContext(g_hglrc2);
 	g_js.close();
 	bgmclear(true);
+	Discord_Shutdown();
 	SDL_PauseAudio(1);
 	SDL_CloseAudio();
 	if(g_target){
