@@ -37,8 +37,10 @@ function f_rosterReset()
 		elseif data.selectType == 'Fixed' then --When you play in a Single Mode
 			p1FaceX = 90
 			p1FaceY = 170
-			--p2FaceX = 90
-			--p2FaceY = 170
+			if not data.p1SelectMenu then
+				p2FaceX = 90
+				p2FaceY = 170
+			end
 		end
 	--When data.p2Faces is false and you play in 1P you will see an expanded roster, as there is no 2P to select it will not be cut:
 	elseif data.selectType == 'Variable' then
@@ -53,8 +55,10 @@ function f_rosterReset()
 		p1FaceX = 2.5
 		p1FaceY = 170
 		--Position of the character boxes for P2
-		--p2FaceX = 2
-		--p2FaceY = 170
+		if not data.p1SelectMenu then
+			p2FaceX = 2
+			p2FaceY = 170
+		end
 	end
 end
 
@@ -100,6 +104,8 @@ if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --
 end
 
 function f_selectReset()
+	commandBufReset(p1Cmd)
+	commandBufReset(p2Cmd)
 	f_rosterReset()
 	f_p1sideReset()
 	f_p2sideReset()
@@ -108,6 +114,9 @@ function f_selectReset()
 	if data.p2In == 1 or data.p2In == 3 then
 		p2TeamEnd = true
 		p2SelEnd = true
+	end
+	if not data.p1SelectMenu then
+		p1SelEnd = true
 	end
 	if not data.p2SelectMenu then
 		p2SelEnd = true
@@ -1757,7 +1766,7 @@ function f_selectScreen()
 			animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2))
 		end
 	end
-	if data.p2Faces then
+	if data.p2Faces or not data.p1SelectMenu then
 		drawFace(p2FaceX, p2FaceY, p2FaceOffset)
 		for i=0, selectColumns-1 do
 			for j=0, selectRows-1 do
@@ -2631,6 +2640,8 @@ function f_p1SelectMenu()
 		p1Portrait = data.p1Char[1]
 		--local numChars = p1numChars
 		--if data.coop then numChars = 1 end
+		p1SelEnd = true
+	elseif not data.p1SelectMenu then
 		p1SelEnd = true
 	else
 		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then

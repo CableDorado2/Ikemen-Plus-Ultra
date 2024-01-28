@@ -72,6 +72,7 @@ t_statsMenu = {
 	{id = '', text = 'Sudden Death Record',    		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Endless Record',    			varID = textImgNew(), varText = ''},
 	{id = '', text = 'Time Attack Record',    		varID = textImgNew(), varText = ''},
+	{id = '', text = 'Score Attack Record',    		varID = textImgNew(), varText = ''},
 	{id = '', text = '                   BACK',    	varID = textImgNew(), varText = ''},
 }
 
@@ -90,8 +91,8 @@ function f_statsMenu()
 		--Progress Logic
 		if data.arcadeClear == true then arcadeProgress = 1 elseif data.arcadeClear == false then arcadeProgress = 0 end
 		if data.survivalClear == true then survivalProgress = 1 elseif data.survivalClear == false then survivalProgress = 0 end
-		gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress)
-		gameData = (math.floor((gameProgress * 100 / 6) + 0.5)) --The number (6) is the sumation of true amount of all gameProgress values (arcadeProgress = 1 + survivalProgress = 1 + missionsProgress = 3 + eventsProgress = 1)
+		gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress + (data.storiesProgress/100))
+		gameData = (math.floor((gameProgress * 100 / 7) + 0.5)) --The number (6) is the sumation of true amount of all gameProgress values (arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 1 + data.storiesProgress = 1)
 		txt_statsMenu = createTextImg(jgFnt, 0, -1, '' .. data.userName .. ' PROGRESS:', 202, 13)
 		txt_statsProgress = createTextImg(jgFnt, 2, 1, '['..gameData..'%]', 208, 13) --needs to be inside of statistics Menu function, to load a updated data
 		if esc() then
@@ -448,13 +449,14 @@ function f_statsMenu()
 		t_statsMenu[9].varText = data.coins
 		if data.arcadeClear == false then t_statsMenu[10].varText = 'INCOMPLETE' elseif data.arcadeClear == true then t_statsMenu[10].varText = 'COMPLETED' end
 		if data.survivalClear == false then t_statsMenu[11].varText = 'INCOMPLETE' elseif data.survivalClear == true then t_statsMenu[11].varText = 'COMPLETED' end
-		t_statsMenu[12].varText = (data.storiesProgress/100)..'/3'
+		t_statsMenu[12].varText = (data.storiesProgress/100)..'/1'
 		t_statsMenu[13].varText = data.missionsProgress..'/3'
 		t_statsMenu[14].varText = data.eventsProgress..'/1'
 		t_statsMenu[15].varText = data.bossrecord..' Wins'
 		t_statsMenu[16].varText = data.suddenrecord..' Wins'
 		t_statsMenu[17].varText = data.endlessrecord..' Wins'
-		t_statsMenu[18].varText = 'WIP'--timerecord..''
+		t_statsMenu[18].varText = 'WIP'--data.timerecord..''
+		t_statsMenu[19].varText = 'WIP'--data.scorerecord..''
 		--Draw Text for Table
 		for i=1, maxStats do
 			if i > statsMenu - cursorPosY then

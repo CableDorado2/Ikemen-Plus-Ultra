@@ -296,7 +296,12 @@ Pbufr = 0
 P2bufr = 0
 Pbufl = 0
 P2bufl = 0
-data.p2In = 2 --Player 2 Can Control
+if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
+	data.p1In = 2
+	data.p2In = 1
+else --Pause Controls if P1 is in Left Side
+	data.p2In = 2
+end
 hudStatus = 'Yes'
 hitboxStatus = 'No'
 debugStatus = 'No'

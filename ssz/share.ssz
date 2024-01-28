@@ -43,6 +43,7 @@ public &Share
   public ^index wakewakaLength;
   public &.com.Camera::Stage camstg;
   public ^/char gameMode;
+  public ^/char playerSide;
   public int gameType;
   public int serviceType;
   public float panStr;
@@ -96,6 +97,7 @@ public &Share
     `wakewakaLength = .chr.wakewakaLength;
     `camstg = .com.cam.stg;
 	`gameMode = .com.gameMode;
+	`playerSide = .com.playerSide;
 	`gameType = .com.gameType;
 	`serviceType = .com.serviceType;
 	`panStr = .snd.panstr;
@@ -150,6 +152,7 @@ public &Share
     .chr.wakewakaLength = `wakewakaLength;
     .com.cam.stg = `camstg;
 	.com.gameMode = `gameMode;
+	.com.playerSide = `playerSide;
 	.com.gameType = `gameType;
 	.com.serviceType = `serviceType;
 	.snd.panstr = `panStr;

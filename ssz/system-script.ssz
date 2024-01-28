@@ -507,6 +507,19 @@ void setGameMode(&.lua.State L=, int re=)
   .com.gameMode = gm;
 }
 
+void getPlayerSide(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(#.cmd.replay > 0 ? "replay" : .com.playerSide);
+}
+
+void setPlayerSide(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char ps = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.playerSide = ps;
+}
+
 void setGameType(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -706,6 +719,19 @@ void inputReset(&.lua.State L=, int re=)
   cond c == .cfg.in[2].jn: .p1PadReset = true;
   cond c == .cfg.in[3].jn: .p2PadReset = true;	
   }
+}
+
+void getInputKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  branch{
+	cond .sdl.KeyState(:.se.sdle.key.keysym.scancode:) == true && .keyReset == false:
+	  L.pushNumber((double).se.sdle.key.keysym.scancode);
+	  //.keyReset = true;
+	else:
+	  L.pushNumber((double)0);
+  }
+  if(.sdl.KeyState(:.se.sdle.key.keysym.scancode:) == false && .keyReset == true) .keyReset = false;
 }
 
 void getInputID(&.lua.State L=, int re=)
@@ -1538,6 +1564,8 @@ public void init(&.lua.State L=)
   L.register("setAutoLevel", .setAutoLevel);
   L.register("getGameMode", .getGameMode);
   L.register("setGameMode", .setGameMode);
+  L.register("getPlayerSide", .getPlayerSide);
+  L.register("setPlayerSide", .setPlayerSide);
   L.register("setGameType", .setGameType);
   L.register("setServiceType", .setServiceType);
   L.register("getListenPort", .getListenPort);
@@ -1596,7 +1624,7 @@ public void init(&.lua.State L=)
   L.register("swapController", .swapController);
   L.register("swapGamepad", .swapGamepad);
   L.register("disableGamepad", .disableGamepad);
-  //L.register("getInputKey", .getInputKey);
+  L.register("getInputKey", .getInputKey);
   L.register("getInputID", .getInputID);
   L.register("inputReset", .inputReset);
   L.register("setInputConfig", .setInputConfig);  
@@ -1605,5 +1633,3 @@ public void init(&.lua.State L=)
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
 }
-
-

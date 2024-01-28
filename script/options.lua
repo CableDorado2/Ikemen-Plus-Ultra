@@ -6376,6 +6376,7 @@ function f_defaultStats()
 	data.victories = 0
 	data.defeats = 0
 	data.timerecord = 0
+	data.scorerecord = 0
 	data.bossrecord = 0
 	data.suddenrecord = 0
 	data.endlessrecord = 0

@@ -8,6 +8,8 @@ lib tbl = <table.ssz>;
 lib file = <file.ssz>;
 lib se = <alpha/sdlevent.ssz>;
 
+public ^/char gameMode;
+public ^/char playerSide;
 public int gameType = 0;
 public int serviceType = 0;
 public int roundTime = 999 * 6;
@@ -15,8 +17,6 @@ public float life = 1.0;
 public float team1VS2Life = 1.0;
 public float turnsRecoveryRate = 1.0 / 300.0;
 public bool sharedLife = true;
-
-public ^/char gameMode;
 public int sysControls = 0; //0 = Fight, 10 = Menu, set back to 10
 public int gameState = 0; //1 = Fight, 0 = Menu, temporary
 public bool exitMatch;
