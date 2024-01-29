@@ -14,7 +14,7 @@ addHotkey('F2', true, false, false, 'kill(2,1);kill(4,1);kill(6,1);kill(8,1)') -
 addHotkey('F2', false, false, true, 'kill(1,1);kill(3,1);kill(5,1);kill(7,1)') --Shift+F2: Sets Player 1's life to 1
 addHotkey('F3', false, false, false, 'setTime(0)') --Sets Time Over
 addHotkey('F4', false, false, false, 'roundReset()') --Reset the round
-addHotkey('F4', true, false, false, 'reload()') --CTRL+F4: Reloads stage, characters and fight data
+addHotkey('F4', false, false, true, 'reload()') --Shift+F4: Reloads stage, characters and fight data
 addHotkey('F5', false, false, false, 'lifeMax(1);lifeMax(2);lifeMax(3);lifeMax(4);lifeMax(5);lifeMax(6);lifeMax(7);lifeMax(8)') --Gives Players' full life
 addHotkey('F5', true, false, false, 'lifeMax(2);lifeMax(4);lifeMax(6);lifeMax(8)') --Ctrl+F1: Gives Player 2's full life
 addHotkey('F5', false, false, true, 'lifeMax(1);lifeMax(3);lifeMax(5);lifeMax(7)') --Shift+F1: Gives Player 1's full life

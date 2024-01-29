@@ -1974,6 +1974,7 @@ end
 --;===========================================================
 t_survivalMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
@@ -2028,7 +2029,7 @@ function f_survivalMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE (defeat as many opponents as you can with a single Health Meter)
+			--SINGLE MODE [LEFT SIDE] (defeat as many opponents as you can with a single Health Meter)
 			if survivalMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -2039,8 +2040,24 @@ function f_survivalMenu()
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
-			--CO-OP MODE (team up with another player to defeat as many opponents as you can with a single Health Meter)
+			--SINGLE MODE [RIGHT SIDE] (defeat as many opponents as you can with a single Health Meter)
 			elseif survivalMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p1In = 2
+				data.p2In = 2
+				data.p1SelectMenu = false
+				data.stageMenu = true
+				data.gameMode = 'survival'
+				data.rosterMode = 'survival'
+				textImgSetText(txt_mainSelect, 'SURVIVAL')
+				script.select.f_selectAdvance()
+			--CO-OP MODE (team up with another player to defeat as many opponents as you can with a single Health Meter)
+			elseif survivalMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
@@ -2052,7 +2069,7 @@ function f_survivalMenu()
 				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
 			--CPU MODE (watch CPU defeat as many opponents as it can with a single Health Meter)
-			elseif survivalMenu == 3 then
+			elseif survivalMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
