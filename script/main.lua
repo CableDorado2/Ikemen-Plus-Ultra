@@ -2383,6 +2383,7 @@ end
 --;===========================================================
 t_bossrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
@@ -2437,7 +2438,7 @@ function f_bossrushMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE (defeat all bosses in a row)
+			--SINGLE MODE [LEFT SIDE] (defeat all bosses in a row)
 			if bossrushMenu == 1 then		
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
@@ -2450,8 +2451,27 @@ function f_bossrushMenu()
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
 				end
+			--SINGLE MODE [RIGHT SIDE] (defeat all bosses in a row)
+			elseif bossrushMenu == 2 then		
+				sndPlay(sysSnd, 100, 1)
+				if #t_bossChars ~= 0 then
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)	
+					sndPlay(sysSnd, 100, 1)
+					remapInput(1, 2)
+					remapInput(2, 1)
+					setCom(2, 0)
+					setPlayerSide('p1right')
+					data.p1In = 2
+					data.p2In = 2
+					data.p1SelectMenu = false
+					--data.stageMenu = true
+					data.gameMode = 'bossrush'
+					data.rosterMode = 'boss'
+					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
+					script.select.f_selectAdvance()
+				end
 			--CO-OP MODE (team up with another player to defeat all bosses in a row)
-			elseif bossrushMenu == 2 then
+			elseif bossrushMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2465,7 +2485,7 @@ function f_bossrushMenu()
 					script.select.f_selectAdvance()
 				end
 			--CPU MODE (watch CPU defeat all bosses in a row)
-			elseif bossrushMenu == 3 then
+			elseif bossrushMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2713,10 +2733,10 @@ function f_bonusExtras()
 			--BONUS CHAR NAME (clear 1 selected bonus game)
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
-				data.versusScreen = false
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bonusChars[bonusExtras]}
 				--data.stageMenu = true
+				data.versusScreen = false
 				data.gameMode = 'singlebonus'
 				data.rosterMode = 'bonus'
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
@@ -2782,6 +2802,7 @@ end
 --;===========================================================
 t_bonusrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
 }	
@@ -2835,7 +2856,7 @@ function f_bonusrushMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE (clear all bonus games in a row)
+			--SINGLE MODE [LEFT SIDE] (clear all bonus games in a row)
 			if bonusrushMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
 				sndPlay(sysSnd, 100, 1)
@@ -2843,23 +2864,43 @@ function f_bonusrushMenu()
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.p2TeamMenu = {mode = 0, chars = 1}
-					data.versusScreen = false
 					--data.stageMenu = true
+					data.versusScreen = false
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
-				end	
-			--CO-OP MODE (team up with another player to clear all bonus games in a row)
+				end
+			--SINGLE MODE [RIGHT SIDE] (clear all bonus games in a row)
 			elseif bonusrushMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
+				sndPlay(sysSnd, 100, 1)
+				if #t_bonusChars ~= 0 then
+					remapInput(1, 2)
+					remapInput(2, 1)
+					setCom(2, 0)
+					setPlayerSide('p1right')
+					data.p1In = 2
+					data.p2In = 2
+					data.p1SelectMenu = false
+					data.p1TeamMenu = {mode = 0, chars = 1}
+					--data.stageMenu = true
+					data.versusScreen = false
+					data.gameMode = 'bonusrush'
+					data.rosterMode = 'bonus'
+					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
+					script.select.f_selectAdvance()
+				end
+			--CO-OP MODE (team up with another player to clear all bonus games in a row)
+			elseif bonusrushMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true
-					data.versusScreen = false
 					--data.stageMenu = true
+					data.versusScreen = false
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
@@ -2926,6 +2967,7 @@ end
 --;===========================================================
 t_timeMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
@@ -2980,7 +3022,7 @@ function f_timeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE (defeat all character roster as quickly as possible, beating previous time records)
+			--SINGLE MODE [LEFT SIDE] (defeat all character roster as quickly as possible, beating previous time records)
 			if timeMenu == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -2993,8 +3035,26 @@ function f_timeMenu()
 				--data.stageMenu = true
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
-			--CO-OP MODE (team up with another player to defeat all character roster as quickly as possible, beating previous time records)
+			--SINGLE MODE [RIGHT SIDE] (defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 2 then
+			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(3600)
+				setLifeMul(2)
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p1In = 2
+				data.p2In = 2
+				data.p1SelectMenu = false
+				data.gameMode = 'allroster'
+				data.rosterMode = 'timeattack'
+				--data.stageMenu = true
+				textImgSetText(txt_mainSelect, 'TIME ATTACK')
+				script.select.f_selectAdvance()
+			--CO-OP MODE (team up with another player to defeat all character roster as quickly as possible, beating previous time records)
+			elseif timeMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
@@ -3008,7 +3068,7 @@ function f_timeMenu()
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()
 			--CPU MODE (watch CPU defeat all character roster as quickly as possible, beating previous time records)
-			elseif timeMenu == 3 then
+			elseif timeMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
@@ -3082,6 +3142,7 @@ end
 --;===========================================================
 t_suddenMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
@@ -3136,7 +3197,7 @@ function f_suddenMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE (see how many characters out of all roster you can take down with 1 Hit)
+			--SINGLE MODE [LEFT SIDE] (see how many characters out of all roster you can take down with 1 Hit)
 			if suddenMenu == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -3149,8 +3210,26 @@ function f_suddenMenu()
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
-			--CO-OP MODE (team up with another player to see how many characters out of all roster you can take down with 1 Hit)
+			--SINGLE MODE [RIGHT SIDE] (see how many characters out of all roster you can take down with 1 Hit)
 			elseif suddenMenu == 2 then
+			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				setRoundTime(1000)
+				setLifeMul(0)
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p1In = 2
+				data.p2In = 2
+				data.p1SelectMenu = false
+				--data.stageMenu = true
+				data.gameMode = 'allroster'
+				data.rosterMode = 'suddendeath'
+				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
+				script.select.f_selectAdvance()
+			--CO-OP MODE (team up with another player to see how many characters out of all roster you can take down with 1 Hit)
+			elseif suddenMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(1000)
@@ -3164,7 +3243,7 @@ function f_suddenMenu()
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()
 			--CPU MODE (see how many characters out of all roster the CPU can take down with 1 Hit)
-			elseif suddenMenu == 3 then
+			elseif suddenMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setLifeMul(0)
@@ -3387,6 +3466,7 @@ end
 --;===========================================================
 t_allcharsMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	{id = textImgNew(), text = 'BACK'},
@@ -3441,7 +3521,7 @@ function f_allcharsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			--SINGLE MODE (choose a fighter to defeat endless CPU controlled opponents)
+			--SINGLE MODE [LEFT SIDE] (choose a fighter to defeat endless CPU controlled opponents)
 			if allcharsMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
@@ -3452,8 +3532,24 @@ function f_allcharsMenu()
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
 				script.select.f_selectAdvance()
-			--CO-OP MODE (team up with another player to defeat endless CPU controlled opponents)
+			--SINGLE MODE [RIGHT SIDE] (choose a fighter to defeat endless CPU controlled opponents)
 			elseif allcharsMenu == 2 then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 1)
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p1In = 2
+				data.p2In = 2
+				data.p1SelectMenu = false
+				data.stageMenu = true
+				data.gameMode = 'endless'
+				data.rosterMode = 'endless'
+				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
+				script.select.f_selectAdvance()
+			--CO-OP MODE (team up with another player to defeat endless CPU controlled opponents)
+			elseif allcharsMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
@@ -3465,7 +3561,7 @@ function f_allcharsMenu()
 				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
 				script.select.f_selectAdvance()
 			--CPU MODE (choose a fighter to watch endless CPU fights)
-			elseif allcharsMenu == 3 then
+			elseif allcharsMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
