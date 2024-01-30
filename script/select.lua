@@ -1186,7 +1186,7 @@ function f_selectAdvance()
 				return
 			end
 		end
-		--first match
+	--FIRST MATCH
 		if matchNo == 0 then
 			--generate roster
 			f_makeRoster()
@@ -1198,7 +1198,7 @@ function f_selectAdvance()
 			matchNo = 1
 			--generate AI ramping table
 			f_aiRamp()
-			--intro
+			--Arcade Intro
 			if data.gameMode == 'arcade' then
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					storyBoardSide = t_selChars[data.t_p2selected[1].cel+1]
@@ -1212,9 +1212,8 @@ function f_selectAdvance()
 					playVideo(tPos.intro2)
 				end
 			end
-		--player exit the match via ESC in Endless or All Roster modes
+	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == 'endless' or data.gameMode == 'allroster') then
-			--counter
 			looseCnt = looseCnt + 1
 			assert(loadfile('save/temp_sav.lua'))()
 			if data.tempBack == true then
@@ -1227,28 +1226,70 @@ function f_selectAdvance()
 				end
 				return
 			end
-			--save record progress
-			f_records()
-			--result
+			f_records() --Save Stats
 			f_result('lost')
-			--reset title screen fading
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff) --reset title screen fading
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			return
-	--LEFT SIDE ACTIONS
-		elseif winner == 1 or data.gameMode == 'endless' or data.gameMode == 'allroster' then
+	--Endless or All Roster modes (BOTH SIDES)
+		elseif data.gameMode == 'endless' or data.gameMode == 'allroster' then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--player 2 lost in special game mode or don't have any coins left to continue in Arcade
-				--if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
-				if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
-					--counter
+				if winner == 2 then
+					winCnt = winCnt + 1
+				else
 					looseCnt = looseCnt + 1
-					--win screen
+				end
+			else
+				if winner == 1 then
+					winCnt = winCnt + 1
+				else --only true in Endless or All Roster modes
+					looseCnt = looseCnt + 1
+				end
+			end
+			--No More Matches Left
+			if matchNo == lastMatch then
+				f_records() --Save Stats
+				f_result('win')
+				f_storyboard('data/screenpack/gameover.def')
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				if data.rosterMode == 'event' then
+					playBGM(bgmEvents)
+				else
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				end
+				return
+			--Next Match Available
+			else
+				matchNo = matchNo + 1
+				--Load first stage selected for all next matches
+				if data.stageMenu == true then
+					if stageList == 0 then
+						stageNo = math.random(1, data.includestage)
+						setStage(stageNo)
+					end
+					selectStage(stageNo)
+					if musicList == 0 then
+						f_assignMusic()
+					elseif musicList == 1 then
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
+						playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+					end
+				end
+			end
+	--LEFT SIDE ACTIONS
+		elseif winner == 1 then
+			--Player 1 (IN RIGHT SIDE):
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
+				if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
+					looseCnt = looseCnt + 1
+					--Victory screen
 					if data.gameMode == 'arcade' then
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
+				--DELETE THIS?
 					assert(loadfile('save/temp_sav.lua'))()
 					if data.tempBack == true then
 						data.tempBack = false
@@ -1260,15 +1301,11 @@ function f_selectAdvance()
 						end
 						return
 					end
-					--save record progress
-					f_records()
-					--result
+				--DELETE THIS?
+					f_records() --Save Stats
 					f_result('lost')
-					--game over
 					f_gameOver()
-					--intro
 					--f_storyboard('data/screenpack/intro.def')
-					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.rosterMode == 'event' then
 						playBGM(bgmEvents)
@@ -1276,9 +1313,8 @@ function f_selectAdvance()
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					end
 					return
-			--player 2 lost but can continue
+				--Lose BUT can Continue (Arcade)
 				else
-					--counter
 					looseCnt = looseCnt + 1
 					assert(loadfile('save/temp_sav.lua'))()
 					if data.tempBack == true then
@@ -1291,23 +1327,21 @@ function f_selectAdvance()
 						end
 						return
 					end
-					--save record progress
 					f_records()
-					--win screen
+					--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 						f_selectWin()
 					end
-					--continue screen
+					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--intro
 						--f_storyboard('data/screenpack/intro.def')
-						--reset title screen fading
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					end
-					if not data.quickCont then --if 'Quick Arcade Continue' option is disable
+					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
+					if not data.quickCont then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if serviceTeam == true then p2TeamEnd = false end
 						randomP2Portrait = false
@@ -1331,6 +1365,7 @@ function f_selectAdvance()
 								return
 							end
 						end
+					--Exit
 					elseif esc() then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
@@ -1352,22 +1387,23 @@ function f_selectAdvance()
 						end
 					end
 				end
-			--Player 1 won (also if lost in Endless or All Roster modes)
+			--Player 1 (IN LEFT SIDE):
 			else
+				--Wins in (Arcade, Survival, Boss/Bonus Rush)
 				if winner == 1 then
 					winCnt = winCnt + 1
-				else --only true in Endless or All Roster modes
+				else
 					looseCnt = looseCnt + 1
 				end
-				--win screen
+				--Victory Screen
 				if data.gameMode == 'arcade' then
 					if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
 				end
-				--no more matches left
+				--No More Matches Left
 				if matchNo == lastMatch then
-					--ending
+					--Arcade Ending
 					if data.gameMode == 'arcade' then
 						local tPos = t_selChars[data.t_p1selected[1].cel+1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
@@ -1376,35 +1412,25 @@ function f_selectAdvance()
 							playVideo(tPos.ending2)
 						end
 					end
-					--save record progress
-					f_records()
-					--result
+					f_records() --Save Stats
 					f_result('win')
 					if data.gameMode == 'arcade' then
 						if data.rosterMode == 'arcade' then
-							--unlocks
-							data.arcadeClear = true
+							data.arcadeClear = true --Unlocks
 							f_saveProgress()
 						end
-						--credits
 						f_storyboard('data/screenpack/credits.def')
-						--game over
 						f_storyboard('data/screenpack/gameover.def')
-						--intro
 						f_storyboard('data/screenpack/intro.def')
-						--reset title screen fading
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					else
-						--unlocks
 						if data.rosterMode == 'survival' then
-							data.survivalClear = true
+							data.survivalClear = true --Unlocks
 							f_saveProgress()
 						end
-						--game over
 						f_storyboard('data/screenpack/gameover.def')
-						--reset title screen fading
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.rosterMode == 'event' then
 							playBGM(bgmEvents)
@@ -1413,7 +1439,7 @@ function f_selectAdvance()
 						end
 						return
 					end
-				--next match available
+				--Next Match Available
 				else
 					matchNo = matchNo + 1
 					--Load first stage selected for all next matches
@@ -1433,23 +1459,24 @@ function f_selectAdvance()
 				end
 			end
 	--RIGHT SIDE
-		elseif winner == 2 or data.gameMode == 'endless' or data.gameMode == 'allroster' then
+		elseif winner == 2 then
+			--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			--Player 2 won (also if lost in Endless or All Roster modes)
+				--Wins in (Arcade, Survival, Boss/Bonus Rush)
 				if winner == 2 then
 					winCnt = winCnt + 1
 				else
 					looseCnt = looseCnt + 1
 				end
-				--win screen
+				--Victory Screen
 				if data.gameMode == 'arcade' then
 					if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
 				end
-				--no more matches left
+				--No More Matches Left
 				if matchNo == lastMatch then
-					--ending
+					--Arcade Ending
 					if data.gameMode == 'arcade' then
 						local tPos = t_selChars[data.t_p2selected[1].cel+1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
@@ -1458,35 +1485,25 @@ function f_selectAdvance()
 							playVideo(tPos.ending2)
 						end
 					end
-					--save record progress
-					f_records()
-					--result
+					f_records() --Save Stats
 					f_result('win')
 					if data.gameMode == 'arcade' then
 						if data.rosterMode == 'arcade' then
-							--unlocks
-							data.arcadeClear = true
+							data.arcadeClear = true --Unlocks
 							f_saveProgress()
 						end
-						--credits
 						f_storyboard('data/screenpack/credits.def')
-						--game over
 						f_storyboard('data/screenpack/gameover.def')
-						--intro
 						f_storyboard('data/screenpack/intro.def')
-						--reset title screen fading
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					else
-						--unlocks
 						if data.rosterMode == 'survival' then
-							data.survivalClear = true
+							data.survivalClear = true --Unlocks
 							f_saveProgress()
 						end
-						--game over
 						f_storyboard('data/screenpack/gameover.def')
-						--reset title screen fading
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.rosterMode == 'event' then
 							playBGM(bgmEvents)
@@ -1495,10 +1512,9 @@ function f_selectAdvance()
 						end
 						return
 					end
-				--next match available
+				--Next Match Available
 				else
 					matchNo = matchNo + 1
-					--Load first stage selected for all next matches
 					if data.stageMenu == true then
 						if stageList == 0 then
 							stageNo = math.random(1, data.includestage)
@@ -1513,17 +1529,18 @@ function f_selectAdvance()
 						end
 					end
 				end
+			--Player 1 (IN LEFT SIDE):
 			else
-			--player 1 lost in special game mode or don't have any coins left to continue in Arcade
-				--if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
-				if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
+				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
+				if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
 					looseCnt = looseCnt + 1
-					--win screen
+					--Victory Screen
 					if data.gameMode == 'arcade' then
 						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
+				--DELETE THIS?
 					assert(loadfile('save/temp_sav.lua'))()
 					if data.tempBack == true then
 						data.tempBack = false
@@ -1535,15 +1552,11 @@ function f_selectAdvance()
 						end
 						return
 					end
-					--save record progress
-					f_records()
-					--result
+				--DELETE THIS?
+					f_records() --Save Stats
 					f_result('lost')
-					--game over
 					f_gameOver()
-					--intro
 					--f_storyboard('data/screenpack/intro.def')
-					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.rosterMode == 'event' then
 						playBGM(bgmEvents)
@@ -1551,7 +1564,7 @@ function f_selectAdvance()
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					end
 					return
-			--player 1 lost but can continue
+				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
 					assert(loadfile('save/temp_sav.lua'))()
@@ -1565,23 +1578,21 @@ function f_selectAdvance()
 						end
 						return
 					end
-					--save record progress
-					f_records()
-					--win screen
+					f_records() --Save Stats
+					--Victory Screen
 					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 						f_selectWin()
 					end
-					--continue screen
+					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--intro
 						--f_storyboard('data/screenpack/intro.def')
-						--reset title screen fading
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					end
-					if not data.quickCont then --if 'Quick Arcade Continue' option is disable
+					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
+					if not data.quickCont then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if serviceTeam == true then p1TeamEnd = false end
 						randomP1Portrait = false
@@ -1605,6 +1616,7 @@ function f_selectAdvance()
 								return
 							end
 						end
+					--Exit
 					elseif esc() then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
@@ -1627,14 +1639,11 @@ function f_selectAdvance()
 					end
 				end
 			end
-	--NO WINNERS (EXIT FROM PAUSE MENU FOR BOTH SIDES)
+		--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
 		else
-			--lose screen for survival, boss/bonus rush when select give up option in pause menu
-			--if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
-			if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
-				--counter
+			--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
+			if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
 				looseCnt = looseCnt + 1
-				--win screen
 				if data.gameMode == 'arcade' then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
@@ -1657,15 +1666,10 @@ function f_selectAdvance()
 					end
 					return
 				end
-				--save record progress
 				f_records()
-				--result
 				f_result('lost')
-				--game over
 				f_gameOver()
-				--intro
 				--f_storyboard('data/screenpack/intro.def')
-				--reset title screen fading
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if data.rosterMode == 'event' then
 					playBGM(bgmEvents)
@@ -1673,7 +1677,7 @@ function f_selectAdvance()
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
 				return
-		--Continue screen for Arcade when select give up option in pause menu
+			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
 				looseCnt = looseCnt + 1
 				assert(loadfile('save/temp_sav.lua'))()
@@ -1687,9 +1691,7 @@ function f_selectAdvance()
 					end
 					return
 				end
-				--save record progress
 				f_records()
-				--win screen
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 						f_selectWin()
@@ -1699,17 +1701,14 @@ function f_selectAdvance()
 						f_selectWin()
 					end
 				end
-				--continue screen
 				f_continue()
-				if data.continue == 2 then --Continue = NO
-					--intro
+				if data.continue == 2 then
 					--f_storyboard('data/screenpack/intro.def')
-					--reset title screen fading
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					return
 				end
-				if not data.quickCont then --if 'Quick Arcade Continue' option is disable
+				if not data.quickCont then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						if serviceTeam == true then p2TeamEnd = false end
@@ -1751,7 +1750,6 @@ function f_selectAdvance()
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					return
 				end
-				--Load first stage selected for all next matches
 				if data.stageMenu == true then
 					if stageList == 0 then
 						stageNo = math.random(1, data.includestage)
