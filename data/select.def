@@ -121,7 +121,7 @@
 ;===================================================================================
 ; INSERT YOUR PLAYABLE CHARACTERS BELOW (120 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
 ;===================================================================================
-Kung Fu Man, stages/Mountainside Temple.def, order=1, 1=Suave Dude/Minion/Minion.def, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+Kung Fu Man, stages/Mountainside Temple/Lobby.def, order=1, 1=Suave Dude/Minion/Minion.def, 2=Strength Training, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
 randomselect
 randomselect
@@ -133,7 +133,8 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude, stages/Suave's Corridor.def, boss=1, single=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, boss=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+randomselect
 randomselect
 randomselect
 randomselect
@@ -243,15 +244,15 @@ randomselect
 ;===========================================================
 ; INSERT YOUR BOSS CHARACTERS BELOW
 ;===========================================================
-Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple - Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
-Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple - Roof.def, boss=1, includestage=0, order=4
-Suave Dude/Minion/Minion.def, stages/Mountainside Temple.def, boss=1, order=1
+Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
+Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple/Roof Night.def, boss=1, includestage=0, order=4
+Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1, order=1
 ;===========================================================
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
 Dragon Claw, stages/Far Mountains.def, single=1, includestage=0, order=4
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple - Hidden Path.def, single=1, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
@@ -307,17 +308,23 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
  ;Put extra stages here. They will be available in VS and Watch modes.
  ;For example, you can insert "stages/mybg.def".
 stages/Training Room.def
-stages/Training Room 2.def
-stages/Mountainside Temple.def, music=sound/Temple.mp3
-stages/Mountainside Temple - Hidden Path.def
+stages/Mountainside Temple/Hidden Path.def
+stages/Mountainside Temple/Hidden Path Night.def
+stages/Mountainside Temple/Outside.def
+stages/Mountainside Temple/Lobby.def, music=sound/Temple.mp3
+stages/Mountainside Temple/Lobby Night.def
+stages/Mountainside Temple/Lobby 2 Night.def
+stages/Mountainside Temple/Dark Corridor.def
+stages/Mountainside Temple/Winter.def
 stages/China.def
+stages/Secret Hall.def
 stages/HD TEST/Australian Outback.def
 stages/HD TEST/Fairy Day 4_3.def
 stages/HD TEST/Fairy Day 16_9.def
 stages/HD TEST/Aensland Castle.def
 stages/HD TEST/Training Room.def
 stages/HD TEST/Training Room(Scale).def
-
+stages/Training Room 2.def
 ;---------------------------------------------------------------------
 [Options]
  ;Here you set the maximum number of matches to fight before game ends

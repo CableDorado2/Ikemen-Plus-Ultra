@@ -755,7 +755,7 @@ function f_arc1_chapter3_1()
 	data.p1TeamMenu = {mode = 1, chars = 2}
 	data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def'], t_charAdd['kung fu girl']}
 	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 2, chars = 4}
+	data.p2TeamMenu = {mode = 1, chars = 4}
 	data.p2Char = {t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude']}
 	data.p2Pal = 1
 	setRoundTime(-1)
@@ -783,11 +783,17 @@ function f_arc1_chapter3_2()
 	playVideo("movie/KFM-Chapter 3-B.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_charAdd['kung fu man']}
+	remapInput(1, 2) --P1 controls p2 side
+	remapInput(2, 1) --P2 controls p1 side
+	setCom(2, 0)
+	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
+	data.p1In = 2
+	data.p2In = 2
+	data.p1TeamMenu = {mode = 2, chars = 3}
+	data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def'], t_charAdd['suave dude'], t_charAdd['kung fu girl']}
 	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 2, chars = 3}
-	data.p2Char = {t_charAdd['kung fu man/evil/evil kung fu man.def'], t_charAdd['suave dude'], t_charAdd['kung fu girl']}
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_charAdd['kung fu man']}
 	data.p2Pal = 1
 	setRoundTime(-1)
 	data.orderSelect = false
@@ -799,11 +805,11 @@ function f_arc1_chapter3_2()
 	data.storyNo = '1-3B'
 	setGameMode('story')
 	script.select.f_selectStory()
-	if script.select.winner == 1 then
+	if script.select.winner == 2 then
 		data.story1_4BUnlock = true
 		f_storyStatus()
 		f_arc1_chapter4_2()
-	elseif script.select.winner == 2 then
+	elseif script.select.winner == 1 then
 		data.story1_4CUnlock = true
 		f_storyStatus()
 		f_arc1_chapter4_3()

@@ -56,7 +56,7 @@ function f_rosterReset()
 		p1FaceY = 170
 		--Position of the character boxes for P2
 		if not data.p1SelectMenu then
-			p2FaceX = 2
+			p2FaceX = 2.5
 			p2FaceY = 170
 		end
 	end
@@ -115,9 +115,9 @@ function f_selectReset()
 		p2TeamEnd = true
 		p2SelEnd = true
 	end
-	if not data.p1SelectMenu then
-		p1SelEnd = true
-	end
+	--if not data.p1SelectMenu then
+		--p1SelEnd = true
+	--end
 	if not data.p2SelectMenu then
 		p2SelEnd = true
 	end
@@ -970,7 +970,7 @@ function f_selectSimple()
 			end
 		end
 		if winner > 0 then
-			--win screen
+			--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
@@ -1120,9 +1120,8 @@ function f_selectSimple()
 			end
 		end
 		f_aiLevel()
-		--order select screen
 		f_orderSelect()
-		--versus screen
+		--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
 				f_selectVersus()
@@ -1880,7 +1879,7 @@ function f_selectAdvance()
 		f_aiLevel()
 		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
 		f_orderSelect()
-		--versus screen
+		--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
 				f_selectVersus()
@@ -1978,7 +1977,7 @@ function f_selectStory()
 			end
 		end
 		if winner > 0 then
-			--win screen
+			--Victory Screen
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 					f_selectWin()
@@ -1997,7 +1996,7 @@ function f_selectStory()
 		end
 		f_aiLevel()
 		f_orderSelect()
-		--versus screen
+		--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
 				f_selectVersus()
@@ -3902,8 +3901,11 @@ function f_selectStage()
 			p1BG = false
 			randomP1Portrait = false
 			randomP2Portrait = false
+			--Info Text
 			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
 			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
+			txt_stageLocation = createTextImg(jgFnt, 0, 0, '', 159, 220)
+			txt_stageAuthor = createTextImg(jgFnt, 0, 0, '', 159, 230)
 			--Draw Stage Select Title BG
 			animDraw(f_animVelocity(selectSTBG2a, -1, 0))
 			animDraw(f_animVelocity(selectSTBG2b, -3, 0))
@@ -4025,6 +4027,7 @@ function f_selectStage()
 				animDraw(stage0M)
 			end
 		end
+		--Set Stage Text
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
 		if musicList == 0 then
 			musicNo = ''
@@ -4035,6 +4038,7 @@ function f_selectStage()
 		else
 			musicNo = ' ' .. musicList-2 .. ''
 		end
+		--Set BGM Text
 		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
 		if stageSelect == true then
 			textImgSetBank(txt_selStage, 5)
@@ -4046,6 +4050,30 @@ function f_selectStage()
 			textImgSetBank(txt_selectMusic, 5)
 			textImgDraw(txt_selStage)
 			textImgDraw(txt_selectMusic)
+		end
+		--Set Location Text
+		if t_selStages[stageList+1].location ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
+			if t_selStages[stageList+1].location ~= nil then
+				textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList+1].location)
+			else
+				textImgSetText(txt_stageLocation, 'LOCATION: ???')
+			end
+			textImgDraw(txt_stageLocation)
+		end
+		if t_selStages[stageList+1].location ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
+			textImgDraw(txt_stageLocation)
+		end
+		--Set Author Text
+		if t_selStages[stageList+1].author ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
+			if t_selStages[stageList+1].author ~= nil then
+				textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList+1].author)
+			else
+				textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+			end
+			textImgDraw(txt_stageAuthor)
+		end
+		if t_selStages[stageList+1].author ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
+			textImgDraw(txt_stageAuthor)
 		end
 		--Stage Select Timer
 		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then

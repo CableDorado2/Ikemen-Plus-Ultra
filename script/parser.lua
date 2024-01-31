@@ -383,6 +383,22 @@ for line in content:gmatch('[^\r\n]+') do
 				addStage(c)
 				data.includestage = data.includestage + 1
 				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
+				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n')
+				if location ~= nil then
+					location = location:gsub('^%s*(.-)%s*$', '%1')
+					location = location:gsub('\\', '/')
+					if location ~= '' then
+						t_selStages[row]['location'] = location
+					end
+				end
+				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n')
+				if author ~= nil then
+					author = author:gsub('^%s*(.-)%s*$', '%1')
+					author = author:gsub('\\', '/')
+					if author ~= '' then
+						t_selStages[row]['author'] = author
+					end
+				end
 				t_selStages[row]['stage'] = c
 				t_stageDef[c] = row
 			elseif c:match('music%s*=%s*') then

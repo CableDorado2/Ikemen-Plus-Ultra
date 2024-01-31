@@ -1,17 +1,29 @@
-table: 0DA580D0 {
-  [arcadestart] => table: 0DA580D0 {
-                     [wins] => 2
-                     [offset] => 0
+table: 0DAB3A70 {
+  [survivalend] => table: 0DAB3A70 {
+                     [offset] => 4
+                     [wins] => 16
                    }
-  [teamend] => table: 0DA580D0 {
-                 [wins] => 3
-                 [offset] => 2
-               }
-  [teamstart] => table: 0DA580D0 {
-                   [wins] => 1
-                   [offset] => 0
+  [arcadeend] => table: 0DAB3A70 {
+                   [offset] => 2
+                   [wins] => 4
                  }
-  [teammaxmatches] => table: 0DA580D0 {
+  [survivalstart] => table: 0DAB3A70 {
+                       [offset] => -3
+                       [wins] => 0
+                     }
+  [teamstart] => table: 0DAB3A70 {
+                   [offset] => 0
+                   [wins] => 1
+                 }
+  [teamend] => table: 0DAB3A70 {
+                 [offset] => 2
+                 [wins] => 3
+               }
+  [arcadestart] => table: 0DAB3A70 {
+                     [offset] => 0
+                     [wins] => 2
+                   }
+  [teammaxmatches] => table: 0DAB3A70 {
                         [1] => 1
                         [2] => 1
                         [3] => 1
@@ -23,11 +35,7 @@ table: 0DA580D0 {
                         [9] => 0
                         [10] => 0
                       }
-  [arcadeend] => table: 0DA580D0 {
-                   [wins] => 4
-                   [offset] => 2
-                 }
-  [arcademaxmatches] => table: 0DA580D0 {
+  [arcademaxmatches] => table: 0DAB3A70 {
                           [1] => 1
                           [2] => 1
                           [3] => 1
@@ -39,12 +47,4 @@ table: 0DA580D0 {
                           [9] => 0
                           [10] => 0
                         }
-  [survivalstart] => table: 0DA580D0 {
-                       [wins] => 0
-                       [offset] => -3
-                     }
-  [survivalend] => table: 0DA580D0 {
-                     [wins] => 16
-                     [offset] => 4
-                   }
 }
