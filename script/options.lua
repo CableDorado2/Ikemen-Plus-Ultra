@@ -332,6 +332,8 @@ function f_saveCfg()
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.stageType'] = data.stageType,
+		['data.stageInfo'] = data.stageInfo,
+		['data.charInfo'] = data.charInfo,
 		['data.winscreen'] = data.winscreen,
 		['data.ftcontrol'] = data.ftcontrol,
 		['data.debugMode'] = data.debugMode,
@@ -565,6 +567,8 @@ function f_systemDefault()
 		data.language = 'ENGLISH'
 		data.clock = 'Standard'
 		data.date = 'Type A'
+		data.charInfo = 'Author'
+		data.stageInfo = 'All'
 	end
 	data.vsDisplayWin = true
 	s_vsDisplayWin = 'Yes'
@@ -2694,10 +2698,12 @@ t_UICfg = {
 	{id = '', text = 'Clock Format',             varID = textImgNew(), varText = data.clock},
 	{id = '', text = 'Date Format',            	 varID = textImgNew(), varText = data.date},
 	{id = '', text = 'Versus Win Counter',  	 varID = textImgNew(), varText = s_vsDisplayWin},
+	{id = '', text = 'Character Information',    varID = textImgNew(), varText = data.charInfo},
 	{id = '', text = 'Character Presentation',   varID = textImgNew(), varText = data.charPresentation},
 	{id = '', text = 'Character Select Type',    varID = textImgNew(), varText = data.selectType},
 	{id = '', text = 'Palette Select',	    	 varID = textImgNew(), varText = data.palType},
 	{id = '', text = 'Stage Select',	         varID = textImgNew(), varText = data.stageType},
+	{id = '', text = 'Stage Information',        varID = textImgNew(), varText = data.stageInfo},
 	{id = '', text = 'Win Screen',	    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = 'Timers Settings',  	  	 varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Settings',  	  	 varID = textImgNew(), varText = ''},
@@ -2844,8 +2850,43 @@ function f_UICfg()
 						modified = 1
 					end
 				end
-			--Character Presentation Display Type
+			--Character Info Display
 			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+				if commandGetState(p1Cmd, 'r') and data.charInfo == 'None' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'Author'
+					modified = 1
+				--elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Author' then
+					--sndPlay(sysSnd, 100, 0)
+					--data.charInfo = 'Series'
+					--modified = 1
+				--elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Series' then
+					--sndPlay(sysSnd, 100, 0)
+					--data.charInfo = 'Title'
+					--modified = 1
+				--elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Title' then
+					--sndPlay(sysSnd, 100, 0)
+					--data.charInfo = 'All'
+					--modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Author' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'None'
+					modified = 1
+				--elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Series' then
+					--sndPlay(sysSnd, 100, 0)
+					--data.charInfo = 'Author'
+					--modified = 1
+				--elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Title' then
+					--sndPlay(sysSnd, 100, 0)
+					--data.charInfo = 'Series'
+					--modified = 1
+				--elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'All' then
+					--sndPlay(sysSnd, 100, 0)
+					--data.charInfo = 'Title'
+					--modified = 1
+				end
+			--Character Presentation Display Type
+			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charPresentation == 'Portrait' then
 					sndPlay(sysSnd, 100, 0)
 					data.charPresentation = 'Sprite'
@@ -2868,7 +2909,7 @@ function f_UICfg()
 					modified = 1	
 				end
 			--Character Select Display Type
-			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
@@ -2888,7 +2929,7 @@ function f_UICfg()
 					end
 				end
 			--Palette Select Display Type
-			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				sndPlay(sysSnd, 100, 0)
 				if commandGetState(p1Cmd, 'r') and data.palType == 'Classic' then
 					data.palType = 'Modern'
@@ -2904,7 +2945,7 @@ function f_UICfg()
 					modified = 1
 				end
 			--Stage Select Display Type
-			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.stageType == 'Classic' then
 					sndPlay(sysSnd, 100, 0)
 					data.stageType = 'Modern'
@@ -2922,8 +2963,43 @@ function f_UICfg()
 					data.stageType = 'Classic'
 					modified = 1
 				end
+			--Stage Info Display
+			elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+				if commandGetState(p1Cmd, 'r') and data.stageInfo == 'None' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'Author'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.stageInfo == 'Author' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'Location'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.stageInfo == 'Location' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'Time'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.stageInfo == 'Time' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'All'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == 'Author' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'None'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == 'Location' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'Author'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == 'Time' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'Location'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.stageInfo == 'All' then
+					sndPlay(sysSnd, 100, 0)
+					data.stageInfo = 'Time'
+					modified = 1
+				end
 			--Win Screen Display Type
-			elseif UICfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == 'Classic' then
 					sndPlay(sysSnd, 100, 0)
 					data.winscreen = 'Modern'
@@ -2950,16 +3026,16 @@ function f_UICfg()
 					modified = 1
 				end
 			--Timers Settings
-			elseif UICfg == 10 and btnPalNo(p1Cmd) > 0 then
+			elseif UICfg == 12 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				f_timeCfg()
 			--Default Values
-			elseif UICfg == 11 and btnPalNo(p1Cmd) > 0 then
+			elseif UICfg == 13 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 			--BACK
-			elseif UICfg == 12 and btnPalNo(p1Cmd) > 0 then
+			elseif UICfg == 14 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3010,11 +3086,13 @@ function f_UICfg()
 		t_UICfg[2].varText = data.clock
 		t_UICfg[3].varText = data.date
 		t_UICfg[4].varText = s_vsDisplayWin
-		t_UICfg[5].varText = data.charPresentation
-		t_UICfg[6].varText = data.selectType
-		t_UICfg[7].varText = data.palType
-		t_UICfg[8].varText = data.stageType
-		t_UICfg[9].varText = data.winscreen
+		t_UICfg[5].varText = data.charInfo
+		t_UICfg[6].varText = data.charPresentation
+		t_UICfg[7].varText = data.selectType
+		t_UICfg[8].varText = data.palType
+		t_UICfg[9].varText = data.stageType
+		t_UICfg[10].varText = data.stageInfo
+		t_UICfg[11].varText = data.winscreen
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
 				if t_UICfg[i].varID ~= nil then

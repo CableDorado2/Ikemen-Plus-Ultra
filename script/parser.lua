@@ -380,17 +380,6 @@ for line in content:gmatch('[^\r\n]+') do
 						end
 					end
 				end
-				addStage(c)
-				data.includestage = data.includestage + 1
-				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
-				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n')
-				if location ~= nil then
-					location = location:gsub('^%s*(.-)%s*$', '%1')
-					location = location:gsub('\\', '/')
-					if location ~= '' then
-						t_selStages[row]['location'] = location
-					end
-				end
 				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n')
 				if author ~= nil then
 					author = author:gsub('^%s*(.-)%s*$', '%1')
@@ -398,7 +387,35 @@ for line in content:gmatch('[^\r\n]+') do
 					if author ~= '' then
 						t_selStages[row]['author'] = author
 					end
+				--else --Writte Blank author to avoid issues
+					--author = ''
+					--t_selStages[row]['author'] = author
 				end
+				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n')
+				if location ~= nil then
+					location = location:gsub('^%s*(.-)%s*$', '%1')
+					location = location:gsub('\\', '/')
+					if location ~= '' then
+						t_selStages[row]['location'] = location
+					end
+				--else --Writte Blank location to avoid issues
+					--location = ''
+					--t_selStages[row]['location'] = location
+				end
+				local daytime = tmp:match('\n%s*time%s*=%s*([^;\n]+)%s*;?.*\n')
+				if daytime ~= nil then
+					daytime = daytime:gsub('^%s*(.-)%s*$', '%1')
+					daytime = daytime:gsub('\\', '/')
+					if daytime ~= '' then
+						t_selStages[row]['daytime'] = daytime
+					end
+				--else --Writte Blank daytime to avoid issues
+					--daytime = ''
+					--t_selStages[row]['daytime'] = daytime
+				end
+				addStage(c)
+				data.includestage = data.includestage + 1
+				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
 				t_stageDef[c] = row
 			elseif c:match('music%s*=%s*') then
@@ -531,6 +548,39 @@ for i=1, #t_selChars do
 				if t_selChars[i].includestage == nil or t_selChars[i].includestage == 1 then
 					data.includestage = data.includestage + 1
 				end
+				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n')
+				if author ~= nil then
+					author = author:gsub('^%s*(.-)%s*$', '%1')
+					author = author:gsub('\\', '/')
+					if author ~= '' then
+						t_selStages[row]['author'] = author
+					end
+				--else --Writte Blank author to avoid issues
+					--author = ''
+					--t_selStages[row]['author'] = author
+				end
+				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n')
+				if location ~= nil then
+					location = location:gsub('^%s*(.-)%s*$', '%1')
+					location = location:gsub('\\', '/')
+					if location ~= '' then
+						t_selStages[row]['location'] = location
+					end
+				--else --Writte Blank location to avoid issues
+					--location = ''
+					--t_selStages[row]['location'] = location
+				end
+				local daytime = tmp:match('\n%s*Time%s*=%s*([^;\n]+)%s*;?.*\n')
+				if daytime ~= nil then
+					daytime = daytime:gsub('^%s*(.-)%s*$', '%1')
+					daytime = daytime:gsub('\\', '/')
+					if daytime ~= '' then
+						t_selStages[row]['daytime'] = daytime
+					end
+				--else --Writte Blank daytime to avoid issues
+					--daytime = ''
+					--t_selStages[row]['daytime'] = daytime
+				end
 				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
 				t_selChars[i].stage[j] = #t_selStages
@@ -642,7 +692,7 @@ for file in lfs.dir[[.\\sound\\]] do --Read Dir
 end
 
 --Extra music
---t_selMusic[4].bgmfile = 'sound/Quick Versus Songs/Random 1.mp3'
+--t_selMusic[4].bgmfile = 'sound/Random 1.mp3'
 --t_selMusic[4].bgmname = 'Extra Song Name'
 --t_selMusic[4].bgmchar = 999
 

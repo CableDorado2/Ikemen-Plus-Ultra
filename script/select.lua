@@ -2261,6 +2261,8 @@ animSetWindow(charBG3, 200, 20, 120, 140)
 --;===========================================================
 txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
+txt_p1Author = createTextImg(jgFnt, 0, 1, '', 159, 23)
+txt_p2Author = createTextImg(jgFnt, 0, -1, '', 159, 23)
 
 function f_selectScreen()
 	--draw
@@ -3212,6 +3214,11 @@ function f_p1SelectMenu()
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
 				end
+				if data.charInfo == 'Author' then
+					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
+						textImgDraw(txt_p1Author) --Draw Author Info Text
+					end
+				end
 			end
 		end
 		local nameX, nameY = f_drawSelectName(txt_p1Name, 4, data.t_p1selected, 10, 144, 4, 7) --Location of the name of P1 in the character select
@@ -3348,8 +3355,17 @@ function f_p1SelectMenu()
 				animDraw(arrowsDMR)
 				animUpdate(arrowsDMR)
 			end
-			--Draw Character Select Hint
-			textImgDraw(txt_palHint)
+			if data.charInfo == 'Author' then
+				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
+					if t_selChars[p1Cell+1].author ~= nil then
+						textImgSetText(txt_p1Author, 'AUTHOR: '..t_selChars[p1Cell+1].author)
+					else --Set Text for Random Select
+						textImgSetText(txt_p1Author, 'AUTHOR: ???')
+					end
+					textImgDraw(txt_p1Author) --Draw Author Info Text
+				end
+			end
+			textImgDraw(txt_palHint) --Draw Character Select Hint
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
 			textImgPosDraw(txt_p1Name, 10, nameY)
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
@@ -3904,8 +3920,9 @@ function f_selectStage()
 			--Info Text
 			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
 			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
+			txt_stageAuthor = createTextImg(jgFnt, 0, 0, '', 159, 235)
 			txt_stageLocation = createTextImg(jgFnt, 0, 0, '', 159, 220)
-			txt_stageAuthor = createTextImg(jgFnt, 0, 0, '', 159, 230)
+			txt_stageDayTime = createTextImg(jgFnt, 0, 0, '', 159, 190)
 			--Draw Stage Select Title BG
 			animDraw(f_animVelocity(selectSTBG2a, -1, 0))
 			animDraw(f_animVelocity(selectSTBG2b, -3, 0))
@@ -4029,6 +4046,7 @@ function f_selectStage()
 		end
 		--Set Stage Text
 		textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
+		--Set BGM Text
 		if musicList == 0 then
 			musicNo = ''
 		elseif musicList == 1 then
@@ -4038,7 +4056,6 @@ function f_selectStage()
 		else
 			musicNo = ' ' .. musicList-2 .. ''
 		end
-		--Set BGM Text
 		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
 		if stageSelect == true then
 			textImgSetBank(txt_selStage, 5)
@@ -4051,30 +4068,27 @@ function f_selectStage()
 			textImgDraw(txt_selStage)
 			textImgDraw(txt_selectMusic)
 		end
-		--Set Location Text
-		if t_selStages[stageList+1].location ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
-			if t_selStages[stageList+1].location ~= nil then
-				textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList+1].location)
-			else
-				textImgSetText(txt_stageLocation, 'LOCATION: ???')
-			end
-			textImgDraw(txt_stageLocation)
-		end
-		if t_selStages[stageList+1].location ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
-			textImgDraw(txt_stageLocation)
-		end
 		--Set Author Text
-		if t_selStages[stageList+1].author ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
-			if t_selStages[stageList+1].author ~= nil then
-				textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList+1].author)
-			else
-				textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
-			end
-			textImgDraw(txt_stageAuthor)
+		if stageList == 0 then
+			textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+		else
+			if t_selStages[stageList+0].author ~= nil and t_selStages[stageList+0].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList+0].author) end
 		end
-		if t_selStages[stageList+1].author ~= nil or getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Random' then
-			textImgDraw(txt_stageAuthor)
+		if data.stageInfo == 'Author' or data.stageInfo == 'All' then textImgDraw(txt_stageAuthor) end --Draw Info Text
+		--Set Location Text
+		if stageList == 0 then
+			textImgSetText(txt_stageLocation, 'LOCATION: ???')
+		else
+			if t_selStages[stageList+0].location ~= nil and t_selStages[stageList+0].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList+0].location) end
 		end
+		if data.stageInfo == 'Location' or data.stageInfo == 'All' then textImgDraw(txt_stageLocation) end
+		--Set Time Text
+		if stageList == 0 then
+			textImgSetText(txt_stageDayTime, 'TIME: ???')
+		else
+			if t_selStages[stageList+0].daytime ~= nil and t_selStages[stageList+0].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList+0].daytime) end
+		end
+		if data.stageInfo == 'Time' or data.stageInfo == 'All' then textImgDraw(txt_stageDayTime) end
 		--Stage Select Timer
 		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
 			if data.stageType == 'Classic' then
