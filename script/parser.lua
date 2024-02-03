@@ -646,6 +646,8 @@ end
 --Generate Table with Music List
 t_selMusic = {
 	{bgmfile = '', bgmname = 'AUTO', bgmchar = 0},
+	{bgmfile = '', bgmname = 'LEFT SIDE CHARACTER', bgmchar = 0},
+	{bgmfile = '', bgmname = 'RIGHT SIDE CHARACTER', bgmchar = 0},
 	{bgmfile = '', bgmname = 'RANDOM', bgmchar = 0},
 	{bgmfile = '', bgmname = 'MUTE', bgmchar = 0}
 }

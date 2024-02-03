@@ -97,6 +97,8 @@ end
 function f_stageSelectReset()
 stageSelect = true
 songSelect = false
+p1song = false
+p2song = false
 stageAnnouncer = false
 announcerTimer = 0
 dontTouch = false
@@ -2261,8 +2263,8 @@ animSetWindow(charBG3, 200, 20, 120, 140)
 --;===========================================================
 txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
-txt_p1Author = createTextImg(jgFnt, 0, 1, '', 159, 23)
-txt_p2Author = createTextImg(jgFnt, 0, -1, '', 159, 23)
+txt_p1Author = createTextImg(jgFnt, 0, 1, '', 0, 20, .65,.65)
+txt_p2Author = createTextImg(jgFnt, 0, -1, '', 320, 20, .65,.65)
 
 function f_selectScreen()
 	--draw
@@ -3583,7 +3585,12 @@ function f_p2SelectMenu()
 				end
 				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 					f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 290 - 28*(j-1), 133, t_selected[j].up)
-				end	
+				end
+				if data.charInfo == 'Author' then
+					if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == 'Random' then
+						textImgDraw(txt_p2Author) --Draw Author Info Text
+					end
+				end
 			end
 		end
 		local nameX, nameY = f_drawSelectNameP2(txt_p2Name, 1, t_selected, 309, 144, -4, 7)
@@ -3719,6 +3726,16 @@ function f_p2SelectMenu()
 				animUpdate(arrowsUMR2)
 				animDraw(arrowsDMR2)
 				animUpdate(arrowsDMR2)
+			end
+			if data.charInfo == 'Author' then
+				if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == 'Random' then
+					if t_selChars[p2Cell+1].author ~= nil then
+						textImgSetText(txt_p2Author, 'AUTHOR: '..t_selChars[p2Cell+1].author)
+					else --Set Text for Random Select
+						textImgSetText(txt_p2Author, 'AUTHOR: ???')
+					end
+					textImgDraw(txt_p2Author) --Draw Author Info Text
+				end
 			end
 			textImgDraw(txt_palHint)
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
@@ -3909,9 +3926,31 @@ end
 --;===========================================================
 function f_selectStage()
 	if data.stageMenu then --If Stage Select is Enabled
+	--Logic For Characters Song
+		p1charSong = ''
+		if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
+			p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
+			p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic
+			p1song = true
+		else --If there no music assigned for left side character
+			p1song = false
+		end
+		p2charSong = ''
+		if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
+			p2charSong = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
+			p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
+			p2song = true
+		else --If there no music assigned for right side character
+			p2song = false
+		end
+	--
 		if data.stageType == 'Classic' then
+			--Info Text
 			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
 			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
+			txt_stageAuthor = createTextImg(jgFnt, 0, 1, '', 206.5, 186,0.5,0.5)
+			txt_stageLocation = createTextImg(jgFnt, 0, 0, '', 159, 227,0.5,0.5)
+			txt_stageDayTime = createTextImg(jgFnt, 0, -1, '', 112, 186,0.5,0.5)
 		elseif data.stageType == 'Modern' then
 			p2BG = false
 			p1BG = false
@@ -3989,6 +4028,8 @@ function f_selectStage()
 					end
 					if songSelect == true then
 						musicList = musicList + 1
+						if musicList == 1 and not p1song then musicList = musicList + 1 end --Skip Player 1 Song if is not assigned
+						if musicList == 2 and not p2song then musicList = musicList + 1 end --Skip Player 2 Song if is not assigned
 						if musicList > #t_selMusic-1 then musicList = 0 end
 					end
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
@@ -3999,6 +4040,8 @@ function f_selectStage()
 					end
 					if songSelect == true then
 						musicList = musicList - 1
+						if musicList == 1 and not p1song then musicList = musicList - 1 end --Skip Player 1 Song if is not assigned
+						if musicList == 2 and not p2song then musicList = musicList - 1 end --Skip Player 2 Song if is not assigned
 						if musicList < 0 then musicList = #t_selMusic-1 end
 					end
 				end
@@ -4053,8 +4096,12 @@ function f_selectStage()
 			musicNo = ''
 		elseif musicList == 2 then
 			musicNo = ''
+		elseif musicList == 3 then
+			musicNo = ''
+		elseif musicList == 4 then
+			musicNo = ''
 		else
-			musicNo = ' ' .. musicList-2 .. ''
+			musicNo = ' ' .. musicList-4 .. ''
 		end
 		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
 		if stageSelect == true then
@@ -4069,26 +4116,32 @@ function f_selectStage()
 			textImgDraw(txt_selectMusic)
 		end
 		--Set Author Text
-		if stageList == 0 then
-			textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
-		else
-			if t_selStages[stageList+0].author ~= nil and t_selStages[stageList+0].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList+0].author) end
+		if data.stageInfo == 'Author' or data.stageInfo == 'All' then
+			if stageList == 0 then
+				textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+			else
+				if t_selStages[stageList+0].author ~= nil and t_selStages[stageList+0].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList+0].author) end
+			end
+			textImgDraw(txt_stageAuthor) --Draw Info Text
 		end
-		if data.stageInfo == 'Author' or data.stageInfo == 'All' then textImgDraw(txt_stageAuthor) end --Draw Info Text
 		--Set Location Text
-		if stageList == 0 then
-			textImgSetText(txt_stageLocation, 'LOCATION: ???')
-		else
-			if t_selStages[stageList+0].location ~= nil and t_selStages[stageList+0].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList+0].location) end
+		if data.stageInfo == 'Location' or data.stageInfo == 'All' then
+			if stageList == 0 then
+				textImgSetText(txt_stageLocation, 'LOCATION: ???')
+			else
+				if t_selStages[stageList+0].location ~= nil and t_selStages[stageList+0].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList+0].location) end
+			end
+			textImgDraw(txt_stageLocation)
 		end
-		if data.stageInfo == 'Location' or data.stageInfo == 'All' then textImgDraw(txt_stageLocation) end
 		--Set Time Text
-		if stageList == 0 then
-			textImgSetText(txt_stageDayTime, 'TIME: ???')
-		else
-			if t_selStages[stageList+0].daytime ~= nil and t_selStages[stageList+0].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList+0].daytime) end
+		if data.stageInfo == 'Time' or data.stageInfo == 'All' then
+			if stageList == 0 then
+				textImgSetText(txt_stageDayTime, 'TIME: ???')
+			else
+				if t_selStages[stageList+0].daytime ~= nil and t_selStages[stageList+0].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList+0].daytime) end
+			end
+			textImgDraw(txt_stageDayTime)
 		end
-		if data.stageInfo == 'Time' or data.stageInfo == 'All' then textImgDraw(txt_stageDayTime) end
 		--Stage Select Timer
 		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
 			if data.stageType == 'Classic' then
@@ -4205,10 +4258,14 @@ function f_assignMusic()
 	end
 	if musicList == 0 then --Auto Song
 		playBGM(track)
-	elseif musicList == 1 then --Random Song
+	elseif musicList == 1 then --Player 1 Song
+		playBGM(p1charSong)
+	elseif musicList == 2 then --Player 2 Song
+		playBGM(p2charSong)
+	elseif musicList == 3 then --Random Song
 		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
 		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
-	elseif musicList == 2 then --Mute Song
+	elseif musicList == 4 then --Mute Song
 		playBGM(bgmNothing)
 	else --Sound Folder Song
 		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.mp3')
@@ -4222,20 +4279,15 @@ function f_musicPreview()
 		song = math.random(1,#t_selStages[stageList].music)
 		song = t_selStages[stageList].music[song].bgmusic
 	end
-	--if not data.stageMenu then --Extra Song for a Character logic from select.def
-		--if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
-			--song = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
-			--song = t_selChars[data.t_p2selected[1].cel+1].music[song].bgmusic
-		--elseif t_selStages[stageList].music ~= nil then
-			--song = math.random(1,#t_selStages[stageList].music)
-			--song = t_selStages[stageList].music[song].bgmusic
-		--end
-	--end
 	if musicList == 0 then
 		playBGM(song)
-	elseif musicList == 1 then
+	elseif musicList == 1 and p1song then
+		playBGM(p1charSong)
+	elseif musicList == 2 and p2song then
+		playBGM(p2charSong)
+	elseif musicList == 3 then
 		--None because Random Preview Will be different of selected
-	elseif musicList == 2 then
+	elseif musicList == 4 then
 		--playBGM(bgmNothing)
 	else
 		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.mp3')
