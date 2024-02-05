@@ -6,8 +6,8 @@
 [Info]
  ;Name of the stage.
 name = "Outside Night"
-location = Mountainside Temple
-
+location = "Mountainside Temple"
+author = "hekutta"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

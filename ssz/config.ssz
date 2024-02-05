@@ -17,7 +17,7 @@ const bool AspectRatio = true;
 
 const float GlVol = 0.8;
 const float SEVol = 0.5;
-const float BGMVol = 0.48;
+const float BGMVol = 0.21;
 const float PanStr = 0.8;
 
 const float Super_TargetDefenceMul = 1.5;

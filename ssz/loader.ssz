@@ -38,7 +38,7 @@ bool stage()
       .sc.syst.selinf.sel.stagelist[
         .m.rand(0, #.sc.syst.selinf.sel.stagelist-1)].def;
   else:
-    stag = .sc.syst.selinf.sel.stagelist[.sc.syst.selinf.sel.curStageNo-1].def;
+    stag = .sc.syst.selinf.sel.stagelist[.sc.syst.selinf.sel.curStageNo-3].def; //when curStageNo-3 start the stages added in select.def    ORIGINAL: curStageNo-1].def
   }
   if(#.chr.stg > 0 && .s.equ(stag, .chr.stg~def)) ret true;
   .chr.stg.new(1);

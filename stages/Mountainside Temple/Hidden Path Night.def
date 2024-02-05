@@ -4,8 +4,8 @@
 
 [Info]
 name = "Night Hidden Path"
-location = Mountainside Temple
-
+location = "Mountainside Temple"
+author = "hekutta"
 ;--------------------------------------------------------
 
 [Camera]

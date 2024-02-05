@@ -5,7 +5,7 @@ onlinegame = false
 replaygame = false
 coinSystem = true
 data.tagmode = 1
-data.includestage = 0
+data.includestage = 2 --[0]: Random, [1]: Auto Stage Left Side, [2]: Auto Stage Right Side
 
 --;===========================================================
 --; INITIAL ACTIONS
@@ -267,7 +267,7 @@ end
 --add characters and stages using select.def instead of select.lua
 --start_time = os.time()
 t_orderChars = {}
-t_stageDef = {}
+t_stageDef = {} --t_stageDef = {['randomstage'] = 0, ['p1stage'] = 1, ['p2stage'] = 2}
 t_charAdd = {}
 local section = 0
 local file = io.open("data/select.def","r")
@@ -283,7 +283,12 @@ for line in content:gmatch('[^\r\n]+') do
 		t_selChars = {}
 		section = 1
 	elseif line:match('^%s*%[%s*extrastages%s*%]') then
-		t_selStages = {}
+		t_selStages = {[1] = 'Reserved Slot', [2] = 'Reserved Slot'}
+		--t_selStages = {
+			--[0] = {['name'] = 'Random Select', ['stage'] = 'randomstage', ['author'] = '???', ['location'] = '???', ['daytime'] = '???'},
+			--[1] = {['name'] = 'Left Side Character', ['stage'] = 'P1STAGE', ['author'] = ''???',', ['location'] = ''???',', ['daytime'] = '???'},
+			--[2] = {['name'] = 'Right Side Character', ['stage'] = 'P2STAGE', ['author'] = ''???',', ['location'] = ''???',', ['daytime'] = '???'},
+		--}
 		section = 2
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
@@ -380,10 +385,9 @@ for line in content:gmatch('[^\r\n]+') do
 						end
 					end
 				end
-				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n')
+				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*AUTHOR%s*=%s*([^;\n]+)%s*;?.*\n')
 				if author ~= nil then
-					author = author:gsub('^%s*(.-)%s*$', '%1')
-					author = author:gsub('\\', '/')
+					author = author:gsub('^["%s]*(.-)["%s]*$', '%1')
 					if author ~= '' then
 						t_selStages[row]['author'] = author
 					end
@@ -391,10 +395,9 @@ for line in content:gmatch('[^\r\n]+') do
 					--author = ''
 					--t_selStages[row]['author'] = author
 				end
-				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n')
+				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*LOCATION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if location ~= nil then
-					location = location:gsub('^%s*(.-)%s*$', '%1')
-					location = location:gsub('\\', '/')
+					location = location:gsub('^["%s]*(.-)["%s]*$', '%1')
 					if location ~= '' then
 						t_selStages[row]['location'] = location
 					end
@@ -402,10 +405,9 @@ for line in content:gmatch('[^\r\n]+') do
 					--location = ''
 					--t_selStages[row]['location'] = location
 				end
-				local daytime = tmp:match('\n%s*time%s*=%s*([^;\n]+)%s*;?.*\n')
+				local daytime = tmp:match('\n%s*daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*dayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DAYTIME%s*=%s*([^;\n]+)%s*;?.*\n')
 				if daytime ~= nil then
-					daytime = daytime:gsub('^%s*(.-)%s*$', '%1')
-					daytime = daytime:gsub('\\', '/')
+					daytime = daytime:gsub('^["%s]*(.-)["%s]*$', '%1')
 					if daytime ~= '' then
 						t_selStages[row]['daytime'] = daytime
 					end
@@ -415,6 +417,16 @@ for line in content:gmatch('[^\r\n]+') do
 				end
 				addStage(c)
 				data.includestage = data.includestage + 1
+				--local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
+				--if name ~= nil then
+					--name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
+					--if name ~= '' then
+						--t_selStages[row]['name'] = name
+					--end
+				--else --Writte Blank name to avoid issues
+					--name = ''
+					--t_selStages[row]['name'] = name
+				--end
 				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
 				t_stageDef[c] = row
@@ -548,10 +560,9 @@ for i=1, #t_selChars do
 				if t_selChars[i].includestage == nil or t_selChars[i].includestage == 1 then
 					data.includestage = data.includestage + 1
 				end
-				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n')
+				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*AUTHOR%s*=%s*([^;\n]+)%s*;?.*\n')
 				if author ~= nil then
-					author = author:gsub('^%s*(.-)%s*$', '%1')
-					author = author:gsub('\\', '/')
+					author = author:gsub('^["%s]*(.-)["%s]*$', '%1')
 					if author ~= '' then
 						t_selStages[row]['author'] = author
 					end
@@ -559,10 +570,9 @@ for i=1, #t_selChars do
 					--author = ''
 					--t_selStages[row]['author'] = author
 				end
-				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n')
+				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*LOCATION%s*=%s*([^;\n]+)%s*;?.*\n')
 				if location ~= nil then
-					location = location:gsub('^%s*(.-)%s*$', '%1')
-					location = location:gsub('\\', '/')
+					location = location:gsub('^["%s]*(.-)["%s]*$', '%1')
 					if location ~= '' then
 						t_selStages[row]['location'] = location
 					end
@@ -570,10 +580,9 @@ for i=1, #t_selChars do
 					--location = ''
 					--t_selStages[row]['location'] = location
 				end
-				local daytime = tmp:match('\n%s*Time%s*=%s*([^;\n]+)%s*;?.*\n')
+				local daytime = tmp:match('\n%s*daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*dayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DAYTIME%s*=%s*([^;\n]+)%s*;?.*\n')
 				if daytime ~= nil then
-					daytime = daytime:gsub('^%s*(.-)%s*$', '%1')
-					daytime = daytime:gsub('\\', '/')
+					daytime = daytime:gsub('^["%s]*(.-)["%s]*$', '%1')
 					if daytime ~= '' then
 						t_selStages[row]['daytime'] = daytime
 					end
@@ -581,6 +590,16 @@ for i=1, #t_selChars do
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
 				end
+				--local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
+				--if name ~= nil then
+					--name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
+					--if name ~= '' then
+						--t_selStages[row]['name'] = name
+					--end
+				--else --Writte Blank name to avoid issues
+					--name = ''
+					--t_selStages[row]['name'] = name
+				--end
 				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
 				t_selChars[i].stage[j] = #t_selStages

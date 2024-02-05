@@ -1,7 +1,7 @@
 [Info]
 name= "Night Roof"
-location = Mountainside Temple
-
+location = "Mountainside Temple"
+author = "hekutta"
 ;===============================
 [Camera]
 startx         = 0                
