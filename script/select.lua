@@ -4534,8 +4534,8 @@ function f_orderSelect()
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
 			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-				drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-				drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+				drawOrderPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+				drawOrderPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			end	
 		--end loop after at least 120 ticks (extended if sound has been triggered)
 			--draw info text
@@ -5017,8 +5017,8 @@ function f_selectVersus()
 			end
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
-			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+			drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			--set random hints for versus screen
 			if randomHintVS == 1 then
 				textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")
@@ -5179,8 +5179,8 @@ function f_selectWin()
 				if data.winscreen == 'Classic' then
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
-					drawPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
-					drawPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+					drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+					drawLoserPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
 					animSetWindow(wincharBGC2, 169, 20, 120, 140)
 					animDraw(f_animVelocity(quoteBG, 2, 0))
@@ -5190,31 +5190,31 @@ function f_selectWin()
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					if p1numChars == 1 then
-						drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
+						drawWinPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
 					elseif p1numChars == 2 then	--Your 2nd char portrait appears in modern win screen
-						drawPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
-						drawPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
 					elseif p1numChars == 3 then	--Your 3rd char portrait appears in modern win screen	
-						drawPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
-						drawPortrait(data.t_p1selected[2].cel, 205, 15, 1, 1)
-						drawPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[2].cel, 205, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
 					elseif p1numChars == 4 then	--Your 4th char portrait appears in modern win screen
-						drawPortrait(data.t_p1selected[4].cel, 205, 15, 1, 1)
-						drawPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
-						drawPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
-						drawPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[4].cel, 205, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
+						drawWinPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
 					end
 					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
 					--f_drawWinnerName(txt_winnername, 0, data.t_p1selected, 20, 177, 0, 14)
 				end	
 			else--if winner == 2 then
 				if data.winscreen == 'Classic' then
-					drawPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+					drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
 					animSetWindow(wincharBGC2, 169, 20, 120, 140)
-					drawPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+					drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
 					--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14)
@@ -5222,19 +5222,19 @@ function f_selectWin()
 					animDraw(f_animVelocity(wincharBG, 2, 0))
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					if p2numChars == 1 then
-						drawPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
 					elseif p2numChars == 2 then
-						drawPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
-						drawPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
 					elseif p2numChars == 3 then
-						drawPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
-						drawPortrait(data.t_p2selected[2].cel, 205, 15, 1, 1)
-						drawPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[2].cel, 205, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
 					elseif p2numChars == 4 then
-						drawPortrait(data.t_p2selected[4].cel, 205, 15, 1, 1)
-						drawPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
-						drawPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
-						drawPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[4].cel, 205, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
+						drawWinPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
 					end
 					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
 					--f_drawWinnerName(txt_winnername, 0, data.t_p2selected, 20, 177, 0, 14)
