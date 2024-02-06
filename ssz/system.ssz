@@ -16,25 +16,55 @@ public &Select
     public ^/char def;
     public ^/char name;
     public ^/char sprite;
-    public ^&.sff.Sprite sportrait;
-    public ^&.sff.Sprite lportrait;
-	public ^&.sff.Sprite vsportrait;
-    public ^&.sff.Sprite svsportrait;
-    public ^&.sff.Sprite winportrait;
+	public ^/char anim;
+    public ^&.sff.Sprite facePortrait;
+    public ^&.sff.Sprite bigPortrait;
+	public ^&.sff.Sprite orderPortrait;
+	public ^&.sff.Sprite vsPortrait;
+    public ^&.sff.Sprite winPortrait;
+	public ^&.sff.Sprite loserPortrait;
+	public ^&.sff.Sprite resultPortrait;
+	public ^&.sff.Sprite extraPortrait;
+	
+	public ^&.sff.Sprite standAnimPortrait;
   }
   public &Stage
   {
     public ^/char def;
     public ^/char name;
+	public ^/char sprite;
+	public ^/char anim;
+	public ^&.sff.Sprite miniStagePortrait;
+	public ^&.sff.Sprite bigStagePortrait;
+	public ^&.sff.Sprite vsStagePortrait;
+	public ^&.sff.Sprite winStagePortrait;
+	public ^&.sff.Sprite extraStagePortrait;
+	
+	public ^&.sff.Sprite stageAnimPortrait;
   }
   public int columns = 5, rows = 2;
   public float cellsizex = 29.0, cellsizey = 29.0;
   public float cellscalex = 1.0, cellscaley = 1.0;
-  public int sportg = 9000, sportn = 0;
-  public int lportg = 9000, lportn = 1;
-  public int winportg = 9000, winportn = 2;
-  public int vsportg = 9000, vsportn = 3;
-  public int svsportg = 9000, svsportn = 4;
+  
+  public int faceGroup = 9000, faceIndex = 0;
+  public int bigGroup = 9000, bigIndex = 1;
+  public int winGroup = 9000, winIndex = 2;
+  public int loserGroup = 9000, loserIndex = 3;
+  public int orderGroup = 9000, orderIndex = 4;
+  public int vsGroup = 9000, vsIndex = 5;
+  public int resultGroup = 9000, resultIndex = 6;
+  public int extraGroup = 9000, extraIndex = 9;
+  
+  public int standAnimGroup = 0; //9001;
+  
+  public int miniStageGroup = 9000, miniStageIndex = 0;
+  public int bigStageGroup = 9000, bigStageIndex = 1;
+  public int vsStageGroup = 9000, vsStageIndex = 2;
+  public int winStageGroup = 9000, winStageIndex = 3;
+  public int extraStageGroup = 9000, extraStageIndex = 9;
+  
+  public int stageAnimGroup = 9001;
+  
   public ^&.sff.Sprite randomspr;
   public float randxscl = 1.0, randyscl = 1.0;
   public %&Char charlist;
@@ -53,6 +83,20 @@ public &Select
   {
     index n = `getCharNo(i);
     ret `charlist[n..n+1];
+  }
+  public index getStageNo(index i)
+  {
+    index n = i;
+    if(#`stagelist > 0){
+      n %= #`stagelist;
+      if(n < 0) n += #`stagelist;
+    }
+    ret n;
+  }
+  public ^&Stage getStage(index i)
+  {
+    index n = `getStageNo(i);
+    ret `stagelist[n..n+1];
   }
   public index setStageNo(index i)
   {
@@ -92,6 +136,9 @@ public &Select
       ^/char data;
       if(#(data = sc.get("sprite")) > 0){
         `charlist[-1].sprite = .com.readFileName(data, unicode);
+      }
+	  if(#(data = sc.get("anim")) > 0){
+        `charlist[-1].anim = .com.readFileName(data, unicode);
       }
     }
     bool unicode = false;
@@ -144,44 +191,69 @@ public &Select
       i++;
     while i < #lines:}
     ^/char spr = `charlist[-1].sprite;
+	^/char anim = `charlist[-1].anim;
     .com.loadFile(`charlist[-1].def, spr=)<,
     [^/char(^/char f){
       ^&.sff.Sprite s;
       s.new(1);
-      if(#s~loadFromSff(f, `sportg, `sportn)=>error > 0) ret error;
-      `charlist[-1].sportrait = s;
+      if(#s~loadFromSff(f, `faceGroup, `faceIndex)=>error > 0) ret error;
+      `charlist[-1].facePortrait = s;
       ret "";
     }];
     .com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
     [^/char(^/char f){
       ^&.sff.Sprite s;
       s.new(1);
-      if(#s~loadFromSff(f, `lportg, `lportn)=>error > 0) ret error;
-      `charlist[-1].lportrait = s;
+      if(#s~loadFromSff(f, `bigGroup, `bigIndex)=>error > 0) ret error;
+      `charlist[-1].bigPortrait = s;
       ret "";
     }];
 	.com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
     [^/char(^/char f){
       ^&.sff.Sprite s;
       s.new(1);
-      if(#s~loadFromSff(f, `vsportg, `vsportn)=>error > 0) ret error;
-      `charlist[-1].vsportrait = s;
+      if(#s~loadFromSff(f, `orderGroup, `orderIndex)=>error > 0) ret error;
+      `charlist[-1].orderPortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `vsGroup, `vsIndex)=>error > 0) ret error;
+      `charlist[-1].vsPortrait = s;
       ret "";
     }];
     .com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
     [^/char(^/char f){
       ^&.sff.Sprite s;
       s.new(1);
-      if(#s~loadFromSff(f, `svsportg, `svsportn)=>error > 0) ret error;
-      `charlist[-1].svsportrait = s;
+      if(#s~loadFromSff(f, `winGroup, `winIndex)=>error > 0) ret error;
+      `charlist[-1].winPortrait = s;
       ret "";
     }];
-    .com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+	.com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
     [^/char(^/char f){
       ^&.sff.Sprite s;
       s.new(1);
-      if(#s~loadFromSff(f, `winportg, `winportn)=>error > 0) ret error;
-      `charlist[-1].winportrait = s;
+      if(#s~loadFromSff(f, `loserGroup, `loserIndex)=>error > 0) ret error;
+      `charlist[-1].loserPortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `resultGroup, `resultIndex)=>error > 0) ret error;
+      `charlist[-1].resultPortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`charlist[-1].def, `charlist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `extraGroup, `extraIndex)=>error > 0) ret error;
+      `charlist[-1].extraPortrait = s;
       ret "";
     }];
     ret true;
@@ -200,7 +272,20 @@ public &Select
         `stagelist[-1].name = `stagelist[-1].def;
       }
     }
-    void section(%^/char lines, index i=)
+	public void bgdef(&.com.Section sc=, bool unicode)
+    {
+      ^/char data;
+      if(#(data = sc.get("spr")) > 0){
+        `stagelist[-1].sprite = .com.readFileName(data, unicode);
+      }
+	  if(#(data = sc.get("anim")) > 0){
+        `stagelist[-1].anim = .com.readFileName(data, unicode);
+      }
+    }
+    bool unicode = false;
+    bool infoflg = true, bgdefflg = true;
+    //void section(%^/char lines, index i=)
+    ~$void(^^/char, index=) section = [void(^^/char lines, index i=)
     {
       ^/char sec = lines[i];
       ^/char secname = .com.sectionName(sec=);
@@ -211,7 +296,7 @@ public &Select
       cond .s.equ(secname, "info"):
         `addStage:<-info(sc=);
       }
-    }
+    }];
     ^/char error;
     ^char mainbuf;
     ^/char d = .s.trim(def);
@@ -229,10 +314,51 @@ public &Select
     %^/char lines = .com.splitLines(mainbuf);
     .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
     loop{index i = 0; while; do:
-      section(lines, i=);
+      section(:lines, i=:); //section(lines, i=);
       i++;
     while i < #lines:}
-    ret "";
+	^/char spr = `stagelist[-1].sprite; 
+    .com.loadFile(`stagelist[-1].def, `stagelist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `miniStageGroup, `miniStageIndex)=>error > 0) ret error;
+      `stagelist[-1].miniStagePortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`stagelist[-1].def, `stagelist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `bigStageGroup, `bigStageIndex)=>error > 0) ret error;
+      `stagelist[-1].bigStagePortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`stagelist[-1].def, `stagelist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `vsStageGroup, `vsStageIndex)=>error > 0) ret error;
+      `stagelist[-1].vsStagePortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`stagelist[-1].def, `stagelist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `winStageGroup, `winStageIndex)=>error > 0) ret error;
+      `stagelist[-1].winStagePortrait = s;
+      ret "";
+    }];
+	.com.loadFile(`stagelist[-1].def, `stagelist[-1].sprite=)<,
+    [^/char(^/char f){
+      ^&.sff.Sprite s;
+      s.new(1);
+      if(#s~loadFromSff(f, `extraStageGroup, `extraStageIndex)=>error > 0) ret error;
+      `stagelist[-1].extraStagePortrait = s;
+      ret "";
+    }];
+   ret def; //ret "";
   }
 }
 
