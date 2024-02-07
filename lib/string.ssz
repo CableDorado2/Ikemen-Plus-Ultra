@@ -302,7 +302,7 @@ public ^char toHex<_t>(^/_t src)
   ret str;
 }
 
-public ^ubyte toUbyte<_t>(^/_t src)//リトルエンディアン
+public ^ubyte toUbyte<_t>(^/_t src)//little endian
 {
   %ubyte ub;
   loop{index i = 0; while; do:

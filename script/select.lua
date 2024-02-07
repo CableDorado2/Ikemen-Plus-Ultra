@@ -4360,7 +4360,23 @@ animAddPos(versusHardBG1, 160, 0)
 animSetTile(versusHardBG1, 1, 1)
 animSetColorKey(versusHardBG1, -1)
 
---VS Screen (left portrait background)
+--Order Window (left portrait background)
+orderBG2 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(orderBG2, 160, 0)
+animSetTile(orderBG2, 1, 1)
+animSetWindow(orderBG2, 0, 30, 140, 140)
+
+--Order Window (right portrait background)
+orderBG3 = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(orderBG3, 160, 0)
+animSetTile(orderBG3, 1, 1)
+animSetWindow(orderBG3, 180, 30, 140, 140)
+
+--VS Window (left portrait background)
 versusBG2 = animNew(sysSff, [[
 100,1, 20,13, -1, 0, s
 ]])
@@ -4368,7 +4384,7 @@ animAddPos(versusBG2, 160, 0)
 animSetTile(versusBG2, 1, 1)
 animSetWindow(versusBG2, 20, 30, 120, 140)
 
---VS Screen (right portrait background)
+--VS Window (right portrait background)
 versusBG3 = animNew(sysSff, [[
 100,1, 20,13, -1, 0, s
 ]])
@@ -4531,12 +4547,8 @@ function f_orderSelect()
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
 			end
-			animDraw(f_animVelocity(versusBG2, -2, 0))
-			animDraw(f_animVelocity(versusBG3, 2, 0))
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-				drawOrderPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-				drawOrderPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
-			end	
+			animDraw(f_animVelocity(orderBG2, -2, 0))
+			animDraw(f_animVelocity(orderBG3, 2, 0))
 		--end loop after at least 120 ticks (extended if sound has been triggered)
 			--draw info text
 			if p1Confirmed == false then
@@ -4589,267 +4601,268 @@ function f_orderSelect()
 			end
 			i = i + 1
 			--if esc() then
-				--orderTime = 0
 				--if i < 120 then i = 120 end
 			--end
 			if sndTime > 0 then
 				sndTime = sndTime - 1
-			elseif orderTime == 0 and p1Confirmed and p2Confirmed then --Original Time To Select: elseif i > 120 and p1Confirmed and p2Confirmed then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				break
 			end
-			--option to adjust Team Mode characters order if timer is > 0
+			sndNumber = -1
+			--option to adjust characters order if timer is > 0
 			if orderTime > 0 then
 				orderTime = orderTime - 0.5 --Activate Order Select Timer
-				sndNumber = -1
-				--if Player 1 has not confirmed the order yet
-				if not p1Confirmed and data.p1In ~= 2 then
-					if btnPalNo(p1Cmd) > 0 then
-						if not p1Confirmed then
-							sndNumber = 1
-							f_selectChar(1, data.t_p1selected)
-							p1Confirmed = true
-							commandBufReset(p1Cmd)
-						end
-						if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
-							if not p2Confirmed then
-								f_selectChar(2, data.t_p2selected)
-								p2Confirmed = true
-							end
-						end
-					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
-						if #data.t_p1selected > 1 then
-							sndNumber = 0
-							p1Row = p1Row - 1
-							if p1Row == 0 then p1Row = #data.t_p1selected end
-						end
-					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
-						if #data.t_p1selected > 1 then
-							sndNumber = 0
-							p1Row = p1Row + 1
-							if p1Row > #data.t_p1selected then p1Row = 1 end
-						end
-					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-						if p1Row-1 > 0 then
-							sndNumber = 0
-							p1Row = p1Row - 1
-							t_tmp = {}
-							t_tmp[p1Row] = data.t_p1selected[p1Row+1]
-							for i=1, #data.t_p1selected do
-								for j=1, #data.t_p1selected do
-									if t_tmp[j] == nil and i ~= p1Row+1 then
-										t_tmp[j] = data.t_p1selected[i]
-										break
-									end
-								end
-							end
-							data.t_p1selected = t_tmp
-						end
-					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-						if p1Row+1 <= #data.t_p1selected then
-							sndNumber = 0
-							p1Row = p1Row + 1
-							t_tmp = {}
-							t_tmp[p1Row] = data.t_p1selected[p1Row-1]
-							for i=1, #data.t_p1selected do
-								for j=1, #data.t_p1selected do
-									if t_tmp[j] == nil and i ~= p1Row-1 then
-										t_tmp[j] = data.t_p1selected[i]
-										break
-									end
-								end
-							end
-							data.t_p1selected = t_tmp
-						end
-					end
-					animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
-					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-					animDraw(f_animVelocity(cursorBox, -1, -1))
-				end
-				--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
-				if not p1Confirmed and data.p1In == 2 and p2Confirmed == true then
-					if btnPalNo(p1Cmd) > 0 then
-						if not p1Confirmed then
-							sndNumber = 1
-							f_selectChar(1, data.t_p1selected)
-							p1Confirmed = true
-							commandBufReset(p1Cmd)
-						end
-						if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
-							if not p2Confirmed then
-								f_selectChar(2, data.t_p2selected)
-								p2Confirmed = true
-							end
-						end
-					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
-						if #data.t_p1selected > 1 then
-							sndNumber = 0
-							p1Row = p1Row - 1
-							if p1Row == 0 then p1Row = #data.t_p1selected end
-						end
-					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
-						if #data.t_p1selected > 1 then
-							sndNumber = 0
-							p1Row = p1Row + 1
-							if p1Row > #data.t_p1selected then p1Row = 1 end
-						end
-					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-						if p1Row-1 > 0 then
-							sndNumber = 0
-							p1Row = p1Row - 1
-							t_tmp = {}
-							t_tmp[p1Row] = data.t_p1selected[p1Row+1]
-							for i=1, #data.t_p1selected do
-								for j=1, #data.t_p1selected do
-									if t_tmp[j] == nil and i ~= p1Row+1 then
-										t_tmp[j] = data.t_p1selected[i]
-										break
-									end
-								end
-							end
-							data.t_p1selected = t_tmp
-						end
-					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-						if p1Row+1 <= #data.t_p1selected then
-							sndNumber = 0
-							p1Row = p1Row + 1
-							t_tmp = {}
-							t_tmp[p1Row] = data.t_p1selected[p1Row-1]
-							for i=1, #data.t_p1selected do
-								for j=1, #data.t_p1selected do
-									if t_tmp[j] == nil and i ~= p1Row-1 then
-										t_tmp[j] = data.t_p1selected[i]
-										break
-									end
-								end
-							end
-							data.t_p1selected = t_tmp
-						end
-					end
-					animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
-					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-					animDraw(f_animVelocity(cursorBox, -1, -1))
-				end
-				--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
-				if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
-					if btnPalNo(p1Cmd) > 0 then
-						if not p2Confirmed then
-							sndNumber = 1
-							f_selectChar(2, data.t_p2selected)
-							p2Confirmed = true
-						end
-					elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
-						if #data.t_p2selected > 1 then
-							sndNumber = 0
-							p2Row = p2Row - 1
-							if p2Row == 0 then p2Row = #data.t_p2selected end
-						end
-					elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
-						if #data.t_p2selected > 1 then
-							sndNumber = 0
-							p2Row = p2Row + 1
-							if p2Row > #data.t_p2selected then p2Row = 1 end
-						end
-					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
-						if p2Row+1 <= #data.t_p2selected then
-							sndNumber = 0
-							p2Row = p2Row + 1
-							t_tmp = {}
-							t_tmp[p2Row] = data.t_p2selected[p2Row-1]
-							for i=1, #data.t_p2selected do
-								for j=1, #data.t_p2selected do
-									if t_tmp[j] == nil and i ~= p2Row-1 then
-										t_tmp[j] = data.t_p2selected[i]
-										break
-									end
-								end
-							end
-							data.t_p2selected = t_tmp
-						end
-					elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
-						if p2Row-1 > 0 then
-							sndNumber = 0
-							p2Row = p2Row - 1
-							t_tmp = {}
-							t_tmp[p2Row] = data.t_p2selected[p2Row+1]
-							for i=1, #data.t_p2selected do
-								for j=1, #data.t_p2selected do
-									if t_tmp[j] == nil and i ~= p2Row+1 then
-										t_tmp[j] = data.t_p2selected[i]
-										break
-									end
-								end
-							end
-							data.t_p2selected = t_tmp
-						end
-					end
-					animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
-					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-					animDraw(f_animVelocity(cursorBox, -1, -1))
-				end
-				--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
-				if not p2Confirmed and data.p2In ~= 1 then
-					if btnPalNo(p2Cmd) > 0 then
-						if not p2Confirmed then
-							sndNumber = 1
-							f_selectChar(2, data.t_p2selected)
-							p2Confirmed = true
-						end
-					elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufOrder2u >= 30) then
-						if #data.t_p2selected > 1 then
-							sndNumber = 0
-							p2Row = p2Row - 1
-							if p2Row == 0 then p2Row = #data.t_p2selected end
-						end
-					elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufOrder2d >= 30) then
-						if #data.t_p2selected > 1 then
-							sndNumber = 0
-							p2Row = p2Row + 1
-							if p2Row > #data.t_p2selected then p2Row = 1 end
-						end
-					elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufOrder2l >= 30) then
-						if p2Row+1 <= #data.t_p2selected then
-							sndNumber = 0
-							p2Row = p2Row + 1
-							t_tmp = {}
-							t_tmp[p2Row] = data.t_p2selected[p2Row-1]
-							for i=1, #data.t_p2selected do
-								for j=1, #data.t_p2selected do
-									if t_tmp[j] == nil and i ~= p2Row-1 then
-										t_tmp[j] = data.t_p2selected[i]
-										break
-									end
-								end
-							end
-							data.t_p2selected = t_tmp
-						end
-					elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufOrder2r >= 30) then
-						if p2Row-1 > 0 then
-							sndNumber = 0
-							p2Row = p2Row - 1
-							t_tmp = {}
-							t_tmp[p2Row] = data.t_p2selected[p2Row+1]
-							for i=1, #data.t_p2selected do
-								for j=1, #data.t_p2selected do
-									if t_tmp[j] == nil and i ~= p2Row+1 then
-										t_tmp[j] = data.t_p2selected[i]
-										break
-									end
-								end
-							end
-							data.t_p2selected = t_tmp
-						end
-					end
-					animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
-					f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-					animDraw(f_animVelocity(cursorBox, -1, -1))
-				end
-				--sndPlay separated to not play more than 1 sound at once
-				if sndNumber ~= -1 then
-					sndPlay(sysSnd, 100, sndNumber)
-					sndTime = 30
-				end
+				textImgDraw(txt_orderTime)
+				
 			else --when orderTime <= 0
+				
+			end
+			--if Player 1 has not confirmed the order yet
+			if not p1Confirmed and data.p1In ~= 2 then
+				if btnPalNo(p1Cmd) > 0 then
+					if not p1Confirmed then
+						sndNumber = 1
+						f_selectChar(1, data.t_p1selected)
+						p1Confirmed = true
+						commandBufReset(p1Cmd)
+					end
+					if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
+						if not p2Confirmed then
+							f_selectChar(2, data.t_p2selected)
+							p2Confirmed = true
+						end
+					end
+				elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
+					if #data.t_p1selected > 1 then
+						sndNumber = 0
+						p1Row = p1Row - 1
+						if p1Row == 0 then p1Row = #data.t_p1selected end
+					end
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
+					if #data.t_p1selected > 1 then
+						sndNumber = 0
+						p1Row = p1Row + 1
+						if p1Row > #data.t_p1selected then p1Row = 1 end
+					end
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
+					if p1Row-1 > 0 then
+						sndNumber = 0
+						p1Row = p1Row - 1
+						t_tmp = {}
+						t_tmp[p1Row] = data.t_p1selected[p1Row+1]
+						for i=1, #data.t_p1selected do
+							for j=1, #data.t_p1selected do
+								if t_tmp[j] == nil and i ~= p1Row+1 then
+									t_tmp[j] = data.t_p1selected[i]
+									break
+								end
+							end
+						end
+						data.t_p1selected = t_tmp
+					end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
+					if p1Row+1 <= #data.t_p1selected then
+						sndNumber = 0
+						p1Row = p1Row + 1
+						t_tmp = {}
+						t_tmp[p1Row] = data.t_p1selected[p1Row-1]
+						for i=1, #data.t_p1selected do
+							for j=1, #data.t_p1selected do
+								if t_tmp[j] == nil and i ~= p1Row-1 then
+									t_tmp[j] = data.t_p1selected[i]
+									break
+								end
+							end
+						end
+						data.t_p1selected = t_tmp
+					end
+				end
+				animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
+			--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
+			if not p1Confirmed and data.p1In == 2 and p2Confirmed == true then
+				if btnPalNo(p1Cmd) > 0 then
+					if not p1Confirmed then
+						sndNumber = 1
+						f_selectChar(1, data.t_p1selected)
+						p1Confirmed = true
+						commandBufReset(p1Cmd)
+					end
+					if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
+						if not p2Confirmed then
+							f_selectChar(2, data.t_p2selected)
+							p2Confirmed = true
+						end
+					end
+				elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
+					if #data.t_p1selected > 1 then
+						sndNumber = 0
+						p1Row = p1Row - 1
+						if p1Row == 0 then p1Row = #data.t_p1selected end
+					end
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
+					if #data.t_p1selected > 1 then
+						sndNumber = 0
+						p1Row = p1Row + 1
+						if p1Row > #data.t_p1selected then p1Row = 1 end
+					end
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
+					if p1Row-1 > 0 then
+						sndNumber = 0
+						p1Row = p1Row - 1
+						t_tmp = {}
+						t_tmp[p1Row] = data.t_p1selected[p1Row+1]
+						for i=1, #data.t_p1selected do
+							for j=1, #data.t_p1selected do
+								if t_tmp[j] == nil and i ~= p1Row+1 then
+									t_tmp[j] = data.t_p1selected[i]
+									break
+								end
+							end
+						end
+						data.t_p1selected = t_tmp
+					end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
+					if p1Row+1 <= #data.t_p1selected then
+						sndNumber = 0
+						p1Row = p1Row + 1
+						t_tmp = {}
+						t_tmp[p1Row] = data.t_p1selected[p1Row-1]
+						for i=1, #data.t_p1selected do
+							for j=1, #data.t_p1selected do
+								if t_tmp[j] == nil and i ~= p1Row-1 then
+									t_tmp[j] = data.t_p1selected[i]
+									break
+								end
+							end
+						end
+						data.t_p1selected = t_tmp
+					end
+				end
+				animSetWindow(cursorBox, 0,157+p1Row*14, 140,14.5)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
+			--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
+			if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
+				if btnPalNo(p1Cmd) > 0 then
+					if not p2Confirmed then
+						sndNumber = 1
+						f_selectChar(2, data.t_p2selected)
+						p2Confirmed = true
+					end
+				elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
+					if #data.t_p2selected > 1 then
+						sndNumber = 0
+						p2Row = p2Row - 1
+						if p2Row == 0 then p2Row = #data.t_p2selected end
+					end
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufOrderd >= 30) then
+					if #data.t_p2selected > 1 then
+						sndNumber = 0
+						p2Row = p2Row + 1
+						if p2Row > #data.t_p2selected then p2Row = 1 end
+					end
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufOrderl >= 30) then
+					if p2Row+1 <= #data.t_p2selected then
+						sndNumber = 0
+						p2Row = p2Row + 1
+						t_tmp = {}
+						t_tmp[p2Row] = data.t_p2selected[p2Row-1]
+						for i=1, #data.t_p2selected do
+							for j=1, #data.t_p2selected do
+								if t_tmp[j] == nil and i ~= p2Row-1 then
+									t_tmp[j] = data.t_p2selected[i]
+									break
+								end
+							end
+						end
+						data.t_p2selected = t_tmp
+					end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufOrderr >= 30) then
+					if p2Row-1 > 0 then
+						sndNumber = 0
+						p2Row = p2Row - 1
+						t_tmp = {}
+						t_tmp[p2Row] = data.t_p2selected[p2Row+1]
+						for i=1, #data.t_p2selected do
+							for j=1, #data.t_p2selected do
+								if t_tmp[j] == nil and i ~= p2Row+1 then
+									t_tmp[j] = data.t_p2selected[i]
+									break
+								end
+							end
+						end
+						data.t_p2selected = t_tmp
+					end
+				end
+				animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
+			--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
+			if not p2Confirmed and data.p2In ~= 1 then
+				if btnPalNo(p2Cmd) > 0 then
+					if not p2Confirmed then
+						sndNumber = 1
+						f_selectChar(2, data.t_p2selected)
+						p2Confirmed = true
+					end
+				elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufOrder2u >= 30) then
+					if #data.t_p2selected > 1 then
+						sndNumber = 0
+						p2Row = p2Row - 1
+						if p2Row == 0 then p2Row = #data.t_p2selected end
+					end
+				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufOrder2d >= 30) then
+					if #data.t_p2selected > 1 then
+						sndNumber = 0
+						p2Row = p2Row + 1
+						if p2Row > #data.t_p2selected then p2Row = 1 end
+					end
+				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufOrder2l >= 30) then
+					if p2Row+1 <= #data.t_p2selected then
+						sndNumber = 0
+						p2Row = p2Row + 1
+						t_tmp = {}
+						t_tmp[p2Row] = data.t_p2selected[p2Row-1]
+						for i=1, #data.t_p2selected do
+							for j=1, #data.t_p2selected do
+								if t_tmp[j] == nil and i ~= p2Row-1 then
+									t_tmp[j] = data.t_p2selected[i]
+									break
+								end
+							end
+						end
+						data.t_p2selected = t_tmp
+					end
+				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufOrder2r >= 30) then
+					if p2Row-1 > 0 then
+						sndNumber = 0
+						p2Row = p2Row - 1
+						t_tmp = {}
+						t_tmp[p2Row] = data.t_p2selected[p2Row+1]
+						for i=1, #data.t_p2selected do
+							for j=1, #data.t_p2selected do
+								if t_tmp[j] == nil and i ~= p2Row+1 then
+									t_tmp[j] = data.t_p2selected[i]
+									break
+								end
+							end
+						end
+						data.t_p2selected = t_tmp
+					end
+				end
+				animSetWindow(cursorBox, 180,157+p2Row*14, 140,14.5)
+				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+				animDraw(f_animVelocity(cursorBox, -1, -1))
+			end
+			--sndPlay separated to not play more than 1 sound at once
+			if sndNumber ~= -1 then
+				sndPlay(sysSnd, 100, sndNumber)
+				sndTime = 30
+			end
+			if orderTime == 0 then
 				if not p1Confirmed then
 					f_selectChar(1, data.t_p1selected)
 					p1Confirmed = true
@@ -4861,16 +4874,25 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 					if i < 120 then i = 120 end
 				end
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				break
 			end
-			if data.charPresentation == 'Portrait' then
-				--Don't Draw character animations
-			elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-				--draw character animations
+			--draw character portraits
+			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
+					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 30, 1, 1)
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 290 - (2*j-1) * 100/(2*#data.t_p2selected), 168, data.t_p2selected[j].up)
+					drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 30, -1, 1)
+				end
+			end
+			--draw character animations
+			if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+				for j=#data.t_p1selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+				end
+				for j=#data.t_p2selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
 				end
 			end
 			--draw names
@@ -4914,7 +4936,6 @@ function f_orderSelect()
 			animUpdate(data.fadeTitle)
 			animDraw(vsBG6)
 			textImgDraw(txt_orderHint)
-			textImgDraw(txt_orderTime)
 			orderhintTime = orderhintTime + 1 --Start timer for randoms hints
 			if commandGetState(p1Cmd, 'holdu') then
 				bufOrderd = 0
@@ -6049,13 +6070,17 @@ function f_service()
 				break
 			--FULL POWER
 			elseif serviceMenu == 2 then
-				setServiceType(1)
+				if getPlayerSide() == "p1right" then --if P1 is in Right Side
+					setServiceType(21)
+				else
+					setServiceType(1) --if P1 is in Left Side
+				end
 				sndPlay(sysSnd, 100, 1)
 				serviceBack = true
 				break
 			--LOW CPU LIFE
 			elseif serviceMenu == 3 then
-				setServiceType(2)
+				if getPlayerSide() == "p1right" then setServiceType(22) else setServiceType(2) end
 				sndPlay(sysSnd, 100, 1)
 				serviceBack = true
 				break
@@ -6073,7 +6098,7 @@ function f_service()
 			--PLAYER DEFENCE X2
 			elseif serviceMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				setServiceType(3)
+				if getPlayerSide() == "p1right" then setServiceType(23) else setServiceType(3) end
 				serviceBack = true
 				break
 			--???

@@ -33,7 +33,7 @@ public &File
   /?/*typeid(_t) < 0:
     ret false;
   /*true:
-    x = x;//代入でコピーできないものをファイルから読み込んではいけない。
+    x = x;//Do not read anything from a file that cannot be copied by assignment.
     plugin bool Read(:index, _t=, index:) = <dll/file.dll>;
     ret Read(:`fh, x=, typesize(_t):);
   /*?*/
@@ -44,7 +44,7 @@ public &File
     ret -1;
   /*true:
     if(#x == 0) ret 0;
-    x<> = x<>;//代入でコピーできないものをファイルから読み込んではいけない。
+    x<> = x<>;//Do not read anything from a file that cannot be copied by assignment.
     plugin index ReadAry(:index, ^_t, index:) = <dll/file.dll>;
     ret ReadAry(:`fh, x, typesize(_t):);
   /*?*/

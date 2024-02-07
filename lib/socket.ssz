@@ -44,7 +44,7 @@ public &Socket
   /?/*typeid(_t) < 0:
     ret false;
   /*true:
-    x = x;//代入でコピーできないものを読み込んではいけない。
+    x = x;//Do not read anything that cannot be copied by assignment.
     plugin bool SocketRecv(:index=, _t=, index:) = <dll/socket.dll>;
     ret SocketRecv(:`soc=, x=, typesize(_t):);
   /*?*/
@@ -55,7 +55,7 @@ public &Socket
     ret -1;
   /*true:
     if(len(x) == 0) ret 0;
-    x<> = x<>;//代入でコピーできないものを読み込んではいけない。
+    x<> = x<>;//Do not read anything that cannot be copied by assignment.
     plugin index SocketRecvAry(:index=, ^_t, index:) = <dll/socket.dll>;
     ret SocketRecvAry(:`soc=, x, typesize(_t):);
   /*?*/

@@ -54,7 +54,7 @@ public bool eventUpdate()
     while;
   do:
     switch(.sdle.etype){
-    case .sdl.EventType::QUIT:// ウィンドウの×ボタンが押された時など
+    case .sdl.EventType::QUIT://When the window's x button is pressed, etc.
       .end = true;
       ret false;
     case .sdl.EventType::KEYDOWN:
