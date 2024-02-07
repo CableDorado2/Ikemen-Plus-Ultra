@@ -128,7 +128,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
 
-- [ ] Traducir errores a Inglés en ssz.
+- [ ] Arreglar el Parametro data.includestage que se rompió al agregar los Auto Stage.
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
 
