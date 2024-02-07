@@ -53,7 +53,6 @@ file:close()
 fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
 sysSff = sffNew('data/screenpack/system.sff') --load screenpack/menu sprites
 contSff = sffNew('data/screenpack/continue.sff') --load continue sprites
-stageSff = sffNew('data/screenpack/stages.sff') --load stages menu sprites (Resolution Recommended for images stored: 1280x720)
 eventSff = sffNew('data/screenpack/events.sff') --load events menu sprites
 missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
 gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites

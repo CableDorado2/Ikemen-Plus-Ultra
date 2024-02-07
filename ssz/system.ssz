@@ -57,11 +57,11 @@ public &Select
   
   public int standAnimGroup = 0; //9001;
   
-  public int miniStageGroup = 9000, miniStageIndex = 0;
-  public int bigStageGroup = 9000, bigStageIndex = 1;
-  public int vsStageGroup = 9000, vsStageIndex = 2;
-  public int winStageGroup = 9000, winStageIndex = 3;
-  public int extraStageGroup = 9000, extraStageIndex = 9;
+  public int extraStageGroup = 9000, extraStageIndex = 0;
+  public int miniStageGroup = 9000, miniStageIndex = 1;
+  public int bigStageGroup = 9000, bigStageIndex = 2;
+  public int vsStageGroup = 9000, vsStageIndex = 3;
+  public int winStageGroup = 9000, winStageIndex = 4;
   
   public int stageAnimGroup = 9001;
   
@@ -295,6 +295,9 @@ public &Select
       branch{
       cond .s.equ(secname, "info"):
         `addStage:<-info(sc=);
+	  cond .s.equ(secname, "bgdef"):
+        if(bgdefflg) bgdef(sc=, unicode);
+        bgdefflg = false;
       }
     }];
     ^/char error;

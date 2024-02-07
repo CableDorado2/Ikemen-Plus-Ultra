@@ -3844,22 +3844,6 @@ animSetPos(stage0M, 66, 76)
 animUpdate(stage0M)
 animSetScale(stage0M, 2.09, 2.09)
 
-function f_stagePreview()
-	stagePreview = ''
-	stagePreview = '0,' .. stageList-3 .. ', 0,0, 0'
-	stagePreview = animNew(stageSff, stagePreview)
-	if data.stageType == 'Classic' then
-		animSetScale(stagePreview, 0.0705, 0.0699)
-		animSetPos(stagePreview, 114.5, 172)
-	elseif data.stageType == 'Modern' then
-		animSetScale(stagePreview, 0.149, 0.148)
-		animSetPos(stagePreview, 64.600, 74.8)
-	end
-	animUpdate(stagePreview)
-	animDraw(stagePreview)
-	return stagePreview
-end
-
 --;===========================================================
 --; STAGE SELECT MENU
 --;===========================================================
@@ -4040,7 +4024,7 @@ function f_selectStage()
 			p2Portrait = nil
 			textImgSetPos(txt_mainSelect, 999,999)
 		end
-		f_stagePreview() --Stages Preview Managed via Stages.sff
+		--Draw Stage Previews
 		if stageList == 0 then --Name added via system.ssz
 			if data.stageType == 'Classic' then
 				animUpdate(stage0)
@@ -4064,6 +4048,12 @@ function f_selectStage()
 			elseif data.stageType == 'Modern' then
 				animUpdate(stage0M)
 				animDraw(stage0M)
+			end
+		else --Draw Preview of Available Stages (Resolution Recommended for images: 1280x720)
+			if data.stageType == 'Classic' then
+				drawStagePortrait(stageList-3, 114.5, 172, 0.0705, 0.0699)
+			elseif data.stageType == 'Modern' then
+				drawStagePortrait(stageList-3, 64.600, 74.8, 0.149, 0.148)
 			end
 		end
 		--Set Stage Text
