@@ -1,0 +1,122 @@
+table: 0EA44840 {
+  [1] => table: 0EA44840 {
+           [bgmfile] => ""
+           [bgmname] => "AUTO"
+           [bgmchar] => 0
+         }
+  [2] => table: 0EA44840 {
+           [bgmfile] => ""
+           [bgmname] => "AUTO [RIGHT SIDE]"
+           [bgmchar] => 0
+         }
+  [3] => table: 0EA44840 {
+           [bgmfile] => ""
+           [bgmname] => "RANDOM"
+           [bgmchar] => 0
+         }
+  [4] => table: 0EA44840 {
+           [bgmname] => "Aensland Castle"
+           [bgmfile] => ""
+           [bgmchar] => 0
+         }
+  [5] => table: 0EA44840 {
+           [bgmname] => "Australian Outback"
+           [bgmfile] => ""
+           [bgmchar] => 0
+         }
+  [6] => table: 0EA44840 {
+           [bgmname] => "China"
+           [bgmfile] => ""
+           [bgmchar] => 0
+         }
+  [7] => table: 0EA44840 {
+           [bgmname] => "Curse"
+           [bgmfile] => ""
+           [bgmchar] => 0
+         }
+  [8] => table: 0EA44840 {
+           [bgmname] => "Danger Toy"
+           [bgmfile] => ""
+           [bgmchar] => 0
+         }
+  [9] => table: 0EA44840 {
+           [bgmname] => "Fairy Day"
+           [bgmfile] => ""
+           [bgmchar] => 0
+         }
+  [10] => table: 0EA44840 {
+            [bgmname] => "Far Mountains"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [11] => table: 0EA44840 {
+            [bgmname] => "Killer Mirror"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [12] => table: 0EA44840 {
+            [bgmname] => "Mountainside Temple"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [13] => table: 0EA44840 {
+            [bgmname] => "Random 1"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [14] => table: 0EA44840 {
+            [bgmname] => "Random 2"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [15] => table: 0EA44840 {
+            [bgmname] => "Roof"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [16] => table: 0EA44840 {
+            [bgmname] => "Student"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [17] => table: 0EA44840 {
+            [bgmname] => "Suave's Corridor"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [18] => table: 0EA44840 {
+            [bgmname] => "Temple"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [19] => table: 0EA44840 {
+            [bgmname] => "Training Room 1"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [20] => table: 0EA44840 {
+            [bgmname] => "Training Room 2"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [21] => table: 0EA44840 {
+            [bgmname] => "Ultimate Warrior"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [22] => table: 0EA44840 {
+            [bgmname] => "Upkeeper"
+            [bgmfile] => ""
+            [bgmchar] => 0
+          }
+  [23] => table: 0EA44840 {
+            [bgmfile] => ""
+            [bgmname] => "MUTE"
+            [bgmchar] => 0
+          }
+  [24] => table: 0EA44840 {
+            [bgmfile] => ""
+            [bgmname] => "AUTO [LEFT SIDE]"
+            [bgmchar] => 0
+          }
+}

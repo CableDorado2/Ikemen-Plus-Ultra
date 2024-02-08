@@ -5,7 +5,7 @@ onlinegame = false
 replaygame = false
 coinSystem = true
 data.tagmode = 1
-data.includestage = 2 --[0]: Random, [1]: Auto Stage Left Side, [2]: Auto Stage Right Side
+data.includestage = 1 --Include Auto Right side stage
 
 --;===========================================================
 --; INITIAL ACTIONS
@@ -267,7 +267,7 @@ end
 --add characters and stages using select.def instead of select.lua
 --start_time = os.time()
 t_orderChars = {}
-t_stageDef = {} --t_stageDef = {['randomstage'] = 0, ['p1stage'] = 1, ['p2stage'] = 2}
+t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
 local section = 0
 local file = io.open("data/select.def","r")
@@ -283,12 +283,9 @@ for line in content:gmatch('[^\r\n]+') do
 		t_selChars = {}
 		section = 1
 	elseif line:match('^%s*%[%s*extrastages%s*%]') then
-		t_selStages = {[1] = 'Reserved Slot', [2] = 'Reserved Slot'}
-		--t_selStages = {
-			--[0] = {['name'] = 'Random Select', ['stage'] = 'randomstage', ['author'] = '???', ['location'] = '???', ['daytime'] = '???'},
-			--[1] = {['name'] = 'Left Side Character', ['stage'] = 'P1STAGE', ['author'] = ''???',', ['location'] = ''???',', ['daytime'] = '???'},
-			--[2] = {['name'] = 'Right Side Character', ['stage'] = 'P2STAGE', ['author'] = ''???',', ['location'] = ''???',', ['daytime'] = '???'},
-		--}
+		t_selStages = { --Generate Table with Stage List
+			{name = 'AUTO [RIGHT SIDE]'}
+		}
 		section = 2
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
@@ -427,7 +424,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--name = ''
 					--t_selStages[row]['name'] = name
 				--end
-				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
+				t_selStages[row]['name'] = getStageName(#t_selStages-1):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
 				t_stageDef[c] = row
 			elseif c:match('music%s*=%s*') then
@@ -600,7 +597,7 @@ for i=1, #t_selChars do
 					--name = ''
 					--t_selStages[row]['name'] = name
 				--end
-				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
+				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages-1):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
 				t_selChars[i].stage[j] = #t_selStages
 				--t_stageDef[t_selChars[i].stage[j]] = row
@@ -662,26 +659,15 @@ for i=1, #t_selChars do
 	end
 end
 
+--Add extra item to Stage Select table
+t_selStages[#t_selStages+1] = {name = 'AUTO [LEFT SIDE]'}
+
 --Generate Table with Music List
 t_selMusic = {
 	{bgmfile = '', bgmname = 'AUTO', bgmchar = 0},
-	{bgmfile = '', bgmname = 'LEFT SIDE CHARACTER', bgmchar = 0},
-	{bgmfile = '', bgmname = 'RIGHT SIDE CHARACTER', bgmchar = 0},
-	{bgmfile = '', bgmname = 'RANDOM', bgmchar = 0},
-	{bgmfile = '', bgmname = 'MUTE', bgmchar = 0}
+	{bgmfile = '', bgmname = 'AUTO [RIGHT SIDE]', bgmchar = 0},
+	{bgmfile = '', bgmname = 'RANDOM', bgmchar = 0}
 }
-
---Populate table with STAGE SONG
---for i=1, #t_selStages+3 do
-	--t_selMusic[i+3] = {}
-	--if i <= #t_selStages then
-		--t_selMusic[i+3]['bgmfile'] = t_selStages[i].music[1].bgmusic
-	--else
-		--t_selMusic[i+3]['bgmfile'] = ''
-	--end
-	--t_selMusic[i+3]['bgmname'] = 'Song Name'
-	--t_selMusic[i+3]['bgmchar'] = 0
---end
 
 --Populate table with SOUND FOLDER
 for file in lfs.dir[[.\\sound\\]] do --Read Dir
@@ -713,15 +699,13 @@ for file in lfs.dir[[.\\sound\\]] do --Read Dir
 end
 
 --Extra music
---t_selMusic[4].bgmfile = 'sound/Random 1.mp3'
---t_selMusic[4].bgmname = 'Extra Song Name'
---t_selMusic[4].bgmchar = 999
+--t_selMusic[6].bgmfile = 'sound/system/Opening.mp3'
+--t_selMusic[6].bgmname = 'Extra Song Name'
+--t_selMusic[6].bgmchar = 999
 
---Stage music names and associated character
---t_selMusic[5].bgmname = 'Character 1 Name'
---t_selMusic[5].bgmchar = 1
---t_selMusic[6].bgmname = 'Character 2 Name'
---t_selMusic[6].bgmchar = 2
+--Add extra items to Song Select table
+t_selMusic[#t_selMusic+1] = {bgmfile = '', bgmname = 'MUTE', bgmchar = 0}
+t_selMusic[#t_selMusic+1] = {bgmfile = '', bgmname = 'AUTO [LEFT SIDE]', bgmchar = 0}
 
 --if sprite generation is needed and conversion has not been permanently disabled
 if generate and data.sffConversion then
@@ -846,6 +830,7 @@ end
 
 f_printTable(t_selChars, "save/debug/t_selChars.txt")
 f_printTable(t_selStages, "save/debug/t_selStages.txt")
+f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
 f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
 f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
 f_printTable(t_randomChars, "save/debug/t_randomChars.txt")

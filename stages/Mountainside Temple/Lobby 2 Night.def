@@ -1,17 +1,17 @@
-; Definition of KFM-Master's stage
+; Definition of KFM's stage
 ; *** denotes values you should change/check for each stage.
 ; The term "background" is used to mean both backgrounds and foregrounds.
 
 ;--------------------------------------------------------
 [Info]
  ;Name of the stage.
-name = "Lobby Night 2"
+name = "Lobby 2"
+daytime = "Night"
 location = "Mountainside Temple"
 author = "hekutta"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both
- ;***
 startx = 0
 starty = 0
 
@@ -107,9 +107,15 @@ resetBG = 1
 
 ;--------------------------------------------------------
 [Shadow]
+ ;This controls the darkness of the shadow. Valid values range
+ ;from 0 (lightest) to 256 (darkest). Defaults to 128 if omitted.
+ ;intensity = 64
+
  ;This is the shadow color given in r,g,b. Valid values for each
  ;range from 0 (lightest) to 255 (darkest).
- ;Defaults to 92,92,92 if omitted.
+ ;Defaults to 0,0,0 if omitted.
+ ;intensity and color's effects add up to give the final shadow
+ ;result.
 color = 32,32,32
 
  ;This is the scale factor of the shadow. Use a big scale factor
@@ -118,8 +124,22 @@ color = 32,32,32
  ;Defaults to 0.4 if omitted.
 yscale = .2
 
- ;Set to 1 to draw "reflection" shadows. Defaults to 0.
-reflect = 0
+ ;This parameter lets you set the range over which the shadow is
+ ;visible. The first value is the high level, and the second is
+ ;the middle level. Both represent y-coordinates of the player.
+ ;A shadow is invisible if the player is above the high level,
+ ;and fully visible if below the middle level. The shadow is
+ ;faded in between the two levels. This gives an effect of the
+ ;shadow fading away as the player gets farther away from the
+ ;ground. If omitted, defaults to no level effects (shadow is
+ ;always fully visible).
+fade.range = -400,-100
+
+;--------------------------------------------------------
+;[Reflection]
+ ;Intensity of reflection (from 0 to 256). Set to 0 to have no
+ ;reflection. Defaults to 0.
+;intensity = 128
 
 ;--------------------------------------------------------
 [Music]
@@ -142,20 +162,20 @@ bgvolume = 255
 ; ***
 ;-------------------------------------
 ; [BG x]
-; type = ?       "Normal"/"Parallax"/"Height"  (def: "normal")
+; type = ?       "Normal"/"Parallax"  (def: "normal")
 ; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
 ; start = ?, ?   Starting location (integer)  (def: 0, 0)
 ; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
-; trans = ?      Transparency settings: "none"/"add"/"sub"/"avg" (def: "none")
+; trans = ?      Transparency settings: "none"/"add"/"add1"/"sub"/"addalpha" (def: "none")
+; alpha = ?, ?   (only for trans=addalpha) Source,dest alpha (def: 256,0)
 ; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
 ; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
 ; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
-;                        >1 - tile that number of times  (def: 0, 0)
+;                        >1 - tile that number of times  (def: 0, 0) - only for Normal BG
 ; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
 ;  Parallax-only:
-; xscale = ?, ?    Top xscale, bottom xscale (float) (if used, then no tiling)
-; width = ?, ?     Top width, bottom width (int)  (if used, then tiles;
-;                             use either this or above, but not both)
+; xscale = ?, ?    Top xscale, bottom xscale (float)
+; width = ?, ?     Top width, bottom width (int)  (use either this or above, but not both)
 ; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
 ; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
 ;-------------------------------------
@@ -163,54 +183,11 @@ bgvolume = 255
 ;-------------------------------------
 ; Main background definition
 [BGdef]
+ ;Filename of sprite data
 spr = Lobby 2 Night.sff
 debugbg = 0
 
 ;----------
-
-[BG Luna]
-type  = normal             
-spriteno = 0, 0            
-delta = .96, .92               
-mask = 0
-
-;-----------
-
-[BG Castillo]
-type  = normal             ;Normal background layer
-spriteno = 0, 1            ;Sprite group and number
-delta = 1, 1               ;Change per unit
-mask = 1
-;----------
-
-[BG - Fog]
-type  = anim
-actionno = 7
-id = 1
-start = 0, -150
-delta = .5,.1
-tile  = 1,1
-tilespacing = 1200
-layerno = 0
-mask = 1
-velocity = .5,0
-
-[Begin Action 7]
-7,0, 0,0, 30,,A
-7,0, 1,0, 30,,A
-7,0, 2,0, 30,,A
-7,0, 3,0, 30,,A
-7,0, 4,0, 30,,A
-7,0, 5,0, 30,,A
-7,0, 6,0, 30,,A
-7,0, 5,0, 30,,A
-7,0, 4,0, 30,,A
-7,0, 3,0, 30,,A
-7,0, 2,0, 30,,A
-7,0, 1,0, 30,,A
-
-;----------
-
 [BG Floor]
 type  = parallax
 spriteno = 10,0
@@ -220,20 +197,18 @@ xscale = 1, 1.75
 yscalestart = 100
 yscaledelta = 1.2
 
-;----------------
-
+;----------
 [BG Ceiling]
 type  = parallax
 spriteno = 11,0
-start = 100, 10
+start = 0, 10
 delta = 1.1115,.75
 xscale = 1.425,1
 yscalestart = 100
 yscaledelta = -1.0
 
 ;----------
-
-[BG Pilar]
+[BG Wall]
 type  = normal
 spriteno = 1,0
 start = 0, 11
@@ -242,50 +217,102 @@ mask = 1
 tile = 1, 0
 
 ;----------
-
-[BG Pillar Abajo]
+[BG Pillar Bottom]
 type  = normal
 spriteno = 15,0
 start = 0, 180
 delta = .8, .75
 mask = 1
 tile = 1, 0
-layerno = 0
 
 ;----------
-[BG Pillar Arriba]
+[BG Pillar Top]
 type  = normal
 spriteno = 15,1
 start = 0, 11
 delta = .8, .75
 mask = 1
 tile = 1, 0
-layerno = 0
 
-;----------------
-
-[BG Velas]
-type = anim
-actionno = 10
-start = -143,110
+;----------
+[BG Chandlier]
+type  = normal
+spriteno = 16,0
+start = -15, 125
 delta = .8, .75
-tile = 1,0
-tilespacing = 282,0
+mask = 1
 
-[Begin Action 10]
-16,0,0,0,5
-16,1,0,0,5
-16,2,0,0,5
-16,3,0,0,5
+;----------
+[BG Chandlier2]
+type  = normal
+spriteno = 16,0
+start = -270, 125
+delta = .8, .75
+mask = 1
 
-;----------------
+;----------
+[BG Chandlier3]
+type  = normal
+spriteno = 16,0
+start = 250, 125
+delta = .8, .75
+mask = 1
 
-[BG Efecto de Luz]
+;----------
+[BG Candles]
+type = anim
+actionno = 1
+start = -15,118
+delta = .8, .75
+
+;----------
+[BG Candles2]
+type = anim
+actionno = 1
+start = -270,118
+delta = .8, .75
+
+;----------
+[BG Candles2]
+type = anim
+actionno = 1
+start = 250,118
+delta = .8, .75
+
+;----------
+[BG Light Effect]
 type = normal
-spriteno = 17,0
-start = -143,100
+spriteno = 18,0
+start = -26,100
 delta = .8,.75
 mask = 1
 trans = add
-tile = 1,0
-tilespacing = 232
+
+;----------
+[BG Light Effect2]
+type = normal
+spriteno = 18,0
+start = -281,100
+delta = .8,.75
+mask = 1
+trans = add
+
+;----------
+[BG Light Effect]
+type = normal
+spriteno = 18,0
+start = 239,100
+delta = .8,.75
+mask = 1
+trans = add
+
+;----------
+[Begin Action 1]
+17,0,0,0,5
+17,1,0,0,5
+17,0,0,0,5
+17,1,0,0,5
+17,0,0,0,5
+17,1,0,0,5
+17,0,0,0,5
+17,1,0,0,5

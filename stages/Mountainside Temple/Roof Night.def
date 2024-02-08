@@ -1,5 +1,6 @@
 [Info]
-name= "Night Roof"
+name= "Roof"
+daytime = "Night"
 location = "Mountainside Temple"
 author = "hekutta"
 ;===============================

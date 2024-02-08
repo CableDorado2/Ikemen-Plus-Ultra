@@ -5,7 +5,8 @@
 ;--------------------------------------------------------
 [Info]
  ;Name of the stage.
-name = "Outside Night"
+name = "Outside"
+daytime = "Night"
 location = "Mountainside Temple"
 author = "hekutta"
 ;--------------------------------------------------------

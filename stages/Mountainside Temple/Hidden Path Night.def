@@ -3,7 +3,8 @@
 ;--------------------------------------------------------
 
 [Info]
-name = "Night Hidden Path"
+name = "Hidden Path"
+daytime = "Night"
 location = "Mountainside Temple"
 author = "hekutta"
 ;--------------------------------------------------------

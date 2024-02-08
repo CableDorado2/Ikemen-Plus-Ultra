@@ -4307,7 +4307,7 @@ function f_soundPage1()
 			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		end
 	end
-	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the table Created
+	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the end of table Created
 end
 
 function f_soundPage2()
@@ -4440,7 +4440,7 @@ function f_songMenu()
 		animSetWindow(songBG1, 80,20, 160,210)
 		animDraw(songBG1)
 		--Draw Title Menu
-		if page == 0 then textImgSetText(txt_song, 'SONG SELECT [SOUND]') elseif page == 1 then textImgSetText(txt_song, 'SONG SELECT [SYSTEM]') end
+		if page == 0 then textImgSetText(txt_song, 'SONG SELECT [GAME]') elseif page == 1 then textImgSetText(txt_song, 'SONG SELECT [SYSTEM]') end
 		textImgDraw(txt_song)
 		--Draw Table Cursor
 		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
@@ -4448,7 +4448,7 @@ function f_songMenu()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Text for Table
 		for i=1, maxSongs do
-			if t_songList[i].playlist:len() > 26 then --If name is too long, shortcut with ...
+			if t_songList[i].playlist:len() > 28 then --If name is too long, shortcut with ...
 				songText = string.sub(t_songList[i].playlist, 1, 24)
 				songText = tostring(songText .. '...')
 			else
@@ -4641,7 +4641,7 @@ function f_videoMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxVideos do
-			if t_videoList[i].playlist:len() > 26 then
+			if t_videoList[i].playlist:len() > 28 then
 				VideoText = string.sub(t_videoList[i].playlist, 1, 24)
 				VideoText = tostring(VideoText .. '...')
 			else
@@ -4828,7 +4828,7 @@ function f_storyboardMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))		
 		for i=1, maxStoryboards do
-			if t_storyboardList[i].playlist:len() > 26 then
+			if t_storyboardList[i].playlist:len() > 28 then
 				storyboardText = string.sub(t_storyboardList[i].playlist, 1, 24)
 				storyboardText = tostring(storyboardText .. '...')
 			else
@@ -5130,7 +5130,7 @@ function f_mainReplay()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxReplays do
-			if t_replayList[i].playlist:len() > 26 then
+			if t_replayList[i].playlist:len() > 28 then
 				replayText = string.sub(t_replayList[i].playlist, 1, 24)
 				replayText = tostring(replayText .. '...')
 			else

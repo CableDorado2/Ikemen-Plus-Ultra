@@ -8,6 +8,7 @@
 name = "Hidden Path"
 location = "Mountainside Temple"
 author = "hekutta"
+daytime = "Day"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both
