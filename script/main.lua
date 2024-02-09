@@ -1002,7 +1002,7 @@ function f_mainMenu()
 				--STORY (follow customizable story arcs designed for this engine)
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
-					script.story.f_storyMenu()
+					--script.story.f_storyMenu()
 				--ARCADE (play a customizable arcade ladder)
 				elseif mainMenu == 2 then
 					sndPlay(sysSnd, 100, 1)

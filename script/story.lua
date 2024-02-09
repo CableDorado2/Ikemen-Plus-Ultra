@@ -564,7 +564,7 @@ function f_storyMenu()
 			if data.story1_4CStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_4CUnlock == true then
 				chaptPreview = chapt4_3
-				txt_storyInfo = "THE BRUTAL END FOR ELECBYTE'S CHARACTER."
+				txt_storyInfo = "A BRUTAL END FOR ELECBYTE'S CHARACTER."
 			else
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
@@ -730,7 +730,7 @@ function f_arc1_chapter2()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	--data.stage no need because this chapter will use the auto stage of evil kfm
+	--data.stage no needed because this chapter will use the auto stage of evil kfm
 	data.bgm = 'sound/Killer Mirror.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-2'
