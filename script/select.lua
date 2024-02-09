@@ -3970,7 +3970,7 @@ function f_selectStage()
 					if stageSelect == true then
 					--Auto Right Side Stage Logic
 						if stageList == 0 and not p1autoSlot then
-							if p2stage == true and not p2autoSlot then
+							if p2stage == true and not p2autoSlot then --Go to Auto Stage
 								p2autoSlot = true
 								--stageList = 0
 							elseif not p2stage then --Skip Player 2 Stage if is not assigned (Go to next stage)
@@ -3986,7 +3986,7 @@ function f_selectStage()
 						end
 					--Auto Left Side Stage Logic
 						if stageList == data.includestage + 1 then
-							if p1stage == true and not p1autoSlot then
+							if p1stage == true and not p1autoSlot then --Go to Auto Stage
 								p1autoSlot = true
 								stageList = 0
 							elseif not p1stage then --Skip Player 1 Stage if is not assigned (Go to random select)
@@ -4007,13 +4007,34 @@ function f_selectStage()
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
-						stageList = stageList - 1
-						if stageList < 0 then stageList = data.includestage end
-						
-						--if stageList == -1 and not p1stage then stageList = data.includestage end --Skip Player 1 Stage if is not assigned
-						--if stageList == -1 then stageList = #t_selStages+0 end --Get Auto Left Side Stage
-						--if stageList == #t_selStages-1 then stageList = data.includestage end --Get lastest stage added
-						--if stageList == 1 and not p2stage then stageList = stageList - 1 end --Skip Player 2 Stage if is not assigned
+					--Auto Left Side Stage Logic
+						if stageList == 0 and not p2autoSlot then
+							if p1stage == true and not p1autoSlot then --Go to Auto Stage
+								p1autoSlot = true
+								stageList = 0
+							elseif not p1stage then --Skip Player 1 Stage if is not assigned (Go to lastest stage loaded)
+								stageList = data.includestage
+							elseif p1stage == true and p1autoSlot == true then --Go to lastest stage loaded
+								p1autoSlot = false
+								stageList = data.includestage
+							end
+						elseif stageList ~= 0 then --Normal scrolling between stages loaded
+							if not p1autoSlot and not p2autoSlot then
+								stageList = stageList - 1
+							end
+						end
+						--Auto Right Side Stage Logic
+						if stageList == 0 and p2autoSlot == true then --Go to random select
+							p2autoSlot = false
+							stageList = 0
+						elseif stageList == 0 and not p1autoSlot then
+							if p2stage == true and not p2autoSlot then --Go to Auto Stage
+								p2autoSlot = true
+								stageList = 0
+							elseif not p2stage then --Skip Player 2 Stage if is not assigned (Go to random select)
+								stageList = 0
+							end
+						end
 					end
 					if songSelect == true then
 						musicList = musicList - 1
@@ -4084,7 +4105,7 @@ function f_selectStage()
 					animUpdate(stage0M)
 					animDraw(stage0M)
 				end
-				textImgSetText(txt_selStage, 'STAGE: RANDOM')
+				textImgSetText(txt_selStage, 'STAGE: RANDOM SELECT')
 			end
 		else --Stages Added in select.def
 		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
