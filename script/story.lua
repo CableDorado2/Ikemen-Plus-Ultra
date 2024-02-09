@@ -702,8 +702,7 @@ function f_arc1_chapter1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 4 --Set Stage via t_stageDef.txt List Number
-	--data.stage = {t_stageDef['training room']} --TODO
+	data.stage = {t_stageDef["stages/mountainside temple/hidden path.def"]} --Set stage (needs to be loaded in select.def)
 	data.bgm = 'sound/Ultimate Warrior.mp3' --Set Custom Stage Song
 	data.rosterMode = 'story'
 	data.storyNo = '1-1'
@@ -731,7 +730,7 @@ function f_arc1_chapter2()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 14
+	--data.stage no need because this chapter will use the auto stage of evil kfm
 	data.bgm = 'sound/Killer Mirror.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-2'
@@ -762,7 +761,7 @@ function f_arc1_chapter3_1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 13
+	data.stage = {t_stageDef["stages/mountainside temple/Suave's Corridor.def"]}
 	data.bgm = 'sound/system/opening.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-3A'
@@ -799,7 +798,7 @@ function f_arc1_chapter3_2()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 15
+	data.stage = {t_stageDef["stages/mountainside temple/roof night.def"]}
 	data.bgm = "sound/Suave's Corridor.mp3"
 	data.rosterMode = 'story'
 	data.storyNo = '1-3B'
@@ -830,7 +829,7 @@ function f_arc1_chapter4_1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 12
+	data.stage = {t_stageDef["stages/Sakura.def"]}
 	data.rosterMode = 'story'
 	data.storyNo = '1-4A'
 	setGameMode('story')
@@ -870,7 +869,7 @@ function f_storyRosterTest()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageMenu = true --data.stageNo = 1
+	data.stageMenu = true
 	data.rosterMode = 'story'
 	setGameMode('storyRoster')
 	textImgSetText(txt_mainSelect, 'STORY MODE')

@@ -1,0 +1,115 @@
+table: 0E3FFED8 {
+  [ctrldef] => table: 0E3FFED8 {
+               }
+  [fileDir] => "chars/kung fu man/../../storyboard/"
+  [fileName] => "kung fu man [arcade intro].def"
+  [scenes] => table: 0E3FFED8 {
+                [1] => table: 0E3FFF00 {
+                         [layer0.offset] => "0,32"
+                         [clearcolor] => "255,255,255"
+                         [end.time] => 300
+                         [layer1.anim] => 1
+                         [fadeout.col] => "255,255,255"
+                         [fadein.col] => "0,0,0"
+                         [layer0.starttime] => 0
+                         [fadein.time] => 60
+                         [bgm.loop] => 0
+                         [bgm] => "intro.mp3"
+                         [fadeout.time] => 15
+                         [layerall.pos] => "160,0"
+                         [layer0.anim] => 0
+                         [layer1.offset] => "0,176"
+                       }
+                [2] => table: 0E3FFF00 {
+                         [layer0.offset] => "0,32"
+                         [fadeout.time] => 15
+                         [layer1.anim] => 11
+                         [fadeout.col] => "255,255,255"
+                         [fadein.col] => "255,255,255"
+                         [layer0.starttime] => 0
+                         [fadein.time] => 15
+                         [layer0.anim] => 10
+                         [end.time] => 300
+                         [layer1.offset] => "0,176"
+                       }
+                [3] => table: 0E3FFF00 {
+                         [layer0.offset] => "0,32"
+                         [fadeout.time] => 15
+                         [layer1.anim] => 21
+                         [fadeout.col] => "255,255,255"
+                         [fadein.col] => "255,255,255"
+                         [layer0.starttime] => 0
+                         [fadein.time] => 15
+                         [layer0.anim] => 20
+                         [end.time] => 300
+                         [layer1.offset] => "0,176"
+                       }
+                [4] => table: 0E3FFF00 {
+                         [layer0.offset] => "0,32"
+                         [fadeout.time] => 15
+                         [layer1.anim] => 31
+                         [fadeout.col] => "255,255,255"
+                         [fadein.col] => "255,255,255"
+                         [layer0.starttime] => 0
+                         [fadein.time] => 15
+                         [layer0.anim] => 30
+                         [end.time] => 300
+                         [layer1.offset] => "0,176"
+                       }
+                [5] => table: 0E3FFF00 {
+                         [layer0.offset] => "0,32"
+                         [fadeout.time] => 90
+                         [layer1.anim] => 41
+                         [fadeout.col] => "0,0,0"
+                         [fadein.col] => "255,255,255"
+                         [layer0.starttime] => 0
+                         [fadein.time] => 15
+                         [end.time] => 600
+                         [layer2.offset] => "0,176"
+                         [layer0.anim] => 40
+                         [layer2.anim] => 42
+                         [layer1.offset] => "53,85"
+                       }
+              }
+  [anim] => table: 0E3FFED8 {
+              [1] => table: 0E3FFF28 {
+                       [1] => "0,0, 0,0, -1"
+                     }
+              [2] => table: 0E3FFF28 {
+                       [1] => "1,0, 0,0, -1"
+                     }
+              [21] => table: 0E3FFF28 {
+                        [1] => "20,0, 0,0, -1"
+                      }
+              [11] => table: 0E3FFF28 {
+                        [1] => "10,0, 0,0, -1"
+                      }
+              [22] => table: 0E3FFF28 {
+                        [1] => "21,0, 0,0, -1"
+                      }
+              [12] => table: 0E3FFF28 {
+                        [1] => "11,0, 0,0, -1"
+                      }
+              [32] => table: 0E3FFF28 {
+                        [1] => "31,0, 0,0, -1"
+                      }
+              [43] => table: 0E3FFF28 {
+                        [1] => "42,0, 0,0, 200"
+                        [2] => "42,1, 0,0, -1"
+                      }
+              [42] => table: 0E3FFF28 {
+                        [1] => "41,0, 0,0, 40"
+                        [2] => "-1,0, 0,0, 20"
+                      }
+              [31] => table: 0E3FFF28 {
+                        [1] => "30,0, 0,0, -1"
+                      }
+              [41] => table: 0E3FFF28 {
+                        [1] => "40,0, 0,0, -1"
+                      }
+            }
+  [scenedef] => table: 0E3FFED8 {
+                  [spr] => "kung fu man [arcade intro].sff"
+                  [startscene] => 0
+                }
+}

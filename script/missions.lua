@@ -150,7 +150,7 @@ function f_missionMenu()
 				data.p1Char = {t_charAdd['dragon claw']}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
-				data.stageNo = 16
+				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
 				data.missionNo = '1'
 				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
 				script.select.f_selectSimple()

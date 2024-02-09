@@ -1,122 +1,122 @@
-table: 02EA7038 {
-  [1] => table: 02EA7038 {
-           [bgmchar] => 0
+table: 02BE3178 {
+  [1] => table: 02BE3178 {
            [bgmname] => "AUTO"
            [bgmfile] => ""
-         }
-  [2] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [2] => table: 02BE3178 {
            [bgmname] => "AUTO [RIGHT SIDE]"
            [bgmfile] => ""
-         }
-  [3] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [3] => table: 02BE3178 {
            [bgmname] => "RANDOM"
            [bgmfile] => ""
-         }
-  [4] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [4] => table: 02BE3178 {
            [bgmname] => "Aensland Castle"
            [bgmfile] => ""
-         }
-  [5] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [5] => table: 02BE3178 {
            [bgmname] => "Australian Outback"
            [bgmfile] => ""
-         }
-  [6] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [6] => table: 02BE3178 {
            [bgmname] => "China"
            [bgmfile] => ""
-         }
-  [7] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [7] => table: 02BE3178 {
            [bgmname] => "Curse"
            [bgmfile] => ""
-         }
-  [8] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [8] => table: 02BE3178 {
            [bgmname] => "Danger Toy"
            [bgmfile] => ""
-         }
-  [9] => table: 02EA7038 {
            [bgmchar] => 0
+         }
+  [9] => table: 02BE3178 {
            [bgmname] => "Fairy Day"
            [bgmfile] => ""
+           [bgmchar] => 0
          }
-  [10] => table: 02EA7038 {
-            [bgmchar] => 0
+  [10] => table: 02BE3178 {
             [bgmname] => "Far Mountains"
             [bgmfile] => ""
-          }
-  [11] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [11] => table: 02BE3178 {
             [bgmname] => "Killer Mirror"
             [bgmfile] => ""
-          }
-  [12] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [12] => table: 02BE3178 {
             [bgmname] => "Mountainside Temple"
             [bgmfile] => ""
-          }
-  [13] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [13] => table: 02BE3178 {
             [bgmname] => "Random 1"
             [bgmfile] => ""
-          }
-  [14] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [14] => table: 02BE3178 {
             [bgmname] => "Random 2"
             [bgmfile] => ""
-          }
-  [15] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [15] => table: 02BE3178 {
             [bgmname] => "Roof"
             [bgmfile] => ""
-          }
-  [16] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [16] => table: 02BE3178 {
             [bgmname] => "Student"
             [bgmfile] => ""
-          }
-  [17] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [17] => table: 02BE3178 {
             [bgmname] => "Suave's Corridor"
             [bgmfile] => ""
-          }
-  [18] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [18] => table: 02BE3178 {
             [bgmname] => "Temple"
             [bgmfile] => ""
-          }
-  [19] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [19] => table: 02BE3178 {
             [bgmname] => "Training Room 1"
             [bgmfile] => ""
-          }
-  [20] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [20] => table: 02BE3178 {
             [bgmname] => "Training Room 2"
             [bgmfile] => ""
-          }
-  [21] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [21] => table: 02BE3178 {
             [bgmname] => "Ultimate Warrior"
             [bgmfile] => ""
-          }
-  [22] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [22] => table: 02BE3178 {
             [bgmname] => "Upkeeper"
             [bgmfile] => ""
-          }
-  [23] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [23] => table: 02BE3178 {
             [bgmname] => "MUTE"
             [bgmfile] => ""
-          }
-  [24] => table: 02EA7038 {
             [bgmchar] => 0
+          }
+  [24] => table: 02BE3178 {
             [bgmname] => "AUTO [LEFT SIDE]"
             [bgmfile] => ""
+            [bgmchar] => 0
           }
 }

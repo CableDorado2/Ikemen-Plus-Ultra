@@ -938,7 +938,7 @@ function f_storyboard(path)
 		end
 	end
 	file:close()
-	--f_printTable(t, 'save/debug/t_' .. fileName)
+	f_printTable(t, 'save/debug/storyboard/t_' .. fileName)
 	f_storyboardPlay(t)
 	return
 end
@@ -1979,7 +1979,7 @@ function f_default()
 	data.p2SelectMenu = true --P2 character selection enabled
 	data.aiFight = false --AI = data.difficulty for all characters disabled
 	data.stageMenu = false --stage selection disabled
-	data.stageNo = nil --no predefined custom stage
+	data.stage = nil --no predefined custom stage
 	data.bgm = nil --no predefined custom song route
 	data.orderSelect = true --order select screen enabled
 	data.versusScreen = true --versus screen enabled

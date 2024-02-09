@@ -3473,7 +3473,7 @@ function f_p2SelectMenu()
 			else
 				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 			end
-			--f_printTable(data.t_p2selected)
+			f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt')
 		end
 		p2Portrait = data.p2Char[1]
 		--local numChars = p2numChars
@@ -3968,34 +3968,35 @@ function f_selectStage()
 				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
-						--if stageList > 0 and not p2stage then --Skip Player 2 Stage if is not assigned (Go to next stage)
-							--p2autoSlot = false
-							--stageList = 1
-						if stageList == 0 then
-							if p2stage == true and not p2autoSlot then --Auto Right Side Stage
+					--Auto Right Side Stage Logic
+						if stageList == 0 and not p1autoSlot then
+							if p2stage == true and not p2autoSlot then
 								p2autoSlot = true
 								--stageList = 0
-							elseif p2stage == true and p2autoSlot == true then
+							elseif not p2stage then --Skip Player 2 Stage if is not assigned (Go to next stage)
+								stageList = stageList + 1
+							elseif p2stage == true and p2autoSlot == true then --Go to first stage loaded
 								p2autoSlot = false
 								stageList = stageList + 1
 							end
-						else
-							stageList = stageList + 1
+						elseif stageList ~= 0 then --Normal scrolling between stages loaded
+							if not p1autoSlot and not p2autoSlot then
+								stageList = stageList + 1
+							end
 						end
-						
-						--if stageList == data.includestage and not p1stage then --Skip Player 1 Stage if is not assigned (Go to random select)
-							--p1autoSlot = false
-							--stageList = 0
-						--elseif stageList == data.includestage and p1stage == true then --Auto Left Side Stage
-							--p1autoSlot = true
-							--stageList = 0
-						--end
-						
-						
-						--if stageList == data.includestage + 1 and not p1stage then stageList = 0 end --Skip Player 1 Stage if is not assigned
-						--if stageList == 1 and not p2stage then stageList = stageList + 1 end --Skip Player 2 Stage if is not assigned
-						--if stageList == data.includestage + 1 then stageList = #t_selStages+0 end --Get Auto Right Side Stage
-						--if stageList == #t_selStages+1 then stageList = 0 end --Get random select
+					--Auto Left Side Stage Logic
+						if stageList == data.includestage + 1 then
+							if p1stage == true and not p1autoSlot then
+								p1autoSlot = true
+								stageList = 0
+							elseif not p1stage then --Skip Player 1 Stage if is not assigned (Go to random select)
+								--p1autoSlot = false
+								stageList = 0
+							end
+						elseif stageList == 0 and p1autoSlot == true then --Go to random select
+							p1autoSlot = false
+							stageList = 0
+						end
 					end
 					if songSelect == true then
 						musicList = musicList + 1
@@ -4213,7 +4214,7 @@ function f_selectStage()
 			--announcerTimer = 0 --Restart Stage Announcer Timer
 		end
 	else --If Stage Select is Disabled
-		if data.stageNo == nil then --Assign Default Stage via Select.def
+		if data.stage == nil then --Assign Auto Stage via Select.def
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
 					stageNo = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage)
@@ -4229,9 +4230,17 @@ function f_selectStage()
 					stageNo = math.random(1, data.includestage)
 				end
 			end
-		else --Assign Custom Stage Loaded in select.def via lua script, with data.stageNo
-			--stageList = data.stageNo
-			stageNo = data.stageNo
+		else --if data.stage ~= nil then Assign Custom Stage Loaded in select.def via lua script, with data.stage
+			local t = {}
+			for i=1, #data.stage do
+				if t[data.stage[i]] == nil then
+					t[data.stage[i]] = ''
+				end
+				data.stage[i] = {['cel'] = data.stage[i]} --Get stageNo from table loaded (t_stageDef)
+			end
+			f_printTable(data.stage, 'save/debug/data.stage.txt')
+			--stagePortrait = data.stage[1]
+			stageNo = data.stage[1].cel
 		end
 		setStage(stageNo)
 		selectStage(stageNo)

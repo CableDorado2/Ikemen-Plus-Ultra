@@ -597,8 +597,8 @@ for i=1, #t_selChars do
 				--end
 				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
-				t_selChars[i].stage[j] = #t_selStages
-				--t_stageDef[t_selChars[i].stage[j]] = row
+				t_selChars[i].stage[j] = #t_selStages --convert to number a not includestage
+				--t_stageDef[t_selChars[i].stage[j]] = row --add hidden not includestage for use in story mode for example
 			else
 				t_selChars[i].stage[j] = t_stageDef[t_selChars[i].stage[j]]
 			end

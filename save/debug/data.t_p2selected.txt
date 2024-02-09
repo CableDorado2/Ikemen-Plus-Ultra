@@ -1,0 +1,22 @@
+table: 0E164BC0 {
+  [1] => table: 0E164BC0 {
+           [up] => true
+           [pal] => 1
+           [cel] => 122
+         }
+  [2] => table: 0E164BC0 {
+           [up] => false
+           [pal] => 1
+           [cel] => 122
+         }
+  [3] => table: 0E164BC0 {
+           [up] => false
+           [pal] => 1
+           [cel] => 122
+         }
+  [4] => table: 0E164BC0 {
+           [up] => true
+           [pal] => 1
+           [cel] => 12
+         }
+}
