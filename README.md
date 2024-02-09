@@ -133,7 +133,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.6**
 ------------
 
-- [ ] 3er tipo de visualización de stages estilo “chart” (lógica basada en el char select): https://www.youtube.com/watch?v=FHwlSkCkQ50
+- [ ] 3er tipo de visualización de stages estilo “chart”, (lógica basada en el char select) al ser activado debe cargarse desde una función diferente a la normal para evitar conflictos, asímismo debe usar los portrait (9000,0) para mostrar los íconos: https://www.youtube.com/watch?v=FHwlSkCkQ50
 [![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
 
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
