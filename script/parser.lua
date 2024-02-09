@@ -284,7 +284,7 @@ for line in content:gmatch('[^\r\n]+') do
 		section = 1
 	elseif line:match('^%s*%[%s*extrastages%s*%]') then
 		t_selStages = { --Generate Table with Stage List
-			{name = 'AUTO [RIGHT SIDE]'}
+			{name = 'RESERVED FOR P2 AUTO STAGE'}
 		}
 		section = 2
 	elseif line:match('^%s*%[%s*options%s*%]') then
@@ -660,7 +660,7 @@ for i=1, #t_selChars do
 end
 
 --Add extra item to Stage Select table
-t_selStages[#t_selStages+1] = {name = 'AUTO [LEFT SIDE]'}
+t_selStages[#t_selStages+1] = {name = 'RESERVED FOR P1 AUTO STAGE'}
 
 --Generate Table with Music List
 t_selMusic = {

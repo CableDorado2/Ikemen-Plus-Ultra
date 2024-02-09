@@ -420,7 +420,7 @@ void game()
     continue:
       i++;
     while i < #.chr.chars:}
-    .chr.stg~reset();//bgctrlの都合(循環参照可能な型を操作する)でここでreset
+    .chr.stg~reset();//reset here due to bgctrl (manipulating types that can be referenced cyclically)
     loop{int i = 0; while; do:
       .chr.stg~action();
       i++;

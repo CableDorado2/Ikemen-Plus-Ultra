@@ -3967,10 +3967,10 @@ function f_selectStage()
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
 						stageList = stageList + 1
-						if stageList == #t_selStages+0 and not p1stage then stageList = stageList + 1 end --Skip Player 1 Stage if is not assigned
+						if stageList == data.includestage + 1 and not p1stage then stageList = 0 end --Skip Player 1 Stage if is not assigned
 						if stageList == 1 and not p2stage then stageList = stageList + 1 end --Skip Player 2 Stage if is not assigned
-						if stageList > data.includestage then stageList = #t_selStages+0 end --To get Auto Left Side Stage
-						--if stageList == #t_selStages+0 then stageList = 2 end --To get random select
+						if stageList == data.includestage + 1 then stageList = #t_selStages+0 end --Get Auto Right Side Stage
+						if stageList == #t_selStages+1 then stageList = 0 end --Get random select
 					end
 					if songSelect == true then
 						musicList = musicList + 1
@@ -3982,10 +3982,10 @@ function f_selectStage()
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
 						stageList = stageList - 1
-						if stageList < 0 then stageList = #t_selStages+0 end --To get Auto Left Side Stage
-						--if stageList == #t_selStages+0 then stageList = data.includestage end --To get random select
-						if stageList == #t_selStages+0 and not p1stage then stageList = stageList - 1 end
-						if stageList == 1 and not p2stage then stageList = stageList - 1 end
+						if stageList == -1 and not p1stage then stageList = data.includestage end --Skip Player 1 Stage if is not assigned
+						if stageList == -1 then stageList = #t_selStages+0 end --Get Auto Left Side Stage
+						if stageList == #t_selStages-1 then stageList = data.includestage end --Get lastest stage added
+						if stageList == 1 and not p2stage then stageList = stageList - 1 end --Skip Player 2 Stage if is not assigned
 					end
 					if songSelect == true then
 						musicList = musicList - 1
@@ -4059,11 +4059,10 @@ function f_selectStage()
 			end
 		end
 		--Set Stage Text
-		--textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1'))
-		if stageList ~= 0 then
-			textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. t_selStages[stageList+0].name)
-		else
-			textImgSetText(txt_selStage, 'STAGE: RANDOM')
+		if stageList == #t_selStages+0 then textImgSetText(txt_selStage, 'STAGE: AUTO [LEFT SIDE]')
+		elseif stageList == 0 then textImgSetText(txt_selStage, 'STAGE: RANDOM')
+		elseif stageList == 1 then textImgSetText(txt_selStage, 'STAGE: AUTO [RIGHT SIDE]')
+		else textImgSetText(txt_selStage, 'STAGE ' .. stageList-1 .. ': ' .. t_selStages[stageList+0].name)
 		end
 		--Set BGM Text
 		if musicList == #t_selMusic-2 then --Mute
@@ -4311,9 +4310,9 @@ function f_musicPreview()
 end
 
 function f_stageAnnouncer()
-	if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
-	elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
-	--elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Your Stage Name' then sndPlay(announcerSnd, 0,1)
+	if t_selStages[stageList+0].name == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
+	elseif t_selStages[stageList+0].name == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
+	--elseif t_selStages[stageList+0].name == 'Your Stage Name' then sndPlay(announcerSnd, 0,1)
 	end
 end
 
@@ -7428,7 +7427,7 @@ function f_favoriteChar()
 end
 
 function f_favoriteStage()
-	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with json
+	data.favoriteStage = t_selStages[stageList+0].name --Improve store logic with json
 	f_saveProgress()
 	assert(loadfile('save/stats_sav.lua'))()
 end

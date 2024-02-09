@@ -1602,14 +1602,14 @@ public &Fight
   new()
   {
     `lb.new(3);
-    `lb[0].new(2);
-    `lb[1].new(8);
-    `lb[2].new(2);
+    `lb[0].new(2); //Amount of Single Lifebars to draw
+    `lb[1].new(8); //Amount of Simul Lifebars to draw
+    `lb[2].new(2); //Amount of Turns Lifebars to draw
     `pb.new(2);
     `fa.new(3);
-    `fa[0].new(2);
-    `fa[1].new(8);
-    `fa[2].new(2);
+    `fa[0].new(2); //Amount of Single Portrait Faces to draw
+    `fa[1].new(8); //Amount of Simul Portrait Faces to draw
+    `fa[2].new(2); //Amount of Turns Portrait Faces to draw
     `nm.new(3);
     `nm[0].new(2);
     `nm[1].new(8);

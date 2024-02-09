@@ -117,7 +117,7 @@ public &Select
 	//if(n == #`stagelist - 1) ret "AUTO [LEFT SIDE]";
     if(n == 0) ret "RANDOM";
 	//if(n == 1) ret "AUTO [RIGHT SIDE]";
-    ret `stagelist[n-1].name; //when n == 2 show the stages added in select.def   ORIGINAL: stagelist[n-1].name
+    ret `stagelist[n-1].name;
   }
   public bool addChar(^/char def)
   {:<-

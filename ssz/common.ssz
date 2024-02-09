@@ -34,7 +34,7 @@ public bool clsndraw = false;
 public bool debugdraw = false;
 
 const int maxSimul = 10;
-public ^int numSimul.new(2);
+public ^int numSimul.new(4); //Original for 4 players lifebars: numSimul.new(2)
 numSimul[0] = numSimul[1] = 2;
 
 public ^%%char clipboardText.new(maxSimul*2);

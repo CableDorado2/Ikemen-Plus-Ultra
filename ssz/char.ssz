@@ -4372,7 +4372,7 @@ public &Char
   public void trPow(&.Var v1, &.Var v2)
   {:<-
     void i(&.Var r=, int i1, int i2)
-    {//winmugenのバグの再現
+    {//Reproducing winmugen bug
       r.typ = .VarTy::Int;
       branch{
       cond i2 < 0:

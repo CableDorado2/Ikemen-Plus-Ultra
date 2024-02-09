@@ -199,7 +199,6 @@ public &Buffer
 public bool disablePadP1;
 public bool disablePadP2;
 
-//We lazy.
 public bool modKeyState(bool keyState, int jn, int key)
 {
   bool ctrl = .sdl.JoystickButtonState(:-1, 224:) || .sdl.JoystickButtonState(:-1, 228:);
@@ -1156,7 +1155,7 @@ public &CommandList
   {
     bool step = `buffer~Bb != 0;
     if(input < 0 && input >= -.com.maxSimul*2){
-      .aiil.new[!input].update();//同期がずれないようここで
+      .aiil.new[!input].update();//Here to avoid getting out of sync
     }
     branch{
       if(input < 0) else;

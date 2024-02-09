@@ -221,7 +221,7 @@ public &Sprite
   {
     ^/char error;
     uint lenghtOfSubheader = loh;
-    if(nsh > (uint)offset) lenghtOfSubheader = nsh - (uint)offset;//lohを無視
+    if(nsh > (uint)offset) lenghtOfSubheader = nsh - (uint)offset;//ignore
     byte ps;
     if(!f.read!byte?(ps=)) ret .com.FileReadError;
     bool palletSame = ps != 0;
@@ -1096,7 +1096,7 @@ public &Anim<frame_t>
     `newframe = true;
     `updateSprite();
     `loopend = false;
-    `sumtime = 0;//animElemTime内で使用
+    `sumtime = 0;//Used within animElemTime
     `sumtime = -`animElemTime(`current+1);
   }
   public void animSeek(index elem)

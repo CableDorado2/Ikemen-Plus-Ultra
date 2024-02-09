@@ -702,7 +702,7 @@ function f_arc1_chapter1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stageNo = 4 --Set Stage via Select.def List Number
+	data.stageNo = 4 --Set Stage via t_stageDef.txt List Number
 	--data.stage = {t_stageDef['training room']} --TODO
 	data.bgm = 'sound/Ultimate Warrior.mp3' --Set Custom Stage Song
 	data.rosterMode = 'story'
