@@ -139,8 +139,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
 ![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
 
-- [ ] Definir stages desde el main menu con parametro: data.stage = {t_stageDef['stagename']} tal como funciona el: data.p1Char = {t_charAdd['charname']}
-
 - [ ] Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
 [![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
 
