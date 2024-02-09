@@ -1,306 +1,303 @@
-table: 02F28B00 {
-  [1] => table: 02F28B00 {
-           [name] => "RESERVED FOR P2 AUTO STAGE"
-         }
-  [2] => table: 02F28B00 {
-           [music] => table: 02F27980 {
-                        [1] => table: 02F2A090 {
-                                 [bgmusic] => "sound/Training Room 1.mp3"
-                                 [bgmvolume] => 100
-                               }
-                      }
+table: 02EA2650 {
+  [1] => table: 02EA2650 {
            [author] => "Elecbyte"
-           [stage] => "stages/training room.def"
-           [name] => "Training Room"
-         }
-  [3] => table: 02F28B00 {
-           [music] => table: 02F284C0 {
-                        [1] => table: 02F25888 {
-                                 [bgmusic] => "sound/sfx/Wind.mp3"
+           [music] => table: 02EA58F0 {
+                        [1] => table: 02EA3438 {
                                  [bgmvolume] => 100
+                                 [bgmusic] => "sound/Training Room 1.mp3"
                                }
                       }
-           [author] => "hekutta"
+           [name] => "Training Room"
+           [stage] => "stages/training room.def"
+         }
+  [2] => table: 02EA2650 {
            [daytime] => "Day"
            [name] => "Hidden Path"
-           [stage] => "stages/mountainside temple/hidden path.def"
            [location] => "Mountainside Temple"
-         }
-  [4] => table: 02F28B00 {
-           [music] => table: 02F272A0 {
-                        [1] => table: 02F288A8 {
-                                 [bgmusic] => "sound/Upkeeper.mp3"
+           [author] => "hekutta"
+           [stage] => "stages/mountainside temple/hidden path.def"
+           [music] => table: 02EA3A28 {
+                        [1] => table: 02EA2740 {
                                  [bgmvolume] => 100
+                                 [bgmusic] => "sound/sfx/Wind.mp3"
                                }
                       }
-           [author] => "hekutta"
+         }
+  [3] => table: 02EA2650 {
            [daytime] => "Night"
            [name] => "Hidden Path"
-           [stage] => "stages/mountainside temple/hidden path night.def"
            [location] => "Mountainside Temple"
-         }
-  [5] => table: 02F28B00 {
-           [music] => table: 02F241B8 {
-                        [1] => table: 02F23768 {
-                                 [bgmusic] => "sound/.mp3"
+           [author] => "hekutta"
+           [stage] => "stages/mountainside temple/hidden path night.def"
+           [music] => table: 02EA5350 {
+                        [1] => table: 02EA4630 {
                                  [bgmvolume] => 100
+                                 [bgmusic] => "sound/Upkeeper.mp3"
                                }
                       }
-           [author] => "hekutta"
+         }
+  [4] => table: 02EA2650 {
            [daytime] => "Night"
            [name] => "Outside"
-           [stage] => "stages/mountainside temple/outside.def"
            [location] => "Mountainside Temple"
-         }
-  [6] => table: 02F28B00 {
-           [music] => table: 02F26288 {
-                        [1] => table: 02F259C8 {
-                                 [bgmusic] => "sound/Mountainside Temple.mp3"
-                                 [bgmvolume] => 100
-                               }
-                        [2] => table: 02F259C8 {
-                                 [bgmusic] => "sound/temple.mp3"
-                                 [bgmvolume] => 100
-                               }
-                      }
-           [author] => "Elecbyte"
-           [daytime] => "Day"
-           [zoommin] => 1
-           [location] => "Mountainside Temple"
-           [name] => "Lobby"
-           [stage] => "stages/mountainside temple/lobby.def"
-           [zoommax] => 1
-         }
-  [7] => table: 02F28B00 {
-           [music] => table: 02F250B8 {
-                        [1] => table: 02F25D38 {
-                                 [bgmusic] => "sound/.mp3"
-                                 [bgmvolume] => 100
-                               }
-                      }
            [author] => "hekutta"
+           [stage] => "stages/mountainside temple/outside.def"
+           [music] => table: 02EA6340 {
+                        [1] => table: 02EA03C8 {
+                                 [bgmvolume] => 100
+                                 [bgmusic] => "sound/.mp3"
+                               }
+                      }
+         }
+  [5] => table: 02EA2650 {
+           [daytime] => "Day"
+           [music] => table: 02EA4658 {
+                        [1] => table: 02EA0670 {
+                                 [bgmvolume] => 100
+                                 [bgmusic] => "sound/Mountainside Temple.mp3"
+                               }
+                        [2] => table: 02EA0670 {
+                                 [bgmvolume] => 100
+                                 [bgmusic] => "sound/temple.mp3"
+                               }
+                      }
+           [name] => "Lobby"
+           [zoommax] => 1
+           [author] => "Elecbyte"
+           [stage] => "stages/mountainside temple/lobby.def"
+           [location] => "Mountainside Temple"
+           [zoommin] => 1
+         }
+  [6] => table: 02EA2650 {
            [daytime] => "Night"
            [name] => "Lobby"
-           [stage] => "stages/mountainside temple/lobby night.def"
            [location] => "Mountainside Temple"
-         }
-  [8] => table: 02F28B00 {
-           [music] => table: 02F2A400 {
-                        [1] => table: 02F25E78 {
-                                 [bgmusic] => "sound/.mp3"
+           [author] => "hekutta"
+           [stage] => "stages/mountainside temple/lobby night.def"
+           [music] => table: 02EA4158 {
+                        [1] => table: 02EA4478 {
                                  [bgmvolume] => 100
+                                 [bgmusic] => "sound/.mp3"
                                }
                       }
-           [author] => "hekutta"
+         }
+  [7] => table: 02EA2650 {
            [daytime] => "Night"
            [name] => "Lobby 2"
-           [stage] => "stages/mountainside temple/lobby 2 night.def"
            [location] => "Mountainside Temple"
-         }
-  [9] => table: 02F28B00 {
-           [music] => table: 02F28F38 {
-                        [1] => table: 02F27E58 {
-                                 [bgmusic] => "sound/.mp3"
+           [author] => "hekutta"
+           [stage] => "stages/mountainside temple/lobby 2 night.def"
+           [music] => table: 02EA7240 {
+                        [1] => table: 02EA0DA0 {
                                  [bgmvolume] => 100
+                                 [bgmusic] => "sound/.mp3"
                                }
                       }
-           [author] => "hekutta"
-           [name] => "Dark Corridor"
-           [stage] => "stages/mountainside temple/dark corridor.def"
-           [location] => "Mountainside Temple"
          }
-  [10] => table: 02F28B00 {
-            [music] => table: 02F283F8 {
-                         [1] => table: 02F26D28 {
-                                  [bgmusic] => "sound/.mp3"
+  [8] => table: 02EA2650 {
+           [music] => table: 02EA07D8 {
+                        [1] => table: 02EA21C8 {
+                                 [bgmvolume] => 100
+                                 [bgmusic] => "sound/.mp3"
+                               }
+                      }
+           [name] => "Dark Corridor"
+           [location] => "Mountainside Temple"
+           [author] => "hekutta"
+           [stage] => "stages/mountainside temple/dark corridor.def"
+         }
+  [9] => table: 02EA2650 {
+           [music] => table: 02EA26C8 {
+                        [1] => table: 02EA6430 {
+                                 [bgmvolume] => 100
+                                 [bgmusic] => "sound/.mp3"
+                               }
+                      }
+           [name] => "Winter"
+           [location] => "Mountainside Temple"
+           [author] => "hekutta"
+           [stage] => "stages/mountainside temple/winter.def"
+         }
+  [10] => table: 02EA2650 {
+            [music] => table: 02EA2DD0 {
+                         [1] => table: 02EA02B0 {
                                   [bgmvolume] => 100
-                                }
-                       }
-            [author] => "hekutta"
-            [name] => "Winter"
-            [stage] => "stages/mountainside temple/winter.def"
-            [location] => "Mountainside Temple"
-          }
-  [11] => table: 02F28B00 {
-            [music] => table: 02F26418 {
-                         [1] => table: 02F23C90 {
                                   [bgmusic] => "sound/China.mp3"
-                                  [bgmvolume] => 100
                                 }
                        }
-            [author] => "Phantom.of.the.Server"
-            [zoommin] => 1
             [name] => "China"
-            [stage] => "stages/china.def"
             [zoommax] => 1
+            [author] => "Phantom.of.the.Server"
+            [stage] => "stages/china.def"
+            [zoommin] => 1
           }
-  [12] => table: 02F28B00 {
-            [music] => table: 02F24910 {
-                         [1] => table: 02F27D18 {
+  [11] => table: 02EA2650 {
+            [music] => table: 02EA14F8 {
+                         [1] => table: 02EA6958 {
+                                  [bgmvolume] => 100
                                   [bgmusic] => "sound/Australian Outback.mp3"
-                                  [bgmvolume] => 100
                                 }
                        }
-            [author] => "Jean Bureau"
-            [zoommin] => 0.7
             [name] => "Australian Outback [HD]"
+            [zoommax] => 0.8
+            [author] => "Jean Bureau"
             [stage] => "stages/hd test/australian outback.def"
-            [zoommax] => 0.8
-          }
-  [13] => table: 02F28B00 {
-            [music] => table: 02F28DF8 {
-                         [1] => table: 02BFD918 {
-                                  [bgmusic] => "sound/Fairy Day.mp3"
-                                  [bgmvolume] => 100
-                                }
-                       }
-            [author] => "Jean Bureau"
-            [stage] => "stages/hd test/fairy day 4_3.def"
-            [name] => "Fairy Day (4:3) [HD]"
-          }
-  [14] => table: 02F28B00 {
-            [music] => table: 02C006E0 {
-                         [1] => table: 02F29A50 {
-                                  [bgmusic] => "sound/Fairy Day.mp3"
-                                  [bgmvolume] => 100
-                                }
-                       }
-            [author] => "Jean Bureau"
             [zoommin] => 0.7
+          }
+  [12] => table: 02EA2650 {
+            [author] => "Jean Bureau"
+            [music] => table: 02EA6908 {
+                         [1] => table: 002BD388 {
+                                  [bgmvolume] => 100
+                                  [bgmusic] => "sound/Fairy Day.mp3"
+                                }
+                       }
+            [name] => "Fairy Day (4:3) [HD]"
+            [stage] => "stages/hd test/fairy day 4_3.def"
+          }
+  [13] => table: 02EA2650 {
+            [music] => table: 002BC0F0 {
+                         [1] => table: 02EA2C90 {
+                                  [bgmvolume] => 100
+                                  [bgmusic] => "sound/Fairy Day.mp3"
+                                }
+                       }
             [name] => "Fairy Day (16:9) [HD]"
+            [zoommax] => 0.8
+            [author] => "Jean Bureau"
             [stage] => "stages/hd test/fairy day 16_9.def"
-            [zoommax] => 0.8
+            [zoommin] => 0.7
           }
-  [15] => table: 02F28B00 {
-            [music] => table: 02F24190 {
-                         [1] => table: 02F285D8 {
-                                  [bgmusic] => "sound/Aensland Castle.mp3"
-                                  [bgmvolume] => 100
-                                }
-                       }
+  [14] => table: 02EA2650 {
             [author] => "jafar"
-            [stage] => "stages/hd test/aensland castle.def"
+            [music] => table: 02EA47E8 {
+                         [1] => table: 02EA0580 {
+                                  [bgmvolume] => 100
+                                  [bgmusic] => "sound/Aensland Castle.mp3"
+                                }
+                       }
             [name] => "Aensland Castle [HD]"
+            [stage] => "stages/hd test/aensland castle.def"
           }
-  [16] => table: 02F28B00 {
-            [music] => table: 02F2A248 {
-                         [1] => table: 02F28600 {
-                                  [bgmusic] => "sound/Training Room 1.mp3"
+  [15] => table: 02EA2650 {
+            [music] => table: 02EA44A0 {
+                         [1] => table: 02EA1E58 {
                                   [bgmvolume] => 100
+                                  [bgmusic] => "sound/Training Room 1.mp3"
                                 }
                        }
-            [author] => "Beterhans"
-            [zoommin] => 0.5
             [name] => "Training Room [HD]"
-            [stage] => "stages/hd test/training room.def"
             [zoommax] => 0.8
+            [author] => "Beterhans"
+            [stage] => "stages/hd test/training room.def"
+            [zoommin] => 0.5
           }
-  [17] => table: 02F28B00 {
-            [music] => table: 02F25810 {
-                         [1] => table: 02F23650 {
-                                  [bgmusic] => "sound/Training Room 1.mp3"
+  [16] => table: 02EA2650 {
+            [music] => table: 02EA1430 {
+                         [1] => table: 02EA1480 {
                                   [bgmvolume] => 100
+                                  [bgmusic] => "sound/Training Room 1.mp3"
                                 }
                        }
-            [author] => "The Pierrot"
             [name] => "Training Room (Scale)"
+            [author] => "The Pierrot"
             [stage] => "stages/hd test/training room(scale).def"
             [zoommin] => 0.65
           }
-  [18] => table: 02F28B00 {
-            [music] => table: 02F28A88 {
-                         [1] => table: 02F2A6D0 {
-                                  [bgmusic] => "sound/Training Room 2.mp3"
-                                  [bgmvolume] => 100
-                                }
-                       }
+  [17] => table: 02EA2650 {
             [author] => "applest0re"
-            [stage] => "stages/training room 2.def"
+            [music] => table: 02EA2240 {
+                         [1] => table: 02EA5CD8 {
+                                  [bgmvolume] => 100
+                                  [bgmusic] => "sound/Training Room 2.mp3"
+                                }
+                       }
             [name] => "Training Room 2"
+            [stage] => "stages/training room 2.def"
           }
-  [19] => table: 02F28B00 {
-            [music] => table: 02F25568 {
-                         [1] => table: 02F29DC0 {
+  [18] => table: 02EA2650 {
+            [music] => table: 02EA5260 {
+                         [1] => table: 02EA3730 {
+                                  [bgmvolume] => 100
                                   [bgmusic] => "sound/Student.mp3"
-                                  [bgmvolume] => 100
                                 }
                        }
-            [zoommin] => 0.85
             [name] => "Sakura"
-            [stage] => "stages/sakura.def"
             [zoommax] => 1
+            [author] => "Shiyo Kakuge"
+            [stage] => "stages/sakura.def"
+            [zoommin] => 0.85
           }
-  [20] => table: 02F28B00 {
-            [music] => table: 02F23CB8 {
-                         [1] => table: 02F2AA18 {
+  [19] => table: 02EA2650 {
+            [music] => table: 02EA0D50 {
+                         [1] => table: 02EA1458 {
+                                  [bgmvolume] => 100
                                   [bgmusic] => "sound/Suave's Corridor.mp3"
-                                  [bgmvolume] => 100
                                 }
                        }
-            [author] => "hekutta"
             [name] => "Suave's Corridor"
+            [location] => "Mountainside Temple"
+            [author] => "hekutta"
             [stage] => "stages/mountainside temple/suave's corridor.def"
-            [location] => "Mountainside Temple"
           }
-  [21] => table: 02F28B00 {
-            [music] => table: 02F2A7E8 {
-                         [1] => table: 02F287B8 {
+  [20] => table: 02EA2650 {
+            [music] => table: 02EA6D18 {
+                         [1] => table: 02EA5C88 {
+                                  [bgmvolume] => 100
                                   [bgmusic] => "sound/sfx/Wind.mp3"
-                                  [bgmvolume] => 100
                                 }
                        }
-            [author] => "hekutta"
             [name] => "Hidden Room"
-            [stage] => "stages/mountainside temple/hidden room.def"
             [location] => "Mountainside Temple"
-          }
-  [22] => table: 02F28B00 {
-            [music] => table: 02F26580 {
-                         [1] => table: 02F29320 {
-                                  [bgmusic] => "sound/sfx/Thunderstorm.ogg"
-                                  [bgmvolume] => 100
-                                }
-                       }
             [author] => "hekutta"
+            [stage] => "stages/mountainside temple/hidden room.def"
+          }
+  [21] => table: 02EA2650 {
             [daytime] => "Night"
             [name] => "Roof"
-            [stage] => "stages/mountainside temple/roof night.def"
             [location] => "Mountainside Temple"
-          }
-  [23] => table: 02F28B00 {
-            [music] => table: 02F24B68 {
-                         [1] => table: 02F26E68 {
-                                  [bgmusic] => "sound/Far Mountains.mp3"
+            [author] => "hekutta"
+            [stage] => "stages/mountainside temple/roof night.def"
+            [music] => table: 02EA3028 {
+                         [1] => table: 02EA5B98 {
                                   [bgmvolume] => 100
+                                  [bgmusic] => "sound/sfx/Thunderstorm.ogg"
                                 }
                        }
-            [author] => "Charles2011"
-            [zoommin] => 0.85
-            [name] => "Far Mountains"
-            [stage] => "stages/far mountains.def"
-            [zoommax] => 1.25
           }
-  [24] => table: 02F28B00 {
-            [music] => table: 02F2AA90 {
-                         [1] => table: 02F27778 {
-                                  [bgmusic] => "sound/Student.mp3"
+  [22] => table: 02EA2650 {
+            [music] => table: 02EA1390 {
+                         [1] => table: 02EA6A20 {
                                   [bgmvolume] => 100
+                                  [bgmusic] => "sound/Far Mountains.mp3"
+                                }
+                       }
+            [name] => "Far Mountains"
+            [zoommax] => 1.25
+            [author] => "Charles2011"
+            [stage] => "stages/far mountains.def"
+            [zoommin] => 0.85
+          }
+  [23] => table: 02EA2650 {
+            [author] => "Shiyo Kakuge"
+            [music] => table: 02EA6A98 {
+                         [1] => table: 02EA5198 {
+                                  [bgmvolume] => 100
+                                  [bgmusic] => "sound/Student.mp3"
                                 }
                        }
             [name] => "Mountain Valley"
             [stage] => "stages/mountain valley.def"
           }
-  [25] => table: 02F28B00 {
-            [music] => table: 02F299B0 {
-                         [1] => table: 02F24CA8 {
-                                  [bgmusic] => "sound/Ultimate Warrior.mp3"
+  [24] => table: 02EA2650 {
+            [author] => "NexT One & Airolg1990"
+            [music] => table: 02EA50D0 {
+                         [1] => table: 02EA29C0 {
                                   [bgmvolume] => 100
+                                  [bgmusic] => "sound/Ultimate Warrior.mp3"
                                 }
                        }
             [name] => "Sunday Afternoon"
             [stage] => "stages/sunday afternoon.def"
-          }
-  [26] => table: 02F28B00 {
-            [name] => "RESERVED FOR P1 AUTO STAGE"
           }
 }

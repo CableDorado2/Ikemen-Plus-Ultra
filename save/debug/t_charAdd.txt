@@ -1,16 +1,16 @@
-table: 0304BD10 {
+table: 02EFE268 {
+  [kung fu man/evil/evil kung fu man.def] => 120
+  [dragon claw] => 123
+  [randomselect] => 119
+  [suave dude/minion/minion.def] => 122
   [stage viewer] => 129
-  [kung fu girl/master/master kung fu girl.def] => 124
   [training/sandbag.def] => 128
   [suave dude] => 12
-  [strength training] => 126
-  [kung fu man/master/master kung fu man.def] => 125
-  [kung fu man/evil/evil kung fu man.def] => 120
   [catwalk] => 127
-  [suave dude/minion/minion.def] => 122
-  [kung fu man/ex/ex kung fu man.def] => 121
   [kung fu girl] => 4
-  [randomselect] => 119
+  [kung fu girl/master/master kung fu girl.def] => 124
+  [kung fu man/master/master kung fu man.def] => 125
   [kung fu man] => 0
-  [dragon claw] => 123
+  [strength training] => 126
+  [kung fu man/ex/ex kung fu man.def] => 121
 }

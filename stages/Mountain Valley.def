@@ -9,7 +9,7 @@
 [Info]
 name = "Mountain Valley"
 displayname="Mountain Valley"
-author: "Shiyo Kakuge"
+author= "Shiyo Kakuge"
 
 [Camera]
 startx = 0

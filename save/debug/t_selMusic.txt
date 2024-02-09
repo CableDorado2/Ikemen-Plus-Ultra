@@ -1,120 +1,120 @@
-table: 02F2A680 {
-  [1] => table: 02F2A680 {
+table: 02EA7038 {
+  [1] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "AUTO"
            [bgmfile] => ""
          }
-  [2] => table: 02F2A680 {
+  [2] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "AUTO [RIGHT SIDE]"
            [bgmfile] => ""
          }
-  [3] => table: 02F2A680 {
+  [3] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "RANDOM"
            [bgmfile] => ""
          }
-  [4] => table: 02F2A680 {
+  [4] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "Aensland Castle"
            [bgmfile] => ""
          }
-  [5] => table: 02F2A680 {
+  [5] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "Australian Outback"
            [bgmfile] => ""
          }
-  [6] => table: 02F2A680 {
+  [6] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "China"
            [bgmfile] => ""
          }
-  [7] => table: 02F2A680 {
+  [7] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "Curse"
            [bgmfile] => ""
          }
-  [8] => table: 02F2A680 {
+  [8] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "Danger Toy"
            [bgmfile] => ""
          }
-  [9] => table: 02F2A680 {
+  [9] => table: 02EA7038 {
            [bgmchar] => 0
            [bgmname] => "Fairy Day"
            [bgmfile] => ""
          }
-  [10] => table: 02F2A680 {
+  [10] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Far Mountains"
             [bgmfile] => ""
           }
-  [11] => table: 02F2A680 {
+  [11] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Killer Mirror"
             [bgmfile] => ""
           }
-  [12] => table: 02F2A680 {
+  [12] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Mountainside Temple"
             [bgmfile] => ""
           }
-  [13] => table: 02F2A680 {
+  [13] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Random 1"
             [bgmfile] => ""
           }
-  [14] => table: 02F2A680 {
+  [14] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Random 2"
             [bgmfile] => ""
           }
-  [15] => table: 02F2A680 {
+  [15] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Roof"
             [bgmfile] => ""
           }
-  [16] => table: 02F2A680 {
+  [16] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Student"
             [bgmfile] => ""
           }
-  [17] => table: 02F2A680 {
+  [17] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Suave's Corridor"
             [bgmfile] => ""
           }
-  [18] => table: 02F2A680 {
+  [18] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Temple"
             [bgmfile] => ""
           }
-  [19] => table: 02F2A680 {
+  [19] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Training Room 1"
             [bgmfile] => ""
           }
-  [20] => table: 02F2A680 {
+  [20] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Training Room 2"
             [bgmfile] => ""
           }
-  [21] => table: 02F2A680 {
+  [21] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Ultimate Warrior"
             [bgmfile] => ""
           }
-  [22] => table: 02F2A680 {
+  [22] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "Upkeeper"
             [bgmfile] => ""
           }
-  [23] => table: 02F2A680 {
+  [23] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "MUTE"
             [bgmfile] => ""
           }
-  [24] => table: 02F2A680 {
+  [24] => table: 02EA7038 {
             [bgmchar] => 0
             [bgmname] => "AUTO [LEFT SIDE]"
             [bgmfile] => ""

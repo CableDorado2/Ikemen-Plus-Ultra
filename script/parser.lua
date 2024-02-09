@@ -5,7 +5,7 @@ onlinegame = false
 replaygame = false
 coinSystem = true
 data.tagmode = 1
-data.includestage = 1 --Include Auto Right side stage
+data.includestage = 0
 
 --;===========================================================
 --; INITIAL ACTIONS
@@ -283,9 +283,7 @@ for line in content:gmatch('[^\r\n]+') do
 		t_selChars = {}
 		section = 1
 	elseif line:match('^%s*%[%s*extrastages%s*%]') then
-		t_selStages = { --Generate Table with Stage List
-			{name = 'RESERVED FOR P2 AUTO STAGE'}
-		}
+		t_selStages = {}
 		section = 2
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
@@ -424,7 +422,7 @@ for line in content:gmatch('[^\r\n]+') do
 					--name = ''
 					--t_selStages[row]['name'] = name
 				--end
-				t_selStages[row]['name'] = getStageName(#t_selStages-1):gsub('^["%s]*(.-)["%s]*$', '%1')
+				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
 				t_stageDef[c] = row
 			elseif c:match('music%s*=%s*') then
@@ -597,7 +595,7 @@ for i=1, #t_selChars do
 					--name = ''
 					--t_selStages[row]['name'] = name
 				--end
-				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages-1):gsub('^["%s]*(.-)["%s]*$', '%1')
+				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
 				t_selChars[i].stage[j] = #t_selStages
 				--t_stageDef[t_selChars[i].stage[j]] = row
@@ -658,9 +656,6 @@ for i=1, #t_selChars do
 		end
 	end
 end
-
---Add extra item to Stage Select table
-t_selStages[#t_selStages+1] = {name = 'RESERVED FOR P1 AUTO STAGE'}
 
 --Generate Table with Music List
 t_selMusic = {

@@ -99,6 +99,8 @@ stageSelect = true
 songSelect = false
 p1stage = false
 p2stage = false
+p1autoSlot = false
+p2autoSlot = false
 p1song = false
 p2song = false
 stageAnnouncer = false
@@ -3874,7 +3876,7 @@ function f_selectStage()
 				p1charStage = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage)
 				p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage]
 				p1stage = true
-			else --If there no music assigned for left side character
+			else --If there no stage assigned for left side character
 				p1stage = false
 			end
 			if t_selChars[data.t_p2selected[1].cel+1].stage ~= nil then
@@ -3882,7 +3884,7 @@ function f_selectStage()
 				p2charStage = t_selChars[data.t_p2selected[1].cel+1].stage[p2charStage]
 				p2stage = true
 			else
-				--If there no music assigned for right side character
+				--If there no stage assigned for right side character
 				p2stage = false
 			end
 		end
@@ -3966,11 +3968,34 @@ function f_selectStage()
 				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
-						stageList = stageList + 1
-						if stageList == data.includestage + 1 and not p1stage then stageList = 0 end --Skip Player 1 Stage if is not assigned
-						if stageList == 1 and not p2stage then stageList = stageList + 1 end --Skip Player 2 Stage if is not assigned
-						if stageList == data.includestage + 1 then stageList = #t_selStages+0 end --Get Auto Right Side Stage
-						if stageList == #t_selStages+1 then stageList = 0 end --Get random select
+						--if stageList > 0 and not p2stage then --Skip Player 2 Stage if is not assigned (Go to next stage)
+							--p2autoSlot = false
+							--stageList = 1
+						if stageList == 0 then
+							if p2stage == true and not p2autoSlot then --Auto Right Side Stage
+								p2autoSlot = true
+								--stageList = 0
+							elseif p2stage == true and p2autoSlot == true then
+								p2autoSlot = false
+								stageList = stageList + 1
+							end
+						else
+							stageList = stageList + 1
+						end
+						
+						--if stageList == data.includestage and not p1stage then --Skip Player 1 Stage if is not assigned (Go to random select)
+							--p1autoSlot = false
+							--stageList = 0
+						--elseif stageList == data.includestage and p1stage == true then --Auto Left Side Stage
+							--p1autoSlot = true
+							--stageList = 0
+						--end
+						
+						
+						--if stageList == data.includestage + 1 and not p1stage then stageList = 0 end --Skip Player 1 Stage if is not assigned
+						--if stageList == 1 and not p2stage then stageList = stageList + 1 end --Skip Player 2 Stage if is not assigned
+						--if stageList == data.includestage + 1 then stageList = #t_selStages+0 end --Get Auto Right Side Stage
+						--if stageList == #t_selStages+1 then stageList = 0 end --Get random select
 					end
 					if songSelect == true then
 						musicList = musicList + 1
@@ -3982,10 +4007,12 @@ function f_selectStage()
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
 						stageList = stageList - 1
-						if stageList == -1 and not p1stage then stageList = data.includestage end --Skip Player 1 Stage if is not assigned
-						if stageList == -1 then stageList = #t_selStages+0 end --Get Auto Left Side Stage
-						if stageList == #t_selStages-1 then stageList = data.includestage end --Get lastest stage added
-						if stageList == 1 and not p2stage then stageList = stageList - 1 end --Skip Player 2 Stage if is not assigned
+						if stageList < 0 then stageList = data.includestage end
+						
+						--if stageList == -1 and not p1stage then stageList = data.includestage end --Skip Player 1 Stage if is not assigned
+						--if stageList == -1 then stageList = #t_selStages+0 end --Get Auto Left Side Stage
+						--if stageList == #t_selStages-1 then stageList = data.includestage end --Get lastest stage added
+						--if stageList == 1 and not p2stage then stageList = stageList - 1 end --Skip Player 2 Stage if is not assigned
 					end
 					if songSelect == true then
 						musicList = musicList - 1
@@ -4026,45 +4053,49 @@ function f_selectStage()
 			p2Portrait = nil
 			textImgSetPos(txt_mainSelect, 999,999)
 		end
-		--Draw Stage Previews
-		if stageList == #t_selStages+0 then --Name added via system.ssz
-			if data.stageType == 'Classic' then
-				animUpdate(stage0)
-				animDraw(stage0) --Draw Auto Left Side Stage Preview
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage0M)
-				animDraw(stage0M)
+	--Stage Data
+		if stageList == 0 then
+			if p1autoSlot == true then
+			--Draw Stage Preview
+				--if data.stageType == 'Classic' then
+					--animUpdate(stagep1)
+					--animDraw(stagep1)
+				--elseif data.stageType == 'Modern' then
+					--animUpdate(stagep1M)
+					--animDraw(stagep1M)
+				--end
+			--Set Stage Name
+				textImgSetText(txt_selStage, 'STAGE: AUTO [LEFT SIDE]')
+			elseif p2autoSlot == true then
+				--if data.stageType == 'Classic' then
+					--animUpdate(stagep2)
+					--animDraw(stagep2)
+				--elseif data.stageType == 'Modern' then
+					--animUpdate(stagep2M)
+					--animDraw(stagep2M)
+				--end
+				textImgSetText(txt_selStage, 'STAGE: AUTO [RIGHT SIDE]')
+			else --random select
+				if data.stageType == 'Classic' then
+					animUpdate(stage0)
+					animDraw(stage0)
+				elseif data.stageType == 'Modern' then
+					animUpdate(stage0M)
+					animDraw(stage0M)
+				end
+				textImgSetText(txt_selStage, 'STAGE: RANDOM')
 			end
-		elseif stageList == 0 then --Name added via system.ssz
+		else --Stages Added in select.def
+		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
 			if data.stageType == 'Classic' then
-				animUpdate(stage0)
-				animDraw(stage0) --Draw Random Stage Preview
+				drawStagePortrait(stageList-1, 114.5, 172, 0.0705, 0.0699)
 			elseif data.stageType == 'Modern' then
-				animUpdate(stage0M)
-				animDraw(stage0M)
+				drawStagePortrait(stageList-1, 64.600, 74.8, 0.149, 0.148)
 			end
-		elseif stageList == 1 then --Name added via system.ssz
-			if data.stageType == 'Classic' then
-				animUpdate(stage0)
-				animDraw(stage0) --Draw Auto Right Side Stage Preview
-			elseif data.stageType == 'Modern' then
-				animUpdate(stage0M)
-				animDraw(stage0M)
-			end
-		else --Draw Preview of Available Stages (Resolution Recommended for images: 1280x720)
-			if data.stageType == 'Classic' then
-				drawStagePortrait(stageList-2, 114.5, 172, 0.0705, 0.0699)
-			elseif data.stageType == 'Modern' then
-				drawStagePortrait(stageList-2, 64.600, 74.8, 0.149, 0.148)
-			end
+		--Set Stage Name
+			textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. t_selStages[stageList].name)
 		end
-		--Set Stage Text
-		if stageList == #t_selStages+0 then textImgSetText(txt_selStage, 'STAGE: AUTO [LEFT SIDE]')
-		elseif stageList == 0 then textImgSetText(txt_selStage, 'STAGE: RANDOM')
-		elseif stageList == 1 then textImgSetText(txt_selStage, 'STAGE: AUTO [RIGHT SIDE]')
-		else textImgSetText(txt_selStage, 'STAGE ' .. stageList-1 .. ': ' .. t_selStages[stageList+0].name)
-		end
-		--Set BGM Text
+	--BGM Data
 		if musicList == #t_selMusic-2 then --Mute
 			musicNo = ''
 		elseif musicList == #t_selMusic-1 then --Auto Left Side
@@ -4078,54 +4109,62 @@ function f_selectStage()
 		else --Loaded Folder Songs
 			musicNo = ' ' .. musicList-2 .. ''
 		end
+	--Set BGM Name
 		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
-		if stageSelect == true then
+	--Draw Info Text
+		if stageSelect == true then --Draw Stage Cursor Text
 			textImgSetBank(txt_selStage, 5)
 			textImgSetBank(txt_selectMusic, 0)
 			textImgDraw(txt_selStage)
 			textImgDraw(txt_selectMusic)
-		elseif songSelect == true then
+		elseif songSelect == true then --Draw BGM Cursor Text
 			textImgSetBank(txt_selStage, 0)
 			textImgSetBank(txt_selectMusic, 5)
 			textImgDraw(txt_selStage)
 			textImgDraw(txt_selectMusic)
 		end
-		--Set Author Text
+	--Set Author Text
 		if data.stageInfo == 'Author' or data.stageInfo == 'All' then
-			if stageList == #t_selStages+0 then --For Auto - Left Side Player Stage
-				if t_selStages[p1charStage].author ~= nil and t_selStages[p1charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p1charStage].author) end
-			elseif stageList == 0 then --For Random Select
-				textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
-			elseif stageList == 1 then --For Auto - Right Side Player Stage
-				if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p2charStage].author) end
+			if stageList == 0 then
+				if p1autoSlot == true then --For Auto - Left Side Player Stage
+					if t_selStages[p1charStage].author ~= nil and t_selStages[p1charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p1charStage].author) end
+				elseif p2autoSlot == true then --For Auto - Right Side Player Stage
+					if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p2charStage].author) end
+				else --For Random Select
+					textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+				end
 			else --For loaded stages
-				if t_selStages[stageList+0].author ~= nil and t_selStages[stageList+0].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList+0].author) end
+				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList].author) end
 			end
 			textImgDraw(txt_stageAuthor) --Draw Info Text
 		end
-		--Set Location Text
+	--Set Location Text
 		if data.stageInfo == 'Location' or data.stageInfo == 'All' then
-			if stageList == #t_selStages+0 then
-				if t_selStages[p1charStage].location ~= nil and t_selStages[p1charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p1charStage].location) end
-			elseif stageList == 0 then
-				textImgSetText(txt_stageLocation, 'LOCATION: ???')
-			elseif stageList == 1 then
-				if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p2charStage].location) end
+			if stageList == 0 then
+				if p1autoSlot == true then
+					if t_selStages[p1charStage].location ~= nil and t_selStages[p1charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p1charStage].location) end
+				elseif p2autoSlot == true then
+					if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p2charStage].location) end
+				else
+					textImgSetText(txt_stageLocation, 'LOCATION: ???')
+				end
 			else
-				if t_selStages[stageList+0].location ~= nil and t_selStages[stageList+0].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList+0].location) end
+				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList].location) end
 			end
 			textImgDraw(txt_stageLocation)
 		end
-		--Set Time Text
+	--Set Time Text
 		if data.stageInfo == 'Time' or data.stageInfo == 'All' then
-			if stageList == #t_selStages+0 then
-				if t_selStages[p1charStage].daytime ~= nil and t_selStages[p1charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p1charStage].daytime) end
-			elseif stageList == 0 then
-				textImgSetText(txt_stageDayTime, 'TIME: ???')
-			elseif stageList == 1 then
-				if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p2charStage].daytime) end
+			if stageList == 0 then
+				if p1autoSlot == true then
+					if t_selStages[p1charStage].daytime ~= nil and t_selStages[p1charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p1charStage].daytime) end
+				elseif p2autoSlot == true then
+					if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p2charStage].daytime) end
+				else
+					textImgSetText(txt_stageDayTime, 'TIME: ???')
+				end
 			else
-				if t_selStages[stageList+0].daytime ~= nil and t_selStages[stageList+0].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList+0].daytime) end
+				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList].daytime) end
 			end
 			textImgDraw(txt_stageDayTime)
 		end
@@ -4219,7 +4258,7 @@ function f_loadCharResources()
 			p2charStage = t_selChars[data.t_p2selected[1].cel+1].stage[p2charStage]
 			p2stage = true
 		else
-			--If there no music assigned for right side character
+			--If there no stage assigned for right side character
 			p2stage = false
 		end
 	else
@@ -4237,7 +4276,7 @@ function f_loadCharResources()
 			p1charStage = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage)
 			p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage]
 			p1stage = true
-		else --If there no music assigned for left side character
+		else --If there no stage assigned for left side character
 			p1stage = false
 		end
 	end
@@ -4310,16 +4349,18 @@ function f_musicPreview()
 end
 
 function f_stageAnnouncer()
-	if t_selStages[stageList+0].name == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
-	elseif t_selStages[stageList+0].name == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
-	--elseif t_selStages[stageList+0].name == 'Your Stage Name' then sndPlay(announcerSnd, 0,1)
+	if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
+	elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
+	--elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Your Stage Name' then sndPlay(announcerSnd, 0,1)
 	end
 end
 
 function f_loadStage()
-	if stageList == #t_selStages+0 then stageNo = p1charStage --Auto - Left Side Player Stage
-	elseif stageList == 0 then stageNo = math.random(1, data.includestage) --Random Stage
-	elseif stageList == 1 then stageNo = p2charStage --Auto - Right Side Player Stage
+	if stageList == 0 then
+		if p1autoSlot == true then stageNo = p1charStage --Auto - Left Side Player Stage
+		elseif p2autoSlot == true then stageNo = p2charStage --Auto - Right Side Player Stage
+		else stageNo = math.random(1, data.includestage) --Random Stage
+		end
 	else stageNo = stageList --Stages Loaded via select.def
 	end
 	setStage(stageNo)
@@ -7427,7 +7468,7 @@ function f_favoriteChar()
 end
 
 function f_favoriteStage()
-	data.favoriteStage = t_selStages[stageList+0].name --Improve store logic with json
+	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with json
 	f_saveProgress()
 	assert(loadfile('save/stats_sav.lua'))()
 end
