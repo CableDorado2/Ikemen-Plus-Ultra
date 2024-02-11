@@ -715,8 +715,14 @@ function f_drawSelectNameP2(id, bank, t, x, y, spacingX, spacingY, rowUnique, ba
 	return x, y
 end
 
-function f_drawCharAnim(t, data, x, y, update)
+function f_drawCharAnim(t, data, x, y, update, scaleX, scaleY, alphas, alphad)
 	if t ~= nil and t[data] ~= nil then
+		scaleX = scaleX or 1
+		scaleY = scaleY or 1
+		alphas = alphas or 255
+		alphad = alphad or 0
+		animSetScale(t[data], scaleX, scaleY)
+		animSetAlpha(t[data], alphas, alphad)
 		animSetPos(t[data], x, y)
 		animDraw(t[data])
 		if update then
@@ -2199,13 +2205,167 @@ animAddPos(charBG3, 160, 0)
 animSetTile(charBG3, 1, 1)
 animSetWindow(charBG3, 200, 20, 120, 140)
 
+--Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
+arrowsUMR = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUMR, 5, 160)
+animUpdate(arrowsUMR)
+animSetScale(arrowsUMR, 0.95, 0.95)
+
+--Down Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
+arrowsDMR = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDMR, 5, 223)
+animUpdate(arrowsDMR)
+animSetScale(arrowsDMR, 0.95, 0.95)
+
+--Up Arrows 1 for Muti Roster 2 (Right Side) [Fixed Type]
+arrowsUMR2 = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUMR2, 307, 160)
+animUpdate(arrowsUMR2)
+animSetScale(arrowsUMR2, 0.95, 0.95)
+
+--Down Arrows 2 for Muti Roster 2 (Right Side) [Fixed Type]
+arrowsDMR2 = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDMR2, 307, 223)
+animUpdate(arrowsDMR2)
+animSetScale(arrowsDMR2, 0.95, 0.95)
+
+--Up Arrows for Single Roster (Variable Type)
+arrowsUSR = animNew(sysSff, [[
+222,5, 0,0, 10
+222,6, 0,0, 10
+222,7, 0,0, 10
+222,8, 0,0, 10
+222,9, 0,0, 10
+222,8, 0,0, 10
+222,7, 0,0, 10
+222,6, 0,0, 10
+222,5, 0,0, 10
+]])
+animAddPos(arrowsUSR, 156, 160)
+animUpdate(arrowsUSR)
+animSetScale(arrowsUSR, 0.95, 0.95)
+
+--Down Arrows for Single Roster (Variable Type)
+arrowsDSR = animNew(sysSff, [[
+222,0, 0,0, 10
+222,1, 0,0, 10
+222,2, 0,0, 10
+222,3, 0,0, 10
+222,4, 0,0, 10
+222,3, 0,0, 10
+222,2, 0,0, 10
+222,1, 0,0, 10
+222,0, 0,0, 10
+]])
+animAddPos(arrowsDSR, 156, 223)
+animUpdate(arrowsDSR)
+animSetScale(arrowsDSR, 0.95, 0.95)
+
+--Left Arrow for Player 1 Palette Select (Modern Type)
+arrowsPL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsPL, 67, 227.5)
+animUpdate(arrowsPL)
+animSetScale(arrowsPL, 0.5, 0.5)
+
+--Left Arrow for Player 2 Palette Select (Modern Type)
+arrowsPL2 = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsPL2, 194, 227.5)
+animUpdate(arrowsPL2)
+animSetScale(arrowsPL2, 0.5, 0.5)
+
+--Right Arrow for Player 1 Palette Select (Modern Type)
+arrowsPR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsPR, 115, 227.5)
+animUpdate(arrowsPR)
+animSetScale(arrowsPR, 0.5, 0.5)
+
+--Right Arrow for Player 2 Palette Select (Modern Type)
+arrowsPR2 = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsPR2, 242, 227.5)
+animUpdate(arrowsPR2)
+animSetScale(arrowsPR2, 0.5, 0.5)
+
 --;===========================================================
 --; CHARACTER SELECT SCREEN
 --;===========================================================
 txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
-txt_p1Author = createTextImg(jgFnt, 0, 1, '', 0, 20, .65,.65)
-txt_p2Author = createTextImg(jgFnt, 0, -1, '', 320, 20, .65,.65)
 
 function f_selectScreen()
 	--draw
@@ -2623,6 +2783,439 @@ function f_p1TeamMenu()
 end
 
 --;===========================================================
+--; PLAYER 1 CHARACTER SELECT
+--;===========================================================
+txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0)
+txt_p1Author = createTextImg(jgFnt, 0, 1, '', 0, 20, .65,.65)
+
+function f_p1palList() --Palette Menu
+	cmdInput()
+	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
+		sndPlay(sysSnd, 100, 0)
+		p1movePal = p1movePal + 1
+	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1movePal > 1 then --Keep in palette 1 when press left until finish
+		sndPlay(sysSnd, 100, 0)
+		p1movePal = p1movePal - 1
+	end
+	if commandGetState(p1Cmd, 'holdu') then
+		bufPald = 0
+		bufPalu = bufPalu + 1
+	elseif commandGetState(p1Cmd, 'holdd') then
+		bufPalu = 0
+		bufPald = bufPald + 1
+	elseif commandGetState(p1Cmd, 'holdr') then
+		bufPall = 0
+		bufPalr = bufPalr + 1
+	elseif commandGetState(p1Cmd, 'holdl') then
+		bufPalr = 0
+		bufPall = bufPall + 1
+	else
+		bufPalu = 0
+		bufPald = 0
+		bufPalr = 0
+		bufPall = 0
+	end
+	p1palSelect = p1movePal --Uses menu position to show palette in these order
+	txt_pal = createTextImg(jgFnt, 5, 1, 'PALETTE:', 5, 237)
+	txt_palNumber = createTextImg(font14, 0, 0, ' ' .. p1palSelect .. '/12', 93, 237) --draw palette limit numbers text
+	textImgDraw(txt_pal)
+	textImgDraw(txt_palNumber)
+	if p1movePal > 1 then
+		animDraw(arrowsPL)
+		animUpdate(arrowsPL)
+	end
+	if p1movePal <= 11 then
+		animDraw(arrowsPR)
+		animUpdate(arrowsPR)
+	end
+	if btnPalNo(p1Cmd) > 0 then
+		sndPlay(sysSnd, 100, 1)
+		p1palEnd = true
+		cmdInput()
+	elseif esc() or selectTimer == 0 then
+		p1palEnd = true
+	end
+end
+
+function f_p1SelectMenu()
+	if data.p1Char ~= nil then
+		local t = {}
+		for i=1, #data.p1Char do
+			local updateAnim = false
+			if t[data.p1Char[i]] == nil then
+				updateAnim = true
+				t[data.p1Char[i]] = ''
+			end
+			if data.p1Pal ~= nil then --Set Manual Palette
+				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = data.p1Pal, ['up'] = updateAnim}
+			else
+				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+			end
+		end
+		p1Portrait = data.p1Char[1]
+		--local numChars = p1numChars
+		--if data.coop then numChars = 1 end
+		p1SelEnd = true
+	elseif not data.p1SelectMenu then
+		p1SelEnd = true
+	else
+		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --Draw P1 Portrait BG
+		end
+		local numChars = p1numChars
+		if data.coop then numChars = 1 end
+		if p1Cell then
+			--Waiting Selection
+			if numChars ~= #data.t_p1selected then
+				local updateAnim = true
+				for i=1, #data.t_p1selected do
+					if data.t_p1selected[i].cel == p1Cell then 
+						updateAnim = false
+					end
+				end
+				--Cursor in Random Select
+				if getCharName(p1Cell) == 'Random' then
+					--sndPlay(sysSnd, 100, 0) --Play Cursor SFX...
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						if p1numChars == 1 then --For Single Mode
+							drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 1) --Draw P1 RANDOM Portrait (showing all characters loaded)
+						else--if p1numChars == 2 then --For Team Modes
+							drawPortrait(t_randomChars[math.random(#t_randomChars)], 125, 16, 0.5, 0.5)
+						--elseif p1numChars == 3 then
+							
+						--elseif p1numChars == 4 then
+							
+						end
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+						--f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 158, true) --Draw P1 RANDOM stand animation with automatic X position for all members (instead of use p1numChars logic)
+						if p1numChars == 1 then
+							f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM stand animation (true means that always will be in a loop updateAnim)
+						else--if p1numChars == 2 then
+							f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --0.5,0.5 is the animation scale
+						--elseif p1numChars == 3 then
+							
+						--elseif p1numChars == 4 then
+							
+						end
+					end
+				--Cursor in any Character loaded
+				else
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						if p1numChars == 1 then
+							drawPortrait(p1Portrait, 0, 20, 1, 1) --Draw P1 Member 1 Portrait
+						else
+							--drawPortrait(p1Portrait, 125, 16, 0.5, 0.5)
+							if i == 2 then
+								drawPortrait(p1Portrait, 60, 90, 0.5, 0.5) end
+							drawPortrait(p1Portrait, 0, 20, 0.5, 0.5)
+						--elseif p1numChars == 3 then
+							
+						--elseif p1numChars == 4 then
+							
+						end
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+						--f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 158, true, 1, 1, 200) --Draw P1 Member 1 Stand Animation with automatic X position for all members (instead of use p1numChars logic)
+						if p1numChars == 1 then
+							f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30, 158, true, 1, 1, 200) --200 is the alphas value
+						else--if p1numChars == 2 then
+							f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 132, 85, true, 0.5, 0.5, 200)
+						--elseif p1numChars == 3 then
+							
+						--elseif p1numChars == 4 then
+							
+						end
+					end
+				end
+			end
+			--When a Character is Selected
+			for j=#data.t_p1selected, 1, -1 do
+				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					--drawPortrait(data.t_p1selected[j].cel, 0+60*(j-1), 20, 1, 1) --Draw P1 Portrait with automatic Y position for all members (instead of use p1numChars logic)
+					if p1numChars == 1 then --For Single Mode
+						drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) --Draw P1 Member 1 Portrait
+					elseif p1numChars == 2 then --For Team Mode with 2 Players
+						if j == 2 then drawPortrait(data.t_p1selected[2].cel,60, 90, 0.5, 0.5) end --Draw P1 Member 2 Portrait
+						drawPortrait(data.t_p1selected[1].cel, 60, 20, 0.5, 0.5) --The lastest drawPortrait have draw priority on screen
+					elseif p1numChars == 3 then --For Team Mode with 3 Players
+						if j == 3 then drawPortrait(data.t_p1selected[3].cel, 60, 90, 0.5, 0.5) end --Draw P1 Member 3 Portrait
+						if j == 2 then drawPortrait(data.t_p1selected[2].cel, 0, 90, 0.5, 0.5) end
+						drawPortrait(data.t_p1selected[1].cel, 30, 20, 0.5, 0.5)
+					elseif p1numChars == 4 then --For Team Mode with 4 Players
+						if j == 4 then drawPortrait(data.t_p1selected[4].cel, 60, 90, 0.5, 0.5) end --Draw P1 Member 4 Portrait
+						if j == 3 then drawPortrait(data.t_p1selected[3].cel, 0, 90, 0.5, 0.5) end
+						if j == 2 then drawPortrait(data.t_p1selected[2].cel, 60, 20, 0.5, 0.5) end
+						drawPortrait(data.t_p1selected[1].cel, 0, 20, 0.5, 0.5)
+					end
+				end
+				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+					--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + 28*(j-1), 158, data.t_p1selected[j].up) --Draw P1 Stand Animation with automatic X position for all members (instead of use p1numChars logic)
+					if p1numChars == 1 then
+						f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 30, 158, data.t_p1selected[1].up) --Draw P1 Member 1 Selected/Win Animation
+					elseif p1numChars == 2 then
+						if j == 2 then f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 30, 158, data.t_p1selected[2].up, 0.5, 0.5) end --Draw P1 Member 2 Selected/Win Animation
+						f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 30, 90, data.t_p1selected[1].up, 0.5, 0.5) --The lastest f_drawCharAnim have draw priority on screen
+					elseif p1numChars == 3 then
+						if j == 3 then f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[3].up, 0.5, 0.5) end --Draw P1 Member 3 Selected/Win Animation
+						if j == 2 then f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[2].up, 0.5, 0.5) end
+						f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 90, data.t_p1selected[1].up, 0.5, 0.5)
+					elseif p1numChars == 4 then
+						if j == 4 then f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[4].up, 0.5, 0.5) end --Draw P1 Member 4 Selected/Win Animation
+						if j == 3 then f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[3].up, 0.5, 0.5) end
+						if j == 2 then f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 70, 85, data.t_p1selected[2].up, 0.5, 0.5) end
+						f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 10, 85, data.t_p1selected[1].up, 0.5, 0.5)
+					end
+				end
+				if data.charInfo == 'Author' then
+					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
+						textImgDraw(txt_p1Author) --Draw Author Info Text
+					end
+				end
+			end
+		end
+		local nameX, nameY = f_drawSelectName(txt_p1Name, 4, data.t_p1selected, 10, 144, 4, 7) --Draw P1 name
+		if not p1SelEnd then
+			local tmpCelX = p1SelX
+			local tmpCelY = p1SelY
+			if backScreen == false then
+				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
+					local foundCel = false
+					while true do
+						if foundCel then
+							break
+						end
+						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYSub(p1SelY, p1FaceOffset, p1OffsetRow)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+							foundCel = true
+						else
+							for i=0, tmpCelX do
+								p1SelX = f_findCelXSub(p1SelX, false)
+								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+									foundCel = true
+									break
+								end
+							end
+							if not foundCel then
+								p1SelX = tmpCelX
+								for i=1, selectColumns-tmpCelX do
+									p1SelX = f_findCelXAdd(p1SelX, false)
+									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+										foundCel = true
+										break
+									end
+								end
+								if not foundCel then
+									p1SelX = tmpCelX
+								end
+							end
+						end
+					end
+					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30 and p1palEnd) then
+					local foundCel = false
+					while true do
+						if foundCel then
+							break
+						end
+						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYAdd(p1SelY, p1FaceOffset, p1OffsetRow)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+							foundCel = true
+						else
+							for i=1, selectColumns-tmpCelX do
+								p1SelX = f_findCelXAdd(p1SelX, false)
+								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+									foundCel = true
+									break
+								end
+							end
+							if not foundCel then
+								p1SelX = tmpCelX
+								for i=0, tmpCelX do
+									p1SelX = f_findCelXSub(p1SelX, false)
+									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
+										foundCel = true
+										break
+									end
+								end
+								if not foundCel then
+									p1SelX = tmpCelX
+								end
+							end
+						end
+					end
+					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30 and p1palEnd) then
+					while true do
+						p1SelX = f_findCelXSub(p1SelX, wrappingX)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
+					end
+					if tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30 and p1palEnd) then
+					while true do
+						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
+						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
+					end
+					if tmpCelX ~= p1SelX then
+						sndPlay(sysSnd, 100, 0)
+					end
+				end
+				if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
+					if data.palType == 'Modern' then
+						p1palEnd = false
+						sndPlay(sysSnd, 100, 3)
+						f_p1palList()
+					else
+						--Do not show Modern Palette Menu
+					end
+				end
+				if commandGetState(p1Cmd, 'holdu') then
+					bufSeld = 0
+					bufSelu = bufSelu + 1
+				elseif commandGetState(p1Cmd, 'holdd') then
+					bufSelu = 0
+					bufSeld = bufSeld + 1
+				elseif commandGetState(p1Cmd, 'holdr') then
+					bufSell = 0
+					bufSelr = bufSelr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufSelr = 0
+					bufSell = bufSell + 1
+				else
+					bufSelu = 0
+					bufSeld = 0
+					bufSelr = 0
+					bufSell = 0
+				end
+			end
+			p1Cell = p1SelX + selectColumns*p1SelY
+			p1Portrait = p1Cell
+			--Draw Hidden Rows Cursors
+			if offsetRows >= 1 and not data.p2Faces then
+				animDraw(arrowsUSR)
+				animUpdate(arrowsUSR)
+				animDraw(arrowsDSR)
+				animUpdate(arrowsDSR)
+			elseif offsetRows >= 1 and data.p2Faces then
+				animDraw(arrowsUMR)
+				animUpdate(arrowsUMR)
+				animDraw(arrowsDMR)
+				animUpdate(arrowsDMR)
+			end
+			if data.charInfo == 'Author' then
+				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
+					if t_selChars[p1Cell+1].author ~= nil then
+						textImgSetText(txt_p1Author, 'AUTHOR: '..t_selChars[p1Cell+1].author)
+					else --Set Text for Random Select
+						textImgSetText(txt_p1Author, 'AUTHOR: ???')
+					end
+					textImgDraw(txt_p1Author) --Draw Author Info Text
+				end
+			end
+			textImgDraw(txt_palHint) --Draw Character Select Hint
+			textImgSetText(txt_p1Name, f_getName(p1Cell))
+			textImgPosDraw(txt_p1Name, 10, nameY)
+			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
+			if esc() and serviceBack == true then
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+			elseif esc() and p1SelBack == true then
+				sndPlay(sysSnd, 100, 2)
+				f_p1sideReset()
+			end
+			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
+				sndPlay(sysSnd, 100, 1)
+				local cel = p1Cell
+				if getCharName(cel) == 'Random' then
+					randomP1Rematch = true
+					randomP1Portrait = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
+				elseif f_getName(p1Cell) == 'Kung Fu Man' then --Character Voice when is selected Example for Player 1 Side
+                    sndPlay(announcerSnd, 1, 0)
+				end
+				local updateAnim = true
+				for i=1, #data.t_p1selected do
+					if data.t_p1selected[i].cel == p1Cell then 
+						updateAnim = false
+					end
+				end
+				if data.palType == 'Classic' then
+					p1palSelect = btnPalNo(p1Cmd)
+				elseif data.palType == 'Modern' then
+					p1palSelect = p1palSelect
+				end
+				if data.coop then
+					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+					p1SelEnd = true
+				else
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+					if #data.t_p1selected == p1numChars then
+						if data.p2In == 1 and matchNo == 0 then
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						end
+						p1SelEnd = true
+					end
+				end
+				cmdInput()
+			elseif selectTimer == 0 then
+				sndPlay(sysSnd, 100, 1)
+				local cel = p1Cell
+				if getCharName(cel) == 'Random' then
+					randomP1Rematch = true
+					randomP1Portrait = true
+					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
+				elseif f_getName(p1Cell) == 'Kung Fu Man' then
+                    sndPlay(announcerSnd, 1, 0)
+				end
+				local updateAnim = true
+				for i=1, #data.t_p1selected do
+					if data.t_p1selected[i].cel == p1Cell then 
+						updateAnim = false
+					end
+				end
+				if data.palType == 'Classic' then
+					p1palSelect = 1 --Avoid crash when Character Select timer is over and there is not are a palette selected
+				elseif data.palType == 'Modern' then
+					p1palSelect = p1palSelect
+				end
+				if data.coop then
+					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+					p1SelEnd = true
+				else
+					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+					if #data.t_p1selected == p1numChars then
+						if data.p2In == 1 and matchNo == 0 then
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
+							p2TeamEnd = false
+							p2SelEnd = false
+							--commandBufReset(p2Cmd)
+						end
+						p1SelEnd = true
+					end
+				end
+				cmdInput()
+			end
+		end
+	end
+end
+
+--;===========================================================
 --; PLAYER 2 TEAM SELECT SCREENPACK
 --;===========================================================
 --P2 Team cursor
@@ -2881,534 +3474,10 @@ function f_p2TeamMenu()
 end
 
 --;===========================================================
---; CHARACTER SELECT PLAYERS SCREENPACK
---;===========================================================
---Up Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
-arrowsUMR = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUMR, 5, 160)
-animUpdate(arrowsUMR)
-animSetScale(arrowsUMR, 0.95, 0.95)
-
---Down Arrows 1 for Muti Roster 1 (Left Side) [Fixed Type]
-arrowsDMR = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDMR, 5, 223)
-animUpdate(arrowsDMR)
-animSetScale(arrowsDMR, 0.95, 0.95)
-
---Up Arrows 1 for Muti Roster 2 (Right Side) [Fixed Type]
-arrowsUMR2 = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUMR2, 307, 160)
-animUpdate(arrowsUMR2)
-animSetScale(arrowsUMR2, 0.95, 0.95)
-
---Down Arrows 2 for Muti Roster 2 (Right Side) [Fixed Type]
-arrowsDMR2 = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDMR2, 307, 223)
-animUpdate(arrowsDMR2)
-animSetScale(arrowsDMR2, 0.95, 0.95)
-
---Up Arrows for Single Roster (Variable Type)
-arrowsUSR = animNew(sysSff, [[
-222,5, 0,0, 10
-222,6, 0,0, 10
-222,7, 0,0, 10
-222,8, 0,0, 10
-222,9, 0,0, 10
-222,8, 0,0, 10
-222,7, 0,0, 10
-222,6, 0,0, 10
-222,5, 0,0, 10
-]])
-animAddPos(arrowsUSR, 156, 160)
-animUpdate(arrowsUSR)
-animSetScale(arrowsUSR, 0.95, 0.95)
-
---Down Arrows for Single Roster (Variable Type)
-arrowsDSR = animNew(sysSff, [[
-222,0, 0,0, 10
-222,1, 0,0, 10
-222,2, 0,0, 10
-222,3, 0,0, 10
-222,4, 0,0, 10
-222,3, 0,0, 10
-222,2, 0,0, 10
-222,1, 0,0, 10
-222,0, 0,0, 10
-]])
-animAddPos(arrowsDSR, 156, 223)
-animUpdate(arrowsDSR)
-animSetScale(arrowsDSR, 0.95, 0.95)
-
---Left Arrow for Player 1 Palette Select (Modern Type)
-arrowsPL = animNew(sysSff, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(arrowsPL, 67, 227.5)
-animUpdate(arrowsPL)
-animSetScale(arrowsPL, 0.5, 0.5)
-
---Left Arrow for Player 2 Palette Select (Modern Type)
-arrowsPL2 = animNew(sysSff, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(arrowsPL2, 194, 227.5)
-animUpdate(arrowsPL2)
-animSetScale(arrowsPL2, 0.5, 0.5)
-
---Right Arrow for Player 1 Palette Select (Modern Type)
-arrowsPR = animNew(sysSff, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(arrowsPR, 115, 227.5)
-animUpdate(arrowsPR)
-animSetScale(arrowsPR, 0.5, 0.5)
-
---Right Arrow for Player 2 Palette Select (Modern Type)
-arrowsPR2 = animNew(sysSff, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(arrowsPR2, 242, 227.5)
-animUpdate(arrowsPR2)
-animSetScale(arrowsPR2, 0.5, 0.5)
-
---;===========================================================
---; PLAYER 1 CHARACTER SELECT
---;===========================================================
-txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0) --Text color when scrolling through the roster
-
-function f_p1palList() --Palette Menu
-	cmdInput()
-	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
-		sndPlay(sysSnd, 100, 0)
-		p1movePal = p1movePal + 1
-	elseif (commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufPald >= 30) or (commandGetState(p1Cmd, 'holdl') and bufPall >= 30)) and p1movePal > 1 then --Keep in palette 1 when press left until finish
-		sndPlay(sysSnd, 100, 0)
-		p1movePal = p1movePal - 1
-	end
-	if commandGetState(p1Cmd, 'holdu') then
-		bufPald = 0
-		bufPalu = bufPalu + 1
-	elseif commandGetState(p1Cmd, 'holdd') then
-		bufPalu = 0
-		bufPald = bufPald + 1
-	elseif commandGetState(p1Cmd, 'holdr') then
-		bufPall = 0
-		bufPalr = bufPalr + 1
-	elseif commandGetState(p1Cmd, 'holdl') then
-		bufPalr = 0
-		bufPall = bufPall + 1
-	else
-		bufPalu = 0
-		bufPald = 0
-		bufPalr = 0
-		bufPall = 0
-	end
-	p1palSelect = p1movePal --Uses menu position to show palette in these order
-	txt_pal = createTextImg(jgFnt, 5, 1, 'PALETTE:', 5, 237)
-	txt_palNumber = createTextImg(font14, 0, 0, ' ' .. p1palSelect .. '/12', 93, 237) --draw palette limit numbers text
-	textImgDraw(txt_pal)
-	textImgDraw(txt_palNumber)
-	if p1movePal > 1 then
-		animDraw(arrowsPL)
-		animUpdate(arrowsPL)
-	end
-	if p1movePal <= 11 then
-		animDraw(arrowsPR)
-		animUpdate(arrowsPR)
-	end
-	if btnPalNo(p1Cmd) > 0 then
-		sndPlay(sysSnd, 100, 1)
-		p1palEnd = true
-		cmdInput()
-	elseif esc() or selectTimer == 0 then
-		p1palEnd = true
-	end
-end
-
-function f_p1SelectMenu()
-	if data.p1Char ~= nil then
-		local t = {}
-		for i=1, #data.p1Char do
-			local updateAnim = false
-			if t[data.p1Char[i]] == nil then
-				updateAnim = true
-				t[data.p1Char[i]] = ''
-			end
-			if data.p1Pal ~= nil then --Set Manual Palette
-				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = data.p1Pal, ['up'] = updateAnim}
-			else
-				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
-			end
-		end
-		p1Portrait = data.p1Char[1]
-		--local numChars = p1numChars
-		--if data.coop then numChars = 1 end
-		p1SelEnd = true
-	elseif not data.p1SelectMenu then
-		p1SelEnd = true
-	else
-		if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-			if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --P1 Portrait BG location
-			if p1Portrait then drawPortrait(p1Portrait, 0, 20, 1, 1) end --P1 Portrait location
-			if randomP1Portrait == true then drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1) end --Draw Portrait Chosen by Random Select
-		end
-		local numChars = p1numChars
-		if data.coop then numChars = 1 end
-		if p1Cell then
-			if numChars ~= #data.t_p1selected then
-				local updateAnim = true
-				for i=1, #data.t_p1selected do
-					if data.t_p1selected[i].cel == p1Cell then 
-						updateAnim = false
-					end
-				end
-				--Waiting Selection
-				if getCharName(p1Cell) == 'Random' then
-					--sndPlay(sysSnd, 100, 0) --Cursor SFX in Random...
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-						drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 1) --P1 RANDOM Portrait location.
-					end
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 RANDOM animation location ONLY in Char Select
-					end
-				else
-					--if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-						--drawPortrait(p1Portrait, 0, 20, 1, 1) --P1 Portrait location
-					--end
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30 + 28*#data.t_p1selected, 133, updateAnim) --P1 animation location ONLY in character select
-					end
-				end
-			end
-			--When a Character is Selected
-			for j=#data.t_p1selected, 1, -1 do
-				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
-					--drawPortrait(p1Portrait, 0, 20, 1, 1)
-					--drawPortrait(data.t_p1selected[j].cel, 0, 20+60*(j-1), 1, 1) --Location of Multiple P1 Portrait chosen ONLY in the Char Select (This detects random select portrait)
-				end
-				if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + 28*(j-1), 133, data.t_p1selected[j].up) --Location of the animation of P1 chosen ONLY in the Char Select
-				end
-				if data.charInfo == 'Author' then
-					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
-						textImgDraw(txt_p1Author) --Draw Author Info Text
-					end
-				end
-			end
-		end
-		local nameX, nameY = f_drawSelectName(txt_p1Name, 4, data.t_p1selected, 10, 144, 4, 7) --Location of the name of P1 in the character select
-		if not p1SelEnd then
-			local tmpCelX = p1SelX
-			local tmpCelY = p1SelY
-			if backScreen == false then
-				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
-					local foundCel = false
-					while true do
-						if foundCel then
-							break
-						end
-						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYSub(p1SelY, p1FaceOffset, p1OffsetRow)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-							foundCel = true
-						else
-							for i=0, tmpCelX do
-								p1SelX = f_findCelXSub(p1SelX, false)
-								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-									foundCel = true
-									break
-								end
-							end
-							if not foundCel then
-								p1SelX = tmpCelX
-								for i=1, selectColumns-tmpCelX do
-									p1SelX = f_findCelXAdd(p1SelX, false)
-									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-										foundCel = true
-										break
-									end
-								end
-								if not foundCel then
-									p1SelX = tmpCelX
-								end
-							end
-						end
-					end
-					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
-						sndPlay(sysSnd, 100, 0)
-					end
-				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30 and p1palEnd) then
-					local foundCel = false
-					while true do
-						if foundCel then
-							break
-						end
-						p1SelY, p1FaceOffset, p1OffsetRow = f_findCelYAdd(p1SelY, p1FaceOffset, p1OffsetRow)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-							foundCel = true
-						else
-							for i=1, selectColumns-tmpCelX do
-								p1SelX = f_findCelXAdd(p1SelX, false)
-								if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-									foundCel = true
-									break
-								end
-							end
-							if not foundCel then
-								p1SelX = tmpCelX
-								for i=0, tmpCelX do
-									p1SelX = f_findCelXSub(p1SelX, false)
-									if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then
-										foundCel = true
-										break
-									end
-								end
-								if not foundCel then
-									p1SelX = tmpCelX
-								end
-							end
-						end
-					end
-					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
-						sndPlay(sysSnd, 100, 0)
-					end
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30 and p1palEnd) then
-					while true do
-						p1SelX = f_findCelXSub(p1SelX, wrappingX)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
-					end
-					if tmpCelX ~= p1SelX then
-						sndPlay(sysSnd, 100, 0)
-					end
-				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30 and p1palEnd) then
-					while true do
-						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
-						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
-					end
-					if tmpCelX ~= p1SelX then
-						sndPlay(sysSnd, 100, 0)
-					end
-				end
-				if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
-					if data.palType == 'Modern' then
-						p1palEnd = false
-						sndPlay(sysSnd, 100, 3)
-						f_p1palList()
-					else
-						--Do not show Modern Palette Menu
-					end
-				end
-				if commandGetState(p1Cmd, 'holdu') then
-					bufSeld = 0
-					bufSelu = bufSelu + 1
-				elseif commandGetState(p1Cmd, 'holdd') then
-					bufSelu = 0
-					bufSeld = bufSeld + 1
-				elseif commandGetState(p1Cmd, 'holdr') then
-					bufSell = 0
-					bufSelr = bufSelr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufSelr = 0
-					bufSell = bufSell + 1
-				else
-					bufSelu = 0
-					bufSeld = 0
-					bufSelr = 0
-					bufSell = 0
-				end
-			end
-			p1Cell = p1SelX + selectColumns*p1SelY
-			p1Portrait = p1Cell
-			--Draw Hidden Rows Cursors
-			if offsetRows >= 1 and not data.p2Faces then
-				animDraw(arrowsUSR)
-				animUpdate(arrowsUSR)
-				animDraw(arrowsDSR)
-				animUpdate(arrowsDSR)
-			elseif offsetRows >= 1 and data.p2Faces then
-				animDraw(arrowsUMR)
-				animUpdate(arrowsUMR)
-				animDraw(arrowsDMR)
-				animUpdate(arrowsDMR)
-			end
-			if data.charInfo == 'Author' then
-				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
-					if t_selChars[p1Cell+1].author ~= nil then
-						textImgSetText(txt_p1Author, 'AUTHOR: '..t_selChars[p1Cell+1].author)
-					else --Set Text for Random Select
-						textImgSetText(txt_p1Author, 'AUTHOR: ???')
-					end
-					textImgDraw(txt_p1Author) --Draw Author Info Text
-				end
-			end
-			textImgDraw(txt_palHint) --Draw Character Select Hint
-			textImgSetText(txt_p1Name, f_getName(p1Cell))
-			textImgPosDraw(txt_p1Name, 10, nameY)
-			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-			if esc() and serviceBack == true then
-				f_p1sideReset()
-				p1TeamEnd = true
-				p1BG = true
-			elseif esc() and p1SelBack == true then
-				sndPlay(sysSnd, 100, 2)
-				f_p1sideReset()
-			end
-			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
-				sndPlay(sysSnd, 100, 1)
-				local cel = p1Cell
-				if getCharName(cel) == 'Random' then
-					randomP1Rematch = true
-					randomP1Portrait = true
-					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
-				elseif f_getName(p1Cell) == 'Kung Fu Man' then --Character Voice when is selected Example for Player 1 Side
-                    sndPlay(announcerSnd, 1, 0)
-				end
-				local updateAnim = true
-				for i=1, #data.t_p1selected do
-					if data.t_p1selected[i].cel == p1Cell then 
-						updateAnim = false
-					end
-				end
-				if data.palType == 'Classic' then
-					p1palSelect = btnPalNo(p1Cmd)
-				elseif data.palType == 'Modern' then
-					p1palSelect = p1palSelect
-				end
-				if data.coop then
-					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
-					p1SelEnd = true
-				else
-					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
-					if #data.t_p1selected == p1numChars then
-						if data.p2In == 1 and matchNo == 0 then
-							p2TeamEnd = false
-							p2SelEnd = false
-							--commandBufReset(p2Cmd)
-						elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
-							p2TeamEnd = false
-							p2SelEnd = false
-							--commandBufReset(p2Cmd)
-						end
-						p1SelEnd = true
-					end
-				end
-				cmdInput()
-			elseif selectTimer == 0 then
-				sndPlay(sysSnd, 100, 1)
-				local cel = p1Cell
-				if getCharName(cel) == 'Random' then
-					randomP1Rematch = true
-					randomP1Portrait = true
-					cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
-				elseif f_getName(p1Cell) == 'Kung Fu Man' then
-                    sndPlay(announcerSnd, 1, 0)
-				end
-				local updateAnim = true
-				for i=1, #data.t_p1selected do
-					if data.t_p1selected[i].cel == p1Cell then 
-						updateAnim = false
-					end
-				end
-				if data.palType == 'Classic' then
-					p1palSelect = 1 --Avoid crash when Character Select timer is over and there is not are a palette selected
-				elseif data.palType == 'Modern' then
-					p1palSelect = p1palSelect
-				end
-				if data.coop then
-					data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
-					p1SelEnd = true
-				else
-					data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
-					if #data.t_p1selected == p1numChars then
-						if data.p2In == 1 and matchNo == 0 then
-							p2TeamEnd = false
-							p2SelEnd = false
-							--commandBufReset(p2Cmd)
-						elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
-							p2TeamEnd = false
-							p2SelEnd = false
-							--commandBufReset(p2Cmd)
-						end
-						p1SelEnd = true
-					end
-				end
-				cmdInput()
-			end
-		end
-	end
-end
-
---;===========================================================
 --; PLAYER 2 CHARACTER SELECT
 --;===========================================================
 txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0)
+txt_p2Author = createTextImg(jgFnt, 0, -1, '', 320, 20, .65,.65)
 
 function f_p2palList() --Palette Menu
 	cmdInput()
@@ -3490,7 +3559,7 @@ function f_p2SelectMenu()
 			if p2BG == true then animDraw(f_animVelocity(charBG3, 2, 0)) end
 			if p2Portrait then drawPortrait(p2Portrait, 320, 20, -1, 1) end
 			if randomP2Portrait == true then drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1) end
-		end	
+		end
 		local numChars = p2numChars
 		local t_selected = data.t_p2selected
 		if data.coop then
