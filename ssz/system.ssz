@@ -25,8 +25,6 @@ public &Select
 	public ^&.sff.Sprite loserPortrait;
 	public ^&.sff.Sprite resultPortrait;
 	public ^&.sff.Sprite extraPortrait;
-	
-	public ^&.sff.Sprite standAnimPortrait;
   }
   public &Stage
   {
@@ -34,13 +32,11 @@ public &Select
     public ^/char name;
 	public ^/char sprite;
 	public ^/char anim;
-	public ^&.sff.Sprite miniStagePortrait;
+	public ^&.sff.Sprite iconStagePortrait;
 	public ^&.sff.Sprite bigStagePortrait;
 	public ^&.sff.Sprite vsStagePortrait;
 	public ^&.sff.Sprite winStagePortrait;
 	public ^&.sff.Sprite extraStagePortrait;
-	
-	public ^&.sff.Sprite stageAnimPortrait;
   }
   public int columns = 5, rows = 2;
   public float cellsizex = 29.0, cellsizey = 29.0;
@@ -55,15 +51,11 @@ public &Select
   public int resultGroup = 9000, resultIndex = 6;
   public int extraGroup = 9000, extraIndex = 9;
   
-  public int standAnimGroup = 0; //9001;
-  
-  public int extraStageGroup = 9000, extraStageIndex = 0;
-  public int miniStageGroup = 9000, miniStageIndex = 1;
-  public int bigStageGroup = 9000, bigStageIndex = 2;
-  public int vsStageGroup = 9000, vsStageIndex = 3;
-  public int winStageGroup = 9000, winStageIndex = 4;
-  
-  public int stageAnimGroup = 9001;
+  public int IconStageGroup = 9000, IconStageIndex = 0;
+  public int bigStageGroup = 9000, bigStageIndex = 1;
+  public int vsStageGroup = 9000, vsStageIndex = 2;
+  public int winStageGroup = 9000, winStageIndex = 3;
+  public int extraStageGroup = 9000, extraStageIndex = 9;
   
   public ^&.sff.Sprite randomspr;
   public float randxscl = 1.0, randyscl = 1.0;
@@ -323,8 +315,8 @@ public &Select
     [^/char(^/char f){
       ^&.sff.Sprite s;
       s.new(1);
-      if(#s~loadFromSff(f, `miniStageGroup, `miniStageIndex)=>error > 0) ret error;
-      `stagelist[-1].miniStagePortrait = s;
+      if(#s~loadFromSff(f, `IconStageGroup, `IconStageIndex)=>error > 0) ret error;
+      `stagelist[-1].iconStagePortrait = s;
       ret "";
     }];
 	.com.loadFile(`stagelist[-1].def, `stagelist[-1].sprite=)<,

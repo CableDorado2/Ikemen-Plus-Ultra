@@ -1478,7 +1478,7 @@ void drawExtraPortrait(&.lua.State L=, int re=)
   }
 }
 
-void drawStagePortrait(&.lua.State L=, int re=)
+void drawStageIcon(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   index n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
@@ -1493,13 +1493,13 @@ void drawStagePortrait(&.lua.State L=, int re=)
   }
   if(!.se.fskip){ 
     ^&.sys.Select::Stage c = .syst.selinf.sel.getStage(n);
-    if(#c > 0 && #c~miniStagePortrait > 0){ 
-       c~miniStagePortrait~draw(x, y, xscl, yscl, c~miniStagePortrait~colorPallet);
+    if(#c > 0 && #c~iconStagePortrait > 0){ 
+       c~iconStagePortrait~draw(x, y, xscl, yscl, c~iconStagePortrait~colorPallet);
     }
   }
 }
 
-void drawBigStagePortrait(&.lua.State L=, int re=)
+void drawStagePortrait(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   index n = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
@@ -1782,9 +1782,8 @@ public void init(&.lua.State L=)
   L.register("drawLoserPortrait", .drawLoserPortrait);
   L.register("drawResultPortrait", .drawResultPortrait);
   L.register("drawExtraPortrait", .drawExtraPortrait);
-  //L.register("drawStandAnimPortrait", .drawStandAnimPortrait);
+  L.register("drawStageIcon", .drawStageIcon);
   L.register("drawStagePortrait", .drawStagePortrait);
-  L.register("drawBigStagePortrait", .drawBigStagePortrait);
   L.register("drawVSStagePortrait", .drawVSStagePortrait);
   L.register("drawWinStagePortrait", .drawWinStagePortrait);
   L.register("drawExtraStagePortrait", .drawExtraStagePortrait);

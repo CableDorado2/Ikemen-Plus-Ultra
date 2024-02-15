@@ -201,6 +201,9 @@ videoOpening = "movie/Opening.wmv"
 --;===========================================================
 --; COMMON FUNCTIONS DEFINITION
 --;===========================================================
+--Constants/Standards
+gameTick = 20
+
 --input stuff
 inputdia = inputDialogNew()
 data.p1In = 1
@@ -260,21 +263,11 @@ function btnPalNo(cmd)
 	return 0
 end
 
---Constants/Standards
-gameTick = 20
-
 --Take Screenshots
 function f_screenShot()
 	--sndPlay(sysSnd, 22, 0)
 	--sndPlay(sysSnd, 22, 1)
 	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
-end
-
---animDraw at specified coordinates
-function animPosDraw(a, x, y)
-	animSetPos(a, x, y)
-	animUpdate(a)
-	animDraw(a)
 end
 
 --textImgDraw at specified coordinates
@@ -283,8 +276,28 @@ function textImgPosDraw(ti, x, y)
 	textImgDraw(ti)
 end
 
+--textImgDraw at specified coordinates + Scale
+function textImgScalePosDraw(ti, x, y, scaleX, scaleY)
+	textImgSetPos(ti, x, y)
+	scaleX = scaleX or 1
+	scaleY = scaleY or 1
+	textImgSetScale(ti, scaleX, scaleY)
+	textImgDraw(ti)
+end
+
+--shortcut for creating new text with minimal parameters (for width calculation)
+function createTextImgLite(font, text, scaleX, scaleY)
+	local ti = textImgNew()
+	textImgSetFont(ti, font)
+	textImgSetText(ti, text)
+	scaleX = scaleX or 1
+	scaleY = scaleY or 1
+	textImgSetScale(ti, scaleX, scaleY)
+	return ti
+end
+
 --shortcut for creating new text with several parameters
-function createTextImg(font, bank, aline, text, x, y, scaleX, scaleY)
+function createTextImg(font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
 	local ti = textImgNew()
 	textImgSetFont(ti, font)
 	textImgSetBank(ti, bank)
@@ -294,11 +307,14 @@ function createTextImg(font, bank, aline, text, x, y, scaleX, scaleY)
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
 	textImgSetScale(ti, scaleX, scaleY)
+	alphaS = alphaS or 255
+	alphaD = alphaD or 0
+	textImgSetAlpha(ti, alphaS, alphaD)
 	return ti
 end
 
 --shortcut for updating text with several parameters
-function f_updateTextImg(animName, font, bank, aline, text, x, y, scaleX, scaleY)
+function f_updateTextImg(animName, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
 	textImgSetFont(animName, font)
 	textImgSetBank(animName, bank)
 	textImgSetAlign(animName, aline)
@@ -307,8 +323,106 @@ function f_updateTextImg(animName, font, bank, aline, text, x, y, scaleX, scaleY
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
 	textImgSetScale(animName, scaleX, scaleY)
+	alphaS = alphaS or 255
+	alphaD = alphaD or 0
+	textImgSetAlpha(animName, alphaS, alphaD)
 	return animName
 end
+
+--shortcut for draw new text with all parameters
+function f_drawQuickText(id, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
+	local id = textImgNew()
+	textImgSetFont(id, font)
+	textImgSetBank(id, bank)
+	textImgSetAlign(id, aline)
+	textImgSetText(id, text)
+	textImgSetPos(id, x, y)
+	scaleX = scaleX or 0.8
+	scaleY = scaleY or 0.8
+	textImgSetScale(id, scaleX, scaleY)
+	alphaS = alphaS or 255
+	alphaD = alphaD or 0
+	textImgSetAlpha(id, alphaS, alphaD)
+	textImgDraw(id)
+	return id
+end
+
+--shortcut for draw text for character select
+function f_drawSelectName(id, t, x, y, scaleX, scaleY, color)
+	scaleX = scaleX or 0.8
+	scaleY = scaleY or 0.8
+	color = color or 5
+	textImgSetText(id, f_getName(t.cel))
+	textImgSetPos(id, x, y)
+	textImgSetScale(id, scaleX, scaleY)
+	textImgSetBank(id, color)
+	textImgDraw(id)
+	x = x
+	y = y
+	return x, y
+end
+
+--shortcut for draw text for select.lua player 1 functions in list format
+function f_drawNameListP1(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel)) --f_getName(t[i].cel if you want to get all names of table inserted
+		textImgSetPos(id, x, y)
+		scaleX = scaleX or 0.8
+		scaleY = scaleY or 0.8
+		textImgSetScale(id, scaleX, scaleY)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, 3) --Blue Color of P1 on VS screen
+			else
+				textImgSetBank(id, bankUnique) --Color of Team Member on VS screen
+			end
+		else
+			textImgSetBank(id, 3)
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
+
+--shortcut for draw text for select.lua player 2 functions in list format
+function f_drawNameListP2(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
+	for i=1, #t do
+		textImgSetText(id, f_getName(t[i].cel))
+		textImgSetPos(id, x, y)
+		scaleX = scaleX or 0.8
+		scaleY = scaleY or 0.8
+		textImgSetScale(id, scaleX, scaleY)
+		if rowUnique ~= nil then
+			if i == rowUnique then
+				textImgSetBank(id, 1)
+			else
+				textImgSetBank(id, bank)
+			end
+		else
+			textImgSetBank(id, 1)
+		end
+		textImgDraw(id)
+		x = x + spacingX
+		y = y + spacingY
+	end
+	return x, y
+end
+
+--animDraw at specified coordinates
+function animPosDraw(a, x, y)
+	animSetPos(a, x, y)
+	animUpdate(a)
+	animDraw(a)
+end
+
+--shortcut for updating scale
+--function animScaleDraw(animName, x, y)
+	--animSetScale(animName, x, y)
+	--animUpdate(animName)
+	--animDraw(animName)
+--end
 
 --shortcut for updating velocity
 function f_animVelocity(animName, addX, addY)
@@ -317,12 +431,102 @@ function f_animVelocity(animName, addX, addY)
 	return animName
 end
 
---shortcut for updating scale
---function animScaleDraw(a, w, h)
-	--animSetScale(a, w, h)
-	--animUpdate(a)
-	--animDraw(a)
---end
+--shortcut for draw sprites quickly
+function f_drawQuickSpr(data, x, y, scaleX, scaleY, alphaS, alphaD)
+	if data ~= nil then
+		scaleX = scaleX or 1
+		scaleY = scaleY or 1
+		alphaS = alphaS or 255
+		alphaD = alphaD or 0
+		animSetScale(data, scaleX, scaleY)
+		animSetAlpha(data, alphaS, alphaD)
+		animSetPos(data, x, y)
+		animUpdate(data)
+		animDraw(data)
+		--if update then
+			--animUpdate(data)
+		--end
+		return true
+	end
+	return false
+end
+
+--shortcut for draw character animations
+function f_drawCharAnim(t, data, x, y, update, scaleX, scaleY, alphaS, alphaD)
+	if t ~= nil and t[data] ~= nil then
+		scaleX = scaleX or 1
+		scaleY = scaleY or 1
+		alphaS = alphaS or 255
+		alphaD = alphaD or 0
+		animSetScale(t[data], scaleX, scaleY)
+		animSetAlpha(t[data], alphaS, alphaD)
+		animSetPos(t[data], x, y)
+		animDraw(t[data])
+		if update then
+			animUpdate(t[data])
+		end
+		return true
+	end
+	return false
+end
+
+--generate anim from table
+function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame)
+	infFrame = infFrame or 1
+	scaleX = scaleX or 1
+	scaleY = scaleY or 1
+	facing = facing or 0
+	local anim = ''
+	local length = 0
+	for i=1, #t do
+		anim = anim .. t[i] .. ', ' .. facing .. '\n'
+		if not t[i]:match('loopstart') then
+			local tmp = t[i]:gsub('^.-([^,%s]+)$','%1')
+			if tonumber(tmp) == -1 then
+				tmp = infFrame
+			end
+			length = length + tmp
+		end
+	end
+	local id = animNew(sff, anim)
+	animAddPos(id, x, y)
+	animSetScale(id, scaleX, scaleY)
+	animUpdate(id)
+	return id, tonumber(length)
+end
+
+--generate fading animation
+function f_fadeAnim(ticks, fadeType, color, sff)
+	local anim = ''
+	if color == 'white' then
+		if fadeType == 'fadeout' then
+			for i=1, ticks do
+				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256/ticks*i) .. 'D256\n'
+			end
+			anim = anim .. '0,1, 0,0, -1, 0, AS256D256'
+		else --fadein
+			for i=ticks, 1, -1 do
+				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256/ticks*i) .. 'D256\n'
+			end
+			anim = anim .. '0,1, 0,0, -1, 0, AS0D256'
+		end
+	else --black
+		if fadeType == 'fadeout' then
+			for i=ticks, 1, -1 do
+				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256/ticks*i) .. '\n'
+			end
+			anim = anim .. '0,0, 0,0, -1, 0, AS256D0'
+		else --fadein
+			for i=1, ticks do
+				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256/ticks*i) .. '\n'
+			end
+			anim = anim .. '0,0, 0,0, -1, 0, AS256D256'
+		end
+	end
+	anim = animNew(sff, anim)
+	animUpdate(anim)
+	return anim, ticks
+end
 
 --dynamically adjusts alpha blending each time called based on specified values
 alpha1cur = 0
@@ -422,64 +626,6 @@ function f_printVar(v, toFile)
 	local file = io.open(toFile,"w+")
 	file:write(v)
 	file:close()
-end
-
---generate anim from table
-function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame)
-	infFrame = infFrame or 1
-	scaleX = scaleX or 1
-	scaleY = scaleY or 1
-	facing = facing or 0
-	local anim = ''
-	local length = 0
-	for i=1, #t do
-		anim = anim .. t[i] .. ', ' .. facing .. '\n'
-		if not t[i]:match('loopstart') then
-			local tmp = t[i]:gsub('^.-([^,%s]+)$','%1')
-			if tonumber(tmp) == -1 then
-				tmp = infFrame
-			end
-			length = length + tmp
-		end
-	end
-	local id = animNew(sff, anim)
-	animAddPos(id, x, y)
-	animSetScale(id, scaleX, scaleY)
-	animUpdate(id)
-	return id, tonumber(length)
-end
-
---generate fading animation
-function f_fadeAnim(ticks, fadeType, color, sff)
-	local anim = ''
-	if color == 'white' then
-		if fadeType == 'fadeout' then
-			for i=1, ticks do
-				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256/ticks*i) .. 'D256\n'
-			end
-			anim = anim .. '0,1, 0,0, -1, 0, AS256D256'
-		else --fadein
-			for i=ticks, 1, -1 do
-				anim = anim .. '0,1, 0,0, 1, 0, AS' .. math.floor(256/ticks*i) .. 'D256\n'
-			end
-			anim = anim .. '0,1, 0,0, -1, 0, AS0D256'
-		end
-	else --black
-		if fadeType == 'fadeout' then
-			for i=ticks, 1, -1 do
-				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256/ticks*i) .. '\n'
-			end
-			anim = anim .. '0,0, 0,0, -1, 0, AS256D0'
-		else --fadein
-			for i=1, ticks do
-				anim = anim .. '0,0, 0,0, 1, 0, AS256D' .. math.floor(256/ticks*i) .. '\n'
-			end
-			anim = anim .. '0,0, 0,0, -1, 0, AS256D256'
-		end
-	end
-	anim = animNew(sff, anim)
-	animUpdate(anim)
-	return anim, ticks
 end
 
 --remove duplicated string pattern

@@ -5356,7 +5356,7 @@ end
 txt_hostTitle = createTextImg(jgFnt, 5, 0, 'ONLINE ROOM CREATED', 159, 13)
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 111)
 txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110,0.9,0.9)
-txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
+txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5)
 txt_ip = createTextImg(font14, 0, 0, '', 160, 132)
 txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
@@ -6752,7 +6752,7 @@ end
 --; THE VAULT SCREENPACK
 --;===========================================================
 txt_vaultTitle = createTextImg(font6, 0, 0, 'THE VAULT', 159, 28)
-txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5,255,255)
+txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5)
 txt_vaultText = createTextImg(font14, 0, 0, '', 160, 117)
 
 --Background
