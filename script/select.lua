@@ -99,6 +99,7 @@ randomP2Rematch = false
 end
 
 function f_stageSelectReset()
+stageMenuActive = false
 exclusiveStageMenu = false
 stageSelect = true
 songSelect = false
@@ -111,7 +112,6 @@ p2song = false
 stageAnnouncer = false
 announcerTimer = 0
 dontTouch = false
---if data.stageType == 'Modern' then textImgSetPos(txt_mainSelect, 159, 13) end --Restore Game Mode Name
 end
 
 function f_selectReset()
@@ -2302,17 +2302,19 @@ function f_selectScreen()
 	else
 		animDraw(f_animVelocity(selectBG0, -1, -1))
 	end
-	if data.p2Faces then
-		animDraw(f_animVelocity(selectBG1a, -1, 0))
-		animSetWindow(selectBG1a, 5, 0, 151, 239)
-		animDraw(f_animVelocity(selectBG1b, -1, 0))
-		animSetWindow(selectBG1b, 164, 0, 151, 239)
-	else
-		animDraw(f_animVelocity(selectBG1c, -1, 0))
-		if data.selectType == 'Fixed' then
-			animSetWindow(selectBG1c, 85, 0, 151, 239)
-		elseif data.selectType == 'Variable' then
-			animSetWindow(selectBG1c, -2, 0, 324, 239)
+	if not stageMenuActive then
+		if data.p2Faces then
+			animDraw(f_animVelocity(selectBG1a, -1, 0))
+			animSetWindow(selectBG1a, 5, 0, 151, 239)
+			animDraw(f_animVelocity(selectBG1b, -1, 0))
+			animSetWindow(selectBG1b, 164, 0, 151, 239)
+		else
+			animDraw(f_animVelocity(selectBG1c, -1, 0))
+			if data.selectType == 'Fixed' then
+				animSetWindow(selectBG1c, 85, 0, 151, 239)
+			elseif data.selectType == 'Variable' then
+				animSetWindow(selectBG1c, -2, 0, 324, 239)
+			end
 		end
 	end
 	animDraw(f_animVelocity(selectBG2a, -1, 0))
@@ -2322,17 +2324,19 @@ function f_selectScreen()
 		textImgSetPos(txt_mainSelect, 159, 13)
 		textImgDraw(txt_mainSelect)
 	end
-	drawFace(p1FaceX, p1FaceY, p1FaceOffset)
-	for i=0, selectColumns-1 do
-		for j=0, selectRows-1 do
-			animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2))
-		end
-	end
-	if data.p2Faces or not data.p1SelectMenu then
-		drawFace(p2FaceX, p2FaceY, p2FaceOffset)
+	if not stageMenuActive then
+		drawFace(p1FaceX, p1FaceY, p1FaceOffset)
 		for i=0, selectColumns-1 do
 			for j=0, selectRows-1 do
-				animPosDraw(selectCell, p2FaceX+i*(27+2), p2FaceY+j*(27+2))
+				animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2))
+			end
+		end
+		if data.p2Faces or not data.p1SelectMenu then
+			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
+			for i=0, selectColumns-1 do
+				for j=0, selectRows-1 do
+					animPosDraw(selectCell, p2FaceX+i*(27+2), p2FaceY+j*(27+2))
+				end
 			end
 		end
 	end
@@ -3455,12 +3459,124 @@ function f_p1SelectMenu()
 						f_drawSelectName(txt_p1Name, data.t_p1selected[1], 0, 148)
 					end
 				end
-			--Draw Author Info Text
-				--if data.charInfo == 'Author' then
-					--if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
-						--textImgDraw(txt_p1Author)
-					--end
-				--end
+			--DRAW AUTHOR INFO TEXT
+				if data.charInfo == 'Author' then
+					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
+						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						--SINGLE MODE
+							if p1numChars == 1 then
+								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									--Keep random author as: ???
+								else
+									textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author) --Reveal Random Author
+								end
+								textImgDraw(txt_p1Author)
+						--TEAM MODE WITH 2 MEMBERS
+							elseif p1numChars == 2 then
+							--Draw P1 Member 2 SELECTED Author
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[2].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 0, 165, 0.65, 0.65)
+								end
+							--Draw P1 Member 1 SELECTED Author
+								if j == 1 then
+									if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65)
+								end
+						--TEAM MODE WITH 3 MEMBERS
+							elseif p1numChars == 3 then
+							--Draw P1 Member 3 SELECTED Author
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[3].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
+								end
+							--Draw P1 Member 2 SELECTED Author
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[2].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
+								end
+							--Draw P1 Member 1 SELECTED Author
+								if j == 1 then
+									if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author)
+									end
+									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
+								end
+						--TEAM MODE WITH 4 MEMBERS
+							elseif p1numChars == 4 then
+							--Draw P1 Member 4 SELECTED Author
+								if j == 4 then
+									if data.randomPortrait == 'Fixed' and p1member4Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[4].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
+								end
+							--Draw P1 Member 3 SELECTED Author
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[3].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
+								end
+							--Draw P1 Member 2 SELECTED Author
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[2].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 60, 89, 0.5, 0.5)
+								end
+							--Draw P1 Member 1 SELECTED Author
+								if j == 1 then
+									if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									--
+									else
+										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author)
+										
+									end
+									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
+								end
+							end
+						elseif data.charPresentation == 'Sprite' then
+							if data.randomPortrait == 'Fixed' and p1member1Random == true then
+							--
+							else
+								textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[j].author)
+							end
+							textImgPosDraw(txt_p1Author, 0, 40*(j-1), 0.65, 0.65)
+						end
+					end
+				end
 			end
 		end
 		if not p1SelEnd then
@@ -3596,6 +3712,7 @@ function f_p1SelectMenu()
 				animDraw(arrowsDMR)
 				animUpdate(arrowsDMR)
 			end
+		--Draw Author Info Text Preview
 			if data.charInfo == 'Author' then
 				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
 					if t_selChars[p1Cell+1].author ~= nil then
@@ -3603,7 +3720,8 @@ function f_p1SelectMenu()
 					else --Set Text for Random Select
 						textImgSetText(txt_p1Author, 'AUTHOR: ???')
 					end
-					textImgDraw(txt_p1Author) --Draw Author Info Text
+					textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65) --Restart text pos
+					textImgDraw(txt_p1Author)
 				end
 			end
 			textImgDraw(txt_palHint) --Draw Character Select Hint
@@ -4706,6 +4824,7 @@ animSetScale(stage0M, 2.09, 2.09)
 --;===========================================================
 function f_selectStage()
 	if data.stageMenu then --If Stage Select is Enabled
+		stageMenuActive = true --To Delete content from previous menu
 		if data.rosterAdvanced == true then
 			f_loadCharResources() --Because in selectAdvanced for some side, there's not a character loaded
 		else --selectSimple game modes
@@ -4753,8 +4872,6 @@ function f_selectStage()
 			txt_stageDayTime = createTextImg(jgFnt, 0, -1, '', 112, 186,0.5,0.5)
 		elseif data.stageType == 'Modern' then
 			exclusiveStageMenu = true
-			--p2BG = false
-			--p1BG = false
 			--Info Text
 			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
 			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
@@ -4910,24 +5027,19 @@ function f_selectStage()
 			bufStagel = 0
 		end
 		--Delete content from previous menu
-		animSetWindow(selectBG1a, 0, 0, 0, 0)
-		animSetWindow(selectBG1b, 0, 0, 0, 0)
-		animSetWindow(selectBG1c, 0, 0, 0, 0)
-		p1FaceX = 99
-		p1FaceY = 999
-		p2FaceX = 999
-		p2FaceY = 999
+		--animSetWindow(selectBG1a, 0, 0, 0, 0)
+		--animSetWindow(selectBG1b, 0, 0, 0, 0)
+		--animSetWindow(selectBG1c, 0, 0, 0, 0)
+		--p1FaceX = 99
+		--p1FaceY = 999
+		--p2FaceX = 999
+		--p2FaceY = 999
 		if data.stageType == 'Classic' then
 			animUpdate(selStage)
 			animDraw(selStage)
 		elseif data.stageType == 'Modern' then
 			animUpdate(selStageM)
 			animDraw(selStageM)
-			--p1Cell = nil
-			--p2Cell = nil
-			--p1Portrait = nil
-			--p2Portrait = nil
-			--textImgSetPos(txt_mainSelect, 999,999)
 		end
 	--Stage Data
 		if stageList == 0 then
@@ -5114,7 +5226,7 @@ function f_selectStage()
 				data.stage[i] = {['cel'] = data.stage[i]} --Get stageNo from table loaded (t_stageDef)
 			end
 			f_printTable(data.stage, 'save/debug/data.stage.txt')
-			--stagePortrait = data.stage[1]
+			--stagePortrait = data.stage[1].cel
 			stageNo = data.stage[1].cel
 		end
 		setStage(stageNo)

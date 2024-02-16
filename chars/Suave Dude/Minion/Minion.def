@@ -5,7 +5,7 @@ Name         = "Suave Dude's Minion"
 DisplayName  = "Suave Dude's Minion"
 VersionDate  = 10,07,2010
 MugenVersion = 04,14,2002
-Author       = "Masukenpu-kun / Donaldeus"
+Author       = "Donaldeus"
 Pal.Defaults = 1,2,3,4,5,6
 ;--| 必要なファイルの設定 |---------------------------------------------------
 
