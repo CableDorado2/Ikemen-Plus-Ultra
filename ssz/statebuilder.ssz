@@ -1034,6 +1034,12 @@ public &StateBuilder
         cond .s.equ(v, "FVar"):
           if(tmp >= 40) break, else;
           out .= obj .= "fvar[" .= ''tmp .= ']';
+		cond .s.equ(v, "TIVar"):
+          if(tmp >= 100) break, else;
+          out .= obj .= "tivar[" .= ''tmp .= ']';
+        cond .s.equ(v, "TFVar"):
+          if(tmp >= 40) break, else;
+          out .= obj .= "tfvar[" .= ''tmp .= ']';
         cond .s.equ(v, "SysIVar"):
           if(tmp >= 5) break, else;
           out .= obj .= "sysivar[" .= ''tmp .= ']';
@@ -1835,6 +1841,10 @@ public &StateBuilder
       if(var(obj, token, "SysIVar", out=, in=, 2)=>typ < 0) ret -1;
     cond .s.equ("sysfvar", token):
       if(var(obj, token, "SysFVar", out=, in=, 1)=>typ < 0) ret -1;
+	cond .s.equ("tvar", token):
+      if(var(obj, token, "TIVar", out=, in=, 2)=>typ < 0) ret -1;
+    cond .s.equ("tfvar", token):
+      if(var(obj, token, "TFVar", out=, in=, 1)=>typ < 0) ret -1;
     cond .s.equ("var", token):
       if(var(obj, token, "IVar", out=, in=, 2)=>typ < 0) ret -1;
     cond .s.equ("fvar", token):
@@ -3326,6 +3336,12 @@ public &StateBuilder
       cond #line >= 4 && .s.equ(.s.toLower(line[0..4]), "fvar"):
         name = .s.toLower(line[0..4]);
         data = line;
+	  cond #line >= 4 && .s.equ(.s.toLower(line[0..4]), "tvar"):
+        name = .s.toLower(line[0..4]);
+        data = line;
+      cond #line >= 5 && .s.equ(.s.toLower(line[0..5]), "tfvar"):
+        name = .s.toLower(line[0..5]);
+        data = line;
       cond #line >= 6 && .s.equ(.s.toLower(line[0..6]), "sysvar"):
         name = .s.toLower(line[0..6]);
         data = line;
@@ -3705,7 +3721,7 @@ public &StateBuilder
       if(par){
         `state.ctrlList[-1].task .= "^`self p=`trParent()$.c;if(#p==0)ret;";
       }
-      bool v = false, fv = false, value = false;
+      bool v = false, fv = false, tv = false, tfv = false, value = false;
       ^/char valexp;
       %char varexp;
       if(!`stateParam(param=, "value", [`paraF_t(data=){
@@ -3721,21 +3737,31 @@ public &StateBuilder
         fv = true;
         ret `fullExpression(varexp=, data=, "", "", 2);
       }])) ret false;
-      if((v || fv) && value){
+	  if(value && !v && !fv && !`stateParam(param=, "tv", [`paraF_t(data=){
+        tv = true;
+        ret `fullExpression(varexp=, data=, "", "", 2);
+      }])) ret false;
+      if(value && !v && !fv && !tv && !`stateParam(param=, "tfv", [`paraF_t(data=){
+        tfv = true;
+        ret `fullExpression(varexp=, data=, "", "", 2);
+      }])) ret false;
+      if((v || fv || tv || tfv) && value){
         `state.ctrlList[-1].task .=
           (par ? "p~" : "`") .= (
             v ? (add ? "trAddIVar(" : "trSetIVar(")
-            : (add ? "trAddFVar(" : "trSetFVar("))
+            : fv ? (add ? "trAddFVar(" : "trSetFVar(")
+			: tv ? (add ? "trAddTIVar(" : "trSetTIVar(")
+            : (add ? "trAddTFVar(" : "trSetTFVar("))
           .= varexp .= ',';
         `errorexp = valexp;
         if(
           !`fullExpression(
-            `state.ctrlList[-1].task=, valexp=, "", "", v ? 2 : 1)) ret false;
+            `state.ctrlList[-1].task=, valexp=, "", "", (v||tv) ? 2 : 1)) ret false;
         `errorexp = "";
         `state.ctrlList[-1].task.= ");";
         ret true;
       }
-      v = fv = false;
+      v = fv = tv = tfv = false;
       bool sys = false;
       ~$bool(^/char=) set = [bool(^/char data=){
         data = .s.trim(data);
@@ -3750,7 +3776,9 @@ public &StateBuilder
               : (add ? "trAddSysFVar(" : "trSetSysFVar("))
             : (
               v ? (add ? "trAddIVar(" : "trSetIVar(")
-              : (add ? "trAddFVar(" : "trSetFVar(")));
+              : fv ? (add ? "trAddFVar(" : "trSetFVar(")
+			  : tv ? (add ? "trAddTIVar(" : "trSetTIVar(")
+              : (add ? "trAddTFVar(" : "trSetTFVar(")));
         if(
           !`typeExp!`expValue?(
             `state.ctrlList[-1].task=, data=, 2)) ret false;
@@ -3763,7 +3791,7 @@ public &StateBuilder
         data = data[f+1..-1];
         if(
           !`fullExpression(
-            `state.ctrlList[-1].task=, data=, "", "", v ? 2 : 1)) ret false;
+            `state.ctrlList[-1].task=, data=, "", "", (v||tv) ? 2 : 1)) ret false;
         `state.ctrlList[-1].task.= ");";
         ret true;
       }];
@@ -3785,6 +3813,26 @@ public &StateBuilder
         data = data[4..-1];
         value = true;
         fv = true;
+        ret set(:data=:);
+      }])) ret false;
+	  if(!value && !`stateParam(param=, "tvar", [`paraF_t(data=){
+        if(data[1] != 'v'){
+          `lasterror = data[0..4] + " 'v' is not lowercase";
+          ret false;
+        }
+        data = data[4..-1];
+        value = true;
+        tv = true;
+        ret set(:data=:);
+      }])) ret false;
+      if(!value && !`stateParam(param=, "tfvar", [`paraF_t(data=){
+        if(!par && data[1] != 'f'){
+          `lasterror = data[0..5] + " 'f' is not lowercase";
+          ret false;
+        }
+        data = data[5..-1];
+        value = true;
+        tfv = true;
         ret set(:data=:);
       }])) ret false;
       if(!value && !`stateParam(param=, "sysvar", [`paraF_t(data=){
@@ -3991,6 +4039,7 @@ public &StateBuilder
         }
         ret true;
       }])) ret false;
+	  //`state.ctrlList[-1].task .= "if(`minus==11){.rootPriority=true;}";
       ret true;
     }]);
   }
@@ -8825,6 +8874,17 @@ public &StateBuilder
       cns(:lines, i=:);
       i++;
     while i < #lines:}
+	^/char bufCmd = "data/common.st";
+	if(
+      #.com.loadFile(def, bufCmd=)=>error <, [^/char(^/char f){
+        ret
+          #.com.loadText(f, unicode=)=>mainbuf > 0
+          ? "" : .com.FileReadError;
+      }] > 0)
+    {
+      ret def + ":"\r\n + error;
+    }
+    lines = .com.splitLines(mainbuf);
     if(
       #.com.loadFile(def, `cmd=)=>error <, [^/char(^/char f){
         ret
@@ -8834,7 +8894,7 @@ public &StateBuilder
     {
       ret def + ":"\r\n + error;
     }
-    lines = .com.splitLines(mainbuf);
+    lines .= .com.splitLines(mainbuf); //lines = .com.splitLines(mainbuf);
     .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
     .cmd.resetReadKeymap();
     if(#.chr.chars[no]<>~cmd == 0) .chr.chars[no]<>~cmd.new(#.chr.chars);
@@ -8867,7 +8927,11 @@ public &StateBuilder
     if(#`stcommon > 0 && #`stateBulid(buf=, def, `stcommon=)=>error > 0){
       ret error;
     }
+	^/char training = "data/training.cns";
 	^/char minus = "data/match.cns";
+	if(.s.equ(.com.gameMode, "practice")){
+      if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
+    }
 	if(#`stateBulid(buf=, def, minus=)=>error > 0) ret error;
     buf .=
       "public void c.Char::stateInit" .= ''`playerno .= "P()"\r\n

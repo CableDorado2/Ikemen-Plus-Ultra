@@ -1,0 +1,3921 @@
+
+[Statedef -11]
+;---------------------------------------------------------------------------
+; Statetype
+;---------------------------------------------------------------------------
+
+[State -11, Walking]
+type = ChangeState
+triggerall = teamside = 2
+triggerall = statetype != A && ctrl
+triggerall = tvar(2)%4 != 0
+trigger1 = tvar(52)
+trigger1 = stateno = 0
+value = 21
+
+;[State -11, Crouching]
+;type = AssertSpecial
+;triggerall = teamside = 2
+;triggerall = statetype != A
+;triggerall = tvar(1)%3 = 1
+;trigger1 = tvar(52) = 0
+;trigger1 = !numhelper(20002) && !enemy,numhelper(20002)
+;flag = autocrouch
+
+[State -11, Jumping]
+type = ChangeState
+triggerall = teamside = 2
+triggerall = statetype != A && ctrl
+trigger1 = tvar(1)%3 = 2
+value = 40
+
+[Statedef -12]
+[State -12]
+type = Helper
+triggerall = teamside = 2
+trigger1 = numhelper(200000) = 0
+helpertype = normal
+name = "system"
+ID = 200000
+pos = 0,0
+postype = p1
+facing = 1
+stateno = 200000
+keyctrl = 0
+ownpal = 1
+supermovetime = 999999
+pausemovetime = 999999
+ignoretimestop = 1
+size.xscale = 1.0
+size.yscale = 1.0
+
+[State -12]
+type = Helper
+triggerall = teamside = 2
+trigger1 = numhelper(300000) = 0
+helpertype = normal
+name = "ruler"
+ID = 300000
+pos = 0,0
+postype = p1
+facing = 1
+stateno = 300000
+keyctrl = 0
+ownpal = 1
+supermovetime = 999999
+pausemovetime = 999999
+ignoretimestop = 1
+size.xscale = 1.0
+size.yscale = 1.0
+
+[State -12]
+type = Helper
+triggerall = teamside = 1 && numhelper(10371)
+trigger1 = numhelper(400000) = 0
+helpertype = normal
+name = "input"
+ID = 400000
+pos = 0,0
+postype = p1
+facing = 1
+stateno = 400000
+keyctrl = 0
+ownpal = 1
+supermovetime = 999999
+pausemovetime = 999999
+ignoretimestop = 1
+size.xscale = 1.0
+size.yscale = 1.0
+
+[State -12, Forced Counter Hit]
+type = VarSet
+triggerall = teamside = 1 && tvar(12) && var(42)!=1
+trigger1 = !(tvar(12)=2 && random%2=0)
+trigger1 = movetype = A
+trigger1 = enemy,movetype = I
+var(42) = 1
+ignorehitpause = 1
+
+[State -12, Random Tech Flag]
+type = VarSet
+triggerall = teamside = 2 && tvar(5)=2
+trigger1 = !tvar(50)
+trigger1 = hitfall && gethitvar(fall.recover)
+trigger2 = tvar(50)
+trigger2 = !(hitfall && gethitvar(fall.recover))
+tvar(50) = cond(!tvar(50),1+(random%2),0)
+
+;[State -12, Auto Tech]
+;type = ForceCommand
+;trigger1 = teamside = 2 && hitfall && gethitvar(fall.recover)
+;trigger1 = cond(tvar(5)=2,tvar(50)=1,tvar(5))
+;command = "recovery"
+
+[State -12]
+type = varset
+;triggerall = teamside = 2
+trigger1 = movetype != H
+trigger1 = tvar(61) != life
+trigger1 = tvar(72):=0||1
+tvar(61) = life
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+triggerall = life < lifemax
+trigger1 = movetype = H
+trigger1 = (tvar(61) - life) > 0
+tvar(62) = (tvar(61) - life)
+ignorehitpause = 1
+
+[State -12]
+type = null
+triggerall = teamside = 2
+trigger1 = tvar(62)>0
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(62):=root,tvar(62),0),0)||1
+ignorehitpause = 1
+
+[State -12]
+type = null
+triggerall = teamside = 2
+trigger1 = numenemy
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(63):=floor(enemy,fvar(11)*100),0),0)||1
+ignorehitpause = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+triggerall = tvar(64)
+trigger1 = movetype != H
+tvar(60) = 0
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+trigger1 = movetype = H
+trigger1 = !tvar(60)
+tvar(64) = 0
+ignorehitpause = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+trigger1 = movetype = H
+tvar(60) = 1
+ignorehitpause = 1
+
+[State -12]
+type = varadd
+triggerall = teamside = 2
+triggerall = life < lifemax
+trigger1 = tvar(60)
+trigger1 = movetype = H
+tvar(64) = (tvar(61) - life)
+ignorehitpause = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+trigger1 = movetype = H
+tvar(61) = life
+ignorehitpause = 1
+
+[State -12]
+type = null
+triggerall = teamside = 2
+trigger1 = tvar(64)>0
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(64):=root,tvar(64),0),0)||1
+ignorehitpause = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+trigger1 = tvar(64)>tvar(65)
+tvar(65) = tvar(64)
+ignorehitpause = 1
+
+[State -12]
+type = null
+triggerall = teamside = 2
+trigger1 = tvar(65)>0
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(65):=root,tvar(65),0),0)||1
+ignorehitpause = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+trigger1 = tvar(2)%4 = 1
+trigger1 = p2bodydist X > 30
+trigger2 = tvar(2)%4 = 2
+trigger2 = (p2bodydist X < 90 && backedgebodydist > 20) || p2bodydist x > 150
+trigger3 = tvar(2)%4 = 3
+trigger3 = backedgebodydist > 20
+tvar(52) = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+triggerall = tvar(3) != 2
+trigger1 = tvar(53) > 0
+tvar(53) = 0
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+triggerall = tvar(3) = 2
+trigger1 = ctrl = 0
+trigger1 = movetype = H
+tvar(53) = 20
+
+[State -12]
+type = varadd
+triggerall = teamside = 2
+triggerall = tvar(3) = 2
+trigger1 = ctrl = 1
+trigger1 = tvar(53) > 0
+tvar(53) = -1
+
+[State -12]
+type = null
+triggerall = teamside = 1
+trigger1 = enemy,tvar(71) := gethitvar(isbound)||1
+
+[State -12]
+type = null
+triggerall = teamside = 2
+triggerall = numhelper(200000)
+trigger1 = gethitvar(hitshaketime)>0&&time<=0 || gethitvar(isbound) || stateno = 150 || stateno = 152 || stateno = 154 || ((((enemy,stateno=[200,299])||(enemy,stateno=[400,899])||(enemy,stateno=[1000,4999]))&&!enemy,ctrl)&&!(enemy,name = "Suika_RP" && (enemy,stateno = [4101,4105]))&&helper(200000),tvar(68))
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(66):=1,0),0)||1
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(67):=0,0),0)||1
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(68):=1,0),0)||1
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(69):=0,0),0)||1
+
+[State -12]
+type = null
+triggerall = teamside = 2
+triggerall = numhelper(200000)
+trigger1 = enemy,gethitvar(hitshaketime)>0&&enemy,time<=0 || tvar(71) || enemy,stateno = 150 || enemy,stateno = 152 || enemy,stateno = 154 || ((((stateno=[200,299])||(stateno=[400,899])||(stateno=[1000,4999]))&&!ctrl)&&!(name = "Suika_RP" && (stateno = [4101,4105]))&&helper(200000),tvar(66))
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(66):=1,0),0)||1
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(67):=0,0),0)||1
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(68):=1,0),0)||1
+trigger1 = cond(numhelper(200000),helper(200000),cond(1,tvar(69):=0,0),0)||1
+ignorehitpause = 1
+
+[State -12]
+type = varset
+triggerall = teamside = 2
+trigger1 = numhelper(200000)
+tvar(70) = helper(200000),tvar(70)
+
+[State -12, Regen]
+type = varset
+triggerall = !tvar(73) && movetype = H
+trigger1 = teamside = 1
+trigger1 = enemy,tvar(9) = 1 || enemy,tvar(9) = 3
+trigger2 = teamside = 2
+trigger2 = tvar(9) = 2 || tvar(9) = 3
+tvar(73) = 1
+
+[State -12, Regen]
+type = varadd
+triggerall = tvar(72)<60 && movetype != H && life != lifemax
+trigger1 = teamside = 1
+trigger1 = enemy,tvar(9) = 1 || enemy,tvar(9) = 3
+trigger2 = teamside = 2
+trigger2 = tvar(9) = 2 || tvar(9) = 3
+tvar(72) = 1
+
+[State -12, Regen]
+type = varset
+triggerall = (tvar(72) && movetype = H) || life = lifemax
+trigger1 = teamside = 1
+trigger1 = enemy,tvar(9) = 1 || enemy,tvar(9) = 3
+trigger2 = teamside = 2
+trigger2 = tvar(9) = 2 || tvar(9) = 3
+tvar(72) = 0
+
+[State -12, Regen]
+type = lifeset
+triggerall = tvar(72)>=60 && life != lifemax
+triggerall = movetype != H && tvar(73)
+trigger1 = teamside = 1
+trigger1 = enemy,tvar(9) = 1 || enemy,tvar(9) = 3
+trigger2 = teamside = 2
+trigger2 = tvar(9) = 2 || tvar(9) = 3
+value = lifemax+0*(tvar(73):=0)
+
+;[State -12, Auto Guard]
+;type = AssertSpecial
+;triggerall = teamside = 2
+;trigger1 = tvar(3) = 1 || tvar(3) = 3 ;On/GCC
+;trigger2 = tvar(53) && tvar(3) = 2 ;1 Hit
+;flag = autoguard
+
+;---------------------------------------------------------------------------
+; Display
+[Statedef 200000]
+type = S
+movetype = I
+physics = N
+anim = 1998
+ctrl = 0
+velset = 0,0
+
+[State 200000]
+type = varadd
+trigger1 = root,tvar(70) = tvar(70)
+trigger1 = enemy(0),ctrl = 0 && !(enemy,name = "Suika_RP" && (enemy,stateno = [4101,4105]))
+trigger1 = tvar(66)
+tvar(67) = 1
+
+[State 200000]
+type = varset
+trigger1 = enemy(0),ctrl = 1 || (enemy,name = "Suika_RP" && (enemy,stateno = [4101,4105])); || (enemy,movetype != H && enemy,stateno != 5120 && (enemy,stateno != [5200,5210]))
+tvar(66) = 0
+
+[State 200000]
+type = varadd
+trigger1 = root,tvar(70) = tvar(70)
+trigger1 = root,ctrl = 0 && !(root,name = "Suika_RP" && (root,stateno = [4101,4105])); && (root,movetype = H || root,stateno = 5120 || (root,stateno = [5200,5210]))
+trigger1 = tvar(68)
+tvar(69) = 1
+
+[State 200000]
+type = varset
+trigger1 = root,ctrl = 1 || (root,name = "Suika_RP" && (root,stateno = [4101,4105])); || (root,movetype != H && root,stateno != 5120 && (root,stateno != [5200,5210]))
+tvar(68) = 0
+
+[State 200000]
+type = varset
+trigger1 = 1
+tvar(70) = ifelse((root,tvar(70)!=tvar(70)),tvar(70),(tvar(69)-tvar(67)))
+
+[State 200000]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(200000) = 0
+anim = F200000
+ID = 200000
+pos = 0,0+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,10,0)
+shadow = 0,0,0
+
+[State 200000]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,10,0)
+id = 200000
+
+[State 200000]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = root,tvar(6) = 0
+id = 200000
+
+[State 200000]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(200001) = 0
+anim = Fifelse(facing = 1,200001,200002)
+ID = 200001
+pos = 0,0+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 200001
+
+[State 200000]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = root,tvar(6) = 0
+id = 200001
+
+;|Damage|-------------------------------------------------------------------
+[State 200000, Damage] ;Many
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(210040) = 0
+trigger1 = tvar(62) >= 10000
+anim = Fifelse(facing = 1,210040,210041)
+ID = 210040
+pos = ifelse(facing = 1,81,5),43+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 210040
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62) < 10000
+trigger3 = root,tvar(6) = 0
+id = 210040
+
+;|Slot 1 - XXXO|------------------------------------------------------------
+[State 200000, Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(210000+(tvar(62)%10)) = 0
+trigger1 = tvar(62) < 10000
+anim = Fifelse(facing = 1,200010,200020)+(tvar(62)%10)
+ID = 210000+(tvar(62)%10)
+pos = ifelse(facing = 1,81,5),43+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 210000+(tvar(62)%10)
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 > 0
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210000
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 1
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210001
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 2
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210002
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 3
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210003
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 4
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210004
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 5
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210005
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 6
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210006
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 7
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210007
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 8
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210008
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(62)%10 != 9
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210009
+
+;|Slot 2 - XXOX|------------------------------------------------------------
+[State 200000, Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(210010+(floor(tvar(62)/10)%10)) = 0
+trigger1 = tvar(62) < 10000
+trigger1 = !(floor(tvar(62)/10)%10 = 0 && tvar(62) <= 99)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(62)/10)%10)
+ID = 210010+(floor(tvar(62)/10)%10)
+pos = ifelse(facing = 1,76,10),43+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 210010+(floor(tvar(62)/10)%10)
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 > 0
+trigger3 = tvar(62) >= 10000
+trigger4 = tvar(62) <= 99
+trigger5 = root,tvar(6) = 0
+id = 210010
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 1
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210011
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 2
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210012
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 3
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210013
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 4
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210014
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 5
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210015
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 6
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210016
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 7
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210017
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 8
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210018
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/10)%10 != 9
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210019
+
+;|Slot 3 - XOXX|------------------------------------------------------------
+[State 200000, Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(210020+(floor(tvar(62)/100)%10)) = 0
+trigger1 = tvar(62) < 10000
+trigger1 = !(floor(tvar(62)/100)%10 = 0 && tvar(62) <= 999)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(62)/100)%10)
+ID = 210020+(floor(tvar(62)/100)%10)
+pos = ifelse(facing = 1,71,15),43+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 210020+(floor(tvar(62)/100)%10)
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 > 0
+trigger3 = tvar(62) >= 10000
+trigger4 = tvar(62) <= 999
+trigger5 = root,tvar(6) = 0
+id = 210020
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 1
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210021
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 2
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210022
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 3
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210023
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 4
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210024
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 5
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210025
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 6
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210026
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 7
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210027
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 8
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210028
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/100)%10 != 9
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210029
+
+;|Slot 4 - OXXX|------------------------------------------------------------
+[State 200000, Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(210030+(floor(tvar(62)/1000)%10)) = 0
+trigger1 = floor(tvar(62)/1000)%10 != 0
+trigger1 = tvar(62) < 10000
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(62)/1000)%10)
+ID = 210030+(floor(tvar(62)/1000)%10)
+pos = ifelse(facing = 1,66,20),43+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 210030+(floor(tvar(62)/1000)%10)
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 1
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210031
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 2
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210032
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 3
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210033
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 4
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210034
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 5
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210035
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 6
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210036
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 7
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210037
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 8
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210038
+
+[State 200000, Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(62)/1000)%10 != 9
+trigger3 = tvar(62) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 210039
+
+;|Proration|-------------------------------------------------------------
+[State 200000, Proration] ;%
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(211000) = 0
+anim = Fifelse(facing = 1,211000,211001)
+ID = 211000
+pos = ifelse(facing = 1,81,5),53+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Proration]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 211000
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = root,tvar(6) = 0
+id = 211000
+
+;|Slot 2 - XXOX|------------------------------------------------------------
+[State 200000, Proration]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(211010+(floor(tvar(63))%10)) = 0
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(63))%10)
+ID = 211010+(floor(tvar(63))%10)
+pos = ifelse(facing = 1,76,10),53+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Proration]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 211010+(floor(tvar(63))%10)
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 > 0
+trigger3 = root,tvar(6) = 0
+id = 211010
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 1
+trigger3 = root,tvar(6) = 0
+id = 211011
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 2
+trigger3 = root,tvar(6) = 0
+id = 211012
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 3
+trigger3 = root,tvar(6) = 0
+id = 211013
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 4
+trigger3 = root,tvar(6) = 0
+id = 211014
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 5
+trigger3 = root,tvar(6) = 0
+id = 211015
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 6
+trigger3 = root,tvar(6) = 0
+id = 211016
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 7
+trigger3 = root,tvar(6) = 0
+id = 211017
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 8
+trigger3 = root,tvar(6) = 0
+id = 211018
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63))%10 != 9
+trigger3 = root,tvar(6) = 0
+id = 211019
+
+;|Slot 3 - XOXX|------------------------------------------------------------
+[State 200000, Proration]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(211020+(floor(tvar(63)/10)%10)) = 0
+trigger1 = !(floor(tvar(63)/10)%10 = 0 && tvar(63) <= 99)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(63)/10)%10)
+ID = 211020+floor(tvar(63)/10)%10
+pos = ifelse(facing = 1,71,15),53+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Proration]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 211020+floor(tvar(63)/10)%10
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 > 0
+trigger3 = tvar(63) <= 99
+trigger4 = root,tvar(6) = 0
+id = 211020
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 1
+trigger3 = root,tvar(6) = 0
+id = 211021
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 2
+trigger3 = root,tvar(6) = 0
+id = 211022
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 3
+trigger3 = root,tvar(6) = 0
+id = 211023
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 4
+trigger3 = root,tvar(6) = 0
+id = 211024
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 5
+trigger3 = root,tvar(6) = 0
+id = 211025
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 6
+trigger3 = root,tvar(6) = 0
+id = 211026
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 7
+trigger3 = root,tvar(6) = 0
+id = 211027
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 8
+trigger3 = root,tvar(6) = 0
+id = 211028
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/10)%10 != 9
+trigger3 = root,tvar(6) = 0
+id = 211029
+
+;|Slot 4 - OXXX|------------------------------------------------------------
+[State 200000, Proration]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(211031) = 0
+trigger1 = floor(tvar(63)/100)%10 = 1
+anim = Fifelse(facing = 1,200011,200021)
+ID = 211031
+pos = ifelse(facing = 1,66,20),53+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Proration]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 211031
+
+[State 200000, Proration]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(63)/100)%10 != 1
+trigger3 = root,tvar(6) = 0
+id = 211031
+
+;|Total Damage|-------------------------------------------------------------
+[State 200000, Total Damage] ;Many
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(212040) = 0
+trigger1 = tvar(64) > 10000
+anim = Fifelse(facing = 1,210040,210041)
+ID = 212040
+pos = ifelse(facing = 1,81,5),63+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Total Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 212040
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64) < 10000
+trigger3 = root,tvar(6) = 0
+id = 212040
+
+;|Slot 1 - XXXO|------------------------------------------------------------
+[State 200000, Total Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(212000+(tvar(64)%10)) = 0
+trigger1 = tvar(64) < 10000
+anim = Fifelse(facing = 1,200010,200020)+(tvar(64)%10)
+ID = 212000+(tvar(64)%10)
+pos = ifelse(facing = 1,81,5),63+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Total Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 212000+(tvar(64)%10)
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 > 0
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212000
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 1
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212001
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 2
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212002
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 3
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212003
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 4
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212004
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 5
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212005
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 6
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212006
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 7
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212007
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 8
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212008
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(64)%10 != 9
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212009
+
+;|Slot 2 - XXOX|------------------------------------------------------------
+[State 200000, Total Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(212010+(floor(tvar(64)/10)%10)) = 0
+trigger1 = tvar(64) < 10000
+trigger1 = !(floor(tvar(64)/10)%10 = 0 && tvar(64) <= 99)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(64)/10)%10)
+ID = 212010+(floor(tvar(64)/10)%10)
+pos = ifelse(facing = 1,76,10),63+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Total Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 212010+(floor(tvar(64)/10)%10)
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 > 0
+trigger3 = tvar(64) >= 10000
+trigger4 = tvar(64) <= 99
+trigger5 = root,tvar(6) = 0
+id = 212010
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 1
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212011
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 2
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212012
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 3
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212013
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 4
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212014
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 5
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212015
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 6
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212016
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 7
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212017
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 8
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212018
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/10)%10 != 9
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212019
+
+;|Slot 3 - XOXX|------------------------------------------------------------
+[State 200000, Total Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(212020+(floor(tvar(64)/100)%10)) = 0
+trigger1 = tvar(64) < 10000
+trigger1 = !(floor(tvar(64)/100)%10 = 0 && tvar(64) <= 999)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(64)/100)%10)
+ID = 212020+(floor(tvar(64)/100)%10)
+pos = ifelse(facing = 1,71,15),63+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Total Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 212020+(floor(tvar(64)/100)%10)
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 > 0
+trigger3 = tvar(64) >= 10000
+trigger4 = tvar(64) <= 999
+trigger5 = root,tvar(6) = 0
+id = 212020
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 1
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212021
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 2
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212022
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 3
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212023
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 4
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212024
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 5
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212025
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 6
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212026
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 7
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212027
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 8
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212028
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/100)%10 != 9
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212029
+
+;|Slot 4 - OXXX|------------------------------------------------------------
+[State 200000, Total Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6)  != 0
+trigger1 = numexplod(212030+(floor(tvar(64)/1000)%10)) = 0
+trigger1 = floor(tvar(64)/1000)%10 != 0
+trigger1 = tvar(64) < 10000
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(64)/1000)%10)
+ID = 212030+(floor(tvar(64)/1000)%10)
+pos = ifelse(facing = 1,66,20),63+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Total Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 212030+(floor(tvar(64)/1000)%10)
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 1
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212031
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 2
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212032
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 3
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212033
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 4
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212034
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 5
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212035
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 6
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212036
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 7
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212037
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 8
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212038
+
+[State 200000, Total Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(64)/1000)%10 != 9
+trigger3 = tvar(64) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 212039
+
+;|Max Damage|---------------------------------------------------------------
+[State 200000, Max Damage] ;Many
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(213040) = 0
+trigger1 = tvar(65) > 10000
+anim = Fifelse(facing = 1,210040,210041)
+ID = 213040
+pos = ifelse(facing = 1,81,5),73+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Max Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 213040
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65) < 10000
+trigger3 = root,tvar(6) = 0
+id = 213040
+
+;|Slot 1 - XXXO|------------------------------------------------------------
+[State 200000, Max Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(213000+(tvar(65)%10)) = 0
+trigger1 = tvar(65) < 10000
+anim = Fifelse(facing = 1,200010,200020)+(tvar(65)%10)
+ID = 213000+(tvar(65)%10)
+pos = ifelse(facing = 1,81,5),73+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5, 0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Max Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 213000+(tvar(65)%10)
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 > 0
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213000
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 1
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213001
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 2
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213002
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 3
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213003
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 4
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213004
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 5
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213005
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 6
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213006
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 7
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213007
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 8
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213008
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = tvar(65)%10 != 9
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213009
+
+;|Slot 2 - XXOX|------------------------------------------------------------
+[State 200000, Max Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(213010+(floor(tvar(65)/10)%10)) = 0
+trigger1 = tvar(65) < 10000
+trigger1 = !(floor(tvar(65)/10)%10 = 0 && tvar(65) <= 99)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(65)/10)%10)
+ID = 213010+(floor(tvar(65)/10)%10)
+pos = ifelse(facing = 1,76,10),73+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Max Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 213010+(floor(tvar(65)/10)%10)
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 > 0
+trigger3 = tvar(65) >= 10000
+trigger4 = tvar(65) <= 99
+trigger5 = root,tvar(6) = 0
+id = 213010
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 1
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213011
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 2
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213012
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 3
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213013
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 4
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213014
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 5
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213015
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 6
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213016
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 7
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213017
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 8
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213018
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/10)%10 != 9
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213019
+
+;|Slot 3 - XOXX|------------------------------------------------------------
+[State 200000, Max Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(213020+(floor(tvar(65)/100)%10)) = 0
+trigger1 = tvar(65) < 10000
+trigger1 = !(floor(tvar(65)/100)%10 = 0 && tvar(65) <= 999)
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(65)/100)%10)
+ID = 213020+(floor(tvar(65)/100)%10)
+pos = ifelse(facing = 1,71,15),73+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Max Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 213020+(floor(tvar(65)/100)%10)
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 > 0
+trigger3 = tvar(65) >= 10000
+trigger4 = tvar(65) <= 999
+trigger5 = root,tvar(6) = 0
+id = 213020
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 1
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213021
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 2
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213022
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 3
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213023
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 4
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213024
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 5
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213025
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 6
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213026
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 7
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213027
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 8
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213028
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/100)%10 != 9
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213029
+
+;|Slot 4 - OXXX|------------------------------------------------------------
+[State 200000, Max Damage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(213030+(floor(tvar(65)/1000)%10)) = 0
+trigger1 = floor(tvar(65)/1000)%10 != 0
+trigger1 = tvar(65) < 10000
+anim = Fifelse(facing = 1,200010,200020)+(floor(tvar(65)/1000)%10)
+ID = 213030+(floor(tvar(65)/1000)%10)
+pos = ifelse(facing = 1,66,20),73+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Max Damage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 213030+(floor(tvar(65)/1000)%10)
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 1
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213031
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 2
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213032
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 3
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213033
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 4
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213034
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 5
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213035
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 6
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213036
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 7
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213037
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 8
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213038
+
+[State 200000, Max Damage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(tvar(65)/1000)%10 != 9
+trigger3 = tvar(65) >= 10000
+trigger4 = root,tvar(6) = 0
+id = 213039
+
+;|Frame Advantage|----------------------------------------------------------
+[State 200000, Frame Advantage] ;Many
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(214040) = 0
+trigger1 = abs(tvar(70)) > 1000
+anim = Fifelse(facing = 1,210040,210041)
+ID = 214040
+pos = ifelse(facing = 1,81,5),83+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Frame Advantage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 214040
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70)) < 1000
+trigger3 = root,tvar(6) = 0
+id = 214040
+
+[State 200000, Frame Advantage] ;Minus
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(210050) = 0
+trigger1 = (tvar(70)) < 0
+anim = Fifelse(facing = 1,210050,210051)
+ID = 210050
+pos = ifelse(facing = 1,76,10),83+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5, 0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Frame Advantage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = (tvar(70)) < -9
+ID = 210050
+postype = back
+pos = ifelse(facing = 1,ifelse(tvar(70)<-99,66,71),ifelse(tvar(70)<-99,20,15)),83+root,tvar(0)
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+
+[State 200000, Frame Advantage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = (tvar(70)) >= -9
+ID = 210050
+postype = back
+pos = ifelse(facing = 1,76,10),83+root,tvar(0)
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70)) >= 1000
+trigger3 = root,tvar(6) = 0
+trigger4 = tvar(70) >= 0
+id = 210050
+
+;|Slot 1 - XXO|-------------------------------------------------------------
+[State 200000, Frame Advantage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(214000+(abs(tvar(70))%10)) = 0
+trigger1 = abs(tvar(70)) < 1000
+anim = Fifelse(facing = 1,200010,200020)+(abs(tvar(70))%10)
+ID = 214000+(abs(tvar(70))%10)
+pos = ifelse(facing = 1,81,5),83+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Frame Advantage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 214000+(abs(tvar(70))%10)
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 > 0
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214000
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 1
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214001
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 2
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214002
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 3
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214003
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 4
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214004
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 5
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214005
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 6
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214006
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 7
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214007
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 8
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214008
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = abs(tvar(70))%10 != 9
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214009
+
+;|Slot 2 - XOX|-------------------------------------------------------------
+[State 200000, Frame Advantage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(214010+(floor(abs(tvar(70))/10)%10)) = 0
+trigger1 = abs(tvar(70)) < 1000
+trigger1 = !(floor(abs(tvar(70))/10)%10 = 0 && abs(tvar(70)) <= 99)
+anim = Fifelse(facing = 1,200010,200020)+(floor(abs(tvar(70))/10)%10)
+ID = 214010+(floor(abs(tvar(70))/10)%10)
+pos = ifelse(facing = 1,76,10),83+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Frame Advantage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 214010+(floor(abs(tvar(70))/10)%10)
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 > 0
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = abs(tvar(70)) <= 99
+trigger5 = root,tvar(6) = 0
+id = 214010
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 1
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214011
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 2
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214012
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 3
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214013
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 4
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214014
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 5
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214015
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 6
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214016
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 7
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214017
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 8
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214018
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/10)%10 != 9
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214019
+
+;|Slot 3 - OXX|-------------------------------------------------------------
+[State 200000, Frame Advantage]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+trigger1 = numexplod(214020+(floor(abs(tvar(70))/100)%10)) = 0
+trigger1 = floor(abs(tvar(70))/100)%10 != 0
+trigger1 = abs(tvar(70)) < 1000
+anim = Fifelse(facing = 1,200010,200020)+(floor(abs(tvar(70))/100)%10)
+ID = 214020+(floor(abs(tvar(70))/100)%10)
+pos = ifelse(facing = 1,71,15),83+root,tvar(0)
+postype = back
+facing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+shadow = 0,0,0
+
+[State 200000, Frame Advantage]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(6) != 0
+hud = cond(root,tvar(6) = 1,4,1)
+sprpriority = cond(root,tvar(6) = 1,11,1)
+id = 214020+(floor(abs(tvar(70))/100)%10)
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 1
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214021
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 2
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214022
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 3
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214023
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 4
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214024
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 5
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214025
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 6
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214026
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 7
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214027
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 8
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214028
+
+[State 200000, Frame Advantage]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = floor(abs(tvar(70))/100)%10 != 9
+trigger3 = abs(tvar(70)) >= 1000
+trigger4 = root,tvar(6) = 0
+id = 214029
+
+
+
+;---------------------------------------------------------------------------
+; Ruler
+[Statedef 300000]
+type = A
+movetype = I
+physics = N
+anim = 1998
+ctrl = 0
+velset = 0,0
+
+[state 300000]
+type = PosSet
+trigger1 = numenemy
+x = cond((enemy,screenpos x >= 0 && enemy,screenpos x <= gamewidth),floor(enemy,pos x),pos x)
+y = 0
+
+[State 300000]
+type = Explod
+trigger1 = roundstate < 3
+trigger1 = numexplod(300001) = 0
+anim = Fifelse(facing = 1,300000,300001)
+ID = 300001
+pos = 0 ,0
+postype = p1
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0, 0
+accel = 0, 0
+random = 0, 0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+under = 1
+sprpriority = 2
+shadow = 0,0,0
+
+[State 300000]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+id = 300001
+
+;---------------------------------------------------------------------------
+; Input Display
+[Statedef 400000]
+type = A
+movetype = I
+physics = N
+anim = 1998
+ctrl = 0
+velset = 0,0
+
+[State 400000, Input Reset]
+type = Null
+triggerall = roundstate < 3 && numhelper(10371)
+trigger1 = (helper(10371),var(3)&240)||(helper(10371),var(6)&3968)||((root,name="Ichirin_RP"||root,name="Mima_RP")&&(helper(10371),var(36)=4))
+trigger1 = (var(9):=var(8))||1
+trigger1 = (var(8):=var(7))||1
+trigger1 = (var(7):=var(6))||1
+trigger1 = (var(6):=var(5))||1
+trigger1 = (var(5):=var(4))||1
+trigger1 = (var(4):=var(3))||1
+trigger1 = (var(3):=var(2))||1
+trigger1 = (var(2):=var(1))||1
+trigger1 = (var(1):=var(0))||1
+trigger1 = (var(0):=0)||1
+
+[State 400000, Input Reset]
+type = RemoveExplod
+triggerall = roundstate < 3 && numhelper(10371)
+trigger1 = (helper(10371),var(3)&240)||(helper(10371),var(6)&3968)||((root,name="Ichirin_RP"||root,name="Mima_RP")&&(helper(10371),var(36)=4))
+id = -1
+
+[State 400000, Input Grabber]
+type = Null
+triggerall = roundstate < 3 && numhelper(10371)
+trigger1 = (helper(10371),var(3)&240)
+trigger1 = (var(0):=(var(0) - (var(0)&15)))||1
+trigger1 = (var(0):=(var(0)|((helper(10371),var(3)&240)/16)))||1
+
+[State 400000, Input Grabber]
+type = Null
+triggerall = roundstate < 3 && numhelper(10371)
+trigger1 = (helper(10371),var(6)&3968)
+trigger1 = (var(0):=(var(0) - (var(0)&496)))||1
+trigger1 = (var(0):=(var(0)|((helper(10371),var(6)&3968)/8)))||1
+trigger1 = (helper(10371),var(4)&240)
+trigger1 = (var(0):=(var(0) - (var(0)&15)))||1
+trigger1 = (var(0):=(var(0)|((helper(10371),var(4)&240)/16)))||1
+trigger2 = (root,name="Ichirin_RP"||root,name="Mima_RP") && (helper(10371),var(36)=4)
+trigger2 = (var(0):=(var(0) - (var(0)&496)))||1
+trigger2 = (var(0):=(var(0)|112))||1
+trigger2 = (helper(10371),var(4)&240)
+trigger2 = (var(0):=(var(0) - (var(0)&15)))||1
+trigger2 = (var(0):=(var(0)|((helper(10371),var(4)&240)/16)))||1
+
+[State 400000, BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400000) = 0
+anim = F400000
+ID = 400000
+pos = 0,0
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,10,0)
+shadow = 0,0,0
+
+;|Slot 1|-------------------------------------------------------------------
+[State 400000, Slot 1 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400010) = 0 && (var(0)&15)
+anim = F400010+(var(0)&15)
+ID = 400010
+pos = 0,0
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 1 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400011) = 0 && (var(0)&112)
+anim = F400020+((var(0)&112)/16)
+ID = 400011
+pos = 0,0
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 1 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400012) = 0 && (var(0)&256)
+anim = F400020+((var(0)&256)/16)
+ID = 400012
+pos = 0+9*((var(0)&112)>0),0
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 1 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400013) = 0 && (var(0)&128)
+anim = F400020+((var(0)&128)/16)
+ID = 400013
+pos = 0+9*(((var(0)&112)>0)+((var(0)&256)>0)),0
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 1 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400110) = 0
+trigger1 = (numexplod(400011)+numexplod(400012)+numexplod(400013))>=2
+anim = F400001+((numexplod(400011)+numexplod(400012)+numexplod(400013))=3)
+ID = 400110
+pos = 0,0
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 2|-------------------------------------------------------------------
+[State 400000, Slot 2 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400020) = 0 && (var(1)&15)
+anim = F400010+(var(1)&15)
+ID = 400020
+pos = 0,12
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 2 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400021) = 0 && (var(1)&112)
+anim = F400020+((var(1)&112)/16)
+ID = 400021
+pos = 0,12
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 2 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400022) = 0 && (var(1)&256)
+anim = F400020+((var(1)&256)/16)
+ID = 400022
+pos = 0+9*((var(1)&112)>0),12
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 2 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400023) = 0 && (var(1)&128)
+anim = F400020+((var(1)&128)/16)
+ID = 400023
+pos = 0+9*(((var(1)&112)>0)+((var(1)&256)>0)),12
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 2 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400120) = 0
+trigger1 = (numexplod(400021)+numexplod(400022)+numexplod(400023))>=2
+anim = F400001+((numexplod(400021)+numexplod(400022)+numexplod(400023))=3)
+ID = 400120
+pos = 0,12
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 3|-------------------------------------------------------------------
+[State 400000, Slot 3 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400030) = 0 && (var(2)&15)
+anim = F400010+(var(2)&15)
+ID = 400030
+pos = 0,24
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 3 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400031) = 0 && (var(2)&112)
+anim = F400020+((var(2)&112)/16)
+ID = 400031
+pos = 0,24
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 3 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400032) = 0 && (var(2)&256)
+anim = F400020+((var(2)&256)/16)
+ID = 400032
+pos = 0+9*((var(2)&112)>0),24
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 3 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400033) = 0 && (var(2)&128)
+anim = F400020+((var(2)&128)/16)
+ID = 400033
+pos = 0+9*(((var(2)&112)>0)+((var(2)&256)>0)),24
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 3 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400130) = 0
+trigger1 = (numexplod(400031)+numexplod(400032)+numexplod(400033))>=2
+anim = F400001+((numexplod(400031)+numexplod(400032)+numexplod(400033))=3)
+ID = 400130
+pos = 0,24
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 4|-------------------------------------------------------------------
+[State 400000, Slot 4 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400040) = 0 && (var(3)&15)
+anim = F400010+(var(3)&15)
+ID = 400040
+pos = 0,36
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 4 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400041) = 0 && (var(3)&112)
+anim = F400020+((var(3)&112)/16)
+ID = 400041
+pos = 0,36
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 4 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400042) = 0 && (var(3)&256)
+anim = F400020+((var(3)&256)/16)
+ID = 400042
+pos = 0+9*((var(3)&112)>0),36
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 4 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400043) = 0 && (var(3)&128)
+anim = F400020+((var(3)&128)/16)
+ID = 400043
+pos = 0+9*(((var(3)&112)>0)+((var(3)&256)>0)),36
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 4 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400140) = 0
+trigger1 = (numexplod(400041)+numexplod(400042)+numexplod(400043))>=2
+anim = F400001+((numexplod(400041)+numexplod(400042)+numexplod(400043))=3)
+ID = 400140
+pos = 0,36
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 5|-------------------------------------------------------------------
+[State 400000, Slot 5 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400050) = 0 && (var(4)&15)
+anim = F400010+(var(4)&15)
+ID = 400050
+pos = 0,48
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 5 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400051) = 0 && (var(4)&112)
+anim = F400020+((var(4)&112)/16)
+ID = 400051
+pos = 0,48
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 5 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400052) = 0 && (var(4)&256)
+anim = F400020+((var(4)&256)/16)
+ID = 400052
+pos = 0+9*((var(4)&112)>0),48
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 5 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400053) = 0 && (var(4)&128)
+anim = F400020+((var(4)&128)/16)
+ID = 400053
+pos = 0+9*(((var(4)&112)>0)+((var(4)&256)>0)),48
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 5 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400150) = 0
+trigger1 = (numexplod(400051)+numexplod(400052)+numexplod(400053))>=2
+anim = F400001+((numexplod(400051)+numexplod(400052)+numexplod(400053))=3)
+ID = 400150
+pos = 0,48
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 6|-------------------------------------------------------------------
+[State 400000, Slot 6 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400060) = 0 && (var(5)&15)
+anim = F400010+(var(5)&15)
+ID = 400060
+pos = 0,60
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 6 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400061) = 0 && (var(5)&112)
+anim = F400020+((var(5)&112)/16)
+ID = 400061
+pos = 0,60
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 6 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400062) = 0 && (var(5)&256)
+anim = F400020+((var(5)&256)/16)
+ID = 400062
+pos = 0+9*((var(5)&112)>0),60
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 6 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400063) = 0 && (var(5)&128)
+anim = F400020+((var(5)&128)/16)
+ID = 400063
+pos = 0+9*(((var(5)&112)>0)+((var(5)&256)>0)),60
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 6 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400160) = 0
+trigger1 = (numexplod(400061)+numexplod(400062)+numexplod(400063))>=2
+anim = F400001+((numexplod(400061)+numexplod(400062)+numexplod(400063))=3)
+ID = 400160
+pos = 0,60
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 7|-------------------------------------------------------------------
+[State 400000, Slot 7 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400070) = 0 && (var(6)&15)
+anim = F400010+(var(6)&15)
+ID = 400070
+pos = 0,72
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 7 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400071) = 0 && (var(6)&112)
+anim = F400020+((var(6)&112)/16)
+ID = 400071
+pos = 0,72
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 7 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400072) = 0 && (var(6)&256)
+anim = F400020+((var(6)&256)/16)
+ID = 400072
+pos = 0+9*((var(6)&112)>0),72
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 7 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400073) = 0 && (var(6)&128)
+anim = F400020+((var(6)&128)/16)
+ID = 400073
+pos = 0+9*(((var(6)&112)>0)+((var(6)&256)>0)),72
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 7 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400170) = 0
+trigger1 = (numexplod(400071)+numexplod(400072)+numexplod(400073))>=2
+anim = F400001+((numexplod(400071)+numexplod(400072)+numexplod(400073))=3)
+ID = 400170
+pos = 0,72
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 8|-------------------------------------------------------------------
+[State 400000, Slot 8 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400080) = 0 && (var(7)&15)
+anim = F400010+(var(7)&15)
+ID = 400080
+pos = 0,84
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 8 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400081) = 0 && (var(7)&112)
+anim = F400020+((var(7)&112)/16)
+ID = 400081
+pos = 0,84
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 8 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400082) = 0 && (var(7)&256)
+anim = F400020+((var(7)&256)/16)
+ID = 400082
+pos = 0+9*((var(7)&112)>0),84
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 8 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400083) = 0 && (var(7)&128)
+anim = F400020+((var(7)&128)/16)
+ID = 400083
+pos = 0+9*(((var(7)&112)>0)+((var(7)&256)>0)),84
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 8 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400180) = 0
+trigger1 = (numexplod(400081)+numexplod(400082)+numexplod(400083))>=2
+anim = F400001+((numexplod(400081)+numexplod(400082)+numexplod(400083))=3)
+ID = 400180
+pos = 0,84
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 9|-------------------------------------------------------------------
+[State 400000, Slot 9 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400090) = 0 && (var(8)&15)
+anim = F400010+(var(8)&15)
+ID = 400090
+pos = 0,96
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 9 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400091) = 0 && (var(8)&112)
+anim = F400020+((var(8)&112)/16)
+ID = 400091
+pos = 0,96
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 9 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400092) = 0 && (var(8)&256)
+anim = F400020+((var(8)&256)/16)
+ID = 400092
+pos = 0+9*((var(8)&112)>0),96
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 9 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400093) = 0 && (var(8)&128)
+anim = F400020+((var(8)&128)/16)
+ID = 400093
+pos = 0+9*(((var(8)&112)>0)+((var(8)&256)>0)),96
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 9 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400190) = 0
+trigger1 = (numexplod(400091)+numexplod(400092)+numexplod(400093))>=2
+anim = F400001+((numexplod(400091)+numexplod(400092)+numexplod(400093))=3)
+ID = 400190
+pos = 0,96
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+;|Slot 10|-------------------------------------------------------------------
+[State 400000, Slot 10 Direction]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400100) = 0 && (var(9)&15)
+anim = F400010+(var(9)&15)
+ID = 400100
+pos = 0,108
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 10 Button 1]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400101) = 0 && (var(9)&112)
+anim = F400020+((var(9)&112)/16)
+ID = 400101
+pos = 0,108
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 10 Button 2]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400102) = 0 && (var(9)&256)
+anim = F400020+((var(9)&256)/16)
+ID = 400102
+pos = 0+9*((var(9)&112)>0),108
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 10 Button 3]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400103) = 0 && (var(9)&128)
+anim = F400020+((var(9)&128)/16)
+ID = 400103
+pos = 0+9*(((var(9)&112)>0)+((var(9)&256)>0)),108
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+shadow = 0,0,0
+
+[State 400000, Slot 10 Extra BG]
+type = Explod
+triggerall = roundstate < 3 && root,tvar(11) != 0
+trigger1 = numexplod(400200) = 0
+trigger1 = (numexplod(400101)+numexplod(400102)+numexplod(400103))>=2
+anim = F400001+((numexplod(400101)+numexplod(400102)+numexplod(400103))=3)
+ID = 400200
+pos = 0,108
+postype = back
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+supermovetime = 999999
+pausemovetime = 999999
+scale = 0.5,0.5
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+shadow = 0,0,0
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,21,11)
+id = -1
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400000
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400110
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400120
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400130
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400140
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400150
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400160
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400170
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400180
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400190
+
+[State 400000, Big Lazy]
+type = ModifyExplod
+trigger1 = roundstate < 3
+trigger1 = root,tvar(11) != 0
+hud = cond(root,tvar(11) = 1,4,1)
+sprpriority = cond(root,tvar(11) = 1,20,10)
+id = 400200
+
+[State 400000, Delet]
+type = RemoveExplod
+trigger1 = roundstate >= 3
+trigger2 = root,tvar(11) = 0
+id = -1

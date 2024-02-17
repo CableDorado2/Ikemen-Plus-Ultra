@@ -206,20 +206,43 @@ public bool modKeyState(bool keyState, int jn, int key)
   cond !keyState: ret true;
   else:
     branch{
+    cond !.str.equ(.com.gameMode,"practice") && .com.gameState == 1:
+      ret false;
     cond jn > -1:
       ret false;
-    cond !(ctrl && (((.sdl.JoystickButtonState(:-1, 6:) || .sdl.JoystickButtonState(:-1, 15:) || .sdl.JoystickButtonState(:-1, 22:)) && .com.gameState == 1) || (.sdl.JoystickButtonState(:-1, 25:) && .com.gameState == 0))):
+    cond key != 6 && key != 15 && key != 19 && key != 21 && key != 22 && key != 25:
       ret false;
-    cond key != 6 && key != 15 && key != 22 && key != 25:
+    cond !(ctrl && (((.sdl.JoystickButtonState(:-1, 6:) || .sdl.JoystickButtonState(:-1, 15:) || .sdl.JoystickButtonState(:-1, 19:) || .sdl.JoystickButtonState(:-1, 21:) || .sdl.JoystickButtonState(:-1, 22:)) && .com.gameState == 1) || (.sdl.JoystickButtonState(:-1, 25:) && .com.gameState == 0))):
       ret false;
-    //cond !.str.equ(.com.gameMode,"practice") && .com.gameState == 1:
-      //ret false;
     else:
       ret true;
     }
   }
   ret true;
 }
+
+//OLD
+//public bool modKeyState(bool keyState, int jn, int key)
+//{
+  //bool ctrl = .sdl.JoystickButtonState(:-1, 224:) || .sdl.JoystickButtonState(:-1, 228:);
+  //branch{
+  //cond !keyState: ret true;
+  //else:
+    //branch{
+    //cond jn > -1:
+      //ret false;
+    //cond !(ctrl && (((.sdl.JoystickButtonState(:-1, 6:) || .sdl.JoystickButtonState(:-1, 15:) || .sdl.JoystickButtonState(:-1, 22:)) && .com.gameState == 1) || (.sdl.JoystickButtonState(:-1, 25:) && .com.gameState == 0))):
+      //ret false;
+    //cond key != 6 && key != 15 && key != 22 && key != 25:
+      //ret false;
+    //cond !.str.equ(.com.gameMode,"practice") && .com.gameState == 1:
+      //ret false;
+    //else:
+      //ret true;
+    //}
+  //}
+  //ret true;
+//}
 
 &KeyInfo
 {
@@ -1157,6 +1180,7 @@ public &CommandList
     if(input < 0 && input >= -.com.maxSimul*2){
       .aiil.new[!input].update();//Here to avoid getting out of sync
     }
+	//if(.str.equ(.com.gameMode, "practice") && .com.pauseMenu == 0) `playback(input,facing);
     branch{
       if(input < 0) else;
     cond #.replay > 0 && .com.sysControls == 0: //Pause Menu can be controlled in Replay Mode

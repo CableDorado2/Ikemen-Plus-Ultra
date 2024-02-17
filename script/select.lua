@@ -3573,7 +3573,7 @@ function f_p1SelectMenu()
 							else
 								textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[j].author)
 							end
-							textImgPosDraw(txt_p1Author, 0, 40*(j-1), 0.65, 0.65)
+							textImgPosDraw(txt_p1Author, 0, 20+10*(j-1), 0.65, 0.65)
 						end
 					end
 				end
@@ -6070,8 +6070,20 @@ function f_selectVersus()
 			end
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
-			drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			--draw character portraits
+			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+				drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			end
+			--draw character animations
+			if data.charPresentation == 'Sprite' then
+				for j=#data.t_p1selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+				end
+				for j=#data.t_p2selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
+				end
+			end
 			--set random hints for versus screen
 			if randomHintVS == 1 then
 				textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")

@@ -445,6 +445,12 @@ void ctrl(&.lua.State L=, int re=)
   L.pushBoolean(#.cwc > 0 && .cwc~canCtrl());
 }
 
+void displayname(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(#.cwc > 0 ? .chr.cgi[.cwc~playerno].displayname : "");
+}
+
 void drawgame(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1061,6 +1067,13 @@ void teamside(&.lua.State L=, int re=)
   L.pushNumber((double)(#.cwc > 0 ? (.cwc~playerno&1) + 1 : 0));
 }
 
+void tfvar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trTFVar(i)$.chr.v.toF() : 0.0);
+}
+
 void tickspersecond(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1077,6 +1090,13 @@ void topedge(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber(#.cwc > 0 ? .cwc~trTopEdge() : 0.0);
+}
+
+void tvar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int i = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber(#.cwc > 0 ? .cwc~trTIVar(i)$.chr.v.toF() : 0.0);
 }
 
 void uniqhitcount(&.lua.State L=, int re=)
@@ -1162,6 +1182,7 @@ public void registerFunction(&.lua.State L=)
   L.register("command", .command);
   L.register("const", .const_);
   L.register("ctrl", .ctrl);
+  L.register("displayname", .displayname);
   L.register("drawgame", .drawgame);
   L.register("facing", .facing);
   L.register("frontedge", .frontedge);
@@ -1237,9 +1258,11 @@ public void registerFunction(&.lua.State L=)
   L.register("sysvar", .sysvar);
   L.register("teammode", .teammode);
   L.register("teamside", .teamside);
+  L.register("tfvar", .tfvar);
   L.register("tickspersecond", .tickspersecond);
   L.register("time", .time);
   L.register("topedge", .topedge);
+  L.register("tvar", .tvar);
   L.register("uniqhitcount", .uniqhitcount);
   L.register("var", .var);
   L.register("velX", .velX);

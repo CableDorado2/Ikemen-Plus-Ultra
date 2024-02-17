@@ -231,8 +231,8 @@ void game()
   int oldp1wins, oldp2wins, olddraws;
   bool pmSt = false, pmEsc = false;
   ^int lif.new(#.chr.chars), pow.new(#.chr.chars);
-  ^^/int var.new(#.chr.chars);
-  ^^/float fvar.new(#.chr.chars);
+  ^^/int var.new(#.chr.chars), tvar.new(#.chr.chars);
+  ^^/float fvar.new(#.chr.chars), tfvar.new(#.chr.chars);
   void copyVar(int pno)
   {
     `lif[pno] = .chr.chars[pno][0]~sysivar[.chr.iLIFE];
@@ -584,6 +584,10 @@ void game()
     share~copy();
     share~stt = stagetime;
     oldshare.copyToRef!&.sha.Share?(share=);
+  }
+  if(!.se.end && .s.equ(.com.gameMode, "practice") && #.chr.chars > 1 && .s.equ(.chr.chars[1]<>~name, "Training") && #.com.debugScript > 0){
+    .dscri.L.getGlobal("trnMacroCheck");
+    if(!.dscri.L.pcall(0, 1)) ret;
   }
 }
 

@@ -1,18 +1,18 @@
+﻿[Statedef -1]
 
-[Statedef -1]
-
+[Statedef -11]
 
 [Statedef -2]
 
+[Statedef -12]
 
 [Statedef -3]
-
 
 [Statedef -I1]
 
 [State -I1, KO Cond]
 type = VarSet
-trigger1 = 1
+trigger1 = roundno != -1 ;trigger1 = 1
 sysvar(9) = !noko && life <= 0
 
 [State -I1, KO1]
@@ -39,6 +39,9 @@ trigger1 = StateNo = 5110
 trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
 
+;===========================================================================
+; MATCH STUFF
+;===========================================================================
 [State 500, Intro for Round 1]
 type = assertspecial
 trigger1 = RoundState < 2 && RoundNo = 1
@@ -87,3 +90,2193 @@ type = LifeSet
 triggerall = ((ServiceType = 4 && TeamSide = 1) || (ServiceType = 24 && TeamSide = 2)) ;LIFE WILL AT MAX FOR STORY MODE BATTLES
 trigger1 = RoundState = 2
 value = LifeMax
+
+;===========================================================================
+; TRAINING MODE
+;===========================================================================
+
+;INPUT DISPLAY TEST
+
+; Buffer Helper
+;[State -2 Buffer Helper]
+;type = Helper
+;trigger1 = AILevel <= 0
+;trigger1 = !numhelper(10371)
+;helpertype = normal
+;name = "Buffer"
+;ID = 10371
+;pos = 0,0
+;postype = p1
+;facing = 1
+;stateno = 10371
+;keyctrl = 1
+;ownpal = 1
+;supermovetime = 65535
+;pausemovetime = 65535
+
+;INPUT DISPLAY TEST
+
+[State -I1, CtrlSet]
+type = CtrlSet
+triggerall = !ishelper && roundno = -1
+;triggerall = numhelper(20002) || enemy,numhelper(20002)
+trigger1 = cond(numhelper(20002),helper(20002),cond(1,stateno=20002,0),0) || enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20002,0),0)
+trigger2 = cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time < 30,0),0) && enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time < 30,0),0)
+trigger3 = cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time < 30,0),0) && !enemy,numhelper(20002)
+trigger4 = enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time < 30,0),0) && !numhelper(20002)
+value = 0
+
+[State -I1, CtrlSet]
+type = CtrlSet
+triggerall = !ishelper && roundno = -1
+;triggerall = numhelper(20002) || enemy,numhelper(20002)
+trigger1 = cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time >= 30,0),0) && enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time >= 30,0),0)
+trigger2 = cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time >= 30,0),0) && !enemy,numhelper(20002)
+trigger3 = enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time >= 30,0),0) && !numhelper(20002)
+value = 1
+
+[State -I1, ResetBuffer]
+type = Null
+triggerall = roundno = -1
+triggerall = numhelper(10371)
+trigger1 = cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time = 1,0),0) || enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time = 1,0),0)
+trigger1 = cond(numhelper(10371),helper(10371),cond(1,var(0):=0,0),0)||1
+
+;===========================================================================
+; COMMAND BUFFER
+;===========================================================================
+[Statedef -4]
+
+;--------------------------------[BUTTONS]-------------------------------------;
+;BUTTON:
+;var(0) = PRESS
+;var(1) = HOLD
+;var(2) = RELEASE
+;var(6) = PRESS (HITPAUSE DECREMENT)
+;var(7) = HOLD (HITPAUSE DECREMENT)
+;var(8) = PRESS (OVERFLOW)
+;var(9) = PRESS (HITPAUSE DECREMENT) (OVERFLOW)
+;Final tick (pattern repeats going up, can store 4 ticks):
+; LP    = 0x01
+; MP    = 0x02
+; HP    = 0x04
+; Start = 0x08
+; LK    = 0x10
+; MK    = 0x20
+; HK    = 0x40
+
+[State -4, Hold Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = hitpausetime = 0
+trigger1 = helper(10371),var(1)
+trigger1 = e||helper(10371),var(1) := helper(10371),var(1)/128
+trigger2 = hitpausetime > 0
+trigger2 = (helper(10371),var(1)&2080895)
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|((helper(10371),var(1)&2080895)/128))
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)-(helper(10371),var(1)&2080895))
+ignorehitpause = 1
+
+[State -4, Press Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = hitpausetime = 0
+trigger1 = helper(10371),var(0)
+trigger1 = e||helper(10371),var(0) := helper(10371),var(0)/128
+trigger2 = hitpausetime > 0
+trigger2 = (helper(10371),var(0)&2080895)
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)|((helper(10371),var(0)&2080895)/128))
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)-(helper(10371),var(0)&2080895))
+ignorehitpause = 1
+
+[State -4, Negative Edge Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(2)
+trigger1 = e||helper(10371),var(2) := helper(10371),var(2)/128
+ignorehitpause = 1
+
+[State -4, Hold Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(7)
+trigger1 = e||helper(10371),var(7) := helper(10371),var(7)/128
+ignorehitpause = 1
+
+[State -4, Press Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(6)
+trigger1 = e||helper(10371),var(6) := helper(10371),var(6)/128
+ignorehitpause = 1
+
+[State -4, Press Overflow Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = hitpausetime = 0
+trigger1 = helper(10371),var(8)
+trigger1 = e||helper(10371),var(8) := helper(10371),var(8)/128
+trigger2 = hitpausetime > 0
+trigger2 = (helper(10371),var(8)&127)
+trigger2 = e||helper(10371),var(8) := (helper(10371),var(8)-(helper(10371),var(8)&127))
+ignorehitpause = 1
+
+[State -4, Press Overflow Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(9)
+trigger1 = e||helper(10371),var(9) := helper(10371),var(9)/128
+ignorehitpause = 1
+
+;---------------------------------[DIRECTIONS]---------------------------------;
+;DIRECTIONAL:
+;var(3) = PRESS
+;var(4) = HOLD
+;var(5) = RELEASE
+;Final tick (pattern repeats going up, can store 8 ticks):
+; Up      = 0x01
+; Down    = 0x02
+; Back    = 0x04
+; Forward = 0x08
+
+[State -4, Hold Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(4)
+trigger1 = e||helper(10371),var(4) := helper(10371),var(4)/16
+ignorehitpause = 1
+
+[State -4, Press Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(3)
+trigger1 = e||helper(10371),var(3) := helper(10371),var(3)/16
+ignorehitpause = 1
+
+[State -4, Negative Edge Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(5)
+trigger1 = e||helper(10371),var(5) := helper(10371),var(5)/16
+ignorehitpause = 1
+
+;DIRECTIONAL:
+;var(54) = DD
+;var(55) = FF
+;var(56) = BB
+;var(57) = UU
+;var(58) = DDD
+
+[State -4, DDD Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(58) > 9 + (2**4))) ||  (helper(10371),var(58) <= 9 + (2**4))
+trigger1 = (helper(10371),var(58)&15)
+trigger1 = e||helper(10371),var(58) := (helper(10371),var(58)^(helper(10371),var(58)&15) | ((helper(10371),var(58)&15) - 1))
+ignorehitpause = 1
+[State -4, DD Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = cond(name != "Kanako_RP",((hitpausetime = 0 && (helper(10371),var(54) > 9 + (2**4))) || (helper(10371),var(54) <= 9 + (2**4))),1)
+trigger1 = (helper(10371),var(54)&15)
+trigger1 = e||helper(10371),var(54) := (helper(10371),var(54)^(helper(10371),var(54)&15) | ((helper(10371),var(54)&15) - 1))
+ignorehitpause = 1
+[State -4, UU Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = cond(name != "Kanako_RP",((hitpausetime = 0 && (helper(10371),var(57) > 9 + (2**4))) || (helper(10371),var(57) <= 9 + (2**4))),1)
+trigger1 = (helper(10371),var(57)&15)
+trigger1 = e||helper(10371),var(57) := (helper(10371),var(57)^(helper(10371),var(57)&15) | ((helper(10371),var(57)&15) - 1))
+ignorehitpause = 1
+[State -4, FF Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(55)&15)
+trigger1 = e||helper(10371),var(55) := (helper(10371),var(55)^(helper(10371),var(55)&15) | ((helper(10371),var(55)&15) - 1))
+ignorehitpause = 1
+[State -4, BB Dec]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(56)&15)
+trigger1 = e||helper(10371),var(56) := (helper(10371),var(56)^(helper(10371),var(56)&15) | ((helper(10371),var(56)&15) - 1))
+ignorehitpause = 1
+
+;------------------------------[MULTIPLE BUTTONS]------------------------------;
+;DOUBLE BUTTON:
+;var(30) = LP+MP
+;var(31) = LP+HP
+;var(32) = MP+HP
+;TRIPLE BUTTON:
+;var(36) = LP+MP+HP
+
+[State -4, LP+MP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(30)
+trigger1 = e||helper(10371),var(30) := helper(10371),var(30) -1
+ignorehitpause = 1
+[State -4, LP+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(31)
+trigger1 = e||helper(10371),var(31) := helper(10371),var(31) -1
+ignorehitpause = 1
+[State -4, MP+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(32)
+trigger1 = e||helper(10371),var(32) := helper(10371),var(32) -1
+ignorehitpause = 1
+
+[State -4, LP+MP+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(36)
+trigger1 = e||helper(10371),var(36) := helper(10371),var(36) -1
+ignorehitpause = 1
+[State -4, Hold LP+MP+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(37)
+trigger1 = e||helper(10371),var(37) := helper(10371),var(37) -1
+ignorehitpause = 1
+
+;-----------------------------[DIRECTION + BUTTON]-----------------------------;
+;var(10) = DIR+LP
+;var(11) = DIR+MP
+;var(12) = DIR+HP
+;var(13) = DIR+LK
+;var(14) = DIR+LP+MP
+;var(15) = DIR+MP+HP
+;var(16) = DIR+LP+MP+HP
+;var(17) = DIR EXTRA FRAME
+;var(18) = DIA EXTRA FRAME
+
+[State -4, Direction+LP+MP+HP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(16)&257)=1 || (helper(10371),var(16)&514)=2 || (helper(10371),var(16)&1028)=4 || (helper(10371),var(16)&2056)=8 || !helper(10371),var(16))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**24*((helper(10371),var(16)&257)=1)-2**25*((helper(10371),var(16)&514)=2)-2**26*((helper(10371),var(16)&1028)=4)-2**27*((helper(10371),var(16)&2056)=8)-(helper(10371),var(17)&251658240)*(!helper(10371),var(16))
+ignorehitpause = 1
+[State -4, Diagonal+LP+MP+HP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(16)&4112)=16 || (helper(10371),var(16)&8224)=32 || (helper(10371),var(16)&16448)=64 || (helper(10371),var(16)&32896)=128 || !helper(10371),var(16))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**24*((helper(10371),var(16)&4112)=16)-2**25*((helper(10371),var(16)&8224)=32)-2**26*((helper(10371),var(16)&16448)=64)-2**27*((helper(10371),var(16)&32896)=128)-(helper(10371),var(18)&251658240)*(!helper(10371),var(16))
+ignorehitpause = 1
+[State -4, Direction+LP+MP+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(16)
+trigger1 = e||helper(10371),var(16) := helper(10371),var(16)/256
+ignorehitpause = 1
+
+[State -4, Direction+MP+HP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(15)&257)=1 || (helper(10371),var(15)&514)=2 || (helper(10371),var(15)&1028)=4 || (helper(10371),var(15)&2056)=8 || !helper(10371),var(15))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**20*((helper(10371),var(15)&257)=1)-2**21*((helper(10371),var(15)&514)=2)-2**22*((helper(10371),var(15)&1028)=4)-2**23*((helper(10371),var(15)&2056)=8)-(helper(10371),var(17)&15728640)*(!helper(10371),var(15))
+ignorehitpause = 1
+[State -4, Diagonal+MP+HP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(15)&4112)=16 || (helper(10371),var(15)&8224)=32 || (helper(10371),var(15)&16448)=64 || (helper(10371),var(15)&32896)=128 || !helper(10371),var(15))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**20*((helper(10371),var(15)&4112)=16)-2**21*((helper(10371),var(15)&8224)=32)-2**22*((helper(10371),var(15)&16448)=64)-2**23*((helper(10371),var(15)&32896)=128)-(helper(10371),var(18)&15728640)*(!helper(10371),var(15))
+ignorehitpause = 1
+[State -4, Direction+MP+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(15)
+trigger1 = e||helper(10371),var(15) := helper(10371),var(15)/256
+ignorehitpause = 1
+
+[State -4, Direction+LP+MP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(14)&257)=1 || (helper(10371),var(14)&514)=2 || (helper(10371),var(14)&1028)=4 || (helper(10371),var(14)&2056)=8 || !helper(10371),var(14))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**16*((helper(10371),var(14)&257)=1)-2**17*((helper(10371),var(14)&514)=2)-2**18*((helper(10371),var(14)&1028)=4)-2**19*((helper(10371),var(14)&2056)=8)-(helper(10371),var(17)&983040)*(!helper(10371),var(14))
+ignorehitpause = 1
+[State -4, Diagonal+LP+MP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(14)&4112)=16 || (helper(10371),var(14)&8224)=32 || (helper(10371),var(14)&16448)=64 || (helper(10371),var(14)&32896)=128 || !helper(10371),var(14))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**16*((helper(10371),var(14)&4112)=16)-2**17*((helper(10371),var(14)&8224)=32)-2**18*((helper(10371),var(14)&16448)=64)-2**19*((helper(10371),var(14)&32896)=128)-(helper(10371),var(18)&983040)*(!helper(10371),var(14))
+ignorehitpause = 1
+[State -4, Direction+LP+MP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(14)
+trigger1 = e||helper(10371),var(14) := helper(10371),var(14)/256
+ignorehitpause = 1
+
+[State -4, Direction+HP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(12)&257)=1 || (helper(10371),var(12)&514)=2 || (helper(10371),var(12)&1028)=4 || (helper(10371),var(12)&2056)=8 || !helper(10371),var(12))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**8*((helper(10371),var(12)&257)=1)-2**9*((helper(10371),var(12)&514)=2)-2**10*((helper(10371),var(12)&1028)=4)-2**11*((helper(10371),var(12)&2056)=8)-(helper(10371),var(17)&3840)*(!helper(10371),var(12))
+ignorehitpause = 1
+[State -4, Diagonal+HP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(12)&4112)=16 || (helper(10371),var(12)&8224)=32 || (helper(10371),var(12)&16448)=64 || (helper(10371),var(12)&32896)=128 || !helper(10371),var(12))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**8*((helper(10371),var(12)&4112)=16)-2**9*((helper(10371),var(12)&8224)=32)-2**10*((helper(10371),var(12)&16448)=64)-2**11*((helper(10371),var(12)&32896)=128)-(helper(10371),var(18)&3840)*(!helper(10371),var(12))
+ignorehitpause = 1
+[State -4, Direction+HP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(12)
+trigger1 = e||helper(10371),var(12) := helper(10371),var(12)/256
+ignorehitpause = 1
+
+[State -4, Direction+MP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(11)&257)=1 || (helper(10371),var(11)&514)=2 || (helper(10371),var(11)&1028)=4 || (helper(10371),var(11)&2056)=8 || !helper(10371),var(11))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**4*((helper(10371),var(11)&257)=1)-2**5*((helper(10371),var(11)&514)=2)-2**6*((helper(10371),var(11)&1028)=4)-2**7*((helper(10371),var(11)&2056)=8)-(helper(10371),var(17)&240)*(!helper(10371),var(11))
+ignorehitpause = 1
+[State -4, Diagonal+MP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(11)&4112)=16 || (helper(10371),var(11)&8224)=32 || (helper(10371),var(11)&16448)=64 || (helper(10371),var(11)&32896)=128 || !helper(10371),var(11))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**4*((helper(10371),var(11)&4112)=16)-2**5*((helper(10371),var(11)&8224)=32)-2**6*((helper(10371),var(11)&16448)=64)-2**7*((helper(10371),var(11)&32896)=128)-(helper(10371),var(18)&240)*(!helper(10371),var(11))
+ignorehitpause = 1
+[State -4, Direction+MP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(11)
+trigger1 = e||helper(10371),var(11) := helper(10371),var(11)/256
+ignorehitpause = 1
+
+[State -4, Direction+LK EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(13)&257)=1 || (helper(10371),var(13)&514)=2 || (helper(10371),var(13)&1028)=4 || (helper(10371),var(13)&2056)=8 || !helper(10371),var(13))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**12*((helper(10371),var(13)&257)=1)-2**13*((helper(10371),var(13)&514)=2)-2**14*((helper(10371),var(13)&1028)=4)-2**15*((helper(10371),var(13)&2056)=8)-(helper(10371),var(17)&61440)*(!helper(10371),var(13))
+ignorehitpause = 1
+[State -4, Diagonal+LK EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(13)&4112)=16 || (helper(10371),var(13)&8224)=32 || (helper(10371),var(13)&16448)=64 || (helper(10371),var(13)&32896)=128 || !helper(10371),var(13))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**12*((helper(10371),var(13)&4112)=16)-2**13*((helper(10371),var(13)&8224)=32)-2**14*((helper(10371),var(13)&16448)=64)-2**15*((helper(10371),var(13)&32896)=128)-(helper(10371),var(18)&61440)*(!helper(10371),var(13))
+ignorehitpause = 1
+[State -4, Direction+LK Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(13)
+trigger1 = e||helper(10371),var(13) := helper(10371),var(13)/256
+ignorehitpause = 1
+
+[State -4, Direction+LP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(17) && ((helper(10371),var(10)&257)=1 || (helper(10371),var(10)&514)=2 || (helper(10371),var(10)&1028)=4 || (helper(10371),var(10)&2056)=8 || !helper(10371),var(10))
+trigger1 = e||helper(10371),var(17) := helper(10371),var(17)-2**0*((helper(10371),var(10)&257)=1)-2**1*((helper(10371),var(10)&514)=2)-2**2*((helper(10371),var(10)&1028)=4)-2**3*((helper(10371),var(10)&2056)=8)-(helper(10371),var(17)&15)*(!helper(10371),var(10))
+ignorehitpause = 1
+[State -4, Diagonal+LP EXTRA FRAME Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(18) && ((helper(10371),var(10)&4112)=16 || (helper(10371),var(10)&8224)=32 || (helper(10371),var(10)&16448)=64 || (helper(10371),var(10)&32896)=128 || !helper(10371),var(10))
+trigger1 = e||helper(10371),var(18) := helper(10371),var(18)-2**0*((helper(10371),var(10)&4112)=16)-2**1*((helper(10371),var(10)&8224)=32)-2**2*((helper(10371),var(10)&16448)=64)-2**3*((helper(10371),var(10)&32896)=128)-(helper(10371),var(18)&15)*(!helper(10371),var(10))
+ignorehitpause = 1
+[State -4, Direction+LP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = helper(10371),var(10)
+trigger1 = e||helper(10371),var(10) := helper(10371),var(10)/256
+ignorehitpause = 1
+
+;----------------------------------[COMMANDS]----------------------------------;
+;[REGULAR ~ 10371]
+;var(20)  = QCF
+;var(21)  = QCB
+;var(22)  = DP
+;var(23)  = RDP
+;var(24)  = HCB
+;var(25)  = HCF
+;var(26)  = RQCB
+;var(27)  = RQCF
+;var(40)  = QCFx2
+;var(41)  = QCBx2
+;var(42)  = HCFx2
+;var(43)  = HCBx2
+;Lie you bitch
+;var(44)  = SGS
+;var(45)  = SGS
+;You too Koa
+;var(46)  = QCF,QCB
+;var(47)  = QCB,QCF
+;
+;[CHARGE ~ 10372]
+;var(20)  = [B]F
+;var(21)  = [F]B
+;var(22)  = [D]U
+;var(40)  = [B]FBF
+;var(41)  = [F]BFB
+;var(42)  = Delta
+;var(43)  = Delta (Alt)
+;var(44)  = DeltaR
+;var(45)  = DeltaR (Alt)
+
+;------------------- RESET BUFFER ON COMMAND SUCCESS --------------------------;
+[State -4, Buffer Reset] ;Regular
+type = Null
+triggerall = numhelper(10371)
+triggerall = time <= 1
+trigger1 = (stateno = [200,699]) && (((stateno = [400,499]) && (stateno%10 = 0)) || (stateno%10 = 5) || (stateno%10 = 7)) ;Crouching and Command Normals
+;DIRECTION + BUTTON
+trigger1 = e||helper(10371),var(10) := 0
+trigger1 = e||helper(10371),var(11) := 0
+trigger1 = e||helper(10371),var(12) := 0
+trigger1 = e||helper(10371),var(13) := 0
+trigger1 = e||helper(10371),var(14) := 0
+trigger1 = e||helper(10371),var(15) := 0
+trigger1 = e||helper(10371),var(16) := 0
+trigger1 = e||helper(10371),var(17) := 0
+trigger1 = e||helper(10371),var(18) := 0
+;SPECIALS
+trigger1 = e||helper(10371),var(20) := 0
+trigger1 = e||helper(10371),var(21) := 0
+trigger1 = e||helper(10371),var(22) := 0
+trigger1 = e||helper(10371),var(23) := 0
+trigger1 = e||helper(10371),var(24) := 0
+trigger1 = e||helper(10371),var(25) := 0
+trigger1 = e||helper(10371),var(26) := 0
+trigger1 = e||helper(10371),var(27) := 0
+trigger1 = e||helper(10371),var(28) := 0
+trigger1 = e||helper(10371),var(29) := 0
+;MULTI-BUTTON
+trigger1 = e||helper(10371),var(30) := 0
+trigger1 = e||helper(10371),var(31) := 0
+trigger1 = e||helper(10371),var(32) := 0
+trigger1 = e||helper(10371),var(36) := 0
+trigger1 = e||helper(10371),var(37) := 0
+trigger1 = e||helper(10371),var(38) := 0
+trigger1 = e||helper(10371),var(39) := 0
+;SUPERS
+trigger1 = e||helper(10371),var(40) := 0
+trigger1 = e||helper(10371),var(41) := 0
+trigger1 = e||helper(10371),var(42) := 0
+trigger1 = e||helper(10371),var(43) := 0
+trigger1 = e||helper(10371),var(46) := 0
+trigger1 = e||helper(10371),var(47) := 0
+trigger1 = e||helper(10371),var(48) := 0
+trigger1 = e||helper(10371),var(49) := 0
+ignorehitpause = 1
+
+[State -4, Buffer Reset] ;Charge
+type = Null
+triggerall = numhelper(10372)
+triggerall = time <= 1
+trigger1 = (stateno = [200,699]) && (((stateno = [400,499]) && (stateno%10 = 0)) || (stateno%10 = 5) || (stateno%10 = 7)) ;Crouching and Command Normals
+;SPECIALS
+trigger1 = e||helper(10372),var(20) := 0
+trigger1 = e||helper(10372),var(21) := 0
+trigger1 = e||helper(10372),var(22) := 0
+;SUPERS
+trigger1 = e||helper(10372),var(40) := 0
+trigger1 = e||helper(10372),var(41) := 0
+trigger1 = e||helper(10372),var(42) := 0
+trigger1 = e||helper(10372),var(43) := 0
+trigger1 = e||helper(10372),var(44) := 0
+trigger1 = e||helper(10372),var(45) := 0
+ignorehitpause = 1
+
+;-----------------[SUPERS ~ REGULAR]-----------------
+[State -4, SGS Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = (helper(10371),var(44)&15)
+trigger1 = e||helper(10371),var(44) := (helper(10371),var(44)^(helper(10371),var(44)&15) | ((helper(10371),var(44)&15) - 1))
+ignorehitpause = 1
+
+[State -4, SGSB Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = hitpausetime = 0
+trigger1 = (helper(10371),var(45)&15)
+trigger1 = e||helper(10371),var(45) := (helper(10371),var(45)^(helper(10371),var(45)&15) | ((helper(10371),var(45)&15) - 1))
+ignorehitpause = 1
+
+[State -4, QCF,QCB Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(46) > 9 + (2**4))) || (helper(10371),var(46) <= 9 + (2**4))
+trigger1 = (helper(10371),var(46)&15)
+trigger1 = e||helper(10371),var(46) := (helper(10371),var(46)^(helper(10371),var(46)&15) | ((helper(10371),var(46)&15) - 1))
+ignorehitpause = 1
+
+[State -4, QCB,QCF Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(47) > 9 + (2**4))) || (helper(10371),var(47) <= 9 + (2**4))
+trigger1 = (helper(10371),var(47)&15)
+trigger1 = e||helper(10371),var(47) := (helper(10371),var(47)^(helper(10371),var(47)&15) | ((helper(10371),var(47)&15) - 1))
+ignorehitpause = 1
+
+[State -4, QCFx2 Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(40) > 9 + (2**4))) || (helper(10371),var(40) <= 9 + (2**4))
+trigger1 = (helper(10371),var(40)&15)
+trigger1 = e||helper(10371),var(40) := (helper(10371),var(40)^(helper(10371),var(40)&15) | ((helper(10371),var(40)&15) - 1))
+ignorehitpause = 1
+
+[State -4, QCBx2 Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(41) > 9 + (2**4))) || (helper(10371),var(41) <= 9 + (2**4))
+trigger1 = (helper(10371),var(41)&15)
+trigger1 = e||helper(10371),var(41) := (helper(10371),var(41)^(helper(10371),var(41)&15) | ((helper(10371),var(41)&15) - 1))
+ignorehitpause = 1
+
+[State -4, HCFx2 Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(42) > 9 + (2**4))) || (helper(10371),var(42) <= 9 + (2**4))
+trigger1 = (helper(10371),var(42)&15)
+trigger1 = e||helper(10371),var(42) := (helper(10371),var(42)^(helper(10371),var(42)&15) | ((helper(10371),var(42)&15) - 1))
+ignorehitpause = 1
+
+[State -4, HCBx2 Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(43) > 9 + (2**4))) || (helper(10371),var(43) <= 9 + (2**4))
+trigger1 = (helper(10371),var(43)&15)
+trigger1 = e||helper(10371),var(43) := (helper(10371),var(43)^(helper(10371),var(43)&15) | ((helper(10371),var(43)&15) - 1))
+ignorehitpause = 1
+
+;------------------[SUPERS ~ CHARGE]-----------------
+[State -4, Delta Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(42) > 9 + (2**4))) || (helper(10372),var(42) <= 9 + (2**4))
+trigger1 = (helper(10372),var(42)&15)
+trigger1 = e||helper(10372),var(42) := (helper(10372),var(42)^(helper(10372),var(42)&15) | ((helper(10372),var(42)&15) - 1))
+ignorehitpause = 1
+
+[State -4, Delta Alt Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(43) > 9 + (2**4))) || (helper(10372),var(43) <= 9 + (2**4))
+trigger1 = (helper(10372),var(43)&15)
+trigger1 = e||helper(10372),var(43) := (helper(10372),var(43)^(helper(10372),var(43)&15) | ((helper(10372),var(43)&15) - 1))
+ignorehitpause = 1
+
+[State -4, DeltaR Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(44) > 9 + (2**4))) || (helper(10372),var(44) <= 9 + (2**4))
+trigger1 = (helper(10372),var(44)&15)
+trigger1 = e||helper(10372),var(44) := (helper(10372),var(44)^(helper(10372),var(44)&15) | ((helper(10372),var(44)&15) - 1))
+ignorehitpause = 1
+
+[State -4, DeltaR Alt Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(45) > 9 + (2**4))) || (helper(10372),var(45) <= 9 + (2**4))
+trigger1 = (helper(10372),var(45)&15)
+trigger1 = e||helper(10372),var(45) := (helper(10372),var(45)^(helper(10372),var(45)&15) | ((helper(10372),var(45)&15) - 1))
+ignorehitpause = 1
+
+[State -4, CB,F,B,F Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(40) > 9 + (2**4))) || (helper(10372),var(40) <= 9 + (2**4))
+trigger1 = (helper(10372),var(40)&15)
+trigger1 = e||helper(10372),var(40) := (helper(10372),var(40)^(helper(10372),var(40)&15) | ((helper(10372),var(40)&15) - 1))
+ignorehitpause = 1
+
+[State -4, CF,B,F,B Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(41) > 9 + (2**4))) || (helper(10372),var(41) <= 9 + (2**4))
+trigger1 = (helper(10372),var(41)&15)
+trigger1 = e||helper(10372),var(41) := (helper(10372),var(41)^(helper(10372),var(41)&15) | ((helper(10372),var(41)&15) - 1))
+ignorehitpause = 1
+
+;----------------[SPECIALS ~ REGULAR]----------------
+[State -4, DP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(22) > 6 + (2**4))) || (helper(10371),var(22) <= 6 + (2**4))
+trigger1 = (helper(10371),var(22)&15)
+trigger1 = e||helper(10371),var(22) := (helper(10371),var(22)^(helper(10371),var(22)&15) | ((helper(10371),var(22)&15) - 1))
+ignorehitpause = 1
+
+[State -4, RDP Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(23) > 6 + (2**4))) || (helper(10371),var(23) <= 6 + (2**4))
+trigger1 = (helper(10371),var(23)&15)
+trigger1 = e||helper(10371),var(23) := (helper(10371),var(23)^(helper(10371),var(23)&15) | ((helper(10371),var(23)&15) - 1))
+ignorehitpause = 1
+
+[State -4, QCF Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(20) > 9 + (2**4))) || (helper(10371),var(20) <= 9 + (2**4))
+trigger1 = (helper(10371),var(20)&15)
+trigger1 = e||helper(10371),var(20) := (helper(10371),var(20)^(helper(10371),var(20)&15) | ((helper(10371),var(20)&15) - 1))
+ignorehitpause = 1
+
+[State -4, QCB Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(21) > 9 + (2**4))) || (helper(10371),var(21) <= 9 + (2**4))
+trigger1 = (helper(10371),var(21)&15)
+trigger1 = e||helper(10371),var(21) := (helper(10371),var(21)^(helper(10371),var(21)&15) | ((helper(10371),var(21)&15) - 1))
+ignorehitpause = 1
+
+[State -4, HCB Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(24) > 9 + (2**4))) || (helper(10371),var(24) <= 9 + (2**4))
+trigger1 = (helper(10371),var(24)&15)
+trigger1 = e||helper(10371),var(24) := (helper(10371),var(24)^(helper(10371),var(24)&15) | ((helper(10371),var(24)&15) - 1))
+ignorehitpause = 1
+
+[State -4, HCF Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(25) > 9 + (2**4))) || (helper(10371),var(25) <= 9 + (2**4))
+trigger1 = (helper(10371),var(25)&15)
+trigger1 = e||helper(10371),var(25) := (helper(10371),var(25)^(helper(10371),var(25)&15) | ((helper(10371),var(25)&15) - 1))
+ignorehitpause = 1
+
+[State -4, RQCB Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(26) > 9 + (2**4))) || (helper(10371),var(26) <= 9 + (2**4))
+trigger1 = (helper(10371),var(26)&15)
+trigger1 = e||helper(10371),var(26) := (helper(10371),var(26)^(helper(10371),var(26)&15) | ((helper(10371),var(26)&15) - 1))
+ignorehitpause = 1
+
+[State -4, RQCF Dec]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (hitpausetime = 0 && (helper(10371),var(27) > 9 + (2**4))) || (helper(10371),var(27) <= 9 + (2**4))
+trigger1 = (helper(10371),var(27)&15)
+trigger1 = e||helper(10371),var(27) := (helper(10371),var(27)^(helper(10371),var(27)&15) | ((helper(10371),var(27)&15) - 1))
+ignorehitpause = 1
+
+;-----------------[SPECIALS ~ CHARGE]----------------
+[State -4, CB,F Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(20) > 9 + (2**4))) || (helper(10372),var(20) <= 9 + (2**4))
+trigger1 = (helper(10372),var(20)&15)
+trigger1 = e||helper(10372),var(20) := (helper(10372),var(20)^(helper(10372),var(20)&15) | ((helper(10372),var(20)&15) - 1))
+ignorehitpause = 1
+
+[State -4, CF,B Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(21) > 9 + (2**4))) || (helper(10372),var(21) <= 9 + (2**4))
+trigger1 = (helper(10372),var(21)&15)
+trigger1 = e||helper(10372),var(21) := (helper(10372),var(21)^(helper(10372),var(21)&15) | ((helper(10372),var(21)&15) - 1))
+ignorehitpause = 1
+
+[State -4, CD,U Dec]
+type = Null
+triggerall = numhelper(10372)
+triggerall = (hitpausetime = 0 && (helper(10372),var(22) > 9 + (2**4))) || (helper(10372),var(22) <= 9 + (2**4))
+trigger1 = (helper(10372),var(22)&15)
+trigger1 = e||helper(10372),var(22) := (helper(10372),var(22)^(helper(10372),var(22)&15) | ((helper(10372),var(22)&15) - 1))
+ignorehitpause = 1
+
+;--------------------------[BUFFER DEFINITION]---------------------------------;
+;----------------------------[BUTTON BUFFER]-----------------------------------;
+;Leave the BUTTON BUFFER alone for compatibility.
+;BUTTON:
+;var(0) = PRESS
+;var(1) = HOLD
+;var(2) = RELEASE
+;Final tick (pattern repeats going up, can store 4 ticks):
+; 1 - LP
+; 2 - MP
+; 4 - HP
+; 8 - Start
+;16 - LK
+;32 - MK
+;64 - HK
+
+;BUTTON HOLD:
+[State -4, START Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "start"
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&132104))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|131072)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&132104))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|131072)
+trigger2 = helper(10371),command = "holdstart"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|131072)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|131072)
+ignorehitpause = 1
+
+[State -4, HK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "c"
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&1056832))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|1048576)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&1056832))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|1048576)
+trigger2 = helper(10371),command = "holdc"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|1048576)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|1048576)
+ignorehitpause = 1
+
+[State -4, HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "z" && helper(10371),command != "holdc" && helper(10371),command != "holdb") || ((helper(10371),command = "c" || helper(10371),command = "b") && helper(10371),command != "holdz")
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&66052))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|65536)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&66052))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|65536)
+trigger2 = helper(10371),command = "holdz" || helper(10371),command = "holdc" || helper(10371),command = "holdb"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|65536)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|65536)
+ignorehitpause = 1
+
+[State -4, MK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "b"
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&528416))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|524288)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&528416))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|524288)
+trigger2 = helper(10371),command = "holdb"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|524288)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|524288)
+ignorehitpause = 1
+
+[State -4, MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "y" && helper(10371),command != "holdc" && helper(10371),command != "holdb") || ((helper(10371),command = "c" || helper(10371),command = "b") && helper(10371),command != "holdy")
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&33026))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|32768)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&33026))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|32768)
+trigger2 = helper(10371),command = "holdy" || helper(10371),command = "holdc" || helper(10371),command = "holdb"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|32768)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|32768)
+ignorehitpause = 1
+
+[State -4, LK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "a"
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&264208))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|262144)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&264208))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|262144)
+trigger2 = helper(10371),command = "holda"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|262144)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|262144)
+ignorehitpause = 1
+
+[State -4, LP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "x" && helper(10371),command != "holdc") || (helper(10371),command = "c" && helper(10371),command != "holdx")
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1) - (helper(10371),var(1)&16513))
+trigger1 = e||helper(10371),var(1) := (helper(10371),var(1)|16384)
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7) - (helper(10371),var(7)&16513))
+trigger1 = e||helper(10371),var(7) := (helper(10371),var(7)|16384)
+trigger2 = helper(10371),command = "holdx" || helper(10371),command = "holdc"
+trigger2 = e||helper(10371),var(1) := (helper(10371),var(1)|16384)
+trigger2 = e||helper(10371),var(7) := (helper(10371),var(7)|16384)
+ignorehitpause = 1
+
+;BUTTON PRESS:
+[State -4, START Overflow Init] ;There's a buffer overflow joke here, isn't there?
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(0)&8)
+trigger1 = e||helper(10371),var(8) := (helper(10371),var(8)|131072)
+trigger2 = (helper(10371),var(8)&1032)
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)|8)
+ignorehitpause = 1
+
+[State -4, START Overflow Init] ;Hitpause decrement version.
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&8)
+trigger1 = e||helper(10371),var(9) := (helper(10371),var(9)|131072)
+trigger2 = (helper(10371),var(9)&1032)
+trigger2 = e||helper(10371),var(6) := (helper(10371),var(6)|8)
+ignorehitpause = 1
+
+[State -4, START Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "start"
+trigger1 = e||helper(10371),var(0) := (helper(10371),var(0)|131072)
+trigger1 = e||helper(10371),var(6) := (helper(10371),var(6)|131072)
+ignorehitpause = 1
+
+[State -4, HP Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(0)&4)
+trigger1 = e||helper(10371),var(8) := (helper(10371),var(8)|65536)
+trigger2 = (helper(10371),var(8)&516)
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)|4)
+ignorehitpause = 1
+
+[State -4, HP Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&4)
+trigger1 = e||helper(10371),var(9) := (helper(10371),var(9)|65536)
+trigger2 = (helper(10371),var(9)&516)
+trigger2 = e||helper(10371),var(6) := (helper(10371),var(6)|4)
+ignorehitpause = 1
+
+[State -4, HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "z" && (helper(10371),var(1)&1056832) != 1056832 && (helper(10371),var(1)&528416) != 528416) || ((helper(10371),command = "c" || helper(10371),command = "b") && (helper(10371),var(1)&66052) != 66052)
+trigger1 = e||helper(10371),var(0) := (helper(10371),var(0)|65536)
+trigger1 = e||helper(10371),var(6) := (helper(10371),var(6)|65536)
+ignorehitpause = 1
+
+[State -4, MP Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(0)&2)
+trigger1 = e||helper(10371),var(8) := (helper(10371),var(8)|32768)
+trigger2 = (helper(10371),var(8)&258)
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)|2)
+ignorehitpause = 1
+
+[State -4, MP Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&2)
+trigger1 = e||helper(10371),var(9) := (helper(10371),var(9)|32768)
+trigger2 = (helper(10371),var(9)&258)
+trigger2 = e||helper(10371),var(6) := (helper(10371),var(6)|2)
+ignorehitpause = 1
+
+[State -4, MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "y" && (helper(10371),var(1)&1056832) != 1056832 && (helper(10371),var(1)&528416) != 528416) || ((helper(10371),command = "c" || helper(10371),command = "b") && (helper(10371),var(1)&33026) != 33026)
+trigger1 = e||helper(10371),var(0) := (helper(10371),var(0)|32768)
+trigger1 = e||helper(10371),var(6) := (helper(10371),var(6)|32768)
+ignorehitpause = 1
+
+[State -4, LK Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(0)&16)
+trigger1 = e||helper(10371),var(8) := (helper(10371),var(8)|262144)
+trigger2 = (helper(10371),var(8)&2064)
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)|16)
+ignorehitpause = 1
+
+[State -4, LK Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&16)
+trigger1 = e||helper(10371),var(9) := (helper(10371),var(9)|262144)
+trigger2 = (helper(10371),var(9)&2064)
+trigger2 = e||helper(10371),var(6) := (helper(10371),var(6)|16)
+ignorehitpause = 1
+
+[State -4, LK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "a"
+trigger1 = e||helper(10371),var(0) := (helper(10371),var(0)|262144)
+trigger1 = e||helper(10371),var(6) := (helper(10371),var(6)|262144)
+ignorehitpause = 1
+
+[State -4, LP Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(0)&1)
+trigger1 = e||helper(10371),var(8) := (helper(10371),var(8)|16384)
+trigger2 = (helper(10371),var(8)&129)
+trigger2 = e||helper(10371),var(0) := (helper(10371),var(0)|1)
+ignorehitpause = 1
+
+[State -4, LP Overflow Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&1)
+trigger1 = e||helper(10371),var(9) := (helper(10371),var(9)|16384)
+trigger2 = (helper(10371),var(9)&129)
+trigger2 = e||helper(10371),var(6) := (helper(10371),var(6)|1)
+ignorehitpause = 1
+
+[State -4, LP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "x" && (helper(10371),var(1)&1056832) != 1056832) || (helper(10371),command = "c" && (helper(10371),var(1)&16513) != 16513)
+trigger1 = e||helper(10371),var(0) := (helper(10371),var(0)|16384)
+trigger1 = e||helper(10371),var(6) := (helper(10371),var(6)|16384)
+ignorehitpause = 1
+
+;BUTTON RELEASE:
+[State -4, Neg START Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(1)&131072) = 0 && (helper(10371),var(1)&1024) > 0
+trigger1 = e||helper(10371),var(2) := (helper(10371),var(2)|8)
+ignorehitpause = 1
+
+[State -4, Neg HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(1)&65536) = 0 && (helper(10371),var(1)&512) > 0
+trigger1 = e||helper(10371),var(2) := (helper(10371),var(2)|4);512
+ignorehitpause = 1
+
+[State -4, Neg MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(1)&32768) = 0 && (helper(10371),var(1)&256) > 0
+trigger1 = e||helper(10371),var(2) := (helper(10371),var(2)|2);256
+ignorehitpause = 1
+
+[State -4, Neg LK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(1)&262144) = 0 && (helper(10371),var(1)&2048) > 0
+trigger1 = e||helper(10371),var(2) := (helper(10371),var(2)|16);2048
+ignorehitpause = 1
+
+[State -4, Neg LP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(1)&16384) = 0 && (helper(10371),var(1)&128) > 0
+trigger1 = e||helper(10371),var(2) := (helper(10371),var(2)|1);128
+ignorehitpause = 1
+
+;---------------------------[DIRECTION BUFFER]---------------------------------;
+;DIRECTIONAL:
+;var(3) = PRESS
+;var(4) = HOLD
+;var(5) = RELEASE
+;Final tick (pattern repeats going up, can store 8 ticks):
+; 1 - U
+; 2 - D
+; 4 - B
+; 8 - F
+
+;DIRECTION PRESS:
+[State -4, UP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "up2"
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|256)
+ignorehitpause = 1
+
+[State -4, DOWN Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "down2"
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|512)
+ignorehitpause = 1
+
+[State -4, BWD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "back2"
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|1024)
+ignorehitpause = 1
+
+[State -4, FWD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "fwd2"
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|2048)
+ignorehitpause = 1
+
+[State -4, UB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "up2" && helper(10371),command = "back2"
+trigger1 = (helper(10371),var(3)&16) || (helper(10371),var(3)&64)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3) - 1280)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|80)
+ignorehitpause = 1
+
+[State -4, UF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "up2" && helper(10371),command = "fwd2"
+trigger1 = (helper(10371),var(3)&16) || (helper(10371),var(3)&128)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3) - 2304)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|144)
+ignorehitpause = 1
+
+[State -4, DB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "down2" && helper(10371),command = "back2"
+trigger1 = (helper(10371),var(3)&32) || (helper(10371),var(3)&64)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3) - 1536)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|96)
+ignorehitpause = 1
+
+[State -4, DF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "down2" && helper(10371),command = "fwd2"
+trigger1 = (helper(10371),var(3)&32) || (helper(10371),var(3)&128)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3) - 2560)
+trigger1 = e||helper(10371),var(3) := (helper(10371),var(3)|160)
+ignorehitpause = 1
+
+;DIRECTION HOLD:
+[State -4, UP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "up2" || helper(10371),command = "holdup"
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|256)
+ignorehitpause = 1
+
+[State -4, DOWN Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "down2" || helper(10371),command = "holddown"
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|512)
+ignorehitpause = 1
+
+[State -4, BWD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "back2" || helper(10371),command = "holdback"
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|1024)
+ignorehitpause = 1
+
+[State -4, FWD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),command = "fwd2" || helper(10371),command = "holdfwd"
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|2048)
+ignorehitpause = 1
+
+[State -4, UB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "up2" && helper(10371),command = "back2") || (helper(10371),command = "holdup" && helper(10371),command = "holdback")
+trigger1 = (helper(10371),var(4)&16) || (helper(10371),var(4)&64)
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|80)
+ignorehitpause = 1
+
+[State -4, UF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "up2" && helper(10371),command = "fwd2") || (helper(10371),command = "holdup" && helper(10371),command = "holdfwd")
+trigger1 = (helper(10371),var(4)&16) || (helper(10371),var(4)&128)
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|144)
+ignorehitpause = 1
+
+[State -4, DB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "down2" && helper(10371),command = "back2") || (helper(10371),command = "holddown" && helper(10371),command = "holdback")
+trigger1 = (helper(10371),var(4)&32) || (helper(10371),var(4)&64)
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|96)
+ignorehitpause = 1
+
+[State -4, DF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),command = "down2" && helper(10371),command = "fwd2") || (helper(10371),command = "holddown" && helper(10371),command = "holdfwd")
+trigger1 = (helper(10371),var(4)&32) || (helper(10371),var(4)&128)
+trigger1 = e||helper(10371),var(4) := (helper(10371),var(4)|160)
+ignorehitpause = 1
+
+;DIRECTION RELEASE:
+[State -4, Neg UP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(4)&16) = 0 && (helper(10371),var(4)&1) > 0
+trigger1 = e||helper(10371),var(5) := (helper(10371),var(5)|1);16
+ignorehitpause = 1
+
+[State -4, Neg DOWN Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(4)&32) = 0 && (helper(10371),var(4)&2) > 0
+trigger1 = e||helper(10371),var(5) := (helper(10371),var(5)|2);32
+ignorehitpause = 1
+
+[State -4, Neg BWD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(4)&64) = 0 && (helper(10371),var(4)&4) > 0
+trigger1 = e||helper(10371),var(5) := (helper(10371),var(5)|4);64
+ignorehitpause = 1
+
+[State -4, Neg FWD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(4)&128) = 0 && (helper(10371),var(4)&8) > 0
+trigger1 = e||helper(10371),var(5) := (helper(10371),var(5)|8);128
+ignorehitpause = 1
+
+;---------------------------[MULTIPLE BUTTON BUFFER]---------------------------;
+;DOUBLE BUTTON:
+;var(30) = LP+MP
+;var(31) = LP+HP
+;var(32) = MP+HP
+;TRIPLE BUTTON
+;var(36) = LP+MP+HP
+
+[State -4, LP+MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&16512) > 0 && (helper(10371),var(6)&33024) > 0
+trigger1 = (helper(10371),var(6)&128) > 0 || (helper(10371),var(6)&256) > 0 ;So it's not 1f quicker than single buttons.
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6) - (helper(10371),var(6)&49536)))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|128))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|256))
+trigger1 = e||helper(10371),var(30) := 4
+ignorehitpause = 1
+[State -4, LP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&16512) > 0 && (helper(10371),var(6)&66048) > 0
+trigger1 = (helper(10371),var(6)&128) > 0 || (helper(10371),var(6)&512) > 0
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6) - (helper(10371),var(6)&82560)))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|128))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|512))
+trigger1 = e||helper(10371),var(31) := 4
+ignorehitpause = 1
+[State -4, MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&33024) > 0 && (helper(10371),var(6)&66048) > 0
+trigger1 = (helper(10371),var(6)&256) > 0 || (helper(10371),var(6)&512) > 0
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6) - (helper(10371),var(6)&99072)))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|256))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|512))
+trigger1 = e||helper(10371),var(32) := 4
+ignorehitpause = 1
+
+[State -4, LP+MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+triggerall = (helper(10371),var(6)&16512) > 0 && (helper(10371),var(6)&33024) > 0 && (helper(10371),var(6)&66048) > 0
+trigger1 = (helper(10371),var(6)&128) > 0 || (helper(10371),var(6)&256) > 0 || (helper(10371),var(6)&512) > 0
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6) - (helper(10371),var(6)&115584)))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|128))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|256))
+trigger1 = e||(helper(10371),var(6) := (helper(10371),var(6)|512))
+trigger1 = e||helper(10371),var(36) := 4
+ignorehitpause = 1
+
+[State -4, Hold LP+MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(7)&16513) > 0 && (helper(10371),var(7)&33026) > 0 && (helper(10371),var(7)&66052) > 0
+trigger1 = e||helper(10371),var(37) := 2
+ignorehitpause = 1
+
+;--------------------------[DIRECTION + BUTTON BUFFER]-------------------------;
+;Each button (and button combination) has its own var because of inputs
+;stockpiling during hitpause.
+;
+;For similar reasons, diagonals use their own bits, as separate inputs of 6A
+;and 2A would otherwise result in 3A, for example. The bit itself is set via
+;nested cond() rather than something like (helper(10371),var(4)&240)*1024
+;because it's less confusing for me this way.
+;
+;It's a mess that would be completely resolved if buffered commands decremented
+;during hitpause, but it's like that deliberately for input leniency. Like, I
+;could make them decrement, but then people would complain about not being able
+;to buffer stuff 50 years in advance.
+;
+;var(10) = DIR+LP
+;var(11) = DIR+MP
+;var(12) = DIR+HP
+;var(13) = DIR+LK
+;var(14) = DIR+LP+MP
+;var(15) = DIR+MP+HP
+;var(16) = DIR+LP+MP+HP
+;var(17) = DIR EXTRA FRAME
+;var(18) = DIA EXTRA FRAME
+;
+;UP = 65536             -> 256   -> 1 (65793)
+;DOWN = 131072          -> 512   -> 2 (131586)
+;BACK = 262144          -> 1024  -> 4 (263172)
+;FORWARD = 524288       -> 2048  -> 8 (526344)
+;UP-BACK = 1048576      -> 4096  -> 16 (1052688)
+;DOWN-BACK = 2097152    -> 8192  -> 32 (2105376)
+;UP-FORWARD = 4194304   -> 16384 -> 64 (4210752)
+;DOWN-FORWARD = 8388608 -> 32768 -> 128 (8421504)
+;TOTAL BITS = 16711680  -> 65280 -> 255 (16777215)
+
+[State -4, Direction+LP+MP+HP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(16)&15) && !(helper(10371),var(17)&((helper(10371),var(16)&15)*16777216))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|((helper(10371),var(16)&15)*16777216))
+trigger1 = e||helper(10371),var(16) := (helper(10371),var(16)|((helper(10371),var(16)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+LP+MP+HP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(16)&240) && !(helper(10371),var(18)&((helper(10371),var(16)&240)*1048576))
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|((helper(10371),var(16)&240)*1048576))
+trigger1 = e||helper(10371),var(16) := (helper(10371),var(16)|((helper(10371),var(16)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+LP+MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(36) = 4 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(16) := (helper(10371),var(16)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+LP+MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(36) = 4 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(16) := (helper(10371),var(16)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+ignorehitpause = 1
+
+[State -4, Direction+MP+HP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(15)&15) && !(helper(10371),var(17)&((helper(10371),var(15)&15)*1048576))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|((helper(10371),var(15)&15)*1048576))
+trigger1 = e||helper(10371),var(15) := (helper(10371),var(15)|((helper(10371),var(15)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+MP+HP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(15)&240) && !(helper(10371),var(18)&((helper(10371),var(15)&240)*65536))
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|((helper(10371),var(15)&240)*65536))
+trigger1 = e||helper(10371),var(15) := (helper(10371),var(15)|((helper(10371),var(15)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(32) = 4 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(15) := (helper(10371),var(15)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+MP+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(32) = 4 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(15) := (helper(10371),var(15)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+ignorehitpause = 1
+
+[State -4, Direction+LP+MP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(14)&15) && !(helper(10371),var(17)&((helper(10371),var(14)&15)*65536))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|((helper(10371),var(14)&15)*65536))
+trigger1 = e||helper(10371),var(14) := (helper(10371),var(14)|((helper(10371),var(14)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+LP+MP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(14)&240) && !(helper(10371),var(18)&((helper(10371),var(14)&240)*4096))
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|((helper(10371),var(14)&240)*4096))
+trigger1 = e||helper(10371),var(14) := (helper(10371),var(14)|((helper(10371),var(14)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+LP+MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(30) = 4 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(14) := (helper(10371),var(14)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+LP+MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(30) = 4 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(14) := (helper(10371),var(14)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+ignorehitpause = 1
+
+[State -4, Direction+HP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(12)&15) && !(helper(10371),var(17)&((helper(10371),var(12)&15)*256))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|((helper(10371),var(12)&15)*256))
+trigger1 = e||helper(10371),var(12) := (helper(10371),var(12)|((helper(10371),var(12)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+HP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(12)&240) && !(helper(10371),var(18)&((helper(10371),var(12)&240)*16))
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|((helper(10371),var(12)&240)*16))
+trigger1 = e||helper(10371),var(12) := (helper(10371),var(12)|((helper(10371),var(12)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&512) > 0 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(12) := (helper(10371),var(12)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+HP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&512) > 0 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(12) := (helper(10371),var(12)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+ignorehitpause = 1
+
+[State -4, Direction+MP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(11)&15) && !(helper(10371),var(17)&((helper(10371),var(11)&15)*16))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|((helper(10371),var(11)&15)*16))
+trigger1 = e||helper(10371),var(11) := (helper(10371),var(11)|((helper(10371),var(11)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+MP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(11)&240) && !(helper(10371),var(18)&(helper(10371),var(11)&240))
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|(helper(10371),var(11)&240))
+trigger1 = e||helper(10371),var(11) := (helper(10371),var(11)|((helper(10371),var(11)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&256) > 0 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(11) := (helper(10371),var(11)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+MP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&256) > 0 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(11) := (helper(10371),var(11)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+ignorehitpause = 1
+
+[State -4, Direction+LK EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(13)&15) && !(helper(10371),var(17)&((helper(10371),var(13)&15)*4096))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|((helper(10371),var(13)&15)*4096))
+trigger1 = e||helper(10371),var(13) := (helper(10371),var(13)|((helper(10371),var(13)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+LK EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(13)&240) && !(helper(10371),var(18)&((helper(10371),var(13)&240)*256))
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|((helper(10371),var(13)&240)*256))
+trigger1 = e||helper(10371),var(13) := (helper(10371),var(13)|((helper(10371),var(13)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+LK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&2048) > 0 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(13) := (helper(10371),var(13)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+LK Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&2048) > 0 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(13) := (helper(10371),var(13)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+trigger1 = cond(statetype != A,helper(10371),var(13) := (helper(10371),var(13) - (helper(10371),var(13)&786432)),1) ;Clear 1st back/forward dash buffer frame if we're on the ground. Prevents crouch dashing if down/up was held during activation.
+ignorehitpause = 1
+
+[State -4, Direction+LP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(10)&15) && !(helper(10371),var(17)&(helper(10371),var(10)&15))
+trigger1 = e||helper(10371),var(17) := (helper(10371),var(17)|(helper(10371),var(10)&15))
+trigger1 = e||helper(10371),var(10) := (helper(10371),var(10)|((helper(10371),var(10)&15)*256))
+ignorehitpause = 1
+[State -4, Diagonal+LP EXTRA FRAME Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(10)&240) && !(helper(10371),var(18)&(helper(10371),var(10)&240)/16)
+trigger1 = e||helper(10371),var(18) := (helper(10371),var(18)|(helper(10371),var(10)&240)/16)
+trigger1 = e||helper(10371),var(10) := (helper(10371),var(10)|((helper(10371),var(10)&240)*256))
+ignorehitpause = 1
+[State -4, Direction+LP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&128) > 0 && (helper(10371),var(4)&240) > 0
+trigger1 = e||helper(10371),var(10) := (helper(10371),var(10)|((helper(10371),var(4)&240)*4096))
+ignorehitpause = 1
+[State -4, Diagonal+LP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(6)&128) > 0 && (helper(10371),var(4)&240) > 0 && ((helper(10371),var(4)&80) = 80 || (helper(10371),var(4)&96) = 96 || (helper(10371),var(4)&144) = 144 || (helper(10371),var(4)&160) = 160)
+trigger1 = e||helper(10371),var(10) := (helper(10371),var(10)|cond((helper(10371),var(4)&80) = 80,1048576,cond((helper(10371),var(4)&96) = 96,2097152,cond((helper(10371),var(4)&144) = 144,4194304,8388608))))
+ignorehitpause = 1
+
+;----------------------------[COMMAND BUFFER]----------------------------------;
+;This is where ONLY THE NECESSARY commands are buffered. The buffer requires
+;both the regular command and its reversed equivalent.
+;
+;ALL COMMANDS SET HERE MUST ALSO BE PUT IN [Commands] UNDER [Buffer Decrease]
+;
+;One last thing, just like the CMD file, put the complicated commands on top.
+;Command checklist:
+;
+;[REGULAR ~ 10371]
+;var(20)  = QCF
+;var(21)  = QCB
+;var(22)  = DP
+;var(23)  = RDP
+;var(24)  = HCB
+;var(25)  = HCF
+;var(26)  = RQCB
+;var(27)  = RQCF
+;var(40)  = QCFx2
+;var(41)  = QCBx2
+;var(42)  = HCFx2
+;var(43)  = HCBx2
+;Lie you bitch
+;var(44)  = SGS
+;var(45)  = SGS
+;You too Koa
+;var(46)  = QCF,QCB
+;var(47)  = QCB,QCF
+;
+;[CHARGE ~ 10372]
+;var(20)  = [B]F
+;var(21)  = [F]B
+;var(22)  = [D]U
+;var(40)  = [B]FBF
+;var(41)  = [F]BFB
+;var(42)  = Delta
+;var(43)  = Delta (Alt)
+;var(44)  = DeltaR
+;var(45)  = DeltaR (Alt)
+
+;-----------------[SUPERS ~ REGULAR]-----------------
+[State -4, SGS Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(44)) && (helper(10371),var(0)&129) > 0 && (helper(10371),var(4)&128) = 0
+trigger1 = e||(helper(10371),var(44) := 12 + (2**4))
+
+trigger2 = (helper(10371),var(44)&(2**5 - 1)) > (2**4) && (helper(10371),var(0)&129) = 128 && (helper(10371),var(4)&128) = 0
+trigger2 = e||(helper(10371),var(44) := 12 + (2**5))
+
+trigger3 = (helper(10371),var(44)&(2**6 - 1)) > (2**5) && (((helper(10371),var(3)&128) > 0) || ((helper(10371),var(5)&8) > 0)) && ((helper(10371),var(4)&204) != [64,127]) && ((helper(10371),var(5)&4) = 0)
+trigger3 = e||(helper(10371),var(44) := 12 + (2**6))
+
+trigger4 = (helper(10371),var(44)&(2**7 - 1)) > (2**6) && (helper(10371),var(0)&258) > 0
+trigger4 = e||(helper(10371),var(44) := 12 + (2**7))
+
+trigger5 = helper(10371),var(44) && (helper(10371),var(44)&15) = 0
+trigger5 = e||(helper(10371),var(44) := 0)
+ignorehitpause = 1
+
+[State -4, SGSB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(45)) && (helper(10371),var(0)&129) > 0 && (helper(10371),var(4)&64) = 0
+trigger1 = e||(helper(10371),var(45) := 12 + (2**4))
+
+trigger2 = (helper(10371),var(45)&(2**5 - 1)) > (2**4) && (helper(10371),var(0)&129) = 128 && (helper(10371),var(4)&64) = 0
+trigger2 = e||(helper(10371),var(45) := 12 + (2**5))
+
+trigger3 = (helper(10371),var(45)&(2**6 - 1)) > (2**5) && (((helper(10371),var(3)&64) > 0) || ((helper(10371),var(5)&4) > 0)) && ((helper(10371),var(4)&204) != [128,204]) && ((helper(10371),var(5)&8) = 0)
+trigger3 = e||(helper(10371),var(45) := 12 + (2**6))
+
+trigger4 = (helper(10371),var(45)&(2**7 - 1)) > (2**6) && (helper(10371),var(0)&258) > 0
+trigger4 = e||(helper(10371),var(45) := 12 + (2**7))
+
+trigger5 = helper(10371),var(45) && (helper(10371),var(45)&15) = 0
+trigger5 = e||(helper(10371),var(45) := 0)
+ignorehitpause = 1
+
+[State -4, QCF,QCB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(46)) || (helper(10371),var(46) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 32
+trigger1 = e||(helper(10371),var(46) := 9 + (2**4))
+
+trigger2 = ((helper(10371),var(46)&(2**5 - 1)) > (2**4) || (helper(10371),var(46)&(2**8 - 1)) > (2**7)) && (helper(10371),var(3)&240) = 160
+trigger2 = e||(helper(10371),var(46) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(46)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&128) > 0
+trigger3 = e||(helper(10371),var(46) := 9 + (2**6))
+
+trigger4 = (helper(10371),var(46)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&32) > 0 && (helper(10371),var(3)&64) = 0
+trigger4 = e||(helper(10371),var(46) := 9 + (2**7))
+
+trigger5 = (helper(10371),var(46)&(2**8 - 1)) > (2**7) && (helper(10371),var(3)&64) > 0
+trigger5 = e||(helper(10371),var(46) := 9 + (2**8))
+
+trigger6 = helper(10371),var(46) && (helper(10371),var(46)&15) = 0
+trigger6 = e||(helper(10371),var(46) := 0)
+ignorehitpause = 1
+
+[State -4, QCB,QCF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(47)) || (helper(10371),var(47) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 32
+trigger1 = e||(helper(10371),var(47) := 9 + (2**4))
+
+trigger2 = ((helper(10371),var(47)&(2**5 - 1)) > (2**4) || (helper(10371),var(47)&(2**8 - 1)) > (2**7)) && (helper(10371),var(3)&240) = 96
+trigger2 = e||(helper(10371),var(47) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(47)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&64) > 0
+trigger3 = e||(helper(10371),var(47) := 9 + (2**6))
+
+trigger4 = (helper(10371),var(47)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&32) > 0 && (helper(10371),var(3)&128) = 0
+trigger4 = e||(helper(10371),var(47) := 9 + (2**7))
+
+trigger5 = (helper(10371),var(47)&(2**8 - 1)) > (2**7) && (helper(10371),var(3)&128) > 0
+trigger5 = e||(helper(10371),var(47) := 9 + (2**8))
+
+trigger6 = helper(10371),var(47) && (helper(10371),var(47)&15) = 0
+trigger6 = e||(helper(10371),var(47) := 0)
+ignorehitpause = 1
+
+[State -4, QCFx2 Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(40)) || (helper(10371),var(40) <= 9 + (2**4))) && ((helper(10371),var(4)&240) = 32 || (helper(10371),var(4)&240) = 96)
+trigger1 = e||(helper(10371),var(40) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(40)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 160
+trigger2 = e||(helper(10371),var(40) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(40)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&128) > 0
+trigger3 = e||(helper(10371),var(40) := 9 + (2**6))
+
+trigger4 = (((helper(10371),var(40)&(2**7 - 1)) > (2**6)) || (helper(10371),var(40) > 9 + (2**8))) && (helper(10371),var(3)&240) = 32
+trigger4 = e||(helper(10371),var(40) := 9 + (2**7))
+
+trigger5 = (helper(10371),var(40)&(2**8 - 1)) > (2**7) && (helper(10371),var(3)&240) = 160
+trigger5 = e||(helper(10371),var(40) := 9 + (2**8))
+
+trigger6 = (helper(10371),var(40)&(2**9 - 1)) > (2**8) && (helper(10371),var(3)&128) > 0
+trigger6 = e||(helper(10371),var(40) := 9 + (2**9))
+trigger6 = e||(helper(10371),var(48) := (helper(10371),var(48)|1))
+
+trigger7 = helper(10371),var(40) && (helper(10371),var(40)&15) = 0
+trigger7 = e||(helper(10371),var(40) := 0)
+ignorehitpause = 1
+
+[State -4, QCBx2 Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(41)) || (helper(10371),var(41) <= 9 + (2**4))) && ((helper(10371),var(4)&240) = 32 || (helper(10371),var(4)&240) = 160)
+trigger1 = e||(helper(10371),var(41) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(41)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 96
+trigger2 = e||(helper(10371),var(41) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(41)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&64) > 0
+trigger3 = e||(helper(10371),var(41) := 9 + (2**6))
+
+trigger4 = (((helper(10371),var(41)&(2**7 - 1)) > (2**6)) || (helper(10371),var(41) > 9 + (2**8))) && (helper(10371),var(3)&240) = 32
+trigger4 = e||(helper(10371),var(41) := 9 + (2**7))
+
+trigger5 = (helper(10371),var(41)&(2**8 - 1)) > (2**7) && (helper(10371),var(3)&240) = 96
+trigger5 = e||(helper(10371),var(41) := 9 + (2**8))
+
+trigger6 = (helper(10371),var(41)&(2**9 - 1)) > (2**8) && (helper(10371),var(3)&64) > 0
+trigger6 = e||(helper(10371),var(41) := 9 + (2**9))
+trigger6 = e||(helper(10371),var(48) := (helper(10371),var(48)|2))
+
+trigger7 = helper(10371),var(41) && (helper(10371),var(41)&15) = 0
+trigger7 = e||(helper(10371),var(41) := 0)
+ignorehitpause = 1
+
+[State -4, HCFx2 Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(42)) || (helper(10371),var(42) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 64
+trigger1 = e||(helper(10371),var(42) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(42)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&32) > 0
+trigger2 = e||(helper(10371),var(42) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(42)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&128) > 0
+trigger3 = e||(helper(10371),var(42) := 9 + (2**6))
+
+trigger4 = (((helper(10371),var(42)&(2**7 - 1)) > (2**6)) || (helper(10371),var(42) > 9 + (2**8))) && (helper(10371),var(3)&64) > 0
+trigger4 = e||(helper(10371),var(42) := 9 + (2**7))
+
+trigger5 = (helper(10371),var(42)&(2**8 - 1)) > (2**7) && (helper(10371),var(3)&32) > 0
+trigger5 = e||(helper(10371),var(42) := 9 + (2**8))
+
+trigger6 = (helper(10371),var(42)&(2**9 - 1)) > (2**8) && (helper(10371),var(3)&128) > 0
+trigger6 = e||(helper(10371),var(42) := 9 + (2**9))
+trigger6 = e||(helper(10371),var(48) := (helper(10371),var(48)|4))
+
+trigger7 = helper(10371),var(42) && (helper(10371),var(42)&15) = 0
+trigger7 = e||(helper(10371),var(42) := 0)
+ignorehitpause = 1
+
+[State -4, HCBx2 Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(43)) || (helper(10371),var(43) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 128
+trigger1 = e||(helper(10371),var(43) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(43)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&32) > 0
+trigger2 = e||(helper(10371),var(43) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(43)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&64) > 0
+trigger3 = e||(helper(10371),var(43) := 9 + (2**6))
+
+trigger4 = (((helper(10371),var(43)&(2**7 - 1)) > (2**6)) || (helper(10371),var(43) > 9 + (2**8))) && (helper(10371),var(3)&128) > 0
+trigger4 = e||(helper(10371),var(43) := 9 + (2**7))
+
+trigger5 = (helper(10371),var(43)&(2**8 - 1)) > (2**7) && (helper(10371),var(3)&32) > 0
+trigger5 = e||(helper(10371),var(43) := 9 + (2**8))
+
+trigger6 = (helper(10371),var(43)&(2**9 - 1)) > (2**8) && (helper(10371),var(3)&64) > 0
+trigger6 = e||(helper(10371),var(43) := 9 + (2**9))
+trigger6 = e||(helper(10371),var(48) := (helper(10371),var(48)|8))
+
+trigger7 = helper(10371),var(43) && (helper(10371),var(43)&15) = 0
+trigger7 = e||(helper(10371),var(43) := 0)
+ignorehitpause = 1
+
+;------------------[SUPERS ~ CHARGE]-----------------
+[State -4, Delta Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(42)) || (helper(10372),var(42) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 96
+trigger1 = e||(helper(10372),var(42) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(42)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 160
+trigger2 = e||(helper(10372),var(42) := 9 + (2**5))
+
+trigger3 = (helper(10372),var(42)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&240) = 96
+trigger3 = e||(helper(10372),var(42) := 9 + (2**6))
+
+trigger4 = (helper(10372),var(42)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&16) > 0
+trigger4 = e||(helper(10372),var(42) := 9 + (2**7))
+
+trigger5 = helper(10372),var(42) && (helper(10372),var(42)&15) = 0
+trigger5 = e||(helper(10372),var(42) := 0)
+ignorehitpause = 1
+
+[State -4, Delta (Alt) Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(43)) || (helper(10372),var(43) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 96
+trigger1 = e||(helper(10372),var(43) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(43)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&160) >= 128 && (helper(10371),var(3)&16) = 0
+trigger2 = e||(helper(10372),var(43) := 9 + (2**5))
+
+trigger3 = (helper(10372),var(43)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&16) > 0
+trigger3 = e||(helper(10372),var(43) := 9 + (2**6))
+
+trigger4 = helper(10372),var(43) && (helper(10372),var(43)&15) = 0
+trigger4 = e||(helper(10372),var(43) := 0)
+ignorehitpause = 1
+
+[State -4, DeltaR Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(44)) || (helper(10372),var(44) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 160
+trigger1 = e||(helper(10372),var(44) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(44)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 96
+trigger2 = e||(helper(10372),var(44) := 9 + (2**5))
+
+trigger3 = (helper(10372),var(44)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&240) = 160
+trigger3 = e||(helper(10372),var(44) := 9 + (2**6))
+
+trigger4 = (helper(10372),var(44)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&16) > 0
+trigger4 = e||(helper(10372),var(44) := 9 + (2**7))
+
+trigger5 = helper(10372),var(44) && (helper(10372),var(44)&15) = 0
+trigger5 = e||(helper(10372),var(44) := 0)
+ignorehitpause = 1
+
+[State -4, DeltaR (Alt) Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(45)) || (helper(10372),var(45) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 160
+trigger1 = e||(helper(10372),var(45) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(45)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&96) >= 64 && (helper(10371),var(3)&16) = 0
+trigger2 = e||(helper(10372),var(45) := 9 + (2**5))
+
+trigger3 = (helper(10372),var(45)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&16) > 0
+trigger3 = e||(helper(10372),var(45) := 9 + (2**6))
+
+trigger4 = helper(10372),var(45) && (helper(10372),var(45)&15) = 0
+trigger4 = e||(helper(10372),var(45) := 0)
+ignorehitpause = 1
+
+[State -4, CB,F,B,F Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(40)) || (helper(10372),var(40) <= 9 + (2**4))) && (helper(10371),var(4)&64) > 0
+trigger1 = e||(helper(10372),var(40) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(40)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&128) > 0
+trigger2 = e||(helper(10372),var(40) := 9 + (2**5))
+
+trigger3 = (((helper(10372),var(40)&(2**6 - 1)) > (2**5)) || (helper(10371),var(40) > 9 + (2**6))) && (helper(10371),var(3)&64) > 0
+trigger3 = e||(helper(10372),var(40) := 9 + (2**6))
+
+trigger4 = (helper(10372),var(40)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&128) > 0
+trigger4 = e||(helper(10372),var(40) := 9 + (2**7))
+trigger4 = e||(helper(10372),var(48) := (helper(10372),var(48)|1))
+
+trigger5 = helper(10372),var(40) && (helper(10372),var(40)&15) = 0
+trigger5 = e||(helper(10372),var(40) := 0)
+ignorehitpause = 1
+
+[State -4, CF,B,F,B Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(41)) || (helper(10372),var(41) <= 9 + (2**4))) && (helper(10371),var(4)&128) > 0
+trigger1 = e||(helper(10372),var(41) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(41)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&64) > 0
+trigger2 = e||(helper(10372),var(41) := 9 + (2**5))
+
+trigger3 = (((helper(10372),var(41)&(2**6 - 1)) > (2**5)) || (helper(10372),var(41) > 9 + (2**6))) && (helper(10371),var(3)&128) > 0
+trigger3 = e||(helper(10372),var(41) := 9 + (2**6))
+
+trigger4 = (helper(10372),var(41)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&64) > 0
+trigger4 = e||(helper(10372),var(41) := 9 + (2**7))
+trigger4 = e||(helper(10372),var(48) := (helper(10372),var(48)|2))
+
+trigger5 = helper(10372),var(41) && (helper(10372),var(41)&15) = 0
+trigger5 = e||(helper(10372),var(41) := 0)
+ignorehitpause = 1
+
+;----------------[SPECIALS ~ REGULAR]----------------
+[State -4, RQCB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(26)) || (helper(10371),var(26) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 64
+trigger1 = e||(helper(10371),var(26) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(26)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 96
+trigger2 = e||(helper(10371),var(26) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(26)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&32) > 0
+trigger3 = e||(helper(10371),var(26) := 9 + (2**6))
+
+trigger4 = helper(10371),var(26) && (helper(10371),var(26)&15) = 0
+trigger4 = e||(helper(10371),var(26) := 0)
+ignorehitpause = 1
+
+[State -4, RQCF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(27)) || (helper(10371),var(27) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 128
+trigger1 = e||(helper(10371),var(27) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(27)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 160
+trigger2 = e||(helper(10371),var(27) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(27)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&32) > 0
+trigger3 = e||(helper(10371),var(27) := 9 + (2**6))
+
+trigger4 = helper(10371),var(27) && (helper(10371),var(27)&15) = 0
+trigger4 = e||(helper(10371),var(27) := 0)
+ignorehitpause = 1
+
+[State -4, HCB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(24)) || (helper(10371),var(24) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 128
+trigger1 = e||(helper(10371),var(24) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(24)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 160
+trigger2 = e||(helper(10371),var(24) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(24)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&32) > 0
+trigger3 = e||(helper(10371),var(24) := 9 + (2**6))
+
+trigger4 = (helper(10371),var(24)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&64) > 0
+trigger4 = e||(helper(10371),var(24) := 9 + (2**7))
+
+trigger5 = helper(10371),var(24) && (helper(10371),var(24)&15) = 0
+trigger5 = e||(helper(10371),var(24) := 0)
+ignorehitpause = 1
+
+[State -4, HCF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(25)) || (helper(10371),var(25) <= 9 + (2**4))) && (helper(10371),var(4)&240) = 64
+trigger1 = e||(helper(10371),var(25) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(25)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 96
+trigger2 = e||(helper(10371),var(25) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(25)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&32) > 0
+trigger3 = e||(helper(10371),var(25) := 9 + (2**6))
+
+trigger4 = (helper(10371),var(25)&(2**7 - 1)) > (2**6) && (helper(10371),var(3)&128) > 0
+trigger4 = e||(helper(10371),var(25) := 9 + (2**7))
+
+trigger5 = helper(10371),var(25) && (helper(10371),var(25)&15) = 0
+trigger5 = e||(helper(10371),var(25) := 0)
+ignorehitpause = 1
+
+[State -4, RDP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(23)) || (helper(10371),var(23) <= 6 + (2**4))) && (helper(10371),var(4)&240) = 64
+trigger1 = e||(helper(10371),var(23) := 6 + (2**4))
+
+trigger2 = (helper(10371),var(23)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 32
+trigger2 = e||(helper(10371),var(23) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(23)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&64) > 0
+trigger3 = e||(helper(10371),var(23) := 9 + (2**6))
+
+trigger4 = helper(10371),var(23) && (helper(10371),var(23)&15) = 0
+trigger4 = e||(helper(10371),var(23) := 0)
+ignorehitpause = 1
+
+[State -4, DP Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(22)) || (helper(10371),var(22) <= 6 + (2**4))) && (helper(10371),var(4)&240) = 128
+trigger1 = e||(helper(10371),var(22) := 6 + (2**4))
+
+trigger2 = (helper(10371),var(22)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 32
+trigger2 = e||(helper(10371),var(22) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(22)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&128) > 0
+trigger3 = e||(helper(10371),var(22) := 9 + (2**6))
+
+trigger4 = helper(10371),var(22) && (helper(10371),var(22)&15) = 0
+trigger4 = e||(helper(10371),var(22) := 0)
+ignorehitpause = 1
+
+[State -4, QCB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(21)) || (helper(10371),var(21) <= 9 + (2**4))) && ((helper(10371),var(4)&240) = 32 || (helper(10371),var(4)&240) = 160)
+trigger1 = e||(helper(10371),var(21) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(21)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 96
+trigger2 = e||(helper(10371),var(21) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(21)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&64) > 0
+trigger3 = e||(helper(10371),var(21) := 9 + (2**6))
+
+trigger4 = helper(10371),var(21) && (helper(10371),var(21)&15) = 0
+trigger4 = e||(helper(10371),var(21) := 0)
+ignorehitpause = 1
+
+[State -4, QCF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (!(helper(10371),var(20)) || (helper(10371),var(20) <= 9 + (2**4))) && ((helper(10371),var(4)&240) = 32 || (helper(10371),var(4)&240) = 96)
+trigger1 = e||(helper(10371),var(20) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(20)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 160
+trigger2 = e||(helper(10371),var(20) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(20)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&128) > 0
+trigger3 = e||(helper(10371),var(20) := 9 + (2**6))
+
+trigger4 = helper(10371),var(20) && (helper(10371),var(20)&15) = 0
+trigger4 = e||(helper(10371),var(20) := 0)
+ignorehitpause = 1
+
+;-----------------[SPECIALS ~ CHARGE]----------------
+[State -4, CB,F Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(20)) || (helper(10372),var(20) <= 9 + (2**4))) && (helper(10371),var(4)&64) > 0
+trigger1 = e||(helper(10372),var(20) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(20)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&128) > 0
+trigger2 = e||(helper(10372),var(20) := 9 + (2**5))
+
+trigger3 = helper(10372),var(20) && (helper(10372),var(20)&15) = 0
+trigger3 = e||(helper(10372),var(20) := 0)
+ignorehitpause = 1
+
+[State -4, CF,B Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(21)) || (helper(10372),var(21) <= 9 + (2**4))) && (helper(10371),var(4)&128) > 0
+trigger1 = e||(helper(10372),var(21) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(21)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&64) > 0
+trigger2 = e||(helper(10372),var(21) := 9 + (2**5))
+
+trigger3 = helper(10372),var(21) && (helper(10372),var(21)&15) = 0
+trigger3 = e||(helper(10372),var(21) := 0)
+ignorehitpause = 1
+
+[State -4, CD,U Init]
+type = Null
+triggerall = numhelper(10371) && numhelper(10372)
+trigger1 = (!(helper(10372),var(22)) || (helper(10372),var(22) <= 9 + (2**4))) && (helper(10371),var(4)&32) > 0
+trigger1 = e||(helper(10372),var(22) := 9 + (2**4))
+
+trigger2 = (helper(10372),var(22)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&16) > 0
+trigger2 = e||(helper(10372),var(22) := 9 + (2**5))
+
+trigger3 = helper(10372),var(22) && (helper(10372),var(22)&15) = 0
+trigger3 = e||(helper(10372),var(22) := 0)
+ignorehitpause = 1
+
+;-------------------[DOUBLE MOTION CHECK RESET]--------------------------------;
+; Placed below the inits instead of with the decrementers so they trigger
+; immediately after the motion resets.
+
+;---------------------[REGULAR]----------------------
+[State -4, QCFx2 Check Reset]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(40)=0 && (helper(10371),var(48)&1) != 0
+trigger1 = e||helper(10371),var(48) := helper(10371),var(48)-1
+ignorehitpause = 1
+
+[State -4, QCBx2 Check Reset]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(41)=0 && (helper(10371),var(48)&2) != 0
+trigger1 = e||helper(10371),var(48) := helper(10371),var(48)-2
+ignorehitpause = 1
+
+[State -4, HCFx2 Check Reset]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(42)=0 && (helper(10371),var(48)&4) != 0
+trigger1 = e||helper(10371),var(48) := helper(10371),var(48)-4
+ignorehitpause = 1
+
+[State -4, HCBx2 Check Reset]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(43)=0 && (helper(10371),var(48)&8) != 0
+trigger1 = e||helper(10371),var(48) := helper(10371),var(48)-8
+ignorehitpause = 1
+
+;----------------------[CHARGE]----------------------
+[State -4, CB,F,B,F Check Reset]
+type = Null
+triggerall = numhelper(10372)
+trigger1 = helper(10372),var(40)=0 && (helper(10372),var(48)&1) != 0
+trigger1 = e||helper(10372),var(48) := helper(10372),var(48)-1
+ignorehitpause = 1
+
+[State -4, CF,B,F,B Check Reset]
+type = Null
+triggerall = numhelper(10372)
+trigger1 = helper(10372),var(41)=0 && (helper(10372),var(48)&2) != 0
+trigger1 = e||helper(10372),var(48) := helper(10372),var(48)-2
+ignorehitpause = 1
+
+;-----------------------------[DIRECTIONAL BUFFER]-----------------------------;
+[State -4, F/B Timer]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(51) <= 0
+trigger1 = e||helper(10371),var(51) := 0
+trigger2 = (helper(10371),var(4)&204) = 0
+trigger2 = e||helper(10371),var(51) := 0
+ignorehitpause = 1
+[State -4, Timer Inc]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(4)&192) > 0 && helper(10371),var(51) < 8
+trigger1 = helper(10371),var(51) := helper(10371),var(51) + cond((helper(10371),var(4)&192) > 0, 1, -1)
+ignorehitpause = 1
+
+[State -4, D/U Timer]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = helper(10371),var(52) <= 0
+trigger1 = e||helper(10371),var(52) := 0
+trigger2 = (helper(10371),var(4)&51) = 0
+trigger2 = e||helper(10371),var(52) := 0
+ignorehitpause = 1
+[State -4, Timer Inc]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = (helper(10371),var(4)&48) > 0 && helper(10371),var(52) < 8
+trigger1 = helper(10371),var(52) := helper(10371),var(52) + cond((helper(10371),var(4)&48) > 0, 1, -1)
+ignorehitpause = 1
+
+[State -4, DDD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(58)) && (helper(10371),var(5)&15) = 2
+trigger1 = e||(helper(10371),var(58) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(58)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 32
+trigger2 = e||(helper(10371),var(58) := 9 + (2**5))
+
+trigger3 = (helper(10371),var(58)&(2**6 - 1)) > (2**5) && (helper(10371),var(3)&240) = 32
+trigger3 = e||(helper(10371),var(58) := 9 + (2**6))
+
+trigger4 = helper(10371),var(58) && (helper(10371),var(58)&15) = 0
+trigger4 = e||(helper(10371),var(58) := 0)
+ignorehitpause = 1
+[State -4, DD Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(54)) && cond(name="Kanako_RP",(helper(10371),var(5)&2) > 0 && helper(10371),var(52) < 8,(helper(10371),var(5)&15) = 2)
+trigger1 = e||(helper(10371),var(54) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(54)&(2**5 - 1)) > (2**4) && cond(name="Kanako_RP",(helper(10371),var(3)&32) > 0,(helper(10371),var(3)&240) = 32)
+trigger2 = e||cond(name="Kanako_RP",(helper(10371),var(54) := 6 + (2**5)),(helper(10371),var(54) := 9 + (2**5)))
+
+trigger3 = helper(10371),var(54) && cond(name="Kanako_RP",((helper(10371),var(54)&15) = 0 || (helper(10371),var(3)&51) > 0),(helper(10371),var(54)&15) = 0)
+trigger3 = e||(helper(10371),var(54) := 0)
+ignorehitpause = 1
+[State -4, UU Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(57)) && cond(name="Kanako_RP",(helper(10371),var(5)&1) > 0 && helper(10371),var(52) < 8,(helper(10371),var(5)&15) = 1)
+trigger1 = e||(helper(10371),var(57) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(57)&(2**5 - 1)) > (2**4) && cond(name="Kanako_RP",(helper(10371),var(3)&16) > 0,(helper(10371),var(3)&240) = 16)
+trigger2 = e||cond(name="Kanako_RP",(helper(10371),var(57) := 6 + (2**5)),(helper(10371),var(57) := 9 + (2**5)))
+
+trigger3 = helper(10371),var(57) && cond(name="Kanako_RP",((helper(10371),var(57)&15) = 0 || (helper(10371),var(3)&51) > 0),(helper(10371),var(57)&15) = 0)
+trigger3 = e||(helper(10371),var(57) := 0)
+ignorehitpause = 1
+[State -4, FF Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(55)) && ((helper(10371),var(5)&15) = [8,9]) && helper(10371),var(51) < 8
+trigger1 = e||(helper(10371),var(55) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(55)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 128
+trigger2 = e||(helper(10371),var(55) := 6 + (2**5))
+
+trigger3 = helper(10371),var(55) && ((helper(10371),var(55)&15) = 0 || ((helper(10371),var(4)&204) > 0) || ((helper(10371),var(3)&240) > 0 && (helper(10371),var(3)&240) != 128) || ((helper(10371),var(5)&15) > 0 && ((helper(10371),var(5)&15) != [8,9]) && ((helper(10371),var(5)&15) != 1)))
+trigger3 = e||(helper(10371),var(55) := 0)
+ignorehitpause = 1
+[State -4, BB Init]
+type = Null
+triggerall = numhelper(10371)
+trigger1 = !(helper(10371),var(56)) && ((helper(10371),var(5)&15) = [4,5]) && helper(10371),var(51) < 8
+trigger1 = e||(helper(10371),var(56) := 9 + (2**4))
+
+trigger2 = (helper(10371),var(56)&(2**5 - 1)) > (2**4) && (helper(10371),var(3)&240) = 64
+trigger2 = e||(helper(10371),var(56) := 6 + (2**5))
+
+trigger3 = helper(10371),var(56) && ((helper(10371),var(56)&15) = 0 || ((helper(10371),var(4)&204) > 0) || ((helper(10371),var(3)&240) > 0 && (helper(10371),var(3)&240) != 64) || ((helper(10371),var(5)&15) > 0 && ((helper(10371),var(5)&15) != [4,5]) && ((helper(10371),var(5)&15) != 1)))
+trigger3 = e||(helper(10371),var(56) := 0)
+ignorehitpause = 1
+
+[State -4, No dash]
+type = Null
+triggerall = numhelper(10371)
+triggerall = helper(10371),var(55)
+trigger1 = ((helper(10371),var(3)&240) > 0 && (helper(10371),var(3)&240) != 128) || ((helper(10371),var(5)&15) > 0 && ((helper(10371),var(5)&15) != [8,9]) && ((helper(10371),var(5)&15) != 1)) ;Resets FF buffer if anything other than forward is pressed, or if anything other than forward, up-forward, or up is released.
+trigger1 = e||helper(10371),var(55) := 0
+trigger2 = helper(10371),var(51) >= 8
+trigger2 = e||helper(10371),var(55) := 0
+ignorehitpause = 1
+
+[State -4, No dash]
+type = Null
+triggerall = numhelper(10371)
+triggerall = helper(10371),var(56)
+trigger1 = ((helper(10371),var(3)&240) > 0 && (helper(10371),var(3)&240) != 64) || ((helper(10371),var(5)&15) > 0 && ((helper(10371),var(5)&15) != [4,5]) && ((helper(10371),var(5)&15) != 1)) ;Same as above but for the BB buffer.
+trigger1 = e||helper(10371),var(56) := 0
+trigger2 = helper(10371),var(51) >= 8
+trigger2 = e||helper(10371),var(56) := 0
+ignorehitpause = 1
+
+[State -4, No dash]
+type = Null
+triggerall = numhelper(10371)
+triggerall = helper(10371),var(54)
+trigger1 = name="Kanako_RP" && helper(10371),var(52) >= 8      ; Held for 8 ticks or more
+trigger1 = e||helper(10371),var(54) := 0
+ignorehitpause = 1
+
+[State -4, No dash]
+type = Null
+triggerall = numhelper(10371)
+triggerall = helper(10371),var(57)
+trigger1 = name="Kanako_RP" && helper(10371),var(52) >= 8      ; Held for 8 ticks or more
+trigger1 = e||helper(10371),var(57) := 0
+ignorehitpause = 1
+
+;---------------------------[COMMAND BUFFER ACTIVE]----------------------------;
+; This is a single variable for two bits for each command: regular and reversed.
+; These should be built upon all previous commands.
+;
+; Order doesn't really matter since the CMD's going to pick it all up in the
+; same tick.
+;
+; Stores up to 32 commands. If you have even that many unique commands, either
+; you're making MvC3 Dante or doing something completely wrong.
+;
+; I'm doing this for cleanliness, but if you're making a SF2 character, this is
+; pretty much required.
+;
+[State -4, Command Active] ;Regular
+type = Null
+triggerall = numhelper(10371)
+trigger1 = e||(helper(10371),var(59) := 0) ; INIT
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 1, 0))*((helper(10371),var(20)&(2**7  - 1)) > (2**6))))) ; QCF
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 0, 1))*((helper(10371),var(21)&(2**7  - 1)) > (2**6))))) ; QCB
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 3, 2))*((helper(10371),var(22)&(2**7  - 1)) > (2**6))))) ; DP
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 2, 3))*((helper(10371),var(23)&(2**7  - 1)) > (2**6))))) ; RDP
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 5, 4))*((helper(10371),var(24)&(2**8  - 1)) > (2**7))))) ; HCB
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 4, 5))*((helper(10371),var(25)&(2**8  - 1)) > (2**7))))) ; HCF
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && (stateno!=[150,155]) && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 7, 6))*((helper(10371),var(26)&(2**7  - 1)) > (2**6))))) ; RQCF
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && (stateno!=[150,155]) && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 6, 7))*((helper(10371),var(27)&(2**7  - 1)) > (2**6))))) ; RQCB
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 9, 8))*(((helper(10371),var(40)&(2**10  - 1)) > (2**9))||((helper(10371),var(48)&1)=1))))) ; QCFx2
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 8, 9))*(((helper(10371),var(41)&(2**10  - 1)) > (2**9))||((helper(10371),var(48)&2)=2))))) ; QCBx2
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 11, 10))*(((helper(10371),var(42)&(2**10  - 1)) > (2**9))||((helper(10371),var(48)&4)=4))))) ; HCFx2
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 10, 11))*(((helper(10371),var(43)&(2**10  - 1)) > (2**9))||((helper(10371),var(48)&8)=8))))) ; HCBx2
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**12)*								        ((helper(10371),var(54)&(2**6  - 1)) > (2**5))))) ; DD
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**13)*								        ((helper(10371),var(57)&(2**6  - 1)) > (2**5))))) ; UU
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**14)* 								        ((helper(10371),var(58)&(2**7  - 1)) > (2**6))))) ; DDD
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 16, 15))*((helper(10371),var(44)&(2**8  - 1)) > (2**7))))) ; SGS
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 15, 16))*((helper(10371),var(45)&(2**8  - 1)) > (2**7))))) ; SGSB
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 18, 17))*((helper(10371),var(46)&(2**9  - 1)) > (2**8))))) ; QCF,QCB
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|((2**cond(cond(statetype != A && numenemy,(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 17, 18))*((helper(10371),var(47)&(2**9  - 1)) > (2**8))))) ; QCB,QCF
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|(cond(cond(statetype != A && numenemy && !(name="Utsuho_RP" && stateno=[1000,1999]),(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), -2147483648, 2**30)*((helper(10371),var(55)&(2**6  - 1)) > (2**5))))) ; FF
+trigger1 = e||(helper(10371),var(59) := (helper(10371),var(59)|(cond(cond(statetype != A && numenemy && !(name="Utsuho_RP" && stateno=[1000,1999]),(helper(10371),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 2**30, -2147483648)*((helper(10371),var(56)&(2**6  - 1)) > (2**5))))) ; BB
+ignorehitpause = 1
+
+[State -4, Command Active] ;Charge
+type = Null
+triggerall = numhelper(10372)
+trigger1 = e||(helper(10372),var(59) := 0) ; INIT
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 1, 0))*((helper(10372),var(20)&(2**6  - 1)) > (2**5))))) ; [B]F
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 0, 1))*((helper(10372),var(21)&(2**6  - 1)) > (2**5))))) ; [F]B
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**2)*								      ((helper(10372),var(22)&(2**6  - 1)) > (2**5))))) ; [D]U
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 4, 3))*(((helper(10372),var(40)&(2**8  - 1)) > (2**7))||((helper(10372),var(48)&1)=1))))) ; [B]FBF
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 3, 4))*(((helper(10372),var(41)&(2**8  - 1)) > (2**7))||((helper(10372),var(48)&2)=2))))) ; [F]BFB
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 6, 5))*((helper(10372),var(42)&(2**8  - 1)) > (2**7))))) ; Delta
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 6, 5))*((helper(10372),var(43)&(2**7  - 1)) > (2**6))))) ; Delta (Alt)
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 5, 6))*((helper(10372),var(44)&(2**8  - 1)) > (2**7))))) ; DeltaR
+trigger1 = e||(helper(10372),var(59) := (helper(10372),var(59)|((2**cond(cond(statetype != A,(helper(10372),P2Dist X < 0),facing=cond(teamside=2,1,-1)), 5, 6))*((helper(10372),var(45)&(2**7  - 1)) > (2**6))))) ; DeltaR (Alt)
+ignorehitpause = 1

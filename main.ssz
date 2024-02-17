@@ -15,4 +15,42 @@ if(#file.find(conffile) == 0){
   );
 }
 
+if(#file.find("save/training_sav.lua") == 0){
+  &file.File f;
+  f.open("save/training_sav.lua", "wb");
+  f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"--Practice Settings
+data.trnStateType = 0
+data.trnDistance = 0
+data.trnAutoGuard = 0
+data.trnCounterHit = 0
+data.trnThrowEscape = 0
+data.trnRecover = 1
+data.trnRecoverDir = 0
+data.trnDisplay = 1
+data.trnInput = 0
+data.trnRuler = 0
+data.trnVoice = 0
+data.trnLBRefill = 3
+--Playback Settings
+data.pbkRecSlot = 1
+data.pbkPlaySlot = 1
+data.pbkPlayLoop = false
+data.pbkSlot1 = true
+data.pbkSlot2 = false
+data.pbkSlot3 = false
+data.pbkSlot4 = false
+data.pbkSlot5 = false"
+  );
+}
+
+loop{index i = 0; %int j .= -1; while; do:
+  if(#file.find("data/playback/" + ''i + ".dat") == 0){
+    &file.File f;
+    f.open("data/playback/" + ''i + ".dat", "wb");
+    f.writeAry!int?(j);
+  }
+while ++i <= 5:}
+
 sh.open("Ikemen Plus Ultra.exe", "ssz/ikemen.ssz", "", false, true);

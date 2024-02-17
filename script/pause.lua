@@ -3,6 +3,11 @@ module(..., package.seeall)
 --;===========================================================
 --; LOAD DATA
 --;===========================================================
+-- Data loading from training_sav.lua
+local file = io.open("save/training_sav.lua","r")
+s_trainLUA = file:read("*all")
+file:close()
+
 --Data loading from config.ssz
 local file = io.open("ssz/config.ssz","r")
 s_configSSZ = file:read("*all")
@@ -106,6 +111,26 @@ function f_sysTimeP()
 	textImgDraw(txt_titleDate) --Draw Date
 end
 
+--Variable setting based on loaded data
+data.trnStateType = f_minMax(data.trnStateType,0,2)
+data.trnDistance = f_minMax(data.trnDistance,0,3)
+data.trnAutoGuard = f_minMax(data.trnAutoGuard,0,3)
+data.trnCounterHit = f_minMax(data.trnCounterHit,0,2)
+data.trnThrowEscape = f_minMax(data.trnThrowEscape,0,1)
+data.trnRecover = f_minMax(data.trnRecover,0,2)
+data.trnRecoverDir = f_minMax(data.trnRecoverDir,0,3)
+data.trnDisplay = f_minMax(data.trnDisplay,0,2)
+data.trnInput = f_minMax(data.trnInput,0,2)
+data.trnRuler = f_minMax(data.trnRuler,0,1)
+data.trnVoice = f_minMax(data.trnVoice,0,31)
+data.trnLBRefill = f_minMax(data.trnLBRefill,0,3)
+
+data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
+data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
+if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
+	data.pbkSlot1 = true
+end
+
 gl_vol = f_minMax(gl_vol,0,100)
 se_vol = f_minMax(se_vol,0,100)
 bgm_vol = f_minMax(bgm_vol,0,100)
@@ -122,6 +147,74 @@ elseif pan_str >= 140 then
 	pan_str = 160
 end
 t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
+
+--Apply settings from training_sav.lua
+setConfigTVars(
+	data.trnStateType,
+	data.trnDistance,
+	data.trnAutoGuard,
+	data.trnCounterHit,
+	data.trnThrowEscape,
+	data.trnRecover,
+	data.trnRecoverDir,
+	data.trnDisplay,
+	data.trnInput,
+	data.trnRuler,
+	data.trnVoice,
+	data.trnLBRefill
+)
+
+--setPlaybackCfg(
+	--data.pbkRecSlot,
+	--data.pbkPlaySlot,
+	--data.pbkPlayLoop,
+	--data.pbkSlot1,
+	--data.pbkSlot2,
+	--data.pbkSlot3,
+	--data.pbkSlot4,
+	--data.pbkSlot5
+--)
+
+--Data saving to training_sav.lua
+function f_saveTrn()
+	--setPlaybackCfg(
+		--data.pbkRecSlot,
+		--data.pbkPlaySlot,
+		--data.pbkPlayLoop,
+		--data.pbkSlot1,
+		--data.pbkSlot2,
+		--data.pbkSlot3,
+		--data.pbkSlot4,
+		--data.pbkSlot5
+	--)
+	local t_saves = {
+		['data.trnStateType'] = getConfigTVars(1),
+		['data.trnDistance'] = getConfigTVars(2),
+		['data.trnAutoGuard'] = getConfigTVars(3),
+		['data.trnCounterHit'] = getConfigTVars(12),
+		['data.trnThrowEscape'] = getConfigTVars(4),
+		['data.trnRecover'] = getConfigTVars(5),
+		['data.trnRecoverDir'] = getConfigTVars(10),
+		['data.trnDisplay'] = getConfigTVars(6),
+		['data.trnInput'] = getConfigTVars(11),
+		['data.trnRuler'] = getConfigTVars(7),
+		['data.trnVoice'] = getConfigTVars(8),
+		['data.trnLBRefill'] = getConfigTVars(9),
+		['data.pbkRecSlot'] = data.pbkRecSlot,
+		['data.pbkPlaySlot'] = data.pbkPlaySlot,
+		['data.pbkPlayLoop'] = data.pbkPlayLoop,
+		['data.pbkSlot1'] = data.pbkSlot1,
+		['data.pbkSlot2'] = data.pbkSlot2,
+		['data.pbkSlot3'] = data.pbkSlot3,
+		['data.pbkSlot4'] = data.pbkSlot4,
+		['data.pbkSlot5'] = data.pbkSlot5
+	}
+	s_trainLUA = f_strSub(s_trainLUA, t_saves)
+	local file = io.open("save/training_sav.lua","w+")
+	file:write(s_trainLUA)
+	file:close()
+	modified = false
+end
 
 --Data saving to config.ssz
 function f_saveCfg()
@@ -306,6 +399,13 @@ hudStatus = 'Yes'
 hitboxStatus = 'No'
 debugStatus = 'No'
 dummyMode = 'AI'
+
+--Because the training dummy can change settings too!!
+function f_trnMacroCheck()
+if getConfigTVars(6) ~= data.trnDisplay or getConfigTVars(11) ~= data.trnInput or getConfigTVars(7) ~= data.trnRuler then
+	f_saveTrn()
+	end
+end
 
 function f_pauseMenuReset()
 	togglePauseMenu(0)

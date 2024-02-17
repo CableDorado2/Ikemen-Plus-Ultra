@@ -1301,6 +1301,26 @@ const int ATP =
 {
   public int p = 0;
 }
+
+public &ConfigTVars
+{
+  public int st = 0, dst = 0, ag = 0, ge = 0, rec = 0, recdir = 0, dis = 0, inp = 0, ru = 0, vc = 0, lb = 0;
+  public void set(int st, int dst, int ag, int ge, int rec, int recdir, int dis, int inp, int ru, int vc, int lb)
+  {
+    `st = st;
+    `dst = dst;
+    `ag = ag;
+    `ge = ge;
+    `rec = rec;
+    `recdir = recdir;
+    `dis = dis;
+    `inp = inp;
+    `ru = ru;
+    `vc = vc;
+    `lb = lb;
+  }
+}
+
 &StateVal
 {
   public ^&.Persistent ps;
@@ -2042,8 +2062,8 @@ public &Char
   public ^/char name;
   public ^&.com.PalFX palfx;
   public ^&.act.Action ani;
-  public ^int ivar, sysivar;
-  public ^float fvar, sysfvar;
+  public ^int ivar, tivar, sysivar;
+  public ^float fvar, tfvar, sysfvar;
   public ^&.cmd.CommandList cmd;
   public &.StateVal stVal;
   public &.AfterImage aimg;
@@ -2064,6 +2084,9 @@ public &Char
   public bool pushed;
   public byte ho;
   public int sprpriority;
+  public int under;
+  public int over;
+  public int hud;
   public int animno;
   public int getcombo;
   public float frontw, backw, fedge, bedge;
@@ -2082,8 +2105,10 @@ public &Char
   new()
   {
     `ivar.new(60);
+	`tivar.new(100);
     `sysivar.new(60);
     `fvar.new(40);
+	`tfvar.new(40);
     `sysfvar.new(80);
     `enemyn.new(2);
     `clearVal();
@@ -2172,6 +2197,8 @@ public &Char
     `stVal.clear();
     `rangeSetSysIVar(0, #`sysivar-1, 0);
     `rangeSetSysFVar(0, #`sysfvar-1, 0.0);
+	`rangeSetTIVar(0, #`tivar-1, 0);
+    `rangeSetTFVar(0, #`tfvar-1, 0.0);
     `rangeSetIVar(0, #`ivar-1, 0);
     `rangeSetFVar(0, #`fvar-1, 0.0);
     `key = -1; `id = -1; `playerno = -1; `helperindex = -1;
@@ -2221,6 +2248,20 @@ public &Char
       `sysfvar[i] = n;
       i++;
     while i <= end && i < #`sysfvar:}
+  }
+  public void rangeSetTIVar(index start, index end, int n)
+  {
+    if(start < 0 || end >= #`tivar) ret;
+    loop{index i = start; while; do:
+      `tivar[i++] = n;
+    while i <= end:}
+  }
+  public void rangeSetTFVar(index start, index end, float n)
+  {
+    if(start < 0 || end >= #`tfvar) ret;
+    loop{index i = start; while; do:
+      `tfvar[i++] = n;
+    while i <= end:}
   }
   public void rangeSetIVar(index start, index end, int n)
   {
@@ -4538,6 +4579,42 @@ public &Char
   public float trAddSysFVar(int idx, float v)
   {
     if(idx >= 0 && (`minus == 11 || idx < 5)) `sysfvar[idx] += v;
+    ret v;
+  }
+  public void trTIVar(int idx)
+  {
+    if(idx < 0 || idx >= 100){
+      .v.setSF();
+      ret;
+    }
+    .v.setI(`tivar[idx]);
+  }
+  public int trSetTIVar(int idx, int v)
+  {
+    if(idx >= 0 && idx < 100) `tivar[idx] = v;
+    ret v;
+  }
+  public int trAddTIVar(int idx, int v)
+  {
+    if(idx >= 0 && idx < 100) `tivar[idx] += v;
+    ret v;
+  }
+  public void trTFVar(int idx)
+  {
+    if(idx < 0 || idx >= 40){
+      .v.setSF();
+      ret;
+    }
+    .v.setF(`tfvar[idx]);
+  }
+  public float trSetTFVar(int idx, float v)
+  {
+    if(idx >= 0 && idx < 40) `tfvar[idx] = v;
+    ret v;
+  }
+  public float trAddTFVar(int idx, float v)
+  {
+    if(idx >= 0 && idx < 40) `tfvar[idx] += v;
     ret v;
   }
   public void trIVar(int idx)
@@ -7296,6 +7373,8 @@ public void nextRound()
       c.setCtrl(false);
       c.stVal.clear();
       c.clearSpSysVar();
+	  c.rangeSetTIVar(49, 99, 0);
+      c.rangeSetTFVar(0, 39, 0.0);
       c.rangeSetIVar(0, c.sysivar[.iINTPERSISTINDEX]-1, 0);
       c.rangeSetFVar(0, c.sysivar[.iFLOATPERSISTINDEX]-1, 0.0);
       loop{index j = 0; while; do:

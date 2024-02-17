@@ -769,6 +769,11 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
       index i = 0;
       float x;
       &.s.Format fm;
+	  //bool t = .s.equ(.com.gameMode, "practice") && display;
+      //branch{
+      //cond t: `counterY[1] = `posy + 25;
+      //else: `counterY[1] = `posy;
+      //}
     while; do:
       if(`resttime[i] <= 0 && `counterX[i] == `start_x*2.0) continue;
       x =

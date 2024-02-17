@@ -35,7 +35,8 @@ data = require('save.data') --Require function, allows use the content inside in
 
 --Load saved variables
 assert(loadfile('save/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile('save/stats_sav.lua'))()
+assert(loadfile('save/stats_sav.lua'))() --player data
+assert(loadfile('save/training_sav.lua'))() --training data
 assert(loadfile('save/temp_sav.lua'))() --temp data
 
 --One-time load of the json routines
