@@ -111,7 +111,6 @@ p1song = false
 p2song = false
 stageAnnouncer = false
 announcerTimer = 0
-dontTouch = false
 end
 
 function f_selectReset()
@@ -4831,8 +4830,8 @@ function f_selectStage()
 		--Logic For Auto Characters Song
 			p1charSong = ''
 			if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
-				p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
-				p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
+				p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
+				p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
 				p1song = true
 			else --If there no music assigned for left side character
 				p1song = false
@@ -4847,8 +4846,8 @@ function f_selectStage()
 			end
 		--Logic For Auto Characters Stage
 			if t_selChars[data.t_p1selected[1].cel+1].stage ~= nil then
-				p1charStage = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage)
-				p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage]
+				p1charStage = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+				p1charStage = t_selChars[data.t_p1selected[1].cel+1].stage[p1charStage] --data.t_p1selected[1] means that data (stage) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
 				p1stage = true
 			else --If there no stage assigned for left side character
 				p1stage = false
@@ -4890,8 +4889,8 @@ function f_selectStage()
 			txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 13)
 			textImgDraw(txt_stageSelect)
 		end
-		if dontTouch == false then
-			if backScreen == false then
+		--if stageAnnouncer == false then
+			if backScreen == false and stageAnnouncer == false then
 				if commandGetState(p1Cmd, 's') then
 					if stageSelect == true then
 						--sndPlay(sysSnd, 100, 0)
@@ -5015,7 +5014,7 @@ function f_selectStage()
 					end
 				end
 			end
-		end
+		--end
 		if commandGetState(p1Cmd, 'holdr') then
 			bufStagel = 0
 			bufStager = bufStager + 1
@@ -5026,14 +5025,6 @@ function f_selectStage()
 			bufStager = 0
 			bufStagel = 0
 		end
-		--Delete content from previous menu
-		--animSetWindow(selectBG1a, 0, 0, 0, 0)
-		--animSetWindow(selectBG1b, 0, 0, 0, 0)
-		--animSetWindow(selectBG1c, 0, 0, 0, 0)
-		--p1FaceX = 99
-		--p1FaceY = 999
-		--p2FaceX = 999
-		--p2FaceY = 999
 		if data.stageType == 'Classic' then
 			animUpdate(selStage)
 			animDraw(selStage)
@@ -5044,7 +5035,7 @@ function f_selectStage()
 	--Stage Data
 		if stageList == 0 then
 			if p1autoSlot == true then
-			--Draw Stage Preview
+			--Draw Auto Stage Preview
 				--if data.stageType == 'Classic' then
 					--animUpdate(stagep1)
 					--animDraw(stagep1)
@@ -5052,7 +5043,7 @@ function f_selectStage()
 					--animUpdate(stagep1M)
 					--animDraw(stagep1M)
 				--end
-			--Set Stage Name
+			--Set Auto Stage Name
 				textImgSetText(txt_selStage, 'STAGE: AUTO [LEFT SIDE]')
 			elseif p2autoSlot == true then
 				--if data.stageType == 'Classic' then
@@ -5064,14 +5055,23 @@ function f_selectStage()
 				--end
 				textImgSetText(txt_selStage, 'STAGE: AUTO [RIGHT SIDE]')
 			else --random select
-				if data.stageType == 'Classic' then
-					animUpdate(stage0)
-					animDraw(stage0)
-				elseif data.stageType == 'Modern' then
-					animUpdate(stage0M)
-					animDraw(stage0M)
+				if data.randomStagePortrait == 'Roulette' then
+					textImgSetText(txt_selStage, 'STAGE ' .. math.random(1, data.includestage) .. ': ' .. t_selStages[math.random(1, data.includestage)].name)
+					if data.stageType == 'Classic' then
+						drawStagePortrait(math.random(1, data.includestage), 114.5, 172, 0.0705, 0.0699)
+					elseif data.stageType == 'Modern' then
+						drawStagePortrait(math.random(1, data.includestage), 64.600, 74.8, 0.149, 0.148)
+					end
+				elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
+					if data.stageType == 'Classic' then
+						animUpdate(stage0)
+						animDraw(stage0)
+					elseif data.stageType == 'Modern' then
+						animUpdate(stage0M)
+						animDraw(stage0M)
+					end
+					textImgSetText(txt_selStage, 'STAGE: RANDOM SELECT')
 				end
-				textImgSetText(txt_selStage, 'STAGE: RANDOM SELECT')
 			end
 		else --Stages Added in select.def
 		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
@@ -5119,12 +5119,18 @@ function f_selectStage()
 				elseif p2autoSlot == true then --For Auto - Right Side Player Stage
 					if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p2charStage].author) end
 				else --For Random Select
-					textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+					--if data.randomStagePortrait == 'Roulette' then
+						--if t_selStages[math.random(1, data.includestage)].author ~= nil and t_selStages[math.random(1, data.includestage)].author ~= '' then
+							--textImgSetText(txt_stageAuthor, 'AUTHOR: '.. t_selStages[math.random(1, data.includestage)].author)
+						--end
+					--elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
+						textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+					--end
 				end
 			else --For loaded stages
 				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList].author) end
 			end
-			textImgDraw(txt_stageAuthor) --Draw Info Text
+			if stageAnnouncer == false then textImgDraw(txt_stageAuthor) end --Draw Info Text
 		end
 	--Set Location Text
 		if data.stageInfo == 'Location' or data.stageInfo == 'All' then
@@ -5134,12 +5140,18 @@ function f_selectStage()
 				elseif p2autoSlot == true then
 					if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p2charStage].location) end
 				else
-					textImgSetText(txt_stageLocation, 'LOCATION: ???')
+					--if data.randomStagePortrait == 'Roulette' then
+						--if t_selStages[math.random(1, data.includestage)].location ~= nil and t_selStages[math.random(1, data.includestage)].location ~= '' then
+							--textImgSetText(txt_stageLocation, 'LOCATION: '.. t_selStages[math.random(1, data.includestage)].location)
+						--end
+					--elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
+						textImgSetText(txt_stageLocation, 'LOCATION: ???')
+					--end
 				end
 			else
 				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList].location) end
 			end
-			textImgDraw(txt_stageLocation)
+			if stageAnnouncer == false then textImgDraw(txt_stageLocation) end
 		end
 	--Set Time Text
 		if data.stageInfo == 'Time' or data.stageInfo == 'All' then
@@ -5149,12 +5161,18 @@ function f_selectStage()
 				elseif p2autoSlot == true then
 					if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p2charStage].daytime) end
 				else
-					textImgSetText(txt_stageDayTime, 'TIME: ???')
+					--if data.randomStagePortrait == 'Roulette' then
+						--if t_selStages[math.random(1, data.includestage)].daytime ~= nil and t_selStages[math.random(1, data.includestage)].daytime ~= '' then
+							--textImgSetText(txt_stageDayTime, 'TIME: '.. t_selStages[math.random(1, data.includestage)].daytime)
+						--end
+					--elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
+						textImgSetText(txt_stageDayTime, 'TIME: ???')
+					--end
 				end
 			else
 				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList].daytime) end
 			end
-			textImgDraw(txt_stageDayTime)
+			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
 		--Stage Select Timer
 		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
@@ -5176,15 +5194,14 @@ function f_selectStage()
 				
 			end
 		end
-		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or stageTimer == 0) and dontTouch == false then
+		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or stageTimer == 0) and stageAnnouncer == false then
 			stageSelect = false
 			songSelect = false
 			stageAnnouncer = true
-			dontTouch = true
 			sndPlay(sysSnd, 100, 1)
 			f_stageAnnouncer()
 			f_loadStage()
-		elseif (btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds')) and dontTouch == true then
+		elseif (btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds')) and stageAnnouncer == true then
 			--Just Don't Touch!
 		end
 		--create a timer to hear full announcer voice
@@ -5199,6 +5216,34 @@ function f_selectStage()
 			stageEnd = true
 			cmdInput()
 			--announcerTimer = 0 --Restart Stage Announcer Timer
+		end
+		--When stage has been selected/announcer is active:
+		if stageAnnouncer == true then
+			--Apply Color
+			textImgSetBank(txt_selectMusic, 2)
+			textImgSetBank(txt_selStage, 2)
+			textImgSetBank(txt_stageAuthor, 2)
+			textImgSetBank(txt_stageLocation, 2)
+			textImgSetBank(txt_stageDayTime, 2)
+			if stageList == 0 then --For random select
+				if data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Roulette' then
+					textImgSetText(txt_selStage, 'STAGE ' .. stageNo .. ': ' .. t_selStages[stageNo].name) --Load Selected Stage Name
+					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '.. t_selStages[stageNo].author) end --Load Selected Stage Author IF is assigned
+					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '.. t_selStages[stageNo].location) end --Load Selected Stage Location IF is assigned
+					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '.. t_selStages[stageNo].daytime) end --Load Selected Stage Day Time IF is assigned
+					if data.stageType == 'Classic' then
+						drawStagePortrait(stageNo-1, 114.5, 172, 0.0705, 0.0699) --Load Selected Stage Portrait
+					elseif data.stageType == 'Modern' then
+						drawStagePortrait(stageNo-1, 64.600, 74.8, 0.149, 0.148)
+					end
+				end
+			end
+			--Re-Draw Selected Stuff
+			textImgDraw(txt_selectMusic)
+			textImgDraw(txt_selStage)
+			if data.stageInfo == 'Author' or data.stageInfo == 'All' then textImgDraw(txt_stageAuthor) end
+			if data.stageInfo == 'Location' or data.stageInfo == 'All' then textImgDraw(txt_stageLocation) end
+			if data.stageInfo == 'Time' or data.stageInfo == 'All' then textImgDraw(txt_stageDayTime) end
 		end
 	else --If Stage Select is Disabled
 		if data.stage == nil then --Assign Auto Stage via Select.def
