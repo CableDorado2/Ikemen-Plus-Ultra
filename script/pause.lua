@@ -257,8 +257,18 @@ animAddPos(pauseBG0, 160, 0)
 animSetTile(pauseBG0, 1, 1)
 animSetColorKey(pauseBG0, -1)
 
---Transparent Background (fade in)
-darkenIn = animNew(sysSff, [[
+--Transparent Background Instantaneous (fade in)
+darkenIn = animNew(sysSff, [[300,1, 0,0, -1, 0, AS256D102]])
+animSetPos(darkenIn, -54, 0)
+animSetScale(darkenIn, 427, 240)
+
+--Transparent Background Instantaneous (fade out)
+darkenOut = animNew(sysSff, [[300,1, 0,0, -1, 0, AS256D256]])
+animSetPos(darkenOut, -54, 0)
+animSetScale(darkenOut, 427, 240)
+
+--Transparent Background Full Animation (fade in)
+darkenInAnim = animNew(sysSff, [[
 300,1, 0,0, 1, 0, AS256D240
 300,1, 0,0, 1, 0, AS256D225
 300,1, 0,0, 1, 0, AS256D209
@@ -270,11 +280,11 @@ darkenIn = animNew(sysSff, [[
 300,1, 0,0, 1, 0, AS256D117
 300,1, 0,0, -1, 0, AS256D102
 ]])
-animSetPos(darkenIn, -54, 0)
-animSetScale(darkenIn, 427, 240)
+animSetPos(darkenInAnim, -54, 0)
+animSetScale(darkenInAnim, 427, 240)
 
 --Transparent Background (fade out)
-darkenOut = animNew(sysSff, [[
+darkenOutAnim = animNew(sysSff, [[
 300,1, 0,0, 1, 0, AS256D117
 300,1, 0,0, 1, 0, AS256D132
 300,1, 0,0, 1, 0, AS256D148
@@ -286,8 +296,8 @@ darkenOut = animNew(sysSff, [[
 300,1, 0,0, 1, 0, AS256D240
 300,1, 0,0, -1, 0, AS256D256
 ]])
-animSetPos(darkenOut, -54, 0)
-animSetScale(darkenOut, 427, 240)
+animSetPos(darkenOutAnim, -54, 0)
+animSetScale(darkenOutAnim, 427, 240)
 
 --Transparent background
 pauseBG1 = animNew(sysSff, [[
@@ -376,7 +386,7 @@ end
 
 pauseMenuActive = false
 mainMenuBack = false
-rectScale = -1
+delayMenu = -1
 pauseMode = ''
 PcursorPosY = 1
 PmoveTxt = 0
@@ -410,7 +420,7 @@ end
 function f_pauseMenuReset()
 	togglePauseMenu(0)
 	setSysCtrl(0)
-	rectScale = -1
+	delayMenu = -1
 	pauseMode = ''
 	bufl = 0
 	bufr = 0
@@ -421,7 +431,7 @@ function f_gameCfgMenuReset()
 	cursorPosY = 1
 	moveTxt = 0
 	mainGoTo = 'Settings'
-	rectScale = -10
+	delayMenu = -2
 end
 
 function f_gameCfgMenuReset2()
@@ -429,7 +439,7 @@ function f_gameCfgMenuReset2()
 	gameCfg = 1
 	cursorPosY = 1
 	moveTxt = 0
-	rectScale = 0
+	delayMenu = 0
 end
 
 function f_confirmReset()
@@ -453,12 +463,12 @@ function f_pauseMain(p, st, esc)
 		end
 		exitMatch()
 	end
-	if pauseMenuActive == false and rectScale == -1 then
+	if pauseMenuActive == false and delayMenu == -1 then
 		animReset(darkenIn)
 		animUpdate(darkenIn)
 		pauseMenuActive = true
 		sndPlay(sysSnd, 100, 1)
-		rectScale = 0
+		delayMenu = 0
 	end
 	cmdInput()
 	if pauseMode == '' or mainGoTo ~= '' then
@@ -472,27 +482,27 @@ function f_pauseMain(p, st, esc)
 			if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
 		end
 		--RESUME GAME
-		if (escape or start or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and rectScale == 10 then
+		if (escape or start or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and (pauseMenu == 1 or hide))) and delayMenu == 2 then
 			sndPlay(sysSnd, 100, 2)
 			animReset(darkenOut)
 			animUpdate(darkenOut)
 			pauseMenuActive = false
 		end
-		if pauseMenuActive == true and rectScale < 10 then
-			rectScale = rectScale + 1
+		if pauseMenuActive == true and delayMenu < 2 then --To delay Menu Fade In
+			delayMenu = delayMenu + 1
 			animUpdate(darkenIn)
-		elseif pauseMenuActive == false and rectScale > 0 then
-			rectScale = rectScale - 1
+		elseif pauseMenuActive == false and delayMenu > 0 then --To delay Menu Fade Out
+			delayMenu = delayMenu - 1
 			animUpdate(darkenOut)
 		end
-		if pauseMenuActive == false and rectScale == 0 then
+		if pauseMenuActive == false and delayMenu == 0 then
 			togglePauseMenu(0)
 			if hide then
 				togglePause()
 				hide = false
 			end
 			setSysCtrl(0)
-			rectScale = -1
+			delayMenu = -1
 			return
 		end
 		if pauseMenuActive then
@@ -500,12 +510,12 @@ function f_pauseMain(p, st, esc)
 		else
 			animDraw(darkenOut)
 		end
-		if rectScale == -1 and mainGoTo ~= '' then
-			rectScale = 0
+		if delayMenu == -1 and mainGoTo ~= '' then
+			delayMenu = 0
 			pauseMode = mainGoTo
 			mainGoTo = ''
 		end
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			setSysCtrl(10)
 			if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
 				sndPlay(sysSnd, 100, 0)
@@ -531,7 +541,7 @@ function f_pauseMain(p, st, esc)
 								mainMenuBack = true
 								data.replayDone = true
 							end
-							rectScale = -10
+							delayMenu = -2
 						end
 					end
 				--Actions in rest of Game Modes
@@ -552,7 +562,7 @@ function f_pauseMain(p, st, esc)
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
 								mainGoTo = 'Confirm'
-								rectScale = -10
+								delayMenu = -2
 							end
 						--EXIT TO MAIN MENU
 						elseif pauseMenu == 6 then
@@ -560,7 +570,7 @@ function f_pauseMain(p, st, esc)
 							f_confirmReset()
 							mainGoTo = 'Confirm'
 							mainMenuBack = true
-							rectScale = -10
+							delayMenu = -2
 						--TRAINING SETTINGS
 						elseif pauseMenu == 7 then
 							sndPlay(sysSnd, 100, 1)
@@ -568,7 +578,7 @@ function f_pauseMain(p, st, esc)
 							cursorPosY = 1
 							moveTxt = 0
 							mainGoTo = 'Training'
-							rectScale = -10
+							delayMenu = -2
 						end
 					end
 				end
@@ -721,7 +731,7 @@ function f_pauseConfirm()
 		end
 	end
 	if pauseMode == 'Confirm' or okGoTo ~= '' then
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			if start then
 				sndPlay(sysSnd, 100, 2)
 				animReset(darkenOut)
@@ -732,18 +742,18 @@ function f_pauseConfirm()
 			--BACK/NO ACTION
 			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == #t_confirmPause) then
 				sndPlay(sysSnd, 100, 2)
-				rectScale = -10
+				delayMenu = -2
 				bufl = 0
 				bufr = 0
 			end
 		end
-		if pauseMenuActive == true and rectScale < 10 then
-			rectScale = rectScale + 1
-		elseif pauseMenuActive == false and rectScale > 0 then
-			rectScale = rectScale - 1
-			animUpdate(darkenOut)
+		if pauseMenuActive == true and delayMenu < 2 then
+			delayMenu = delayMenu + 1
+		elseif pauseMenuActive == false and delayMenu > 0 then
+			delayMenu = delayMenu - 1
+			--animUpdate(darkenOut)
 		end
-		if pauseMenuActive == false and rectScale == 0 then
+		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
 		end
@@ -752,16 +762,16 @@ function f_pauseConfirm()
 		else
 			animDraw(darkenOut)
 		end
-		if rectScale == -1 then
+		if delayMenu == -1 then
 			if okGoTo == nil or okGoTo == '' then
 				pauseMode = ''
 			else
 				pauseMode = okGoTo
 				okGoTo = ''
 			end
-			rectScale = 0
+			delayMenu = 0
 		end
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 2 and commandGetState(p2Cmd, 'u')) then
 				sndPlay(sysSnd, 100, 0)
 				confirmPause = confirmPause - 1
@@ -851,7 +861,7 @@ function f_pauseSettings()
 	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 1, 0, 'GAME SETTINGS [P2]', 159, 63)
 	end
 	if pauseMode == 'Settings' or cfgGoTo ~= '' then
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			if start then
 				sndPlay(sysSnd, 100, 2)
 				animReset(darkenOut)
@@ -862,18 +872,19 @@ function f_pauseSettings()
 			--BACK
 			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and gameCfg == #t_gameCfg) then
 				sndPlay(sysSnd, 100, 2)
-				rectScale = -10
+				delayMenu = -2
 				bufl = 0
 				bufr = 0
 			end
 		end
-		if pauseMenuActive == true and rectScale < 10 then
-			rectScale = rectScale + 1
-		elseif pauseMenuActive == false and rectScale > 0 then
-			rectScale = rectScale - 1
-			animUpdate(darkenOut)
+		if pauseMenuActive == true and delayMenu < 2 then
+			delayMenu = delayMenu + 1
+			--animUpdate(darkenIn)
+		elseif pauseMenuActive == false and delayMenu > 0 then
+			delayMenu = delayMenu - 1
+			--animUpdate(darkenOut)
 		end
-		if pauseMenuActive == false and rectScale == 0 then
+		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
 		end
@@ -882,16 +893,16 @@ function f_pauseSettings()
 		else
 			animDraw(darkenOut)
 		end
-		if rectScale == -1 then
+		if delayMenu == -1 then
 			if cfgGoTo == nil or cfgGoTo == '' then
 				pauseMode = ''
 			else
 				pauseMode = cfgGoTo
 				cfgGoTo = ''
 			end
-			rectScale = 0
+			delayMenu = 0
 		end
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
 				sndPlay(sysSnd, 100, 0)
 				gameCfg = gameCfg - 1
@@ -911,7 +922,7 @@ function f_pauseSettings()
 					audioCfg = 1
 					cursorPosY = 1
 					moveTxt = 0
-					rectScale = -10
+					delayMenu = -2
 				--Input Settings
 				elseif gameCfg == 2 then
 					sndPlay(sysSnd, 100, 5)
@@ -923,7 +934,7 @@ function f_pauseSettings()
 					cursorPosY = 1
 					moveTxt = 0
 					f_soundPage1()
-					rectScale = -10
+					delayMenu = -2
 				end
 			end
 			--HUD Status
@@ -1051,7 +1062,7 @@ function f_pauseAudio()
 	if pn == 1 then txt_audioCfg = createTextImg(jgFnt, 5, 0, 'AUDIO SETTINGS [P1]', 159, 63)
 	elseif pn == 2 then txt_audioCfg = createTextImg(jgFnt, 1, 0, 'AUDIO SETTINGS [P2]', 159, 63)
 	end
-	if rectScale == 10 then
+	if delayMenu == 2 then
 		if start then
 			sndPlay(sysSnd, 100, 2)
 			animReset(darkenOut)
@@ -1062,19 +1073,19 @@ function f_pauseAudio()
 			if modified then f_saveCfg() end
 		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and audioCfg == #t_audioCfg) then
 			sndPlay(sysSnd, 100, 2)
-			rectScale = -10
+			delayMenu = -2
 			bufl = 0
 			bufr = 0
 		if modified then f_saveCfg() end
 		end
 	end
-	if pauseMenuActive == true and rectScale < 10 then
-		rectScale = rectScale + 1
-	elseif pauseMenuActive == false and rectScale > 0 then
-		rectScale = rectScale - 1
-		animUpdate(darkenOut)
+	if pauseMenuActive == true and delayMenu < 2 then
+		delayMenu = delayMenu + 1
+	elseif pauseMenuActive == false and delayMenu > 0 then
+		delayMenu = delayMenu - 1
+		--animUpdate(darkenOut)
 	end
-	if pauseMenuActive == false and rectScale == 0 then
+	if pauseMenuActive == false and delayMenu == 0 then
 		f_pauseMenuReset()
 		return
 	end
@@ -1083,8 +1094,8 @@ function f_pauseAudio()
 	else
 		animDraw(darkenOut)
 	end
-	if rectScale == -1 then f_gameCfgMenuReset2() end
-	if rectScale == 10 then
+	if delayMenu == -1 then f_gameCfgMenuReset2() end
+	if delayMenu == 2 then
 		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
 			sndPlay(sysSnd, 100, 0)
 			audioCfg = audioCfg - 1
@@ -1277,7 +1288,7 @@ function f_pauseSongs()
 	if pn == 1 then txt_songMenu = createTextImg(jgFnt, 5, 0, 'SONG SELECT [P1]', 159, 63)
 	elseif pn == 2 then txt_songMenu = createTextImg(jgFnt, 1, 0, 'SONG SELECT [P2]', 159, 63)
 	end
-	if rectScale == 10 then
+	if delayMenu == 2 then
 		if start then
 			sndPlay(sysSnd, 100, 2)
 			animReset(darkenOut)
@@ -1288,18 +1299,18 @@ function f_pauseSongs()
 		--BACK
 		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and songMenu == #t_songList) then
 			sndPlay(sysSnd, 100, 2)
-			rectScale = -10
+			delayMenu = -2
 			bufl = 0
 			bufr = 0
 		end
 	end
-	if pauseMenuActive == true and rectScale < 10 then
-		rectScale = rectScale + 1
-	elseif pauseMenuActive == false and rectScale > 0 then
-		rectScale = rectScale - 1
-		animUpdate(darkenOut)
+	if pauseMenuActive == true and delayMenu < 2 then
+		delayMenu = delayMenu + 1
+	elseif pauseMenuActive == false and delayMenu > 0 then
+		delayMenu = delayMenu - 1
+		--animUpdate(darkenOut)
 	end
-	if pauseMenuActive == false and rectScale == 0 then
+	if pauseMenuActive == false and delayMenu == 0 then
 		f_pauseMenuReset()
 		return
 	end
@@ -1308,8 +1319,8 @@ function f_pauseSongs()
 	else
 		animDraw(darkenOut)
 	end
-	if rectScale == -1 then f_gameCfgMenuReset2() end
-	if rectScale == 10 then
+	if delayMenu == -1 then f_gameCfgMenuReset2() end
+	if delayMenu == 2 then
 		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
 			sndPlay(sysSnd, 100, 0)
 			songMenu = songMenu - 1
@@ -1437,7 +1448,7 @@ function f_pauseTraining()
 	elseif pn == 2 then txt_trainingCfg = createTextImg(jgFnt, 1, 0, 'TRAINING SETTINGS [P2]', 159, 63)
 	end
 	if pauseMode == 'Training' or trainingGoTo ~= '' then
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			if start then
 				sndPlay(sysSnd, 100, 2)
 				animReset(darkenOut)
@@ -1448,18 +1459,18 @@ function f_pauseTraining()
 			--BACK
 			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and trainingCfg == #t_trainingCfg) then
 				sndPlay(sysSnd, 100, 2)
-				rectScale = -10
+				delayMenu = -2
 				bufl = 0
 				bufr = 0
 			end
 		end
-		if pauseMenuActive == true and rectScale < 10 then
-			rectScale = rectScale + 1
-		elseif pauseMenuActive == false and rectScale > 0 then
-			rectScale = rectScale - 1
-			animUpdate(darkenOut)
+		if pauseMenuActive == true and delayMenu < 2 then
+			delayMenu = delayMenu + 1
+		elseif pauseMenuActive == false and delayMenu > 0 then
+			delayMenu = delayMenu - 1
+			--animUpdate(darkenOut)
 		end
-		if pauseMenuActive == false and rectScale == 0 then
+		if pauseMenuActive == false and delayMenu == 0 then
 			f_pauseMenuReset()
 			return
 		end
@@ -1468,16 +1479,16 @@ function f_pauseTraining()
 		else
 			animDraw(darkenOut)
 		end
-		if rectScale == -1 then
+		if delayMenu == -1 then
 			if trainingGoTo == nil or trainingGoTo == '' then
 				pauseMode = ''
 			else
 				pauseMode = trainingGoTo
 				trainingGoTo = ''
 			end
-			rectScale = 0
+			delayMenu = 0
 		end
-		if rectScale == 10 then
+		if delayMenu == 2 then
 			if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
 				sndPlay(sysSnd, 100, 0)
 				trainingCfg = trainingCfg - 1

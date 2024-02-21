@@ -86,6 +86,10 @@ function f_p2sideReset()
 p2Cell = nil
 p2Portrait = nil
 p2memberPreview = nil
+p2member1Random = false
+p2member2Random = false
+p2member3Random = false
+p2member4Random = false
 data.t_p2selected = {}
 p2palEnd = true
 p2TeamEnd = false
@@ -111,6 +115,7 @@ p1song = false
 p2song = false
 stageAnnouncer = false
 announcerTimer = 0
+randomStageRematch = false
 end
 
 function f_selectReset()
@@ -386,7 +391,7 @@ function f_makeRoster()
 			end
 		end
 	end
-	f_printTable(t_roster, 'save/debug/t_roster.txt')
+	if data.debugLog then f_printTable(t_roster, 'save/debug/t_roster.txt') end
 end
 
 function f_aiRamp()
@@ -450,7 +455,7 @@ function f_aiRamp()
 			t_aiRamp[#t_aiRamp+1] = endAI
 		end
 	end
-	f_printTable(t_aiRamp, 'save/debug/t_aiRamp.txt')
+	if data.debugLog then f_printTable(t_aiRamp, 'save/debug/t_aiRamp.txt') end
 end
 
 function f_difficulty(player, offset)
@@ -808,14 +813,12 @@ function f_backMenu()
 					data.t_p2selected = {}
 					p2palEnd = true
 					p2SelEnd = false
-					--randomP2Rematch = false --Delete?
 				else
 					p1Cell = nil
 					p1Portrait = nil
 					data.t_p1selected = {}
 					p1palEnd = true
 					p1SelEnd = false
-					--randomP1Rematch = false --Delete?
 				end
 				if data.coop then
 					p2Cell = nil
@@ -925,14 +928,7 @@ function f_selectSimple()
 				--BACK TO STAGE SELECT
 				elseif battleOption == 3 or battleOption2 == 3 then
 					playBGM(bgmSelect)
-					if randomP1Rematch == true then--if getCharName(p1Cell) == 'Random' then
-						data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						data.t_p1selected[1].pal = math.random(1,12)
-					end
-					if randomP2Rematch == true then--if getCharName(p2Cell) == 'Random' then
-						data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						data.t_p2selected[1].pal = math.random(1,12)
-					end
+					f_randomRematch()
 					f_stageSelectReset()
 					--selectStart()
 					selScreenEnd = false
@@ -999,14 +995,7 @@ function f_selectSimple()
 					rematchEnd = false
 					battleOption = 0 --Reset Rematch Battle Option
 					battleOption2 = 0
-					if randomP1Rematch == true then--if getCharName(p1Cell) == 'Random' then
-						data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						data.t_p1selected[1].pal = math.random(1,12)
-					end
-					if randomP2Rematch == true then--if getCharName(p2Cell) == 'Random' then
-						data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
-						data.t_p2selected[1].pal = math.random(1,12)
-					end
+					f_randomRematch()
 					f_loadStage()
 					f_loadSong()
 				end
@@ -2096,10 +2085,10 @@ p1randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
 p1randomSprite = animNew(sysSff, [[151,2, 0,0,]])
 
 --P2 Random Portrait
-p2randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
+p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
 
 --P2 Random Sprite
-p2randomSprite = animNew(sysSff, [[151,2, 0,0,]])
+p2randomSprite = animNew(sysSff, [[151,2, -120,0,]])
 
 --P1 active cursor
 p1ActiveCursor = animNew(sysSff, [[
@@ -2805,7 +2794,7 @@ function f_p1SelectMenu()
 			else
 				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 			end
-			f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt')
+			if data.debugLog then f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt') end
 		end
 		p1Portrait = data.p1Char[1]
 		--local numChars = p1numChars
@@ -3791,7 +3780,7 @@ function f_p1SelectMenu()
 			elseif selectTimer == 0 then
 				f_p1Selection()
 			end
-			f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt')
+			if data.debugLog then f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt') end
 		end
 	end
 end
@@ -4183,7 +4172,7 @@ function f_p2SelectMenu()
 			else
 				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 			end
-			f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt')
+			if data.debugLog then f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt') end
 		end
 		p2Portrait = data.p2Char[1]
 		--local numChars = p2numChars
@@ -4217,94 +4206,201 @@ function f_p2SelectMenu()
 				end
 				if getCharName(p2Cell) == 'Random' then
 					--sndPlay(sysSnd, 100, 0)
-					if data.charPresentation == 'Portrait' then
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 						--drawPortrait(t_randomChars[math.random(#t_randomChars)], 320 - 60*(#t_selected-1), 20, -1, 1)
 						if p2numChars == 1 then
-							drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
+							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								f_drawQuickSpr(p2randomPortrait, 320, 20)
+							elseif data.randomPortrait == 'Roulette' then
+								drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
+							end
 						elseif p2numChars == 2 then
 							if data.coop then
-								drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 1, 0.5)
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									if data.charPresentation == 'Portrait' then
+										f_drawQuickSpr(p2randomPortrait, 0, 90, 1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										f_drawQuickSpr(p2randomPortrait, 0, 90, 0.5, 0.5)
+									end
+								elseif data.randomPortrait == 'Roulette' then
+									if data.charPresentation == 'Portrait' then
+										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
+									end
+								end
 							else
-								if p2memberPreview == 1 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5) end
-								if p2memberPreview == 2 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -1, 0.5) end
+								if p2memberPreview == 1 then
+									if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+										if data.charPresentation == 'Portrait' then
+											f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
+										end
+									elseif data.randomPortrait == 'Roulette' then
+										if data.charPresentation == 'Portrait' then
+											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5)
+										end
+									end
+								end
+								if p2memberPreview == 2 then
+									if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+										if data.charPresentation == 'Portrait' then
+											f_drawQuickSpr(p2randomPortrait, 320, 90, 1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
+										end
+									elseif data.randomPortrait == 'Roulette' then
+										if data.charPresentation == 'Portrait' then
+											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
+										end
+									end
+								end
 							end
 						elseif p2numChars == 3 then
-							if p2memberPreview == 1 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5) end
-							if p2memberPreview == 2 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5) end
-							if p2memberPreview == 3 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5) end
+							if p2memberPreview == 1 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									if data.charPresentation == 'Portrait' then
+										f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										f_drawQuickSpr(p2randomPortrait, 290, 20, 0.5, 0.5)
+									end
+								elseif data.randomPortrait == 'Roulette' then
+									if data.charPresentation == 'Portrait' then
+										drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										drawPortrait(t_randomChars[math.random(#t_randomChars)], 290, 20, -0.5, 0.5)
+									end
+								end
+							end
+							if p2memberPreview == 2 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
+								elseif data.randomPortrait == 'Roulette' then
+									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
+								end
+							end
+							if p2memberPreview == 3 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
+								elseif data.randomPortrait == 'Roulette' then
+									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
+								end
+							end
 						elseif p2numChars == 4 then
-							if p2memberPreview == 1 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5) end
-							if p2memberPreview == 2 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 20, -0.5, 0.5) end
-							if p2memberPreview == 3 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5) end
-							if p2memberPreview == 4 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5) end
+							if p2memberPreview == 1 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
+								elseif data.randomPortrait == 'Roulette' then
+									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5)
+								end
+							end
+							if p2memberPreview == 2 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomPortrait, 260, 20, 0.5, 0.5)
+								elseif data.randomPortrait == 'Roulette' then
+									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 20, -0.5, 0.5)
+								end
+							end
+							if p2memberPreview == 3 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
+								elseif data.randomPortrait == 'Roulette' then
+									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
+								end
+							end
+							if p2memberPreview == 4 then
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
+								elseif data.randomPortrait == 'Roulette' then
+									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
+								end
+							end
 						--else
-							--drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
+							--if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								--f_drawQuickSpr(p2randomPortrait, 195, 36, 0.5, 0.5)
+							--elseif data.randomPortrait == 'Roulette' then
+								--drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
+							--end
 						end
-					elseif data.charPresentation == 'Sprite' then
-						if data.coop then
-							f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 68, 164, true) --p1AnimStand because sprite animation will see to right
-						else
-							f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
-						end
-					elseif data.charPresentation == 'Mixed' then
-						if p2numChars == 1 then
-							drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
-						elseif p2numChars == 2 then
+					elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+						if data.charPresentation == 'Sprite' then
 							if data.coop then
-								drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
+								f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 68, 164, true) --p1AnimStand because sprite animation will see to right
 							else
-								if p2memberPreview == 1 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5) end
-								if p2memberPreview == 2 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5) end
+								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+									f_drawQuickSpr(p2randomSprite, 260 - 28*#t_selected, 75)
+								elseif data.randomPortrait == 'Roulette' then
+									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
+								end
 							end
-						elseif p2numChars == 3 then
-							if p2memberPreview == 1 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 290, 20, -0.5, 0.5) end
-							if p2memberPreview == 2 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5) end
-							if p2memberPreview == 3 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5) end
-						elseif p2numChars == 4 then
-							if p2memberPreview == 1 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5) end
-							if p2memberPreview == 2 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 20, -0.5, 0.5) end
-							if p2memberPreview == 3 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5) end
-							if p2memberPreview == 4 then drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5) end
-						--else
-							--drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
-						end
-						if p2numChars == 1 then
-							f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 290, 158, true)
-						elseif p2numChars == 2 then
-							if data.coop then
-								f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
-							else
-								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
-								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
+						elseif data.charPresentation == 'Mixed' then
+							if data.randomPortrait == 'Roulette' then
+								if p2numChars == 1 then
+									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 290, 158, true)
+								elseif p2numChars == 2 then
+									if data.coop then
+										f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
+									else
+										if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
+										if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
+									end
+								elseif p2numChars == 3 then
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+								elseif p2numChars == 4 then
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
+									if p2memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+									if p2memberPreview == 4 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
+								--else
+									--f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
+								end
 							end
-						elseif p2numChars == 3 then
-							if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
-							if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-							if p2memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
-						elseif p2numChars == 4 then
-							if p2memberPreview == 1 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
-							if p2memberPreview == 2 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
-							if p2memberPreview == 3 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-							if p2memberPreview == 4 then f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
-						--else
-							--f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 						end
 					end
 				else
-					if data.charPresentation == 'Portrait' then
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 						if p2Portrait then --To avoid issues when draw Portrait after continue/service screen
 							--drawPortrait(p2Portrait, 320 - 60*(#t_selected-1), 20, -1, 1)
 							if p2numChars == 1 then
 								drawPortrait(p2Portrait, 320, 20, -1, 1)
 							elseif p2numChars == 2 then
 								if data.coop then
-									drawPortrait(p2Portrait, 0, 90, 1, 0.5)
+									if data.charPresentation == 'Portrait' then
+										drawPortrait(p2Portrait, 0, 90, 1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										drawPortrait(p2Portrait, 0, 90, -0.5, 0.5)
+									end
 								else
-									if p2memberPreview == 1 then drawPortrait(p2Portrait, 320, 20, -1, 0.5) end
-									if p2memberPreview == 2 then drawPortrait(p2Portrait, 320, 90, -1, 0.5) end
+									if p2memberPreview == 1 then
+										if data.charPresentation == 'Portrait' then
+											drawPortrait(p2Portrait, 320, 20, -1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											drawPortrait(p2Portrait, 320, 20, -0.5, 0.5)
+										end
+									end
+									if p2memberPreview == 2 then
+										if data.charPresentation == 'Portrait' then
+											drawPortrait(p2Portrait, 320, 90, -1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											drawPortrait(p2Portrait, 320, 90, -0.5, 0.5)
+										end
+									end
 								end
 							elseif p2numChars == 3 then
-								if p2memberPreview == 1 then drawPortrait(p2Portrait, 320, 20, -1, 0.5) end
+								if p2memberPreview == 1 then
+									if data.charPresentation == 'Portrait' then
+										drawPortrait(p2Portrait, 320, 20, -1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										drawPortrait(p2Portrait, 290, 20, -0.5, 0.5)
+									end
+								end
 								if p2memberPreview == 2 then drawPortrait(p2Portrait, 320, 90, -0.5, 0.5) end
 								if p2memberPreview == 3 then drawPortrait(p2Portrait, 260, 90, -0.5, 0.5) end
 							elseif p2numChars == 4 then
@@ -4316,177 +4412,487 @@ function f_p2SelectMenu()
 								--drawPortrait(p2Portrait, 195, 36, -0.5, 0.5)
 							end
 						end
-					elseif data.charPresentation == 'Sprite' then
-						if data.coop then
-							f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 68, 164, true)
-						else
-							f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
-						end
-					elseif data.charPresentation == 'Mixed' then
-						if p2Portrait then
+					elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+						if data.charPresentation == 'Sprite' then
+							if data.coop then
+								f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 68, 164, true)
+							else
+								f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
+							end
+						elseif data.charPresentation == 'Mixed' then
 							if p2numChars == 1 then
-								drawPortrait(p2Portrait, 320, 20, -1, 1)
+								f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290, 158, true, 1, 1)
 							elseif p2numChars == 2 then
 								if data.coop then
-									drawPortrait(p2Portrait, 0, 90, 0.5, 0.5)
+									f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
 								else
-									if p2memberPreview == 1 then drawPortrait(p2Portrait, 320, 20, -0.5, 0.5) end
-									if p2memberPreview == 2 then drawPortrait(p2Portrait, 320, 90, -0.5, 0.5) end
+									if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
+									if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
 								end
 							elseif p2numChars == 3 then
-								if p2memberPreview == 1 then drawPortrait(p2Portrait, 290, 20, -0.5, 0.5) end
-								if p2memberPreview == 2 then drawPortrait(p2Portrait, 320, 90, -0.5, 0.5) end
-								if p2memberPreview == 3 then drawPortrait(p2Portrait, 260, 90, -0.5, 0.5) end
+								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
+								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+								if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 							elseif p2numChars == 4 then
-								if p2memberPreview == 1 then drawPortrait(p2Portrait, 320, 20, -0.5, 0.5) end
-								if p2memberPreview == 2 then drawPortrait(p2Portrait, 260, 20, -0.5, 0.5) end
-								if p2memberPreview == 3 then drawPortrait(p2Portrait, 320, 90, -0.5, 0.5) end
-								if p2memberPreview == 4 then drawPortrait(p2Portrait, 260, 90, -0.5, 0.5) end
+								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
+								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
+								if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
+								if p2memberPreview == 4 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
 							--else
-								--drawPortrait(p2Portrait, 195, 36, -0.5, 0.5)
+								--f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 							end
-						end
-						if p2numChars == 1 then
-							f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290, 158, true, 1, 1)
-						elseif p2numChars == 2 then
-							if data.coop then
-								f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 90, 158, true, 0.5, 0.5)
-							else
-								if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 230, 90, true, 0.5, 0.5) end
-								if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 230, 158, true, 0.5, 0.5) end
-							end
-						elseif p2numChars == 3 then
-							if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280, 89, true, 0.5, 0.5) end
-							if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-							if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
-						elseif p2numChars == 4 then
-							if p2memberPreview == 1 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 89, true, 0.5, 0.5) end
-							if p2memberPreview == 2 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 89, true, 0.5, 0.5) end
-							if p2memberPreview == 3 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 310, 158, true, 0.5, 0.5) end
-							if p2memberPreview == 4 then f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 250, 158, true, 0.5, 0.5) end
-						--else
-							--f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 						end
 					end
 				end
 			end
 			for j=#t_selected, 1, -1 do
 				if not exclusiveStageMenu then
-					if data.charPresentation == 'Portrait' then
+					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 						--drawPortrait(t_selected[j].cel, 320 - 60*(j-1), 20, -1, 1)
 						if p2numChars == 1 then
-							drawPortrait(t_selected[1].cel, 320, 20, -1, 1)
+							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								f_drawQuickSpr(p2randomPortrait, 320, 20)
+							else
+								drawPortrait(t_selected[1].cel, 320, 20, -1, 1)
+							end
 						elseif p2numChars == 2 then
 							if data.coop then
 								drawPortrait(data.t_p1selected[2].cel, 0, 90, 1, 0.5)
 							else
-								if j == 2 then drawPortrait(t_selected[2].cel, 320, 90, -1, 0.5) end
-								drawPortrait(t_selected[1].cel, 320, 20, -1, 0.5)
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										if data.charPresentation == 'Portrait' then
+											f_drawQuickSpr(p2randomPortrait, 320, 90, 1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
+										end
+									else
+										if data.charPresentation == 'Portrait' then
+											drawPortrait(t_selected[2].cel, 320, 90, -1, 0.5)
+										elseif data.charPresentation == 'Mixed' then
+											drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5)
+										end
+									end
+								end
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									if data.charPresentation == 'Portrait' then
+										f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
+									end
+								else
+									if data.charPresentation == 'Portrait' then
+										drawPortrait(t_selected[1].cel, 320, 20, -1, 0.5)
+									elseif data.charPresentation == 'Mixed' then
+										drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
+									end
+								end
 							end
 						elseif p2numChars == 3 then
-							if j == 3 then drawPortrait(t_selected[3].cel, 260, 90, -0.5, 0.5) end
-							if j == 2 then drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5) end
-							drawPortrait(t_selected[1].cel, 320, 20, -1, 0.5)
-						elseif p2numChars == 4 then
-							if j == 4 then drawPortrait(t_selected[4].cel, 260, 90, -0.5, 0.5) end
-							if j == 3 then drawPortrait(t_selected[3].cel, 320, 90, -0.5, 0.5) end
-							if j == 2 then drawPortrait(t_selected[2].cel, 260, 20, -0.5, 0.5) end
-							drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
-						end
-						if p2numChars == 1 then
-							f_drawSelectName(txt_p2Name, t_selected[1], 310, 165)
-						elseif p2numChars == 2 then
-							if data.coop then
-								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 116, 100)
-							else
-								if j == 2 then f_drawSelectName(txt_p2Name, t_selected[2], 318, 100) end
-								f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
+							if j == 3 then
+								if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
+								else
+									drawPortrait(t_selected[3].cel, 260, 90, -0.5, 0.5)
+								end
 							end
-						elseif p2numChars == 3 then
-							if j == 3 then f_drawSelectName(txt_p2Name, t_selected[3], 254, 100, 0.5, 0.5) end
-							if j == 2 then f_drawSelectName(txt_p2Name, t_selected[2], 320, 100, 0.5, 0.5) end
-							f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
-						elseif p2numChars == 4 then
-							if j == 4 then f_drawSelectName(txt_p2Name, t_selected[4], 254, 100, 0.5, 0.5) end
-							if j == 3 then f_drawSelectName(txt_p2Name, t_selected[3], 320, 100, 0.5, 0.5) end
-							if j == 2 then f_drawSelectName(txt_p2Name, t_selected[2], 254, 30, 0.5, 0.5) end
-							f_drawSelectName(txt_p2Name, t_selected[1], 320, 30, 0.5, 0.5)
-						end
-					elseif data.charPresentation == 'Sprite' then
-						if data.coop then
-							f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
-						else
-							f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 280 - 28*(j-1), 164, t_selected[j].up, 1, 1, 200)
-						end
-					elseif data.charPresentation == 'Mixed' then
-						if p2numChars == 1 then
-							drawPortrait(t_selected[1].cel, 320, 20, -1, 1)
-						elseif p2numChars == 2 then
-							if data.coop then
-								drawPortrait(data.t_p1selected[2].cel, 0, 90, 0.5, 0.5)
+							if j == 2 then
+								if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
+								else
+									drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5)
+								end
+							end
+							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								if data.charPresentation == 'Portrait' then
+									f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
+								elseif data.charPresentation == 'Mixed' then
+									f_drawQuickSpr(p2randomPortrait, 290, 20, -0.5, 0.5)
+								end
 							else
-								if j == 2 then drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5) end
+								if data.charPresentation == 'Portrait' then
+									drawPortrait(t_selected[1].cel, 320, 20, -1, 0.5)
+								elseif data.charPresentation == 'Mixed' then
+									drawPortrait(t_selected[1].cel, 290, 20, -0.5, 0.5)
+								end
+							end
+						elseif p2numChars == 4 then
+							if j == 4 then
+								if data.randomPortrait == 'Fixed' and p2member4Random == true then
+									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
+								else
+									drawPortrait(t_selected[4].cel, 260, 90, -0.5, 0.5)
+								end
+							end
+							if j == 3 then
+								if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
+								else
+									drawPortrait(t_selected[3].cel, 320, 90, -0.5, 0.5)
+								end
+							end
+							if j == 2 then
+								if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									f_drawQuickSpr(p2randomPortrait, 260, 20, 0.5, 0.5)
+								else
+									drawPortrait(t_selected[2].cel, 260, 20, -0.5, 0.5)
+								end
+							end
+							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
+							else
 								drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
 							end
-						elseif p2numChars == 3 then
-							if j == 3 then drawPortrait(t_selected[3].cel, 260, 90, -0.5, 0.5) end
-							if j == 2 then drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5) end
-							drawPortrait(t_selected[1].cel, 290, 20, -0.5, 0.5)
-						elseif p2numChars == 4 then
-							if j == 4 then drawPortrait(t_selected[4].cel, 260, 90, -0.5, 0.5) end
-							if j == 3 then drawPortrait(t_selected[3].cel, 320, 90, -0.5, 0.5) end
-							if j == 2 then drawPortrait(t_selected[2].cel, 260, 20, -0.5, 0.5) end
-							drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
 						end
-						if p2numChars == 1 then
-							f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, 200)
-						elseif p2numChars == 2 then
+					elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+						if data.charPresentation == 'Sprite' then
 							if data.coop then
-								f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
+								f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
 							else
-								if j == 2 then f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, 200) end
-								f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, 200)
+								if j == 4 then
+									if data.randomPortrait == 'Fixed' and p2member4Random == true then
+										f_drawQuickSpr(p2randomSprite, 216, 75)
+									else
+										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, 200)
+									end
+								end
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+										f_drawQuickSpr(p2randomSprite, 244, 75)
+									else
+										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, 200)
+									end
+								end
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										f_drawQuickSpr(p2randomSprite, 272, 75)
+									else
+										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, 200)
+									end
+								end
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									f_drawQuickSpr(p2randomSprite, 300, 75)
+								else
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, 200)
+								end
+								--f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 280 - 28*(j-1), 164, t_selected[j].up, 1, 1, 200)
 							end
-						elseif p2numChars == 3 then
-							if j == 3 then f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, 200) end
-							if j == 2 then f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, 200) end
-							f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, 200)
-						elseif p2numChars == 4 then
-							if j == 4 then f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, 200) end
-							if j == 3 then f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, 200) end
-							if j == 2 then f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, 200) end
-							f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, 200)
-						end
-						if p2numChars == 1 then
-							f_drawSelectName(txt_p2Name, t_selected[1], 310, 165)
-						elseif p2numChars == 2 then
-							if data.coop then
-								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 116, 100, 0.5, 0.5)
-							else
-								if j == 2 then f_drawSelectName(txt_p2Name, t_selected[2], 254, 100, 0.5, 0.5) end
-								f_drawSelectName(txt_p2Name, t_selected[1], 254, 30, 0.5, 0.5)
+						elseif data.charPresentation == 'Mixed' then
+							if p2numChars == 1 then
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
+								else
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, 200)
+								end
+							elseif p2numChars == 2 then
+								if data.coop then
+									f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
+								else
+									if j == 2 then
+										if data.randomPortrait == 'Fixed' and p2member2Random == true then
+											
+										else
+											f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, 200)
+										end
+									end
+									if data.randomPortrait == 'Fixed' and p2member1Random == true then
+										
+									else
+										f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, 200)
+									end
+								end
+							elseif p2numChars == 3 then
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+										
+									else
+										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, 200)
+									end
+								end
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										
+									else
+										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, 200)
+									end
+								end
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									
+								else
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, 200)
+								end
+							elseif p2numChars == 4 then
+								if j == 4 then
+									if data.randomPortrait == 'Fixed' and p2member4Random == true then
+										
+									else
+										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, 200)
+									end
+								end
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+										
+									else
+										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, 200)
+									end
+								end
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										
+									else
+										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, 200)
+									end
+								end
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									
+								else
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, 200)
+								end
 							end
-						elseif p2numChars == 3 then
-							if j == 3 then f_drawSelectName(txt_p2Name, t_selected[3], 254, 100, 0.5, 0.5) end
-							if j == 2 then f_drawSelectName(txt_p2Name, t_selected[2], 320, 100, 0.5, 0.5) end
-							f_drawSelectName(txt_p2Name, t_selected[1], 290, 30, 0.5, 0.5)
-						elseif p2numChars == 4 then
-							if j == 4 then f_drawSelectName(txt_p2Name, t_selected[4], 254, 100, 0.5, 0.5) end
-							if j == 3 then f_drawSelectName(txt_p2Name, t_selected[3], 320, 100, 0.5, 0.5) end
-							if j == 2 then f_drawSelectName(txt_p2Name, t_selected[2], 254, 30, 0.5, 0.5) end
-							f_drawSelectName(txt_p2Name, t_selected[1], 320, 30, 0.5, 0.5)
-						end
-					end
-					if data.charInfo == 'Author' then
-						if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == 'Random' then
-							textImgDraw(txt_p2Author)
 						end
 					end
 				end
 			end
 		end
-		if data.charPresentation == 'Sprite' then
-			p2nameX, p2nameY = f_drawNameListP1(txt_p2Name, 0, t_selected, 320, 148, -4, 6, 0, 5)
+		for j=#t_selected, 1, -1 do --Again to set priority over sprites
+			if not exclusiveStageMenu then
+				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if p2numChars == 1 then
+						if data.randomPortrait == 'Fixed' and p2member1Random == true then
+							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 310, 165)
+						else
+							f_drawSelectName(txt_p2Name, t_selected[1], 310, 165)
+						end
+					elseif p2numChars == 2 then
+						if data.coop then
+							if data.charPresentation == 'Portrait' then
+								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 116, 100)
+							elseif data.charPresentation == 'Mixed' then
+								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 116, 100, 0.5, 0.5)
+							end
+						else
+							if j == 2 then
+								if data.charPresentation == 'Portrait' then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 318, 100)
+									else
+										f_drawSelectName(txt_p2Name, t_selected[2], 318, 100)
+									end
+								elseif data.charPresentation == 'Mixed' then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 254, 100, 0.5, 0.5)
+									else
+										f_drawSelectName(txt_p2Name, t_selected[2], 254, 100, 0.5, 0.5)
+									end
+								end
+							end
+							if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88)
+								else
+									f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
+								end
+							elseif data.charPresentation == 'Mixed' then
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 254, 30, 0.5, 0.5)
+								else
+									f_drawSelectName(txt_p2Name, t_selected[1], 254, 30, 0.5, 0.5)
+								end
+							end
+						end
+					elseif p2numChars == 3 then
+						if j == 3 then
+							if data.randomPortrait == 'Fixed' and p2member3Random == true then
+								f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 254, 100, 0.5, 0.5)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[3], 254, 100, 0.5, 0.5)
+							end
+						end
+						if j == 2 then
+							if data.randomPortrait == 'Fixed' and p2member2Random == true then
+								f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 320, 100, 0.5, 0.5)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[2], 320, 100, 0.5, 0.5)
+							end
+						end
+						if data.charPresentation == 'Portrait' then
+							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
+							end
+						elseif data.charPresentation == 'Mixed' then
+							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 290, 30, 0.5, 0.5)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[1], 290, 30, 0.5, 0.5)
+							end
+						end
+					elseif p2numChars == 4 then
+						if j == 4 then
+							if data.randomPortrait == 'Fixed' and p2member4Random == true then
+								f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, 'RANDOM SELECT 4', 254, 100, 0.5, 0.5)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[4], 254, 100, 0.5, 0.5)
+							end
+						end
+						if j == 3 then
+							if data.randomPortrait == 'Fixed' and p2member3Random == true then
+								f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 320, 100, 0.5, 0.5)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[3], 320, 100, 0.5, 0.5)
+							end
+						end
+						if j == 2 then
+							if data.randomPortrait == 'Fixed' and p2member2Random == true then
+								f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 254, 30, 0.5, 0.5)
+							else
+								f_drawSelectName(txt_p2Name, t_selected[2], 254, 30, 0.5, 0.5)
+							end
+						end
+						if data.randomPortrait == 'Fixed' and p2member1Random == true then
+							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 320, 30, 0.5, 0.5)
+						else
+							f_drawSelectName(txt_p2Name, t_selected[1], 320, 30, 0.5, 0.5)
+						end
+					end
+				elseif data.charPresentation == 'Sprite' then
+					if j == 4 then
+						if data.randomPortrait == 'Fixed' and p2member4Random == true then
+							f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, 'RANDOM SELECT 4', 308, 166)
+						else
+							f_drawSelectName(txt_p2Name, t_selected[4], 308, 166)
+						end
+					end
+					if j == 3 then
+						if data.randomPortrait == 'Fixed' and p2member3Random == true then
+							f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 312, 160)
+						else
+							f_drawSelectName(txt_p2Name, t_selected[3], 312, 160)
+						end
+					end
+					if j == 2 then
+						if data.randomPortrait == 'Fixed' and p2member2Random == true then
+							f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 316, 154)
+						else
+							f_drawSelectName(txt_p2Name, t_selected[2], 316, 154)
+						end
+					end
+					if data.randomPortrait == 'Fixed' and p2member1Random == true then
+						f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 320, 148)
+					else
+						f_drawSelectName(txt_p2Name, t_selected[1], 320, 148)
+					end
+				end
+				if data.charInfo == 'Author' then
+					if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == 'Random' then
+						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+							if p2numChars == 1 then
+								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									--Keep random author as: ???
+								else
+									textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+								end
+								textImgDraw(txt_p2Author)
+							elseif p2numChars == 2 then
+								if data.coop then
+									--TODO!
+								else
+									if j == 2 then
+										if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										--
+										else
+											textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[2].author)
+											
+										end
+										textImgScalePosDraw(txt_p2Author, 320, 165, 0.65, 0.65)
+									end
+									if j == 1 then
+										if data.randomPortrait == 'Fixed' and p2member1Random == true then
+										--
+										else
+											textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+											
+										end
+										textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
+									end
+								end
+							elseif p2numChars == 3 then
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[3].author)
+										
+									end
+									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
+								end
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[2].author)
+										
+									end
+									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
+								end
+								if j == 1 then
+									if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+									end
+									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
+								end
+							elseif p2numChars == 4 then
+								if j == 4 then
+									if data.randomPortrait == 'Fixed' and p2member4Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[4].author)
+										
+									end
+									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
+								end
+								if j == 3 then
+									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[3].author)
+										
+									end
+									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
+								end
+								if j == 2 then
+									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[2].author)
+										
+									end
+									textImgScalePosDraw(txt_p2Author, 260, 89, 0.5, 0.5)
+								end
+								if j == 1 then
+									if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									--
+									else
+										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+										
+									end
+									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
+								end
+							end
+						elseif data.charPresentation == 'Sprite' then
+							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+							--
+							else
+								textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[j].author)
+							end
+							textImgPosDraw(txt_p2Author, 320, 20+10*(j-1), 0.65, 0.65)
+						end
+					end
+				end
+			end
 		end
 		if not p2SelEnd then
 			local tmpCelX = p2SelX
@@ -4628,24 +5034,47 @@ function f_p2SelectMenu()
 					else
 						textImgSetText(txt_p2Author, 'AUTHOR: ???')
 					end
+					textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
 					textImgDraw(txt_p2Author)
 				end
 			end
 			textImgDraw(txt_palHint)
-			textImgSetText(txt_p2Name, f_getName(p2Cell))
 			textImgSetBank(txt_p2Name, 0)
-			if data.charPresentation == 'Portrait' then
+			textImgSetText(txt_p2Name, f_getName(p2Cell))
+			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 				if p2numChars == 1 then
 					textImgScalePosDraw(txt_p2Name, 310, 165, 0.8, 0.8)
 				elseif p2numChars == 2 then
 					if data.coop then
-						textImgScalePosDraw(txt_p2Name, 116, 100, 0.8, 0.8)
+						if data.charPresentation == 'Portrait' then
+							textImgScalePosDraw(txt_p2Name, 116, 100, 0.8, 0.8)
+						elseif data.charPresentation == 'Mixed' then
+							textImgScalePosDraw(txt_p2Name, 116, 100, 0.5, 0.5)
+						end
 					else
-						if p2memberPreview == 1 then textImgScalePosDraw(txt_p2Name, 318, 88, 0.8, 0.8) end
-						if p2memberPreview == 2 then textImgScalePosDraw(txt_p2Name, 318, 100, 0.8, 0.8) end
+						if p2memberPreview == 1 then
+							if data.charPresentation == 'Portrait' then
+								textImgScalePosDraw(txt_p2Name, 318, 88, 0.8, 0.8)
+							elseif data.charPresentation == 'Mixed' then
+								textImgScalePosDraw(txt_p2Name, 254, 30, 0.5, 0.5)
+							end
+						end
+						if p2memberPreview == 2 then
+							if data.charPresentation == 'Portrait' then
+								textImgScalePosDraw(txt_p2Name, 318, 100, 0.8, 0.8)
+							elseif data.charPresentation == 'Mixed' then
+								textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5)
+							end
+						end
 					end
 				elseif p2numChars == 3 then
-					if p2memberPreview == 1 then textImgScalePosDraw(txt_p2Name, 318, 88, 0.8, 0.8) end
+					if p2memberPreview == 1 then
+						if data.charPresentation == 'Portrait' then
+							textImgScalePosDraw(txt_p2Name, 318, 88, 0.8, 0.8)
+						elseif data.charPresentation == 'Mixed' then
+							textImgScalePosDraw(txt_p2Name, 290, 30, 0.5, 0.5)
+						end
+					end
 					if p2memberPreview == 2 then textImgScalePosDraw(txt_p2Name, 320, 100, 0.5, 0.5) end
 					if p2memberPreview == 3 then textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5) end
 				elseif p2numChars == 4 then
@@ -4655,26 +5084,14 @@ function f_p2SelectMenu()
 					if p2memberPreview == 4 then textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5) end
 				end
 			elseif data.charPresentation == 'Sprite' then
-				textImgPosDraw(txt_p2Name, 309, p2nameY)
-			elseif data.charPresentation == 'Mixed' then
-				if p2numChars == 1 then
-					textImgScalePosDraw(txt_p2Name, 310, 165, 0.8, 0.8)
-				elseif p2numChars == 2 then
-					if data.coop then
-						textImgScalePosDraw(txt_p2Name, 116, 100, 0.5, 0.5)
-					else
-						if p2memberPreview == 1 then textImgScalePosDraw(txt_p2Name, 254, 30, 0.5, 0.5) end
-						if p2memberPreview == 2 then textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5) end
-					end
-				elseif p2numChars == 3 then
-					if p2memberPreview == 1 then textImgScalePosDraw(txt_p2Name, 290, 30, 0.5, 0.5) end
-					if p2memberPreview == 2 then textImgScalePosDraw(txt_p2Name, 320, 100, 0.5, 0.5) end
-					if p2memberPreview == 3 then textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5) end
-				elseif p2numChars == 4 then
-					if p2memberPreview == 1 then textImgScalePosDraw(txt_p2Name, 320, 30, 0.5, 0.5) end
-					if p2memberPreview == 2 then textImgScalePosDraw(txt_p2Name, 254, 30, 0.5, 0.5) end
-					if p2memberPreview == 3 then textImgScalePosDraw(txt_p2Name, 320, 100, 0.5, 0.5) end
-					if p2memberPreview == 4 then textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5) end
+				if p2memberPreview == 1 then
+					textImgPosDraw(txt_p2Name, 320, 148)
+				elseif p2memberPreview == 2 then
+					textImgPosDraw(txt_p2Name, 316, 154)
+				elseif p2memberPreview == 3 then
+					textImgPosDraw(txt_p2Name, 312, 160)
+				elseif p2memberPreview == 4 then
+					textImgPosDraw(txt_p2Name, 308, 166)
 				end
 			end
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
@@ -4687,8 +5104,10 @@ function f_p2SelectMenu()
 			elseif selectTimer == 0 then
 				f_p2Selection()
 			end
-			f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt')
-			--f_printTable(t_selected, 'save/debug/t_selected.txt')
+			if data.debugLog then
+				f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt')
+				--f_printTable(t_selected, 'save/debug/t_selected.txt')
+			end
 		end
 	end
 end
@@ -4699,6 +5118,10 @@ function f_p2Selection()
 	if getCharName(cel) == 'Random' then
 		randomP2Rematch = true
 		cel = t_randomChars[math.random(#t_randomChars)]
+		if p2memberPreview == 1 then p2member1Random = true	end
+		if p2memberPreview == 2 then p2member2Random = true	end
+		if p2memberPreview == 3 then p2member3Random = true	end
+		if p2memberPreview == 4 then p2member4Random = true	end
 	elseif f_getName(p2Cell) == 'Kung Fu Man' then
 		sndPlay(announcerSnd, 2, 0)
 	end
@@ -4730,7 +5153,7 @@ function f_p2Selection()
 				updateAnim = false
 			end
 		end
-		data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim}
+		data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 		if #data.t_p2selected == p2numChars then
 			p2SelEnd = true
 		end
@@ -5217,7 +5640,7 @@ function f_selectStage()
 			cmdInput()
 			--announcerTimer = 0 --Restart Stage Announcer Timer
 		end
-		--When stage has been selected/announcer is active:
+	--When stage has been selected/announcer is active:
 		if stageAnnouncer == true then
 			--Apply Color
 			textImgSetBank(txt_selectMusic, 2)
@@ -5270,7 +5693,7 @@ function f_selectStage()
 				end
 				data.stage[i] = {['cel'] = data.stage[i]} --Get stageNo from table loaded (t_stageDef)
 			end
-			f_printTable(data.stage, 'save/debug/data.stage.txt')
+			if data.debugLog then f_printTable(data.stage, 'save/debug/data.stage.txt') end
 			--stagePortrait = data.stage[1].cel
 			stageNo = data.stage[1].cel
 		end
@@ -5400,7 +5823,13 @@ function f_loadStage()
 	if stageList == 0 then
 		if p1autoSlot == true then stageNo = p1charStage --Auto - Left Side Player Stage
 		elseif p2autoSlot == true then stageNo = p2charStage --Auto - Right Side Player Stage
-		else stageNo = math.random(1, data.includestage) --Random Stage
+		else --Random Stage
+			if randomStageRematch and data.randomStageRematch == 'Fixed' then
+				--stageNo = stageNo --Reload Previous Random Stage Selected
+			else
+				stageNo = math.random(1, data.includestage) --Load a New Random Stage
+				randomStageRematch = true
+			end
 		end
 	else stageNo = stageList --Stages Loaded via select.def
 	end
@@ -6244,7 +6673,7 @@ function f_selectWin()
 	p2Ready = false
 	setServiceType(0) --Erase Service
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
-	if data.winscreen == 'None' or data.victoryscreen == false then
+	if data.victoryscreen == false then
 		f_selectWinOFF()
 	elseif data.winscreen == 'Fixed' then
 		f_selectWinFix()
@@ -6799,7 +7228,7 @@ function f_rematch()
 		end
 	end
 	--Draw BG only when Winscreen is off
-	if data.winscreen == 'None' or data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
+	if data.victoryscreen == false then animDraw(f_animVelocity(rematchBG, -1, -1)) end
 	if data.p2In == 1 or (data.p1In == 2 and data.p2In == 2) then --VS CPU
 		--Draw Menu BG
 		animDraw(rematchCPUWindowBG)
@@ -6962,6 +7391,51 @@ function f_rematch()
 			battleOption = 4
 			rematchEnd = true
 			f_backOnline()
+		end
+	end
+end
+
+function f_randomRematch()
+--Get new random chars for player 1 side
+	if randomP1Rematch == true and data.randomCharRematch == 'Variable' then
+	--Your 1st char will be randomized for your rematch
+		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
+			data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p1selected[1].pal = math.random(1,12)
+		end
+	--Your 2nd char will be randomized for your rematch
+		if p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
+			data.t_p1selected[2].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p1selected[2].pal = math.random(1,12)
+		end
+	--Your 3rd char will be randomized for your rematch
+		if p1numChars == 3 or p1numChars == 4 then
+			data.t_p1selected[3].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p1selected[3].pal = math.random(1,12)
+		end
+	--Your 4th char will be randomized for your rematch
+		if p1numChars == 4 then
+			data.t_p1selected[4].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p1selected[4].pal = math.random(1,12)
+		end
+	end
+--Get new random chars for player 2 side
+	if randomP2Rematch == true and data.randomCharRematch == 'Variable' then
+		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
+			data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p2selected[1].pal = math.random(1,12)
+		end
+		if p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
+			data.t_p2selected[2].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p2selected[2].pal = math.random(1,12)
+		end
+		if p2numChars == 3 or p2numChars == 4 then
+			data.t_p2selected[3].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p2selected[3].pal = math.random(1,12)
+		end
+		if p2numChars == 4 then
+			data.t_p2selected[4].cel = t_randomChars[math.random(#t_randomChars)]
+			data.t_p2selected[4].pal = math.random(1,12)
 		end
 	end
 end
@@ -7584,35 +8058,29 @@ function f_continue()
 	local animLength4 = 0
 	local i = 0
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		if p2numChars == 1 then
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-		elseif p2numChars == 2 then	--Your 2nd char appears in continue screen
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
-		elseif p2numChars == 3 then --Your 3rd char appears in continue screen
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
-			tablePos3 = t_selChars[data.t_p2selected[3].cel+1]
-		elseif p2numChars == 4 then --Your 4th char appears in continue screen
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
-			tablePos3 = t_selChars[data.t_p2selected[3].cel+1]
-			tablePos4 = t_selChars[data.t_p2selected[4].cel+1]	
+		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
+			tablePos = t_selChars[data.t_p2selected[1].cel+1] --Your 1st char appear in continue screen
+		end
+		if p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
+			tablePos2 = t_selChars[data.t_p2selected[2].cel+1] --Your 2nd char appears in continue screen
+		end
+		if p2numChars == 3 or p2numChars == 4 then
+			tablePos3 = t_selChars[data.t_p2selected[3].cel+1] --Your 3rd char appears in continue screen
+		end
+		if p2numChars == 4 then
+			tablePos4 = t_selChars[data.t_p2selected[4].cel+1] --Your 4th char appears in continue screen
 		end
 	else
-		if p1numChars == 1 then
+		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			tablePos = t_selChars[data.t_p1selected[1].cel+1]
-		elseif p1numChars == 2 then	--Your 2nd char appears in continue screen
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		end
+		if p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-		elseif p1numChars == 3 then --Your 3rd char appears in continue screen
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		end
+		if p1numChars == 3 or p1numChars == 4 then
 			tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
-		elseif p1numChars == 4 then --Your 4th char appears in continue screen
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-			tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+		end
+		if p1numChars == 4 then
 			tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
 		end
 	end
@@ -8337,35 +8805,29 @@ function f_gameOver()
 	local animLength4 = 0
 	local i = 0
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-		if p2numChars == 1 then
+		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
 			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-		elseif p2numChars == 2 then
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
+		end
+		if p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
 			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
-		elseif p2numChars == 3 then
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
+		end
+		if p2numChars == 3 or p2numChars == 4 then
 			tablePos3 = t_selChars[data.t_p2selected[3].cel+1]
-		elseif p2numChars == 4 then
-			tablePos = t_selChars[data.t_p2selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p2selected[2].cel+1]
-			tablePos3 = t_selChars[data.t_p2selected[3].cel+1]
+		end
+		if p2numChars == 4 then
 			tablePos4 = t_selChars[data.t_p2selected[4].cel+1]	
 		end
 	else
-		if p1numChars == 1 then
+		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			tablePos = t_selChars[data.t_p1selected[1].cel+1]
-		elseif p1numChars == 2 then
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
+		end
+		if p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-		elseif p1numChars == 3 then
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
+		end
+		if p1numChars == 3 or p1numChars == 4 then
 			tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
-		elseif p1numChars == 4 then
-			tablePos = t_selChars[data.t_p1selected[1].cel+1]
-			tablePos2 = t_selChars[data.t_p1selected[2].cel+1]
-			tablePos3 = t_selChars[data.t_p1selected[3].cel+1]
+		end
+		if p1numChars == 4 then
 			tablePos4 = t_selChars[data.t_p1selected[4].cel+1]	
 		end
 	end

@@ -823,6 +823,7 @@ if generate and data.sffConversion then
 	end
 end
 
+if data.debugLog then
 f_printTable(t_selChars, "save/debug/t_selChars.txt")
 f_printTable(t_selStages, "save/debug/t_selStages.txt")
 f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
@@ -833,6 +834,7 @@ f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
 f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+end
 
 function f_rushTables()
 	t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error

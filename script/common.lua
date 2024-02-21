@@ -1085,7 +1085,7 @@ function f_storyboard(path)
 		end
 	end
 	file:close()
-	f_printTable(t, 'save/debug/storyboard/t_' .. fileName)
+	if data.debugLog then f_printTable(t, 'save/debug/storyboard/t_' .. fileName) end
 	f_storyboardPlay(t)
 	return
 end
@@ -1538,7 +1538,7 @@ function f_storyboardPlay(tIn)
 	tOut['ctrldef'] = {}
 	tOut.ctrldef = tIn.ctrldef
 	--Actual storyboard loop
-	f_printTable(tOut, 'save/debug/t_storyboard.txt')
+	if data.debugLog then f_printTable(tOut, 'save/debug/t_storyboard.txt') end
 	local velX = 0
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
