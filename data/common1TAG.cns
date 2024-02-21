@@ -7901,7 +7901,7 @@ ctrl=0
 ;	trigger1=1||var(7):=(var(7)^16)       ;; 5th - show score/cpu_level
 ;	trigger1=1||var(7):=(var(7)^32)       ;; 6th - show result_panel
 ;	trigger1=1||var(7):=(var(7)^64)       ;; 7th - play system voice
-	trigger1=1||var(7):=(var(7)^128)      ;; 8th - show key_input
+;	trigger1=1||var(7):=(var(7)^128)      ;; 8th - show key_input
 ;	trigger1=1||var(7):=(var(7)^256)      ;; 9th - show lifebar
 ;	trigger1=1||var(7):=(var(7)^512)      ;;10th - show powerbar
 ;	trigger1=1||var(7):=(var(7)^1024)     ;;11th - tag system

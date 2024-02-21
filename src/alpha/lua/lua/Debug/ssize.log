@@ -1,0 +1,19 @@
+﻿Compilación iniciada a las 21/02/2024 11:43:29 a.m..
+     1>Proyecto "C:\Users\CD2\Desktop\Ikemen-Plus-Ultra\src\alpha\lua\lua\ssize.vcxproj" en el nodo 2 (build destinos).
+       El archivo del proyecto contiene ToolsVersion="14.0". Este conjunto de herramientas falta o es desconocido, en cuyo caso es posible que pueda resolver este problema instalando la versión apropiada de MSBuild. También es posible que, por motivos de directiva, se haya exigido a la compilación que use un valor determinado para ToolsVersion. Se tratará el proyecto como si contuviera ToolsVersion="4.0". Para obtener más información, vea http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>InitializeBuildStatus:
+         Se creará ".\Debug\ssize.unsuccessfulbuild" porque se especificó "AlwaysCreate".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /l"0x0411" /nologo /fo".\Debug\RESOURCE.res" RESOURCE.RC 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug/ssize.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\ssize.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:".\Debug/ssize.pdb" /TLBID:1 /DYNAMICBASE /IMPLIB:".\Debug\ssize.lib" /MACHINE:X86 .\Debug\RESOURCE.res
+         .\Debug/main.obj
+     1>LINK : fatal error LNK1123: error durante la conversión a COFF: archivo no válido o dañado
+     1>Compilación del proyecto terminada "C:\Users\CD2\Desktop\Ikemen-Plus-Ultra\src\alpha\lua\lua\ssize.vcxproj" (build destinos) -- ERROR.
+
+ERROR al compilar.
+
+Tiempo transcurrido 00:00:01.65

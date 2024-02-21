@@ -95,27 +95,12 @@ value = LifeMax
 ; TRAINING MODE
 ;===========================================================================
 
-;INPUT DISPLAY TEST
 
-; Buffer Helper
-;[State -2 Buffer Helper]
-;type = Helper
-;trigger1 = AILevel <= 0
-;trigger1 = !numhelper(10371)
-;helpertype = normal
-;name = "Buffer"
-;ID = 10371
-;pos = 0,0
-;postype = p1
-;facing = 1
-;stateno = 10371
-;keyctrl = 1
-;ownpal = 1
-;supermovetime = 65535
-;pausemovetime = 65535
 
-;INPUT DISPLAY TEST
 
+;===========================================================================
+; COMMAND BUFFER
+;===========================================================================
 [State -I1, CtrlSet]
 type = CtrlSet
 triggerall = !ishelper && roundno = -1
@@ -142,9 +127,6 @@ triggerall = numhelper(10371)
 trigger1 = cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time = 1,0),0) || enemy,cond(numhelper(20002),helper(20002),cond(1,stateno=20003 && time = 1,0),0)
 trigger1 = cond(numhelper(10371),helper(10371),cond(1,var(0):=0,0),0)||1
 
-;===========================================================================
-; COMMAND BUFFER
-;===========================================================================
 [Statedef -4]
 
 ;--------------------------------[BUTTONS]-------------------------------------;
