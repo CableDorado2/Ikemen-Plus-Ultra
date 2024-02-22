@@ -8874,7 +8874,7 @@ public &StateBuilder
       cns(:lines, i=:);
       i++;
     while i < #lines:}
-	^/char bufCmd = "data/common.st";
+	^/char bufCmd = "data/common.cmd";
 	if(
       #.com.loadFile(def, bufCmd=)=>error <, [^/char(^/char f){
         ret

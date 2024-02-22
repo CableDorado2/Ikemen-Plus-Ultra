@@ -1,22 +1,21 @@
-
-; for
-;#ADD004BASIC#
-
-[begin action 909001] ;; face_small
+[Begin Action 909001]
 9000,0,0,0,-1
-[begin action 909002] ;; face
+
+[Begin Action 909002]
 9000,0,0,0,-1
-[begin action 909003] ;; face_vs_screen
+
+[Begin Action 909003]
 9000,1,0,-60,-1
 
-;---
-[begin action 909601] ;; empty
+[Begin Action 909601]
 0,-1,0,0,1
-[begin action 909602]
+
+[Begin Action 909602]
 clsn1: 1
 clsn1[0]=-20,-20,20,20
 0,-1,0,0,1
-[begin action 909603]
+
+[Begin Action 909603]
 clsn2: 1
 clsn2[0]=-30,-30,30,30
 0,-1,0,0,1

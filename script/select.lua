@@ -66,10 +66,7 @@ function f_p1sideReset()
 p1Cell = nil
 p1Portrait = nil
 p1memberPreview = nil
-p1member1Random = false
-p1member2Random = false
-p1member3Random = false
-p1member4Random = false
+f_p1randomReset()
 data.t_p1selected = {}
 p1TeamEnd = false
 p1palEnd = true
@@ -82,14 +79,18 @@ p1movePal = 1
 randomP1Rematch = false
 end
 
+function f_p1randomReset()
+p1member1Random = false
+p1member2Random = false
+p1member3Random = false
+p1member4Random = false
+end
+
 function f_p2sideReset()
 p2Cell = nil
 p2Portrait = nil
 p2memberPreview = nil
-p2member1Random = false
-p2member2Random = false
-p2member3Random = false
-p2member4Random = false
+f_p2randomReset()
 data.t_p2selected = {}
 p2palEnd = true
 p2TeamEnd = false
@@ -100,6 +101,13 @@ p2TeamBack = true
 p2palSelect = 1
 p2movePal = 1
 randomP2Rematch = false
+end
+
+function f_p2randomReset()
+p2member1Random = false
+p2member2Random = false
+p2member3Random = false
+p2member4Random = false
 end
 
 function f_stageSelectReset()
@@ -2088,7 +2096,7 @@ p1randomSprite = animNew(sysSff, [[151,2, 0,0,]])
 p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
 
 --P2 Random Sprite
-p2randomSprite = animNew(sysSff, [[151,2, -120,0,]])
+p2randomSprite = animNew(sysSff, [[151,2, 0,0,]])
 
 --P1 active cursor
 p1ActiveCursor = animNew(sysSff, [[
@@ -2438,6 +2446,7 @@ function f_selectScreen()
 			p1SelEnd = false
 			data.t_p1selected = {}
 			p1memberPreview = 1
+			f_p1randomReset()
 		end
 	else
 		--if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z')) and p1SelEnd and charSelect == false then
@@ -2446,11 +2455,13 @@ function f_selectScreen()
 			p1SelEnd = false
 			data.t_p1selected = {}
 			p1memberPreview = 1
+			f_p1randomReset()
 			if data.p2In == 1 then
 				p2TeamEnd = true
 				p2SelEnd = true
 				p2Portrait = nil
 				p2memberPreview = 1
+				f_p2randomReset()
 			end
 		end
 	end
@@ -2464,6 +2475,7 @@ function f_selectScreen()
 				end
 				data.t_p2selected = {}
 				p2memberPreview = 1
+				f_p2randomReset()
 			end
 		else
 			--if (commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z')) and p2SelEnd and charSelect == false then 
@@ -2474,6 +2486,7 @@ function f_selectScreen()
 				end
 				data.t_p2selected = {}
 				p2memberPreview = 1
+				f_p2randomReset()
 			end
 		end
 	end
@@ -2730,6 +2743,14 @@ end
 --;===========================================================
 txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0, 0.8, 0.8)
 txt_p1Author = createTextImg(jgFnt, 0, 1, '', 0, 20, 0.65, 0.65)
+
+function f_p1charAnnouncer()
+	if f_getName(p1Cell) == 'Kung Fu Man' then
+		sndPlay(announcerSnd, 1, 0)
+	--elseif f_getName(p1Cell) == 'Your Character Name' then
+		--sndPlay(announcerSnd, 1, 1)
+	end
+end
 
 function f_p1palList() --Palette Menu
 	cmdInput()
@@ -3796,8 +3817,8 @@ function f_p1Selection()
 		if p1memberPreview == 2 then p1member2Random = true	end
 		if p1memberPreview == 3 then p1member3Random = true	end
 		if p1memberPreview == 4 then p1member4Random = true	end
-	elseif f_getName(p1Cell) == 'Kung Fu Man' then --Character Voice when is selected Example for Player 1 Side
-		sndPlay(announcerSnd, 1, 0)
+	else
+		f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
 	end
 	--Change p1memberPreview on each char selection
 	if p1numChars > 1 and not data.coop then --For Team Modes
@@ -4109,6 +4130,14 @@ end
 txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0, 0.8, 0.8)
 txt_p2Author = createTextImg(jgFnt, 0, -1, '', 320, 20, 0.65, 0.65)
 
+function f_p2charAnnouncer()
+	if f_getName(p2Cell) == 'Kung Fu Man' then
+		sndPlay(announcerSnd, 2, 0)
+	--elseif f_getName(p2Cell) == 'Your Character Name' then
+		--sndPlay(announcerSnd, 2, 1)
+	end
+end
+
 function f_p2palList() --Palette Menu
 	cmdInput()
 	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
@@ -4327,7 +4356,8 @@ function f_p2SelectMenu()
 								--drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
 							--end
 						end
-					elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						if data.charPresentation == 'Sprite' then
 							if data.coop then
 								f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 68, 164, true) --p1AnimStand because sprite animation will see to right
@@ -4412,7 +4442,8 @@ function f_p2SelectMenu()
 								--drawPortrait(p2Portrait, 195, 36, -0.5, 0.5)
 							end
 						end
-					elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						if data.charPresentation == 'Sprite' then
 							if data.coop then
 								f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 68, 164, true)
@@ -4507,7 +4538,7 @@ function f_p2SelectMenu()
 								if data.charPresentation == 'Portrait' then
 									f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
 								elseif data.charPresentation == 'Mixed' then
-									f_drawQuickSpr(p2randomPortrait, 290, 20, -0.5, 0.5)
+									f_drawQuickSpr(p2randomPortrait, 290, 20, 0.5, 0.5)
 								end
 							else
 								if data.charPresentation == 'Portrait' then
@@ -4544,34 +4575,35 @@ function f_p2SelectMenu()
 								drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
 							end
 						end
-					elseif data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+					end
+					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
 						if data.charPresentation == 'Sprite' then
 							if data.coop then
 								f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
 							else
 								if j == 4 then
 									if data.randomPortrait == 'Fixed' and p2member4Random == true then
-										f_drawQuickSpr(p2randomSprite, 216, 75)
+										f_drawQuickSpr(p2randomSprite, 176, 75)
 									else
 										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, 200)
 									end
 								end
 								if j == 3 then
 									if data.randomPortrait == 'Fixed' and p2member3Random == true then
-										f_drawQuickSpr(p2randomSprite, 244, 75)
+										f_drawQuickSpr(p2randomSprite, 204, 75)
 									else
 										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, 200)
 									end
 								end
 								if j == 2 then
 									if data.randomPortrait == 'Fixed' and p2member2Random == true then
-										f_drawQuickSpr(p2randomSprite, 272, 75)
+										f_drawQuickSpr(p2randomSprite, 232, 75)
 									else
 										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, 200)
 									end
 								end
 								if data.randomPortrait == 'Fixed' and p2member1Random == true then
-									f_drawQuickSpr(p2randomSprite, 300, 75)
+									f_drawQuickSpr(p2randomSprite, 260, 75)
 								else
 									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, 200)
 								end
@@ -5122,8 +5154,8 @@ function f_p2Selection()
 		if p2memberPreview == 2 then p2member2Random = true	end
 		if p2memberPreview == 3 then p2member3Random = true	end
 		if p2memberPreview == 4 then p2member4Random = true	end
-	elseif f_getName(p2Cell) == 'Kung Fu Man' then
-		sndPlay(announcerSnd, 2, 0)
+	else
+		f_p2charAnnouncer()
 	end
 	if p2numChars > 1 and not data.coop then
 		if p2memberPreview == 1 then p2memberPreview = 2
