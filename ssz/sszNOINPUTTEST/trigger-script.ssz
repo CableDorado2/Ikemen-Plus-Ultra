@@ -1,4 +1,4 @@
-
+lib cmd = "command.ssz";
 lib s = <string.ssz>;
 lib m = <math.ssz>;
 lib lua = <alpha/lua.ssz>;
@@ -506,6 +506,14 @@ void servicetype(&.lua.State L=, int re=)
   L.pushNumber((double) .com.serviceType);
 }
 
+void gamemode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.gameMode);
+  //^/char modename;
+  //modename = .com.gameMode;
+  //L.pushString(modename);
+}
 
 void gamewidth(&.lua.State L=, int re=)
 {
@@ -1164,6 +1172,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gametime", .gametime);
   L.register("gametype", .gametype);
   L.register("servicetype", .servicetype);
+  L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);
   L.register("hitcount", .hitcount);

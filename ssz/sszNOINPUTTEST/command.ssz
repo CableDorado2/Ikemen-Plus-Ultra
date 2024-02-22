@@ -199,7 +199,6 @@ public &Buffer
 public bool disablePadP1;
 public bool disablePadP2;
 
-//We lazy.
 public bool modKeyState(bool keyState, int jn, int key)
 {
   bool ctrl = .sdl.JoystickButtonState(:-1, 224:) || .sdl.JoystickButtonState(:-1, 228:);
@@ -610,8 +609,11 @@ public &FileInput
   {
     if(
       .com.oldNextAddTime > 0.0
-      && `f.readAry!&.KeyInfo?(`ki) < #`ki) .se.esc = true;
-    if(.se.esc) `f.close();
+      && `f.readAry!&.KeyInfo?(`ki) < #`ki){
+	}
+    if((.se.esc && (.com.pause || .com.gameState == 0)) || .com.exitMatch) {
+      `f.close();
+    }
     ret !.se.end;
   }
 }
@@ -1153,11 +1155,11 @@ public &CommandList
   {
     bool step = `buffer~Bb != 0;
     if(input < 0 && input >= -.com.maxSimul*2){
-      .aiil.new[!input].update();//同期がずれないようここで
+      .aiil.new[!input].update();//Here to avoid getting out of sync
     }
     branch{
       if(input < 0) else;
-    cond #.replay > 0:
+    cond #.replay > 0 && .com.sysControls == 0: //Pause Menu can be controlled in Replay Mode
       .replay~input(`buffer<>=, input, facing);
     cond #.net > 0:
       .net~input(`buffer<>=, input, facing);
@@ -1238,16 +1240,18 @@ public &CommandList
   }
 }
 
-//public bool startButton(int pn)
-//{
-  //int jn = .cfg.in[pn-1].jn;
-  //if(#.net > 0 || pn < 1 || pn > 2) ret false;
-  //branch{
-  //cond jn >= -1 && (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[pn+9].s:),jn,.cfg.in[pn+9].s) || .sdl.JoystickButtonState(:.cfg.in[pn+11].jn, .cfg.in[pn+11].s:)): .sBuf[pn-1]++;
-  //else: .sBuf[pn-1] = 0;
-  //}
-  //ret .sBuf[pn-1] == 1 || .sBuf[pn-1] == 2;
-//}
+public ^int sBuf.new(2);
+
+public bool startButton(int pn)
+{
+  int jn = .cfg.in[pn-1].jn;
+  if(#.net > 0 || pn < 1 || pn > 2) ret false;
+  branch{
+  cond jn >= -1 && (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[pn+9].s:),jn,.cfg.in[pn+9].s) || .sdl.JoystickButtonState(:.cfg.in[pn+11].jn, .cfg.in[pn+11].s:)): .sBuf[pn-1]++;
+  else: .sBuf[pn-1] = 0;
+  }
+  ret .sBuf[pn-1] == 1 || .sBuf[pn-1] == 2;
+}
 
 bool anyHardButton()
 {

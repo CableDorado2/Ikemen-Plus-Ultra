@@ -59,6 +59,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   VictoryQuote,
   RemapPal,
   Zoom,
+  ExitMatch,
   PlayBGM,
   Null
 }
@@ -567,7 +568,7 @@ public &StateBuilder
           (!`usiroOp || op<> != '(')
           && (op<> < 'A' || op<> > 'Z') && (op<> < 'a' || op<> > 'z')))
       {
-        `lasterror = `maeOp + "It is illegal";
+        `lasterror = `maeOp + " It is illegal";
         ret false;
       }
       in = oldin;
@@ -627,7 +628,7 @@ public &StateBuilder
       tkn = `tokenizer(in=);
     }
     if(!.s.equ(",", tkn)){
-      `lasterror = "','there is not";
+      `lasterror = "there is not ','";
       ret false;
     }
     branch{
@@ -666,7 +667,7 @@ public &StateBuilder
     if(minus) istr = `tokenizer(in=);
     loop{index i = 0; while; do:
       if(istr[i] < '0' || '9' < istr[i]){
-        `lasterror = istr + "is not an integer";
+        `lasterror = istr + " is not an integer";
         ret false;
       }
       i++;
@@ -762,7 +763,7 @@ public &StateBuilder
         {
           ret true;
         }
-        `lasterror = hit[0] + "is an invalid value";
+        `lasterror = hit[0] + " is an invalid value";
         ret false;
       }
     continue:
@@ -803,7 +804,7 @@ public &StateBuilder
       cond .cfg.IgnoreMostErrors && `mver0 == 1:
         ret true;
       else:
-        `lasterror = hit[i] + "is an invalid value";
+        `lasterror = hit[i] + " is an invalid value";
         ret false;
       }
       if(hitdef && i == 1) hitdefflg = flg;
@@ -829,7 +830,7 @@ public &StateBuilder
         flg |= (int).chr.StTy::A;
       default:
         `lasterror =
-          in[0 .. .s.cFind(.kuuhaktokigou, in)] + "is an invalid attribute value";
+          in[0 .. .s.cFind(.kuuhaktokigou, in)] + " is an invalid attribute value";
         ret false;
       }
     continue:
@@ -883,7 +884,7 @@ public &StateBuilder
     ^/char oldin = in;
     ^/char token = `tokenizer(in=);
     if(.s.equ(")", token)) ret true;
-    `lasterror = token + "In front of the')'there is not";
+    `lasterror = "there is not ')' in front of the " + token;
     ret false;
   }
   bool kyuushiki(bool not=, ^/char in=)
@@ -995,7 +996,7 @@ public &StateBuilder
   int oneArg(^/char fun, %char out=, ^/char in=)
   {
     if(!.s.equ("(", `tokenizer(in=))){
-      `lasterror = fun + "next to'('there is not";
+      `lasterror = "there is not '(' next to " + fun;
       ret -1;
     }
     int typ;
@@ -1215,14 +1216,14 @@ public &StateBuilder
       typ = 0;
     cond .s.equ("log", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に(がありません";
+        `lasterror = "There is no '(' next to " + token;
         ret -1;
       }
       out .= "`trLog(";
       if(!`typeExp!`expBoolOr?(out=, in=, 0)) ret -1;
       out .= "$.v,";
       if(!.s.equ(",", `tokenizer(in=))){
-        `lasterror = token + "は引数が2個必要です";
+        `lasterror = token + " requires 2 arguments";
         ret -1;
       }
       if(!`typeExp!`expBoolOr?(out=, in=, 0)) ret -1;
@@ -1243,19 +1244,19 @@ public &StateBuilder
     cond .s.equ("ifelse", token):
       out .= "`trIfelse(";
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('there is not";
+        `lasterror = "there is not '(' next to " + token;
         ret -1;
       }
       if(!`typeExp!`expBoolOr?(out=, in=, 3)) ret -1;
       out .= ',';
       if(!.s.equ(",", `tokenizer(in=))){
-        `lasterror = token + "は引数が3個必要です";
+        `lasterror = token + " requires 3 arguments";
         ret -1;
       }
       if(!`typeExp!`expBoolOr?(out=, in=, 0)) ret -1;
       out .= "$.v,";
       if(!.s.equ(",", `tokenizer(in=))){
-        `lasterror = token + "は引数が3個必要です";
+        `lasterror = token + " requires 3 arguments";
         ret -1;
       }
       if(!`typeExp!`expBoolOr?(out=, in=, 0)) ret -1;
@@ -1299,18 +1300,18 @@ public &StateBuilder
         bool not;
         if(!`kyuushiki(not=, in=)) ret -1;
         if(not && !.cfg.IgnoreMostErrors){
-          `lasterror = "animelemに != は使えません";
+          `lasterror = "!= cannot be used in animelem";
           ret -1;
         }
         token = `tokenizer(in=);
         if(.s.equ("-", token)){
-          `lasterror = "マイナスが付くとエラーです";
+          `lasterror = "If there is a minus sign, it is an error.";
           ret -1;
         }
         int val;
         if(!`integer2(val=, token, in=)) ret -1;
         if(val <= 0){
-          `lasterror = "animelemのは0より大きくなければいけません";
+          `lasterror = "animelem must be greater than 0";
           ret -1;
         }
         out .=
@@ -1337,18 +1338,18 @@ public &StateBuilder
         bool not;
         if(!`kyuushiki(not=, in=)) ret -1;
         if(not && !.cfg.IgnoreMostErrors){
-          `lasterror = "timemodに != は使えません";
+          `lasterror = "!= cannot be used in timemod";
           ret -1;
         }
         token = `tokenizer(in=);
         if(.s.equ("-", token)){
-          `lasterror = "マイナスが付くとエラーです";
+          `lasterror = "If there is a minus sign, it is an error.";
           ret -1;
         }
         int val;
         if(!`integer2(val=, token, in=)) ret -1;
         if(val <= 0){
-          `lasterror = "timemodのは0より大きくなければいけません";
+          `lasterror = "timemod must be greater than 0";
           ret -1;
         }
         out .= ".v.setI(" .= obj .= "stVal.time%" .= ''val .= ")$";
@@ -1502,14 +1503,14 @@ public &StateBuilder
       if(!eqneq(out=, in=, typ=)<, [bool(){
         index fnd;
         if(!.s.equ(\", `tokenizer(in=)) || .s.find(\", in)=>fnd < 0){
-          `lasterror = "コマンド名が"\""で囲まれていません";
+          `lasterror = "Command name is not enclosed in "\""";
           ret false;
         }
         token = in[0..fnd];
         in = in[fnd+1..-1];
         ^index ci = `cmdl[`playerno].cTable~get(token);
         if(#ci == 0){
-          `lasterror = "コマンド"\" + token + \""は存在しません";
+          `lasterror = "command"\" + token + \""does not exist";
           ret false;
         }
         out .= obj .= "trCommand(" .= ''`playerno .= "," .= ''ci<> .= ")";
@@ -1527,7 +1528,7 @@ public &StateBuilder
         int pn = token[0] =='n' ? 1 : (int)(token[1]-'0');
         index fnd;
         if(!.s.equ(\", `tokenizer(in=)) || .s.find(\", in)=>fnd < 0){
-          `lasterror = "名前が"\""で囲まれていません";
+          `lasterror = "Name is not enclosed in "\""";
           ret false;
         }
         token = in[0..fnd];
@@ -1544,7 +1545,7 @@ public &StateBuilder
       }]) ret -1;
     cond .s.equ("const", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('there is not";
+        `lasterror = "there is not '(' next to " + token;
         ret -1;
       }
       token = `tokenizer(in=);
@@ -1821,12 +1822,12 @@ public &StateBuilder
         out .= "sysfvar[.fDOWN_FRICTION_THRESHOLD]";
         typ = 1;
       else:
-        `lasterror = token + "が不正です";
+        `lasterror = token + " It is illegal";
         ret -1;
       }
       `skipBlank(in=);
       if(#in == 0 || (!.cfg.IgnoreMostErrors && in[0] != ')')){
-        `lasterror = ")there is not";
+        `lasterror = "there is not ')'";
         ret -1;
       }
       in = in[1..-1];
@@ -1877,7 +1878,7 @@ public &StateBuilder
             break, else;
           }
         else:
-          `lasterror = token + "が無効な値です";
+          `lasterror = token + " is an invalid value";
           ret false;
         }
         out .= obj .= (p2 ? "trP2StateType(" : "trStateType(") .= sty .= ")";
@@ -1902,11 +1903,25 @@ public &StateBuilder
             break, else;
           }
         else:
-          `lasterror = token + "が無効な値です";
+          `lasterror = token + " is an invalid value";
           ret false;
         }
         out .= obj .= (p2 ? "trP2MoveType(" : "trMoveType(") .= tmp .= ")";
         if(p2) typ = 0;
+        ret true;
+      }]) ret -1;
+	cond .s.equ("gamemode", token):
+      if(!eqneq(out=, in=, typ=)<, [bool(){
+        ^/char gmy;
+        token = `tokenizer(in=);
+        branch{
+        cond .s.equ(.com.gameMode, token):
+			gmy = ".com.gameMode";
+		else:
+          `lasterror = token + " is an invalid game mode";
+          ret false;
+        }
+        out .= obj .= "trGameMode(" .= gmy .= ")";
         ret true;
       }]) ret -1;
     cond .s.equ("teammode", token):
@@ -1921,7 +1936,7 @@ public &StateBuilder
         cond .s.equ("turns", token):
           pty = ".com.TeamMode::Turns";
         else:
-          `lasterror = token + "が無効な値です";
+          `lasterror = token + " is an invalid team mode value";
           ret false;
         }
         out .= obj .= "trTeamMode(" .= pty .= ")";
@@ -1929,7 +1944,7 @@ public &StateBuilder
       }]) ret -1;
     cond .s.equ("gethitvar", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('there is not";
+        `lasterror = "there is not '(' next to " + token;
         ret -1;
       }
       token = `tokenizer(in=);
@@ -2043,7 +2058,7 @@ public &StateBuilder
         out .= obj .= "isBound()";
         typ = 3;
       else:
-        `lasterror = token + "が不正です";
+        `lasterror = token + " It is illegal";
         ret -1;
       }
       if(!`kakkotojiru(in=)) ret -1;
@@ -2067,7 +2082,7 @@ public &StateBuilder
             break, break;
           }
           if(not && !.cfg.IgnoreMostErrors){
-            `lasterror = "旧バージョンのためhitdefattrに != は使えません";
+            `lasterror = "Because it is an old version, != cannot be used in hitdefattr";
             ret -1;
           }
           if(!f(::)) ret -1;
@@ -2112,7 +2127,7 @@ public &StateBuilder
           cond t:
             out .= ".v.setI(-1)$" .= obj .= "trNumTarget()";
           cond p:
-            `lasterror = "NumProjIDの引数がありません";
+            `lasterror = "Missing argument for NumProjID";
             ret -1;
           else:
             out .= ".v.setI(-1)$" .= obj .= "trNumExplod()";
@@ -2166,12 +2181,12 @@ public &StateBuilder
         bool not;
         if(!`kyuushiki(not=, in=)) ret -1;
         if(not && !.cfg.IgnoreMostErrors){
-          `lasterror = "!= は使えません";
+          `lasterror = "!= cannot be used";
           ret -1;
         }
         token = `tokenizer(in=);
         if(.s.equ("-", token)){
-          `lasterror = "マイナスが付くとエラーです";
+          `lasterror = "If there is a minus sign, it is an error.";
           ret -1;
         }
         int val;
@@ -2320,10 +2335,13 @@ public &StateBuilder
     cond .s.equ("screenheight", token):
       out .= obj .= "trScreenHeight()";
       typ = 1;
+	cond .s.equ("esc", token):
+      out .= obj .= "trEsc()";
+      typ = 3;
     cond .s.equ("cond", token):
       out .= '(';
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('there is not";
+        `lasterror = "there is not '(' next to " + token;
         ret -1;
       }
       {
@@ -2332,13 +2350,13 @@ public &StateBuilder
         if(!`typeExp!`expBoolOr?(out=, in=, 3)) ret -1;
         out .= '?';
         if(!.s.equ(",", `tokenizer(in=))){
-          `lasterror = token + "は引数が3個必要です";
+          `lasterror = token + " requires 3 arguments";
           ret -1;
         }
         if(!`typeExp!`expBoolOr?(out=, in=, 0)) ret -1;
         out .= ':';
         if(!.s.equ(",", `tokenizer(in=))){
-          `lasterror = token + "は引数が3個必要です";
+          `lasterror = token + " requires 3 arguments";
           ret -1;
         }
         if(!`typeExp!`expBoolOr?(out=, in=, 0)) ret -1;
@@ -2350,7 +2368,7 @@ public &StateBuilder
       typ = 0;
     cond .s.equ("stagevar", token):
       if(!.s.equ("(", `tokenizer(in=))){
-        `lasterror = token + "の次に'('there is not";
+        `lasterror = "there is not '(' next to " + token;
         ret -1;
       }
       token = `tokenizer(in=);
@@ -2369,7 +2387,7 @@ public &StateBuilder
         if(!eqneq(out=, in=, typ=)<, [bool(){
           index fnd;
           if(!.s.equ(\", `tokenizer(in=)) || .s.find(\", in)=>fnd < 0){
-            `lasterror = "名前が"\""で囲まれていません";
+            `lasterror = "Name is not enclosed in "\""";
             ret false;
           }
           token = in[0..fnd];
@@ -2383,7 +2401,7 @@ public &StateBuilder
       out .= obj .= "trPlayerID(";
       `expCast(out=, 2, typ, temp);
       if(!.s.equ(",")<, `tokenizer(in=)){
-        `lasterror = "','there is not";
+        `lasterror = "there is not ','";
         ret -1;
       }
       temp.new(0);
@@ -2439,7 +2457,7 @@ public &StateBuilder
           out .= obj .= "trEnemy(0)";
         }
       else:
-        `lasterror = "','there is not";
+        `lasterror = "there is not ','";
         ret -1;
       }
       {
@@ -2455,7 +2473,7 @@ public &StateBuilder
     cond .s.equ("root", token) || .s.equ("parent", token):
       out .= obj .= token[0] == 'r' ? "trRoot()" : "trParent()";
       if(!.s.equ(",")<, `tokenizer(in=)){
-        `lasterror = ",there is not";
+        `lasterror = "there is not ','";
         ret -1;
       }
       {
@@ -2486,7 +2504,7 @@ public &StateBuilder
       `maeOp = token;
       if(`expValue(out=, in=)=>typ < 0) ret -1;
     else:
-      `lasterror = token + "が不正です";
+      `lasterror = token + " It is illegal";
       ret -1;
     }
     ret typ;
@@ -2500,7 +2518,7 @@ public &StateBuilder
     if(
       #in > 0 && .s.cMatch!char?(.enzansiMoji, in<>)
       || #in > 1 && in<> == '!' && in[1] == '='){
-      `lasterror = `tokenizer(in=) + "が不正です";
+      `lasterror = `tokenizer(in=) + " It is illegal";
       ret false;
     }
     ret true;
@@ -2534,7 +2552,7 @@ public &StateBuilder
       int opp = `isOperator(token);
     cond opp == 0:
       if(!.cfg.IgnoreMostErrors || !`usiroOp && .s.equ(token, "(")){
-        `lasterror = "演算子がありません";
+        `lasterror = "operator is missing";
         ret -1;
       }
       {
@@ -2545,7 +2563,7 @@ public &StateBuilder
         oldin = in;
         token = `tokenizer(in=);
         if(`isOperator(token) <= 0){
-          `lasterror = "演算子がありません";
+          `lasterror = "operator is missing";
           ret -1;
         }
         if(!`renzikuEnzansihaError(in=)) ret -1;
@@ -2804,12 +2822,12 @@ public &StateBuilder
       cond .s.equ(")", token):
         buf .= "false)$.v.isT()";
       else:
-        `lasterror = "]か)がありません";
+        `lasterror = "']' or ')' is missing";
         ret false;
       }
       typ = 3;
     cond openkaku:
-      `lasterror = ",there is not";
+      `lasterror = "there is not ','";
       ret false;
     else:
       in = oldin;
@@ -3021,7 +3039,7 @@ public &StateBuilder
       }
     while true:}
     if(#`maeOp > 0){
-      `lasterror = `maeOp + "が不正です";
+      `lasterror = `maeOp + " It is illegal";
       ret -1;
     }
     `maeOp = oldMaeOp;
@@ -3107,7 +3125,7 @@ public &StateBuilder
     cond .s.equ(token, ","):
       if(#`tokenizer(in=) > 0) in = oldin;
     else:
-      `lasterror = token + "が不正です";
+      `lasterror = token + " It is illegal";
       ret false;
     }
     out .= aft;
@@ -3120,7 +3138,7 @@ public &StateBuilder
     if(!`typeExp!`expression?(out=, in=, typ)) ret false;
     ^/char token = `tokenizer(in=);
     if(#token > 0){
-      `lasterror = token + "が不正です";
+      `lasterror = token + " It is illegal";
       ret false;
     }
     out .= aft;
@@ -3271,6 +3289,8 @@ public &StateBuilder
         if(!`remapPal(am=)) ret false;
       case .CtrlTy::Zoom:
         if(!`zoom(am=)) ret false;
+	  case .CtrlTy::ExitMatch:
+        if(!`exitMatch(am=)) ret false;
 	  case .CtrlTy::PlayBGM:
         if(!`playBGM(am=)) ret false;
       default:
@@ -3331,7 +3351,7 @@ public &StateBuilder
           }
           if(!foo){
             if(.cfg.IgnoreMostErrors) break, break;
-            `lasterror = name + "が重複しています";
+            `lasterror = name + " are duplicates";
             ret false;
           }
           switch(typeid(func_t)){
@@ -3392,7 +3412,7 @@ public &StateBuilder
         buf .= name;
       }]);
       if(#buf > 0){
-        `lasterror = (buf .= "は無効なキー名です");
+        `lasterror = (buf .= " is an invalid key name");
         ret false;
       }
     }
@@ -3403,7 +3423,7 @@ public &StateBuilder
     ret `stateSec(param=,[bool(){
       if(!`stateParam(param=, "type", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -3418,14 +3438,14 @@ public &StateBuilder
         case 'u':
           `state.typ = .chr.StTy::U;
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
       }])) ret false;
       if(!`stateParam(param=, "movetype", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -3438,14 +3458,14 @@ public &StateBuilder
         case 'u':
           `state.mov = .chr.MovTy::U;
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
       }])) ret false;
       if(!`stateParam(param=, "physics", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -3460,7 +3480,7 @@ public &StateBuilder
         case 'u':
           `state.phy = .chr.StTy::U;
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -3564,7 +3584,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       if(!`stateParam(param=, "ctrl", [`paraF_t(data=){
@@ -3613,7 +3633,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       `state.ctrlList[-1].task .= elem;
@@ -3720,7 +3740,7 @@ public &StateBuilder
       ~$bool(^/char=) set = [bool(^/char data=){
         data = .s.trim(data);
         if(data[0] != '('){
-          `lasterror = "'('there is not";
+          `lasterror = "there is not '('";
           ret false;
         }
         `state.ctrlList[-1].task .=
@@ -3737,7 +3757,7 @@ public &StateBuilder
         `state.ctrlList[-1].task .= ',';
         index f = .s.find("=", data);
         if(f < 0){
-          `lasterror = "'='there is not";
+          `lasterror = "there is not '='";
           ret false;
         }
         data = data[f+1..-1];
@@ -3749,7 +3769,7 @@ public &StateBuilder
       }];
       if(!value && !`stateParam(param=, "var", [`paraF_t(data=){
         if(data[0] != 'v'){
-          `lasterror = data[0..3] + "の'v'が小文字でありません";
+          `lasterror = data[0..3] + " 'v' is not lowercase";
           ret false;
         }
         data = data[3..-1];
@@ -3759,7 +3779,7 @@ public &StateBuilder
       }])) ret false;
       if(!value && !`stateParam(param=, "fvar", [`paraF_t(data=){
         if(!par && data[0] != 'f'){
-          `lasterror = data[0..4] + "の'f'が小文字でありません";
+          `lasterror = data[0..4] + " 'f' is not lowercase";
           ret false;
         }
         data = data[4..-1];
@@ -3769,7 +3789,7 @@ public &StateBuilder
       }])) ret false;
       if(!value && !`stateParam(param=, "sysvar", [`paraF_t(data=){
         if(data[3] != 'v'){
-          `lasterror = data[0..6] + "の'v'が小文字でありません";
+          `lasterror = data[0..6] + " 'v' is not lowercase";
           ret false;
         }
         data = data[6..-1];
@@ -3786,7 +3806,7 @@ public &StateBuilder
         ret set(:data=:);
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -3821,7 +3841,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(#val == 0 && #fval == 0){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       `state.ctrlList[-1].task .=
@@ -3845,7 +3865,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!v){
-        `lasterror = "vが指定されていません";
+        `lasterror = "'v' is not specified";
         ret false;
       }
       if(!`stateParam(param=, "range", [`paraF_t(data=){
@@ -3863,7 +3883,7 @@ public &StateBuilder
           start = "0";
         else:
           buf.new(0);
-          `lasterror = (buf .= tmp .= "が不正です");
+          `lasterror = (buf .= tmp .= " It is illegal");
           ret false;
         }
         if(#start > 0){
@@ -3895,7 +3915,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -3906,7 +3926,7 @@ public &StateBuilder
     ret `stateSec(param=,[bool(){
       ~$bool(^/char) stset = [bool(^/char data){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -3919,7 +3939,7 @@ public &StateBuilder
         case 'l':
           `state.ctrlList[-1].task .= "`stVal.typ=.StTy::L;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -3935,7 +3955,7 @@ public &StateBuilder
       }])) ret false;
       if(!`stateParam(param=, "physics", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -3948,14 +3968,14 @@ public &StateBuilder
         case 'n':
           `state.ctrlList[-1].task .= "`stVal.phy=.StTy::N;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
       }])) ret false;
       if(!`stateParam(param=, "movetype", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -3966,7 +3986,7 @@ public &StateBuilder
         case 'h':
           `state.ctrlList[-1].task .= "`stVal.mov=.MovTy::H;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -4043,7 +4063,7 @@ public &StateBuilder
       }])) ret false;
       ~$bool(^/char, ^/char) tyset = [bool(^/char name, ^/char data){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(data[0]){
@@ -4057,7 +4077,7 @@ public &StateBuilder
         case 'N', 'n':
           `state.ctrlList[-1].task .= obj .= tmp .= "=.ReactTy::Non;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -4070,7 +4090,7 @@ public &StateBuilder
       }])) ret false;
       ~$bool(^/char, ^/char) atset = [bool(^/char name, ^/char data){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(data[0]){
@@ -4090,7 +4110,7 @@ public &StateBuilder
         case 'D', 'd':
           `state.ctrlList[-1].task .= obj .= tmp .= "=.AnimTy::Diagup;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -4106,7 +4126,7 @@ public &StateBuilder
       }])) ret false;
       if(!`stateParam(param=, "affectteam", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(data[0]){
@@ -4117,7 +4137,7 @@ public &StateBuilder
         case 'F', 'f':
           `state.ctrlList[-1].task .= obj .= ".affectteam=-1;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -4135,7 +4155,7 @@ public &StateBuilder
             ret true;
           }])) ret false;
           if(!reversal_attr){
-            `lasterror = "reversal.attrが指定されていません";
+            `lasterror = "reversal.attr not specified";
             ret false;
           }
         }
@@ -4159,7 +4179,7 @@ public &StateBuilder
           cond text[0] == 'n':
             `state.ctrlList[-1].task .= "pt=6;";
           else:
-            `lasterror = data + "が無効な値です";
+            `lasterror = data + " is an invalid value";
             ret false;
           }
           ret true;
@@ -4488,7 +4508,7 @@ public &StateBuilder
           case 'D', 'd':
             `state.ctrlList[-1].task .= obj .= ".bothhittype=.PriTy::Dodge;";
           default:
-            `lasterror = data + "が無効な値です";
+            `lasterror = data + " is an invalid value";
             ret false;
           }
         }
@@ -4927,7 +4947,7 @@ public &StateBuilder
           oldin = data;
           tmp = `tokenizer(data=);
           if(#tmp > 0 && !.s.equ(tmp, ",")){
-            `lasterror = "nがエラーです";
+            `lasterror = "'n' is an error";
             ret false;
           }
           data = oldin;
@@ -4945,7 +4965,7 @@ public &StateBuilder
           cond .s.equ(`tokenizer(data=), "n"):
             tmp = `tokenizer(data=);
             if(#tmp > 0){
-              `lasterror = "nがエラーです";
+              `lasterror = "'n' is an error";
               ret false;
             }
           else:
@@ -5021,7 +5041,7 @@ public &StateBuilder
             `state.ctrlList[-1].task=, data=,
             ".palfx_addr=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = data + "palfx.addの要素が足りません";
+          `lasterror = data + " missing elements in palfx.add";
           ret false;
         }
         `state.ctrlList[-1].task .= obj;
@@ -5030,7 +5050,7 @@ public &StateBuilder
             `state.ctrlList[-1].task=, data=,
             ".palfx_addg=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = data + "palfx.addの要素が足りません";
+          `lasterror = data + " missing elements in palfx.add";
           ret false;
         }
         `state.ctrlList[-1].task .= obj;
@@ -5047,7 +5067,7 @@ public &StateBuilder
             `state.ctrlList[-1].task=, data=,
             ".palfx_mulr=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = data + "palfx.mulの要素が足りません";
+          `lasterror = data + " missing elements in palfx.mul";
           ret false;
         }
         `state.ctrlList[-1].task .= obj;
@@ -5056,7 +5076,7 @@ public &StateBuilder
             `state.ctrlList[-1].task=, data=,
             ".palfx_mulg=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = data + "palfx.mulの要素が足りません";
+          `lasterror = data + " missing elements in palfx.mul";
           ret false;
         }
         `state.ctrlList[-1].task .= obj;
@@ -5073,7 +5093,7 @@ public &StateBuilder
             `state.ctrlList[-1].task=, data=,
             ".palfx_amplr=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = data + "palfx.sinaddの要素が足りません";
+          `lasterror = data + " missing elements in palfx.sinadd";
           ret false;
         }
         `state.ctrlList[-1].task .= obj;
@@ -5082,7 +5102,7 @@ public &StateBuilder
             `state.ctrlList[-1].task=, data=,
             ".palfx_amplg=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = data + "palfx.sinaddの要素が足りません";
+          `lasterror = data + " missing elements in palfx.sinadd";
           ret false;
         }
         `state.ctrlList[-1].task .= obj;
@@ -5284,7 +5304,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5519,7 +5539,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       `state.ctrlList[-1].task .= "`addLife((double)va,k!=0,a!=0);";
@@ -5539,7 +5559,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5558,7 +5578,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5577,7 +5597,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5616,7 +5636,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       `state.ctrlList[-1].task .= "`trTargetLifeAdd(tar,va,k!=0,a!=0);";
@@ -5703,7 +5723,7 @@ public &StateBuilder
        ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       `state.ctrlList[-1].task .= "`trTargetState(tar,s);";
@@ -5784,7 +5804,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5832,7 +5852,7 @@ public &StateBuilder
         ret valset(:data:);
       }])) ret false;
       if(!val){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       bool time = false;
@@ -5865,7 +5885,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5884,7 +5904,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -5926,6 +5946,8 @@ public &StateBuilder
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOMUSIC;";
         cond .s.equ(text, "nobardisplay"):
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOBARDISPLAY;";
+		cond .s.equ(text, "nohuddisplay"):
+          `state.ctrlList[-1].task .= ".specialFlag|=.gsNOHUDDISPLAY;";
         cond .s.equ(text, "noshadow"):
           `state.ctrlList[-1].task .=
             "`sysivar[.iSPECIALFLAG]|=.lsNOSHADOW;";
@@ -5946,6 +5968,9 @@ public &StateBuilder
           `state.ctrlList[-1].task .= ".specialFlag|=.gsTIMERFREEZE;";
         cond .s.equ(text, "nokoslow"):
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOKOSLOW;";
+		cond .s.equ(text, "autoguard"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsAUTOGUARD;";
         cond .s.equ(text, "unguardable"):
           `state.ctrlList[-1].task .=
             "`sysivar[.iSPECIALFLAG]|=.lsUNGUARDABLE;";
@@ -5954,15 +5979,29 @@ public &StateBuilder
             "`sysivar[.iSPECIALFLAG]|=.lsNOJUGGLECHECK;";
         cond .s.equ(text, "noko"):
           `state.ctrlList[-1].task .= ".specialFlag|=.gsNOKO;";
+		cond .s.equ(text, "timestop"):
+          `state.ctrlList[-1].task .= "
+          .specialFlag|=.gsTIMESTOP;
+          .specialFlag|=.gsTIMERFREEZE;
+          `sysivar[.iSPECIALFLAG]|=.lsTSIGNORE;"; 
+        cond .s.equ(text, "autocrouch"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsAUTOCROUCH;";
+        cond .s.equ(text, "nodamage"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsNODAMAGE;"; 
+        cond .s.equ(text, "noguarddamage"):
+          `state.ctrlList[-1].task .=
+            "`sysivar[.iSPECIALFLAG]|=.lsNOGUARDDAMAGE;";
         else:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
       }];
       if(!`stateParam(param=, "flag", flset)) ret false;
       if(!flag){
-        `lasterror = "flagが指定されていません";
+        `lasterror = "flag not specified";
         ret false;
       }
       if(!`stateParam(param=, "flag2", flset)) ret false;
@@ -6076,7 +6115,7 @@ public &StateBuilder
         "int pt=0,f=1,st=0,o=0;float x=0.0,y=0.0;";
       if(!`stateParam(param=, "helpertype", [`paraF_t(data=){
         if(#data == 0){
-          `lasterror = "値が指定されていません";
+          `lasterror = "no value specified";
           ret false;
         }
         switch(.s.toLowerChar(data[0])){
@@ -6085,7 +6124,7 @@ public &StateBuilder
         case 'p':
           `state.ctrlList[-1].task .= "h~player=true;";
         default:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -6095,7 +6134,7 @@ public &StateBuilder
         cond #data >= 2 && data[0] == '"' && data[-1] == '"':
           data = .s.join(\"\\\"\", .s.split(\", data[1 .. #data - 1]));
         else:
-          `lasterror = \""で囲まれていません";
+          `lasterror = \""not surrounded by";
           ret false;
         }
         `state.ctrlList[-1].task .=
@@ -6121,7 +6160,7 @@ public &StateBuilder
         cond text[0] == 'n':
           `state.ctrlList[-1].task .= "pt=6;";
         else:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
         ret true;
@@ -6343,7 +6382,7 @@ public &StateBuilder
           cond text[0] == 'n':
             `state.ctrlList[-1].task .= exp .= ".postype=6;";
           else:
-            `lasterror = data + "が無効な値です";
+            `lasterror = data + " is an invalid value";
             ret false;
           }
           ret true;
@@ -6366,7 +6405,7 @@ public &StateBuilder
             `state.ctrlList[-1].task .= "t=5;";
           else:
             if(!.cfg.IgnoreMostErrors){
-              `lasterror = data + "が無効な値です";
+              `lasterror = data + " is an invalid value";
               ret false;
             }
           }
@@ -6750,7 +6789,7 @@ public &StateBuilder
           obj .= "aimg.alphas=1;" .= obj .= "aimg.alphad=255;";
       else:
         if(!.cfg.IgnoreMostErrors){
-          `lasterror = text + "が無効な値です";
+          `lasterror = text + " is an invalid value";
           ret false;
         }
       }
@@ -6992,7 +7031,7 @@ public &StateBuilder
               "`sysfvar[.fANGLESCALEY]*=", ";", 1)) ret false;
         cond #tmp == 0:
         else:
-         `lasterror = tmp + "が不正です";
+         `lasterror = tmp + " It is illegal";
           ret false;
         }
         ret true;
@@ -7058,7 +7097,7 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, "addr=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = "addの要素が足りません";
+          `lasterror = "Missing elements in 'add'";
           ret false;
         }
         `state.ctrlList[-1].task .= pf;
@@ -7066,7 +7105,7 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, "addg=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = "addの要素が足りません";
+          `lasterror = "Missing elements in 'add'";
           ret false;
         }
         `state.ctrlList[-1].task .= pf;
@@ -7081,7 +7120,7 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, "mulr=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = "mulの要素が足りません";
+          `lasterror = "Missing elements in 'mul'";
           ret false;
         }
         `state.ctrlList[-1].task .= pf;
@@ -7089,7 +7128,7 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, "mulg=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = "mulの要素が足りません";
+          `lasterror = "Missing elements in 'mul'";
           ret false;
         }
         `state.ctrlList[-1].task .= pf;
@@ -7104,7 +7143,7 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, "amplr=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = "sinaddの要素が足りません";
+          `lasterror = "Missing elements in 'sinadd'";
           ret false;
         }
         `state.ctrlList[-1].task .= pf;
@@ -7112,7 +7151,7 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, "amplg=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = "sinaddの要素が足りません";
+          `lasterror = "Missing elements in 'sinadd'";
           ret false;
         }
         `state.ctrlList[-1].task .= pf;
@@ -7168,7 +7207,7 @@ public &StateBuilder
           `state.ctrlList[-1].task .=
             "t=5;`sysivar[.iSPECIALFLAG]|=.lsTRANS;";
         else:
-          `lasterror = text + "が無効な値です";
+          `lasterror = text + " is an invalid value";
           ret false;
         }
         ret true;
@@ -7298,14 +7337,14 @@ public &StateBuilder
           !`argExpression(
             `state.ctrlList[-1].task=, data=, ".envcol_r=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = ",there is not";
+          `lasterror = "there is not ','";
           ret false;
         }
         if(
           !`argExpression(
             `state.ctrlList[-1].task=, data=, ".envcol_g=", ";", 2)) ret false;
         if(!.s.equ(",")<, `tokenizer(data=)){
-          `lasterror = ",there is not";
+          `lasterror = "there is not ','";
           ret false;
         }
         if(
@@ -7412,7 +7451,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!val){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -7472,7 +7511,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       ret true;
@@ -7509,7 +7548,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!value){
-        `lasterror = "valueが指定されていません";
+        `lasterror = "value not specified";
         ret false;
       }
       if(!`stateParam(param=, "channel", [`paraF_t(data=){
@@ -7577,7 +7616,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!channel){
-        `lasterror = "channelが指定されていません";
+        `lasterror = "channel not specified";
         ret false;
       }
       ret true;
@@ -7597,7 +7636,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!channel){
-        `lasterror = "channelが指定されていません";
+        `lasterror = "channel not specified";
         ret false;
       }
       if(!`stateParam(param=, "pan", [`paraF_t(data=){
@@ -7637,14 +7676,14 @@ public &StateBuilder
             data = data[1 .. i + 1];
           }
         else:
-          `lasterror = \""で囲まれていません";
+          `lasterror = \""not surrounded by";
           ret false;
         }
         `state.ctrlList[-1].task .= "text="\" .= data .= \"";";
         ret true;
       }])) ret false;
       if(!text){
-        `lasterror = "textが指定されていません";
+        `lasterror = "text not specified";
         ret false;
       }
       if(!`stateParam(param=, "params", [`paraF_t(data=){
@@ -7732,7 +7771,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!dest){
-        `lasterror = "destが指定されていません";
+        `lasterror = "dest not specified";
         ret false;
       }
       `state.ctrlList[-1].task .= "`trRemapPal(sg,sn,dg,dn);";
@@ -7766,6 +7805,13 @@ public &StateBuilder
       ret true;
     }]);
   }
+  bool exitMatch(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      `state.ctrlList[-1].task .= "`trExitMatch();";
+      ret true;
+    }]);
+  }
   bool playBGM(&.tbl.NameTable!^/char? param=)
   {
     ret `stateSec(param=,[bool(){
@@ -7773,7 +7819,7 @@ public &StateBuilder
       if(!`stateParam(param=, "path", [`paraF_t(data=){
         path = true;
         if(!(#data >= 2 && data[0] == '"')){
-          `lasterror = \""で囲まれていません";
+          `lasterror = \""not surrounded by";
           ret false;
         }
         branch{
@@ -7783,7 +7829,7 @@ public &StateBuilder
         ret true;
       }])) ret false;
       if(!path){
-        `lasterror = "pathが指定されていません";
+        `lasterror = "path not specified";
         ret false;
       }
       ret true;
@@ -7804,7 +7850,7 @@ public &StateBuilder
           ^char s = .s.toLower(data);
           if(`state.ctrlList[-1].typ != .CtrlTy::Unknown){
             if(.cfg.IgnoreMostErrors) break, break;
-            `lasterror = "typeが二重指定されています";
+            `lasterror = "type is specified twice";
             ret false;
           }
         cond .s.equ(s, "changestate"):
@@ -7989,12 +8035,14 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::RemapPal;
         cond .s.equ(s, "zoom"):
           `state.ctrlList[-1].typ = .CtrlTy::Zoom;
+		cond .s.equ(s, "exitmatch"):
+          `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
 		cond .s.equ(s, "playbgm"):
           `state.ctrlList[-1].typ = .CtrlTy::PlayBGM;
         cond .s.equ(s, "null"):
           `state.ctrlList[-1].typ = .CtrlTy::Null;
         else:
-          `lasterror = data + "が無効な値です";
+          `lasterror = data + " is an invalid value";
           ret false;
         }
       cond .s.equ(name, "triggerall"):
@@ -8009,7 +8057,7 @@ public &StateBuilder
           int idx;
           if(!.com.readDigit(idx=, name[7..-1]) || idx <= 0 || idx > 65536){
             if(.cfg.IgnoreMostErrors) break, break;
-            `lasterror = "トリガー名が不正です";
+            `lasterror = "Invalid trigger name";
             ret false;
           }
           idx--;
@@ -8039,7 +8087,7 @@ public &StateBuilder
         if(`state.ignorehitpause < 0) `state.ignorehitpause = 1;
       else:
         if(`state.ctrlList[-1].typ == .CtrlTy::Unknown){
-          `lasterror = "typeが指定されていません";
+          `lasterror = "type not specified";
           ret false;
         }
         switch(`state.ctrlList[-1].typ){
@@ -8055,7 +8103,7 @@ public &StateBuilder
         case .CtrlTy::ForceFeedback:
         case .CtrlTy::Null:
         default:
-          `lasterror = "無効なキー名です";
+          `lasterror = "Invalid key name";
           ret false;
         }
       }
@@ -8173,7 +8221,7 @@ public &StateBuilder
           #`state.ctrlList[-1].trigger == 0
           || #`state.ctrlList[-1].trigger[0] == 0)
         {
-          ret .errmes(fn, lines[i], i, "trigger1there is not");
+          ret .errmes(fn, lines[i], i, "there is not trigger1");
         }
         if(stateExist) continue;
         buf .= \t"if(";
