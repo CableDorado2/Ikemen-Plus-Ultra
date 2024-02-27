@@ -8,7 +8,7 @@ lib sdl = <alpha/sdlplugin.ssz>;
 lib com = "common.ssz";
 lib m = <math.ssz>;
 lib ogg = <alpha/ogg.ssz>;
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 
 .sdl.setVolume(.cfg.GlVol, .cfg.SEVol, .cfg.BGMVol);
 

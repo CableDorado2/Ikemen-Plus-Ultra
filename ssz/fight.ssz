@@ -10,7 +10,7 @@ lib com = "common.ssz";
 lib act = "action.ssz";
 lib fnt = "font.ssz";
 lib bg = "bg.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib cmd = "command.ssz";
 lib al = <alert.ssz>;
 
@@ -41,12 +41,12 @@ public void laydraw(
 
 public void laytext(
   float x, float y, float scl, int ln, ^/char text,
-  &.fnt.Font f=, int b, int a, &.com.Layout l=)
+  &.fnt.Font f=, int b, int as, int ad, int a, &.com.Layout l=)
 {
   if(l.layerno != ln) ret;
   f.drawText(
     (x+l.offset.x)*scl, (y+l.offset.y)*scl,
-    l.scale.x*(float)l.facing*scl, l.scale.y*(float)l.vfacing*scl, b, a, text);
+    l.scale.x*(float)l.facing*scl, l.scale.y*(float)l.vfacing*scl, b, as, ad, .com.scrrect=, a, text);
 }
 
 public void layspr(
@@ -449,7 +449,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     if(`counter_fontn >= 0 && #f > `counter_fontn){
       .laytext(
         (float)`posx, (float)`posy, 1.0, layerno, ''level,
-        f[`counter_fontn]=, `counter_fontb, `counter_fonta, `counter_lay=);
+        f[`counter_fontn]=, `counter_fontb, 255, 0, `counter_fonta, `counter_lay=);
     }
   }
   public void setup(^&.sff.Sff sf, ^&.snd.Snd s)
@@ -668,7 +668,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     if(`name_fontn >= 0 && #f > `name_fontn){
       .laytext(
         (float)`posx, (float)`posy, 1.0, layerno, name,
-        f[`name_fontn]=, `name_fontb, `name_fonta, `name_lay=);
+        f[`name_fontn]=, `name_fontb, 255, 0, `name_fonta, `name_lay=);
     }
   }
   public void setup(^&.sff.Sff sf)
@@ -702,6 +702,9 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public ^int cur, old;
   public ^int resttime;
   public ^float counterX;
+  public ^int counterY;
+  public ^int counterAS;
+  public ^int counterAD;
   public ^int shaketime;
   new()
   {
@@ -711,6 +714,9 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     `old.new(2);
     `resttime.new(2);
     `counterX.new(2);
+	`counterY.new(2);
+    `counterAS.new(2);
+    `counterAD.new(2);
     `shaketime.new(2);
     `reset();
   }
@@ -735,15 +741,19 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
       `displaytime = .com.atonOF!`displaytime.self?(data);
     }
   }
-  public void step(^/int combo)
+  public void step(^/int combo, int wt)
   {
     loop{index i = 0; while; do:
       branch{
       cond `resttime[i] > 0:
-        `counterX[i] += -`counterX[i] / 8.0;
+        if(#`counterX[i] > 1.0)
+          `counterX[i] += 10.0;
+        `counterAS[i] = 255;
+        `counterAD[i] = 0;
       else:
-        `counterX[i] -= .cfg.LifebarFontScale * 4.0;
-        if(`counterX[i] < `start_x*2.0) `counterX[i] = `start_x*2.0;
+        if(`counterAS[i] > 0) `counterAS[i] = (`counterAS[i] - 32)+1;
+        if(`counterAD[i] < 255) `counterAD[i] = (`counterAD[i] + 32)-1;
+        if(`counterAS[i] <= 0) `counterX[i] = `start_x;
       }
       if(`shaketime[i] > 0) `shaketime[i]--;
       if(#`counterX[i] < 1.0) `resttime[i]--;
@@ -756,6 +766,27 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
       i++;
     while i < #`cur:}
   }
+  //public void step(^/int combo) //Original/Mugen Combo Counter Reverse Anim
+  //{
+    //loop{index i = 0; while; do:
+      //branch{
+      //cond `resttime[i] > 0:
+        //`counterX[i] += -`counterX[i] / 8.0;
+      //else:
+        //`counterX[i] -= .cfg.LifebarFontScale * 4.0;
+        //if(`counterX[i] < `start_x*2.0) `counterX[i] = `start_x*2.0;
+      //}
+      //if(`shaketime[i] > 0) `shaketime[i]--;
+      //if(#`counterX[i] < 1.0) `resttime[i]--;
+      //if(combo[i] >= 2 && `old[i] != combo[i]){
+        //`cur[i] = combo[i];
+        //`resttime[i] = `displaytime;
+        //if(`counter_shake != 0) `shaketime[i] = 15;
+      //}
+      //`old[i] = combo[i];
+      //i++;
+    //while i < #`cur:}
+  //}
   public void draw(int layerno, ^&.fnt.Font f)
   {:<-
     float haba(int n, ^&.fnt.Font f)
@@ -799,7 +830,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
           x*(1.0/.cfg.LifebarFontScale),
           (float)`posy*(1.0/.cfg.LifebarFontScale),
           .cfg.LifebarFontScale, layerno, fm.out,
-          f[`text_fontn]=, `text_fontb, (i&1)==0?1:-1, `text_lay=);
+          f[`text_fontn]=, `text_fontb, `counterAS[i], `counterAD[i], (i&1)==0?1:-1, `text_lay=);
         if((i&1) != 0){
           x -=
             (float)f[`text_fontn].textWidth(fm.out)
@@ -811,7 +842,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
           * .m.sin((double)`shaketime[i] * (.m.PI / 2.5));
         .laytext(
           x/z, (float)`posy/z, z, layerno, ''`cur[i],
-          f[`counter_fontn]=, `counter_fontb, -1, `counter_lay=);
+          f[`counter_fontn]=, `counter_fontb, `counterAS[i], `counterAD[i], -1, `counter_lay=);
       }
     continue:
       i++;
@@ -833,6 +864,9 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     `old[0] = `old[1] = 0;
     `resttime[0] = `resttime[1] = 0;
     `counterX[0] = `counterX[1] = `start_x*2.0;
+	`counterY[0] = `counterY[1] = `posy;
+    `counterAS[0] = `counterAS[1] = 255;
+    `counterAD[0] = `counterAD[1] = 0;
     `shaketime[0] = `shaketime[1] = 0;
   }
 }
@@ -880,7 +914,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     cond #`anim.frames > 0:
       .laydraw(.com.scrrect=, x, y, 1.0, layerno, `anim=, `lay=);
     cond `fontn >= 0 && #f > `fontn && #`text > 0:
-      .laytext(x, y, 1.0, layerno, `text, f[`fontn]=, `fontb, `fonta, `lay=);
+      .laytext(x, y, 1.0, layerno, `text, f[`fontn]=, `fontb, 255, 0, `fonta, `lay=);
     }
   }
   public bool noSound()
@@ -1434,7 +1468,7 @@ public void setPerfect(|.WinTy wt=)
       if(`counter_fontn < 0 || #f <= `counter_fontn) break;
       .laytext(
         (float)`posx, (float)`posy, 1.0, layerno, ''#`wins,
-        f[`counter_fontn]=, `counter_fontb, `counter_fonta, `counter_lay=);
+         f[`counter_fontn]=, `counter_fontb, 255, 0, `counter_fonta, `counter_lay=);
     else:
       loop{
         index i = 0;
@@ -1563,7 +1597,7 @@ public void setPerfect(|.WinTy wt=)
       .laytext(
         (float)`posx, (float)`posy, 1.0, layerno,
         time >= 0 ? ''(time/`framespercount) : "o",
-        f[`counter_fontn]=, `counter_fontb, `counter_fonta, `counter_lay=);
+        f[`counter_fontn]=, `counter_fontb, 255, 0, `counter_fonta, `counter_lay=);
     }
   }
   public void setup(^&.sff.Sff sf)
@@ -1942,7 +1976,7 @@ public &Fight
     `wi[0].step(.com.p1wins);
     `wi[1].step(.com.p2wins);
     `ti.step();
-    `co.step(combo);
+    `co.step(combo,`ro.over_wintime); //`co.step(combo); //Original/Mugen Combo Counter Reverse Anim
   }
   public void draw(
     int layerno, ^/&.LifePower life, ^/^/char name, bool nbd,

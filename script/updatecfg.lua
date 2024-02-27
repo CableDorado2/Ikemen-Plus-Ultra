@@ -6,9 +6,7 @@
 t_config = {
 	{f = 'const float PanStr', v = ' = 0.8', a = '(const float BGMVol%s*=%s*%d%.*%d*;)'},
 }
---t_data = {
---	{f = 'const float PanStr', v = '= 0.8', a = '(const float BGMVol%s*=%s*%d%.*%d*;)'},
---}
+
 t_training = {
 	{f = '--Practice Settings', v = '', p = '(data.trnStateType)'},
 	{f = 'data.trnCounterHit', v = ' = 0', a = '(data.trnAutoGuard%s*=%s*%d*)'},
@@ -45,7 +43,7 @@ function f_updateCfg()
 end
 
 function f_updateDat()
-	local file = io.open('script/data_sav.lua','r')
+	local file = io.open('save/data_sav.lua','r')
 	if file == nil then
 		return
 	else
@@ -64,7 +62,7 @@ function f_updateDat()
 		if not modified then
 			return
 		else
-			local file = io.open('script/data_sav.lua','w+')
+			local file = io.open('save/data_sav.lua','w+')
 			file:write(dat)
 			file:close()
 		end

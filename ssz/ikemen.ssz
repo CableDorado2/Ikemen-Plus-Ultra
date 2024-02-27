@@ -4,7 +4,7 @@ lib sdl = <alpha/sdlplugin.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
 lib se = <alpha/sdlevent.ssz>;
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib chr = "char.ssz";
 lib com = "common.ssz";
 lib sha = "share.ssz";
@@ -199,7 +199,7 @@ void main()
   }
 /?/*.cfg.OpenGL:
   if(!.sdl.InitMugenGl(::)){
-    .error!.self?("OpenGL Initialization failed, edit it as false in ssz/config.ssz");
+    .error!.self?("OpenGL Initialization failed, edit it as false in save/config.ssz");
     ret;
   }
 /*?*/

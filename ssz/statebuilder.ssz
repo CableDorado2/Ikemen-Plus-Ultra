@@ -8,7 +8,7 @@ lib m = <math.ssz>;
 lib chr = "char.ssz";
 lib cmd = chr.cmd;
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib al = <alert.ssz>;
 
 const ^/char enzansiMoji = "=<>|&+*/%^";
@@ -61,6 +61,7 @@ const ^/char kuuhaktokigou = " !()-,[]:"\"\t\r\n + enzansiMoji;
   Zoom,
   ExitMatch,
   PlayBGM,
+  ForceCommand,
   Null
 }
 &StateCtrl
@@ -1977,6 +1978,9 @@ public &StateBuilder
       cond .s.equ("groundtype", token):
         out .= obj .= "stVal.hb.groundtype";
         typ = 2;
+	  cond .s.equ("guardflag", token):
+        out .= obj .= "stVal.hb.guardflag";
+        typ = 2;
       cond .s.equ("damage", token):
         out .= obj .= "stVal.hb.damage";
         typ = 2;
@@ -2316,6 +2320,9 @@ public &StateBuilder
       typ = 2;
 	cond .s.equ("servicetype", token):
       out .= obj .= "trServiceType()";
+      typ = 2;
+	cond .s.equ("inputdisplay", token):
+      out .= obj .= "trInputDisplay()";
       typ = 2;
     cond .s.equ("const240p", token):
       if(`oneArg(token, temp=, in=)=>typ < 0) ret -1;
@@ -3303,6 +3310,8 @@ public &StateBuilder
         if(!`exitMatch(am=)) ret false;
 	  case .CtrlTy::PlayBGM:
         if(!`playBGM(am=)) ret false;
+	  case .CtrlTy::ForceCommand:
+        if(!`forceCommand(am=)) ret false;
       default:
         {
           bool error = false;
@@ -7884,6 +7893,38 @@ public &StateBuilder
       ret true;
     }]);
   }
+  bool forceCommand(&.tbl.NameTable!^/char? param=)
+  {
+    ret `stateSec(param=,[bool(){
+      bool cma = false;
+      if(!`stateParam(param=, "command", [`paraF_t(data=){
+        cma = true;
+        branch{
+        cond #data >= 2 && data[0] == '"':
+          {
+            index i = .s.find(\", data[1..-1]);
+            if(i < 0) break, else;
+            data = data[1 .. i + 1];
+          }
+        else:
+          `lasterror = \""not surrounded by";
+          ret false;
+        }
+        ^index ci = `cmdl[`playerno].cTable~get(data);
+        if(#ci == 0){
+          `lasterror = "Command "\" + data + \"" does not exist";
+          ret false;
+        }
+        `state.ctrlList[-1].task .= "`frccmd=" .= ''ci<> .= ";";
+        ret true;
+      }])) ret false;
+      if(!cma){
+        `lasterror = "command not specified";
+        ret false;
+      }
+      ret true;
+    }]);
+  }
   ^/char stateBulid(%char buf=, ^/char def, ^/char st=)
   {:<-
     public bool statedef(^/char sec, ^/char name, ^/char data)
@@ -8088,6 +8129,8 @@ public &StateBuilder
           `state.ctrlList[-1].typ = .CtrlTy::ExitMatch;
 		cond .s.equ(s, "playbgm"):
           `state.ctrlList[-1].typ = .CtrlTy::PlayBGM;
+		cond .s.equ(s, "forcecommand"):
+          `state.ctrlList[-1].typ = .CtrlTy::ForceCommand;
         cond .s.equ(s, "null"):
           `state.ctrlList[-1].typ = .CtrlTy::Null;
         else:
@@ -8927,11 +8970,11 @@ public &StateBuilder
     if(#`stcommon > 0 && #`stateBulid(buf=, def, `stcommon=)=>error > 0){
       ret error;
     }
-	^/char training = "data/training.cns";
+	//^/char training = "data/training.cns";
 	^/char minus = "data/match.cns";
-	if(.s.equ(.com.gameMode, "practice")){
-      if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
-    }
+	//if(.s.equ(.com.gameMode, "practice")){
+      //if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
+    //}
 	if(#`stateBulid(buf=, def, minus=)=>error > 0) ret error;
     buf .=
       "public void c.Char::stateInit" .= ''`playerno .= "P()"\r\n

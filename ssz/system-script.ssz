@@ -8,7 +8,7 @@ lib bg = "bg.ssz";
 lib cmd = "command.ssz";
 lib fnt = "font.ssz";
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib snd = "sound.ssz";
 lib chr = "char.ssz";
 lib lua = <alpha/lua.ssz>;
@@ -55,7 +55,7 @@ public &TextImg
   {
     if(.se.fskip || #`fnt == 0) ret;
 	if(`oldScale != .com.WidthScale) `updateWindow();
-    `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `align, `text);
+    `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `salpha, `dalpha, `window=, `align, `text); //`fnt~drawText(`x, `y, `xscl, `yscl, `bank, `align, `text);
   }
   public float getTextWidth()
   {
@@ -532,6 +532,13 @@ void setServiceType(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.serviceType = st;
+}
+
+void setInputDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ipd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.inputDisplay = ipd;
 }
 
 void getListenPort(&.lua.State L=, int re=)
@@ -1801,9 +1808,9 @@ void setConfigTVars(&.lua.State L=, int re=)
   int recdir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   int dis = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   int inp = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int ru = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int vc = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int lb = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int ru = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int vc = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int lb = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   if(#.chr.chars > 1){
     .chr.chars[1]<>~tivar[1] = st;
     .chr.chars[1]<>~tivar[2] = dst;
@@ -1814,9 +1821,9 @@ void setConfigTVars(&.lua.State L=, int re=)
     .chr.chars[1]<>~tivar[10] = recdir;
     .chr.chars[1]<>~tivar[6] = dis;
     .chr.chars[0]<>~tivar[11] = inp;
-    .chr.chars[1]<>~tivar[7] = ru;
-    .chr.chars[1]<>~tivar[8] = vc;
-    .chr.chars[1]<>~tivar[9] = lb;
+    //.chr.chars[1]<>~tivar[7] = ru;
+    //.chr.chars[1]<>~tivar[8] = vc;
+    //.chr.chars[1]<>~tivar[9] = lb;
   }
 }
 
@@ -1947,6 +1954,7 @@ public void init(&.lua.State L=)
   L.register("remapInput", .remapInput);
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
+  L.register("setInputDisplay", .setInputDisplay);
   L.register("setConfigTVars", .setConfigTVars);
   L.register("getConfigTVars", .getConfigTVars);
 }

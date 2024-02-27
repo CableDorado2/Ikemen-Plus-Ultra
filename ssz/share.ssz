@@ -7,7 +7,7 @@ lib com = "common.ssz";
 lib se = <alpha/sdlevent.ssz>;
 lib lua = <alpha/lua.ssz>;
 lib snd = "sound.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib sc = "system-script.ssz";
 
 public &Share
@@ -46,6 +46,7 @@ public &Share
   public ^/char playerSide;
   public int gameType;
   public int serviceType;
+  public int inputDisplay;
   public float panStr;
   public ^/char bgmusic;
   /%&.cfg.Keys in;
@@ -100,6 +101,7 @@ public &Share
 	`playerSide = .com.playerSide;
 	`gameType = .com.gameType;
 	`serviceType = .com.serviceType;
+	`inputDisplay = .com.inputDisplay;
 	`panStr = .snd.panstr;
 	`bgmusic = .stage.bgmusic;
 	`in = .cfg.in;
@@ -155,6 +157,7 @@ public &Share
 	.com.playerSide = `playerSide;
 	.com.gameType = `gameType;
 	.com.serviceType = `serviceType;
+	.com.inputDisplay = `inputDisplay;
 	.snd.panstr = `panStr;
 	.stage.bgmusic = `bgmusic;
 	.cfg.in[0] = `in[0];

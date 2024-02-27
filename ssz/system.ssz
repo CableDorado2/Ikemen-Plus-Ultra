@@ -6,7 +6,7 @@ lib al = <alert.ssz>;
 lib com = "common.ssz";
 lib fgt = "fight.ssz";
 lib sff = "sff.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 
 
 public &Select

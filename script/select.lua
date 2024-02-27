@@ -877,7 +877,7 @@ function f_selectSimple()
 		if data.rosterMode == 'challenger' then f_challengerMusic()
 		elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == 'event' then --playBGM('')
-		else playBGM(bgmSelect)
+		else f_selectMusic()
 		end
 		if winner < 1 then
 			f_selectReset()
@@ -935,7 +935,7 @@ function f_selectSimple()
 					break
 				--BACK TO STAGE SELECT
 				elseif battleOption == 3 or battleOption2 == 3 then
-					playBGM(bgmSelect)
+					f_selectMusic()
 					f_randomRematch()
 					f_stageSelectReset()
 					--selectStart()
@@ -964,12 +964,12 @@ function f_selectSimple()
 				--BACK TO CHARACTER SELECT
 				elseif battleOption == 2 or battleOption2 == 2 then
 					if data.challengerScreen == false then
-						playBGM(bgmSelect) --and don't show the screen
+						f_selectMusic() --and don't show the screen
 					elseif data.challengerScreen == true then
 						f_selectChallenger()
 						f_challengerMusic()
 					else
-						playBGM(bgmSelect) --play original char select song instead of challenger song
+						f_selectMusic() --play original char select song instead of challenger song
 					end
 					f_selectReset()
 					while not selScreenEnd do
@@ -1086,7 +1086,7 @@ function f_selectAdvance()
 	while true do
 		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == 'challenger' then f_challengerMusic()
-		else playBGM(bgmSelect)
+		else f_selectMusic()
 		end
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		selectStart()
@@ -1552,8 +1552,23 @@ function f_selectAdvance()
 				return
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
-				looseCnt = looseCnt + 1
 				assert(loadfile('save/temp_sav.lua'))()
+				if data.challengerMode then --Here comes a New Challenger Route
+					data.challengerMode = false
+					f_saveTemp()
+				--Go to 1P VS 2P Mode
+					f_default()
+					setGameMode('vs')
+					data.p2In = 2
+					data.stageMenu = true
+					data.p2Faces = true
+					data.gameMode = 'versus'
+					data.rosterMode = 'versus'
+					textImgSetText(txt_mainSelect, 'VERSUS MODE')
+					f_selectSimple()
+				else --Normal Give Up Route
+					looseCnt = looseCnt + 1
+				end
 				if data.tempBack == true then
 					data.tempBack = false
 					f_saveTemp()
@@ -1800,7 +1815,7 @@ function f_selectStory()
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		--playBGM(bgmSelect)
+		--f_selectMusic()
 		if winner < 1 then
 			f_selectReset()
 		else
@@ -5637,10 +5652,10 @@ function f_selectStage()
 				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
 				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 70)
 			elseif data.stageType == 'Modern' then
-				--txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 234)
+				--txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 30)
 				stageTimeNumber = stageTimer/gameTick
 				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
-				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 234)
+				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 30)
 			end
 			if stageTimer > 0 then
 				stageTimer = stageTimer - 0.5 --Activate Stage Select Timer
@@ -5819,11 +5834,9 @@ function f_assignMusic()
 	elseif musicList == 1 then --Player 2 Song
 		playBGM(p2charSong)
 	elseif musicList == 2 then --Random Song
-		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
-		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
 	else --Sound Folder Song
-		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.mp3')
-		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.ogg')
+		playBGM(t_selMusic[musicList+1].bgmfile)
 	end
 end
 
@@ -5839,8 +5852,7 @@ function f_musicPreview()
 	elseif musicList == 1 and p2song then playBGM(p2charSong)
 	elseif musicList == 2 then --None because Random Preview Will be different of selected
 	else
-		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.mp3')
-		playBGM('sound/' .. t_selMusic[musicList+1].bgmname .. '.ogg')
+		playBGM(t_selMusic[musicList+1].bgmfile)
 	end
 end
 
@@ -5874,8 +5886,7 @@ function f_loadSong() --Can be replaced by f_assignMusic() ?
 	elseif musicList == 0 then f_assignMusic() --Auto Stage Song
 	elseif musicList == 1 then playBGM(p2charSong) --Player 2 Song
 	elseif musicList == 2 then --Random Song
-		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.mp3')
-		playBGM('sound/' .. t_selMusic[math.random(3, #t_selMusic)].bgmname .. '.ogg')
+		playBGM(t_selMusic[math.random(3, #t_selMusic)].bgmfile)
 	end
 end
 
@@ -6828,7 +6839,7 @@ function f_selectWin()
 				if i == 510 or btnPalNo(p1Cmd) > 0 then
 					cmdInput()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
+					if data.orderSelect == true and data.gameMode == 'arcade' then f_selectMusic()
 					elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 					end
 					commandBufReset(p1Cmd, 1)
@@ -6894,7 +6905,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 			if i == 510 or btnPalNo(p1Cmd) > 0 then
 				cmdInput()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
+				if data.orderSelect == true and data.gameMode == 'arcade' then f_selectMusic()
 				elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 				end
 				commandBufReset(p1Cmd, 1)
@@ -6940,7 +6951,7 @@ function f_selectWinOFF()
 		end
 		if rematchEnd then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			if data.orderSelect == true and data.gameMode == 'arcade' then playBGM(bgmSelect)
+			if data.orderSelect == true and data.gameMode == 'arcade' then f_selectMusic()
 			elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 			end
 			commandBufReset(p1Cmd, 1)
@@ -7498,7 +7509,6 @@ challengerText1 = animNew(sysSff, [[
 ]])
 animAddPos(challengerText1, 19, 100)
 animUpdate(challengerText1)
---animSetScale(challengerText1, 1.2, 1)
 
 --;===========================================================
 --; HERE COMES A NEW CHALLENGER SCREEN
@@ -7508,7 +7518,6 @@ function f_selectChallenger()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmNothing)
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
-	local txt = ''
 	local i = 0
 	data.rosterMode = 'challenger'
 	cmdInput()
@@ -8203,6 +8212,7 @@ function f_continue()
 					--Free Online Arcade to Avoid Desync
 				end
 				data.continueCount = data.continueCount + 1 --Times Continue
+				--f_saveProgress()
 				if data.attractMode == true then
 					textImgSetText(txt_coins, 'CREDITS: ' .. data.attractCoins)
 				--else
@@ -8347,12 +8357,12 @@ function f_continue()
 				end
 				--challenger screen
 				if data.challengerScreen == false then
-					playBGM(bgmSelect) --and don't show the screen
+					f_selectMusic() --and don't show the screen
 				elseif data.challengerScreen == true then
 					f_selectChallenger()
 					f_challengerMusic()
 				else
-					playBGM(bgmSelect) --play original char select song instead of challenger song
+					f_selectMusic() --play original char select song instead of challenger song
 				end
 				break
 			end

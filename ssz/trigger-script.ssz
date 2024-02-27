@@ -5,7 +5,7 @@ lib lua = <alpha/lua.ssz>;
 lib sc = "script.ssz";
 lib chr = "char.ssz";
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 
 public ^&chr.Char cwc;
 
@@ -512,6 +512,12 @@ void servicetype(&.lua.State L=, int re=)
   L.pushNumber((double) .com.serviceType);
 }
 
+void inputdisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.inputDisplay);
+}
+
 void gamemode(&.lua.State L=, int re=)
 {
   re = 1;
@@ -549,6 +555,8 @@ void gethitvar(&.lua.State L=, int re=)
     n = (double).cwc~stVal.hb.airtype;
   cond .s.equ("groundtype", ghv):
     n = (double).cwc~stVal.hb.groundtype;
+  cond .s.equ("guardflag", ghv):
+    n = (double).cwc~stVal.hb.guardflag;
   cond .s.equ("damage", ghv):
     n = (double).cwc~stVal.hb.damage;
   cond .s.equ("hitcount", ghv):
@@ -1193,6 +1201,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gametime", .gametime);
   L.register("gametype", .gametype);
   L.register("servicetype", .servicetype);
+  L.register("inputdisplay", .inputdisplay);
   L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);

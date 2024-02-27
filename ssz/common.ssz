@@ -2,7 +2,7 @@ lib s = <string.ssz>;
 lib consts = <consts.ssz>;
 lib m = <math.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib mes = <alpha/mesdialog.ssz>;
 lib tbl = <table.ssz>;
 lib file = <file.ssz>;
@@ -20,6 +20,7 @@ public bool sharedLife = true;
 public int sysControls = 0; //0 = Fight, 10 = Menu, set back to 10
 public int gameState = 0; //1 = Fight, 0 = Menu, temporary
 public bool exitMatch;
+public int inputDisplay = 0;
 
 //TEAM MODE TYPE
 |TeamMode

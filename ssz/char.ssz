@@ -8,7 +8,7 @@ lib sff = "sff.ssz";
 lib cmd = "command.ssz";
 lib stage = "stage.ssz";
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib snd = "sound.ssz";
 lib fgt = "fight.ssz";
 lib act = "action.ssz";
@@ -180,11 +180,13 @@ const int lsBACKWCHANGE   = 0b00000000000010000000000000000000;
 const int lsFEDGECHANGE   = 0b00000000000100000000000000000000;
 const int lsBEDGECHANGE   = 0b00000000001000000000000000000000;
 const int lsDESTROY       = 0b00000000010000000000000000000000;
+const int lsAUTOGUARD     = 0b00000000100000000000000000000000;
+const int lsAUTOCROUCH    = 0b00000001000000000000000000000000;
 const int lsTSIGNORE      = 0b00000010000000000000000000000000;
 
 const int lasMask =
   lsNOAUTOTURN | lsNOWALK | lsNOSTANDGUARD | lsNOCROUCHGUARD | lsNOAIRGUARD
-  | lsNOSHADOW | lsINVISIBLE | lsUNGUARDABLE | lsNOJUGGLECHECK;
+  | lsNOSHADOW | lsINVISIBLE | lsUNGUARDABLE | lsNOJUGGLECHECK | lsAUTOGUARD | lsAUTOCROUCH;
 
 public uint specialFlag;
 const uint gsINTRO          = 0b00000000000000000000000000000001;
@@ -1174,6 +1176,7 @@ const int ATP =
   public int groundanimtype;
   public int airtype;
   public int groundtype;
+  public int guardflag;
   public int damage = 0;
   public int hitcount;
   public int fallcount;
@@ -1206,6 +1209,7 @@ const int ATP =
     `groundanimtype = 0;
     `airtype = 0;
     `groundtype = 0;
+	`guardflag = 0;
     `hitcount = 0;
     `fallcount = 0;
     `hitshaketime = 0;
@@ -1407,6 +1411,7 @@ public &ConfigTVars
     `fallTime = 0;
     `hb.yaccel = hit.yaccel;
     if(hit.forcenofall) fall = false;
+	`hb.guardflag = hit.guardflag;
     `hb.groundtype = (int)hit.ground_type;
     `hb.airtype = (int)hit.air_type;
     `hb.typ = `typ == .StTy::A ? `hb.airtype : `hb.groundtype;
@@ -2097,7 +2102,7 @@ public &Char
   public ^%&.RdCacheInfo enemyn;
   public ^&.act.Frame curFrame;
   public %&.snd.Sound sounds;
-  public index cpucmd = -1;
+  public index cpucmd = -1, frccmd = -1;
   public method$void() stateDef = dummy, state = dummy, state_1 = dummy,
     state_2 = dummy, state_3 = dummy, state_i1 = dummy;
   type action_t = &.act.Action;
@@ -2188,6 +2193,7 @@ public &Char
     `enemynClear();
     `targets.new(0);
     `cpucmd = -1;
+	`frccmd = -1;
   }
   public void clearVal()
   {
@@ -3316,6 +3322,7 @@ public &Char
   public void action()
   {
     if(`minus != 2 || `ls(.lsDESTROY)) ret;
+	`frccmd = -1;
     bool p = .timestop ? (!`ls(.lsTSIGNORE) && `sysivar[.iIGNORETIMESTOP] == 0)
       : .super > 0 ? `sysivar[.iSUPERMOVETIME] == 0
       : .pause > 0 && `sysivar[.iPAUSEMOVETIME] == 0;
@@ -3326,6 +3333,7 @@ public &Char
       !(`isKO() || `ctrlOver()) && (`ctrl || `stVal.no == 52)
       && `stVal.mov == .MovTy::I && #`cmd > 0
       && (.com.autoguard[`playerno] || `cmd~buffer~B > 0) && (
+	  //&& (`ls(.lsAUTOGUARD) || `cmd~buffer~B > 0) && .ctrlwait > 0 && (
         (`stVal.typ == .StTy::S && !`ls(.lsNOSTANDGUARD))
         || (`stVal.typ == .StTy::C && !`ls(.lsNOCROUCHGUARD))
         || (`stVal.typ == .StTy::A && !`ls(.lsNOAIRGUARD))))
@@ -4707,6 +4715,9 @@ public &Char
   bool commandSub(int pno, int i)
   {
     ^&.cmd.Command cl = `cmd[pno].at(i);
+	if(`frccmd >= 0 && i == `frccmd){
+      ret true;
+    }
     if(#cl > 0 && `key < 0){
       if(`mver0() == 1 && `helperindex != 0) ret false;
       ^/char name = cl~name;
@@ -5550,6 +5561,10 @@ public &Char
   {
     ret .com.serviceType;
   }
+  public int trInputDisplay()
+  {
+    ret .com.inputDisplay;
+  }
   public ^/char trGameMode()
   {
     ret .com.gameMode;
@@ -5965,7 +5980,7 @@ public void PlayerList!&Char?::clsn(&.Char pyr=, bool pro)
       (pro != 0 || !by.ls(.lsUNGUARDABLE)) && `pyr.sf(.sfGUARD)
       && (!`pyr.ls(.lsGETHIT) || `pyr.stVal.hb.guarded);
     if(
-      guard && .com.autoguard[`pyr.playerno]
+      guard && .com.autoguard[`pyr.playerno] //guard && `pyr.ls(.lsAUTOGUARD)
       && `pyr.acttmp > 0 && !`pyr.ls(.lsGETHIT)
       && (`pyr.stVal.typ == .StTy::S || `pyr.stVal.typ == .StTy::C)
       && ((int)`pyr.stVal.typ&hit.guardflag) == 0) branch
@@ -6717,6 +6732,7 @@ void commandUpdate()
             }
             while;
           do:
+			c.cmd[i].ac = (r.ls(.lsAUTOCROUCH));
             c.cmd[i].step(c.facing, c.key < 0, hp, buftime + (int)hp);
             i++;
           while i < #c.cmd:}

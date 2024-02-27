@@ -7,7 +7,7 @@ lib se = <alpha/sdlevent.ssz>;
 lib al = <alert.ssz>;
 lib sff = "sff.ssz";
 lib chr = "char.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib com = "common.ssz";
 lib fnt = "font.ssz";
 lib sha = "share.ssz";
@@ -153,7 +153,7 @@ void game()
       .fnt.debugFont~drawText(
         -(float)(.com.GameWidth-320)/2.0,
         y += (float).fnt.debugFont~sizey/.com.HeightScale,
-        1.0/.com.WidthScale,  1.0/.com.HeightScale, 0, 1, t[0..i]);
+        1.0/.com.WidthScale,  1.0/.com.HeightScale, 0, 255, 0, .com.scrrect=, 1, t[0..i]);
       t = t[i..-1];
     while #t > 0:}
     .sff.allPalFX~enable = tmp;

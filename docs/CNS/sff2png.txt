@@ -1,0 +1,1 @@
+sff2png.exe [infile aka char.sff] [outfile or what you want the name of the .def to be called]

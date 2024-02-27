@@ -16,27 +16,19 @@ type = null
 trigger1 = !time
 trigger1 = 1 || var(7):= 1073741823 ;2147483647 ; default (enable all)
 ;uncomment to disable
-;trigger1 = 1||var(7):=(var(7)^1)        ;; 1st - dizzy/stun system
-;trigger1 = 1||var(7):=(var(7)^2)        ;; 2nd - guard_break system
-;trigger1 = 1||var(7):=(var(7)^4)        ;; 3rd - show combo_counter
-;trigger1 = 1||var(7):=(var(7)^8)        ;; 4th - show message
-;trigger1 = 1||var(7):=(var(7)^16)       ;; 5th - show score/cpu_level
-;trigger1 = 1||var(7):=(var(7)^32)       ;; 6th - show result_panel
-;trigger1 = 1||var(7):=(var(7)^64)       ;; 7th - play system voice
-;trigger1 = 1||var(7):=(var(7)^128)      ;; 8th - show key_input
-;trigger1 = 1||var(7):=(var(7)^256)      ;; 9th - show lifebar
-;trigger1 = 1||var(7):=(var(7)^512)      ;;10th - show powerbar
-;trigger1 = 1||var(7):=(var(7)^1024)     ;;11th - tag system
-;trigger1 = 1||var(7):=(var(7)^2048)     ;;12th - tag_assist
-;trigger1 = 1||var(7):=(var(7)^4096)     ;;13th - round_call
-;trigger1 = 1||var(7):=(var(7)^8192)     ;;14th - ko_call
-;trigger1 = 1||var(7):=(var(7)^16384)    ;;15th - show ground_dust effect
-;trigger1 = 1||var(7):=(var(7)^32768)    ;;16th - show portrait / face
-trigger1 = 1||var(7):=(var(7)^65536)    ;;17th - slow camera (warning: this may break your characters)
-trigger1 = 1||var(7):=(var(7)^131072)   ;;18th - tag_special_partners
-trigger1 = 1||var(7):=(var(7)^262144)   ;;19th - ai action switch
-;trigger1 = 1||var(7):=(var(7)^524288)   ;;20th - show vs_screen (1f lag)
-;trigger1 = 1||var(7):=(var(7)^1048576)  ;;21th - mode_select
+;trigger1 = 1||var(7):=(var(7)^1)     ;dizzy/stun system
+;trigger1 = 1||var(7):=(var(7)^2)     ;guard_break system
+;trigger1 = 1||var(7):=(var(7)^8)     ;show actions message
+;trigger1 = 1||var(7):=(var(7)^16)    ;show score/cpu_level
+;trigger1 = 1||var(7):=(var(7)^32)    ;show result_panel
+;trigger1 = 1||var(7):=(var(7)^64)    ;play system voice
+;trigger1 = 1||var(7):=(var(7)^128)   ;input display
+;trigger1 = 1||var(7):=(var(7)^1024)  ;tag system
+;trigger1 = 1||var(7):=(var(7)^2048)  ;tag assist
+;trigger1 = 1||var(7):=(var(7)^16384) ;ground dust effect
+trigger1 = 1||var(7):=(var(7)^65536)  ;slow camera (warning: this may break your characters)
+trigger1 = 1||var(7):=(var(7)^131072) ;tag special partners
+trigger1 = 1||var(7):=(var(7)^262144) ;ai action switch
 
 [State 0, Localcoord]
 type = null
@@ -270,7 +262,7 @@ pausemovetime = -1
 scale = 0.28,0.28
 pos = var(3)*(teamside=2)+floor((5+(var(47):=var(47)+100)/100%100*8)*fvar(0))*ifelse(teamside=1,1,-1) , floor((50+(var(47)%100)*8)*fvar(0))
 
-[State 0, Current PosY UnderLine (UNUSED)]
+[State 0, Current PosY UnderLine]
 type = explod
 trigger1 = (var(8)&33554432)
 trigger1 = numexplod(230100+(var(47)%100)) && var(47)>9999 ;op; && !numexplod(230000+(var(47)%100))
@@ -429,13 +421,13 @@ var(8) = var(8)|8388608
 
 [State 0, Input Display OFF]
 type = varset
-trigger1 = GameType! = 2 ;(var(8)&33554432)
+trigger1 = InputDisplay = 0  && (var(8)&33554432)
 var(8) = var(8)^33554432
 
 [State 0, Input Display ON]
 type = varset
 trigger1 = !(var(8)&33554432)
-trigger1 = GameType = 2 ;var(51)<1 && (var(7)&128) ;system switch
+trigger1 = InputDisplay = 1 && var(51)<1 && (var(7)&128) ;system switch
 trigger1 = (root,movetype!=h)||(root,stateno=[120,159])||(root,stateno=[5000,5199])||(root,stateno=[190190,190196])
 var(8) = var(8)|33554432
 
@@ -444,34 +436,6 @@ var(8) = var(8)|33554432
 [Statedef -11]
 
 [Statedef -2]
-
-[State 0, Helper]
-type = helper
-triggerall = !ishelper && !numhelper(90900)
-trigger1 = numpartner
-trigger1 = id<(partner,id) && partner,numhelper(90900)=0
-trigger2 = !numpartner
-id = 90900
-stateno = 90900
-helpertype = normal
-ownpal = 1
-;size.ground.front = ###
-;size.ground.back = ###
-size.air.front = 2108130 ;version
-;size.air.back = ###
-size.height = 0 ;1 (powerbar off mode)
-ignorehitpause = 1
-supermovetime = 88888
-pausemovetime = 88888
-;size.xscale = 0
-;size.yscale = 0
-pos = 0,88888
-
-[State 0, Get Helper]
-type = varset
-trigger1 = !ishelper && numhelper(90900)
-trigger1 = (helper(90900),var(0)=90900) && (sysfvar(0)!=helper(90900),id)
-sysfvar(0) = (helper(90900),id)
 
 [Statedef -12]
 
@@ -511,6 +475,28 @@ sysvar(54) = -1;RECOVERTIME
 ;===========================================================================
 ; MATCH STUFF
 ;===========================================================================
+[State 0, Add004 Port Helper]
+type = helper
+triggerall = !ishelper && !numhelper(90900)
+trigger1 = numpartner
+trigger1 = id<(partner,id) && partner,numhelper(90900)=0
+trigger2 = !numpartner
+id = 90900
+stateno = 90900
+helpertype = normal
+ownpal = 1
+;size.ground.front = ###
+;size.ground.back = ###
+size.air.front = 2108130 ;version
+;size.air.back = ###
+size.height = 0 ;1 (powerbar off mode)
+ignorehitpause = 1
+supermovetime = 88888
+pausemovetime = 88888
+;size.xscale = 0
+;size.yscale = 0
+pos = 0,88888
+
 [State 500, Intro for Round 1]
 type = assertspecial
 trigger1 = RoundState < 2 && RoundNo = 1

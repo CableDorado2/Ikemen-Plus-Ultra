@@ -20,13 +20,21 @@ animSetPos(optionsBG1, 30, 20)
 animSetAlpha(optionsBG1, 20, 100)
 animUpdate(optionsBG1)
 
---Transparent Info background
+--Transparent background 2
 optionsBG2 = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(optionsBG2, 20, 20)
+animSetPos(optionsBG2, 2, 20)
 animSetAlpha(optionsBG2, 20, 100)
 animUpdate(optionsBG2)
+
+--Transparent Info background
+infoBG = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(infoBG, 20, 20)
+animSetAlpha(infoBG, 20, 100)
+animUpdate(infoBG)
 
 --Up Arrow
 optionsUpArrow = animNew(sysSff, [[
@@ -79,24 +87,25 @@ animSetScale(optionsDownArrowmainCfg, 0.5, 0.5)
 modified = 0
 needReload = 0
 
---;===========================================================
---; LOAD DATA FUNCTIONS
---;===========================================================
 function f_loadCfg()
-	--Data loading from data_sav.lua
+--;===========================================================
+--; DATA_SAV.LUA
+--;===========================================================
+--Data loading from data_sav.lua
 	local file = io.open("save/data_sav.lua","r")
 	s_dataLUA = file:read("*all")
 	file:close()
+--Apply settings from data_sav.lua
 	disableGamepad(data.disablePadP1,data.disablePadP2)
-	
-	--Data loading from config.ssz
-	local file = io.open("ssz/config.ssz","r")
+--;===========================================================
+--; CONFIG.SSZ
+--;===========================================================
+--Data loading from config.ssz
+	local file = io.open("save/config.ssz","r")
 	s_configSSZ = file:read("*all")
 	file:close()
-	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
-	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
-	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
-	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
+--Apply settings from config.ssz
+	--Video Settings
 	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 	b_fullscreenMode = s_configSSZ:match('const bool FullScreenReal%s*=%s*([^;%s]+)')
@@ -104,37 +113,67 @@ function f_loadCfg()
 	b_aspectMode = s_configSSZ:match('const bool AspectRatio%s*=%s*([^;%s]+)')
 	b_borderMode = s_configSSZ:match('const bool WindowBordered%s*=%s*([^;%s]+)')
 	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
+	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+	--Audio Settings
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
 	bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
 	pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
-	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
+	--Perfomance Settings
+	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
+	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
+	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
+	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
 	b_saveMemory = s_configSSZ:match('const bool SaveMemory%s*=%s*([^;%s]+)')
-	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+	--Game Settings
+	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
+	--Input Settings
 	data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
 	data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
 end
 
 function f_loadNETCfg()
-	--Data loading from data_netsav.lua
+--Data loading from data_netsav.lua
 	local file = io.open("save/data_netsav.lua","r")
 	s_dataLUA = file:read("*all")
 	file:close()
-	
-	--Data loading from netconfig.ssz
-	local file = io.open("ssz/netconfig.ssz","r")
+--Data loading from configNet.ssz
+	local file = io.open("save/configNet.ssz","r")
 	s_configSSZ = file:read("*all")
 	file:close()
+--Apply settings from configNet.ssz
 	HelperMaxEngine = tonumber(s_configSSZ:match('const int HelperMax%s*=%s*(%d+)'))
 	PlayerProjectileMaxEngine = tonumber(s_configSSZ:match('const int PlayerProjectileMax%s*=%s*(%d+)'))
 	ExplodMaxEngine = tonumber(s_configSSZ:match('const int ExplodMax%s*=%s*(%d+)'))
 	AfterImageMaxEngine = tonumber(s_configSSZ:match('const int AfterImageMax%s*=%s*(%d+)'))
-	resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-	resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 	gameSpeed = tonumber(s_configSSZ:match('const int GameSpeed%s*=%s*(%d+)'))
 end
 
 function f_loadEXCfg()
+--Data loading from sound.ssz
+	local file = io.open("lib/sound.ssz","r")
+	s_soundSSZ = file:read("*all")
+	file:close()
+--Apply settings from sound.ssz
+	freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
+	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
+	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
+--Data loading from data.lifebar
+	local file = io.open(data.lifebar,"r")
+	s_lifebarDEF = file:read("*all")
+	file:close()
+--Apply settings from data.lifebar
+	roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
+	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
+--Variable setting based on loaded data
+	if gameSpeed == 48 then
+		s_gameSpeed = 'Slow'
+	elseif gameSpeed == 60 then
+		s_gameSpeed = 'Normal'
+	elseif gameSpeed == 72 then
+		s_gameSpeed = 'Turbo'
+	end
+	
 	if pan_str < 20 then
 		pan_str = 0
 	elseif pan_str >= 20 and pan_str < 60 then
@@ -147,30 +186,6 @@ function f_loadEXCfg()
 		pan_str = 160
 	end
 	t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
-
-	--Data loading from sound.ssz
-	local file = io.open("lib/sound.ssz","r")
-	s_soundSSZ = file:read("*all")
-	file:close()
-	freq = tonumber(s_soundSSZ:match('const int Freq%s*=%s*(%d+)'))
-	channels = tonumber(s_soundSSZ:match('const int Channels%s*=%s*(%d+)'))
-	buffer = tonumber(s_soundSSZ:match('const int BufferSamples%s*=%s*(%d+)'))
-
-	--Data loading from lifebar
-	local file = io.open(data.lifebar,"r")
-	s_lifebarDEF = file:read("*all")
-	file:close()
-	roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
-	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
-
-	--Variable setting based on loaded data
-	if gameSpeed == 48 then
-		s_gameSpeed = 'Slow'
-	elseif gameSpeed == 60 then
-		s_gameSpeed = 'Normal'
-	elseif gameSpeed == 72 then
-		s_gameSpeed = 'Turbo'
-	end
 
 	if channels == 6 then
 		s_channels = '5.1'
@@ -289,6 +304,7 @@ function f_loadEXCfg()
 	end
 end
 
+--Load Data Functions
 if onlinegame == false then
 	f_loadCfg()
 	f_loadEXCfg()
@@ -297,98 +313,101 @@ elseif onlinegame == true then
 	f_loadEXCfg()
 end
 
---;===========================================================
---; SAVE DATA FUNCTIONS
---;===========================================================
 function f_saveCfg()
-	--Data saving to data_sav.lua
+--;===========================================================
+--; DATA_SAV.LUA
+--;===========================================================
 	local t_saves = {
+	--Online Data
+		['data.userName'] = data.userName,
+		['data.connectMode'] = data.connectMode,
+		['data.ftcontrol'] = data.ftcontrol,
+	--Music Data
+		['data.menuSong'] = data.menuSong,
+		['data.selectSong'] = data.selectSong,
+		['data.challengerSong'] = data.challengerSong,
+	--System Data
+		['data.language'] = data.language,
+		['data.clock'] = data.clock,
+		['data.date'] = data.date,
+		['data.attractMode'] = data.attractMode,
+		['data.pauseMode'] = data.pauseMode,
+		['data.vsDisplayWin'] = data.vsDisplayWin,
+		['data.winscreen'] = data.winscreen,
+		['data.charPresentation'] = data.charPresentation,
+		['data.sffConversion'] = data.sffConversion,
+	--Game Data
+		['data.difficulty'] = data.difficulty,
+		['data.roundTime'] = data.roundTime,
+		['data.lifebar'] = data.lifebar,
 		['data.lifeMul'] = data.lifeMul,
+		['data.aipal'] = data.aipal,
+		['data.aiRamping'] = data.aiRamping,
+		['data.autoguard'] = data.autoguard,
+		['data.quickCont'] = data.quickCont,
+	--Team Data
 		['data.team1VS2Life'] = data.team1VS2Life,
 		['data.turnsRecoveryRate'] = data.turnsRecoveryRate,
 		['data.teamLifeShare'] = data.teamLifeShare,
+		['data.numTurns'] = data.numTurns,
+		['data.numSimul'] = data.numSimul,
+		['data.simulType'] = data.simulType,
+		['data.coopenemy'] = data.coopenemy,
+	--Zoom Data
 		['data.zoomActive'] = data.zoomActive,
 		['data.zoomMin'] = data.zoomMin,
 		['data.zoomMax'] = data.zoomMax,
 		['data.zoomSpeed'] = data.zoomSpeed,
-		['data.roundTime'] = data.roundTime,
-		['data.numTurns'] = data.numTurns,
-		['data.numSimul'] = data.numSimul,
-		['data.simulType'] = data.simulType,
-		['data.disablePadP1'] = data.disablePadP1,
-		['data.disablePadP2'] = data.disablePadP2,
-		['data.difficulty'] = data.difficulty,
-		['data.quickCont'] = data.quickCont,
-		['data.vsDisplayWin'] = data.vsDisplayWin,
-		['data.aipal'] = data.aipal,
-		['data.aiRamping'] = data.aiRamping,
-		['data.autoguard'] = data.autoguard,
-		['data.lifebar'] = data.lifebar,
-		['data.sffConversion'] = data.sffConversion,
-		['data.language'] = data.language,
-		['data.menuSong'] = data.menuSong,
-		['data.clock'] = data.clock,
-		['data.date'] = data.date,
+	--Character Select Data
+		['data.selectType'] = data.selectType,
+		['data.palType'] = data.palType,
+		['data.randomPortrait'] = data.randomPortrait,
+		['data.training'] = data.training,
+		['data.randomCharRematch'] = data.randomCharRematch,
+		['data.charInfo'] = data.charInfo,
+	--Stage Select Data
+		['data.stageType'] = data.stageType,
+		['data.stageInfo'] = data.stageInfo,
+		['data.randomStagePortrait'] = data.randomStagePortrait,
+		['data.randomStageRematch'] = data.randomStageRematch,
+	--Timers Data
 		['data.selectTime'] = data.selectTime,
 		['data.stageTime'] = data.stageTime,
 		['data.orderTime'] = data.orderTime,
 		['data.rematchTime'] = data.rematchTime,
 		['data.serviceTime'] = data.serviceTime,
 		['data.attractTime'] = data.attractTime,
-		['data.selectType'] = data.selectType,
-		['data.palType'] = data.palType,
-		['data.stageType'] = data.stageType,
-		['data.stageInfo'] = data.stageInfo,
-		['data.charInfo'] = data.charInfo,
-		['data.randomPortrait'] = data.randomPortrait,
-		['data.randomStagePortrait'] = data.randomStagePortrait,
-		['data.randomCharRematch'] = data.randomCharRematch,
-		['data.randomStageRematch'] = data.randomStageRematch,
-		['data.winscreen'] = data.winscreen,
-		['data.ftcontrol'] = data.ftcontrol,
-		['data.debugMode'] = data.debugMode,
-		['data.debugLog'] = data.debugLog,
-		['data.attractMode'] = data.attractMode,
-		['data.challengerSong'] = data.challengerSong,
-		['data.charPresentation'] = data.charPresentation,
-		['data.training'] = data.training,
-		['data.coopenemy'] = data.coopenemy,
-		['data.connectMode'] = data.connectMode,
-		['data.pauseMode'] = data.pauseMode,
+	--Video Data
 		['data.windowType'] = data.windowType,
 		['data.fullscreenType'] = data.fullscreenType,
 		['data.sdl'] = data.sdl,
-		['data.userName'] = data.userName
+	--Input Data
+		['data.disablePadP1'] = data.disablePadP1,
+		['data.disablePadP2'] = data.disablePadP2,
+	--Engine Data
+		['data.debugMode'] = data.debugMode,
+		['data.debugLog'] = data.debugLog
 	}
+--Save Data to data_sav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
 	local file = io.open("save/data_sav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
-	--Data saving to config.ssz
-	if b_saveMemory then
-		s_saveMemory = s_saveMemory:gsub('const bool SaveMemory%s*=%s*[^;%s]+', 'const bool SaveMemory = true')
-	else
-		s_saveMemory = s_saveMemory:gsub('const bool SaveMemory%s*=%s*[^;%s]+', 'const bool SaveMemory = false')
-	end
-	if b_openGL then
-		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = true')
-	else
-		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
-	end
-	if b_fullscreenMode then
-		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = true')
-	else
-		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = false')
-	end
+--;===========================================================
+--; CONFIG.SSZ
+--;===========================================================
+--Video Settings
+	s_configSSZ = s_configSSZ:gsub('const int Width%s*=%s*%d+', 'const int Width = ' .. resolutionWidth)
+	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	if b_screenMode then
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = true')
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool FullScreen%s*=%s*[^;%s]+', 'const bool FullScreen = false')
 	end
-	if b_aspectMode then
-		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = true')
+	if b_fullscreenMode then
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = true')
 	else
-		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = false')
+		s_configSSZ = s_configSSZ:gsub('const bool FullScreenReal%s*=%s*[^;%s]+', 'const bool FullScreenReal = false')
 	end
 	if b_borderMode then
 		s_configSSZ = s_configSSZ:gsub('const bool WindowBordered%s*=%s*[^;%s]+', 'const bool WindowBordered = true')
@@ -400,47 +419,72 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool WindowResizable%s*=%s*[^;%s]+', 'const bool WindowResizable = false')
 	end
-	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
-	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
-	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
-	s_configSSZ = s_configSSZ:gsub('const int AfterImageMax%s*=%s*%d+', 'const int AfterImageMax = ' .. AfterImageMaxEngine)
-	s_configSSZ = s_configSSZ:gsub('const int Width%s*=%s*%d+', 'const int Width = ' .. resolutionWidth)
-	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
+	if b_aspectMode then
+		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool AspectRatio%s*=%s*[^;%s]+', 'const bool AspectRatio = false')
+	end
+	if b_openGL then
+		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = true')
+	else
+		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
+	end
+--Audio Settings
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float BGMVol%s*=%s*%d%.*%d*', 'const float BGMVol = ' .. bgm_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float PanStr%s*=%s*%d%.*%d*', 'const float PanStr = ' .. pan_str / 100)
+--Perfomance Settings
+	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
+	s_configSSZ = s_configSSZ:gsub('const int AfterImageMax%s*=%s*%d+', 'const int AfterImageMax = ' .. AfterImageMaxEngine)
+	if b_saveMemory then
+		s_saveMemory = s_saveMemory:gsub('const bool SaveMemory%s*=%s*[^;%s]+', 'const bool SaveMemory = true')
+	else
+		s_saveMemory = s_saveMemory:gsub('const bool SaveMemory%s*=%s*[^;%s]+', 'const bool SaveMemory = false')
+	end
+--Game Settings
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
+--System Settings	
 	s_configSSZ = s_configSSZ:gsub('listenPort%s*=%s*"%w+"', 'listenPort = "' .. getListenPort() .. '"')
 	--s_configSSZ = s_configSSZ:gsub('UserName%s*=%s*"%w+"', 'UserName = "' .. getUserName() .. '"')
-	local file = io.open("ssz/config.ssz","w+")
+--Save Data to config.ssz
+	local file = io.open("save/config.ssz","w+")
 	file:write(s_configSSZ)
 	file:close()
-	--Data saving to sound.ssz
+--Extra Audio Settings
 	s_soundSSZ = s_soundSSZ:gsub('const int Freq%s*=%s*%d+', 'const int Freq = ' .. freq)
 	s_soundSSZ = s_soundSSZ:gsub('const int Channels%s*=%s*%d+', 'const int Channels = ' .. channels)
 	s_soundSSZ = s_soundSSZ:gsub('const int BufferSamples%s*=%s*%d+', 'const int BufferSamples = ' .. buffer)
+--Save Data to sound.ssz
 	local file = io.open("lib/sound.ssz","w+")
 	file:write(s_soundSSZ)
 	file:close()
-	--Data saving to lifebar
+--;===========================================================
+--; FIGHT.DEF
+--;===========================================================
+--Lifebar Settings
 	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
+--Save Data to lifebar selected
 	local file = io.open(data.lifebar,"w+")
 	file:write(s_lifebarDEF)
 	file:close()
-	--Reload lifebar
-	loadLifebar(data.lifebar)
-	--Reload game if needed
+	loadLifebar(data.lifebar) --Reload lifebar with new settings
+--;===========================================================
+--; RESTART
+--;===========================================================
+--Reload game if needed
 	if needReload == 1 then
-		--os.execute ("TASKKILL /IM Ikemen DRP.exe /F")
+		--os.execute ("TASKKILL /IM Ikemen.exe /F")
 		f_playTime()
-		if data.sdl == 'Stable' then
+		if data.sdl == 'Original' then
 			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginV.dll")
 			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginV.ssz")
 			os.rename("lib/alpha/dll/sdlpluginS.dll", "lib/alpha/dll/sdlplugin.dll")
 			os.rename("lib/alpha/sdlpluginS.ssz", "lib/alpha/sdlplugin.ssz")
-		elseif data.sdl == 'Beta' then
+		elseif data.sdl == 'New' then
 			os.rename("lib/alpha/dll/sdlplugin.dll", "lib/alpha/dll/sdlpluginS.dll")
 			os.rename("lib/alpha/sdlplugin.ssz", "lib/alpha/sdlpluginS.ssz")
 			os.rename("lib/alpha/dll/sdlpluginV.dll", "lib/alpha/dll/sdlplugin.dll")
@@ -452,7 +496,9 @@ function f_saveCfg()
 end
 
 function f_netsaveCfg()
-	--Data saving to data_netsav.lua
+--;===========================================================
+--; DATA_SAV.LUA
+--;===========================================================
 	local t_netsaves = {
 		['data.lifeMul'] = data.lifeMul,
 		['data.team1VS2Life'] = data.team1VS2Life,
@@ -481,11 +527,14 @@ function f_netsaveCfg()
 		['data.charPresentation'] = data.charPresentation,
 		['data.coopenemy'] = data.coopenemy
 	}
+--Save Data to data_netsav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_netsaves)
 	local file = io.open("save/data_netsav.lua","w+")
 	file:write(s_dataLUA)
 	file:close()
-	--Data saving to netconfig.ssz
+--;===========================================================
+--; CONFIG.SSZ
+--;===========================================================	
 	s_configSSZ = s_configSSZ:gsub('const int HelperMax%s*=%s*%d+', 'const int HelperMax = ' .. HelperMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int PlayerProjectileMax%s*=%s*%d+', 'const int PlayerProjectileMax = ' .. PlayerProjectileMaxEngine)
 	s_configSSZ = s_configSSZ:gsub('const int ExplodMax%s*=%s*%d+', 'const int ExplodMax = ' .. ExplodMaxEngine)
@@ -493,17 +542,20 @@ function f_netsaveCfg()
 	s_configSSZ = s_configSSZ:gsub('const int Width%s*=%s*%d+', 'const int Width = ' .. resolutionWidth)
 	s_configSSZ = s_configSSZ:gsub('const int Height%s*=%s*%d+', 'const int Height = ' .. resolutionHeight)
 	s_configSSZ = s_configSSZ:gsub('const int GameSpeed%s*=%s*%d+', 'const int GameSpeed = ' .. gameSpeed)
-	local file = io.open("ssz/netconfig.ssz","w+")
+--Save Data to configNet.ssz
+	local file = io.open("save/configNet.ssz","w+")
 	file:write(s_configSSZ)
 	file:close()
-	--Data saving to lifebar
+--;===========================================================
+--; FIGHT.DEF
+--;===========================================================
 	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
+--Save Data to lifebar selected
 	local file = io.open(data.lifebar,"w+")
 	file:write(s_lifebarDEF)
 	file:close()
-	--Reload lifebar
-	loadLifebar(data.lifebar)
+	loadLifebar(data.lifebar) --Reload lifebar
 end
 
 --;===========================================================
@@ -621,7 +673,8 @@ end
 --Default Songs Values
 function f_songDefault()
 	data.menuSong = 'Random'
-	data.challengerSong = 'Fixed'
+	data.selectSong = 'Random'
+	data.challengerSong = 'Random'
 end
 
 --Default Video Values
@@ -647,7 +700,7 @@ function f_videoDefault()
 	resolutionWidth = 853
 	resolutionHeight = 480
 	--setGameRes(resolutionWidth,resolutionHeight)
-	data.sdl = 'Stable'
+	data.sdl = 'New'
 end
 
 --Default Audio Values
@@ -784,9 +837,9 @@ function f_exitInfo()
 		--Draw Info Title Text
 		textImgDraw(txt_exitInfo)
 		--Draw Above Window BG
-		animSetScale(optionsBG2, 300, 111)
-		animSetWindow(optionsBG2, 0,70, 295.5,#t_exitInfo*15)
-		animDraw(optionsBG2)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 295.5,#t_exitInfo*15)
+		animDraw(infoBG)
 		--Draw Above Info Text
 		for i=1, #t_exitInfo do
 			textImgDraw(t_exitInfo[i].id)
@@ -828,9 +881,9 @@ function f_resWarning()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
-		animSetScale(optionsBG2, 300, 111)
-		animSetWindow(optionsBG2, 0,70, 297,#t_resWarning*15)
-		animDraw(optionsBG2)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 297,#t_resWarning*15)
+		animDraw(infoBG)
 		for i=1, #t_resWarning do
 			textImgDraw(t_resWarning[i].id)
 		end
@@ -866,7 +919,7 @@ animUpdate(sdlImg2)
 animSetScale(sdlImg2, 0.35, 0.35)
 
 t_sdlWarning = {
-	{id = '', text = "The Beta version of the Sdlplugin allows loading video"},
+	{id = '', text = "The New version of the Sdlplugin allows loading video"},
 	{id = '', text = "files in WMV format. However, still in development and"},
 	{id = '', text = "ONLY SFF sprites Version 1.0.1.0 or Version 2.0.0.0"},
 	{id = '', text = "are supported."},
@@ -884,9 +937,9 @@ function f_sdlWarning()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
-		animSetScale(optionsBG2, 300, 111)
-		animSetWindow(optionsBG2, 0,70, 296,#t_sdlWarning*15)
-		animDraw(optionsBG2)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 296,#t_sdlWarning*15)
+		animDraw(infoBG)
 		for i=1, #t_sdlWarning do
 			textImgDraw(t_sdlWarning[i].id)
 		end
@@ -913,7 +966,7 @@ end
 t_glWarning = {
 	{id = '', text = ""},
 	{id = '', text = "If your system doesn't support OpenGL 2.0 or later"},
-	{id = '', text = "edit in ssz/config.ssz: const bool OpenGL = false"},
+	{id = '', text = "edit in save/config.ssz: const bool OpenGL = false"},
 	{id = '', text = ""},
 }
 for i=1, #t_glWarning do
@@ -929,9 +982,9 @@ function f_glWarning()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
-		animSetScale(optionsBG2, 300, 111)
-		animSetWindow(optionsBG2, 0,70, 296,#t_glWarning*15)
-		animDraw(optionsBG2)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 296,#t_glWarning*15)
+		animDraw(infoBG)
 		for i=1, #t_glWarning do
 			textImgDraw(t_glWarning[i].id)
 		end
@@ -969,9 +1022,9 @@ function f_memWarning()
 		end
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		textImgDraw(txt_Warning)
-		animSetScale(optionsBG2, 300, 111)
-		animSetWindow(optionsBG2, 0,70, 297,#t_memWarning*15)
-		animDraw(optionsBG2)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 297,#t_memWarning*15)
+		animDraw(infoBG)
 		for i=1, #t_memWarning do
 			textImgDraw(t_memWarning[i].id)
 		end
@@ -998,7 +1051,7 @@ for i=1, #t_wip do
 end
 
 t_sdlBeta = {
-	{id = '', text = "This option requires Sdlplugin Beta Version."},
+	{id = '', text = "This option requires Sdlplugin New Version."},
 }
 for i=1, #t_sdlBeta do
 	t_sdlBeta[i].id = createTextImg(font2, 0, 0, t_sdlBeta[i].text, 164, 222.5+i*15)
@@ -1562,7 +1615,7 @@ t_onlineCfg = {
 	{id = '', text = 'Game Settings',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'System Settings',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Engine Settings',				varID = textImgNew(), varText = ''},
-	{id = '', text = 'Room Settings',				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Lobby Settings',				varID = textImgNew(), varText = ''},
 	{id = '', text = '      SAVE AND PLAY',			varID = textImgNew(), varText = ''},
 }
 
@@ -1605,7 +1658,7 @@ function f_onlineCfg()
 			elseif onlineCfg == 3 then
 				sndPlay(sysSnd, 100, 1)
 				f_engineCfg()
-			--Online Room Settings
+			--Lobby Settings
 			elseif onlineCfg == 4 then
 				sndPlay(sysSnd, 100, 1)
 				f_netplayCfg()
@@ -1616,11 +1669,7 @@ function f_onlineCfg()
 				if modified == 1 then
 					f_netsaveCfg()
 				end
-				if netPlayer == 'Host' then --Declared in main.lua
-					f_mainHost()
-				elseif netPlayer == 'Client' then --Declared in main.lua
-					f_mainJoin()
-				end
+				f_mainLobby() --Declared in main.lua
 				break
 			end
 		end
@@ -2690,7 +2739,7 @@ end
 --;===========================================================
 --; SYSTEM SETTINGS
 --;===========================================================
-txt_UICfg = createTextImg(jgFnt, 0, 0, 'USER INTERFACE SETTINGS', 159, 13)
+txt_UICfg = createTextImg(jgFnt, 0, 0, 'SYSTEM SETTINGS', 159, 13)
 
 t_UICfg = {
 	{id = '', text = 'Language', 		         varID = textImgNew(), varText = data.language},
@@ -2704,6 +2753,7 @@ t_UICfg = {
 	{id = '', text = 'Stage Select Settings',    varID = textImgNew(), varText = ''},	
 	{id = '', text = 'Win Screen',	    		 varID = textImgNew(), varText = data.winscreen},
 	{id = '', text = 'Timers Settings',  	  	 varID = textImgNew(), varText = ''},
+	{id = '', text = 'Songs Settings',	 		 varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Settings',  	  	 varID = textImgNew(), varText = ''},
 	{id = '', text = '          BACK',  		 varID = textImgNew(), varText = ''},
 }
@@ -2931,13 +2981,17 @@ function f_UICfg()
 			elseif UICfg == 11 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				f_timeCfg()
-			--Default Values
+			--System Songs Settings
 			elseif UICfg == 12 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				f_songCfg()
+			--Default Values
+			elseif UICfg == 13 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 			--BACK
-			elseif UICfg == 13 and btnPalNo(p1Cmd) > 0 then
+			elseif UICfg == 14 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3758,6 +3812,172 @@ function f_timeCfg()
 end
 
 --;===========================================================
+--; SYSTEM SONGS SETTINGS
+--;===========================================================
+txt_songCfg = createTextImg(jgFnt, 0, 0, 'SYSTEM SONG SETTINGS', 159, 13)
+
+t_songCfg = {
+	{id = '', text = 'Main Menu', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Character Select',			varID = textImgNew(), varText = ''},
+	{id = '', text = 'Challenger',		 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'Default Values',  	 		varID = textImgNew(), varText = ''},
+	{id = '', text = '                       BACK', varID = textImgNew(), varText = ''},
+}
+
+function f_setCfgSong()
+	if songsSettings == true then
+		if selectedSong == nil then
+			if songCfg == 1 then
+				data.menuSong = data.menuSong --Get previous data
+			elseif songCfg == 2 then
+				data.selectSong = data.selectSong
+			elseif songCfg == 3 then
+				data.challengerSong = data.challengerSong
+			end
+		else --If you selected a song
+			if songCfg == 1 then
+				data.menuSong = selectedSong
+			elseif songCfg == 2 then
+				data.selectSong = selectedSong
+			elseif songCfg == 3 then
+				data.challengerSong = selectedSong
+			end
+		end
+		modified = 1
+		songsSettings = false
+	end
+end
+
+function f_songCfg()
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	songCfg = 1 --To read Above
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if defaultScreen == false then
+			if esc() then
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				sndPlay(sysSnd, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				songCfg = songCfg - 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				songCfg = songCfg + 1
+				if bufl then bufl = 0 end
+				if bufr then bufr = 0 end
+			end
+			--Set Main Menu Song
+			if songCfg == 1 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				songsSettings = true --For identify purposes
+				f_songMenu() --Go to Sound Test
+			--Set Character Select Song
+			elseif songCfg == 2 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				songsSettings = true
+				f_songMenu()
+			--Set Challenger Select Song
+			elseif songCfg == 3 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				songsSettings = true
+				f_songMenu()
+			--Default Values
+			elseif songCfg == 4 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				defaultSong = true
+				defaultScreen = true
+			--BACK
+			elseif songCfg == 5 and btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 2)
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+				break
+			end
+			--Setting Menu Logic
+			if songCfg < 1 then
+				songCfg = #t_songCfg
+				if #t_songCfg > 14 then
+					cursorPosY = 14
+				else
+					cursorPosY = #t_songCfg
+				end
+			elseif songCfg > #t_songCfg then
+				songCfg = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 14 then
+				moveTxt = (songCfg - 14) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (songCfg - 1) * 15
+			end
+			if #t_songCfg <= 14 then
+				maxsongCfg = #t_songCfg
+			elseif songCfg - cursorPosY > 0 then
+				maxsongCfg = songCfg + 14 - cursorPosY
+			else
+				maxsongCfg = 14
+			end
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG2, 320, maxsongCfg*15)
+		animSetWindow(optionsBG2, 2,20, 316.5,210)
+		animDraw(optionsBG2)
+		textImgDraw(txt_songCfg)
+		if defaultScreen == false then
+			animSetWindow(cursorBox, 2,5+cursorPosY*15, 316.5,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
+		t_songCfg[1].varText = data.menuSong
+		t_songCfg[2].varText = data.selectSong
+		t_songCfg[3].varText = data.challengerSong
+		for i=1, maxsongCfg do
+			if i > songCfg - cursorPosY then
+				if t_songCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, 1, t_songCfg[i].text, 6, 15+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, -1, t_songCfg[i].varText, 315, 15+i*15-moveTxt))
+				end
+			end
+		end
+		if maxsongCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_songCfg > 14 and maxsongCfg < #t_songCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
+		if defaultScreen == true then f_defaultMenu() end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		if data.attractMode == true then f_attractCredits() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; AUDIO SETTINGS
 --;===========================================================
 txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS', 159, 13)
@@ -3770,7 +3990,6 @@ t_audioCfg = {
 	{id = '', text = 'Sample Rate',     		varID = textImgNew(), varText = freq},
 	{id = '', text = 'Channels',        		varID = textImgNew(), varText = s_channels},
 	{id = '', text = 'Buffer Samples',  		varID = textImgNew(), varText = buffer},
-	{id = '', text = 'Menu Songs Settings',	    varID = textImgNew(), varText = ''},
 	{id = '', text = 'Default Values',		    varID = textImgNew(), varText = ''},
 	{id = '', text = '          BACK',  		varID = textImgNew(), varText = ''},
 }
@@ -3979,17 +4198,13 @@ function f_audioCfg()
 					modified = 1
 					needReload = 1
 				end
-			--Menu Songs Settings
-			elseif audioCfg == 8 and btnPalNo(p1Cmd) > 0 then
-				sndPlay(sysSnd, 100, 1)
-				f_songCfg()
 			--Default Values
-			elseif audioCfg == 9 and btnPalNo(p1Cmd) > 0 then
+			elseif audioCfg == 8 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
 			--BACK
-			elseif audioCfg == 10 and btnPalNo(p1Cmd) > 0 then
+			elseif audioCfg == 9 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4053,193 +4268,6 @@ function f_audioCfg()
 			animUpdate(optionsUpArrow)
 		end
 		if #t_audioCfg > 14 and maxAudioCfg < #t_audioCfg then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
-		end
-		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		if data.attractMode == true then f_attractCredits() end
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; SONGS SETTINGS
---;===========================================================
-txt_songCfg = createTextImg(jgFnt, 0, 0, 'SONG SETTINGS', 159, 13)
-
-t_songCfg = {
-	{id = '', text = 'Main Menu', 				varID = textImgNew(), varText = data.menuSong},
-	{id = '', text = 'Challenger Select', 		varID = textImgNew(), varText = data.challengerSong},
-	{id = '', text = 'Default Values',  	 	varID = textImgNew(), varText = ''},
-	{id = '', text = '          BACK', 			varID = textImgNew(), varText = ''},
-}
-
-function f_songCfg()
-	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local songCfg = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	while true do
-		if defaultScreen == false then
-			if esc() then
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				sndPlay(sysSnd, 100, 2)
-				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				songCfg = songCfg - 1
-				if bufl then bufl = 0 end
-				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				songCfg = songCfg + 1
-				if bufl then bufl = 0 end
-				if bufr then bufr = 0 end
-			--Main Menu Song
-			elseif songCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 1' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 2'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 2' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 3'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.menuSong == 'Theme 3' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Random'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 2' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 1'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Theme 3' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 2'
-					f_menuMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.menuSong == 'Random' then
-					sndPlay(sysSnd, 100, 0)
-					data.menuSong = 'Theme 3'
-					f_menuMusic()
-					modified = 1
-				end
-			--Challenger Select Song
-			elseif songCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-				if commandGetState(p1Cmd, 'r') and data.challengerSong == 'Fixed' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Original'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Original' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Boss'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'r') and data.challengerSong == 'Boss' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Random'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Original' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Fixed'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Boss' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Original'
-					f_challengerMusic()
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') and data.challengerSong == 'Random' then
-					sndPlay(sysSnd, 100, 0)
-					data.challengerSong = 'Boss'
-					f_challengerMusic()
-					modified = 1
-				end
-			--Default Values
-			elseif songCfg == 3 and btnPalNo(p1Cmd) > 0 then
-				sndPlay(sysSnd, 100, 1)
-				defaultSong = true
-				defaultScreen = true
-			--BACK
-			elseif songCfg == 4 and btnPalNo(p1Cmd) > 0 then
-				sndPlay(sysSnd, 100, 2)
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				break
-			end
-			if songCfg < 1 then
-				songCfg = #t_songCfg
-				if #t_songCfg > 14 then
-					cursorPosY = 14
-				else
-					cursorPosY = #t_songCfg
-				end
-			elseif songCfg > #t_songCfg then
-				songCfg = 1
-				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-				cursorPosY = cursorPosY + 1
-			end
-			if cursorPosY == 14 then
-				moveTxt = (songCfg - 14) * 15
-			elseif cursorPosY == 1 then
-				moveTxt = (songCfg - 1) * 15
-			end	
-			if #t_songCfg <= 14 then
-				maxsongCfg = #t_songCfg
-			elseif songCfg - cursorPosY > 0 then
-				maxsongCfg = songCfg + 14 - cursorPosY
-			else
-				maxsongCfg = 14
-			end
-		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxsongCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
-		animDraw(optionsBG1)
-		textImgDraw(txt_songCfg)
-		if defaultScreen == false then
-			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		t_songCfg[1].varText = data.menuSong
-		t_songCfg[2].varText = data.challengerSong
-		for i=1, maxsongCfg do
-			if i > songCfg - cursorPosY then
-				if t_songCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, 1, t_songCfg[i].text, 85, 15+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_songCfg[i].varID, font2, 0, -1, t_songCfg[i].varText, 235, 15+i*15-moveTxt))
-				end
-			end
-		end
-		if maxsongCfg > 14 then
-			animDraw(optionsUpArrow)
-			animUpdate(optionsUpArrow)
-		end
-		if #t_songCfg > 14 and maxsongCfg < #t_songCfg then
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
@@ -4674,9 +4702,9 @@ function f_videoCfg()
 				setScreenMode(b_screenMode) --added via system-script.ssz
 			--Window Type
 			elseif videoCfg == 3 then
-				if data.sdl == 'Stable' then
+				if data.sdl == 'Original' then
 					lockSetting = true
-				elseif data.sdl == 'Beta' then
+				elseif data.sdl == 'New' then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 						if commandGetState(p1Cmd, 'r') and data.windowType == 'Original' then
 							sndPlay(sysSnd, 100, 0)
@@ -4706,9 +4734,9 @@ function f_videoCfg()
 				end
 			--Fullscreen Type
 			elseif videoCfg == 4 then
-				if data.sdl == 'Stable' then
+				if data.sdl == 'Original' then
 					lockSetting = true
-				elseif data.sdl == 'Beta' then
+				elseif data.sdl == 'New' then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 						sndPlay(sysSnd, 100, 0)
 						if data.fullscreenType == 'Exclusive' then
@@ -4727,9 +4755,9 @@ function f_videoCfg()
 				end
 			--Keep Aspect Ratio
 			elseif videoCfg == 5 then
-				if data.sdl == 'Stable' then
+				if data.sdl == 'Original' then
 					lockSetting = true
-				elseif data.sdl == 'Beta' and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				elseif data.sdl == 'New' and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 					if not b_aspectMode then
 						b_aspectMode = true
@@ -4748,11 +4776,11 @@ function f_videoCfg()
 					lockSetting = true
 				elseif onlinegame == false then
 					sndPlay(sysSnd, 100, 0)
-					if data.sdl == 'Stable' then
-						data.sdl = 'Beta'
+					if data.sdl == 'Original' then
+						data.sdl = 'New'
 						f_sdlWarning()
-					elseif data.sdl == 'Beta' then
-						data.sdl = 'Stable'
+					elseif data.sdl == 'New' then
+						data.sdl = 'Original'
 					end
 					modified = 1
 					needReload = 1
@@ -5001,8 +5029,6 @@ function f_resCfg()
 			bufd = 0
 		end
 		if data.attractMode == true then f_attractCredits() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -6700,9 +6726,7 @@ function f_readInput(oldkey)
 			end 
 			cmdInput()
 		end
-        if data.attractMode == true then f_attractCredits() end
-		animDraw(data.fadeTitle)
-	    animUpdate(data.fadeTitle)			
+        if data.attractMode == true then f_attractCredits() end			
 		refresh()
 	end
 	local key = getKeyboard
@@ -6741,9 +6765,9 @@ function f_unlocksWarning()
 	defaultScreen = true
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG2, 300, 94)
-		animSetWindow(optionsBG2, 0,70, 297,#t_unlocksWarning*15)
-		animDraw(optionsBG2)
+		animSetScale(infoBG, 300, 94)
+		animSetWindow(infoBG, 0,70, 297,#t_unlocksWarning*15)
+		animDraw(infoBG)
 		textImgDraw(txt_Warning)
 		for i=1, #t_unlocksWarning do
 			textImgDraw(t_unlocksWarning[i].id)
@@ -6756,11 +6780,13 @@ function f_unlocksWarning()
 	end
 end
 
+--Set Default Stats
 function f_defaultStats()
 	data.arcadeClear = false
 	data.survivalClear = false
 	data.coins = 0
 	--data.attractCoins = 0
+	data.continueCount = 0
 	--data.vault = "Ultra"
 	data.playTime = 0
 	data.trainingTime = 0
@@ -6768,11 +6794,13 @@ function f_defaultStats()
 	data.favoriteStage = 'None'
 	data.victories = 0
 	data.defeats = 0
+--Records Data
 	data.timerecord = 0
 	data.scorerecord = 0
 	data.bossrecord = 0
 	data.suddenrecord = 0
 	data.endlessrecord = 0
+--Time Played Data
 	data.arcadeTime = 0
 	data.vsTime = 0
 	data.survivalTime = 0
@@ -6789,12 +6817,15 @@ function f_defaultStats()
 	data.storyTime = 0
 	data.tourneyTime = 0
 	data.adventureTime = 0
+--Event Mode Data
 	data.eventsProgress = 0
 	data.event1Status = 0
+--Mission Mode Data
 	data.missionsProgress = 0
 	data.mission1Status = 0
 	data.mission2Status = 0
 	data.mission3Status = 0
+--Story Mode Data
 	data.storiesProgress = 0
 	data.story1_0Status = 0
 	data.story1_1Status = 0
@@ -6804,6 +6835,7 @@ function f_defaultStats()
 	data.story1_4AStatus = 0
 	data.story1_4BStatus = 0
 	data.story1_4CStatus = 0
+--Story Mode - Arc 1 Chapters Unlocks
 	data.story1_1Unlock = false
 	data.story1_2Unlock = false
 	data.story1_3AUnlock = false
@@ -6811,6 +6843,7 @@ function f_defaultStats()
 	data.story1_4AUnlock = false
 	data.story1_4BUnlock = false
 	data.story1_4CUnlock = false
+	--
 	data.erase = true
 	modified = 1
 end

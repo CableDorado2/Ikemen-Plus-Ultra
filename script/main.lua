@@ -28,7 +28,7 @@ require('script.events')
 require('script.story')
 --require('script.adventure')
 
-local file = io.open("ssz/config.ssz","r")
+local file = io.open("save/config.ssz","r")
 s_configSSZ = file:read("*all")
 file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
@@ -508,6 +508,8 @@ function f_mainStart()
 			--f_saveProgress() --Enable for Restart Credits for Attract Mode
 			f_mainAttract()
 		else
+			data.continueCount = 0 --Disable to avoid Restart Times Continue in Arcade
+			f_saveProgress() --Disable to avoid Restart Times Continue in Arcade
 			f_mainTitle()
 		end
 	end
@@ -552,6 +554,7 @@ function f_mainAttract()
 		   data.p2SelectMenu = false
 		   data.serviceScreen = true
 		   --data.stageMenu = true
+		   setGameMode('arcade')
 		   data.gameMode = 'arcade'
 		   data.rosterMode = 'arcade'
 		   textImgSetText(txt_mainSelect, 'ARCADE')
@@ -1173,6 +1176,7 @@ function f_arcadeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setGameMode('arcade')
 			--SINGLE MODE [LEFT SIDE] (fight against CPU controlled opponents in a customizable arcade ladder)
 			if arcadeMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1208,6 +1212,7 @@ function f_arcadeMenu()
 				data.p2Faces = true
 				data.coop = true --P2 fighting on P1 side enabled
 				data.serviceScreen = true
+				setGameMode('arcadecoop') --to avoid challenger screen
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
@@ -1220,6 +1225,7 @@ function f_arcadeMenu()
 				data.p2SelectMenu = false
 				data.aiFight = true --AI = data.difficulty for all characters enabled
 				data.serviceScreen = true
+				setGameMode('arcadecpu') --to avoid challenger screen
 				data.gameMode = 'arcade'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH ARCADE')
@@ -3887,6 +3893,7 @@ function f_watchMenu()
 			--SOUND TEST (listen sounds)
 			elseif watchMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
+				soundTest = true
 				f_songMenu()
 			--SCREENSHOTS (watch screenshots taken)
 			elseif watchMenu == 9 then
@@ -4280,158 +4287,209 @@ animUpdate(songRightArrow)
 animSetScale(songRightArrow, 0.5, 0.5)
 
 --;===========================================================
+--; CONFIRM SONG MESSAGE
+--;===========================================================
+txt_confirmSong = createTextImg(jgFnt, 0, 0, 'USE THIS SONG?', 160, 108, 0.63, 0.63)
+
+--Confirm Window BG
+confirmSongWindowBG = animNew(sysSff, [[
+230,1, 0,0,
+]])
+animSetPos(confirmSongWindowBG, 83.5, 97)
+animUpdate(confirmSongWindowBG)
+animSetScale(confirmSongWindowBG, 1, 1)
+
+t_confirmSongMenu = {
+	{id = textImgNew(), text = 'YES'},
+	{id = textImgNew(), text = 'NO'},
+}
+
+function f_confirmSongMenu()
+	cmdInput()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') then
+		sndPlay(sysSnd, 100, 0)
+		confirmSongMenu = confirmSongMenu - 1
+	elseif commandGetState(p1Cmd, 'd') then
+		sndPlay(sysSnd, 100, 0)
+		confirmSongMenu = confirmSongMenu + 1
+	end
+	if confirmSongMenu < 1 then
+		confirmSongMenu = #t_confirmSongMenu
+		if #t_confirmSongMenu > 4 then
+			cursorPosYSongConfirm = 4
+		else
+			cursorPosYSongConfirm = #t_confirmSongMenu-1
+		end
+	elseif confirmSongMenu > #t_confirmSongMenu then
+		confirmSongMenu = 1
+		cursorPosYSongConfirm = 0
+	elseif commandGetState(p1Cmd, 'u') and cursorPosYSongConfirm > 0 then
+		cursorPosYSongConfirm = cursorPosYSongConfirm - 1
+	elseif commandGetState(p1Cmd, 'd') and cursorPosYSongConfirm < 4 then
+		cursorPosYSongConfirm = cursorPosYSongConfirm + 1
+	end
+	if cursorPosYSongConfirm == 4 then
+		moveTxtSongConfirm = (confirmSongMenu - 5) * 13
+	elseif cursorPosYSongConfirm == 0 then
+		moveTxtSongConfirm = (confirmSongMenu - 1) * 13
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Menu BG
+	animDraw(confirmSongWindowBG)
+	animUpdate(confirmSongWindowBG)
+	--Draw Title
+	textImgDraw(txt_confirmSong)
+	--Draw Select content
+	f_drawQuickText(txt_songSelected, font6, 0, 0, selectedSongName, 160, 120, 0.68, 0.68)
+	--Draw Table Text
+	for i=1, #t_confirmSongMenu do
+		if i == confirmSongMenu then
+			bank = 5
+		else
+			bank = 0
+		end
+		textImgDraw(f_updateTextImg(t_confirmSongMenu[i].id, jgFnt, bank, 0, t_confirmSongMenu[i].text, 159, 120+i*13-moveTxtSongConfirm))
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 87,123+cursorPosYSongConfirm*13, 144,13)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if btnPalNo(p1Cmd) > 0 then
+		--YES
+		if confirmSongMenu == 1 then
+			--sndPlay(sysSnd, 100, 1)
+		--NO
+		else
+			selectedSong = nil
+		end
+		backSongConfirm = true
+		f_confirmSongReset()
+	end
+	cmdInput()
+end
+
+function f_confirmSongReset()
+	confirmSong = false
+	moveTxtSongConfirm = 0
+	--Cursor pos in NO
+	cursorPosYSongConfirm = 1
+	confirmSongMenu = 2
+end
+
+--;===========================================================
 --; SOUND TEST MENU
 --;===========================================================
-function f_soundPage1()
-	t_songList = {} --Create Table
-	for file in lfs.dir[[.\\sound\\]] do --Read Dir
-		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
-		elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
-		end
-	end
-	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'} --Add one item to the end of table Created
-end
-
-function f_soundPage2()
-	t_songList = {} --Create Table
-	for file in lfs.dir[[.\\sound\system\\]] do
-		if file:match('^.*(%.)mp3$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
-		elseif file:match('^.*(%.)MP3$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		elseif file:match('^.*(%.)ogg$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		elseif file:match('^.*(%.)OGG$') then
-			row = #t_songList+1
-			t_songList[row] = {}
-			t_songList[row]['id'] = ''
-			t_songList[row]['playlist'] = file:gsub('^(.*)[%.]OGG$', '%1')
-		end
-	end
-	t_songList[#t_songList+1] = {id = '', playlist = '          BACK'}
-end
-
 function f_songMenu()
 	playBGM(bgmNothing)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
 	cmdInput()
-	local cursorPosY = 1
-	local moveTxt = 0
-	local songMenu = 1
-	local page = 0
+	f_confirmSongReset()
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	f_soundPage1() --Load Main Table
+	local cursorPosY = 1
+	local moveTxt = 0
+	songMenu = 1 --Not local because will be used in other menus
+	songFolder = 1
+	selectedSong = nil
+	songChanged = false
+	f_soundtrack() --Loaded from common.lua
+	local randomTrack = ''
 	while true do
-		if esc() then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		if backSongConfirm == true then
+			data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
+			script.options.f_setCfgSong() --SAVE AND BACK SONG FOR OPTIONS MENU
 			f_menuMusic()
 			sndPlay(sysSnd, 100, 2)
+			backSongConfirm = false
+			soundTest = false
 			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			songMenu = songMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			songMenu = songMenu + 1
-		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-			if page > 0 then
+		end
+		if confirmSong == false then
+			if esc() then
+				if soundTest == true or songChanged == false then --Another damn check just to know in what menu where are and if you select something..
+					backSongConfirm = true
+				else --IF YOU ARE IN SYSTEM SONGS SETTINGS
+					confirmSong = true
+				end
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
-				page = page - 1
-			end
-			if page == 0 then
-				t_songList = nil
-				f_soundPage1()
-			elseif page == 1 then
-				t_songList = nil --Delete the Table
-				f_soundPage2() --Just reload the table with applied changes
-			end
-		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-			if page < 1 then
+				songMenu = songMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
-				page = page + 1
-			end
-			if page == 0 then
-				t_songList = nil
-				f_soundPage1()
-			elseif page == 1 then
-				t_songList = nil
-				f_soundPage2()
-			end
-		elseif btnPalNo(p1Cmd) > 0 then
-			if songMenu == #t_songList then
-				--BACK
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				f_menuMusic()
-				sndPlay(sysSnd, 100, 2)
-				break
-			else
-				--Play Song
-				if page == 0 then
-					playBGM('sound/' .. t_songList[songMenu].playlist .. '.mp3')
-					playBGM('sound/' .. t_songList[songMenu].playlist .. '.ogg')
-				elseif page == 1 then
-					playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.mp3')
-					playBGM('sound/system/' .. t_songList[songMenu].playlist .. '.ogg')
+				songMenu = songMenu + 1
+			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				songFolder = songFolder - 1
+				songMenu = 1 --Restart Cursor Values to prevent nil values issues
+				cursorPosY = 1 --Restart Cursor Values to prevent nil values issues
+			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				songFolder = songFolder + 1
+				songMenu = 1 --Restart Cursor Values to prevent nil values issues
+				cursorPosY = 1 --Restart Cursor Values to prevent nil values issues
+			elseif btnPalNo(p1Cmd) > 0 then
+				if songMenu == #t_songList[songFolder] then
+					--BACK
+					if soundTest == true or songChanged == false then --Same esc logic
+						backSongConfirm = true
+					else
+						confirmSong = true
+					end
+				else
+					--Play Song
+					if not soundTest then
+						sndPlay(sysSnd, 100, 1)
+						songChanged = true
+					end
+					selectedSong = t_songList[songFolder][songMenu].path
+					selectedSongName = t_songList[songFolder][songMenu].name
+					playBGM(selectedSong)
+					--if songFolder == 1 then
+						--randomTrack = math.random(1, #t_songList[1])
+						--randomTrack = math.random(1, #t_songList[1][randomTrack].path)
+						--playBGM(randomTrack)
+					--end
 				end
 			end
-		end
-		--Cursor position calculation
-		if songMenu < 1 then
-			songMenu = #t_songList
-			if #t_songList > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_songList
+			--Folder Select Logic
+			if songFolder < 1 then
+				songFolder = #t_songList
+			elseif songFolder > #t_songList then
+				songFolder = 1
 			end
-		elseif songMenu > #t_songList then
-			songMenu = 1
-			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (songMenu - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (songMenu - 1) * 15
-		end	
-		if #t_songList <= 14 then
-			maxSongs = #t_songList
-		elseif songMenu - cursorPosY > 0 then
-			maxSongs = songMenu + 14 - cursorPosY
-		else
-			maxSongs = 14
+			--Cursor position calculation
+			if songMenu < 1 then
+				songMenu = #t_songList[songFolder]
+				if #t_songList[songFolder] > 14 then
+					cursorPosY = 14
+				else
+					cursorPosY = #t_songList[songFolder]
+				end
+			elseif songMenu > #t_songList[songFolder] then
+				songMenu = 1
+				cursorPosY = 1
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 14 then
+				moveTxt = (songMenu - 14) * 15
+			elseif cursorPosY == 1 then
+				moveTxt = (songMenu - 1) * 15
+			end	
+			if #t_songList[songFolder] <= 14 then
+				maxSongs = #t_songList[songFolder]
+			elseif songMenu - cursorPosY > 0 then
+				maxSongs = songMenu + 14 - cursorPosY
+			else
+				maxSongs = 14
+			end
 		end
 		--Draw Menu BG
 		animDraw(f_animVelocity(songBG0, -1, -1))
@@ -4440,23 +4498,27 @@ function f_songMenu()
 		animSetWindow(songBG1, 80,20, 160,210)
 		animDraw(songBG1)
 		--Draw Title Menu
-		if page == 0 then textImgSetText(txt_song, 'SONG SELECT [GAME]') elseif page == 1 then textImgSetText(txt_song, 'SONG SELECT [SYSTEM]') end
+		textImgSetText(txt_song, 'SONG SELECT '..'['..t_songList[songFolder][songMenu].folder..']')
 		textImgDraw(txt_song)
-		--Draw Table Cursor
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if confirmSong == false then
+			--Draw Hint Text
+			f_drawQuickText(txt_songHint, font1, 0, 0, 'PRESS ANY CONFIRM BUTTON TO SELECT A SONG', 159, 239)
+			--Draw Table Cursor
+			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		--Draw Text for Table
 		for i=1, maxSongs do
-			if t_songList[i].playlist:len() > 28 then --If name is too long, shortcut with ...
-				songText = string.sub(t_songList[i].playlist, 1, 24)
+			if t_songList[songFolder][i].name:len() > 28 then --If name is too long, shortcut with ...
+				songText = string.sub(t_songList[songFolder][i].name, 1, 24)
 				songText = tostring(songText .. '...')
 			else
-				songText = t_songList[i].playlist
+				songText = t_songList[songFolder][i].name
 			end
 			if i > songMenu - cursorPosY then
-				t_songList[i].id = createTextImg(font2, 0, 1, songText, 85, 15+i*15-moveTxt)
-				textImgDraw(t_songList[i].id)
+				t_songList[songFolder][i].id = createTextImg(font2, 0, 1, songText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_songList[songFolder][i].id)
 			end
 		end
 		--Draw Up Animated Cursor
@@ -4465,20 +4527,21 @@ function f_songMenu()
 			animUpdate(songUpArrow)
 		end
 		--Draw Down Animated Cursor
-		if #t_songList > 14 and maxSongs < #t_songList then
+		if #t_songList[songFolder] > 14 and maxSongs < #t_songList[songFolder] then
 			animDraw(songDownArrow)
 			animUpdate(songDownArrow)
 		end
 		--Draw Left Animated Cursor
-		if page > 0 then
+		if songFolder > 1 then
 			animDraw(songLeftArrow)
 			animUpdate(songLeftArrow)
 		end
 		--Draw Right Animated Cursor
-		if page < 1 then
+		if songFolder < #t_songList then
 			animDraw(songRightArrow)
 			animUpdate(songRightArrow)
 		end
+		if confirmSong == true then f_confirmSongMenu() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4574,15 +4637,18 @@ function f_videoMenu()
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
-			t_videoList[row]['playlist'] = file:gsub('^(.*)[%.]wmv$', '%1')
+			t_videoList[row]['name'] = file:gsub('^(.*)[%.]wmv$', '%1')
+			t_videoList[row]['path'] = 'movie/'..file
 		elseif file:match('^.*(%.)WMV$') then
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
-			t_videoList[row]['playlist'] = file:gsub('^(.*)[%.]WMV$', '%1')
+			t_videoList[row]['name'] = file:gsub('^(.*)[%.]WMV$', '%1')
+			t_videoList[row]['path'] = 'movie/'..file
 		end
 	end
-	t_videoList[#t_videoList+1] = {id = '', playlist = '          BACK'}
+	t_videoList[#t_videoList+1] = {id = '', name = '          BACK'}
+	if data.debugLog then f_printTable(t_videoList, "save/debug/t_videoList.txt") end
 	while true do
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -4600,7 +4666,7 @@ function f_videoMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				playVideo('movie/' .. t_videoList[videoMenu].playlist .. '.wmv')
+				playVideo(t_videoList[videoMenu].path)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 			end
@@ -4641,11 +4707,11 @@ function f_videoMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxVideos do
-			if t_videoList[i].playlist:len() > 28 then
-				VideoText = string.sub(t_videoList[i].playlist, 1, 24)
+			if t_videoList[i].name:len() > 28 then
+				VideoText = string.sub(t_videoList[i].name, 1, 24)
 				VideoText = tostring(VideoText .. '...')
 			else
-				VideoText = t_videoList[i].playlist
+				VideoText = t_videoList[i].name
 			end
 			if i > videoMenu - cursorPosY then
 				t_videoList[i].id = createTextImg(font2, 0, 1, VideoText, 85, 15+i*15-moveTxt)
@@ -4747,15 +4813,18 @@ function f_storyboardMenu()
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
-			t_storyboardList[row]['playlist'] = file:gsub('^(.*)[%.]def$', '%1')
+			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.]def$', '%1')
+			t_storyboardList[row]['path'] = 'storyboard/'..file
 		elseif file:match('^.*(%.)DEF$') then
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
-			t_storyboardList[row]['playlist'] = file:gsub('^(.*)[%.]DEF$', '%1')
+			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.]DEF$', '%1')
+			t_storyboardList[row]['path'] = 'storyboard/'..file
 		end
 	end
-	t_storyboardList[#t_storyboardList+1] = {id = '', playlist = '          BACK'}
+	t_storyboardList[#t_storyboardList+1] = {id = '', name = '          BACK'}
+	if data.debugLog then f_printTable(t_storyboardList, "save/debug/t_storyboardList.txt") end
 	while true do
 		if esc() then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -4773,7 +4842,7 @@ function f_storyboardMenu()
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
-				storyboardFile = ('storyboard/' .. t_storyboardList[storyboardMenu].playlist .. '.def')
+				storyboardFile = (t_storyboardList[storyboardMenu].path)
 				cmdInput()
 				f_storyboard(storyboardFile)
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -4828,11 +4897,11 @@ function f_storyboardMenu()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))		
 		for i=1, maxStoryboards do
-			if t_storyboardList[i].playlist:len() > 28 then
-				storyboardText = string.sub(t_storyboardList[i].playlist, 1, 24)
+			if t_storyboardList[i].name:len() > 28 then
+				storyboardText = string.sub(t_storyboardList[i].name, 1, 24)
 				storyboardText = tostring(storyboardText .. '...')
 			else
-				storyboardText = t_storyboardList[i].playlist
+				storyboardText = t_storyboardList[i].name
 			end
 			if i > storyboardMenu - cursorPosY then
 				t_storyboardList[i].id = createTextImg(font2, 0, 1, storyboardText, 85, 15+i*15-moveTxt)
@@ -4949,15 +5018,18 @@ function f_replayTable()
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
-			t_replayList[row]['playlist'] = file:gsub('^(.*)[%.]replay$', '%1')
+			t_replayList[row]['name'] = file:gsub('^(.*)[%.]replay$', '%1')
+			t_replayList[row]['path'] = 'replays/'..file
 		elseif file:match('^.*(%.)REPLAY$') and not file:match('^data.replay$') then
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
-			t_replayList[row]['playlist'] = file:gsub('^(.*)[%.]REPLAY$', '%1')
+			t_replayList[row]['name'] = file:gsub('^(.*)[%.]REPLAY$', '%1')
+			t_replayList[row]['path'] = 'replays/'..file
 		end
 	end
-	t_replayList[#t_replayList+1] = {id = '', playlist = '          BACK'}
+	t_replayList[#t_replayList+1] = {id = '', name = '          BACK'}
+	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.txt") end
 end
 
 function f_mainReplay()
@@ -4998,8 +5070,8 @@ function f_mainReplay()
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sysSnd, 100, 1)
-				txt_replayName = createTextImg(font2, 0, 0, ''.. t_replayList[mainReplay].playlist ..'', 159.5, 16)--Show Replay Selected Name
-				local fileSize = lfs.attributes('replays/' .. t_replayList[mainReplay].playlist .. '.replay').size --Size Logic
+				txt_replayName = createTextImg(font2, 0, 0, ''.. t_replayList[mainReplay].name ..'', 159.5, 16)--Show Replay Selected Name
+				local fileSize = lfs.attributes(t_replayList[mainReplay].path).size --Size Logic
 				if fileSize > 1048576 then
 					local replaySize = (math.floor(((fileSize/1048576)+0.50)))--Conversion from Bytes to Megabytes
 					txt_replaySize = createTextImg(font2, 0, 0, ''..replaySize..'MB', 159.5, 27)
@@ -5038,7 +5110,7 @@ function f_mainReplay()
 							--Set Default values to prevent desync.
 							script.options.f_onlineDefault()
 							script.options.f_netsaveCfg()
-							enterReplay('replays/' .. t_replayList[mainReplay].playlist .. '.replay')
+							enterReplay(t_replayList[mainReplay].path)
 							synchronize()
 							math.randomseed(sszRandom())
 							script.options.f_onlineCfg()
@@ -5080,7 +5152,7 @@ function f_mainReplay()
 					if confirmScreen == true then f_confirmMenu() end
 					--DELETE SELECTED REPLAY
 					if deleteReplay == true then
-						os.remove('replays/' .. t_replayList[mainReplay].playlist .. '.replay')
+						os.remove(t_replayList[mainReplay].path)
 						t_replayList = nil --Delete the Table
 						f_replayTable() --Just reload the table with applied changes
 						deleteReplay = false
@@ -5130,11 +5202,11 @@ function f_mainReplay()
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		for i=1, maxReplays do
-			if t_replayList[i].playlist:len() > 28 then
-				replayText = string.sub(t_replayList[i].playlist, 1, 24)
+			if t_replayList[i].name:len() > 28 then
+				replayText = string.sub(t_replayList[i].name, 1, 24)
 				replayText = tostring(replayText .. '...')
 			else
-				replayText = t_replayList[i].playlist
+				replayText = t_replayList[i].name
 			end
 			if i > mainReplay - cursorPosY then
 				t_replayList[i].id = createTextImg(font2, 0, 1, replayText, 85, 15+i*15-moveTxt)
@@ -6248,10 +6320,10 @@ function f_databaseConnect()
 end
 
 --;===========================================================
---; HOST ONLINE MENU
+--; LOBBY MENU
 --;===========================================================
-t_mainHost = {
-	{id = textImgNew(), text = 'VERSUS PLAYER 2'},
+t_mainLobby = {
+	{id = textImgNew(), text = ''},
 	{id = textImgNew(), text = 'PRACTICE'},
 	{id = textImgNew(), text = 'ARCADE'},
 	{id = textImgNew(), text = 'SURVIVAL'},
@@ -6264,11 +6336,11 @@ t_mainHost = {
 	{id = textImgNew(), text = 'LEAVE ONLINE'},
 }
 
-function f_mainHost()
+function f_mainLobby()
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
-	local mainHost = 1
+	local mainLobby = 1
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -6284,20 +6356,20 @@ function f_mainHost()
 		end
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
-			mainHost = mainHost - 1
+			mainLobby = mainLobby - 1
 		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
-			mainHost = mainHost + 1
+			mainLobby = mainLobby + 1
 		end
-		if mainHost < 1 then
-			mainHost = #t_mainHost
-			if #t_mainHost > 5 then
+		if mainLobby < 1 then
+			mainLobby = #t_mainLobby
+			if #t_mainLobby > 5 then
 				cursorPosY = 5
 			else
-				cursorPosY = #t_mainHost-1
+				cursorPosY = #t_mainLobby-1
 			end
-		elseif mainHost > #t_mainHost then
-			mainHost = 1
+		elseif mainLobby > #t_mainLobby then
+			mainLobby = 1
 			cursorPosY = 0
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
 			cursorPosY = cursorPosY - 1
@@ -6305,22 +6377,22 @@ function f_mainHost()
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 5 then
-			moveTxt = (mainHost - 6) * 13
+			moveTxt = (mainLobby - 6) * 13
 		elseif cursorPosY == 0 then
-			moveTxt = (mainHost - 1) * 13
+			moveTxt = (mainLobby - 1) * 13
 		end
-		if #t_mainHost <= 5 then
-			maxMainHost = #t_mainHost
-		elseif mainHost - cursorPosY > 0 then
-			maxMainHost = mainHost + 5 - cursorPosY
+		if #t_mainLobby <= 5 then
+			maxmainLobby = #t_mainLobby
+		elseif mainLobby - cursorPosY > 0 then
+			maxmainLobby = mainLobby + 5 - cursorPosY
 		else
-			maxMainHost = 5
+			maxmainLobby = 5
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			if replaygame == true then setGameMode('replay') end
 			--ONLINE VERSUS
-			if mainHost == 1 then
+			if mainLobby == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setHomeTeam(1)
@@ -6337,7 +6409,7 @@ function f_mainHost()
 				end
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
-			elseif mainHost == 2 then
+			elseif mainLobby == 2 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
@@ -6353,7 +6425,7 @@ function f_mainHost()
 				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	
-			elseif mainHost == 3 then
+			elseif mainLobby == 3 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
@@ -6365,7 +6437,7 @@ function f_mainHost()
 				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
                 script.select.f_selectAdvance()
 			--ONLINE SURVIVAL	
-			elseif mainHost == 4 then
+			elseif mainLobby == 4 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
@@ -6376,7 +6448,7 @@ function f_mainHost()
 				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
 			--ONLINE ENDLESS
-			elseif mainHost == 5 then
+			elseif mainLobby == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
@@ -6387,7 +6459,7 @@ function f_mainHost()
 				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
-			elseif mainHost == 6 then		
+			elseif mainLobby == 6 then		
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
@@ -6400,7 +6472,7 @@ function f_mainHost()
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE BONUS RUSH
-			elseif mainHost == 7 then
+			elseif mainLobby == 7 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
@@ -6414,7 +6486,7 @@ function f_mainHost()
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE SUDDEN DEATH
-			elseif mainHost == 8 then				
+			elseif mainLobby == 8 then				
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(1000)
@@ -6427,7 +6499,7 @@ function f_mainHost()
 				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE TIME ATTACK
-			elseif mainHost == 9 then				
+			elseif mainLobby == 9 then				
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
@@ -6440,7 +6512,7 @@ function f_mainHost()
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
-			elseif mainHost == 10 then
+			elseif mainLobby == 10 then
 				sndPlay(sysSnd, 100, 1)
 				script.options.f_onlineCfg()
 			--EXIT
@@ -6450,13 +6522,13 @@ function f_mainHost()
 			end			
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_mainHost do
-			if i == mainHost then
+		for i=1, #t_mainLobby do
+			if i == mainLobby then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainHost[i].id, jgFnt, bank, 0, t_mainHost[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 142+i*13-moveTxt))
 		end
 		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -6474,11 +6546,16 @@ function f_mainHost()
 		textImgSetText(txt_gameFt, 'ONLINE MENU')
 		textImgDraw(txt_version)
 		f_sysTime()
-		if maxMainHost > 6 then
+		if netPlayer == 'Host' then
+			t_mainLobby[1].text = 'VERSUS PLAYER 2'
+		elseif netPlayer == 'Client' then
+			t_mainLobby[1].text = 'VERSUS PLAYER 1'
+		end
+		if maxmainLobby > 6 then
 			animDraw(arrowsU)
 			animUpdate(arrowsU)
 		end
-		if #t_mainHost > 6 and maxMainHost < #t_mainHost then
+		if #t_mainLobby > 6 and maxmainLobby < #t_mainLobby then
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
@@ -6494,255 +6571,6 @@ function f_mainHost()
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)		
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; CLIENT/JOIN ONLINE MENU
---;===========================================================
-t_mainJoin = {
-	{id = textImgNew(), text = 'VERSUS PLAYER 1'},
-	{id = textImgNew(), text = 'PRACTICE'},
-	{id = textImgNew(), text = 'ARCADE'},
-	{id = textImgNew(), text = 'SURVIVAL'},
-	{id = textImgNew(), text = 'ENDLESS'},
-	{id = textImgNew(), text = 'BOSS RUSH'},
-	{id = textImgNew(), text = 'BONUS RUSH'},
-	{id = textImgNew(), text = 'SUDDEN DEATH'},
-	{id = textImgNew(), text = 'TIME ATTACK'},
-	{id = textImgNew(), text = 'ONLINE SETTINGS'},
-	{id = textImgNew(), text = 'LEAVE ONLINE'},
-}
-
-function f_mainJoin()
-	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local mainJoin = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	local cancel = false
-	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			mainJoin = mainJoin - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			mainJoin = mainJoin + 1
-		end
-		if mainJoin < 1 then
-			mainJoin = #t_mainJoin
-			if #t_mainJoin > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_mainJoin-1
-			end
-		elseif mainJoin > #t_mainJoin then
-			mainJoin = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (mainJoin - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (mainJoin - 1) * 13
-		end
-		if #t_mainJoin <= 5 then
-			maxMainJoin = #t_mainJoin
-		elseif mainJoin - cursorPosY > 0 then
-			maxMainJoin = mainJoin + 5 - cursorPosY
-		else
-			maxMainJoin = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			if replaygame == true then setGameMode('replay') end
-			--ONLINE VERSUS
-			if mainJoin == 1 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setHomeTeam(1)
-				data.p2In = 2
-				data.stageMenu = true
-				data.p2Faces = true
-				setRoundTime(-1)
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
-				if data.ftcontrol > 0 then
-					textImgSetText(txt_mainSelect, 'ONLINE RANKED VERSUS')
-				else
-					textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
-				end
-				script.select.f_selectSimple()
-			--ONLINE TRAINING
-			elseif mainJoin == 2 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				setRoundTime(-1)
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.stageMenu = true
-				data.versusScreen = false
-				data.p2Faces = true
-				data.gameMode = 'training'
-				data.rosterMode = 'training'
-				setGameType(2)
-				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
-				script.select.f_selectSimple()
-			--ONLINE ARCADE	
-			elseif mainJoin == 3 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
-				data.serviceScreen = true
-				data.gameMode = 'arcade'
-				data.rosterMode = 'arcade'
-				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
-                script.select.f_selectAdvance()
-			--ONLINE SURVIVAL	
-			elseif mainJoin == 4 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
-				data.gameMode = 'survival'
-				data.rosterMode = 'survival'
-				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
-				script.select.f_selectAdvance()
-			--ONLINE ENDLESS
-			elseif mainJoin == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
-				data.gameMode = 'endless'
-				data.rosterMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')
-				script.select.f_selectAdvance()
-			--ONLINE BOSS RUSH
-			elseif mainJoin == 6 then		
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				if #t_bossChars ~= 0 then
-					data.p2In = 2
-					data.p2Faces = true
-					data.coop = true
-					data.gameMode = 'bossrush'
-					data.rosterMode = 'boss'
-					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')
-					script.select.f_selectAdvance()
-				end	
-			--ONLINE BONUS RUSH
-			elseif mainJoin == 7 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				if #t_bonusChars ~= 0 then
-					data.p2In = 2
-					data.p2Faces = true
-					data.coop = true
-					data.versusScreen = false
-					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonus'
-					textImgSetText(txt_mainSelect, 'ONLINE BONUS RUSH COOPERATIVE')
-					script.select.f_selectAdvance()
-				end	
-			--ONLINE SUDDEN DEATH
-			elseif mainJoin == 8 then				
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(1000)
-				setLifeMul(0)				
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
-				data.gameMode = 'allroster'
-				data.rosterMode = 'suddendeath'
-				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
-				script.select.f_selectAdvance()				
-			--ONLINE TIME ATTACK
-			elseif mainJoin == 9 then				
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(3600)
-				setLifeMul(2)				
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
-				data.gameMode = 'allroster'
-				data.rosterMode = 'timeattack'
-				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
-				script.select.f_selectAdvance()				
-			--ONLINE SETTINGS
-			elseif mainJoin == 10 then
-				sndPlay(sysSnd, 100, 1)
-				script.options.f_onlineCfg()
-			--EXIT
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
-			end	
-		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_mainJoin do
-			if i == mainJoin then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_mainJoin[i].id, jgFnt, bank, 0, t_mainJoin[i].text, 159, 142+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'ONLINE MENU')
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxMainJoin > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
-		end
-		if #t_mainJoin > 6 and maxMainJoin < #t_mainJoin then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
-		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -7018,6 +6846,7 @@ function f_saveProgress()
 		['data.survivalClear'] = data.survivalClear,
 		['data.coins'] = data.coins,
 		['data.attractCoins'] = data.attractCoins,
+		['data.continueCount'] = data.continueCount,
 		['data.vault'] = data.vault,
 		['data.playTime'] = data.playTime,
 		['data.trainingTime'] = data.trainingTime,
@@ -7082,14 +6911,20 @@ function f_saveProgress()
 end
 
 --;===========================================================
---; LOAD TEMP DATA (JUST WHILE FOUND A BETTER WAY TO BACK)
+--; LOAD TEMP DATA
 --;===========================================================
 local tempFile = io.open("save/temp_sav.lua","r")
 s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
 function f_saveTemp()
-	local t_temp = {['data.tempBack'] = data.tempBack,['data.replayDone'] = data.replayDone}
+	local t_temp = {
+		['data.tempBack'] = data.tempBack,
+		['data.replayDone'] = data.replayDone,
+		['data.challengeMode'] = data.challengeMode,
+		['data.p1data'] = data.p1data,
+		['data.p2data'] = data.p2data
+	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open("save/temp_sav.lua","w+")
 	tempFile:write(s_tempdataLUA)

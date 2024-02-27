@@ -5,7 +5,7 @@ lib sdl = <alpha/sdlplugin.ssz>;
 lib consts = <consts.ssz>;
 lib m = <math.ssz>;
 lib tbl = <table.ssz>;
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib com = "common.ssz";
 
 

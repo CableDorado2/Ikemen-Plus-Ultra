@@ -9,7 +9,7 @@ lib soc = <socket.ssz>;
 lib th = <thread.ssz>;
 lib se = <alpha/sdlevent.ssz>;
 lib file = <file.ssz>;
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib com = "common.ssz";
 
 
@@ -1150,6 +1150,7 @@ public &CommandList
   public int defaultTime;
   public int defaultBufferTime;
   public ^&.Command ctmp;
+  public bool ac = false;
   new()
   {
     `clear();
@@ -1212,7 +1213,8 @@ public &CommandList
             l = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].l:),jn,.cfg.in[in].l) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].l:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             r = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].r:),jn,.cfg.in[in].r) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].r:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             u = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].u:),jn,.cfg.in[in].u) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].u:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
-            d = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
+             d = (`ac && .com.sysControls == 0) || (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)));
+			//d = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
 			a = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].a:),jn,.cfg.in[in].a) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].a:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             b = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].b:),jn,.cfg.in[in].b) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].b:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             c = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].c:),jn,.cfg.in[in].c) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].c:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));

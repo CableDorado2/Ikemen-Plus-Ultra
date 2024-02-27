@@ -99,16 +99,14 @@ font22 = fontNew('font/ssf2x_s.fnt')
 font23 = fontNew('font/ssf2x_sL.fnt')
 font24 = fontNew('font/ssf2x_vL.fnt')
 
---;===========================================================
+--;=================================================================
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
---;===========================================================
+--;=================================================================
 bgmNothing = ' .mp3'
 bgmIntro = 'sound/System/Opening.mp3'
 bgmIntroJP = 'sound/System/Opening Lyrics.mp3'
 bgmTitle = 'sound/System/Title.mp3'
-bgmSelect = 'sound/System/Select.mp3'
-bgmSelectChallenger = 'sound/System/The Challenger.mp3'
-bgmSelectBoss = 'sound/System/Select Boss.mp3'
+bgmSelectBoss = 'sound/System/select/Select Boss.mp3'
 --bgmSelectOrder = 'sound/System/Order Select.mp3'
 bgmSelectOrderFinal = 'sound/System/Order Select Final.mp3'
 bgmVS = 'sound/System/VS.mp3'
@@ -126,71 +124,224 @@ bgmTourney = 'sound/System/Tourney.mp3'
 bgmLegion = 'sound/System/Legion.mp3'
 bgmAdventure = 'sound/System/Adventure.mp3'
 
---Simple Random Select for Main Menu Song
+--Select Main Menu Song
+function f_menuMusic()
+	if data.menuSong == 'Random' then
+		f_bgmrandomMenu()
+	else
+		playBGM(data.menuSong)
+	end
+end
+
+--Random Select for Main Menu Song
 function f_bgmrandomMenu()
 	local randomTrack = {"sound/System/Menu 1.mp3", "sound/System/Menu 2.mp3", "sound/System/Menu 3.ogg"}
 	playBGM(randomTrack[math.random(1, #randomTrack)])
 end
 
---Select Main Menu Song
-function f_menuMusic()
-	if data.menuSong == 'Theme 1' then
-		bgmMenu = 'sound/System/Menu 1.mp3'
-		playBGM(bgmMenu)
-	elseif data.menuSong == 'Theme 2' then
-		bgmMenu = 'sound/System/Menu 2.mp3'
-		playBGM(bgmMenu)
-	elseif data.menuSong == 'Theme 3' then
-		bgmMenu = 'sound/System/Menu 3.ogg'
-		playBGM(bgmMenu)	
-	elseif data.menuSong == 'Random' then
-		f_bgmrandomMenu()
+--Select Character Select Song
+function f_selectMusic()
+	if data.selectSong == 'Random' then
+		--TODO
+	else
+		playBGM(data.selectSong)
 	end
 end
 
---Select Challenger Menu Song
+--Select Character Select (New Challenger Mode) Song
 function f_challengerMusic()
-	if data.challengerSong == 'Fixed' then
-		bgmChallenger = bgmSelectChallenger
-		playBGM(bgmChallenger)
-	elseif data.challengerSong == 'Original' then
-		bgmChallenger = bgmSelect
-		playBGM(bgmChallenger)
-	elseif data.challengerSong == 'Boss' then
-		bgmChallenger = bgmSelectBoss
-		playBGM(bgmChallenger)	
-	elseif data.challengerSong == 'Random' then
-		f_bgmrandomChallenger()
+	if data.challengerSong == 'Random' then
+		--TODO
+	else
+		playBGM(data.challengerSong)
 	end
 end
 
---Simple Random Select for Challenger Menu Song
-function f_bgmrandomChallenger()
-	local randomTrack = {bgmSelectChallenger, bgmSelect, bgmSelectBoss}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
-end
-
---Advanced Random Select for Quick Versus Song
+--Random Select Song for Quick Versus Mode
 function f_bgmrandomVS()
 	t_randomsongList = {}
-	for file in lfs.dir[[.\\sound\\]] do --Read "Sound Dir
-		if file:match('^.*(%.)mp3$') then --Filter Files .mp3
+	for file in lfs.dir[[.\\sound\\]] do
+		if file:match('^.*(%.)mp3$') then
 			row = #t_randomsongList+1
 			t_randomsongList[row] = {}
 			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['playlist'] = file:gsub('^(.*)[%.]mp3$', '%1')
-		elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+			t_randomsongList[row]['path'] = 'sound/'..file
+		elseif file:match('^.*(%.)MP3$') then
 			row = #t_randomsongList+1
 			t_randomsongList[row] = {}
 			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['playlist'] = file:gsub('^(.*)[%.]ogg$', '%1')
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
+			t_randomsongList[row]['path'] = 'sound/'..file
+		elseif file:match('^.*(%.)ogg$') then
+			row = #t_randomsongList+1
+			t_randomsongList[row] = {}
+			t_randomsongList[row]['id'] = ''
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
+			t_randomsongList[row]['path'] = 'sound/'..file
+		elseif file:match('^.*(%.)OGG$') then
+			row = #t_randomsongList+1
+			t_randomsongList[row] = {}
+			t_randomsongList[row]['id'] = ''
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+			t_randomsongList[row]['path'] = 'sound/'..file
 		end
 	end
-	--t_randomsongList[#t_randomsongList+1] = {
-		--id = '', playlist = ' '
-	--}
-	playBGM('sound/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.mp3')
-	playBGM('sound/' .. t_randomsongList[math.random(1, #t_randomsongList)].playlist .. '.ogg')
+	playBGM(t_randomsongList[math.random(1, #t_randomsongList)].path)
+	if data.debugLog then f_printTable(t_randomsongList, "save/debug/t_randomsongList.txt") end
+end
+
+--Load Songs from Folders
+function f_soundtrack()
+t_songList = {} --Create Table
+--;=================================================================
+--;	FOLDER 1
+--;=================================================================
+folder = #t_songList+1 --Set "Folder 1" row for the table
+t_songList[folder] = {} --Add 1st Folder
+for file in lfs.dir[[.\\sound\\]] do --Read Dir
+	if file:match('^.*(%.)mp3$') then --Filter Files .mp3			
+		t_songList[folder][#t_songList[folder]+1] = {} --Add songs filtered to the end of the "folder" sub-table
+		t_songList[folder][#t_songList[folder]]['id'] = '' --Reserve id to create text
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND' --Folder name where is located the song
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1') --Get song name without extension
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file --Get song file path
+	elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
+	elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
+	elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
+	end
+end
+--Add extra items to the end of "Folder" sub-row Created
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SOUND', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SOUND', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 2
+--;=================================================================
+folder = #t_songList+1 --Set "Folder 2" row for the table
+t_songList[folder] = {} --Add 2nd Folder
+for file in lfs.dir[[.\\sound\system\\]] do
+	if file:match('^.*(%.)mp3$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	elseif file:match('^.*(%.)MP3$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	elseif file:match('^.*(%.)ogg$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	elseif file:match('^.*(%.)OGG$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 3
+--;=================================================================
+folder = #t_songList+1
+t_songList[folder] = {}
+for file in lfs.dir[[.\\sound\system\menu\\]] do
+	if file:match('^.*(%.)mp3$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	elseif file:match('^.*(%.)MP3$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	elseif file:match('^.*(%.)ogg$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	elseif file:match('^.*(%.)OGG$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = '          BACK', path = ''}
+--;=================================================================
+--;	FOLDER 4
+--;=================================================================
+folder = #t_songList+1
+t_songList[folder] = {}
+for file in lfs.dir[[.\\sound\system\select\\]] do
+	if file:match('^.*(%.)mp3$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	elseif file:match('^.*(%.)MP3$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	elseif file:match('^.*(%.)ogg$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	elseif file:match('^.*(%.)OGG$') then
+		t_songList[folder][#t_songList[folder]+1] = {}
+		t_songList[folder][#t_songList[folder]]['id'] = ''
+		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
+	end
+end
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT', name = '          BACK', path = ''}
+--;=================================================================
+--;	SET YOUR FOLDER BELOW
+--;=================================================================
+
+--
+if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
+t_randomSongTest = {}
+for i=1, #t_songList[1] do --recibe todos los valores de la folder 1, la idea es usar esta tabla para randomizar esos valores como lo hace t_selchars
+	t_randomSongTest[#t_randomSongTest+1] = i - 1
+end
+if data.debugLog then f_printTable(t_randomSongTest, "save/debug/t_randomSongTest.txt") end
 end
 
 --;===========================================================
@@ -444,9 +595,6 @@ function f_drawQuickSpr(data, x, y, scaleX, scaleY, alphaS, alphaD)
 		animSetPos(data, x, y)
 		animUpdate(data)
 		animDraw(data)
-		--if update then
-			--animUpdate(data)
-		--end
 		return true
 	end
 	return false

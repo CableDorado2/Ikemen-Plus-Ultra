@@ -5,10 +5,11 @@ lib m = <math.ssz>;
 lib consts = <consts.ssz>;
 lib tbl = <table.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib sff = "sff.ssz";
 lib com = "common.ssz";
 lib re = <regex.ssz>;
+lib al = <alert.ssz>;
 
 public &Font
 {
@@ -22,12 +23,19 @@ public &Font
   %&CharOffset mpl;
   &.tbl.IntTable!char, &CharOffset? map;
   ushort ver, ver2;
+  ^/char fntType;
   /int sizex = 6;
   /int sizey = 8;
   /int spacingx = 0, spacingy = 0;
   int colors = 255;
   int offsetx = 0, offsety = 0;
+  ^/char fntSff;
   public ^/char loadFile(^/char filename)
+  {
+  if(.s.equ(.s.toLower(filename[#filename-4 .. -1]), ".fnt")) ret `loadFontV1(filename);
+  ret `loadFontV2(filename);
+  }
+  public ^/char loadFontV1(^/char filename)
   {:<-
     public void def(&.com.Section sc=)
     {
@@ -106,7 +114,7 @@ public &Font
       &.com.Section sc.parse(lines, i=);
       branch{
       cond .s.equ(secname, "def"):
-        `loadFile:<-def(sc=);
+        `loadFontV1:<-def(sc=);
       }
     }];
     ^/char error;
@@ -123,7 +131,7 @@ public &Font
       s .= (char)ub;
       i++;
     while i < 12:
-      if(!.s.equ(s, "ElecbyteFnt"\0)) ret "Not Elecbyte Font";
+      if(!.s.equ(s, "ElecbyteFnt"\0)) ret "Unrecognized FNT file";
     }
     if(!f.read!ushort?(`ver=)) ret .com.FileReadError;
     if(!f.read!ushort?(`ver2=)) ret .com.FileReadError;
@@ -205,6 +213,62 @@ public &Font
     while i < #`mpl:}
     ret "";
   }
+  public ^/char loadFontV2(^/char filename)
+  {:<-
+    public void def(&.com.Section sc=)
+    {
+      ^/char data;
+	  ^/char error;
+      if(#(data = sc.get("type")) > 0){
+        `fntType = data;
+      }
+      if(#(data = sc.get("size")) > 0){
+        .com.readPair!int?(`sizex=, `sizey=, data);
+      }
+      if(#(data = sc.get("spacing")) > 0){
+        .com.readPair!int?(`spacingx=, `spacingy=, data);
+      }
+      if(#(data = sc.get("offset")) > 0){
+        .com.readPair!int?(`offsetx=, `offsety=, data);
+      }
+      if(#(data = sc.get("file")) > 0){
+        `fntSff = data;
+      }
+    }
+	public ^/char `loadFontSff(^/char filename)
+    {
+      ^&.sff.Sff sf;
+	  ^/char error;
+      sf.new(1);
+	  error = sf~loadFile(filename, false);
+	  ret error;
+    }
+	bool unicode = false;
+	bool defflg = true;
+    ~$void(^^/char, index=) section = [void(^^/char lines, index i=){
+      ^/char sec = lines[i];
+      ^/char secname = .com.sectionName(sec=);
+      if(#secname == 0) ret;
+      i++;
+      &.com.Section sc.parse(lines, i=);
+      branch{
+      cond .s.equ(secname, "def"):
+        if(defflg) def(sc=);
+        defflg = false;
+      }
+    }];
+    ^/char error;
+    ^char mainbuf = .com.loadText(filename, unicode=);
+    if(#mainbuf == 0) ret "Cannot load file:" + filename;
+    ^^/char lines = .com.splitLines(mainbuf);
+    .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
+    loop{index i = 0; while; do:
+      section(:lines, i=:);
+      i++;
+    while i < #lines:}
+	error = `loadFontSff("font/" + `fntSff);
+	ret error;
+  }
   public int charWidth(char ch)
   {
     if(ch == ' ') ret `sizex;
@@ -225,12 +289,22 @@ public &Font
     ret m~img[bank..bank+1];
   }
   float drawChar(
-    float x, float y, float xscl, float yscl, int bank, char ch, ^uint pal=)
+    float x, float y, float xscl, float yscl, int bank, int salpha, int dalpha, &.sdl.Rect window=, char ch, ^uint pal=)
   {
     if(ch == ' ') ret (float)`sizex * xscl;
     ^&.sff.Sprite spr = `getCharSpr(bank, ch);
     if(#spr == 0 || #spr~pxl == 0) ret 0.0;
     &.sdl.Rect tile.set(0, 0, 0, 0);
+    int alpha = 255;
+    branch{
+    cond (salpha == 1 && dalpha >= 255 || salpha == -2): alpha = -2;
+	cond .com.brightness < 255: else;
+    cond (salpha + dalpha >= 510): alpha = -1;
+    cond (salpha + dalpha == 255 || salpha + dalpha == 256 || salpha < 0): alpha = salpha;
+    else: alpha = .com.brightness*salpha>>8 | dalpha<<10 | 1<<9;
+    }
+	//int foo = 1*salpha>>8;
+	//.al.alert!self?(''foo);
   /?/*.cfg.OpenGL:
     plugin bool RenderMugenGl(:
       &.sdl.GlTexture, index, int, &.sdl.Rect=, float, float, &.sdl.Rect=,
@@ -242,26 +316,26 @@ public &Font
         spr~pxl<>, pal<>=, 0, spr~rct=, -x*.com.WidthScale,
         -y*.com.HeightScale, tile=, xscl*.com.WidthScale,
         xscl*.com.WidthScale, yscl*.com.HeightScale, 1.0,
-        0.0, 0.0, .com.brightness*255>>8 | 1<<9, .com.scrrect=, 0.0, 0.0:);
+        0.0, 0.0, alpha, window=, 0.0, 0.0:);
       pal.new(0);
     else:
       RenderMugenGl(:
         spr~pxl<>, 0, 0, spr~rct=, -x*.com.WidthScale,
         -y*.com.HeightScale, tile=, xscl*.com.WidthScale,
         xscl*.com.WidthScale, yscl*.com.HeightScale, 1.0,
-        0.0, 0.0, .com.brightness*255>>8 | 1<<9, .com.scrrect=, 0.0, 0.0:);
+        0.0, 0.0, alpha, window=, 0.0, 0.0:);
     }
   /*true:
     .sdl.renderMugenZoom(
-      .com.scrrect=, 0.0, 0.0, spr~pxl, pal, 0, spr~rct=,
+      window=, 0.0, 0.0, spr~pxl, pal, 0, spr~rct=,
       -x*.com.WidthScale, -y*.com.HeightScale, tile=,
       xscl*.com.WidthScale, xscl*.com.WidthScale, yscl*.com.HeightScale,
-      0.0, 0x0, .com.brightness*255>>8 | 1<<9, 0, spr~pluginbuf=);
+      0.0, 0x0, (salpha == -2 ? -2 : .com.brightness*salpha>>8 | dalpha<<10 | 1<<9), 0, spr~pluginbuf=);
   /*?*/
     ret (float)spr~rct.w * xscl;
   }
   public void drawText(
-    float x, float y, float xscl, float yscl, int bank, int align, ^/char txt)
+    float x, float y, float xscl, float yscl, int bank, int salpha, int dalpha, &.sdl.Rect window=, int align, ^/char txt)
   {
     if(#`mpl == 0) ret;
     float dx = x + (float)`offsetx*xscl + (float)(.com.GameWidth-320)/2.0;
@@ -269,7 +343,7 @@ public &Font
       y + (float)(`offsety - (`sizey-1))*yscl + (float)(.com.GameHeight-240);
     branch{
     cond align == 0:
-      dx -= (float)`textWidth(txt)*xscl*0.5;
+      dx -= .m.round((double)`textWidth(txt)*xscl)*0.5;
     cond align < 0:
       dx -= (float)`textWidth(txt)*xscl;
     }
@@ -277,10 +351,9 @@ public &Font
     if(.sff.allPalFX~enable) pal = .sff.allPalFX~getFxPal(pal, false);
     txt:<-[void(c){
       dx +=
-        `drawChar(dx, dy, xscl, yscl, bank, c, pal=) + (float)`spacingx*xscl;
+        `drawChar(dx, dy, xscl, yscl, bank, salpha, dalpha, window=, c, pal=) + (float)`spacingx*xscl;
     }];
   }
 }
 
 public ^&Font debugFont;
-

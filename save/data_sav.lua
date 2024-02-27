@@ -1,57 +1,69 @@
+--Online Data
+data.userName = "USERNAME"
+data.connectMode = "Direct"
+data.ftcontrol = -1
+--Music Data
+data.menuSong = "sound/system/menu/Menu 3.ogg"
+data.selectSong = "sound/system/select/Select.mp3"
+data.challengerSong = "sound/system/select/The Challenger.mp3"
+--System Data
+data.language = "ENGLISH"
+data.clock = "Standard"
+data.date = "Type A"
+data.attractMode = false
+data.pauseMode = "Yes"
+data.vsDisplayWin = true
+data.winscreen = "Classic"
+data.charPresentation = "Mixed"
+data.sffConversion = true
+--Game Data
+data.difficulty = 8
+data.roundTime = 99
+data.lifebar = "data/screenpack/fight.def"
 data.lifeMul = 100
+data.aipal = "Default"
+data.aiRamping = true
+data.autoguard = false
+data.quickCont = true
+--Team Data
 data.team1VS2Life = 120
 data.turnsRecoveryRate = 300
 data.teamLifeShare = false
+data.numTurns = 4
+data.numSimul = 4
+data.simulType = "Assist"
+data.coopenemy = "Simul"
+--Zoom Data
 data.zoomActive = true
 data.zoomMin = 0.75
 data.zoomMax = 1.1
 data.zoomSpeed = 1
-data.roundTime = 99
-data.numTurns = 4
-data.numSimul = 4
-data.simulType = "Assist"
-data.disablePadP1 = false
-data.disablePadP2 = false
-data.difficulty = 8
-data.continueCount = 0
-data.quickCont = false
-data.aipal = "Random"
-data.aiRamping = true
-data.autoguard = false
-data.vsDisplayWin = true
-data.lifebar = "data/screenpack/fight.def"
-data.sffConversion = false
-data.language = "ENGLISH"
-data.menuSong = "Theme 3"
-data.clock = "Standard"
-data.date = "Type A"
-data.selectTime = -1
+--Character Select Data
+data.selectType = "Variable"
+data.palType = "Modern"
+data.randomPortrait = "Simple"
+data.training = "Free"
+data.randomCharRematch = "Variable"
+data.charInfo = "Author"
+--Stage Select Data
+data.stageType = "Modern"
+data.stageInfo = "All"
+data.randomStagePortrait = "Simple"
+data.randomStageRematch = "Variable"
+--Timers Data
+data.selectTime = 31
 data.stageTime = 21
 data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
-data.selectType = "Variable"
-data.palType = "Modern"
-data.stageType = "Modern"
-data.stageInfo = "All"
-data.charInfo = "Author"
-data.randomPortrait = "Simple"
-data.randomStagePortrait = "Simple"
-data.randomCharRematch = "Variable"
-data.randomStageRematch = "Fixed"
-data.winscreen = "Classic"
-data.ftcontrol = -1
-data.debugMode = true
-data.debugLog = true
-data.attractMode = false
-data.challengerSong = "Fixed"
-data.charPresentation = "Portrait"
-data.training = "Free"
-data.coopenemy = "Simul"
-data.connectMode = "Database"
-data.pauseMode = "Yes"
+--Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"
-data.sdl = "Beta"
-data.userName = "USERNAME"
+data.sdl = "New"
+--Input Data
+data.disablePadP1 = false
+data.disablePadP2 = false
+--Engine Data
+data.debugMode = true
+data.debugLog = true

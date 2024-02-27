@@ -7,7 +7,7 @@ lib consts = <consts.ssz>;
 lib sff = "sff.ssz";
 lib com = "common.ssz";
 lib bg = "bg.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib tbl = <table.ssz>;
 
 public ^&com.PalFX bgPalFX;

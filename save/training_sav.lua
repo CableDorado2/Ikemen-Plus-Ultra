@@ -1,16 +1,13 @@
---Practice Settings
+﻿--Practice Settings
 data.trnStateType = 0
 data.trnDistance = 0
 data.trnAutoGuard = 0
 data.trnCounterHit = 0
 data.trnThrowEscape = 0
-data.trnRecover = 1
-data.trnRecoverDir = 3
-data.trnDisplay = 1
-data.trnInput = 1
-data.trnRuler = 0
-data.trnVoice = 0
-data.trnLBRefill = 3
+data.trnRecover = 0
+data.trnRecoverDir = 0
+data.trnDisplay = 0
+data.trnInput = 0
 --Playback Settings
 data.pbkRecSlot = 1
 data.pbkPlaySlot = 1

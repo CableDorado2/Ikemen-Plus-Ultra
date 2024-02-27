@@ -4,6 +4,8 @@
 onlinegame = false
 replaygame = false
 coinSystem = true
+songsSettings = false
+soundTest = false
 data.tagmode = 1
 data.includestage = 0
 
@@ -665,29 +667,29 @@ t_selMusic = {
 }
 
 --Populate table with SOUND FOLDER
-for file in lfs.dir[[.\\sound\\]] do --Read Dir
-	if file:match('^.*(%.)mp3$') then --Filter Files .mp3
+for file in lfs.dir[[.\\sound\\]] do
+	if file:match('^.*(%.)mp3$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmfile'] = 'sound/'..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]mp3$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
+	elseif file:match('^.*(%.)MP3$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmfile'] = 'sound/'..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]MP3$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
+	elseif file:match('^.*(%.)ogg$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmfile'] = 'sound/'..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]ogg$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
+	elseif file:match('^.*(%.)OGG$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = ''
+		t_selMusic[row]['bgmfile'] = 'sound/'..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	end

@@ -1,56 +1,183 @@
-
 lib file = <file.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
 lib lua = <alpha/lua.ssz>;
 
-const ^/char conffile = "ssz/config.ssz";
+//Open Game Executable
+sh.open("Ikemen Plus Ultra.exe", "ssz/ikemen.ssz", "", false, true);
 
-if(#file.find(conffile) == 0){
-  &file.File f;
-  f.open(conffile, "wb");
-  f.writeAry!ubyte?()<, s.sToU8(
-\xfeff"
-"
-  );
-}
+////////////////////
+//BACKUP DATA FILES
+////////////////////
 
-if(#file.find("save/training_sav.lua") == 0){
-  &file.File f;
-  f.open("save/training_sav.lua", "wb");
-  f.writeAry!ubyte?()<, s.sToU8(
+//DON'T edit they BECAUSE ARE A COPY from original ones, just keep this updated...
+
+//No DLC Status Backup
+const ^/char dlcfile = "script/dlc.lua";
+if(#file.find(dlcfile) == 0){
+	&file.File f;
+	f.open(dlcfile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
 \xfeff
-"--Practice Settings
-data.trnStateType = 0
-data.trnDistance = 0
-data.trnAutoGuard = 0
-data.trnCounterHit = 0
-data.trnThrowEscape = 0
-data.trnRecover = 1
-data.trnRecoverDir = 0
-data.trnDisplay = 1
-data.trnInput = 0
-data.trnRuler = 0
-data.trnVoice = 0
-data.trnLBRefill = 3
---Playback Settings
-data.pbkRecSlot = 1
-data.pbkPlaySlot = 1
-data.pbkPlayLoop = false
-data.pbkSlot1 = true
-data.pbkSlot2 = false
-data.pbkSlot3 = false
-data.pbkSlot4 = false
-data.pbkSlot5 = false"
-  );
+"--This is a default DLC Status script example, so if your dlc script is remove at some point, the engine will create this "\""default file"\""
+DLC1 = false --If you delete me, I will always return as false!
+--The answer is in the heart of main.ssz and CD3 was here."
+	);
 }
 
+//Playback Backup
 loop{index i = 0; %int j .= -1; while; do:
-  if(#file.find("data/playback/" + ''i + ".dat") == 0){
-    &file.File f;
-    f.open("data/playback/" + ''i + ".dat", "wb");
-    f.writeAry!int?(j);
-  }
+	if(#file.find("save/playback/" + ''i + ".dat") == 0){
+		&file.File f;
+		f.open("save/playback/" + ''i + ".dat", "wb");
+		f.writeAry!int?(j);
+	}
 while ++i <= 5:}
 
-sh.open("Ikemen Plus Ultra.exe", "ssz/ikemen.ssz", "", false, true);
+//SSZ Settings Backup
+const ^/char conffile = "save/config.ssz";
+if(#file.find(conffile) == 0){
+	&file.File f;
+	f.open(conffile, "wb");
+	f.writeAry!ubyte?()<, s.sToU8(
+\xfeff
+"//Video Settings
+const int Width = 853;
+const int Height = 480;
+const bool FullScreen = false;
+const bool FullScreenReal = false;
+const bool WindowBordered = true;
+const bool WindowResizable = false;
+const bool AspectRatio = false;
+const bool OpenGL = false;
+
+//Audio Settings
+const float GlVol = 0.8;
+const float SEVol = 0.8;
+const float BGMVol = 0.5;
+const float PanStr = 0.8;
+
+//Perfomance Settings
+const int HelperMax = 56;
+const int PlayerProjectileMax = 50;
+const int ExplodMax = 256;
+const int AfterImageMax = 8;
+const bool SaveMemory = false;
+
+//Game Settings
+const float Attack_LifeToPowerMul = 0.7;
+const float GetHit_LifeToPowerMul = 0.6;
+const float Super_TargetDefenceMul = 1.5;
+const int GameSpeed = 60;//frames/second
+const float LifebarFontScale = 0.5;
+
+//System Settings
+const ^/char listenPort = "\""7500"\"";
+const ^/char UserName = "\""CableDorado2"\"";
+const ^/char system = "\""script/main.lua"\"";
+
+//Input Settings
+lib sdl = <alpha/sdlplugin.ssz>;
+type k_t = |sdl.SDLKey;
+/%&Keys in;
+
+//P1 KEYBOARD - BATTLE
+in.new[0].set(
+  -1,
+  (int)k_t::UP,
+  (int)k_t::DOWN,
+  (int)k_t::LEFT,
+  (int)k_t::RIGHT,
+  (int)k_t::a,
+  (int)k_t::s,
+  (int)k_t::d,
+  (int)k_t::z,
+  (int)k_t::x,
+  (int)k_t::c,
+  (int)k_t::RETURN);
+
+//P2 KEYBOARD - BATTLE
+in.new[1].set(
+  -1,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
+  (int)k_t::j,
+  (int)k_t::k,
+  (int)k_t::l,
+  (int)k_t::KP_0);
+
+//P1 GAMEPAD - BATTLE
+in.new[2].set(
+  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
+
+//P2 GAMEPAD - BATTLE
+in.new[3].set(
+  1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
+
+//P1 KEYBOARD - MENU
+in.new[10].set(
+  -1,
+  (int)k_t::UP,
+  (int)k_t::DOWN,
+  (int)k_t::LEFT,
+  (int)k_t::RIGHT,
+  (int)k_t::a,
+  (int)k_t::s,
+  (int)k_t::d,
+  (int)k_t::z,
+  (int)k_t::x,
+  (int)k_t::c,
+  (int)k_t::p);
+
+//P2 KEYBOARD - MENU
+in.new[11].set(
+  -1,
+  (int)k_t::KP_5,
+  (int)k_t::KP_2,
+  (int)k_t::KP_1,
+  (int)k_t::KP_3,
+  (int)k_t::u,
+  (int)k_t::i,
+  (int)k_t::o,
+  (int)k_t::j,
+  (int)k_t::k,
+  (int)k_t::l,
+  (int)k_t::m);
+
+//P1 GAMEPAD - MENU
+in.new[12].set(
+  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 7);
+
+//P2 GAMEPAD - MENU
+in.new[13].set(
+  1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 7);
+
+const bool IgnoreMostErrors = true;
+
+public &Keys
+{
+	public int jn = -2, u, d, l, r, a, b, c, x, y, z, s;
+	public void set(int jn, int u, int d, int l, int r, int a, int b, int c, int x, int y, int z, int s)
+	{
+		`jn = jn;
+		`u = u;
+		`d = d;
+		`l = l;
+		`r = r;
+		`a = a;
+		`b = b;
+		`c = c;
+		`x = x;
+		`y = y;
+		`z = z;
+		`s = s;
+	}
+}
+"
+	);
+}

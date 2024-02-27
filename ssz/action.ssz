@@ -3,7 +3,7 @@ lib s = <string.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
 lib sff = "sff.ssz";
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 
 public &Rect
 {
