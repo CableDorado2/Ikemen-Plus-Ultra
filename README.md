@@ -89,8 +89,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Más parametros para el Select.def.
 
-- [ ] Cargar las animaciones de sprites para el character select desde el propio sff de los chars.
-
 - [ ] Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
 - [ ] Incluir pregunta para guardar o no los replays.
@@ -104,8 +102,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Cambiar de personaje y stage como lo hace las músicas en training pause.
 
-- [ ] Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
-
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
 
 - [ ] Arreglar que cuando tienes muchos slots programados en select.lua y 1 personaje cargado en select.def, que no se repita el mismo personaje sino que salga como empty.
@@ -117,6 +113,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Ranking al completar o perder en Modo Arcade.
 
+- [ ] Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
+
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
 - [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
@@ -124,11 +122,19 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
+- [ ] Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en parsec y usar en char select una función parecida a f_drawCharAnim.
+
+- [ ] Arreglar preview de random chars que no coincide con el char de sprite.
+
+- [ ] Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
+
 - [ ] Leer archivos movelist.dat dentro de los chars.
 
 - [ ] Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
+
+- [ ] Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
 
 **v1.6**
 ------------
@@ -141,6 +147,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
 [![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
+
+- [ ] Integrar la función de bgm.loops.
 
 **v1.7**
 ------------
