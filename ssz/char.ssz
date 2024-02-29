@@ -5561,6 +5561,10 @@ public &Char
   {
     ret .com.serviceType;
   }
+  public int trInfoDisplay()
+  {
+    ret .com.infoDisplay;
+  }
   public int trInputDisplay()
   {
     ret .com.inputDisplay;

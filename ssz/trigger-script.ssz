@@ -518,6 +518,12 @@ void inputdisplay(&.lua.State L=, int re=)
   L.pushNumber((double) .com.inputDisplay);
 }
 
+void infodisplay(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.infoDisplay);
+}
+
 void gamemode(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1202,6 +1208,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gametype", .gametype);
   L.register("servicetype", .servicetype);
   L.register("inputdisplay", .inputdisplay);
+  L.register("infodisplay", .infodisplay);
   L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);

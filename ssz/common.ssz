@@ -21,6 +21,7 @@ public int sysControls = 0; //0 = Fight, 10 = Menu, set back to 10
 public int gameState = 0; //1 = Fight, 0 = Menu, temporary
 public bool exitMatch;
 public int inputDisplay = 0;
+public int infoDisplay = 0;
 
 //TEAM MODE TYPE
 |TeamMode
@@ -692,7 +693,7 @@ public ^/char readFileName(^/char f, bool unicode)
 }
 
 const ^/char FileOpenError = "Failed to open file";
-const ^/char FileReadError = "File could not be uploaded";
+const ^/char FileReadError = "File could not be loaded";
 
 
 public ^uint tmppl.new(256);

@@ -1480,7 +1480,7 @@ end
 --; TRAINING SETTINGS/BATTLE INFO
 --;===========================================================
 t_trainingCfg = {
-	--{id = '', text = 'Info Display', 				varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 6)
+	{id = '', text = 'Info Display', 				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Input Display',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Hitbox Display', 				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Debug Info',					varID = textImgNew(), varText = ''},
@@ -1495,6 +1495,8 @@ t_trainingCfg = {
 	{id = '', text = '              BACK',   		varID = textImgNew(), varText = ''},
 }
 
+setInfoDisplay(1)
+infoDisplayStatus = 'No'
 setInputDisplay(0)
 inputDisplayStatus = 'No'
 hitboxStatus = 'No'
@@ -1502,8 +1504,8 @@ debugStatus = 'No'
 dummyMode = 'AI'
 
 if getGameMode() ~= "practice" then
+	table.remove(t_trainingCfg,6)
 	table.remove(t_trainingCfg,5)
-	table.remove(t_trainingCfg,4)
 end
 
 function f_pauseTraining()
@@ -1573,22 +1575,24 @@ function f_pauseTraining()
 			end
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then --Reserved Menu for Playback
 				--Playback Settings
-				if trainingCfg == 5 then --13
+				if trainingCfg == 6 then --13
 					sndPlay(sysSnd, 100, 5)
 					--trainingGoTo = 'Playback'
 				end
 			end
 			--Info Display
-			--if trainingCfg == 1 then
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
-					
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
-					
-				--end
-			--Input Display
 			if trainingCfg == 1 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and infoDisplayStatus == 'No' then
+					sndPlay(sysSnd, 100, 1)
+					infoDisplayStatus = 'Yes'
+					setInfoDisplay(1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and infoDisplayStatus == 'Yes' then
+					sndPlay(sysSnd, 100, 1)
+					infoDisplayStatus = 'No'
+					setInfoDisplay(0)
+				end
+			--Input Display
+			elseif trainingCfg == 2 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and inputDisplayStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					inputDisplayStatus = 'Yes'
@@ -1599,7 +1603,7 @@ function f_pauseTraining()
 					setInputDisplay(0)
 				end
 			--Hitbox Display
-			elseif trainingCfg == 2 then
+			elseif trainingCfg == 3 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hitboxStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleClsnDraw()
@@ -1610,7 +1614,7 @@ function f_pauseTraining()
 					hitboxStatus = 'No'
 				end
 			--Debug Info Display
-			elseif trainingCfg == 3 then
+			elseif trainingCfg == 4 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and debugStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleDebugDraw()
@@ -1686,7 +1690,7 @@ function f_pauseTraining()
 					
 				--end
 			--Dummy Control
-			elseif trainingCfg == 4 then
+			elseif trainingCfg == 5 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and dummyMode == 'AI' then
 					sndPlay(sysSnd, 100, 1)
 					toggleAI(2)
@@ -1740,9 +1744,10 @@ function f_pauseTraining()
 					bufl = 0
 				end
 			end
-			t_trainingCfg[1].varText = inputDisplayStatus
-			t_trainingCfg[2].varText = hitboxStatus
-			t_trainingCfg[3].varText = debugStatus
+			t_trainingCfg[1].varText = infoDisplayStatus
+			t_trainingCfg[2].varText = inputDisplayStatus
+			t_trainingCfg[3].varText = hitboxStatus
+			t_trainingCfg[4].varText = debugStatus
 			--if data.trnStateType == 0 then
 				--t_trainingCfg[5].varText = 'Standing'
 			--elseif data.trnStateType == 1 then
@@ -1750,7 +1755,7 @@ function f_pauseTraining()
 			--elseif data.trnStateType == 2 then
 				--t_trainingCfg[5].varText = 'Jumping'
 			--end
-			t_trainingCfg[4].varText = dummyMode
+			t_trainingCfg[5].varText = dummyMode
 			--animDraw(f_animVelocity(pauseBG0, -1, -1))
 			animSetScale(pauseBG1, 220, maxtrainingCfg*15)
 			animSetWindow(pauseBG1, 80,70, 160,105)

@@ -81,6 +81,11 @@ animAddPos(optionsDownArrowmainCfg, 242, 190)
 animUpdate(optionsDownArrowmainCfg)
 animSetScale(optionsDownArrowmainCfg, 0.5, 0.5)
 
+function f_attractcfgCredits()
+	txt_creditsCfg = createTextImg(font1, 0, -1, 'Credits: '..data.attractCoins..'', 181.5, 239)
+	textImgDraw(txt_creditsCfg)
+end
+
 --;===========================================================
 --; ON EXIT
 --;===========================================================
@@ -853,7 +858,7 @@ function f_exitInfo()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -893,7 +898,7 @@ function f_resWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -954,7 +959,7 @@ function f_sdlWarning()
 		animUpdate(sdlImg1)
 		animDraw(sdlImg2)
 		animUpdate(sdlImg2)
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -994,7 +999,7 @@ function f_glWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -1034,7 +1039,7 @@ function f_memWarning()
 		animSetWindow(cursorBox, 87,133, 144,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -1598,7 +1603,7 @@ function f_mainCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1734,7 +1739,7 @@ function f_onlineCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -1892,7 +1897,7 @@ function f_netplayCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2250,7 +2255,7 @@ function f_gameCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2520,7 +2525,7 @@ function f_teamCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2730,7 +2735,7 @@ function f_zoomCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3073,7 +3078,7 @@ function f_UICfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3301,7 +3306,7 @@ function f_selectCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3504,7 +3509,7 @@ function f_stageCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3805,7 +3810,7 @@ function f_timeCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3969,7 +3974,7 @@ function f_songCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -4282,7 +4287,7 @@ function f_audioCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4585,7 +4590,7 @@ function f_engineCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4904,7 +4909,7 @@ function f_videoCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5028,7 +5033,7 @@ function f_resCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5162,7 +5167,7 @@ function f_resCfg4_3()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5290,7 +5295,7 @@ function f_resCfg16_9()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5418,7 +5423,7 @@ function f_resCfg16_10()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5557,7 +5562,7 @@ function f_EXresCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5740,7 +5745,7 @@ function f_inputCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -5892,7 +5897,7 @@ function f_testMenu()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -6011,7 +6016,7 @@ function f_keyMenu()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -6132,7 +6137,7 @@ function f_joyMenu()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -6280,7 +6285,7 @@ function f_keyCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -6726,7 +6731,7 @@ function f_readInput(oldkey)
 			end 
 			cmdInput()
 		end
-        if data.attractMode == true then f_attractCredits() end			
+        if data.attractMode == true then f_attractcfgCredits() end			
 		refresh()
 	end
 	local key = getKeyboard
@@ -6774,7 +6779,7 @@ function f_unlocksWarning()
 		end
 		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
 		if defaultScreen == false and resetStats == false then break end
-		if data.attractMode == true then f_attractCredits() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end

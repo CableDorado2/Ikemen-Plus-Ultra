@@ -47,6 +47,7 @@ public &Share
   public int gameType;
   public int serviceType;
   public int inputDisplay;
+  public int infoDisplay;
   public float panStr;
   public ^/char bgmusic;
   /%&.cfg.Keys in;
@@ -102,6 +103,7 @@ public &Share
 	`gameType = .com.gameType;
 	`serviceType = .com.serviceType;
 	`inputDisplay = .com.inputDisplay;
+	`infoDisplay = .com.infoDisplay;
 	`panStr = .snd.panstr;
 	`bgmusic = .stage.bgmusic;
 	`in = .cfg.in;
@@ -158,6 +160,7 @@ public &Share
 	.com.gameType = `gameType;
 	.com.serviceType = `serviceType;
 	.com.inputDisplay = `inputDisplay;
+	.com.infoDisplay = `infoDisplay;
 	.snd.panstr = `panStr;
 	.stage.bgmusic = `bgmusic;
 	.cfg.in[0] = `in[0];

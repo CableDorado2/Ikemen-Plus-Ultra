@@ -541,6 +541,13 @@ void setInputDisplay(&.lua.State L=, int re=)
   .com.inputDisplay = ipd;
 }
 
+void setInfoDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ifd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.infoDisplay = ifd;
+}
+
 void getListenPort(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1955,6 +1962,7 @@ public void init(&.lua.State L=)
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
   L.register("setInputDisplay", .setInputDisplay);
+  L.register("setInfoDisplay", .setInfoDisplay);
   L.register("setConfigTVars", .setConfigTVars);
   L.register("getConfigTVars", .getConfigTVars);
 }

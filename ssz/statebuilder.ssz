@@ -2324,6 +2324,9 @@ public &StateBuilder
 	cond .s.equ("inputdisplay", token):
       out .= obj .= "trInputDisplay()";
       typ = 2;
+	cond .s.equ("infodisplay", token):
+      out .= obj .= "trInfoDisplay()";
+      typ = 2;
     cond .s.equ("const240p", token):
       if(`oneArg(token, temp=, in=)=>typ < 0) ret -1;
       `expCast(out=, 1, typ, temp);

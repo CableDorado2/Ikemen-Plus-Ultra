@@ -1682,7 +1682,7 @@ public &Fight
       ^/char data;
       if(#(data = sc.get("sff")) > 0) `sff = f(:data:);
       if(#(data = sc.get("snd")) > 0) `snd = f(:data:);
-      if(#(data = sc.get("fightfx.sff")) > 0) `fightfx_sff = f(:data:);
+      if(#(data = sc.get("fightfx.sff")) > 0) `fightfx_sff = f(:data:); //We could imitate gofx?
       if(#(data = sc.get("fightfx.air")) > 0) `fightfx_air = f(:data:);
       if(#(data = sc.get("common.snd")) > 0) `common_snd = f(:data:);
       if(#(data = sc.get("font0")) > 0) `font.new[0] = f(:data:);

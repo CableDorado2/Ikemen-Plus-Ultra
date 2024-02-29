@@ -561,6 +561,115 @@
 9000,0, 0,0, 1, ,AS006D250
 
 ;-----------------------------
+; Info Display
+[Begin Action 10000]
+10000,  0,  0,  0, -1
+
+;Behind
+[Begin Action 20001]
+20001,  0,  0,  0, -1
+
+;Front
+[Begin Action 20002]
+20001,  0,320,  0, -1,H
+
+;OK Behind
+[Begin Action 20003]
+20003,  0,  0,  0, -1
+
+;OK Front
+[Begin Action 20004]
+20003,  0,320,  0, -1,H
+
+;N9 Behind
+[Begin Action 20005]
+20005,  0,  0,  0, -1
+
+;N9 Front
+[Begin Action 20006]
+20005,  0,320,  0, -1,H
+
+;0 Behind
+[Begin Action 20010]
+20010,  0,  0,  0, -1
+
+;1 Behind
+[Begin Action 20011]
+20011,  0,  0,  0, -1
+
+;2 Behind
+[Begin Action 20012]
+20012,  0,  0,  0, -1
+
+;3 Behind
+[Begin Action 20013]
+20013,  0,  0,  0, -1
+
+;4 Behind
+[Begin Action 20014]
+20014,  0,  0,  0, -1
+
+;5 Behind
+[Begin Action 20015]
+20015,  0,  0,  0, -1
+
+;6 Behind
+[Begin Action 20016]
+20016,  0,  0,  0, -1
+
+;7 Behind
+[Begin Action 20017]
+20017,  0,  0,  0, -1
+
+;8 Behind
+[Begin Action 20018]
+20018,  0,  0,  0, -1
+
+;9 Behind
+[Begin Action 20019]
+20019,  0,  0,  0, -1
+
+;0 Front
+[Begin Action 20020]
+20010,  0,  0,  0, -1,H
+
+;1 Front
+[Begin Action 20021]
+20011,  0,  0,  0, -1,H
+
+;2 Front
+[Begin Action 20022]
+20012,  0,  0,  0, -1,H
+
+;3 Front
+[Begin Action 20023]
+20013,  0,  0,  0, -1,H
+
+;4 Front
+[Begin Action 20024]
+20014,  0,  0,  0, -1,H
+
+;5 Front
+[Begin Action 20025]
+20015,  0,  0,  0, -1,H
+
+;6 Front
+[Begin Action 20026]
+20016,  0,  0,  0, -1,H
+
+;7 Front
+[Begin Action 20027]
+20017,  0,  0,  0, -1,H
+
+;8 Front
+[Begin Action 20028]
+20018,  0,  0,  0, -1,H
+
+;9 Front
+[Begin Action 20029]
+20019,  0,  0,  0, -1,H
+
+;-----------------------------
 ; Input Display
 ; Left Arrow
 [Begin Action 230130]

@@ -1553,9 +1553,18 @@ function f_selectAdvance()
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
 				assert(loadfile('save/temp_sav.lua'))()
-				if data.challengerMode then --Here comes a New Challenger Route
+			--Here comes a New Challenger Route
+				if data.challengerMode then
 					data.challengerMode = false
 					f_saveTemp()
+				--Backup Arcade Data
+					t_p1selectedTemp = data.t_p1selected --Get a copy of selected chars to restore arcade after challenger battle
+					t_p2selectedTemp = data.t_p2selected
+					if data.debugLog then f_printTable(t_p1selectedTemp, 'save/debug/t_p1selectedTemp.txt') end
+					if data.debugLog then f_printTable(t_p2selectedTemp, 'save/debug/t_p2selectedTemp.txt') end
+					p1RestoreTeamMode = p1numChars --Get a copy of team mode selected
+					p2RestoreTeamMode = p2numChars
+					matchRestore = matchNo --Get a copy of matchNo where arcade was cut
 				--Go to 1P VS 2P Mode
 					f_default()
 					setGameMode('vs')
@@ -1566,77 +1575,89 @@ function f_selectAdvance()
 					data.rosterMode = 'versus'
 					textImgSetText(txt_mainSelect, 'VERSUS MODE')
 					f_selectSimple()
-				else --Normal Give Up Route
-					looseCnt = looseCnt + 1
-				end
-				if data.tempBack == true then
-					data.tempBack = false
-					f_saveTemp()
-					if data.rosterMode == 'event' then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
-					return
-				end
-				f_records()
-				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
-						f_selectWin()
-					end
+				--Restore Arcade Data when f_selectSimple() end
+					data.t_p1selected = t_p1selectedTemp --Restore chars selected for arcade
+					data.t_p2selected = t_p2selectedTemp
+					p1numChars = p1RestoreTeamMode --Restore team mode
+					p2numChars = p2RestoreTeamMode
+					matchNo = matchRestore --Restore matchNo
+			--Normal Give Up Route
 				else
-					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
-						f_selectWin()
-					end
-				end
-				f_continue()
-				if data.continue == 2 then
-					--f_storyboard('data/screenpack/intro.def')
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					return
-				end
-				if not data.quickCont then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						if serviceTeam == true then p2TeamEnd = false end
-						data.t_p2selected = {}
-						p2Portrait = nil
-						p2SelEnd = false
-						--if data.coop then
-							--p1SelEnd = false
-						--end
-					else
-						if serviceTeam == true then p1TeamEnd = false end
-						data.t_p1selected = {}
-						p1Portrait = nil
-						p1SelEnd = false
-						if data.coop then
-							p2SelEnd = false
-						end
-					end
-					f_rosterReset()
-					selScreenEnd = false
-					while not selScreenEnd do
-						if esc() then
-							if backScreen == false then sndPlay(sysSnd, 100, 2) end
-							backScreen = true
-						end
-						f_selectScreen()
-						if back == true then
+					looseCnt = looseCnt + 1
+					if data.tempBack == true then
+						data.tempBack = false
+						f_saveTemp()
+						if data.rosterMode == 'event' then
+							playBGM(bgmEvents)
+						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-							return
+						end
+						return
+					end
+					f_records()
+					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
+							f_selectWin()
+						end
+					else
+						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
+							f_selectWin()
 						end
 					end
-				elseif esc() then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
+					f_continue()
+					if data.continue == 2 then
+						--f_storyboard('data/screenpack/intro.def')
+						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+						return
+					end
+					if not data.quickCont then
+						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+							if serviceTeam == true then p2TeamEnd = false end
+							data.t_p2selected = {}
+							p2Portrait = nil
+							p2SelEnd = false
+							--if data.coop then
+								--p1SelEnd = false
+							--end
+						else
+							if serviceTeam == true then p1TeamEnd = false end
+							data.t_p1selected = {}
+							p1Portrait = nil
+							p1SelEnd = false
+							if data.coop then
+								p2SelEnd = false
+							end
+						end
+						f_rosterReset()
+						selScreenEnd = false
+						while not selScreenEnd do
+							if esc() then
+								if backScreen == false then sndPlay(sysSnd, 100, 2) end
+								backScreen = true
+							end
+							f_selectScreen()
+							if back == true then
+								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+								return
+							end
+						end
+					elseif esc() then
+						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						sndPlay(sysSnd, 100, 2)
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+						return
+					end
+					if data.stageMenu == true then
+						f_loadStage()
+						f_loadSong()
+					end
+				end
+			--If you exit in char select from challenger mode
+				if back == true then
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					return
-				end
-				if data.stageMenu == true then
-					f_loadStage()
-					f_loadSong()
 				end
 			end
 		end
@@ -3816,7 +3837,9 @@ function f_p1SelectMenu()
 			elseif selectTimer == 0 then
 				f_p1Selection()
 			end
-			if data.debugLog then f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt') end
+			if data.debugLog then
+				f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt')
+			end
 		end
 	end
 end
@@ -5153,7 +5176,7 @@ function f_p2SelectMenu()
 			end
 			if data.debugLog then
 				f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt')
-				--f_printTable(t_selected, 'save/debug/t_selected.txt')
+				f_printTable(t_selected, 'save/debug/t_selected.txt')
 			end
 		end
 	end
@@ -8958,6 +8981,286 @@ function f_gameOver()
 		end
 		cmdInput()
 		refresh()
+	end
+end
+
+--;===========================================================
+--; RANDOMTEST DEFINITION
+--;===========================================================
+-- Used to generate AI rank data
+-- AutoLevel is a function that ranks characters based on his number of loses vs wins
+-- AutoLevel is palette dependent so if a char has a 12th palette OP mode that mode can have more rank than his normal one
+
+--Ints variables
+local tuyoiBorder = 0
+local juuni = 12
+local moudeta = {}
+local rank = 0
+local saikyou = false
+local roster = {}
+local debugText = ''
+local numChars = 0
+local nextChar = 1
+
+function addMoudeta(rank)
+	moudeta[#moudeta + 1] = rank
+	local max = math.floor(numChars / (math.min(numChars / (juuni*10) + 3, juuni)*juuni))
+	while #moudeta > max do
+		table.remove(moudeta, 1)
+	end
+end
+
+function randRank()
+	local r = 0
+	while true do
+		r = math.random(1, tuyoiBorder + juuni - 2);
+		local notbroken = true
+		for i = 1, #moudeta do
+			if math.abs(moudeta[i] - r) <= math.floor(juuni/3) then
+				notbroken = false
+				break
+			end
+		end
+		if notbroken then
+			break
+		end
+	end
+	return r
+end
+
+function eachAllChars(f)
+	for cel = 1, #t_randomChars do
+		f(cel-1)
+	end
+end
+
+function rakuBenry()
+	local alf = 'save/debug/autolevel.txt'
+	local veljnz = {}
+	local winct = {}
+	local buf = '\239\187\191'
+	local fp = io.open(alf, 'r')
+	if fp then
+		for line in fp:lines() do
+			local tmp = strsplit(',', line)
+			if #tmp >= 2 then
+				for i = 1, 4 do
+					if i == 4 then
+						tmp[1] = string.sub(tmp[1], 4)
+					else
+						if string.byte(tmp[1], i) ~= string.byte(buf, i) then break end
+					end
+				end
+				winct[tmp[1]] = map(tonumber, strsplit(' ', strtrim(tmp[2])))
+			end
+		end
+		io.close(fp)
+	end
+	numChars = 0
+	eachAllChars(function(cel)
+		numChars = numChars + 1
+	end)
+	local tuyoninzu = math.floor(numChars / (juuni*10))
+	if tuyoninzu < juuni - 1 then
+		tuyoiBorder =  math.floor(numChars / (tuyoninzu + 1))
+		tuyoninzu = juuni - 1
+	else
+		tuyoiBorder = math.floor(numChars / juuni)
+	end
+	local total = 0
+	local zero ={}
+	local tsuyoshi = {}
+	local rand = {}
+	local kai = {}
+	local bimyou = {}
+	local tuyocnt = 0
+	local ran = randRank()
+	eachAllChars(function(cel)
+		if #veljnz < cel*12 then
+			for i = #veljnz + 1, cel*12 do
+				veljnz[i] = 0
+			end
+		end
+		local wins = winct[getCharFileName(cel)]
+		local tmp = 0
+		for j = 1, 12 do
+			if wins and j <= #wins then
+				total = total + wins[j]
+				veljnz[cel*12 + j] = wins[j]
+				tmp = tmp + wins[j]
+			else
+				veljnz[cel*12 + j] = 0
+			end
+		end
+		if tmp >= tuyoiBorder then tuyocnt = tuyocnt + 1 end
+		if tmp >= tuyoiBorder - juuni then table.insert(tsuyoshi, cel) end
+		if tmp >= 1 and tmp <= juuni then table.insert(bimyou, cel) end
+		if tmp > ran-juuni and tmp <= ran then table.insert(rand, cel) end
+		if tmp == 0 then table.insert(zero, cel) end
+		if tmp < 0 then table.insert(kai, cel) end
+	end)
+	function charAdd(cList, numAdd)
+	if numAdd <= 0 then return end
+		for i = 1, numAdd do
+			if #cList == 0 then break end
+			local cidx = math.random(1, #cList)
+			table.insert(roster, cList[cidx])
+			table.remove(cList, cidx)
+		end
+	end
+	roster = {}
+	nextChar = 1
+	debugText = ''
+	local numZero = #zero
+	if numZero > 0 then
+		charAdd(zero, numZero)
+		charAdd(kai, tuyoninzu - numZero)
+		rank = 0
+	elseif #bimyou >= math.max(tuyoninzu*20, math.floor((numChars*3)/20)) then
+		charAdd(bimyou, #bimyou)
+		rank = juuni
+	else
+		for n = 1, 3 do
+			if #rand >= tuyoninzu then break end
+			rand = {}
+			ran = randRank()
+			eachAllChars(function(cel)
+				local tmp = 0
+				for j = 1, 12 do
+					tmp = tmp + veljnz[cel*12 + j]
+				end
+				if tmp > ran-juuni and tmp <= ran then table.insert(rand, cel) end
+			end)
+		end
+		debugText = ran .. ' ' .. #rand
+		if #rand >= tuyoninzu then
+			charAdd(rand, #rand)
+			rank = ran
+			addMoudeta(rank)
+		elseif tuyocnt >= tuyoninzu then
+			charAdd(tsuyoshi, #tsuyoshi)
+			rank = tuyoiBorder+juuni-1
+		else
+			addMoudeta(tuyoiBorder + (juuni-2) - math.floor(juuni/3))
+			charAdd(kai, #kai)
+			rank = -1
+		end
+	end
+	if numZero == 0 then
+		while total ~= 0 do
+			local i = math.random(1, #veljnz)
+			if total > 0 then
+				veljnz[i] = veljnz[i] - 1
+				total = total - 1
+			else
+				veljnz[i] = veljnz[i] + 1
+				total = total + 1
+			end
+		end
+	end
+	eachAllChars(function(cel)
+		buf = buf .. getCharFileName(cel) .. ','
+		for j = 1, 12 do
+			buf = buf .. ' ' .. veljnz[cel*12 + j]
+		end
+		buf = buf .. '\r\n'
+	end)
+	local alv = io.open(alf, 'wb')
+	alv:write(buf)
+	io.close(alv)
+end
+
+function randSel(pno, winner)
+	if winner > 0 and (pno == winner) == not saikyou then return end
+	local team
+	if rank == 0 or rank == 12 or saikyou then
+		team = 0
+	elseif rank < 0 then
+		team = math.random(0, 2)
+	else
+		team = math.random(0, 1)*2
+	end
+	setTeamMode(pno, team, math.random(1, 4))
+	local tmp = 0
+	while tmp < 2 do
+		tmp = selectChar(pno, roster[nextChar], math.random(1, 12))
+		nextChar = nextChar + 1
+		if nextChar > #roster then nextChar = 1 end
+	end
+end
+
+--Writes the ranked AI levels to a save file
+--This file is not used by AutoLevel
+function rosterTxt()
+	local str = "Rank: " .. rank .. ' ' .. debugText
+	for i = 1, #roster do
+		str = str .. '\n' .. getCharFileName(roster[i])
+	end
+	dscr = io.open('save/debug/AI_Rank.txt', 'w')
+	dscr:write(str)
+	io.close(dscr)
+end
+
+--Sets AIs to level 8 (MAX level) and ints AutoLevel
+function initRandom()
+	if getGameMode() == "p1vscpurandom" then
+		setCom(1, 0)
+	elseif getGameMode() == "p1vsp2random" then
+		setCom(1, 0)
+		setCom(2, 0)
+	else --CPU VS CPU
+		for i = 1, 8 do
+			setCom(i, 8)
+		end
+	end
+	setAutoLevel(true)
+	rakuBenry()
+	winner = 0
+	wins = 0
+	rosterTxt()
+	nextChar = 1
+	saikyou = rank == tuyoiBorder+juuni-1
+end
+
+function randomMode()
+	if getGameMode() == "p1vscpurandom" or getGameMode() == "p1vsp2random" or getGameMode() == "random" then
+		f_bgmrandomVS()
+	end
+	initRandom()
+	refresh()
+	while not esc() do
+		randSel(1, winner)
+		randSel(2, winner)
+		setMatchNo(1)
+		selectStage(0)
+		--local stage = start.f_setStage() --Set Stage
+		--start.f_setMusic(stage) --Set BGM
+		loadStart()
+		local oldwinner = winner
+		winner = game()
+		if winner < 0 or esc() then break end
+		oldwins = wins
+		wins = wins + 1
+		if winner ~= oldwinner then
+			wins = 1
+			setHomeTeam(winner == 1 and 2 or 1)
+		end
+		setMatchNo(wins)
+		if winner <= 0 or wins >= 20 or wins == oldwins then
+			initRandom()
+		end
+		refresh()
+	end
+	if data.attractMode == true then
+		f_storyboard('data/screenpack/logo.def')
+		f_storyboard('data/screenpack/intro.def')
+		f_mainAttract()
+	else
+		if getGameMode() == "p1vscpurandom" or getGameMode() == "p1vsp2random" or getGameMode() == "random" then
+			f_menuMusic()
+		else --Demo Mode
+			f_mainTitle()
+		end
 	end
 end
 

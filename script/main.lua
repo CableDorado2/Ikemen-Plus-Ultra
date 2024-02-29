@@ -565,7 +565,7 @@ function f_mainAttract()
 		   setGameType(1)
 		   setGameMode('demo')
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-		   runDemo()
+		   script.select.randomMode()
 		   demoTimer = 0
 		   attractTimer = attractSeconds*gameTick
 		--EXIT
@@ -633,7 +633,7 @@ function f_mainTitle()
 		   setGameType(1)
 		   setGameMode('demo')
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-		   runDemo()
+		   script.select.randomMode()
 		   f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
 		   sndPlay(sysSnd, 100, 1)
@@ -1571,20 +1571,21 @@ function f_randomMenu()
 			--P1 VS CPU
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				randomsingleVS()
+				setGameMode('p1vscpurandom')
+				script.select.randomMode()
 			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				randommultiVS()
+				setGameMode('p1vsp2random')
+				script.select.randomMode()
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				f_comingSoon()
-				--randomcoopVS()
 			--CPU VS CPU
 			elseif randomMenu == 4 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				randomcpuVS()
+				script.select.randomMode()
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -6921,9 +6922,9 @@ function f_saveTemp()
 	local t_temp = {
 		['data.tempBack'] = data.tempBack,
 		['data.replayDone'] = data.replayDone,
-		['data.challengeMode'] = data.challengeMode,
-		['data.p1data'] = data.p1data,
-		['data.p2data'] = data.p2data
+		['data.challengeMode'] = data.challengeMode
+		--['data.p1RestoreTeamMode'] = data.p1RestoreTeamMode,
+		--['data.p2RestoreTeamMode'] = data.p2RestoreTeamMode
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open("save/temp_sav.lua","w+")
