@@ -104,16 +104,20 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
 
+- [ ] Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
+
 - [ ] Arreglar que cuando tienes muchos slots programados en select.lua y 1 personaje cargado en select.def, que no se repita el mismo personaje sino que salga como empty.
 
 **v1.5**
 ------------
 
+- [ ] Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
+
+- [ ] Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
+
 - [ ] Sistema de puntos basado en el Add004.
 
 - [ ] Ranking al completar o perder en Modo Arcade.
-
-- [ ] Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
@@ -124,13 +128,11 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en parsec y usar en char select una función parecida a f_drawCharAnim.
 
-- [ ] Arreglar preview de random chars que no coincide con el char de sprite.
+- [ ] Arreglar preview de random chars que no coincida con el char de sprite.
 
-- [ ] Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
+- [ ] Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
 - [ ] Leer archivos movelist.dat dentro de los chars.
-
-- [ ] Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
 
 - [ ] Agregar soporte para reconocer a un 2do Gamepad.
 
@@ -165,13 +167,15 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Soporte para Fntv2 y TTF.
 
-- [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
-
 - [ ] Soporte para imágenes RGB/32bits y Shaders.
+
+- [ ] Soporte para cargar imágenes usando la función IMG_Load del SDL2.
 
 - [ ] Soporte para modelos 3D integrando glTF.
 
 - [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en ¿local replays?.
+
+- [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
 **v1.9**
 ------------
