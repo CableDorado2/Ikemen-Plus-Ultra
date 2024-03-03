@@ -95,7 +95,7 @@ function f_lockedInfo()
 	--Draw Info Title Text
 	textImgDraw(txt_lockedinfoTitle)
 	--Actions
-	if esc() or btnPalNo(p1Cmd) > 0 then
+	if btnPalNo(p1Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
 		f_lockedInfoReset()
 	end
@@ -163,7 +163,7 @@ function f_eventMenu()
 	txt_eventProgress = createTextImg(jgFnt, 2, 1, '['..eventsData..'%]', 202, 10) --needs to be inside of event Menu function, to load event data %
 	txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
 		if lockedScreen == false then
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				f_saveProgress()
 				f_menuMusic()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)

@@ -51,7 +51,10 @@ in.new[0].set(
   (int)k_t::z,
   (int)k_t::x,
   (int)k_t::c,
-  (int)k_t::RETURN);
+  (int)k_t::q,
+  (int)k_t::e,
+  (int)k_t::v,
+  (int)k_t::f);
 
 //P2 KEYBOARD - BATTLE
 in.new[1].set(
@@ -66,15 +69,18 @@ in.new[1].set(
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
+  (int)k_t::KP_4,
+  (int)k_t::KP_6,
+  (int)k_t::h,
   (int)k_t::KP_0);
 
 //P1 GAMEPAD - BATTLE
 in.new[2].set(
-  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
+  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, -5, 8, 6, 9);
 
 //P2 GAMEPAD - BATTLE
 in.new[3].set(
-  1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 9);
+  1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, -5, 8, 6, 9);
 
 //P1 KEYBOARD - MENU
 in.new[10].set(
@@ -89,7 +95,10 @@ in.new[10].set(
   (int)k_t::z,
   (int)k_t::x,
   (int)k_t::c,
-  (int)k_t::p);
+  (int)k_t::q,
+  (int)k_t::RETURN,
+  (int)k_t::b,
+  (int)k_t::m);
 
 //P2 KEYBOARD - MENU
 in.new[11].set(
@@ -104,22 +113,25 @@ in.new[11].set(
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::m);
+  (int)k_t::KP_4,
+  (int)k_t::KP_6,
+  (int)k_t::h,
+  (int)k_t::p);
 
 //P1 GAMEPAD - MENU
 in.new[12].set(
-  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 7);
+  0, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, -5, 8, 6, 7);
 
 //P2 GAMEPAD - MENU
 in.new[13].set(
-  1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, 7);
+  1, -3, -4, -1, -2, 0, 1, 4, 2, 3, 5, -5, 8, 6, 7);
 
 const bool IgnoreMostErrors = true;
 
 public &Keys
 {
-	public int jn = -2, u, d, l, r, a, b, c, x, y, z, s;
-	public void set(int jn, int u, int d, int l, int r, int a, int b, int c, int x, int y, int z, int s)
+	public int jn = -2, u, d, l, r, a, b, c, x, y, z, q, w, e, s;
+	public void set(int jn, int u, int d, int l, int r, int a, int b, int c, int x, int y, int z, int q, int w, int e, int s)
 	{
 		`jn = jn;
 		`u = u;
@@ -132,6 +144,9 @@ public &Keys
 		`x = x;
 		`y = y;
 		`z = z;
+		`q = q;
+		`w = w;
+		`e = e;
 		`s = s;
 	}
 }

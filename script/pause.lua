@@ -1480,10 +1480,12 @@ end
 --; TRAINING SETTINGS/BATTLE INFO
 --;===========================================================
 t_trainingCfg = {
-	{id = '', text = 'Info Display', 				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Damage Display', 				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Input Display',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Hitbox Display', 				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Debug Info',					varID = textImgNew(), varText = ''},
+	--{id = '', text = 'Powerbar',					varID = textImgNew(), varText = ''},
+	--{id = '', text = 'Lifebar',					varID = textImgNew(), varText = ''},
 	--{id = '', text = 'State', 					varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 1)
 	--{id = '', text = 'Distance', 					varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 2)
 	--{id = '', text = 'Guard Mode', 				varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 3)
@@ -1495,8 +1497,8 @@ t_trainingCfg = {
 	{id = '', text = '              BACK',   		varID = textImgNew(), varText = ''},
 }
 
-setInfoDisplay(1)
-infoDisplayStatus = 'No'
+setDamageDisplay(0)
+damageDisplayStatus = 'No'
 setInputDisplay(0)
 inputDisplayStatus = 'No'
 hitboxStatus = 'No'
@@ -1582,14 +1584,14 @@ function f_pauseTraining()
 			end
 			--Info Display
 			if trainingCfg == 1 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and infoDisplayStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and damageDisplayStatus == 'No' then
 					sndPlay(sysSnd, 100, 1)
-					infoDisplayStatus = 'Yes'
-					setInfoDisplay(1)
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and infoDisplayStatus == 'Yes' then
+					damageDisplayStatus = 'Yes'
+					setDamageDisplay(1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and damageDisplayStatus == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
-					infoDisplayStatus = 'No'
-					setInfoDisplay(0)
+					damageDisplayStatus = 'No'
+					setDamageDisplay(0)
 				end
 			--Input Display
 			elseif trainingCfg == 2 then
@@ -1744,7 +1746,7 @@ function f_pauseTraining()
 					bufl = 0
 				end
 			end
-			t_trainingCfg[1].varText = infoDisplayStatus
+			t_trainingCfg[1].varText = damageDisplayStatus
 			t_trainingCfg[2].varText = inputDisplayStatus
 			t_trainingCfg[3].varText = hitboxStatus
 			t_trainingCfg[4].varText = debugStatus

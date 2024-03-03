@@ -265,7 +265,7 @@ function f_storyMenu()
 	txt_storyMenu = createTextImg(font14, 0, -1, 'STORY SELECT:', 188, 13)
 	txt_storyProgress = createTextImg(jgFnt, 2, 1, '['..storyData..'%]', 193.5, 13) --needs to be inside of story Menu function, to load story data %
 	--BACK
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)

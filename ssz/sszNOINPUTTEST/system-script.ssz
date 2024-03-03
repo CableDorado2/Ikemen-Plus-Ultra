@@ -8,7 +8,7 @@ lib bg = "bg.ssz";
 lib cmd = "command.ssz";
 lib fnt = "font.ssz";
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib snd = "sound.ssz";
 lib chr = "char.ssz";
 lib lua = <alpha/lua.ssz>;
@@ -55,7 +55,7 @@ public &TextImg
   {
     if(.se.fskip || #`fnt == 0) ret;
 	if(`oldScale != .com.WidthScale) `updateWindow();
-    `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `align, `text);
+    `fnt~drawText(`x, `y, `xscl, `yscl, `bank, `salpha, `dalpha, `window=, `align, `text); //`fnt~drawText(`x, `y, `xscl, `yscl, `bank, `align, `text);
   }
   public float getTextWidth()
   {
@@ -532,6 +532,20 @@ void setServiceType(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
   .com.serviceType = st;
+}
+
+void setInputDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int ipd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.inputDisplay = ipd;
+}
+
+void setDamageDisplay(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dmd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.damageDisplay = dmd;
 }
 
 void getListenPort(&.lua.State L=, int re=)
@@ -1269,6 +1283,99 @@ void selectChar(&.lua.State L=, int re=)
   L.pushNumber((double)retval);
 }
 
+void getCharVar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char vt = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int vn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(!.m.inRange!int?(1, #.chr.chars, pn))
+  {
+    L.pushString("Invalid player number.");
+    re = -1;
+    ret;
+  }
+  int retval = .s.equ(vt, "t") ? .chr.chars[pn-1]<>~tivar[vn]+1 : .chr.chars[pn-1]<>~ivar[vn];
+  L.pushNumber((double)retval);
+}
+
+void setCharVar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char vt = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int vn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int val = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(!.m.inRange!int?(1, #.chr.chars, pn))
+  {
+    L.pushString("Invalid player number.");
+    re = -1;
+    ret;
+  }
+  branch{
+  cond .s.equ(vt, "t"):
+    .chr.chars[pn-1]<>~tivar[vn] = val-1;
+  else:
+    .chr.chars[pn-1]<>~ivar[vn] = val;
+  }
+}
+
+void getHelperVar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char vt = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int vn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(!.m.inRange!int?(1, #.chr.chars, pn))
+  {
+    L.pushString("Invalid player number.");
+    re = -1;
+    ret;
+  }
+  int retval = 0;
+  loop{index i = 1; while; do:
+    if(
+      !.chr.chars[pn-1][i]~ls(.chr.lsDESTROY)
+      && (id <= 0 || id == .chr.chars[pn-1][i]~helperid))
+    {
+      retval = .s.equ(vt, "t") ? .chr.chars[pn-1][i]~tivar[vn]+1 : .chr.chars[pn-1][i]~ivar[vn];
+    }
+    i++;
+  while i < #.chr.chars[pn-1]:}
+  L.pushNumber((double)retval);
+}
+
+void setHelperVar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int id = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  ^/char vt = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int vn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int val = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(!.m.inRange!int?(1, #.chr.chars, pn))
+  {
+    L.pushString("Invalid player number.");
+    re = -1;
+    ret;
+  }
+  loop{index i = 1; while; do:
+    if(
+      !.chr.chars[pn-1][i]~ls(.chr.lsDESTROY)
+      && (id <= 0 || id == .chr.chars[pn-1][i]~helperid))
+    {
+      branch{
+      cond .s.equ(vt, "t"):
+        .chr.chars[pn-1][i]~tivar[vn] = val-1;
+      else:
+        .chr.chars[pn-1][i]~ivar[vn] = val;
+      }
+    }
+    i++;
+  while i < #.chr.chars[pn-1]:}
+}
+
 void getStageName(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 1;
@@ -1696,6 +1803,48 @@ void setHUD(&.lua.State L=, int re=)//Search setHUD in main.lua
   .com.statusDraw = b;
 }
 
+void setConfigTVars(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int dst = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ag = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ch = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int ge = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int rec = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int recdir = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int dis = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  int inp = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int ru = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int vc = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  //int lb = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.chr.chars > 1){
+    .chr.chars[1]<>~tivar[1] = st;
+    .chr.chars[1]<>~tivar[2] = dst;
+    .chr.chars[1]<>~tivar[3] = ag;
+    .chr.chars[0]<>~tivar[12] = ch;
+    .chr.chars[1]<>~tivar[4] = ge;
+    .chr.chars[1]<>~tivar[5] = rec;
+    .chr.chars[1]<>~tivar[10] = recdir;
+    .chr.chars[1]<>~tivar[6] = dis;
+    .chr.chars[0]<>~tivar[11] = inp;
+    //.chr.chars[1]<>~tivar[7] = ru;
+    //.chr.chars[1]<>~tivar[8] = vc;
+    //.chr.chars[1]<>~tivar[9] = lb;
+  }
+}
+
+void getConfigTVars(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int v = 0;
+  int tvar = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  if(#.chr.chars > 1){
+    v = .chr.chars[1-(int)(tvar==12||tvar==11)]<>~tivar[tvar];
+  }
+  L.pushNumber((double)v);
+}
+
 public void init(&.lua.State L=)
 {
   .sc.init(L=);
@@ -1772,6 +1921,10 @@ public void init(&.lua.State L=)
   L.register("getCharName", .getCharName);
   L.register("getCharFileName", .getCharFileName);
   L.register("selectChar", .selectChar);
+  L.register("getCharVar", .getCharVar);
+  L.register("setCharVar", .setCharVar);
+  L.register("getHelperVar", .getHelperVar);
+  L.register("setHelperVar", .setHelperVar);
   L.register("getStageName", .getStageName);
   L.register("refresh", .refresh);
   L.register("drawFace", .drawFace);
@@ -1808,4 +1961,8 @@ public void init(&.lua.State L=)
   L.register("remapInput", .remapInput);
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
+  L.register("setInputDisplay", .setInputDisplay);
+  L.register("setDamageDisplay", .setDamageDisplay);
+  L.register("setConfigTVars", .setConfigTVars);
+  L.register("getConfigTVars", .getConfigTVars);
 }

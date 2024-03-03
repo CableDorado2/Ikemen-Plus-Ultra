@@ -541,11 +541,11 @@ void setInputDisplay(&.lua.State L=, int re=)
   .com.inputDisplay = ipd;
 }
 
-void setInfoDisplay(&.lua.State L=, int re=)
+void setDamageDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
-  int ifd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.infoDisplay = ifd;
+  int dmd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.damageDisplay = dmd;
 }
 
 void getListenPort(&.lua.State L=, int re=)
@@ -1029,6 +1029,9 @@ void swapController(&.lua.State L=, int re=)
   int tmpX = .cfg.in[pnO].x;
   int tmpY = .cfg.in[pnO].y;
   int tmpZ = .cfg.in[pnO].z;
+  int tmpQ = .cfg.in[pnO].q;
+  int tmpW = .cfg.in[pnO].w;
+  int tmpE = .cfg.in[pnO].e;
   int tmpS = .cfg.in[pnO].s;
   .cfg.in[pnO].set(
 	.cfg.in[pnN].jn,
@@ -1042,6 +1045,9 @@ void swapController(&.lua.State L=, int re=)
 	.cfg.in[pnN].x,
 	.cfg.in[pnN].y,
 	.cfg.in[pnN].z,
+	.cfg.in[pnN].q,
+	.cfg.in[pnN].w,
+	.cfg.in[pnN].e,
 	.cfg.in[pnN].s);
   .cfg.in[pnN].set(
 	tmpJN,
@@ -1055,6 +1061,9 @@ void swapController(&.lua.State L=, int re=)
 	tmpX,
 	tmpY,
 	tmpZ,
+	tmpQ,
+	tmpW,
+	tmpE,
 	tmpS);
 }
 
@@ -1074,6 +1083,9 @@ void setInputConfig(&.lua.State L=, int re=)
 	^/char x = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
 	^/char y = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
 	^/char z = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char q = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char w = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+	^/char e = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
 	^/char s = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
 	.cfg.in[pn].set(
 	  cn,
@@ -1087,6 +1099,9 @@ void setInputConfig(&.lua.State L=, int re=)
 	  .keySwap(x),
 	  .keySwap(y),
 	  .keySwap(z),
+	  .keySwap(q),
+	  .keySwap(w),
+	  .keySwap(e),
 	  .keySwap(s));
   }
   if(cn > -1){
@@ -1100,6 +1115,9 @@ void setInputConfig(&.lua.State L=, int re=)
 	int x = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
 	int y = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
 	int z = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int q = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int w = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+	int e = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
 	int s = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
 	.cfg.in[pn].set(
 	  cn,
@@ -1113,6 +1131,9 @@ void setInputConfig(&.lua.State L=, int re=)
 	  x,
 	  y,
 	  z,
+	  q,
+	  w,
+	  e,
 	  s);
   }
 }
@@ -1962,7 +1983,7 @@ public void init(&.lua.State L=)
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
   L.register("setInputDisplay", .setInputDisplay);
-  L.register("setInfoDisplay", .setInfoDisplay);
+  L.register("setDamageDisplay", .setDamageDisplay);
   L.register("setConfigTVars", .setConfigTVars);
   L.register("getConfigTVars", .getConfigTVars);
 }

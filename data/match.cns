@@ -432,13 +432,13 @@ trigger1 = (root,movetype!=h)||(root,stateno=[120,159])||(root,stateno=[5000,519
 var(8) = var(8)|33554432
 
 ;==========================
-; INFO DISPLAY
+; DAMAGE INFO DISPLAY
 ;==========================
 [Statedef 20000]
 type = s
 movetype = i
 physics = n
-anim = 10000 ;f10000 WHY DOES NOT WORK
+anim = 10000
 velset = 0,0
 ctrl = 0
 
@@ -492,13 +492,12 @@ persistent=0
 
 [State 20000, Info Display ON]
 type = Explod
-triggerall = TeamSide = 2 ;Show only for Right Side
 trigger1 = Roundstate = 2
-trigger1 = InfoDisplay = 1 ;parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;Show only for Right Side ;parent,var(17)%2 != 1
 trigger1 = Numexplod(20001) = 0
-anim = f20002 ;ifelse(facing = 1,20001,20002)
+anim = fifelse(facing = 1,20001,20002)
 ID = 20001
-pos = 0 ,0+var(0)
+pos = 10, 17.2 ;0 ,0+var(0)
 postype = back
 facing = 1
 vfacing = 1
@@ -509,7 +508,7 @@ random = 0, 0
 removetime = -2
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -517,7 +516,7 @@ shadow = 0, 0, 0
 [State 20000, Info Display OFF]
 type = RemoveExplod
 trigger1 = Roundstate != 2
-trigger2 = InfoDisplay = 0 ;trigger2 = parent,var(17)%2 = 1
+trigger2 = DamageDisplay = 0 ;trigger2 = parent,var(17)%2 = 1
 id = 20001
 
 ;==========================
@@ -526,10 +525,10 @@ id = 20001
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21040) = 0
 trigger1 = parent,var(10) > 10000
-anim = ifelse(facing = 1,21040,21041)
+anim = fifelse(facing = 1,21040,21041)
 ID = 21040
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -542,7 +541,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -551,7 +550,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10) < 10000
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21040
 
 ;==========================
@@ -560,11 +559,11 @@ id = 21040
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21000) = 0
 trigger1 = parent,var(10)%10 = 0
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21000
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -577,7 +576,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -587,17 +586,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 0
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21000
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21001) = 0
 trigger1 = parent,var(10)%10 = 1
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21001
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -610,7 +609,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -620,17 +619,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 1
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21001
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21002) = 0
 trigger1 = parent,var(10)%10 = 2
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21002
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -643,7 +642,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -653,17 +652,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 2
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21002
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21003) = 0
 trigger1 = parent,var(10)%10 = 3
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21003
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -676,7 +675,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -686,17 +685,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 3
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21003
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21004) = 0
 trigger1 = parent,var(10)%10 = 4
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21004
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -709,7 +708,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -719,17 +718,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 4
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21004
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21005) = 0
 trigger1 = parent,var(10)%10 = 5
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21005
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -742,7 +741,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -752,17 +751,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 5
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21005
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21006) = 0
 trigger1 = parent,var(10)%10 = 6
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21006
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -775,7 +774,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -785,17 +784,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 6
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21006
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21007) = 0
 trigger1 = parent,var(10)%10 = 7
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21007
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -808,7 +807,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -818,17 +817,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 7
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21007
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21008) = 0
 trigger1 = parent,var(10)%10 = 8
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21008
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -841,7 +840,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -851,17 +850,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 8
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21008
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21009) = 0
 trigger1 = parent,var(10)%10 = 9
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21009
 pos = ifelse(facing = 1,150,10) ,60+parent,var(0)
 postype = back
@@ -874,7 +873,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -884,7 +883,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(10)%10 != 9
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21009
 
 ;==========================
@@ -893,11 +892,11 @@ id = 21009
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21010) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 0
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21010
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -910,7 +909,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -920,17 +919,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 0
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21010
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21011) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 1
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21011
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -943,7 +942,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -953,17 +952,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 1
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21011
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21012) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 2
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21012
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -976,7 +975,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -986,17 +985,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 2
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21012
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21013) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 3
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21013
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1009,7 +1008,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1019,17 +1018,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 3
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21013
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21014) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 4
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21014
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1042,7 +1041,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1052,17 +1051,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 4
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21014
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21015) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 5
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21015
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1075,7 +1074,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1085,17 +1084,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 5
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21015
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21016) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 6
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21016
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1108,7 +1107,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1118,17 +1117,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 6
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21016
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21017) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 7
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21017
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1141,7 +1140,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1151,17 +1150,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 7
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21017
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21018) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 8
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21018
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1174,7 +1173,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1184,17 +1183,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 8
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21018
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21019) = 0
 trigger1 = floor(parent,var(10)/10)%10 = 9
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21019
 pos = ifelse(facing = 1,140,20) ,60+parent,var(0)
 postype = back
@@ -1207,7 +1206,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1217,7 +1216,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/10)%10 != 9
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21019
 
 ;==========================
@@ -1226,11 +1225,11 @@ id = 21019
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21020) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 0
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21020
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1243,7 +1242,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1253,17 +1252,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 0
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21020
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21021) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 1
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21021
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1276,7 +1275,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1286,17 +1285,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 1
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21021
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21022) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 2
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21022
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1309,7 +1308,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1319,17 +1318,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 2
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21022
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21023) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 3
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21023
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1342,7 +1341,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1352,17 +1351,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 3
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21023
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21024) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 4
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21024
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1375,7 +1374,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1385,17 +1384,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 4
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21024
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21025) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 5
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21025
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1408,7 +1407,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1418,17 +1417,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 5
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21025
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21026) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 6
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21026
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1441,7 +1440,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1451,17 +1450,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 6
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21026
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21027) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 7
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21027
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1474,7 +1473,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1484,17 +1483,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 7
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21027
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21028) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 8
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21028
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1507,7 +1506,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1515,10 +1514,10 @@ shadow = 0, 0, 0
 [State 20000]
 type = RemoveExplod
 trigger1 = Roundstate != 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger2 = floor(parent,var(10)/100)%10 != 8
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21028
 
 [State 20000];9
@@ -1527,7 +1526,7 @@ trigger1 = Roundstate = 2
 trigger1 = Numexplod(21029) = 0
 trigger1 = floor(parent,var(10)/100)%10 = 9
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21029
 pos = ifelse(facing = 1,130,30) ,60+parent,var(0)
 postype = back
@@ -1540,7 +1539,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1550,7 +1549,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/100)%10 != 9
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21029
 
 ;==========================
@@ -1559,11 +1558,11 @@ id = 21029
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21030) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 0
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21030
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1576,7 +1575,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1586,17 +1585,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 0
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21030
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21031) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 1
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21031
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1609,7 +1608,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1619,17 +1618,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 1
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21031
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21032) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 2
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21032
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1642,7 +1641,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1652,17 +1651,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 2
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21032
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21033) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 3
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21033
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1675,7 +1674,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1685,17 +1684,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 3
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21033
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21034) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 4
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21034
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1708,7 +1707,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1718,17 +1717,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 4
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21034
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21035) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 5
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21035
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1741,7 +1740,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1751,17 +1750,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 5
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21035
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21036) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 6
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21036
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1774,7 +1773,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1784,17 +1783,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 6
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21036
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21037) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 7
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21037
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1807,7 +1806,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1817,17 +1816,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 7
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21037
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21038) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 8
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21038
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1840,7 +1839,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1850,17 +1849,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 8
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21038
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21039) = 0
 trigger1 = floor(parent,var(10)/1000)%10 = 9
 trigger1 = parent,var(10) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21039
 pos = ifelse(facing = 1,120,40) ,60+parent,var(0)
 postype = back
@@ -1873,7 +1872,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1883,7 +1882,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(10)/1000)%10 != 9
 trigger3 = parent,var(10) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21039
 
 ;==========================
@@ -1892,10 +1891,10 @@ id = 21039
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21140) = 0
 trigger1 = parent,var(11) > 10000
-anim = ifelse(facing = 1,21040,21041)
+anim = fifelse(facing = 1,21040,21041)
 ID = 21140
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -1908,7 +1907,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1917,7 +1916,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11) < 10000
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21140
 
 ;==========================
@@ -1926,11 +1925,11 @@ id = 21140
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21100) = 0
 trigger1 = parent,var(11)%10 = 0
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21100
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -1943,7 +1942,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1953,17 +1952,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 0
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21100
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21101) = 0
 trigger1 = parent,var(11)%10 = 1
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21101
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -1976,7 +1975,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -1986,17 +1985,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 1
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21101
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21102) = 0
 trigger1 = parent,var(11)%10 = 2
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21102
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2009,7 +2008,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2019,17 +2018,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 2
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21102
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21103) = 0
 trigger1 = parent,var(11)%10 = 3
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21103
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2042,7 +2041,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2052,17 +2051,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 3
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21103
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21104) = 0
 trigger1 = parent,var(11)%10 = 4
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21104
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2075,7 +2074,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2085,17 +2084,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 4
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21104
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21105) = 0
 trigger1 = parent,var(11)%10 = 5
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21105
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2108,7 +2107,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2118,17 +2117,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 5
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21105
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21106) = 0
 trigger1 = parent,var(11)%10 = 6
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21106
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2141,7 +2140,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2151,17 +2150,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 6
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21106
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21107) = 0
 trigger1 = parent,var(11)%10 = 7
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21107
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2174,7 +2173,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2184,17 +2183,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 7
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21107
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21108) = 0
 trigger1 = parent,var(11)%10 = 8
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21108
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2207,7 +2206,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2217,17 +2216,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 8
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21108
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21109) = 0
 trigger1 = parent,var(11)%10 = 9
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21109
 pos = ifelse(facing = 1,150,10) ,74+parent,var(0)
 postype = back
@@ -2240,7 +2239,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2250,7 +2249,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(11)%10 != 9
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21109
 
 ;==========================
@@ -2259,11 +2258,11 @@ id = 21109
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21110) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 0
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21110
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2276,7 +2275,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2286,17 +2285,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 0
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21110
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21111) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 1
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21111
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2309,7 +2308,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2319,17 +2318,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 1
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21111
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21112) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 2
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21112
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2342,7 +2341,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2352,17 +2351,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 2
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21112
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21113) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 3
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21113
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2375,7 +2374,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2385,17 +2384,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 3
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21113
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21114) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 4
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21114
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2408,7 +2407,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2418,17 +2417,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 4
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21114
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21115) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 5
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21115
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2441,7 +2440,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2451,17 +2450,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 5
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21115
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21116) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 6
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21116
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2474,7 +2473,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2484,17 +2483,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 6
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21116
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21117) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 7
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21117
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2507,7 +2506,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2517,17 +2516,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 7
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21117
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21118) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 8
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21118
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2540,7 +2539,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2550,17 +2549,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 8
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21118
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21119) = 0
 trigger1 = floor(parent,var(11)/10)%10 = 9
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21119
 pos = ifelse(facing = 1,140,20) ,74+parent,var(0)
 postype = back
@@ -2573,7 +2572,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2583,7 +2582,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/10)%10 != 9
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21119
 
 ;==========================
@@ -2592,11 +2591,11 @@ id = 21119
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21120) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 0
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21120
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2609,7 +2608,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2619,17 +2618,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 0
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21120
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21121) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 1
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21121
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2642,7 +2641,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2652,17 +2651,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 1
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21121
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21122) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 2
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21122
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2675,7 +2674,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2685,17 +2684,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 2
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21122
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21123) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 3
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21123
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2708,7 +2707,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2718,17 +2717,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 3
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21123
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21124) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 4
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21124
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2741,7 +2740,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2751,17 +2750,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 4
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21124
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21125) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 5
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21125
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2774,7 +2773,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2784,17 +2783,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 5
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21125
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21126) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 6
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21126
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2807,7 +2806,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2817,17 +2816,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 6
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21126
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21127) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 7
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21127
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2840,7 +2839,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2850,17 +2849,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 7
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21127
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21128) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 8
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21128
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2873,7 +2872,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2883,17 +2882,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 8
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21128
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21129) = 0
 trigger1 = floor(parent,var(11)/100)%10 = 9
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21129
 pos = ifelse(facing = 1,130,30) ,74+parent,var(0)
 postype = back
@@ -2906,7 +2905,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2916,7 +2915,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/100)%10 != 9
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21129
 
 ;==========================
@@ -2925,11 +2924,11 @@ id = 21129
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21130) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 0
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21130
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -2942,7 +2941,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2952,17 +2951,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 0
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21130
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21131) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 1
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21131
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -2975,7 +2974,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -2985,17 +2984,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 1
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21131
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21132) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 2
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21132
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3008,7 +3007,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3018,17 +3017,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 2
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21132
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21133) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 3
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21133
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3041,7 +3040,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3051,17 +3050,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 3
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21133
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21134) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 4
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21134
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3074,7 +3073,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3084,17 +3083,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 4
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21134
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21135) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 5
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21135
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3107,7 +3106,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3117,17 +3116,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 5
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21135
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21136) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 6
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21136
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3140,7 +3139,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3150,17 +3149,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 6
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21136
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21137) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 7
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21137
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3173,7 +3172,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3183,17 +3182,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 7
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21137
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21138) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 8
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21138
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3206,7 +3205,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3216,17 +3215,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 8
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21138
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21139) = 0
 trigger1 = floor(parent,var(11)/1000)%10 = 9
 trigger1 = parent,var(11) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21139
 pos = ifelse(facing = 1,120,40) ,74+parent,var(0)
 postype = back
@@ -3239,7 +3238,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3249,7 +3248,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(11)/1000)%10 != 9
 trigger3 = parent,var(11) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21139
 
 ;==========================
@@ -3258,10 +3257,10 @@ id = 21139
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21240) = 0
 trigger1 = parent,var(13) > 10000
-anim = ifelse(facing = 1,21040,21041)
+anim = fifelse(facing = 1,21040,21041)
 ID = 21240
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3274,7 +3273,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3283,7 +3282,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13) < 10000
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21240
 
 ;==========================
@@ -3292,11 +3291,11 @@ id = 21240
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21200) = 0
 trigger1 = parent,var(13)%10 = 0
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21200
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3309,7 +3308,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3319,17 +3318,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 0
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21200
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21201) = 0
 trigger1 = parent,var(13)%10 = 1
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21201
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3342,7 +3341,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3352,17 +3351,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 1
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21201
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21202) = 0
 trigger1 = parent,var(13)%10 = 2
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21202
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3375,7 +3374,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3385,17 +3384,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 2
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21202
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21203) = 0
 trigger1 = parent,var(13)%10 = 3
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21203
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3408,7 +3407,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3418,17 +3417,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 3
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21203
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21204) = 0
 trigger1 = parent,var(13)%10 = 4
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21204
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3441,7 +3440,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3451,17 +3450,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 4
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21204
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21205) = 0
 trigger1 = parent,var(13)%10 = 5
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21205
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3474,7 +3473,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3484,17 +3483,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 5
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21205
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21206) = 0
 trigger1 = parent,var(13)%10 = 6
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21206
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3507,7 +3506,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3517,17 +3516,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 6
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21206
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21207) = 0
 trigger1 = parent,var(13)%10 = 7
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21207
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3540,7 +3539,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3550,17 +3549,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 7
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21207
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21208) = 0
 trigger1 = parent,var(13)%10 = 8
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21208
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3573,7 +3572,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3583,17 +3582,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 8
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21208
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21209) = 0
 trigger1 = parent,var(13)%10 = 9
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21209
 pos = ifelse(facing = 1,150,10) ,88+parent,var(0)
 postype = back
@@ -3606,7 +3605,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3616,7 +3615,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(13)%10 != 9
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21209
 
 ;==========================
@@ -3625,11 +3624,11 @@ id = 21209
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21210) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 0
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21210
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3642,7 +3641,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3652,17 +3651,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 0
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21210
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21211) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 1
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21211
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3675,7 +3674,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3685,17 +3684,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 1
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21211
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21212) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 2
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21212
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3708,7 +3707,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3718,17 +3717,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 2
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21212
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21213) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 3
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21213
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3741,7 +3740,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3751,17 +3750,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 3
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21213
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21214) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 4
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21214
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3774,7 +3773,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3784,17 +3783,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 4
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21214
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21215) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 5
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21215
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3807,7 +3806,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3817,17 +3816,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 5
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21215
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21216) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 6
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21216
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3840,7 +3839,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3850,17 +3849,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 6
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21216
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21217) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 7
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21217
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3873,7 +3872,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3883,17 +3882,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 7
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21217
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21218) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 8
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21218
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3906,7 +3905,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3916,17 +3915,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 8
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21218
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21219) = 0
 trigger1 = floor(parent,var(13)/10)%10 = 9
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21219
 pos = ifelse(facing = 1,140,20) ,88+parent,var(0)
 postype = back
@@ -3939,7 +3938,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3949,7 +3948,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/10)%10 != 9
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21219
 
 ;==========================
@@ -3958,11 +3957,11 @@ id = 21219
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21220) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 0
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21220
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -3975,7 +3974,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -3985,17 +3984,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 0
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21220
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21221) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 1
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21221
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4008,7 +4007,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4018,17 +4017,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 1
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21221
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21222) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 2
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21222
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4041,7 +4040,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4051,17 +4050,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 2
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21222
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21223) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 3
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21223
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4074,7 +4073,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4084,17 +4083,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 3
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21223
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21224) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 4
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21224
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4107,7 +4106,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4117,17 +4116,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 4
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21224
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21225) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 5
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21225
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4140,7 +4139,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4150,17 +4149,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 5
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21225
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21226) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 6
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21226
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4173,7 +4172,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4183,17 +4182,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 6
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21226
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21227) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 7
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21227
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4206,7 +4205,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4216,17 +4215,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 7
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21227
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21228) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 8
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21228
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4239,7 +4238,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4249,17 +4248,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 8
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21228
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21229) = 0
 trigger1 = floor(parent,var(13)/100)%10 = 9
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21229
 pos = ifelse(facing = 1,130,30) ,88+parent,var(0)
 postype = back
@@ -4272,7 +4271,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4282,7 +4281,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/100)%10 != 9
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21229
 
 ;==========================
@@ -4291,11 +4290,11 @@ id = 21229
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21230) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 0
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21230
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4308,7 +4307,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4318,17 +4317,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 0
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21230
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21231) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 1
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21231
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4341,7 +4340,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4351,17 +4350,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 1
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21231
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21232) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 2
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21232
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4374,7 +4373,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4384,17 +4383,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 2
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21232
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21233) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 3
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21233
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4407,7 +4406,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4417,17 +4416,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 3
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21233
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21234) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 4
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21234
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4440,7 +4439,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4450,17 +4449,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 4
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21234
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21235) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 5
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21235
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4473,7 +4472,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4483,17 +4482,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 5
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21235
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21236) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 6
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21236
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4506,7 +4505,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4516,17 +4515,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 6
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21236
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21237) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 7
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21237
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4539,7 +4538,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4549,17 +4548,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 7
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21237
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21238) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 8
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21238
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4572,7 +4571,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4582,17 +4581,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 8
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21238
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21239) = 0
 trigger1 = floor(parent,var(13)/1000)%10 = 9
 trigger1 = parent,var(13) < 10000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21239
 pos = ifelse(facing = 1,120,40) ,88+parent,var(0)
 postype = back
@@ -4605,7 +4604,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4615,7 +4614,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(13)/1000)%10 != 9
 trigger3 = parent,var(13) >= 10000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21239
 
 ;==========================
@@ -4624,10 +4623,10 @@ id = 21239
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21340) = 0
 trigger1 = parent,var(15) > 1000
-anim = ifelse(facing = 1,21040,21041)
+anim = fifelse(facing = 1,21040,21041)
 ID = 21340
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4640,7 +4639,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4649,7 +4648,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15) < 1000
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21340
 
 ;==========================
@@ -4658,11 +4657,11 @@ id = 21340
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21300) = 0
 trigger1 = parent,var(15)%10 = 0
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21300
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4675,7 +4674,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4685,17 +4684,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 0
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21300
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21301) = 0
 trigger1 = parent,var(15)%10 = 1
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21301
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4708,7 +4707,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4718,17 +4717,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 1
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21301
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21302) = 0
 trigger1 = parent,var(15)%10 = 2
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21302
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4741,7 +4740,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4751,17 +4750,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 2
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21302
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21303) = 0
 trigger1 = parent,var(15)%10 = 3
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21303
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4774,7 +4773,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4784,17 +4783,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 3
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21303
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21304) = 0
 trigger1 = parent,var(15)%10 = 4
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21304
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4807,7 +4806,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4817,17 +4816,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 4
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21304
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21305) = 0
 trigger1 = parent,var(15)%10 = 5
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21305
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4840,7 +4839,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4850,17 +4849,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 5
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21305
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21306) = 0
 trigger1 = parent,var(15)%10 = 6
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21306
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4873,7 +4872,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4883,17 +4882,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 6
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21306
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21307) = 0
 trigger1 = parent,var(15)%10 = 7
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21307
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4906,7 +4905,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4916,17 +4915,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 7
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21307
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21308) = 0
 trigger1 = parent,var(15)%10 = 8
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21308
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4939,7 +4938,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4949,17 +4948,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 8
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21308
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21309) = 0
 trigger1 = parent,var(15)%10 = 9
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21309
 pos = ifelse(facing = 1,150,10) ,102+parent,var(0)
 postype = back
@@ -4972,7 +4971,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -4982,7 +4981,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,var(15)%10 != 9
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21309
 
 ;==========================
@@ -4991,11 +4990,11 @@ id = 21309
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21310) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 0
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21310
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5008,7 +5007,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5018,17 +5017,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 0
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21310
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21311) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 1
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21311
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5041,7 +5040,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5051,17 +5050,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 1
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21311
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21312) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 2
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21312
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5074,7 +5073,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5084,17 +5083,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 2
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21312
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21313) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 3
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21313
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5107,7 +5106,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5117,17 +5116,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 3
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21313
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21314) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 4
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21314
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5140,7 +5139,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5150,17 +5149,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 4
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21314
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21315) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 5
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21315
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5173,7 +5172,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5183,17 +5182,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 5
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21315
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21316) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 6
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21316
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5206,7 +5205,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5216,17 +5215,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 6
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21316
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21317) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 7
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21317
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5239,7 +5238,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5249,17 +5248,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 7
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21317
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21318) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 8
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21318
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5272,7 +5271,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5282,17 +5281,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 8
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21318
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21319) = 0
 trigger1 = floor(parent,var(15)/10)%10 = 9
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21319
 pos = ifelse(facing = 1,140,20) ,102+parent,var(0)
 postype = back
@@ -5305,7 +5304,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5315,7 +5314,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/10)%10 != 9
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21319
 
 ;==========================
@@ -5324,11 +5323,11 @@ id = 21319
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21320) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 0
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21320
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5341,7 +5340,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5351,17 +5350,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 0
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21320
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21321) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 1
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21321
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5374,7 +5373,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5384,17 +5383,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 1
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21321
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21322) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 2
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21322
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5407,7 +5406,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5417,17 +5416,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 2
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21322
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21323) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 3
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21323
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5440,7 +5439,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5450,17 +5449,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 3
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21323
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21324) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 4
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21324
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5473,7 +5472,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5483,17 +5482,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 4
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21324
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21325) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 5
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21325
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5506,7 +5505,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5516,17 +5515,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 5
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21325
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21326) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 6
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21326
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5539,7 +5538,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5549,17 +5548,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 6
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21326
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21327) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 7
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21327
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5572,7 +5571,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5582,17 +5581,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 7
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21327
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21328) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 8
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21328
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5605,7 +5604,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5615,17 +5614,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 8
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21328
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21329) = 0
 trigger1 = floor(parent,var(15)/100)%10 = 9
 trigger1 = parent,var(15) < 1000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21329
 pos = ifelse(facing = 1,130,30) ,102+parent,var(0)
 postype = back
@@ -5638,7 +5637,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5648,7 +5647,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = floor(parent,var(15)/100)%10 != 9
 trigger3 = parent,var(15) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21329
 
 ;==========================
@@ -5657,10 +5656,10 @@ id = 21329
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21440) = 0
 trigger1 = abs(parent,var(34) -parent,var(32)) > 1000
-anim = ifelse(facing = 1,21040,21041)
+anim = fifelse(facing = 1,21040,21041)
 ID = 21440
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5673,7 +5672,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5682,14 +5681,14 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32)) < 1000
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21440
 
 ;マイナス
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21050) = 0
 trigger1 = (parent,var(34) - parent,var(32)) < 0
 anim = ifelse(facing = 1,21050,21051)
@@ -5705,7 +5704,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5714,7 +5713,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 trigger4 = parent,var(34) - parent,var(32) >= 0
 id = 21050
 
@@ -5724,11 +5723,11 @@ id = 21050
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21400) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 0
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21400
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5741,7 +5740,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5751,17 +5750,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 0
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21400
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21401) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 1
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21401
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5774,7 +5773,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5784,17 +5783,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 1
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21401
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21402) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 2
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21402
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5807,7 +5806,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5817,17 +5816,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 2
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21402
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21403) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 3
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21403
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5840,7 +5839,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5850,17 +5849,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 3
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21403
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21404) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 4
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21404
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5873,7 +5872,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5883,17 +5882,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 4
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21404
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21405) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 5
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21405
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5906,7 +5905,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5916,17 +5915,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 5
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21405
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21406) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 6
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21406
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5939,7 +5938,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5949,17 +5948,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 6
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21406
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21407) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 7
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21407
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -5972,7 +5971,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -5982,17 +5981,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 7
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21407
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21408) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 8
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21408
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -6005,7 +6004,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6015,17 +6014,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 8
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21408
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21409) = 0
 trigger1 = abs(parent,var(34) -parent,var(32))%10 = 9
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21409
 pos = ifelse(facing = 1,150,10) ,116+parent,var(0)
 postype = back
@@ -6038,7 +6037,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6048,7 +6047,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(parent,var(34) -parent,var(32))%10 != 9
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21409
 
 ;==========================
@@ -6057,11 +6056,11 @@ id = 21409
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21410) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 0
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21410
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6074,7 +6073,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6084,17 +6083,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 0
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21410
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21411) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 1
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21411
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6107,7 +6106,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6117,17 +6116,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 1
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21411
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21412) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 2
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21412
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6140,7 +6139,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6150,17 +6149,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 2
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21412
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21413) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 3
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21413
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6173,7 +6172,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6183,17 +6182,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 3
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21413
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21414) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 4
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21414
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6206,7 +6205,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6216,17 +6215,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 4
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21414
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21415) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 5
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21415
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6239,7 +6238,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6249,17 +6248,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 5
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21415
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21416) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 6
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21416
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6272,7 +6271,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6282,17 +6281,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 6
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21416
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21417) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 7
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21417
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6305,7 +6304,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6315,17 +6314,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 7
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21417
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21418) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 8
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21418
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6338,7 +6337,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6348,17 +6347,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 8
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21418
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21419) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/10))%10 = 9
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21419
 pos = ifelse(facing = 1,140,20) ,116+parent,var(0)
 postype = back
@@ -6371,7 +6370,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6381,7 +6380,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/10))%10 != 9
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21419
 
 ;==========================
@@ -6390,11 +6389,11 @@ id = 21419
 [State 20000];0
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21420) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 0
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20010,20020)
+anim = fifelse(facing = 1,20010,20020)
 ID = 21420
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6407,7 +6406,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6417,17 +6416,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 0
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21420
 
 [State 20000];1
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21421) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 1
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20011,20021)
+anim = fifelse(facing = 1,20011,20021)
 ID = 21421
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6440,7 +6439,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6450,17 +6449,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 1
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21421
 
 [State 20000];2
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21422) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 2
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20012,20022)
+anim = fifelse(facing = 1,20012,20022)
 ID = 21422
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6473,7 +6472,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6483,17 +6482,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 2
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21422
 
 [State 20000];3
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21423) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 3
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20013,20023)
+anim = fifelse(facing = 1,20013,20023)
 ID = 21423
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6506,7 +6505,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6516,17 +6515,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 3
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21423
 
 [State 20000];4
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21424) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 4
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20014,20024)
+anim = fifelse(facing = 1,20014,20024)
 ID = 21424
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6539,7 +6538,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6549,17 +6548,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 4
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21424
 
 [State 20000];5
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21425) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 5
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20015,20025)
+anim = fifelse(facing = 1,20015,20025)
 ID = 21425
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6572,7 +6571,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6582,17 +6581,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 5
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21425
 
 [State 20000];6
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21426) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 6
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20016,20026)
+anim = fifelse(facing = 1,20016,20026)
 ID = 21426
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6605,7 +6604,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6615,17 +6614,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 6
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21426
 
 [State 20000];7
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21427) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 7
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20017,20027)
+anim = fifelse(facing = 1,20017,20027)
 ID = 21427
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6638,7 +6637,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6648,17 +6647,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 7
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21427
 
 [State 20000];8
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21428) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 8
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20018,20028)
+anim = fifelse(facing = 1,20018,20028)
 ID = 21428
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6671,7 +6670,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6681,17 +6680,17 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 8
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21428
 
 [State 20000];9
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(21429) = 0
 trigger1 = abs(floor((parent,var(34) -parent,var(32))/100))%10 = 9
 trigger1 = abs(parent,var(34) -parent,var(32)) < 1000
-anim = ifelse(facing = 1,20019,20029)
+anim = fifelse(facing = 1,20019,20029)
 ID = 21429
 pos = ifelse(facing = 1,130,30) ,116+parent,var(0)
 postype = back
@@ -6704,7 +6703,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6714,7 +6713,7 @@ type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = abs(floor((parent,var(34) -parent,var(32))/100))%10 != 9
 trigger3 = abs(parent,var(34) -parent,var(32)) >= 1000
-trigger4 = parent,var(17)%2 = 1
+trigger4 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 21429
 
 ;==========================
@@ -6723,12 +6722,12 @@ id = 21429
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(20003) = 0
 trigger1 = parent,ctrl = 1
-anim = ifelse(facing = 1,20003,20004)
+anim = fifelse(facing = 1,20003,20004)
 ID = 20003
-pos = 0 ,var(0)
+pos = 2.5, 39.2 ;0 ,var(0)
 postype = back
 facing = 1
 vfacing = 1
@@ -6739,7 +6738,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6748,7 +6747,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,ctrl = 0
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 20003
 
 ;==========================
@@ -6757,12 +6756,12 @@ id = 20003
 [State 20000]
 type = Explod
 trigger1 = Roundstate = 2
-trigger1 = parent,var(17)%2 != 1
+trigger1 = DamageDisplay = 1 && TeamSide = 2 ;parent,var(17)%2 != 1
 trigger1 = Numexplod(20005) = 0
 trigger1 = parent,ctrl = 0
-anim = ifelse(facing = 1,20005,20006)
+anim = fifelse(facing = 1,20005,20006)
 ID = 20005
-pos = 0 ,var(0)
+pos = 2.5, 39.2 ;0 ,var(0)
 postype = back
 facing = 1
 vfacing = 1
@@ -6773,7 +6772,7 @@ random = 0, 0
 removetime = -1
 supermovetime = 999999
 pausemovetime = 999999
-scale = 0.5, 0.5
+scale = 0.35, 0.35
 sprpriority = -5
 ontop = ifelse(parent,var(17)%4 = 0,1,0)
 shadow = 0, 0, 0
@@ -6782,7 +6781,7 @@ shadow = 0, 0, 0
 type = RemoveExplod
 trigger1 = Roundstate != 2
 trigger2 = parent,ctrl = 1
-trigger3 = parent,var(17)%2 = 1
+trigger3 = DamageDisplay = 0 ;parent,var(17)%2 = 1
 id = 20005
 
 [Statedef -1]
@@ -6830,25 +6829,26 @@ trigger1 = sysvar(54) > 0;RECOVERTIME
 sysvar(54) = -1;RECOVERTIME
 
 ;===========================================================================
-; INFO DISPLAY
+; DAMAGE INFO DISPLAY
 ;===========================================================================
-[State -2, Info Display]
-type = Helper
-trigger1 = Roundstate >= 2
-trigger1 = numhelper(20000) = 0
-helpertype = normal
-name = "system"
-ID = 20000
-pos = 0, 0
-postype = p1
-facing = 1
-stateno = 20000
-keyctrl = 0
-ownpal = 1
-supermovetime = 999999
-pausemovetime = 999999
-size.xscale = 1.0
-size.yscale = 1.0
+;[State -2, Info Display]
+;type = helper
+;triggerall = teamside = 2
+;trigger1 = Roundstate >= 2
+;trigger1 = numhelper(20000) = 0
+;helpertype = normal
+;name = "system"
+;ID = 20000
+;pos = 0, 0
+;postype = p1
+;facing = 1
+;stateno = 20000
+;keyctrl = 0
+;ownpal = 1
+;supermovetime = 999999
+;pausemovetime = 999999
+;size.xscale = 1.0
+;size.yscale = 1.0
 
 ;==========================
 ; GET DAMAGE VALUES

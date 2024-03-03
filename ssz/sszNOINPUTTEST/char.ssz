@@ -8,7 +8,7 @@ lib sff = "sff.ssz";
 lib cmd = "command.ssz";
 lib stage = "stage.ssz";
 lib com = "common.ssz";
-lib cfg = "config.ssz";
+lib cfg = "../save/config.ssz";
 lib snd = "sound.ssz";
 lib fgt = "fight.ssz";
 lib act = "action.ssz";
@@ -180,11 +180,13 @@ const int lsBACKWCHANGE   = 0b00000000000010000000000000000000;
 const int lsFEDGECHANGE   = 0b00000000000100000000000000000000;
 const int lsBEDGECHANGE   = 0b00000000001000000000000000000000;
 const int lsDESTROY       = 0b00000000010000000000000000000000;
+const int lsAUTOGUARD     = 0b00000000100000000000000000000000;
+const int lsAUTOCROUCH    = 0b00000001000000000000000000000000;
 const int lsTSIGNORE      = 0b00000010000000000000000000000000;
 
 const int lasMask =
   lsNOAUTOTURN | lsNOWALK | lsNOSTANDGUARD | lsNOCROUCHGUARD | lsNOAIRGUARD
-  | lsNOSHADOW | lsINVISIBLE | lsUNGUARDABLE | lsNOJUGGLECHECK;
+  | lsNOSHADOW | lsINVISIBLE | lsUNGUARDABLE | lsNOJUGGLECHECK | lsAUTOGUARD | lsAUTOCROUCH;
 
 public uint specialFlag;
 const uint gsINTRO          = 0b00000000000000000000000000000001;
@@ -1174,6 +1176,7 @@ const int ATP =
   public int groundanimtype;
   public int airtype;
   public int groundtype;
+  public int guardflag;
   public int damage = 0;
   public int hitcount;
   public int fallcount;
@@ -1206,6 +1209,7 @@ const int ATP =
     `groundanimtype = 0;
     `airtype = 0;
     `groundtype = 0;
+	`guardflag = 0;
     `hitcount = 0;
     `fallcount = 0;
     `hitshaketime = 0;
@@ -1301,6 +1305,26 @@ const int ATP =
 {
   public int p = 0;
 }
+
+public &ConfigTVars
+{
+  public int st = 0, dst = 0, ag = 0, ge = 0, rec = 0, recdir = 0, dis = 0, inp = 0, ru = 0, vc = 0, lb = 0;
+  public void set(int st, int dst, int ag, int ge, int rec, int recdir, int dis, int inp, int ru, int vc, int lb)
+  {
+    `st = st;
+    `dst = dst;
+    `ag = ag;
+    `ge = ge;
+    `rec = rec;
+    `recdir = recdir;
+    `dis = dis;
+    `inp = inp;
+    `ru = ru;
+    `vc = vc;
+    `lb = lb;
+  }
+}
+
 &StateVal
 {
   public ^&.Persistent ps;
@@ -1387,6 +1411,7 @@ const int ATP =
     `fallTime = 0;
     `hb.yaccel = hit.yaccel;
     if(hit.forcenofall) fall = false;
+	`hb.guardflag = hit.guardflag;
     `hb.groundtype = (int)hit.ground_type;
     `hb.airtype = (int)hit.air_type;
     `hb.typ = `typ == .StTy::A ? `hb.airtype : `hb.groundtype;
@@ -1502,6 +1527,7 @@ public &CharGlobalInfo
   public ^/char sprite;
   public ^/char anim;
   public ^/char sound;
+  public ^/char movelist;
   public ^^/char pal;
   public ^index palkeymap;
   public ^&.sff.Sff sf;
@@ -2042,8 +2068,8 @@ public &Char
   public ^/char name;
   public ^&.com.PalFX palfx;
   public ^&.act.Action ani;
-  public ^int ivar, sysivar;
-  public ^float fvar, sysfvar;
+  public ^int ivar, tivar, sysivar;
+  public ^float fvar, tfvar, sysfvar;
   public ^&.cmd.CommandList cmd;
   public &.StateVal stVal;
   public &.AfterImage aimg;
@@ -2064,6 +2090,9 @@ public &Char
   public bool pushed;
   public byte ho;
   public int sprpriority;
+  public int under;
+  public int over;
+  public int hud;
   public int animno;
   public int getcombo;
   public float frontw, backw, fedge, bedge;
@@ -2074,7 +2103,7 @@ public &Char
   public ^%&.RdCacheInfo enemyn;
   public ^&.act.Frame curFrame;
   public %&.snd.Sound sounds;
-  public index cpucmd = -1;
+  public index cpucmd = -1, frccmd = -1;
   public method$void() stateDef = dummy, state = dummy, state_1 = dummy,
     state_2 = dummy, state_3 = dummy, state_i1 = dummy;
   type action_t = &.act.Action;
@@ -2082,8 +2111,10 @@ public &Char
   new()
   {
     `ivar.new(60);
+	`tivar.new(100);
     `sysivar.new(60);
     `fvar.new(40);
+	`tfvar.new(40);
     `sysfvar.new(80);
     `enemyn.new(2);
     `clearVal();
@@ -2163,6 +2194,7 @@ public &Char
     `enemynClear();
     `targets.new(0);
     `cpucmd = -1;
+	`frccmd = -1;
   }
   public void clearVal()
   {
@@ -2172,6 +2204,8 @@ public &Char
     `stVal.clear();
     `rangeSetSysIVar(0, #`sysivar-1, 0);
     `rangeSetSysFVar(0, #`sysfvar-1, 0.0);
+	`rangeSetTIVar(0, #`tivar-1, 0);
+    `rangeSetTFVar(0, #`tfvar-1, 0.0);
     `rangeSetIVar(0, #`ivar-1, 0);
     `rangeSetFVar(0, #`fvar-1, 0.0);
     `key = -1; `id = -1; `playerno = -1; `helperindex = -1;
@@ -2221,6 +2255,20 @@ public &Char
       `sysfvar[i] = n;
       i++;
     while i <= end && i < #`sysfvar:}
+  }
+  public void rangeSetTIVar(index start, index end, int n)
+  {
+    if(start < 0 || end >= #`tivar) ret;
+    loop{index i = start; while; do:
+      `tivar[i++] = n;
+    while i <= end:}
+  }
+  public void rangeSetTFVar(index start, index end, float n)
+  {
+    if(start < 0 || end >= #`tfvar) ret;
+    loop{index i = start; while; do:
+      `tfvar[i++] = n;
+    while i <= end:}
   }
   public void rangeSetIVar(index start, index end, int n)
   {
@@ -2512,6 +2560,7 @@ public &Char
         if(#(data = sc.get("sprite")) > 0) c.sprite = f(data);
         if(#(data = sc.get("anim")) > 0) c.anim = f(data);
         if(#(data = sc.get("sound")) > 0) c.sound = f(data);
+		//if(#(data = sc.get("movelist")) > 0) c.movelist = f(data);
         if(#(data = sc.get("pal1")) > 0) c.pal[0] = f(data);
         if(#(data = sc.get("pal2")) > 0) c.pal[1] = f(data);
         if(#(data = sc.get("pal3")) > 0) c.pal[2] = f(data);
@@ -2623,6 +2672,15 @@ public &Char
     {
       ret def + ":"\r\n + error;
     }
+	//if(
+      //#.com.loadFile(def, .cgi[`playerno].movelist=)=>error <, [^/char(^/char f){
+        //ret
+          //#.com.loadText(f, unicode=)=>mainbuf > 0
+          //? "" : .com.FileReadError;
+      //}] > 0) 
+    //{
+      //ret def + ":"\r\n + error;
+    //}
     ret "";
   }
   public bool loadPallet(^/char def, int no)
@@ -2745,6 +2803,7 @@ public &Char
     .cgi[`playerno].sprite = "";
     .cgi[`playerno].anim = "";
     .cgi[`playerno].sound = "";
+	.cgi[`playerno].movelist = "";
     .cgi[`playerno].pal.new(.sff.NumCharPalletes);
     .cgi[`playerno].palkeymap.new(.sff.NumCharPalletes);
     loop{index i = 0; while; do:
@@ -3275,6 +3334,7 @@ public &Char
   public void action()
   {
     if(`minus != 2 || `ls(.lsDESTROY)) ret;
+	`frccmd = -1;
     bool p = .timestop ? (!`ls(.lsTSIGNORE) && `sysivar[.iIGNORETIMESTOP] == 0)
       : .super > 0 ? `sysivar[.iSUPERMOVETIME] == 0
       : .pause > 0 && `sysivar[.iPAUSEMOVETIME] == 0;
@@ -3285,6 +3345,7 @@ public &Char
       !(`isKO() || `ctrlOver()) && (`ctrl || `stVal.no == 52)
       && `stVal.mov == .MovTy::I && #`cmd > 0
       && (.com.autoguard[`playerno] || `cmd~buffer~B > 0) && (
+	  //&& (`ls(.lsAUTOGUARD) || `cmd~buffer~B > 0) && .ctrlwait > 0 && (
         (`stVal.typ == .StTy::S && !`ls(.lsNOSTANDGUARD))
         || (`stVal.typ == .StTy::C && !`ls(.lsNOCROUCHGUARD))
         || (`stVal.typ == .StTy::A && !`ls(.lsNOAIRGUARD))))
@@ -4540,6 +4601,42 @@ public &Char
     if(idx >= 0 && (`minus == 11 || idx < 5)) `sysfvar[idx] += v;
     ret v;
   }
+  public void trTIVar(int idx)
+  {
+    if(idx < 0 || idx >= 100){
+      .v.setSF();
+      ret;
+    }
+    .v.setI(`tivar[idx]);
+  }
+  public int trSetTIVar(int idx, int v)
+  {
+    if(idx >= 0 && idx < 100) `tivar[idx] = v;
+    ret v;
+  }
+  public int trAddTIVar(int idx, int v)
+  {
+    if(idx >= 0 && idx < 100) `tivar[idx] += v;
+    ret v;
+  }
+  public void trTFVar(int idx)
+  {
+    if(idx < 0 || idx >= 40){
+      .v.setSF();
+      ret;
+    }
+    .v.setF(`tfvar[idx]);
+  }
+  public float trSetTFVar(int idx, float v)
+  {
+    if(idx >= 0 && idx < 40) `tfvar[idx] = v;
+    ret v;
+  }
+  public float trAddTFVar(int idx, float v)
+  {
+    if(idx >= 0 && idx < 40) `tfvar[idx] += v;
+    ret v;
+  }
   public void trIVar(int idx)
   {
     if(idx < 0 || idx >= 60){
@@ -4630,6 +4727,9 @@ public &Char
   bool commandSub(int pno, int i)
   {
     ^&.cmd.Command cl = `cmd[pno].at(i);
+	if(`frccmd >= 0 && i == `frccmd){
+      ret true;
+    }
     if(#cl > 0 && `key < 0){
       if(`mver0() == 1 && `helperindex != 0) ret false;
       ^/char name = cl~name;
@@ -5473,6 +5573,14 @@ public &Char
   {
     ret .com.serviceType;
   }
+  public int trDamageDisplay()
+  {
+    ret .com.damageDisplay;
+  }
+  public int trInputDisplay()
+  {
+    ret .com.inputDisplay;
+  }
   public ^/char trGameMode()
   {
     ret .com.gameMode;
@@ -5888,7 +5996,7 @@ public void PlayerList!&Char?::clsn(&.Char pyr=, bool pro)
       (pro != 0 || !by.ls(.lsUNGUARDABLE)) && `pyr.sf(.sfGUARD)
       && (!`pyr.ls(.lsGETHIT) || `pyr.stVal.hb.guarded);
     if(
-      guard && .com.autoguard[`pyr.playerno]
+      guard && .com.autoguard[`pyr.playerno] //guard && `pyr.ls(.lsAUTOGUARD)
       && `pyr.acttmp > 0 && !`pyr.ls(.lsGETHIT)
       && (`pyr.stVal.typ == .StTy::S || `pyr.stVal.typ == .StTy::C)
       && ((int)`pyr.stVal.typ&hit.guardflag) == 0) branch
@@ -6640,6 +6748,7 @@ void commandUpdate()
             }
             while;
           do:
+			c.cmd[i].ac = (r.ls(.lsAUTOCROUCH));
             c.cmd[i].step(c.facing, c.key < 0, hp, buftime + (int)hp);
             i++;
           while i < #c.cmd:}
@@ -7296,6 +7405,8 @@ public void nextRound()
       c.setCtrl(false);
       c.stVal.clear();
       c.clearSpSysVar();
+	  c.rangeSetTIVar(49, 99, 0);
+      c.rangeSetTFVar(0, 39, 0.0);
       c.rangeSetIVar(0, c.sysivar[.iINTPERSISTINDEX]-1, 0);
       c.rangeSetFVar(0, c.sysivar[.iFLOATPERSISTINDEX]-1, 0.0);
       loop{index j = 0; while; do:

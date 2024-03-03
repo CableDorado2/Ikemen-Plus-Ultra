@@ -380,9 +380,10 @@ function setCommand(c)
 	commandAdd(c, 'x', 'x')
 	commandAdd(c, 'y', 'y')
 	commandAdd(c, 'z', 'z')
-	commandAdd(c, 's', 's') --Return/Enter Button
-	commandAdd(c, 'v', 'v') --For Left Tag (WIP)
-	commandAdd(c, 'w', 'w') --For Right Tag (WIP)
+	commandAdd(c, 'q', 'q') --LT/SCREENSHOT
+	commandAdd(c, 'w', 'w') --RT/CONFIRM
+	commandAdd(c, 'e', 'e') --SELECT/RETURN
+	commandAdd(c, 's', 's') --START/PAUSE
 	commandAdd(c, 'holds', '/s')
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
@@ -393,6 +394,8 @@ setCommand(p1Cmd)
 
 p2Cmd = commandNew()
 setCommand(p2Cmd)
+
+setSysCtrl(10) --Load Menu Controls from config.ssz
 
 function cmdInput()
 	commandInput(p1Cmd, data.p1In)
@@ -409,9 +412,7 @@ function btnPalNo(cmd)
 	if commandGetState(cmd, 'x') then return 4 + s end
 	if commandGetState(cmd, 'y') then return 5 + s end
 	if commandGetState(cmd, 'z') then return 6 + s end
-	if commandGetState(cmd, 's') then return 1 + s end --Start button
-	if commandGetState(cmd, 'v') then return 1 + s end
-	if commandGetState(cmd, 'w') then return 2 + s end
+	if commandGetState(cmd, 'w') then return 1 + s end --Not is in the correct place, just for don't rewrite it in each menu
 	return 0
 end
 
@@ -1729,7 +1730,7 @@ function f_storyboardPlay(tIn)
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
 		for j=0, tOut.scenes[i].endTime do
-			if esc() or btnPalNo(p1Cmd) > 0 then
+			if commandGetState(p1Cmd, 'w') then --Skip Button
 				cmdInput()
 				refresh()
 				return

@@ -1,21 +1,3 @@
-[Begin Action 909001]
-9000,0,0,0,-1
-
-[Begin Action 909002]
-9000,0,0,0,-1
-
-[Begin Action 909003]
-9000,1,0,-60,-1
-
-[Begin Action 909601]
-0,-1,0,0,1
-
-[Begin Action 909602]
-clsn1: 1
-clsn1[0]=-20,-20,20,20
-0,-1,0,0,1
-
-[Begin Action 909603]
-clsn2: 1
-clsn2[0]=-30,-30,30,30
-0,-1,0,0,1
+; Damage Info Display
+[Begin Action 10000]
+10000,  0,  0,  0, -1

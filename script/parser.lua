@@ -732,7 +732,7 @@ if generate and data.sffConversion then
 	cmdInput()
 	local parserCfg = 1
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			f_playTime()
 			os.exit()
 		elseif commandGetState(p1Cmd, 'u') then

@@ -95,7 +95,7 @@ function f_statsMenu()
 		gameData = (math.floor((gameProgress * 100 / 7) + 0.5)) --The number (6) is the sumation of true amount of all gameProgress values (arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 1 + data.storiesProgress = 1)
 		txt_statsMenu = createTextImg(jgFnt, 0, -1, '' .. data.userName .. ' PROGRESS:', 202, 13)
 		txt_statsProgress = createTextImg(jgFnt, 2, 1, '['..gameData..'%]', 208, 13) --needs to be inside of statistics Menu function, to load a updated data
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break

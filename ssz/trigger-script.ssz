@@ -518,10 +518,10 @@ void inputdisplay(&.lua.State L=, int re=)
   L.pushNumber((double) .com.inputDisplay);
 }
 
-void infodisplay(&.lua.State L=, int re=)
+void damagedisplay(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double) .com.infoDisplay);
+  L.pushNumber((double) .com.damageDisplay);
 }
 
 void gamemode(&.lua.State L=, int re=)
@@ -1208,7 +1208,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gametype", .gametype);
   L.register("servicetype", .servicetype);
   L.register("inputdisplay", .inputdisplay);
-  L.register("infodisplay", .infodisplay);
+  L.register("damagedisplay", .damagedisplay);
   L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);

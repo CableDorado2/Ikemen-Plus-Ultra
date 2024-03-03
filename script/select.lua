@@ -888,19 +888,19 @@ function f_selectSimple()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
+				if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
 					if p1TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
-				elseif esc() and data.p2In == 2 then
+				elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 					if p1TeamBack == true and p2TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
 				end
 			elseif onlinegame == true then
-				if esc() then f_backOnline() end
+				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile('save/temp_sav.lua'))()
@@ -949,7 +949,7 @@ function f_selectSimple()
 					--back = false
 					while not selScreenEnd do
 						if onlinegame == true then
-							if esc() then f_backOnline() end
+							if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 						end
 						f_selectScreen()
 						if back == true then
@@ -974,19 +974,19 @@ function f_selectSimple()
 					f_selectReset()
 					while not selScreenEnd do
 						if onlinegame == false then
-							if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+							if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 								if p1TeamBack == true then
 									if backScreen == false then sndPlay(sysSnd, 100, 2) end
 									backScreen = true
 								end
-							elseif esc() and data.p2In == 2 then
+							elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 								if p1TeamBack == true and p2TeamBack == true then
 									if backScreen == false then sndPlay(sysSnd, 100, 2) end
 									backScreen = true
 								end
 							end
 						elseif onlinegame == true then
-							if esc() then f_backOnline() end
+							if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 						end
 						f_selectScreen()
 						if back == true then
@@ -1019,12 +1019,12 @@ function f_selectSimple()
 			else
 				f_selectReset()
 				while not selScreenEnd do
-					if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+					if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 						if p1TeamBack == true then
 							if backScreen == false then sndPlay(sysSnd, 100, 2) end
 							backScreen = true
 						end
-					elseif esc() and data.p2In == 2 then
+					elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 						if p1TeamBack == true and p2TeamBack == true then
 							if backScreen == false then sndPlay(sysSnd, 100, 2) end
 							backScreen = true
@@ -1092,12 +1092,12 @@ function f_selectAdvance()
 		selectStart()
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() and p1TeamBack == true then
+				if esc() or commandGetState(p1Cmd, 'e') and p1TeamBack == true then
 					if backScreen == false then sndPlay(sysSnd, 100, 2) end
 					backScreen = true
 				end
 			elseif onlinegame == true then
-				if esc() then f_backOnline() end
+				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile('save/temp_sav.lua'))()
@@ -1266,7 +1266,7 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if esc() then
+							if esc() or commandGetState(p1Cmd, 'e') then
 								if backScreen == false then sndPlay(sysSnd, 100, 2) end
 								backScreen = true
 							end
@@ -1277,7 +1277,7 @@ function f_selectAdvance()
 							end
 						end
 					--Exit
-					elseif esc() then
+					elseif esc() or commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1488,7 +1488,7 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if esc() then
+							if esc() or commandGetState(p1Cmd, 'e') then
 								if backScreen == false then sndPlay(sysSnd, 100, 2) end
 								backScreen = true
 							end
@@ -1499,7 +1499,7 @@ function f_selectAdvance()
 							end
 						end
 					--Exit
-					elseif esc() then
+					elseif esc() or commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1633,7 +1633,7 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if esc() then
+							if esc() or commandGetState(p1Cmd, 'e') then
 								if backScreen == false then sndPlay(sysSnd, 100, 2) end
 								backScreen = true
 							end
@@ -1643,7 +1643,7 @@ function f_selectAdvance()
 								return
 							end
 						end
-					elseif esc() then
+					elseif esc() or commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1846,19 +1846,19 @@ function f_selectStory()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+				if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 					if p1TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
-				elseif esc() and data.p2In == 2 then
+				elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 					if p1TeamBack == true and p2TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
 				end
 			elseif onlinegame == true then
-				if esc() then f_backOnline() end
+				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile('save/temp_sav.lua'))()
@@ -2832,7 +2832,7 @@ function f_p1palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p1palEnd = true
 		cmdInput()
-	elseif esc() or selectTimer == 0 then
+	elseif esc() or commandGetState(p1Cmd, 'e') or selectTimer == 0 then
 		p1palEnd = true
 	end
 end
@@ -3823,12 +3823,12 @@ function f_p1SelectMenu()
 				end
 			end
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-			if esc() and serviceBack == true then
+			if esc() or commandGetState(p1Cmd, 'e') and serviceBack == true then
 				f_p1sideReset()
 				p1TeamEnd = true
 				p1BG = true
 				p1memberPreview = 1
-			elseif esc() and p1SelBack == true then
+			elseif esc() or commandGetState(p1Cmd, 'e') and p1SelBack == true then
 				sndPlay(sysSnd, 100, 2)
 				f_p1sideReset()
 			end
@@ -4007,7 +4007,7 @@ function f_p2TeamMenu()
 		p2BG = true
 		p2memberPreview = 1
 	else
-		if esc() and p2TeamBack == true then
+		if esc() or commandGetState(p1Cmd, 'e') and p2TeamBack == true then
 			sndPlay(sysSnd, 100, 2)
 			if data.p2In == 1 or data.p2In == 3 then
 				f_p2sideReset()
@@ -4220,7 +4220,7 @@ function f_p2palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p2palEnd = true
 		cmdInput()
-	elseif esc() or selectTimer == 0 then
+	elseif esc() or commandGetState(p1Cmd, 'e') or selectTimer == 0 then
 		p2palEnd = true
 	end
 end
@@ -5165,7 +5165,7 @@ function f_p2SelectMenu()
 				end
 			end
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
-			if esc() and p2SelBack == true and not data.coop then
+			if esc() or commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
 				sndPlay(sysSnd, 100, 2)
 				f_p2sideReset()
 			end
@@ -6172,7 +6172,7 @@ function f_orderSelect()
 				orderhintTime = 0 --Restart timer for a new random hint
 			end
 			i = i + 1
-			--if esc() then
+			--if esc() or commandGetState(p1Cmd, 'e') then
 				--if i < 120 then i = 120 end
 			--end
 			if sndTime > 0 then
@@ -7180,7 +7180,7 @@ function f_ftcontrol()
 			--Draw Info Title Text
 			textImgDraw(txt_rankInfo)
 			--Actions
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -7209,7 +7209,7 @@ function f_ftcontrol()
 			--Draw Info Title Text
 			textImgDraw(txt_rankInfo)
 			--Actions
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -7453,7 +7453,7 @@ function f_rematch()
 	end
 	if p1Ready and p2Ready then rematchEnd = true end
 	if onlinegame == true then
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			battleOption = 4
 			rematchEnd = true
 			f_backOnline()
@@ -7999,7 +7999,7 @@ function f_result(state)
 	end
 	cmdInput()
 	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			break
 		end
@@ -8170,7 +8170,7 @@ function f_continue()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		--if esc() then
+		--if esc() or commandGetState(p1Cmd, 'e') then
 			--cmdInput()
 			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			--playBGM(bgmTitle)
@@ -8194,7 +8194,7 @@ function f_continue()
 				animDraw(contBG1)
 				animDraw(contBG2)
 			end
-			if commandGetState(p1Cmd, 's') then
+			if commandGetState(p1Cmd, 'w') then
 				if tablePos.sffData ~= nil and tablePos.win ~= nil then
 					anim, animLength = f_animFromTable(tablePos['win'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
 				else
@@ -8928,7 +8928,7 @@ function f_gameOver()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			playBGM(bgmTitle)
 			break

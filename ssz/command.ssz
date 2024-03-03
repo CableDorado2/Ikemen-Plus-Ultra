@@ -29,23 +29,23 @@ public int min(int x, int y)
   nB, nD, nF, nU, nDB, nUB, nDF, nUF,
   Bs, Ds, Fs, Us, DBs, UBs, DFs, UFs,
   nBs, nDs, nFs, nUs, nDBs, nUBs, nDFs, nUFs,
-  a, b, c, x, y, z, s,
-  na, nb, nc, nx, ny, nz, ns,
+  a, b, c, x, y, z, q, w, e, s,
+  na, nb, nc, nx, ny, nz, nq, nw, ne, ns,
 }
 
 public &Buffer
 {
   public int Bb, Db, Fb, Ub;
-  public int ab, bb, cb, xb, yb, zb, sb;
+  public int ab, bb, cb, xb, yb, zb, qb, wb, eb, sb;
   public byte B, D, F, U;
-  public byte a, b, c, x, y, z, s, esc;
+  public byte a, b, c, x, y, z, q, w, e, s, esc;
   new()
   {
     `reset();
   }
   public void input(
     bool B, bool D, bool F, bool U, bool a, bool b, bool c,
-    bool x, bool y, bool z, bool s)
+    bool x, bool y, bool z, bool q, bool w, bool e, bool s)
   {
     if((B&!F) != (`B>0)){`Bb = 0; `B *= -1;} `Bb += `B;
     if((D&!U) != (`D>0)){`Db = 0; `D *= -1;} `Db += `D;
@@ -57,16 +57,21 @@ public &Buffer
     if(x != (`x>0)){`xb = 0; `x *= -1;} `xb += `x;
     if(y != (`y>0)){`yb = 0; `y *= -1;} `yb += `y;
     if(z != (`z>0)){`zb = 0; `z *= -1;} `zb += `z;
+	if(q != (`q>0)){`qb = 0; `q *= -1;} `qb += `q;
+	if(w != (`w>0)){`wb = 0; `w *= -1;} `wb += `w;
+	if(e != (`e>0)){`eb = 0; `e *= -1;} `eb += `e;
     if(s != (`s>0)){`sb = 0; `s *= -1;} `sb += `s;
   }
   public void reset()
   {
     `Bb = 0; `Db = 0; `Fb = 0; `Ub = 0;
     `ab = 0; `bb = 0; `cb = 0;
-    `xb = 0; `yb = 0; `zb = 0; `sb = 0;
+    `xb = 0; `yb = 0; `zb = 0;
+	`qb = 0; `wb = 0; `eb = 0;`sb = 0;
     `B=-1; `D=-1; `F=-1; `U=-1;
     `a=-1; `b=-1; `c=-1;
-    `x=-1; `y=-1; `z=-1; `s=-1; `esc=-1;
+    `x=-1; `y=-1; `z=-1;
+	`q=-1; `w=-1; `e=-1; `s=-1; `esc=-1;
   }
   /int keyState(|.Key k)
   {
@@ -101,6 +106,9 @@ public &Buffer
     case .Key::x: ret `xb;
     case .Key::y: ret `yb;
     case .Key::z: ret `zb;
+	case .Key::q: ret `qb;
+	case .Key::w: ret `wb;
+	case .Key::e: ret `eb;
     case .Key::s: ret `sb;
       //
     case .Key::nB: ret -.min(-.max(`Db, `Ub), `Bb);
@@ -133,6 +141,9 @@ public &Buffer
     case .Key::nx: ret -`xb;
     case .Key::ny: ret -`yb;
     case .Key::nz: ret -`zb;
+	case .Key::nq: ret -`qb;
+	case .Key::nw: ret -`wb;
+	case .Key::ne: ret -`eb;
     case .Key::ns: ret -`sb;
     }
     ret 0;
@@ -192,7 +203,8 @@ public &Buffer
     ret
       .min(`lastDirectionTime())<,
       .min(#`ab)<, .min(#`bb)<, .min(#`cb)<,
-      .min(#`xb)<, .min(#`yb)<, .min(#`zb)<, #`sb;
+      .min(#`xb)<, .min(#`yb)<, .min(#`zb)<,
+	  .min(#`qb)<, .min(#`wb)<, .min(#`eb)<, #`sb;
   }
 }
 
@@ -248,7 +260,7 @@ public bool modKeyState(bool keyState, int jn, int key)
 {
   const int U = 1<<0, D = 1<<1, L = 1<<2, R = 1<<3;
   const int A = 1<<4, B = 1<<5, C = 1<<6;
-  const int X = 1<<7, Y = 1<<8, Z = 1<<9, S = 1<<10;
+  const int X = 1<<7, Y = 1<<8, Z = 1<<9, Q = 1<<10, W = 1<<11, E = 1<<12, S = 1<<13;
   public int stat = 0;
   public bool setLocalIn(int in)
   {
@@ -277,8 +289,14 @@ public bool modKeyState(bool keyState, int jn, int key)
       | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].y:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 8
       | (int).sdl.JoystickButtonState(:jn, .cfg.in[pn].z:) << 9
       | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].z:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 9
-      | (int).sdl.JoystickButtonState(:jn, .cfg.in[pn].s:) << 10
-      | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].s:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 10;
+	  | (int).sdl.JoystickButtonState(:jn, .cfg.in[pn].q:) << 10
+      | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].q:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 10
+	  | (int).sdl.JoystickButtonState(:jn, .cfg.in[pn].w:) << 11
+      | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].w:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 11
+	  | (int).sdl.JoystickButtonState(:jn, .cfg.in[pn].e:) << 12
+      | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].e:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 12
+      | (int).sdl.JoystickButtonState(:jn, .cfg.in[pn].s:) << 13
+      | ((int).sdl.JoystickButtonState(:.cfg.in[pn+2].jn, .cfg.in[pn+2].s:) & (int)(pn == (.com.sysControls) ? (.disablePadP1 == false) : pn == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)) << 13;
     ret true;
   }
   /void input(&.Buffer b=, int f)
@@ -290,7 +308,7 @@ public bool modKeyState(bool keyState, int jn, int key)
       (`stat&`U) != 0,
       (`stat&`A) != 0, (`stat&`B) != 0, (`stat&`C) != 0,
       (`stat&`X) != 0, (`stat&`Y) != 0, (`stat&`Z) != 0,
-      (`stat&`S) != 0);
+      (`stat&`Q) != 0, (`stat&`W) != 0, (`stat&`E) != 0, (`stat&`S) != 0);
   }
   /bool anybutton()
   {
@@ -643,7 +661,7 @@ public &FileInput
 
 &AiInput
 {
-  int muki = 0, st = 0, ab = 0, bb = 0, cb = 0, xb = 0, yb = 0, zb = 0, sb = 0;
+  int muki = 0, st = 0, ab = 0, bb = 0, cb = 0, xb = 0, yb = 0, zb = 0, qb = 0, wb = 0, eb = 0, sb = 0;
   public void update()
   {
     int osu = 15, hanasu = 60;
@@ -658,12 +676,12 @@ public &FileInput
       }
       ret false;
     }
-    if(sub(`st=)) `muki = .m.rand(0, 7);
+    if(sub(`st=)) `muki = .m.rand(0, 10); //.m.rand(0, 7)
     osu = hanasu = 30;
-    sub(`ab=);sub(`bb=);sub(`cb=);sub(`xb=);sub(`yb=);sub(`zb=);
+    sub(`ab=);sub(`bb=);sub(`cb=);sub(`xb=);sub(`yb=);sub(`zb=);sub(`qb=);sub(`wb=);sub(`eb=);
     osu = 3600;
     sub(`sb=);
-    if(.com.intro != 0) `st = `ab = `bb = `cb = `xb = `yb = `zb = `sb = 0;
+    if(.com.intro != 0) `st = `ab = `bb = `cb = `xb = `yb = `zb = `qb = `wb = `eb = `sb = 0;
   }
   /bool l()
   {
@@ -705,6 +723,18 @@ public &FileInput
   {
     ret `zb != 0;
   }
+  /bool q()
+  {
+    ret `qb != 0;
+  }
+  /bool w()
+  {
+    ret `wb != 0;
+  }
+  /bool e()
+  {
+    ret `eb != 0;
+  }
   /bool s()
   {
     ret `sb != 0;
@@ -739,15 +769,17 @@ public bool synchronize()
   ret true;
 }
 
-public |Key  a,  b,  c,  x,  y,  z,  s;
-public |Key na, nb, nc, nx, ny, nz, ns;
+public |Key  a,  b,  c,  x,  y,  z,  q,  w,  e,  s; //DON'T USE "m" because you get error
+public |Key na, nb, nc, nx, ny, nz, nq, nw, ne, ns;
 resetReadKeymap();
 public void resetReadKeymap()
 {
   . a = .Key:: a; . b = .Key:: b; . c = .Key:: c;
-  . x = .Key:: x; . y = .Key:: y; . z = .Key:: z; . s = .Key:: s;
+  . x = .Key:: x; . y = .Key:: y; . z = .Key:: z;
+  . q = .Key:: q; . w = .Key:: w; . e = .Key:: e; . s = .Key:: s; //DON'T USE "m" because you get error
   .na = .Key::na; .nb = .Key::nb; .nc = .Key::nc;
-  .nx = .Key::nx; .ny = .Key::ny; .nz = .Key::nz; .ns = .Key::ns;
+  .nx = .Key::nx; .ny = .Key::ny; .nz = .Key::nz;
+  .nq = .Key::nq; .nw = .Key::nw; .ne = .Key::ne; .ns = .Key::ns;
 }
 
 public &Command
@@ -871,6 +903,9 @@ public &Command
         case 'x': `cmd[-1].key .= (tilde ? .nx : .x); tilde = false;
         case 'y': `cmd[-1].key .= (tilde ? .ny : .y); tilde = false;
         case 'z': `cmd[-1].key .= (tilde ? .nz : .z); tilde = false;
+		case 'q': `cmd[-1].key .= (tilde ? .nq : .q); tilde = false;
+		case 'w': `cmd[-1].key .= (tilde ? .nw : .w); tilde = false;
+		case 'e': `cmd[-1].key .= (tilde ? .ne : .e); tilde = false; //DON'T USE "m" because you get error
         case 's': `cmd[-1].key .= (tilde ? .ns : .s); tilde = false;
           //
         case '$':
@@ -1190,7 +1225,7 @@ public &CommandList
       .net~input(`buffer<>=, input, facing);
     else:
       {
-        bool l, r, u, d, a, b, c, x, y, z, s;
+        bool l, r, u, d, a, b, c, x, y, z, q, w, e, s;
         branch{
         cond input < 0:
           if(input < -.com.maxSimul*2) else;
@@ -1204,6 +1239,9 @@ public &CommandList
           x = .aiil[!input].x();
           y = .aiil[!input].y();
           z = .aiil[!input].z();
+		  q = .aiil[!input].q();
+		  w = .aiil[!input].w();
+		  e = .aiil[!input].e();
           s = .aiil[!input].s();
         cond input < #.com.inputRemap && .com.inputRemap[input] < #.cfg.in:
           {
@@ -1213,21 +1251,24 @@ public &CommandList
             l = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].l:),jn,.cfg.in[in].l) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].l:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             r = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].r:),jn,.cfg.in[in].r) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].r:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             u = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].u:),jn,.cfg.in[in].u) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].u:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
-             d = (`ac && .com.sysControls == 0) || (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)));
-			//d = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
+            //d = (`ac && .com.sysControls == 0) || (!.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true)));
+			d = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].d:),jn,.cfg.in[in].d) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].d:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
 			a = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].a:),jn,.cfg.in[in].a) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].a:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             b = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].b:),jn,.cfg.in[in].b) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].b:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             c = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].c:),jn,.cfg.in[in].c) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].c:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             x = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].x:),jn,.cfg.in[in].x) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].x:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             y = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].y:),jn,.cfg.in[in].y) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].y:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
             z = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].z:),jn,.cfg.in[in].z) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].z:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
-            s = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].s:),jn,.cfg.in[in].s) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].s:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
+            q = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].q:),jn,.cfg.in[in].q) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].q:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
+			w = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].w:),jn,.cfg.in[in].w) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].w:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
+			e = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].e:),jn,.cfg.in[in].e) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].e:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
+			s = !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[in].s:),jn,.cfg.in[in].s) || (.sdl.JoystickButtonState(:.cfg.in[in+2].jn, .cfg.in[in+2].s:) && (in == (.com.sysControls) ? (.disablePadP1 == false) : in == (.com.sysControls + 1) ? (.disablePadP2 == false) : true));
           }
         else:
-          l = r = u = d = a = b = c = x = y = z = s = false;
+          l = r = u = d = a = b = c = x = y = z = q = w = e = s = false;
         comm:
           `buffer~input(
-            facing < 0 ? r : l, d, facing < 0 ? l : r, u, a, b, c, x, y, z, s);
+            facing < 0 ? r : l, d, facing < 0 ? l : r, u, a, b, c, x, y, z, q, w, e, s);
         }
       }
     }
@@ -1334,4 +1375,3 @@ public bool anybutton()
   //if(#.net > 0) ret .net~startbutton();
   //ret .startHardButton();
 //}
-

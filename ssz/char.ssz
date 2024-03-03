@@ -1527,6 +1527,7 @@ public &CharGlobalInfo
   public ^/char sprite;
   public ^/char anim;
   public ^/char sound;
+  public ^/char movelist;
   public ^^/char pal;
   public ^index palkeymap;
   public ^&.sff.Sff sf;
@@ -2559,6 +2560,7 @@ public &Char
         if(#(data = sc.get("sprite")) > 0) c.sprite = f(data);
         if(#(data = sc.get("anim")) > 0) c.anim = f(data);
         if(#(data = sc.get("sound")) > 0) c.sound = f(data);
+		//if(#(data = sc.get("movelist")) > 0) c.movelist = f(data);
         if(#(data = sc.get("pal1")) > 0) c.pal[0] = f(data);
         if(#(data = sc.get("pal2")) > 0) c.pal[1] = f(data);
         if(#(data = sc.get("pal3")) > 0) c.pal[2] = f(data);
@@ -2670,6 +2672,15 @@ public &Char
     {
       ret def + ":"\r\n + error;
     }
+	//if(
+      //#.com.loadFile(def, .cgi[`playerno].movelist=)=>error <, [^/char(^/char f){
+        //ret
+          //#.com.loadText(f, unicode=)=>mainbuf > 0
+          //? "" : .com.FileReadError;
+      //}] > 0) 
+    //{
+      //ret def + ":"\r\n + error;
+    //}
     ret "";
   }
   public bool loadPallet(^/char def, int no)
@@ -2792,6 +2803,7 @@ public &Char
     .cgi[`playerno].sprite = "";
     .cgi[`playerno].anim = "";
     .cgi[`playerno].sound = "";
+	.cgi[`playerno].movelist = "";
     .cgi[`playerno].pal.new(.sff.NumCharPalletes);
     .cgi[`playerno].palkeymap.new(.sff.NumCharPalletes);
     loop{index i = 0; while; do:
@@ -3099,7 +3111,8 @@ public &Char
             || `cmd~buffer~ab == 1 || `cmd~buffer~bb == 1
             || `cmd~buffer~cb == 1 || `cmd~buffer~xb == 1
             || `cmd~buffer~yb == 1 || `cmd~buffer~zb == 1
-            || `cmd~buffer~sb == 1))
+            || `cmd~buffer~qb == 1 || `cmd~buffer~wb == 1
+			|| `cmd~buffer~eb == 1 || `cmd~buffer~sb == 1))
         {
           `sysivar[.iRECOVERTIME] -=
             .m.randI(1, (`sysivar[.iRECOVERTIME]+1)/2);
@@ -5561,9 +5574,9 @@ public &Char
   {
     ret .com.serviceType;
   }
-  public int trInfoDisplay()
+  public int trDamageDisplay()
   {
-    ret .com.infoDisplay;
+    ret .com.damageDisplay;
   }
   public int trInputDisplay()
   {

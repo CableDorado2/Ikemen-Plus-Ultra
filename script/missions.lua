@@ -126,7 +126,7 @@ function f_missionMenu()
 	missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
 	txt_missionMenu = createTextImg(jgFnt, 0, -1, 'MISSION SELECT:', 195, 128)
 	txt_missionProgress = createTextImg(jgFnt, 2, 1, '['..missionsData..'%]', 202, 128) --needs to be inside of mission Menu function, to load mission data %
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)

@@ -1640,20 +1640,20 @@ public &Fight
   &.sff.AirFileMethods!self? airFileMethods;
   new()
   {
-    `lb.new(3);
+    `lb.new(3); //Amount of Lifebar Items below
     `lb[0].new(2); //Amount of Single Lifebars to draw
     `lb[1].new(8); //Amount of Simul Lifebars to draw
     `lb[2].new(2); //Amount of Turns Lifebars to draw
-    `pb.new(2);
-    `fa.new(3);
+    `pb.new(2); //Amount of Power Bars
+    `fa.new(3); //Amount of Face Items below
     `fa[0].new(2); //Amount of Single Portrait Faces to draw
     `fa[1].new(8); //Amount of Simul Portrait Faces to draw
     `fa[2].new(2); //Amount of Turns Portrait Faces to draw
-    `nm.new(3);
-    `nm[0].new(2);
-    `nm[1].new(8);
-    `nm[2].new(2);
-    `wi.new(2);
+    `nm.new(3); //Amount of Name Items below
+    `nm[0].new(2); //Amount of Single Names to draw
+    `nm[1].new(8); //Amount of Simul Names to draw
+    `nm[2].new(2); //Amount of Turns Names to draw
+    `wi.new(2); //Win Icons
   }
   public ^&.act.Action getAction(int no)
   {
@@ -1682,7 +1682,7 @@ public &Fight
       ^/char data;
       if(#(data = sc.get("sff")) > 0) `sff = f(:data:);
       if(#(data = sc.get("snd")) > 0) `snd = f(:data:);
-      if(#(data = sc.get("fightfx.sff")) > 0) `fightfx_sff = f(:data:); //We could imitate gofx?
+      if(#(data = sc.get("fightfx.sff")) > 0) `fightfx_sff = f(:data:); //We could imitate gofx with a new commonfx file?
       if(#(data = sc.get("fightfx.air")) > 0) `fightfx_air = f(:data:);
       if(#(data = sc.get("common.snd")) > 0) `common_snd = f(:data:);
       if(#(data = sc.get("font0")) > 0) `font.new[0] = f(:data:);
@@ -1821,6 +1821,12 @@ public &Fight
       cond .s.equ(secname, "powerbar"):
         if(powerbarflg) powerbar(sc=);
         powerbarflg = false;
+	  //cond .s.equ(secname, "guardbar"):
+        //if(guardbarflg) guardbar(sc=);
+        //guardbarflg = false;
+	  //cond .s.equ(secname, "stunbar"):
+        //if(stunbarflg) stunbar(sc=);
+        //stunbarflg = false;
       cond .s.equ(secname, "face"):
         if(faceflg) face(sc=);
         faceflg = false;
@@ -1843,6 +1849,27 @@ public &Fight
       cond .s.equ(secname, "round"):
         if(roundflg) round(sc=);
         roundflg = false;
+	  //cond .s.equ(secname, "action"): //System Msg
+        //if(actionflg) action(sc=);
+        //actionflg = false;
+	  //cond .s.equ(secname, "wincount"): //Like in char select
+        //if(wincountflg) wincount(sc=);
+        //wincountflg = false;
+	  //cond .s.equ(secname, "timer"): //Time Attack
+        //if(timerflg) timer(sc=);
+        //timerflg = false;
+	  //cond .s.equ(secname, "score"):
+        //if(scoreflg) score(sc=);
+        //scoreflg = false;
+	  //cond .s.equ(secname, "match"): //Match Number
+        //if(matchflg) match(sc=);
+        //matchflg = false;
+	  //cond .s.equ(secname, "ailevel"):
+        //if(ailevelflg) ailevel(sc=);
+        //ailevelflg = false;
+	  //cond .s.equ(secname, "demo"): //Demo Mode Assets
+        //if(demoflg) demo(sc=);
+        //demoflg = false;
       }
     }];
     ^/char error;
