@@ -736,6 +736,17 @@ end
 
 --Default Inputs Values
 function f_inputDefault()
+	--Reset P1
+	f_p1keyboardBattleDefault()
+	f_p1gamepadBattleDefault()
+	f_p1keyboardMenuDefault()
+	f_p1gamepadMenuDefault()
+	--Reset P2
+	f_p2keyboardBattleDefault()
+	f_p2gamepadBattleDefault()
+	f_p2keyboardMenuDefault()
+	f_p2gamepadMenuDefault()
+	--Reset Gamepad
 	data.p1Gamepad = 0
 	data.p2Gamepad = 1
 	f_swapGamepad(0, 1)
@@ -743,7 +754,10 @@ function f_inputDefault()
 	s_disablePadP1 = 'Enabled'
 	data.disablePadP2 = false
 	s_disablePadP2 = 'Enabled'
-	--P1 KEYBOARD BATTLE
+end
+
+--Default P1 KEYBOARD BATTLE
+function f_p1keyboardBattleDefault()
 	t_keyBattleCfg[1].varText = 'UP'
 	t_keyBattleCfg[2].varText = 'DOWN'
 	t_keyBattleCfg[3].varText = 'LEFT'
@@ -756,58 +770,13 @@ function f_inputDefault()
 	t_keyBattleCfg[10].varText = 'c'
 	t_keyBattleCfg[11].varText = 'q'
 	t_keyBattleCfg[12].varText = 'e'
-	t_keyBattleCfg[13].varText = 'w'
+	t_keyBattleCfg[13].varText = 'v'
 	t_keyBattleCfg[14].varText = 'f'
 	f_keyBattleSave(0,-1)
-	--P1 KEYBOARD MENU
-	t_keyMenuCfg[1].varText = 'UP'
-	t_keyMenuCfg[2].varText = 'DOWN'
-	t_keyMenuCfg[3].varText = 'LEFT'
-	t_keyMenuCfg[4].varText = 'RIGHT'
-	t_keyBattleCfg[5].varText = 'a'
-	t_keyBattleCfg[6].varText = 's'
-	t_keyBattleCfg[7].varText = 'd'
-	t_keyBattleCfg[8].varText = 'z'
-	t_keyBattleCfg[9].varText = 'x'
-	t_keyBattleCfg[10].varText = 'c'
-	t_keyMenuCfg[11].varText = 'q'
-	t_keyMenuCfg[12].varText = 'e'
-	t_keyMenuCfg[13].varText = 'b'
-	t_keyMenuCfg[14].varText = 'RETURN'
-	f_keyMenuSave(0,-1)
-	--P2 KEYBOARD BATTLE
-	t_keyBattleCfg[1].varText = 'KP_5'
-	t_keyBattleCfg[2].varText = 'KP_2'
-	t_keyBattleCfg[3].varText = 'KP_1'
-	t_keyBattleCfg[4].varText = 'KP_3'
-	t_keyBattleCfg[5].varText = 'u'
-	t_keyBattleCfg[6].varText = 'i'
-	t_keyBattleCfg[7].varText = 'o'
-	t_keyBattleCfg[8].varText = 'j'
-	t_keyBattleCfg[9].varText = 'k'
-	t_keyBattleCfg[10].varText = 'l'
-	t_keyBattleCfg[11].varText = 'KP_4'
-	t_keyBattleCfg[12].varText = 'KP_6'
-	t_keyBattleCfg[13].varText = 'h'
-	t_keyBattleCfg[14].varText = 'KP_0'
-	f_keyBattleSave(1,-1)
-	--P2 KEYBOARD MENU
-	t_keyMenuCfg[1].varText = 'KP_5'
-	t_keyMenuCfg[2].varText = 'KP_2'
-	t_keyMenuCfg[3].varText = 'KP_1'
-	t_keyMenuCfg[4].varText = 'KP_3'
-	t_keyBattleCfg[5].varText = 'u'
-	t_keyBattleCfg[6].varText = 'i'
-	t_keyBattleCfg[7].varText = 'o'
-	t_keyBattleCfg[8].varText = 'j'
-	t_keyBattleCfg[9].varText = 'k'
-	t_keyBattleCfg[10].varText = 'l'
-	t_keyMenuCfg[11].varText = 'KP_4'
-	t_keyMenuCfg[12].varText = 'KP_6'
-	t_keyMenuCfg[13].varText = 'h'
-	t_keyMenuCfg[14].varText = 'm'
-	f_keyMenuSave(1,-1)
-	--P1 GAMEPAD BATTLE
+end
+
+--Default P1 GAMEPAD BATTLE
+function f_p1gamepadBattleDefault()
 	t_keyBattleCfg[1].varText = '-3'
 	t_keyBattleCfg[2].varText = '-4'
 	t_keyBattleCfg[3].varText = '-1'
@@ -823,7 +792,29 @@ function f_inputDefault()
 	t_keyBattleCfg[13].varText = '6'
 	t_keyBattleCfg[14].varText = '9'
 	f_keyBattleSave(2,0)
-	--P1 GAMEPAD MENU
+end
+
+--Default P1 KEYBOARD MENU
+function f_p1keyboardMenuDefault()
+	t_keyMenuCfg[1].varText = 'UP'
+	t_keyMenuCfg[2].varText = 'DOWN'
+	t_keyMenuCfg[3].varText = 'LEFT'
+	t_keyMenuCfg[4].varText = 'RIGHT'
+	t_keyBattleCfg[5].varText = 'a'
+	t_keyBattleCfg[6].varText = 's'
+	t_keyBattleCfg[7].varText = 'd'
+	t_keyBattleCfg[8].varText = 'z'
+	t_keyBattleCfg[9].varText = 'x'
+	t_keyBattleCfg[10].varText = 'c'
+	t_keyMenuCfg[11].varText = 'PRINTSCREEN'
+	t_keyMenuCfg[12].varText = 'RETURN'
+	t_keyMenuCfg[13].varText = 'BACKSPACE'
+	t_keyMenuCfg[14].varText = 'SPACE'
+	f_keyMenuSave(0,-1)
+end
+
+--Default P1 GAMEPAD MENU
+function f_p1gamepadMenuDefault()
 	t_keyMenuCfg[1].varText = '-3'
 	t_keyMenuCfg[2].varText = '-4'
 	t_keyMenuCfg[3].varText = '-1'
@@ -839,7 +830,29 @@ function f_inputDefault()
 	t_keyMenuCfg[13].varText = '6'
 	t_keyMenuCfg[14].varText = '7'
 	f_keyMenuSave(2,0)
-	--P2 GAMEPAD BATTLE
+end
+
+--Default P2 KEYBOARD BATTLE
+function f_p2keyboardBattleDefault()
+	t_keyBattleCfg[1].varText = 'KP_5'
+	t_keyBattleCfg[2].varText = 'KP_2'
+	t_keyBattleCfg[3].varText = 'KP_1'
+	t_keyBattleCfg[4].varText = 'KP_3'
+	t_keyBattleCfg[5].varText = 'u'
+	t_keyBattleCfg[6].varText = 'i'
+	t_keyBattleCfg[7].varText = 'o'
+	t_keyBattleCfg[8].varText = 'j'
+	t_keyBattleCfg[9].varText = 'k'
+	t_keyBattleCfg[10].varText = 'l'
+	t_keyBattleCfg[11].varText = 'KP_4'
+	t_keyBattleCfg[12].varText = 'KP_6'
+	t_keyBattleCfg[13].varText = 'KP_PERIOD'
+	t_keyBattleCfg[14].varText = 'KP_0'
+	f_keyBattleSave(1,-1)
+end
+
+--Default P2 GAMEPAD BATTLE
+function f_p2gamepadBattleDefault()
 	t_keyBattleCfg[1].varText = '-3'
 	t_keyBattleCfg[2].varText = '-4'
 	t_keyBattleCfg[3].varText = '-1'
@@ -855,7 +868,29 @@ function f_inputDefault()
 	t_keyBattleCfg[13].varText = '6'
 	t_keyBattleCfg[14].varText = '9'
 	f_keyBattleSave(3,1)
-	--P2 GAMEPAD MENU
+end
+
+--Default P2 KEYBOARD MENU
+function f_p2keyboardMenuDefault()
+	t_keyMenuCfg[1].varText = 'KP_5'
+	t_keyMenuCfg[2].varText = 'KP_2'
+	t_keyMenuCfg[3].varText = 'KP_1'
+	t_keyMenuCfg[4].varText = 'KP_3'
+	t_keyBattleCfg[5].varText = 'u'
+	t_keyBattleCfg[6].varText = 'i'
+	t_keyBattleCfg[7].varText = 'o'
+	t_keyBattleCfg[8].varText = 'j'
+	t_keyBattleCfg[9].varText = 'k'
+	t_keyBattleCfg[10].varText = 'l'
+	t_keyMenuCfg[11].varText = 'KP_DIVIDE'
+	t_keyMenuCfg[12].varText = 'KP_PLUS'
+	t_keyMenuCfg[13].varText = 'KP_MINUS'
+	t_keyMenuCfg[14].varText = 'KP_ENTER'
+	f_keyMenuSave(1,-1)
+end
+
+--Default P2 GAMEPAD MENU
+function f_p2gamepadMenuDefault()
 	t_keyMenuCfg[1].varText = '-3'
 	t_keyMenuCfg[2].varText = '-4'
 	t_keyMenuCfg[3].varText = '-1'
@@ -6011,34 +6046,26 @@ function f_keyMenu()
 			keyMenu = keyMenu + 1
 		end
 		if btnPalNo(p1Cmd) > 0 then
-			--PLAYER 1 BATTLE CONTROLS
+			sndPlay(sysSnd, 100, 1)
+			controllerSet = 1 --Keyboard is the control to setup
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			--PLAYER 1 [KEYBOARD] BATTLE CONTROLS
 			if keyMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				controllerSet = 1
-				commandBufReset(p1Cmd)
 				f_inputBattleRead(0, -1)
 				f_keyBattleCfg(0, -1)
-			--PLAYER 2 BATTLE CONTROLS
+			--PLAYER 2 [KEYBOARD] BATTLE CONTROLS
 			elseif keyMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				controllerSet = 1
-				commandBufReset(p2Cmd)
 				f_inputBattleRead(1, -1)
 				f_keyBattleCfg(1, -1)
-			--PLAYER 1 MENU CONTROLS
+			--PLAYER 1 [KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
-				controllerSet = 1
-				commandBufReset(p1Cmd)
-				f_inputBattleRead(0, -1) --To get Battle Palette Buttons (No configurable in menus)
+				f_inputBattleRead(0, -1) --To get Battle Palette Buttons
 				f_inputMenuRead(0, -1)
 				f_keyMenuCfg(0, -1)
-			--PLAYER 2 MENU CONTROLS
+			--PLAYER 2 [KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
-				controllerSet = 1
-				commandBufReset(p2Cmd)
-				f_inputBattleRead(1, -1) --To get Battle Palette Buttons (No configurable in menus)
+				f_inputBattleRead(1, -1) --To get Battle Palette Buttons
 				f_inputMenuRead(1, -1)
 				f_keyMenuCfg(1, -1)
 			--BACK
@@ -6118,8 +6145,10 @@ end
 txt_joyMenu = createTextImg(jgFnt, 0, 0, 'GAMEPAD SETTINGS', 159, 13)
 
 t_joyMenu = {
-	{id = '', text = 'Player 1 Gamepad'},
-	{id = '', text = 'Player 2 Gamepad'},
+	{id = '', text = 'Player 1 - Battle Controls'},
+	{id = '', text = 'Player 2 - Battle Controls'},
+	{id = '', text = 'Player 1 - Menu Controls'},
+	{id = '', text = 'Player 2 - Menu Controls'},
 	{id = '', text = '          BACK'},
 }
 
@@ -6144,24 +6173,32 @@ function f_joyMenu()
 			joyMenu = joyMenu + 1
 		end
 		if btnPalNo(p1Cmd) > 0 then
-			--PLAYER 1 GAMEPAD
+			sndPlay(sysSnd, 100, 1)
+			controllerSet = 2 --Gamepad is the control to setup
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			--PLAYER 1 [GAMEPAD] BATTLE CONTROLS
 			if joyMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
 				gamepadID = 1
-				controllerSet = 2
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
 				f_inputBattleRead(2, data.p1Gamepad)
 				f_keyBattleCfg(2, data.p1Gamepad)
-			--PLAYER 2 GAMEPAD
+			--PLAYER 2 [GAMEPAD] BATTLE CONTROLS
 			elseif joyMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
 				gamepadID = 2
-				controllerSet = 2
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
 				f_inputBattleRead(3, data.p2Gamepad)
 				f_keyBattleCfg(3, data.p2Gamepad)
+			--PLAYER 1 [GAMEPAD] MENU CONTROLS
+			elseif joyMenu == 3 then
+				gamepadID = 1
+				f_inputBattleRead(2, data.p1Gamepad) --To get Battle Palette Buttons
+				f_inputMenuRead(2, data.p1Gamepad)
+				f_keyMenuCfg(2, data.p1Gamepad)
+			--PLAYER 2 [GAMEPAD] MENU CONTROLS
+			elseif joyMenu == 4 then
+				gamepadID = 2
+				f_inputBattleRead(3, data.p2Gamepad) --To get Battle Palette Buttons
+				f_inputMenuRead(3, data.p2Gamepad)
+				f_keyMenuCfg(3, data.p2Gamepad)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -6253,7 +6290,7 @@ t_keyBattleCfg = {
 	{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
 	{id = '', text = 'SELECT',					varID = textImgNew(), varText = ''},
 	{id = '', text = 'START', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'End Config', 					varID = textImgNew(), varText = ''},
 }
 --end
 --f_battleCommands()
@@ -6274,7 +6311,7 @@ t_keyMenuCfg = {
 	{id = '', text = 'SCREENSHOT',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'CONFIRM',					varID = textImgNew(), varText = ''},
 	{id = '', text = 'RETURN',					varID = textImgNew(), varText = ''},
-	{id = '', text = 'PAUSE',		 			varID = textImgNew(), varText = ''},
+	{id = '', text = 'MENU',		 			varID = textImgNew(), varText = ''}, --PAUSE
 	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},
 }
 --end
@@ -6301,6 +6338,13 @@ function f_keyBattleCfg(playerNo, controller)
 	p1ResetInput = true
 	p2ResetInput = true
 	while true do
+		if f1Key() then --Quick Default Inputs Shorcut
+			if controllerSet == 1 and playerNo == 0 then f_p1keyboardBattleDefault()
+			elseif controllerSet == 1 and playerNo == 1 then f_p2keyboardBattleDefault()
+			elseif controllerSet == 2 and playerNo == 2 then f_p1gamepadBattleDefault()
+			elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadBattleDefault()
+			end
+		end
 		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			f_keyBattleSave(playerNo, controller)
@@ -6333,6 +6377,7 @@ function f_keyBattleCfg(playerNo, controller)
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keyBattleSave(playerNo, controller)
+				f_keyMenuSave(playerNo, controller) --Just to get Classic Palette Select Inputs
 				break
 			end
 			modified = 1
@@ -6399,6 +6444,7 @@ function f_keyBattleCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
+		f_drawQuickText(txt_resetInput, font2, 0, 0, 'Press F1 in your Keyboard to Reset All Buttons', 236, 230, 1, 1)
 		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
@@ -6421,6 +6467,13 @@ function f_keyMenuCfg(playerNo, controller)
 	p1ResetInput = true
 	p2ResetInput = true
 	while true do
+		if f1Key() then --Quick Default Inputs Shorcut
+			if controllerSet == 1 and playerNo == 0 then f_p1keyboardMenuDefault()
+			elseif controllerSet == 1 and playerNo == 1 then f_p2keyboardMenuDefault()
+			elseif controllerSet == 2 and playerNo == 2 then f_p1gamepadMenuDefault()
+			elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadMenuDefault()
+			end
+		end
 		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			f_keyMenuSave(playerNo, controller)
@@ -6636,12 +6689,19 @@ function f_readBattleInput(oldkey)
 			animUpdate(optionsDownArrow)
 		end
 		--cmdInput()
-		if readTime > 15 then
-			if esc() or commandGetState(p1Cmd, 'e') then getKeyboard = oldkey
-			elseif upKey() and controllerSet == 1 then getKeyboard = 'UP'
-			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
-			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
-			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
+		if readTime > 10 then
+			if esc() or commandGetState(p1Cmd, 'e') then getKeyboard = oldkey --No Replace
+			--FUNCTIONS
+			--elseif f1Key() and controllerSet == 1 then getKeyboard = 'F1'
+			elseif f9Key() and controllerSet == 1 then getKeyboard = 'F9'
+			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
+			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
+			elseif f12Key() and controllerSet == 1 then getKeyboard = 'F12'
+			elseif printscreenKey() and controllerSet == 1 then getKeyboard = 'PRINTSCREEN'
+			--MAIN			
+			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
+			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
+			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
 			elseif aKey() and controllerSet == 1 then getKeyboard = 'a'
 			elseif bKey() and controllerSet == 1 then getKeyboard = 'b'
 			elseif cKey() and controllerSet == 1 then getKeyboard = 'c'
@@ -6668,16 +6728,6 @@ function f_readBattleInput(oldkey)
 			elseif xKey() and controllerSet == 1 then getKeyboard = 'x'
 			elseif yKey() and controllerSet == 1 then getKeyboard = 'y'
 			elseif zKey() and controllerSet == 1 then getKeyboard = 'z'
-			elseif kzeroKey() and controllerSet == 1 then getKeyboard = 'KP_0'
-			elseif koneKey() and controllerSet == 1 then getKeyboard = 'KP_1'
-			elseif ktwoKey() and controllerSet == 1 then getKeyboard = 'KP_2'
-			elseif kthreeKey() and controllerSet == 1 then getKeyboard = 'KP_3'
-			elseif kfourKey() and controllerSet == 1 then getKeyboard = 'KP_4'
-			elseif kfiveKey() and controllerSet == 1 then getKeyboard = 'KP_5'
-			elseif ksixKey() and controllerSet == 1 then getKeyboard = 'KP_6'
-			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
-			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
-			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
 			elseif zeroKey() and controllerSet == 1 then getKeyboard = '_0'
 			elseif oneKey() and controllerSet == 1 then getKeyboard = '_1'
 			elseif twoKey() and controllerSet == 1 then getKeyboard = '_2'
@@ -6688,10 +6738,50 @@ function f_readBattleInput(oldkey)
 			elseif sevenKey() and controllerSet == 1 then getKeyboard = '_7'
 			elseif eightKey() and controllerSet == 1 then getKeyboard = '_8'
 			elseif nineKey() and controllerSet == 1 then getKeyboard = '_9'
-			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
-			--elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'
 			elseif lshiftKey() and controllerSet == 1 then getKeyboard = 'LSHIFT'
 			elseif rshiftKey() and controllerSet == 1 then getKeyboard = 'RSHIFT'
+			elseif tabKey() and controllerSet == 1 then getKeyboard = 'TAB'
+			elseif minusKey() and controllerSet == 1 then getKeyboard = 'MINUS'
+			elseif equalsKey() and controllerSet == 1 then getKeyboard = 'EQUALS'
+			elseif leftbracketKey() and controllerSet == 1 then getKeyboard = 'LEFTBRACKET'
+			elseif rightbracketKey() and controllerSet == 1 then getKeyboard = 'RIGHTBRACKET'
+			elseif backslashKey() and controllerSet == 1 then getKeyboard = 'BACKSLASH'
+			elseif semicolonKey() and controllerSet == 1 then getKeyboard = 'SEMICOLON'
+			elseif commaKey() and controllerSet == 1 then getKeyboard = 'COMMA'
+			elseif periodKey() and controllerSet == 1 then getKeyboard = 'PERIOD'
+			elseif slashKey() and controllerSet == 1 then getKeyboard = 'SLASH'
+			--elseif nonushashKey() and controllerSet == 1 then getKeyboard = 'NONUSHASH'
+			--elseif apostropheKey() and controllerSet == 1 then getKeyboard = 'APOSTROPHE'
+			--elseif graveKey() and controllerSet == 1 then getKeyboard = 'GRAVE'
+			--CONTROL
+			elseif insertKey() and controllerSet == 1 then getKeyboard = 'INSERT'
+			elseif homeKey() and controllerSet == 1 then getKeyboard = 'HOME'
+			elseif pageupKey() and controllerSet == 1 then getKeyboard = 'PAGEUP'
+			elseif deleteKey() and controllerSet == 1 then getKeyboard = 'DELETE'
+			elseif endKey() and controllerSet == 1 then getKeyboard = 'END'
+			elseif pagedownKey() and controllerSet == 1 then getKeyboard = 'PAGEDOWN'
+			elseif upKey() and controllerSet == 1 then getKeyboard = 'UP'
+			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
+			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
+			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
+			--NUMPAD
+			elseif kdivideKey() and controllerSet == 1 then getKeyboard = 'KP_DIVIDE'
+			elseif kmultiplyKey() and controllerSet == 1 then getKeyboard = 'KP_MULTIPLY'
+			elseif kminusKey() and controllerSet == 1 then getKeyboard = 'KP_MINUS'
+			elseif kplusKey() and controllerSet == 1 then getKeyboard = 'KP_PLUS'
+			elseif kenterKey() and controllerSet == 1 then getKeyboard = 'KP_ENTER'
+			elseif kperiodKey() and controllerSet == 1 then getKeyboard = 'KP_PERIOD'
+			elseif kzeroKey() and controllerSet == 1 then getKeyboard = 'KP_0'
+			elseif koneKey() and controllerSet == 1 then getKeyboard = 'KP_1'
+			elseif ktwoKey() and controllerSet == 1 then getKeyboard = 'KP_2'
+			elseif kthreeKey() and controllerSet == 1 then getKeyboard = 'KP_3'
+			elseif kfourKey() and controllerSet == 1 then getKeyboard = 'KP_4'
+			elseif kfiveKey() and controllerSet == 1 then getKeyboard = 'KP_5'
+			elseif ksixKey() and controllerSet == 1 then getKeyboard = 'KP_6'
+			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
+			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
+			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
+			--GAMEPAD
 			elseif getInputID(0) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(0)
 			end
 			if getKeyboard ~= '' then
@@ -6750,12 +6840,19 @@ function f_readMenuInput(oldkey)
 			animUpdate(optionsDownArrow)
 		end
 		--cmdInput()
-		if readTime > 15 then
-			if esc() or commandGetState(p1Cmd, 'e') then getKeyboard = oldkey
-			elseif upKey() and controllerSet == 1 then getKeyboard = 'UP'
-			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
-			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
-			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
+		if readTime > 10 then
+			if esc() or commandGetState(p1Cmd, 'e') then getKeyboard = oldkey --No Replace
+			--FUNCTIONS
+			--elseif f1Key() and controllerSet == 1 then getKeyboard = 'F1'
+			elseif f9Key() and controllerSet == 1 then getKeyboard = 'F9'
+			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
+			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
+			elseif f12Key() and controllerSet == 1 then getKeyboard = 'F12'
+			elseif printscreenKey() and controllerSet == 1 then getKeyboard = 'PRINTSCREEN'
+			--MAIN			
+			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
+			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
+			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
 			elseif aKey() and controllerSet == 1 then getKeyboard = 'a'
 			elseif bKey() and controllerSet == 1 then getKeyboard = 'b'
 			elseif cKey() and controllerSet == 1 then getKeyboard = 'c'
@@ -6782,16 +6879,6 @@ function f_readMenuInput(oldkey)
 			elseif xKey() and controllerSet == 1 then getKeyboard = 'x'
 			elseif yKey() and controllerSet == 1 then getKeyboard = 'y'
 			elseif zKey() and controllerSet == 1 then getKeyboard = 'z'
-			elseif kzeroKey() and controllerSet == 1 then getKeyboard = 'KP_0'
-			elseif koneKey() and controllerSet == 1 then getKeyboard = 'KP_1'
-			elseif ktwoKey() and controllerSet == 1 then getKeyboard = 'KP_2'
-			elseif kthreeKey() and controllerSet == 1 then getKeyboard = 'KP_3'
-			elseif kfourKey() and controllerSet == 1 then getKeyboard = 'KP_4'
-			elseif kfiveKey() and controllerSet == 1 then getKeyboard = 'KP_5'
-			elseif ksixKey() and controllerSet == 1 then getKeyboard = 'KP_6'
-			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
-			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
-			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
 			elseif zeroKey() and controllerSet == 1 then getKeyboard = '_0'
 			elseif oneKey() and controllerSet == 1 then getKeyboard = '_1'
 			elseif twoKey() and controllerSet == 1 then getKeyboard = '_2'
@@ -6802,10 +6889,50 @@ function f_readMenuInput(oldkey)
 			elseif sevenKey() and controllerSet == 1 then getKeyboard = '_7'
 			elseif eightKey() and controllerSet == 1 then getKeyboard = '_8'
 			elseif nineKey() and controllerSet == 1 then getKeyboard = '_9'
-			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
-			--elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'
 			elseif lshiftKey() and controllerSet == 1 then getKeyboard = 'LSHIFT'
 			elseif rshiftKey() and controllerSet == 1 then getKeyboard = 'RSHIFT'
+			elseif tabKey() and controllerSet == 1 then getKeyboard = 'TAB'
+			elseif minusKey() and controllerSet == 1 then getKeyboard = 'MINUS'
+			elseif equalsKey() and controllerSet == 1 then getKeyboard = 'EQUALS'
+			elseif leftbracketKey() and controllerSet == 1 then getKeyboard = 'LEFTBRACKET'
+			elseif rightbracketKey() and controllerSet == 1 then getKeyboard = 'RIGHTBRACKET'
+			elseif backslashKey() and controllerSet == 1 then getKeyboard = 'BACKSLASH'
+			elseif semicolonKey() and controllerSet == 1 then getKeyboard = 'SEMICOLON'
+			elseif commaKey() and controllerSet == 1 then getKeyboard = 'COMMA'
+			elseif periodKey() and controllerSet == 1 then getKeyboard = 'PERIOD'
+			elseif slashKey() and controllerSet == 1 then getKeyboard = 'SLASH'
+			--elseif nonushashKey() and controllerSet == 1 then getKeyboard = 'NONUSHASH'
+			--elseif apostropheKey() and controllerSet == 1 then getKeyboard = 'APOSTROPHE'
+			--elseif graveKey() and controllerSet == 1 then getKeyboard = 'GRAVE'
+			--CONTROL
+			elseif insertKey() and controllerSet == 1 then getKeyboard = 'INSERT'
+			elseif homeKey() and controllerSet == 1 then getKeyboard = 'HOME'
+			elseif pageupKey() and controllerSet == 1 then getKeyboard = 'PAGEUP'
+			elseif deleteKey() and controllerSet == 1 then getKeyboard = 'DELETE'
+			elseif endKey() and controllerSet == 1 then getKeyboard = 'END'
+			elseif pagedownKey() and controllerSet == 1 then getKeyboard = 'PAGEDOWN'
+			elseif upKey() and controllerSet == 1 then getKeyboard = 'UP'
+			elseif downKey() and controllerSet == 1 then getKeyboard = 'DOWN'
+			elseif leftKey() and controllerSet == 1 then getKeyboard = 'LEFT'
+			elseif rightKey() and controllerSet == 1 then getKeyboard = 'RIGHT'
+			--NUMPAD
+			elseif kdivideKey() and controllerSet == 1 then getKeyboard = 'KP_DIVIDE'
+			elseif kmultiplyKey() and controllerSet == 1 then getKeyboard = 'KP_MULTIPLY'
+			elseif kminusKey() and controllerSet == 1 then getKeyboard = 'KP_MINUS'
+			elseif kplusKey() and controllerSet == 1 then getKeyboard = 'KP_PLUS'
+			elseif kenterKey() and controllerSet == 1 then getKeyboard = 'KP_ENTER'
+			elseif kperiodKey() and controllerSet == 1 then getKeyboard = 'KP_PERIOD'
+			elseif kzeroKey() and controllerSet == 1 then getKeyboard = 'KP_0'
+			elseif koneKey() and controllerSet == 1 then getKeyboard = 'KP_1'
+			elseif ktwoKey() and controllerSet == 1 then getKeyboard = 'KP_2'
+			elseif kthreeKey() and controllerSet == 1 then getKeyboard = 'KP_3'
+			elseif kfourKey() and controllerSet == 1 then getKeyboard = 'KP_4'
+			elseif kfiveKey() and controllerSet == 1 then getKeyboard = 'KP_5'
+			elseif ksixKey() and controllerSet == 1 then getKeyboard = 'KP_6'
+			elseif ksevenKey() and controllerSet == 1 then getKeyboard = 'KP_7'
+			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
+			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
+			--GAMEPAD
 			elseif getInputID(0) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(0)
 			end
 			if getKeyboard ~= '' then

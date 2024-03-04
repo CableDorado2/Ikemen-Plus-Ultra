@@ -5,20 +5,24 @@ lib sh = <shell.ssz>;
 uint nexttime = 0x0, lastdraw = 0x0;
 float nexttimeFractionalPart = 0.0;
 public &sdl.Event sdle;
-public bool end = false, fskip = false, full = false, fullReal = false, borders = false, resizable = false, aspect = false, esc = false, paste = false,
-		 upKey = false, downKey = false, leftKey = false, rightKey = false, 
-		 aKey = false, bKey = false, cKey = false, dKey = false, eKey = false,
-		 fKey = false, gKey = false, hKey = false, iKey = false, jKey = false,
-		 kKey = false, lKey = false, mKey = false, nKey = false, oKey = false,
-		 pKey = false, qKey = false, rKey = false, sKey = false, tKey = false,
-		 uKey = false, vKey = false, wKey = false, xKey = false, yKey = false,
-		 zKey = false,
-		 kzeroKey = false, koneKey = false, ktwoKey = false, kthreeKey = false, kfourKey = false,
-		 kfiveKey = false, ksixKey = false, ksevenKey = false, keightKey = false, knineKey = false,
-		 zeroKey = false, oneKey = false, twoKey = false, threeKey = false, fourKey = false,
-		 fiveKey = false, sixKey = false, sevenKey = false, eightKey = false, nineKey = false,
-		 returnKey = false, lshiftKey = false, rshiftKey = false,
-		 getGamepadKeyA = false, getGamepadKeyB = false, getGamepadKeyC = false;
+public bool end = false, fskip = false, full = false, fullReal = false, borders = false, resizable = false, aspect = false, 
+esc = false, paste = false, 
+upKey = false, downKey = false, leftKey = false, rightKey = false, 
+aKey = false, bKey = false, cKey = false, dKey = false, eKey = false, fKey = false, gKey = false, hKey = false, iKey = false, 
+jKey = false, kKey = false, lKey = false, mKey = false, nKey = false, oKey = false, pKey = false, qKey = false, rKey = false, 
+sKey = false, tKey = false, uKey = false, vKey = false, wKey = false, xKey = false, yKey = false, zKey = false, 
+kzeroKey = false, koneKey = false, ktwoKey = false, kthreeKey = false, kfourKey = false, 
+kfiveKey = false, ksixKey = false, ksevenKey = false, keightKey = false, knineKey = false, 
+zeroKey = false, oneKey = false, twoKey = false, threeKey = false, fourKey = false, 
+fiveKey = false, sixKey = false, sevenKey = false, eightKey = false, nineKey = false,
+returnKey = false, backspaceKey = false, spaceKey = false, lshiftKey = false, rshiftKey = false, tabKey = false, 
+kdivideKey = false, kmultiplyKey = false, kminusKey = false, kplusKey = false, kenterKey = false, kperiodKey = false, 
+minusKey = false, equalsKey = false, leftbracketKey = false, rightbracketKey = false, backslashKey = false, 
+semicolonKey = false, commaKey = false, periodKey = false, slashKey = false, 
+f1Key = false, f9Key = false, f10Key = false, f11Key = false, f12Key = false, printscreenKey = false, 
+insertKey = false, homeKey = false, pageupKey = false, deleteKey = false, endKey = false, pagedownKey = false, 
+nonushashKey = false, apostropheKey = false, graveKey = false, 
+getGamepadKeyA = false, getGamepadKeyB = false, getGamepadKeyC = false;
 public &Key
 {
   public |.sdl.K key = .sdl.K::UNKNOWN;
@@ -286,6 +290,14 @@ public bool eventUpdate()
         case .sdl.K::RETURN:
           .returnKey = true;
         }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::BACKSPACE:
+          .backspaceKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::SPACE:
+          .spaceKey = true;
+        }
         switch(.sdle.key.keysym.sym){
         case .sdl.K::LSHIFT:
           .lshiftKey = true;
@@ -294,6 +306,130 @@ public bool eventUpdate()
         case .sdl.K::RSHIFT:
           .rshiftKey = true;
         }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::TAB:
+          .tabKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::MINUS:
+          .minusKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::EQUALS:
+          .equalsKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::LEFTBRACKET:
+          .leftbracketKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::RIGHTBRACKET:
+          .rightbracketKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::BACKSLASH:
+          .backslashKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::SEMICOLON:
+          .semicolonKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::COMMA:
+          .commaKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::PERIOD:
+          .periodKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::SLASH:
+          .slashKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::F1:
+          .f1Key = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::F9:
+          .f9Key = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::F10:
+          .f10Key = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::F11:
+          .f11Key = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::F12:
+          .f12Key = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::PRINTSCREEN:
+          .printscreenKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::INSERT:
+          .insertKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::HOME:
+          .homeKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::PAGEUP:
+          .pageupKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::DELETE:
+          .deleteKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::END:
+          .endKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::PAGEDOWN:
+          .pagedownKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::KP_DIVIDE:
+          .kdivideKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::KP_MULTIPLY:
+          .kmultiplyKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::KP_MINUS:
+          .kminusKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::KP_PLUS:
+          .kplusKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::KP_ENTER:
+          .kenterKey = true;
+        }
+		switch(.sdle.key.keysym.sym){
+        case .sdl.K::KP_PERIOD:
+          .kperiodKey = true;
+        }
+		//switch(.sdle.key.keysym.sym){
+        //case .sdl.K::NONUSHASH:
+          //.nonushashKey = true;
+        //}
+		//switch(.sdle.key.keysym.sym){
+        //case .sdl.K::APOSTROPHE:
+          //.apostropheKey = true;
+        //}
+		//switch(.sdle.key.keysym.sym){
+        //case .sdl.K::GRAVE:
+          //.graveKey = true;
+        //}
     if(.sdl.JoystickButtonState(:0,0:)){
           .getGamepadKeyA = true;
 	}
@@ -394,8 +530,41 @@ public bool event(int fps)
   .eightKey = false;
   .nineKey = false;
   .returnKey = false;
+  .spaceKey = false;
   .lshiftKey = false;
   .rshiftKey = false;
+  .backspaceKey = false;
+  .tabKey = false;
+  .minusKey = false;
+  .equalsKey = false;
+  .leftbracketKey = false;
+  .rightbracketKey = false;
+  .backslashKey = false;
+  .semicolonKey = false;
+  .commaKey = false;
+  .periodKey = false;
+  .slashKey = false;
+  .f1Key = false;
+  .f9Key = false;
+  .f10Key = false;
+  .f11Key = false;
+  .f12Key = false;
+  .printscreenKey = false;
+  .insertKey = false;
+  .homeKey = false;
+  .pageupKey = false;
+  .deleteKey = false;
+  .endKey = false;
+  .pagedownKey = false;
+  .kdivideKey = false;
+  .kmultiplyKey = false;
+  .kminusKey = false;
+  .kplusKey = false;
+  .kenterKey = false;
+  .kperiodKey = false;
+  //.nonushashKey = false;
+  //.apostropheKey = false;
+  //.graveKey = false;
   .getGamepadKeyA = false;
   .getGamepadKeyB = false;
   .getGamepadKeyC = false;

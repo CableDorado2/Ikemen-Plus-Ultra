@@ -52,6 +52,10 @@ function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)
 end
 
+function takeScreenshotVS()
+	f_screenShot()
+end
+
 speed = 1.0
 
 function changeSpeed()
@@ -148,8 +152,4 @@ function status(p)
       anim(), animOwner(), animelemno(0), life(), power(), time())
   playerid(oldid)
   return ret;
-end
-
-function takeScreenshotVS()
-	f_screenShot()
 end

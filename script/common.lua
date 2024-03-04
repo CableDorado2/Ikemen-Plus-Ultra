@@ -926,7 +926,7 @@ function f_minMax(v,mn,mx)
 	return math.max(mn,math.min(mx,v))
 end
 
---Keyboard conversion table
+--Keyboard conversion table (Unused Currently)
 t_inputConvert = {
 	{num = '4', text = 'A'},
 	{num = '5', text = 'B'},

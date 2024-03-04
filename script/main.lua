@@ -236,7 +236,7 @@ function f_infoMenu()
 	--Draw Info Title Text
 	textImgDraw(txt_infoTitle)
 	--Actions
-	if esc() or btnPalNo(p1Cmd) > 0 then
+	if btnPalNo(p1Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
 		f_infoReset()
 	end
@@ -321,7 +321,7 @@ function f_confirmMenu()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Actions
-	if esc() then
+	if esc() or commandGetState(p1Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
 		f_confirmReset()
 	elseif btnPalNo(p1Cmd) > 0 then
@@ -541,7 +541,7 @@ function f_mainAttract()
 		   f_saveProgress()
 		   attractTimer = attractSeconds*gameTick --Reset Timer
 		--START GAME MODE
-		elseif (commandGetState(p1Cmd, 's') or attractTimer == 0) and data.attractCoins > 0 then
+		elseif (commandGetState(p1Cmd, 'w') or attractTimer == 0) and data.attractCoins > 0 then
 		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		   sndPlay(sysSnd, 100, 1)
 		   data.attractCoins = data.attractCoins - 1
@@ -569,7 +569,7 @@ function f_mainAttract()
 		   demoTimer = 0
 		   attractTimer = attractSeconds*gameTick
 		--EXIT
-		elseif esc() then
+		elseif esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			attractTimer = attractSeconds*gameTick
 			f_exitMenu()
@@ -629,17 +629,17 @@ function f_mainTitle()
 	playBGM(bgmTitle)
 	while true do
 		if i == 500 then
-		   cmdInput()
-		   setGameType(1)
-		   setGameMode('demo')
-		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-		   script.select.randomMode()
-		   f_mainMenu()
+			cmdInput()
+			setGameType(1)
+			setGameMode('demo')
+			data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
+			script.select.randomMode()
+			f_mainMenu()
 		elseif btnPalNo(p1Cmd) > 0 then
-		   sndPlay(sysSnd, 100, 1)
-		   i = 0
-		   f_mainMenu()
-		elseif esc() then
+			sndPlay(sysSnd, 100, 1)
+			i = 0
+			f_mainMenu()
+		elseif esc() or commandGetState(p1Cmd, 'e') then
 			i = 0
 			sndPlay(sysSnd, 100, 2)
 			f_exitMenu()
@@ -898,7 +898,7 @@ function f_closeMenu()
 		textImgSetText(txt_titleFt, 'THE ENGINE WILL BE CLOSED')
 	end
 	--Actions
-	if esc() then
+	if esc() or commandGetState(p1Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
 		f_exitReset()
 	elseif btnPalNo(p1Cmd) > 0 then
@@ -960,7 +960,9 @@ function f_mainMenu()
 	f_infoReset()
 	while true do
 		if infoScreen == false then
-			if esc() then
+			--For test
+			if tabKey() then f_gallery2() end
+			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				playBGM(bgmTitle)
 				return
@@ -1116,6 +1118,119 @@ function f_mainMenu()
 	end
 end
 
+
+
+t_mainGallery = {
+	{id = textImgNew(), Image1 = arrowsU},
+	{id = textImgNew(), Image1 = arrowsU},
+}
+
+function f_gallery2()
+	local mainGallery = 0
+	local cursorPosX = 0
+	local cursorPosY = 0
+	local menuSizeX = 3
+	local menuSizeY = 2
+	local moveText = 0
+	local logicalCalc = 0
+	if commandGetState(p1Cmd, 'l') then 
+		if mainGallery > 0 then
+			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
+			mainGallery = mainGallery - 1
+			cursorPosX = cursorPosX - 1
+			logicalCalc = logicalCalc - 1
+			if mainGallery < 0 then
+				mainGallery = 0
+				cursorPosX = 0
+				logicalCalc = 0
+			end
+			if cursorPosX < 0 then
+				cursorPosX = 3
+				cursorPosY = cursorPosY - 1 
+			end
+			if cursorPosY > menuSizeY then
+				cursorPosY = 2
+				moveText = moveText + 1
+			elseif cursorPosY < 0 then
+				cursorPosY = 0
+				moveText = moveText - 1
+			end
+		end
+	elseif commandGetState(p1Cmd, 'r') then 
+		if mainGallery < #t_mainGallery - 1 then
+			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
+			mainGallery = mainGallery + 1
+			cursorPosX = cursorPosX + 1
+			logicalCalc = logicalCalc + 1
+			if mainGallery > #t_mainGallery - 1 then
+				mainGallery = #t_mainGallery - 1
+				cursorPosX = cursorPosX - 1
+				logicalCalc = logicalCalc - 1
+			end
+			if cursorPosX > menuSizeX then
+				cursorPosX = 0
+				cursorPosY = cursorPosY + 1 
+			end
+			if cursorPosY > menuSizeY then
+				cursorPosY = 2
+				moveText = moveText + 1
+			elseif cursorPosY < 0 then
+				cursorPosY = 0
+				moveText = moveText - 1
+			end
+		end
+	elseif commandGetState(p1Cmd, 'u') then 
+		if mainGallery > 0 then
+			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
+			mainGallery = mainGallery - 4 
+			cursorPosY = cursorPosY - 1
+			logicalCalc = logicalCalc - (menuSizeX + 1)
+			if mainGallery < 0 then
+				mainGallery = 0
+				cursorPosX = 0
+				cursorPosY = 0
+				logicalCalc = 0
+			end 
+			if cursorPosY > menuSizeY then
+				cursorPosY = 2
+				moveText = moveText + 1
+			elseif cursorPosY < 0 then
+				cursorPosY = 0
+				moveText = moveText - 1
+			end
+		end
+	elseif commandGetState(p1Cmd, 'd') then 
+		if mainGallery < #t_mainGallery - 1 then
+			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
+			mainGallery = mainGallery + 4 
+			cursorPosY = cursorPosY + 1
+			logicalCalc = logicalCalc + (menuSizeX + 1) 
+			if mainGallery > #t_mainGallery - 1 then
+				mainGallery = #t_mainGallery - 1  
+				cursorPosY = menuSizeY 
+				cursorPosX = mainGallery - logicalCalc+(menuSizeX+1)+cursorPosX
+				if cursorPosX > menuSizeX then
+					cursorPosX = cursorPosX - (menuSizeX+1) 
+					if moveText < menuSizeY then
+						cursorPosY = cursorPosY + 1
+					end 
+				end
+				logicalCalc = mainGallery
+			end 
+			if cursorPosY > menuSizeY then
+				cursorPosY = menuSizeY 
+				moveText = moveText + 1
+			elseif cursorPosY < 0 then
+				cursorPosY = 0
+				moveText = moveText - 1
+			end 
+		end
+	end
+	animPosDraw(Image1, -53.5,0-moveText*55, 1)
+	animSetWindow(Image1, -53.5, 35, 402.5, 153)
+	animPosDraw(Cursor, -30+cursorPosX*100, 35+cursorPosY*55, 1)
+end
+
 --;===========================================================
 --; ARCADE MENU
 --;===========================================================
@@ -1137,7 +1252,7 @@ function f_arcadeMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -1311,7 +1426,7 @@ function f_vsMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -1528,7 +1643,7 @@ function f_randomMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -1662,7 +1777,7 @@ function f_practiceMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -1839,7 +1954,7 @@ function f_challengeMenu()
 	f_infoReset()
 	while true do
 		if infoScreen == false then
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -1997,7 +2112,7 @@ function f_survivalMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2162,7 +2277,7 @@ function f_bossMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2279,7 +2394,7 @@ function f_bossChars()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2406,7 +2521,7 @@ function f_bossrushMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2580,7 +2695,7 @@ function f_bonusMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2697,7 +2812,7 @@ function f_bonusExtras()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2824,7 +2939,7 @@ function f_bonusrushMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -2990,7 +3105,7 @@ function f_timeMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -3165,7 +3280,7 @@ function f_suddenMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -3342,7 +3457,7 @@ function f_extrasMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -3489,7 +3604,7 @@ function f_allcharsMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -3655,7 +3770,7 @@ function f_tourneyMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -3811,7 +3926,7 @@ function f_watchMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -3985,7 +4100,7 @@ function f_replayMenu()
 	f_infoReset()
 	while true do
 		if infoScreen == false then
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
@@ -4158,7 +4273,7 @@ function f_galleryMenu()
 	galleryList = 0 --Important to avoid errors when read
 	cmdInput()
 	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -4411,7 +4526,7 @@ function f_songMenu()
 			break
 		end
 		if confirmSong == false then
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				if soundTest == true or songChanged == false then --Another damn check just to know in what menu where are and if you select something..
 					backSongConfirm = true
 				else --IF YOU ARE IN SYSTEM SONGS SETTINGS
@@ -4651,7 +4766,7 @@ function f_videoMenu()
 	t_videoList[#t_videoList+1] = {id = '', name = '          BACK'}
 	if data.debugLog then f_printTable(t_videoList, "save/debug/t_videoList.txt") end
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -4827,7 +4942,7 @@ function f_storyboardMenu()
 	t_storyboardList[#t_storyboardList+1] = {id = '', name = '          BACK'}
 	if data.debugLog then f_printTable(t_storyboardList, "save/debug/t_storyboardList.txt") end
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -4849,7 +4964,7 @@ function f_storyboardMenu()
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
 				while true do
-					if esc() then
+					if esc() or commandGetState(p1Cmd, 'e') then
 						sndPlay(sysSnd, 100, 2)
 						f_menuMusic()
 						break
@@ -5058,7 +5173,7 @@ function f_mainReplay()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
-		if esc() then exitReplayMenu = true
+		if esc() or commandGetState(p1Cmd, 'e') then exitReplayMenu = true
 		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay - 1
@@ -5085,7 +5200,7 @@ function f_mainReplay()
 				cmdInput()
 				while true do
 					if confirmScreen == false then
-						if esc() then
+						if esc() or commandGetState(p1Cmd, 'e') then
 							sndPlay(sysSnd, 100, 2)
 							break
 						elseif commandGetState(p1Cmd, 'r') then
@@ -5259,7 +5374,7 @@ function f_mainNetplay()
 	local bufl = 0
 	local cancel = false
 	while true do
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			onlinegame = false --only for identify purposes
 			assert(loadfile('save/data_sav.lua'))()
 			sndPlay(sysSnd, 100, 2)
@@ -5526,7 +5641,7 @@ function f_create()
 		--f_practiceMenu() --Try to Wait client in Training Mode
 	--end
 	while not connected() do
-		if esc() or btnPalNo(p1Cmd) > 0 then --btnPalNo(p1Cmd) > 0 does not work when engine is waiting a connection, only esc, that's why still we can't program an Training Waiting Room
+		if esc() or commandGetState(p1Cmd, 'e') then --btnPalNo(p1Cmd) > 0 does not work when engine is waiting a connection, only esc, that's why still we can't program an Training Waiting Room
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ''
@@ -5591,7 +5706,7 @@ function f_directConnect()
 		end
 		--MAIN SCREEN
 		if not doneIP then
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				joinExit = true
 			elseif commandGetState(p1Cmd, 'r') then
 				sndPlay(sysSnd, 100, 0)
@@ -5687,7 +5802,7 @@ function f_directConnect()
 	textImgSetText(txt_connecting, 'Now connecting to ['..ip..']')
 	while not connected() do
 		--CANCEL CONNECTION
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			clearInputText()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
@@ -5756,7 +5871,7 @@ function f_hostRooms()
 	--local cancel = false
 	while true do
 		if editHostScreen == false and crudHostScreen == false then
-			if esc() then
+			if esc() or commandGetState(p1Cmd, 'e') then
 				--onlinegame = false
 				--assert(loadfile('save/data_sav.lua'))()
 				sndPlay(sysSnd, 100, 2)
@@ -5980,7 +6095,7 @@ function f_crudHostScreen()
 			crudHostCursorD = 1
 		end
 		--ACTIONS
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			f_crudHostReset()
 		--BUTTON SELECTED
@@ -6099,7 +6214,7 @@ function f_editHost()
 		if esc() then
 			sndPlay(sysSnd, 100, 2)
 			f_editHostReset()
-		elseif commandGetState(p1Cmd, 's') then
+		elseif commandGetState(p1Cmd, 'w') then
 			--BACK
 			if editHostMenu == 1 then
 				sndPlay(sysSnd, 100, 2)
@@ -6284,7 +6399,7 @@ function f_databaseConnect()
 	textImgSetText(txt_connecting, 'Now connecting to ['..hostIP..']')
 	while not connected() do
 		--CANCEL CONNECTION
-		if esc() then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ''
@@ -6349,7 +6464,7 @@ function f_mainLobby()
 	local cancel = false
 	while true do
 		--assert(loadfile('save/temp_sav.lua'))()
-		if esc() or data.replayDone == true then
+		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone == true then
 			sndPlay(sysSnd, 100, 2)
 			data.replayDone = false
 			f_saveTemp()
@@ -6676,7 +6791,7 @@ function f_theVault()
 			end
 		end
 		--BUTTON SELECT
-		if commandGetState(p1Cmd, 's') then
+		if commandGetState(p1Cmd, 'w') then
 			--BACK
 			if vaultMenu == 1 then
 				vaultExit = true
@@ -6761,7 +6876,7 @@ function f_secret()
 	txt = 'COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!'
 	cmdInput()
 	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			sndPlay(sysSnd, 100, 2)
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -6784,7 +6899,7 @@ function f_comingSoon()
 	txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'
 	cmdInput()
 	while true do
-		if esc() or btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 then
 			cmdInput()
 			sndPlay(sysSnd, 100, 2)
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -6814,10 +6929,7 @@ function f_playCredits()
 		f_menuMusic()
 	end
 	while true do
-		if esc() then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif btnPalNo(p1Cmd) or (commandGetState(p1Cmd, 'holds') > 0) then
+		if commandGetState(p1Cmd, 'w') then --What Happen if you don't press start?
 			f_default()
 			sndPlay(sysSnd, 100, 2)
 			break

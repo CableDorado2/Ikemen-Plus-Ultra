@@ -80,8 +80,8 @@
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <OmitFramePointers>true</OmitFramePointers>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>sdlplugin.def</ModuleDefinitionFile>

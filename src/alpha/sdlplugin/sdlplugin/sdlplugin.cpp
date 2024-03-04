@@ -29,21 +29,19 @@
 #include <SDL_ttf.h>
 #pragma comment(lib, "SDL2_ttf.lib")
 
-
 #include "locksingler.hpp"
 
 #include "IN2.H"
 #define IN_VER_UNICODE 0x0F000100
 
-//DirectShow Test
+//DirectShow Stuff
 #include <DShow.h>
 #include "playback.h"
 
 #pragma comment(lib, "strmiids")
 #pragma comment (lib, "Quartz")            \
-//DirectShow End
 
-//Rich Presence Test
+//Rich Presence Stuff
 #include <discord_register.h>
 #include <discord_rpc.h>
 #pragma comment(lib, "discord-rpc.lib")
@@ -52,8 +50,8 @@ static const char* APPLICATION_ID = "1200228516554346567";
 static int FrustrationLevel = 0;
 static int32_t StartTime;
 static int SendPresence = 1;
-//Rich Presence End
 
+//SSZ Stuff
 void* (__stdcall *sszrefnewfunc)(intptr_t);
 void (__stdcall *sszrefdeletefunc)(void*);
 
@@ -457,50 +455,47 @@ void sndjoyinit()
 	g_js.init();
 }
 
-//Discord Rich Presence Test Start
 static void updateDiscordPresence()
 {
-    if (SendPresence) {
-        char buffer[256];
-        DiscordRichPresence discordPresence;
-        memset(&discordPresence, 0, sizeof(discordPresence));
-        discordPresence.state = "Building a Fighting Game"; //Game State
-        //sprintf(buffer, "Frustration level: %d", FrustrationLevel);
-        discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
-        discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-        //discordPresence.endTimestamp = time(0) + 5 * 60;
-        discordPresence.largeImageKey = "icon"; //Game Icon
+	if (SendPresence) {
+		char buffer[256];
+		DiscordRichPresence discordPresence;
+		memset(&discordPresence, 0, sizeof(discordPresence));
+		discordPresence.state = "Building a Fighting Game"; //Game State
+		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
+		discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
+		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
+		//discordPresence.endTimestamp = time(0) + 5 * 60;
+		discordPresence.largeImageKey = "icon"; //Game Icon
 		discordPresence.largeImageText = "I.K.E.M.E.N. PLUS ULTRA"; //Game About
-        discordPresence.smallImageKey = "powered"; //Powered Icon
+		discordPresence.smallImageKey = "powered"; //Powered Icon
 		discordPresence.smallImageText = "Powered By Ikemen Plus Ultra Engine"; //Powered About
-        discordPresence.partyId = "party1234";
-        discordPresence.partySize = 0; //Add 1 when online mode with rich presence works
-        discordPresence.partyMax = 2;
-        //discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-        discordPresence.matchSecret = "xyzzy";
-        discordPresence.joinSecret = "join";
-        discordPresence.spectateSecret = "look";
-        discordPresence.instance = 0;
-        Discord_UpdatePresence(&discordPresence);
-    }
-    else {
-        Discord_ClearPresence();
-    }
+		discordPresence.partyId = "party1234";
+		discordPresence.partySize = 0; //Add 1 when online mode with rich presence works
+		discordPresence.partyMax = 2;
+		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
+		discordPresence.matchSecret = "xyzzy";
+		discordPresence.joinSecret = "join";
+		discordPresence.spectateSecret = "look";
+		discordPresence.instance = 0;
+		Discord_UpdatePresence(&discordPresence);
+	}else{
+		Discord_ClearPresence();
+	}
 }
 
 static void discordInit()
 {
-    DiscordEventHandlers handlers;
-    memset(&handlers, 0, sizeof(handlers));
-    //handlers.ready = handleDiscordReady;
-    //handlers.disconnected = handleDiscordDisconnected;
-    //handlers.errored = handleDiscordError;
-    //handlers.joinGame = handleDiscordJoin;
-    //handlers.spectateGame = handleDiscordSpectate;
-    //handlers.joinRequest = handleDiscordJoinRequest;
-    Discord_Initialize(APPLICATION_ID, &handlers, 1, NULL);
+	DiscordEventHandlers handlers;
+	memset(&handlers, 0, sizeof(handlers));
+	//handlers.ready = handleDiscordReady;
+	//handlers.disconnected = handleDiscordDisconnected;
+	//handlers.errored = handleDiscordError;
+	//handlers.joinGame = handleDiscordJoin;
+	//handlers.spectateGame = handleDiscordSpectate;
+	//handlers.joinRequest = handleDiscordJoinRequest;
+	Discord_Initialize(APPLICATION_ID, &handlers, 1, NULL);
 }
-//Discord Rich Presence Test End
 
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX Render
 {
@@ -632,8 +627,8 @@ TUserFunc(void, AspectRatio, bool aspect)
 }
 
 TUserFunc(void, TakeScreenShot, Reference dir)
-{   
-    if(fullscreenChecker == false){ //Window Mode
+{
+	if(fullscreenChecker == false){ //Window Mode
 		SDL_Surface *screenshot = SDL_CreateRGBSurface(0, g_w, g_h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 		SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
 		IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
@@ -643,7 +638,20 @@ TUserFunc(void, TakeScreenShot, Reference dir)
 		SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
 		IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
 		SDL_FreeSurface(screenshot);
-    }
+	}
+}
+
+TUserFunc(void, LoadIMG, Reference dir, int32_t h, int32_t w, uint8_t* ppx) //A bad attempt because already exists lol
+{
+	//if(fullscreenChecker == false){ //Window Mode
+		//SDL_Surface* Photo = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0);
+		SDL_Surface* Photo = IMG_Load(pu->refToAstr(CP_THREAD_ACP, dir).c_str()); //SDL_Surface* MySurface { IMG_Load("Test.png") };
+		SDL_Surface* ae = SDL_ConvertSurface(Photo, Photo->format, SDL_RLEACCEL);
+		//SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, Photo->pixels, Photo->pitch);
+		SDL_FreeSurface(ae);
+	//}else{ //Fullscreen Mode
+		//
+    //}
 }
 
 TUserFunc(void, End)
@@ -1107,13 +1115,13 @@ int PlayVideoTest(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow, std::wstrin
 	int g_posy = pRect.top;
     
 	//Create Window
-    WNDCLASS wc = { };
-    wc.lpfnWndProc   = WindowProc;
-    wc.hInstance     = hInstance;
-    wc.lpszClassName = CUTSCENE_NAME;
+	WNDCLASS wc = { };
+	wc.lpfnWndProc   = WindowProc;
+	wc.hInstance     = hInstance;
+	wc.lpszClassName = CUTSCENE_NAME;
 	wc.hbrBackground = CreateSolidBrush(0x00000000);
 
-    RegisterClass(&wc);
+	RegisterClass(&wc);
 
 	HWND hwndDirectShow = NULL;
 	CreateSolidBrush(RGB(0,0,0));
@@ -1128,26 +1136,26 @@ int PlayVideoTest(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow, std::wstrin
 		hwndParent, NULL, hInstance, NULL);
 	}
 
-    if (hwndDirectShow == NULL)
-    {
-        NotifyError(NULL, L"CreateWindowEx failed.");
-        return 0;
-    }
+	if (hwndDirectShow == NULL)
+	{
+		NotifyError(NULL, L"CreateWindowEx failed.");
+		return 0;
+	}
 
 	//SetFocus(hwndDirectShow);
-    //ShowWindow(hwndDirectShow, SW_SHOW);
+	//ShowWindow(hwndDirectShow, SW_SHOW);
 
 	//File Open
 	OnFileOpen(hwndDirectShow, videoRenderer);
 	
-    //Run the message loop.
-    MSG msg = { };
-    while (GetMessage(&msg, NULL, 0, 0))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-    return hr;
+	//Run the message loop.
+	MSG msg = { };
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return hr;
 }
 
 LRESULT CALLBACK WindowProc(HWND hwndDirectShow, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1158,43 +1166,43 @@ LRESULT CALLBACK WindowProc(HWND hwndDirectShow, UINT uMsg, WPARAM wParam, LPARA
 	SDL_GetWindowWMInfo(g_window, &pInfo);
 	HWND hwndParent = pInfo.info.win.window;
 
-    switch (uMsg)
-    {
-    case WM_CHAR:
-        OnChar(hwndDirectShow, (wchar_t)wParam);
-        return 0;
+	switch (uMsg)
+	{
+	case WM_CHAR:
+		OnChar(hwndDirectShow, (wchar_t)wParam);
+		return 0;
 
-    case WM_CREATE:
-        g_pPlayer = new (std::nothrow) DShowPlayer(hwndDirectShow);
-        if (g_pPlayer == NULL)
-        {
-            return -1;
-        }
-        return 0;
+	case WM_CREATE:
+		g_pPlayer = new (std::nothrow) DShowPlayer(hwndDirectShow);
+		if (g_pPlayer == NULL)
+		{
+			return -1;
+		}
+		return 0;
 
-    case WM_DISPLAYCHANGE:
-        g_pPlayer->DisplayModeChanged();
-        break;
+	case WM_DISPLAYCHANGE:
+		g_pPlayer->DisplayModeChanged();
+		break;
 
-    case WM_ERASEBKGND:
+	case WM_ERASEBKGND:
 		RECT rc;
 		GetClientRect(hwndDirectShow, &rc);
 		SetBkColor((HDC)wParam, 0x00000000);
-        return 1;
+		return 1;
 
-    case WM_PAINT:
-        OnPaint(hwndDirectShow);
-        return 0;
+	case WM_PAINT:
+		OnPaint(hwndDirectShow);
+		return 0;
 
-    case WM_SIZE:
-        OnSize(hwndDirectShow);
-        return 0;
+	case WM_SIZE:
+		OnSize(hwndDirectShow);
+		return 0;
 
-    case WM_GRAPH_EVENT:
-       g_pPlayer->HandleGraphEvent(OnGraphEvent);
-	   //NotifyError(hwndDirectShow, TEXT("Cannot open this file."));
-       return 0;
-
+	case WM_GRAPH_EVENT:
+		g_pPlayer->HandleGraphEvent(OnGraphEvent);
+		//NotifyError(hwndDirectShow, TEXT("Cannot open this file."));
+		return 0;
+	
 	case WM_KILLFOCUS:
 		if(videoChecker == true)
 			//NotifyError(hwndDirectShow, TEXT("Cannot open this file."));
@@ -1208,7 +1216,7 @@ LRESULT CALLBACK WindowProc(HWND hwndDirectShow, UINT uMsg, WPARAM wParam, LPARA
 		PostQuitMessage(0);
 		break;
 	}
-    return DefWindowProc(hwndDirectShow, uMsg, wParam, lParam);
+	return DefWindowProc(hwndDirectShow, uMsg, wParam, lParam);
 }
 
 void OnPaint(HWND hwndDirectShow)
@@ -1216,52 +1224,50 @@ void OnPaint(HWND hwndDirectShow)
 	
 	HBRUSH brush = CreateSolidBrush(RGB(0,0,0));
 
-    PAINTSTRUCT ps;
-    HDC hdc;
-    hdc = BeginPaint(hwndDirectShow, &ps);
+	PAINTSTRUCT ps;
+	HDC hdc;
+	hdc = BeginPaint(hwndDirectShow, &ps);
 
-    if (g_pPlayer->State() != STATE_NO_GRAPH && g_pPlayer->HasVideo())
-    {
-        // The player has video, so ask the player to repaint. 
-        g_pPlayer->Repaint(hdc);
+	if (g_pPlayer->State() != STATE_NO_GRAPH && g_pPlayer->HasVideo())
+	{
+		// The player has video, so ask the player to repaint. 
+		g_pPlayer->Repaint(hdc);
 		//BringWindowToTop(hwndDirectShow); // ERROR WARNING ADVERTENCIA
-    }
-    else
-    {
-        FillRect(hdc, &ps.rcPaint, brush);
-    }
-
-    EndPaint(hwndDirectShow, &ps);
+	}
+	else
+	{
+		FillRect(hdc, &ps.rcPaint, brush);
+	}
+	EndPaint(hwndDirectShow, &ps);
 }
 
 void OnSize(HWND hwndDirectShow)
 {
 	int timePlayer = 1;
 
-    if (g_pPlayer)
-    {
-        RECT rc;
-        GetClientRect(hwndDirectShow, &rc);
-	
+	if (g_pPlayer)
+	{
+		RECT rc;
+		GetClientRect(hwndDirectShow, &rc);
 		//Run File
 
 		g_pPlayer->Play();
-        g_pPlayer->UpdateVideoWindow(&rc);
+		g_pPlayer->UpdateVideoWindow(&rc);
 
 		if(g_pPlayer->State() == STATE_RUNNING){
 			videoChecker = true;
 			SetFocus(hwndDirectShow);
 			ShowWindow(hwndDirectShow, SW_SHOW);
 		}
-    }
+	}
 }
 
 void CALLBACK OnGraphEvent(HWND hwndDirectShow, long evCode, LONG_PTR param1, LONG_PTR param2)
 {
 	int Timing = 0;
-    switch (evCode)
-    {
-    case EC_COMPLETE:
+	switch (evCode)
+	{
+	case EC_COMPLETE:
 		for(Timing = 1; Timing < 300; ++Timing)
 		{
 			if (Timing == 280)
@@ -1272,26 +1278,26 @@ void CALLBACK OnGraphEvent(HWND hwndDirectShow, long evCode, LONG_PTR param1, LO
 				break;
 			}
 		}
-    }
+	}
 }
 
 void OnChar(HWND hwndDirectShow, wchar_t c)
 {
 	//Rect Info
 	RECT rc;
-    GetClientRect(hwndDirectShow, &rc);
+	GetClientRect(hwndDirectShow, &rc);
 
 	//Start
-    switch (c)
-    {
-    case VK_RETURN:
+	switch (c)
+	{
+	case VK_RETURN:
 		videoChecker = false;
 		g_pPlayer->Stop();
 		delete g_pPlayer;
 		DestroyWindow(hwndDirectShow);
 		PostQuitMessage(0);
-        break;
-    }
+		break;
+	}
 }
 
 void OnFileOpen(HWND hwndDirectShow, std::wstring videoRenderer)
@@ -1299,28 +1305,27 @@ void OnFileOpen(HWND hwndDirectShow, std::wstring videoRenderer)
 	LPCTSTR str = videoRenderer.c_str();
 	//NotifyError(NULL, str); // Test DONT DELETE
 
-    WCHAR szFileName[MAX_PATH];
-    szFileName[0] = L'C:/Users/Petter Pino/Music/Wildlife.wmv';
+	WCHAR szFileName[MAX_PATH];
+	szFileName[0] = L'C:/Users/Petter Pino/Music/Wildlife.wmv';
 
-    HRESULT hr;
-    hr = g_pPlayer->OpenFile(str);
+	HRESULT hr;
+	hr = g_pPlayer->OpenFile(str);
 
-    InvalidateRect(hwndDirectShow, NULL, FALSE);
+	InvalidateRect(hwndDirectShow, NULL, FALSE);
 
-    if (SUCCEEDED(hr))
-    {
-        OnSize(hwndDirectShow);
-    }
-
-    else
-    {
-        NotifyError(hwndDirectShow, TEXT("Cannot open this file."));
-    }
+	if (SUCCEEDED(hr))
+	{
+		OnSize(hwndDirectShow);
+	}
+	else
+	{
+		NotifyError(hwndDirectShow, TEXT("Cannot open this file."));
+	}
 }
 
 void NotifyError(HWND hwndDirectShow, PCWSTR pszMessage)
 {
-    MessageBox(hwndDirectShow, pszMessage, TEXT("Error"), MB_OK | MB_ICONERROR);
+	MessageBox(hwndDirectShow, pszMessage, TEXT("Error"), MB_OK | MB_ICONERROR);
 }
 // Direct Show Test End
 

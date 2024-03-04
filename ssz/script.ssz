@@ -738,11 +738,17 @@ void returnKey(&.lua.State L=, int re=)
   L.pushBoolean(.se.returnKey);
 }
 
-//void spaceKey(&.lua.State L=, int re=)
-//{
-//  re = 1;
-//  L.pushBoolean(.se.spaceKey);
-//}
+void backspaceKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.backspaceKey);
+}
+
+void spaceKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.spaceKey);
+}
 
 void lshiftKey(&.lua.State L=, int re=)
 {
@@ -755,6 +761,192 @@ void rshiftKey(&.lua.State L=, int re=)
   re = 1;
   L.pushBoolean(.se.rshiftKey);
 }
+
+void tabKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.tabKey);
+}
+
+void minusKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.minusKey);
+}
+
+void equalsKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.equalsKey);
+}
+
+void leftbracketKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.leftbracketKey);
+}
+
+void rightbracketKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.rightbracketKey);
+}
+
+void backslashKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.backslashKey);
+}
+
+void semicolonKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.semicolonKey);
+}
+
+void commaKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.commaKey);
+}
+
+void periodKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.periodKey);
+}
+
+void slashKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.slashKey);
+}
+
+void f1Key(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.f1Key);
+}
+
+void f9Key(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.f9Key);
+}
+
+void f10Key(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.f10Key);
+}
+
+void f11Key(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.f11Key);
+}
+
+void f12Key(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.f12Key);
+}
+
+void printscreenKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.printscreenKey);
+}
+
+void insertKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.insertKey);
+}
+
+void homeKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.homeKey);
+}
+
+void pageupKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.pageupKey);
+}
+
+void deleteKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.deleteKey);
+}
+
+void endKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.endKey);
+}
+
+void pagedownKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.pagedownKey);
+}
+
+void kdivideKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.kdivideKey);
+}
+
+void kmultiplyKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.kmultiplyKey);
+}
+
+void kminusKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.kminusKey);
+}
+
+void kplusKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.kplusKey);
+}
+
+void kenterKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.kenterKey);
+}
+
+void kperiodKey(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(.se.kperiodKey);
+}
+
+//void nonushashKey(&.lua.State L=, int re=)
+//{
+  //re = 1;
+  //L.pushBoolean(.se.nonushashKey);
+//}
+
+//void apostropheKey(&.lua.State L=, int re=)
+//{
+  //re = 1;
+  //L.pushBoolean(.se.apostropheKey);
+//}
+
+//void graveKey(&.lua.State L=, int re=)
+//{
+  //re = 1;
+  //L.pushBoolean(.se.graveKey);
+//}
 
 void getGamepadKeyA(&.lua.State L=, int re=)
 {
@@ -941,9 +1133,41 @@ public void init(&.lua.State L=)
   L.register("eightKey", .eightKey);
   L.register("nineKey", .nineKey);
   L.register("returnKey", .returnKey);
-  //L.register("spaceKey", .spaceKey);
+  L.register("backspaceKey", .backspaceKey);
+  L.register("spaceKey", .spaceKey);
   L.register("lshiftKey", .lshiftKey);
   L.register("rshiftKey", .rshiftKey);
+  L.register("tabKey", .tabKey);
+  L.register("minusKey", .minusKey);
+  L.register("equalsKey", .equalsKey);
+  L.register("leftbracketKey", .leftbracketKey);
+  L.register("rightbracketKey", .rightbracketKey);
+  L.register("backslashKey", .backslashKey);
+  L.register("semicolonKey", .semicolonKey);
+  L.register("commaKey", .commaKey);
+  L.register("periodKey", .periodKey);
+  L.register("slashKey", .slashKey);
+  L.register("f1Key", .f1Key);
+  L.register("f9Key", .f9Key);
+  L.register("f10Key", .f10Key);
+  L.register("f11Key", .f11Key);
+  L.register("f12Key", .f12Key);
+  L.register("printscreenKey", .printscreenKey);
+  L.register("insertKey", .insertKey);
+  L.register("homeKey", .homeKey);
+  L.register("pageupKey", .pageupKey);
+  L.register("deleteKey", .deleteKey);
+  L.register("endKey", .endKey);
+  L.register("pagedownKey", .pagedownKey);
+  L.register("kdivideKey", .kdivideKey);
+  L.register("kmultiplyKey", .kmultiplyKey);
+  L.register("kminusKey", .kminusKey);
+  L.register("kplusKey", .kplusKey);
+  L.register("kenterKey", .kenterKey);
+  L.register("kperiodKey", .kperiodKey);
+  //L.register("nonushashKey", .nonushashKey);
+  //L.register("apostropheKey", .apostropheKey);
+  //L.register("graveKey", .graveKey);
   L.register("getGamepadKeyA", .getGamepadKeyA);
   L.register("getGamepadKeyB", .getGamepadKeyB);
   L.register("getGamepadKeyC", .getGamepadKeyC);

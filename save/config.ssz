@@ -63,7 +63,7 @@ in.new[1].set(
   (int)k_t::KP_2,
   (int)k_t::KP_1,
   (int)k_t::KP_3,
-  (int)k_t::u,
+  (int)k_t::t,
   (int)k_t::i,
   (int)k_t::o,
   (int)k_t::j,
@@ -71,7 +71,7 @@ in.new[1].set(
   (int)k_t::l,
   (int)k_t::KP_4,
   (int)k_t::KP_6,
-  (int)k_t::h,
+  (int)k_t::KP_PERIOD,
   (int)k_t::KP_0);
 
 //P1 GAMEPAD - BATTLE
@@ -95,10 +95,10 @@ in.new[10].set(
   (int)k_t::z,
   (int)k_t::x,
   (int)k_t::c,
-  (int)k_t::q,
+  (int)k_t::PRINTSCREEN,
   (int)k_t::RETURN,
-  (int)k_t::b,
-  (int)k_t::m);
+  (int)k_t::BACKSPACE,
+  (int)k_t::SPACE);
 
 //P2 KEYBOARD - MENU
 in.new[11].set(
@@ -107,16 +107,16 @@ in.new[11].set(
   (int)k_t::KP_2,
   (int)k_t::KP_1,
   (int)k_t::KP_3,
-  (int)k_t::u,
+  (int)k_t::t,
   (int)k_t::i,
   (int)k_t::o,
   (int)k_t::j,
   (int)k_t::k,
   (int)k_t::l,
-  (int)k_t::KP_4,
-  (int)k_t::KP_6,
-  (int)k_t::h,
-  (int)k_t::p);
+  (int)k_t::KP_DIVIDE,
+  (int)k_t::KP_PLUS,
+  (int)k_t::KP_MINUS,
+  (int)k_t::KP_ENTER);
 
 //P1 GAMEPAD - MENU
 in.new[12].set(
