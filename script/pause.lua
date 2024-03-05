@@ -865,8 +865,8 @@ function f_pauseConfirm()
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sysSnd, 100, 1)
 					if hudStatus == 'No' then toggleStatusDraw() end
-					if hitboxStatus == 'Yes' then toggleClsnDraw() end
-					if debugStatus == 'Yes' then toggleDebugDraw() end
+					if data.hitbox == 'Yes' then toggleClsnDraw() end
+					if data.debugInfo == 'Yes' then toggleDebugDraw() end
 					data.tempBack = true
 					f_saveTemp()
 					exitMatch()
@@ -876,8 +876,8 @@ function f_pauseConfirm()
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sysSnd, 100, 1)
 					if hudStatus == 'No' then toggleStatusDraw() end
-					if hitboxStatus == 'Yes' then toggleClsnDraw() end
-					if debugStatus == 'Yes' then toggleDebugDraw() end
+					if data.hitbox == 'Yes' then toggleClsnDraw() end
+					if data.debugInfo == 'Yes' then toggleDebugDraw() end
 					exitMatch()
 				end
 			end
@@ -1484,26 +1484,39 @@ t_trainingCfg = {
 	{id = '', text = 'Input Display',				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Hitbox Display', 				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Debug Info',					varID = textImgNew(), varText = ''},
-	--{id = '', text = 'Powerbar',					varID = textImgNew(), varText = ''},
-	--{id = '', text = 'Lifebar',					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Lifebar P1',					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Lifebar P2',					varID = textImgNew(), varText = ''},
+	{id = '', text = 'Power Gauge P1',				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Power Gauge P2',				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Dummy Control', 				varID = textImgNew(), varText = ''},
 	--{id = '', text = 'State', 					varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 1)
 	--{id = '', text = 'Distance', 					varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 2)
 	--{id = '', text = 'Guard Mode', 				varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 3)
 	--{id = '', text = 'Tech Recovery', 			varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 5)
 	--{id = '', text = 'Tech Direction', 			varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 10)
 	--{id = '', text = 'Counter Hit', 				varID = textImgNew(), varText = ''}, --getCharVar(1, 't', 12)
-	{id = '', text = 'Dummy Control', 				varID = textImgNew(), varText = ''},
 	{id = '', text = 'Playback Settings',			varID = textImgNew(), varText = ''},
-	{id = '', text = '              BACK',   		varID = textImgNew(), varText = ''},
+	{id = '', text = '                   BACK',   	varID = textImgNew(), varText = ''},
 }
-
+--Screen Info
+data.damageDisplay = 'No'
 setDamageDisplay(0)
-damageDisplayStatus = 'No'
+data.inputDisplay = 'No'
 setInputDisplay(0)
-inputDisplayStatus = 'No'
-hitboxStatus = 'No'
-debugStatus = 'No'
-dummyMode = 'AI'
+data.hitbox = 'No'
+data.debugInfo = 'No'
+--Power Gauge
+data.PowerStateP1 = 'Max at Start'
+setPowerStateP1(11)
+data.PowerStateP2 = 'Max at Start'
+setPowerStateP2(11)
+--Life Gauge
+data.LifeStateP1 = '100%'
+setLifeStateP1(100)
+data.LifeStateP2 = '100%'
+setLifeStateP2(100)
+--Dummy
+data.dummyMode = 'AI'
 
 if getGameMode() ~= "practice" then
 	table.remove(t_trainingCfg,6)
@@ -1577,57 +1590,256 @@ function f_pauseTraining()
 			end
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then --Reserved Menu for Playback
 				--Playback Settings
-				if trainingCfg == 6 then --13
+				if trainingCfg == 10 then
 					sndPlay(sysSnd, 100, 5)
 					--trainingGoTo = 'Playback'
 				end
 			end
 			--Info Display
 			if trainingCfg == 1 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and damageDisplayStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.damageDisplay == 'No' then
 					sndPlay(sysSnd, 100, 1)
-					damageDisplayStatus = 'Yes'
+					data.damageDisplay = 'Yes'
 					setDamageDisplay(1)
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and damageDisplayStatus == 'Yes' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.damageDisplay == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
-					damageDisplayStatus = 'No'
+					data.damageDisplay = 'No'
 					setDamageDisplay(0)
 				end
 			--Input Display
 			elseif trainingCfg == 2 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and inputDisplayStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.inputDisplay == 'No' then
 					sndPlay(sysSnd, 100, 1)
-					inputDisplayStatus = 'Yes'
+					data.inputDisplay = 'Yes'
 					setInputDisplay(1)
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and inputDisplayStatus == 'Yes' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.inputDisplay == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
-					inputDisplayStatus = 'No'
+					data.inputDisplay = 'No'
 					setInputDisplay(0)
 				end
 			--Hitbox Display
 			elseif trainingCfg == 3 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hitboxStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.hitbox == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleClsnDraw()
-					hitboxStatus = 'Yes'
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hitboxStatus == 'Yes' then
+					data.hitbox = 'Yes'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.hitbox == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
 					toggleClsnDraw()
-					hitboxStatus = 'No'
+					data.hitbox = 'No'
 				end
 			--Debug Info Display
 			elseif trainingCfg == 4 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and debugStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.debugInfo == 'No' then
 					sndPlay(sysSnd, 100, 1)
 					toggleDebugDraw()
-					debugStatus = 'Yes'
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and debugStatus == 'Yes' then
+					data.debugInfo = 'Yes'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.debugInfo == 'Yes' then
 					sndPlay(sysSnd, 100, 1)
 					toggleDebugDraw()
-					debugStatus = 'No'
+					data.debugInfo = 'No'
+				end
+			--Left Side Life Gauge Setup
+			elseif trainingCfg == 5 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.LifeStateP1 == 'No Regenerate' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '25%'
+						setLifeStateP1(25)
+					elseif data.LifeStateP1 == '25%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '50%'
+						setLifeStateP1(50)
+					elseif data.LifeStateP1 == '50%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '75%'
+						setLifeStateP1(75)
+					elseif data.LifeStateP1 == '75%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '100%'
+						setLifeStateP1(100)
+					end
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.LifeStateP1 == '100%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '75%'
+						setLifeStateP1(75)
+					elseif data.LifeStateP1 == '75%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '50%'
+						setLifeStateP1(50)
+					elseif data.LifeStateP1 == '50%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = '25%'
+						setLifeStateP1(25)
+					elseif data.LifeStateP1 == '25%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP1 = 'No Regenerate'
+						setLifeStateP1(0)
+					end
+				end
+			--Right Side Life Gauge Setup
+			elseif trainingCfg == 6 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.LifeStateP2 == 'No Regenerate' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '25%'
+						setLifeStateP2(25)
+					elseif data.LifeStateP2 == '25%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '50%'
+						setLifeStateP2(50)
+					elseif data.LifeStateP2 == '50%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '75%'
+						setLifeStateP2(75)
+					elseif data.LifeStateP2 == '75%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '100%'
+						setLifeStateP2(100)
+					end
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.LifeStateP2 == '100%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '75%'
+						setLifeStateP2(75)
+					elseif data.LifeStateP2 == '75%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '50%'
+						setLifeStateP2(50)
+					elseif data.LifeStateP2 == '50%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = '25%'
+						setLifeStateP2(25)
+					elseif data.LifeStateP2 == '25%' then
+						sndPlay(sysSnd, 100, 1)
+						data.LifeStateP2 = 'No Regenerate'
+						setLifeStateP2(0)
+					end
+				end
+			--Left Side Power Gauge Setup
+			elseif trainingCfg == 7 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.PowerStateP1 == 'Max at Start' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(10)
+						data.PowerStateP1 = 'Recovery'
+					elseif data.PowerStateP1 == 'Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(0)
+						data.PowerStateP1 = 'No Recovery'
+					elseif data.PowerStateP1 == 'No Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(1)
+						data.PowerStateP1 = 'Level 1'
+					elseif data.PowerStateP1 == 'Level 1' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(2)
+						data.PowerStateP1 = 'Level 2'
+					elseif data.PowerStateP1 == 'Level 2' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(3)
+						data.PowerStateP1 = 'Level 3'
+					elseif data.PowerStateP1 == 'Level 3' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(666)
+						data.PowerStateP1 = 'Unlimited'
+					end
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.PowerStateP1 == 'Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(11)
+						data.PowerStateP1 = 'Max at Start'
+					elseif data.PowerStateP1 == 'No Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(10)
+						data.PowerStateP1 = 'Recovery'
+					elseif data.PowerStateP1 == 'Level 1' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(0)
+						data.PowerStateP1 = 'No Recovery'
+					elseif data.PowerStateP1 == 'Level 2' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(1)
+						data.PowerStateP1 = 'Level 1'
+					elseif data.PowerStateP1 == 'Level 3' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(2)
+						data.PowerStateP1 = 'Level 2'
+					elseif data.PowerStateP1 == 'Unlimited' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP1(3)
+						data.PowerStateP1 = 'Level 3'
+					end
+				end
+			--Right Side Power Gauge Setup
+			elseif trainingCfg == 8 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.PowerStateP2 == 'Max at Start' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(10)
+						data.PowerStateP2 = 'Recovery'
+					elseif data.PowerStateP2 == 'Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(0)
+						data.PowerStateP2 = 'No Recovery'
+					elseif data.PowerStateP2 == 'No Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(1)
+						data.PowerStateP2 = 'Level 1'
+					elseif data.PowerStateP2 == 'Level 1' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(2)
+						data.PowerStateP2 = 'Level 2'
+					elseif data.PowerStateP2 == 'Level 2' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(3)
+						data.PowerStateP2 = 'Level 3'
+					elseif data.PowerStateP2 == 'Level 3' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(666)
+						data.PowerStateP2 = 'Unlimited'
+					end
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.PowerStateP2 == 'Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(11)
+						data.PowerStateP2 = 'Max at Start'
+					elseif data.PowerStateP2 == 'No Recovery' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(10)
+						data.PowerStateP2 = 'Recovery'
+					elseif data.PowerStateP2 == 'Level 1' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(0)
+						data.PowerStateP2 = 'No Recovery'
+					elseif data.PowerStateP2 == 'Level 2' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(1)
+						data.PowerStateP2 = 'Level 1'
+					elseif data.PowerStateP2 == 'Level 3' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(2)
+						data.PowerStateP2 = 'Level 2'
+					elseif data.PowerStateP2 == 'Unlimited' then
+						sndPlay(sysSnd, 100, 1)
+						setPowerStateP2(3)
+						data.PowerStateP2 = 'Level 3'
+					end
+				end
+			--Dummy Control
+			elseif trainingCfg == 9 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyMode == 'AI' then
+					sndPlay(sysSnd, 100, 1)
+					toggleAI(2)
+					data.dummyMode = 'Manual'
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyMode == 'Manual' then
+					sndPlay(sysSnd, 100, 1)
+					toggleAI(2)
+					data.dummyMode = 'AI'
 				end
 			--Dummy State
-			--elseif trainingCfg == 5 then
+			--elseif trainingCfg == ??? then
 				--getCharVar(2, 't', 1)
 				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 0 then
 					--sndPlay(sysSnd, 100, 1)
@@ -1647,7 +1859,7 @@ function f_pauseTraining()
 					--modified = true
 				--end
 			--Dummy Distance
-			--elseif trainingCfg == 6 then
+			--elseif trainingCfg == ??? then
 				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
 					--sndPlay(sysSnd, 100, 1)
 					
@@ -1656,7 +1868,7 @@ function f_pauseTraining()
 					
 				--end
 			--Dummy Guard
-			--elseif trainingCfg == 7 then
+			--elseif trainingCfg == ??? then
 				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
 					--sndPlay(sysSnd, 100, 1)
 					
@@ -1665,7 +1877,7 @@ function f_pauseTraining()
 					
 				--end
 			--Dummy Tech
-			--elseif trainingCfg == 8 then
+			--elseif trainingCfg == ??? then
 				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
 					--sndPlay(sysSnd, 100, 1)
 					
@@ -1674,7 +1886,7 @@ function f_pauseTraining()
 					
 				--end
 			--Dummy Tech Direction
-			--elseif trainingCfg == 9 then
+			--elseif trainingCfg == ??? then
 				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
 					--sndPlay(sysSnd, 100, 1)
 					
@@ -1683,7 +1895,7 @@ function f_pauseTraining()
 					
 				--end
 			--Dummy Counter Hit
-			--elseif trainingCfg == 10 then
+			--elseif trainingCfg == ??? then
 				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
 					--sndPlay(sysSnd, 100, 1)
 					
@@ -1691,17 +1903,6 @@ function f_pauseTraining()
 					--sndPlay(sysSnd, 100, 1)
 					
 				--end
-			--Dummy Control
-			elseif trainingCfg == 5 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and dummyMode == 'AI' then
-					sndPlay(sysSnd, 100, 1)
-					toggleAI(2)
-					dummyMode = 'Manual'
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and dummyMode == 'Manual' then
-					sndPlay(sysSnd, 100, 1)
-					toggleAI(2)
-					dummyMode = 'AI'
-				end
 			end
 			if trainingCfg < 1 then
 				trainingCfg = #t_trainingCfg
@@ -1746,32 +1947,29 @@ function f_pauseTraining()
 					bufl = 0
 				end
 			end
-			t_trainingCfg[1].varText = damageDisplayStatus
-			t_trainingCfg[2].varText = inputDisplayStatus
-			t_trainingCfg[3].varText = hitboxStatus
-			t_trainingCfg[4].varText = debugStatus
-			--if data.trnStateType == 0 then
-				--t_trainingCfg[5].varText = 'Standing'
-			--elseif data.trnStateType == 1 then
-				--t_trainingCfg[5].varText = 'Crouching'
-			--elseif data.trnStateType == 2 then
-				--t_trainingCfg[5].varText = 'Jumping'
-			--end
-			t_trainingCfg[5].varText = dummyMode
+			t_trainingCfg[1].varText = data.damageDisplay
+			t_trainingCfg[2].varText = data.inputDisplay
+			t_trainingCfg[3].varText = data.hitbox
+			t_trainingCfg[4].varText = data.debugInfo
+			t_trainingCfg[5].varText = data.LifeStateP1
+			t_trainingCfg[6].varText = data.LifeStateP2
+			t_trainingCfg[7].varText = data.PowerStateP1
+			t_trainingCfg[8].varText = data.PowerStateP2
+			t_trainingCfg[9].varText = data.dummyMode
 			--animDraw(f_animVelocity(pauseBG0, -1, -1))
-			animSetScale(pauseBG1, 220, maxtrainingCfg*15)
-			animSetWindow(pauseBG1, 80,70, 160,105)
+			animSetScale(pauseBG1, 240, maxtrainingCfg*15)
+			animSetWindow(pauseBG1, 55,70, 240,105)
 			animDraw(pauseBG1)
 			--animUpdate(pauseBG1)
 			textImgDraw(txt_trainingCfg)
-			animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
+			f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 			for i=1, maxtrainingCfg do
 				if i > trainingCfg - cursorPosY then
 					if t_trainingCfg[i].varID ~= nil then
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, 1, t_trainingCfg[i].text, 85, 65+i*15-moveTxt,0.85,0.85))
-						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, -1, t_trainingCfg[i].varText, 235, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, 1, t_trainingCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_trainingCfg[i].varID, font14, 0, -1, t_trainingCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
 					end
 				end
 			end

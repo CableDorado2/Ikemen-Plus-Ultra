@@ -800,13 +800,13 @@ function f_p1keyboardMenuDefault()
 	t_keyMenuCfg[2].varText = 'DOWN'
 	t_keyMenuCfg[3].varText = 'LEFT'
 	t_keyMenuCfg[4].varText = 'RIGHT'
-	t_keyBattleCfg[5].varText = 'a'
-	t_keyBattleCfg[6].varText = 's'
-	t_keyBattleCfg[7].varText = 'd'
-	t_keyBattleCfg[8].varText = 'z'
-	t_keyBattleCfg[9].varText = 'x'
-	t_keyBattleCfg[10].varText = 'c'
-	t_keyMenuCfg[11].varText = 'PRINTSCREEN'
+	t_keyMenuCfg[5].varText = 'a'
+	t_keyMenuCfg[6].varText = 's'
+	t_keyMenuCfg[7].varText = 'd'
+	t_keyMenuCfg[8].varText = 'z'
+	t_keyMenuCfg[9].varText = 'x'
+	t_keyMenuCfg[10].varText = 'c'
+	t_keyMenuCfg[11].varText = 'F10'
 	t_keyMenuCfg[12].varText = 'RETURN'
 	t_keyMenuCfg[13].varText = 'BACKSPACE'
 	t_keyMenuCfg[14].varText = 'SPACE'
@@ -819,12 +819,12 @@ function f_p1gamepadMenuDefault()
 	t_keyMenuCfg[2].varText = '-4'
 	t_keyMenuCfg[3].varText = '-1'
 	t_keyMenuCfg[4].varText = '-2'
-	t_keyBattleCfg[5].varText = '0'
-	t_keyBattleCfg[6].varText = '1'
-	t_keyBattleCfg[7].varText = '4'
-	t_keyBattleCfg[8].varText = '2'
-	t_keyBattleCfg[9].varText = '3'
-	t_keyBattleCfg[10].varText = '5'
+	t_keyMenuCfg[5].varText = '0'
+	t_keyMenuCfg[6].varText = '1'
+	t_keyMenuCfg[7].varText = '4'
+	t_keyMenuCfg[8].varText = '2'
+	t_keyMenuCfg[9].varText = '3'
+	t_keyMenuCfg[10].varText = '5'
 	t_keyMenuCfg[11].varText = '-5'
 	t_keyMenuCfg[12].varText = '8'
 	t_keyMenuCfg[13].varText = '6'
@@ -876,12 +876,12 @@ function f_p2keyboardMenuDefault()
 	t_keyMenuCfg[2].varText = 'KP_2'
 	t_keyMenuCfg[3].varText = 'KP_1'
 	t_keyMenuCfg[4].varText = 'KP_3'
-	t_keyBattleCfg[5].varText = 'u'
-	t_keyBattleCfg[6].varText = 'i'
-	t_keyBattleCfg[7].varText = 'o'
-	t_keyBattleCfg[8].varText = 'j'
-	t_keyBattleCfg[9].varText = 'k'
-	t_keyBattleCfg[10].varText = 'l'
+	t_keyMenuCfg[5].varText = 'u'
+	t_keyMenuCfg[6].varText = 'i'
+	t_keyMenuCfg[7].varText = 'o'
+	t_keyMenuCfg[8].varText = 'j'
+	t_keyMenuCfg[9].varText = 'k'
+	t_keyMenuCfg[10].varText = 'l'
 	t_keyMenuCfg[11].varText = 'KP_DIVIDE'
 	t_keyMenuCfg[12].varText = 'KP_PLUS'
 	t_keyMenuCfg[13].varText = 'KP_MINUS'
@@ -895,12 +895,12 @@ function f_p2gamepadMenuDefault()
 	t_keyMenuCfg[2].varText = '-4'
 	t_keyMenuCfg[3].varText = '-1'
 	t_keyMenuCfg[4].varText = '-2'
-	t_keyBattleCfg[5].varText = '0'
-	t_keyBattleCfg[6].varText = '1'
-	t_keyBattleCfg[7].varText = '4'
-	t_keyBattleCfg[8].varText = '2'
-	t_keyBattleCfg[9].varText = '3'
-	t_keyBattleCfg[10].varText = '5'
+	t_keyMenuCfg[5].varText = '0'
+	t_keyMenuCfg[6].varText = '1'
+	t_keyMenuCfg[7].varText = '4'
+	t_keyMenuCfg[8].varText = '2'
+	t_keyMenuCfg[9].varText = '3'
+	t_keyMenuCfg[10].varText = '5'
 	t_keyMenuCfg[11].varText = '-5'
 	t_keyMenuCfg[12].varText = '8'
 	t_keyMenuCfg[13].varText = '6'
@@ -5946,7 +5946,7 @@ function f_testMenu()
 			data.versusScreen = false
 			--SINGLE TEST
 			if testMenu == 1 then
-				data.p2Char = {t_charAdd['training/sandbag.def']}
+				data.p2Char = {t_charAdd['training']}
 				textImgSetText(txt_mainSelect, 'P1 INPUT TEST')
 				script.select.f_selectSimple()
 			--MULTIPLAYER TEST
@@ -6060,12 +6060,10 @@ function f_keyMenu()
 				f_keyBattleCfg(1, -1)
 			--PLAYER 1 [KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 3 then
-				f_inputBattleRead(0, -1) --To get Battle Palette Buttons
 				f_inputMenuRead(0, -1)
 				f_keyMenuCfg(0, -1)
 			--PLAYER 2 [KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 4 then
-				f_inputBattleRead(1, -1) --To get Battle Palette Buttons
 				f_inputMenuRead(1, -1)
 				f_keyMenuCfg(1, -1)
 			--BACK
@@ -6190,13 +6188,11 @@ function f_joyMenu()
 			--PLAYER 1 [GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 3 then
 				gamepadID = 1
-				f_inputBattleRead(2, data.p1Gamepad) --To get Battle Palette Buttons
 				f_inputMenuRead(2, data.p1Gamepad)
 				f_keyMenuCfg(2, data.p1Gamepad)
 			--PLAYER 2 [GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 4 then
 				gamepadID = 2
-				f_inputBattleRead(3, data.p2Gamepad) --To get Battle Palette Buttons
 				f_inputMenuRead(3, data.p2Gamepad)
 				f_keyMenuCfg(3, data.p2Gamepad)
 			--BACK
@@ -6274,7 +6270,6 @@ end
 --; KEYBOARD/GAMEPAD BUTTONS
 --;===========================================================
 txt_battleCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING [BATTLE]', 159, 13)
---function f_battleCommands()
 t_keyBattleCfg = {
 	{id = '', text = 'JUMP',   					varID = textImgNew(), varText = ''},
 	{id = '', text = 'CROUCH', 					varID = textImgNew(), varText = ''},
@@ -6290,13 +6285,10 @@ t_keyBattleCfg = {
 	{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
 	{id = '', text = 'SELECT',					varID = textImgNew(), varText = ''},
 	{id = '', text = 'START', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'End Config', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'End Config', 				varID = textImgNew(), varText = ''},
 }
---end
---f_battleCommands()
 
 txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING [MENUS]', 159, 13)
---function f_menuCommands()
 t_keyMenuCfg = {
 	{id = '', text = 'UP',    					varID = textImgNew(), varText = ''},
 	{id = '', text = 'DOWN',  					varID = textImgNew(), varText = ''},
@@ -6312,10 +6304,12 @@ t_keyMenuCfg = {
 	{id = '', text = 'CONFIRM',					varID = textImgNew(), varText = ''},
 	{id = '', text = 'RETURN',					varID = textImgNew(), varText = ''},
 	{id = '', text = 'MENU',		 			varID = textImgNew(), varText = ''}, --PAUSE
-	{id = '', text = 'End', 					varID = textImgNew(), varText = ''},
+	{id = '', text = 'End Config',				varID = textImgNew(), varText = ''},
 }
---end
---f_menuCommands()
+
+function f_resetInputsInfo()
+	f_drawQuickText(txt_resetInput, font2, 0, 0, 'Press F1 in your Keyboard to Reset All Buttons', 163.5, 238, 1, 1)
+end
 
 controllerNum = -1
 
@@ -6377,7 +6371,6 @@ function f_keyBattleCfg(playerNo, controller)
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keyBattleSave(playerNo, controller)
-				f_keyMenuSave(playerNo, controller) --Just to get Classic Palette Select Inputs
 				break
 			end
 			modified = 1
@@ -6444,7 +6437,7 @@ function f_keyBattleCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
-		f_drawQuickText(txt_resetInput, font2, 0, 0, 'Press F1 in your Keyboard to Reset All Buttons', 236, 230, 1, 1)
+		f_resetInputsInfo()
 		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
@@ -6504,7 +6497,7 @@ function f_keyMenuCfg(playerNo, controller)
 					controllerNum = 10
 				end
 				t_keyMenuCfg[keyCfg].varText = f_readMenuInput(t_keyMenuCfg[keyCfg].varText)
-				setInputConfig(playerNo, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
+				setInputConfig(playerNo, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -6575,6 +6568,7 @@ function f_keyMenuCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
+		f_resetInputsInfo()
 		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
@@ -6583,26 +6577,18 @@ end
 
 function f_inputBattleRead(playerNo, controller)
 	local tmp = nil
-	--local tmp2 = nil
 	tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
-	--tmp2 = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
+	--Keyboard Read
 	if tmp ~= nil and tmp ~= '' then
 		tmp = tmp:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-		--tmp2 = tmp2:match('%(int%)k_t::[^%)%s]*%s*%);')
-		--tmp2 = tmp2:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-		--tmp = tmp..','..tmp2
-		--tmp = tmp:upper()
+	--Gamepad Read
 	else
 		tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
-		--tmp2 = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 		tmp = tmp:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
-		--tmp2 = tmp2:match('[^%)%s]%s*%);')
-		--tmp2 = tmp2:gsub('([^%)%s])%s*%);', '%1')
-		--tmp = tmp..','..tmp2
 	end
 	for i, c
 		in ipairs(strsplit(',', tmp)) --split string using "," delimiter
@@ -6613,36 +6599,26 @@ end
 
 function f_inputMenuRead(playerNo, controller)
 	local tmp = nil
-	--local tmp2 = nil
-	--tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
 	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
 	if tmp ~= nil and tmp ~= '' then
 		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-		--tmp2 = tmp2:match('%(int%)k_t::[^%)%s]*%s*%);')
-		--tmp2 = tmp2:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-		--tmp = tmp..','..tmp2
-		--tmp = tmp:upper()
 	else
-		--tmp = s_configSSZ:match('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
-		--tmp2 = tmp2:match('[^%)%s]%s*%);')
-		--tmp2 = tmp2:gsub('([^%)%s])%s*%);', '%1')
-		--tmp = tmp..','..tmp2
 	end
 	for i, c
-		in ipairs(strsplit(',', tmp)) --split string using "," delimiter
+		in ipairs(strsplit(',', tmp))
 	do
 		t_keyMenuCfg[i].varText = c
 	end
 end
 
 t_newinput = {
-	{id = '', text = "Press any key to assign"},--{id = '', text = "Enter new input..."},
+	{id = '', text = "Press any key to assign"},
 }
 for i=1, #t_newinput do
 	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 222.4+i*15)
@@ -6697,7 +6673,6 @@ function f_readBattleInput(oldkey)
 			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
 			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
 			elseif f12Key() and controllerSet == 1 then getKeyboard = 'F12'
-			elseif printscreenKey() and controllerSet == 1 then getKeyboard = 'PRINTSCREEN'
 			--MAIN			
 			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
 			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
@@ -6848,7 +6823,6 @@ function f_readMenuInput(oldkey)
 			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
 			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
 			elseif f12Key() and controllerSet == 1 then getKeyboard = 'F12'
-			elseif printscreenKey() and controllerSet == 1 then getKeyboard = 'PRINTSCREEN'
 			--MAIN			
 			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
 			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
@@ -6962,10 +6936,10 @@ end
 function f_keyMenuSave(playerNo, controller)
 	--Keyboard - Menu
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].varText .. ');')
+	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].varText .. ');')
 	--Gamepad - Menu
 	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].varText .. ', ' .. t_keyMenuCfg[2].varText .. ', ' .. t_keyMenuCfg[3].varText .. ', ' .. t_keyMenuCfg[4].varText .. ', ' .. t_keyBattleCfg[5].varText .. ', ' .. t_keyBattleCfg[6].varText .. ', ' .. t_keyBattleCfg[7].varText .. ', ' .. t_keyBattleCfg[8].varText .. ', ' .. t_keyBattleCfg[9].varText .. ', ' .. t_keyBattleCfg[10].varText .. ', ' .. t_keyMenuCfg[11].varText .. ', ' .. t_keyMenuCfg[12].varText .. ', ' .. t_keyMenuCfg[13].varText .. ', ' .. t_keyMenuCfg[14].varText .. ');')
+	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].varText .. ', ' .. t_keyMenuCfg[2].varText .. ', ' .. t_keyMenuCfg[3].varText .. ', ' .. t_keyMenuCfg[4].varText .. ', ' .. t_keyMenuCfg[5].varText .. ', ' .. t_keyMenuCfg[6].varText .. ', ' .. t_keyMenuCfg[7].varText .. ', ' .. t_keyMenuCfg[8].varText .. ', ' .. t_keyMenuCfg[9].varText .. ', ' .. t_keyMenuCfg[10].varText .. ', ' .. t_keyMenuCfg[11].varText .. ', ' .. t_keyMenuCfg[12].varText .. ', ' .. t_keyMenuCfg[13].varText .. ', ' .. t_keyMenuCfg[14].varText .. ');')
 end
 
 --;===========================================================

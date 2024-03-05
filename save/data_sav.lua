@@ -14,8 +14,8 @@ data.attractMode = false
 data.pauseMode = "Yes"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Mixed"
-data.sffConversion = true
+data.charPresentation = "Portrait"
+data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -31,7 +31,7 @@ data.turnsRecoveryRate = 300
 data.teamLifeShare = false
 data.numTurns = 4
 data.numSimul = 4
-data.simulType = "Assist"
+data.simulType = "Tag"
 data.coopenemy = "Simul"
 --Zoom Data
 data.zoomActive = true

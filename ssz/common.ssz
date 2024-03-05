@@ -22,6 +22,15 @@ public int gameState = 0; //1 = Fight, 0 = Menu
 public bool exitMatch;
 public int inputDisplay = 0;
 public int damageDisplay = 0;
+public int powerStateP1 = 0;
+public int powerStateP2 = 0;
+public int lifeStateP1 = 0;
+public int lifeStateP2 = 0;
+public int dummyState = 0;
+public int dummyDistance = 0;
+public int dummyGuard = 0;
+public int dummyRecovery = 0;
+public int counterHit = 0;
 
 //TEAM MODE TYPE
 |TeamMode

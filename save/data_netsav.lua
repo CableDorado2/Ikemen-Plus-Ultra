@@ -15,7 +15,7 @@ data.pauseMode = "Yes"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Sprite"
-data.sffConversion = true
+data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99

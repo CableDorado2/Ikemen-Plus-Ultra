@@ -524,13 +524,64 @@ void damagedisplay(&.lua.State L=, int re=)
   L.pushNumber((double) .com.damageDisplay);
 }
 
+void powerstatep1(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.powerStateP1);
+}
+
+void powerstatep2(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.powerStateP2);
+}
+
+void lifestatep1(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.lifeStateP1);
+}
+
+void lifestatep2(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.lifeStateP2);
+}
+
+void dummystate(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.dummyState);
+}
+
+void dummydistance(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.dummyDistance);
+}
+
+void dummyguard(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.dummyGuard);
+}
+
+void dummyrecovery(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.dummyRecovery);
+}
+
+void counterhit(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.counterHit);
+}
+
 void gamemode(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushString(.com.gameMode);
-  //^/char modename;
-  //modename = .com.gameMode;
-  //L.pushString(modename);
 }
 
 void gamewidth(&.lua.State L=, int re=)
@@ -1209,6 +1260,15 @@ public void registerFunction(&.lua.State L=)
   L.register("servicetype", .servicetype);
   L.register("inputdisplay", .inputdisplay);
   L.register("damagedisplay", .damagedisplay);
+  L.register("powerstatep1", .powerstatep1);
+  L.register("powerstatep2", .powerstatep2);
+  L.register("lifestatep1", .lifestatep1);
+  L.register("lifestatep2", .lifestatep2);
+  L.register("dummystate", .dummystate);
+  L.register("dummydistance", .dummydistance);
+  L.register("dummyguard", .dummyguard);
+  L.register("dummyrecovery", .dummyrecovery);
+  L.register("counterhit", .counterhit);
   L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);

@@ -5582,6 +5582,42 @@ public &Char
   {
     ret .com.inputDisplay;
   }
+  public int trPowerStateP1()
+  {
+    ret .com.powerStateP1;
+  }
+  public int trPowerStateP2()
+  {
+    ret .com.powerStateP2;
+  }
+  public int trLifeStateP1()
+  {
+    ret .com.lifeStateP1;
+  }
+  public int trLifeStateP2()
+  {
+    ret .com.lifeStateP2;
+  }
+  public int trDummyState()
+  {
+    ret .com.dummyState;
+  }
+  public int trDummyDistance()
+  {
+    ret .com.dummyDistance;
+  }
+  public int trDummyGuard()
+  {
+    ret .com.dummyGuard;
+  }
+  public int trDummyRecovery()
+  {
+    ret .com.dummyRecovery;
+  }
+  public int trCounterHit()
+  {
+    ret .com.counterHit;
+  }
   public ^/char trGameMode()
   {
     ret .com.gameMode;

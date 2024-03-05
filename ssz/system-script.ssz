@@ -548,6 +548,69 @@ void setDamageDisplay(&.lua.State L=, int re=)
   .com.damageDisplay = dmd;
 }
 
+void setPowerStateP1(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int psl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerStateP1 = psl;
+}
+
+void setPowerStateP2(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int psr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.powerStateP2 = psr;
+}
+
+void setLifeStateP1(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lsl = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeStateP1 = lsl;
+}
+
+void setLifeStateP2(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int lsr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.lifeStateP2 = lsr;
+}
+
+void setDummyState(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dms = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.dummyState = dms;
+}
+
+void setDummyDistance(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dd = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.dummyDistance = dd;
+}
+
+void setDummyGuard(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dg = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.dummyGuard = dg;
+}
+
+void setDummyRecovery(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int dr = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.dummyRecovery = dr;
+}
+
+void setCounterHit(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int cht = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.counterHit = cht;
+}
+
 void getListenPort(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1984,6 +2047,15 @@ public void init(&.lua.State L=)
   L.register("setHUD", .setHUD);
   L.register("setInputDisplay", .setInputDisplay);
   L.register("setDamageDisplay", .setDamageDisplay);
+  L.register("setPowerStateP1", .setPowerStateP1);
+  L.register("setPowerStateP2", .setPowerStateP2);
+  L.register("setLifeStateP1", .setLifeStateP1);
+  L.register("setLifeStateP2", .setLifeStateP2);
+  L.register("setDummyState", .setDummyState);
+  L.register("setDummyDistance", .setDummyDistance);
+  L.register("setDummyGuard", .setDummyGuard);
+  L.register("setDummyRecovery", .setDummyRecovery);
+  L.register("setCounterHit", .setCounterHit);
   L.register("setConfigTVars", .setConfigTVars);
   L.register("getConfigTVars", .getConfigTVars);
 }

@@ -960,8 +960,6 @@ function f_mainMenu()
 	f_infoReset()
 	while true do
 		if infoScreen == false then
-			--For test
-			if tabKey() then f_gallery2() end
 			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				playBGM(bgmTitle)
@@ -1116,119 +1114,6 @@ function f_mainMenu()
 		cmdInput()
 		refresh()
 	end
-end
-
-
-
-t_mainGallery = {
-	{id = textImgNew(), Image1 = arrowsU},
-	{id = textImgNew(), Image1 = arrowsU},
-}
-
-function f_gallery2()
-	local mainGallery = 0
-	local cursorPosX = 0
-	local cursorPosY = 0
-	local menuSizeX = 3
-	local menuSizeY = 2
-	local moveText = 0
-	local logicalCalc = 0
-	if commandGetState(p1Cmd, 'l') then 
-		if mainGallery > 0 then
-			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
-			mainGallery = mainGallery - 1
-			cursorPosX = cursorPosX - 1
-			logicalCalc = logicalCalc - 1
-			if mainGallery < 0 then
-				mainGallery = 0
-				cursorPosX = 0
-				logicalCalc = 0
-			end
-			if cursorPosX < 0 then
-				cursorPosX = 3
-				cursorPosY = cursorPosY - 1 
-			end
-			if cursorPosY > menuSizeY then
-				cursorPosY = 2
-				moveText = moveText + 1
-			elseif cursorPosY < 0 then
-				cursorPosY = 0
-				moveText = moveText - 1
-			end
-		end
-	elseif commandGetState(p1Cmd, 'r') then 
-		if mainGallery < #t_mainGallery - 1 then
-			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
-			mainGallery = mainGallery + 1
-			cursorPosX = cursorPosX + 1
-			logicalCalc = logicalCalc + 1
-			if mainGallery > #t_mainGallery - 1 then
-				mainGallery = #t_mainGallery - 1
-				cursorPosX = cursorPosX - 1
-				logicalCalc = logicalCalc - 1
-			end
-			if cursorPosX > menuSizeX then
-				cursorPosX = 0
-				cursorPosY = cursorPosY + 1 
-			end
-			if cursorPosY > menuSizeY then
-				cursorPosY = 2
-				moveText = moveText + 1
-			elseif cursorPosY < 0 then
-				cursorPosY = 0
-				moveText = moveText - 1
-			end
-		end
-	elseif commandGetState(p1Cmd, 'u') then 
-		if mainGallery > 0 then
-			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
-			mainGallery = mainGallery - 4 
-			cursorPosY = cursorPosY - 1
-			logicalCalc = logicalCalc - (menuSizeX + 1)
-			if mainGallery < 0 then
-				mainGallery = 0
-				cursorPosX = 0
-				cursorPosY = 0
-				logicalCalc = 0
-			end 
-			if cursorPosY > menuSizeY then
-				cursorPosY = 2
-				moveText = moveText + 1
-			elseif cursorPosY < 0 then
-				cursorPosY = 0
-				moveText = moveText - 1
-			end
-		end
-	elseif commandGetState(p1Cmd, 'd') then 
-		if mainGallery < #t_mainGallery - 1 then
-			--sndPlay(motif.files.snd_data, motif.gallery_screen.cursor_move_snd[1], motif.gallery_screen.cursor_move_snd[2])
-			mainGallery = mainGallery + 4 
-			cursorPosY = cursorPosY + 1
-			logicalCalc = logicalCalc + (menuSizeX + 1) 
-			if mainGallery > #t_mainGallery - 1 then
-				mainGallery = #t_mainGallery - 1  
-				cursorPosY = menuSizeY 
-				cursorPosX = mainGallery - logicalCalc+(menuSizeX+1)+cursorPosX
-				if cursorPosX > menuSizeX then
-					cursorPosX = cursorPosX - (menuSizeX+1) 
-					if moveText < menuSizeY then
-						cursorPosY = cursorPosY + 1
-					end 
-				end
-				logicalCalc = mainGallery
-			end 
-			if cursorPosY > menuSizeY then
-				cursorPosY = menuSizeY 
-				moveText = moveText + 1
-			elseif cursorPosY < 0 then
-				cursorPosY = 0
-				moveText = moveText - 1
-			end 
-		end
-	end
-	animPosDraw(Image1, -53.5,0-moveText*55, 1)
-	animSetWindow(Image1, -53.5, 35, 402.5, 153)
-	animPosDraw(Cursor, -30+cursorPosX*100, 35+cursorPosY*55, 1)
 end
 
 --;===========================================================
@@ -1834,7 +1719,7 @@ function f_practiceMenu()
 				elseif data.training == 'Fixed' then
 					data.p2In = 2
 					data.versusScreen = false
-					data.p2Char = {t_charAdd['training/sandbag.def']} --predefined P2 training char
+					data.p2Char = {t_charAdd['training']} --predefined P2 training char
 				end
 				data.gameMode = 'training'
 				data.rosterMode = 'training'

@@ -400,6 +400,7 @@ setSysCtrl(10) --Load Menu Controls from config.ssz
 function cmdInput()
 	commandInput(p1Cmd, data.p1In)
 	commandInput(p2Cmd, data.p2In)
+	if commandGetState(p1Cmd, 'q') or commandGetState(p2Cmd, 'q') then f_screenShot() end --Take Screenshot in any menu (if you have control)
 end
 
 --returns value depending on button pressed (a = 1; a + start = 7 etc.)
@@ -418,8 +419,7 @@ end
 
 --Take Screenshots
 function f_screenShot()
-	--sndPlay(sysSnd, 22, 0)
-	--sndPlay(sysSnd, 22, 1)
+	sndPlay(sysSnd, 22, 0) --sndPlay(sysSnd, 22, 1)
 	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
 end
 

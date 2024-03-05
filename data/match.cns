@@ -7017,7 +7017,7 @@ pausemovetime = 88888
 pos = 0,88888
 
 ;===========================================================================
-; SPECIAL
+; MISCELLANEOUS
 ;===========================================================================
 [State 500, Intro for Round 1]
 type = assertspecial
@@ -7033,20 +7033,8 @@ trigger3 = GameType = 4 ;HUD Disable for Input Test
 flag = nobardisplay
 
 ;===========================================================================
-; SERVICES
+; ARCADE SERVICES
 ;===========================================================================
-[State 0, Power Recovery]
-type = PowerAdd
-trigger1 = GameType = 2 && Stateno = 0 && Time > 10 ;Power Recovery for Training
-trigger2 = GameType = 4 ;Power Recovery for Input Test
-value = PowerMax;100
-
-[State 0, Life Recovery]
-type = LifeAdd
-trigger1 = GameType = 2 && Stateno = 0 && Time > 15 ;Life Recovery for Training
-trigger2 = GameType = 4 ;Life Recovery for Input Test
-value = 100
-
 [State -2, Max Power]
 type = PowerSet
 triggerall = ((ServiceType = 1 || ServiceType = 4) && TeamSide = 1) || ((ServiceType = 21 || ServiceType = 24) && TeamSide = 2) ;POWER WILL AT MAX SERVICE
@@ -7065,8 +7053,85 @@ triggerall = ((ServiceType = 3 && TeamSide = 1) || (ServiceType = 23 && TeamSide
 trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = 0.5
 
-[State -2, Max Life]
+;===========================================================================
+; STORY SERVICES
+;===========================================================================
+[State -2, Undefeatable]
 type = LifeSet
 triggerall = ((ServiceType = 4 && TeamSide = 1) || (ServiceType = 24 && TeamSide = 2)) ;LIFE WILL AT MAX FOR STORY MODE BATTLES
 trigger1 = RoundState = 2
 value = LifeMax
+
+;===========================================================================
+; TRAINING SERVICES
+;===========================================================================
+[State 0, Life Recovery 100%]
+type = LifeAdd
+trigger1 = GameType = 2 && LifeStateP1 = 100 && Stateno = 0 && Time > 15 && TeamSide = 1
+trigger2 = GameType = 2 && LifeStateP2 = 100 && Stateno = 0 && Time > 15 && TeamSide = 2
+trigger3 = GameType = 4 ;Life Recovery for Input Test
+value = 100
+
+[State 0, Life Recovery 75%]
+type = LifeSet
+triggerall = GameType = 2 && Stateno = 0 && Time > 15 ;Active when Player is quiet some seconds
+trigger1 = LifeStateP1 = 75 && TeamSide = 1 ;Apply to Left Side
+trigger2 = LifeStateP2 = 75 && TeamSide = 2 ;Apply to Right Side
+value = LifeMax / 1.333
+
+[State 0, Life Recovery 50%]
+type = LifeSet
+triggerall = GameType = 2 && Stateno = 0 && Time > 15
+trigger1 = LifeStateP1 = 50 && TeamSide = 1
+trigger2 = LifeStateP2 = 50 && TeamSide = 2
+value = LifeMax / 2
+
+[State 0, Life Recovery 25%]
+type = LifeSet
+triggerall = GameType = 2 && Stateno = 0 && Time > 15
+trigger1 = LifeStateP1 = 25 && TeamSide = 1
+trigger2 = LifeStateP2 = 25 && TeamSide = 2
+value = LifeMax / 4
+
+[State 0, Power Gauge Max at Start]
+type = PowerAdd
+triggerall = GameType = 2 && RoundState < 2 ;Activate at start of Round in Training Mode
+trigger1 =  PowerStateP1 = 11 && TeamSide = 1 ;Apply to Left Side
+trigger2 = PowerStateP2 = 11 && TeamSide = 2 ;Apply to Right Side
+value = PowerMax
+
+[State 0, Power Gauge Recovery]
+type = PowerAdd
+trigger1 = GameType = 2 && PowerStateP1 = 10 && Stateno = 0 && Time > 50 && TeamSide = 1
+trigger2 = GameType = 2 && PowerStateP2 = 10 && Stateno = 0 && Time > 50 && TeamSide = 2
+trigger3 = GameType = 4 ;Power Recovery for Input Test
+value = PowerMax
+
+[State 0, Power Gauge Level 1]
+type = PowerSet
+triggerall = GameType = 2 && Stateno = 0 && Time > 50 ;Active when Player is quiet some seconds
+trigger1 = PowerStateP1 = 1 && TeamSide = 1
+trigger2 = PowerStateP2 = 1 && TeamSide = 2
+value = 1000
+
+[State 0, Power Gauge Level 2]
+type = PowerSet
+triggerall = GameType = 2 && Stateno = 0 && Time > 50
+trigger1 = PowerStateP1 = 2 && TeamSide = 1
+trigger2 = PowerStateP2 = 2 && TeamSide = 2
+value = 2000
+
+[State 0, Power Gauge Level 3]
+type = PowerSet
+triggerall = GameType = 2 && Stateno = 0 && Time > 50
+trigger1 = PowerStateP1 = 3 && TeamSide = 1
+trigger2 = PowerStateP2 = 3 && TeamSide = 2
+value = 3000
+
+[State 0, Power Gauge Unlimited]
+type = PowerSet
+triggerall = GameType = 2
+trigger1 = PowerStateP1 = 666
+trigger2 = PowerStateP2 = 666
+value = PowerMax
+
