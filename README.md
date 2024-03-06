@@ -138,6 +138,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - [ ] Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
 
+- [ ] El audio del motor debe poder sincronizarse al reproductor de video.
+
 **v1.6**
 ------------
 
@@ -158,6 +160,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
 - [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- [ ] Ver cómo se podría integrar un sistema de diálogo en los matches.
 
 - [ ] Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
