@@ -36,6 +36,21 @@ EXPORTS
     PlayVideo
     JoystickButtonState
     SetVolume
+	DiscordInit
+	DiscordUpdate
+	SetDiscordState
+	SetDiscordDetails
+	SetDiscordBigImg
+	SetDiscordBigTxt
+	SetDiscordMiniImg
+	SetDiscordMiniTxt
+	SetDiscordPartyID
+	SetDiscordSecretID
+	SetDiscordSecretJoin
+	SetDiscordSecretWatch
+	SetDiscordPartyMax
+	SetDiscordPartySize
+	SetDiscordInstance
     GlInit
     Load8bitTexture
     LoadPngTexture

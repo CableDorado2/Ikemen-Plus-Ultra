@@ -46,11 +46,6 @@
 #include <discord_rpc.h>
 #pragma comment(lib, "discord-rpc.lib")
 
-static const char* APPLICATION_ID = "1200228516554346567";
-static int FrustrationLevel = 0;
-static int32_t StartTime;
-static int SendPresence = 1;
-
 //SSZ Stuff
 void* (__stdcall *sszrefnewfunc)(intptr_t);
 void (__stdcall *sszrefdeletefunc)(void*);
@@ -455,36 +450,7 @@ void sndjoyinit()
 	g_js.init();
 }
 
-static void updateDiscordPresence()
-{
-	if (SendPresence) {
-		char buffer[256];
-		DiscordRichPresence discordPresence;
-		memset(&discordPresence, 0, sizeof(discordPresence));
-		discordPresence.state = "Building a Fighting Game"; //Game State
-		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
-		discordPresence.details = "Create Advanced MUGENS or your own Fighting Game!"; //Game Description
-		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = "icon"; //Game Icon
-		discordPresence.largeImageText = "I.K.E.M.E.N. PLUS ULTRA"; //Game About
-		discordPresence.smallImageKey = "powered"; //Powered Icon
-		discordPresence.smallImageText = "Powered By Ikemen Plus Ultra Engine"; //Powered About
-		discordPresence.partyId = "party1234";
-		discordPresence.partySize = 0; //Add 1 when online mode with rich presence works
-		discordPresence.partyMax = 2;
-		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = "xyzzy";
-		discordPresence.joinSecret = "join";
-		discordPresence.spectateSecret = "look";
-		discordPresence.instance = 0;
-		Discord_UpdatePresence(&discordPresence);
-	}else{
-		Discord_ClearPresence();
-	}
-}
-
-static void discordInit()
+TUserFunc(void, DiscordInit, Reference discordAppID)
 {
 	DiscordEventHandlers handlers;
 	memset(&handlers, 0, sizeof(handlers));
@@ -494,7 +460,160 @@ static void discordInit()
 	//handlers.joinGame = handleDiscordJoin;
 	//handlers.spectateGame = handleDiscordSpectate;
 	//handlers.joinRequest = handleDiscordJoinRequest;
-	Discord_Initialize(APPLICATION_ID, &handlers, 1, NULL);
+	Discord_Initialize(pu->refToAstr(CP_UTF8, discordAppID).c_str(), &handlers, 1, NULL);
+}
+
+int FrustrationLevel = 0;
+int32_t StartTime;
+int SendPresence = 1;
+const char* discordState = ""; //"Building a Fighting Game";
+const char* discordDetails = ""; //"Create Advanced MUGENS or your own Fighting Game!";
+const char* discordBigImg = ""; //"icon";
+const char* discordBigTxt = ""; //"I.K.E.M.E.N. PLUS ULTRA";
+const char* discordMiniImg = ""; //"powered";
+const char* discordMiniTxt = ""; //Powered By Ikemen Plus Ultra Engine";
+const char* discordPartyID = ""; //"party1234";
+const char* discordMatchSecret = ""; //"xyzzy";
+const char* discordJoinSecret = ""; //"join";
+const char* discordWatchSecret = ""; //"look";
+int discordPartySize = 0;
+int discordPartyMax = 2;
+int discordInstance = 0;
+
+void UpdateDiscordPresence()
+{
+	if (SendPresence) {
+		char buffer[256];
+		DiscordRichPresence discordPresence;
+		memset(&discordPresence, 0, sizeof(discordPresence));
+		discordPresence.state = discordState; //Game State
+		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
+		discordPresence.details = discordDetails; //Game Description
+		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
+		//discordPresence.endTimestamp = time(0) + 5 * 60;
+		discordPresence.largeImageKey = discordBigImg; //Game Icon
+		discordPresence.largeImageText = discordBigTxt; //Game About
+		discordPresence.smallImageKey = discordMiniImg; //Powered Icon
+		discordPresence.smallImageText = discordMiniTxt; //Powered About
+		discordPresence.partyId = discordPartyID;
+		discordPresence.partySize = discordPartySize; //Add 1 when online mode with rich presence works
+		discordPresence.partyMax = discordPartyMax;
+		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
+		discordPresence.matchSecret = discordMatchSecret;
+		discordPresence.joinSecret = discordJoinSecret;
+		discordPresence.spectateSecret = discordWatchSecret;
+		discordPresence.instance = discordInstance;
+		Discord_UpdatePresence(&discordPresence);
+	}else{
+		Discord_ClearPresence();
+	}
+}
+
+TUserFunc(void, DiscordUpdate)
+{
+	if (SendPresence) {
+		char buffer[256];
+		DiscordRichPresence discordPresence;
+		memset(&discordPresence, 0, sizeof(discordPresence));
+		discordPresence.state = discordState; //Game State
+		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
+		discordPresence.details = discordDetails; //Game Description
+		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
+		//discordPresence.endTimestamp = time(0) + 5 * 60;
+		discordPresence.largeImageKey = discordBigImg; //Game Icon
+		discordPresence.largeImageText = discordBigTxt; //Game About
+		discordPresence.smallImageKey = discordMiniImg; //Powered Icon
+		discordPresence.smallImageText = discordMiniTxt; //Powered About
+		discordPresence.partyId = discordPartyID;
+		discordPresence.partySize = discordPartySize; //Add 1 when online mode with rich presence works
+		discordPresence.partyMax = discordPartyMax;
+		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
+		discordPresence.matchSecret = discordMatchSecret;
+		discordPresence.joinSecret = discordJoinSecret;
+		discordPresence.spectateSecret = discordWatchSecret;
+		discordPresence.instance = discordInstance;
+		Discord_UpdatePresence(&discordPresence);
+	}else{
+		Discord_ClearPresence();
+	}
+}
+
+TUserFunc(void, SetDiscordState, Reference State)
+{
+	discordState = pu->refToAstr(CP_UTF8, State).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordDetails, Reference Details)
+{
+	discordDetails = pu->refToAstr(CP_UTF8, Details).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordBigImg, Reference BigImg)
+{
+	discordBigImg = pu->refToAstr(CP_UTF8, BigImg).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordBigTxt, Reference BigTxt)
+{
+	discordBigTxt = pu->refToAstr(CP_UTF8, BigTxt).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordMiniImg, Reference MiniImg)
+{
+	discordMiniImg = pu->refToAstr(CP_UTF8, MiniImg).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordMiniTxt, Reference MiniTxt)
+{
+	discordMiniTxt = pu->refToAstr(CP_UTF8, MiniTxt).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordPartyID, Reference PartyID)
+{
+	discordPartyID = pu->refToAstr(CP_UTF8, PartyID).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordSecretID, Reference SecretID)
+{
+	discordMatchSecret = pu->refToAstr(CP_UTF8, SecretID).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordSecretJoin, Reference SecretJoin)
+{
+	discordJoinSecret = pu->refToAstr(CP_UTF8, SecretJoin).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordSecretWatch, Reference SecretWatch)
+{
+	discordWatchSecret = pu->refToAstr(CP_UTF8, SecretWatch).c_str();
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordPartyMax, int PartyMax)
+{
+	discordPartyMax = PartyMax;
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordPartySize, int PartySize)
+{
+	discordPartySize = PartySize;
+	UpdateDiscordPresence();
+}
+
+TUserFunc(void, SetDiscordInstance, int Instance)
+{
+	discordInstance = Instance;
+	UpdateDiscordPresence();
 }
 
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX Render
@@ -503,8 +622,7 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX
 		return false;
 	}else{
 		TTF_Init();
-		discordInit();
-		updateDiscordPresence();
+		//UpdateDiscordPresence();
 		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
 		g_window = SDL_CreateWindow(//https://wiki.libsdl.org/SDL2/SDL_CreateWindow
 			pu->refToAstr(CP_UTF8, cap).c_str(),
@@ -1087,7 +1205,6 @@ TUserFunc(int,  PlayVideo, Reference fn, Reference vldir)
 	int nCmdShow;
 	std::wstring videoRenderer = pu->refToWstr(fn);
 	//LPCTSTR str = videoRenderer.c_str();
-
 	HRESULT hr = PlayVideoTest(hInstance, pCmdLine, nCmdShow, videoRenderer);
 	//NotifyError(NULL, str); // Test DONT DELETE
 	return hr;
@@ -1141,10 +1258,10 @@ int PlayVideoTest(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow, std::wstrin
 		NotifyError(NULL, L"CreateWindowEx failed.");
 		return 0;
 	}
-
+	
 	//SetFocus(hwndDirectShow);
 	//ShowWindow(hwndDirectShow, SW_SHOW);
-
+	
 	//File Open
 	OnFileOpen(hwndDirectShow, videoRenderer);
 	

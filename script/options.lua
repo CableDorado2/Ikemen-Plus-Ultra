@@ -6976,6 +6976,7 @@ end
 
 --Set Default Stats
 function f_defaultStats()
+	data.firstRun = true
 	data.arcadeClear = false
 	data.survivalClear = false
 	data.coins = 0

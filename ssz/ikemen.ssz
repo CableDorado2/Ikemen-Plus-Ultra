@@ -193,7 +193,7 @@ int game()
 
 void main()
 {//Itumademo Kanseishinai Eienni Mikansei ENgine
-  if(!.sdl.init("I.K.E.M.E.N. PLUS ULTRA", .cfg.Width, .cfg.Height, .cfg.OpenGL, true)){
+  if(!.sdl.init(.cfg.WindowTitle, .cfg.Width, .cfg.Height, .cfg.OpenGL, true)){
     .error!.self?("Initialization failed.");
     ret;
   }
@@ -203,6 +203,21 @@ void main()
     ret;
   }
 /*?*/
+  .sdl.discordInit(.cfg.GameID);
+  .sdl.setDiscordState(.cfg.GameState);
+  .sdl.setDiscordDetails(.cfg.GameDetails);
+  //.sdl.setDiscordBigImg(.cfg.GameBigImg);
+  //.sdl.setDiscordBigTxt(.cfg.GameAbout);
+  //.sdl.setDiscordMiniImg(.cfg.GameMiniIcon);
+  //.sdl.setDiscordMiniTxt(.cfg.GameMiniTxt);
+  //.sdl.setDiscordPartyID(.cfg.PublicRoomID);
+  //.sdl.setDiscordSecretID(.cfg.PrivateRoomID);
+  //.sdl.setDiscordSecretJoin(.cfg.PrivateJoin);
+  //.sdl.setDiscordSecretWatch(.cfg.PrivateWatch);
+  //.sdl.setDiscordPartyMax(.cfg.RoomMax);
+  //.sdl.setDiscordPartySize(.cfg.RoomSize);
+  //.sdl.setDiscordInstance(.cfg.GameInstance);
+  //.sdl.discordUpdate();
   .sdl.fullScreenMode(.cfg.FullScreenReal);
   if(.cfg.FullScreenReal) .se.fullReal = true;
   if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);

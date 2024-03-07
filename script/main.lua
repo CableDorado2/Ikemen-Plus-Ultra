@@ -189,6 +189,55 @@ animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
 --;===========================================================
+--; F1 INFOBOX MESSAGE
+--;===========================================================
+infoboxCfg = createTextImg(font1, 0, 1, '', 0, 0)
+txt_infobox = [[
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
+
+* This is a public development release, for testing purposes.
+* This build may contain bugs and incomplete features.
+* Your help and cooperation are appreciated!
+* Ikemen GO engine is the lastest and supported version by original developers.
+* Original repo source code: https://osdn.net/users/supersuehiro/
+ ]]
+
+function f_infoboxMenu()
+	cmdInput()
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Info Text
+	f_textRender(infoboxCfg, txt_infobox, 0, 2, 10, 8.8, 0, 2222)
+	--Actions
+	if esc() or btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'e') or commandGetState(p1Cmd, 'u') or commandGetState(p1Cmd, 'd') or commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'r') then
+		--sndPlay(sysSnd, 100, 2)
+		f_infoboxReset()
+	end
+	cmdInput()
+end
+
+function f_infoboxReset()
+	infoboxScreen = false
+end
+
+--;===========================================================
 --; OK MESSAGE
 --;===========================================================
 txt_infoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 157, 111)
@@ -212,21 +261,23 @@ function f_infoMenu()
 	--Draw Info Text
 	if charsInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
-		txtInfo = 'NO CHARACTERS FOUND IN SELECT.DEF'
+		f_textRender(txt_info, 'NO CHARACTERS FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
 	elseif stagesInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
-		txtInfo = 'NO STAGES FOUND IN SELECT.DEF'
+		f_textRender(txt_info, 'NO STAGES FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
 	elseif bossInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
-		txtInfo = 'NO BOSSES FOUND IN SELECT.DEF'
+		f_textRender(txt_info, 'NO BOSSES FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
 	elseif bonusInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
-		txtInfo = 'NO BONUSES FOUND IN SELECT.DEF'
+		f_textRender(txt_info, 'NO BONUSES FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
 	elseif resolutionInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
-		txtInfo = 'SET A 16:9 RESOLUTION TO AVOID DESYNC'
+		f_textRender(txt_info, 'SET A 16:9 RESOLUTION TO AVOID DESYNC', 0, 160, 125, 10, 0, 25)
+	elseif firstRunInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.50,0.50)
+		f_textRender(txt_info, 'WELCOME TO IKEMEN PLUS ULTRA ENGINE! PRESS F1 TO SEE MORE INFORMATION.', 0, 160, 125, 8.8, 0, 36)
 	end
-	f_textRender(txt_info, txtInfo, 0, 160, 125, 10, 0, 25)
 	--Draw Ok Text
 	textImgDraw(txt_ok)
 	--Draw Cursor
@@ -238,6 +289,10 @@ function f_infoMenu()
 	--Actions
 	if btnPalNo(p1Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
+		if firstRunInfo and data.firstRun == true then
+			data.firstRun = false
+			f_saveProgress()
+		end
 		f_infoReset()
 	end
 	cmdInput()
@@ -958,8 +1013,15 @@ function f_mainMenu()
 	closeText = 1
 	f_menuMusic()
 	f_infoReset()
+	f_infoboxReset()
 	while true do
-		if infoScreen == false then
+		if infoScreen == false and infoboxScreen == false then
+			--First Run Msg
+			if data.firstRun == true then
+				firstRunInfo = true
+				infoScreen = true
+			end
+			if f1Key() then infoboxScreen = true end --Show Classic Mugen Info Screen
 			if esc() or commandGetState(p1Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				playBGM(bgmTitle)
@@ -1004,10 +1066,13 @@ function f_mainMenu()
 				f_default()
 				--STORY (follow customizable story arcs designed for this engine)
 				if mainMenu == 1 then
+					setDiscordState("ST MODE")
 					sndPlay(sysSnd, 100, 1)
 					--script.story.f_storyMenu()
 				--ARCADE (play a customizable arcade ladder)
 				elseif mainMenu == 2 then
+					setDiscordState("ARC MODE")
+					setDiscordBigTxt("MC")
 					sndPlay(sysSnd, 100, 1)
 					f_arcadeMenu()
 				--VERSUS (face specific opponents)
@@ -1070,9 +1135,11 @@ function f_mainMenu()
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 142+i*13-moveTxt)) --Text Position
+			if not infoboxScreen then
+				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 142+i*13-moveTxt)) --Text Position
+			end
 		end
-		if infoScreen == false then
+		if infoScreen == false and infoboxScreen == false then
 			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
@@ -1086,19 +1153,22 @@ function f_mainMenu()
 		animDraw(titleBG5)
 		animDraw(titleBG6)
 		f_titleText()
-		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'MAIN MENU')
-		textImgDraw(txt_version)
 		f_sysTime()
-		if maxMainMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
-		end
-		if #t_mainMenu > 6 and maxMainMenu < #t_mainMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
+		if not infoboxScreen then
+			textImgDraw(txt_gameFt)
+			textImgSetText(txt_gameFt, 'MAIN MENU')
+			textImgDraw(txt_version)
+			if maxMainMenu > 6 then
+				animDraw(arrowsU)
+				animUpdate(arrowsU)
+			end
+			if #t_mainMenu > 6 and maxMainMenu < #t_mainMenu then
+				animDraw(arrowsD)
+				animUpdate(arrowsD)
+			end
 		end
 		if infoScreen == true then f_infoMenu() end
+		if infoboxScreen == true then f_infoboxMenu() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6840,6 +6910,7 @@ file:close()
 function f_saveProgress()
 	--Data saving to stats_sav.lua
 	local t_progress = {
+		['data.firstRun'] = data.firstRun,
 		['data.arcadeClear'] = data.arcadeClear,
 		['data.survivalClear'] = data.survivalClear,
 		['data.coins'] = data.coins,

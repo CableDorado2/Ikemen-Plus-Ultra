@@ -10,7 +10,7 @@ const bool OpenGL = false;
 
 //Audio Settings
 const float GlVol = 0.8;
-const float SEVol = 0.8;
+const float SEVol = 0.36;
 const float BGMVol = 0;
 const float PanStr = 0.8;
 
@@ -29,9 +29,26 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 //System Settings
+const ^/char WindowTitle = "I.K.E.M.E.N. PLUS ULTRA";
 const ^/char listenPort = "7500";
 const ^/char UserName = "CableDorado2";
 const ^/char system = "script/main.lua";
+
+//Discord Settings
+const ^/char GameID = "1200228516554346567";
+const ^/char GameState = "Starting...";
+const ^/char GameDetails = "Create Advanced MUGENS or your own Fighting Game!";
+const ^/char GameBigImg = "icon";
+const ^/char GameAbout = "I.K.E.M.E.N. PLUS ULTRA";
+const ^/char GameMiniIcon = "powered";
+const ^/char GameMiniTxt = "Powered By Ikemen Plus Ultra Engine";
+const ^/char PublicRoomID = "party1234";
+const ^/char PrivateRoomID = "xyzzy";
+const ^/char PrivateJoin = "join";
+const ^/char PrivateWatch = "look";
+const int RoomSize = 0;
+const int RoomMax = 2;
+const int GameInstance = 0;
 
 //Input Settings
 lib sdl = <alpha/sdlplugin.ssz>;
