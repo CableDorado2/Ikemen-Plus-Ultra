@@ -7134,4 +7134,3 @@ triggerall = GameType = 2
 trigger1 = PowerStateP1 = 666
 trigger2 = PowerStateP2 = 666
 value = PowerMax
-

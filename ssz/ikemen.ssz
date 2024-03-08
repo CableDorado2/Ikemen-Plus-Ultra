@@ -205,7 +205,7 @@ void main()
 /*?*/
   .sdl.discordInit(.cfg.GameID);
   .sdl.setDiscordState(.cfg.GameState);
-  .sdl.setDiscordDetails(.cfg.GameDetails);
+  //.sdl.setDiscordDetails(.cfg.GameDetails);
   //.sdl.setDiscordBigImg(.cfg.GameBigImg);
   //.sdl.setDiscordBigTxt(.cfg.GameAbout);
   //.sdl.setDiscordMiniImg(.cfg.GameMiniIcon);

@@ -466,19 +466,21 @@ TUserFunc(void, DiscordInit, Reference discordAppID)
 int FrustrationLevel = 0;
 int32_t StartTime;
 int SendPresence = 1;
-const char* discordState = ""; //"Building a Fighting Game";
-const char* discordDetails = ""; //"Create Advanced MUGENS or your own Fighting Game!";
-const char* discordBigImg = ""; //"icon";
-const char* discordBigTxt = ""; //"I.K.E.M.E.N. PLUS ULTRA";
-const char* discordMiniImg = ""; //"powered";
-const char* discordMiniTxt = ""; //Powered By Ikemen Plus Ultra Engine";
-const char* discordPartyID = ""; //"party1234";
-const char* discordMatchSecret = ""; //"xyzzy";
-const char* discordJoinSecret = ""; //"join";
-const char* discordWatchSecret = ""; //"look";
+const char* discordState;
+const char* discordDetails;
+//int64_t discordStartTime = time(0) - 0 * 60;
+//int64_t discordEndTime = time(0) + 5 * 60;
+const char* discordBigImg = "gameicon";
+const char* discordBigTxt = "Powered by I.K.E.M.E.N. Plus Ultra Engine";
+const char* discordMiniImg;
+const char* discordMiniTxt;
+const char* discordPartyID = "party1234";
 int discordPartySize = 0;
 int discordPartyMax = 2;
-int discordInstance = 0;
+const char* discordMatchSecret = "xyzzy";
+const char* discordJoinSecret = "join";
+const char* discordWatchSecret = "look";
+int8_t discordInstance = 0;
 
 void UpdateDiscordPresence()
 {
@@ -610,7 +612,7 @@ TUserFunc(void, SetDiscordPartySize, int PartySize)
 	UpdateDiscordPresence();
 }
 
-TUserFunc(void, SetDiscordInstance, int Instance)
+TUserFunc(void, SetDiscordInstance, int8_t Instance)
 {
 	discordInstance = Instance;
 	UpdateDiscordPresence();

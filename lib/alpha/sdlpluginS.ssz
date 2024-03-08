@@ -862,7 +862,6 @@ public &Font
   }
 }
 
-
 public bool init(^/char t, int w, int h, bool gl, bool mugen)
 {
   plugin bool GlInit(:^/char, int, int:) = "dll/sdlplugin.dll";
@@ -894,7 +893,6 @@ public void fullScreenMode(bool fullReal)
   plugin void FullScreenReal(:bool:) = "dll/sdlpluginV.dll";
   FullScreenReal(:fullReal:);
 }
-
 
 public bool fullScreen(bool full)
 {
@@ -930,6 +928,24 @@ public void showCursor(bool show)
 {
   plugin void CursorShow(:bool:) = "dll/sdlplugin.dll";
   CursorShow(:show:);
+}
+
+public void discordInit(^/char id)
+{
+  plugin void DiscordInit(:^/char:) = "dll/sdlpluginV.dll";
+  DiscordInit(:id:);
+}
+
+public void discordUpdate()
+{
+  plugin void DiscordUpdate(::) = "dll/sdlpluginV.dll";
+  DiscordUpdate(::);
+}
+
+public void setDiscordState(^/char state)
+{
+  plugin void SetDiscordState(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordState(:state:);
 }
 
 public &GlTexture

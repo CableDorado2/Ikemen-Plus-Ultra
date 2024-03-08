@@ -537,6 +537,7 @@ end
 --; LOGOS
 --;===========================================================
 function f_mainStart()
+	setDiscordState("In Logos")
 	gameTime = (os.clock()/1000)
 	data.tempBack = false
 	data.replayDone = false
@@ -561,10 +562,12 @@ function f_mainStart()
 			coinSystem = false
 			--data.attractCoins = 0 --Enable for Restart Credits for Attract Mode
 			--f_saveProgress() --Enable for Restart Credits for Attract Mode
+			setDiscordState("In Attract Mode")
 			f_mainAttract()
 		else
 			data.continueCount = 0 --Disable to avoid Restart Times Continue in Arcade
 			f_saveProgress() --Disable to avoid Restart Times Continue in Arcade
+			setDiscordState("In Main Menu")
 			f_mainTitle()
 		end
 	end
@@ -613,7 +616,9 @@ function f_mainAttract()
 		   data.gameMode = 'arcade'
 		   data.rosterMode = 'arcade'
 		   textImgSetText(txt_mainSelect, 'ARCADE')
+		   setDiscordState("In Arcade Mode")
 		   script.select.f_selectAdvance()
+		   setDiscordState("In Attract Mode")
 		--START DEMO MODE
 		elseif demoTimer == 350 then
 		   cmdInput()
@@ -803,7 +808,9 @@ function f_exitMenu()
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false
 					assert(loadfile('save/data_sav.lua'))()
+					setDiscordState("In Options")
 					script.options.f_mainCfg()
+					setDiscordState("In Attract Mode")
 				--EXIT FOR ATTRACT MODE
 				elseif exitMenu == 2 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
 					sndPlay(sysSnd, 100, 1)
@@ -1066,13 +1073,12 @@ function f_mainMenu()
 				f_default()
 				--STORY (follow customizable story arcs designed for this engine)
 				if mainMenu == 1 then
-					setDiscordState("ST MODE")
 					sndPlay(sysSnd, 100, 1)
+					setDiscordState("In Story Mode")
 					--script.story.f_storyMenu()
+					setDiscordState("In Main Menu")
 				--ARCADE (play a customizable arcade ladder)
 				elseif mainMenu == 2 then
-					setDiscordState("ARC MODE")
-					setDiscordBigTxt("MC")
 					sndPlay(sysSnd, 100, 1)
 					f_arcadeMenu()
 				--VERSUS (face specific opponents)
@@ -1116,7 +1122,9 @@ function f_mainMenu()
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false --only for identify purposes
 					assert(loadfile('save/data_sav.lua'))()
+					setDiscordState("In Options")
 					script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
+					setDiscordState("In Main Menu")
 				--EXIT
 				elseif mainMenu == 10 then
 					sndPlay(sysSnd, 100, 1)
@@ -1194,7 +1202,7 @@ t_arcadeMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_arcadeMenu()
@@ -1247,6 +1255,7 @@ function f_arcadeMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setGameMode('arcade')
+			setDiscordState("In Arcade Mode")
 			--SINGLE MODE [LEFT SIDE] (fight against CPU controlled opponents in a customizable arcade ladder)
 			if arcadeMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1258,6 +1267,7 @@ function f_arcadeMenu()
 				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
 				script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
+				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (fight against CPU controlled opponents in a customizable arcade ladder)
 			elseif arcadeMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1274,6 +1284,7 @@ function f_arcadeMenu()
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player against CPU controlled opponents in a customizable arcade ladder)
 			elseif arcadeMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1287,6 +1298,7 @@ function f_arcadeMenu()
 				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CPU MODE (watch CPU fight in a customizable arcade ladder)
 			elseif arcadeMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1300,10 +1312,11 @@ function f_arcadeMenu()
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH ARCADE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1368,7 +1381,7 @@ t_vsMenu = {
 	{id = textImgNew(), text = 'P1&P3 VS P2&P4'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_vsMenu()
@@ -1421,9 +1434,11 @@ function f_vsMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setGameMode('vs')
+			setDiscordState("In Versus Mode")
 			--QUICK VERSUS (play random fights)
 			if vsMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
+				setDiscordState("In Main Menu")
 				f_randomMenu()
 			--P1 VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
 			elseif vsMenu == 2 then
@@ -1436,6 +1451,7 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')
 				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
+				setDiscordState("In Main Menu")
 			--CPU VS P1 (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
 			elseif vsMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1452,6 +1468,7 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--P1 VS P2 (choose a fighter from left side to defeat a human opponent)
 			elseif vsMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1464,6 +1481,7 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--P2 VS P1 (choose a fighter from right side to defeat a human opponent)
 			elseif vsMenu == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1480,6 +1498,7 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--P1 & P3 VS P2 & P4 (team up with another player to defeat co-op team of human opponents)
 			elseif vsMenu == 6 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1494,6 +1513,7 @@ function f_vsMenu()
 				--data.rosterMode = 'versus'
 				--textImgSetText(txt_mainSelect, 'FREE VERSUS TEAM COOPERATIVE')
 				--script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--P1 & P2 VS CPU (team up with another player to defeat CPU controlled opponents of your choice)
 			elseif vsMenu == 7 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1509,6 +1529,7 @@ function f_vsMenu()
 				data.rosterMode = 'versus'
 				textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--CPU MATCH (watch CPU controlled match of your choice)
 			elseif vsMenu == 8 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1521,10 +1542,11 @@ function f_vsMenu()
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH VERSUS')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1585,7 +1607,7 @@ t_randomMenu = {
 	{id = textImgNew(), text = 'P1 VS P2'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_randomMenu()
@@ -1638,28 +1660,33 @@ function f_randomMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setGameMode('random')
+			setDiscordState("In Quick Match")
 			--P1 VS CPU
 			if randomMenu == 1 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				setGameMode('p1vscpurandom')
 				script.select.randomMode()
+				setDiscordState("In Main Menu")
 			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				setGameMode('p1vsp2random')
 				script.select.randomMode()
+				setDiscordState("In Main Menu")
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
 				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				f_comingSoon()
+				setDiscordState("In Main Menu")
 			--CPU VS CPU
 			elseif randomMenu == 4 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				script.select.randomMode()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1719,7 +1746,7 @@ t_practiceMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},	
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
-	{id = textImgNew(), text = 'BACK'},	
+	--{id = textImgNew(), text = 'BACK'},	
 }
 
 function f_practiceMenu()
@@ -1773,6 +1800,7 @@ function f_practiceMenu()
 			f_default()
 			setGameMode('practice')
 			setGameType(2)
+			setDiscordState("Training")
 			--SINGLE MODE (practice special attacks and combos with training dummy character(s) of your choice)
 			if practiceMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1795,6 +1823,7 @@ function f_practiceMenu()
 				data.rosterMode = 'training'
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--MULTIPLAYER MODE (practice special attacks and combos with a human opponent)
 			elseif practiceMenu == 2 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1810,6 +1839,7 @@ function f_practiceMenu()
 				data.rosterMode = 'training'
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to practice special attacks and combos with a training dummy character(s) of your choice)
 			elseif practiceMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1827,10 +1857,11 @@ function f_practiceMenu()
 				--data.rosterMode = 'training'
 				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')
 				--script.select.f_selectSimple()			
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1894,7 +1925,7 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'SCORE ATTACK'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_challengeMenu()
@@ -1955,7 +1986,9 @@ function f_challengeMenu()
 				--MISSIONS/TRIALS (complete missions or combos trial challenges)
 				elseif challengeMenu == 2 then
 					sndPlay(sysSnd, 100, 1)
+					setDiscordState("In Missions")
 					script.missions.f_missionMenu()
+					setDiscordState("In Main Menu")
 				--BOSS FIGHT (defeat boss characters)
 				elseif challengeMenu == 3 then
 					sndPlay(sysSnd, 100, 1)
@@ -1987,9 +2020,9 @@ function f_challengeMenu()
 					sndPlay(sysSnd, 100, 1)
 					f_suddenMenu()
 				--BACK
-				else
-					sndPlay(sysSnd, 100, 2)
-					break
+				--else
+					--sndPlay(sysSnd, 100, 2)
+					--break
 				end
 			end
 		end
@@ -2054,7 +2087,7 @@ t_survivalMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_survivalMenu()
@@ -2106,6 +2139,7 @@ function f_survivalMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("In Survival")
 			--SINGLE MODE [LEFT SIDE] (defeat as many opponents as you can with a single Health Meter)
 			if survivalMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2117,6 +2151,7 @@ function f_survivalMenu()
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (defeat as many opponents as you can with a single Health Meter)
 			elseif survivalMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2133,6 +2168,7 @@ function f_survivalMenu()
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to defeat as many opponents as you can with a single Health Meter)
 			elseif survivalMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2145,6 +2181,7 @@ function f_survivalMenu()
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CPU MODE (watch CPU defeat as many opponents as it can with a single Health Meter)
 			elseif survivalMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2157,10 +2194,11 @@ function f_survivalMenu()
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SURVIVAL')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2219,7 +2257,7 @@ end
 t_bossMenu = {
 	{id = textImgNew(), text = 'VS SINGLE BOSS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bossMenu()
@@ -2281,9 +2319,9 @@ function f_bossMenu()
 				sndPlay(sysSnd, 100, 1)
 				f_bossrushMenu()
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2390,6 +2428,7 @@ function f_bossChars()
 			f_default()
 			if bossChars < #t_bossSingle then --This table refers to the one at the end of the parser.lua script
 			--BOSS CHAR NAME (defeat 1 selected boss character)
+				setDiscordState("In Boss Fight")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2TeamMenu = {mode = 0, chars = 1}
@@ -2399,6 +2438,7 @@ function f_bossChars()
 				data.rosterMode = 'boss'
 				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2463,7 +2503,7 @@ t_bossrushMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bossrushMenu()
@@ -2515,6 +2555,7 @@ function f_bossrushMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("In Boss Rush")
 			--SINGLE MODE [LEFT SIDE] (defeat all bosses in a row)
 			if bossrushMenu == 1 then		
 				sndPlay(sysSnd, 100, 1)
@@ -2527,6 +2568,7 @@ function f_bossrushMenu()
 					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end
 			--SINGLE MODE [RIGHT SIDE] (defeat all bosses in a row)
 			elseif bossrushMenu == 2 then		
@@ -2546,6 +2588,7 @@ function f_bossrushMenu()
 					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end
 			--CO-OP MODE (team up with another player to defeat all bosses in a row)
 			elseif bossrushMenu == 3 then
@@ -2560,6 +2603,7 @@ function f_bossrushMenu()
 					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end
 			--CPU MODE (watch CPU defeat all bosses in a row)
 			elseif bossrushMenu == 4 then
@@ -2574,11 +2618,12 @@ function f_bossrushMenu()
 					data.rosterMode = 'cpu'
 					textImgSetText(txt_mainSelect, 'WATCH BOSS RUSH')
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2637,7 +2682,7 @@ end
 t_bonusMenu = {
 	{id = textImgNew(), text = 'SINGLE MODE'},
 	{id = textImgNew(), text = 'BONUS RUSH'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bonusMenu()
@@ -2699,9 +2744,9 @@ function f_bonusMenu()
 				sndPlay(sysSnd, 100, 1)
 				f_bonusrushMenu()
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2808,6 +2853,7 @@ function f_bonusExtras()
 			f_default()
 			if bonusExtras < #t_bonusExtras then --This table refers to the one at the end of the parser.lua script
 			--BONUS CHAR NAME (clear 1 selected bonus game)
+				setDiscordState("In Bonus Games")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				data.p2TeamMenu = {mode = 0, chars = 1}
@@ -2818,6 +2864,7 @@ function f_bonusExtras()
 				data.rosterMode = 'bonus'
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -2881,7 +2928,7 @@ t_bonusrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bonusrushMenu()
@@ -2933,6 +2980,7 @@ function f_bonusrushMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("In Bonus Rush")
 			--SINGLE MODE [LEFT SIDE] (clear all bonus games in a row)
 			if bonusrushMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
@@ -2947,6 +2995,7 @@ function f_bonusrushMenu()
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end
 			--SINGLE MODE [RIGHT SIDE] (clear all bonus games in a row)
 			elseif bonusrushMenu == 2 then
@@ -2967,6 +3016,7 @@ function f_bonusrushMenu()
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end
 			--CO-OP MODE (team up with another player to clear all bonus games in a row)
 			elseif bonusrushMenu == 3 then
@@ -2982,11 +3032,12 @@ function f_bonusrushMenu()
 					data.rosterMode = 'bonus'
 					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
+					setDiscordState("In Main Menu")
 				end					
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3047,7 +3098,7 @@ t_timeMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_timeMenu()
@@ -3099,6 +3150,7 @@ function f_timeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("In Time Attack")
 			--SINGLE MODE [LEFT SIDE] (defeat all character roster as quickly as possible, beating previous time records)
 			if timeMenu == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3112,6 +3164,7 @@ function f_timeMenu()
 				--data.stageMenu = true
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 2 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3130,6 +3183,7 @@ function f_timeMenu()
 				--data.stageMenu = true
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3144,6 +3198,7 @@ function f_timeMenu()
 				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CPU MODE (watch CPU defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3158,10 +3213,11 @@ function f_timeMenu()
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH TIME ATTACK')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3222,7 +3278,7 @@ t_suddenMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_suddenMenu()
@@ -3274,6 +3330,7 @@ function f_suddenMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("In Sudden Death")
 			--SINGLE MODE [LEFT SIDE] (see how many characters out of all roster you can take down with 1 Hit)
 			if suddenMenu == 1 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3287,6 +3344,7 @@ function f_suddenMenu()
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (see how many characters out of all roster you can take down with 1 Hit)
 			elseif suddenMenu == 2 then
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3305,6 +3363,7 @@ function f_suddenMenu()
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to see how many characters out of all roster you can take down with 1 Hit)
 			elseif suddenMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3319,6 +3378,7 @@ function f_suddenMenu()
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CPU MODE (see how many characters out of all roster the CPU can take down with 1 Hit)
 			elseif suddenMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3332,10 +3392,11 @@ function f_suddenMenu()
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SUDDEN DEATH')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3399,7 +3460,7 @@ t_extrasMenu = {
 	{id = textImgNew(), text = 'TOURNEY'},
 	{id = textImgNew(), text = 'ADVENTURE'},
 	{id = textImgNew(), text = 'THE VAULT'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_extrasMenu()
@@ -3459,33 +3520,41 @@ function f_extrasMenu()
 			elseif extrasMenu == 2 then
 				sndPlay(sysSnd, 100, 1)
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				setDiscordState("In Events")
 				script.events.f_eventMenu()
+				setDiscordState("In Main Menu")
 			--TOWER MODE (fight against enemy forces in customizable tower sizes)
 			elseif extrasMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
 				textImgSetText(txt_mainSelect, 'TOWER MODE')
 				script.select.f_selectTower()
+				setDiscordState("In Main Menu")
 			--LEGION MODE (raise your own army to fight several enemy forces and conquer customizable maps)
 			elseif extrasMenu == 4 then
 				sndPlay(sysSnd, 100, 1)
 				textImgSetText(txt_mainSelect, 'LEGION MODE')
 				script.select.f_selectLegion()
+				setDiscordState("In Main Menu")
 			--TOURNEY MODE (participate in customizable single-elimination tournaments)
 			elseif extrasMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
 				f_tourneyMenu()
+				setDiscordState("In Main Menu")
 			--ADVENTURE MODE (explore a custom map with goals and level up your characters)
 			elseif extrasMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
 				script.select.f_selectAdventure()--script.adventure.f_mainAdventure()
+				setDiscordState("In Main Menu")
 			--THE VAULT MODE (insert secret codes to unlock things)
 			elseif extrasMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
+				setDiscordState("In Secret Room")
 				f_theVault()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3546,7 +3615,7 @@ t_allcharsMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_allcharsMenu()
@@ -3598,6 +3667,7 @@ function f_allcharsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("In Endless Mode")
 			--SINGLE MODE [LEFT SIDE] (choose a fighter to defeat endless CPU controlled opponents)
 			if allcharsMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3609,6 +3679,7 @@ function f_allcharsMenu()
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (choose a fighter to defeat endless CPU controlled opponents)
 			elseif allcharsMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3625,6 +3696,7 @@ function f_allcharsMenu()
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to defeat endless CPU controlled opponents)
 			elseif allcharsMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3637,6 +3709,7 @@ function f_allcharsMenu()
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--CPU MODE (choose a fighter to watch endless CPU fights)
 			elseif allcharsMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -3649,10 +3722,11 @@ function f_allcharsMenu()
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH ENDLESS')
 				script.select.f_selectAdvance()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3712,7 +3786,7 @@ t_tourneyMenu = {
 	{id = textImgNew(), text = 'ROUND OF 16'},
 	{id = textImgNew(), text = 'ROUND OF 8'},
 	{id = textImgNew(), text = 'ROUND OF 4'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_tourneyMenu()
@@ -3798,9 +3872,9 @@ function f_tourneyMenu()
 				textImgSetText(txt_mainSelect, 'TOURNAMENT - SEMIFINALS')
 				script.select.f_selectTourney()
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3868,7 +3942,7 @@ t_watchMenu = {
 	{id = textImgNew(), text = 'SCREENSHOTS'},
 	{id = textImgNew(), text = 'GALLERY'},
 	{id = textImgNew(), text = 'CREDITS'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_watchMenu()
@@ -3938,8 +4012,10 @@ function f_watchMenu()
 				data.p2Char = {t_charAdd['stage viewer']}
 				data.gameMode = 'stage viewer'
 				setGameMode('stageviewer')
+				setDiscordState("Watching Stages")
 				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
 				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
 			--LEADERBOARDS (display rankings data)
 			elseif watchMenu == 3 then
 				sndPlay(sysSnd, 100, 1)
@@ -3956,16 +4032,22 @@ function f_watchMenu()
 			--STORYBOARDS (play storyboards)
 			elseif watchMenu == 6 then
 				sndPlay(sysSnd, 100, 1)
+				setDiscordState("In Storyboards")
 				f_storyboardMenu()
+				setDiscordState("In Main Menu")
 			--CUTSCENES (play video cutscenes)
 			elseif watchMenu == 7 then
 				sndPlay(sysSnd, 100, 1)
+				setDiscordState("In Cutscenes")
 				f_videoMenu()
+				setDiscordState("In Main Menu")
 			--SOUND TEST (listen sounds)
 			elseif watchMenu == 8 then
 				sndPlay(sysSnd, 100, 1)
 				soundTest = true
+				setDiscordState("In Sound Test")
 				f_songMenu()
+				setDiscordState("In Main Menu")
 			--SCREENSHOTS (watch screenshots taken)
 			elseif watchMenu == 9 then
 				sndPlay(sysSnd, 100, 1)
@@ -3973,15 +4055,18 @@ function f_watchMenu()
 			--GALLERY (watch illustrations)
 			elseif watchMenu == 10 then
 				sndPlay(sysSnd, 100, 1)
+				setDiscordState("Gallery Theater")
 				f_galleryMenu()
+				setDiscordState("In Main Menu")
 			--CREDITS (play credits)
 			elseif watchMenu == 11 then
 				sndPlay(sysSnd, 100, 1)
 				f_playCredits()
+				setDiscordState("In Main Menu")
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -4040,7 +4125,7 @@ end
 t_replayMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
 	{id = textImgNew(), text = 'LOCAL REPLAYS'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_replayMenu()
@@ -4103,16 +4188,18 @@ function f_replayMenu()
 						infoScreen = true
 					else
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						setDiscordState("Online Replays")
 						f_mainReplay()
+						setDiscordState("In Main Menu")
 					end
 				--LOCAL REPLAYS (watch saved replays of your local matches)
 				elseif replayMenu == 2 then
 					sndPlay(sysSnd, 100, 1)
 					f_comingSoon()
 				--BACK
-				else
-					sndPlay(sysSnd, 100, 2)
-					break
+				--else
+					--sndPlay(sysSnd, 100, 2)
+					--break
 				end
 			end
 		end
@@ -5315,7 +5402,7 @@ end
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE ROOM]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A ROOM]'},
-	{id = textImgNew(), text = 'BACK'},
+	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_mainNetplay()
@@ -5434,11 +5521,11 @@ function f_mainNetplay()
 					f_hostRooms()
 				end
 			--BACK
-			else
-				sndPlay(sysSnd, 100, 2)
-				onlinegame = false
-				assert(loadfile('save/data_sav.lua'))()
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--onlinegame = false
+				--assert(loadfile('save/data_sav.lua'))()
+				--break
 			end	
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -5591,6 +5678,7 @@ function f_create()
 	textImgSetText(txt_hosting, 'Waiting for Player 2...')
 	enterNetPlay(inputDialogGetStr(inputdia))
 	netPlayer = 'Host' --For Replay Identify
+	setDiscordState("Waiting Players")
 	--if waitingRoom == 'Training' then
 		--data.p1In = 1
 		--f_practiceMenu() --Try to Wait client in Training Mode
@@ -5600,6 +5688,7 @@ function f_create()
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ''
+			setDiscordState("In Main Menu")
 			return true
 		end
 		--Draw BG
@@ -5755,6 +5844,7 @@ function f_directConnect()
 	enterNetPlay(ip) --Connect to entered IP address
 	netPlayer = 'Client'
 	textImgSetText(txt_connecting, 'Now connecting to ['..ip..']')
+	setDiscordState("Searching Room")
 	while not connected() do
 		--CANCEL CONNECTION
 		if esc() or commandGetState(p1Cmd, 'e') then
@@ -5762,6 +5852,7 @@ function f_directConnect()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ''
+			setDiscordState("In Main Menu")
 			joinExit = true
 			return true
 		end
@@ -6404,7 +6495,7 @@ t_mainLobby = {
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
 	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'ONLINE SETTINGS'},
-	{id = textImgNew(), text = 'LEAVE ONLINE'},
+	--{id = textImgNew(), text = 'LEAVE ONLINE'},
 }
 
 function f_mainLobby()
@@ -6417,6 +6508,7 @@ function f_mainLobby()
 	local bufr = 0
 	local bufl = 0
 	local cancel = false
+	setDiscordState("Playing Online")
 	while true do
 		--assert(loadfile('save/temp_sav.lua'))()
 		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone == true then
@@ -6587,9 +6679,9 @@ function f_mainLobby()
 				sndPlay(sysSnd, 100, 1)
 				script.options.f_onlineCfg()
 			--EXIT
-			else
-				sndPlay(sysSnd, 100, 2)
-				break
+			--else
+				--sndPlay(sysSnd, 100, 2)
+				--break
 			end			
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))

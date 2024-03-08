@@ -72,9 +72,14 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 //System Settings
+const ^/char WindowTitle = "\""I.K.E.M.E.N. PLUS ULTRA"\"";
 const ^/char listenPort = "\""7500"\"";
 const ^/char UserName = "\""CableDorado2"\"";
 const ^/char system = "\""script/main.lua"\"";
+
+//Discord Settings
+const ^/char GameID = "\""1200228516554346567"\"";
+const ^/char GameState = "\""Starting Engine"\"";
 
 //Input Settings
 lib sdl = <alpha/sdlplugin.ssz>;

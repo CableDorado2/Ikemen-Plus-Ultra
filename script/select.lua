@@ -1568,6 +1568,7 @@ function f_selectAdvance()
 				--Go to 1P VS 2P Mode
 					f_default()
 					setGameMode('vs')
+					--setDiscordState("VS Challenger")
 					data.p2In = 2
 					data.stageMenu = true
 					data.p2Faces = true
@@ -1576,6 +1577,7 @@ function f_selectAdvance()
 					textImgSetText(txt_mainSelect, 'VERSUS MODE')
 					f_selectSimple()
 				--Restore Arcade Data when f_selectSimple() end
+					--setDiscordState("In Arcade Mode")
 					data.t_p1selected = t_p1selectedTemp --Restore chars selected for arcade
 					data.t_p2selected = t_p2selectedTemp
 					p1numChars = p1RestoreTeamMode --Restore team mode

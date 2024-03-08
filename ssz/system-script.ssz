@@ -655,13 +655,6 @@ void setDiscordState(&.lua.State L=, int re=)
   .sdl.setDiscordState(txt);
 }
 
-void setDiscordBigTxt(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^/char txt = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .sdl.setDiscordBigTxt(txt);
-}
-
 void setVolume(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1994,7 +1987,6 @@ public void init(&.lua.State L=)
   L.register("setUserName", .setUserName);
   L.register("discordUpdate", .discordUpdate);
   L.register("setDiscordState", .setDiscordState);
-  L.register("setDiscordBigTxt", .setDiscordBigTxt);
   L.register("setVolume", .setVolume);
   L.register("setPanStr", .setPanStr);
   //L.register("getWidth", .getWidth);
