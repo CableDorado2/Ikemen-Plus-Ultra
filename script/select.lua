@@ -1323,7 +1323,7 @@ function f_selectAdvance()
 							data.arcadeClear = true --Unlocks
 							f_saveProgress()
 						end
-						f_storyboard('data/screenpack/credits.def')
+						f_playCredits()
 						f_storyboard('data/screenpack/gameover.def')
 						f_storyboard('data/screenpack/intro.def')
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1387,7 +1387,7 @@ function f_selectAdvance()
 							data.arcadeClear = true --Unlocks
 							f_saveProgress()
 						end
-						f_storyboard('data/screenpack/credits.def')
+						f_playCredits()
 						f_storyboard('data/screenpack/gameover.def')
 						f_storyboard('data/screenpack/intro.def')
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)

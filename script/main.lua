@@ -1074,7 +1074,6 @@ function f_mainMenu()
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
 					setDiscordState("In Story Mode")
-					f_playCredits2()
 					--script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play a customizable arcade ladder)
@@ -4061,6 +4060,7 @@ function f_watchMenu()
 			--CREDITS (play credits)
 			elseif watchMenu == 11 then
 				sndPlay(sysSnd, 100, 1)
+				playBGM("sound/system/credits.mp3")
 				f_playCredits()
 				setDiscordState("In Main Menu")
 			--BACK
@@ -7033,6 +7033,7 @@ function f_saveProgress()
 		['data.story1_4AStatus'] = data.story1_4AStatus,
 		['data.story1_4BStatus'] = data.story1_4BStatus,
 		['data.story1_4CStatus'] = data.story1_4CStatus,
+		['data.story1_4DStatus'] = data.story1_4DStatus,
 	--Story Mode - Arc 1 Chapters Unlocks
 		['data.story1_1Unlock'] = data.story1_1Unlock,
 		['data.story1_2Unlock'] = data.story1_2Unlock,
@@ -7040,7 +7041,8 @@ function f_saveProgress()
 		['data.story1_3BUnlock'] = data.story1_3BUnlock,
 		['data.story1_4AUnlock'] = data.story1_4AUnlock,
 		['data.story1_4BUnlock'] = data.story1_4BUnlock,
-		['data.story1_4CUnlock'] = data.story1_4CUnlock
+		['data.story1_4CUnlock'] = data.story1_4CUnlock,
+		['data.story1_4DUnlock'] = data.story1_4DUnlock
 	}
 	s_dataLUA = f_strSub(s_dataLUA, t_progress)
 	local file = io.open("save/stats_sav.lua","w+")
@@ -7071,66 +7073,169 @@ end
 
 --;===========================================================
 --; CREDITS SCREEN
---;===========================================================
+--;=========================================================== 
 function f_playCredits()
-	cmdInput()
-	f_storyboard('data/screenpack/credits.def')
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-	if data.attractMode == true then
-		playBGM(bgmTitle)
-	elseif data.rosterMode == 'story' then
-		playBGM(bgmStory)
-	else
-		f_menuMusic()
-	end
-	--f_default()
-end
- 
-function f_playCredits2()
 	local scroll = 0
-	local speed = 0.5
+	local speed = 0
+	local speedX1 = 0.5
+	local speedX2 = 1.5
 	local skip = false
 	local creditsBoxCfg = textImgNew()
-	local txtFont = font1
+	local txtFont = font7--font14
 	local txtBank = 0
 	local txtAline = 0 --[1]= Align text left | [0]= Center Text | [-1]= Align text right
-	local txtSpacing = 8.8 --spacing between lines (rendering Y position increasement for each line)
+	local txtSpacing = 12 --spacing between lines (rendering Y position increasement for each line)
 	local txtScaleX = 1
 	local txtScaleY = 1
 	local txtAlphaS = 255
 	local txtAlphaD = 0
 	local creditsTable = f_extractText(txt_creditsBox) --This returns a table with all text in the same written order
 	cmdInput()
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll == 2000 then break end --Credits Duration
+		if scroll > 1600 then break end --Credits Duration
 		--Actions
 		if commandGetState(p1Cmd, 'w') and not skip then --Skip Button
-			speed = speed + 1.2 --SpeedUp
 			skip = true
 		elseif commandGetState(p1Cmd, 'w') and skip then --Unskip Button
-			speed = 0.5 --Back to normal speed
 			skip = false
+		end
+		if not skip then speed = speedX1 --Normal
+		elseif skip then speed = speedX2 --Faster
 		end
 		--Draw Text
 		for i = 1, #creditsTable do
-			textImgDraw(f_updateTextImg(creditsBoxCfg, txtFont, txtBank, txtAline, creditsTable[i], 155, 120 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
+			textImgDraw(f_updateTextImg(creditsBoxCfg, txtFont, txtBank, txtAline, creditsTable[i], 155, 260 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
 		end
+		f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --test timer
 		scroll = scroll + speed
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
+	--When End
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then
+		playBGM(bgmTitle)
+	elseif data.rosterMode == 'story' then
+		playBGM(bgmStory)
+	elseif data.rosterMode == 'arcade' then
+		--Nothing because game over screen comes...
+	else
+		f_menuMusic()
+	end
+	--f_default()
 end
 
 txt_creditsBox = [[
-This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
+I.K.E.M.E.N PLUS ULTRA
 
-* This is a public development release, for testing purposes.
-* This build may contain bugs and incomplete features.
-* Your help and cooperation are appreciated!
-* Ikemen GO engine is the lastest and supported version by original developers.
-* Original repo source code: https://osdn.net/users/supersuehiro/
+
+
+MAIN PROGRAM
+
+SUEHIRO
+ALCERIS
+K4THOS
+SHINLUCHO
+NEATUNSOU
+WINDBLADE
+DAN
+KIDCY
+WINTERMOURN
+SHIYO KAKUGE
+KAMEKAZE
+TWO4TEEZEE
+SUPER
+THEFCLASS97
+RODKNEE
+ROS
+YAMORI X
+JADE MIDORI
+PLASMOIDTHUNDER
+STRONG FS
+CD2
+
+
+CHARACTERS DESIGN
+
+ELECBYTE TEAM
+THE_NONE
+SENNOU-ROOM
+MAGE
+DIVINEWOLF
+PROUD OF RAGEQUITTIN
+A.K.A. TOASTED MILQUE
+S.Y.D
+SILVAN
+MASUKENPU-KUN
+DONALDEUS
+PHANTOM.OF.THE.SERVER
+REU
+YOSHIN222
+STUPA
+
+
+
+STAGES DESIGN
+
+ELECBYTE TEAM
+HEKUTTA
+SHIYO KAKUGE
+NEXT ONE
+AIROLG1990
+RIVIERA
+PHANTOM.OF.THE.SERVER
+CHARLES2011
+APPLEST0RE
+
+
+
+GRAPHICS DESIGN
+
+ELECBYTE TEAM
+
+
+
+SOUND DESIGN
+
+GENERIC SOUNDS
+DING
+TEKKEN 7 ANNOUNCER
+
+
+STORY ANIMATION DESIGN
+
+CD2
+SWEET CREATURES
+AUGUSTO SAPIENTI
+
+
+SPECIAL THANKS
+
+ACDGAMES
+STRONG FS
+PLASMOIDTHUNDER
+DJ DELORIE
+SHAWN HARGREAVES
+TOMISLAV UZELAC AND OVE KAAVEN
+GUAN FOO WAH
+PETER WANG AND BRENNAN UNDERWOOD
+EARLE F. PHILHOWER III
+DAVID CORNISH
+THE ENHANCED SPECIAL TESTING PEOPLE
+
+
+AND YOU
+
+
+
+
+
+PRESENTED BY
+
+CABLE DORADO 2
  ]]
 
 --;===========================================================

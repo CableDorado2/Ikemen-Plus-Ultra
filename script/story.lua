@@ -194,6 +194,9 @@ chapt4_2 = animNew(storySff, [[1,44, 0,0,]])
 --Arc 1 - Chapter 4.3 Preview
 chapt4_3 = animNew(storySff, [[1,45, 0,0,]])
 
+--Arc 1 - Chapter 4.4 Preview
+chapt4_4 = animNew(storySff, [[1,46, 0,0,]])
+
 --[[Chapter Preview
 function f_chapterPreview()
 	chapterPreview = ''
@@ -216,6 +219,7 @@ t_arc1 = {
 	{Name = '', Img = '', ID = textImgNew(), Status = ''},
 	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
 	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
 	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
 	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
 }
@@ -254,11 +258,11 @@ function f_storyMenu()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 --Load Chapters Progress
-	data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus
+	data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus + data.story1_4DStatus
 	data.story2Progress = 0
 	data.story3Progress = 0
 --Arcs Progress Logic
-	story1Data = (math.floor((data.story1Progress * 100 / 8) + 0.5)) --The number (8) is the amount of all data.story1Progress
+	story1Data = (math.floor((data.story1Progress * 100 / 9) + 0.5)) --The number (9) is the amount of all data.story1Progress
 	story2Data = (math.floor((data.story2Progress * 100 / 1) + 0.5))
 	story3Data = (math.floor((data.story3Progress * 100 / 1) + 0.5))
 --Story Mode Progress Logic
@@ -314,7 +318,9 @@ function f_storyMenu()
 		--SLOT 8
 			elseif storyMenu == 1 and chapterMenu == 8 and data.story1_4CUnlock == true then f_arc1_chapter4_3()
 		--SLOT 9
-			elseif storyMenu == 1 and chapterMenu == 9 then f_storyRosterTest()
+			elseif storyMenu == 1 and chapterMenu == 9 and data.story1_4DUnlock == true then f_arc1_chapter4_4()
+		--SLOT 10
+			elseif storyMenu == 1 and chapterMenu == 10 then f_storyRosterTest()
 		--EMPTY SLOT OR LOCKED CHAPTER
 			else
 				sndPlay(sysSnd, 100, 5)
@@ -359,9 +365,10 @@ function f_storyMenu()
 			if data.story1_3BUnlock == true then t_arc1[5].Name = 'BROKEN SPIRIT' else t_arc1[5].Name = '???' end
 			if data.story1_4AUnlock == true then t_arc1[6].Name = 'FOR THE OLD TIMES' else t_arc1[6].Name = '???' end
 			if data.story1_4BUnlock == true then t_arc1[7].Name = 'LIFE LESSON' else t_arc1[7].Name = '???' end
-			if data.story1_4CUnlock == true then t_arc1[8].Name = 'THE FALL OF A MASTER' else t_arc1[8].Name = '???' end
-			t_arc1[9].Name = 'YOUR STORY CHAPTER HERE'
+			if data.story1_4CUnlock == true then t_arc1[8].Name = 'ZERO HOUR' else t_arc1[8].Name = '???' end
+			if data.story1_4DUnlock == true then t_arc1[9].Name = 'THE FALL OF A MASTER' else t_arc1[9].Name = '???' end
 			t_arc1[10].Name = 'YOUR STORY CHAPTER HERE'
+			t_arc1[11].Name = 'YOUR STORY CHAPTER HERE'
 	--Arc 2 Menu Settings
 		elseif storyMenu == 2 then
 			t_chapter = t_arc2
@@ -566,6 +573,15 @@ function f_storyMenu()
 			if data.story1_4CStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
 			if data.story1_4CUnlock == true then
 				chaptPreview = chapt4_3
+				txt_storyInfo = "TODO DESCRIPTION..."
+			else
+				chaptPreview = chaptUnknown
+				txt_storyInfo = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."
+			end
+		elseif storyMenu == 1 and chapterMenu == 9 then
+			if data.story1_4DStatus == 1 then chaptCheck = checkIco else chaptCheck = checkNA end
+			if data.story1_4DUnlock == true then
+				chaptPreview = chapt4_4
 				txt_storyInfo = "A BRUTAL END FOR ELECBYTE'S CHARACTER."
 			else
 				chaptPreview = chaptUnknown
@@ -774,9 +790,9 @@ function f_arc1_chapter3_1()
 		f_storyStatus()
 		f_arc1_chapter4_1()
 	elseif script.select.winner == 2 then
-		data.story1_4BUnlock = true
+		data.story1_4CUnlock = true
 		f_storyStatus()
-		f_arc1_chapter4_2()
+		f_arc1_chapter4_3()
 	end
 end
 
@@ -806,14 +822,14 @@ function f_arc1_chapter3_2()
 	data.storyNo = '1-3B'
 	setGameMode('story')
 	script.select.f_selectStory()
-	if script.select.winner == 2 then
+	if script.select.winner == 1 then
 		data.story1_4BUnlock = true
 		f_storyStatus()
 		f_arc1_chapter4_2()
-	elseif script.select.winner == 1 then
-		data.story1_4CUnlock = true
+	elseif script.select.winner == 2 then
+		data.story1_4DUnlock = true
 		f_storyStatus()
-		f_arc1_chapter4_3()
+		f_arc1_chapter4_4()
 	end
 end
 
@@ -831,12 +847,13 @@ function f_arc1_chapter4_1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/Sakura.def"]}
+	--data.stage = {t_stageDef["stages/Sakura.def"]}
 	data.rosterMode = 'story'
 	data.storyNo = '1-4A'
 	setGameMode('story')
 	script.select.f_selectStory()
 	f_storyStatus()
+	playBGM("sound/system/opening.mp3") --Play this credit song for this ending
 	f_playCredits() --Go to credits screen
 end
 
@@ -847,6 +864,7 @@ function f_arc1_chapter4_2()
 	data.rosterMode = 'story'
 	data.storyNo = '1-4B'
 	f_storyStatus()
+	playBGM("sound/random 2.mp3")
 	f_playCredits()
 end
 
@@ -857,6 +875,18 @@ function f_arc1_chapter4_3()
 	data.rosterMode = 'story'
 	data.storyNo = '1-4C'
 	f_storyStatus()
+	playBGM("sound/system/ranking.mp3")
+	f_playCredits()
+end
+
+function f_arc1_chapter4_4()
+	playVideo("movie/KFM-Chapter 4-D.wmv")
+	f_default()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.rosterMode = 'story'
+	data.storyNo = '1-4D'
+	f_storyStatus()
+	playBGM("sound/Suave's Corridor.mp3")
 	f_playCredits()
 end
 
@@ -890,6 +920,7 @@ function f_storyStatus()
 	elseif data.storyNo == '1-4A' then data.story1_4AStatus = 1
 	elseif data.storyNo == '1-4B' then data.story1_4BStatus = 1
 	elseif data.storyNo == '1-4C' then data.story1_4CStatus = 1
+	elseif data.storyNo == '1-4D' then data.story1_4DStatus = 1
 	end
 	f_saveProgress()
 	assert(loadfile('save/stats_sav.lua'))()

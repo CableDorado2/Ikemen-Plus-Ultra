@@ -1,8 +1,10 @@
---This file handles the addition of new config.ssz, data_sav.lua, and training_sav.lua entires.
---It's much nicer when you don't have to keep resetting your entire config.
+--[[
+This file handles the addition of new config.ssz, data_sav.lua, and training_sav.lua entires.
+It's much nicer when you don't have to keep resetting your entire config.
 
---Might seem overkill that this is for so few options at the moment, but it makes things futureproof.
---Find, Value, Append (to)
+Might seem overkill that this is for so few options at the moment, but it makes things futureproof.
+Find, Value, Append (to)
+]]
 t_config = {
 	{f = 'const float PanStr', v = ' = 0.8', a = '(const float BGMVol%s*=%s*%d%.*%d*;)'},
 }

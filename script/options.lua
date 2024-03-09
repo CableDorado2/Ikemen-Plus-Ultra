@@ -7236,6 +7236,7 @@ function f_defaultStats()
 	data.story1_4AStatus = 0
 	data.story1_4BStatus = 0
 	data.story1_4CStatus = 0
+	data.story1_4DStatus = 0
 --Story Mode - Arc 1 Chapters Unlocks
 	data.story1_1Unlock = false
 	data.story1_2Unlock = false
@@ -7244,6 +7245,7 @@ function f_defaultStats()
 	data.story1_4AUnlock = false
 	data.story1_4BUnlock = false
 	data.story1_4CUnlock = false
+	data.story1_4DUnlock = false
 	--
 	data.erase = true
 	modified = 1
