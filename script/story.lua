@@ -130,17 +130,18 @@ arc2 = animNew(storySff, [[0,5, 0,0,]])
 --Arc 3 Icon
 arc3 = animNew(storySff, [[0,6, 0,0,]])
 
---Arc Icon
---function f_arcPreview()
-	--arcPreview = ''
-	--arcPreview = '0,' .. arcList-1 .. ', 0,0, 0'
-	--arcPreview = animNew(storySff, arcPreview)
-	--animSetScale(arcPreview, 0.4, 0.25)
-	--animSetPos(arcPreview, 50, 21)
-	--animUpdate(arcPreview)
-	--animDraw(arcPreview)
-	--return arcPreview
---end
+--[[Arc Icon
+function f_arcPreview()
+	arcPreview = ''
+	arcPreview = '0,' .. arcList-1 .. ', 0,0, 0'
+	arcPreview = animNew(storySff, arcPreview)
+	animSetScale(arcPreview, 0.4, 0.25)
+	animSetPos(arcPreview, 50, 21)
+	animUpdate(arcPreview)
+	animDraw(arcPreview)
+	return arcPreview
+end
+]]
 
 t_storySelect = {
 	{Name = '',	Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''}, --Add Arc Slot
@@ -193,17 +194,18 @@ chapt4_2 = animNew(storySff, [[1,44, 0,0,]])
 --Arc 1 - Chapter 4.3 Preview
 chapt4_3 = animNew(storySff, [[1,45, 0,0,]])
 
---Chapter Preview
---function f_chapterPreview()
-	--chapterPreview = ''
-	--chapterPreview = '0,' .. chapterList-1 .. ', 0,0, 0'
-	--chapterPreview = animNew(storySff, chapterPreview)
-	--animSetScale(chapterPreview, 0.4, 0.25)
-	--animSetPos(chapterPreview, 50, 21)
-	--animUpdate(chapterPreview)
-	--animDraw(chapterPreview)
-	--return chapterPreview
---end
+--[[Chapter Preview
+function f_chapterPreview()
+	chapterPreview = ''
+	chapterPreview = '0,' .. chapterList-1 .. ', 0,0, 0'
+	chapterPreview = animNew(storySff, chapterPreview)
+	animSetScale(chapterPreview, 0.4, 0.25)
+	animSetPos(chapterPreview, 50, 21)
+	animUpdate(chapterPreview)
+	animDraw(chapterPreview)
+	return chapterPreview
+end
+]]
 
 t_arc1 = {
 	{Name = '',	Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot

@@ -1598,9 +1598,13 @@ function f_mainCfg()
 			if playerName ~= '' and playerName ~= nil then
 				if playerName:match('^"*(%")$') then
 					playerName = playerName:gsub('^("*)[%"]$','%1')
-					--What if you want to get certain pieces out of a string of text? This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures will be returned from string.match.
-					--> = string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
-					--foo 123 bar 456
+					--[[
+					What if you want to get certain pieces out of a string of text?
+					This can be done by wrapping parts of a pattern in ( ), and the contents of each of these captures
+					will be returned from string.match.
+					string.match("foo: 123 bar: 456", '(%a+):%s*(%d+)%s+(%a+):%s*(%d+)') -- %a: letter %s: whitespace
+					foo 123 bar 456
+					]]
 					setInputText(playerName)
 				end
 			end
@@ -2902,27 +2906,29 @@ function f_UICfg()
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
-					--if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
-						--sndPlay(sysSnd, 100, 0)
-						--data.language = 'SPANISH'
-						--modified = 1
-						--needReload = 1
-					--elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
-						--sndPlay(sysSnd, 100, 0)
-						--data.language = 'JAPANESE'
-						--modified = 1
-						--needReload = 1
-					--elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
-						--sndPlay(sysSnd, 100, 0)
-						--data.language = 'ENGLISH'
-						--modified = 1
-						--needReload = 1
-					--elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
-						--sndPlay(sysSnd, 100, 0)
-						--data.language = 'SPANISH'
-						--modified = 1
-						--needReload = 1
-					--end
+					--[[
+					if commandGetState(p1Cmd, 'r') and data.language == 'ENGLISH' then
+						sndPlay(sysSnd, 100, 0)
+						data.language = 'SPANISH'
+						modified = 1
+						needReload = 1
+					elseif commandGetState(p1Cmd, 'r') and data.language == 'SPANISH' then
+						sndPlay(sysSnd, 100, 0)
+						data.language = 'JAPANESE'
+						modified = 1
+						needReload = 1
+					elseif commandGetState(p1Cmd, 'l') and data.language == 'SPANISH' then
+						sndPlay(sysSnd, 100, 0)
+						data.language = 'ENGLISH'
+						modified = 1
+						needReload = 1
+					elseif commandGetState(p1Cmd, 'l') and data.language == 'JAPANESE' then
+						sndPlay(sysSnd, 100, 0)
+						data.language = 'SPANISH'
+						modified = 1
+						needReload = 1
+					end
+					]]
 				end
 			--Clock Display
 			elseif UICfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
@@ -3255,34 +3261,38 @@ function f_selectCfg()
 					sndPlay(sysSnd, 100, 0)
 					data.charInfo = 'Author'
 					modified = 1
-				--elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Author' then
-					--sndPlay(sysSnd, 100, 0)
-					--data.charInfo = 'Series'
-					--modified = 1
-				--elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Series' then
-					--sndPlay(sysSnd, 100, 0)
-					--data.charInfo = 'Title'
-					--modified = 1
-				--elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Title' then
-					--sndPlay(sysSnd, 100, 0)
-					--data.charInfo = 'All'
-					--modified = 1
+				--[[
+				elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Author' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'Series'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Series' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'Title'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'r') and data.charInfo == 'Title' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'All'
+					modified = 1
+				]]
 				elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Author' then
 					sndPlay(sysSnd, 100, 0)
 					data.charInfo = 'None'
 					modified = 1
-				--elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Series' then
-					--sndPlay(sysSnd, 100, 0)
-					--data.charInfo = 'Author'
-					--modified = 1
-				--elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Title' then
-					--sndPlay(sysSnd, 100, 0)
-					--data.charInfo = 'Series'
-					--modified = 1
-				--elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'All' then
-					--sndPlay(sysSnd, 100, 0)
-					--data.charInfo = 'Title'
-					--modified = 1
+				--[[
+				elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Series' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'Author'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'Title' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'Series'
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') and data.charInfo == 'All' then
+					sndPlay(sysSnd, 100, 0)
+					data.charInfo = 'Title'
+					modified = 1
+				]]
 				end
 			--Character Random Portrait Display Type
 			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
@@ -4897,37 +4907,39 @@ function f_videoCfg()
 					modified = 1
 					needReload = 1
 				end
-			--OpenGL 2.0
-			--elseif videoCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				--sndPlay(sysSnd, 100, 0)
-				--if b_openGL == false then
-					--b_openGL = true
-					--s_openGL = 'Yes'
-					--f_glWarning()
-					--modified = 1
-					--needReload = 1				
-				--else
-					--b_openGL = false
-					--s_openGL = 'No'
-					--modified = 1
-					--needReload = 0
-				--end
-			--Save memory
-			--elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				--sndPlay(sysSnd, 100, 0)
-				--if b_saveMemory == false then
-					--b_saveMemory = true
-					--s_saveMemory = 'Yes'
-					--f_memWarning()
-					--modified = 1
-					--needReload = 1
-				--else
-					--b_saveMemory = false
-					--s_saveMemory = 'No'
-					--f_memWarning()
-					--modified = 1
-					--needReload = 1
-				--end
+			--[[OpenGL 2.0
+			elseif videoCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				sndPlay(sysSnd, 100, 0)
+				if b_openGL == false then
+					b_openGL = true
+					s_openGL = 'Yes'
+					f_glWarning()
+					modified = 1
+					needReload = 1				
+				else
+					b_openGL = false
+					s_openGL = 'No'
+					modified = 1
+					needReload = 0
+				end
+			]]
+			--[[Save Memory
+			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				sndPlay(sysSnd, 100, 0)
+				if b_saveMemory == false then
+					b_saveMemory = true
+					s_saveMemory = 'Yes'
+					f_memWarning()
+					modified = 1
+					needReload = 1
+				else
+					b_saveMemory = false
+					s_saveMemory = 'No'
+					f_memWarning()
+					modified = 1
+					needReload = 1
+				end
+			]]
 			--Default Values
 			elseif videoCfg == 7 and btnPalNo(p1Cmd) > 0 then
 				sndPlay(sysSnd, 100, 1)
@@ -5728,32 +5740,34 @@ function f_inputCfg()
 				elseif inputCfg == 2 then
 					sndPlay(sysSnd, 100, 1)
 					f_joyMenu()
-				--Player 1 Gamepad Status
-				--elseif inputCfg == 3 then
-					--sndPlay(sysSnd, 100, 1)
-					--if data.disablePadP1 == false then
-						--data.disablePadP1 = true
-						--s_disablePadP1 = 'Disabled'
-					--else
-						--data.disablePadP1 = false
-						--s_disablePadP1 = 'Enabled'
-					--end
-					--modified = 1
-					--commandBufReset(p1Cmd)
-					--commandBufReset(p2Cmd)
-				--Player 2 Gamepad Status
-				--elseif inputCfg == 4 then
-					--sndPlay(sysSnd, 100, 1)
-					--if data.disablePadP2 == false then
-						--data.disablePadP2 = true
-						--s_disablePadP2 = 'Disabled'
-					--else
-						--data.disablePadP2 = false
-						--s_disablePadP2 = 'Enabled'
-					--end
-					--modified = 1
-					--commandBufReset(p1Cmd)
-					--commandBufReset(p2Cmd)
+				--[[Player 1 Gamepad Status
+				elseif inputCfg == 3 then
+					sndPlay(sysSnd, 100, 1)
+					if data.disablePadP1 == false then
+						data.disablePadP1 = true
+						s_disablePadP1 = 'Disabled'
+					else
+						data.disablePadP1 = false
+						s_disablePadP1 = 'Enabled'
+					end
+					modified = 1
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+				]]
+				--[[Player 2 Gamepad Status
+				elseif inputCfg == 4 then
+					sndPlay(sysSnd, 100, 1)
+					if data.disablePadP2 == false then
+						data.disablePadP2 = true
+						s_disablePadP2 = 'Disabled'
+					else
+						data.disablePadP2 = false
+						s_disablePadP2 = 'Enabled'
+					end
+					modified = 1
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+				]]
 				--Swap Controller
 				elseif inputCfg == 3 then
 					sndPlay(sysSnd, 100, 1)
@@ -6617,19 +6631,13 @@ function f_inputMenuRead(playerNo, controller)
 	end
 end
 
-t_newinput = {
-	{id = '', text = "Press any key to assign"},
-}
-for i=1, #t_newinput do
-	t_newinput[i].id = createTextImg(font2, 0, -1, t_newinput[i].text, 236, 222.4+i*15)
-end
-
 function f_readBattleInput(oldkey)
 	getKeyboard = ''
 	local readInput = 1
 	local t = 0
 	readTime = 0
 	inputReady = false
+	sameKey = false
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxKeyCfg*15)
@@ -6641,12 +6649,11 @@ function f_readBattleInput(oldkey)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		readTime = readTime + 1
 		if getKeyboard == '' then
-			for i=1, #t_newinput do
-				if t%60 < 30 then
-					textImgDraw(t_newinput[i].id)
-				end
-				t = t >= 60 and 0 or t + 1
+			if t%60 < 30 then
+				if not sameKey then f_drawQuickText(newinput, font2, 0, -1, "Press any key to assign", 236, 237.4) end
+				if sameKey then f_drawQuickText(newinput, font2, 0, -1, "This key has been already assigned", 236, 237.4) end
 			end
+			t = t >= 60 and 0 or t + 1
 		end
 		for i=1, maxKeyCfg do
 			if i > keyCfg - inputCursorPosY then
@@ -6780,6 +6787,7 @@ function f_readMenuInput(oldkey)
 	local t = 0
 	readTime = 0
 	inputReady = false
+	sameKey = false
 	while true do
 		animDraw(f_animVelocity(optionsBG0, -1, -1))
 		animSetScale(optionsBG1, 220, maxKeyCfg*15)
@@ -6791,12 +6799,11 @@ function f_readMenuInput(oldkey)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		readTime = readTime + 1
 		if getKeyboard == '' then
-			for i=1, #t_newinput do
-				if t%60 < 30 then
-					textImgDraw(t_newinput[i].id)
-				end
-				t = t >= 60 and 0 or t + 1
+			if t%60 < 30 then
+				if not sameKey then	f_drawQuickText(newinput, font2, 0, -1, "Press any key to assign", 236, 237.4) end
+				if sameKey then f_drawQuickText(newinput, font2, 0, -1, "This key has been already assigned", 236, 237.4) end
 			end
+			t = t >= 60 and 0 or t + 1
 		end
 		for i=1, maxKeyCfg do
 			if i > keyCfg - inputCursorPosY then
@@ -6909,12 +6916,211 @@ function f_readMenuInput(oldkey)
 			--GAMEPAD
 			elseif getInputID(0) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(0)
 			end
+			--When you press a key to assing
 			if getKeyboard ~= '' then
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				sndPlay(sysSnd, 100, 1)
-				break
-				cmdInput()
+			--Prevent assing same keys for menu controls
+				--UP (t_keyMenuCfg[1].varText)
+				if keyCfg == 1 and getKeyboard ~= t_keyMenuCfg[2].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--DOWN (t_keyMenuCfg[2].varText)
+				elseif keyCfg == 2 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--LEFT (t_keyMenuCfg[3].varText)
+				elseif keyCfg == 3 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--RIGHT (t_keyMenuCfg[4].varText)
+				elseif keyCfg == 4 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--A (t_keyMenuCfg[5].varText)
+				elseif keyCfg == 5 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--B (t_keyMenuCfg[6].varText)
+				elseif keyCfg == 6 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--C (t_keyMenuCfg[7].varText)
+				elseif keyCfg == 7 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--X (t_keyMenuCfg[8].varText)
+				elseif keyCfg == 8 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--Y (t_keyMenuCfg[9].varText)
+				elseif keyCfg == 9 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--Z (t_keyMenuCfg[10].varText)
+				elseif keyCfg == 10 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--SCREENSHOT (t_keyMenuCfg[11].varText)
+				elseif keyCfg == 11 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--CONFIRM (t_keyMenuCfg[12].varText)
+				elseif keyCfg == 12 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--RETURN (t_keyMenuCfg[13].varText)
+				elseif keyCfg == 13 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--MENU/PAUSE (t_keyMenuCfg[14].varText)
+				elseif keyCfg == 14 and getKeyboard ~= t_keyMenuCfg[1].varText and 
+				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
+				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
+				getKeyboard ~= t_keyMenuCfg[7].varText and getKeyboard ~= t_keyMenuCfg[8].varText and 
+				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
+				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
+				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[3].varText then
+					commandBufReset(p1Cmd)
+					commandBufReset(p2Cmd)
+					sndPlay(sysSnd, 100, 1)
+					sameKey = false
+					break
+					cmdInput()
+				--show a message that it key has been already added
+				else
+					sndPlay(sysSnd, 100, 5)
+					getKeyboard = ''
+					sameKey = true
+				end
 			end
 		end
         if data.attractMode == true then f_attractcfgCredits() end			

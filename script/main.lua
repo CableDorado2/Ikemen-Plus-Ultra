@@ -3,9 +3,6 @@
 --;===========================================================
 math.randomseed(os.time())
 
---Assign Lifebar
-loadLifebar('data/screenpack/fight.def') --path to lifebar stored in 'save/data_sav.lua', also adjustable from options
-
 --Debug stuff
 loadDebugFont('font/14x14.fnt')
 setDebugScript('script/debug.lua')
@@ -13,13 +10,13 @@ setDebugScript('script/debug.lua')
 --Load Common stuff (shared with pause.lua)
 require('script.common')
 
---Loading Text
-txt_loading = createTextImg(font1, 0, -1, 'LOADING FILES...', 310, 230)
+--Assign Lifebar
+loadLifebar(data.lifebar) --path to lifebar stored in 'save/data_sav.lua', also adjustable from options
 
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
-assert(loadfile('script/parser.lua'))()
+assert(loadfile('script/start.lua'))()
 require('script.options')
 require('script.select')
 require('script.statistics')
@@ -37,15 +34,16 @@ resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 --;===========================================================
 --; MAIN MENU SCREENPACK
 --;===========================================================
---[Quick reference]
---animSetScale(a, x, y): Sets the scale of an anim
---animSetPos(a, x  y): Sets the screen position of an anim, relative to the top left corner
---animAddPos(a, x, y): Adjusts an anim's current position
---animSetWindow(a, x1, y1, x2, y2): Sets the drawing window for an anim
---animSetTile(a, x, y): Sets whether to tile (repeat) an anim across the given axes
---animSetAlpha(a, as, ad): Sets the alpha blending of an anim
---animUpdate(a): Advances the anim frame by 1 tick
---animDraw(a): Draws an anim to the screen
+--[[Quick reference]
+animSetScale(a, x, y): Sets the scale of an anim
+animSetPos(a, x  y): Sets the screen position of an anim, relative to the top left corner
+animAddPos(a, x, y): Adjusts an anim's current position
+animSetWindow(a, x1, y1, x2, y2): Sets the drawing window for an anim
+animSetTile(a, x, y): Sets whether to tile (repeat) an anim across the given axes
+animSetAlpha(a, as, ad): Sets the alpha blending of an anim
+animUpdate(a): Advances the anim frame by 1 tick
+animDraw(a): Draws an anim to the screen
+]]
 
 --Buttons Background
 titleBG0 = animNew(sysSff, [[
@@ -54,11 +52,12 @@ titleBG0 = animNew(sysSff, [[
 animAddPos(titleBG0, 160, 0)
 animSetTile(titleBG0, 1, 1)
 animSetWindow(titleBG0, 0, 145, 320, 78)
---parallax is not supported in ikemen
---type  = parallax
---width = 400, 1200
---yscalestart = 100
---yscaledelta = 1
+--[[parallax is not supported yet
+type  = parallax
+width = 400, 1200
+yscalestart = 100
+yscaledelta = 1
+]]
 
 --Buttons Background (fade)
 titleBG1 = animNew(sysSff, [[
@@ -224,7 +223,7 @@ function f_infoboxMenu()
 	--Draw Fade BG
 	animDraw(fadeWindowBG)
 	--Draw Info Text
-	f_textRender(infoboxCfg, txt_infobox, 0, 2, 10, 8.8, 0, 2222)
+	f_textRender(infoboxCfg, txt_infobox, 0, 2, 10, 8.8, 0, -1)
 	--Actions
 	if esc() or btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'e') or commandGetState(p1Cmd, 'u') or commandGetState(p1Cmd, 'd') or commandGetState(p1Cmd, 'l') or commandGetState(p1Cmd, 'r') then
 		--sndPlay(sysSnd, 100, 2)
@@ -679,7 +678,7 @@ end
 --;===========================================================
 txt_mainTitle = createTextImg(jgFnt, 5, 0, '-- PRESS START --', 159, 190)
 --txt_version = createTextImg(font1, 0, -1, 'v1.?.0', 319, 240)
-txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240) --font1, 0, [-1] : [1]= Align text left | [0]= Center Text | [-1]= Align text right
+txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
 txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
 
 function f_mainTitle()
@@ -1075,6 +1074,7 @@ function f_mainMenu()
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
 					setDiscordState("In Story Mode")
+					f_playCredits2()
 					--script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play a customizable arcade ladder)
@@ -2312,7 +2312,7 @@ function f_bossMenu()
 			--SINGLE BOSS
 			if bossMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
-				f_rushTables() --From Parser.lua
+				f_rushTables() --From start.lua
 				f_bossChars()
 			--BOSS RUSH
 			elseif bossMenu == 2 then
@@ -2426,7 +2426,7 @@ function f_bossChars()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			if bossChars < #t_bossSingle then --This table refers to the one at the end of the parser.lua script
+			if bossChars < #t_bossSingle then --This table refers to the one at the end of the start.lua script
 			--BOSS CHAR NAME (defeat 1 selected boss character)
 				setDiscordState("In Boss Fight")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2851,7 +2851,7 @@ function f_bonusExtras()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			if bonusExtras < #t_bonusExtras then --This table refers to the one at the end of the parser.lua script
+			if bonusExtras < #t_bonusExtras then --This table refers to the one at the end of the start.lua script
 			--BONUS CHAR NAME (clear 1 selected bonus game)
 				setDiscordState("In Bonus Games")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -4660,7 +4660,7 @@ function f_songMenu()
 		textImgDraw(txt_song)
 		if confirmSong == false then
 			--Draw Hint Text
-			f_drawQuickText(txt_songHint, font1, 0, 0, 'PRESS ANY CONFIRM BUTTON TO SELECT A SONG', 159, 239)
+			f_drawQuickText(txt_songHint, font1, 0, 0, 'PRESS ANY CONFIRM BUTTON TO SELECT A SONG', 159, 239, 0.8, 0.8)
 			--Draw Table Cursor
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -6962,29 +6962,6 @@ function f_comingSoon()
 end
 
 --;===========================================================
---; CREDITS SCREEN
---;===========================================================
-function f_playCredits()
-	cmdInput()
-	f_storyboard('data/screenpack/credits.def')
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-	if data.attractMode == true then
-		playBGM(bgmTitle)
-	elseif data.rosterMode == 'story' then
-		playBGM(bgmStory)
-	else
-		f_menuMusic()
-	end
-	while true do
-		if commandGetState(p1Cmd, 'w') then --What Happen if you don't press start?
-			f_default()
-			sndPlay(sysSnd, 100, 2)
-			break
-		end
-	end
-end
-
---;===========================================================
 --; LOAD STATISTICS DATA
 --;===========================================================
 function f_playTime()
@@ -7091,6 +7068,70 @@ function f_saveTemp()
 	tempFile:write(s_tempdataLUA)
 	tempFile:close()
 end
+
+--;===========================================================
+--; CREDITS SCREEN
+--;===========================================================
+function f_playCredits()
+	cmdInput()
+	f_storyboard('data/screenpack/credits.def')
+	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then
+		playBGM(bgmTitle)
+	elseif data.rosterMode == 'story' then
+		playBGM(bgmStory)
+	else
+		f_menuMusic()
+	end
+	--f_default()
+end
+ 
+function f_playCredits2()
+	local scroll = 0
+	local speed = 0.5
+	local skip = false
+	local creditsBoxCfg = textImgNew()
+	local txtFont = font1
+	local txtBank = 0
+	local txtAline = 0 --[1]= Align text left | [0]= Center Text | [-1]= Align text right
+	local txtSpacing = 8.8 --spacing between lines (rendering Y position increasement for each line)
+	local txtScaleX = 1
+	local txtScaleY = 1
+	local txtAlphaS = 255
+	local txtAlphaD = 0
+	local creditsTable = f_extractText(txt_creditsBox) --This returns a table with all text in the same written order
+	cmdInput()
+	while true do
+		if scroll == 2000 then break end --Credits Duration
+		--Actions
+		if commandGetState(p1Cmd, 'w') and not skip then --Skip Button
+			speed = speed + 1.2 --SpeedUp
+			skip = true
+		elseif commandGetState(p1Cmd, 'w') and skip then --Unskip Button
+			speed = 0.5 --Back to normal speed
+			skip = false
+		end
+		--Draw Text
+		for i = 1, #creditsTable do
+			textImgDraw(f_updateTextImg(creditsBoxCfg, txtFont, txtBank, txtAline, creditsTable[i], 155, 120 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
+		end
+		scroll = scroll + speed
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+txt_creditsBox = [[
+This is an unofficial version of S-SIZE Ikemen Engine maintained by CD2.
+
+* This is a public development release, for testing purposes.
+* This build may contain bugs and incomplete features.
+* Your help and cooperation are appreciated!
+* Ikemen GO engine is the lastest and supported version by original developers.
+* Original repo source code: https://osdn.net/users/supersuehiro/
+ ]]
 
 --;===========================================================
 --; INITIALIZE LOOPS

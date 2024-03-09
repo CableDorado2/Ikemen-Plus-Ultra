@@ -502,13 +502,15 @@ function f_aiLevel()
 	--Offset
 	local offset = 0
 	local tagset = 0
-	--local tagSystem = 0
-		--if tagSystem == 0 then
-			--setTag(1, f_tagMode(1, tagset))
-			--setTag(2, f_tagMode(2, tagset))
-			--setTag(3, f_tagMode(3, tagset))
-			--setTag(4, f_tagMode(4, tagset))
-		--end
+	--[[
+	local tagSystem = 0
+		if tagSystem == 0 then
+			setTag(1, f_tagMode(1, tagset))
+			setTag(2, f_tagMode(2, tagset))
+			setTag(3, f_tagMode(3, tagset))
+			setTag(4, f_tagMode(4, tagset))
+		end
+	]]
 	if data.aiRamping and data.gameMode == 'arcade' or data.gameMode == 'survival' then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
@@ -2994,12 +2996,14 @@ function f_p1SelectMenu()
 								end
 							end
 					--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
-						--else
-							--if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-								--f_drawQuickSpr(p1randomPortrait, 125, 16, 0.5, 0.5)
-							--elseif data.randomPortrait == 'Roulette' then
-								--drawPortrait(t_randomChars[math.random(#t_randomChars)], 125, 16, 0.5, 0.5) --Draw RANDOM portrait preview out of BG Position
-							--end
+						--[[
+						else
+							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								f_drawQuickSpr(p1randomPortrait, 125, 16, 0.5, 0.5)
+							elseif data.randomPortrait == 'Roulette' then
+								drawPortrait(t_randomChars[math.random(#t_randomChars)], 125, 16, 0.5, 0.5) --Draw RANDOM portrait preview out of BG Position
+							end
+						]]
 						end
 					end
 				--DRAW RANDOM SPRITE ANIMATIONS
@@ -3373,7 +3377,7 @@ function f_p1SelectMenu()
 				--SINGLE MODE
 					if p1numChars == 1 then
 						if data.randomPortrait == 'Fixed' and p1member1Random == true then
-							f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 10, 165)
+							f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 10, 165, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[1], 10, 165)
 						end
@@ -3383,7 +3387,7 @@ function f_p1SelectMenu()
 						if j == 2 then
 							if data.charPresentation == 'Portrait' then
 								if data.randomPortrait == 'Fixed' and p1member2Random == true then
-									f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 2, 100)
+									f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 2, 100, 0.8, 0.8)
 								else
 									f_drawSelectName(txt_p1Name, data.t_p1selected[2], 2, 100)
 								end
@@ -3398,7 +3402,7 @@ function f_p1SelectMenu()
 					--Draw P1 Member 1 SELECTED Name
 						if data.charPresentation == 'Portrait' then
 							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 2, 88)
+								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 2, 88, 0.8, 0.8)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[1], 2, 88)
 							end
@@ -3430,7 +3434,7 @@ function f_p1SelectMenu()
 					--Draw P1 Member 1 SELECTED Name
 						if data.charPresentation == 'Portrait' then
 							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 2, 88)
+								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 2, 88, 0.8, 0.8)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[1], 2, 88)
 							end
@@ -3478,7 +3482,7 @@ function f_p1SelectMenu()
 				--Draw P1 Member 4 SELECTED Name
 					if j == 4 then
 						if data.randomPortrait == 'Fixed' and p1member4Random == true then
-							f_drawQuickText(txt_p1RandomMember4, jgFnt, 5, 1, 'RANDOM SELECT 4', 12, 166)
+							f_drawQuickText(txt_p1RandomMember4, jgFnt, 5, 1, 'RANDOM SELECT 4', 12, 166, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[4], 12, 166)
 						end
@@ -3486,7 +3490,7 @@ function f_p1SelectMenu()
 				--Draw P1 Member 3 SELECTED Name
 					if j == 3 then
 						if data.randomPortrait == 'Fixed' and p1member3Random == true then
-							f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, 'RANDOM SELECT 3', 8, 160)
+							f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, 'RANDOM SELECT 3', 8, 160, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[3], 8, 160)
 						end
@@ -3494,14 +3498,14 @@ function f_p1SelectMenu()
 				--Draw P1 Member 2 SELECTED Name
 					if j == 2 then
 						if data.randomPortrait == 'Fixed' and p1member2Random == true then
-							f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 4, 154)
+							f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 4, 154, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[2], 4, 154)
 						end
 					end
 				--Draw P1 Member 1 SELECTED Name
 					if data.randomPortrait == 'Fixed' and p1member1Random == true then
-						f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 0, 148)
+						f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 0, 148, 0.8, 0.8)
 					else
 						f_drawSelectName(txt_p1Name, data.t_p1selected[1], 0, 148)
 					end
@@ -4389,12 +4393,14 @@ function f_p2SelectMenu()
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
 								end
 							end
+						--[[
 						--else
-							--if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-								--f_drawQuickSpr(p2randomPortrait, 195, 36, 0.5, 0.5)
-							--elseif data.randomPortrait == 'Roulette' then
-								--drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
-							--end
+							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								f_drawQuickSpr(p2randomPortrait, 195, 36, 0.5, 0.5)
+							elseif data.randomPortrait == 'Roulette' then
+								drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
+							end
+						]]
 						end
 					end
 					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
@@ -4731,7 +4737,7 @@ function f_p2SelectMenu()
 				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
 					if p2numChars == 1 then
 						if data.randomPortrait == 'Fixed' and p2member1Random == true then
-							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 310, 165)
+							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 310, 165, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[1], 310, 165)
 						end
@@ -4746,7 +4752,7 @@ function f_p2SelectMenu()
 							if j == 2 then
 								if data.charPresentation == 'Portrait' then
 									if data.randomPortrait == 'Fixed' and p2member2Random == true then
-										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 318, 100)
+										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 318, 100, 0.8, 0.8)
 									else
 										f_drawSelectName(txt_p2Name, t_selected[2], 318, 100)
 									end
@@ -4760,7 +4766,7 @@ function f_p2SelectMenu()
 							end
 							if data.charPresentation == 'Portrait' then
 								if data.randomPortrait == 'Fixed' and p2member1Random == true then
-									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88)
+									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88, 0.8, 0.8)
 								else
 									f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
 								end
@@ -4789,7 +4795,7 @@ function f_p2SelectMenu()
 						end
 						if data.charPresentation == 'Portrait' then
 							if data.randomPortrait == 'Fixed' and p2member1Random == true then
-								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88)
+								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88, 0.8, 0.8)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
 							end
@@ -4831,27 +4837,27 @@ function f_p2SelectMenu()
 				elseif data.charPresentation == 'Sprite' then
 					if j == 4 then
 						if data.randomPortrait == 'Fixed' and p2member4Random == true then
-							f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, 'RANDOM SELECT 4', 308, 166)
+							f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, 'RANDOM SELECT 4', 308, 166, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[4], 308, 166)
 						end
 					end
 					if j == 3 then
 						if data.randomPortrait == 'Fixed' and p2member3Random == true then
-							f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 312, 160)
+							f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 312, 160, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[3], 312, 160)
 						end
 					end
 					if j == 2 then
 						if data.randomPortrait == 'Fixed' and p2member2Random == true then
-							f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 316, 154)
+							f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 316, 154, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[2], 316, 154)
 						end
 					end
 					if data.randomPortrait == 'Fixed' and p2member1Random == true then
-						f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 320, 148)
+						f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 320, 148, 0.8, 0.8)
 					else
 						f_drawSelectName(txt_p2Name, t_selected[1], 320, 148)
 					end
@@ -5530,24 +5536,27 @@ function f_selectStage()
 	--Stage Data
 		if stageList == 0 then
 			if p1autoSlot == true then
-			--Draw Auto Stage Preview
-				--if data.stageType == 'Classic' then
-					--animUpdate(stagep1)
-					--animDraw(stagep1)
-				--elseif data.stageType == 'Modern' then
-					--animUpdate(stagep1M)
-					--animDraw(stagep1M)
-				--end
+			--[[Draw Auto Stage Preview
+				if data.stageType == 'Classic' then
+					animUpdate(stagep1)
+					animDraw(stagep1)
+				elseif data.stageType == 'Modern' then
+					animUpdate(stagep1M)
+					animDraw(stagep1M)
+				end
+			]]
 			--Set Auto Stage Name
 				textImgSetText(txt_selStage, 'STAGE: AUTO [LEFT SIDE]')
 			elseif p2autoSlot == true then
-				--if data.stageType == 'Classic' then
-					--animUpdate(stagep2)
-					--animDraw(stagep2)
-				--elseif data.stageType == 'Modern' then
-					--animUpdate(stagep2M)
-					--animDraw(stagep2M)
-				--end
+				--[[
+				if data.stageType == 'Classic' then
+					animUpdate(stagep2)
+					animDraw(stagep2)
+				elseif data.stageType == 'Modern' then
+					animUpdate(stagep2M)
+					animDraw(stagep2M)
+				end
+				]]
 				textImgSetText(txt_selStage, 'STAGE: AUTO [RIGHT SIDE]')
 			else --random select
 				if data.randomStagePortrait == 'Roulette' then
@@ -6034,19 +6043,21 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
-	--elseif data.coop == true then --Order Select off when playing in CO-OP Mode
-		--while true do
-			--if i == 0 then
-				--f_selectChar(1, data.t_p1selected)
-				--f_selectChar(2, data.t_p2selected)
-			--elseif i == 10 then
-				--cmdInput()
-				--break
-			--end
-			--i = i + 1
-			--cmdInput()
-			--refresh()
-		--end
+	--[[
+	elseif data.coop == true then --Order Select off when playing in CO-OP Mode
+		while true do
+			if i == 0 then
+				f_selectChar(1, data.t_p1selected)
+				f_selectChar(2, data.t_p2selected)
+			elseif i == 10 then
+				cmdInput()
+				break
+			end
+			i = i + 1
+			cmdInput()
+			refresh()
+		end
+	]]
 	elseif p1teamMode == 0 and p2teamMode == 0 then --Order Select off when P1 and P2 playing in Single Team Mode
 		while true do
 			if i == 0 then
@@ -7726,12 +7737,13 @@ function f_service()
 				if getPlayerSide() == "p1right" then setServiceType(23) else setServiceType(3) end
 				serviceBack = true
 				break
-			--???
-			--elseif serviceMenu == 6 then
-				--devService = true
-				--sndPlay(sysSnd, 100, 1)
-				--setServiceType(?)
-				--break
+			--[[???
+			elseif serviceMenu == 6 then
+				devService = true
+				sndPlay(sysSnd, 100, 1)
+				setServiceType(?)
+				break
+			]]
 			--NOT SERVICE
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -8989,9 +9001,11 @@ end
 --;===========================================================
 --; RANDOMTEST DEFINITION
 --;===========================================================
--- Used to generate AI rank data
--- AutoLevel is a function that ranks characters based on his number of loses vs wins
--- AutoLevel is palette dependent so if a char has a 12th palette OP mode that mode can have more rank than his normal one
+--[[
+Used to generate AI rank data
+AutoLevel is a function that ranks characters based on his number of loses vs wins
+AutoLevel is palette dependent so if a char has a 12th palette OP mode that mode can have more rank than his normal one
+]]
 
 --Ints variables
 local tuyoiBorder = 0
@@ -9235,8 +9249,8 @@ function randomMode()
 		randSel(2, winner)
 		setMatchNo(1)
 		selectStage(0)
-		--local stage = start.f_setStage() --Set Stage
-		--start.f_setMusic(stage) --Set BGM
+		--local stage = f_setStage() --Set Stage
+		--f_setMusic(stage) --Set BGM
 		loadStart()
 		local oldwinner = winner
 		winner = game()

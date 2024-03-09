@@ -34,7 +34,7 @@ font2 = font/num1.fnt
 font3 = font/name1.fnt
 fightfx.sff = fightfx.sff; legacy mugen hitsparks
 fightfx.air = fightfx.air
-common.snd = common.snd
+common.snd = data/common.snd
 fx1 = commonfx.def; new ikemen fx
 
 ;-----------------------------------------------------------

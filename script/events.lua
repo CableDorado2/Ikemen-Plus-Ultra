@@ -124,14 +124,6 @@ event2 = animNew(eventSff, [[1,0, 0,0,]])
 --;===========================================================
 txtEventInfo = createTextImg(font11, 0, 0, "", 160, 37)
 
---function countdown(t) --TODO make a Countdown for the sysTime Event
-  --local d = math.floor(t / 86400)
-  --local h = math.floor((t % 86400) / 3600)
-  --local m = math.floor((t % 3600) / 60)
-  --local s = math.floor((t % 60))
-  --return string.format("%d:%02d:%02d:%02d", d, h, m, s)
---end
-
 t_eventMenu = {
 	{varImg = '', varID = textImgNew(), varStatus = ''}, --Add Event Slot
 	{varImg = '', varID = textImgNew(), varStatus = ''},
@@ -140,6 +132,16 @@ t_eventMenu = {
 	{varImg = '', varID = textImgNew(), varStatus = ''},
 	{varImg = '', varID = textImgNew(), varStatus = ''},
 }
+
+--[[
+function countdown(t) --TODO make a Countdown for the sysTime Event
+	local d = math.floor(t / 86400)
+	local h = math.floor((t % 86400) / 3600)
+	local m = math.floor((t % 3600) / 60)
+	local s = math.floor((t % 60))
+	return string.format("%d:%02d:%02d:%02d", d, h, m, s)
+end
+]]
 
 function f_eventMenu()
 	cmdInput()

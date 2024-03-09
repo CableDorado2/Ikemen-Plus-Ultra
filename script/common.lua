@@ -6,26 +6,28 @@ package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
 ltn12 = require('ltn12')
 package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
 dkjson = require('dkjson')
---package.path = package.path..';./lib/json.lua' --load json lua library
---json = require('json')
---package.path = package.path..';./lib/net/http.lua' --load http lua library
---http = require('http')
---package.path = package.path..';./lib/net/socket.lua' --load socket lua library
---socket = require('socket')
---package.path = package.path..';./lib/net/ftp.lua' --load ftp lua library
---ftp = require('ftp')
---package.path = package.path..';./lib/net/headers.lua' --load headers lua library
---headers = require('headers')
---package.path = package.path..';./lib/net/mbox.lua' --load mbox lua library
---mbox = require('mbox')
---package.path = package.path..';./lib/net/mime.lua' --load mime lua library
---mime = require('mime')
---package.path = package.path..';./lib/net/smtp.lua' --load smtp lua library
---smtp = require('smtp')
---package.path = package.path..';./lib/net/tp.lua' --load tp lua library
---tp = require('tp')
---package.path = package.path..';./lib/net/url.lua' --load url lua library
---url = require('url')
+--[[
+package.path = package.path..';./lib/json.lua' --load json lua library
+json = require('json')
+package.path = package.path..';./lib/net/http.lua' --load http lua library
+http = require('http')
+package.path = package.path..';./lib/net/socket.lua' --load socket lua library
+socket = require('socket')
+package.path = package.path..';./lib/net/ftp.lua' --load ftp lua library
+ftp = require('ftp')
+package.path = package.path..';./lib/net/headers.lua' --load headers lua library
+headers = require('headers')
+package.path = package.path..';./lib/net/mbox.lua' --load mbox lua library
+mbox = require('mbox')
+package.path = package.path..';./lib/net/mime.lua' --load mime lua library
+mime = require('mime')
+package.path = package.path..';./lib/net/smtp.lua' --load smtp lua library
+smtp = require('smtp')
+package.path = package.path..';./lib/net/tp.lua' --load tp lua library
+tp = require('tp')
+package.path = package.path..';./lib/net/url.lua' --load url lua library
+url = require('url')
+]]
 
 --;===========================================================
 --; DATA DEFINITION
@@ -59,9 +61,11 @@ missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
 gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
 storySff = sffNew('data/screenpack/story.sff') --load story sprites
 --towerSff = sffNew('data/screenpack/tower.sff') --load tower sprites
---tourneySff = sffNew('data/screenpack/tourney.sff') --load tourney sprites
---legionSff = sffNew('data/screenpack/legion.sff') --load legion sprites
---adventureSff = sffNew('data/screenpack/adventure.sff') --load adventure sprites
+--[[
+tourneySff = sffNew('data/screenpack/tourney.sff') --load tourney sprites
+legionSff = sffNew('data/screenpack/legion.sff') --load legion sprites
+adventureSff = sffNew('data/screenpack/adventure.sff') --load adventure sprites
+]]
 
 --SND (Sound effects do not interrupt music/bgm)
 sysSnd = sndNew('data/screenpack/system.snd')
@@ -423,21 +427,6 @@ function f_screenShot()
 	takeScreenShot("screenshots/ " .. os.date("IKEMEN %Y-%m-%d %I-%M%p-%S") .. ".png")
 end
 
---textImgDraw at specified coordinates
-function textImgPosDraw(ti, x, y)
-	textImgSetPos(ti, x, y)
-	textImgDraw(ti)
-end
-
---textImgDraw at specified coordinates + Scale
-function textImgScalePosDraw(ti, x, y, scaleX, scaleY)
-	textImgSetPos(ti, x, y)
-	scaleX = scaleX or 1
-	scaleY = scaleY or 1
-	textImgSetScale(ti, scaleX, scaleY)
-	textImgDraw(ti)
-end
-
 --shortcut for creating new text with minimal parameters (for width calculation)
 function createTextImgLite(font, text, scaleX, scaleY)
 	local ti = textImgNew()
@@ -466,6 +455,21 @@ function createTextImg(font, bank, aline, text, x, y, scaleX, scaleY, alphaS, al
 	return ti
 end
 
+--textImgDraw at specified coordinates
+function textImgPosDraw(ti, x, y)
+	textImgSetPos(ti, x, y)
+	textImgDraw(ti)
+end
+
+--textImgDraw at specified coordinates + Scale
+function textImgScalePosDraw(ti, x, y, scaleX, scaleY)
+	textImgSetPos(ti, x, y)
+	scaleX = scaleX or 1
+	scaleY = scaleY or 1
+	textImgSetScale(ti, scaleX, scaleY)
+	textImgDraw(ti)
+end
+
 --shortcut for updating text with several parameters
 function f_updateTextImg(animName, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
 	textImgSetFont(animName, font)
@@ -482,6 +486,13 @@ function f_updateTextImg(animName, font, bank, aline, text, x, y, scaleX, scaleY
 	return animName
 end
 
+--shortcut for updating text velocity
+function f_textVelocity(animName, addX, addY)
+	textImgAddPos(animName, addX, addY)
+	textImgDraw(animName)
+	return animName
+end
+
 --shortcut for draw new text with all parameters
 function f_drawQuickText(id, font, bank, aline, text, x, y, scaleX, scaleY, alphaS, alphaD)
 	local id = textImgNew()
@@ -490,14 +501,59 @@ function f_drawQuickText(id, font, bank, aline, text, x, y, scaleX, scaleY, alph
 	textImgSetAlign(id, aline)
 	textImgSetText(id, text)
 	textImgSetPos(id, x, y)
-	scaleX = scaleX or 0.8
-	scaleY = scaleY or 0.8
+	scaleX = scaleX or 1
+	scaleY = scaleY or 1
 	textImgSetScale(id, scaleX, scaleY)
 	alphaS = alphaS or 255
 	alphaD = alphaD or 0
 	textImgSetAlpha(id, alphaS, alphaD)
 	textImgDraw(id)
 	return id
+end
+
+--- Draw string letter by letter + wrap lines.
+-- @data: text data
+-- @str: string (text you want to draw)
+-- @counter: external counter (values should be increased each frame by 1 starting from 1)
+-- @x: first line X position
+-- @y: first line Y position
+-- @spacing: spacing between lines (rendering Y position increasement for each line)
+-- @delay (optional): ticks (frames) delay between each letter is rendered, defaults to 0 (all text rendered immediately)
+-- @limit (optional): maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
+function f_textRender(data, str, counter, x, y, spacing, delay, limit)
+	local delay = delay or 0
+	local limit = limit or -1
+	str = tostring(str)
+	if limit == -1 then
+		str = str:gsub('\\n', '\n')
+	else
+		str = str:gsub('%s*\\n%s*', ' ')
+		if math.floor(#str / limit) + 1 > 1 then
+			str = f_wrap(str, limit, indent, indent1)
+		end
+	end
+	local subEnd = math.floor(#str - (#str - counter/delay))
+	local t = {}
+	for line in str:gmatch('([^\r\n]*)[\r\n]?') do
+		t[#t+1] = line
+	end
+	t[#t] = nil --get rid of the last blank line
+	local lengthCnt = 0
+	for i=1, #t do
+		if subEnd < #str then
+			local length = #t[i]
+			if i > 1 and i <= #t then
+				length = length + 1
+			end
+			lengthCnt = lengthCnt + length
+			if subEnd < lengthCnt then
+				t[i] = t[i]:sub(0, subEnd - lengthCnt)
+			end
+		end
+		textImgSetText(data, t[i])
+		textImgSetPos(data, x, y + spacing * (i - 1))
+		textImgDraw(data)
+	end
 end
 
 --shortcut for draw text for character select
@@ -570,14 +626,15 @@ function animPosDraw(a, x, y)
 	animDraw(a)
 end
 
---shortcut for updating scale
---function animScaleDraw(animName, x, y)
-	--animSetScale(animName, x, y)
-	--animUpdate(animName)
-	--animDraw(animName)
---end
+--[[shortcut for updating scale
+function animScaleDraw(animName, x, y)
+	animSetScale(animName, x, y)
+	animUpdate(animName)
+	animDraw(animName)
+end
+]]
 
---shortcut for updating velocity
+--shortcut for updating anim velocity
 function f_animVelocity(animName, addX, addY)
 	animAddPos(animName, addX, addY)
 	animUpdate(animName)
@@ -798,51 +855,6 @@ function f_contains(t, val)
 	return false
 end
 
---- Draw string letter by letter + wrap lines.
--- @data: text data
--- @str: string (text you want to draw)
--- @counter: external counter (values should be increased each frame by 1 starting from 1)
--- @x: first line X position
--- @y: first line Y position
--- @spacing: spacing between lines (rendering Y position increasement for each line)
--- @delay (optional): ticks (frames) delay between each letter is rendered, defaults to 0 (all text rendered immediately)
--- @limit (optional): maximum line length (string wraps when reached), if omitted line wraps only if string contains '\n'
-function f_textRender(data, str, counter, x, y, spacing, delay, limit)
-	local delay = delay or 0
-	local limit = limit or -1
-	str = tostring(str)
-	if limit == -1 then
-		str = str:gsub('\\n', '\n')
-	else
-		str = str:gsub('%s*\\n%s*', ' ')
-		if math.floor(#str / limit) + 1 > 1 then
-			str = f_wrap(str, limit, indent, indent1)
-		end
-	end
-	local subEnd = math.floor(#str - (#str - counter/delay))
-	local t = {}
-	for line in str:gmatch('([^\r\n]*)[\r\n]?') do
-		t[#t+1] = line
-	end
-	t[#t] = nil --get rid of the last blank line
-	local lengthCnt = 0
-	for i=1, #t do
-		if subEnd < #str then
-			local length = #t[i]
-			if i > 1 and i <= #t then
-				length = length + 1
-			end
-			lengthCnt = lengthCnt + length
-			if subEnd < lengthCnt then
-				t[i] = t[i]:sub(0, subEnd - lengthCnt)
-			end
-		end
-		textImgSetText(data, t[i])
-		textImgSetPos(data, x, y + spacing * (i - 1))
-		textImgDraw(data)
-	end
-end
-
 --- Wrap a long string.
 -- source: http://lua-users.org/wiki/StringRecipes
 -- @str: string to wrap
@@ -861,6 +873,28 @@ function f_wrap(str, limit, indent, indent1)
 			return '\n' .. indent .. word
 		end
 	end)
+end
+
+--Convert DEF string to table (each line = next item; %i, %s swapped with variable values)
+function f_extractText(txt, v1, v2, v3, v4)
+	local t = {v1 or '', v2 or '', v3 or '', v4 or ''}
+	local tmp = ''
+	txt = txt:gsub('%%[is]', '%%')
+	for i, c in ipairs(strsplit('%%', txt)) do --split string using "%" delimiter
+		if t[i] == '' then
+			c = c:gsub('%s$', '')
+		end
+		tmp = tmp .. c .. t[i]
+	end
+	--store each line in different row
+	t = {}
+	for i, c in ipairs(strsplit('\n', tmp)) do --split string using "\n" delimiter
+		t[i] = c
+	end
+	if #t == 0 then
+		t[1] = tmp
+	end
+	return t
 end
 
 --Read/Writte Lua Data
@@ -1704,7 +1738,7 @@ function f_storyboardPlay(tIn)
 			if tPos['timeLoop'] == nil then
 				tPos['timeLoop'] = -1
 			end
-			]]--
+			]]
 			if tPos['time'] ~= nil then
 				if type(tPos['time']) ~= 'string' then
 					tPos['timeEnd'] = -1
@@ -1826,7 +1860,10 @@ end
 --;===========================================================
 --; MAIN MENU STUFF
 --;===========================================================
-function f_default()
+--Loading Text
+txt_loading = createTextImg(font1, 0, -1, 'LOADING FILES...', 310, 230)
+
+function f_default() --Reset Game Modes Configuration
 	setAutoLevel(false) --generate autolevel.txt in debug dir
 	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	resetRemapInput()

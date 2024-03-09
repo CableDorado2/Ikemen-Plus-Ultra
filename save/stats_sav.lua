@@ -1,15 +1,15 @@
 data.firstRun = false
 data.arcadeClear = true
 data.survivalClear = false
-data.coins = 1280
+data.coins = 1285
 data.attractCoins = 57
 data.continueCount = 0
 data.vault = "Ultra"
-data.playTime = 185753.607536
-data.trainingTime = 185156.868
+data.playTime = 188847.754305
+data.trainingTime = 185422.823
 data.favoriteChar = "Kung Fu Man"
-data.favoriteStage = "Training Room 2"
-data.victories = 257
+data.favoriteStage = "Training Room"
+data.victories = 258
 data.defeats = 112
 --Records Data
 data.timerecord = 0
@@ -18,7 +18,7 @@ data.bossrecord = 4
 data.suddenrecord = 7
 data.endlessrecord = 2
 --Time Played Data
-data.arcadeTime = 10775
+data.arcadeTime = 11120.367
 data.vsTime = 4413.51
 data.survivalTime = 2595.162
 data.bossTime = 1569.037

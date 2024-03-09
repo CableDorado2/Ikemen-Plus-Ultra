@@ -278,6 +278,10 @@ file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 content = content:gsub('\n%s*\n', '\n')
 --f_printVar(content)
+
+--;===========================================================
+--; LOADING SCREEN 1
+--;===========================================================
 for line in content:gmatch('[^\r\n]+') do
 --for line in io.lines("data/select.def") do
 	line = line:lower()
@@ -414,16 +418,18 @@ for line in content:gmatch('[^\r\n]+') do
 				end
 				addStage(c)
 				data.includestage = data.includestage + 1
-				--local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
-				--if name ~= nil then
-					--name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
-					--if name ~= '' then
-						--t_selStages[row]['name'] = name
-					--end
-				--else --Writte Blank name to avoid issues
-					--name = ''
-					--t_selStages[row]['name'] = name
-				--end
+				--[[
+				local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
+				if name ~= nil then
+					name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
+					if name ~= '' then
+						t_selStages[row]['name'] = name
+					end
+				else --Writte Blank name to avoid issues
+					name = ''
+					t_selStages[row]['name'] = name
+				end
+				]]
 				t_selStages[row]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[row]['stage'] = c
 				t_stageDef[c] = row
@@ -516,6 +522,10 @@ local t_gen = {}
 t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
+
+--;===========================================================
+--; LOADING SCREEN 2
+--;===========================================================
 --for each character loaded
 for i=1, #t_selChars do
 	if t_selChars[i].stage ~= nil then
@@ -587,16 +597,18 @@ for i=1, #t_selChars do
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
 				end
-				--local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
-				--if name ~= nil then
-					--name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
-					--if name ~= '' then
-						--t_selStages[row]['name'] = name
-					--end
-				--else --Writte Blank name to avoid issues
-					--name = ''
-					--t_selStages[row]['name'] = name
-				--end
+				--[[
+				local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
+				if name ~= nil then
+					name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
+					if name ~= '' then
+						t_selStages[row]['name'] = name
+					end
+				else --Writte Blank name to avoid issues
+					name = ''
+					t_selStages[row]['name'] = name
+				end
+				]]
 				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
 				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
 				t_selChars[i].stage[j] = #t_selStages --convert to number a not includestage
@@ -695,15 +707,20 @@ for file in lfs.dir[[.\\sound\\]] do
 	end
 end
 
---Extra music
---t_selMusic[6].bgmfile = 'sound/system/Opening.mp3'
---t_selMusic[6].bgmname = 'Extra Song Name'
---t_selMusic[6].bgmchar = 999
+--Add Extra music
+--[[
+t_selMusic[6].bgmfile = 'sound/system/Opening.mp3'
+t_selMusic[6].bgmname = 'Extra Song Name'
+t_selMusic[6].bgmchar = 999
+]]
 
 --Add extra items to Song Select table
 t_selMusic[#t_selMusic+1] = {bgmfile = '', bgmname = 'MUTE', bgmchar = 0}
 t_selMusic[#t_selMusic+1] = {bgmfile = '', bgmname = 'AUTO [LEFT SIDE]', bgmchar = 0}
 
+--;===========================================================
+--; SPRITE CONVERSION SCREEN
+--;===========================================================
 --if sprite generation is needed and conversion has not been permanently disabled
 if generate and data.sffConversion then
 	txt_parserWarning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)

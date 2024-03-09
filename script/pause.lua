@@ -135,29 +135,33 @@ end
 t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
 
 --Apply settings from training_sav.lua
---setPlaybackCfg(
-	--data.pbkRecSlot,
-	--data.pbkPlaySlot,
-	--data.pbkPlayLoop,
-	--data.pbkSlot1,
-	--data.pbkSlot2,
-	--data.pbkSlot3,
-	--data.pbkSlot4,
-	--data.pbkSlot5
---)
+--[[
+setPlaybackCfg(
+	data.pbkRecSlot,
+	data.pbkPlaySlot,
+	data.pbkPlayLoop,
+	data.pbkSlot1,
+	data.pbkSlot2,
+	data.pbkSlot3,
+	data.pbkSlot4,
+	data.pbkSlot5
+)
+]]
 
 --Data saving to training_sav.lua
 function f_saveTrn()
-	--setPlaybackCfg(
-		--data.pbkRecSlot,
-		--data.pbkPlaySlot,
-		--data.pbkPlayLoop,
-		--data.pbkSlot1,
-		--data.pbkSlot2,
-		--data.pbkSlot3,
-		--data.pbkSlot4,
-		--data.pbkSlot5
-	--)
+	--[[
+	setPlaybackCfg(
+		data.pbkRecSlot,
+		data.pbkPlaySlot,
+		data.pbkPlayLoop,
+		data.pbkSlot1,
+		data.pbkSlot2,
+		data.pbkSlot3,
+		data.pbkSlot4,
+		data.pbkSlot5
+	)
+	]]
 	local t_saves = {
 	--Playback Settings
 		['data.pbkRecSlot'] = data.pbkRecSlot,
@@ -1519,8 +1523,8 @@ setLifeStateP2(100)
 data.dummyMode = 'AI'
 
 if getGameMode() ~= "practice" then
-	table.remove(t_trainingCfg,6)
-	table.remove(t_trainingCfg,5)
+	table.remove(t_trainingCfg,11)
+	table.remove(t_trainingCfg,10)
 end
 
 function f_pauseTraining()
@@ -1838,71 +1842,72 @@ function f_pauseTraining()
 					toggleAI(2)
 					data.dummyMode = 'AI'
 				end
+			--[[
 			--Dummy State
-			--elseif trainingCfg == ??? then
-				--getCharVar(2, 't', 1)
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 0 then
-					--sndPlay(sysSnd, 100, 1)
-					--setCharVar(2, 't', 1, 1) --Set Crouch State (pn, vtype, var, val)
-					--modified = true
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 1 then
-					--sndPlay(sysSnd, 100, 1)
-					--setCharVar(2, 't', 1, 2) --Set Jump State
-					--modified = true
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.trnStateType == 2 then
-					--sndPlay(sysSnd, 100, 1)
-					--setCharVar(2, 't', 1, 1) --Set Crouch State
-					--modified = true
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.trnStateType == 1 then
-					--sndPlay(sysSnd, 100, 1)
-					--setCharVar(2, 't', 1, 0) --Set Stand State
-					--modified = true
-				--end
+			elseif trainingCfg == ??? then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 0 then
+					sndPlay(sysSnd, 100, 1)
+					
+					modified = true
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 1 then
+					sndPlay(sysSnd, 100, 1)
+					
+					modified = true
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.trnStateType == 2 then
+					sndPlay(sysSnd, 100, 1)
+					
+					modified = true
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.trnStateType == 1 then
+					sndPlay(sysSnd, 100, 1)
+					
+					modified = true
+				end
 			--Dummy Distance
-			--elseif trainingCfg == ??? then
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+			elseif trainingCfg == ??? then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--end
+				end
 			--Dummy Guard
-			--elseif trainingCfg == ??? then
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+			elseif trainingCfg == ??? then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--end
+				end
 			--Dummy Tech
-			--elseif trainingCfg == ??? then
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+			elseif trainingCfg == ??? then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--end
+				end
 			--Dummy Tech Direction
-			--elseif trainingCfg == ??? then
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+			elseif trainingCfg == ??? then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--end
+				end
 			--Dummy Counter Hit
-			--elseif trainingCfg == ??? then
-				--if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+			elseif trainingCfg == ??? then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					--sndPlay(sysSnd, 100, 1)
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
+					sndPlay(sysSnd, 100, 1)
 					
-				--end
+				end
+			]]
 			end
 			if trainingCfg < 1 then
 				trainingCfg = #t_trainingCfg
