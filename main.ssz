@@ -76,6 +76,9 @@ const ^/char WindowTitle = "\""I.K.E.M.E.N. PLUS ULTRA"\"";
 const ^/char listenPort = "\""7500"\"";
 const ^/char UserName = "\""CableDorado2"\"";
 const ^/char system = "\""script/main.lua"\"";
+const ^/char GlobalMatch = "\""data/match.cns"\"";
+const ^/char GlobalCommands = "\""data/common.cmd"\"";
+const ^/char GlobalAnims = "\""data/common.air"\"";
 
 //Discord Settings
 const ^/char GameID = "\""1200228516554346567"\"";

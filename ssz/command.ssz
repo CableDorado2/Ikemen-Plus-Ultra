@@ -314,10 +314,6 @@ public bool modKeyState(bool keyState, int jn, int key)
   {
     ret (`stat & (`A|`B|`C|`X|`Y|`Z)) != 0;
   }
-  /bool startbutton()
-  {
-    ret (`stat & (`S|`S|`S|`S|`S|`S)) != 0;
-  }
 }
 
 &KeyBuffer
@@ -552,14 +548,6 @@ public &NetInput
     while i < #`kb:}
     ret false;
   }
-  //public bool startbutton()
-  //{
-    //loop{index i = 0; while; do:
-      //if(`kb[i].data[`kb[i].timec&31].startbutton()) ret true;
-      //i++;
-    //while i < #`kb:}
-    //ret false;
-  //}
   public bool update()
   {
     if(`st<> != .NetState::Stoped) `stopedcnt = 0;
@@ -638,14 +626,6 @@ public &FileInput
     while i < #`ki:}
     ret false;
   }
-  //public bool startbutton()
-  //{
-    //loop{index i = 0; while; do:
-      //if(`ki[i].startbutton()) ret true;
-      //i++;
-    //while i < #`ki:}
-    //ret false;
-  //}
   public bool update()
   {
     if(
@@ -1219,10 +1199,14 @@ public &CommandList
 	//if(.str.equ(.com.gameMode, "practice") && .com.pauseMenu == 0) `playback(input,facing);
     branch{
       if(input < 0) else;
-    cond #.replay > 0 && .com.sysControls == 0: //Pause Menu can be controlled in Replay Mode
+    cond #.replay > 0: //&& .com.sysControls == 0: //Pause Menu in Replay Mode broken with menu controls active
       .replay~input(`buffer<>=, input, facing);
     cond #.net > 0:
       .net~input(`buffer<>=, input, facing);
+    //cond #.pbRec > 0 && .com.sysControls == 0:
+      //.pbRec~input(`buffer<>=, input, facing);
+    //cond #.pbRep > 0 && .com.sysControls == 0 && input != 0:
+      //.pbRep~input(`buffer<>=, input, .rFacing == .pbFacing ? facing : -facing);
     else:
       {
         bool l, r, u, d, a, b, c, x, y, z, q, w, e, s;
@@ -1341,37 +1325,9 @@ bool anyHardButton()
   ret false;
 }
 
-bool startHardButton()
-{
-  loop{
-    index i = 0;
-    int jn;
-    while;
-  do:
-    jn = .cfg.in[i].jn;
-    if(
-      jn >= -1 && (
-        !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
-        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
-        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
-        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
-        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s)
-        || !.modKeyState(.sdl.JoystickButtonState(:jn, .cfg.in[i].s:),jn,.cfg.in[i].s))) ret true;
-    i++;
-  while i < #.cfg.in:}
-  ret false;
-}
-
 public bool anybutton()
 {
   if(#.replay > 0) ret .replay~anybutton();
   if(#.net > 0) ret .net~anybutton();
   ret .anyHardButton();
 }
-
-//public bool startbutton()
-//{
-  //if(#.replay > 0) ret .replay~startbutton();
-  //if(#.net > 0) ret .net~startbutton();
-  //ret .startHardButton();
-//}

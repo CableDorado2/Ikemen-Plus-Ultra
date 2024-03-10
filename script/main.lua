@@ -686,6 +686,7 @@ function f_mainTitle()
 	local i = 0
 	local t = 0
 	playBGM(bgmTitle)
+	--fadeInBGM(20)
 	while true do
 		if i == 500 then
 			cmdInput()
@@ -6959,116 +6960,6 @@ function f_comingSoon()
 		cmdInput()
         refresh()
     end
-end
-
---;===========================================================
---; LOAD STATISTICS DATA
---;===========================================================
-function f_playTime()
-	gTime = os.clock() - gameTime
-	data.playTime = (data.playTime + gTime)
-	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
-end
-
---Data loading from stats_sav.lua
-local file = io.open("save/stats_sav.lua","r")
-s_dataLUA = file:read("*all")
-file:close()
-
-function f_saveProgress()
-	--Data saving to stats_sav.lua
-	local t_progress = {
-		['data.firstRun'] = data.firstRun,
-		['data.arcadeClear'] = data.arcadeClear,
-		['data.survivalClear'] = data.survivalClear,
-		['data.coins'] = data.coins,
-		['data.attractCoins'] = data.attractCoins,
-		['data.continueCount'] = data.continueCount,
-		['data.vault'] = data.vault,
-		['data.playTime'] = data.playTime,
-		['data.trainingTime'] = data.trainingTime,
-		['data.favoriteChar'] = data.favoriteChar,
-		['data.favoriteStage'] = data.favoriteStage,
-		['data.victories'] = data.victories,
-		['data.defeats'] = data.defeats,
-	--Records Data
-		['data.timerecord'] = data.timerecord,
-		['data.scorerecord'] = data.scorerecord,
-		['data.bossrecord'] = data.bossrecord,
-		['data.suddenrecord'] = data.suddenrecord,
-		['data.endlessrecord'] = data.endlessrecord,
-	--Time Played Data
-		['data.arcadeTime'] = data.arcadeTime,
-		['data.vsTime'] = data.vsTime,
-		['data.survivalTime'] = data.survivalTime,
-		['data.bossTime'] = data.bossTime,
-		['data.bonusTime'] = data.bonusTime,
-		['data.timeattackTime'] = data.timeattackTime,
-		['data.suddendeathTime'] = data.suddendeathTime,
-		['data.cpumatchTime'] = data.cpumatchTime,
-		['data.eventsTime'] = data.eventsTime,
-		['data.missionsTime'] = data.missionsTime,
-		['data.endlessTime'] = data.endlessTime,
-		['data.legionTime'] = data.legionTime,
-		['data.towerTime'] = data.towerTime,
-		['data.storyTime'] = data.storyTime,
-		['data.tourneyTime'] = data.tourneyTime,
-		['data.adventureTime'] = data.adventureTime,
-	--Event Mode Data
-		['data.eventsProgress'] = data.eventsProgress,
-		['data.event1Status'] = data.event1Status,
-	--Mission Mode Data
-		['data.missionsProgress'] = data.missionsProgress,
-		['data.mission1Status'] = data.mission1Status,
-		['data.mission2Status'] = data.mission2Status,
-		['data.mission3Status'] = data.mission3Status,
-	--Story Mode Data
-		['data.storiesProgress'] = data.storiesProgress,
-		['data.story1_0Status'] = data.story1_0Status,
-		['data.story1_1Status'] = data.story1_1Status,
-		['data.story1_2Status'] = data.story1_2Status,
-		['data.story1_3AStatus'] = data.story1_3AStatus,
-		['data.story1_3BStatus'] = data.story1_3BStatus,
-		['data.story1_4AStatus'] = data.story1_4AStatus,
-		['data.story1_4BStatus'] = data.story1_4BStatus,
-		['data.story1_4CStatus'] = data.story1_4CStatus,
-		['data.story1_4DStatus'] = data.story1_4DStatus,
-	--Story Mode - Arc 1 Chapters Unlocks
-		['data.story1_1Unlock'] = data.story1_1Unlock,
-		['data.story1_2Unlock'] = data.story1_2Unlock,
-		['data.story1_3AUnlock'] = data.story1_3AUnlock,
-		['data.story1_3BUnlock'] = data.story1_3BUnlock,
-		['data.story1_4AUnlock'] = data.story1_4AUnlock,
-		['data.story1_4BUnlock'] = data.story1_4BUnlock,
-		['data.story1_4CUnlock'] = data.story1_4CUnlock,
-		['data.story1_4DUnlock'] = data.story1_4DUnlock
-	}
-	s_dataLUA = f_strSub(s_dataLUA, t_progress)
-	local file = io.open("save/stats_sav.lua","w+")
-	file:write(s_dataLUA)
-	file:close()
-end
-
---;===========================================================
---; LOAD TEMP DATA
---;===========================================================
-local tempFile = io.open("save/temp_sav.lua","r")
-s_tempdataLUA = tempFile:read("*all")
-tempFile:close()
-
-function f_saveTemp()
-	local t_temp = {
-		['data.tempBack'] = data.tempBack,
-		['data.replayDone'] = data.replayDone,
-		['data.challengeMode'] = data.challengeMode
-		--['data.p1RestoreTeamMode'] = data.p1RestoreTeamMode,
-		--['data.p2RestoreTeamMode'] = data.p2RestoreTeamMode
-	}
-	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
-	local tempFile = io.open("save/temp_sav.lua","w+")
-	tempFile:write(s_tempdataLUA)
-	tempFile:close()
 end
 
 --;===========================================================

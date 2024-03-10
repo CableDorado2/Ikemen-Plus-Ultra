@@ -7,7 +7,7 @@ lib com = "common.ssz";
 lib fgt = "fight.ssz";
 lib sff = "sff.ssz";
 lib cfg = "../save/config.ssz";
-
+lib act = "action.ssz";
 
 public &Select
 {

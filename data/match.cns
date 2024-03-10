@@ -6831,24 +6831,24 @@ sysvar(54) = -1;RECOVERTIME
 ;===========================================================================
 ; DAMAGE INFO DISPLAY
 ;===========================================================================
-;[State -2, Info Display]
-;type = helper
-;triggerall = teamside = 2
-;trigger1 = Roundstate >= 2
-;trigger1 = numhelper(20000) = 0
-;helpertype = normal
-;name = "system"
-;ID = 20000
-;pos = 0, 0
-;postype = p1
-;facing = 1
-;stateno = 20000
-;keyctrl = 0
-;ownpal = 1
-;supermovetime = 999999
-;pausemovetime = 999999
-;size.xscale = 1.0
-;size.yscale = 1.0
+[State -2, Info Display]
+type = helper
+triggerall = teamside = 2
+trigger1 = Roundstate >= 2
+trigger1 = numhelper(20000) = 0
+helpertype = normal
+name = "system"
+ID = 20000
+pos = 0, 0
+postype = p1
+facing = 1
+stateno = 20000
+keyctrl = 0
+ownpal = 1
+supermovetime = 999999
+pausemovetime = 999999
+size.xscale = 1.0
+size.yscale = 1.0
 
 ;==========================
 ; GET DAMAGE VALUES

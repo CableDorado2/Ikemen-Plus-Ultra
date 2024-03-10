@@ -71,7 +71,7 @@ function f_updateDat()
 	end
 end
 
-function f_updateTrn()
+function f_updateTraining()
 	local file = io.open('save/training_sav.lua','r')
 	if file == nil then
 		return
@@ -100,4 +100,4 @@ end
 
 --f_updateCfg()
 --f_updateDat()
-f_updateTrn()
+f_updateTraining()

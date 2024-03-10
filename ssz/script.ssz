@@ -403,6 +403,20 @@ void playBGM(&.lua.State L=, int re=)
   .snd.bgm~play(file);
 }
 
+void fadeInBGM(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int time = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.fadeInBGM(time);
+}
+
+void fadeOutBGM(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int time = (int).numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .sdl.fadeOutBGM(time);
+}
+
 void sszOpen(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1077,6 +1091,8 @@ public void init(&.lua.State L=)
   L.register("clipboardPaste", .clipboardPaste);
   L.register("getClipboardText", .getClipboardText);
   L.register("playBGM", .playBGM);
+  L.register("fadeInBGM", .fadeInBGM);
+  L.register("fadeOutBGM", .fadeOutBGM);
   L.register("playVideo", .playVideo);
   L.register("sszOpen", .sszOpen);
   L.register("batOpen", .batOpen);

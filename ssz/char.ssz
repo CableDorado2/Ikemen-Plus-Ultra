@@ -2560,7 +2560,7 @@ public &Char
         if(#(data = sc.get("sprite")) > 0) c.sprite = f(data);
         if(#(data = sc.get("anim")) > 0) c.anim = f(data);
         if(#(data = sc.get("sound")) > 0) c.sound = f(data);
-		//if(#(data = sc.get("movelist")) > 0) c.movelist = f(data);
+		if(#(data = sc.get("movelist")) > 0) c.movelist = f(data);
         if(#(data = sc.get("pal1")) > 0) c.pal[0] = f(data);
         if(#(data = sc.get("pal2")) > 0) c.pal[1] = f(data);
         if(#(data = sc.get("pal3")) > 0) c.pal[2] = f(data);
@@ -2631,6 +2631,7 @@ public &Char
     ^/char error;
     .cgi[`playerno].def = def;
     ^char mainbuf = .com.loadText(def, unicode=);
+	^char airbuf = .com.loadText(def, unicode=);
     ^^/char lines = .com.splitLines(mainbuf);
     .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
     .com.mugenversion(lines, .cgi[`playerno].mver0=, .cgi[`playerno].mver1=);
@@ -2638,11 +2639,21 @@ public &Char
     loop{index i = 0; while; do:
       section(:lines, i=:);
       i++;
-    while i < #lines:}
-    .cgi[`playerno].sf.new(1);
+    while i < #lines:}	
+	.cgi[`playerno].sf.new(1);
     if(
       #.com.loadFile(def, .cgi[`playerno].sprite=)=>error <,
       [^/char(^/char f){ret .cgi[`playerno].sf~loadFile(f, true);}] > 0)
+    {
+      ret def + " [Sprite(.sff)]"\r\n + error;
+    }
+	^/char commonAir = .cfg.GlobalAnims;
+	if(
+      #.com.loadFile(def, commonAir=)=>error <, [^/char(^/char f){
+        ret
+          #.com.loadText(f, unicode=)=>airbuf > 0
+          ? "" : .com.FileReadError;
+      }] > 0) 
     {
       ret def + ":"\r\n + error;
     }
@@ -2653,9 +2664,9 @@ public &Char
           ? "" : .com.FileReadError;
       }] > 0) 
     {
-      ret def + ":"\r\n + error;
+      ret def + " [Anim(.air)]"\r\n + error;
     }
-    lines = .com.splitLines(mainbuf);
+    lines = .com.splitLines(mainbuf + airbuf);
     lines:<-[void(l=){l = .s.trim(l);}];
     .cgi[`playerno].actionList.new(0);
     .cgi[`playerno].actionTable.clear();
@@ -2670,7 +2681,7 @@ public &Char
       && #.com.loadFile(def, .cgi[`playerno].sound=)=>error <,
       [^/char(^/char f){ret .cgi[`playerno].sn~loadFile(f);}] > 0)
     {
-      ret def + ":"\r\n + error;
+      ret def + "[Sound(.snd)]"\r\n + error;
     }
 	//if(
       //#.com.loadFile(def, .cgi[`playerno].movelist=)=>error <, [^/char(^/char f){
@@ -2679,7 +2690,7 @@ public &Char
           //? "" : .com.FileReadError;
       //}] > 0) 
     //{
-      //ret def + ":"\r\n + error;
+      //ret def + " [Movelist(.dat)]"\r\n + error;
     //}
     ret "";
   }

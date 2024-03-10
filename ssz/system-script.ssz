@@ -671,6 +671,18 @@ void setPanStr(&.lua.State L=, int re=)
   .snd.panstr = p;
 }
 
+public bool cfgMod = false, trnMod = false;
+void configModified(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  ^/char mod = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  branch{
+  cond .s.equ(mod,"true"): .cfgMod = true;
+  cond .s.equ(mod,"false"): .cfgMod = false;
+  }
+  L.pushBoolean(.cfgMod);
+}
+
 void synchronize(&.lua.State L=, int re=)
 {
   re = 0;
@@ -2003,6 +2015,7 @@ public void init(&.lua.State L=)
   L.register("getResizableMode", .getResizableMode);
   L.register("setResizableMode", .setResizableMode);
   L.register("takeScreenShot", .takeScreenShot);
+  L.register("configModified", .configModified);
   L.register("connected", .connected);
   L.register("synchronize", .synchronize);
   L.register("addChar", .addChar);

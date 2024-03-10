@@ -73,16 +73,16 @@ public bool setSndBuf(^int buf)
   ret SetSndBuf(:buf<>=:);
 }
 
-public bool playBGM(^/char pldir, ^/char fn)
-{
-  plugin bool PlayBGM(:^/char, ^/char:) = "dll/sdlplugin.dll";
-  ret PlayBGM(:pldir, fn:);
-}
-
 public void playVideo(^/char vldir, ^/char fn)
 {
   plugin void PlayVideo(:^/char, ^/char:) = "dll/sdlpluginV.dll";
   PlayVideo(:vldir, fn:);
+}
+
+public bool playBGM(^/char pldir, ^/char fn)
+{
+  plugin bool PlayBGM(:^/char, ^/char:) = "dll/sdlplugin.dll";
+  ret PlayBGM(:pldir, fn:);
 }
 
 public void pauseBGM(bool pause)
@@ -107,6 +107,18 @@ public index sendWriteBGM(^/short buffer)
 {
   plugin index SendWriteBGM(:^/short:) = "dll/sdlplugin.dll";
   ret SendWriteBGM(:buffer:);
+}
+
+public void fadeInBGM(int time)
+{
+  plugin void FadeInBGM(:int:) = "dll/sdlplugin.dll";
+  FadeInBGM(:time:);
+}
+
+public void fadeOutBGM(int time)
+{
+  plugin void FadeOutBGM(:int:) = "dll/sdlplugin.dll";
+  FadeOutBGM(:time:);
 }
 
 public void setVolume(float gvol, float wvol, float bvol)

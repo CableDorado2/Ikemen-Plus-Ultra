@@ -8241,7 +8241,7 @@ public &StateBuilder
           ? "" : .com.FileReadError;
       }] > 0)
     {
-      ret def + ":"\r\n + error;
+      ret def + "[stcommon(common1.cns)]"\r\n + error;
     }
     ^/char fn = st;
     %^/char lines = .com.splitLines(mainbuf);
@@ -8938,7 +8938,7 @@ public &StateBuilder
           ? "" : .com.FileReadError;
       }] > 0)
     {
-      ret def + ":"\r\n + error;
+      ret def + "[.cns]"\r\n + error;
     }
     lines = .com.splitLines(mainbuf);
     .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
@@ -8947,7 +8947,7 @@ public &StateBuilder
       cns(:lines, i=:);
       i++;
     while i < #lines:}
-	^/char bufCmd = "data/common.cmd";
+	^/char bufCmd = .cfg.GlobalCommands;
 	if(
       #.com.loadFile(def, bufCmd=)=>error <, [^/char(^/char f){
         ret
@@ -8965,7 +8965,7 @@ public &StateBuilder
           ? "" : .com.FileReadError;
       }] > 0)
     {
-      ret def + ":"\r\n + error;
+      ret def + "[.cmd)]"\r\n + error;
     }
     lines .= .com.splitLines(mainbuf); //lines = .com.splitLines(mainbuf);
     .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
@@ -9001,7 +9001,7 @@ public &StateBuilder
       ret error;
     }
 	//^/char training = "data/training.cns";
-	^/char minus = "data/match.cns";
+	^/char minus = .cfg.GlobalMatch;
 	//if(.s.equ(.com.gameMode, "practice")){
       //if(#`stateBulid(buf=, def, training=)=>error > 0) ret error;
     //}

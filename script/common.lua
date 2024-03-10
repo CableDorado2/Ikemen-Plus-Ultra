@@ -6,48 +6,65 @@ package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
 ltn12 = require('ltn12')
 package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
 dkjson = require('dkjson')
+json = (loadfile 'lib/dkjson.lua')() --One-time load of the json routines
 --[[
-package.path = package.path..';./lib/json.lua' --load json lua library
-json = require('json')
-package.path = package.path..';./lib/net/http.lua' --load http lua library
+package.path = package.path..';./lib/net/http.lua'
 http = require('http')
-package.path = package.path..';./lib/net/socket.lua' --load socket lua library
+package.path = package.path..';./lib/net/socket.lua'
 socket = require('socket')
-package.path = package.path..';./lib/net/ftp.lua' --load ftp lua library
+package.path = package.path..';./lib/net/ftp.lua'
 ftp = require('ftp')
-package.path = package.path..';./lib/net/headers.lua' --load headers lua library
+package.path = package.path..';./lib/net/headers.lua'
 headers = require('headers')
-package.path = package.path..';./lib/net/mbox.lua' --load mbox lua library
+package.path = package.path..';./lib/net/mbox.lua'
 mbox = require('mbox')
-package.path = package.path..';./lib/net/mime.lua' --load mime lua library
+package.path = package.path..';./lib/net/mime.lua'
 mime = require('mime')
-package.path = package.path..';./lib/net/smtp.lua' --load smtp lua library
+package.path = package.path..';./lib/net/smtp.lua'
 smtp = require('smtp')
-package.path = package.path..';./lib/net/tp.lua' --load tp lua library
+package.path = package.path..';./lib/net/tp.lua'
 tp = require('tp')
-package.path = package.path..';./lib/net/url.lua' --load url lua library
+package.path = package.path..';./lib/net/url.lua'
 url = require('url')
 ]]
-
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
---Create global space (accessing variables between modules)
-data = require('save.data') --Require function, allows use the content inside in the script said. The begin of the script called need to have this: module(..., package.seeall)
+data = require('save.data') --Create global space variable (accessing variables between modules)
+
+--[[Require function, allows use the content inside in the script said.
+The begin of the script called need to have this:
+
+module(..., package.seeall)
+]]
 
 --Load saved variables
 assert(loadfile('save/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile('save/stats_sav.lua'))() --player data
+assert(loadfile('save/stats_sav.lua'))() --player records data
 assert(loadfile('save/training_sav.lua'))() --training data
 assert(loadfile('save/temp_sav.lua'))() --temp data
 
---One-time load of the json routines
-json = (loadfile 'lib/dkjson.lua')()
+require('script.updatecfg') --to update settings without reset entire config
 
 --Data loading from host_rooms.json
 local file = io.open("save/host_rooms.json","r")
 host_rooms = json.decode(file:read("*all"))
 file:close()
+
+--Data loading from stats_sav.lua
+local file = io.open("save/stats_sav.lua","r")
+statsDataLUA = file:read("*all")
+file:close()
+
+--Data loading from training_sav.lua
+local trainingFile = io.open("save/training_sav.lua","r")
+s_trainLUA = trainingFile:read("*all")
+trainingFile:close()
+
+--Data loading from temp_sav.lua
+local tempFile = io.open("save/temp_sav.lua","r")
+s_tempdataLUA = tempFile:read("*all")
+tempFile:close()
 
 --;===========================================================
 --; SCREENPACK DEFINITION
@@ -1914,3 +1931,141 @@ end
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
+
+--;===========================================================
+--; SAVE DATA DEFINITION
+--;===========================================================
+--Data saving to temp_sav.lua
+function f_saveTemp()
+	local t_temp = {
+		['data.tempBack'] = data.tempBack,
+		['data.replayDone'] = data.replayDone,
+		['data.challengerMode'] = data.challengerMode
+	}
+	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
+	local tempFile = io.open("save/temp_sav.lua","w+")
+	tempFile:write(s_tempdataLUA)
+	tempFile:close()
+end
+
+--Data saving to training_sav.lua
+function f_saveTraining()
+	--[[
+	setPlaybackCfg(
+		data.pbkRecSlot,
+		data.pbkPlaySlot,
+		data.pbkPlayLoop,
+		data.pbkSlot1,
+		data.pbkSlot2,
+		data.pbkSlot3,
+		data.pbkSlot4,
+		data.pbkSlot5
+	)
+	]]
+	local t_training = {
+	--Practice Settings
+		['data.damageDisplay'] = data.damageDisplay,
+		['data.inputDisplay'] = data.inputDisplay,
+		['data.hitbox'] = data.hitbox,
+		['data.debugInfo'] = data.debugInfo,
+		['data.PowerStateP1'] = data.PowerStateP1,
+		['data.PowerStateP2'] = data.PowerStateP2,
+		['data.LifeStateP1'] = data.LifeStateP1,
+		['data.LifeStateP2'] = data.LifeStateP2,
+	--Playback Settings
+		['data.pbkRecSlot'] = data.pbkRecSlot,
+		['data.pbkPlaySlot'] = data.pbkPlaySlot,
+		['data.pbkPlayLoop'] = data.pbkPlayLoop,
+		['data.pbkSlot1'] = data.pbkSlot1,
+		['data.pbkSlot2'] = data.pbkSlot2,
+		['data.pbkSlot3'] = data.pbkSlot3,
+		['data.pbkSlot4'] = data.pbkSlot4,
+		['data.pbkSlot5'] = data.pbkSlot5
+	}
+	s_trainLUA = f_strSub(s_trainLUA, t_training)
+	local trainingFile = io.open("save/training_sav.lua","w+")
+	trainingFile:write(s_trainLUA)
+	trainingFile:close()
+	--trainingModified = false
+end
+
+function f_playTime()
+	gTime = os.clock() - gameTime
+	data.playTime = (data.playTime + gTime)
+	f_saveProgress()
+	assert(loadfile('save/stats_sav.lua'))()
+end
+
+--Data saving to stats_sav.lua
+function f_saveProgress()
+	local t_progress = {
+		['data.firstRun'] = data.firstRun,
+		['data.arcadeClear'] = data.arcadeClear,
+		['data.survivalClear'] = data.survivalClear,
+		['data.coins'] = data.coins,
+		['data.attractCoins'] = data.attractCoins,
+		['data.continueCount'] = data.continueCount,
+		['data.vault'] = data.vault,
+		['data.playTime'] = data.playTime,
+		['data.trainingTime'] = data.trainingTime,
+		['data.favoriteChar'] = data.favoriteChar,
+		['data.favoriteStage'] = data.favoriteStage,
+		['data.victories'] = data.victories,
+		['data.defeats'] = data.defeats,
+	--Records Data
+		['data.timerecord'] = data.timerecord,
+		['data.scorerecord'] = data.scorerecord,
+		['data.bossrecord'] = data.bossrecord,
+		['data.suddenrecord'] = data.suddenrecord,
+		['data.endlessrecord'] = data.endlessrecord,
+	--Time Played Data
+		['data.arcadeTime'] = data.arcadeTime,
+		['data.vsTime'] = data.vsTime,
+		['data.survivalTime'] = data.survivalTime,
+		['data.bossTime'] = data.bossTime,
+		['data.bonusTime'] = data.bonusTime,
+		['data.timeattackTime'] = data.timeattackTime,
+		['data.suddendeathTime'] = data.suddendeathTime,
+		['data.cpumatchTime'] = data.cpumatchTime,
+		['data.eventsTime'] = data.eventsTime,
+		['data.missionsTime'] = data.missionsTime,
+		['data.endlessTime'] = data.endlessTime,
+		['data.legionTime'] = data.legionTime,
+		['data.towerTime'] = data.towerTime,
+		['data.storyTime'] = data.storyTime,
+		['data.tourneyTime'] = data.tourneyTime,
+		['data.adventureTime'] = data.adventureTime,
+	--Event Mode Data
+		['data.eventsProgress'] = data.eventsProgress,
+		['data.event1Status'] = data.event1Status,
+	--Mission Mode Data
+		['data.missionsProgress'] = data.missionsProgress,
+		['data.mission1Status'] = data.mission1Status,
+		['data.mission2Status'] = data.mission2Status,
+		['data.mission3Status'] = data.mission3Status,
+	--Story Mode Data
+		['data.storiesProgress'] = data.storiesProgress,
+		['data.story1_0Status'] = data.story1_0Status,
+		['data.story1_1Status'] = data.story1_1Status,
+		['data.story1_2Status'] = data.story1_2Status,
+		['data.story1_3AStatus'] = data.story1_3AStatus,
+		['data.story1_3BStatus'] = data.story1_3BStatus,
+		['data.story1_4AStatus'] = data.story1_4AStatus,
+		['data.story1_4BStatus'] = data.story1_4BStatus,
+		['data.story1_4CStatus'] = data.story1_4CStatus,
+		['data.story1_4DStatus'] = data.story1_4DStatus,
+	--Story Mode - Arc 1 Chapters Unlocks
+		['data.story1_1Unlock'] = data.story1_1Unlock,
+		['data.story1_2Unlock'] = data.story1_2Unlock,
+		['data.story1_3AUnlock'] = data.story1_3AUnlock,
+		['data.story1_3BUnlock'] = data.story1_3BUnlock,
+		['data.story1_4AUnlock'] = data.story1_4AUnlock,
+		['data.story1_4BUnlock'] = data.story1_4BUnlock,
+		['data.story1_4CUnlock'] = data.story1_4CUnlock,
+		['data.story1_4DUnlock'] = data.story1_4DUnlock
+	}
+	statsDataLUA = f_strSub(statsDataLUA, t_progress)
+	local file = io.open("save/stats_sav.lua","w+")
+	file:write(statsDataLUA)
+	file:close()
+end

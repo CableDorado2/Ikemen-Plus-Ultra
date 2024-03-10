@@ -1,13 +1,12 @@
 ﻿--Practice Settings
-data.trnStateType = 0
-data.trnDistance = 0
-data.trnAutoGuard = 0
-data.trnCounterHit = 0
-data.trnThrowEscape = 0
-data.trnRecover = 0
-data.trnRecoverDir = 0
-data.trnDisplay = 0
-data.trnInput = 0
+data.damageDisplay = 'No'
+data.inputDisplay = 'Yes'
+data.hitbox = 'No'
+data.debugInfo = 'No'
+data.PowerStateP1 = 'Max at Start'
+data.PowerStateP2 = 'Max at Start'
+data.LifeStateP1 = '100%'
+data.LifeStateP2 = '100%'
 --Playback Settings
 data.pbkRecSlot = 1
 data.pbkPlaySlot = 1

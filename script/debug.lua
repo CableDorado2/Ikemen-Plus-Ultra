@@ -38,7 +38,7 @@ addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
 --Engine functions
-addHotkey('BACKSPACE', false, false, false, 'changeSpeed()') --Run the game as fast as possible
+addHotkey('F8', false, false, false, 'changeSpeed()') --Run the game as fast as possible
 addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 end
 --Miscellaneous functions

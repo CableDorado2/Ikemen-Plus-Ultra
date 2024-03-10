@@ -1,4 +1,4 @@
-﻿Compilación iniciada a las 07/03/2024 04:18:51 p.m..
+﻿Compilación iniciada a las 09/03/2024 09:41:28 p.m..
      1>Proyecto "C:\Users\CD2\Desktop\Ikemen-Plus-Ultra\src\alpha\sdlplugin\sdlplugin\sdlplugin.vcxproj" en el nodo 2 (build destinos).
        El archivo del proyecto contiene ToolsVersion="14.0". Este conjunto de herramientas falta o es desconocido, en cuyo caso es posible que pueda resolver este problema instalando la versión apropiada de MSBuild. También es posible que, por motivos de directiva, se haya exigido a la compilación que use un valor determinado para ToolsVersion. Se tratará el proyecto como si contuviera ToolsVersion="4.0". Para obtener más información, vea http://go.microsoft.com/fwlink/?LinkId=291333.
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(299,5): warning MSB8004: El directorio Output no termina con una barra diagonal final. Esta instancia de compilación agregará la barra diagonal porque es necesaria para que se pueda evaluar correctamente el directorio Output.
@@ -42,4 +42,4 @@
 
 Compilación correcta.
 
-Tiempo transcurrido 00:00:02.16
+Tiempo transcurrido 00:00:02.57
