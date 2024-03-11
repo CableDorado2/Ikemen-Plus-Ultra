@@ -87,122 +87,134 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.4 (Next Update)**
 ------------
 
-- [ ] Más parametros para el Select.def.
+- Más parametros para el Select.def.
 
-- [ ] Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
+- Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
-- [ ] Incluir pregunta para guardar o no los replays.
+- Incluir pregunta para guardar o no los replays.
 
-- [ ] Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
+- Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
 
-- [ ] Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
+- Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
 
-- [ ] Mejorar el Training Mode con más parametros para el Dummy.
+- Mejorar el Training Mode con más parametros para el Dummy.
 
-- [ ] Cambiar de personaje y stage como lo hace las músicas en training pause.
+- Cambiar de personaje y stage como lo hace las músicas en training pause.
 
-- [ ] La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
+- La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
 
-- [ ] Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
+- Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
 
-- [ ] Arreglar que cuando tienes muchos slots programados en select.lua y 1 personaje cargado en select.def, que no se repita el mismo personaje sino que salga como empty.
+- Arreglar que cuando tienes muchos slots programados en select.lua y 1 personaje cargado en select.def, que no se repita el mismo personaje sino que salga como empty.
 
 **v1.5**
 ------------
 
-- [ ] Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
+- Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
 
-- [ ] Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
+- Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
-- [ ] Sistema de puntos basado en el Add004.
+- Sistema de puntos basado en el Add004.
 
-- [ ] Ranking al completar o perder en Modo Arcade.
+- Ranking al completar o perder en Modo Arcade.
 
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
-- [ ] Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
+- Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
 
-- [ ] Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
-- [ ] Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en parsec y usar en char select una función parecida a f_drawCharAnim.
+- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en parsec y usar en char select una función parecida a f_drawCharAnim.
 
-- [ ] Arreglar preview de random chars que no coincida con el char de sprite.
+- Arreglar preview de random chars que no coincida con el char de sprite.
 
-- [ ] Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
+- Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
-- [ ] Leer archivos movelist.dat dentro de los chars.
+- Agregar soporte para Localcoord en cada char y fight.def.
 
-- [ ] Agregar soporte para reconocer a un 2do Gamepad.
+- Leer archivos movelist.dat dentro de los chars.
 
-- [ ] Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
+- Agregar soporte para reconocer a un 2do Gamepad.
 
-- [ ] El audio del motor debe poder sincronizarse al reproductor de video.
+- Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
+
+- El audio del motor debe poder sincronizarse al reproductor de video.
 
 **v1.6**
 ------------
 
-- [ ] 3er tipo de visualización de stages estilo “chart”, (lógica basada en el char select) al ser activado debe cargarse desde una función diferente a la normal para evitar conflictos, asímismo debe usar los portrait (9000,0) para mostrar los íconos: https://www.youtube.com/watch?v=FHwlSkCkQ50
+- 3er tipo de visualización de stages estilo “chart”, (lógica basada en el char select) al ser activado debe cargarse desde una función diferente a la normal para evitar conflictos, asímismo debe usar los portrait (9000,0) para mostrar los íconos: https://www.youtube.com/watch?v=FHwlSkCkQ50
 [![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
 
-- [ ] Notificación al desbloquear logros durante el match + Pantalla de Logros.
-![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
-
-- [ ] Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
+- Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
 [![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
 
-- [ ] Integrar la función de bgm.loops.
+- Integrar la función de bgm.loops.
+
+- Crear una función como setDebugScript pero que permita soportar todas las funciones de script.ssz (debug.lua por alguna razón no lo hace) y ejecutarse durante toda la batalla o al menos al final de la partida. Para implementar las siguientes características:
+
+Win Screen que se muestra al final de la pelea mientras todos los personajes y los datos del escenario aún están cargados (por lo que podríamos usar el fondo del escenario y los datos de animación de los personajes).
+
+Como lo anterior pero para la pantalla Continuar
+
+Ambas características se han implementado en el código del paquete de pantalla actual, pero la solución actual tiene un alto rendimiento (aumenta el tiempo de carga cuando se inicia el ejecutable) y no es perfecta (no hay acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc.)
 
 **v1.7**
 ------------
 
-- [ ] AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
+- AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
-- [ ] Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+- Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- [ ] Ver cómo se podría integrar un sistema de diálogo en los matches.
+- Ver cómo se podría integrar un sistema de diálogo en los matches.
 
-- [ ] Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
+- Notificación al desbloquear logros durante el match + Pantalla de Logros.
+![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
+
+- Una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se encuentren almacenados directamente en el archivo.
+
+- Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
 
 **v1.8**
 ------------
 
-- [ ] Soporte para Fntv2 y TTF.
+- Soporte para Fntv2 y True Type Font (TTF).
 
-- [ ] Soporte para imágenes RGB/32bits y Shaders.
+- Soporte para imágenes RGB/32bits y Shaders.
 
-- [ ] Soporte para cargar imágenes usando la función IMG_Load del SDL2.
+- Soporte para cargar archivos PNG o PCX externos en lugar de usar siempre el formato SFF usando la función IMG_Load del SDL2.
 
-- [ ] Soporte para modelos 3D integrando glTF.
+- Soporte para modelos 3D integrando glTF.
 
-- [ ] Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en ¿local replays?.
+- Integrar una librería que permita capturar videos en formato .avi como los emuladores y estos se guardarán para ser observados en ¿local replays?.
 
-- [ ] Mejorar Rendimiento del engine, actualizando el SDL2.dll.
+- Mejorar Rendimiento del engine, actualizando el SDL2.dll.
 
 **v1.9**
 ------------
 
-- [ ] Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
+- Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
-- [ ] Hacer realidad las funciones del menú Netplay Settings.
+- Hacer realidad las funciones del menú Netplay Settings.
 
-- [ ] En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
+- En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
 
-- [ ] El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
+- El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
 
 ---------------------
 v2.0 (Final Release)
 ---------------------
 
-- [ ] Añadir Rollback Netcode.
+- Añadir Rollback Netcode.
 
-- [ ] Ordenar código y simplificar lo necesario.
+- Ordenar código y simplificar lo necesario.
 
-- [ ] Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
+- Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
 
-- [ ] Portear el Engine a Linux, MacOS, Android y iOS.
+- Portear el Engine a Linux, MacOS, Android y iOS.
 
 ## Tutorials
 **Basic:**
