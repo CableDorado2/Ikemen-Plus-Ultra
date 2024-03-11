@@ -1,7 +1,0 @@
-EXPORTS
-    NewClient
-    DeleteClient
-    ClientStart
-    ClientStop
-    ClientBufferReady
-    ClientSetBuffer

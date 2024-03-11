@@ -11,7 +11,7 @@ const bool OpenGL = false;
 //Audio Settings
 const float GlVol = 0.8;
 const float SEVol = 0.36;
-const float BGMVol = 0;
+const float BGMVol = 0.24;
 const float PanStr = 0.8;
 
 //Perfomance Settings
@@ -29,6 +29,7 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 //System Settings
+const ^/char Executable = "Ikemen Plus Ultra.exe";
 const ^/char WindowTitle = "I.K.E.M.E.N. PLUS ULTRA";
 const ^/char listenPort = "7500";
 const ^/char UserName = "CableDorado2";

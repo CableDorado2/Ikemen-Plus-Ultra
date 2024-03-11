@@ -2,15 +2,16 @@ lib file = <file.ssz>;
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
 lib lua = <alpha/lua.ssz>;
+lib cfg = "save/config.ssz";
 
 //Open Game Executable
-sh.open("Ikemen Plus Ultra.exe", "ssz/ikemen.ssz", "", false, true);
+sh.open(.cfg.Executable, "ssz/ikemen.ssz", "", false, true);
 
 ////////////////////
 //BACKUP DATA FILES
 ////////////////////
 
-//DON'T edit they BECAUSE ARE A COPY from original ones, just keep this updated...
+//DON'T edit below and wait that it make changes, BECAUSE ARE A COPY from original ones, just keep this updated...
 
 //No DLC Status Backup
 const ^/char dlcfile = "script/dlc.lua";
@@ -72,6 +73,7 @@ const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
 
 //System Settings
+const ^/char Executable = "\""Ikemen Plus Ultra.exe"\"";
 const ^/char WindowTitle = "\""I.K.E.M.E.N. PLUS ULTRA"\"";
 const ^/char listenPort = "\""7500"\"";
 const ^/char UserName = "\""CableDorado2"\"";

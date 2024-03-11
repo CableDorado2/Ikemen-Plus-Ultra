@@ -17,10 +17,11 @@ lib ld = "loader.ssz";
 
 ^^/char code.new(#.chr.chars);
 
+//Reload Engine
 void sszReload(&.lua.State L=, int re=)
 {
   re = 0;
-  .sh.open("Ikemen Plus Ultra.exe", "", "", false, false);
+  .sh.open(.cfg.Executable, "", "", false, false);
 }
 
 public void error<_t>(^/char m)

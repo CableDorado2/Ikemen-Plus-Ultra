@@ -1,2 +1,10 @@
 
 save/debug/
+*.ipch
+*.sdf
+*.suo
+*.user
+*.tlog
+*.log
+*.lastbuildstate
+*.manifest

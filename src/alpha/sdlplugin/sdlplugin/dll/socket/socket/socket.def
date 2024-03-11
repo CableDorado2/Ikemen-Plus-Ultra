@@ -1,9 +1,0 @@
-EXPORTS
-	SocketClose
-	SocketConnect
-	SocketListen
-	SocketAccept
-	SocketSend
-	SocketSendAry
-	SocketRecv
-	SocketRecvAry
