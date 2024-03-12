@@ -7,8 +7,8 @@
 	MAIN_FUNC mai;
 	MEMBER std::WSTR compileSub1()
 	{
-		if(mai) return L("すでにコンパイル済みです。");
-		src.Clear();//rootなので
+		if(mai) return L("It's already compiled.");
+		src.Clear();//Because root
 		ss.CircularGC.Clear();
 		return L("");
 	}

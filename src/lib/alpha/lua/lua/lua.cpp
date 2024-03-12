@@ -4,8 +4,8 @@
 #include <process.h>
 #include <stdint.h>
 
-#include "lua.hpp"
-#pragma comment(lib, "Lua5.2/lua52.lib")
+#include "Lua5.1/lua.hpp"
+#pragma comment(lib, "Lua5.1/lua51.lib")
 
 
 void* (__stdcall *sszrefnewfunc)(intptr_t);

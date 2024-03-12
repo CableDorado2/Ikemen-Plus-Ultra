@@ -272,7 +272,7 @@ template<typename STree, typename GC> struct STStatic
 
 template<typename GC> static bool koubuneraadesu(Source<GC>& s)
 {
-	s.addErrMes(L("構文エラーです。"));
+	s.addErrMes(L("Syntax error."));
 	return false;
 }
 template<typename GC> static bool gaarimasen(
@@ -281,7 +281,7 @@ template<typename GC> static bool gaarimasen(
 	std::WSTR tmp;
 	tmp = L('\'');
 	tmp += token;
-	tmp += L("' がありません。");
+	tmp += L("There is not '");
 	s.addErrMes(tmp);
 	return false;
 }
@@ -469,7 +469,7 @@ template<typename GC> struct SourceTree
 			std::WSTR tmp;
 			tmp = L('\'');
 			tmp += name;
-			tmp += L("' は不正な名前です。");
+			tmp += L("' is an invalid name.");
 			src.addErrMes(tmp);
 			return false;
 		}
@@ -477,7 +477,7 @@ template<typename GC> struct SourceTree
 			std::WSTR tmp;
 			tmp = L('\'');
 			tmp += name;
-			tmp += L("' は名前が重複しています。");
+			tmp += L("' has a duplicate name.");
 			src.addErrMes(tmp);
 			return false;
 		}
@@ -486,7 +486,7 @@ template<typename GC> struct SourceTree
 				if(*it == KAKERU_TOKEN){
 					if (frp->selftype != CLASS_BLOCK){
 						src.addErrMes(
-							L("参照型の '*' が使えるのはローカル変数だけです。"));
+							L("The reference type '*' can only be used for local variables."));
 						return false;
 					}
 					*it = STARSTAR_TOKEN;
@@ -618,7 +618,7 @@ template<typename GC> struct SourceTree
 					return true;
 				}
 				else {
-					src.addErrMes(L("数字で始まる識別子は使えません。"));
+					src.addErrMes(L("Identifiers starting with numbers cannot be used."));
 					return false;
 				}
 			}
@@ -629,7 +629,7 @@ template<typename GC> struct SourceTree
 						ui64 += src.source[i] - L('0');
 					}
 					else {
-						src.addErrMes(L("数字で始まる識別子は使えません。"));
+						src.addErrMes(L("Identifiers starting with numbers cannot be used."));
 						return false;
 					}
 				}
@@ -647,13 +647,13 @@ template<typename GC> struct SourceTree
 				f64 += src.source[i] - L('0');
 			}
 			else {
-				src.addErrMes(L("数字で始まる識別子は使えません。"));
+				src.addErrMes(L("Identifiers starting with numbers cannot be used."));
 				return false;
 			}
 		}
 		src.sst.i++;
 		if (!src.GetNumString()) {
-			src.addErrMes(L("小数点の後に '0' が必要です。"));
+			src.addErrMes(L("'0' required after decimal point."));
 			return false;
 		}
 		double baisei = 0.0;
@@ -1213,18 +1213,18 @@ template<typename GC> struct SourceTree
 								&& watasu[widx+2] != WARU_TOKEN))
 						{
 							stat->ss->emes.Add(
-								filename, gyousuu, L("型エラーです。"));
+								filename, gyousuu, L("Type error."));
 							return false;
 						}
 					}else if(watasu[widx] != FUNC_TOKEN){
 						stat->ss->emes.Add(
-							filename, gyousuu, L("型エラーです。"));
+							filename, gyousuu, L("Type error."));
 						return false;
 					}
 				}else{
 					if(toru[tidx] != watasu[widx]){
 						stat->ss->emes.Add(
-							filename, gyousuu, L("型エラーです。"));
+							filename, gyousuu, L("Type error."));
 						return false;
 					}
 				}
@@ -1234,7 +1234,7 @@ template<typename GC> struct SourceTree
 					toru[tidx] != SIGNATURE_TOKEN
 					|| watasu[widx] != SIGNATURE_TOKEN)
 				{
-					stat->ss->emes.Add(filename, gyousuu, L("型エラーです。"));
+					stat->ss->emes.Add(filename, gyousuu, L("Type error."));
 					return false;
 				}
 				tidx++;
@@ -1258,13 +1258,13 @@ template<typename GC> struct SourceTree
 					watasu[widx++] != toru[tidx++]
 					|| watasu[widx++] != toru[tidx++])
 				{
-					stat->ss->emes.Add(filename, gyousuu, L("型エラーです。"));
+					stat->ss->emes.Add(filename, gyousuu, L("Type error."));
 					return false;
 				}
 				continue;
 			}
 			if(watasu[widx] != toru[tidx]){
-				stat->ss->emes.Add(filename, gyousuu, L("型エラーです。"));
+				stat->ss->emes.Add(filename, gyousuu, L("Type error."));
 				return false;
 			}
 			tidx++;
@@ -1298,7 +1298,7 @@ template<typename GC> struct SourceTree
 			return false;
 		}
 		if(tidx != toru.size()){
-			stat->ss->emes.Add(filename, gyousuu, L("型エラーです。"));
+			stat->ss->emes.Add(filename, gyousuu, L("Type error."));
 			return false;
 		}
 		return true;
@@ -1375,7 +1375,7 @@ template<typename GC> struct SourceTree
 			gblhani = hani;
 			if(gblhani <= gblsaikouhani){
 				src.addErrMes(
-					L("初期化していない可能性のあるグローバル変数を使う関数です。"));
+					L("A function that uses global variables that may not have been initialized."));
 				stat->tokubetuerr = true;
 				return false;
 			}
@@ -1395,7 +1395,7 @@ template<typename GC> struct SourceTree
 				mbrhani = hkishiki.frp->mbrhani;
 				if(mbrhani <= mbrsaikouhani){
 					src.addErrMes(
-						L("初期化していない可能性のあるメンバー変数を使う関数です。"));
+						L("A function that uses member variables may not be initialized."));
 					stat->tokubetuerr = true;
 					return false;
 				}
@@ -1410,12 +1410,12 @@ template<typename GC> struct SourceTree
 		bool cont, const SourceTree& hkishiki)
 	{
 		if(this == root){
-			src.addErrMes(L("rootは関数ポインタ化できません。"));
+			src.addErrMes(L("root cannot be made into a function pointer."));
 			return false;
 		}
 		if(returnshita < 0 && token.size() == 0){
 			src.addErrMes(
-				L("シグネチャが確定していないため関数ポインタ化できません。"));
+				L("Cannot be converted into a function pointer because the signature has not been determined."));
 			return false;
 		}
 		if(!GblhaniSet(src, hkishiki)) return false;
@@ -1863,7 +1863,7 @@ template<typename GC> struct SourceTree
 					std::WSTR tmp;
 					tmp = L('\'');
 					tmp += name;
-					tmp += L("' がメンバ定数に見つかりません。");
+					tmp += L("' not found in member constant.");
 					src.addErrMes(tmp);
 					return false;
 				}
@@ -1883,7 +1883,7 @@ template<typename GC> struct SourceTree
 					std::WSTR tmp;
 					tmp = L('\'');
 					tmp += name;
-					tmp += L("' が見つかりません。");
+					tmp += L("' not found.");
 					src.addErrMes(tmp);
 					return false;
 				}
@@ -1891,7 +1891,7 @@ template<typename GC> struct SourceTree
 			}
 			break;
 		default:
-			src.addErrMes(L("エラーです。"));
+			src.addErrMes(L("Error."));
 			return false;
 		}
 		return true;
@@ -1925,7 +1925,7 @@ template<typename GC> struct SourceTree
 				src.appendTStr(name);
 				auto size = GetTypeSize(type);
 				if(size < 0){
-					src.addErrMes(L("エラーです。"));
+					src.addErrMes(L("Error."));
 					return false;
 				}
 				if(!pst->AddHensuu(type, name, size, src)) return false;
@@ -1934,7 +1934,7 @@ template<typename GC> struct SourceTree
 		}
 		if (!refstar) for each(auto it in type){
 			if (it == KAKERU_TOKEN){
-				src.addErrMes(L("引数に '*' は使えません。"));
+				src.addErrMes(L("'*' cannot be used as an argument."));
 				return false;
 			}
 			else if (
@@ -1949,7 +1949,7 @@ template<typename GC> struct SourceTree
 		if(sig){
 			if(kin == DAINYUU_TOKEN){
 				if(type.back() != ~DAINYUU_TOKEN){
-					src.addErrMes(L("'=' が不正です。"));
+					src.addErrMes(L("'=' is invalid."));
 					return false;
 				}
 			}else{
@@ -1963,14 +1963,14 @@ template<typename GC> struct SourceTree
 		}
 		if(kin == DAINYUU_TOKEN){
 			if(type[0] == TILDE_TOKEN){
-				src.addErrMes(L("無名関数は参照渡しできません。"));
+				src.addErrMes(L("Anonymous functions cannot be passed by reference."));
 				return false;
 			}
 			frp->funchensuu.back().size = sizeof(intptr_t);
 			kin = src.GetToken(*this);
 		}else{
 			if(type[0] == THREAD_TOKEN){
-				src.addErrMes(L("thread型は値渡しできません。"));
+				src.addErrMes(L("Thread type cannot be passed by value."));
 				return false;
 			}
 			if(
@@ -1991,13 +1991,13 @@ template<typename GC> struct SourceTree
 		std::basic_string<intptr_t>* with = nullptr)
 	{
 		if(frp == root){
-			src.addErrMes(L("グローバルに無名関数は定義できません。"));
+			src.addErrMes(L("Globally anonymous functions cannot be defined."));
 			return -1;
 		}
 		tk += TILDE_TOKEN;
 		auto pst = BlockOpen(nullptr, DELEGATE_BLOCK, false, true);
 		if(pst == nullptr){
-			src.addErrMes(L("不思議なエラーです。"));
+			src.addErrMes(L("This is a strange error."));
 			return -1;
 		}
 		pst->srce = &src;
@@ -2020,7 +2020,7 @@ template<typename GC> struct SourceTree
 			type = TILDE_TOKEN;
 			type += pst->rettype;
 			if(with || !KansuuKata(nullptr, type, waketa)){
-				src.addErrMes(L("エラーです。"));
+				src.addErrMes(L("Error."));
 				return -1;
 			}
 			pst->rettype = waketa[0];
@@ -2033,7 +2033,7 @@ template<typename GC> struct SourceTree
 			kin = NULL_TOKEN;
 			for(int i = 0; i < pst->hikisuucount; i++){
 				if(kin == SHOUKAKKOCLOSE_TOKEN){
-					src.addErrMes(L("引数が少なすぎます。"));
+					src.addErrMes(L("Too few arguments."));
 					return -1;
 				}
 				if(
@@ -2051,7 +2051,7 @@ template<typename GC> struct SourceTree
 				}
 			}
 			if(kin == COMMA_TOKEN){
-				src.addErrMes(L("引数が多すぎます。"));
+				src.addErrMes(L("Too many arguments."));
 				return -1;
 			}
 			if(kin == NULL_TOKEN) kin = src.GetToken(*this);
@@ -2104,7 +2104,7 @@ template<typename GC> struct SourceTree
 		}
 		for each(auto it in pst->rettype){
 			if (it == KAKERU_TOKEN){
-				src.addErrMes(L("無名関数の戻り値に '*' は使えません。"));
+				src.addErrMes(L("'*' cannot be used as the return value of an anonymous function."));
 				return -1;
 			}
 			else if (
@@ -2129,7 +2129,7 @@ template<typename GC> struct SourceTree
 		std::basic_string<intptr_t>& tk)
 	{
 		if(kakutei){
-			src.addErrMes(L("もう追加で配列のリテラル領域を確保できません。"));
+			src.addErrMes(L("It is no longer possible to allocate additional literal space for arrays."));
 			return false;
 		}
 		std::basic_string<int8_t> lit;
@@ -2142,7 +2142,7 @@ template<typename GC> struct SourceTree
 					src, NULL_TOKEN, kin, last,
 					DAIKAKKOCLOSE_TOKEN, false, true)) return false;
 			if(!ConstCaster(last, type)){
-				src.addErrMes(L("型エラーです。"));
+				src.addErrMes(L("Type error."));
 				return false;
 			}
 			lit.append((int8_t*)(last.data()+type.size()), GetTypeSize(last));
@@ -2199,7 +2199,7 @@ template<typename GC> struct SourceTree
 		Src& src, const std::WSTR& str, std::basic_string<intptr_t>& tk)
 	{
 		if(kakutei){
-			src.addErrMes(L("もう追加で文字列のリテラル領域を確保できません。"));
+			src.addErrMes(L("It is no longer possible to allocate additional string literal space."));
 			return false;
 		}
 		tk += CONST_TOKEN;
@@ -2230,7 +2230,7 @@ template<typename GC> struct SourceTree
 				return false;
 			}
 			if(!ConstCaster(type, typ)){
-				src.addErrMes(L("不正なキャストです。"));
+				src.addErrMes(L("Invalid casting."));
 				return false;
 			}
 		}
@@ -2261,7 +2261,7 @@ template<typename GC> struct SourceTree
 				|| hkishiki.frp->parent == hkishiki.root
 				|| hkishiki.frp->selftype == CLASS_BLOCK)
 			{
-				src.addErrMes(L("ここで`は使えません。"));
+				src.addErrMes(L("` cannot be used here."));
 				return false;
 			}
 			switch(src.GetToken(hkishiki)){
@@ -2338,7 +2338,7 @@ template<typename GC> struct SourceTree
 					switch(phs->type[0]){
 					case LIB_TOKEN:
 						if(src.GetToken(hkishiki) != POINT_TOKEN){
-							src.addErrMes(L("lib型は値を持ちません。"));
+							src.addErrMes(L("lib types have no values."));
 							return false;
 						}
 						if(
@@ -2368,7 +2368,7 @@ template<typename GC> struct SourceTree
 						break;
 					default:
 						src.addErrMes(
-							L("定数式に定数以外を使おうとしています。"));
+							L("You are trying to use something other than a constant in a constant expression."));
 						return false;
 					}
 					break;
@@ -2421,7 +2421,7 @@ template<typename GC> struct SourceTree
 				}
 				auto size = GetTypeSize(type);
 				if(size < 0){
-					src.addErrMes(L("サイズを求められません。"));
+					src.addErrMes(L("Can't ask for size."));
 					return false;
 				}
 				last = CONST_TOKEN;
@@ -2452,7 +2452,7 @@ template<typename GC> struct SourceTree
 				}
 				auto ti = GetTypeId(type);
 				if(ti == UNKNOWN_TYPEID){
-					src.addErrMes(L("タイプIDを求められません。"));
+					src.addErrMes(L("Not asked for type ID"));
 					return false;
 				}
 				last = CONST_TOKEN;
@@ -2487,7 +2487,7 @@ template<typename GC> struct SourceTree
 				}
 				break;
 			case SHOUKAKKOCLOSE_TOKEN:
-				src.addErrMes(L("空の小括弧です。"));
+				src.addErrMes(L("Empty parentheses."));
 				return false;
 			case KAKERU_TOKEN:
 			case OR_TOKEN:
@@ -2550,7 +2550,7 @@ template<typename GC> struct SourceTree
 								}
 							}else{
 								src.addErrMes(
-									L("この型にはキャストできません。"));
+									L("Cannot be cast to this type."));
 								return false;
 							}
 						}
@@ -2563,7 +2563,7 @@ template<typename GC> struct SourceTree
 						src, NULL_TOKEN, ki, last,
 						SHOUKAKKOCLOSE_TOKEN, false, create)) return false;
 				if(src.sst.last == COMMA_TOKEN){
-					src.addErrMes(L("',' が不正です。"));
+					src.addErrMes(L("',' is not allowed."));
 					return false;
 				}
 				break;
@@ -2611,14 +2611,14 @@ template<typename GC> struct SourceTree
 				break;
 			case FLOAT_TOKEN:
 				if(kin == EXCLAMATION_TOKEN){
-					src.addErrMes(L("'!' は浮動小数点数型には使えません。"));
+					src.addErrMes(L("'!' cannot be used with floating point types."));
 					return false;
 				}
 				TankouConstReal(kin, *(float*)(last.data()+2));
 				break;
 			case DOUBLE_TOKEN:
 				if(kin == EXCLAMATION_TOKEN){
-					src.addErrMes(L("'!' は浮動小数点数型には使えません。"));
+					src.addErrMes(L("'!' cannot be used with floating point types."));
 					return false;
 				}
 				TankouConstReal(kin, *(double*)(last.data()+2));
@@ -2631,7 +2631,7 @@ template<typename GC> struct SourceTree
 					*(bool*)(last.data()+2) = !*(bool*)(last.data()+2);
 				}else if(kin == SHARP_TOKEN){
 				}else{
-					src.addErrMes(L("bool型に符号はつけられません。"));
+					src.addErrMes(L("A sign cannot be attached to bool type."));
 					return false;
 				}
 				break;
@@ -2640,7 +2640,7 @@ template<typename GC> struct SourceTree
 				{
 					std::basic_string<int8_t>* lite = getLiteral(last.back());
 					if(!lite){
-						src.addErrMes(L("妙なエラー"));
+						src.addErrMes(L("Strange error"));
 						return false;
 					}
 					intptr_t idx = 2;
@@ -2765,7 +2765,7 @@ template<typename GC> struct SourceTree
 			if(ki == DAIKAKKOOPEN_TOKEN || ki == DIA_TOKEN){
 				lite = getLiteral(last.back());
 				if(!lite){
-					src.addErrMes(L("妙なエラー"));
+					src.addErrMes(L("Strange error"));
 					return false;
 				}
 				if(
@@ -2773,7 +2773,7 @@ template<typename GC> struct SourceTree
 					== 0)
 				{
 					if(bubun && ki == DAIKAKKOOPEN_TOKEN) goto ELSE;
-					src.addErrMes(L("サイズが0です。"));
+					src.addErrMes(L("Size is 0."));
 					return false;
 				}
 				type = CONST_TOKEN;
@@ -2793,7 +2793,7 @@ template<typename GC> struct SourceTree
 					}
 					if(src.sst.last == COMMA_TOKEN){
 						if(!bubun || stat->tokubetuerr){
-							src.addErrMes(L("',' が不正です。"));
+							src.addErrMes(L(",' is not allowed."));
 							return false;
 						}
 						last = oldlast;
@@ -2801,7 +2801,7 @@ template<typename GC> struct SourceTree
 					}
 					if(!ConstCaster(last, type)){
 						if(!bubun || stat->tokubetuerr){
-							src.addErrMes(L("型エラーです。"));
+							src.addErrMes(L("Type error."));
 							return false;
 						}
 						last = oldlast;
@@ -2841,7 +2841,7 @@ ELSE:
 					return false;
 				}
 				if(!EnzanConst(STARSTAR_TOKEN, last, val)){
-					src.addErrMes(L("定数のエラーです。"));
+					src.addErrMes(L("Constant error."));
 					return false;
 				}
 			}else{
@@ -3312,19 +3312,19 @@ ELSE:
 						return true;
 					}
 					break;
-				case ANDAND_TOKEN://右から
+				case ANDAND_TOKEN://from the right
 					if(kin >= OROR_TOKEN){
 						src.setNextLast();
 						return true;
 					}
 					break;
-				case OROR_TOKEN://右から
+				case OROR_TOKEN://from the right
 					if(kin >= QUESTION_TOKEN){
 						src.setNextLast();
 						return true;
 					}
 					break;
-				case QUESTION_TOKEN://右から
+				case QUESTION_TOKEN://from the right
 					break;
 				default:
 					if(bubun) break;
@@ -3338,7 +3338,7 @@ ELSE:
 					type = CONST_TOKEN;
 					type += BOOL_TOKEN;
 					if(!ConstCaster(last, type)){
-						src.addErrMes(L("型エラーです。"));
+						src.addErrMes(L("Type error."));
 						return false;
 					}
 					if(*(bool*)(last.data()+type.size())){
@@ -3418,7 +3418,7 @@ ELSE:
 						return true;
 					}
 					if(!EnzanConst(kin, last, val)){
-						src.addErrMes(L("定数のエラーです。"));
+						src.addErrMes(L("Constant error."));
 						return false;
 					}
 				}
@@ -3519,7 +3519,7 @@ ELSE:
 					}
 				}else{
 					if(pst == pst->root){
-						src.addErrMes(L("rootは呼べません。"));
+						src.addErrMes(L("Root cannot be called."));
 						return false;
 					}
 					if(pst->parent == pst->root){
@@ -3527,7 +3527,7 @@ ELSE:
 					}else if(pst->parent == hkishiki.frp->parent){
 						tk += MEMBER_TOKEN;
 					}else if(pst->parent != frp){
-						src.addErrMes(L("この関数は呼べません。"));
+						src.addErrMes(L("This function cannot be called."));
 						return false;
 					}
 					if(!pst->GblhaniSet(src, hkishiki)) return false;
@@ -3549,7 +3549,7 @@ ELSE:
 					std::WSTR tmp;
 					tmp = L('\'');
 					tmp += name;
-					tmp += L("' がメンバ定数に見つかりません。");
+					tmp += L("' not found in member constant.");
 					src.addErrMes(tmp);
 					return false;
 				}
@@ -3569,7 +3569,7 @@ ELSE:
 					std::WSTR tmp;
 					tmp = L('\'');
 					tmp += name;
-					tmp += L("' が見つかりません。");
+					tmp += L("' not found.");
 					src.addErrMes(tmp);
 					return false;
 				}
@@ -3577,7 +3577,7 @@ ELSE:
 			}
 			break;
 		default:
-			src.addErrMes(L("エラーです。"));
+			src.addErrMes(L("Error."));
 			return false;
 		}
 		return true;
@@ -3590,7 +3590,7 @@ ELSE:
 		switch(src.GetToken(*this)){
 		case NEW_TOKEN:
 			if(iap[0] == NULL_TOKEN){
-				src.addErrMes(L("エラーです。"));
+				src.addErrMes(L("Error."));
 				return false;
 			}
 			if(
@@ -3601,7 +3601,7 @@ ELSE:
 					stat->funclist.Get((int32_t)iap[1])
 						->GetFuncId(L("default"), true);
 				if(ci < 0){
-					src.addErrMes(L("エラーです。"));
+					src.addErrMes(L("Error."));
 					return false;
 				}
 				if(!stat->funclist.Get(ci)->GblhaniSet(src, *this)){
@@ -3611,7 +3611,7 @@ ELSE:
 					(ci = stat->funclist.Get((int32_t)iap[1])
 						->GetFuncId(L("new"), true)) < 0)
 				{
-					src.addErrMes(L("エラーです。"));
+					src.addErrMes(L("Error."));
 					return false;
 				}
 				if(!stat->funclist.Get(ci)->GblhaniSet(src, *this)){
@@ -3621,7 +3621,7 @@ ELSE:
 					(ci = stat->funclist.Get((int32_t)iap[1])
 						->GetFuncId(L("break"), true)) < 0)
 				{
-					src.addErrMes(L("エラーです。"));
+					src.addErrMes(L("Error."));
 					return false;
 				}
 				if(!stat->funclist.Get(ci)->GblhaniSet(src, *this)){
@@ -3631,7 +3631,7 @@ ELSE:
 					(ci = stat->funclist.Get((int32_t)iap[1])
 						->GetFuncId(L("delete"), true)) < 0)
 				{
-					src.addErrMes(L("エラーです。"));
+					src.addErrMes(L("Error."));
 					return false;
 				}
 				if(!stat->funclist.Get(ci)->GblhaniSet(src, *this)){
@@ -3665,21 +3665,21 @@ ELSE:
 			break;
 		case TYPESIZE_TOKEN:
 			if(iap[0] != NULL_TOKEN){
-				src.addErrMes(L("'typesize' がエラーです。"));
+				src.addErrMes(L("'typesize' error."));
 				return false;
 			}
 			tk += TYPESIZE_TOKEN;
 			break;
 		case TYPEID_TOKEN:
 			if(iap[0] != NULL_TOKEN){
-				src.addErrMes(L("'typeid' がエラーです。"));
+				src.addErrMes(L("'typeid' error."));
 				return false;
 			}
 			tk += TYPEID_TOKEN;
 			break;
 		case CAST_TOKEN:
 			if(iap[0] != NULL_TOKEN){
-				src.addErrMes(L("'cast' がエラーです。"));
+				src.addErrMes(L("'cast' error."));
 				return false;
 			}
 			if(!necessaryToken(src, *this, SHOUKAKKOOPEN_TOKEN)){
@@ -3695,7 +3695,7 @@ ELSE:
 			break;
 		case METHOD_TOKEN:
 			if(iap[0] != NULL_TOKEN){
-				src.addErrMes(L("'method' がエラーです。"));
+				src.addErrMes(L("'method' error"));
 				return false;
 			}
 			tk += METHOD_TOKEN;
@@ -3706,7 +3706,7 @@ ELSE:
 					return false;
 				}
 				if(tk[foo] != SIGNATURE_TOKEN){
-					src.addErrMes(L("シグネチャがありません。"));
+					src.addErrMes(L("No signature."));
 					return false;
 				}
 			}
@@ -3717,7 +3717,7 @@ ELSE:
 					L('0') <= src.source[src.sst.t]
 					&& src.source[src.sst.t] <= L('9')))
 			{
-				src.addErrMes(L("メソッド名が不正です。"));
+				src.addErrMes(L("The method name is invalid."));
 				return false;
 			}
 			tk += stat->literaltotal;
@@ -3886,7 +3886,7 @@ ELSE:
 									tk, nidx, src, src.GetToken(hkishiki),
 									hkishiki, type, jj, end)) return false;
 						}else{
-							src.addErrMes(L("何らかのエラーです。"));
+							src.addErrMes(L("This is some kind of error."));
 							return false;
 						}
 						break;
@@ -3934,7 +3934,7 @@ ELSE:
 							break;
 						}
 						if(type[jj] != REF_TOKEN && type[jj] != LIST_TOKEN){
-							src.addErrMes(L("参照型ではありません。"));
+							src.addErrMes(L("It's not a reference type."));
 							return false;
 						}
 						continue;
@@ -4001,7 +4001,7 @@ ELSE:
 						return false;
 					}
 				}else{
-					src.addErrMes(L("'.' が不正です。"));
+					src.addErrMes(L("'.' is not allowed."));
 					return false;
 				}
 			}
@@ -4097,7 +4097,7 @@ ELSE:
 				|| hkishiki.frp->parent == hkishiki.root
 				|| hkishiki.frp->selftype == CLASS_BLOCK)
 			{
-				src.addErrMes(L("ここで`は使えません。"));
+				src.addErrMes(L("` cannot be used here."));
 				return false;
 			}
 			switch (ki = src.GetToken(hkishiki)) {
@@ -4118,7 +4118,7 @@ ELSE:
 				break;
 			default:
 				if (hkishiki.frp->parent->selftype != CLASS_BLOCK) {
-					src.addErrMes(L("クラス以外の`は参照できません。"));
+					src.addErrMes(L("You cannot refer to anything other than the class."));
 					return false;
 				}
 				tk += NULL_TOKEN;
@@ -4209,7 +4209,7 @@ ELSE:
 				}
 				break;
 			case SHOUKAKKOCLOSE_TOKEN:
-				src.addErrMes(L("空の小括弧です。"));
+				src.addErrMes(L("Empty parentheses."));
 				return false;
 			case KAKERU_TOKEN:
 			{
@@ -4241,7 +4241,7 @@ ELSE:
 							pub, hkishiki, end)) return false;
 					break;
 				default:
-					src.addErrMes(L("この型にはキャストできません。"));
+					src.addErrMes(L("Cannot be cast to this type."));
 					return false;
 				}
 			}
@@ -4362,7 +4362,7 @@ ELSE:
 						if (hkishiki.root == frp) {
 							if (hidx >= hkishiki.frp->gblhani) {
 								src.addErrMes(
-									L("初期化前のグローバル変数を使う可能性があります。"));
+									L("It is possible to use uninitialized global variables."));
 								return false;
 							}
 							if (hkishiki.frp->gblsaikouhani < hidx) {
@@ -4375,7 +4375,7 @@ ELSE:
 						{
 							if (hidx >= hkishiki.frp->mbrhani) {
 								src.addErrMes(
-									L("初期化前のメンバー変数を使う可能性があります。"));
+									L("It is possible to use member variables before initialization."));
 								return false;
 							}
 							if (hkishiki.frp->mbrsaikouhani < hidx) {
@@ -4389,7 +4389,7 @@ ELSE:
 							std::WSTR tmp;
 							tmp = L('\'');
 							tmp += name;
-							tmp += L("' はプライベートです。");
+							tmp += L("' is private.");
 							src.addErrMes(tmp);
 							return false;
 						}
@@ -4469,7 +4469,7 @@ ELSE:
 				case DOLLAR_TOKEN:
 					src.setNextLast();
 					return true;
-				case STARSTAR_TOKEN://右から
+				case STARSTAR_TOKEN://From the right
 				case KAKERU_TOKEN:case WARU_TOKEN:case AMARI_TOKEN:
 					if(kin >= KAKERU_TOKEN){
 						src.setNextLast();
@@ -4519,19 +4519,19 @@ ELSE:
 						return true;
 					}
 					break;
-				case ANDAND_TOKEN://右から(すぐに最後に跳ぶため)
+				case ANDAND_TOKEN://From the right (to quickly jump to the end)
 					if(kin >= OROR_TOKEN){
 						src.setNextLast();
 						return true;
 					}
 					break;
-				case OROR_TOKEN://右から(すぐに最後に跳ぶため)
+				case OROR_TOKEN://From the right (to quickly jump to the end)
 					if(kin >= QUESTION_TOKEN){
 						src.setNextLast();
 						return true;
 					}
 					break;
-				case QUESTION_TOKEN://右から
+				case QUESTION_TOKEN://From the right
 					if(kin >= DAINYUU_TOKEN){
 						src.setNextLast();
 						return true;
@@ -4542,7 +4542,7 @@ ELSE:
 				case WARUDAINYUU_TOKEN:case AMARIDAINYUU_TOKEN:
 				case ANDDAINYUU_TOKEN:case XORDAINYUU_TOKEN:
 				case ORDAINYUU_TOKEN:case LSHIFTDAINYUU_TOKEN:
-				case RSHIFTDAINYUU_TOKEN:case STARSTARDAINYUU_TOKEN://右から
+				case RSHIFTDAINYUU_TOKEN:case STARSTARDAINYUU_TOKEN://From the right
 				case TENDAINYUU_TOKEN:
 					if(kin >= TENDAINYUU_TOKEN){
 						src.setNextLast();
@@ -4551,7 +4551,7 @@ ELSE:
 					break;
 				case TENTEN_TOKEN:
 					if(end != DAIKAKKOCLOSE_TOKEN){
-						src.addErrMes(L("'..' の演算子は '[ ]' 内だけです。"));
+						src.addErrMes(L("The '..' operator only appears within '[ ]'."));
 						return false;
 					}
 				case COMMA_TOKEN:
@@ -4688,14 +4688,14 @@ ELSE:
 				src.appendTStr(name);
 				auto phs = pst->GetHensuu(name, false);
 				if(phs->type[0] != TYPE_TOKEN){
-					src.addErrMes(L("type型でありません。"));
+					src.addErrMes(L("type is not a type"));
 					return false;
 				}
 				type.append(phs->type.data()+1, phs->type.size()-1);
 			}
 			break;
 		default:
-			src.addErrMes(L("エラーです。"));
+			src.addErrMes(L("Error."));
 			return false;
 		}
 		return true;
@@ -4710,12 +4710,12 @@ ELSE:
 			case LIST_TOKEN:
 			case THREAD_TOKEN:
 			case TILDE_TOKEN:
-				src.addErrMes(L("定数で定義できません。"));
+				src.addErrMes(L("It cannot be defined as a constant."));
 				return false;
 			}
 		}
 		if(corf && typ[idx] != AND_TOKEN){
-			src.addErrMes(L("クラスでありません。"));
+			src.addErrMes(L("Not in class."));
 			return false;
 		}
 		switch(typ[idx]){
@@ -4800,7 +4800,7 @@ ELSE:
 				|| hkishiki.frp->parent == hkishiki.root
 				|| hkishiki.frp->selftype == CLASS_BLOCK)
 			{
-				src.addErrMes(L("ここで '`' は使えません。"));
+				src.addErrMes(L("'`' cannot be used here."));
 				return false;
 			}
 			switch(src.GetToken(hkishiki)){
@@ -4840,7 +4840,7 @@ ELSE:
 				type += AND_TOKEN;
 			}else{
 				if(corf){
-					src.addErrMes(L("クラスでありません。"));
+					src.addErrMes(L("Not in class."));
 					return false;
 				}
 				if(frp->selftype == ENUM_BLOCK){
@@ -4875,7 +4875,7 @@ ELSE:
 		case INDEX_TOKEN:
 		case VOID_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			type += kin;
@@ -4883,11 +4883,11 @@ ELSE:
 		case REF_TOKEN:
 		case LIST_TOKEN:
 			if(conf){
-				src.addErrMes(L("定数にできません。"));
+				src.addErrMes(L("Cannot be constant."));
 				return false;
 			}
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			type += kin;
@@ -4895,12 +4895,12 @@ ELSE:
 			return true;
 		case AMARI_TOKEN:
 			if(conf){
-				src.addErrMes(L("定数のlist型はありません。"));
+				src.addErrMes(L("There is no constant list type."));
 				return false;
 			}
 		case XOR_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			type += kin == XOR_TOKEN ? REF_TOKEN : LIST_TOKEN;
@@ -4909,12 +4909,12 @@ ELSE:
 				kin == FUNC_TOKEN || kin == METHOD_TOKEN
 				|| kin == TILDE_TOKEN)
 			{
-				src.addErrMes(L("関数ポインタは直接newできません。"));
+				src.addErrMes(L("Function pointers cannot be newed directly."));
 				return false;
 			}else{
 				if(IsRefReadOnlyToken(kin)){
 					if (kin != KAKERU_TOKEN && type.back() == LIST_TOKEN){
-						src.addErrMes(L("list型は読み込み専用にできません。"));
+						src.addErrMes(L("list type cannot be made read-only."));
 						return false;
 					}
 					type += kin;
@@ -4931,7 +4931,7 @@ ELSE:
 			return true;
 		case OR_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 		case AND_TOKEN:
@@ -4947,7 +4947,7 @@ ELSE:
 			return true;
 		case DOLLAR_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			type += SIGNATURE_TOKEN;
@@ -4955,7 +4955,7 @@ ELSE:
 		case FUNC_TOKEN:
 		case TILDE_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			type += kin;
@@ -4968,14 +4968,14 @@ ELSE:
 					return false;
 				}
 				if(type[tmp] != SIGNATURE_TOKEN){
-					src.addErrMes(L("シグネチャがありません。"));
+					src.addErrMes(L("No signature."));
 					return false;
 				}
 			}
 			return true;
 		case METHOD_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			type += METHOD_TOKEN;
@@ -4991,18 +4991,18 @@ ELSE:
 					return false;
 				}
 				if(type[tmp] != SIGNATURE_TOKEN){
-					src.addErrMes(L("シグネチャがありません。"));
+					src.addErrMes(L("No signature."));
 					return false;
 				}
 			}
 			return true;
 		case THREAD_TOKEN:
 			if(corf){
-				src.addErrMes(L("クラスでありません。"));
+				src.addErrMes(L("Not in class."));
 				return false;
 			}
 			if(conf){
-				src.addErrMes(L("定数のthread型はありません。"));
+				src.addErrMes(L("There is no constant thread type."));
 				return false;
 			}
 			type += THREAD_TOKEN;
@@ -5016,7 +5016,7 @@ ELSE:
 					stat->funclist.Get(ci)->parent
 					!= stat->funclist.Get(ci)->root)
 				{
-					src.addErrMes(L("グローバル関数でありません。"));
+					src.addErrMes(L("Not a global function."));
 					return false;
 				}
 				type += (intptr_t)ci;
@@ -5097,7 +5097,7 @@ ELSE:
 							&& (tidx++, true)))
 					{
 						if (corf) {
-							src.addErrMes(L("クラスでありません。"));
+							src.addErrMes(L("Not in class."));
 							return false;
 						}
 						switch (src.GetToken(hkishiki)) {
@@ -5108,11 +5108,11 @@ ELSE:
 							if (conf) {
 								if (phs->type[tidx] == LIST_TOKEN) {
 									src.addErrMes(
-										L("定数のlist型はありません。"));
+										L("There is no constant list type."));
 									return false;
 								}
 								if (phs->type[tidx + 1] == NULL_TOKEN) {
-									src.addErrMes(L("エラーです。"));
+									src.addErrMes(L("Error."));
 									return false;
 								}
 							}
@@ -5129,7 +5129,7 @@ ELSE:
 							break;
 						case DIA_TOKEN:
 							if (phs->type[tidx + 1] == NULL_TOKEN) {
-								src.addErrMes(L("エラーです。"));
+								src.addErrMes(L("Error."));
 								return false;
 							}
 							tidx++;
@@ -5161,11 +5161,11 @@ ELSE:
 							&& (tidx++, true)))
 					{
 						if (corf) {
-							src.addErrMes(L("クラスでありません。"));
+							src.addErrMes(L("Not in class."));
 							return false;
 						}
 						if (conf && phs->type[tidx] == TILDE_TOKEN) {
-							src.addErrMes(L("定数ではいけません。"));
+							src.addErrMes(L("It cannot be a constant."));
 							return false;
 						}
 						if (src.GetToken(hkishiki) != POINT_TOKEN) {
@@ -5212,11 +5212,11 @@ ELSE:
 					else {
 						if (IsSoushokuToken((TokenKind)phs->type[tidx])) tidx++;
 						if (corf) {
-							src.addErrMes(L("クラスでありません。"));
+							src.addErrMes(L("Not in class."));
 							return false;
 						}
 						if (conf && phs->type[tidx] == THREAD_TOKEN) {
-							src.addErrMes(L("定数のthread型はありません。"));
+							src.addErrMes(L("There is no constant thread type."));
 							return false;
 						}
 						if (
@@ -5255,7 +5255,7 @@ ELSE:
 		switch(stat->funclist.Get(fi)->selftype){
 		case FUNC_BLOCK:
 			if(stat->funclist.Get(fi) != stat->funclist.Get(fi)->root){
-				src.addErrMes(L("エラーです。"));
+				src.addErrMes(L("Error."));
 				return nullptr;
 			}
 		case CLASS_BLOCK:
@@ -5266,14 +5266,14 @@ ELSE:
 				src.appendTStr(name);
 				auto phs = stat->funclist.Get(fi)->GetHensuu(name, false);
 				if(phs->type[0] != LIB_TOKEN){
-					src.addErrMes(L("lib型でありません。"));
+					src.addErrMes(L("Not a lib type."));
 					return nullptr;
 				}
 				ret = (SourceTree*)phs->type[1];
 			}
 			break;
 		default:
-			src.addErrMes(L("エラーです。"));
+			src.addErrMes(L("Error."));
 			return nullptr;
 		}
 		return ret;
@@ -5296,7 +5296,7 @@ ELSE:
 				if(!MjiretuLiteral(name, src)) return false;
 			}
 			if(name.size() <= 0){
-				src.addErrMes(L("ファイル名が空です。"));
+				src.addErrMes(L("File name is empty."));
 				return false;
 			}
 			{
@@ -5308,7 +5308,7 @@ ELSE:
 						? (path=stat->ss->exedir, path+=L("lib/"))
 						: src.filename))
 				{
-					src.addErrMes(L("絶対パスへの変換に失敗しました。"));
+					src.addErrMes(L("Failed to convert to absolute path."));
 					return false;
 				}
 			}
@@ -5337,7 +5337,7 @@ ELSE:
 						do {
 							if (pst == root) {
 								src.addErrMes(
-									L("ライブラリの循環参照はできません。"));
+									L("Circular references to libraries are not possible."));
 								return nullptr;
 							}
 							pst = pst->extroot->subsrc;
@@ -5369,7 +5369,7 @@ ELSE:
 				|| hkishiki.frp->parent == hkishiki.root
 				|| hkishiki.frp->selftype == CLASS_BLOCK)
 			{
-				src.addErrMes(L("ここで`は使えません。"));
+				src.addErrMes(L("` cannot be used here."));
 				return nullptr;
 			}
 			switch (src.GetToken(hkishiki)) {
@@ -5423,7 +5423,7 @@ ELSE:
 						std::WSTR tmp;
 						tmp = L('\'');
 						tmp += name;
-						tmp += L("' が見つかりません。");
+						tmp += L("' not found.");
 						src.addErrMes(tmp);
 						return nullptr;
 					}
@@ -5431,7 +5431,7 @@ ELSE:
 						std::WSTR tmp;
 						tmp = L('\'');
 						tmp += name;
-						tmp += L("' はライブラリでありません。");
+						tmp += L("' is not a library.");
 						src.addErrMes(tmp);
 						return nullptr;
 					}
@@ -5588,7 +5588,7 @@ ELSE:
 				break;
 			case BQUOT_TOKEN:
 				if(toka || moou || frp == root || frp->parent == root){
-					src.addErrMes(L("'`' が構文エラーです。"));
+					src.addErrMes(L("'`' is a syntax error."));
 					return -1;
 				}
 				pst = hkishiki.frp->parent;
@@ -5596,7 +5596,7 @@ ELSE:
 				break;
 			case SELF_TOKEN:
 				if(moou){
-					src.addErrMes(L("'self' が構文エラーです。"));
+					src.addErrMes(L("'self' is a syntax error."));
 					return -1;
 				}
 				fi = frp->funcid;
@@ -5613,7 +5613,7 @@ SUPERPASTA:
 							&& phs->type[1] != OR_TOKEN
 							&& phs->type[1] != NULL_TOKEN)
 						{
-							src.addErrMes(L("エラーです。"));
+							src.addErrMes(L("Error."));
 							return -1;
 						}
 						fi = (int32_t)phs->type[2];
@@ -5650,7 +5650,7 @@ SUGOIPASTA:
 							henpubl
 							&& !isPublic((TokenKind)phs->type[0], hkishiki))
 						{
-							src.addErrMes(L("パブリックでありません。"));
+							src.addErrMes(L("Not public."));
 							return -1;
 						}
 						if(phs->type[0] != CORE_TOKEN) henpubl = true;
@@ -5661,7 +5661,7 @@ SUGOIPASTA:
 				}else if((fi = pst->GetFuncId(name, create)) < 0){
 					tmp = L('\'');
 					tmp += name;
-					tmp += L("' は定義されていません。");
+					tmp += L("' is not defined.");
 					src.addErrMes(tmp);
 					return -1;
 				}else if(pst->touka){
@@ -5706,7 +5706,7 @@ FOOGOTOLABEL:
 							break;
 						default:
 							if(blty == ENUM_BLOCK){
-								src.addErrMes(L("列挙型です。"));
+								src.addErrMes(L("It is an enumerated type."));
 								return -1;
 							}
 							bt = blty;
@@ -5720,18 +5720,18 @@ FOOGOTOLABEL:
 							opst->topsrcgyo = src.sst.g;
 						}
 						if(opst->selftype != bt){
-							src.addErrMes(L("型エラーです。"));
+							src.addErrMes(L("Type error."));
 							return -1;
 						}
 						if(opst->rettype.size() > 0 && opst->tpcount == 0){
-							src.addErrMes(L("テンプレート関数ではありません。"));
+							src.addErrMes(L("It's not a template function."));
 							return -1;
 						}
 						idx = 0;
 						for(;;){
 							if(opst->tpcount > 0 && idx >= opst->tpcount){
 								src.addErrMes(
-									L("テンプレート引数が多すぎます。"));
+									L("Too many template arguments."));
 								stat->tokubetuerr = true;
 								return -1;
 							}
@@ -5762,12 +5762,12 @@ FOOGOTOLABEL:
 										&name, bt, true, create))
 								== nullptr)
 							{
-								src.addErrMes(L("エラーです。"));
+								src.addErrMes(L("Error."));
 								if(create) stat->tokubetuerr = true;
 								return -1;
 							}
 							if(pst->selftype != opst->selftype){
-								src.addErrMes(L("型エラーです。"));
+								src.addErrMes(L("Type error."));
 								stat->tokubetuerr = true;
 								return -1;
 							}
@@ -5804,7 +5804,7 @@ FOOGOTOLABEL:
 							break;
 						}
 						if(pst->tpcount > 0 && idx != pst->tpcount){
-							src.addErrMes(L("テンプレート引数が足りません。"));
+							src.addErrMes(L("Missing template arguments."));
 							stat->tokubetuerr = true;
 							return -1;
 						}
@@ -5859,7 +5859,7 @@ FOOGOTOLABEL:
 						goto NEO_PASTA;
 					case SHOU_TOKEN:
 						if(blty == ENUM_BLOCK){
-							src.addErrMes(L("列挙型です。"));
+							src.addErrMes(L("It is an enumerated type."));
 							return -1;
 						}
 						if(typeonly || toka){
@@ -5877,7 +5877,7 @@ FOOGOTOLABEL:
 							pst->tpcount = 0;
 						}
 						if(pst->selftype != blty){
-							src.addErrMes(L("型エラーです。"));
+							src.addErrMes(L("Type error."));
 							return -1;
 						}
 						if(publ){
@@ -5886,7 +5886,7 @@ FOOGOTOLABEL:
 									!pst->isPublic(
 										(TokenKind)pst->rettype[0], hkishiki))
 								{
-									src.addErrMes(L("プライベートです。"));
+									src.addErrMes(L("It's private."));
 									return -1;
 								}
 							}else if(toka || blty == CLASS_BLOCK){
@@ -5919,7 +5919,7 @@ FOOGOTOLABEL:
 						}
 						if(idx >= 0 && pst->tpcount != idx){
 							src.addErrMes(
-								L("テンプレート引数の数が合いません。"));
+								L("The number of template arguments does not match."));
 							return -1;
 						}
 						return fi;
@@ -5933,7 +5933,7 @@ NEO_PASTA:
 							&& pst->funchensuu[pst->tpcount-1].type.size()
 							<= 1)
 						{
-							src.addErrMes(L("テンプレート引数がありません。"));
+							src.addErrMes(L("Missing template argument."));
 							return -1;
 						}
 						if(!pst->kakutei){
@@ -5945,7 +5945,7 @@ NEO_PASTA:
 							}
 						}
 						if(pst->selftype != FUNC_BLOCK || !pst->touka){
-							src.addErrMes(L("透過関数ではありません。"));
+							src.addErrMes(L("It is not a transparent function."));
 							return -1;
 						}
 						if(publ){
@@ -5954,7 +5954,7 @@ NEO_PASTA:
 									!pst->isPublic(
 										(TokenKind)pst->rettype[0], hkishiki))
 								{
-									src.addErrMes(L("プライベートです。"));
+									src.addErrMes(L("It's private."));
 									return -1;
 								}
 							}else if(toka || blty == CLASS_BLOCK){
@@ -5970,13 +5970,13 @@ NEO_PASTA:
 							&& pst->funchensuu[pst->tpcount-1].type.size()
 							<= 1)
 						{
-							src.addErrMes(L("テンプレート引数がありません。"));
+							src.addErrMes(L("Missing template argument."));
 							return -1;
 						}
 						for(;;){
 							if(pst->selftype == ENUM_BLOCK){
 								if(!toka){
-									src.addErrMes(L("列挙型です。"));
+									src.addErrMes(L("It is an enumerated type."));
 									return -1;
 								}
 								src.setNextLast();
@@ -5990,7 +5990,7 @@ NEO_PASTA:
 								}
 							}
 							if(pst->selftype != CLASS_BLOCK){
-								src.addErrMes(L("クラスではありません。"));
+								src.addErrMes(L("It's not a class."));
 								return -1;
 							}
 							if(publ){
@@ -6000,7 +6000,7 @@ NEO_PASTA:
 											(TokenKind)pst->rettype[0],
 											hkishiki))
 									{
-										src.addErrMes(L("プライベートです。"));
+										src.addErrMes(L("It's private."));
 										return -1;
 									}
 								}else if(toka || blty == CLASS_BLOCK){
@@ -6057,7 +6057,7 @@ TOTEMOPASTA:
 								|| pst->funchensuu[pst->tpcount-1].type.size()
 								<= 1))
 						{
-							src.addErrMes(L("テンプレート引数がありません。"));
+							src.addErrMes(L("Missing template argument."));
 							return -1;
 						}
 						if(!pst->kakutei && pst->selftype == UNKNOWN_BLOCK){
@@ -6066,7 +6066,7 @@ TOTEMOPASTA:
 							pst->topsrcgyo = src.sst.g;
 						}
 						if(pst->selftype != blty){
-							src.addErrMes(L("型エラーです。"));
+							src.addErrMes(L("Type error."));
 							return -1;
 						}
 						if(pst->selftype != ENUM_BLOCK && publ){
@@ -6078,7 +6078,7 @@ TOTEMOPASTA:
 									&& !pst->isPublic(
 										(TokenKind)pst->rettype[0], hkishiki))
 								{
-									src.addErrMes(L("パブリックでありません。"));
+									src.addErrMes(L("Not public."));
 									return -1;
 								}
 							}else if(toka || blty == CLASS_BLOCK){
@@ -6171,7 +6171,7 @@ TOTEMOPASTA:
 			return true;
 		}
 		if(children.size() <= 0){
-			srce->addErrMes(L("エラーです。"));
+			srce->addErrMes(L("Error."));
 			return false;
 		}
 		for(intptr_t i = 0; i < IDX(children.size()); i++){
@@ -6404,7 +6404,7 @@ TOTEMOPASTA:
 		{
 			return false;
 		}
-		stat->funclist.Get(ci)->mbsize = -1;//気をつける
+		stat->funclist.Get(ci)->mbsize = -1;//be careful
 		if(ptok != nullptr){
 			std::basic_string<intptr_t> tmp;
 			if(frp == root) tmp = GLOBAL_TOKEN;
@@ -6422,7 +6422,7 @@ TOTEMOPASTA:
 		if(rettype[tidx] == SIGNATURE_TOKEN){
 			if(tidx > 0){
 				srce->addErrMes(
-					L("シグネチャての関数定義に装飾子はつけられません。"));
+					L("Decorators cannot be added to function definitions with signatures."));
 				return false;
 			}
 			std::basic_string<intptr_t> type;
@@ -6430,7 +6430,7 @@ TOTEMOPASTA:
 			type += rettype;
 			std::vector<std::basic_string<intptr_t>> waketa;
 			if(!KansuuKata(nullptr, type, waketa)){
-				srce->addErrMes(L("エラーです。"));
+				srce->addErrMes(L("Error."));
 				return false;
 			}
 			rettype = waketa[0];
@@ -6438,7 +6438,7 @@ TOTEMOPASTA:
 			auto kin = NULL_TOKEN;
 			for(int i = 0; i < hikisuucount; i++){
 				if(kin == SHOUKAKKOCLOSE_TOKEN){
-					srce->addErrMes(L("引数が少なすぎます。"));
+					srce->addErrMes(L("Too few arguments."));
 					return false;
 				}
 				if(!ArgSub(*srce, nullptr, this, waketa[i+1], kin, true)){
@@ -6449,7 +6449,7 @@ TOTEMOPASTA:
 				}
 			}
 			if(kin == COMMA_TOKEN){
-				srce->addErrMes(L("引数が多すぎます。"));
+				srce->addErrMes(L("Too many arguments."));
 				return false;
 			}
 			if(kin == NULL_TOKEN) kin = srce->GetToken(*this);
@@ -6491,7 +6491,7 @@ TOTEMOPASTA:
 			touka = true;
 		}else{
 			if(touka){
-				srce->addErrMes(L("すでに透過関数として使われています。"));
+				srce->addErrMes(L("It is already used as a transparency function."));
 				return false;
 			}
 			srce->setNextLast();
@@ -6532,7 +6532,7 @@ TOTEMOPASTA:
 			sig = true;
 			break;
 		default:
-			src.addErrMes(L("戻り値の型が不正です。"));
+			src.addErrMes(L("Invalid return type."));
 			return false;
 		}
 		return true;
@@ -6657,12 +6657,12 @@ TOTEMOPASTA:
 			tkty += type;
 		}
 		if(!ConstCaster(cnst, tkty)){
-			srce->addErrMes(L("型エラーです。"));
+			srce->addErrMes(L("Type error."));
 			return false;
 		}
 		auto ci = GetFuncId(L("new"), true);
 		if(ci < 0){
-			srce->addErrMes(L("不思議なエラーです。"));
+			srce->addErrMes(L("This is a strange error."));
 			return false;
 		}
 		auto pst = stat->funclist.Get(ci);
@@ -6725,11 +6725,11 @@ TOTEMOPASTA:
 		std::basic_string<intptr_t>& tk, std::basic_string<intptr_t>& type)
 	{
 		if(type[0] == CORE_TOKEN && selftype != CLASS_BLOCK){
-			srce->addErrMes(L("coreが定義できるのはクラス内だけです。"));
+			srce->addErrMes(L("Core can only be defined within a class."));
 			return false;
 		}
 		if(teigikinshi >= 0){
-			srce->addErrMes(L("ここでは定義できません。"));
+			srce->addErrMes(L("It cannot be defined here."));
 			return false;
 		}
 		bool cst = type[0] == CONST_TOKEN;
@@ -6748,8 +6748,8 @@ TOTEMOPASTA:
 					&& IsKoukaiHensuuToken((TokenKind)type[0]))
 				{
 					srce->addErrMes(
-						L("グローバルでretが出た後、公開グローバル変数を定義す")
-						L("ることはできません。"));
+						L("After ret is issued in global, define public global variable.")
+						L("You cannot."));
 					return false;
 				}
 			}
@@ -6781,7 +6781,7 @@ TOTEMOPASTA:
 							return false;
 						}
 						if(!ConstCaster(cnst, type)){
-							srce->addErrMes(L("型エラーです。"));
+							srce->addErrMes(L("Type error."));
 							return false;
 						}
 						frp->funchensuu.back().type = cnst;
@@ -6803,13 +6803,13 @@ TOTEMOPASTA:
 					break;
 				case COMMA_TOKEN:
 					if(cst){
-						srce->addErrMes(L("定数の値が指定されていません。"));
+						srce->addErrMes(L("Constant value not specified."));
 						return false;
 					}
 					continue;
 				case SEMICOLON_TOKEN:
 					if(cst){
-						srce->addErrMes(L("定数の値が指定されていません。"));
+						srce->addErrMes(L("Constant value not specified."));
 						return false;
 					}
 					break;
@@ -6827,8 +6827,8 @@ TOTEMOPASTA:
 					&& IsKoukaiHensuuToken((TokenKind)type[0]))
 				{
 					srce->addErrMes(
-						L("グローバルでretが出た後、公開グローバル変数を定義す")
-						L("ることはできません。"));
+						L("After ret is issued in global, define public global variable.")
+						L("You cannot."));
 					return false;
 				}
 			}
@@ -6875,8 +6875,8 @@ TOTEMOPASTA:
 						(TokenKind)type[0]))
 				{
 					srce->addErrMes(
-						L("グローバルでretが出た後、公開グローバル変数を定義す")
-						L("ることはできません。"));
+						L("After ret is issued in global, define public global variable.")
+						L("You cannot."));
 					return false;
 				}
 			}
@@ -6892,7 +6892,7 @@ TOTEMOPASTA:
 					stat->funclist.Get(ci)->parent
 					!= stat->funclist.Get(ci)->root)
 				{
-					srce->addErrMes(L("これはエラーです。"));
+					srce->addErrMes(L("Error."));
 					return false;
 				}
 				type += ci;
@@ -6937,11 +6937,11 @@ TOTEMOPASTA:
 			break;
 		case TILDE_TOKEN:
 			if(selftype == CLASS_BLOCK){
-				srce->addErrMes(L("クラスメンバに無名関数は定義できません。"));
+				srce->addErrMes(L("Anonymous functions cannot be defined as class members."));
 				return false;
 			}
 			if(frp == root){
-				srce->addErrMes(L("グローバルに無名関数は定義できません。"));
+				srce->addErrMes(L("Globally anonymous functions cannot be defined."));
 				return false;
 			}
 			if (tidx == IDX(type.size()) - 1){
@@ -6963,7 +6963,7 @@ TOTEMOPASTA:
 				if(!PluginType(type, name)) return false;
 				if(srce->GetToken(*this) != DAINYUU_TOKEN){
 					srce->addErrMes(
-						L("プラグインのファイルが指定されていません。"));
+						L("No plugin file was specified."));
 					return false;
 				}
 				std::WSTR path;
@@ -6976,7 +6976,7 @@ TOTEMOPASTA:
 				}
 				type += (intptr_t)stat->dlllist[path].getfunc(name);
 				if(type.back() == (intptr_t)nullptr){
-					srce->addErrMes(L("プラグインを読み込めませんでした。"));
+					srce->addErrMes(L("Failed to load plugin."));
 					return false;
 				}
 				if(!AddHensuu(type, name, 0, *srce)) return false;
@@ -6996,11 +6996,11 @@ TOTEMOPASTA:
 			}
 			if(!stat->funclist.Get(ci)->kakutei){
 				if(frp != this){
-					srce->addErrMes(L("列挙型はサブブロックで定義できません。"));
+					srce->addErrMes(L("Enums cannot be defined in subblocks."));
 					return false;
 				}
 				if(IsSoushokuToken((TokenKind)type[0])){
-					srce->addErrMes(L("列挙型に装飾子はつけられません。"));
+					srce->addErrMes(L("Decorators cannot be attached to enumerated types."));
 					return false;
 				}
 				auto pst = stat->funclist.Get(ci);
@@ -7036,7 +7036,7 @@ TOTEMOPASTA:
 							return false;
 						}
 						if(!ConstCaster(cnst, inty)){
-							srce->addErrMes(L("型エラーです。"));
+							srce->addErrMes(L("Type error."));
 							return false;
 						}
 						t32 = *(int32_t*)(cnst.data()+2);
@@ -7069,19 +7069,19 @@ TOTEMOPASTA:
 			}
 			if(!stat->funclist.Get(ci)->kakutei){
 				if(frp != this){
-					srce->addErrMes(L("サブブロックの中ではクラスを定義できません。"));
+					srce->addErrMes(L("Classes cannot be defined inside subblocks."));
 					return false;
 				}
 				if(cst){
-					srce->addErrMes(L("constでクラスを定義できません。"));
+					srce->addErrMes(L("You cannot define a class with const."));
 					return false;
 				}
 				if(type[0] == WARU_TOKEN){
-					srce->addErrMes(L("'/' でクラスを定義できません。"));
+					srce->addErrMes(L("Cannot define class with '/'."));
 					return false;
 				}
 				if (type[0] == CORE_TOKEN){
-					srce->addErrMes(L("coreでクラスを定義できません。"));
+					srce->addErrMes(L("Cannot define class in core."));
 					return false;
 				}
 				auto pst = stat->funclist.Get(ci);
@@ -7090,7 +7090,7 @@ TOTEMOPASTA:
 						srce->sst.next != NULL_TOKEN
 						|| srce->sst.last != DAI_TOKEN))
 				{
-					srce->addErrMes(L("これはエラーです。"));
+					srce->addErrMes(L("Error."));
 					return false;
 				}
 				if(pst->rettype.size() > 0){
@@ -7099,7 +7099,7 @@ TOTEMOPASTA:
 						|| !IsKoukaiHensuuToken((TokenKind)pst->rettype[0]))
 					{
 						srce->addErrMes(
-							L("クラスの定義内で自己を再定義しようとしました。"));
+							L("An attempt was made to redefine self within a class definition."));
 						return false;
 					}else{
 						if(
@@ -7107,7 +7107,7 @@ TOTEMOPASTA:
 							|| !IsKoukaiHensuuToken((TokenKind)type[0]))
 						{
 							srce->addErrMes(
-								L("すでにパブリックとして使われています。"));
+								L("It is already in public use."));
 							return false;
 						}
 					}
@@ -7123,8 +7123,8 @@ TOTEMOPASTA:
 					}
 					if(tidx < IDX(pst->root->children.size())){
 						srce->addErrMes(
-							L("グローバルでretが出た後、公開グローバルクラスを")
-							L("定義することはできません。"));
+							L("After ret is issued in global, make public global class")
+							L("cannot be defined."));
 						return false;
 					}
 				}
@@ -7163,7 +7163,7 @@ TOTEMOPASTA:
 						}
 					}
 					if(kin <= NULL_TOKEN){
-						srce->addErrMes(L("'}' が足りません。"));
+						srce->addErrMes(L("'}' is missing."));
 						return false;
 					}
 					if(pst->children.size() > 0){
@@ -7174,7 +7174,7 @@ TOTEMOPASTA:
 				}else{
 					if(srce->GetToken(*this) != CHUUKAKKOOPEN_TOKEN){
 						srce->addErrMes(
-							L("定義されていないクラスを使おうとしたか、 '{' がありません。"));
+							L("You tried to use a class that is not defined or '{' is missing."));
 						return false;
 					}
 					if(!pst->MakeTree()) return false;
@@ -7200,20 +7200,20 @@ TOTEMOPASTA:
 							(TokenKind)type[0]))
 					{
 						srce->addErrMes(
-							L("グローバルでretが出た後、公開グローバル変数を定")
-							L("義することはできません。"));
+							L("After ret is issued globally, define the public global variable.")
+							L("cannot be justified."));
 						return false;
 					}
 				}
 				if(cst){
-					srce->addErrMes(L("定数のクラスオブジェクトを作れません。"));
+					srce->addErrMes(L("Cannot create constant class object."));
 					return false;
 				}
 				if(
 					srce->sst.next == NULL_TOKEN
 					&& srce->sst.last == DAI_TOKEN)
 				{
-					srce->addErrMes(L("これはエラーです。"));
+					srce->addErrMes(L("Error."));
 					return false;
 				}
 				type += ci;
@@ -7253,7 +7253,7 @@ TOTEMOPASTA:
 				std::WSTR name;
 				srce->appendTStr(name);
 				if(srce->GetToken(*this) != DAINYUU_TOKEN){
-					srce->addErrMes(L("型を指定していません。"));
+					srce->addErrMes(L("No type specified."));
 					return false;
 				}
 				if(!TypeNanika(type, *srce, false, false, *this, true, false)){
@@ -7281,7 +7281,7 @@ TOTEMOPASTA:
 				std::WSTR name;
 				srce->appendTStr(name);
 				if(srce->GetToken(*this) != DAINYUU_TOKEN){
-					srce->addErrMes(L("ライブラリを指定していません。"));
+					srce->addErrMes(L("No library specified."));
 					return false;
 				}
 				type += (intptr_t)LibNanika(*srce, *this, false);
@@ -7308,18 +7308,18 @@ TOTEMOPASTA:
 		}
 		size = GetTypeSize(type);
 		if(size < 0){
-			srce->addErrMes(L("エラーです。"));
+			srce->addErrMes(L("Error."));
 			return false;
 		}
 		flu = KansuuTeigika();
 FOOLABEL:
 		if(flu){
 			if(frp != this){
-				srce->addErrMes(L("サブブロックの中では関数を定義できません。"));
+				srce->addErrMes(L("Functions cannot be defined inside subblocks."));
 				return false;
 			}
 			if(cst){
-				srce->addErrMes(L("constで関数を定義できません。"));
+				srce->addErrMes(L("You cannot define a function with const."));
 				return false;
 			}
 			if (
@@ -7329,7 +7329,7 @@ FOOLABEL:
 				< 0) return false;
 			auto pst = stat->funclist.Get(ci);
 			if(pst->kakutei){
-				srce->addErrMes(L("すでに定義されています。"));
+				srce->addErrMes(L("Already defined."));
 				return false;
 			}
 			if(
@@ -7337,7 +7337,7 @@ FOOLABEL:
 					srce->sst.next != NULL_TOKEN
 					|| srce->sst.last != DAI_TOKEN))
 			{
-				srce->addErrMes(L("これはエラーです。"));
+				srce->addErrMes(L("Error."));
 				return false;
 			}
 			if(pst->rettype.size() > 0){
@@ -7346,7 +7346,7 @@ FOOLABEL:
 					|| !IsKoukaiHensuuToken((TokenKind)pst->rettype[0]))
 				{
 					srce->addErrMes(
-						L("関数の定義内で自己を再定義しようとしました。"));
+						L("An attempt was made to redefine self within the definition of a function."));
 					return false;
 				}else{
 					if(
@@ -7354,14 +7354,14 @@ FOOLABEL:
 						|| !IsKoukaiHensuuToken((TokenKind)type[0]))
 					{
 						srce->addErrMes(
-							L("すでにパブリックとして使われています。"));
+							L("It is already in public use."));
 						return false;
 					}
 				}
 			}
 			if(pst->parent == pst->root){
 				if(type[0] == WARU_TOKEN){
-					srce->addErrMes(L("グローバルな/関数は定義できません。"));
+					srce->addErrMes(L("Global/functions cannot be defined."));
 					return false;
 				}else if(
 					pst->root->returnshita >= 0
@@ -7375,8 +7375,8 @@ FOOLABEL:
 					}
 					if(tidx < IDX(pst->root->children.size())){
 						srce->addErrMes(
-							L("グローバルでretが出た後、公開グローバル関数を")
-							L("定義することはできません。"));
+							L("After ret is issued globally, open the public global function")
+							L("cannot be defined."));
 						return false;
 					}
 				}
@@ -7449,7 +7449,7 @@ FOOLABEL:
 					}
 				}
 				if(kin <= NULL_TOKEN){
-					srce->addErrMes(L("'}' が足りません。"));
+					srce->addErrMes(L("'}' is missing."));
 					return false;
 				}
 				if(pst->children.size() > 0){
@@ -7475,8 +7475,8 @@ FOOLABEL:
 					|| (funcfg && IsPublicToken((TokenKind)type[0]))))
 			{
 				srce->addErrMes(
-					L("グローバルでretが出た後、公開グローバル変数を定義するこ")
-					L("とはできません。"));
+					L("After ret is issued in global, it is necessary to define public global variables.")
+					L("It is not possible."));
 				return false;
 			}
 		}
@@ -7492,7 +7492,7 @@ FOOLABEL:
 						*srce, NULL_TOKEN, srce->GetToken(*this), cnst,
 						SEMICOLON_TOKEN, false, true)) return false;
 				if(!ConstCaster(cnst, type)){
-					srce->addErrMes(L("型エラーです。"));
+					srce->addErrMes(L("Type error."));
 					return false;
 				}
 				if(!AddHensuu(cnst, name, 0, *srce)) return false;
@@ -7527,7 +7527,7 @@ FOOLABEL:
 		case SEMICOLON_TOKEN:
 		case COMMA_TOKEN:
 			if(cst || funcfg){
-				srce->addErrMes(L("値が指定されていません。"));
+				srce->addErrMes(L("No value specified."));
 				return false;
 			}
 			if(!AddHensuu(type, name, size, *srce)) return false;
@@ -7556,7 +7556,7 @@ FOOLABEL:
 						type.back() = ATMARK_TOKEN;
 					}else{
 						srce->addErrMes(
-							L("装飾子を二つ以上重ねることはできません。"));
+							L("You cannot stack more than one decorator."));
 						return false;
 					}
 				}
@@ -7574,7 +7574,7 @@ FOOLABEL:
 			case AMARI_TOKEN:
 			case THREAD_TOKEN:
 				if(constf){
-					srce->addErrMes(L("定数になれません。"));
+					srce->addErrMes(L("It cannot be a constant."));
 					return false;
 				}
 			case XOR_TOKEN:
@@ -7597,13 +7597,13 @@ FOOLABEL:
 			case METHOD_TOKEN:
 			case TENTEN_TOKEN:
 				if(coref){
-					srce->addErrMes(L("coreはクラスだけです。"));
+					srce->addErrMes(L("Core is just a class."));
 					return false;
 				}
 				break;
 			case DOLLAR_TOKEN:
 				if(coref){
-					srce->addErrMes(L("coreはクラスだけです。"));
+					srce->addErrMes(L("Core is just a class."));
 					return false;
 				}
 				type.back() = SIGNATURE_TOKEN;
@@ -7614,7 +7614,7 @@ FOOLABEL:
 			case PLUGIN_TOKEN:
 			case TILDE_TOKEN:
 				if (pubf || misc || constf || coref){
-					srce->addErrMes(L("装飾子はつけられません。"));
+					srce->addErrMes(L("Decorators cannot be attached."));
 					return false;
 				}
 				break;
@@ -7624,7 +7624,7 @@ FOOLABEL:
 			break;
 		}
 		if(kin <= NULL_TOKEN){
-			srce->addErrMes(L("エラーです。"));
+			srce->addErrMes(L("Error."));
 			return false;
 		}
 		return true;
@@ -7701,20 +7701,20 @@ FOOLABEL:
 		case PLUGIN_TOKEN:
 		case NEW_TOKEN:
 		case DELETE_TOKEN:
-			srce->addErrMes(L("ここで定義はできません。"));
+			srce->addErrMes(L("It cannot be defined here."));
 			return false;
 		case CHUUKAKKOCLOSE_TOKEN:
 		case NULL_TOKEN:
-			srce->addErrMes(L("エラーです。"));
+			srce->addErrMes(L("Error."));
 			return false;
 		case IF_TOKEN:
-			srce->addErrMes(L("ここにifは書けません。"));
+			srce->addErrMes(L("You cannot write if here."));
 			return false;
 		case CASE_TOKEN:
 		case COND_TOKEN:
 		case DIFF_TOKEN:
 		case COMM_TOKEN:
-			srce->addErrMes(L("ここにラベルは書けません。"));
+			srce->addErrMes(L("You cannot write a label here."));
 			return false;
 		case BREAK_TOKEN:
 		case WHILE_TOKEN:
@@ -7726,7 +7726,7 @@ FOOLABEL:
 				auto oldsst = srce->sst;
 				ki = srce->GetToken(*this);
 				if(ki != SEMICOLON_TOKEN && ki != COMMA_TOKEN){
-					srce->addErrMes(L("ここにラベルは書けません。"));
+					srce->addErrMes(L("You cannot write a label here."));
 					return false;
 				}
 				srce->sst = oldsst;
@@ -7744,7 +7744,7 @@ FOOLABEL:
 		case BRANCH_TOKEN:
 		case LOOP_TOKEN:
 		case LOCK_TOKEN:
-			srce->addErrMes(L("ここにブロックは書けません。"));
+			srce->addErrMes(L("Blocks cannot be written here."));
 			return false;
 		}
 		srce->setNextLast();
@@ -7753,7 +7753,7 @@ FOOLABEL:
 	MEMBER bool ClassnaiKinsoku()
 	{
 		if(selftype == CLASS_BLOCK){
-			srce->addErrMes(L("クラス内に書くのは定義だけです。"));
+			srce->addErrMes(L("Only the definition is written in the class."));
 			return false;
 		}
 		return true;
@@ -7761,7 +7761,7 @@ FOOLABEL:
 	MEMBER bool KoubunKanouJoutai(const BlockType bt)
 	{
 		if((selftype != bt && bt != NORMAL_BLOCK) || crp == this || breakin){
-			srce->addErrMes(L("ここでそれはできません。"));
+			srce->addErrMes(L("You can't do that here."));
 			return false;
 		}
 		return true;
@@ -7772,7 +7772,7 @@ FOOLABEL:
 			return false;
 		}
 		if(srce->sst.last == COMMA_TOKEN){
-			srce->addErrMes(L("',' が不正です。"));
+			srce->addErrMes(L(",' is not allowed."));
 			return false;
 		}
 		return true;
@@ -7871,7 +7871,7 @@ FOOLABEL:
 		case NEW_TOKEN:
 		case DELETE_TOKEN:
 			if(selftype != CLASS_BLOCK){
-				srce->addErrMes(L("クラス内でないといけません。"));
+				srce->addErrMes(L("Must be in class."));
 				return false;
 			}
 			{
@@ -7879,12 +7879,12 @@ FOOLABEL:
 				srce->appendTStr(name);
 				auto fi = GetFuncId(name, true);
 				if(fi < 0){
-					srce->addErrMes(L("不思議なエラーです。"));
+					srce->addErrMes(L("This is a strange error."));
 					return false;
 				}
 				pst = stat->funclist.Get(fi);
 				if(pst->mbrhani != INTPTR_MAX){
-					srce->addErrMes(L("すでに定義されています。"));
+					srce->addErrMes(L("Already defined."));
 					return false;
 				}
 				pst->mbrhani = pst->parent->funchensuu.size();
@@ -7936,7 +7936,7 @@ FOOLABEL:
 		case RET_TOKEN:
 			if(!ClassnaiKinsoku()) return false;
 			if(breakinnest){
-				srce->addErrMes(L("break内ではreturnできません。"));
+				srce->addErrMes(L("Return is not possible within break."));
 				return false;
 			}
 			if(!Bun(*ptok, srce->GetToken(*this))) return false;
@@ -7949,7 +7949,7 @@ FOOLABEL:
 					&& !pst->extswitch->haveCaseOrDefault)
 				{
 					srce->addErrMes(
-						L("caseやdefaultがでる前にreturnできません。"));
+						L("You cannot return before a case or default appears."));
 					return false;
 				}
 				*ptok += BREAK_TOKEN;
@@ -8039,7 +8039,7 @@ FOOLABEL:
 						(kin==BRANCH_TOKEN ? BRANCH_BLOCK : LOOP_BLOCK),
 						false, true)) == nullptr)
 			{
-				srce->addErrMes(L("不思議なエラーです。"));
+				srce->addErrMes(L("This is a strange error."));
 				return false;
 			}
 			if(!pst->MakeTree()) return false;
@@ -8057,7 +8057,7 @@ FOOLABEL:
 					nullptr, (kin==SWITCH_TOKEN ? SWITCH_BLOCK : LOCK_BLOCK),
 					false, true)) == nullptr)
 			{
-				srce->addErrMes(L("不思議なエラーです。"));
+				srce->addErrMes(L("This is a strange error."));
 				return false;
 			}
 			if(!necessaryToken(*srce, *this, SHOUKAKKOOPEN_TOKEN)){
@@ -8387,7 +8387,7 @@ FOOLABEL:
 				(pst = BlockOpen(nullptr, NORMAL_BLOCK, false, true))
 				== nullptr)
 			{
-				srce->addErrMes(L("不思議なエラーです。"));
+				srce->addErrMes(L("This is a strange error."));
 				return false;
 			}
 			if(!pst->MakeTree()) return false;
@@ -8399,7 +8399,7 @@ FOOLABEL:
 				std::WSTR str;
 				str = L('\'');
 				srce->appendTStr(str);
-				str += L("' が不正です。");
+				str += L("' is not allowed");
 				srce->addErrMes(str);
 			}
 			return false;

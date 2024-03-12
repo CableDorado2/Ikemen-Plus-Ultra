@@ -46,7 +46,7 @@ template<typename GC> struct Source
 		}
 #endif
 		if(_wfopen_s(&pFile, fn.c_str(), L("rb")) != 0){
-			ss->emes.Add(filename, -1, L("ファイルの読み込みに失敗。"));
+			ss->emes.Add(filename, -1, L("Failed to read file."));
 			return false;
 		}
 		if(fread(&ch, sizeof(char), 1, pFile) == 1) tmp += ch;
@@ -81,7 +81,7 @@ template<typename GC> struct Source
 		if(pwc == nullptr){
 			filename = dir;
 			filename += L("/<string>");
-			ss->emes.Add(filename, -1, L("絶対パスへの変換に失敗。"));
+			ss->emes.Add(filename, -1, L("Failed to convert to absolute path."));
 			return false;
 		}
 		filename = pwc;
@@ -139,11 +139,11 @@ template<typename GC> struct Source
 							*this, NULL_TOKEN, GetToken(st), cond,
 							COLON_TOKEN, false, false);
 						if (sst.i - sst.t != 1 || source[sst.t] != L(':')) {
-							addErrMes(L("':' がありません。"));
+							addErrMes(L("There is not ':'"));
 							return false;
 						}
 						if (!st.ConstCaster(cond, type)) {
-							addErrMes(L("型エラーです。"));
+							addErrMes(L("Type error."));
 							return false;
 						}
 						if (*(bool*)(cond.data() + type.size())) {

@@ -806,7 +806,7 @@ struct BinaryCode
 			AtaiCode((int16_t)i32);
 		}else{
 			if(bp) PopReg(EBP);
-			PushSIB(SIB(0, ESP, ESP), i32);//理由があって引数を破棄できない
+			PushSIB(SIB(0, ESP, ESP), i32);//Arguments cannot be discarded for some reason
 			AddRegImm(ESP, i32+8);
 			PushSIB(SIB(0, ESP, ESP), -i32-4);
 			code += 0xC3;
@@ -2454,12 +2454,12 @@ struct BinaryCode
 		PopReg(EDX);
 		PopReg(EAX);
 		if(size > 0){
-			AddRegImm(EAX, 8 + offset);//リターンアドレスと前のEBPの8
+			AddRegImm(EAX, 8 + offset);//8 of return address and previous EBP
 			for(intptr_t j = 0; j < size; j += 4){
 				PopRadr(EAX);
 				AddRegImm(EAX, 4);
 			}
-			AddRegImm(ESP, 8);//Delegateのmemberのoffsetの8
+			AddRegImm(ESP, 8);//Delegate member offset 8
 		}
 		PopReg(ECX);
 		if (size > 0){

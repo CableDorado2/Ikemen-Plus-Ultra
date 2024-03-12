@@ -8,3 +8,4 @@ save/debug/
 *.log
 *.lastbuildstate
 *.manifest
+*.cache

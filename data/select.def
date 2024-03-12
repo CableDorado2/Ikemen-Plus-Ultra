@@ -250,9 +250,8 @@ Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1
 ;===========================================================
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
-Dragon Claw, stages/Far Mountains.def, single=1, includestage=0, order=4
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Dragon Claw
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
@@ -261,7 +260,7 @@ Catwalk, zoom=0, bonus=1, victoryscreen=0, exclude=1, order=2
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================
-Training/Sandbag.def, victoryscreen=0, exclude=1, order=6
+Training, victoryscreen=0, exclude=1, order=6
 Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
 ;===========================================================
 ; HOW TO ADD STAGES

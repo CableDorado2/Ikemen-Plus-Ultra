@@ -296,70 +296,70 @@ static void SSZException(uint8_t* adr)
 		appendText(mes, idx, buf);
 		appendText(mes, idx, L(") : "));
 	}
-	appendText(mes, idx, L("例外が発生しました。\n\n"));
+	appendText(mes, idx, L("Exception occured. \n\n"));
 	switch(g_ERecord.ExceptionCode){
 	case EXCEPTION_ACCESS_VIOLATION:
-		appendText(mes, idx, L("EXCEPTION_ACCESS_VIOLATION"));
+		appendText(mes, idx, L("EXCEPTION ACCESS VIOLATION"));
 		break;
 	case EXCEPTION_DATATYPE_MISALIGNMENT:
-		appendText(mes, idx, L("EXCEPTION_DATATYPE_MISALIGNMENT"));
+		appendText(mes, idx, L("EXCEPTION DATATYPE MISALIGNMENT"));
 		break;
 	case EXCEPTION_BREAKPOINT:
-		appendText(mes, idx, L("EXCEPTION_BREAKPOINT"));
+		appendText(mes, idx, L("EXCEPTION BREAKPOINT"));
 		break;
 	case EXCEPTION_SINGLE_STEP:
-		appendText(mes, idx, L("EXCEPTION_SINGLE_STEP"));
+		appendText(mes, idx, L("EXCEPTION SINGLE STEP"));
 		break;
 	case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-		appendText(mes, idx, L("EXCEPTION_ARRAY_BOUNDS_EXCEEDED"));
+		appendText(mes, idx, L("EXCEPTION ARRAY BOUNDS EXCEEDED"));
 		break;
 	case EXCEPTION_FLT_DENORMAL_OPERAND:
-		appendText(mes, idx, L("EXCEPTION_FLT_DENORMAL_OPERAND"));
+		appendText(mes, idx, L("EXCEPTION FLOAT DENORMAL OPERAND"));
 		break;
 	case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-		appendText(mes, idx, L("EXCEPTION_FLT_DIVIDE_BY_ZERO"));
+		appendText(mes, idx, L("EXCEPTION FLOAT DIVIDE BY ZERO"));
 		break;
 	case EXCEPTION_FLT_INEXACT_RESULT:
-		appendText(mes, idx, L("EXCEPTION_FLT_INEXACT_RESULT"));
+		appendText(mes, idx, L("EXCEPTION FLOAT INEXACT RESULT"));
 		break;
 	case EXCEPTION_FLT_INVALID_OPERATION:
-		appendText(mes, idx, L("EXCEPTION_FLT_INVALID_OPERATION"));
+		appendText(mes, idx, L("EXCEPTION FLOAT INVALID OPERATION"));
 		break;
 	case EXCEPTION_FLT_OVERFLOW:
-		appendText(mes, idx, L("EXCEPTION_FLT_OVERFLOW"));
+		appendText(mes, idx, L("EXCEPTION FLOAT OVERFLOW"));
 		break;
 	case EXCEPTION_FLT_STACK_CHECK:
-		appendText(mes, idx, L("EXCEPTION_FLT_STACK_CHECK"));
+		appendText(mes, idx, L("EXCEPTION FLOAT STACK_CHECK"));
 		break;
 	case EXCEPTION_FLT_UNDERFLOW:
-		appendText(mes, idx, L("EXCEPTION_FLT_UNDERFLOW"));
+		appendText(mes, idx, L("EXCEPTION FLOAT UNDERFLOW"));
 		break;
 	case EXCEPTION_INT_DIVIDE_BY_ZERO:
-		appendText(mes, idx, L("EXCEPTION_INT_DIVIDE_BY_ZERO"));
+		appendText(mes, idx, L("EXCEPTION INTEGER DIVIDE_BY_ZERO"));
 		break;
 	case EXCEPTION_INT_OVERFLOW:
-		appendText(mes, idx, L("EXCEPTION_INT_OVERFLOW"));
+		appendText(mes, idx, L("EXCEPTION INTEGER OVERFLOW"));
 		break;
 	case EXCEPTION_IN_PAGE_ERROR:
-		appendText(mes, idx, L("EXCEPTION_IN_PAGE_ERROR"));
+		appendText(mes, idx, L("EXCEPTION IN PAGE ERROR"));
 		break;
 	case EXCEPTION_ILLEGAL_INSTRUCTION:
-		appendText(mes, idx, L("EXCEPTION_ILLEGAL_INSTRUCTION"));
+		appendText(mes, idx, L("EXCEPTION ILLEGAL INSTRUCTION"));
 		break;
 	case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-		appendText(mes, idx, L("EXCEPTION_NONCONTINUABLE_EXCEPTION"));
+		appendText(mes, idx, L("EXCEPTION NONCONTINUABLE EXCEPTION"));
 		break;
 	case EXCEPTION_STACK_OVERFLOW:
-		appendText(mes, idx, L("EXCEPTION_STACK_OVERFLOW"));
+		appendText(mes, idx, L("EXCEPTION STACK OVERFLOW"));
 		break;
 	case EXCEPTION_INVALID_DISPOSITION:
-		appendText(mes, idx, L("EXCEPTION_INVALID_DISPOSITION"));
+		appendText(mes, idx, L("EXCEPTION INVALID DISPOSITION"));
 		break;
 	case EXCEPTION_GUARD_PAGE:
-		appendText(mes, idx, L("EXCEPTION_GUARD_PAGE"));
+		appendText(mes, idx, L("EXCEPTION GUARD PAGE"));
 		break;
 	case EXCEPTION_INVALID_HANDLE:
-		appendText(mes, idx, L("EXCEPTION_INVALID_HANDLE"));
+		appendText(mes, idx, L("EXCEPTION INVALID HANDLE"));
 		break;
 	}
 	appendText(mes, idx, L(" ("));

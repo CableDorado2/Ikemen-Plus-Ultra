@@ -77,7 +77,7 @@ end
 --; MISSIONS MENU
 --;===========================================================
 t_missionMenu = {
-	{id = '', text = 'Legendary Warrior',    			varID = textImgNew(), varText = mission1Progress},
+	{id = '', text = 'Warrior Clone',	    			varID = textImgNew(), varText = mission1Progress},
 	{id = '', text = 'Target Confirmed',     			varID = textImgNew(), varText = mission2Progress},
 	{id = '', text = 'True Kung Fu Spirit',  			varID = textImgNew(), varText = mission3Progress},
 	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
@@ -91,7 +91,7 @@ t_missionMenu = {
 }
 
 t_mInfo = {
-	{id = '1', text = "The ancient Dragon Claw is back!"},
+	{id = '1', text = "Another Kung Fu Man Clone appears!"},
 	{id = '2', text = "Defeat Original Kung Fu Man!"},
 	{id = '3', text = "Use the full power of Kung Fu Man!"},
 	{id = '4', text = "???"},
@@ -141,13 +141,13 @@ function f_missionMenu()
 			f_default()
 			data.rosterMode = 'mission'
 			setGameMode('mission')
-		--DRAGON CLAW
+		--EX KUNG FU MAN
 			if missionMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['dragon claw']}
+				data.p1Char = {t_charAdd['kung fu man/ex/ex kung fu man.def']}
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
 				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
