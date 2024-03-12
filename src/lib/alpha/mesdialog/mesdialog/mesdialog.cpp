@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <process.h>
 #include <stdint.h>
-#include <zlib.h>
+#include "zlib-1.2.8/zlib.h"
 static const unsigned char ASCII_FLAG  = 0x01; /* bit 0 set: file probably ascii text */
 static const unsigned char HEAD_CRC    = 0x02; /* bit 1 set: header CRC present */
 static const unsigned char EXTRA_FIELD = 0x04; /* bit 2 set: extra field present */
@@ -49,7 +49,7 @@ TUserFunc(bool, YesNo, Reference r)
 {
 	return
 		MessageBox(
-			NULL, pu->refToWstr(r).c_str(), L"メッセージ", MB_YESNO) == IDYES;
+			NULL, pu->refToWstr(r).c_str(), L"Message", MB_YESNO) == IDYES;
 }
 
 TUserFunc(void, VeryUnsafeCopy, intptr_t size, void *src, void *dst)

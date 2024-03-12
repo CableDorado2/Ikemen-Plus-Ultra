@@ -56,7 +56,7 @@ main(int argc, char *argv[])
 {
 	setlocale(LC_CTYPE, "en_US.UTF-8");
 #endif
-	PluginUtil pu(nullptr, nullptr);//ダミー
+	PluginUtil pu(nullptr, nullptr);//Dummy
 	CommandLineString<WCHR> cmdline;
 #ifdef _WIN32
 	cmdline.set(GetCommandLine());

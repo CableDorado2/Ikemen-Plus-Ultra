@@ -325,7 +325,7 @@ template<typename GC> struct SourceTree
 	union{
 		intptr_t thatoshori;
 		intptr_t junkanid;
-		intptr_t ichijihensuu;//branchとlockで使う
+		intptr_t ichijihensuu;//Use with branch and lock
 	} sonota;
 	intptr_t mbsize;
 	intptr_t byteadress;
@@ -341,7 +341,7 @@ template<typename GC> struct SourceTree
 	SwitchExtStruct* extswitch;
 	BranchExtStruct* extbranch;
 	LoopExtStruct* extloop;
-	std::basic_string<intptr_t>* ptk;//その場だけ利用
+	std::basic_string<intptr_t>* ptk;//Use only on the spot
 	MEMBER SourceTree(
 		STStatic<SourceTree, GC>* st, const std::WSTR* const name = nullptr,
 		SourceTree* const p = nullptr, const bool fukakutei = false)
@@ -3262,7 +3262,7 @@ ELSE:
 				case DOLLAR_TOKEN:
 					src.setNextLast();
 					return true;
-				case STARSTAR_TOKEN://右から
+				case STARSTAR_TOKEN://From the right
 				case KAKERU_TOKEN:case WARU_TOKEN:case AMARI_TOKEN:
 					if(kin >= KAKERU_TOKEN){
 						src.setNextLast();
@@ -3312,19 +3312,19 @@ ELSE:
 						return true;
 					}
 					break;
-				case ANDAND_TOKEN://from the right
+				case ANDAND_TOKEN://From the right
 					if(kin >= OROR_TOKEN){
 						src.setNextLast();
 						return true;
 					}
 					break;
-				case OROR_TOKEN://from the right
+				case OROR_TOKEN://From the right
 					if(kin >= QUESTION_TOKEN){
 						src.setNextLast();
 						return true;
 					}
 					break;
-				case QUESTION_TOKEN://from the right
+				case QUESTION_TOKEN://From the right
 					break;
 				default:
 					if(bubun) break;
@@ -6404,7 +6404,7 @@ TOTEMOPASTA:
 		{
 			return false;
 		}
-		stat->funclist.Get(ci)->mbsize = -1;//be careful
+		stat->funclist.Get(ci)->mbsize = -1;//Be careful
 		if(ptok != nullptr){
 			std::basic_string<intptr_t> tmp;
 			if(frp == root) tmp = GLOBAL_TOKEN;

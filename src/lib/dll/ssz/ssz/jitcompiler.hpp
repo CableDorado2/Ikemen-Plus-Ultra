@@ -461,7 +461,7 @@ class JITer
 		STAMEM void SSZ_STDCALL ListAppendRef(Reference* r, Reference src)
 		{
 			intptr_t idx, l;
-			l = src.len();//同じだとaddsizeで長さが変わるので保存
+			l = src.len();//If it is the same, the length will change with addsize, so save
 			if(l > 0){
 				SSZ_TRY
 					idx = r->addsize(l, 1);
@@ -474,7 +474,7 @@ class JITer
 		STAMEM void SSZ_STDCALL ListAppendRefRef(Reference* r, Reference src)
 		{
 			intptr_t idx, l;
-			l = src.len();//同じだとaddsizeで長さが変わるので保存
+			l = src.len();//If it is the same, the length will change with addsize, so save
 			if(l > 0){
 				SSZ_TRY
 					idx = r->addsize(l, 1, refzeroclearcb);
@@ -491,7 +491,7 @@ class JITer
 			Reference* r, Reference src)
 		{
 			intptr_t idx, l;
-			l = src.len();//同じだとaddsizeで長さが変わるので保存
+			l = src.len();//If it is the same, the length will change with addsize, so save
 			if(l > 0){
 				SSZ_TRY
 					idx = r->addsize(l, 1, refdynnullclearcb);
@@ -1135,7 +1135,7 @@ class JITer
 				tystack.back() = typ = INT_TYPEID;
 			}
 			if(!pjtr->bin.cast(dtype, typ)){
-				pjtr->addErrMes(L("不正なキャストです。"));
+				pjtr->addErrMes(L("Invalid casting."));
 				return false;
 			}
 			tystack.back() = typ = dtype;
@@ -1163,7 +1163,7 @@ class JITer
 			{
 				return Cast(stree, tystack, dtype, typ);
 			}
-			pjtr->addErrMes(L("型エラーです。"));
+			pjtr->addErrMes(L("Type error."));
 			return false;
 		}
 		MEMBER intptr_t Kansuu(
@@ -1182,7 +1182,7 @@ class JITer
 			ii = 0;
 			while(iap[i] != SHOUKAKKOCLOSE_TOKEN){
 				if(ii >= st.hikisuucount){
-					pjtr->addErrMes(L("引数が多すぎます。"));
+					pjtr->addErrMes(L("Too many arguments."));
 					return -1;
 				}
 				if(
@@ -1203,15 +1203,15 @@ class JITer
 				if(st.funchensuu[st.tpcount+ii].type.back() == ~DAINYUU_TOKEN){
 					sizar += Aliszof<intptr_t>();
 					if(tystack.back() != UNKNOWN_TYPEID){
-						pjtr->addErrMes(L("参照渡ししなければいけません。"));
+						pjtr->addErrMes(L("Must be passed by reference."));
 						return -1;
 					}
 					if(thrd){
-						pjtr->addErrMes(L("スレッドには参照渡しできません。"));
+						pjtr->addErrMes(L("You cannot pass threads by reference."));
 						return -1;
 					}
 					if(ktype.id != typ){
-						pjtr->addErrMes(L("型エラーです。"));
+						pjtr->addErrMes(L("Type error."));
 						return -1;
 					}
 					if(ktype.id == REF_TYPEID || ktype.id == LIST_TYPEID){
@@ -1220,7 +1220,7 @@ class JITer
 							st.funchensuu[st.tpcount+ii].type.size()-1
 							> ktype.kwsk.size()-idx)
 						{
-							pjtr->addErrMes(L("型エラーです。"));
+							pjtr->addErrMes(L("Type error."));
 							return -1;
 						}
 						for(
@@ -1237,7 +1237,7 @@ class JITer
 								st.funchensuu[st.tpcount+ii].type[jj]
 								!= ktype.kwsk[idx])
 							{
-								pjtr->addErrMes(L("型エラーです。"));
+								pjtr->addErrMes(L("Type error."));
 								return -1;
 							}
 						}
@@ -1250,7 +1250,7 @@ class JITer
 								st.funchensuu[st.tpcount+ii].type.data(),
 								ktype.kwsk.data()))
 						{
-							pjtr->addErrMes(L("型エラーです。"));
+							pjtr->addErrMes(L("Type error."));
 							return -1;
 						}
 					}
@@ -1262,7 +1262,7 @@ class JITer
 							stree.GetTypeSize(
 								st.funchensuu[st.tpcount+ii].type));
 					if(tystack.back() == UNKNOWN_TYPEID){
-						pjtr->addErrMes(L("参照渡しする引数ではありません。"));
+						pjtr->addErrMes(L("It is not an argument passed by reference."));
 						return -1;
 					}
 					if(
@@ -1319,7 +1319,7 @@ class JITer
 						}
 					}else if(ktype.id == DELEGATE_TYPEID){
 						if(thrd){
-							pjtr->addErrMes(L("無名関数はスレッドに渡せません。"));
+							pjtr->addErrMes(L("Anonymous functions cannot be passed to threads."));
 							return -1;
 						}
 						if(
@@ -1357,7 +1357,7 @@ class JITer
 			}
 			tystack.resize(tystack.size()-ii*2);
 			if(ii != st.hikisuucount){
-				pjtr->addErrMes(L("引数が少なすぎます。"));
+				pjtr->addErrMes(L("Too few arguments."));
 				return -1;
 			}
 			if(!pjtr->bin.tPush(ktype.id)) return -1;
@@ -1369,7 +1369,7 @@ class JITer
 			}
 			if(thrd){
 				if(REF_TYPEID >= ktype.id && ktype.id >= DYNLIST_TYPEID){
-					pjtr->addErrMes(L("参照型が返し値の関数はスレッドにできません。"));
+					pjtr->addErrMes(L("Functions whose return value is a reference type cannot be threaded."));
 					return -1;
 				}
 				ktype.id = VOID_TYPEID;
@@ -1464,7 +1464,7 @@ class JITer
 			intptr_t ii = 0;
 			while(iap[i] != SHOUKAKKOCLOSE_TOKEN){
 				if(ii+1 >= IDX(waketa.size())){
-					pjtr->addErrMes(L("引数が多すぎます。"));
+					pjtr->addErrMes(L("Too many arguments."));
 					return -1;
 				}
 				typ = TokenToTypeId(waketa[ii+1].data(), idx=0);
@@ -1482,17 +1482,17 @@ class JITer
 				if(waketa[ii+1].back() == ~DAINYUU_TOKEN){
 					sizee += Aliszof<intptr_t>();
 					if(tystack.back() != UNKNOWN_TYPEID){
-						pjtr->addErrMes(L("参照渡ししなければいけません。"));
+						pjtr->addErrMes(L("Must be passed by reference."));
 						return -1;
 					}
 					if(ktype.id != typ){
-						pjtr->addErrMes(L("型エラーです。"));
+						pjtr->addErrMes(L("Type error."));
 						return -1;
 					}
 					if(ktype.id == REF_TYPEID || ktype.id == LIST_TYPEID){
 						SoushokuTobasi(ktype.kwsk.data(), idx=0);
 						if(waketa[ii+1].size()-1 > ktype.kwsk.size()-idx){
-							pjtr->addErrMes(L("型エラーです。"));
+							pjtr->addErrMes(L("Type error."));
 							return -1;
 						}
 						for(
@@ -1502,7 +1502,7 @@ class JITer
 							if (waketa[ii + 1][jj] == STARSTAR_TOKEN) jj++;
 							if (ktype.kwsk[idx] == STARSTAR_TOKEN) idx++;
 							if (waketa[ii + 1][jj] != ktype.kwsk[idx]){
-								pjtr->addErrMes(L("型エラーです。"));
+								pjtr->addErrMes(L("Type error."));
 								return -1;
 							}
 						}
@@ -1514,7 +1514,7 @@ class JITer
 								waketa[ii+1].size()-1,
 								waketa[ii+1].data(), ktype.kwsk.data()))
 						{
-							pjtr->addErrMes(L("型エラーです。"));
+							pjtr->addErrMes(L("Type error."));
 							return -1;
 						}
 					}
@@ -1523,7 +1523,7 @@ class JITer
 				}else{
 					sizee += Aligner(stree.GetTypeSize(waketa[ii+1]));
 					if(tystack.back() == UNKNOWN_TYPEID){
-						pjtr->addErrMes(L("参照渡しする引数ではありません。"));
+						pjtr->addErrMes(L("It is not an argument passed by reference."));
 						return -1;
 					}
 					if(
@@ -1589,7 +1589,7 @@ class JITer
 			}
 			tystack.resize(tystack.size()-ii*2);
 			if(ii+1 != waketa.size()){
-				pjtr->addErrMes(L("引数が少なすぎます。"));
+				pjtr->addErrMes(L("Too few arguments."));
 				return -1;
 			}
 			if(!pjtr->bin.tPush(ktype.id)) return -1;
@@ -3537,7 +3537,7 @@ class JITer
 					== CLASS_BLOCK)
 				{
 					if(!stree.stat->funclist.Get(ktype.id)->IsOpen(stree)){
-						pjtr->addErrMes(L("代入でコピーできないクラスです。"));
+						pjtr->addErrMes(L("This is a class that cannot be copied by assignment."));
 						return false;
 					}
 					if(
@@ -3592,13 +3592,13 @@ class JITer
 					idx++;
 					rid = TokenToTypeId(rtype.kwsk.data(), idx);
 					if(rid == REF_TYPEID || rid == LIST_TYPEID){
-						pjtr->addErrMes(L("型エラーです。"));
+						pjtr->addErrMes(L("Type error."));
 						return false;
 					}
 				}else if(
 					rtype.id != DYNREF_TYPEID && rtype.id != DYNLIST_TYPEID)
 				{
-					pjtr->addErrMes(L("型エラーです。"));
+					pjtr->addErrMes(L("Type error."));
 					return false;
 				}
 				break;
@@ -3609,11 +3609,11 @@ class JITer
 					idx++;
 					rid = TokenToTypeId(rtype.kwsk.data(), idx);
 					if(rid == REF_TYPEID || rid == LIST_TYPEID){
-						pjtr->addErrMes(L("型エラーです。"));
+						pjtr->addErrMes(L("Type error."));
 						return false;
 					}
 				}else if(rtype.id != DYNLIST_TYPEID){
-					pjtr->addErrMes(L("型エラーです。"));
+					pjtr->addErrMes(L("Type error."));
 					return false;
 				}
 				break;
@@ -3685,7 +3685,7 @@ class JITer
 			}
 			tmpb = TMPREF_TYPEID >= srct.id && srct.id >= TMPDYNLIST_TYPEID;
 			if(tmpb) srct.id += REF_TYPEID - TMPREF_TYPEID;
-			did = REF_TYPEID;//フラグOFF
+			did = REF_TYPEID;//Flag OFF
 			switch(oktype.id){
 			case REF_TYPEID:
 			case LIST_TYPEID:
@@ -3726,7 +3726,7 @@ class JITer
 				while(pst != srct.pstre){
 					if(pst == nullptr){
 						pjtr->addErrMes(
-							L("子ブロックで宣言された無名関数は親ブロックの変数に代入できません。"));
+							L("An anonymous function declared in a child block cannot be assigned to a variable in the parent block."));
 						return false;
 					}
 					pst = pst->parent;
@@ -4085,7 +4085,7 @@ class JITer
 						== CLASS_BLOCK
 						&& !stree.stat->funclist.Get(typ)->IsOpen(stree))))
 			{
-				pjtr->addErrMes(L("代入でコピーできないクラスです。"));
+				pjtr->addErrMes(L("This is a class that cannot be copied by assignment."));
 				return false;
 			}
 			if(ktype.id == REF_TYPEID || ktype.id == LIST_TYPEID){
@@ -4874,7 +4874,7 @@ class JITer
 			if(waketa[1].back() == ~DAINYUU_TOKEN){
 				if(cnst){
 					pjtr->addErrMes(
-						L("読み取り専用なので参照渡しできません。"));
+						L("Since it is read-only, it cannot be passed by reference."));
 					return false;
 				}
 				pjtr->bin.PushHns(BinaryCode::AT_LOCAL, sizeof(Delegate));
@@ -4985,7 +4985,7 @@ class JITer
 				}else{
 					return false;
 				}
-				i++;//セミコロンを飛ばす
+				i++;//Skip Semicolon
 				if(iap[i] != SEMICOLON_TOKEN) return false;
 				return true;
 			}
@@ -5694,7 +5694,7 @@ LOOPENTER:
 								typ.id, iap+i,
 								tystack.back(), &castvar) < 0)
 						{
-							pjtr->addErrMes(L("型エラーです。"));
+							pjtr->addErrMes(L("Type error."));
 							return false;
 						}
 						if(
@@ -6715,7 +6715,7 @@ LOOPENTER:
 				case LIST_TYPEID:
 				case DYNREF_TYPEID:
 				case DYNLIST_TYPEID:
-					pjtr->addErrMes(L("constevalに参照型は使えません。"));
+					pjtr->addErrMes(L("Reference types cannot be used in consteval."));
 					return false;
 				case METHOD_TYPEID:
 					idx++;
@@ -7523,7 +7523,7 @@ LOOPENTER:
 					return true;
 				}
 				pjtr->root->stat->ss->emes.Add(
-					stree.srce->filename, stree.topsrcgyo, L("未定義です。"));
+					stree.srce->filename, stree.topsrcgyo, L("Undefined."));
 				return false;
 			}
 			if(stree.selftype == ENUM_BLOCK) return true;
@@ -7569,7 +7569,7 @@ LOOPENTER:
 				pjtr->AddLine(stree.gyo[j]);
 				if(!KoubunSwitch(stree, iap, len, j)){
 					if(pjtr->root->stat->ss->emes.mes.size() == 0){
-						pjtr->addErrMes(L("コンパイルエラーです。"));
+						pjtr->addErrMes(L("Compilation Error."));
 					}
 					return false;
 				}
@@ -7593,7 +7593,7 @@ LOOPENTER:
 						stree.token.size() >= 2
 						&& stree.token[stree.token.size()-2][0] == IF_TOKEN))
 				{
-					pjtr->addErrMes(L("retがありません。"));
+					pjtr->addErrMes(L("There is no ret."));
 					return false;
 				}
 			}else{
@@ -7609,7 +7609,7 @@ LOOPENTER:
 					pjtr->bin.pushTmpreg();
 				}
 				if(!DefDel(stree)){
-					pjtr->addErrMes(L("コンパイルエラー。"));
+					pjtr->addErrMes(L("Compilation Error."));
 					return false;
 				}
 				if(&stree == stree.root){
@@ -8112,7 +8112,7 @@ LOOPENTER:
 										TokenToTypeId(
 											stree.token[i].data(), ii)) < 0)
 							{
-								pjtr->addErrMes(L("caseにおかしい値があります。"));
+								pjtr->addErrMes(L("There is a strange value in case."));
 								return false;
 							}
 							stree.extswitch->atai += (int64_t)0;
@@ -8123,7 +8123,7 @@ LOOPENTER:
 									stree.extswitch->swtype,
 									&stree.extswitch->atai.back());
 							if(sz < 0){
-								pjtr->addErrMes(L("caseにおかしい値があります。"));
+								pjtr->addErrMes(L("There is a strange value in case."));
 								return false;
 							}
 							for(
@@ -8135,7 +8135,7 @@ LOOPENTER:
 									stree.extswitch->atai[iii]
 									== stree.extswitch->atai.back())
 								{
-									pjtr->addErrMes(L("caseに同じ値があります。"));
+									pjtr->addErrMes(L("case has the same value."));
 									return false;
 								}
 							}
@@ -8207,7 +8207,7 @@ LOOPENTER:
 						stree.extswitch->def < 0
 						&& stree.extswitch->defbp.size() > 0)
 					{
-						pjtr->addErrMes(L("default:がありません。"));
+						pjtr->addErrMes(L("default: is missing."));
 						return false;
 					}
 					pjtr->bin.PBackpatch(
@@ -8228,7 +8228,7 @@ LOOPENTER:
 					stree.extswitch->def < 0
 					&& stree.extswitch->defbp.size() > 0)
 				{
-					pjtr->addErrMes(L("default:がありません。"));
+					pjtr->addErrMes(L("default: is missing."));
 					return false;
 				}
 				pjtr->bin.PBackpatch(
@@ -8459,7 +8459,7 @@ LOOPENTER:
 					stree.extbranch->dino < 0
 					&& stree.extbranch->tgnelsesakibp.size() > 0)
 				{
-					pjtr->addErrMes(L("else:がありません。"));
+					pjtr->addErrMes(L("else: is missing."));
 					return false;
 				}
 				pjtr->bin.PBackpatch(
@@ -8491,7 +8491,7 @@ LOOPENTER:
 						stree.extbranch->dino < 0
 						&& stree.extbranch->tgnelsesakibp.size() > 0)
 					{
-						pjtr->addErrMes(L("else:がありません。"));
+						pjtr->addErrMes(L("else: is missing."));
 						return false;
 					}
 					pjtr->bin.PBackpatch(
@@ -8519,7 +8519,7 @@ LOOPENTER:
 					stree.extbranch->dino < 0
 					&& stree.extbranch->tgnelsesakibp.size() > 0)
 				{
-					pjtr->addErrMes(L("else:がありません。"));
+					pjtr->addErrMes(L("else: is missing."));
 					return false;
 				}
 				pjtr->bin.PBackpatch(
@@ -8618,15 +8618,15 @@ LOOPENTER:
 			}else{
 				if(iap[0] == BREAK_TOKEN && iap[1] == COLON_TOKEN){
 					if(stree.extloop->doadbp.size() > 0){
-						pjtr->addErrMes(L("do:がありません。"));
+						pjtr->addErrMes(L("do: is missing."));
 						return false;
 					}
 					if(stree.extloop->contadbp.size() > 0){
-						pjtr->addErrMes(L("continue:がありません。"));
+						pjtr->addErrMes(L("continue: is missing."));
 						return false;
 					}
 					if(stree.extloop->nextadbp.size() > 0){
-						pjtr->addErrMes(L("while:がありません。"));
+						pjtr->addErrMes(L("while: is missing."));
 						return false;
 					}
 				}
@@ -8640,15 +8640,15 @@ LOOPENTER:
 		{
 			if(!stree.breakin){
 				if(stree.extloop->doadbp.size() > 0){
-					pjtr->addErrMes(L("do:がありません。"));
+					pjtr->addErrMes(L("do: is missing."));
 					return false;
 				}
 				if(stree.extloop->contadbp.size() > 0){
-					pjtr->addErrMes(L("continue:がありません。"));
+					pjtr->addErrMes(L("continue: is missing."));
 					return false;
 				}
 				if(stree.extloop->nextadbp.size() > 0){
-					pjtr->addErrMes(L("while:がありません。"));
+					pjtr->addErrMes(L("while: is missing."));
 					return false;
 				}
 			}
@@ -8699,7 +8699,7 @@ LOOPENTER:
 						stree.token.size() >= 2
 						&& stree.token[stree.token.size()-2][0] == IF_TOKEN))
 				{
-					pjtr->addErrMes(L("retがありません。"));
+					pjtr->addErrMes(L("There is no ret."));
 					return false;
 				}
 			}else{
@@ -8756,7 +8756,7 @@ public:
 		if(root->parent != nullptr){
 			root->stat->ss->emes.Add(
 				root->srce->filename, root->topsrcgyo,
-				L("真の根でないですが。"));
+				L("Although it is not the true root."));
 			return nullptr;
 		}
 		la->clear();
@@ -8837,7 +8837,7 @@ public:
 		}else{
 			root->stat->ss->emes.Add(
 				root->srce->filename, root->topsrcgyo,
-				L("VirtualAllocに失敗しました。"));
+				L("VirtualAlloc failed."));
 		}
 		return (MAIN_FUNC)vmemory;
 	}

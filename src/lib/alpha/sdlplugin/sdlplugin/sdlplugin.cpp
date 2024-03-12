@@ -41,7 +41,7 @@
 #pragma comment(lib, "strmiids")
 #pragma comment (lib, "Quartz")            \
 
-//Rich Presence Stuff
+//Discord Rich Presence Stuff
 #include <discord_register.h>
 #include <discord_rpc.h>
 #pragma comment(lib, "discord-rpc.lib")

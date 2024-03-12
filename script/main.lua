@@ -5586,10 +5586,10 @@ end
 --;===========================================================
 txt_hostTitle = createTextImg(jgFnt, 5, 0, 'ONLINE ROOM CREATED', 159, 13)
 txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 111)
-txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110,0.9,0.9)
-txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5)
+txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110, 0.9, 0.9)
+txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 133, 0.65, 0.65)
 txt_ip = createTextImg(font14, 0, 0, '', 160, 132)
-txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72,0.9,0.9)
+txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72, 0.9, 0.9)
 txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
 txt_connecting = createTextImg(jgFnt, 5, 0, '', 159, 228)
 txt_cancel = createTextImg(jgFnt, 1, 0, 'CANCEL(ESC)', 161, 165)
@@ -5751,7 +5751,7 @@ function f_directConnect()
 		end
 		--MAIN SCREEN
 		if not doneIP then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() then
 				joinExit = true
 			elseif commandGetState(p1Cmd, 'r') then
 				sndPlay(sysSnd, 100, 0)
@@ -5815,9 +5815,8 @@ function f_directConnect()
 			--Draw IP Text
 			textImgSetText(txt_ip,ip)
 			textImgDraw(txt_ip)
-			textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
-			if i%60 < 30 then 
-				textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),133.5)
+			if i%60 < 30 then
+				textImgPosDraw(txt_bar, 160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0), 134)
 			end
 			--Draw Button Option Text
 			for i=1, #t_directJoinMenu do
@@ -6288,9 +6287,8 @@ function f_editHost()
 		--Draw Name Text
 		textImgSetText(txt_ip,editHostName)
 		textImgDraw(txt_ip)
-		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
 		if textBar%60 < 30 then
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),133.5)
+			textImgPosDraw(txt_bar, 160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0), 134)
 		end
 		--Draw Button Option Text
 		for i=1, #t_editOption do
@@ -6376,9 +6374,8 @@ function f_editHost()
 		--Draw IP Text
 		textImgSetText(txt_ip,hostAddress)
 		textImgDraw(txt_ip)
-		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
-		if textBar%60 < 30 then 
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0),133.5)
+		if textBar%60 < 30 then
+			textImgPosDraw(txt_bar, 160+(textImgGetWidth(txt_ip)*0.5)+(textImgGetWidth(txt_ip)>0 and 2 or 0), 134)
 		end
 		--Draw Button Option Text
 		for i=1, #t_editOption do
@@ -6744,7 +6741,7 @@ end
 --; THE VAULT SCREENPACK
 --;===========================================================
 txt_vaultTitle = createTextImg(font6, 0, 0, 'THE VAULT', 159, 28)
-txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130,.5,.5)
+txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130, 0.65, 0.65)
 txt_vaultText = createTextImg(font14, 0, 0, '', 160, 117)
 
 --Background
@@ -6891,9 +6888,8 @@ function f_theVault()
 		--Draw Text
 		textImgSetText(txt_vaultText,word)
 		textImgDraw(txt_vaultText)
-		textImgSetWindow(txt_bar, 121, 116, 78.5, 12)
-		if i%60 < 30 then 
-			textImgPosDraw(txt_bar,160+(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)>0 and 2 or 0),118.5)
+		if i%60 < 30 then
+			textImgPosDraw(txt_vaultBar, 160+(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)>0 and 2 or 0), 120)
 		end
 		--Draw Button Option Text
 		for i=1, #t_vaultMenu do
