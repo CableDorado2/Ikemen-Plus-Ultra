@@ -82,12 +82,6 @@
   <ItemGroup>
     <ClCompile Include="ogg.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="vorbis\codec.h" />
-    <ClInclude Include="vorbis\ogg\ogg.h" />
-    <ClInclude Include="vorbis\ogg\os_types.h" />
-    <ClInclude Include="vorbis\vorbisfile.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,5 +1,5 @@
 
-#include <portaudio.h>
+#include "portaudio/compilation/portaudio.h"
 #ifdef _WIN32
 #pragma comment(lib , "portaudio_x86.lib")
 #endif
