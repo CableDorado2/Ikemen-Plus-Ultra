@@ -1686,7 +1686,7 @@ public &Fight
       if(#(data = sc.get("snd")) > 0) `snd = f(:data:);
       if(#(data = sc.get("fightfx.sff")) > 0) `fightfx_sff = f(:data:);
       if(#(data = sc.get("fightfx.air")) > 0) `fightfx_air = f(:data:);
-	  if(#(data = sc.get("commonfx.sff")) > 0) `commonfx_sff = f(:data:); //With this, we could imitate gofx
+	  if(#(data = sc.get("commonfx.sff")) > 0) `commonfx_sff = f(:data:); //With this, we could imitate gofx?
       if(#(data = sc.get("commonfx.air")) > 0) `commonfx_air = f(:data:);
       if(#(data = sc.get("common.snd")) > 0) `common_snd = f(:data:);
       if(#(data = sc.get("font0")) > 0) `font.new[0] = f(:data:);
@@ -1878,7 +1878,7 @@ public &Fight
     }];
     ^/char error;
     ^char mainbuf;
-	^char commonfxbuf = .com.loadText(def, unicode=);
+	^char commonfxbuf;
     if(#.com.loadText(def, unicode=)=>mainbuf == 0){
       ret def + ":"\r\n + .com.FileReadError;
     }
@@ -1913,32 +1913,21 @@ public &Fight
     {
       ret def + " [fight.sff]"\r\n + error;
     }
-	//COMMON FX TEST
-	`cfx.new(1);
-    if(
-      #.com.loadFile(def, `commonfx_sff=)=>error <,
-      [^/char(^/char f){ret `cfx~loadFile(f, false);}] > 0)
-    {
-      ret def + " [commonfx.sff]"\r\n + error;
-    }
-    if(
-      #.com.loadFile(def, `commonfx_air=)=>error <, [^/char(^/char f){
-        ret
-          #.com.loadText(f, unicode=)=>commonfxbuf > 0
-          ? "" : .com.FileReadError;
-      }] > 0) ret def + " [commonfx.air]"\r\n + error;
-    lines = .com.splitLines(commonfxbuf);
-    .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
-    `actionList.new(0);
-    loop{index i = 0; while; do:
-      `readAction(lines, i=);
-      i++;
-    while i < #lines:}
-    loop{index i = 0; while; do:
-      `actionList[i].ani.setup(`cfx);
-      i++;
-    while i < #`actionList:}
-	//COMMON FX TEST
+	//COMMON FX TEST START
+	//`cfx.new(1);
+    //if(
+      //#.com.loadFile(def, `commonfx_sff=)=>error <,
+      //[^/char(^/char f){ret `cfx~loadFile(f, false);}] > 0)
+    //{
+      //ret def + " [commonfx.sff]"\r\n + error;
+    //}
+	//if(
+      //#.com.loadFile(def, `commonfx_air=)=>error <, [^/char(^/char f){
+        //ret
+          //#.com.loadText(f, unicode=)=>commonfxbuf > 0
+          //? "" : .com.FileReadError;
+      //}] > 0) ret def + " [commonfx.air]"\r\n + error;
+	//COMMON FX TEST END
     `fsf.new(1);
     if(
       #.com.loadFile(def, `fightfx_sff=)=>error <,
@@ -1946,12 +1935,13 @@ public &Fight
     {
       ret def + " [fightfx.sff]"\r\n + error;
     }
-    if(
+	if(
       #.com.loadFile(def, `fightfx_air=)=>error <, [^/char(^/char f){
         ret
           #.com.loadText(f, unicode=)=>mainbuf > 0
           ? "" : .com.FileReadError;
       }] > 0) ret def + " [fightfx.air]"\r\n + error;
+	//lines = .com.splitLines(mainbuf + commonfxbuf);
     lines = .com.splitLines(mainbuf);
     .s.each!^/char?([void(^/char l=){l=.s.trim(l);}], lines);
     `actionList.new(0);
@@ -1960,7 +1950,8 @@ public &Fight
       i++;
     while i < #lines:}
     loop{index i = 0; while; do:
-      `actionList[i].ani.setup(`fsf);
+	  //`actionList[i].ani.setup(`cfx);
+	  `actionList[i].ani.setup(`fsf);
       i++;
     while i < #`actionList:}
     `sn.new(1);
