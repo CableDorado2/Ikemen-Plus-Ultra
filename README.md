@@ -241,6 +241,7 @@ Here you can find some tools that help you in development of your projects (Some
 - Fighter Factory (A Powerfull Mugen editor): http://fighterfactory.virtualltek.com/
 - Notepad++ (Script editor): https://notepad-plus-plus.org/
 - Resource Tuner (Windows executable editor): http://www.restuner.com/
+- 4GB Patch (To avoid Runtime Error when load Heavy Characters): https://ntcore.com/?page_id=371
 - Visual C++ 2010 Express (IDE to open Source Code)
 - Mp3Tag (A music tag editor): https://www.mp3tag.de/en/
 - Radmin VPN (For Online Netplay): https://www.radmin-vpn.com/
