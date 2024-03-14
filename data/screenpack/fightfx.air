@@ -561,10 +561,6 @@
 9000,0, 0,0, 1, ,AS006D250
 
 ;-----------------------------
-; Damage Info Display
-[Begin Action 10000]
-10000,  0,  0,  0, -1
-
 ;Normal Text
 [Begin Action 20001]
 20001,  0,  0,  0, -1

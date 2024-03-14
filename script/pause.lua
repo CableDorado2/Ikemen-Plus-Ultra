@@ -1558,15 +1558,21 @@ function f_pauseTraining()
 			--Info Display
 			if trainingCfg == 1 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.damageDisplay == 'No' then
+				sndPlay(sysSnd, 100, 5)
+				--[[
 					sndPlay(sysSnd, 100, 1)
 					data.damageDisplay = 'Yes'
 					setDamageDisplay(1)
 					hasChanged = true
+				]]
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.damageDisplay == 'Yes' then
+					sndPlay(sysSnd, 100, 5)
+				--[[
 					sndPlay(sysSnd, 100, 1)
 					data.damageDisplay = 'No'
 					setDamageDisplay(0)
 					hasChanged = true
+				]]
 				end
 			--Input Display
 			elseif trainingCfg == 2 then

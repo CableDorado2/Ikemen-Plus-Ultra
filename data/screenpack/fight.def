@@ -25,6 +25,8 @@ font5 = font/MvcName.fnt ;Winner Text
 font6 = font/score1.fnt ;Draw Text
 fightfx.sff = fightfx.sff
 fightfx.air = fightfx.air
+commonfx.sff = commonfx.sff
+commonfx.air = commonfx.air
 common.snd = data/common.snd
 
 ;-----------------------------------------------------------
@@ -410,7 +412,7 @@ displaytime = 90    ;Time to show text
 
 ;-----------------------------------------------------------
 [Round]
-match.wins = 2              ;Rounds needed to win a match
+match.wins = 1              ;Rounds needed to win a match
 match.maxdrawgames = 2      ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30         ;Time to wait before starting intro
 
