@@ -8947,9 +8947,9 @@ public &StateBuilder
       cns(:lines, i=:);
       i++;
     while i < #lines:}
-	^/char bufCmd = .cfg.GlobalCommands;
+	^/char commonCmd = .cfg.GlobalCommands;
 	if(
-      #.com.loadFile(def, bufCmd=)=>error <, [^/char(^/char f){
+      #.com.loadFile(def, commonCmd=)=>error <, [^/char(^/char f){
         ret
           #.com.loadText(f, unicode=)=>mainbuf > 0
           ? "" : .com.FileReadError;

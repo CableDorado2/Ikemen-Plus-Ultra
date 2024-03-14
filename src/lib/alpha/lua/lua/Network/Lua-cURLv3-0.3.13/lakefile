@@ -1,0 +1,44 @@
+PROJECT = 'cURL'
+
+INITLAKEFILE()
+
+DEFINES = L{DEFINES,
+  IF(WINDOWS,  'DLL_EXPORT',  '');
+  IF(DEBUG, 'LCURL_RESET_NULL_LUA', '');
+}
+
+cURL = c.shared{'lcurl',
+  base     = 'src',
+  src      = '*.c',
+  needs    = {LUA_NEED, 'libcurl', IF(WINDOWS, 'winsock2', 'sockets')},
+  defines  = DEFINES,
+  dynamic  = DYNAMIC,
+  strip    = true,
+  cflags   = IF(not MSVC, {'-Wno-unused-local-typedefs'})
+}
+
+target('build', cURL)
+
+install = target('install', {
+  file.group{odir=LIBDIR;              src = cURL                             };
+  file.group{odir=LIBDIR;              src = J("src", "lua") ; recurse = true };
+  file.group{odir=J(ROOT, 'examples'); src = 'examples';       recurse = true };
+  file.group{odir=TESTDIR;             src = 'test';           recurse = true };
+})
+
+target('test', install, function()
+  run_test('test_easy.lua')
+  run_test('test_safe.lua')
+  run_test('test_form.lua')
+  run_test('test_pause02.c.lua')
+  run_test('test_curl.lua')
+  run_test('test_mime.lua')
+  run_test('test_multi_callback.lua')
+  run_test('test_multi_nested_callback.lua')
+  run_test('test_urlapi.lua')
+
+  if not test_summary() then
+    quit("test fail")
+  end
+end)
+
