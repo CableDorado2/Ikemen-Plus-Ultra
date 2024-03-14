@@ -89,11 +89,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Más parametros para el Select.def.
 
-- Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
-
 - Incluir pregunta para guardar o no los replays.
-
-- Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
 
 - Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
@@ -113,7 +109,15 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
 
+- Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
+
+- Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
+
+- Co-Op para el Versus Mode.
+
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
+
+- Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
 - Sistema de puntos basado en el Add004.
 
@@ -123,6 +127,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
+
+- Agregar un sistema de "clasificación". Un sistema que almacena información sobre cada personaje particular, y en base a un determinado número de victorias y derrotas, estos ascienden o desciendende rango. Algo así como Bronce, Plata, Oro, Diamante. Y ese rango alcanzado se muestra como una medalla en la misma selección de personaje cuando se coloca sobre el personaje.
 
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
