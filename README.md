@@ -142,6 +142,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Agregar soporte para Localcoord en cada char y fight.def.
 
+- Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+
 - Leer archivos movelist.dat dentro de los chars.
 
 - Agregar soporte para reconocer a un 2do Gamepad.
