@@ -89,12 +89,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Más parametros para el Select.def.
 
-- Incluir pregunta para guardar o no los replays.
-
 - Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
-
-- Mejorar el Training Mode con más parametros para el Dummy.
 
 - Cambiar de personaje y stage como lo hace las músicas en training pause.
 
@@ -130,9 +126,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
 
-- Agregar un sistema de "clasificación". Un sistema que almacena información sobre cada personaje particular, y en base a un determinado número de victorias y derrotas, estos ascienden o desciendende rango. Algo así como Bronce, Plata, Oro, Diamante. Y ese rango alcanzado se muestra como una medalla en la misma selección de personaje cuando se coloca sobre el personaje.
-
-- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+- Agregar más opciones para el Dummy de Training.
 
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en parsec y usar en char select una función parecida a f_drawCharAnim.
 
@@ -144,14 +138,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
 
-- Leer archivos movelist.dat dentro de los chars.
-
-- Agregar soporte para reconocer a un 2do Gamepad.
-
-- Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
-
-- El audio del motor debe poder sincronizarse al reproductor de video.
-
 **v1.6**
 ------------
 
@@ -162,6 +148,18 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 [![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
 
 - Integrar la función de bgm.loops.
+
+- Agregar un sistema de "clasificación". Un sistema que almacena información sobre cada personaje particular, y en base a un determinado número de victorias y derrotas, estos ascienden o desciendende rango. Algo así como Bronce, Plata, Oro, Diamante. Y ese rango alcanzado se muestra como una medalla en la misma selección de personaje cuando se coloca sobre el personaje.
+
+- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+
+- Leer archivos movelist.dat dentro de los chars.
+
+- Agregar soporte para reconocer a un 2do Gamepad.
+
+- Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
+
+- El audio del motor debe poder sincronizarse al reproductor de video.
 
 - Crear una función como setDebugScript pero que permita soportar todas las funciones de script.ssz (debug.lua por alguna razón no lo hace) y ejecutarse durante toda la batalla o al menos al final de la partida. Para implementar las siguientes características:
 
@@ -177,6 +175,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- Incluir pregunta para guardar o no los replays online.
 
 - Ver cómo se podría integrar un sistema de diálogo en los matches.
 
