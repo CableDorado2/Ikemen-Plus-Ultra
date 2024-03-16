@@ -696,6 +696,7 @@ end
 --;===========================================================
 --; ARC 1 FIGHTS
 --;===========================================================
+--PROLOGUE
 function f_arc1_prologue()
 	playVideo("movie/KFM-Prologue.wmv") --Play video cutscene
 	data.storyNo = '1-0'
@@ -704,6 +705,7 @@ function f_arc1_prologue()
 	f_arc1_chapter1() --Launch next story fight
 end
 
+--KIDNAPPING
 function f_arc1_chapter1()
 	playVideo("movie/KFM-Chapter 1.wmv")
 	f_default() --Reset settings for the custom fight
@@ -735,6 +737,7 @@ function f_arc1_chapter1()
 	end
 end
 
+--KILLER MIRROR
 function f_arc1_chapter2()
 	playVideo("movie/KFM-Chapter 2.wmv")
 	f_default()
@@ -767,6 +770,7 @@ function f_arc1_chapter2()
 	end
 end
 
+--THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
 	playVideo("movie/KFM-Chapter 3-A.wmv")
 	f_default()
@@ -782,7 +786,7 @@ function f_arc1_chapter3_1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/mountainside temple/Suave's Corridor.def"]}
+	data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
 	data.bgm = 'sound/system/opening.mp3'
 	data.rosterMode = 'story'
 	data.storyNo = '1-3A'
@@ -799,6 +803,7 @@ function f_arc1_chapter3_1()
 	end
 end
 
+--BROKEN SPIRIT
 function f_arc1_chapter3_2()
 	playVideo("movie/KFM-Chapter 3-B.wmv")
 	f_default()
@@ -836,6 +841,7 @@ function f_arc1_chapter3_2()
 	end
 end
 
+--FOR THE OLD TIMES
 function f_arc1_chapter4_1()
 	playVideo("movie/KFM-Chapter 4-A.wmv")
 	f_default()
@@ -851,7 +857,7 @@ function f_arc1_chapter4_1()
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
-	--data.stage = {t_stageDef["stages/Sakura.def"]}
+	data.stage = {t_stageDef["stages/sakura.def"]}
 	data.rosterMode = 'story'
 	data.storyNo = '1-4A'
 	setGameMode('story')
@@ -861,6 +867,7 @@ function f_arc1_chapter4_1()
 	f_playCredits() --Go to credits screen
 end
 
+--LIFE LESSON
 function f_arc1_chapter4_2()
 	playVideo("movie/KFM-Chapter 4-B.wmv")
 	f_default()
@@ -872,6 +879,7 @@ function f_arc1_chapter4_2()
 	f_playCredits()
 end
 
+--ZERO HOUR
 function f_arc1_chapter4_3()
 	playVideo("movie/KFM-Chapter 4-C.wmv")
 	f_default()
@@ -883,6 +891,7 @@ function f_arc1_chapter4_3()
 	f_playCredits()
 end
 
+--THE FALL OF A MASTER
 function f_arc1_chapter4_4()
 	playVideo("movie/KFM-Chapter 4-D.wmv")
 	f_default()
@@ -894,6 +903,7 @@ function f_arc1_chapter4_4()
 	f_playCredits()
 end
 
+--Character Select Test Chapter
 function f_storyRosterTest()
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)

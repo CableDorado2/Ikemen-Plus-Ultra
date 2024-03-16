@@ -303,6 +303,13 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
  ;   IKEMEN feature: Set the paramvalue to overwrite global
  ;   zoom speed setting for this particular stage.
  ;
+ ; - unlock
+ ;   IKEMEN feature: Set the paramvalue to 0 to lock a stage
+ ;   in stage select (it can be selectable only in random select).
+ ;   If it evaluates to boolean 'true' (1) the stage will become
+ ;   manually selectable. On 'false' (0) it will be hidden.
+ ;   By Default all stages are: unlock=1.
+ ;
  ;   Some examples:
  ;        stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3
  ;        stages/mybg.def, zoom=0
@@ -317,8 +324,8 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
 stages/Training Room.def
 stages/Mountainside Temple/Hidden Path.def
 stages/Mountainside Temple/Hidden Path Night.def
-stages/Mountainside Temple/Outside.def
-stages/Mountainside Temple/Lobby.def, music=sound/Temple.mp3
+stages/Mountainside Temple/Outside.def, unlock=0
+stages/Mountainside Temple/Lobby.def, unlock=0, music=sound/Temple.mp3
 stages/Mountainside Temple/Lobby Night.def
 stages/Mountainside Temple/Lobby 2 Night.def
 stages/Mountainside Temple/Dark Corridor.def
@@ -330,7 +337,7 @@ stages/HD TEST/Fairy Day 16_9.def
 stages/HD TEST/Aensland Castle.def
 stages/HD TEST/Training Room.def
 stages/HD TEST/Training Room(Scale).def
-stages/Green Screen.def
+stages/Green Screen.def, unlock=0
 stages/Training Room 2.def
 ;---------------------------------------------------------------------
 [Options]

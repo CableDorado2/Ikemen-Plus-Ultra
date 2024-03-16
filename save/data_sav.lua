@@ -14,8 +14,8 @@ data.attractMode = false
 data.pauseMode = "Yes"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Portrait"
-data.sffConversion = false
+data.charPresentation = "Mixed"
+data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -42,7 +42,7 @@ data.zoomSpeed = 1
 --Character Select Data
 data.selectType = "Variable"
 data.palType = "Modern"
-data.randomPortrait = "Simple"
+data.randomPortrait = "Fixed"
 data.training = "Free"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"

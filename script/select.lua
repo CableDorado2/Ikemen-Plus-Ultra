@@ -113,6 +113,7 @@ end
 function f_stageSelectReset()
 stageMenuActive = false
 exclusiveStageMenu = false
+stageChosen = false
 stageSelect = true
 songSelect = false
 p1stage = false
@@ -5360,6 +5361,38 @@ animSetPos(stage0M, 66, 76)
 animUpdate(stage0M)
 animSetScale(stage0M, 2.09, 2.09)
 
+--Classic Lock
+stageLock = animNew(sysSff, [[
+108,0, 0,0,
+]])
+animAddPos(stageLock, 144, 178)
+animSetScale(stageLock, 0.10, 0.10)
+animUpdate(stageLock)
+
+--Modern Lock
+stageMLock = animNew(sysSff, [[
+108,0, 0,0,
+]])
+animAddPos(stageMLock, 130.5, 90)
+animSetScale(stageMLock, 0.20, 0.20)
+animUpdate(stageMLock)
+
+--Classic Locked Fade Window
+stageLockWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1, 0, AS256D102
+]])
+animSetPos(stageLockWindowBG, 114, 172)
+animSetScale(stageLockWindowBG, 91.5, 51)
+animUpdate(stageLockWindowBG)
+
+--Modern Locked Fade Window
+stageMLockWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1, 0, AS256D102
+]])
+animSetPos(stageMLockWindowBG, 64, 74)
+animSetScale(stageMLockWindowBG, 192, 108)
+animUpdate(stageMLockWindowBG)
+
 --;===========================================================
 --; STAGE SELECT MENU
 --;===========================================================
@@ -5571,7 +5604,7 @@ function f_selectStage()
 			animUpdate(selStage)
 			animDraw(selStage)
 		elseif data.stageType == 'Modern' then
-			animUpdate(selStageM)
+			animUpdate(selStageM) --Because is an animation need this
 			animDraw(selStageM)
 		end
 	--Stage Data
@@ -5609,10 +5642,10 @@ function f_selectStage()
 					end
 				elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
 					if data.stageType == 'Classic' then
-						animUpdate(stage0)
+						--animUpdate(stage0)
 						animDraw(stage0)
 					elseif data.stageType == 'Modern' then
-						animUpdate(stage0M)
+						--animUpdate(stage0M)
 						animDraw(stage0M)
 					end
 					textImgSetText(txt_selStage, 'STAGE: RANDOM SELECT')
@@ -5622,8 +5655,16 @@ function f_selectStage()
 		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
 			if data.stageType == 'Classic' then
 				drawStagePortrait(stageList-1, 114.5, 172, 0.0705, 0.0699)
+				if t_selStages[stageList].unlock == 0 then --Draw Lock stuff
+					animDraw(stageLockWindowBG)
+					animDraw(stageLock)
+				end
 			elseif data.stageType == 'Modern' then
 				drawStagePortrait(stageList-1, 64.600, 74.8, 0.149, 0.148)
+				if t_selStages[stageList].unlock == 0 then
+					animDraw(stageMLockWindowBG)
+					animDraw(stageMLock)
+				end
 			end
 		--Set Stage Name
 			textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. t_selStages[stageList].name)
@@ -5739,13 +5780,27 @@ function f_selectStage()
 				
 			end
 		end
+		--When you select the stage
 		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or stageTimer == 0) and stageAnnouncer == false then
-			stageSelect = false
-			songSelect = false
-			stageAnnouncer = true
-			sndPlay(sysSnd, 100, 1)
-			f_stageAnnouncer()
-			f_loadStage()
+			if stageList == 0 then --For random or character sides stages
+				stageChosen = true
+			else --For visible stages
+				if t_selStages[stageList].unlock == nil or t_selStages[stageList].unlock == 1 then --This stage is unlocked
+					stageChosen = true
+				elseif t_selStages[stageList].unlock == 0 then  --stage locked if unlock=0 paramvalue is in stages section of select.def
+					stageChosen = false
+					sndPlay(sysSnd, 100, 5)
+				end
+			end
+		--After to verifications, this is the true selection
+			if stageChosen then
+				stageSelect = false
+				songSelect = false
+				stageAnnouncer = true
+				sndPlay(sysSnd, 100, 1)
+				f_stageAnnouncer()
+				f_loadStage()
+			end
 		elseif (btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds')) and stageAnnouncer == true then
 			--Just Don't Touch!
 		end
