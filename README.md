@@ -87,8 +87,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.4 (Next Update)**
 ------------
 
-- Más parametros para el Select.def.
-
 - Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
 [![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
 
@@ -114,6 +112,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
 
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
+
+- Implementar los parametros: ordersurvival, hidden, slot y unlock en select.def
 
 - Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
@@ -175,6 +175,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - AttachedChars en Stages: https://youtu.be/90D57uQIGiY?t=8
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
+
+- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def
 
 - Incluir pregunta para guardar o no los replays online.
 
