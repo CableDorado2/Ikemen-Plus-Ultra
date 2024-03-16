@@ -176,7 +176,9 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
-- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def
+- Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
+
+- Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/Sakura.def"]} en lugar de data.stage = {t_stageDef["stages/sakura.def"]}
 
 - Incluir pregunta para guardar o no los replays online.
 
