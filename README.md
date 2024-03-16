@@ -178,7 +178,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
-- Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/Sakura.def"]} en lugar de data.stage = {t_stageDef["stages/sakura.def"]}
+- Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/**S**akura.def"]} en lugar de data.stage = {t_stageDef["stages/**s**akura.def"]}
 
 - Incluir pregunta para guardar o no los replays online.
 
@@ -187,7 +187,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - Notificación al desbloquear logros durante el match + Pantalla de Logros.
 ![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
 
-- Una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se encuentren almacenados directamente en el archivo.
+- Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
 - Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
