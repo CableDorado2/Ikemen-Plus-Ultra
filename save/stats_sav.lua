@@ -1,16 +1,16 @@
 data.firstRun = false
 data.arcadeClear = true
 data.survivalClear = false
-data.coins = 1295
+data.coins = 1470
 data.attractCoins = 57
 data.continueCount = 0
 data.vault = "Ultra"
-data.playTime = 196364.364038
-data.trainingTime = 191040.23
-data.favoriteChar = "Ryu"
+data.playTime = 207233.292187
+data.trainingTime = 199951.543
+data.favoriteChar = "Kung Fu Man"
 data.favoriteStage = "RANDOM"
-data.victories = 267
-data.defeats = 114
+data.victories = 302
+data.defeats = 116
 --Records Data
 data.timerecord = 0
 data.scorerecord = 0
@@ -18,11 +18,11 @@ data.bossrecord = 4
 data.suddenrecord = 7
 data.endlessrecord = 3
 --Time Played Data
-data.arcadeTime = 11258.531
-data.vsTime = 4776.442
+data.arcadeTime = 13393.844
+data.vsTime = 5176.026
 data.survivalTime = 2595.162
 data.bossTime = 1569.037
-data.bonusTime = 79.29
+data.bonusTime = 96.139
 data.timeattackTime = 1673.559
 data.suddendeathTime = 949.818
 data.cpumatchTime = 250.848
@@ -31,7 +31,7 @@ data.missionsTime = 1175.966
 data.endlessTime = 686.999
 data.legionTime = 0
 data.towerTime = 0
-data.storyTime = 1446.55
+data.storyTime = 1634.73
 data.tourneyTime = 0
 data.adventureTime = 0
 --Event Mode Data

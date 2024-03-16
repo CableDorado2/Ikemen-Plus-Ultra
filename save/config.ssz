@@ -10,8 +10,8 @@ const bool OpenGL = false;
 
 //Audio Settings
 const float GlVol = 0.8;
-const float SEVol = 0.36;
-const float BGMVol = 0.24;
+const float SEVol = 0.56;
+const float BGMVol = 0;
 const float PanStr = 0.8;
 
 //Perfomance Settings

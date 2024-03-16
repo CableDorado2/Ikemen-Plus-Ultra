@@ -231,6 +231,40 @@ function f_selectInit()
 	matchTime = 0
 end
 
+function f_setRounds()
+	local roundsToWin = data.roundsNum --Use default rounds saved in settings
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+	--Set New Rounds To Win from select.def chars section
+		if t_selChars[data.t_p1selected[1].cel+1].rounds ~= nil then
+			roundsToWin = t_selChars[data.t_p1selected[1].cel+1].rounds
+		end
+	else
+		if t_selChars[data.t_p2selected[1].cel+1].rounds ~= nil then
+			roundsToWin = t_selChars[data.t_p2selected[1].cel+1].rounds
+		end
+	end
+	setRoundsToWin(roundsToWin)
+end
+
+function f_setRoundTime()
+	local roundTime = data.roundTime --Use default time saved in settings
+	--Set New Time from select.def stages section
+	--if t_selStages[stageNo].roundtime ~= nil then
+		--roundTime = t_selChars[stageNo].roundtime
+	--end
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+	--Set New Time from select.def chars section
+		if t_selChars[data.t_p1selected[1].cel+1].roundtime ~= nil then
+			roundTime = t_selChars[data.t_p1selected[1].cel+1].roundtime
+		end
+	else
+		if t_selChars[data.t_p2selected[1].cel+1].roundtime ~= nil then
+			roundTime = t_selChars[data.t_p2selected[1].cel+1].roundtime
+		end
+	end
+	setRoundTime(roundTime * 60)
+end
+
 function f_setZoom()
 	local zoom = data.zoomActive
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -1056,6 +1090,9 @@ function f_selectSimple()
 				f_selectVersus()
 			end
 		end
+		--if data.gameMode == 'versus' and not onlinegame then
+			--f_setRoundTime() --Unused because this is more a feature for advanced modes
+		--end
 		f_setZoom()
 		matchTime = os.clock()
 		f_assignMusic()
@@ -1790,6 +1827,10 @@ function f_selectAdvance()
 				f_selectVersus()
 			end
 		end
+		if data.gameMode == 'arcade' then
+			f_setRoundTime()
+			f_setRounds()
+		end --Set Round Time for specific characters
 		f_setZoom()
 		--inputs
 		if data.coop then

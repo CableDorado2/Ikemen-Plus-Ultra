@@ -957,7 +957,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
 {
   public int posx = 0;
   public int posy = 0;
-  public int match_wins = 2;
+  //public int match_wins = 2;
   public int match_maxdrawgames = 1;
   public int start_waittime = 30;
   public int round_time = 0;
@@ -1005,7 +1005,8 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     ^/char data;
     if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
     if(#(data = sc.get("match.wins")) > 0){
-      `match_wins = .com.atonOF!`match_wins.self?(data);
+      //`match_wins = .com.atonOF!`match_wins.self?(data); //Load Matchs to Win via fight.def
+	  //`match_wins = .com.roundsToWin; //Load Matchs to Win via ssz with possibilities to modified via lua
     }
     if(#(data = sc.get("match.maxdrawgames")) > 0){
       `match_maxdrawgames = .com.atonOF!`match_maxdrawgames.self?(data);

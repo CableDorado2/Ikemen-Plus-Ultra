@@ -717,6 +717,7 @@ function f_arc1_chapter1()
 	data.p2Pal = 1
 	--setTeamMode(2, 2, 3)
 	setRoundTime(-1)
+	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -745,6 +746,7 @@ function f_arc1_chapter2()
 	data.p2Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
 	data.p2Pal = 1
 	setRoundTime(-1)
+	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -776,6 +778,7 @@ function f_arc1_chapter3_1()
 	data.p2Char = {t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude/minion/minion.def'], t_charAdd['suave dude']}
 	data.p2Pal = 1
 	setRoundTime(-1)
+	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -844,6 +847,7 @@ function f_arc1_chapter4_1()
 	data.p2Char = {t_charAdd['kung fu girl']}
 	data.p2Pal = 1
 	setRoundTime(-1)
+	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -898,6 +902,7 @@ function f_storyRosterTest()
 	data.p2Char = {t_charAdd['kung fu man']}
 	data.p2Pal = 1
 	setRoundTime(-1)
+	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false

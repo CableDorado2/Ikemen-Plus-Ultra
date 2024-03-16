@@ -146,6 +146,7 @@ function f_missionMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
+				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/ex/ex kung fu man.def']}
 				data.p2TeamMenu = {mode = 0, chars = 1}
@@ -160,6 +161,7 @@ function f_missionMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
+				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
 				data.p1Pal = 1

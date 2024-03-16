@@ -206,6 +206,7 @@ function f_eventMenu()
 							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 							sndPlay(sysSnd, 100, 1)
 							setRoundTime(-1)
+							setRoundsToWin(1)
 							data.p2In = 1
 							data.p2SelectMenu = false
 							data.p1TeamMenu = {mode = 0, chars = 1}
@@ -407,28 +408,6 @@ function f_eventMenu()
 		cmdInput()
 		refresh()
 	end
-end
-
---;===========================================================
---; FORCE TO PLAY X ROUNDS
---;===========================================================
-function f_forceRounds()
---Data loading from lifebar
-	local file = io.open(data.lifebar,"r")
-	s_lifebarDEF = file:read("*all")
-	file:close()
-	roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
-	--drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
---Rounds Number to Force
-	roundsNum = 2
---Data saving to lifebar
-	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
-	--s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
-	local file = io.open(data.lifebar,"w+")
-	file:write(s_lifebarDEF)
-	file:close()
---Reload lifebar
-	loadLifebar(data.lifebar)
 end
 
 --;===========================================================

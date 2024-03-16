@@ -1888,6 +1888,7 @@ function f_default() --Reset Game Modes Configuration
 	setAutoguard(1, data.autoguard)
 	setAutoguard(2, data.autoguard)
 	setRoundTime(data.roundTime * 60)
+	setRoundsToWin(data.roundsNum)
 	setLifeMul(data.lifeMul / 100)
 	setTeam1VS2Life(data.team1VS2Life / 100)
 	setTurnsRecoveryRate(1.0 / data.turnsRecoveryRate)

@@ -64,6 +64,14 @@
  ;   IKEMEN feature: Set the paramvalue to 0 to avoid displaying
  ;   victory screen after beating this character.
  ;
+ ; - rounds
+ ;   IKEMEN feature: Set the paramvalue to the number of rounds in order to
+ ;   overwrite rounds number chosen in settings (Useful for Bonus Characters).
+ ;
+ ; - roundtime
+ ;   IKEMEN feature: Set the paramvalue to the time (in seconds) in order to
+ ;   overwrite round time saved in settings.
+ ;
  ; - single
  ;   IKEMEN feature: Set the paramvalue to 1 to force facing this character
  ;   individually in arcade team modes.
@@ -102,21 +110,21 @@
  ;   If you're playing in Team mode than paramvalue character becomes
  ;   opposite team leader, other characters follow normal order.
  ;
- ;   Full Order Reference:
- ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+ ;	 You can also add a randomize icon to the select screen. To do
+ ;	 this, put the word "randomselect" on a line of its own, with no
+ ;	 extra parameters.
  ;
  ;   Some examples:
- ;        kfm, stages/mybg.def, includestage=0
- ;        kfm, stages/mybg.def, music=sound/song.mp3
- ;        kfm, stages/mybg.def, music=sound/song.mp3, includestage=0
- ;        kfm, stages/mybg.def, order=3, 3=kfm, 6=SuaveDude
- ;        kfm, stages/mybg.def, stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3, zoom=0
- ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=3
- ;		  kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, boss=1, ai=8, includestage=0, exclude=1, order=5
+ ;   kfm, stages/mybg.def, includestage=0
+ ;   kfm, stages/mybg.def, music=sound/song.mp3
+ ;   kfm, stages/mybg.def, music=sound/song.mp3, includestage=0
+ ;   kfm, stages/mybg.def, order=3, 3=kfm, 6=SuaveDude
+ ;   kfm, stages/mybg.def, stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3, zoom=0
+ ;	 kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=3
+ ;	 kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, boss=1, ai=8, includestage=0, exclude=1, order=5
  ;
- ;You can also add a randomize icon to the select screen. To do
- ;this, put the word "randomselect" on a line of its own, with no
- ;extra parameters.
+ ;   Full Reference:
+ ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
  ;
 ;===================================================================================
 ; INSERT YOUR PLAYABLE CHARACTERS BELOW (120 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
@@ -133,7 +141,7 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, boss=1, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=30, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 randomselect
 randomselect
 randomselect
@@ -255,8 +263,8 @@ Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.de
 ;===========================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW
 ;===========================================================
-Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=2
-Catwalk, zoom=0, bonus=1, victoryscreen=0, exclude=1, order=2
+Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2
+Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
 ;===========================================================
 ; TOOLS CHARACTERS
 ;===========================================================

@@ -692,6 +692,7 @@ function f_mainTitle()
 			cmdInput()
 			setGameType(1)
 			setGameMode('demo')
+			setRoundsToWin(1)
 			data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 			script.select.randomMode()
 			f_mainMenu()
@@ -1660,6 +1661,7 @@ function f_randomMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setGameMode('random')
+			setRoundsToWin(1)
 			setDiscordState("In Quick Match")
 			--P1 VS CPU
 			if randomMenu == 1 then
@@ -2144,6 +2146,7 @@ function f_survivalMenu()
 			if survivalMenu == 1 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				setRoundsToWin(1)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.stageMenu = true
@@ -2160,6 +2163,7 @@ function f_survivalMenu()
 				remapInput(2, 1)
 				setCom(2, 0)
 				setPlayerSide('p1right')
+				setRoundsToWin(1)
 				data.p1In = 2
 				data.p2In = 2
 				data.p1SelectMenu = false
@@ -2173,6 +2177,7 @@ function f_survivalMenu()
 			elseif survivalMenu == 3 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				setRoundsToWin(1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
@@ -2186,6 +2191,7 @@ function f_survivalMenu()
 			elseif survivalMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				setRoundsToWin(1)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
@@ -2862,6 +2868,7 @@ function f_bonusExtras()
 				data.versusScreen = false
 				data.gameMode = 'singlebonus'
 				data.rosterMode = 'bonus'
+				setRoundsToWin(1)
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
@@ -2993,6 +3000,7 @@ function f_bonusrushMenu()
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
+					setRoundsToWin(1)
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
@@ -3014,6 +3022,7 @@ function f_bonusrushMenu()
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
+					setRoundsToWin(1)
 					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
@@ -3030,6 +3039,7 @@ function f_bonusrushMenu()
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
+					setRoundsToWin(1)
 					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
@@ -3156,6 +3166,7 @@ function f_timeMenu()
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
+				setRoundsToWin(1)
 				setLifeMul(2) --overwrite players life
 				data.p2In = 1
 				data.p2SelectMenu = false
@@ -3170,6 +3181,7 @@ function f_timeMenu()
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
+				setRoundsToWin(1)
 				setLifeMul(2)
 				remapInput(1, 2)
 				remapInput(2, 1)
@@ -3189,6 +3201,7 @@ function f_timeMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
+				setRoundsToWin(1)
 				setLifeMul(2)
 				data.p2In = 2
 				data.p2Faces = true
@@ -3204,6 +3217,7 @@ function f_timeMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(3600)
+				setRoundsToWin(1)
 				setLifeMul(2)
 				data.p2In = 1
 				data.p2SelectMenu = false
@@ -3336,6 +3350,7 @@ function f_suddenMenu()
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(1000)
+				setRoundsToWin(1)
 				setLifeMul(0)
 				data.p2In = 1
 				data.p2SelectMenu = false
@@ -3350,6 +3365,7 @@ function f_suddenMenu()
 			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(1000)
+				setRoundsToWin(1)
 				setLifeMul(0)
 				remapInput(1, 2)
 				remapInput(2, 1)
@@ -3369,6 +3385,7 @@ function f_suddenMenu()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				setRoundTime(1000)
+				setRoundsToWin(1)
 				setLifeMul(0)				
 				data.p2In = 2
 				data.p2Faces = true
@@ -3383,6 +3400,8 @@ function f_suddenMenu()
 			elseif suddenMenu == 4 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
+				setRoundTime(1000)
+				setRoundsToWin(1)
 				setLifeMul(0)
 				data.p2In = 1
 				data.p2SelectMenu = false
@@ -7099,9 +7118,10 @@ AUGUSTO SAPIENTI
 
 SPECIAL THANKS
 
-ACDGAMES
 STRONG FS
 PLASMOIDTHUNDER
+ACDGAMES
+OLDGAMER
 DJ DELORIE
 SHAWN HARGREAVES
 TOMISLAV UZELAC AND OVE KAAVEN

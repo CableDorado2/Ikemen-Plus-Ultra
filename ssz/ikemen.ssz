@@ -129,10 +129,10 @@ int game()
     if(.com.round == 1){
       .com.p1mw =
         .com.tmode[1] == (int).com.TeamMode::Turns
-        ? .com.numturns[1] : .chr.fight~ro.match_wins;
+        ? .com.numturns[1] : .com.roundsToWin;
       .com.p2mw =
         .com.tmode[0] == (int).com.TeamMode::Turns
-        ? .com.numturns[0] : .chr.fight~ro.match_wins;
+        ? .com.numturns[0] : .com.roundsToWin;
       share~copy();
       share~stt = 0;
     }

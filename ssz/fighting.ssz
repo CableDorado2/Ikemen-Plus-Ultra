@@ -337,10 +337,10 @@ void game()
           case (int).com.TeamMode::Simul:
             lm *= .com.team1VS2Life;
           case (int).com.TeamMode::Turns:
-            if(.com.numturns[i+1&1] < .chr.fight~ro.match_wins && .com.sharedLife){
+            if(.com.numturns[i+1&1] < .com.roundsToWin && .com.sharedLife){
               lm =
                 lm*(float).com.numturns[i+1&1]
-                / (float).chr.fight~ro.match_wins;
+                / (float).com.roundsToWin;
             }
           }
         case (int).com.TeamMode::Simul:
@@ -353,11 +353,11 @@ void game()
             case (int).com.TeamMode::Turns:
               if(
                 .com.numturns[i+1&1]
-                < .com.numSimul[i&1] * .chr.fight~ro.match_wins)
+                < .com.numSimul[i&1] * .com.roundsToWin)
               {
                 lm =
                   lm*(float).com.numturns[i+1&1]
-                  / (float)(.com.numSimul[i&1] * .chr.fight~ro.match_wins);
+                  / (float)(.com.numSimul[i&1] * .com.roundsToWin);
               }
             default:
               lm /= (float).com.numSimul[i&1];
@@ -366,19 +366,19 @@ void game()
         case (int).com.TeamMode::Turns:
           switch(.com.tmode[i+1&1]){
           case (int).com.TeamMode::Single:
-            if(.chr.fight~ro.match_wins < .com.numturns[i&1] && .com.sharedLife){
+            if(.com.roundsToWin < .com.numturns[i&1] && .com.sharedLife){
               lm =
-                lm * (float).chr.fight~ro.match_wins
+                lm * (float).com.roundsToWin
                 / (float).com.numturns[i&1];
             }
           case (int).com.TeamMode::Simul:
             if(
-              .com.numSimul[i+1&1] * .chr.fight~ro.match_wins
+              .com.numSimul[i+1&1] * .com.roundsToWin
               < .com.numturns[i&1])
             {
               lm =
                 lm * .com.team1VS2Life
-                * (float)(.com.numSimul[i+1&1] * .chr.fight~ro.match_wins)
+                * (float)(.com.numSimul[i+1&1] * .com.roundsToWin)
                 / (float).com.numturns[i&1];
             }
           case (int).com.TeamMode::Turns:

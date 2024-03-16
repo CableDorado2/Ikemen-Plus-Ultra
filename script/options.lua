@@ -168,7 +168,7 @@ function f_loadEXCfg()
 	s_lifebarDEF = file:read("*all")
 	file:close()
 --Apply settings from data.lifebar
-	roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
+	data.roundsNum = tonumber(s_lifebarDEF:match('match.wins%s*=%s*(%d+)'))
 	drawNum = tonumber(s_lifebarDEF:match('match.maxdrawgames%s*=%s*(%d+)'))
 --Variable setting based on loaded data
 	if gameSpeed == 48 then
@@ -344,6 +344,7 @@ function f_saveCfg()
 	--Game Data
 		['data.difficulty'] = data.difficulty,
 		['data.roundTime'] = data.roundTime,
+		['data.roundsNum'] = data.roundsNum,
 		['data.lifebar'] = data.lifebar,
 		['data.lifeMul'] = data.lifeMul,
 		['data.aipal'] = data.aipal,
@@ -470,7 +471,7 @@ function f_saveCfg()
 --; FIGHT.DEF
 --;===========================================================
 --Lifebar Settings
-	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
+	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. data.roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
 --Save Data to lifebar selected
 	local file = io.open(data.lifebar,"w+")
@@ -514,6 +515,7 @@ function f_netsaveCfg()
 		['data.zoomMax'] = data.zoomMax,
 		['data.zoomSpeed'] = data.zoomSpeed,
 		['data.roundTime'] = data.roundTime,
+		['data.roundsNum'] = data.roundsNum,
 		['data.numTurns'] = data.numTurns,
 		['data.numSimul'] = data.numSimul,
 		['data.simulType'] = data.simulType,
@@ -554,7 +556,7 @@ function f_netsaveCfg()
 --;===========================================================
 --; FIGHT.DEF
 --;===========================================================
-	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. roundsNum)
+	s_lifebarDEF = s_lifebarDEF:gsub('match.wins%s*=%s*%d+', 'match.wins = ' .. data.roundsNum)
 	s_lifebarDEF = s_lifebarDEF:gsub('match.maxdrawgames%s*=%s*%d+', 'match.maxdrawgames = ' .. drawNum)
 --Save Data to lifebar selected
 	local file = io.open(data.lifebar,"w+")
@@ -595,7 +597,7 @@ function f_gameDefault()
 	data.difficulty = 8
 	data.roundTime = 99
 	data.lifebar = 'data/screenpack/fight.def'
-	roundsNum = 2
+	data.roundsNum = 2
 	drawNum = 2
 	data.lifeMul = 100
 	data.aipal = 'Default'
@@ -2022,7 +2024,7 @@ txt_gameCfg = createTextImg(jgFnt, 0, 0, 'GAMEPLAY SETTINGS', 159, 13)
 t_gameCfg = {
 	{id = '', text = 'Difficulty Level',         varID = textImgNew(), varText = data.difficulty},
 	{id = '', text = 'Time Limit',         		 varID = textImgNew(), varText = data.roundTime},	
-	{id = '', text = 'Rounds to Win',      		 varID = textImgNew(), varText = roundsNum},
+	{id = '', text = 'Rounds to Win',      		 varID = textImgNew(), varText = data.roundsNum},
 	{id = '', text = 'Max Draw Games',      	 varID = textImgNew(), varText = drawNum},	
 	{id = '', text = 'Life',               		 varID = textImgNew(), varText = data.lifeMul .. '%'},		
 	{id = '', text = 'Auto-Guard',               varID = textImgNew(), varText = s_autoguard},
@@ -2120,15 +2122,15 @@ function f_gameCfg()
 			--Rounds to Win
 			elseif gameCfg == 3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if commandGetState(p1Cmd, 'r') and roundsNum < 5 then sndPlay(sysSnd, 100, 0) end
-					if roundsNum < 5 then
-						roundsNum = roundsNum + 1
+					if commandGetState(p1Cmd, 'r') and data.roundsNum < 5 then sndPlay(sysSnd, 100, 0) end
+					if data.roundsNum < 5 then
+						data.roundsNum = data.roundsNum + 1
 					end
 					modified = 1
 				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if commandGetState(p1Cmd, 'l') and roundsNum > 1 then sndPlay(sysSnd, 100, 0) end
-					if roundsNum > 1 then
-						roundsNum = roundsNum - 1
+					if commandGetState(p1Cmd, 'l') and data.roundsNum > 1 then sndPlay(sysSnd, 100, 0) end
+					if data.roundsNum > 1 then
+						data.roundsNum = data.roundsNum - 1
 					end
 					modified = 1
 				end
@@ -2331,7 +2333,7 @@ function f_gameCfg()
 		else
 			t_gameCfg[2].varText = 'Infinite'
 		end
-		t_gameCfg[3].varText = roundsNum
+		t_gameCfg[3].varText = data.roundsNum
 		t_gameCfg[4].varText = drawNum		
 		t_gameCfg[5].varText = data.lifeMul .. '%'
 		t_gameCfg[6].varText = s_autoguard
