@@ -831,13 +831,13 @@ function f_arc1_chapter3_2()
 	setGameMode('story')
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
-		data.story1_4BUnlock = true
-		f_storyStatus()
-		f_arc1_chapter4_2()
-	elseif script.select.winner == 2 then
 		data.story1_4DUnlock = true
 		f_storyStatus()
 		f_arc1_chapter4_4()
+	elseif script.select.winner == 2 then
+		data.story1_4BUnlock = true
+		f_storyStatus()
+		f_arc1_chapter4_2()
 	end
 end
 
@@ -863,7 +863,7 @@ function f_arc1_chapter4_1()
 	setGameMode('story')
 	script.select.f_selectStory()
 	f_storyStatus()
-	playBGM("sound/system/opening.mp3") --Play this credit song for this ending
+	playBGM("sound/system/opening lyrics.mp3") --Play this credit song for this ending
 	f_playCredits() --Go to credits screen
 end
 
@@ -906,6 +906,7 @@ end
 --Character Select Test Chapter
 function f_storyRosterTest()
 	f_default()
+	sndPlay(sysSnd, 100, 1)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}

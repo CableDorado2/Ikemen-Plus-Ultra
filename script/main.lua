@@ -31,6 +31,31 @@ file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 
+--f_drawQuickText(txt_testVar, font3, 0, 0, 'hi', 163.5, 168) --Delete me when your test finish
+--;===========================================================
+--; UNLOCKS CHECK DEFINITION
+--;===========================================================
+function f_unlocksCheck()
+	assert(loadfile('save/stats_sav.lua'))()
+	if data.arcadeClear == true then --Verify if you comply with this condition and then..
+		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
+		--t_selChars[t_charAdd["suave dude"]+1].unlock = 1
+	end
+	if data.story1_1Unlock == true then
+		t_selStages[t_stageDef["stages/mountainside temple/lobby 2 night.def"]].unlock = 1
+	end
+	if data.mission1Status == 1 then
+		t_selStages[t_stageDef["stages/mountainside temple/dark corridor.def"]].unlock = 1
+	end
+	if data.event1Status == 1 then
+		t_selStages[t_stageDef["stages/mountainside temple/winter.def"]].unlock = 1
+	end
+	if data.trainingTime > 2000 then
+		t_selStages[t_stageDef["stages/training room 2.def"]].unlock = 1
+	end
+	f_updateLogs()
+end
+
 --;===========================================================
 --; MAIN MENU SCREENPACK
 --;===========================================================
@@ -535,17 +560,24 @@ end
 --;===========================================================
 --; LOGOS
 --;===========================================================
+function f_mainLogos()
+	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
+	f_storyboard('data/screenpack/logo.def')
+	playBGM(bgmIntro)
+	f_storyboard('data/screenpack/intro.def')
+end
+
+--;===========================================================
+--; MENU START
+--;===========================================================
 function f_mainStart()
 	setDiscordState("In Logos")
 	gameTime = (os.clock()/1000)
 	data.tempBack = false
 	data.replayDone = false
 	f_saveTemp() --Save Temp Default Values to Prevent Issues
-	f_storyboard('data/screenpack/logo.def')
-	playBGM(bgmIntro)
-	--playBGM(bgmIntroJP)
-	f_storyboard('data/screenpack/intro.def')
-	--playVideo(videoHowToPlay)
+	f_unlocksCheck() --Check For Unlocked Content
+	f_mainLogos()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	f_infoReset() --Allow select options below if the Engine detects characters or stages
 	if #t_selChars == 0 then --If the Engine not detect Characters
@@ -599,6 +631,7 @@ function f_mainAttract()
 		   attractTimer = attractSeconds*gameTick --Reset Timer
 		--START GAME MODE
 		elseif (commandGetState(p1Cmd, 'w') or attractTimer == 0) and data.attractCoins > 0 then
+		   --playVideo(videoHowToPlay)
 		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		   sndPlay(sysSnd, 100, 1)
 		   data.attractCoins = data.attractCoins - 1
@@ -625,6 +658,8 @@ function f_mainAttract()
 		   setGameMode('demo')
 		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 		   script.select.randomMode()
+		   f_mainLogos()
+		   playBGM(bgmTitle)
 		   demoTimer = 0
 		   attractTimer = attractSeconds*gameTick
 		--EXIT
@@ -689,13 +724,15 @@ function f_mainTitle()
 	--fadeInBGM(20)
 	while true do
 		if i == 500 then
-			cmdInput()
+			i = 0
+			f_mainLogos()
+			playBGM(bgmTitle)
+			--[[
 			setGameType(1)
 			setGameMode('demo')
-			setRoundsToWin(1)
 			data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 			script.select.randomMode()
-			f_mainMenu()
+			]]
 		elseif btnPalNo(p1Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			i = 0
@@ -1076,7 +1113,7 @@ function f_mainMenu()
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
 					setDiscordState("In Story Mode")
-					--script.story.f_storyMenu()
+					script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play a customizable arcade ladder)
 				elseif mainMenu == 2 then
@@ -1668,12 +1705,14 @@ function f_randomMenu()
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				setGameMode('p1vscpurandom')
 				script.select.randomMode()
+				f_menuMusic()
 				setDiscordState("In Main Menu")
 			--P1 VS P2
 			elseif randomMenu == 2 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				setGameMode('p1vsp2random')
 				script.select.randomMode()
+				f_menuMusic()
 				setDiscordState("In Main Menu")
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
@@ -1684,6 +1723,7 @@ function f_randomMenu()
 			elseif randomMenu == 4 then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				script.select.randomMode()
+				f_menuMusic()
 				setDiscordState("In Main Menu")
 			--BACK
 			--else

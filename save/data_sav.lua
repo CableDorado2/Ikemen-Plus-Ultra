@@ -32,7 +32,7 @@ data.turnsRecoveryRate = 300
 data.teamLifeShare = false
 data.numTurns = 4
 data.numSimul = 4
-data.simulType = "Tag"
+data.simulType = "Assist"
 data.coopenemy = "Simul"
 --Zoom Data
 data.zoomActive = true

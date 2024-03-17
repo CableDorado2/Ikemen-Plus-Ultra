@@ -25,12 +25,12 @@ sound   = Sound.snd
 movelist = Movelist.dat
 
 [Palette Keymap]
-x = 1		;Press button X to select palette 1, etc.
-y = 2
-z = 3
-a = 4
-b = 5
-c = 6
+x = 4		;Press button X to select palette 1, etc.
+y = 5
+z = 6
+a = 1
+b = 2
+c = 3
 x2 = 7		;Hold Start and press button X for palette 7, etc.
 y2 = 8
 z2 = 9

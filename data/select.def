@@ -1,7 +1,6 @@
 ;===========================================================
 ; HOW TO ADD CHARACTERS
 ;===========================================================
-[Characters]
  ;Use the format:
  ;    charname, stagefilename1, stagefilename2, ...
  ;
@@ -86,6 +85,12 @@
  ;   Also excludes character to be chosen by CPU in modes other
  ;   than arcade (arcade selection is controlled by 'order')
  ;
+ ; - unlock
+ ;   IKEMEN feature: Set the paramvalue to 0 to lock a character
+ ;   in character select. If it evaluates to 1 the character
+ ;   will become manually selectable. On 0 it will be unselectable.
+ ;   By Default all characters are: unlock=1.
+ ;
  ; - order
  ;   Set the paramvalue to the ordering priority to give the
  ;   character in arcade mode (1 by default). A smaller value
@@ -105,10 +110,11 @@
  ;   the charname text typed after "Insert your characters below"
  ;   line, so it can be either full DEF path or just folder name.
  ;   This functionality introduces simple solution for implementing
- ;   story like arcade mode similar to the one in Street Fighter
- ;   Alpha 3 where characters always face their rivals along the way.
+ ;   arcade paths similar to the one in Street Fighter Alpha 3
+ ;   where characters always face their rivals along the way.
  ;   If you're playing in Team mode than paramvalue character becomes
  ;   opposite team leader, other characters follow normal order.
+ ;
  ;
  ;	 You can also add a randomize icon to the select screen. To do
  ;	 this, put the word "randomselect" on a line of its own, with no
@@ -124,11 +130,12 @@
  ;	 kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, boss=1, ai=8, includestage=0, exclude=1, order=5
  ;
  ;   Full Reference:
- ;	 charname, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+ ;	 charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
  ;
 ;===================================================================================
-; INSERT YOUR PLAYABLE CHARACTERS BELOW (120 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
+; INSERT YOUR PLAYABLE CHARACTERS BELOW (220 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
 ;===================================================================================
+[Characters]
 Kung Fu Man, stages/Mountainside Temple/Lobby.def, order=1, 1=Suave Dude/Minion/Minion.def, 2=Strength Training, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
 randomselect
@@ -141,7 +148,7 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=30, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=30, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 randomselect
 randomselect
 randomselect
@@ -249,20 +256,120 @@ randomselect
 randomselect
 randomselect
 randomselect
-;===========================================================
-; INSERT YOUR BOSS CHARACTERS BELOW
-;===========================================================
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+;===================================================================
+; INSERT YOUR BOSS CHARACTERS BELOW (REMEMBER PUT BOSS=1 PARAMVALUE)
+;===================================================================
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
 Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple/Roof Night.def, boss=1, includestage=0, order=4
-Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1, order=1
+Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1, exclude=1, order=1
 ;===========================================================
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Kung Fu Man/EX/EX Kung Fu Man.def
-;===========================================================
-; INSERT YOUR BONUS CHARACTERS BELOW
-;===========================================================
+;=====================================================================
+; INSERT YOUR BONUS CHARACTERS BELOW (REMEMBER PUT BONUS=1 PARAMVALUE)
+;=====================================================================
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
 ;===========================================================
@@ -273,6 +380,7 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
 ;===========================================================
 ; HOW TO ADD STAGES
 ;===========================================================
+ ;Put extra stages here. For example, you can insert "stages/mybg.def".
  ;Optional parameters may follow on the same line, separated
  ;by commas. Each parameter has the form:
  ;    paramname = paramvalue
@@ -306,12 +414,11 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
  ; - unlock
  ;   IKEMEN feature: Set the paramvalue to 0 to lock a stage
  ;   in stage select (it can be selectable only in random select).
- ;   If it evaluates to boolean 'true' (1) the stage will become
- ;   manually selectable. On 'false' (0) it will be hidden.
- ;   By Default all stages are: unlock=1.
+ ;   If it evaluates to 1 the stage will become manually selectable.
+ ;   On 0 it will be unselectable. By Default all stages are: unlock=1.
  ;
  ;   Some examples:
- ;        stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3
+ ;        stages/mybg.def, unlock=0, music=sound/song.mp3, music=sound/song2.mp3
  ;        stages/mybg.def, zoom=0
  ;        stages/mybg.def, zoom=1, zoomMin=0.75, zoomMax=1.1, zoomSpeed=1
  ;
@@ -319,17 +426,15 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
 ; INSERT YOUR STAGES BELOW
 ;===========================================================
 [ExtraStages]
- ;Put extra stages here. They will be available in VS and Watch modes.
- ;For example, you can insert "stages/mybg.def".
 stages/Training Room.def
-stages/Mountainside Temple/Hidden Path.def
+stages/Mountainside Temple/Hidden Path.def, unlock=0
 stages/Mountainside Temple/Hidden Path Night.def
-stages/Mountainside Temple/Outside.def, unlock=0
-stages/Mountainside Temple/Lobby.def, unlock=0, music=sound/Temple.mp3
+stages/Mountainside Temple/Outside.def
+stages/Mountainside Temple/Lobby.def, music=sound/Temple.mp3
 stages/Mountainside Temple/Lobby Night.def
-stages/Mountainside Temple/Lobby 2 Night.def
-stages/Mountainside Temple/Dark Corridor.def
-stages/Mountainside Temple/Winter.def
+stages/Mountainside Temple/Lobby 2 Night.def, unlock=0
+stages/Mountainside Temple/Dark Corridor.def, unlock=0
+stages/Mountainside Temple/Winter.def, unlock=0
 stages/China.def
 stages/HD TEST/Australian Outback.def
 stages/HD TEST/Fairy Day 4_3.def
@@ -337,8 +442,8 @@ stages/HD TEST/Fairy Day 16_9.def
 stages/HD TEST/Aensland Castle.def
 stages/HD TEST/Training Room.def
 stages/HD TEST/Training Room(Scale).def
-stages/Green Screen.def, unlock=0
-stages/Training Room 2.def
+stages/Green Screen.def
+stages/Training Room 2.def, unlock=0
 ;---------------------------------------------------------------------
 [Options]
  ;Here you set the maximum number of matches to fight before game ends

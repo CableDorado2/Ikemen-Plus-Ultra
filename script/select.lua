@@ -249,7 +249,7 @@ end
 
 function f_setRoundTime()
 	local roundTime = data.roundTime --Use default time saved in settings
-	--Set New Time from select.def stages section
+	--Set New Time from select.def ExtraStages section
 	--if t_selStages[stageNo].roundtime ~= nil then
 		--roundTime = t_selChars[stageNo].roundtime
 	--end
@@ -1107,6 +1107,7 @@ function f_selectSimple()
 		if data.rosterMode == 'training' then f_modeplayTime() end --Store Training Time
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
+		f_unlocksCheck() --Check For Unlocked Content
 		playBGM('')
 		cmdInput()
 		refresh()
@@ -1851,6 +1852,7 @@ function f_selectAdvance()
 		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
+		f_unlocksCheck() --Check For Unlocked Content
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			--restore P1 Team settings if needed
 			if restoreTeam then
@@ -1908,7 +1910,8 @@ function f_selectStory()
 			end
 			f_selectScreen()
 			assert(loadfile('save/temp_sav.lua'))()
-			if back == true or data.tempBack == true then
+			--Back from Pause Menu
+			if data.tempBack == true then
 				if data.rosterMode == 'story' then
 					playBGM(bgmStory)
 				else
@@ -1918,6 +1921,8 @@ function f_selectStory()
 				f_saveTemp()
 				return
 			end
+			--Back from Char Select
+			if back == true then return end
 		end
 		if winner > 0 then
 			--Victory Screen
@@ -1961,6 +1966,7 @@ function f_selectStory()
 		serviceTimer = serviceSeconds*gameTick
 		--f_favoriteChar() --Store Favorite Character (WIP)
 		--f_favoriteStage() --Store Favorite Stage (WIP)
+		f_unlocksCheck() --Check For Unlocked Content
 		playBGM('')
 		--if not (data.p1In == 2 and data.p2In == 2) then resetRemapInput() end --This reset and invert the controls when p1 is in right side, becareful!
 		cmdInput()
@@ -3894,57 +3900,61 @@ end
 
 --Actions when you select a Character
 function f_p1Selection()
-	sndPlay(sysSnd, 100, 1)
-	local cel = p1Cell
-	if getCharName(cel) == 'Random' then
-		randomP1Rematch = true
-		cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
-		if p1memberPreview == 1 then p1member1Random = true	end
-		if p1memberPreview == 2 then p1member2Random = true	end
-		if p1memberPreview == 3 then p1member3Random = true	end
-		if p1memberPreview == 4 then p1member4Random = true	end
-	else
-		f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
-	end
-	--Change p1memberPreview on each char selection
-	if p1numChars > 1 and not data.coop then --For Team Modes
-		if p1memberPreview == 1 then p1memberPreview = 2
-		elseif p1memberPreview == 2 then p1memberPreview = 3
-		elseif p1memberPreview == 3 then p1memberPreview = 4
-		elseif p1memberPreview == 4 then p1memberPreview = 1 --To Restart
+	if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 then --This character is unlocked
+		sndPlay(sysSnd, 100, 1)
+		local cel = p1Cell
+		if getCharName(cel) == 'Random' then
+			randomP1Rematch = true
+			cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
+			if p1memberPreview == 1 then p1member1Random = true	end
+			if p1memberPreview == 2 then p1member2Random = true	end
+			if p1memberPreview == 3 then p1member3Random = true	end
+			if p1memberPreview == 4 then p1member4Random = true	end
+		else
+			f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
 		end
-	end
-	local updateAnim = true
-	for i=1, #data.t_p1selected do
-		if data.t_p1selected[i].cel == p1Cell then 
-			updateAnim = false
-		end
-	end
-	if data.palType == 'Classic' then
-		p1palSelect = btnPalNo(p1Cmd)
-		if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
-	elseif data.palType == 'Modern' then
-		p1palSelect = p1palSelect
-	end
-	if data.coop then
-		data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
-		p1SelEnd = true
-	else
-		data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
-		if #data.t_p1selected == p1numChars then
-			if data.p2In == 1 and matchNo == 0 then
-				p2TeamEnd = false
-				p2SelEnd = false
-				--commandBufReset(p2Cmd)
-			elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
-				p2TeamEnd = false
-				p2SelEnd = false
-				--commandBufReset(p2Cmd)
+		--Change p1memberPreview on each char selection
+		if p1numChars > 1 and not data.coop then --For Team Modes
+			if p1memberPreview == 1 then p1memberPreview = 2
+			elseif p1memberPreview == 2 then p1memberPreview = 3
+			elseif p1memberPreview == 3 then p1memberPreview = 4
+			elseif p1memberPreview == 4 then p1memberPreview = 1 --To Restart
 			end
-			p1SelEnd = true
 		end
+		local updateAnim = true
+		for i=1, #data.t_p1selected do
+			if data.t_p1selected[i].cel == p1Cell then 
+				updateAnim = false
+			end
+		end
+		if data.palType == 'Classic' then
+			p1palSelect = btnPalNo(p1Cmd)
+			if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
+		elseif data.palType == 'Modern' then
+			p1palSelect = p1palSelect
+		end
+		if data.coop then
+			data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+			p1SelEnd = true
+		else
+			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+			if #data.t_p1selected == p1numChars then
+				if data.p2In == 1 and matchNo == 0 then
+					p2TeamEnd = false
+					p2SelEnd = false
+					--commandBufReset(p2Cmd)
+				elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
+					p2TeamEnd = false
+					p2SelEnd = false
+					--commandBufReset(p2Cmd)
+				end
+				p1SelEnd = true
+			end
+		end
+		cmdInput()
+	elseif t_selChars[p1Cell+1].unlock == 0 then --Character locked if unlock=0 paramvalue is in Character section of select.def
+		sndPlay(sysSnd, 100, 5)
 	end
-	cmdInput()
 end
 
 --;===========================================================
@@ -5787,7 +5797,7 @@ function f_selectStage()
 			else --For visible stages
 				if t_selStages[stageList].unlock == nil or t_selStages[stageList].unlock == 1 then --This stage is unlocked
 					stageChosen = true
-				elseif t_selStages[stageList].unlock == 0 then  --stage locked if unlock=0 paramvalue is in stages section of select.def
+				elseif t_selStages[stageList].unlock == 0 then  --stage locked if unlock=0 paramvalue is in ExtraStages section of select.def
 					stageChosen = false
 					sndPlay(sysSnd, 100, 5)
 				end
@@ -9362,17 +9372,6 @@ function randomMode()
 			initRandom()
 		end
 		refresh()
-	end
-	if data.attractMode == true then
-		f_storyboard('data/screenpack/logo.def')
-		f_storyboard('data/screenpack/intro.def')
-		f_mainAttract()
-	else
-		if getGameMode() == "p1vscpurandom" or getGameMode() == "p1vsp2random" or getGameMode() == "random" then
-			f_menuMusic()
-		else --Demo Mode
-			f_mainTitle()
-		end
 	end
 end
 
