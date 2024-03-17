@@ -113,7 +113,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
 
-- Implementar los parametros: ordersurvival, hidden, slot y unlock en select.def
+- Implementar los parametros: ordersurvival, hidden, slot y mejorar unlock en select.def
 
 - Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
