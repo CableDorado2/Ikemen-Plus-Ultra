@@ -105,6 +105,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
 
+- Agregar opción para configurar los controles de la pelea en char select (Preferiblemente VS Mode y Tournament) excepto en online.
+
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
 - Co-Op para el Versus Mode.
@@ -177,6 +179,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 - Agregar un snd y sprite al obtener perfect, first attack, etc. (fight.ssz).
 
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
+
+- Implementar parametros de transiciones entre stages (round<num>def).
 
 - Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/**S**akura.def"]} en lugar de data.stage = {t_stageDef["stages/**s**akura.def"]}
 
