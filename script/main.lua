@@ -1113,7 +1113,7 @@ function f_mainMenu()
 				if mainMenu == 1 then
 					sndPlay(sysSnd, 100, 1)
 					setDiscordState("In Story Mode")
-					script.story.f_storyMenu()
+					--script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play a customizable arcade ladder)
 				elseif mainMenu == 2 then

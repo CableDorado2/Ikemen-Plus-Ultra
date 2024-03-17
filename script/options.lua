@@ -7251,4 +7251,5 @@ function f_defaultStats()
 	--
 	data.erase = true
 	modified = 1
+	needReload = 1
 end

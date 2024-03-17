@@ -112,8 +112,12 @@ animSetScale(storyDownArrow, 0.5, 0.5)
 --;===========================================================
 --; ARC SELECT
 --;===========================================================
---Arc Folder Icon
-arcFolder = animNew(storySff, [[0,2, 0,0, -1]])
+--Arc Folder Empty Icon
+arcFolderEmpty = animNew(storySff, [[0,2, 0,0, -1]])
+animSetAlpha(arcFolderEmpty, 20, 100) --Transparent Color
+
+--Arc Folder Complete Icon
+arcFolderComplete = animNew(storySff, [[0,2, 0,0, -1]])
 
 --Unknown Arc Icon
 arcUnknown = animNew(storySff, [[0,0, 0,0,]])
@@ -144,13 +148,13 @@ end
 ]]
 
 t_storySelect = {
-	{Name = '',	Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''}, --Add Arc Slot
-	{Name = '',	Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', Sel = arcSel, File = arcFolder, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''}, --Add Arc Slot
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''},
+	{Name = 'YOUR ARC HERE', Img = arcUnknown, Sel = arcSel, File = arcFolderEmpty, ID = textImgNew(), Status = ''},
 }
 
 --;===========================================================
@@ -211,25 +215,25 @@ end
 ]]
 
 t_arc1 = {
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
-	{Name = '',	Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot for Arc 1
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''},
 }
 
 t_arc2 = {
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot for Arc 2
 }
 
 t_arc3 = {
-	{Name = '', Img = '', ID = textImgNew(), Status = ''},
+	{Name = 'YOUR STORY CHAPTER HERE', Img = '', ID = textImgNew(), Status = ''}, --Add Chapter Slot for Arc 3
 }
 
 t_arcNull = {
@@ -367,8 +371,6 @@ function f_storyMenu()
 			if data.story1_4BUnlock == true then t_arc1[7].Name = 'LIFE LESSON' else t_arc1[7].Name = '???' end
 			if data.story1_4CUnlock == true then t_arc1[8].Name = 'ZERO HOUR' else t_arc1[8].Name = '???' end
 			if data.story1_4DUnlock == true then t_arc1[9].Name = 'THE FALL OF A MASTER' else t_arc1[9].Name = '???' end
-			t_arc1[10].Name = 'YOUR STORY CHAPTER HERE'
-			t_arc1[11].Name = 'YOUR STORY CHAPTER HERE'
 	--Arc 2 Menu Settings
 		elseif storyMenu == 2 then
 			t_chapter = t_arc2
@@ -465,29 +467,28 @@ function f_storyMenu()
 			t_storySelect[3].Img = arc3
 		else
 			t_storySelect[2].Name = '???'
-			t_storySelect[2].Img = arcUnknown
 			t_storySelect[3].Name = '???'
-			t_storySelect[3].Img = arcUnknown
 		end
-		t_storySelect[4].Name = 'YOUR ARC HERE'
-		t_storySelect[4].Img = arcUnknown
-		t_storySelect[5].Name = 'YOUR ARC HERE'
-		t_storySelect[5].Img = arcUnknown
-		t_storySelect[6].Name = 'YOUR ARC HERE'
-		t_storySelect[6].Img = arcUnknown
-		t_storySelect[7].Name = 'YOUR ARC HERE'
-		t_storySelect[7].Img = arcUnknown
 	--Set Arc status
 		t_storySelect[1].Status = story1Data..'%'
 		t_storySelect[2].Status = story2Data..'%'
 		t_storySelect[3].Status = story3Data..'%'
+	--Set Arc Folder Icon Based on status
+		if story1Data == 100 then --When you complete this story
+			t_storySelect[1].File = arcFolderComplete
+		end
+		if story2Data == 100 then
+			t_storySelect[2].File = arcFolderComplete
+		end
+		if story3Data == 100 then
+			t_storySelect[3].File = arcFolderComplete
+		end
 	--Set Arcs Scroll Logic
 		for i=1, maxarcs do
 			if i > storyMenu - cursorPosX then
-				--Draw Arc BG
+				--Draw Arc Folder BG
 				animSetPos(t_storySelect[i].File, -95+i*105-moveArc, 20)
 				animSetScale(t_storySelect[i].File, 0.05, 0.05)
-				animSetAlpha(t_storySelect[i].File, 20, 100)
 				animUpdate(t_storySelect[i].File)
 				animDraw(t_storySelect[i].File)
 				--Draw Arc Preview Image
@@ -592,7 +593,7 @@ function f_storyMenu()
 			chaptCheck = checkNA
 			if data.story1_1Unlock == true then
 				chaptPreview = chaptUnknown
-				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO WORK IN THIS ONE."
+				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
 			else
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"
@@ -602,7 +603,7 @@ function f_storyMenu()
 			chaptCheck = checkNA
 			if data.story1_1Unlock == true then
 				chaptPreview = chaptUnknown
-				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO WORK IN THIS ONE."
+				txt_storyInfo = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
 			else
 				chaptPreview = chaptUnknown
 				txt_storyInfo = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"
