@@ -90,6 +90,7 @@
  ;   in character select. If it evaluates to 1 the character
  ;   will become manually selectable. On 0 it will be unselectable.
  ;   By Default all characters are: unlock=1.
+ ;   (Currently not works in online)
  ;
  ; - order
  ;   Set the paramvalue to the ordering priority to give the
@@ -416,6 +417,7 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
  ;   in stage select (it can be selectable only in random select).
  ;   If it evaluates to 1 the stage will become manually selectable.
  ;   On 0 it will be unselectable. By Default all stages are: unlock=1.
+ ;   (Currently not works in online)
  ;
  ;   Some examples:
  ;        stages/mybg.def, unlock=0, music=sound/song.mp3, music=sound/song2.mp3

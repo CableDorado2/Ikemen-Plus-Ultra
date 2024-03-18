@@ -2373,6 +2373,20 @@ animAddPos(arrowsPR2, 242, 227.5)
 animUpdate(arrowsPR2)
 animSetScale(arrowsPR2, 0.5, 0.5)
 
+--Cell Lock
+cellLock = animNew(sysSff, [[
+108,0, 0,0,
+]])
+animSetScale(cellLock, 0.07, 0.07)
+animUpdate(cellLock)
+
+--Cell Locked Fade Window
+cellLockWindowBG = animNew(sysSff, [[
+3,0, 0,0, -1, 0, AS256D102
+]])
+animSetScale(cellLockWindowBG, 91.5, 51)
+animUpdate(cellLockWindowBG)
+
 --;===========================================================
 --; CHARACTER SELECT SCREEN
 --;===========================================================
@@ -2409,12 +2423,17 @@ function f_selectScreen()
 		textImgDraw(txt_mainSelect)
 	end
 	if not stageMenuActive then
-		drawFace(p1FaceX, p1FaceY, p1FaceOffset)
+		drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
+		p1charSlot = p1SelX + selectColumns*p1SelY+1 --Slot Location
 		for i=0, selectColumns-1 do
 			for j=0, selectRows-1 do
-				animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2))
+				animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2)) --Draw cell sprite for each selectColumns and selectRow
+				if t_selChars[p1charSlot].unlock == 0 then
+					--animPosDraw(cellLock, p1FaceX+i*(27+3), p1FaceY+i*(27+1)) --Draw Lock Icon if the character is locked
+				end
 			end
 		end
+		--f_drawQuickText(txt_testVar, font3, 0, 0, t_selChars[p1charSlot].unlock, 163.5, 168)
 		if data.p2Faces or not data.p1SelectMenu then
 			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
 			for i=0, selectColumns-1 do

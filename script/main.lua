@@ -721,7 +721,7 @@ function f_mainTitle()
 	local i = 0
 	local t = 0
 	playBGM(bgmTitle)
-	--fadeInBGM(20)
+	--fadeInBGM(20)	
 	while true do
 		if i == 500 then
 			i = 0
@@ -1647,7 +1647,7 @@ t_randomMenu = {
 	{id = textImgNew(), text = 'CPU VS CPU'},
 	--{id = textImgNew(), text = 'BACK'},
 }
-	
+
 function f_randomMenu()
 	cmdInput()
 	local cursorPosY = 0
@@ -1697,33 +1697,34 @@ function f_randomMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			setGameMode('random')
-			setRoundsToWin(1)
 			setDiscordState("In Quick Match")
+			data.p1TeamMenu = {mode = 0, chars = 1}
+			data.p2TeamMenu = {mode = 0, chars = 1}
+			data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
+			data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
+			data.gameMode = 'quick match'
+			data.rosterMode = 'versus'
 			--P1 VS CPU
 			if randomMenu == 1 then
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				setGameMode('p1vscpurandom')
-				script.select.randomMode()
-				f_menuMusic()
+				script.select.f_selectSimple()
+				--f_menuMusic()
 				setDiscordState("In Main Menu")
 			--P1 VS P2
 			elseif randomMenu == 2 then
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				setGameMode('p1vsp2random')
-				script.select.randomMode()
-				f_menuMusic()
+				script.select.f_selectSimple()
+				--f_menuMusic()
 				setDiscordState("In Main Menu")
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
-				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				--script.select.f_selectSimple()
 				f_comingSoon()
 				setDiscordState("In Main Menu")
 			--CPU VS CPU
 			elseif randomMenu == 4 then
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				script.select.randomMode()
-				f_menuMusic()
+				script.select.f_selectSimple()
+				--f_menuMusic()
 				setDiscordState("In Main Menu")
 			--BACK
 			--else
@@ -2909,7 +2910,7 @@ function f_bonusExtras()
 				data.gameMode = 'singlebonus'
 				data.rosterMode = 'bonus'
 				setRoundsToWin(1)
-				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)				
+				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
 			--BACK
