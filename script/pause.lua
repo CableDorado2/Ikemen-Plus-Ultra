@@ -583,6 +583,12 @@ function f_pauseMain(p, st, esc)
 							elseif pauseMenu == 5 then
 								if getGameMode() == "story" then
 									sndPlay(sysSnd, 100, 5)
+								elseif getGameMode() == "random" then --Back to Main Menu for Quick Match Mode
+									sndPlay(sysSnd, 100, 1)
+									f_confirmReset()
+									mainGoTo = 'Confirm'
+									mainMenuBack = true
+									delayMenu = -2
 								else
 									sndPlay(sysSnd, 100, 1)
 									f_confirmReset()

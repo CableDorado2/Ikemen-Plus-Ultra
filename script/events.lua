@@ -110,27 +110,25 @@ end
 --;===========================================================
 --; EVENTS IMAGES
 --;===========================================================
+--Unknown Event Unlocked Preview
+eventUnknown = animNew(eventSff, [[1,0, 0,0,]])
+
 --Event 1 Unlocked Preview
 event1 = animNew(eventSff, [[0,0, 0,0,]])
 
 --Event 1 Locked Preview
 event1L = animNew(eventSff, [[0,1, 0,0,]])
 
---Event 2 Unlocked Preview
-event2 = animNew(eventSff, [[1,0, 0,0,]])
-
 --;===========================================================
 --; EVENTS MENU
 --;===========================================================
-txtEventInfo = createTextImg(font11, 0, 0, "", 160, 37)
-
 t_eventMenu = {
-	{varImg = '', varID = textImgNew(), varStatus = ''}, --Add Event Slot
-	{varImg = '', varID = textImgNew(), varStatus = ''},
-	{varImg = '', varID = textImgNew(), varStatus = ''},
-	{varImg = '', varID = textImgNew(), varStatus = ''},
-	{varImg = '', varID = textImgNew(), varStatus = ''},
-	{varImg = '', varID = textImgNew(), varStatus = ''},
+	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", varID = textImgNew()}, --Add Event Slot
+	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
+	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
+	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
+	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
+	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
 }
 
 --[[
@@ -154,18 +152,18 @@ function f_eventMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local eventExit = false
 	f_lockedInfoReset()
-	--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
---Event Progress Logic
-	if data.event1Status == 1 then event1Progress = 'COMPLETED' elseif data.event1Status == 0 then event1Progress = 'INCOMPLETE' end
-	data.eventsProgress = (data.event1Status)-- + data.event2Status + data.event3Status)
-	eventsData = (math.floor((data.eventsProgress * 100 / 1) + 0.5)) --The number (1) is the amount of all data.eventStatus
-	txt_eventMenu = createTextImg(jgFnt, 0, -1, 'EVENT SELECT:', 195, 10)
-	txt_eventProgress = createTextImg(jgFnt, 2, 1, '['..eventsData..'%]', 202, 10) --needs to be inside of event Menu function, to load event data %
-	txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
+	--Event Progress Logic
+		data.eventsProgress = (data.event1Status + data.event2Status + data.event3Status)
+		eventsData = (math.floor((data.eventsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
+		txt_eventMenu = createTextImg(jgFnt, 0, -1, 'EVENT SELECT:', 195, 10)
+		txt_eventProgress = createTextImg(jgFnt, 2, 1, '['..eventsData..'%]', 202, 10) --needs to be inside of event Menu function, to load event data %
+		txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
 		if lockedScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or eventExit then
 				f_saveProgress()
 				f_menuMusic()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -200,55 +198,35 @@ function f_eventMenu()
 					f_default()
 					data.rosterMode = 'event'
 					setGameMode('event')
-				--Master Kung Fu Girl
+					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
+					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					sndPlay(sysSnd, 100, 1)
+				--EVENT 1
 					if eventMenu == 1 then
 						if event1Status == true then
-							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-							sndPlay(sysSnd, 100, 1)
 							setRoundTime(-1)
 							setRoundsToWin(1)
 							data.p2In = 1
 							data.p2SelectMenu = false
 							data.p1TeamMenu = {mode = 0, chars = 1}
-							--data.p2TeamMenu = {mode = 2, chars = 4}
 							data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
 							data.gameMode = 'survival'
-							data.eventNo = '1'
 							script.select.f_selectAdvance()
 							if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
 						elseif event1Status == false then
-							sndPlay(sysSnd, 100, 1)
 							eventInfo = true
 							lockedScreen = true
 						end
 				--EVENT 2
 					elseif eventMenu == 2 then
-						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 1)
+						f_eventStatus()
 				--EVENT 3
 					elseif eventMenu == 3 then
-						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 1)
-				--EVENT 4
-					elseif eventMenu == 4 then
-						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 1)
-				--EVENT 5
-					elseif eventMenu == 5 then
-						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 1)
-				--EVENT 6
-					elseif eventMenu == 6 then
-						--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 1)
+						f_eventStatus()
 					end
 			--BACK
 				else
-					f_saveProgress()
-					f_menuMusic()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
-					break
+					eventExit = true
 				end
 			end
 		--Cursor position calculation
@@ -302,42 +280,40 @@ function f_eventMenu()
 	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
 			event1Status = true
-			event1Desc = "Play as Master Kung Fu Girl!"
-			t_eventMenu[1].varImg = event1
+			t_eventMenu[1].info = "Play as Master Kung Fu Girl!"
+			t_eventMenu[1].preview = event1
 		else --Event Unavailable...
 			event1Status = false
-			event1Desc = "WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00"
-			t_eventMenu[1].varImg = event1L
+			t_eventMenu[1].info = "WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00"
+			t_eventMenu[1].preview = event1L
 		end
-		t_eventMenu[1].varStatus = event1Progress
+		if data.event1Status == 1 then t_eventMenu[1].status = "COMPLETED" end
 	--Event 2
-		event2Desc = "PROGRAM YOUR EVENT HERE"
-		t_eventMenu[2].varImg = event2
-		t_eventMenu[2].varStatus = 'UNDEFINED2'
-	--Event 3
-		event3Desc = "PROGRAM YOUR EVENT HERE"
-		t_eventMenu[3].varImg = event2
-		t_eventMenu[3].varStatus = 'UNDEFINED3'
-	--Event 4
-		event4Desc = "PROGRAM YOUR EVENT HERE"
-		t_eventMenu[4].varImg = event2
-		t_eventMenu[4].varStatus = 'UNDEFINED4'
-	--Event 5
-		event5Desc = "PROGRAM YOUR EVENT HERE"
-		t_eventMenu[5].varImg = event2
-		t_eventMenu[5].varStatus = 'UNDEFINED5'
-	--Event 6
-		event6Desc = "PROGRAM YOUR EVENT HERE"
-		t_eventMenu[6].varImg = event2
-		t_eventMenu[6].varStatus = 'UNDEFINED6'
-	--Set Event Description
-		if eventMenu == 1 then textImgSetText(txtEventInfo, event1Desc)
-		elseif eventMenu == 2 then textImgSetText(txtEventInfo, event2Desc)
-		elseif eventMenu == 3 then textImgSetText(txtEventInfo, event3Desc)
-		elseif eventMenu == 4 then textImgSetText(txtEventInfo, event4Desc)
-		elseif eventMenu == 5 then textImgSetText(txtEventInfo, event5Desc)
-		elseif eventMenu == 6 then textImgSetText(txtEventInfo, event6Desc)
+		--[[
+		if sysTime >= ??? and sysTime <= ??? then
+			event2Status = true
+			t_eventMenu[2].info = "???"
+			t_eventMenu[2].preview = event2
+		else --Event Unavailable...
+			event2Status = false
+			t_eventMenu[2].info = "WILL BE AVAILABLE FROM ??? TO ???"
+			t_eventMenu[2].preview = event2L
 		end
+		]]
+		if data.event2Status == 1 then t_eventMenu[2].status = "COMPLETED" end
+	--Event 3
+		--[[
+		if sysTime >= ??? and sysTime <= ??? then
+			event3Status = true
+			t_eventMenu[3].info = "???"
+			t_eventMenu[3].preview = event3
+		else --Event Unavailable...
+			event3Status = false
+			t_eventMenu[3].info = "WILL BE AVAILABLE FROM ??? TO ???"
+			t_eventMenu[3].preview = event3L
+		end
+		]]
+		if data.event3Status == 1 then t_eventMenu[3].status = "COMPLETED" end
 	--Set Scroll Logic
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
@@ -350,12 +326,12 @@ function f_eventMenu()
 				end
 			--Draw Text for Event Status
 				if t_eventMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, 0, t_eventMenu[i].varStatus, -50.5+i*105-moveTxt, 218)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
+					textImgDraw(f_updateTextImg(t_eventMenu[i].varID, jgFnt, bank, 0, t_eventMenu[i].status, -50.5+i*105-moveTxt, 218)) -- [*] value needs to be equal to: moveTxt = (eventMenu - ) [*] value to keep static in each press
 				end
 			--Draw Event Preview Image
-				animSetPos(t_eventMenu[i].varImg, -100+i*105-moveTxt, 54)
-				animUpdate(t_eventMenu[i].varImg)
-				animDraw(t_eventMenu[i].varImg)
+				animSetPos(t_eventMenu[i].preview, -100+i*105-moveTxt, 54)
+				animUpdate(t_eventMenu[i].preview)
+				animDraw(t_eventMenu[i].preview)
 			end
 		end
 		if eventSelect == true then
@@ -366,9 +342,9 @@ function f_eventMenu()
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
 		--Draw Event Info
-			textImgDraw(txtEventInfo)
+			textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].varID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 37))
 		end
-		f_sysTime()
+		f_sysTime() --Draw Date and Time from main.lua
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
 			animDraw(arrowsEL)
@@ -414,7 +390,9 @@ end
 --; EVENT SAVE DATA
 --;===========================================================
 function f_eventStatus()
-	if data.eventNo == '1' then data.event1Status = 1
+	if data.eventNo == 1 then data.event1Status = 1
+	elseif data.eventNo == 2 then data.event2Status = 1
+	elseif data.eventNo == 3 then data.event3Status = 1
 	end
 	f_saveProgress()
 	assert(loadfile('save/stats_sav.lua'))()

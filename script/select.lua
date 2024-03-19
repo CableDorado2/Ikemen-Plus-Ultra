@@ -902,9 +902,9 @@ function f_backReset()
 	backMenu = 1
 end
 
---;==============================================================================
---; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, WATCH, SINGLE BONUS/BOSSES LIST)
---;==============================================================================
+--;===================================================================================================
+--; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, RANDOM, MISSIONS, EVENTS, SINGLE BONUS/BOSSES LIST)
+--;===================================================================================================
 function f_selectSimple()
 	f_backReset()
 	f_selectInit()
@@ -914,6 +914,7 @@ function f_selectSimple()
 		if data.rosterMode == 'challenger' then f_challengerMusic()
 		elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == 'event' then --playBGM('')
+		elseif data.gameMode == 'quick match' then --playBGM('')
 		else f_selectMusic()
 		end
 		if winner < 1 then
@@ -1044,8 +1045,8 @@ function f_selectSimple()
 					f_loadStage()
 					f_loadSong()
 				end
-			--For Missions or Events
-			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' then
+			--For Missions, Events or Quick Match Modes
+			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' or data.gameMode == 'quick match' then
 				if data.rosterMode == 'event' then
 					playBGM(bgmEvents)
 				else

@@ -77,34 +77,17 @@ end
 --; MISSIONS MENU
 --;===========================================================
 t_missionMenu = {
-	{id = '', text = 'Warrior Clone',	    			varID = textImgNew(), varText = mission1Progress},
-	{id = '', text = 'Target Confirmed',     			varID = textImgNew(), varText = mission2Progress},
-	{id = '', text = 'True Kung Fu Spirit',  			varID = textImgNew(), varText = mission3Progress},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = 'PROGRAM YOUR MISSION HERE',		varID = textImgNew(), varText = 'UNDEFINED'},
-	{id = '', text = '                 BACK',			varID = textImgNew(), varText = ''},
+	{name = "Warrior Clone",			 info = "Another Kung Fu Man Clone appears!", status = "INCOMPLETE", varID = textImgNew()}, --Add Mission Slot
+	{name = "Target Confirmed", 		 info = "Defeat Original Kung Fu Man!", 	  status = "INCOMPLETE", varID = textImgNew()},
+	{name = "True Kung Fu Spirit",  	 info = "Use the full power of Kung Fu Man!", status = "INCOMPLETE", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
 }
-
-t_mInfo = {
-	{id = '1', text = "Another Kung Fu Man Clone appears!"},
-	{id = '2', text = "Defeat Original Kung Fu Man!"},
-	{id = '3', text = "Use the full power of Kung Fu Man!"},
-	{id = '4', text = "???"},
-	{id = '5', text = "???"},
-	{id = '6', text = "???"},
-	{id = '7', text = "???"},
-	{id = '8', text = "???"},
-	{id = '9', text = "???"},
-	{id = '10', text = "???"},
-}
-for i=1, #t_mInfo do
-	t_mInfo[i].id = createTextImg(font11, 0, 0, t_mInfo[i].text, 157, 13.5)
-end
 
 function f_missionMenu()
 	cmdInput()
@@ -118,14 +101,11 @@ function f_missionMenu()
 	missionList = 0 --Important to avoid errors when read missionPreview
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
---Missions Progress Logic
-	if data.mission1Status == 1 then mission1Progress = 'COMPLETED' elseif data.mission1Status == 0 then mission1Progress = 'INCOMPLETE' end
-	if data.mission2Status == 1 then mission2Progress = 'COMPLETED' elseif data.mission2Status == 0 then mission2Progress = 'INCOMPLETE' end
-	if data.mission3Status == 1 then mission3Progress = 'COMPLETED' elseif data.mission3Status == 0 then mission3Progress = 'INCOMPLETE' end
-	data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
-	missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-	txt_missionMenu = createTextImg(jgFnt, 0, -1, 'MISSION SELECT:', 195, 128)
-	txt_missionProgress = createTextImg(jgFnt, 2, 1, '['..missionsData..'%]', 202, 128) --needs to be inside of mission Menu function, to load mission data %
+	--Missions Progress Logic
+		data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
+		missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
+		txt_missionMenu = createTextImg(jgFnt, 0, -1, 'MISSION SELECT:', 195, 128)
+		txt_missionProgress = createTextImg(jgFnt, 2, 1, '['..missionsData..'%]', 202, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() or commandGetState(p1Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -139,12 +119,13 @@ function f_missionMenu()
 			missionMenu = missionMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 then
 			f_default()
+			data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
 			data.rosterMode = 'mission'
 			setGameMode('mission')
-		--EX KUNG FU MAN
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
+		--MISSION 1
 			if missionMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
@@ -152,14 +133,11 @@ function f_missionMenu()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
 				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
-				data.missionNo = '1'
-				textImgSetText(txt_mainSelect, 'MISSION 1 [' .. mission1Progress .. ']')
+				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
 				script.select.f_selectSimple()
 				if script.select.winner == 1 then f_missionStatus() end --Save progress only if you win
-		--EVIL KUNG FU MAN
+		--MISSION 2
 			elseif missionMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
@@ -170,14 +148,11 @@ function f_missionMenu()
 				data.p2Pal = 1
 				data.stageMenu = true
 				data.versusScreen = false
-				data.missionNo = '2'
-				textImgSetText(txt_mainSelect, 'MISSION 2 [' .. mission2Progress .. ']')
+				textImgSetText(txt_mainSelect, "MISSION 2 [" .. t_missionMenu[data.missionNo].status .. "]")
 				script.select.f_selectSimple()
 				if script.select.winner == 1 then f_missionStatus() end
-		--MASTER KUNG FU MAN
+		--MISSION 3
 			elseif missionMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 1
 				data.p1TeamMenu = {mode = 0, chars = 1}
@@ -185,44 +160,9 @@ function f_missionMenu()
 				data.p1Pal = 1
 				data.challengerScreen = false
 				data.gameMode = 'arcade'
-				data.missionNo = '3'
 				script.select.f_selectAdvance()
 				if script.select.winner == 1 then f_missionStatus() end
-		--MISSION 4
-			elseif missionMenu == 4 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--MISSION 5
-			elseif missionMenu == 5 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--MISSION 6
-			elseif missionMenu == 6 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--MISSION 7
-			elseif missionMenu == 7 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--MISSION 8
-			elseif missionMenu == 8 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--MISSION 9
-			elseif missionMenu == 9 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--MISSION 10
-			elseif missionMenu == 10 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-		--BACK
-			else
-				f_saveProgress()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
-			end			
+			end
 		end
 	--Cursor position calculation
 		if missionMenu < 1 then
@@ -253,19 +193,15 @@ function f_missionMenu()
 			maxMissions = 6
 		end
 		animDraw(f_animVelocity(missionBG0, -1, -1))
-		if missionMenu == #t_missionMenu then --If you are in the last item from table
-		--Dont Draw Above Transparent BG
-		else
-		--Draw Above Transparent BG
-			animSetScale(missionBG1, 219.5, 94)
-			animSetWindow(missionBG1, 0,5, 320,110)
-			animDraw(missionBG1)
-		--Draw Empty Mission Icon
-			animSetPos(missionUnknown, 50, 21)
-			animSetScale(missionUnknown, 0.168, 0.18)
-			animUpdate(missionUnknown)
-			animDraw(missionUnknown)
-		end
+	--Draw Above Transparent BG
+		animSetScale(missionBG1, 219.5, 94)
+		animSetWindow(missionBG1, 0,5, 320,110)
+		animDraw(missionBG1)
+	--Draw Empty Mission Icon
+		animSetPos(missionUnknown, 50, 21)
+		animSetScale(missionUnknown, 0.168, 0.18)
+		animUpdate(missionUnknown)
+		animDraw(missionUnknown)
 	--Draw Title Menu
 		textImgDraw(txt_missionMenu)
 		textImgDraw(txt_missionProgress)
@@ -280,57 +216,17 @@ function f_missionMenu()
 		missionList = missionMenu --Uses menu position to show image in these order
 		f_missionPreview() --Show mission image preview
 	--Draw Mission Info
-		if missionMenu == 1 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[1].id)
-			end
-		elseif missionMenu == 2 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[2].id)
-			end
-		elseif missionMenu == 3 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[3].id)
-			end
-		elseif missionMenu == 4 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[4].id)
-			end
-		elseif missionMenu == 5 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[5].id)
-			end
-		elseif missionMenu == 6 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[6].id)
-			end
-		elseif missionMenu == 7 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[7].id)
-			end
-		elseif missionMenu == 8 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[8].id)
-			end
-		elseif missionMenu == 9 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[9].id)
-			end
-		elseif missionMenu == 10 then
-			for i=1, #t_mInfo do
-				textImgDraw(t_mInfo[10].id)
-			end
-		end
+		textImgDraw(f_updateTextImg(t_missionMenu[missionMenu].varID, font11, 0, 0, t_missionMenu[missionMenu].info, 157, 13.5))
 	--Set mission status
-		t_missionMenu[1].varText = mission1Progress
-		t_missionMenu[2].varText = mission2Progress
-		t_missionMenu[3].varText = mission3Progress
+		if data.mission1Status == 1 then t_missionMenu[1].status = "COMPLETED" end
+		if data.mission2Status == 1 then t_missionMenu[2].status = "COMPLETED" end
+		if data.mission3Status == 1 then t_missionMenu[3].status = "COMPLETED" end
 	--Draw Text for Below Table
 		for i=1, maxMissions do
 			if i > missionMenu - cursorPosY then
 				if t_missionMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].text, 45, 135+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].varText, 275, 135+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].name, 45, 135+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].status, 275, 135+i*15-moveTxt))
 				end
 			end
 		end
@@ -365,9 +261,9 @@ end
 --; MISSION SAVE DATA
 --;===========================================================
 function f_missionStatus()
-	if data.missionNo == '1' then data.mission1Status = 1
-	elseif data.missionNo == '2' then data.mission2Status = 1
-	elseif data.missionNo == '3' then data.mission3Status = 1
+	if data.missionNo == 1 then data.mission1Status = 1
+	elseif data.missionNo == 2 then data.mission2Status = 1
+	elseif data.missionNo == 3 then data.mission3Status = 1
 	end
 	f_saveProgress()
 	assert(loadfile('save/stats_sav.lua'))()

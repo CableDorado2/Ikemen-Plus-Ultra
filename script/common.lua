@@ -128,7 +128,7 @@ bgmIntro = 'sound/System/Opening.mp3'
 bgmIntroJP = 'sound/System/Opening Lyrics.mp3'
 bgmTitle = 'sound/System/Title.mp3'
 bgmSelectBoss = 'sound/System/select/Select Boss.mp3'
---bgmSelectOrder = 'sound/System/Order Select.mp3'
+bgmSelectOrder = 'sound/System/Order Select.mp3'
 bgmSelectOrderFinal = 'sound/System/Order Select Final.mp3'
 bgmVS = 'sound/System/VS.mp3'
 bgmVSFinal = 'sound/System/VS Final.mp3'
@@ -1919,9 +1919,9 @@ function f_default() --Reset Game Modes Configuration
 	data.gameMode = '' --additional variable used to distinguish modes in select screen
 	data.rosterMode = '' --additional variable used to identify special modes in select screen
 	data.rosterAdvanced = false --additional variable used to identify advanced games in select screen
-	data.missionNo = '' --additional variable used to identify missions in select screen
-	data.eventNo = '' --additional variable used to identify events in select screen
-	data.storyNo = '' --additional variable used to identify stories in select screen
+	data.missionNo = nil --additional variable used to identify missions in select screen
+	data.eventNo = nil --additional variable used to identify events in select screen
+	data.storyNo = nil --additional variable used to identify stories in select screen
 	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
 	setServiceType(0) --set different fight services for players (works via match.cns) [0:No Service, (1 or 21):MAX Power, (2 or 22):Enemy Life At 1/3, (3 or 23):Double Defence, (4 or 24):Invincible]
 	setGameType(0) --set game type to identify (works via match.cns) [0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match]
@@ -2039,6 +2039,8 @@ function f_saveProgress()
 	--Event Mode Data
 		['data.eventsProgress'] = data.eventsProgress,
 		['data.event1Status'] = data.event1Status,
+		['data.event2Status'] = data.event2Status,
+		['data.event3Status'] = data.event3Status,
 	--Mission Mode Data
 		['data.missionsProgress'] = data.missionsProgress,
 		['data.mission1Status'] = data.mission1Status,
@@ -2046,6 +2048,7 @@ function f_saveProgress()
 		['data.mission3Status'] = data.mission3Status,
 	--Story Mode Data
 		['data.storiesProgress'] = data.storiesProgress,
+	--Arc 1 Data
 		['data.story1_0Status'] = data.story1_0Status,
 		['data.story1_1Status'] = data.story1_1Status,
 		['data.story1_2Status'] = data.story1_2Status,
@@ -2055,7 +2058,14 @@ function f_saveProgress()
 		['data.story1_4BStatus'] = data.story1_4BStatus,
 		['data.story1_4CStatus'] = data.story1_4CStatus,
 		['data.story1_4DStatus'] = data.story1_4DStatus,
-	--Story Mode - Arc 1 Chapters Unlocks
+	--Arc 2 Data
+		['data.story2_0Status'] = data.story2_0Status,
+		['data.story2_1Status'] = data.story2_1Status,
+		['data.story2_2Status'] = data.story2_2Status,
+	--Arc 3 Data
+		['data.story3_0Status'] = data.story3_0Status,
+		['data.story3_1Status'] = data.story3_1Status,
+	--Arc 1 - Story Chapters Unlocks
 		['data.story1_1Unlock'] = data.story1_1Unlock,
 		['data.story1_2Unlock'] = data.story1_2Unlock,
 		['data.story1_3AUnlock'] = data.story1_3AUnlock,
@@ -2063,7 +2073,12 @@ function f_saveProgress()
 		['data.story1_4AUnlock'] = data.story1_4AUnlock,
 		['data.story1_4BUnlock'] = data.story1_4BUnlock,
 		['data.story1_4CUnlock'] = data.story1_4CUnlock,
-		['data.story1_4DUnlock'] = data.story1_4DUnlock
+		['data.story1_4DUnlock'] = data.story1_4DUnlock,
+	--Arc 2 - Story Chapters Unlocks
+		['data.story2_1Unlock'] = data.story2_1Unlock,
+		['data.story2_2Unlock'] = data.story2_2Unlock,
+	--Arc 3 - Story Chapters Unlocks
+		['data.story3_1Unlock'] = data.story3_1Unlock
 	}
 	statsDataLUA = f_strSub(statsDataLUA, t_progress)
 	local file = io.open("save/stats_sav.lua","w+")

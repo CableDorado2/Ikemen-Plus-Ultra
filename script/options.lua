@@ -1440,35 +1440,29 @@ function f_mainCfg()
 					modified = 1
 				end
 			elseif btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
 				--Game Settings
 				if mainCfg == 1 then
-					sndPlay(sysSnd, 100, 1)
 					f_gameCfg()
 				--System Settings
 				elseif mainCfg == 2 then
-					sndPlay(sysSnd, 100, 1)
 					f_UICfg()	
 				--Video Settings
 				elseif mainCfg == 3 then
-					sndPlay(sysSnd, 100, 1)
 					f_videoCfg()
 				--Audio Settings
 				elseif mainCfg == 4 then
-					sndPlay(sysSnd, 100, 1)
 					f_audioCfg()
 				--Input Settings
 				elseif mainCfg == 5 then
-					sndPlay(sysSnd, 100, 1)
 					--commandBufReset(p1Cmd)
 					--commandBufReset(p2Cmd)
 					f_inputCfg()
 				--Engine Settings
 				elseif mainCfg == 6 then
-					sndPlay(sysSnd, 100, 1)
 					f_engineCfg()
 				--Edit Player Name
 				elseif mainCfg == 7 then
-					sndPlay(sysSnd, 100, 1)
 					playerName = ''
 					nameEdit = true
 					editDone = false
@@ -1476,7 +1470,6 @@ function f_mainCfg()
 					commandBufReset(p1Cmd)
 				--Edit Online Port
 				elseif mainCfg == 8 then
-					sndPlay(sysSnd, 100, 1)
 					onlinePort = ''
 					portEdit = true
 					editDone = false
@@ -1484,13 +1477,11 @@ function f_mainCfg()
 					commandBufReset(p1Cmd)
 				--Default Values
 				elseif mainCfg == 10 then
-					sndPlay(sysSnd, 100, 1)
 					defaultAll = true
 					defaultScreen = true
 				--Save and Back
 				elseif mainCfg == 11 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
 					if data.erase == true then
 						f_saveProgress()
 					end
@@ -1498,11 +1489,10 @@ function f_mainCfg()
 						f_exitInfo()
 					end
 					f_saveCfg()
-					break	
+					break
 				--Back Without Save
 				elseif mainCfg == 12 then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 2)
 					assert(loadfile('save/data_sav.lua'))() --Load old data no saved
 					assert(loadfile('save/stats_sav.lua'))() --Load old data no saved
 					f_loadCfg()
@@ -1519,7 +1509,6 @@ function f_mainCfg()
 					break
 				--Online Settings from Offline Mode	
 				elseif mainCfg == 13 then --Only for Dev Purposes (Delete when test are finished)
-					sndPlay(sysSnd, 100, 1)
 					f_onlineCfg()
 				end
 			end
@@ -1747,7 +1736,6 @@ function f_onlineCfg()
 	local bufu = 0
 	local bufd = 0
 	f_defaultReset() --To avoid maxCfg erros when enter in any sub-menu when reset settings
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1764,26 +1752,22 @@ function f_onlineCfg()
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		elseif btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
 			--Game Settings
 			if onlineCfg == 1 then
-				sndPlay(sysSnd, 100, 1)
 				f_gameCfg()
 			--System Settings
 			elseif onlineCfg == 2 then
-				sndPlay(sysSnd, 100, 1)
 				f_UICfg()
 			--Engine Settings
 			elseif onlineCfg == 3 then
-				sndPlay(sysSnd, 100, 1)
 				f_engineCfg()
 			--Lobby Settings
 			elseif onlineCfg == 4 then
-				sndPlay(sysSnd, 100, 1)
 				f_netplayCfg()
 			--Save and Play
 			elseif onlineCfg == 5 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				if modified == 1 then
 					f_netsaveCfg()
 				end
@@ -7223,6 +7207,8 @@ function f_defaultStats()
 --Event Mode Data
 	data.eventsProgress = 0
 	data.event1Status = 0
+	data.event2Status = 0
+	data.event3Status = 0
 --Mission Mode Data
 	data.missionsProgress = 0
 	data.mission1Status = 0
@@ -7230,6 +7216,7 @@ function f_defaultStats()
 	data.mission3Status = 0
 --Story Mode Data
 	data.storiesProgress = 0
+--Arc 1 Data
 	data.story1_0Status = 0
 	data.story1_1Status = 0
 	data.story1_2Status = 0
@@ -7239,6 +7226,13 @@ function f_defaultStats()
 	data.story1_4BStatus = 0
 	data.story1_4CStatus = 0
 	data.story1_4DStatus = 0
+	--Arc 2 Data
+	data.story2_0Status = 0
+	data.story2_1Status = 0
+	data.story2_2Status = 0
+	--Arc 3 Data
+	data.story3_0Status = 0
+	data.story3_1Status = 0
 --Story Mode - Arc 1 Chapters Unlocks
 	data.story1_1Unlock = false
 	data.story1_2Unlock = false
@@ -7248,7 +7242,12 @@ function f_defaultStats()
 	data.story1_4BUnlock = false
 	data.story1_4CUnlock = false
 	data.story1_4DUnlock = false
-	--
+--Story Mode - Arc 2 Chapters Unlocks
+	data.story2_1Unlock = false
+	data.story2_2Unlock = false
+--Story Mode - Arc 3 Chapters Unlocks
+	data.story3_1Unlock = false
+--;----------------------------------------------
 	data.erase = true
 	modified = 1
 	needReload = 1

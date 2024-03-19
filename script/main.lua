@@ -213,6 +213,112 @@ animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
 --;===========================================================
+--; CLOCK AND DATE FEATURES
+--;===========================================================
+function f_sysTime()
+	--local http = require("socket.http") -- import the socket.http module
+	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
+	--local date = headers.date -- LuaSocket makes all header names lowercase
+	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
+	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+	--sysTime3 = tonumber(os.date("%m"))
+	--4:3
+	if (resolutionHeight / 3 * 4) == resolutionWidth then
+		--Clock
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
+		end
+		--Date
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
+		end
+	--16:10
+	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
+		end
+	--16:9
+	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 8)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -45, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -45, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -45, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -45, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -45, 8)
+		end
+	--Extra
+	else
+		if data.clock == 'Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
+		elseif data.clock == 'Full Standard' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
+		elseif data.clock == 'Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
+		elseif data.clock == 'Full Military' then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
+		end
+		if data.date == 'Type A' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
+		elseif data.date == 'Type B' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
+		elseif data.date == 'Type C' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
+		elseif data.date == 'Type D' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
+		elseif data.date == 'Type E' then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
+		end
+	end
+	textImgDraw(txt_titleClock) --Draw Clock
+	textImgDraw(txt_titleDate) --Draw Date
+end
+
+--;===========================================================
 --; F1 INFOBOX MESSAGE
 --;===========================================================
 infoboxCfg = createTextImg(font1, 0, 1, '', 0, 0)
@@ -259,6 +365,16 @@ end
 
 function f_infoboxReset()
 	infoboxScreen = false
+end
+
+--;===========================================================
+--; LOGOS SCREEN
+--;===========================================================
+function f_mainLogos()
+	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
+	f_storyboard('data/screenpack/logo.def')
+	playBGM(bgmIntro)
+	f_storyboard('data/screenpack/intro.def')
 end
 
 --;===========================================================
@@ -445,129 +561,6 @@ function f_confirmReset()
 end
 
 --;===========================================================
---; CLOCK AND DATE FEATURES
---;===========================================================
-function f_sysTime()
-	--local http = require("socket.http") -- import the socket.http module
-	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
-	--local date = headers.date -- LuaSocket makes all header names lowercase
-	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
-	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
-	--sysTime3 = tonumber(os.date("%m"))
-	--4:3
-	if (resolutionHeight / 3 * 4) == resolutionWidth then
-		--Clock
-		if data.clock == 'Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
-		elseif data.clock == 'Full Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
-		elseif data.clock == 'Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
-		elseif data.clock == 'Full Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
-		end
-		--Date
-		if data.date == 'Type A' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
-		elseif data.date == 'Type B' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
-		elseif data.date == 'Type C' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
-		elseif data.date == 'Type D' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
-		elseif data.date == 'Type E' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
-		end
-	--16:10
-	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-		if data.clock == 'Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
-		elseif data.clock == 'Full Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
-		elseif data.clock == 'Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
-		elseif data.clock == 'Full Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
-		end
-		if data.date == 'Type A' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
-		elseif data.date == 'Type B' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
-		elseif data.date == 'Type C' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
-		elseif data.date == 'Type D' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
-		elseif data.date == 'Type E' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
-		end
-	--16:9
-	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-		if data.clock == 'Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 8)
-		elseif data.clock == 'Full Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 8)
-		elseif data.clock == 'Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 8)
-		elseif data.clock == 'Full Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 8)
-		end
-		if data.date == 'Type A' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -45, 8)
-		elseif data.date == 'Type B' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -45, 8)
-		elseif data.date == 'Type C' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -45, 8)
-		elseif data.date == 'Type D' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -45, 8)
-		elseif data.date == 'Type E' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -45, 8)
-		end
-	--Extra
-	else
-		if data.clock == 'Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
-		elseif data.clock == 'Full Standard' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
-		elseif data.clock == 'Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
-		elseif data.clock == 'Full Military' then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
-		end
-		if data.date == 'Type A' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
-		elseif data.date == 'Type B' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
-		elseif data.date == 'Type C' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
-		elseif data.date == 'Type D' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
-		elseif data.date == 'Type E' then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
-		end
-	end
-	textImgDraw(txt_titleClock) --Draw Clock
-	textImgDraw(txt_titleDate) --Draw Date
-end
-
-function f_titleText()
-	if data.vault == 'Ultra' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ULTRA', 159, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
-	elseif data.vault == 'Zen' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ZEN', 159, 120)
-	elseif data.vault == 'SSZ' then txt_subTitle = createTextImg(font3, 0, 0, 'SSZ', 159, 120) end
-	textImgDraw(txt_subTitle)
-end
-
---;===========================================================
---; LOGOS
---;===========================================================
-function f_mainLogos()
-	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-	f_storyboard('data/screenpack/logo.def')
-	playBGM(bgmIntro)
-	f_storyboard('data/screenpack/intro.def')
-end
-
---;===========================================================
 --; MENU START
 --;===========================================================
 function f_mainStart()
@@ -604,8 +597,15 @@ function f_mainStart()
 	end
 end
 
+function f_titleText()
+	if data.vault == 'Ultra' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ULTRA', 159, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+	elseif data.vault == 'Zen' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ZEN', 159, 120)
+	elseif data.vault == 'SSZ' then txt_subTitle = createTextImg(font3, 0, 0, 'SSZ', 159, 120) end
+	textImgDraw(txt_subTitle)
+end
+
 --;===========================================================
---; ATTRACT MODE
+--; ATTRACT MODE MENU
 --;===========================================================
 txt_coinTitle = createTextImg(jgFnt, 0, 0, '-- INSERT COIN --', 159, 190)
 function f_attractCredits()
@@ -703,68 +703,6 @@ function f_mainAttract()
 		t = t >= 60 and 0 or t + 1
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;===========================================================
---; TITLE SCREEN
---;===========================================================
-txt_mainTitle = createTextImg(jgFnt, 5, 0, '-- PRESS START --', 159, 190)
---txt_version = createTextImg(font1, 0, -1, 'v1.?.0', 319, 240)
-txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
-txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
-
-function f_mainTitle()
-	cmdInput()
-	local i = 0
-	local t = 0
-	playBGM(bgmTitle)
-	--fadeInBGM(20)	
-	while true do
-		if i == 500 then
-			i = 0
-			f_mainLogos()
-			playBGM(bgmTitle)
-			--[[
-			setGameType(1)
-			setGameMode('demo')
-			data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-			script.select.randomMode()
-			]]
-		elseif btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			i = 0
-			f_mainMenu()
-		elseif esc() or commandGetState(p1Cmd, 'e') then
-			i = 0
-			sndPlay(sysSnd, 100, 2)
-			f_exitMenu()
-		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		animSetWindow(cursorBox, 0, 180, 290, 13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
-		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'WELCOME TO SUEHIRO IKEMEN ENGINE')
-		f_sysTime()
-		if t%60 < 30 then
-			textImgDraw(txt_mainTitle)
-		end
-		t = t >= 60 and 0 or t + 1
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		i = i + 1
 		cmdInput()
 		refresh()
 	end
@@ -1027,6 +965,68 @@ function f_exitReset()
 end
 
 --;===========================================================
+--; TITLE SCREEN MENU
+--;===========================================================
+txt_mainTitle = createTextImg(jgFnt, 5, 0, '-- PRESS START --', 159, 190)
+--txt_version = createTextImg(font1, 0, -1, 'v1.?.0', 319, 240)
+txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
+txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
+
+function f_mainTitle()
+	cmdInput()
+	local i = 0
+	local t = 0
+	playBGM(bgmTitle)
+	--fadeInBGM(20)	
+	while true do
+		if i == 500 then
+			i = 0
+			f_mainLogos()
+			playBGM(bgmTitle)
+			--[[
+			setGameType(1)
+			setGameMode('demo')
+			data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
+			script.select.randomMode()
+			]]
+		elseif btnPalNo(p1Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1) --Play SFX from .snd file
+			i = 0
+			f_mainMenu()
+		elseif esc() or commandGetState(p1Cmd, 'e') then
+			i = 0
+			sndPlay(sysSnd, 100, 2)
+			f_exitMenu()
+		end
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		animSetWindow(cursorBox, 0, 180, 290, 13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		f_titleText()
+		textImgDraw(txt_titleFt)
+		textImgSetText(txt_titleFt, 'WELCOME TO SUEHIRO IKEMEN ENGINE')
+		f_sysTime()
+		if t%60 < 30 then
+			textImgDraw(txt_mainTitle)
+		end
+		t = t >= 60 and 0 or t + 1
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		i = i + 1
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; MAIN MENU
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, '', 2, 240) --Text to identify the game mode in menus
@@ -1106,26 +1106,23 @@ function f_mainMenu()
 			else
 				maxMainMenu = 5
 			end
-			--mode selected
+			--COMMON ACTIONS
 			if btnPalNo(p1Cmd) > 0 then
-				f_default()
+				f_default() --Load f_default function defined in common.lua
+				sndPlay(sysSnd, 100, 1)
 				--STORY (follow customizable story arcs designed for this engine)
 				if mainMenu == 1 then
-					sndPlay(sysSnd, 100, 1)
-					setDiscordState("In Story Mode")
+					setDiscordState("In Story Mode") --update discord rich presence user state with the text introduced
 					--script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play a customizable arcade ladder)
 				elseif mainMenu == 2 then
-					sndPlay(sysSnd, 100, 1)
 					f_arcadeMenu()
 				--VERSUS (face specific opponents)
 				elseif mainMenu == 3 then
-					sndPlay(sysSnd, 100, 1)
 					f_vsMenu()
 				--NETPLAY (play online)
 				elseif mainMenu == 4 then
-					sndPlay(sysSnd, 100, 1)
 					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To play online you need to set a 4:3 Resolution to avoid desync
 					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To play online you need to set a 16:10 Resolution to avoid desync
 					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To play online you need to set a 16:9 Resolution to avoid desync
@@ -1136,15 +1133,12 @@ function f_mainMenu()
 					end
 				--PRACTICE (improve your skills)
 				elseif mainMenu == 5 then
-					sndPlay(sysSnd, 100, 1)
 					f_practiceMenu()		
 				--CHALLENGES (play advanced game modes)
 				elseif mainMenu == 6 then
-					sndPlay(sysSnd, 100, 1)
 					f_challengeMenu()
 				--EXTRAS (play custom game modes)
 				elseif mainMenu == 7 then
-					sndPlay(sysSnd, 100, 1)
 					assert(loadfile('save/stats_sav.lua'))()
 					if data.arcadeClear == true then
 						f_extrasMenu()
@@ -1153,11 +1147,9 @@ function f_mainMenu()
 					end
 				--WATCH (watch replays, rankings, player data, cutscenes and more)
 				elseif mainMenu == 8 then
-					sndPlay(sysSnd, 100, 1)
 					f_watchMenu()
 				--OPTIONS (adjust game settings)
 				elseif mainMenu == 9 then
-					sndPlay(sysSnd, 100, 1)
 					onlinegame = false --only for identify purposes
 					assert(loadfile('save/data_sav.lua'))()
 					setDiscordState("In Options")
@@ -1165,11 +1157,9 @@ function f_mainMenu()
 					setDiscordState("In Main Menu")
 				--EXIT
 				elseif mainMenu == 10 then
-					sndPlay(sysSnd, 100, 1)
 					f_exitMenu()
 				--CHECK ENGINE UPDATES
 				else
-					sndPlay(sysSnd, 100, 1)
 					webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") --added via script.ssz
 				end
 			end
@@ -1240,7 +1230,6 @@ t_arcadeMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }
 	
 function f_arcadeMenu()
@@ -1292,24 +1281,22 @@ function f_arcadeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			setGameMode('arcade')
 			setDiscordState("In Arcade Mode")
+			setGameMode('arcade')
+			data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
+			data.rosterMode = 'arcade' --to record statistics
+			data.serviceScreen = true --Enable Service Screen if you lose and continue
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (fight against CPU controlled opponents in a customizable arcade ladder)
 			if arcadeMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1 --P1 controls P2 side of the select screen
 				data.p2SelectMenu = false --P2 character selection disabled
-				data.serviceScreen = true --Enable Service Screen if you lose and continue
-				data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
-				data.rosterMode = 'arcade' --to record statistics
 				textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
 				script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
 				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (fight against CPU controlled opponents in a customizable arcade ladder)
 			elseif arcadeMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				remapInput(1, 2) --P1 controls p2 side
 				remapInput(2, 1) --P2 controls p1 side
 				setCom(2, 0) --Not computer is controlling P2 side, only the human
@@ -1317,44 +1304,28 @@ function f_arcadeMenu()
 				data.p1In = 2
 				data.p2In = 2
 				data.p1SelectMenu = false --P1 character selection disabled
-				data.serviceScreen = true
-				data.gameMode = 'arcade'
-				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player against CPU controlled opponents in a customizable arcade ladder)
 			elseif arcadeMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true --P2 fighting on P1 side enabled
-				data.serviceScreen = true
 				setGameMode('arcadecoop') --to avoid challenger screen
-				data.gameMode = 'arcade'
-				data.rosterMode = 'arcade'
 				textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CPU MODE (watch CPU fight in a customizable arcade ladder)
 			elseif arcadeMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true --AI = data.difficulty for all characters enabled
-				data.serviceScreen = true
 				setGameMode('arcadecpu') --to avoid challenger screen
-				data.gameMode = 'arcade'
-				data.rosterMode = 'cpu'
+				data.rosterMode = 'cpu' --to avoid record stats
 				textImgSetText(txt_mainSelect, 'WATCH ARCADE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1412,14 +1383,7 @@ end
 --;===========================================================
 t_vsMenu = {
 	{id = textImgNew(), text = 'QUICK MATCH'},
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'P1 VS P2'},
-	{id = textImgNew(), text = 'P2 VS P1'},
-	{id = textImgNew(), text = 'P1&P3 VS P2&P4'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
+	{id = textImgNew(), text = 'FREE BATTLE'},
 }
 	
 function f_vsMenu()
@@ -1471,120 +1435,13 @@ function f_vsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			setGameMode('vs')
-			setDiscordState("In Versus Mode")
-			--QUICK VERSUS (play random fights)
+			sndPlay(sysSnd, 100, 1)
+			--QUICK VERSUS (play a random fight)
 			if vsMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
-				setDiscordState("In Main Menu")
 				f_randomMenu()
-			--P1 VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
+			--FREE BATTLE (play fights with your own rules)
 			elseif vsMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 1
-				data.stageMenu = true --stage selection enabled
-				data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'FREE VERSUS')
-				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
-				setDiscordState("In Main Menu")
-			--CPU VS P1 (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
-			elseif vsMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				remapInput(1, 2) --P1 controls p2 side
-				remapInput(2, 1) --P2 controls p1 side
-				setCom(2, 0) --Not computer is controlling P2 side, only the human
-				setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
-				data.p1In = 2
-				data.p2In = 2
-				data.stageMenu = true
-				data.p2Faces = true
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'FREE VERSUS')
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--P1 VS P2 (choose a fighter from left side to defeat a human opponent)
-			elseif vsMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setHomeTeam(1) --P1 side considered the home team
-				data.p2In = 2 --P2 controls P2 side of the select screen
-				data.stageMenu = true
-				data.p2Faces = true
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'VERSUS MODE')
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--P2 VS P1 (choose a fighter from right side to defeat a human opponent)
-			elseif vsMenu == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setHomeTeam(2)
-				remapInput(1, 2)
-				remapInput(2, 1)
-				setCom(2, 0)
-				setPlayerSide('p1right')
-				data.p2In = 2
-				data.stageMenu = true
-				data.p2Faces = true
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'VERSUS MODE')
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--P1 & P3 VS P2 & P4 (team up with another player to defeat co-op team of human opponents)
-			elseif vsMenu == 6 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				f_comingSoon()
-				--setHomeTeam(1)
-				--data.p2In = 2
-				--data.p2Faces = true
-				--data.stageMenu = true
-				--data.coop = true
-				--data.gameMode = 'versus'
-				--data.rosterMode = 'versus'
-				--textImgSetText(txt_mainSelect, 'FREE VERSUS TEAM COOPERATIVE')
-				--script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--P1 & P2 VS CPU (team up with another player to defeat CPU controlled opponents of your choice)
-			elseif vsMenu == 7 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				--f_comingSoon()
-				setHomeTeam(1)
-				data.p2In = 2
-				data.p2Faces = true
-				--data.stageMenu = true
-				data.stage = {t_stageDef['stages/training room.def']}
-				data.coop = true
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
-				textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--CPU MATCH (watch CPU controlled match of your choice)
-			elseif vsMenu == 8 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 1
-				data.aiFight = true
-				data.stageMenu = true
-				data.p2Faces = true
-				data.gameMode = 'versus'
-				data.rosterMode = 'cpu'
-				textImgSetText(txt_mainSelect, 'WATCH VERSUS')
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
+				f_freeMenu()
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1638,14 +1495,13 @@ function f_vsMenu()
 end
 
 --;===========================================================
---; RANDOM MATCH MENU
+--; QUICK/RANDOM MATCH MENU
 --;===========================================================
 t_randomMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_randomMenu()
@@ -1697,24 +1553,24 @@ function f_randomMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-			setGameMode('random')
 			setDiscordState("In Quick Match")
+			setGameMode('random')
+			data.gameMode = 'quick match'
+			data.rosterMode = 'versus'
 			data.p1TeamMenu = {mode = 0, chars = 1}
 			data.p2TeamMenu = {mode = 0, chars = 1}
 			data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
 			data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
-			data.gameMode = 'quick match'
-			data.rosterMode = 'versus'
+			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--P1 VS CPU
 			if randomMenu == 1 then
 				script.select.f_selectSimple()
-				--f_menuMusic()
 				setDiscordState("In Main Menu")
 			--P1 VS P2
 			elseif randomMenu == 2 then
+				
 				script.select.f_selectSimple()
-				--f_menuMusic()
 				setDiscordState("In Main Menu")
 			--P1 & P2 VS CPU
 			elseif randomMenu == 3 then
@@ -1724,12 +1580,7 @@ function f_randomMenu()
 			--CPU VS CPU
 			elseif randomMenu == 4 then
 				script.select.f_selectSimple()
-				--f_menuMusic()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1783,13 +1634,197 @@ function f_randomMenu()
 end
 
 --;===========================================================
+--; FREE BATTLE MENU
+--;===========================================================
+t_freeMenu = {
+	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
+	{id = textImgNew(), text = 'P1 VS P2'},
+	{id = textImgNew(), text = 'P2 VS P1'},
+	{id = textImgNew(), text = 'P1&P3 VS P2&P4'},
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS CPU'},
+}
+	
+function f_freeMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local freeMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			freeMenu = freeMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			freeMenu = freeMenu + 1
+		end
+		if freeMenu < 1 then
+			freeMenu = #t_freeMenu
+			if #t_freeMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_freeMenu-1
+			end
+		elseif freeMenu > #t_freeMenu then
+			freeMenu = 1
+			cursorPosY = 0
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (freeMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (freeMenu - 1) * 13
+		end
+		if #t_freeMenu <= 5 then
+			maxfreeMenu = #t_freeMenu
+		elseif freeMenu - cursorPosY > 0 then
+			maxfreeMenu = freeMenu + 5 - cursorPosY
+		else
+			maxfreeMenu = 5
+		end
+		if btnPalNo(p1Cmd) > 0 then
+			f_default()
+			setDiscordState("In Free Battle")
+			setGameMode('vs')
+			data.gameMode = 'versus'
+			data.rosterMode = 'versus'
+			data.stageMenu = true --stage selection enabled
+			data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
+			--P1 VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
+			if freeMenu == 1 then
+				data.p2In = 1
+				textImgSetText(txt_mainSelect, 'FREE VERSUS')
+				script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
+				setDiscordState("In Main Menu")
+			--CPU VS P1 (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
+			elseif freeMenu == 2 then
+				remapInput(1, 2) --P1 controls p2 side
+				remapInput(2, 1) --P2 controls p1 side
+				setCom(2, 0) --Not computer is controlling P2 side, only the human
+				setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
+				data.p1In = 2
+				data.p2In = 2
+				textImgSetText(txt_mainSelect, 'FREE VERSUS')
+				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			--P1 VS P2 (choose a fighter from left side to defeat a human opponent)
+			elseif freeMenu == 3 then
+				setHomeTeam(1) --P1 side considered the home team
+				data.p2In = 2 --P2 controls P2 side of the select screen
+				textImgSetText(txt_mainSelect, 'VERSUS MODE')
+				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			--P2 VS P1 (choose a fighter from right side to defeat a human opponent)
+			elseif freeMenu == 4 then
+				setHomeTeam(2)
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p2In = 2
+				textImgSetText(txt_mainSelect, 'VERSUS MODE')
+				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			--P1 & P3 VS P2 & P4 (team up with another player to defeat co-op team of human opponents)
+			elseif freeMenu == 5 then
+				f_comingSoon()
+				--setHomeTeam(1)
+				--data.p2In = 2
+				--data.coop = true
+				--textImgSetText(txt_mainSelect, 'FREE VERSUS TEAM COOPERATIVE')
+				--script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			--P1 & P2 VS CPU (team up with another player to defeat CPU controlled opponents of your choice)
+			elseif freeMenu == 6 then
+				--f_comingSoon()
+				setHomeTeam(1)
+				data.p2In = 2
+				data.stageMenu = false
+				data.stage = {t_stageDef['stages/training room.def']}
+				data.coop = true
+				textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
+				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			--CPU MATCH (watch CPU controlled match of your choice)
+			elseif freeMenu == 7 then
+				data.p2In = 1
+				data.aiFight = true
+				data.rosterMode = 'cpu'
+				textImgSetText(txt_mainSelect, 'WATCH VERSUS')
+				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_freeMenu do
+			if i == freeMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_freeMenu[i].id, jgFnt, bank, 0, t_freeMenu[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		f_titleText()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, 'FREE MATCH')
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxfreeMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_freeMenu > 6 and maxfreeMenu < #t_freeMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
+		if commandGetState(p1Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; PRACTICE MENU
 --;===========================================================
 t_practiceMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'P1 VS P2'},	
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},	
-	--{id = textImgNew(), text = 'BACK'},	
+	{id = textImgNew(), text = 'P1&P2 VS CPU'},		
 }
 
 function f_practiceMenu()
@@ -1841,70 +1876,49 @@ function f_practiceMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			setDiscordState("Training")
 			setGameMode('practice')
 			setGameType(2)
-			setDiscordState("Training")
+			data.gameMode = 'training'
+			data.rosterMode = 'training'
+			setRoundTime(-1) --round time disabled
+			data.versusScreen = false --versus screen disabled
+			data.stageMenu = true
+			data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
+			data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE (practice special attacks and combos with training dummy character(s) of your choice)
 			if practiceMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(-1) --round time disabled
-				data.stageMenu = true
-				data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
-				data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 				if data.training == 'Free' then
 					--data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
 					data.p2In = 1
 					data.p2Faces = true
-					data.versusScreen = false --versus screen disabled
 				elseif data.training == 'Fixed' then
 					data.p2In = 2
-					data.versusScreen = false
 					data.p2Char = {t_charAdd['training']} --predefined P2 training char
 				end
-				data.gameMode = 'training'
-				data.rosterMode = 'training'
 				textImgSetText(txt_mainSelect, 'TRAINING MODE')
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
 			--MULTIPLAYER MODE (practice special attacks and combos with a human opponent)
 			elseif practiceMenu == 2 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
-				setRoundTime(-1)
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.stageMenu = true
-				data.versusScreen = false
 				data.p2Faces = true
-				data.gameMode = 'training'
-				data.rosterMode = 'training'
 				textImgSetText(txt_mainSelect, 'MULTIPLAYER TRAINING')
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to practice special attacks and combos with a training dummy character(s) of your choice)
 			elseif practiceMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
-				--setRoundTime(-1)
 				--data.p2In = 2
 				--data.p2Faces = true
 				--data.coop = true
-				--data.stageMenu = true
-				--data.versusScreen = false
 				--data.p2TeamMenu = {mode = 0, chars = 1}
-				--data.p3Char = {t_charAdd['training']}
-				--data.gameMode = 'training'
-				--data.rosterMode = 'training'
+				--data.p2Char = {t_charAdd['training']}
 				--textImgSetText(txt_mainSelect, 'COOPERATIVE TRAINING')
 				--script.select.f_selectSimple()			
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -1968,7 +1982,6 @@ t_challengeMenu = {
 	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'SCORE ATTACK'},
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_challengeMenu()
@@ -2022,19 +2035,17 @@ function f_challengeMenu()
 			end
 			if btnPalNo(p1Cmd) > 0 then
 				f_default()
+				sndPlay(sysSnd, 100, 1)
 				--SURVIVAL (defeat opponents with a single health meter)
 				if challengeMenu == 1 then
-					sndPlay(sysSnd, 100, 1)
 					f_survivalMenu()
 				--MISSIONS/TRIALS (complete missions or combos trial challenges)
 				elseif challengeMenu == 2 then
-					sndPlay(sysSnd, 100, 1)
 					setDiscordState("In Missions")
 					script.missions.f_missionMenu()
 					setDiscordState("In Main Menu")
 				--BOSS FIGHT (defeat boss characters)
 				elseif challengeMenu == 3 then
-					sndPlay(sysSnd, 100, 1)
 					if #t_bossChars ~= 0 then
 						f_bossMenu()
 					else
@@ -2043,7 +2054,6 @@ function f_challengeMenu()
 					end
 				--BONUS GAMES (play bonus games)
 				elseif challengeMenu == 4 then
-					sndPlay(sysSnd, 100, 1)
 					if #t_bonusChars ~= 0 then
 						f_bonusMenu()
 					else
@@ -2052,20 +2062,13 @@ function f_challengeMenu()
 					end
 				--TIME ATTACK (defeat opponents as quickly as possible)
 				elseif challengeMenu == 5 then
-					sndPlay(sysSnd, 100, 1)
 					f_timeMenu()
 				--SCORE ATTACK (defeat opponents getting high score as possible)
 				elseif challengeMenu == 6 then
-					sndPlay(sysSnd, 100, 1)
 					f_comingSoon()
 				--SUDDEN DEATH (defeat opponents with 1 hit)
 				elseif challengeMenu == 7 then
-					sndPlay(sysSnd, 100, 1)
 					f_suddenMenu()
-				--BACK
-				--else
-					--sndPlay(sysSnd, 100, 2)
-					--break
 				end
 			end
 		end
@@ -2130,7 +2133,6 @@ t_survivalMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_survivalMenu()
@@ -2183,69 +2185,48 @@ function f_survivalMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setDiscordState("In Survival")
+			data.gameMode = 'survival'
+			data.rosterMode = 'survival'
+			data.stageMenu = true
+			setRoundsToWin(1)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (defeat as many opponents as you can with a single Health Meter)
 			if survivalMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundsToWin(1)
 				data.p2In = 1
 				data.p2SelectMenu = false
-				data.stageMenu = true
-				data.gameMode = 'survival'
-				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (defeat as many opponents as you can with a single Health Meter)
 			elseif survivalMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				remapInput(1, 2)
 				remapInput(2, 1)
 				setCom(2, 0)
 				setPlayerSide('p1right')
-				setRoundsToWin(1)
 				data.p1In = 2
 				data.p2In = 2
 				data.p1SelectMenu = false
-				data.stageMenu = true
-				data.gameMode = 'survival'
-				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to defeat as many opponents as you can with a single Health Meter)
 			elseif survivalMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundsToWin(1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				data.stageMenu = true
-				data.gameMode = 'survival'
-				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CPU MODE (watch CPU defeat as many opponents as it can with a single Health Meter)
 			elseif survivalMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundsToWin(1)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
-				data.stageMenu = true
-				data.gameMode = 'survival'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SURVIVAL')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2304,7 +2285,6 @@ end
 t_bossMenu = {
 	{id = textImgNew(), text = 'VS SINGLE BOSS'},
 	{id = textImgNew(), text = 'BOSS RUSH'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bossMenu()
@@ -2356,19 +2336,14 @@ function f_bossMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE BOSS
 			if bossMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
 				f_rushTables() --From start.lua
 				f_bossChars()
 			--BOSS RUSH
 			elseif bossMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
 				f_bossrushMenu()
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2550,7 +2525,6 @@ t_bossrushMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bossrushMenu()
@@ -2603,26 +2577,23 @@ function f_bossrushMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setDiscordState("In Boss Rush")
+			data.gameMode = 'bossrush'
+			data.rosterMode = 'boss'
+			--data.stageMenu = true
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (defeat all bosses in a row)
 			if bossrushMenu == 1 then		
-				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)	
 					data.p2In = 1
 					data.p2SelectMenu = false
-					--data.stageMenu = true
-					data.gameMode = 'bossrush'
-					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
 				end
 			--SINGLE MODE [RIGHT SIDE] (defeat all bosses in a row)
-			elseif bossrushMenu == 2 then		
-				sndPlay(sysSnd, 100, 1)
+			elseif bossrushMenu == 2 then
 				if #t_bossChars ~= 0 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)	
-					sndPlay(sysSnd, 100, 1)
 					remapInput(1, 2)
 					remapInput(2, 1)
 					setCom(2, 0)
@@ -2630,47 +2601,31 @@ function f_bossrushMenu()
 					data.p1In = 2
 					data.p2In = 2
 					data.p1SelectMenu = false
-					--data.stageMenu = true
-					data.gameMode = 'bossrush'
-					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH')					
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
 				end
 			--CO-OP MODE (team up with another player to defeat all bosses in a row)
 			elseif bossrushMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true
-					--data.stageMenu = true
-					data.gameMode = 'bossrush'
-					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
 				end
 			--CPU MODE (watch CPU defeat all bosses in a row)
 			elseif bossrushMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
 				if #t_bossChars ~= 0 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.aiFight = true
-					--data.stageMenu = true
-					data.gameMode = 'bossrush'
 					data.rosterMode = 'cpu'
 					textImgSetText(txt_mainSelect, 'WATCH BOSS RUSH')
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
 				end
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2729,8 +2684,7 @@ end
 t_bonusMenu = {
 	{id = textImgNew(), text = 'SINGLE MODE'},
 	{id = textImgNew(), text = 'BONUS RUSH'},
-	--{id = textImgNew(), text = 'BACK'},
-}	
+}
 	
 function f_bonusMenu()
 	cmdInput()
@@ -2781,19 +2735,14 @@ function f_bonusMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE BONUS
 			if bonusMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
 				f_rushTables()
 				f_bonusExtras()
 			--BONUS RUSH
 			elseif bonusMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
 				f_bonusrushMenu()
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -2976,7 +2925,6 @@ t_bonusrushMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_bonusrushMenu()
@@ -3029,27 +2977,25 @@ function f_bonusrushMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setDiscordState("In Bonus Rush")
+			data.gameMode = 'bonusrush'
+			data.rosterMode = 'bonus'
+			setRoundsToWin(1)
+			--data.stageMenu = true
+			data.versusScreen = false
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (clear all bonus games in a row)
 			if bonusrushMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
-				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
 					data.p2In = 1
 					data.p2SelectMenu = false
 					data.p2TeamMenu = {mode = 0, chars = 1}
-					--data.stageMenu = true
-					data.versusScreen = false
-					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonus'
-					setRoundsToWin(1)
-					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
+					textImgSetText(txt_mainSelect, 'BONUS RUSH')
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
 				end
 			--SINGLE MODE [RIGHT SIDE] (clear all bonus games in a row)
 			elseif bonusrushMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
-				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
 					remapInput(1, 2)
 					remapInput(2, 1)
@@ -3059,38 +3005,22 @@ function f_bonusrushMenu()
 					data.p2In = 2
 					data.p1SelectMenu = false
 					data.p1TeamMenu = {mode = 0, chars = 1}
-					--data.stageMenu = true
-					data.versusScreen = false
-					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonus'
-					setRoundsToWin(1)
-					textImgSetText(txt_mainSelect, 'BONUS RUSH')					
+					textImgSetText(txt_mainSelect, 'BONUS RUSH')
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
 				end
 			--CO-OP MODE (team up with another player to clear all bonus games in a row)
 			elseif bonusrushMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
 					data.p2In = 2
 					data.p2Faces = true
 					data.coop = true
-					--data.stageMenu = true
-					data.versusScreen = false
-					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonus'
-					setRoundsToWin(1)
-					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')					
+					textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')
 					script.select.f_selectAdvance()
 					setDiscordState("In Main Menu")
-				end					
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
+				end
 			end
-		end	
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_bonusrushMenu do
 			if i == bonusrushMenu then
@@ -3149,7 +3079,6 @@ t_timeMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_timeMenu()
@@ -3202,28 +3131,23 @@ function f_timeMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setDiscordState("In Time Attack")
+			data.gameMode = 'allroster'
+			data.rosterMode = 'timeattack'
+			--data.stageMenu = true
+			setRoundTime(3600)
+			setRoundsToWin(1)
+			setLifeMul(2) --overwrite players life
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (defeat all character roster as quickly as possible, beating previous time records)
 			if timeMenu == 1 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(3600)
-				setRoundsToWin(1)
-				setLifeMul(2) --overwrite players life
 				data.p2In = 1
 				data.p2SelectMenu = false
-				data.gameMode = 'allroster'
-				data.rosterMode = 'timeattack'
-				--data.stageMenu = true
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 2 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(3600)
-				setRoundsToWin(1)
-				setLifeMul(2)
 				remapInput(1, 2)
 				remapInput(2, 1)
 				setCom(2, 0)
@@ -3231,48 +3155,26 @@ function f_timeMenu()
 				data.p1In = 2
 				data.p2In = 2
 				data.p1SelectMenu = false
-				data.gameMode = 'allroster'
-				data.rosterMode = 'timeattack'
-				--data.stageMenu = true
 				textImgSetText(txt_mainSelect, 'TIME ATTACK')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(3600)
-				setRoundsToWin(1)
-				setLifeMul(2)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				--data.stageMenu = true
-				data.gameMode = 'allroster'
-				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CPU MODE (watch CPU defeat all character roster as quickly as possible, beating previous time records)
 			elseif timeMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(3600)
-				setRoundsToWin(1)
-				setLifeMul(2)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
-				--data.stageMenu = true
-				data.gameMode = 'allroster'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH TIME ATTACK')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3333,7 +3235,6 @@ t_suddenMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_suddenMenu()
@@ -3386,28 +3287,23 @@ function f_suddenMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setDiscordState("In Sudden Death")
+			data.gameMode = 'allroster'
+			data.rosterMode = 'suddendeath'
+			--data.stageMenu = true
+			setRoundTime(1000)
+			setRoundsToWin(1)
+			setLifeMul(0)
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (see how many characters out of all roster you can take down with 1 Hit)
 			if suddenMenu == 1 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(1000)
-				setRoundsToWin(1)
-				setLifeMul(0)
 				data.p2In = 1
 				data.p2SelectMenu = false
-				--data.stageMenu = true
-				data.gameMode = 'allroster'
-				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (see how many characters out of all roster you can take down with 1 Hit)
 			elseif suddenMenu == 2 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(1000)
-				setRoundsToWin(1)
-				setLifeMul(0)
 				remapInput(1, 2)
 				remapInput(2, 1)
 				setCom(2, 0)
@@ -3415,48 +3311,26 @@ function f_suddenMenu()
 				data.p1In = 2
 				data.p2In = 2
 				data.p1SelectMenu = false
-				--data.stageMenu = true
-				data.gameMode = 'allroster'
-				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to see how many characters out of all roster you can take down with 1 Hit)
 			elseif suddenMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(1000)
-				setRoundsToWin(1)
-				setLifeMul(0)				
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				--data.stageMenu = true
-				data.gameMode = 'allroster'
-				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CPU MODE (see how many characters out of all roster the CPU can take down with 1 Hit)
 			elseif suddenMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setRoundTime(1000)
-				setRoundsToWin(1)
-				setLifeMul(0)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
-				--data.stageMenu = true
-				data.gameMode = 'allroster'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH SUDDEN DEATH')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3520,7 +3394,6 @@ t_extrasMenu = {
 	{id = textImgNew(), text = 'TOURNEY'},
 	{id = textImgNew(), text = 'ADVENTURE'},
 	{id = textImgNew(), text = 'THE VAULT'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_extrasMenu()
@@ -3572,49 +3445,38 @@ function f_extrasMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			sndPlay(sysSnd, 100, 1)
 			--ENDLESS MODE (fight in endless battles)
 			if extrasMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
 				f_allcharsMenu()
 			--EVENTS MODE (complete events at certain hours, days, weeks, months or years)
 			elseif extrasMenu == 2 then
-				sndPlay(sysSnd, 100, 1)
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				setDiscordState("In Events")
 				script.events.f_eventMenu()
 				setDiscordState("In Main Menu")
 			--TOWER MODE (fight against enemy forces in customizable tower sizes)
 			elseif extrasMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
 				textImgSetText(txt_mainSelect, 'TOWER MODE')
 				script.select.f_selectTower()
 				setDiscordState("In Main Menu")
 			--LEGION MODE (raise your own army to fight several enemy forces and conquer customizable maps)
 			elseif extrasMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
 				textImgSetText(txt_mainSelect, 'LEGION MODE')
 				script.select.f_selectLegion()
 				setDiscordState("In Main Menu")
 			--TOURNEY MODE (participate in customizable single-elimination tournaments)
 			elseif extrasMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
 				f_tourneyMenu()
 				setDiscordState("In Main Menu")
 			--ADVENTURE MODE (explore a custom map with goals and level up your characters)
 			elseif extrasMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
-				script.select.f_selectAdventure()--script.adventure.f_mainAdventure()
+				script.select.f_selectAdventure() --script.adventure.f_mainAdventure()
 				setDiscordState("In Main Menu")
 			--THE VAULT MODE (insert secret codes to unlock things)
 			elseif extrasMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
 				setDiscordState("In Secret Room")
 				f_theVault()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3675,7 +3537,6 @@ t_allcharsMenu = {
 	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_allcharsMenu()
@@ -3728,22 +3589,20 @@ function f_allcharsMenu()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			setDiscordState("In Endless Mode")
+			data.gameMode = 'endless'
+			data.rosterMode = 'endless'
+			data.stageMenu = true
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--SINGLE MODE [LEFT SIDE] (choose a fighter to defeat endless CPU controlled opponents)
 			if allcharsMenu == 1 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
-				data.stageMenu = true
-				data.gameMode = 'endless'
-				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--SINGLE MODE [RIGHT SIDE] (choose a fighter to defeat endless CPU controlled opponents)
 			elseif allcharsMenu == 2 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				remapInput(1, 2)
 				remapInput(2, 1)
 				setCom(2, 0)
@@ -3751,42 +3610,26 @@ function f_allcharsMenu()
 				data.p1In = 2
 				data.p2In = 2
 				data.p1SelectMenu = false
-				data.stageMenu = true
-				data.gameMode = 'endless'
-				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS MODE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CO-OP MODE (team up with another player to defeat endless CPU controlled opponents)
 			elseif allcharsMenu == 3 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 2
 				data.p2Faces = true
 				data.coop = true
-				--data.stageMenu = true
-				data.gameMode = 'endless'
-				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
 			--CPU MODE (choose a fighter to watch endless CPU fights)
 			elseif allcharsMenu == 4 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				data.p2In = 1
 				data.p2SelectMenu = false
 				data.aiFight = true
-				data.stageMenu = true
-				data.gameMode = 'endless'
 				data.rosterMode = 'cpu'
 				textImgSetText(txt_mainSelect, 'WATCH ENDLESS')
 				script.select.f_selectAdvance()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3846,7 +3689,6 @@ t_tourneyMenu = {
 	{id = textImgNew(), text = 'ROUND OF 16'},
 	{id = textImgNew(), text = 'ROUND OF 8'},
 	{id = textImgNew(), text = 'ROUND OF 4'},
-	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_tourneyMenu()
@@ -3898,43 +3740,31 @@ function f_tourneyMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			--setDiscordState("In Tourney Mode")
+			--data.rosterMode = 'tourney'
+			--data.stageMenu = true
+			--data.p2In = 1
+			--data.p2SelectMenu = false
+			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
 			if tourneyMenu == 1 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				--data.p2In = 1
-				--data.p2SelectMenu = false
-				--data.stageMenu = true
 				data.gameMode = 'tourney16'
-				--data.rosterMode = 'tourney'
 				textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')
 				script.select.f_selectTourney()
+				--setDiscordState("In Main Menu")
 			--QUARTERFINALS (participate in a customizable single-elimination tournament starting from Quarterfinals)
 			elseif tourneyMenu == 2 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				--data.p2In = 1
-				--data.p2SelectMenu = false
-				--data.stageMenu = true
 				data.gameMode = 'tourney8'
-				--data.rosterMode = 'tourney'
 				textImgSetText(txt_mainSelect, 'TOURNAMENT - QUARTERFINALS')
 				script.select.f_selectTourney()
+				--setDiscordState("In Main Menu")
 			--SEMIFINALS (participate in a customizable single-elimination tournament starting from Semifinals)
 			elseif tourneyMenu == 3 then
-				--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				--data.p2In = 1
-				--data.p2SelectMenu = false
-				--data.stageMenu = true
 				data.gameMode = 'tourney4'
-				--data.rosterMode = 'tourney'
 				textImgSetText(txt_mainSelect, 'TOURNAMENT - SEMIFINALS')
 				script.select.f_selectTourney()
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
+				--setDiscordState("In Main Menu")
 			end
 		end	
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -4002,7 +3832,6 @@ t_watchMenu = {
 	{id = textImgNew(), text = 'SCREENSHOTS'},
 	{id = textImgNew(), text = 'GALLERY'},
 	{id = textImgNew(), text = 'CREDITS'},
-	--{id = textImgNew(), text = 'BACK'},
 }	
 	
 function f_watchMenu()
@@ -4054,14 +3883,13 @@ function f_watchMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			sndPlay(sysSnd, 100, 1)
 			--REPLAYS (watch recorded battles)
 			if watchMenu == 1 then
-				sndPlay(sysSnd, 100, 1)
 				f_replayMenu()
 			--STAGE VIEWER (watch a selected stage without fight)
 			elseif watchMenu == 2 then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				setRoundTime(-1)
 				data.p2In = 2
 				data.stageMenu = true
@@ -4078,56 +3906,44 @@ function f_watchMenu()
 				setDiscordState("In Main Menu")
 			--LEADERBOARDS (display rankings data)
 			elseif watchMenu == 3 then
-				sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 			--ACHIEVEMENTS (display achievements data)
 			elseif watchMenu == 4 then
-				sndPlay(sysSnd, 100, 1)
 				f_comingSoon()
 			--STATISTICS (display overall player data)
 			elseif watchMenu == 5 then
-				sndPlay(sysSnd, 100, 1)
 				--assert(loadfile('save/stats_sav.lua'))()
 				script.statistics.f_statsMenu()
 			--STORYBOARDS (play storyboards)
 			elseif watchMenu == 6 then
-				sndPlay(sysSnd, 100, 1)
 				setDiscordState("In Storyboards")
 				f_storyboardMenu()
 				setDiscordState("In Main Menu")
 			--CUTSCENES (play video cutscenes)
 			elseif watchMenu == 7 then
-				sndPlay(sysSnd, 100, 1)
 				setDiscordState("In Cutscenes")
 				f_videoMenu()
 				setDiscordState("In Main Menu")
 			--SOUND TEST (listen sounds)
 			elseif watchMenu == 8 then
-				sndPlay(sysSnd, 100, 1)
-				soundTest = true
 				setDiscordState("In Sound Test")
+				soundTest = true
 				f_songMenu()
 				setDiscordState("In Main Menu")
 			--SCREENSHOTS (watch screenshots taken)
 			elseif watchMenu == 9 then
-				sndPlay(sysSnd, 100, 1)
 				sszOpen("screenshots", "") --added via script.ssz
 			--GALLERY (watch illustrations)
 			elseif watchMenu == 10 then
-				sndPlay(sysSnd, 100, 1)
 				setDiscordState("Gallery Theater")
 				f_galleryMenu()
 				setDiscordState("In Main Menu")
 			--CREDITS (play credits)
 			elseif watchMenu == 11 then
-				sndPlay(sysSnd, 100, 1)
+				setDiscordState("In Credits")
 				playBGM("sound/system/credits.mp3")
 				f_playCredits()
 				setDiscordState("In Main Menu")
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -4186,7 +4002,6 @@ end
 t_replayMenu = {
 	{id = textImgNew(), text = 'ONLINE REPLAYS'},
 	{id = textImgNew(), text = 'LOCAL REPLAYS'},
-	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_replayMenu()
@@ -4239,9 +4054,9 @@ function f_replayMenu()
 				maxreplayMenu = 5
 			end
 			if btnPalNo(p1Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
 				--ONLINE REPLAYS (watch saved replays of your online matches)
 				if replayMenu == 1 then
-					sndPlay(sysSnd, 100, 1)
 					--if (resolutionHeight / 3 * 4) ~= resolutionWidth then --To watch an online replay you need to set a 4:3 Resolution to avoid desync
 					--if (resolutionHeight / 10 * 16) ~= resolutionWidth then --To watch an online replay you need to set a 16:10 Resolution to avoid desync
 					if (math.floor((resolutionHeight / 9 * 16) + 0.5)) ~= resolutionWidth then --To watch an online replay you need to set a 16:9 Resolution to avoid desync
@@ -4255,12 +4070,7 @@ function f_replayMenu()
 					end
 				--LOCAL REPLAYS (watch saved replays of your local matches)
 				elseif replayMenu == 2 then
-					sndPlay(sysSnd, 100, 1)
 					f_comingSoon()
-				--BACK
-				--else
-					--sndPlay(sysSnd, 100, 2)
-					--break
 				end
 			end
 		end
@@ -5325,7 +5135,7 @@ function f_mainReplay()
 							onlinegame = true --only for identify purposes
 							replaygame = true
 							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-							sndPlay(sysSnd, 100, 1)	
+							sndPlay(sysSnd, 100, 1)
 							--Set Default values to prevent desync.
 							script.options.f_onlineDefault()
 							script.options.f_netsaveCfg()
@@ -5463,7 +5273,6 @@ end
 t_mainNetplay = {
 	{id = textImgNew(), text = 'HOST [CREATE ROOM]'},
 	{id = textImgNew(), text = 'CLIENT [JOIN A ROOM]'},
-	--{id = textImgNew(), text = 'BACK'},
 }
 
 function f_mainNetplay()
@@ -5519,13 +5328,13 @@ function f_mainNetplay()
 		end
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
+			sndPlay(sysSnd, 100, 1)
 			--HOST (create online room)
 			if mainNetplay == 1 then
 				onlinegame = true --only for identify purposes
 				script.options.f_onlineDefault()
 				script.options.f_netsaveCfg()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				cancel = f_create()
 				if not cancel then
 					synchronize()
@@ -5535,18 +5344,7 @@ function f_mainNetplay()
 				exitNetPlay()
 				exitReplay()
 				commandBufReset(p1Cmd, 1)
-				--Create Replay File
-				local netplayFile = io.open("save/data.replay","rb") --Read origin file
-				if netplayFile ~= nil and not createExit then
-					if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
-						ltn12.pump.all(
-						  ltn12.source.file(assert(io.open("save/data.replay", "rb"))), --Use this file to make a copy
-						  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
-						)
-					end
-					netplayFile:close()
-					netplayFile = nil
-				end
+				f_saveReplay()
 			--CLIENT/JOIN (join an existing room)
 			elseif mainNetplay == 2 then
 				--Default Connection Method
@@ -5555,7 +5353,6 @@ function f_mainNetplay()
 					script.options.f_onlineDefault()
 					script.options.f_netsaveCfg()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					sndPlay(sysSnd, 100, 1)
 					cancel = f_directConnect()
 					if not cancel then
 						synchronize()
@@ -5565,28 +5362,11 @@ function f_mainNetplay()
 					exitNetPlay()
 					exitReplay()
 					commandBufReset(p1Cmd, 1)
-					local netplayFile = io.open("save/data.replay","rb")
-					if netplayFile ~= nil and not joinExit then
-						if lfs.attributes("save/data.replay", "size") > 0 then
-							ltn12.pump.all(
-							  ltn12.source.file(assert(io.open("save/data.replay", "rb"))),
-							  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
-							)
-						end
-						netplayFile:close()
-						netplayFile = nil
-					end
+					f_saveReplay()
 				--Host info Stored in a Local Database
 				elseif data.connectMode == 'Database' then
-					sndPlay(sysSnd, 100, 1)
 					f_hostRooms()
 				end
-			--BACK
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--onlinegame = false
-				--assert(loadfile('save/data_sav.lua'))()
-				--break
 			end	
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -5638,6 +5418,26 @@ function f_mainNetplay()
     	exitReplay()
 		cmdInput()
 		refresh()
+	end
+end
+
+--;===========================================================
+--; SAVE ONLINE REPLAY
+--;===========================================================
+function f_saveReplay()
+--Create Replay File
+	local netplayFile = io.open("save/data.replay","rb") --Read origin file
+	if netplayFile ~= nil then
+		if not createExit or not joinExit then
+			if lfs.attributes("save/data.replay", "size") > 0 then --Save replay if have content
+				ltn12.pump.all(
+				ltn12.source.file(assert(io.open("save/data.replay", "rb"))), --Use this file to make a copy
+				ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb"))) --Save replay with a new name
+				)
+			end
+			netplayFile:close()
+			netplayFile = nil
+		end
 	end
 end
 
@@ -6098,17 +5898,7 @@ function f_hostRooms()
 			exitNetPlay()
 			exitReplay()
 			commandBufReset(p1Cmd, 1)
-			local netplayFile = io.open("save/data.replay","rb")
-			if netplayFile ~= nil and not joinExit then
-				if lfs.attributes("save/data.replay", "size") > 0 then
-					ltn12.pump.all(
-					  ltn12.source.file(assert(io.open("save/data.replay", "rb"))),
-					  ltn12.sink.file(assert(io.open("replays/" .. os.date("%Y-%m-%d %I-%M%p") .. ".replay", "wb")))
-					)
-				end
-				netplayFile:close()
-				netplayFile = nil
-			end
+			f_saveReplay()
 	--UPDATE DATA
 		elseif crudHostOption == 3 then
 			f_crudHostReset()
@@ -6553,7 +6343,6 @@ t_mainLobby = {
 	{id = textImgNew(), text = 'SUDDEN DEATH'},
 	{id = textImgNew(), text = 'TIME ATTACK'},
 	{id = textImgNew(), text = 'ONLINE SETTINGS'},
-	--{id = textImgNew(), text = 'LEAVE ONLINE'},
 }
 
 function f_mainLobby()
@@ -6612,15 +6401,16 @@ function f_mainLobby()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			if replaygame == true then setGameMode('replay') end
+			data.p2In = 2
+			data.p2Faces = true
+			data.coop = true
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 1)
 			--ONLINE VERSUS
 			if mainLobby == 1 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				setHomeTeam(1)
-				data.p2In = 2
+				data.coop = false
 				data.stageMenu = true
-				data.p2Faces = true
-				setRoundTime(-1)
+				setHomeTeam(1)
 				data.gameMode = 'versus'
 				data.rosterMode = 'versus'
 				if data.ftcontrol > 0 then
@@ -6631,15 +6421,12 @@ function f_mainLobby()
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
 			elseif mainLobby == 2 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
 				setRoundTime(-1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p2TeamMenu = {mode = 0, chars = 1}
+				data.coop = false
 				data.stageMenu = true
 				data.versusScreen = false
-				data.p2Faces = true
 				data.gameMode = 'training'
 				data.rosterMode = 'training'
 				setGameType(2)
@@ -6647,11 +6434,6 @@ function f_mainLobby()
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	
 			elseif mainLobby == 3 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
 				data.serviceScreen = true
 				data.gameMode = 'arcade'
 				data.rosterMode = 'arcade'
@@ -6659,34 +6441,19 @@ function f_mainLobby()
                 script.select.f_selectAdvance()
 			--ONLINE SURVIVAL	
 			elseif mainLobby == 4 then
-			    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
 				data.gameMode = 'survival'
 				data.rosterMode = 'survival'
 				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
 				script.select.f_selectAdvance()
 			--ONLINE ENDLESS
 			elseif mainLobby == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
 				data.gameMode = 'endless'
 				data.rosterMode = 'endless'
 				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
-			elseif mainLobby == 6 then		
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+			elseif mainLobby == 6 then
 				if #t_bossChars ~= 0 then
-					data.p2In = 2
-					data.p2Faces = true
-					data.coop = true
 					data.gameMode = 'bossrush'
 					data.rosterMode = 'boss'
 					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')
@@ -6694,12 +6461,7 @@ function f_mainLobby()
 				end	
 			--ONLINE BONUS RUSH
 			elseif mainLobby == 7 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
 				if #t_bonusChars ~= 0 then
-					data.p2In = 2
-					data.p2Faces = true
-					data.coop = true
 					data.versusScreen = false
 					data.gameMode = 'bonusrush'
 					data.rosterMode = 'bonus'
@@ -6707,39 +6469,24 @@ function f_mainLobby()
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE SUDDEN DEATH
-			elseif mainLobby == 8 then				
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+			elseif mainLobby == 8 then
 				setRoundTime(1000)
-				setLifeMul(0)				
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
+				setLifeMul(0)
 				data.gameMode = 'allroster'
 				data.rosterMode = 'suddendeath'
 				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE TIME ATTACK
-			elseif mainLobby == 9 then				
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
+			elseif mainLobby == 9 then
 				setRoundTime(3600)
-				setLifeMul(2)				
-				data.p2In = 2
-				data.p2Faces = true
-				data.coop = true
+				setLifeMul(2)
 				data.gameMode = 'allroster'
 				data.rosterMode = 'timeattack'
 				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
 			elseif mainLobby == 10 then
-				sndPlay(sysSnd, 100, 1)
 				script.options.f_onlineCfg()
-			--EXIT
-			--else
-				--sndPlay(sysSnd, 100, 2)
-				--break
 			end			
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -7054,7 +6801,7 @@ function f_playCredits()
 		for i = 1, #creditsTable do
 			textImgDraw(f_updateTextImg(creditsBoxCfg, txtFont, txtBank, txtAline, creditsTable[i], 155, 260 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
 		end
-		f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --test timer
+		--f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --Test Timer
 		scroll = scroll + speed
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -7150,9 +6897,16 @@ DING
 TEKKEN 7 ANNOUNCER
 
 
-STORY ANIMATION DESIGN
 
+STORY DESIGN
+
+ELECBYTE TEAM
 CD2
+
+
+
+STORY ANIMATION
+
 SWEET CREATURES
 AUGUSTO SAPIENTI
 
