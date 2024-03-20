@@ -130,7 +130,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Agregar más opciones para el Dummy de Training.
 
-- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en parsec y usar en char select una función parecida a f_drawCharAnim.
+- Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en start.lua y usar en char select una función parecida a f_drawCharAnim.
 
 - Arreglar preview de random chars que no coincida con el char de sprite.
 
@@ -153,7 +153,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Agregar un sistema de "clasificación". Un sistema que almacena información sobre cada personaje particular, y en base a un determinado número de victorias y derrotas, estos ascienden o desciendende rango. Algo así como Bronce, Plata, Oro, Diamante. Y ese rango alcanzado se muestra como una medalla en la misma selección de personaje cuando se coloca sobre el personaje.
 
-- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original):https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
+- Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - Leer archivos movelist.dat dentro de los chars.
 
