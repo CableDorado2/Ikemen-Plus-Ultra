@@ -85,7 +85,7 @@
  ;   Also excludes character to be chosen by CPU in modes other
  ;   than arcade (arcade selection is controlled by 'order')
  ;
- ; - unlock
+ ; - unlock (experimental)
  ;   IKEMEN feature: Set the paramvalue to 0 to lock a character
  ;   in character select. If it evaluates to 1 the character
  ;   will become manually selectable. On 0 it will be unselectable.
@@ -149,7 +149,7 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=30, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=60, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 randomselect
 randomselect
 randomselect
@@ -412,7 +412,7 @@ Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
  ;   IKEMEN feature: Set the paramvalue to overwrite global
  ;   zoom speed setting for this particular stage.
  ;
- ; - unlock
+ ; - unlock (experimental)
  ;   IKEMEN feature: Set the paramvalue to 0 to lock a stage
  ;   in stage select (it can be selectable only in random select).
  ;   If it evaluates to 1 the stage will become manually selectable.

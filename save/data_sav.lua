@@ -14,8 +14,8 @@ data.attractMode = false
 data.pauseMode = "Yes"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Mixed"
-data.sffConversion = true
+data.charPresentation = "Portrait"
+data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -25,7 +25,7 @@ data.lifeMul = 100
 data.aipal = "Default"
 data.aiRamping = true
 data.autoguard = false
-data.quickCont = true
+data.quickCont = false
 --Team Data
 data.team1VS2Life = 120
 data.turnsRecoveryRate = 300
@@ -52,8 +52,8 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = 31
-data.stageTime = 21
+data.selectTime = 11
+data.stageTime = 11
 data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16

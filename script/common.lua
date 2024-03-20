@@ -123,31 +123,31 @@ font24 = fontNew('font/ssf2x_vL.fnt')
 --;=================================================================
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
 --;=================================================================
-bgmNothing = ' .mp3'
-bgmIntro = 'sound/System/Opening.mp3'
-bgmIntroJP = 'sound/System/Opening Lyrics.mp3'
-bgmTitle = 'sound/System/Title.mp3'
-bgmSelectBoss = 'sound/System/select/Select Boss.mp3'
-bgmSelectOrder = 'sound/System/Order Select.mp3'
-bgmSelectOrderFinal = 'sound/System/Order Select Final.mp3'
-bgmVS = 'sound/System/VS.mp3'
-bgmVSFinal = 'sound/System/VS Final.mp3'
-bgmVictory = 'sound/System/Victory.mp3'
-bgmResults = 'sound/System/Results.mp3'
-bgmService = 'sound/System/Service.mp3'
-bgmContinue = 'sound/System/Continue.mp3'
-bgmGameOver = 'sound/System/Game Over.mp3'
-bgmVault = 'sound/System/The Vault.mp3'
-bgmEvents = 'sound/System/Events.mp3'
-bgmStory = 'sound/System/Story.mp3'
-bgmTower = 'sound/System/Tower.mp3'
-bgmTourney = 'sound/System/Tourney.mp3'
-bgmLegion = 'sound/System/Legion.mp3'
-bgmAdventure = 'sound/System/Adventure.mp3'
+bgmNothing = " .mp3"
+bgmIntro = "sound/System/Opening.mp3"
+bgmIntroJP = "sound/System/Opening Lyrics.mp3"
+bgmTitle = "sound/System/Title.mp3"
+bgmSelectBoss = "sound/System/select/Select Boss.mp3"
+bgmSelectOrder = "sound/System/Order Select.mp3"
+bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
+bgmVS = "sound/System/VS.mp3"
+bgmVSFinal = "sound/System/VS Final.mp3"
+bgmVictory = "sound/System/Victory.mp3"
+bgmResults = "sound/System/Results.mp3"
+bgmService = "sound/System/Service.mp3"
+bgmContinue = "sound/System/Continue.mp3"
+bgmGameOver = "sound/System/Game Over.mp3"
+bgmVault = "sound/System/The Vault.mp3"
+bgmEvents = "sound/System/Events.mp3"
+bgmStory = "sound/System/Story.mp3"
+bgmTower = "sound/System/Tower.mp3"
+bgmTourney = "sound/System/Tourney.mp3"
+bgmLegion = "sound/System/Legion.mp3"
+bgmAdventure = "sound/System/Adventure.mp3"
 
 --Select Main Menu Song
 function f_menuMusic()
-	if data.menuSong == 'Random' then
+	if data.menuSong == "Random" then
 		f_bgmrandomMenu()
 	else
 		playBGM(data.menuSong)
@@ -162,7 +162,7 @@ end
 
 --Select Character Select Song
 function f_selectMusic()
-	if data.selectSong == 'Random' then
+	if data.selectSong == "Random" then
 		--TODO
 	else
 		playBGM(data.selectSong)
@@ -171,7 +171,7 @@ end
 
 --Select Character Select (New Challenger Mode) Song
 function f_challengerMusic()
-	if data.challengerSong == 'Random' then
+	if data.challengerSong == "Random" then
 		--TODO
 	else
 		playBGM(data.challengerSong)

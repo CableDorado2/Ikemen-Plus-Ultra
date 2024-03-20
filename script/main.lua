@@ -39,10 +39,12 @@ function f_unlocksCheck()
 	assert(loadfile('save/stats_sav.lua'))()
 	if data.arcadeClear == true then --Verify if you comply with this condition and then..
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
-		--t_selChars[t_charAdd["suave dude"]+1].unlock = 1
 	end
 	if data.story1_1Unlock == true then
 		t_selStages[t_stageDef["stages/mountainside temple/lobby 2 night.def"]].unlock = 1
+	end
+	if data.story1_4AUnlock == true then
+		t_selChars[t_charAdd["suave dude"]+1].unlock = 1
 	end
 	if data.mission1Status == 1 then
 		t_selStages[t_stageDef["stages/mountainside temple/dark corridor.def"]].unlock = 1
@@ -1499,7 +1501,9 @@ end
 --;===========================================================
 t_randomMenu = {
 	{id = textImgNew(), text = 'P1 VS CPU'},
+	{id = textImgNew(), text = 'CPU VS P1'},
 	{id = textImgNew(), text = 'P1 VS P2'},
+	{id = textImgNew(), text = 'P2 VS P1'},
 	{id = textImgNew(), text = 'P1&P2 VS CPU'},
 	{id = textImgNew(), text = 'CPU VS CPU'},
 }
@@ -1563,22 +1567,46 @@ function f_randomMenu()
 			data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
 			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 1)
-			--P1 VS CPU
+			--P1 VS CPU (defeat from left side a random CPU controlled opponent)
 			if randomMenu == 1 then
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
-			--P1 VS P2
+			--CPU VS P1 (defeat from right side a random CPU controlled opponent of your choice)
 			elseif randomMenu == 2 then
-				
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p1In = 2
+				data.p2In = 2
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
-			--P1 & P2 VS CPU
+			--P1 VS P2 (fight from left side to defeat a random human opponent)
 			elseif randomMenu == 3 then
+				setHomeTeam(1)
+				data.p2In = 2
+				script.select.f_selectSimple()
+				setDiscordState("In Main Menu")
+			--P2 VS P1 (fight from right side to defeat a random human opponent)
+			elseif randomMenu == 4 then
+				setHomeTeam(2)
+				remapInput(1, 2)
+				remapInput(2, 1)
+				setCom(2, 0)
+				setPlayerSide('p1right')
+				data.p2In = 2
+				script.select.f_selectSimple()
+				resetRemapInput() --P1 get control of menus again
+				setDiscordState("In Main Menu")
+			--P1 & P2 VS CPU (team up with another player to defeat random CPU controlled opponents)
+			elseif randomMenu == 5 then
 				--script.select.f_selectSimple()
 				f_comingSoon()
 				setDiscordState("In Main Menu")
-			--CPU VS CPU
-			elseif randomMenu == 4 then
+			--CPU MATCH (watch random CPU controlled match)
+			elseif randomMenu == 6 then
+				data.aiFight = true
+				data.rosterMode = 'cpu'
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
 			end
@@ -1737,6 +1765,7 @@ function f_freeMenu()
 				data.p2In = 2
 				textImgSetText(txt_mainSelect, 'VERSUS MODE')
 				script.select.f_selectSimple()
+				resetRemapInput()
 				setDiscordState("In Main Menu")
 			--P1 & P3 VS P2 & P4 (team up with another player to defeat co-op team of human opponents)
 			elseif freeMenu == 5 then

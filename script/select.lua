@@ -1616,7 +1616,7 @@ function f_selectAdvance()
 					data.p2Faces = true
 					data.gameMode = 'versus'
 					data.rosterMode = 'versus'
-					textImgSetText(txt_mainSelect, 'VERSUS MODE')
+					textImgSetText(txt_mainSelect, 'CHALLENGER MODE')
 					f_selectSimple()
 				--Restore Arcade Data when f_selectSimple() end
 					--setDiscordState("In Arcade Mode")
@@ -2175,18 +2175,6 @@ selectCell = animNew(sysSff, [[
 150,0, 0,0, -1
 ]])
 
---P1 Random Portrait
-p1randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
-
---P1 Random Sprite
-p1randomSprite = animNew(sysSff, [[151,2, 0,0,]])
-
---P2 Random Portrait
-p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
-
---P2 Random Sprite
-p2randomSprite = animNew(sysSff, [[151,2, 0,0,]])
-
 --P1 active cursor
 p1ActiveCursor = animNew(sysSff, [[
 160,0, 0,0, -1
@@ -2539,6 +2527,8 @@ function f_selectScreen()
 		if not stageEnd then
 			f_selectStage()
 		else
+			stageMenuActive = false
+			exclusiveStageMenu = false
 			selScreenEnd = true
 		end
 	end
@@ -2851,6 +2841,18 @@ end
 --;===========================================================
 txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0, 0.8, 0.8)
 txt_p1Author = createTextImg(jgFnt, 0, 1, '', 0, 20, 0.65, 0.65)
+
+--P1 Random Portrait
+p1randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
+
+--P1 Random Sprite
+p1randomSprite = animNew(sysSff, [[151,2, 0,0,]])
+
+--P1 Big Portrait Lock
+p1portraitLock = animNew(sysSff, [[108,0, 0,0,]])
+
+--P1 Big Portrait Locked Fade Window
+p1portraitLockWindowBG = animNew(sysSff, [[3,0, 0,0, -1, 0]])
 
 function f_p1charAnnouncer()
 	if f_getName(p1Cell) == 'Kung Fu Man' then
@@ -3197,6 +3199,54 @@ function f_p1SelectMenu()
 							--else
 								--f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 132, 85, true, 0.5, 0.5) --Draw Stand Animation preview out of BG Position
 							end
+						end
+					end
+				--DRAW LOCKED CHAR STUFF
+					if t_selChars[p1Cell+1].unlock == 0 then --If the character is locked draw special stuff
+						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						--SINGLE MODE
+							if p1numChars == 1 then
+								f_drawQuickSpr(p1portraitLockWindowBG, 0, 20, 120, 140, 256, 102)
+								f_drawQuickSpr(p1portraitLock, 24.5, 50, 0.20, 0.20)
+						--TEAM MODE WITH 2 MEMBERS
+							elseif p1numChars == 2 then
+								if p1memberPreview == 1 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 0, 20, 120, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 42, 36, 0.10, 0.10)
+								elseif p1memberPreview == 2 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 0, 90, 120, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 42, 106, 0.10, 0.10)
+								end
+						--TEAM MODE WITH 3 MEMBERS
+							elseif p1numChars == 3 then
+								if p1memberPreview == 1 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 0, 20, 120, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 42, 36, 0.10, 0.10)
+								elseif p1memberPreview == 2 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 0, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 12, 106, 0.10, 0.10)
+								elseif p1memberPreview == 3 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 60, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 72, 106, 0.10, 0.10)
+								end
+						--TEAM MODE WITH 4 MEMBERS
+							elseif p1numChars == 4 then
+								if p1memberPreview == 1 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 0, 20, 60, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 12, 36, 0.10, 0.10)
+								elseif p1memberPreview == 2 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 60, 20, 60, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 72, 36, 0.10, 0.10)
+								elseif p1memberPreview == 3 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 0, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 12, 106, 0.10, 0.10)
+								elseif p1memberPreview == 4 then
+									f_drawQuickSpr(p1portraitLockWindowBG, 60, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p1portraitLock, 72, 106, 0.10, 0.10)
+								end
+							end
+						elseif data.charPresentation == 'Sprite' then
+							f_drawQuickSpr(p1portraitLock, 20 + 28*#data.t_p1selected, 75, 0.15, 0.15)
 						end
 					end
 				end
@@ -3907,8 +3957,15 @@ function f_p1SelectMenu()
 				f_p1sideReset()
 			end
 			if commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') then
-				f_p1Selection()
+				if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 then --This character is unlocked
+					f_p1Selection()
+				elseif t_selChars[p1Cell+1].unlock == 0 then --Character locked if unlock=0 paramvalue is in Character section of select.def
+					sndPlay(sysSnd, 100, 5)
+				end
 			elseif selectTimer == 0 then
+				if t_selChars[p1Cell+1].unlock == 0 then --Select random character to prevent issues when time to select is over
+					p1Cell = t_randomChars[math.random(#t_randomChars)]
+				end
 				f_p1Selection()
 			end
 			if data.debugLog then
@@ -3920,61 +3977,57 @@ end
 
 --Actions when you select a Character
 function f_p1Selection()
-	if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 then --This character is unlocked
-		sndPlay(sysSnd, 100, 1)
-		local cel = p1Cell
-		if getCharName(cel) == 'Random' then
-			randomP1Rematch = true
-			cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
-			if p1memberPreview == 1 then p1member1Random = true	end
-			if p1memberPreview == 2 then p1member2Random = true	end
-			if p1memberPreview == 3 then p1member3Random = true	end
-			if p1memberPreview == 4 then p1member4Random = true	end
-		else
-			f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
-		end
-		--Change p1memberPreview on each char selection
-		if p1numChars > 1 and not data.coop then --For Team Modes
-			if p1memberPreview == 1 then p1memberPreview = 2
-			elseif p1memberPreview == 2 then p1memberPreview = 3
-			elseif p1memberPreview == 3 then p1memberPreview = 4
-			elseif p1memberPreview == 4 then p1memberPreview = 1 --To Restart
-			end
-		end
-		local updateAnim = true
-		for i=1, #data.t_p1selected do
-			if data.t_p1selected[i].cel == p1Cell then 
-				updateAnim = false
-			end
-		end
-		if data.palType == 'Classic' then
-			p1palSelect = btnPalNo(p1Cmd)
-			if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
-		elseif data.palType == 'Modern' then
-			p1palSelect = p1palSelect
-		end
-		if data.coop then
-			data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
-			p1SelEnd = true
-		else
-			data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
-			if #data.t_p1selected == p1numChars then
-				if data.p2In == 1 and matchNo == 0 then
-					p2TeamEnd = false
-					p2SelEnd = false
-					--commandBufReset(p2Cmd)
-				elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
-					p2TeamEnd = false
-					p2SelEnd = false
-					--commandBufReset(p2Cmd)
-				end
-				p1SelEnd = true
-			end
-		end
-		cmdInput()
-	elseif t_selChars[p1Cell+1].unlock == 0 then --Character locked if unlock=0 paramvalue is in Character section of select.def
-		sndPlay(sysSnd, 100, 5)
+	sndPlay(sysSnd, 100, 1)
+	local cel = p1Cell
+	if getCharName(cel) == 'Random' then
+		randomP1Rematch = true
+		cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
+		if p1memberPreview == 1 then p1member1Random = true	end
+		if p1memberPreview == 2 then p1member2Random = true	end
+		if p1memberPreview == 3 then p1member3Random = true	end
+		if p1memberPreview == 4 then p1member4Random = true	end
+	else
+		f_p1charAnnouncer() --Character Voice when is selected Example for Player 1 Side
 	end
+	--Change p1memberPreview on each char selection
+	if p1numChars > 1 and not data.coop then --For Team Modes
+		if p1memberPreview == 1 then p1memberPreview = 2
+		elseif p1memberPreview == 2 then p1memberPreview = 3
+		elseif p1memberPreview == 3 then p1memberPreview = 4
+		elseif p1memberPreview == 4 then p1memberPreview = 1 --To Restart
+		end
+	end
+	local updateAnim = true
+	for i=1, #data.t_p1selected do
+		if data.t_p1selected[i].cel == p1Cell then 
+			updateAnim = false
+		end
+	end
+	if data.palType == 'Classic' then
+		p1palSelect = btnPalNo(p1Cmd)
+		if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
+	elseif data.palType == 'Modern' then
+		p1palSelect = p1palSelect
+	end
+	if data.coop then
+		data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim}
+		p1SelEnd = true
+	else
+		data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+		if #data.t_p1selected == p1numChars then
+			if data.p2In == 1 and matchNo == 0 then
+				p2TeamEnd = false
+				p2SelEnd = false
+				--commandBufReset(p2Cmd)
+			elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
+				p2TeamEnd = false
+				p2SelEnd = false
+				--commandBufReset(p2Cmd)
+			end
+			p1SelEnd = true
+		end
+	end
+	cmdInput()
 end
 
 --;===========================================================
@@ -4245,6 +4298,18 @@ end
 --;===========================================================
 txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0, 0.8, 0.8)
 txt_p2Author = createTextImg(jgFnt, 0, -1, '', 320, 20, 0.65, 0.65)
+
+--P2 Random Portrait
+p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
+
+--P2 Random Sprite
+p2randomSprite = animNew(sysSff, [[151,2, 0,0,]])
+
+--P2 Big Portrait Lock
+p2portraitLock = animNew(sysSff, [[108,0, -320,0,]])
+
+--P2 Big Portrait Locked Fade Window
+p2portraitLockWindowBG = animNew(sysSff, [[3,0, -1, 0,]])
 
 function f_p2charAnnouncer()
 	if f_getName(p2Cell) == 'Kung Fu Man' then
@@ -4590,6 +4655,49 @@ function f_p2SelectMenu()
 							--else
 								--f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 132, 105, true, 0.5, 0.5)
 							end
+						end
+					end
+					if t_selChars[p2Cell+1].unlock == 0 then
+						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+							if p2numChars == 1 then
+								f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 120, 140, 256, 102)
+								f_drawQuickSpr(p2portraitLock, 295.5, 50, 0.20, 0.20)
+							elseif p2numChars == 2 then
+								if p2memberPreview == 1 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 120, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 278, 36, 0.10, 0.10)
+								elseif p2memberPreview == 2 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 320, 90, 120, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 278, 106, 0.10, 0.10)
+								end
+							elseif p2numChars == 3 then
+								if p2memberPreview == 1 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 120, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 278, 36, 0.10, 0.10)
+								elseif p2memberPreview == 2 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 320, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 308, 106, 0.10, 0.10)
+								elseif p2memberPreview == 3 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 260, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 248, 106, 0.10, 0.10)
+								end
+							elseif p2numChars == 4 then
+								if p2memberPreview == 1 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 60, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 308, 36, 0.10, 0.10)
+								elseif p2memberPreview == 2 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 260, 20, 60, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 248, 36, 0.10, 0.10)
+								elseif p2memberPreview == 3 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 320, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 308, 106, 0.10, 0.10)
+								elseif p2memberPreview == 4 then
+									f_drawQuickSpr(p2portraitLockWindowBG, 260, 90, 60, 70, 256, 102)
+									f_drawQuickSpr(p2portraitLock, 248, 106, 0.10, 0.10)
+								end
+							end
+						elseif data.charPresentation == 'Sprite' then
+							f_drawQuickSpr(p2portraitLock, 300 - 28*#t_selected, 75, 0.15, 0.15)
 						end
 					end
 				end
@@ -5250,8 +5358,15 @@ function f_p2SelectMenu()
 				f_p2sideReset()
 			end
 			if commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') then
-				f_p2Selection()
+				if t_selChars[p2Cell+1].unlock == nil or t_selChars[p2Cell+1].unlock == 1 then
+					f_p2Selection()
+				elseif t_selChars[p2Cell+1].unlock == 0 then
+					sndPlay(sysSnd, 100, 5)
+				end
 			elseif selectTimer == 0 then
+				if t_selChars[p2Cell+1].unlock == 0 then
+					p2Cell = t_randomChars[math.random(#t_randomChars)]
+				end
 				f_p2Selection()
 			end
 			if data.debugLog then
@@ -5818,8 +5933,13 @@ function f_selectStage()
 				if t_selStages[stageList].unlock == nil or t_selStages[stageList].unlock == 1 then --This stage is unlocked
 					stageChosen = true
 				elseif t_selStages[stageList].unlock == 0 then  --stage locked if unlock=0 paramvalue is in ExtraStages section of select.def
-					stageChosen = false
-					sndPlay(sysSnd, 100, 5)
+					if stageTimer == 0 then --Select Random Stage to prevent issues when time to select is over
+						stageList = 0
+						stageChosen = true
+					else
+						stageChosen = false
+						sndPlay(sysSnd, 100, 5)
+					end
 				end
 			end
 		--After to verifications, this is the true selection
