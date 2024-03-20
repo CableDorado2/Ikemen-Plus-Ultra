@@ -370,6 +370,182 @@ function f_infoboxReset()
 end
 
 --;===========================================================
+--; SIDE SELECT SCREEN
+--;===========================================================
+txt_sideTitle = createTextImg(font14, 0, 0, 'SIDE SELECT', 157, 8, 0.9, 0.9)
+
+--Left Arrow for Player 1 Controller
+p1arrowL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(p1arrowL, 67, 227.5)
+animUpdate(p1arrowL)
+animSetScale(p1arrowL, 0.5, 0.5)
+
+--Left Arrow for Player 2 Controller
+p2arrowL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(p2arrowL, 194, 227.5)
+animUpdate(p2arrowL)
+animSetScale(p2arrowL, 0.5, 0.5)
+
+--Right Arrow for Player 1 Controller
+p1arrowR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(p1arrowR, 115, 227.5)
+animUpdate(p1arrowR)
+animSetScale(p1arrowR, 0.5, 0.5)
+
+--Right Arrow for Player 2 Controller
+p2arrowR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(p2arrowR, 242, 227.5)
+animUpdate(p2arrowR)
+animSetScale(p2arrowR, 0.5, 0.5)
+
+--Gamepad Icon
+gamepadIcon = animNew(sysSff, [[
+20,0, 0,0,
+]])
+animSetPos(gamepadIcon, 86, 88)
+animUpdate(gamepadIcon)
+animSetScale(gamepadIcon, 0.10, 0.10)
+
+function f_sideSelect()
+	cmdInput()
+	--P1 Cursor Position
+	if commandGetState(p1Cmd, 'l') then
+		if p1Side > -1 then
+			sndPlay(sysSnd, 100, 0)
+			p1Side = p1Side - 1
+		end
+	elseif commandGetState(p1Cmd, 'r') then
+		if p1Side < 1 then
+			sndPlay(sysSnd, 100, 0)
+			p1Side = p1Side + 1
+		end
+	end
+	--P2 Cursor Position
+	if commandGetState(p2Cmd, 'l') then
+		if p2Side > -1 then
+			sndPlay(sysSnd, 100, 0)
+			p2Side = p2Side - 1
+		end
+	elseif commandGetState(p2Cmd, 'r') then
+		if p2Side < 1 then
+			sndPlay(sysSnd, 100, 0)
+			p2Side = p2Side + 1
+		end
+	end
+	--Draw Fade BG
+	animDraw(fadeWindowBG)
+	--Draw Screen Title
+	textImgDraw(txt_sideTitle)
+	--Draw Arrows
+	animUpdate(p1arrowL)
+	animDraw(p1arrowL)
+	animUpdate(p1arrowR)
+	animDraw(p1arrowR)
+	--
+	animUpdate(p2arrowL)
+	animDraw(p2arrowL)
+	animUpdate(p2arrowR)
+	animDraw(p2arrowR)
+	--Draw Gamepad Icons
+	animDraw(gamepadIcon)
+	--Actions
+	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+		sndPlay(sysSnd, 100, 2)
+		f_sideReset()
+	elseif btnPalNo(p1Cmd) > 0 then
+		--Reference: -1 (Left Side), 0 (No Side), 1 (Right Side)
+		--CPU VS CPU
+		if p1Side == 0 and p2Side == 0 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--P1 & P2 VS CPU
+		if p1Side == -1 and p2Side == -1 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--CPU VS P1 & P2
+		if p1Side == 1 and p2Side == 1 then
+			sndPlay(sysSnd, 100, 5) --Not available yet
+		end
+		--P1 VS CPU
+		if p1Side == -1 and p2Side == 0 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--P2 VS CPU
+		if p2Side == -1 and p1Side == 0 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--CPU VS P1
+		if p2Side == 0 and p1Side == 1 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--CPU VS P2
+		if p1Side == 0 and p2Side == 1 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--P1 VS P2
+		if p1Side == -1 and p2Side == 1 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		--P2 VS P1
+		if p2Side == -1 and p1Side == 1 then
+			sndPlay(sysSnd, 100, 1)
+			
+		end
+		f_sideReset()
+	end
+	cmdInput()
+end
+
+function f_sideReset()
+	sideScreen = false
+	p1Side = 0 --P1 Cursor pos in Middle
+	p2Side = 0 --P2 Cursor pos in Middle
+end
+
+--;===========================================================
 --; LOGOS SCREEN
 --;===========================================================
 function f_mainLogos()
@@ -1397,55 +1573,62 @@ function f_vsMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_sideReset()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			vsMenu = vsMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			vsMenu = vsMenu + 1
-		end
-		if vsMenu < 1 then
-			vsMenu = #t_vsMenu
-			if #t_vsMenu > 5 then
-				cursorPosY = 5
+		if not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') then
+				sndPlay(sysSnd, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				vsMenu = vsMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				vsMenu = vsMenu + 1
+			end
+			if vsMenu < 1 then
+				vsMenu = #t_vsMenu
+				if #t_vsMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_vsMenu-1
+				end
+			elseif vsMenu > #t_vsMenu then
+				vsMenu = 1
+				cursorPosY = 0
+			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (vsMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (vsMenu - 1) * 13
+			end
+			if #t_vsMenu <= 5 then
+				maxVSMenu = #t_vsMenu
+			elseif vsMenu - cursorPosY > 0 then
+				maxVSMenu = vsMenu + 5 - cursorPosY
 			else
-				cursorPosY = #t_vsMenu-1
+				maxVSMenu = 5
 			end
-		elseif vsMenu > #t_vsMenu then
-			vsMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (vsMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (vsMenu - 1) * 13
-		end
-		if #t_vsMenu <= 5 then
-			maxVSMenu = #t_vsMenu
-		elseif vsMenu - cursorPosY > 0 then
-			maxVSMenu = vsMenu + 5 - cursorPosY
-		else
-			maxVSMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			f_default()
-			sndPlay(sysSnd, 100, 1)
-			--QUICK VERSUS (play a random fight)
-			if vsMenu == 1 then
-				f_randomMenu()
-			--FREE BATTLE (play fights with your own rules)
-			elseif vsMenu == 2 then
-				f_freeMenu()
+			if btnPalNo(p1Cmd) > 0 then
+				f_default()
+				sndPlay(sysSnd, 100, 1)
+				--QUICK VERSUS (play a random fight)
+				if vsMenu == 1 then
+					--if data.sideSelect == true then
+						sideScreen = true
+					--else
+						--f_randomMenu()
+					--end
+				--FREE BATTLE (play fights with your own rules)
+				elseif vsMenu == 2 then
+					f_freeMenu()
+				end
 			end
-		end	
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_vsMenu do
 			if i == vsMenu then
@@ -1479,6 +1662,7 @@ function f_vsMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if sideScreen then f_sideSelect() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1610,7 +1794,7 @@ function f_randomMenu()
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
 			end
-		end	
+		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
 		for i=1, #t_randomMenu do
 			if i == randomMenu then
