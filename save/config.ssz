@@ -1,11 +1,11 @@
 //Video Settings
-const int Width = 1280;
-const int Height = 720;
+const int Width = 1024;
+const int Height = 768;
 const bool FullScreen = false;
 const bool FullScreenReal = false;
 const bool WindowBordered = true;
 const bool WindowResizable = false;
-const bool AspectRatio = true;
+const bool AspectRatio = false;
 const bool OpenGL = false;
 
 //Audio Settings
@@ -33,6 +33,7 @@ const ^/char Executable = "Ikemen Plus Ultra.exe";
 const ^/char WindowTitle = "I.K.E.M.E.N. PLUS ULTRA";
 const ^/char listenPort = "7500";
 const ^/char UserName = "CableDorado2";
+const ^/char ScreenshotDir = "screenshots/hola.png";
 const ^/char system = "script/main.lua";
 const ^/char GlobalMatch = "data/match.cns";
 const ^/char GlobalCommands = "data/common.cmd";

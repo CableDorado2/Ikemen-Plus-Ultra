@@ -372,78 +372,68 @@ end
 --;===========================================================
 --; SIDE SELECT SCREEN
 --;===========================================================
-txt_sideTitle = createTextImg(font14, 0, 0, 'SIDE SELECT', 157, 8, 0.9, 0.9)
-
---Left Arrow for Player 1 Controller
-p1arrowL = animNew(sysSff, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(p1arrowL, 67, 227.5)
-animUpdate(p1arrowL)
-animSetScale(p1arrowL, 0.5, 0.5)
-
---Left Arrow for Player 2 Controller
-p2arrowL = animNew(sysSff, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(p2arrowL, 194, 227.5)
-animUpdate(p2arrowL)
-animSetScale(p2arrowL, 0.5, 0.5)
-
---Right Arrow for Player 1 Controller
-p1arrowR = animNew(sysSff, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(p1arrowR, 115, 227.5)
-animUpdate(p1arrowR)
-animSetScale(p1arrowR, 0.5, 0.5)
-
---Right Arrow for Player 2 Controller
-p2arrowR = animNew(sysSff, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(p2arrowR, 242, 227.5)
-animUpdate(p2arrowR)
-animSetScale(p2arrowR, 0.5, 0.5)
+txt_sideTitle = createTextImg(font14, 0, 0, "SIDE SELECT", 157, 8, 0.9, 0.9)
 
 --Gamepad Icon
-gamepadIcon = animNew(sysSff, [[
-20,0, 0,0,
+gamepadIcon = animNew(sysSff, [[20,0, 0,0,]])
+
+--Left Arrows
+L_arrow = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
 ]])
-animSetPos(gamepadIcon, 86, 88)
-animUpdate(gamepadIcon)
-animSetScale(gamepadIcon, 0.10, 0.10)
+
+--Right Arrows
+R_arrow = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
 
 function f_sideSelect()
-	cmdInput()
+	--controller icon config
+	local p1gamepadPosY = 86.5
+	local p2gamepadPosY = 150
+	local gamepadScale = 0.10
+	--text config
+	local p1txtPosY = 88
+	local p2txtPosY = 152
+	local txtScale = 0.7
+	local txtFont = font13
+	local txtP1name = "PLAYER 1"
+	local txtP2name = "PLAYER 2"
+	local txtP1color = 0
+	local txtP2color = 1
+	--arrows confg
+	local p1arrowPosY = 107.5
+	local p2arrowPosY = 167.5
+	local arrowScale = 0.5
+	--Center X Position
+	local gamepadPosXcenter = 122
+	local txtPosXcenter = 159
+	local arrowLposXcenter = 104
+	local arrowRposXcenter = 205
+	--Left X Position
+	local gamepadPosXleft = 5
+	local txtPosXleft = 42
+	--local arrowRposXleft = 
+	--Right X Position
+	local gamepadPosXright = 240
+	local txtPosXright = 277
+	--local arrowLposXright = 
+	cmdInput() --Read Inputs
+	data.p2In = 2 --Activate Player 2 Control
 	--P1 Cursor Position
 	if commandGetState(p1Cmd, 'l') then
 		if p1Side > -1 then
@@ -472,23 +462,44 @@ function f_sideSelect()
 	animDraw(fadeWindowBG)
 	--Draw Screen Title
 	textImgDraw(txt_sideTitle)
-	--Draw Arrows
-	animUpdate(p1arrowL)
-	animDraw(p1arrowL)
-	animUpdate(p1arrowR)
-	animDraw(p1arrowR)
-	--
-	animUpdate(p2arrowL)
-	animDraw(p2arrowL)
-	animUpdate(p2arrowR)
-	animDraw(p2arrowR)
-	--Draw Gamepad Icons
-	animDraw(gamepadIcon)
+	--Draw Side Texts
+	f_drawQuickText(txt_sideInfo, font6, 0, 0, "LEFT SIDE", 42, 38, 0.9, 0.9)
+	f_drawQuickText(txt_sideInfo, font6, 0, 0, "RIGHT SIDE", 277, 38, 0.9, 0.9)
+	--Draw P1 Assets
+	if p1Side == 0 then --Draw in Middle
+		f_drawQuickSpr(gamepadIcon, gamepadPosXcenter, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
+		f_drawQuickSpr(L_arrow, arrowLposXcenter, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
+		f_drawQuickSpr(R_arrow, arrowRposXcenter, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
+		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXcenter, p1txtPosY, txtScale, txtScale) --Player ID
+	elseif p1Side == -1 then --Draw in Left
+		f_drawQuickSpr(gamepadIcon, gamepadPosXleft, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
+		--f_drawQuickSpr(R_arrow, arrowRposXleft, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
+		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXleft, p1txtPosY, txtScale, txtScale) --Player ID
+	elseif p1Side == 1 then --Draw in Right
+		f_drawQuickSpr(gamepadIcon, gamepadPosXright, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
+		--f_drawQuickSpr(L_arrow, arrowLposXright, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
+		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXright, p1txtPosY, txtScale, txtScale) --Player ID
+	end
+	--Draw P2 Assets
+	if p2Side == 0 then
+		f_drawQuickSpr(gamepadIcon, gamepadPosXcenter, p2gamepadPosY, gamepadScale, gamepadScale)
+		f_drawQuickSpr(L_arrow, arrowLposXcenter, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(R_arrow, arrowRposXcenter, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXcenter, p2txtPosY, txtScale, txtScale)
+	elseif p2Side == -1 then
+		f_drawQuickSpr(gamepadIcon, gamepadPosXleft, p2gamepadPosY, gamepadScale, gamepadScale)
+		--f_drawQuickSpr(R_arrow, arrowRposXleft, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXleft, p2txtPosY, txtScale, txtScale)
+	elseif p2Side == 1 then
+		f_drawQuickSpr(gamepadIcon, gamepadPosXright, p2gamepadPosY, gamepadScale, gamepadScale)
+		--f_drawQuickSpr(L_arrow, arrowLposXright, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXright, p2txtPosY, txtScale, txtScale)
+	end
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
 		f_sideReset()
-	elseif btnPalNo(p1Cmd) > 0 then
+	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--Reference: -1 (Left Side), 0 (No Side), 1 (Right Side)
 		--CPU VS CPU
 		if p1Side == 0 and p2Side == 0 then

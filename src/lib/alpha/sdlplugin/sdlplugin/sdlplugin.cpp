@@ -1406,7 +1406,7 @@ void OnChar(HWND hwndDirectShow, wchar_t c)
 	RECT rc;
 	GetClientRect(hwndDirectShow, &rc);
 
-	//Start
+	//Start/Enter Button
 	switch (c)
 	{
 	case VK_RETURN:
