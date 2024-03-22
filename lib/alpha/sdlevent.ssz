@@ -82,10 +82,10 @@ public bool eventUpdate()
             .paste = true;
         }
       else:
-		switch(.sdle.key.keysym.sym){ //Take Global Screenshots
-        case .sdl.K::F12:
-		  .sdl.takeScreenShot(.cfg.ScreenshotDir);
-        }
+		//switch(.sdle.key.keysym.sym){ //Take Global Screenshots
+        //case .sdl.K::PRINTSCREEN:
+		  //.sdl.takeScreenShot(.cfg.ScreenshotDir);
+        //}
 		switch(.sdle.key.keysym.sym){
         case .sdl.K::ESCAPE:
           .esc = true;

@@ -511,6 +511,43 @@ void UpdateDiscordPresence()
 	}
 }
 
+/* Understand this event_handlers example to update the discordPresence.items
+
+You could define different function types for different events:
+
+typedef void (*quit_handler_t)(void);
+typedef void (*keydown_handler_t)(SDL_Keycode);
+typedef void (*keyup_handler_t)(SDL_Keycode);
+
+That is, the handler for quitting takes no arguments, whereas those for a key going up and down takes an argument that represents the corresponding key.
+
+Then, you provide the client with a struct, event_handlers, that contains pointers to the event handlers and the end-user is supposed to populate:
+
+struct {
+   quit_handler_t    quit;
+   keydown_handler_t keydown;
+   keyup_handler_t   keyup;
+} event_handlers;
+Finally, the game engine's loop for processing the events call those functions through the callbacks that were set up by the user:
+
+SDL_Event e;
+while (!quit && SDL_PollEvent(&e)) {
+   switch(e.type) {
+   case SDL_QUIT:
+      event_handlers.quit();
+      break;
+   case SDL_KEYDOWN:
+      event_handlers.keydown(e.key.keysym.sym);
+      break;
+   case SDL_KEYUP:
+      event_handlers.keyup(e.key.keysum.sym);
+      break;
+   }
+}
+Note that could also initialize the event_handler struct with default event handlers.
+The end-user would be able to override that default behavior by modifying the members of event_handler.
+*/
+
 TUserFunc(void, DiscordUpdate)
 {
 	if (SendPresence) {
@@ -1400,22 +1437,72 @@ void CALLBACK OnGraphEvent(HWND hwndDirectShow, long evCode, LONG_PTR param1, LO
 	}
 }
 
+void EndVideo()
+{
+	videoChecker = false;
+	g_pPlayer->Stop();
+	delete g_pPlayer;
+	
+}
+
+bool KeyPressed(int k) //Get ID of Key Pressed
+{
+    if(GetAsyncKeyState(k)& 0x8000)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void OnChar(HWND hwndDirectShow, wchar_t c)
 {
 	//Rect Info
 	RECT rc;
 	GetClientRect(hwndDirectShow, &rc);
 
-	//Start/Enter Button
-	switch (c)
+	/*
+	SDL_Event ev;
+	switch (ev.type)
 	{
-	case VK_RETURN:
-		videoChecker = false;
-		g_pPlayer->Stop();
-		delete g_pPlayer;
+	case SDL_QUIT: //When you close the window
+		EndVideo();
 		DestroyWindow(hwndDirectShow);
 		PostQuitMessage(0);
 		break;
+	}
+	*/
+	
+	//Skip Buttons
+	switch (c)
+	{
+	//VK Keys: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+	case VK_RETURN: //Enter Key
+		EndVideo();
+		DestroyWindow(hwndDirectShow);
+		PostQuitMessage(0);
+		break;
+	case VK_ESCAPE: //Esc Key
+		EndVideo();
+		DestroyWindow(hwndDirectShow);
+		PostQuitMessage(0);
+		break;
+	case VK_BACK: //Backspace Key
+		EndVideo();
+		DestroyWindow(hwndDirectShow);
+		PostQuitMessage(0);
+		break;
+	case VK_F4: //F4 Key
+		if(KeyPressed(VK_LMENU)) // is the menu/alt key being held down?
+        {
+			// here, Alt+F4 was pressed
+			EndVideo();
+			DestroyWindow(hwndDirectShow);
+			PostQuitMessage(0);
+			break;
+        }
 	}
 }
 

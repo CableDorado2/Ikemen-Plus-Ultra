@@ -12,6 +12,7 @@ data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
 data.pauseMode = "Yes"
+data.sideSelect = "Modern"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Sprite"
