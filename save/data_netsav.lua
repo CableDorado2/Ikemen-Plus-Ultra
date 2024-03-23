@@ -43,8 +43,8 @@ data.zoomSpeed = 1
 --Character Select Data
 data.selectType = "Fixed"
 data.palType = "Classic"
-data.randomPortrait = "Simple"
-data.training = "Free"
+data.randomPortrait = "Fixed"
+data.training = "Fixed"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
 --Stage Select Data
@@ -53,8 +53,8 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = 31
-data.stageTime = 21
+data.selectTime = 11
+data.stageTime = 11
 data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16

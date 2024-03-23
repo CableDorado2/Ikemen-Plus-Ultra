@@ -46,14 +46,10 @@ if data.pauseMode == 'No' then
 addHotkey('PAUSE', false, false, false, 'togglePause()') --Pause the game as MUGEN way
 end
 addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game as IKEMEN way
-addHotkey('PRINTSCREEN', false, false, false, 'takeScreenshotVS()') --Takes a screenshot and saves it to "screenshots" folder
+addHotkey('PRINTSCREEN', false, false, false, 'f_screenShot()') --Takes a screenshot and saves it to "screenshots" folder
 
 function pauseMenu(p, st, esc)
   script.pause.f_pauseMain(p, st, esc)
-end
-
-function takeScreenshotVS()
-	f_screenShot()
 end
 
 speed = 1.0

@@ -10,8 +10,8 @@ const bool OpenGL = false;
 
 //Audio Settings
 const float GlVol = 0.8;
-const float SEVol = 0.36;
-const float BGMVol = 0.24;
+const float SEVol = 0.56;
+const float BGMVol = 0;
 const float PanStr = 0.8;
 
 //Perfomance Settings
@@ -33,6 +33,7 @@ const ^/char Executable = "Ikemen Plus Ultra.exe";
 const ^/char WindowTitle = "I.K.E.M.E.N. PLUS ULTRA";
 const ^/char listenPort = "7500";
 const ^/char UserName = "CableDorado2";
+//const ^/char ScreenshotDir = "screenshots/Test.png";
 const ^/char system = "script/main.lua";
 const ^/char GlobalMatch = "data/match.cns";
 const ^/char GlobalCommands = "data/common.cmd";

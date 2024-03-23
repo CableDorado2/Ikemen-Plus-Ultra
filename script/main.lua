@@ -58,6 +58,22 @@ function f_unlocksCheck()
 	f_updateLogs()
 end
 
+function f_gameState()
+if data.arcadeClear == true then arcadeProgress = 1 elseif data.arcadeClear == false then arcadeProgress = 0 end
+if data.survivalClear == true then survivalProgress = 1 elseif data.survivalClear == false then survivalProgress = 0 end
+gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress + (data.storiesProgress/100))
+gameData = (math.floor((gameProgress * 100 / 11) + 0.5))
+--[[
+The number (11) is the sumation of true amount of all gameProgress values:
+(arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 3 + data.storiesProgress = 3)
+]]
+end
+
+function f_progress()
+	txt_gameStatus = createTextImg(font14, 0, 0, gameData.."%/100%", 157, 8)
+	textImgDraw(txt_gameStatus)
+end
+
 --;===========================================================
 --; MAIN MENU SCREENPACK
 --;===========================================================
@@ -1032,7 +1048,7 @@ end
 --; SIDE SELECT SCREEN
 --;===========================================================
 txt_sideTitle = createTextImg(font14, 0, 0, "SIDE SELECT", 157, 8, 0.9, 0.9)
-txt_sideWarning = createTextImg(font14, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 300, 0.9, 0.9)
+txt_sideWarning = createTextImg(font6, 0, 0, "THE SIDE SELECTED IS NOT ALLOWED FOR THIS GAME MODE", 157, 230, 0.75, 0.75)
 
 --Gamepad Icon
 gamepadIcon = animNew(sysSff, [[20,0, 0,0,]])
@@ -1090,14 +1106,13 @@ function f_sideSelect()
 	--Left X Position
 	local gamepadPosXleft = 5
 	local txtPosXleft = 42
-	--local arrowRposXleft = 
+	local arrowRposXleft = 88.5
 	--Right X Position
 	local gamepadPosXright = 240
 	local txtPosXright = 277
-	--local arrowLposXright = 
+	local arrowLposXright = 220
 	local function f_cpuL() f_drawQuickText(txt_sideCPU, font14, 0, 0, "CPU", txtPosXleft, 120) end
 	local function f_cpuR() f_drawQuickText(txt_sideCPU, font14, 0, 0, "CPU", txtPosXright, 120) end
-	local sideWarning = false
 	cmdInput() --Read Inputs
 	data.p2In = 2 --Activate Player 2 Control
 	--P1 Cursor Position
@@ -1165,7 +1180,7 @@ function f_sideSelect()
 		f_cpuL()
 	end
 	--Draw Lifebars
-	f_drawQuickSpr(lifebarsImg, 3.5, 30, 0.25, 0.25)
+	f_drawQuickSpr(lifebarsImg, 3.5, 30, 0.25, 0.25, 200)
 	--Draw P1 Assets
 	if p1Side == 0 then --Draw in Middle
 		f_drawQuickSpr(gamepadIcon, gamepadPosXcenter, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
@@ -1174,11 +1189,11 @@ function f_sideSelect()
 		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXcenter, p1txtPosY, txtScale, txtScale) --Player ID
 	elseif p1Side == -1 then --Draw in Left
 		f_drawQuickSpr(gamepadIcon, gamepadPosXleft, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
-		--f_drawQuickSpr(R_arrow, arrowRposXleft, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
+		f_drawQuickSpr(R_arrow, arrowRposXleft, p1arrowPosY, arrowScale, arrowScale) --Right Arrow
 		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXleft, p1txtPosY, txtScale, txtScale) --Player ID
 	elseif p1Side == 1 then --Draw in Right
 		f_drawQuickSpr(gamepadIcon, gamepadPosXright, p1gamepadPosY, gamepadScale, gamepadScale) --Gamepad
-		--f_drawQuickSpr(L_arrow, arrowLposXright, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
+		f_drawQuickSpr(L_arrow, arrowLposXright, p1arrowPosY, arrowScale, arrowScale) --Left Arrow
 		f_drawQuickText(txt_sidePNo, txtFont, txtP1color, 0, txtP1name, txtPosXright, p1txtPosY, txtScale, txtScale) --Player ID
 	end
 	--Draw P2 Assets
@@ -1189,11 +1204,11 @@ function f_sideSelect()
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXcenter, p2txtPosY, txtScale, txtScale)
 	elseif p2Side == -1 then
 		f_drawQuickSpr(gamepadIcon, gamepadPosXleft, p2gamepadPosY, gamepadScale, gamepadScale)
-		--f_drawQuickSpr(R_arrow, arrowRposXleft, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(R_arrow, arrowRposXleft, p2arrowPosY, arrowScale, arrowScale)
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXleft, p2txtPosY, txtScale, txtScale)
 	elseif p2Side == 1 then
 		f_drawQuickSpr(gamepadIcon, gamepadPosXright, p2gamepadPosY, gamepadScale, gamepadScale)
-		--f_drawQuickSpr(L_arrow, arrowLposXright, p2arrowPosY, arrowScale, arrowScale)
+		f_drawQuickSpr(L_arrow, arrowLposXright, p2arrowPosY, arrowScale, arrowScale)
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXright, p2txtPosY, txtScale, txtScale)
 	end
 	--Draw Side Warning Message
@@ -1335,6 +1350,7 @@ end
 function f_sideReset()
 	sideScreen = false
 	sideSelected = false
+	sideWarning = false
 	p1Side = 0 --P1 Cursor pos in Middle
 	p2Side = 0 --P2 Cursor pos in Middle
 end
@@ -1369,6 +1385,7 @@ function f_mainMenu()
 	local bufr = 0
 	local bufl = 0
 	closeText = 1
+	f_gameState()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
@@ -1503,6 +1520,7 @@ function f_mainMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		f_sysTime()
+		--f_progress()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, 'MAIN MENU')

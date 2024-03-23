@@ -434,7 +434,7 @@ function btnPalNo(cmd)
 	if commandGetState(cmd, 'x') then return 4 + s end
 	if commandGetState(cmd, 'y') then return 5 + s end
 	if commandGetState(cmd, 'z') then return 6 + s end
-	if commandGetState(cmd, 'w') then return 1 + s end --Not is in the correct place, just for don't rewrite it in each menu
+	if commandGetState(cmd, 'w') then return 1 + s end --It is not in the correct place, this is just to don't rewrite it in each menu
 	return 0
 end
 

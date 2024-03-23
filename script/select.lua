@@ -1045,6 +1045,9 @@ function f_selectSimple()
 					f_loadStage()
 					f_loadSong()
 				end
+			--For Challenger Route in Arcade Mode
+			elseif data.gameMode == 'challenger' then
+				break
 			--For Missions, Events or Quick Match Modes
 			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' or data.gameMode == 'quick match' then
 				if data.rosterMode == 'event' then
@@ -1614,14 +1617,20 @@ function f_selectAdvance()
 					data.p2In = 2
 					data.stageMenu = true
 					data.p2Faces = true
-					data.gameMode = 'versus'
+					data.gameMode = 'challenger'
 					data.rosterMode = 'versus'
 					textImgSetText(txt_mainSelect, 'CHALLENGER MODE')
 					f_selectSimple()
 				--Restore Arcade Data when f_selectSimple() end
 					--setDiscordState("In Arcade Mode")
+					sndPlay(sysSnd, 100, 5)
+					f_default()
+					setGameMode('arcade')
+					data.gameMode = 'arcade'
+					data.rosterMode = 'arcade'
+					data.serviceScreen = true
 					data.t_p1selected = t_p1selectedTemp --Restore chars selected for arcade
-					data.t_p2selected = t_p2selectedTemp
+					--data.t_p2selected = t_p2selectedTemp
 					p1numChars = p1RestoreTeamMode --Restore team mode
 					p2numChars = p2RestoreTeamMode
 					matchNo = matchRestore --Restore matchNo
@@ -1699,10 +1708,10 @@ function f_selectAdvance()
 					end
 				end
 			--If you exit in char select from challenger mode
-				if back == true then
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					return
-				end
+				--if back == true then
+					--if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+					--return
+				--end
 			end
 		end
 	--Assign enemy team for AI in Player 1 (LEFT SIDE)

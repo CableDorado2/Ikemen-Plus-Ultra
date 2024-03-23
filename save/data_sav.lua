@@ -20,7 +20,7 @@ data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
-data.roundsNum = 2
+data.roundsNum = 1
 data.lifebar = "data/screenpack/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"
@@ -44,7 +44,7 @@ data.zoomSpeed = 1
 data.selectType = "Variable"
 data.palType = "Modern"
 data.randomPortrait = "Fixed"
-data.training = "Free"
+data.training = "Fixed"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
 --Stage Select Data
@@ -53,8 +53,8 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = 11
-data.stageTime = 11
+data.selectTime = 31
+data.stageTime = 21
 data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16

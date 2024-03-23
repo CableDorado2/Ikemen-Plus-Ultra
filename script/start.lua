@@ -59,6 +59,13 @@ function f_parseChar(t, cel)
 					end
 					readLines = readLines - 1
 				end
+				if line:match('^%s*unlockcondition%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['unlockcondition'] = line:gsub('^%s*unlockcondition%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					readLines = readLines - 1
+				end
 			elseif section == 2 then --[Files]
 				if line:match('^%s*sprite%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -416,6 +423,16 @@ for line in content:gmatch('[^\r\n]+') do
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
 				end
+				local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
+				if unlockcondition ~= nil then
+					unlockcondition = unlockcondition:gsub('^["%s]*(.-)["%s]*$', '%1')
+					if unlockcondition ~= '' then
+						t_selStages[row]['unlockcondition'] = unlockcondition
+					end
+				--else --Writte Blank unlockcondition to avoid issues
+					--unlockcondition = ''
+					--t_selStages[row]['unlockcondition'] = unlockcondition
+				end
 				addStage(c)
 				data.includestage = data.includestage + 1
 				--[[
@@ -535,6 +552,7 @@ for i=1, #t_selChars do
 				if file == nil then
 					break
 				end
+			--Data loaded from select.def character section
 				row = #t_selStages+1
 				t_selStages[row] = {}
 				local tmp = file:read("*all")
@@ -596,6 +614,16 @@ for i=1, #t_selChars do
 				--else --Writte Blank daytime to avoid issues
 					--daytime = ''
 					--t_selStages[row]['daytime'] = daytime
+				end
+				local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
+				if unlockcondition ~= nil then
+					unlockcondition = unlockcondition:gsub('^["%s]*(.-)["%s]*$', '%1')
+					if unlockcondition ~= '' then
+						t_selStages[row]['unlockcondition'] = unlockcondition
+					end
+				--else --Writte Blank unlockcondition to avoid issues
+					--unlockcondition = ''
+					--t_selStages[row]['unlockcondition'] = unlockcondition
 				end
 				--[[
 				local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')

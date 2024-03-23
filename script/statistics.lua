@@ -54,36 +54,33 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; STATISTICS MENU
 --;===========================================================
 t_statsMenu = {
-	{text = 'Play Time',	  				varID = textImgNew(), varText = ''},
-	{text = 'Matchs Played',  				varID = textImgNew(), varText = ''},
-	{text = 'Wins',	     					varID = textImgNew(), varText = ''},
-	{text = 'Losses',	     				varID = textImgNew(), varText = ''},
-	{text = 'Favorite Character',  			varID = textImgNew(), varText = ''},
-	{text = 'Favorite Stage',				varID = textImgNew(), varText = ''},
-	{text = 'Preferred Game Mode', 			varID = textImgNew(), varText = ''},
-	{text = 'Training Time',  				varID = textImgNew(), varText = ''},
-	{text = 'Collected Coins',    			varID = textImgNew(), varText = ''},
-	{text = 'Arcade Status',     			varID = textImgNew(), varText = ''},
-	{text = 'Survival Status',     			varID = textImgNew(), varText = ''},
-	{text = 'Stories Completed',     		varID = textImgNew(), varText = ''},
-	{text = 'Missions Completed',     		varID = textImgNew(), varText = ''},
-	{text = 'Events Completed',     		varID = textImgNew(), varText = ''},
-	{text = 'Boss Rush Record',     		varID = textImgNew(), varText = ''},
-	{text = 'Sudden Death Record',    		varID = textImgNew(), varText = ''},
-	{text = 'Endless Record',    			varID = textImgNew(), varText = ''},
-	{text = 'Time Attack Record',    		varID = textImgNew(), varText = ''},
-	{text = 'Score Attack Record',    		varID = textImgNew(), varText = ''},
-	{text = '                   BACK',    	varID = textImgNew(), varText = ''},
+	{text = "Play Time",	  				varID = textImgNew(), varText = ''},
+	{text = "Matchs Played",  				varID = textImgNew(), varText = ''},
+	{text = "Wins",	     					varID = textImgNew(), varText = ''},
+	{text = "Losses",	     				varID = textImgNew(), varText = ''},
+	{text = "Favorite Character",  			varID = textImgNew(), varText = ''},
+	{text = "Favorite Stage",				varID = textImgNew(), varText = ''},
+	{text = "Preferred Game Mode", 			varID = textImgNew(), varText = ''},
+	{text = "Training Time",  				varID = textImgNew(), varText = ''},
+	{text = "Collected Coins",    			varID = textImgNew(), varText = ''},
+	{text = "Arcade Status",     			varID = textImgNew(), varText = ''},
+	{text = "Survival Status",     			varID = textImgNew(), varText = ''},
+	{text = "Stories Completed",     		varID = textImgNew(), varText = ''},
+	{text = "Missions Completed",     		varID = textImgNew(), varText = ''},
+	{text = "Events Completed",     		varID = textImgNew(), varText = ''},
+	{text = "Boss Rush Record",     		varID = textImgNew(), varText = ''},
+	{text = "Sudden Death Record",    		varID = textImgNew(), varText = ''},
+	{text = "Endless Record",    			varID = textImgNew(), varText = ''},
+	{text = "Time Attack Record",    		varID = textImgNew(), varText = ''},
+	{text = "Score Attack Record",    		varID = textImgNew(), varText = ''},
+	{text = "                   BACK",    	varID = textImgNew(), varText = ''},
 }
 
 function f_getStats()
 --Progress Logic
-	if data.arcadeClear == true then arcadeProgress = 1 elseif data.arcadeClear == false then arcadeProgress = 0 end
-	if data.survivalClear == true then survivalProgress = 1 elseif data.survivalClear == false then survivalProgress = 0 end
-	gameProgress = (arcadeProgress + survivalProgress + data.missionsProgress + data.eventsProgress + (data.storiesProgress/100))
-	gameData = (math.floor((gameProgress * 100 / 11) + 0.5)) --The number (11) is the sumation of true amount of all gameProgress values (arcadeProgress = 1 + survivalProgress = 1 + data.missionsProgress = 3 + data.eventsProgress = 3 + data.storiesProgress = 3)
-	txt_statsMenu = createTextImg(jgFnt, 0, -1, '' .. data.userName .. ' PROGRESS:', 202, 13)
-	txt_statsProgress = createTextImg(jgFnt, 2, 1, '['..gameData..'%]', 208, 13) --needs to be inside of statistics Menu function, to load a updated data
+	f_gameState() --Read from main.lua
+	txt_statsMenu = createTextImg(jgFnt, 0, -1, "" .. data.userName .. " PROGRESS:", 202, 13)
+	txt_statsProgress = createTextImg(jgFnt, 2, 1, "["..gameData.."%]", 208, 13) --needs to be inside of statistics Menu function, to load a updated data
 --Get Stats Info
 	s = math.floor((data.playTime%60))
 	m = math.floor((data.playTime%3600)/60)
@@ -97,7 +94,7 @@ function f_getStats()
 	t_statsMenu[4].varText = data.defeats
 	t_statsMenu[5].varText = data.favoriteChar
 	t_statsMenu[6].varText = data.favoriteStage
-	t_statsMenu[7].varText = 'None' --If all Preferred Mode are equal
+	t_statsMenu[7].varText = "None" --If all Preferred Mode are equal
 	--Preferred Mode Logic
 	if (data.storyTime > data.arcadeTime) and
 	   (data.storyTime > data.vsTime) and
@@ -114,7 +111,7 @@ function f_getStats()
 	   (data.storyTime > data.towerTime) and
 	   (data.storyTime > data.tourneyTime) and
 	   (data.storyTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Story'
+		t_statsMenu[7].varText = "Story"
 	end
 	if (data.arcadeTime > data.vsTime) and
 	   (data.arcadeTime > data.survivalTime) and
@@ -131,7 +128,7 @@ function f_getStats()
 	   (data.arcadeTime > data.storyTime) and
 	   (data.arcadeTime > data.tourneyTime) and
 	   (data.arcadeTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Arcade'
+		t_statsMenu[7].varText = "Arcade"
 	end
 	if (data.vsTime > data.arcadeTime) and
 	   (data.vsTime > data.survivalTime) and
@@ -148,7 +145,7 @@ function f_getStats()
 	   (data.vsTime > data.storyTime) and
 	   (data.vsTime > data.tourneyTime) and
 	   (data.vsTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Versus'
+		t_statsMenu[7].varText = "Versus"
 	end
 	if (data.cpumatchTime > data.arcadeTime) and
 	   (data.cpumatchTime > data.vsTime) and
@@ -165,7 +162,7 @@ function f_getStats()
 	   (data.cpumatchTime > data.storyTime) and
 	   (data.cpumatchTime > data.tourneyTime) and
 	   (data.cpumatchTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'CPU Match'
+		t_statsMenu[7].varText = "CPU Match"
 	end
 	if (data.survivalTime > data.arcadeTime) and
 	   (data.survivalTime > data.vsTime) and
@@ -182,7 +179,7 @@ function f_getStats()
 	   (data.survivalTime > data.storyTime) and
 	   (data.survivalTime > data.tourneyTime) and
 	   (data.survivalTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Survival'
+		t_statsMenu[7].varText = "Survival"
 	end
 	if (data.bossTime > data.arcadeTime) and
 	   (data.bossTime > data.vsTime) and
@@ -199,7 +196,7 @@ function f_getStats()
 	   (data.bossTime > data.storyTime) and
 	   (data.bossTime > data.tourneyTime) and
 	   (data.bossTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Boss Fight'
+		t_statsMenu[7].varText = "Boss Fight"
 	end
 	if (data.bonusTime > data.arcadeTime) and
 	   (data.bonusTime > data.vsTime) and
@@ -216,7 +213,7 @@ function f_getStats()
 	   (data.bonusTime > data.storyTime) and
 	   (data.bonusTime > data.tourneyTime) and
 	   (data.bonusTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Bonus Games'
+		t_statsMenu[7].varText = "Bonus Games"
 	end
 	if (data.timeattackTime > data.arcadeTime) and
 	   (data.timeattackTime > data.vsTime) and
@@ -233,7 +230,7 @@ function f_getStats()
 	   (data.timeattackTime > data.storyTime) and
 	   (data.timeattackTime > data.tourneyTime) and
 	   (data.timeattackTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Time Attack'
+		t_statsMenu[7].varText = "Time Attack"
 	end
 	if (data.suddendeathTime > data.arcadeTime) and
 	   (data.suddendeathTime > data.vsTime) and
@@ -250,7 +247,7 @@ function f_getStats()
 	   (data.suddendeathTime > data.storyTime) and
 	   (data.suddendeathTime > data.tourneyTime) and
 	   (data.suddendeathTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Sudden Death'
+		t_statsMenu[7].varText = "Sudden Death"
 	end
 	if (data.eventsTime > data.arcadeTime) and
 	   (data.eventsTime > data.vsTime) and
@@ -267,7 +264,7 @@ function f_getStats()
 	   (data.eventsTime > data.storyTime) and
 	   (data.eventsTime > data.tourneyTime) and
 	   (data.eventsTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Events'
+		t_statsMenu[7].varText = "Events"
 	end
 	if (data.missionsTime > data.arcadeTime) and
 	   (data.missionsTime > data.vsTime) and
@@ -284,7 +281,7 @@ function f_getStats()
 	   (data.missionsTime > data.storyTime) and
 	   (data.missionsTime > data.tourneyTime) and
 	   (data.missionsTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Missions'
+		t_statsMenu[7].varText = "Missions"
 	end
 	if (data.endlessTime > data.arcadeTime) and
 	   (data.endlessTime > data.vsTime) and
@@ -301,7 +298,7 @@ function f_getStats()
 	   (data.endlessTime > data.storyTime) and
 	   (data.endlessTime > data.tourneyTime) and
 	   (data.endlessTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Endless'
+		t_statsMenu[7].varText = "Endless"
 	end
 	if (data.towerTime > data.arcadeTime) and
 	   (data.towerTime > data.vsTime) and
@@ -318,7 +315,7 @@ function f_getStats()
 	   (data.towerTime > data.storyTime) and
 	   (data.towerTime > data.tourneyTime) and
 	   (data.towerTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Tower'
+		t_statsMenu[7].varText = "Tower"
 	end
 	if (data.legionTime > data.arcadeTime) and
 	   (data.legionTime > data.vsTime) and
@@ -335,7 +332,7 @@ function f_getStats()
 	   (data.legionTime > data.storyTime) and
 	   (data.legionTime > data.tourneyTime) and
 	   (data.legionTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Legion'
+		t_statsMenu[7].varText = "Legion"
 	end
 	if (data.tourneyTime > data.arcadeTime) and
 	   (data.tourneyTime > data.vsTime) and
@@ -352,7 +349,7 @@ function f_getStats()
 	   (data.tourneyTime > data.towerTime) and
 	   (data.tourneyTime > data.storyTime) and
 	   (data.tourneyTime > data.adventureTime) then
-		t_statsMenu[7].varText = 'Tourney'
+		t_statsMenu[7].varText = "Tourney"
 	end
 	if (data.adventureTime > data.arcadeTime) and
 	   (data.adventureTime > data.vsTime) and
@@ -369,7 +366,7 @@ function f_getStats()
 	   (data.adventureTime > data.towerTime) and
 	   (data.adventureTime > data.storyTime) and
 	   (data.adventureTime > data.tourneyTime) then
-		t_statsMenu[7].varText = 'Adventure'
+		t_statsMenu[7].varText = "Adventure"
 	end
 	ts = math.floor((data.trainingTime%60))
 	tm = math.floor((data.trainingTime%3600)/60)
@@ -379,16 +376,16 @@ function f_getStats()
 	practiceTime = string.format("%d:Days %02d:Hours %02d:Minutes", td, th, tm)
 	t_statsMenu[8].varText = practiceTime
 	t_statsMenu[9].varText = data.coins
-	if data.arcadeClear == false then t_statsMenu[10].varText = 'INCOMPLETE' elseif data.arcadeClear == true then t_statsMenu[10].varText = 'COMPLETED' end
-	if data.survivalClear == false then t_statsMenu[11].varText = 'INCOMPLETE' elseif data.survivalClear == true then t_statsMenu[11].varText = 'COMPLETED' end
-	t_statsMenu[12].varText = math.floor(data.storiesProgress/100)..'/3'
-	t_statsMenu[13].varText = data.missionsProgress..'/3'
-	t_statsMenu[14].varText = data.eventsProgress..'/3'
-	t_statsMenu[15].varText = data.bossrecord..' Wins'
-	t_statsMenu[16].varText = data.suddenrecord..' Wins'
-	t_statsMenu[17].varText = data.endlessrecord..' Wins'
-	t_statsMenu[18].varText = 'WIP'--data.timerecord..''
-	t_statsMenu[19].varText = 'WIP'--data.scorerecord..''
+	if data.arcadeClear == false then t_statsMenu[10].varText = "INCOMPLETE" elseif data.arcadeClear == true then t_statsMenu[10].varText = "COMPLETED" end
+	if data.survivalClear == false then t_statsMenu[11].varText = "INCOMPLETE" elseif data.survivalClear == true then t_statsMenu[11].varText = "COMPLETED" end
+	t_statsMenu[12].varText = math.floor(data.storiesProgress/100).."/3"
+	t_statsMenu[13].varText = data.missionsProgress.."/3"
+	t_statsMenu[14].varText = data.eventsProgress.."/3"
+	t_statsMenu[15].varText = data.bossrecord.." Wins"
+	t_statsMenu[16].varText = data.suddenrecord.." Wins"
+	t_statsMenu[17].varText = data.endlessrecord.." Wins"
+	t_statsMenu[18].varText = "WIP"--data.timerecord..""
+	t_statsMenu[19].varText = "WIP"--data.scorerecord..""
 end
 
 function f_statsMenu()

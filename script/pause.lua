@@ -188,7 +188,7 @@ end
 --;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
-txt_attractCredits = createTextImg(font1, 0, -1, 'Credits: '..data.attractCoins..'', 181.5, 235)
+txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins..'', 181.5, 235)
 
 --Scrolling background
 pauseBG0 = animNew(sysSff, [[
@@ -520,6 +520,7 @@ function f_pauseMain(p, st, esc)
 				togglePauseMenu(0)
 				if hide then
 					togglePause()
+					f_screenShot()
 					hide = false
 				end
 				setSysCtrl(0)
@@ -878,11 +879,12 @@ t_gameCfg = {
 	{id = '', text = 'Audio Settings',   		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Input Settings',   		varID = textImgNew(), varText = ''},
 	{id = '', text = 'HUD Display',				varID = textImgNew(), varText = ''},
+	{id = '', text = 'Open Screenshots',		varID = textImgNew(), varText = ''},
 	{id = '', text = 'Change Stage Song',		varID = textImgNew(), varText = ''},
 	{id = '', text = '              BACK',   	varID = textImgNew(), varText = ''},
 }
 
-if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "demo" then table.remove(t_gameCfg,4) end
+if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "demo" then table.remove(t_gameCfg,5) end
 hudStatus = 'Yes'
 
 function f_pauseSettings()
@@ -955,8 +957,12 @@ function f_pauseSettings()
 				--Input Settings
 				elseif gameCfg == 2 then
 					sndPlay(sysSnd, 100, 5)
-				--Play/Change Song
+				--Open Screenshots Folder
 				elseif gameCfg == 4 then
+					sndPlay(sysSnd, 100, 1)
+					sszOpen("screenshots", "")
+				--Play/Change Song
+				elseif gameCfg == 5 then
 					sndPlay(sysSnd, 100, 1)
 					cfgGoTo = 'Songs'
 					songMenu = 1
