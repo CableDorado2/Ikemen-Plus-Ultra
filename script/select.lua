@@ -1609,31 +1609,41 @@ function f_selectAdvance()
 					if data.debugLog then f_printTable(t_p2selectedTemp, 'save/debug/t_p2selectedTemp.txt') end
 					p1RestoreTeamMode = p1numChars --Get a copy of team mode selected
 					p2RestoreTeamMode = p2numChars
-					matchRestore = matchNo --Get a copy of matchNo where arcade was cut
-				--Go to 1P VS 2P Mode
+					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
+				--Go to 1P VS 2P Mode (2P VS 1P is missing)
 					f_default()
-					setGameMode('vs')
 					--setDiscordState("VS Challenger")
+					setGameMode('vs')
 					data.p2In = 2
 					data.stageMenu = true
 					data.p2Faces = true
 					data.gameMode = 'challenger'
 					data.rosterMode = 'versus'
 					textImgSetText(txt_mainSelect, 'CHALLENGER MODE')
+					backtomenu = false
 					f_selectSimple()
 				--Restore Arcade Data when f_selectSimple() end
-					--setDiscordState("In Arcade Mode")
-					sndPlay(sysSnd, 100, 5)
 					f_default()
+					--setDiscordState("In Arcade Mode")
 					setGameMode('arcade')
 					data.gameMode = 'arcade'
 					data.rosterMode = 'arcade'
+					textImgSetText(txt_mainSelect, 'ARCADE')
 					data.serviceScreen = true
-					data.t_p1selected = t_p1selectedTemp --Restore chars selected for arcade
-					--data.t_p2selected = t_p2selectedTemp
+					data.p2SelectMenu = false
 					p1numChars = p1RestoreTeamMode --Restore team mode
 					p2numChars = p2RestoreTeamMode
-					matchNo = matchRestore --Restore matchNo
+					matchNo = restoreMatchNo --Restore matchNo
+				--Read residual winner result from f_selectSimple()
+					if winner == 1 then --This result need to cause a 1P vs CPU
+						data.t_p1selected = t_p1selectedTemp --Restore chars selected in arcade for player 1
+					elseif winner == 2 then --This result need to cause a 2P vs CPU
+						data.t_p1selected = t_p1selectedTemp --Restore chars selected in arcade for player 2
+						remapInput(1, 2)
+						--data.p1In = 2 --P2 need to get Control because was the winner
+					else --No winner (maybe you use pause menu to exit) but what will happen if you come from a draw game?
+						backtomenu = true
+					end
 			--Normal Give Up Route
 				else
 					looseCnt = looseCnt + 1
@@ -1707,11 +1717,11 @@ function f_selectAdvance()
 						f_loadSong()
 					end
 				end
-			--If you exit in char select from challenger mode
-				--if back == true then
-					--if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					--return
-				--end
+			--If you exit in char select from challenger mode then back to main menu
+				if back == true or backtomenu == true then
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+					break --return
+				end
 			end
 		end
 	--Assign enemy team for AI in Player 1 (LEFT SIDE)
