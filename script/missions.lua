@@ -106,18 +106,18 @@ function f_missionMenu()
 		missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
 		txt_missionMenu = createTextImg(jgFnt, 0, -1, 'MISSION SELECT:', 195, 128)
 		txt_missionProgress = createTextImg(jgFnt, 2, 1, '['..missionsData..'%]', 202, 128) --needs to be inside of mission Menu function, to load mission data %
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			missionMenu = missionMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			missionMenu = missionMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 then
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			f_default()
 			data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
 			data.rosterMode = 'mission'
@@ -175,9 +175,9 @@ function f_missionMenu()
 		elseif missionMenu > #t_missionMenu then
 			missionMenu = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 6 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 6 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 6 then
@@ -240,10 +240,10 @@ function f_missionMenu()
 			animDraw(arrowsMSD)
 			animUpdate(arrowsMSD)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else

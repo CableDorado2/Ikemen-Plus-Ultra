@@ -777,18 +777,18 @@ if generate and data.sffConversion then
 	cmdInput()
 	local parserCfg = 1
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_playTime()
 			os.exit()
-		elseif commandGetState(p1Cmd, 'u') then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
 			parserCfg = parserCfg - 1
 			if parserCfg < 1 then parserCfg = #t_parserOptions end
-		elseif commandGetState(p1Cmd, 'd') then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
 			parserCfg = parserCfg + 1
 			if parserCfg > #t_parserOptions then parserCfg = 1 end
-		elseif btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds') then
+		elseif btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds') or btnPalNo(p2Cmd) > 0 or commandGetState(p2Cmd, 'holds') then
 			--sndPlay(sysSnd, 100, 0)
 			break
 		end

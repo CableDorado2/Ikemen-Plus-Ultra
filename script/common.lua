@@ -380,7 +380,7 @@ gameTick = 20
 --input stuff
 inputdia = inputDialogNew()
 data.p1In = 1
-data.p2In = 1
+data.p2In = 2 --Activate Player 2 Control in Menus
 
 function setCommand(c)
 	commandAdd(c, 'u', '$U')
@@ -1781,7 +1781,7 @@ function f_storyboardPlay(tIn)
 	local velY = 0
 	for i=tOut.startscene, #tOut.scenes do
 		for j=0, tOut.scenes[i].endTime do
-			if commandGetState(p1Cmd, 'w') then --Skip Button
+			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then --Skip Button
 				cmdInput()
 				refresh()
 				return
@@ -1924,7 +1924,7 @@ function f_default() --Reset Game Modes Configuration
 	data.storyNo = nil --additional variable used to identify stories in select screen
 	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
 	setServiceType(0) --set different fight services for players (works via match.cns) [0:No Service, (1 or 21):MAX Power, (2 or 22):Enemy Life At 1/3, (3 or 23):Double Defence, (4 or 24):Invincible]
-	setGameType(0) --set game type to identify (works via match.cns) [0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match, 4:Input Test Match]
+	setGameType(0) --set game type to identify (works via match.cns) [0:No Special Match, 1:Demo Match, 2:Training Match, 3:Bonus Match]
 	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
 	setPlayerSide('') --sets ssz player side variable to adjust internal settings in pause menu.
 end

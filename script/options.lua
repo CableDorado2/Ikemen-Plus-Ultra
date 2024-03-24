@@ -5888,133 +5888,26 @@ end
 --;===========================================================
 --; INPUT TEST MENU
 --;===========================================================
-t_testMenu = {
-	{id = textImgNew(), text = 'P1 TEST'},
-	{id = textImgNew(), text = 'P1&P2 TEST'},
-	{id = textImgNew(), text = 'BACK'},
-}
-	
+txt_inputTest = createTextImg(jgFnt, 0, 0, 'INPUT TEST', 159, 13)
+
+--todo: load button sprites to show below
+
 function f_testMenu()
 	cmdInput()
-	local cursorPosY = 0
-	local moveTxt = 0
-	local testMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		--SHOW UP KEY
+		elseif commandGetState(p1Cmd, 'u') then
 			sndPlay(sysSnd, 100, 0)
-			testMenu = testMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		--SHOW DOWN KEY	
+		elseif commandGetState(p1Cmd, 'd') then
 			sndPlay(sysSnd, 100, 0)
-			testMenu = testMenu + 1
+			
 		end
-		if testMenu < 1 then
-			testMenu = #t_testMenu
-			if #t_testMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_testMenu-1
-			end
-		elseif testMenu > #t_testMenu then
-			testMenu = 1
-			cursorPosY = 0
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (testMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (testMenu - 1) * 13
-		end
-		if #t_testMenu <= 5 then
-			maxTestMenu = #t_testMenu
-		elseif testMenu - cursorPosY > 0 then
-			maxTestMenu = testMenu + 5 - cursorPosY
-		else
-			maxTestMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			f_default()
-			setGameType(4)
-			setGameMode('practice')
-			data.gameMode = 'training'
-			data.rosterMode = 'inputtest'
-			setRoundTime(-1)
-			data.p2In = 2
-			data.p1TeamMenu = {mode = 0, chars = 1}
-			data.p2TeamMenu = {mode = 0, chars = 1}
-			data.versusScreen = false
-			--SINGLE TEST
-			if testMenu == 1 then
-				data.p2Char = {t_charAdd['training']}
-				textImgSetText(txt_mainSelect, 'P1 INPUT TEST')
-				script.select.f_selectSimple()
-			--MULTIPLAYER TEST
-			elseif testMenu == 2 then
-				data.p2Faces = true
-				textImgSetText(txt_mainSelect, 'P1 & P2 INPUT TEST')
-				script.select.f_selectSimple()
-			--BACK
-			else
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
-			end
-		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		for i=1, #t_testMenu do
-			if i == testMenu then
-				bank = 5
-			else
-				bank = 0
-			end
-			textImgDraw(f_updateTextImg(t_testMenu[i].id, jgFnt, bank, 0, t_testMenu[i].text, 159, 142+i*13-moveTxt))
-		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
-		textImgDraw(txt_gameFt)		
-		textImgSetText(txt_gameFt, 'INPUT TEST MODE')
-		textImgDraw(txt_version)
-		f_sysTime()
-		if maxTestMenu > 6 then
-			animDraw(arrowsU)
-			animUpdate(arrowsU)
-		end
-		if #t_testMenu > 6 and maxTestMenu < #t_testMenu then
-			animDraw(arrowsD)
-			animUpdate(arrowsD)
-		end
-		if commandGetState(p1Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_inputTest)
 		if data.attractMode == true then f_attractcfgCredits() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

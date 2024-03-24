@@ -523,7 +523,6 @@ flag2 = nomusic
 type = assertspecial
 trigger1 = GameType = 1 ;HUD Disable for Demo Screen
 trigger2 = GameType = 3 ;HUD Disable for Bonus Stages
-trigger3 = GameType = 4 ;HUD Disable for Input Test
 flag = nobardisplay
 
 ;===========================================================================
@@ -563,7 +562,6 @@ value = LifeMax
 type = LifeAdd
 trigger1 = GameType = 2 && LifeStateP1 = 100 && Stateno = 0 && Time > 15 && TeamSide = 1
 trigger2 = GameType = 2 && LifeStateP2 = 100 && Stateno = 0 && Time > 15 && TeamSide = 2
-trigger3 = GameType = 4 ;Life Recovery for Input Test
 value = 100
 
 [State 0, Life Recovery 75%]
@@ -598,7 +596,6 @@ value = PowerMax
 type = PowerAdd
 trigger1 = GameType = 2 && PowerStateP1 = 10 && Stateno = 0 && Time > 50 && TeamSide = 1
 trigger2 = GameType = 2 && PowerStateP2 = 10 && Stateno = 0 && Time > 50 && TeamSide = 2
-trigger3 = GameType = 4 ;Power Recovery for Input Test
 value = PowerMax
 
 [State 0, Power Gauge Level 1]

@@ -273,35 +273,35 @@ function f_storyMenu()
 	txt_storyMenu = createTextImg(font14, 0, -1, "STORY SELECT:", 188, 13)
 	txt_storyProgress = createTextImg(jgFnt, 2, 1, "["..storyData.."%]", 193.5, 13) --needs to be inside of story Menu function, to load story data %
 	--BACK
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
 			break
 	--Arc Selection
-		elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 			t = 0 --Reset Story Info Delay Time
 			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu - 1
-		elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			t = 0
 			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu + 1
 	--Chapter Selection
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			if lockedStory == false then
 				t = 0
 				sndPlay(sysSnd, 100, 0)
 				chapterMenu = chapterMenu - 1
 			end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			if lockedStory == false then
 				t = 0
 				sndPlay(sysSnd, 100, 0)
 				chapterMenu = chapterMenu + 1
 			end
-		elseif btnPalNo(p1Cmd) > 0 then
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--SLOT 1
 			if storyMenu == 1 and chapterMenu == 1 then f_arc1_prologue() --Unlocked By Default
 			elseif storyMenu == 2 and chapterMenu == 1 and data.story1_1Unlock == true then f_arc2_prologue()
@@ -343,9 +343,9 @@ function f_storyMenu()
 		elseif storyMenu > #t_storySelect then
 			storyMenu = 1
 			cursorPosX = 1
-		elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosX > 1 then
+		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
 			cursorPosX = cursorPosX - 1
-		elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 3 then
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < 3 then
 			cursorPosX = cursorPosX + 1
 		end
 		if cursorPosX == 3 then
@@ -409,9 +409,9 @@ function f_storyMenu()
 			elseif chapterMenu > #t_arcSelect then
 				chapterMenu = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 6 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 6 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 6 then
@@ -643,16 +643,16 @@ function f_storyMenu()
 			animDraw(storyRightArrow)
 			animUpdate(storyRightArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
-		elseif commandGetState(p1Cmd, 'holdr') then
+		elseif commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
-		elseif commandGetState(p1Cmd, 'holdl') then
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
 			bufr = 0
 			bufl = bufl + 1
 		else

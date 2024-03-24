@@ -95,7 +95,7 @@ function f_lockedInfo()
 	--Draw Info Title Text
 	textImgDraw(txt_lockedinfoTitle)
 	--Actions
-	if btnPalNo(p1Cmd) > 0 then
+	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		sndPlay(sysSnd, 100, 2)
 		f_lockedInfoReset()
 	end
@@ -163,37 +163,37 @@ function f_eventMenu()
 		txt_eventProgress = createTextImg(jgFnt, 2, 1, '['..eventsData..'%]', 202, 10) --needs to be inside of event Menu function, to load event data %
 		txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
 		if lockedScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') or eventExit then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or eventExit then
 				f_saveProgress()
 				f_menuMusic()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
-			elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 				if eventSelect == true then
 					sndPlay(sysSnd, 100, 0)
 					eventMenu = eventMenu - 1
 				end
-			elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 				if eventSelect == true then
 					sndPlay(sysSnd, 100, 0)
 					eventMenu = eventMenu + 1
 				end
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				if eventSelect == true then
 					eventSelect = false
 				elseif eventSelect == false then
 					eventSelect = true
 				end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				if eventSelect == true then
 					eventSelect = false
 				elseif eventSelect == false then
 					eventSelect = true
 				end
-			elseif btnPalNo(p1Cmd) > 0 then
+			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if eventSelect == true then
 					f_default()
 					data.rosterMode = 'event'
@@ -240,11 +240,11 @@ function f_eventMenu()
 			elseif eventMenu > #t_eventMenu then
 				eventMenu = 1
 				cursorPosX = 1
-			elseif (commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30)) and cursorPosX > 1 then
+			elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
 				if eventSelect == true then
 					cursorPosX = cursorPosX - 1
 				end
-			elseif (commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30)) and cursorPosX < 3 then
+			elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < 3 then
 				if eventSelect == true then
 					cursorPosX = cursorPosX + 1
 				end
@@ -369,10 +369,10 @@ function f_eventMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		if lockedScreen == true then f_lockedInfo() end --Show Locked Event Info Message
-		if commandGetState(p1Cmd, 'holdr') then
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
-		elseif commandGetState(p1Cmd, 'holdl') then
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
 			bufr = 0
 			bufl = bufl + 1
 		else
