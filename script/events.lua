@@ -63,8 +63,8 @@ animSetScale(arrowsEL, 1.7, 1.7)
 --;===========================================================
 --; EVENT LOCKED INFO SCREEN
 --;===========================================================
-txt_lockedinfoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 156.5, 111)
-txt_lockedOk = createTextImg(jgFnt, 5, 0, 'OK', 159, 151)
+txt_lockedinfoTitle = createTextImg(font5, 0, 0, "INFORMATION", 156.5, 111)
+txt_lockedOk = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
 
 --Info Window BG
 infoEventWindowBG = animNew(sysSff, [[
@@ -83,7 +83,7 @@ function f_lockedInfo()
 	animUpdate(infoEventWindowBG)
 	--Draw Title
 	if eventInfo == true then
-		txt_lockedInfo = createTextImg(jgFnt, 0, 0, 'EVENT NOT AVAILABLE, TRY LATER', 160, 130,0.6,0.6)
+		txt_lockedInfo = createTextImg(jgFnt, 0, 0, "EVENT NOT AVAILABLE, TRY LATER", 160, 130,0.6,0.6)
 	end
 	textImgDraw(txt_lockedInfo)
 	--Draw Ok Text
@@ -159,9 +159,9 @@ function f_eventMenu()
 	--Event Progress Logic
 		data.eventsProgress = (data.event1Status + data.event2Status + data.event3Status)
 		eventsData = (math.floor((data.eventsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
-		txt_eventMenu = createTextImg(jgFnt, 0, -1, 'EVENT SELECT:', 195, 10)
-		txt_eventProgress = createTextImg(jgFnt, 2, 1, '['..eventsData..'%]', 202, 10) --needs to be inside of event Menu function, to load event data %
-		txt_selEvent = createTextImg(jgFnt, 0, 0, 'BACK TO MAIN MENU', 160, 238)
+		txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
+		txt_eventProgress = createTextImg(jgFnt, 2, 1, "["..eventsData.."%]", 202, 10) --needs to be inside of event Menu function, to load event data %
+		txt_selEvent = createTextImg(jgFnt, 0, 0, "BACK TO MAIN MENU", 160, 238)
 		if lockedScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or eventExit then
 				f_saveProgress()
@@ -196,7 +196,7 @@ function f_eventMenu()
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if eventSelect == true then
 					f_default()
-					data.rosterMode = 'event'
+					data.rosterMode = "event"
 					setGameMode('event')
 					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -209,8 +209,8 @@ function f_eventMenu()
 							data.p2In = 1
 							data.p2SelectMenu = false
 							data.p1TeamMenu = {mode = 0, chars = 1}
-							data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
-							data.gameMode = 'survival'
+							data.p1Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"]}
+							data.gameMode = "survival"
 							script.select.f_selectAdvance()
 							if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
 						elseif event1Status == false then
@@ -395,5 +395,5 @@ function f_eventStatus()
 	elseif data.eventNo == 3 then data.event3Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end

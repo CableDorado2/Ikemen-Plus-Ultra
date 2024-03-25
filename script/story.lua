@@ -701,7 +701,7 @@ function f_arc1_chapter1()
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountainside temple/hidden path.def"]} --Set stage (needs to be loaded in select.def)
 	data.bgm = "sound/Ultimate Warrior.mp3" --Set Custom Stage Song
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-1"
 	setGameMode('story')
 	setServiceType(4) --You can't lose with this service, basically is a battle where you always win.
@@ -731,7 +731,7 @@ function f_arc1_chapter2()
 	data.victoryscreen = false
 	--data.stage no needed because this chapter will use the auto stage of evil kfm
 	data.bgm = "sound/Killer Mirror.mp3"
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-2"
 	setGameMode('story')
 	script.select.f_selectStory()
@@ -764,7 +764,7 @@ function f_arc1_chapter3_1()
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
 	data.bgm = "sound/system/opening.mp3"
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-3A"
 	setGameMode('story')
 	script.select.f_selectStory()
@@ -802,7 +802,7 @@ function f_arc1_chapter3_2()
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountainside temple/roof night.def"]}
 	data.bgm = "sound/Suave's Corridor.mp3"
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-3B"
 	setGameMode('story')
 	script.select.f_selectStory()
@@ -834,7 +834,7 @@ function f_arc1_chapter4_1()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/sakura.def"]}
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-4A"
 	setGameMode('story')
 	script.select.f_selectStory()
@@ -848,7 +848,7 @@ function f_arc1_chapter4_2()
 	playVideo("movie/KFM-Chapter 4-B.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-4B"
 	f_storyStatus()
 	playBGM("sound/random 2.mp3")
@@ -860,7 +860,7 @@ function f_arc1_chapter4_3()
 	playVideo("movie/KFM-Chapter 4-C.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-4C"
 	f_storyStatus()
 	playBGM("sound/system/ranking.mp3")
@@ -872,7 +872,7 @@ function f_arc1_chapter4_4()
 	playVideo("movie/KFM-Chapter 4-D.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	data.storyNo = "1-4D"
 	f_storyStatus()
 	playBGM("sound/Suave's Corridor.mp3")
@@ -894,9 +894,9 @@ function f_storyRosterTest()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stageMenu = true
-	data.rosterMode = 'story'
+	data.rosterMode = "story"
 	setGameMode('storyRoster')
-	textImgSetText(txt_mainSelect, 'STORY MODE')
+	textImgSetText(txt_mainSelect, "STORY MODE")
 	script.select.f_selectStory()
 end
 
@@ -972,5 +972,5 @@ function f_storyStatus()
 	elseif data.storyNo == "3-1" then data.story3_1Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end

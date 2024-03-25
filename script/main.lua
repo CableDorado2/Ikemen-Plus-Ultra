@@ -6313,14 +6313,14 @@ function f_mainReplay()
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
-		if esc() or commandGetState(p1Cmd, 'e') then exitReplayMenu = true
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then exitReplayMenu = true
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			mainReplay = mainReplay + 1
-		elseif btnPalNo(p1Cmd) > 0 then
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--BACK
 			if mainReplay == #t_replayList then exitReplayMenu = true
 		--OPEN REPLAY CONTROL MENU
@@ -6340,19 +6340,19 @@ function f_mainReplay()
 				cmdInput()
 				while true do
 					if confirmScreen == false then
-						if esc() or commandGetState(p1Cmd, 'e') then
+						if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 							sndPlay(sysSnd, 100, 2)
 							break
-						elseif commandGetState(p1Cmd, 'r') then
+						elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then
 							sndPlay(sysSnd, 100, 0)
 							replayOption = replayOption + 1
-						elseif commandGetState(p1Cmd, 'l') then
+						elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') then
 							sndPlay(sysSnd, 100, 0)
 							replayOption = replayOption - 1
 						end
 						if replayOption < 1 then replayOption = 3 elseif replayOption > 3 then replayOption = 1 end
 					end
-					if btnPalNo(p1Cmd) > 0 then
+					if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 					--OPEN CONFIRM DELETE REPLAY WINDOW
 						if replayOption == 1 then
 							sndPlay(sysSnd, 100, 1)
@@ -6373,6 +6373,7 @@ function f_mainReplay()
 							exitNetPlay()
 							exitReplay()
 							commandBufReset(p1Cmd, 1)
+							commandBufReset(p2Cmd, 1)
 					--RETURN TO REPLAY SELECT MENU
 						elseif replayOption == 3 then
 							sndPlay(sysSnd, 100, 2)
@@ -6431,9 +6432,9 @@ function f_mainReplay()
 		elseif mainReplay > #t_replayList then
 			mainReplay = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -6477,10 +6478,10 @@ function f_mainReplay()
 			animDraw(replayDownArrow)
 			animUpdate(replayDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -7843,10 +7844,10 @@ function f_theVault()
 		--MAIN SCREEN
 		if esc() then
 			vaultExit = true
-		elseif commandGetState(p1Cmd, 'r') then
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then
 			sndPlay(sysSnd, 100, 0)
 			vaultMenu = vaultMenu + 1
-		elseif commandGetState(p1Cmd, 'l') then
+		elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') then
 			sndPlay(sysSnd, 100, 0)
 			vaultMenu = vaultMenu - 1
 		end
@@ -7870,7 +7871,7 @@ function f_theVault()
 			end
 		end
 		--BUTTON SELECT
-		if commandGetState(p1Cmd, 'w') then
+		if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 			--BACK
 			if vaultMenu == 1 then
 				vaultExit = true
@@ -7954,7 +7955,7 @@ function f_secret()
 	txt = 'COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!'
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
 			sndPlay(sysSnd, 100, 2)
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -7977,7 +7978,7 @@ function f_comingSoon()
 	txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
 			sndPlay(sysSnd, 100, 2)
 			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
@@ -8016,9 +8017,9 @@ function f_playCredits()
 	while true do
 		if scroll > 1600 then break end --Credits Duration
 		--Actions
-		if commandGetState(p1Cmd, 'w') and not skip then --Skip Button
+		if (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and not skip then --Skip Button
 			skip = true
-		elseif commandGetState(p1Cmd, 'w') and skip then --Unskip Button
+		elseif (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and skip then --Unskip Button
 			skip = false
 		end
 		if not skip then speed = speedX1 --Normal
@@ -8152,6 +8153,7 @@ PETER WANG AND BRENNAN UNDERWOOD
 EARLE F. PHILHOWER III
 DAVID CORNISH
 THE ENHANCED SPECIAL TESTING PEOPLE
+FAMILY
 
 
 AND YOU

@@ -1,36 +1,36 @@
 --;===========================================================
 --; LIBRARY DEFINITION
 --;===========================================================
-lfs = require('lfs') --load lfs.dll
-package.path = package.path..';./lib/ltn12.lua' --load ltn12 lua library
-ltn12 = require('ltn12')
-package.path = package.path..';./lib/dkjson.lua' --load dkjson lua library
-dkjson = require('dkjson')
-json = (loadfile 'lib/dkjson.lua')() --One-time load of the json routines
+lfs = require("lfs") --load lfs.dll
+package.path = package.path..";./lib/ltn12.lua" --load ltn12 lua library
+ltn12 = require("ltn12")
+package.path = package.path..";./lib/dkjson.lua" --load dkjson lua library
+dkjson = require("dkjson")
+json = (loadfile "lib/dkjson.lua")() --One-time load of the json routines
 --[[
-package.path = package.path..';./lib/net/http.lua'
-http = require('http')
-package.path = package.path..';./lib/net/socket.lua'
-socket = require('socket')
-package.path = package.path..';./lib/net/ftp.lua'
-ftp = require('ftp')
-package.path = package.path..';./lib/net/headers.lua'
-headers = require('headers')
-package.path = package.path..';./lib/net/mbox.lua'
-mbox = require('mbox')
-package.path = package.path..';./lib/net/mime.lua'
-mime = require('mime')
-package.path = package.path..';./lib/net/smtp.lua'
-smtp = require('smtp')
-package.path = package.path..';./lib/net/tp.lua'
-tp = require('tp')
-package.path = package.path..';./lib/net/url.lua'
-url = require('url')
+package.path = package.path..";./lib/net/http.lua"
+http = require("http")
+package.path = package.path..";./lib/net/socket.lua"
+socket = require("socket")
+package.path = package.path..";./lib/net/ftp.lua"
+ftp = require("ftp")
+package.path = package.path..";./lib/net/headers.lua"
+headers = require("headers")
+package.path = package.path..";./lib/net/mbox.lua"
+mbox = require("mbox")
+package.path = package.path..";./lib/net/mime.lua"
+mime = require("mime")
+package.path = package.path..";./lib/net/smtp.lua"
+smtp = require("smtp")
+package.path = package.path..";./lib/net/tp.lua"
+tp = require("tp")
+package.path = package.path..";./lib/net/url.lua"
+url = require("url")
 ]]
 --;===========================================================
 --; DATA DEFINITION
 --;===========================================================
-data = require('save.data') --Create global space variable (accessing variables between modules)
+data = require("save.data") --Create global space variable (accessing variables between modules)
 
 --[[Require function, allows use the content inside in the script said.
 The begin of the script called need to have this:
@@ -39,12 +39,12 @@ module(..., package.seeall)
 ]]
 
 --Load saved variables
-assert(loadfile('save/data_sav.lua'))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
-assert(loadfile('save/stats_sav.lua'))() --player records data
-assert(loadfile('save/training_sav.lua'))() --training data
-assert(loadfile('save/temp_sav.lua'))() --temp data
+assert(loadfile("save/data_sav.lua"))() --assert loadfile, allows load the content stored in script said. The script must not have any module load.
+assert(loadfile("save/stats_sav.lua"))() --player records data
+assert(loadfile("save/training_sav.lua"))() --training data
+assert(loadfile("save/temp_sav.lua"))() --temp data
 
-require('script.updatecfg') --to update settings without reset entire config
+require("script.updatecfg") --to update settings without reset entire config
 
 --Data loading from host_rooms.json
 local file = io.open("save/host_rooms.json","r")
@@ -70,55 +70,55 @@ tempFile:close()
 --; SCREENPACK DEFINITION
 --;===========================================================
 --SFF
-fadeSff = sffNew('data/screenpack/fade.sff') --load fade sprites
-sysSff = sffNew('data/screenpack/system.sff') --load screenpack/menu sprites
-contSff = sffNew('data/screenpack/continue.sff') --load continue sprites
-eventSff = sffNew('data/screenpack/events.sff') --load events menu sprites
-missionSff = sffNew('data/screenpack/missions.sff') --load missions menu sprites
-gallerySff = sffNew('data/screenpack/gallery.sff') --load gallery sprites
-storySff = sffNew('data/screenpack/story.sff') --load story sprites
---towerSff = sffNew('data/screenpack/tower.sff') --load tower sprites
+fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
+sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
+contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
+eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
+missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
+gallerySff = sffNew("data/screenpack/gallery.sff") --load gallery sprites
+storySff = sffNew("data/screenpack/story.sff") --load story sprites
+--towerSff = sffNew("data/screenpack/tower.sff") --load tower sprites
 --[[
-tourneySff = sffNew('data/screenpack/tourney.sff') --load tourney sprites
-legionSff = sffNew('data/screenpack/legion.sff') --load legion sprites
-adventureSff = sffNew('data/screenpack/adventure.sff') --load adventure sprites
+tourneySff = sffNew("data/screenpack/tourney.sff") --load tourney sprites
+legionSff = sffNew("data/screenpack/legion.sff") --load legion sprites
+adventureSff = sffNew("data/screenpack/adventure.sff") --load adventure sprites
 ]]
 
 --SND (Sound effects do not interrupt music/bgm)
-sysSnd = sndNew('data/screenpack/system.snd')
-announcerSnd = sndNew('data/screenpack/announcer.snd')
-contSnd = sndNew('data/screenpack/continue.snd')
+sysSnd = sndNew("data/screenpack/system.snd")
+announcerSnd = sndNew("data/screenpack/announcer.snd")
+contSnd = sndNew("data/screenpack/continue.snd")
 
 --Fonts (At the moments only FNT Format is Supported)
-padFnt = fontNew('font/f-pad.fnt')
-survBarsFnt = fontNew('font/survival_bars.fnt')
-survNumFnt = fontNew('font/survival_nums.fnt')
-jgFnt = fontNew('font/JG.fnt')
-opFnt = fontNew('font/Options.fnt')
-font1 = fontNew('font/f-4x6.fnt')
-font2 = fontNew('font/f-6x9.fnt')
-font3 = fontNew('font/14x14.fnt')
-font4 = fontNew('font/18x18.fnt')
-font5 = fontNew('font/Qoh_small.fnt')
-font6 = fontNew('font/QOH_BIG.fnt')
-font7 = fontNew('font/f-6x8f.fnt')
-font8 = fontNew('font/f-6x9f.fnt')
-font9 = fontNew('font/font3.fnt')
-font10 = fontNew('font/font4.fnt')
-font11 = fontNew('font/font5.fnt')
-font12 = fontNew('font/score1.fnt')
-font13 = fontNew('font/kof99.fnt')
-font14 = fontNew('font/MvcName.fnt')
-font15 = fontNew('font/name1.fnt')
-font16 = fontNew('font/num1.fnt')
-font17 = fontNew('font/sf2_name.fnt')
-font18 = fontNew('font/sf2_small.fnt')
-font19 = fontNew('font/sf2_sys.fnt')
-font20 = fontNew('font/sfz2a_system.fnt')
-font21 = fontNew('font/ssf2x_10.fnt')
-font22 = fontNew('font/ssf2x_s.fnt')
-font23 = fontNew('font/ssf2x_sL.fnt')
-font24 = fontNew('font/ssf2x_vL.fnt')
+padFnt = fontNew("font/f-pad.fnt")
+survBarsFnt = fontNew("font/survival_bars.fnt")
+survNumFnt = fontNew("font/survival_nums.fnt")
+jgFnt = fontNew("font/JG.fnt")
+opFnt = fontNew("font/Options.fnt")
+font1 = fontNew("font/f-4x6.fnt")
+font2 = fontNew("font/f-6x9.fnt")
+font3 = fontNew("font/14x14.fnt")
+font4 = fontNew("font/18x18.fnt")
+font5 = fontNew("font/Qoh_small.fnt")
+font6 = fontNew("font/QOH_BIG.fnt")
+font7 = fontNew("font/f-6x8f.fnt")
+font8 = fontNew("font/f-6x9f.fnt")
+font9 = fontNew("font/font3.fnt")
+font10 = fontNew("font/font4.fnt")
+font11 = fontNew("font/font5.fnt")
+font12 = fontNew("font/score1.fnt")
+font13 = fontNew("font/kof99.fnt")
+font14 = fontNew("font/MvcName.fnt")
+font15 = fontNew("font/name1.fnt")
+font16 = fontNew("font/num1.fnt")
+font17 = fontNew("font/sf2_name.fnt")
+font18 = fontNew("font/sf2_small.fnt")
+font19 = fontNew("font/sf2_sys.fnt")
+font20 = fontNew("font/sfz2a_system.fnt")
+font21 = fontNew("font/ssf2x_10.fnt")
+font22 = fontNew("font/ssf2x_s.fnt")
+font23 = fontNew("font/ssf2x_sL.fnt")
+font24 = fontNew("font/ssf2x_vL.fnt")
 
 --;=================================================================
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)
@@ -1878,7 +1878,7 @@ end
 --; MAIN MENU STUFF
 --;===========================================================
 --Loading Text
-txt_loading = createTextImg(font1, 0, -1, 'LOADING FILES...', 310, 230)
+txt_loading = createTextImg(font1, 0, -1, "LOADING FILES...", 310, 230)
 
 function f_default() --Reset Game Modes Configuration
 	setAutoLevel(false) --generate autolevel.txt in debug dir
@@ -1916,8 +1916,8 @@ function f_default() --Reset Game Modes Configuration
 	data.victoryscreen = true --victory screen enabled
 	data.serviceScreen = false --service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
-	data.gameMode = '' --additional variable used to distinguish modes in select screen
-	data.rosterMode = '' --additional variable used to identify special modes in select screen
+	data.gameMode = "" --additional variable used to distinguish modes in select screen
+	data.rosterMode = "" --additional variable used to identify special modes in select screen
 	data.rosterAdvanced = false --additional variable used to identify advanced games in select screen
 	data.missionNo = nil --additional variable used to identify missions in select screen
 	data.eventNo = nil --additional variable used to identify events in select screen
@@ -1932,6 +1932,43 @@ end
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
+
+--"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
+function f_cmdCode()
+	--data.p2In = 2 --Activate Player 2 Control
+--Actions
+	if commandGetState(p1Cmd, 'u') and codeEntry == 1 then --Read from 2nd key because the first one was readed from menu where this function is loaded
+		codeEntry = 2
+	--elseif commandGetState(p1Cmd, 'u') and codeEntry == 1 then --Reset Code Entry
+		--f_cmdCodeReset()
+	elseif commandGetState(p1Cmd, 'd') and codeEntry == 2 then
+		codeEntry = 3
+	elseif commandGetState(p1Cmd, 'd') and codeEntry == 3 then
+		codeEntry = 4
+	elseif commandGetState(p1Cmd, 'l') and codeEntry == 4 then
+		codeEntry = 5
+	elseif commandGetState(p1Cmd, 'r') and codeEntry == 5 then
+		codeEntry = 6
+	elseif commandGetState(p1Cmd, 'l') and codeEntry == 6 then
+		codeEntry = 7
+	elseif commandGetState(p1Cmd, 'r') and codeEntry == 7 then
+		codeEntry = 8
+	elseif commandGetState(p1Cmd, 'b') and codeEntry == 8 then
+		codeEntry = 9
+	elseif commandGetState(p1Cmd, 'a') and codeEntry == 9 then
+		codeEntry = 10
+	elseif commandGetState(p1Cmd, 's') and codeEntry == 10 then
+		codeEntry = 0
+		sndPlay(sysSnd, 200, 2)
+	end
+	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
+	if codeEntry == 0 then f_drawQuickText(txt_cmdCode, jgFnt, 0, 0, "KONAMI CODE DETECTED", 159, 88) end
+end
+
+function f_cmdCodeReset()
+	cmdCode = false
+	codeEntry = 1
+end
 
 --;===========================================================
 --; SAVE DATA DEFINITION
@@ -1994,7 +2031,7 @@ function f_playTime()
 	gTime = os.clock() - gameTime
 	data.playTime = (data.playTime + gTime)
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end
 
 --Data saving to stats_sav.lua

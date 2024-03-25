@@ -31,88 +31,88 @@ resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 function f_sysTimeP()
 	if (resolutionHeight / 3 * 4) == resolutionWidth then
 		--Clock
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 229)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 229)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 229)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 229)
 		end
 		--Date
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 314, 239)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 314, 239)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 314, 239)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 314, 239)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 314, 239)
 		end
 	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
 		end
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
 		end
 	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 229)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 229)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 229)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 229)
 		end
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 365, 239)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 365, 239)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 365, 239)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 365, 239)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 365, 239)
 		end
 	else
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 229)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 229)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 229)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 229)
 		end
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%m-%d-%y")), 345, 239)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%d-%m-%Y")), 345, 239)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%a %d.%b.%Y")), 345, 239)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%A")), 345, 239)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, -1, (os.date("%B.%Y")), 345, 239)
 		end
 	end
@@ -135,35 +135,35 @@ elseif pan_str >= 100 and pan_str < 140 then
 elseif pan_str >= 140 then
 	pan_str = 160
 end
-t_panStr = {'None', 'Narrow', 'Medium', 'Wide', 'Full'}
+t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
 
 --Restore Training Settings Saved
 if getGameMode() == "practice" then
 	--Screen Info
-	if data.damageDisplay == 'No' then
+	if data.damageDisplay == "No" then
 		setDamageDisplay(0)
-	elseif data.damageDisplay == 'Yes' then
+	elseif data.damageDisplay == "Yes" then
 		setDamageDisplay(1)
 	end
-	if data.inputDisplay == 'No' then
+	if data.inputDisplay == "No" then
 		setInputDisplay(0)
-	elseif data.inputDisplay == 'Yes' then
+	elseif data.inputDisplay == "Yes" then
 		setInputDisplay(1)
 	end
-	data.hitbox = 'No'
-	data.debugInfo = 'No'
+	data.hitbox = "No"
+	data.debugInfo = "No"
 	--Power Gauge
-	data.PowerStateP1 = 'Max at Start'
+	data.PowerStateP1 = "Max at Start"
 	setPowerStateP1(11)
-	data.PowerStateP2 = 'Max at Start'
+	data.PowerStateP2 = "Max at Start"
 	setPowerStateP2(11)
 	--Life Gauge
-	data.LifeStateP1 = '100%'
+	data.LifeStateP1 = "100%"
 	setLifeStateP1(100)
-	data.LifeStateP2 = '100%'
+	data.LifeStateP2 = "100%"
 	setLifeStateP2(100)
 	--Dummy
-	data.dummyMode = 'AI'
+	data.dummyMode = "AI"
 	--Playback
 	data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
 	data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
@@ -188,7 +188,7 @@ end
 --;===========================================================
 --; PAUSE MENU SCREENPACK
 --;===========================================================
-txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins..'', 181.5, 235)
+txt_attractCredits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins.."", 181.5, 235)
 
 --Scrolling background
 pauseBG0 = animNew(sysSff, [[
@@ -357,7 +357,7 @@ animUpdate(challengerTxt)
 pauseMenuActive = false
 mainMenuBack = false
 delayMenu = -1
-pauseMode = ''
+pauseMode = ""
 PcursorPosY = 1
 PmoveTxt = 0
 pauseMenu = 1
@@ -374,7 +374,7 @@ function f_pauseMenuReset()
 	togglePauseMenu(0)
 	setSysCtrl(0)
 	delayMenu = -1
-	pauseMode = ''
+	pauseMode = ""
 	bufl = 0
 	bufr = 0
 end
@@ -383,12 +383,12 @@ function f_gameCfgMenuReset()
 	gameCfg = 1
 	cursorPosY = 1
 	moveTxt = 0
-	mainGoTo = 'Settings'
+	mainGoTo = "Settings"
 	delayMenu = -2
 end
 
 function f_gameCfgMenuReset2()
-	pauseMode = 'Settings'
+	pauseMode = "Settings"
 	gameCfg = 1
 	cursorPosY = 1
 	moveTxt = 0
@@ -400,7 +400,7 @@ function f_trainingCfgMenuReset()
 	trainingCfg = 1
 	cursorPosY = 1
 	moveTxt = 0
-	mainGoTo = 'Training'
+	mainGoTo = "Training"
 	delayMenu = -2
 end
 
@@ -420,29 +420,29 @@ screenTime = 0
 --; PAUSE MENU
 --;===========================================================
 t_pauseMain = {
-	{id = '', text = 'CONTINUE'},
-	{id = '', text = 'MOVELIST'},
-	{id = '', text = 'SETTINGS'},
-	{id = '', text = 'HIDE MENU'},
-	{id = '', text = 'GIVE UP'},
-	{id = '', text = 'MAIN MENU'}
+	{id = '', text = "CONTINUE"},
+	{id = '', text = "MOVELIST"},
+	{id = '', text = "SETTINGS"},
+	{id = '', text = "HIDE MENU"},
+	{id = '', text = "GIVE UP"},
+	{id = '', text = "MAIN MENU"}
 }
 if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "story" or getGameMode() == "storyRoster" then
-	t_pauseMain[5].text = 'CHARACTER SELECT'
+	t_pauseMain[5].text = "CHARACTER SELECT"
 	if getGameMode() == "practice" then
-		table.insert(t_pauseMain,7,{id = '', text = 'TRAINING MENU'})
+		table.insert(t_pauseMain,7,{id = '', text = "TRAINING MENU"})
 	elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
-		t_pauseMain[6].text = 'STORY SELECT'
+		t_pauseMain[6].text = "STORY SELECT"
 	end
-elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = 'STAGE SELECT'
-elseif getGameMode() == "mission" then t_pauseMain[6].text = 'MISSION SELECT'
-elseif getGameMode() == "event" then t_pauseMain[6].text = 'EVENT SELECT'
+elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "STAGE SELECT"
+elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
+elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "replay" or getGameMode() == "demo" then
 	table.remove(t_pauseMain,6)
 	table.remove(t_pauseMain,2)
-	table.insert(t_pauseMain,4,{id = '', text = 'BATTLE INFO'})
-	t_pauseMain[5].text = 'EXIT'
+	table.insert(t_pauseMain,4,{id = '', text = "BATTLE INFO"})
+	t_pauseMain[5].text = "EXIT"
 end
 
 if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
@@ -457,7 +457,7 @@ function f_pauseMain(p, st, esc)
 	pn = p
 	escape = esc
 	start = st
-	if data.pauseMode == 'No' then --Mugen Exit Type
+	if data.pauseMode == "No" then --Mugen Exit Type
 		if getGameMode() == "replay" then
 			data.replayDone = true
 			data.tempBack = true
@@ -491,10 +491,10 @@ function f_pauseMain(p, st, esc)
 		delayMenu = 0
 	end
 	cmdInput()
-	if pauseMode == '' or mainGoTo ~= '' then
+	if pauseMode == "" or mainGoTo ~= "" then
 		if challengerActive == false then
-			if pn == 1 then txt_pause = createTextImg(jgFnt, 5, 0, 'PAUSE [P1]', 159, 63)
-			elseif pn == 2 then txt_pause = createTextImg(jgFnt, 1, 0, 'PAUSE [P2]', 159, 63)
+			if pn == 1 then txt_pause = createTextImg(jgFnt, 5, 0, "PAUSE [P1]", 159, 63)
+			elseif pn == 2 then txt_pause = createTextImg(jgFnt, 1, 0, "PAUSE [P2]", 159, 63)
 			end
 			--HIDE MENU
 			if getGameMode() == "replay" or getGameMode() == "demo" then
@@ -532,10 +532,10 @@ function f_pauseMain(p, st, esc)
 			else
 				animDraw(darkenOut)
 			end
-			if delayMenu == -1 and mainGoTo ~= '' then
+			if delayMenu == -1 and mainGoTo ~= "" then
 				delayMenu = 0
 				pauseMode = mainGoTo
-				mainGoTo = ''
+				mainGoTo = ""
 			end
 			if delayMenu == 2 then
 				setSysCtrl(10)
@@ -546,7 +546,7 @@ function f_pauseMain(p, st, esc)
 					sndPlay(sysSnd, 100, 0)
 					pauseMenu = pauseMenu + 1
 				end
-				if data.pauseMode == 'Yes' then
+				if data.pauseMode == "Yes" then
 					--Actions in Demo or Replay Modes
 					if getGameMode() == "replay" or getGameMode() == "demo" then
 						if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
@@ -562,7 +562,7 @@ function f_pauseMain(p, st, esc)
 							elseif pauseMenu == 5 then
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
-								mainGoTo = 'Confirm'
+								mainGoTo = "Confirm"
 								if getGameMode() == "replay" then
 									mainMenuBack = true
 									data.replayDone = true
@@ -587,20 +587,20 @@ function f_pauseMain(p, st, esc)
 								elseif getGameMode() == "random" then --Back to Main Menu for Quick Match Mode
 									sndPlay(sysSnd, 100, 1)
 									f_confirmReset()
-									mainGoTo = 'Confirm'
+									mainGoTo = "Confirm"
 									mainMenuBack = true
 									delayMenu = -2
 								else
 									sndPlay(sysSnd, 100, 1)
 									f_confirmReset()
-									mainGoTo = 'Confirm'
+									mainGoTo = "Confirm"
 									delayMenu = -2
 								end
 							--EXIT TO MAIN MENU
 							elseif pauseMenu == 6 then
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
-								mainGoTo = 'Confirm'
+								mainGoTo = "Confirm"
 								mainMenuBack = true
 								delayMenu = -2
 							--TRAINING SETTINGS
@@ -695,11 +695,11 @@ function f_pauseMain(p, st, esc)
 				end
 			end
 		end
-	elseif pauseMode == 'Settings' or pauseMode == 'Audio' or pauseMode == 'Songs' then
+	elseif pauseMode == "Settings" or pauseMode == "Audio" or pauseMode == "Songs" then
 		f_pauseSettings()
-	elseif pauseMode == 'Training' then
+	elseif pauseMode == "Training" then
 		f_pauseTraining()
-	elseif pauseMode == 'Confirm' then
+	elseif pauseMode == "Confirm" then
 		f_pauseConfirm()
 	end
 end
@@ -707,8 +707,8 @@ end
 --;===========================================================
 --; PAUSE CONFIRM MESSAGE
 --;===========================================================
-txt_pauseQuestion = createTextImg(font14, 0, 0, '', 160, 70,0.7,0.7)
-txt_pauseConfirm = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 90)
+txt_pauseQuestion = createTextImg(font14, 0, 0, "", 160, 70,0.7,0.7)
+txt_pauseConfirm = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 90)
 
 --Confirm Window BG
 confirmPauseBG = animNew(sysSff, [[
@@ -719,47 +719,47 @@ animUpdate(confirmPauseBG)
 animSetScale(confirmPauseBG, 1, 1)
 
 t_confirmPause = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
 }
 
 function f_pauseConfirm()
 	--MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
 		if pn == 1 then
-			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MISSION SELECT')
-			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO EVENT SELECT')
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO REPLAY SELECT')
-			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO STORY SELECT')
-			else textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MAIN MENU')
+			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MISSION SELECT")
+			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO EVENT SELECT")
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO REPLAY SELECT")
+			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO STORY SELECT")
+			else textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MAIN MENU")
 			end
 		elseif pn == 2 then
-			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MISSION SELECT')
-			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO EVENT SELECT')
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO REPLAY SELECT')
-			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO STORY SELECT')
-			else textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MAIN MENU')
+			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MISSION SELECT")
+			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO EVENT SELECT")
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO REPLAY SELECT")
+			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO STORY SELECT")
+			else textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MAIN MENU")
 			end
 		end
 	--MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
 		if pn == 1 then
-			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO CHARACTER SELECT')
-			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO STAGE SELECT')
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO REPLAY SELECT')
-			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL BACK TO MAIN MENU')
-			else textImgSetText(txt_pauseQuestion, '[PLAYER 1] WILL LEAVE THIS MATCH')
+			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO CHARACTER SELECT")
+			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO STAGE SELECT")
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO REPLAY SELECT")
+			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MAIN MENU")
+			else textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL LEAVE THIS MATCH")
 			end
 		elseif pn == 2 then
-			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO CHARACTER SELECT')
-			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO STAGE SELECT')
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO REPLAY SELECT')
-			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL BACK TO MAIN MENU')
-			else textImgSetText(txt_pauseQuestion, '[PLAYER 2] WILL LEAVE THIS MATCH')
+			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO CHARACTER SELECT")
+			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO STAGE SELECT")
+			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO REPLAY SELECT")
+			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MAIN MENU")
+			else textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL LEAVE THIS MATCH")
 			end
 		end
 	end
-	if pauseMode == 'Confirm' or okGoTo ~= '' then
+	if pauseMode == "Confirm" or okGoTo ~= "" then
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sysSnd, 100, 2)
@@ -792,11 +792,11 @@ function f_pauseConfirm()
 			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
-			if okGoTo == nil or okGoTo == '' then
-				pauseMode = ''
+			if okGoTo == nil or okGoTo == "" then
+				pauseMode = ""
 			else
 				pauseMode = okGoTo
-				okGoTo = ''
+				okGoTo = ""
 			end
 			delayMenu = 0
 		end
@@ -849,9 +849,9 @@ function f_pauseConfirm()
 			if mainMenuBack == true then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sysSnd, 100, 1)
-					if hudStatus == 'No' then toggleStatusDraw() end
-					if data.hitbox == 'Yes' then toggleClsnDraw() end
-					if data.debugInfo == 'Yes' then toggleDebugDraw() end
+					if hudStatus == "No" then toggleStatusDraw() end
+					if data.hitbox == "Yes" then toggleClsnDraw() end
+					if data.debugInfo == "Yes" then toggleDebugDraw() end
 					data.tempBack = true
 					f_saveTemp()
 					exitMatch()
@@ -860,14 +860,14 @@ function f_pauseConfirm()
 			elseif mainMenuBack == false then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sysSnd, 100, 1)
-					if hudStatus == 'No' then toggleStatusDraw() end
-					if data.hitbox == 'Yes' then toggleClsnDraw() end
-					if data.debugInfo == 'Yes' then toggleDebugDraw() end
+					if hudStatus == "No" then toggleStatusDraw() end
+					if data.hitbox == "Yes" then toggleClsnDraw() end
+					if data.debugInfo == "Yes" then toggleDebugDraw() end
 					exitMatch()
 				end
 			end
 		end
-	--elseif pauseMode == 'Save' then
+	--elseif pauseMode == "Save" then
 		--f_pauseSave()
 	end
 end
@@ -876,22 +876,22 @@ end
 --; GAME SETTINGS
 --;===========================================================
 t_gameCfg = {
-	{id = '', text = 'Audio Settings',   		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Input Settings',   		varID = textImgNew(), varText = ''},
-	{id = '', text = 'HUD Display',				varID = textImgNew(), varText = ''},
-	{id = '', text = 'Open Screenshots',		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Change Stage Song',		varID = textImgNew(), varText = ''},
-	{id = '', text = '              BACK',   	varID = textImgNew(), varText = ''},
+	{text = "Audio Settings",   		varID = textImgNew(), varText = ""},
+	{text = "Input Settings",   		varID = textImgNew(), varText = ""},
+	{text = "HUD Display",				varID = textImgNew(), varText = ""},
+	{text = "Open Screenshots",			varID = textImgNew(), varText = ""},
+	{text = "Change Stage Song",		varID = textImgNew(), varText = ""},
+	{text = "              BACK",   	varID = textImgNew(), varText = ""},
 }
 
 if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "demo" then table.remove(t_gameCfg,5) end
-hudStatus = 'Yes'
+hudStatus = "Yes"
 
 function f_pauseSettings()
-	if pn == 1 then txt_gameCfg = createTextImg(jgFnt, 5, 0, 'GAME SETTINGS [P1]', 159, 63)
-	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 1, 0, 'GAME SETTINGS [P2]', 159, 63)
+	if pn == 1 then txt_gameCfg = createTextImg(jgFnt, 5, 0, "GAME SETTINGS [P1]", 159, 63)
+	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 1, 0, "GAME SETTINGS [P2]", 159, 63)
 	end
-	if pauseMode == 'Settings' or cfgGoTo ~= '' then
+	if pauseMode == "Settings" or cfgGoTo ~= "" then
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sysSnd, 100, 2)
@@ -925,11 +925,11 @@ function f_pauseSettings()
 			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
-			if cfgGoTo == nil or cfgGoTo == '' then
-				pauseMode = ''
+			if cfgGoTo == nil or cfgGoTo == "" then
+				pauseMode = ""
 			else
 				pauseMode = cfgGoTo
-				cfgGoTo = ''
+				cfgGoTo = ""
 			end
 			delayMenu = 0
 		end
@@ -949,7 +949,7 @@ function f_pauseSettings()
 				--Audio Settings
 				if gameCfg == 1 then
 					sndPlay(sysSnd, 100, 1)
-					cfgGoTo = 'Audio'
+					cfgGoTo = "Audio"
 					audioCfg = 1
 					cursorPosY = 1
 					moveTxt = 0
@@ -964,7 +964,7 @@ function f_pauseSettings()
 				--Play/Change Song
 				elseif gameCfg == 5 then
 					sndPlay(sysSnd, 100, 1)
-					cfgGoTo = 'Songs'
+					cfgGoTo = "Songs"
 					songMenu = 1
 					songFolder = 1
 					cursorPosY = 1
@@ -975,14 +975,14 @@ function f_pauseSettings()
 			end
 			--HUD Status
 			if gameCfg == 3 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hudStatus == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hudStatus == "No" then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
-					hudStatus = 'Yes'
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hudStatus == 'Yes' then
+					hudStatus = "Yes"
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hudStatus == "Yes" then
 					sndPlay(sysSnd, 100, 1)
 					toggleStatusDraw()
-					hudStatus = 'No'
+					hudStatus = "No"
 				end
 			end
 			if gameCfg < 1 then
@@ -1075,9 +1075,9 @@ function f_pauseSettings()
 				P2bufd = 0
 			end
 		end
-	elseif pauseMode == 'Audio' then
+	elseif pauseMode == "Audio" then
 		f_pauseAudio()
-	elseif pauseMode == 'Songs' then
+	elseif pauseMode == "Songs" then
 		f_pauseSongs()
 	end
 end
@@ -1086,17 +1086,17 @@ end
 --; AUDIO SETTINGS
 --;===========================================================
 t_audioCfg = {
-	{id = '', text = 'Master Volume',   	varID = textImgNew(), varText = gl_vol},
-	{id = '', text = 'SFX Volume',       	varID = textImgNew(), varText = se_vol},
-	{id = '', text = 'BGM Volume',      	varID = textImgNew(), varText = bgm_vol},
-	{id = '', text = 'Audio Panning',   	varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{id = '', text = '              BACK',  varID = textImgNew(), varText = ''},
+	{text = "Master Volume",   		varID = textImgNew(), varText = gl_vol},
+	{text = "SFX Volume",       	varID = textImgNew(), varText = se_vol},
+	{text = "BGM Volume",      		varID = textImgNew(), varText = bgm_vol},
+	{text = "Audio Panning",   		varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "              BACK",  	varID = textImgNew(), varText = ""},
 }
 
 function f_pauseAudio()
 	local hasChanged = false
-	if pn == 1 then txt_audioCfg = createTextImg(jgFnt, 5, 0, 'AUDIO SETTINGS [P1]', 159, 63)
-	elseif pn == 2 then txt_audioCfg = createTextImg(jgFnt, 1, 0, 'AUDIO SETTINGS [P2]', 159, 63)
+	if pn == 1 then txt_audioCfg = createTextImg(jgFnt, 5, 0, "AUDIO SETTINGS [P1]", 159, 63)
+	elseif pn == 2 then txt_audioCfg = createTextImg(jgFnt, 1, 0, "AUDIO SETTINGS [P2]", 159, 63)
 	end
 	if delayMenu == 2 then
 		if start then
@@ -1294,11 +1294,11 @@ end
 --;===========================================================
 function f_pauseSongs()
 	if pn == 1 then
-		txt_songMenu = createTextImg(jgFnt, 5, 0, 'SONG SELECT [P1]', 159, 54)
-		txt_song = createTextImg(jgFnt, 0, 0, 'FOLDER '..'['..t_songList[songFolder][songMenu].folder..']', 159, 66)
+		txt_songMenu = createTextImg(jgFnt, 5, 0, "SONG SELECT [P1]", 159, 54)
+		txt_song = createTextImg(jgFnt, 0, 0, "FOLDER ".."["..t_songList[songFolder][songMenu].folder.."]", 159, 66)
 	elseif pn == 2 then
-		txt_songMenu = createTextImg(jgFnt, 1, 0, 'SONG SELECT [P2]', 159, 54)
-		txt_song = createTextImg(jgFnt, 0, 0, 'FOLDER '..'['..t_songList[songFolder][songMenu].folder..']', 159, 66)
+		txt_songMenu = createTextImg(jgFnt, 1, 0, "SONG SELECT [P2]", 159, 54)
+		txt_song = createTextImg(jgFnt, 0, 0, "FOLDER ".."["..t_songList[songFolder][songMenu].folder.."]", 159, 66)
 	end
 	if delayMenu == 2 then
 		if start then
@@ -1470,23 +1470,23 @@ end
 --; TRAINING SETTINGS/BATTLE INFO
 --;===========================================================
 t_trainingCfg = {
-	{id = '', text = 'Damage Display', 				varID = textImgNew(), varText = data.damageDisplay},
-	{id = '', text = 'Input Display',				varID = textImgNew(), varText = data.inputDisplay},
-	{id = '', text = 'Hitbox Display', 				varID = textImgNew(), varText = data.hitbox},
-	{id = '', text = 'Debug Info',					varID = textImgNew(), varText = data.debugInfo},
-	{id = '', text = 'Lifebar P1',					varID = textImgNew(), varText = data.LifeStateP1},
-	{id = '', text = 'Lifebar P2',					varID = textImgNew(), varText = data.LifeStateP2},
-	{id = '', text = 'Power Gauge P1',				varID = textImgNew(), varText = data.PowerStateP1},
-	{id = '', text = 'Power Gauge P2',				varID = textImgNew(), varText = data.PowerStateP2},
-	{id = '', text = 'Dummy Control', 				varID = textImgNew(), varText = data.dummyMode},
-	--{id = '', text = 'State', 					varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 1)
-	--{id = '', text = 'Distance', 					varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 2)
-	--{id = '', text = 'Guard Mode', 				varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 3)
-	--{id = '', text = 'Tech Recovery', 			varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 5)
-	--{id = '', text = 'Tech Direction', 			varID = textImgNew(), varText = ''}, --getCharVar(2, 't', 10)
-	--{id = '', text = 'Counter Hit', 				varID = textImgNew(), varText = ''}, --getCharVar(1, 't', 12)
-	{id = '', text = 'Playback Settings',			varID = textImgNew(), varText = ''},
-	{id = '', text = '                   BACK',   	varID = textImgNew(), varText = ''},
+	{text = "Damage Display", 				varID = textImgNew(), varText = data.damageDisplay},
+	{text = "Input Display",				varID = textImgNew(), varText = data.inputDisplay},
+	{text = "Hitbox Display", 				varID = textImgNew(), varText = data.hitbox},
+	{text = "Debug Info",					varID = textImgNew(), varText = data.debugInfo},
+	{text = "Lifebar P1",					varID = textImgNew(), varText = data.LifeStateP1},
+	{text = "Lifebar P2",					varID = textImgNew(), varText = data.LifeStateP2},
+	{text = "Power Gauge P1",				varID = textImgNew(), varText = data.PowerStateP1},
+	{text = "Power Gauge P2",				varID = textImgNew(), varText = data.PowerStateP2},
+	{text = "Dummy Control", 				varID = textImgNew(), varText = data.dummyMode},
+	--{text = "State", 						varID = textImgNew(), varText = ""},
+	--{text = "Distance", 					varID = textImgNew(), varText = ""},
+	--{text = "Guard Mode", 				varID = textImgNew(), varText = ""},
+	--{text = "Tech Recovery", 				varID = textImgNew(), varText = ""},
+	--{text = "Tech Direction", 			varID = textImgNew(), varText = ""},
+	--{text = "Counter Hit", 				varID = textImgNew(), varText = ""},
+	{text = "Playback Settings",			varID = textImgNew(), varText = ""},
+	{text = "                   BACK",   	varID = textImgNew(), varText = ""},
 }
 
 if getGameMode() ~= "practice" then
@@ -1497,15 +1497,15 @@ end
 function f_pauseTraining()
 	local hasChanged = false
 	if pn == 1 then
-		if getGameMode() == "practice" then txt_trainingCfg = createTextImg(jgFnt, 5, 0, 'TRAINING SETTINGS [P1]', 159, 63)
-		else txt_trainingCfg = createTextImg(jgFnt, 5, 0, 'BATTLE INFO [P1]', 159, 63)
+		if getGameMode() == "practice" then txt_trainingCfg = createTextImg(jgFnt, 5, 0, "TRAINING SETTINGS [P1]", 159, 63)
+		else txt_trainingCfg = createTextImg(jgFnt, 5, 0, "BATTLE INFO [P1]", 159, 63)
 		end
 	elseif pn == 2 then
-		if getGameMode() == "practice" then txt_trainingCfg = createTextImg(jgFnt, 1, 0, 'TRAINING SETTINGS [P2]', 159, 63)
-		else txt_trainingCfg = createTextImg(jgFnt, 1, 0, 'BATTLE INFO [P2]', 159, 63)
+		if getGameMode() == "practice" then txt_trainingCfg = createTextImg(jgFnt, 1, 0, "TRAINING SETTINGS [P2]", 159, 63)
+		else txt_trainingCfg = createTextImg(jgFnt, 1, 0, "BATTLE INFO [P2]", 159, 63)
 		end
 	end
-	if pauseMode == 'Training' or trainingGoTo ~= '' then
+	if pauseMode == "Training" or trainingGoTo ~= "" then
 		if delayMenu == 2 then
 			if start then
 				sndPlay(sysSnd, 100, 2)
@@ -1540,11 +1540,11 @@ function f_pauseTraining()
 			animDraw(darkenOut)
 		end
 		if delayMenu == -1 then
-			if trainingGoTo == nil or trainingGoTo == '' then
-				pauseMode = ''
+			if trainingGoTo == nil or trainingGoTo == "" then
+				pauseMode = ""
 			else
 				pauseMode = trainingGoTo
-				trainingGoTo = ''
+				trainingGoTo = ""
 			end
 			delayMenu = 0
 		end
@@ -1564,104 +1564,104 @@ function f_pauseTraining()
 				--Playback Settings
 				if trainingCfg == 10 then
 					sndPlay(sysSnd, 100, 5)
-					--trainingGoTo = 'Playback'
+					--trainingGoTo = "Playback"
 				end
 			end
 			--Info Display
 			if trainingCfg == 1 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.damageDisplay == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.damageDisplay == "No" then
 				sndPlay(sysSnd, 100, 5)
 				--[[
 					sndPlay(sysSnd, 100, 1)
-					data.damageDisplay = 'Yes'
+					data.damageDisplay = "Yes"
 					setDamageDisplay(1)
 					hasChanged = true
 				]]
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.damageDisplay == 'Yes' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.damageDisplay == "Yes" then
 					sndPlay(sysSnd, 100, 5)
 				--[[
 					sndPlay(sysSnd, 100, 1)
-					data.damageDisplay = 'No'
+					data.damageDisplay = "No"
 					setDamageDisplay(0)
 					hasChanged = true
 				]]
 				end
 			--Input Display
 			elseif trainingCfg == 2 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.inputDisplay == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.inputDisplay == "No" then
 					sndPlay(sysSnd, 100, 1)
-					data.inputDisplay = 'Yes'
+					data.inputDisplay = "Yes"
 					setInputDisplay(1)
 					hasChanged = true
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.inputDisplay == 'Yes' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.inputDisplay == "Yes" then
 					sndPlay(sysSnd, 100, 1)
-					data.inputDisplay = 'No'
+					data.inputDisplay = "No"
 					setInputDisplay(0)
 					hasChanged = true
 				end
 			--Hitbox Display
 			elseif trainingCfg == 3 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.hitbox == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.hitbox == "No" then
 					sndPlay(sysSnd, 100, 1)
 					toggleClsnDraw()
-					data.hitbox = 'Yes'
+					data.hitbox = "Yes"
 					hasChanged = true
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.hitbox == 'Yes' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.hitbox == "Yes" then
 					sndPlay(sysSnd, 100, 1)
 					toggleClsnDraw()
-					data.hitbox = 'No'
+					data.hitbox = "No"
 					hasChanged = true
 				end
 			--Debug Info Display
 			elseif trainingCfg == 4 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.debugInfo == 'No' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.debugInfo == "No" then
 					sndPlay(sysSnd, 100, 1)
 					toggleDebugDraw()
-					data.debugInfo = 'Yes'
+					data.debugInfo = "Yes"
 					hasChanged = true
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.debugInfo == 'Yes' then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.debugInfo == "Yes" then
 					sndPlay(sysSnd, 100, 1)
 					toggleDebugDraw()
-					data.debugInfo = 'No'
+					data.debugInfo = "No"
 					hasChanged = true
 				end
 			--Left Side Life Gauge Setup
 			elseif trainingCfg == 5 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.LifeStateP1 == 'No Regenerate' then
+					if data.LifeStateP1 == "No Regenerate" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '25%'
+						data.LifeStateP1 = "25%"
 						setLifeStateP1(25)
-					elseif data.LifeStateP1 == '25%' then
+					elseif data.LifeStateP1 == "25%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '50%'
+						data.LifeStateP1 = "50%"
 						setLifeStateP1(50)
-					elseif data.LifeStateP1 == '50%' then
+					elseif data.LifeStateP1 == "50%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '75%'
+						data.LifeStateP1 = "75%"
 						setLifeStateP1(75)
-					elseif data.LifeStateP1 == '75%' then
+					elseif data.LifeStateP1 == "75%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '100%'
+						data.LifeStateP1 = "100%"
 						setLifeStateP1(100)
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.LifeStateP1 == '100%' then
+					if data.LifeStateP1 == "100%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '75%'
+						data.LifeStateP1 = "75%"
 						setLifeStateP1(75)
-					elseif data.LifeStateP1 == '75%' then
+					elseif data.LifeStateP1 == "75%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '50%'
+						data.LifeStateP1 = "50%"
 						setLifeStateP1(50)
-					elseif data.LifeStateP1 == '50%' then
+					elseif data.LifeStateP1 == "50%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = '25%'
+						data.LifeStateP1 = "25%"
 						setLifeStateP1(25)
-					elseif data.LifeStateP1 == '25%' then
+					elseif data.LifeStateP1 == "25%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = 'No Regenerate'
+						data.LifeStateP1 = "No Regenerate"
 						setLifeStateP1(0)
 					end
 					hasChanged = true
@@ -1669,40 +1669,40 @@ function f_pauseTraining()
 			--Right Side Life Gauge Setup
 			elseif trainingCfg == 6 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.LifeStateP2 == 'No Regenerate' then
+					if data.LifeStateP2 == "No Regenerate" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '25%'
+						data.LifeStateP2 = "25%"
 						setLifeStateP2(25)
-					elseif data.LifeStateP2 == '25%' then
+					elseif data.LifeStateP2 == "25%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '50%'
+						data.LifeStateP2 = "50%"
 						setLifeStateP2(50)
-					elseif data.LifeStateP2 == '50%' then
+					elseif data.LifeStateP2 == "50%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '75%'
+						data.LifeStateP2 = "75%"
 						setLifeStateP2(75)
-					elseif data.LifeStateP2 == '75%' then
+					elseif data.LifeStateP2 == "75%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '100%'
+						data.LifeStateP2 = "100%"
 						setLifeStateP2(100)
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.LifeStateP2 == '100%' then
+					if data.LifeStateP2 == "100%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '75%'
+						data.LifeStateP2 = "75%"
 						setLifeStateP2(75)
-					elseif data.LifeStateP2 == '75%' then
+					elseif data.LifeStateP2 == "75%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '50%'
+						data.LifeStateP2 = "50%"
 						setLifeStateP2(50)
-					elseif data.LifeStateP2 == '50%' then
+					elseif data.LifeStateP2 == "50%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = '25%'
+						data.LifeStateP2 = "25%"
 						setLifeStateP2(25)
-					elseif data.LifeStateP2 == '25%' then
+					elseif data.LifeStateP2 == "25%" then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = 'No Regenerate'
+						data.LifeStateP2 = "No Regenerate"
 						setLifeStateP2(0)
 					end
 					hasChanged = true
@@ -1710,127 +1710,127 @@ function f_pauseTraining()
 			--Left Side Power Gauge Setup
 			elseif trainingCfg == 7 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.PowerStateP1 == 'Max at Start' then
+					if data.PowerStateP1 == "Max at Start" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(10)
-						data.PowerStateP1 = 'Recovery'
-					elseif data.PowerStateP1 == 'Recovery' then
+						data.PowerStateP1 = "Recovery"
+					elseif data.PowerStateP1 == "Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(0)
-						data.PowerStateP1 = 'No Recovery'
-					elseif data.PowerStateP1 == 'No Recovery' then
+						data.PowerStateP1 = "No Recovery"
+					elseif data.PowerStateP1 == "No Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(1)
-						data.PowerStateP1 = 'Level 1'
-					elseif data.PowerStateP1 == 'Level 1' then
+						data.PowerStateP1 = "Level 1"
+					elseif data.PowerStateP1 == "Level 1" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(2)
-						data.PowerStateP1 = 'Level 2'
-					elseif data.PowerStateP1 == 'Level 2' then
+						data.PowerStateP1 = "Level 2"
+					elseif data.PowerStateP1 == "Level 2" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(3)
-						data.PowerStateP1 = 'Level 3'
-					elseif data.PowerStateP1 == 'Level 3' then
+						data.PowerStateP1 = "Level 3"
+					elseif data.PowerStateP1 == "Level 3" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(666)
-						data.PowerStateP1 = 'Unlimited'
+						data.PowerStateP1 = "Unlimited"
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.PowerStateP1 == 'Recovery' then
+					if data.PowerStateP1 == "Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(11)
-						data.PowerStateP1 = 'Max at Start'
-					elseif data.PowerStateP1 == 'No Recovery' then
+						data.PowerStateP1 = "Max at Start"
+					elseif data.PowerStateP1 == "No Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(10)
-						data.PowerStateP1 = 'Recovery'
-					elseif data.PowerStateP1 == 'Level 1' then
+						data.PowerStateP1 = "Recovery"
+					elseif data.PowerStateP1 == "Level 1" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(0)
-						data.PowerStateP1 = 'No Recovery'
-					elseif data.PowerStateP1 == 'Level 2' then
+						data.PowerStateP1 = "No Recovery"
+					elseif data.PowerStateP1 == "Level 2" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(1)
-						data.PowerStateP1 = 'Level 1'
-					elseif data.PowerStateP1 == 'Level 3' then
+						data.PowerStateP1 = "Level 1"
+					elseif data.PowerStateP1 == "Level 3" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(2)
-						data.PowerStateP1 = 'Level 2'
-					elseif data.PowerStateP1 == 'Unlimited' then
+						data.PowerStateP1 = "Level 2"
+					elseif data.PowerStateP1 == "Unlimited" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP1(3)
-						data.PowerStateP1 = 'Level 3'
+						data.PowerStateP1 = "Level 3"
 					end
 					hasChanged = true
 				end
 			--Right Side Power Gauge Setup
 			elseif trainingCfg == 8 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.PowerStateP2 == 'Max at Start' then
+					if data.PowerStateP2 == "Max at Start" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(10)
-						data.PowerStateP2 = 'Recovery'
-					elseif data.PowerStateP2 == 'Recovery' then
+						data.PowerStateP2 = "Recovery"
+					elseif data.PowerStateP2 == "Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(0)
-						data.PowerStateP2 = 'No Recovery'
-					elseif data.PowerStateP2 == 'No Recovery' then
+						data.PowerStateP2 = "No Recovery"
+					elseif data.PowerStateP2 == "No Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(1)
-						data.PowerStateP2 = 'Level 1'
-					elseif data.PowerStateP2 == 'Level 1' then
+						data.PowerStateP2 = "Level 1"
+					elseif data.PowerStateP2 == "Level 1" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(2)
-						data.PowerStateP2 = 'Level 2'
-					elseif data.PowerStateP2 == 'Level 2' then
+						data.PowerStateP2 = "Level 2"
+					elseif data.PowerStateP2 == "Level 2" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(3)
-						data.PowerStateP2 = 'Level 3'
-					elseif data.PowerStateP2 == 'Level 3' then
+						data.PowerStateP2 = "Level 3"
+					elseif data.PowerStateP2 == "Level 3" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(666)
-						data.PowerStateP2 = 'Unlimited'
+						data.PowerStateP2 = "Unlimited"
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.PowerStateP2 == 'Recovery' then
+					if data.PowerStateP2 == "Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(11)
-						data.PowerStateP2 = 'Max at Start'
-					elseif data.PowerStateP2 == 'No Recovery' then
+						data.PowerStateP2 = "Max at Start"
+					elseif data.PowerStateP2 == "No Recovery" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(10)
-						data.PowerStateP2 = 'Recovery'
-					elseif data.PowerStateP2 == 'Level 1' then
+						data.PowerStateP2 = "Recovery"
+					elseif data.PowerStateP2 == "Level 1" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(0)
-						data.PowerStateP2 = 'No Recovery'
-					elseif data.PowerStateP2 == 'Level 2' then
+						data.PowerStateP2 = "No Recovery"
+					elseif data.PowerStateP2 == "Level 2" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(1)
-						data.PowerStateP2 = 'Level 1'
-					elseif data.PowerStateP2 == 'Level 3' then
+						data.PowerStateP2 = "Level 1"
+					elseif data.PowerStateP2 == "Level 3" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(2)
-						data.PowerStateP2 = 'Level 2'
-					elseif data.PowerStateP2 == 'Unlimited' then
+						data.PowerStateP2 = "Level 2"
+					elseif data.PowerStateP2 == "Unlimited" then
 						sndPlay(sysSnd, 100, 1)
 						setPowerStateP2(3)
-						data.PowerStateP2 = 'Level 3'
+						data.PowerStateP2 = "Level 3"
 					end
 					hasChanged = true
 				end
 			--Dummy Control
 			elseif trainingCfg == 9 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyMode == 'AI' then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyMode == "AI" then
 					sndPlay(sysSnd, 100, 1)
 					toggleAI(2)
-					data.dummyMode = 'Manual'
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyMode == 'Manual' then
+					data.dummyMode = "Manual"
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyMode == "Manual" then
 					sndPlay(sysSnd, 100, 1)
 					toggleAI(2)
-					data.dummyMode = 'AI'
+					data.dummyMode = "AI"
 				end
 			--[[
 			--Dummy State
@@ -1997,7 +1997,7 @@ function f_pauseTraining()
 				P2bufd = 0
 			end
 		end
-	--elseif pauseMode == '???' then
+	--elseif pauseMode == "???" then
 		--f_pause???()
 	end
 end

@@ -701,9 +701,9 @@ end
 
 --Generate Table with Music List
 t_selMusic = {
-	{bgmfile = '', bgmname = 'AUTO', bgmchar = 0},
-	{bgmfile = '', bgmname = 'AUTO [RIGHT SIDE]', bgmchar = 0},
-	{bgmfile = '', bgmname = 'RANDOM', bgmchar = 0}
+	{bgmfile = "", bgmname = "AUTO", bgmchar = 0},
+	{bgmfile = "", bgmname = "AUTO [RIGHT SIDE]", bgmchar = 0},
+	{bgmfile = "", bgmname = "RANDOM", bgmchar = 0}
 }
 
 --Populate table with SOUND FOLDER
@@ -711,25 +711,25 @@ for file in lfs.dir[[.\\sound\\]] do
 	if file:match('^.*(%.)mp3$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = 'sound/'..file
+		t_selMusic[row]['bgmfile'] = "sound/"..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]mp3$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	elseif file:match('^.*(%.)MP3$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = 'sound/'..file
+		t_selMusic[row]['bgmfile'] = "sound/"..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]MP3$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	elseif file:match('^.*(%.)ogg$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = 'sound/'..file
+		t_selMusic[row]['bgmfile'] = "sound/"..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]ogg$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	elseif file:match('^.*(%.)OGG$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = 'sound/'..file
+		t_selMusic[row]['bgmfile'] = "sound/"..file
 		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	end
@@ -737,21 +737,21 @@ end
 
 --Add Extra music
 --[[
-t_selMusic[6].bgmfile = 'sound/system/Opening.mp3'
-t_selMusic[6].bgmname = 'Extra Song Name'
+t_selMusic[6].bgmfile = "sound/system/Opening.mp3"
+t_selMusic[6].bgmname = "Extra Song Name"
 t_selMusic[6].bgmchar = 999
 ]]
 
 --Add extra items to Song Select table
-t_selMusic[#t_selMusic+1] = {bgmfile = '', bgmname = 'MUTE', bgmchar = 0}
-t_selMusic[#t_selMusic+1] = {bgmfile = '', bgmname = 'AUTO [LEFT SIDE]', bgmchar = 0}
+t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
+t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
 
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
 --;===========================================================
 --if sprite generation is needed and conversion has not been permanently disabled
 if generate and data.sffConversion then
-	txt_parserWarning = createTextImg(jgFnt, 0, 0, 'WARNING', 159, 13)
+	txt_parserWarning = createTextImg(jgFnt, 0, 0, "WARNING", 159, 13)
 	t_parserText = {
 		{id = '', text = #t_gen .. " new character(s) detected."},
 		{id = '', text = "In order to improve loading times and memory usage"},

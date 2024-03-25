@@ -104,8 +104,8 @@ function f_missionMenu()
 	--Missions Progress Logic
 		data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
 		missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-		txt_missionMenu = createTextImg(jgFnt, 0, -1, 'MISSION SELECT:', 195, 128)
-		txt_missionProgress = createTextImg(jgFnt, 2, 1, '['..missionsData..'%]', 202, 128) --needs to be inside of mission Menu function, to load mission data %
+		txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 128)
+		txt_missionProgress = createTextImg(jgFnt, 2, 1, "["..missionsData.."%]", 202, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -120,7 +120,7 @@ function f_missionMenu()
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			f_default()
 			data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
-			data.rosterMode = 'mission'
+			data.rosterMode = "mission"
 			setGameMode('mission')
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 1)
@@ -129,9 +129,9 @@ function f_missionMenu()
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kung fu man/ex/ex kung fu man.def']}
+				data.p1Char = {t_charAdd["kung fu man/ex/ex kung fu man.def"]}
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				data.p2Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
 				script.select.f_selectSimple()
@@ -141,10 +141,10 @@ function f_missionMenu()
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kung fu man/evil/evil kung fu man.def']}
+				data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
 				data.p1Pal = 1
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd['kung fu man']}
+				data.p2Char = {t_charAdd["kung fu man"]}
 				data.p2Pal = 1
 				data.stageMenu = true
 				data.versusScreen = false
@@ -156,10 +156,10 @@ function f_missionMenu()
 				setRoundTime(-1)
 				data.p2In = 1
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['kung fu man/master/master kung fu man.def']}
+				data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 				data.p1Pal = 1
 				data.challengerScreen = false
-				data.gameMode = 'arcade'
+				data.gameMode = "arcade"
 				script.select.f_selectAdvance()
 				if script.select.winner == 1 then f_missionStatus() end
 			end
@@ -266,5 +266,5 @@ function f_missionStatus()
 	elseif data.missionNo == 3 then data.mission3Status = 1
 	end
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end

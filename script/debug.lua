@@ -1,8 +1,8 @@
 --;===========================================================
 --; MATCH ACCESS FUNCTIONS
 --;===========================================================
-assert(loadfile('script/common.lua'))() --For load options data like screenshot sfx, data_sav and Menu assets
-require('script.pause')
+assert(loadfile("script/common.lua"))() --For load options data like screenshot sfx, data_sav and Menu assets
+require("script.pause")
 
 if data.debugMode == true then
 --Keys definition on lib/alpha/sdlpluing.ssz
