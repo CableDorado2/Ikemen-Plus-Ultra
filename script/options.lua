@@ -2662,12 +2662,12 @@ function f_zoomCfg()
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				zoomCfg = zoomCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				zoomCfg = zoomCfg + 1
 				if bufl then bufl = 0 end
@@ -3636,17 +3636,17 @@ end
 --;===========================================================
 --; TIMERS SETTINGS
 --;===========================================================
-txt_timeCfg = createTextImg(jgFnt, 0, 0, 'TIMERS SETTINGS', 159, 13)
+txt_timeCfg = createTextImg(jgFnt, 0, 0, "TIMERS SETTINGS", 159, 13)
 
 t_timeCfg = {
-	{id = '', text = 'Character Select',    	varID = textImgNew(), varText = data.selectTime .. ' Seconds'},
-	{id = '', text = 'Stage Select',   			varID = textImgNew(), varText = data.stageTime .. ' Seconds'},
-	{id = '', text = 'Order Select',     		varID = textImgNew(), varText = data.orderTime .. ' Seconds'},
-	{id = '', text = 'Rematch Option',	   		varID = textImgNew(), varText = data.rematchTime .. ' Seconds'},
-	{id = '', text = 'Service Screen', 			varID = textImgNew(), varText = data.serviceTime .. ' Seconds'},
-	{id = '', text = 'Attract Title', 			varID = textImgNew(), varText = data.attractTime .. ' Seconds'},
-	{id = '', text = 'Default Values',  	 	varID = textImgNew(), varText = ''},
-	{id = '', text = '          BACK', 			varID = textImgNew(), varText = ''},
+	{text = "Character Select",    	varID = textImgNew(), varText = data.selectTime .." Seconds"},
+	{text = "Stage Select",   		varID = textImgNew(), varText = data.stageTime .." Seconds"},
+	{text = "Order Select",     	varID = textImgNew(), varText = data.orderTime .." Seconds"},
+	{text = "Rematch Option",	   	varID = textImgNew(), varText = data.rematchTime .." Seconds"},
+	{text = "Service Screen", 		varID = textImgNew(), varText = data.serviceTime .." Seconds"},
+	{text = "Attract Title", 		varID = textImgNew(), varText = data.attractTime .." Seconds"},
+	{text = "Default Values",  	 	varID = textImgNew(), varText = ""},
+	{text = "          BACK", 		varID = textImgNew(), varText = ""},
 }
 
 function f_timeCfg()
@@ -3660,15 +3660,15 @@ function f_timeCfg()
 	local bufl = 0
 	while true do
 		if defaultScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				timeCfg = timeCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				timeCfg = timeCfg + 1
 				if bufl then bufl = 0 end
@@ -3848,12 +3848,12 @@ function f_timeCfg()
 					bufl = 0
 				end
 			--Default Values
-			elseif timeCfg == 7 and btnPalNo(p1Cmd) > 0 then
+			elseif timeCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultTime = true
 				defaultScreen = true
 			--BACK
-			elseif timeCfg == 8 and btnPalNo(p1Cmd) > 0 then
+			elseif timeCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3867,9 +3867,9 @@ function f_timeCfg()
 			elseif timeCfg > #t_timeCfg then
 				timeCfg = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 14 then
@@ -3895,12 +3895,12 @@ function f_timeCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if data.selectTime ~= -1 then t_timeCfg[1].varText = data.selectTime .. ' Seconds' else t_timeCfg[1].varText = 'Infinite' end
-		if data.stageTime ~= -1 then t_timeCfg[2].varText = data.stageTime .. ' Seconds' else t_timeCfg[2].varText = 'Infinite' end
-		if data.orderTime ~= -1 then t_timeCfg[3].varText = data.orderTime .. ' Seconds' else t_timeCfg[3].varText = 'Infinite' end
-		if data.rematchTime ~= -1 then t_timeCfg[4].varText = data.rematchTime .. ' Seconds' else t_timeCfg[4].varText = 'Infinite' end
-		if data.serviceTime ~= -1 then t_timeCfg[5].varText = data.serviceTime .. ' Seconds' else t_timeCfg[5].varText = 'Infinite' end
-		if data.attractTime ~= -1 then t_timeCfg[6].varText = data.attractTime .. ' Seconds' else t_timeCfg[6].varText = 'Infinite' end
+		if data.selectTime ~= -1 then t_timeCfg[1].varText = data.selectTime .." Seconds" else t_timeCfg[1].varText = "Infinite" end
+		if data.stageTime ~= -1 then t_timeCfg[2].varText = data.stageTime .." Seconds" else t_timeCfg[2].varText = "Infinite" end
+		if data.orderTime ~= -1 then t_timeCfg[3].varText = data.orderTime .." Seconds" else t_timeCfg[3].varText = "Infinite" end
+		if data.rematchTime ~= -1 then t_timeCfg[4].varText = data.rematchTime .." Seconds" else t_timeCfg[4].varText = "Infinite" end
+		if data.serviceTime ~= -1 then t_timeCfg[5].varText = data.serviceTime .." Seconds" else t_timeCfg[5].varText = "Infinite" end
+		if data.attractTime ~= -1 then t_timeCfg[6].varText = data.attractTime .." Seconds" else t_timeCfg[6].varText = "Infinite" end
 		for i=1, maxtimeCfg do
 			if i > timeCfg - cursorPosY then
 				if t_timeCfg[i].varID ~= nil then
@@ -3918,10 +3918,10 @@ function f_timeCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -3937,14 +3937,14 @@ end
 --;===========================================================
 --; SYSTEM SONGS SETTINGS
 --;===========================================================
-txt_songCfg = createTextImg(jgFnt, 0, 0, 'SYSTEM SONG SETTINGS', 159, 13)
+txt_songCfg = createTextImg(jgFnt, 0, 0, "SYSTEM SONG SETTINGS", 159, 13)
 
 t_songCfg = {
-	{id = '', text = 'Main Menu', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'Character Select',			varID = textImgNew(), varText = ''},
-	{id = '', text = 'Challenger',		 			varID = textImgNew(), varText = ''},
-	{id = '', text = 'Default Values',  	 		varID = textImgNew(), varText = ''},
-	{id = '', text = '                       BACK', varID = textImgNew(), varText = ''},
+	{text = "Main Menu", 					varID = textImgNew(), varText = ""},
+	{text = "Character Select",				varID = textImgNew(), varText = ""},
+	{text = "Challenger",		 			varID = textImgNew(), varText = ""},
+	{text = "Default Values",  	 			varID = textImgNew(), varText = ""},
+	{text = "                       BACK", 	varID = textImgNew(), varText = ""},
 }
 
 function f_setCfgSong()
@@ -3982,43 +3982,43 @@ function f_songCfg()
 	local bufl = 0
 	while true do
 		if defaultScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				sndPlay(sysSnd, 100, 2)
 				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				songCfg = songCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				songCfg = songCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			end
 			--Set Main Menu Song
-			if songCfg == 1 and btnPalNo(p1Cmd) > 0 then
+			if songCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				songsSettings = true --For identify purposes
 				f_songMenu() --Go to Sound Test
 			--Set Character Select Song
-			elseif songCfg == 2 and btnPalNo(p1Cmd) > 0 then
+			elseif songCfg == 2 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				songsSettings = true
 				f_songMenu()
 			--Set Challenger Select Song
-			elseif songCfg == 3 and btnPalNo(p1Cmd) > 0 then
+			elseif songCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				songsSettings = true
 				f_songMenu()
 			--Default Values
-			elseif songCfg == 4 and btnPalNo(p1Cmd) > 0 then
+			elseif songCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSong = true
 				defaultScreen = true
 			--BACK
-			elseif songCfg == 5 and btnPalNo(p1Cmd) > 0 then
+			elseif songCfg == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				break
@@ -4034,9 +4034,9 @@ function f_songCfg()
 			elseif songCfg > #t_songCfg then
 				songCfg = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 14 then
@@ -4082,10 +4082,10 @@ function f_songCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -4103,18 +4103,18 @@ end
 --;===========================================================
 --; AUDIO SETTINGS
 --;===========================================================
-txt_audioCfg = createTextImg(jgFnt, 0, 0, 'AUDIO SETTINGS', 159, 13)
+txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
-	{id = '', text = 'Master Volume',			varID = textImgNew(), varText = gl_vol .. '%'},
-	{id = '', text = 'SFX Volume',				varID = textImgNew(), varText = se_vol .. '%'},
-	{id = '', text = 'BGM Volume',				varID = textImgNew(), varText = bgm_vol .. '%'},
-	{id = '', text = 'Audio Panning',   		varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{id = '', text = 'Sample Rate',     		varID = textImgNew(), varText = freq},
-	{id = '', text = 'Channels',        		varID = textImgNew(), varText = s_channels},
-	{id = '', text = 'Buffer Samples',  		varID = textImgNew(), varText = buffer},
-	{id = '', text = 'Default Values',		    varID = textImgNew(), varText = ''},
-	{id = '', text = '          BACK',  		varID = textImgNew(), varText = ''},
+	{text = "Master Volume",		varID = textImgNew(), varText = gl_vol.."%"},
+	{text = "SFX Volume",			varID = textImgNew(), varText = se_vol.."%"},
+	{text = "BGM Volume",			varID = textImgNew(), varText = bgm_vol.."%"},
+	{text = "Audio Panning",   		varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{text = "Sample Rate",     		varID = textImgNew(), varText = freq},
+	{text = "Channels",        		varID = textImgNew(), varText = s_channels},
+	{text = "Buffer Samples",  		varID = textImgNew(), varText = buffer},
+	{text = "Default Values",		varID = textImgNew(), varText = ""},
+	{text = "          BACK",  		varID = textImgNew(), varText = ""},
 }
 
 function f_audioCfg()
@@ -4128,15 +4128,15 @@ function f_audioCfg()
 	local bufl = 0
 	while true do
 		if defaultScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				audioCfg = audioCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				audioCfg = audioCfg + 1
 				if bufl then bufl = 0 end
@@ -4239,7 +4239,7 @@ function f_audioCfg()
 					pan_str = pan_str - 40
 					modified = 1
 				end
-				setPanStr(pan_str / 100);
+				setPanStr(pan_str / 100)
 			--Sample Rate
 			elseif audioCfg == 5 then
 				if commandGetState(p1Cmd, 'r') and freq < 96000 then
@@ -4283,13 +4283,13 @@ function f_audioCfg()
 					sndPlay(sysSnd, 100, 0)
 					if channels < 2 then
 						channels = 2
-						s_channels = 'Stereo'
+						s_channels = "Stereo"
 					elseif channels < 4 then
 						channels = 4
-						s_channels = 'Quad'
+						s_channels = "Quad"
 					elseif channels < 6 then
 						channels = 6
-						s_channels = '5.1'
+						s_channels = "5.1"
 					end
 					modified = 1
 					needReload = 1
@@ -4297,13 +4297,13 @@ function f_audioCfg()
 					sndPlay(sysSnd, 100, 0)
 					if channels >= 6 then
 						channels = 4
-						s_channels = 'Quad'
+						s_channels = "Quad"
 					elseif channels >= 4 then
 						channels = 2
-						s_channels = 'Stereo'
+						s_channels = "Stereo"
 					elseif channels >= 2 then
 						channels = 1
-						s_channels = 'Mono'
+						s_channels = "Mono"
 					end
 					modified = 1
 					needReload = 1
@@ -4322,12 +4322,12 @@ function f_audioCfg()
 					needReload = 1
 				end
 			--Default Values
-			elseif audioCfg == 8 and btnPalNo(p1Cmd) > 0 then
+			elseif audioCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
 			--BACK
-			elseif audioCfg == 9 and btnPalNo(p1Cmd) > 0 then
+			elseif audioCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4341,9 +4341,9 @@ function f_audioCfg()
 			elseif audioCfg > #t_audioCfg then
 				audioCfg = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 14 then
@@ -4369,15 +4369,15 @@ function f_audioCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		t_audioCfg[1].varText = gl_vol .. '%'
-		t_audioCfg[2].varText = se_vol .. '%'
-		t_audioCfg[3].varText = bgm_vol .. '%'
+		t_audioCfg[1].varText = gl_vol.."%"
+		t_audioCfg[2].varText = se_vol.."%"
+		t_audioCfg[3].varText = bgm_vol.."%"
 		t_audioCfg[4].varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]
 		t_audioCfg[5].varText = freq
 		t_audioCfg[6].varText = s_channels
 		t_audioCfg[7].varText = buffer
 		setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)		
-		setPanStr(pan_str / 100);
+		setPanStr(pan_str / 100)
 		for i=1, maxAudioCfg do
 			if i > audioCfg - cursorPosY then
 				if t_audioCfg[i].varID ~= nil then
@@ -4395,10 +4395,10 @@ function f_audioCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -4414,18 +4414,18 @@ end
 --;===========================================================
 --; ENGINE SETTINGS
 --;===========================================================
-txt_engineCfg = createTextImg(jgFnt, 0, 0, 'ENGINE SETTINGS', 159, 13)
+txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 
 t_engineCfg = {
-	{id = '', text = 'Debug Mode',  	      varID = textImgNew(), varText = s_debugMode},
-	{id = '', text = 'Save Debug Logs',       varID = textImgNew(), varText = s_debugLog},
-	{id = '', text = 'HelperMax',             varID = textImgNew(), varText = HelperMaxEngine},
-	{id = '', text = 'PlayerProjectileMax',	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
-	{id = '', text = 'ExplodMax',             varID = textImgNew(), varText = ExplodMaxEngine},
-	{id = '', text = 'AfterImageMax',         varID = textImgNew(), varText = AfterImageMaxEngine},
-	{id = '', text = 'Erase/Reset Statistics',varID = textImgNew(), varText = ''},
-	{id = '', text = 'Default Settings',  	  varID = textImgNew(), varText = ''},
-	{id = '', text = '          BACK',  	  varID = textImgNew(), varText = ''},
+	{text = "Debug Mode",  	      	  varID = textImgNew(), varText = s_debugMode},
+	{text = "Save Debug Logs",        varID = textImgNew(), varText = s_debugLog},
+	{text = "HelperMax",              varID = textImgNew(), varText = HelperMaxEngine},
+	{text = "PlayerProjectileMax",	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
+	{text = "ExplodMax",              varID = textImgNew(), varText = ExplodMaxEngine},
+	{text = "AfterImageMax",          varID = textImgNew(), varText = AfterImageMaxEngine},
+	{text = "Erase/Reset Statistics", varID = textImgNew(), varText = ""},
+	{text = "Default Settings",  	  varID = textImgNew(), varText = ""},
+	{text = "          BACK",  	  	  varID = textImgNew(), varText = ""},
 }
 
 function f_engineCfg()
@@ -4439,18 +4439,18 @@ function f_engineCfg()
 	local bufl = 0
 	while true do
 		if defaultScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				lockSetting = false
 				sndPlay(sysSnd, 100, 2)
 				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				lockSetting = false
 				eraseStatus = true
 				sndPlay(sysSnd, 100, 0)
 				engineCfg = engineCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				lockSetting = false
 				eraseStatus = true
 				sndPlay(sysSnd, 100, 0)
@@ -4465,11 +4465,11 @@ function f_engineCfg()
 					sndPlay(sysSnd, 100, 0)
 					if data.debugMode then
 						data.debugMode = false
-						s_debugMode = 'Disabled'
+						s_debugMode = "Disabled"
 						modified = 1
 					else
 						data.debugMode = true
-						s_debugMode = 'Enabled'
+						s_debugMode = "Enabled"
 						modified = 1
 					end
 				end
@@ -4481,11 +4481,11 @@ function f_engineCfg()
 					sndPlay(sysSnd, 100, 0)
 					if data.debugLog then
 						data.debugLog = false
-						s_debugLog = 'Disabled'
+						s_debugLog = "Disabled"
 						modified = 1
 					else
 						data.debugLog = true
-						s_debugLog = 'Enabled'
+						s_debugLog = "Enabled"
 						modified = 1
 					end
 				end
@@ -4604,9 +4604,9 @@ function f_engineCfg()
 				else
 					bufr = 0
 					bufl = 0
-				end		
+				end
 			--Erase/Reset Statistics
-			elseif engineCfg == 7 and btnPalNo(p1Cmd) > 0 then	
+			elseif engineCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
@@ -4618,12 +4618,12 @@ function f_engineCfg()
 					end
 				end
 			--Default Values
-			elseif engineCfg == 8 and btnPalNo(p1Cmd) > 0 then
+			elseif engineCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
 			--BACK
-			elseif engineCfg == 9 and btnPalNo(p1Cmd) > 0 then
+			elseif engineCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4637,9 +4637,9 @@ function f_engineCfg()
 			elseif engineCfg > #t_engineCfg then
 				engineCfg = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 14 then
@@ -4698,10 +4698,10 @@ function f_engineCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -4717,19 +4717,19 @@ end
 --;===========================================================
 --; VIDEO SETTINGS
 --;===========================================================
-txt_videoCfg = createTextImg(jgFnt, 0, 0, 'VIDEO SETTINGS', 159, 13)
+txt_videoCfg = createTextImg(jgFnt, 0, 0, "VIDEO SETTINGS", 159, 13)
 
 t_videoCfg = {
-	{id = '', text = 'Resolution',  		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Screen Mode',  		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Window Type', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Fullscreen Type',		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Aspect Ratio', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Sdlplugin Version',	varID = textImgNew(), varText = ''},
-	--{id = '', text = 'OpenGL 2.0', 		varID = textImgNew(), varText = ''},
-	--{id = '', text = 'Save Memory', 		varID = textImgNew(), varText = ''},
-	{id = '', text = 'Default Graphics',    varID = textImgNew(), varText = ''},
-	{id = '', text = '          BACK',  	varID = textImgNew(), varText = ''},
+	{text = "Resolution",  			varID = textImgNew(), varText = ""},
+	{text = "Screen Mode",  		varID = textImgNew(), varText = ""},
+	{text = "Window Type", 			varID = textImgNew(), varText = ""},
+	{text = "Fullscreen Type",		varID = textImgNew(), varText = ""},
+	{text = "Aspect Ratio", 		varID = textImgNew(), varText = ""},
+	{text = "Sdlplugin Version",	varID = textImgNew(), varText = ""},
+	--{text = "OpenGL 2.0", 		varID = textImgNew(), varText = ""},
+	--{text = "Save Memory", 		varID = textImgNew(), varText = ""},
+	{text = "Default Graphics",		varID = textImgNew(), varText = ""},
+	{text = "          BACK",  		varID = textImgNew(), varText = ""},
 }
 
 function f_videoCfg()
@@ -4753,10 +4753,10 @@ function f_videoCfg()
 		if b_screenMode ~= getScreenMode() then
 			if getScreenMode() then
 				b_screenMode = true
-				s_screenMode = 'Fullscreen'
+				s_screenMode = "Fullscreen"
 			else
 				b_screenMode = false
-				s_screenMode = 'Window'
+				s_screenMode = "Window"
 			end
 			t_videoCfg[2].varText = s_screenMode
 			modified = 1
@@ -4764,10 +4764,10 @@ function f_videoCfg()
 		if b_aspectMode ~= getAspectRatio() then
 			if getAspectRatio() then
 				b_aspectMode = true
-				s_aspectMode = 'Yes'
+				s_aspectMode = "Yes"
 			else
 				b_aspectMode = false
-				s_aspectMode = 'No'
+				s_aspectMode = "No"
 			end
 			t_videoCfg[5].varText = s_aspectMode
 			modified = 1
@@ -4789,24 +4789,24 @@ function f_videoCfg()
 			modified = 1
 		end
 		if defaultScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				lockSetting = false
 				break
-			elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				lockSetting = false
 				videoCfg = videoCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				lockSetting = false
 				videoCfg = videoCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			--Resolution
-			elseif videoCfg == 1 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				if f_resCfg() then
 					modified = 1
@@ -4816,37 +4816,37 @@ function f_videoCfg()
 				sndPlay(sysSnd, 100, 0)
 				if not b_screenMode then
 					b_screenMode = true
-					s_screenMode = 'Fullscreen'
+					s_screenMode = "Fullscreen"
 				else
 					b_screenMode = false
-					s_screenMode = 'Window'
+					s_screenMode = "Window"
 				end
 				modified = 1
 				setScreenMode(b_screenMode) --added via system-script.ssz
 			--Window Type
 			elseif videoCfg == 3 then
-				if data.sdl == 'Original' then
+				if data.sdl == "Original" then
 					lockSetting = true
-				elseif data.sdl == 'New' then
+				elseif data.sdl == "New" then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-						if commandGetState(p1Cmd, 'r') and data.windowType == 'Original' then
+						if commandGetState(p1Cmd, 'r') and data.windowType == "Original" then
 							sndPlay(sysSnd, 100, 0)
-							data.windowType = 'No Border'
+							data.windowType = "No Border"
 							b_resizableMode = false
 							b_borderMode = false
-						elseif commandGetState(p1Cmd, 'r') and data.windowType == 'No Border' then
+						elseif commandGetState(p1Cmd, 'r') and data.windowType == "No Border" then
 							sndPlay(sysSnd, 100, 0)
-							data.windowType = 'Resizable'
+							data.windowType = "Resizable"
 							b_resizableMode = true
 							b_borderMode = true
-						elseif commandGetState(p1Cmd, 'l') and data.windowType == 'Resizable' then
+						elseif commandGetState(p1Cmd, 'l') and data.windowType == "Resizable" then
 							sndPlay(sysSnd, 100, 0)
-							data.windowType = 'No Border'
+							data.windowType = "No Border"
 							b_borderMode = false
 							b_resizableMode = false
-						elseif commandGetState(p1Cmd, 'l') and data.windowType == 'No Border' then
+						elseif commandGetState(p1Cmd, 'l') and data.windowType == "No Border" then
 							sndPlay(sysSnd, 100, 0)
-							data.windowType = 'Original'
+							data.windowType = "Original"
 							b_resizableMode = false
 							b_borderMode = true
 						end
@@ -4857,17 +4857,17 @@ function f_videoCfg()
 				end
 			--Fullscreen Type
 			elseif videoCfg == 4 then
-				if data.sdl == 'Original' then
+				if data.sdl == "Original" then
 					lockSetting = true
-				elseif data.sdl == 'New' then
+				elseif data.sdl == "New" then
 					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 						sndPlay(sysSnd, 100, 0)
-						if data.fullscreenType == 'Exclusive' then
-							data.fullscreenType = 'Borderless'
+						if data.fullscreenType == "Exclusive" then
+							data.fullscreenType = "Borderless"
 							--b_aspectMode = false
 							b_fullscreenMode = false
-						elseif data.fullscreenType == 'Borderless' then
-							data.fullscreenType = 'Exclusive'
+						elseif data.fullscreenType == "Borderless" then
+							data.fullscreenType = "Exclusive"
 							--b_aspectMode = false
 							b_fullscreenMode = true
 						end
@@ -4878,16 +4878,16 @@ function f_videoCfg()
 				end
 			--Keep Aspect Ratio
 			elseif videoCfg == 5 then
-				if data.sdl == 'Original' then
+				if data.sdl == "Original" then
 					lockSetting = true
-				elseif data.sdl == 'New' and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				elseif data.sdl == "New" and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 					if not b_aspectMode then
 						b_aspectMode = true
-						s_aspectMode = 'Yes'
+						s_aspectMode = "Yes"
 					else
 						b_aspectMode = false
-						s_aspectMode = 'No'
+						s_aspectMode = "No"
 					end
 					modified = 1
 					needReload = 1
@@ -4899,11 +4899,11 @@ function f_videoCfg()
 					lockSetting = true
 				elseif onlinegame == false then
 					sndPlay(sysSnd, 100, 0)
-					if data.sdl == 'Original' then
-						data.sdl = 'New'
+					if data.sdl == "Original" then
+						data.sdl = "New"
 						f_sdlWarning()
-					elseif data.sdl == 'New' then
-						data.sdl = 'Original'
+					elseif data.sdl == "New" then
+						data.sdl = "Original"
 					end
 					modified = 1
 					needReload = 1
@@ -4913,13 +4913,13 @@ function f_videoCfg()
 				sndPlay(sysSnd, 100, 0)
 				if b_openGL == false then
 					b_openGL = true
-					s_openGL = 'Yes'
+					s_openGL = "Yes"
 					f_glWarning()
 					modified = 1
 					needReload = 1				
 				else
 					b_openGL = false
-					s_openGL = 'No'
+					s_openGL = "No"
 					modified = 1
 					needReload = 0
 				end
@@ -4929,25 +4929,25 @@ function f_videoCfg()
 				sndPlay(sysSnd, 100, 0)
 				if b_saveMemory == false then
 					b_saveMemory = true
-					s_saveMemory = 'Yes'
+					s_saveMemory = "Yes"
 					f_memWarning()
 					modified = 1
 					needReload = 1
 				else
 					b_saveMemory = false
-					s_saveMemory = 'No'
+					s_saveMemory = "No"
 					f_memWarning()
 					modified = 1
 					needReload = 1
 				end
 			]]
 			--Default Values
-			elseif videoCfg == 7 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 			--BACK
-			elseif videoCfg == 8 and btnPalNo(p1Cmd) > 0 then
+			elseif videoCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4961,9 +4961,9 @@ function f_videoCfg()
 			elseif videoCfg > #t_videoCfg then
 				videoCfg = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 14 then
@@ -4989,7 +4989,7 @@ function f_videoCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		t_videoCfg[1].varText = resolutionWidth .. 'x' .. resolutionHeight
+		t_videoCfg[1].varText = resolutionWidth.."x"..resolutionHeight
 		t_videoCfg[2].varText = s_screenMode
 		t_videoCfg[3].varText = data.windowType
 		t_videoCfg[4].varText = data.fullscreenType
@@ -5019,10 +5019,10 @@ function f_videoCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5037,14 +5037,14 @@ end
 --;===========================================================
 --; ASPECT RATIO SETTINGS
 --;===========================================================
-txt_resCfg = createTextImg(jgFnt, 0, 0, 'ASPECT RATIO SETTINGS', 159, 13)
+txt_resCfg = createTextImg(jgFnt, 0, 0, "ASPECT RATIO SETTINGS", 159, 13)
 
 t_resCfg = {
-	{id = '', text = '4:3 Resolutions'},
-	{id = '', text = '16:9 Resolutions'},
-	{id = '', text = '16:10 Resolutions'},
-	{id = '', text = 'Extra Resolutions'},
-	{id = '', text = '          BACK'},
+	{id = '', text = "4:3 Resolutions"},
+	{id = '', text = "16:9 Resolutions"},
+	{id = '', text = "16:10 Resolutions"},
+	{id = '', text = "Extra Resolutions"},
+	{id = '', text = "          BACK"},
 }
 
 function f_resCfg()
@@ -5057,21 +5057,21 @@ function f_resCfg()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg - 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg = resCfg + 1
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
-		elseif btnPalNo(p1Cmd) > 0 then
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--4:3 Resolutions
 			if resCfg == 1 then
 				sndPlay(sysSnd, 100, 1)
@@ -5104,9 +5104,9 @@ function f_resCfg()
 		elseif resCfg > #t_resCfg then
 			resCfg = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -5143,10 +5143,10 @@ function f_resCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5162,25 +5162,25 @@ end
 --;===========================================================
 --; 4:3 RESOLUTIONS
 --;===========================================================
-txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (4:3)', 159, 13)
+txt_resCfg4_3 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (4:3)", 159, 13)
 
 t_resCfg4_3 = {
-	{id = '', x = 320,  y = 240,  text = '320x240             (QVGA)'},
-	{id = '', x = 512,  y = 384,  text = '512x384        (MACINTOSH)'},
-	{id = '', x = 640,  y = 480,  text = '640x480              (VGA)'},
-	{id = '', x = 800,  y = 600,  text = '800x600             (SVGA)'},
-	{id = '', x = 960,  y = 720,  text = '960x720               (HD)'},
-	{id = '', x = 1024, y = 768,  text = '1024x768             (XGA)'},
-	{id = '', x = 1152, y = 864,  text = '1152x864            (XGA+)'},
-	{id = '', x = 1200, y = 900,  text = '1200x900             (HD+)'},
-	{id = '', x = 1280, y = 960,  text = '1280x960        (Quad-VGA)'},
-	{id = '', x = 1440, y = 1080, text = '1440x1080            (FHD)'},
-	{id = '', x = 1600, y = 1200, text = '1600x1200            (XGA)'},
-	{id = '', x = 1920, y = 1440, text = '1920x1440          (UXGA+)'},
-	{id = '', x = 2048, y = 1536, text = '2048x1536           (QXGA)'},
-	{id = '', x = 3200, y = 2400, text = '3200x2400          (QUXGA)'},
-	{id = '', x = 6400, y = 4800, text = '6400x4800          (HUXGA)'},
-	{id = '', text = '          BACK'},
+	{id = '', x = 320,  y = 240,  text = "320x240             (QVGA)"},
+	{id = '', x = 512,  y = 384,  text = "512x384        (MACINTOSH)"},
+	{id = '', x = 640,  y = 480,  text = "640x480              (VGA)"},
+	{id = '', x = 800,  y = 600,  text = "800x600             (SVGA)"},
+	{id = '', x = 960,  y = 720,  text = "960x720               (HD)"},
+	{id = '', x = 1024, y = 768,  text = "1024x768             (XGA)"},
+	{id = '', x = 1152, y = 864,  text = "1152x864            (XGA+)"},
+	{id = '', x = 1200, y = 900,  text = "1200x900             (HD+)"},
+	{id = '', x = 1280, y = 960,  text = "1280x960        (Quad-VGA)"},
+	{id = '', x = 1440, y = 1080, text = "1440x1080            (FHD)"},
+	{id = '', x = 1600, y = 1200, text = "1600x1200            (XGA)"},
+	{id = '', x = 1920, y = 1440, text = "1920x1440          (UXGA+)"},
+	{id = '', x = 2048, y = 1536, text = "2048x1536           (QXGA)"},
+	{id = '', x = 3200, y = 2400, text = "3200x2400          (QUXGA)"},
+	{id = '', x = 6400, y = 4800, text = "6400x4800          (HUXGA)"},
+	{id = '', text = "          BACK "},
 }
 
 function f_resCfg4_3()
@@ -5193,19 +5193,19 @@ function f_resCfg4_3()
 	local bufr = 0
 	local bufl = 0
 	for i=1, #t_resCfg4_3 do
-		if t_resCfg4_3[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+		if t_resCfg4_3[i].text == resolutionWidth.."x"..resolutionHeight then
 			resCfg4_3 = i
 			break
 		end
 	end
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg4_3 = resCfg4_3 - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg4_3 = resCfg4_3 + 1
 		end
@@ -5219,9 +5219,9 @@ function f_resCfg4_3()
 		elseif resCfg4_3 > #t_resCfg4_3 then
 			resCfg4_3 = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -5237,7 +5237,7 @@ function f_resCfg4_3()
 			maxResCfg4_3 = 14
 		end
 		--Options
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if resCfg4_3 == #t_resCfg4_3 then
 				sndPlay(sysSnd, 100, 2)
@@ -5277,10 +5277,10 @@ function f_resCfg4_3()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5296,19 +5296,19 @@ end
 --;===========================================================
 --; 16:9 RESOLUTIONS
 --;===========================================================
-txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:9)', 159, 13)
+txt_resCfg16_9 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (16:9)", 159, 13)
 
 t_resCfg16_9 = {
-	{id = '', x = 427,  y = 240,  text = '427x240        (ULTRA LOW)'},
-	{id = '', x = 640,  y = 360,  text = '640x360              (LOW)'},
-	{id = '', x = 853,  y = 480,  text = '853x480               (SD)'},
-	{id = '', x = 1280, y = 720,  text = '1280x720              (HD)'},
-	{id = '', x = 1600, y = 900,  text = '1600x900             (HD+)'},
-	{id = '', x = 1920, y = 1080, text = '1920x1080        (FULL HD)'},
-	{id = '', x = 2048, y = 1152, text = '2048x1152          (QWXGA)'},
-	{id = '', x = 2560, y = 1440, text = '2560x1440            (QHD)'},
-	{id = '', x = 3840, y = 2160, text = '3840x2160        (4K UHDV)'},
-	{id = '', text = '          BACK'},
+	{id = '', x = 427,  y = 240,  text = "427x240        (ULTRA LOW)"},
+	{id = '', x = 640,  y = 360,  text = "640x360              (LOW)"},
+	{id = '', x = 853,  y = 480,  text = "853x480               (SD)"},
+	{id = '', x = 1280, y = 720,  text = "1280x720              (HD)"},
+	{id = '', x = 1600, y = 900,  text = "1600x900             (HD+)"},
+	{id = '', x = 1920, y = 1080, text = "1920x1080        (FULL HD)"},
+	{id = '', x = 2048, y = 1152, text = "2048x1152          (QWXGA)"},
+	{id = '', x = 2560, y = 1440, text = "2560x1440            (QHD)"},
+	{id = '', x = 3840, y = 2160, text = "3840x2160        (4K UHDV)"},
+	{id = '', text = "          BACK"},
 }
 
 function f_resCfg16_9()
@@ -5321,19 +5321,19 @@ function f_resCfg16_9()
 	local bufr = 0
 	local bufl = 0
 	for i=1, #t_resCfg16_9 do
-		if t_resCfg16_9[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+		if t_resCfg16_9[i].text == resolutionWidth.."x"..resolutionHeight then
 			resCfg16_9 = i
 			break
 		end
 	end
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_9 = resCfg16_9 - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_9 = resCfg16_9 + 1
 		end
@@ -5347,9 +5347,9 @@ function f_resCfg16_9()
 		elseif resCfg16_9 > #t_resCfg16_9 then
 			resCfg16_9 = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -5365,7 +5365,7 @@ function f_resCfg16_9()
 			maxResCfg16_9 = 14
 		end
 		--Options
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if resCfg16_9 == #t_resCfg16_9 then
 				sndPlay(sysSnd, 100, 2)
@@ -5405,10 +5405,10 @@ function f_resCfg16_9()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5424,19 +5424,19 @@ end
 --;===========================================================
 --; 16:10 RESOLUTIONS
 --;===========================================================
-txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT (16:10)', 159, 13)
+txt_resCfg16_10 = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT (16:10)", 159, 13)
 
 t_resCfg16_10 = {
-	{id = '', x = 320,  y = 200,  text = '320x200              (CGA)'},
-	{id = '', x = 1280, y = 800,  text = '1280x800            (WXGA)'},
-	{id = '', x = 1440, y = 900,  text = '1440x900           (WXGA+)'},
-	{id = '', x = 1680, y = 1050, text = '1680x1050         (WSXGA+)'},
-	{id = '', x = 1920, y = 1200, text = '1920x1200          (WUXGA)'},
-	{id = '', x = 2560, y = 1600, text = '2560x1600          (WQXGA)'},
-	{id = '', x = 2880, y = 1800, text = '2880x1800  (RETINA DISPLAY)'},
-	{id = '', x = 3840, y = 2400, text = '3840x2400         (WQUXGA)'},
-	{id = '', x = 7680, y = 4800, text = '7680x4800         (WHUXGA)'},
-	{id = '', text = '          BACK'},
+	{id = '', x = 320,  y = 200,  text = "320x200              (CGA)"},
+	{id = '', x = 1280, y = 800,  text = "1280x800            (WXGA)"},
+	{id = '', x = 1440, y = 900,  text = "1440x900           (WXGA+)"},
+	{id = '', x = 1680, y = 1050, text = "1680x1050         (WSXGA+)"},
+	{id = '', x = 1920, y = 1200, text = "1920x1200          (WUXGA)"},
+	{id = '', x = 2560, y = 1600, text = "2560x1600          (WQXGA)"},
+	{id = '', x = 2880, y = 1800, text = "2880x1800  (RETINA DISPLAY)"},
+	{id = '', x = 3840, y = 2400, text = "3840x2400         (WQUXGA)"},
+	{id = '', x = 7680, y = 4800, text = "7680x4800         (WHUXGA)"},
+	{id = '', text = "          BACK"},
 }
 
 function f_resCfg16_10()
@@ -5449,19 +5449,19 @@ function f_resCfg16_10()
 	local bufr = 0
 	local bufl = 0
 	for i=1, #t_resCfg16_10 do
-		if t_resCfg16_10[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+		if t_resCfg16_10[i].text == resolutionWidth.."x"..resolutionHeight then
 			resCfg16_10 = i
 			break
 		end
 	end
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_10 = resCfg16_10 - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			resCfg16_10 = resCfg16_10 + 1
 		end
@@ -5475,9 +5475,9 @@ function f_resCfg16_10()
 		elseif resCfg16_10 > #t_resCfg16_10 then
 			resCfg16_10 = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -5493,7 +5493,7 @@ function f_resCfg16_10()
 			maxResCfg16_10 = 14
 		end
 		--Options
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if resCfg16_10 == #t_resCfg16_10 then
 				sndPlay(sysSnd, 100, 2)
@@ -5533,10 +5533,10 @@ function f_resCfg16_10()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5552,30 +5552,30 @@ end
 --;===========================================================
 --; EXTRA RESOLUTIONS
 --;===========================================================
-txt_EXresCfg = createTextImg(jgFnt, 0, 0, 'RESOLUTION SELECT', 159, 13)
+txt_EXresCfg = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT", 159, 13)
 
 t_EXresCfg = {
-	{id = '', x = 400,  y = 254,  text = '400x254           (ARCADE)'},
-	{id = '', x = 800,  y = 508,  text = '400x508        (ARCADE x2)'},
-	{id = '', x = 640,  y = 350,  text = '640x350         (EGA 11:6)'},
-	{id = '', x = 720,  y = 348,  text = '720x348         (HGC 60:9)'},
-	{id = '', x = 720,  y = 350,  text = '720x350        (MDA 72:35)'},
-	{id = '', x = 720,  y = 360,  text = '720x360    (APPLE LISA 2:1)'},
-	{id = '', x = 1024, y = 600,  text = '1024x600 (CANAIMA MG101A3)'},
-	{id = '', x = 1360, y = 768,  text = '1360x768      (WXGA 85:48)'},
-	{id = '', x = 1366, y = 728,  text = '1366x728 (CANAIMA EF10M12)'},
-	{id = '', x = 1200, y = 762,  text = '1200x762       (ARCADE x3)'},
-	{id = '', x = 1280, y = 1024, text = '1280x1024       (SXGA 5:4)'},
-	{id = '', x = 1600, y = 1016, text = '1600x1016      (ARCADE x4)'},
-	{id = '', x = 2048, y = 1080, text = '2048x1080        (2K 17:9)'},
-	{id = '', x = 2560, y = 2048, text = '2560x2048       (QSXA 5:4)'},
-	{id = '', x = 3200, y = 2048, text = '3200x2048    (WQSXA 25:16)'},
-	{id = '', x = 4096, y = 2160, text = '4096x2160  (4K CINEMA 17:9)'},
-	{id = '', x = 5120, y = 4096, text = '5120x4096      (HSXGA 5:4)'},
-	{id = '', x = 6400, y = 4096, text = '6400x4096   (WHSXGA 25:16)'},
-	{id = '', x = 7680, y = 4320, text = '7680x4320         (8K UHD)'},
-	--{id = '', x = 30720, y = 17208, text = '30720x17208 (24K SUPER DEATH BATMETAL)'},
-	{id = '', text = '          BACK'},
+	{id = '', x = 400,  y = 254,  text = "400x254           (ARCADE)"},
+	{id = '', x = 800,  y = 508,  text = "400x508        (ARCADE x2)"},
+	{id = '', x = 640,  y = 350,  text = "640x350         (EGA 11:6)"},
+	{id = '', x = 720,  y = 348,  text = "720x348         (HGC 60:9)"},
+	{id = '', x = 720,  y = 350,  text = "720x350        (MDA 72:35)"},
+	{id = '', x = 720,  y = 360,  text = "720x360    (APPLE LISA 2:1)"},
+	{id = '', x = 1024, y = 600,  text = "1024x600 (CANAIMA MG101A3)"},
+	{id = '', x = 1360, y = 768,  text = "1360x768      (WXGA 85:48)"},
+	{id = '', x = 1366, y = 728,  text = "1366x728 (CANAIMA EF10M12)"},
+	{id = '', x = 1200, y = 762,  text = "1200x762       (ARCADE x3)"},
+	{id = '', x = 1280, y = 1024, text = "1280x1024       (SXGA 5:4)"},
+	{id = '', x = 1600, y = 1016, text = "1600x1016      (ARCADE x4)"},
+	{id = '', x = 2048, y = 1080, text = "2048x1080        (2K 17:9)"},
+	{id = '', x = 2560, y = 2048, text = "2560x2048       (QSXA 5:4)"},
+	{id = '', x = 3200, y = 2048, text = "3200x2048    (WQSXA 25:16)"},
+	{id = '', x = 4096, y = 2160, text = "4096x2160  (4K CINEMA 17:9)"},
+	{id = '', x = 5120, y = 4096, text = "5120x4096      (HSXGA 5:4)"},
+	{id = '', x = 6400, y = 4096, text = "6400x4096   (WHSXGA 25:16)"},
+	{id = '', x = 7680, y = 4320, text = "7680x4320         (8K UHD)"},
+	--{id = '', x = 30720, y = 17208, text = "30720x17208 (24K SUPER DEATH BATMETAL)"},
+	{id = '', text = "          BACK"},
 }
 
 function f_EXresCfg()
@@ -5588,19 +5588,19 @@ function f_EXresCfg()
 	local bufr = 0
 	local bufl = 0
 	for i=1, #t_EXresCfg do
-		if t_EXresCfg[i].text == resolutionWidth .. 'x' .. resolutionHeight then
+		if t_EXresCfg[i].text == resolutionWidth.."x"..resolutionHeight then
 			EXresCfg = i
 			break
 		end
 	end
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			return false
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			EXresCfg = EXresCfg - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			EXresCfg = EXresCfg + 1
 		end
@@ -5614,9 +5614,9 @@ function f_EXresCfg()
 		elseif EXresCfg > #t_EXresCfg then
 			EXresCfg = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -5632,7 +5632,7 @@ function f_EXresCfg()
 			maxEXresCfg = 14
 		end
 		--Options
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			--BACK
 			if EXresCfg == #t_EXresCfg then
 				sndPlay(sysSnd, 100, 2)
@@ -5672,10 +5672,10 @@ function f_EXresCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5691,23 +5691,22 @@ end
 --;===========================================================
 --; INPUT SETTINGS
 --;===========================================================
-txt_inputCfg = createTextImg(jgFnt, 0, 0, 'INPUT SETTINGS', 159, 13)
+txt_inputCfg = createTextImg(jgFnt, 0, 0, "INPUT SETTINGS", 159, 13)
 
 t_inputCfg = {
-	{id = '', text = 'Keyboard Settings',  		 varID = textImgNew(), varText = ''},
-	{id = '', text = 'Gamepad Settings',  		 varID = textImgNew(), varText = ''},
-	--{id = '', text = 'Player 1 Gamepad Status', varID = textImgNew(), varText = s_disablePadP1},
-	--{id = '', text = 'Player 2 Gamepad Status', varID = textImgNew(), varText = s_disablePadP2},
-	{id = '', text = 'Swap Gamepads', 			 varID = textImgNew(), varText = ''},
-	{id = '', text = 'Test Controls',  		 	 varID = textImgNew(), varText = ''},
-	{id = '', text = 'Default Controls',  		 varID = textImgNew(), varText = ''},
-	{id = '', text = '             BACK',  		 varID = textImgNew(), varText = ''},
+	{text = "Keyboard Config",  		 varID = textImgNew(), varText = ""},
+	{text = "Gamepad Config",	  		 varID = textImgNew(), varText = ""},
+	--{text = "Player 1 Gamepad Status", varID = textImgNew(), varText = s_disablePadP1},
+	--{text = "Player 2 Gamepad Status", varID = textImgNew(), varText = s_disablePadP2},
+	{text = "Swap Gamepads", 			 varID = textImgNew(), varText = ""},
+	{text = "Test Controls",  		 	 varID = textImgNew(), varText = ""},
+	{text = "Default Controls",  		 varID = textImgNew(), varText = ""},
+	{text = "             BACK",  		 varID = textImgNew(), varText = ""},
 }
 
 function f_inputCfg()
-	gamepadID = 1
-	data.p2In = 2
 	cmdInput()
+	gamepadID = 1
 	local cursorPosY = 1
 	local moveTxt = 0
 	local inputCfg = 1
@@ -5718,16 +5717,16 @@ function f_inputCfg()
 	f_defaultReset()
 	while true do
 		if defaultScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
-			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				inputCfg = inputCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				inputCfg = inputCfg + 1
 				if bufl then bufl = 0 end
@@ -5746,10 +5745,10 @@ function f_inputCfg()
 					sndPlay(sysSnd, 100, 1)
 					if data.disablePadP1 == false then
 						data.disablePadP1 = true
-						s_disablePadP1 = 'Disabled'
+						s_disablePadP1 = "Disabled"
 					else
 						data.disablePadP1 = false
-						s_disablePadP1 = 'Enabled'
+						s_disablePadP1 = "Enabled"
 					end
 					modified = 1
 					commandBufReset(p1Cmd)
@@ -5760,10 +5759,10 @@ function f_inputCfg()
 					sndPlay(sysSnd, 100, 1)
 					if data.disablePadP2 == false then
 						data.disablePadP2 = true
-						s_disablePadP2 = 'Disabled'
+						s_disablePadP2 = "Disabled"
 					else
 						data.disablePadP2 = false
-						s_disablePadP2 = 'Enabled'
+						s_disablePadP2 = "Enabled"
 					end
 					modified = 1
 					commandBufReset(p1Cmd)
@@ -5809,9 +5808,9 @@ function f_inputCfg()
 			elseif inputCfg > #t_inputCfg then
 				inputCfg = 1
 				cursorPosY = 1
-			elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 				cursorPosY = cursorPosY - 1
-			elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 				cursorPosY = cursorPosY + 1
 			end
 			if cursorPosY == 14 then
@@ -5839,7 +5838,7 @@ function f_inputCfg()
 		end
 		--t_inputCfg[3].varText = s_disablePadP1
 		--t_inputCfg[4].varText = s_disablePadP2
-		t_inputCfg[3].varText = 'P1: ' .. data.p1Gamepad+1 .. ' | P2: ' .. data.p2Gamepad+1		
+		t_inputCfg[3].varText = "P1: "..data.p1Gamepad+1 .." | P2: "..data.p2Gamepad+1
 		for i=1, maxInputCfg do
 			if i > inputCfg - cursorPosY then
 				if t_inputCfg[i].varID ~= nil then
@@ -5857,10 +5856,10 @@ function f_inputCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -5892,7 +5891,7 @@ end
 --;===========================================================
 --; INPUT TEST MENU
 --;===========================================================
-txt_inputTest = createTextImg(jgFnt, 0, 0, 'BATTLE INPUT TEST', 159, 13)
+txt_inputTest = createTextImg(jgFnt, 0, 0, "BATTLE INPUT TEST", 159, 13)
 txt_p1Input = createTextImg(font6, 0, 1, "", 15, 50)
 txt_p2Input = createTextImg(font6, 0, -1, "", 305, 50)
 --todo: load button sprites to show below
@@ -5903,7 +5902,7 @@ function f_testMenu()
 	setSysCtrl(0) --Load Battle Controls from config.ssz
 	f_cmdCodeReset()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			setSysCtrl(10) --Restore Menu Controls from config.ssz
 			break
@@ -6008,14 +6007,14 @@ end
 --;===========================================================
 --; KEYBOARD MENU
 --;===========================================================
-txt_keyMenu = createTextImg(jgFnt, 0, 0, 'KEYBOARD SETTINGS', 159, 13)
+txt_keyMenu = createTextImg(jgFnt, 0, 0, "KEYBOARD SETTINGS", 159, 13)
 
 t_keyMenu = {
-	{id = '', text = 'Player 1 - Battle Controls'},
-	{id = '', text = 'Player 2 - Battle Controls'},
-	{id = '', text = 'Player 1 - Menu Controls'},
-	{id = '', text = 'Player 2 - Menu Controls'},
-	{id = '', text = '          BACK'},
+	{id = '', text = "Player 1 - Battle Controls"},
+	{id = '', text = "Player 2 - Battle Controls"},
+	{id = '', text = "Player 1 - Menu Controls"},
+	{id = '', text = "Player 2 - Menu Controls"},
+	{id = '', text = "          BACK"},
 }
 
 function f_keyMenu()
@@ -6028,17 +6027,17 @@ function f_keyMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyMenu = keyMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyMenu = keyMenu + 1
 		end
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			controllerSet = 1 --Keyboard is the control to setup
 			commandBufReset(p1Cmd)
@@ -6075,9 +6074,9 @@ function f_keyMenu()
 		elseif keyMenu > #t_keyMenu then
 			keyMenu = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -6114,10 +6113,10 @@ function f_keyMenu()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -6133,14 +6132,14 @@ end
 --;===========================================================
 --; GAMEPAD MENU
 --;===========================================================
-txt_joyMenu = createTextImg(jgFnt, 0, 0, 'GAMEPAD SETTINGS', 159, 13)
+txt_joyMenu = createTextImg(jgFnt, 0, 0, "GAMEPAD SETTINGS", 159, 13)
 
 t_joyMenu = {
-	{id = '', text = 'Player 1 - Battle Controls'},
-	{id = '', text = 'Player 2 - Battle Controls'},
-	{id = '', text = 'Player 1 - Menu Controls'},
-	{id = '', text = 'Player 2 - Menu Controls'},
-	{id = '', text = '          BACK'},
+	{id = '', text = "Player 1 - Battle Controls"},
+	{id = '', text = "Player 2 - Battle Controls"},
+	{id = '', text = "Player 1 - Menu Controls"},
+	{id = '', text = "Player 2 - Menu Controls"},
+	{id = '', text = "          BACK"},
 }
 
 function f_joyMenu()
@@ -6153,17 +6152,17 @@ function f_joyMenu()
 	local bufr = 0
 	local bufl = 0
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			joyMenu = joyMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			joyMenu = joyMenu + 1
 		end
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1)
 			controllerSet = 2 --Gamepad is the control to setup
 			commandBufReset(p1Cmd)
@@ -6204,9 +6203,9 @@ function f_joyMenu()
 		elseif joyMenu > #t_joyMenu then
 			joyMenu = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -6243,10 +6242,10 @@ function f_joyMenu()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -6262,46 +6261,46 @@ end
 --;===========================================================
 --; KEYBOARD/GAMEPAD BUTTONS
 --;===========================================================
-txt_battleCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING [BATTLE]', 159, 13)
+txt_battleCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [BATTLE]", 159, 13)
 t_keyBattleCfg = {
-	{id = '', text = 'JUMP',   					varID = textImgNew(), varText = ''},
-	{id = '', text = 'CROUCH', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'BACK',  					varID = textImgNew(), varText = ''},
-	{id = '', text = 'FORWARD',					varID = textImgNew(), varText = ''},
-	{id = '', text = 'A',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'B',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'C',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'X',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'Y',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'Z',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'L', 						varID = textImgNew(), varText = ''},
-	{id = '', text = 'R', 						varID = textImgNew(), varText = ''},
-	{id = '', text = 'SELECT',					varID = textImgNew(), varText = ''},
-	{id = '', text = 'START', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'End Config', 				varID = textImgNew(), varText = ''},
+	{text = "JUMP",   					varID = textImgNew(), varText = ""},
+	{text = "CROUCH", 					varID = textImgNew(), varText = ""},
+	{text = "BACK",  					varID = textImgNew(), varText = ""},
+	{text = "FORWARD",					varID = textImgNew(), varText = ""},
+	{text = "A",     					varID = textImgNew(), varText = ""},
+	{text = "B",     					varID = textImgNew(), varText = ""},
+	{text = "C",     					varID = textImgNew(), varText = ""},
+	{text = "X",     					varID = textImgNew(), varText = ""},
+	{text = "Y",     					varID = textImgNew(), varText = ""},
+	{text = "Z",     					varID = textImgNew(), varText = ""},
+	{text = "L", 						varID = textImgNew(), varText = ""},
+	{text = "R", 						varID = textImgNew(), varText = ""},
+	{text = "SELECT",					varID = textImgNew(), varText = ""},
+	{text = "START", 					varID = textImgNew(), varText = ""},
+	{text = "End Config", 				varID = textImgNew(), varText = ""},
 }
 
-txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, 'BUTTON MAPPING [MENUS]', 159, 13)
+txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [MENUS]", 159, 13)
 t_keyMenuCfg = {
-	{id = '', text = 'UP',    					varID = textImgNew(), varText = ''},
-	{id = '', text = 'DOWN',  					varID = textImgNew(), varText = ''},
-	{id = '', text = 'LEFT',  					varID = textImgNew(), varText = ''},
-	{id = '', text = 'RIGHT', 					varID = textImgNew(), varText = ''},
-	{id = '', text = 'A',     					varID = textImgNew(), varText = ''}, --Reserved for Classic Palette Select
-	{id = '', text = 'B',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'C',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'X',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'Y',     					varID = textImgNew(), varText = ''},
-	{id = '', text = 'Z',     					varID = textImgNew(), varText = ''}, --
-	{id = '', text = 'SCREENSHOT',				varID = textImgNew(), varText = ''},
-	{id = '', text = 'CONFIRM',					varID = textImgNew(), varText = ''},
-	{id = '', text = 'RETURN',					varID = textImgNew(), varText = ''},
-	{id = '', text = 'MENU',		 			varID = textImgNew(), varText = ''}, --PAUSE
-	{id = '', text = 'End Config',				varID = textImgNew(), varText = ''},
+	{text = "UP",    					varID = textImgNew(), varText = ""},
+	{text = "DOWN",  					varID = textImgNew(), varText = ""},
+	{text = "LEFT",  					varID = textImgNew(), varText = ""},
+	{text = "RIGHT", 					varID = textImgNew(), varText = ""},
+	{text = "A",     					varID = textImgNew(), varText = ""}, --Reserved for Classic Palette Select
+	{text = "B",     					varID = textImgNew(), varText = ""},
+	{text = "C",     					varID = textImgNew(), varText = ""},
+	{text = "X",     					varID = textImgNew(), varText = ""},
+	{text = "Y",     					varID = textImgNew(), varText = ""},
+	{text = "Z",     					varID = textImgNew(), varText = ""}, --
+	{text = "SCREENSHOT",				varID = textImgNew(), varText = ""},
+	{text = "CONFIRM",					varID = textImgNew(), varText = ""},
+	{text = "RETURN",					varID = textImgNew(), varText = ""},
+	{text = "MENU",		 				varID = textImgNew(), varText = ""}, --PAUSE GAME
+	{text = "End Config",				varID = textImgNew(), varText = ""},
 }
 
 function f_resetInputsInfo()
-	f_drawQuickText(txt_resetInput, font2, 0, 0, 'Press F1 in your Keyboard to Reset All Buttons', 163.5, 238, 1, 1)
+	f_drawQuickText(txt_resetInput, font2, 0, 0, "Press F1 in your Keyboard to Reset All Buttons", 163.5, 238, 1, 1)
 end
 
 controllerNum = -1
@@ -7170,8 +7169,8 @@ function f_defaultStats()
 	--data.vault = "Ultra"
 	data.playTime = 0
 	data.trainingTime = 0
-	data.favoriteChar = 'None'
-	data.favoriteStage = 'None'
+	data.favoriteChar = "None"
+	data.favoriteStage = "None"
 	data.victories = 0
 	data.defeats = 0
 --Records Data

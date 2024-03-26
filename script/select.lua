@@ -21,7 +21,7 @@ wrappingY = true
 --;===========================================================
 function f_rosterReset()
 	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
-	if data.p2Faces or data.selectType == 'Fixed' then
+	if data.p2Faces or data.selectType == "Fixed" then
 		selectColumns = 5 --Number of Character Select Columns
 		selectRows = 2 --Number of Character Select Rows
 		offsetRows = 1 --Number of Character Select Hidden Slots below
@@ -34,7 +34,7 @@ function f_rosterReset()
 			p1FaceY = 170
 			p2FaceX = 169
 			p2FaceY = 170
-		elseif data.selectType == 'Fixed' then --When you play in a Single Mode
+		elseif data.selectType == "Fixed" then --When you play in a Single Mode
 			p1FaceX = 90
 			p1FaceY = 170
 			if not data.p1SelectMenu then
@@ -43,7 +43,7 @@ function f_rosterReset()
 			end
 		end
 	--When data.p2Faces is false and you play in 1P you will see an expanded roster, as there is no 2P to select it will not be cut:
-	elseif data.selectType == 'Variable' then
+	elseif data.selectType == "Variable" then
 		selectColumns = 11
         selectRows = 2
         offsetRows = 0
@@ -320,7 +320,7 @@ function f_makeRoster()
 	local t = {}
 	local cnt = 0
 	--Arcade
-	if data.gameMode == 'arcade' then
+	if data.gameMode == "arcade" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if p1teamMode == 0 then --Single
 				t = t_selOptions.arcademaxmatches
@@ -355,7 +355,7 @@ function f_makeRoster()
 		end
 	--Survival / Boss Rush / Bonus Rush / All Roster / Endless
 	else
-		if data.gameMode == 'survival' then
+		if data.gameMode == "survival" then
 			t = t_randomChars
 			cnt = #t
 			local i = 0
@@ -370,7 +370,7 @@ function f_makeRoster()
 					cnt = #t + i
 				end
 			end
-		elseif data.gameMode == 'bossrush' then
+		elseif data.gameMode == "bossrush" then
 			t = t_bossChars
 			cnt = #t
 			local i = 0
@@ -385,7 +385,7 @@ function f_makeRoster()
 					cnt = #t + i
 				end
 			end
-		elseif data.gameMode == 'bonusrush' then
+		elseif data.gameMode == "bonusrush" then
 			t = t_bonusChars
 			cnt = #t
 			local i = 0
@@ -400,14 +400,14 @@ function f_makeRoster()
 					cnt = #t + i
 				end
 			end
-		elseif data.gameMode == 'endless' then
+		elseif data.gameMode == "endless" then
 			t = t_randomChars
 			if (data.p1In == 2 and data.p2In == 2) then
 				cnt = 999 * p1numChars
 			else
 				cnt = 999 * p2numChars
 			end
-		elseif data.gameMode == 'allroster' then
+		elseif data.gameMode == "allroster" then
 			t = t_randomChars
 			cnt = #t
 			local i = 0
@@ -434,7 +434,7 @@ function f_makeRoster()
 			end
 		end
 	end
-	if data.debugLog then f_printTable(t_roster, 'save/debug/t_roster.txt') end
+	if data.debugLog then f_printTable(t_roster, "save/debug/t_roster.txt") end
 end
 
 function f_aiRamp()
@@ -444,7 +444,7 @@ function f_aiRamp()
 	local end_diff = 0
 	t_aiRamp = {}
 	--Arcade
-	if data.gameMode == 'arcade' then
+	if data.gameMode == "arcade" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if p1teamMode == 0 then --Single
 				start_match = t_selOptions.arcadestart.wins
@@ -470,7 +470,7 @@ function f_aiRamp()
 				end_diff = t_selOptions.teamend.offset
 			end
 		end
-	elseif data.gameMode == 'survival' then
+	elseif data.gameMode == "survival" then
 		start_match = t_selOptions.survivalstart.wins
 		start_diff = t_selOptions.survivalstart.offset
 		end_match =  t_selOptions.survivalend.wins
@@ -498,7 +498,7 @@ function f_aiRamp()
 			t_aiRamp[#t_aiRamp+1] = endAI
 		end
 	end
-	if data.debugLog then f_printTable(t_aiRamp, 'save/debug/t_aiRamp.txt') end
+	if data.debugLog then f_printTable(t_aiRamp, "save/debug/t_aiRamp.txt") end
 end
 
 function f_difficulty(player, offset)
@@ -546,7 +546,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	]]
-	if data.aiRamping and data.gameMode == 'arcade' or data.gameMode == 'survival' then
+	if data.aiRamping and data.gameMode == "arcade" or data.gameMode == "survival" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
 	--Coop
@@ -572,7 +572,7 @@ function f_aiLevel()
 				setTag(1, f_tagMode(1, tagset))
 			end
 		elseif p1teamMode == 1 then --Simul
-			if data.simulType == 'Tag' then
+			if data.simulType == "Tag" then
 				for i=1, p1numChars*2 do
 					if i % 2 ~= 0 then --odd value
 						if data.p1In == 1 and data.aiFight == false and data.tagmode == 1 then
@@ -586,7 +586,7 @@ function f_aiLevel()
 						end
 					end
 				end
-			else --data.simulType == 'Assist'
+			else --data.simulType == "Assist"
 				if data.p1In == 1 and not data.aiFight then
 					setCom(1, 0)
 					setTag(1, f_tagMode(1, tagset))
@@ -627,7 +627,7 @@ function f_aiLevel()
 				setTag(2, f_tagMode(2, tagset))
 			end
 		elseif p2teamMode == 1 then --Simul
-			if data.simulType == 'Tag' then
+			if data.simulType == "Tag" then
 				for i=2, p2numChars*2 do
 					if i % 2 == 0 then --even value
 						if data.p2In == 2 and not data.aiFight and data.tagmode == 1 then
@@ -640,7 +640,7 @@ function f_aiLevel()
 						end
 					end
 				end
-			else --data.simulType == 'Assist'
+			else --data.simulType == "Assist"
 				if data.p2In == 2 and not data.aiFight then
 					setCom(2, 0)
 					setTag(2, f_tagMode(2, tagset))
@@ -655,7 +655,7 @@ function f_aiLevel()
 					end
 				end
 			end
-		elseif p2teamMode == 2 then --Turns --and not data.gameMode == 'bossrush' then
+		elseif p2teamMode == 2 then --Turns --and not data.gameMode == "bossrush" then
 			for i=2, p2numChars*2 do
 				if i % 2 == 0 then
 					if data.p2In == 2 and not data.aiFight then
@@ -765,7 +765,7 @@ end
 --;===========================================================
 --; BACK TO MAIN MENU MESSAGE
 --;===========================================================
-txt_backquestion = createTextImg(jgFnt, 1, 0, 'BACK TO MAIN MENU?', 160.5, 110,0.9,0.9)
+txt_backquestion = createTextImg(jgFnt, 1, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
 
 --Back Window BG
 backWindowBG = animNew(sysSff, [[
@@ -776,17 +776,17 @@ animUpdate(backWindowBG)
 animSetScale(backWindowBG, 1, 1)
 
 t_backMenu = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
 }
 
 function f_backMenu()
 	cmdInput()
 	--Cursor position
-	if commandGetState(p1Cmd, 'u') then
+	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 		sndPlay(sysSnd, 100, 0)
 		backMenu = backMenu - 1
-	elseif commandGetState(p1Cmd, 'd') then
+	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
 		sndPlay(sysSnd, 100, 0)
 		backMenu = backMenu + 1
 	end
@@ -800,9 +800,9 @@ function f_backMenu()
 	elseif backMenu > #t_backMenu then
 		backMenu = 1
 		cursorPosYBack = 0
-	elseif commandGetState(p1Cmd, 'u') and cursorPosYBack > 0 then
+	elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) and cursorPosYBack > 0 then
 		cursorPosYBack = cursorPosYBack - 1
-	elseif commandGetState(p1Cmd, 'd') and cursorPosYBack < 4 then
+	elseif (commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) and cursorPosYBack < 4 then
 		cursorPosYBack = cursorPosYBack + 1
 	end
 	if cursorPosYBack == 4 then
@@ -837,7 +837,7 @@ function f_backMenu()
 			sndPlay(sysSnd, 100, 2)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			if data.rosterMode == 'event' or data.rosterMode == 'mission' then
+			if data.rosterMode == "event" or data.rosterMode == "mission" then
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -850,7 +850,7 @@ function f_backMenu()
 			sndPlay(sysSnd, 100, 1)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			if data.gameMode == 'arcade' then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+			if data.gameMode == "arcade" then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
 				--f_rosterReset() --Delete?
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					p2Cell = nil
@@ -911,10 +911,10 @@ function f_selectSimple()
 	cmdInput()
 	while true do
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		if data.rosterMode == 'challenger' then f_challengerMusic()
-		elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
-		elseif data.rosterMode == 'event' then --playBGM('')
-		elseif data.gameMode == 'quick match' then --playBGM('')
+		if data.rosterMode == "challenger" then f_challengerMusic()
+		elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
+		elseif data.rosterMode == "event" then --playBGM("")
+		elseif data.gameMode == "quick match" then --playBGM("")
 		else f_selectMusic()
 		end
 		if winner < 1 then
@@ -941,10 +941,10 @@ function f_selectSimple()
 				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile('save/temp_sav.lua'))()
+			assert(loadfile("save/temp_sav.lua"))()
 			if back == true or data.tempBack == true then
-				if data.rosterMode == 'event' then
-					--playBGM('')
+				if data.rosterMode == "event" then
+					--playBGM("")
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
@@ -964,7 +964,7 @@ function f_selectSimple()
 					f_selectWin()
 				end
 			end
-			if data.gameMode == 'versus' then
+			if data.gameMode == "versus" then
 				--BACK TO MAIN MENU
 				if battleOption == 4 or battleOption2 == 4 then
 					f_favoriteChar() --Store Favorite Character (WIP)
@@ -991,8 +991,8 @@ function f_selectSimple()
 						end
 						f_selectScreen()
 						if back == true then
-							if data.rosterMode == 'event' then
-								--playBGM('')
+							if data.rosterMode == "event" then
+								--playBGM("")
 							else
 								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 							end
@@ -1028,8 +1028,8 @@ function f_selectSimple()
 						end
 						f_selectScreen()
 						if back == true then
-							if data.rosterMode == 'event' then
-								--playBGM('')
+							if data.rosterMode == "event" then
+								--playBGM("")
 							else
 								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 							end
@@ -1046,11 +1046,11 @@ function f_selectSimple()
 					f_loadSong()
 				end
 			--For Challenger Route in Arcade Mode
-			elseif data.gameMode == 'challenger' then
+			elseif data.gameMode == "challenger" then
 				break
 			--For Missions, Events or Quick Match Modes
-			elseif data.rosterMode == 'mission' or data.rosterMode == 'event' or data.gameMode == 'quick match' then
-				if data.rosterMode == 'event' then
+			elseif data.rosterMode == "mission" or data.rosterMode == "event" or data.gameMode == "quick match" then
+				if data.rosterMode == "event" then
 					playBGM(bgmEvents)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1073,8 +1073,8 @@ function f_selectSimple()
 					end
 					f_selectScreen()
 					if back == true then
-						if data.rosterMode == 'event' then
-							--playBGM('')
+						if data.rosterMode == "event" then
+							--playBGM("")
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						end
@@ -1095,7 +1095,7 @@ function f_selectSimple()
 				f_selectVersus()
 			end
 		end
-		--if data.gameMode == 'versus' and not onlinegame then
+		--if data.gameMode == "versus" and not onlinegame then
 			--f_setRoundTime() --Unused because this is more a feature for advanced modes
 		--end
 		f_setZoom()
@@ -1108,11 +1108,11 @@ function f_selectSimple()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
-		if data.rosterMode == 'training' then f_modeplayTime() end --Store Training Time
+		if data.rosterMode == "training" then f_modeplayTime() end --Store Training Time
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlocksCheck() --Check For Unlocked Content
-		playBGM('')
+		playBGM("")
 		cmdInput()
 		refresh()
 	end
@@ -1129,8 +1129,8 @@ function f_selectAdvance()
 	f_selectReset()
 	if data.stageMenu == false then stageEnd = true end
 	while true do
-		if data.gameMode == 'bossrush' or data.rosterMode == 'suddendeath' then playBGM(bgmSelectBoss)
-		elseif data.rosterMode == 'challenger' then f_challengerMusic()
+		if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" then playBGM(bgmSelectBoss)
+		elseif data.rosterMode == "challenger" then f_challengerMusic()
 		else f_selectMusic()
 		end
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1145,7 +1145,7 @@ function f_selectAdvance()
 				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile('save/temp_sav.lua'))()
+			assert(loadfile("save/temp_sav.lua"))()
 			if back == true or data.tempBack == true then
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				data.tempBack = false
@@ -1166,7 +1166,7 @@ function f_selectAdvance()
 			--generate AI ramping table
 			f_aiRamp()
 			--Arcade Intro
-			if data.gameMode == 'arcade' then
+			if data.gameMode == "arcade" then
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					storyBoardSide = t_selChars[data.t_p2selected[1].cel+1]
 				else
@@ -1180,13 +1180,13 @@ function f_selectAdvance()
 				end
 			end
 	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
-		elseif winner == -1 and (data.gameMode == 'endless' or data.gameMode == 'allroster') then
+		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster") then
 			looseCnt = looseCnt + 1
-			assert(loadfile('save/temp_sav.lua'))()
+			assert(loadfile("save/temp_sav.lua"))()
 			if data.tempBack == true then
 				data.tempBack = false
 				f_saveTemp()
-				if data.rosterMode == 'event' then
+				if data.rosterMode == "event" then
 					playBGM(bgmEvents)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1199,7 +1199,7 @@ function f_selectAdvance()
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			return
 	--Endless or All Roster modes (BOTH SIDES)
-		elseif data.gameMode == 'endless' or data.gameMode == 'allroster' then
+		elseif data.gameMode == "endless" or data.gameMode == "allroster" then
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if winner == 2 then
 					winCnt = winCnt + 1
@@ -1217,9 +1217,9 @@ function f_selectAdvance()
 			if matchNo == lastMatch then
 				f_records() --Save Stats
 				f_result('win')
-				f_storyboard('data/screenpack/gameover.def')
+				f_storyboard("data/screenpack/gameover.def")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.rosterMode == 'event' then
+				if data.rosterMode == "event" then
 					playBGM(bgmEvents)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1239,20 +1239,20 @@ function f_selectAdvance()
 			--Player 1 (IN RIGHT SIDE):
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
+				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 					--Victory screen
-					if data.gameMode == 'arcade' then
+					if data.gameMode == "arcade" then
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
 				--DELETE THIS?
-					assert(loadfile('save/temp_sav.lua'))()
+					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1263,9 +1263,9 @@ function f_selectAdvance()
 					f_records() --Save Stats
 					f_result('lost')
 					f_gameOver()
-					--f_storyboard('data/screenpack/intro.def')
+					--f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == 'event' then
+					if data.rosterMode == "event" then
 						playBGM(bgmEvents)
 					else
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1274,11 +1274,11 @@ function f_selectAdvance()
 				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
-					assert(loadfile('save/temp_sav.lua'))()
+					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
@@ -1293,7 +1293,7 @@ function f_selectAdvance()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_storyboard('data/screenpack/intro.def')
+						--f_storyboard("data/screenpack/intro.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
@@ -1343,7 +1343,7 @@ function f_selectAdvance()
 					looseCnt = looseCnt + 1
 				end
 				--Victory Screen
-				if data.gameMode == 'arcade' then
+				if data.gameMode == "arcade" then
 					if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
@@ -1351,7 +1351,7 @@ function f_selectAdvance()
 				--No More Matches Left
 				if matchNo == lastMatch then
 					--Arcade Ending
-					if data.gameMode == 'arcade' then
+					if data.gameMode == "arcade" then
 						local tPos = t_selChars[data.t_p1selected[1].cel+1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
 							f_storyboard(tPos.ending)
@@ -1361,25 +1361,25 @@ function f_selectAdvance()
 					end
 					f_records() --Save Stats
 					f_result('win')
-					if data.gameMode == 'arcade' then
-						if data.rosterMode == 'arcade' then
+					if data.gameMode == "arcade" then
+						if data.rosterMode == "arcade" then
 							data.arcadeClear = true --Unlocks
 							f_saveProgress()
 						end
 						f_playCredits()
-						f_storyboard('data/screenpack/gameover.def')
-						f_storyboard('data/screenpack/intro.def')
+						f_storyboard("data/screenpack/gameover.def")
+						f_storyboard("data/screenpack/intro.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					else
-						if data.rosterMode == 'survival' then
+						if data.rosterMode == "survival" then
 							data.survivalClear = true --Unlocks
 							f_saveProgress()
 						end
-						f_storyboard('data/screenpack/gameover.def')
+						f_storyboard("data/screenpack/gameover.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1407,7 +1407,7 @@ function f_selectAdvance()
 					looseCnt = looseCnt + 1
 				end
 				--Victory Screen
-				if data.gameMode == 'arcade' then
+				if data.gameMode == "arcade" then
 					if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
@@ -1415,7 +1415,7 @@ function f_selectAdvance()
 				--No More Matches Left
 				if matchNo == lastMatch then
 					--Arcade Ending
-					if data.gameMode == 'arcade' then
+					if data.gameMode == "arcade" then
 						local tPos = t_selChars[data.t_p2selected[1].cel+1]
 						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
 							f_storyboard(tPos.ending)
@@ -1425,25 +1425,25 @@ function f_selectAdvance()
 					end
 					f_records() --Save Stats
 					f_result('win')
-					if data.gameMode == 'arcade' then
-						if data.rosterMode == 'arcade' then
+					if data.gameMode == "arcade" then
+						if data.rosterMode == "arcade" then
 							data.arcadeClear = true --Unlocks
 							f_saveProgress()
 						end
 						f_playCredits()
-						f_storyboard('data/screenpack/gameover.def')
-						f_storyboard('data/screenpack/intro.def')
+						f_storyboard("data/screenpack/gameover.def")
+						f_storyboard("data/screenpack/intro.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
 					else
-						if data.rosterMode == 'survival' then
+						if data.rosterMode == "survival" then
 							data.survivalClear = true --Unlocks
 							f_saveProgress()
 						end
-						f_storyboard('data/screenpack/gameover.def')
+						f_storyboard("data/screenpack/gameover.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1461,20 +1461,20 @@ function f_selectAdvance()
 			--Player 1 (IN LEFT SIDE):
 			else
 				--Lose in Survival, Boss/Bonus Rush or don't have coins to continue in (Arcade with Attract Mode)
-				if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
+				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 					--Victory Screen
-					if data.gameMode == 'arcade' then
+					if data.gameMode == "arcade" then
 						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
 						end
 					end
 				--DELETE THIS?
-					assert(loadfile('save/temp_sav.lua'))()
+					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1485,9 +1485,9 @@ function f_selectAdvance()
 					f_records() --Save Stats
 					f_result('lost')
 					f_gameOver()
-					--f_storyboard('data/screenpack/intro.def')
+					--f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == 'event' then
+					if data.rosterMode == "event" then
 						playBGM(bgmEvents)
 					else
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1496,11 +1496,11 @@ function f_selectAdvance()
 				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
-					assert(loadfile('save/temp_sav.lua'))()
+					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1515,7 +1515,7 @@ function f_selectAdvance()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_storyboard('data/screenpack/intro.def')
+						--f_storyboard("data/screenpack/intro.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
@@ -1560,9 +1560,9 @@ function f_selectAdvance()
 		--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
 		else
 			--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
-			if data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == 'survival' or data.gameMode == 'bossrush' or data.gameMode == 'bonusrush' or (data.attractMode == true and data.attractCoins == 0) then
+			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
 				looseCnt = looseCnt + 1
-				if data.gameMode == 'arcade' then --Attract Arcade
+				if data.gameMode == "arcade" then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
@@ -1573,11 +1573,11 @@ function f_selectAdvance()
 						end
 					end
 				end
-				assert(loadfile('save/temp_sav.lua'))()
+				assert(loadfile("save/temp_sav.lua"))()
 				if data.tempBack == true then
 					data.tempBack = false
 					f_saveTemp()
-					if data.rosterMode == 'event' then
+					if data.rosterMode == "event" then
 						playBGM(bgmEvents)
 					else
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1587,9 +1587,9 @@ function f_selectAdvance()
 				f_records()
 				f_result('lost')
 				f_gameOver()
-				--f_storyboard('data/screenpack/intro.def')
+				--f_storyboard("data/screenpack/intro.def")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.rosterMode == 'event' then
+				if data.rosterMode == "event" then
 					playBGM(bgmEvents)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1597,7 +1597,7 @@ function f_selectAdvance()
 				return
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
-				assert(loadfile('save/temp_sav.lua'))()
+				assert(loadfile("save/temp_sav.lua"))()
 			--Here comes a New Challenger Route
 				if data.challengerMode then
 					data.challengerMode = false
@@ -1605,8 +1605,8 @@ function f_selectAdvance()
 				--Backup Arcade Data
 					t_p1selectedTemp = data.t_p1selected --Get a copy of selected chars to restore arcade after challenger battle
 					t_p2selectedTemp = data.t_p2selected
-					if data.debugLog then f_printTable(t_p1selectedTemp, 'save/debug/t_p1selectedTemp.txt') end
-					if data.debugLog then f_printTable(t_p2selectedTemp, 'save/debug/t_p2selectedTemp.txt') end
+					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.txt") end
+					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.txt") end
 					p1RestoreTeamMode = p1numChars --Get a copy of team mode selected
 					p2RestoreTeamMode = p2numChars
 					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
@@ -1617,18 +1617,18 @@ function f_selectAdvance()
 					data.p2In = 2
 					data.stageMenu = true
 					data.p2Faces = true
-					data.gameMode = 'challenger'
-					data.rosterMode = 'versus'
-					textImgSetText(txt_mainSelect, 'CHALLENGER MODE')
+					data.gameMode = "challenger"
+					data.rosterMode = "versus"
+					textImgSetText(txt_mainSelect, "CHALLENGER MODE")
 					backtomenu = false
 					f_selectSimple()
 				--Restore Arcade Data when f_selectSimple() end
 					f_default()
 					--setDiscordState("In Arcade Mode")
 					setGameMode('arcade')
-					data.gameMode = 'arcade'
-					data.rosterMode = 'arcade'
-					textImgSetText(txt_mainSelect, 'ARCADE')
+					data.gameMode = "arcade"
+					data.rosterMode = "arcade"
+					textImgSetText(txt_mainSelect, "ARCADE")
 					data.serviceScreen = true
 					data.p2SelectMenu = false
 					p1numChars = p1RestoreTeamMode --Restore team mode
@@ -1650,7 +1650,7 @@ function f_selectAdvance()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == 'event' then
+						if data.rosterMode == "event" then
 							playBGM(bgmEvents)
 						else
 							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1669,7 +1669,7 @@ function f_selectAdvance()
 					end
 					f_continue()
 					if data.continue == 2 then
-						--f_storyboard('data/screenpack/intro.def')
+						--f_storyboard("data/screenpack/intro.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						return
@@ -1729,15 +1729,15 @@ function f_selectAdvance()
 			data.t_p1selected = {}
 			shuffle = true --was local function
 			for i=1, p1numChars do
-				if i == 1 and data.gameMode == 'arcade' and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
+				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
 					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
 					p1Cell = t_roster[matchNo*p1numChars-i+1]
 				end
-				if data.aipal == 'Default' then
+				if data.aipal == "Default" then
 					p1Pal = 1
-				elseif data.aipal == 'Random' then
+				elseif data.aipal == "Random" then
 					p1Pal = math.random(1,12)
 				end
 				local updateAnim = true
@@ -1784,15 +1784,15 @@ function f_selectAdvance()
 			data.t_p2selected = {}
 			shuffle = true --was local function
 			for i=1, p2numChars do
-				if i == 1 and data.gameMode == 'arcade' and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
+				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
 					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
 					p2Cell = t_roster[matchNo*p2numChars-i+1]
 				end
-				if data.aipal == 'Default' then
+				if data.aipal == "Default" then
 					p2Pal = 1
-				elseif data.aipal == 'Random' then
+				elseif data.aipal == "Random" then
 					p2Pal = math.random(1,12)
 				end
 				local updateAnim = true
@@ -1849,7 +1849,7 @@ function f_selectAdvance()
 				f_selectVersus()
 			end
 		end
-		if data.gameMode == 'arcade' then
+		if data.gameMode == "arcade" then
 			f_setRoundTime()
 			f_setRounds()
 		end --Set Round Time for specific characters
@@ -1862,7 +1862,7 @@ function f_selectAdvance()
 		matchTime = os.clock()
 		f_assignMusic()
 		winner = game()
-		playBGM('')
+		playBGM("")
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
 		selectTimer = selectSeconds*gameTick
@@ -1929,10 +1929,10 @@ function f_selectStory()
 				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
 			end
 			f_selectScreen()
-			assert(loadfile('save/temp_sav.lua'))()
+			assert(loadfile("save/temp_sav.lua"))()
 			--Back from Pause Menu
 			if data.tempBack == true then
-				if data.rosterMode == 'story' then
+				if data.rosterMode == "story" then
 					playBGM(bgmStory)
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1955,7 +1955,7 @@ function f_selectStory()
 					f_selectWin()
 				end
 			end
-			if data.rosterMode == 'story' then
+			if data.rosterMode == "story" then
 				playBGM(bgmStory)
 			else
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1987,7 +1987,7 @@ function f_selectStory()
 		--f_favoriteChar() --Store Favorite Character (WIP)
 		--f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlocksCheck() --Check For Unlocked Content
-		playBGM('')
+		playBGM("")
 		--if not (data.p1In == 2 and data.p2In == 2) then resetRemapInput() end --This reset and invert the controls when p1 is in right side, becareful!
 		cmdInput()
 		refresh()
@@ -2059,9 +2059,9 @@ function f_selectTourney()
 		animDraw(f_animVelocity(selectBG2a, -1, 0))
 		animDraw(f_animVelocity(selectBG2b, -3, 0))
 		animDraw(f_animVelocity(selectBG2c, -6, 0))
-		if data.gameMode == 'tourney16' then animDraw(tourney16)
-		elseif data.gameMode == 'tourney8' then animDraw(tourney8)
-		elseif data.gameMode == 'tourney4' then animDraw(tourney4) end
+		if data.gameMode == "tourney16" then animDraw(tourney16)
+		elseif data.gameMode == "tourney8" then animDraw(tourney8)
+		elseif data.gameMode == "tourney4" then animDraw(tourney4) end
 		textImgDraw(txt_mainSelect)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -2398,12 +2398,12 @@ animUpdate(cellLockWindowBG)
 --;===========================================================
 --; CHARACTER SELECT SCREEN
 --;===========================================================
-txt_p1Wins = createTextImg(font6, 0, 1, '', 2, 13)
-txt_p2Wins = createTextImg(font6, 0, -1, '', 318, 13)
+txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
+txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
 
 function f_selectScreen()
 	--draw
-	if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+	if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then --Red BG for a Decisive Battle
 		animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Sprite Animation (Diagonal Movement around left direction)
 	else
 		animDraw(f_animVelocity(selectBG0, -1, -1))
@@ -2416,9 +2416,9 @@ function f_selectScreen()
 			animSetWindow(selectBG1b, 164, 0, 151, 239)
 		else
 			animDraw(f_animVelocity(selectBG1c, -1, 0))
-			if data.selectType == 'Fixed' then
+			if data.selectType == "Fixed" then
 				animSetWindow(selectBG1c, 85, 0, 151, 239)
-			elseif data.selectType == 'Variable' then
+			elseif data.selectType == "Variable" then
 				animSetWindow(selectBG1c, -2, 0, 324, 239)
 			end
 		end
@@ -2452,8 +2452,8 @@ function f_selectScreen()
 		end
 	end
 	--Character Select Timer
-	if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
-		--txt_charTime = createTextImg(jgFnt, 0, 0, ''..selectTimer/gameTick..'', 160, 70) --Original Decimal Timer
+	if data.gameMode == "arcade" or data.ftcontrol > 0 or data.attractMode == true then
+		--txt_charTime = createTextImg(jgFnt, 0, 0, (selectTimer/gameTick), 160, 70) --Original Decimal Timer
 		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
 		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
 		txt_charTime = createTextImg(jgFnt, 0, 0, nodecimalCharTime, 160, 70)
@@ -2480,55 +2480,55 @@ function f_selectScreen()
 	elseif data.p2In > 0 or data.p2Char ~= nil then
 		f_p2SelectMenu()
 		--Draw VS Single Bosses Portraits
-		if data.gameMode == 'singleboss' then
+		if data.gameMode == "singleboss" then
 			animDraw(f_animVelocity(charBG3, 2, 0))
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 			end
-			if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
 				for j=#data.t_p2selected, 1, -1 do
 					--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
 					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
 				end
 			end
 			--Draw Author Info Text
-			if data.charInfo == 'Author' then
+			if data.charInfo == "Author" then
 				if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p2Author, 'AUTHOR: '..t_selChars[data.t_p2selected[1].cel+1].author)
+					textImgSetText(txt_p2Author, "AUTHOR: "..t_selChars[data.t_p2selected[1].cel+1].author)
 					textImgDraw(txt_p2Author)
 				end
 			end
 		end
 		--Draw VS Single Bonus Portraits
-		if data.gameMode == 'singlebonus' then
+		if data.gameMode == "singlebonus" then
 			animDraw(f_animVelocity(charBG3, 2, 0))
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 			end
 			--Draw Author Info Text
-			if data.charInfo == 'Author' then
+			if data.charInfo == "Author" then
 				if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p2Author, 'AUTHOR: '..t_selChars[data.t_p2selected[1].cel+1].author)
+					textImgSetText(txt_p2Author, "AUTHOR: "..t_selChars[data.t_p2selected[1].cel+1].author)
 					textImgDraw(txt_p2Author)
 				end
 			end
 		end
 	end
 	--Win Counter
-	if data.gameMode == 'versus' and data.vsDisplayWin == true then
-		textImgSetText(txt_p1Wins, 'WINS: ' .. p1Wins)
-		textImgSetText(txt_p2Wins, 'WINS: ' .. p2Wins)
+	if data.gameMode == "versus" and data.vsDisplayWin == true then
+		textImgSetText(txt_p1Wins, "WINS: " .. p1Wins)
+		textImgSetText(txt_p2Wins, "WINS: " .. p2Wins)
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
 	--Palette Sub-Menu
-	if data.palType == 'Classic' then
-		txt_palHint = createTextImg(font1, 0, -1, 'PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ', 308, 239)
-	elseif data.palType == 'Modern' then
+	if data.palType == "Classic" then
+		txt_palHint = createTextImg(font1, 0, -1, "PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ", 308, 239)
+	elseif data.palType == "Modern" then
 		if p1palEnd == true and p2palEnd == true then
-			txt_palHint = createTextImg(font1, 0, -1, 'PRESS START BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS', 287, 239)
+			txt_palHint = createTextImg(font1, 0, -1, "PRESS START BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS", 287, 239)
 		else
-			txt_palHint = createTextImg(font1, 0, -1, ' ', 295, 239)
+			txt_palHint = createTextImg(font1, 0, -1, " ", 295, 239)
 		end
 		--Player1
 		if not p1palEnd then
@@ -2695,13 +2695,13 @@ animUpdate(p1EmptyIcon8)
 --;===========================================================
 --; PLAYER 1 TEAM SELECT
 --;===========================================================
-p1SelTmTxt = createTextImg(jgFnt, 5, 1, 'TEAM MODE', 20, 30)
-IASelTmTxt = createTextImg(jgFnt, 5, 1, 'CPU MODE', 20, 30)
+p1SelTmTxt = createTextImg(jgFnt, 5, 1, "TEAM MODE", 20, 30)
+IASelTmTxt = createTextImg(jgFnt, 5, 1, "CPU MODE", 20, 30)
 
 t_p1selTeam = {
-	{id = '', text = 'SINGLE'},
-	{id = '', text = 'SIMUL'},
-	{id = '', text = 'TURNS'},
+	{id = '', text = "SINGLE"},
+	{id = '', text = "SIMUL"},
+	{id = '', text = "TURNS"},
 }
 for i=1, #t_p1selTeam do
 	t_p1selTeam[i].id = createTextImg(jgFnt, 0, 1, t_p1selTeam[i].text, 20, 35+i*15)
@@ -2858,8 +2858,8 @@ end
 --;===========================================================
 --; PLAYER 1 CHARACTER SELECT
 --;===========================================================
-txt_p1Name = createTextImg(jgFnt, 4, 1, '', 0, 0, 0.8, 0.8)
-txt_p1Author = createTextImg(jgFnt, 0, 1, '', 0, 20, 0.65, 0.65)
+txt_p1Name = createTextImg(jgFnt, 4, 1, "", 0, 0, 0.8, 0.8)
+txt_p1Author = createTextImg(jgFnt, 0, 1, "", 0, 20, 0.65, 0.65)
 
 --P1 Random Portrait
 p1randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
@@ -2874,9 +2874,9 @@ p1portraitLock = animNew(sysSff, [[108,0, 0,0,]])
 p1portraitLockWindowBG = animNew(sysSff, [[3,0, 0,0, -1, 0]])
 
 function f_p1charAnnouncer()
-	if f_getName(p1Cell) == 'Kung Fu Man' then
+	if f_getName(p1Cell) == "Kung Fu Man" then
 		sndPlay(announcerSnd, 1, 0)
-	--elseif f_getName(p1Cell) == 'Your Character Name' then
+	--elseif f_getName(p1Cell) == "Your Character Name" then
 		--sndPlay(announcerSnd, 1, 1)
 	end
 end
@@ -2909,8 +2909,8 @@ function f_p1palList() --Palette Menu
 		bufPall = 0
 	end
 	p1palSelect = p1movePal --Uses menu position to show palette in these order
-	txt_pal = createTextImg(jgFnt, 5, 1, 'PALETTE:', 5, 237)
-	txt_palNumber = createTextImg(font14, 0, 0, ' ' .. p1palSelect .. '/12', 93, 237) --draw palette limit numbers text
+	txt_pal = createTextImg(jgFnt, 5, 1, "PALETTE:", 5, 237)
+	txt_palNumber = createTextImg(font14, 0, 0, p1palSelect.."/12", 95, 237) --draw palette limit numbers text
 	textImgDraw(txt_pal)
 	textImgDraw(txt_palNumber)
 	if p1movePal > 1 then
@@ -2944,7 +2944,7 @@ function f_p1SelectMenu()
 			else
 				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 			end
-			if data.debugLog then f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt') end
+			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
 		end
 		p1Portrait = data.p1Char[1]
 		--local numChars = p1numChars
@@ -2954,7 +2954,7 @@ function f_p1SelectMenu()
 		p1SelEnd = true
 	else
 		if not exclusiveStageMenu then
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				if p1BG == true then animDraw(f_animVelocity(charBG2, -2, 0)) end --Draw P1 Portrait BG
 			end
 		end
@@ -2970,48 +2970,48 @@ function f_p1SelectMenu()
 					end
 				end
 			--Cursor in Random Select Slot
-				if getCharName(p1Cell) == 'Random' then
+				if getCharName(p1Cell) == "Random" then
 					--sndPlay(sysSnd, 100, 0) --Play Cursor SFX...
 				--DRAW RANDOM PORTRAITS
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--drawPortrait(t_randomChars[math.random(#t_randomChars)], 0+60*(#data.t_p1selected-1), 20, 1, 1) --Draw P1 RANDOM PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
 					--SINGLE MODE
 						if p1numChars == 1 then
-							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p1randomPortrait, 0, 20)
-							elseif data.randomPortrait == 'Roulette' then --Draw P1 RANDOM PREVIEW Portrait (showing all characters loaded)
+							elseif data.randomPortrait == "Roulette" then --Draw P1 RANDOM PREVIEW Portrait (showing all characters loaded)
 								drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 1)
 							end
 					--TEAM MODE WITH 2 MEMBERS
 						elseif p1numChars == 2 then
 						--Draw P1 Member 1 RANDOM PREVIEW Portrait
 							if p1memberPreview == 1 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p1randomPortrait, 0, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p1randomPortrait, 0, 20, 0.5, 0.5)
 									end
-								elseif data.randomPortrait == 'Roulette' then
-									if data.charPresentation == 'Portrait' then
+								elseif data.randomPortrait == "Roulette" then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 0.5, 0.5)
 									end
 								end
 							end
 						--Draw P1 Member 2 RANDOM PREVIEW Portrait
 							if p1memberPreview == 2 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p1randomPortrait, 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
 									end
-								elseif data.randomPortrait == 'Roulette' then
-									if data.charPresentation == 'Portrait' then
+								elseif data.randomPortrait == "Roulette" then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
 									end
 								end
@@ -3020,33 +3020,33 @@ function f_p1SelectMenu()
 						elseif p1numChars == 3 then
 						--Draw P1 Member 1 RANDOM PREVIEW Portrait
 							if p1memberPreview == 1 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p1randomPortrait, 0, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p1randomPortrait, 30, 20, 0.5, 0.5)
 									end
-								elseif data.randomPortrait == 'Roulette' then
-									if data.charPresentation == 'Portrait' then
+								elseif data.randomPortrait == "Roulette" then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 30, 20, 0.5, 0.5)
 									end
 								end
 							end
 						--Draw P1 Member 2 RANDOM PREVIEW Portrait
 							if p1memberPreview == 2 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 3 RANDOM PREVIEW Portrait
 							if p1memberPreview == 3 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 60, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 60, 90, 0.5, 0.5)
 								end
 							end
@@ -3054,62 +3054,62 @@ function f_p1SelectMenu()
 						elseif p1numChars == 4 then
 						--Draw P1 Member 1 RANDOM PREVIEW Portrait
 							if p1memberPreview == 1 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 20, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 20, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 2 RANDOM PREVIEW Portrait
 							if p1memberPreview == 2 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 60, 20, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 60, 20, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 3 RANDOM PREVIEW Portrait
 							if p1memberPreview == 3 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 4 RANDOM PREVIEW Portrait
 							if p1memberPreview == 4 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomPortrait, 60, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 60, 90, 0.5, 0.5)
 								end
 							end
 					--TEAM MODE WITH MORE THAN 4 MEMBERS (UNUSED)
 						--[[
 						else
-							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p1randomPortrait, 125, 16, 0.5, 0.5)
-							elseif data.randomPortrait == 'Roulette' then
+							elseif data.randomPortrait == "Roulette" then
 								drawPortrait(t_randomChars[math.random(#t_randomChars)], 125, 16, 0.5, 0.5) --Draw RANDOM portrait preview out of BG Position
 							end
 						]]
 						end
 					end
 				--DRAW RANDOM SPRITE ANIMATIONS
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						if data.charPresentation == 'Sprite' then
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						if data.charPresentation == "Sprite" then
 							if data.coop then
 								f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 40, 164, true)
 							else
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p1randomSprite, 20 + 28*#data.t_p1selected, 75)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									--Draw P1 RANDOM PREVIEW stand animation with automatic X position for all members (instead of use p1numChars logic)
 									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 40 + 28*#data.t_p1selected, 164, true)
 								end
 							end
-						elseif data.charPresentation == 'Mixed' then
-							if data.randomPortrait == 'Roulette' then
+						elseif data.charPresentation == "Mixed" then
+							if data.randomPortrait == "Roulette" then
 							--SINGLE MODE
 								if p1numChars == 1 then
 									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 30, 158, true) --Draw P1 RANDOM PREVIEW stand anim (true means that always will be in a loop updateAnim)
@@ -3138,7 +3138,7 @@ function f_p1SelectMenu()
 			--Cursor in Character Slot
 				else
 				--DRAW PORTRAITS
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						if p1Portrait then --To avoid issues when draw Portrait after continue/service screen
 							--drawPortrait(p1Portrait, 0+60*(#data.t_p1selected-1), 20, 1, 1) --Draw P1 PREVIEW Portrait with automatic X position for all members (instead of use p1numChars logic)
 						--SINGLE MODE
@@ -3148,17 +3148,17 @@ function f_p1SelectMenu()
 							elseif p1numChars == 2 then
 							--Draw P1 Member 1 PREVIEW Portrait
 								if p1memberPreview == 1 then
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(p1Portrait, 0, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(p1Portrait, 0, 20, 0.5, 0.5)
 									end
 								end
 							--Draw P1 Member 2 PREVIEW Portrait
 								if p1memberPreview == 2 then
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(p1Portrait, 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(p1Portrait, 0, 90, 0.5, 0.5)
 									end
 								end
@@ -3166,9 +3166,9 @@ function f_p1SelectMenu()
 							elseif p1numChars == 3 then
 							--Draw P1 Member 1 PREVIEW Portrait
 								if p1memberPreview == 1 then
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(p1Portrait, 0, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(p1Portrait, 30, 20, 0.5, 0.5)
 									end
 								end
@@ -3187,15 +3187,15 @@ function f_p1SelectMenu()
 						end
 					end
 				--DRAW SPRITE ANIMATIONS
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						if data.charPresentation == 'Sprite' then
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						if data.charPresentation == "Sprite" then
 							if data.coop then
 								f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 40, 164, true)
 							else
 								--Draw P1 Member 1 PREVIEW Stand Animation with automatic X position for all members (instead of use p1numChars logic)
 								f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 40 + 28*#data.t_p1selected, 164, true)
 							end
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
 								f_drawCharAnim(t_selChars[p1Cell+1], 'p1AnimStand', 30, 158, true, 1, 1) --Draw P1 Member 1 PREVIEW Stand Anim
@@ -3222,7 +3222,7 @@ function f_p1SelectMenu()
 					end
 				--DRAW LOCKED CHAR STUFF
 					if t_selChars[p1Cell+1].unlock == 0 then --If the character is locked draw special stuff
-						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
 								f_drawQuickSpr(p1portraitLockWindowBG, 0, 20, 120, 140, 256, 102)
@@ -3264,7 +3264,7 @@ function f_p1SelectMenu()
 									f_drawQuickSpr(p1portraitLock, 72, 106, 0.10, 0.10)
 								end
 							end
-						elseif data.charPresentation == 'Sprite' then
+						elseif data.charPresentation == "Sprite" then
 							f_drawQuickSpr(p1portraitLock, 20 + 28*#data.t_p1selected, 75, 0.15, 0.15)
 						end
 					end
@@ -3274,11 +3274,11 @@ function f_p1SelectMenu()
 			for j=#data.t_p1selected, 1, -1 do
 			--DRAW PORTRAITS
 				if not exclusiveStageMenu then
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--drawPortrait(data.t_p1selected[j].cel, 0+60*(j-1), 20, 1, 1) --Draw P1 SELECTED Portrait with automatic X position for all members (instead of use p1numChars logic)
 					--SINGLE MODE
 						if p1numChars == 1 then
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
 								f_drawQuickSpr(p1randomPortrait, 0, 20)
 							else
 								drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1)
@@ -3287,32 +3287,32 @@ function f_p1SelectMenu()
 						elseif p1numChars == 2 then
 						--Draw P1 Member 2 SELECTED Portrait
 							if j == 2 then
-								if data.randomPortrait == 'Fixed' and p1member2Random == true then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Fixed" and p1member2Random == true then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p1randomPortrait, 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
 									end
 								else
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(data.t_p1selected[2].cel, 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(data.t_p1selected[2].cel, 0, 90, 0.5, 0.5)
 									end
 								end
 							end
 							--remember that lastest draw have priority on screen
 						--Draw P1 Member 1 SELECTED Portrait
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								if data.charPresentation == 'Portrait' then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
+								if data.charPresentation == "Portrait" then
 									f_drawQuickSpr(p1randomPortrait, 0, 20, 1, 0.5)
-								elseif data.charPresentation == 'Mixed' then
+								elseif data.charPresentation == "Mixed" then
 									f_drawQuickSpr(p1randomPortrait, 0, 20, 0.5, 0.5)
 								end
 							else
-								if data.charPresentation == 'Portrait' then
+								if data.charPresentation == "Portrait" then
 									drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 0.5)
-								elseif data.charPresentation == 'Mixed' then
+								elseif data.charPresentation == "Mixed" then
 									drawPortrait(data.t_p1selected[1].cel, 0, 20, 0.5, 0.5)
 								end
 							end
@@ -3320,7 +3320,7 @@ function f_p1SelectMenu()
 						elseif p1numChars == 3 then
 						--Draw P1 Member 3 SELECTED Portrait
 							if j == 3 then
-								if data.randomPortrait == 'Fixed' and p1member3Random == true then
+								if data.randomPortrait == "Fixed" and p1member3Random == true then
 									f_drawQuickSpr(p1randomPortrait, 60, 90, 0.5, 0.5)
 								else
 									drawPortrait(data.t_p1selected[3].cel, 60, 90, 0.5, 0.5)
@@ -3328,23 +3328,23 @@ function f_p1SelectMenu()
 							end
 						--Draw P1 Member 2 SELECTED Portrait
 							if j == 2 then
-								if data.randomPortrait == 'Fixed' and p1member2Random == true then
+								if data.randomPortrait == "Fixed" and p1member2Random == true then
 									f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
 								else
 									drawPortrait(data.t_p1selected[2].cel, 0, 90, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 1 SELECTED Portrait
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								if data.charPresentation == 'Portrait' then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
+								if data.charPresentation == "Portrait" then
 									f_drawQuickSpr(p1randomPortrait, 0, 20, 1, 0.5)
-								elseif data.charPresentation == 'Mixed' then
+								elseif data.charPresentation == "Mixed" then
 									f_drawQuickSpr(p1randomPortrait, 30, 20, 0.5, 0.5)
 								end
 							else
-								if data.charPresentation == 'Portrait' then
+								if data.charPresentation == "Portrait" then
 									drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 0.5)
-								elseif data.charPresentation == 'Mixed' then
+								elseif data.charPresentation == "Mixed" then
 									drawPortrait(data.t_p1selected[1].cel, 30, 20, 0.5, 0.5)
 								end
 							end
@@ -3352,7 +3352,7 @@ function f_p1SelectMenu()
 						elseif p1numChars == 4 then
 						--Draw P1 Member 4 SELECTED Portrait
 							if j == 4 then
-								if data.randomPortrait == 'Fixed' and p1member4Random == true then
+								if data.randomPortrait == "Fixed" and p1member4Random == true then
 									f_drawQuickSpr(p1randomPortrait, 60, 90, 0.5, 0.5)
 								else
 									drawPortrait(data.t_p1selected[4].cel, 60, 90, 0.5, 0.5)
@@ -3360,7 +3360,7 @@ function f_p1SelectMenu()
 							end
 						--Draw P1 Member 3 SELECTED Portrait
 							if j == 3 then
-								if data.randomPortrait == 'Fixed' and p1member3Random == true then
+								if data.randomPortrait == "Fixed" and p1member3Random == true then
 									f_drawQuickSpr(p1randomPortrait, 0, 90, 0.5, 0.5)
 								else
 									drawPortrait(data.t_p1selected[3].cel, 0, 90, 0.5, 0.5)
@@ -3368,14 +3368,14 @@ function f_p1SelectMenu()
 							end
 						--Draw P1 Member 2 SELECTED Portrait
 							if j == 2 then
-								if data.randomPortrait == 'Fixed' and p1member2Random == true then
+								if data.randomPortrait == "Fixed" and p1member2Random == true then
 									f_drawQuickSpr(p1randomPortrait, 60, 20, 0.5, 0.5)
 								else
 									drawPortrait(data.t_p1selected[2].cel, 60, 20, 0.5, 0.5)
 								end
 							end
 						--Draw P1 Member 1 SELECTED Portrait
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
 								f_drawQuickSpr(p1randomPortrait, 0, 20, 0.5, 0.5)
 							else
 								drawPortrait(data.t_p1selected[1].cel, 0, 20, 0.5, 0.5)
@@ -3383,14 +3383,14 @@ function f_p1SelectMenu()
 						end
 					end
 				--DRAW SPRITE ANIMATIONS
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						if data.charPresentation == 'Sprite' then
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						if data.charPresentation == "Sprite" then
 							if data.coop then
 								f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, 200) --200 is the alphas value
 							else
 							--Draw P1 Member 4 SELECTED Animation
 								if j == 4 then
-									if data.randomPortrait == 'Fixed' and p1member4Random == true then
+									if data.randomPortrait == "Fixed" and p1member4Random == true then
 										f_drawQuickSpr(p1randomSprite, 104, 75)
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 124, 164, data.t_p1selected[4].up, 1, 1, 200)
@@ -3398,7 +3398,7 @@ function f_p1SelectMenu()
 								end
 							--Draw P1 Member 3 SELECTED Animation
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										f_drawQuickSpr(p1randomSprite, 76, 75)
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 96, 164, data.t_p1selected[3].up, 1, 1, 200)
@@ -3406,14 +3406,14 @@ function f_p1SelectMenu()
 								end
 							--Draw P1 Member 2 SELECTED Animation
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										f_drawQuickSpr(p1randomSprite, 48, 75)
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
-								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									f_drawQuickSpr(p1randomSprite, 20, 75)
 								else
 									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, 200)
@@ -3421,10 +3421,10 @@ function f_p1SelectMenu()
 								--Draw P1 SELECTED/Win Animation with automatic X position for all members (instead of use p1numChars logic)
 								--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 40 + 28*(j-1), 164, data.t_p1selected[j].up, 1, 1, 200)
 							end
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
-								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
 								else
 									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 30, 158, data.t_p1selected[1].up, 1, 1, 200)
@@ -3433,14 +3433,14 @@ function f_p1SelectMenu()
 							elseif p1numChars == 2 then
 							--Draw P1 Member 2 SELECTED Animation
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
-								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
 									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, 200) --The lastest f_drawCharAnim have draw priority on screen
@@ -3449,7 +3449,7 @@ function f_p1SelectMenu()
 							elseif p1numChars == 3 then
 							--Draw P1 Member 3 SELECTED Animation
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[3].up, 0.5, 0.5, 200)
@@ -3457,14 +3457,14 @@ function f_p1SelectMenu()
 								end
 							--Draw P1 Member 2 SELECTED Animation
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
-								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
 									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 89, data.t_p1selected[1].up, 0.5, 0.5, 200)
@@ -3473,7 +3473,7 @@ function f_p1SelectMenu()
 							elseif p1numChars == 4 then
 							--Draw P1 Member 4 SELECTED Animation
 								if j == 4 then
-									if data.randomPortrait == 'Fixed' and p1member4Random == true then
+									if data.randomPortrait == "Fixed" and p1member4Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[4].up, 0.5, 0.5, 200)
@@ -3481,7 +3481,7 @@ function f_p1SelectMenu()
 								end
 							--Draw P1 Member 3 SELECTED Animation
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[3].up, 0.5, 0.5, 200)
@@ -3489,14 +3489,14 @@ function f_p1SelectMenu()
 								end
 							--Draw P1 Member 2 SELECTED Animation
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 70, 89, data.t_p1selected[2].up, 0.5, 0.5, 200)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
-								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
 									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 10, 89, data.t_p1selected[1].up, 0.5, 0.5, 200)
@@ -3510,11 +3510,11 @@ function f_p1SelectMenu()
 		for j=#data.t_p1selected, 1, -1 do --Again to set priority over sprites
 		--DRAW CHARACTER NAMES
 			if not exclusiveStageMenu then
-				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				--SINGLE MODE
 					if p1numChars == 1 then
-						if data.randomPortrait == 'Fixed' and p1member1Random == true then
-							f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 10, 165, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p1member1Random == true then
+							f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 10, 165, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[1], 10, 165)
 						end
@@ -3522,30 +3522,30 @@ function f_p1SelectMenu()
 					elseif p1numChars == 2 then
 					--Draw P1 Member 2 SELECTED Name
 						if j == 2 then
-							if data.charPresentation == 'Portrait' then
-								if data.randomPortrait == 'Fixed' and p1member2Random == true then
-									f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 2, 100, 0.8, 0.8)
+							if data.charPresentation == "Portrait" then
+								if data.randomPortrait == "Fixed" and p1member2Random == true then
+									f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, "RANDOM SELECT 2", 2, 100, 0.8, 0.8)
 								else
 									f_drawSelectName(txt_p1Name, data.t_p1selected[2], 2, 100)
 								end
-							elseif data.charPresentation == 'Mixed' then
-								if data.randomPortrait == 'Fixed' and p1member2Random == true then
-									f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 66, 100, 0.5, 0.5)
+							elseif data.charPresentation == "Mixed" then
+								if data.randomPortrait == "Fixed" and p1member2Random == true then
+									f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, "RANDOM SELECT 2", 66, 100, 0.5, 0.5)
 								else
 									f_drawSelectName(txt_p1Name, data.t_p1selected[2], 66, 100, 0.5, 0.5)
 								end
 							end
 						end
 					--Draw P1 Member 1 SELECTED Name
-						if data.charPresentation == 'Portrait' then
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 2, 88, 0.8, 0.8)
+						if data.charPresentation == "Portrait" then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
+								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 2, 88, 0.8, 0.8)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[1], 2, 88)
 							end
-						elseif data.charPresentation == 'Mixed' then
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 66, 30, 0.5, 0.5)
+						elseif data.charPresentation == "Mixed" then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
+								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 66, 30, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[1], 66, 30, 0.5, 0.5)
 							end
@@ -3554,30 +3554,30 @@ function f_p1SelectMenu()
 					elseif p1numChars == 3 then
 					--Draw P1 Member 3 SELECTED Name
 						if j == 3 then
-							if data.randomPortrait == 'Fixed' and p1member3Random == true then
-								f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, 'RANDOM SELECT 3', 66, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p1member3Random == true then
+								f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, "RANDOM SELECT 3", 66, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[3], 66, 100, 0.5, 0.5)
 							end
 						end
 					--Draw P1 Member 2 SELECTED Name
 						if j == 2 then
-							if data.randomPortrait == 'Fixed' and p1member2Random == true then
-								f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 0, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p1member2Random == true then
+								f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, "RANDOM SELECT 2", 0, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 0, 100, 0.5, 0.5)
 							end
 						end
 					--Draw P1 Member 1 SELECTED Name
-						if data.charPresentation == 'Portrait' then
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 2, 88, 0.8, 0.8)
+						if data.charPresentation == "Portrait" then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
+								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 2, 88, 0.8, 0.8)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[1], 2, 88)
 							end
-						elseif data.charPresentation == 'Mixed' then
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
-								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 30, 30, 0.5, 0.5)
+						elseif data.charPresentation == "Mixed" then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
+								f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 30, 30, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[1], 30, 30, 0.5, 0.5)
 							end
@@ -3586,97 +3586,97 @@ function f_p1SelectMenu()
 					elseif p1numChars == 4 then
 					--Draw P1 Member 4 SELECTED Name
 						if j == 4 then
-							if data.randomPortrait == 'Fixed' and p1member4Random == true then
-								f_drawQuickText(txt_p1RandomMember4, jgFnt, 5, 1, 'RANDOM SELECT 4', 66, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p1member4Random == true then
+								f_drawQuickText(txt_p1RandomMember4, jgFnt, 5, 1, "RANDOM SELECT 4", 66, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[4], 66, 100, 0.5, 0.5)
 							end
 						end
 					--Draw P1 Member 3 SELECTED Name
 						if j == 3 then
-							if data.randomPortrait == 'Fixed' and p1member3Random == true then
-								f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, 'RANDOM SELECT 3', 0, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p1member3Random == true then
+								f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, "RANDOM SELECT 3", 0, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[3], 0, 100, 0.5, 0.5)
 							end
 						end
 					--Draw P1 Member 2 SELECTED Name
 						if j == 2 then
-							if data.randomPortrait == 'Fixed' and p1member2Random == true then
-								f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 66, 30, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p1member2Random == true then
+								f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, "RANDOM SELECT 2", 66, 30, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 66, 30, 0.5, 0.5)
 							end
 						end
 					--Draw P1 Member 1 SELECTED Name
-						if data.randomPortrait == 'Fixed' and p1member1Random == true then
-							f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 0, 30, 0.5, 0.5)
+						if data.randomPortrait == "Fixed" and p1member1Random == true then
+							f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 0, 30, 0.5, 0.5)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[1], 0, 30, 0.5, 0.5)
 						end
 					end
-				elseif data.charPresentation == 'Sprite' then
+				elseif data.charPresentation == "Sprite" then
 				--Draw P1 Member 4 SELECTED Name
 					if j == 4 then
-						if data.randomPortrait == 'Fixed' and p1member4Random == true then
-							f_drawQuickText(txt_p1RandomMember4, jgFnt, 5, 1, 'RANDOM SELECT 4', 12, 166, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p1member4Random == true then
+							f_drawQuickText(txt_p1RandomMember4, jgFnt, 5, 1, "RANDOM SELECT 4", 12, 166, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[4], 12, 166)
 						end
 					end
 				--Draw P1 Member 3 SELECTED Name
 					if j == 3 then
-						if data.randomPortrait == 'Fixed' and p1member3Random == true then
-							f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, 'RANDOM SELECT 3', 8, 160, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p1member3Random == true then
+							f_drawQuickText(txt_p1RandomMember3, jgFnt, 5, 1, "RANDOM SELECT 3", 8, 160, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[3], 8, 160)
 						end
 					end
 				--Draw P1 Member 2 SELECTED Name
 					if j == 2 then
-						if data.randomPortrait == 'Fixed' and p1member2Random == true then
-							f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, 'RANDOM SELECT 2', 4, 154, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p1member2Random == true then
+							f_drawQuickText(txt_p1RandomMember2, jgFnt, 5, 1, "RANDOM SELECT 2", 4, 154, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p1Name, data.t_p1selected[2], 4, 154)
 						end
 					end
 				--Draw P1 Member 1 SELECTED Name
-					if data.randomPortrait == 'Fixed' and p1member1Random == true then
-						f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, 'RANDOM SELECT 1', 0, 148, 0.8, 0.8)
+					if data.randomPortrait == "Fixed" and p1member1Random == true then
+						f_drawQuickText(txt_p1RandomMember1, jgFnt, 5, 1, "RANDOM SELECT 1", 0, 148, 0.8, 0.8)
 					else
 						f_drawSelectName(txt_p1Name, data.t_p1selected[1], 0, 148)
 					end
 				end
 			--DRAW AUTHOR INFO TEXT
-				if data.charInfo == 'Author' then
-					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
-						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				if data.charInfo == "Author" then
+					if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == "Random" then
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
-								if data.randomPortrait == 'Fixed' and p1member1Random == true then
+								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--Keep random author as: ???
 								else
-									textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author) --Reveal Random Author
+									textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author) --Reveal Random Author
 								end
 								textImgDraw(txt_p1Author)
 						--TEAM MODE WITH 2 MEMBERS
 							elseif p1numChars == 2 then
 							--Draw P1 Member 2 SELECTED Author
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[2].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 165, 0.65, 0.65)
 								end
 							--Draw P1 Member 1 SELECTED Author
 								if j == 1 then
-									if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65)
@@ -3685,30 +3685,30 @@ function f_p1SelectMenu()
 							elseif p1numChars == 3 then
 							--Draw P1 Member 3 SELECTED Author
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									if data.randomPortrait == "Fixed" and p1member3Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[3].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
 								end
 							--Draw P1 Member 2 SELECTED Author
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[2].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
 								end
 							--Draw P1 Member 1 SELECTED Author
 								if j == 1 then
-									if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author)
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
 								end
@@ -3716,50 +3716,50 @@ function f_p1SelectMenu()
 							elseif p1numChars == 4 then
 							--Draw P1 Member 4 SELECTED Author
 								if j == 4 then
-									if data.randomPortrait == 'Fixed' and p1member4Random == true then
+									if data.randomPortrait == "Fixed" and p1member4Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[4].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[4].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
 								end
 							--Draw P1 Member 3 SELECTED Author
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p1member3Random == true then
+									if data.randomPortrait == "Fixed" and p1member3Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[3].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
 								end
 							--Draw P1 Member 2 SELECTED Author
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p1member2Random == true then
+									if data.randomPortrait == "Fixed" and p1member2Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[2].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 60, 89, 0.5, 0.5)
 								end
 							--Draw P1 Member 1 SELECTED Author
 								if j == 1 then
-									if data.randomPortrait == 'Fixed' and p1member1Random == true then
+									if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[1].author)
+										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
 								end
 							end
-						elseif data.charPresentation == 'Sprite' then
-							if data.randomPortrait == 'Fixed' and p1member1Random == true then
+						elseif data.charPresentation == "Sprite" then
+							if data.randomPortrait == "Fixed" and p1member1Random == true then
 							--
 							else
-								textImgSetText(txt_p1Author, 'AUTHOR: '..data.t_p1selected[j].author)
+								textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[j].author)
 							end
 							textImgPosDraw(txt_p1Author, 0, 20+10*(j-1), 0.65, 0.65)
 						end
@@ -3859,7 +3859,7 @@ function f_p1SelectMenu()
 					end
 				end
 				if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
-					if data.palType == 'Modern' then
+					if data.palType == "Modern" then
 						p1palEnd = false
 						sndPlay(sysSnd, 100, 3)
 						f_p1palList()
@@ -3901,12 +3901,12 @@ function f_p1SelectMenu()
 				animUpdate(arrowsDMR)
 			end
 		--Draw Author Info Text Preview
-			if data.charInfo == 'Author' then
-				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == 'Random' then
+			if data.charInfo == "Author" then
+				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == "Random" then
 					if t_selChars[p1Cell+1].author ~= nil then
-						textImgSetText(txt_p1Author, 'AUTHOR: '..t_selChars[p1Cell+1].author)
+						textImgSetText(txt_p1Author, "AUTHOR: "..t_selChars[p1Cell+1].author)
 					else --Set Text for Random Select
-						textImgSetText(txt_p1Author, 'AUTHOR: ???')
+						textImgSetText(txt_p1Author, "AUTHOR: ???")
 					end
 					textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65) --Restart text pos
 					textImgDraw(txt_p1Author)
@@ -3916,32 +3916,32 @@ function f_p1SelectMenu()
 		--Set Preview Character Name
 			textImgSetBank(txt_p1Name, 0) --Restart color for not selected character
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				--For Single Mode
 				if p1numChars == 1 then
 					textImgScalePosDraw(txt_p1Name, 10, 165, 0.8, 0.8)
 				--For Team Mode with 2 Players
 				elseif p1numChars == 2 then
 					if p1memberPreview == 1 then
-						if data.charPresentation == 'Portrait' then
+						if data.charPresentation == "Portrait" then
 							textImgScalePosDraw(txt_p1Name, 2, 88, 0.8, 0.8)
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							textImgScalePosDraw(txt_p1Name, 66, 30, 0.5, 0.5)
 						end
 					end
 					if p1memberPreview == 2 then
-						if data.charPresentation == 'Portrait' then
+						if data.charPresentation == "Portrait" then
 							textImgScalePosDraw(txt_p1Name, 2, 100, 0.8, 0.8)
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							textImgScalePosDraw(txt_p1Name, 66, 100, 0.5, 0.5)
 						end
 					end
 				--For Team Mode with 3 Players
 				elseif p1numChars == 3 then
 					if p1memberPreview == 1 then
-						if data.charPresentation == 'Portrait' then
+						if data.charPresentation == "Portrait" then
 							textImgScalePosDraw(txt_p1Name, 2, 88, 0.8, 0.8)
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							textImgScalePosDraw(txt_p1Name, 30, 30, 0.5, 0.5)
 						end
 					end
@@ -3954,7 +3954,7 @@ function f_p1SelectMenu()
 					if p1memberPreview == 3 then textImgScalePosDraw(txt_p1Name, 0, 100, 0.5, 0.5) end
 					if p1memberPreview == 4 then textImgScalePosDraw(txt_p1Name, 66, 100, 0.5, 0.5) end
 				end
-			elseif data.charPresentation == 'Sprite' then
+			elseif data.charPresentation == "Sprite" then
 				if p1memberPreview == 1 then
 					textImgPosDraw(txt_p1Name, 0, 148)
 				elseif p1memberPreview == 2 then
@@ -3988,7 +3988,7 @@ function f_p1SelectMenu()
 				f_p1Selection()
 			end
 			if data.debugLog then
-				f_printTable(data.t_p1selected, 'save/debug/data.t_p1selected.txt')
+				f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt")
 			end
 		end
 	end
@@ -3998,7 +3998,7 @@ end
 function f_p1Selection()
 	sndPlay(sysSnd, 100, 1)
 	local cel = p1Cell
-	if getCharName(cel) == 'Random' then
+	if getCharName(cel) == "Random" then
 		randomP1Rematch = true
 		cel = t_randomChars[math.random(#t_randomChars)] --include exclude chars: cel = math.random(1, #t_randomChars)-1
 		if p1memberPreview == 1 then p1member1Random = true	end
@@ -4022,10 +4022,10 @@ function f_p1Selection()
 			updateAnim = false
 		end
 	end
-	if data.palType == 'Classic' then
+	if data.palType == "Classic" then
 		p1palSelect = btnPalNo(p1Cmd)
 		if selectTimer == 0 then p1palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
-	elseif data.palType == 'Modern' then
+	elseif data.palType == "Modern" then
 		p1palSelect = p1palSelect
 	end
 	if data.coop then
@@ -4121,13 +4121,13 @@ animUpdate(p2EmptyIcon8)
 --;===========================================================
 --; PLAYER 2 TEAM SELECT
 --;===========================================================
-p2SelTmTxt = createTextImg(jgFnt, 5, -1, 'TEAM MODE', 300, 30)
-IASelTmTxt2 = createTextImg(jgFnt, 5, -1, 'CPU MODE', 300, 30)
+p2SelTmTxt = createTextImg(jgFnt, 5, -1, "TEAM MODE", 300, 30)
+IASelTmTxt2 = createTextImg(jgFnt, 5, -1, "CPU MODE", 300, 30)
 
 t_p2selTeam = {
-	{id = '', text = 'SINGLE'},
-	{id = '', text = 'SIMUL'},
-	{id = '', text = 'TURNS'},
+	{id = '', text = "SINGLE"},
+	{id = '', text = "SIMUL"},
+	{id = '', text = "TURNS"},
 }
 for i=1, #t_p2selTeam do
 	t_p2selTeam[i].id = createTextImg(jgFnt, 0, -1, t_p2selTeam[i].text, 300, 35+i*15)
@@ -4135,13 +4135,13 @@ end
 
 function f_p2TeamMenu()
 	if data.coop then --Simul co-op
-		if data.coopenemy == 'Single' then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
+		if data.coopenemy == "Single" then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
 			p2teamMode = 0
 			p2numChars = 2 --Fix AI Fight Error When p2numChars = 1 (Take reference of Arcade Bonus in co-op)
-		elseif data.coopenemy == 'Simul' then
+		elseif data.coopenemy == "Simul" then
 			p2teamMode = 1
 			p2numChars = 2
-		elseif data.coopenemy == 'Turns' then
+		elseif data.coopenemy == "Turns" then
 			p2teamMode = 2
 			p2numChars = 3
 		end
@@ -4315,8 +4315,8 @@ end
 --;===========================================================
 --; PLAYER 2 CHARACTER SELECT
 --;===========================================================
-txt_p2Name = createTextImg(jgFnt, 1, -1, '', 0, 0, 0.8, 0.8)
-txt_p2Author = createTextImg(jgFnt, 0, -1, '', 320, 20, 0.65, 0.65)
+txt_p2Name = createTextImg(jgFnt, 1, -1, "", 0, 0, 0.8, 0.8)
+txt_p2Author = createTextImg(jgFnt, 0, -1, "", 320, 20, 0.65, 0.65)
 
 --P2 Random Portrait
 p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
@@ -4331,9 +4331,9 @@ p2portraitLock = animNew(sysSff, [[108,0, -320,0,]])
 p2portraitLockWindowBG = animNew(sysSff, [[3,0, -1, 0,]])
 
 function f_p2charAnnouncer()
-	if f_getName(p2Cell) == 'Kung Fu Man' then
+	if f_getName(p2Cell) == "Kung Fu Man" then
 		sndPlay(announcerSnd, 2, 0)
-	--elseif f_getName(p2Cell) == 'Your Character Name' then
+	--elseif f_getName(p2Cell) == "Your Character Name" then
 		--sndPlay(announcerSnd, 2, 1)
 	end
 end
@@ -4366,8 +4366,8 @@ function f_p2palList() --Palette Menu
 		bufPal2l = 0
 	end
 	p2palSelect = p2movePal
-	txt_pal2 = createTextImg(jgFnt, 5, 1, ':PALETTE', 250, 237)
-	txt_pal2Number = createTextImg(font14, 0, 0, ' ' .. p2palSelect .. '/12', 220, 237)
+	txt_pal2 = createTextImg(jgFnt, 5, 1, "PALETTE:", 220, 237)
+	txt_pal2Number = createTextImg(font14, 0, 0, p2palSelect.."/12", 250, 237)
 	textImgDraw(txt_pal2)
 	textImgDraw(txt_pal2Number)
 	if p2movePal > 1 then
@@ -4401,7 +4401,7 @@ function f_p2SelectMenu()
 			else
 				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
 			end
-			if data.debugLog then f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt') end
+			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt") end
 		end
 		p2Portrait = data.p2Char[1]
 		--local numChars = p2numChars
@@ -4415,7 +4415,7 @@ function f_p2SelectMenu()
 		p2SelEnd = true
 	else
 		if not exclusiveStageMenu then
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				if p2BG == true then animDraw(f_animVelocity(charBG3, 2, 0)) end
 			end
 		end
@@ -4433,58 +4433,58 @@ function f_p2SelectMenu()
 						updateAnim = false
 					end
 				end
-				if getCharName(p2Cell) == 'Random' then
+				if getCharName(p2Cell) == "Random" then
 					--sndPlay(sysSnd, 100, 0)
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--drawPortrait(t_randomChars[math.random(#t_randomChars)], 320 - 60*(#t_selected-1), 20, -1, 1)
 						if p2numChars == 1 then
-							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p2randomPortrait, 320, 20)
-							elseif data.randomPortrait == 'Roulette' then
+							elseif data.randomPortrait == "Roulette" then
 								drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 1)
 							end
 						elseif p2numChars == 2 then
 							if data.coop then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p2randomPortrait, 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p2randomPortrait, 0, 90, 0.5, 0.5)
 									end
-								elseif data.randomPortrait == 'Roulette' then
-									if data.charPresentation == 'Portrait' then
+								elseif data.randomPortrait == "Roulette" then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 0, 90, 0.5, 0.5)
 									end
 								end
 							else
 								if p2memberPreview == 1 then
-									if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-										if data.charPresentation == 'Portrait' then
+									if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+										if data.charPresentation == "Portrait" then
 											f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
 										end
-									elseif data.randomPortrait == 'Roulette' then
-										if data.charPresentation == 'Portrait' then
+									elseif data.randomPortrait == "Roulette" then
+										if data.charPresentation == "Portrait" then
 											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5)
 										end
 									end
 								end
 								if p2memberPreview == 2 then
-									if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-										if data.charPresentation == 'Portrait' then
+									if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+										if data.charPresentation == "Portrait" then
 											f_drawQuickSpr(p2randomPortrait, 320, 90, 1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
 										end
-									elseif data.randomPortrait == 'Roulette' then
-										if data.charPresentation == 'Portrait' then
+									elseif data.randomPortrait == "Roulette" then
+										if data.charPresentation == "Portrait" then
 											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
 										end
 									end
@@ -4492,86 +4492,86 @@ function f_p2SelectMenu()
 							end
 						elseif p2numChars == 3 then
 							if p2memberPreview == 1 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p2randomPortrait, 290, 20, 0.5, 0.5)
 									end
-								elseif data.randomPortrait == 'Roulette' then
-									if data.charPresentation == 'Portrait' then
+								elseif data.randomPortrait == "Roulette" then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(t_randomChars[math.random(#t_randomChars)], 290, 20, -0.5, 0.5)
 									end
 								end
 							end
 							if p2memberPreview == 2 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 3 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
 								end
 							end
 						elseif p2numChars == 4 then
 							if p2memberPreview == 1 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 20, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 2 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 260, 20, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 20, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 3 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 320, 90, -0.5, 0.5)
 								end
 							end
 							if p2memberPreview == 4 then
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									drawPortrait(t_randomChars[math.random(#t_randomChars)], 260, 90, -0.5, 0.5)
 								end
 							end
 						--[[
 						--else
-							if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+							if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 								f_drawQuickSpr(p2randomPortrait, 195, 36, 0.5, 0.5)
-							elseif data.randomPortrait == 'Roulette' then
+							elseif data.randomPortrait == "Roulette" then
 								drawPortrait(t_randomChars[math.random(#t_randomChars)], 195, 36, -0.5, 0.5)
 							end
 						]]
 						end
 					end
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						if data.charPresentation == 'Sprite' then
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						if data.charPresentation == "Sprite" then
 							if data.coop then
 								f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p1AnimStand', 68, 164, true) --p1AnimStand because sprite animation will see to right
 							else
-								if data.randomPortrait == 'Simple' or data.randomPortrait == 'Fixed' then
+								if data.randomPortrait == "Simple" or data.randomPortrait == "Fixed" then
 									f_drawQuickSpr(p2randomSprite, 260 - 28*#t_selected, 75)
-								elseif data.randomPortrait == 'Roulette' then
+								elseif data.randomPortrait == "Roulette" then
 									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
 								end
 							end
-						elseif data.charPresentation == 'Mixed' then
-							if data.randomPortrait == 'Roulette' then
+						elseif data.charPresentation == "Mixed" then
+							if data.randomPortrait == "Roulette" then
 								if p2numChars == 1 then
 									f_drawCharAnim(t_selChars[math.random(#t_randomChars)], 'p2AnimStand', 290, 158, true)
 								elseif p2numChars == 2 then
@@ -4597,39 +4597,39 @@ function f_p2SelectMenu()
 						end
 					end
 				else
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						if p2Portrait then --To avoid issues when draw Portrait after continue/service screen
 							--drawPortrait(p2Portrait, 320 - 60*(#t_selected-1), 20, -1, 1)
 							if p2numChars == 1 then
 								drawPortrait(p2Portrait, 320, 20, -1, 1)
 							elseif p2numChars == 2 then
 								if data.coop then
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(p2Portrait, 0, 90, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(p2Portrait, 0, 90, -0.5, 0.5)
 									end
 								else
 									if p2memberPreview == 1 then
-										if data.charPresentation == 'Portrait' then
+										if data.charPresentation == "Portrait" then
 											drawPortrait(p2Portrait, 320, 20, -1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											drawPortrait(p2Portrait, 320, 20, -0.5, 0.5)
 										end
 									end
 									if p2memberPreview == 2 then
-										if data.charPresentation == 'Portrait' then
+										if data.charPresentation == "Portrait" then
 											drawPortrait(p2Portrait, 320, 90, -1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											drawPortrait(p2Portrait, 320, 90, -0.5, 0.5)
 										end
 									end
 								end
 							elseif p2numChars == 3 then
 								if p2memberPreview == 1 then
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(p2Portrait, 320, 20, -1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(p2Portrait, 290, 20, -0.5, 0.5)
 									end
 								end
@@ -4645,14 +4645,14 @@ function f_p2SelectMenu()
 							end
 						end
 					end
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						if data.charPresentation == 'Sprite' then
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						if data.charPresentation == "Sprite" then
 							if data.coop then
 								f_drawCharAnim(t_selChars[p2Cell+1], 'p1AnimStand', 68, 164, true)
 							else
 								f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 280 - 28*#t_selected, 164, true)
 							end
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							if p2numChars == 1 then
 								f_drawCharAnim(t_selChars[p2Cell+1], 'p2AnimStand', 290, 158, true, 1, 1)
 							elseif p2numChars == 2 then
@@ -4677,7 +4677,7 @@ function f_p2SelectMenu()
 						end
 					end
 					if t_selChars[p2Cell+1].unlock == 0 then
-						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 							if p2numChars == 1 then
 								f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 120, 140, 256, 102)
 								f_drawQuickSpr(p2portraitLock, 295.5, 50, 0.20, 0.20)
@@ -4715,7 +4715,7 @@ function f_p2SelectMenu()
 									f_drawQuickSpr(p2portraitLock, 248, 106, 0.10, 0.10)
 								end
 							end
-						elseif data.charPresentation == 'Sprite' then
+						elseif data.charPresentation == "Sprite" then
 							f_drawQuickSpr(p2portraitLock, 300 - 28*#t_selected, 75, 0.15, 0.15)
 						end
 					end
@@ -4723,10 +4723,10 @@ function f_p2SelectMenu()
 			end
 			for j=#t_selected, 1, -1 do
 				if not exclusiveStageMenu then
-					if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--drawPortrait(t_selected[j].cel, 320 - 60*(j-1), 20, -1, 1)
 						if p2numChars == 1 then
-							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+							if data.randomPortrait == "Fixed" and p2member1Random == true then
 								f_drawQuickSpr(p2randomPortrait, 320, 20)
 							else
 								drawPortrait(t_selected[1].cel, 320, 20, -1, 1)
@@ -4736,127 +4736,127 @@ function f_p2SelectMenu()
 								drawPortrait(data.t_p1selected[2].cel, 0, 90, 1, 0.5)
 							else
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
-										if data.charPresentation == 'Portrait' then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
+										if data.charPresentation == "Portrait" then
 											f_drawQuickSpr(p2randomPortrait, 320, 90, 1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
 										end
 									else
-										if data.charPresentation == 'Portrait' then
+										if data.charPresentation == "Portrait" then
 											drawPortrait(t_selected[2].cel, 320, 90, -1, 0.5)
-										elseif data.charPresentation == 'Mixed' then
+										elseif data.charPresentation == "Mixed" then
 											drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5)
 										end
 									end
 								end
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
-									if data.charPresentation == 'Portrait' then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
+									if data.charPresentation == "Portrait" then
 										f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
 									end
 								else
-									if data.charPresentation == 'Portrait' then
+									if data.charPresentation == "Portrait" then
 										drawPortrait(t_selected[1].cel, 320, 20, -1, 0.5)
-									elseif data.charPresentation == 'Mixed' then
+									elseif data.charPresentation == "Mixed" then
 										drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
 									end
 								end
 							end
 						elseif p2numChars == 3 then
 							if j == 3 then
-								if data.randomPortrait == 'Fixed' and p2member3Random == true then
+								if data.randomPortrait == "Fixed" and p2member3Random == true then
 									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
 								else
 									drawPortrait(t_selected[3].cel, 260, 90, -0.5, 0.5)
 								end
 							end
 							if j == 2 then
-								if data.randomPortrait == 'Fixed' and p2member2Random == true then
+								if data.randomPortrait == "Fixed" and p2member2Random == true then
 									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
 								else
 									drawPortrait(t_selected[2].cel, 320, 90, -0.5, 0.5)
 								end
 							end
-							if data.randomPortrait == 'Fixed' and p2member1Random == true then
-								if data.charPresentation == 'Portrait' then
+							if data.randomPortrait == "Fixed" and p2member1Random == true then
+								if data.charPresentation == "Portrait" then
 									f_drawQuickSpr(p2randomPortrait, 320, 20, 1, 0.5)
-								elseif data.charPresentation == 'Mixed' then
+								elseif data.charPresentation == "Mixed" then
 									f_drawQuickSpr(p2randomPortrait, 290, 20, 0.5, 0.5)
 								end
 							else
-								if data.charPresentation == 'Portrait' then
+								if data.charPresentation == "Portrait" then
 									drawPortrait(t_selected[1].cel, 320, 20, -1, 0.5)
-								elseif data.charPresentation == 'Mixed' then
+								elseif data.charPresentation == "Mixed" then
 									drawPortrait(t_selected[1].cel, 290, 20, -0.5, 0.5)
 								end
 							end
 						elseif p2numChars == 4 then
 							if j == 4 then
-								if data.randomPortrait == 'Fixed' and p2member4Random == true then
+								if data.randomPortrait == "Fixed" and p2member4Random == true then
 									f_drawQuickSpr(p2randomPortrait, 260, 90, 0.5, 0.5)
 								else
 									drawPortrait(t_selected[4].cel, 260, 90, -0.5, 0.5)
 								end
 							end
 							if j == 3 then
-								if data.randomPortrait == 'Fixed' and p2member3Random == true then
+								if data.randomPortrait == "Fixed" and p2member3Random == true then
 									f_drawQuickSpr(p2randomPortrait, 320, 90, 0.5, 0.5)
 								else
 									drawPortrait(t_selected[3].cel, 320, 90, -0.5, 0.5)
 								end
 							end
 							if j == 2 then
-								if data.randomPortrait == 'Fixed' and p2member2Random == true then
+								if data.randomPortrait == "Fixed" and p2member2Random == true then
 									f_drawQuickSpr(p2randomPortrait, 260, 20, 0.5, 0.5)
 								else
 									drawPortrait(t_selected[2].cel, 260, 20, -0.5, 0.5)
 								end
 							end
-							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+							if data.randomPortrait == "Fixed" and p2member1Random == true then
 								f_drawQuickSpr(p2randomPortrait, 320, 20, 0.5, 0.5)
 							else
 								drawPortrait(t_selected[1].cel, 320, 20, -0.5, 0.5)
 							end
 						end
 					end
-					if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
-						if data.charPresentation == 'Sprite' then
+					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+						if data.charPresentation == "Sprite" then
 							if data.coop then
 								f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
 							else
 								if j == 4 then
-									if data.randomPortrait == 'Fixed' and p2member4Random == true then
+									if data.randomPortrait == "Fixed" and p2member4Random == true then
 										f_drawQuickSpr(p2randomSprite, 176, 75)
 									else
 										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, 200)
 									end
 								end
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										f_drawQuickSpr(p2randomSprite, 204, 75)
 									else
 										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, 200)
 									end
 								end
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										f_drawQuickSpr(p2randomSprite, 232, 75)
 									else
 										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, 200)
 									end
 								end
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									f_drawQuickSpr(p2randomSprite, 260, 75)
 								else
 									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, 200)
 								end
 								--f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 280 - 28*(j-1), 164, t_selected[j].up, 1, 1, 200)
 							end
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							if p2numChars == 1 then
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
 								else
 									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, 200)
@@ -4866,13 +4866,13 @@ function f_p2SelectMenu()
 									f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
 								else
 									if j == 2 then
-										if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										if data.randomPortrait == "Fixed" and p2member2Random == true then
 											
 										else
 											f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, 200)
 										end
 									end
-									if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									if data.randomPortrait == "Fixed" and p2member1Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, 200)
@@ -4880,47 +4880,47 @@ function f_p2SelectMenu()
 								end
 							elseif p2numChars == 3 then
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, 200)
 									end
 								end
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, 200)
 									end
 								end
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
 									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, 200)
 								end
 							elseif p2numChars == 4 then
 								if j == 4 then
-									if data.randomPortrait == 'Fixed' and p2member4Random == true then
+									if data.randomPortrait == "Fixed" and p2member4Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, 200)
 									end
 								end
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, 200)
 									end
 								end
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
 										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, 200)
 									end
 								end
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
 									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, 200)
@@ -4933,45 +4933,45 @@ function f_p2SelectMenu()
 		end
 		for j=#t_selected, 1, -1 do --Again to set priority over sprites
 			if not exclusiveStageMenu then
-				if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 					if p2numChars == 1 then
-						if data.randomPortrait == 'Fixed' and p2member1Random == true then
-							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 310, 165, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p2member1Random == true then
+							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 310, 165, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[1], 310, 165)
 						end
 					elseif p2numChars == 2 then
 						if data.coop then
-							if data.charPresentation == 'Portrait' then
+							if data.charPresentation == "Portrait" then
 								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 116, 100)
-							elseif data.charPresentation == 'Mixed' then
+							elseif data.charPresentation == "Mixed" then
 								f_drawSelectName(txt_p1Name, data.t_p1selected[2], 116, 100, 0.5, 0.5)
 							end
 						else
 							if j == 2 then
-								if data.charPresentation == 'Portrait' then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
-										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 318, 100, 0.8, 0.8)
+								if data.charPresentation == "Portrait" then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
+										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, "RANDOM SELECT 2", 318, 100, 0.8, 0.8)
 									else
 										f_drawSelectName(txt_p2Name, t_selected[2], 318, 100)
 									end
-								elseif data.charPresentation == 'Mixed' then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
-										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 254, 100, 0.5, 0.5)
+								elseif data.charPresentation == "Mixed" then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
+										f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, "RANDOM SELECT 2", 254, 100, 0.5, 0.5)
 									else
 										f_drawSelectName(txt_p2Name, t_selected[2], 254, 100, 0.5, 0.5)
 									end
 								end
 							end
-							if data.charPresentation == 'Portrait' then
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
-									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88, 0.8, 0.8)
+							if data.charPresentation == "Portrait" then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
+									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 318, 88, 0.8, 0.8)
 								else
 									f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
 								end
-							elseif data.charPresentation == 'Mixed' then
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
-									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 254, 30, 0.5, 0.5)
+							elseif data.charPresentation == "Mixed" then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
+									f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 254, 30, 0.5, 0.5)
 								else
 									f_drawSelectName(txt_p2Name, t_selected[1], 254, 30, 0.5, 0.5)
 								end
@@ -4979,96 +4979,96 @@ function f_p2SelectMenu()
 						end
 					elseif p2numChars == 3 then
 						if j == 3 then
-							if data.randomPortrait == 'Fixed' and p2member3Random == true then
-								f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 254, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p2member3Random == true then
+								f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, "RANDOM SELECT 3", 254, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[3], 254, 100, 0.5, 0.5)
 							end
 						end
 						if j == 2 then
-							if data.randomPortrait == 'Fixed' and p2member2Random == true then
-								f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 320, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p2member2Random == true then
+								f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, "RANDOM SELECT 2", 320, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[2], 320, 100, 0.5, 0.5)
 							end
 						end
-						if data.charPresentation == 'Portrait' then
-							if data.randomPortrait == 'Fixed' and p2member1Random == true then
-								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 318, 88, 0.8, 0.8)
+						if data.charPresentation == "Portrait" then
+							if data.randomPortrait == "Fixed" and p2member1Random == true then
+								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 318, 88, 0.8, 0.8)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[1], 318, 88)
 							end
-						elseif data.charPresentation == 'Mixed' then
-							if data.randomPortrait == 'Fixed' and p2member1Random == true then
-								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 290, 30, 0.5, 0.5)
+						elseif data.charPresentation == "Mixed" then
+							if data.randomPortrait == "Fixed" and p2member1Random == true then
+								f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 290, 30, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[1], 290, 30, 0.5, 0.5)
 							end
 						end
 					elseif p2numChars == 4 then
 						if j == 4 then
-							if data.randomPortrait == 'Fixed' and p2member4Random == true then
-								f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, 'RANDOM SELECT 4', 254, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p2member4Random == true then
+								f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, "RANDOM SELECT 4", 254, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[4], 254, 100, 0.5, 0.5)
 							end
 						end
 						if j == 3 then
-							if data.randomPortrait == 'Fixed' and p2member3Random == true then
-								f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 320, 100, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p2member3Random == true then
+								f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, "RANDOM SELECT 3", 320, 100, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[3], 320, 100, 0.5, 0.5)
 							end
 						end
 						if j == 2 then
-							if data.randomPortrait == 'Fixed' and p2member2Random == true then
-								f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 254, 30, 0.5, 0.5)
+							if data.randomPortrait == "Fixed" and p2member2Random == true then
+								f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, "RANDOM SELECT 2", 254, 30, 0.5, 0.5)
 							else
 								f_drawSelectName(txt_p2Name, t_selected[2], 254, 30, 0.5, 0.5)
 							end
 						end
-						if data.randomPortrait == 'Fixed' and p2member1Random == true then
-							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 320, 30, 0.5, 0.5)
+						if data.randomPortrait == "Fixed" and p2member1Random == true then
+							f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 320, 30, 0.5, 0.5)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[1], 320, 30, 0.5, 0.5)
 						end
 					end
-				elseif data.charPresentation == 'Sprite' then
+				elseif data.charPresentation == "Sprite" then
 					if j == 4 then
-						if data.randomPortrait == 'Fixed' and p2member4Random == true then
-							f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, 'RANDOM SELECT 4', 308, 166, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p2member4Random == true then
+							f_drawQuickText(txt_p2RandomMember4, jgFnt, 5, -1, "RANDOM SELECT 4", 308, 166, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[4], 308, 166)
 						end
 					end
 					if j == 3 then
-						if data.randomPortrait == 'Fixed' and p2member3Random == true then
-							f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, 'RANDOM SELECT 3', 312, 160, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p2member3Random == true then
+							f_drawQuickText(txt_p2RandomMember3, jgFnt, 5, -1, "RANDOM SELECT 3", 312, 160, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[3], 312, 160)
 						end
 					end
 					if j == 2 then
-						if data.randomPortrait == 'Fixed' and p2member2Random == true then
-							f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, 'RANDOM SELECT 2', 316, 154, 0.8, 0.8)
+						if data.randomPortrait == "Fixed" and p2member2Random == true then
+							f_drawQuickText(txt_p2RandomMember2, jgFnt, 5, -1, "RANDOM SELECT 2", 316, 154, 0.8, 0.8)
 						else
 							f_drawSelectName(txt_p2Name, t_selected[2], 316, 154)
 						end
 					end
-					if data.randomPortrait == 'Fixed' and p2member1Random == true then
-						f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, 'RANDOM SELECT 1', 320, 148, 0.8, 0.8)
+					if data.randomPortrait == "Fixed" and p2member1Random == true then
+						f_drawQuickText(txt_p2RandomMember1, jgFnt, 5, -1, "RANDOM SELECT 1", 320, 148, 0.8, 0.8)
 					else
 						f_drawSelectName(txt_p2Name, t_selected[1], 320, 148)
 					end
 				end
-				if data.charInfo == 'Author' then
-					if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == 'Random' then
-						if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+				if data.charInfo == "Author" then
+					if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == "Random" then
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 							if p2numChars == 1 then
-								if data.randomPortrait == 'Fixed' and p2member1Random == true then
+								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--Keep random author as: ???
 								else
-									textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+									textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
 								end
 								textImgDraw(txt_p2Author)
 							elseif p2numChars == 2 then
@@ -5076,19 +5076,19 @@ function f_p2SelectMenu()
 									--TODO!
 								else
 									if j == 2 then
-										if data.randomPortrait == 'Fixed' and p2member2Random == true then
+										if data.randomPortrait == "Fixed" and p2member2Random == true then
 										--
 										else
-											textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[2].author)
+											textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[2].author)
 											
 										end
 										textImgScalePosDraw(txt_p2Author, 320, 165, 0.65, 0.65)
 									end
 									if j == 1 then
-										if data.randomPortrait == 'Fixed' and p2member1Random == true then
+										if data.randomPortrait == "Fixed" and p2member1Random == true then
 										--
 										else
-											textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+											textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
 											
 										end
 										textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
@@ -5096,74 +5096,74 @@ function f_p2SelectMenu()
 								end
 							elseif p2numChars == 3 then
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									if data.randomPortrait == "Fixed" and p2member3Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[3].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
 								end
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[2].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
 								end
 								if j == 1 then
-									if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
 								end
 							elseif p2numChars == 4 then
 								if j == 4 then
-									if data.randomPortrait == 'Fixed' and p2member4Random == true then
+									if data.randomPortrait == "Fixed" and p2member4Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[4].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[4].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
 								end
 								if j == 3 then
-									if data.randomPortrait == 'Fixed' and p2member3Random == true then
+									if data.randomPortrait == "Fixed" and p2member3Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[3].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
 								end
 								if j == 2 then
-									if data.randomPortrait == 'Fixed' and p2member2Random == true then
+									if data.randomPortrait == "Fixed" and p2member2Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[2].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 260, 89, 0.5, 0.5)
 								end
 								if j == 1 then
-									if data.randomPortrait == 'Fixed' and p2member1Random == true then
+									if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[1].author)
+										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
 								end
 							end
-						elseif data.charPresentation == 'Sprite' then
-							if data.randomPortrait == 'Fixed' and p2member1Random == true then
+						elseif data.charPresentation == "Sprite" then
+							if data.randomPortrait == "Fixed" and p2member1Random == true then
 							--
 							else
-								textImgSetText(txt_p2Author, 'AUTHOR: '..t_selected[j].author)
+								textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[j].author)
 							end
 							textImgPosDraw(txt_p2Author, 320, 20+10*(j-1), 0.65, 0.65)
 						end
@@ -5263,7 +5263,7 @@ function f_p2SelectMenu()
 					end
 				end
 				if commandGetState(p2Cmd, 's') then
-					if data.palType == 'Modern' then
+					if data.palType == "Modern" then
 						p2palEnd = false
 						sndPlay(sysSnd, 100, 3)
 						f_p2palList()
@@ -5304,12 +5304,12 @@ function f_p2SelectMenu()
 				animDraw(arrowsDMR2)
 				animUpdate(arrowsDMR2)
 			end
-			if data.charInfo == 'Author' then
-				if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == 'Random' then
+			if data.charInfo == "Author" then
+				if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == "Random" then
 					if t_selChars[p2Cell+1].author ~= nil then
-						textImgSetText(txt_p2Author, 'AUTHOR: '..t_selChars[p2Cell+1].author)
+						textImgSetText(txt_p2Author, "AUTHOR: "..t_selChars[p2Cell+1].author)
 					else
-						textImgSetText(txt_p2Author, 'AUTHOR: ???')
+						textImgSetText(txt_p2Author, "AUTHOR: ???")
 					end
 					textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
 					textImgDraw(txt_p2Author)
@@ -5318,37 +5318,37 @@ function f_p2SelectMenu()
 			textImgDraw(txt_palHint)
 			textImgSetBank(txt_p2Name, 0)
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				if p2numChars == 1 then
 					textImgScalePosDraw(txt_p2Name, 310, 165, 0.8, 0.8)
 				elseif p2numChars == 2 then
 					if data.coop then
-						if data.charPresentation == 'Portrait' then
+						if data.charPresentation == "Portrait" then
 							textImgScalePosDraw(txt_p2Name, 116, 100, 0.8, 0.8)
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							textImgScalePosDraw(txt_p2Name, 116, 100, 0.5, 0.5)
 						end
 					else
 						if p2memberPreview == 1 then
-							if data.charPresentation == 'Portrait' then
+							if data.charPresentation == "Portrait" then
 								textImgScalePosDraw(txt_p2Name, 318, 88, 0.8, 0.8)
-							elseif data.charPresentation == 'Mixed' then
+							elseif data.charPresentation == "Mixed" then
 								textImgScalePosDraw(txt_p2Name, 254, 30, 0.5, 0.5)
 							end
 						end
 						if p2memberPreview == 2 then
-							if data.charPresentation == 'Portrait' then
+							if data.charPresentation == "Portrait" then
 								textImgScalePosDraw(txt_p2Name, 318, 100, 0.8, 0.8)
-							elseif data.charPresentation == 'Mixed' then
+							elseif data.charPresentation == "Mixed" then
 								textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5)
 							end
 						end
 					end
 				elseif p2numChars == 3 then
 					if p2memberPreview == 1 then
-						if data.charPresentation == 'Portrait' then
+						if data.charPresentation == "Portrait" then
 							textImgScalePosDraw(txt_p2Name, 318, 88, 0.8, 0.8)
-						elseif data.charPresentation == 'Mixed' then
+						elseif data.charPresentation == "Mixed" then
 							textImgScalePosDraw(txt_p2Name, 290, 30, 0.5, 0.5)
 						end
 					end
@@ -5360,7 +5360,7 @@ function f_p2SelectMenu()
 					if p2memberPreview == 3 then textImgScalePosDraw(txt_p2Name, 320, 100, 0.5, 0.5) end
 					if p2memberPreview == 4 then textImgScalePosDraw(txt_p2Name, 254, 100, 0.5, 0.5) end
 				end
-			elseif data.charPresentation == 'Sprite' then
+			elseif data.charPresentation == "Sprite" then
 				if p2memberPreview == 1 then
 					textImgPosDraw(txt_p2Name, 320, 148)
 				elseif p2memberPreview == 2 then
@@ -5389,8 +5389,8 @@ function f_p2SelectMenu()
 				f_p2Selection()
 			end
 			if data.debugLog then
-				f_printTable(data.t_p2selected, 'save/debug/data.t_p2selected.txt')
-				f_printTable(t_selected, 'save/debug/t_selected.txt')
+				f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt")
+				f_printTable(t_selected, "save/debug/t_selected.txt")
 			end
 		end
 	end
@@ -5399,7 +5399,7 @@ end
 function f_p2Selection()
 	sndPlay(sysSnd, 100, 1)
 	local cel = p2Cell
-	if getCharName(cel) == 'Random' then
+	if getCharName(cel) == "Random" then
 		randomP2Rematch = true
 		cel = t_randomChars[math.random(#t_randomChars)]
 		if p2memberPreview == 1 then p2member1Random = true	end
@@ -5417,10 +5417,10 @@ function f_p2Selection()
 		end
 	end
 	local updateAnim = true
-	if data.palType == 'Classic' then
+	if data.palType == "Classic" then
 		p2palSelect = btnPalNo(p2Cmd)
 		if selectTimer == 0 then p2palSelect = 1 end --Avoid freeze when Character Select timer is over and there is not are a palette selected
-	elseif data.palType == 'Modern' then
+	elseif data.palType == "Modern" then
 		p2palSelect = p2palSelect
 	end
 	if data.coop then
@@ -5567,7 +5567,7 @@ function f_selectStage()
 			f_loadCharResources() --Because in selectAdvanced for some side, there's not a character loaded
 		else --selectSimple game modes
 		--Logic For Auto Characters Song
-			p1charSong = ''
+			p1charSong = ""
 			if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
 				p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music) --if there are more than 1 song assigned for that character, pick 1 of them via randomizer
 				p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic --data.t_p1selected[1] means that data (music) will taken from 1st char member selected in any team mode, but if you set data.t_p1selected[2] will get data from the 2nd member of a team mode.
@@ -5575,7 +5575,7 @@ function f_selectStage()
 			else --If there no music assigned for left side character
 				p1song = false
 			end
-			p2charSong = ''
+			p2charSong = ""
 			if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
 				p2charSong = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
 				p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
@@ -5601,21 +5601,21 @@ function f_selectStage()
 			end
 		end
 	--Set screen Assets
-		if data.stageType == 'Classic' then
+		if data.stageType == "Classic" then
 			--Info Text
-			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 239)
-			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 170.5,0.5,0.5)
-			txt_stageAuthor = createTextImg(jgFnt, 0, 1, '', 206.5, 186,0.5,0.5)
-			txt_stageLocation = createTextImg(jgFnt, 0, 0, '', 159, 227,0.5,0.5)
-			txt_stageDayTime = createTextImg(jgFnt, 0, -1, '', 112, 186,0.5,0.5)
-		elseif data.stageType == 'Modern' then
+			txt_selStage = createTextImg(jgFnt, 0, 0, "", 160, 239)
+			txt_selectMusic = createTextImg(jgFnt, 0, 0, "", 158, 170.5,0.5,0.5)
+			txt_stageAuthor = createTextImg(jgFnt, 0, 1, "", 206.5, 186,0.5,0.5)
+			txt_stageLocation = createTextImg(jgFnt, 0, 0, "", 159, 227,0.5,0.5)
+			txt_stageDayTime = createTextImg(jgFnt, 0, -1, "", 112, 186,0.5,0.5)
+		elseif data.stageType == "Modern" then
 			exclusiveStageMenu = true
 			--Info Text
-			txt_selStage = createTextImg(jgFnt, 0, 0, '', 160, 205)
-			txt_selectMusic = createTextImg(jgFnt, 0, 0, '', 158, 60)
-			txt_stageAuthor = createTextImg(jgFnt, 0, 0, '', 159, 235)
-			txt_stageLocation = createTextImg(jgFnt, 0, 0, '', 159, 220)
-			txt_stageDayTime = createTextImg(jgFnt, 0, 0, '', 159, 190)
+			txt_selStage = createTextImg(jgFnt, 0, 0, "", 160, 205)
+			txt_selectMusic = createTextImg(jgFnt, 0, 0, "", 158, 60)
+			txt_stageAuthor = createTextImg(jgFnt, 0, 0, "", 159, 235)
+			txt_stageLocation = createTextImg(jgFnt, 0, 0, "", 159, 220)
+			txt_stageDayTime = createTextImg(jgFnt, 0, 0, "", 159, 190)
 			--Draw Stage Select Title BG
 			animDraw(f_animVelocity(selectSTBG2a, -1, 0))
 			animDraw(f_animVelocity(selectSTBG2b, -3, 0))
@@ -5625,7 +5625,7 @@ function f_selectStage()
 			animDraw(f_animVelocity(selectSBG2b, 3, 0))
 			animDraw(f_animVelocity(selectSBG2c, 6, 0))
 			--Draw Stage Title Text
-			txt_stageSelect = createTextImg(jgFnt, 0, 0, 'STAGE SELECT', 159, 13)
+			txt_stageSelect = createTextImg(jgFnt, 0, 0, "STAGE SELECT", 159, 13)
 			textImgDraw(txt_stageSelect)
 		end
 		--if stageAnnouncer == false then
@@ -5764,10 +5764,10 @@ function f_selectStage()
 			bufStager = 0
 			bufStagel = 0
 		end
-		if data.stageType == 'Classic' then
+		if data.stageType == "Classic" then
 			animUpdate(selStage)
 			animDraw(selStage)
-		elseif data.stageType == 'Modern' then
+		elseif data.stageType == "Modern" then
 			animUpdate(selStageM) --Because is an animation need this
 			animDraw(selStageM)
 		end
@@ -5775,55 +5775,55 @@ function f_selectStage()
 		if stageList == 0 then
 			if p1autoSlot == true then
 			--[[Draw Auto Stage Preview
-				if data.stageType == 'Classic' then
+				if data.stageType == "Classic" then
 					animUpdate(stagep1)
 					animDraw(stagep1)
-				elseif data.stageType == 'Modern' then
+				elseif data.stageType == "Modern" then
 					animUpdate(stagep1M)
 					animDraw(stagep1M)
 				end
 			]]
 			--Set Auto Stage Name
-				textImgSetText(txt_selStage, 'STAGE: AUTO [LEFT SIDE]')
+				textImgSetText(txt_selStage, "STAGE: AUTO [LEFT SIDE]")
 			elseif p2autoSlot == true then
 				--[[
-				if data.stageType == 'Classic' then
+				if data.stageType == "Classic" then
 					animUpdate(stagep2)
 					animDraw(stagep2)
-				elseif data.stageType == 'Modern' then
+				elseif data.stageType == "Modern" then
 					animUpdate(stagep2M)
 					animDraw(stagep2M)
 				end
 				]]
-				textImgSetText(txt_selStage, 'STAGE: AUTO [RIGHT SIDE]')
+				textImgSetText(txt_selStage, "STAGE: AUTO [RIGHT SIDE]")
 			else --random select
-				if data.randomStagePortrait == 'Roulette' then
-					textImgSetText(txt_selStage, 'STAGE ' .. math.random(1, data.includestage) .. ': ' .. t_selStages[math.random(1, data.includestage)].name)
-					if data.stageType == 'Classic' then
+				if data.randomStagePortrait == "Roulette" then
+					textImgSetText(txt_selStage, "STAGE " .. math.random(1, data.includestage) .. ": " .. t_selStages[math.random(1, data.includestage)].name)
+					if data.stageType == "Classic" then
 						drawStagePortrait(math.random(1, data.includestage), 114.5, 172, 0.0705, 0.0699)
-					elseif data.stageType == 'Modern' then
+					elseif data.stageType == "Modern" then
 						drawStagePortrait(math.random(1, data.includestage), 64.600, 74.8, 0.149, 0.148)
 					end
-				elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
-					if data.stageType == 'Classic' then
+				elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
+					if data.stageType == "Classic" then
 						--animUpdate(stage0)
 						animDraw(stage0)
-					elseif data.stageType == 'Modern' then
+					elseif data.stageType == "Modern" then
 						--animUpdate(stage0M)
 						animDraw(stage0M)
 					end
-					textImgSetText(txt_selStage, 'STAGE: RANDOM SELECT')
+					textImgSetText(txt_selStage, "STAGE: RANDOM SELECT")
 				end
 			end
 		else --Stages Added in select.def
 		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
-			if data.stageType == 'Classic' then
+			if data.stageType == "Classic" then
 				drawStagePortrait(stageList-1, 114.5, 172, 0.0705, 0.0699)
 				if t_selStages[stageList].unlock == 0 then --Draw Lock stuff
 					animDraw(stageLockWindowBG)
 					animDraw(stageLock)
 				end
-			elseif data.stageType == 'Modern' then
+			elseif data.stageType == "Modern" then
 				drawStagePortrait(stageList-1, 64.600, 74.8, 0.149, 0.148)
 				if t_selStages[stageList].unlock == 0 then
 					animDraw(stageMLockWindowBG)
@@ -5831,24 +5831,24 @@ function f_selectStage()
 				end
 			end
 		--Set Stage Name
-			textImgSetText(txt_selStage, 'STAGE ' .. stageList .. ': ' .. t_selStages[stageList].name)
+			textImgSetText(txt_selStage, "STAGE " .. stageList .. ": " .. t_selStages[stageList].name)
 		end
 	--BGM Data
 		if musicList == #t_selMusic-2 then --Mute
-			musicNo = ''
+			musicNo = ""
 		elseif musicList == #t_selMusic-1 then --Auto Left Side
-			musicNo = ''
+			musicNo = ""
 		elseif musicList == 0 then --Auto Stage
-			musicNo = ''
+			musicNo = ""
 		elseif musicList == 1 then --Auto Right Side
-			musicNo = ''
+			musicNo = ""
 		elseif musicList == 2 then --Random
-			musicNo = ''
+			musicNo = ""
 		else --Loaded Folder Songs
-			musicNo = ' ' .. musicList-2 .. ''
+			musicNo = " " .. musicList-2 .. ""
 		end
 	--Set BGM Name
-		textImgSetText(txt_selectMusic, 'BGM' .. musicNo .. ': ' .. t_selMusic[musicList+1].bgmname)
+		textImgSetText(txt_selectMusic, "BGM" .. musicNo .. ": " .. t_selMusic[musicList+1].bgmname)
 	--Draw Info Text
 		if stageSelect == true then --Draw Stage Cursor Text
 			textImgSetBank(txt_selStage, 5)
@@ -5862,77 +5862,77 @@ function f_selectStage()
 			textImgDraw(txt_selectMusic)
 		end
 	--Set Author Text
-		if data.stageInfo == 'Author' or data.stageInfo == 'All' then
+		if data.stageInfo == "Author" or data.stageInfo == "All" then
 			if stageList == 0 then
 				if p1autoSlot == true then --For Auto - Left Side Player Stage
-					if t_selStages[p1charStage].author ~= nil and t_selStages[p1charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p1charStage].author) end
+					if t_selStages[p1charStage].author ~= nil and t_selStages[p1charStage].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: "..t_selStages[p1charStage].author) end
 				elseif p2autoSlot == true then --For Auto - Right Side Player Stage
-					if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[p2charStage].author) end
+					if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: "..t_selStages[p2charStage].author) end
 				else --For Random Select
-					--if data.randomStagePortrait == 'Roulette' then
-						--if t_selStages[math.random(1, data.includestage)].author ~= nil and t_selStages[math.random(1, data.includestage)].author ~= '' then
-							--textImgSetText(txt_stageAuthor, 'AUTHOR: '.. t_selStages[math.random(1, data.includestage)].author)
+					--if data.randomStagePortrait == "Roulette" then
+						--if t_selStages[math.random(1, data.includestage)].author ~= nil and t_selStages[math.random(1, data.includestage)].author ~= "" then
+							--textImgSetText(txt_stageAuthor, "AUTHOR: ".. t_selStages[math.random(1, data.includestage)].author)
 						--end
-					--elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
-						textImgSetText(txt_stageAuthor, 'AUTHOR: ???')
+					--elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
+						textImgSetText(txt_stageAuthor, "AUTHOR: ???")
 					--end
 				end
 			else --For loaded stages
-				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '..t_selStages[stageList].author) end
+				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: "..t_selStages[stageList].author) end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageAuthor) end --Draw Info Text
 		end
 	--Set Location Text
-		if data.stageInfo == 'Location' or data.stageInfo == 'All' then
+		if data.stageInfo == "Location" or data.stageInfo == "All" then
 			if stageList == 0 then
 				if p1autoSlot == true then
-					if t_selStages[p1charStage].location ~= nil and t_selStages[p1charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p1charStage].location) end
+					if t_selStages[p1charStage].location ~= nil and t_selStages[p1charStage].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: "..t_selStages[p1charStage].location) end
 				elseif p2autoSlot == true then
-					if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[p2charStage].location) end
+					if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: "..t_selStages[p2charStage].location) end
 				else
-					--if data.randomStagePortrait == 'Roulette' then
-						--if t_selStages[math.random(1, data.includestage)].location ~= nil and t_selStages[math.random(1, data.includestage)].location ~= '' then
-							--textImgSetText(txt_stageLocation, 'LOCATION: '.. t_selStages[math.random(1, data.includestage)].location)
+					--if data.randomStagePortrait == "Roulette" then
+						--if t_selStages[math.random(1, data.includestage)].location ~= nil and t_selStages[math.random(1, data.includestage)].location ~= "" then
+							--textImgSetText(txt_stageLocation, "LOCATION: ".. t_selStages[math.random(1, data.includestage)].location)
 						--end
-					--elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
-						textImgSetText(txt_stageLocation, 'LOCATION: ???')
+					--elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
+						textImgSetText(txt_stageLocation, "LOCATION: ???")
 					--end
 				end
 			else
-				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '..t_selStages[stageList].location) end
+				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: "..t_selStages[stageList].location) end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageLocation) end
 		end
 	--Set Time Text
-		if data.stageInfo == 'Time' or data.stageInfo == 'All' then
+		if data.stageInfo == "Time" or data.stageInfo == "All" then
 			if stageList == 0 then
 				if p1autoSlot == true then
-					if t_selStages[p1charStage].daytime ~= nil and t_selStages[p1charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p1charStage].daytime) end
+					if t_selStages[p1charStage].daytime ~= nil and t_selStages[p1charStage].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: "..t_selStages[p1charStage].daytime) end
 				elseif p2autoSlot == true then
-					if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[p2charStage].daytime) end
+					if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: "..t_selStages[p2charStage].daytime) end
 				else
-					--if data.randomStagePortrait == 'Roulette' then
-						--if t_selStages[math.random(1, data.includestage)].daytime ~= nil and t_selStages[math.random(1, data.includestage)].daytime ~= '' then
-							--textImgSetText(txt_stageDayTime, 'TIME: '.. t_selStages[math.random(1, data.includestage)].daytime)
+					--if data.randomStagePortrait == "Roulette" then
+						--if t_selStages[math.random(1, data.includestage)].daytime ~= nil and t_selStages[math.random(1, data.includestage)].daytime ~= "" then
+							--textImgSetText(txt_stageDayTime, "TIME: ".. t_selStages[math.random(1, data.includestage)].daytime)
 						--end
-					--elseif data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Fixed' then
-						textImgSetText(txt_stageDayTime, 'TIME: ???')
+					--elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
+						textImgSetText(txt_stageDayTime, "TIME: ???")
 					--end
 				end
 			else
-				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '..t_selStages[stageList].daytime) end
+				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: "..t_selStages[stageList].daytime) end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
 		--Stage Select Timer
-		if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
-			if data.stageType == 'Classic' then
-				--txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 70)
+		if data.gameMode == "arcade" or data.ftcontrol > 0 or data.attractMode == true then
+			if data.stageType == "Classic" then
+				--txt_stageTime = createTextImg(jgFnt, 0, 0, (stageTimer/gameTick), 160, 70)
 				stageTimeNumber = stageTimer/gameTick
 				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
 				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 70)
-			elseif data.stageType == 'Modern' then
-				--txt_stageTime = createTextImg(jgFnt, 0, 0, ''..stageTimer/gameTick..'', 160, 30)
+			elseif data.stageType == "Modern" then
+				--txt_stageTime = createTextImg(jgFnt, 0, 0, (stageTimer/gameTick), 160, 30)
 				stageTimeNumber = stageTimer/gameTick
 				nodecimalStageTime = string.format("%.0f",stageTimeNumber)
 				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 30)
@@ -5995,14 +5995,14 @@ function f_selectStage()
 			textImgSetBank(txt_stageLocation, 2)
 			textImgSetBank(txt_stageDayTime, 2)
 			if stageList == 0 then --For random select
-				if data.randomStagePortrait == 'Simple' or data.randomStagePortrait == 'Roulette' then
-					textImgSetText(txt_selStage, 'STAGE ' .. stageNo .. ': ' .. t_selStages[stageNo].name) --Load Selected Stage Name
-					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= '' then textImgSetText(txt_stageAuthor, 'AUTHOR: '.. t_selStages[stageNo].author) end --Load Selected Stage Author IF is assigned
-					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= '' then textImgSetText(txt_stageLocation, 'LOCATION: '.. t_selStages[stageNo].location) end --Load Selected Stage Location IF is assigned
-					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= '' then textImgSetText(txt_stageDayTime, 'TIME: '.. t_selStages[stageNo].daytime) end --Load Selected Stage Day Time IF is assigned
-					if data.stageType == 'Classic' then
+				if data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Roulette" then
+					textImgSetText(txt_selStage, "STAGE " .. stageNo .. ": " .. t_selStages[stageNo].name) --Load Selected Stage Name
+					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: ".. t_selStages[stageNo].author) end --Load Selected Stage Author IF is assigned
+					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: ".. t_selStages[stageNo].location) end --Load Selected Stage Location IF is assigned
+					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: ".. t_selStages[stageNo].daytime) end --Load Selected Stage Day Time IF is assigned
+					if data.stageType == "Classic" then
 						drawStagePortrait(stageNo-1, 114.5, 172, 0.0705, 0.0699) --Load Selected Stage Portrait
-					elseif data.stageType == 'Modern' then
+					elseif data.stageType == "Modern" then
 						drawStagePortrait(stageNo-1, 64.600, 74.8, 0.149, 0.148)
 					end
 				end
@@ -6010,9 +6010,9 @@ function f_selectStage()
 			--Re-Draw Selected Stuff
 			textImgDraw(txt_selectMusic)
 			textImgDraw(txt_selStage)
-			if data.stageInfo == 'Author' or data.stageInfo == 'All' then textImgDraw(txt_stageAuthor) end
-			if data.stageInfo == 'Location' or data.stageInfo == 'All' then textImgDraw(txt_stageLocation) end
-			if data.stageInfo == 'Time' or data.stageInfo == 'All' then textImgDraw(txt_stageDayTime) end
+			if data.stageInfo == "Author" or data.stageInfo == "All" then textImgDraw(txt_stageAuthor) end
+			if data.stageInfo == "Location" or data.stageInfo == "All" then textImgDraw(txt_stageLocation) end
+			if data.stageInfo == "Time" or data.stageInfo == "All" then textImgDraw(txt_stageDayTime) end
 		end
 	else --If Stage Select is Disabled
 		if data.stage == nil then --Assign Auto Stage via Select.def
@@ -6035,11 +6035,11 @@ function f_selectStage()
 			local t = {}
 			for i=1, #data.stage do
 				if t[data.stage[i]] == nil then
-					t[data.stage[i]] = ''
+					t[data.stage[i]] = ""
 				end
 				data.stage[i] = {['cel'] = data.stage[i]} --Get stageNo from table loaded (t_stageDef)
 			end
-			if data.debugLog then f_printTable(data.stage, 'save/debug/data.stage.txt') end
+			if data.debugLog then f_printTable(data.stage, "save/debug/data.stage.txt") end
 			--stagePortrait = data.stage[1].cel
 			stageNo = data.stage[1].cel
 		end
@@ -6053,7 +6053,7 @@ function f_loadCharResources()
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 	--Logic For Characters Song
 		p1song = false
-		p2charSong = ''
+		p2charSong = ""
 		if t_selChars[data.t_p2selected[1].cel+1].music ~= nil then
 			p2charSong = math.random(1,#t_selChars[data.t_p2selected[1].cel+1].music)
 			p2charSong = t_selChars[data.t_p2selected[1].cel+1].music[p2charSong].bgmusic
@@ -6073,7 +6073,7 @@ function f_loadCharResources()
 		end
 	else
 		p2song = false
-		p1charSong = ''
+		p1charSong = ""
 		if t_selChars[data.t_p1selected[1].cel+1].music ~= nil then
 			p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
 			p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic
@@ -6094,7 +6094,7 @@ end
 
 function f_assignMusic()
 	if data.bgm == nil then --Assign Stage Song via stage.def or select.def
-		track = ''
+		track = ""
 		if data.stageMenu then
 			if t_selStages[stageNo].music ~= nil then
 				track = math.random(1,#t_selStages[stageNo].music)
@@ -6140,7 +6140,7 @@ function f_assignMusic()
 end
 
 function f_musicPreview()
-	song = ''
+	song = ""
 	if t_selStages[stageList].music ~= nil then
 		song = math.random(1,#t_selStages[stageList].music)
 		song = t_selStages[stageList].music[song].bgmusic
@@ -6156,9 +6156,9 @@ function f_musicPreview()
 end
 
 function f_stageAnnouncer()
-	if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room' then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
-	elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Training Room 2' then sndPlay(announcerSnd, 0,0)
-	--elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == 'Your Stage Name' then sndPlay(announcerSnd, 0,1)
+	if getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Training Room" then sndPlay(announcerSnd, 0,0) --Stage Announcer Voice Example
+	elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Training Room 2" then sndPlay(announcerSnd, 0,0)
+	--elseif getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') == "Your Stage Name" then sndPlay(announcerSnd, 0,1)
 	end
 end
 
@@ -6167,7 +6167,7 @@ function f_loadStage()
 		if p1autoSlot == true then stageNo = p1charStage --Auto - Left Side Player Stage
 		elseif p2autoSlot == true then stageNo = p2charStage --Auto - Right Side Player Stage
 		else --Random Stage
-			if randomStageRematch and data.randomStageRematch == 'Fixed' then
+			if randomStageRematch and data.randomStageRematch == "Fixed" then
 				--stageNo = stageNo --Reload Previous Random Stage Selected
 			else
 				stageNo = math.random(1, data.includestage) --Load a New Random Stage
@@ -6264,9 +6264,9 @@ animSetScale(p2OrderCursor, 0.10, 0.10)
 --;===========================================================
 --; ORDER SELECT
 --;===========================================================
-txt_p1NameOrder = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_p2NameOrder = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_orderHint = createTextImg(font5, 0, 0, '', 160, 239)
+txt_p1NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_p2NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_orderHint = createTextImg(font5, 0, 0, "", 160, 239)
 
 function f_orderSelect()
 	gameNo = gameNo+1
@@ -6274,26 +6274,26 @@ function f_orderSelect()
 	bonusNo = bonusNo+1
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	--Arcade Match Text
-	if data.gameMode == 'arcade' and matchNo == lastMatch - 1 then --If rival is in another match, replace [lastMatch - 1] with the match number where is your rival)
-		textImgSetText(txt_matchNo, 'RIVAL MATCH') --Text for versus screen when you fighting against rival before final boss.
+	if data.gameMode == "arcade" and matchNo == lastMatch - 1 then --If rival is in another match, replace [lastMatch - 1] with the match number where is your rival)
+		textImgSetText(txt_matchNo, "RIVAL MATCH") --Text for versus screen when you fighting against rival before final boss.
 	else
-		textImgSetText(txt_matchNo, 'STAGE: ' .. matchNo)
+		textImgSetText(txt_matchNo, "STAGE: " .. matchNo)
 	end
-	textImgSetText(txt_matchFinal, 'FINAL STAGE')
+	textImgSetText(txt_matchFinal, "FINAL STAGE")
 	--All Roster Match Text
-	if data.gameMode == 'survival' or data.gameMode == 'allroster' then
-		textImgSetText(txt_gameNo, 'REMAINING MATCHES: ' .. lastMatch - gameNo)
-	--elseif data.gameMode == 'survival' and (lastMatch - gameNo == 0) then
-		--textImgSetText(txt_gameNo, 'FINAL MATCH')
+	if data.gameMode == "survival" or data.gameMode == "allroster" then
+		textImgSetText(txt_gameNo, "REMAINING MATCHES: " .. lastMatch - gameNo)
+	--elseif data.gameMode == "survival" and (lastMatch - gameNo == 0) then
+		--textImgSetText(txt_gameNo, "FINAL MATCH")
 	--Boss Rush Match Text
-	elseif data.gameMode == 'bossrush' then
-		textImgSetText(txt_bossNo, 'REMAINING BOSSES: ' .. lastMatch - bossNo)
-	--elseif data.gameMode == 'bossrush' and (lastMatch - bossNo == 0) then
-		--textImgSetText(txt_bossNo, 'FINAL BOSS')
+	elseif data.gameMode == "bossrush" then
+		textImgSetText(txt_bossNo, "REMAINING BOSSES: " .. lastMatch - bossNo)
+	--elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then
+		--textImgSetText(txt_bossNo, "FINAL BOSS")
 	else
-		textImgSetText(txt_gameNo, 'MATCH: ' .. gameNo)
+		textImgSetText(txt_gameNo, "MATCH: " .. gameNo)
 	end
-	textImgSetText(txt_bonusNo, 'BONUS: ' .. bonusNo)
+	textImgSetText(txt_bonusNo, "BONUS: " .. bonusNo)
 	local i = 0
 	if not data.orderSelect then --Order Select off
 		while true do
@@ -6387,12 +6387,12 @@ function f_orderSelect()
 		end
 		cmdInput()
 		while true do
-			--txt_orderTime = createTextImg(jgFnt, 0, 0, ''..orderTime/gameTick..'', 160, 70)
+			--txt_orderTime = createTextImg(jgFnt, 0, 0, (orderTime/gameTick), 160, 70)
 			orderTimeNumber = orderTime/gameTick
 			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
 			txt_orderTime = createTextImg(jgFnt, 0, 0, nodecimalOrderTime, 160, 70)
 			--draw background on top
-			if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+			if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -6402,10 +6402,10 @@ function f_orderSelect()
 		--end loop after at least 120 ticks (extended if sound has been triggered)
 			--draw info text
 			if p1Confirmed == false then
-				txt_p1State = createTextImg(jgFnt, 3, 0, 'WAITING ORDER', 78, 25)
+				txt_p1State = createTextImg(jgFnt, 3, 0, "WAITING ORDER", 78, 25)
 				textImgDraw(txt_p1State)
 			elseif p1Confirmed == true and p2Confirmed == true then
-				txt_p1State = createTextImg(jgFnt, 2, 0, 'START MATCH', 79, 25)
+				txt_p1State = createTextImg(jgFnt, 2, 0, "START MATCH", 79, 25)
 				orderTime = 0
 				textImgDraw(txt_p1State)	
 				animSetWindow(cursorBox, 20, 14, 120, 16)
@@ -6415,17 +6415,17 @@ function f_orderSelect()
 					--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
 				--end
 			else
-				txt_p1State = createTextImg(jgFnt, 5, 0, 'READY!', 78, 25)
+				txt_p1State = createTextImg(jgFnt, 5, 0, "READY!", 78, 25)
 				textImgDraw(txt_p1State)
 			end
 			if p2Confirmed == false then
-				txt_p2State = createTextImg(jgFnt, 1, 0, 'WAITING ORDER', 241, 25)
+				txt_p2State = createTextImg(jgFnt, 1, 0, "WAITING ORDER", 241, 25)
 				textImgDraw(txt_p2State)
 			--elseif p1Confirmed == false and p2Confirmed == true then
-				--txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
+				--txt_p2State = createTextImg(jgFnt, 5, 0, "READY!", 241, 25)
 				--textImgDraw(txt_p2State)
 			else
-				txt_p2State = createTextImg(jgFnt, 5, 0, 'READY!', 241, 25)
+				txt_p2State = createTextImg(jgFnt, 5, 0, "READY!", 241, 25)
 				textImgDraw(txt_p2State)
 			end
 			--set random hints for order select
@@ -6728,7 +6728,7 @@ function f_orderSelect()
 				break
 			end
 			--draw character portraits
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				for j=#data.t_p1selected, 1, -1 do
 					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 30, 1, 1)
 				end
@@ -6737,7 +6737,7 @@ function f_orderSelect()
 				end
 			end
 			--draw character animations
-			if data.charPresentation == 'Sprite' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
 				for j=#data.t_p1selected, 1, -1 do
 					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
 				end
@@ -6754,13 +6754,13 @@ function f_orderSelect()
 			animPosDraw(p1OrderCursor, 1, 186)
 			animPosDraw(p1OrderCursor, 1, 200)
 			animPosDraw(p1OrderCursor, 1, 214)
-			txt_p1orderNo1 = createTextImg(jgFnt, 0, 0, '1', 9.2, 180)
+			txt_p1orderNo1 = createTextImg(jgFnt, 0, 0, "1", 9.2, 180)
 			textImgDraw(txt_p1orderNo1)
-			txt_p1orderNo2 = createTextImg(jgFnt, 0, 0, '2', 9, 194)
+			txt_p1orderNo2 = createTextImg(jgFnt, 0, 0, "2", 9, 194)
 			textImgDraw(txt_p1orderNo2)
-			txt_p1orderNo3 = createTextImg(jgFnt, 0, 0, '3', 9, 208)
+			txt_p1orderNo3 = createTextImg(jgFnt, 0, 0, "3", 9, 208)
 			textImgDraw(txt_p1orderNo3)
-			txt_p1orderNo4 = createTextImg(jgFnt, 0, 0, '4', 9, 222)
+			txt_p1orderNo4 = createTextImg(jgFnt, 0, 0, "4", 9, 222)
 			textImgDraw(txt_p1orderNo4)
 			--p2 order cursor position
 			animUpdate(p2OrderCursor)
@@ -6768,16 +6768,16 @@ function f_orderSelect()
 			animPosDraw(p2OrderCursor, 305, 186)
 			animPosDraw(p2OrderCursor, 305, 200)
 			animPosDraw(p2OrderCursor, 305, 214)
-			txt_p2orderNo1 = createTextImg(jgFnt, 0, 0, '1', 310.2, 180)
+			txt_p2orderNo1 = createTextImg(jgFnt, 0, 0, "1", 310.2, 180)
 			textImgDraw(txt_p2orderNo1)
-			txt_p2orderNo2 = createTextImg(jgFnt, 0, 0, '2', 311, 194)
+			txt_p2orderNo2 = createTextImg(jgFnt, 0, 0, "2", 311, 194)
 			textImgDraw(txt_p2orderNo2)
-			txt_p2orderNo3 = createTextImg(jgFnt, 0, 0, '3', 311, 208)
+			txt_p2orderNo3 = createTextImg(jgFnt, 0, 0, "3", 311, 208)
 			textImgDraw(txt_p2orderNo3)
-			txt_p2orderNo4 = createTextImg(jgFnt, 0, 0, '4', 311, 222)
+			txt_p2orderNo4 = createTextImg(jgFnt, 0, 0, "4", 311, 222)
 			textImgDraw(txt_p2orderNo4)
 			--draw order screen text
-			txt_orderSelect = createTextImg(font14, 0, 0, 'ORDER SELECT', 160, 10)
+			txt_orderSelect = createTextImg(font14, 0, 0, "ORDER SELECT", 160, 10)
 			textImgDraw(txt_orderSelect)
 			--draw background on bottom
 			animUpdate(versusBG4)
@@ -6830,14 +6830,14 @@ end
 --;===========================================================
 --; VERSUS SCREEN
 --;===========================================================
-txt_matchNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_matchFinal = createTextImg(font21, 0, 0, '', 160, 20)
-txt_gameNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_bossNo = createTextImg(font12, 0, 0, '', 160, 20)
-txt_bonusNo = createTextImg(font21, 0, 0, '', 160, 20)
-txt_p1NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_p2NameVS = createTextImg(jgFnt, 0, 0, '', 0, 0)
-txt_vsHint = createTextImg(font5, 0, 0, '', 160, 239)
+txt_matchNo = createTextImg(font21, 0, 0, "", 160, 20)
+txt_matchFinal = createTextImg(font21, 0, 0, "", 160, 20)
+txt_gameNo = createTextImg(font21, 0, 0, "", 160, 20)
+txt_bossNo = createTextImg(font12, 0, 0, "", 160, 20)
+txt_bonusNo = createTextImg(font21, 0, 0, "", 160, 20)
+txt_p1NameVS = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_p2NameVS = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_vsHint = createTextImg(font5, 0, 0, "", 160, 239)
 
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -6856,7 +6856,7 @@ function f_selectVersus()
 			refresh()
 		end
 	else
-		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
 		else
 			playBGM(bgmVS)
@@ -6881,7 +6881,7 @@ function f_selectVersus()
 		cmdInput()
 		while true do
 			--draw background on top
-			if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle
+			if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then --Red BG for a Decisive Battle
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -6889,12 +6889,12 @@ function f_selectVersus()
 			animDraw(f_animVelocity(versusBG2, -2, 0))
 			animDraw(f_animVelocity(versusBG3, 2, 0))
 			--draw character portraits
-			if data.charPresentation == 'Portrait' or data.charPresentation == 'Mixed' then
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 				drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			end
 			--draw character animations
-			if data.charPresentation == 'Sprite' then
+			if data.charPresentation == "Sprite" then
 				for j=#data.t_p1selected, 1, -1 do
 					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
 				end
@@ -6928,23 +6928,23 @@ function f_selectVersus()
 			f_drawNameListP1(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
 			f_drawNameListP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
 			--draw match counter
-			if data.gameMode == 'arcade' then
+			if data.gameMode == "arcade" then
 				if matchNo ~= lastMatch then
 					textImgDraw(txt_matchNo)
 				elseif matchNo == lastMatch then
 					textImgDraw(txt_matchFinal)
 				end
-			elseif data.gameMode == 'survival' or data.gameMode == 'allroster' then
+			elseif data.gameMode == "survival" or data.gameMode == "allroster" then
 				--if gameNo ~= lastMatch then
 					textImgDraw(txt_gameNo)
 				--else
 					--textImgDraw(txt_matchFinal)
 				--end
-			elseif data.gameMode == 'bossrush' then
+			elseif data.gameMode == "bossrush" then
 				textImgDraw(txt_bossNo)
-			elseif data.gameMode == 'bonusrush' then
+			elseif data.gameMode == "bonusrush" then
 				textImgDraw(txt_bonusNo)			
-			elseif data.gameMode == 'versus' then
+			elseif data.gameMode == "versus" then
 				textImgDraw(txt_gameNo)
 			end
 			--draw background on bottom
@@ -7000,8 +7000,8 @@ animSetWindow(quoteBG, 14, 167, 290, 62)
 --; WIN SCREEN
 --;===========================================================
 function f_selectWin()
-	txt_winnername = createTextImg(jgFnt, 0, 1, '', 20, 177)
-	txt_winquote = createTextImg(font2, 0, 1, '', 0, 0)
+	txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 177)
+	txt_winquote = createTextImg(font2, 0, 1, "", 0, 0)
 	local bufRematchu = 0
 	local bufRematchd = 0
 	local bufRematchr = 0
@@ -7019,11 +7019,11 @@ function f_selectWin()
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 	if data.victoryscreen == false then
 		f_selectWinOFF()
-	elseif data.winscreen == 'Fixed' then
+	elseif data.winscreen == "Fixed" then
 		f_selectWinFix()
 	else
 		playBGM(bgmVictory)
-		local txt = ''
+		local txt = ""
 		if winner == 1 then
 			p1Wins = p1Wins + 1
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7047,19 +7047,19 @@ function f_selectWin()
 			end
 			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
 		end
-		if onlinegame == true and data.gameMode == 'versus' then
+		if onlinegame == true and data.gameMode == "versus" then
 			f_ftcontrol()
 		end
 		local i = 0
 		cmdInput()
 		while true do
-			if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+			if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then --Red BG for a Decisive Battle 
 				animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 			else
 				animDraw(f_animVelocity(versusBG1, 0, 1.5))
 			end
 			if winner == 1 then
-				if data.winscreen == 'Classic' then
+				if data.winscreen == "Classic" then
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
 					drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
@@ -7068,7 +7068,7 @@ function f_selectWin()
 					animSetWindow(wincharBGC2, 169, 20, 120, 140)
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
-				elseif data.winscreen == 'Modern' then
+				elseif data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					if p1numChars == 1 then
@@ -7089,7 +7089,7 @@ function f_selectWin()
 					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
 				end	
 			else--if winner == 2 then
-				if data.winscreen == 'Classic' then
+				if data.winscreen == "Classic" then
 					drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
@@ -7098,7 +7098,7 @@ function f_selectWin()
 					drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
-				elseif data.winscreen == 'Modern' then
+				elseif data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 2, 0))
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					if p2numChars == 1 then
@@ -7122,7 +7122,7 @@ function f_selectWin()
 			i = i + 1
 			f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
 			textImgDraw(txt_winnername)
-			if data.gameMode == 'versus' then --Show Rematch Menu for these modes
+			if data.gameMode == "versus" then --Show Rematch Menu for these modes
 				if not menuReady then
 					if i == 510 or btnPalNo(p1Cmd) > 0 then
 						cmdInput()
@@ -7140,8 +7140,8 @@ function f_selectWin()
 				if i == 510 or btnPalNo(p1Cmd) > 0 then
 					cmdInput()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.orderSelect == true and data.gameMode == 'arcade' then f_selectMusic()
-					elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
+					if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
+					elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 					end
 					commandBufReset(p1Cmd, 1)
 					break
@@ -7158,7 +7158,7 @@ end
 function f_selectWinFix() --Use this while fixing recognition of victory quotes for any other character that causes crash
 	playBGM(bgmNothing)
 	--playBGM(bgmVictory)
-	local txt = ''
+	local txt = ""
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7168,7 +7168,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 			f_winCoins()
 			f_victories()
 		end
-		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P1 wins
+		txt = "READY FOR THE NEXT BATTLE?" --Permanent Victory Quotes when P1 wins
 	else--if winner == 2 then
 		p2Wins = p2Wins + 1
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7178,9 +7178,9 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 			f_defeats()
 			--f_loseCoins()
 		end
-		txt = 'READY FOR THE NEXT BATTLE?' --Permanent Victory Quotes when P2 wins
+		txt = "READY FOR THE NEXT BATTLE?" --Permanent Victory Quotes when P2 wins
 	end
-	if onlinegame == true and data.gameMode == 'versus' then
+	if onlinegame == true and data.gameMode == "versus" then
 		f_ftcontrol()
 	end
 	local i = 0
@@ -7188,7 +7188,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 	while true do
 		i = i + 1
 		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
-		if data.gameMode == 'versus' then --Show Rematch Menu for these modes
+		if data.gameMode == "versus" then --Show Rematch Menu for these modes
 			if not menuReady then
 				if i == 510 or btnPalNo(p1Cmd) > 0 then
 					cmdInput()
@@ -7206,8 +7206,8 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 			if i == 510 or btnPalNo(p1Cmd) > 0 then
 				cmdInput()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.orderSelect == true and data.gameMode == 'arcade' then f_selectMusic()
-				elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
+				if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
+				elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 				end
 				commandBufReset(p1Cmd, 1)
 				break
@@ -7241,19 +7241,19 @@ function f_selectWinOFF()
 			--f_loseCoins()
 		end
 	end
-	if onlinegame == true and data.gameMode == 'versus' then
+	if onlinegame == true and data.gameMode == "versus" then
 		f_ftcontrol()
 	end
 	while true do
-		if data.gameMode == 'versus' then
+		if data.gameMode == "versus" then
 			f_rematch()
 		else --Don't Show Rematch Menu
 			rematchEnd = true
 		end
 		if rematchEnd then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			if data.orderSelect == true and data.gameMode == 'arcade' then f_selectMusic()
-			elseif data.gameMode == 'singleboss' then playBGM(bgmSelectBoss)
+			if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
+			elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 			end
 			commandBufReset(p1Cmd, 1)
 			break
@@ -7416,10 +7416,10 @@ end
 --;===========================================================
 --; RANKED MATCH SCREEN
 --;===========================================================
-txt_rankInfo = createTextImg(font5, 0, 0, 'INFORMATION', 157, 111)
-txt_rankESC = createTextImg(jgFnt, 5, 0, 'PRESS ESC TO EXIT', 159, 151)
-txt_rankText = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
-txt_rankMsg = 'ONLINE MATCH RANKED HAS FINISHED'
+txt_rankInfo = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
+txt_rankESC = createTextImg(jgFnt, 5, 0, "PRESS ESC TO EXIT", 159, 151)
+txt_rankText = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
+txt_rankMsg = "ONLINE MATCH RANKED HAS FINISHED"
 	
 --Scrolling background
 rankedBG = animNew(sysSff, [[
@@ -7502,9 +7502,9 @@ end
 --;===========================================================
 --; REMATCH SCREENPACK
 --;===========================================================
-txt_rematchCPU = createTextImg(font6, 0, 0, 'BATTLE OPTION', 160, 102)
-txt_rematch = createTextImg(font6, 0, 0, 'OPTION BATTLE P1', 86, 102)
-txt_rematch2 = createTextImg(font6, 0, 0, 'P2 BATTLE OPTION', 237, 102)
+txt_rematchCPU = createTextImg(font6, 0, 0, "BATTLE OPTION", 160, 102)
+txt_rematch = createTextImg(font6, 0, 0, "OPTION BATTLE P1", 86, 102)
+txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 102)
 
 --Scrolling background
 rematchBG = animNew(sysSff, [[
@@ -7542,17 +7542,17 @@ animSetScale(rematch2WindowBG, 1.005, 1.1)
 --; REMATCH MENU
 --;===========================================================
 t_battleOption = {
-	{id = textImgNew(), text = 'REMATCH'},
-	{id = textImgNew(), text = 'CHARACTER SELECT'},
-	{id = textImgNew(), text = 'STAGE SELECT'},
-	{id = textImgNew(), text = 'MAIN MENU'},
+	{id = textImgNew(), text = "REMATCH"},
+	{id = textImgNew(), text = "CHARACTER SELECT"},
+	{id = textImgNew(), text = "STAGE SELECT"},
+	{id = textImgNew(), text = "MAIN MENU"},
 }
 
 t_battleOption2 = {
-	{id = textImgNew(), text = 'REMATCH'},
-	{id = textImgNew(), text = 'CHARACTER SELECT'},
-	{id = textImgNew(), text = 'STAGE SELECT'},
-	{id = textImgNew(), text = 'MAIN MENU'},
+	{id = textImgNew(), text = "REMATCH"},
+	{id = textImgNew(), text = "CHARACTER SELECT"},
+	{id = textImgNew(), text = "STAGE SELECT"},
+	{id = textImgNew(), text = "MAIN MENU"},
 }
 
 function f_rematch()
@@ -7643,8 +7643,8 @@ function f_rematch()
 		end
 	end
 	--Rematch Option Timer
-	if data.gameMode == 'arcade' or data.ftcontrol > 0 or data.attractMode == true then
-		--txt_rematchTime = createTextImg(jgFnt, 0, 0, ''..rematchTimer/gameTick..'', 160, 70)
+	if data.gameMode == "arcade" or data.ftcontrol > 0 or data.attractMode == true then
+		--txt_rematchTime = createTextImg(jgFnt, 0, 0, (rematchTimer/gameTick), 160, 70)
 		rematchTimeNumber = rematchTimer/gameTick
 		nodecimalRematchTime = string.format("%.0f",rematchTimeNumber)
 		txt_rematchTime = createTextImg(jgFnt, 0, 0, nodecimalRematchTime, 160, 70)
@@ -7741,7 +7741,7 @@ end
 
 function f_randomRematch()
 --Get new random chars for player 1 side
-	if randomP1Rematch == true and data.randomCharRematch == 'Variable' then
+	if randomP1Rematch == true and data.randomCharRematch == "Variable" then
 	--Your 1st char will be randomized for your rematch
 		if p1numChars == 1 or p1numChars == 2 or p1numChars == 3 or p1numChars == 4 then
 			data.t_p1selected[1].cel = t_randomChars[math.random(#t_randomChars)]
@@ -7764,7 +7764,7 @@ function f_randomRematch()
 		end
 	end
 --Get new random chars for player 2 side
-	if randomP2Rematch == true and data.randomCharRematch == 'Variable' then
+	if randomP2Rematch == true and data.randomCharRematch == "Variable" then
 		if p2numChars == 1 or p2numChars == 2 or p2numChars == 3 or p2numChars == 4 then
 			data.t_p2selected[1].cel = t_randomChars[math.random(#t_randomChars)]
 			data.t_p2selected[1].pal = math.random(1,12)
@@ -7820,7 +7820,7 @@ function f_selectChallenger()
 	playBGM(bgmNothing)
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
 	local i = 0
-	data.rosterMode = 'challenger'
+	data.rosterMode = "challenger"
 	cmdInput()
 	while true do
 		if i == 150 then
@@ -7831,7 +7831,7 @@ function f_selectChallenger()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
-		if data.gameMode == 'bossrush' or data.gameMode == 'singleboss' or data.rosterMode == 'suddendeath' or matchNo == lastMatch then --Red BG for a Decisive Battle 
+		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then --Red BG for a Decisive Battle 
 			animDraw(f_animVelocity(versusHardBG1, 0, 1.5))
 		else
 			animDraw(f_animVelocity(versusBG1, 0, 1.5))
@@ -7850,7 +7850,7 @@ end
 --;===========================================================
 --; SERVICE SCREENPACK
 --;===========================================================
-txt_service = createTextImg(jgFnt, 0, 0, 'SELECT A SERVICE', 159, 13)
+txt_service = createTextImg(jgFnt, 0, 0, "SELECT A SERVICE", 159, 13)
 
 --Scrolling background
 serviceBG0 = animNew(sysSff, [[
@@ -7902,12 +7902,12 @@ animSetScale(serviceDownArrow, 0.5, 0.5)
 --; SERVICE MENU
 --;===========================================================
 t_service = {
-	{id = '', text = 'DIFFICULTY LEVEL DOWN'},
-	{id = '', text = 'POWER WILL START AT MAX'},
-	{id = '', text = 'ENEMY LIFE AT 1/3'},
-	{id = '', text = 'CHANGE TEAM MODE'},
-	{id = '', text = 'DOUBLE DEFENCE'},
-	{id = '', text = 'NO SERVICE'},
+	{id = '', text = "DIFFICULTY LEVEL DOWN"},
+	{id = '', text = "POWER WILL START AT MAX"},
+	{id = '', text = "ENEMY LIFE AT 1/3"},
+	{id = '', text = "CHANGE TEAM MODE"},
+	{id = '', text = "DOUBLE DEFENCE"},
+	{id = '', text = "NO SERVICE"},
 }
 
 t_lockedService = {
@@ -8082,7 +8082,7 @@ function f_service()
 			end
 		end
 		--Service Option Timer
-		--txt_serviceTime = createTextImg(jgFnt, 0, 0, ''..serviceTimer/gameTick..'', 160, 122)
+		--txt_serviceTime = createTextImg(jgFnt, 0, 0, (serviceTimer/gameTick), 160, 122)
 		serviceTimeNumber = serviceTimer/gameTick
 		nodecimalServiceTime = string.format("%.0f",serviceTimeNumber)
 		txt_serviceTime = createTextImg(jgFnt, 0, 0, nodecimalServiceTime, 160, 122)
@@ -8240,34 +8240,34 @@ animSetScale(rankGDLK, 0.5, 0.5)
 --;===========================================================
 txt_result = textImgNew()
 txt_resultTime = textImgNew()
-txt_resultRank = createTextImg(jgFnt, 0, 1, '', 262, 205)
-txt_resultText = createTextImg(jgFnt, 0, 1, 'PLAYER:', 10, 50)
-txt_resultName = createTextImg(font6, 0, 1, '', 70, 50)
-txt_resultText2 = createTextImg(jgFnt, 0, 1, 'PLAYER:', 74, 228)
-txt_resultName2 = createTextImg(font6, 0, 1, '', 134, 228)
+txt_resultRank = createTextImg(jgFnt, 0, 1, "", 262, 205)
+txt_resultText = createTextImg(jgFnt, 0, 1, "PLAYER:", 10, 50)
+txt_resultName = createTextImg(font6, 0, 1, "", 70, 50)
+txt_resultText2 = createTextImg(jgFnt, 0, 1, "PLAYER:", 74, 228)
+txt_resultName2 = createTextImg(font6, 0, 1, "", 134, 228)
 
 function f_result(state)
-	--if state == 'win' then
-	--elseif state == 'lost' then
+	--if state == "win" then
+	--elseif state == "lost" then
 	--end
-	if data.gameMode == 'survival' then
+	if data.gameMode == "survival" then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survBarsFnt)
 		textImgSetPos(txt_result, 159, 239)
-		textImgSetText(txt_result, 'X' .. winCnt .. 'WINS')
-		textImgSetText(txt_resultRank, 'RANK')
+		textImgSetText(txt_result, "X" .. winCnt .. "WINS")
+		textImgSetText(txt_resultRank, "RANK")
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
 		else
 			textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
 		end
-	elseif data.gameMode == 'endless' or data.gameMode == 'allroster' then
+	elseif data.gameMode == "endless" or data.gameMode == "allroster" then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		textImgSetFont(txt_result, survNumFnt)
 		textImgSetPos(txt_result, 159, 150)
-		textImgSetText(txt_result, winCnt .. ' WINS' .. looseCnt .. ' LOSES')
+		textImgSetText(txt_result, winCnt .. " WINS" .. looseCnt .. " LOSES")
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			textImgSetText(txt_resultName2, f_getName(data.t_p2selected[1].cel))
 		else
@@ -8283,7 +8283,7 @@ function f_result(state)
 			break
 		end
 		textImgDraw(txt_result)
-		if data.gameMode == 'survival' then
+		if data.gameMode == "survival" then
 			textImgDraw(txt_resultText)
 			textImgDraw(txt_resultName) --Player Name position for Survival Mode
 			textImgDraw(txt_resultRank)
@@ -8375,8 +8375,8 @@ animUpdate(contBG2)
 --; CONTINUE SCREEN
 --;===========================================================
 --Coins left text
-txt_coins = createTextImg(jgFnt, 0, 1, '', 15, 30)
-txt_cont = createTextImg(jgFnt, 0, 1, '', 158, 30)
+txt_coins = createTextImg(jgFnt, 0, 1, "", 15, 30)
+txt_cont = createTextImg(jgFnt, 0, 1, "", 158, 30)
 
 function f_continue()
 	setServiceType(0)
@@ -8440,11 +8440,11 @@ function f_continue()
 		anim4 = f_animFromTable(tablePos4['dizzy'], tablePos4.sffData, 100, 180, tablePos4.xscale, tablePos4.yscale, 0, 1)
 	end
 	if data.attractMode == true then
-		textImgSetText(txt_coins, 'CREDITS: ' .. data.attractCoins)
+		textImgSetText(txt_coins, "CREDITS: "..data.attractCoins)
 	--else
-		--textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+		--textImgSetText(txt_coins, "COINS: "..data.coins)
 	end
-	textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)
+	textImgSetText(txt_cont, "TIMES CONTINUED: "..data.continueCount)
 	cmdInput()
 	while true do
 		animDraw(contBG0)
@@ -8516,11 +8516,11 @@ function f_continue()
 				data.continueCount = data.continueCount + 1 --Times Continue
 				--f_saveProgress()
 				if data.attractMode == true then
-					textImgSetText(txt_coins, 'CREDITS: ' .. data.attractCoins)
+					textImgSetText(txt_coins, "CREDITS: "..data.attractCoins)
 				--else
-					--textImgSetText(txt_coins, 'COINS: ' .. data.coins)
+					--textImgSetText(txt_coins, "COINS: "..data.coins)
 				end
-				textImgSetText(txt_cont, 'TIMES CONTINUED: ' .. data.continueCount)				
+				textImgSetText(txt_cont, "TIMES CONTINUED: "..data.continueCount)				
 				fadeContinue = f_fadeAnim(30, 'fadeout', 'black', fadeSff)
 				data.continue = 1
 			elseif i > 1366 then --Continue = NO
@@ -9246,7 +9246,7 @@ function f_gameOver()
 				animDraw(gameOver)
 				animUpdate(gameOver)
 				if i == 190 then --music is shorter than animation and we don't want looping here
-					playBGM('')
+					playBGM("")
 				elseif i == 226 then --create fading animation
 					fadeGameOver = f_fadeAnim(60, 'fadeout', 'black', fadeSff)
 				elseif i > 226 then --start fading the screen
@@ -9316,7 +9316,7 @@ function eachAllChars(f)
 end
 
 function rakuBenry()
-	local alf = 'save/debug/autolevel.txt'
+	local alf = "save/debug/autolevel.txt"
 	local veljnz = {}
 	local winct = {}
 	local buf = '\239\187\191'
@@ -9477,7 +9477,7 @@ function rosterTxt()
 	for i = 1, #roster do
 		str = str .. '\n' .. getCharFileName(roster[i])
 	end
-	dscr = io.open('save/debug/AI_Rank.txt', 'w')
+	dscr = io.open("save/debug/AI_Rank.txt", 'w')
 	dscr:write(str)
 	io.close(dscr)
 end
@@ -9540,64 +9540,64 @@ end
 function f_victories()
 	data.victories = data.victories + 1
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end
 
 function f_defeats()
 	data.defeats = data.defeats + 1
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end
 
 function f_records()
-	if data.gameMode == 'bossrush' then
+	if data.gameMode == "bossrush" then
 		if winCnt > data.bossrecord then
 			data.bossrecord = winCnt
 		end
-	elseif data.rosterMode == 'suddendeath' then
+	elseif data.rosterMode == "suddendeath" then
 		if winCnt > data.suddenrecord then
 			data.suddenrecord = winCnt
 		end
-	elseif data.rosterMode == 'endless' then
+	elseif data.rosterMode == "endless" then
 		if winCnt > data.endlessrecord then
 			data.endlessrecord = winCnt
 		end
 	end
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end
 
 function f_modeplayTime()
-	if data.rosterMode == 'story' then data.storyTime = data.storyTime + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
-	elseif data.rosterMode == 'arcade' then data.arcadeTime = data.arcadeTime + clearTime
-	elseif data.rosterMode == 'versus' then data.vsTime = data.vsTime + clearTime
-	elseif data.rosterMode == 'training' then data.trainingTime = data.trainingTime + clearTime
-	elseif data.rosterMode == 'cpu' then data.cpumatchTime = data.cpumatchTime + clearTime
-	elseif data.rosterMode == 'survival' then data.survivalTime = data.survivalTime + clearTime
-	elseif data.rosterMode == 'boss' then data.bossTime = data.bossTime + clearTime
-	elseif data.rosterMode == 'bonus' then data.bonusTime = data.bonusTime + clearTime
-	elseif data.rosterMode == 'timeattack' then data.timeattackTime = data.timeattackTime + clearTime
-	elseif data.rosterMode == 'suddendeath' then data.suddendeathTime = data.suddendeathTime + clearTime
-	elseif data.rosterMode == 'endless' then data.endlessTime = data.endlessTime + clearTime
-	elseif data.rosterMode == 'event' then data.eventsTime = data.eventsTime + clearTime
-	elseif data.rosterMode == 'mission' then data.missionsTime = data.missionsTime + clearTime
-	elseif data.rosterMode == 'tower' then data.towerTime = data.towerTime + clearTime
-	elseif data.rosterMode == 'legion' then data.legionTime = data.legionTime + clearTime
-	elseif data.rosterMode == 'tourney' then data.tourneyTime = data.tourneyTime + clearTime
-	elseif data.rosterMode == 'adventure' then data.adventureTime = data.adventureTime + clearTime
+	if data.rosterMode == "story" then data.storyTime = data.storyTime + clearTime --(math.floor(clearTime)) (Save time from Float to Integer)
+	elseif data.rosterMode == "arcade" then data.arcadeTime = data.arcadeTime + clearTime
+	elseif data.rosterMode == "versus" then data.vsTime = data.vsTime + clearTime
+	elseif data.rosterMode == "training" then data.trainingTime = data.trainingTime + clearTime
+	elseif data.rosterMode == "cpu" then data.cpumatchTime = data.cpumatchTime + clearTime
+	elseif data.rosterMode == "survival" then data.survivalTime = data.survivalTime + clearTime
+	elseif data.rosterMode == "boss" then data.bossTime = data.bossTime + clearTime
+	elseif data.rosterMode == "bonus" then data.bonusTime = data.bonusTime + clearTime
+	elseif data.rosterMode == "timeattack" then data.timeattackTime = data.timeattackTime + clearTime
+	elseif data.rosterMode == "suddendeath" then data.suddendeathTime = data.suddendeathTime + clearTime
+	elseif data.rosterMode == "endless" then data.endlessTime = data.endlessTime + clearTime
+	elseif data.rosterMode == "event" then data.eventsTime = data.eventsTime + clearTime
+	elseif data.rosterMode == "mission" then data.missionsTime = data.missionsTime + clearTime
+	elseif data.rosterMode == "tower" then data.towerTime = data.towerTime + clearTime
+	elseif data.rosterMode == "legion" then data.legionTime = data.legionTime + clearTime
+	elseif data.rosterMode == "tourney" then data.tourneyTime = data.tourneyTime + clearTime
+	elseif data.rosterMode == "adventure" then data.adventureTime = data.adventureTime + clearTime
 	end
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end
 
 function f_favoriteChar()
 	data.favoriteChar = f_getName(data.t_p1selected[1].cel) --Improve store logic with json
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end
 
 function f_favoriteStage()
 	data.favoriteStage = getStageName(stageList):gsub('^["%s]*(.-)["%s]*$', '%1') --Improve store logic with json
 	f_saveProgress()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 end

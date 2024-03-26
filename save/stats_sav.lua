@@ -5,10 +5,10 @@ data.coins = 180
 data.attractCoins = 4
 data.continueCount = 0
 data.vault = "Ultra"
-data.playTime = 27059.064524
+data.playTime = 28871.577309
 data.trainingTime = 2386.639
-data.favoriteChar = "Kung Fu Man"
-data.favoriteStage = "Training Room"
+data.favoriteChar = "Suave Dude"
+data.favoriteStage = "RANDOM"
 data.victories = 36
 data.defeats = 11
 --Records Data

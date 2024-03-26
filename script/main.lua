@@ -4,26 +4,26 @@
 math.randomseed(os.time())
 
 --Debug stuff
-loadDebugFont('font/14x14.fnt')
-setDebugScript('script/debug.lua')
+loadDebugFont("font/14x14.fnt")
+setDebugScript("script/debug.lua")
 
 --Load Common stuff (shared with pause.lua)
-require('script.common')
+require("script.common")
 
 --Assign Lifebar
-loadLifebar(data.lifebar) --path to lifebar stored in 'save/data_sav.lua', also adjustable from options
+loadLifebar(data.lifebar) --path to lifebar stored in "save/data_sav.lua", also adjustable from options
 
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
-assert(loadfile('script/start.lua'))()
-require('script.options')
-require('script.select')
-require('script.statistics')
-require('script.missions')
-require('script.events')
-require('script.story')
---require('script.adventure')
+assert(loadfile("script/start.lua"))()
+require("script.options")
+require("script.select")
+require("script.statistics")
+require("script.missions")
+require("script.events")
+require("script.story")
+--require("script.adventure")
 
 local file = io.open("save/config.ssz","r")
 s_configSSZ = file:read("*all")
@@ -31,12 +31,12 @@ file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 
---f_drawQuickText(txt_testVar, font3, 0, 0, 'hi', 163.5, 168) --Delete me when your test finish
+--f_drawQuickText(txt_testVar, font3, 0, 0, "hi", 163.5, 168) --Delete me when your test finish
 --;===========================================================
 --; UNLOCKS CHECK DEFINITION
 --;===========================================================
 function f_unlocksCheck()
-	assert(loadfile('save/stats_sav.lua'))()
+	assert(loadfile("save/stats_sav.lua"))()
 	if data.arcadeClear == true then --Verify if you comply with this condition and then..
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
 	end
@@ -244,91 +244,91 @@ function f_sysTime()
 	--4:3
 	if (resolutionHeight / 3 * 4) == resolutionWidth then
 		--Clock
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
 		end
 		--Date
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
 		end
 	--16:10
 	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
 		end
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
 		end
 	--16:9
 	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 8)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 8)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 8)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 8)
 		end
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -45, 8)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -45, 8)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -45, 8)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -45, 8)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -45, 8)
 		end
 	--Extra
 	else
-		if data.clock == 'Standard' then
+		if data.clock == "Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
-		elseif data.clock == 'Full Standard' then
+		elseif data.clock == "Full Standard" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
-		elseif data.clock == 'Military' then
+		elseif data.clock == "Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
-		elseif data.clock == 'Full Military' then
+		elseif data.clock == "Full Military" then
 			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
 		end
-		if data.date == 'Type A' then
+		if data.date == "Type A" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
-		elseif data.date == 'Type B' then
+		elseif data.date == "Type B" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
-		elseif data.date == 'Type C' then
+		elseif data.date == "Type C" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
-		elseif data.date == 'Type D' then
+		elseif data.date == "Type D" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
-		elseif data.date == 'Type E' then
+		elseif data.date == "Type E" then
 			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
 		end
 	end
@@ -339,7 +339,7 @@ end
 --;===========================================================
 --; F1 INFOBOX MESSAGE
 --;===========================================================
-infoboxCfg = createTextImg(font1, 0, 1, '', 0, 0)
+infoboxCfg = createTextImg(font1, 0, 1, "", 0, 0)
 txt_infobox = [[
 
 
@@ -393,16 +393,16 @@ end
 --;===========================================================
 function f_mainLogos()
 	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-	f_storyboard('data/screenpack/logo.def')
+	f_storyboard("data/screenpack/logo.def")
 	playBGM(bgmIntro)
-	f_storyboard('data/screenpack/intro.def')
+	f_storyboard("data/screenpack/intro.def")
 end
 
 --;===========================================================
 --; OK MESSAGE
 --;===========================================================
-txt_infoTitle = createTextImg(font5, 0, 0, 'INFORMATION', 157, 111)
-txt_ok = createTextImg(jgFnt, 5, 0, 'OK', 159, 151)
+txt_infoTitle = createTextImg(font5, 0, 0, "INFORMATION", 157, 111)
+txt_ok = createTextImg(jgFnt, 5, 0, "OK", 159, 151)
 
 --Info Window BG
 infoWindowBG = animNew(sysSff, [[
@@ -421,23 +421,23 @@ function f_infoMenu()
 	animUpdate(infoWindowBG)
 	--Draw Info Text
 	if charsInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
-		f_textRender(txt_info, 'NO CHARACTERS FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
+		f_textRender(txt_info, "NO CHARACTERS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif stagesInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
-		f_textRender(txt_info, 'NO STAGES FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		f_textRender(txt_info, "NO STAGES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif bossInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
-		f_textRender(txt_info, 'NO BOSSES FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		f_textRender(txt_info, "NO BOSSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif bonusInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.6,0.6)
-		f_textRender(txt_info, 'NO BONUSES FOUND IN SELECT.DEF', 0, 160, 125, 10, 0, 25)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		f_textRender(txt_info, "NO BONUSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif resolutionInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.56,0.56)
-		f_textRender(txt_info, 'SET A 16:9 RESOLUTION TO AVOID DESYNC', 0, 160, 125, 10, 0, 25)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
+		f_textRender(txt_info, "SET A 16:9 RESOLUTION TO AVOID DESYNC", 0, 160, 125, 10, 0, 25)
 	elseif firstRunInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, '', 0, 0,0.50,0.50)
-		f_textRender(txt_info, 'WELCOME TO IKEMEN PLUS ULTRA ENGINE! PRESS F1 TO SEE MORE INFORMATION.', 0, 160, 125, 8.8, 0, 36)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.50,0.50)
+		f_textRender(txt_info, "WELCOME TO IKEMEN PLUS ULTRA ENGINE! PRESS F1 TO SEE MORE INFORMATION.", 0, 160, 125, 8.8, 0, 36)
 	end
 	--Draw Ok Text
 	textImgDraw(txt_ok)
@@ -471,7 +471,7 @@ end
 --;===========================================================
 --; CONFIRM MESSAGE
 --;===========================================================
-txt_confirmQuestion = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 110)
+txt_confirmQuestion = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
 
 --Confirm Window BG
 confirmWindowBG = animNew(sysSff, [[
@@ -482,8 +482,8 @@ animUpdate(confirmWindowBG)
 animSetScale(confirmWindowBG, 1, 1)
 
 t_confirmMenu = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
 }
 
 function f_confirmMenu()
@@ -619,18 +619,18 @@ function f_mainStart()
 end
 
 function f_titleText()
-	if data.vault == 'Ultra' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ULTRA', 159, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
-	elseif data.vault == 'Zen' then txt_subTitle = createTextImg(font3, 0, 0, 'PLUS ZEN', 159, 120)
-	elseif data.vault == 'SSZ' then txt_subTitle = createTextImg(font3, 0, 0, 'SSZ', 159, 120) end
+	if data.vault == "Ultra" then txt_subTitle = createTextImg(font3, 0, 0, "PLUS ULTRA", 159, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+	elseif data.vault == "Zen" then txt_subTitle = createTextImg(font3, 0, 0, "PLUS ZEN", 159, 120)
+	elseif data.vault == "SSZ" then txt_subTitle = createTextImg(font3, 0, 0, "SSZ", 159, 120) end
 	textImgDraw(txt_subTitle)
 end
 
 --;===========================================================
 --; ATTRACT MODE MENU
 --;===========================================================
-txt_coinTitle = createTextImg(jgFnt, 0, 0, '-- INSERT COIN --', 159, 190)
+txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 190)
 function f_attractCredits()
-	txt_credits = createTextImg(font1, 0, -1, 'Credits: '..data.attractCoins..'', 181.5, 235)
+	txt_credits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins, 181.5, 235)
 	textImgDraw(txt_credits)
 end
 
@@ -666,9 +666,9 @@ function f_mainAttract()
 		   data.serviceScreen = true
 		   --data.stageMenu = true
 		   setGameMode('arcade')
-		   data.gameMode = 'arcade'
-		   data.rosterMode = 'arcade'
-		   textImgSetText(txt_mainSelect, 'ARCADE')
+		   data.gameMode = "arcade"
+		   data.rosterMode = "arcade"
+		   textImgSetText(txt_mainSelect, "ARCADE")
 		   setDiscordState("In Arcade Mode")
 		   script.select.f_selectAdvance()
 		   setDiscordState("In Attract Mode")
@@ -703,7 +703,7 @@ function f_mainAttract()
 		animDraw(titleBG5)
 		f_titleText()
 		f_attractCredits()
-		--txt_attractTimer = createTextImg(font1, 0, 0, ''..attractTimer/gameTick..'', 302, 235) --Original Decimal Timer
+		--txt_attractTimer = createTextImg(font1, 0, 0, (attractTimer/gameTick), 302, 235) --Original Decimal Timer
 		attractTimeNumber = attractTimer/gameTick --Convert Ticks to Seconds
 		nodecimalAttractTime = string.format("%.0f",attractTimeNumber) --Delete Decimals
 		txt_attractTimer = createTextImg(font1, 0, 0, nodecimalAttractTime, 302, 235)
@@ -733,13 +733,13 @@ end
 --; EXIT MENU
 --;===========================================================
 t_exitMenu = {
-	{id = textImgNew(), text = 'CLOSE ENGINE'},
-	{id = textImgNew(), text = 'RESTART ENGINE'},
-	{id = textImgNew(), text = 'BACK TO MAIN MENU'},
+	{id = textImgNew(), text = "CLOSE ENGINE"},
+	{id = textImgNew(), text = "RESTART ENGINE"},
+	{id = textImgNew(), text = "BACK TO MAIN MENU"},
 }
 function f_attractExitItem()
 	if data.attractMode == true and infoScreen == false then
-		table.insert(t_exitMenu,1,{id = textImgNew(), text = 'OPTIONS'})
+		table.insert(t_exitMenu,1,{id = textImgNew(), text = "OPTIONS"})
 	end
 end
 
@@ -804,7 +804,7 @@ function f_exitMenu()
 				elseif exitMenu == 1 and data.attractMode == true and #t_selChars ~= 0 and #t_selStages ~= 0 then
 					sndPlay(sysSnd, 100, 1)
 					onlinegame = false
-					assert(loadfile('save/data_sav.lua'))()
+					assert(loadfile("save/data_sav.lua"))()
 					setDiscordState("In Options")
 					script.options.f_mainCfg()
 					setDiscordState("In Attract Mode")
@@ -860,7 +860,7 @@ function f_exitMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_titleFt)
-		if exitScreen == false and infoScreen == false then	textImgSetText(txt_titleFt, 'CLOSE OR RESTART ENGINE') end
+		if exitScreen == false and infoScreen == false then	textImgSetText(txt_titleFt, "CLOSE OR RESTART ENGINE") end
 		f_sysTime()
 		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
 		if infoScreen == true then f_infoMenu() end --Show Info Screen Message
@@ -884,7 +884,7 @@ end
 --;===========================================================
 --; CLOSE/RESTART MESSAGE
 --;===========================================================
-txt_question = createTextImg(jgFnt, 1, 0, 'ARE YOU SURE?', 160, 110)
+txt_question = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 110)
 
 --Exit Window BG
 exitWindowBG = animNew(sysSff, [[
@@ -895,8 +895,8 @@ animUpdate(exitWindowBG)
 animSetScale(exitWindowBG, 1, 1)
 
 t_closeMenu = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
 }
 
 function f_closeMenu()
@@ -952,9 +952,9 @@ function f_closeMenu()
 	--Draw Bottom Text
 	textImgDraw(txt_titleFt)
 	if restartEngine == true then
-		textImgSetText(txt_titleFt, 'THE ENGINE WILL BE RESTARTED')
+		textImgSetText(txt_titleFt, "THE ENGINE WILL BE RESTARTED")
 	else
-		textImgSetText(txt_titleFt, 'THE ENGINE WILL BE CLOSED')
+		textImgSetText(txt_titleFt, "THE ENGINE WILL BE CLOSED")
 	end
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -988,10 +988,10 @@ end
 --;===========================================================
 --; TITLE SCREEN MENU
 --;===========================================================
-txt_mainTitle = createTextImg(jgFnt, 5, 0, '-- PRESS START --', 159, 190)
---txt_version = createTextImg(font1, 0, -1, 'v1.?.0', 319, 240)
-txt_version = createTextImg(font1, 0, -1, 'Dev. Build', 319, 240)
-txt_titleFt = createTextImg(font5, 0, 0, '', 156, 240)
+txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 190)
+--txt_version = createTextImg(font1, 0, -1, "v1.?.0", 319, 240)
+txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
+txt_titleFt = createTextImg(font5, 0, 0, "", 156, 240)
 
 function f_mainTitle()
 	cmdInput()
@@ -1033,7 +1033,7 @@ function f_mainTitle()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'WELCOME TO SUEHIRO IKEMEN ENGINE')
+		textImgSetText(txt_titleFt, "WELCOME TO SUEHIRO IKEMEN ENGINE")
 		f_sysTime()
 		if t%60 < 30 then
 			textImgDraw(txt_mainTitle)
@@ -1392,21 +1392,21 @@ end
 --;===========================================================
 --; MAIN MENU
 --;===========================================================
-txt_gameFt = createTextImg(font5, 0, 1, '', 2, 240) --Text to identify the game mode in menus
-txt_mainSelect = createTextImg(jgFnt, 0, 0, '', 159, 13) --Text that appears in character select with the name of the game mode
+txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
+txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
 
 t_mainMenu = {
-	{id = textImgNew(), text = 'STORY'},
-	{id = textImgNew(), text = 'ARCADE'},
-	{id = textImgNew(), text = 'VERSUS'},
-	{id = textImgNew(), text = 'NETPLAY'},
-	{id = textImgNew(), text = 'TRAINING'},
-	{id = textImgNew(), text = 'CHALLENGES'},
-	{id = textImgNew(), text = 'EXTRAS'},
-	{id = textImgNew(), text = 'WATCH'},
-	{id = textImgNew(), text = 'OPTIONS'},
-	{id = textImgNew(), text = 'EXIT'},
-	{id = textImgNew(), text = 'CHECK UPDATES'},
+	{id = textImgNew(), text = "STORY"},
+	{id = textImgNew(), text = "ARCADE"},
+	{id = textImgNew(), text = "VERSUS"},
+	{id = textImgNew(), text = "NETPLAY"},
+	{id = textImgNew(), text = "TRAINING"},
+	{id = textImgNew(), text = "CHALLENGES"},
+	{id = textImgNew(), text = "EXTRAS"},
+	{id = textImgNew(), text = "WATCH"},
+	{id = textImgNew(), text = "OPTIONS"},
+	{id = textImgNew(), text = "EXIT"},
+	{id = textImgNew(), text = "CHECK UPDATES"},
 }
 
 function f_mainMenu()
@@ -1502,7 +1502,7 @@ function f_mainMenu()
 					f_challengeMenu()
 				--EXTRAS (play custom game modes)
 				elseif mainMenu == 7 then
-					assert(loadfile('save/stats_sav.lua'))()
+					assert(loadfile("save/stats_sav.lua"))()
 					if data.arcadeClear == true then
 						f_extrasMenu()
 					else
@@ -1514,7 +1514,7 @@ function f_mainMenu()
 				--OPTIONS (adjust game settings)
 				elseif mainMenu == 9 then
 					onlinegame = false --only for identify purposes
-					assert(loadfile('save/data_sav.lua'))()
+					assert(loadfile("save/data_sav.lua"))()
 					setDiscordState("In Options")
 					script.options.f_mainCfg() --start f_mainCfg() function from script/options.lua
 					setDiscordState("In Main Menu")
@@ -1556,7 +1556,7 @@ function f_mainMenu()
 		--f_progress()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
-			textImgSetText(txt_gameFt, 'MAIN MENU')
+			textImgSetText(txt_gameFt, "MAIN MENU")
 			textImgDraw(txt_version)
 			if maxMainMenu > 6 then
 				animDraw(arrowsU)
@@ -1590,8 +1590,8 @@ end
 --; ARCADE MENU
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = 'CLASSIC ARCADE'},
-	{id = textImgNew(), text = 'TOWER ARCADE'},
+	{id = textImgNew(), text = "CLASSIC ARCADE"},
+	{id = textImgNew(), text = "TOWER ARCADE"},
 }
 	
 function f_arcadeMenu()
@@ -1688,7 +1688,7 @@ function f_arcadeMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)		
-		textImgSetText(txt_gameFt, 'ARCADE MODE')
+		textImgSetText(txt_gameFt, "ARCADE MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxArcadeMenu > 6 then
@@ -1721,13 +1721,13 @@ end
 --; CLASSIC ARCADE MENU
 --;===========================================================
 t_arcadeClassicMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Classic Arcade Modes
@@ -1735,8 +1735,8 @@ function arcadeCfg()
 	f_default() --Load f_default function defined in common.lua
 	setDiscordState("In Arcade Mode")
 	setGameMode('arcade')
-	data.gameMode = 'arcade' --mode recognized in select screen as 'arcade'
-	data.rosterMode = 'arcade' --to record statistics
+	data.gameMode = "arcade" --mode recognized in select screen as arcade
+	data.rosterMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
@@ -1746,7 +1746,7 @@ end
 function arcadeP1vsCPU()
 	data.p2In = 1 --P1 controls P2 side of the select screen
 	data.p2SelectMenu = false --P2 character selection disabled
-	textImgSetText(txt_mainSelect, 'ARCADE') --message displayed on top of select screen
+	textImgSetText(txt_mainSelect, "ARCADE") --message displayed on top of select screen
 	script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
 	setDiscordState("In Main Menu")
 end
@@ -1756,7 +1756,7 @@ function arcadeP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'ARCADE')
+	textImgSetText(txt_mainSelect, "ARCADE")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -1771,7 +1771,7 @@ function arcadeCPUvsP1()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false --P1 character selection disabled
-	textImgSetText(txt_mainSelect, 'ARCADE')
+	textImgSetText(txt_mainSelect, "ARCADE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -1783,7 +1783,7 @@ function arcadeCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'ARCADE')
+	textImgSetText(txt_mainSelect, "ARCADE")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -1795,7 +1795,7 @@ function arcadeP1P2vsCPU()
 	data.p2Faces = true
 	data.coop = true --P2 fighting on P1 side enabled
 	setGameMode('arcadecoop') --to avoid challenger screen
-	textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
+	textImgSetText(txt_mainSelect, "ARCADE COOPERATIVE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -1810,7 +1810,7 @@ function arcadeCPUvsP1P2()
 	data.p2Faces = true
 	data.coop = true
 	setGameMode('arcadecoop')
-	textImgSetText(txt_mainSelect, 'ARCADE COOPERATIVE')
+	textImgSetText(txt_mainSelect, "ARCADE COOPERATIVE")
 	script.select.f_selectAdvance()
 	]]
 	setDiscordState("In Main Menu")
@@ -1822,8 +1822,8 @@ function arcadeCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true --AI = data.difficulty for all characters enabled
 	setGameMode('arcadecpu') --to avoid challenger screen
-	data.rosterMode = 'cpu' --to avoid record stats
-	textImgSetText(txt_mainSelect, 'WATCH ARCADE')
+	data.rosterMode = "cpu" --to avoid record stats
+	textImgSetText(txt_mainSelect, "WATCH ARCADE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -1908,7 +1908,7 @@ function f_arcadeClassicMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)		
-		textImgSetText(txt_gameFt, 'CLASSIC ARCADE')
+		textImgSetText(txt_gameFt, "CLASSIC ARCADE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxarcadeClassicMenu > 6 then
@@ -1940,13 +1940,13 @@ end
 --; TOWER ARCADE MENU
 --;===========================================================
 t_towerMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Tower Modes
@@ -1954,15 +1954,15 @@ function towerCfg()
 	f_default()
 	setDiscordState("In Tower Mode")
 	setGameMode('tower')
-	data.gameMode = 'tower'
-	data.rosterMode = 'tower'
+	data.gameMode = "tower"
+	data.rosterMode = "tower"
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
 --P1 VS CPU (fight against CPU controlled opponents in customizable tower ladders from left side)
 function towerP1vsCPU()
-	textImgSetText(txt_mainSelect, 'TOWER MODE')
+	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
 	setDiscordState("In Main Menu")
 end
@@ -1971,7 +1971,7 @@ end
 function towerP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
-	textImgSetText(txt_mainSelect, 'TOWER MODE')
+	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -1986,7 +1986,7 @@ function towerCPUvsP1()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'TOWER MODE')
+	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
 	setDiscordState("In Main Menu")
 end
@@ -1998,7 +1998,7 @@ function towerCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'TOWER MODE')
+	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -2010,7 +2010,7 @@ function towerP1P2vsCPU()
 	data.p2Faces = true
 	data.coop = true
 	setGameMode('towercoop')
-	textImgSetText(txt_mainSelect, 'TOWER COOPERATIVE')
+	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
 	script.select.f_selectTower()
 	setDiscordState("In Main Menu")
 end
@@ -2025,7 +2025,7 @@ function towerCPUvsP1P2()
 	data.p2Faces = true
 	data.coop = true
 	setGameMode('towercoop')
-	textImgSetText(txt_mainSelect, 'TOWER COOPERATIVE')
+	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
 	script.select.f_selectTower()
 	]]
 	setDiscordState("In Main Menu")
@@ -2037,8 +2037,8 @@ function towerCPUvsCPU()
 	data.p2SelectMenu = false
 	data.aiFight = true
 	setGameMode('towercpu')
-	data.rosterMode = 'cpu'
-	textImgSetText(txt_mainSelect, 'WATCH TOWER')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH TOWER")
 	script.select.f_selectTower()
 	setDiscordState("In Main Menu")
 end
@@ -2123,7 +2123,7 @@ function f_towerMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)		
-		textImgSetText(txt_gameFt, 'TOWER ARCADE')
+		textImgSetText(txt_gameFt, "TOWER ARCADE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxtowerMenu > 6 then
@@ -2155,8 +2155,8 @@ end
 --; VERSUS MENU
 --;===========================================================
 t_vsMenu = {
-	{id = textImgNew(), text = 'QUICK MATCH'},
-	{id = textImgNew(), text = 'FREE BATTLE'},
+	{id = textImgNew(), text = "QUICK MATCH"},
+	{id = textImgNew(), text = "FREE BATTLE"},
 }
 	
 function f_vsMenu()
@@ -2253,7 +2253,7 @@ function f_vsMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'VERSUS MODE')
+		textImgSetText(txt_gameFt, "VERSUS MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxVSMenu > 6 then
@@ -2286,15 +2286,15 @@ end
 --; QUICK/RANDOM MATCH MENU
 --;===========================================================
 t_randomMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1 VS P2'},
-	{id = textImgNew(), text = 'P2 VS P1'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1 VS P2"},
+	{id = textImgNew(), text = "P2 VS P1"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+	--{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
 }
 
 --Load Common Settings for Quick Match Modes
@@ -2302,8 +2302,8 @@ function randomModeCfg()
 	f_default()
 	setDiscordState("In Quick Match")
 	setGameMode('random')
-	data.gameMode = 'quick match'
-	data.rosterMode = 'versus'
+	data.gameMode = "quick match"
+	data.rosterMode = "versus"
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
@@ -2374,7 +2374,7 @@ end
 --CPU MATCH (watch random CPU controlled match)
 function randomCPUvsCPU()
 	data.aiFight = true
-	data.rosterMode = 'cpu'
+	data.rosterMode = "cpu"
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
 end
@@ -2475,7 +2475,7 @@ function f_randomMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'RANDOM MODE')
+		textImgSetText(txt_gameFt, "RANDOM MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxRandomMenu > 6 then
@@ -2507,16 +2507,16 @@ end
 --; FREE BATTLE MENU
 --;===========================================================
 t_freeMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1 VS P2'},
-	{id = textImgNew(), text = 'P2 VS P1'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
-	--{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	--{id = textImgNew(), text = 'P1&P3 VS P2&P4'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1 VS P2"},
+	{id = textImgNew(), text = "P2 VS P1"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+	--{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	--{id = textImgNew(), text = "P1&P3 VS P2&P4"},
 }
 
 --Load Common Settings for Free Battle Modes
@@ -2524,8 +2524,8 @@ function freeModeCfg()
 	f_default()
 	setDiscordState("In Free Battle")
 	setGameMode('vs')
-	data.gameMode = 'versus'
-	data.rosterMode = 'versus'
+	data.gameMode = "versus"
+	data.rosterMode = "versus"
 	data.stageMenu = true --stage selection enabled
 	data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2535,7 +2535,7 @@ end
 --P1 VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
 function freeP1vsCPU()
 	data.p2In = 1
-	textImgSetText(txt_mainSelect, 'FREE VERSUS')
+	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 	setDiscordState("In Main Menu")
 end
@@ -2544,7 +2544,7 @@ end
 function freeP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
-	textImgSetText(txt_mainSelect, 'FREE VERSUS')
+	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -2558,7 +2558,7 @@ function freeCPUvsP1()
 	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 2
-	textImgSetText(txt_mainSelect, 'FREE VERSUS')
+	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
 end
@@ -2569,7 +2569,7 @@ function freeCPUvsP2()
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
-	textImgSetText(txt_mainSelect, 'FREE VERSUS')
+	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -2579,7 +2579,7 @@ end
 function freeP1vsP2()
 	setHomeTeam(1) --P1 side considered the home team
 	data.p2In = 2 --P2 controls P2 side of the select screen
-	textImgSetText(txt_mainSelect, 'VERSUS MODE')
+	textImgSetText(txt_mainSelect, "VERSUS MODE")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
 end
@@ -2592,7 +2592,7 @@ function freeP2vsP1()
 	setCom(2, 0)
 	setPlayerSide('p1right')
 	data.p2In = 2
-	textImgSetText(txt_mainSelect, 'VERSUS MODE')
+	textImgSetText(txt_mainSelect, "VERSUS MODE")
 	script.select.f_selectSimple()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -2602,8 +2602,8 @@ end
 function freeCPUvsCPU()
 	data.p2In = 1
 	data.aiFight = true
-	data.rosterMode = 'cpu'
-	textImgSetText(txt_mainSelect, 'WATCH VERSUS')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH VERSUS")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
 end
@@ -2615,9 +2615,9 @@ function freeP1P2vsCPU()
 	setHomeTeam(1)
 	data.p2In = 2
 	data.stageMenu = false
-	data.stage = {t_stageDef['stages/training room.def']}
+	data.stage = {t_stageDef["stages/training room.def"]}
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'FREE VERSUS COOPERATIVE')
+	textImgSetText(txt_mainSelect, "FREE VERSUS COOPERATIVE")
 	script.select.f_selectSimple()
 	]]
 	setDiscordState("In Main Menu")
@@ -2634,7 +2634,7 @@ function freeP1P3vsP2P4()
 	setHomeTeam(1)
 	data.p2In = 2
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'FREE VERSUS TEAM COOPERATIVE')
+	textImgSetText(txt_mainSelect, "FREE VERSUS TEAM COOPERATIVE")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
 end
@@ -2723,7 +2723,7 @@ function f_freeMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'FREE VERSUS')
+		textImgSetText(txt_gameFt, "FREE VERSUS")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxfreeMenu > 6 then
@@ -2759,8 +2759,8 @@ function f_training()
 	setDiscordState("Training")
 	setGameMode('practice')
 	setGameType(2)
-	data.gameMode = 'training'
-	data.rosterMode = 'training'
+	data.gameMode = "training"
+	data.rosterMode = "training"
 	setRoundTime(-1) --round time disabled
 	data.versusScreen = false --versus screen disabled
 	data.stageMenu = true
@@ -2768,15 +2768,15 @@ function f_training()
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
-	if data.training == 'Free' then
+	if data.training == "Free" then
 		--data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
 		data.p2In = 1
 		data.p2Faces = true
-	elseif data.training == 'Fixed' then
+	elseif data.training == "Fixed" then
 		data.p2In = 2
-		data.p2Char = {t_charAdd['training']} --predefined P2 training char
+		data.p2Char = {t_charAdd["training"]} --predefined P2 training char
 	end
-	textImgSetText(txt_mainSelect, 'TRAINING MODE')
+	textImgSetText(txt_mainSelect, "TRAINING MODE")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
 end
@@ -2785,13 +2785,13 @@ end
 --; CHALLENGES MENU
 --;===========================================================
 t_challengeMenu = {
-	{id = textImgNew(), text = 'SURVIVAL'},
-	{id = textImgNew(), text = 'MISSIONS'},
-	{id = textImgNew(), text = 'BOSS FIGHT'},
-	{id = textImgNew(), text = 'BONUS GAMES'},
-	{id = textImgNew(), text = 'TIME ATTACK'},
-	{id = textImgNew(), text = 'SCORE ATTACK'},
-	{id = textImgNew(), text = 'SUDDEN DEATH'},
+	{id = textImgNew(), text = "SURVIVAL"},
+	{id = textImgNew(), text = "MISSIONS"},
+	{id = textImgNew(), text = "BOSS FIGHT"},
+	{id = textImgNew(), text = "BONUS GAMES"},
+	{id = textImgNew(), text = "TIME ATTACK"},
+	{id = textImgNew(), text = "SCORE ATTACK"},
+	{id = textImgNew(), text = "SUDDEN DEATH"},
 }	
 	
 function f_challengeMenu()
@@ -2921,7 +2921,7 @@ function f_challengeMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'CHALLENGES MODES')
+		textImgSetText(txt_gameFt, "CHALLENGES MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxChallengeMenu > 6 then
@@ -2955,21 +2955,21 @@ end
 --; SURVIVAL MENU
 --;===========================================================
 t_survivalMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Survival Modes
 function survivalCfg()
 	f_default()
 	setDiscordState("In Survival")
-	data.gameMode = 'survival'
-	data.rosterMode = 'survival'
+	data.gameMode = "survival"
+	data.rosterMode = "survival"
 	data.stageMenu = true
 	setRoundsToWin(1)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -2980,7 +2980,7 @@ end
 function survivalP1vsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SURVIVAL')
+	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -2990,7 +2990,7 @@ function survivalP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SURVIVAL')
+	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -3005,7 +3005,7 @@ function survivalCPUvsP1()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SURVIVAL')
+	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -3017,7 +3017,7 @@ function survivalCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SURVIVAL')
+	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -3028,7 +3028,7 @@ function survivalP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
+	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -3042,7 +3042,7 @@ function survivalCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'SURVIVAL COOPERATIVE')
+	textImgSetText(txt_mainSelect, "SURVIVAL COOPERATIVE")
 	script.select.f_selectAdvance()
 	]]
 	setDiscordState("In Main Menu")
@@ -3053,8 +3053,8 @@ function survivalCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = 'cpu'
-	textImgSetText(txt_mainSelect, 'WATCH SURVIVAL')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SURVIVAL")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -3139,7 +3139,7 @@ function f_survivalMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'SURVIVAL MODE')
+		textImgSetText(txt_gameFt, "SURVIVAL MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxSurvivalMenu > 6 then
@@ -3171,8 +3171,8 @@ end
 --; BOSS FIGHT MENU
 --;===========================================================
 t_bossMenu = {
-	{id = textImgNew(), text = 'VS SINGLE BOSS'},
-	{id = textImgNew(), text = 'BOSS RUSH'},
+	{id = textImgNew(), text = "VS SINGLE BOSS"},
+	{id = textImgNew(), text = "BOSS RUSH"},
 }
 	
 function f_bossMenu()
@@ -3265,7 +3265,7 @@ function f_bossMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'BOSS FIGHT MODES')
+		textImgSetText(txt_gameFt, "BOSS FIGHT MODES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBossMenu > 6 then
@@ -3354,8 +3354,8 @@ function f_bossChars()
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_bossChars[bossChars]}
 				--data.stageMenu = true
-				data.gameMode = 'singleboss'
-				data.rosterMode = 'boss'
+				data.gameMode = "singleboss"
+				data.rosterMode = "boss"
 				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
@@ -3387,7 +3387,7 @@ function f_bossChars()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'BOSS FIGHT')
+		textImgSetText(txt_gameFt, "BOSS FIGHT")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBossChars > 6 then
@@ -3419,21 +3419,21 @@ end
 --; BOSS RUSH MENU
 --;===========================================================
 t_bossrushMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Boss Rush Modes
 function bossrushCfg()
 	f_default()
 	setDiscordState("In Boss Rush")
-	data.gameMode = 'bossrush'
-	data.rosterMode = 'boss'
+	data.gameMode = "bossrush"
+	data.rosterMode = "boss"
 	--data.stageMenu = true
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
@@ -3444,7 +3444,7 @@ function bossrushP1vsCPU()
 	--if #t_bossChars ~= 0 then
 		data.p2In = 1
 		data.p2SelectMenu = false
-		textImgSetText(txt_mainSelect, 'BOSS RUSH')					
+		textImgSetText(txt_mainSelect, "BOSS RUSH")					
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -3456,7 +3456,7 @@ function bossrushP2vsCPU()
 		remapInput(1, 2)
 		data.p2In = 1
 		data.p2SelectMenu = false
-		textImgSetText(txt_mainSelect, 'BOSS RUSH')					
+		textImgSetText(txt_mainSelect, "BOSS RUSH")					
 		script.select.f_selectAdvance()
 		resetRemapInput()
 		setDiscordState("In Main Menu")
@@ -3473,7 +3473,7 @@ function bossrushCPUvsP1()
 		data.p1In = 2
 		data.p2In = 2
 		data.p1SelectMenu = false
-		textImgSetText(txt_mainSelect, 'BOSS RUSH')					
+		textImgSetText(txt_mainSelect, "BOSS RUSH")					
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -3487,7 +3487,7 @@ function bossrushCPUvsP2()
 		data.p1In = 2
 		data.p2In = 2
 		data.p1SelectMenu = false
-		textImgSetText(txt_mainSelect, 'BOSS RUSH')					
+		textImgSetText(txt_mainSelect, "BOSS RUSH")					
 		script.select.f_selectAdvance()
 		resetRemapInput()
 		setDiscordState("In Main Menu")
@@ -3500,7 +3500,7 @@ function bossrushP1P2vsCPU()
 		data.p2In = 2
 		data.p2Faces = true
 		data.coop = true
-		textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
+		textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -3516,7 +3516,7 @@ function bossrushCPUvsP1P2()
 		data.p2In = 2
 		data.p2Faces = true
 		data.coop = true
-		textImgSetText(txt_mainSelect, 'BOSS RUSH COOPERATIVE')					
+		textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
 		script.select.f_selectAdvance()
 		]]
 		setDiscordState("In Main Menu")
@@ -3529,8 +3529,8 @@ function bossrushCPUvsCPU()
 		data.p2In = 1
 		data.p2SelectMenu = false
 		data.aiFight = true
-		data.rosterMode = 'cpu'
-		textImgSetText(txt_mainSelect, 'WATCH BOSS RUSH')
+		data.rosterMode = "cpu"
+		textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -3616,7 +3616,7 @@ function f_bossrushMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'BOSS RUSH MODE')
+		textImgSetText(txt_gameFt, "BOSS RUSH MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBossRushMenu > 6 then
@@ -3648,8 +3648,8 @@ end
 --; BONUS GAMES MENU
 --;===========================================================
 t_bonusMenu = {
-	{id = textImgNew(), text = 'SINGLE MODE'},
-	{id = textImgNew(), text = 'BONUS RUSH'},
+	{id = textImgNew(), text = "SINGLE MODE"},
+	{id = textImgNew(), text = "BONUS RUSH"},
 }
 	
 function f_bonusMenu()
@@ -3742,7 +3742,7 @@ function f_bonusMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'MINI-GAMES')
+		textImgSetText(txt_gameFt, "MINI-GAMES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusMenu > 6 then
@@ -3832,8 +3832,8 @@ function f_bonusExtras()
 				data.p2Char = {t_bonusChars[bonusExtras]}
 				--data.stageMenu = true
 				data.versusScreen = false
-				data.gameMode = 'singlebonus'
-				data.rosterMode = 'bonus'
+				data.gameMode = "singlebonus"
+				data.rosterMode = "bonus"
 				setRoundsToWin(1)
 				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)
 				script.select.f_selectSimple()
@@ -3866,7 +3866,7 @@ function f_bonusExtras()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'BONUS STAGES')
+		textImgSetText(txt_gameFt, "BONUS STAGES")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusExtras > 6 then
@@ -3898,20 +3898,20 @@ end
 --; BONUS RUSH MENU
 --;===========================================================
 t_bonusrushMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
 }
 
 --Load Common Settings for Bonus Rush Modes
 function bonusrushCfg()
 	f_default()
 	setDiscordState("In Bonus Rush")
-	data.gameMode = 'bonusrush'
-	data.rosterMode = 'bonus'
+	data.gameMode = "bonusrush"
+	data.rosterMode = "bonus"
 	setRoundsToWin(1)
 	--data.stageMenu = true
 	data.versusScreen = false
@@ -3925,7 +3925,7 @@ function bonusrushP1vsCPU()
 		data.p2In = 1
 		data.p2SelectMenu = false
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, 'BONUS RUSH')
+		textImgSetText(txt_mainSelect, "BONUS RUSH")
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -3938,7 +3938,7 @@ function bonusrushP2vsCPU()
 		data.p2In = 1
 		data.p2SelectMenu = false
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, 'BONUS RUSH')
+		textImgSetText(txt_mainSelect, "BONUS RUSH")
 		script.select.f_selectAdvance()
 		resetRemapInput()
 		setDiscordState("In Main Menu")
@@ -3956,7 +3956,7 @@ function bonusrushCPUvsP1()
 		data.p2In = 2
 		data.p1SelectMenu = false
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, 'BONUS RUSH')
+		textImgSetText(txt_mainSelect, "BONUS RUSH")
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -3971,7 +3971,7 @@ function bonusrushCPUvsP2()
 		data.p2In = 2
 		data.p1SelectMenu = false
 		data.p1TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, 'BONUS RUSH')
+		textImgSetText(txt_mainSelect, "BONUS RUSH")
 		script.select.f_selectAdvance()
 		resetRemapInput()
 		setDiscordState("In Main Menu")
@@ -3984,7 +3984,7 @@ function bonusrushP1P2vsCPU()
 		data.p2In = 2
 		data.p2Faces = true
 		data.coop = true
-		textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')
+		textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
 		script.select.f_selectAdvance()
 		setDiscordState("In Main Menu")
 	--end
@@ -4000,7 +4000,7 @@ function bonusrushCPUvsP1P2()
 		data.p2In = 2
 		data.p2Faces = true
 		data.coop = true
-		textImgSetText(txt_mainSelect, 'BONUS RUSH COOPERATIVE')
+		textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
 		script.select.f_selectAdvance()
 		]]
 		setDiscordState("In Main Menu")
@@ -4086,7 +4086,7 @@ function f_bonusrushMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'BONUS RUSH MODE')
+		textImgSetText(txt_gameFt, "BONUS RUSH MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxBonusRushMenu > 6 then
@@ -4118,21 +4118,21 @@ end
 --; TIME ATTACK MENU
 --;===========================================================
 t_timeMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Time Attack Modes
 function timeattackCfg()
 	f_default()
 	setDiscordState("In Time Attack")
-	data.gameMode = 'allroster'
-	data.rosterMode = 'timeattack'
+	data.gameMode = "allroster"
+	data.rosterMode = "timeattack"
 	--data.stageMenu = true
 	setRoundTime(3600)
 	setRoundsToWin(1)
@@ -4145,7 +4145,7 @@ end
 function timeattackP1vsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'TIME ATTACK')
+	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4155,7 +4155,7 @@ function timeattackP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'TIME ATTACK')
+	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -4170,7 +4170,7 @@ function timeattackCPUvsP1()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'TIME ATTACK')
+	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4182,7 +4182,7 @@ function timeattackCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'TIME ATTACK')
+	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -4193,7 +4193,7 @@ function timeattackP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
+	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4207,7 +4207,7 @@ function timeattackCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'TIME ATTACK COOPERATIVE')
+	textImgSetText(txt_mainSelect, "TIME ATTACK COOPERATIVE")
 	script.select.f_selectAdvance()
 	]]
 	setDiscordState("In Main Menu")
@@ -4218,8 +4218,8 @@ function timeattackCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = 'cpu'
-	textImgSetText(txt_mainSelect, 'WATCH TIME ATTACK')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH TIME ATTACK")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4304,7 +4304,7 @@ function f_timeMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'TIME ATTACK MODE')
+		textImgSetText(txt_gameFt, "TIME ATTACK MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxTimeMenu > 6 then
@@ -4336,21 +4336,21 @@ end
 --; SUDDEN DEATH MENU
 --;===========================================================
 t_suddenMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Sudden Death Modes
 function suddenCfg()
 	f_default()
 	setDiscordState("In Sudden Death")
-	data.gameMode = 'allroster'
-	data.rosterMode = 'suddendeath'
+	data.gameMode = "allroster"
+	data.rosterMode = "suddendeath"
 	--data.stageMenu = true
 	setRoundTime(1000)
 	setRoundsToWin(1)
@@ -4363,7 +4363,7 @@ end
 function suddenP1vsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4373,7 +4373,7 @@ function suddenP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -4388,7 +4388,7 @@ function suddenCPUvsP1()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4400,7 +4400,7 @@ function suddenCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'SUDDEN DEATH')
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -4411,7 +4411,7 @@ function suddenP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4425,7 +4425,7 @@ function suddenCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'SUDDEN DEATH COOPERATIVE')
+	textImgSetText(txt_mainSelect, "SUDDEN DEATH COOPERATIVE")
 	script.select.f_selectAdvance()
 	]]
 	setDiscordState("In Main Menu")
@@ -4436,8 +4436,8 @@ function suddenCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = 'cpu'
-	textImgSetText(txt_mainSelect, 'WATCH SUDDEN DEATH')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4522,7 +4522,7 @@ function f_suddenMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'SUDDEN DEATH MODE')
+		textImgSetText(txt_gameFt, "SUDDEN DEATH MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxSuddenMenu > 6 then
@@ -4554,12 +4554,12 @@ end
 --; EXTRAS MENU
 --;===========================================================
 t_extrasMenu = {
-	{id = textImgNew(), text = 'ENDLESS'},
-	{id = textImgNew(), text = 'EVENTS'},
-	{id = textImgNew(), text = 'LEGION'},
-	{id = textImgNew(), text = 'TOURNEY'},
-	{id = textImgNew(), text = 'ADVENTURE'},
-	{id = textImgNew(), text = 'THE VAULT'},
+	{id = textImgNew(), text = "ENDLESS"},
+	{id = textImgNew(), text = "EVENTS"},
+	{id = textImgNew(), text = "LEGION"},
+	{id = textImgNew(), text = "TOURNEY"},
+	{id = textImgNew(), text = "ADVENTURE"},
+	{id = textImgNew(), text = "THE VAULT"},
 }	
 	
 function f_extrasMenu()
@@ -4628,7 +4628,7 @@ function f_extrasMenu()
 					setDiscordState("In Main Menu")
 				--LEGION MODE (raise your own army to fight several enemy forces and conquer customizable maps)
 				elseif extrasMenu == 3 then
-					textImgSetText(txt_mainSelect, 'LEGION MODE')
+					textImgSetText(txt_mainSelect, "LEGION MODE")
 					script.select.f_selectLegion()
 					setDiscordState("In Main Menu")
 				--TOURNEY MODE (participate in customizable single-elimination tournaments)
@@ -4671,7 +4671,7 @@ function f_extrasMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'EXTRAS UNLOCKED')
+		textImgSetText(txt_gameFt, "EXTRAS UNLOCKED")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxExtrasMenu > 6 then
@@ -4704,21 +4704,21 @@ end
 --; ENDLESS MENU
 --;===========================================================
 t_allcharsMenu = {
-	{id = textImgNew(), text = 'P1 VS CPU'},
-	{id = textImgNew(), text = 'P2 VS CPU'},
-	{id = textImgNew(), text = 'CPU VS P1'},
-	{id = textImgNew(), text = 'CPU VS P2'},
-	{id = textImgNew(), text = 'P1&P2 VS CPU'},
-	--{id = textImgNew(), text = 'CPU VS P1&P2'},
-	{id = textImgNew(), text = 'CPU VS CPU'},
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
 --Load Common Settings for Endless Modes
 function endlessCfg()
 	f_default()
 	setDiscordState("In Endless Mode")
-	data.gameMode = 'endless'
-	data.rosterMode = 'endless'
+	data.gameMode = "endless"
+	data.rosterMode = "endless"
 	data.stageMenu = true
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
@@ -4728,7 +4728,7 @@ end
 function endlessP1vsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'ENDLESS MODE')
+	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4738,7 +4738,7 @@ function endlessP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
 	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, 'ENDLESS MODE')
+	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -4753,7 +4753,7 @@ function endlessCPUvsP1()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'ENDLESS MODE')
+	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4765,7 +4765,7 @@ function endlessCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, 'ENDLESS MODE')
+	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
 	resetRemapInput()
 	setDiscordState("In Main Menu")
@@ -4776,7 +4776,7 @@ function endlessP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
+	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4790,7 +4790,7 @@ function endlessCPUvsP1P2()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
-	textImgSetText(txt_mainSelect, 'ENDLESS COOPERATIVE')
+	textImgSetText(txt_mainSelect, "ENDLESS COOPERATIVE")
 	script.select.f_selectAdvance()
 	]]
 	setDiscordState("In Main Menu")
@@ -4801,8 +4801,8 @@ function endlessCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
-	data.rosterMode = 'cpu'
-	textImgSetText(txt_mainSelect, 'WATCH ENDLESS')
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH ENDLESS")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
@@ -4887,7 +4887,7 @@ function f_allcharsMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'INFINITE MODE')
+		textImgSetText(txt_gameFt, "INFINITE MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxAllCharsMenu > 6 then
@@ -4919,9 +4919,9 @@ end
 --; TOURNAMENT MENU (WIP)
 --;===========================================================
 t_tourneyMenu = {
-	{id = textImgNew(), text = 'ROUND OF 16'},
-	{id = textImgNew(), text = 'ROUND OF 8'},
-	{id = textImgNew(), text = 'ROUND OF 4'},
+	{id = textImgNew(), text = "ROUND OF 16"},
+	{id = textImgNew(), text = "ROUND OF 8"},
+	{id = textImgNew(), text = "ROUND OF 4"},
 }
 
 function f_tourneyMenu()
@@ -4974,7 +4974,7 @@ function f_tourneyMenu()
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			f_default()
 			--setDiscordState("In Tourney Mode")
-			--data.rosterMode = 'tourney'
+			--data.rosterMode = "tourney"
 			--data.stageMenu = true
 			--data.p2In = 1
 			--data.p2SelectMenu = false
@@ -4982,20 +4982,20 @@ function f_tourneyMenu()
 			sndPlay(sysSnd, 100, 1)
 			--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
 			if tourneyMenu == 1 then
-				data.gameMode = 'tourney16'
-				textImgSetText(txt_mainSelect, 'TOURNAMENT MODE')
+				data.gameMode = "tourney16"
+				textImgSetText(txt_mainSelect, "TOURNAMENT MODE")
 				script.select.f_selectTourney()
 				--setDiscordState("In Main Menu")
 			--QUARTERFINALS (participate in a customizable single-elimination tournament starting from Quarterfinals)
 			elseif tourneyMenu == 2 then
-				data.gameMode = 'tourney8'
-				textImgSetText(txt_mainSelect, 'TOURNAMENT - QUARTERFINALS')
+				data.gameMode = "tourney8"
+				textImgSetText(txt_mainSelect, "TOURNAMENT - QUARTERFINALS")
 				script.select.f_selectTourney()
 				--setDiscordState("In Main Menu")
 			--SEMIFINALS (participate in a customizable single-elimination tournament starting from Semifinals)
 			elseif tourneyMenu == 3 then
-				data.gameMode = 'tourney4'
-				textImgSetText(txt_mainSelect, 'TOURNAMENT - SEMIFINALS')
+				data.gameMode = "tourney4"
+				textImgSetText(txt_mainSelect, "TOURNAMENT - SEMIFINALS")
 				script.select.f_selectTourney()
 				--setDiscordState("In Main Menu")
 			end
@@ -5022,7 +5022,7 @@ function f_tourneyMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'TOURNAMENT MODE')
+		textImgSetText(txt_gameFt, "TOURNAMENT MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxTourneyMenu > 6 then
@@ -5054,17 +5054,17 @@ end
 --; WATCH MENU
 --;===========================================================
 t_watchMenu = {
-	{id = textImgNew(), text = 'REPLAYS'},
-	{id = textImgNew(), text = 'STAGE VIEWER'},
-	{id = textImgNew(), text = 'LEADERBOARDS'},
-	{id = textImgNew(), text = 'ACHIEVEMENTS'},
-	{id = textImgNew(), text = 'PLAYER RECORDS'},
-	{id = textImgNew(), text = 'STORYBOARDS'},
-	{id = textImgNew(), text = 'CUTSCENES'},
-	{id = textImgNew(), text = 'SOUND TEST'},
-	{id = textImgNew(), text = 'SCREENSHOTS'},
-	{id = textImgNew(), text = 'GALLERY'},
-	{id = textImgNew(), text = 'CREDITS'},
+	{id = textImgNew(), text = "REPLAYS"},
+	{id = textImgNew(), text = "STAGE VIEWER"},
+	{id = textImgNew(), text = "LEADERBOARDS"},
+	{id = textImgNew(), text = "ACHIEVEMENTS"},
+	{id = textImgNew(), text = "PLAYER RECORDS"},
+	{id = textImgNew(), text = "STORYBOARDS"},
+	{id = textImgNew(), text = "CUTSCENES"},
+	{id = textImgNew(), text = "SOUND TEST"},
+	{id = textImgNew(), text = "SCREENSHOTS"},
+	{id = textImgNew(), text = "GALLERY"},
+	{id = textImgNew(), text = "CREDITS"},
 }	
 	
 function f_watchMenu()
@@ -5129,12 +5129,12 @@ function f_watchMenu()
 				data.versusScreen = false
 				data.p1TeamMenu = {mode = 0, chars = 1}			
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd['stage viewer']}
-				data.p2Char = {t_charAdd['stage viewer']}
-				data.gameMode = 'stage viewer'
+				data.p1Char = {t_charAdd["stage viewer"]}
+				data.p2Char = {t_charAdd["stage viewer"]}
+				data.gameMode = "stage viewer"
 				setGameMode('stageviewer')
 				setDiscordState("Watching Stages")
-				textImgSetText(txt_mainSelect, 'STAGE VIEWER')
+				textImgSetText(txt_mainSelect, "STAGE VIEWER")
 				script.select.f_selectSimple()
 				setDiscordState("In Main Menu")
 			--LEADERBOARDS (display rankings data)
@@ -5145,7 +5145,7 @@ function f_watchMenu()
 				f_comingSoon()
 			--STATISTICS (display overall player data)
 			elseif watchMenu == 5 then
-				--assert(loadfile('save/stats_sav.lua'))()
+				--assert(loadfile("save/stats_sav.lua"))()
 				script.statistics.f_statsMenu()
 			--STORYBOARDS (play storyboards)
 			elseif watchMenu == 6 then
@@ -5201,7 +5201,7 @@ function f_watchMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'WATCH CONTENT')
+		textImgSetText(txt_gameFt, "WATCH CONTENT")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxWatchMenu > 6 then
@@ -5233,8 +5233,8 @@ end
 --; REPLAY MENU
 --;===========================================================
 t_replayMenu = {
-	{id = textImgNew(), text = 'ONLINE REPLAYS'},
-	{id = textImgNew(), text = 'LOCAL REPLAYS'},
+	{id = textImgNew(), text = "ONLINE REPLAYS"},
+	{id = textImgNew(), text = "LOCAL REPLAYS"},
 }
 
 function f_replayMenu()
@@ -5331,7 +5331,7 @@ function f_replayMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'REPLAY MODE')
+		textImgSetText(txt_gameFt, "REPLAY MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxreplayMenu > 6 then
@@ -5404,7 +5404,7 @@ function f_gallery()
 	animSetPos(gallery, 160, 119)
 	animUpdate(gallery)
 	animDraw(gallery)
-	txt_artNumber = createTextImg(font14, 0, 0, ' ' .. galleryList .. '/10', 290, 230) --draw gallery limit numbers text
+	txt_artNumber = createTextImg(font14, 0, 0, galleryList.."/10", 292, 230) --draw gallery limit numbers text
 	textImgDraw(txt_artNumber)
 	return gallery
 end
@@ -5474,7 +5474,7 @@ end
 --;===========================================================
 --; SOUND TEST SCREENPACK
 --;===========================================================
-txt_song = createTextImg(jgFnt, 0, 0, '', 159, 13)
+txt_song = createTextImg(jgFnt, 0, 0, "", 159, 13)
 
 --Scrolling background
 songBG0 = animNew(sysSff, [[
@@ -5555,7 +5555,7 @@ animSetScale(songRightArrow, 0.5, 0.5)
 --;===========================================================
 --; CONFIRM SONG MESSAGE
 --;===========================================================
-txt_confirmSong = createTextImg(jgFnt, 0, 0, 'USE THIS SONG?', 160, 108, 0.63, 0.63)
+txt_confirmSong = createTextImg(jgFnt, 0, 0, "USE THIS SONG?", 160, 108, 0.63, 0.63)
 
 --Confirm Window BG
 confirmSongWindowBG = animNew(sysSff, [[
@@ -5566,8 +5566,8 @@ animUpdate(confirmSongWindowBG)
 animSetScale(confirmSongWindowBG, 1, 1)
 
 t_confirmSongMenu = {
-	{id = textImgNew(), text = 'YES'},
-	{id = textImgNew(), text = 'NO'},
+	{id = textImgNew(), text = "YES"},
+	{id = textImgNew(), text = "NO"},
 }
 
 function f_confirmSongMenu()
@@ -5664,7 +5664,7 @@ function f_songMenu()
 	selectedSong = nil
 	songChanged = false
 	f_soundtrack() --Loaded from common.lua
-	local randomTrack = ''
+	local randomTrack = ""
 	while true do
 		if backSongConfirm == true then
 			data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
@@ -5764,11 +5764,11 @@ function f_songMenu()
 		animSetWindow(songBG1, 80,20, 160,210)
 		animDraw(songBG1)
 		--Draw Title Menu
-		textImgSetText(txt_song, 'SONG SELECT '..'['..t_songList[songFolder][songMenu].folder..']')
+		textImgSetText(txt_song, "SONG SELECT [".. t_songList[songFolder][songMenu].folder .."]")
 		textImgDraw(txt_song)
 		if confirmSong == false then
 			--Draw Hint Text
-			f_drawQuickText(txt_songHint, font1, 0, 0, 'PRESS ANY CONFIRM BUTTON TO SELECT A SONG', 159, 239, 0.8, 0.8)
+			f_drawQuickText(txt_songHint, font1, 0, 0, "PRESS ANY CONFIRM BUTTON TO SELECT A SONG", 159, 239, 0.8, 0.8)
 			--Draw Table Cursor
 			animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
@@ -5778,7 +5778,7 @@ function f_songMenu()
 		for i=1, maxSongs do
 			if t_songList[songFolder][i].name:len() > 28 then --If name is too long, shortcut with ...
 				songText = string.sub(t_songList[songFolder][i].name, 1, 24)
-				songText = tostring(songText .. '...')
+				songText = tostring(songText .. "...")
 			else
 				songText = t_songList[songFolder][i].name
 			end
@@ -5836,7 +5836,7 @@ end
 --;===========================================================
 --; CUTSCENES SCREENPACK
 --;===========================================================
-txt_video = createTextImg(jgFnt, 0, 0, 'CUTSCENE SELECT', 159, 13)
+txt_video = createTextImg(jgFnt, 0, 0, "CUTSCENE SELECT", 159, 13)
 
 --Scrolling background
 videoBG0 = animNew(sysSff, [[
@@ -5904,16 +5904,16 @@ function f_videoMenu()
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
 			t_videoList[row]['name'] = file:gsub('^(.*)[%.]wmv$', '%1')
-			t_videoList[row]['path'] = 'movie/'..file
+			t_videoList[row]['path'] = "movie/"..file
 		elseif file:match('^.*(%.)WMV$') then
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
 			t_videoList[row]['name'] = file:gsub('^(.*)[%.]WMV$', '%1')
-			t_videoList[row]['path'] = 'movie/'..file
+			t_videoList[row]['path'] = "movie/"..file
 		end
 	end
-	t_videoList[#t_videoList+1] = {id = '', name = '          BACK'}
+	t_videoList[#t_videoList+1] = {id = '', name = "          BACK"}
 	if data.debugLog then f_printTable(t_videoList, "save/debug/t_videoList.txt") end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5975,7 +5975,7 @@ function f_videoMenu()
 		for i=1, maxVideos do
 			if t_videoList[i].name:len() > 28 then
 				VideoText = string.sub(t_videoList[i].name, 1, 24)
-				VideoText = tostring(VideoText .. '...')
+				VideoText = tostring(VideoText .. "...")
 			else
 				VideoText = t_videoList[i].name
 			end
@@ -6012,7 +6012,7 @@ end
 --;===========================================================
 --; STORYBOARDS SCREENPACK
 --;===========================================================
-txt_storyboard = createTextImg(jgFnt, 0, 0, 'STORYBOARD SELECT', 159, 13)
+txt_storyboard = createTextImg(jgFnt, 0, 0, "STORYBOARD SELECT", 159, 13)
 
 --Scrolling background
 storyboardBG0 = animNew(sysSff, [[
@@ -6080,16 +6080,16 @@ function f_storyboardMenu()
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
 			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.]def$', '%1')
-			t_storyboardList[row]['path'] = 'storyboard/'..file
+			t_storyboardList[row]['path'] = "storyboard/"..file
 		elseif file:match('^.*(%.)DEF$') then
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
 			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.]DEF$', '%1')
-			t_storyboardList[row]['path'] = 'storyboard/'..file
+			t_storyboardList[row]['path'] = "storyboard/"..file
 		end
 	end
-	t_storyboardList[#t_storyboardList+1] = {id = '', name = '          BACK'}
+	t_storyboardList[#t_storyboardList+1] = {id = '', name = "          BACK"}
 	if data.debugLog then f_printTable(t_storyboardList, "save/debug/t_storyboardList.txt") end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -6155,7 +6155,7 @@ function f_storyboardMenu()
 		for i=1, maxStoryboards do
 			if t_storyboardList[i].name:len() > 28 then
 				storyboardText = string.sub(t_storyboardList[i].name, 1, 24)
-				storyboardText = tostring(storyboardText .. '...')
+				storyboardText = tostring(storyboardText .. "...")
 			else
 				storyboardText = t_storyboardList[i].name
 			end
@@ -6192,8 +6192,8 @@ end
 --;===========================================================
 --; REPLAY SCREENPACK
 --;===========================================================
-txt_replay = createTextImg(jgFnt, 0, 0, 'REPLAY SELECT', 159, 13)
-txt_replayData = createTextImg(jgFnt, 0, 0, 'REPLAY OPTIONS', 159, 72)
+txt_replay = createTextImg(jgFnt, 0, 0, "REPLAY SELECT", 159, 13)
+txt_replayData = createTextImg(jgFnt, 0, 0, "REPLAY OPTIONS", 159, 72)
 
 --Scrolling background
 replayBG0 = animNew(sysSff, [[
@@ -6261,7 +6261,7 @@ animSetScale(replayMenuBG2, 0.9, 0.9)
 --; ONLINE REPLAYS MENU
 --;===========================================================
 t_replayOption = {
-	{id = '', text = 'DELETE'}, {id = '', text = 'WATCH'}, {id = '', text = 'RETURN'},
+	{id = '', text = "DELETE"}, {id = '', text = "WATCH"}, {id = '', text = "RETURN"},
 }
 for i=1, #t_replayOption do
 	t_replayOption[i].id = createTextImg(jgFnt, 0, 0, t_replayOption[i].text, -80+i*120, 172)
@@ -6275,16 +6275,16 @@ function f_replayTable()
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
 			t_replayList[row]['name'] = file:gsub('^(.*)[%.]replay$', '%1')
-			t_replayList[row]['path'] = 'replays/'..file
+			t_replayList[row]['path'] = "replays/"..file
 		elseif file:match('^.*(%.)REPLAY$') and not file:match('^data.replay$') then
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
 			t_replayList[row]['name'] = file:gsub('^(.*)[%.]REPLAY$', '%1')
-			t_replayList[row]['path'] = 'replays/'..file
+			t_replayList[row]['path'] = "replays/"..file
 		end
 	end
-	t_replayList[#t_replayList+1] = {id = '', name = '          BACK'}
+	t_replayList[#t_replayList+1] = {id = '', name = "          BACK"}
 	if data.debugLog then f_printTable(t_replayList, "save/debug/t_replayList.txt") end
 end
 
@@ -6299,7 +6299,7 @@ function f_mainReplay()
 	local bufr = 0
 	local bufl = 0
 	local exitReplayMenu = false
-	netPlayer = 'Host'
+	netPlayer = "Host"
 	coinSystem = false
 	f_replayTable() --Load table
 	while true do
@@ -6307,8 +6307,8 @@ function f_mainReplay()
 			onlinegame = false --only for identify purposes
 			replaygame = false
 			coinSystem = true
-			--netPlayer = '' Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
-			assert(loadfile('save/data_sav.lua'))()
+			--netPlayer = "" Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
+			assert(loadfile("save/data_sav.lua"))()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
@@ -6326,14 +6326,14 @@ function f_mainReplay()
 		--OPEN REPLAY CONTROL MENU
 			else
 				sndPlay(sysSnd, 100, 1)
-				txt_replayName = createTextImg(font2, 0, 0, ''.. t_replayList[mainReplay].name ..'', 159.5, 16)--Show Replay Selected Name
+				txt_replayName = createTextImg(font2, 0, 0, t_replayList[mainReplay].name, 159.5, 16)--Show Replay Selected Name
 				local fileSize = lfs.attributes(t_replayList[mainReplay].path).size --Size Logic
 				if fileSize > 1048576 then
 					local replaySize = (math.floor(((fileSize/1048576)+0.50)))--Conversion from Bytes to Megabytes
-					txt_replaySize = createTextImg(font2, 0, 0, ''..replaySize..'MB', 159.5, 27)
+					txt_replaySize = createTextImg(font2, 0, 0, replaySize.."MB", 159.5, 27)
 				else
 					local replaySize = (math.floor(((fileSize/1024)+0.50)))--Conversion from Bytes to Kilobytes
-					txt_replaySize = createTextImg(font2, 0, 0, ''..replaySize..'KB', 159.5, 27)
+					txt_replaySize = createTextImg(font2, 0, 0, replaySize.."KB", 159.5, 27)
 				end
 				local replayOption = 2
 				f_confirmReset()
@@ -6461,7 +6461,7 @@ function f_mainReplay()
 		for i=1, maxReplays do
 			if t_replayList[i].name:len() > 28 then
 				replayText = string.sub(t_replayList[i].name, 1, 24)
-				replayText = tostring(replayText .. '...')
+				replayText = tostring(replayText .. "...")
 			else
 				replayText = t_replayList[i].name
 			end
@@ -6499,8 +6499,8 @@ end
 --; ONLINE MENU
 --;===========================================================
 t_mainNetplay = {
-	{id = textImgNew(), text = 'HOST [CREATE ROOM]'},
-	{id = textImgNew(), text = 'CLIENT [JOIN A ROOM]'},
+	{id = textImgNew(), text = "HOST [CREATE ROOM]"},
+	{id = textImgNew(), text = "CLIENT [JOIN A ROOM]"},
 }
 
 function f_mainNetplay()
@@ -6516,7 +6516,7 @@ function f_mainNetplay()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') then
 			onlinegame = false --only for identify purposes
-			assert(loadfile('save/data_sav.lua'))()
+			assert(loadfile("save/data_sav.lua"))()
 			sndPlay(sysSnd, 100, 2)
 			return
 		end
@@ -6576,7 +6576,7 @@ function f_mainNetplay()
 			--CLIENT/JOIN (join an existing room)
 			elseif mainNetplay == 2 then
 				--Default Connection Method
-				if data.connectMode == 'Direct' then
+				if data.connectMode == "Direct" then
 					onlinegame = true
 					script.options.f_onlineDefault()
 					script.options.f_netsaveCfg()
@@ -6592,7 +6592,7 @@ function f_mainNetplay()
 					commandBufReset(p1Cmd, 1)
 					f_saveReplay()
 				--Host info Stored in a Local Database
-				elseif data.connectMode == 'Database' then
+				elseif data.connectMode == "Database" then
 					f_hostRooms()
 				end
 			end	
@@ -6619,7 +6619,7 @@ function f_mainNetplay()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'ONLINE MODE')
+		textImgSetText(txt_gameFt, "ONLINE MODE")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxMainNetplay > 6 then
@@ -6672,15 +6672,15 @@ end
 --;===========================================================
 --; ONLINE ROOM SCREENPACK
 --;===========================================================
-txt_hostTitle = createTextImg(jgFnt, 5, 0, 'ONLINE ROOM CREATED', 159, 13)
-txt_client = createTextImg(jgFnt, 0, 0, 'Enter Host\'s IPv4', 159, 111)
-txt_clientName = createTextImg(jgFnt, 0, 0, 'Enter Host Nickname', 159, 110, 0.9, 0.9)
-txt_bar = createTextImg(opFnt, 0, 0, '|', 160, 133, 0.65, 0.65)
-txt_ip = createTextImg(font14, 0, 0, '', 160, 132)
-txt_netPort = createTextImg(jgFnt, 0, 0, '', 159, 72, 0.9, 0.9)
-txt_hosting = createTextImg(jgFnt, 0, 0, '', 159, 228)
-txt_connecting = createTextImg(jgFnt, 5, 0, '', 159, 228)
-txt_cancel = createTextImg(jgFnt, 1, 0, 'CANCEL(ESC)', 161, 165)
+txt_hostTitle = createTextImg(jgFnt, 5, 0, "ONLINE ROOM CREATED", 159, 13)
+txt_client = createTextImg(jgFnt, 0, 0, "Enter Host\'s IPv4", 159, 111)
+txt_clientName = createTextImg(jgFnt, 0, 0, "Enter Host\'s Nickname", 159, 110, 0.9, 0.9)
+txt_bar = createTextImg(opFnt, 0, 0, "|", 160, 133, 0.65, 0.65)
+txt_ip = createTextImg(font14, 0, 0, "", 160, 132)
+txt_netPort = createTextImg(jgFnt, 0, 0, "", 159, 72, 0.9, 0.9)
+txt_hosting = createTextImg(jgFnt, 0, 0, "", 159, 228)
+txt_connecting = createTextImg(jgFnt, 5, 0, "", 159, 228)
+txt_cancel = createTextImg(jgFnt, 1, 0, "CANCEL(ESC)", 161, 165)
 
 --Scrolling background
 onlineBG0 = animNew(sysSff, [[
@@ -6764,11 +6764,11 @@ animSetScale(wirelessBG, 0.25, 0.25)
 function f_create()
 	cmdInput()
 	createExit = false
-	textImgSetText(txt_hosting, 'Waiting for Player 2...')
+	textImgSetText(txt_hosting, "Waiting for Player 2...")
 	enterNetPlay(inputDialogGetStr(inputdia))
-	netPlayer = 'Host' --For Replay Identify
+	netPlayer = "Host" --For Replay Identify
 	setDiscordState("Waiting Players")
-	--if waitingRoom == 'Training' then
+	--if waitingRoom == "Training" then
 		--data.p1In = 1
 		--f_training() --Try to Wait client in Training Mode
 	--end
@@ -6776,7 +6776,7 @@ function f_create()
 		if esc() or commandGetState(p1Cmd, 'e') then --btnPalNo(p1Cmd) > 0 does not work when engine is waiting a connection, only esc, that's why still we can't program an Training Waiting Room
 		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
+			netPlayer = ""
 			setDiscordState("In Main Menu")
 			return true
 		end
@@ -6788,7 +6788,7 @@ function f_create()
 		animDraw(joinWindowBG)
 		animUpdate(joinWindowBG)
 		--Draw Port Info
-		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgSetText(txt_netPort, "Netplay Port ["..getListenPort().."]")
 		textImgDraw(txt_netPort)
 		--Draw Cancel Button
 		textImgDraw(txt_cancel)
@@ -6813,15 +6813,15 @@ end
 --; DIRECT CONNECTION MENU
 --;===========================================================
 t_directJoinMenu = {
-	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'JOIN'},
+	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "JOIN"},
 }
 for i=1, #t_directJoinMenu do
 	t_directJoinMenu[i].id = createTextImg(jgFnt, 0, 0, t_directJoinMenu[i].text, 12+i*95, 151)
 end
 
 function f_directConnect()
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, 'SEARCH ROOM', 159, 13)
-	local ip = ''
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, "SEARCH ROOM", 159, 13)
+	local ip = ""
 	local doneIP = false
 	local directJoinMenu = 2
 	local i = 0
@@ -6832,7 +6832,7 @@ function f_directConnect()
 		--EXIT LOGIC
 		if joinExit == true then
 			clearInputText()
-			netPlayer = ''
+			netPlayer = ""
 			sndPlay(sysSnd, 100, 2)
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			return true
@@ -6860,7 +6860,7 @@ function f_directConnect()
 				end
 			end
 			if ip:match('^%.') then
-				ip = ''
+				ip = ""
 				setInputText(ip)
 			elseif ip:len() > 15 then
 				ip = ip:sub(1,15)
@@ -6930,8 +6930,8 @@ function f_directConnect()
 	--CONNECTING SCREEN
 	sndPlay(sysSnd, 100, 1)
 	enterNetPlay(ip) --Connect to entered IP address
-	netPlayer = 'Client'
-	textImgSetText(txt_connecting, 'Now connecting to ['..ip..']')
+	netPlayer = "Client"
+	textImgSetText(txt_connecting, "Now connecting to ["..ip.."]")
 	setDiscordState("Searching Room")
 	while not connected() do
 		--CANCEL CONNECTION
@@ -6939,7 +6939,7 @@ function f_directConnect()
 			clearInputText()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
+			netPlayer = ""
 			setDiscordState("In Main Menu")
 			joinExit = true
 			return true
@@ -6947,13 +6947,13 @@ function f_directConnect()
 		--Draw Connecting BG
 		animDraw(f_animVelocity(onlineBG0, -1, -1))
 		--Draw Connecting Menu Title
-		textImgSetText(txt_clientTitle, 'SEARCHING HOST ROOM')
+		textImgSetText(txt_clientTitle, "SEARCHING HOST ROOM")
 		textImgDraw(txt_clientTitle)
 		--Draw Window BG
 		animDraw(joinWindowBG)
 		animUpdate(joinWindowBG)
 		--Draw Port Info
-		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgSetText(txt_netPort, "Netplay Port ["..getListenPort().."]")
 		textImgDraw(txt_netPort)
 		--Draw Connecting Info
 		textImgDraw(txt_connecting)
@@ -6982,11 +6982,11 @@ function f_hostTable()
 	local file = io.open("save/host_rooms.json","r")
 	host_rooms = json.decode(file:read("*all"))
 	file:close()
-	t_hostList = {{id = textImgNew(), text = 'ADD NEW ROOM'},}
+	t_hostList = {{id = textImgNew(), text = "ADD NEW ROOM"},}
 	for k, v in pairs(host_rooms.IP) do
 		t_hostList[#t_hostList + 1] = {id = textImgNew(), text = k, address = v} --Insert Room Names from Local Database
 	end
-	t_hostList[#t_hostList+1] = {id = textImgNew(), text = 'BACK'}
+	t_hostList[#t_hostList+1] = {id = textImgNew(), text = "BACK"}
 end
 
 function f_hostRooms()
@@ -7007,7 +7007,7 @@ function f_hostRooms()
 		if editHostScreen == false and crudHostScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') then
 				--onlinegame = false
-				--assert(loadfile('save/data_sav.lua'))()
+				--assert(loadfile("save/data_sav.lua"))()
 				sndPlay(sysSnd, 100, 2)
 				break
 				--return
@@ -7056,7 +7056,7 @@ function f_hostRooms()
 				elseif hostList == #t_hostList then
 					sndPlay(sysSnd, 100, 2)
 					--onlinegame = false
-					--assert(loadfile('save/data_sav.lua'))()
+					--assert(loadfile("save/data_sav.lua"))()
 					break
 				--OPEN CRUD MENU
 				else
@@ -7090,7 +7090,7 @@ function f_hostRooms()
 		f_titleText()
 		if editHostScreen == false then
 			textImgDraw(txt_gameFt)
-			textImgSetText(txt_gameFt, 'HOST ROOMS')
+			textImgSetText(txt_gameFt, "HOST ROOMS")
 			textImgDraw(txt_version)
 		end
 		f_sysTime()
@@ -7166,8 +7166,8 @@ animSetPos(crudHostWindowBG, 60.5, 145)
 animUpdate(crudHostWindowBG)
 animSetScale(crudHostWindowBG, 1.3, 1.3)
 
-t_crudHostOptionU = {{id = '', text = 'DELETE'},{id = '', text = 'JOIN'},}
-t_crudHostOptionD = {{id = '', text = 'EDIT'}, {id = '', text = 'RETURN'},}
+t_crudHostOptionU = {{id = '', text = "DELETE"},{id = '', text = "JOIN"},}
+t_crudHostOptionD = {{id = '', text = "EDIT"}, {id = '', text = "RETURN"},}
 
 function f_crudHostScreen()
 	if crudHostOption ~= 1 then
@@ -7250,7 +7250,7 @@ function f_crudHostScreen()
 	animDraw(crudHostWindowBG)
 	animUpdate(crudHostWindowBG)
 	--Draw Crud Title
-	txt_crudTitle = createTextImg(font6, 0, 0, ''..hostRoomName..' ROOM', 160, 167.5)
+	txt_crudTitle = createTextImg(font6, 0, 0, hostRoomName.." ROOM", 160, 167.5)
 	textImgDraw(txt_crudTitle)
 	--Draw Crud Menu Text
 	for i=1, #t_crudHostOptionU do
@@ -7298,7 +7298,7 @@ end
 --; CREATE/UPDATE HOST DATA
 --;===========================================================
 t_editOption = {
-	{id = textImgNew(), text = ' CANCEL'}, {id = textImgNew(), text = '  ENTER'},
+	{id = textImgNew(), text = " CANCEL"}, {id = textImgNew(), text = "  ENTER"},
 }
 for i=1, #t_editOption do
 	t_editOption[i].id = createTextImg(jgFnt, 0, 0, t_editOption[i].text, 12+i*95, 151)
@@ -7383,7 +7383,7 @@ function f_editHost()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Hint Info
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'COPIED TEXT CAN BE PASTED WITH CTRL V')
+		textImgSetText(txt_titleFt, "COPIED TEXT CAN BE PASTED WITH CTRL V")
 	--ENTER HOST IP ADDRESS
 	else
 		if commandGetState(p1Cmd, 'r') then
@@ -7447,7 +7447,7 @@ function f_editHost()
 		animDraw(textWindowBG)
 		animUpdate(textWindowBG)
 		--Draw IP Window Title
-		textImgSetText(txt_client, 'Enter Host\'s IPv4')
+		textImgSetText(txt_client, "Enter Host\'s IPv4")
 		textImgDraw(txt_client)
 		--Draw IP Text
 		textImgSetText(txt_ip,hostAddress)
@@ -7470,7 +7470,7 @@ function f_editHost()
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		--Draw Hint Info
 		textImgDraw(txt_titleFt)
-		textImgSetText(txt_titleFt, 'COPIED IP CAN BE PASTED WITH CTRL V')
+		textImgSetText(txt_titleFt, "COPIED IP CAN BE PASTED WITH CTRL V")
 	end
 	--SAVE ALL DATA
 	if doneAddress == true then
@@ -7502,8 +7502,8 @@ function f_editHostReset()
 	editHostRoom = false
 	doneAddress = false
 	doneName = false
-	editHostName = ''
-	hostAddress = ''
+	editHostName = ""
+	hostAddress = ""
 	textBar = 0
 	editHostMenu = 2 --Cursor pos in ENTER
 end
@@ -7515,16 +7515,16 @@ function f_databaseConnect()
 	cmdInput()
 	sndPlay(sysSnd, 100, 1)
 	joinExit = false
-	txt_clientTitle = createTextImg(jgFnt, 0, 0, ""..hostRoomName.."'s ROOM", 159, 13)
+	txt_clientTitle = createTextImg(jgFnt, 0, 0, hostRoomName.."'s ROOM", 159, 13)
 	enterNetPlay(hostIP) --Connect to entered IP address
-	netPlayer = 'Client'
-	textImgSetText(txt_connecting, 'Now connecting to ['..hostIP..']')
+	netPlayer = "Client"
+	textImgSetText(txt_connecting, "Now connecting to ["..hostIP.."]")
 	while not connected() do
 		--CANCEL CONNECTION
 		if esc() or commandGetState(p1Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
-			netPlayer = ''
+			netPlayer = ""
 			joinExit = true
 			return true
 		end
@@ -7536,7 +7536,7 @@ function f_databaseConnect()
 		animDraw(joinWindowBG)
 		animUpdate(joinWindowBG)
 		--Draw Port Info
-		textImgSetText(txt_netPort, 'Netplay Port ['..getListenPort()..']')
+		textImgSetText(txt_netPort, "Netplay Port ["..getListenPort().."]")
 		textImgDraw(txt_netPort)
 		--Draw Connecting Info
 		textImgDraw(txt_connecting)
@@ -7561,16 +7561,16 @@ end
 --; LOBBY MENU
 --;===========================================================
 t_mainLobby = {
-	{id = textImgNew(), text = ''},
-	{id = textImgNew(), text = 'PRACTICE'},
-	{id = textImgNew(), text = 'ARCADE'},
-	{id = textImgNew(), text = 'SURVIVAL'},
-	{id = textImgNew(), text = 'ENDLESS'},
-	{id = textImgNew(), text = 'BOSS RUSH'},
-	{id = textImgNew(), text = 'BONUS RUSH'},
-	{id = textImgNew(), text = 'SUDDEN DEATH'},
-	{id = textImgNew(), text = 'TIME ATTACK'},
-	{id = textImgNew(), text = 'ONLINE SETTINGS'},
+	{id = textImgNew(), text = ""},
+	{id = textImgNew(), text = "PRACTICE"},
+	{id = textImgNew(), text = "ARCADE"},
+	{id = textImgNew(), text = "SURVIVAL"},
+	{id = textImgNew(), text = "ENDLESS"},
+	{id = textImgNew(), text = "BOSS RUSH"},
+	{id = textImgNew(), text = "BONUS RUSH"},
+	{id = textImgNew(), text = "SUDDEN DEATH"},
+	{id = textImgNew(), text = "TIME ATTACK"},
+	{id = textImgNew(), text = "ONLINE SETTINGS"},
 }
 
 function f_mainLobby()
@@ -7585,7 +7585,7 @@ function f_mainLobby()
 	local cancel = false
 	setDiscordState("Playing Online")
 	while true do
-		--assert(loadfile('save/temp_sav.lua'))()
+		--assert(loadfile("save/temp_sav.lua"))()
 		if esc() or commandGetState(p1Cmd, 'e') or data.replayDone == true then
 			sndPlay(sysSnd, 100, 2)
 			data.replayDone = false
@@ -7639,12 +7639,12 @@ function f_mainLobby()
 				data.coop = false
 				data.stageMenu = true
 				setHomeTeam(1)
-				data.gameMode = 'versus'
-				data.rosterMode = 'versus'
+				data.gameMode = "versus"
+				data.rosterMode = "versus"
 				if data.ftcontrol > 0 then
-					textImgSetText(txt_mainSelect, 'ONLINE RANKED VERSUS')
+					textImgSetText(txt_mainSelect, "ONLINE RANKED VERSUS")
 				else
-					textImgSetText(txt_mainSelect, 'ONLINE VERSUS')
+					textImgSetText(txt_mainSelect, "ONLINE VERSUS")
 				end
 				script.select.f_selectSimple()
 			--ONLINE TRAINING
@@ -7655,62 +7655,62 @@ function f_mainLobby()
 				data.coop = false
 				data.stageMenu = true
 				data.versusScreen = false
-				data.gameMode = 'training'
-				data.rosterMode = 'training'
+				data.gameMode = "training"
+				data.rosterMode = "training"
 				setGameType(2)
-				textImgSetText(txt_mainSelect, 'ONLINE TRAINING')
+				textImgSetText(txt_mainSelect, "ONLINE TRAINING")
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	
 			elseif mainLobby == 3 then
 				data.serviceScreen = true
-				data.gameMode = 'arcade'
-				data.rosterMode = 'arcade'
-				textImgSetText(txt_mainSelect, 'ONLINE ARCADE COOPERATIVE')
+				data.gameMode = "arcade"
+				data.rosterMode = "arcade"
+				textImgSetText(txt_mainSelect, "ONLINE ARCADE COOPERATIVE")
                 script.select.f_selectAdvance()
 			--ONLINE SURVIVAL	
 			elseif mainLobby == 4 then
-				data.gameMode = 'survival'
-				data.rosterMode = 'survival'
-				textImgSetText(txt_mainSelect, 'ONLINE SURVIVAL COOPERATIVE')
+				data.gameMode = "survival"
+				data.rosterMode = "survival"
+				textImgSetText(txt_mainSelect, "ONLINE SURVIVAL COOPERATIVE")
 				script.select.f_selectAdvance()
 			--ONLINE ENDLESS
 			elseif mainLobby == 5 then
-				data.gameMode = 'endless'
-				data.rosterMode = 'endless'
-				textImgSetText(txt_mainSelect, 'ONLINE ENDLESS COOPERATIVE')
+				data.gameMode = "endless"
+				data.rosterMode = "endless"
+				textImgSetText(txt_mainSelect, "ONLINE ENDLESS COOPERATIVE")
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
 			elseif mainLobby == 6 then
 				if #t_bossChars ~= 0 then
-					data.gameMode = 'bossrush'
-					data.rosterMode = 'boss'
-					textImgSetText(txt_mainSelect, 'ONLINE BOSS RUSH COOPERATIVE')
+					data.gameMode = "bossrush"
+					data.rosterMode = "boss"
+					textImgSetText(txt_mainSelect, "ONLINE BOSS RUSH COOPERATIVE")
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE BONUS RUSH
 			elseif mainLobby == 7 then
 				if #t_bonusChars ~= 0 then
 					data.versusScreen = false
-					data.gameMode = 'bonusrush'
-					data.rosterMode = 'bonus'
-					textImgSetText(txt_mainSelect, 'ONLINE BONUS RUSH COOPERATIVE')
+					data.gameMode = "bonusrush"
+					data.rosterMode = "bonus"
+					textImgSetText(txt_mainSelect, "ONLINE BONUS RUSH COOPERATIVE")
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE SUDDEN DEATH
 			elseif mainLobby == 8 then
 				setRoundTime(1000)
 				setLifeMul(0)
-				data.gameMode = 'allroster'
-				data.rosterMode = 'suddendeath'
-				textImgSetText(txt_mainSelect, 'ONLINE SUDDEN DEATH COOPERATIVE')
+				data.gameMode = "allroster"
+				data.rosterMode = "suddendeath"
+				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
 				script.select.f_selectAdvance()				
 			--ONLINE TIME ATTACK
 			elseif mainLobby == 9 then
 				setRoundTime(3600)
 				setLifeMul(2)
-				data.gameMode = 'allroster'
-				data.rosterMode = 'timeattack'
-				textImgSetText(txt_mainSelect, 'ONLINE TIME ATTACK COOPERATIVE')
+				data.gameMode = "allroster"
+				data.rosterMode = "timeattack"
+				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				script.select.f_selectAdvance()				
 			--ONLINE SETTINGS
 			elseif mainLobby == 10 then
@@ -7739,13 +7739,13 @@ function f_mainLobby()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, 'ONLINE MENU')
+		textImgSetText(txt_gameFt, "ONLINE MENU")
 		textImgDraw(txt_version)
 		f_sysTime()
-		if netPlayer == 'Host' then
-			t_mainLobby[1].text = 'VERSUS PLAYER 2'
-		elseif netPlayer == 'Client' then
-			t_mainLobby[1].text = 'VERSUS PLAYER 1'
+		if netPlayer == "Host" then
+			t_mainLobby[1].text = "VERSUS PLAYER 2"
+		elseif netPlayer == "Client" then
+			t_mainLobby[1].text = "VERSUS PLAYER 1"
 		end
 		if maxmainLobby > 6 then
 			animDraw(arrowsU)
@@ -7775,9 +7775,9 @@ end
 --;===========================================================
 --; THE VAULT SCREENPACK
 --;===========================================================
-txt_vaultTitle = createTextImg(font6, 0, 0, 'THE VAULT', 159, 28)
-txt_vaultBar = createTextImg(opFnt, 0, 0, '|', 160, 130, 0.65, 0.65)
-txt_vaultText = createTextImg(font14, 0, 0, '', 160, 117)
+txt_vaultTitle = createTextImg(font6, 0, 0, "THE VAULT", 159, 28)
+txt_vaultBar = createTextImg(opFnt, 0, 0, "|", 160, 130, 0.65, 0.65)
+txt_vaultText = createTextImg(font14, 0, 0, "", 160, 117)
 
 --Background
 vaultBG0 = animNew(sysSff, [[
@@ -7799,16 +7799,16 @@ animUpdate(vaultWindowBG)
 --; THE VAULT MENU
 --;===========================================================
 t_vaultMenu = {
-	{id = textImgNew(), text = 'BACK'}, {id = textImgNew(), text = 'ENTER'},
+	{id = textImgNew(), text = "BACK"}, {id = textImgNew(), text = "ENTER"},
 }
 for i=1, #t_vaultMenu do
 	t_vaultMenu[i].id = createTextImg(jgFnt, 0, 0, t_vaultMenu[i].text, 56+i*70, 230)
 end
 
 function f_randomWords()
-	txt_vaultWords = createTextImg(jgFnt, 0, 0, '', 0, 0,0.9,0.9)
+	txt_vaultWords = createTextImg(jgFnt, 0, 0, "", 0, 0,0.9,0.9)
 	local t_randomWord = {"Don't touch!", "Just, stop.", "No one seems to be home.", "zzzZZZ...", "Go away!", "No!", "It's a secret...", "Stop it!", "Not allowed!", "Nothing to see here...", '"CD3" is a joke alias of evil CD2.', "Ready to leave yet?", "Whenever you're ready...", "Fine, I can wait.", "So... what's up?", "Are you always like this?", "I mean, what's the point?", "Let me guess, you're gonna push the button?", "What a surprise...", "Don't push the button!", "I'm gonna stop talking", "...", "......", "GAH!", "I have heard about you "..data.userName..".", "Do you know what name of this Ikemen Plus was going to be?", "It was actually going to be called Ikemen Plus ???", "Zen is the search for enlightenment", "SSZ is a programming language written by Suehiro", "OpenGL? what's that?", "Who would thought that Ikemen Go had a Plus Version", "Go beyond, plus ULTRA!", "PlasmoidThunder? he is one of the greats devs", "If I could have access to an internet database...", "CD2 likes Geometry Dash so much that it occurred to him to imitate this screen", "I am a Legend?", "This is not supposed to be here but yes in the USX Project..", "I debuted in v1.3 of Ikemen Plus Ultra", "Is CD2 really planning to make all those changes from it TODO List?", "Did you know that this guy who programmed me started learning this in 2021?", "Let's play hangman S- _ _ _ E", "Let's play hangman U _ _ R _", "Let's play hangman _ _ N", "Press Start To Select an Option", "You can Write below", "Saquen a CD2 de Latinoamerica JAJAJA, mas bien por estar alli esto surgio", "Strong FS? is the guy that inspired CD2", "Greetings! "..data.userName}
-	if data.userName == 'Strong FS' or data.userName == 'strong fs' or data.userName == 'StrongFS' or data.userName == 'strongfs' or data.userName == 'Strong Fs' or data.userName == 'STRONG FS' or data.userName == 'STRONGFS' then
+	if data.userName == "Strong FS" or data.userName == "strong fs" or data.userName == "StrongFS" or data.userName == "strongfs" or data.userName == "Strong Fs" or data.userName == "STRONG FS" or data.userName == "STRONGFS" then
 		table.insert(t_randomWord,1, "Hey Strong! CD2 te manda Saludoss")
 		table.insert(t_randomWord,2, "Hmmm Strong XD")
 	end
@@ -7816,13 +7816,13 @@ function f_randomWords()
 end
 
 function f_prizeWords()
-	txt_vaultWords = createTextImg(jgFnt, 5, 0, '', 0, 0,0.9,0.9)
+	txt_vaultWords = createTextImg(jgFnt, 5, 0, "", 0, 0,0.9,0.9)
 	local t_randomWord = {"YES! YOU DID IT. If you go back to Main Menu you might find a surprise 0_0", "Well, this is a little Minigame to show you what the LUA is capable of"}
 	txtRandom = (t_randomWord[math.random(1, #t_randomWord)])
 end
 
 function f_theVault()
-	local word = ''
+	local word = ""
 	local vaultMenu = 2
 	local i = 0
 	local t = 0
@@ -7880,23 +7880,23 @@ function f_theVault()
 				t = 0 --Reset Vault Words Delay Time
 				if word ~= '' and word ~= nil then
 					vaultKey = (tostring(word))
-					if vaultKey == 'ultra' or vaultKey == 'Ultra' or vaultKey == 'ULTRA' then
+					if vaultKey == "ultra" or vaultKey == "Ultra" or vaultKey == "ULTRA" then
 						sndPlay(sysSnd, 100, 1)
-						data.vault = 'Ultra'
+						data.vault = "Ultra"
 						f_saveProgress()
-						assert(loadfile('save/stats_sav.lua'))()
+						assert(loadfile("save/stats_sav.lua"))()
 						prize = true
-					elseif vaultKey == 'zen' or vaultKey == 'Zen' or vaultKey == 'ZEN' then
+					elseif vaultKey == "zen" or vaultKey == "Zen" or vaultKey == "ZEN" then
 						sndPlay(sysSnd, 100, 1)
-						data.vault = 'Zen'
+						data.vault = "Zen"
 						f_saveProgress()
-						assert(loadfile('save/stats_sav.lua'))()
+						assert(loadfile("save/stats_sav.lua"))()
 						prize = true
-					elseif vaultKey == 'ssz' or vaultKey == 'Ssz' or vaultKey == 'SSZ' then
+					elseif vaultKey == "ssz" or vaultKey == "Ssz" or vaultKey == "SSZ" then
 						sndPlay(sysSnd, 100, 1)
-						data.vault = 'SSZ'
+						data.vault = "SSZ"
 						f_saveProgress()
-						assert(loadfile('save/stats_sav.lua'))()
+						assert(loadfile("save/stats_sav.lua"))()
 						prize = true
 					else
 						prize = false
@@ -7948,11 +7948,11 @@ end
 --;===========================================================
 --; UNLOCK INFO SCREEN
 --;===========================================================
-txt_msgMenu = createTextImg(jgFnt, 0, 1, '', 0, 0) --Text that appears in black screens important message
+txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
 
 function f_secret()
 	local i = 0
-	txt = 'COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!'
+	txt = "COMPLETE THE ARCADE MODE TO UNLOCK THIS FEATURE!"
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -7975,7 +7975,7 @@ end
 --;===========================================================
 function f_comingSoon()
 	local i = 0
-	txt = 'THIS FEATURE WILL BE AVAILABLE COMING SOON...'
+	txt = "THIS FEATURE WILL BE AVAILABLE COMING SOON..."
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -8040,9 +8040,9 @@ function f_playCredits()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	if data.attractMode == true then
 		playBGM(bgmTitle)
-	elseif data.rosterMode == 'story' then
+	elseif data.rosterMode == "story" then
 		playBGM(bgmStory)
-	elseif data.rosterMode == 'arcade' then
+	elseif data.rosterMode == "arcade" then
 		--Nothing because game over screen comes...
 	else
 		f_menuMusic()
