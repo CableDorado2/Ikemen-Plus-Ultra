@@ -1,15 +1,15 @@
 data.firstRun = false
 data.arcadeClear = true
 data.survivalClear = false
-data.coins = 180
+data.coins = 205
 data.attractCoins = 4
 data.continueCount = 0
 data.vault = "Ultra"
-data.playTime = 28871.577309
-data.trainingTime = 2386.639
-data.favoriteChar = "Suave Dude"
-data.favoriteStage = "RANDOM"
-data.victories = 36
+data.playTime = 29865.998863
+data.trainingTime = 2431.422
+data.favoriteChar = "Kung Fu Man"
+data.favoriteStage = "China"
+data.victories = 41
 data.defeats = 11
 --Records Data
 data.timerecord = 0
@@ -19,7 +19,7 @@ data.suddenrecord = 0
 data.endlessrecord = 0
 --Time Played Data
 data.arcadeTime = 2650.119
-data.vsTime = 1372.896
+data.vsTime = 1429.516
 data.survivalTime = 127.01
 data.bossTime = 2.999
 data.bonusTime = 7.126

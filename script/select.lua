@@ -831,7 +831,7 @@ function f_backMenu()
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))
 	--Actions
-	if btnPalNo(p1Cmd) > 0 then
+	if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--YES
 		if backMenu == 1 then
 			sndPlay(sysSnd, 100, 2)
@@ -926,19 +926,19 @@ function f_selectSimple()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
+				if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
 					if p1TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
-				elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+				elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 					if p1TeamBack == true and p2TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
 				end
 			elseif onlinegame == true then
-				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
+				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile("save/temp_sav.lua"))()
@@ -987,7 +987,7 @@ function f_selectSimple()
 					--back = false
 					while not selScreenEnd do
 						if onlinegame == true then
-							if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
+							if esc() then f_backOnline() end
 						end
 						f_selectScreen()
 						if back == true then
@@ -1012,19 +1012,19 @@ function f_selectSimple()
 					f_selectReset()
 					while not selScreenEnd do
 						if onlinegame == false then
-							if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+							if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 								if p1TeamBack == true then
 									if backScreen == false then sndPlay(sysSnd, 100, 2) end
 									backScreen = true
 								end
-							elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+							elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 								if p1TeamBack == true and p2TeamBack == true then
 									if backScreen == false then sndPlay(sysSnd, 100, 2) end
 									backScreen = true
 								end
 							end
 						elseif onlinegame == true then
-							if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
+							if esc() then f_backOnline() end
 						end
 						f_selectScreen()
 						if back == true then
@@ -1060,12 +1060,12 @@ function f_selectSimple()
 			else
 				f_selectReset()
 				while not selScreenEnd do
-					if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+					if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 						if p1TeamBack == true then
 							if backScreen == false then sndPlay(sysSnd, 100, 2) end
 							backScreen = true
 						end
-					elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+					elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 						if p1TeamBack == true and p2TeamBack == true then
 							if backScreen == false then sndPlay(sysSnd, 100, 2) end
 							backScreen = true
@@ -1137,12 +1137,12 @@ function f_selectAdvance()
 		selectStart()
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() or commandGetState(p1Cmd, 'e') and p1TeamBack == true then
+				if commandGetState(p1Cmd, 'e') and p1TeamBack == true then
 					if backScreen == false then sndPlay(sysSnd, 100, 2) end
 					backScreen = true
 				end
 			elseif onlinegame == true then
-				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
+				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile("save/temp_sav.lua"))()
@@ -1311,7 +1311,7 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if esc() or commandGetState(p1Cmd, 'e') then
+							if commandGetState(p1Cmd, 'e') then
 								if backScreen == false then sndPlay(sysSnd, 100, 2) end
 								backScreen = true
 							end
@@ -1322,7 +1322,7 @@ function f_selectAdvance()
 							end
 						end
 					--Exit
-					elseif esc() or commandGetState(p1Cmd, 'e') then
+					elseif commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1533,7 +1533,7 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if esc() or commandGetState(p1Cmd, 'e') then
+							if commandGetState(p1Cmd, 'e') then
 								if backScreen == false then sndPlay(sysSnd, 100, 2) end
 								backScreen = true
 							end
@@ -1544,7 +1544,7 @@ function f_selectAdvance()
 							end
 						end
 					--Exit
-					elseif esc() or commandGetState(p1Cmd, 'e') then
+					elseif commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1696,7 +1696,7 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if esc() or commandGetState(p1Cmd, 'e') then
+							if commandGetState(p1Cmd, 'e') then
 								if backScreen == false then sndPlay(sysSnd, 100, 2) end
 								backScreen = true
 							end
@@ -1706,7 +1706,7 @@ function f_selectAdvance()
 								return
 							end
 						end
-					elseif esc() or commandGetState(p1Cmd, 'e') then
+					elseif commandGetState(p1Cmd, 'e') then
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1914,19 +1914,19 @@ function f_selectStory()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if esc() or commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+				if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
 					if p1TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
-				elseif esc() or commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+				elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
 					if p1TeamBack == true and p2TeamBack == true then
 						if backScreen == false then sndPlay(sysSnd, 100, 2) end
 						backScreen = true
 					end
 				end
 			elseif onlinegame == true then
-				if esc() or commandGetState(p1Cmd, 'e') then f_backOnline() end
+				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile("save/temp_sav.lua"))()
@@ -2321,66 +2321,6 @@ animAddPos(arrowsDSR, 156, 223)
 animUpdate(arrowsDSR)
 animSetScale(arrowsDSR, 0.95, 0.95)
 
---Left Arrow for Player 1 Palette Select (Modern Type)
-arrowsPL = animNew(sysSff, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(arrowsPL, 67, 227.5)
-animUpdate(arrowsPL)
-animSetScale(arrowsPL, 0.5, 0.5)
-
---Left Arrow for Player 2 Palette Select (Modern Type)
-arrowsPL2 = animNew(sysSff, [[
-223,0, 0,0, 10
-223,1, 0,0, 10
-223,2, 0,0, 10
-223,3, 0,0, 10
-223,3, 0,0, 10
-223,2, 0,0, 10
-223,1, 0,0, 10
-223,0, 0,0, 10
-]])
-animAddPos(arrowsPL2, 194, 227.5)
-animUpdate(arrowsPL2)
-animSetScale(arrowsPL2, 0.5, 0.5)
-
---Right Arrow for Player 1 Palette Select (Modern Type)
-arrowsPR = animNew(sysSff, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(arrowsPR, 115, 227.5)
-animUpdate(arrowsPR)
-animSetScale(arrowsPR, 0.5, 0.5)
-
---Right Arrow for Player 2 Palette Select (Modern Type)
-arrowsPR2 = animNew(sysSff, [[
-224,0, 0,0, 10
-224,1, 0,0, 10
-224,2, 0,0, 10
-224,3, 0,0, 10
-224,3, 0,0, 10
-224,2, 0,0, 10
-224,1, 0,0, 10
-224,0, 0,0, 10
-]])
-animAddPos(arrowsPR2, 242, 227.5)
-animUpdate(arrowsPR2)
-animSetScale(arrowsPR2, 0.5, 0.5)
-
 --Cell Lock
 cellLock = animNew(sysSff, [[
 108,0, 0,0,
@@ -2494,7 +2434,7 @@ function f_selectScreen()
 			--Draw Author Info Text
 			if data.charInfo == "Author" then
 				if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p2Author, "AUTHOR: "..t_selChars[data.t_p2selected[1].cel+1].author)
+					textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
 					textImgDraw(txt_p2Author)
 				end
 			end
@@ -2508,7 +2448,7 @@ function f_selectScreen()
 			--Draw Author Info Text
 			if data.charInfo == "Author" then
 				if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p2Author, "AUTHOR: "..t_selChars[data.t_p2selected[1].cel+1].author)
+					textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
 					textImgDraw(txt_p2Author)
 				end
 			end
@@ -2798,6 +2738,8 @@ function f_p1TeamMenu()
 		end
 		if data.p1In == 2 then
 			textImgDraw(IASelTmTxt)
+		elseif data.rosterMode == "cpu" then
+			textImgDraw(IASelTmTxt)
 		else
 			textImgDraw(p1SelTmTxt)
 		end
@@ -2856,32 +2798,43 @@ function f_p1TeamMenu()
 end
 
 --;===========================================================
---; PLAYER 1 CHARACTER SELECT
+--; PLAYER 1 PALETTE SELECT
 --;===========================================================
-txt_p1Name = createTextImg(jgFnt, 4, 1, "", 0, 0, 0.8, 0.8)
-txt_p1Author = createTextImg(jgFnt, 0, 1, "", 0, 20, 0.65, 0.65)
+txt_palText = "PALETTE:"
+txt_p1Pal = createTextImg(jgFnt, 5, 1, txt_palText, 5, 237)
+txt_p1PalNo = createTextImg(font14, 0, 0, "", 95, 237) --draw palette limit numbers text
+	
+--Left Arrow for Player 1 Palette Select
+arrowsPL = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsPL, 67, 228.5)
+animUpdate(arrowsPL)
+animSetScale(arrowsPL, 0.45, 0.45)
 
---P1 Random Portrait
-p1randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
+--Right Arrow for Player 1 Palette Select
+arrowsPR = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsPR, 115, 228.5)
+animUpdate(arrowsPR)
+animSetScale(arrowsPR, 0.45, 0.45)
 
---P1 Random Sprite
-p1randomSprite = animNew(sysSff, [[151,2, 0,0,]])
-
---P1 Big Portrait Lock
-p1portraitLock = animNew(sysSff, [[108,0, 0,0,]])
-
---P1 Big Portrait Locked Fade Window
-p1portraitLockWindowBG = animNew(sysSff, [[3,0, 0,0, -1, 0]])
-
-function f_p1charAnnouncer()
-	if f_getName(p1Cell) == "Kung Fu Man" then
-		sndPlay(announcerSnd, 1, 0)
-	--elseif f_getName(p1Cell) == "Your Character Name" then
-		--sndPlay(announcerSnd, 1, 1)
-	end
-end
-
-function f_p1palList() --Palette Menu
+function f_p1palList()
 	cmdInput()
 	if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufPalu >= 30) or (commandGetState(p1Cmd, 'holdr') and bufPalr >= 30)) and p1movePal <= 11 then --p1movePal <= Number of your Palette List Limit
 		sndPlay(sysSnd, 100, 0)
@@ -2909,10 +2862,9 @@ function f_p1palList() --Palette Menu
 		bufPall = 0
 	end
 	p1palSelect = p1movePal --Uses menu position to show palette in these order
-	txt_pal = createTextImg(jgFnt, 5, 1, "PALETTE:", 5, 237)
-	txt_palNumber = createTextImg(font14, 0, 0, p1palSelect.."/12", 95, 237) --draw palette limit numbers text
-	textImgDraw(txt_pal)
-	textImgDraw(txt_palNumber)
+	textImgDraw(txt_p1Pal)
+	textImgSetText(txt_p1PalNo, p1palSelect.."/12")
+	textImgDraw(txt_p1PalNo)
 	if p1movePal > 1 then
 		animDraw(arrowsPL)
 		animUpdate(arrowsPL)
@@ -2925,8 +2877,35 @@ function f_p1palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p1palEnd = true
 		cmdInput()
-	elseif esc() or commandGetState(p1Cmd, 'e') or selectTimer == 0 then
+	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
 		p1palEnd = true
+	end
+end
+
+--;===========================================================
+--; PLAYER 1 CHARACTER SELECT
+--;===========================================================
+txt_p1Name = createTextImg(jgFnt, 4, 1, "", 0, 0, 0.8, 0.8)
+txt_p1Author = createTextImg(jgFnt, 0, 1, "", 0, 20, 0.65, 0.65)
+txt_authorText = "AUTHOR: "
+
+--P1 Random Portrait
+p1randomPortrait = animNew(sysSff, [[151,1, 0,0,]])
+
+--P1 Random Sprite
+p1randomSprite = animNew(sysSff, [[151,2, 0,0,]])
+
+--P1 Big Portrait Lock
+p1portraitLock = animNew(sysSff, [[108,0, 0,0,]])
+
+--P1 Big Portrait Locked Fade Window
+p1portraitLockWindowBG = animNew(sysSff, [[3,0, 0,0, -1, 0]])
+
+function f_p1charAnnouncer()
+	if f_getName(p1Cell) == "Kung Fu Man" then
+		sndPlay(announcerSnd, 1, 0)
+	--elseif f_getName(p1Cell) == "Your Character Name" then
+		--sndPlay(announcerSnd, 1, 1)
 	end
 end
 
@@ -3656,7 +3635,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--Keep random author as: ???
 								else
-									textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author) --Reveal Random Author
+									textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author) --Reveal Random Author
 								end
 								textImgDraw(txt_p1Author)
 						--TEAM MODE WITH 2 MEMBERS
@@ -3666,7 +3645,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[2].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 165, 0.65, 0.65)
@@ -3676,7 +3655,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65)
@@ -3688,7 +3667,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[3].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
@@ -3698,7 +3677,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[2].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
@@ -3708,7 +3687,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author)
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
 								end
@@ -3719,7 +3698,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member4Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[4].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[4].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 60, 95, 0.5, 0.5)
@@ -3729,7 +3708,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[3].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 165, 0.5, 0.5)
@@ -3739,7 +3718,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[2].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 60, 89, 0.5, 0.5)
@@ -3749,7 +3728,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--
 									else
-										textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[1].author)
+										textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[1].author)
 										
 									end
 									textImgScalePosDraw(txt_p1Author, 0, 25, 0.5, 0.5)
@@ -3759,7 +3738,7 @@ function f_p1SelectMenu()
 							if data.randomPortrait == "Fixed" and p1member1Random == true then
 							--
 							else
-								textImgSetText(txt_p1Author, "AUTHOR: "..data.t_p1selected[j].author)
+								textImgSetText(txt_p1Author, txt_authorText..data.t_p1selected[j].author)
 							end
 							textImgPosDraw(txt_p1Author, 0, 20+10*(j-1), 0.65, 0.65)
 						end
@@ -3904,9 +3883,9 @@ function f_p1SelectMenu()
 			if data.charInfo == "Author" then
 				if t_selChars[p1Cell+1].author ~= nil or getCharName(p1Cell) == "Random" then
 					if t_selChars[p1Cell+1].author ~= nil then
-						textImgSetText(txt_p1Author, "AUTHOR: "..t_selChars[p1Cell+1].author)
+						textImgSetText(txt_p1Author, txt_authorText..t_selChars[p1Cell+1].author)
 					else --Set Text for Random Select
-						textImgSetText(txt_p1Author, "AUTHOR: ???")
+						textImgSetText(txt_p1Author, txt_authorText.."???")
 					end
 					textImgScalePosDraw(txt_p1Author, 0, 20, 0.65, 0.65) --Restart text pos
 					textImgDraw(txt_p1Author)
@@ -3966,12 +3945,12 @@ function f_p1SelectMenu()
 				end
 			end
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-			if esc() or commandGetState(p1Cmd, 'e') and serviceBack == true then
+			if commandGetState(p1Cmd, 'e') and serviceBack == true then
 				f_p1sideReset()
 				p1TeamEnd = true
 				p1BG = true
 				p1memberPreview = 1
-			elseif esc() or commandGetState(p1Cmd, 'e') and p1SelBack == true then
+			elseif commandGetState(p1Cmd, 'e') and p1SelBack == true then
 				sndPlay(sysSnd, 100, 2)
 				f_p1sideReset()
 			end
@@ -4125,9 +4104,9 @@ p2SelTmTxt = createTextImg(jgFnt, 5, -1, "TEAM MODE", 300, 30)
 IASelTmTxt2 = createTextImg(jgFnt, 5, -1, "CPU MODE", 300, 30)
 
 t_p2selTeam = {
-	{id = '', text = "SINGLE"},
-	{id = '', text = "SIMUL"},
-	{id = '', text = "TURNS"},
+	{id = '', text = t_p1selTeam[1].text}, --Get text from player 1 team table
+	{id = '', text = t_p1selTeam[2].text},
+	{id = '', text = t_p1selTeam[3].text},
 }
 for i=1, #t_p2selTeam do
 	t_p2selTeam[i].id = createTextImg(jgFnt, 0, -1, t_p2selTeam[i].text, 300, 35+i*15)
@@ -4157,7 +4136,7 @@ function f_p2TeamMenu()
 		p2BG = true
 		p2memberPreview = 1
 	else
-		if esc() or commandGetState(p1Cmd, 'e') and p2TeamBack == true then
+		if commandGetState(p1Cmd, 'e') and p2TeamBack == true then
 			sndPlay(sysSnd, 100, 2)
 			if data.p2In == 1 or data.p2In == 3 then
 				f_p2sideReset()
@@ -4256,6 +4235,8 @@ function f_p2TeamMenu()
 		end
 		if data.p2In == 2 then
 			textImgDraw(p2SelTmTxt)
+		elseif data.rosterMode == "cpu" then
+			textImgDraw(IASelTmTxt2)
 		else
 			textImgDraw(IASelTmTxt2)
 		end
@@ -4313,32 +4294,42 @@ function f_p2TeamMenu()
 end
 
 --;===========================================================
---; PLAYER 2 CHARACTER SELECT
+--; PLAYER 2 PALETTE SELECT
 --;===========================================================
-txt_p2Name = createTextImg(jgFnt, 1, -1, "", 0, 0, 0.8, 0.8)
-txt_p2Author = createTextImg(jgFnt, 0, -1, "", 320, 20, 0.65, 0.65)
+txt_p2Pal = createTextImg(jgFnt, 5, -1, txt_palText, 266, 237)
+txt_p2PalNo = createTextImg(font14, 0, -1, "", 310, 237)
 
---P2 Random Portrait
-p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
+--Left Arrow for Player 2 Palette Select
+arrowsPL2 = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(arrowsPL2, 264, 228.5)
+animUpdate(arrowsPL2)
+animSetScale(arrowsPL2, 0.45, 0.45)
 
---P2 Random Sprite
-p2randomSprite = animNew(sysSff, [[151,2, 0,0,]])
+--Right Arrow for Player 2 Palette Select
+arrowsPR2 = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(arrowsPR2, 312, 228.5)
+animUpdate(arrowsPR2)
+animSetScale(arrowsPR2, 0.45, 0.45)
 
---P2 Big Portrait Lock
-p2portraitLock = animNew(sysSff, [[108,0, -320,0,]])
-
---P2 Big Portrait Locked Fade Window
-p2portraitLockWindowBG = animNew(sysSff, [[3,0, -1, 0,]])
-
-function f_p2charAnnouncer()
-	if f_getName(p2Cell) == "Kung Fu Man" then
-		sndPlay(announcerSnd, 2, 0)
-	--elseif f_getName(p2Cell) == "Your Character Name" then
-		--sndPlay(announcerSnd, 2, 1)
-	end
-end
-
-function f_p2palList() --Palette Menu
+function f_p2palList()
 	cmdInput()
 	if (commandGetState(p2Cmd, 'r') or commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufPal2u >= 30) or (commandGetState(p2Cmd, 'holdr') and bufPal2r >= 30)) and p2movePal <= 11 then
 		sndPlay(sysSnd, 100, 0)
@@ -4366,10 +4357,9 @@ function f_p2palList() --Palette Menu
 		bufPal2l = 0
 	end
 	p2palSelect = p2movePal
-	txt_pal2 = createTextImg(jgFnt, 5, 1, "PALETTE:", 220, 237)
-	txt_pal2Number = createTextImg(font14, 0, 0, p2palSelect.."/12", 250, 237)
-	textImgDraw(txt_pal2)
-	textImgDraw(txt_pal2Number)
+	textImgDraw(txt_p2Pal)
+	textImgSetText(txt_p2PalNo, p2palSelect.."/12")
+	textImgDraw(txt_p2PalNo)
 	if p2movePal > 1 then
 		animDraw(arrowsPL2)
 		animUpdate(arrowsPL2)
@@ -4382,8 +4372,34 @@ function f_p2palList() --Palette Menu
 		sndPlay(sysSnd, 100, 1)
 		p2palEnd = true
 		cmdInput()
-	elseif esc() or commandGetState(p1Cmd, 'e') or selectTimer == 0 then
+	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
 		p2palEnd = true
+	end
+end
+
+--;===========================================================
+--; PLAYER 2 CHARACTER SELECT
+--;===========================================================
+txt_p2Name = createTextImg(jgFnt, 1, -1, "", 0, 0, 0.8, 0.8)
+txt_p2Author = createTextImg(jgFnt, 0, -1, "", 320, 20, 0.65, 0.65)
+
+--P2 Random Portrait
+p2randomPortrait = animNew(sysSff, [[151,1, -120,0,]])
+
+--P2 Random Sprite
+p2randomSprite = animNew(sysSff, [[151,2, 0,0,]])
+
+--P2 Big Portrait Lock
+p2portraitLock = animNew(sysSff, [[108,0, -320,0,]])
+
+--P2 Big Portrait Locked Fade Window
+p2portraitLockWindowBG = animNew(sysSff, [[3,0, -1, 0,]])
+
+function f_p2charAnnouncer()
+	if f_getName(p2Cell) == "Kung Fu Man" then
+		sndPlay(announcerSnd, 2, 0)
+	--elseif f_getName(p2Cell) == "Your Character Name" then
+		--sndPlay(announcerSnd, 2, 1)
 	end
 end
 
@@ -5068,7 +5084,7 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--Keep random author as: ???
 								else
-									textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
+									textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
 								end
 								textImgDraw(txt_p2Author)
 							elseif p2numChars == 2 then
@@ -5079,7 +5095,7 @@ function f_p2SelectMenu()
 										if data.randomPortrait == "Fixed" and p2member2Random == true then
 										--
 										else
-											textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[2].author)
+											textImgSetText(txt_p2Author, txt_authorText..t_selected[2].author)
 											
 										end
 										textImgScalePosDraw(txt_p2Author, 320, 165, 0.65, 0.65)
@@ -5088,7 +5104,7 @@ function f_p2SelectMenu()
 										if data.randomPortrait == "Fixed" and p2member1Random == true then
 										--
 										else
-											textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
+											textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
 											
 										end
 										textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
@@ -5099,7 +5115,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member3Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[3].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
@@ -5108,7 +5124,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[2].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
@@ -5117,7 +5133,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
 								end
@@ -5126,7 +5142,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member4Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[4].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[4].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 260, 95, 0.5, 0.5)
@@ -5135,7 +5151,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member3Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[3].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[3].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 165, 0.5, 0.5)
@@ -5144,7 +5160,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[2].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[2].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 260, 89, 0.5, 0.5)
@@ -5153,7 +5169,7 @@ function f_p2SelectMenu()
 									if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--
 									else
-										textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[1].author)
+										textImgSetText(txt_p2Author, txt_authorText..t_selected[1].author)
 										
 									end
 									textImgScalePosDraw(txt_p2Author, 320, 25, 0.5, 0.5)
@@ -5163,7 +5179,7 @@ function f_p2SelectMenu()
 							if data.randomPortrait == "Fixed" and p2member1Random == true then
 							--
 							else
-								textImgSetText(txt_p2Author, "AUTHOR: "..t_selected[j].author)
+								textImgSetText(txt_p2Author, txt_authorText..t_selected[j].author)
 							end
 							textImgPosDraw(txt_p2Author, 320, 20+10*(j-1), 0.65, 0.65)
 						end
@@ -5307,9 +5323,9 @@ function f_p2SelectMenu()
 			if data.charInfo == "Author" then
 				if t_selChars[p2Cell+1].author ~= nil or getCharName(p2Cell) == "Random" then
 					if t_selChars[p2Cell+1].author ~= nil then
-						textImgSetText(txt_p2Author, "AUTHOR: "..t_selChars[p2Cell+1].author)
+						textImgSetText(txt_p2Author, txt_authorText..t_selChars[p2Cell+1].author)
 					else
-						textImgSetText(txt_p2Author, "AUTHOR: ???")
+						textImgSetText(txt_p2Author, txt_authorText.."???")
 					end
 					textImgScalePosDraw(txt_p2Author, 320, 20, 0.65, 0.65)
 					textImgDraw(txt_p2Author)
@@ -5372,7 +5388,7 @@ function f_p2SelectMenu()
 				end
 			end
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
-			if esc() or commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
+			if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
 				sndPlay(sysSnd, 100, 2)
 				f_p2sideReset()
 			end
@@ -5448,6 +5464,11 @@ end
 --;===========================================================
 --; STAGE SELECT SCREENPACK
 --;===========================================================
+txt_stageSelect = createTextImg(jgFnt, 0, 0, "STAGE SELECT", 159, 13)
+txt_authorStageText = "AUTHOR: "
+txt_locationStageText = "LOCATION: "
+txt_daytimeStageText = "TIME: "
+
 --Stage Title background
 selectSBG2a = animNew(sysSff, [[
 102,0, 0,2, -1, 0, s
@@ -5625,12 +5646,11 @@ function f_selectStage()
 			animDraw(f_animVelocity(selectSBG2b, 3, 0))
 			animDraw(f_animVelocity(selectSBG2c, 6, 0))
 			--Draw Stage Title Text
-			txt_stageSelect = createTextImg(jgFnt, 0, 0, "STAGE SELECT", 159, 13)
 			textImgDraw(txt_stageSelect)
 		end
 		--if stageAnnouncer == false then
 			if backScreen == false and stageAnnouncer == false then
-				if commandGetState(p1Cmd, 's') then
+				if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 					if stageSelect == true then
 						--sndPlay(sysSnd, 100, 0)
 						--TO-DO: Alternative Stage Code Like Ikemen Go Chars Slots
@@ -5642,7 +5662,7 @@ function f_selectStage()
 							f_musicPreview()
 						end
 					end
-				elseif commandGetState(p1Cmd, 'u') then
+				elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 					sndPlay(sysSnd, 100, 0)
 					if bufStagel then bufStagel = 0 end
 					if bufStager then bufStager = 0 end
@@ -5658,7 +5678,7 @@ function f_selectStage()
 					elseif songSelect == false then
 						songSelect = true
 					end
-				elseif commandGetState(p1Cmd, 'd') then
+				elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
 					sndPlay(sysSnd, 100, 0)
 					if bufStagel then bufStagel = 0 end
 					if bufStager then bufStager = 0 end
@@ -5674,7 +5694,7 @@ function f_selectStage()
 					elseif songSelect == false then
 						songSelect = true
 					end
-				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufStager >= 30) then
+				elseif (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufStager >= 30) then
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
 					--Auto Right Side Stage Logic
@@ -5713,7 +5733,7 @@ function f_selectStage()
 						if musicList == 1 and not p2song then musicList = musicList + 1 end --Skip Player 2 Song if is not assigned
 						if musicList > #t_selMusic-1 then musicList = 0 end
 					end
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufStagel >= 30) then
+				elseif (commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufStagel >= 30) then
 					sndPlay(sysSnd, 100, 0)
 					if stageSelect == true then
 					--Auto Left Side Stage Logic
@@ -5754,10 +5774,10 @@ function f_selectStage()
 				end
 			end
 		--end
-		if commandGetState(p1Cmd, 'holdr') then
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufStagel = 0
 			bufStager = bufStager + 1
-		elseif commandGetState(p1Cmd, 'holdl') then
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
 			bufStager = 0
 			bufStagel = bufStagel + 1
 		else
@@ -5865,20 +5885,20 @@ function f_selectStage()
 		if data.stageInfo == "Author" or data.stageInfo == "All" then
 			if stageList == 0 then
 				if p1autoSlot == true then --For Auto - Left Side Player Stage
-					if t_selStages[p1charStage].author ~= nil and t_selStages[p1charStage].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: "..t_selStages[p1charStage].author) end
+					if t_selStages[p1charStage].author ~= nil and t_selStages[p1charStage].author ~= "" then textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[p1charStage].author) end
 				elseif p2autoSlot == true then --For Auto - Right Side Player Stage
-					if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: "..t_selStages[p2charStage].author) end
+					if t_selStages[p2charStage].author ~= nil and t_selStages[p2charStage].author ~= "" then textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[p2charStage].author) end
 				else --For Random Select
 					--if data.randomStagePortrait == "Roulette" then
 						--if t_selStages[math.random(1, data.includestage)].author ~= nil and t_selStages[math.random(1, data.includestage)].author ~= "" then
-							--textImgSetText(txt_stageAuthor, "AUTHOR: ".. t_selStages[math.random(1, data.includestage)].author)
+							--textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[math.random(1, data.includestage)].author)
 						--end
 					--elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
-						textImgSetText(txt_stageAuthor, "AUTHOR: ???")
+						textImgSetText(txt_stageAuthor, txt_authorStageText.."???")
 					--end
 				end
 			else --For loaded stages
-				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: "..t_selStages[stageList].author) end
+				if t_selStages[stageList].author ~= nil and t_selStages[stageList].author ~= "" then textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[stageList].author) end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageAuthor) end --Draw Info Text
 		end
@@ -5886,20 +5906,20 @@ function f_selectStage()
 		if data.stageInfo == "Location" or data.stageInfo == "All" then
 			if stageList == 0 then
 				if p1autoSlot == true then
-					if t_selStages[p1charStage].location ~= nil and t_selStages[p1charStage].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: "..t_selStages[p1charStage].location) end
+					if t_selStages[p1charStage].location ~= nil and t_selStages[p1charStage].location ~= "" then textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[p1charStage].location) end
 				elseif p2autoSlot == true then
-					if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: "..t_selStages[p2charStage].location) end
+					if t_selStages[p2charStage].location ~= nil and t_selStages[p2charStage].location ~= "" then textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[p2charStage].location) end
 				else
 					--if data.randomStagePortrait == "Roulette" then
 						--if t_selStages[math.random(1, data.includestage)].location ~= nil and t_selStages[math.random(1, data.includestage)].location ~= "" then
-							--textImgSetText(txt_stageLocation, "LOCATION: ".. t_selStages[math.random(1, data.includestage)].location)
+							--textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[math.random(1, data.includestage)].location)
 						--end
 					--elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
-						textImgSetText(txt_stageLocation, "LOCATION: ???")
+						textImgSetText(txt_stageLocation, txt_locationStageText.."???")
 					--end
 				end
 			else
-				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: "..t_selStages[stageList].location) end
+				if t_selStages[stageList].location ~= nil and t_selStages[stageList].location ~= "" then textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[stageList].location) end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageLocation) end
 		end
@@ -5907,20 +5927,20 @@ function f_selectStage()
 		if data.stageInfo == "Time" or data.stageInfo == "All" then
 			if stageList == 0 then
 				if p1autoSlot == true then
-					if t_selStages[p1charStage].daytime ~= nil and t_selStages[p1charStage].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: "..t_selStages[p1charStage].daytime) end
+					if t_selStages[p1charStage].daytime ~= nil and t_selStages[p1charStage].daytime ~= "" then textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[p1charStage].daytime) end
 				elseif p2autoSlot == true then
-					if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: "..t_selStages[p2charStage].daytime) end
+					if t_selStages[p2charStage].daytime ~= nil and t_selStages[p2charStage].daytime ~= "" then textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[p2charStage].daytime) end
 				else
 					--if data.randomStagePortrait == "Roulette" then
 						--if t_selStages[math.random(1, data.includestage)].daytime ~= nil and t_selStages[math.random(1, data.includestage)].daytime ~= "" then
-							--textImgSetText(txt_stageDayTime, "TIME: ".. t_selStages[math.random(1, data.includestage)].daytime)
+							--textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[math.random(1, data.includestage)].daytime)
 						--end
 					--elseif data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Fixed" then
-						textImgSetText(txt_stageDayTime, "TIME: ???")
+						textImgSetText(txt_stageDayTime, txt_daytimeStageText.."???")
 					--end
 				end
 			else
-				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: "..t_selStages[stageList].daytime) end
+				if t_selStages[stageList].daytime ~= nil and t_selStages[stageList].daytime ~= "" then textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[stageList].daytime) end
 			end
 			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
@@ -5945,7 +5965,10 @@ function f_selectStage()
 			end
 		end
 		--When you select the stage
-		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or stageTimer == 0) and stageAnnouncer == false then
+		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or 
+		commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or 
+		commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or 
+		commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') or stageTimer == 0) and stageAnnouncer == false then
 			if stageList == 0 then --For random or character sides stages
 				stageChosen = true
 			else --For visible stages
@@ -5970,7 +5993,7 @@ function f_selectStage()
 				f_stageAnnouncer()
 				f_loadStage()
 			end
-		elseif (btnPalNo(p1Cmd) > 0 or commandGetState(p1Cmd, 'holds')) and stageAnnouncer == true then
+		--elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'holds') or commandGetState(p2Cmd, 'holds')) and stageAnnouncer == true then
 			--Just Don't Touch!
 		end
 		--create a timer to hear full announcer voice
@@ -5997,9 +6020,9 @@ function f_selectStage()
 			if stageList == 0 then --For random select
 				if data.randomStagePortrait == "Simple" or data.randomStagePortrait == "Roulette" then
 					textImgSetText(txt_selStage, "STAGE " .. stageNo .. ": " .. t_selStages[stageNo].name) --Load Selected Stage Name
-					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= "" then textImgSetText(txt_stageAuthor, "AUTHOR: ".. t_selStages[stageNo].author) end --Load Selected Stage Author IF is assigned
-					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= "" then textImgSetText(txt_stageLocation, "LOCATION: ".. t_selStages[stageNo].location) end --Load Selected Stage Location IF is assigned
-					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= "" then textImgSetText(txt_stageDayTime, "TIME: ".. t_selStages[stageNo].daytime) end --Load Selected Stage Day Time IF is assigned
+					if t_selStages[stageNo].author ~= nil and t_selStages[stageNo].author ~= "" then textImgSetText(txt_stageAuthor, txt_authorStageText..t_selStages[stageNo].author) end --Load Selected Stage Author IF is assigned
+					if t_selStages[stageNo].location ~= nil and t_selStages[stageNo].location ~= "" then textImgSetText(txt_stageLocation, txt_locationStageText..t_selStages[stageNo].location) end --Load Selected Stage Location IF is assigned
+					if t_selStages[stageNo].daytime ~= nil and t_selStages[stageNo].daytime ~= "" then textImgSetText(txt_stageDayTime, txt_daytimeStageText..t_selStages[stageNo].daytime) end --Load Selected Stage Day Time IF is assigned
 					if data.stageType == "Classic" then
 						drawStagePortrait(stageNo-1, 114.5, 172, 0.0705, 0.0699) --Load Selected Stage Portrait
 					elseif data.stageType == "Modern" then
@@ -6450,7 +6473,7 @@ function f_orderSelect()
 				orderhintTime = 0 --Restart timer for a new random hint
 			end
 			i = i + 1
-			--if esc() or commandGetState(p1Cmd, 'e') then
+			--if commandGetState(p1Cmd, 'e') then
 				--if i < 120 then i = 120 end
 			--end
 			if sndTime > 0 then
@@ -7458,7 +7481,7 @@ function f_ftcontrol()
 			--Draw Info Title Text
 			textImgDraw(txt_rankInfo)
 			--Actions
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -7487,7 +7510,7 @@ function f_ftcontrol()
 			--Draw Info Title Text
 			textImgDraw(txt_rankInfo)
 			--Actions
-			if esc() or commandGetState(p1Cmd, 'e') then
+			if esc() then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -7503,7 +7526,7 @@ end
 --; REMATCH SCREENPACK
 --;===========================================================
 txt_rematchCPU = createTextImg(font6, 0, 0, "BATTLE OPTION", 160, 102)
-txt_rematch = createTextImg(font6, 0, 0, "OPTION BATTLE P1", 86, 102)
+txt_rematch = createTextImg(font6, 0, 0, "P1 BATTLE OPTION", 86, 102)
 txt_rematch2 = createTextImg(font6, 0, 0, "P2 BATTLE OPTION", 237, 102)
 
 --Scrolling background
@@ -7549,10 +7572,10 @@ t_battleOption = {
 }
 
 t_battleOption2 = {
-	{id = textImgNew(), text = "REMATCH"},
-	{id = textImgNew(), text = "CHARACTER SELECT"},
-	{id = textImgNew(), text = "STAGE SELECT"},
-	{id = textImgNew(), text = "MAIN MENU"},
+	{id = textImgNew(), text = t_battleOption[1].text}, --Get rematch text from above table
+	{id = textImgNew(), text = t_battleOption[2].text},
+	{id = textImgNew(), text = t_battleOption[3].text},
+	{id = textImgNew(), text = t_battleOption[4].text},
 }
 
 function f_rematch()
@@ -7731,7 +7754,7 @@ function f_rematch()
 	end
 	if p1Ready and p2Ready then rematchEnd = true end
 	if onlinegame == true then
-		if esc() or commandGetState(p1Cmd, 'e') then
+		if esc() then
 			battleOption = 4
 			rematchEnd = true
 			f_backOnline()
@@ -8449,7 +8472,7 @@ function f_continue()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		--if esc() or commandGetState(p1Cmd, 'e') then
+		--if commandGetState(p1Cmd, 'e') then
 			--cmdInput()
 			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			--playBGM(bgmTitle)
