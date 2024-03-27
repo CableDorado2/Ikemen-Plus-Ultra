@@ -69,8 +69,7 @@ p1memberPreview = nil
 f_p1randomReset()
 data.t_p1selected = {}
 p1TeamEnd = false
-p1CharEnd = false --To use in Modern Palette Select
-p1PalEnd = true
+p1palEnd = true
 p1SelEnd = false
 p1BG = false
 p1SelBack = false
@@ -93,9 +92,8 @@ p2Portrait = nil
 p2memberPreview = nil
 f_p2randomReset()
 data.t_p2selected = {}
+p2palEnd = true
 p2TeamEnd = false
-p2CharEnd = false --To use in Modern Palette Select
-p2PalEnd = true
 p2SelEnd = false
 p2BG = false
 p2SelBack = false
@@ -858,20 +856,20 @@ function f_backMenu()
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
-					p2PalEnd = true
+					p2palEnd = true
 					p2SelEnd = false
 				else
 					p1Cell = nil
 					p1Portrait = nil
 					data.t_p1selected = {}
-					p1PalEnd = true
+					p1palEnd = true
 					p1SelEnd = false
 				end
 				if data.coop then
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
-					p2PalEnd = true
+					p2palEnd = true
 					p2SelEnd = false
 				end
 			else
@@ -904,44 +902,6 @@ function f_backReset()
 	backMenu = 1
 end
 
-function f_goBack()
---Right Side have control in Char Select (CPU Vs Human)
-	if (data.p1In == 2 and data.p2In == 2) then
-		if p2TeamBack == true then
-			if backScreen == false then sndPlay(sysSnd, 100, 2) end
-			backScreen = true
-		end
---Left Side have control in Char Select (Human Vs CPU)
-	elseif (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-		if p1TeamBack == true then
-			if backScreen == false then sndPlay(sysSnd, 100, 2) end
-			backScreen = true
-		end
---Left Side and Right Side have control in Char Select (Human Vs Human)
-	elseif data.p1In == 1 and data.p2In == 2 then
-		if p1TeamBack == true and p2TeamBack == true then
-			if backScreen == false then sndPlay(sysSnd, 100, 2) end
-			backScreen = true
-		end
-	end
-end
-
---[[
-function f_goBack()
-	if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
-		if p1TeamBack == true then
-			if backScreen == false then sndPlay(sysSnd, 100, 2) end
-			backScreen = true
-		end
-	elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
-		if p1TeamBack == true and p2TeamBack == true then
-			if backScreen == false then sndPlay(sysSnd, 100, 2) end
-			backScreen = true
-		end
-	end
-end
-]]
-
 --;===================================================================================================
 --; SIMPLE CHARACTER SELECT (VERSUS, TRAINING, RANDOM, MISSIONS, EVENTS, SINGLE BONUS/BOSSES LIST)
 --;===================================================================================================
@@ -966,13 +926,22 @@ function f_selectSimple()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_goBack() end
+				if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
+					if p1TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+					if p1TeamBack == true and p2TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				end
 			elseif onlinegame == true then
 				if esc() then f_backOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile("save/temp_sav.lua"))()
-		--Return to Main Menu
 			if back == true or data.tempBack == true then
 				if data.rosterMode == "event" then
 					--playBGM("")
@@ -1046,7 +1015,17 @@ function f_selectSimple()
 					f_selectReset()
 					while not selScreenEnd do
 						if onlinegame == false then
-							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_goBack() end
+							if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+								if p1TeamBack == true then
+									if backScreen == false then sndPlay(sysSnd, 100, 2) end
+									backScreen = true
+								end
+							elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+								if p1TeamBack == true and p2TeamBack == true then
+									if backScreen == false then sndPlay(sysSnd, 100, 2) end
+									backScreen = true
+								end
+							end
 						elseif onlinegame == true then
 							if esc() then f_backOnline() end
 						end
@@ -1086,7 +1065,17 @@ function f_selectSimple()
 			else
 				f_selectReset()
 				while not selScreenEnd do
-					if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_goBack() end
+					if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+						if p1TeamBack == true then
+							if backScreen == false then sndPlay(sysSnd, 100, 2) end
+							backScreen = true
+						end
+					elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+						if p1TeamBack == true and p2TeamBack == true then
+							if backScreen == false then sndPlay(sysSnd, 100, 2) end
+							backScreen = true
+						end
+					end
 					f_selectScreen()
 					if back == true then
 						if data.rosterMode == "event" then
@@ -1958,7 +1947,17 @@ function f_selectStory()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_goBack() end
+				if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+					if p1TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
+					if p1TeamBack == true and p2TeamBack == true then
+						if backScreen == false then sndPlay(sysSnd, 100, 2) end
+						backScreen = true
+					end
+				end
 			elseif onlinegame == true then
 				if esc() then f_backOnline() end
 			end
@@ -2380,9 +2379,6 @@ animUpdate(cellLockWindowBG)
 --;===========================================================
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
-txt_palHint = createTextImg(font1, 0, 0, "", 157, 239)
-txt_palHintC = "PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS"
-txt_palHintM = "PRESS MENU BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS"
 
 function f_selectScreen()
 	--draw
@@ -2540,25 +2536,21 @@ function f_selectScreen()
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
-	--Draw Palette Select Hint
+	--Palette Sub-Menu
 	if data.palType == "Classic" then
-		textImgSetText(txt_palHint, txt_palHintC)
+		txt_palHint = createTextImg(font1, 0, -1, "PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ", 308, 239)
 	elseif data.palType == "Modern" then
-		textImgSetText(txt_palHint, txt_palHintM)
-	end
-	if p1TeamEnd or p2TeamEnd then
-		if (p1PalEnd and p2PalEnd) and not stageMenuActive then
-			textImgDraw(txt_palHint)
+		if p1palEnd == true and p2palEnd == true then
+			txt_palHint = createTextImg(font1, 0, -1, "PRESS START BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS", 287, 239)
+		else
+			txt_palHint = createTextImg(font1, 0, -1, " ", 295, 239)
 		end
-	end
-	--Palette Select
-	if data.palType == "Modern" then
 		--Player1
-		if not p1PalEnd then
+		if not p1palEnd then
 			f_p1palList()
 		end
 		--Player2
-		if not p2PalEnd then
+		if not p2palEnd then
 			f_p2palList()
 		end
 	end
@@ -2578,9 +2570,9 @@ function f_selectScreen()
 	if stageAnnouncer == true then
 		announcerTimer = announcerTimer + 1
 	end
-	--Deselect Character for Left Side Multiplayer
+	--Deselect in Multiplayer Modes
 	if data.coop then
-		if btnPalNo(p1Cmd) > 0 and p1SelEnd then
+		if btnPalNo(p1Cmd) > 0 and p1SelEnd == true then
 			sndPlay(sysSnd, 100, 2)
 			p1SelEnd = false
 			data.t_p1selected = {}
@@ -2603,14 +2595,13 @@ function f_selectScreen()
 			end
 		end
 	end
-	--Deselect Character for Right Side Multiplayer
 	if data.p2In == 2 then
 		if data.coop then
 			if btnPalNo(p2Cmd) > 0 and p2SelEnd then
 				sndPlay(sysSnd, 100, 2)
-				--if data.p2In == 2 then
+				if data.p2In == 2 then
 					p2SelEnd = false
-				--end
+				end
 				data.t_p2selected = {}
 				p2memberPreview = 1
 				f_p2randomReset()
@@ -2618,9 +2609,9 @@ function f_selectScreen()
 		else
 			if btnPalNo(p2Cmd) > 0 and p2SelEnd and charSelect == true then 
 				sndPlay(sysSnd, 100, 2)
-				--if data.p2In == 2 then
+				if data.p2In == 2 then
 					p2SelEnd = false
-				--end
+				end
 				data.t_p2selected = {}
 				p2memberPreview = 1
 				f_p2randomReset()
@@ -2743,23 +2734,6 @@ function f_p1TeamMenu()
 		p1BG = true
 		p1memberPreview = 1
 	else
-		--Back logic when you are selecting CPU Team Mode in CPU Vs Human
-		if commandGetState(p2Cmd, 'e') and (data.p1In == 2 and data.p2In == 2) then --p2Cmd because human is in right side
-			if p1TeamBack == true then
-				if (data.p1In == 2 and data.p2In == 2) then
-					sndPlay(sysSnd, 100, 2)
-					f_p1sideReset()
-					--p1TeamEnd = true
-					--p1SelEnd = true
-					f_p2sideReset()
-					p2TeamEnd = true
-					p2BG = true
-					p2memberPreview = 1
-					p2SelBack = true
-					p2TeamBack = false
-				end
-			end
-		end
 		if backScreen == false then
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufTmu >= 30) then
 				sndPlay(sysSnd, 100, 0)
@@ -2972,10 +2946,10 @@ function f_p1palList()
 	end
 	if btnPalNo(p1Cmd) > 0 then
 		sndPlay(sysSnd, 100, 1)
-		p1PalEnd = true
+		p1palEnd = true
 		cmdInput()
 	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
-		p1PalEnd = true
+		p1palEnd = true
 	end
 end
 
@@ -3846,8 +3820,8 @@ function f_p1SelectMenu()
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
-			if backScreen == false and p1PalEnd then
-				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30) then
+			if backScreen == false then
+				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -3882,7 +3856,7 @@ function f_p1SelectMenu()
 					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30) then
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30 and p1palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -3917,7 +3891,7 @@ function f_p1SelectMenu()
 					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30) then
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30 and p1palEnd) then
 					while true do
 						p1SelX = f_findCelXSub(p1SelX, wrappingX)
 						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
@@ -3925,7 +3899,7 @@ function f_p1SelectMenu()
 					if tmpCelX ~= p1SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30) then
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30 and p1palEnd) then
 					while true do
 						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
 						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
@@ -3934,12 +3908,15 @@ function f_p1SelectMenu()
 						sndPlay(sysSnd, 100, 0)
 					end
 				end
-				if commandGetState(p1Cmd, 's') then --Start Button Activates Palette Select
+				if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
 					if data.palType == "Modern" then
+						p1palEnd = false
 						sndPlay(sysSnd, 100, 3)
-						p1PalEnd = false
+						f_p1palList()
+					else
+						--Do not show Modern Palette Menu
 					end
-				end
+				end				
 				if commandGetState(p1Cmd, 'holdu') then
 					bufSeld = 0
 					bufSelu = bufSelu + 1
@@ -3985,6 +3962,7 @@ function f_p1SelectMenu()
 					textImgDraw(txt_p1Author)
 				end
 			end
+			textImgDraw(txt_palHint) --Draw Character Select Hint
 		--Set Preview Character Name
 			textImgSetBank(txt_p1Name, 0) --Restart color for not selected character
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
@@ -4038,24 +4016,14 @@ function f_p1SelectMenu()
 				end
 			end
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-		--Back to Team Menu Logic
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if commandGetState(p2Cmd, 'e') and p1SelBack == true and not data.coop then
-					sndPlay(sysSnd, 100, 2)
-					f_p1sideReset()
-				end
-			else
-				if commandGetState(p1Cmd, 'e') then
-					if serviceBack == true then
-						f_p1sideReset()
-						p1TeamEnd = true
-						p1BG = true
-						p1memberPreview = 1
-					elseif p1SelBack == true then
-						sndPlay(sysSnd, 100, 2)
-						f_p1sideReset()
-					end
-				end
+			if commandGetState(p1Cmd, 'e') and serviceBack == true then
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+				p1memberPreview = 1
+			elseif commandGetState(p1Cmd, 'e') and p1SelBack == true then
+				sndPlay(sysSnd, 100, 2)
+				f_p1sideReset()
 			end
 			if btnPalNo(p1Cmd) > 0 then
 				if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 then --This character is unlocked
@@ -4239,21 +4207,28 @@ function f_p2TeamMenu()
 		p2BG = true
 		p2memberPreview = 1
 	else
-		--Back logic when you are selecting CPU Team Mode in Human Vs CPU
-		if commandGetState(p1Cmd, 'e') and (data.p1In ~= 2 and data.p2In ~= 2) then --p1Cmd because Human is in left side
-			if p2TeamBack == true then
-				if data.p2In == 1 or data.p2In == 3 then
-					sndPlay(sysSnd, 100, 2)
-					f_p2sideReset()
-					p2TeamEnd = true
-					p2SelEnd = true
-					f_p1sideReset()
-					p1TeamEnd = true
-					p1BG = true
-					p1memberPreview = 1
-					p1SelBack = true
-					p1TeamBack = false
-				end
+		if commandGetState(p1Cmd, 'e') and p2TeamBack == true then
+			sndPlay(sysSnd, 100, 2)
+			if data.p2In == 1 or data.p2In == 3 then
+				f_p2sideReset()
+				p2TeamEnd = true
+				p2SelEnd = true
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+				p1memberPreview = 1
+				p1SelBack = true
+				p1TeamBack = false
+			elseif data.p2In == 2 and data.p1In == 2 then
+				f_p2sideReset()
+				p2TeamEnd = true
+				p2SelEnd = true
+				f_p1sideReset()
+				p1TeamEnd = true
+				p1BG = true
+				p1memberPreview = 1
+				p1SelBack = true
+				p1TeamBack = false
 			end
 		end
 		if backScreen == false then	
@@ -4466,10 +4441,10 @@ function f_p2palList()
 	end
 	if btnPalNo(p2Cmd) > 0 then
 		sndPlay(sysSnd, 100, 1)
-		p2PalEnd = true
+		p2palEnd = true
 		cmdInput()
 	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
-		p2PalEnd = true
+		p2palEnd = true
 	end
 end
 
@@ -5286,8 +5261,8 @@ function f_p2SelectMenu()
 		if not p2SelEnd then
 			local tmpCelX = p2SelX
 			local tmpCelY = p2SelY
-			if backScreen == false and p2PalEnd then
-				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30) then
+			if backScreen == false then
+				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30 and p2palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -5322,7 +5297,7 @@ function f_p2SelectMenu()
 					if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30) then
+				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30 and p2palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -5357,7 +5332,7 @@ function f_p2SelectMenu()
 					if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30) then
+				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30 and p2palEnd) then
 					while true do
 						p2SelX = f_findCelXSub(p2SelX, wrappingX)
 						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
@@ -5365,7 +5340,7 @@ function f_p2SelectMenu()
 					if tmpCelX ~= p2SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30) then
+				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30 and p2palEnd) then
 					while true do
 						p2SelX = f_findCelXAdd(p2SelX, wrappingX)
 						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
@@ -5376,8 +5351,11 @@ function f_p2SelectMenu()
 				end
 				if commandGetState(p2Cmd, 's') then
 					if data.palType == "Modern" then
+						p2palEnd = false
 						sndPlay(sysSnd, 100, 3)
-						p2PalEnd = false
+						f_p2palList()
+					else
+						--Do not show Modern Palette Menu
 					end
 				end
 				if commandGetState(p2Cmd, 'holdu') then
@@ -5424,6 +5402,7 @@ function f_p2SelectMenu()
 					textImgDraw(txt_p2Author)
 				end
 			end
+			textImgDraw(txt_palHint)
 			textImgSetBank(txt_p2Name, 0)
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
@@ -5480,24 +5459,9 @@ function f_p2SelectMenu()
 				end
 			end
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
-		--Back to Team Menu Logic
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				if commandGetState(p2Cmd, 'e') then
-					if serviceBack == true then
-						f_p2sideReset()
-						p2TeamEnd = true
-						p2BG = true
-						p2memberPreview = 1
-					elseif p2SelBack == true then
-						sndPlay(sysSnd, 100, 2)
-						f_p2sideReset()
-					end
-				end
-			else
-				if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
-					sndPlay(sysSnd, 100, 2)
-					f_p2sideReset()
-				end
+			if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
+				sndPlay(sysSnd, 100, 2)
+				f_p2sideReset()
 			end
 			if btnPalNo(p2Cmd) > 0 then
 				if t_selChars[p2Cell+1].unlock == nil or t_selChars[p2Cell+1].unlock == 1 then
@@ -6107,7 +6071,7 @@ function f_selectStage()
 				p2Cell = nil
 				p2Portrait = nil
 				data.t_p2selected = {}
-				p2PalEnd = true
+				p2palEnd = true
 				p2SelEnd = false
 			end
 			stageEnd = true

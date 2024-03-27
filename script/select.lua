@@ -141,6 +141,10 @@ function f_selectReset()
 		p2TeamEnd = true
 		p2SelEnd = true
 	end
+	if data.p1In == 2 and data.p2In == 2 then
+		p1TeamEnd = true
+		p1SelEnd = true
+	end
 	--if not data.p1SelectMenu then
 		--p1SelEnd = true
 	--end
@@ -765,7 +769,7 @@ function f_loseCoins()
 end
 
 --;===========================================================
---; BACK TO MAIN MENU MESSAGE
+--; BACK TO MAIN MENU
 --;===========================================================
 txt_backquestion = createTextImg(jgFnt, 1, 0, "BACK TO MAIN MENU?", 160.5, 110,0.9,0.9)
 
@@ -885,7 +889,15 @@ function f_backMenu()
 	cmdInput()
 end
 
-function f_backOnline()
+function f_backReset()
+	backScreen = false
+	moveTxtBack = 0
+	--Cursor pos in YES
+	cursorPosYBack = 0
+	backMenu = 1
+end
+
+function f_exitOnline()
 	while true do
 		--setGameType(0)
 		--setServiceType(0)
@@ -896,12 +908,58 @@ function f_backOnline()
 	end
 end
 
-function f_backReset()
-	backScreen = false
-	moveTxtBack = 0
-	--Cursor pos in YES
-	cursorPosYBack = 0
-	backMenu = 1
+function f_resetMenuAssets()
+	if data.rosterMode == "event" then
+		--playBGM("")
+	else
+		if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	end
+	data.tempBack = false
+	f_saveTemp()
+	f_resetMenuInputs()
+end
+
+function f_exitSelect() --For Simple/Story Select
+--Right Side have control in Char Select (CPU Vs Human)
+	if (data.p1In == 2 and data.p2In == 2) then
+		if p2TeamBack == true then
+			if backScreen == false then sndPlay(sysSnd, 100, 2) end
+			backScreen = true
+		end
+--Left Side have control in Char Select (Human Vs CPU)
+	elseif (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+		if p1TeamBack == true then
+			if backScreen == false then sndPlay(sysSnd, 100, 2) end
+			backScreen = true
+		end
+--Left Side and Right Side have control in Char Select (Human Vs Human)
+	elseif data.p1In == 1 and data.p2In == 2 then
+		if p1TeamBack == true and p2TeamBack == true then
+			if backScreen == false then sndPlay(sysSnd, 100, 2) end
+			backScreen = true
+		end
+	end
+end
+
+function f_exitSelect2() --For Advanced Select
+--Right Side have control in Char Select (CPU Vs Human)
+	if (data.p1In == 2 and data.p2In == 2) then
+		if p2TeamBack == true then
+			if backScreen == false then sndPlay(sysSnd, 100, 2) end
+			backScreen = true
+		end
+--Left Side have control in Char Select (Human Vs CPU)
+	else
+		if p1TeamBack == true then
+			if backScreen == false then sndPlay(sysSnd, 100, 2) end
+			backScreen = true
+		end
+	end
+end
+
+function f_exitSelect3() --For Advanced Select after Continue Screen
+	if backScreen == false then sndPlay(sysSnd, 100, 2) end
+	backScreen = true
 end
 
 --;===================================================================================================
@@ -928,31 +986,15 @@ function f_selectSimple()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then --(data.p1In == 2 and data.p2In == 2) add this cpu vs p1 side condition
-					if p1TeamBack == true then
-						if backScreen == false then sndPlay(sysSnd, 100, 2) end
-						backScreen = true
-					end
-				elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
-					if p1TeamBack == true and p2TeamBack == true then
-						if backScreen == false then sndPlay(sysSnd, 100, 2) end
-						backScreen = true
-					end
-				end
+				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
 			elseif onlinegame == true then
-				if esc() then f_backOnline() end
+				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
+		--Return to Main Menu
 			assert(loadfile("save/temp_sav.lua"))()
 			if back == true or data.tempBack == true then
-				if data.rosterMode == "event" then
-					--playBGM("")
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
-				data.tempBack = false
-				f_saveTemp()
-				f_resetMenuInputs()
+				f_resetMenuAssets()
 				return
 			end
 		end
@@ -991,16 +1033,11 @@ function f_selectSimple()
 					--back = false
 					while not selScreenEnd do
 						if onlinegame == true then
-							if esc() then f_backOnline() end
+							if esc() then f_exitOnline() end
 						end
 						f_selectScreen()
 						if back == true then
-							if data.rosterMode == "event" then
-								--playBGM("")
-							else
-								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-							end
-							f_resetMenuInputs()
+							f_resetMenuAssets()
 							return
 						end
 					end
@@ -1017,28 +1054,13 @@ function f_selectSimple()
 					f_selectReset()
 					while not selScreenEnd do
 						if onlinegame == false then
-							if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-								if p1TeamBack == true then
-									if backScreen == false then sndPlay(sysSnd, 100, 2) end
-									backScreen = true
-								end
-							elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
-								if p1TeamBack == true and p2TeamBack == true then
-									if backScreen == false then sndPlay(sysSnd, 100, 2) end
-									backScreen = true
-								end
-							end
+							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
 						elseif onlinegame == true then
-							if esc() then f_backOnline() end
+							if esc() then f_exitOnline() end
 						end
 						f_selectScreen()
 						if back == true then
-							if data.rosterMode == "event" then
-								--playBGM("")
-							else
-								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-							end
-							f_resetMenuInputs()
+							f_resetMenuAssets()
 							return
 						end
 					end
@@ -1067,25 +1089,10 @@ function f_selectSimple()
 			else
 				f_selectReset()
 				while not selScreenEnd do
-					if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-						if p1TeamBack == true then
-							if backScreen == false then sndPlay(sysSnd, 100, 2) end
-							backScreen = true
-						end
-					elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
-						if p1TeamBack == true and p2TeamBack == true then
-							if backScreen == false then sndPlay(sysSnd, 100, 2) end
-							backScreen = true
-						end
-					end
+					if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
 					f_selectScreen()
 					if back == true then
-						if data.rosterMode == "event" then
-							--playBGM("")
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
-						f_resetMenuInputs()
+						f_resetMenuAssets()
 						return
 					end
 				end
@@ -1145,20 +1152,14 @@ function f_selectAdvance()
 		selectStart()
 		while not selScreenEnd do
 			if onlinegame == false then
-				if commandGetState(p1Cmd, 'e') and p1TeamBack == true then
-					if backScreen == false then sndPlay(sysSnd, 100, 2) end
-					backScreen = true
-				end
+				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect2() end
 			elseif onlinegame == true then
-				if esc() then f_backOnline() end
+				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile("save/temp_sav.lua"))()
 			if back == true or data.tempBack == true then
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				data.tempBack = false
-				f_saveTemp()
-				f_resetMenuInputs()
+				f_resetMenuAssets()
 				return
 			end
 		end
@@ -1327,14 +1328,10 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if commandGetState(p1Cmd, 'e') then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
-							end
+							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect3() end
 							f_selectScreen()
 							if back == true then
-								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-								f_resetMenuInputs()
+								f_resetMenuAssets()
 								return
 							end
 						end
@@ -1559,14 +1556,10 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if commandGetState(p1Cmd, 'e') then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
-							end
+							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect3() end
 							f_selectScreen()
 							if back == true then
-								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-								f_resetMenuInputs()
+								f_resetMenuAssets()
 								return
 							end
 						end
@@ -1728,14 +1721,10 @@ function f_selectAdvance()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
-							if commandGetState(p1Cmd, 'e') then
-								if backScreen == false then sndPlay(sysSnd, 100, 2) end
-								backScreen = true
-							end
+							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect3() end
 							f_selectScreen()
 							if back == true then
-								if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-								f_resetMenuInputs()
+								f_resetMenuAssets()
 								return
 							end
 						end
@@ -1753,8 +1742,7 @@ function f_selectAdvance()
 				end
 			--If you exit in char select from challenger mode then back to main menu
 				if back == true or backtomenu == true then
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
+					f_resetMenuAssets()
 					break --return
 				end
 			end
@@ -1949,19 +1937,9 @@ function f_selectStory()
 		end
 		while not selScreenEnd do
 			if onlinegame == false then
-				if commandGetState(p1Cmd, 'e') and (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
-					if p1TeamBack == true then
-						if backScreen == false then sndPlay(sysSnd, 100, 2) end
-						backScreen = true
-					end
-				elseif commandGetState(p1Cmd, 'e') and data.p2In == 2 then
-					if p1TeamBack == true and p2TeamBack == true then
-						if backScreen == false then sndPlay(sysSnd, 100, 2) end
-						backScreen = true
-					end
-				end
+				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect() end
 			elseif onlinegame == true then
-				if esc() then f_backOnline() end
+				if esc() then f_exitOnline() end
 			end
 			f_selectScreen()
 			assert(loadfile("save/temp_sav.lua"))()
@@ -2450,11 +2428,7 @@ function f_selectScreen()
 	end
 	--Player1		
 	if not p1TeamEnd then
-		if data.p1In == 2 then --P2 Choose first only when you play in p2 side (CPU VS P1)
-			if p2SelEnd then f_p1TeamMenu() end
-		else
-			f_p1TeamMenu()
-		end
+		f_p1TeamMenu()
 	elseif data.p1In > 0 or data.p1Char ~= nil then
 		f_p1SelectMenu()
 		--[[
@@ -2579,9 +2553,9 @@ function f_selectScreen()
 	if stageAnnouncer == true then
 		announcerTimer = announcerTimer + 1
 	end
-	--Deselect in Multiplayer Modes
+	--Deselect Character for Left Side Multiplayer
 	if data.coop then
-		if btnPalNo(p1Cmd) > 0 and p1SelEnd == true then
+		if btnPalNo(p1Cmd) > 0 and p1SelEnd then
 			sndPlay(sysSnd, 100, 2)
 			p1SelEnd = false
 			data.t_p1selected = {}
@@ -2604,13 +2578,14 @@ function f_selectScreen()
 			end
 		end
 	end
+	--Deselect Character for Right Side Multiplayer
 	if data.p2In == 2 then
 		if data.coop then
 			if btnPalNo(p2Cmd) > 0 and p2SelEnd then
 				sndPlay(sysSnd, 100, 2)
-				if data.p2In == 2 then
+				--if data.p2In == 2 then
 					p2SelEnd = false
-				end
+				--end
 				data.t_p2selected = {}
 				p2memberPreview = 1
 				f_p2randomReset()
@@ -2618,9 +2593,9 @@ function f_selectScreen()
 		else
 			if btnPalNo(p2Cmd) > 0 and p2SelEnd and charSelect == true then 
 				sndPlay(sysSnd, 100, 2)
-				if data.p2In == 2 then
+				--if data.p2In == 2 then
 					p2SelEnd = false
-				end
+				--end
 				data.t_p2selected = {}
 				p2memberPreview = 1
 				f_p2randomReset()
@@ -2632,7 +2607,7 @@ function f_selectScreen()
 		if onlinegame == false then
 			f_backMenu()
 		elseif onlinegame == true then
-			f_backOnline()
+			f_exitOnline()
 		end
 	end
 	animDraw(data.fadeSelect)
@@ -2743,6 +2718,23 @@ function f_p1TeamMenu()
 		p1BG = true
 		p1memberPreview = 1
 	else
+		--Back logic when you are selecting CPU Team Mode in CPU Vs Human
+		if commandGetState(p2Cmd, 'e') and (data.p1In == 2 and data.p2In == 2) then --p2Cmd because human is in right side
+			if p1TeamBack == true then
+				if (data.p1In == 2 and data.p2In == 2) then
+					sndPlay(sysSnd, 100, 2)
+					f_p1sideReset()
+					p1TeamEnd = true
+					p1SelEnd = true
+					f_p2sideReset()
+					p2TeamEnd = true
+					p2BG = true
+					p2memberPreview = 1
+					p2SelBack = true
+					p2TeamBack = false
+				end
+			end
+		end
 		if backScreen == false then
 			if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufTmu >= 30) then
 				sndPlay(sysSnd, 100, 0)
@@ -4021,14 +4013,24 @@ function f_p1SelectMenu()
 				end
 			end
 			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
-			if commandGetState(p1Cmd, 'e') and serviceBack == true then
-				f_p1sideReset()
-				p1TeamEnd = true
-				p1BG = true
-				p1memberPreview = 1
-			elseif commandGetState(p1Cmd, 'e') and p1SelBack == true then
-				sndPlay(sysSnd, 100, 2)
-				f_p1sideReset()
+		--Back to Team Menu Logic
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				if commandGetState(p2Cmd, 'e') and p1SelBack == true and not data.coop then
+					sndPlay(sysSnd, 100, 2)
+					f_p1sideReset()
+				end
+			else
+				if commandGetState(p1Cmd, 'e') then
+					if serviceBack == true then
+						f_p1sideReset()
+						p1TeamEnd = true
+						p1BG = true
+						p1memberPreview = 1
+					elseif p1SelBack == true then
+						sndPlay(sysSnd, 100, 2)
+						f_p1sideReset()
+					end
+				end
 			end
 			if btnPalNo(p1Cmd) > 0 then
 				if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 then --This character is unlocked
@@ -4212,28 +4214,21 @@ function f_p2TeamMenu()
 		p2BG = true
 		p2memberPreview = 1
 	else
-		if commandGetState(p1Cmd, 'e') and p2TeamBack == true then
-			sndPlay(sysSnd, 100, 2)
-			if data.p2In == 1 or data.p2In == 3 then
-				f_p2sideReset()
-				p2TeamEnd = true
-				p2SelEnd = true
-				f_p1sideReset()
-				p1TeamEnd = true
-				p1BG = true
-				p1memberPreview = 1
-				p1SelBack = true
-				p1TeamBack = false
-			elseif data.p2In == 2 and data.p1In == 2 then
-				f_p2sideReset()
-				p2TeamEnd = true
-				p2SelEnd = true
-				f_p1sideReset()
-				p1TeamEnd = true
-				p1BG = true
-				p1memberPreview = 1
-				p1SelBack = true
-				p1TeamBack = false
+		--Back logic when you are selecting CPU Team Mode in Human Vs CPU
+		if commandGetState(p1Cmd, 'e') and (data.p1In ~= 2 and data.p2In ~= 2) then --p1Cmd because Human is in left side
+			if p2TeamBack == true then
+				if data.p2In == 1 or data.p2In == 3 then
+					sndPlay(sysSnd, 100, 2)
+					f_p2sideReset()
+					p2TeamEnd = true
+					p2SelEnd = true
+					f_p1sideReset()
+					p1TeamEnd = true
+					p1BG = true
+					p1memberPreview = 1
+					p1SelBack = true
+					p1TeamBack = false
+				end
 			end
 		end
 		if backScreen == false then	
@@ -5460,9 +5455,24 @@ function f_p2SelectMenu()
 				end
 			end
 			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
-			if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
-				sndPlay(sysSnd, 100, 2)
-				f_p2sideReset()
+		--Back to Team Menu Logic
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				if commandGetState(p2Cmd, 'e') then
+					if serviceBack == true then
+						f_p2sideReset()
+						p2TeamEnd = true
+						p2BG = true
+						p2memberPreview = 1
+					elseif p2SelBack == true then
+						sndPlay(sysSnd, 100, 2)
+						f_p2sideReset()
+					end
+				end
+			else
+				if commandGetState(p1Cmd, 'e') and p2SelBack == true and not data.coop then
+					sndPlay(sysSnd, 100, 2)
+					f_p2sideReset()
+				end
 			end
 			if btnPalNo(p2Cmd) > 0 then
 				if t_selChars[p2Cell+1].unlock == nil or t_selChars[p2Cell+1].unlock == 1 then
@@ -5527,6 +5537,13 @@ function f_p2Selection()
 		end
 		data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 		if #data.t_p2selected == p2numChars then
+			--
+			if data.p1In == 2 and matchNo == 0 then
+				p1TeamEnd = false
+				p1SelEnd = false
+				--commandBufReset(p1Cmd)
+			end
+			--
 			p2SelEnd = true
 		end
 	end
@@ -7827,7 +7844,7 @@ function f_rematch()
 		if esc() then
 			battleOption = 4
 			rematchEnd = true
-			f_backOnline()
+			f_exitOnline()
 		end
 	end
 end
