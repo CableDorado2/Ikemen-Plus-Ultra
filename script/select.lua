@@ -2431,79 +2431,83 @@ function f_selectScreen()
 		f_p1TeamMenu()
 	elseif data.p1In > 0 or data.p1Char ~= nil then
 		f_p1SelectMenu()
-		--[[
-		--Draw VS Single Bosses Portraits if you are playing in Right Side
-		if data.gameMode == "singleboss" then
-			animDraw(f_animVelocity(charBG3, 2, 0))
-			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawPortrait(data.t_p1selected[1].cel, 0, 20, -1, 1)
-			end
-			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
-				for j=#data.t_p1selected, 1, -1 do
-					--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 220, 158, data.t_p1selected[j].up) --Stand Animation
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 220, 158, data.t_p1selected[j].up) --Selected/Win Animation
+		--[
+		if (data.p1In == 2 and data.p2In == 2) then
+			--Draw VS Single Bosses Portraits if you are playing in Right Side
+			if data.gameMode == "singleboss" then
+				animDraw(f_animVelocity(charBG3, 2, 0))
+				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+					drawPortrait(data.t_p1selected[1].cel, 0, 20, -1, 1)
+				end
+				if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+					for j=#data.t_p1selected, 1, -1 do
+						--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 220, 158, data.t_p1selected[j].up) --Stand Animation
+						f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 220, 158, data.t_p1selected[j].up) --Selected/Win Animation
+					end
+				end
+				--Draw Author Info Text
+				if data.charInfo == "Author" then
+					if t_selChars[data.t_p1selected[1].cel+1].author ~= nil then
+						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel+1].author)
+						textImgDraw(txt_p1Author)
+					end
 				end
 			end
-			--Draw Author Info Text
-			if data.charInfo == "Author" then
-				if t_selChars[data.t_p1selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel+1].author)
-					textImgDraw(txt_p1Author)
+			--Draw VS Single Bonus Portraits
+			if data.gameMode == "singlebonus" then
+				animDraw(f_animVelocity(charBG3, 2, 0))
+				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+					drawPortrait(data.t_p1selected[1].cel, 0, 20, -1, 1)
+				end
+				--Draw Author Info Text
+				if data.charInfo == "Author" then
+					if t_selChars[data.t_p1selected[1].cel+1].author ~= nil then
+						textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel+1].author)
+						textImgDraw(txt_p1Author)
+					end
 				end
 			end
 		end
-		--Draw VS Single Bonus Portraits
-		if data.gameMode == "singlebonus" then
-			animDraw(f_animVelocity(charBG3, 2, 0))
-			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawPortrait(data.t_p1selected[1].cel, 0, 20, -1, 1)
-			end
-			--Draw Author Info Text
-			if data.charInfo == "Author" then
-				if t_selChars[data.t_p1selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p1Author, txt_authorText..t_selChars[data.t_p1selected[1].cel+1].author)
-					textImgDraw(txt_p1Author)
-				end
-			end
-		end
-		]]
+		--]
 	end
 	--Player2
 	if not p2TeamEnd then
 		f_p2TeamMenu()
 	elseif data.p2In > 0 or data.p2Char ~= nil then
 		f_p2SelectMenu()
-		--Draw VS Single Bosses Portraits if you are playing in Left Side
-		if data.gameMode == "singleboss" then
-			animDraw(f_animVelocity(charBG3, 2, 0))
-			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
-			end
-			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
-				for j=#data.t_p2selected, 1, -1 do
-					--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
+		if (data.p1In ~= 2 and data.p2In ~= 2) then
+			--Draw VS Single Bosses Portraits if you are playing in Left Side
+			if data.gameMode == "singleboss" then
+				animDraw(f_animVelocity(charBG3, 2, 0))
+				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+					drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
+				end
+				if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+					for j=#data.t_p2selected, 1, -1 do
+						--f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 220, 158, data.t_p2selected[j].up) --Stand Animation
+						f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 220, 158, data.t_p2selected[j].up) --Selected/Win Animation
+					end
+				end
+				--Draw Author Info Text
+				if data.charInfo == "Author" then
+					if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
+						textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
+						textImgDraw(txt_p2Author)
+					end
 				end
 			end
-			--Draw Author Info Text
-			if data.charInfo == "Author" then
-				if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
-					textImgDraw(txt_p2Author)
+			--Draw VS Single Bonus Portraits
+			if data.gameMode == "singlebonus" then
+				animDraw(f_animVelocity(charBG3, 2, 0))
+				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+					drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 				end
-			end
-		end
-		--Draw VS Single Bonus Portraits
-		if data.gameMode == "singlebonus" then
-			animDraw(f_animVelocity(charBG3, 2, 0))
-			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
-			end
-			--Draw Author Info Text
-			if data.charInfo == "Author" then
-				if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
-					textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
-					textImgDraw(txt_p2Author)
+				--Draw Author Info Text
+				if data.charInfo == "Author" then
+					if t_selChars[data.t_p2selected[1].cel+1].author ~= nil then
+						textImgSetText(txt_p2Author, txt_authorText..t_selChars[data.t_p2selected[1].cel+1].author)
+						textImgDraw(txt_p2Author)
+					end
 				end
 			end
 		end

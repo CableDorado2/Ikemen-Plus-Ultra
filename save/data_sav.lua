@@ -12,7 +12,7 @@ data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
 data.pauseMode = "Yes"
-data.sideSelect = "Modern"
+data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Portrait"
@@ -42,7 +42,7 @@ data.zoomMax = 1.1
 data.zoomSpeed = 1
 --Character Select Data
 data.selectType = "Fixed"
-data.palType = "Classic"
+data.palType = "Modern"
 data.randomPortrait = "Fixed"
 data.training = "Fixed"
 data.randomCharRematch = "Variable"

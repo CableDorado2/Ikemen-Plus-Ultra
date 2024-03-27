@@ -1910,7 +1910,6 @@ function f_default() --Reset Game Modes Configuration
 	data.p1In = 1 --P1 controls P1 side of the select screen
 	data.p2In = 0 --P2 controls in the select screen disabled
 	data.coop = false --P2 fighting on P1 side disabled
-	--data.p1Faces = false --additional window with P1 select screen small portraits (faces) disabled
 	data.p2Faces = false --additional window with P2 select screen small portraits (faces) disabled
 	data.p1SelectMenu = true --P1 character selection enabled
 	data.p2SelectMenu = true --P2 character selection enabled
@@ -1942,7 +1941,6 @@ sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based
 
 --"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
 function f_cmdCode()
-	--data.p2In = 2 --Activate Player 2 Control
 --Actions
 	if commandGetState(p1Cmd, 'u') and codeEntry == 1 then --Read from 2nd key because the first one was readed from menu where this function is loaded
 		codeEntry = 2

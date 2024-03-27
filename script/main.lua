@@ -3337,6 +3337,7 @@ function bossCPUvsP1()
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
+	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_bossChars[bossChars]}
 	script.select.f_selectSimple()
@@ -3349,6 +3350,7 @@ function bossCPUvsP2()
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
+	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_bossChars[bossChars]}
 	script.select.f_selectSimple()
@@ -3877,6 +3879,7 @@ function bonusCPUvsP1()
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
+	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_bonusChars[bonusExtras]}
 	script.select.f_selectSimple()
@@ -3889,6 +3892,7 @@ function bonusCPUvsP2()
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
+	data.p1SelectMenu = false
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_bonusChars[bonusExtras]}
 	script.select.f_selectSimple()
