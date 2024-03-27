@@ -69,8 +69,7 @@ p1memberPreview = nil
 f_p1randomReset()
 data.t_p1selected = {}
 p1TeamEnd = false
-p1CharEnd = false --To use in Modern Palette Select
-p1PalEnd = true
+p1palEnd = true
 p1SelEnd = false
 p1BG = false
 p1SelBack = false
@@ -93,9 +92,8 @@ p2Portrait = nil
 p2memberPreview = nil
 f_p2randomReset()
 data.t_p2selected = {}
+p2palEnd = true
 p2TeamEnd = false
-p2CharEnd = false --To use in Modern Palette Select
-p2PalEnd = true
 p2SelEnd = false
 p2BG = false
 p2SelBack = false
@@ -858,20 +856,20 @@ function f_backMenu()
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
-					p2PalEnd = true
+					p2palEnd = true
 					p2SelEnd = false
 				else
 					p1Cell = nil
 					p1Portrait = nil
 					data.t_p1selected = {}
-					p1PalEnd = true
+					p1palEnd = true
 					p1SelEnd = false
 				end
 				if data.coop then
 					p2Cell = nil
 					p2Portrait = nil
 					data.t_p2selected = {}
-					p2PalEnd = true
+					p2palEnd = true
 					p2SelEnd = false
 				end
 			else
@@ -2381,9 +2379,6 @@ animUpdate(cellLockWindowBG)
 --;===========================================================
 txt_p1Wins = createTextImg(font6, 0, 1, "", 2, 13)
 txt_p2Wins = createTextImg(font6, 0, -1, "", 318, 13)
-txt_palHint = createTextImg(font1, 0, 0, "", 157, 239)
-txt_palHintC = "PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS"
-txt_palHintM = "PRESS MENU BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS"
 
 function f_selectScreen()
 	--draw
@@ -2541,25 +2536,21 @@ function f_selectScreen()
 		textImgDraw(txt_p1Wins)
 		textImgDraw(txt_p2Wins)
 	end
-	--Draw Palette Select Hint
+	--Palette Sub-Menu
 	if data.palType == "Classic" then
-		textImgSetText(txt_palHint, txt_palHintC)
+		txt_palHint = createTextImg(font1, 0, -1, "PRESS A,B,C,X,Y OR Z BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS ", 308, 239)
 	elseif data.palType == "Modern" then
-		textImgSetText(txt_palHint, txt_palHintM)
-	end
-	if p1TeamEnd or p2TeamEnd then
-		if (p1PalEnd and p2PalEnd) and not stageMenuActive then
-			textImgDraw(txt_palHint)
+		if p1palEnd == true and p2palEnd == true then
+			txt_palHint = createTextImg(font1, 0, -1, "PRESS START BUTTON TO SELECT A COLOR PALETTE FOR THE CHARACTERS", 287, 239)
+		else
+			txt_palHint = createTextImg(font1, 0, -1, " ", 295, 239)
 		end
-	end
-	--Palette Select
-	if data.palType == "Modern" then
 		--Player1
-		if not p1PalEnd then
+		if not p1palEnd then
 			f_p1palList()
 		end
 		--Player2
-		if not p2PalEnd then
+		if not p2palEnd then
 			f_p2palList()
 		end
 	end
@@ -2955,10 +2946,10 @@ function f_p1palList()
 	end
 	if btnPalNo(p1Cmd) > 0 then
 		sndPlay(sysSnd, 100, 1)
-		p1PalEnd = true
+		p1palEnd = true
 		cmdInput()
 	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
-		p1PalEnd = true
+		p1palEnd = true
 	end
 end
 
@@ -3829,8 +3820,8 @@ function f_p1SelectMenu()
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY
-			if backScreen == false and p1PalEnd then
-				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30) then
+			if backScreen == false then
+				if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufSelu >= 30 and p1palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -3865,7 +3856,7 @@ function f_p1SelectMenu()
 					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30) then
+				elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufSeld >= 30 and p1palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -3900,7 +3891,7 @@ function f_p1SelectMenu()
 					if tmpCelY ~= p1SelY or tmpCelX ~= p1SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30) then
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufSell >= 30 and p1palEnd) then
 					while true do
 						p1SelX = f_findCelXSub(p1SelX, wrappingX)
 						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
@@ -3908,7 +3899,7 @@ function f_p1SelectMenu()
 					if tmpCelX ~= p1SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30) then
+				elseif commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufSelr >= 30 and p1palEnd) then
 					while true do
 						p1SelX = f_findCelXAdd(p1SelX, wrappingX)
 						if getCharName(p1SelX+selectColumns*p1SelY) ~= '' then break end
@@ -3917,12 +3908,15 @@ function f_p1SelectMenu()
 						sndPlay(sysSnd, 100, 0)
 					end
 				end
-				if commandGetState(p1Cmd, 's') then --Start Button Activates Palette Select
+				if commandGetState(p1Cmd, 's') then --Start Button added for Special Uses
 					if data.palType == "Modern" then
+						p1palEnd = false
 						sndPlay(sysSnd, 100, 3)
-						p1PalEnd = false
+						f_p1palList()
+					else
+						--Do not show Modern Palette Menu
 					end
-				end
+				end				
 				if commandGetState(p1Cmd, 'holdu') then
 					bufSeld = 0
 					bufSelu = bufSelu + 1
@@ -3968,6 +3962,7 @@ function f_p1SelectMenu()
 					textImgDraw(txt_p1Author)
 				end
 			end
+			textImgDraw(txt_palHint) --Draw Character Select Hint
 		--Set Preview Character Name
 			textImgSetBank(txt_p1Name, 0) --Restart color for not selected character
 			textImgSetText(txt_p1Name, f_getName(p1Cell))
@@ -4446,10 +4441,10 @@ function f_p2palList()
 	end
 	if btnPalNo(p2Cmd) > 0 then
 		sndPlay(sysSnd, 100, 1)
-		p2PalEnd = true
+		p2palEnd = true
 		cmdInput()
 	elseif commandGetState(p1Cmd, 'e') or selectTimer == 0 then
-		p2PalEnd = true
+		p2palEnd = true
 	end
 end
 
@@ -5266,8 +5261,8 @@ function f_p2SelectMenu()
 		if not p2SelEnd then
 			local tmpCelX = p2SelX
 			local tmpCelY = p2SelY
-			if backScreen == false and p2PalEnd then
-				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30) then
+			if backScreen == false then
+				if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufSel2u >= 30 and p2palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -5302,7 +5297,7 @@ function f_p2SelectMenu()
 					if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30) then
+				elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufSel2d >= 30 and p2palEnd) then
 					local foundCel = false
 					while true do
 						if foundCel then
@@ -5337,7 +5332,7 @@ function f_p2SelectMenu()
 					if tmpCelY ~= p2SelY or tmpCelX ~= p2SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30) then
+				elseif commandGetState(p2Cmd, 'l') or (commandGetState(p2Cmd, 'holdl') and bufSel2l >= 30 and p2palEnd) then
 					while true do
 						p2SelX = f_findCelXSub(p2SelX, wrappingX)
 						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
@@ -5345,7 +5340,7 @@ function f_p2SelectMenu()
 					if tmpCelX ~= p2SelX then
 						sndPlay(sysSnd, 100, 0)
 					end
-				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30) then
+				elseif commandGetState(p2Cmd, 'r') or (commandGetState(p2Cmd, 'holdr') and bufSel2r >= 30 and p2palEnd) then
 					while true do
 						p2SelX = f_findCelXAdd(p2SelX, wrappingX)
 						if getCharName(p2SelX+selectColumns*p2SelY) ~= '' then break end
@@ -5356,8 +5351,11 @@ function f_p2SelectMenu()
 				end
 				if commandGetState(p2Cmd, 's') then
 					if data.palType == "Modern" then
+						p2palEnd = false
 						sndPlay(sysSnd, 100, 3)
-						p2PalEnd = false
+						f_p2palList()
+					else
+						--Do not show Modern Palette Menu
 					end
 				end
 				if commandGetState(p2Cmd, 'holdu') then
@@ -5404,6 +5402,7 @@ function f_p2SelectMenu()
 					textImgDraw(txt_p2Author)
 				end
 			end
+			textImgDraw(txt_palHint)
 			textImgSetBank(txt_p2Name, 0)
 			textImgSetText(txt_p2Name, f_getName(p2Cell))
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
@@ -6072,7 +6071,7 @@ function f_selectStage()
 				p2Cell = nil
 				p2Portrait = nil
 				data.t_p2selected = {}
-				p2PalEnd = true
+				p2palEnd = true
 				p2SelEnd = false
 			end
 			stageEnd = true

@@ -1215,7 +1215,10 @@ function f_sideSelect()
 		f_drawQuickText(txt_sidePNo, txtFont, txtP2color, 0, txtP2name, txtPosXright, p2txtPosY, txtScale, txtScale)
 	end
 	--Draw Side Warning Message
-	if sideWarning then textImgDraw(txt_sideWarning) end
+	if sideWarning then
+		textImgDraw(txt_sideWarning)
+		data.p2In = 2 --Keep Active Player 2 Control
+	end
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
@@ -1226,7 +1229,9 @@ function f_sideSelect()
 		elseif menuSelect == "arcade" then arcadeCfg()
 		elseif menuSelect == "tower" then towerCfg()
 		elseif menuSelect == "survival" then survivalCfg()
+		elseif menuSelect == "boss" then bossCfg()
 		elseif menuSelect == "boss rush" then bossrushCfg()
+		elseif menuSelect == "bonus" then bonusCfg()
 		elseif menuSelect == "bonus rush" then bonusrushCfg()
 		elseif menuSelect == "time attack" then timeattackCfg()
 		elseif menuSelect == "sudden death" then suddenCfg()
@@ -1240,12 +1245,13 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsCPU()
 			elseif menuSelect == "tower" then towerCPUvsCPU()
 			elseif menuSelect == "survival" then survivalCPUvsCPU()
+			elseif menuSelect == "boss" then bossCPUvsCPU()
 			elseif menuSelect == "boss rush" then bossrushCPUvsCPU()
 			elseif menuSelect == "time attack" then timeattackCPUvsCPU()
 			elseif menuSelect == "sudden death" then suddenCPUvsCPU()
 			elseif menuSelect == "endless" then endlessCPUvsCPU()
 			end
-			if menuSelect ~= "bonus rush" then
+			if menuSelect ~= "bonus rush" and menuSelect ~= "bonus" then
 				sideSelected = true
 			else--if you are in bonus rush mode then
 				sndPlay(sysSnd, 100, 5)
@@ -1259,7 +1265,9 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeP1vsCPU()
 			elseif menuSelect == "tower" then towerP1vsCPU()
 			elseif menuSelect == "survival" then survivalP1vsCPU()
+			elseif menuSelect == "boss" then bossP1vsCPU()
 			elseif menuSelect == "boss rush" then bossrushP1vsCPU()
+			elseif menuSelect == "bonus" then bonusP1vsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushP1vsCPU()
 			elseif menuSelect == "time attack" then timeattackP1vsCPU()
 			elseif menuSelect == "sudden death" then suddenP1vsCPU()
@@ -1274,7 +1282,9 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeP2vsCPU()
 			elseif menuSelect == "tower" then towerP2vsCPU()
 			elseif menuSelect == "survival" then survivalP2vsCPU()
+			elseif menuSelect == "boss" then bossP2vsCPU()
 			elseif menuSelect == "boss rush" then bossrushP2vsCPU()
+			elseif menuSelect == "bonus" then bonusP2vsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushP2vsCPU()
 			elseif menuSelect == "time attack" then timeattackP2vsCPU()
 			elseif menuSelect == "sudden death" then suddenP2vsCPU()
@@ -1289,7 +1299,9 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsP1()
 			elseif menuSelect == "tower" then towerCPUvsP1()
 			elseif menuSelect == "survival" then survivalCPUvsP1()
+			elseif menuSelect == "boss" then bossCPUvsP1()
 			elseif menuSelect == "boss rush" then bossrushCPUvsP1()
+			elseif menuSelect == "bonus" then bonusCPUvsP1()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsP1()
 			elseif menuSelect == "time attack" then timeattackCPUvsP1()
 			elseif menuSelect == "sudden death" then suddenCPUvsP1()
@@ -1304,7 +1316,9 @@ function f_sideSelect()
 			elseif menuSelect == "arcade" then arcadeCPUvsP2()
 			elseif menuSelect == "tower" then towerCPUvsP2()
 			elseif menuSelect == "survival" then survivalCPUvsP2()
+			elseif menuSelect == "boss" then bossCPUvsP2()
 			elseif menuSelect == "boss rush" then bossrushCPUvsP2()
+			elseif menuSelect == "bonus" then bonusCPUvsP2()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsP2()
 			elseif menuSelect == "time attack" then timeattackCPUvsP2()
 			elseif menuSelect == "sudden death" then suddenCPUvsP2()
@@ -1349,7 +1363,7 @@ function f_sideSelect()
 			elseif menuSelect == "sudden death" then suddenP1P2vsCPU()
 			elseif menuSelect == "endless" then endlessP1P2vsCPU()
 			end
-			if menuSelect ~= "quick match" and menuSelect ~= "free battle" then
+			if menuSelect ~= "quick match" and menuSelect ~= "free battle" and menuSelect ~= "bonus" and menuSelect ~= "boss" then
 				sideSelected = true
 			else
 				sndPlay(sysSnd, 100, 5)
@@ -1369,7 +1383,7 @@ function f_sideSelect()
 			elseif menuSelect == "sudden death" then suddenCPUvsP1P2()
 			elseif menuSelect == "endless" then endlessCPUvsP1P2()
 			end
-			if menuSelect ~= "quick match" and menuSelect ~= "free battle" then
+			if menuSelect ~= "quick match" and menuSelect ~= "free battle" and menuSelect ~= "bonus" and menuSelect ~= "boss" then
 				sideSelected = true
 			else
 				sndPlay(sysSnd, 100, 5)
@@ -1758,7 +1772,6 @@ function arcadeP2vsCPU()
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "ARCADE")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -1785,7 +1798,6 @@ function arcadeCPUvsP2()
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "ARCADE")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -1973,7 +1985,6 @@ function towerP2vsCPU()
 	data.p2In = 1
 	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2000,7 +2011,6 @@ function towerCPUvsP2()
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2323,7 +2333,6 @@ function randomP2vsCPU()
 	remapInput(1, 2)
 	data.p2In = 1
 	script.select.f_selectSimple()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2346,7 +2355,6 @@ function randomCPUvsP2()
 	data.p1In = 2
 	data.p2In = 2
 	script.select.f_selectSimple()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2367,7 +2375,6 @@ function randomP2vsP1()
 	setPlayerSide('p1right')
 	data.p2In = 2
 	script.select.f_selectSimple()
-	resetRemapInput() --P1 get control of menus again
 	setDiscordState("In Main Menu")
 end
 
@@ -2546,7 +2553,6 @@ function freeP2vsCPU()
 	data.p2In = 1
 	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2571,7 +2577,6 @@ function freeCPUvsP2()
 	data.p2In = 2
 	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2594,7 +2599,6 @@ function freeP2vsP1()
 	data.p2In = 2
 	textImgSetText(txt_mainSelect, "VERSUS MODE")
 	script.select.f_selectSimple()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -2992,7 +2996,6 @@ function survivalP2vsCPU()
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -3019,7 +3022,6 @@ function survivalCPUvsP2()
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -3297,72 +3299,131 @@ end
 --;===========================================================
 --; SINGLE BOSS MENU
 --;===========================================================
+--Load Common Settings for Single Boss Fight Modes
+function bossCfg()
+	f_default()
+	setDiscordState("In Boss Fight")
+	data.gameMode = "singleboss"
+	data.rosterMode = "boss"
+	--data.stageMenu = true
+	textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	sndPlay(sysSnd, 100, 1)
+end
+
+--P1 VS CPU (defeat selected boss character from left side)
+function bossP1vsCPU()
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_bossChars[bossChars]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--P2 VS CPU (defeat selected boss character from left side)
+function bossP2vsCPU()
+	remapInput(1, 2)
+	data.p2In = 1
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_bossChars[bossChars]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--CPU VS P1 (defeat selected boss character from right side)
+function bossCPUvsP1()
+	remapInput(1, 2)
+	remapInput(2, 1)
+	setCom(2, 0)
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_bossChars[bossChars]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--CPU VS P2 (defeat selected boss character from right side)
+function bossCPUvsP2()
+	remapInput(1, 2)
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_bossChars[bossChars]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--CPU MODE (watch CPU defeat selected boss character)
+function bossCPUvsCPU()
+	--data.p2In = 1
+	--data.p2SelectMenu = false
+	data.aiFight = true
+	data.rosterMode = "cpu"
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_bossChars[bossChars]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
 function f_bossChars()
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
-	local bossChars = 1
+	bossChars = 1 --Need to be public to be readed by above functions
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_sideReset()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			bossChars = bossChars - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			bossChars = bossChars + 1
-		end
-		if bossChars < 1 then
-			bossChars = #t_bossSingle
-			if #t_bossSingle > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_bossSingle-1
-			end
-		elseif bossChars > #t_bossSingle then
-			bossChars = 1
-			cursorPosY = 0
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (bossChars - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (bossChars - 1) * 13
-		end
-		if #t_bossSingle <= 5 then
-			maxBossChars = #t_bossSingle
-		elseif bossChars - cursorPosY > 0 then
-			maxBossChars = bossChars + 5 - cursorPosY
-		else
-			maxBossChars = 5
-		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			f_default()
-			if bossChars < #t_bossSingle then --This table refers to the one at the end of the start.lua script
-			--BOSS CHAR NAME (defeat 1 selected boss character)
-				setDiscordState("In Boss Fight")
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_bossChars[bossChars]}
-				--data.stageMenu = true
-				data.gameMode = "singleboss"
-				data.rosterMode = "boss"
-				textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--BACK
-			else
+		if not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				bossChars = bossChars - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				bossChars = bossChars + 1
+			end
+			if bossChars < 1 then
+				bossChars = #t_bossSingle
+				if #t_bossSingle > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_bossSingle-1
+				end
+			elseif bossChars > #t_bossSingle then
+				bossChars = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (bossChars - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (bossChars - 1) * 13
+			end
+			if #t_bossSingle <= 5 then
+				maxBossChars = #t_bossSingle
+			elseif bossChars - cursorPosY > 0 then
+				maxBossChars = bossChars + 5 - cursorPosY
+			else
+				maxBossChars = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				if data.sideSelect == "Modern" then
+					menuSelect = "boss"
+					sideScreen = true
+				else
+					bossCfg()
+					bossP1vsCPU()
+				end
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3372,11 +3433,14 @@ function f_bossChars()
 			else
 				bank = 0
 			end
+			--Draw Boss Name
 			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not sideScreen then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -3398,6 +3462,7 @@ function f_bossChars()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if sideScreen then f_sideSelect() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3458,7 +3523,6 @@ function bossrushP2vsCPU()
 		data.p2SelectMenu = false
 		textImgSetText(txt_mainSelect, "BOSS RUSH")					
 		script.select.f_selectAdvance()
-		resetRemapInput()
 		setDiscordState("In Main Menu")
 	--end
 end
@@ -3489,7 +3553,6 @@ function bossrushCPUvsP2()
 		data.p1SelectMenu = false
 		textImgSetText(txt_mainSelect, "BOSS RUSH")					
 		script.select.f_selectAdvance()
-		resetRemapInput()
 		setDiscordState("In Main Menu")
 	--end
 end
@@ -3774,74 +3837,121 @@ end
 --;===========================================================
 --; SINGLE BONUS GAMES MENU
 --;===========================================================
+--Load Common Settings for Bonus Games Modes
+function bonusCfg()
+	f_default()
+	setDiscordState("In Bonus Games")
+	data.gameMode = "singlebonus"
+	data.rosterMode = "bonus"
+	--data.stageMenu = true
+	data.versusScreen = false
+	setRoundsToWin(1)
+	textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	sndPlay(sysSnd, 100, 1)
+end
+
+--P1 VS CPU (clear the bonus game selected from left side)
+function bonusP1vsCPU()
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_bonusChars[bonusExtras]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--P2 VS CPU (clear the bonus game selected from left side)
+function bonusP2vsCPU()
+	remapInput(1, 2)
+	data.p2In = 1
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_bonusChars[bonusExtras]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--CPU VS P1 (clear the bonus game selected from right side)
+function bonusCPUvsP1()
+	remapInput(1, 2)
+	remapInput(2, 1)
+	setCom(2, 0)
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_bonusChars[bonusExtras]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
+--CPU VS P2 (clear the bonus game selected from right side)
+function bonusCPUvsP2()
+	remapInput(1, 2)
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_bonusChars[bonusExtras]}
+	script.select.f_selectSimple()
+	setDiscordState("In Main Menu")
+end
+
 function f_bonusExtras()
 	cmdInput()
 	local cursorPosY = 0
 	local moveTxt = 0
-	local bonusExtras = 1
+	bonusExtras = 1 --Need to be public to be readed by above functions
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_sideReset()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			bonusExtras = bonusExtras - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			bonusExtras = bonusExtras + 1
-		end
-		if bonusExtras < 1 then
-			bonusExtras = #t_bonusExtras
-			if #t_bonusExtras > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_bonusExtras-1
-			end
-		elseif bonusExtras > #t_bonusExtras then
-			bonusExtras = 1
-			cursorPosY = 0
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (bonusExtras - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (bonusExtras - 1) * 13
-		end
-		if #t_bonusExtras <= 5 then
-			maxBonusExtras = #t_bonusExtras
-		elseif bonusExtras - cursorPosY > 0 then
-			maxBonusExtras = bonusExtras + 5 - cursorPosY
-		else
-			maxBonusExtras = 5
-		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			f_default()
-			if bonusExtras < #t_bonusExtras then --This table refers to the one at the end of the start.lua script
-			--BONUS CHAR NAME (clear 1 selected bonus game)
-				setDiscordState("In Bonus Games")
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 1)
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_bonusChars[bonusExtras]}
-				--data.stageMenu = true
-				data.versusScreen = false
-				data.gameMode = "singlebonus"
-				data.rosterMode = "bonus"
-				setRoundsToWin(1)
-				textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--BACK
-			else
+		if not sideScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				bonusExtras = bonusExtras - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				bonusExtras = bonusExtras + 1
+			end
+			if bonusExtras < 1 then
+				bonusExtras = #t_bonusExtras
+				if #t_bonusExtras > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_bonusExtras-1
+				end
+			elseif bonusExtras > #t_bonusExtras then
+				bonusExtras = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (bonusExtras - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (bonusExtras - 1) * 13
+			end
+			if #t_bonusExtras <= 5 then
+				maxBonusExtras = #t_bonusExtras
+			elseif bonusExtras - cursorPosY > 0 then
+				maxBonusExtras = bonusExtras + 5 - cursorPosY
+			else
+				maxBonusExtras = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				if data.sideSelect == "Modern" then
+					menuSelect = "bonus"
+					sideScreen = true
+				else
+					bonusCfg()
+					bonusP1vsCPU()
+				end
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -3851,11 +3961,14 @@ function f_bonusExtras()
 			else
 				bank = 0
 			end
+			--Draw Bonus Name
 			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not sideScreen then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -3877,6 +3990,7 @@ function f_bonusExtras()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if sideScreen then f_sideSelect() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3940,7 +4054,6 @@ function bonusrushP2vsCPU()
 		data.p2TeamMenu = {mode = 0, chars = 1}
 		textImgSetText(txt_mainSelect, "BONUS RUSH")
 		script.select.f_selectAdvance()
-		resetRemapInput()
 		setDiscordState("In Main Menu")
 	--end
 end
@@ -3973,7 +4086,6 @@ function bonusrushCPUvsP2()
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		textImgSetText(txt_mainSelect, "BONUS RUSH")
 		script.select.f_selectAdvance()
-		resetRemapInput()
 		setDiscordState("In Main Menu")
 	--end
 end
@@ -4157,7 +4269,6 @@ function timeattackP2vsCPU()
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -4184,7 +4295,6 @@ function timeattackCPUvsP2()
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -4375,7 +4485,6 @@ function suddenP2vsCPU()
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -4402,7 +4511,6 @@ function suddenCPUvsP2()
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -4740,7 +4848,6 @@ function endlessP2vsCPU()
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -4767,7 +4874,6 @@ function endlessCPUvsP2()
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
-	resetRemapInput()
 	setDiscordState("In Main Menu")
 end
 
@@ -7974,6 +8080,7 @@ end
 --; COMING SOON INFO SCREEN
 --;===========================================================
 function f_comingSoon()
+	f_resetMenuInputs()
 	local i = 0
 	txt = "THIS FEATURE WILL BE AVAILABLE COMING SOON..."
 	cmdInput()
@@ -7999,10 +8106,9 @@ end
 function f_playCredits()
 	local scroll = 0
 	local speed = 0
-	local speedX1 = 0.5
-	local speedX2 = 1.5
+	local speed1 = 0.5
+	local speed2 = 1.8
 	local skip = false
-	local creditsBoxCfg = textImgNew()
 	local txtFont = font7--font14
 	local txtBank = 0
 	local txtAline = 0 --[1]= Align text left | [0]= Center Text | [-1]= Align text right
@@ -8015,19 +8121,19 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 1600 then break end --Credits Duration
+		if scroll > 1800 then break end --Credits Duration
 		--Actions
 		if (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and not skip then --Skip Button
 			skip = true
 		elseif (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and skip then --Unskip Button
 			skip = false
 		end
-		if not skip then speed = speedX1 --Normal
-		elseif skip then speed = speedX2 --Faster
+		if not skip then speed = speed1 --Normal
+		elseif skip then speed = speed2 --Faster
 		end
 		--Draw Text
 		for i = 1, #creditsTable do
-			textImgDraw(f_updateTextImg(creditsBoxCfg, txtFont, txtBank, txtAline, creditsTable[i], 155, 260 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
+			textImgDraw(f_updateTextImg(textImgNew(), txtFont, txtBank, txtAline, creditsTable[i], 155, 260 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
 		end
 		--f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --Test Timer
 		scroll = scroll + speed
@@ -8052,6 +8158,7 @@ end
 
 txt_creditsBox = [[
 I.K.E.M.E.N PLUS ULTRA
+v1.4.0
 
 
 
@@ -8144,6 +8251,7 @@ SPECIAL THANKS
 STRONG FS
 PLASMOIDTHUNDER
 ACDGAMES
+SWEET CREATURES
 OLDGAMER
 DJ DELORIE
 SHAWN HARGREAVES

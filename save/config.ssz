@@ -30,7 +30,7 @@ const float LifebarFontScale = 0.5;
 
 //System Settings
 const ^/char Executable = "Ikemen Plus Ultra.exe";
-const ^/char WindowTitle = "I.K.E.M.E.N. PLUS ULTRA";
+const ^/char WindowTitle = "I.K.E.M.E.N PLUS ULTRA";
 const ^/char listenPort = "7500";
 const ^/char UserName = "CableDorado2";
 //const ^/char ScreenshotDir = "screenshots/Test.png";

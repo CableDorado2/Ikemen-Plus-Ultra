@@ -891,24 +891,20 @@ function f_rushTables()
 	t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error
 	local endFor = #t_bossChars+1
 	for i=1, endFor do
-	t_bossSingle[#t_bossSingle+1] = {}
-	t_bossSingle[i]['id'] = textImgNew()
-	if i < endFor then
-		t_bossSingle[i]['text'] = t_selChars[t_bossChars[i]+1].displayname:upper()
-	else
-		t_bossSingle[i]['text'] = 'BACK'
+		if i < endFor then
+			t_bossSingle[#t_bossSingle+1] = {}
+			t_bossSingle[i]['id'] = textImgNew()
+			t_bossSingle[i]['text'] = t_selChars[t_bossChars[i]+1].displayname:upper()
 		end
-	end	
+	end
 
 	t_bonusExtras = {} --This is the bonus chars table, it must be loaded after this parser script or it will give an error
 	local endFor = #t_bonusChars+1
 	for i=1, endFor do
-		t_bonusExtras[#t_bonusExtras+1] = {}
-		t_bonusExtras[i]['id'] = textImgNew()
 		if i < endFor then
+			t_bonusExtras[#t_bonusExtras+1] = {}
+			t_bonusExtras[i]['id'] = textImgNew()
 			t_bonusExtras[i]['text'] = t_selChars[t_bonusChars[i]+1].displayname:upper()
-		else
-			t_bonusExtras[i]['text'] = 'BACK'
 		end
 	end
 end

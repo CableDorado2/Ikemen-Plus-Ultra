@@ -418,6 +418,13 @@ setCommand(p2Cmd)
 
 setSysCtrl(10) --Load Menu Controls from config.ssz
 
+--Reset Menu Controls
+function f_resetMenuInputs()
+resetRemapInput()
+data.p1In = 1
+data.p2In = 2
+end
+
 function cmdInput()
 	commandInput(p1Cmd, data.p1In)
 	commandInput(p2Cmd, data.p2In)
