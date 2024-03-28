@@ -126,7 +126,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
 - Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
-[![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/pjYavslQ0tE?t=3)
+[![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/7yghLOb1-Gw?t=57)
 
 - Agregar más opciones para el Dummy de Training.
 
