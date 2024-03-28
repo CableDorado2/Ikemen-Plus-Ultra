@@ -193,7 +193,9 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
-- Adventure Mode, combinando elementos del Abyss Mode: https://youtu.be/5UI_nFAORnE?t=281
+- Adventure Mode, combinando elementos de:
+  - Abyss Mode (BBCF): https://youtu.be/5UI_nFAORnE?t=281
+  - Libra of Souls (SoulcaliburVI): https://www.youtube.com/watch?v=y3qDzqoeygw
 [![Alt text](https://i.postimg.cc/SRqT8xK0/Adventure-Mode-Concept.png)](https://youtu.be/y82f2VexwHc?t=11596)
 
 **v1.8**
