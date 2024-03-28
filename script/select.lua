@@ -1903,7 +1903,6 @@ function f_selectAdvance()
 				p1numChars = numChars
 				setTeamMode(1, p1teamMode, p1numChars)
 			end
-			--resetRemapInput() --This reset and invert the controls when p1 is in right side, becareful!
 		else
 			--restore P2 Team settings if needed
 			if restoreTeam then
@@ -1911,7 +1910,6 @@ function f_selectAdvance()
 				p2numChars = numChars
 				setTeamMode(2, p2teamMode, p2numChars)
 			end
-			resetRemapInput()
 		end
 		cmdInput()
 		refresh()
@@ -2003,7 +2001,6 @@ function f_selectStory()
 		--f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlocksCheck() --Check For Unlocked Content
 		playBGM("")
-		--if not (data.p1In == 2 and data.p2In == 2) then resetRemapInput() end --This reset and invert the controls when p1 is in right side, becareful!
 		cmdInput()
 		refresh()
 	end
@@ -2431,7 +2428,6 @@ function f_selectScreen()
 		f_p1TeamMenu()
 	elseif data.p1In > 0 or data.p1Char ~= nil then
 		f_p1SelectMenu()
-		--[
 		if (data.p1In == 2 and data.p2In == 2) then
 			--Draw VS Single Bosses Portraits if you are playing in Right Side
 			if data.gameMode == "singleboss" then
@@ -2468,7 +2464,6 @@ function f_selectScreen()
 				end
 			end
 		end
-		--]
 	end
 	--Player2
 	if not p2TeamEnd then
@@ -6058,10 +6053,7 @@ function f_selectStage()
 			end
 		end
 		--When you select the stage
-		if (commandGetState(p1Cmd, 'a') or commandGetState(p1Cmd, 'b') or commandGetState(p1Cmd, 'c') or 
-		commandGetState(p2Cmd, 'a') or commandGetState(p2Cmd, 'b') or commandGetState(p2Cmd, 'c') or 
-		commandGetState(p1Cmd, 'x') or commandGetState(p1Cmd, 'y') or commandGetState(p1Cmd, 'z') or 
-		commandGetState(p2Cmd, 'x') or commandGetState(p2Cmd, 'y') or commandGetState(p2Cmd, 'z') or stageTimer == 0) and stageAnnouncer == false then
+		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or stageTimer == 0) and stageAnnouncer == false then
 			if stageList == 0 then --For random or character sides stages
 				stageChosen = true
 			else --For visible stages
@@ -6564,9 +6556,6 @@ function f_orderSelect()
 				orderhintTime = 0 --Restart timer for a new random hint
 			end
 			i = i + 1
-			--if commandGetState(p1Cmd, 'e') then
-				--if i < 120 then i = 120 end
-			--end
 			if sndTime > 0 then
 				sndTime = sndTime - 1
 			end
@@ -7032,7 +7021,7 @@ function f_selectVersus()
 				vshintTime = 0 --Restart timer for a new random hint
 			end
 			versusTimer = versusTimer + 1
-			if versusTimer == 150 then--or btnPalNo(p1Cmd) > 0 then --Disable temporarily to prevent desync in online mode
+			if versusTimer == 150 then--or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
 				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
@@ -7238,7 +7227,7 @@ function f_selectWin()
 			textImgDraw(txt_winnername)
 			if data.gameMode == "versus" then --Show Rematch Menu for these modes
 				if not menuReady then
-					if i == 510 or btnPalNo(p1Cmd) > 0 then
+					if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 						cmdInput()
 						menuReady = true
 					end
@@ -7248,16 +7237,18 @@ function f_selectWin()
 				if rematchEnd then
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					commandBufReset(p1Cmd, 1)
+					commandBufReset(p2Cmd, 2)
 					break
 				end
 			else --Don't Show Rematch Menu
-				if i == 510 or btnPalNo(p1Cmd) > 0 then
+				if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 					cmdInput()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 					elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 					end
 					commandBufReset(p1Cmd, 1)
+					commandBufReset(p2Cmd, 2)
 					break
 				end
 			end
@@ -7304,7 +7295,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
 		if data.gameMode == "versus" then --Show Rematch Menu for these modes
 			if not menuReady then
-				if i == 510 or btnPalNo(p1Cmd) > 0 then
+				if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 					cmdInput()
 					menuReady = true
 				end
@@ -7314,16 +7305,18 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 			if rematchEnd then
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				commandBufReset(p1Cmd, 1)
+				commandBufReset(p2Cmd, 2)
 				break
 			end
 		else --Don't Show Rematch Menu
-			if i == 510 or btnPalNo(p1Cmd) > 0 then
+			if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				cmdInput()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 				elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 				end
 				commandBufReset(p1Cmd, 1)
+				commandBufReset(p2Cmd, 2)
 				break
 			end
 		end
@@ -7370,6 +7363,7 @@ function f_selectWinOFF()
 			elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 			end
 			commandBufReset(p1Cmd, 1)
+			commandBufReset(p2Cmd, 2)
 			break
 		end
 		animDraw(data.fadeTitle)
@@ -7940,7 +7934,7 @@ function f_selectChallenger()
 		if i == 150 then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
-		elseif btnPalNo(p1Cmd) > 0 then
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
@@ -8057,17 +8051,17 @@ function f_service()
 	playBGM(bgmService)
 	cmdInput()
 	while true do
-		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			devService = false
 			noService = false
 			sndPlay(sysSnd, 100, 0)
 			serviceMenu = serviceMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30) then
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
 			devService = false
 			noService = false
 			sndPlay(sysSnd, 100, 0)
 			serviceMenu = serviceMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 or serviceTimer == 0 then
+		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or serviceTimer == 0 then
 			--DIFFICULTY -1 BUT ALWAYS NEEDS TO BE > 1
 			if serviceMenu == 1 then
 				sndPlay(sysSnd, 100, 1)
@@ -8131,6 +8125,7 @@ function f_service()
 				break
 			end
 			commandBufReset(p1Cmd, 1)
+			commandBufReset(p2Cmd, 2)
 		end
 		--Cursor position calculation
 		if serviceMenu < 1 then
@@ -8143,9 +8138,9 @@ function f_service()
 		elseif serviceMenu > #t_service then
 			serviceMenu = 1
 			cursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and cursorPosY > 1 then
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and cursorPosY < 14 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
 			cursorPosY = cursorPosY + 1
 		end
 		if cursorPosY == 14 then
@@ -8217,10 +8212,10 @@ function f_service()
 			animDraw(serviceDownArrow)
 			animUpdate(serviceDownArrow)
 		end
-		if commandGetState(p1Cmd, 'holdu') then
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') then
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
 		else
@@ -8392,7 +8387,7 @@ function f_result(state)
 	end
 	cmdInput()
 	while true do
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
 			break
 		end
@@ -8563,7 +8558,7 @@ function f_continue()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		--if commandGetState(p1Cmd, 'e') then
+		--if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			--cmdInput()
 			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			--playBGM(bgmTitle)
@@ -8587,7 +8582,7 @@ function f_continue()
 				animDraw(contBG1)
 				animDraw(contBG2)
 			end
-			if commandGetState(p1Cmd, 'w') then
+			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
 				if tablePos.sffData ~= nil and tablePos.win ~= nil then
 					anim, animLength = f_animFromTable(tablePos['win'], tablePos.sffData, 80, 180, tablePos.xscale, tablePos.yscale, 0, 1)
 				else
@@ -8644,7 +8639,7 @@ function f_continue()
 				break
 			end
 			animDraw(contTimer)
-			if btnPalNo(p1Cmd) > 0 and i >= 71 then
+			if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and i >= 71 then
 				local cnt = 0
 				if i < 135 then
 					cnt = 135
@@ -9321,7 +9316,7 @@ function f_gameOver()
 	while true do
 		animDraw(contBG0)
 		i = i + 1
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
 			playBGM(bgmTitle)
 			break

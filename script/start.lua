@@ -9,6 +9,7 @@ soundTest = false
 data.tagmode = 1
 data.includestage = 0
 menuSelect = ""
+P2overP1 = false
 --;===========================================================
 --; INITIAL ACTIONS
 --;===========================================================

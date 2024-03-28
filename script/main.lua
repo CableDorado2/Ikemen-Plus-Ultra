@@ -1260,76 +1260,78 @@ function f_sideSelect()
 		end
 		--P1 VS CPU
 		if p1Side == -1 and p2Side == 0 then
-			if menuSelect == "quick match" then	randomP1vsCPU()
-			elseif menuSelect == "free battle" then freeP1vsCPU()
-			elseif menuSelect == "arcade" then arcadeP1vsCPU()
-			elseif menuSelect == "tower" then towerP1vsCPU()
-			elseif menuSelect == "survival" then survivalP1vsCPU()
+			if menuSelect == "quick match" then	randomHumanvsCPU()
+			elseif menuSelect == "free battle" then freeHumanvsCPU()
+			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
+			elseif menuSelect == "tower" then towerHumanvsCPU()
+			elseif menuSelect == "survival" then survivalHumanvsCPU()
 			elseif menuSelect == "boss" then bossP1vsCPU()
-			elseif menuSelect == "boss rush" then bossrushP1vsCPU()
+			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
 			elseif menuSelect == "bonus" then bonusP1vsCPU()
-			elseif menuSelect == "bonus rush" then bonusrushP1vsCPU()
-			elseif menuSelect == "time attack" then timeattackP1vsCPU()
-			elseif menuSelect == "sudden death" then suddenP1vsCPU()
-			elseif menuSelect == "endless" then endlessP1vsCPU()
+			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
+			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
+			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
+			elseif menuSelect == "endless" then endlessHumanvsCPU()
 			end
 			sideSelected = true
 		end
 		--P2 VS CPU
 		if p2Side == -1 and p1Side == 0 then
-			if menuSelect == "quick match" then	randomP2vsCPU()
-			elseif menuSelect == "free battle" then freeP2vsCPU()
-			elseif menuSelect == "arcade" then arcadeP2vsCPU()
-			elseif menuSelect == "tower" then towerP2vsCPU()
-			elseif menuSelect == "survival" then survivalP2vsCPU()
+			P2overP1 = true
+			if menuSelect == "quick match" then	randomHumanvsCPU()
+			elseif menuSelect == "free battle" then freeHumanvsCPU()
+			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
+			elseif menuSelect == "tower" then towerHumanvsCPU()
+			elseif menuSelect == "survival" then survivalHumanvsCPU()
 			elseif menuSelect == "boss" then bossP2vsCPU()
-			elseif menuSelect == "boss rush" then bossrushP2vsCPU()
+			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
 			elseif menuSelect == "bonus" then bonusP2vsCPU()
-			elseif menuSelect == "bonus rush" then bonusrushP2vsCPU()
-			elseif menuSelect == "time attack" then timeattackP2vsCPU()
-			elseif menuSelect == "sudden death" then suddenP2vsCPU()
-			elseif menuSelect == "endless" then endlessP2vsCPU()
+			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
+			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
+			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
+			elseif menuSelect == "endless" then endlessHumanvsCPU()
 			end
 			sideSelected = true
 		end
 		--CPU VS P1
 		if p2Side == 0 and p1Side == 1 then
-			if menuSelect == "quick match" then	randomCPUvsP1()
-			elseif menuSelect == "free battle" then freeCPUvsP1()
-			elseif menuSelect == "arcade" then arcadeCPUvsP1()
-			elseif menuSelect == "tower" then towerCPUvsP1()
-			elseif menuSelect == "survival" then survivalCPUvsP1()
+			if menuSelect == "quick match" then	randomCPUvsHuman()
+			elseif menuSelect == "free battle" then freeCPUvsHuman()
+			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
+			elseif menuSelect == "tower" then towerCPUvsHuman()
+			elseif menuSelect == "survival" then survivalCPUvsHuman()
 			elseif menuSelect == "boss" then bossCPUvsP1()
-			elseif menuSelect == "boss rush" then bossrushCPUvsP1()
+			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
 			elseif menuSelect == "bonus" then bonusCPUvsP1()
-			elseif menuSelect == "bonus rush" then bonusrushCPUvsP1()
-			elseif menuSelect == "time attack" then timeattackCPUvsP1()
-			elseif menuSelect == "sudden death" then suddenCPUvsP1()
-			elseif menuSelect == "endless" then endlessCPUvsP1()
+			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
+			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
+			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
+			elseif menuSelect == "endless" then endlessCPUvsHuman()
 			end
 			sideSelected = true
 		end
 		--CPU VS P2
 		if p1Side == 0 and p2Side == 1 then
-			if menuSelect == "quick match" then	randomCPUvsP2()
-			elseif menuSelect == "free battle" then freeCPUvsP2()
-			elseif menuSelect == "arcade" then arcadeCPUvsP2()
-			elseif menuSelect == "tower" then towerCPUvsP2()
-			elseif menuSelect == "survival" then survivalCPUvsP2()
+			P2overP1 = true
+			if menuSelect == "quick match" then	randomCPUvsHuman()
+			elseif menuSelect == "free battle" then freeCPUvsHuman()
+			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
+			elseif menuSelect == "tower" then towerCPUvsHuman()
+			elseif menuSelect == "survival" then survivalCPUvsHuman()
 			elseif menuSelect == "boss" then bossCPUvsP2()
-			elseif menuSelect == "boss rush" then bossrushCPUvsP2()
+			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
 			elseif menuSelect == "bonus" then bonusCPUvsP2()
-			elseif menuSelect == "bonus rush" then bonusrushCPUvsP2()
-			elseif menuSelect == "time attack" then timeattackCPUvsP2()
-			elseif menuSelect == "sudden death" then suddenCPUvsP2()
-			elseif menuSelect == "endless" then endlessCPUvsP2()
+			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
+			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
+			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
+			elseif menuSelect == "endless" then endlessCPUvsHuman()
 			end
 			sideSelected = true
 		end
 		--P1 VS P2
 		if p1Side == -1 and p2Side == 1 then
-			if menuSelect == "quick match" then randomP1vsP2()
-			elseif menuSelect == "free battle" then freeP1vsP2()
+			if menuSelect == "quick match" then randomHumanvsHuman()
+			elseif menuSelect == "free battle" then freeHumanvsHuman()
 			end
 			if menuSelect == "quick match" or menuSelect == "free battle" then
 				sideSelected = true
@@ -1340,13 +1342,15 @@ function f_sideSelect()
 		end
 		--P2 VS P1
 		if p2Side == -1 and p1Side == 1 then
-			if menuSelect == "quick match" then randomP2vsP1()
-			elseif menuSelect == "free battle" then freeP2vsP1()
+			P2overP1 = true
+			if menuSelect == "quick match" then randomHumanvsHuman()
+			elseif menuSelect == "free battle" then freeHumanvsHuman()
 			end
 			if menuSelect == "quick match" or menuSelect == "free battle" then
 				sideSelected = true
 			else--if you are not in free versus or quick match modes then
 				sndPlay(sysSnd, 100, 5)
+				P2overP1 = false
 				sideWarning = true
 			end
 		end
@@ -1756,49 +1760,34 @@ function arcadeCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (fight against CPU controlled opponents in a customizable arcade ladder from left side)
-function arcadeP1vsCPU()
+--HUMAN VS CPU (fight against CPU controlled opponents in a customizable arcade ladder from left side)
+function arcadeHumanvsCPU()
+	if P2overP1 then --Set player 2 controls config over player 1
+		remapInput(1, 2) --P1 swap controls with p2 side
+	end
 	data.p2In = 1 --P1 controls P2 side of the select screen
 	data.p2SelectMenu = false --P2 character selection disabled
 	textImgSetText(txt_mainSelect, "ARCADE") --message displayed on top of select screen
 	script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
 	setDiscordState("In Main Menu")
+	P2overP1 = false --Reset Player 2 Control Swap Detection
 end
 
---P2 VS CPU (fight against CPU controlled opponents in a customizable arcade ladder from left side)
-function arcadeP2vsCPU()
+--CPU VS HUMAN (fight against CPU controlled opponents in a customizable arcade ladder from right side)
+function arcadeCPUvsHuman()
 	remapInput(1, 2)
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ARCADE")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P1 (fight against CPU controlled opponents in a customizable arcade ladder from right side)
-function arcadeCPUvsP1()
-	remapInput(1, 2) --P1 controls p2 side
-	remapInput(2, 1) --P2 controls p1 side
-	setCom(2, 0) --Not computer is controlling P2 side, only the human
-	setPlayerSide('p1right')
+	if not P2overP1 then
+		remapInput(2, 1) --P2 swap controls with p1 side
+		--setCom(2, 0) --Not computer is controlling P2 side, only the human
+	end
+	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false --P1 character selection disabled
 	textImgSetText(txt_mainSelect, "ARCADE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (fight against CPU controlled opponents in a customizable arcade ladder from right side)
-function arcadeCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ARCADE")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents in a customizable arcade ladder)
@@ -1889,10 +1878,10 @@ function f_arcadeClassicMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			arcadeCfg()
-			if arcadeClassicMenu == 1 then arcadeP1vsCPU()
-			elseif arcadeClassicMenu == 2 then arcadeP2vsCPU()
-			elseif arcadeClassicMenu == 3 then arcadeCPUvsP1()
-			elseif arcadeClassicMenu == 4 then arcadeCPUvsP2()
+			if arcadeClassicMenu == 1 then arcadeHumanvsCPU()
+			elseif arcadeClassicMenu == 2 then P2overP1 = true arcadeHumanvsCPU()
+			elseif arcadeClassicMenu == 3 then arcadeCPUvsHuman()
+			elseif arcadeClassicMenu == 4 then P2overP1 = true arcadeCPUvsHuman()
 			elseif arcadeClassicMenu == 5 then arcadeP1P2vsCPU()
 			--elseif arcadeClassicMenu == 6 then arcadeCPUvsP1P2()
 			elseif arcadeClassicMenu == 6 then arcadeCPUvsCPU()
@@ -1972,27 +1961,26 @@ function towerCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (fight against CPU controlled opponents in customizable tower ladders from left side)
-function towerP1vsCPU()
-	textImgSetText(txt_mainSelect, "TOWER MODE")
-	script.select.f_selectTower()
-	setDiscordState("In Main Menu")
-end
-
---P2 VS CPU (fight against CPU controlled opponents in customizable tower ladders from left side)
-function towerP2vsCPU()
-	remapInput(1, 2)
+--HUMAN VS CPU (fight against CPU controlled opponents in customizable tower ladders from left side)
+function towerHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
+	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---CPU VS P1 (fight against CPU controlled opponents in customizable tower ladders from right side)
-function towerCPUvsP1()
+--CPU VS HUMAN (fight against CPU controlled opponents in customizable tower ladders from right side)
+function towerCPUvsHuman()
 	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -2000,18 +1988,7 @@ function towerCPUvsP1()
 	textImgSetText(txt_mainSelect, "TOWER MODE")
 	script.select.f_selectTower()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (fight against CPU controlled opponents in customizable tower ladders from right side)
-function towerCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "TOWER MODE")
-	script.select.f_selectTower()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side against CPU controlled opponents in customizable tower ladders)
@@ -2102,10 +2079,10 @@ function f_towerMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			towerCfg()
-			if towerMenu == 1 then towerP1vsCPU()
-			elseif towerMenu == 2 then towerP2vsCPU()
-			elseif towerMenu == 3 then towerCPUvsP1()
-			elseif towerMenu == 4 then towerCPUvsP2()
+			if towerMenu == 1 then towerHumanvsCPU()
+			elseif towerMenu == 2 then P2overP1 = true towerHumanvsCPU()
+			elseif towerMenu == 3 then towerCPUvsHuman()
+			elseif towerMenu == 4 then P2overP1 = true towerCPUvsHuman()
 			elseif towerMenu == 5 then towerP1P2vsCPU()
 			--elseif towerMenu == 6 then towerCPUvsP1P2()
 			elseif towerMenu == 6 then towerCPUvsCPU()
@@ -2322,60 +2299,47 @@ function randomModeCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (defeat from left side a random CPU controlled opponent)
-function randomP1vsCPU()
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
-end
-
---P2 VS CPU (defeat from left side a random CPU controlled opponent)
-function randomP2vsCPU()
-	remapInput(1, 2)
+--HUMAN VS CPU (defeat from left side a random CPU controlled opponent)
+function randomHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---CPU VS P1 (defeat from right side a random CPU controlled opponent of your choice)
-function randomCPUvsP1()
+--CPU VS HUMAN (defeat from right side a random CPU controlled opponent of your choice)
+function randomCPUvsHuman()
 	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---CPU VS P2 (defeat from right side a random CPU controlled opponent of your choice)
-function randomCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
+--HUMAN VS HUMAN (fight from left side to defeat a random human opponent)
+function randomHumanvsHuman()
+	if P2overP1 then
+		setHomeTeam(2)
+		remapInput(1, 2)
+		remapInput(2, 1)
+		--setCom(2, 0)
+		setPlayerSide('p1right')
+	else
+		setHomeTeam(1)
+	end
 	data.p2In = 2
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
-end
-
---P1 VS P2 (fight from left side to defeat a random human opponent)
-function randomP1vsP2()
-	setHomeTeam(1)
-	data.p2In = 2
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
-end
-
---P2 VS P1 (fight from right side to defeat a random human opponent)
-function randomP2vsP1()
-	setHomeTeam(2)
-	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
-	setPlayerSide('p1right')
-	data.p2In = 2
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --CPU MATCH (watch random CPU controlled match)
@@ -2449,12 +2413,12 @@ function f_randomMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			randomModeCfg()
-			if randomMenu == 1 then randomP1vsCPU()
-			elseif randomMenu == 2 then randomP2vsCPU()
-			elseif randomMenu == 3 then randomCPUvsP1()
-			elseif randomMenu == 4 then randomCPUvsP2()
-			elseif randomMenu == 5 then randomP1vsP2()
-			elseif randomMenu == 6 then randomP2vsP1()
+			if randomMenu == 1 then randomHumanvsCPU()
+			elseif randomMenu == 2 then P2overP1 = true randomHumanvsCPU()
+			elseif randomMenu == 3 then randomCPUvsHuman()
+			elseif randomMenu == 4 then P2overP1 = true randomCPUvsHuman()
+			elseif randomMenu == 5 then randomHumanvsHuman()
+			elseif randomMenu == 6 then P2overP1 = true randomHumanvsHuman()
 			elseif randomMenu == 7 then randomCPUvsCPU()
 			--elseif randomMenu == 7 then randomP1P2vsCPU()
 			--elseif randomMenu == 8 then randomCPUvsP1P2()
@@ -2539,67 +2503,50 @@ function freeModeCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
-function freeP1vsCPU()
+--HUMAN VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
+function freeHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple() --start f_selectSimple() function from script/select.lua
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (choose a fighter to defeat from left side a CPU controlled opponent of your choice)
-function freeP2vsCPU()
+--CPU VS HUMAN (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
+function freeCPUvsHuman()
 	remapInput(1, 2)
-	data.p2In = 1
-	textImgSetText(txt_mainSelect, "FREE VERSUS")
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P1 (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
-function freeCPUvsP1()
-	remapInput(1, 2) --P1 controls p2 side
-	remapInput(2, 1) --P2 controls p1 side
-	--setCom(2, 0) --Not computer is controlling P2 side, only the human
-	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
-	data.p1In = 2
-	data.p2In = 2
-	textImgSetText(txt_mainSelect, "FREE VERSUS")
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (choose a fighter to defeat from right side a CPU controlled opponent of your choice)
-function freeCPUvsP2()
-	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
 	textImgSetText(txt_mainSelect, "FREE VERSUS")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P1 VS P2 (choose a fighter from left side to defeat a human opponent)
-function freeP1vsP2()
-	setHomeTeam(1) --P1 side considered the home team
+--HUMAN VS HUMAN (choose a fighter from left side to defeat a human opponent)
+function freeHumanvsHuman()
+	if P2overP1 then
+		setHomeTeam(2) --P2 side considered the home team
+		remapInput(1, 2)
+		remapInput(2, 1)
+		setCom(2, 0)
+		setPlayerSide('p1right')
+	else
+		setHomeTeam(1) --P1 side considered the home team
+	end
 	data.p2In = 2 --P2 controls P2 side of the select screen
 	textImgSetText(txt_mainSelect, "VERSUS MODE")
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
-end
-
---P2 VS P1 (choose a fighter from right side to defeat a human opponent)
-function freeP2vsP1()
-	setHomeTeam(2)
-	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
-	setPlayerSide('p1right')
-	data.p2In = 2
-	textImgSetText(txt_mainSelect, "VERSUS MODE")
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --CPU MATCH (watch CPU controlled match of your choice)
@@ -2693,12 +2640,12 @@ function f_freeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			freeModeCfg()
-			if freeMenu == 1 then freeP1vsCPU()
-			elseif freeMenu == 2 then freeP2vsCPU()
-			elseif freeMenu == 3 then freeCPUvsP1()
-			elseif freeMenu == 4 then freeCPUvsP2()
-			elseif freeMenu == 5 then freeP1vsP2()
-			elseif freeMenu == 6 then freeP2vsP1()
+			if freeMenu == 1 then freeHumanvsCPU()
+			elseif freeMenu == 2 then P2overP1 = true freeHumanvsCPU()
+			elseif freeMenu == 3 then freeCPUvsHuman()
+			elseif freeMenu == 4 then P2overP1 = true freeCPUvsHuman()
+			elseif freeMenu == 5 then freeHumanvsHuman()
+			elseif freeMenu == 6 then P2overP1 = true freeHumanvsHuman()
 			elseif freeMenu == 7 then freeCPUvsCPU()
 			--elseif freeMenu == 8 then freeP1P2vsCPU()
 			--elseif freeMenu == 9 then freeCPUvsP1P2()
@@ -2980,30 +2927,26 @@ function survivalCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (defeat as many opponents as you can with a single Health Meter from left side)
-function survivalP1vsCPU()
+--HUMAN VS CPU (defeat as many opponents as you can with a single Health Meter from left side)
+function survivalHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (defeat as many opponents as you can with a single Health Meter from left side)
-function survivalP2vsCPU()
+--CPU VS HUMAN (defeat as many opponents as you can with a single Health Meter from right side)
+function survivalCPUvsHuman()
 	remapInput(1, 2)
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SURVIVAL")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P1 (defeat as many opponents as you can with a single Health Meter from right side)
-function survivalCPUvsP1()
-	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -3011,18 +2954,7 @@ function survivalCPUvsP1()
 	textImgSetText(txt_mainSelect, "SURVIVAL")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (defeat as many opponents as you can with a single Health Meter from right side)
-function survivalCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SURVIVAL")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat as many opponents as you can with a single Health Meter)
@@ -3110,10 +3042,10 @@ function f_survivalMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			survivalCfg()
-			if survivalMenu == 1 then survivalP1vsCPU()
-			elseif survivalMenu == 2 then survivalP2vsCPU()
-			elseif survivalMenu == 3 then survivalCPUvsP1()
-			elseif survivalMenu == 4 then survivalCPUvsP2()
+			if survivalMenu == 1 then survivalHumanvsCPU()
+			elseif survivalMenu == 2 then P2overP1 = true survivalHumanvsCPU()
+			elseif survivalMenu == 3 then survivalCPUvsHuman()
+			elseif survivalMenu == 4 then P2overP1 = true survivalCPUvsHuman()
 			elseif survivalMenu == 5 then survivalP1P2vsCPU()
 			--elseif survivalMenu == 6 then survivalCPUvsP1P2()
 			elseif survivalMenu == 6 then survivalCPUvsCPU()
@@ -3506,99 +3438,70 @@ function bossrushCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (defeat all bosses in a row from left side)
-function bossrushP1vsCPU()
-	--if #t_bossChars ~= 0 then
-		data.p2In = 1
-		data.p2SelectMenu = false
-		textImgSetText(txt_mainSelect, "BOSS RUSH")					
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+--HUMAN VS CPU (defeat all bosses in a row from left side)
+function bossrushHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "BOSS RUSH")					
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (defeat all bosses in a row from left side)
-function bossrushP2vsCPU()
-	--if #t_bossChars ~= 0 then
-		remapInput(1, 2)
-		data.p2In = 1
-		data.p2SelectMenu = false
-		textImgSetText(txt_mainSelect, "BOSS RUSH")					
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
-end
-
---CPU VS P1 (defeat all bosses in a row from right side)
-function bossrushCPUvsP1()
-	--if #t_bossChars ~= 0 then
-		remapInput(1, 2)
+--CPU VS HUMAN (defeat all bosses in a row from right side)
+function bossrushCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
 		remapInput(2, 1)
-		setCom(2, 0)
-		setPlayerSide('p1right')
-		data.p1In = 2
-		data.p2In = 2
-		data.p1SelectMenu = false
-		textImgSetText(txt_mainSelect, "BOSS RUSH")					
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
-end
-
---CPU VS P2 (defeat all bosses in a row from right side)
-function bossrushCPUvsP2()
-	--if #t_bossChars ~= 0 then
-		remapInput(1, 2)
-		setPlayerSide('p1right')
-		data.p1In = 2
-		data.p2In = 2
-		data.p1SelectMenu = false
-		textImgSetText(txt_mainSelect, "BOSS RUSH")					
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+		--setCom(2, 0)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "BOSS RUSH")					
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all bosses in a row)
 function bossrushP1P2vsCPU()
-	--if #t_bossChars ~= 0 then
-		data.p2In = 2
-		data.p2Faces = true
-		data.coop = true
-		textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all bosses in a row)
 function bossrushCPUvsP1P2()
 	f_comingSoon()
-	--if #t_bossChars ~= 0 then
-		--[[
-		setPlayerSide('p1right')
-		data.p1In = 2
-		data.p2In = 2
-		data.p2Faces = true
-		data.coop = true
-		textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
-		script.select.f_selectAdvance()
-		]]
-		setDiscordState("In Main Menu")
-	--end
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "BOSS RUSH COOPERATIVE")					
+	script.select.f_selectAdvance()
+	]]
+	setDiscordState("In Main Menu")
 end
 
 --CPU MODE (watch CPU defeat all bosses in a row)
 function bossrushCPUvsCPU()
-	--if #t_bossChars ~= 0 then
-		data.p2In = 1
-		data.p2SelectMenu = false
-		data.aiFight = true
-		data.rosterMode = "cpu"
-		textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH BOSS RUSH")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
 end
 	
 function f_bossrushMenu()
@@ -3650,10 +3553,10 @@ function f_bossrushMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			bossrushCfg()
-			if bossrushMenu == 1 then bossrushP1vsCPU()
-			elseif bossrushMenu == 2 then bossrushP2vsCPU()
-			elseif bossrushMenu == 3 then bossrushCPUvsP1()
-			elseif bossrushMenu == 4 then bossrushCPUvsP2()
+			if bossrushMenu == 1 then bossrushHumanvsCPU()
+			elseif bossrushMenu == 2 then P2overP1 = true bossrushHumanvsCPU()
+			elseif bossrushMenu == 3 then bossrushCPUvsHuman()
+			elseif bossrushMenu == 4 then P2overP1 = true bossrushCPUvsHuman()
 			elseif bossrushMenu == 5 then bossrushP1P2vsCPU()
 			--elseif bossrushMenu == 6 then bossrushCPUvsP1P2()
 			elseif bossrushMenu == 6 then bossrushCPUvsCPU()
@@ -4037,90 +3940,61 @@ function bonusrushCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (clear all bonus games in a row from left side)
-function bonusrushP1vsCPU()
-	--if #t_bonusChars ~= 0 then
-		data.p2In = 1
-		data.p2SelectMenu = false
-		data.p2TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, "BONUS RUSH")
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+--HUMAN VS CPU (clear all bonus games in a row from left side)
+function bonusrushHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	textImgSetText(txt_mainSelect, "BONUS RUSH")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (clear all bonus games in a row from left side)
-function bonusrushP2vsCPU()
-	--if #t_bonusChars ~= 0 then
-		remapInput(1, 2)
-		data.p2In = 1
-		data.p2SelectMenu = false
-		data.p2TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, "BONUS RUSH")
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
-end
-
---CPU VS P1 (clear all bonus games in a row from right side)
-function bonusrushCPUvsP1()
-	--if #t_bonusChars ~= 0 then
-		remapInput(1, 2)
+--CPU VS HUMAN (clear all bonus games in a row from right side)
+function bonusrushCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
 		remapInput(2, 1)
-		setCom(2, 0)
-		setPlayerSide('p1right')
-		data.p1In = 2
-		data.p2In = 2
-		data.p1SelectMenu = false
-		data.p1TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, "BONUS RUSH")
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
-end
-
---CPU VS P2 (clear all bonus games in a row from right side)
-function bonusrushCPUvsP2()
-	--if #t_bonusChars ~= 0 then
-		remapInput(1, 2)
-		setPlayerSide('p1right')
-		data.p1In = 2
-		data.p2In = 2
-		data.p1SelectMenu = false
-		data.p1TeamMenu = {mode = 0, chars = 1}
-		textImgSetText(txt_mainSelect, "BONUS RUSH")
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+		--setCom(2, 0)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	textImgSetText(txt_mainSelect, "BONUS RUSH")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to clear all bonus games in a row)
 function bonusrushP1P2vsCPU()
-	--if #t_bonusChars ~= 0 then
-		data.p2In = 2
-		data.p2Faces = true
-		data.coop = true
-		textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
-		script.select.f_selectAdvance()
-		setDiscordState("In Main Menu")
-	--end
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
 end
 
 --CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to clear all bonus games in a row)
 function bonusrushCPUvsP1P2()
 	f_comingSoon()
-	--if #t_bonusChars ~= 0 then
-		--[[
-		setPlayerSide('p1right')
-		data.p1In = 2
-		data.p2In = 2
-		data.p2Faces = true
-		data.coop = true
-		textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
-		script.select.f_selectAdvance()
-		]]
-		setDiscordState("In Main Menu")
-	--end
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "BONUS RUSH COOPERATIVE")
+	script.select.f_selectAdvance()
+	]]
+	setDiscordState("In Main Menu")
 end
 	
 function f_bonusrushMenu()
@@ -4172,10 +4046,10 @@ function f_bonusrushMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			bonusrushCfg()
-			if bonusrushMenu == 1 then bonusrushP1vsCPU()
-			elseif bonusrushMenu == 2 then bonusrushP2vsCPU()
-			elseif bonusrushMenu == 3 then bonusrushCPUvsP1()
-			elseif bonusrushMenu == 4 then bonusrushCPUvsP2()
+			if bonusrushMenu == 1 then bonusrushHumanvsCPU()
+			elseif bonusrushMenu == 2 then P2overP1 = true bonusrushHumanvsCPU()
+			elseif bonusrushMenu == 3 then bonusrushCPUvsHuman()
+			elseif bonusrushMenu == 4 then P2overP1 = true bonusrushCPUvsHuman()
 			elseif bonusrushMenu == 5 then bonusrushP1P2vsCPU()
 			--elseif bonusrushMenu == 6 then bonusrushCPUvsP1P2()
 			end
@@ -4257,30 +4131,26 @@ function timeattackCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (defeat all character roster as quickly as possible, beating previous time records from left side)
-function timeattackP1vsCPU()
+--HUMAN VS CPU (defeat all character roster as quickly as possible, beating previous time records from left side)
+function timeattackHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (defeat all character roster as quickly as possible, beating previous time records from left side)
-function timeattackP2vsCPU()
+--CPU VS HUMAN (defeat all character roster as quickly as possible, beating previous time records from right side)
+function timeattackCPUvsHuman()
 	remapInput(1, 2)
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "TIME ATTACK")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P1 (defeat all character roster as quickly as possible, beating previous time records from right side)
-function timeattackCPUvsP1()
-	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -4288,18 +4158,7 @@ function timeattackCPUvsP1()
 	textImgSetText(txt_mainSelect, "TIME ATTACK")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (defeat all character roster as quickly as possible, beating previous time records from right side)
-function timeattackCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "TIME ATTACK")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster as quickly as possible, beating previous time records)
@@ -4387,10 +4246,10 @@ function f_timeMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			timeattackCfg()
-			if timeMenu == 1 then timeattackP1vsCPU()
-			elseif timeMenu == 2 then timeattackP2vsCPU()
-			elseif timeMenu == 3 then timeattackCPUvsP1()
-			elseif timeMenu == 4 then timeattackCPUvsP2()
+			if timeMenu == 1 then timeattackHumanvsCPU()
+			elseif timeMenu == 2 then P2overP1 = true timeattackHumanvsCPU()
+			elseif timeMenu == 3 then timeattackCPUvsHuman()
+			elseif timeMenu == 4 then P2overP1 = true timeattackCPUvsHuman()
 			elseif timeMenu == 5 then timeattackP1P2vsCPU()
 			--elseif timeMenu == 6 then timeattackCPUvsP1P2()
 			elseif timeMenu == 6 then timeattackCPUvsCPU()
@@ -4473,30 +4332,26 @@ function suddenCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (see how many characters out of all roster you can take down with 1 Hit from left side)
-function suddenP1vsCPU()
+--P1 VS HUMAN (see how many characters out of all roster you can take down with 1 Hit from left side)
+function suddenHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (see how many characters out of all roster you can take down with 1 Hit from left side)
-function suddenP2vsCPU()
+--CPU VS HUMAN (see how many characters out of all roster you can take down with 1 Hit from right side)
+function suddenCPUvsHuman()
 	remapInput(1, 2)
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P1 (see how many characters out of all roster you can take down with 1 Hit from right side)
-function suddenCPUvsP1()
-	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -4504,18 +4359,7 @@ function suddenCPUvsP1()
 	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (see how many characters out of all roster you can take down with 1 Hit from right side)
-function suddenCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "SUDDEN DEATH")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down with 1 Hit)
@@ -4603,10 +4447,10 @@ function f_suddenMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			suddenCfg()
-			if suddenMenu == 1 then suddenP1vsCPU()
-			elseif suddenMenu == 2 then suddenP2vsCPU()
-			elseif suddenMenu == 3 then suddenCPUvsP1()
-			elseif suddenMenu == 4 then suddenCPUvsP2()
+			if suddenMenu == 1 then suddenHumanvsCPU()
+			elseif suddenMenu == 2 then P2overP1 = true suddenHumanvsCPU()
+			elseif suddenMenu == 3 then suddenCPUvsHuman()
+			elseif suddenMenu == 4 then P2overP1 = true suddenCPUvsHuman()
 			elseif suddenMenu == 5 then suddenP1P2vsCPU()
 			--elseif suddenMenu == 6 then suddenCPUvsP1P2()
 			elseif suddenMenu == 6 then suddenCPUvsCPU()
@@ -4832,34 +4676,31 @@ function endlessCfg()
 	data.gameMode = "endless"
 	data.rosterMode = "endless"
 	data.stageMenu = true
+	data.victoryscreen = false
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (choose a fighter to defeat endless CPU controlled opponents from left side)
-function endlessP1vsCPU()
+--P1 VS HUMAN (choose a fighter to defeat endless CPU controlled opponents from left side)
+function endlessHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---P2 VS CPU (choose a fighter to defeat endless CPU controlled opponents from left side)
-function endlessP2vsCPU()
+--CPU VS HUMAN (choose a fighter to defeat endless CPU controlled opponents from right side)
+function endlessCPUvsHuman()
 	remapInput(1, 2)
-	data.p2In = 1
-	data.p2SelectMenu = false
-	textImgSetText(txt_mainSelect, "ENDLESS MODE")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
-end
-
---CPU VS P1 (choose a fighter to defeat endless CPU controlled opponents from right side)
-function endlessCPUvsP1()
-	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -4867,18 +4708,7 @@ function endlessCPUvsP1()
 	textImgSetText(txt_mainSelect, "ENDLESS MODE")
 	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (choose a fighter to defeat endless CPU controlled opponents from right side)
-function endlessCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	textImgSetText(txt_mainSelect, "ENDLESS MODE")
-	script.select.f_selectAdvance()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat endless CPU controlled opponents)
@@ -4966,10 +4796,10 @@ function f_allcharsMenu()
 		end
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			endlessCfg()
-			if allcharsMenu == 1 then endlessP1vsCPU()
-			elseif allcharsMenu == 2 then endlessP2vsCPU()
-			elseif allcharsMenu == 3 then endlessCPUvsP1()
-			elseif allcharsMenu == 4 then endlessCPUvsP2()
+			if allcharsMenu == 1 then endlessHumanvsCPU()
+			elseif allcharsMenu == 2 then P2overP1 = true endlessHumanvsCPU()
+			elseif allcharsMenu == 3 then endlessCPUvsHuman()
+			elseif allcharsMenu == 4 then P2overP1 = true endlessCPUvsHuman()
 			elseif allcharsMenu == 5 then endlessP1P2vsCPU()
 			--elseif allcharsMenu == 6 then endlessCPUvsP1P2()
 			elseif allcharsMenu == 6 then endlessCPUvsCPU()
