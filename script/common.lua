@@ -77,7 +77,7 @@ eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 gallerySff = sffNew("data/screenpack/gallery.sff") --load gallery sprites
 storySff = sffNew("data/screenpack/story.sff") --load story sprites
---towerSff = sffNew("data/screenpack/tower.sff") --load tower sprites
+towerSff = sffNew("data/screenpack/tower.sff") --load tower sprites
 --[[
 tourneySff = sffNew("data/screenpack/tourney.sff") --load tourney sprites
 legionSff = sffNew("data/screenpack/legion.sff") --load legion sprites
@@ -1917,14 +1917,16 @@ function f_default() --Reset Game Modes Configuration
 	data.stageMenu = false --stage selection disabled
 	data.stage = nil --no predefined custom stage
 	data.bgm = nil --no predefined custom song route
+	data.arcadeIntro = false --character arcade intro disabled
+	data.arcadeEnding = false --character arcade ending disabled
 	data.orderSelect = true --order select screen enabled
 	data.versusScreen = true --versus screen enabled
 	data.victoryscreen = true --victory screen enabled
 	data.serviceScreen = false --service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
 	data.gameMode = "" --additional variable used to distinguish modes in select screen
-	data.rosterMode = "" --additional variable used to identify special modes in select screen
-	data.rosterAdvanced = false --additional variable used to identify advanced games in select screen
+	data.rosterMode = "" --additional variable used to identify game modes in select screen to record stats and setup special stuff
+	data.rosterAdvanced = false --additional variable used to identify advanced roster (like arcade, survival or tower) in select screen
 	data.missionNo = nil --additional variable used to identify missions in select screen
 	data.eventNo = nil --additional variable used to identify events in select screen
 	data.storyNo = nil --additional variable used to identify stories in select screen

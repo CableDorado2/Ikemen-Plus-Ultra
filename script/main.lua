@@ -1758,6 +1758,8 @@ function arcadeCfg()
 	data.gameMode = "arcade" --mode recognized in select screen as arcade
 	data.rosterMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
+	data.arcadeIntro = true --Enable characters arcade intro before versus screen
+	data.arcadeEnding = true --Enable characters arcade ending before versus screen
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
@@ -1959,6 +1961,8 @@ function towerCfg()
 	setGameMode('tower')
 	data.gameMode = "tower"
 	data.rosterMode = "tower"
+	data.arcadeIntro = true --Enable characters arcade intro before tower select
+	data.arcadeEnding = true --Enable characters arcade ending before tower select
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
