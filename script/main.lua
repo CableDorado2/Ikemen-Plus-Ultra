@@ -1117,7 +1117,6 @@ function f_sideSelect()
 	local function f_cpuL() f_drawQuickText(txt_sideCPU, font14, 0, 0, "CPU", txtPosXleft, 120) end
 	local function f_cpuR() f_drawQuickText(txt_sideCPU, font14, 0, 0, "CPU", txtPosXright, 120) end
 	cmdInput() --Read Inputs
-	--data.p2In = 2 --Activate Player 2 Control
 	--P1 Cursor Position
 	if commandGetState(p1Cmd, 'l') then
 		if p1Side > -1 then
@@ -1219,11 +1218,14 @@ function f_sideSelect()
 		textImgDraw(txt_sideWarning)
 		data.p2In = 2 --Keep Active Player 2 Control
 	end
-	--Actions
+--Actions
+	--Back
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
 		f_sideReset()
+	--Confirm
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+	--Load Common Modes Config
 		if menuSelect == "quick match" then randomModeCfg()
 		elseif menuSelect == "free battle" then freeModeCfg()
 		elseif menuSelect == "arcade" then arcadeCfg()
@@ -1237,8 +1239,8 @@ function f_sideSelect()
 		elseif menuSelect == "sudden death" then suddenCfg()
 		elseif menuSelect == "endless" then endlessCfg()
 		end
---Reference: -1 (Left Side), 0 (No Side), 1 (Right Side)
-		--CPU VS CPU
+--Reference: -1 (Left Side), 0 (No Side/CPU), 1 (Right Side)
+	--CPU VS CPU
 		if p1Side == 0 and p2Side == 0 then
 			if menuSelect == "quick match" then randomCPUvsCPU()
 			elseif menuSelect == "free battle" then freeCPUvsCPU()
@@ -1258,16 +1260,16 @@ function f_sideSelect()
 				sideWarning = true
 			end
 		end
-		--P1 VS CPU
+	--P1 VS CPU
 		if p1Side == -1 and p2Side == 0 then
 			if menuSelect == "quick match" then	randomHumanvsCPU()
 			elseif menuSelect == "free battle" then freeHumanvsCPU()
 			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
 			elseif menuSelect == "tower" then towerHumanvsCPU()
 			elseif menuSelect == "survival" then survivalHumanvsCPU()
-			elseif menuSelect == "boss" then bossP1vsCPU()
+			elseif menuSelect == "boss" then bossHumanvsCPU()
 			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
-			elseif menuSelect == "bonus" then bonusP1vsCPU()
+			elseif menuSelect == "bonus" then bonusHumanvsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
@@ -1275,17 +1277,17 @@ function f_sideSelect()
 			end
 			sideSelected = true
 		end
-		--P2 VS CPU
+	--P2 VS CPU
 		if p2Side == -1 and p1Side == 0 then
-			P2overP1 = true
+			P2overP1 = true --Detects Player 2 Control
 			if menuSelect == "quick match" then	randomHumanvsCPU()
 			elseif menuSelect == "free battle" then freeHumanvsCPU()
 			elseif menuSelect == "arcade" then arcadeHumanvsCPU()
 			elseif menuSelect == "tower" then towerHumanvsCPU()
 			elseif menuSelect == "survival" then survivalHumanvsCPU()
-			elseif menuSelect == "boss" then bossP2vsCPU()
+			elseif menuSelect == "boss" then bossHumanvsCPU()
 			elseif menuSelect == "boss rush" then bossrushHumanvsCPU()
-			elseif menuSelect == "bonus" then bonusP2vsCPU()
+			elseif menuSelect == "bonus" then bonusHumanvsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
 			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
@@ -1293,16 +1295,16 @@ function f_sideSelect()
 			end
 			sideSelected = true
 		end
-		--CPU VS P1
+	--CPU VS P1
 		if p2Side == 0 and p1Side == 1 then
 			if menuSelect == "quick match" then	randomCPUvsHuman()
 			elseif menuSelect == "free battle" then freeCPUvsHuman()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
 			elseif menuSelect == "tower" then towerCPUvsHuman()
 			elseif menuSelect == "survival" then survivalCPUvsHuman()
-			elseif menuSelect == "boss" then bossCPUvsP1()
+			elseif menuSelect == "boss" then bossCPUvsHuman()
 			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
-			elseif menuSelect == "bonus" then bonusCPUvsP1()
+			elseif menuSelect == "bonus" then bonusCPUvsHuman()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
@@ -1310,17 +1312,17 @@ function f_sideSelect()
 			end
 			sideSelected = true
 		end
-		--CPU VS P2
+	--CPU VS P2
 		if p1Side == 0 and p2Side == 1 then
-			P2overP1 = true
+			P2overP1 = true --Detects Player 2 Control
 			if menuSelect == "quick match" then	randomCPUvsHuman()
 			elseif menuSelect == "free battle" then freeCPUvsHuman()
 			elseif menuSelect == "arcade" then arcadeCPUvsHuman()
 			elseif menuSelect == "tower" then towerCPUvsHuman()
 			elseif menuSelect == "survival" then survivalCPUvsHuman()
-			elseif menuSelect == "boss" then bossCPUvsP2()
+			elseif menuSelect == "boss" then bossCPUvsHuman()
 			elseif menuSelect == "boss rush" then bossrushCPUvsHuman()
-			elseif menuSelect == "bonus" then bonusCPUvsP2()
+			elseif menuSelect == "bonus" then bonusCPUvsHuman()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
 			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
@@ -1328,7 +1330,7 @@ function f_sideSelect()
 			end
 			sideSelected = true
 		end
-		--P1 VS P2
+	--P1 VS P2
 		if p1Side == -1 and p2Side == 1 then
 			if menuSelect == "quick match" then randomHumanvsHuman()
 			elseif menuSelect == "free battle" then freeHumanvsHuman()
@@ -1340,7 +1342,7 @@ function f_sideSelect()
 				sideWarning = true
 			end
 		end
-		--P2 VS P1
+	--P2 VS P1
 		if p2Side == -1 and p1Side == 1 then
 			P2overP1 = true
 			if menuSelect == "quick match" then randomHumanvsHuman()
@@ -1354,7 +1356,7 @@ function f_sideSelect()
 				sideWarning = true
 			end
 		end
-		--P1&P2 VS CPU [CO-OP MODE]
+	--P1&P2 VS CPU [CO-OP MODE]
 		if p1Side == -1 and p2Side == -1 then
 			--if menuSelect == "quick match" then randomP1P2vsCPU()
 			--elseif menuSelect == "free battle" then freeP1P2vsCPU()
@@ -1374,7 +1376,7 @@ function f_sideSelect()
 				sideWarning = true
 			end
 		end
-		--CPU VS P1&P2 [CO-OP MODE] (Not available yet)
+	--CPU VS P1&P2 [CO-OP MODE] (Not available yet)
 		if p1Side == 1 and p2Side == 1 then
 			--if menuSelect == "quick match" then randomCPUvsP1P2()
 			--elseif menuSelect == "free battle" then freeCPUvsP1P2()
@@ -2718,7 +2720,7 @@ function f_training()
 	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	sndPlay(sysSnd, 100, 1)
+	--sndPlay(sysSnd, 100, 1)
 	if data.training == "Free" then
 		--data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
 		data.p2In = 1
@@ -3243,29 +3245,26 @@ function bossCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (defeat selected boss character from left side)
-function bossP1vsCPU()
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_bossChars[bossChars]}
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
-end
-
---P2 VS CPU (defeat selected boss character from left side)
-function bossP2vsCPU()
-	remapInput(1, 2)
+--HUMAN VS CPU (defeat selected boss character from left side)
+function bossHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_bossChars[bossChars]}
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---CPU VS P1 (defeat selected boss character from right side)
-function bossCPUvsP1()
+--CPU VS HUMAN (defeat selected boss character from right side)
+function bossCPUvsHuman()
 	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -3274,24 +3273,11 @@ function bossCPUvsP1()
 	data.p1Char = {t_bossChars[bossChars]}
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (defeat selected boss character from right side)
-function bossCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_bossChars[bossChars]}
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 --CPU MODE (watch CPU defeat selected boss character)
 function bossCPUvsCPU()
-	--data.p2In = 1
 	--data.p2SelectMenu = false
 	data.aiFight = true
 	data.rosterMode = "cpu"
@@ -3352,11 +3338,12 @@ function f_bossChars()
 			end
 			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if data.sideSelect == "Modern" then
+					sndPlay(sysSnd, 100, 1)
 					menuSelect = "boss"
 					sideScreen = true
 				else
 					bossCfg()
-					bossP1vsCPU()
+					bossHumanvsCPU()
 				end
 			end
 		end
@@ -3756,29 +3743,26 @@ function bonusCfg()
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS CPU (clear the bonus game selected from left side)
-function bonusP1vsCPU()
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_bonusChars[bonusExtras]}
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
-end
-
---P2 VS CPU (clear the bonus game selected from left side)
-function bonusP2vsCPU()
-	remapInput(1, 2)
+--HUMAN VS CPU (clear the bonus game selected from left side)
+function bonusHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
 	data.p2In = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_bonusChars[bonusExtras]}
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
---CPU VS P1 (clear the bonus game selected from right side)
-function bonusCPUvsP1()
+--CPU VS HUMAN (clear the bonus game selected from right side)
+function bonusCPUvsHuman()
 	remapInput(1, 2)
-	remapInput(2, 1)
-	setCom(2, 0)
+	if not P2overP1 then
+		remapInput(2, 1)
+		--setCom(2, 0)
+	end
 	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
@@ -3787,19 +3771,7 @@ function bonusCPUvsP1()
 	data.p1Char = {t_bonusChars[bonusExtras]}
 	script.select.f_selectSimple()
 	setDiscordState("In Main Menu")
-end
-
---CPU VS P2 (clear the bonus game selected from right side)
-function bonusCPUvsP2()
-	remapInput(1, 2)
-	setPlayerSide('p1right')
-	data.p1In = 2
-	data.p2In = 2
-	data.p1SelectMenu = false
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_bonusChars[bonusExtras]}
-	script.select.f_selectSimple()
-	setDiscordState("In Main Menu")
+	P2overP1 = false
 end
 
 function f_bonusExtras()
@@ -3853,11 +3825,12 @@ function f_bonusExtras()
 			end
 			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if data.sideSelect == "Modern" then
+					sndPlay(sysSnd, 100, 1)
 					menuSelect = "bonus"
 					sideScreen = true
 				else
 					bonusCfg()
-					bonusP1vsCPU()
+					bonusHumanvsCPU()
 				end
 			end
 		end
@@ -4676,7 +4649,7 @@ function endlessCfg()
 	data.gameMode = "endless"
 	data.rosterMode = "endless"
 	data.stageMenu = true
-	data.victoryscreen = false
+	data.versusScreen = false
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
