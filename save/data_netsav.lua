@@ -59,6 +59,7 @@ data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
+data.destinyTime = 25
 --Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"

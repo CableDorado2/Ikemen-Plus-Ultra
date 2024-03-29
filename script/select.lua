@@ -216,10 +216,12 @@ function f_selectInit()
 	stageSeconds = data.stageTime
 	rematchSeconds = data.rematchTime
 	serviceSeconds = data.serviceTime
+	destinySeconds = data.destinyTime
 	selectTimer = selectSeconds*gameTick --Set time for Character Select
 	stageTimer = stageSeconds*gameTick --Set time for Stage Select
 	rematchTimer = rematchSeconds*gameTick --Set time for Rematch Option
 	serviceTimer = serviceSeconds*gameTick --Set time for Service Option
+	destinyTimer = destinySeconds*gameTick --Set time for Tower/Destiny Select
 	if data.rosterAdvanced == true and data.stageMenu == false then
 		--For Advanced Modes without Stage Select
 	else
@@ -2039,7 +2041,8 @@ function f_selectTower()
 		end
 	--FIRST MATCH
 		if matchNo == 0 then
-			--generate roster (insert here choose your destiny)
+			f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
+			--generate roster
 			f_makeRoster()
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				lastMatch = #t_roster / p1numChars
@@ -2606,8 +2609,7 @@ function f_selectTower()
 		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
 		f_orderSelect()
-	--Tower Select (Choose Your Destiny Screen)
-		f_selectDestiny()
+		--f_battlePlan() --Battle Plan Screen
 	--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
@@ -2636,6 +2638,7 @@ function f_selectTower()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
+		destinyTimer = destinySeconds*gameTick
 		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
@@ -2661,30 +2664,169 @@ function f_selectTower()
 end
 
 --;=================================================================================================
+--; TOWER DESTINY SCREENPACK
+--;=================================================================================================
+txt_towerSelect = createTextImg(font14, 0, 0, "CHOOSE YOUR DESTINY", 159, 13)
+
+--Destiny Select BG
+destinyBG = animNew(towerSff, [[
+1,0, 0,0, -1
+]])
+animAddPos(destinyBG, -55, 0)
+animUpdate(destinyBG)
+animSetScale(destinyBG, 1.1, 1)
+
+--Destiny Cursor
+destinyCursor = animNew(towerSff, [[
+2,0, 0,0, 3
+2,1, 0,0, 3
+2,2, 0,0, 3
+2,3, 0,0, 3
+2,4, 0,0, 3
+2,5, 0,0, 3
+2,6, 0,0, 3
+2,7, 0,0, 3
+2,8, 0,0, 3
+2,9, 0,0, 3
+2,10, 0,0, 3
+2,11, 0,0, 3
+2,12, 0,0, 3
+2,13, 0,0, 3
+2,14, 0,0, 3
+2,15, 0,0, 3
+2,16, 0,0, 3
+2,17, 0,0, 3
+2,18, 0,0, 3
+2,19, 0,0, 3
+2,20, 0,0, 3
+2,21, 0,0, 3
+2,22, 0,0, 3
+2,23, 0,0, 3
+]])
+animSetScale(destinyCursor, 0.135, 0.135)
+animUpdate(destinyCursor)
+
+--;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
-txt_towerSelect = createTextImg(jgFnt, 0, 0, "CHOOSE YOUR DESTINY", 159, 13)
-txt_towerCursor = createTextImg(jgFnt, 0, 0, "NAME", 159, 13) --WARRIOR, MASTER, NOVICE
+t_destinyMenu = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
+	{Difficulty = "NOVICE", 	chars = "", Status = "", ID = textImgNew()}, --Add Tower to Test
+	{Difficulty = "WARRIOR", 	chars = "", Status = "", ID = textImgNew()},
+	{Difficulty = "MASTER", 	chars = "", Status = "", ID = textImgNew()},
+	{Difficulty = "???", 		chars = "", Status = "", ID = textImgNew()},
+	{Difficulty = "???", 		chars = "", Status = "", ID = textImgNew()},
+	{Difficulty = "???", 		chars = "", Status = "", ID = textImgNew()},
+}
 
 function f_selectDestiny()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-	local destinyTimer = 0
+	sndPlay(sysSnd, 300, 0) --Choose your Destiny SFX
+	local destinyMenu = 1
+	local cursorPosX = 1
+	local moveTower = 0
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
 	cmdInput()
 	while true do
-	--Time to Choose Destiny
-		destinyTimer = destinyTimer + 1
-		if destinyTimer == 2500 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+		--Actions
+		if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			destinyMenu = destinyMenu - 1
+		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			destinyMenu = destinyMenu + 1
+		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or destinyTimer == 0 then
+			sndPlay(sysSnd, 100, 1)
+			--if destinyMenu == ? then
+				
+			--end
+			--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
 		end
-	--draw background on top
-		
-	--draw tower names
-		
-	--draw destiny counter
-		
+		--Cursor position calculation
+		if destinyMenu < 1 then
+			destinyMenu = #t_destinyMenu
+			if #t_destinyMenu > 3 then
+				cursorPosX = 3
+			else
+				cursorPosX = #t_destinyMenu
+			end
+		elseif destinyMenu > #t_destinyMenu then
+			destinyMenu = 1
+			cursorPosX = 1
+		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+			cursorPosX = cursorPosX - 1
+		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < 3 then
+			cursorPosX = cursorPosX + 1
+		end
+		if cursorPosX == 3 then
+			moveTower = (destinyMenu - 3) * 105 --Set how many space will move diffcult text
+		elseif cursorPosX == 1 then
+			moveTower = (destinyMenu - 1) * 105
+		end
+		if #t_destinyMenu <= 3 then
+			maxDestiny = #t_destinyMenu
+		elseif destinyMenu - cursorPosX > 0 then
+			maxDestiny = destinyMenu + 3 - cursorPosX
+		else
+			maxDestiny = 3
+		end
+	--Draw BG
+		animDraw(destinyBG)
+	--Draw Title
+		textImgDraw(txt_towerSelect)
+	--Set Towers Scroll Logic
+		for i=1, maxDestiny do
+			if i > destinyMenu - cursorPosX then
+				--[[
+			--Draw Towers BG
+				animSetPos(t_destinyMenu[i].BG, -95+i*105-moveTower, 20)
+				animSetScale(t_destinyMenu[i].BG, 0.05, 0.05)
+				animUpdate(t_destinyMenu[i].BG)
+				animDraw(t_destinyMenu[i].BG)
+			--Draw Chars Preview Portraits
+				animSetPos(t_destinyMenu[i].Portrait, -62+i*105-moveTower, 31.5)
+				animUpdate(t_destinyMenu[i].Portrait)
+				animDraw(t_destinyMenu[i].Portrait)
+				]]
+				if i == destinyMenu then
+				--Draw Cursor Icon
+					animSetPos(destinyCursor, -72+i*105-moveTower, 194)
+					animUpdate(destinyCursor)
+					animDraw(destinyCursor)
+				--Draw Difficulty Text for Tower Table
+					if t_destinyMenu[i].ID ~= nil then
+						textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, font14, 0, 0, t_destinyMenu[i].Difficulty, -52+i*105-moveTower, 219,0.85,0.85))
+						--textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, jgFnt, bank, 0, t_destinyMenu[i].Status, -49.2+i*105-moveTower, 80,0.95,0.95))
+					end
+				end
+			end
+		end
+	--Destiny Select Timer
+		--txt_destinyTime = createTextImg(jgFnt, 0, 0, (destinyTimer/gameTick), 160, 70)
+		destinyTimeNumber = destinyTimer/gameTick
+		nodecimalDestinyTime = string.format("%.0f",destinyTimeNumber)
+		txt_destinyTime = createTextImg(jgFnt, 0, 0, nodecimalDestinyTime, 160, 70)
+		if destinyTimer > 0 then
+			destinyTimer = destinyTimer - 0.5 --Activate Tower Select Timer
+			textImgDraw(txt_destinyTime)
+		else --when destinyTimer <= 0
+			
+		end
+		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
+			bufl = 0
+			bufr = bufr + 1
+		elseif commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl') then
+			bufr = 0
+			bufl = bufl + 1
+		else
+			bufr = 0
+			bufl = 0
+		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -2697,6 +2839,14 @@ end
 --;=================================================================================================
 txt_towerPlan = createTextImg(jgFnt, 0, 0, "BATTLE PLAN", 159, 13)
 txt_towerDifficult = createTextImg(jgFnt, 0, 0, "DIFFICULTY LEVEL:", 159, 13)
+
+--Final Destiny BG
+destinyFinalBG = animNew(towerSff, [[
+1,1, 0,0, -1
+]])
+animAddPos(destinyFinalBG, 0, 0)
+animUpdate(destinyFinalBG)
+--animSetScale(destinyFinalBG, 1., 1.)
 
 function f_battlePlan()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -3071,8 +3221,6 @@ cellLockWindowBG = animNew(sysSff, [[
 ]])
 animSetScale(cellLockWindowBG, 91.5, 51)
 animUpdate(cellLockWindowBG)
-
-
 
 --;===========================================================
 --; CHARACTER SELECT SCREEN

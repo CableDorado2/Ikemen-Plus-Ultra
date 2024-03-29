@@ -384,6 +384,7 @@ function f_saveCfg()
 		['data.rematchTime'] = data.rematchTime,
 		['data.serviceTime'] = data.serviceTime,
 		['data.attractTime'] = data.attractTime,
+		['data.destinyTime'] = data.destinyTime,
 	--Video Data
 		['data.windowType'] = data.windowType,
 		['data.fullscreenType'] = data.fullscreenType,
@@ -677,6 +678,7 @@ function f_timeDefault()
 	data.rematchTime = 16
 	data.serviceTime = 16
 	data.attractTime = 11
+	data.destinyTime = 31
 end
 
 --Default Songs Values
@@ -3645,6 +3647,7 @@ t_timeCfg = {
 	{text = "Rematch Option",	   	varID = textImgNew(), varText = data.rematchTime .." Seconds"},
 	{text = "Service Screen", 		varID = textImgNew(), varText = data.serviceTime .." Seconds"},
 	{text = "Attract Title", 		varID = textImgNew(), varText = data.attractTime .." Seconds"},
+	{text = "Tower Select", 		varID = textImgNew(), varText = data.destinyTime .." Seconds"},
 	{text = "Default Values",  	 	varID = textImgNew(), varText = ""},
 	{text = "          BACK", 		varID = textImgNew(), varText = ""},
 }
@@ -3847,13 +3850,42 @@ function f_timeCfg()
 					bufr = 0
 					bufl = 0
 				end
+			--Tower/Choose Your Destiny Time
+			elseif timeCfg == 7 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if commandGetState(p1Cmd, 'r') and data.destinyTime < 61 then sndPlay(sysSnd, 100, 0) end
+					if data.destinyTime == -1 then
+						data.destinyTime = 11
+					elseif data.destinyTime < 61 then
+						data.destinyTime = data.destinyTime + 1
+					end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if commandGetState(p1Cmd, 'l') and data.destinyTime > 11 then sndPlay(sysSnd, 100, 0) end
+					if data.destinyTime > 11 then
+						data.destinyTime = data.destinyTime - 1
+					elseif data.destinyTime == 11 then
+						data.destinyTime = -1
+					end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 			--Default Values
-			elseif timeCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif timeCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultTime = true
 				defaultScreen = true
 			--BACK
-			elseif timeCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif timeCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3901,6 +3933,7 @@ function f_timeCfg()
 		if data.rematchTime ~= -1 then t_timeCfg[4].varText = data.rematchTime .." Seconds" else t_timeCfg[4].varText = "Infinite" end
 		if data.serviceTime ~= -1 then t_timeCfg[5].varText = data.serviceTime .." Seconds" else t_timeCfg[5].varText = "Infinite" end
 		if data.attractTime ~= -1 then t_timeCfg[6].varText = data.attractTime .." Seconds" else t_timeCfg[6].varText = "Infinite" end
+		if data.destinyTime ~= -1 then t_timeCfg[7].varText = data.destinyTime .." Seconds" else t_timeCfg[7].varText = "Infinite" end
 		for i=1, maxtimeCfg do
 			if i > timeCfg - cursorPosY then
 				if t_timeCfg[i].varID ~= nil then
