@@ -2710,12 +2710,12 @@ animUpdate(destinyCursor)
 --; TOWER DESTINY SELECT
 --;=================================================================================================
 t_destinyMenu = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
-	{Difficulty = "NOVICE", 	chars = "", Status = "", ID = textImgNew()}, --Add Tower to Test
-	{Difficulty = "WARRIOR", 	chars = "", Status = "", ID = textImgNew()},
-	{Difficulty = "MASTER", 	chars = "", Status = "", ID = textImgNew()},
-	{Difficulty = "???", 		chars = "", Status = "", ID = textImgNew()},
-	{Difficulty = "???", 		chars = "", Status = "", ID = textImgNew()},
-	{Difficulty = "???", 		chars = "", Status = "", ID = textImgNew()},
+	{ID = textImgNew(), Difficulty = "NOVICE", 		chars = "", Status = ""}, --Add Tower to Test
+	{ID = textImgNew(), Difficulty = "WARRIOR", 	chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "MASTER", 		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "???", 		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "???", 		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "???", 		chars = "", Status = ""},
 }
 
 function f_selectDestiny()
@@ -2776,7 +2776,8 @@ function f_selectDestiny()
 			maxDestiny = 3
 		end
 	--Draw BG
-		animDraw(destinyBG)
+		animDraw(f_animVelocity(selectHardBG0, -1, -1))
+		--animDraw(destinyBG)
 	--Draw Title
 		textImgDraw(txt_towerSelect)
 	--Set Towers Scroll Logic
@@ -2817,6 +2818,8 @@ function f_selectDestiny()
 		else --when destinyTimer <= 0
 			
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
@@ -2827,8 +2830,6 @@ function f_selectDestiny()
 			bufr = 0
 			bufl = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -2879,15 +2880,7 @@ function f_battlePlan()
 			end
 		end
 		--draw names
-		f_drawNameListP1(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
-		f_drawNameListP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
-		--draw match counter
 		
-		--draw background on bottom
-		animUpdate(versusBG4)
-		animDraw(versusBG4)
-		animDraw(vsBG6)
-		--textImgDraw(txt_vsHint)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -7218,72 +7211,101 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 end
 
 --;===========================================================
---; ORDER SELECT AND VERSUS SCREEN SCREENPACK
+--; ORDER SELECT AND VERSUS SCREEN COMMON SCREENPACK
 --;===========================================================
---Order Window (left portrait background)
-orderBG2 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(orderBG2, 160, 0)
-animSetTile(orderBG2, 1, 1)
-animSetWindow(orderBG2, 0, 30, 140, 140)
+txt_hints = createTextImg(font5, 0, 0, "", 160, 239)
 
---Order Window (right portrait background)
-orderBG3 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
+function f_resetVersusLogo()
+--VS Logo
+vsLogo = animNew(sysSff, [[
+200,4, 0,0, 1
+200,3, 0,0, 2
+200,2, 0,0, 3
+200,1, 0,0, 4
+200,0, 0,0, 8
+200,5, 0,0, 3
+200,6, 0,0, 3
+200,7, 0,0, 3
+200,8, 0,0, 3
+200,0, 0,0, -1
 ]])
-animAddPos(orderBG3, 160, 0)
-animSetTile(orderBG3, 1, 1)
-animSetWindow(orderBG3, 180, 30, 140, 140)
+animAddPos(vsLogo, 160, 95)
+end
 
---VS Window (left portrait background)
-versusBG2 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(versusBG2, 160, 0)
-animSetTile(versusBG2, 1, 1)
-animSetWindow(versusBG2, 20, 30, 120, 140)
-
---VS Window (right portrait background)
-versusBG3 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(versusBG3, 160, 0)
-animSetTile(versusBG3, 1, 1)
-animSetWindow(versusBG3, 180, 30, 120, 140)
-
---VS Background Footer
-vsBG6 = animNew(sysSff, [[
+--Background Footer
+footerBG = animNew(sysSff, [[
 300,0, 0,128, -1
 ]])
-animSetScale(vsBG6, 1.2, 1.8)
-animAddPos(vsBG6, 160, 0)
-animSetTile(vsBG6, 1, 0)
-animUpdate(vsBG6)
+animSetScale(footerBG, 1.2, 1.8)
+animAddPos(footerBG, 160, 0)
+animSetTile(footerBG, 1, 0)
+animUpdate(footerBG)
+
+--;===========================================================
+--; ORDER SELECT SCREENPACK
+--;===========================================================
+txt_orderSelect = createTextImg(font14, 0, 0, "ORDER SELECT", 160, 10)
+txt_p1State = createTextImg(jgFnt, 0, 0, "", 78, 25)
+txt_p2State = createTextImg(jgFnt, 0, 0, "", 241, 25)
+txt_waitingOrder = "WAITING ORDER"
+txt_orderFinished = "READY!"
+
+txt_p1NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
+txt_p2NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
+
+txt_p1OrderNo = createTextImg(jgFnt, 0, 0, "", 9.2, 180)
+txt_p2OrderNo = createTextImg(jgFnt, 0, 0, "", 310.2, 180)
+
+--Order Window (left portrait background)
+orderWindowL = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(orderWindowL, 160, 0)
+animSetTile(orderWindowL, 1, 1)
+animSetWindow(orderWindowL, 0, 30, 140, 140)
+
+--Order Window (right portrait background)
+orderWindowR = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(orderWindowR, 160, 0)
+animSetTile(orderWindowR, 1, 1)
+animSetWindow(orderWindowR, 180, 30, 140, 140)
 
 --P1 Order cursor
 p1OrderCursor = animNew(sysSff, [[
 195,0, 0,0, -1
 ]])
 animSetScale(p1OrderCursor, 0.10, 0.10)
+animUpdate(p1OrderCursor)
 
 --P2 Order cursor
 p2OrderCursor = animNew(sysSff, [[
 195,1, 0,0, -1
 ]])
 animSetScale(p2OrderCursor, 0.10, 0.10)
+animUpdate(p2OrderCursor)
+
+t_orderHints = {
+	{text = "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER"},
+	{text = "PRESS UP OR DOWN TO CHOOSE A CHARACTER"},
+	{text = "RESS ENTER TO CONFIRM THE ORDER SELECTED"},
+	{text = "ADD YOUR HINTS HERE"},
+	{text = "ADD YOUR HINTS HERE"},
+}
+
+function f_getOrderHint()
+	textImgSetText(txt_hints, t_orderHints[math.random(1, #t_orderHints)].text) --Get Random Hint from above Table
+end
 
 --;===========================================================
 --; ORDER SELECT
 --;===========================================================
-txt_p1NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
-txt_p2NameOrder = createTextImg(jgFnt, 0, 0, "", 0, 0)
-txt_orderHint = createTextImg(font5, 0, 0, "", 160, 239)
-
 function f_orderSelect()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	local i = 0
-	if not data.orderSelect then --Order Select off
+--Order Select OFF
+	if not data.orderSelect then
 		while true do
 			if i == 0 then
 				f_selectChar(1, data.t_p1selected)
@@ -7296,8 +7318,9 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
-	--[[
-	elseif data.coop == true then --Order Select off when playing in CO-OP Mode
+--[[
+--Order Select OFF when playing in CO-OP Mode
+	elseif data.coop == true then
 		while true do
 			if i == 0 then
 				f_selectChar(1, data.t_p1selected)
@@ -7310,8 +7333,9 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
-	]]
-	elseif p1teamMode == 0 and p2teamMode == 0 then --Order Select off when P1 and P2 playing in Single Team Mode
+]]
+--Order Select OFF when P1 and P2 playing in Single Team Mode
+	elseif p1teamMode == 0 and p2teamMode == 0 then
 		while true do
 			if i == 0 then
 				f_selectChar(1, data.t_p1selected)
@@ -7323,27 +7347,9 @@ function f_orderSelect()
 			i = i + 1
 			cmdInput()
 			refresh()
-		end	
+		end
+--Order Select ON
 	else
-		if matchNo == lastMatch then
-			playBGM(bgmSelectOrderFinal)
-		--else	
-			--playBGM(bgmSelectOrder)
-		end	
-		--VS Logo
-		versusBG4 = animNew(sysSff, [[
-		200,4, 0,0, 1
-		200,3, 0,0, 2
-		200,2, 0,0, 3
-		200,1, 0,0, 4
-		200,0, 0,0, 8
-		200,5, 0,0, 3
-		200,6, 0,0, 3
-		200,7, 0,0, 3
-		200,8, 0,0, 3
-		200,0, 0,0, -1
-		]])
-		animAddPos(versusBG4, 160, 95)
 		local bufOrderu = 0
 		local bufOrderd = 0
 		local bufOrderr = 0
@@ -7352,17 +7358,29 @@ function f_orderSelect()
 		local bufOrder2d = 0
 		local bufOrder2r = 0
 		local bufOrder2l = 0
-		local sndNumber = -1
 		local p1Confirmed = false
 		local p2Confirmed = false
 		local p1Row = 1
 		local p2Row = 1
 		local t_tmp = {}
+		local sndNumber = -1
 		local sndTime = 0
-		local orderhintTime = 0
-		local randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+		local hintTime = 0
 		local seconds = data.orderTime
 		local orderTime = seconds*gameTick --Set time for Order Select
+		local p1Anim = "p1AnimStand"
+		local p2Anim = "p2AnimStand"
+		textImgSetBank(txt_p1State, 0) --Reset Text Color
+		textImgSetBank(txt_p2State, 0)
+	--Set Order Select Music
+		if matchNo == lastMatch then
+			playBGM(bgmSelectOrderFinal)
+		--else	
+			--playBGM(bgmSelectOrder)
+		end
+		f_getOrderHint() --Load First Hint
+		f_resetVersusLogo()
+	--Set order time
 		if data.p1In == 1 and data.p2In == 2 and (#data.t_p1selected > 1 or #data.t_p2selected > 1) or data.coop == true then
 			--orderTime = math.max(#data.t_p1selected, #data.t_p2selected) * 60 --Order Time is setting by the amount of characters selected
 		elseif #data.t_p1selected > 1 or data.coop == true then
@@ -7379,10 +7397,10 @@ function f_orderSelect()
 			orderTimeNumber = orderTime/gameTick
 			nodecimalOrderTime = string.format("%.0f",orderTimeNumber)
 			txt_orderTime = createTextImg(jgFnt, 0, 0, nodecimalOrderTime, 160, 70)
-			--Draw Order Select Last Match Backgrounds
+		--Draw Order Select Last Match Backgrounds
 			if matchNo == lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
-			--Draw Order Select Normal Matchs Backgrounds
+		--Draw Order Select Normal Matchs Backgrounds
 			else
 				--Draw Black BG only for Tower Mode
 				if data.gameMode == "tower" then
@@ -7395,64 +7413,42 @@ function f_orderSelect()
 					animDraw(f_animVelocity(selectBG0, -1, -1))
 				end
 			end
-			animDraw(f_animVelocity(orderBG2, -2, 0))
-			animDraw(f_animVelocity(orderBG3, 2, 0))
-		--end loop after at least 120 ticks (extended if sound has been triggered)
-			--draw info text
+		--Draw Window Portraits
+			animDraw(f_animVelocity(orderWindowL, -2, 0))
+			animDraw(f_animVelocity(orderWindowR, 2, 0))
+		--Set Order Status Assets
 			if p1Confirmed == false then
-				txt_p1State = createTextImg(jgFnt, 3, 0, "WAITING ORDER", 78, 25)
-				textImgDraw(txt_p1State)
-			elseif p1Confirmed == true and p2Confirmed == true then
-				txt_p1State = createTextImg(jgFnt, 2, 0, "START MATCH", 79, 25)
+				--textImgSetBank(txt_p1State, 3) --Set Blue Color
+				textImgSetText(txt_p1State, txt_waitingOrder) --Set Text
+			else
+				textImgSetBank(txt_p1State, 5)
+				textImgSetText(txt_p1State, txt_orderFinished)
+				p1Anim = "p1AnimWin" --Change Anim when Order Select is complete
+			end
+			if p2Confirmed == false then
+				--textImgSetBank(txt_p2State, 1) --Set Red Color
+				textImgSetText(txt_p2State, txt_waitingOrder)
+			else
+				textImgSetBank(txt_p2State, 5)
+				textImgSetText(txt_p2State, txt_orderFinished)
+				p2Anim = "p2AnimWin"
+			end
+		--Draw Order Status Text
+			textImgDraw(txt_p1State)
+			textImgDraw(txt_p2State)
+		--Both Sides are Ready
+			if p1Confirmed == true and p2Confirmed == true then
 				orderTime = 0
-				textImgDraw(txt_p1State)	
 				animSetWindow(cursorBox, 20, 14, 120, 16)
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
-				--for j=#data.t_p1selected, 1, -1 do
-					--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 30 + (2*j-1) * 100/(2*#data.t_p1selected), 168, data.t_p1selected[j].up)
-				--end
-			else
-				txt_p1State = createTextImg(jgFnt, 5, 0, "READY!", 78, 25)
-				textImgDraw(txt_p1State)
-			end
-			if p2Confirmed == false then
-				txt_p2State = createTextImg(jgFnt, 1, 0, "WAITING ORDER", 241, 25)
-				textImgDraw(txt_p2State)
-			--elseif p1Confirmed == false and p2Confirmed == true then
-				--txt_p2State = createTextImg(jgFnt, 5, 0, "READY!", 241, 25)
-				--textImgDraw(txt_p2State)
-			else
-				txt_p2State = createTextImg(jgFnt, 5, 0, "READY!", 241, 25)
-				textImgDraw(txt_p2State)
-			end
-			--set random hints for order select
-			if randomHintOrder == 1 then
-				textImgSetText(txt_orderHint, "PRESS LEFT OR RIGHT TO EDIT THE CHARACTERS ORDER")
-				textImgDraw(txt_orderHint)
-			elseif randomHintOrder == 2 then
-				textImgSetText(txt_orderHint, "PRESS UP OR DOWN TO CHOOSE A CHARACTER")
-				textImgDraw(txt_orderHint)
-			elseif randomHintOrder == 3 then
-				textImgSetText(txt_orderHint, "PRESS ENTER TO CONFIRM THE ORDER SELECTED")
-				textImgDraw(txt_orderHint)
-			--elseif randomHintOrder == 4 then
-				--textImgSetText(txt_orderHint, "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE")
-				--textImgDraw(txt_orderHint)
-			--elseif randomHintOrder == 5 then
-				--textImgSetText(txt_orderHint, "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE")
-				--textImgDraw(txt_orderHint) 				
-			end
-			if orderhintTime > 150 then --Time for show a new random hint
-				randomHintOrder = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-				orderhintTime = 0 --Restart timer for a new random hint
 			end
 			i = i + 1
 			if sndTime > 0 then
 				sndTime = sndTime - 1
 			end
 			sndNumber = -1
-			--option to adjust characters order if timer is > 0
+			--Adjust characters order if timer is > 0
 			if orderTime > 0 then
 				orderTime = orderTime - 0.5 --Activate Order Select Timer
 				textImgDraw(txt_orderTime)
@@ -7460,7 +7456,7 @@ function f_orderSelect()
 			else --when orderTime <= 0
 				
 			end
-			--if Player 1 has not confirmed the order yet
+		--if Player 1 has not confirmed the order yet
 			if not p1Confirmed and data.p1In ~= 2 then
 				if btnPalNo(p1Cmd) > 0 then
 					if not p1Confirmed then
@@ -7524,7 +7520,7 @@ function f_orderSelect()
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
-			--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
+		--if Player 1 has not confirmed the order yet and IS controlled by IA (CPU VS P1)
 			if not p1Confirmed and data.p1In == 2 and p2Confirmed == true then
 				if btnPalNo(p1Cmd) > 0 then
 					if not p1Confirmed then
@@ -7588,7 +7584,7 @@ function f_orderSelect()
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
-			--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
+		--if Player2 has not confirmed the order yet and IS controlled by IA (P1 VS CPU)
 			if not p2Confirmed and data.p2In == 1 and p1Confirmed == true then
 				if btnPalNo(p1Cmd) > 0 then
 					if not p2Confirmed then
@@ -7645,7 +7641,7 @@ function f_orderSelect()
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
-			--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
+		--if Player2 has not confirmed the order yet and is not controlled by Player 1 (P1 VS P2)
 			if not p2Confirmed and data.p2In ~= 1 then
 				if btnPalNo(p2Cmd) > 0 then
 					if not p2Confirmed then
@@ -7702,11 +7698,12 @@ function f_orderSelect()
 				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 				animDraw(f_animVelocity(cursorBox, -1, -1))
 			end
-			--sndPlay separated to not play more than 1 sound at once
+		--sndPlay separated to not play more than 1 sound at once
 			if sndNumber ~= -1 then
 				sndPlay(sysSnd, 100, sndNumber)
 				sndTime = 30
 			end
+		--Order Time Over
 			if orderTime == 0 then
 				if not p1Confirmed then
 					f_selectChar(1, data.t_p1selected)
@@ -7722,7 +7719,7 @@ function f_orderSelect()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				break
 			end
-			--draw character portraits
+		--Draw Character Portraits
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				for j=#data.t_p1selected, 1, -1 do
 					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 30, 1, 1)
@@ -7731,57 +7728,47 @@ function f_orderSelect()
 					drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 30, -1, 1)
 				end
 			end
-			--draw character animations
+		--Draw Character Sprite Animations
 			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+			--Left Side
 				for j=#data.t_p1selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], p1Anim, 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
 				end
+			--Right Side
 				for j=#data.t_p2selected, 1, -1 do
-					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], p2Anim, 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
 				end
 			end
-			--draw names
-			f_drawNameListP1(txt_p1NameOrder, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
-			f_drawNameListP2(txt_p2NameOrder, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
-			--p1 order cursor position
-			animUpdate(p1OrderCursor)
-			animPosDraw(p1OrderCursor, 1, 172)
-			animPosDraw(p1OrderCursor, 1, 186)
-			animPosDraw(p1OrderCursor, 1, 200)
-			animPosDraw(p1OrderCursor, 1, 214)
-			txt_p1orderNo1 = createTextImg(jgFnt, 0, 0, "1", 9.2, 180)
-			textImgDraw(txt_p1orderNo1)
-			txt_p1orderNo2 = createTextImg(jgFnt, 0, 0, "2", 9, 194)
-			textImgDraw(txt_p1orderNo2)
-			txt_p1orderNo3 = createTextImg(jgFnt, 0, 0, "3", 9, 208)
-			textImgDraw(txt_p1orderNo3)
-			txt_p1orderNo4 = createTextImg(jgFnt, 0, 0, "4", 9, 222)
-			textImgDraw(txt_p1orderNo4)
-			--p2 order cursor position
-			animUpdate(p2OrderCursor)
-			animPosDraw(p2OrderCursor, 305, 172)
-			animPosDraw(p2OrderCursor, 305, 186)
-			animPosDraw(p2OrderCursor, 305, 200)
-			animPosDraw(p2OrderCursor, 305, 214)
-			txt_p2orderNo1 = createTextImg(jgFnt, 0, 0, "1", 310.2, 180)
-			textImgDraw(txt_p2orderNo1)
-			txt_p2orderNo2 = createTextImg(jgFnt, 0, 0, "2", 311, 194)
-			textImgDraw(txt_p2orderNo2)
-			txt_p2orderNo3 = createTextImg(jgFnt, 0, 0, "3", 311, 208)
-			textImgDraw(txt_p2orderNo3)
-			txt_p2orderNo4 = createTextImg(jgFnt, 0, 0, "4", 311, 222)
-			textImgDraw(txt_p2orderNo4)
-			--draw order screen text
-			txt_orderSelect = createTextImg(font14, 0, 0, "ORDER SELECT", 160, 10)
+		--Draw Names
+			f_drawNameList(txt_p1NameOrder, 5, data.t_p1selected, 78, 180, 0, 14, p1Row, 0)
+			f_drawNameList(txt_p2NameOrder, 5, data.t_p2selected, 241, 180, 0, 14, p2Row, 0)
+		--Draw Order Number Assets
+			--Left Side
+			for n=#data.t_p1selected, 1, -1 do
+				animPosDraw(p1OrderCursor, 1, 158+14*n) --Draw Order Icon
+				textImgSetText(txt_p1OrderNo, n) --Set Order Number Text
+				textImgPosDraw(txt_p1OrderNo, 9, 166+14*n) --Draw Order Number Text
+			end
+			--Right Side
+			for n=#data.t_p2selected, 1, -1 do
+				animPosDraw(p2OrderCursor, 305, 158+14*n)
+				textImgSetText(txt_p2OrderNo, n)
+				textImgPosDraw(txt_p2OrderNo, 310, 166+14*n)
+			end
+		--Draw Title
 			textImgDraw(txt_orderSelect)
-			--draw background on bottom
-			animUpdate(versusBG4)
-			animDraw(versusBG4)
+		--Draw Assets
+			animUpdate(vsLogo)
+			animDraw(vsLogo)
+			animDraw(footerBG)
+			if hintTime > 150 then --Time to load a new random hint
+				f_getOrderHint() --Update Hint
+				hintTime = 0 --Restart timer for a new random hint
+			end
+			textImgDraw(txt_hints) --Draw Hints
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
-			animDraw(vsBG6)
-			textImgDraw(txt_orderHint)
-			orderhintTime = orderhintTime + 1 --Start timer for randoms hints
+			hintTime = hintTime + 1 --Start timer for randoms hints
 			if commandGetState(p1Cmd, 'holdu') then
 				bufOrderd = 0
 				bufOrderu = bufOrderu + 1
@@ -7823,12 +7810,44 @@ function f_orderSelect()
 end
 
 --;===========================================================
---; VERSUS SCREEN
+--; VERSUS SCREENPACK
 --;===========================================================
 txt_p1NameVS = createTextImg(jgFnt, 0, 0, "", 0, 0)
 txt_p2NameVS = createTextImg(jgFnt, 0, 0, "", 0, 0)
-txt_vsHint = createTextImg(font5, 0, 0, "", 160, 239)
 
+--VS Window (left portrait background)
+vsWindowL = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(vsWindowL, 160, 0)
+animSetTile(vsWindowL, 1, 1)
+animSetWindow(vsWindowL, 20, 30, 120, 140)
+
+--VS Window (right portrait background)
+vsWindowR = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(vsWindowR, 160, 0)
+animSetTile(vsWindowR, 1, 1)
+animSetWindow(vsWindowR, 180, 30, 120, 140)
+
+t_vsHints = {
+	{text = "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON"},
+	{text = "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH"},
+	{text = "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT"},
+	--{text = "PRESS (RIGHT OR LEFT)+ Y + A TO CHANGE BETWEEN THE CHARACTERS IN TAG MODE"},
+	--{text = "WHILE YOU FIGHT, PRESS Y + A TO ACTIVATE THE PARTNER ASSIST IN TAG MODE"},
+	{text = "ADD YOUR HINTS HERE"},
+	{text = "ADD YOUR HINTS HERE"},
+}
+
+function f_getVSHint()
+	textImgSetText(txt_hints, t_vsHints[math.random(1, #t_vsHints)].text)
+end
+
+--;===========================================================
+--; VERSUS SCREEN
+--;===========================================================
 function f_selectVersus()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	local i = 0
@@ -7846,30 +7865,26 @@ function f_selectVersus()
 			refresh()
 		end
 	else
+		local colorToName = 1
+		local screenTime = 0
+		local hintTime = 0
+	--Set Versus Screen Music
 		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
 		else
 			playBGM(bgmVS)
 		end
-		--VS Logo
-		versusBG4 = animNew(sysSff, [[
-		200,4, 0,0, 1
-		200,3, 0,0, 2
-		200,2, 0,0, 3
-		200,1, 0,0, 4
-		200,0, 0,0, 8
-		200,5, 0,0, 3
-		200,6, 0,0, 3
-		200,7, 0,0, 3
-		200,8, 0,0, 3
-		200,0, 0,0, -1
-		]])
-		animAddPos(versusBG4, 160, 95)
-		local versusTimer = 0
-		local vshintTime = 0
-		local randomHintVS = math.random(3) --Select 1 of all randoms hints availables. Last number is the amount of Hints
+		f_getVSHint() --Load First Hint
+		f_resetVersusLogo()
 		cmdInput()
 		while true do
+		--Actions
+			if screenTime == 150 then--or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
+				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+				commandBufReset(p1Cmd)
+				commandBufReset(p2Cmd)
+				break
+			end
 		--Draw Versus Screen Last Match Backgrounds
 			if matchNo == lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -7886,14 +7901,15 @@ function f_selectVersus()
 					animDraw(f_animVelocity(selectBG0, -1, -1))
 				end
 			end
-			animDraw(f_animVelocity(versusBG2, -2, 0))
-			animDraw(f_animVelocity(versusBG3, 2, 0))
-			--draw character portraits
+		--Draw Window Portraits
+			animDraw(f_animVelocity(vsWindowL, -2, 0))
+			animDraw(f_animVelocity(vsWindowR, 2, 0))
+		--Draw Character Portraits
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
 				drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 			end
-			--draw character animations
+		--Draw Character Sprite Animations
 			if data.charPresentation == "Sprite" then
 				for j=#data.t_p1selected, 1, -1 do
 					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
@@ -7902,31 +7918,6 @@ function f_selectVersus()
 					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
 				end
 			end
-			--set random hints for versus screen
-			if randomHintVS == 1 then
-				textImgSetText(txt_vsHint, "KEEP START IN CHAR SELECT AND PRESS C or Z BUTTON")
-				textImgDraw(txt_vsHint)
-			elseif randomHintVS == 2 then
-				textImgSetText(txt_vsHint, "WHEN CHARS GETTING BUG PRESS F4 TO RELOAD THE MATCH")
-				textImgDraw(txt_vsHint)
-			elseif randomHintVS == 3 then
-				textImgSetText(txt_vsHint, "PRESS THE IMPR PANT KEY TO TAKE A SCREENSHOT")
-				textImgDraw(txt_vsHint)	
-			end
-			if vshintTime > 150 then --Time for show a new random hint
-				randomHintVS = math.random(2) --Select 1 of all randoms hints availables. Last number is the amount of Hints
-				vshintTime = 0 --Restart timer for a new random hint
-			end
-			versusTimer = versusTimer + 1
-			if versusTimer == 150 then--or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-				commandBufReset(p1Cmd)
-				commandBufReset(p2Cmd)
-				break
-			end
-			--draw names
-			f_drawNameListP1(txt_p1NameVS, 0, data.t_p1selected, 78, 180, 0, 14, p1Row, 4)
-			f_drawNameListP2(txt_p2NameVS, 0, data.t_p2selected, 241, 180, 0, 14, p2Row, 1)
 		--Draw Match Info
 			if data.gameMode == "arcade" or data.gameMode == "tower" then
 				textImgDraw(txt_matchNo)
@@ -7937,14 +7928,22 @@ function f_selectVersus()
 			elseif data.gameMode == "bonusrush" then
 				textImgDraw(txt_bonusNo)
 			end
-		--Draw background on bottom
-			animUpdate(versusBG4)
-			animDraw(versusBG4)
-			animDraw(vsBG6)
-			textImgDraw(txt_vsHint)
-			vshintTime = vshintTime + 1 --Start timer for randoms hints
+		--Draw Names
+			f_drawNameList(txt_p1NameVS, 5, data.t_p1selected, 78, 180, 0, 14, colorToName, 0)
+			f_drawNameList(txt_p2NameVS, 5, data.t_p2selected, 241, 180, 0, 14, colorToName, 0)
+		--Draw Assets
+			animUpdate(vsLogo)
+			animDraw(vsLogo)
+			animDraw(footerBG)
+			if hintTime > 150 then --Time to load a new random hint
+				f_getVSHint() --Update Hint
+				hintTime = 0 --Restart timer for a new random hint
+			end
+			textImgDraw(txt_hints) --Draw Hints
 			animDraw(data.fadeTitle)
 			animUpdate(data.fadeTitle)
+			hintTime = hintTime + 1 --Start Timer for Randoms Hints
+			screenTime = screenTime + 1 --Start Timer for Versus Screen
 			cmdInput()
 			refresh()
 		end
@@ -8794,33 +8793,6 @@ function f_randomRematch()
 end
 
 --;===========================================================
---; HERE COMES A NEW CHALLENGER SCREENPACK
---;===========================================================
---Challenger Transparent BG
-versusBG5 = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(versusBG5, 160, 0)
-animSetTile(versusBG5, 1, 1)
-animSetWindow(versusBG5, -54, 67, 428, 100)
-
---Challenger Text
-challengerText1 = animNew(sysSff, [[
-500,0, 0,0, 5
-500,1, 0,0, 5
-500,2, 0,0, 5
-500,3, 0,0, 5
-500,4, 0,0, 5
-500,5, 0,0, 5
-500,6, 0,0, 5
-500,7, 0,0, 5
-500,8, 0,0, 5
-500,9, 0,0, 5
-]])
-animAddPos(challengerText1, 19, 100)
-animUpdate(challengerText1)
-
---;===========================================================
 --; HERE COMES A NEW CHALLENGER SCREEN
 --;===========================================================
 function f_selectChallenger()
@@ -8832,12 +8804,9 @@ function f_selectChallenger()
 	data.rosterMode = "challenger"
 	cmdInput()
 	while true do
-		if i == 150 then
+		if i == 150 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			break
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			break
 		end
 	--Draw Last Match Backgrounds
@@ -8856,12 +8825,12 @@ function f_selectChallenger()
 				animDraw(f_animVelocity(selectBG0, -1, -1))
 			end
 		end
-		animDraw(f_animVelocity(versusBG5, 0, 1.5))
-		i = i + 1
-		animDraw(challengerText1)
-		animUpdate(challengerText1)
+		animDraw(f_animVelocity(challengerWindow, 0, 1.5))
+		animDraw(challengerText)
+		animUpdate(challengerText)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		i = i + 1
 		cmdInput()
 		refresh()
 	end
@@ -9131,6 +9100,8 @@ function f_service()
 			animDraw(serviceDownArrow)
 			animUpdate(serviceDownArrow)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -9141,8 +9112,6 @@ function f_service()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -9364,7 +9333,7 @@ function f_result(state)
 			textImgDraw(txt_resultName2) --Player Name position for other challenges modes
 		end
 		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)		
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -9703,10 +9672,10 @@ function f_continue()
 			elseif onlinegame == true then
 				--Don't Show Coins Counter
 			end
-			textImgDraw(txt_cont) --Alwats Show Times Continue Counter
+			textImgDraw(txt_cont) --Always Show Times Continue Counter
 		end
 		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)		
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end

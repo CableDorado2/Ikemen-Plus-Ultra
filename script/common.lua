@@ -595,46 +595,22 @@ function f_drawSelectName(id, t, x, y, scaleX, scaleY, color)
 	return x, y
 end
 
---shortcut for draw text for select.lua player 1 functions in list format
-function f_drawNameListP1(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
+--shortcut for draw player name texts for select.lua functions in list format
+function f_drawNameList(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
 	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel)) --f_getName(t[i].cel if you want to get all names of table inserted
+		textImgSetText(id, f_getName(t[i].cel)) --t[i].cel get all names of table inserted
 		textImgSetPos(id, x, y)
 		scaleX = scaleX or 0.8
 		scaleY = scaleY or 0.8
 		textImgSetScale(id, scaleX, scaleY)
 		if rowUnique ~= nil then
 			if i == rowUnique then
-				textImgSetBank(id, 3) --Blue Color of P1 on VS screen
+				textImgSetBank(id, bank) --Color when cursor is over text
 			else
-				textImgSetBank(id, bankUnique) --Color of Team Member on VS screen
+				textImgSetBank(id, bankUnique) --Color of text when cursor is not over text
 			end
 		else
-			textImgSetBank(id, 3)
-		end
-		textImgDraw(id)
-		x = x + spacingX
-		y = y + spacingY
-	end
-	return x, y
-end
-
---shortcut for draw text for select.lua player 2 functions in list format
-function f_drawNameListP2(id, bank, t, x, y, spacingX, spacingY, rowUnique, bankUnique, scaleX, scaleY)
-	for i=1, #t do
-		textImgSetText(id, f_getName(t[i].cel))
-		textImgSetPos(id, x, y)
-		scaleX = scaleX or 0.8
-		scaleY = scaleY or 0.8
-		textImgSetScale(id, scaleX, scaleY)
-		if rowUnique ~= nil then
-			if i == rowUnique then
-				textImgSetBank(id, 1)
-			else
-				textImgSetBank(id, bank)
-			end
-		else
-			textImgSetBank(id, 1)
+			textImgSetBank(id, bank)
 		end
 		textImgDraw(id)
 		x = x + spacingX
@@ -1941,6 +1917,36 @@ sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based
 sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
 --sysTime3 = tonumber(os.date("%m"))
 
+--;===========================================================
+--; HERE COMES A NEW CHALLENGER SCREENPACK
+--;===========================================================
+--Challenger Transparent BG
+challengerWindow = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(challengerWindow, 160, 0)
+animSetTile(challengerWindow, 1, 1)
+animSetWindow(challengerWindow, -54, 67, 428, 100)
+
+--Challenger Text
+challengerText = animNew(sysSff, [[
+500,0, 0,0, 5
+500,1, 0,0, 5
+500,2, 0,0, 5
+500,3, 0,0, 5
+500,4, 0,0, 5
+500,5, 0,0, 5
+500,6, 0,0, 5
+500,7, 0,0, 5
+500,8, 0,0, 5
+500,9, 0,0, 5
+]])
+animAddPos(challengerText, 19, 100)
+animUpdate(challengerText)
+
+--;===========================================================
+--; BUTTON CODES TEST
+--;===========================================================
 --"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
 function f_cmdCode()
 --Actions

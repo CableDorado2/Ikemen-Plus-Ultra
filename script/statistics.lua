@@ -54,26 +54,26 @@ animSetScale(statsDownArrow, 0.5, 0.5)
 --; STATISTICS MENU
 --;===========================================================
 t_statsMenu = {
-	{text = "Play Time",	  				varID = textImgNew(), varText = ""},
-	{text = "Matchs Played",  				varID = textImgNew(), varText = ""},
-	{text = "Wins",	     					varID = textImgNew(), varText = ""},
-	{text = "Losses",	     				varID = textImgNew(), varText = ""},
-	{text = "Favorite Character",  			varID = textImgNew(), varText = ""},
-	{text = "Favorite Stage",				varID = textImgNew(), varText = ""},
-	{text = "Preferred Game Mode", 			varID = textImgNew(), varText = ""},
-	{text = "Training Time",  				varID = textImgNew(), varText = ""},
-	{text = "Collected Coins",    			varID = textImgNew(), varText = ""},
-	{text = "Arcade Status",     			varID = textImgNew(), varText = ""},
-	{text = "Survival Status",     			varID = textImgNew(), varText = ""},
-	{text = "Stories Completed",     		varID = textImgNew(), varText = ""},
-	{text = "Missions Completed",     		varID = textImgNew(), varText = ""},
-	{text = "Events Completed",     		varID = textImgNew(), varText = ""},
-	{text = "Boss Rush Record",     		varID = textImgNew(), varText = ""},
-	{text = "Sudden Death Record",    		varID = textImgNew(), varText = ""},
-	{text = "Endless Record",    			varID = textImgNew(), varText = ""},
-	{text = "Time Attack Record",    		varID = textImgNew(), varText = ""},
-	{text = "Score Attack Record",    		varID = textImgNew(), varText = ""},
-	{text = "                   BACK",    	varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Play Time",	  				varText = ""},
+	{varID = textImgNew(), text = "Matchs Played",  			varText = ""},
+	{varID = textImgNew(), text = "Wins",	     				varText = ""},
+	{varID = textImgNew(), text = "Losses",	     				varText = ""},
+	{varID = textImgNew(), text = "Favorite Character",  		varText = ""},
+	{varID = textImgNew(), text = "Favorite Stage",				varText = ""},
+	{varID = textImgNew(), text = "Preferred Game Mode", 		varText = ""},
+	{varID = textImgNew(), text = "Training Time",  			varText = ""},
+	{varID = textImgNew(), text = "Collected Coins",    		varText = ""},
+	{varID = textImgNew(), text = "Arcade Status",     			varText = ""},
+	{varID = textImgNew(), text = "Survival Status",     		varText = ""},
+	{varID = textImgNew(), text = "Stories Completed",     		varText = ""},
+	{varID = textImgNew(), text = "Missions Completed",     	varText = ""},
+	{varID = textImgNew(), text = "Events Completed",     		varText = ""},
+	{varID = textImgNew(), text = "Boss Rush Record",     		varText = ""},
+	{varID = textImgNew(), text = "Sudden Death Record",    	varText = ""},
+	{varID = textImgNew(), text = "Endless Record",    			varText = ""},
+	{varID = textImgNew(), text = "Time Attack Record",    		varText = ""},
+	{varID = textImgNew(), text = "Score Attack Record",    	varText = ""},
+	{varID = textImgNew(), text = "                   BACK",    varText = ""},
 }
 
 function f_getStats()
@@ -476,6 +476,8 @@ function f_statsMenu()
 			animDraw(statsDownArrow)
 			animUpdate(statsDownArrow)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -486,8 +488,6 @@ function f_statsMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end

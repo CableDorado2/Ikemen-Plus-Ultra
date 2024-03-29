@@ -77,16 +77,16 @@ end
 --; MISSIONS MENU
 --;===========================================================
 t_missionMenu = {
-	{name = "Warrior Clone",			 info = "Another Kung Fu Man Clone appears!", status = "INCOMPLETE", varID = textImgNew()}, --Add Mission Slot
-	{name = "Target Confirmed", 		 info = "Defeat Original Kung Fu Man!", 	  status = "INCOMPLETE", varID = textImgNew()},
-	{name = "True Kung Fu Spirit",  	 info = "Use the full power of Kung Fu Man!", status = "INCOMPLETE", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
-	{name = "PROGRAM YOUR MISSION HERE", info = "???", 								  status = "", varID = textImgNew()},
+	{varID = textImgNew(), name = "Warrior Clone",			   info = "Another Kung Fu Man Clone appears!", 	status = "INCOMPLETE"}, --Add Mission Slot
+	{varID = textImgNew(), name = "Target Confirmed", 		   info = "Defeat Original Kung Fu Man!", 	  		status = "INCOMPLETE"},
+	{varID = textImgNew(), name = "True Kung Fu Spirit",  	   info = "Use the full power of Kung Fu Man!", 	status = "INCOMPLETE"},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								 	status = ""},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								 	status = ""},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
+	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
 }
 
 function f_missionMenu()
@@ -240,6 +240,8 @@ function f_missionMenu()
 			animDraw(arrowsMSD)
 			animUpdate(arrowsMSD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -250,8 +252,6 @@ function f_missionMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end

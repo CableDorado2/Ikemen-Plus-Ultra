@@ -327,30 +327,6 @@ animAddPos(pauseRightArrow, 242, 112)
 animUpdate(pauseRightArrow)
 animSetScale(pauseRightArrow, 0.5, 0.5)
 
---Challenger Transparent BG
-challengerBG = animNew(sysSff, [[
-100,1, 20,13, -1, 0, s
-]])
-animAddPos(challengerBG, 160, 0)
-animSetTile(challengerBG, 1, 1)
-animSetWindow(challengerBG, -54, 67, 428, 100)
-
---Challenger Text
-challengerTxt = animNew(sysSff, [[
-500,0, 0,0, 5
-500,1, 0,0, 5
-500,2, 0,0, 5
-500,3, 0,0, 5
-500,4, 0,0, 5
-500,5, 0,0, 5
-500,6, 0,0, 5
-500,7, 0,0, 5
-500,8, 0,0, 5
-500,9, 0,0, 5
-]])
-animAddPos(challengerTxt, 19, 100)
-animUpdate(challengerTxt)
-
 --;===========================================================
 --; PAUSE MENU RESET
 --;===========================================================
@@ -474,9 +450,9 @@ function f_pauseMain(p, st, esc)
 			sndPlay(sysSnd, 200, 1)
 		end
 		screenTime = screenTime + 1
-		animDraw(f_animVelocity(challengerBG, 0, 1.5))
-		animDraw(challengerTxt)
-		animUpdate(challengerTxt)
+		animDraw(f_animVelocity(challengerWindow, 0, 1.5)) --Draw from common.lua
+		animDraw(challengerText)
+		animUpdate(challengerText)
 		if screenTime == 200 then
 			data.challengerMode = true
 			f_saveTemp()
@@ -876,12 +852,12 @@ end
 --; GAME SETTINGS
 --;===========================================================
 t_gameCfg = {
-	{text = "Audio Settings",   		varID = textImgNew(), varText = ""},
-	{text = "Input Settings",   		varID = textImgNew(), varText = ""},
-	{text = "HUD Display",				varID = textImgNew(), varText = ""},
-	{text = "Open Screenshots",			varID = textImgNew(), varText = ""},
-	{text = "Change Stage Song",		varID = textImgNew(), varText = ""},
-	{text = "              BACK",   	varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Audio Settings",   		varText = ""},
+	{varID = textImgNew(), text = "Input Settings",   		varText = ""},
+	{varID = textImgNew(), text = "HUD Display",			varText = ""},
+	{varID = textImgNew(), text = "Open Screenshots",		varText = ""},
+	{varID = textImgNew(), text = "Change Stage Song",		varText = ""},
+	{varID = textImgNew(), text = "              BACK",   	varText = ""},
 }
 
 if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "demo" then table.remove(t_gameCfg,5) end
@@ -1086,11 +1062,11 @@ end
 --; AUDIO SETTINGS
 --;===========================================================
 t_audioCfg = {
-	{text = "Master Volume",   		varID = textImgNew(), varText = gl_vol},
-	{text = "SFX Volume",       	varID = textImgNew(), varText = se_vol},
-	{text = "BGM Volume",      		varID = textImgNew(), varText = bgm_vol},
-	{text = "Audio Panning",   		varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{text = "              BACK",  	varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Master Volume",   		varText = gl_vol},
+	{varID = textImgNew(), text = "SFX Volume",       		varText = se_vol},
+	{varID = textImgNew(), text = "BGM Volume",      		varText = bgm_vol},
+	{varID = textImgNew(), text = "Audio Panning",   		varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{varID = textImgNew(), text = "              BACK",  	varText = ""},
 }
 
 function f_pauseAudio()
@@ -1470,23 +1446,23 @@ end
 --; TRAINING SETTINGS/BATTLE INFO
 --;===========================================================
 t_trainingCfg = {
-	{text = "Damage Display", 				varID = textImgNew(), varText = data.damageDisplay},
-	{text = "Input Display",				varID = textImgNew(), varText = data.inputDisplay},
-	{text = "Hitbox Display", 				varID = textImgNew(), varText = data.hitbox},
-	{text = "Debug Info",					varID = textImgNew(), varText = data.debugInfo},
-	{text = "Lifebar P1",					varID = textImgNew(), varText = data.LifeStateP1},
-	{text = "Lifebar P2",					varID = textImgNew(), varText = data.LifeStateP2},
-	{text = "Power Gauge P1",				varID = textImgNew(), varText = data.PowerStateP1},
-	{text = "Power Gauge P2",				varID = textImgNew(), varText = data.PowerStateP2},
-	{text = "Dummy Control", 				varID = textImgNew(), varText = data.dummyMode},
-	--{text = "State", 						varID = textImgNew(), varText = ""},
-	--{text = "Distance", 					varID = textImgNew(), varText = ""},
-	--{text = "Guard Mode", 				varID = textImgNew(), varText = ""},
-	--{text = "Tech Recovery", 				varID = textImgNew(), varText = ""},
-	--{text = "Tech Direction", 			varID = textImgNew(), varText = ""},
-	--{text = "Counter Hit", 				varID = textImgNew(), varText = ""},
-	{text = "Playback Settings",			varID = textImgNew(), varText = ""},
-	{text = "                   BACK",   	varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Damage Display", 			varText = data.damageDisplay},
+	{varID = textImgNew(), text = "Input Display",				varText = data.inputDisplay},
+	{varID = textImgNew(), text = "Hitbox Display", 			varText = data.hitbox},
+	{varID = textImgNew(), text = "Debug Info",					varText = data.debugInfo},
+	{varID = textImgNew(), text = "Lifebar P1",					varText = data.LifeStateP1},
+	{varID = textImgNew(), text = "Lifebar P2",					varText = data.LifeStateP2},
+	{varID = textImgNew(), text = "Power Gauge P1",				varText = data.PowerStateP1},
+	{varID = textImgNew(), text = "Power Gauge P2",				varText = data.PowerStateP2},
+	{varID = textImgNew(), text = "Dummy Control", 				varText = data.dummyMode},
+	--{varID = textImgNew(), text = "State", 					varText = ""},
+	--{varID = textImgNew(), text = "Distance", 				varText = ""},
+	--{varID = textImgNew(), text = "Guard Mode", 				varText = ""},
+	--{varID = textImgNew(), text = "Tech Recovery", 			varText = ""},
+	--{varID = textImgNew(), text = "Tech Direction", 			varText = ""},
+	--{varID = textImgNew(), text = "Counter Hit", 				varText = ""},
+	{varID = textImgNew(), text = "Playback Settings",			varText = ""},
+	{varID = textImgNew(), text = "                   BACK",   	varText = ""},
 }
 
 if getGameMode() ~= "practice" then

@@ -123,12 +123,12 @@ event1L = animNew(eventSff, [[0,1, 0,0,]])
 --; EVENTS MENU
 --;===========================================================
 t_eventMenu = {
-	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", varID = textImgNew()}, --Add Event Slot
-	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
-	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
-	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
-	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
-	{info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", varID = textImgNew()},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE"}, --Add Event Slot
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE"},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE"},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = ""},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = ""},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = ""},
 }
 
 --[[
@@ -369,6 +369,8 @@ function f_eventMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		if lockedScreen == true then f_lockedInfo() end --Show Locked Event Info Message
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
 			bufl = 0
 			bufr = bufr + 1
@@ -379,8 +381,6 @@ function f_eventMenu()
 			bufr = 0
 			bufl = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end

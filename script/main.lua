@@ -864,6 +864,8 @@ function f_exitMenu()
 		f_sysTime()
 		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
 		if infoScreen == true then f_infoMenu() end --Show Info Screen Message
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -874,8 +876,6 @@ function f_exitMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1589,6 +1589,8 @@ function f_mainMenu()
 		end
 		if infoScreen == true then f_infoMenu() end
 		if infoboxScreen == true then f_infoboxMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1599,8 +1601,6 @@ function f_mainMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1720,6 +1720,8 @@ function f_arcadeMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end --Show Side Select
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1730,8 +1732,6 @@ function f_arcadeMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1924,6 +1924,8 @@ function f_arcadeClassicMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1934,8 +1936,6 @@ function f_arcadeClassicMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -2127,6 +2127,8 @@ function f_towerMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2137,8 +2139,6 @@ function f_towerMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -2258,6 +2258,8 @@ function f_vsMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2268,8 +2270,6 @@ function f_vsMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -2463,6 +2463,8 @@ function f_randomMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2473,8 +2475,6 @@ function f_randomMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -2691,6 +2691,8 @@ function f_freeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2701,8 +2703,6 @@ function f_freeMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -2891,6 +2891,8 @@ function f_challengeMenu()
 		end
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2901,8 +2903,6 @@ function f_challengeMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -3090,6 +3090,8 @@ function f_survivalMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3100,8 +3102,6 @@ function f_survivalMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -3217,6 +3217,8 @@ function f_bossMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3227,8 +3229,6 @@ function f_bossMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -3388,6 +3388,8 @@ function f_bossChars()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3398,8 +3400,6 @@ function f_bossChars()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -3586,6 +3586,8 @@ function f_bossrushMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3596,8 +3598,6 @@ function f_bossrushMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -3713,6 +3713,8 @@ function f_bonusMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3723,8 +3725,6 @@ function f_bonusMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -3875,6 +3875,8 @@ function f_bonusExtras()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3885,8 +3887,6 @@ function f_bonusExtras()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4064,6 +4064,8 @@ function f_bonusrushMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4074,8 +4076,6 @@ function f_bonusrushMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4265,6 +4265,8 @@ function f_timeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4275,8 +4277,6 @@ function f_timeMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4466,6 +4466,8 @@ function f_suddenMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4476,8 +4478,6 @@ function f_suddenMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4616,6 +4616,8 @@ function f_extrasMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4626,8 +4628,6 @@ function f_extrasMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4815,6 +4815,8 @@ function f_allcharsMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4825,8 +4827,6 @@ function f_allcharsMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4950,6 +4950,8 @@ function f_tourneyMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4960,8 +4962,6 @@ function f_tourneyMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -5129,6 +5129,8 @@ function f_watchMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5139,8 +5141,6 @@ function f_watchMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -5260,6 +5260,8 @@ function f_replayMenu()
 			animUpdate(arrowsD)
 		end
 		if infoScreen == true then f_infoMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5270,8 +5272,6 @@ function f_replayMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -5353,6 +5353,18 @@ function f_galleryMenu()
 			sndPlay(sysSnd, 100, 3)
 			moveArt = moveArt - 1
 		end
+		galleryList = moveArt --Use menu position to show image in these order
+		f_gallery()
+		if moveArt > 1 then
+			animDraw(arrowsGL)
+			animUpdate(arrowsGL)
+		end
+		if moveArt <= 9 then
+			animDraw(arrowsGR)
+			animUpdate(arrowsGR)
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5371,18 +5383,6 @@ function f_galleryMenu()
 			bufr = 0
 			bufl = 0
 		end
-		galleryList = moveArt --Use menu position to show image in these order
-		f_gallery()
-		if moveArt > 1 then
-			animDraw(arrowsGL)
-			animUpdate(arrowsGL)
-		end
-		if moveArt <= 9 then
-			animDraw(arrowsGR)
-			animUpdate(arrowsGR)
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -5725,6 +5725,8 @@ function f_songMenu()
 			animUpdate(songRightArrow)
 		end
 		if confirmSong == true then f_confirmSongMenu() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5743,8 +5745,6 @@ function f_songMenu()
 			bufr = 0
 			bufl = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -5909,6 +5909,8 @@ function f_videoMenu()
 			animDraw(videoDownArrow)
 			animUpdate(videoDownArrow)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5919,8 +5921,6 @@ function f_videoMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -6089,6 +6089,8 @@ function f_storyboardMenu()
 			animDraw(storyboardDownArrow)
 			animUpdate(storyboardDownArrow)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6099,8 +6101,6 @@ function f_storyboardMenu()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -6395,6 +6395,8 @@ function f_mainReplay()
 			animDraw(replayDownArrow)
 			animUpdate(replayDownArrow)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6405,8 +6407,6 @@ function f_mainReplay()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -6547,6 +6547,8 @@ function f_mainNetplay()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6557,8 +6559,6 @@ function f_mainNetplay()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		exitNetPlay()
     	exitReplay()
 		cmdInput()
@@ -6718,10 +6718,10 @@ function f_create()
 		--Draw Animated Icon
 		animDraw(wirelessBG)
 		animUpdate(wirelessBG)
-		cmdInput()
-		refresh()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
 	return false
 end
@@ -6837,10 +6837,10 @@ function f_directConnect()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		i = i >= 60 and 0 or i + 1
-		if doneIP then break end --Exit for this bucle to start connecting
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		i = i >= 60 and 0 or i + 1
+		if doneIP then break end --Exit for this bucle to start connecting
 		cmdInput()
 		refresh()
 	end
@@ -6883,10 +6883,10 @@ function f_directConnect()
 		--Draw Animated Icon
 		animDraw(wirelessBG)
 		animUpdate(wirelessBG)
-		cmdInput()
-		refresh()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
 	clearInputText()
 	return false
@@ -7053,6 +7053,8 @@ function f_hostRooms()
 		elseif crudHostOption == 1 then
 			f_confirmMenu()
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7063,8 +7065,6 @@ function f_hostRooms()
 			bufu = 0
 			bufd = 0
 		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		--exitNetPlay()
     	--exitReplay()
 		cmdInput()
@@ -7466,10 +7466,10 @@ function f_databaseConnect()
 		--Draw Animated Icon
 		animDraw(wirelessBG)
 		animUpdate(wirelessBG)
-		cmdInput()
-		refresh()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
 	return false
 end
@@ -7672,6 +7672,8 @@ function f_mainLobby()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -7681,9 +7683,7 @@ function f_mainLobby()
 		else
 			bufu = 0
 			bufd = 0
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)		
+		end		
 		cmdInput()
 		refresh()
 	end
@@ -7852,10 +7852,10 @@ function f_theVault()
 			end
 			textImgDraw(t_vaultMenu[i].id)
 		end
-		i = i >= 60 and 0 or i + 1
-		t = t + 1
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
+		i = i >= 60 and 0 or i + 1
+		t = t + 1
 		cmdInput()
 		refresh()
 	end

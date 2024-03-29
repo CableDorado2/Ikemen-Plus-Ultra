@@ -132,7 +132,7 @@ chaptUnknown = animNew(sysSff, [[110,4, 0,0,]])
 
 --Unknown Chapter Arc
 t_arcNull = {
-	{Name = "YOUR STORY CHAPTER HERE", Preview = chaptUnknown, Status = checkNA, Info = "NO DESCRIPTION PROVIDED.", ID = textImgNew()},
+	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE", Preview = chaptUnknown, Status = checkNA, Info = "NO DESCRIPTION PROVIDED."},
 }
 
 --;===========================================================
@@ -148,13 +148,13 @@ arc2 = animNew(storySff, [[0,5, 0,0,]])
 arc3 = animNew(storySff, [[0,6, 0,0,]])
 
 t_storySelect = {
-	{Name = "KUNG FU MAN", 	 Icon = arc1, 		Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()}, --Add Arc Slot
-	{Name = "???", 			 Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()},
-	{Name = "???", 			 Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()},
-	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()},
-	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()},
-	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()},
-	{Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = "", ID = textImgNew()},
+	{ID = textImgNew(), Name = "KUNG FU MAN", 	Icon = arc1, 	   Sel = arcSel, File = arcFolderEmpty, Status = ""}, --Add Arc Slot
+	{ID = textImgNew(), Name = "???", 			Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{ID = textImgNew(), Name = "???", 			Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
+	{ID = textImgNew(), Name = "YOUR ARC HERE", Icon = arcUnknown, Sel = arcSel, File = arcFolderEmpty, Status = ""},
 }
 
 --;===========================================================
@@ -194,16 +194,16 @@ st1_4C = animNew(storySff, [[1,45, 0,0,]])
 st1_4D = animNew(storySff, [[1,46, 0,0,]])
 
 t_arc1 = {
-	{Name = "PROLOGUE", 			   Preview = st1_0, Status = checkNA, Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES.", ID = textImgNew()}, --Add Chapter Slot for Arc 1
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE.", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER...", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER...", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER...", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER...", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER...", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER...", ID = textImgNew()},
-	{Name = "YOUR STORY CHAPTER HERE", Preview = chaptUnknown, Status = checkNA, Info = "TEST", ID = textImgNew()},
+	{ID = textImgNew(), Name = "PROLOGUE", 			   	   Preview = st1_0, 	   Status = checkNA, Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES."}, --Add Chapter Slot for Arc 1
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS CHAPTER!"},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE THE PREVIOUS CHAPTER TO UNLOCK THIS ONE."},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "A FATE IS REQUIRED TO UNLOCK THIS CHAPTER..."},
+	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE",  Preview = chaptUnknown, Status = checkNA, Info = "TEST"},
 }
 
 --;===========================================================
@@ -219,9 +219,9 @@ st2_1 = animNew(storySff, [[2,10, 0,0,]])
 st2_2 = animNew(storySff, [[2,20, 0,0,]])
 
 t_arc2 = {
-	{Name = "COMING SOON?", 		   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!", ID = textImgNew()}, --Add Chapter Slot for Arc 2
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "", ID = textImgNew()},
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "", ID = textImgNew()},
+	{ID = textImgNew(), Name = "COMING SOON?", 		   	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
 
 --;===========================================================
@@ -234,8 +234,8 @@ st3_0 = animNew(storySff, [[3,0, 0,0,]])
 st3_1 = animNew(storySff, [[3,10, 0,0,]])
 
 t_arc3 = {
-	{Name = "COMING SOON?", 		   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!", ID = textImgNew()}, --Add Chapter Slot for Arc 3
-	{Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = "", ID = textImgNew()},
+	{ID = textImgNew(), Name = "COMING SOON?", 		   	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
+	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
 
 --;===========================================================
@@ -643,6 +643,9 @@ function f_storyMenu()
 			animDraw(storyRightArrow)
 			animUpdate(storyRightArrow)
 		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		t = t + 1
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -661,9 +664,6 @@ function f_storyMenu()
 			bufr = 0
 			bufl = 0
 		end
-		t = t + 1
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end

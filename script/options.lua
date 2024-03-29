@@ -1372,19 +1372,19 @@ txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
 
 t_mainCfg = {
-	{text = "Game Settings",	  				varID = textImgNew(), varText = ""},
-	{text = "System Settings",		  			varID = textImgNew(), varText = ""},
-	{text = "Video Settings",  					varID = textImgNew(), varText = ""},
-	{text = "Audio Settings",  					varID = textImgNew(), varText = ""},
-	{text = "Input Settings",  					varID = textImgNew(), varText = ""},
-	{text = "Engine Settings",  				varID = textImgNew(), varText = ""},
-	{text = "Nickname",        					varID = textImgNew(), varText = data.userName},
-	{text = "Netplay Port",        				varID = textImgNew(), varText = getListenPort()},
-	{text = "Netplay Connection",				varID = textImgNew(), varText = data.connectMode},
-	{text = "All Default Values",				varID = textImgNew(), varText = ""},
-	{text = "              Save and Back",  	varID = textImgNew(), varText = ""},
-	{text = "          Back Without Saving",	varID = textImgNew(), varText = ""},
-	{text = "              Online Settings",	varID = textImgNew(), varText = ""}, --Only for Dev Purposes (Delete when test are finished)
+	{varID = textImgNew(), text = "Game Settings",	  				varText = ""},
+	{varID = textImgNew(), text = "System Settings",		  		varText = ""},
+	{varID = textImgNew(), text = "Video Settings",  				varText = ""},
+	{varID = textImgNew(), text = "Audio Settings",  				varText = ""},
+	{varID = textImgNew(), text = "Input Settings",  				varText = ""},
+	{varID = textImgNew(), text = "Engine Settings",  				varText = ""},
+	{varID = textImgNew(), text = "Nickname",        				varText = data.userName},
+	{varID = textImgNew(), text = "Netplay Port",        			varText = getListenPort()},
+	{varID = textImgNew(), text = "Netplay Connection",				varText = data.connectMode},
+	{varID = textImgNew(), text = "All Default Values",				varText = ""},
+	{varID = textImgNew(), text = "              Save and Back",  	varText = ""},
+	{varID = textImgNew(), text = "          Back Without Saving",	varText = ""},
+	{varID = textImgNew(), text = "              Online Settings",	varText = ""}, --Only for Dev Purposes (Delete when test are finished)
 }
 
 function f_mainCfg()
@@ -1703,6 +1703,9 @@ function f_mainCfg()
 			animUpdate(optionsDownArrowmainCfg)
 		end
 		if defaultScreen == true then f_defaultMenu() end --Show Default Screen Message
+		if data.attractMode == true then f_attractcfgCredits() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1713,9 +1716,6 @@ function f_mainCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1727,11 +1727,11 @@ end
 txt_onlineCfg = createTextImg(jgFnt, 0, 0, "ONLINE SETTINGS", 159, 13)
 
 t_onlineCfg = {
-	{text = "Game Settings",				varID = textImgNew(), varText = ""},
-	{text = "System Settings",				varID = textImgNew(), varText = ""},
-	{text = "Engine Settings",				varID = textImgNew(), varText = ""},
-	{text = "Lobby Settings",				varID = textImgNew(), varText = ""},
-	{text = "      SAVE AND PLAY",			varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Game Settings",				varText = ""},
+	{varID = textImgNew(), text = "System Settings",			varText = ""},
+	{varID = textImgNew(), text = "Engine Settings",			varText = ""},
+	{varID = textImgNew(), text = "Lobby Settings",				varText = ""},
+	{varID = textImgNew(), text = "      SAVE AND PLAY",		varText = ""},
 }
 
 function f_onlineCfg()
@@ -1834,6 +1834,9 @@ function f_onlineCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -1844,9 +1847,6 @@ function f_onlineCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -1858,15 +1858,15 @@ end
 txt_netplayCfg = createTextImg(jgFnt, 0, 0, "NETPLAY ROOM SETTINGS", 159, 13)
 
 t_netplayCfg = {
-	{text = "VS Match",				varID = textImgNew(), varText = data.ftcontrol},
-	{text = "Room Name",			varID = textImgNew(), varText = ""},
-	{text = "Pause Menu",			varID = textImgNew(), varText = "No"},
-	{text = "Looby Size",			varID = textImgNew(), varText = "2"},
-	{text = "Spectate",				varID = textImgNew(), varText = "No"},
-	{text = "Private Game",			varID = textImgNew(), varText = "Yes"},
-	{text = "Show Names",			varID = textImgNew(), varText = "No"},
-	{text = "Show Input Delay",		varID = textImgNew(), varText = "No"},
-	{text = "          BACK",  		varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "VS Match",			varText = data.ftcontrol},
+	{varID = textImgNew(), text = "Room Name",			varText = ""},
+	{varID = textImgNew(), text = "Pause Menu",			varText = "No"},
+	{varID = textImgNew(), text = "Looby Size",			varText = "2"},
+	{varID = textImgNew(), text = "Spectate",			varText = "No"},
+	{varID = textImgNew(), text = "Private Game",		varText = "Yes"},
+	{varID = textImgNew(), text = "Show Names",			varText = "No"},
+	{varID = textImgNew(), text = "Show Input Delay",	varText = "No"},
+	{varID = textImgNew(), text = "          BACK",  	varText = ""},
 }
 
 function f_netplayCfg()
@@ -1992,6 +1992,7 @@ function f_netplayCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2002,7 +2003,6 @@ function f_netplayCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2014,20 +2014,20 @@ end
 txt_gameCfg = createTextImg(jgFnt, 0, 0, "GAMEPLAY SETTINGS", 159, 13)
 
 t_gameCfg = {
-	{text = "Difficulty Level",         varID = textImgNew(), varText = data.difficulty},
-	{text = "Time Limit",         		varID = textImgNew(), varText = data.roundTime},
-	{text = "Rounds to Win",      		varID = textImgNew(), varText = data.roundsNum},
-	{text = "Max Draw Games",      	 	varID = textImgNew(), varText = drawNum},
-	{text = "Life",               		varID = textImgNew(), varText = data.lifeMul.."%"},
-	{text = "Auto-Guard",               varID = textImgNew(), varText = s_autoguard},
-	{text = "Game Speed",  	        	varID = textImgNew(), varText = s_gameSpeed},
-	{text = "Quick Arcade Continue",	varID = textImgNew(), varText = s_quickCont},
-	{text = "AI Palette",  	    	 	varID = textImgNew(), varText = data.aipal},
-	{text = "AI Ramping",               varID = textImgNew(), varText = s_aiRamping},
-	{text = "Team Settings",  			varID = textImgNew(), varText = ""},
-	{text = "Zoom Settings",  			varID = textImgNew(), varText = ""},
-	{text = "Default Values",		    varID = textImgNew(), varText = ""},
-	{text = "          BACK",  		 	varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Difficulty Level",       varText = data.difficulty},
+	{varID = textImgNew(), text = "Time Limit",         	varText = data.roundTime},
+	{varID = textImgNew(), text = "Rounds to Win",      	varText = data.roundsNum},
+	{varID = textImgNew(), text = "Max Draw Games",      	varText = drawNum},
+	{varID = textImgNew(), text = "Life",               	varText = data.lifeMul.."%"},
+	{varID = textImgNew(), text = "Auto-Guard",             varText = s_autoguard},
+	{varID = textImgNew(), text = "Game Speed",  	        varText = s_gameSpeed},
+	{varID = textImgNew(), text = "Quick Arcade Continue",	varText = s_quickCont},
+	{varID = textImgNew(), text = "AI Palette",  	    	varText = data.aipal},
+	{varID = textImgNew(), text = "AI Ramping",             varText = s_aiRamping},
+	{varID = textImgNew(), text = "Team Settings",  		varText = ""},
+	{varID = textImgNew(), text = "Zoom Settings",  		varText = ""},
+	{varID = textImgNew(), text = "Default Values",		    varText = ""},
+	{varID = textImgNew(), text = "          BACK",  		varText = ""},
 }
 
 function f_gameCfg()
@@ -2350,6 +2350,7 @@ function f_gameCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2360,7 +2361,6 @@ function f_gameCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2372,15 +2372,15 @@ end
 txt_teamCfg = createTextImg(jgFnt, 0, 0, "TEAM SETTINGS", 159, 13)
 
 t_teamCfg = {
-	{text = "Single Vs Team Life",     	varID = textImgNew(), varText = data.team1VS2Life.."%"},
-	{text = "Turns HP Recovery",       	varID = textImgNew(), varText = data.turnsRecoveryRate.."%"},
-	{text = "Disadvantage Life Share", 	varID = textImgNew(), varText = s_teamLifeShare},
-	{text = "Turns Players Limit",     	varID = textImgNew(), varText = data.numTurns},
-	{text = "Simul Players Limit",     	varID = textImgNew(), varText = data.numSimul},
-	{text = "Simul Type",              	varID = textImgNew(), varText = data.simulType},
-	{text = "Co-Op CPU Team",          	varID = textImgNew(), varText = data.coopenemy},
-	{text = "Default Values",  	  		varID = textImgNew(), varText = ""},
-	{text = "          BACK",  			varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Single Vs Team Life",     	varText = data.team1VS2Life.."%"},
+	{varID = textImgNew(), text = "Turns HP Recovery",       	varText = data.turnsRecoveryRate.."%"},
+	{varID = textImgNew(), text = "Disadvantage Life Share", 	varText = s_teamLifeShare},
+	{varID = textImgNew(), text = "Turns Players Limit",     	varText = data.numTurns},
+	{varID = textImgNew(), text = "Simul Players Limit",     	varText = data.numSimul},
+	{varID = textImgNew(), text = "Simul Type",              	varText = data.simulType},
+	{varID = textImgNew(), text = "Co-Op CPU Team",          	varText = data.coopenemy},
+	{varID = textImgNew(), text = "Default Values",  	  		varText = ""},
+	{varID = textImgNew(), text = "          BACK",  			varText = ""},
 }
 
 function f_teamCfg()
@@ -2620,6 +2620,7 @@ function f_teamCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2630,7 +2631,6 @@ function f_teamCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2642,12 +2642,12 @@ end
 txt_zoomCfg = createTextImg(jgFnt, 0, 0, "ZOOM SETTINGS", 159, 13)
 
 t_zoomCfg = {
-	{text = "Zoom Active",    			varID = textImgNew(), varText = s_zoomActive},
-	{text = "Max Zoom Out",   			varID = textImgNew(), varText = data.zoomMin},
-	{text = "Max Zoom In",    			varID = textImgNew(), varText = data.zoomMax},
-	{text = "Zoom Speed",     			varID = textImgNew(), varText = data.zoomSpeed},
-	{text = "Default Values",  	 		varID = textImgNew(), varText = ""},
-	{text = "          BACK", 			varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Zoom Active",    			varText = s_zoomActive},
+	{varID = textImgNew(), text = "Max Zoom Out",   			varText = data.zoomMin},
+	{varID = textImgNew(), text = "Max Zoom In",    			varText = data.zoomMax},
+	{varID = textImgNew(), text = "Zoom Speed",     			varText = data.zoomSpeed},
+	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
+	{varID = textImgNew(), text = "          BACK", 			varText = ""},
 }
 
 function f_zoomCfg()
@@ -2830,6 +2830,7 @@ function f_zoomCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -2840,7 +2841,6 @@ function f_zoomCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -2852,21 +2852,21 @@ end
 txt_UICfg = createTextImg(jgFnt, 0, 0, "SYSTEM SETTINGS", 159, 13)
 
 t_UICfg = {
-	{text = "Language", 		         varID = textImgNew(), varText = data.language},
-	{text = "Clock Format",              varID = textImgNew(), varText = data.clock},
-	{text = "Date Format",            	 varID = textImgNew(), varText = data.date},
-	{text = "Attract Mode",  	      	 varID = textImgNew(), varText = s_attractMode},
-	{text = "Pause Menu",  	      	 	 varID = textImgNew(), varText = data.pauseMode},
-	{text = "Side Select",  	      	 varID = textImgNew(), varText = data.sideSelect},
-	{text = "Character Presentation",    varID = textImgNew(), varText = data.charPresentation},
-	{text = "Versus Win Counter",  	 	 varID = textImgNew(), varText = s_vsDisplayWin},
-	{text = "Character Select Settings", varID = textImgNew(), varText = ""},
-	{text = "Stage Select Settings",     varID = textImgNew(), varText = ""},	
-	{text = "Win Screen",	    		 varID = textImgNew(), varText = data.winscreen},
-	{text = "Timers Settings",  	  	 varID = textImgNew(), varText = ""},
-	{text = "Songs Settings",	 		 varID = textImgNew(), varText = ""},
-	{text = "Default Settings",  	  	 varID = textImgNew(), varText = ""},
-	{text = "          BACK",  		 	 varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Language", 		           varText = data.language},
+	{varID = textImgNew(), text = "Clock Format",              varText = data.clock},
+	{varID = textImgNew(), text = "Date Format",               varText = data.date},
+	{varID = textImgNew(), text = "Attract Mode",  	      	   varText = s_attractMode},
+	{varID = textImgNew(), text = "Pause Menu",  	      	   varText = data.pauseMode},
+	{varID = textImgNew(), text = "Side Select",  	      	   varText = data.sideSelect},
+	{varID = textImgNew(), text = "Character Presentation",    varText = data.charPresentation},
+	{varID = textImgNew(), text = "Versus Win Counter",  	   varText = s_vsDisplayWin},
+	{varID = textImgNew(), text = "Character Select Settings", varText = ""},
+	{varID = textImgNew(), text = "Stage Select Settings",     varText = ""},	
+	{varID = textImgNew(), text = "Win Screen",	    		   varText = data.winscreen},
+	{varID = textImgNew(), text = "Timers Settings",  	  	   varText = ""},
+	{varID = textImgNew(), text = "Songs Settings",	 		   varText = ""},
+	{varID = textImgNew(), text = "Default Settings",  	  	   varText = ""},
+	{varID = textImgNew(), text = "          BACK",  		   varText = ""},
 }
 
 function f_UICfg()
@@ -3184,6 +3184,7 @@ function f_UICfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3194,7 +3195,6 @@ function f_UICfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3206,14 +3206,14 @@ end
 txt_selectCfg = createTextImg(jgFnt, 0, 0, "CHARACTER SELECT SETTINGS", 159, 13)
 
 t_selectCfg = {
-	{text = "Roster Type",	   	     	varID = textImgNew(), varText = data.selectType},
-	{text = "Palette Select",	    	varID = textImgNew(), varText = data.palType},
-	{text = "Information",    			varID = textImgNew(), varText = data.charInfo},
-	{text = "Random Portrait",	     	varID = textImgNew(), varText = data.randomPortrait},
-	{text = "Training Character",  		varID = textImgNew(), varText = data.training},
-	{text = "Random Select Rematch",	varID = textImgNew(), varText = data.randomCharRematch},
-	{text = "Default Values",  	 		varID = textImgNew(), varText = ""},
-	{text = "          BACK", 			varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
+	{varID = textImgNew(), text = "Palette Select",	    		varText = data.palType},
+	{varID = textImgNew(), text = "Information",    			varText = data.charInfo},
+	{varID = textImgNew(), text = "Random Portrait",	     	varText = data.randomPortrait},
+	{varID = textImgNew(), text = "Training Character",  		varText = data.training},
+	{varID = textImgNew(), text = "Random Select Rematch",		varText = data.randomCharRematch},
+	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
+	{varID = textImgNew(), text = "          BACK", 			varText = ""},
 }
 
 function f_selectCfg()
@@ -3416,6 +3416,7 @@ function f_selectCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3426,7 +3427,6 @@ function f_selectCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3438,12 +3438,12 @@ end
 txt_stageCfg = createTextImg(jgFnt, 0, 0, "STAGE SELECT SETTINGS", 159, 13)
 
 t_stageCfg = {
-	{text = "Presentation",	        	varID = textImgNew(), varText = data.stageType},
-	{text = "Random Portrait",   		varID = textImgNew(), varText = data.randomStagePortrait},
-	{text = "Information",      		varID = textImgNew(), varText = data.stageInfo},
-	{text = "Random Select Rematch",	varID = textImgNew(), varText = data.randomStageRematch},
-	{text = "Default Values",  	 		varID = textImgNew(), varText = ""},
-	{text = "          BACK", 			varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Presentation",	        varText = data.stageType},
+	{varID = textImgNew(), text = "Random Portrait",   		varText = data.randomStagePortrait},
+	{varID = textImgNew(), text = "Information",      		varText = data.stageInfo},
+	{varID = textImgNew(), text = "Random Select Rematch",	varText = data.randomStageRematch},
+	{varID = textImgNew(), text = "Default Values",  	 	varText = ""},
+	{varID = textImgNew(), text = "          BACK", 		varText = ""},
 }
 
 function f_stageCfg()
@@ -3619,6 +3619,7 @@ function f_stageCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3629,7 +3630,6 @@ function f_stageCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3641,15 +3641,15 @@ end
 txt_timeCfg = createTextImg(jgFnt, 0, 0, "TIMERS SETTINGS", 159, 13)
 
 t_timeCfg = {
-	{text = "Character Select",    	varID = textImgNew(), varText = data.selectTime .." Seconds"},
-	{text = "Stage Select",   		varID = textImgNew(), varText = data.stageTime .." Seconds"},
-	{text = "Order Select",     	varID = textImgNew(), varText = data.orderTime .." Seconds"},
-	{text = "Rematch Option",	   	varID = textImgNew(), varText = data.rematchTime .." Seconds"},
-	{text = "Service Screen", 		varID = textImgNew(), varText = data.serviceTime .." Seconds"},
-	{text = "Attract Title", 		varID = textImgNew(), varText = data.attractTime .." Seconds"},
-	{text = "Tower Select", 		varID = textImgNew(), varText = data.destinyTime .." Seconds"},
-	{text = "Default Values",  	 	varID = textImgNew(), varText = ""},
-	{text = "          BACK", 		varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Character Select",   varText = data.selectTime .." Seconds"},
+	{varID = textImgNew(), text = "Stage Select",   	varText = data.stageTime .." Seconds"},
+	{varID = textImgNew(), text = "Order Select",     	varText = data.orderTime .." Seconds"},
+	{varID = textImgNew(), text = "Rematch Option",	   	varText = data.rematchTime .." Seconds"},
+	{varID = textImgNew(), text = "Service Screen", 	varText = data.serviceTime .." Seconds"},
+	{varID = textImgNew(), text = "Attract Title", 		varText = data.attractTime .." Seconds"},
+	{varID = textImgNew(), text = "Tower Select", 		varText = data.destinyTime .." Seconds"},
+	{varID = textImgNew(), text = "Default Values",  	varText = ""},
+	{varID = textImgNew(), text = "          BACK", 	varText = ""},
 }
 
 function f_timeCfg()
@@ -3951,6 +3951,7 @@ function f_timeCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -3961,7 +3962,6 @@ function f_timeCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -3973,11 +3973,11 @@ end
 txt_songCfg = createTextImg(jgFnt, 0, 0, "SYSTEM SONG SETTINGS", 159, 13)
 
 t_songCfg = {
-	{text = "Main Menu", 					varID = textImgNew(), varText = ""},
-	{text = "Character Select",				varID = textImgNew(), varText = ""},
-	{text = "Challenger",		 			varID = textImgNew(), varText = ""},
-	{text = "Default Values",  	 			varID = textImgNew(), varText = ""},
-	{text = "                       BACK", 	varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Main Menu", 						varText = ""},
+	{varID = textImgNew(), text = "Character Select",				varText = ""},
+	{varID = textImgNew(), text = "Challenger",		 				varText = ""},
+	{varID = textImgNew(), text = "Default Values",  	 			varText = ""},
+	{varID = textImgNew(), text = "                       BACK", 	varText = ""},
 }
 
 function f_setCfgSong()
@@ -4115,6 +4115,9 @@ function f_songCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4125,9 +4128,6 @@ function f_songCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -4139,15 +4139,15 @@ end
 txt_audioCfg = createTextImg(jgFnt, 0, 0, "AUDIO SETTINGS", 159, 13)
 
 t_audioCfg = {
-	{text = "Master Volume",		varID = textImgNew(), varText = gl_vol.."%"},
-	{text = "SFX Volume",			varID = textImgNew(), varText = se_vol.."%"},
-	{text = "BGM Volume",			varID = textImgNew(), varText = bgm_vol.."%"},
-	{text = "Audio Panning",   		varID = textImgNew(), varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
-	{text = "Sample Rate",     		varID = textImgNew(), varText = freq},
-	{text = "Channels",        		varID = textImgNew(), varText = s_channels},
-	{text = "Buffer Samples",  		varID = textImgNew(), varText = buffer},
-	{text = "Default Values",		varID = textImgNew(), varText = ""},
-	{text = "          BACK",  		varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Master Volume",		varText = gl_vol.."%"},
+	{varID = textImgNew(), text = "SFX Volume",			varText = se_vol.."%"},
+	{varID = textImgNew(), text = "BGM Volume",			varText = bgm_vol.."%"},
+	{varID = textImgNew(), text = "Audio Panning",   	varText = t_panStr[math.ceil((pan_str + 1) * 0.025)]},
+	{varID = textImgNew(), text = "Sample Rate",     	varText = freq},
+	{varID = textImgNew(), text = "Channels",        	varText = s_channels},
+	{varID = textImgNew(), text = "Buffer Samples",  	varText = buffer},
+	{varID = textImgNew(), text = "Default Values",		varText = ""},
+	{varID = textImgNew(), text = "          BACK",  	varText = ""},
 }
 
 function f_audioCfg()
@@ -4428,6 +4428,7 @@ function f_audioCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4438,7 +4439,6 @@ function f_audioCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4450,15 +4450,15 @@ end
 txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 
 t_engineCfg = {
-	{text = "Debug Mode",  	      	  varID = textImgNew(), varText = s_debugMode},
-	{text = "Save Debug Logs",        varID = textImgNew(), varText = s_debugLog},
-	{text = "HelperMax",              varID = textImgNew(), varText = HelperMaxEngine},
-	{text = "PlayerProjectileMax",	  varID = textImgNew(), varText = PlayerProjectileMaxEngine},
-	{text = "ExplodMax",              varID = textImgNew(), varText = ExplodMaxEngine},
-	{text = "AfterImageMax",          varID = textImgNew(), varText = AfterImageMaxEngine},
-	{text = "Erase/Reset Statistics", varID = textImgNew(), varText = ""},
-	{text = "Default Settings",  	  varID = textImgNew(), varText = ""},
-	{text = "          BACK",  	  	  varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Debug Mode",  	      	varText = s_debugMode},
+	{varID = textImgNew(), text = "Save Debug Logs",        varText = s_debugLog},
+	{varID = textImgNew(), text = "HelperMax",              varText = HelperMaxEngine},
+	{varID = textImgNew(), text = "PlayerProjectileMax",	varText = PlayerProjectileMaxEngine},
+	{varID = textImgNew(), text = "ExplodMax",              varText = ExplodMaxEngine},
+	{varID = textImgNew(), text = "AfterImageMax",          varText = AfterImageMaxEngine},
+	{varID = textImgNew(), text = "Erase/Reset Statistics", varText = ""},
+	{varID = textImgNew(), text = "Default Settings",  	  	varText = ""},
+	{varID = textImgNew(), text = "          BACK",  	  	varText = ""},
 }
 
 function f_engineCfg()
@@ -4731,6 +4731,7 @@ function f_engineCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -4741,7 +4742,6 @@ function f_engineCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -4753,16 +4753,16 @@ end
 txt_videoCfg = createTextImg(jgFnt, 0, 0, "VIDEO SETTINGS", 159, 13)
 
 t_videoCfg = {
-	{text = "Resolution",  			varID = textImgNew(), varText = ""},
-	{text = "Screen Mode",  		varID = textImgNew(), varText = ""},
-	{text = "Window Type", 			varID = textImgNew(), varText = ""},
-	{text = "Fullscreen Type",		varID = textImgNew(), varText = ""},
-	{text = "Aspect Ratio", 		varID = textImgNew(), varText = ""},
-	{text = "Sdlplugin Version",	varID = textImgNew(), varText = ""},
-	--{text = "OpenGL 2.0", 		varID = textImgNew(), varText = ""},
-	--{text = "Save Memory", 		varID = textImgNew(), varText = ""},
-	{text = "Default Graphics",		varID = textImgNew(), varText = ""},
-	{text = "          BACK",  		varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Resolution",  		varText = ""},
+	{varID = textImgNew(), text = "Screen Mode",  		varText = ""},
+	{varID = textImgNew(), text = "Window Type", 		varText = ""},
+	{varID = textImgNew(), text = "Fullscreen Type",	varText = ""},
+	{varID = textImgNew(), text = "Aspect Ratio", 		varText = ""},
+	{varID = textImgNew(), text = "Sdlplugin Version",	varText = ""},
+	--{varID = textImgNew(), text = "OpenGL 2.0", 		varText = ""},
+	--{varID = textImgNew(), text = "Save Memory", 		varText = ""},
+	{varID = textImgNew(), text = "Default Graphics",	varText = ""},
+	{varID = textImgNew(), text = "          BACK",  	varText = ""},
 }
 
 function f_videoCfg()
@@ -5052,6 +5052,7 @@ function f_videoCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5062,7 +5063,6 @@ function f_videoCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5176,6 +5176,7 @@ function f_resCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5186,7 +5187,6 @@ function f_resCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5310,6 +5310,7 @@ function f_resCfg4_3()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5320,7 +5321,6 @@ function f_resCfg4_3()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5438,6 +5438,7 @@ function f_resCfg16_9()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5448,7 +5449,6 @@ function f_resCfg16_9()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5566,6 +5566,7 @@ function f_resCfg16_10()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5576,7 +5577,6 @@ function f_resCfg16_10()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5705,6 +5705,7 @@ function f_EXresCfg()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5715,7 +5716,6 @@ function f_EXresCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -5727,14 +5727,14 @@ end
 txt_inputCfg = createTextImg(jgFnt, 0, 0, "INPUT SETTINGS", 159, 13)
 
 t_inputCfg = {
-	{text = "Keyboard Config",  		 varID = textImgNew(), varText = ""},
-	{text = "Gamepad Config",	  		 varID = textImgNew(), varText = ""},
-	--{text = "Player 1 Gamepad Status", varID = textImgNew(), varText = s_disablePadP1},
-	--{text = "Player 2 Gamepad Status", varID = textImgNew(), varText = s_disablePadP2},
-	{text = "Swap Gamepads", 			 varID = textImgNew(), varText = ""},
-	{text = "Test Controls",  		 	 varID = textImgNew(), varText = ""},
-	{text = "Default Controls",  		 varID = textImgNew(), varText = ""},
-	{text = "             BACK",  		 varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "Keyboard Config",  		 varText = ""},
+	{varID = textImgNew(), text = "Gamepad Config",	  		 varText = ""},
+	--{varID = textImgNew(), text = "Player 1 Gamepad Status", varText = s_disablePadP1},
+	--{varID = textImgNew(), text = "Player 2 Gamepad Status", varText = s_disablePadP2},
+	{varID = textImgNew(), text = "Swap Gamepads", 			 varText = ""},
+	{varID = textImgNew(), text = "Test Controls",  		 varText = ""},
+	{varID = textImgNew(), text = "Default Controls",  		 varText = ""},
+	{varID = textImgNew(), text = "             BACK",  	 varText = ""},
 }
 
 function f_inputCfg()
@@ -5889,6 +5889,9 @@ function f_inputCfg()
 			animUpdate(optionsDownArrow)
 		end
 		if defaultScreen == true then f_defaultMenu() end
+		if data.attractMode == true then f_attractcfgCredits() end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -5899,9 +5902,6 @@ function f_inputCfg()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -6029,7 +6029,7 @@ function f_testMenu()
 		textImgDraw(txt_p2Input)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if cmdCode then f_cmdCode() end
-		f_drawQuickText(txt_inputHint, font1, 0, 0, 'Press [SELECT] or [ESC] button to back', 163.5, 238, 1, 1)
+		f_drawQuickText(txt_inputHint, font1, 0, 0, 'Press [SELECT] or [ESC] button to back', 162, 30)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -6146,6 +6146,7 @@ function f_keyMenu()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6156,7 +6157,6 @@ function f_keyMenu()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -6275,6 +6275,7 @@ function f_joyMenu()
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6285,7 +6286,6 @@ function f_joyMenu()
 			bufu = 0
 			bufd = 0
 		end
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -6296,40 +6296,40 @@ end
 --;===========================================================
 txt_battleCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [BATTLE]", 159, 13)
 t_keyBattleCfg = {
-	{text = "JUMP",   					varID = textImgNew(), varText = ""},
-	{text = "CROUCH", 					varID = textImgNew(), varText = ""},
-	{text = "BACK",  					varID = textImgNew(), varText = ""},
-	{text = "FORWARD",					varID = textImgNew(), varText = ""},
-	{text = "A",     					varID = textImgNew(), varText = ""},
-	{text = "B",     					varID = textImgNew(), varText = ""},
-	{text = "C",     					varID = textImgNew(), varText = ""},
-	{text = "X",     					varID = textImgNew(), varText = ""},
-	{text = "Y",     					varID = textImgNew(), varText = ""},
-	{text = "Z",     					varID = textImgNew(), varText = ""},
-	{text = "L", 						varID = textImgNew(), varText = ""},
-	{text = "R", 						varID = textImgNew(), varText = ""},
-	{text = "SELECT",					varID = textImgNew(), varText = ""},
-	{text = "START", 					varID = textImgNew(), varText = ""},
-	{text = "End Config", 				varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "JUMP",   				varText = ""},
+	{varID = textImgNew(), text = "CROUCH", 				varText = ""},
+	{varID = textImgNew(), text = "BACK",  					varText = ""},
+	{varID = textImgNew(), text = "FORWARD",				varText = ""},
+	{varID = textImgNew(), text = "A",     					varText = ""},
+	{varID = textImgNew(), text = "B",     					varText = ""},
+	{varID = textImgNew(), text = "C",     					varText = ""},
+	{varID = textImgNew(), text = "X",     					varText = ""},
+	{varID = textImgNew(), text = "Y",     					varText = ""},
+	{varID = textImgNew(), text = "Z",     					varText = ""},
+	{varID = textImgNew(), text = "L", 						varText = ""},
+	{varID = textImgNew(), text = "R", 						varText = ""},
+	{varID = textImgNew(), text = "SELECT",					varText = ""},
+	{varID = textImgNew(), text = "START", 					varText = ""},
+	{varID = textImgNew(), text = "End Config", 			varText = ""},
 }
 
 txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [MENUS]", 159, 13)
 t_keyMenuCfg = {
-	{text = "UP",    					varID = textImgNew(), varText = ""},
-	{text = "DOWN",  					varID = textImgNew(), varText = ""},
-	{text = "LEFT",  					varID = textImgNew(), varText = ""},
-	{text = "RIGHT", 					varID = textImgNew(), varText = ""},
-	{text = "A",     					varID = textImgNew(), varText = ""}, --Reserved for Classic Palette Select
-	{text = "B",     					varID = textImgNew(), varText = ""},
-	{text = "C",     					varID = textImgNew(), varText = ""},
-	{text = "X",     					varID = textImgNew(), varText = ""},
-	{text = "Y",     					varID = textImgNew(), varText = ""},
-	{text = "Z",     					varID = textImgNew(), varText = ""}, --
-	{text = "SCREENSHOT",				varID = textImgNew(), varText = ""},
-	{text = "CONFIRM",					varID = textImgNew(), varText = ""},
-	{text = "RETURN",					varID = textImgNew(), varText = ""},
-	{text = "MENU",		 				varID = textImgNew(), varText = ""}, --PAUSE GAME
-	{text = "End Config",				varID = textImgNew(), varText = ""},
+	{varID = textImgNew(), text = "UP",    					varText = ""},
+	{varID = textImgNew(), text = "DOWN",  					varText = ""},
+	{varID = textImgNew(), text = "LEFT",  					varText = ""},
+	{varID = textImgNew(), text = "RIGHT", 					varText = ""},
+	{varID = textImgNew(), text = "A",     					varText = ""}, --Reserved for Classic Palette Select
+	{varID = textImgNew(), text = "B",     					varText = ""},
+	{varID = textImgNew(), text = "C",     					varText = ""},
+	{varID = textImgNew(), text = "X",     					varText = ""},
+	{varID = textImgNew(), text = "Y",     					varText = ""},
+	{varID = textImgNew(), text = "Z",     					varText = ""}, --
+	{varID = textImgNew(), text = "SCREENSHOT",				varText = ""},
+	{varID = textImgNew(), text = "CONFIRM",				varText = ""},
+	{varID = textImgNew(), text = "RETURN",					varText = ""},
+	{varID = textImgNew(), text = "MENU",		 			varText = ""}, --PAUSE GAME
+	{varID = textImgNew(), text = "End Config",				varText = ""},
 }
 
 function f_resetInputsInfo()
@@ -6452,6 +6452,8 @@ function f_keyBattleCfg(playerNo, controller)
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		f_resetInputsInfo()
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6462,8 +6464,6 @@ function f_keyBattleCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
-		f_resetInputsInfo()
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
@@ -6583,6 +6583,8 @@ function f_keyMenuCfg(playerNo, controller)
 			animDraw(optionsDownArrow)
 			animUpdate(optionsDownArrow)
 		end
+		f_resetInputsInfo()
+		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
 			bufu = bufu + 1
@@ -6593,8 +6595,6 @@ function f_keyMenuCfg(playerNo, controller)
 			bufu = 0
 			bufd = 0
 		end
-		f_resetInputsInfo()
-		if data.attractMode == true then f_attractcfgCredits() end
 		cmdInput()
 		refresh()
 	end
