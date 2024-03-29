@@ -87,9 +87,6 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.4 (Next Update)**
 ------------
 
-- Tower Mode: https://youtu.be/GAoGLx411Sk?t=3
-[![Alt text](https://cdn.videogamesblogger.com/wp-content/uploads/2011/05/mortal-kombat-2011-tower-challenge-guide-screenshot.jpg)](https://youtu.be/GAoGLx411Sk?t=3)
-
 - Cambiar de personaje y stage como lo hace las músicas en training pause.
 
 - La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
