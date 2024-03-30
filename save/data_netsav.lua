@@ -5,7 +5,7 @@ data.ftcontrol = -1
 --Music Data
 data.menuSong = "sound/system/menu/Menu 3.ogg"
 data.selectSong = "sound/system/select/Select.mp3"
-data.challengerSong = "sound/system/select/The Challenger.mp3"
+data.challengerSong = "sound/system/select/Select Challenger.mp3"
 --System Data
 data.language = "ENGLISH"
 data.clock = "Standard"
@@ -16,7 +16,7 @@ data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Sprite"
-data.sffConversion = false
+data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -59,7 +59,7 @@ data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
-data.destinyTime = 25
+data.destinyTime = -1
 --Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"

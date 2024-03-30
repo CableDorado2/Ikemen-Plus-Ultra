@@ -2666,7 +2666,7 @@ end
 --;=================================================================================================
 --; TOWER DESTINY SCREENPACK
 --;=================================================================================================
-txt_towerSelect = createTextImg(font14, 0, 0, "CHOOSE YOUR DESTINY", 159, 13)
+txt_towerSelect = createTextImg(font35, 0, 0, "CHOOSE YOUR DESTINY", 159, 13, 0.5, 0.5)
 
 --Destiny Select BG
 destinyBG = animNew(towerSff, [[
@@ -2704,6 +2704,7 @@ destinyCursor = animNew(towerSff, [[
 2,23, 0,0, 3
 ]])
 animSetScale(destinyCursor, 0.135, 0.135)
+animSetAlpha(destinyCursor, 188, 0)
 animUpdate(destinyCursor)
 
 --Tower Left Arrow
@@ -2752,13 +2753,15 @@ t_tower5Chars = {1, 2}
 t_tower6Chars = {1, 2, 3, 4}
 
 t_destinyMenu = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
-	{ID = textImgNew(), Difficulty = "NOVICE", 		chars = t_tower1Chars, Status = ""}, --Add Tower Slot
-	{ID = textImgNew(), Difficulty = "WARRIOR", 	chars = t_tower2Chars, Status = ""},
-	{ID = textImgNew(), Difficulty = "MASTER", 		chars = t_tower3Chars, Status = ""},
-	{ID = textImgNew(), Difficulty = "CHALLENGER", 	chars = t_tower4Chars, Status = ""},
-	{ID = textImgNew(), Difficulty = "EXPERT", 		chars = t_tower5Chars, Status = ""},
-	{ID = textImgNew(), Difficulty = "???", 		chars = t_tower6Chars, Status = ""},
+	{ID = textImgNew(), Difficulty = "NOVICE", 		chars = "", Status = ""}, --Add Tower Slot
+	{ID = textImgNew(), Difficulty = "WARRIOR", 	chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "MASTER", 		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "EXPERT", 		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "CHAMPION", 	chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "DOOM",		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "???",			chars = "", Status = ""},
 }
+t_destinyMenu[1].chars = t_orderTowerChars[1] --Add all chars from order 1 in t_orderTowerChars table
 
 if data.debugLog then f_printTable(t_destinyMenu, "save/debug/t_destinyMenu.txt") end
 
@@ -2782,10 +2785,15 @@ function f_selectDestiny()
 			sndPlay(sysSnd, 100, 0)
 			destinyMenu = destinyMenu + 1
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or destinyTimer == 0 then
-			sndPlay(sysSnd, 100, 1)
-			--if destinyMenu == ? then
-				
-			--end
+			--sndPlay(sysSnd, 100, 1)
+			if destinyMenu == 1 then sndPlay(sysSnd, 300, 1)
+			elseif destinyMenu == 2 then sndPlay(sysSnd, 300, 2)
+			elseif destinyMenu == 3 then sndPlay(sysSnd, 300, 3)
+			elseif destinyMenu == 4 then sndPlay(sysSnd, 300, 4)
+			elseif destinyMenu == 5 then sndPlay(sysSnd, 300, 5)
+			elseif destinyMenu == 6 then sndPlay(sysSnd, 300, 6)
+			elseif destinyMenu == 7 then sndPlay(sysSnd, 300, 7)
+			end
 			--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
@@ -2828,15 +2836,15 @@ function f_selectDestiny()
 			--Draw Towers Assets
 				for slot=#t_destinyMenu[i].chars, 1, -1 do
 					animPosDraw(towerSlot, -85+100*i-moveTower, 280-32*slot) --Draw Towers BG
-					drawStagePortrait(3, -83+100*i-moveTower, 283-32*slot, 0.056, 0.036) --Draw Stages Preview Portraits
-					drawPortrait(0, -83+100*i-moveTower, 283-32*slot, 0.18, 0.18) --Draw Chars Preview Portraits (0 is the char number)
+					drawStagePortrait(3, -83+100*i-moveTower, 283-32*slot, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
+					drawPortrait(t_destinyMenu[i].chars[slot], -83+100*i-moveTower, 283-32*slot, 0.18, 0.18) --Draw Chars Preview Portraits
 				end
 				if i == destinyMenu then
 				--Draw Cursor Icon
 					animPosDraw(destinyCursor, -72+i*105-moveTower, 194)
 				--Draw Difficulty Text for Tower Table
 					if t_destinyMenu[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, font14, 0, 0, t_destinyMenu[i].Difficulty, -52+i*105-moveTower, 219,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, font31, 0, 0, t_destinyMenu[i].Difficulty, -52+i*105-moveTower, 219,0.85,0.85))
 						--textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, jgFnt, bank, 0, t_destinyMenu[i].Status, -49.2+i*105-moveTower, 80,0.95,0.95))
 					end
 				end

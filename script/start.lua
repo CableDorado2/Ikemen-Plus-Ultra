@@ -277,6 +277,7 @@ end
 --add characters and stages using select.def instead of select.lua
 --start_time = os.time()
 t_orderChars = {}
+t_orderTowerChars = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
 local section = 0
@@ -347,13 +348,22 @@ for line in content:gmatch('[^\r\n]+') do
 		--force order entry
 		local tmp = getCharName(row-1)
 		if tmp ~= '' and tmp ~= '"Training"' and getCharFileName(row-1) ~= 'randomselect' then
+		--Arcade Order
 			if t_selChars[row].order == nil then
-				t_selChars[row]['order'] = 1
+				t_selChars[row]['order'] = 1 --Add as order 1 is order paramvalue is not detected
 			end
 			if t_orderChars[t_selChars[row].order] == nil then
 				t_orderChars[t_selChars[row].order] = {}
 			end
 			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order]+1] = row-1
+		--Tower Order
+			if t_selChars[row].ordertower == nil then
+				t_selChars[row]['ordertower'] = 1
+			end
+			if t_orderTowerChars[t_selChars[row].ordertower] == nil then
+				t_orderTowerChars[t_selChars[row].ordertower] = {}
+			end
+			t_orderTowerChars[t_selChars[row].ordertower][#t_orderTowerChars[t_selChars[row].ordertower]+1] = row-1
 		end
 	elseif section == 2 then --[ExtraStages]
 		row = #t_selStages+1
@@ -881,6 +891,7 @@ function f_updateLogs()
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+	f_printTable(t_orderTowerChars, "save/debug/t_orderTowerChars.txt")
 	end
 end
 
