@@ -2706,17 +2706,61 @@ destinyCursor = animNew(towerSff, [[
 animSetScale(destinyCursor, 0.135, 0.135)
 animUpdate(destinyCursor)
 
+--Tower Left Arrow
+towerLeftArrow = animNew(sysSff, [[
+223,0, 0,0, 10
+223,1, 0,0, 10
+223,2, 0,0, 10
+223,3, 0,0, 10
+223,3, 0,0, 10
+223,2, 0,0, 10
+223,1, 0,0, 10
+223,0, 0,0, 10
+]])
+animAddPos(towerLeftArrow, 0, 115)
+animUpdate(towerLeftArrow)
+animSetScale(towerLeftArrow, 0.6, 0.6)
+
+--Tower Right Arrow
+towerRightArrow = animNew(sysSff, [[
+224,0, 0,0, 10
+224,1, 0,0, 10
+224,2, 0,0, 10
+224,3, 0,0, 10
+224,3, 0,0, 10
+224,2, 0,0, 10
+224,1, 0,0, 10
+224,0, 0,0, 10
+]])
+animAddPos(towerRightArrow, 310, 115)
+animUpdate(towerRightArrow)
+animSetScale(towerRightArrow, 0.6, 0.6)
+
+--Tower Slot
+towerSlot = animNew(sysSff, [[230,1, 0,0,]])
+animSetScale(towerSlot, 0.5, 0.5)
+animUpdate(towerSlot)
+
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
+t_tower1Chars = {1, 2, 3, 4, 5, 6}
+t_tower2Chars = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+t_tower3Chars = {1, 2, 3, 4, 5, 6, 7, 8}
+t_tower4Chars = {1, 2, 3}
+t_tower5Chars = {1, 2}
+t_tower6Chars = {1, 2, 3, 4}
+
 t_destinyMenu = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
-	{ID = textImgNew(), Difficulty = "NOVICE", 		chars = "", Status = ""}, --Add Tower to Test
-	{ID = textImgNew(), Difficulty = "WARRIOR", 	chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "MASTER", 		chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "???", 		chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "???", 		chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "???", 		chars = "", Status = ""},
+	{ID = textImgNew(), Difficulty = "NOVICE", 		chars = t_tower1Chars, Status = ""}, --Add Tower Slot
+	{ID = textImgNew(), Difficulty = "WARRIOR", 	chars = t_tower2Chars, Status = ""},
+	{ID = textImgNew(), Difficulty = "MASTER", 		chars = t_tower3Chars, Status = ""},
+	{ID = textImgNew(), Difficulty = "CHALLENGER", 	chars = t_tower4Chars, Status = ""},
+	{ID = textImgNew(), Difficulty = "EXPERT", 		chars = t_tower5Chars, Status = ""},
+	{ID = textImgNew(), Difficulty = "???", 		chars = t_tower6Chars, Status = ""},
 }
+
+if data.debugLog then f_printTable(t_destinyMenu, "save/debug/t_destinyMenu.txt") end
 
 function f_selectDestiny()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -2778,27 +2822,18 @@ function f_selectDestiny()
 	--Draw BG
 		animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--animDraw(destinyBG)
-	--Draw Title
-		textImgDraw(txt_towerSelect)
 	--Set Towers Scroll Logic
 		for i=1, maxDestiny do
 			if i > destinyMenu - cursorPosX then
-				--[[
-			--Draw Towers BG
-				animSetPos(t_destinyMenu[i].BG, -95+i*105-moveTower, 20)
-				animSetScale(t_destinyMenu[i].BG, 0.05, 0.05)
-				animUpdate(t_destinyMenu[i].BG)
-				animDraw(t_destinyMenu[i].BG)
-			--Draw Chars Preview Portraits
-				animSetPos(t_destinyMenu[i].Portrait, -62+i*105-moveTower, 31.5)
-				animUpdate(t_destinyMenu[i].Portrait)
-				animDraw(t_destinyMenu[i].Portrait)
-				]]
+			--Draw Towers Assets
+				for slot=#t_destinyMenu[i].chars, 1, -1 do
+					animPosDraw(towerSlot, -85+100*i-moveTower, 280-32*slot) --Draw Towers BG
+					drawStagePortrait(3, -83+100*i-moveTower, 283-32*slot, 0.056, 0.036) --Draw Stages Preview Portraits
+					drawPortrait(0, -83+100*i-moveTower, 283-32*slot, 0.18, 0.18) --Draw Chars Preview Portraits (0 is the char number)
+				end
 				if i == destinyMenu then
 				--Draw Cursor Icon
-					animSetPos(destinyCursor, -72+i*105-moveTower, 194)
-					animUpdate(destinyCursor)
-					animDraw(destinyCursor)
+					animPosDraw(destinyCursor, -72+i*105-moveTower, 194)
 				--Draw Difficulty Text for Tower Table
 					if t_destinyMenu[i].ID ~= nil then
 						textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, font14, 0, 0, t_destinyMenu[i].Difficulty, -52+i*105-moveTower, 219,0.85,0.85))
@@ -2806,6 +2841,18 @@ function f_selectDestiny()
 					end
 				end
 			end
+		end
+	--Draw Title
+		textImgDraw(txt_towerSelect)
+	--Draw Left Animated Cursor
+		if maxDestiny > 3 then
+			animDraw(towerLeftArrow)
+			animUpdate(towerLeftArrow)
+		end
+	--Draw Right Animated Cursor
+		if #t_destinyMenu > 3 and maxDestiny < #t_destinyMenu then
+			animDraw(towerRightArrow)
+			animUpdate(towerRightArrow)
 		end
 	--Destiny Select Timer
 		--txt_destinyTime = createTextImg(jgFnt, 0, 0, (destinyTimer/gameTick), 160, 70)

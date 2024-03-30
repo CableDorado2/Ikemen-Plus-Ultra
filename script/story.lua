@@ -633,7 +633,7 @@ function f_storyMenu()
 				animUpdate(storyDownArrow)
 			end
 		end
-		--Draw Left Animated Cursor
+	--Draw Left Animated Cursor
 		if maxarcs > 3 then
 			animDraw(storyLeftArrow)
 			animUpdate(storyLeftArrow)
