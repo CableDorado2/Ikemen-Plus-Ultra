@@ -2771,6 +2771,7 @@ function f_selectDestiny()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	--local getChar = math.random(1,#t_selTower[i].chars[order]) --Get 1 random char from the table (is missing get more than 1 char by have 2 opponents in 1 order)
 	cmdInput()
 	while true do
 		--Actions
@@ -2833,14 +2834,11 @@ function f_selectDestiny()
 				--for size=#t_selTower[i].chars, 1, -1 do
 				for size=#t_selTower[i].maxmatches, 1, -1 do
 					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*size) --Draw Towers BG
-					--for charSlot=#t_selTower[i].chars[size], 1, -1 do
-					for charSlot=#t_selTower[i].chars, 1, -1 do
-						--drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
-						drawPortrait(t_selTower[i].chars[charSlot][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
-						--drawPortrait(t_charAdd[t_selChars[charSlot].char], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
+					for order=#t_selTower[i].chars, size, -1 do
+						drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
+						drawPortrait(t_selTower[i].chars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
+						--drawPortrait(t_charAdd[t_selChars[order].char], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
 					end
-					--p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
-					--p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic
 				end
 				if i == destinyMenu then
 				--Draw Cursor Icon
