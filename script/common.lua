@@ -67,9 +67,9 @@ s_tempdataLUA = tempFile:read("*all")
 tempFile:close()
 
 --;===========================================================
---; SCREENPACK DEFINITION
+--; SCREENPACK ASSETS DEFINITION
 --;===========================================================
---SFF
+--SFF (Sprites)
 fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
 sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
 contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
@@ -83,11 +83,6 @@ tourneySff = sffNew("data/screenpack/tourney.sff") --load tourney sprites
 legionSff = sffNew("data/screenpack/legion.sff") --load legion sprites
 adventureSff = sffNew("data/screenpack/adventure.sff") --load adventure sprites
 ]]
-
---SND (Sound effects do not interrupt music/bgm)
-sysSnd = sndNew("data/screenpack/system.snd")
-announcerSnd = sndNew("data/screenpack/announcer.snd")
-contSnd = sndNew("data/screenpack/continue.snd")
 
 --Fonts (At the moments only FNT Format is Supported)
 padFnt = fontNew("font/f-pad.fnt")
@@ -120,7 +115,6 @@ font22 = fontNew("font/ssf2x_s.fnt")
 font23 = fontNew("font/ssf2x_sL.fnt")
 font24 = fontNew("font/ssf2x_vL.fnt")
 
---font30 = fontNew("font/big.fnt")
 font30 = fontNew("font/F-.fnt")
 font31 = fontNew("font/KombatZone.fnt")
 font32 = fontNew("font/kombat-zone.fnt")
@@ -140,6 +134,11 @@ font45 = fontNew("font/MKTIMER.fnt")
 font46 = fontNew("font/NameWins - difficulty.fnt")
 font47 = fontNew("font/Timer_MK3_Silver.fnt")
 font48 = fontNew("font/Timer_MK3_Yellow.fnt")
+
+--SND (Sound effects do not interrupt music/bgm)
+sysSnd = sndNew("data/screenpack/system.snd")
+announcerSnd = sndNew("data/screenpack/announcer.snd")
+contSnd = sndNew("data/screenpack/continue.snd")
 
 --;=================================================================
 --; SOUNDTRACK DEFINITION (ONLY MP3 and OGG formats are Supported)

@@ -137,11 +137,11 @@
 ; INSERT YOUR PLAYABLE CHARACTERS BELOW (220 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
 ;===================================================================================
 [Characters]
-Kung Fu Man, stages/Mountainside Temple/Lobby.def, order=1, 1=Suave Dude/Minion/Minion.def, 2=Strength Training, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+Kung Fu Man, stages/Mountainside Temple/Lobby.def, order=1, ordertower=1, 1=Suave Dude/Minion/Minion.def, 2=Strength Training, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
 randomselect
 randomselect
-Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
+Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, ordertower=2, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
 randomselect
 randomselect
@@ -149,7 +149,7 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=60, includestage=0, order=1, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=60, includestage=0, order=1, ordertower=3, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 randomselect
 randomselect
 randomselect
@@ -360,18 +360,18 @@ randomselect
 ;===================================================================
 ; INSERT YOUR BOSS CHARACTERS BELOW (REMEMBER PUT BOSS=1 PARAMVALUE)
 ;===================================================================
-Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4
-Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple/Roof Night.def, boss=1, includestage=0, order=4
-Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1, exclude=1, order=1
+Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, ordertower=4
+Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple/Roof Night.def, boss=1, includestage=0, order=4, ordertower=5
+Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1, exclude=1, order=1, ordertower=1
 ;===========================================================
 ; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
 ;===========================================================
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Kung Fu Man/EX/EX Kung Fu Man.def
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5, ordertower=10
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, ordertower=6, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 ;=====================================================================
 ; INSERT YOUR BONUS CHARACTERS BELOW (REMEMBER PUT BONUS=1 PARAMVALUE)
 ;=====================================================================
-Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2
+Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2, ordertower=1
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
 ;===========================================================
 ; TOOLS CHARACTERS
@@ -499,3 +499,54 @@ team.AIramp.end   = 3, 2
  ;  1,1,1,2,2,3,3,4,4,4,5,5,6,6,7,7,8
 survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
+;===========================================================
+; HOW TO ADD TOWERS
+;===========================================================
+ ; Tower Mode destiny declaration. Assigned destiny are selectable via Tower Arcade Mode
+ ; Declaring destiny consists of setting up following parameters:
+ ;
+ ; - difficulty
+ ;   IKEMEN feature: Set difficulty name that should be displayed in Tower Mode menu.
+ ;   This parameter also initiates new tower destiny declaration, so it has to be
+ ;   assigned before any other parameter used by the same tower.
+ ;   All towers difficulty should have unique names.
+ ;
+ ; - maxmatches
+ ;   IKEMEN feature: Set the maximum number of matches to fight before tower ends.
+ ;	 Like arcade.maxmatches, but applies to each slot of tower leader.
+ ;   10 maxmatches(10 orders) are recommended by each tower.
+ ;
+ ; Examples:
+ ; difficulty = NOVICE
+ ; maxmatches = ,1,1,1,1,1,1,0,0,0,0
+ ;
+ ; difficulty = WARRIOR
+ ; maxmatches = ,1,1,1,1,1,1,1,1,0,0
+ ;
+ ; difficulty = MASTER
+ ; maxmatches = ,1,1,1,1,1,1,1,1,1,1
+;===========================================================
+; INSERT YOUR TOWERS BELOW
+;===========================================================
+[TowerMode]
+
+difficulty = NOVICE
+maxmatches = ,1,1,1
+
+difficulty = WARRIOR
+maxmatches = ,1,1,1,1,1
+
+difficulty = MASTER
+maxmatches = ,1,2,1,1,2,1,1
+
+difficulty = EXPERT
+maxmatches = ,2,1,2,1,1,2,1
+
+difficulty = CHAMPION
+maxmatches = ,2,1,1,1,2,2
+
+difficulty = DOOM
+maxmatches = ,2,2,2,2,2,2,2,4
+
+difficulty = ???
+maxmatches = ,1

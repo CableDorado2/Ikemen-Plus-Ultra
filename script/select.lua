@@ -2718,7 +2718,7 @@ towerLeftArrow = animNew(sysSff, [[
 223,1, 0,0, 10
 223,0, 0,0, 10
 ]])
-animAddPos(towerLeftArrow, 0, 115)
+animAddPos(towerLeftArrow, 0, 215)
 animUpdate(towerLeftArrow)
 animSetScale(towerLeftArrow, 0.6, 0.6)
 
@@ -2733,7 +2733,7 @@ towerRightArrow = animNew(sysSff, [[
 224,1, 0,0, 10
 224,0, 0,0, 10
 ]])
-animAddPos(towerRightArrow, 310, 115)
+animAddPos(towerRightArrow, 310, 215)
 animUpdate(towerRightArrow)
 animSetScale(towerRightArrow, 0.6, 0.6)
 
@@ -2745,25 +2745,21 @@ animUpdate(towerSlot)
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
-t_tower1Chars = {1, 2, 3, 4, 5, 6}
-t_tower2Chars = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-t_tower3Chars = {1, 2, 3, 4, 5, 6, 7, 8}
-t_tower4Chars = {1, 2, 3}
-t_tower5Chars = {1, 2}
-t_tower6Chars = {1, 2, 3, 4}
-
-t_destinyMenu = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
-	{ID = textImgNew(), Difficulty = "NOVICE", 		chars = "", Status = ""}, --Add Tower Slot
-	{ID = textImgNew(), Difficulty = "WARRIOR", 	chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "MASTER", 		chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "EXPERT", 		chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "CHAMPION", 	chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "DOOM",		chars = "", Status = ""},
-	{ID = textImgNew(), Difficulty = "???",			chars = "", Status = ""},
+--[[
+t_selTower = nil
+t_selTower = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
+	{ID = textImgNew(), difficulty = "NOVICE", 		chars = "", status = ""}, --Add Tower Slot
+	{ID = textImgNew(), difficulty = "WARRIOR", 	chars = "", status = ""},
+	{ID = textImgNew(), difficulty = "MASTER", 		chars = "", status = ""},
+	{ID = textImgNew(), difficulty = "EXPERT", 		chars = "", status = ""},
+	{ID = textImgNew(), difficulty = "CHAMPION", 	chars = "", status = ""},
+	{ID = textImgNew(), difficulty = "DOOM",		chars = "", status = ""},
+	{ID = textImgNew(), difficulty = "???",			chars = "", status = ""},
 }
-t_destinyMenu[1].chars = t_orderTowerChars[1] --Add all chars from order 1 in t_orderTowerChars table
+t_selTower[1].chars = t_orderTowerChars[1] --Add all chars from order 1 in t_orderTowerChars table
+]]
 
-if data.debugLog then f_printTable(t_destinyMenu, "save/debug/t_destinyMenu.txt") end
+--if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower2.txt") end
 
 function f_selectDestiny()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
@@ -2801,13 +2797,13 @@ function f_selectDestiny()
 		end
 		--Cursor position calculation
 		if destinyMenu < 1 then
-			destinyMenu = #t_destinyMenu
-			if #t_destinyMenu > 3 then
+			destinyMenu = #t_selTower
+			if #t_selTower > 3 then
 				cursorPosX = 3
 			else
-				cursorPosX = #t_destinyMenu
+				cursorPosX = #t_selTower
 			end
-		elseif destinyMenu > #t_destinyMenu then
+		elseif destinyMenu > #t_selTower then
 			destinyMenu = 1
 			cursorPosX = 1
 		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
@@ -2820,8 +2816,8 @@ function f_selectDestiny()
 		elseif cursorPosX == 1 then
 			moveTower = (destinyMenu - 1) * 105
 		end
-		if #t_destinyMenu <= 3 then
-			maxDestiny = #t_destinyMenu
+		if #t_selTower <= 3 then
+			maxDestiny = #t_selTower
 		elseif destinyMenu - cursorPosX > 0 then
 			maxDestiny = destinyMenu + 3 - cursorPosX
 		else
@@ -2833,19 +2829,25 @@ function f_selectDestiny()
 	--Set Towers Scroll Logic
 		for i=1, maxDestiny do
 			if i > destinyMenu - cursorPosX then
-			--Draw Towers Assets
-				for slot=#t_destinyMenu[i].chars, 1, -1 do
-					animPosDraw(towerSlot, -85+100*i-moveTower, 280-32*slot) --Draw Towers BG
-					drawStagePortrait(3, -83+100*i-moveTower, 283-32*slot, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
-					drawPortrait(t_destinyMenu[i].chars[slot], -83+100*i-moveTower, 283-32*slot, 0.18, 0.18) --Draw Chars Preview Portraits
+			--Draw Towers Assets According to his size via order maxmatches
+				--for size=#t_selTower[i].chars, 1, -1 do
+				for size=#t_selTower[i].maxmatches, 1, -1 do
+					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*size) --Draw Towers BG
+					--for charSlot=#t_selTower[i].chars[size], 1, -1 do
+					for charSlot=#t_selTower[i].chars, 1, -1 do
+						--drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
+						drawPortrait(t_selTower[i].chars[charSlot][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
+						--drawPortrait(t_charAdd[t_selChars[charSlot].char], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
+					end
+					--p1charSong = math.random(1,#t_selChars[data.t_p1selected[1].cel+1].music)
+					--p1charSong = t_selChars[data.t_p1selected[1].cel+1].music[p1charSong].bgmusic
 				end
 				if i == destinyMenu then
 				--Draw Cursor Icon
 					animPosDraw(destinyCursor, -72+i*105-moveTower, 194)
 				--Draw Difficulty Text for Tower Table
-					if t_destinyMenu[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, font31, 0, 0, t_destinyMenu[i].Difficulty, -52+i*105-moveTower, 219,0.85,0.85))
-						--textImgDraw(f_updateTextImg(t_destinyMenu[i].ID, jgFnt, bank, 0, t_destinyMenu[i].Status, -49.2+i*105-moveTower, 80,0.95,0.95))
+					if t_selTower[i].ID ~= nil then
+						textImgDraw(f_updateTextImg(t_selTower[i].ID, font31, 0, 0, t_selTower[i].difficulty, -52+i*105-moveTower, 219,0.85,0.85))
 					end
 				end
 			end
@@ -2858,7 +2860,7 @@ function f_selectDestiny()
 			animUpdate(towerLeftArrow)
 		end
 	--Draw Right Animated Cursor
-		if #t_destinyMenu > 3 and maxDestiny < #t_destinyMenu then
+		if #t_selTower > 3 and maxDestiny < #t_selTower then
 			animDraw(towerRightArrow)
 			animUpdate(towerRightArrow)
 		end

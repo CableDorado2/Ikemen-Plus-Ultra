@@ -302,6 +302,9 @@ for line in content:gmatch('[^\r\n]+') do
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
 		section = 3
+	elseif line:match('^%s*%[%s*towermode%s*%]') then
+		t_selTower = {}
+		section = 4
 	elseif section == 1 then --[Characters]
 		row = #t_selChars+1
 		t_selChars[row] = {}
@@ -350,20 +353,19 @@ for line in content:gmatch('[^\r\n]+') do
 		if tmp ~= '' and tmp ~= '"Training"' and getCharFileName(row-1) ~= 'randomselect' then
 		--Arcade Order
 			if t_selChars[row].order == nil then
-				t_selChars[row]['order'] = 1 --Add as order 1 is order paramvalue is not detected
+				t_selChars[row]['order'] = 1 --Add order 1 is order paramvalue is not detected
 			end
 			if t_orderChars[t_selChars[row].order] == nil then
 				t_orderChars[t_selChars[row].order] = {}
 			end
 			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order]+1] = row-1
 		--Tower Order
-			if t_selChars[row].ordertower == nil then
-				t_selChars[row]['ordertower'] = 1
+			if t_selChars[row].ordertower ~= nil then --Only add to t_orderTowerChars chars that have an ordertower paramvalue
+				if t_orderTowerChars[t_selChars[row].ordertower] == nil then
+					t_orderTowerChars[t_selChars[row].ordertower] = {}
+				end
+				t_orderTowerChars[t_selChars[row].ordertower][#t_orderTowerChars[t_selChars[row].ordertower]+1] = row-1
 			end
-			if t_orderTowerChars[t_selChars[row].ordertower] == nil then
-				t_orderTowerChars[t_selChars[row].ordertower] = {}
-			end
-			t_orderTowerChars[t_selChars[row].ordertower][#t_orderTowerChars[t_selChars[row].ordertower]+1] = row-1
 		end
 	elseif section == 2 then --[ExtraStages]
 		row = #t_selStages+1
@@ -493,6 +495,24 @@ for line in content:gmatch('[^\r\n]+') do
 			t_selOptions[rowName .. rowName2] = {}
 			t_selOptions[rowName .. rowName2]['wins'] = tonumber(wins)
 			t_selOptions[rowName .. rowName2]['offset'] = tonumber(offset)
+		end
+	elseif section == 4 then --[TowerMode]
+		if line:match('^%s*difficulty%s*=') then
+			row = #t_selTower+1
+			t_selTower[row] = {}
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_selTower[row]['difficulty'] = data:gsub('^%s*difficulty%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_selTower[row]['ID'] = textImgNew()
+				t_selTower[row]['maxmatches'] = {}
+				t_selTower[row]['chars'] = t_orderTowerChars
+			end
+		end
+		if line:match('^%s*maxmatches%s*=') then
+			for i, c in ipairs(strsplit(',', line:gsub('%s*(.-)%s*', '%1'))) do
+				t_selTower[row].maxmatches[#t_selTower[row].maxmatches+1] = tonumber(c)
+				--t_selTower[row].maxmatches[i-1] = tonumber(c) --This also works
+			end
 		end
 	end
 	textImgDraw(txt_loading)
@@ -891,6 +911,7 @@ function f_updateLogs()
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+	f_printTable(t_selTower, "save/debug/t_selTower.txt")
 	f_printTable(t_orderTowerChars, "save/debug/t_orderTowerChars.txt")
 	end
 end
@@ -898,7 +919,7 @@ end
 f_updateLogs()
 
 function f_rushTables()
-	t_bossSingle = {} --This is the table of the boss chars to fight against them individually, it must be loaded after this parser script or it will give an error
+	t_bossSingle = {} --This is the table of the boss chars menu to fight against them individually, it must be loaded after this parser script or it will give an error
 	local endFor = #t_bossChars+1
 	for i=1, endFor do
 		if i < endFor then
@@ -908,7 +929,7 @@ function f_rushTables()
 		end
 	end
 
-	t_bonusExtras = {} --This is the bonus chars table, it must be loaded after this parser script or it will give an error
+	t_bonusExtras = {} --This is the bonus chars menu table, it must be loaded after this parser script or it will give an error
 	local endFor = #t_bonusChars+1
 	for i=1, endFor do
 		if i < endFor then
