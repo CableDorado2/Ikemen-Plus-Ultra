@@ -380,7 +380,7 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT
 if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
 t_randomSongTest = {}
 for i=1, #t_songList[1] do --recibe todos los valores de la folder 1, la idea es usar esta tabla para randomizar esos valores como lo hace t_selchars
-	t_randomSongTest[#t_randomSongTest+1] = i - 1
+	t_randomSongTest[#t_randomSongTest+1] = i --falta excluir los 2 ultimos valores (random y back)
 end
 if data.debugLog then f_printTable(t_randomSongTest, "save/debug/t_randomSongTest.txt") end
 end

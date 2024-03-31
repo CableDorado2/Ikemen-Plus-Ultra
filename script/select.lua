@@ -2771,7 +2771,7 @@ function f_selectDestiny()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	--local getChar = math.random(1,#t_selTower[i].chars[order]) --Get 1 random char from the table (is missing get more than 1 char by have 2 opponents in 1 order)
+	getTowerChar = 1
 	cmdInput()
 	while true do
 		--Actions
@@ -2830,14 +2830,19 @@ function f_selectDestiny()
 	--Set Towers Scroll Logic
 		for i=1, maxDestiny do
 			if i > destinyMenu - cursorPosX then
-			--Draw Towers Assets According to his size via order maxmatches
-				--for size=#t_selTower[i].chars, 1, -1 do
+			--Draw Towers Assets
 				for size=#t_selTower[i].maxmatches, 1, -1 do
-					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*size) --Draw Towers BG
-					for order=#t_selTower[i].chars, size, -1 do
+					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*size) --Draw Towers BG According to his size via maxmatches order
+					--for order=#t_selTower[i].chars, size, -1 do
+					for order=#t_orderTowerChars, size, -1 do
 						drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
-						drawPortrait(t_selTower[i].chars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
-						--drawPortrait(t_charAdd[t_selChars[order].char], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
+						--[[
+						for c=1, #t_orderTowerChars do
+							getTowerChar = math.random(1,#t_orderTowerChars[c])
+						end
+						]]
+						drawPortrait(t_orderTowerChars[order][getTowerChar], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
+						--drawPortrait(t_selTower[i].chars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
 					end
 				end
 				if i == destinyMenu then
