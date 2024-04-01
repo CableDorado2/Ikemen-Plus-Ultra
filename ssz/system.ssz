@@ -42,20 +42,20 @@ public &Select
   public float cellsizex = 29.0, cellsizey = 29.0;
   public float cellscalex = 1.0, cellscaley = 1.0;
   
-  public int faceGroup = 9000, faceIndex = 0;
-  public int bigGroup = 9000, bigIndex = 1;
-  public int winGroup = 9000, winIndex = 2;
-  public int loserGroup = 9000, loserIndex = 3;
-  public int orderGroup = 9000, orderIndex = 4;
-  public int vsGroup = 9000, vsIndex = 5;
-  public int resultGroup = 9000, resultIndex = 6;
-  public int extraGroup = 9000, extraIndex = 9;
+  public int faceGroup = .cfg.CharPortraitsGroup, faceIndex = .cfg.CharFacePortraitIndex;
+  public int bigGroup = .cfg.CharPortraitsGroup, bigIndex = .cfg.CharBigPortraitIndex;
+  public int winGroup = .cfg.CharPortraitsGroup, winIndex = .cfg.CharWinnerPortraitIndex;
+  public int loserGroup = .cfg.CharPortraitsGroup, loserIndex = .cfg.CharLoserPortraitIndex;
+  public int orderGroup = .cfg.CharPortraitsGroup, orderIndex = .cfg.CharOrderPortraitIndex;
+  public int vsGroup = .cfg.CharPortraitsGroup, vsIndex = .cfg.CharVSPortraitIndex;
+  public int resultGroup = .cfg.CharPortraitsGroup, resultIndex = .cfg.CharResultsPortraitIndex;
+  public int extraGroup = .cfg.CharPortraitsGroup, extraIndex = .cfg.CharExtraPortraitIndex;
   
-  public int IconStageGroup = 9000, IconStageIndex = 0;
-  public int bigStageGroup = 9000, bigStageIndex = 1;
-  public int vsStageGroup = 9000, vsStageIndex = 2;
-  public int winStageGroup = 9000, winStageIndex = 3;
-  public int extraStageGroup = 9000, extraStageIndex = 9;
+  public int IconStageGroup = .cfg.StagePortraitsGroup, IconStageIndex = .cfg.StageIconPortraitIndex;
+  public int bigStageGroup = .cfg.StagePortraitsGroup, bigStageIndex = .cfg.StageBigPortraitIndex;
+  public int vsStageGroup = .cfg.StagePortraitsGroup, vsStageIndex = .cfg.StageVSPortraitIndex;
+  public int winStageGroup = .cfg.StagePortraitsGroup, winStageIndex = .cfg.StageWinPortraitIndex;
+  public int extraStageGroup = .cfg.StagePortraitsGroup, extraStageIndex = .cfg.StageExtraPortraitIndex;
   
   public ^&.sff.Sprite randomspr;
   public float randxscl = 1.0, randyscl = 1.0;

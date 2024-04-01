@@ -8,6 +8,7 @@ songsSettings = false
 soundTest = false
 data.tagmode = 1
 data.includestage = 0
+data.stageviewer = false
 menuSelect = ""
 P2overP1 = false
 --;===========================================================
@@ -277,9 +278,10 @@ end
 --add characters and stages using select.def instead of select.lua
 --start_time = os.time()
 t_orderChars = {}
-t_orderTowerChars = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
+t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
+t_orderTowerChars = {}
 local section = 0
 local file = io.open("data/select.def","r")
 local content = file:read("*all")
@@ -303,7 +305,6 @@ for line in content:gmatch('[^\r\n]+') do
 		t_selOptions = {}
 		section = 3
 	elseif line:match('^%s*%[%s*towermode%s*%]') then
-		t_selTower = {}
 		section = 4
 	elseif section == 1 then --[Characters]
 		row = #t_selChars+1
@@ -566,6 +567,7 @@ local generate = false
 local name = ''
 local batch = 'mkdir data\\charAnim\nmkdir debug'
 local t_gen = {}
+t_trainingChar = {}
 t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
@@ -677,6 +679,14 @@ for i=1, #t_selChars do
 	end
 	--if character's name has been stored
 	if t_selChars[i].displayname ~= nil then
+		--gemerate table for fixed training character
+		if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
+			t_trainingChar[#t_trainingChar+1] = i - 1
+		end
+		--detects stage viewer character
+		if t_selChars[i].name == "stage viewer" then
+			data.stageviewer = true
+		end
 		--generate table for boss rush mode
 		if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
 			t_bossChars[#t_bossChars+1] = i - 1
@@ -905,14 +915,15 @@ function f_updateLogs()
 	f_printTable(t_selStages, "save/debug/t_selStages.txt")
 	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
 	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
+	f_printTable(t_selTower, "save/debug/t_selTower.txt")
+	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
+	f_printTable(t_orderTowerChars, "save/debug/t_orderTowerChars.txt")
 	f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
 	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
-	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
-	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
-	f_printTable(t_selTower, "save/debug/t_selTower.txt")
-	f_printTable(t_orderTowerChars, "save/debug/t_orderTowerChars.txt")
+	f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
 	end
 end
 

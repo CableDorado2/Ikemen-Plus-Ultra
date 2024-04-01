@@ -1,142 +1,4 @@
-;===========================================================
-; HOW TO ADD CHARACTERS
-;===========================================================
- ;Use the format:
- ;    charname, stagefilename1, stagefilename2, ...
- ;
- ;eg. For a player with filename "kfm",
- ;    and stage filename "stages/mybg.def"
- ;type (without the semicolon):
- ;    kfm, stages/mybg.def
- ;    IKEMEN feature: There can be more than 1 stage assigned to
- ;    character. In such case stage will be randomly chosen.
- ;
- ;If you want to load a different def file, you can enter it
- ;as a directory plus the def file. This example loads up
- ;chars/kfm/alt-kfm.def:
- ;    kfm/alt-kfm.def, stages/mybg.def
- ;
- ;If you put "random" as the stagefilename, then a random stage will
- ;be selected for that player. eg.
- ;IKEMEN feature: Not really needed since no stage = random anyway.
- ;    kfm, random
- ;
- ;Optional parameters may follow on the same line, separated
- ;by commas. Each parameter has the form:
- ;    paramname = paramvalue
- ;where paramname is the name of the parameter type, and
- ;paramvalue is the value to assign that parameter.
- ;The optional parameters are:
- ;
- ; - music
- ;   Set the paramvalue to the name of the music file to use
- ;   as the BGM for that character. This overrides the bgmusic
- ;   parameter in the stage's .def file, so you can re-use the
- ;   same stage for multiple characters, but have a different
- ;   BGM playing for each person.
- ;   IKEMEN feature: There can be more than 1 music parameter
- ;   set for stage. In such case track will be randomly chosen.
- ;
- ; - zoom
- ;   IKEMEN feature: Set the paramvalue to 0 to avoid stage zoom
- ;   even if it is enabled globally. Useful for characters that 
- ;   don't work well with zoom (for example bonus characters)
- ;
- ; - boss
- ;   IKEMEN feature: Set the paramvalue to 1 to include this
- ;   character in "Boss Rush" mode.
- ;
- ; - bonus
- ;   IKEMEN feature: Set the paramvalue to 1 to include this
- ;   character in "Bonus Games" mode. Bonus characters also
- ;   won't show up as Simul team if faced in arcade mode.
- ;
- ; - ai
- ;   IKEMEN feature: Set the paramvalue between 0 and 8 to force
- ;   AI Level regardless of difficulty and AI ramping settings.
- ;
- ; - vsscreen
- ;   IKEMEN feature: Set the paramvalue to 0 to avoid displaying versus screen
- ;   when facing this character.
- ;
- ; - victoryscreen
- ;   IKEMEN feature: Set the paramvalue to 0 to avoid displaying
- ;   victory screen after beating this character.
- ;
- ; - rounds
- ;   IKEMEN feature: Set the paramvalue to the number of rounds in order to
- ;   overwrite rounds number chosen in settings (Useful for Bonus Characters).
- ;
- ; - roundtime
- ;   IKEMEN feature: Set the paramvalue to the time (in seconds) in order to
- ;   overwrite round time saved in settings.
- ;
- ; - single
- ;   IKEMEN feature: Set the paramvalue to 1 to force facing this character
- ;   individually in arcade team modes.
- ;
- ; - includestage
- ;   Set the paramvalue to 0 to avoid including this stage
- ;   in the stage select list (in VS, training modes, etc)
- ;
- ; - exclude
- ;   IKEMEN feature: Set the paramvalue to 1 to avoid including
- ;   this character when player choose 'random' character icon.
- ;   Also excludes character to be chosen by CPU in modes other
- ;   than arcade (arcade selection is controlled by 'order')
- ;
- ; - unlock (experimental)
- ;   IKEMEN feature: Set the paramvalue to 0 to lock a character
- ;   in character select. If it evaluates to 1 the character
- ;   will become manually selectable. On 0 it will be unselectable.
- ;   By Default all characters are: unlock=1.
- ;   (Currently not works in online)
- ;
- ; - order
- ;   Set the paramvalue to the ordering priority to give the
- ;   character in arcade mode (1 by default). A smaller value
- ;   means you will fight the character sooner. You will never
- ;   fight an order 2 character before an order 1 character,
- ;   and never an order 3 character before an order 2 one.
- ;   For example, you might want to set your boss character
- ;   to have order=3. The default order value is 1 if you omit
- ;   this param. See *.maxmatches under [Options] for how to
- ;   limit the number of matches per order priority.
- ;   IKEMEN feature: Max 30 orders limitation is lifted.
- ;
- ; - 1, 2, (...)
- ;   IKEMEN feature: paramname points to the match number in
- ;   arcade mode. paramvalue overwrites character that you would
- ;   face following normal 'order'. paramvalue should match exactly
- ;   the charname text typed after "Insert your characters below"
- ;   line, so it can be either full DEF path or just folder name.
- ;   This functionality introduces simple solution for implementing
- ;   arcade paths similar to the one in Street Fighter Alpha 3
- ;   where characters always face their rivals along the way.
- ;   If you're playing in Team mode than paramvalue character becomes
- ;   opposite team leader, other characters follow normal order.
- ;
- ;
- ;	 You can also add a randomize icon to the select screen. To do
- ;	 this, put the word "randomselect" on a line of its own, with no
- ;	 extra parameters.
- ;
- ;   Some examples:
- ;   kfm, stages/mybg.def, includestage=0
- ;   kfm, stages/mybg.def, music=sound/song.mp3
- ;   kfm, stages/mybg.def, music=sound/song.mp3, includestage=0
- ;   kfm, stages/mybg.def, order=3, 3=kfm, 6=SuaveDude
- ;   kfm, stages/mybg.def, stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3, zoom=0
- ;	 kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=3
- ;	 kfm, stages/mybg.def, music=sound/song.mp3, zoom=0, boss=1, ai=8, includestage=0, exclude=1, order=5
- ;
- ;   Full Reference:
- ;	 charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
- ;
-;===================================================================================
-; INSERT YOUR PLAYABLE CHARACTERS BELOW (220 SLOTS AVAILABLES, BUT YOU CAN EXPAND IT)
-;===================================================================================
-[Characters]
+[Characters] ;Don't Delete
 Kung Fu Man, stages/Mountainside Temple/Lobby.def, order=1, ordertower=1, 1=Suave Dude/Minion/Minion.def, 2=Strength Training, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
 randomselect
 randomselect
@@ -357,77 +219,18 @@ randomselect
 randomselect
 randomselect
 randomselect
-;===================================================================
-; INSERT YOUR BOSS CHARACTERS BELOW (REMEMBER PUT BOSS=1 PARAMVALUE)
-;===================================================================
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, ordertower=4
 Kung Fu Man/EX/EX Kung Fu Man.def, stages/Mountainside Temple/Roof Night.def, boss=1, includestage=0, order=4, ordertower=5
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, boss=1, exclude=1, order=1, ordertower=1
-;===========================================================
-; INSERT YOUR SECRET/HIDDEN CHARACTERS BELOW
-;===========================================================
 Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5, ordertower=10
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, ordertower=6, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Kung Fu Man/EX/EX Kung Fu Man.def
-;=====================================================================
-; INSERT YOUR BONUS CHARACTERS BELOW (REMEMBER PUT BONUS=1 PARAMVALUE)
-;=====================================================================
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2, ordertower=1
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
-;===========================================================
-; TOOLS CHARACTERS
-;===========================================================
-Training, victoryscreen=0, exclude=1, order=6
-Stage Viewer, vsscreen=0, victoryscreen=0, exclude=1, order=6
-;===========================================================
-; HOW TO ADD STAGES
-;===========================================================
- ;Put extra stages here. For example, you can insert "stages/mybg.def".
- ;Optional parameters may follow on the same line, separated
- ;by commas. Each parameter has the form:
- ;    paramname = paramvalue
- ;where paramname is the name of the parameter type, and
- ;paramvalue is the value to assign that parameter.
- ;The optional parameters are:
- ;
- ; - music
- ;   IKEMEN feature: Set the paramvalue to the name of the music
- ;   file to use as the BGM for the stage. If bgmusic parameter
- ;   in the stage's .def file is also present than engine will
- ;   pick one of the tracks randomly. On top of that there can
- ;   be more than 1 music parameter assigned here.
- ;
- ; - zoom
- ;   IKEMEN feature: Set the paramvalue to 0 to avoid stage zoom
- ;   even if it is enabled globally. And the other way around.
- ;
- ; - zoomMin
- ;   IKEMEN feature: Set the paramvalue to overwrite global
- ;   maximum zoom out setting for this particular stage.
- ;
- ; - zoomMax
- ;   IKEMEN feature: Set the paramvalue to overwrite global
- ;   maximum zoom in setting for this particular stage.
- ;
- ; - zoomSpeed
- ;   IKEMEN feature: Set the paramvalue to overwrite global
- ;   zoom speed setting for this particular stage.
- ;
- ; - unlock (experimental)
- ;   IKEMEN feature: Set the paramvalue to 0 to lock a stage
- ;   in stage select (it can be selectable only in random select).
- ;   If it evaluates to 1 the stage will become manually selectable.
- ;   On 0 it will be unselectable. By Default all stages are: unlock=1.
- ;   (Currently not works in online)
- ;
- ;   Some examples:
- ;        stages/mybg.def, unlock=0, music=sound/song.mp3, music=sound/song2.mp3
- ;        stages/mybg.def, zoom=0
- ;        stages/mybg.def, zoom=1, zoomMin=0.75, zoomMax=1.1, zoomSpeed=1
- ;
-;===========================================================
-; INSERT YOUR STAGES BELOW
-;===========================================================
-[ExtraStages]
+Training, exclude=1, training=1, order=-1
+Stage Viewer, exclude=1, order=-1
+
+
+[ExtraStages] ;Don't Delete
 stages/Training Room.def
 stages/Mountainside Temple/Hidden Path.def, unlock=0
 stages/Mountainside Temple/Hidden Path Night.def
@@ -446,90 +249,23 @@ stages/HD TEST/Training Room.def
 stages/HD TEST/Training Room(Scale).def
 stages/Green Screen.def
 stages/Training Room 2.def, unlock=0
-;---------------------------------------------------------------------
-[Options]
- ;Here you set the maximum number of matches to fight before game ends
- ;in Arcade Mode. The first number is the number of matches against
- ;characters with order=1, followed by order=2 and order=3 respectively.
- ;For example, for 4,3,1 you will fight up to 4 randomly-picked
- ;characters who have order=1, followed by 3 with order=2 and 1 with
- ;order=3.
- ;IKEMEN feature: Max 30 orders limitation is lifted.
-arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
 
- ;Maximum number of matches to fight before game ends in Team Mode.
- ;Like arcade.maxmatches, but applies to Team Battle.
+
+[Options] ;Don't Delete
+arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
 team.maxmatches = 1,1,1,1,0,0,0,0,0,0
 
- ;IKEMEN feature: AI ramping settings has been moved here from mugen.cfg
- ;You can view AI ramping output for all battles from the last chosen mode
- ;via debug/t_aiRamp.txt (useful reference also for vanilla mugen).
- ;Arcade Mode AI ramping. For both parameters below, the first number
- ;corresponds to the number of matches won, and the second number to the
- ;AI difficulty offset. The actual difficulty is the sum of the AI
- ;difficulty level (set in the options menu) and the value of the offset
- ;at a particular match.
- ;  AIramp.start = start_match, start_diff
- ;  AIramp.end   = end_match, end_diff
- ;The difficulty offset function is a constant value of start_diff from
- ;the first match until start_match matches have been won. From then the
- ;offset value increases linearly from start_diff to end_diff. After
- ;end_diff matches have been won, the offset value is end_diff.
- ;  e_d            /----------
- ;               /
- ;  s_d _______/
- ;     ^      ^     ^        ^
- ;   1st_m   s_m   e_m     last_m
- ;For example, if you have:
- ;  AIramp.start = 2,0
- ;  AIramp.end   = 4,2
- ;For 6 matches at level 4, the difficulty will be (by match):
- ;  4,4,4,5,6,6
 arcade.AIramp.start = 2, 0
 arcade.AIramp.end   = 4, 2
 
- ;Team Mode AI ramping
- ;For 4 matches at level 4 and default values, the difficulty will be:
- ;  4,4,5,6
 team.AIramp.start = 1, 0
 team.AIramp.end   = 3, 2
 
- ;Survival Mode AI ramping
- ;For 16 matches at level 4 and default values, the difficulty will be:
- ;  1,1,1,2,2,3,3,4,4,4,5,5,6,6,7,7,8
 survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
-;===========================================================
-; HOW TO ADD TOWERS
-;===========================================================
- ; Tower Mode destiny declaration. Assigned destiny are selectable via Tower Arcade Mode
- ; Declaring destiny consists of setting up following parameters:
- ;
- ; - difficulty
- ;   IKEMEN feature: Set difficulty name that should be displayed in Tower Mode menu.
- ;   This parameter also initiates new tower destiny declaration, so it has to be
- ;   assigned before any other parameter used by the same tower.
- ;   All towers difficulty should have unique names.
- ;
- ; - maxmatches
- ;   IKEMEN feature: Set the maximum number of matches to fight before tower ends.
- ;	 Like arcade.maxmatches, but applies to each slot of tower leader.
- ;   10 maxmatches(10 orders) are recommended by each tower.
- ;
- ; Examples:
- ; difficulty = NOVICE
- ; maxmatches = ,1,1,1,1,1,1,0,0,0,0
- ;
- ; difficulty = WARRIOR
- ; maxmatches = ,1,1,1,1,1,1,1,1,0,0
- ;
- ; difficulty = MASTER
- ; maxmatches = ,1,1,1,1,1,1,1,1,1,1
-;===========================================================
-; INSERT YOUR TOWERS BELOW
-;===========================================================
-[TowerMode]
 
+
+[TowerMode]
 difficulty = NOVICE
 maxmatches = ,1,1,1
 

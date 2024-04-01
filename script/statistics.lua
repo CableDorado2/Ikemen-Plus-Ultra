@@ -92,8 +92,8 @@ function f_getStats()
 	t_statsMenu[2].varText = (data.victories+data.defeats)
 	t_statsMenu[3].varText = data.victories
 	t_statsMenu[4].varText = data.defeats
-	t_statsMenu[5].varText = data.favoriteChar
-	t_statsMenu[6].varText = data.favoriteStage
+	t_statsMenu[5].varText = "WIP"--data.favoriteChar
+	t_statsMenu[6].varText = "WIP"--data.favoriteStage
 	t_statsMenu[7].varText = "None" --If all Preferred Mode are equal
 	--Preferred Mode Logic
 	if (data.storyTime > data.arcadeTime) and

@@ -369,7 +369,6 @@ function f_saveCfg()
 		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.randomPortrait'] = data.randomPortrait,
-		['data.training'] = data.training,
 		['data.randomCharRematch'] = data.randomCharRematch,
 		['data.charInfo'] = data.charInfo,
 	--Stage Select Data
@@ -657,7 +656,6 @@ function f_selectDefault()
 	data.selectType = "Fixed"
 	data.palType = "Classic"
 	data.randomPortrait = "Simple"
-	data.training = "Free"
 	data.randomCharRematch = "Variable"
 	data.charInfo = "Author"
 end
@@ -3210,7 +3208,6 @@ t_selectCfg = {
 	{varID = textImgNew(), text = "Palette Select",	    		varText = data.palType},
 	{varID = textImgNew(), text = "Information",    			varText = data.charInfo},
 	{varID = textImgNew(), text = "Random Portrait",	     	varText = data.randomPortrait},
-	{varID = textImgNew(), text = "Training Character",  		varText = data.training},
 	{varID = textImgNew(), text = "Random Select Rematch",		varText = data.randomCharRematch},
 	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
 	{varID = textImgNew(), text = "          BACK", 			varText = ""},
@@ -3316,42 +3313,20 @@ function f_selectCfg()
 					data.randomPortrait = "Fixed"
 					modified = 1	
 				end
-			--Training Character
-			elseif selectCfg == 5 then
-				if onlinegame == true then
-					lockSetting = true
-				elseif onlinegame == false then
-					if (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
-						sndPlay(sysSnd, 100, 0)
-						if commandGetState(p1Cmd, 'r') and data.training == "Free" then
-							data.training = "Fixed"
-							modified = 1
-						elseif commandGetState(p1Cmd, 'r') and data.training == "Fixed" then
-							data.training = "Free"
-							modified = 1
-						elseif commandGetState(p1Cmd, 'l') and data.training == "Free" then
-							data.training = "Fixed"
-							modified = 1
-						elseif commandGetState(p1Cmd, 'l') and data.training == "Fixed" then
-							data.training = "Free"
-							modified = 1
-						end
-					end
-				end
 			--Character Random Selection in Rematch
-			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.randomCharRematch == "Variable" then data.randomCharRematch = "Fixed"
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
 				end
 				modified = 1
 			--Default Values
-			elseif selectCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == 6 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
 			--BACK
-			elseif selectCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3397,8 +3372,7 @@ function f_selectCfg()
 		t_selectCfg[2].varText = data.palType
 		t_selectCfg[3].varText = data.charInfo
 		t_selectCfg[4].varText = data.randomPortrait
-		t_selectCfg[5].varText = data.training
-		t_selectCfg[6].varText = data.randomCharRematch
+		t_selectCfg[5].varText = data.randomCharRematch
 		for i=1, maxselectCfg do
 			if i > selectCfg - cursorPosY then
 				if t_selectCfg[i].varID ~= nil then

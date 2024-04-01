@@ -1784,7 +1784,7 @@ function f_selectAdvance()
 			if p1numChars > 1 then
 				for i=1, #data.t_p1selected do
 					if t_selChars[data.t_p1selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel+1].bonus == 1 then
-						--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
+						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
 						p1teamMode = 0
 						p1numChars = 1
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
@@ -1839,7 +1839,7 @@ function f_selectAdvance()
 			if p2numChars > 1 then
 				for i=1, #data.t_p2selected do
 					if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
-						--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
+						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
 						p2teamMode = 0
 						p2numChars = 1
 						setTeamMode(2, 0, 1)
@@ -2527,7 +2527,7 @@ function f_selectTower()
 			if p1numChars > 1 then
 				for i=1, #data.t_p1selected do
 					if t_selChars[data.t_p1selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel+1].bonus == 1 then
-						--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
+						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
 						p1teamMode = 0
 						p1numChars = 1
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
@@ -2582,7 +2582,7 @@ function f_selectTower()
 			if p2numChars > 1 then
 				for i=1, #data.t_p2selected do
 					if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
-						--setGameType(3) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
+						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
 						p2teamMode = 0
 						p2numChars = 1
 						setTeamMode(2, 0, 1)
@@ -2771,7 +2771,6 @@ function f_selectDestiny()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	getTowerChar = 1
 	cmdInput()
 	while true do
 		--Actions
@@ -2835,14 +2834,16 @@ function f_selectDestiny()
 					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*size) --Draw Towers BG According to his size via maxmatches order
 					--for order=#t_selTower[i].chars, size, -1 do
 					for order=#t_orderTowerChars, size, -1 do
-						drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
-						--[[
-						for c=1, #t_orderTowerChars do
-							getTowerChar = math.random(1,#t_orderTowerChars[c])
+						if t_orderTowerChars[order] ~= nil then
+							drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
+							--[[
+							for c=1, #t_orderTowerChars do
+								getTowerChar = math.random(1,#t_orderTowerChars[c])
+							end
+							]]
+							drawPortrait(t_orderTowerChars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
+							--drawPortrait(t_selTower[i].chars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
 						end
-						]]
-						drawPortrait(t_orderTowerChars[order][getTowerChar], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
-						--drawPortrait(t_selTower[i].chars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
 					end
 				end
 				if i == destinyMenu then
@@ -7966,8 +7967,9 @@ function f_selectVersus()
 			animDraw(f_animVelocity(vsWindowR, 2, 0))
 		--Draw Character Portraits
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-				drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+				drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+				drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+				--You can use drawVSPortrait instead of drawPortrait to draw exclusive Portraits in this screen.
 			end
 		--Draw Character Sprite Animations
 			if data.charPresentation == "Sprite" then

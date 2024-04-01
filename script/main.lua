@@ -426,12 +426,18 @@ function f_infoMenu()
 	elseif stagesInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO STAGES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
+	elseif towerInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		f_textRender(txt_info, "NO TOWERS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif bossInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO BOSSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif bonusInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO BONUSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
+	elseif stviewerInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		f_textRender(txt_info, "NO STAGE VIEWER FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif resolutionInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
 		f_textRender(txt_info, "SET A 16:9 RESOLUTION TO AVOID DESYNC", 0, 160, 125, 10, 0, 25)
@@ -463,8 +469,10 @@ function f_infoReset()
 	infoScreen = false
 	charsInfo = false
 	stagesInfo = false
+	towerInfo = false
 	bossInfo = false
 	bonusInfo = false
+	stviewerInfo = false
 	resolutionInfo = false
 end
 
@@ -1623,9 +1631,10 @@ function f_arcadeMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_infoReset()
 	f_sideReset() --Reset Values to Show Side Select
 	while true do
-		if not sideScreen then --Turn off controls over arcade menu if Side Select is active
+		if not infoScreen and not sideScreen then --Turn off controls over arcade menu if Side Select is active
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -1675,11 +1684,16 @@ function f_arcadeMenu()
 					end
 				--TOWER MODE (fight against enemy forces in a customizable tower arcade ladder)
 				elseif arcadeMenu == 2 then
-					if data.sideSelect == "Modern" then
-						menuSelect = "tower"
-						sideScreen = true
+					if #t_selTower ~= 0 then
+						if data.sideSelect == "Modern" then
+							menuSelect = "tower"
+							sideScreen = true
+						else
+							f_towerMenu()
+						end
 					else
-						f_towerMenu()
+						towerInfo = true
+						infoScreen = true
 					end
 				end
 			end
@@ -1693,7 +1707,7 @@ function f_arcadeMenu()
 			end
 			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		if not sideScreen then
+		if not infoScreen and not sideScreen then
 			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -1720,6 +1734,7 @@ function f_arcadeMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end --Show Side Select
+		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2720,18 +2735,18 @@ function f_training()
 	data.rosterMode = "training"
 	setRoundTime(-1) --round time disabled
 	data.versusScreen = false --versus screen disabled
+	data.victoryscreen = false --victory screen disabled
 	data.stageMenu = true
 	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	--sndPlay(sysSnd, 100, 1)
-	if data.training == "Free" then
-		--data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
-		data.p2In = 1
-		data.p2Faces = true
-	elseif data.training == "Fixed" then
+	if #t_trainingChar ~= 0 then --If a training char is detected in select.def with training=1 paramvalue
 		data.p2In = 2
-		data.p2Char = {t_charAdd["training"]} --predefined P2 training char
+		data.p2Char = {t_trainingChar[math.random(#t_trainingChar)]} --pick a random training char from the table
+	else --Training Char will be selected in char select if there is not training chars detected in select.def with training=1 paramvalue
+		data.p2In = 1 --data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
+		data.p2Faces = true
 	end
 	textImgSetText(txt_mainSelect, "TRAINING MODE")
 	script.select.f_selectSimple()
@@ -4982,8 +4997,8 @@ t_watchMenu = {
 	{id = textImgNew(), text = "SCREENSHOTS"},
 	{id = textImgNew(), text = "GALLERY"},
 	{id = textImgNew(), text = "CREDITS"},
-}	
-	
+}
+
 function f_watchMenu()
 	cmdInput()
 	local cursorPosY = 0
@@ -4993,107 +5008,116 @@ function f_watchMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	f_infoReset()
 	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			watchMenu = watchMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			watchMenu = watchMenu + 1
-		end
-		if watchMenu < 1 then
-			watchMenu = #t_watchMenu
-			if #t_watchMenu > 5 then
-				cursorPosY = 5
-			else
-				cursorPosY = #t_watchMenu-1
+		if not infoScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sysSnd, 100, 2)
+				break
+			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				watchMenu = watchMenu - 1
+			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				watchMenu = watchMenu + 1
 			end
-		elseif watchMenu > #t_watchMenu then
-			watchMenu = 1
-			cursorPosY = 0
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 5 then
-			moveTxt = (watchMenu - 6) * 13
-		elseif cursorPosY == 0 then
-			moveTxt = (watchMenu - 1) * 13
-		end
-		if #t_watchMenu <= 5 then
-			maxWatchMenu = #t_watchMenu
-		elseif watchMenu - cursorPosY > 0 then
-			maxWatchMenu = watchMenu + 5 - cursorPosY
-		else
-			maxWatchMenu = 5
-		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			sndPlay(sysSnd, 100, 1)
-			--REPLAYS (watch recorded battles)
-			if watchMenu == 1 then
-				f_replayMenu()
-			--STAGE VIEWER (watch a selected stage without fight)
-			elseif watchMenu == 2 then
-				f_default()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				setRoundTime(-1)
-				data.p2In = 2
-				data.stageMenu = true
-				data.versusScreen = false
-				data.p1TeamMenu = {mode = 0, chars = 1}			
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd["stage viewer"]}
-				data.p2Char = {t_charAdd["stage viewer"]}
-				data.gameMode = "stage viewer"
-				setGameMode('stageviewer')
-				setDiscordState("Watching Stages")
-				textImgSetText(txt_mainSelect, "STAGE VIEWER")
-				script.select.f_selectSimple()
-				setDiscordState("In Main Menu")
-			--LEADERBOARDS (display rankings data)
-			elseif watchMenu == 3 then
-				f_comingSoon()
-			--ACHIEVEMENTS (display achievements data)
-			elseif watchMenu == 4 then
-				f_comingSoon()
-			--STATISTICS (display overall player data)
-			elseif watchMenu == 5 then
-				--assert(loadfile("save/stats_sav.lua"))()
-				script.statistics.f_statsMenu()
-			--STORYBOARDS (play storyboards)
-			elseif watchMenu == 6 then
-				setDiscordState("In Storyboards")
-				f_storyboardMenu()
-				setDiscordState("In Main Menu")
-			--CUTSCENES (play video cutscenes)
-			elseif watchMenu == 7 then
-				setDiscordState("In Cutscenes")
-				f_videoMenu()
-				setDiscordState("In Main Menu")
-			--SOUND TEST (listen sounds)
-			elseif watchMenu == 8 then
-				setDiscordState("In Sound Test")
-				soundTest = true
-				f_songMenu()
-				setDiscordState("In Main Menu")
-			--SCREENSHOTS (watch screenshots taken)
-			elseif watchMenu == 9 then
-				sszOpen("screenshots", "") --added via script.ssz
-			--GALLERY (watch illustrations)
-			elseif watchMenu == 10 then
-				setDiscordState("Gallery Theater")
-				f_galleryMenu()
-				setDiscordState("In Main Menu")
-			--CREDITS (play credits)
-			elseif watchMenu == 11 then
-				setDiscordState("In Credits")
-				playBGM("sound/system/credits.mp3")
-				f_playCredits()
-				setDiscordState("In Main Menu")
+			if watchMenu < 1 then
+				watchMenu = #t_watchMenu
+				if #t_watchMenu > 5 then
+					cursorPosY = 5
+				else
+					cursorPosY = #t_watchMenu-1
+				end
+			elseif watchMenu > #t_watchMenu then
+				watchMenu = 1
+				cursorPosY = 0
+			elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+				cursorPosY = cursorPosY - 1
+			elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+				cursorPosY = cursorPosY + 1
+			end
+			if cursorPosY == 5 then
+				moveTxt = (watchMenu - 6) * 13
+			elseif cursorPosY == 0 then
+				moveTxt = (watchMenu - 1) * 13
+			end
+			if #t_watchMenu <= 5 then
+				maxWatchMenu = #t_watchMenu
+			elseif watchMenu - cursorPosY > 0 then
+				maxWatchMenu = watchMenu + 5 - cursorPosY
+			else
+				maxWatchMenu = 5
+			end
+			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+				sndPlay(sysSnd, 100, 1)
+				--REPLAYS (watch recorded battles)
+				if watchMenu == 1 then
+					f_replayMenu()
+				--STAGE VIEWER (watch a selected stage without fight)
+				elseif watchMenu == 2 then
+					if data.stageviewer then
+						f_default()
+						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						setRoundTime(-1)
+						data.p2In = 2
+						data.stageMenu = true
+						data.versusScreen = false
+						data.victoryscreen = false
+						data.p1TeamMenu = {mode = 0, chars = 1}			
+						data.p2TeamMenu = {mode = 0, chars = 1}
+						data.p1Char = {t_charAdd["stage viewer"]}
+						data.p2Char = {t_charAdd["stage viewer"]}
+						data.gameMode = "stage viewer"
+						setGameMode('stageviewer')
+						setDiscordState("Watching Stages")
+						textImgSetText(txt_mainSelect, "STAGE VIEWER")
+						script.select.f_selectSimple()
+						setDiscordState("In Main Menu")
+					else
+						stviewerInfo = true
+						infoScreen = true
+					end
+				--LEADERBOARDS (display rankings data)
+				elseif watchMenu == 3 then
+					f_comingSoon()
+				--ACHIEVEMENTS (display achievements data)
+				elseif watchMenu == 4 then
+					f_comingSoon()
+				--STATISTICS (display overall player data)
+				elseif watchMenu == 5 then
+					--assert(loadfile("save/stats_sav.lua"))()
+					script.statistics.f_statsMenu()
+				--STORYBOARDS (play storyboards)
+				elseif watchMenu == 6 then
+					setDiscordState("In Storyboards")
+					f_storyboardMenu()
+					setDiscordState("In Main Menu")
+				--CUTSCENES (play video cutscenes)
+				elseif watchMenu == 7 then
+					setDiscordState("In Cutscenes")
+					f_videoMenu()
+					setDiscordState("In Main Menu")
+				--SOUND TEST (listen sounds)
+				elseif watchMenu == 8 then
+					setDiscordState("In Sound Test")
+					soundTest = true
+					f_songMenu()
+					setDiscordState("In Main Menu")
+				--SCREENSHOTS (watch screenshots taken)
+				elseif watchMenu == 9 then
+					sszOpen("screenshots", "") --added via script.ssz
+				--GALLERY (watch illustrations)
+				elseif watchMenu == 10 then
+					setDiscordState("Gallery Theater")
+					f_galleryMenu()
+					setDiscordState("In Main Menu")
+				--CREDITS (play credits)
+				elseif watchMenu == 11 then
+					setDiscordState("In Credits")
+					playBGM("sound/system/credits.mp3")
+					f_playCredits()
+					setDiscordState("In Main Menu")
+				end
 			end
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
@@ -5105,9 +5129,11 @@ function f_watchMenu()
 			end
 			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if not infoScreen then
+			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
+		end
 		animDraw(titleBG1)
 		animAddPos(titleBG2, -1, 0)
 		animUpdate(titleBG2)
@@ -5129,6 +5155,7 @@ function f_watchMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -7546,6 +7573,7 @@ function f_mainLobby()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			if replaygame == true then setGameMode('replay') end
+			setGameType(3)
 			data.p2In = 2
 			data.p2Faces = true
 			data.coop = true

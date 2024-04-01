@@ -522,7 +522,6 @@ flag2 = nomusic
 [State 500, No HUD]
 type = assertspecial
 trigger1 = GameType = 1 ;HUD Disable for Demo Screen
-trigger2 = GameType = 3 ;HUD Disable for Bonus Stages
 flag = nobardisplay
 
 ;===========================================================================

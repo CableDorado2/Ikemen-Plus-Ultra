@@ -137,6 +137,14 @@ elseif pan_str >= 140 then
 end
 t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
 
+function f_resetTrainingCfg()
+	if hudStatus == "No" then toggleStatusDraw() end
+	if data.hitbox == "Yes" then toggleClsnDraw() end
+	if data.debugInfo == "Yes" then toggleDebugDraw() end
+	setDamageDisplay(0)
+	setInputDisplay(0)
+end
+
 --Restore Training Settings Saved
 if getGameMode() == "practice" then
 	--Screen Info
@@ -163,15 +171,15 @@ if getGameMode() == "practice" then
 	data.LifeStateP2 = "100%"
 	setLifeStateP2(100)
 	--Dummy
-	data.dummyMode = "AI"
+	--data.dummyMode = "Manual"
 	--Playback
 	data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
 	data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
 	if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
 		data.pbkSlot1 = true
 	end
-	--Apply settings from training_sav.lua
 	--[[
+	--Apply settings from training_sav.lua
 	setPlaybackCfg(
 		data.pbkRecSlot,
 		data.pbkPlaySlot,
@@ -825,9 +833,7 @@ function f_pauseConfirm()
 			if mainMenuBack == true then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sysSnd, 100, 1)
-					if hudStatus == "No" then toggleStatusDraw() end
-					if data.hitbox == "Yes" then toggleClsnDraw() end
-					if data.debugInfo == "Yes" then toggleDebugDraw() end
+					f_resetTrainingCfg() --To clean training cfg
 					data.tempBack = true
 					f_saveTemp()
 					exitMatch()
@@ -836,9 +842,7 @@ function f_pauseConfirm()
 			elseif mainMenuBack == false then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and confirmPause == 1 then
 					sndPlay(sysSnd, 100, 1)
-					if hudStatus == "No" then toggleStatusDraw() end
-					if data.hitbox == "Yes" then toggleClsnDraw() end
-					if data.debugInfo == "Yes" then toggleDebugDraw() end
+					f_resetTrainingCfg()
 					exitMatch()
 				end
 			end
@@ -1470,6 +1474,34 @@ if getGameMode() ~= "practice" then
 	table.remove(t_trainingCfg,10)
 end
 
+--Training Settings Up Arrow
+pauseTUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(pauseTUpArrow, 250, 61)
+animSetScale(pauseTUpArrow, 0.5, 0.5)
+
+--Training Settings Down Arrow
+pauseTDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(pauseTDownArrow, 250, 176)
+animSetScale(pauseTDownArrow, 0.5, 0.5)
+
 function f_pauseTraining()
 	local hasChanged = false
 	if pn == 1 then
@@ -1808,19 +1840,20 @@ function f_pauseTraining()
 					toggleAI(2)
 					data.dummyMode = "AI"
 				end
+				hasChanged = true
 			--[[
 			--Dummy State
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 0 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyState == 0 then
 					sndPlay(sysSnd, 100, 1)
 					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.trnStateType == 1 then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyState == 1 then
 					sndPlay(sysSnd, 100, 1)
 					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.trnStateType == 2 then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyState == 2 then
 					sndPlay(sysSnd, 100, 1)
 					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.trnStateType == 1 then
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyState == 1 then
 					sndPlay(sysSnd, 100, 1)
 					
 				end
@@ -1945,12 +1978,12 @@ function f_pauseTraining()
 				end
 			end
 			if maxtrainingCfg > 7 then
-				animDraw(pauseUpArrow)
-				animUpdate(pauseUpArrow)
+				animDraw(pauseTUpArrow)
+				animUpdate(pauseTUpArrow)
 			end
 			if #t_trainingCfg > 7 and maxtrainingCfg < #t_trainingCfg then
-				animDraw(pauseDownArrow)
-				animUpdate(pauseDownArrow)
+				animDraw(pauseTDownArrow)
+				animUpdate(pauseTDownArrow)
 			end
 			f_sysTimeP()
 			if data.attractMode == true then textImgDraw(txt_attractCredits) end

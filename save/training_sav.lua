@@ -1,12 +1,13 @@
 ﻿--Practice Settings
-data.damageDisplay = 'No'
-data.inputDisplay = 'Yes'
-data.hitbox = 'No'
-data.debugInfo = 'No'
-data.PowerStateP1 = 'Max at Start'
-data.PowerStateP2 = 'Max at Start'
-data.LifeStateP1 = '100%'
-data.LifeStateP2 = '100%'
+data.damageDisplay = "No"
+data.inputDisplay = "No"
+data.hitbox = "No"
+data.debugInfo = "No"
+data.dummyMode = "Manual"
+data.PowerStateP1 = "Max at Start"
+data.PowerStateP2 = "Max at Start"
+data.LifeStateP1 = "100%"
+data.LifeStateP2 = "100%"
 --Playback Settings
 data.pbkRecSlot = 1
 data.pbkPlaySlot = 1

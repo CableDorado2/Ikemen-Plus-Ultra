@@ -44,7 +44,6 @@ data.zoomSpeed = 1
 data.selectType = "Fixed"
 data.palType = "Classic"
 data.randomPortrait = "Fixed"
-data.training = "Fixed"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
 --Stage Select Data
