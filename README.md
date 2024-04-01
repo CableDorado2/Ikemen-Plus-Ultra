@@ -87,13 +87,7 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.4 (Next Update)**
 ------------
 
-- Cambiar de personaje y stage como lo hace las músicas en training pause.
-
-- La pantalla Demo después del title screen, se debe poder saltar con cualquier tecla antes asignada para jugar.
-
-- Demo Mode deja de funcionar tras usar 1 vez el menú de pausa.
-
-- Arreglar que cuando tienes muchos slots programados en select.lua y 1 personaje cargado en select.def, que no se repita el mismo personaje sino que salga como empty.
+- Probar el gamepad 2 ahora que el p2 tiene control en los menús a ver.
 
 **v1.5**
 ------------
@@ -102,9 +96,13 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
 
+- Cambiar de personaje y stage en el menú de pausa solo en training. Usar lógica parecida al new challenger del arcade.
+
 - Agregar opción para configurar los controles de la pelea en char select (Preferiblemente VS Mode y Tournament) excepto en online.
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
+
+- Arreglar que cuando tienes muchos slots programados en select.lua y 1 personaje cargado en select.def, que no se repita el mismo personaje sino que salga como empty.
 
 - Co-Op para el Versus Mode.
 
