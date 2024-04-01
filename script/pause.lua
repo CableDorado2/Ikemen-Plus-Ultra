@@ -422,7 +422,7 @@ elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "STAGE SELECT"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
 elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
-elseif getGameMode() == "replay" or getGameMode() == "demo" then
+elseif getGameMode() == "replay" or getGameMode() == "randomtest" then
 	table.remove(t_pauseMain,6)
 	table.remove(t_pauseMain,2)
 	table.insert(t_pauseMain,4,{id = '', text = "BATTLE INFO"})
@@ -441,8 +441,8 @@ function f_pauseMain(p, st, esc)
 	pn = p
 	escape = esc
 	start = st
-	if data.pauseMode == "No" then --Mugen Exit Type
-		if getGameMode() == "replay" then
+	if data.pauseMode == "No" or getGameMode() == "demo" then --Mugen Exit Type
+		if getGameMode() == "replay" or getGameMode() == "demo" then
 			data.replayDone = true
 			data.tempBack = true
 			f_saveTemp()
@@ -481,7 +481,7 @@ function f_pauseMain(p, st, esc)
 			elseif pn == 2 then txt_pause = createTextImg(jgFnt, 1, 0, "PAUSE [P2]", 159, 63)
 			end
 			--HIDE MENU
-			if getGameMode() == "replay" or getGameMode() == "demo" then
+			if getGameMode() == "replay" or getGameMode() == "randomtest" then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
 			else
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 4 then hide = true end
@@ -532,7 +532,7 @@ function f_pauseMain(p, st, esc)
 				end
 				if data.pauseMode == "Yes" then
 					--Actions in Demo or Replay Modes
-					if getGameMode() == "replay" or getGameMode() == "demo" then
+					if getGameMode() == "replay" or getGameMode() == "randomtest" then
 						if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 							--SETTINGS
 							if pauseMenu == 2 then
@@ -731,14 +731,14 @@ function f_pauseConfirm()
 			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO CHARACTER SELECT")
 			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO STAGE SELECT")
 			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO REPLAY SELECT")
-			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MAIN MENU")
+			elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MAIN MENU")
 			else textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL LEAVE THIS MATCH")
 			end
 		elseif pn == 2 then
 			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO CHARACTER SELECT")
 			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO STAGE SELECT")
 			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO REPLAY SELECT")
-			elseif getGameMode() == "demo" or getGameMode() == "random" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MAIN MENU")
+			elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MAIN MENU")
 			else textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL LEAVE THIS MATCH")
 			end
 		end
@@ -864,7 +864,7 @@ t_gameCfg = {
 	{varID = textImgNew(), text = "              BACK",   	varText = ""},
 }
 
-if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "demo" then table.remove(t_gameCfg,5) end
+if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
 hudStatus = "Yes"
 
 function f_pauseSettings()

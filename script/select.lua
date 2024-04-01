@@ -977,6 +977,7 @@ function f_selectSimple()
 		elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == "event" then --playBGM("")
 		elseif data.gameMode == "quick match" then --playBGM("")
+		elseif data.gameMode == "demo" then --playBGM("")
 		else f_selectMusic()
 		end
 		if winner < 1 then
@@ -1079,9 +1080,11 @@ function f_selectSimple()
 			elseif data.gameMode == "challenger" then
 				break
 			--For Missions, Events or Quick Match Modes
-			elseif data.rosterMode == "mission" or data.rosterMode == "event" or data.gameMode == "quick match" then
+			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.rosterMode == "mission" or data.rosterMode == "event" then
 				if data.rosterMode == "event" then
 					playBGM(bgmEvents)
+				elseif data.gameMode == "demo" then
+					--Don't playBGM
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				end
@@ -10543,15 +10546,8 @@ end
 
 --Sets AIs to level 8 (MAX level) and ints AutoLevel
 function initRandom()
-	if getGameMode() == "p1vscpurandom" then
-		setCom(1, 0)
-	elseif getGameMode() == "p1vsp2random" then
-		setCom(1, 0)
-		setCom(2, 0)
-	else --CPU VS CPU
-		for i = 1, 8 do
-			setCom(i, 8)
-		end
+	for i = 1, 8 do
+		setCom(i, 8)
 	end
 	setAutoLevel(true)
 	rakuBenry()
@@ -10562,10 +10558,7 @@ function initRandom()
 	saikyou = rank == tuyoiBorder+juuni-1
 end
 
-function randomMode()
-	if getGameMode() == "p1vscpurandom" or getGameMode() == "p1vsp2random" or getGameMode() == "random" then
-		f_bgmrandomVS()
-	end
+function randomTest()
 	initRandom()
 	refresh()
 	while not esc() do
@@ -10573,8 +10566,6 @@ function randomMode()
 		randSel(2, winner)
 		setMatchNo(1)
 		selectStage(0)
-		--local stage = f_setStage() --Set Stage
-		--f_setMusic(stage) --Set BGM
 		loadStart()
 		local oldwinner = winner
 		winner = game()

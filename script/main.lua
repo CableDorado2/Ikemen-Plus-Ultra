@@ -589,15 +589,19 @@ function f_confirmReset()
 	confirmMenu = 2
 end
 
+function f_resetTemp() --Reset Temp Default Values to Prevent Issues
+	data.tempBack = false
+	data.replayDone = false
+	f_saveTemp()
+end
+
 --;===========================================================
 --; MENU START
 --;===========================================================
 function f_mainStart()
 	setDiscordState("In Logos")
 	gameTime = (os.clock()/1000)
-	data.tempBack = false
-	data.replayDone = false
-	f_saveTemp() --Save Temp Default Values to Prevent Issues
+	f_resetTemp()
 	f_unlocksCheck() --Check For Unlocked Content
 	f_mainLogos()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
@@ -642,6 +646,27 @@ function f_attractCredits()
 	textImgDraw(txt_credits)
 end
 
+--Load Common Settings for Demo Mode
+function demoModeCfg()
+	f_default()
+	setDiscordState("In Demo Screen")
+	setGameMode('demo')
+	setGameType(1)
+	data.gameMode = "demo"
+	data.rosterMode = "cpu"
+	data.aiFight = true
+	data.versusScreen = false
+	data.victoryscreen = false
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
+	data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	script.select.f_selectSimple()
+	f_resetTemp()
+	setDiscordState("In Main Menu")
+end
+
 function f_mainAttract()
 	cmdInput()
 	local t = 0
@@ -659,7 +684,7 @@ function f_mainAttract()
 		   f_saveProgress()
 		   attractTimer = attractSeconds*gameTick --Reset Timer
 		--START GAME MODE
-		elseif ((commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) or attractTimer == 0) and data.attractCoins > 0 then
+		elseif ((commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) or attractTimer == 0) and data.attractCoins > 0 then
 		   --playVideo(videoHowToPlay)
 		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 		   sndPlay(sysSnd, 100, 1)
@@ -682,11 +707,7 @@ function f_mainAttract()
 		   setDiscordState("In Attract Mode")
 		--START DEMO MODE
 		elseif demoTimer == 350 then
-		   cmdInput()
-		   setGameType(1)
-		   setGameMode('demo')
-		   data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-		   script.select.randomMode()
+		   demoModeCfg()
 		   f_mainLogos()
 		   playBGM(bgmTitle)
 		   demoTimer = 0
@@ -1010,14 +1031,9 @@ function f_mainTitle()
 	while true do
 		if i == 500 then
 			i = 0
+			--demoModeCfg()
 			f_mainLogos()
 			playBGM(bgmTitle)
-			--[[
-			setGameType(1)
-			setGameMode('demo')
-			data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
-			script.select.randomMode()
-			]]
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			sndPlay(sysSnd, 100, 1) --Play SFX from .snd file
 			i = 0
@@ -1774,7 +1790,7 @@ function arcadeCfg()
 	data.rosterMode = "arcade" --to record statistics
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
 	data.arcadeIntro = true --Enable characters arcade intro before versus screen
-	data.arcadeEnding = true --Enable characters arcade ending before versus screen
+	data.arcadeEnding = true --Enable characters arcade ending before credits screen
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
@@ -1976,8 +1992,9 @@ function towerCfg()
 	setGameMode('tower')
 	data.gameMode = "tower"
 	data.rosterMode = "tower"
+	--data.p1TeamMenu = {mode = 0, chars = 1}
+	--data.p2TeamMenu = {mode = 0, chars = 1}
 	data.arcadeIntro = true --Enable characters arcade intro before tower select
-	data.arcadeEnding = true --Enable characters arcade ending before tower select
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
@@ -4508,6 +4525,7 @@ t_extrasMenu = {
 	{id = textImgNew(), text = "TOURNEY"},
 	{id = textImgNew(), text = "ADVENTURE"},
 	{id = textImgNew(), text = "THE VAULT"},
+	{id = textImgNew(), text = "RANDOMTEST"},
 }	
 	
 function f_extrasMenu()
@@ -4591,6 +4609,12 @@ function f_extrasMenu()
 				elseif extrasMenu == 6 then
 					setDiscordState("In Secret Room")
 					f_theVault()
+					setDiscordState("In Main Menu")
+				--RANDOMTEST (generate AI rank data)
+				elseif extrasMenu == 7 then
+					setDiscordState("In Random Test")
+					setGameMode('randomtest')
+					script.select.randomTest()
 					setDiscordState("In Main Menu")
 				end
 			end
