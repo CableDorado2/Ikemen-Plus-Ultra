@@ -433,7 +433,7 @@ if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 1
 else --Pause Controls if P1 is in Left Side
-	if getGameMode() == "arcade" then setCom(2, 0) end --This is to enable player 2 challenger in p1 vs cpu
+	setCom(2, 0) --Enable player 2 pause when cpu have control
 	data.p2In = 2
 end
 
@@ -449,8 +449,12 @@ function f_pauseMain(p, st, esc)
 		end
 		exitMatch()
 	end
-	if start and pn == 2 and getGameMode() == "arcade" then --Player 2 in any side is the challenger
-		challengerActive = true
+	if start and getGameMode() == "arcade" then --Detects when you press start button
+		if pn == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p1right") then --Player 2 in any side is the challenger
+			challengerActive = true
+		elseif pn == 1 and (getPlayerSide() == "p2left" or getPlayerSide() == "p2right") then --Player 1 in any side is the challenger
+			challengerActive = true
+		end
 	end
 	if challengerActive == true and screenTime < 200 then --Here Comes a New Challenger!
 		if screenTime == 0 then

@@ -9013,17 +9013,17 @@ function f_service()
 				break
 			--FULL POWER
 			elseif serviceMenu == 2 then
-				if getPlayerSide() == "p1right" then --if P1 is in Right Side
+				if (getPlayerSide() == "p1right" or getPlayerSide() == "p2right") then --if Human is in Right Side
 					setServiceType(21)
 				else
-					setServiceType(1) --if P1 is in Left Side
+					setServiceType(1) --if Human is in Left Side
 				end
 				sndPlay(sysSnd, 100, 1)
 				serviceBack = true
 				break
 			--LOW CPU LIFE
 			elseif serviceMenu == 3 then
-				if getPlayerSide() == "p1right" then setServiceType(22) else setServiceType(2) end
+				if (getPlayerSide() == "p1right" or getPlayerSide() == "p2right") then setServiceType(22) else setServiceType(2) end
 				sndPlay(sysSnd, 100, 1)
 				serviceBack = true
 				break
@@ -9041,7 +9041,7 @@ function f_service()
 			--PLAYER DEFENCE X2
 			elseif serviceMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				if getPlayerSide() == "p1right" then setServiceType(23) else setServiceType(3) end
+				if (getPlayerSide() == "p1right" or getPlayerSide() == "p2right") then setServiceType(23) else setServiceType(3) end
 				serviceBack = true
 				break
 			--[[???

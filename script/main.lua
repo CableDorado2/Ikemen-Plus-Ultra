@@ -1799,6 +1799,9 @@ end
 function arcadeHumanvsCPU()
 	if P2overP1 then --Set player 2 controls config over player 1
 		remapInput(1, 2) --P1 swap controls with p2 side
+		setPlayerSide('p2left') --will be used to open challenger screen
+	else
+		setPlayerSide('p1left')
 	end
 	data.p2In = 1 --P1 controls P2 side of the select screen (but not the character only menus)
 	data.p2SelectMenu = false --P2 character selection disabled
@@ -1813,8 +1816,10 @@ function arcadeCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1) --P2 swap controls with p1 side
+		setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
+	else
+		setPlayerSide('p2right')
 	end
-	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false --P1 character selection disabled
@@ -2002,6 +2007,9 @@ end
 function towerHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
+		setPlayerSide('p2left')
+	else
+		setPlayerSide('p1left')
 	end
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -2016,8 +2024,10 @@ function towerCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
+		setPlayerSide('p1right')
+	else
+		setPlayerSide('p2right')
 	end
-	setPlayerSide('p1right')
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
