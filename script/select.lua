@@ -137,7 +137,7 @@ function f_selectReset()
 	f_p2sideReset()
 	selectStart()
 	f_stageSelectReset()
-	if data.p2In == 1 or data.p2In == 3 then
+	if data.p2In == 1 then
 		p2TeamEnd = true
 		p2SelEnd = true
 	end
@@ -627,9 +627,6 @@ function f_aiLevel()
 			if data.p2In == 2 and not data.aiFight then
 				setCom(2, 0)
 				setTag(2, f_tagMode(2, tagset))
-			elseif data.p2In == 3 and not data.aiFight then --For Free Training Mode Type (Broken like tag mode when gamepad support was added)
-				setCom(2, 0)
-				setTag(2, f_tagMode(2, tagset))
 			else
 				setCom(2, f_difficulty(2, offset))
 				setTag(2, f_tagMode(2, tagset))
@@ -929,7 +926,7 @@ function f_exitSelect() --For Simple/Story Select
 			backScreen = true
 		end
 --Left Side have control in Char Select (Human Vs CPU)
-	elseif (data.p2In == 1 or data.p2In == 3 or data.p2In == 0) then
+	elseif (data.p2In == 1 or data.p2In == 0) then
 		if p1TeamBack == true then
 			if backScreen == false then sndPlay(sysSnd, 100, 2) end
 			backScreen = true
@@ -1104,6 +1101,9 @@ function f_selectSimple()
 			end
 		end
 		f_aiLevel()
+		if data.gameMode == "training" then
+			setCom(2, 0) --Not computer is controlling P2 side, only the human for training dummy
+		end
 		f_matchInfo()
 		f_orderSelect()
 		--Versus Screen
@@ -5032,10 +5032,6 @@ function f_p1Selection()
 				p2TeamEnd = false
 				p2SelEnd = false
 				--commandBufReset(p2Cmd)
-			elseif data.p2In == 3 and matchNo == 0 then --(Broken like tag mode when gamepad support was added)
-				p2TeamEnd = false
-				p2SelEnd = false
-				--commandBufReset(p2Cmd)
 			end
 			p1SelEnd = true
 		end
@@ -5154,7 +5150,7 @@ function f_p2TeamMenu()
 		--Back logic when you are selecting CPU Team Mode in Human Vs CPU
 		if commandGetState(p1Cmd, 'e') and (data.p1In ~= 2 and data.p2In ~= 2) then --p1Cmd because Human is in left side
 			if p2TeamBack == true then
-				if data.p2In == 1 or data.p2In == 3 then
+				if data.p2In == 1 then
 					sndPlay(sysSnd, 100, 2)
 					f_p2sideReset()
 					p2TeamEnd = true

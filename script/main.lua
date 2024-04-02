@@ -1800,7 +1800,7 @@ function arcadeHumanvsCPU()
 	if P2overP1 then --Set player 2 controls config over player 1
 		remapInput(1, 2) --P1 swap controls with p2 side
 	end
-	data.p2In = 1 --P1 controls P2 side of the select screen
+	data.p2In = 1 --P1 controls P2 side of the select screen (but not the character only menus)
 	data.p2SelectMenu = false --P2 character selection disabled
 	textImgSetText(txt_mainSelect, "ARCADE") --message displayed on top of select screen
 	script.select.f_selectAdvance() --start f_selectAdvance() function from script/select.lua
@@ -1813,7 +1813,6 @@ function arcadeCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1) --P2 swap controls with p1 side
-		--setCom(2, 0) --Not computer is controlling P2 side, only the human
 	end
 	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
 	data.p1In = 2
@@ -2017,7 +2016,6 @@ function towerCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -2353,7 +2351,6 @@ function randomCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -2369,7 +2366,6 @@ function randomHumanvsHuman()
 		setHomeTeam(2)
 		remapInput(1, 2)
 		remapInput(2, 1)
-		--setCom(2, 0)
 		setPlayerSide('p1right')
 	else
 		setHomeTeam(1)
@@ -2558,7 +2554,6 @@ function freeCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -2575,7 +2570,6 @@ function freeHumanvsHuman()
 		setHomeTeam(2) --P2 side considered the home team
 		remapInput(1, 2)
 		remapInput(2, 1)
-		setCom(2, 0)
 		setPlayerSide('p1right')
 	else
 		setHomeTeam(1) --P1 side considered the home team
@@ -2762,7 +2756,7 @@ function f_training()
 		data.p2In = 2
 		data.p2Char = {t_trainingChar[math.random(#t_trainingChar)]} --pick a random training char from the table
 	else --Training Char will be selected in char select if there is not training chars detected in select.def with training=1 paramvalue
-		data.p2In = 1 --data.p2In = 3 --A fusion between data.p2In = 1 and data.p2In = 2 for use only in single free training mode (the enemy can be controlled by Player 2)
+		data.p2In = 1
 		data.p2Faces = true
 	end
 	textImgSetText(txt_mainSelect, "TRAINING MODE")
@@ -2983,7 +2977,6 @@ function survivalCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -3299,7 +3292,6 @@ function bossCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -3479,7 +3471,6 @@ function bossrushCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -3797,7 +3788,6 @@ function bonusCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -3968,7 +3958,6 @@ function bonusrushCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -4158,7 +4147,6 @@ function timeattackCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -4359,7 +4347,6 @@ function suddenCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
@@ -4715,7 +4702,6 @@ function endlessCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
 		remapInput(2, 1)
-		--setCom(2, 0)
 	end
 	setPlayerSide('p1right')
 	data.p1In = 2
