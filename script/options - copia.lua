@@ -66,66 +66,6 @@ animAddPos(optionsDownArrow, 242, 220)
 animUpdate(optionsDownArrow)
 animSetScale(optionsDownArrow, 0.5, 0.5)
 
---Up Arrow for Player 1 Controls Cfg
-optionsUpArrowP1 = animNew(sysSff, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(optionsUpArrowP1, 5, 23)
-animUpdate(optionsUpArrowP1)
-animSetScale(optionsUpArrowP1, 0.5, 0.5)
-
---Down Arrow for Player 1 Controls Cfg
-optionsDownArrowP1 = animNew(sysSff, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(optionsDownArrowP1, 5, 232)
-animUpdate(optionsDownArrowP1)
-animSetScale(optionsDownArrowP1, 0.5, 0.5)
-
---Up Arrow for Player 2 Controls Cfg
-optionsUpArrowP2 = animNew(sysSff, [[
-225,0, 0,0, 10
-225,1, 0,0, 10
-225,2, 0,0, 10
-225,3, 0,0, 10
-225,3, 0,0, 10
-225,2, 0,0, 10
-225,1, 0,0, 10
-225,0, 0,0, 10
-]])
-animAddPos(optionsUpArrowP2, 305, 23)
-animUpdate(optionsUpArrowP2)
-animSetScale(optionsUpArrowP2, 0.5, 0.5)
-
---Down Arrow for Player 2 Controls Cfg
-optionsDownArrowP2 = animNew(sysSff, [[
-226,0, 0,0, 10
-226,1, 0,0, 10
-226,2, 0,0, 10
-226,3, 0,0, 10
-226,3, 0,0, 10
-226,2, 0,0, 10
-226,1, 0,0, 10
-226,0, 0,0, 10
-]])
-animAddPos(optionsDownArrowP2, 305, 232)
-animUpdate(optionsDownArrowP2)
-animSetScale(optionsDownArrowP2, 0.5, 0.5)
-
 --Down Arrow For mainCfg (12 Limit)
 optionsDownArrowmainCfg = animNew(sysSff, [[
 226,0, 0,0, 10
@@ -6112,7 +6052,6 @@ function f_keyMenu()
 			--PLAYER 1 [KEYBOARD] BATTLE CONTROLS
 			if keyMenu == 1 then
 				f_inputBattleRead(0, -1)
-				f_inputBattleRead(1, -1)
 				f_keyBattleCfg(0, -1)
 			--PLAYER 2 [KEYBOARD] BATTLE CONTROLS
 			elseif keyMenu == 2 then
@@ -6345,17 +6284,8 @@ t_keyBattleCfg = {
 	{varID = textImgNew(), text = "R", 						varText = ""},
 	{varID = textImgNew(), text = "SELECT",					varText = ""},
 	{varID = textImgNew(), text = "START", 					varText = ""},
-	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
 	{varID = textImgNew(), text = "End Config", 			varText = ""},
 }
-
-t_keyBattleCfg2 = {}
-for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
-	t_keyBattleCfg2[i] = {}
-	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
-	t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
-	t_keyBattleCfg2[i]['varText'] = ""
-end
 
 txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [MENUS]", 159, 13)
 t_keyMenuCfg = {
@@ -6373,99 +6303,33 @@ t_keyMenuCfg = {
 	{varID = textImgNew(), text = "CONFIRM",				varText = ""},
 	{varID = textImgNew(), text = "RETURN",					varText = ""},
 	{varID = textImgNew(), text = "MENU",		 			varText = ""}, --PAUSE GAME
-	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
 	{varID = textImgNew(), text = "End Config",				varText = ""},
 }
 
-txt_p1nputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 85, 30)
-txt_p2nputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 239, 30)
-txt_newKey = "Press key to assign"
-txt_sameKey = "This key has been already assigned"
-
 function f_resetInputsInfo()
-	f_drawQuickText(txt_resetInput, font1, 0, 0, "Press F1 in your Keyboard to Reset All Buttons", 163.5, 238)
-end
-
-function f_drawBattleKeyAssets()
-	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
-	textImgDraw(txt_battleCfg) --Title Text
---Player 1 Controls Window BG
-	animSetScale(optionsBG2, 220, maxKeyCfg*15)
-	animSetWindow(optionsBG2, 2,20, 155,195)
-	animDraw(optionsBG2)
-	textImgDraw(txt_p1nputInfo) --Player Title Text
---Player 1 Controls Cursor
-	animSetWindow(cursorBox, 2,20+inputCursorPosY*15, 155,15)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
---Draw Player 1 Controls Text
-	for i=1, maxKeyCfg do
-		if i > keyCfg - inputCursorPosY then
-			if t_keyBattleCfg[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, 1, t_keyBattleCfg[i].text, 7, 30+i*15-inputMoveTxt))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, t_keyBattleCfg[i].varText, 152, 30+i*15-inputMoveTxt))
-			end
-		end
-	end
---Draw Player 1 Arrows
-	if maxKeyCfg > 13 then
-		animDraw(optionsUpArrowP1)
-		animUpdate(optionsUpArrowP1)
-	end
-	if #t_keyBattleCfg > 13 and maxKeyCfg < #t_keyBattleCfg then
-		animDraw(optionsDownArrowP1)
-		animUpdate(optionsDownArrowP1)
-	end
---Player 2 Controls Window BG
-	animSetScale(optionsBG2, 318, maxKeyCfg2*15)
-	animSetWindow(optionsBG2, 160,20, 160,195)
-	animDraw(optionsBG2)
-	textImgDraw(txt_p2nputInfo)
---Player 2 Controls Cursor
-	animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 160,15)
-	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-	animDraw(f_animVelocity(cursorBox, -1, -1))
---Draw Player 2 Controls Text
-	for c=1, maxKeyCfg2 do
-		if c > keyCfg2 - inputCursorPosY2 then
-			if t_keyBattleCfg2[c].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[c].varID, font2, 0, 1, t_keyBattleCfg2[c].text, 165, 30+c*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[c].varID, font2, 0, -1, t_keyBattleCfg2[c].varText, 315, 30+c*15-inputMoveTxt2))
-			end
-		end
-	end
---Draw Player 2 Arrows
-	if maxKeyCfg2 > 13 then
-		animDraw(optionsUpArrowP2)
-		animUpdate(optionsUpArrowP2)
-	end
-	if #t_keyBattleCfg2 > 13 and maxKeyCfg2 < #t_keyBattleCfg2 then
-		animDraw(optionsDownArrowP2)
-		animUpdate(optionsDownArrowP2)
-	end
+	f_drawQuickText(txt_resetInput, font2, 0, 0, "Press F1 in your Keyboard to Reset All Buttons", 163.5, 238, 1, 1)
 end
 
 controllerNum = -1
 
+function OnEvent(event, arg)
+end
+
 function f_keyBattleCfg(playerNo, controller)
 	cmdInput()
 	local bufu = 0
-	local bufu2 = 0
 	local bufd = 0
-	local bufd2 = 0
 	local bufr = 0
-	local bufr2 = 0
 	local bufl = 0
-	local bufl2 = 0
 	inputCursorPosY = 1
-	inputCursorPosY2 = 1
 	inputMoveTxt = 0
-	inputMoveTxt2 = 0
 	keyCfg = 1
-	keyCfg2 = 1
+	keyCfgSide = 0
 	controllerNum = controller
-	p1ConfigEnd = false
-	p2ConfigEnd = false
+	p1ConfigEnd = true
+	p2ConfigEnd = true
+	p1ResetInput = true
+	p2ResetInput = true
 	while true do
 		if f1Key() then --Quick Default Inputs Shorcut
 			if controllerSet == 1 and playerNo == 0 then f_p1keyboardBattleDefault()
@@ -6474,16 +6338,7 @@ function f_keyBattleCfg(playerNo, controller)
 			elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadBattleDefault()
 			end
 		end
-		--[[
-		if esc() then --Both Sides Action
-			sndPlay(sysSnd, 100, 2)
-			f_keyBattleSave(playerNo, controller)
-			f_keyBattleSave(playerNo+1, controller)
-			break
-		end
-		]]
-		--Player 1 Actions
-		if commandGetState(p1Cmd, 'e') or p1ConfigEnd then
+		if esc() or commandGetState(p1Cmd, 'e') then
 			sndPlay(sysSnd, 100, 2)
 			f_keyBattleSave(playerNo, controller)
 			break
@@ -6498,7 +6353,7 @@ function f_keyBattleCfg(playerNo, controller)
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
-		if btnPalNo(p1Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			--Modify Battle Controls
@@ -6511,72 +6366,7 @@ function f_keyBattleCfg(playerNo, controller)
 				end
 				t_keyBattleCfg[keyCfg].varText = f_readBattleInput(t_keyBattleCfg[keyCfg].varText)
 				setInputConfig(playerNo, controller, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText)
-			--End Config
-			else
-				p1ConfigEnd = true
-				break
-			end
-			modified = 1
-			--needReload = 1
-		end
-		--Player 1 Scroll Logic
-		if keyCfg < 1 then
-			keyCfg = #t_keyBattleCfg
-			if #t_keyBattleCfg > 13 then
-				inputCursorPosY = 13
-			else
-				inputCursorPosY = #t_keyBattleCfg
-			end
-		elseif keyCfg > #t_keyBattleCfg then
-			keyCfg = 1
-			inputCursorPosY = 1
-		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and inputCursorPosY > 1 then
-			inputCursorPosY = inputCursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 13 then
-			inputCursorPosY = inputCursorPosY + 1
-		end
-		if inputCursorPosY == 13 then
-			inputMoveTxt = (keyCfg - 13) * 15
-		elseif inputCursorPosY == 1 then
-			inputMoveTxt = (keyCfg - 1) * 15
-		end	
-		if #t_keyBattleCfg <= 13 then
-			maxKeyCfg = #t_keyBattleCfg
-		elseif keyCfg - inputCursorPosY > 0 then
-			maxKeyCfg = keyCfg + 13 - inputCursorPosY
-		else
-			maxKeyCfg = 13
-		end
-		--Player 2 Actions
-		if commandGetState(p2Cmd, 'e') then
-			sndPlay(sysSnd, 100, 2)
-			f_keyBattleSave(playerNo, controller)
-			break
-		elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			keyCfg2 = keyCfg2 - 1
-			if bufl2 then bufl2 = 0 end
-			if bufr2 then bufr2 = 0 end
-		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			keyCfg2 = keyCfg2 + 1
-			if bufl2 then bufl2 = 0 end
-			if bufr2 then bufr2 = 0 end
-		end
-		if btnPalNo(p2Cmd) > 0 then
-			commandBufReset(p1Cmd)
-			commandBufReset(p2Cmd)
-			--Modify Battle Controls
-			if keyCfg2 < #t_keyBattleCfg2 then
-				sndPlay(sysSnd, 100, 1)
-				if controller == -1 then
-					controllerNum = 0
-				else
-					controllerNum = 10
-				end
-				t_keyBattleCfg2[keyCfg2].varText = f_readBattleInput(t_keyBattleCfg2[keyCfg2].varText)
-				setInputConfig(playerNo, controller, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText)
-			--End Config
+			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
 				f_keyBattleSave(playerNo, controller)
@@ -6585,36 +6375,57 @@ function f_keyBattleCfg(playerNo, controller)
 			modified = 1
 			--needReload = 1
 		end
-		--Player 2 Scroll Logic
-		if keyCfg2 < 1 then
-			keyCfg2 = #t_keyBattleCfg2
-			if #t_keyBattleCfg2 > 13 then
-				inputCursorPosY2 = 13
+		if keyCfg < 1 then
+			keyCfg = #t_keyBattleCfg
+			if #t_keyBattleCfg > 14 then
+				inputCursorPosY = 14
 			else
-				inputCursorPosY2 = #t_keyBattleCfg2
+				inputCursorPosY = #t_keyBattleCfg
 			end
-		elseif keyCfg2 > #t_keyBattleCfg2 then
-			keyCfg2 = 1
-			inputCursorPosY2 = 1
-		elseif (commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30)) and inputCursorPosY2 > 1 then
-			inputCursorPosY2 = inputCursorPosY2 - 1
-		elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30)) and inputCursorPosY2 < 13 then
-			inputCursorPosY2 = inputCursorPosY2 + 1
+		elseif keyCfg > #t_keyBattleCfg then
+			keyCfg = 1
+			inputCursorPosY = 1
+		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and inputCursorPosY > 1 then
+			inputCursorPosY = inputCursorPosY - 1
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 14 then
+			inputCursorPosY = inputCursorPosY + 1
 		end
-		if inputCursorPosY2 == 13 then
-			inputMoveTxt2 = (keyCfg2 - 13) * 15
-		elseif inputCursorPosY2 == 1 then
-			inputMoveTxt2 = (keyCfg2 - 1) * 15
+		if inputCursorPosY == 14 then
+			inputMoveTxt = (keyCfg - 14) * 15
+		elseif inputCursorPosY == 1 then
+			inputMoveTxt = (keyCfg - 1) * 15
 		end	
-		if #t_keyBattleCfg2 <= 13 then
-			maxKeyCfg2 = #t_keyBattleCfg2
-		elseif keyCfg2 - inputCursorPosY2 > 0 then
-			maxKeyCfg2 = keyCfg2 + 13 - inputCursorPosY2
+		if #t_keyBattleCfg <= 14 then
+			maxKeyCfg = #t_keyBattleCfg
+		elseif keyCfg - inputCursorPosY > 0 then
+			maxKeyCfg = keyCfg + 14 - inputCursorPosY
 		else
-			maxKeyCfg2 = 13
+			maxKeyCfg = 14
 		end
-		--Draw Common Assets
-		f_drawBattleKeyAssets()
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxKeyCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_battleCfg)
+		animSetWindow(cursorBox, 80,5+inputCursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		for i=1, maxKeyCfg do
+			if i > keyCfg - inputCursorPosY then
+				if t_keyBattleCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, 1, t_keyBattleCfg[i].text, 85, 15+i*15-inputMoveTxt))
+					textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, t_keyBattleCfg[i].varText, 235, 15+i*15-inputMoveTxt))
+				end
+			end
+		end
+		if maxKeyCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_keyBattleCfg > 14 and maxKeyCfg < #t_keyBattleCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
+		end
 		f_resetInputsInfo()
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
@@ -6623,17 +6434,9 @@ function f_keyBattleCfg(playerNo, controller)
 		elseif commandGetState(p1Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
-		elseif commandGetState(p2Cmd, 'holdu') then
-			bufd2 = 0
-			bufu2 = bufu2 + 1
-		elseif commandGetState(p2Cmd, 'holdd') then
-			bufu2 = 0
-			bufd2 = bufd2 + 1
 		else
 			bufu = 0
 			bufd = 0
-			bufu2 = 0
-			bufd2 = 0
 		end
 		cmdInput()
 		refresh()
@@ -6789,19 +6592,7 @@ function f_inputBattleRead(playerNo, controller)
 	for i, c
 		in ipairs(strsplit(',', tmp)) --split string using "," delimiter
 	do
-		if controller == -1 then --Load Keyboard Controls
-			if playerNo == 0 then
-				t_keyBattleCfg[i].varText = c
-			else
-				t_keyBattleCfg2[i].varText = c
-			end
-		else --Load Gamepad Controls
-			if playerNo == 2 then
-				t_keyBattleCfg[i].varText = c
-			else
-				t_keyBattleCfg2[i].varText = c
-			end
-		end
+		t_keyBattleCfg[i].varText = c
 	end
 end
 
@@ -6833,19 +6624,43 @@ function f_readBattleInput(oldkey)
 	inputReady = false
 	sameKey = false
 	while true do
-		f_drawBattleKeyAssets()
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		animSetScale(optionsBG1, 220, maxKeyCfg*15)
+		animSetWindow(optionsBG1, 80,20, 160,210)
+		animDraw(optionsBG1)
+		textImgDraw(txt_battleCfg)
+		animSetWindow(cursorBox, 80,5+inputCursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
 		readTime = readTime + 1
 		if getKeyboard == '' then
 			if t%60 < 30 then
-				if not sameKey then f_drawQuickText(newinput, font2, 0, -1, txt_newKey, 236, 237.4) end
-				if sameKey then f_drawQuickText(newinput, font2, 0, -1, txt_sameKey, 236, 237.4) end
+				if not sameKey then f_drawQuickText(newinput, font2, 0, -1, "Press any key to assign", 236, 237.4) end
+				if sameKey then f_drawQuickText(newinput, font2, 0, -1, "This key has been already assigned", 236, 237.4) end
 			end
 			t = t >= 60 and 0 or t + 1
+		end
+		for i=1, maxKeyCfg do
+			if i > keyCfg - inputCursorPosY then
+				if t_keyBattleCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, 1, t_keyBattleCfg[i].text, 85, 15+i*15-inputMoveTxt))
+					textImgDraw(f_updateTextImg(t_keyBattleCfg[i].varID, font2, 0, -1, t_keyBattleCfg[i].varText, 235, 15+i*15-inputMoveTxt))
+				end
+			end
+		end
+		if maxKeyCfg > 14 then
+			animDraw(optionsUpArrow)
+			animUpdate(optionsUpArrow)
+		end
+		if #t_keyBattleCfg > 14 and maxKeyCfg < #t_keyBattleCfg then
+			animDraw(optionsDownArrow)
+			animUpdate(optionsDownArrow)
 		end
 		--cmdInput()
 		if readTime > 10 then
 			if esc() or commandGetState(p1Cmd, 'e') then getKeyboard = oldkey --No Replace
 			--FUNCTIONS
+			--elseif f1Key() and controllerSet == 1 then getKeyboard = 'F1'
 			elseif f9Key() and controllerSet == 1 then getKeyboard = 'F9'
 			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
 			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
@@ -6970,8 +6785,8 @@ function f_readMenuInput(oldkey)
 		readTime = readTime + 1
 		if getKeyboard == '' then
 			if t%60 < 30 then
-				if not sameKey then	f_drawQuickText(newinput, font2, 0, -1, txt_newKey, 236, 237.4) end
-				if sameKey then f_drawQuickText(newinput, font2, 0, -1, txt_sameKey, 236, 237.4) end
+				if not sameKey then	f_drawQuickText(newinput, font2, 0, -1, "Press any key to assign", 236, 237.4) end
+				if sameKey then f_drawQuickText(newinput, font2, 0, -1, "This key has been already assigned", 236, 237.4) end
 			end
 			t = t >= 60 and 0 or t + 1
 		end
@@ -6995,6 +6810,7 @@ function f_readMenuInput(oldkey)
 		if readTime > 10 then
 			if esc() or commandGetState(p1Cmd, 'e') then getKeyboard = oldkey --No Replace
 			--FUNCTIONS
+			--elseif f1Key() and controllerSet == 1 then getKeyboard = 'F1'
 			elseif f9Key() and controllerSet == 1 then getKeyboard = 'F9'
 			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
 			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
@@ -7300,20 +7116,12 @@ function f_readMenuInput(oldkey)
 end
 
 function f_keyBattleSave(playerNo, controller)
-	if playerNo == 0 or playerNo == 2 then --Save Player 1 Controls
-		--Keyboard - Battle
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[14].varText .. ');')
-		--Gamepad - Battle
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg[1].varText .. ', ' .. t_keyBattleCfg[2].varText .. ', ' .. t_keyBattleCfg[3].varText .. ', ' .. t_keyBattleCfg[4].varText .. ', ' .. t_keyBattleCfg[5].varText .. ', ' .. t_keyBattleCfg[6].varText .. ', ' .. t_keyBattleCfg[7].varText .. ', ' .. t_keyBattleCfg[8].varText .. ', ' .. t_keyBattleCfg[9].varText .. ', ' .. t_keyBattleCfg[10].varText .. ', ' .. t_keyBattleCfg[11].varText .. ', ' .. t_keyBattleCfg[12].varText .. ', ' .. t_keyBattleCfg[13].varText .. ', ' .. t_keyBattleCfg[14].varText .. ');')
-	else --Save Player 2 Controls
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg2[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg2[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[14].varText .. ');')
-		--
-		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg2[1].varText .. ', ' .. t_keyBattleCfg2[2].varText .. ', ' .. t_keyBattleCfg2[3].varText .. ', ' .. t_keyBattleCfg2[4].varText .. ', ' .. t_keyBattleCfg2[5].varText .. ', ' .. t_keyBattleCfg2[6].varText .. ', ' .. t_keyBattleCfg2[7].varText .. ', ' .. t_keyBattleCfg2[8].varText .. ', ' .. t_keyBattleCfg2[9].varText .. ', ' .. t_keyBattleCfg2[10].varText .. ', ' .. t_keyBattleCfg2[11].varText .. ', ' .. t_keyBattleCfg2[12].varText .. ', ' .. t_keyBattleCfg2[13].varText .. ', ' .. t_keyBattleCfg2[14].varText .. ');')
-	end
+	--Keyboard - Battle
+	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
+	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[14].varText .. ');')
+	--Gamepad - Battle
+	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
+	'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg[1].varText .. ', ' .. t_keyBattleCfg[2].varText .. ', ' .. t_keyBattleCfg[3].varText .. ', ' .. t_keyBattleCfg[4].varText .. ', ' .. t_keyBattleCfg[5].varText .. ', ' .. t_keyBattleCfg[6].varText .. ', ' .. t_keyBattleCfg[7].varText .. ', ' .. t_keyBattleCfg[8].varText .. ', ' .. t_keyBattleCfg[9].varText .. ', ' .. t_keyBattleCfg[10].varText .. ', ' .. t_keyBattleCfg[11].varText .. ', ' .. t_keyBattleCfg[12].varText .. ', ' .. t_keyBattleCfg[13].varText .. ', ' .. t_keyBattleCfg[14].varText .. ');')
 end
 
 function f_keyMenuSave(playerNo, controller)

@@ -913,6 +913,7 @@ function f_resetMenuAssets()
 	else
 		if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	end
+	backtomenu = false --Restart special back for Challenger Mode
 	data.tempBack = false
 	f_saveTemp()
 	f_resetMenuInputs()
@@ -1075,7 +1076,7 @@ function f_selectSimple()
 				end
 			--For Challenger Route in Arcade Mode
 			elseif data.gameMode == "challenger" then
-				break
+				return
 			--For Missions, Events or Quick Match Modes
 			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.rosterMode == "mission" or data.rosterMode == "event" then
 				if data.rosterMode == "event" then
@@ -1749,7 +1750,7 @@ function f_selectAdvance()
 			--If you exit in char select from challenger mode then back to main menu
 				if back == true or backtomenu == true then
 					f_resetMenuAssets()
-					break --return
+					return
 				end
 			end
 		end
@@ -2492,7 +2493,7 @@ function f_selectTower()
 			--If you exit in char select from challenger mode then back to main menu
 				if back == true or backtomenu == true then
 					f_resetMenuAssets()
-					break --return
+					return
 				end
 			end
 		end
@@ -3369,14 +3370,14 @@ function f_selectScreen()
 		if (data.p1In == 2 and data.p2In == 2) then
 			--Draw VS Single Bosses Portraits if you are playing in Right Side
 			if data.gameMode == "singleboss" then
-				animDraw(f_animVelocity(charBG3, 2, 0))
 				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-					drawPortrait(data.t_p1selected[1].cel, 0, 20, -1, 1)
+					animDraw(f_animVelocity(charBG2, 2, 0))
+					drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1)
 				end
 				if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
 					for j=#data.t_p1selected, 1, -1 do
-						--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 220, 158, data.t_p1selected[j].up) --Stand Animation
-						f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 220, 158, data.t_p1selected[j].up) --Selected/Win Animation
+						--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', 100, 158, data.t_p1selected[j].up) --Stand Animation
+						f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 100, 158, data.t_p1selected[j].up) --Selected/Win Animation
 					end
 				end
 				--Draw Author Info Text
@@ -3389,9 +3390,9 @@ function f_selectScreen()
 			end
 			--Draw VS Single Bonus Portraits
 			if data.gameMode == "singlebonus" then
-				animDraw(f_animVelocity(charBG3, 2, 0))
 				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-					drawPortrait(data.t_p1selected[1].cel, 0, 20, -1, 1)
+					animDraw(f_animVelocity(charBG2, 2, 0))
+					drawPortrait(data.t_p1selected[1].cel, 0, 20, 1, 1)
 				end
 				--Draw Author Info Text
 				if data.charInfo == "Author" then
@@ -3411,8 +3412,8 @@ function f_selectScreen()
 		if (data.p1In ~= 2 and data.p2In ~= 2) then
 			--Draw VS Single Bosses Portraits if you are playing in Left Side
 			if data.gameMode == "singleboss" then
-				animDraw(f_animVelocity(charBG3, 2, 0))
 				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+					animDraw(f_animVelocity(charBG3, 2, 0))
 					drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 				end
 				if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
@@ -3431,8 +3432,8 @@ function f_selectScreen()
 			end
 			--Draw VS Single Bonus Portraits
 			if data.gameMode == "singlebonus" then
-				animDraw(f_animVelocity(charBG3, 2, 0))
 				if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+					animDraw(f_animVelocity(charBG3, 2, 0))
 					drawPortrait(data.t_p2selected[1].cel, 320, 20, -1, 1)
 				end
 				--Draw Author Info Text
