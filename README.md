@@ -98,7 +98,9 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Cambiar de personaje y stage en el menú de pausa solo en training. Usar lógica parecida al new challenger del arcade.
 
-- Agregar opción para configurar los controles de la pelea en char select (Preferiblemente VS Mode y Tournament) excepto en online.
+- Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
+
+- Configurar controles de batalla desde el menú de pausa en plena partida.
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
