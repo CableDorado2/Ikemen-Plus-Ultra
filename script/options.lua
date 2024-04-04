@@ -898,77 +898,77 @@ end
 
 --Default P2 KEYBOARD BATTLE
 function f_p2keyboardBattleDefault()
-	t_keyBattleCfg[1].varText = 'KP_5'
-	t_keyBattleCfg[2].varText = 'KP_2'
-	t_keyBattleCfg[3].varText = 'KP_1'
-	t_keyBattleCfg[4].varText = 'KP_3'
-	t_keyBattleCfg[5].varText = 'u'
-	t_keyBattleCfg[6].varText = 'i'
-	t_keyBattleCfg[7].varText = 'o'
-	t_keyBattleCfg[8].varText = 'j'
-	t_keyBattleCfg[9].varText = 'k'
-	t_keyBattleCfg[10].varText = 'l'
-	t_keyBattleCfg[11].varText = 'KP_4'
-	t_keyBattleCfg[12].varText = 'KP_6'
-	t_keyBattleCfg[13].varText = 'KP_PERIOD'
-	t_keyBattleCfg[14].varText = 'KP_0'
+	t_keyBattleCfg2[1].varText = 'KP_5'
+	t_keyBattleCfg2[2].varText = 'KP_2'
+	t_keyBattleCfg2[3].varText = 'KP_1'
+	t_keyBattleCfg2[4].varText = 'KP_3'
+	t_keyBattleCfg2[5].varText = 'u'
+	t_keyBattleCfg2[6].varText = 'i'
+	t_keyBattleCfg2[7].varText = 'o'
+	t_keyBattleCfg2[8].varText = 'j'
+	t_keyBattleCfg2[9].varText = 'k'
+	t_keyBattleCfg2[10].varText = 'l'
+	t_keyBattleCfg2[11].varText = 'KP_4'
+	t_keyBattleCfg2[12].varText = 'KP_6'
+	t_keyBattleCfg2[13].varText = 'KP_PERIOD'
+	t_keyBattleCfg2[14].varText = 'KP_0'
 	f_keyBattleSave(1,-1)
 end
 
 --Default P2 GAMEPAD BATTLE
 function f_p2gamepadBattleDefault()
-	t_keyBattleCfg[1].varText = '-3'
-	t_keyBattleCfg[2].varText = '-4'
-	t_keyBattleCfg[3].varText = '-1'
-	t_keyBattleCfg[4].varText = '-2'
-	t_keyBattleCfg[5].varText = '0'
-	t_keyBattleCfg[6].varText = '1'
-	t_keyBattleCfg[7].varText = '4'
-	t_keyBattleCfg[8].varText = '2'
-	t_keyBattleCfg[9].varText = '3'
-	t_keyBattleCfg[10].varText = '5'
-	t_keyBattleCfg[11].varText = '-5'
-	t_keyBattleCfg[12].varText = '8'
-	t_keyBattleCfg[13].varText = '6'
-	t_keyBattleCfg[14].varText = '9'
+	t_keyBattleCfg2[1].varText = '-3'
+	t_keyBattleCfg2[2].varText = '-4'
+	t_keyBattleCfg2[3].varText = '-1'
+	t_keyBattleCfg2[4].varText = '-2'
+	t_keyBattleCfg2[5].varText = '0'
+	t_keyBattleCfg2[6].varText = '1'
+	t_keyBattleCfg2[7].varText = '4'
+	t_keyBattleCfg2[8].varText = '2'
+	t_keyBattleCfg2[9].varText = '3'
+	t_keyBattleCfg2[10].varText = '5'
+	t_keyBattleCfg2[11].varText = '-5'
+	t_keyBattleCfg2[12].varText = '8'
+	t_keyBattleCfg2[13].varText = '6'
+	t_keyBattleCfg2[14].varText = '9'
 	f_keyBattleSave(3,1)
 end
 
 --Default P2 KEYBOARD MENU
 function f_p2keyboardMenuDefault()
-	t_keyMenuCfg[1].varText = 'KP_5'
-	t_keyMenuCfg[2].varText = 'KP_2'
-	t_keyMenuCfg[3].varText = 'KP_1'
-	t_keyMenuCfg[4].varText = 'KP_3'
-	t_keyMenuCfg[5].varText = 'u'
-	t_keyMenuCfg[6].varText = 'i'
-	t_keyMenuCfg[7].varText = 'o'
-	t_keyMenuCfg[8].varText = 'j'
-	t_keyMenuCfg[9].varText = 'k'
-	t_keyMenuCfg[10].varText = 'l'
-	t_keyMenuCfg[11].varText = 'KP_DIVIDE'
-	t_keyMenuCfg[12].varText = 'KP_PLUS'
-	t_keyMenuCfg[13].varText = 'KP_MINUS'
-	t_keyMenuCfg[14].varText = 'KP_ENTER'
+	t_keyMenuCfg2[1].varText = 'KP_5'
+	t_keyMenuCfg2[2].varText = 'KP_2'
+	t_keyMenuCfg2[3].varText = 'KP_1'
+	t_keyMenuCfg2[4].varText = 'KP_3'
+	t_keyMenuCfg2[5].varText = 'u'
+	t_keyMenuCfg2[6].varText = 'i'
+	t_keyMenuCfg2[7].varText = 'o'
+	t_keyMenuCfg2[8].varText = 'j'
+	t_keyMenuCfg2[9].varText = 'k'
+	t_keyMenuCfg2[10].varText = 'l'
+	t_keyMenuCfg2[11].varText = 'KP_DIVIDE'
+	t_keyMenuCfg2[12].varText = 'KP_PLUS'
+	t_keyMenuCfg2[13].varText = 'KP_MINUS'
+	t_keyMenuCfg2[14].varText = 'KP_ENTER'
 	f_keyMenuSave(1,-1)
 end
 
 --Default P2 GAMEPAD MENU
 function f_p2gamepadMenuDefault()
-	t_keyMenuCfg[1].varText = '-3'
-	t_keyMenuCfg[2].varText = '-4'
-	t_keyMenuCfg[3].varText = '-1'
-	t_keyMenuCfg[4].varText = '-2'
-	t_keyMenuCfg[5].varText = '0'
-	t_keyMenuCfg[6].varText = '1'
-	t_keyMenuCfg[7].varText = '4'
-	t_keyMenuCfg[8].varText = '2'
-	t_keyMenuCfg[9].varText = '3'
-	t_keyMenuCfg[10].varText = '5'
-	t_keyMenuCfg[11].varText = '-5'
-	t_keyMenuCfg[12].varText = '8'
-	t_keyMenuCfg[13].varText = '6'
-	t_keyMenuCfg[14].varText = '7'
+	t_keyMenuCfg2[1].varText = '-3'
+	t_keyMenuCfg2[2].varText = '-4'
+	t_keyMenuCfg2[3].varText = '-1'
+	t_keyMenuCfg2[4].varText = '-2'
+	t_keyMenuCfg2[5].varText = '0'
+	t_keyMenuCfg2[6].varText = '1'
+	t_keyMenuCfg2[7].varText = '4'
+	t_keyMenuCfg2[8].varText = '2'
+	t_keyMenuCfg2[9].varText = '3'
+	t_keyMenuCfg2[10].varText = '5'
+	t_keyMenuCfg2[11].varText = '-5'
+	t_keyMenuCfg2[12].varText = '8'
+	t_keyMenuCfg2[13].varText = '6'
+	t_keyMenuCfg2[14].varText = '7'
 	f_keyMenuSave(3,1)
 end
 
@@ -5773,7 +5773,6 @@ t_inputCfg = {
 
 function f_inputCfg()
 	cmdInput()
-	gamepadID = 1
 	local cursorPosY = 1
 	local moveTxt = 0
 	local inputCfg = 1
@@ -6077,10 +6076,8 @@ end
 txt_keyMenu = createTextImg(jgFnt, 0, 0, "KEYBOARD SETTINGS", 159, 13)
 
 t_keyMenu = {
-	{id = '', text = "Player 1 - Battle Controls"},
-	{id = '', text = "Player 2 - Battle Controls"},
-	{id = '', text = "Player 1 - Menu Controls"},
-	{id = '', text = "Player 2 - Menu Controls"},
+	{id = '', text = "Battle Controls"},
+	{id = '', text = "Menu Controls"},
 	{id = '', text = "          BACK"},
 }
 
@@ -6109,23 +6106,16 @@ function f_keyMenu()
 			controllerSet = 1 --Keyboard is the control to setup
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--PLAYER 1 [KEYBOARD] BATTLE CONTROLS
+			--[KEYBOARD] BATTLE CONTROLS
 			if keyMenu == 1 then
-				f_inputBattleRead(0, -1)
-				f_inputBattleRead(1, -1)
+				f_inputBattleRead(0, -1) --Player 1 Controls
+				f_inputBattleRead(1, -1) --Player 2 Controls
 				f_keyBattleCfg(0, -1)
-			--PLAYER 2 [KEYBOARD] BATTLE CONTROLS
+			--[KEYBOARD] MENU CONTROLS
 			elseif keyMenu == 2 then
-				f_inputBattleRead(1, -1)
-				f_keyBattleCfg(1, -1)
-			--PLAYER 1 [KEYBOARD] MENU CONTROLS
-			elseif keyMenu == 3 then
 				f_inputMenuRead(0, -1)
-				f_keyMenuCfg(0, -1)
-			--PLAYER 2 [KEYBOARD] MENU CONTROLS
-			elseif keyMenu == 4 then
 				f_inputMenuRead(1, -1)
-				f_keyMenuCfg(1, -1)
+				f_keyMenuCfg(0, -1)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -6203,10 +6193,8 @@ end
 txt_joyMenu = createTextImg(jgFnt, 0, 0, "GAMEPAD SETTINGS", 159, 13)
 
 t_joyMenu = {
-	{id = '', text = "Player 1 - Battle Controls"},
-	{id = '', text = "Player 2 - Battle Controls"},
-	{id = '', text = "Player 1 - Menu Controls"},
-	{id = '', text = "Player 2 - Menu Controls"},
+	{id = '', text = "Battle Controls"},
+	{id = '', text = "Menu Controls"},
 	{id = '', text = "          BACK"},
 }
 
@@ -6235,26 +6223,22 @@ function f_joyMenu()
 			controllerSet = 2 --Gamepad is the control to setup
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			--PLAYER 1 [GAMEPAD] BATTLE CONTROLS
+			--[GAMEPAD] BATTLE CONTROLS
 			if joyMenu == 1 then
-				gamepadID = 1
 				f_inputBattleRead(2, data.p1Gamepad)
 				f_keyBattleCfg(2, data.p1Gamepad)
 			--PLAYER 2 [GAMEPAD] BATTLE CONTROLS
+			--elseif joyMenu == 2 then
+				--f_inputBattleRead(3, data.p2Gamepad)
+				--f_keyBattleCfg(3, data.p2Gamepad)
+			--[GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 2 then
-				gamepadID = 2
-				f_inputBattleRead(3, data.p2Gamepad)
-				f_keyBattleCfg(3, data.p2Gamepad)
-			--PLAYER 1 [GAMEPAD] MENU CONTROLS
-			elseif joyMenu == 3 then
-				gamepadID = 1
 				f_inputMenuRead(2, data.p1Gamepad)
 				f_keyMenuCfg(2, data.p1Gamepad)
 			--PLAYER 2 [GAMEPAD] MENU CONTROLS
-			elseif joyMenu == 4 then
-				gamepadID = 2
-				f_inputMenuRead(3, data.p2Gamepad)
-				f_keyMenuCfg(3, data.p2Gamepad)
+			--elseif joyMenu == 4 then
+				--f_inputMenuRead(3, data.p2Gamepad)
+				--f_keyMenuCfg(3, data.p2Gamepad)
 			--BACK
 			else
 				sndPlay(sysSnd, 100, 2)
@@ -6346,7 +6330,7 @@ t_keyBattleCfg = {
 	{varID = textImgNew(), text = "SELECT",					varText = ""},
 	{varID = textImgNew(), text = "START", 					varText = ""},
 	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
-	{varID = textImgNew(), text = "End Config", 			varText = ""},
+	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
 }
 
 t_keyBattleCfg2 = {}
@@ -6374,15 +6358,24 @@ t_keyMenuCfg = {
 	{varID = textImgNew(), text = "RETURN",					varText = ""},
 	{varID = textImgNew(), text = "MENU",		 			varText = ""}, --PAUSE GAME
 	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
-	{varID = textImgNew(), text = "End Config",				varText = ""},
+	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
 }
 
-txt_p1nputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 85, 30)
-txt_p2nputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 239, 30)
+t_keyMenuCfg2 = {}
+for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
+	t_keyMenuCfg2[i] = {}
+	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
+	t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
+	t_keyMenuCfg2[i]['varText'] = ""
+end
+
+txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 85, 30)
+txt_p2inputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 239, 30)
 txt_inputHint = createTextImg(font1, 0, 0, "", 0, 0)
 txt_newKey = "Press key to assign entry"
 txt_sameKey = "This key has been already assigned"
 txt_cancelKey = "Press ESC Key to Cancel"
+txt_quickSaveKey = "PRESS ESC IN YOUR KEYBOARD TO QUICK SAVE AND BACK"
 
 function f_drawBattleKeyAssets()
 	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
@@ -6391,7 +6384,7 @@ function f_drawBattleKeyAssets()
 	animSetScale(optionsBG2, 220, maxKeyCfg*15)
 	animSetWindow(optionsBG2, 2,20, 155,195)
 	animDraw(optionsBG2)
-	textImgDraw(txt_p1nputInfo) --Player Title Text
+	textImgDraw(txt_p1inputInfo) --Player Title Text
 --Player 1 Controls Cursor
 	if not p2waitingKey then
 		animSetWindow(cursorBox, 2,20+inputCursorPosY*15, 155,15)
@@ -6420,7 +6413,7 @@ function f_drawBattleKeyAssets()
 	animSetScale(optionsBG2, 318, maxKeyCfg2*15)
 	animSetWindow(optionsBG2, 160,20, 160,195)
 	animDraw(optionsBG2)
-	textImgDraw(txt_p2nputInfo)
+	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
 	if not p1waitingKey then
 		animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 160,15)
@@ -6460,6 +6453,8 @@ function f_keyBattleCfg(playerNo, controller)
 	local bufl = 0
 	local bufl2 = 0
 	local configEnd = false
+	local defaultP1 = false
+	local defaultP2 = false
 	inputCursorPosY = 1
 	inputCursorPosY2 = 1
 	inputMoveTxt = 0
@@ -6476,13 +6471,25 @@ function f_keyBattleCfg(playerNo, controller)
 			f_keyBattleSave(playerNo, controller) --Save Player 1 Controls
 			f_keyBattleSave(playerNo+1, controller) --Save Player 2 Controls
 			break
-		elseif f1Key() then --Quick Default Inputs Shorcut
+		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
+			sndPlay(sysSnd, 100, 2)
+			if controllerSet == 1 then f_p1keyboardBattleDefault()
+			elseif controllerSet == 2 then f_p1gamepadBattleDefault()
+			end
+			defaultP1 = false
+		elseif f2Key() or defaultP2 then --Quick Default Player 2 Inputs Shorcut
+			sndPlay(sysSnd, 100, 2)
+			if controllerSet == 1 then f_p2keyboardBattleDefault()
+			elseif controllerSet == 2 then f_p2gamepadBattleDefault()
+			end
+			defaultP2 = false
+		end
+		--[[Backup Reset
 			if controllerSet == 1 and playerNo == 0 then f_p1keyboardBattleDefault()
 			elseif controllerSet == 1 and playerNo == 1 then f_p2keyboardBattleDefault()
 			elseif controllerSet == 2 and playerNo == 2 then f_p1gamepadBattleDefault()
 			elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadBattleDefault()
-			end
-		end
+		]]
 		--Player 1 Actions
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
@@ -6499,7 +6506,7 @@ function f_keyBattleCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			--Modify Battle Controls
-			if keyCfg < #t_keyBattleCfg then
+			if keyCfg < #t_keyBattleCfg-1 then
 				sndPlay(sysSnd, 100, 1)
 				p1waitingKey = true
 				if controller == -1 then
@@ -6509,6 +6516,9 @@ function f_keyBattleCfg(playerNo, controller)
 				end
 				t_keyBattleCfg[keyCfg].varText = f_readBattleInput(t_keyBattleCfg[keyCfg].varText)
 				setInputConfig(playerNo, controller, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText)
+			--Default Config
+			elseif keyCfg == 15 then
+				defaultP1 = true
 			--End Config
 			else
 				configEnd = true
@@ -6560,7 +6570,7 @@ function f_keyBattleCfg(playerNo, controller)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			--Modify Battle Controls
-			if keyCfg2 < #t_keyBattleCfg2 then
+			if keyCfg2 < #t_keyBattleCfg2-1 then
 				sndPlay(sysSnd, 100, 1)
 				p2waitingKey = true
 				if controller == -1 then
@@ -6570,6 +6580,9 @@ function f_keyBattleCfg(playerNo, controller)
 				end
 				t_keyBattleCfg2[keyCfg2].varText = f_readBattleInput(t_keyBattleCfg2[keyCfg2].varText)
 				setInputConfig(playerNo+1, controller, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText)
+			--Default Config
+			elseif keyCfg2 == 15 then
+				defaultP2 = true
 			--End Config
 			else
 				configEnd = true
@@ -6607,7 +6620,7 @@ function f_keyBattleCfg(playerNo, controller)
 		end
 		--Draw Common Assets
 		f_drawBattleKeyAssets()
-		textImgSetText(txt_inputHint, "PRESS ESC IN YOUR KEYBOARD TO QUICK SAVE AND BACK")
+		textImgSetText(txt_inputHint, txt_quickSaveKey)
 		textImgPosDraw(txt_inputHint, 163.5, 238)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
@@ -6633,34 +6646,113 @@ function f_keyBattleCfg(playerNo, controller)
 	end
 end
 
+function f_drawMenuKeyAssets()
+	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
+	textImgDraw(txt_menuKeyCfg) --Title Text
+--Player 1 Controls Window BG
+	animSetScale(optionsBG2, 220, maxKeyCfg*15)
+	animSetWindow(optionsBG2, 2,20, 155,195)
+	animDraw(optionsBG2)
+	textImgDraw(txt_p1inputInfo) --Player Title Text
+--Player 1 Controls Cursor
+	if not p2waitingKey then
+		animSetWindow(cursorBox, 2,20+inputCursorPosY*15, 155,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	end
+--Draw Player 1 Controls Text
+	for i=1, maxKeyCfg do
+		if i > keyCfg - inputCursorPosY then
+			if t_keyMenuCfg[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, 1, t_keyMenuCfg[i].text, 7, 30+i*15-inputMoveTxt))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, t_keyMenuCfg[i].varText, 152, 30+i*15-inputMoveTxt))
+			end
+		end
+	end
+--Draw Player 1 Arrows
+	if maxKeyCfg > 13 then
+		animDraw(optionsUpArrowP1)
+		animUpdate(optionsUpArrowP1)
+	end
+	if #t_keyMenuCfg > 13 and maxKeyCfg < #t_keyMenuCfg then
+		animDraw(optionsDownArrowP1)
+		animUpdate(optionsDownArrowP1)
+	end
+--Player 2 Controls Window BG
+	animSetScale(optionsBG2, 318, maxKeyCfg2*15)
+	animSetWindow(optionsBG2, 160,20, 160,195)
+	animDraw(optionsBG2)
+	textImgDraw(txt_p2inputInfo)
+--Player 2 Controls Cursor
+	if not p1waitingKey then
+		animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+	end
+--Draw Player 2 Controls Text
+	for i=1, maxKeyCfg2 do
+		if i > keyCfg2 - inputCursorPosY2 then
+			if t_keyMenuCfg2[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, 1, t_keyMenuCfg2[i].text, 165, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, t_keyMenuCfg2[i].varText, 315, 30+i*15-inputMoveTxt2))
+			end
+		end
+	end
+--Draw Player 2 Arrows
+	if maxKeyCfg2 > 13 then
+		animDraw(optionsUpArrowP2)
+		animUpdate(optionsUpArrowP2)
+	end
+	if #t_keyMenuCfg2 > 13 and maxKeyCfg2 < #t_keyMenuCfg2 then
+		animDraw(optionsDownArrowP2)
+		animUpdate(optionsDownArrowP2)
+	end
+end
+
 function f_keyMenuCfg(playerNo, controller)
 	cmdInput()
 	local bufu = 0
+	local bufu2 = 0
 	local bufd = 0
+	local bufd2 = 0
 	local bufr = 0
+	local bufr2 = 0
 	local bufl = 0
+	local bufl2 = 0
+	local configEnd = false
+	local defaultP1 = false
+	local defaultP2 = false
 	inputCursorPosY = 1
+	inputCursorPosY2 = 1
 	inputMoveTxt = 0
+	inputMoveTxt2 = 0
 	keyCfg = 1
-	keyCfgSide = 0
+	keyCfg2 = 1
 	controllerNum = controller
-	configEnd = true
-	p2ConfigEnd = true
-	p1ResetInput = true
-	p2ResetInput = true
+	p1waitingKey = false
+	p2waitingKey = false
 	while true do
-		if f1Key() then --Quick Default Inputs Shorcut
-			if controllerSet == 1 and playerNo == 0 then f_p1keyboardMenuDefault()
-			elseif controllerSet == 1 and playerNo == 1 then f_p2keyboardMenuDefault()
-			elseif controllerSet == 2 and playerNo == 2 then f_p1gamepadMenuDefault()
-			elseif controllerSet == 2 and playerNo == 3 then f_p2gamepadMenuDefault()
-			end
-		end
-		if esc() or commandGetState(p1Cmd, 'e') then
+		--Common Actions
+		if esc() or configEnd then
 			sndPlay(sysSnd, 100, 2)
-			f_keyMenuSave(playerNo, controller)
+			f_keyMenuSave(playerNo, controller) --Save Player 1 Controls
+			f_keyMenuSave(playerNo+1, controller) --Save Player 2 Controls
 			break
-		elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
+		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
+			sndPlay(sysSnd, 100, 2)
+			if controllerSet == 1 then f_p1keyboardMenuDefault()
+			elseif controllerSet == 2 then f_p1gamepadMenuDefault()
+			end
+			defaultP1 = false
+		elseif f2Key() or defaultP2 then --Quick Default Player 2 Inputs Shorcut
+			sndPlay(sysSnd, 100, 2)
+			if controllerSet == 1 then f_p2keyboardMenuDefault()
+			elseif controllerSet == 2 then f_p2gamepadMenuDefault()
+			end
+			defaultP2 = false
+		end
+		--Player 1 Actions
+		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then
 			sndPlay(sysSnd, 100, 0)
 			keyCfg = keyCfg - 1
 			if bufl then bufl = 0 end
@@ -6671,15 +6763,16 @@ function f_keyMenuCfg(playerNo, controller)
 			if bufl then bufl = 0 end
 			if bufr then bufr = 0 end
 		end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		if btnPalNo(p1Cmd) > 0 then
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			--Modify Menu Controls
 			if keyCfg == 5 or keyCfg == 6 or keyCfg == 7 or keyCfg == 8 or keyCfg == 9 or keyCfg == 10 then
 				sndPlay(sysSnd, 100, 5)
 				--Show a Message that it buttons ABC XYZ are reserved to re-use in Classic Palette Select from Battle Controls
-			elseif keyCfg < #t_keyMenuCfg and (keyCfg ~= 5 or keyCfg ~= 6 or keyCfg ~= 7 or keyCfg ~= 8 or keyCfg ~= 9 or keyCfg ~= 10) then
+			elseif keyCfg < #t_keyMenuCfg-1 and (keyCfg ~= 5 or keyCfg ~= 6 or keyCfg ~= 7 or keyCfg ~= 8 or keyCfg ~= 9 or keyCfg ~= 10) then
 				sndPlay(sysSnd, 100, 1)
+				p1waitingKey = true
 				if controller == -1 then
 					controllerNum = 0
 				else
@@ -6687,19 +6780,21 @@ function f_keyMenuCfg(playerNo, controller)
 				end
 				t_keyMenuCfg[keyCfg].varText = f_readMenuInput(t_keyMenuCfg[keyCfg].varText)
 				setInputConfig(playerNo, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
-			--BACK
+			--Default Config
+			elseif keyCfg == 15 then
+				defaultP1 = true
+			--End Config
 			else
-				sndPlay(sysSnd, 100, 2)
-				f_keyMenuSave(playerNo, controller)
-				break
+				configEnd = true
 			end
 			modified = 1
 			--needReload = 1
 		end
+		--Player 1 Scroll Logic
 		if keyCfg < 1 then
 			keyCfg = #t_keyMenuCfg
-			if #t_keyMenuCfg > 14 then
-				inputCursorPosY = 14
+			if #t_keyMenuCfg > 13 then
+				inputCursorPosY = 13
 			else
 				inputCursorPosY = #t_keyMenuCfg
 			end
@@ -6708,46 +6803,92 @@ function f_keyMenuCfg(playerNo, controller)
 			inputCursorPosY = 1
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and inputCursorPosY > 1 then
 			inputCursorPosY = inputCursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 14 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 13 then
 			inputCursorPosY = inputCursorPosY + 1
 		end
-		if inputCursorPosY == 14 then
-			inputMoveTxt = (keyCfg - 14) * 15
+		if inputCursorPosY == 13 then
+			inputMoveTxt = (keyCfg - 13) * 15
 		elseif inputCursorPosY == 1 then
 			inputMoveTxt = (keyCfg - 1) * 15
 		end	
-		if #t_keyMenuCfg <= 14 then
+		if #t_keyMenuCfg <= 13 then
 			maxKeyCfg = #t_keyMenuCfg
 		elseif keyCfg - inputCursorPosY > 0 then
-			maxKeyCfg = keyCfg + 14 - inputCursorPosY
+			maxKeyCfg = keyCfg + 13 - inputCursorPosY
 		else
-			maxKeyCfg = 14
+			maxKeyCfg = 13
 		end
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxKeyCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
-		animDraw(optionsBG1)
-		textImgDraw(txt_menuKeyCfg)
-		animSetWindow(cursorBox, 80,5+inputCursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
-		for i=1, maxKeyCfg do
-			if i > keyCfg - inputCursorPosY then
-				if t_keyMenuCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, 1, t_keyMenuCfg[i].text, 85, 15+i*15-inputMoveTxt))
-					textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, t_keyMenuCfg[i].varText, 235, 15+i*15-inputMoveTxt))
+		--Player 2 Actions
+		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			keyCfg2 = keyCfg2 - 1
+			if bufl2 then bufl2 = 0 end
+			if bufr2 then bufr2 = 0 end
+		elseif commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			keyCfg2 = keyCfg2 + 1
+			if bufl2 then bufl2 = 0 end
+			if bufr2 then bufr2 = 0 end
+		end
+		if btnPalNo(p2Cmd) > 0 then
+			commandBufReset(p1Cmd)
+			commandBufReset(p2Cmd)
+			--Modify Menu Controls
+			if keyCfg2 == 5 or keyCfg2 == 6 or keyCfg2 == 7 or keyCfg2 == 8 or keyCfg2 == 9 or keyCfg2 == 10 then
+				sndPlay(sysSnd, 100, 5)
+				--Show a Message that it buttons ABC XYZ are reserved to re-use in Classic Palette Select from Battle Controls
+			elseif keyCfg2 < #t_keyMenuCfg2-1 and (keyCfg2 ~= 5 or keyCfg2 ~= 6 or keyCfg2 ~= 7 or keyCfg2 ~= 8 or keyCfg2 ~= 9 or keyCfg2 ~= 10) then
+				sndPlay(sysSnd, 100, 1)
+				p2waitingKey = true
+				if controller == -1 then
+					controllerNum = 0
+				else
+					controllerNum = 10
 				end
+				t_keyMenuCfg2[keyCfg2].varText = f_readMenuInput(t_keyMenuCfg2[keyCfg2].varText)
+				setInputConfig(playerNo+1, controller, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText)
+			--Default Config
+			elseif keyCfg2 == 15 then
+				defaultP2 = true
+			--End Config
+			else
+				configEnd = true
 			end
+			modified = 1
+			--needReload = 1
 		end
-		if maxKeyCfg > 14 then
-			animDraw(optionsUpArrow)
-			animUpdate(optionsUpArrow)
+		--Player 2 Scroll Logic
+		if keyCfg2 < 1 then
+			keyCfg2 = #t_keyMenuCfg2
+			if #t_keyMenuCfg2 > 13 then
+				inputCursorPosY2 = 13
+			else
+				inputCursorPosY2 = #t_keyMenuCfg2
+			end
+		elseif keyCfg2 > #t_keyMenuCfg2 then
+			keyCfg2 = 1
+			inputCursorPosY2 = 1
+		elseif (commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30)) and inputCursorPosY2 > 1 then
+			inputCursorPosY2 = inputCursorPosY2 - 1
+		elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30)) and inputCursorPosY2 < 13 then
+			inputCursorPosY2 = inputCursorPosY2 + 1
 		end
-		if #t_keyMenuCfg > 14 and maxKeyCfg < #t_keyMenuCfg then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
+		if inputCursorPosY2 == 13 then
+			inputMoveTxt2 = (keyCfg2 - 13) * 15
+		elseif inputCursorPosY2 == 1 then
+			inputMoveTxt2 = (keyCfg2 - 1) * 15
+		end	
+		if #t_keyMenuCfg2 <= 13 then
+			maxKeyCfg2 = #t_keyMenuCfg2
+		elseif keyCfg2 - inputCursorPosY2 > 0 then
+			maxKeyCfg2 = keyCfg2 + 13 - inputCursorPosY2
+		else
+			maxKeyCfg2 = 13
 		end
-		f_resetInputsInfo()
+		--Draw Common Assets
+		f_drawMenuKeyAssets()
+		textImgSetText(txt_inputHint, txt_quickSaveKey)
+		textImgPosDraw(txt_inputHint, 163.5, 238)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -6755,9 +6896,17 @@ function f_keyMenuCfg(playerNo, controller)
 		elseif commandGetState(p1Cmd, 'holdd') then
 			bufu = 0
 			bufd = bufd + 1
+		elseif commandGetState(p2Cmd, 'holdu') then
+			bufd2 = 0
+			bufu2 = bufu2 + 1
+		elseif commandGetState(p2Cmd, 'holdd') then
+			bufu2 = 0
+			bufd2 = bufd2 + 1
 		else
 			bufu = 0
 			bufd = 0
+			bufu2 = 0
+			bufd2 = 0
 		end
 		cmdInput()
 		refresh()
@@ -6801,10 +6950,12 @@ end
 function f_inputMenuRead(playerNo, controller)
 	local tmp = nil
 	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
+	--Keyboard Read
 	if tmp ~= nil and tmp ~= '' then
 		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
 		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
 		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
+	--Gamepad Read
 	else
 		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
 		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
@@ -6814,7 +6965,19 @@ function f_inputMenuRead(playerNo, controller)
 	for i, c
 		in ipairs(strsplit(',', tmp))
 	do
-		t_keyMenuCfg[i].varText = c
+		if controller == -1 then --Load Keyboard Controls
+			if playerNo == 0 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		else --Load Gamepad Controls
+			if playerNo == 2 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		end
 	end
 end
 
@@ -6827,14 +6990,20 @@ function f_validKey()
 	sameKey = false
 end
 
-function f_readBattleInput(oldkey)
+function f_invalidKey()
+	sndPlay(sysSnd, 100, 5)
 	getKeyboard = ''
+	sameKey = true
+end
+
+function f_readBattleInput(oldkey)
 	local readInput = 1
 	local t = 0
+	local sameKeyTime = 0
 	readTime = 0
 	inputReady = false
 	sameKey = false
-	local sameKeyTime = 0
+	getKeyboard = ''
 	while true do
 		f_drawBattleKeyAssets()
 		readTime = readTime + 1
@@ -6958,326 +7127,324 @@ function f_readBattleInput(oldkey)
 			--When you press a key to assing
 			if getKeyboard ~= '' then
 			--Prevent assing same keys between player 1 and player 2 battle controls (with this logic both players can have same keys in his own controls)
-				--JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
-				if keyCfg == 1 and getKeyboard ~= t_keyBattleCfg2[2].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--CROUCH [PLAYER 1] (t_keyBattleCfg[2].varText)
-				elseif keyCfg == 2 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--BACK [PLAYER 1] (t_keyBattleCfg[3].varText)
-				elseif keyCfg == 3 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--FORWARD [PLAYER 1] (t_keyBattleCfg[4].varText)
-				elseif keyCfg == 4 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--A [PLAYER 1] (t_keyBattleCfg[5].varText)
-				elseif keyCfg == 5 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--B [PLAYER 1] (t_keyBattleCfg[6].varText)
-				elseif keyCfg == 6 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--C [PLAYER 1] (t_keyBattleCfg[7].varText)
-				elseif keyCfg == 7 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--X [PLAYER 1] (t_keyBattleCfg[8].varText)
-				elseif keyCfg == 8 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--Y [PLAYER 1] (t_keyBattleCfg[9].varText)
-				elseif keyCfg == 9 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--Z [PLAYER 1] (t_keyBattleCfg[10].varText)
-				elseif keyCfg == 10 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--L [PLAYER 1] (t_keyBattleCfg[11].varText)
-				elseif keyCfg == 11 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--R [PLAYER 1] (t_keyBattleCfg[12].varText)
-				elseif keyCfg == 12 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--SELECT [PLAYER 1] (t_keyBattleCfg[13].varText)
-				elseif keyCfg == 13 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--START [PLAYER 1] (t_keyBattleCfg[14].varText)
-				elseif keyCfg == 14 and getKeyboard ~= t_keyBattleCfg2[1].varText and 
-				getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
-				getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
-				getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
-				getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
-				getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
-				getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[3].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--show a message that it key has been already added
-				else
-					sndPlay(sysSnd, 100, 5)
-					getKeyboard = ''
-					sameKey = true
-				end
-				
-				--JUMP [PLAYER 2] (t_keyBattleCfg2[1].varText)
-				if keyCfg2 == 1 and getKeyboard ~= t_keyBattleCfg[2].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--CROUCH [PLAYER 2] (t_keyBattleCfg2[2].varText)
-				elseif keyCfg2 == 2 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--BACK [PLAYER 2] (t_keyBattleCfg2[3].varText)
-				elseif keyCfg2 == 3 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--FORWARD [PLAYER 2] (t_keyBattleCfg2[4].varText)
-				elseif keyCfg2 == 4 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--A [PLAYER 2] (t_keyBattleCfg2[5].varText)
-				elseif keyCfg2 == 5 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--B [PLAYER 2] (t_keyBattleCfg2[6].varText)
-				elseif keyCfg2 == 6 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--C [PLAYER 2] (t_keyBattleCfg2[7].varText)
-				elseif keyCfg2 == 7 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--X [PLAYER 2] (t_keyBattleCfg2[8].varText)
-				elseif keyCfg2 == 8 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--Y [PLAYER 2] (t_keyBattleCfg2[9].varText)
-				elseif keyCfg2 == 9 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--Z [PLAYER 2] (t_keyBattleCfg2[10].varText)
-				elseif keyCfg2 == 10 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--L [PLAYER 2] (t_keyBattleCfg2[11].varText)
-				elseif keyCfg2 == 11 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--R [PLAYER 2] (t_keyBattleCfg2[12].varText)
-				elseif keyCfg2 == 12 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--SELECT [PLAYER 2] (t_keyBattleCfg2[13].varText)
-				elseif keyCfg2 == 13 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--START [PLAYER 2] (t_keyBattleCfg2[14].varText)
-				elseif keyCfg2 == 14 and getKeyboard ~= t_keyBattleCfg[1].varText and 
-				getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
-				getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
-				getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
-				getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
-				getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
-				getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[3].varText then
-					f_validKey()
-					break
-					cmdInput()
-				--show a message that it key has been already added
-				else
-					sndPlay(sysSnd, 100, 5)
-					getKeyboard = ''
-					sameKey = true
+				if p1waitingKey then
+					--JUMP [PLAYER 1] (t_keyBattleCfg[1].varText)
+					if keyCfg == 1 and getKeyboard ~= t_keyBattleCfg2[1].varText and getKeyboard ~= t_keyBattleCfg2[2].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--CROUCH [PLAYER 1] (t_keyBattleCfg[2].varText)
+					elseif keyCfg == 2 and getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--BACK [PLAYER 1] (t_keyBattleCfg[3].varText)
+					elseif keyCfg == 3 and getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--FORWARD [PLAYER 1] (t_keyBattleCfg[4].varText)
+					elseif keyCfg == 4 and getKeyboard ~= t_keyBattleCfg2[4].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--A [PLAYER 1] (t_keyBattleCfg[5].varText)
+					elseif keyCfg == 5 and getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--B [PLAYER 1] (t_keyBattleCfg[6].varText)
+					elseif keyCfg == 6 and getKeyboard ~= t_keyBattleCfg2[6].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--C [PLAYER 1] (t_keyBattleCfg[7].varText)
+					elseif keyCfg == 7 and getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--X [PLAYER 1] (t_keyBattleCfg[8].varText)
+					elseif keyCfg == 8 and getKeyboard ~= t_keyBattleCfg2[8].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--Y [PLAYER 1] (t_keyBattleCfg[9].varText)
+					elseif keyCfg == 9 and getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--Z [PLAYER 1] (t_keyBattleCfg[10].varText)
+					elseif keyCfg == 10 and getKeyboard ~= t_keyBattleCfg2[10].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--L [PLAYER 1] (t_keyBattleCfg[11].varText)
+					elseif keyCfg == 11 and getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--R [PLAYER 1] (t_keyBattleCfg[12].varText)
+					elseif keyCfg == 12 and getKeyboard ~= t_keyBattleCfg2[12].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[3].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--SELECT [PLAYER 1] (t_keyBattleCfg[13].varText)
+					elseif keyCfg == 13 and getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[3].varText and getKeyboard ~= t_keyBattleCfg2[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--START [PLAYER 1] (t_keyBattleCfg[14].varText)
+					elseif keyCfg == 14 and getKeyboard ~= t_keyBattleCfg2[14].varText and getKeyboard ~= t_keyBattleCfg2[1].varText and 
+					getKeyboard ~= t_keyBattleCfg2[2].varText and getKeyboard ~= t_keyBattleCfg2[4].varText and 
+					getKeyboard ~= t_keyBattleCfg2[5].varText and getKeyboard ~= t_keyBattleCfg2[6].varText and 
+					getKeyboard ~= t_keyBattleCfg2[7].varText and getKeyboard ~= t_keyBattleCfg2[8].varText and 
+					getKeyboard ~= t_keyBattleCfg2[9].varText and getKeyboard ~= t_keyBattleCfg2[10].varText and 
+					getKeyboard ~= t_keyBattleCfg2[11].varText and getKeyboard ~= t_keyBattleCfg2[12].varText and 
+					getKeyboard ~= t_keyBattleCfg2[13].varText and getKeyboard ~= t_keyBattleCfg2[3].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--show a message that it key has been already added in player 2 controls
+					else
+						f_invalidKey()
+					end
+				elseif p2waitingKey then
+					--JUMP [PLAYER 2] (t_keyBattleCfg2[1].varText)
+					if keyCfg2 == 1 and getKeyboard ~= t_keyBattleCfg[1].varText and getKeyboard ~= t_keyBattleCfg[2].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--CROUCH [PLAYER 2] (t_keyBattleCfg2[2].varText)
+					elseif keyCfg2 == 2 and getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--BACK [PLAYER 2] (t_keyBattleCfg2[3].varText)
+					elseif keyCfg2 == 3 and getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--FORWARD [PLAYER 2] (t_keyBattleCfg2[4].varText)
+					elseif keyCfg2 == 4 and getKeyboard ~= t_keyBattleCfg[4].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--A [PLAYER 2] (t_keyBattleCfg2[5].varText)
+					elseif keyCfg2 == 5 and getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--B [PLAYER 2] (t_keyBattleCfg2[6].varText)
+					elseif keyCfg2 == 6 and getKeyboard ~= t_keyBattleCfg[6].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--C [PLAYER 2] (t_keyBattleCfg2[7].varText)
+					elseif keyCfg2 == 7 and getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--X [PLAYER 2] (t_keyBattleCfg2[8].varText)
+					elseif keyCfg2 == 8 and getKeyboard ~= t_keyBattleCfg[8].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--Y [PLAYER 2] (t_keyBattleCfg2[9].varText)
+					elseif keyCfg2 == 9 and getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--Z [PLAYER 2] (t_keyBattleCfg2[10].varText)
+					elseif keyCfg2 == 10 and getKeyboard ~= t_keyBattleCfg[10].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--L [PLAYER 2] (t_keyBattleCfg2[11].varText)
+					elseif keyCfg2 == 11 and getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--R [PLAYER 2] (t_keyBattleCfg2[12].varText)
+					elseif keyCfg2 == 12 and getKeyboard ~= t_keyBattleCfg[12].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[3].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--SELECT [PLAYER 2] (t_keyBattleCfg2[13].varText)
+					elseif keyCfg2 == 13 and getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[1].varText and 
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[3].varText and getKeyboard ~= t_keyBattleCfg[14].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--START [PLAYER 2] (t_keyBattleCfg2[14].varText)
+					elseif keyCfg2 == 14 and getKeyboard ~= t_keyBattleCfg[14].varText and getKeyboard ~= t_keyBattleCfg[1].varText and
+					getKeyboard ~= t_keyBattleCfg[2].varText and getKeyboard ~= t_keyBattleCfg[4].varText and 
+					getKeyboard ~= t_keyBattleCfg[5].varText and getKeyboard ~= t_keyBattleCfg[6].varText and 
+					getKeyboard ~= t_keyBattleCfg[7].varText and getKeyboard ~= t_keyBattleCfg[8].varText and 
+					getKeyboard ~= t_keyBattleCfg[9].varText and getKeyboard ~= t_keyBattleCfg[10].varText and 
+					getKeyboard ~= t_keyBattleCfg[11].varText and getKeyboard ~= t_keyBattleCfg[12].varText and 
+					getKeyboard ~= t_keyBattleCfg[13].varText and getKeyboard ~= t_keyBattleCfg[3].varText then
+						f_validKey()
+						break
+						cmdInput()
+					--show a message that it key has been already added in player 1 controls
+					else
+						f_invalidKey()
+					end
 				end
 			end
 		end
@@ -7289,46 +7456,45 @@ function f_readBattleInput(oldkey)
 end
 
 function f_readMenuInput(oldkey)
-	getKeyboard = ''
 	local readInput = 1
 	local t = 0
+	local sameKeyTime = 0
 	readTime = 0
 	inputReady = false
 	sameKey = false
+	getKeyboard = ''
 	while true do
-		animDraw(f_animVelocity(optionsBG0, -1, -1))
-		animSetScale(optionsBG1, 220, maxKeyCfg*15)
-		animSetWindow(optionsBG1, 80,20, 160,210)
-		animDraw(optionsBG1)
-		textImgDraw(txt_menuKeyCfg)
-		animSetWindow(cursorBox, 80,5+inputCursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))
+		f_drawMenuKeyAssets()
 		readTime = readTime + 1
 		if getKeyboard == '' then
-			if t%60 < 30 then
-				if not sameKey then	f_drawQuickText(newinput, font1, 0, -1, txt_newKey, 236, 237.4) end
-				if sameKey then f_drawQuickText(newinput, font1, 0, -1, txt_sameKey, 236, 237.4) end
-			end
-			t = t >= 60 and 0 or t + 1
-		end
-		for i=1, maxKeyCfg do
-			if i > keyCfg - inputCursorPosY then
-				if t_keyMenuCfg[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, 1, t_keyMenuCfg[i].text, 85, 15+i*15-inputMoveTxt))
-					textImgDraw(f_updateTextImg(t_keyMenuCfg[i].varID, font2, 0, -1, t_keyMenuCfg[i].varText, 235, 15+i*15-inputMoveTxt))
+			--Time to show Hints
+			if t < 120 then
+				if not sameKey then
+					textImgSetText(txt_inputHint, txt_newKey)
+				end
+			else
+				if t < 240 then
+					if not sameKey then
+						textImgSetText(txt_inputHint, txt_cancelKey)
+					end
+				else
+					t = 0
 				end
 			end
+			--Time to show Same Key Message
+			if sameKey then
+				if sameKeyTime < 100 then
+					textImgSetText(txt_inputHint, txt_sameKey)
+				else
+					sameKey = false
+					sameKeyTime = 0
+				end
+				sameKeyTime = sameKeyTime + 1
+			end
+			textImgPosDraw(txt_inputHint, 90, 238) --Draw Hints
+			t = t + 1
 		end
-		if maxKeyCfg > 14 then
-			animDraw(optionsUpArrow)
-			animUpdate(optionsUpArrow)
-		end
-		if #t_keyMenuCfg > 14 and maxKeyCfg < #t_keyMenuCfg then
-			animDraw(optionsDownArrow)
-			animUpdate(optionsDownArrow)
-		end
-		--cmdInput()
+	--Waiting Key Press
 		if readTime > 10 then
 			if esc() then getKeyboard = oldkey --No Replace
 			--FUNCTIONS
@@ -7336,7 +7502,7 @@ function f_readMenuInput(oldkey)
 			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
 			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
 			elseif f12Key() and controllerSet == 1 then getKeyboard = 'F12'
-			--MAIN			
+			--MAIN
 			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
 			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
 			elseif spaceKey() and controllerSet == 1 then getKeyboard = 'SPACE'			
@@ -7425,7 +7591,7 @@ function f_readMenuInput(oldkey)
 			--When you press a key to assing
 			if getKeyboard ~= '' then
 			--Prevent assing same keys between player 1 and player 2 menu controls (with this logic all keys assigned for both players need to be diferents)
-				--UP (t_keyMenuCfg[1].varText)
+				--UP [PLAYER 1] (t_keyMenuCfg[1].varText)
 				if keyCfg == 1 and getKeyboard ~= t_keyMenuCfg[2].varText and 
 				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7433,13 +7599,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--DOWN (t_keyMenuCfg[2].varText)
+				--DOWN [PLAYER 1] (t_keyMenuCfg[2].varText)
 				elseif keyCfg == 2 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7447,13 +7610,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--LEFT (t_keyMenuCfg[3].varText)
+				--LEFT [PLAYER 1] (t_keyMenuCfg[3].varText)
 				elseif keyCfg == 3 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7461,13 +7621,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--RIGHT (t_keyMenuCfg[4].varText)
+				--RIGHT [PLAYER 1] (t_keyMenuCfg[4].varText)
 				elseif keyCfg == 4 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7475,13 +7632,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--A (t_keyMenuCfg[5].varText)
+				--A [PLAYER 1] (t_keyMenuCfg[5].varText)
 				elseif keyCfg == 5 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7489,13 +7643,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--B (t_keyMenuCfg[6].varText)
+				--B [PLAYER 1] (t_keyMenuCfg[6].varText)
 				elseif keyCfg == 6 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
@@ -7503,13 +7654,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--C (t_keyMenuCfg[7].varText)
+				--C [PLAYER 1] (t_keyMenuCfg[7].varText)
 				elseif keyCfg == 7 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7517,13 +7665,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--X (t_keyMenuCfg[8].varText)
+				--X [PLAYER 1] (t_keyMenuCfg[8].varText)
 				elseif keyCfg == 8 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7531,13 +7676,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--Y (t_keyMenuCfg[9].varText)
+				--Y [PLAYER 1] (t_keyMenuCfg[9].varText)
 				elseif keyCfg == 9 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7545,13 +7687,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--Z (t_keyMenuCfg[10].varText)
+				--Z [PLAYER 1] (t_keyMenuCfg[10].varText)
 				elseif keyCfg == 10 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7559,13 +7698,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--SCREENSHOT (t_keyMenuCfg[11].varText)
+				--SCREENSHOT [PLAYER 1] (t_keyMenuCfg[11].varText)
 				elseif keyCfg == 11 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7573,13 +7709,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--CONFIRM (t_keyMenuCfg[12].varText)
+				--CONFIRM [PLAYER 1] (t_keyMenuCfg[12].varText)
 				elseif keyCfg == 12 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7587,13 +7720,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[3].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--RETURN (t_keyMenuCfg[13].varText)
+				--RETURN [PLAYER 1] (t_keyMenuCfg[13].varText)
 				elseif keyCfg == 13 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7601,13 +7731,10 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[3].varText and getKeyboard ~= t_keyMenuCfg[14].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
-				--MENU/PAUSE (t_keyMenuCfg[14].varText)
+				--MENU/PAUSE [PLAYER 1] (t_keyMenuCfg[14].varText)
 				elseif keyCfg == 14 and getKeyboard ~= t_keyMenuCfg[1].varText and 
 				getKeyboard ~= t_keyMenuCfg[2].varText and getKeyboard ~= t_keyMenuCfg[4].varText and 
 				getKeyboard ~= t_keyMenuCfg[5].varText and getKeyboard ~= t_keyMenuCfg[6].varText and 
@@ -7615,19 +7742,12 @@ function f_readMenuInput(oldkey)
 				getKeyboard ~= t_keyMenuCfg[9].varText and getKeyboard ~= t_keyMenuCfg[10].varText and 
 				getKeyboard ~= t_keyMenuCfg[11].varText and getKeyboard ~= t_keyMenuCfg[12].varText and 
 				getKeyboard ~= t_keyMenuCfg[13].varText and getKeyboard ~= t_keyMenuCfg[3].varText then
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-					sndPlay(sysSnd, 100, 1)
-					p1waitingKey = false
-					p2waitingKey = false
-					sameKey = false
+					f_validKey()
 					break
 					cmdInput()
 				--show a message that it key has been already added
 				else
-					sndPlay(sysSnd, 100, 5)
-					getKeyboard = ''
-					sameKey = true
+					f_invalidKey()
 				end
 			end
 		end
@@ -7639,29 +7759,37 @@ function f_readMenuInput(oldkey)
 end
 
 function f_keyBattleSave(playerNo, controller)
-	if playerNo == 0 or playerNo == 2 then --Save Player 1 Controls
-		--Keyboard - Battle
+	if playerNo == 0 or playerNo == 2 then --Save Player 1 Battle Controls
+		--Keyboard
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg[14].varText .. ');')
-		--Gamepad - Battle
+		--Gamepad
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg[1].varText .. ', ' .. t_keyBattleCfg[2].varText .. ', ' .. t_keyBattleCfg[3].varText .. ', ' .. t_keyBattleCfg[4].varText .. ', ' .. t_keyBattleCfg[5].varText .. ', ' .. t_keyBattleCfg[6].varText .. ', ' .. t_keyBattleCfg[7].varText .. ', ' .. t_keyBattleCfg[8].varText .. ', ' .. t_keyBattleCfg[9].varText .. ', ' .. t_keyBattleCfg[10].varText .. ', ' .. t_keyBattleCfg[11].varText .. ', ' .. t_keyBattleCfg[12].varText .. ', ' .. t_keyBattleCfg[13].varText .. ', ' .. t_keyBattleCfg[14].varText .. ');')
-	else --Save Player 2 Controls
+	else --Save Player 2 Battle Controls
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
 		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyBattleCfg2[1].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[2].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[3].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[4].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[5].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[6].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[7].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[8].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[9].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[10].varText .. ',\n  (int)k_t::'.. t_keyBattleCfg2[11].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[12].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[13].varText .. ',\n  (int)k_t::' .. t_keyBattleCfg2[14].varText .. ');')
-		--
+		
 		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
 		'in.new[' .. playerNo .. '].set(\n  ' .. controller .. ', ' .. t_keyBattleCfg2[1].varText .. ', ' .. t_keyBattleCfg2[2].varText .. ', ' .. t_keyBattleCfg2[3].varText .. ', ' .. t_keyBattleCfg2[4].varText .. ', ' .. t_keyBattleCfg2[5].varText .. ', ' .. t_keyBattleCfg2[6].varText .. ', ' .. t_keyBattleCfg2[7].varText .. ', ' .. t_keyBattleCfg2[8].varText .. ', ' .. t_keyBattleCfg2[9].varText .. ', ' .. t_keyBattleCfg2[10].varText .. ', ' .. t_keyBattleCfg2[11].varText .. ', ' .. t_keyBattleCfg2[12].varText .. ', ' .. t_keyBattleCfg2[13].varText .. ', ' .. t_keyBattleCfg2[14].varText .. ');')
 	end
 end
 
 function f_keyMenuSave(playerNo, controller)
-	--Keyboard - Menu
-	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
-	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].varText .. ');')
-	--Gamepad - Menu
-	s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
-	'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].varText .. ', ' .. t_keyMenuCfg[2].varText .. ', ' .. t_keyMenuCfg[3].varText .. ', ' .. t_keyMenuCfg[4].varText .. ', ' .. t_keyMenuCfg[5].varText .. ', ' .. t_keyMenuCfg[6].varText .. ', ' .. t_keyMenuCfg[7].varText .. ', ' .. t_keyMenuCfg[8].varText .. ', ' .. t_keyMenuCfg[9].varText .. ', ' .. t_keyMenuCfg[10].varText .. ', ' .. t_keyMenuCfg[11].varText .. ', ' .. t_keyMenuCfg[12].varText .. ', ' .. t_keyMenuCfg[13].varText .. ', ' .. t_keyMenuCfg[14].varText .. ');')
+	if playerNo == 0 or playerNo == 2 then --Save Player 1 Menu Controls
+		--Keyboard
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg[14].varText .. ');')
+		--Gamepad
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg[1].varText .. ', ' .. t_keyMenuCfg[2].varText .. ', ' .. t_keyMenuCfg[3].varText .. ', ' .. t_keyMenuCfg[4].varText .. ', ' .. t_keyMenuCfg[5].varText .. ', ' .. t_keyMenuCfg[6].varText .. ', ' .. t_keyMenuCfg[7].varText .. ', ' .. t_keyMenuCfg[8].varText .. ', ' .. t_keyMenuCfg[9].varText .. ', ' .. t_keyMenuCfg[10].varText .. ', ' .. t_keyMenuCfg[11].varText .. ', ' .. t_keyMenuCfg[12].varText .. ', ' .. t_keyMenuCfg[13].varText .. ', ' .. t_keyMenuCfg[14].varText .. ');')
+	else --Save Player 2 Menu Controls
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);',
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ',\n  (int)k_t::' .. t_keyMenuCfg2[1].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[2].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[3].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[4].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[5].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[6].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[7].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[8].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[9].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[10].varText .. ',\n  (int)k_t::'.. t_keyMenuCfg2[11].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[12].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[13].varText .. ',\n  (int)k_t::' .. t_keyMenuCfg2[14].varText .. ');')
+		
+		s_configSSZ = s_configSSZ:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);',
+		'in.new[' .. playerNo+10 .. '].set(\n  ' .. controller .. ', ' .. t_keyMenuCfg2[1].varText .. ', ' .. t_keyMenuCfg2[2].varText .. ', ' .. t_keyMenuCfg2[3].varText .. ', ' .. t_keyMenuCfg2[4].varText .. ', ' .. t_keyMenuCfg2[5].varText .. ', ' .. t_keyMenuCfg2[6].varText .. ', ' .. t_keyMenuCfg2[7].varText .. ', ' .. t_keyMenuCfg2[8].varText .. ', ' .. t_keyMenuCfg2[9].varText .. ', ' .. t_keyMenuCfg2[10].varText .. ', ' .. t_keyMenuCfg2[11].varText .. ', ' .. t_keyMenuCfg2[12].varText .. ', ' .. t_keyMenuCfg2[13].varText .. ', ' .. t_keyMenuCfg2[14].varText .. ');')
+	end
 end
 
 --;===========================================================
