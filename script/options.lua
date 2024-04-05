@@ -24,7 +24,7 @@ animUpdate(optionsBG1)
 optionsBG2 = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(optionsBG2, 2, 20)
+animSetPos(optionsBG2, 0, 20)
 animSetAlpha(optionsBG2, 20, 100)
 animUpdate(optionsBG2)
 
@@ -836,6 +836,7 @@ function f_p1keyboardBattleDefault()
 	t_keyBattleCfg[12].varText = 'e'
 	t_keyBattleCfg[13].varText = 'v'
 	t_keyBattleCfg[14].varText = 'f'
+	setInputConfig(0, -1, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(0,-1)
 end
 
@@ -855,6 +856,7 @@ function f_p1gamepadBattleDefault()
 	t_keyBattleCfg[12].varText = '8'
 	t_keyBattleCfg[13].varText = '6'
 	t_keyBattleCfg[14].varText = '9'
+	setInputConfig(2, 0, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(2,0)
 end
 
@@ -874,7 +876,8 @@ function f_p1keyboardMenuDefault()
 	t_keyMenuCfg[12].varText = 'RETURN'
 	t_keyMenuCfg[13].varText = 'BACKSPACE'
 	t_keyMenuCfg[14].varText = 'SPACE'
-	f_keyMenuSave(0,-1)
+	setInputConfig(10, -1, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
+	f_keyMenuSave(10,-1)
 end
 
 --Default P1 GAMEPAD MENU
@@ -893,7 +896,8 @@ function f_p1gamepadMenuDefault()
 	t_keyMenuCfg[12].varText = '8'
 	t_keyMenuCfg[13].varText = '6'
 	t_keyMenuCfg[14].varText = '7'
-	f_keyMenuSave(2,0)
+	setInputConfig(12, 0, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
+	f_keyMenuSave(12,0)
 end
 
 --Default P2 KEYBOARD BATTLE
@@ -912,6 +916,7 @@ function f_p2keyboardBattleDefault()
 	t_keyBattleCfg2[12].varText = 'KP_6'
 	t_keyBattleCfg2[13].varText = 'KP_PERIOD'
 	t_keyBattleCfg2[14].varText = 'KP_0'
+	setInputConfig(1, -1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(1,-1)
 end
 
@@ -931,6 +936,7 @@ function f_p2gamepadBattleDefault()
 	t_keyBattleCfg2[12].varText = '8'
 	t_keyBattleCfg2[13].varText = '6'
 	t_keyBattleCfg2[14].varText = '9'
+	setInputConfig(3, 1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(3,1)
 end
 
@@ -950,7 +956,8 @@ function f_p2keyboardMenuDefault()
 	t_keyMenuCfg2[12].varText = 'KP_PLUS'
 	t_keyMenuCfg2[13].varText = 'KP_MINUS'
 	t_keyMenuCfg2[14].varText = 'KP_ENTER'
-	f_keyMenuSave(1,-1)
+	setInputConfig(11, -1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
+	f_keyMenuSave(11,-1)
 end
 
 --Default P2 GAMEPAD MENU
@@ -969,7 +976,8 @@ function f_p2gamepadMenuDefault()
 	t_keyMenuCfg2[12].varText = '8'
 	t_keyMenuCfg2[13].varText = '6'
 	t_keyMenuCfg2[14].varText = '7'
-	f_keyMenuSave(3,1)
+	setInputConfig(13, 1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
+	f_keyMenuSave(13,1)
 end
 
 --;===========================================================
@@ -6369,7 +6377,7 @@ for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	t_keyMenuCfg2[i]['varText'] = ""
 end
 
-txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 85, 30)
+txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 83, 30)
 txt_p2inputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 239, 30)
 txt_inputHint = createTextImg(font1, 0, 0, "", 0, 0)
 txt_newKey = "Press key to assign entry"
@@ -6411,12 +6419,12 @@ function f_drawBattleKeyAssets()
 	end
 --Player 2 Controls Window BG
 	animSetScale(optionsBG2, 318, maxKeyCfg2*15)
-	animSetWindow(optionsBG2, 160,20, 160,195)
+	animSetWindow(optionsBG2, 160,20, 155,195)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
 	if not p1waitingKey then
-		animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 160,15)
+		animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -6514,8 +6522,8 @@ function f_keyBattleCfg(playerNo, controller)
 				else
 					controllerNum = 10
 				end
-				t_keyBattleCfg[keyCfg].varText = f_readBattleInput(t_keyBattleCfg[keyCfg].varText)
-				setInputConfig(playerNo, controller, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText)
+				t_keyBattleCfg[keyCfg].varText = f_readBattleInput(t_keyBattleCfg[keyCfg].varText) --Get New Controls
+				setInputConfig(playerNo, controller, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
 			--Default Config
 			elseif keyCfg == 15 then
 				defaultP1 = true
@@ -6524,7 +6532,6 @@ function f_keyBattleCfg(playerNo, controller)
 				configEnd = true
 			end
 			modified = 1
-			--needReload = 1
 		end
 		--Player 1 Scroll Logic
 		if keyCfg < 1 then
@@ -6588,7 +6595,6 @@ function f_keyBattleCfg(playerNo, controller)
 				configEnd = true
 			end
 			modified = 1
-			--needReload = 1
 		end
 		--Player 2 Scroll Logic
 		if keyCfg2 < 1 then
@@ -6779,7 +6785,7 @@ function f_keyMenuCfg(playerNo, controller)
 					controllerNum = 10
 				end
 				t_keyMenuCfg[keyCfg].varText = f_readMenuInput(t_keyMenuCfg[keyCfg].varText)
-				setInputConfig(playerNo, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
+				setInputConfig(playerNo+10, controller, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText)
 			--Default Config
 			elseif keyCfg == 15 then
 				defaultP1 = true
@@ -6788,7 +6794,6 @@ function f_keyMenuCfg(playerNo, controller)
 				configEnd = true
 			end
 			modified = 1
-			--needReload = 1
 		end
 		--Player 1 Scroll Logic
 		if keyCfg < 1 then
@@ -6846,7 +6851,7 @@ function f_keyMenuCfg(playerNo, controller)
 					controllerNum = 10
 				end
 				t_keyMenuCfg2[keyCfg2].varText = f_readMenuInput(t_keyMenuCfg2[keyCfg2].varText)
-				setInputConfig(playerNo+1, controller, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText)
+				setInputConfig(playerNo+11, controller, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText)
 			--Default Config
 			elseif keyCfg2 == 15 then
 				defaultP2 = true
@@ -6855,7 +6860,6 @@ function f_keyMenuCfg(playerNo, controller)
 				configEnd = true
 			end
 			modified = 1
-			--needReload = 1
 		end
 		--Player 2 Scroll Logic
 		if keyCfg2 < 1 then
