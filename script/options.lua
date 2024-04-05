@@ -92,7 +92,7 @@ optionsDownArrowP1 = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrowP1, 5, 232)
+animAddPos(optionsDownArrowP1, 5, 218)
 animUpdate(optionsDownArrowP1)
 animSetScale(optionsDownArrowP1, 0.5, 0.5)
 
@@ -107,7 +107,7 @@ optionsUpArrowP2 = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(optionsUpArrowP2, 305, 23)
+animAddPos(optionsUpArrowP2, 303, 23)
 animUpdate(optionsUpArrowP2)
 animSetScale(optionsUpArrowP2, 0.5, 0.5)
 
@@ -122,7 +122,7 @@ optionsDownArrowP2 = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(optionsDownArrowP2, 305, 232)
+animAddPos(optionsDownArrowP2, 303, 218)
 animUpdate(optionsDownArrowP2)
 animSetScale(optionsDownArrowP2, 0.5, 0.5)
 
@@ -810,7 +810,7 @@ function f_inputDefault()
 	f_p2gamepadBattleDefault()
 	f_p2keyboardMenuDefault()
 	f_p2gamepadMenuDefault()
-	--Reset Gamepad
+	--Reset Gamepads
 	data.p1Gamepad = 0
 	data.p2Gamepad = 1
 	f_swapGamepad(0, 1)
@@ -840,66 +840,6 @@ function f_p1keyboardBattleDefault()
 	f_keyBattleSave(0,-1)
 end
 
---Default P1 GAMEPAD BATTLE
-function f_p1gamepadBattleDefault()
-	t_keyBattleCfg[1].varText = '-3'
-	t_keyBattleCfg[2].varText = '-4'
-	t_keyBattleCfg[3].varText = '-1'
-	t_keyBattleCfg[4].varText = '-2'
-	t_keyBattleCfg[5].varText = '0'
-	t_keyBattleCfg[6].varText = '1'
-	t_keyBattleCfg[7].varText = '4'
-	t_keyBattleCfg[8].varText = '2'
-	t_keyBattleCfg[9].varText = '3'
-	t_keyBattleCfg[10].varText = '5'
-	t_keyBattleCfg[11].varText = '-5'
-	t_keyBattleCfg[12].varText = '8'
-	t_keyBattleCfg[13].varText = '6'
-	t_keyBattleCfg[14].varText = '9'
-	setInputConfig(2, 0, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
-	f_keyBattleSave(2,0)
-end
-
---Default P1 KEYBOARD MENU
-function f_p1keyboardMenuDefault()
-	t_keyMenuCfg[1].varText = 'UP'
-	t_keyMenuCfg[2].varText = 'DOWN'
-	t_keyMenuCfg[3].varText = 'LEFT'
-	t_keyMenuCfg[4].varText = 'RIGHT'
-	t_keyMenuCfg[5].varText = 'a'
-	t_keyMenuCfg[6].varText = 's'
-	t_keyMenuCfg[7].varText = 'd'
-	t_keyMenuCfg[8].varText = 'z'
-	t_keyMenuCfg[9].varText = 'x'
-	t_keyMenuCfg[10].varText = 'c'
-	t_keyMenuCfg[11].varText = 'F10'
-	t_keyMenuCfg[12].varText = 'RETURN'
-	t_keyMenuCfg[13].varText = 'BACKSPACE'
-	t_keyMenuCfg[14].varText = 'SPACE'
-	setInputConfig(10, -1, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
-	f_keyMenuSave(10,-1)
-end
-
---Default P1 GAMEPAD MENU
-function f_p1gamepadMenuDefault()
-	t_keyMenuCfg[1].varText = '-3'
-	t_keyMenuCfg[2].varText = '-4'
-	t_keyMenuCfg[3].varText = '-1'
-	t_keyMenuCfg[4].varText = '-2'
-	t_keyMenuCfg[5].varText = '0'
-	t_keyMenuCfg[6].varText = '1'
-	t_keyMenuCfg[7].varText = '4'
-	t_keyMenuCfg[8].varText = '2'
-	t_keyMenuCfg[9].varText = '3'
-	t_keyMenuCfg[10].varText = '5'
-	t_keyMenuCfg[11].varText = '-5'
-	t_keyMenuCfg[12].varText = '8'
-	t_keyMenuCfg[13].varText = '6'
-	t_keyMenuCfg[14].varText = '7'
-	setInputConfig(12, 0, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
-	f_keyMenuSave(12,0)
-end
-
 --Default P2 KEYBOARD BATTLE
 function f_p2keyboardBattleDefault()
 	t_keyBattleCfg2[1].varText = 'KP_5'
@@ -918,6 +858,26 @@ function f_p2keyboardBattleDefault()
 	t_keyBattleCfg2[14].varText = 'KP_0'
 	setInputConfig(1, -1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(1,-1)
+end
+
+--Default P1 GAMEPAD BATTLE
+function f_p1gamepadBattleDefault()
+	t_keyBattleCfg[1].varText = '-3'
+	t_keyBattleCfg[2].varText = '-4'
+	t_keyBattleCfg[3].varText = '-1'
+	t_keyBattleCfg[4].varText = '-2'
+	t_keyBattleCfg[5].varText = '0'
+	t_keyBattleCfg[6].varText = '1'
+	t_keyBattleCfg[7].varText = '4'
+	t_keyBattleCfg[8].varText = '2'
+	t_keyBattleCfg[9].varText = '3'
+	t_keyBattleCfg[10].varText = '5'
+	t_keyBattleCfg[11].varText = '-5'
+	t_keyBattleCfg[12].varText = '8'
+	t_keyBattleCfg[13].varText = '6'
+	t_keyBattleCfg[14].varText = '9'
+	setInputConfig(2, 0, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
+	f_keyBattleSave(2,0)
 end
 
 --Default P2 GAMEPAD BATTLE
@@ -940,6 +900,26 @@ function f_p2gamepadBattleDefault()
 	f_keyBattleSave(3,1)
 end
 
+--Default P1 KEYBOARD MENU
+function f_p1keyboardMenuDefault()
+	t_keyMenuCfg[1].varText = 'UP'
+	t_keyMenuCfg[2].varText = 'DOWN'
+	t_keyMenuCfg[3].varText = 'LEFT'
+	t_keyMenuCfg[4].varText = 'RIGHT'
+	t_keyMenuCfg[5].varText = 'a'
+	t_keyMenuCfg[6].varText = 's'
+	t_keyMenuCfg[7].varText = 'd'
+	t_keyMenuCfg[8].varText = 'z'
+	t_keyMenuCfg[9].varText = 'x'
+	t_keyMenuCfg[10].varText = 'c'
+	t_keyMenuCfg[11].varText = 'F10'
+	t_keyMenuCfg[12].varText = 'RETURN'
+	t_keyMenuCfg[13].varText = 'BACKSPACE'
+	t_keyMenuCfg[14].varText = 'SPACE'
+	setInputConfig(10, -1, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
+	f_keyMenuSave(10,-1)
+end
+
 --Default P2 KEYBOARD MENU
 function f_p2keyboardMenuDefault()
 	t_keyMenuCfg2[1].varText = 'KP_5'
@@ -958,6 +938,26 @@ function f_p2keyboardMenuDefault()
 	t_keyMenuCfg2[14].varText = 'KP_ENTER'
 	setInputConfig(11, -1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
 	f_keyMenuSave(11,-1)
+end
+
+--Default P1 GAMEPAD MENU
+function f_p1gamepadMenuDefault()
+	t_keyMenuCfg[1].varText = '-3'
+	t_keyMenuCfg[2].varText = '-4'
+	t_keyMenuCfg[3].varText = '-1'
+	t_keyMenuCfg[4].varText = '-2'
+	t_keyMenuCfg[5].varText = '0'
+	t_keyMenuCfg[6].varText = '1'
+	t_keyMenuCfg[7].varText = '4'
+	t_keyMenuCfg[8].varText = '2'
+	t_keyMenuCfg[9].varText = '3'
+	t_keyMenuCfg[10].varText = '5'
+	t_keyMenuCfg[11].varText = '-5'
+	t_keyMenuCfg[12].varText = '8'
+	t_keyMenuCfg[13].varText = '6'
+	t_keyMenuCfg[14].varText = '7'
+	setInputConfig(12, 0, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
+	f_keyMenuSave(12,0)
 end
 
 --Default P2 GAMEPAD MENU
@@ -6377,9 +6377,9 @@ for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	t_keyMenuCfg2[i]['varText'] = ""
 end
 
-txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 83, 30)
-txt_p2inputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 239, 30)
-txt_inputHint = createTextImg(font1, 0, 0, "", 0, 0)
+txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 81.5, 30)
+txt_p2inputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 240, 30)
+txt_inputHint = createTextImg(jgFnt, 5, 0, "", 0, 0, 0.7, 0.7)
 txt_newKey = "Press key to assign entry"
 txt_sameKey = "This key has been already assigned"
 txt_cancelKey = "Press ESC Key to Cancel"
@@ -6389,7 +6389,7 @@ function f_drawBattleKeyAssets()
 	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
 	textImgDraw(txt_battleCfg) --Title Text
 --Player 1 Controls Window BG
-	animSetScale(optionsBG2, 220, maxKeyCfg*15)
+	animSetScale(optionsBG2, 220, 15+maxKeyCfg*15)
 	animSetWindow(optionsBG2, 2,20, 155,195)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p1inputInfo) --Player Title Text
@@ -6409,22 +6409,22 @@ function f_drawBattleKeyAssets()
 		end
 	end
 --Draw Player 1 Arrows
-	if maxKeyCfg > 13 then
+	if maxKeyCfg > 12 then
 		animDraw(optionsUpArrowP1)
 		animUpdate(optionsUpArrowP1)
 	end
-	if #t_keyBattleCfg > 13 and maxKeyCfg < #t_keyBattleCfg then
+	if #t_keyBattleCfg > 12 and maxKeyCfg < #t_keyBattleCfg then
 		animDraw(optionsDownArrowP1)
 		animUpdate(optionsDownArrowP1)
 	end
 --Player 2 Controls Window BG
-	animSetScale(optionsBG2, 318, maxKeyCfg2*15)
-	animSetWindow(optionsBG2, 160,20, 155,195)
+	animSetScale(optionsBG2, 318, 15+maxKeyCfg2*15)
+	animSetWindow(optionsBG2, 163,20, 155,195)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
 	if not p1waitingKey then
-		animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 155,15)
+		animSetWindow(cursorBox, 163,20+inputCursorPosY2*15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -6432,17 +6432,17 @@ function f_drawBattleKeyAssets()
 	for i=1, maxKeyCfg2 do
 		if i > keyCfg2 - inputCursorPosY2 then
 			if t_keyBattleCfg2[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, 1, t_keyBattleCfg2[i].text, 165, 30+i*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, t_keyBattleCfg2[i].varText, 315, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, 1, t_keyBattleCfg2[i].text, 167, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyBattleCfg2[i].varID, font2, 0, -1, t_keyBattleCfg2[i].varText, 314, 30+i*15-inputMoveTxt2))
 			end
 		end
 	end
 --Draw Player 2 Arrows
-	if maxKeyCfg2 > 13 then
+	if maxKeyCfg2 > 12 then
 		animDraw(optionsUpArrowP2)
 		animUpdate(optionsUpArrowP2)
 	end
-	if #t_keyBattleCfg2 > 13 and maxKeyCfg2 < #t_keyBattleCfg2 then
+	if #t_keyBattleCfg2 > 12 and maxKeyCfg2 < #t_keyBattleCfg2 then
 		animDraw(optionsDownArrowP2)
 		animUpdate(optionsDownArrowP2)
 	end
@@ -6463,6 +6463,7 @@ function f_keyBattleCfg(playerNo, controller)
 	local configEnd = false
 	local defaultP1 = false
 	local defaultP2 = false
+	local cursorLimit = 12
 	inputCursorPosY = 1
 	inputCursorPosY2 = 1
 	inputMoveTxt = 0
@@ -6536,8 +6537,8 @@ function f_keyBattleCfg(playerNo, controller)
 		--Player 1 Scroll Logic
 		if keyCfg < 1 then
 			keyCfg = #t_keyBattleCfg
-			if #t_keyBattleCfg > 13 then
-				inputCursorPosY = 13
+			if #t_keyBattleCfg > cursorLimit then
+				inputCursorPosY = cursorLimit
 			else
 				inputCursorPosY = #t_keyBattleCfg
 			end
@@ -6546,20 +6547,20 @@ function f_keyBattleCfg(playerNo, controller)
 			inputCursorPosY = 1
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and inputCursorPosY > 1 then
 			inputCursorPosY = inputCursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 13 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < cursorLimit then
 			inputCursorPosY = inputCursorPosY + 1
 		end
-		if inputCursorPosY == 13 then
-			inputMoveTxt = (keyCfg - 13) * 15
+		if inputCursorPosY == cursorLimit then
+			inputMoveTxt = (keyCfg - cursorLimit) * 15
 		elseif inputCursorPosY == 1 then
 			inputMoveTxt = (keyCfg - 1) * 15
-		end	
-		if #t_keyBattleCfg <= 13 then
+		end
+		if #t_keyBattleCfg <= cursorLimit then
 			maxKeyCfg = #t_keyBattleCfg
 		elseif keyCfg - inputCursorPosY > 0 then
-			maxKeyCfg = keyCfg + 13 - inputCursorPosY
+			maxKeyCfg = keyCfg + cursorLimit - inputCursorPosY
 		else
-			maxKeyCfg = 13
+			maxKeyCfg = cursorLimit
 		end
 		--Player 2 Actions
 		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
@@ -6599,8 +6600,8 @@ function f_keyBattleCfg(playerNo, controller)
 		--Player 2 Scroll Logic
 		if keyCfg2 < 1 then
 			keyCfg2 = #t_keyBattleCfg2
-			if #t_keyBattleCfg2 > 13 then
-				inputCursorPosY2 = 13
+			if #t_keyBattleCfg2 > cursorLimit then
+				inputCursorPosY2 = cursorLimit
 			else
 				inputCursorPosY2 = #t_keyBattleCfg2
 			end
@@ -6609,25 +6610,25 @@ function f_keyBattleCfg(playerNo, controller)
 			inputCursorPosY2 = 1
 		elseif (commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30)) and inputCursorPosY2 > 1 then
 			inputCursorPosY2 = inputCursorPosY2 - 1
-		elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30)) and inputCursorPosY2 < 13 then
+		elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30)) and inputCursorPosY2 < cursorLimit then
 			inputCursorPosY2 = inputCursorPosY2 + 1
 		end
-		if inputCursorPosY2 == 13 then
-			inputMoveTxt2 = (keyCfg2 - 13) * 15
+		if inputCursorPosY2 == cursorLimit then
+			inputMoveTxt2 = (keyCfg2 - cursorLimit) * 15
 		elseif inputCursorPosY2 == 1 then
 			inputMoveTxt2 = (keyCfg2 - 1) * 15
-		end	
-		if #t_keyBattleCfg2 <= 13 then
+		end
+		if #t_keyBattleCfg2 <= cursorLimit then
 			maxKeyCfg2 = #t_keyBattleCfg2
 		elseif keyCfg2 - inputCursorPosY2 > 0 then
-			maxKeyCfg2 = keyCfg2 + 13 - inputCursorPosY2
+			maxKeyCfg2 = keyCfg2 + cursorLimit - inputCursorPosY2
 		else
-			maxKeyCfg2 = 13
+			maxKeyCfg2 = cursorLimit
 		end
 		--Draw Common Assets
 		f_drawBattleKeyAssets()
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
-		textImgPosDraw(txt_inputHint, 163.5, 238)
+		textImgPosDraw(txt_inputHint, 163.5, 239)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -6656,7 +6657,7 @@ function f_drawMenuKeyAssets()
 	animDraw(f_animVelocity(optionsBG0, -1, -1)) --BG
 	textImgDraw(txt_menuKeyCfg) --Title Text
 --Player 1 Controls Window BG
-	animSetScale(optionsBG2, 220, maxKeyCfg*15)
+	animSetScale(optionsBG2, 220, 15+maxKeyCfg*15)
 	animSetWindow(optionsBG2, 2,20, 155,195)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p1inputInfo) --Player Title Text
@@ -6676,22 +6677,22 @@ function f_drawMenuKeyAssets()
 		end
 	end
 --Draw Player 1 Arrows
-	if maxKeyCfg > 13 then
+	if maxKeyCfg > 12 then
 		animDraw(optionsUpArrowP1)
 		animUpdate(optionsUpArrowP1)
 	end
-	if #t_keyMenuCfg > 13 and maxKeyCfg < #t_keyMenuCfg then
+	if #t_keyMenuCfg > 12 and maxKeyCfg < #t_keyMenuCfg then
 		animDraw(optionsDownArrowP1)
 		animUpdate(optionsDownArrowP1)
 	end
 --Player 2 Controls Window BG
-	animSetScale(optionsBG2, 318, maxKeyCfg2*15)
-	animSetWindow(optionsBG2, 160,20, 160,195)
+	animSetScale(optionsBG2, 318, 15+maxKeyCfg2*15)
+	animSetWindow(optionsBG2, 163,20, 155,195)
 	animDraw(optionsBG2)
 	textImgDraw(txt_p2inputInfo)
 --Player 2 Controls Cursor
 	if not p1waitingKey then
-		animSetWindow(cursorBox, 160,20+inputCursorPosY2*15, 160,15)
+		animSetWindow(cursorBox, 163,20+inputCursorPosY2*15, 155,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 	end
@@ -6699,17 +6700,17 @@ function f_drawMenuKeyAssets()
 	for i=1, maxKeyCfg2 do
 		if i > keyCfg2 - inputCursorPosY2 then
 			if t_keyMenuCfg2[i].varID ~= nil then
-				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, 1, t_keyMenuCfg2[i].text, 165, 30+i*15-inputMoveTxt2))
-				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, t_keyMenuCfg2[i].varText, 315, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, 1, t_keyMenuCfg2[i].text, 167, 30+i*15-inputMoveTxt2))
+				textImgDraw(f_updateTextImg(t_keyMenuCfg2[i].varID, font2, 0, -1, t_keyMenuCfg2[i].varText, 314, 30+i*15-inputMoveTxt2))
 			end
 		end
 	end
 --Draw Player 2 Arrows
-	if maxKeyCfg2 > 13 then
+	if maxKeyCfg2 > 12 then
 		animDraw(optionsUpArrowP2)
 		animUpdate(optionsUpArrowP2)
 	end
-	if #t_keyMenuCfg2 > 13 and maxKeyCfg2 < #t_keyMenuCfg2 then
+	if #t_keyMenuCfg2 > 12 and maxKeyCfg2 < #t_keyMenuCfg2 then
 		animDraw(optionsDownArrowP2)
 		animUpdate(optionsDownArrowP2)
 	end
@@ -6728,6 +6729,7 @@ function f_keyMenuCfg(playerNo, controller)
 	local configEnd = false
 	local defaultP1 = false
 	local defaultP2 = false
+	local cursorLimit = 12
 	inputCursorPosY = 1
 	inputCursorPosY2 = 1
 	inputMoveTxt = 0
@@ -6798,8 +6800,8 @@ function f_keyMenuCfg(playerNo, controller)
 		--Player 1 Scroll Logic
 		if keyCfg < 1 then
 			keyCfg = #t_keyMenuCfg
-			if #t_keyMenuCfg > 13 then
-				inputCursorPosY = 13
+			if #t_keyMenuCfg > cursorLimit then
+				inputCursorPosY = cursorLimit
 			else
 				inputCursorPosY = #t_keyMenuCfg
 			end
@@ -6808,20 +6810,20 @@ function f_keyMenuCfg(playerNo, controller)
 			inputCursorPosY = 1
 		elseif (commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30)) and inputCursorPosY > 1 then
 			inputCursorPosY = inputCursorPosY - 1
-		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < 13 then
+		elseif (commandGetState(p1Cmd, 'd') or (commandGetState(p1Cmd, 'holdd') and bufd >= 30)) and inputCursorPosY < cursorLimit then
 			inputCursorPosY = inputCursorPosY + 1
 		end
-		if inputCursorPosY == 13 then
-			inputMoveTxt = (keyCfg - 13) * 15
+		if inputCursorPosY == cursorLimit then
+			inputMoveTxt = (keyCfg - cursorLimit) * 15
 		elseif inputCursorPosY == 1 then
 			inputMoveTxt = (keyCfg - 1) * 15
-		end	
-		if #t_keyMenuCfg <= 13 then
+		end
+		if #t_keyMenuCfg <= cursorLimit then
 			maxKeyCfg = #t_keyMenuCfg
 		elseif keyCfg - inputCursorPosY > 0 then
-			maxKeyCfg = keyCfg + 13 - inputCursorPosY
+			maxKeyCfg = keyCfg + cursorLimit - inputCursorPosY
 		else
-			maxKeyCfg = 13
+			maxKeyCfg = cursorLimit
 		end
 		--Player 2 Actions
 		if commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30) then
@@ -6864,8 +6866,8 @@ function f_keyMenuCfg(playerNo, controller)
 		--Player 2 Scroll Logic
 		if keyCfg2 < 1 then
 			keyCfg2 = #t_keyMenuCfg2
-			if #t_keyMenuCfg2 > 13 then
-				inputCursorPosY2 = 13
+			if #t_keyMenuCfg2 > cursorLimit then
+				inputCursorPosY2 = cursorLimit
 			else
 				inputCursorPosY2 = #t_keyMenuCfg2
 			end
@@ -6874,25 +6876,25 @@ function f_keyMenuCfg(playerNo, controller)
 			inputCursorPosY2 = 1
 		elseif (commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufu2 >= 30)) and inputCursorPosY2 > 1 then
 			inputCursorPosY2 = inputCursorPosY2 - 1
-		elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30)) and inputCursorPosY2 < 13 then
+		elseif (commandGetState(p2Cmd, 'd') or (commandGetState(p2Cmd, 'holdd') and bufd2 >= 30)) and inputCursorPosY2 < cursorLimit then
 			inputCursorPosY2 = inputCursorPosY2 + 1
 		end
-		if inputCursorPosY2 == 13 then
-			inputMoveTxt2 = (keyCfg2 - 13) * 15
+		if inputCursorPosY2 == cursorLimit then
+			inputMoveTxt2 = (keyCfg2 - cursorLimit) * 15
 		elseif inputCursorPosY2 == 1 then
 			inputMoveTxt2 = (keyCfg2 - 1) * 15
-		end	
-		if #t_keyMenuCfg2 <= 13 then
+		end
+		if #t_keyMenuCfg2 <= cursorLimit then
 			maxKeyCfg2 = #t_keyMenuCfg2
 		elseif keyCfg2 - inputCursorPosY2 > 0 then
-			maxKeyCfg2 = keyCfg2 + 13 - inputCursorPosY2
+			maxKeyCfg2 = keyCfg2 + cursorLimit - inputCursorPosY2
 		else
-			maxKeyCfg2 = 13
+			maxKeyCfg2 = cursorLimit
 		end
 		--Draw Common Assets
 		f_drawMenuKeyAssets()
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
-		textImgPosDraw(txt_inputHint, 163.5, 238)
+		textImgPosDraw(txt_inputHint, 163.5, 239)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -7036,7 +7038,7 @@ function f_readBattleInput(oldkey)
 				end
 				sameKeyTime = sameKeyTime + 1
 			end
-			textImgPosDraw(txt_inputHint, 90, 238) --Draw Hints
+			textImgPosDraw(txt_inputHint, 90, 239) --Draw Hints
 			t = t + 1
 		end
 	--Waiting Key Press
@@ -7495,7 +7497,7 @@ function f_readMenuInput(oldkey)
 				end
 				sameKeyTime = sameKeyTime + 1
 			end
-			textImgPosDraw(txt_inputHint, 90, 238) --Draw Hints
+			textImgPosDraw(txt_inputHint, 90, 239) --Draw Hints
 			t = t + 1
 		end
 	--Waiting Key Press
