@@ -2873,10 +2873,10 @@ function f_selectDestiny()
 			animUpdate(towerRightArrow)
 		end
 	--Destiny Select Timer
-		--txt_destinyTime = createTextImg(jgFnt, 0, 0, (destinyTimer/gameTick), 160, 70)
+		--txt_destinyTime = createTextImg(jgFnt, 0, 0, (destinyTimer/gameTick), 160, 28)
 		destinyTimeNumber = destinyTimer/gameTick
 		nodecimalDestinyTime = string.format("%.0f",destinyTimeNumber)
-		txt_destinyTime = createTextImg(jgFnt, 0, 0, nodecimalDestinyTime, 160, 70)
+		txt_destinyTime = createTextImg(jgFnt, 0, 0, nodecimalDestinyTime, 160, 28)
 		if destinyTimer > 0 then
 			destinyTimer = destinyTimer - 0.5 --Activate Tower Select Timer
 			textImgDraw(txt_destinyTime)
@@ -3350,7 +3350,7 @@ function f_selectScreen()
 		end
 	end
 	--Character Select Timer
-	if data.gameMode == "arcade" or data.ftcontrol > 0 or data.attractMode == true then
+	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
 		--txt_charTime = createTextImg(jgFnt, 0, 0, (selectTimer/gameTick), 160, 70) --Original Decimal Timer
 		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
 		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
@@ -6968,7 +6968,7 @@ function f_selectStage()
 			if stageAnnouncer == false then textImgDraw(txt_stageDayTime) end
 		end
 		--Stage Select Timer
-		if data.gameMode == "arcade" or data.ftcontrol > 0 or data.attractMode == true then
+		if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
 			if data.stageType == "Classic" then
 				--txt_stageTime = createTextImg(jgFnt, 0, 0, (stageTimer/gameTick), 160, 70)
 				stageTimeNumber = stageTimer/gameTick
@@ -8713,7 +8713,7 @@ function f_rematch()
 		end
 	end
 	--Rematch Option Timer
-	if data.gameMode == "arcade" or data.ftcontrol > 0 or data.attractMode == true then
+	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
 		--txt_rematchTime = createTextImg(jgFnt, 0, 0, (rematchTimer/gameTick), 160, 70)
 		rematchTimeNumber = rematchTimer/gameTick
 		nodecimalRematchTime = string.format("%.0f",rematchTimeNumber)

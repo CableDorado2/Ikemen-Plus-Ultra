@@ -6379,10 +6379,10 @@ end
 
 txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 81.5, 30)
 txt_p2inputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 240, 30)
-txt_inputHint = createTextImg(jgFnt, 5, 0, "", 0, 0, 0.7, 0.7)
-txt_newKey = "Press key to assign entry"
-txt_sameKey = "This key has been already assigned"
-txt_cancelKey = "Press ESC Key to Cancel"
+txt_inputHint = createTextImg(jgFnt, 0, 0, "", 0, 0, 0.7, 0.7)
+txt_newKey = "PRESS KEY TO ASSIGN ENTRY..."
+txt_sameKey = "THIS KEY HAS BEEN ALREADY ASSIGNED"
+txt_cancelKey = "PRESS ESC KEY TO CANCEL"
 txt_quickSaveKey = "PRESS ESC IN YOUR KEYBOARD TO QUICK SAVE AND BACK"
 
 function f_drawBattleKeyAssets()
@@ -6627,8 +6627,10 @@ function f_keyBattleCfg(playerNo, controller)
 		end
 		--Draw Common Assets
 		f_drawBattleKeyAssets()
+		textImgSetBank(txt_inputHint, 5)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
-		textImgPosDraw(txt_inputHint, 163.5, 239)
+		textImgSetAlign(txt_inputHint, 0)
+		textImgPosDraw(txt_inputHint, 163, 238)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -6893,8 +6895,10 @@ function f_keyMenuCfg(playerNo, controller)
 		end
 		--Draw Common Assets
 		f_drawMenuKeyAssets()
+		textImgSetBank(txt_inputHint, 5)
 		textImgSetText(txt_inputHint, txt_quickSaveKey)
-		textImgPosDraw(txt_inputHint, 163.5, 239)
+		textImgSetAlign(txt_inputHint, 0)
+		textImgPosDraw(txt_inputHint, 163, 238)
 		if data.attractMode == true then f_attractcfgCredits() end
 		if commandGetState(p1Cmd, 'holdu') then
 			bufd = 0
@@ -7017,11 +7021,13 @@ function f_readBattleInput(oldkey)
 			--Time to show Hints
 			if t < 120 then
 				if not sameKey then
+					textImgSetBank(txt_inputHint, 2)
 					textImgSetText(txt_inputHint, txt_newKey)
 				end
 			else
 				if t < 240 then
 					if not sameKey then
+						textImgSetBank(txt_inputHint, 2)
 						textImgSetText(txt_inputHint, txt_cancelKey)
 					end
 				else
@@ -7031,6 +7037,7 @@ function f_readBattleInput(oldkey)
 			--Time to show Same Key Message
 			if sameKey then
 				if sameKeyTime < 100 then
+					textImgSetBank(txt_inputHint, 1)
 					textImgSetText(txt_inputHint, txt_sameKey)
 				else
 					sameKey = false
@@ -7038,7 +7045,13 @@ function f_readBattleInput(oldkey)
 				end
 				sameKeyTime = sameKeyTime + 1
 			end
-			textImgPosDraw(txt_inputHint, 90, 239) --Draw Hints
+			if p1waitingKey then
+				textImgSetAlign(txt_inputHint, 1)
+				textImgPosDraw(txt_inputHint, 5, 238) --Draw Hints for Left Side
+			elseif p2waitingKey then
+				textImgSetAlign(txt_inputHint, -1)
+				textImgPosDraw(txt_inputHint, 315, 238) --Draw Hints for Right Side
+			end
 			t = t + 1
 		end
 	--Waiting Key Press
@@ -7476,11 +7489,13 @@ function f_readMenuInput(oldkey)
 			--Time to show Hints
 			if t < 120 then
 				if not sameKey then
+					textImgSetBank(txt_inputHint, 2)
 					textImgSetText(txt_inputHint, txt_newKey)
 				end
 			else
 				if t < 240 then
 					if not sameKey then
+						textImgSetBank(txt_inputHint, 2)
 						textImgSetText(txt_inputHint, txt_cancelKey)
 					end
 				else
@@ -7490,6 +7505,7 @@ function f_readMenuInput(oldkey)
 			--Time to show Same Key Message
 			if sameKey then
 				if sameKeyTime < 100 then
+					textImgSetBank(txt_inputHint, 1)
 					textImgSetText(txt_inputHint, txt_sameKey)
 				else
 					sameKey = false
@@ -7497,7 +7513,13 @@ function f_readMenuInput(oldkey)
 				end
 				sameKeyTime = sameKeyTime + 1
 			end
-			textImgPosDraw(txt_inputHint, 90, 239) --Draw Hints
+			if p1waitingKey then
+				textImgSetAlign(txt_inputHint, 1)
+				textImgPosDraw(txt_inputHint, 5, 238) --Draw Hints for Left Side
+			elseif p2waitingKey then
+				textImgSetAlign(txt_inputHint, -1)
+				textImgPosDraw(txt_inputHint, 315, 238) --Draw Hints for Right Side
+			end
 			t = t + 1
 		end
 	--Waiting Key Press
