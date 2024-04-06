@@ -1881,20 +1881,6 @@ void resetRemapInput(&.lua.State L=, int re=)
   .com.resetRemapInput();
 }
 
-void getRemapInput(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 1;
-  int pn = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  if(
-    !.m.inRange!int?(1, #.com.inputRemap, pn))
-  {
-    L.pushString("Invalid player number.");
-    re = -1;
-    ret;
-  }
-  L.pushNumber((double).com.inputRemap[pn-1]+1.0);
-}
-
 void remapInput(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -1965,50 +1951,6 @@ void getConfigTVars(&.lua.State L=, int re=)
     v = .chr.chars[1-(int)(tvar==12||tvar==11)]<>~tivar[tvar];
   }
   L.pushNumber((double)v);
-}
-
-void setPlaybackCfg(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int recSlot = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  int playSlot = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  bool playLoop = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  bool slot1 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  bool slot2 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  bool slot3 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  bool slot4 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  bool slot5 = .sc.blArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .cmd.pbCfgRecSlot = recSlot;
-  .cmd.pbCfgPlaySlot = playSlot <= 5 ? playSlot : 1;
-  .cmd.pbCfgPlayOrder = playSlot > 5 ? playSlot-5 : 0;
-  .cmd.pbCfgPlayLoop = playLoop;
-  .cmd.pbCfgSlot[0] = slot1;
-  .cmd.pbCfgSlot[1] = slot2;
-  .cmd.pbCfgSlot[2] = slot3;
-  .cmd.pbCfgSlot[3] = slot4;
-  .cmd.pbCfgSlot[4] = slot5;
-}
-
-void getPlaybackCfg(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 1;
-  int vi = 0;
-  bool vb = false;
-  ^/char cfg = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
-  branch{
-  cond .s.equ(cfg,"RecSlot"): vi = .cmd.pbCfgRecSlot;
-  cond .s.equ(cfg,"PlaySlot"): vi = .cmd.pbCfgPlaySlot;
-  cond .s.equ(cfg,"PlayLoop"): vb = .cmd.pbCfgPlayLoop;
-  cond .s.equ(cfg,"Slot1"): vb = .cmd.pbCfgSlot[0];
-  cond .s.equ(cfg,"Slot2"): vb = .cmd.pbCfgSlot[1];
-  cond .s.equ(cfg,"Slot3"): vb = .cmd.pbCfgSlot[2];
-  cond .s.equ(cfg,"Slot4"): vb = .cmd.pbCfgSlot[3];
-  cond .s.equ(cfg,"Slot5"): vb = .cmd.pbCfgSlot[4];
-  }
-  branch{
-  cond .s.equ(cfg,"RecSlot") || .s.equ(cfg,"PlaySlot"): L.pushNumber((double)vi);
-  else:  L.pushBoolean(vb);
-  }
 }
 
 public void init(&.lua.State L=)
@@ -2125,9 +2067,8 @@ public void init(&.lua.State L=)
   L.register("getInputKey", .getInputKey);
   L.register("getInputID", .getInputID);
   L.register("inputReset", .inputReset);
-  L.register("setInputConfig", .setInputConfig);
+  L.register("setInputConfig", .setInputConfig);  
   L.register("resetRemapInput", .resetRemapInput);
-  L.register("getRemapInput", .getRemapInput);
   L.register("remapInput", .remapInput);
   L.register("setSharedLife", .setSharedLife);
   L.register("setHUD", .setHUD);
@@ -2144,6 +2085,4 @@ public void init(&.lua.State L=)
   L.register("setCounterHit", .setCounterHit);
   L.register("setConfigTVars", .setConfigTVars);
   L.register("getConfigTVars", .getConfigTVars);
-  L.register("setPlaybackCfg", .setPlaybackCfg);
-  L.register("getPlaybackCfg", .getPlaybackCfg);
 }

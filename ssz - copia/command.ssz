@@ -11,7 +11,7 @@ lib se = <alpha/sdlevent.ssz>;
 lib file = <file.ssz>;
 lib cfg = "../save/config.ssz";
 lib com = "common.ssz";
-lib al = <alert.ssz>;
+
 
 public int max(int x, int y)
 {
@@ -208,18 +208,8 @@ public &Buffer
   }
 }
 
-public bool disablePadP1, disablePadP2;
-
-|PlaybackState
-{
-  None, CtrlP2, Record, Play, Loop, Wait, End
-}
-public |.PlaybackState pbState;
-
-public int pbCfgRecSlot = 1, pbCfgPlaySlot = 1, pbCfgPlayOrder = 0;
-public bool pbCfgPlayLoop = false;
-public ^bool pbCfgSlot;
-.pbCfgSlot.new(5);
+public bool disablePadP1;
+public bool disablePadP2;
 
 public bool modKeyState(bool keyState, int jn, int key)
 {
@@ -602,10 +592,6 @@ public &NetInput
   }
 }
 
-public ^&NetInput net;
-
-public int rFacing, pbFacing;
-
 public &FileInput
 {
   &.file.File f;
@@ -623,14 +609,6 @@ public &FileInput
     int seed;
     if(!`f.read!int?(seed=)) ret false;
     .m.srand(seed);
-    `update();
-    ret true;
-  }
-  public bool init()
-  {
-    int facing;
-    if(!`f.read!int?(facing=)) ret false;
-    .pbFacing = facing;
     `update();
     ret true;
   }
@@ -653,23 +631,13 @@ public &FileInput
     if(
       .com.oldNextAddTime > 0.0
       && `f.readAry!&.KeyInfo?(`ki) < #`ki){
-      branch{
-      cond .pbState != .PlaybackState::Play:
-        .se.esc = true;
-        if(.com.gameState == 1) .com.exitMatch = true;
-      else:
-        `f.close();
-        .pbState = .pbCfgPlayLoop ? .PlaybackState::Loop : .PlaybackState::Wait;
-      }
-    }
-    if((.se.esc && (.com.pause || #.net > 0 || .com.gameState == 0)) || .com.exitMatch) {
+	}
+    if((.se.esc && (.com.pause || .com.gameState == 0)) || .com.exitMatch) {
       `f.close();
     }
     ret !.se.end;
   }
 }
-
-public ^&FileInput replay, pbRep;
 
 &AiInput
 {
@@ -754,100 +722,8 @@ public ^&FileInput replay, pbRep;
 }
 
 %&AiInput aiil;
-
-public &PlaybackInput
-{
-  %&.KeyBuffer kb;
-  //^|.PlayState pt;
-  /index lo = 0, re = 0;
-  int time = 0, delay = 0;
-  &.file.File rep;
-  void setlore(index ho=, index ge=)
-  {
-    ho = ge = -1;
-    `kb.new(#.com.com);
-    loop{index i = 0; while; do:
-      if(.com.com[i] == 0) branch{
-      cond ho < 0:
-        ho = i;
-      cond ge < 0:
-        ge = i;
-      }
-      i++;
-    while i < #.com.com:}
-    if(ho < 0) ho = 0;
-    if(ge < 0) ge = (ho+1) % #.com.com;
-  }
-  public bool openReplayFile(^/char replay)
-  {
-    ret `rep.open(replay, "wb");
-  } 
-  public void end()
-  {
-    .com.resetRemapInput();
-    .pbState = .PlaybackState::None; 
-  }
-  public bool synchronize()
-  {  
-    int seed; 
-    .m.srand(seed);
-    `rep.write!int?(seed=); 
-    `setlore(`lo=, `re=);
-    `kb[`lo].reset(`time);
-    `kb[`re].reset(`time); 
-    .pbState = .PlaybackState::Record; 
-    `update();
-    ret true;
-  }
-  public bool init(int f)
-  {
-    `setlore(`lo=, `re=);
-    `kb[`lo].reset(`time);
-    `kb[`re].reset(`time);
-    %int facing .= f;
-    `rep.writeAry!int?(facing);
-    `update();
-    ret true;
-  }
-  public bool input(&.Buffer b=, int in, int f)
-  {
-    //if(!.m.inRange!int?(0, #`kb-1, in)) ret false; 
-	ret `kb[.com.inputRemap[in]].input(b=, f);   
-  }
-  public bool anybutton()
-  {
-    loop{index i = 0; while; do:
-      if(`kb[i].data[`kb[i].timec&31].anybutton()) ret true;
-      i++;
-    while i < #`kb:}
-    ret false;
-  }
-  public bool update()
-  {
-    branch{
-      int tmp = (`kb[`re].timei + (`delay >> 3)) - `kb[`lo].timei;
-    cond tmp >= 0:
-      `kb[`lo].localUpdate(0);  
-      if(`delay > 0) `delay--;
-    cond tmp < -1:
-      `delay += 4;
-    }
-    `kb[`lo].setCurTime(`time);
-    `kb[`re].setCurTime(`time);
-    loop{index i = 0; while; do:
-      `rep.write!&.KeyInfo?(`kb[i].data[`time&31]=);
-      i++;
-    while i < #`kb:}
-    if(++`time >= 0){
-		`kb[`lo].localUpdate(0); 
-		`kb[`re].localUpdate(1); 
-		}
-    if(.se.esc) `end();
-    ret !.se.end;
-  }
-}
-
-public ^&PlaybackInput pbRec;
+public ^&NetInput net;
+public ^&FileInput replay;
 
 public bool update()
 {
@@ -858,12 +734,6 @@ public bool update()
   cond #.net > 0:
     .se.event(60);
     ret .net~update();
-  cond #.pbRec > 0 && .com.sysControls == 0:
-    .se.event(60);
-    ret .pbRec~update();
-  cond #.pbRep > 0:
-    .se.event(60);
-    ret .pbRep~update();
   }
   ret .se.event(60);
 }
@@ -1237,9 +1107,8 @@ public &Command
   }
   public void step(^&.Buffer kbuf, bool ai, bool hitpause, int buftime)
   {
-    //if(!hitpause && `curbuftime > 0) `curbuftime--;
-    if(`curbuftime > 0) `curbuftime--;
-	if(#`cmd == 0) ret;
+    if(!hitpause && `curbuftime > 0) `curbuftime--;
+    if(#`cmd == 0) ret;
     {
       int ocbt = `curbuftime;
       ^bool holdTemp;
@@ -1297,8 +1166,6 @@ public &CommandList
   public int defaultBufferTime;
   public ^&.Command ctmp;
   public bool ac = false;
-  public int pbRecTime = 0, pbPlayInc = 0;
-  public ^int pbPlaylist;
   new()
   {
     `clear();
@@ -1329,17 +1196,17 @@ public &CommandList
     if(input < 0 && input >= -.com.maxSimul*2){
       .aiil.new[!input].update();//Here to avoid getting out of sync
     }
-	if(.str.equ(.com.gameMode, "practice") && .com.pauseMenu == 0) `playback(input,facing);
+	//if(.str.equ(.com.gameMode, "practice") && .com.pauseMenu == 0) `playback(input,facing);
     branch{
       if(input < 0) else;
     cond #.replay > 0: //&& .com.sysControls == 0: //Pause Menu in Replay Mode broken with menu controls active
       .replay~input(`buffer<>=, input, facing);
     cond #.net > 0:
       .net~input(`buffer<>=, input, facing);
-    cond #.pbRec > 0 && .com.sysControls == 0:
-      .pbRec~input(`buffer<>=, input, facing);
-    cond #.pbRep > 0 && .com.sysControls == 0 && input != 0:
-      .pbRep~input(`buffer<>=, input, .rFacing == .pbFacing ? facing : -facing);
+    //cond #.pbRec > 0 && .com.sysControls == 0:
+      //.pbRec~input(`buffer<>=, input, facing);
+    //cond #.pbRep > 0 && .com.sysControls == 0 && input != 0:
+      //.pbRep~input(`buffer<>=, input, .rFacing == .pbFacing ? facing : -facing);
     else:
       {
         bool l, r, u, d, a, b, c, x, y, z, q, w, e, s;
@@ -1422,82 +1289,6 @@ public &CommandList
     if(i < 0 || i >= #`commands) ret .consts.null!&.Command?();
     ret `commands[i];
   }
-  public bool playback(int input, int facing)
-  {
-    if(input > 0){ //Isn't processed for P1.
-      if(`pbRecTime > 0) `pbRecTime--;
-      branch{
-      cond .pbState == .PlaybackState::CtrlP2 && .com.inputRemap[1] != 0:
-        `buffer~reset();
-        .com.inputRemap[0] = .com.IERR; //Kills human input for P1 char.
-        .com.inputRemap[1] = 0; //P1 now controls P2 char.
-      cond .pbState == .PlaybackState::Record && #.pbRec <= 0:
-        `buffer~reset();
-        .com.resetRemapInput(); //Because the init() function internally swaps P1 and P2 input for recording.
-        .pbRec.new(1);
-        .pbRec~openReplayFile("save/playback/" + ''.pbCfgRecSlot + ".dat");
-        .pbRec~init(facing);
-        `pbRecTime = 3600; //1 minute
-      cond (.pbState == .PlaybackState::Play && #.pbRep <= 0) || (.pbState == .PlaybackState::Loop) || (.pbState == .PlaybackState::Wait && `pbPlayInc > 0):
-        if(.pbState == .PlaybackState::Loop || `pbPlayInc > 0) .pbState = .PlaybackState::Play;
-        //There shouldn't be any way for all slots to be excluded, but just in case that somehow happens, this block won't run.
-        if((int).pbCfgSlot[0]+(int).pbCfgSlot[1]+(int).pbCfgSlot[2]+(int).pbCfgSlot[3]+(int).pbCfgSlot[4] != 0){
-          if(#.pbRep <= 0 && .pbCfgPlayOrder > 0) `populatePlaylist((.pbCfgPlayOrder&1) > 0);
-          if(.pbCfgPlayOrder == 1) .pbCfgPlaySlot = `pbPlaylist[.m.rand(0,#`pbPlaylist-1)];
-          if((.pbCfgPlayOrder&2) > 0){
-            `pbPlayInc = (#.pbRep <= 0 || (.pbCfgPlayLoop && `pbPlayInc >= #`pbPlaylist)) ? 1 : `pbPlayInc+1;
-            if(!.pbCfgPlayLoop && `pbPlayInc > #`pbPlaylist){
-              .pbState = .PlaybackState::End;
-              .pbRep.new(0);
-              `pbPlayInc = 0;
-              ret false;
-            }
-            .pbCfgPlaySlot = `pbPlaylist[`pbPlayInc-1];
-          }
-        }
-        .pbRep.new(1);
-        .pbRep~open("save/playback/" + ''.pbCfgPlaySlot + ".dat");
-        if(!.pbRep~init()){
-          .pbState = .PlaybackState::End;
-          .pbRep.new(0);
-          ret false;
-        }
-        .rFacing = facing;
-      cond ((#.pbRec > 0 || #.pbRep > 0) && .pbState == .PlaybackState::None) || (int).pbState > 4 || `pbRecTime == 0:
-        .com.resetRemapInput();
-        .pbRec.new(0);
-        .pbRep.new(0);
-        `pbRecTime = -1;
-        `pbPlayInc = 0;
-        .pbState = .PlaybackState::None;
-      }
-      ret true;
-    }
-    ret false;
-  }
-  public void populatePlaylist(bool r)
-  {
-    int num = (int).pbCfgSlot[0]+(int).pbCfgSlot[1]+(int).pbCfgSlot[2]+(int).pbCfgSlot[3]+(int).pbCfgSlot[4];
-    `pbPlaylist.new(num);
-    loop{index i = 0, j = 0; while; do:
-      branch{
-      cond .pbCfgSlot[j] == true:
-        `pbPlaylist[i] = j+1;
-        i++;
-        j++;
-      else:
-        j++;
-        if(j > #.pbCfgSlot) break, break;
-      }
-    while i < #`pbPlaylist:}
-    if(r && #`pbPlaylist > 1) loop{index i = 0; index j; index oldVal; while; do:
-      j = .m.rand(1,#`pbPlaylist)-1;
-      oldVal = `pbPlaylist[i];
-      `pbPlaylist[i] = `pbPlaylist[j];
-      `pbPlaylist[j] = oldVal;
-      i++;
-    while i < #`pbPlaylist-(int)(#`pbPlaylist <= 2):}
-  }
 }
 
 public ^int sBuf.new(2);
@@ -1538,7 +1329,5 @@ public bool anybutton()
 {
   if(#.replay > 0) ret .replay~anybutton();
   if(#.net > 0) ret .net~anybutton();
-  if(#.pbRec > 0) ret .pbRec~anybutton();
-  if(#.pbRep > 0) ret .pbRep~anybutton();
   ret .anyHardButton();
 }

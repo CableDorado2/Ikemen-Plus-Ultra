@@ -11,9 +11,7 @@ sh.open(.cfg.Executable, "ssz/ikemen.ssz", "", false, true);
 //BACKUP DATA FILES
 ////////////////////
 
-//DON'T edit below and wait that it make changes, BECAUSE ARE A COPY from original ones, just keep this updated...
-
-//No DLC Status Backup
+//No DLC Backup
 const ^/char dlcfile = "script/dlc.lua";
 if(#file.find(dlcfile) == 0){
 	&file.File f;

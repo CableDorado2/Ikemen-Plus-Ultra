@@ -178,7 +178,6 @@ if getGameMode() == "practice" then
 	if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
 		data.pbkSlot1 = true
 	end
-	--[[
 	--Apply settings from training_sav.lua
 	setPlaybackCfg(
 		data.pbkRecSlot,
@@ -190,7 +189,6 @@ if getGameMode() == "practice" then
 		data.pbkSlot4,
 		data.pbkSlot5
 	)
-	]]
 end
 
 --;===========================================================

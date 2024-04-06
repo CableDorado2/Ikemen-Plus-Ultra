@@ -1213,6 +1213,17 @@ void winperfect(&.lua.State L=, int re=)
   L.pushBoolean(#.cwc > 0 && .cwc~trWinPerfect());
 }
 
+void record(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.recordState);
+}
+
+void playback(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.playbackState);
+}
 
 public void registerFunction(&.lua.State L=)
 {
@@ -1347,5 +1358,7 @@ public void registerFunction(&.lua.State L=)
   L.register("winko", .winko);
   L.register("wintime", .wintime);
   L.register("winperfect", .winperfect);
+  L.register("record", .record);
+  L.register("playback", .playback);
 }
 

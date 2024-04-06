@@ -2038,7 +2038,6 @@ end
 
 --Data saving to training_sav.lua
 function f_saveTraining()
-	--[[
 	setPlaybackCfg(
 		data.pbkRecSlot,
 		data.pbkPlaySlot,
@@ -2049,7 +2048,6 @@ function f_saveTraining()
 		data.pbkSlot4,
 		data.pbkSlot5
 	)
-	]]
 	local t_training = {
 	--Practice Settings
 		['data.damageDisplay'] = data.damageDisplay,

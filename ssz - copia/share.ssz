@@ -30,8 +30,6 @@ public &Share
   public ^/char dlua;
   public ^&.snd.Bgm bgm;
   public bool dbgdw, clsndw, stsdw, alvl, fullscr;
-  public int recordState;
-  public int playbackState;
   public int roundTime;
   public int roundsToWin;
   public float life;
@@ -63,10 +61,8 @@ public &Share
   public float panStr;
   public ^/char bgmusic;
   /%&.cfg.Keys in;
-  public bool disablePadP1, disablePadP2;
-  public int recSlot, playSlot;
-  public bool playLoop;
-  public ^bool includeSlot;
+  public bool disablePadP1;
+  public bool disablePadP2;
   public bool cfgMod, trnMod;
   public bool exitMatch;
   public void copy()
@@ -101,8 +97,6 @@ public &Share
     `powsh = .com.powerShare;
     `alvl = .com.autolevel;
     `fullscr = .se.full;
-	`recordState = .com.recordState;
-    `playbackState = .com.playbackState;
     `roundTime = .com.roundTime;
 	`roundsToWin = .com.roundsToWin;
     `life = .com.life;
@@ -136,10 +130,6 @@ public &Share
 	`in = .cfg.in;
 	`disablePadP1 = .cmd.disablePadP1;
 	`disablePadP2 = .cmd.disablePadP2;
-	`recSlot = .cmd.pbCfgRecSlot;
-    `playSlot = .cmd.pbCfgPlaySlot; 
-    `playLoop = .cmd.pbCfgPlayLoop;
-    `includeSlot = .cmd.pbCfgSlot;
 	`cfgMod = .sc.cfgMod;
     `trnMod = .sc.trnMod;
 	`exitMatch = .com.exitMatch;
@@ -176,8 +166,6 @@ public &Share
     .com.powerShare = `powsh;
     .com.autolevel = `alvl;
     .se.full = `fullscr;
-	.com.recordState = `recordState;
-    .com.playbackState = `playbackState;
     .com.roundTime = `roundTime;
 	.com.roundsToWin = `roundsToWin;
     .com.life = `life;
@@ -218,10 +206,6 @@ public &Share
     .cfg.in[13] = `in[13];
     .cmd.disablePadP1 = `disablePadP1;
     .cmd.disablePadP2 = `disablePadP2;
-	.cmd.pbCfgRecSlot = `recSlot;
-    .cmd.pbCfgPlaySlot = `playSlot; 
-    .cmd.pbCfgPlayLoop = `playLoop;
-    .cmd.pbCfgSlot = `includeSlot;
 	.sc.cfgMod = `cfgMod;
     .sc.trnMod = `trnMod;
 	.com.exitMatch = `exitMatch;

@@ -114,40 +114,6 @@ void toggleStatusDraw(&.lua.State L=, int re=)
   if(#.cmd.net == 0) .com.statusDraw!!;
 }
 
-void toggleRecord(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret;  
-  if(!.s.equ(.com.gameMode, "practice") || (.chr.chars[0]<>~stVal.no == 0 && !.chr.chars[0]<>~ctrl) || .com.pause || .com.pauseMenu > 0) ret;
-  branch{
-  cond .cmd.pbState == .cmd.PlaybackState::None: 
-    .cmd.pbState = .cmd.PlaybackState::Record;  
-  cond .cmd.pbState == .cmd.PlaybackState::Record: 
-    .cmd.pbState = .cmd.PlaybackState::None; 
-  else:
-    .cmd.pbState = .cmd.PlaybackState::End;
-	}
-  snd~play(100, 1);
-}
-
-void togglePlayback(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret; 
-  if(!.s.equ(.com.gameMode, "practice") || (.chr.chars[0]<>~stVal.no == 0 && !.chr.chars[0]<>~ctrl) || .com.pause || .com.pauseMenu > 0) ret;
-  .cmd.pbState = .cmd.pbState == .cmd.PlaybackState::None ? .cmd.PlaybackState::Play : .cmd.PlaybackState::End;
-  snd~play(100, 1);
-}
-
-void toggleRecordEnd(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  ^&.sc.Snd snd = .sc.refArg!&.sc.Snd?(L=, re=, argc=, nret); if(re < 0) ret; 
-  .cmd.pbState = .cmd.PlaybackState::None; 
-  .cmd.pbRec.new(0);
-  snd~play(100, 1);
-}
-
 void roundReset(&.lua.State L=, int re=)
 {
   re = 0;
@@ -213,8 +179,6 @@ public ^/char loadFile(^/char file)
   .L.register("togglePauseMenu", .togglePauseMenu);
   .L.register("step", .step);
   .L.register("toggleStatusDraw", .toggleStatusDraw);
-  .L.register("toggleRecord", .toggleRecord);
-  .L.register("togglePlayback", .togglePlayback);
   .L.register("roundReset", .roundReset);
   .L.register("reload", .reload);
   .L.register("setAccel", .setAccel);

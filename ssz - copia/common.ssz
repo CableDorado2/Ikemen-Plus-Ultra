@@ -21,7 +21,6 @@ public bool sharedLife = true;
 public int sysControls = 0; //0 = Fight, 10 = Menu
 public int gameState = 0; //1 = Fight, 0 = Menu
 public bool exitMatch;
-
 public int inputDisplay = 0;
 public int damageDisplay = 0;
 public int powerStateP1 = 0;
@@ -33,9 +32,6 @@ public int dummyDistance = 0;
 public int dummyGuard = 0;
 public int dummyRecovery = 0;
 public int counterHit = 0;
-
-public int recordState = 10;
-public int playbackState = 20;
 
 //TEAM MODE TYPE
 |TeamMode
