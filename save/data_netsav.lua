@@ -4,8 +4,11 @@ data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
 data.menuSong = "sound/system/menu/Menu 3.ogg"
+data.menuSongFolder = 1
 data.selectSong = "sound/system/select/Select.mp3"
+data.selectSongFolder = 1
 data.challengerSong = "sound/system/select/Select Challenger.mp3"
+data.challengerSongFolder = 1
 --System Data
 data.language = "ENGLISH"
 data.clock = "Standard"

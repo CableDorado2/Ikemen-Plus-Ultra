@@ -389,8 +389,11 @@ function f_saveCfg()
 		['data.ftcontrol'] = data.ftcontrol,
 	--Music Data
 		['data.menuSong'] = data.menuSong,
+		['data.menuSongFolder'] = data.menuSongFolder,
 		['data.selectSong'] = data.selectSong,
+		['data.selectSongFolder'] = data.selectSongFolder,
 		['data.challengerSong'] = data.challengerSong,
+		['data.challengerSongFolder'] = data.challengerSongFolder,
 	--System Data
 		['data.language'] = data.language,
 		['data.clock'] = data.clock,
@@ -742,8 +745,11 @@ end
 --Default Songs Values
 function f_songDefault()
 	data.menuSong = "Random"
+	data.menuSongFolder = 3
 	data.selectSong = "Random"
+	data.selectSongFolder = 4
 	data.challengerSong = "Random"
+	data.challengerSongFolder = 4
 end
 
 --Default Video Values
@@ -4023,22 +4029,25 @@ t_songCfg = {
 }
 
 function f_setCfgSong()
-	if songsSettings == true then
-		if selectedSong == nil then
+	if songsSettings == true then --Only save if you come from this option script
+		if selectedSong == nil then --Get previous data
 			if songCfg == 1 then
-				data.menuSong = data.menuSong --Get previous data
+				data.menuSong = data.menuSong
 			elseif songCfg == 2 then
 				data.selectSong = data.selectSong
 			elseif songCfg == 3 then
 				data.challengerSong = data.challengerSong
 			end
-		else --If you selected a song
+		else --If you selected a song item
 			if songCfg == 1 then
 				data.menuSong = selectedSong
+				if selectedSong == "Random" then data.menuSongFolder = folderRefer end --If you selected random song item, save folder selected to randomize from it
 			elseif songCfg == 2 then
 				data.selectSong = selectedSong
+				if selectedSong == "Random" then data.selectSongFolder = folderRefer end
 			elseif songCfg == 3 then
 				data.challengerSong = selectedSong
+				if selectedSong == "Random" then data.challengerSongFolder = folderRefer end
 			end
 		end
 		modified = 1

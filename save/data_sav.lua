@@ -3,9 +3,12 @@ data.userName = "USERNAME"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "sound/system/menu/Menu 3.ogg"
+data.menuSong = "Random"
+data.menuSongFolder = 3
 data.selectSong = "sound/system/select/Select.mp3"
-data.challengerSong = "sound/system/select/Select Challenger.mp3"
+data.selectSongFolder = 2
+data.challengerSong = "Random"
+data.challengerSongFolder = 4
 --System Data
 data.language = "ENGLISH"
 data.clock = "Standard"
@@ -15,8 +18,8 @@ data.pauseMode = "Yes"
 data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Portrait"
-data.sffConversion = false
+data.charPresentation = "Mixed"
+data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -58,7 +61,7 @@ data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
-data.destinyTime = -1
+data.destinyTime = 61
 --Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"

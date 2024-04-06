@@ -1339,7 +1339,14 @@ function f_pauseSongs()
 			cursorPosY = 1
 		end
 		if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-			playBGM(t_songList[songFolder][songMenu].path) --Play Loaded Songs
+			if songMenu == #t_songList[songFolder]-1 then --Play Random Song from Folder Selected
+				randomSongSel = math.random(1, #t_songList[songFolder]-2) --Get random song (-2 excludes back and random select items)
+				selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
+				--selectedSongName = t_songList[songFolder][randomSongSel].name
+				playBGM(selectedSong)
+			else --Play Loaded Songs
+				playBGM(t_songList[songFolder][songMenu].path)
+			end
 		end
 		if songFolder < 1 then
 			songFolder = #t_songList

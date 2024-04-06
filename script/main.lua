@@ -603,6 +603,7 @@ function f_mainStart()
 	gameTime = (os.clock()/1000)
 	f_resetTemp()
 	f_unlocksCheck() --Check For Unlocked Content
+	f_soundtrack() --Load Soundtrack Tables from common.lua for use in menus
 	f_mainLogos()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	f_infoReset() --Allow select options below if the Engine detects characters or stages
@@ -5626,9 +5627,9 @@ function f_songMenu()
 	songMenu = 1 --Not local because will be used in other menus
 	songFolder = 1
 	selectedSong = nil
+	folderRefer = "" --To use in random select song
 	songChanged = false
-	f_soundtrack() --Loaded from common.lua
-	local randomTrack = ""
+	f_soundtrack() --Reload from common.lua
 	while true do
 		if backSongConfirm == true then
 			data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
@@ -5663,15 +5664,34 @@ function f_songMenu()
 				songMenu = 1 --Restart Cursor Values to prevent nil values issues
 				cursorPosY = 1 --Restart Cursor Values to prevent nil values issues
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if songMenu == #t_songList[songFolder] then
-					--BACK
+				if songMenu == #t_songList[songFolder] then --BACK
 					if soundTest == true or songChanged == false then --Same esc logic
 						backSongConfirm = true
 					else
 						confirmSong = true
 					end
-				else
-					--Play Song
+				elseif songMenu == #t_songList[songFolder]-1 then --RANDOM SELECT
+					if not soundTest then --If you are setting system songs in options
+						sndPlay(sysSnd, 100, 1)
+						songChanged = true
+						selectedSong = t_songList[songFolder][songMenu].path
+						selectedSongName = t_songList[songFolder][songMenu].name
+						folderRefer = songFolder
+						--Back Copy
+						if soundTest == true or songChanged == false then --Same esc logic
+							backSongConfirm = true
+						else
+							confirmSong = true
+						end
+					else --If you are in sound test
+						--randomSongFolder = math.random(1, #t_songList) --Get random folder song
+						--randomSongSel = math.random(1, #t_songList[randomSongFolder]-2)
+						randomSongSel = math.random(1, #t_songList[songFolder]-2) --Get random song (-2 excludes back and random select items)
+						selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
+						selectedSongName = t_songList[songFolder][randomSongSel].name
+						playBGM(selectedSong) --Play Random Song from Folder Selected
+					end
+				else --Play Selected Song
 					if not soundTest then
 						sndPlay(sysSnd, 100, 1)
 						songChanged = true
@@ -5679,11 +5699,6 @@ function f_songMenu()
 					selectedSong = t_songList[songFolder][songMenu].path
 					selectedSongName = t_songList[songFolder][songMenu].name
 					playBGM(selectedSong)
-					--if songFolder == 1 then
-						--randomTrack = math.random(1, #t_songList[1])
-						--randomTrack = math.random(1, #t_songList[1][randomTrack].path)
-						--playBGM(randomTrack)
-					--end
 				end
 			end
 			--Folder Select Logic

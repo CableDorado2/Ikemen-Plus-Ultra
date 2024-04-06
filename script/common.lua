@@ -176,29 +176,44 @@ end
 
 --Random Select for Main Menu Song
 function f_bgmrandomMenu()
-	local randomTrack = {"sound/System/Menu 1.mp3", "sound/System/Menu 2.mp3", "sound/System/Menu 3.ogg"}
-	playBGM(randomTrack[math.random(1, #randomTrack)])
+	local randomTrack = math.random(1, #t_songList[data.menuSongFolder]-2) --Get random song using folder reference saved (-2 excludes back and random select items)
+	local randomSong = t_songList[data.menuSongFolder][randomTrack].path --Use random song obtained to get his path
+	playBGM(randomSong)
 end
 
 --Select Character Select Song
 function f_selectMusic()
 	if data.selectSong == "Random" then
-		--TODO
+		f_bgmrandomSelect()
 	else
 		playBGM(data.selectSong)
 	end
 end
 
+--Random Select for Character Select Song
+function f_bgmrandomSelect()
+	local randomTrack = math.random(1, #t_songList[data.selectSongFolder]-2)
+	local randomSong = t_songList[data.selectSongFolder][randomTrack].path
+	playBGM(randomSong)
+end
+
 --Select Character Select (New Challenger Mode) Song
 function f_challengerMusic()
 	if data.challengerSong == "Random" then
-		--TODO
+		f_bgmrandomChallenger()
 	else
 		playBGM(data.challengerSong)
 	end
 end
 
---Random Select Song for Quick Versus Mode
+--Random Select for Character Select Song
+function f_bgmrandomChallenger()
+	local randomTrack = math.random(1, #t_songList[data.challengerSongFolder]-2)
+	local randomSong = t_songList[data.challengerSongFolder][randomTrack].path
+	playBGM(randomSong)
+end
+
+--Random Select Song for Quick Versus Mode (Unused)
 function f_bgmrandomVS()
 	t_randomsongList = {}
 	for file in lfs.dir[[.\\sound\\]] do
@@ -376,13 +391,15 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT
 --;	SET YOUR FOLDER BELOW
 --;=================================================================
 
---
+--Save Log
 if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
+--[[
 t_randomSongTest = {}
 for i=1, #t_songList[1] do --recibe todos los valores de la folder 1, la idea es usar esta tabla para randomizar esos valores como lo hace t_selchars
 	t_randomSongTest[#t_randomSongTest+1] = i --falta excluir los 2 ultimos valores (random y back)
 end
 if data.debugLog then f_printTable(t_randomSongTest, "save/debug/t_randomSongTest.txt") end
+]]
 end
 
 --;===========================================================
