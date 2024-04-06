@@ -63,23 +63,17 @@ Modifying the engine code is beyond most people due to the specific build enviro
 
 **IKEMEN GO Plus** is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
-## Default Controls
-| Action | Keyboard P1 | Keyboard P2 | Gamepad *(Supported from v1.2 onwards)* |
+## Default Menu Controls
+| Action | Keyboard P1 | Keyboard P2 | Gamepad |
 | --- | --- | --- | --- |
 | ↑ | Up Arrow | KP_5 | -3 |
 | ↓ | Down Arrow | KP_2 | -4 |
 | ← | Left Arrow | KP_1 | -1 |
 | → | Right Arrow | KP_3 | -2 |
-| A | A | U | 0 |
-| B | S | I | 1 |
-| C | D | O | 4 |
-| X | Z | J | 2 |
-| Y | X | L | 3 |
-| Z | C | L | 5 |
-| **Taunt**/Start | Enter | KP_0 | 9 |
-| **Pause**/Resume | P | M | 7 |
+| Screenshot | F10 | KP_DIVIDE |  |
 | UI Confirm | Enter |  |  |
-| UI Back | Esc |  |  |
+| UI Return | Esc/Backspace |  |  |
+| Battle Pause Menu | Space | KP_ENTER | 7 |
 
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
@@ -87,20 +81,22 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 **v1.4 (Next Update)**
 ------------
 
-- Probar el gamepad 2 ahora que el p2 tiene control en los menús a ver.
+- Probar el gamepad 2 ahora que el p2 tiene control en los menús.
 
 **v1.5**
 ------------
-
-- Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
 
 - Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
 
 - Cambiar de personaje y stage en el menú de pausa solo en training. Usar lógica parecida al new challenger del arcade.
 
+- Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una.
+
 - Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
 
 - Configurar controles de batalla desde el menú de pausa en plena partida.
+
+- Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
