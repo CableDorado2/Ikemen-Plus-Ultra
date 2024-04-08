@@ -1460,6 +1460,7 @@ public &CommandList
         if(!.pbRep~init()){
           .pbState = .PlaybackState::End;
           .pbRep.new(0);
+		  .com.playbackState = #.pbRep;
           ret false;
         }
         .rFacing = facing;
@@ -1471,6 +1472,8 @@ public &CommandList
         `pbPlayInc = 0;
         .pbState = .PlaybackState::None;
       }
+	  .com.recordState = (int).pbState;
+	  .com.playbackState = #.pbRep;
       ret true;
     }
     ret false;

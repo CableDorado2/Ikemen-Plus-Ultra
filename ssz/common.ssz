@@ -34,8 +34,11 @@ public int dummyGuard = 0;
 public int dummyRecovery = 0;
 public int counterHit = 0;
 
-public int recordState = 10;
-public int playbackState = 20;
+public int recordState = 0; //To display Debug Record Playback State
+public int playbackState = 0; //To display Debug Record Playback State
+
+public int score = 0;
+public int scoreTotal = 0;
 
 //TEAM MODE TYPE
 |TeamMode

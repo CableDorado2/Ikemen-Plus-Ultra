@@ -145,7 +145,7 @@ function f_resetTrainingCfg()
 	setInputDisplay(0)
 end
 
---Restore Training Settings Saved
+--Restore Training Settings Saved (WIP)
 if getGameMode() == "practice" then
 	--Screen Info
 	if data.damageDisplay == "No" then
@@ -384,6 +384,15 @@ function f_trainingCfgMenuReset()
 	moveTxt = 0
 	mainGoTo = "Training"
 	delayMenu = -2
+end
+
+function f_trainingCfgMenuReset2()
+	trainingModified = false
+	pauseMode = "Training"
+	trainingCfg = 1
+	cursorPosY = 1
+	moveTxt = 0
+	delayMenu = 0
 end
 
 function f_confirmReset()
@@ -683,7 +692,7 @@ function f_pauseMain(p, st, esc)
 		end
 	elseif pauseMode == "Settings" or pauseMode == "Audio" or pauseMode == "Songs" then
 		f_pauseSettings()
-	elseif pauseMode == "Training" then
+	elseif pauseMode == "Training" or pauseMode == "Playback" then
 		f_pauseTraining()
 	elseif pauseMode == "Confirm" then
 		f_pauseConfirm()
@@ -1577,11 +1586,15 @@ function f_pauseTraining()
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
 			end
-			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then --Reserved Menu for Playback
+			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 				--Playback Settings
 				if trainingCfg == 10 then
-					sndPlay(sysSnd, 100, 5)
-					--trainingGoTo = "Playback"
+					sndPlay(sysSnd, 100, 1)
+					trainingGoTo = "Playback"
+					playbackCfg = 1
+					cursorPosY = 1
+					moveTxt = 0
+					delayMenu = -2
 				end
 			end
 			--Info Display
@@ -1853,64 +1866,22 @@ function f_pauseTraining()
 			--[[
 			--Dummy State
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyState == 0 then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyState == 1 then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyState == 2 then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyState == 1 then
-					sndPlay(sysSnd, 100, 1)
-					
-				end
+				
 			--Dummy Distance
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				end
+				
 			--Dummy Guard
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				end
+				
 			--Dummy Tech
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				end
+				
 			--Dummy Tech Direction
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				end
+				
 			--Dummy Counter Hit
 			elseif trainingCfg == ??? then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and ??? then
-					sndPlay(sysSnd, 100, 1)
-					
-				end
+				
 			]]
 			end
 			if trainingCfg < 1 then
@@ -2015,7 +1986,268 @@ function f_pauseTraining()
 				P2bufd = 0
 			end
 		end
-	--elseif pauseMode == "???" then
-		--f_pause???()
+	elseif pauseMode == "Playback" then
+		f_pausePlayback()
+	end
+end
+
+--;===========================================================
+--; PLAYBACK SETTINGS
+--;===========================================================
+txt_playbackInfo = createTextImg(jgFnt, 5, 0, "", 159, 210, 0.7, 0.7)
+txt_pbSlots = "Toggle inclusion in Random, All, and Random All."
+txt_pbWarning = "At least one slot has to be included."
+txt_pbIncludeSlot = "Include"
+txt_pbExcludeSlot = "Exclude"
+
+t_playbackCfg = {
+	{varID = textImgNew(), text = "Recording Slot",   		 varText = data.pbkRecSlot},
+	{varID = textImgNew(), text = "Playback Slot",      	 varText = ""},
+	{varID = textImgNew(), text = "Playback Type",      	 varText = ""},
+	{varID = textImgNew(), text = "Slot 1",   				 varText = ""},
+	{varID = textImgNew(), text = "Slot 2",   				 varText = ""},
+	{varID = textImgNew(), text = "Slot 3",   				 varText = ""},
+	{varID = textImgNew(), text = "Slot 4",   				 varText = ""},
+	{varID = textImgNew(), text = "Slot 5",   				 varText = ""},
+	{varID = textImgNew(), text = "                   BACK", varText = ""},
+}
+
+--Logic to Display Text instead Number Values
+function f_pbkdisplayTxt()
+if data.pbkPlaySlot == 6 then t_playbackCfg[2].varText = "Random"
+elseif data.pbkPlaySlot == 7 then t_playbackCfg[2].varText = "All"
+elseif data.pbkPlaySlot == 8 then t_playbackCfg[2].varText = "Random All"
+else t_playbackCfg[2].varText = data.pbkPlaySlot --Display Number Value
+end
+
+if not data.pbkPlayLoop then t_playbackCfg[3].varText = "Once" else t_playbackCfg[3].varText = "Loop" end
+if not data.pbkSlot1 then t_playbackCfg[4].varText = txt_pbExcludeSlot else t_playbackCfg[4].varText = txt_pbIncludeSlot end
+if not data.pbkSlot2 then t_playbackCfg[5].varText = txt_pbExcludeSlot else t_playbackCfg[5].varText = txt_pbIncludeSlot end
+if not data.pbkSlot3 then t_playbackCfg[6].varText = txt_pbExcludeSlot else t_playbackCfg[6].varText = txt_pbIncludeSlot end
+if not data.pbkSlot4 then t_playbackCfg[7].varText = txt_pbExcludeSlot else t_playbackCfg[7].varText = txt_pbIncludeSlot end
+if not data.pbkSlot5 then t_playbackCfg[8].varText = txt_pbExcludeSlot else t_playbackCfg[8].varText = txt_pbIncludeSlot end
+end
+
+f_pbkdisplayTxt() --Load Display Text
+
+pbWarning = false
+function checkPBSlots() --Check that at least 1 slot is included
+	if not data.pbkSlot1 and not data.pbkSlot2 and not data.pbkSlot3 and not data.pbkSlot4 and not data.pbkSlot5 then
+		pbWarning = true
+		sndPlay(sysSnd, 100, 5)
+	else
+		pbWarning = false
+	end
+end
+
+function f_pausePlayback()
+	local hasChanged = false
+	if pn == 1 then txt_playbackCfg = createTextImg(jgFnt, 5, 0, "PLAYBACK SETTINGS [P1]", 159, 63)
+	elseif pn == 2 then txt_playbackCfg = createTextImg(jgFnt, 1, 0, "PLAYBACK SETTINGS [P2]", 159, 63)
+	end
+	if delayMenu == 2 then
+		if start then
+			sndPlay(sysSnd, 100, 2)
+			animReset(darkenOut)
+			animUpdate(darkenOut)
+			pauseMenuActive = false
+			bufl = 0
+			bufr = 0
+			if modified then f_saveTraining() end
+		--BACK
+		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and playbackCfg == #t_playbackCfg) then
+			sndPlay(sysSnd, 100, 2)
+			delayMenu = -2
+			if modified then f_saveTraining() end
+			bufl = 0
+			bufr = 0
+		end
+	end
+	if pauseMenuActive == true and delayMenu < 2 then
+		delayMenu = delayMenu + 1
+	elseif pauseMenuActive == false and delayMenu > 0 then
+		delayMenu = delayMenu - 1
+		--animUpdate(darkenOut)
+	end
+	if pauseMenuActive == false and delayMenu == 0 then
+		f_pauseMenuReset()
+		return
+	end
+	if pauseMenuActive then
+		animDraw(darkenIn)
+	else
+		animDraw(darkenOut)
+	end
+	if delayMenu == -1 then f_trainingCfgMenuReset2() end
+	if delayMenu == 2 then
+		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			playbackCfg = playbackCfg - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+			pbWarning = false
+		elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			playbackCfg = playbackCfg + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+			pbWarning = false
+		end
+		--Recording Slot
+		if playbackCfg == 1 then
+			if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+				if data.pbkRecSlot > 1 then
+					sndPlay(sysSnd, 100, 1)
+					data.pbkRecSlot = data.pbkRecSlot - 1
+					hasChanged = true
+				end
+			elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+				if data.pbkRecSlot < 5 then
+					sndPlay(sysSnd, 100, 1)
+					data.pbkRecSlot = data.pbkRecSlot + 1
+					hasChanged = true
+				end
+			end
+		--Playback Slot
+		elseif playbackCfg == 2 then
+			if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+				if data.pbkPlaySlot > 1 then
+					sndPlay(sysSnd, 100, 1)
+					data.pbkPlaySlot = data.pbkPlaySlot - 1
+					hasChanged = true
+				end
+			elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+				if data.pbkPlaySlot < 8 then
+					sndPlay(sysSnd, 100, 1)
+					data.pbkPlaySlot = data.pbkPlaySlot + 1
+					hasChanged = true
+				end
+			end
+		--Common Button Logic
+		elseif playbackCfg >= 3 and playbackCfg < 9 then
+			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
+				sndPlay(sysSnd, 100, 1)
+				--Playback Type
+				if playbackCfg == 3 then
+					if data.pbkPlayLoop then data.pbkPlayLoop = false else data.pbkPlayLoop = true end
+				--Slot 1
+				elseif playbackCfg == 4 then
+					if data.pbkSlot1 then data.pbkSlot1 = false else data.pbkSlot1 = true end
+					checkPBSlots()
+					if pbWarning then data.pbkSlot1 = true end
+				--Slot 2
+				elseif playbackCfg == 5 then
+					if data.pbkSlot2 then data.pbkSlot2 = false else data.pbkSlot2 = true end
+					checkPBSlots()
+					if pbWarning then data.pbkSlot2 = true end
+				--Slot 3
+				elseif playbackCfg == 6 then
+					if data.pbkSlot3 then data.pbkSlot3 = false else data.pbkSlot3 = true end
+					checkPBSlots()
+					if pbWarning then data.pbkSlot3 = true end
+				--Slot 4
+				elseif playbackCfg == 7 then
+					if data.pbkSlot4 then data.pbkSlot4 = false else data.pbkSlot4 = true end
+					checkPBSlots()
+					if pbWarning then data.pbkSlot4 = true end
+				--Slot 5
+				elseif playbackCfg == 8 then
+					if data.pbkSlot5 then data.pbkSlot5 = false else data.pbkSlot5 = true end
+					checkPBSlots()
+					if pbWarning then data.pbkSlot5 = true end
+				end
+				hasChanged = true
+			end
+		end
+		if playbackCfg < 1 then
+			playbackCfg = #t_playbackCfg
+			if #t_playbackCfg > 7 then
+				cursorPosY = 7
+			else
+				cursorPosY = #t_playbackCfg
+			end
+		elseif playbackCfg > #t_playbackCfg then
+			playbackCfg = 1
+			cursorPosY = 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 7 then
+			moveTxt = (playbackCfg - 7) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (playbackCfg - 1) * 15
+		end
+		if #t_playbackCfg <= 7 then
+			maxPlaybackCfg = #t_playbackCfg
+		elseif playbackCfg - cursorPosY > 0 then
+			maxPlaybackCfg = playbackCfg + 7 - cursorPosY
+		else
+			maxPlaybackCfg = 7
+		end
+		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		animSetScale(pauseBG1, 240, maxPlaybackCfg*15)
+		animSetWindow(pauseBG1, 55,70, 240,105)
+		animDraw(pauseBG1)
+		--animUpdate(pauseBG1)
+		textImgDraw(txt_playbackCfg)
+		if playbackCfg >= 4 and playbackCfg < 9 then
+			if not pbWarning then
+				textImgSetText(txt_playbackInfo, txt_pbSlots)
+			else
+				textImgSetText(txt_playbackInfo, txt_pbWarning)
+			end
+			textImgDraw(txt_playbackInfo)
+		end
+		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
+		f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if hasChanged then
+			if not modified then modified = true end
+			t_playbackCfg[1].varText = data.pbkRecSlot
+			f_pbkdisplayTxt()
+			hasChanged = false
+		end
+		for i=1, maxPlaybackCfg do
+			if i > playbackCfg - cursorPosY then
+				if t_playbackCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, font14, 0, 1, t_playbackCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_playbackCfg[i].varID, font14, 0, -1, t_playbackCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+				end
+			end
+		end
+		if maxPlaybackCfg > 7 then
+			animDraw(pauseTUpArrow)
+			animUpdate(pauseTUpArrow)
+		end
+		if #t_playbackCfg > 7 and maxPlaybackCfg < #t_playbackCfg then
+			animDraw(pauseTDownArrow)
+			animUpdate(pauseTDownArrow)
+		end
+		f_sysTimeP()
+		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		if commandGetState(p1Cmd, 'holdu') then
+			Pbufd = 0
+			Pbufu = Pbufu + 1
+		elseif commandGetState(p2Cmd, 'holdu') then
+			P2bufd = 0
+			P2bufu = P2bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			Pbufu = 0
+			Pbufd = Pbufd + 1
+		elseif commandGetState(p2Cmd, 'holdd') then
+			P2bufu = 0
+			P2bufd = P2bufd + 1
+		else
+			Pbufu = 0
+			Pbufd = 0
+			P2bufu = 0
+			P2bufd = 0
+		end
 	end
 end

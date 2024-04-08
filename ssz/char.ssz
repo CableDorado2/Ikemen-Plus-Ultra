@@ -5529,6 +5529,18 @@ public &Char
   {
     ret `isWin() && .ko == .fgt.KOTy::TO;
   }
+  public bool trFirstAttack()
+  {
+    ret false; //TODO
+  }
+  public bool trWinSpecial()
+  {
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PN; //TODO
+  }
+  public bool trWinHyper()
+  {
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PN; //TODO
+  }
   public bool trWinPerfect()
   {
     ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PN;

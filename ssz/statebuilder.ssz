@@ -1376,8 +1376,17 @@ public &StateBuilder
     cond .s.equ("wintime", token):
       out .= obj .= "trWinTime()";
       typ = 3;
+	cond .s.equ("winspecial", token):
+      out .= obj .= "trWinSpecial()";
+      typ = 3;
+	cond .s.equ("winhyper", token):
+      out .= obj .= "trWinHyper()";
+      typ = 3;
     cond .s.equ("winperfect", token):
       out .= obj .= "trWinPerfect()";
+      typ = 3;
+	cond .s.equ("firstattack", token):
+      out .= obj .= "trFirstAttack()";
       typ = 3;
     cond .s.equ("lose", token):
       out .= obj .= "isLose()";

@@ -157,7 +157,6 @@ void playerid(&.lua.State L=, int re=)
   L.pushBoolean(#.chr.c > 0);
 }
 
-
 void ailevel(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1207,10 +1206,28 @@ void wintime(&.lua.State L=, int re=)
   L.pushBoolean(#.cwc > 0 && .cwc~trWinTime());
 }
 
+void winspecial(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinSpecial());
+}
+
+void winhyper(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trWinHyper());
+}
+
 void winperfect(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushBoolean(#.cwc > 0 && .cwc~trWinPerfect());
+}
+
+void firstattack(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushBoolean(#.cwc > 0 && .cwc~trFirstAttack());
 }
 
 void record(&.lua.State L=, int re=)
@@ -1223,6 +1240,18 @@ void playback(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double).com.playbackState);
+}
+
+void score(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.score);
+}
+
+void scoretotal(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).com.scoreTotal);
 }
 
 public void registerFunction(&.lua.State L=)
@@ -1357,8 +1386,12 @@ public void registerFunction(&.lua.State L=)
   L.register("win", .win);
   L.register("winko", .winko);
   L.register("wintime", .wintime);
+  L.register("winspecial", .winspecial);
+  L.register("winhyper", .winhyper);
   L.register("winperfect", .winperfect);
+  L.register("firstattack", .firstattack);
+  L.register("score", .score);
+  L.register("scoretotal", .scoretotal);
   L.register("record", .record);
   L.register("playback", .playback);
 }
-

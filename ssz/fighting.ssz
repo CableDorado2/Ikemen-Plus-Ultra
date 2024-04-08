@@ -168,7 +168,7 @@ void game()
     .dscri.L.pushBoolean(esc);
     if(!.dscri.L.pcall(3, 1)) ret;
   }
-  void drawDebug()
+  void drawDebug() //DEBUG INFO
   {:<-
     if(!.com.debugdraw || #.fnt.debugFont == 0) ret;
     float y = -(float)(.com.GameHeight-240);
@@ -185,12 +185,27 @@ void game()
       i++;
     while i < #.chr.chars:}
     y = .m.max!float?(y, 48.0 - (float)(.com.GameHeight-240));
-    loop{index i = 0; while; do:
+	//GLOBAL INFO
+	`put(y=, "GAME MODE:" + .com.gameMode); //Display Game Mode
+	`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
+	`put(y=, "SERVICE:" + ''.com.serviceType); //Display Service Active
+	`put(y=, "MATCH:" + ''.com.match); //Display Match Number
+	`put(y=, "ROUND:" + ''.com.round); //Display Round Number
+	`put(y=, "ROUND STATE:" + ''.tscri.cwc~roundState()); //Display Round State
+	`put(y=, "ROUNDS TO WIN:" + ''.com.roundsToWin); //Display Rounds to Win
+	//`put(y=, "ROUND TIME:" + ''.com.roundTime); //Display Round Time
+	`put(y=, ""); //Enter a space to separate
+	`put(y=, "RECORDING STATE:" + ''.com.recordState); //Display Dummy Record State
+	`put(y=, "PLAYBACK STATE:" + ''.com.playbackState); //Display Dummy Playback State
+	`put(y=, "GAME SPEED:" + ''.com.Speed); //Display Dummy Playback State
+	`put(y=, ""); //Enter a space to separate
+	//CONTENT INFO
+	loop{index i = 0; while; do:
       if(#.chr.chars[i] > 0) `put(y=, .chr.cgi[i].def);
       i++;
-    while i < #.chr.chars:}
+	while i < #.chr.chars:}
     `put(y=, .chr.stg~def);
-    `put(
+	`put(
       y=, (
         #.tscri.cwc > 0
         ? "P"+''(.tscri.cwc~playerno+1)+":" + .tscri.cwc~name : "")
