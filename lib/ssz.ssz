@@ -39,4 +39,3 @@ public &Compiler
     ret CompilerRun(:`ptr:);
   }
 }
-

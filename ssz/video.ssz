@@ -1,4 +1,3 @@
-
 lib file = <file.ssz>;
 lib s = <string.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;

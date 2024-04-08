@@ -3,12 +3,12 @@ data.userName = "USERNAME"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
-data.menuSong = "sound/system/menu/Menu 3.ogg"
-data.menuSongFolder = 1
+data.menuSong = "Random"
+data.menuSongFolder = 3
 data.selectSong = "sound/system/select/Select.mp3"
-data.selectSongFolder = 1
-data.challengerSong = "sound/system/select/Select Challenger.mp3"
-data.challengerSongFolder = 1
+data.selectSongFolder = 2
+data.challengerSong = "Random"
+data.challengerSongFolder = 4
 --System Data
 data.language = "ENGLISH"
 data.clock = "Standard"
@@ -46,7 +46,7 @@ data.zoomSpeed = 1
 --Character Select Data
 data.selectType = "Fixed"
 data.palType = "Classic"
-data.randomPortrait = "Fixed"
+data.randomPortrait = "Simple"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
 --Stage Select Data
@@ -61,7 +61,7 @@ data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
-data.destinyTime = -1
+data.destinyTime = 61
 --Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"

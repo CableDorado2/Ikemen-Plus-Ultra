@@ -277,4 +277,3 @@ public ^char md5str(^/ubyte data)
   lib str = <string.ssz>;
   ret str.toHex!ubyte?()<, .md5(data);
 }
-

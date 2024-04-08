@@ -1,17 +1,18 @@
 //Video Settings
-const int Width = 1024;
-const int Height = 768;
+const int Width = 1280;
+const int Height = 720;
 const bool FullScreen = false;
 const bool FullScreenReal = false;
 const bool WindowBordered = true;
 const bool WindowResizable = false;
 const bool AspectRatio = false;
 const bool OpenGL = false;
+const int Brightness = 256;
 
 //Audio Settings
 const float GlVol = 0.8;
 const float SEVol = 0.8;
-const float BGMVol = 0.25;
+const float BGMVol = 0;
 const float PanStr = 0.8;
 
 //Perfomance Settings

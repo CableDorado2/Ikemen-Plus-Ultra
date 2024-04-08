@@ -1,5 +1,3 @@
-
-
 lib s = <string.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
 lib m = <math.ssz>;
@@ -718,4 +716,3 @@ public &BGCTimeLine
     `al.clear();
   }
 }
-

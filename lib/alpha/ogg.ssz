@@ -48,4 +48,3 @@ public &OggVorbis
     ret OggVorbisSeek(:`ptr, time:);
   }
 }
-

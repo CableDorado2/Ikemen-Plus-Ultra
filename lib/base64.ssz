@@ -1,5 +1,3 @@
-
-
 lib mat = <math.ssz>;
 
 public char uintToB64Char(uint n)
@@ -92,5 +90,3 @@ public ..decBase64<_t>(^/char b64) ^_t
   }
   ret buf;
 }
-
-

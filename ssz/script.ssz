@@ -1,4 +1,3 @@
-
 lib sh = <shell.ssz>;
 lib s = <string.ssz>;
 lib consts = <consts.ssz>;
@@ -15,7 +14,6 @@ lib com = "common.ssz";
 lib vid = "video.ssz";
 lib file = <file.ssz>;
 lib chr = "char.ssz";
-
 
 public double numArg(&.lua.State L=, int re=, int argc=, int nresults)
 {
@@ -1247,5 +1245,3 @@ public void init(&.lua.State L=)
   L.register("setSharedString", .setSharedString);
   //L.register("debugKey", .debugKey);
 }
-
-

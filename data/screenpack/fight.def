@@ -412,7 +412,7 @@ displaytime = 90    ;Time to show text
 
 ;-----------------------------------------------------------
 [Round]
-match.wins = 1              ;Rounds needed to win a match (Ikemen feature: depreciated, this setting can be configured in in-game options)
+match.wins = 2              ;Rounds needed to win a match (Ikemen feature: depreciated, this setting can be configured in in-game options)
 match.maxdrawgames = 2      ;Max number of drawgames allowed (-1 for infinite) *2001.11.01 NEW*
 start.waittime = 30         ;Time to wait before starting intro
 
@@ -622,6 +622,13 @@ p2.perfect.scale = 0.5,0.5
 
 ; Use icons up until this number of wins
 useiconupto = 4
+
+;-----------------------------------------------------------
+[Match]
+pos = 141,8
+;bg.spr = 
+text.font = 1,0, -1
+;text.text = STAGE %s
 
 ;-----------------------------------------------------------
 ; How to customize

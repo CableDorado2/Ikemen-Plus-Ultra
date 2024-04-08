@@ -1,4 +1,3 @@
-
 lib file = <file.ssz>;
 lib s = <string.ssz>;
 lib consts = <consts.ssz>;
@@ -13,7 +12,6 @@ lib bg = "bg.ssz";
 lib cfg = "../save/config.ssz";
 lib cmd = "command.ssz";
 lib al = <alert.ssz>;
-
 
 public &LifePower
 {
@@ -570,7 +568,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   }
   public void draw(int layerno, ^&.com.PalFX fx, bool superplayer)
   {
-    int ob = .com.brightness;
+    int ob = .cfg.Brightness;
     .com.brightness = superplayer ? 256 : ob;
     .layspr((float)`posx, (float)`posy, layerno, `face_spr, `face_lay=, fx);
     .com.brightness = ob;
@@ -871,6 +869,74 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   }
 }
 
+&Match
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	//if(#(data = sc.get("text.font")) > 0){
+      //.com.readPairOF!int?(`text_fontn=, `text_fontb=, data);
+    //}
+	if(#(data = sc.get("text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, int matchNo, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx, (float)`posy, 1.0, layerno,
+		matchNo >= 0 ? ''(matchNo) : "o",
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
 
 &AnimFontSnd
 {
@@ -1192,7 +1258,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   public void draw(int layerno, |.KOTy ko, ^/^/char name)
   {
     int ob = .com.brightness;
-    .com.brightness = 256;
+    .com.brightness = .cfg.Brightness;
     switch(`cur){
     case 0:
       if(`wt >= 0 || .com.intro > `ctrl_time) break;
@@ -1639,6 +1705,7 @@ public &Fight
   public &.Time ti;
   public &.Combo co;
   public &.Round ro;
+  public &.Match mtch;
   type action_t = &.act.Action;
   &.sff.AirFileMethods!self? airFileMethods;
   new()
@@ -1738,6 +1805,10 @@ public &Fight
     {
       `ro.read(sc=);
     }
+	public void match(&.com.Section sc=)
+    {
+      `mtch.read(sc=);
+    }
     bool slifebarflg = true, sfaceflg = true, snameflg = true;
     ~$void(^/char, &.com.Section=) simul = [void(
       ^/char sec, &.com.Section sc=)
@@ -1809,7 +1880,7 @@ public &Fight
     bool unicode = false;
     bool filesflg = true, lifebarflg = true, powerbarflg = true;
     bool faceflg = true, nameflg = true, winiconflg = true, timeflg = true;
-    bool comboflg = true, roundflg = true;
+    bool comboflg = true, roundflg = true, matchflg = true;
     ~$void(^^/char, index=) section = [void(^^/char lines, index i=){
       ^/char sec = lines[i];
       ^/char secname = .com.sectionName(sec=);
@@ -1866,9 +1937,9 @@ public &Fight
 	  //cond .s.equ(secname, "score"):
         //if(scoreflg) score(sc=);
         //scoreflg = false;
-	  //cond .s.equ(secname, "match"): //Match Number
-        //if(matchflg) match(sc=);
-        //matchflg = false;
+	  cond .s.equ(secname, "match"): //Match Number
+        if(matchflg) match(sc=);
+        matchflg = false;
 	  //cond .s.equ(secname, "ailevel"):
         //if(ailevelflg) ailevel(sc=);
         //ailevelflg = false;
@@ -1993,6 +2064,7 @@ public &Fight
     `ti.setup(`sf);
     `co.setup();
     `ro.setup(`sf, `fnt, `sn);
+	`mtch.setup(`sf);
     ret "";
   }
   public void step(^/int tm, ^/&.LifePower life, ^/bool hit, ^/int combo)
@@ -2026,6 +2098,7 @@ public &Fight
     `wi[0].step(.com.p1wins);
     `wi[1].step(.com.p2wins);
     `ti.step();
+	`mtch.step();
     `co.step(combo,`ro.over_wintime); //`co.step(combo); //Original/Mugen Combo Counter Reverse Anim
   }
   public void draw(
@@ -2092,6 +2165,8 @@ public &Fight
       `ti.draw(layerno, .com.time, `fnt);
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
+	  `mtch.bgDraw(layerno);
+      `mtch.draw(layerno, .com.match, `fnt);
     }
     `co.draw(layerno, `fnt);
   }
@@ -2130,4 +2205,3 @@ public &Fight
     `ro.reset();
   }
 }
-

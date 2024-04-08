@@ -1,11 +1,8 @@
-
 lib time = <time.ssz>;
 lib consts = <consts.ssz>;
 
-
 const double PI = 3.141592653589793238462643383279502884197;
 const double E  = 2.718281828459045235360287471352662497757;
-
 
 public double sin(double x)
 {
@@ -178,4 +175,3 @@ public void swap<_t>(_t x=, _t y=)
   x = y;
   y = tmp;
 }
-

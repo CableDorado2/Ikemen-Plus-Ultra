@@ -1,5 +1,3 @@
-
-
 lib file = <file.ssz>;
 lib s = <string.ssz>;
 lib m = <math.ssz>;
@@ -723,5 +721,3 @@ public &Stage
     while i >= 0:}
   }
 }
-
-

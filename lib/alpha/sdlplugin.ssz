@@ -1,4 +1,3 @@
-
 lib f = <file.ssz>;
 
 plugin void End(::)                         = "dll/sdlplugin.dll";
@@ -1099,4 +1098,3 @@ public &UseGlContext
     .unbindGlContext();
   }
 }
-

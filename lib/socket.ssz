@@ -71,4 +71,3 @@ public &Socket
     ret SocketSendAry(:`soc=, x, typesize(_t):);
   }
 }
-

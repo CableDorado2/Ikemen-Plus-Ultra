@@ -32,4 +32,3 @@ public ..null<_t>() %_t
   %_t null;
   ret null;
 }
-

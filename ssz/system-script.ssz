@@ -18,6 +18,7 @@ lib vid = "video.ssz";
 
 ^/char listenPort = .cfg.listenPort;
 ^/char UserName = .cfg.UserName;
+.com.brightness = .cfg.Brightness;
 
 .sdl.setVolume(.cfg.GlVol, .cfg.SEVol, .cfg.BGMVol);
 
@@ -653,6 +654,19 @@ void setDiscordState(&.lua.State L=, int re=)
   int argc = 0, nret = 0;
   ^/char txt = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
   .sdl.setDiscordState(txt);
+}
+
+void setBrightness(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  int brt = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.brightness = brt;
+}
+
+void getBrightness(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double).cfg.Brightness);
 }
 
 void setVolume(&.lua.State L=, int re=)
@@ -2057,6 +2071,8 @@ public void init(&.lua.State L=)
   L.register("setUserName", .setUserName);
   L.register("discordUpdate", .discordUpdate);
   L.register("setDiscordState", .setDiscordState);
+  L.register("setBrightness", .setBrightness);
+  L.register("getBrightness", .getBrightness);
   L.register("setVolume", .setVolume);
   L.register("setPanStr", .setPanStr);
   //L.register("getWidth", .getWidth);

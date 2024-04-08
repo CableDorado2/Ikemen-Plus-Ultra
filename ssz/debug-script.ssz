@@ -1,4 +1,3 @@
-
 lib lua = <alpha/lua.ssz>;
 lib sc = "script.ssz";
 lib chr = "char.ssz";
@@ -10,7 +9,6 @@ lib com = "common.ssz";
 lib m = <math.ssz>;
 lib s = <string.ssz>;
 lib snd = "sound.ssz";
-
 
 public bool roundResetFlg = false, reloadFlg = false;
 

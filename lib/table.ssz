@@ -1,4 +1,3 @@
-
 lib consts = <consts.ssz>;
 lib s = <string.ssz>;
 
@@ -213,5 +212,3 @@ public &IntTable<int_t, _t>
     `t.remove(name, .intHash!`int_t?(name));
   }
 }
-
-

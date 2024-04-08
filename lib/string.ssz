@@ -1,9 +1,6 @@
-
 lib m = <math.ssz>;
 
 const ^/char blank = (char)[' ', '\t', '\r', '\n'];
-
-
 
 public ^char uToSo(ulong uinte)
 {
@@ -773,4 +770,3 @@ public &Format
     ret `setNext();
   }
 }
-

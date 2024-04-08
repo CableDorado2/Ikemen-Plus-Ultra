@@ -1,5 +1,4 @@
-﻿
-lib file = <file.ssz>;
+﻿lib file = <file.ssz>;
 lib s = <string.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
 lib consts = <consts.ssz>;
@@ -7,7 +6,6 @@ lib m = <math.ssz>;
 lib tbl = <table.ssz>;
 lib cfg = "../save/config.ssz";
 lib com = "common.ssz";
-
 
 const int NumCharPalletes = 12;
 
@@ -1386,4 +1384,3 @@ public &Anim<frame_t>
     `sff = sff;
   }
 }
-

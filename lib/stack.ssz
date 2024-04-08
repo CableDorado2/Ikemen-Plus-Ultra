@@ -35,4 +35,3 @@ public &Stack<_t>
     `topNode.new(0);
   }
 }
-

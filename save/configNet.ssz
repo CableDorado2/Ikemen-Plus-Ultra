@@ -7,6 +7,7 @@ const bool WindowBordered = true;
 const bool WindowResizable = false;
 const bool AspectRatio = false;
 const bool OpenGL = false;
+const int Brightness = 256;
 
 //Audio Settings
 const float GlVol = 0.8;
@@ -27,6 +28,24 @@ const float GetHit_LifeToPowerMul = 0.6;
 const float Super_TargetDefenceMul = 1.5;
 const int GameSpeed = 60;//frames/second
 const float LifebarFontScale = 0.5;
+
+//Portraits Settings
+const int CharPortraitsGroup = 9000;
+const int CharFacePortraitIndex = 0;
+const int CharBigPortraitIndex = 1;
+const int CharWinnerPortraitIndex = 2;
+const int CharLoserPortraitIndex = 3;
+const int CharOrderPortraitIndex = 4;
+const int CharVSPortraitIndex = 5;
+const int CharResultsPortraitIndex = 6;
+const int CharExtraPortraitIndex = 7;
+
+const int StagePortraitsGroup = 9000;
+const int StageIconPortraitIndex = 0;
+const int StageBigPortraitIndex = 1;
+const int StageVSPortraitIndex = 2;
+const int StageWinPortraitIndex = 3;
+const int StageExtraPortraitIndex = 4;
 
 //System Settings
 const ^/char Executable = "Ikemen Plus Ultra.exe";

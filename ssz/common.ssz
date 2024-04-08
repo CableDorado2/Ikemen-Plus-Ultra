@@ -39,6 +39,11 @@ public int playbackState = 0; //To display Debug Record Playback State
 
 public int score = 0;
 public int scoreTotal = 0;
+public int p1score = 0;
+public int p2score = 0;
+
+public int p1matchWins = 0;
+public int p2matchWins = 0;
 
 //TEAM MODE TYPE
 |TeamMode
@@ -173,7 +178,7 @@ public void resetFrameTime()
   .oldNextAddTime = .Speed;
 }
 
-public int brightness = 256;
+public int brightness;
 
 public float screenleft = 0.0, screenright = 0.0;
 public float xmin = 0.0, xmax = 0.0;

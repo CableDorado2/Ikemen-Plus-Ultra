@@ -1,4 +1,3 @@
-
 lib file = <file.ssz>;
 lib s = <string.ssz>;
 lib consts = <consts.ssz>;
@@ -441,4 +440,3 @@ public void playSound()
     .mixSounds();
   }
 }
-

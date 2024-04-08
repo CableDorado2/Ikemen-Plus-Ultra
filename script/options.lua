@@ -179,6 +179,7 @@ function f_loadCfg()
 	b_borderMode = s_configSSZ:match('const bool WindowBordered%s*=%s*([^;%s]+)')
 	b_resizableMode = s_configSSZ:match('const bool WindowResizable%s*=%s*([^;%s]+)')
 	b_openGL = s_configSSZ:match('const bool OpenGL%s*=%s*([^;%s]+)')
+	brightnessAdjust = tonumber(s_configSSZ:match('const int Brightness%s*=%s*(%d+)'))
 	--Audio Settings
 	gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
 	se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
@@ -499,6 +500,7 @@ function f_saveCfg()
 	else
 		s_configSSZ = s_configSSZ:gsub('const bool OpenGL%s*=%s*[^;%s]+', 'const bool OpenGL = false')
 	end
+	s_configSSZ = s_configSSZ:gsub('const int Brightness%s*=%s*%d+', 'const int Brightness = ' .. brightnessAdjust)
 --Audio Settings
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
@@ -775,6 +777,8 @@ function f_videoDefault()
 	resolutionWidth = 853
 	resolutionHeight = 480
 	--setGameRes(resolutionWidth,resolutionHeight)
+	brightnessAdjust = 256
+	setBrightness(brightnessAdjust)
 	data.sdl = "New"
 end
 
@@ -1565,6 +1569,7 @@ function f_mainCfg()
 					setResizableMode(b_resizableMode)
 					setBorderMode(b_borderMode)
 					--setGameRes(resolutionWidth,resolutionHeight)
+					setBrightness(brightnessAdjust)
 					setVolume(gl_vol / 100, se_vol / 100, bgm_vol / 100)
 					setPanStr(pan_str / 100)
 					needReload = 0
@@ -4810,6 +4815,7 @@ t_videoCfg = {
 	{varID = textImgNew(), text = "Fullscreen Type",	varText = ""},
 	{varID = textImgNew(), text = "Aspect Ratio", 		varText = ""},
 	{varID = textImgNew(), text = "Sdlplugin Version",	varText = ""},
+	{varID = textImgNew(), text = "Brightness",			varText = ""},
 	--{varID = textImgNew(), text = "OpenGL 2.0", 		varText = ""},
 	--{varID = textImgNew(), text = "Save Memory", 		varText = ""},
 	{varID = textImgNew(), text = "Default Graphics",	varText = ""},
@@ -4992,8 +4998,37 @@ function f_videoCfg()
 					modified = 1
 					needReload = 1
 				end
+			--Brightness Adjust
+			elseif videoCfg == 7 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if brightnessAdjust < 256 then
+						brightnessAdjust = brightnessAdjust + 1
+					--else
+						--brightnessAdjust = 50
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if brightnessAdjust > 50 then
+						brightnessAdjust = brightnessAdjust - 1
+					--else
+						--brightnessAdjust = 256
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 			--[[OpenGL 2.0
-			elseif videoCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if b_openGL == false then
 					b_openGL = true
@@ -5009,7 +5044,7 @@ function f_videoCfg()
 				end
 			]]
 			--[[Save Memory
-			elseif videoCfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif videoCfg == 9 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if b_saveMemory == false then
 					b_saveMemory = true
@@ -5026,12 +5061,12 @@ function f_videoCfg()
 				end
 			]]
 			--Default Values
-			elseif videoCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif videoCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
 			--BACK
-			elseif videoCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif videoCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -5079,8 +5114,10 @@ function f_videoCfg()
 		t_videoCfg[4].varText = data.fullscreenType
 		t_videoCfg[5].varText = s_aspectMode
 		t_videoCfg[6].varText = data.sdl
-		--t_videoCfg[7].varText = s_openGL
-		--t_videoCfg[8].varText = s_saveMemory
+		t_videoCfg[7].varText = brightnessAdjust
+		setBrightness(brightnessAdjust)
+		--t_videoCfg[8].varText = s_openGL
+		--t_videoCfg[9].varText = s_saveMemory
 		if lockSetting == true then
 			for i=1, #t_sdlBeta do
 				textImgDraw(t_sdlBeta[i].id)

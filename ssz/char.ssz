@@ -1,4 +1,3 @@
-
 lib file = <file.ssz>;
 lib s = <string.ssz>;
 lib sdl = <alpha/sdlplugin.ssz>;
@@ -17,7 +16,6 @@ lib fnt = "font.ssz";
 lib al = <alert.ssz>;
 lib tbl = <table.ssz>;
 lib se = <alpha/sdlevent.ssz>;
-
 
 int changeStateNest = 0;
 int waitdown = 0, shuttertime = 0;
@@ -5535,11 +5533,11 @@ public &Char
   }
   public bool trWinSpecial()
   {
-    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PN; //TODO
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::S; //TODO
   }
   public bool trWinHyper()
   {
-    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::PN; //TODO
+    ret `isWin() && .winty[`playerno&1] >= .fgt.WinTy::H; //TODO
   }
   public bool trWinPerfect()
   {
@@ -7509,4 +7507,3 @@ public bool roundOver()
     .com.intro < -(
       .fight~ro.over_hittime + .fight~ro.over_waittime + .fight~ro.over_time);
 }
-

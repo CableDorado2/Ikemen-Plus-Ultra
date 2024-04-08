@@ -51,103 +51,100 @@ addHotkey('ESCAPE', false, false, false, 'togglePauseMenu(1)') --Pause the game 
 addHotkey('PRINTSCREEN', false, false, false, 'f_screenShot()') --Takes a screenshot and saves it to "screenshots" folder
 
 function pauseMenu(p, st, esc)
-  script.pause.f_pauseMain(p, st, esc)
+	script.pause.f_pauseMain(p, st, esc)
 end
 
 speed = 1.0
 
 function changeSpeed()
-  if speed >= 4 then
-    speed = 0.25
-  else
-    speed = speed*2.0
-  end
-  setAccel(speed)
+	if speed >= 4 then
+		speed = 0.25
+	else
+		speed = speed*2.0
+	end
+	setAccel(speed)
 end
 
 function toggleAI(p)
-  local oldid = id()
-  if player(p) then
-    if ailevel() > 0 then
-      setAILevel(0)
-    else
-      setAILevel(8)
-    end
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		if ailevel() > 0 then
+			setAILevel(0)
+		else
+			setAILevel(8)
+		end
+		playerid(oldid)
+	end
 end
 
 function kill(p, ...)
-  local oldid = id()
-  if player(p) then
-    local n = ...
-    if not n then n = 0 end
-    setLife(n)
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		local n = ...
+		if not n then n = 0 end
+		setLife(n)
+		playerid(oldid)
+	end
 end
 
 function lifeMax(p)
-  local oldid = id()
-  if player(p) then
-    setLife(lifemax())
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		setLife(lifemax())
+		playerid(oldid)
+	end
 end
 
 function powMax(p)
-  local oldid = id()
-  if player(p) then
-    setPower(powermax())
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		setPower(powermax())
+		playerid(oldid)
+	end
 end
 
 function barAdd(p)
-  local oldid = id()
-  if player(p) then
-    setPower(power()+1000)
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		setPower(power()+1000)
+		playerid(oldid)
+	end
 end
 
 function full(p)
-  local oldid = id()
-  if player(p) then
-    setLife(lifemax())
-    setPower(powermax())
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		setLife(lifemax())
+		setPower(powermax())
+		playerid(oldid)
+	end
 end
 
 function stand(p)
-  local oldid = id()
-  if player(p) then
-    selfState(0)
-    playerid(oldid)
-  end
+local oldid = id()
+	if player(p) then
+		selfState(0)
+		playerid(oldid)
+	end
 end
 
 function info()
-  puts(
-    string.format(
-      'name:%s state:%d>%d %s move:%s physics:%s',
-      name(), prevstateno(), stateno(), statetype(), movetype(), physics()))
-  puts(
-    string.format(
-      'anim:%d %d elem:%d %d pos:%.3f,%.3f vel:%.3f,%.3f',
-      anim(), animtime(), animelemno(0), animelemtime(animelemno(0)),
-      posX(), posY(), velX(), velY()))
+puts(string.format(
+	'name:%s state:%d>%d %s move:%s physics:%s', 
+	name(), prevstateno(), stateno(), statetype(), movetype(), physics()
+))
+puts(string.format(
+	'anim:%d %d elem:%d %d pos:%.3f,%.3f vel:%.3f,%.3f', 
+	anim(), animtime(), animelemno(0), animelemtime(animelemno(0)), posX(), posY(), velX(), velY()
+))
 end
 
 function status(p)
-  local oldid = id()
-  if not player(p) then return false end
-  ret =
-    string.format(
-      'STA:%s%s%s%6d(%d) ANI:%6d(%d)%2d LIF:%5d POW:%5d TIM:%d REC:%d PLAY:%d',
-      statetype(), movetype(), physics(), stateno(), stateOwner(),
-      anim(), animOwner(), animelemno(0), life(), power(), time(), record(), playback())
-  playerid(oldid)
-  return ret;
+local oldid = id()
+if not player(p) then return false end
+ret = string.format(
+	'STA:%s%s%s%6d(%d) ANI:%6d(%d)%2d LIF:%5d POW:%5d PAL:%d CPU:%d TIM:%d', 
+	statetype(), movetype(), physics(), stateno(), stateOwner(), anim(), animOwner(), animelemno(0), life(), power(), palno(), ailevel(), time())
+	playerid(oldid)
+	return ret;
 end

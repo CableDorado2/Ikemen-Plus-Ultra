@@ -153,4 +153,3 @@ public ^/char getCurrentDir()
   GetCurrentDir(:cdir=:);
   ret cdir;
 }
-

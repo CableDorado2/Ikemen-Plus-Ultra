@@ -71,4 +71,3 @@ public bool arcfourEnc(^ubyte dest=, ^/ubyte key, ^/ubyte src)
   dest = rc4.encrypt(src);
   ret true;
 }
-
