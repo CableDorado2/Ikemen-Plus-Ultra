@@ -920,7 +920,7 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
     if(`text_fontn >= 0 && #f > `text_fontn){
       .laytext(
         (float)`posx, (float)`posy, 1.0, layerno,
-		matchNo >= 0 ? ''(matchNo) : "o",
+		matchNo >= 0 ? "STAGE: " + ''(matchNo) : "o",
         f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
     }
   }

@@ -628,7 +628,7 @@ useiconupto = 4
 pos = 141,8
 ;bg.spr = 
 text.font = 1,0, -1
-;text.text = STAGE %s
+;text.text = STAGE %s ;TODO
 
 ;-----------------------------------------------------------
 ; How to customize
