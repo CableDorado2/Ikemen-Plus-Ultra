@@ -521,7 +521,7 @@ flag2 = nomusic
 
 [State 500, No HUD]
 type = assertspecial
-trigger1 = GameType = 1 ;HUD Disable for Demo Screen
+trigger1 = GameMode = "demo" ;HUD Disable for Demo Mode
 flag = nobardisplay
 
 ;===========================================================================
@@ -529,19 +529,19 @@ flag = nobardisplay
 ;===========================================================================
 [State -2, Max Power]
 type = PowerSet
-triggerall = ((ServiceType = 1 || ServiceType = 4) && TeamSide = 1) || ((ServiceType = 21 || ServiceType = 24) && TeamSide = 2) ;POWER WILL AT MAX SERVICE
+triggerall = (Service = "max power" || Service = "undefeatable") && TeamSide = 1 ;POWER WILL AT MAX SERVICE
 trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = PowerMax
 
 [State -2, Enemy Lifebar 1/3]
 type = LifeSet
-triggerall = ((ServiceType = 2 && TeamSide = 2) || (ServiceType = 22 && TeamSide = 1)) ;ENEMY LIFE AT 1/3 SERVICE
+triggerall = (Service = "low cpu life" && TeamSide = 2) ;ENEMY LIFE AT 1/3 SERVICE
 trigger1 = RoundState < 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = LifeMax / 3
 
 [State 2, Double Defence]
 type = DefenceMulSet
-triggerall = ((ServiceType = 3 && TeamSide = 1) || (ServiceType = 23 && TeamSide = 2)) ;DOUBLE DEFENCE SERVICE
+triggerall = Service = "defence x2" && TeamSide = 1 ;DOUBLE DEFENCE SERVICE
 trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = 0.5
 
@@ -550,7 +550,7 @@ value = 0.5
 ;===========================================================================
 [State -2, Undefeatable]
 type = LifeSet
-triggerall = ((ServiceType = 4 && TeamSide = 1) || (ServiceType = 24 && TeamSide = 2)) ;LIFE WILL AT MAX FOR STORY MODE BATTLES
+triggerall = Service = "undefeatable" && TeamSide = 1 ;LIFE WILL AT MAX FOR STORY MODE BATTLES
 trigger1 = RoundState = 2
 value = LifeMax
 
@@ -559,68 +559,68 @@ value = LifeMax
 ;===========================================================================
 [State 0, Life Recovery 100%]
 type = LifeAdd
-trigger1 = GameType = 2 && LifeStateP1 = 100 && Stateno = 0 && Time > 15 && TeamSide = 1
-trigger2 = GameType = 2 && LifeStateP2 = 100 && Stateno = 0 && Time > 15 && TeamSide = 2
+trigger1 = GameMode = "practice" && LifeStateP1 = 100 && Stateno = 0 && Time > 15 && TeamSide = 1
+trigger2 = GameMode = "practice" && LifeStateP2 = 100 && Stateno = 0 && Time > 15 && TeamSide = 2
 value = 100
 
 [State 0, Life Recovery 75%]
 type = LifeSet
-triggerall = GameType = 2 && Stateno = 0 && Time > 15 ;Active when Player is quiet some seconds
+triggerall = GameMode = "practice" && Stateno = 0 && Time > 15 ;Active when Player is quiet some seconds
 trigger1 = LifeStateP1 = 75 && TeamSide = 1 ;Apply to Left Side
 trigger2 = LifeStateP2 = 75 && TeamSide = 2 ;Apply to Right Side
 value = LifeMax / 1.333
 
 [State 0, Life Recovery 50%]
 type = LifeSet
-triggerall = GameType = 2 && Stateno = 0 && Time > 15
+triggerall = GameMode = "practice" && Stateno = 0 && Time > 15
 trigger1 = LifeStateP1 = 50 && TeamSide = 1
 trigger2 = LifeStateP2 = 50 && TeamSide = 2
 value = LifeMax / 2
 
 [State 0, Life Recovery 25%]
 type = LifeSet
-triggerall = GameType = 2 && Stateno = 0 && Time > 15
+triggerall = GameMode = "practice" && Stateno = 0 && Time > 15
 trigger1 = LifeStateP1 = 25 && TeamSide = 1
 trigger2 = LifeStateP2 = 25 && TeamSide = 2
 value = LifeMax / 4
 
 [State 0, Power Gauge Max at Start]
 type = PowerAdd
-triggerall = GameType = 2 && RoundState < 2 ;Activate at start of Round in Training Mode
+triggerall = GameMode = "practice" && RoundState < 2 ;Activate at start of Round in Training Mode
 trigger1 =  PowerStateP1 = 11 && TeamSide = 1 ;Apply to Left Side
 trigger2 = PowerStateP2 = 11 && TeamSide = 2 ;Apply to Right Side
 value = PowerMax
 
 [State 0, Power Gauge Recovery]
 type = PowerAdd
-trigger1 = GameType = 2 && PowerStateP1 = 10 && Stateno = 0 && Time > 50 && TeamSide = 1
-trigger2 = GameType = 2 && PowerStateP2 = 10 && Stateno = 0 && Time > 50 && TeamSide = 2
+trigger1 = GameMode = "practice" && PowerStateP1 = 10 && Stateno = 0 && Time > 50 && TeamSide = 1
+trigger2 = GameMode = "practice" && PowerStateP2 = 10 && Stateno = 0 && Time > 50 && TeamSide = 2
 value = PowerMax
 
 [State 0, Power Gauge Level 1]
 type = PowerSet
-triggerall = GameType = 2 && Stateno = 0 && Time > 50 ;Active when Player is quiet some seconds
+triggerall = GameMode = "practice" && Stateno = 0 && Time > 50 ;Active when Player is quiet some seconds
 trigger1 = PowerStateP1 = 1 && TeamSide = 1
 trigger2 = PowerStateP2 = 1 && TeamSide = 2
 value = 1000
 
 [State 0, Power Gauge Level 2]
 type = PowerSet
-triggerall = GameType = 2 && Stateno = 0 && Time > 50
+triggerall = GameMode = "practice" && Stateno = 0 && Time > 50
 trigger1 = PowerStateP1 = 2 && TeamSide = 1
 trigger2 = PowerStateP2 = 2 && TeamSide = 2
 value = 2000
 
 [State 0, Power Gauge Level 3]
 type = PowerSet
-triggerall = GameType = 2 && Stateno = 0 && Time > 50
+triggerall = GameMode = "practice" && Stateno = 0 && Time > 50
 trigger1 = PowerStateP1 = 3 && TeamSide = 1
 trigger2 = PowerStateP2 = 3 && TeamSide = 2
 value = 3000
 
 [State 0, Power Gauge Unlimited]
 type = PowerSet
-triggerall = GameType = 2
+triggerall = GameMode = "practice"
 trigger1 = PowerStateP1 = 666
 trigger2 = PowerStateP2 = 666
 value = PowerMax

@@ -652,7 +652,6 @@ function demoModeCfg()
 	f_default()
 	setDiscordState("In Demo Screen")
 	setGameMode('demo')
-	setGameType(1)
 	data.gameMode = "demo"
 	data.rosterMode = "cpu"
 	data.aiFight = true
@@ -2752,7 +2751,6 @@ function f_training()
 	f_default()
 	setDiscordState("Training")
 	setGameMode('practice')
-	setGameType(2)
 	data.gameMode = "training"
 	data.rosterMode = "training"
 	setRoundTime(-1) --round time disabled
@@ -7608,7 +7606,6 @@ function f_mainLobby()
 		if btnPalNo(p1Cmd) > 0 then
 			f_default()
 			if replaygame == true then setGameMode('replay') end
-			setGameType(3)
 			data.p2In = 2
 			data.p2Faces = true
 			data.coop = true
@@ -7637,7 +7634,6 @@ function f_mainLobby()
 				data.versusScreen = false
 				data.gameMode = "training"
 				data.rosterMode = "training"
-				setGameType(2)
 				textImgSetText(txt_mainSelect, "ONLINE TRAINING")
 				script.select.f_selectSimple()
 			--ONLINE ARCADE	

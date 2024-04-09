@@ -704,7 +704,7 @@ function f_arc1_chapter1()
 	data.rosterMode = "story"
 	data.storyNo = "1-1"
 	setGameMode('story')
-	setServiceType(4) --You can't lose with this service, basically is a battle where you always win.
+	setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
 	script.select.f_selectStory() --Start Fight with previous settings
 	if script.select.winner == 1 then --Only if you win do:
 		data.story1_2Unlock = true --Unlock next chapter

@@ -186,8 +186,9 @@ void game()
     y = .m.max!float?(y, 48.0 - (float)(.com.GameHeight-240));
 	//GLOBAL INFO
 	`put(y=, "GAME MODE:" + .com.gameMode); //Display Game Mode
-	`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
-	`put(y=, "SERVICE:" + ''.com.serviceType); //Display Service Active
+	//`put(y=, "GAME TYPE:" + ''.com.gameType); //Display Game Type
+	`put(y=, "SERVICE:" + .com.gameService); //Display Service Active
+	`put(y=, "PLAYER SIDE:" + .com.playerSide); //Display Player Side
 	`put(y=, "MATCH:" + ''.com.match); //Display Match Number
 	`put(y=, "ROUND:" + ''.com.round); //Display Round Number
 	`put(y=, "ROUND STATE:" + ''.tscri.cwc~roundState()); //Display Round State

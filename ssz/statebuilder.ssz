@@ -1931,16 +1931,50 @@ public &StateBuilder
       }]) ret -1;
 	cond .s.equ("gamemode", token):
       if(!eqneq(out=, in=, typ=)<, [bool(){
-        ^/char gmy;
-        token = `tokenizer(in=);
-        branch{
-        cond .s.equ(.com.gameMode, token):
-			gmy = ".com.gameMode";
-		else:
-          `lasterror = token + " is an invalid game mode";
+        bool g = token[0] =='g'; //Here need to go the letter that start the name of the trigger
+        index fnd;
+        if(!.s.equ(\", `tokenizer(in=)) || .s.find(\", in)=>fnd < 0){
+          `lasterror = "Game Mode is not enclosed in "\""";
           ret false;
         }
-        out .= obj .= "trGameMode(" .= gmy .= ")";
+        token = in[0..fnd];
+        in = in[fnd+1..-1];
+        branch{
+        cond g:
+          out .=  obj .= "trGameMode("\" .= .s.toLower(token) .= \"")";
+        }
+        ret true;
+      }]) ret -1;
+	 cond .s.equ("service", token):
+      if(!eqneq(out=, in=, typ=)<, [bool(){
+        bool s = token[0] =='s'; //Here need to go the letter that start the name of the trigger
+        index fnd;
+        if(!.s.equ(\", `tokenizer(in=)) || .s.find(\", in)=>fnd < 0){
+          `lasterror = "Service is not enclosed in "\""";
+          ret false;
+        }
+        token = in[0..fnd];
+        in = in[fnd+1..-1];
+        branch{
+        cond s:
+          out .=  obj .= "trGameService("\" .= .s.toLower(token) .= \"")";
+        }
+        ret true;
+      }]) ret -1;
+	 cond .s.equ("playerside", token):
+      if(!eqneq(out=, in=, typ=)<, [bool(){
+        bool p = token[0] =='p';
+        index fnd;
+        if(!.s.equ(\", `tokenizer(in=)) || .s.find(\", in)=>fnd < 0){
+          `lasterror = "Player Side is not enclosed in "\""";
+          ret false;
+        }
+        token = in[0..fnd];
+        in = in[fnd+1..-1];
+        branch{
+        cond p:
+          out .=  obj .= "trPlayerSide("\" .= .s.toLower(token) .= \"")";
+        }
         ret true;
       }]) ret -1;
     cond .s.equ("teammode", token):
@@ -2325,9 +2359,6 @@ public &StateBuilder
       typ = 2;
 	cond .s.equ("gametype", token):
       out .= obj .= "trGameType()";
-      typ = 2;
-	cond .s.equ("servicetype", token):
-      out .= obj .= "trServiceType()";
       typ = 2;
 	cond .s.equ("inputdisplay", token):
       out .= obj .= "trInputDisplay()";

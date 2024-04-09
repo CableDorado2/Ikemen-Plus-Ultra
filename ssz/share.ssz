@@ -45,9 +45,9 @@ public &Share
   public ^index wakewakaLength;
   public &.com.Camera::Stage camstg;
   public ^/char gameMode;
+  public ^/char gameService;
   public ^/char playerSide;
   public int gameType;
-  public int serviceType;
   public int inputDisplay;
   public int damageDisplay;
   public int powerStateP1;
@@ -116,9 +116,9 @@ public &Share
     `wakewakaLength = .chr.wakewakaLength;
     `camstg = .com.cam.stg;
 	`gameMode = .com.gameMode;
+	`gameService = .com.gameService;
 	`playerSide = .com.playerSide;
 	`gameType = .com.gameType;
-	`serviceType = .com.serviceType;
 	`inputDisplay = .com.inputDisplay;
 	`damageDisplay = .com.damageDisplay;
 	`powerStateP1 = .com.powerStateP1;
@@ -191,9 +191,9 @@ public &Share
     .chr.wakewakaLength = `wakewakaLength;
     .com.cam.stg = `camstg;
 	.com.gameMode = `gameMode;
+	.com.gameService = `gameService;
 	.com.playerSide = `playerSide;
 	.com.gameType = `gameType;
-	.com.serviceType = `serviceType;
 	.com.inputDisplay = `inputDisplay;
 	.com.damageDisplay = `damageDisplay;
 	.com.powerStateP1 = `powerStateP1;

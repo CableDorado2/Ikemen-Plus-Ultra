@@ -495,10 +495,11 @@ void setAutoLevel(&.lua.State L=, int re=)
   .com.autolevel = b;
 }
 
-void getGameMode(&.lua.State L=, int re=)
+void setGameType(&.lua.State L=, int re=)
 {
-  re = 1;
-  L.pushString(#.cmd.replay > 0 ? "replay" : .com.gameMode);
+  int argc = 0, nret = 0;
+  int gt = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.gameType = gt;
 }
 
 void setGameMode(&.lua.State L=, int re=)
@@ -508,10 +509,23 @@ void setGameMode(&.lua.State L=, int re=)
   .com.gameMode = gm;
 }
 
-void getPlayerSide(&.lua.State L=, int re=)
+void getGameMode(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushString(#.cmd.replay > 0 ? "replay" : .com.playerSide);
+  L.pushString(#.cmd.replay > 0 ? "replay" : .com.gameMode);
+}
+
+void setService(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char gs = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.gameService = gs;
+}
+
+void getService(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.gameService);
 }
 
 void setPlayerSide(&.lua.State L=, int re=)
@@ -521,18 +535,10 @@ void setPlayerSide(&.lua.State L=, int re=)
   .com.playerSide = ps;
 }
 
-void setGameType(&.lua.State L=, int re=)
+void getPlayerSide(&.lua.State L=, int re=)
 {
-  int argc = 0, nret = 0;
-  int gt = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.gameType = gt;
-}
-
-void setServiceType(&.lua.State L=, int re=)
-{
-  int argc = 0, nret = 0;
-  int st = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  .com.serviceType = st;
+  re = 1;
+  L.pushString(.com.playerSide);
 }
 
 void setInputDisplay(&.lua.State L=, int re=)
@@ -2054,12 +2060,13 @@ public void init(&.lua.State L=)
   L.register("setCom", .setCom);
   L.register("setTag", .setTag);
   L.register("setAutoLevel", .setAutoLevel);
-  L.register("getGameMode", .getGameMode);
-  L.register("setGameMode", .setGameMode);
-  L.register("getPlayerSide", .getPlayerSide);
-  L.register("setPlayerSide", .setPlayerSide);
   L.register("setGameType", .setGameType);
-  L.register("setServiceType", .setServiceType);
+  L.register("setGameMode", .setGameMode);
+  L.register("getGameMode", .getGameMode);
+  L.register("setService", .setService);
+  L.register("getService", .getService);
+  L.register("setPlayerSide", .setPlayerSide);
+  L.register("getPlayerSide", .getPlayerSide);
   L.register("getListenPort", .getListenPort);
   L.register("setListenPort", .setListenPort);
   L.register("getUserName", .getUserName);

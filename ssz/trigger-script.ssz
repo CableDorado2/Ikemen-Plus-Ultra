@@ -505,10 +505,22 @@ void gametype(&.lua.State L=, int re=)
   L.pushNumber((double) .com.gameType);
 }
 
-void servicetype(&.lua.State L=, int re=)
+void gamemode(&.lua.State L=, int re=)
 {
   re = 1;
-  L.pushNumber((double) .com.serviceType);
+  L.pushString(.com.gameMode);
+}
+
+void gameservice(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.gameService);
+}
+
+void playerside(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.playerSide);
 }
 
 void inputdisplay(&.lua.State L=, int re=)
@@ -575,12 +587,6 @@ void counterhit(&.lua.State L=, int re=)
 {
   re = 1;
   L.pushNumber((double) .com.counterHit);
-}
-
-void gamemode(&.lua.State L=, int re=)
-{
-  re = 1;
-  L.pushString(.com.gameMode);
 }
 
 void gamewidth(&.lua.State L=, int re=)
@@ -1296,20 +1302,6 @@ public void registerFunction(&.lua.State L=)
   L.register("fvar", .fvar);
   L.register("gameheight", .gameheight);
   L.register("gametime", .gametime);
-  L.register("gametype", .gametype);
-  L.register("servicetype", .servicetype);
-  L.register("inputdisplay", .inputdisplay);
-  L.register("damagedisplay", .damagedisplay);
-  L.register("powerstatep1", .powerstatep1);
-  L.register("powerstatep2", .powerstatep2);
-  L.register("lifestatep1", .lifestatep1);
-  L.register("lifestatep2", .lifestatep2);
-  L.register("dummystate", .dummystate);
-  L.register("dummydistance", .dummydistance);
-  L.register("dummyguard", .dummyguard);
-  L.register("dummyrecovery", .dummyrecovery);
-  L.register("counterhit", .counterhit);
-  L.register("gamemode", .gamemode);
   L.register("gamewidth", .gamewidth);
   L.register("gethitvar", .gethitvar);
   L.register("hitcount", .hitcount);
@@ -1394,4 +1386,19 @@ public void registerFunction(&.lua.State L=)
   L.register("scoretotal", .scoretotal);
   L.register("record", .record);
   L.register("playback", .playback);
+  L.register("gametype", .gametype);
+  L.register("gamemode", .gamemode);
+  L.register("gameservice", .gameservice);
+  L.register("playerside", .playerside);
+  L.register("inputdisplay", .inputdisplay);
+  L.register("damagedisplay", .damagedisplay);
+  L.register("powerstatep1", .powerstatep1);
+  L.register("powerstatep2", .powerstatep2);
+  L.register("lifestatep1", .lifestatep1);
+  L.register("lifestatep2", .lifestatep2);
+  L.register("dummystate", .dummystate);
+  L.register("dummydistance", .dummydistance);
+  L.register("dummyguard", .dummyguard);
+  L.register("dummyrecovery", .dummyrecovery);
+  L.register("counterhit", .counterhit);
 }

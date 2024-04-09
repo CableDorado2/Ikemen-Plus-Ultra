@@ -8,10 +8,11 @@ lib tbl = <table.ssz>;
 lib file = <file.ssz>;
 lib se = <alpha/sdlevent.ssz>;
 
-public ^/char gameMode;
-public ^/char playerSide;
 public int gameType = 0;
-public int serviceType = 0;
+public ^/char gameMode;
+public ^/char gameService;
+public ^/char playerSide;
+
 public int roundTime = 999 * 6;
 public int roundsToWin = 2;
 public float life = 1.0;

@@ -5591,10 +5591,6 @@ public &Char
   {
     ret .com.gameType;
   }
-  public int trServiceType()
-  {
-    ret .com.serviceType;
-  }
   public int trDamageDisplay()
   {
     ret .com.damageDisplay;
@@ -5639,9 +5635,17 @@ public &Char
   {
     ret .com.counterHit;
   }
-  public ^/char trGameMode()
+  public bool trGameMode(^/char text)
   {
-    ret .com.gameMode;
+    ret .s.equ(text, .com.gameMode);
+  }
+  public bool trGameService(^/char text)
+  {
+    ret .s.equ(text, .com.gameService);
+  }
+  public bool trPlayerSide(^/char text)
+  {
+    ret .s.equ(text, .com.playerSide);
   }
   public void trExitMatch()
   {

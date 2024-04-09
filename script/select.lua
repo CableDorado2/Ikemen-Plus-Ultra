@@ -847,8 +847,7 @@ function f_backMenu()
 			else
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 			end
-			setGameType(0)
-			setServiceType(0)
+			setService("")
 			back = true
 		--NO
 		else
@@ -898,8 +897,6 @@ end
 
 function f_exitOnline()
 	while true do
-		--setGameType(0)
-		--setServiceType(0)
 		back = true
 		break
 		cmdInput()
@@ -8066,7 +8063,7 @@ function f_selectWin()
 	p2Cursor = 1
 	p1Ready = false
 	p2Ready = false
-	setServiceType(0) --Erase Service
+	setService("") --Erase Service
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
 	if data.victoryscreen == false then
 		f_selectWinOFF()
@@ -9014,18 +9011,14 @@ function f_service()
 				break
 			--FULL POWER
 			elseif serviceMenu == 2 then
-				if (getPlayerSide() == "p1right" or getPlayerSide() == "p2right") then --if Human is in Right Side
-					setServiceType(21)
-				else
-					setServiceType(1) --if Human is in Left Side
-				end
 				sndPlay(sysSnd, 100, 1)
+				setService("max power")
 				serviceBack = true
 				break
 			--LOW CPU LIFE
 			elseif serviceMenu == 3 then
-				if (getPlayerSide() == "p1right" or getPlayerSide() == "p2right") then setServiceType(22) else setServiceType(2) end
 				sndPlay(sysSnd, 100, 1)
+				setService("low cpu life")
 				serviceBack = true
 				break
 			--CHANGE PLAYER TEAM MODE
@@ -9042,14 +9035,14 @@ function f_service()
 			--PLAYER DEFENCE X2
 			elseif serviceMenu == 5 then
 				sndPlay(sysSnd, 100, 1)
-				if (getPlayerSide() == "p1right" or getPlayerSide() == "p2right") then setServiceType(23) else setServiceType(3) end
+				setService("defence x2")
 				serviceBack = true
 				break
 			--[[???
 			elseif serviceMenu == 6 then
 				devService = true
 				sndPlay(sysSnd, 100, 1)
-				setServiceType(?)
+				setService("?")
 				break
 			]]
 			--NOT SERVICE
@@ -9438,7 +9431,7 @@ txt_coins = createTextImg(jgFnt, 0, 1, "", 15, 30)
 txt_cont = createTextImg(jgFnt, 0, 1, "", 158, 30)
 
 function f_continue()
-	setServiceType(0)
+	setService("")
 	sndPlay(contSnd, 1, 1)
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	playBGM(bgmContinue)

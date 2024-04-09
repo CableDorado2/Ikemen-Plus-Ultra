@@ -1901,8 +1901,6 @@ end
 txt_loading = createTextImg(font1, 0, -1, "LOADING FILES...", 310, 230)
 
 function f_default() --Reset Game Modes Configuration
-	setAutoLevel(false) --generate autolevel.txt in debug dir
-	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	resetRemapInput()
 	--settings adjustable via options
 	setAutoguard(1, data.autoguard)
@@ -1943,11 +1941,15 @@ function f_default() --Reset Game Modes Configuration
 	data.missionNo = nil --additional variable used to identify missions in select screen
 	data.eventNo = nil --additional variable used to identify events in select screen
 	data.storyNo = nil --additional variable used to identify stories in select screen
-	setHUD(true) --just enable or disable hud elements in game (added via system-script.ssz)
-	setServiceType(0) --set different fight services for players (works via match.cns) [0:No Service, (1 or 21):MAX Power, (2 or 22):Enemy Life At 1/3, (3 or 23):Double Defence, (4 or 24):Invincible]
-	setGameType(0) --set game type to identify (works via match.cns) [0:Default Match, 1:Demo Match, 2:Training Match, 3:Replay Mode]
-	setGameMode('') --sets ssz gameMode variable to adjust internal settings.
-	setPlayerSide('') --sets ssz player side variable to adjust internal settings in pause menu.
+	--Match Settings
+	setAutoLevel(false) --generate autolevel.txt in debug dir
+	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
+	setHUD(true) --just enable or disable hud elements in game
+	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
+	setService("") --set different fight services for players (service examples are available in match.cns)
+	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
+	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
+	setPlayerSide("") --set player side variable to adjust internal settings.
 end
 
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
