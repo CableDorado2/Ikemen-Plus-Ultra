@@ -39,7 +39,6 @@ EXPORTS
     JoystickButtonState
     SetVolume
 	DiscordInit
-	DiscordUpdate
 	SetDiscordState
 	SetDiscordDetails
 	SetDiscordBigImg

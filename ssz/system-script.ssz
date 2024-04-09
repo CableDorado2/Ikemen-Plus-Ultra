@@ -644,11 +644,6 @@ void setUserName(&.lua.State L=, int re=)
   .UserName = name;
 }
 
-void discordUpdate(&.lua.State L=, int re=)
-{ 
-  .sdl.discordUpdate();
-}
-
 void setDiscordState(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2069,7 +2064,6 @@ public void init(&.lua.State L=)
   L.register("setListenPort", .setListenPort);
   L.register("getUserName", .getUserName);
   L.register("setUserName", .setUserName);
-  L.register("discordUpdate", .discordUpdate);
   L.register("setDiscordState", .setDiscordState);
   L.register("setBrightness", .setBrightness);
   L.register("getBrightness", .getBrightness);

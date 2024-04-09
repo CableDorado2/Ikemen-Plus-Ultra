@@ -1,6 +1,6 @@
 //Video Settings
-const int Width = 1280;
-const int Height = 720;
+const int Width = 1024;
+const int Height = 768;
 const bool FullScreen = false;
 const bool FullScreenReal = false;
 const bool WindowBordered = true;
@@ -27,7 +27,7 @@ const float Attack_LifeToPowerMul = 0.7;
 const float GetHit_LifeToPowerMul = 0.6;
 const float Super_TargetDefenceMul = 1.5;
 const int GameSpeed = 60;//frames/second
-const float LifebarFontScale = 0.5;
+const float LifebarFontScale = 1;
 
 //Portraits Settings
 const int CharPortraitsGroup = 9000;
@@ -51,7 +51,7 @@ const int StageExtraPortraitIndex = 4;
 const ^/char Executable = "Ikemen Plus Ultra.exe";
 const ^/char WindowTitle = "I.K.E.M.E.N PLUS ULTRA";
 const ^/char listenPort = "7500";
-const ^/char UserName = "CableDorado2";
+const ^/char UserName = "Nickname";
 //const ^/char ScreenshotDir = "screenshots/Test.png";
 const ^/char system = "script/main.lua";
 const ^/char GlobalMatch = "data/match.cns";

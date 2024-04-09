@@ -482,35 +482,6 @@ const char* discordJoinSecret = "join";
 const char* discordWatchSecret = "look";
 int8_t discordInstance = 0;
 
-void UpdateDiscordPresence()
-{
-	if (SendPresence) {
-		char buffer[256];
-		DiscordRichPresence discordPresence;
-		memset(&discordPresence, 0, sizeof(discordPresence));
-		discordPresence.state = discordState; //Game State
-		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
-		discordPresence.details = discordDetails; //Game Description
-		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = discordBigImg; //Game Icon
-		discordPresence.largeImageText = discordBigTxt; //Game About
-		discordPresence.smallImageKey = discordMiniImg; //Powered Icon
-		discordPresence.smallImageText = discordMiniTxt; //Powered About
-		discordPresence.partyId = discordPartyID;
-		discordPresence.partySize = discordPartySize; //Add 1 when online mode with rich presence works
-		discordPresence.partyMax = discordPartyMax;
-		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = discordMatchSecret;
-		discordPresence.joinSecret = discordJoinSecret;
-		discordPresence.spectateSecret = discordWatchSecret;
-		discordPresence.instance = discordInstance;
-		Discord_UpdatePresence(&discordPresence);
-	}else{
-		Discord_ClearPresence();
-	}
-}
-
 /* Understand this event_handlers example to update the discordPresence.items
 
 You could define different function types for different events:
@@ -548,7 +519,8 @@ Note that could also initialize the event_handler struct with default event hand
 The end-user would be able to override that default behavior by modifying the members of event_handler.
 */
 
-TUserFunc(void, DiscordUpdate)
+//TUserFunc(void, DiscordUpdate)
+void UpdateDiscordPresence()
 {
 	if (SendPresence) {
 		char buffer[256];

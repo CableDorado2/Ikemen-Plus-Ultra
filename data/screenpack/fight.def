@@ -160,7 +160,7 @@ p1.front.spr = 43,0
 p1.range.x = 0,-107
 p1.counter.offset = -108,6
 p1.counter.font = 1,0, 0
-p1.counter.scale = 1.5,1.5
+p1.counter.scale = 0.8,0.8
 
 ;Player 2
 p2.pos    = 178,22
@@ -175,7 +175,7 @@ p2.front.facing = -1
 p2.range.x  = 0,107
 p2.counter.offset = 109,6
 p2.counter.font = 1,0, 0
-p2.counter.scale = 1.5,1.5
+p2.counter.scale = 0.8,0.8
 
 ; --level sounds---
 level1.snd = 21,0
@@ -315,75 +315,63 @@ p2.teammate.face.offset = -1,1
 p1.pos = 14,10
 ;p1.bg. =
 p1.name.font = 3,0, 1
-p1.name.scale = 2.1,2.1
 
 ;Player 2
 p2.pos = 305,10
 ;p2.bg. =
 p2.name.font = 3,0, -1
-p2.name.scale = 2.1,2.1
 
 [Simul Name]
 ;Player 1
 p1.pos = 14,10
 ;p1.bg. =
 p1.name.font = 3,0, 1
-p1.name.scale = 2.1,2.1
 
 ;Player 2
 p2.pos = 305,10
 ;p2.bg. =
 p2.name.font = 3,0, -1
-p2.name.scale = 2.1,2.1
 
 ;Player 3
 ;p3.pos = 14,20
 ;p3.bg. =
 ;p3.name.font = 3,0, 1
-;p3.name.scale = 2.1,2.1
 
 ;Player 4
 ;p4.pos = 305,20
 ;p4.bg. =
 ;p4.name.font = 3,0, -1
-;p4.name.scale = 2.1,2.1
 
 ;Player 5
 ;p5.pos = 
 ;p5.bg. =
 ;p5.name.font = 3,0, 1
-;p5.name.scale = 2.1,2.1
 
 ;Player 6
 ;p6.pos = 
 ;p6.bg. =
 ;p6.name.font = 3,0, -1
-;p6.name.scale = 2.1,2.1
 
 ;Player 7
 ;p7.pos = 
 ;p7.bg. =
 ;p7.name.font = 3,0, 1
-;p7.name.scale = 2.1,2.1
 
 ;Player 8
 ;p8.pos = 
 ;p8.bg. =
 ;p8.name.font = 3,0, -1
-;p8.name.scale = 2.1,2.1
 
 [Turns Name]
 ;Player 1
 p1.pos = 14,10
 ;p1.bg. =
 p1.name.font = 3,0, 1
-p1.name.scale = 2.1,2.1
 
 ;Player 2
 p2.pos = 305,10
 ;p2.bg. =
 p2.name.font = 3,0, -1
-p2.name.scale = 2.1,2.1
 
 ;-----------------------------------------------------------
 [Time]
@@ -393,7 +381,6 @@ pos = 160,23
 ; Time count display
 counter.offset = 0,0
 counter.font = 2,0, 0
-counter.scale = 1.8,1.8
 ; Ticks for each count
 framespercount = 60
 
@@ -402,11 +389,9 @@ framespercount = 60
 pos = 10,80         ;Coords to show
 start.x = -400       ;Starting x-coords
 counter.font = 2,5
-counter.scale = 2,2
 counter.shake = 1   ;Set to 1 to shake count on hit
 text.text = Rush!   ;You can use %i to show count in the text, eg "%i Hit!"
 text.font = 1,5
-text.scale = 2,2
 text.offset = 3,0   ;Offset of text
 displaytime = 90    ;Time to show text
 
@@ -422,7 +407,6 @@ pos = 0,0
 ; ROUND X
 round.time = 0              ;Time to show round display
 round.default.offset = 160, 100
-round.default.scale = 1.9,1.9
 ; Default component to show for each round. Text can include a %i to
 ; the round number. Use "round.default.anim" for animation instead of
 ; text.
@@ -467,7 +451,6 @@ KO.snd     = 2,0            ;Sound to play for KO announcement
 DKO.offset = 160, 70
 DKO.font   = 1,5
 DKO.text   = Double K.O.
-DKO.scale = 1.9,1.9
 DKO.displaytime = 60
 DKO.snd    = 2,1
 
@@ -475,7 +458,6 @@ DKO.snd    = 2,1
 TO.offset  = 160, 70
 TO.font    = 1,5
 TO.text    = Time Over
-TO.scale = 1.9,1.9
 TO.displaytime = 60
 TO.snd     = 2,2
 
@@ -492,7 +474,6 @@ win.time = 30
 ; Win text
 win.offset = 160, 70
 win.font = 5,0
-win.scale = 1.9,1.9
 win.text = %s Wins
 win.displaytime = 540
 ;win.snd = 2,4
@@ -500,14 +481,12 @@ win.displaytime = 540
 ; Simul win text
 win2.offset = 160, 70
 win2.font = 5,0
-win2.scale = 1.9,1.9
 win2.text = Team %s Wins
 win2.displaytime = 540
 
 ; Draw text
 draw.offset = 160, 70
 draw.font = 6,0
-draw.scale = 1.9,1.9
 draw.text = Draw Game
 draw.snd = 2,3
 draw.displaytime = 510
@@ -561,10 +540,9 @@ p2.iconoffset = 8,0
 ; Counter text font and offset for representing wins
 p1.counter.offset = 0,0
 p1.counter.font = 2,1
-p1.counter.scale = 0.5,0.5
+
 p2.counter.offset = 0,0
 p2.counter.font = 2,1
-p2.counter.scale = 0.5,0.5
 
 ; Win by normal
 p1.n.spr = 100,0
@@ -625,10 +603,16 @@ useiconupto = 4
 
 ;-----------------------------------------------------------
 [Match]
-pos = 141,8
+pos = 187,233
 ;bg.spr = 
-text.font = 1,0, -1
+text.font = 6,0, -1
 ;text.text = STAGE %s ;TODO
+
+;-----------------------------------------------------------
+;[Nickname]
+;pos = 141,8
+;bg.spr = 
+;text.font = 3,0, -1
 
 ;-----------------------------------------------------------
 ; How to customize

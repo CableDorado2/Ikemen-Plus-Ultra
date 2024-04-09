@@ -217,7 +217,6 @@ void main()
   //.sdl.setDiscordPartyMax(.cfg.RoomMax);
   //.sdl.setDiscordPartySize(.cfg.RoomSize);
   //.sdl.setDiscordInstance(.cfg.GameInstance);
-  //.sdl.discordUpdate();
   .sdl.fullScreenMode(.cfg.FullScreenReal);
   if(.cfg.FullScreenReal) .se.fullReal = true;
   if(.sdl.fullScreen(.cfg.FullScreen)) .sdl.showCursor(!.cfg.FullScreen);
