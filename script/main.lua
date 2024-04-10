@@ -1520,7 +1520,7 @@ function f_mainMenu()
 				--STORY (follow customizable story arcs designed for this engine)
 				if mainMenu == 1 then
 					setDiscordState("In Story Mode") --update discord rich presence user state with the text introduced
-					script.story.f_storyMenu()
+					--script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play customizables arcade ladders)
 				elseif mainMenu == 2 then
