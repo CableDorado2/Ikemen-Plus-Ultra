@@ -1520,7 +1520,7 @@ function f_mainMenu()
 				--STORY (follow customizable story arcs designed for this engine)
 				if mainMenu == 1 then
 					setDiscordState("In Story Mode") --update discord rich presence user state with the text introduced
-					--script.story.f_storyMenu()
+					script.story.f_storyMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play customizables arcade ladders)
 				elseif mainMenu == 2 then
@@ -1834,6 +1834,7 @@ function arcadeP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true --P2 fighting on P1 side enabled
+	setPlayerSide('p1left')
 	setGameMode('arcadecoop') --to avoid challenger screen
 	textImgSetText(txt_mainSelect, "ARCADE COOPERATIVE")
 	script.select.f_selectAdvance()
@@ -1861,6 +1862,7 @@ function arcadeCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true --AI = data.difficulty for all characters enabled
+	setPlayerSide('p1left')
 	setGameMode('arcadecpu') --to avoid challenger screen
 	data.rosterMode = "cpu" --to avoid record stats
 	textImgSetText(txt_mainSelect, "WATCH ARCADE")
@@ -2042,6 +2044,7 @@ function towerP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
 	data.coop = true
+	setPlayerSide('p1left')
 	setGameMode('towercoop')
 	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
 	script.select.f_selectTower()
@@ -2069,6 +2072,7 @@ function towerCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
+	setPlayerSide('p1left')
 	setGameMode('towercpu')
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TOWER")

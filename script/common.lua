@@ -1943,13 +1943,13 @@ function f_default() --Reset Game Modes Configuration
 	data.storyNo = nil --additional variable used to identify stories in select screen
 	--Match Settings
 	setAutoLevel(false) --generate autolevel.txt in debug dir
-	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
 	setHUD(true) --just enable or disable hud elements in game
+	setHomeTeam(2) --P2 side considered the home team: http://mugenguild.com/forum/topics/ishometeam-triggers-169132.0.html
+	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
-	setPlayerSide("") --set player side variable to adjust internal settings.
 end
 
 sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.

@@ -529,20 +529,20 @@ flag = nobardisplay
 ;===========================================================================
 [State -2, Max Power]
 type = PowerSet
-triggerall = (Service = "max power" || Service = "undefeatable") && TeamSide = 1 ;POWER WILL AT MAX SERVICE
-trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
+triggerall = (Service = "max power" || Service = "undefeatable") ;POWER WILL AT MAX SERVICE
+trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = PowerMax
 
 [State -2, Enemy Lifebar 1/3]
 type = LifeSet
-triggerall = (Service = "low cpu life" && TeamSide = 2) ;ENEMY LIFE AT 1/3 SERVICE
-trigger1 = RoundState < 2 ;RoundNo = 1 ;FOR 1 ROUND
+triggerall = Service = "low cpu life" ;ENEMY LIFE AT 1/3 SERVICE
+trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 2) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 1)) && RoundState < 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = LifeMax / 3
 
 [State 2, Double Defence]
 type = DefenceMulSet
-triggerall = Service = "defence x2" && TeamSide = 1 ;DOUBLE DEFENCE SERVICE
-trigger1 = RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
+triggerall = Service = "defence x2" ;DOUBLE DEFENCE SERVICE
+trigger1 = (((PlayerSide = "p1left" || PlayerSide = "p2left") && TeamSide = 1) || ((PlayerSide = "p1right" || PlayerSide = "p2right") && TeamSide = 2)) && RoundState = 2 ;RoundNo = 1 ;FOR 1 ROUND
 value = 0.5
 
 ;===========================================================================
@@ -550,7 +550,7 @@ value = 0.5
 ;===========================================================================
 [State -2, Undefeatable]
 type = LifeSet
-triggerall = Service = "undefeatable" && TeamSide = 1 ;LIFE WILL AT MAX FOR STORY MODE BATTLES
+triggerall = GameMode = "story" && Service = "undefeatable" && TeamSide = 1 ;LIFE WILL AT MAX FOR STORY MODE BATTLES
 trigger1 = RoundState = 2
 value = LifeMax
 

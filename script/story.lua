@@ -705,6 +705,7 @@ function f_arc1_chapter1()
 	data.storyNo = "1-1"
 	setGameMode('story')
 	setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
+	setPlayerSide('p1left')
 	script.select.f_selectStory() --Start Fight with previous settings
 	if script.select.winner == 1 then --Only if you win do:
 		data.story1_2Unlock = true --Unlock next chapter
@@ -789,7 +790,7 @@ function f_arc1_chapter3_2()
 	setCom(2, 0)
 	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
 	data.p1In = 2
-	data.p2In = 2
+	--data.p2In = 2 --esto daña el turns mode
 	data.p1TeamMenu = {mode = 2, chars = 3}
 	data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"], t_charAdd["suave dude"], t_charAdd["kung fu girl"]}
 	data.p1Pal = 1
