@@ -152,6 +152,8 @@ CD2: Plans for future updates, they are in Spanish, because this is how I unders
 
 - Agregar soporte para reconocer a un 2do Gamepad.
 
+- Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
+
 - Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
 
 - El audio del motor debe poder sincronizarse al reproductor de video.
