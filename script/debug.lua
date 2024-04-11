@@ -22,15 +22,18 @@ addHotkey('F6', false, false, false, 'powMax(1);powMax(2);powMax(3);powMax(4);po
 addHotkey('F6', true, false, false, 'barAdd(2)') --Ctrl+F6: Increases Player 2's power to 1
 addHotkey('F6', false, false, true, 'barAdd(1)') --Shift+F6: Increases Player 1's power to 1
 addHotkey('F7', false, false, false, 'full(1);full(2);full(3);full(4);full(5);full(6);full(7);full(8);setTime(getRoundTime())') --Restores full life and power to all players
+--Engine functions
+addHotkey('F8', false, false, false, 'changeSpeed()') --Run the game as fast as possible
+addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 --Debug Info
 addHotkey('c', true, false, false, 'toggleClsnDraw()') --CTRL+C: Toggles display of collision boxes, target data (including remaining juggle points) and NotHitBy attributes
 addHotkey('d', true, false, false, 'toggleDebugDraw()') --CTRL+D: Toggles debug information display
 addHotkey('l', true, false, false, 'toggleStatusDraw()') --CTRL+L: Toggles display of the life and power bars
 addHotkey('i', true, false, false, 'stand(1);stand(2);stand(3);stand(4)') --CTRL+I: Forces both players into stand state
+--Quick Playback Actions
 addHotkey('r', true, false, false, 'toggleRecord(sysSnd)') --CTRL+R: Record Dummy Actions for Playback
 addHotkey('e', true, false, false, 'toggleRecordEnd(sysSnd)') --CTRL+E: Stop Recording Dummy Actions for Playback
 addHotkey('p', true, false, false, 'togglePlayback(sysSnd)') --CTRL+P: Playback Dummy Actions
---addHotkey('v', true, false, false, 'changeVsync()') --CTRL+V: Enable V-sync (stops "shearing") TO-DO
 --Ctrl-# (where # is from 1-4) Toggles AI for the #th player OR Ctrl-Alt-# (where # is from 1-4) Enables/Disables the player
 addHotkey('1', true, false, false, 'toggleAI(1)')
 addHotkey('2', true, false, false, 'toggleAI(2)')
@@ -40,9 +43,6 @@ addHotkey('5', true, false, false, 'toggleAI(5)')
 addHotkey('6', true, false, false, 'toggleAI(6)')
 addHotkey('7', true, false, false, 'toggleAI(7)')
 addHotkey('8', true, false, false, 'toggleAI(8)')
---Engine functions
-addHotkey('F8', false, false, false, 'changeSpeed()') --Run the game as fast as possible
-addHotkey('SCROLLLOCK', false, false, false, 'step()') --???
 end
 --Miscellaneous functions
 if data.pauseMode == 'No' then

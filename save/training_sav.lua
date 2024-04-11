@@ -11,7 +11,7 @@ data.LifeStateP2 = "100%"
 --Playback Settings
 data.pbkRecSlot = 1
 data.pbkPlaySlot = 1
-data.pbkPlayLoop = false
+data.pbkPlayLoop = true
 data.pbkSlot1 = true
 data.pbkSlot2 = false
 data.pbkSlot3 = false

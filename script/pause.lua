@@ -352,6 +352,11 @@ P2bufr = 0
 Pbufl = 0
 P2bufl = 0
 
+challengerActive = false
+screenTime = 0
+
+playbackActive = false
+
 function f_pauseMenuReset()
 	togglePauseMenu(0)
 	setSysCtrl(0)
@@ -403,9 +408,6 @@ function f_confirmReset()
 	cursorPosYConfirm = 1
 	confirmPause = 2
 end
-
-challengerActive = false
-screenTime = 0
 
 --;===========================================================
 --; PAUSE MENU
@@ -484,6 +486,10 @@ function f_pauseMain(p, st, esc)
 			f_saveTemp()
 			exitMatch()
 		end
+	end
+	if start and playbackActive then --Stop playback recording when you open pause menu
+		endDummyPlayback(sysSnd)
+		playbackActive = false
 	end
 	if pauseMenuActive == false and delayMenu == -1 then --Start Pause Menu
 		animReset(darkenIn)
@@ -1483,19 +1489,20 @@ t_trainingCfg = {
 	{varID = textImgNew(), text = "Lifebar P2",					varText = data.LifeStateP2},
 	{varID = textImgNew(), text = "Power Gauge P1",				varText = data.PowerStateP1},
 	{varID = textImgNew(), text = "Power Gauge P2",				varText = data.PowerStateP2},
-	{varID = textImgNew(), text = "Dummy Control", 				varText = data.dummyMode},
-	--{varID = textImgNew(), text = "State", 					varText = ""},
 	--{varID = textImgNew(), text = "Distance", 				varText = ""},
 	--{varID = textImgNew(), text = "Guard Mode", 				varText = ""},
 	--{varID = textImgNew(), text = "Tech Recovery", 			varText = ""},
 	--{varID = textImgNew(), text = "Tech Direction", 			varText = ""},
 	--{varID = textImgNew(), text = "Counter Hit", 				varText = ""},
 	{varID = textImgNew(), text = "Playback Settings",			varText = ""},
+	{varID = textImgNew(), text = "Dummy Recording Start",		varText = ""},
+	{varID = textImgNew(), text = "Dummy Control", 				varText = data.dummyMode},
 	{varID = textImgNew(), text = "                   BACK",   	varText = ""},
 }
 
 --Battle Info for Replays
 if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMode() == "randomtest" then
+	table.remove(t_trainingCfg,11)
 	table.remove(t_trainingCfg,10)
 	table.remove(t_trainingCfg,9)
 	table.remove(t_trainingCfg,8)
@@ -1599,8 +1606,18 @@ function f_pauseTraining()
 				if bufr then bufr = 0 end
 			end
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-				--Playback Settings
+				--Start Dummy Recording
 				if trainingCfg == 10 then
+					startDummyRecord(sysSnd)
+					playbackActive = true
+					animReset(darkenOut)
+					animUpdate(darkenOut)
+					pauseMenuActive = false
+					bufl = 0
+					bufr = 0
+					if trainingModified then f_saveTraining() end
+				--Playback Settings
+				elseif trainingCfg == 9 then
 					sndPlay(sysSnd, 100, 1)
 					trainingGoTo = "Playback"
 					playbackCfg = 1
@@ -1609,62 +1626,52 @@ function f_pauseTraining()
 					delayMenu = -2
 				end
 			end
-			--Info Display
-			if trainingCfg == 1 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.damageDisplay == "No" then
-				sndPlay(sysSnd, 100, 5)
-				--[[
+			--Common Button Logic
+			if trainingCfg >= 1 and trainingCfg < 5 then
+				if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
 					sndPlay(sysSnd, 100, 1)
-					data.damageDisplay = "Yes"
-					setDamageDisplay(1)
-					hasChanged = true
-				]]
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.damageDisplay == "Yes" then
-					sndPlay(sysSnd, 100, 5)
-				--[[
-					sndPlay(sysSnd, 100, 1)
-					data.damageDisplay = "No"
-					setDamageDisplay(0)
-					hasChanged = true
-				]]
-				end
-			--Input Display
-			elseif trainingCfg == 2 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.inputDisplay == "No" then
-					sndPlay(sysSnd, 100, 1)
-					data.inputDisplay = "Yes"
-					setInputDisplay(1)
-					hasChanged = true
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.inputDisplay == "Yes" then
-					sndPlay(sysSnd, 100, 1)
-					data.inputDisplay = "No"
-					setInputDisplay(0)
-					hasChanged = true
-				end
-			--Hitbox Display
-			elseif trainingCfg == 3 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.hitbox == "No" then
-					sndPlay(sysSnd, 100, 1)
-					toggleClsnDraw()
-					data.hitbox = "Yes"
-					hasChanged = true
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.hitbox == "Yes" then
-					sndPlay(sysSnd, 100, 1)
-					toggleClsnDraw()
-					data.hitbox = "No"
-					hasChanged = true
-				end
-			--Debug Info Display
-			elseif trainingCfg == 4 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.debugInfo == "No" then
-					sndPlay(sysSnd, 100, 1)
-					toggleDebugDraw()
-					data.debugInfo = "Yes"
-					hasChanged = true
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.debugInfo == "Yes" then
-					sndPlay(sysSnd, 100, 1)
-					toggleDebugDraw()
-					data.debugInfo = "No"
+					--Info Display
+					if trainingCfg == 1 then
+						if data.damageDisplay == "No" then
+							sndPlay(sysSnd, 100, 5)
+							--[[
+							data.damageDisplay = "Yes"
+							setDamageDisplay(1)
+							]]
+						elseif data.damageDisplay == "Yes" then
+							--[[
+							data.damageDisplay = "No"
+							setDamageDisplay(0)
+							]]
+						end
+					--Input Display
+					elseif trainingCfg == 2 then
+						if data.inputDisplay == "No" then
+							data.inputDisplay = "Yes"
+							setInputDisplay(1)
+						elseif data.inputDisplay == "Yes" then
+							data.inputDisplay = "No"
+							setInputDisplay(0)
+						end
+					--Hitbox Display
+					elseif trainingCfg == 3 then
+						if data.hitbox == "No" then
+							toggleClsnDraw()
+							data.hitbox = "Yes"
+						elseif data.hitbox == "Yes" then
+							toggleClsnDraw()
+							data.hitbox = "No"
+						end
+					--Debug Info Display
+					elseif trainingCfg == 4 then
+						if data.debugInfo == "No" then
+							toggleDebugDraw()
+							data.debugInfo = "Yes"
+						elseif data.debugInfo == "Yes" then
+							toggleDebugDraw()
+							data.debugInfo = "No"
+						end
+					end
 					hasChanged = true
 				end
 			--Left Side Life Gauge Setup
@@ -1863,22 +1870,7 @@ function f_pauseTraining()
 					end
 					hasChanged = true
 				end
-			--Dummy Control
-			elseif trainingCfg == 9 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and data.dummyMode == "AI" then
-					sndPlay(sysSnd, 100, 1)
-					toggleAI(2)
-					data.dummyMode = "Manual"
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and data.dummyMode == "Manual" then
-					sndPlay(sysSnd, 100, 1)
-					toggleAI(2)
-					data.dummyMode = "AI"
-				end
-				hasChanged = true
 			--[[
-			--Dummy State
-			elseif trainingCfg == ??? then
-				
 			--Dummy Distance
 			elseif trainingCfg == ??? then
 				
@@ -1895,6 +1887,30 @@ function f_pauseTraining()
 			elseif trainingCfg == ??? then
 				
 			]]
+			--Dummy Control
+			elseif trainingCfg == 11 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.dummyMode == "CPU" then
+						sndPlay(sysSnd, 100, 1)
+						toggleAI(2)
+						data.dummyMode = "Manual"
+					elseif data.dummyMode == "Manual" then
+						--sndPlay(sysSnd, 100, 1)
+						data.dummyMode = "Playback"
+						playDummyRecord(sysSnd)
+					end
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.dummyMode == "Playback" then
+						--sndPlay(sysSnd, 100, 1)
+						data.dummyMode = "Manual"
+						endDummyPlayback(sysSnd)
+					elseif data.dummyMode == "Manual" then
+						sndPlay(sysSnd, 100, 1)
+						toggleAI(2)
+						data.dummyMode = "CPU"
+					end
+				end
+				hasChanged = true
 			end
 			if trainingCfg < 1 then
 				trainingCfg = #t_trainingCfg
@@ -1945,11 +1961,11 @@ function f_pauseTraining()
 				t_trainingCfg[2].varText = data.inputDisplay
 				t_trainingCfg[3].varText = data.hitbox
 				t_trainingCfg[4].varText = data.debugInfo
-				if getGameMode() == "practice" then t_trainingCfg[5].varText = data.LifeStateP1 end
+				if getGameMode() == "practice" then t_trainingCfg[5].varText = data.LifeStateP1 end --To don't display in battle info menu
 				t_trainingCfg[6].varText = data.LifeStateP2
 				t_trainingCfg[7].varText = data.PowerStateP1
 				t_trainingCfg[8].varText = data.PowerStateP2
-				t_trainingCfg[9].varText = data.dummyMode
+				t_trainingCfg[11].varText = data.dummyMode
 				hasChanged = false
 			end
 			--animDraw(f_animVelocity(pauseBG0, -1, -1))
@@ -2007,6 +2023,8 @@ end
 --; PLAYBACK SETTINGS
 --;===========================================================
 txt_playbackInfo = createTextImg(jgFnt, 5, 0, "", 159, 210, 0.7, 0.7)
+txt_pbRecord = "Select Slot to Record Dummy Actions."
+txt_pbPlay = "Select Slot to Playback Recorded Dummy Actions."
 txt_pbSlots = "Toggle inclusion in Random, All, and Random All."
 txt_pbWarning = "At least one slot has to be included."
 txt_pbIncludeSlot = "Include"
@@ -2015,7 +2033,7 @@ txt_pbExcludeSlot = "Exclude"
 t_playbackCfg = {
 	{varID = textImgNew(), text = "Recording Slot",   		 varText = data.pbkRecSlot},
 	{varID = textImgNew(), text = "Playback Slot",      	 varText = ""},
-	{varID = textImgNew(), text = "Playback Type",      	 varText = ""},
+	--{varID = textImgNew(), text = "Playback Type",      	 varText = ""},
 	{varID = textImgNew(), text = "Slot 1",   				 varText = ""},
 	{varID = textImgNew(), text = "Slot 2",   				 varText = ""},
 	{varID = textImgNew(), text = "Slot 3",   				 varText = ""},
@@ -2032,12 +2050,12 @@ elseif data.pbkPlaySlot == 8 then t_playbackCfg[2].varText = "Random All"
 else t_playbackCfg[2].varText = data.pbkPlaySlot --Display Number Value
 end
 
-if not data.pbkPlayLoop then t_playbackCfg[3].varText = "Once" else t_playbackCfg[3].varText = "Loop" end
-if not data.pbkSlot1 then t_playbackCfg[4].varText = txt_pbExcludeSlot else t_playbackCfg[4].varText = txt_pbIncludeSlot end
-if not data.pbkSlot2 then t_playbackCfg[5].varText = txt_pbExcludeSlot else t_playbackCfg[5].varText = txt_pbIncludeSlot end
-if not data.pbkSlot3 then t_playbackCfg[6].varText = txt_pbExcludeSlot else t_playbackCfg[6].varText = txt_pbIncludeSlot end
-if not data.pbkSlot4 then t_playbackCfg[7].varText = txt_pbExcludeSlot else t_playbackCfg[7].varText = txt_pbIncludeSlot end
-if not data.pbkSlot5 then t_playbackCfg[8].varText = txt_pbExcludeSlot else t_playbackCfg[8].varText = txt_pbIncludeSlot end
+--if not data.pbkPlayLoop then t_playbackCfg[3].varText = "Once" else t_playbackCfg[3].varText = "Loop" end
+if not data.pbkSlot1 then t_playbackCfg[3].varText = txt_pbExcludeSlot else t_playbackCfg[3].varText = txt_pbIncludeSlot end
+if not data.pbkSlot2 then t_playbackCfg[4].varText = txt_pbExcludeSlot else t_playbackCfg[4].varText = txt_pbIncludeSlot end
+if not data.pbkSlot3 then t_playbackCfg[5].varText = txt_pbExcludeSlot else t_playbackCfg[5].varText = txt_pbIncludeSlot end
+if not data.pbkSlot4 then t_playbackCfg[6].varText = txt_pbExcludeSlot else t_playbackCfg[6].varText = txt_pbIncludeSlot end
+if not data.pbkSlot5 then t_playbackCfg[7].varText = txt_pbExcludeSlot else t_playbackCfg[7].varText = txt_pbIncludeSlot end
 end
 
 f_pbkdisplayTxt() --Load Display Text
@@ -2136,34 +2154,34 @@ function f_pausePlayback()
 				end
 			end
 		--Common Button Logic
-		elseif playbackCfg >= 3 and playbackCfg < 9 then
+		elseif playbackCfg >= 3 and playbackCfg < 8 then
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
 				sndPlay(sysSnd, 100, 1)
 				--Playback Type
-				if playbackCfg == 3 then
-					if data.pbkPlayLoop then data.pbkPlayLoop = false else data.pbkPlayLoop = true end
+				--if playbackCfg == 3 then
+					--if data.pbkPlayLoop then data.pbkPlayLoop = false else data.pbkPlayLoop = true end
 				--Slot 1
-				elseif playbackCfg == 4 then
+				if playbackCfg == 3 then
 					if data.pbkSlot1 then data.pbkSlot1 = false else data.pbkSlot1 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot1 = true end
 				--Slot 2
-				elseif playbackCfg == 5 then
+				elseif playbackCfg == 4 then
 					if data.pbkSlot2 then data.pbkSlot2 = false else data.pbkSlot2 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot2 = true end
 				--Slot 3
-				elseif playbackCfg == 6 then
+				elseif playbackCfg == 5 then
 					if data.pbkSlot3 then data.pbkSlot3 = false else data.pbkSlot3 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot3 = true end
 				--Slot 4
-				elseif playbackCfg == 7 then
+				elseif playbackCfg == 6 then
 					if data.pbkSlot4 then data.pbkSlot4 = false else data.pbkSlot4 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot4 = true end
 				--Slot 5
-				elseif playbackCfg == 8 then
+				elseif playbackCfg == 7 then
 					if data.pbkSlot5 then data.pbkSlot5 = false else data.pbkSlot5 = true end
 					checkPBSlots()
 					if pbWarning then data.pbkSlot5 = true end
@@ -2208,11 +2226,15 @@ function f_pausePlayback()
 		animDraw(pauseBG1)
 		--animUpdate(pauseBG1)
 		textImgDraw(txt_playbackCfg)
-		if playbackCfg >= 4 and playbackCfg < 9 then
-			if not pbWarning then
-				textImgSetText(txt_playbackInfo, txt_pbSlots)
-			else
-				textImgSetText(txt_playbackInfo, txt_pbWarning)
+		if playbackCfg >=1 and playbackCfg < 8 then
+			if playbackCfg == 1 then textImgSetText(txt_playbackInfo, txt_pbRecord)
+			elseif playbackCfg == 2 then textImgSetText(txt_playbackInfo, txt_pbPlay)
+			elseif playbackCfg >= 3 and playbackCfg < 8 then
+				if not pbWarning then
+					textImgSetText(txt_playbackInfo, txt_pbSlots)
+				else
+					textImgSetText(txt_playbackInfo, txt_pbWarning)
+				end
 			end
 			textImgDraw(txt_playbackInfo)
 		end
