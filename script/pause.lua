@@ -429,11 +429,18 @@ elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "STAGE SELECT"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
 elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
-elseif getGameMode() == "replay" or getGameMode() == "randomtest" then
-	table.remove(t_pauseMain,6)
-	table.remove(t_pauseMain,2)
-	table.insert(t_pauseMain,4,{id = '', text = "BATTLE INFO"})
-	t_pauseMain[5].text = "EXIT"
+end
+
+--Pause Menu for Replays
+if getGameMode() == "replay" or getGameMode() == "randomtest" then
+t_pauseMain = nil
+t_pauseMain = {
+	{id = '', text = "CONTINUE"},
+	{id = '', text = "SETTINGS"},
+	{id = '', text = "HIDE MENU"},
+	{id = '', text = "BATTLE INFO"},
+	{id = '', text = "EXIT"}
+}
 end
 
 if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
@@ -1487,9 +1494,14 @@ t_trainingCfg = {
 	{varID = textImgNew(), text = "                   BACK",   	varText = ""},
 }
 
-if getGameMode() ~= "practice" then
-	table.remove(t_trainingCfg,11)
+--Battle Info for Replays
+if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMode() == "randomtest" then
 	table.remove(t_trainingCfg,10)
+	table.remove(t_trainingCfg,9)
+	table.remove(t_trainingCfg,8)
+	table.remove(t_trainingCfg,7)
+	table.remove(t_trainingCfg,6)
+	table.remove(t_trainingCfg,5)
 end
 
 --Training Settings Up Arrow
@@ -1656,7 +1668,7 @@ function f_pauseTraining()
 					hasChanged = true
 				end
 			--Left Side Life Gauge Setup
-			elseif trainingCfg == 5 then
+			elseif trainingCfg == 5 and getGameMode() == "practice" then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					if data.LifeStateP1 == "No Regenerate" then
 						sndPlay(sysSnd, 100, 1)
@@ -1933,7 +1945,7 @@ function f_pauseTraining()
 				t_trainingCfg[2].varText = data.inputDisplay
 				t_trainingCfg[3].varText = data.hitbox
 				t_trainingCfg[4].varText = data.debugInfo
-				t_trainingCfg[5].varText = data.LifeStateP1
+				if getGameMode() == "practice" then t_trainingCfg[5].varText = data.LifeStateP1 end
 				t_trainingCfg[6].varText = data.LifeStateP2
 				t_trainingCfg[7].varText = data.PowerStateP1
 				t_trainingCfg[8].varText = data.PowerStateP2

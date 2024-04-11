@@ -391,11 +391,14 @@ end
 --;===========================================================
 --; LOGOS SCREEN
 --;===========================================================
+altBGM = false
+
 function f_mainLogos()
 	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 	f_storyboard("data/screenpack/logo.def")
-	playBGM(bgmIntro)
+	if altBGM then playBGM(bgmIntroJP) else playBGM(bgmIntro) end
 	f_storyboard("data/screenpack/intro.def")
+	if altBGM then altBGM = false else altBGM = true end --Alternate Opening BGM Songs
 end
 
 --;===========================================================
@@ -7995,7 +7998,7 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 1800 then break end --Credits Duration
+		if scroll > 2100 then break end --Credits Duration
 		--Actions
 		if (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and not skip then --Skip Button
 			skip = true
@@ -8036,7 +8039,7 @@ v1.4.0
 
 
 
-MAIN PROGRAM
+MAIN PROGRAMMING
 
 SUEHIRO
 ALCERIS
@@ -8064,32 +8067,32 @@ CD2
 CHARACTERS DESIGN
 
 ELECBYTE TEAM
-THE_NONE
-SENNOU-ROOM
-MAGE
-DIVINEWOLF
-PROUD OF RAGEQUITTIN
 A.K.A. TOASTED MILQUE
-S.Y.D
-SILVAN
-MASUKENPU-KUN
+DIVINEWOLF
 DONALDEUS
+MAGE
+MASUKENPU-KUN
 PHANTOM.OF.THE.SERVER
-YOSHIN222
+PROUD OF RAGEQUITTIN
+S.Y.D
+SENNOU-ROOM
+SILVAN
 STUPA
+THE_NONE
+YOSHIN222
 
 
 
 STAGES DESIGN
 
 ELECBYTE TEAM
-HEKUTTA
-SHIYO KAKUGE
-NEXT ONE
 AIROLG1990
-RIVIERA
-PHANTOM.OF.THE.SERVER
 APPLEST0RE
+HEKUTTA
+NEXT ONE
+PHANTOM.OF.THE.SERVER
+RIVIERA
+SHIYO KAKUGE
 
 
 
@@ -8099,11 +8102,32 @@ ELECBYTE TEAM
 
 
 
-SOUND DESIGN
+SOUND COMPOSER
 
-GENERIC SOUNDS
+AKIO JINSENJI
+BRIAN CARSON
+CAPCOM SOUND TEAM
+DAISUKE ISHIWATARI
 DING
-TEKKEN 7 ANNOUNCER
+GAROAD
+HIDEYUKI FUKASAWA
+IPPO YAMADA
+JEFF WILLIAMS
+JOSH KELLER
+KEIKI KOBAYASHI
+MAKOTO ASAI
+NORICHIKA SATO
+RAITO
+REECE BOWERS
+SHINSEKAI GAKKYOKU ZATSUGIDAN
+SILENT DREAMS
+TERUO KONISHI
+TETSUYA SHIBATA
+TORU ITOGA
+TOSHIHIKO HORIYAMA
+WIZZYWHIPITWONDERFUL
+XONTRON
+YASUFUMI FUKUDA
 
 
 
@@ -8122,11 +8146,24 @@ AUGUSTO SAPIENTI
 
 SPECIAL THANKS
 
+FAMILY
 STRONG FS
 PLASMOIDTHUNDER
 ACDGAMES
+ABRAHAM
 SWEET CREATURES
 OLDGAMER
+LASOMBRA DEMON
+LIAM KUROSHI
+LEVEN2IS2LIJDEN
+BRUCELEE-WT7HK
+ERU GURARA
+HERMES
+MORIA MORTIMORTE
+2DEE4EVER
+PIZZADARIUS25
+ALEX TV G.T.M
+UCHIHASLAYER8893
 DJ DELORIE
 SHAWN HARGREAVES
 TOMISLAV UZELAC AND OVE KAAVEN
@@ -8135,7 +8172,6 @@ PETER WANG AND BRENNAN UNDERWOOD
 EARLE F. PHILHOWER III
 DAVID CORNISH
 THE ENHANCED SPECIAL TESTING PEOPLE
-FAMILY
 
 
 AND YOU
@@ -8147,6 +8183,8 @@ AND YOU
 PRESENTED BY
 
 CABLE DORADO 2
+CD2
+
  ]]
 
 --;===========================================================
