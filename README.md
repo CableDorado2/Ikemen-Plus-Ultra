@@ -1,5 +1,5 @@
-# I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **OLD** [Ikemen Plus](https://github.com/acdgames/Ikemen-Plus) The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently reworked by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
+# I.K.E.M.E.N PLUS ULTRA
+*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus) The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently reworked by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
 - If you are looking for the latest or current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
 
@@ -251,11 +251,10 @@ Here you can find content to build your projects or just for play on Ikemen.
 Here you can find some tools that help you in development of your projects (Some missed tools are included in the main ikemen plus ultra folder called "tools")
 - [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
 - [Notepad++](https://notepad-plus-plus.org/) (Script editor)
-- [Resource Tuner](http://www.restuner.com/) (Windows executable editor)
 - [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
+- [Mp3Tag](https://www.mp3tag.de/en/) (A music tag editor)
+- [Radmin VPN](https://www.radmin-vpn.com/) (For Online Netplay)
 - Visual C++ 2010 Express (IDE to open Source Code)
-- [Mp3Tag](https://www.mp3tag.de/en/)(A music tag editor)
-- [Radmin VPN](https://www.radmin-vpn.com/)(For Online Netplay)
 
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
