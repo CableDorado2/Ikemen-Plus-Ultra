@@ -1,5 +1,5 @@
 # I.K.E.M.E.N PLUS ULTRA
-*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus).The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently reworked by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
+*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently reworked by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
 - If you are looking for the latest or current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
 
@@ -60,7 +60,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
 
-**IKEMEN Plus Ultra** is an unofficial large scale update/expansion of the previous version, maintained by **CD2** with support of **Strong FS** that contains new features inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games.
+**IKEMEN Plus Ultra** is an unofficial large scale update/expansion of the previous version that contains new features inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** with support of **Strong FS**.
 
 **IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under active development by various developers and is for people who want their game to follow what MUGEN does but with extra universal features/fixes.
 
@@ -71,7 +71,7 @@ This Ikemen is an expansion of his original SSZ code.
 - *ULTIMATE SMASHBOX*
 
 ## TODO List
-CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
+**CD2:** Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
 
 **v1.4 (Next Update)**
 ------------
