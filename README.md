@@ -18,19 +18,23 @@
 - **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
 - **OpenGL:** 2.0 but also, runs with DirectX
 
-## Download
-Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
-![v1 3](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/3eee08af-8687-49f9-85b3-d1b43c7f750b)
+## Operating System Compatibility
+| OS | Running | Internal Dir Opening |
+| --- | --- | --- |
+| Windows | Native | Yes |
+| Linux | Wine | No |
+| MacOS | ? | ? |
+| Android | Winlator | ? |
 
-## Games Made in Ikemen Plus Ultra
-- *MUGENGERS: THE OROCHI'S ORIGIN*
-- *ULTIMATE SMASHBOX*
+## Download
+Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
+![v1 3](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/3eee08af-8687-49f9-85b3-d1b43c7f750b)
 
 ## Table of Contents
 
 >[About All IKEMEN Versions](#about-all-ikemen-versions)
 >
->[Operating System Compatibility](#operating-system-compatibility)
+>[Games Made in Ikemen Plus Ultra](#games-made-in-ikemen-plus-ultra)
 >
 >[TODO List](#todo-list)
 >
@@ -63,13 +67,9 @@ Google's Go language (hence the name). This version it is under active developme
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. Is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
-## Operating System Compatibility
-| OS | Running | Internal Dir Opening |
-| --- | --- | --- |
-| Windows | Native | Yes |
-| Linux | Wine | No |
-| MacOS | ? | ? |
-| Android | Winlator | ? |
+## Games Made in Ikemen Plus Ultra
+- *MUGENGERS: THE OROCHI'S ORIGIN*
+- *ULTIMATE SMASHBOX*
 
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
@@ -259,11 +259,11 @@ Here you can find some tools that help you in development of your projects (Some
 
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
-- To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There you have the official Lua Manual: https://www.lua.org/manual/5.2/
-- For create characters and stages, there you have the official MUGEN Elecbyte Documentation here: http://www.elecbyte.com/mugendocs-11b1/mugen.html
+- To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There is the official manual from the version of Lua that uses this engine: https://www.lua.org/manual/5.2/
+- For create characters and stages, you have to use the official MUGEN Elecbyte Documentation: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
-If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of the hands**): https://discord.gg/KV5EPnMuA7
+If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of ONE hand**): https://discord.gg/KV5EPnMuA7
 
 ## References
 >- Suehiro's Main Page:
@@ -277,6 +277,9 @@ If you need help, you can find support from developers and contributors for this
 >
 >- Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
+>
+>- Ikemen Go Plus Source Code:
+>https://github.com/K4thos/Ikemen-GO-Plus
 >
 >- Lastest Ikemen Engine (Ikemen Go) Source Code:
 >https://github.com/ikemen-engine/Ikemen-GO
