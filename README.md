@@ -5,7 +5,7 @@
 
 - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 
-- This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on potato PC, without a graphics card (Because can use DirectX Render).
+- This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on Low resources PC, without a graphics card (Because can use DirectX Render).
 
 - The current version is a public development release for testing purposes, may contain bugs and incomplete features that we hope will be finished in *the final release*.
 
@@ -19,7 +19,7 @@
 - **OpenGL:** 2.0 but also, runs with DirectX
 
 ## Operating System Compatibility
-| OS | Run | Internal Dir Opening |
+| OS | Runs | Internal Dir Opening |
 | --- | --- | --- |
 | Windows | Native | Yes |
 | Linux | [Wine](https://wiki.winehq.org/Main_Page) | No |
