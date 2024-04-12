@@ -494,7 +494,7 @@ function f_pauseMain(p, st, esc)
 		animReset(darkenIn)
 		animUpdate(darkenIn)
 		pauseMenuActive = true
-		if not challengerActive then sndPlay(sysSnd, 100, 1) end
+		if not challengerActive and not pbrecActive then sndPlay(sysSnd, 100, 1) end --Play Pause SFX
 		delayMenu = 0
 	end
 	if (escape or start) and pbrecActive then --Stop playback recording when you open pause menu

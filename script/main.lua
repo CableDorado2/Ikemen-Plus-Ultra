@@ -75,19 +75,65 @@ function f_progress()
 end
 
 --;===========================================================
---; MAIN MENU SCREENPACK
+--; DRAW REFERENCES
 --;===========================================================
---[[Quick reference]
-animSetScale(a, x, y): Sets the scale of an anim
-animSetPos(a, x  y): Sets the screen position of an anim, relative to the top left corner
-animAddPos(a, x, y): Adjusts an anim's current position
-animSetWindow(a, x1, y1, x2, y2): Sets the drawing window for an anim
-animSetTile(a, x, y): Sets whether to tile (repeat) an anim across the given axes
-animSetAlpha(a, as, ad): Sets the alpha blending of an anim
-animUpdate(a): Advances the anim frame by 1 tick
-animDraw(a): Draws an anim to the screen
+
+--animName = animNew(sysSff, [[ 
+--grpNo, indexNo, x, y, time, facing, trans
+--]])
+
+--[[
+
+Description: Assigns new animation to animName variable of your choice.
+
+Required parameters:
+grpNo: SFF sprite's group number
+indexNo: SFF sprite's image number
+x: X offset to the sprite's position;
+y: Y offset to the sprite's position
+time: length of time to display the element before moving onto the next, measured in game-ticks (-1 for static)
+
+Optional parameters:
+facing: H = Flip horizontally; V = Flip vertically
+trans: transparency blending a = add; a1 = add1; s = sub; AS???D??? (??? - values of the source and destination alpha)
+
 ]]
 
+--[[
+
+animAddPos(animName, addX, addY)
+Description: Dynamically assigns x- and y-velocities movement in direction depending on the value.
+
+animSetPos(animName, setX, setY)
+Description: Changes x- and y-position.
+
+animSetScale(animName, scaleX, scaleY)
+Description: scaleX: horizontal scale factor; scaleY: vertical scale factor.
+
+animSetWindow(animName, x1, y1, x2, y2)
+Description: Limits animation to window starting at x1, y1 coordinates; x2, y2 enlarges window by specified amount of pixels moving right and down from the x1, y1.
+
+animSetTile(animName, hTiling, vTiling)
+Description: Specifies if the background element should be repeated (tiled) in the horizontal and/or vertical directions, respectively.
+0 = no tiling; 1 = infinite tiling; any value greater than 1 = element to tile that number of times.
+
+animSetAlpha(animName, transRange1, transRange2)
+Description: Assigns alpha channel to element. Ranges: 0-255.
+
+animSetColorKey(animName, colorKey)
+Description: Sets background color from palette (0-255), -1 if background shouldn't be removed. 0 by default.
+
+animUpdate(animName)
+Description: Updates previously specified animation by 1 tick.
+
+animDraw(animName)
+Description: Draw element on screen [Refresh() function resets the screen, so this one often needs to be used at each frame, even if the element is static].
+
+]]
+
+--;===========================================================
+--; MAIN MENU SCREENPACK
+--;===========================================================
 --Buttons Background
 titleBG0 = animNew(sysSff, [[
 5,1, 0,145, -1
