@@ -19,7 +19,7 @@
 - **OpenGL:** 2.0 but also, runs with DirectX
 
 ## Operating System Compatibility
-| OS | Running | Internal Dir Opening |
+| OS | Run | Internal Dir Opening |
 | --- | --- | --- |
 | Windows | Native | Yes |
 | Linux | [Wine](https://wiki.winehq.org/Main_Page) | No |
@@ -247,7 +247,7 @@ Here you can find content to build your projects or just for play on Ikemen.
 - [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
 
 ## Tools
-Here you can find some tools that help you in development of your projects (Some missed tools are included in the main Ikemen Plus Ultra folder called "tools")
+Here you can find some tools that help you in development of your projects (Some missed tools are included in the main Ikemen Plus Ultra folder called "tools").
 - [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
 - [Notepad++](https://notepad-plus-plus.org/) (Script editor)
 - [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
