@@ -1,7 +1,7 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
 *Ikemen Plus Ultra* is an updated version of the **OLD** *I.K.E.M.E.N PLUS*. The engine was made by ***Suehiro*** under **S-SIZE**, improved by ***K4thos*** and currently reworked by ***CD2***, ***Strong FS*** and some features developed by ***PlasmoidThunder***.
 
-- **(If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO)**.
+- **If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO**.
 
 - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 
@@ -16,7 +16,7 @@
 - **Proccessor:** Intel(R) Atom(TM) CPU N455 1.66GHz
 - **Memory:** 1GB RAM
 - **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
-- **OpenGL:** Is not need, runs with DirectX 11
+- **OpenGL:** 2.0 but also, runs with DirectX
 
 ## Download
 Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
@@ -30,7 +30,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 >[About All IKEMEN Versions](#about-all-ikemen-versions)
 >
->[Default Menu Controls](#default-menu-controls)
+>[Operating System Compatibility](#operating-system-compatibility)
 >
 >[TODO List](#todo-list)
 >
@@ -63,17 +63,11 @@ Google's Go language (hence the name). This version it is under active developme
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. Is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
-## Default Menu Controls
-| Action | Keyboard P1 | Keyboard P2 | Gamepad |
-| --- | --- | --- | --- |
-| ↑ | Up Arrow | KP_5 | -3 |
-| ↓ | Down Arrow | KP_2 | -4 |
-| ← | Left Arrow | KP_1 | -1 |
-| → | Right Arrow | KP_3 | -2 |
-| Screenshot | F10 | KP_DIVIDE |  |
-| UI Confirm | Enter |  |  |
-| UI Return | Esc/Backspace |  |  |
-| Battle Pause Menu | Space | KP_ENTER | 7 |
+## Operating System Compatibility
+| Feature | Windows | Linux | MacOS | Android |
+| --- | --- | --- | --- | --- |
+| Running | Native | Wine | ? | Winlator |
+| Dir Opening | Yes | No | ? | ? |
 
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
