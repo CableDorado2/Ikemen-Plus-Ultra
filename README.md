@@ -1,7 +1,9 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **OLD** *I.K.E.M.E.N PLUS*. The engine was made by ***Suehiro*** under **S-SIZE**, improved by ***K4thos*** and currently reworked by ***CD2***, ***Strong FS*** and some features developed by ***PlasmoidThunder***. **(If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO)**.
+*Ikemen Plus Ultra* is an updated version of the **OLD** *I.K.E.M.E.N PLUS*. The engine was made by ***Suehiro*** under **S-SIZE**, improved by ***K4thos*** and currently reworked by ***CD2***, ***Strong FS*** and some features developed by ***PlasmoidThunder***.
 
-- Consider this version of Ikemen engine as an **Alternative** in case that Ikemen GO doesn't work for you.
+- **(If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO)**.
+
+- Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 
 - This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on potato PC, without a graphics card (Because can use DirectX Render).
 
@@ -47,10 +49,12 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >[License](#license)
 
 ## About All IKEMEN Versions
-**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the First version of the engine.
+**S-SIZE Project** is an original programming language project done by Suehiro with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
 
-**IKEMEN Plus** is an unofficial update of the Vanilla version. Is for people who want to mess with the engine beyond modification of Lua files.
-It's a quick option to test changes and uses his own S-SIZE (SSZ programing language) which is similar to the C language.
+**IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
+This Ikemen is an expansion of his original SSZ code.
+
+**IKEMEN Plus** is an unofficial update (not made by Suehiro) of the Vanilla version. Is an expansion project using the lua language above implemented to extend the capabilities of the basics in main engine, regardless of the source code that is made the main executable. It is like a language above another language or a code expanding a compatible code.
 
 **IKEMEN Plus Ultra** is an unofficial modify/update of the previous version using the same programing language (S-SIZE and Lua) with new features
 inspired from Ikemen Go and Commercial Fighting Games.
