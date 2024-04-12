@@ -54,16 +54,14 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 **IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
 This Ikemen is an expansion of his original SSZ code.
 
-**IKEMEN Plus** is an unofficial update (not made by Suehiro) of the Vanilla version. Is an expansion project using the lua language above implemented to extend the capabilities of the basics in main engine, regardless of the source code that is made the main executable. It is like a language above another language or a code expanding a compatible code.
+**IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
 
-**IKEMEN Plus Ultra** is an unofficial modify/update of the previous version using the same programing language (S-SIZE and Lua) with new features
-inspired from Ikemen Go and Commercial Fighting Games.
+**IKEMEN Plus Ultra** is an unofficial big update of the previous version made by **CD2** with support of **Strong FS** that contains new features inspired from Touhou: Gensokyo Reloaded, Ikemen Go and Commercial Fighting Games.
 
-**IKEMEN GO** is the official latest version of the engine. The original creator (SUEHIRO) abandoned Vanilla in favour of rewriting the engine in 
-Google's Go language (hence the name). This version is for people who want their game to follow what MUGEN does but with extra features/fixes. 
-Modifying the engine code is beyond most people due to the specific build environment and necessity to compile changes to an executable each time.
+**IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in 
+Google's Go language (hence the name). This version it is under active development by various developers and is for people who want their game to follow what MUGEN does but with extra features/fixes. Modifying the engine code is beyond most people due to the specific build environment and necessity to compile changes to an executable each time.
 
-**IKEMEN GO Plus** is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
+**IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. Is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## Default Menu Controls
 | Action | Keyboard P1 | Keyboard P2 | Gamepad |
