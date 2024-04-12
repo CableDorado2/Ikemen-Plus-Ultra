@@ -1,5 +1,5 @@
 # I.K.E.M.E.N PLUS ULTRA
-*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently reworked by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
+*Ikemen Plus Ultra* is an updated version of the **OLD** [**Ikemen Plus**](https://github.com/acdgames/Ikemen-Plus). The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently developing by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
 - If you are looking for the latest or current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
 
@@ -53,18 +53,18 @@ Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-U
 >[License](#license)
 
 ## About All IKEMEN Versions
-**S-SIZE Project** is an original programming language project done by Suehiro with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
+**S-SIZE Project** is an original programming language project done by **Suehiro** with C++, it has sound, ascii, and basics implemented. its abbreviation is SSZ.
 
 **IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the **First Version** of Ikemen Engine that works like a Mugen Clone using a compiled SSZ Project as interpreter, adding it suport for Lua language, SDL, OpenGL, Ogg Vorbis and other things. All used is opensource so **Suehiro** adapted the libraries to the project.
 This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN Plus** is an unofficial update/expansion project worked by **K4thos** (not made by Suehiro) of the Vanilla version, using the lua language above implemented to extend the capabilities of the basics in main engine.
 
-**IKEMEN Plus Ultra** is an unofficial large scale update/expansion of the previous version that contains new features inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** with support of **Strong FS**.
+**IKEMEN Plus Ultra** is an unofficial large scale update/expansion of the previous version that contains new features inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** with help of **Strong FS**.
 
 **IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with universal extra features/fixes.
 
-**IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. Is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
+**IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## Games Made in Ikemen Plus Ultra
 - *MUGENGERS: THE OROCHI'S ORIGIN*
@@ -247,7 +247,7 @@ Here you can find content to build your projects or just for play on Ikemen.
 - [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
 
 ## Tools
-Here you can find some tools that help you in development of your projects (Some missed tools are included in the main ikemen plus ultra folder called "tools")
+Here you can find some tools that help you in development of your projects (Some missed tools are included in the main Ikemen Plus Ultra folder called "tools")
 - [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
 - [Notepad++](https://notepad-plus-plus.org/) (Script editor)
 - [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
