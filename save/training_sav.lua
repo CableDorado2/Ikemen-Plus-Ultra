@@ -1,8 +1,8 @@
 ﻿--Practice Settings
-data.damageDisplay = "No"
-data.inputDisplay = "No"
-data.hitbox = "No"
-data.debugInfo = "No"
+data.damageDisplay = false
+data.inputDisplay = false
+data.hitbox = false
+data.debugInfo = false
 data.dummyMode = "Manual"
 data.PowerStateP1 = "Max at Start"
 data.PowerStateP2 = "Max at Start"

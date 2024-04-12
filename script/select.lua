@@ -9001,6 +9001,8 @@ function f_service()
 					data.difficulty = 1
 				else
 					data.difficulty = data.difficulty - 1
+					--tmpDifficulty = data.difficulty - 1
+					--setCom(2, tmpDifficulty)
 				end
 				if onlinegame == true then
 					script.options.f_netsaveCfg()

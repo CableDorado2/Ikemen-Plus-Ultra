@@ -8,6 +8,13 @@ local file = io.open("save/config.ssz","r")
 s_configSSZ = file:read("*all")
 file:close()
 
+gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
+se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
+bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
+pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
+resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
+resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+
 --Data saving to config.ssz
 function f_saveSettings()
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
@@ -20,13 +27,6 @@ function f_saveSettings()
 	modified = false
 	--configModified('true')
 end
-
-gl_vol = math.floor(tonumber(s_configSSZ:match('const float GlVol%s*=%s*(%d%.*%d*)') * 100))
-se_vol = math.floor(tonumber(s_configSSZ:match('const float SEVol%s*=%s*(%d%.*%d*)') * 100))
-bgm_vol = math.floor(tonumber(s_configSSZ:match('const float BGMVol%s*=%s*(%d%.*%d*)') * 100))
-pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*%d*)') * 100))
-resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
-resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 
 function f_sysTimeP()
 	if (resolutionHeight / 3 * 4) == resolutionWidth then
@@ -136,60 +136,6 @@ elseif pan_str >= 140 then
 	pan_str = 160
 end
 t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
-
-function f_resetTrainingCfg()
-	if hudStatus == "No" then toggleStatusDraw() end
-	if data.hitbox == "Yes" then toggleClsnDraw() end
-	if data.debugInfo == "Yes" then toggleDebugDraw() end
-	setDamageDisplay(0)
-	setInputDisplay(0)
-end
-
---Restore Training Settings Saved (WIP)
-if getGameMode() == "practice" then
-	--Screen Info
-	if data.damageDisplay == "No" then
-		setDamageDisplay(0)
-	elseif data.damageDisplay == "Yes" then
-		setDamageDisplay(1)
-	end
-	if data.inputDisplay == "No" then
-		setInputDisplay(0)
-	elseif data.inputDisplay == "Yes" then
-		setInputDisplay(1)
-	end
-	data.hitbox = "No"
-	data.debugInfo = "No"
-	--Power Gauge
-	data.PowerStateP1 = "Max at Start"
-	setPowerStateP1(11)
-	data.PowerStateP2 = "Max at Start"
-	setPowerStateP2(11)
-	--Life Gauge
-	data.LifeStateP1 = "100%"
-	setLifeStateP1(100)
-	data.LifeStateP2 = "100%"
-	setLifeStateP2(100)
-	--Dummy
-	--data.dummyMode = "Manual"
-	--Playback
-	data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
-	data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
-	if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
-		data.pbkSlot1 = true
-	end
-	--Apply settings from training_sav.lua
-	setPlaybackCfg(
-		data.pbkRecSlot,
-		data.pbkPlaySlot,
-		data.pbkPlayLoop,
-		data.pbkSlot1,
-		data.pbkSlot2,
-		data.pbkSlot3,
-		data.pbkSlot4,
-		data.pbkSlot5
-	)
-end
 
 --;===========================================================
 --; PAUSE MENU SCREENPACK
@@ -355,7 +301,64 @@ P2bufl = 0
 challengerActive = false
 screenTime = 0
 
-playbackActive = false
+pbrecActive = false
+recWarning = false
+
+data.hudDisplay = true
+
+function f_resetTrainingCfg()
+	if not data.hudDisplay then setHUD(true) end
+	if data.hitbox then toggleClsnDraw() end
+	if data.debugInfo then toggleDebugDraw() end
+	setDamageDisplay(0)
+	setInputDisplay(0)
+end
+
+--Restore Training Settings Saved (WIP)
+if getGameMode() == "practice" then
+	--Screen Info
+	if not data.damageDisplay then
+		setDamageDisplay(0)
+	else
+		setDamageDisplay(1)
+	end
+	if not data.inputDisplay then
+		setInputDisplay(0)
+	else
+		setInputDisplay(1)
+	end
+	data.hitbox = false
+	data.debugInfo = false
+	--Power Gauge
+	data.PowerStateP1 = "Max at Start"
+	setPowerStateP1(11)
+	data.PowerStateP2 = "Max at Start"
+	setPowerStateP2(11)
+	--Life Gauge
+	data.LifeStateP1 = "100%"
+	setLifeStateP1(100)
+	data.LifeStateP2 = "100%"
+	setLifeStateP2(100)
+	--Dummy
+	data.dummyMode = "Manual"
+	--Playback
+	data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
+	data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
+	if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
+		data.pbkSlot1 = true
+	end
+	--Apply settings from training_sav.lua
+	setPlaybackCfg(
+		data.pbkRecSlot,
+		data.pbkPlaySlot,
+		data.pbkPlayLoop,
+		data.pbkSlot1,
+		data.pbkSlot2,
+		data.pbkSlot3,
+		data.pbkSlot4,
+		data.pbkSlot5
+	)
+end
 
 function f_pauseMenuReset()
 	togglePauseMenu(0)
@@ -449,7 +452,7 @@ if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 1
 else --Pause Controls if P1 is in Left Side
-	setCom(2, 0) --Enable player 2 pause when cpu have control
+	setCom(2, 0) --Enable player 2 pause when cpu have control (this disable AI when you press SHITF+F4)
 	data.p2In = 2
 end
 
@@ -487,16 +490,17 @@ function f_pauseMain(p, st, esc)
 			exitMatch()
 		end
 	end
-	if start and playbackActive then --Stop playback recording when you open pause menu
-		endDummyPlayback(sysSnd)
-		playbackActive = false
-	end
 	if pauseMenuActive == false and delayMenu == -1 then --Start Pause Menu
 		animReset(darkenIn)
 		animUpdate(darkenIn)
 		pauseMenuActive = true
 		if not challengerActive then sndPlay(sysSnd, 100, 1) end
 		delayMenu = 0
+	end
+	if (escape or start) and pbrecActive then --Stop playback recording when you open pause menu
+		endDummyPlayback(sysSnd)
+		pbrecActive = false
+		pauseMenuActive = false
 	end
 	cmdInput()
 	if pauseMode == "" or mainGoTo ~= "" then
@@ -889,9 +893,16 @@ t_gameCfg = {
 }
 
 if getGameMode() ~= "practice" and getGameMode() ~= "replay" and getGameMode() ~= "randomtest" then table.remove(t_gameCfg,5) end
-hudStatus = "Yes"
+
+--Logic to Display Text instead Boolean Values
+function f_gameCfgdisplayTxt()
+if data.hudDisplay then t_gameCfg[3].varText = "Yes" else t_gameCfg[3].varText = "No" end
+end
+
+f_gameCfgdisplayTxt() --Load Display Text
 
 function f_pauseSettings()
+	local hasChanged = false
 	if pn == 1 then txt_gameCfg = createTextImg(jgFnt, 5, 0, "GAME SETTINGS [P1]", 159, 63)
 	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 1, 0, "GAME SETTINGS [P2]", 159, 63)
 	end
@@ -979,14 +990,16 @@ function f_pauseSettings()
 			end
 			--HUD Status
 			if gameCfg == 3 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) and hudStatus == "No" then
+				if (pn == 1 and btnPalNo(p1Cmd) > 0) or ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) or ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
 					sndPlay(sysSnd, 100, 1)
-					toggleStatusDraw()
-					hudStatus = "Yes"
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) and hudStatus == "Yes" then
-					sndPlay(sysSnd, 100, 1)
-					toggleStatusDraw()
-					hudStatus = "No"
+					if not data.hudDisplay then
+						setHUD(true)
+						data.hudDisplay = true
+					else
+						setHUD(false)
+						data.hudDisplay = false
+					end
+					hasChanged = true
 				end
 			end
 			if gameCfg < 1 then
@@ -1032,7 +1045,11 @@ function f_pauseSettings()
 					bufl = 0
 				end
 			end
-			t_gameCfg[3].varText = hudStatus
+			if hasChanged then
+				if not modified then modified = true end
+				f_gameCfgdisplayTxt()
+				hasChanged = false
+			end
 			--animDraw(f_animVelocity(pauseBG0, -1, -1))
 			animSetScale(pauseBG1, 220, maxgameCfg*15)
 			animSetWindow(pauseBG1, 80,70, 160,105)
@@ -1481,10 +1498,10 @@ end
 --; TRAINING SETTINGS/BATTLE INFO
 --;===========================================================
 t_trainingCfg = {
-	{varID = textImgNew(), text = "Damage Display", 			varText = data.damageDisplay},
-	{varID = textImgNew(), text = "Input Display",				varText = data.inputDisplay},
-	{varID = textImgNew(), text = "Hitbox Display", 			varText = data.hitbox},
-	{varID = textImgNew(), text = "Debug Info",					varText = data.debugInfo},
+	{varID = textImgNew(), text = "Damage Display", 			varText = ""},
+	{varID = textImgNew(), text = "Input Display",				varText = ""},
+	{varID = textImgNew(), text = "Hitbox Display", 			varText = ""},
+	{varID = textImgNew(), text = "Debug Info",					varText = ""},
 	{varID = textImgNew(), text = "Lifebar P1",					varText = data.LifeStateP1},
 	{varID = textImgNew(), text = "Lifebar P2",					varText = data.LifeStateP2},
 	{varID = textImgNew(), text = "Power Gauge P1",				varText = data.PowerStateP1},
@@ -1510,6 +1527,16 @@ if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMod
 	table.remove(t_trainingCfg,6)
 	table.remove(t_trainingCfg,5)
 end
+
+--Logic to Display Text instead Boolean Values
+function f_trainingCfgdisplayTxt()
+if data.damageDisplay then t_trainingCfg[1].varText = "Yes" else t_trainingCfg[1].varText = "No" end
+if data.inputDisplay then t_trainingCfg[2].varText = "Yes" else t_trainingCfg[2].varText = "No" end
+if data.hitbox then t_trainingCfg[3].varText = "Yes" else t_trainingCfg[3].varText = "No" end
+if data.debugInfo then t_trainingCfg[4].varText = "Yes" else t_trainingCfg[4].varText = "No" end
+end
+
+f_trainingCfgdisplayTxt() --Load Display Text
 
 --Training Settings Up Arrow
 pauseTUpArrow = animNew(sysSff, [[
@@ -1599,23 +1626,30 @@ function f_pauseTraining()
 				trainingCfg = trainingCfg - 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
+				recWarning = false
 			elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
 				sndPlay(sysSnd, 100, 0)
 				trainingCfg = trainingCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
+				recWarning = false
 			end
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 				--Start Dummy Recording
 				if trainingCfg == 10 then
-					startDummyRecord(sysSnd)
-					playbackActive = true
-					animReset(darkenOut)
-					animUpdate(darkenOut)
-					pauseMenuActive = false
-					bufl = 0
-					bufr = 0
-					if trainingModified then f_saveTraining() end
+					if data.dummyMode == "Playback" or data.dummyMode == "CPU" then
+						sndPlay(sysSnd, 100, 5)
+						recWarning = true
+					else
+						startDummyRecord(sysSnd)
+						pbrecActive = true
+						animReset(darkenOut)
+						animUpdate(darkenOut)
+						pauseMenuActive = false
+						bufl = 0
+						bufr = 0
+						if trainingModified then f_saveTraining() end
+					end
 				--Playback Settings
 				elseif trainingCfg == 9 then
 					sndPlay(sysSnd, 100, 1)
@@ -1632,44 +1666,44 @@ function f_pauseTraining()
 					sndPlay(sysSnd, 100, 1)
 					--Info Display
 					if trainingCfg == 1 then
-						if data.damageDisplay == "No" then
+						if not data.damageDisplay then
 							sndPlay(sysSnd, 100, 5)
 							--[[
-							data.damageDisplay = "Yes"
+							data.damageDisplay = true
 							setDamageDisplay(1)
 							]]
-						elseif data.damageDisplay == "Yes" then
+						--else
 							--[[
-							data.damageDisplay = "No"
+							data.damageDisplay = false
 							setDamageDisplay(0)
 							]]
 						end
 					--Input Display
 					elseif trainingCfg == 2 then
-						if data.inputDisplay == "No" then
-							data.inputDisplay = "Yes"
+						if not data.inputDisplay then
+							data.inputDisplay = true
 							setInputDisplay(1)
-						elseif data.inputDisplay == "Yes" then
-							data.inputDisplay = "No"
+						else
+							data.inputDisplay = false
 							setInputDisplay(0)
 						end
 					--Hitbox Display
 					elseif trainingCfg == 3 then
-						if data.hitbox == "No" then
+						if not data.hitbox then
 							toggleClsnDraw()
-							data.hitbox = "Yes"
-						elseif data.hitbox == "Yes" then
+							data.hitbox = true
+						else
 							toggleClsnDraw()
-							data.hitbox = "No"
+							data.hitbox = false
 						end
 					--Debug Info Display
 					elseif trainingCfg == 4 then
-						if data.debugInfo == "No" then
+						if not data.debugInfo then
 							toggleDebugDraw()
-							data.debugInfo = "Yes"
-						elseif data.debugInfo == "Yes" then
+							data.debugInfo = true
+						else
 							toggleDebugDraw()
-							data.debugInfo = "No"
+							data.debugInfo = false
 						end
 					end
 					hasChanged = true
@@ -1957,10 +1991,7 @@ function f_pauseTraining()
 			end
 			if hasChanged then
 				if not trainingModified then trainingModified = true end
-				t_trainingCfg[1].varText = data.damageDisplay
-				t_trainingCfg[2].varText = data.inputDisplay
-				t_trainingCfg[3].varText = data.hitbox
-				t_trainingCfg[4].varText = data.debugInfo
+				f_trainingCfgdisplayTxt()
 				if getGameMode() == "practice" then t_trainingCfg[5].varText = data.LifeStateP1 end --To don't display in battle info menu
 				t_trainingCfg[6].varText = data.LifeStateP2
 				t_trainingCfg[7].varText = data.PowerStateP1
@@ -1974,6 +2005,10 @@ function f_pauseTraining()
 			animDraw(pauseBG1)
 			--animUpdate(pauseBG1)
 			textImgDraw(txt_trainingCfg)
+			if recWarning then
+				textImgSetText(txt_playbackInfo, 'Set Dummy Control as "Manual" to Record Actions.')
+				textImgDraw(txt_playbackInfo)
+			end
 			animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
 			f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
