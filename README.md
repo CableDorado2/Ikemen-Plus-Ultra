@@ -28,7 +28,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 >[About All IKEMEN Versions](#about-all-ikemen-versions)
 >
->[Default Controls](#default-controls)
+>[Default Menu Controls](#default-menu-controls)
 >
 >[TODO List](#todo-list)
 >
@@ -268,10 +268,16 @@ S-SIZE is the programing core language used. It documentation is here: https://g
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of the hands**): https://discord.gg/KV5EPnMuA7
 
 ## References
->- Original Repository Source Code:
+>- Suehiro's Main Page:
+>https://osdn.net/users/supersuehiro/
+>
+>- S-SIZE Project Source Code:
+>https://osdn.net/projects/ssz/
+>
+>- Original Ikemen SSZ Source Code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
 >
->- Original Ikemen Plus Source Code:
+>- Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
 >- Lastest Ikemen Engine (Ikemen Go) Source Code:
