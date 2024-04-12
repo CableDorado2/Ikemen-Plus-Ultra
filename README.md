@@ -64,10 +64,12 @@ Google's Go language (hence the name). This version it is under active developme
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. Is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
 ## Operating System Compatibility
-| Feature | Windows | Linux | MacOS | Android |
-| --- | --- | --- | --- | --- |
-| Running | Native | Wine | ? | Winlator |
-| Dir Opening | Yes | No | ? | ? |
+| OS | Running | Internal Dir Opening |
+| --- | --- | --- |
+| Windows | Native | Yes |
+| Linux | Wine | No |
+| MacOS | ? | ? |
+| Android | Winlator | ? |
 
 ## TODO List
 CD2: Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
