@@ -1,11 +1,11 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an update version of the **(CLASSIC/OLD) I.K.E.M.E.N PLUS** uploaded by ***acdgames***. This engine was made by ***Suehiro*** under **S-SIZE** language, improved by ***acdgames*** and currently reworked by ***CD2*** and ***Strong FS***. **(If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO)**.
+*Ikemen Plus Ultra* is an updated version of the **OLD** *I.K.E.M.E.N PLUS*. The engine was made by ***Suehiro*** under **S-SIZE**, improved by ***K4thos*** and currently reworked by ***CD2***, ***Strong FS*** and some features developed by ***PlasmoidThunder***. **(If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO)**.
 
-- Consider this version of Ikemen engine an **alternative** in case Ikemen GO doesn't work for you.
+- Consider this version of Ikemen engine as an **Alternative** in case that Ikemen GO doesn't work for you.
 
-- This engine can be used to **create advanced MUGENS** or **Fighting Games**, which can be run on potato PC, without a graphics card (Runs under DirectX Render).
+- This engine can be used to **Create Advanced MUGENS** or **Fighting Games**, which can be run on potato PC, without a graphics card (Because can use DirectX Render).
 
-- The current version is a public development release for testing purposes, may contain bugs and incomplete features that we hope will be finished in the final release.
+- The current version is a public development release for testing purposes, may contain bugs and incomplete features that we hope will be finished in *the final release*.
 
 - Help and cooperation are appreciated.
 
@@ -26,7 +26,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 
 ## Table of Contents
 
->[Meaning of All IKEMEN Versions](#meaning-of-all-ikemen-Versions)
+>[About All IKEMEN Versions](#about-all-ikemen-versions)
 >
 >[Default Controls](#default-controls)
 >
@@ -46,9 +46,7 @@ Lastest Version Here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
 >
 >[License](#license)
 
-## Meaning of All IKEMEN Versions
-In the words of one most prominent contributors and developers for Ikemen Plus *(PlasmoidThunder):*
-
+## About All IKEMEN Versions
 **IKEMEN** (retroactively referred to as S-SIZE IKEMEN or Vanilla). Is the First version of the engine.
 
 **IKEMEN Plus** is an unofficial update of the Vanilla version. Is for people who want to mess with the engine beyond modification of Lua files.
