@@ -62,7 +62,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN Plus Ultra** is an unofficial large scale update/expansion of the previous version that contains new features inspired from Touhou: Gensokyo Reloaded, Ikemen GO and Commercial Fighting Games. This branch is maintained by **CD2** with support of **Strong FS**.
 
-**IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under active development by various developers and is for people who want their game to follow what MUGEN does but with extra universal features/fixes.
+**IKEMEN GO** is the official latest version of the engine. The original creator **Suehiro** abandoned his own source code in favour of rewriting the engine in Google's Go language (hence the name). This version it is under **active development by various developers** and is for people who want their game to follow what MUGEN does but with extra universal features/fixes.
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. Is to GO what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
@@ -258,28 +258,29 @@ Here you can find some tools that help you in development of your projects (Some
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
 - To understand or modify the .lua scripts, you will need knowledge of the LUA programming language. There is the official manual from the version of Lua that uses this engine: https://www.lua.org/manual/5.2/
+
 - For create characters and stages, you have to use the official MUGEN Elecbyte Documentation: http://www.elecbyte.com/mugendocs-11b1/mugen.html
 
 ## Discord Support
 If you need help, you can find support from developers and contributors for this engine in the official Ikemen Discord Server (**They normally answer questions about Ikemen GO**, so if you are going to ask about something for Ikemen Plus Ultra, **keep in mind that those who use this version can be counted on the fingers of ONE hand**): https://discord.gg/KV5EPnMuA7
 
 ## References
->- Suehiro's Main Page:
+> Suehiro's Main Page:
 >https://osdn.net/users/supersuehiro/
 >
->- S-SIZE Project Source Code:
+> S-SIZE Project Source Code:
 >https://osdn.net/projects/ssz/
 >
->- Original Ikemen SSZ Source Code:
+> Original Ikemen SSZ Source Code:
 >https://osdn.net/users/supersuehiro/pf/ikemen/wiki/FrontPage
 >
->- Ikemen Plus Source Code:
+> Ikemen Plus Source Code:
 >https://github.com/acdgames/Ikemen-Plus
 >
->- Ikemen Go Plus Source Code:
+> Ikemen Go Plus Source Code:
 >https://github.com/K4thos/Ikemen-GO-Plus
 >
->- Lastest Ikemen Engine (Ikemen Go) Source Code:
+> Lastest Ikemen Engine (Ikemen Go) Source Code:
 >https://github.com/ikemen-engine/Ikemen-GO
 
 ## License
