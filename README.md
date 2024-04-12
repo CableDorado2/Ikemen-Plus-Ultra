@@ -1,7 +1,7 @@
 # I.K.E.M.E.N PLUS ULTRA (I.K.E.M.E.N SSZ)
-*Ikemen Plus Ultra* is an updated version of the **OLD** *I.K.E.M.E.N PLUS*. The engine was made by ***Suehiro*** under **S-SIZE**, improved by ***K4thos*** and currently reworked by ***CD2***, ***Strong FS*** and some features developed by ***PlasmoidThunder***.
+*Ikemen Plus Ultra* is an updated version of the **OLD** [Ikemen Plus](https://github.com/acdgames/Ikemen-Plus) The engine was made by [***Suehiro***](https://osdn.net/users/supersuehiro/) under [**S-SIZE Project**](https://osdn.net/projects/ssz/), improved by [***K4thos***](https://www.youtube.com/@k4thos313) and currently reworked by [***CD2***](https://www.youtube.com/@CableDorado2), [***Strong FS***](https://www.youtube.com/@StrongFS) and some features developed by [***PlasmoidThunder***](https://www.youtube.com/@PlasmoidThunder).
 
-- **If you are looking for the latest or current Ikemen Engine version, is called Ikemen GO**.
+- If you are looking for the latest or current Ikemen Engine version, is called [**Ikemen GO**](https://github.com/ikemen-engine/Ikemen-GO).
 
 - Consider this Ikemen Plus Ultra branch as an **Alternative** in case that Ikemen GO doesn't work for you.
 
@@ -22,9 +22,9 @@
 | OS | Running | Internal Dir Opening |
 | --- | --- | --- |
 | Windows | Native | Yes |
-| Linux | Wine | No |
+| Linux | [Wine](https://wiki.winehq.org/Main_Page) | No |
 | MacOS | ? | ? |
-| Android | Winlator | ? |
+| Android | [Winlator](https://github.com/brunodev85/winlator) | ? |
 
 ## Download
 Lastest version can be found here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/releases
@@ -240,22 +240,22 @@ v2.0 (Final Release)
 
 ## Resources
 Here you can find content to build your projects or just for play on Ikemen.
-- Mugen Free For All: https://mugenfreeforall.com
-- Mugen Fighters Guild: https://mugenguild.com/forum/
-- Infinity Mugen Team: https://www.infinitymugenteam.com
-- MUGEN ARCHIVE: https://mugenarchive.com/forums/downloads.php
-- Gamebanana: https://gamebanana.com/games/5694
-- Mugen Multiverse: https://mugenmultiverse.forumotion.com
+- [Mugen Free For All](https://mugenfreeforall.com)
+- [Mugen Fighters Guild](https://mugenguild.com/forum/)
+- [Infinity Mugen Team](https://www.infinitymugenteam.com)
+- [MUGEN ARCHIVE](https://mugenarchive.com/forums/downloads.php)
+- [Gamebanana](https://gamebanana.com/games/5694)
+- [Mugen Multiverse](https://mugenmultiverse.forumotion.com)
 
 ## Tools
 Here you can find some tools that help you in development of your projects (Some missed tools are included in the main ikemen plus ultra folder called "tools")
-- Fighter Factory (A Powerfull Mugen editor): http://fighterfactory.virtualltek.com/
-- Notepad++ (Script editor): https://notepad-plus-plus.org/
-- Resource Tuner (Windows executable editor): http://www.restuner.com/
-- 4GB Patch (To avoid Runtime Error when load heavy sff files): https://ntcore.com/?page_id=371
+- [Fighter Factory](http://fighterfactory.virtualltek.com/) (A Powerfull Mugen editor)
+- [Notepad++](https://notepad-plus-plus.org/) (Script editor)
+- [Resource Tuner](http://www.restuner.com/) (Windows executable editor)
+- [4GB Patch](https://ntcore.com/?page_id=371) (To avoid Runtime Error when load heavy sff files)
 - Visual C++ 2010 Express (IDE to open Source Code)
-- Mp3Tag (A music tag editor): https://www.mp3tag.de/en/
-- Radmin VPN (For Online Netplay): https://www.radmin-vpn.com/
+- [Mp3Tag](https://www.mp3tag.de/en/)(A music tag editor)
+- [Radmin VPN](https://www.radmin-vpn.com/)(For Online Netplay)
 
 ## Engine Manual
 S-SIZE is the programing core language used. It documentation is here: https://github.com/CableDorado2/Ikemen-Plus-Ultra/wiki
