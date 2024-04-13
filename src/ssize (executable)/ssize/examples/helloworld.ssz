@@ -1,0 +1,2 @@
+﻿lib al = <alert.ssz>;
+al.alert!self?("Hello, world!");

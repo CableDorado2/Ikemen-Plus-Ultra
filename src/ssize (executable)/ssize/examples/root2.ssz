@@ -1,0 +1,15 @@
+﻿lib al = <alert.ssz>;
+lib s = <string.ssz>;
+long m = 7, n = 5;
+loop{
+  int i = 0;
+  double sqr;
+  while;
+do:
+  sqr = (double)m / (double)n;
+  n = (long)((double)n * (sqr + 1.0) + 0.5);
+  m = (long)((double)n * sqr + 0.5);
+  i++;
+while i < 4:
+}
+al.alert!self?(''m + "/" + ''n);
