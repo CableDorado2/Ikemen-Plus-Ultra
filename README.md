@@ -87,6 +87,8 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una.
 
+- Agregar soporte para reconocer a un 2do Gamepad.
+
 - Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
 
 - Configurar controles de batalla desde el menú de pausa en plena partida.
@@ -144,8 +146,6 @@ This Ikemen is an expansion of his original SSZ code.
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - Leer archivos movelist.dat dentro de los chars.
-
-- Agregar soporte para reconocer a un 2do Gamepad.
 
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
 
