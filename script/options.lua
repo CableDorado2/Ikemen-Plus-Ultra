@@ -400,7 +400,6 @@ function f_saveCfg()
 		['data.clock'] = data.clock,
 		['data.date'] = data.date,
 		['data.attractMode'] = data.attractMode,
-		['data.pauseMode'] = data.pauseMode,
 		['data.sideSelect'] = data.sideSelect,
 		['data.vsDisplayWin'] = data.vsDisplayWin,
 		['data.winscreen'] = data.winscreen,
@@ -707,7 +706,6 @@ function f_systemDefault()
 	end
 	data.attractMode = false
 	s_attractMode = "Disabled"
-	data.pauseMode = "Yes"
 	data.sideSelect = "Modern"
 	data.vsDisplayWin = true
 	s_vsDisplayWin = "Yes"
@@ -2933,7 +2931,6 @@ t_UICfg = {
 	{varID = textImgNew(), text = "Clock Format",              varText = data.clock},
 	{varID = textImgNew(), text = "Date Format",               varText = data.date},
 	{varID = textImgNew(), text = "Attract Mode",  	      	   varText = s_attractMode},
-	{varID = textImgNew(), text = "Pause Menu",  	      	   varText = data.pauseMode},
 	{varID = textImgNew(), text = "Side Select",  	      	   varText = data.sideSelect},
 	{varID = textImgNew(), text = "Character Presentation",    varText = data.charPresentation},
 	{varID = textImgNew(), text = "Versus Win Counter",  	   varText = s_vsDisplayWin},
@@ -3090,26 +3087,15 @@ function f_UICfg()
 						needReload = 1
 					end
 				end
-			--Pause Menu
-			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
-				if onlinegame == true then
-					lockSetting = true
-				elseif onlinegame == false then	
-					if data.pauseMode == "No" then data.pauseMode = "Yes"
-					elseif data.pauseMode == "Yes" then data.pauseMode = "No"
-					end
-					modified = 1
-				end
 			--Side Select
-			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif UICfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.sideSelect == "Classic" then data.sideSelect = "Modern"
 				elseif data.sideSelect == "Modern" then data.sideSelect = "Classic"
 				end
 				modified = 1
 			--Character Presentation Display Type
-			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charPresentation == "Portrait" then
 					sndPlay(sysSnd, 100, 0)
 					data.charPresentation = "Sprite"
@@ -3132,7 +3118,7 @@ function f_UICfg()
 					modified = 1	
 				end
 			--Display Versus Win Counter
-			elseif UICfg == 8 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif UICfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
@@ -3148,15 +3134,15 @@ function f_UICfg()
 					end
 				end
 			--Character Select Settings
-			elseif UICfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				f_selectCfg()
 			--Stage Select Settings
-			elseif UICfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				f_stageCfg()
 			--Win Screen Display Type
-			elseif UICfg == 11 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif UICfg == 10 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.winscreen == "Classic" then
 					sndPlay(sysSnd, 100, 0)
 					data.winscreen = "Modern"
@@ -3175,20 +3161,20 @@ function f_UICfg()
 					modified = 1
 				end
 			--Timers Settings
-			elseif UICfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 11 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				f_timeCfg()
 			--System Songs Settings
-			elseif UICfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				f_songCfg()
 			--Default Values
-			elseif UICfg == 14 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
 			--BACK
-			elseif UICfg == 15 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == 14 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -3239,11 +3225,10 @@ function f_UICfg()
 		t_UICfg[2].varText = data.clock
 		t_UICfg[3].varText = data.date
 		t_UICfg[4].varText = s_attractMode
-		t_UICfg[5].varText = data.pauseMode
-		t_UICfg[6].varText = data.sideSelect
-		t_UICfg[7].varText = data.charPresentation
-		t_UICfg[8].varText = s_vsDisplayWin
-		t_UICfg[11].varText = data.winscreen
+		t_UICfg[5].varText = data.sideSelect
+		t_UICfg[6].varText = data.charPresentation
+		t_UICfg[7].varText = s_vsDisplayWin
+		t_UICfg[10].varText = data.winscreen
 		for i=1, maxUICfg do
 			if i > UICfg - cursorPosY then
 				if t_UICfg[i].varID ~= nil then

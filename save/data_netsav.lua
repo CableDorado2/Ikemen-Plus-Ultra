@@ -14,7 +14,6 @@ data.language = "ENGLISH"
 data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
-data.pauseMode = "Yes"
 data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"

@@ -460,15 +460,12 @@ function f_pauseMain(p, st, esc)
 	pn = p
 	escape = esc
 	start = st
-	if data.pauseMode == "No" or getGameMode() == "demo" then --Mugen Exit Type
-		if getGameMode() == "replay" or getGameMode() == "demo" then
-			data.replayDone = true
-			data.tempBack = true
-			f_saveTemp()
-		end
+	if getGameMode() == "demo" then --Exit when you press start or esc
+		data.tempBack = true
+		f_saveTemp()
 		exitMatch()
 	end
-	if start and getGameMode() == "arcade" then --Detects when you press start button
+	if start and getGameMode() == "arcade" then --Detects when you press start button in arcade mode
 		if pn == 2 and (getPlayerSide() == "p1left" or getPlayerSide() == "p1right") then --Player 2 in any side is the challenger
 			challengerActive = true
 		elseif pn == 1 and (getPlayerSide() == "p2left" or getPlayerSide() == "p2right") then --Player 1 in any side is the challenger
@@ -558,68 +555,66 @@ function f_pauseMain(p, st, esc)
 					sndPlay(sysSnd, 100, 0)
 					pauseMenu = pauseMenu + 1
 				end
-				if data.pauseMode == "Yes" then
-					--Actions in Demo or Replay Modes
-					if getGameMode() == "replay" or getGameMode() == "randomtest" then
-						if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-							--SETTINGS
-							if pauseMenu == 2 then
-								sndPlay(sysSnd, 100, 1)
-								f_gameCfgMenuReset()
-							--BATTLE INFO
-							elseif pauseMenu == 4 then
-								sndPlay(sysSnd, 100, 1)
-								f_trainingCfgMenuReset()
-							--EXIT
-							elseif pauseMenu == 5 then
-								sndPlay(sysSnd, 100, 1)
-								f_confirmReset()
-								mainGoTo = "Confirm"
-								if getGameMode() == "replay" then
-									mainMenuBack = true
-									data.replayDone = true
-								end
-								delayMenu = -2
+				--Actions in Demo or Replay Modes
+				if getGameMode() == "replay" or getGameMode() == "randomtest" then
+					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+						--SETTINGS
+						if pauseMenu == 2 then
+							sndPlay(sysSnd, 100, 1)
+							f_gameCfgMenuReset()
+						--BATTLE INFO
+						elseif pauseMenu == 4 then
+							sndPlay(sysSnd, 100, 1)
+							f_trainingCfgMenuReset()
+						--EXIT
+						elseif pauseMenu == 5 then
+							sndPlay(sysSnd, 100, 1)
+							f_confirmReset()
+							mainGoTo = "Confirm"
+							if getGameMode() == "replay" then
+								mainMenuBack = true
+								data.replayDone = true
 							end
+							delayMenu = -2
 						end
-					--Actions in rest of Game Modes
-					else
-						if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-							--MOVELIST
-							if pauseMenu == 2 then
+					end
+				--Actions in rest of Game Modes
+				else
+					if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
+						--MOVELIST
+						if pauseMenu == 2 then
+							sndPlay(sysSnd, 100, 5)
+						--SETTINGS
+						elseif pauseMenu == 3 then
+							sndPlay(sysSnd, 100, 1)
+							f_gameCfgMenuReset()
+						--BACK TO CHARACTER SELECT
+						elseif pauseMenu == 5 then
+							if getGameMode() == "story" then
 								sndPlay(sysSnd, 100, 5)
-							--SETTINGS
-							elseif pauseMenu == 3 then
-								sndPlay(sysSnd, 100, 1)
-								f_gameCfgMenuReset()
-							--BACK TO CHARACTER SELECT
-							elseif pauseMenu == 5 then
-								if getGameMode() == "story" then
-									sndPlay(sysSnd, 100, 5)
-								elseif getGameMode() == "random" then --Back to Main Menu for Quick Match Mode
-									sndPlay(sysSnd, 100, 1)
-									f_confirmReset()
-									mainGoTo = "Confirm"
-									mainMenuBack = true
-									delayMenu = -2
-								else
-									sndPlay(sysSnd, 100, 1)
-									f_confirmReset()
-									mainGoTo = "Confirm"
-									delayMenu = -2
-								end
-							--EXIT TO MAIN MENU
-							elseif pauseMenu == 6 then
+							elseif getGameMode() == "random" then --Back to Main Menu for Quick Match Mode
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
 								mainGoTo = "Confirm"
 								mainMenuBack = true
 								delayMenu = -2
-							--TRAINING SETTINGS
-							elseif pauseMenu == 7 then
+							else
 								sndPlay(sysSnd, 100, 1)
-								f_trainingCfgMenuReset()
+								f_confirmReset()
+								mainGoTo = "Confirm"
+								delayMenu = -2
 							end
+						--EXIT TO MAIN MENU
+						elseif pauseMenu == 6 then
+							sndPlay(sysSnd, 100, 1)
+							f_confirmReset()
+							mainGoTo = "Confirm"
+							mainMenuBack = true
+							delayMenu = -2
+						--TRAINING SETTINGS
+						elseif pauseMenu == 7 then
+							sndPlay(sysSnd, 100, 1)
+							f_trainingCfgMenuReset()
 						end
 					end
 				end

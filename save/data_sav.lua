@@ -14,12 +14,11 @@ data.language = "ENGLISH"
 data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
-data.pauseMode = "Yes"
 data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Mixed"
-data.sffConversion = true
+data.charPresentation = "Portrait"
+data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -55,7 +54,7 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = 31
+data.selectTime = -1
 data.stageTime = 21
 data.orderTime = 16
 data.rematchTime = 16

@@ -3524,7 +3524,7 @@ function f_selectScreen()
 					p2SelEnd = false
 				--end
 				data.t_p2selected = {}
-				p2memberPreview = 1
+				--p2memberPreview = 1
 				f_p2randomReset()
 				p2coopReady = false
 			end
@@ -5142,8 +5142,8 @@ function f_p2TeamMenu()
 		end
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
-		p2BG = true
-		p2memberPreview = 1
+		--p2BG = true
+		--p2memberPreview = 1
 	elseif data.p2TeamMenu ~= nil then
 		p2numChars = data.p2TeamMenu.chars
 		p2teamMode = data.p2TeamMenu.mode
@@ -9783,8 +9783,10 @@ function f_continue()
 						p1memberPreview = 1
 					end
 					if data.coop then
-						p2BG = true
-						p2memberPreview = 1
+						--p2BG = true
+						--p2memberPreview = 1
+						p2coopReady = false
+						p2coopRandom = false
 					end
 				end
 				--challenger screen

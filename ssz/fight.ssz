@@ -1007,6 +1007,75 @@ public void readAnim(&.sff.Anim!&.bg.Frame? a=, &.ActionList al=, ^/char data)
   }
 }
 
+&DemoLogo
+{
+  public int posx = 0;
+  public int posy = 0;
+  public int text_fontn = -1;
+  public int text_fontb = 0;
+  public int text_fonta = 0;
+  public ^/char text_text;
+  public &.com.Layout text_lay;
+  public &.com.Layout bg_lay;
+  public &.sff.Anim!&.bg.Frame? bg;
+  public &.ActionList al;
+  public void read(&.com.Section sc=)
+  {
+    ^/char data;
+    if(#(data = sc.get("pos")) > 0) .com.readPairOF!int?(`posx=, `posy=, data);
+	//if(#(data = sc.get("text.font")) > 0){
+      //.com.readPairOF!int?(`text_fontn=, `text_fontb=, data);
+    //}
+	if(#(data = sc.get("text.font")) > 0){
+      ^^/char spl = .s.split(",", data);
+      spl[0] = .s.trim(spl[0]);
+      if(#spl[0] > 0) `text_fontn = .com.atonOF!int?(spl[0]);
+      if(#spl < 2) break;
+      spl[1] = .s.trim(spl[1]);
+      if(#spl[1] > 0) `text_fontb = .com.atonOF!int?(spl[1]);
+      if(#spl < 3) break;
+      spl[2] = .s.trim(spl[2]);
+      if(#spl[2] > 0) `text_fonta = .com.atonOF!int?(spl[2]);
+    }
+    if(#(data = sc.get("text.text")) > 0) `text_text = data;
+    `text_lay.read("text.", sc=);
+	if(#(data = sc.get("bg.spr")) > 0) .readSpr(`bg=, data);
+	if(#(data = sc.get("bg.anim")) > 0) .readAnim(`bg=, `al=, data);
+	`bg_lay.read("bg.", sc=);
+  }
+  public void step()
+  {
+    `bg.action();
+  }
+  public void bgDraw(int layerno)
+  {
+    .laydraw(
+      .com.scrrect=, (float)`posx, (float)`posy, 1.0,
+      layerno, `bg=, `bg_lay=);
+  }
+  public void draw(int layerno, ^/char txt, ^&.fnt.Font f)
+  {:<-
+    if(`text_fontn >= 0 && #f > `text_fontn){
+      .laytext(
+        (float)`posx, (float)`posy, 1.0, layerno,
+		(txt),
+        f[`text_fontn]=, `text_fontb, 255, 0, `text_fonta, `text_lay=);
+    }
+  }
+  public void setup(^&.sff.Sff sf)
+  {
+    `text_lay.scale.x *= .cfg.LifebarFontScale;
+    `text_lay.scale.y *= .cfg.LifebarFontScale;
+    `text_lay.setup();
+    `bg.setup(sf);
+    `bg_lay.setup();
+  }
+  public void reset()
+  {
+    `bg.reset();
+  }
+}
+
 &AnimFontSnd
 {
   public int sndg = -1;
@@ -1776,6 +1845,7 @@ public &Fight
   public &.Round ro;
   public &.Match mtch;
   public &.Nickname nick;
+  public &.DemoLogo demo;
   type action_t = &.act.Action;
   &.sff.AirFileMethods!self? airFileMethods;
   new()
@@ -1883,6 +1953,10 @@ public &Fight
     {
 	  `nick.read(sc=);
     }
+	public void demo(&.com.Section sc=)
+    {
+	  `demo.read(sc=);
+    }
     bool slifebarflg = true, sfaceflg = true, snameflg = true;
     ~$void(^/char, &.com.Section=) simul = [void(
       ^/char sec, &.com.Section sc=)
@@ -1955,6 +2029,7 @@ public &Fight
     bool filesflg = true, lifebarflg = true, powerbarflg = true;
     bool faceflg = true, nameflg = true, winiconflg = true, timeflg = true;
     bool comboflg = true, roundflg = true, matchflg = true, nicknameflg = true;
+	bool demoflg = true;
 	~$void(^^/char, index=) section = [void(^^/char lines, index i=){
       ^/char sec = lines[i];
       ^/char secname = .com.sectionName(sec=);
@@ -2017,9 +2092,9 @@ public &Fight
 	  //cond .s.equ(secname, "ailevel"):
         //if(ailevelflg) ailevel(sc=);
         //ailevelflg = false;
-	  //cond .s.equ(secname, "demo"): //Demo Mode Assets
-        //if(demoflg) demo(sc=);
-        //demoflg = false;
+	  cond .s.equ(secname, "demo"): //Demo Mode Assets
+        if(demoflg) demo(sc=);
+        demoflg = false;
 	  cond .s.equ(secname, "nickname"): //Online Names WIP
         if(nicknameflg)  nickname(sc=);
         nicknameflg = false;
@@ -2182,7 +2257,11 @@ public &Fight
     int layerno, ^/&.LifePower life, ^/^/char name, bool nbd,
     ^^&.com.PalFX facefx, int superplayer)
   {
-    if(!.com.statusDraw) ret;
+    if(.s.equ(.com.gameMode, "demo")) {
+		`demo.bgDraw(layerno);
+		`demo.draw(layerno, "DEMO MODE", `fnt);
+	}
+	if(!.com.statusDraw) ret;
     if(!nbd){
       loop{index i = 0; while; do:
         `lb[.com.tmode[0]][i].bgDraw(layerno);
@@ -2242,7 +2321,7 @@ public &Fight
       `ti.draw(layerno, .com.time, `fnt);
       `wi[0].draw(layerno, `fnt);
       `wi[1].draw(layerno, `fnt);
-	  if(.s.equ(.com.gameMode, "arcade")) {
+	  if(.s.equ(.com.gameMode, "arcade") || .s.equ(.com.gameMode, "arcadecoop") || .s.equ(.com.gameMode, "arcadecpu")) {
 		`mtch.bgDraw(layerno);
 		`mtch.draw(layerno, .com.match, `fnt);
 	  }
