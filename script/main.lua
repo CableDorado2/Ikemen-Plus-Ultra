@@ -1573,7 +1573,7 @@ function f_mainMenu()
 					setDiscordState("In Main Menu")
 				--ARCADE (play customizables arcade ladders)
 				elseif mainMenu == 2 then
-					f_arcadeMenu()
+					--f_arcadeMenu()
 				--VERSUS (face specific opponents)
 				elseif mainMenu == 3 then
 					f_vsMenu()

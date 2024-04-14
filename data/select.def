@@ -229,7 +229,7 @@ Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
 ;Training, exclude=1, training=1, order=-1
 Stage Viewer, exclude=1, order=-1
 
-
+;---------------------------------------------------------------------------------
 [ExtraStages] ;Don't Delete
 stages/Training Room.def
 stages/Mountainside Temple/Hidden Path.def, unlock=0
@@ -250,7 +250,7 @@ stages/HD TEST/Training Room(Scale).def
 stages/Green Screen.def
 stages/Training Room 2.def, unlock=0
 
-
+;---------------------------------------------------------------------------------
 [Options] ;Don't Delete
 arcade.maxmatches = 1,1,1,1,0,0,0,0,0,0
 team.maxmatches = 1,1,1,1,0,0,0,0,0,0
@@ -264,7 +264,7 @@ team.AIramp.end   = 3, 2
 survival.AIramp.start = 0, -3
 survival.AIramp.end   = 16, 4
 
-
+;---------------------------------------------------------------------------------
 [TowerMode]
 difficulty = NOVICE
 maxmatches = ,1,1,1

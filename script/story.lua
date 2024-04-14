@@ -790,7 +790,7 @@ function f_arc1_chapter3_2()
 	setCom(2, 0)
 	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
 	data.p1In = 2
-	--data.p2In = 2 --esto daña el turns mode
+	--data.p2In = 2 --esto no está funcionando para el right side en story
 	data.p1TeamMenu = {mode = 2, chars = 3}
 	data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"], t_charAdd["suave dude"], t_charAdd["kung fu girl"]}
 	data.p1Pal = 1
