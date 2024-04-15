@@ -1632,23 +1632,15 @@ function f_selectAdvance()
 					data.challengerMode = false
 					f_saveTemp()
 				--Backup Arcade Data
-					t_p1selectedTemp = data.t_p1selected --Get a copy of selected chars to restore arcade after challenger battle
+					t_p1selectedTemp = data.t_p1selected --Get a copy of loaded chars to restore arcade after challenger battle
 					t_p2selectedTemp = data.t_p2selected
-					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.txt") end
-					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.txt") end
 					p1RestoreTeamMode = p1numChars --Get a copy of team mode selected
 					p2RestoreTeamMode = p2numChars
 					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
+					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.txt") end
+					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.txt") end
 				--Go to 1P VS 2P Mode (2P VS 1P is missing)
-					f_default()
-					--setDiscordState("VS Challenger")
-					setGameMode('vs')
-					data.p2In = 2
-					data.stageMenu = true
-					data.p2Faces = true
-					data.gameMode = "challenger"
-					data.rosterMode = "versus"
-					textImgSetText(txt_mainSelect, "CHALLENGER MODE")
+					f_challengerVS() --Load challenger vs config
 					backtomenu = false
 					f_selectSimple()
 				--Restore Arcade Data when f_selectSimple() end
