@@ -1636,8 +1636,6 @@ function f_pauseTraining()
 						sndPlay(sysSnd, 100, 5)
 						recWarning = true
 					else
-						--remapInput(1, 2) --P1 swap controls with p2 side
-						--remapInput(2, 1)
 						startDummyRecord(sysSnd)
 						pbrecActive = true
 						animReset(darkenOut)

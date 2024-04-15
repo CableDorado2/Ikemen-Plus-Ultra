@@ -757,7 +757,6 @@ public ^&FileInput replay, pbRep;
 public &PlaybackInput
 {
   %&.KeyBuffer kb;
-  //^|.PlayState pt;
   /index lo = 0, re = 0;
   int time = 0, delay = 0;
   &.file.File rep;
@@ -780,27 +779,10 @@ public &PlaybackInput
   public bool openReplayFile(^/char replay)
   {
     ret `rep.open(replay, "wb");
-  } 
-  public void end()
-  {
-    .com.resetRemapInput();
-    .pbState = .PlaybackState::None; 
-  }
-  public bool synchronize()
-  {  
-    int seed; 
-    .m.srand(seed);
-    `rep.write!int?(seed=); 
-    `setlore(`lo=, `re=);
-    `kb[`lo].reset(`time);
-    `kb[`re].reset(`time); 
-    .pbState = .PlaybackState::Record; 
-    `update();
-    ret true;
   }
   public bool init(int f)
   {
-    `setlore(`lo=, `re=);
+    `setlore(`re=, `lo=);
     `kb[`lo].reset(`time);
     `kb[`re].reset(`time);
     %int facing .= f;
@@ -810,8 +792,8 @@ public &PlaybackInput
   }
   public bool input(&.Buffer b=, int in, int f)
   {
-    //if(!.m.inRange!int?(0, #`kb-1, in)) ret false; 
-	ret `kb[.com.inputRemap[in]].input(b=, f);   
+    if(!.m.inRange!int?(0, #`kb-1, in)) ret false;
+    ret `kb[.com.inputRemap[in]].input(b=, f);
   }
   public bool anybutton()
   {
@@ -826,7 +808,7 @@ public &PlaybackInput
     branch{
       int tmp = (`kb[`re].timei + (`delay >> 3)) - `kb[`lo].timei;
     cond tmp >= 0:
-      `kb[`lo].localUpdate(0);  
+      `kb[`lo].localUpdate(0);
       if(`delay > 0) `delay--;
     cond tmp < -1:
       `delay += 4;
@@ -837,11 +819,7 @@ public &PlaybackInput
       `rep.write!&.KeyInfo?(`kb[i].data[`time&31]=);
       i++;
     while i < #`kb:}
-    if(++`time >= 0){
-		`kb[`lo].localUpdate(0); 
-		`kb[`re].localUpdate(1); 
-		}
-    if(.se.esc) `end();
+    if(++`time >= 0) `kb[`lo].localUpdate(0);
     ret !.se.end;
   }
 }
