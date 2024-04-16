@@ -153,6 +153,8 @@ function f_selectReset()
 	if not data.p2SelectMenu then
 		p2SelEnd = true
 	end
+	keepLSide = false
+	keepRSide = false
 	selScreenEnd = false
 	stageEnd = false
 	charSelect = true
@@ -1639,13 +1641,19 @@ function f_selectAdvance()
 					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
 					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.txt") end
 					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.txt") end
-				--Go to 1P VS 2P Mode (2P VS 1P is missing)
-					f_challengerVS() --Load challenger vs config
+				--Load Side Player Data
+					if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
+						keepLSide = true
+					elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+						keepRSide = true
+					end
+				--Go to VS Challenger Mode
+					f_challengerVS() --Load Select Config
 					backtomenu = false
-					f_selectSimple()
+					f_selectSimple() --Start Char Select
 				--Restore Arcade Data when f_selectSimple() end
 					f_default()
-					--setDiscordState("In Arcade Mode")
+					setDiscordState("In Arcade Mode")
 					setGameMode('arcade')
 					data.gameMode = "arcade"
 					data.rosterMode = "arcade"
@@ -8961,6 +8969,47 @@ function f_selectChallenger()
 		cmdInput()
 		refresh()
 	end
+end
+
+--VS CHALLENGER (use the character selected for arcade mode to defeat a human challenger)
+function f_challengerVS()
+	f_default()
+	setDiscordState("VS Challenger")
+	setGameMode('vs')
+	data.gameMode = "challenger"
+	data.rosterMode = "versus"
+	data.stageMenu = true
+	--data.p2Faces = true
+	textImgSetText(txt_mainSelect, "CHALLENGER MODE")
+--ARCADE PLAYER IS IN LEFT SIDE - NEW CHALLENGER COMES FROM RIGHT SIDE
+	if keepLSide then
+		data.p1TeamMenu = {mode = p1RestoreTeamMode-1, chars = p1RestoreTeamMode}
+		data.p1Char = {t_p1selectedTemp[1].cel}
+		data.p1Pal = t_p1selectedTemp[1].pal
+		data.p1SelectMenu = false
+		if P2overP1 then
+			setHomeTeam(2)
+			remapInput(1, 2)
+			remapInput(2, 1)
+			setPlayerSide('p1right')
+		else
+			setHomeTeam(1)
+		end
+--ARCADE PLAYER IS IN RIGHT SIDE - NEW CHALLENGER COMES FROM LEFT SIDE
+	elseif keepRSide then
+		data.p2TeamMenu = {mode = p2RestoreTeamMode-1, chars = p2RestoreTeamMode}
+		data.p2Char = {t_p2selectedTemp[1].cel}
+		data.p2Pal = t_p2selectedTemp[1].pal
+		if not P2overP1 then
+			setHomeTeam(2)
+			remapInput(1, 2)
+			remapInput(2, 1)
+			setPlayerSide('p1right')
+		else
+			setHomeTeam(1)
+		end
+	end
+	data.p2In = 2
 end
 
 --;===========================================================

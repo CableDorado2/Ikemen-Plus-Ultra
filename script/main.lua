@@ -1502,37 +1502,6 @@ t_mainMenu = {
 	{id = textImgNew(), text = "CHECK UPDATES"},
 }
 
---VS CHALLENGER (use the character selected for arcade mode to defeat a human challenger)
-function f_challengerVS()
-	f_default()
-	setDiscordState("VS Challenger")
-	setGameMode('vs')
-	data.gameMode = "challenger"
-	data.rosterMode = "versus"
-	data.stageMenu = true
-	data.p2Faces = true
-	textImgSetText(txt_mainSelect, "CHALLENGER MODE")
-	--Load previous player data
-	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
-		data.p1TeamMenu = {mode = p1numChars-1, chars = p1numChars}
-		data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
-		data.p1Pal = 1
-	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
-		data.p2TeamMenu = {mode = p2numChars-1, chars = p2numChars}
-		data.p2Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
-		data.p2Pal = 1
-	end
-	if P2overP1 then
-		setHomeTeam(2) --P2 side considered the home team
-		remapInput(1, 2)
-		remapInput(2, 1)
-		setPlayerSide('p1right')
-	else
-		setHomeTeam(1) --P1 side considered the home team
-	end
-	data.p2In = 2 --P2 controls P2 side of the select screen
-end
-
 function f_mainMenu()
 	cmdInput()
 	local cursorPosY = 0
