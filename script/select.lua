@@ -1636,8 +1636,10 @@ function f_selectAdvance()
 				--Backup Arcade Data
 					t_p1selectedTemp = data.t_p1selected --Get a copy of loaded chars to restore arcade after challenger battle
 					t_p2selectedTemp = data.t_p2selected
-					p1RestoreTeamMode = p1numChars --Get a copy of team mode selected
-					p2RestoreTeamMode = p2numChars
+					p1RestoreTeamMode = p1teamMode --Get a copy of team mode selected
+					p2RestoreTeamMode = p2teamMode
+					p1RestoreCharsNo = p1numChars --Get a copy of amount of chars selected
+					p2RestoreCharsNo = p2numChars
 					restoreMatchNo = matchNo --Get a copy of matchNo where arcade was cut
 					if data.debugLog then f_printTable(t_p1selectedTemp, "save/debug/t_p1selectedTemp.txt") end
 					if data.debugLog then f_printTable(t_p2selectedTemp, "save/debug/t_p2selectedTemp.txt") end
@@ -1651,27 +1653,51 @@ function f_selectAdvance()
 					f_challengerVS() --Load Select Config
 					backtomenu = false
 					f_selectSimple() --Start Char Select
-				--Restore Arcade Data when f_selectSimple() end
-					f_default()
-					setDiscordState("In Arcade Mode")
-					setGameMode('arcade')
-					data.gameMode = "arcade"
-					data.rosterMode = "arcade"
-					textImgSetText(txt_mainSelect, "ARCADE")
-					data.serviceScreen = true
-					data.p2SelectMenu = false
-					p1numChars = p1RestoreTeamMode --Restore team mode
-					p2numChars = p2RestoreTeamMode
-					matchNo = restoreMatchNo --Restore matchNo
 				--Read residual winner result from f_selectSimple()
-					if winner == 1 then --This result need to cause a 1P vs CPU
-						data.t_p1selected = t_p1selectedTemp --Restore chars selected in arcade for player 1
-					elseif winner == 2 then --This result need to cause a 2P vs CPU
-						data.t_p1selected = t_p1selectedTemp --Restore chars selected in arcade for player 2
-						remapInput(1, 2)
-						--data.p1In = 2 --P2 need to get Control because was the winner
+					if winner == 1 then --Left Side Wins
+						challengerEnd = true
+						matchSetting = "humanvscpu"
+					elseif winner == 2 then --Right Side Wins
+						challengerEnd = true
+						matchSetting = "cpuvshuman"
+						--if getPlayerSide() == "p1right" then
+							
+						--end
 					else --No winner (maybe you use pause menu to exit) but what will happen if you come from a draw game?
 						backtomenu = true
+					end
+				--Restore Arcade Data when f_selectSimple() end
+					if challengerEnd then
+						arcadeCfg()
+						textImgSetText(txt_mainSelect, "ARCADE")
+						if matchSetting == "humanvscpu" then --is a copy frmo function arcadeHumanvsCPU()
+							if P2overP1 then
+								remapInput(1, 2)
+								setPlayerSide('p2left')
+							else
+								setPlayerSide('p1left')
+							end
+							data.p2In = 1
+							data.p2SelectMenu = false
+						elseif matchSetting == "cpuvshuman" then --is a copy from function arcadeCPUvsHuman()
+							remapInput(1, 2)
+							if not P2overP1 then
+								remapInput(2, 1)
+								setPlayerSide('p1right')
+							else
+								setPlayerSide('p2right')
+							end
+							data.p1In = 2
+							data.p2In = 2
+							data.p1SelectMenu = false
+						end
+						p1teamMode = p1RestoreTeamMode --Restore team mode
+						p2teamMode = p2RestoreTeamMode
+						p1numChars = p1RestoreCharsNo --Restore chars amount
+						p2numChars = p2RestoreCharsNo
+						matchNo = restoreMatchNo --Restore matchNo
+						challengerEnd = false
+						matchSetting = ""
 					end
 			--Normal Give Up Route
 				else
@@ -3940,6 +3966,10 @@ function f_p1SelectMenu()
 		--if data.coop then numChars = 1 end
 		p1SelEnd = true
 	elseif not data.p1SelectMenu then
+		if data.gameMode == "challenger" then
+			data.t_p1selected = t_p1selectedTemp --Get previous arcade selected characters
+			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
+		end
 		p1SelEnd = true
 	else
 		if not exclusiveStageMenu then
@@ -4986,9 +5016,7 @@ function f_p1SelectMenu()
 				end
 				f_p1Selection()
 			end
-			if data.debugLog then
-				f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt")
-			end
+			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
 		end
 	end
 end
@@ -5437,6 +5465,10 @@ function f_p2SelectMenu()
 		--end
 		p2SelEnd = true
 	elseif not data.p2SelectMenu then
+		if data.gameMode == "challenger" then
+			data.t_p2selected = t_p2selectedTemp --Get previous arcade selected characters
+			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt") end
+		end
 		p2SelEnd = true
 	else
 		if not exclusiveStageMenu then
@@ -6678,6 +6710,7 @@ animUpdate(stageMLockWindowBG)
 --; STAGE SELECT MENU
 --;===========================================================
 function f_selectStage()
+	if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
 	if data.stageMenu then --If Stage Select is Enabled
 		stageMenuActive = true --To Delete content from previous menu
 		if data.rosterAdvanced == true then
@@ -8983,10 +9016,9 @@ function f_challengerVS()
 	textImgSetText(txt_mainSelect, "CHALLENGER MODE")
 --ARCADE PLAYER IS IN LEFT SIDE - NEW CHALLENGER COMES FROM RIGHT SIDE
 	if keepLSide then
-		data.p1TeamMenu = {mode = p1RestoreTeamMode-1, chars = p1RestoreTeamMode}
-		data.p1Char = {t_p1selectedTemp[1].cel}
-		data.p1Pal = t_p1selectedTemp[1].pal
-		data.p1SelectMenu = false
+		data.p1TeamMenu = {mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
+		data.p2TeamMenu = {mode = p1RestoreTeamMode, chars = p1RestoreCharsNo} --Set Challenger Team Mode at same arcade player conditions
+		data.p1SelectMenu = false --Character Data will be loaded in f_p1SelectMenu() following this p1SelectMenu condition
 		if P2overP1 then
 			setHomeTeam(2)
 			remapInput(1, 2)
@@ -8997,9 +9029,9 @@ function f_challengerVS()
 		end
 --ARCADE PLAYER IS IN RIGHT SIDE - NEW CHALLENGER COMES FROM LEFT SIDE
 	elseif keepRSide then
-		data.p2TeamMenu = {mode = p2RestoreTeamMode-1, chars = p2RestoreTeamMode}
-		data.p2Char = {t_p2selectedTemp[1].cel}
-		data.p2Pal = t_p2selectedTemp[1].pal
+		data.p1TeamMenu = {mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
+		data.p2TeamMenu = {mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
+		data.p2SelectMenu = false
 		if not P2overP1 then
 			setHomeTeam(2)
 			remapInput(1, 2)

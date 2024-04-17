@@ -689,11 +689,9 @@ function f_arc1_chapter1()
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
 	data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters
 	data.p1Pal = 1 --Set P1 Character Palette
-	--setTeamMode(1, 0, 1) --Set Team Config [Player, teamMode(0..2), numChars(1..4)]??
 	data.p2TeamMenu = {mode = 1, chars = 4}
 	data.p2Char = {t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"]}
 	data.p2Pal = 1
-	--setTeamMode(2, 2, 3)
 	setRoundTime(-1)
 	setRoundsToWin(1)
 	data.orderSelect = false
