@@ -1653,18 +1653,31 @@ function f_selectAdvance()
 					f_challengerVS() --Load Select Config
 					backtomenu = false
 					f_selectSimple() --Start Char Select
-				--Read residual winner result from f_selectSimple()
-					if winner == 1 then --Left Side Wins
-						challengerEnd = true
-						matchSetting = "humanvscpu"
-					elseif winner == 2 then --Right Side Wins
-						challengerEnd = true
-						matchSetting = "cpuvshuman"
-						--if getPlayerSide() == "p1right" then
-							
-						--end
-					else --No winner (maybe you use pause menu to exit) but what will happen if you come from a draw game?
-						backtomenu = true
+				--Read Winner results from f_selectSimple()
+					if getPlayerSide() == "p1right" then --Player 1 in Right Side
+						if winner == 1 then --Player 2 in Left Side Wins
+							challengerEnd = true
+							matchSetting = "humanvscpu"
+							P2overP1 = true
+						elseif winner == 2 then --Player 1 in Right Side Wins
+							challengerEnd = true
+							matchSetting = "cpuvshuman"
+							P2overP1 = false
+						else --No winner (maybe you use pause menu to exit) but what will happen if you come from a draw game?
+							backtomenu = true
+						end
+					else --Player 1 in Left Side
+						if winner == 1 then --Player 1 in Left Side Wins
+							challengerEnd = true
+							matchSetting = "humanvscpu"
+							P2overP1 = false
+						elseif winner == 2 then --Player 2 in Right Side Wins
+							challengerEnd = true
+							matchSetting = "cpuvshuman"
+							P2overP1 = true
+						else --No winner (maybe you use pause menu to exit) but what will happen if you come from a draw game?
+							backtomenu = true
+						end
 					end
 				--Restore Arcade Data when f_selectSimple() end
 					if challengerEnd then
@@ -9004,7 +9017,7 @@ function f_selectChallenger()
 	end
 end
 
---VS CHALLENGER (use the character selected for arcade mode to defeat a human challenger)
+--VS CHALLENGER (use your character selected for arcade mode to defeat a human challenger the winner keep playing the arcade)
 function f_challengerVS()
 	f_default()
 	setDiscordState("VS Challenger")
