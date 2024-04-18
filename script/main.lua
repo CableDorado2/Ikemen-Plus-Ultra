@@ -23,6 +23,7 @@ require("script.statistics")
 require("script.missions")
 require("script.events")
 require("script.story")
+assert(loadfile("script/visualnovel/resources.lua"))()
 --require("script.adventure")
 
 local file = io.open("save/config.ssz","r")

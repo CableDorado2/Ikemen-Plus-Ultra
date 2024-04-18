@@ -77,6 +77,7 @@ eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 gallerySff = sffNew("data/screenpack/gallery.sff") --load gallery sprites
 storySff = sffNew("data/screenpack/story.sff") --load story sprites
+vnSff = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 towerSff = sffNew("data/screenpack/tower.sff") --load tower sprites
 --[[
 tourneySff = sffNew("data/screenpack/tourney.sff") --load tourney sprites
