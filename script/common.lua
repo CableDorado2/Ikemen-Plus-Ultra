@@ -616,6 +616,7 @@ function f_textRender(data, str, counter, x, y, spacing, delay, limit)
 		textImgSetPos(data, x, y + spacing * (i - 1))
 		textImgDraw(data)
 	end
+	return lengthCnt --We gonna use this in Visual Novel Features
 end
 
 --shortcut for draw text for character select
