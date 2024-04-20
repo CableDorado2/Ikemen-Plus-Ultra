@@ -120,12 +120,12 @@ function f_kfm1_3A()
 			VNdelay = VNnodelay
 			if VNtxtActive == 0 then VNtxtReady = true end
 		end
-		if VNtxt < #t_vnBoxText[2] then
+		if VNtxt < #t_vnBoxText[3] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[2] then
+		elseif VNtxt == #t_vnBoxText[3] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
@@ -136,9 +136,9 @@ function f_kfm1_3A()
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[2][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[3][VNtxt].character)
 		textImgDraw(txt_nameCfg)
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[2][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[3][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -156,12 +156,12 @@ function f_kfm1_3B()
 			VNdelay = VNnodelay
 			if VNtxtActive == 0 then VNtxtReady = true end
 		end
-		if VNtxt < #t_vnBoxText[2] then
+		if VNtxt < #t_vnBoxText[4] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[2] then
+		elseif VNtxt == #t_vnBoxText[4] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
@@ -172,9 +172,9 @@ function f_kfm1_3B()
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[2][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[4][VNtxt].character)
 		textImgDraw(txt_nameCfg)
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[2][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[4][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -192,12 +192,12 @@ function f_kfm1_4A()
 			VNdelay = VNnodelay
 			if VNtxtActive == 0 then VNtxtReady = true end
 		end
-		if VNtxt < #t_vnBoxText[2] then
+		if VNtxt < #t_vnBoxText[5] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[2] then
+		elseif VNtxt == #t_vnBoxText[5] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
@@ -208,9 +208,9 @@ function f_kfm1_4A()
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[2][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[5][VNtxt].character)
 		textImgDraw(txt_nameCfg)
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[2][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[5][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -228,12 +228,12 @@ function f_kfm1_4B()
 			VNdelay = VNnodelay
 			if VNtxtActive == 0 then VNtxtReady = true end
 		end
-		if VNtxt < #t_vnBoxText[2] then
+		if VNtxt < #t_vnBoxText[6] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[2] then
+		elseif VNtxt == #t_vnBoxText[6] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
@@ -244,9 +244,9 @@ function f_kfm1_4B()
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[2][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[6][VNtxt].character)
 		textImgDraw(txt_nameCfg)
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[2][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[6][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -264,12 +264,12 @@ function f_kfm1_4C()
 			VNdelay = VNnodelay
 			if VNtxtActive == 0 then VNtxtReady = true end
 		end
-		if VNtxt < #t_vnBoxText[2] then
+		if VNtxt < #t_vnBoxText[7] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[2] then
+		elseif VNtxt == #t_vnBoxText[7] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
@@ -280,9 +280,9 @@ function f_kfm1_4C()
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[2][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[7][VNtxt].character)
 		textImgDraw(txt_nameCfg)
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[2][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[7][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -300,12 +300,12 @@ function f_kfm1_4D()
 			VNdelay = VNnodelay
 			if VNtxtActive == 0 then VNtxtReady = true end
 		end
-		if VNtxt < #t_vnBoxText[2] then
+		if VNtxt < #t_vnBoxText[8] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[2] then
+		elseif VNtxt == #t_vnBoxText[8] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
@@ -316,9 +316,9 @@ function f_kfm1_4D()
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[2][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[8][VNtxt].character)
 		textImgDraw(txt_nameCfg)
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[2][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[8][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		VNscroll = VNscroll + 1
 		cmdInput()
