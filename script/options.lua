@@ -6376,7 +6376,11 @@ t_keyBattleCfg2 = {}
 for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
 	t_keyBattleCfg2[i] = {}
 	t_keyBattleCfg2[i]['varID'] = t_keyBattleCfg[i].varID
-	t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
+	if i == 15 then
+		t_keyBattleCfg2[i]['text'] = "Default (F2)"
+	else
+		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
+	end
 	t_keyBattleCfg2[i]['varText'] = ""
 end
 
@@ -6404,7 +6408,11 @@ t_keyMenuCfg2 = {}
 for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
 	t_keyMenuCfg2[i] = {}
 	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
-	t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
+	if i == 15 then
+		t_keyMenuCfg2[i]['text'] = "Default (F2)"
+	else
+		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
+	end
 	t_keyMenuCfg2[i]['varText'] = ""
 end
 

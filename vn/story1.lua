@@ -33,13 +33,18 @@ end
 function f_kfm1_1()
 	playBGM("")
 	f_resetFullVN()
+	f_vnPauseMenuReset()
 	cmdInput()
 	while true do
 		--Actions
-		if esc() or VNtxtEnd then break end
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-			VNdelay = VNnodelay
-			if VNtxtActive == 0 then VNtxtReady = true end
+		if VNtxtEnd then break end
+		if not vnPauseScreen then
+			if esc() or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+				vnPauseScreen = true
+			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
+				VNdelay = VNnodelay
+				if VNtxtActive == 0 then VNtxtReady = true end
+			end
 		end
 		--Loading New Txt Logic
 		if VNtxt < #t_vnBoxText[1] then --Only show new text if is store in the table
@@ -68,6 +73,7 @@ function f_kfm1_1()
 			VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[1][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 		--end
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
+		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
 		cmdInput()
 		refresh()

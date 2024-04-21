@@ -1986,6 +1986,147 @@ animAddPos(challengerText, 19, 100)
 animUpdate(challengerText)
 
 --;===========================================================
+--; VISUAL NOVEL PAUSE/OPTIONS MENU
+--;===========================================================
+txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
+
+
+
+t_vnPauseMenu = {
+	{varID = textImgNew(), text = "Text Speed", 			 varText = ""},
+	{varID = textImgNew(), text = "Text BG Transparency", 	 varText = ""},
+	{varID = textImgNew(), text = "Display Character Name",  varText = ""},
+	{varID = textImgNew(), text = "Sound Settings", 		 varText = ""},
+	{varID = textImgNew(), text = "Control Guide", 		 	 varText = ""},
+	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
+	--{varID = textImgNew(), text = "Save", 				 varText = ""},
+	{varID = textImgNew(), text = "Skip Chapter", 			 varText = ""},
+	{varID = textImgNew(), text = "Resume", 				 varText = ""},
+}
+
+function f_vnPauseMenu()
+	cmdInput()
+	--Cursor Position
+	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		vnPauseMenu = vnPauseMenu - 1
+		if buflVNP then buflVNP = 0 end
+		if bufrVNP then bufrVNP = 0 end
+	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufdVNP >= 30) then
+		sndPlay(sysSnd, 100, 0)
+		vnPauseMenu = vnPauseMenu + 1
+		if buflVNP then buflVNP = 0 end
+		if bufrVNP then bufrVNP = 0 end
+	end
+	if vnPauseMenu < 1 then
+		vnPauseMenu = #t_vnPauseMenu
+		if #t_vnPauseMenu > 10 then
+			cursorPosYVNP = 10
+		else
+			cursorPosYVNP = #t_vnPauseMenu
+		end
+	elseif vnPauseMenu > #t_vnPauseMenu then
+		vnPauseMenu = 1
+		cursorPosYVNP = 1
+	elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30)) and cursorPosYVNP > 1 then
+		cursorPosYVNP = cursorPosYVNP - 1
+	elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufdVNP >= 30)) and cursorPosYVNP < 10 then
+		cursorPosYVNP = cursorPosYVNP + 1
+	end
+	if cursorPosYVNP == 10 then
+		moveTxtVNP = (vnPauseMenu - 10) * 15
+	elseif cursorPosYVNP == 1 then
+		moveTxtVNP = (vnPauseMenu - 1) * 15
+	end
+	if #t_vnPauseMenu <= 10 then
+		maxVNP = #t_vnPauseMenu
+	elseif vnPauseMenu - cursorPosYVNP > 0 then
+		maxVNP = vnPauseMenu + 10 - cursorPosYVNP
+	else
+		maxVNP = 10
+	end
+	--Draw Pause Menu BG
+	
+	--Draw Title
+	textImgDraw(txt_vnPTitle)
+	--Set Table Text
+	t_vnPauseMenu[1].varText = "Slow"
+	t_vnPauseMenu[2].varText = "100%"
+	t_vnPauseMenu[3].varText = "ON"
+	--Draw Table Text
+	for i=1, maxVNP do
+		if i > vnPauseMenu - cursorPosYVNP then
+			if t_vnPauseMenu[i].varID ~= nil then
+				textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, 1, t_vnPauseMenu[i].text, 70, 15+i*15-moveTxtVNP))
+				textImgDraw(f_updateTextImg(t_vnPauseMenu[i].varID, font2, 0, -1, t_vnPauseMenu[i].varText, 250, 15+i*15-moveTxtVNP))
+			end
+		end
+	end
+	--Draw Cursor
+	animSetWindow(cursorBox, 65,5+cursorPosYVNP*15, 190,15)
+	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+	animDraw(f_animVelocity(cursorBox, -1, -1))
+	--Actions
+	if esc() or vnPauseMenuBack or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
+		sndPlay(sysSnd, 100, 2)
+		f_vnPauseMenuReset()
+	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+		--Sound Settings
+		if vnPauseMenu == 4 then
+			
+		--Control Guide
+		elseif vnPauseMenu == 5 then
+			
+		--Restore Settings
+		elseif vnPauseMenu == 6 then
+			
+		--Save
+		--elseif vnPauseMenu == 7 then
+			
+		--Skip Chapter
+		elseif vnPauseMenu == 7 then
+			
+		--Resume
+		elseif vnPauseMenu == 8 then
+			vnPauseMenuBack = true
+		end
+	end
+	--Text Speed
+	if vnPauseMenu == 1 then
+	    
+	--Text BG Transparency
+	elseif vnPauseMenu == 2 then
+		
+	--Display Character Name
+	elseif vnPauseMenu == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+		
+	end
+	if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+		bufdVNP = 0
+		bufuVNP = bufuVNP + 1
+	elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+		bufuVNP = 0
+		bufdVNP = bufdVNP + 1
+	else
+		bufuVNP = 0
+		bufdVNP = 0
+	end
+	cmdInput()
+end
+
+function f_vnPauseMenuReset()
+	vnPauseMenuBack = false
+	vnPauseScreen = false
+	cursorPosYVNP = 1
+	moveTxtVNP = 0
+	vnPauseMenu = 1
+	bufuVNP = 0
+	bufdVNP = 0
+	bufrVNP = 0
+	buflVNP = 0
+end
+
+--;===========================================================
 --; BUTTON CODES TEST
 --;===========================================================
 --"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
