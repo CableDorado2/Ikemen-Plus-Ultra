@@ -2050,7 +2050,8 @@ end
 function f_saveVN()
 	local t_vn = {
 		['data.VNdelay'] = data.VNdelay,
-		['data.VNtxtBGTrans'] = data.VNtxtBGTrans,
+		['data.VNtxtBGTransS'] = data.VNtxtBGTransS,
+		['data.VNtxtBGTransD'] = data.VNtxtBGTransD,
 		['data.VNdisplayName'] = data.VNdisplayName
 	}
 	s_vndataLUA = f_strSub(s_vndataLUA, t_vn)

@@ -108,13 +108,6 @@ animAddPos(vnNext, 308, 222)
 animSetScale(vnNext, 0.5, 0.5)
 animUpdate(vnNext)
 
---Skip Button
-vnSkip = animNew(vnSff, [[
-100,1, 0,0, -1
-]])
-animAddPos(vnSkip, 300, 220)
-animUpdate(vnSkip)
-
 --Kung Fu Man 1
 vnKfm1 = animNew(vnSff, [[
 1,0, 0,0, -1
