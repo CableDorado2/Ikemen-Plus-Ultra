@@ -28,6 +28,46 @@ function f_saveSettings()
 	--configModified('true')
 end
 
+--Data saving to training_sav.lua
+function f_saveTraining()
+	setPlaybackCfg(
+		data.pbkRecSlot,
+		data.pbkPlaySlot,
+		data.pbkPlayLoop,
+		data.pbkSlot1,
+		data.pbkSlot2,
+		data.pbkSlot3,
+		data.pbkSlot4,
+		data.pbkSlot5
+	)
+	local t_training = {
+	--Practice Settings
+		['data.damageDisplay'] = data.damageDisplay,
+		['data.inputDisplay'] = data.inputDisplay,
+		['data.hitbox'] = data.hitbox,
+		['data.debugInfo'] = data.debugInfo,
+		['data.dummyMode'] = data.dummyMode,
+		['data.PowerStateP1'] = data.PowerStateP1,
+		['data.PowerStateP2'] = data.PowerStateP2,
+		['data.LifeStateP1'] = data.LifeStateP1,
+		['data.LifeStateP2'] = data.LifeStateP2,
+	--Playback Settings
+		['data.pbkRecSlot'] = data.pbkRecSlot,
+		['data.pbkPlaySlot'] = data.pbkPlaySlot,
+		['data.pbkPlayLoop'] = data.pbkPlayLoop,
+		['data.pbkSlot1'] = data.pbkSlot1,
+		['data.pbkSlot2'] = data.pbkSlot2,
+		['data.pbkSlot3'] = data.pbkSlot3,
+		['data.pbkSlot4'] = data.pbkSlot4,
+		['data.pbkSlot5'] = data.pbkSlot5
+	}
+	s_trainLUA = f_strSub(s_trainLUA, t_training)
+	local trainingFile = io.open("save/training_sav.lua","w+")
+	trainingFile:write(s_trainLUA)
+	trainingFile:close()
+	--trainingModified = false
+end
+
 function f_sysTimeP()
 	if (resolutionHeight / 3 * 4) == resolutionWidth then
 		--Clock

@@ -5,7 +5,7 @@ t_vnBoxText = {}
 local t = {}
 local group = ''
 local section = 0
-local file = io.open("vn/textbox.def","r")
+local file = io.open("data/textbox.def","r")
 local content = file:read("*all")
 file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
@@ -69,11 +69,6 @@ end
 if data.debugLog then
 	f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.txt")
 end
-
---;===========================================================
---; LOAD VISUAL NOVEL SRIPTS
---;===========================================================
-require("vn.story1")
 
 --;===========================================================
 --; LOAD VISUAL NOVEL ASSETS

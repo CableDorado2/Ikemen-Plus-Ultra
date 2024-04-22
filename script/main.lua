@@ -17,13 +17,14 @@ loadLifebar(data.lifebar) --path to lifebar stored in "save/data_sav.lua", also 
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
 assert(loadfile("script/start.lua"))()
+assert(loadfile("script/vn_resources.lua"))()
 require("script.options")
-require("script.select")
 require("script.statistics")
+require("script.select")
 require("script.missions")
 require("script.events")
 require("script.story")
-assert(loadfile("script/visualnovel/resources.lua"))()
+require("script.visualnovel")
 --require("script.adventure")
 
 local file = io.open("save/config.ssz","r")
@@ -32,7 +33,6 @@ file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 
---f_drawQuickText(txt_testVar, font3, 0, 0, "hi", 163.5, 168) --Delete me when your test finish
 --;===========================================================
 --; UNLOCKS CHECK DEFINITION
 --;===========================================================

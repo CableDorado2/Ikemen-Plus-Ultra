@@ -683,7 +683,7 @@ end
 
 --KIDNAPPING
 function f_arc1_chapter1()
-	vn.story1.f_kfm1_1() --playVideo("movie/KFM-Chapter 1.wmv")
+	script.visualnovel.f_kfm1_1() --playVideo("movie/KFM-Chapter 1.wmv")
 	f_default() --Reset settings for the custom fight
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
@@ -714,7 +714,7 @@ end
 
 --KILLER MIRROR
 function f_arc1_chapter2()
-	vn.story1.f_kfm1_2() --playVideo("movie/KFM-Chapter 2.wmv")
+	script.visualnovel.f_kfm1_2() --playVideo("movie/KFM-Chapter 2.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -747,7 +747,7 @@ end
 
 --THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
-	vn.story1.f_kfm1_3A() --playVideo("movie/KFM-Chapter 3-A.wmv")
+	script.visualnovel.f_kfm1_3A() --playVideo("movie/KFM-Chapter 3-A.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 1, chars = 2}
@@ -780,7 +780,7 @@ end
 
 --BROKEN SPIRIT
 function f_arc1_chapter3_2()
-	vn.story1.f_kfm1_3B() --playVideo("movie/KFM-Chapter 3-B.wmv")
+	script.visualnovel.f_kfm1_3B() --playVideo("movie/KFM-Chapter 3-B.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	remapInput(1, 2) --P1 controls p2 side
@@ -818,7 +818,7 @@ end
 
 --FOR THE OLD TIMES
 function f_arc1_chapter4_1()
-	vn.story1.f_kfm1_4A() --playVideo("movie/KFM-Chapter 4-A.wmv")
+	script.visualnovel.f_kfm1_4A() --playVideo("movie/KFM-Chapter 4-A.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -844,7 +844,7 @@ end
 
 --LIFE LESSON
 function f_arc1_chapter4_2()
-	vn.story1.f_kfm1_4B() --playVideo("movie/KFM-Chapter 4-B.wmv")
+	script.visualnovel.f_kfm1_4B() --playVideo("movie/KFM-Chapter 4-B.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -856,7 +856,7 @@ end
 
 --ZERO HOUR
 function f_arc1_chapter4_3()
-	vn.story1.f_kfm1_4C() --playVideo("movie/KFM-Chapter 4-C.wmv")
+	script.visualnovel.f_kfm1_4C() --playVideo("movie/KFM-Chapter 4-C.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -868,7 +868,7 @@ end
 
 --THE FALL OF A MASTER
 function f_arc1_chapter4_4()
-	vn.story1.f_kfm1_4D() --playVideo("movie/KFM-Chapter 4-D.wmv")
+	script.visualnovel.f_kfm1_4D() --playVideo("movie/KFM-Chapter 4-D.wmv")
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
