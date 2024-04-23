@@ -1,4 +1,4 @@
-data.VNdelay = 0
-data.VNtxtBGTransS = 255
-data.VNtxtBGTransD = 0
+data.VNdelay = 2
+data.VNtxtBGTransS = 240
+data.VNtxtBGTransD = 15
 data.VNdisplayName = true

@@ -583,12 +583,25 @@ function f_defaultResetVN()
 end
 
 --;===========================================================
+--; VISUAL NOVEL ASSETS DRAW LOGIC
+--;===========================================================
+function f_drawVN()
+	if vnChapter == 1 then
+		if VNtxt == 1 then
+			--animDraw(vnBG0)
+			animDraw(vnKfm1)
+		end
+	end
+end
+
+--;===========================================================
 --; VISUAL NOVEL SCENE DEFINITION
 --;===========================================================
 --Common Textbox Settings
 function f_resetFullVN()
 VNtxtActive = 1
 VNtxt = 1
+vnChapter = 1
 VNscroll = 0
 VNnodelay = 0
 VNdelay = data.VNdelay
@@ -617,7 +630,7 @@ end
 function f_kfm1_1()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 1
+	vnChapter = 1
 	cmdInput()
 	while true do
 		--Actions
@@ -626,26 +639,25 @@ function f_kfm1_1()
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				vnPauseScreen = true
 				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
+			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then 
 				VNdelay = VNnodelay
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
 		--Loading New Txt Logic
-		if VNtxt < #t_vnBoxText[chapter] then --Only show new text if is store in the table
+		if VNtxt < #t_vnBoxText[vnChapter] then --Only show new text if is store in the table
 			if VNtxtReady then --When text is fully drawed
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
 		--Last Txt
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		--Draw BG
-		animDraw(vnKfm1) --Draw KFM Sprite
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
+		f_drawVN() --Draw Sprites
+		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
 		animDraw(vnTxtBG) --Draw Text BG
 		if VNtxtActive == 0 then
 			animDraw(vnNext) --Draw Next Text Arrow
@@ -653,10 +665,10 @@ function f_kfm1_1()
 		end
 		--Text to Show
 		--textImgSetBank(txt_nameCfg, 1)
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character) --Set Name Text
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end --Draw Name Text
 		--for i=1, txt do
-			VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
+			VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 		--end
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
@@ -669,7 +681,7 @@ end
 function f_kfm1_2()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 2
+	vnChapter = 2
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -682,26 +694,26 @@ function f_kfm1_2()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -713,7 +725,7 @@ end
 function f_kfm1_3A()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 3
+	vnChapter = 3
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -726,26 +738,26 @@ function f_kfm1_3A()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -757,7 +769,7 @@ end
 function f_kfm1_3B()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 4
+	vnChapter = 4
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -770,26 +782,26 @@ function f_kfm1_3B()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -801,7 +813,7 @@ end
 function f_kfm1_4A()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 5
+	vnChapter = 5
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -814,26 +826,26 @@ function f_kfm1_4A()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -845,7 +857,7 @@ end
 function f_kfm1_4B()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 6
+	vnChapter = 6
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -858,26 +870,26 @@ function f_kfm1_4B()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -889,7 +901,7 @@ end
 function f_kfm1_4C()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 7
+	vnChapter = 7
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -902,26 +914,26 @@ function f_kfm1_4C()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -933,7 +945,7 @@ end
 function f_kfm1_4D()
 	playBGM("")
 	f_resetFullVN()
-	local chapter = 8
+	vnChapter = 8
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -946,26 +958,26 @@ function f_kfm1_4D()
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
 		end
-		if VNtxt < #t_vnBoxText[chapter] then
+		if VNtxt < #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxt = VNtxt + 1
 				f_resetSimpleVN()
 			end
-		elseif VNtxt == #t_vnBoxText[chapter] then
+		elseif VNtxt == #t_vnBoxText[vnChapter] then
 			if VNtxtReady then
 				VNtxtEnd = true
 			end
 		end
-		animDraw(vnKfm1)
+		f_drawVN()
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
 		animDraw(vnTxtBG)
 		if VNtxtActive == 0 then
 			animDraw(vnNext)
 			animUpdate(vnNext)
 		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[chapter][VNtxt].character)
+		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[chapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1

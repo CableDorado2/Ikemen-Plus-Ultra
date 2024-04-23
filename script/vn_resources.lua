@@ -115,3 +115,4 @@ vnKfm1 = animNew(vnSff, [[
 animAddPos(vnKfm1, 0, 0)
 animSetScale(vnKfm1, 0.25, 0.25)
 animUpdate(vnKfm1)
+
