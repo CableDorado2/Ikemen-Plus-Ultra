@@ -5,7 +5,7 @@ data.ftcontrol = -1
 --Music Data
 data.menuSong = "Random"
 data.menuSongFolder = 3
-data.selectSong = "sound/system/select/Select.mp3"
+data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 2
 data.challengerSong = "Random"
 data.challengerSongFolder = 4

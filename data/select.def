@@ -226,6 +226,7 @@ Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=s
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, ordertower=6, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude, 4=Kung Fu Man/EX/EX Kung Fu Man.def
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2, ordertower=1
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
+Event 1, zoom=0, exclude=1, order=-1, victoryscreen=0, vsscreen=0, stages/Training Room.def
 ;Training, exclude=1, training=1, order=-1
 Stage Viewer, exclude=1, order=-1
 

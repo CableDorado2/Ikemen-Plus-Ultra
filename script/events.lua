@@ -143,7 +143,6 @@ end
 
 function f_eventMenu()
 	cmdInput()
-	playBGM(bgmEvents)
 	local eventMenu = 1
 	local cursorPosX = 1
 	local moveTxt = 0
@@ -165,7 +164,6 @@ function f_eventMenu()
 		if lockedScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or eventExit then
 				f_saveProgress()
-				f_menuMusic()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -207,11 +205,10 @@ function f_eventMenu()
 							setRoundTime(-1)
 							setRoundsToWin(1)
 							data.p2In = 1
-							data.p2SelectMenu = false
-							data.p1TeamMenu = {mode = 0, chars = 1}
-							data.p1Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"]}
-							data.gameMode = "survival"
-							script.select.f_selectAdvance()
+							data.p2TeamMenu = {mode = 0, chars = 1}
+							data.p2Char = {t_charAdd["event 1"]}
+							textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+							script.select.f_selectSimple()
 							if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
 						elseif event1Status == false then
 							eventInfo = true
@@ -280,7 +277,7 @@ function f_eventMenu()
 	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
 			event1Status = true
-			t_eventMenu[1].info = "Play as Master Kung Fu Girl!"
+			t_eventMenu[1].info = "Survive 40 Rounds in The Call of Zombies!"
 			t_eventMenu[1].preview = event1
 		else --Event Unavailable...
 			event1Status = false

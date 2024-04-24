@@ -583,25 +583,13 @@ function f_defaultResetVN()
 end
 
 --;===========================================================
---; VISUAL NOVEL ASSETS DRAW LOGIC
---;===========================================================
-function f_drawVN()
-	if vnChapter == 1 then
-		if VNtxt == 1 then
-			--animDraw(vnBG0)
-			animDraw(vnKfm1)
-		end
-	end
-end
-
---;===========================================================
 --; VISUAL NOVEL SCENE DEFINITION
 --;===========================================================
 --Common Textbox Settings
 function f_resetFullVN()
 VNtxtActive = 1
 VNtxt = 1
-vnChapter = 1
+--vnChapter = 1
 VNscroll = 0
 VNnodelay = 0
 VNdelay = data.VNdelay
@@ -627,10 +615,10 @@ VNscroll = 0
 VNdelay = data.VNdelay
 end
 
-function f_kfm1_1()
+function f_vnScene(int)
 	playBGM("")
 	f_resetFullVN()
-	vnChapter = 1
+	vnChapter = int
 	cmdInput()
 	while true do
 		--Actions
@@ -678,10 +666,10 @@ function f_kfm1_1()
 	end
 end
 
-function f_kfm1_2()
+function f_vnExample(number)
 	playBGM("")
 	f_resetFullVN()
-	vnChapter = 2
+	vnChapter = number
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -722,266 +710,14 @@ function f_kfm1_2()
 	end
 end
 
-function f_kfm1_3A()
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = 3
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
+--;===========================================================
+--; VISUAL NOVEL ASSETS DRAW LOGIC
+--;===========================================================
+function f_drawVN()
+	if vnChapter == 1 then
+		if VNtxt == 1 then
+			--animDraw(vnBG0)
+			animDraw(vnKfm1)
 		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_kfm1_3B()
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = 4
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_kfm1_4A()
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = 5
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_kfm1_4B()
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = 6
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_kfm1_4C()
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = 7
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_kfm1_4D()
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = 8
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
 	end
 end

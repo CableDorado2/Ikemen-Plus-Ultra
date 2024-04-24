@@ -1080,9 +1080,7 @@ function f_selectSimple()
 				return
 			--For Missions, Events or Quick Match Modes
 			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.rosterMode == "mission" or data.rosterMode == "event" then
-				if data.rosterMode == "event" then
-					playBGM(bgmEvents)
-				elseif data.gameMode == "demo" then
+				if data.gameMode == "demo" then
 					--Don't playBGM
 				else
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1118,9 +1116,6 @@ function f_selectSimple()
 				f_selectVersus()
 			end
 		end
-		--if data.gameMode == "versus" and not onlinegame then
-			--f_setRoundTime() --Unused because this is more a feature for advanced modes
-		--end
 		f_setZoom()
 		matchTime = os.clock()
 		f_assignMusic()
@@ -1204,11 +1199,7 @@ function f_selectAdvance()
 			if data.tempBack == true then
 				data.tempBack = false
 				f_saveTemp()
-				if data.rosterMode == "event" then
-					playBGM(bgmEvents)
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
 				return
 			end
@@ -1239,11 +1230,7 @@ function f_selectAdvance()
 				f_result('win')
 				f_storyboard("data/screenpack/gameover.def")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.rosterMode == "event" then
-					playBGM(bgmEvents)
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
 				return
 			--Next Match Available
@@ -1273,11 +1260,7 @@ function f_selectAdvance()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -1287,11 +1270,7 @@ function f_selectAdvance()
 					f_gameOver()
 					--f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				--Lose BUT can Continue (Arcade)
@@ -1301,11 +1280,7 @@ function f_selectAdvance()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -1403,11 +1378,7 @@ function f_selectAdvance()
 						end
 						f_storyboard("data/screenpack/gameover.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -1469,11 +1440,7 @@ function f_selectAdvance()
 						end
 						f_storyboard("data/screenpack/gameover.def")
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -1501,11 +1468,7 @@ function f_selectAdvance()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -1515,11 +1478,7 @@ function f_selectAdvance()
 					f_gameOver()
 					--f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				--Lose BUT can Continue (Arcade)
@@ -1529,11 +1488,7 @@ function f_selectAdvance()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -1606,11 +1561,7 @@ function f_selectAdvance()
 				if data.tempBack == true then
 					data.tempBack = false
 					f_saveTemp()
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				end
@@ -1619,11 +1570,7 @@ function f_selectAdvance()
 				f_gameOver()
 				--f_storyboard("data/screenpack/intro.def")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.rosterMode == "event" then
-					playBGM(bgmEvents)
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
 				return
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
@@ -1718,11 +1665,7 @@ function f_selectAdvance()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -2124,11 +2067,7 @@ function f_selectTower()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -2138,11 +2077,7 @@ function f_selectTower()
 					f_gameOver()
 					--f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				--Lose BUT can Continue (Arcade)
@@ -2152,11 +2087,7 @@ function f_selectTower()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -2241,11 +2172,7 @@ function f_selectTower()
 					f_storyboard("data/screenpack/gameover.def")
 					f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				--Next Match Available
@@ -2293,11 +2220,7 @@ function f_selectTower()
 					f_storyboard("data/screenpack/gameover.def")
 					f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				--Next Match Available
@@ -2322,11 +2245,7 @@ function f_selectTower()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -2336,11 +2255,7 @@ function f_selectTower()
 					f_gameOver()
 					--f_storyboard("data/screenpack/intro.def")
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				--Lose BUT can Continue (Arcade)
@@ -2350,11 +2265,7 @@ function f_selectTower()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
@@ -2427,11 +2338,7 @@ function f_selectTower()
 				if data.tempBack == true then
 					data.tempBack = false
 					f_saveTemp()
-					if data.rosterMode == "event" then
-						playBGM(bgmEvents)
-					else
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					end
+					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
 					return
 				end
@@ -2440,11 +2347,7 @@ function f_selectTower()
 				f_gameOver()
 				--f_storyboard("data/screenpack/intro.def")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.rosterMode == "event" then
-					playBGM(bgmEvents)
-				else
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				end
+				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
 				return
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
@@ -2461,11 +2364,7 @@ function f_selectTower()
 					if data.tempBack == true then
 						data.tempBack = false
 						f_saveTemp()
-						if data.rosterMode == "event" then
-							playBGM(bgmEvents)
-						else
-							if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						end
+						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
 						return
 					end
