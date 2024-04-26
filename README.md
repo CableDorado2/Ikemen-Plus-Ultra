@@ -81,8 +81,6 @@ This Ikemen is an expansion of his original SSZ code.
 **v1.5**
 ------------
 
-- Implementar handicaps tipo kof13 para el versus mode (no estarán disponibles en online ranked match).
-
 - Cambiar de personaje y stage en el menú de pausa solo en training. Usar lógica parecida al new challenger del arcade.
 
 - Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una.
@@ -92,8 +90,6 @@ This Ikemen is an expansion of his original SSZ code.
 - Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
 
 - Configurar controles de batalla desde el menú de pausa en plena partida.
-
-- Probar la logica de tabla para galeria donde cuando llegue al límite combine la lógica de visualización del selector de arcos con el selector de chapters del story mode. Al pulsar hacia abajo debería correr ciertos espacios.
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
@@ -122,7 +118,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en start.lua y usar en char select una función parecida a f_drawCharAnim.
 
-- Arreglar preview de random chars que no coincida con el char de sprite.
+- Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
 
 - Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
@@ -136,12 +132,7 @@ This Ikemen is an expansion of his original SSZ code.
 - 3er tipo de visualización de stages estilo “chart”, (lógica basada en el char select) al ser activado debe cargarse desde una función diferente a la normal para evitar conflictos, asímismo debe usar los portrait (9000,0) para mostrar los íconos: https://www.youtube.com/watch?v=FHwlSkCkQ50
 [![Alt text](https://static.wikia.nocookie.net/streetfighter/images/d/d6/SF%C3%97TK_Cosmic_Elevator_select.jpg/revision/latest?cb=20150201185002&path-prefix=es)](https://youtu.be/FHwlSkCkQ50)
 
-- Legion Mode: https://youtu.be/k1VH6Bv0sas?t=24
-[![Alt text](https://m.media-amazon.com/images/I/61bjcbXa+SL.jpg)](https://youtu.be/k1VH6Bv0sas?t=24)
-
 - Integrar la función de bgm.loops.
-
-- Agregar un sistema de "clasificación". Un sistema que almacena información sobre cada personaje particular, y en base a un determinado número de victorias y derrotas, estos ascienden o desciendende rango. Algo así como Bronce, Plata, Oro, Diamante. Y ese rango alcanzado se muestra como una medalla en la misma selección de personaje cuando se coloca sobre el personaje.
 
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
