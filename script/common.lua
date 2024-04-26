@@ -79,15 +79,14 @@ tempFile:close()
 fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
 sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
 contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
-eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
+eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
 gallerySff = sffNew("data/screenpack/gallery.sff") --load gallery sprites
 storySff = sffNew("data/screenpack/story.sff") --load story sprites
 vnSff = sffNew("data/screenpack/visualnovel.sff") --load visual novel sprites
 towerSff = sffNew("data/screenpack/tower.sff") --load tower sprites
 --[[
 tourneySff = sffNew("data/screenpack/tourney.sff") --load tourney sprites
-legionSff = sffNew("data/screenpack/legion.sff") --load legion sprites
 adventureSff = sffNew("data/screenpack/adventure.sff") --load adventure sprites
 ]]
 
@@ -168,7 +167,6 @@ bgmVault = "sound/System/The Vault.mp3"
 bgmStory = "sound/System/Story.mp3"
 bgmTower = "sound/System/Tower.mp3"
 bgmTourney = "sound/System/Tourney.mp3"
-bgmLegion = "sound/System/Legion.mp3"
 bgmAdventure = "sound/System/Adventure.mp3"
 
 --Select Main Menu Song
@@ -2089,22 +2087,22 @@ function f_saveProgress()
 		['data.suddenrecord'] = data.suddenrecord,
 		['data.endlessrecord'] = data.endlessrecord,
 	--Time Played Data
+		['data.storyTime'] = data.storyTime,
 		['data.arcadeTime'] = data.arcadeTime,
 		['data.vsTime'] = data.vsTime,
 		['data.survivalTime'] = data.survivalTime,
 		['data.bossTime'] = data.bossTime,
 		['data.bonusTime'] = data.bonusTime,
 		['data.timeattackTime'] = data.timeattackTime,
-		['data.suddendeathTime'] = data.suddendeathTime,
-		['data.cpumatchTime'] = data.cpumatchTime,
-		['data.eventsTime'] = data.eventsTime,
-		['data.missionsTime'] = data.missionsTime,
+		['data.scoreattackTime'] = data.scoreattackTime,
 		['data.endlessTime'] = data.endlessTime,
-		['data.legionTime'] = data.legionTime,
+		['data.suddendeathTime'] = data.suddendeathTime,
+		['data.missionsTime'] = data.missionsTime,
+		['data.eventsTime'] = data.eventsTime,
 		['data.towerTime'] = data.towerTime,
-		['data.storyTime'] = data.storyTime,
 		['data.tourneyTime'] = data.tourneyTime,
 		['data.adventureTime'] = data.adventureTime,
+		['data.cpumatchTime'] = data.cpumatchTime,
 	--Event Mode Data
 		['data.eventsProgress'] = data.eventsProgress,
 		['data.event1Status'] = data.event1Status,

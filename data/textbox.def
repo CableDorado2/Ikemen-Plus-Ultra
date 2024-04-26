@@ -2,34 +2,49 @@
 
 character = 
 text:
-One day, while Kung Fu Man was shopping. He crosses paths with a
-girl who reminded him of Kung Fu Girl.
+One day, while Kung Fu Man was shopping...
 
 character = 
 text:
-She surprisingly recognizes him immediately
+Kung Fu Man crosses paths with a girl
+that reminded him of Kung Fu Girl...
+
+character = 
+text:
+She surprisingly recognizes him immediately.
 
 character = ???
 text:
-I can't believe it! It is you, The Legendary Warrior.
-Kung Fu Man Sama!
+No way, I can't believe it, it's you!!
+_
+The Legendary Warrior, Kung Fu Man Sama!
 
 character = Kung Fu Man
 text:
-Kung Fu Man is ok!, and who are you?
+Kung Fu Man is ok..
 
 character = ???
 text:
-ohh, I was so excited, I always wanted to learn more about Kung Fu
-in your Mountainside Temple.
+Ohh, I was so excited!!
+I always wanted to learn more about Kung Fu in
+your Mountainside Temple.
 
 character = ???
 text:
-Although my financial situation did not allow it. I'm your fan!.
+Although my financial situation didn't allow it-
 
 character = Kung Fu Man
 text:
-Oh I see, well the temple is closed for the moments.
+Who are you?
+
+character = ???
+text:
+I'm your fan!
+
+character = Kung Fu Man
+text:
+Oh, I see..
+Well, the temple is closed for the moments.
 
 character = ???
 text:
@@ -38,26 +53,29 @@ are you real?
 
 character = Kung Fu Man
 text:
-Aren't you lost or something? It's just that..
-if I come with someone like you I don't think...
+Aren't you lost or something? It's just that...
+If someone see me with you.. I thin-
 
 character = ???
 text:
-Are you implying that I am too young?? well, sorry
-bother you, but I'll leave only if you win me a fight!
+Are you implying that I'm too young??
+Well, sorry bother you but
+I'll leave in peace only if you fight with me!
 
 character = ???
 text:
-What's wrong with you? I saw you on TV, you don't fight like that.
+What's wrong with you? I saw you on TV
+You don't fight like that.
 Maybe did you hold back?
 
 character = Kung Fu Man
 text:
-Nah, I just don't feel very well, I'm looking for someone...
+Nah, I just don't feel very well.
+I'm looking for someone...
 
 character = ???
 text:
-Ohh, a while ago I fought with a girl similar to you.
+Ohh.. recently I fought with a girl similar to you.
 She was also amazing, I want to be like her!
 
 character = Kung Fu Man
@@ -66,16 +84,18 @@ text:
 
 character = Kung Fu Man
 text:
-By chance, that girl you saw has hair red in color, tied as with a gift bow
-and 158cm long approximately height?
+By chance, that girl you saw:
+has hair red, tied as with a gift bow and..
+is approximately 158 cm tall?
 
 character = ???
 text:
-What does he have like blue lines on his suit?
+She have like blue lines on his suit?
 
 character = Kung Fu Man
 text:
-YES, wait I think I have a photo...
+YES! wait.
+I think I have a photo...
 
 character = 
 text:
@@ -83,15 +103,16 @@ text:
 
 character = ???
 text:
-Yes, she is! Are you a couple?
+Yeah she was! Are you a couple?
 
 character = Kung Fu Man
 text:
-What is your name?
+What's your name?
 
 character = ???
 text:
-I'm Mako Mayama. Is a pleasure!
+I'm Mako Mayama. Aspiring Kung Fu Martial Artist.
+Is a pleasure!
 
 character = Kung Fu Man
 text:
@@ -100,19 +121,38 @@ where did you see that girl, please?
 
 character = Mako Mayama
 text:
-Sure... follow me.
-
-character = 
-text:
-Kung Fu Man and Mayama Chan arrive in a lonely valley..
+Someday I will ever be able to train with you?
 
 character = Kung Fu Man
 text:
-Hmm, there's no one here...
+Sure, first I need to fix my life then
+I will offer you free lessons by helping me today.
+
+character = Mako Mayama
+text:
+Ok sounds reasonable.
+Let's look for your girlfriend!
+
+character = Kung Fu Man
+text:
+Hey, at no time did I say it was my...
+
+character = 
+text:
+Kung Fu Man and Mayama arrive in a lonely valley..
+
+character = Kung Fu Man
+text:
+Hmm, there's nobody here...
 
 character = Mako Mayama
 text:
 Over there!
+
+character = 
+text:
+Mayama points to a bench that is near a hill.
+There is a girl sitting looking up at the sky...
 
 character = Kung Fu Man
 text:
@@ -133,29 +173,35 @@ That... It's not something that concerns you..
 character = Kung Fu Man
 text:
 you believe that?
-Tell me, let's go to the temple to talk with calm
+Tell me, let's go to the temple to talk with calm.
 
 character = Mako Mayama
 text:
-Helloo
+Helloo..
 
 character = Kung Fu Girl
 text:
-What about that girl!? Maybe you couldn't stand the loneliness
-and you look for a Loli?
+What about that young girl!?
+Maybe you couldn't stand the loneliness
+and you look for a Loli!? I will cal-
 
 character = Kung Fu Man
 text:
-What!? Noo, I found she a while ago in...
+What!? wait Noo, I found she recently in-
 
 character = 
 text:
-At that moment, they are attacked by the Suave Dude's Minions
+At that moment..
+_
+They are attacked by Suave Dude's Minions
+
+character = 
+text:
 They it had been silent for a couple of weeks.
 
 character = 
 text:
-While Kung Fu Man, Mayama Chan and Kung Fu Girl
+While Kung Fu Man, Mayama and Kung Fu Girl
 were fighting with the Minions..
 
 character = 
@@ -164,13 +210,17 @@ Suave Dude appears..
 
 character = 
 text:
-Kung Fu Girl is petrified. Kung Fu Man notices and goes to protect her.
+Kung Fu Girl is petrified.
+Kung Fu Man notices and goes to protect her.
+
+character = 
+text:
 However, at that time...
 
 character = Suave Dude
 text:
 Ohhh my beloved, where have you been all this time!
-I was looking for you!
+I was looking for youu!
 
 character = Kung Fu Man
 text:
@@ -178,7 +228,8 @@ Since when do you know each other?
 
 character = Suave Dude
 text:
-Ahh, I know her very well
+Ahh, I know her very well..
+Each centimeter of her body.
 
 character = 
 text:
@@ -187,42 +238,57 @@ Kung Fu Girl no have words, staggers and faints..
 character = 
 text:
 Before Suave Dude can touch Kung Fu Girl.
-Kung Fu Man pushes him away with a fast "Kung Fu Palm".
+Kung Fu Man pushes him away with a fast
+"Kung Fu Palm".
 
 character = Kung Fu Man
 text:
 Kung Fu Girl! What happens?? you are pale!
-What did you do to him?
+What did you do to him before?
 
 character = Suave Dude
 text:
-Hmm. She won't listen to you, since she watched my
-beauty has been perplexed HAHAHA.
+Hmm. She won't listen to you.
 
 character = Suave Dude
 text:
-I'm sure she reminds me
+Since she watched my beauty
+she has been perplexed HAHAHA.
+
+character = Suave Dude
+text:
+Now I'm sure, she reminds me!
 
 character = 
 text:
 Kung Fu Man runs towards Suave Dude and tries to use
-his new Kung Fu Crush technique, but it is still incomplete
-and he is knocked out by a surprise Triple Kick from Suave Dude..
+his new: "Kung Fu Crush" technique.
+
+character = 
+text:
+But it's still incomplete and he's knocked out by
+a surprise "Triple Kick" from Suave Dude..
 
 character = Suave Dude
 text:
-Ahh yeah, since you messed with my most valuable piece.
-I will take your house. Let's see if you can get up after this beating.
+Ahh yeah
+
+character = Suave Dude
+text:
+Now that you messed with my most valuable piece.
+I will take your temple.
+Let's see if you can get up after this beating!!
 
 character = 
 text:
-Before Kung Fu Man can get up, the last thing he observes is Suave Dude
-kidnaping Kung Fu Girl towards the Mountainside Temple.
+Before Kung Fu Man can get up. The last thing he observes is
+Suave Dude kidnaping Kung Fu Girl towards Mountainside Temple...
 
 character = 
 text:
-While a large group of Minions begin to pile up and trample Kung Fu Man,
-until he is left over totally unconscious...
+While a large group of Minions begin to pile up
+and trample Kung Fu Man, until he's completely
+unconscious...
 
 character = 
 text:
@@ -230,11 +296,17 @@ text:
 
 character = 
 text:
-...
+. . .
 
 character = 
 text:
-Eventually Kung Fu Man regains consciousness and remembers the last happened..
+.     .     .
+
+character = 
+text:
+Eventually.
+Kung Fu Man regains consciousness
+and remembers the last happened..
 
 character = Kung Fu Man
 text:
@@ -243,7 +315,9 @@ I neglected the temple too. I'm really out of form..
 
 character = Kung Fu Man
 text:
-I MEAN, HOW is it possible that a guy like him "Suave" could defeat me!?
+I MEAN.
+HOW is possible that a guy like him: "Suave"
+could even defeat me!?
 
 character = 
 text:
@@ -255,17 +329,20 @@ HEYYY are you forget me!?
 
 character = Kung Fu Man
 text:
-Mayama Chan! This is something I have to figure out for myself.
-Really thank you for helping me find Kung Fu Girl.
+Mayama Chan!
+Really, thank you for helping me find Kung Fu Girl.
+But this is something I have to solve myself.
 
 character = Kung Fu Man
 text:
-But.. I can't allow you to come with me.
+Soo.. I can't allow you to come with me.
 
 character = Mako Mayama
 text:
-I could be of great help, haven't you asked?
-Who took all your henchmen off your back?
+I could be of great help
+haven't you asked?
+_
+Who took all Minions off your back?
 
 character = Kung Fu Man
 text:
@@ -274,28 +351,53 @@ I mean, I don't see them anywhere..
 
 character = Mako Mayama
 text:
-It does not matter anymore. If what people say is true, then
-Suave Dude is the genius who is capable of acquiring powers from
-other fighters with a "device" that he himself developed.
-
-character = Kung Fu Man
-text:
-Hmm, that's how he knew how to repel my attacks.
-SO, He's probably going to want to extract Kung Fu Girl's power.
-
-character = Kung Fu Man
-text:
-But there is something else, they know each other, for some reason
-Kung Fu Girl awakened a trauma from her past..
+It.. doesn't matter..
+If what people say is true then..
 
 character = Mako Mayama
 text:
-Well I must return to my home, good luck finding to your girlfriend.
+Suave Dude is the genius who is capable of
+acquiring powers from other fighters
+with a "device" that he himself developed.
+
+character = Kung Fu Man
+text:
+Hmm, that's how he knew how to counter my attack..
+SO, he's probably going to want extract
+Kung Fu Girl's power?
+
+character = Kung Fu Man
+text:
+But there is something else.. they know each other.
+For some reason Kung Fu Girl awakened a "trauma"
+from her past..
+
+character = Kung Fu Man
+text:
+I need to find out what happened between they long
+before I met her.
+
+character = Mako Mayama
+text:
+Well, I must return to my home.
+ 
+Good luck rescuing your girlfriend!
 
 character = Kung Fu Man
 text:
 Yeah, thanks! Another day that I carry a pen.
 I will give you my autograph.
+
+character = Mako Mayama
+text:
+Don't forget the free classes you promised me!
+Otherwise I will kidnap your girlfriend
+and invade your temple!!
+
+character = Kung Fu Man
+text:
+Haha, ok ok. I will not forget that.
+I promise.
 
 character = 
 text:
@@ -304,7 +406,9 @@ Kung Fu Man says goodbye to Mako Mayama and now..
 character = 
 text:
 Determined to rescue his Girlfriend..
-Kung Fu Man heads to the Mountainside Temple's Hidden Path...
+Kung Fu Man heads to
+_
+Mountainside Temple's Hidden Path...
 
 ;---------------------------------------------------------------------------------
 [Chapter2]
@@ -312,16 +416,19 @@ Kung Fu Man heads to the Mountainside Temple's Hidden Path...
 character = Kung Fu Man
 text:
 That Suave Dude... how is he so confident??
-Maybe forced my girlfriend to give him all the plans to cover
-all routes and avoid a surprise attack..
+Maybe forced my girlfriend to give him all
+Mountainside Temple's Map, to cover all routes
+and avoid a surprise attack..
 
 character = Kung Fu Man
 text:
-Anyway, I am improving my techniques thanks to getting back into real action.
+Anyway, I'm improving my techniques
+thanks to getting back into real action.
 
 character = 
 text:
-At that moment a person identical to Kung Fu Man appears in forehead.
+At that moment a person identical to Kung Fu Man
+appears in forehead.
 
 character = Kung Fu Man
 text:
@@ -334,7 +441,8 @@ HAHAHA, you are too weak to face me, DIE!
 character = 
 text:
 When threatened, the enemy pulls out a gun, shoots
-and Kung Fu Man steps back and hides to think a strategy.
+and Kung Fu Man steps back and hides to think
+a strategy.
 
 character = 
 text:
@@ -346,15 +454,19 @@ Until...
 character = 
 text:
 After awaken new skills and defeat his robotic copy.
-Kung Fu Man goes in search of Suave Dude on the Roof of the Mountainside Temple..
+Kung Fu Man goes in search of Suave Dude
+on the Roof of the Mountainside Temple..
 
 character = Master Kung Fu Man
 text:
-I better hurry, who knows why what kind of torture Kung Fu Girl will be going through..
+I better hurry!
+Who knows why what kind of torture
+Kung Fu Girl will be going through..
 
 character = 
 text:
-Kung Fu Man reaches the roof, where he finds Suave Dude.
+Kung Fu Man reaches the roof
+where he finds Suave Dude.
 
 character = Master Kung Fu Man
 text:
@@ -362,7 +474,8 @@ Leave my temple and Release Kung Fu Girl!
 
 character = Suave Dude
 text:
-Alright, let me activate self-destruction for make this dramatic.
+Alright, let me activate self-destruction
+to make this more dramatic.
 
 character = Suave Dude
 text:
@@ -424,7 +537,7 @@ Ah yes, I hadn't told you but...
 character = Suave Dude
 text:
 This imitation that you see is going to take your place.
-We will use what is left of your body to complete it.
+We will use what's left of your body to complete it.
 Isn't that a great job Bioengineering!?
 
 character = Kung Fu Man
@@ -508,7 +621,7 @@ Tell me where you have Kung Fu Girl!
 
 character = Suave Dude
 text:
-She does not exist, she is an "Illusion" created by me, for
+She doesn't exist, she's an "Illusion" created by me, for
 put together an example of our story that will never be finished.
 
 character = Master Kung Fu Man
@@ -532,7 +645,7 @@ Speaks!
 character = Suave Dude
 text:
 It's easy... the world where we live is like a micro-matrix..
-here it is possible to create any fighter who can copy techniques from others.
+here it's possible to create any fighter who can copy techniques from others.
 
 character = Master Kung Fu Man
 text:
@@ -564,7 +677,7 @@ text:
 character = Suave Dude
 text:
 Fascinating, this is a test of your true potential.
-However it is useless!
+However it's useless!
 
 character = Kung Fu Man
 text:
@@ -572,8 +685,8 @@ Do you think this is a game?
 
 character = Suave Dude
 text:
-In fact it is, that's why our story was never completed.
-All this is a simulation, an example of what is possible to tell and create.
+In fact it's, that's why our story was never completed.
+All this is a simulation, an example of what's possible to tell and create.
 
 character = Suave Dude
 text:

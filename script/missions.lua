@@ -126,6 +126,7 @@ function f_missionMenu()
 			sndPlay(sysSnd, 100, 1)
 		--MISSION 1
 			if missionMenu == 1 then
+				playVideo("movie/The Lost Chapter.wmv")
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}

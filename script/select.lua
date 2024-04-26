@@ -2942,33 +2942,6 @@ function f_selectTourney()
 end
 
 --;=================================================================================================
---; LEGION MODE (WIP)
---;=================================================================================================
-function f_selectLegion()
---TODO
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-	playBGM(bgmLegion)
-	cmdInput()
-	while true do
-		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			f_comingSoon()
-			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-			f_resetMenuInputs()
-			break
-		end
-		animDraw(f_animVelocity(selectBG0, -1, -1))
-		animDraw(f_animVelocity(selectBG2a, -1, 0))
-		animDraw(f_animVelocity(selectBG2b, -3, 0))
-		animDraw(f_animVelocity(selectBG2c, -6, 0))
-		textImgDraw(txt_mainSelect)
-	    animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
---;=================================================================================================
 --; ADVENTURE MODE (WIP)
 --;=================================================================================================
 adventureMap = animNew(sysSff, [[
@@ -10682,12 +10655,12 @@ function f_modeplayTime()
 	elseif data.rosterMode == "boss" then data.bossTime = data.bossTime + clearTime
 	elseif data.rosterMode == "bonus" then data.bonusTime = data.bonusTime + clearTime
 	elseif data.rosterMode == "timeattack" then data.timeattackTime = data.timeattackTime + clearTime
-	elseif data.rosterMode == "suddendeath" then data.suddendeathTime = data.suddendeathTime + clearTime
+	elseif data.rosterMode == "scoreattack" then data.scoreattackTime = data.scoreattackTime + clearTime
 	elseif data.rosterMode == "endless" then data.endlessTime = data.endlessTime + clearTime
-	elseif data.rosterMode == "event" then data.eventsTime = data.eventsTime + clearTime
+	elseif data.rosterMode == "suddendeath" then data.suddendeathTime = data.suddendeathTime + clearTime
 	elseif data.rosterMode == "mission" then data.missionsTime = data.missionsTime + clearTime
+	elseif data.rosterMode == "event" then data.eventsTime = data.eventsTime + clearTime
 	elseif data.rosterMode == "tower" then data.towerTime = data.towerTime + clearTime
-	elseif data.rosterMode == "legion" then data.legionTime = data.legionTime + clearTime
 	elseif data.rosterMode == "tourney" then data.tourneyTime = data.tourneyTime + clearTime
 	elseif data.rosterMode == "adventure" then data.adventureTime = data.adventureTime + clearTime
 	end

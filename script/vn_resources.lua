@@ -73,8 +73,8 @@ end
 --;===========================================================
 --; LOAD VISUAL NOVEL ASSETS
 --;===========================================================
-txt_nameCfg = createTextImg(font1, 0, 1, "", 2, 175) --Name Text Config
-txt_boxCfg = createTextImg(font1, 0, 1, "", 0, 0) --Narrative Text Box Config
+txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
+txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config --font5, 
 --txt_vnName = "" --Name Text
 --txt_vn = "" --Narrative Text Box
 
@@ -85,6 +85,14 @@ vnBG0 = animNew(vnSff, [[
 animAddPos(vnBG0, -54, 0)
 animSetScale(vnBG0, 0.34, 0.34)
 animUpdate(vnBG0)
+
+--Background 3
+vnBG2 = animNew(vnSff, [[
+0,2, 0,0, -1
+]])
+animAddPos(vnBG2, -54, 0)
+animSetScale(vnBG2, 0.34, 0.34)
+animUpdate(vnBG2)
 
 --Text background
 vnTxtBG = animNew(vnSff, [[
@@ -117,11 +125,19 @@ animAddPos(vnKfm1, 0, 0)
 animSetScale(vnKfm1, 0.25, 0.25)
 animUpdate(vnKfm1)
 
+--Evil Kung Fu Man
+vnEKfm1 = animNew(vnSff, [[
+1,0, 0,0, -1, H, AS0D0
+]])
+animAddPos(vnEKfm1, 320, 0)
+animSetScale(vnEKfm1, 0.25, 0.25)
+animUpdate(vnEKfm1)
+
 --Mako Mayama 1
 vnMM1 = animNew(vnSff, [[
-4,0, 0,0, -1
+4,0, 0,0, -1, H
 ]])
-animAddPos(vnMM1, 280, 0)
+animAddPos(vnMM1, 320, 0)
 animSetScale(vnMM1, 0.75, 0.75)
 animUpdate(vnMM1)
 

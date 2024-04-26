@@ -107,7 +107,7 @@ function f_getStats()
 	   (data.storyTime > data.eventsTime) and
 	   (data.storyTime > data.missionsTime) and
 	   (data.storyTime > data.endlessTime) and
-	   (data.storyTime > data.legionTime) and
+	   (data.storyTime > data.scoreattackTime) and
 	   (data.storyTime > data.towerTime) and
 	   (data.storyTime > data.tourneyTime) and
 	   (data.storyTime > data.adventureTime) then
@@ -123,7 +123,7 @@ function f_getStats()
 	   (data.arcadeTime > data.eventsTime) and
 	   (data.arcadeTime > data.missionsTime) and
 	   (data.arcadeTime > data.endlessTime) and
-	   (data.arcadeTime > data.legionTime) and
+	   (data.arcadeTime > data.scoreattackTime) and
 	   (data.arcadeTime > data.towerTime) and
 	   (data.arcadeTime > data.storyTime) and
 	   (data.arcadeTime > data.tourneyTime) and
@@ -140,7 +140,7 @@ function f_getStats()
 	   (data.vsTime > data.eventsTime) and
 	   (data.vsTime > data.missionsTime) and
 	   (data.vsTime > data.endlessTime) and
-	   (data.vsTime > data.legionTime) and
+	   (data.vsTime > data.scoreattackTime) and
 	   (data.vsTime > data.towerTime) and
 	   (data.vsTime > data.storyTime) and
 	   (data.vsTime > data.tourneyTime) and
@@ -157,7 +157,7 @@ function f_getStats()
 	   (data.cpumatchTime > data.eventsTime) and
 	   (data.cpumatchTime > data.missionsTime) and
 	   (data.cpumatchTime > data.endlessTime) and
-	   (data.cpumatchTime > data.legionTime) and
+	   (data.cpumatchTime > data.scoreattackTime) and
 	   (data.cpumatchTime > data.towerTime) and
 	   (data.cpumatchTime > data.storyTime) and
 	   (data.cpumatchTime > data.tourneyTime) and
@@ -174,7 +174,7 @@ function f_getStats()
 	   (data.survivalTime > data.eventsTime) and
 	   (data.survivalTime > data.missionsTime) and
 	   (data.survivalTime > data.endlessTime) and
-	   (data.survivalTime > data.legionTime) and
+	   (data.survivalTime > data.scoreattackTime) and
 	   (data.survivalTime > data.towerTime) and
 	   (data.survivalTime > data.storyTime) and
 	   (data.survivalTime > data.tourneyTime) and
@@ -191,7 +191,7 @@ function f_getStats()
 	   (data.bossTime > data.eventsTime) and
 	   (data.bossTime > data.missionsTime) and
 	   (data.bossTime > data.endlessTime) and
-	   (data.bossTime > data.legionTime) and
+	   (data.bossTime > data.scoreattackTime) and
 	   (data.bossTime > data.towerTime) and
 	   (data.bossTime > data.storyTime) and
 	   (data.bossTime > data.tourneyTime) and
@@ -208,7 +208,7 @@ function f_getStats()
 	   (data.bonusTime > data.eventsTime) and
 	   (data.bonusTime > data.missionsTime) and
 	   (data.bonusTime > data.endlessTime) and
-	   (data.bonusTime > data.legionTime) and
+	   (data.bonusTime > data.scoreattackTime) and
 	   (data.bonusTime > data.towerTime) and
 	   (data.bonusTime > data.storyTime) and
 	   (data.bonusTime > data.tourneyTime) and
@@ -225,63 +225,29 @@ function f_getStats()
 	   (data.timeattackTime > data.eventsTime) and
 	   (data.timeattackTime > data.missionsTime) and
 	   (data.timeattackTime > data.endlessTime) and
-	   (data.timeattackTime > data.legionTime) and
+	   (data.timeattackTime > data.scoreattackTime) and
 	   (data.timeattackTime > data.towerTime) and
 	   (data.timeattackTime > data.storyTime) and
 	   (data.timeattackTime > data.tourneyTime) and
 	   (data.timeattackTime > data.adventureTime) then
 		t_statsMenu[7].varText = "Time Attack"
 	end
-	if (data.suddendeathTime > data.arcadeTime) and
-	   (data.suddendeathTime > data.vsTime) and
-	   (data.suddendeathTime > data.survivalTime) and
-	   (data.suddendeathTime > data.bossTime) and
-	   (data.suddendeathTime > data.bonusTime) and
-	   (data.suddendeathTime > data.timeattackTime) and
-	   (data.suddendeathTime > data.cpumatchTime) and
-	   (data.suddendeathTime > data.eventsTime) and
-	   (data.suddendeathTime > data.missionsTime) and
-	   (data.suddendeathTime > data.endlessTime) and
-	   (data.suddendeathTime > data.legionTime) and
-	   (data.suddendeathTime > data.towerTime) and
-	   (data.suddendeathTime > data.storyTime) and
-	   (data.suddendeathTime > data.tourneyTime) and
-	   (data.suddendeathTime > data.adventureTime) then
-		t_statsMenu[7].varText = "Sudden Death"
-	end
-	if (data.eventsTime > data.arcadeTime) and
-	   (data.eventsTime > data.vsTime) and
-	   (data.eventsTime > data.survivalTime) and
-	   (data.eventsTime > data.bossTime) and
-	   (data.eventsTime > data.bonusTime) and
-	   (data.eventsTime > data.timeattackTime) and
-	   (data.eventsTime > data.suddendeathTime) and
-	   (data.eventsTime > data.cpumatchTime) and
-	   (data.eventsTime > data.missionsTime) and
-	   (data.eventsTime > data.endlessTime) and
-	   (data.eventsTime > data.legionTime) and
-	   (data.eventsTime > data.towerTime) and
-	   (data.eventsTime > data.storyTime) and
-	   (data.eventsTime > data.tourneyTime) and
-	   (data.eventsTime > data.adventureTime) then
-		t_statsMenu[7].varText = "Events"
-	end
-	if (data.missionsTime > data.arcadeTime) and
-	   (data.missionsTime > data.vsTime) and
-	   (data.missionsTime > data.survivalTime) and
-	   (data.missionsTime > data.bossTime) and
-	   (data.missionsTime > data.bonusTime) and
-	   (data.missionsTime > data.timeattackTime) and
-	   (data.missionsTime > data.suddendeathTime) and
-	   (data.missionsTime > data.cpumatchTime) and
-	   (data.missionsTime > data.eventsTime) and
-	   (data.missionsTime > data.endlessTime) and
-	   (data.missionsTime > data.legionTime) and
-	   (data.missionsTime > data.towerTime) and
-	   (data.missionsTime > data.storyTime) and
-	   (data.missionsTime > data.tourneyTime) and
-	   (data.missionsTime > data.adventureTime) then
-		t_statsMenu[7].varText = "Missions"
+	if (data.scoreattackTime > data.arcadeTime) and
+	   (data.scoreattackTime > data.vsTime) and
+	   (data.scoreattackTime > data.survivalTime) and
+	   (data.scoreattackTime > data.bossTime) and
+	   (data.scoreattackTime > data.bonusTime) and
+	   (data.scoreattackTime > data.timeattackTime) and
+	   (data.scoreattackTime > data.suddendeathTime) and
+	   (data.scoreattackTime > data.cpumatchTime) and
+	   (data.scoreattackTime > data.eventsTime) and
+	   (data.scoreattackTime > data.missionsTime) and
+	   (data.scoreattackTime > data.endlessTime) and
+	   (data.scoreattackTime > data.towerTime) and
+	   (data.scoreattackTime > data.storyTime) and
+	   (data.scoreattackTime > data.tourneyTime) and
+	   (data.scoreattackTime > data.adventureTime) then
+		t_statsMenu[7].varText = "Score Attack"
 	end
 	if (data.endlessTime > data.arcadeTime) and
 	   (data.endlessTime > data.vsTime) and
@@ -293,12 +259,63 @@ function f_getStats()
 	   (data.endlessTime > data.cpumatchTime) and
 	   (data.endlessTime > data.eventsTime) and
 	   (data.endlessTime > data.missionsTime) and
-	   (data.endlessTime > data.legionTime) and
+	   (data.endlessTime > data.scoreattackTime) and
 	   (data.endlessTime > data.towerTime) and
 	   (data.endlessTime > data.storyTime) and
 	   (data.endlessTime > data.tourneyTime) and
 	   (data.endlessTime > data.adventureTime) then
 		t_statsMenu[7].varText = "Endless"
+	end
+	if (data.suddendeathTime > data.arcadeTime) and
+	   (data.suddendeathTime > data.vsTime) and
+	   (data.suddendeathTime > data.survivalTime) and
+	   (data.suddendeathTime > data.bossTime) and
+	   (data.suddendeathTime > data.bonusTime) and
+	   (data.suddendeathTime > data.timeattackTime) and
+	   (data.suddendeathTime > data.cpumatchTime) and
+	   (data.suddendeathTime > data.eventsTime) and
+	   (data.suddendeathTime > data.missionsTime) and
+	   (data.suddendeathTime > data.endlessTime) and
+	   (data.suddendeathTime > data.scoreattackTime) and
+	   (data.suddendeathTime > data.towerTime) and
+	   (data.suddendeathTime > data.storyTime) and
+	   (data.suddendeathTime > data.tourneyTime) and
+	   (data.suddendeathTime > data.adventureTime) then
+		t_statsMenu[7].varText = "Sudden Death"
+	end
+	if (data.missionsTime > data.arcadeTime) and
+	   (data.missionsTime > data.vsTime) and
+	   (data.missionsTime > data.survivalTime) and
+	   (data.missionsTime > data.bossTime) and
+	   (data.missionsTime > data.bonusTime) and
+	   (data.missionsTime > data.timeattackTime) and
+	   (data.missionsTime > data.suddendeathTime) and
+	   (data.missionsTime > data.cpumatchTime) and
+	   (data.missionsTime > data.eventsTime) and
+	   (data.missionsTime > data.endlessTime) and
+	   (data.missionsTime > data.scoreattackTime) and
+	   (data.missionsTime > data.towerTime) and
+	   (data.missionsTime > data.storyTime) and
+	   (data.missionsTime > data.tourneyTime) and
+	   (data.missionsTime > data.adventureTime) then
+		t_statsMenu[7].varText = "Missions"
+	end
+	if (data.eventsTime > data.arcadeTime) and
+	   (data.eventsTime > data.vsTime) and
+	   (data.eventsTime > data.survivalTime) and
+	   (data.eventsTime > data.bossTime) and
+	   (data.eventsTime > data.bonusTime) and
+	   (data.eventsTime > data.timeattackTime) and
+	   (data.eventsTime > data.suddendeathTime) and
+	   (data.eventsTime > data.cpumatchTime) and
+	   (data.eventsTime > data.missionsTime) and
+	   (data.eventsTime > data.endlessTime) and
+	   (data.eventsTime > data.scoreattackTime) and
+	   (data.eventsTime > data.towerTime) and
+	   (data.eventsTime > data.storyTime) and
+	   (data.eventsTime > data.tourneyTime) and
+	   (data.eventsTime > data.adventureTime) then
+		t_statsMenu[7].varText = "Events"
 	end
 	if (data.towerTime > data.arcadeTime) and
 	   (data.towerTime > data.vsTime) and
@@ -311,28 +328,11 @@ function f_getStats()
 	   (data.towerTime > data.eventsTime) and
 	   (data.towerTime > data.missionsTime) and
 	   (data.towerTime > data.endlessTime) and
-	   (data.towerTime > data.legionTime) and
+	   (data.towerTime > data.scoreattackTime) and
 	   (data.towerTime > data.storyTime) and
 	   (data.towerTime > data.tourneyTime) and
 	   (data.towerTime > data.adventureTime) then
 		t_statsMenu[7].varText = "Tower"
-	end
-	if (data.legionTime > data.arcadeTime) and
-	   (data.legionTime > data.vsTime) and
-	   (data.legionTime > data.survivalTime) and
-	   (data.legionTime > data.bossTime) and
-	   (data.legionTime > data.bonusTime) and
-	   (data.legionTime > data.timeattackTime) and
-	   (data.legionTime > data.suddendeathTime) and
-	   (data.legionTime > data.cpumatchTime) and
-	   (data.legionTime > data.eventsTime) and
-	   (data.legionTime > data.missionsTime) and
-	   (data.legionTime > data.endlessTime) and
-	   (data.legionTime > data.towerTime) and
-	   (data.legionTime > data.storyTime) and
-	   (data.legionTime > data.tourneyTime) and
-	   (data.legionTime > data.adventureTime) then
-		t_statsMenu[7].varText = "Legion"
 	end
 	if (data.tourneyTime > data.arcadeTime) and
 	   (data.tourneyTime > data.vsTime) and
@@ -345,7 +345,7 @@ function f_getStats()
 	   (data.tourneyTime > data.eventsTime) and
 	   (data.tourneyTime > data.missionsTime) and
 	   (data.tourneyTime > data.endlessTime) and
-	   (data.tourneyTime > data.legionTime) and
+	   (data.tourneyTime > data.scoreattackTime) and
 	   (data.tourneyTime > data.towerTime) and
 	   (data.tourneyTime > data.storyTime) and
 	   (data.tourneyTime > data.adventureTime) then
@@ -362,7 +362,7 @@ function f_getStats()
 	   (data.adventureTime > data.eventsTime) and
 	   (data.adventureTime > data.missionsTime) and
 	   (data.adventureTime > data.endlessTime) and
-	   (data.adventureTime > data.legionTime) and
+	   (data.adventureTime > data.scoreattackTime) and
 	   (data.adventureTime > data.towerTime) and
 	   (data.adventureTime > data.storyTime) and
 	   (data.adventureTime > data.tourneyTime) then

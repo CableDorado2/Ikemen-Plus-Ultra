@@ -8298,22 +8298,22 @@ function f_defaultStats()
 	data.suddenrecord = 0
 	data.endlessrecord = 0
 --Time Played Data
+	data.storyTime = 0
 	data.arcadeTime = 0
 	data.vsTime = 0
 	data.survivalTime = 0
 	data.bossTime = 0
 	data.bonusTime = 0
 	data.timeattackTime = 0
-	data.suddendeathTime = 0
-	data.cpumatchTime = 0
-	data.eventsTime = 0
-	data.missionsTime = 0
+	data.scoreattackTime = 0
 	data.endlessTime = 0
-	data.legionTime = 0
+	data.suddendeathTime = 0
+	data.missionsTime = 0
+	data.eventsTime = 0
 	data.towerTime = 0
-	data.storyTime = 0
 	data.tourneyTime = 0
 	data.adventureTime = 0
+	data.cpumatchTime = 0
 --Event Mode Data
 	data.eventsProgress = 0
 	data.event1Status = 0

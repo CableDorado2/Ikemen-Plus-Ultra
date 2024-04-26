@@ -714,6 +714,7 @@ end
 --; VISUAL NOVEL ASSETS DRAW LOGIC
 --;===========================================================
 function f_drawVN()
+	--Draw Chapter 1 Visuals
 	if vnChapter == 1 then
 		if VNtxt > 0 and VNtxt < 24 then
 			animDraw(vnBG0)
@@ -724,5 +725,10 @@ function f_drawVN()
 				animDraw(vnMM1)
 			end
 		end
+	--Draw Chapter 2 Visuals
+	elseif vnChapter == 2 then
+		animDraw(vnBG2)
+		if VNtxt < 6 then animDraw(vnKfm1) end
+		if VNtxt >= 4 then animDraw(vnEKfm1) end
 	end
 end

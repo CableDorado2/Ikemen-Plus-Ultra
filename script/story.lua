@@ -750,13 +750,13 @@ function f_arc1_chapter3_1()
 	script.visualnovel.f_vnScene(3)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1TeamMenu = {mode = 1, chars = 2}
-	data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"], t_charAdd["kung fu girl"]}
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 1, chars = 4}
-	data.p2Char = {t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude"]}
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_charAdd["suave dude"]}
 	data.p2Pal = 1
-	setRoundTime(-1)
+	setRoundTime(60)
 	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false
