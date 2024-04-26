@@ -492,7 +492,9 @@ if getPlayerSide() == "p1right" then --Pause Controls if P1 is in Right Side
 	data.p1In = 2
 	data.p2In = 1
 else --Pause Controls if P1 is in Left Side
-	setCom(2, 0) --Enable player 2 pause when cpu have control (this disable AI when you press SHITF+F4)
+	if getGameMode() == "arcade" then
+		setCom(2, 0) --Enable player 2 pause when cpu have control (this disable AI when you press SHITF+F4)
+	end
 	data.p2In = 2
 end
 

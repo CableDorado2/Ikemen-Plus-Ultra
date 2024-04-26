@@ -3,7 +3,7 @@
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;====================<DEFINITION>====================
 [Info]
-name        = "Strength Training"
+name        = "AOF2 Strength Training"
 displayname = "Strength Training"
 versiondate = 2022
 mugenversion= 1.0

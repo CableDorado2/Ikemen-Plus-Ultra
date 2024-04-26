@@ -1,6 +1,6 @@
                                __________________________________
 ==============================| Catwalk by Phantom.of.the.Server |=============================
-                               ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯          [01.05.2022]
+                               ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯          [15.02.2024]
 
  - Contact: potsmugen@gmail.com
  - Website: https://network.mugenguild.com/pots/
@@ -13,7 +13,7 @@
 
 
 
-=====<Installation>=====
+==========< INSTALLATION >==========
 
  - Extract Catwalk.rar to your Mugen\chars folder
  - Add "Catwalk," to your select.def, under [Characters]
@@ -23,7 +23,7 @@
 
 
 
-=====<Introduction>=====
+==========< INTRODUCTION >==========
 
   This bonus game was inspired from a mini-game with the same name found in SNK vs Capcom:
 Match of the Millenium, for the Neo Geo Pocket Color, where you could take control of Felicia
@@ -50,7 +50,7 @@ for me to say is, have fun and go for the high score!
 
 
 
-=====<Compatibility>=====
+==========< COMPATIBILITY >==========
 
   Any character that is vulnerable to being thrown can be used in this game.  That means any
 except the giant boss type, some unconventional novelty chars or just plain broken stuff.
@@ -85,7 +85,10 @@ you make X character compatible?" questions.
 
 
 
-=====<Version History>=====
+==========< VERSION HISTORY >==========
+
+<15.02.2024>
+ - Added animations for Ikemen GO select screens
 
 <01.05.2022>
  - Very minor changes. Mostly seeing if things still work
@@ -113,19 +116,20 @@ it easier to keep up with the extra speed
 
 
 
-=====<What's Missing>=====
+==========< WHAT'S MISSING >==========
 
+ - Bug fixing
  - Sound compatibility with more characters
 
 
 
-=====<Special Thanks>=====
+==========< SPECIAL THANKS >==========
 
  - All the good folks in the community, for support and motivation
  - You, for downloading my char ;)
 
 
 
-=====<Disclaimer>=====
+==========< DISCLAIMER >==========
 
  - No part of this work may be used for personal profit, be it commissions, paywalls and the likes of it

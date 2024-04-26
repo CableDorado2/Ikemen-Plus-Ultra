@@ -219,7 +219,7 @@ st2_1 = animNew(storySff, [[2,10, 0,0,]])
 st2_2 = animNew(storySff, [[2,20, 0,0,]])
 
 t_arc2 = {
-	{ID = textImgNew(), Name = "COMING SOON?", 		   	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
+	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE",  Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 2
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
@@ -234,7 +234,7 @@ st3_0 = animNew(storySff, [[3,0, 0,0,]])
 st3_1 = animNew(storySff, [[3,10, 0,0,]])
 
 t_arc3 = {
-	{ID = textImgNew(), Name = "COMING SOON?", 		   	   Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
+	{ID = textImgNew(), Name = "YOUR STORY CHAPTER HERE",  Preview = chaptUnknown, Status = checkNA, Info = "COMPLETE KUNG FU MAN'S PROLOGUE TO UNLOCK THIS STORY!"}, --Add Chapter Slot for Arc 3
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
 
@@ -369,10 +369,10 @@ function f_storyMenu()
 			if data.story1_2Unlock == true then t_arc1[3].Name = "KILLER MIRROR" end
 			if data.story1_3AUnlock == true then t_arc1[4].Name = "THE ROOF OF TRUTH" end
 			if data.story1_3BUnlock == true then t_arc1[5].Name = "BROKEN SPIRIT" end
-			if data.story1_4AUnlock == true then t_arc1[6].Name = "FOR THE OLD TIMES" end
+			if data.story1_4AUnlock == true then t_arc1[6].Name = "FINAL DESTINATION" end
 			if data.story1_4BUnlock == true then t_arc1[7].Name = "LIFE LESSON" end
 			if data.story1_4CUnlock == true then t_arc1[8].Name = "ZERO HOUR" end
-			if data.story1_4DUnlock == true then t_arc1[9].Name = "THE FALL OF A MASTER" end
+			if data.story1_4DUnlock == true then t_arc1[9].Name = "THE FALL OF A LEGEND" end
 	--Arc 2 Menu Settings
 		elseif storyMenu == 2 then
 			t_arcSelect = t_arc2
@@ -512,19 +512,19 @@ function f_storyMenu()
 			if data.story1_1Status == 1 then t_arc1[2].Status = checkIco end
 			if data.story1_1Unlock == true then --If this chapters is unlocked
 				t_arc1[2].Preview = st1_1 --Load Chapter Preview
-				t_arc1[2].Info = "KUNG FU MAN ENJOYS A DAY WITH HIS GIRLFRIEND. HOWEVER, SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..." --Set Chapter Description
+				t_arc1[2].Info = "WHILE KUNG FU MAN WAS LOOKING FOR HIS GIRLFRIEND. SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..." --Set Chapter Description
 			end
 		elseif storyMenu == 1 and chapterMenu == 3 then
 			if data.story1_2Status == 1 and data.story1_3AUnlock == true and data.story1_3BUnlock == true then t_arc1[3].Status = checkIco end
 			if data.story1_2Unlock == true then
 				t_arc1[3].Preview = st1_2
-				t_arc1[3].Info = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE VERY SIMILAR TO HIM WAS WAITING FOR HIM..."
+				t_arc1[3].Info = "AFTER FIGHTING HIS WAY THROUGH THE FOREST AGAINST WAVES OF SUAVE'S MINIONS, KUNG FU MAN MANAGES TO REACH MOUNTAINSIDE TEMPLE. BUT SOMEONE WAS WAITING FOR HIM..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 4 then
 			if data.story1_3AStatus == 1 and data.story1_4AUnlock == true and data.story1_4CUnlock == true then t_arc1[4].Status = checkIco end
 			if data.story1_3AUnlock == true then
 				t_arc1[4].Preview = st1_3A
-				t_arc1[4].Info = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO TAKE OUT SUAVE DUDE BUT HE WILL NOT BE ALONE..."
+				t_arc1[4].Info = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO DEFEAT SUAVE DUDE..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 5 then
 			if data.story1_3BStatus == 1 and data.story1_4BUnlock == true and data.story1_4DUnlock == true then t_arc1[5].Status = checkIco end
@@ -536,19 +536,19 @@ function f_storyMenu()
 			if data.story1_4AStatus == 1 then t_arc1[6].Status = checkIco end
 			if data.story1_4AUnlock == true then
 				t_arc1[6].Preview = st1_4A
-				t_arc1[6].Info = "KUNG FU MAN RESCUE HIS GIRLFRIEND BUT ALSO RETURNS TRAINING WITH KUNG FU GIRL!"
+				t_arc1[6].Info = "KUNG FU MAN DEFEAT SUAVE DUDE BUT HE FINDS OUT THE TRUTH ABOUT HIS GIRLFRIEND.."
 			end
 		elseif storyMenu == 1 and chapterMenu == 7 then
 			if data.story1_4BStatus == 1 then t_arc1[7].Status = checkIco end
 			if data.story1_4BUnlock == true	then
 				t_arc1[7].Preview = st1_4B
-				t_arc1[7].Info = "THERE IS NOTHING SADER THAN A MAN WHO HAS LOST HIS LOVE..."
+				t_arc1[7].Info = "THE FUN IS ENDLESS. MUGEN IS LOVE, MUGEN IS LIFE"
 			end
 		elseif storyMenu == 1 and chapterMenu == 8 then
 			if data.story1_4CStatus == 1 then t_arc1[8].Status = checkIco end
 			if data.story1_4CUnlock == true then
 				t_arc1[8].Preview = st1_4C
-				t_arc1[8].Info = "TODO DESCRIPTION..."
+				t_arc1[8].Info = "THE COUNTDOWN IS OVER, WHAT'S IN STORE FOR KUNG FU MAN?"
 			end
 		elseif storyMenu == 1 and chapterMenu == 9 then
 			if data.story1_4DStatus == 1 then t_arc1[9].Status = checkIco end
@@ -561,32 +561,32 @@ function f_storyMenu()
 			if data.story2_0Status == 1 then t_arc2[1].Status = checkIco end
 			if data.story1_1Unlock == true then
 				--t_arc2[1].Preview = st2_0
-				t_arc2[1].Info = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
+				t_arc2[1].Info = "YOUR CHAPTER DESCRIPTION HERE."
 			end
 		elseif storyMenu == 2 and chapterMenu == 2 then
 			if data.story2_1Status == 1 then t_arc2[2].Status = checkIco end
 			if data.story2_1Unlock == true then
 				--t_arc2[2].Preview = st2_1
-				t_arc2[2].Info = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
+				t_arc2[2].Info = "YOUR CHAPTER DESCRIPTION HERE."
 			end
 		elseif storyMenu == 2 and chapterMenu == 3 then
 			if data.story2_2Status == 1 then t_arc2[3].Status = checkIco end
 			if data.story2_2Unlock == true then
 				--t_arc2[3].Preview = st2_2
-				t_arc2[3].Info = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
+				t_arc2[3].Info = "YOUR CHAPTER DESCRIPTION HERE."
 			end
 	--Set Arc 3 - Chapter Info
 		elseif storyMenu == 3 and chapterMenu == 1 then
 			if data.story3_0Status == 1 then t_arc3[1].Status = checkIco end
 			if data.story1_1Unlock == true then
 				--t_arc3[1].Preview = st3_0
-				t_arc3[1].Info = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
+				t_arc3[1].Info = "YOUR CHAPTER DESCRIPTION HERE."
 			end
 		elseif storyMenu == 3 and chapterMenu == 2 then
 			if data.story3_1Status == 1 then t_arc3[2].Status = checkIco end
 			if data.story3_1Unlock == true then
 				--t_arc3[2].Preview = st3_1
-				t_arc3[2].Info = "SUPPORT KUNG FU MAN'S STORY TO MAKE THIS ONE."
+				t_arc3[2].Info = "YOUR CHAPTER DESCRIPTION HERE."
 			end
 		end
 	--Draw Chapter Preview Image
@@ -683,7 +683,7 @@ end
 
 --KIDNAPPING
 function f_arc1_chapter1()
-	script.visualnovel.f_vnScene(1) --playVideo("movie/KFM-Chapter 1.wmv")
+	script.visualnovel.f_vnScene(1)
 	f_default() --Reset settings for the custom fight
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
@@ -714,7 +714,7 @@ end
 
 --KILLER MIRROR
 function f_arc1_chapter2()
-	script.visualnovel.f_vnScene(2) --playVideo("movie/KFM-Chapter 2.wmv")
+	script.visualnovel.f_vnScene(2)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -747,7 +747,7 @@ end
 
 --THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
-	script.visualnovel.f_vnScene(3) --playVideo("movie/KFM-Chapter 3-A.wmv")
+	script.visualnovel.f_vnScene(3)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 1, chars = 2}
@@ -780,7 +780,7 @@ end
 
 --BROKEN SPIRIT
 function f_arc1_chapter3_2()
-	script.visualnovel.f_vnScene(4) --playVideo("movie/KFM-Chapter 3-B.wmv")
+	script.visualnovel.f_vnScene(4)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	remapInput(1, 2) --P1 controls p2 side
@@ -816,9 +816,9 @@ function f_arc1_chapter3_2()
 	end
 end
 
---FOR THE OLD TIMES
+--FINAL DESTINATION
 function f_arc1_chapter4_1()
-	script.visualnovel.f_vnScene(5) --playVideo("movie/KFM-Chapter 4-A.wmv")
+	script.visualnovel.f_vnScene(5)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -844,7 +844,7 @@ end
 
 --LIFE LESSON
 function f_arc1_chapter4_2()
-	script.visualnovel.f_vnScene(6) --playVideo("movie/KFM-Chapter 4-B.wmv")
+	script.visualnovel.f_vnScene(6)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -856,7 +856,7 @@ end
 
 --ZERO HOUR
 function f_arc1_chapter4_3()
-	script.visualnovel.f_vnScene(7) --playVideo("movie/KFM-Chapter 4-C.wmv")
+	script.visualnovel.f_vnScene(7)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -866,9 +866,9 @@ function f_arc1_chapter4_3()
 	f_playCredits()
 end
 
---THE FALL OF A MASTER
+--THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
-	script.visualnovel.f_vnScene(8) --playVideo("movie/KFM-Chapter 4-D.wmv")
+	script.visualnovel.f_vnScene(8)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -900,7 +900,7 @@ function f_storyRosterTest()
 end
 
 --;===========================================================
---; ARC 2 FIGHTS (WIP)
+--; ARC 2 FIGHTS (EXAMPLES)
 --;===========================================================
 --PROLOGUE
 function f_arc2_prologue()
@@ -925,11 +925,11 @@ function f_arc2_chapter2()
 	--playVideo("movie/???.wmv")
 	data.storyNo = "2-2"
 	f_storyStatus()
-	f_playCredits()
+	--f_playCredits()
 end
 
 --;===========================================================
---; ARC 3 FIGHTS (WIP)
+--; ARC 3 FIGHTS (EXAMPLES)
 --;===========================================================
 --PROLOGUE
 function f_arc3_prologue()
@@ -945,7 +945,7 @@ function f_arc3_chapter1()
 	--playVideo("movie/???.wmv")
 	data.storyNo = "3-1"
 	f_storyStatus()
-	f_playCredits()
+	--f_playCredits()
 end
 
 --;===========================================================

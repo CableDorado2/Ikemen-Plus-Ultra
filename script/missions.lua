@@ -66,7 +66,7 @@ function f_missionPreview()
 	missionPreview = ''
 	missionPreview = '0,' .. missionList-1 .. ', 0,0, 0'
 	missionPreview = animNew(missionSff, missionPreview)
-	animSetScale(missionPreview, 0.4, 0.25)
+	animSetScale(missionPreview, 0.168, 0.125)
 	animSetPos(missionPreview, 50, 21)
 	animUpdate(missionPreview)
 	animDraw(missionPreview)
@@ -77,9 +77,9 @@ end
 --; MISSIONS MENU
 --;===========================================================
 t_missionMenu = {
-	{varID = textImgNew(), name = "Warrior Clone",			   info = "Another Kung Fu Man Clone appears!", 	status = "INCOMPLETE"}, --Add Mission Slot
-	{varID = textImgNew(), name = "Target Confirmed", 		   info = "Defeat Original Kung Fu Man!", 	  		status = "INCOMPLETE"},
+	{varID = textImgNew(), name = "Target Confirmed", 		   info = "Defeat Original Kung Fu Man!", 	  		status = "INCOMPLETE"}, --Add Mission Slot
 	{varID = textImgNew(), name = "True Kung Fu Spirit",  	   info = "Use the full power of Kung Fu Man!", 	status = "INCOMPLETE"},
+	{varID = textImgNew(), name = "Unlimited Power",		   info = "Kung Fu Girl's power is out of control, defeat everyone!", 	status = "INCOMPLETE"},
 	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
 	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								 	status = ""},
 	{varID = textImgNew(), name = "PROGRAM YOUR MISSION HERE", info = "???", 								  	status = ""},
@@ -129,39 +129,41 @@ function f_missionMenu()
 				setRoundTime(-1)
 				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd["kung fu man/ex/ex kung fu man.def"]}
+				data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
+				data.p1Pal = 1
 				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
-				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
+				data.p2Char = {t_charAdd["kung fu man"]}
+				data.p2Pal = 1
+				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]} --Because there's not char or stage select, if you select give up option in pause menu, you will get an error.
+				data.versusScreen = false
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
 				script.select.f_selectSimple()
 				if script.select.winner == 1 then f_missionStatus() end --Save progress only if you win
 		--MISSION 2
 			elseif missionMenu == 2 then
 				setRoundTime(-1)
-				setRoundsToWin(1)
-				data.p1TeamMenu = {mode = 0, chars = 1}
-				data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
-				data.p1Pal = 1
-				data.p2TeamMenu = {mode = 0, chars = 1}
-				data.p2Char = {t_charAdd["kung fu man"]}
-				data.p2Pal = 1
-				data.stageMenu = true
-				data.versusScreen = false
-				textImgSetText(txt_mainSelect, "MISSION 2 [" .. t_missionMenu[data.missionNo].status .. "]")
-				script.select.f_selectSimple()
-				if script.select.winner == 1 then f_missionStatus() end
-		--MISSION 3
-			elseif missionMenu == 3 then
-				setRoundTime(-1)
-				data.p2In = 1
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 				data.p1Pal = 1
+				data.p2SelectMenu = false
 				data.challengerScreen = false
 				data.gameMode = "arcade"
 				script.select.f_selectAdvance()
 				if script.select.winner == 1 then f_missionStatus() end
+		--MISSION 3
+			elseif missionMenu == 3 then
+				setRoundTime(-1)
+				setRoundsToWin(1)
+				data.p1TeamMenu = {mode = 0, chars = 1}
+				data.p1Char = {t_charAdd['kung fu girl/master/master kung fu girl.def']}
+				data.p1Pal = 1
+				--data.p2TeamMenu = {mode = 2, chars = 4}
+				data.p2SelectMenu = false
+				data.stageMenu = true
+				data.versusScreen = false
+				data.gameMode = "survival"
+				script.select.f_selectAdvance()
+				if script.select.winner == 1 then f_missionStatus() end 
 			end
 		end
 	--Cursor position calculation

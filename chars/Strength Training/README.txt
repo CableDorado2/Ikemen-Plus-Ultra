@@ -1,6 +1,6 @@
                           ____________________________________________
 =========================| Strength Training by Phantom.of.the.Server |========================
-                          ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯        [01.05.2022]
+                          ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯        [15.02.2024]
 
  - Contact: potsmugen@gmail.com
  - Website: https://network.mugenguild.com/pots/
@@ -11,7 +11,7 @@
 
 
 
-=====<Features>=====
+==========< FEATURES >==========
 
  - The key features from the original game
  - Four types of enemies
@@ -20,19 +20,19 @@
 
 
 
-=====<Installation>=====
+==========< INSTALLATION >==========
 
  - Extract StrengthTraining.rar to your Mugen\chars folder
  - Add "StrengthTraining," to your select.def, under [Characters]
 
 
 
-=====<Introduction>=====
+==========< INTRODUCTION >==========
 
-  This is a Mugen Bonus Stage based on Art Of Fighting 2, the one where you had to fight
+  This is a Mugen bonus stage based on Art Of Fighting 2. The one where you had to fight
 multiple enemies at a time, kind of like a Beat'em Up game.
 
-  The rules are different from the original game, here you have 30 seconds (or whatever you
+  The rules are different from the original game: here you have 30 seconds (or whatever you
 choose in CONFIG.txt) to see how many thugs you can beat.
   To beat them you'll need to inflict enough damage on them (usually one strong attack is
 enough), or just knock them down.
@@ -40,13 +40,16 @@ enough), or just knock them down.
   You'll face one thug at a time in the first round, two in the second, three in the third and
 so on. Also, if you have a partner their numbers double.
 
-  You automatically win once the timer runs out, so don't worry about getting Game Over.
+  You automatically win once the timer runs out, so don't worry about getting a Game Over.
 
   Check CONFIG.txt for several options.
 
 
 
-=====<Version History>=====
+==========< VERSION HISTORY >==========
+
+<15.02.2024>
+ - Added animations for Ikemen GO select screens
 
 <01.05.2022>
  - Bug fixing
@@ -76,7 +79,7 @@ so on. Also, if you have a partner their numbers double.
 
 
 
-=====<What's Missing>=====
+==========< WHAT'S MISSING >==========
 
  - Outcome message, maybe
  - Sounds, and maybe even voices
@@ -84,7 +87,7 @@ so on. Also, if you have a partner their numbers double.
 
 
 
-=====<Special Thanks>=====
+==========< SPECIAL THANKS >==========
 
  - Shiki Tohno, for useful feedback
  - All the good folks in the community, for support and motivation
@@ -92,7 +95,7 @@ so on. Also, if you have a partner their numbers double.
 
 
 
-=====<Disclaimer>=====
+==========< DISCLAIMER >==========
 
  - Art Of Fighting is property of SNK
  - This bonus game is a non-profit fan work. It cannot be sold or used for any commercial purposes

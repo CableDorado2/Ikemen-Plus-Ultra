@@ -1,4 +1,4 @@
-﻿; The CMD file.
+; The CMD file.
 ;
 ; Two parts: 1. Command definition and  2. State entry
 ; (state entry is after the commands def section)
@@ -378,6 +378,7 @@ time = 1
 [State -1, Smash Kung Fu Upper]
 type = ChangeState
 value = 3050
+triggerall = !ailevel
 triggerall = command = "SmashKFUpper"
 triggerall = power >= 1000
 triggerall = statetype != A
@@ -392,6 +393,7 @@ trigger3 = stateno = 1310 || stateno = 1330 ;From blocking
 [State -1, Triple Kung Fu Palm]
 type = ChangeState
 value = 3000
+triggerall = !ailevel
 triggerall = command = "TripleKFPalm"
 triggerall = power >= 1000
 trigger1 = statetype = S
@@ -428,6 +430,7 @@ var(1) = 1
 [State -1, Fast Kung Fu Knee]
 type = ChangeState
 value = 1070
+triggerall = !ailevel
 triggerall = command = "FF_ab"
 triggerall = power >= 330
 trigger1 = var(1) ;Use combo condition (above)
@@ -437,6 +440,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Light Kung Fu Knee]
 type = ChangeState
 value = 1050
+triggerall = !ailevel
 triggerall = command = "FF_a"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -445,6 +449,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Strong Kung Fu Knee]
 type = ChangeState
 value = 1060
+triggerall = !ailevel
 triggerall = command = "FF_b"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -453,6 +458,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Fast Kung Fu Palm]
 type = ChangeState
 value = 1020
+triggerall = !ailevel
 triggerall = command = "QCF_xy"
 triggerall = power >= 330
 trigger1 = var(1) ;Use combo condition (above)
@@ -462,6 +468,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 1000
+triggerall = !ailevel
 triggerall = command = "QCF_x"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -470,6 +477,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Strong Kung Fu Palm]
 type = ChangeState
 value = 1010
+triggerall = !ailevel
 triggerall = command = "QCF_y"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -478,6 +486,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Fast Kung Fu Upper]
 type = ChangeState
 value = 1120
+triggerall = !ailevel
 triggerall = command = "upper_xy"
 triggerall = power >= 330
 trigger1 = var(1) ;Use combo condition (above)
@@ -487,6 +496,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Light Kung Fu Upper]
 type = ChangeState
 value = 1100
+triggerall = !ailevel
 triggerall = command = "upper_x"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -495,6 +505,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Strong Kung Fu Upper]
 type = ChangeState
 value = 1110
+triggerall = !ailevel
 triggerall = command = "upper_y"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -503,6 +514,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Fast Kung Fu Blow]
 type = ChangeState
 value = 1220
+triggerall = !ailevel
 triggerall = command = "QCB_xy"
 triggerall = power >= 330
 trigger1 = var(1) ;Use combo condition (above)
@@ -512,6 +524,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Light Kung Fu Blow]
 type = ChangeState
 value = 1200
+triggerall = !ailevel
 triggerall = command = "QCB_x"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -520,6 +533,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Strong Kung Fu Blow]
 type = ChangeState
 value = 1210
+triggerall = !ailevel
 triggerall = command = "QCB_y"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -528,6 +542,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, High Kung Fu Blocking High]
 type = ChangeState
 value = 1300
+triggerall = !ailevel
 triggerall = command = "blocking"
 triggerall = command != "holddown"
 trigger1 = ctrl
@@ -540,6 +555,7 @@ trigger2 = time > 0
 [State -1, High Kung Fu Blocking Low]
 type = ChangeState
 value = 1320
+triggerall = !ailevel
 triggerall = command = "blocking"
 triggerall = command = "holddown"
 trigger1 = ctrl
@@ -552,6 +568,7 @@ trigger2 = time > 0
 [State -1, High Kung Fu Blocking Low]
 type = ChangeState
 value = 1340
+triggerall = !ailevel
 triggerall = command = "blocking"
 triggerall = command != "holdup"
 triggerall = command != "holddown"
@@ -565,6 +582,7 @@ trigger2 = time > 0
 [State -1, Far Kung Fu Zankou]
 type = ChangeState
 value = 1420
+triggerall = !ailevel
 triggerall = command = "QCF_ab"
 triggerall = power >= 330
 trigger1 = var(1) ;Use combo condition (above)
@@ -574,6 +592,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Light Kung Fu Zankou]
 type = ChangeState
 value = 1400
+triggerall = !ailevel
 triggerall = command = "QCF_a"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -582,6 +601,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Strong Kung Fu Zankou]
 type = ChangeState
 value = 1410
+triggerall = !ailevel
 triggerall = command = "QCF_b"
 trigger1 = var(1) ;Use combo condition (above)
 
@@ -591,6 +611,7 @@ trigger1 = var(1) ;Use combo condition (above)
 [State -1, Run Fwd]
 type = ChangeState
 value = 100
+triggerall = !ailevel
 trigger1 = command = "FF"
 trigger1 = statetype = S
 trigger1 = ctrl
@@ -600,6 +621,7 @@ trigger1 = ctrl
 [State -1, Run Back]
 type = ChangeState
 value = 105
+triggerall = !ailevel
 trigger1 = command = "BB"
 trigger1 = statetype = S
 trigger1 = ctrl
@@ -609,6 +631,7 @@ trigger1 = ctrl
 [State -1, Kung Fu Throw]
 type = ChangeState
 value = 800
+triggerall = !ailevel
 triggerall = command = "y"
 triggerall = statetype = S
 triggerall = ctrl
@@ -622,14 +645,13 @@ trigger2 = p2bodydist X < 5
 trigger2 = (p2statetype = S) || (p2statetype = C)
 trigger2 = p2movetype != H
 
-
-
 ;===========================================================================
 ;---------------------------------------------------------------------------
 ;Stand Light Punch
 [State -1, Stand Light Punch]
 type = ChangeState
 value = 200
+triggerall = !ailevel
 triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
@@ -642,6 +664,7 @@ trigger2 = time > 6
 [State -1, Stand Strong Punch]
 type = ChangeState
 value = 210
+triggerall = !ailevel
 triggerall = command = "y"
 triggerall = command != "holddown"
 trigger1 = statetype = S
@@ -654,6 +677,7 @@ trigger3 = (stateno = 230) && time > 6
 [State -1, Stand Light Kick]
 type = ChangeState
 value = 230
+triggerall = !ailevel
 triggerall = command = "a"
 triggerall = command != "holddown"
 trigger1 = statetype = S
@@ -666,6 +690,7 @@ trigger3 = (stateno = 230) && time > 9
 [State -1, Standing Strong Kick]
 type = ChangeState
 value = 240
+triggerall = !ailevel
 triggerall = command = "b"
 triggerall = command != "holddown"
 trigger1 = statetype = S
@@ -678,6 +703,7 @@ trigger3 = (stateno = 230) && time > 6
 [State -1, Taunt]
 type = ChangeState
 value = 195
+triggerall = !ailevel
 triggerall = command = "start"
 trigger1 = statetype != A
 trigger1 = ctrl
@@ -687,6 +713,7 @@ trigger1 = ctrl
 [State -1, Crouching Light Punch]
 type = ChangeState
 value = 400
+triggerall = !ailevel
 triggerall = command = "x"
 triggerall = command = "holddown"
 trigger1 = statetype = C
@@ -697,6 +724,7 @@ trigger1 = ctrl
 [State -1, Crouching Strong Punch]
 type = ChangeState
 value = 410
+triggerall = !ailevel
 triggerall = command = "y"
 triggerall = command = "holddown"
 trigger1 = statetype = C
@@ -709,6 +737,7 @@ trigger2 = (time > 9) || (movecontact && time > 5)
 [State -1, Crouching Light Kick]
 type = ChangeState
 value = 430
+triggerall = !ailevel
 triggerall = command = "a"
 triggerall = command = "holddown"
 trigger1 = statetype = C
@@ -721,6 +750,7 @@ trigger2 = (time > 9) || (movecontact && time > 5)
 [State -1, Crouching Strong Kick]
 type = ChangeState
 value = 440
+triggerall = !ailevel
 triggerall = command = "b"
 triggerall = command = "holddown"
 trigger1 = statetype = C
@@ -733,11 +763,12 @@ trigger2 = (time > 9) || (movecontact && time > 5)
 [State -1, Jump Light Punch]
 type = ChangeState
 value = 600
+triggerall = !ailevel
 triggerall = command = "x"
 trigger1 = statetype = A
 trigger1 = ctrl
 trigger2 = stateno = 600
-trigger2 = statetime >= 7
+trigger2 = time >= 7
 trigger3 = stateno = 1350 ;Air blocking
 
 ;---------------------------------------------------------------------------
@@ -748,6 +779,7 @@ value = 610
 triggerall = command = "y"
 trigger1 = statetype = A
 trigger1 = ctrl
+triggerall = !ailevel
 trigger2 = stateno = 600 || stateno = 630 ;jump_x or jump_a
 trigger2 = movecontact
 trigger3 = stateno = 1350 ;Air blocking
@@ -757,6 +789,7 @@ trigger3 = stateno = 1350 ;Air blocking
 [State -1, Jump Light Kick]
 type = ChangeState
 value = 630
+triggerall = !ailevel
 triggerall = command = "a"
 trigger1 = statetype = A
 trigger1 = ctrl
@@ -767,9 +800,1029 @@ trigger2 = stateno = 1350 ;Air blocking
 [State -1, Jump Strong Kick]
 type = ChangeState
 value = 640
+triggerall = !ailevel
 triggerall = command = "b"
 trigger1 = statetype = A
 trigger1 = ctrl
 trigger2 = stateno = 600 || stateno = 630 ;jump_x or jump_a
 trigger2 = movecontact
 trigger3 = stateno = 1350 ;Air blocking
+
+;===========================================================================
+;---------------------------------------------------------------------------
+[state -1, AI 40 Jump]
+type = changestate
+value = 40
+triggerall = ailevel && numenemy && roundstate = 2
+triggerall = statetype != A && stateno != 40
+; condition
+trigger1 = ctrl && inguarddist
+trigger1 = enemynear,hitdefattr = SC,AT
+trigger1 = random < 640 * (ailevel ** 2.0 / 64.0)
+
+[state -1, AI 120 Block]
+type = changestate
+value = 120
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = ctrl && stateno != [120, 155]
+triggerall = inguarddist
+triggerall = enemynear,hitdefattr != SCA,AT && enemynear,time < 70
+; condition
+trigger1 = random < cond(statetype = A && p2statetype != A, 0, cond(statetype != A && p2statetype = A, 640, 896)) * (ailevel ** 2.0 / 64.0)
+
+[State -1, AI 100 Run Fwd]
+type = ChangeState
+value = 100
+triggerall = ailevel
+triggerall = roundstate = 2
+trigger1 = statetype != A
+trigger1 = ctrl
+trigger1 = !inguarddist
+trigger1 = p2movetype != A
+trigger1 = p2bodydist x > const240p(128)
+trigger1 = !((enemynear, movetype = A) && ((enemynear, hitdefattr = SCA, HA, HP) || (enemynear, stateno = [2000, 4999])))
+trigger1 = random < 100 * (ailevel ** 2.0 / 64.0)
+
+[State -1, AI 105 Run Back]
+type = ChangeState
+value = 105
+triggerall = ailevel
+triggerall = roundstate = 2
+trigger1 = statetype != A
+trigger1 = ctrl
+trigger1 = !inguarddist
+trigger1 = (frontedgedist < backedgedist) && p2statetype = L
+trigger1 = p2bodydist x = [const240p(-8), const240p(64)]
+trigger1 = random < 200 * (ailevel ** 2.0 / 64.0)
+
+[State -1, AI 800 Kung Fu Throw]
+type = ChangeState
+value = 800
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype = S
+triggerall = ctrl
+triggerall = stateno != 100
+;
+triggerall = (p2stateno != 40 && p2stateno != 52 && p2stateno != 105)
+triggerall = (p2statetype = S) || (p2statetype = C)
+triggerall = p2movetype != H
+triggerall = p2movetype != A
+;
+trigger1 = frontedgebodydist < backedgebodydist
+trigger1 = p2bodydist X < 3
+trigger1 = random < 640 * (ailevel ** 2.0 / 64.0)
+;
+trigger2 = frontedgebodydist >= backedgebodydist
+trigger2 = p2bodydist X < 5
+trigger2 = random < 640 * (ailevel ** 2.0 / 64.0)
+
+;---------------------------------------------------------------------------
+[State -1, AI 1300 Kung Fu Blocking]
+type = ChangeState
+value = cond(statetype = A, 1340, cond(p2statetype = C, 1320, 1300))
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+trigger1 = ctrl
+trigger1 = inguarddist && p2movetype = A && enemynear,hitdefattr != SCA,AT
+trigger1 = (p2bodydist x = [const(size.ground.front), 104]) && (p2dist y = [-72, 72])
+trigger1 = enemynear,time >= 4 && p2stateno < 1000 + 3000 * (statetype = A && p2statetype != A && vel y >= 0)
+trigger1 = random < cond(statetype = A && p2statetype != A, 288, cond(statetype != A && p2statetype = A, 0, 480)) * (ailevel ** 2.0 / 64.0)
+;
+trigger2 = cond(statetype = A, stateno = 1350, (stateno = 1310 || stateno = 1330))
+trigger2 = time > 0
+trigger2 = inguarddist && p2movetype = A && enemynear,hitdefattr != SCA,AT
+trigger2 = (p2bodydist x = [const(size.ground.front), 104]) && (p2dist y = [-72, 72])
+trigger2 = enemynear,time >= 4 && p2stateno < 1000 + 3000 * (statetype = A && p2statetype != A && vel y >= 0)
+trigger2 = random < cond(statetype = A && p2statetype != A, 288, cond(statetype != A && p2statetype = A, 0, 480)) * (ailevel ** 2.0 / 64.0)
+
+;---------------------------------------------------------------------------
+[State -1, AI 400 Crouching Light Punch]
+type = ChangeState
+value = 400
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype != A
+; startup = 3
+;Clsn1: 1
+; Clsn1[0] =  54,-48, 17,-40
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (54 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -48)), const240p(8)]
+triggerall = p2statetype != A
+; condition
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100 
+trigger1 = random < (75 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 3 && !(enemynear, hitfall)))
+
+[State -1, AI 410 Crouching Strong Punch]
+type = ChangeState
+value = 410
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 7
+;Clsn1: 2
+; Clsn1[0] =  51,-79, 29,-57
+; Clsn1[1] =  44,-94, 57,-74
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (57 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -94)), const240p(8)]
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100
+trigger1 = random < (50 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 3 && !(enemynear, hitfall)))
+;
+trigger2 = (stateno = 400) || (stateno = 430)
+trigger2 = (time > 9) || (movecontact && time > 5)
+trigger2 = random < (250 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+
+[State -1, AI 200 Stand Light Punch]
+type = ChangeState
+value = 200
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+;startup = 3
+;Clsn1: 1
+; Clsn1[0] =  16,-80, 61,-71
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (61 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -86)), const240p(8)]
+triggerall = p2statetype != C
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100
+trigger1 = random < (75 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 3 && !(enemynear, hitfall)))
+;
+trigger2 = stateno = 200
+trigger2 = time > 6
+trigger2 = random < (75 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+
+[State -1, AI 210 Stand Strong Punch]
+type = ChangeState
+value = 210
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 8
+;Clsn1: 2
+; Clsn1[0] =  27,-86, 64,-60
+; Clsn1[1] =  64,-63, 79,-82
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (79 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -86)), const240p(8)]
+triggerall = p2statetype != C
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100
+trigger1 = random < (50 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 8 && !(enemynear, hitfall)))
+;
+trigger2 = (stateno = 200) && time > 5
+trigger2 = random < (250 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+;
+trigger3 = (stateno = 230) && time > 6
+trigger3 = random < (250 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+
+[State -1, AI 230 Stand Light Kick]
+type = ChangeState
+value = 230
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 4
+;Clsn1: 3
+; Clsn1[0] =  38,-53, 14,-36
+; Clsn1[1] =  35,-42, 56,-29
+; Clsn1[2] =  69,-34, 53,-23
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (69 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -53)), const240p(8)]
+triggerall = p2statetype != A
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100
+trigger1 = random < (75 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 4 && !(enemynear, hitfall)))
+;
+trigger2 = (stateno = 200) && time > 7
+trigger2 = random < (75 * (ailevel ** 2.0 / 64.0)) + (100 * (ailevel ** 2.0 / 64.0) * movehit)
+;
+trigger3 = (stateno = 230) && time > 9
+trigger3 = random < (75 * (ailevel ** 2.0 / 64.0)) + (100 * (ailevel ** 2.0 / 64.0) * movehit)
+
+[State -1, AI 240 Standing Strong Kick]
+type = ChangeState
+value = 240
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 7
+;Clsn1: 1
+; Clsn1[0] =   4,-65, 67,-50
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (67 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -53)), const240p(8)]
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100 
+trigger1 = random < (100 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 7 && !(enemynear, hitfall)))
+;
+trigger2 = (stateno = 200) && time > 5
+trigger2 = random < (250 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+;
+trigger3 = (stateno = 230) && time > 6
+trigger3 = random < (250 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+
+[State -1, AI 430 Crouching Light Kick]
+type = ChangeState
+value = 430
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2stateno != 5120 && p2stateno != 5201
+; startup = 4
+;Clsn1: 3
+; Clsn1[0] =  24,-24,  8,-13
+; Clsn1[1] =  23,-19, 45,-10
+; Clsn1[2] =  45,-11, 63,  0
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (63 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -24)), const240p(8)]
+triggerall = p2statetype != A
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100
+trigger1 = random < (100 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 4 && !(enemynear, hitfall)))
+;
+trigger2 = (stateno = 400) || (stateno = 430)
+trigger2 = (time > 9) || (movecontact && time > 5)
+trigger2 = random < (250 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+
+[State -1, AI 440 Crouching Strong Kick]
+type = ChangeState
+value = 440
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2stateno != 5120 && p2stateno != 5201
+; startup = 9
+;Clsn1: 3
+; Clsn1[0] =  40,-10, 18,-25
+; Clsn1[1] =  40,-17, 58, -4
+; Clsn1[2] =  76,  1, 58,-10
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (76 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -25)), const240p(8)]
+triggerall = (p2statetype = S || (p2statetype = C && p2movetype = H))
+;
+trigger1 = statetype != A
+trigger1 = ctrl || stateno = 100
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0)) + (250 * (enemynear, gethitvar(hittime) >= 9 && !(enemynear, hitfall)))
+;
+trigger2 = (stateno = 400) || (stateno = 430)
+trigger2 = (time > 9) || (movecontact && time > 5)
+trigger2 = !moveguarded
+trigger2 = random < (50 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+
+;---------------------------------------------------------------------------
+;Jump Strong Punch
+[State -1, AI 610 Jump Strong Punch]
+type = ChangeState
+value = 610
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = vel y > 0 || p2statetype = A
+; startup = 6
+;Clsn1: 1
+; Clsn1[0] =  23,-45, 57,-77
+;
+trigger1 = statetype = A
+trigger1 = ctrl || stateno = 132
+trigger1 = p2bodydist x = [-const240p(8) + (6 * (vel x + enemynear, vel x)), 57 + (6 * (vel x + enemynear, vel x) - const(size.ground.front))]
+trigger1 = p2dist y = [-77 - const240p(16), -45 + const240p(80) + (32 * vel y * (vel y > 0))]
+trigger1 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * (stateno = 1340 || numtarget))
+;
+trigger2 = stateno = 600 || stateno = 630 ;jump_x or jump_a
+trigger2 = movecontact
+trigger2 = (p2bodydist x = [-const240p(8), 57 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger2 = (p2dist y = [-77 - const240p(16), -45 + const240p(80) + (32 * vel y > 1.0)])
+trigger2 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+;
+trigger3 = stateno = 1350 ;Air blocking
+trigger3 = (p2bodydist x = [-const240p(8), 57 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger3 = (p2dist y = [-77 - const240p(16), -45 + const240p(80) + (32 * vel y > 1.0)])
+trigger3 = random < (400 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger4 = ctrl
+trigger4 = vel y > 0
+trigger4 = p2bodydist x > 0
+trigger4 = p2dist y > -45 && abs(p2dist y) = [p2dist x, p2dist x + const240p(72)]
+trigger4 = p2statetype != A
+trigger4 = random < (200 * (ailevel ** 2.0 / 64.0))
+
+;---------------------------------------------------------------------------
+;Jump Strong Kick
+[State -1, AI 640 Jump Strong Kick]
+type = ChangeState
+value = 640
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = vel y > 0 || p2statetype = A
+; startup = 6
+;Clsn1: 2
+; Clsn1[0] =  43,-48, 13,-33
+; Clsn1[1] =  43,-42, 69,-28
+trigger1 = statetype = A
+trigger1 = ctrl || stateno = 132
+trigger1 = p2bodydist x = [-const240p(8) + (6 * (vel x + enemynear, vel x)), 69 + (9 * (vel x + enemynear, vel x) - const(size.ground.front))]
+trigger1 = p2dist y = [-48 - const240p(16), -28 + const240p(80) + (32 * vel y * (vel y > 0))]
+trigger1 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * (stateno = 1340 || numtarget))
+;
+trigger2 = stateno = 600 || stateno = 630 ;jump_x or jump_a
+trigger2 = movecontact
+trigger2 = (p2bodydist x = [-const240p(8), 69 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger2 = (p2dist y = [-48 - const240p(16), -28 + const240p(80) + (32 * vel y > 1.0)])
+trigger2 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+;
+trigger3 = stateno = 1350 ;Air blocking
+trigger3 = (p2bodydist x = [-const240p(8), 69 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger3 = (p2dist y = [-48 - const240p(16), -28 + const240p(80) + (32 * vel y > 1.0)])
+trigger3 = random < (400 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger4 = ctrl
+trigger4 = vel y > 0
+trigger4 = p2bodydist x > 0
+trigger4 = p2dist y > -48 && abs(p2dist y) = [p2dist x, p2dist x + const240p(72)]
+trigger4 = p2statetype != A
+trigger4 = random < (200 * (ailevel ** 2.0 / 64.0))
+
+;---------------------------------------------------------------------------
+;Jump Light Punch
+[State -1, AI 600 Jump Light Punch]
+type = ChangeState
+value = 600
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 3
+;Clsn1: 2
+; Clsn1[0] =  15,-70, 31,-60
+; Clsn1[1] =  49,-54, 29,-65
+triggerall = vel y > 0 || p2statetype = A
+;
+trigger1 = statetype = A
+trigger1 = ctrl || stateno = 132
+trigger1 = p2bodydist x = [-const240p(8) + (3 * (vel x + enemynear, vel x)), 49 + (3 * (vel x + enemynear, vel x) - const(size.ground.front))]
+trigger1 = p2dist y = [-70 - const240p(16), -54 + const240p(80) + (32 * vel y * (vel y > 0))]
+trigger1 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * (stateno = 1340 || numtarget))
+;
+trigger2 = stateno = 600
+trigger2 = time >= 7
+trigger2 = (p2bodydist x = [-const240p(8), 49 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger2 = (p2dist y = [-70 - const240p(16), -54 + const240p(80) + (32 * vel y > 1.0)])
+trigger2 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+;
+trigger3 = stateno = 1350 ;Air blocking
+trigger3 = (p2bodydist x = [-const240p(8), 49 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger3 = p2dist y = [-70 - const240p(16), -54 + const240p(80) + (32 * vel y * (vel y > 0))]
+trigger3 = random < (400 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger4 = ctrl
+trigger4 = vel y > 0
+trigger4 = p2bodydist x > 0
+trigger4 = p2dist y > -70 && abs(p2dist y) = [p2dist x, p2dist x + const240p(72)]
+trigger4 = p2statetype != A
+trigger4 = random < (200 * (ailevel ** 2.0 / 64.0))
+
+;---------------------------------------------------------------------------
+;Jump Light Kick
+[State -1, AI 630 Jump Light Kick]
+type = ChangeState
+value = 630
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = vel y > 0 || p2statetype = A
+; startup = 3
+;Clsn1: 1
+;  Clsn1[0] = 11, -54, 35, -37
+trigger1 = statetype = A
+trigger1 = ctrl || stateno = 132
+trigger1 = p2bodydist x = [-const240p(8) + (3 * (vel x + enemynear, vel x)), 35 + (3 * (vel x + enemynear, vel x) - const(size.ground.front))]
+trigger1 = p2dist y = [-54 - const240p(16), -37 + const240p(80) + (32 * vel y * (vel y > 0))]
+trigger1 = random < (200 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * (stateno = 1340 || numtarget))
+;
+trigger2 = stateno = 1350 ;Air blocking
+trigger2 = (p2bodydist x = [-const240p(8), 35 + (const240p(16) * (vel x > 0)) - const(size.ground.front)])
+trigger2 = (p2dist y = [-54 - const240p(16), -37 + const240p(80) + (32 * vel y > 1.0)])
+trigger2 = random < (400 * (ailevel ** 2.0 / 64.0)) + (250 * (ailevel ** 2.0 / 64.0) * movehit)
+; condition
+trigger4 = ctrl || stateno = 100
+trigger4 = vel y > 0
+trigger4 = p2bodydist x > 0
+trigger4 = p2dist y > -54 && abs(p2dist y) = [p2dist x, p2dist x + const240p(72)]
+trigger4 = p2statetype != A
+trigger4 = random < (200 * (ailevel ** 2.0 / 64.0))
+
+;---------------------------------------------------------------------------
+; AI Special Moves
+;---------------------------------------------------------------------------
+[State -1, AI 1050 Light Kung Fu Knee]
+type = ChangeState
+value = 1050
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype != A
+triggerall = p2statetype != C
+; startup = 9
+;Clsn1: 1
+; Clsn1[0] =  30,-80,  9,-49
+; condition
+trigger1 = ctrl || stateno = 100
+trigger1 = p2bodydist x = [-const240p(8), 56 + 9 * (vel x + enemynear, vel x) - const(size.ground.front)]
+trigger1 = p2dist y = [-94 - (9 * enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = random < (100 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (56 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -94), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = p2statetype = A || enemynear, gethitvar(yvel) || enemynear, hitfall
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 200) * (ailevel ** 2.0 / 64.0)
+; condition
+trigger3 = ctrl || stateno = 100
+trigger3 = p2bodydist x = [-const240p(8), (56 + ((9 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger3 = p2dist y = [-94, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger3 = enemynear, statetype = A && enemynear, hitfall
+;trigger3 = !(enemynear, stateno = [820, 821])
+trigger3 = random < (cond(power >= 1000, 50, 500) * (ailevel ** 2.0 / 64.0))
+
+[State -1, AI 1060 Strong Kung Fu Knee]
+type = ChangeState
+value = 1060
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype != A
+triggerall = p2statetype != C
+; startup = 9
+;Clsn1: 1
+; Clsn1[0] =  30,-80,  9,-49
+; condition
+trigger1 = ctrl || stateno = 100
+trigger1 = p2bodydist x = [-const240p(8), 56 + 9 * (vel x + enemynear, vel x) - const(size.ground.front)]
+trigger1 = p2dist y = [-94 - (9 * enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = random < (100 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (56 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -94), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = p2statetype = A || enemynear, gethitvar(yvel) || enemynear, hitfall
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 200) * (ailevel ** 2.0 / 64.0)
+; condition
+trigger3 = ctrl || stateno = 100
+trigger3 = p2bodydist x = [-const240p(8), (56 + ((9 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger3 = p2dist y = [-94, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger3 = enemynear, statetype = A && enemynear, hitfall
+;trigger3 = !(enemynear, stateno = [820, 821])
+trigger3 = random < (cond(power >= 1000, 50, 500) * (ailevel ** 2.0 / 64.0))
+
+;Light Kung Fu Upper
+[State -1, AI 1100 Light Kung Fu Upper]
+type = ChangeState
+value = 1100
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype != A
+trigger1 = p2statetype != C
+; startup = 7
+;Clsn1: 1
+; Clsn1[0] =  30,-60, 55,-131
+; condition
+trigger1 = ctrl || stateno = 100
+trigger1 = p2bodydist x = [-const240p(8), 55 + 7 * (vel x + enemynear, vel x) - const(size.ground.front)]
+trigger1 = p2dist y = [-131 - (enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = random < (200 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (55 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -131), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 7
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 50) * (ailevel ** 2.0 / 64.0)
+; condition
+trigger3 = ctrl || stateno = 100
+trigger3 = p2bodydist x = [-const240p(8), (55 + ((7 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger3 = p2dist y = [-131, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger3 = enemynear, statetype = A && enemynear, hitfall
+;trigger3 = !(enemynear, stateno = [820, 821])
+trigger3 = random < (cond(power >= 1000, 50, 500) * (ailevel ** 2.0 / 64.0))
+
+[State -1, AI 1110 Strong Kung Fu Upper]
+type = ChangeState
+value = 1110
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype != A
+; startup = 7
+;Clsn1: 1
+; Clsn1[0] =  30,-60, 55,-131
+trigger1 = ctrl || stateno = 100
+trigger1 = p2bodydist x = [-const240p(8), 55 + 7 * (vel x + enemynear, vel x) - const(size.ground.front)]
+trigger1 = p2dist y = [-131 - (enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = random < (200 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (55 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -131), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 7
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+; condition
+trigger3 = ctrl || stateno = 100
+trigger3 = p2bodydist x = [-const240p(8), (55 + ((7 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger3 = p2dist y = [-131, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger3 = enemynear, statetype = A && enemynear, hitfall
+;trigger3 = !(enemynear, stateno = [820, 821])
+trigger3 = random < (cond(power >= 1000, 50, 500) * (ailevel ** 2.0 / 64.0))
+
+;Strong Kung Fu Palm
+[State -1, AI 1010 Strong Kung Fu Palm]
+type = ChangeState
+value = 1010
+; startup = 8
+;Clsn1: 1
+; Clsn1[0] =  68,-66,  9,-44
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+;
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (104 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -66)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = p2bodydist x > (60 - const(size.ground.front))
+trigger1 = random < (25 * (ailevel * 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 8
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;Light Kung Fu Palm
+[State -1, AI 1000 Light Kung Fu Palm]
+type = ChangeState
+value = 1000
+; startup = 8
+;Clsn1: 1
+; Clsn1[0] =  68,-66,  9,-44
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+;
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (104 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -66)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = p2bodydist x > (60 - const(size.ground.front))
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 8 
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;Strong Kung Fu Zankou
+[State -1, AI 1410 Strong Kung Fu Zankou]
+type = ChangeState
+value = 1410
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+; startup = 8
+;Clsn1: 1
+; Clsn1[0] =  34,-76,  4,-22
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (84 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -76)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 8
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;Light Kung Fu Zankou
+[State -1, AI 1400 Light Kung Fu Zankou]
+type = ChangeState
+value = 1400
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+; startup = 8
+;Clsn1: 1
+; Clsn1[0] =  34,-76,  4,-22
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (66 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -76)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 8
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;Light Kung Fu Blow
+[State -1, AI 1200 Light Kung Fu Blow]
+type = ChangeState
+value = 1200
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 13
+;Clsn1: 2
+; Clsn1[0] = -14,-72, 17,-55
+; Clsn1[1] =  44,-72, 91,-45
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (91 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -72)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = enemynear, gethitvar(hittime) >= 13
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;Strong Kung Fu Blow
+[State -1, AI 1210 Strong Kung Fu Blow]
+type = ChangeState
+value = 1210
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+; startup = 17
+;Clsn1: 2
+; Clsn1[0] = -14,-72, 17,-55
+; Clsn1[1] =  44,-72, 91,-45
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (91 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -72)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = enemynear, gethitvar(hittime) >= 17
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;---------------------------------------------------------------------------
+;AI EX Moves
+;---------------------------------------------------------------------------
+;Fast Kung Fu Upper (1/3 super bar)
+[State -1, AI 1120 Fast Kung Fu Upper]
+type = ChangeState
+value = 1120
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = power >= 330
+; startup = 7
+;Clsn1: 1
+; Clsn1[0] =  30,-60, 55,-131
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = p2bodydist x = [-const240p(8) + (7 * enemynear, vel x), (55 + (7 * enemynear, vel x) - const(size.ground.front))]
+trigger1 = p2dist y = [-131 - (enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = !((enemynear, statetype = A) && (!(enemynear, vel x)) && (enemynear, movetype != A))
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (55 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -131), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 7
+trigger2 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger3 = ctrl || stateno = 100
+trigger3 = p2bodydist x = [-const240p(8), (55 + ((7 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger3 = p2dist y = [-131, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger3 = enemynear, statetype = A && enemynear, hitfall
+;trigger3 = !(enemynear, stateno = [820, 821])
+trigger3 = random < (cond(power >= 1000, 50, 500) * (ailevel ** 2.0 / 64.0))
+
+[State -1, AI 1070 Fast Kung Fu Knee]
+type = ChangeState
+value = 1050
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = statetype != A
+triggerall = p2statetype != C
+; startup = 9
+;Clsn1: 1
+; Clsn1[0] =  30,-80,  9,-49
+; condition
+trigger1 = ctrl || stateno = 100
+trigger1 = p2bodydist x = [-const240p(8), 62 + 7 * (vel x + enemynear, vel x) - const(size.ground.front)]
+trigger1 = p2dist y = [-94 - (9 * enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = random < (50 * (ailevel ** 2.0 / 64.0))
+; condition
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (62 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -94), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = p2statetype = A || enemynear, gethitvar(yvel) || enemynear, hitfall
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 200) * (ailevel ** 2.0 / 64.0)
+; condition
+trigger3 = ctrl || stateno = 100
+trigger3 = p2bodydist x = [-const240p(8), (62 + ((7 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger3 = p2dist y = [-94, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger3 = enemynear, statetype = A && enemynear, hitfall
+;trigger3 = !(enemynear, stateno = [820, 821])
+trigger3 = random < (cond(power >= 1000, 50, 500) * (ailevel ** 2.0 / 64.0))
+
+;Far Kung Fu Zankou
+[State -1, AI 1420 Far Kung Fu Zankou]
+type = ChangeState
+value = 1420
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = power >= 330
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+; startup = 8
+;Clsn1: 1
+; Clsn1[0] =  34,-76,  4,-22
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (144 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -76)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < 0
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = enemynear, gethitvar(hittime) >= 8
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 100) * (ailevel ** 2.0 / 64.0)
+
+;Fast Kung Fu Palm (1/3 super bar)
+[State -1, AI 1020 Fast Kung Fu Palm]
+type = ChangeState
+value = 1020
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = power >= 330
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+; startup = 11
+triggerall = p2bodydist x = [-const240p(8), ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * (128 - const(size.ground.front))))]
+triggerall = p2dist y = [ceil((cond(!ctrl, (2.0 / 3.0), 1.0) * -66)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 11
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 250) * (ailevel ** 2.0 / 64.0)
+
+;Fast Kung Fu Blow (1/3 super bar)
+[State -1, AI 1220 Fast Kung Fu Blow]
+type = ChangeState
+value = 1220
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = power >= 330
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+; startup = 9
+;Clsn1: 2
+; Clsn1[0] = -14,-72, 17,-55
+; Clsn1[1] =  44,-72, 91,-45
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (91 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -72)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < 0
+;
+trigger2 = !ctrl
+trigger2 = var(1)
+trigger2 = movecontact = [1, 8]
+trigger2 = p2statetype != A
+trigger2 = !moveguarded
+trigger2 = numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 9
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = random < cond((stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430), 25, 100) * (ailevel ** 2.0 / 64.0)
+
+;---------------------------------------------------------------------------
+;Triple Kung Fu Palm (uses one super bar)
+[State -1, AI 3000 Triple Kung Fu Palm]
+type = ChangeState
+value = 3000
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = power >= 1000
+triggerall = !(enemynear, ctrl) && (enemynear, stateno != [120, 155])
+; startup = 13
+;Clsn1: 1
+; Clsn1[0] =  68,-71,  9,-40
+triggerall = p2bodydist x = [-const240p(8), (ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * (91 - const(size.ground.front))))]
+triggerall = p2dist y = [(ceil(cond(!ctrl, (2.0 / 3.0), 1.0) * -72)), const240p(8)]
+;
+trigger1 = ctrl || stateno = 100
+trigger1 = statetype != A
+trigger1 = random < (25 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = statetype != A
+trigger2 = hitdefattr = SC, NA, SA, HA
+trigger2 = (stateno != [3000,3050])
+trigger2 = !(stateno = 440)
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 13
+trigger2 = !((target, statetype = A) || (target, gethitvar(yvel)) || (target, hitfall))
+trigger2 = movecontact = [1, 8]
+trigger2 = random < cond((hitdefattr = SC, NA), 25, 200) * (ailevel ** 2.0 / 64.0)
+;
+trigger3 = stateno = 1310 || stateno = 1330 ;From blocking
+trigger3 = p2bodydist x = [-const240p(8), (112 - const(size.ground.front))]
+trigger3 = p2dist y = [-71, const240p(8)]
+trigger3 = random < (25 * (ailevel ** 2.0 / 64.0))
+
+;---------------------------------------------------------------------------
+;Smash Kung Fu Upper (uses one super bar)
+[State -1, AI 3050 Smash Kung Fu Upper]
+type = ChangeState
+value = 3050
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+triggerall = power >= 1000
+triggerall = statetype != A
+; startup = 7
+;Clsn1: 1
+; Clsn1[0] =  30,-40, 55,-131
+;
+trigger1 = ctrl || stateno = 100 || ((stateno = 120 || stateno = 130 || stateno = 131) && random < (2 * (ailevel ** 2.0)))
+trigger1 = p2bodydist x = [-const240p(8) + (7 * enemynear, vel x), 55 + (7 * enemynear, vel x) - const(size.ground.front)]
+trigger1 = p2dist y = [-131 - (enemynear, vel y), const240p(8) - (enemynear, vel y)]
+trigger1 = (p2stateno != [120, 155])
+trigger1 = enemynear, vel x >= 0 || var(47)
+trigger1 = enemynear, vel y > const240p(-2) || var(47)
+trigger1 = p2movetype = A || p2statetype = A
+trigger1 = (p2bodydist x > 0) && (facing != enemynear, facing)
+trigger1 = !((enemynear, statetype = A) && (!(enemynear, vel x)) && (enemynear, movetype != A))
+trigger1 = random < (100 * (ailevel ** 2.0 / 64.0))
+;
+trigger2 = hitdefattr = SC, NA, SA, HA
+trigger2 = stateno != [3050,3100)
+trigger2 = movecontact
+trigger2 = p2bodydist x = [-const240p(8), ceil(0.5 * (55 - const(size.ground.front)))]
+trigger2 = p2dist y = [ceil(0.5 * -131), const240p(8)]
+trigger2 = movehit && numtarget
+trigger2 = enemynear, gethitvar(hittime) >= 7
+trigger2 = !(hitdefattr = SC, NA)
+trigger2 = !(stateno = 1020) && !(stateno = [1400, 1420])
+trigger2 = !(stateno = 3000 && animelemtime(14) < 0)
+trigger2 = random < (300 * (ailevel ** 2.0 / 64.0))
+;
+trigger3 = stateno = 1310 || stateno = 1330 ;From blocking
+trigger3 = p2bodydist x = [-const240p(8), ceil(0.5 * (55 - const(size.ground.front)))]
+trigger3 = p2dist y = [ceil(0.5 * -71), const240p(8)]
+trigger3 = ((enemynear, vel x >= 0) && (enemynear, vel y >= 0)) || numtarget
+trigger3 = p2movetype = A || p2statetype = A
+trigger3 = random < (500 * (ailevel ** 2.0 / 64.0))
+;
+trigger4 = ctrl || stateno = 100
+trigger4 = p2bodydist x = [-const240p(8), (55 + ((7 * enemynear, vel x) * p2statetype = A)) - const(size.ground.front)]
+trigger4 = p2dist y = [-131, -8 - (enemynear, vel y * (enemynear, vel y > 0))]
+trigger4 = enemynear, statetype = A && enemynear, hitfall
+trigger4 = !(enemynear, stateno = [820, 821])
+trigger4 = random < (500 * (ailevel ** 2.0 / 64.0))
+
+;---------------------------------------------------------------------------
+;Taunt
+[State -1, AI 195 Taunt]
+type = ChangeState
+value = 195
+triggerall = ailevel
+triggerall = roundstate = 2
+triggerall = numenemy
+triggerall = p2statetype != L && p2stateno != 5120 && p2stateno != 5201
+trigger1 = statetype != A
+trigger1 = ctrl
+trigger1 = p2movetype = H && (p2statetype = A || p2statetype = L)
+trigger1 = p2bodydist x > const240p(160)
+trigger1 = random < (50 * (ailevel ** 2.0 / 64.0))

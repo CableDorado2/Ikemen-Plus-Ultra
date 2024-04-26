@@ -1,4 +1,4 @@
-﻿; KFM's constants and state file.
+; KFM's constants and state file.
 ; There are comments scattered through this file, so you may like to
 ; take a look if would like to learn more about the cns.
 
@@ -1567,7 +1567,6 @@ value = 5062
 type = SelfState
 trigger1 = (Vel y > 0) && (Pos y >= 0)
 value = 5100
-
 ;---------------------------------------------------------------------------
 ; Kung Fu Knee
 ; CNS difficulty: medium
@@ -1664,9 +1663,29 @@ y = .45
 
 [State 1051, 2]
 type = ChangeState
+triggerall = Vel y < -1
+;
+trigger1 = !ailevel
 trigger1 = Command = "a" || Command = "b"
-trigger1 = Vel y < -1
+
+; startup = 6
+;Clsn1: 2
+; Clsn1[0] =  14,-96, 32,-44
+; Clsn1[1] =  45,-111, 30,-77
+trigger2 = ailevel
+trigger2 = p2bodydist x = [-8, (54 + (enemynear, vel x)) - const(size.ground.front)]
+trigger2 = p2dist y = [-111 - enemynear, vel y, 8]
+trigger2 = enemynear, vel x >= 0
+trigger2 = enemynear, vel y > -2
+trigger2 = p2movetype = A || p2statetype = A
+trigger2 = random < (100 * (ailevel ** 2 / 64.0))
+;
+trigger3 = ailevel
+trigger3 = numtarget
+trigger3 = p2statetype = A
+;
 value = 1055
+
 
 [State 1051, 3] ;Change state when KFM is close to ground
 type = ChangeState
@@ -1748,7 +1767,7 @@ y = .45
 type = HitDef
 trigger1 = Time = 0
 attr = A, SA
-animtype  = Med
+animtype  = Medium
 damage    = 35 + (prevstateno = 1061)*5, 2
 priority  = 4
 guardflag = MA
@@ -1867,8 +1886,27 @@ y = .45
 
 [State 1061, 2]
 type = ChangeState
+triggerall = Vel y < -1
+;
+trigger1 = !ailevel
 trigger1 = Command = "a" || Command = "b"
-trigger1 = Vel y < -1
+
+; startup = 6
+;Clsn1: 2
+; Clsn1[0] =  14,-96, 32,-44
+; Clsn1[1] =  45,-111, 30,-77
+trigger2 = ailevel
+trigger2 = p2bodydist x = [-8, (54 + (enemynear, vel x)) - const(size.ground.front)]
+trigger2 = p2dist y = [-111 - enemynear, vel y, 8]
+trigger2 = enemynear, vel x >= 0
+trigger2 = enemynear, vel y > -2
+trigger2 = p2movetype = A || p2statetype = A
+trigger2 = random < (100 * (ailevel ** 2 / 64.0))
+;
+trigger3 = ailevel
+trigger3 = numtarget
+trigger3 = p2statetype = A
+;
 value = 1055
 
 [State 1061, 3]
@@ -1952,7 +1990,7 @@ ground.velocity = -2,-6
 guard.velocity = -7
 air.velocity = -2,-6
 fall = 1
-fall.animtype = Med
+fall.animtype = Medium
 fall.recovertime = 30
 
 [State 1070, 5]
@@ -2015,9 +2053,27 @@ fall.recovertime = 30
 
 [State 1071, 4]
 type = ChangeState
+triggerall = Vel y < -1
+;
+trigger1 = !ailevel
 trigger1 = Command = "a" || Command = "b"
-trigger1 = Vel y < -1
-trigger1 = Time > 0
+
+; startup = 6
+;Clsn1: 2
+; Clsn1[0] =  14,-96, 32,-44
+; Clsn1[1] =  45,-111, 30,-77
+trigger2 = ailevel
+trigger2 = p2bodydist x = [-8, (54 + (enemynear, vel x)) - const(size.ground.front)]
+trigger2 = p2dist y = [-111 - enemynear, vel y, 8]
+trigger2 = enemynear, vel x >= 0
+trigger2 = enemynear, vel y > -2
+trigger2 = p2movetype = A || p2statetype = A
+trigger2 = random < (100 * (ailevel ** 2 / 64.0))
+;
+trigger3 = ailevel
+trigger3 = numtarget
+trigger3 = p2statetype = A
+;
 value = 1075
 
 [State 1071, 5]
@@ -2076,7 +2132,7 @@ y = .2
 type = HitDef
 trigger1 = Time = 0
 attr = A, SA
-animtype  = Med
+animtype  = Medium
 damage    = 42, 2
 getpower  = 0
 priority  = 4
@@ -2138,7 +2194,7 @@ value = 0, 2
 type = HitDef
 trigger1 = Time = 0
 attr = S, SA
-animtype  = Med
+animtype  = Medium
 damage    = 52, 4
 priority  = 5
 guardflag = MA
@@ -2213,7 +2269,7 @@ value = 0, 2
 type = HitDef
 trigger1 = Time = 0
 attr = S, SA
-animtype  = Med
+animtype  = Medium
 damage    = 57, 4
 priority  = 5
 guardflag = MA
@@ -2314,7 +2370,7 @@ type = HitDef
 trigger1 = Time = 0
 trigger2 = AnimElem = 4
 attr = S, SA
-animtype  = Med
+animtype  = Medium
 damage    = 30, 4
 getpower  = 0
 priority  = 5
@@ -3445,14 +3501,613 @@ trigger1 = AnimTime = 0
 value = 0
 ctrl = 1
 
-
 ;---------------------------------------------------------------------------
 ; Override common states (use same number to override) :
 ;---------------------------------------------------------------------------
+; Jump Start
+[Statedef 40]
+type    = S
+physics = S
+anim = 40
+ctrl = 0
+sprpriority = 1
+facep2 = 1
+
+[State 40, 1]
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 40, 2]
+type = VarSet
+trigger1 = command = "holdfwd"
+sysvar(1) = 1
+
+[State 40, 3]
+type = VarSet
+trigger1 = command = "holdback"
+sysvar(1) = -1
+
+[state 40, AI Jump Direction]
+type = varset
+trigger1 = ailevel && !time
+sysvar(1) = 1 - random % 3
+
+[state 40, AI Jump Direction]
+type = varset
+triggerall = ailevel
+trigger1 = p2movetype = A && backedgedist >= const240p(32)
+trigger1 = random < 50 * (ailevel ** 2.0 / 64.0)
+sysvar(1) = -1
+
+[state 40, AI Jump Direction]
+type = varset
+triggerall = ailevel
+trigger1 = backedgedist < const240p(16) && p2bodydist x < const240p(80)
+trigger1 = p2movetype = A && p2statetype != A
+trigger1 = random < 50 * (ailevel ** 2.0 / 64.0)
+trigger2 = numtarget
+trigger2 = target,statetype = A && target,vel x < 0
+sysvar(1) = 0
+
+[state 40, AI Jump Direction]
+type = varset
+triggerall = ailevel
+trigger1 = p2bodydist x > const240p(160) && p2movetype = A
+trigger1 = random < 50 * (ailevel ** 2.0 / 64.0)
+trigger2 = p2bodydist x > const240p(64) && enemynear,time >= 8
+trigger3 = numtarget
+trigger3 = target,statetype = A && target,vel x < -1
+sysvar(1) = 1
+
+[State 40, 4]
+type = VelSet
+trigger1 = AnimTime = 0
+x = ifelse(sysvar(1)=0, const(velocity.jump.neu.x), ifelse(sysvar(1)=1, const(velocity.jump.fwd.x), const(velocity.jump.back.x)))
+y = const(velocity.jump.y)
+
+[State 40, 5]
+type = VelSet
+trigger1 = AnimTime = 0
+trigger1 = prevstateno = 100 ;RUN_FWD
+trigger1 = sysvar(1) = 1
+x = const(velocity.runjump.fwd.x)
+
+[State 40, 6]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 50
+ctrl = 1
+
+; Run forward
+[Statedef 100]
+type    = S
+physics = S
+anim = 100
+sprpriority = 1
+
+[State 100, 1]
+type = Ctrlset
+trigger1 = ailevel
+value = 0
+
+[State 100, 1]
+type = VelSet
+trigger1 = 1
+x = const(velocity.run.fwd.x)
+
+[State 100, 2] ;Prevent run from canceling into walk
+type = AssertSpecial
+trigger1 = 1
+flag = NoWalk
+
+[State 100, 3] ;Prevent from turning
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+[State 100, jump]
+type = changestate
+trigger1 = AIlevel && random < 25
+value = 40
+
+[State 100, 4]
+type = ChangeState
+triggerall = !ailevel
+trigger1 = command != "holdfwd"
+value = 0
+ctrl = 1
+
+[state 101, End State]
+type = changestate
+trigger1 = ailevel
+trigger1 = time >= 10
+trigger1 = p2bodydist x <= const240p(75)
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; GUARD (start)
+[Statedef 120]
+type = U    ;Leave state type unchanged
+physics = U ;Leave physics unchanged
+
+[State 120, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 120 + (statetype = C) + (statetype = A)*2
+
+[State 120, 2]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = S
+physics = S
+
+[State 120, 3]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = C
+physics = C
+
+[State 120, 4]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = A
+physics = A
+
+[state 120, High -> Low]
+type = statetypeset
+trigger1 = !ailevel && statetype = S && command = "holddown"
+trigger2 = ailevel && statetype = S && enemynear,movetype = A && enemynear,statetype = C
+statetype = C
+physics = C
+
+[state 120, Low -> High]
+type = statetypeset
+trigger1 = !ailevel && statetype = C && command != "holddown"
+trigger2 = ailevel && statetype = C && enemynear,movetype = A && enemynear,statetype!= C
+statetype = S
+physics = S
+
+[State 120, AI fix]
+type = ctrlset
+trigger1 = AIlevel && numenemy
+value = (enemynear, time >= 120 || time >= 180)
+
+[State 120, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 130 + (statetype = C) + (statetype = A)*2
+
+[State 120, Stop Guarding]
+type = ChangeState
+trigger1 = (!AIlevel && command != "holdback")
+trigger2 = !inguarddist
+trigger3 = AIlevel && numenemy
+trigger3 = enemynear, hitdefattr = SCA, AT
+value = 140
+
+;---------------------------------------------------------------------------
+; Stand guard (guarding)
+[Statedef 130]
+type    = S
+physics = S
+
+[State 130, 1]
+type = ChangeAnim
+trigger1 = Anim != 130
+value = 130
+
+[State 130, AI fix]
+type = ctrlset
+trigger1 = AIlevel && numenemy
+value = (enemynear, time >= 120 || time >= 180)
+
+[state 130, High -> Low]
+type = changestate
+trigger1 = !ailevel && command = "holddown"
+trigger2 = ailevel && enemynear,movetype = A && enemynear,statetype = C && random < (900 * (ailevel ** 2.0 / 64.0))
+value = 131
+
+[state 130, End State]
+type = changestate
+trigger1 = !ailevel && command != "holdback"
+trigger2 = !inguarddist
+trigger3 = ailevel && numenemy
+trigger3 = enemynear,hitdefattr = SCA,AT
+value = 140
+
+;---------------------------------------------------------------------------
+; Crouch guard (guarding)
+[Statedef 131]
+type    = C
+physics = C
+
+[State 131, 1]
+type = ChangeAnim
+trigger1 = Anim != 131
+value = 131
+
+[State 131, AI fix]
+type = ctrlset
+trigger1 = AIlevel && numenemy
+value = (enemynear, time >= 120 || time >= 180)
+
+[state 131, Low -> High]
+type = changestate
+trigger1 = !ailevel && command != "holddown"
+trigger2 = ailevel && enemynear,movetype = A && enemynear,statetype != C && random < (450 * (ailevel ** 2.0 / 64.0))
+value = 130
+
+[state 131, End State]
+type = changestate
+trigger1 = !ailevel && command != "holdback"
+trigger2 = !inguarddist
+trigger3 = ailevel && numenemy
+trigger3 = enemynear,hitdefattr = SCA,AT
+value = 140
+
+;---------------------------------------------------------------------------
+; Air guard (guarding)
+[Statedef 132]
+type    = A
+physics = N
+
+[State 132, 1]
+type = ChangeAnim
+trigger1 = Anim != 132
+value = 132
+
+[State 132, 2]
+type = VelAdd
+trigger1 = 1
+y = Const(movement.yaccel)
+
+[State 132, 3]
+type = VarSet
+trigger1 = 1
+sysvar(0) = (pos y >= 0) && (vel y > 0)
+
+[State 132, 4]
+type = VelSet
+trigger1 = sysvar(0)
+y = 0
+
+[State 132, 5]
+type = PosSet
+trigger1 = sysvar(0)
+y = 0
+
+[State 132, AI fix]
+type = ctrlset
+trigger1 = AIlevel && numenemy
+value = (enemynear, time >= 120 || time >= 180)
+
+[state 132, End State]
+type = changestate
+triggerall = sysvar(0)
+triggerall = inguarddist
+trigger1 = !ailevel
+trigger1 = command = "holdback"
+trigger2 = ailevel
+value = 130
+
+[State 132, 7]
+type = ChangeState
+trigger1 = sysvar(0)
+value = 52
+
+[state 132, End State]
+type = changestate
+trigger1 = !ailevel
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+trigger3 = ailevel && numenemy
+trigger3 = enemynear,hitdefattr = SCA,AT
+value = 140
+
+;---------------------------------------------------------------------------
+; Guard (end)
+[Statedef 140]
+type = U    ;Leave state type unchanged
+physics = U ;Leave physics unchanged
+ctrl = 1
+
+[State 140, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 140 + (statetype = C) + (statetype = A)*2
+
+[State 140, 2]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = S
+physics = S
+
+[State 140, 3]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = C
+physics = C
+
+[State 140, 4]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = A
+physics = A
+
+[state 140, High -> Low]
+type = statetypeset
+trigger1 = !ailevel && statetype = S && command = "holddown"
+trigger2 = ailevel && statetype = S && enemynear,movetype = A && enemynear,statetype = C && random < (900 * (ailevel ** 2.0 / 64.0))
+statetype = C
+physics = C
+
+[state 140, Low -> High]
+type = statetypeset
+trigger1 = !ailevel && statetype = C && command != "holddown"
+trigger2 = ailevel && statetype = C && enemynear,movetype = A && enemynear,statetype != C && random < (450 * (ailevel ** 2.0 / 64.0))
+statetype = S
+physics = S
+
+;---------------------------------------------------------------------------
+; Stand guard hit (shaking)
+[Statedef 150]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 150, 1]
+type = ChangeAnim
+trigger1 = 1
+value = 150
+
+[state 150, End State]
+type = changestate
+trigger1 = hitshakeover
+value = 151 + 2 * ((!ailevel && command = "holddown") || (ailevel && enemynear,movetype = A && enemynear,statetype = C))
+
+[state 150, High -> Low]
+type = statetypeset
+trigger1 = !ailevel && statetype = S && command = "holddown"
+trigger2 = ailevel && statetype = S && enemynear,movetype = A && enemynear,statetype = C && random < (900 * (ailevel ** 2.0 / 64.0))
+statetype = C
+physics = C
+
+[state 150, Low -> High]
+type = statetypeset
+trigger1 = !ailevel && statetype = C && command != "holddown"
+trigger2 = ailevel && statetype = C && enemynear,movetype = A && enemynear,statetype != C && random < (450 * (ailevel ** 2.0 / 64.0))
+statetype = S
+physics = S
+
+[State 150, 3]
+type = ForceFeedback
+trigger1 = time = 0
+waveform = square
+time = 3
+
+;---------------------------------------------------------------------------
+; Stand guard hit (knocked back)
+[Statedef 151]
+type    = S
+movetype= H
+physics = S
+anim = 150
+
+[State 151, 1]
+type = VelSet
+trigger1 = Time = 0
+x = gethitvar(xvel) * facing
+
+[State 151, 2]
+type = VelSet
+trigger1 = Time = GetHitVar(slidetime)
+trigger2 = HitOver
+x = 0
+
+[State 151, 3]
+type = CtrlSet
+trigger1 = Time = GetHitVar(ctrltime)
+value = 1
+
+[state 151, High -> Low]
+type = statetypeset
+trigger1 = !ailevel && statetype = S && command = "holddown"
+trigger2 = ailevel && statetype = S && enemynear,movetype = A && enemynear,statetype = C && random < (900 * (ailevel ** 2.0 / 64.0))
+statetype = C
+physics = C
+
+[state 151, Low -> High]
+type = statetypeset
+trigger1 = !ailevel && statetype = C && command != "holddown"
+trigger2 = ailevel && statetype = C && enemynear,movetype = A && enemynear,statetype != C && random < (450 * (ailevel ** 2.0 / 64.0))
+statetype = S
+physics = S
+
+[State 151, 4]
+type = ChangeState
+trigger1 = HitOver
+value = 130
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch guard hit (shaking)
+[Statedef 152]
+type    = C
+movetype= H
+physics = N
+velset = 0,0
+
+[State 152, 1]
+type = ChangeAnim
+trigger1 = 1
+value = 151
+
+[state 152, End State]
+type = changestate
+trigger1 = hitshakeover
+value = 151 + 2 * ((!ailevel && command = "holddown") || (ailevel && enemynear,movetype = A && enemynear,statetype = C))
+
+[state 152, High -> Low]
+type = statetypeset
+trigger1 = !ailevel && statetype = S && command = "holddown"
+trigger2 = ailevel && statetype = S && enemynear,movetype = A && enemynear,statetype = C && random < (900 * (ailevel ** 2.0 / 64.0))
+statetype = C
+physics = C
+
+[state 152, Low -> High]
+type = statetypeset
+trigger1 = !ailevel && statetype = C && command != "holddown"
+trigger2 = ailevel && statetype = C && enemynear,movetype = A && enemynear,statetype != C && random < (450 * (ailevel ** 2.0 / 64.0))
+statetype = S
+physics = S
+
+[State 152, 4]
+type = ForceFeedback
+trigger1 = time = 0
+waveform = square
+time = 4
+
+;---------------------------------------------------------------------------
+; Crouch guard hit (knocked back)
+[Statedef 153]
+type    = C
+movetype= H
+physics = C
+anim = 151
+
+[State 153, 1]
+type = VelSet
+trigger1 = Time = 0
+x = gethitvar(xvel) * facing
+
+[State 153, 2]
+type = VelSet
+trigger1 = Time = GetHitVar(slidetime)
+trigger2 = HitOver
+x = 0
+
+[State 153, 3]
+type = CtrlSet
+trigger1 = Time = GetHitVar(ctrltime)
+value = 1
+
+[state 153,High -> Low]
+type = statetypeset
+trigger1 = !ailevel && statetype = S && command = "holddown"
+trigger2 = ailevel && statetype = S && enemynear,movetype = A && enemynear,statetype = C && random < (900 * (ailevel ** 2.0 / 64.0))
+statetype = C
+physics = C
+
+[state 153,Low -> High]
+type = statetypeset
+trigger1 = !ailevel && statetype = C && command != "holddown"
+trigger2 = ailevel && statetype = C && enemynear,movetype = A && enemynear,statetype != C && random < (450 * (ailevel ** 2.0 / 64.0))
+statetype = S
+physics = S
+
+[State 153, 4]
+type = ChangeState
+trigger1 = HitOver
+value = 131
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Air guard hit (shaking)
+[Statedef 154]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 154, 1]
+type = ChangeAnim
+trigger1 = 1
+value = 152
+
+[State 154, 2]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 155 ;AGUARDHIT2
+
+[State 154, 3]
+type = ForceFeedback
+trigger1 = time = 0
+waveform = square
+time = 4
+
+;---------------------------------------------------------------------------
+; Air guard hit (knocked away)
+[Statedef 155]
+type    = A
+movetype= H
+physics = N
+anim = 152
+
+[State 155, 1]
+type = VelSet
+trigger1 = Time = 0
+x = gethitvar(xvel) * facing
+y = gethitvar(yvel)
+
+[State 155, 2]
+type = VelAdd
+trigger1 = 1
+y = Const(movement.yaccel)
+
+[State 155, 3]
+type = CtrlSet
+trigger1 = Time = GetHitVar(ctrltime)
+value = 1
+
+[State 155, 4]
+type = VarSet
+trigger1 = 1
+sysvar(0) = (pos y >= 0) && (vel y > 0)
+
+[State 155, 5]
+type = VelSet
+trigger1 = sysvar(0)
+y = 0
+
+[State 155, 6]
+type = PosSet
+trigger1 = sysvar(0)
+y = 0
+
+[State 155, 6]
+type = ChangeState
+trigger1 = sysvar(0) && inguarddist
+trigger1 = (!AIlevel && command = "holdback") || AIlevel
+value = 130
+
+[State 155, 7]
+type = ChangeState
+trigger1 = sysvar(0)
+value = 52
 
 ;---------------------------------------------------------------------------
 ; States that are always executed (use statedef -2)
 ;---------------------------------------------------------------------------
+[Statedef -2]
+
+[state -2, Tweak: No AI Guarding by RajaaBoy]
+type = assertspecial
+triggerall = numenemy
+trigger1 = ailevel
+trigger1 = gametime % 8 = 0
+trigger1 = !((enemynear, movetype = A) && ((enemynear, hitdefattr = SCA, HA, HP, HT) || (enemynear, stateno = [2000, 4999])))
+flag = nostandguard
+flag2 = nocrouchguard
+flag3 = noairguard
+ignorehitpause = 1
+
+[State -2, Compatibility with Vans' Chizuru Kagura]
+type = palfx
+trigger1 = numprojid(131035)
+time = 1
+add = 0, 0, 92 + ceil(32*cos((time)/8.0))
+sinadd = 0,0,0,0
+color = 0
+invertall = 0
+color = 256
+ignorehitpause = 1
 
 ;---------------------------------------------------------------------------
 ; States that are executed when in self's state file (use statedef -3)

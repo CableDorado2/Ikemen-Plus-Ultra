@@ -2,100 +2,330 @@
 
 character = 
 text:
-Kung Fu Man and his Girlfriend went for a walk for a while...
+One day, while Kung Fu Man was shopping. He crosses paths with a
+girl who reminded him of Kung Fu Girl.
 
 character = 
 text:
-it was a radiant day, through the valley where they were
-the birds could be heard.
+She surprisingly recognizes him immediately
 
-character = 
+character = ???
 text:
-and those deep smells of plants wet from the rain of the previous day.
-
-character = 
-text:
-Suddenly, they were attacked by Suave Dude's Minions!!!
-which remained silent for a couple of months...
-
-character = 
-text:
-That gangs remained silent for a couple of months...
-
-character = 
-text:
-While Kung Fu Man was busy fighting with the Minions.
-Suave Dude captured his Girlfriend.
-
-character = 
-text:
-Although she learned some Kung Fu, she had never experienced this situation
-and didn't knew how to defend himself quickly..
-
-character = Kung Fu Man's Girlfriend
-text:
-HELP MEE! KUNG FU MAN!!
+I can't believe it! It is you, The Legendary Warrior.
+Kung Fu Man Sama!
 
 character = Kung Fu Man
 text:
-Oh damn, Let go her. Suave Dude!
+Kung Fu Man is ok!, and who are you?
+
+character = ???
+text:
+ohh, I was so excited, I always wanted to learn more about Kung Fu
+in your Mountainside Temple.
+
+character = ???
+text:
+Although my financial situation did not allow it. I'm your fan!.
+
+character = Kung Fu Man
+text:
+Oh I see, well the temple is closed for the moments.
+
+character = ???
+text:
+Hey, let's have a fight! I still can't believe it!
+are you real?
+
+character = Kung Fu Man
+text:
+Aren't you lost or something? It's just that..
+if I come with someone like you I don't think...
+
+character = ???
+text:
+Are you implying that I am too young?? well, sorry
+bother you, but I'll leave only if you win me a fight!
+
+character = ???
+text:
+What's wrong with you? I saw you on TV, you don't fight like that.
+Maybe did you hold back?
+
+character = Kung Fu Man
+text:
+Nah, I just don't feel very well, I'm looking for someone...
+
+character = ???
+text:
+Ohh, a while ago I fought with a girl similar to you.
+She was also amazing, I want to be like her!
+
+character = Kung Fu Man
+text:
+!!
+
+character = Kung Fu Man
+text:
+By chance, that girl you saw has hair red in color, tied as with a gift bow
+and 158cm long approximately height?
+
+character = ???
+text:
+What does he have like blue lines on his suit?
+
+character = Kung Fu Man
+text:
+YES, wait I think I have a photo...
+
+character = 
+text:
+...
+
+character = ???
+text:
+Yes, she is! Are you a couple?
+
+character = Kung Fu Man
+text:
+What is your name?
+
+character = ???
+text:
+I'm Mako Mayama. Is a pleasure!
+
+character = Kung Fu Man
+text:
+Mayama Chan, can you guide me to the last place
+where did you see that girl, please?
+
+character = Mako Mayama
+text:
+Sure... follow me.
+
+character = 
+text:
+Kung Fu Man and Mayama Chan arrive in a lonely valley..
+
+character = Kung Fu Man
+text:
+Hmm, there's no one here...
+
+character = Mako Mayama
+text:
+Over there!
+
+character = Kung Fu Man
+text:
+Kung Fu Girl!
+
+character = Kung Fu Girl
+text:
+Ah!? Kung Fu Man?
+
+character = Kung Fu Man
+text:
+Where have you been all these days!?
+
+character = Kung Fu Girl
+text:
+That... It's not something that concerns you..
+
+character = Kung Fu Man
+text:
+you believe that?
+Tell me, let's go to the temple to talk with calm
+
+character = Mako Mayama
+text:
+Helloo
+
+character = Kung Fu Girl
+text:
+What about that girl!? Maybe you couldn't stand the loneliness
+and you look for a Loli?
+
+character = Kung Fu Man
+text:
+What!? Noo, I found she a while ago in...
+
+character = 
+text:
+At that moment, they are attacked by the Suave Dude's Minions
+They it had been silent for a couple of weeks.
+
+character = 
+text:
+While Kung Fu Man, Mayama Chan and Kung Fu Girl
+were fighting with the Minions..
+
+character = 
+text:
+Suave Dude appears..
+
+character = 
+text:
+Kung Fu Girl is petrified. Kung Fu Man notices and goes to protect her.
+However, at that time...
 
 character = Suave Dude
 text:
-Ohhh but look what beauty we have here and you left
-you home alone friend. 2x1
-
-character = 
-text:
-Kung Fu Man runs towards Suave Dude and tries to use his new
-Kung Fu Crush technique, but it is still incomplete and he is knocked out
-by a surprise triple kick from Suave Dude.
-
-character = 
-text:
-After that, they leave him stranded far away in the mountains and Suave Dude
-heads to the temple with Kung Fu Man's Girlfriend...
-
-character = 
-text:
-Kung Fu Man regains consciousness and remembers what last happened
+Ohhh my beloved, where have you been all this time!
+I was looking for you!
 
 character = Kung Fu Man
 text:
-Damn, that guy didn't just take my girlfriend I neglected the temple too.
-But how the hell did he knock me out, Who taught him and his minions Kung Fu?
+Since when do you know each other?
+
+character = Suave Dude
+text:
+Ahh, I know her very well
 
 character = 
 text:
-Determined to rescue his Girlfriend and recover his Temple.
-Kung Fu Man now heads to the Hidden Path of the Mountainside Temple
-to take Suave Dude by surprise...
+Kung Fu Girl no have words, staggers and faints..
+
+character = 
+text:
+Before Suave Dude can touch Kung Fu Girl.
+Kung Fu Man pushes him away with a fast "Kung Fu Palm".
+
+character = Kung Fu Man
+text:
+Kung Fu Girl! What happens?? you are pale!
+What did you do to him?
+
+character = Suave Dude
+text:
+Hmm. She won't listen to you, since she watched my
+beauty has been perplexed HAHAHA.
+
+character = Suave Dude
+text:
+I'm sure she reminds me
+
+character = 
+text:
+Kung Fu Man runs towards Suave Dude and tries to use
+his new Kung Fu Crush technique, but it is still incomplete
+and he is knocked out by a surprise Triple Kick from Suave Dude..
+
+character = Suave Dude
+text:
+Ahh yeah, since you messed with my most valuable piece.
+I will take your house. Let's see if you can get up after this beating.
+
+character = 
+text:
+Before Kung Fu Man can get up, the last thing he observes is Suave Dude
+kidnaping Kung Fu Girl towards the Mountainside Temple.
+
+character = 
+text:
+While a large group of Minions begin to pile up and trample Kung Fu Man,
+until he is left over totally unconscious...
+
+character = 
+text:
+...
+
+character = 
+text:
+...
+
+character = 
+text:
+Eventually Kung Fu Man regains consciousness and remembers the last happened..
+
+character = Kung Fu Man
+text:
+Damn, that guy didn't just kidnaped my girlfriend.
+I neglected the temple too. I'm really out of form..
+
+character = Kung Fu Man
+text:
+I MEAN, HOW is it possible that a guy like him "Suave" could defeat me!?
+
+character = 
+text:
+Determined to rescue his Girlfriend. Kung Fu M-
+
+character = Mako Mayama
+text:
+HEYYY are you forget me!?
+
+character = Kung Fu Man
+text:
+Mayama Chan! This is something I have to figure out for myself.
+Really thank you for helping me find Kung Fu Girl.
+
+character = Kung Fu Man
+text:
+But.. I can't allow you to come with me.
+
+character = Mako Mayama
+text:
+I could be of great help, haven't you asked?
+Who took all your henchmen off your back?
+
+character = Kung Fu Man
+text:
+That's true. Hmm, how do you defeat all of them?
+I mean, I don't see them anywhere..
+
+character = Mako Mayama
+text:
+It does not matter anymore. If what people say is true, then
+Suave Dude is the genius who is capable of acquiring powers from
+other fighters with a "device" that he himself developed.
+
+character = Kung Fu Man
+text:
+Hmm, that's how he knew how to repel my attacks.
+SO, He's probably going to want to extract Kung Fu Girl's power.
+
+character = Kung Fu Man
+text:
+But there is something else, they know each other, for some reason
+Kung Fu Girl awakened a trauma from her past..
+
+character = Mako Mayama
+text:
+Well I must return to my home, good luck finding to your girlfriend.
+
+character = Kung Fu Man
+text:
+Yeah, thanks! Another day that I carry a pen.
+I will give you my autograph.
+
+character = 
+text:
+Kung Fu Man says goodbye to Mako Mayama and now..
+
+character = 
+text:
+Determined to rescue his Girlfriend..
+Kung Fu Man heads to the Mountainside Temple's Hidden Path...
 
 ;---------------------------------------------------------------------------------
 [Chapter2]
 
 character = Kung Fu Man
 text:
-Wow, there were Suave Dude's Minions in the Hidden Path, maybe
-he forced my Girlfriend to give him the entire Mountainside Temple Map
-to cover all routes to avoid an attack surprise.
+That Suave Dude... how is he so confident??
+Maybe forced my girlfriend to give him all the plans to cover
+all routes and avoid a surprise attack..
 
 character = Kung Fu Man
 text:
-Either way, I'm improving my techniques thanks to real action...
-
-character = Kung Fu Man
-text:
-Come on Suave Dude.. I know where you're hiding, come out at once!
+Anyway, I am improving my techniques thanks to getting back into real action.
 
 character = 
 text:
-At that moment a person identical to Kung Fu Man appears in
-forehead.
+At that moment a person identical to Kung Fu Man appears in forehead.
 
 character = Kung Fu Man
 text:
-What the hell, who are you!?
+What the hell do you look like me!?
 
 character = ???
 text:
@@ -103,142 +333,89 @@ HAHAHA, you are too weak to face me, DIE!
 
 character = 
 text:
-Upon threatening him, that Kung Fu Man clone
-pulls out a gun, and start shooting
+When threatened, the enemy pulls out a gun, shoots
+and Kung Fu Man steps back and hides to think a strategy.
 
 character = 
 text:
-Kung Fu Man runs off to think a strategy.
-
-character = 
-text:
-After hearing the shots, Suave Dude makes an appearance.
-
-character = Suave Dude
-text:
-What happened? have you killed him?
-
-character = ???
-text:
-No sir, he has escaped to the corridor, right now
-I'm going to slaughter him!
-
-character = Suave Dude
-text:
-Excellent!, kill the real Kung Fu Man
-and you will be able to take over his identity completely.
-
-character = Suave Dude
-text:
-This is how we will conquer the other temples and we will make a fortune!
-AHAHAHAHA. NOW UNLEASH YOUR POWER MY EVIL KUNG FU MAN!
+Until...
 
 ;---------------------------------------------------------------------------------
 [Chapter3A]
 
 character = 
 text:
-After defeat his robotic copy, Kung Fu Man goes in search of Suave Dude
-on the rooftops of Mountainside Temple.
+After awaken new skills and defeat his robotic copy.
+Kung Fu Man goes in search of Suave Dude on the Roof of the Mountainside Temple..
+
+character = Master Kung Fu Man
+text:
+I better hurry, who knows why what kind of torture Kung Fu Girl will be going through..
 
 character = 
 text:
-When Kung Fu Man reaches The Roof.
+Kung Fu Man reaches the roof, where he finds Suave Dude.
 
-character = Kung Fu Man
+character = Master Kung Fu Man
 text:
-Suave Dude! Leave my temple and let free my student.
+Leave my temple and Release Kung Fu Girl!
 
 character = Suave Dude
 text:
-Damn!, so you beat the robot. Well, it doesn't matter.
-I will finish you here and now! But I don't know which student
-you're talking about...
-
-character = ???
-text:
-So you did know!?
-
-character = 
-text:
-Suave Dude and Kung Fu Man turn around.
-
-character = 
-text:
-Kung Fu Man's Girlfriend changes into her Kung Fu clothes.
-
-character = Kung Fu Girl
-text:
-Did you always know that I was your student?
-
-character = Kung Fu Man
-text:
-Yeah, at first I had my doubts, but that smile...
-and that "charisma" that you have, no one can replace it.
-
-character = Kung Fu Man
-text:
-That's why I took it as a second chance to show my love to you
-and Kung Fu.
+Alright, let me activate self-destruction for make this dramatic.
 
 character = Suave Dude
 text:
-What does this mean miss? We had a deal!
+By the way, she has already been "released"..
 
-character = Kung Fu Girl
+character = Master Kung Fu Man
 text:
-I know what I did was reckless, but I wanted to know
-if really during the time we were apart. You could improve your Kung Fu,
-to defeat your own reflection and rescue your damsel in distress.
+Wher-
 
 character = Suave Dude
 text:
-AHG, how I repudiate these typical scenes. Since this temple has only
-brought me more than problems, so let them die all.
-
-character = 
-text:
-Suave Dude activates the Mountainside Temple's self-destruct.
+You fell! Hahahaha
 
 character = Suave Dude
 text:
-Minions, knock them out and let them burn with this temple!
+NOW! Let's do a show:
+Generic character (with his maximum power awakened)
+Vs
+Bad Guy with an countdown and a kidnapped princess!
 
-character = Kung Fu Man
+character = Suave Dude
 text:
-I'll go for Suave Dude to disable the self-destruct
-you neutralize the Minions!
-
-character = Kung Fu Girl
-text:
-Ok Sensei, it's time to end this theater!
-
+Who will be the champion!?
 
 ;---------------------------------------------------------------------------------
 [Chapter3B]
 
 character = 
 text:
-Kung Fu Man is struck down by Evil Kung Fu Man and is
-taken to the Roof before Suave Dude.
+Kung Fu Man is defeated by Evil Kung Fu Man and is taken
+to the Mountainside Temple's Roof before Suave Dude..
 
 character = 
 text:
-When waking up:
+When waking up..
 
 character = Suave Dude
 text:
-Welcome to the Roof of Truths!
-The last place you will see before being replaced..
-
-character = Kung Fu Man
-text:
-Replaced?
+Welcome to MY Roof of Truths, the last place you will see
+before being replaced!
 
 character = 
 text:
-Kung Fu Man stands up abruptly but at that moment, his Evil clone
-uses his robotic arm to push him into a wall.
+Kung Fu Man stands up abruptly
+
+character = Kung Fu Man
+text:
+Replaced? YOU CAN NEVER REPLACE KUNG F-
+
+character = 
+text:
+At that moment, his evil clone uses his robotic arm to
+push him towards a wall.
 
 character = Suave Dude
 text:
@@ -257,8 +434,11 @@ How could you replicate my moves in a machine if you don't know me?
 character = Suave Dude
 text:
 Hehe, well I didn't use AI or record them with Evil Kung Fu Man or
-a camera the size of a fly either;
-It was thanks to someone who you knows very well..
+a camera the size of a fly either
+
+character = Suave Dude
+text:
+It was thanks to the data from someone who you knows very well..
 
 character = 
 text:
@@ -266,530 +446,234 @@ Kung Fu Girl appears
 
 character = Kung Fu Man
 text:
-Impossible, where were you all this time?
+Wait, how you're not imprisoned in a tower?
+
+character = 
+text:
+Kung Fu Girl approaches and slaps Kung Fu Man
 
 character = Kung Fu Girl
 text:
-I was always here...
+Fool! How is it possible that this guy captures me?
+and you are not able to rescue me..
+
+character = Kung Fu Girl
+text:
+You are not the Kung Fu Man from that I fell in love.
 
 character = Kung Fu Man
 text:
-What? Well, I just wanted...
+Well, I just wante-
 
 character = Kung Fu Girl
 text:
 Pretend that you wanted to improve your Kung Fu and then
-forget about me with another woman!?
+replace me with a child!? It's clear that I was just getting in the way, no.
+you were able to recognize my potential..
 
 character = Kung Fu Girl
 text:
-It's clear that I was just getting in your way.
-You were not able to recognize my potential, we could have lived
-together and avoid all this drama.
+We could have lived together and avoid all this drama.
 
-character = Kung Fu Man
+character = 
 text:
-NO, wait!
+Kung Fu Girl, starts to destabilize
 
 character = Suave Dude
 text:
-Well friend, it's time to see what you're made of,
+Wow, calm down!
+
+character = Suave Dude
+text:
+Well buddy, it's time to see what are you made
 I already have the Band and the laboratory up and running.
-Ready for die?
+Ready to die?
 
 ;---------------------------------------------------------------------------------
 [Chapter4A]
 
-character = 
+character = Master Kung Fu Man
 text:
-Kung Fu Man and Kung Fu Girl manage to stop Suave Dude
-and his Minions in time before the countdown reach zero.
+Suave Dude, is over!
 
-character = 
+character = Suave Dude
 text:
-After checking that Suave Dude is knocked out:
-
-character = Kung Fu Girl
-text:
-Follow me sensei, I think I know where the generator
-that Suave Dude installed is.
-
-character = 
-text:
-While they both run down the hallway:
-
-character = Kung Fu Man
-text:
-why Suave Dude wanted put a self-destruct system in the temple?
-
-character = Kung Fu Man
-text:
-I mean, didn't he want to take this place?
-
-character = Kung Fu Girl
-text:
-Later we need to discuss what happened well, but in short.
-Suave Dude wanted to start a supercomputer
-to mine cryptocurrencies..
-
-character = Kung Fu Girl
-text:
-Then Mountainside Temple was going served as
-its base of illegitimate operations...
-
-character = Kung Fu Girl
-text:
-However, if you managed to cause him trouble
-he would have a plan B which consisted of killing you
-along with the evidence of his illegal operations.
-
-character = Kung Fu Man
-text:
-AND YOU SUPPORTED ALL THAT?
-
-character = Kung Fu Girl
-text:
-No! I mean.. actually..
-I just wanted to hurt you in a sentimental way
-
-character = Kung Fu Girl
-text:
-"letting myself be kidnapped", but my intention went too far
-
-character = Kung Fu Girl
-text:
-When I found out what he really wanted to
-he took advantage of my plan to set up his own.
-
-character = 
-text:
-Both reach the generator and deactivate the self-destruct system.
-
-character = Kung Fu Girl
-text:
-I was a fool to trust that a "Ricachon" would fulfill my wish
-without seeking something in return.
-
-character = Kung Fu Man
-text:
-Well.. You
-
-character = 
-text:
-At that time, Evil Kung Fu Man who was supposedly destroyed
-is activated to go in search of Suave Dude.
-
-character = 
-text:
-Kung Fu Girl and Kung Fu Man end up destroying it
-with an dual special attack.
-
-character = Kung Fu Man
-text:
-HA, nothing like mastered Kung Fu.
-
-character = Kung Fu Girl
-text:
-You said it haha, and now...
-
-character = Kung Fu Girl
-text:
-What are we left with that day?
-
-character = Kung Fu Man
-text:
-Hmm. First we have to deliver Suave Dude to the police..
-
-character = 
-text:
-Weeks after the incident..
-
-character = 
-text:
-Kung Fu Man finds Kung Fu Girl training in a park
-
-character = Kung Fu Girl
-text:
-This is wonderfull! I missed going back too much train with you sensei.
+Hahaha, I don't think that..
+IN FACT! This is just the beginning..
+congratulations you have achieved your "Good Ending"!
 
 character = Master Kung Fu Man
 text:
-Yeah, same here
+Tell me where you have Kung Fu Girl!
+
+character = Suave Dude
+text:
+She does not exist, she is an "Illusion" created by me, for
+put together an example of our story that will never be finished.
 
 character = Master Kung Fu Man
 text:
-That time you were walking dressed up I didn't feel so comfortable.
-But let's keep looking forward the future instead of worrying about the past.
+Okay, I guess my punches stunned you enough.
+So, I will make you suffer until you tell me!
 
-character = Kung Fu Girl
+character = Suave Dude
 text:
-We must get stronger, don't you know?
+Woah, save that last for another kind of ending buddy.
 
-character = Kung Fu Girl
+character = Suave Dude
 text:
-Soon we will receive new guests to train in the
-temple for the inevitable Multiversal Tournament.
-
-character = Master Kung Fu Man
-text:
-Oh, the canonical event that occurs every certain centuries
-I have also been training to represent my clan there.
-
-character = Kung Fu Girl
-text:
-Best of all, I made some friends during
-my journey of self-exploration and they taught me
-new ways to exponentially increase my skills!
+Ehehehe, I'm sure you want to know why she could imitate your techniques
+or how I could build a clone of yours too fast..
 
 character = Master Kung Fu Man
 text:
-Are you implying that you have surpassed me? Well I see that
-You didn't completely waste your time with that bully.
+Speaks!
+
+character = Suave Dude
+text:
+It's easy... the world where we live is like a micro-matrix..
+here it is possible to create any fighter who can copy techniques from others.
 
 character = Master Kung Fu Man
 text:
-Then show me your full potential like in the old days!
+That's...impossible, she must have some innate talent or something similar,
+Otherwise, other fighters like her would have appeared sooner..
+
+character = Suave Dude
+text:
+Well, you beat me. If you are looking for a Extra Challenge
+Take your decision..
+
+character = Master Kung Fu Man
+text:
+What do you mean?
+
+character = Suave Dude
+text:
+I have already complete my purpose and I consider that you too..
+but I warn you, this challenge will be the most difficult one
+you can face in this story...
+
+character = 
+text:
+.
 
 ;---------------------------------------------------------------------------------
 [Chapter4B]
 
-character = 
+character = Suave Dude
 text:
-After a furious battle, Kung Fu Man manages to defeat all.
-However..
+Fascinating, this is a test of your true potential.
+However it is useless!
+
+character = Kung Fu Man
+text:
+Do you think this is a game?
 
 character = Suave Dude
 text:
-Ahahahaha, YES THAT'S IT! I can FEEL your anger Man.
-Just look at your boyfriend girl
+In fact it is, that's why our story was never completed.
+All this is a simulation, an example of what is possible to tell and create.
+
+character = Suave Dude
+text:
+Our existence hangs by a thread..
+In any moment we will be replaced by characters from other universes/franchises.
+
+character = Suave Dude
+text:
+The power of this world known as M.U.G.E.N is unlimited,
+we must fear human creativity!
 
 character = Kung Fu Girl
 text:
-And is this Kung Fu for you Kung Fu Man? Becau-
+Hey, but this is I.K.E.M.E.N
+
+character = Suave Dude
+text:
+That makes it much more dangerous lol.
 
 character = Kung Fu Man
 text:
-ENOUGH! You deceived me and in the process you allied yourself with
-this ruffian to invade my temple! What the hell were you on thought-out?
+I don't understand anything that's happening.
+Before things were simpler. Why complicate your existence?
+
+character = Suave Dude
+text:
+Just.. relax man, look, here come the credits.
+Are you ready to disappear?
 
 character = Kung Fu Girl
 text:
-Ahh, you already understand what it feels like to be abandoned
-your luck eh? Although I didn't know that all this time you knew that
-It was really me...
-
-character = Kung Fu Man
-text:
-I didn't abandon you, I just told you to go look more strength
-by taking time for yourself, that was going to help me also to improve.
-
-character = Kung Fu Man
-text:
-You could return at any time, but I SEE that you wasted it
-THEY EVEN CLONED ME! Did you want to get rid of me completely?
-
-character = Suave Dude
-text:
-JO! It gets better if I tell you that she taught me
-all those techniques with I confronted you.
-
-character = Suave Dude
-text:
-Although go trash, because they were of no use to me.
+Aww, I don't want to disappear, please, you who are
+watching me, add me to your game.
+I don't want my code disappear!
 
 character = 
 text:
-A furious Kung Fu Man runs and hits hard at Kung Fu Girl
-she tries to defend herself.. but not having enough force
-after the previous combat
-
-character = 
-text:
-she slips and is hanging from the Roof about to fall..
-
-character = Suave Dude
-text:
-Evil Kung Fu Man, activates the self-destruct of the Temple!
-
-character = Kung Fu Man
-text:
-OH I DON'T BELIEVE IT!
-
-character = 
-text:
-Kung Fu Man runs to prevent his clone from destroying the
-temple, but at that moment..
-
-character = 
-text:
-With the little strength he had left
-Kung Fu Girl lets out a cry of despair.
-
-character = Kung Fu Girl
-text:
-Sensei! I can't ho-ld!
-
-character = 
-text:
-Kung Fu Man goes crazy to maintain his temple,
-leaving him deaf and blind to his other priority.
-
-character = 
-text:
-So destroy everything was left of Evil Kung Fu Man
-but then he hears the screams of Kung Fu Girl falling from the Roof.
-
-character = Kung Fu Girl
-text:
-KYAAAhh!
-
-character = 
-text:
-Kung Fu Man runs, but it is impossible to hold his hand again.
-
-character = Kung Fu Man
-text:
-NOOOOOOOOOO, damn!!!
-
-character = Suave Dude
-text:
-Ahahahaha, you saved the temple, well done, but what cost?
-HA HA HA HA HAA
-
-character = Suave Dude
-text:
-I honestly wanted to see how you both burned alive
-buttt I guess it was all over for me.
-
-character = 
-text:
-Kung Fu Man doesn't say anything, he stands on the edge of the roof looking
-to the ground the gutted body of the girl..
-
-character = Suave Dude
-text:
-Man tell me something! You broke my ribs and I am no will be able
-to appreciate the girl's corpse. But cheer up!
-
-character = Suave Dude
-text:
-What do you think about have a party at your temple by unmarried farewell?
-
-character = 
-text:
-Kung Fu Man turns around and picks up Suave Dude from the floor.
-
-character = 
-text:
-Then, he throws him into the air and hits him with a
-Smash Kung Fu Upper.
-
-character = 
-text:
-Before he falls remember Evil Kung Fu Man's grip on him
-he did before and retorts it with anger in his eyes.
-
-character = 
-text:
-Finally, he focuses all his anger on the new technique he has
-been perfecting, but now it has been distorted:
-Kung Fu Crush.
-
-character = 
-text:
-Lightning strikes Suave Dude's body as he flies away
-from the roof from that brutal blow.
-
-character = 
-text:
-The last thing you heard is a heartbreaking scream coming from the
-Mountainside Temple Roof and a wave of Minions approaching to avenge
-their leader, while the rain falls on the long and dark night...
+..
 
 ;---------------------------------------------------------------------------------
 [Chapter4C]
 
-character = 
+character = Suave Dude
 text:
-The fight has reached its climax..
-
-character = 
-text:
-There are bodies of Minions scattered throughout the room.
-
-character = 
-text:
-Suave Dude can barely stand and both Kung Fu Man and Kung Fu Girl
-are exhausted after using their maximum power.
+Haha, I guess your time is over buddy.
 
 character = Master Kung Fu Man
 text:
-The countdown almost reaches zero,
-We have to leave the temple!
-
-character = Kung Fu Girl
-text:
-Everything you've worked for will disappear..
-
-character = Kung Fu Girl
-text:
-I think know where the generator is with the explosives
-
-character = Kung Fu Girl
-text:
-There is still a way to reach and stop the self-destruction..
-I'll use my new speed technique to catch up.
-
-character = Master Kung Fu Man
-text:
-Don't do it! It's too dangerous
+Damn, what now?
 
 character = Suave Dude
 text:
-Agh, ehehe, ahahaha
+You will have to try again..
 
 character = Suave Dude
 text:
-wh-at a couple of lovebirdss.....
-
-character = Suave Dude
-text:
-Ahg. I'm going to see you burn likeee a chicken
-in a matter of seconds GAHg.
-
-character = Suave Dude
-text:
-I have been able endure thanks to the techniques
-that your friend taught me.
-
-character = Master Kung Fu Man
-text:
-Suave Dude! I'll g-
-
-character = Kung Fu Girl
-text:
-NO! This is my mistake, I caused all this, now
-I must fix it at any cost.
-
-character = Master Kung Fu Man
-text:
-In fact, if I hadn't told you it that day
-I don't think this would have happened...
+what we are left with is just wait for all this temple collapse
+due countdown and watch the credits..
 
 character = 
 text:
-In the blink of an eye and without a last word
-Kung Fu Girl uses dizzying speed to go stop the
-self destruction.
-
-character = 
-text:
-Kung Fu Man realizes it within seconds and runs after her,
-letting an injured Suave Dude escape...
-
-character = 
-text:
-In the corridor, Kung Fu Man finds the remains of Evil Kung Fu Man
-who activates and stops him pushing it with its robust robotic arm
-until it is out of the temple...
-
-character = 
-text:
-Evil Kung Fu Man emits one last laugh
-that will stay for always in Kung Fu Man's head.
-
-character = 
-text:
-The last thing heard is a big explosion in the
-Mountainside Temple, as well as the desperate cry
-of a Master Kung Fu who has lost someone he can never get back...
-
-character = 
-text:
-Perhaps, that man jumped to that hasty conclusion
-because the authorities never found Kung Fu Girl's body...
+...
 
 ;---------------------------------------------------------------------------------
 [Chapter4D]
 
 character = 
 text:
-Kung Fu Man falls brutally from the roof.
-
-character = 
-text:
-The sound of broken bones echoes through that place
-
-character = 
-text:
-After a few minutes the rainy stops..
-
-character = 
-text:
-Kung Fu Girl, Suave Dude and Evil Kung Fu Man go down
-to the playground and approach Kung Fu's body Man.
-
-character = 
-text:
-They find that man with a suffering face.
-a face of indescribable pain, with red tears..
-
-character = Kung Fu Man
-text:
-I... I was wrong, I didn't know how to handle things
-so I decided get rid of my feelings for you.
-When I finally could find the balance you were no longer there
-and I met her...
+Kung Fu Man falls from the roof and dies brutally hit by soil.
 
 character = Suave Dude
 text:
-Man.. you really are blind, you student..
-she was always the Girlfriend I kidnapped.
+Oh, well I guess they'll have to create someone
+stronger than Kung Fu Man who can face us huh?
+
+character = Kung Fu Girl
+text:
+What do you mean by "they"?
 
 character = Suave Dude
 text:
-I found her crying that day that you told him to leave your temple.
-
-character = Kung Fu Man
-text:
-Agh.. gs. n-o waay
-Kung Fu Girl... why?, why did you help Suave Dude?
-why did you lie to me?
+Oh, the players of course
 
 character = Kung Fu Girl
 text:
-Suave Dude and I had common goals.
-Taking away everything you had, that meant making you feel loved.
-Just like you once made me feel...
+So this is an example of a Bad Ending?
+
+character = Suave Dude
+text:
+Yeah, if you lose all the time nothing good can happen..
+
+character = Suave Dude
+text:
+By the way, we better go down and pick up his body,
+because it's going to start to rot...
 
 character = Kung Fu Girl
 text:
-Now you don't have nothing left, even a robot will replace you.
-
-character = Kung Fu Girl
-text:
-So now you can leave this world LOOSERR
-
-character = Kung Fu Girl
-text:
-Bye Bye Kung Fu Man.
+Uhgss, do it yourself!
 
 character = 
 text:
-After having spilled a lot of blood
-Kung Fu Man begins to see everything blurry
-can no longer speak, only hear his pathetic destiny..
-
-character = Suave Dude
-text:
-We will burn the body along with what remains of the
-temple to then rebuild our new empire from this area.
-
-character = Suave Dude
-text:
-Now come with me and I will put the whole village at your feet
-my master girl.
-
-character = 
-text:
-Kung Fu Man loses consciousness...
+....

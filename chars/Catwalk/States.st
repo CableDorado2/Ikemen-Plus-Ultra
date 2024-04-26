@@ -6,7 +6,7 @@
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 
 [State 0, OK]
 type = changestate
@@ -27,7 +27,7 @@ value = 200
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 
 [State 1, Snd]
@@ -66,7 +66,7 @@ value = 2
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 
 [State 2, Time]
@@ -192,18 +192,20 @@ abspan = 0
 
 [State 2, Applause]
 type = playsnd
-trigger1 = var(10) = 1
-trigger1 = var(12) = 50 || (var(12) >= 100 && !(var(12) % 100))
+triggerall = var(10) = 1
+trigger1 = var(12) = 50
+trigger2 = var(12) >= 100 && !(var(12) % 100)
 value = 5, 1
 
 [State 2, Boo]
 type = playsnd
-trigger1 = var(10) = -1 && var(2) <= 0
+trigger1 = var(10) = -1
+trigger1 = var(2) <= 0
 value = 5, 2
 
 [State 2, Message]
 type = helper
-triggerall = var(10) = 1
+trigger1 = var(10) = 1
 trigger1 = var(12) >= 5 && !(var(12) % 5)
 helpertype = normal
 stateno = 800
@@ -445,7 +447,7 @@ value = 5151
 [Statedef 500]
 movetype = I
 physics = N
-anim = 0
+anim = 9999
 
 [State 500, NHB]
 type = nothitby
@@ -687,7 +689,7 @@ value = 506
 [Statedef 505]
 movetype = I
 physics = N
-anim = 0
+anim = 9999
 
 [State 506, End]
 type = removeexplod
@@ -784,7 +786,7 @@ value = 500
 [Statedef 506]
 movetype = I
 physics = N
-anim = 0
+anim = 9999
 
 [State 506, End]
 type = removeexplod
@@ -939,7 +941,7 @@ trigger1 = time >= 80
 [Statedef 700]
 movetype = I
 physics = N
-anim = 0
+anim = 9999
 
 [State 700, NHB]
 type = nothitby
@@ -1284,7 +1286,7 @@ trigger1 = !numexplod
 [Statedef 705]
 movetype = I
 physics = N
-anim = 0
+anim = 9999
 
 [State 705, NHB]
 type = nothitby
@@ -1350,7 +1352,7 @@ value = 700
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -1595,7 +1597,7 @@ value = 1007
 
 [State 1000, Check Input]
 type = changestate
-trigger1 = fvar(0) <= 25
+trigger1 = fvar(0) <= 26
 value = 1001
 
 
@@ -1604,7 +1606,7 @@ value = 1001
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -1636,13 +1638,17 @@ trigger7 = playerID(root, var(1)), command = "up"
 trigger8 = var(13) != 1031 || var(23) = 1031
 trigger8 = playerID(root, var(1)), command = "down"
 trigger9 = var(13) != 1032 || var(23) = 1032
-trigger9 = playerID(root, var(1)), command = "back" && playerID(root, var(1)), facing = 1
+trigger9 = playerID(root, var(1)), facing = 1
+trigger9 = playerID(root, var(1)), command = "back"
 trigger10 = var(13) != 1032 || var(23) = 1032
-trigger10 = playerID(root, var(1)), command = "fwd" && playerID(root, var(1)), facing = -1
+trigger10 = playerID(root, var(1)), facing = -1
+trigger10 = playerID(root, var(1)), command = "fwd"
 trigger11 = var(13) != 1033 || var(23) = 1033
-trigger11 = playerID(root, var(1)), command = "fwd" && playerID(root, var(1)), facing = 1
+trigger11 = playerID(root, var(1)), facing = 1
+trigger11 = playerID(root, var(1)), command = "fwd"
 trigger12 = var(13) != 1033 || var(23) = 1033
-trigger12 = playerID(root, var(1)), command = "back" && playerID(root, var(1)), facing = -1
+trigger12 = playerID(root, var(1)), facing = -1
+trigger12 = playerID(root, var(1)), command = "back"
 value = 1006
 
 [State 1001, A]
@@ -1705,16 +1711,20 @@ var(23) = 1031
 type = varset
 triggerall = var(13)
 triggerall = playerIDexist(root, var(1))
-trigger1 = playerID(root, var(1)), command = "back" && playerID(root, var(1)), facing = 1
-trigger2 = playerID(root, var(1)), command = "fwd" && playerID(root, var(1)), facing = -1
+trigger1 = playerID(root, var(1)), facing = 1
+trigger1 = playerID(root, var(1)), command = "back"
+trigger2 = playerID(root, var(1)), facing = -1
+trigger2 = playerID(root, var(1)), command = "fwd"
 var(23) = 1032
 
 [State 1001, Right]
 type = varset
 triggerall = var(13)
 triggerall = playerIDexist(root, var(1))
-trigger1 = playerID(root, var(1)), command = "fwd" && playerID(root, var(1)), facing = 1
-trigger2 = playerID(root, var(1)), command = "back" && playerID(root, var(1)), facing = -1
+trigger1 = playerID(root, var(1)), facing = 1
+trigger1 = playerID(root, var(1)), command = "fwd"
+trigger2 = playerID(root, var(1)), facing = -1
+trigger2 = playerID(root, var(1)), command = "back"
 var(23) = 1033
 
 [State 1001, Miss]
@@ -1751,18 +1761,18 @@ value = 1005
 [State 1001, Pos]
 type = varadd
 trigger1 = roundstate = 2
-fvar(0) = (root, fvar(4))
+fvar(0) = root, fvar(4)
 
 [State 1001, Pos]
 type = posset
 trigger1 = 1
 x = ifelse(teamside = 2, 47, -143)
-y = ceil(pos y -screenpos y) + fvar(0)
+y = ceil(pos y - screenpos y) + fvar(0)
 
 [State 1001, Miss]
 type = changestate
-trigger1 = time
-trigger1 = fvar(0) < 6
+trigger1 = time > 0
+trigger1 = fvar(0) < 4
 value = 1006
 
 [State 1001, Clean]
@@ -1777,7 +1787,7 @@ value = 1007
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -1861,7 +1871,7 @@ trigger1 = !numexplod
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -1901,7 +1911,7 @@ trigger1 = !numexplod
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -3308,7 +3318,7 @@ value = 2000
 type = A
 movetype = H
 physics = N
-anim = 0
+anim = 9999
 
 [State 5150, Safety]
 type = changestate
@@ -3327,7 +3337,7 @@ kill = 1
 type = A
 movetype = I
 physics = N
-anim = 0
+anim = 9999
 
 [State 5151, P2 State]
 type = targetstate
@@ -3485,7 +3495,7 @@ value = 190
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 
 [State 190, End]
@@ -3651,7 +3661,8 @@ movecamera = 1, 0
 
 [State -2, Camera]
 type = width
-trigger1 = !numpartner && roundstate >= 2
+trigger1 = !numpartner
+trigger1 = roundstate >= 2
 edge = 320, 320
 
 [State -2, Ctrl]
@@ -3744,5 +3755,5 @@ ignorehitpause = 1
 [State -2, Debug]
 type = appendtoclipboard
 trigger1 = 1
-text = "\nBy PotS - http://www.mugenguild.com/pots/"
+text = "\nBy PotS - https://network.mugenguild.com/pots/"
 ignorehitpause = 1

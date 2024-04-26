@@ -22,3 +22,9 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
+1010, 0, data\charTrash\Strength_Training\s091.png,  25,102
+1010, 1, data\charTrash\Strength_Training\s092.png,  25,102
+1010, 2, data\charTrash\Strength_Training\s093.png,  25,100
+1070, 0, data\charTrash\Strength_Training\s110.png,  25,104
+1075, 0, data\charTrash\Strength_Training\s112.png,  25,100
+1075, 1, data\charTrash\Strength_Training\s113.png,  25, 84

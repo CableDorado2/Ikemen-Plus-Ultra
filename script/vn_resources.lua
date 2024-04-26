@@ -82,7 +82,8 @@ txt_boxCfg = createTextImg(font1, 0, 1, "", 0, 0) --Narrative Text Box Config
 vnBG0 = animNew(vnSff, [[
 0,0, 0,0, -1
 ]])
-animAddPos(vnBG0, 0, 0)
+animAddPos(vnBG0, -54, 0)
+animSetScale(vnBG0, 0.34, 0.34)
 animUpdate(vnBG0)
 
 --Text background
@@ -116,3 +117,18 @@ animAddPos(vnKfm1, 0, 0)
 animSetScale(vnKfm1, 0.25, 0.25)
 animUpdate(vnKfm1)
 
+--Mako Mayama 1
+vnMM1 = animNew(vnSff, [[
+4,0, 0,0, -1
+]])
+animAddPos(vnMM1, 280, 0)
+animSetScale(vnMM1, 0.75, 0.75)
+animUpdate(vnMM1)
+
+--Mako Mayama 2
+vnMM2 = animNew(vnSff, [[
+4,1, 0,0, -1
+]])
+animAddPos(vnMM2, 0, 0)
+animSetScale(vnMM2, 1, 1)
+animUpdate(vnMM2)

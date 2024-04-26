@@ -6,7 +6,7 @@
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 
 [State 0, Safety]
@@ -40,6 +40,7 @@ statetype = S
 type = changestate
 trigger1 = !alive
 value = 5150
+ctrl = 0
 
 
 ;====================<APPEAR>====================
@@ -47,7 +48,7 @@ value = 5150
 type = S
 physics = S
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -639,7 +640,7 @@ value = 1010
 type = A
 physics = N
 movetype = H
-anim = 0
+anim = 9999
 velset = 0, 0
 
 [State 1080, life]
@@ -686,7 +687,7 @@ trigger1 = time
 type = A
 physics = N
 movetype = H
-anim = 0
+anim = 9999
 velset = 0, 0
 
 [State 1090, NHB]
@@ -833,7 +834,7 @@ trigger1 = time >= 32
 type = A
 movetype = H
 physics = N
-anim = 0
+anim = 9999
 
 [State 5150, override]
 type = changestate
@@ -963,6 +964,7 @@ value = 5901
 type = S
 physics = N
 movetype = I
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -986,6 +988,7 @@ value = 190
 type = S
 physics = N
 movetype = I
+anim = 9999
 ctrl = 0
 velset = 0, 0
 
@@ -1031,12 +1034,13 @@ type = changestate
 trigger1 = time >= 180
 value = 191
 
+
 ;----- Wait -----
 [Statedef 191]
 type = A
 physics = N
 movetype = I
-anim = 0
+anim = 9999
 ctrl = 0
 
 [State 191, End]
@@ -1083,6 +1087,7 @@ value = 1
 [Statedef 500]
 movetype = I
 physics = N
+anim = 9999
 sprpriority = -3
 
 [State 500, NHB]
@@ -1450,7 +1455,7 @@ var(5) = 0
 [State -2, Anim]
 type = changeanim
 trigger1 = !ishelper
-value = 0
+value = 9999
 
 [State -2, Time]
 type = varadd
@@ -1520,5 +1525,5 @@ ignorehitpause = 1
 [State -2, Debug]
 type = appendtoclipboard
 trigger1 = !ishelper
-text = "\nBy PotS - http://www.mugenguild.com/pots/"
+text = "\nBy PotS - https://network.mugenguild.com/pots/"
 ignorehitpause = 1

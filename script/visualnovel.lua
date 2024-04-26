@@ -715,9 +715,14 @@ end
 --;===========================================================
 function f_drawVN()
 	if vnChapter == 1 then
-		if VNtxt == 1 then
-			--animDraw(vnBG0)
-			animDraw(vnKfm1)
+		if VNtxt > 0 and VNtxt < 24 then
+			animDraw(vnBG0)
+			if VNtxt >= 4 and VNtxt <= 10 then
+				animDraw(vnKfm1)
+			end
+			if VNtxt >= 3 and VNtxt <= 9 then
+				animDraw(vnMM1)
+			end
 		end
 	end
 end
