@@ -588,8 +588,6 @@ end
 --Common Textbox Settings
 function f_resetFullVN()
 VNtxtActive = 1
-VNtxt = 1
---vnChapter = 1
 VNscroll = 0
 VNnodelay = 0
 VNdelay = data.VNdelay
@@ -615,10 +613,11 @@ VNscroll = 0
 VNdelay = data.VNdelay
 end
 
-function f_vnScene(int)
+function f_vnScene(chaptNo, dialogueNo)
 	playBGM("")
 	f_resetFullVN()
-	vnChapter = int
+	vnChapter = chaptNo --What chapter number does it start in?
+	VNtxt = dialogueNo --What dialogue number does it start in?
 	cmdInput()
 	while true do
 		--Actions
@@ -666,10 +665,12 @@ function f_vnScene(int)
 	end
 end
 
-function f_vnExample(number)
+--[[
+function f_vnExample(chaptNo, dialogueNo)
 	playBGM("")
 	f_resetFullVN()
-	vnChapter = number
+	vnChapter = chaptNo
+	VNtxt = dialogueNo
 	cmdInput()
 	while true do
 		if VNtxtEnd then break end
@@ -709,6 +710,7 @@ function f_vnExample(number)
 		refresh()
 	end
 end
+]]
 
 --;===========================================================
 --; VISUAL NOVEL ASSETS DRAW LOGIC
@@ -716,6 +718,7 @@ end
 function f_drawVN()
 	--Draw Chapter 1 Visuals
 	if vnChapter == 1 then
+		if VNtxt == 15 then VNtxtEnd = true end --End VN Mode to Start a Fight in middle of Chapter 1
 		if VNtxt > 0 and VNtxt < 24 then
 			animDraw(vnBG0)
 			if VNtxt >= 4 and VNtxt <= 10 then

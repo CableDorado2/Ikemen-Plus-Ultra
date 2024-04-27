@@ -59,8 +59,15 @@ If someone see me with you.. I thin-
 character = ???
 text:
 Are you implying that I'm too young??
-Well, sorry bother you but
-I'll leave in peace only if you fight with me!
+
+character = ???
+text:
+Well, sorry bother you but.. I'll leave you in peace
+only if you fight with me!
+
+character = 
+text:
+...
 
 character = ???
 text:
@@ -760,7 +767,7 @@ text:
 Aww, I don't want to disappear. Please!
 YOU the one who is looking me, add me to your game!!
 _
-I don't want my code disappear! :c
+I don't want my code disappear! :u
 
 character = 
 text:
@@ -783,7 +790,8 @@ You will have to try again..
 
 character = Suave Dude
 text:
-what we are left with is just wait for all this temple collapse
+what we're left with is just
+wait for all this temple collapse
 due countdown and watch the credits..
 
 character = 
@@ -795,7 +803,8 @@ text:
 
 character = 
 text:
-Kung Fu Man falls from the roof and dies brutally hit by soil.
+Kung Fu Man falls from the roof
+and dies brutally hit by soil.
 
 character = Suave Dude
 text:
@@ -816,11 +825,12 @@ So this is an example of a Bad Ending?
 
 character = Suave Dude
 text:
-Yeah, if you lose all the time nothing good can happen..
+Yeah, if you lose all the time
+nothing good can happen..
 
 character = Suave Dude
 text:
-By the way, we better go down and pick up his body,
+By the way, we better go down and pick up his body
 because it's going to start to rot...
 
 character = Kung Fu Girl

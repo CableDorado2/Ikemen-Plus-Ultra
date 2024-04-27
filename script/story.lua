@@ -542,7 +542,7 @@ function f_storyMenu()
 			if data.story1_4BStatus == 1 then t_arc1[7].Status = checkIco end
 			if data.story1_4BUnlock == true	then
 				t_arc1[7].Preview = st1_4B
-				t_arc1[7].Info = "THE FUN IS ENDLESS.		IKEMEN IS LOVE, IKEMEN IS LIFE."
+				t_arc1[7].Info = "THE FUN IS ENDLESS.                IKEMEN IS LOVE, IKEMEN IS LIFE."
 			end
 		elseif storyMenu == 1 and chapterMenu == 8 then
 			if data.story1_4CStatus == 1 then t_arc1[8].Status = checkIco end
@@ -683,7 +683,9 @@ end
 
 --KIDNAPPING
 function f_arc1_chapter1()
-	script.visualnovel.f_vnScene(1)
+	script.visualnovel.f_vnScene(1,1)
+	
+	script.visualnovel.f_vnScene(1,16)
 	f_default() --Reset settings for the custom fight
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
@@ -714,7 +716,7 @@ end
 
 --KILLER MIRROR
 function f_arc1_chapter2()
-	script.visualnovel.f_vnScene(2)
+	script.visualnovel.f_vnScene(2,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -747,7 +749,7 @@ end
 
 --THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
-	script.visualnovel.f_vnScene(3)
+	script.visualnovel.f_vnScene(3,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -780,7 +782,7 @@ end
 
 --BROKEN SPIRIT
 function f_arc1_chapter3_2()
-	script.visualnovel.f_vnScene(4)
+	script.visualnovel.f_vnScene(4,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	remapInput(1, 2) --P1 controls p2 side
@@ -818,7 +820,7 @@ end
 
 --FINAL DESTINATION
 function f_arc1_chapter4_1()
-	script.visualnovel.f_vnScene(5)
+	script.visualnovel.f_vnScene(5,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -844,7 +846,7 @@ end
 
 --LIFE LESSON
 function f_arc1_chapter4_2()
-	script.visualnovel.f_vnScene(6)
+	script.visualnovel.f_vnScene(6,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -856,7 +858,7 @@ end
 
 --ZERO HOUR
 function f_arc1_chapter4_3()
-	script.visualnovel.f_vnScene(7)
+	script.visualnovel.f_vnScene(7,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -868,7 +870,7 @@ end
 
 --THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
-	script.visualnovel.f_vnScene(8)
+	script.visualnovel.f_vnScene(8,1)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
