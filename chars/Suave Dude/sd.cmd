@@ -838,4 +838,4 @@ trigger1 = ctrl
 type = varset 
 triggerall = var(59) = 0 
 trigger1 = 1
-var(59) = 0	;0で通常版、1でボスモードに、2で常時本気モード
+var(59) = 1	;0で通常版、1でボスモードに、2で常時本気モード

@@ -512,7 +512,7 @@ function f_storyMenu()
 			if data.story1_1Status == 1 then t_arc1[2].Status = checkIco end
 			if data.story1_1Unlock == true then --If this chapters is unlocked
 				t_arc1[2].Preview = st1_1 --Load Chapter Preview
-				t_arc1[2].Info = "WHILE KUNG FU MAN WAS LOOKING FOR HIS GIRLFRIEND. SOMEONE UNEXPECTED WILL TAKE HIM ON A VIOLENT ADVENTURE..." --Set Chapter Description
+				t_arc1[2].Info = "WHILE KUNG FU MAN WAS LOOKING FOR HIS GIRLFRIEND. SOMEONE UNEXPECTED WILL TAKE HIM ON A BIZARRE ADVENTURE..." --Set Chapter Description
 			end
 		elseif storyMenu == 1 and chapterMenu == 3 then
 			if data.story1_2Status == 1 and data.story1_3AUnlock == true and data.story1_3BUnlock == true then t_arc1[3].Status = checkIco end
@@ -524,7 +524,7 @@ function f_storyMenu()
 			if data.story1_3AStatus == 1 and data.story1_4AUnlock == true and data.story1_4CUnlock == true then t_arc1[4].Status = checkIco end
 			if data.story1_3AUnlock == true then
 				t_arc1[4].Preview = st1_3A
-				t_arc1[4].Info = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO DEFEAT SUAVE DUDE..."
+				t_arc1[4].Info = "AFTER DEFEATING HIS EVIL COPY, KUNG FU MAN HEADS TO THE ROOF OF THE MOUNTAINSIDE TEMPLE TO DEFEAT HIS NEMESIS: SUAVE DUDE..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 5 then
 			if data.story1_3BStatus == 1 and data.story1_4BUnlock == true and data.story1_4DUnlock == true then t_arc1[5].Status = checkIco end
@@ -542,7 +542,7 @@ function f_storyMenu()
 			if data.story1_4BStatus == 1 then t_arc1[7].Status = checkIco end
 			if data.story1_4BUnlock == true	then
 				t_arc1[7].Preview = st1_4B
-				t_arc1[7].Info = "THE FUN IS ENDLESS. MUGEN IS LOVE, MUGEN IS LIFE"
+				t_arc1[7].Info = "THE FUN IS ENDLESS.		IKEMEN IS LOVE, IKEMEN IS LIFE."
 			end
 		elseif storyMenu == 1 and chapterMenu == 8 then
 			if data.story1_4CStatus == 1 then t_arc1[8].Status = checkIco end
@@ -756,7 +756,7 @@ function f_arc1_chapter3_1()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_charAdd["suave dude"]}
 	data.p2Pal = 1
-	setRoundTime(60)
+	setRoundTime(60*60)
 	setRoundsToWin(1)
 	data.orderSelect = false
 	data.versusScreen = false

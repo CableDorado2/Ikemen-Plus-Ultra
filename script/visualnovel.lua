@@ -597,9 +597,9 @@ VNskip = false
 VNtxtReady = false
 VNtxtEnd = false
 --Narrative Text
-VNtxtSpacing = 8.8 --spacing between lines (rendering Y position increasement for each line)
+VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
 VNtxtPosX = 2
-VNtxtPosY = 194
+VNtxtPosY = 184 --194
 VNtxtBank = 0
 VNtxtAlphaS = 255
 VNtxtAlphaD = 0

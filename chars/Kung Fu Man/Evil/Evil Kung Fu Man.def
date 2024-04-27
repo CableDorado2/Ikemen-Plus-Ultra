@@ -1,7 +1,3 @@
-; Definition file for Kung Fu Man
-; Contains all the filenames needed for the character
-
-; Player information
 [Info]
 name ="Evil Kung Fu Man"
 displayname ="Evil Kung Fu Man"
@@ -10,7 +6,6 @@ mugenversion =04,14,2002
 author ="The_None"
 pal.defaults =5,1,3,4,2,11,10,12,9,8,7
 
-; Files for the player
 [Files]
 cmd     =ekfm.cmd
 cns     =ekfm.cns
@@ -34,3 +29,7 @@ pal12=ekfm12.act
 st1=-2.st
 st2=CHOKINONDATONE.st
 st3=config.txt
+
+[Arcade]
+intro.movie = ..\../movie/The Lost Chapter.wmv
+;ending.movie = ..\../movie/The Lost Chapter 2.wmv

@@ -12,7 +12,7 @@ airjuggle         = 15     ;ジャグルポイント限界値（「小ネタ.txt」参照）
 sparkno           = 2      ;デフォルトのヒットスパーク（fightfxから）
 guard.sparkno     = 40     ;デフォルトのガードスパーク（fightfxから）
 KO.echo           = 0      ;ＫＯ時の音声（11,0）にエコーを掛けるか否か（0=掛けない,1=掛ける）
-volume            = 255      ;キャラの標準の音量（最小-255・最大255）
+volume            = 0      ;キャラの標準の音量（最小-255・最大255）
 IntPersistIndex   = 59     ;次のラウンドへ持ち越せる「Var」のアドレスの範囲を決める（※１）
 FloatPersistIndex = 40     ;次のラウンドへ持ち越せる「FVar」のアドレスの範囲を決める（※１）
 ;---------------------------------------------------------------------------
@@ -200,6 +200,10 @@ sysvar(1) = 0
 [State 40, 2]
 type = VarSet
 trigger1 = command = "holdfwd"
+trigger2 = var(0)
+trigger2 = p2dist X>100
+trigger3 = p2movetype = A
+trigger3 = enemy,hitdefattr = SCA,ST,HT
 sysvar(1) = 1
 
 [State 40, 3]
@@ -219,6 +223,18 @@ trigger1 = AnimTime = 0
 trigger1 = prevstateno = 100 ;RUN_FWD
 trigger1 = sysvar(1) = 1
 x = const(velocity.runjump.fwd.x)
+
+[State 40, 5]
+type = AfterImage
+trigger1 = AnimTime = 0
+trigger1 = prevstateno = 100 ;RUN_FWD
+trigger1 = sysvar(1) = 1
+time = 40
+length = 6
+palpostbright = 0,0,0
+framegap = 2
+persistent = 1
+ignorehitpause = 0
 
 [State 40, 6]
 type = ChangeState
@@ -416,149 +432,6 @@ type = ChangeState
 trigger1 = Time = 7
 value = 0
 ctrl = 1
-
-;---------------------------------------------------------------------------
-; GUARD (start)
-[Statedef 120]
-type = U    ;Leave state type unchanged
-physics = U ;Leave physics unchanged
-
-[State 120, 1]
-type = ChangeAnim
-trigger1 = Time = 0
-value = 120 + (statetype = C) + (statetype = A)*2+(var(59)=2)*10000
-
-[State 120, 2]
-type = StateTypeSet
-trigger1 = Time = 0 && statetype = S
-physics = S
-
-[State 120, 3]
-type = StateTypeSet
-trigger1 = Time = 0 && statetype = C
-physics = C
-
-[State 120, 4]
-type = StateTypeSet
-trigger1 = Time = 0 && statetype = A
-physics = A
-
-[State 120, Hi to Lo]
-type = StateTypeSet
-trigger1 = statetype = S && command = "holddown"
-statetype = C
-physics = C
-
-[State 120, Lo to Hi]
-type = StateTypeSet
-trigger1 = statetype = C && command != "holddown"
-statetype = S
-physics = S
-
-[State 120, 5]
-type = ChangeState
-trigger1 = AnimTime = 0
-value = 130 + (statetype = C) + (statetype = A)*2
-
-[State 120, Stop Guarding]
-type = ChangeState
-trigger1 = command != "holdback"
-trigger2 = !inguarddist
-value = 140
-
-;---------------------------------------------------------------------------
-; Stand guard (guarding)
-[Statedef 130]
-type    = S
-physics = S
-
-[State 130, 1]
-type = ChangeAnim
-trigger1 = Anim != 130+(var(59)=2)*10000
-value = 130+(var(59)=2)*10000
-
-[State 130, Hi to Lo]
-type = ChangeState
-trigger1 = command = "holddown"
-value = 131
-
-[State 130, Stop Guarding]
-type = ChangeState
-trigger1 = command != "holdback"
-trigger2 = !inguarddist
-value = 140
-
-;---------------------------------------------------------------------------
-; Crouch guard (guarding)
-[Statedef 131]
-type    = C
-physics = C
-
-[State 131, 1]
-type = ChangeAnim
-trigger1 = Anim != 131+(var(59)=2)*10000
-value = 131+(var(59)=2)*10000
-
-[State 131, Lo to Hi]
-type = ChangeState
-trigger1 = command != "holddown"
-value = 130
-
-[State 131, Stop Guarding]
-type = ChangeState
-trigger1 = command != "holdback"
-trigger2 = !inguarddist
-value = 140
-
-;---------------------------------------------------------------------------
-; Air guard (guarding)
-[Statedef 132]
-type    = A
-physics = N
-
-[State 132, 1]
-type = ChangeAnim
-trigger1 = Anim != 132+(var(59)=2)*10000
-value = 132+(var(59)=2)*10000
-
-[State 132, 2]
-type = VelAdd
-trigger1 = 1
-y = Const(movement.yaccel)
-
-[State 132, 3]
-type = VarSet
-trigger1 = 1
-sysvar(0) = (pos y >= 0) && (vel y > 0)
-
-[State 132, 4]
-type = VelSet
-trigger1 = sysvar(0)
-y = 0
-
-[State 132, 5]
-type = PosSet
-trigger1 = sysvar(0)
-y = 0
-
-[State 132, 6]
-type = ChangeState
-trigger1 = sysvar(0)
-trigger1 = command = "holdback"
-trigger1 = inguarddist
-value = 130
-
-[State 132, 7]
-type = ChangeState
-trigger1 = sysvar(0)
-value = 52
-
-[State 132, Stop Guarding]
-type = ChangeState
-trigger1 = command != "holdback"
-trigger2 = !inguarddist
-value = 140
-
 ;---------------------------------------------------------------------------
 ; Guard (end)
 [Statedef 140]
@@ -597,11 +470,190 @@ type = StateTypeSet
 trigger1 = statetype = C && command != "holddown"
 statetype = S
 physics = S
+;---------------------------------------------------------------------------
+; GUARD (start)
+[Statedef 120]
+type = U    ;Leave state type unchanged
+physics = U ;Leave physics unchanged
 
-;[State 140, 5] ;Implemented within engine
-;type = ChangeState
-;trigger1 = AnimTime = 0
-;value = (statetype = C)*11 + (statetype = A)*51
+[State 120]
+Type=CtrlSet
+Trigger1=var(58)>0
+value=0
+
+[State 120, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+value = 120 + (statetype = C) + (statetype = A)*2+(var(59)=2)*10000
+
+[State 120, 2]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = S
+physics = S
+
+[State 120, 3]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = C
+physics = C
+
+[State 120, 4]
+type = StateTypeSet
+trigger1 = Time = 0 && statetype = A
+physics = A
+
+[State 120, Hi to Lo]
+type = StateTypeSet
+triggerall = statetype = S
+trigger1 = var(58)=0
+trigger1 = command = "holddown"
+trigger2 = var(58)>0
+trigger2 = (abs(P2Dist X)>120) || (P2MoveType=H) || (P2StateType=C)
+trigger2 = P2StateType!=A
+statetype = C
+physics = C
+
+[State 120, Lo to Hi]
+type = StateTypeSet
+triggerall = statetype = C
+trigger1 = var(58)=0
+trigger1 = command != "holddown"
+trigger2 = var(58) > 0
+trigger2 = p2statetype = A
+trigger2 = abs(P2BodyDist X)<50
+statetype = S
+physics = S
+
+[State 120, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 130 + (statetype = C) + (statetype = A)*2
+
+[State 120, Stop Guarding]
+type = ChangeState
+trigger1 = command != "holdback"
+trigger1 = var(58)=0
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Stand guard (guarding)
+[Statedef 130]
+type    = S
+physics = S
+
+[State 120]
+Type=CtrlSet
+Trigger1=var(58)>0
+value=0
+
+[State 130, 1]
+type = ChangeAnim
+trigger1 = Anim != 130+(var(59)=2)*10000
+value = 130+(var(59)=2)*10000
+
+[State 130, Hi to Lo]
+type = ChangeState
+trigger1 = command = "holddown"
+trigger1 = var(58)=0
+trigger2 = var(58)>0
+trigger2 = (abs(P2Dist X)>120) || (P2MoveType=H) || (P2StateType=C)
+trigger2 = P2StateType!=A
+value = 131
+
+[State 130, Stop Guarding]
+type = ChangeState
+trigger1 = var(58)=0
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Crouch guard (guarding)
+[Statedef 131]
+type    = C
+physics = C
+
+[State 120]
+Type=CtrlSet
+Trigger1=var(58)>0
+value=0
+
+[State 131, 1]
+type = ChangeAnim
+trigger1 = Anim != 131+(var(59)=2)*10000
+value = 131+(var(59)=2)*10000
+
+[State 131, Lo to Hi]
+type = ChangeState
+trigger1 = command != "holddown"
+trigger1 = var(58)=0
+trigger2 = var(58) > 0
+trigger2 = p2statetype = A
+trigger2 = abs(P2BodyDist X)<50
+value = 130
+
+[State 131, Stop Guarding]
+type = ChangeState
+trigger1 = var(58)=0
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
+;---------------------------------------------------------------------------
+; Air guard (guarding)
+[Statedef 132]
+type    = A
+physics = N
+
+[State 120]
+Type=CtrlSet
+Trigger1=var(58)>0
+value=0
+
+[State 132, 1]
+type = ChangeAnim
+trigger1 = Anim != 132+(var(59)=2)*10000
+value = 132+(var(59)=2)*10000
+
+[State 132, 2]
+type = VelAdd
+trigger1 = 1
+y = Const(movement.yaccel)
+
+[State 132, 3]
+type = VarSet
+trigger1 = 1
+sysvar(0) = (pos y >= 0) && (vel y > 0)
+
+[State 132, 4]
+type = VelSet
+trigger1 = sysvar(0)
+y = 0
+
+[State 132, 5]
+type = PosSet
+trigger1 = sysvar(0)
+y = 0
+
+[State 132, 6]
+type = ChangeState
+trigger1 = sysvar(0)
+trigger1 = command = "holdback" || (var(58)>0)
+trigger1 = inguarddist
+value = 130
+
+[State 132, 7]
+type = ChangeState
+trigger1 = sysvar(0)
+value = 52
+
+[State 132, Stop Guarding]
+type = ChangeState
+trigger1 = var(58)=0
+trigger1 = command != "holdback"
+trigger2 = !inguarddist
+value = 140
+
 
 ;---------------------------------------------------------------------------
 ; Stand guard hit (shaking)
@@ -619,17 +671,27 @@ value = 150+(var(59)=2)*10000
 [State 150, 2]
 type = ChangeState
 trigger1 = HitShakeOver
-value = 151 + 2*(command = "holddown")
+value = 151 + 2*(StateType=C)
 
-[State 150, Hi to Lo]
+[State 120, Hi to Lo]
 type = StateTypeSet
-trigger1 = statetype = S && command = "holddown"
+triggerall = statetype = S
+trigger1 = var(58)=0
+trigger1 = command = "holddown"
+trigger2 = var(58)>0
+trigger2 = (abs(P2Dist X)>120) || (P2MoveType=H) || (P2StateType=C)
+trigger2 = P2StateType!=A
 statetype = C
 physics = C
 
-[State 150, Lo to Hi]
+[State 120, Lo to Hi]
 type = StateTypeSet
-trigger1 = statetype = C && command != "holddown"
+triggerall = statetype = C
+trigger1 = var(58)=0
+trigger1 = command != "holddown"
+trigger2 = var(58) > 0
+trigger2 = p2statetype = A
+trigger2 = abs(P2BodyDist X)<50
 statetype = S
 physics = S
 
@@ -661,17 +723,28 @@ x = 0
 [State 151, 3]
 type = CtrlSet
 trigger1 = Time = GetHitVar(ctrltime)
+trigger1 = var(58)=0
 value = 1
 
-[State 151, Hi to Lo]
+[State 120, Hi to Lo]
 type = StateTypeSet
-trigger1 = statetype = S && command = "holddown"
+triggerall = statetype = S
+trigger1 = var(58)=0
+trigger1 = command = "holddown"
+trigger2 = var(58)>0
+trigger2 = (abs(P2Dist X)>120) || (P2MoveType=H) || (P2StateType=C)
+trigger2 = P2StateType!=A
 statetype = C
 physics = C
 
-[State 151, Lo to Hi]
+[State 120, Lo to Hi]
 type = StateTypeSet
-trigger1 = statetype = C && command != "holddown"
+triggerall = statetype = C
+trigger1 = var(58)=0
+trigger1 = command != "holddown"
+trigger2 = var(58) > 0
+trigger2 = p2statetype = A
+trigger2 = abs(P2BodyDist X)<50
 statetype = S
 physics = S
 
@@ -679,7 +752,7 @@ physics = S
 type = ChangeState
 trigger1 = HitOver
 value = 130
-ctrl = 1
+ctrl = !var(58)
 
 ;---------------------------------------------------------------------------
 ; Crouch guard hit (shaking)
@@ -697,17 +770,27 @@ value = 151+(var(59)=2)*10000
 [State 152, 3]
 type = ChangeState
 trigger1 = HitShakeOver
-value = 151 + 2*(command = "holddown")
+value = 151 + 2*(StateType=C)
 
-[State 152, Hi to Lo]
+[State 120, Hi to Lo]
 type = StateTypeSet
-trigger1 = statetype = S && command = "holddown"
+triggerall = statetype = S
+trigger1 = var(58)=0
+trigger1 = command = "holddown"
+trigger2 = var(58)>0
+trigger2 = (abs(P2Dist X)>120) || (P2MoveType=H) || (P2StateType=C)
+trigger2 = P2StateType!=A
 statetype = C
 physics = C
 
-[State 152, Lo to Hi]
+[State 120, Lo to Hi]
 type = StateTypeSet
-trigger1 = statetype = C && command != "holddown"
+triggerall = statetype = C
+trigger1 = var(58)=0
+trigger1 = command != "holddown"
+trigger2 = var(58) > 0
+trigger2 = p2statetype = A
+trigger2 = abs(P2BodyDist X)<50
 statetype = S
 physics = S
 
@@ -736,20 +819,31 @@ trigger1 = Time = GetHitVar(slidetime)
 trigger2 = HitOver
 x = 0
 
-[State 153, 3]
+[State 151, 3]
 type = CtrlSet
 trigger1 = Time = GetHitVar(ctrltime)
+trigger1 = var(58)=0
 value = 1
 
-[State 153, Hi to Lo]
+[State 120, Hi to Lo]
 type = StateTypeSet
-trigger1 = statetype = S && command = "holddown"
+triggerall = statetype = S
+trigger1 = var(58)=0
+trigger1 = command = "holddown"
+trigger2 = var(58)>0
+trigger2 = (abs(P2Dist X)>120) || (P2MoveType=H) || (P2StateType=C)
+trigger2 = P2StateType!=A
 statetype = C
 physics = C
 
-[State 153, Lo to Hi]
+[State 120, Lo to Hi]
 type = StateTypeSet
-trigger1 = statetype = C && command != "holddown"
+triggerall = statetype = C
+trigger1 = var(58)=0
+trigger1 = command != "holddown"
+trigger2 = var(58) > 0
+trigger2 = p2statetype = A
+trigger2 = abs(P2BodyDist X)<50
 statetype = S
 physics = S
 
@@ -757,7 +851,7 @@ physics = S
 type = ChangeState
 trigger1 = HitOver
 value = 131
-ctrl = 1
+ctrl = !var(58)
 
 ;---------------------------------------------------------------------------
 ; Air guard hit (shaking)
@@ -802,9 +896,10 @@ type = VelAdd
 trigger1 = 1
 y = Const(movement.yaccel)
 
-[State 155, 3]
+[State 151, 3]
 type = CtrlSet
 trigger1 = Time = GetHitVar(ctrltime)
+trigger1 = var(58)=0
 value = 1
 
 [State 155, 4]
@@ -825,7 +920,7 @@ y = 0
 [State 155, 6]
 type = ChangeState
 trigger1 = sysvar(0)
-trigger1 = command = "holdback"
+trigger1 = command = "holdback" || var(58)>0
 trigger1 = inguarddist
 value = 130
 
@@ -833,6 +928,8 @@ value = 130
 type = ChangeState
 trigger1 = sysvar(0)
 value = 52
+
+
 ;---------------------------------------------------------------------------
 ;タイムオーバー（負けた時）
 [Statedef 170]
@@ -3458,8 +3555,465 @@ yaccel = .4
 getpower  = 0
 
 ;---------------------------------------------------------------------------
+[StateDef 9740]
+type = S
+movetype = I
+physics = N
+anim = 191
+ctrl = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = 1
+value = 191
+
+[State 9740, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = -1
+
+[State 9740, Safety]; Just in case your opponent is very poorly coded.
+type = SelfState
+trigger1 = !IsHelper
+value = 0
+
+[State 9740, BindToRoot]
+type = BindToRoot
+trigger1 = 1
+time = -1
+facing = 1
+pos = 0,0
+
+[State 9740, Pause Checker]
+type = ParentVarAdd
+trigger1 = 1
+var(6) = 1
+
+[State 9740, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "root,var(5) = %d"
+params = root,var(6)
+
+[State 9740, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 9740, Goodbye]
+type = DestroySelf
+trigger1 = Win || Lose || Drawgame
+trigger2 = roundstate>2
+
+
+;---------------------------------------------------------------------------
+;==================================================================================
+;======| RELACIONADO ? AI - AI RELATED |===========================================
+;==================================================================================
+; AI Activation Helper State - Primary Version
+
+[StateDef 9741]
+type = S
+movetype = I
+physics = N
+anim = 4
+ctrl = 0
+
+[State 9741, Safety]; Just in case your opponent is very poorly coded.
+type = SelfState
+trigger1 = !IsHelper
+value = 0
+
+[State 9741, PauseCheck]
+type = VarSet
+trigger1 = (GameTime>(Parent,var(57)))
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+trigger4 = Parent,var(58)
+trigger5 = (var(3):=0)
+var(2) = (var(3):=1)+(var(4):=0)
+
+[State 9741, Facing]
+type = Turn
+trigger1 = (var(9):=(Facing != Parent,Facing))
+
+[State 9741, DirTurnOnAI]
+type = ParentVarSet
+triggerall = !var(3)
+triggerall = !var(9)
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (Parent,command = "holddown")
+trigger5 = !(var(4):=1)
+var(58) = var(4)
+
+[State 9741, DirTurnOffAI]
+type = ParentVarSet
+triggerall = !var(3)
+triggerall = Parent,var(58)
+trigger1 = (command = "holdfwd")
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (command = "holdback")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (command = "holdup")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (command = "holddown")
+trigger4 = (Parent,command = "holddown")
+var(58) = (var(4):=0)
+
+[State 9741, ButtonTurnOnAI]
+type = ParentVarSet
+triggerall = var(1)
+triggerall = !var(2)
+trigger1 = (Parent,command = "a")
+trigger2 = (Parent,command = "b")
+trigger3 = (Parent,command = "c")
+trigger4 = (Parent,command = "x")
+trigger5 = (Parent,command = "y")
+trigger6 = (Parent,command = "z")
+trigger7 = (Parent,command = "start")
+var(58) = 1
+
+[State 9741, ButtonTurnOffAI]
+type = ParentVarSet
+triggerall = !var(2)
+trigger1 = (command = "a")
+trigger1 = (Parent,command = "a")
+trigger2 = (command = "b")
+trigger2 = (Parent,command = "b")
+trigger3 = (command = "c")
+trigger3 = (Parent,command = "c")
+trigger4 = (command = "x")
+trigger4 = (Parent,command = "x")
+trigger5 = (command = "y")
+trigger5 = (Parent,command = "y")
+trigger6 = (command = "z")
+trigger6 = (Parent,command = "z")
+trigger7 = (command = "start")
+trigger7 = (Parent,command = "start")
+var(58) = -1
+
+[State 9741, UnPauseCheck]
+type = VarSet
+triggerall = var(2)
+trigger1 = (Parent,command = "a")
+trigger2 = (Parent,command = "b")
+trigger3 = (Parent,command = "c")
+trigger4 = (Parent,command = "x")
+trigger5 = (Parent,command = "y")
+trigger6 = (Parent,command = "z")
+trigger7 = (Parent,command = "start")
+trigger8 = (var(2) = 2)
+trigger8 = (var(2):=0)
+var(2) = 2
+
+[State 9741, Goodbye]
+type = DestroySelf
+triggerall = (var(1):=1)
+trigger1 = Parent,var(58)
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+
+
+;------------------
+; AI Activation Helper State - Compatibly Partnered Version
+
+[StateDef 9742]
+type = S
+movetype = I
+physics = N
+anim = 4
+ctrl = 0
+
+[State 9742, Safety]; Just in case your opponent is very poorly coded.
+type = SelfState
+trigger1 = !IsHelper
+value = 0
+
+[State 9742, PauseCheck]
+type = VarSet
+trigger1 = (GameTime>Parent,var(57))
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+trigger4 = Parent,var(58)
+trigger5 = (var(3):=0)
+var(2) = (var(3):=1)
+
+[State 9742, Facing]
+type = Turn
+trigger1 = (var(9):=(Facing != Parent,Facing))
+
+[State 9742, ParentDirCheck]
+type = VarSet
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (Parent,command = "holddown")
+trigger5 = (var(6):=0)
+var(6) = 1
+
+[State 9742, ParentButtonCheck]
+type = VarSet
+trigger1 = (Parent,command = "a")
+trigger2 = (Parent,command = "b")
+trigger3 = (Parent,command = "c")
+trigger4 = (Parent,command = "x")
+trigger5 = (Parent,command = "y")
+trigger6 = (Parent,command = "z")
+trigger7 = (Parent,command = "start")
+trigger8 = (var(7):=0)
+var(7) = 1
+
+[State 9742, SameButtonCheck]
+type = VarSet
+triggerall = var(7)
+triggerall = !var(2)
+triggerall = NumPartner
+trigger1 = (Parent,command = "a")
+trigger1 = (Partner,command = "a")
+trigger2 = (Parent,command = "b")
+trigger2 = (Partner,command = "b")
+trigger3 = (Parent,command = "c")
+trigger3 = (Partner,command = "c")
+trigger4 = (Parent,command = "x")
+trigger4 = (Partner,command = "x")
+trigger5 = (Parent,command = "y")
+trigger5 = (Partner,command = "y")
+trigger6 = (Parent,command = "z")
+trigger6 = (Partner,command = "z")
+trigger7 = (Parent,command = "start")
+trigger7 = (Partner,command = "start")
+trigger8 = (var(8):=0)
+var(8) = 1
+
+[State 0, ParentVarAdd]
+type = ParentVarAdd
+trigger1 = 1
+v = 6
+value = 1
+
+
+[State 9742, DirTurnOnAI]
+type = ParentVarSet
+trigger1 = var(1)
+trigger1 = var(6)
+trigger1 = !var(3)
+trigger1 = !var(4)
+trigger1 = !var(9)
+var(58) = 1
+
+[State 9742, DirTurnOffAI]
+type = ParentVarSet
+triggerall = var(6)
+triggerall = !var(3)
+triggerall = Parent,var(58)
+trigger1 = (command = "holdfwd")
+trigger1 = (Parent,command = "holdfwd")
+trigger2 = (command = "holdback")
+trigger2 = (Parent,command = "holdback")
+trigger3 = (command = "holdup")
+trigger3 = (Parent,command = "holdup")
+trigger4 = (command = "holddown")
+trigger4 = (Parent,command = "holddown")
+var(58) = 0
+
+[State 9742, ButtonTurnOnAI]
+type = ParentVarSet
+trigger1 = var(5)
+trigger1 = var(7)
+trigger1 = !var(2)
+trigger1 = !var(8)
+var(58) = 1
+
+[State 9742, ButtonTurnOffAI]
+type = ParentVarSet
+triggerall = var(7)
+triggerall = !var(2)
+triggerall = !var(8)
+trigger1 = (command = "a")
+trigger1 = (Parent,command = "a")
+trigger2 = (command = "b")
+trigger2 = (Parent,command = "b")
+trigger3 = (command = "c")
+trigger3 = (Parent,command = "c")
+trigger4 = (command = "x")
+trigger4 = (Parent,command = "x")
+trigger5 = (command = "y")
+trigger5 = (Parent,command = "y")
+trigger6 = (command = "z")
+trigger6 = (Parent,command = "z")
+trigger7 = (command = "start")
+trigger7 = (Parent,command = "start")
+var(58) = -1
+
+[State 9742, UnPauseCheck]
+type = VarSet
+triggerall = var(2)
+triggerall = !var(4)
+trigger1 = var(7)
+trigger2 = (var(2) = 2)
+trigger2 = (var(2):=0)
+var(2) = 2
+
+[State 9742, Goodbye]
+type = DestroySelf
+trigger1 = Parent,var(58)
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+
+[State 9742, HitPauseCheck]
+type = VarSet
+trigger1 = var(6)
+trigger2 = var(7)
+trigger3 = !(Parent,HitPauseTime)
+var(4) = Parent,HitPauseTime
+
+[State 9742, Delay]
+type = VarSet
+trigger1 = (var(1):=1)
+var(5) = !var(7)
+
+
+;------------------
+; XOR Method's HitPauseTime Helper State
+
+[StateDef 9743]
+type = S
+movetype = I
+physics = N
+anim = 4
+ctrl = 0
+
+[State 9743, Safety]; Just in case your opponent is very poorly coded.
+type = SelfState
+trigger1 = !IsHelper
+value = 0
+
+[State 9743, HitPauseTime]
+type = VarSet
+trigger1 = !(Parent,HitPauseTime)
+trigger2 = (GameTime>Parent,var(57))
+var(1) = Parent,HitPauseTime
+
+[State 9742, Goodbye]
+type = DestroySelf
+trigger1 = (Parent,var(58) = 1)
+trigger2 = !(Parent,Alive)
+trigger3 = (RoundState != 2)
+
+;---------------------------------------------------------------------------
+; Custom AI run state
+[Statedef 102]
+type    = S
+physics = S
+anim = 100
+ctrl = 0
+sprpriority = 1
+
+[State 102, 1]
+type = VelSet
+trigger1 = 1
+x = const(velocity.run.fwd.x)
+
+[State 102, 2] ;Prevent run from canceling into walk
+type = AssertSpecial
+trigger1 = 1
+flag = NoWalk
+
+[State 102, 3] ;Prevent from turning
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+[State 102, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+trigger2 = p2dist X<70
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+; Walk forward 3
+[Statedef 10000]
+type    = S
+physics = S
+ctrl = 0
+anim = 20
+sprpriority = 0
+
+[State 21, 1]
+type = VelSet
+trigger1 = anim = 20
+x = const(velocity.walk.fwd.x)
+
+[State 21, 3]
+type = ChangeState
+trigger1 = p2dist X <= 90
+value = 10001
+ctrl = 0
+
+[State 21, 3]
+type = ChangeState
+trigger1 = p2movetype != H
+value = 0
+ctrl = 1
+
+[State 21, 3]
+type = ChangeState
+trigger1 = p2dist X<=90
+trigger1 = p2stateno = 5110
+value = 105
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Kick 'em when they're down!
+[Statedef 10001]
+type    = U
+physics = C
+ctrl = 0
+
+[State 10, 1]
+type = VelMul
+trigger1 = Time = 0
+x = .75
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = time = 0
+trigger1 = statetype = S
+value = 10
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = animtime = 0
+trigger1 = anim = 10
+trigger2 = time = 0
+trigger2 = statetype = C
+value = 11
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = 1
+statetype = C
+physics = C
+
+[State 10, 2]
+type = ChangeState
+trigger1 = AnimTime = 0
+trigger1 = p2stateno = 5110
+value = 440
+
+[State 21, 3]
+type = ChangeState
+trigger1 = p2movetype != H
+trigger2 = p2dist X>90
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
 ;===========================================================================
-; 常時監視ステート（－２）
+; 常時監視ステート（‐２）
 ;===========================================================================
 
 [Statedef -2]
@@ -3478,14 +4032,53 @@ value = 1.2
 [State -2, クリップボード]
 type = DisplayToClipboard
 trigger1 = 1
-text = "Cancel=%d, Throw=%d, Button=%d, Body-Distance X=%d,Y=%d \n"
-params = var(59),var(2),var(5),floor(P2BodyDist X),floor(P2BodyDist Y)
+text = "AI=%d, Throw=%d, Button=%d, Body-Distance X=%d,Y=%d \n"
+params = var(58),var(2),var(5),floor(P2BodyDist X),floor(P2BodyDist Y)
 
 [State -2, クリップボード（追加専用）]
 type = AppendToClipboard
 trigger1 = 1
 text = "Position X=%d,Y=%d, Velocity X=%f,Y=%f, Hit=%d \n"
 params = floor(Pos X),floor(Pos Y),(Vel X),(Vel Y),(MoveHit)
+
+[State -2, Pausetimer]
+type = Helper
+triggerall = var(58)
+trigger1 = !numhelper(9740)
+HelperType = normal
+name = "Pausetimer"
+ID = 9740
+pos = 0,0
+StateNo = 9740
+PauseMoveTime = 999999999
+SuperMoveTime = 999999999
+
+[State -2, Enemy Has Paused]
+type = VarSet
+trigger1 = var(6)>1
+var(7) = 100
+
+[State -2, Enemy Has Paused]
+type = VarSet
+trigger1 = 1
+var(5) = 0
+
+[State -2, Enemy Has Paused]
+type = VarAdd
+trigger1 = var(7)
+var(7) = -1
+
+[State -2, ボスモード（本気）] 
+type = varset 
+trigger1  = stateno = 1011
+trigger1  = movehit
+var(8) = 1
+
+[State -2, ボスモード（本気）] 
+type = varset 
+trigger1  = stateno != 1011
+trigger1  = stateno != 1005
+var(8) = 0
 
 [State -2, 音を鳴らす];喰らいボイス1
 type = PlaySnd
@@ -3517,7 +4110,7 @@ value = 5000, 2
 channel = 1
 
 ;===========================================================================
-; 準常時監視ステート（－３）
+; 準常時監視ステート（‐３）
 ;===========================================================================
 
 [Statedef -3]
@@ -3729,3 +4322,133 @@ triggerall = stateno = 3050
 trigger1 = AnimElem = 17
 value = 3050, 0
 channel = 1
+
+;==================================================================================
+;======| RELACIONADO ? AI - AI RELATED |===========================================
+;==================================================================================
+
+; Kamek and Luchini appear to have been the first ones to use the IsHomeTeam AI activation concept.
+; Feel free to move this controller to your character's intro state for slightly better efficiency.
+[State -3, SetAI]
+type = VarSet
+triggerall = !RoundState
+triggerall = IsHomeTeam
+trigger1 = (TeamSide = 2)
+trigger2 = (MatchNo > 1)
+var(59) = 1
+
+; Feel free to move this controller to your character's intro state for slightly better efficiency.
+; Note that it may give P2 a slight unfair advantage in simul team vs mode, so you
+; may want to disable it.  But then, since when has Mugen been about fairness? =P
+[State -3, Unfair]; Is this reliable?
+type = VarSet
+trigger1 = !RoundState
+trigger1 = (var(58) != 1)
+trigger1 = NumPartner
+trigger1 = (ID > Partner,ID)
+trigger1 = (TeamSide = 2)
+var(59) = 1
+
+[State -3, AI Helper (Compatibly Partnered Version)]
+type = Helper
+trigger1 = !var(58)
+trigger1 = !NumHelper(9742)
+trigger1 = (RoundState = 2)
+trigger1 = Alive
+trigger1 = NumPartner
+trigger1 = Partner,SelfAnimExist(9741)
+HelperType = normal
+name = "AI Helper (Simul Version)"
+ID = 9742
+pos = 9999999,99999
+StateNo = 9742
+KeyCtrl = 1
+PauseMoveTime = 999999999
+SuperMoveTime = 999999999
+
+; If you want to use the Guard mode, Dummy mode, Distance, or Button jam dummy control
+; options in Training mode without activating the dummy's AI while working on your
+; character, then all you need to do is temporarily disable this controller.
+; Or, if you want to permanently disable this controller in Training mode,
+; then you could use the Training mode detection code available on my site
+; ( http://www.shinmugen.net/winane/ ), and then just add a "(var(59)&63)>30"
+; triggerall to this controller.
+[State -3, AI Helper]
+type = Helper
+triggerall = !var(58)
+triggerall = !NumHelper(9741)
+triggerall = (RoundState = 2)
+triggerall = Alive
+trigger1 = !NumPartner
+trigger2 = !(Partner,SelfAnimExist(9741))
+HelperType = normal
+name = "AI Helper"
+ID = 9741
+pos = 9999999,99999
+StateNo = 9741
+KeyCtrl = 1
+PauseMoveTime = 999999999
+SuperMoveTime = 999999999
+
+[State -3, TurnBackOnAI]
+type = VarSet
+trigger1 = (var(58) = -2)
+trigger1 = (RoundState = 2)
+trigger1 = Alive
+var(59) = 1
+
+[State -3, HitPauseTime Helper]
+type = Helper
+triggerall = var(58)!=1
+triggerall = !NumHelper(9743)
+triggerall = (RoundState = 2)
+triggerall = Alive
+trigger1 = (MatchNo = 1)
+trigger2 = NumPartner
+trigger2 = (ID > Partner,ID)
+HelperType = normal
+name = "HitPauseTime"
+ID = 9743
+pos = 9999999,99999
+StateNo = 9743
+PauseMoveTime = 999999999
+SuperMoveTime = 999999999
+
+; It is very important that this controller NOT be moved to State -2, as putting
+; it there would defeat the entire purpose of the controller, allowing the
+; helper method or the XOR method to erroneously set the AI variable.
+; And within State -3, don't put any ChangeState controllers before this
+; controller, lest you unnecessarily delay your character's AI activation.
+[State -3, GameTimeVar]
+type = VarSet
+trigger1 = 1
+var(57) = GameTime
+IgnoreHitPause = 1
+
+; Within StateDef -3, none of your own AI-related code should come after the code
+; provided here (and putting it before the code is also generally a bad idea).
+; It's better to use State -1 (or, in special circumstances, State -2) instead.
+
+;==================================================================================
+;==================================================================================
+;==================================================================================
+
+;---------------------- Integer variable list ----------------------
+
+; var(1):= 3000, 3005, 9741, 9742, 9743
+; var(2):= 9741, 9742
+; var(3):= 9741, 9742, -1
+; var(4):= 9741, 9742
+; var(5):= -2
+; var(6):= 9740, 9742
+; var(7):= 9742, -2
+; var(8):= 9742, -2
+; var(9):= 9741, 9742
+;var(57):= -3
+;var(58):= 9741, 9742
+;var(59):= 5900, -2, -3, -1
+
+;---------------------- Float variable list ----------------------
+
+
+

@@ -243,7 +243,7 @@ Kung Fu Man pushes him away with a fast
 
 character = Kung Fu Man
 text:
-Kung Fu Girl! What happens?? you are pale!
+Kung Fu Girl! What happens?? you're pale!
 What did you do to him before?
 
 character = Suave Dude
@@ -436,7 +436,7 @@ What the hell do you look like me!?
 
 character = ???
 text:
-HAHAHA, you are too weak to face me, DIE!
+HAHAHA, you're too weak to face me, DIE!
 
 character = 
 text:
@@ -492,21 +492,26 @@ You fell! Hahahaha
 character = Suave Dude
 text:
 NOW! Let's do a show:
-Generic character (with his maximum power awakened)
+_
+Generic protagonist (with his maximum power awakened)
 Vs
-Bad Guy with an countdown and a kidnapped princess!
+Bad Guy with a countdown and a kidnapped princess!
 
 character = Suave Dude
 text:
+Ladies and Gentlemen! Our stage is set!
 Who will be the champion!?
+_
+Let the ultimate show BEGIN!
 
 ;---------------------------------------------------------------------------------
 [Chapter3B]
 
 character = 
 text:
-Kung Fu Man is defeated by Evil Kung Fu Man and is taken
-to the Mountainside Temple's Roof before Suave Dude..
+Kung Fu Man is defeated by Evil Kung Fu Man and
+is taken to the Mountainside Temple's Roof
+before Suave Dude..
 
 character = 
 text:
@@ -514,8 +519,8 @@ When waking up..
 
 character = Suave Dude
 text:
-Welcome to MY Roof of Truths, the last place you will see
-before being replaced!
+Welcome to the Roof of Truths.
+The last place you will see before being replaced!
 
 character = 
 text:
@@ -527,8 +532,8 @@ Replaced? YOU CAN NEVER REPLACE KUNG F-
 
 character = 
 text:
-At that moment, his evil clone uses his robotic arm to
-push him towards a wall.
+At that moment, his evil clone uses his robotic arm
+to push him towards a wall.
 
 character = Suave Dude
 text:
@@ -536,22 +541,26 @@ Ah yes, I hadn't told you but...
 
 character = Suave Dude
 text:
-This imitation that you see is going to take your place.
+This imitation that you see is going to..
+take your place!
+_
 We will use what's left of your body to complete it.
 Isn't that a great job Bioengineering!?
 
 character = Kung Fu Man
 text:
-How could you replicate my moves in a machine if you don't know me?
+How could you replicate my moves in a machine?
+You don't know who I'm!
 
 character = Suave Dude
 text:
-Hehe, well I didn't use AI or record them with Evil Kung Fu Man or
-a camera the size of a fly either
+Hehe, well I didn't use AI or record them with
+your clone or a camera with the size of a fly..
 
 character = Suave Dude
 text:
-It was thanks to the data from someone who you knows very well..
+It was thanks to the data from someone
+who you knows very well..
 
 character = 
 text:
@@ -559,7 +568,7 @@ Kung Fu Girl appears
 
 character = Kung Fu Man
 text:
-Wait, how you're not imprisoned in a tower?
+Wait, how you're not imprisoned in a "Tower"?
 
 character = 
 text:
@@ -567,12 +576,12 @@ Kung Fu Girl approaches and slaps Kung Fu Man
 
 character = Kung Fu Girl
 text:
-Fool! How is it possible that this guy captures me?
-and you are not able to rescue me..
+Fool! How is possible that this guy captures me?
+and you're not able to rescue me..
 
 character = Kung Fu Girl
 text:
-You are not the Kung Fu Man from that I fell in love.
+You're not the Kung Fu Man from that I fell in love.
 
 character = Kung Fu Man
 text:
@@ -580,26 +589,26 @@ Well, I just wante-
 
 character = Kung Fu Girl
 text:
-Pretend that you wanted to improve your Kung Fu and then
-replace me with a child!? It's clear that I was just getting in the way, no.
-you were able to recognize my potential..
+Pretend that you wanted to improve your Kung Fu
+and then replace me with a little girl!?
+_
+It's clear that I was just getting in the way, no.
+you couldn't recognize my TRUE potential..
 
 character = Kung Fu Girl
 text:
-We could have lived together and avoid all this drama.
+We could have lived together
+and avoid all this drama.
 
 character = 
 text:
-Kung Fu Girl, starts to destabilize
+Kung Fu Girl starts to destabilize
 
 character = Suave Dude
 text:
-Wow, calm down!
-
-character = Suave Dude
-text:
-Well buddy, it's time to see what are you made
-I already have the Band and the laboratory up and running.
+Well buddy, it's time to see what are you made of
+I already have the Band and the laboratory running.
+_
 Ready to die?
 
 ;---------------------------------------------------------------------------------
@@ -607,12 +616,13 @@ Ready to die?
 
 character = Master Kung Fu Man
 text:
-Suave Dude, is over!
+Is over Suave Dude!
 
 character = Suave Dude
 text:
 Hahaha, I don't think that..
 IN FACT! This is just the beginning..
+_
 congratulations you have achieved your "Good Ending"!
 
 character = Master Kung Fu Man
@@ -621,8 +631,10 @@ Tell me where you have Kung Fu Girl!
 
 character = Suave Dude
 text:
-She doesn't exist, she's an "Illusion" created by me, for
-put together an example of our story that will never be finished.
+She doesn't exist, she's an "Illusion" created by me
+to make an example of our story
+_
+(that will never be finished by the way).
 
 character = Master Kung Fu Man
 text:
@@ -631,12 +643,14 @@ So, I will make you suffer until you tell me!
 
 character = Suave Dude
 text:
-Woah, save that last for another kind of ending buddy.
+Woah! save that last word for another
+kind of ending buddy..
 
 character = Suave Dude
 text:
-Ehehehe, I'm sure you want to know why she could imitate your techniques
-or how I could build a clone of yours too fast..
+Ehehehe, I'm sure you want to know
+why she could imitate your techniques or
+how I could build a clone of yours too fast..
 
 character = Master Kung Fu Man
 text:
@@ -644,17 +658,24 @@ Speaks!
 
 character = Suave Dude
 text:
-It's easy... the world where we live is like a micro-matrix..
-here it's possible to create any fighter who can copy techniques from others.
+It's easy... the world where we live is like
+a "Micro-Matrix".. here it's possible to create
+any fighter who can copy techniques from others.
 
 character = Master Kung Fu Man
 text:
-That's...impossible, she must have some innate talent or something similar,
-Otherwise, other fighters like her would have appeared sooner..
+That's...impossible, she must have
+some innate talent or something similar..
+
+character = Master Kung Fu Man
+text:
+Otherwise.
+Other fighters like her would have appeared sooner..
 
 character = Suave Dude
 text:
-Well, you beat me. If you are looking for a Extra Challenge
+Well, you beat me.
+If you're looking for a Extra Challenge
 Take your decision..
 
 character = Master Kung Fu Man
@@ -663,9 +684,14 @@ What do you mean?
 
 character = Suave Dude
 text:
-I have already complete my purpose and I consider that you too..
-but I warn you, this challenge will be the most difficult one
-you can face in this story...
+I have already complete my purpose and
+I consider that you too..
+
+character = Suave Dude
+text:
+But I warn you, this challenge will be
+"the most difficult one" you can face
+in this story...
 
 character = 
 text:
@@ -685,22 +711,30 @@ Do you think this is a game?
 
 character = Suave Dude
 text:
-In fact it's, that's why our story was never completed.
-All this is a simulation, an example of what's possible to tell and create.
+In fact it's.
+
+character = Suave Dude
+text:
+That's why our story was never completed.
+All this is a simulation
+an example of what's possible to tell and create!
 
 character = Suave Dude
 text:
 Our existence hangs by a thread..
-In any moment we will be replaced by characters from other universes/franchises.
+In any moment we will be replaced
+by characters from other universes/franchises.
 
 character = Suave Dude
 text:
-The power of this world known as M.U.G.E.N is unlimited,
-we must fear human creativity!
+The power of this world known as M.U.G.E.N
+is unlimited.
+_
+We must fear human creativity!
 
 character = Kung Fu Girl
 text:
-Hey, but this is I.K.E.M.E.N
+Hey but this is I.K.E.M.E.N isn't it?
 
 character = Suave Dude
 text:
@@ -709,18 +743,24 @@ That makes it much more dangerous lol.
 character = Kung Fu Man
 text:
 I don't understand anything that's happening.
-Before things were simpler. Why complicate your existence?
+_
+Before things were simpler.
+_
+Why complicate your existence?
 
 character = Suave Dude
 text:
-Just.. relax man, look, here come the credits.
+Just.. relax man. It's all about evolution.
+_
+Look!, here come the credits.
 Are you ready to disappear?
 
 character = Kung Fu Girl
 text:
-Aww, I don't want to disappear, please, you who are
-watching me, add me to your game.
-I don't want my code disappear!
+Aww, I don't want to disappear. Please!
+YOU the one who is looking me, add me to your game!!
+_
+I don't want my code disappear! :c
 
 character = 
 text:

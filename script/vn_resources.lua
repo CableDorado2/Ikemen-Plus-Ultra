@@ -74,9 +74,7 @@ end
 --; LOAD VISUAL NOVEL ASSETS
 --;===========================================================
 txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
-txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config --font5, 
---txt_vnName = "" --Name Text
---txt_vn = "" --Narrative Text Box
+txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
 
 --Background 1
 vnBG0 = animNew(vnSff, [[

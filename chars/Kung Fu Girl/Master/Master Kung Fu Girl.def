@@ -18,7 +18,7 @@ sprite = akfgz.sff
 anim = akfgz.air
 sound = akfgz.snd
 
-;NOMAL
+;NORMAL
 pal1 = pal/01_Original_1p.act
 pal2 = pal/02_Original_2p.act
 pal3 = pal/03_Kofm_1p.act
@@ -61,3 +61,7 @@ pal9 = pal/MAMAMA/03_Sayaka.act
 pal10 = pal/MAMAMA/04_Mami.act
 pal11 = pal/MAMAMA/05_Kyoko.act
 pal12 = pal/MAMAMA/06_Kyubey.act
+
+[Arcade]
+intro.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Intro].def
+ending.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Ending].def

@@ -4571,7 +4571,6 @@ end
 t_extrasMenu = {
 	{id = textImgNew(), text = "ENDLESS"},
 	{id = textImgNew(), text = "EVENTS"},
-	{id = textImgNew(), text = "LEGION"},
 	{id = textImgNew(), text = "TOURNEY"},
 	{id = textImgNew(), text = "ADVENTURE"},
 	{id = textImgNew(), text = "THE VAULT"},
@@ -4642,26 +4641,21 @@ function f_extrasMenu()
 					setDiscordState("In Events")
 					script.events.f_eventMenu()
 					setDiscordState("In Main Menu")
-				--LEGION MODE (raise your own army to fight several enemy forces and conquer customizable maps)
-				elseif extrasMenu == 3 then
-					textImgSetText(txt_mainSelect, "LEGION MODE")
-					script.select.f_selectLegion()
-					setDiscordState("In Main Menu")
 				--TOURNEY MODE (participate in customizable single-elimination tournaments)
-				elseif extrasMenu == 4 then
+				elseif extrasMenu == 3 then
 					f_tourneyMenu()
 					setDiscordState("In Main Menu")
 				--ADVENTURE MODE (explore a custom map with goals and level up your characters)
-				elseif extrasMenu == 5 then
+				elseif extrasMenu == 4 then
 					script.select.f_selectAdventure() --script.adventure.f_mainAdventure()
 					setDiscordState("In Main Menu")
 				--THE VAULT MODE (insert secret codes to unlock things)
-				elseif extrasMenu == 6 then
+				elseif extrasMenu == 5 then
 					setDiscordState("In Secret Room")
 					f_theVault()
 					setDiscordState("In Main Menu")
 				--RANDOMTEST (generate AI rank data)
-				elseif extrasMenu == 7 then
+				elseif extrasMenu == 6 then
 					setDiscordState("In Random Test")
 					setGameMode('randomtest')
 					script.select.randomTest()
@@ -8045,11 +8039,11 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 2100 then break end --Credits Duration
+		if scroll > 2200 or esc() then break end --Credits Duration
 		--Actions
-		if (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and not skip then --Skip Button
+		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and not skip then --Skip Button
 			skip = true
-		elseif (commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w')) and skip then --Unskip Button
+		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and skip then --Unskip Button
 			skip = false
 		end
 		if not skip then speed = speed1 --Normal
@@ -8115,9 +8109,9 @@ CHARACTERS DESIGN
 
 ELECBYTE TEAM
 A.K.A. TOASTED MILQUE
+ARMIN_IUF
 DIVINEWOLF
 DONALDEUS
-MAGE
 MASUKENPU-KUN
 PHANTOM.OF.THE.SERVER
 PROUD OF RAGEQUITTIN
@@ -8125,6 +8119,7 @@ S.Y.D
 SENNOU-ROOM
 SILVAN
 STUPA
+TARUSE
 THE_NONE
 YOSHIN222
 
@@ -8153,7 +8148,6 @@ SOUND COMPOSER
 
 AFRIM KOSOVRASTI
 AKIO JINSENJI
-BRIAN CARSON
 CAPCOM SOUND TEAM
 DAISUKE ISHIWATARI
 DING
@@ -8170,7 +8164,6 @@ NOMOREHEROES2012
 NORICHIKA SATO
 MICHIRU YAMANE
 RAITO
-REECE BOWERS
 SHINSEKAI GAKKYOKU ZATSUGIDAN
 SHIRO HAMAGUCHI
 SILENT DREAMS
@@ -8192,13 +8185,13 @@ CD2
 
 
 
-STORY PRODUCER
+STORY PROLOGUE PRODUCER
 
 SWEET CREATURES
 
 
 
-THE LOST CHAPTER AUTOR
+THE LOST CHAPTER AUTHOR
 
 MOST MYSTERIOUS
 
@@ -8217,6 +8210,7 @@ STRONG FS
 PLASMOIDTHUNDER
 ACDGAMES
 ABRAHAMXDA
+RAYZENINFERNO
 SWEET CREATURES
 OLDGAMER
 LASOMBRA DEMON

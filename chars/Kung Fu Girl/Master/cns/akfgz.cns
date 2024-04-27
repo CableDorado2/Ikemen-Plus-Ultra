@@ -57,14 +57,16 @@ stand.friction  = .85
 crouch.friction = .82
 
 [Quotes]
-victory0 = "W-What?! No! I'm not his girlfriend! He's just my sensei!"
+victory0 = "Women have the power to take action!! If you don't have Kung Fu skills, you should learn to steal!!"
 victory1 = "Tee-hee! I'm a lot stonger than you thought huh?"
 victory2 = "H-Hey! It's not nice to stare y'know!"
 victory3 = "Oh my... Are you alright? I guess I don't know my own strength!"
-victory4 = "That was fun! Well, see ya later!"
-victory5 = "You need more training. UwU"
+victory4 = "Um... even if I win... is it okay?"
+victory5 = "Well, that's nice!"
+
 ; VS. Kung Fu Man
-victory6 = "Thank you for your time, sensei. This should make us both stronger!"
+victory6 = "Do you want to continue like this?"
+victory7 = "Even if you lose, you won't hold a grudge, right?"
 
 ;---------------------------------------------------------------------------
 [Statedef 169]

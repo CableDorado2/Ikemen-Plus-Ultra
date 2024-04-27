@@ -1,83 +1,86 @@
-Suave Dude(Last update;2010/10/07)
-------------------------------------------
-
-カンフーマンのオープニングに出てくる『Suave Dude』というキャラを、
-私の勝手な想像で作りました。
-当たり前ですが　Elecbyte　公式のものではありません。ご了承ください。
+Suave Dude (Last update 2010/10/07)
+---------------------------------------------
+After years of silence, the elusive Suave Dude finally appears! It seems that Suave's gun was mostly for show however, as he instead opts to fight with a kick-oriented playstyle, perhaps to be on a more even playing field with his arch-nemesis.
 
 
-  操作方法
-  --------
-
-    基本操作
-    --------------
-      ４ボタン式です。
-
-      F, F           - ダッシュ
-      B, B           - バックステップ
-      xy             - 空中受け身
-
-      x              - 弱パンチ
-      y              - 強パンチ
-      a              - 弱キック
-      b              - 強キック
-
-      D+b            - スライディング
-
-      F/B + y (相手の近くで) - 投げ
-
-    必殺技
-    ---------------
-      D, DF, F + a   - 弱　Ｄ・キック
-      D, DF, F + b   - 強　Ｄ・キック
-      D, DF, F + ab  - FastＤ・キック (パワーゲージを1/3消費)
-
-      F, D, DF + a   - 弱　Ｄ・スラッシュ
-      F, D, DF + b   - 強　Ｄ・スラッシュ
-      F, D, DF + ab  - FastＤ・スラッシュ (パワーゲージを1/3消費)
+The character "Suave Dude" that appears in the opening of Kung Fu Man,
+I made it based on my own imagination.
+Of course, it is not his official Elecbyte. note that.
 
 
-      (空中で)D, DB, B + a   - 弱　Ｄ・ソバット
-      (空中で)D, DB, B + b   - 強　Ｄ・ソバット
-      (空中で)D, DB, B + ab  - FastＤ・ソバット (パワーゲージを1/3消費)
+Method of Operation
+--------
+     Basic operation
+     --------------
+       It is a 4 button type.
+
+       F, F - dash
+       B, B - Back step
+       xy - air passive
+
+       x - light punch
+       y - strong punch
+       a - weak kick
+       b - strong kick
+
+       D+b - sliding
+
+       F/B + y (near opponent) - Throw
+
+     Deathblow
+     ---------------
+       D, DF, F + a - Weak D kick
+       D, DF, F + b - Strong D kick
+       D, DF, F + ab - Fast D kick (consumes 1/3 power gauge)
+
+       F, D, DF + a - Weak D slash
+       F, D, DF + b - Strong D slash
+       F, D, DF + ab - FastD Slash (consumes 1/3 power gauge)
 
 
-    超必殺技 (パワーゲージを１本消費)
-    -------------
-      D, DF, F, D, DF, F + x/y  - トリプルＤ・キック
-      D, DB, B, D, DB, B + x/y  - スマッシュＤ・スラッシュ
+       (In the air) D, DB, B + a - Weak D. Sobat
+       (in the air)D, DB, B + b - Strong D Sobat
+       (in the air)D, DB, B + ab - FastD Sobat (consumes 1/3 power gauge)
 
 
-  コンボ
-  -----------
-
-　　　下にコンボの一例を示します。
-
-      1.  通常攻撃は弱から強へチェーンコンボになります。
-          例： 弱キック -> 強キック
-
-      2.  ほとんどの通常技から必殺技へキャンセル可能です。
-          例： 立ち強キック -> Ｄ・キック
-
-      3.  通常技や必殺技は超必殺技でキャンセルできます。
-          例： Ｄ・キック -> トリプルＤ・キック
-
-      4.  超必殺技から別の超必殺技へキャンセル可能です。
-          例： トリプルＤ・キック -> スマッシュＤ・スラッシュ
+     Super special move (consumes 1 power gauge)
+     -------------
+       D, DF, F, D, DF, F + x/y - Triple D Kick
+       D, DB, B, D, DB, B + x/y - Smash D Slash
 
 
+   Combo
+   -----------
+
+An example of a combo is shown below.
+
+       1. Normal attacks will be chain combos from weak to strong.
+           Example: Light kick -> Strong kick
+
+       2. Most normal moves can be canceled into special moves.
+           Example: Standing strong kick -> D kick
+
+       3. Normal moves and special moves can be canceled into super special moves.
+           Example: D Kick -> Triple D Kick
+
+       4. It is possible to cancel one super special move into another super special move.
+           Example: Triple D Kick -> Smash D Slash
 
 
-　利用に関して
-　-----------
-　sndファイルは　Elecbyte 作　カンフーマン　から流用しています。
-　それ以外の絵やファイルの著作権は　ますけんぷくん　にありますが、
-　そちらに関しては自由に使っていただいて構いません。
-　しかし『Suave Dude』というキャラ自体は Elecbyte のものなので、
-　そちらから文句が出た場合はその限りではありません。
+Regarding usage
+------------
+The snd file is borrowed from Kung Fu Man by Elecbyte.
+The copyright of other pictures and files belongs to his Masukenpukun.
+You are free to use them as you wish.
+However, the character ``Suave Dude'' itself belongs to his Elecbyte, so
+This does not apply if you complain.
 
 
-　更新履歴
-　-----------
-　2010/10/07　タイムアップ負けがおかしかったのを修正。あと内緒の機能を追加。
-　2010/09/06　小ポトレほんのり更新
+ Change log
+------------
+2010/10/07
+Fixed an issue where losing due to time up was incorrect. 
+Added a secret feature.
+
+2010/09/06
+Slightly updated small portrait
