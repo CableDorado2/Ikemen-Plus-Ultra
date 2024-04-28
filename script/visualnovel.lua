@@ -583,7 +583,66 @@ function f_defaultResetVN()
 end
 
 --;===========================================================
---; VISUAL NOVEL SCENE DEFINITION
+--; LOAD VISUAL NOVEL DATA
+--;===========================================================
+function f_vnLoad(path)
+t_vnBoxText = {}
+local t = {}
+local group = ''
+local section = 0
+local file = io.open(path,"r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+
+--[[
+function f_newVNBox()
+chapt = #t_vnBoxText+1 --Add chapter to the table
+t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
+end
+]]
+
+for line in content:gmatch('[^\r\n]+') do
+	line = tostring(line:lower()) --line:lower()
+	if line:match('^%s*%[%s*chapter%s+[0-9]+$*%]') then
+		section = 1
+		chapt = #t_vnBoxText+1 --Add chapter to the table
+		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
+	elseif section > 0 then --[Chapter No]
+		if line:match('^%s*character%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {} --Add content filtered to the end of the "chapter" sub-table
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ID'] = ''
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
+		if line:match('^%s*bgm%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['bgm'] = data:gsub('^%s*bgm%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('text:$') then
+			t_vnBoxText[chapt][#t_vnBoxText[chapt]]['text'] = ""
+		end
+		if type(t_vnBoxText[chapt][#t_vnBoxText[chapt]].text) == 'string' then
+			if t_vnBoxText[chapt][#t_vnBoxText[chapt]].text == '' then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]].text = " " --line  --line get "text:" and we don't need that
+			else
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]].text = t_vnBoxText[chapt][#t_vnBoxText[chapt]].text .. '\n' .. line
+			end
+		end
+	end
+	--textImgDraw(txt_loading)
+	--refresh()
+end
+if data.debugLog then f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.txt") end
+end
+
+--;===========================================================
+--; VISUAL NOVEL DEFINITION
 --;===========================================================
 --Common Textbox Settings
 function f_resetFullVN()
@@ -594,6 +653,7 @@ VNdelay = data.VNdelay
 VNskip = false
 VNtxtReady = false
 VNtxtEnd = false
+VNbgm = ""
 --Narrative Text
 VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
 VNtxtPosX = 2
@@ -613,11 +673,12 @@ VNscroll = 0
 VNdelay = data.VNdelay
 end
 
-function f_vnScene(chaptNo, dialogueNo)
-	playBGM("")
+function f_vnScene(arcPath, chaptNo, dialogueNo)
+	f_vnLoad(arcPath) --What Dialogue File will load?
 	f_resetFullVN()
 	vnChapter = chaptNo --What chapter number does it start in?
 	VNtxt = dialogueNo --What dialogue number does it start in?
+	playBGM(VNbgm)
 	cmdInput()
 	while true do
 		--Actions
@@ -643,6 +704,10 @@ function f_vnScene(chaptNo, dialogueNo)
 				VNtxtEnd = true
 			end
 		end
+		--BGM Player
+		if VNbgmActive then
+			playBGM(t_vnBoxText[vnChapter][VNtxt].bgm) --Set BGM
+		end
 		f_drawVN() --Draw Sprites
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
 		animDraw(vnTxtBG) --Draw Text BG
@@ -654,9 +719,7 @@ function f_vnScene(chaptNo, dialogueNo)
 		--textImgSetBank(txt_nameCfg, 1)
 		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end --Draw Name Text
-		--for i=1, txt do
-			VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
-		--end
+		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -664,53 +727,6 @@ function f_vnScene(chaptNo, dialogueNo)
 		refresh()
 	end
 end
-
---[[
-function f_vnExample(chaptNo, dialogueNo)
-	playBGM("")
-	f_resetFullVN()
-	vnChapter = chaptNo
-	VNtxt = dialogueNo
-	cmdInput()
-	while true do
-		if VNtxtEnd then break end
-		if not vnPauseScreen then
-			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
-			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then 
-				VNdelay = VNnodelay
-				if VNtxtActive == 0 then VNtxtReady = true end
-			end
-		end
-		if VNtxt < #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
-			end
-		end
-		f_drawVN()
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD)
-		animDraw(vnTxtBG)
-		if VNtxtActive == 0 then
-			animDraw(vnNext)
-			animUpdate(vnNext)
-		end
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character)
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1)
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		cmdInput()
-		refresh()
-	end
-end
-]]
 
 --;===========================================================
 --; VISUAL NOVEL ASSETS DRAW LOGIC
@@ -718,6 +734,7 @@ end
 function f_drawVN()
 	--Draw Chapter 1 Visuals
 	if vnChapter == 1 then
+		--playBGM("sound/vn/Market.mp3")
 		if VNtxt == 15 then VNtxtEnd = true end --End VN Mode to Start a Fight in middle of Chapter 1
 		if VNtxt > 0 and VNtxt < 24 then
 			animDraw(vnBG0)
@@ -725,7 +742,7 @@ function f_drawVN()
 				animDraw(vnKfm1)
 			end
 			if VNtxt >= 3 and VNtxt <= 9 then
-				animDraw(vnMM1)
+				--animDraw(vnMM1)
 			end
 		end
 	--Draw Chapter 2 Visuals

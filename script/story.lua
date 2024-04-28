@@ -672,6 +672,9 @@ end
 --;===========================================================
 --; ARC 1 FIGHTS
 --;===========================================================
+kfmVN = "data/visualnovel/arc1.def"
+kfmVNtxtStart = 1
+
 --PROLOGUE
 function f_arc1_prologue()
 	playVideo("movie/KFM-Prologue.wmv") --Play video cutscene
@@ -683,13 +686,32 @@ end
 
 --KIDNAPPING
 function f_arc1_chapter1()
-	script.visualnovel.f_vnScene(1,1)
-	
-	script.visualnovel.f_vnScene(1,16)
+	--Part 1
+	script.visualnovel.f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
+	f_default()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_charAdd["kung fu man"]}
+	data.p1Pal = 1
+	data.p2TeamMenu = {mode = 0, chars = 1}
+	data.p2Char = {t_charAdd["mako mayama/vnfight.def"]}
+	data.p2Pal = 1
+	setRoundTime(-1)
+	setRoundsToWin(1)
+	data.versusScreen = false
+	data.victoryscreen = false
+	data.stage = {t_stageDef["stages/mountain valley.def"]}
+	--data.bgm = 
+	data.rosterMode = "story"
+	setGameMode('story')
+	setPlayerSide('p1left')
+	script.select.f_selectStory() --Start Fight with previous settings
+	--Part 2
+	script.visualnovel.f_vnScene(kfmVN,1,16)
 	f_default() --Reset settings for the custom fight
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
-	data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters
+	data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters (needs to be loaded in select.def)
 	data.p1Pal = 1 --Set P1 Character Palette
 	data.p2TeamMenu = {mode = 1, chars = 4}
 	data.p2Char = {t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"]}
@@ -716,7 +738,7 @@ end
 
 --KILLER MIRROR
 function f_arc1_chapter2()
-	script.visualnovel.f_vnScene(2,1)
+	script.visualnovel.f_vnScene(kfmVN,2,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -749,7 +771,7 @@ end
 
 --THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
-	script.visualnovel.f_vnScene(3,1)
+	script.visualnovel.f_vnScene(kfmVN,3,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -782,7 +804,7 @@ end
 
 --BROKEN SPIRIT
 function f_arc1_chapter3_2()
-	script.visualnovel.f_vnScene(4,1)
+	script.visualnovel.f_vnScene(kfmVN,4,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	remapInput(1, 2) --P1 controls p2 side
@@ -820,7 +842,7 @@ end
 
 --FINAL DESTINATION
 function f_arc1_chapter4_1()
-	script.visualnovel.f_vnScene(5,1)
+	script.visualnovel.f_vnScene(kfmVN,5,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
@@ -846,7 +868,7 @@ end
 
 --LIFE LESSON
 function f_arc1_chapter4_2()
-	script.visualnovel.f_vnScene(6,1)
+	script.visualnovel.f_vnScene(kfmVN,6,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -858,7 +880,7 @@ end
 
 --ZERO HOUR
 function f_arc1_chapter4_3()
-	script.visualnovel.f_vnScene(7,1)
+	script.visualnovel.f_vnScene(kfmVN,7,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
@@ -870,7 +892,7 @@ end
 
 --THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
-	script.visualnovel.f_vnScene(8,1)
+	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"

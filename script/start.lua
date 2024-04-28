@@ -281,7 +281,9 @@ t_orderChars = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
 t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
+t_selVN = {}
 t_orderTowerChars = {}
+local t_vnList = {}
 local section = 0
 local file = io.open("data/select.def","r")
 local content = file:read("*all")
@@ -306,6 +308,8 @@ for line in content:gmatch('[^\r\n]+') do
 		section = 3
 	elseif line:match('^%s*%[%s*towermode%s*%]') then
 		section = 4
+	elseif line:match('^%s*%[%s*visualnovel%s*%]') then
+		section = 5
 	elseif section == 1 then --[Characters]
 		row = #t_selChars+1
 		t_selChars[row] = {}
@@ -513,6 +517,16 @@ for line in content:gmatch('[^\r\n]+') do
 			for i, c in ipairs(strsplit(',', line:gsub('%s*(.-)%s*', '%1'))) do
 				t_selTower[row].maxmatches[#t_selTower[row].maxmatches+1] = tonumber(c)
 				--t_selTower[row].maxmatches[i-1] = tonumber(c) --This also works
+			end
+		end
+	elseif section == 5 then --[VisualNovel]
+		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			if param:match('^name$') then
+				table.insert(t_selVN, {name = value, displayname = '', path = '', unlock = 'true'})
+				t_vnList[value] = true
+			elseif t_selVN[#t_selVN][param] ~= nil then
+				t_selVN[#t_selVN][param] = value
 			end
 		end
 	end
@@ -916,6 +930,7 @@ function f_updateLogs()
 	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
 	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
 	f_printTable(t_selTower, "save/debug/t_selTower.txt")
+	f_printTable(t_selVN, "save/debug/t_selVN.txt")
 	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")

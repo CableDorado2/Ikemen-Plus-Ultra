@@ -8039,7 +8039,7 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 2200 or esc() then break end --Credits Duration
+		if scroll > 2300 or esc() then break end --Credits Duration
 		--Actions
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and not skip then --Skip Button
 			skip = true

@@ -226,6 +226,7 @@ Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=s
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2, ordertower=1
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=2
 Event 1, zoom=0, exclude=1, order=-1, victoryscreen=0, vsscreen=0, stages/Training Room.def
+Mako Mayama/vnFight.def, exclude=1, order=-1
 ;Training, exclude=1, training=1, order=-1
 Stage Viewer, exclude=1, order=-1
 

@@ -1,0 +1,53 @@
+WARNING: THIS IS AN EXPERIMENTAL FEATURE.
+
+This file contains list of all available parameters used by Visual Novel Mode (Chapter definition file).
+
+This file IS NOT loaded by engine and should not be used as-is. It's meant to
+be a reference for adding parameters to your own .def file.
+
+Assign text for each visual novel mode chapter.
+Setup following parameters below "[Chapter <0...>]" section:
+
+- character =
+Set the name to identify the character generating the dialogue.
+This will be displayed on the screen as the text scrolls.
+Also, this name can be disabled in the pause menu available within visual novel mode.
+
+To don't display any name, enter a space and leave this parameter blank.
+
+- bgm =
+Set the paramvalue to the name of the music
+file to use as the BGM for the dialogue.
+
+- text:
+Set the dialogue text to be displayed in screen.
+To be detected, it is necessary that the text be written below "text:" parameter.
+
+Some Examples:
+
+[Chapter 0]
+
+character = CD3
+text:
+Welcome to the next level.
+
+character = CD2
+text:
+What the hell is this?
+
+[Chapter 1]
+
+character = Kyo
+bgm: sound/Esaka.mp3
+text:
+Hey Yagami
+Are you ready to lose??
+
+character = Iori
+text:
+Shut up and die!
+
+character = 
+text:
+With that
+Their fate battle begins...

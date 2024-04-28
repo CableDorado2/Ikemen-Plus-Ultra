@@ -1,6 +1,10 @@
-[Chapter1]
+;KUNG FU MAN VISUAL NOVEL ARC DIALOGUES
+;--------------------------------------
+
+[Chapter 1]
 
 character = 
+bgm = sound/vn/Market.mp3
 text:
 One day, while Kung Fu Man was shopping...
 
@@ -418,7 +422,7 @@ _
 Mountainside Temple's Hidden Path...
 
 ;---------------------------------------------------------------------------------
-[Chapter2]
+[Chapter 2]
 
 character = Kung Fu Man
 text:
@@ -456,7 +460,7 @@ text:
 Until...
 
 ;---------------------------------------------------------------------------------
-[Chapter3A]
+[Chapter 3] ;3A
 
 character = 
 text:
@@ -512,7 +516,7 @@ _
 Let the ultimate show BEGIN!
 
 ;---------------------------------------------------------------------------------
-[Chapter3B]
+[Chapter 4] ;3B
 
 character = 
 text:
@@ -619,7 +623,7 @@ _
 Ready to die?
 
 ;---------------------------------------------------------------------------------
-[Chapter4A]
+[Chapter 5] ;4A
 
 character = Master Kung Fu Man
 text:
@@ -705,7 +709,7 @@ text:
 .
 
 ;---------------------------------------------------------------------------------
-[Chapter4B]
+[Chapter 6] ;4B
 
 character = Suave Dude
 text:
@@ -774,7 +778,7 @@ text:
 ..
 
 ;---------------------------------------------------------------------------------
-[Chapter4C]
+[Chapter 7] ;4C
 
 character = Suave Dude
 text:
@@ -799,7 +803,7 @@ text:
 ...
 
 ;---------------------------------------------------------------------------------
-[Chapter4D]
+[Chapter 8] ;4D
 
 character = 
 text:
