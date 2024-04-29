@@ -17,11 +17,17 @@ To don't display any name, enter a space and leave this parameter blank.
 
 - bgm =
 Set the paramvalue to the name of the music
-file to use as the BGM for the dialogue.
+file to play BGM for the dialogue.
 
 - text:
 Set the dialogue text to be displayed in screen.
 To be detected, it is necessary that the text be written below "text:" parameter.
+
+Optional parameters:
+- cut =
+Allows you to end/cut the current chapter at any time.
+Is recommended use it, if you wanna insert a fight
+or skip to other text dialogues depending on a decision.
 
 Some Examples:
 
@@ -51,3 +57,9 @@ character =
 text:
 With that
 Their fate battle begins...
+
+cut = 1
+
+character = CD2
+text:
+Well this still under development, suggestions are accepted..

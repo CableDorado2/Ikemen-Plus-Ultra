@@ -1,0 +1,576 @@
+;---------------------------------------------------------------------------
+; Override common states (use same number to override) :
+;---------------------------------------------------------------------------
+; Stand
+[Statedef 0]
+type = S
+physics = S
+sprpriority = -5
+velset = 0,0
+ctrl = 1
+
+[State 193, 1] ;Gravity
+type = PosSet
+trigger1 = time = 0
+y = 0
+
+[State 195, 1]
+type = CtrlSet
+trigger1 = win
+value = 1
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 80) && (life>1450)
+value = 80
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 81) && (life=[1201,1450])
+value = 81
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 82) && (life=[1101,1200])
+value = 82
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 83) && (life=[901,1100])
+value = 83
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 84) && (life=[701,900])
+value = 84
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 85) && (life=[501,700])
+value = 85
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 86) && (life=[301,500])
+value = 86
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 87) && (life=[201,300])
+value = 87
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 88) && (life=[101,200])
+value = 88
+
+[state 200,changeanim]
+type = changeanim
+trigger1 = (time>=0) && (anim != 89) && (life<101)
+value = 89
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 1450
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1000
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 1200
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1001
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 1100
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1002
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 900
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1003
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 700
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1004
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 500
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1005
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 300
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1006
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 200
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1007
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, Helper]
+type = Helper
+trigger1 = NumHelper(1000) = 0 && Life > 100
+helpertype = normal ;player
+name = "block"
+ID = 1000
+stateno = 1008
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, 4]
+type = HitOverride
+attr = SCA ,NA ,SA ,HA ,NP ,SP ,HP
+trigger1 = 1
+stateno = 5000
+
+[State 0, 4] ;Are you dead?
+type = ChangeState
+trigger1 = !alive
+value = 5050
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+; Jump Land
+[Statedef 52]
+type    = S
+physics = S
+ctrl = 0
+;anim = 0
+
+[State 52, 4]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Walk
+[Statedef 20]
+type    = S
+physics = S
+sprpriority = 0
+anim = 0
+
+[State 40, 6]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+[State 20, 1]
+type = VelSet
+trigger1 = command = "holdfwd"
+x = const(velocity.walk.fwd.x)
+
+[State 20, 2]
+type = VelSet
+trigger1 = command = "holdback"
+x = const(velocity.walk.back.x)
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noautoturn
+
+;---------------------------------------------------------------------------
+; Jump Start
+[Statedef 40]
+type    = S
+physics = S
+ctrl = 0
+sprpriority = 1
+
+[State 40, 6]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouching
+[Statedef 10]
+type    = C
+physics = C
+sprpriority = 0
+
+[State 11, 1]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouching
+[Statedef 11]
+type    = C
+physics = C
+sprpriority = 0
+
+[State 11, 1]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouching
+[Statedef 12]
+type    = C
+physics = C
+sprpriority = 0
+
+[State 11, 1]
+type = ChangeState
+trigger1 = 1
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;DAMAGE
+[Statedef 5000]
+type    = S
+movetype= H
+physics = S
+velset = 0,0
+;anim = 5000
+ctrl = 0
+hitdefpersist	= 0
+movehitpersist	= 0
+hitcountpersist	= 0
+sprpriority = -5
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !time
+value = S0,0+random%3
+ignorehitpause = 1
+
+[State 0, 4]
+type = HitOverride
+attr = SCA ,NA ,SA ,HA ,NP ,SP ,HP
+trigger1 = 1
+stateno = 5000
+
+;[state 200,changeanim]
+;type = changeanim
+;trigger1 = (time>=0) && (anim != 5001) && (life<=500)
+;value = 5001
+
+[State 1]
+type = veladd
+trigger1 = 1
+x = 0
+y = 0
+
+[State 3]
+type = posset
+trigger1 = 1
+y = 0
+
+[State 5150, Fierros]
+type = Explod
+trigger1 = !time
+anim = 2+random%3
+sprpriority = 4
+postype = p1
+pos = 0,-40
+random = 55, 5
+facing = ifelse(random<500,1,-1)
+ownpal = 1
+vel = 2+random%6*ifelse(random<500,1,-1),-4-random%4
+accel = 0,0.25
+
+[State 3]
+type = ChangeState
+trigger1 = !AnimTime
+value = (1 - alive) * 5150
+ctrl = alive
+
+;---------------------------------------------------------------------------
+; HITA_UP (initial going up)
+[Statedef 5030]
+type    = A
+movetype= H
+physics = N
+ctrl = 0
+
+[State 5050, 6]
+type = ChangeState
+trigger1 = 1
+value = 5100
+
+;---------------------------------------------------------------------------
+; HITA_FALL (knocked up, falling)
+[Statedef 5050]
+type    = A
+movetype= H
+physics = N
+anim = 5002
+
+[State 5050, 6]
+type = ChangeState
+trigger1 = 1
+value = 5100
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+; HIT_BOUNCE (hit ground)
+[Statedef 5100]
+type    = L
+movetype= H
+physics = N
+
+[State 5100, 7]
+type = ChangeState
+triggerall = alive
+trigger1 = 1
+value = 0
+
+[State 5100, 7]
+type = ChangeState
+triggerall = !alive
+trigger1 = 1
+value = 5110
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+; HIT_LIEDOWN
+[Statedef 5110]
+type    = L
+movetype= H
+physics = N
+
+[State 5110, 11]
+type = ChangeState
+trigger1 = 1
+value = 5150
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+; HIT_LIEDEAD (Explod)
+[Statedef 5150]
+type    = L
+movetype= H
+physics = N
+sprpriority = -5
+velset = 0,0
+anim = 5002
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !time
+value = f4,2
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time<1
+value = s510,3
+
+[State 0, EnvShake]
+type = EnvShake
+trigger1 = !time
+time = 15
+freq = 125
+ampl = 7
+
+[State 5150, Fierros]
+type = Explod
+trigger1 = time<4
+anim = 90+random%2
+sprpriority = 4
+postype = p1
+pos = 0,-40
+random = 55, 10
+facing = ifelse(random<500,1,-1)
+ownpal = 1
+vel = 2+random%6*ifelse(random<500,1,-1),-4-random%4
+accel = 0,0.25
+
+[State 5150, Humo]
+type = Explod
+trigger1 = time<3
+anim = 6005
+sprpriority = -4
+postype = p1
+pos = -2,-44
+removetime = 999999
+ownpal = 1
+
+[State 5150, Gas]
+type = Explod
+trigger1 = time<3
+anim = 6001
+sprpriority = -3
+postype = p1
+pos = -16,-1
+removetime = 999999
+ownpal = 1
+
+[State 5150, Gas]
+type = Explod
+trigger1 = time<6
+anim = 6002
+sprpriority = -3
+postype = p1
+pos = 14,-5
+removetime = 999999
+ownpal = 1
+
+[State 5150, llanta]
+type = Explod
+trigger1 = time<1
+anim = 6003
+sprpriority = 4
+postype = p1
+pos = 92, -25
+facing = -1
+ownpal = 1
+vel = 1.45, -4.5
+accel = 0, .35
+removetime = 240
+
+[State 5150, llanta]
+type = Explod
+trigger1 = time<1
+anim = 6004
+sprpriority = 4
+postype = p1
+pos = 61, -17
+facing = -1
+ownpal = 1
+vel = .8, -7.33
+accel = 0, .3
+removetime = 240
+
+[State 5150, llanta]
+type = Explod
+trigger1 = time<1
+anim = 6004
+sprpriority = 4
+postype = p1
+pos = -78, -17
+facing = -1
+ownpal = 1
+vel = -.999, -6
+accel = 0, .3
+removetime = 240
+
+[State 5150, Boom]
+type = Explod
+trigger1 = time<1
+anim = 6000
+sprpriority = 5
+scale = 1,0.9
+postype = p1
+pos = 5,-45
+facing = 1
+ownpal = 1
+
+[State 5150, 8]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
+; Continue?
+[Statedef 5500]
+type = S
+ctrl = 0
+anim = 5002
+velset = 0,0
+
+[State 5500, 1] ;Use continue animation if available
+type = ChangeAnim
+trigger1 = time = 0
+trigger1 = SelfAnimExist(5500)
+value = 5500
+
+;---------------------------------------------------------------------------
+; Initialize (at the start of the round)
+[Statedef 5900]
+type = S
+
+[State 5900, power]
+type = powerset
+trigger1 = RoundNo >= 0
+value = 3000
+
+[State 5900, 2] ;Clear all float variables
+type = VarRangeSet
+trigger1 = roundno = 1
+fvalue = 0
+
+[State 5900, 3] ;Intro
+type = ChangeState
+trigger1 = roundno = 1
+value = 190

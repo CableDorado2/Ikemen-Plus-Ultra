@@ -1,0 +1,17 @@
+[Info]
+name = "Break The Car"
+displayname = "Break The Car"
+versiondate = 04,06,2014
+mugenversion = 04,06,2004
+author = "Hiram Yagami"
+pal.defaults = 1
+
+[Files]
+sprite   = SF-Bonus.sff
+anim     = SF-Bonus.air
+sound    = SF-Bonus.snd
+cmd      = SF-Bonus.cmd
+cns      = SF-Bonus.cns
+stcommon = SF-Bonus_common1.cns
+st       = SF-Bonus.cns
+pal1     = 1.act

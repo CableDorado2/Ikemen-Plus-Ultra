@@ -1979,7 +1979,7 @@ function f_selectStory()
 		end
 		f_setZoom()
 		matchTime = os.clock()
-		f_assignMusic()
+		if data.songSelect then f_assignMusic() end
 		winner = game()
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime

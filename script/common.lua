@@ -1933,6 +1933,7 @@ function f_default() --Reset Game Modes Configuration
 	data.stageMenu = false --stage selection disabled
 	data.stage = nil --no predefined custom stage
 	data.bgm = nil --no predefined custom song route
+	data.songSelect = true --enable assign music for stage (this exists to avoid f_assignMusic() in story mode custom fights)
 	data.arcadeIntro = false --character arcade intro disabled
 	data.arcadeEnding = false --character arcade ending disabled
 	data.orderSelect = true --order select screen enabled

@@ -701,7 +701,7 @@ function f_arc1_chapter1()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountain valley.def"]}
-	--data.bgm = 
+	data.songSelect = false
 	data.rosterMode = "story"
 	setGameMode('story')
 	setPlayerSide('p1left')

@@ -69,11 +69,10 @@ text:
 Well, sorry bother you but.. I'll leave you in peace
 only if you fight with me!
 
-character = 
-text:
-...
+cut = 1 ;Close VN Mode to Launch Fight for Chapter 1
 
 character = ???
+bgm = sound/vn/Kung Fu Dojo.mp3
 text:
 What's wrong with you? I saw you on TV
 You don't fight like that.
@@ -201,6 +200,7 @@ text:
 What!? wait Noo, I found she recently in-
 
 character = 
+bgm = sound/vn/Under Attack.mp3
 text:
 At that moment..
 _
@@ -292,8 +292,14 @@ Let's see if you can get up after this beating!!
 
 character = 
 text:
-Before Kung Fu Man can get up. The last thing he observes is
-Suave Dude kidnaping Kung Fu Girl towards Mountainside Temple...
+Before Kung Fu Man can get up.
+_
+The last thing he observes is
+
+character = 
+text:
+Suave Dude kidnaping Kung Fu Girl
+towards Mountainside Temple...
 
 character = 
 text:
@@ -302,6 +308,7 @@ and trample Kung Fu Man, until he's completely
 unconscious...
 
 character = 
+bgm = _
 text:
 ...
 
@@ -320,6 +327,7 @@ Kung Fu Man regains consciousness
 and remembers the last happened..
 
 character = Kung Fu Man
+bgm = sound/vn/Guilty.mp3
 text:
 Damn, that guy didn't just kidnaped my girlfriend.
 I neglected the temple too. I'm really out of form..
@@ -335,10 +343,12 @@ text:
 Determined to rescue his Girlfriend. Kung Fu M-
 
 character = Mako Mayama
+bgm = _
 text:
 HEYYY are you forget me!?
 
 character = Kung Fu Man
+bgm = sound/China.mp3
 text:
 Mayama Chan!
 Really, thank you for helping me find Kung Fu Girl.
@@ -366,6 +376,7 @@ It.. doesn't matter..
 If what people say is true then..
 
 character = Mako Mayama
+bgm = sound/system/Tower.mp3
 text:
 Suave Dude is the genius who is capable of
 acquiring powers from other fighters

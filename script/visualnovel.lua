@@ -614,8 +614,15 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {} --Add content filtered to the end of the "chapter" sub-table
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ID'] = ''
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ID'] = ""
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		elseif line:match('^%s*cut%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				
 			--end
 		end
 		if line:match('^%s*bgm%s*=') then
@@ -653,6 +660,8 @@ VNdelay = data.VNdelay
 VNskip = false
 VNtxtReady = false
 VNtxtEnd = false
+VNbgmActive = false
+VNbgmNew = false
 VNbgm = ""
 --Narrative Text
 VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
@@ -673,16 +682,21 @@ VNscroll = 0
 VNdelay = data.VNdelay
 end
 
+function f_playVNbgm()
+playBGM(t_vnBoxText[vnChapter][VNtxt].bgm) --Play BGM
+t_currentVNbgm = t_vnBoxText[vnChapter][VNtxt].bgm --Backup the current BGM to decide after if it will change
+end
+
 function f_vnScene(arcPath, chaptNo, dialogueNo)
 	f_vnLoad(arcPath) --What Dialogue File will load?
 	f_resetFullVN()
 	vnChapter = chaptNo --What chapter number does it start in?
 	VNtxt = dialogueNo --What dialogue number does it start in?
-	playBGM(VNbgm)
+	if data.songSelect then playBGM(VNbgm) end
 	cmdInput()
 	while true do
 		--Actions
-		if VNtxtEnd then break end
+		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then break end
 		if not vnPauseScreen then
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				vnPauseScreen = true
@@ -705,8 +719,19 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			end
 		end
 		--BGM Player
-		if VNbgmActive then
-			playBGM(t_vnBoxText[vnChapter][VNtxt].bgm) --Set BGM
+		if not VNbgmActive then
+			if t_vnBoxText[vnChapter][VNtxt].bgm ~= nil then
+				f_playVNbgm()
+				VNbgmActive = true
+			end
+		else--if VNbgmActive is true
+			if t_vnBoxText[vnChapter][VNtxt].bgm ~= t_currentVNbgm and t_vnBoxText[vnChapter][VNtxt].bgm ~= nil then --If a new song is detected
+				VNbgmNew = true
+			end
+		end
+		if VNbgmNew then
+			f_playVNbgm()
+			VNbgmNew = false
 		end
 		f_drawVN() --Draw Sprites
 		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
@@ -717,9 +742,18 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 		end
 		--Text to Show
 		--textImgSetBank(txt_nameCfg, 1)
-		textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
+		if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
+			textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
+		else
+			textImgSetText(txt_nameCfg, "") --Set Empty Name Text
+		end
 		if data.VNdisplayName then textImgDraw(txt_nameCfg) end --Draw Name Text
-		VNtxtActive = f_textRender(txt_boxCfg, t_vnBoxText[vnChapter][VNtxt].text, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
+		if t_vnBoxText[vnChapter][VNtxt].text ~= nil then
+			VNtextData = t_vnBoxText[vnChapter][VNtxt].text --Set Narrative Text
+		else
+			VNtextData = "" --Set Empty Narrative Text
+		end
+		VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -734,8 +768,6 @@ end
 function f_drawVN()
 	--Draw Chapter 1 Visuals
 	if vnChapter == 1 then
-		--playBGM("sound/vn/Market.mp3")
-		if VNtxt == 15 then VNtxtEnd = true end --End VN Mode to Start a Fight in middle of Chapter 1
 		if VNtxt > 0 and VNtxt < 24 then
 			animDraw(vnBG0)
 			if VNtxt >= 4 and VNtxt <= 10 then
