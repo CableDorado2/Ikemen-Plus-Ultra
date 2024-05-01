@@ -50,7 +50,7 @@ guard.sparkno =s2
 ;ＫＯエコー
 KO.echo = 0
 ;音量
-volume = 255
+volume = 0
 ;バーの持ち越し関係（多分、以前使った記憶が
 IntPersistIndex = 11
 FloatPersistIndex = 40
@@ -177,7 +177,6 @@ flag = RoundNotOver
 type = PlaySnd
 trigger1 = AnimElem = 5
 value = s40,0
-;volume = 255
 
 [State 5151, 3]
 type = HitFallSet
@@ -4400,7 +4399,6 @@ x = 2
 type =PlaySnd
 trigger1 = AnimElem = 2
 value =s6,1
-volume = 255
 
 [State 195, 1]
 type = CtrlSet
@@ -4635,7 +4633,6 @@ ctrl = 0
 type = PlaySnd
 trigger1 = Time = 0
 value =  s40,0
-volume = 255
 
 [State 2103, 2]
 type = PosSet
@@ -4839,7 +4836,6 @@ channel = 5
 type = PlaySnd
 trigger1 =  time = 1
 value = s0,0
-volume = 10
 
 [State 110, 0]
 type = PlayerPush
@@ -5259,7 +5255,6 @@ x = 0
 type = PlaySnd
 trigger1 =  time = 1
 value = s800,0
-volume = 100
 
 [State 100 , 5]
 type = ChangeState
@@ -7162,7 +7157,6 @@ type = PlaySnd
 trigger1 = Time = 5
 trigger2 = Time = 15
 value = s6,0
-volume = 255
 channel = 2
 
 [State -2, ダッシュＳＥ]
@@ -7925,8 +7919,6 @@ trigger1 = time = 0
 value = s11,1
 Persistent = 0
 loop = 0
-;volume = 255
-;channel = 
 
 [State -2,  ダウン2]
 type = PlaySnd
@@ -7935,8 +7927,6 @@ trigger1 = time = 0
 value = s11,2
 Persistent = 0
 loop = 0
-;volume = 255
-;channel = 
 
 [State 2501]
 type = bindtoroot

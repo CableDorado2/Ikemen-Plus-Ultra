@@ -27,7 +27,7 @@ guard.sparkno = 40
 ;1 to enable echo on KO
 KO.echo = 0
 ;Volume offset (negative for softer)
-volume = 255
+volume = -250
 ;Variables with this index and above will not have their values
 ;reset to 0 between rounds or matches. There are 60 int variables,
 ;indexed from 0 to 59, and 40 float variables, indexed from 0 to 39.

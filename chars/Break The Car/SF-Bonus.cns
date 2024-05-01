@@ -1,16 +1,16 @@
 [Data]
-life = 2000		
-attack = 1		
-defence = 100		
-fall.defence_up = 50	
-liedown.time = 60	
-airjuggle = 15		
-sparkno = 2		
-guard.sparkno = 40	
-KO.echo = 0		
-volume = 150		
-IntPersistIndex = 60	
-FloatPersistIndex = 40  
+life = 2000
+attack = 1
+defence = 100
+fall.defence_up = 50
+liedown.time = 60
+airjuggle = 15
+sparkno = 2
+guard.sparkno = 40
+KO.echo = 0
+volume = 0
+IntPersistIndex = 60
+FloatPersistIndex = 40 
 
 [Size]
 xscale = 1		

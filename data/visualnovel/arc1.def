@@ -156,6 +156,7 @@ text:
 Hmm, there's nobody here...
 
 character = Mako Mayama
+bgm = sound/vn/Nostalgic Garden.mp3
 text:
 Over there!
 
@@ -200,7 +201,7 @@ text:
 What!? wait Noo, I found she recently in-
 
 character = 
-bgm = sound/vn/Under Attack.mp3
+bgm = sound/vn/Tension.mp3
 text:
 At that moment..
 _
@@ -436,6 +437,7 @@ Mountainside Temple's Hidden Path...
 [Chapter 2]
 
 character = Kung Fu Man
+bgm = sound/Temple.mp3
 text:
 That Suave Dude... how is he so confident??
 Maybe forced my girlfriend to give him all
@@ -453,6 +455,7 @@ At that moment a person identical to Kung Fu Man
 appears in forehead.
 
 character = Kung Fu Man
+bgm = sound/Killer Mirror.mp3
 text:
 What the hell do you look like me!?
 
@@ -474,6 +477,7 @@ Until...
 [Chapter 3] ;3A
 
 character = 
+bgm = sound/vn/Access.mp3
 text:
 After awaken new skills and defeat his robotic copy.
 Kung Fu Man goes in search of Suave Dude
@@ -492,6 +496,8 @@ where he finds Suave Dude.
 
 character = Master Kung Fu Man
 text:
+Suave Dude!
+_
 Leave my temple and Release Kung Fu Girl!
 
 character = Suave Dude
@@ -530,6 +536,7 @@ Let the ultimate show BEGIN!
 [Chapter 4] ;3B
 
 character = 
+bgm = sound/vn/Tension.mp3
 text:
 Kung Fu Man is defeated by Evil Kung Fu Man and
 is taken to the Mountainside Temple's Roof
@@ -637,6 +644,7 @@ Ready to die?
 [Chapter 5] ;4A
 
 character = Master Kung Fu Man
+bgm = sound/system/opening lyrics.mp3
 text:
 Is over Suave Dude!
 
@@ -715,16 +723,15 @@ But I warn you, this challenge will be
 "the most difficult one" you can face
 in this story...
 
-character = 
-text:
-.
+end = 1 ;Show "The End" Screen for this Chapter
 
 ;---------------------------------------------------------------------------------
 [Chapter 6] ;4B
 
 character = Suave Dude
+bgm = sound/random 2.mp3
 text:
-Fascinating, this is a test of your true potential.
+Fascinating, this is a taste of your true potential.
 However it's useless!
 
 character = Kung Fu Man
@@ -754,7 +761,7 @@ is unlimited.
 _
 We must fear human creativity!
 
-character = Kung Fu Girl
+character = Master Kung Fu Girl
 text:
 Hey but this is I.K.E.M.E.N isn't it?
 
@@ -777,21 +784,20 @@ _
 Look!, here come the credits.
 Are you ready to disappear?
 
-character = Kung Fu Girl
+character = Master Kung Fu Girl
 text:
 Aww, I don't want to disappear. Please!
 YOU the one who is looking me, add me to your game!!
 _
 I don't want my code disappear! :u
 
-character = 
-text:
-..
+end = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 7] ;4C
 
 character = Suave Dude
+bgm = sound/system/menu/Menu 3.mp3
 text:
 Haha, I guess your time is over buddy.
 
@@ -809,24 +815,18 @@ what we're left with is just
 wait for all this temple collapse
 due countdown and watch the credits..
 
-character = 
-text:
-...
+end = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 8] ;4D
 
-character = 
-text:
-Kung Fu Man falls from the roof
-and dies brutally hit by soil.
-
 character = Suave Dude
+bgm = sound/vn/The Fall.mp3
 text:
 Oh, well I guess they'll have to create someone
 stronger than Kung Fu Man who can face us huh?
 
-character = Kung Fu Girl
+character = Master Kung Fu Girl
 text:
 What do you mean by "they"?
 
@@ -834,7 +834,7 @@ character = Suave Dude
 text:
 Oh, the players of course
 
-character = Kung Fu Girl
+character = Master Kung Fu Girl
 text:
 So this is an example of a Bad Ending?
 
@@ -848,10 +848,8 @@ text:
 By the way, we better go down and pick up his body
 because it's going to start to rot...
 
-character = Kung Fu Girl
+character = Master Kung Fu Girl
 text:
 Uhgss, do it yourself!
 
-character = 
-text:
-....
+end = 1

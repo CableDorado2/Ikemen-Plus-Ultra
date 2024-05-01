@@ -654,14 +654,12 @@ triggerall =  time = 1
 trigger1 = stateno = 50
 trigger2 = stateno = 105
 value = s5,0
-;volume = 255
 
 [State -3,起き上がり音]
 type = PlaySnd
 trigger1 = stateno = 5120
 trigger1 = AnimElem = 4
 value = s5,0
-;volume = 255
 
 [State -3,起き上がり音]
 type = PlaySnd
@@ -683,7 +681,6 @@ trigger1 = stateno = 5100
 trigger2 = stateno = 5110
 trigger3 = stateno = 5105
 value =  s100,0
-;volume = 255
 
 [State -3,着地音]
 type = PlaySnd
@@ -692,21 +689,18 @@ trigger1 = stateno = 52 ;Jump land
 trigger2 = stateno = 106 ;Run-back land
 trigger3 = stateno = 7160
 value = s40,0
-;volume = 255
 
 [State -3,歩き音]
 type = PlaySnd
 trigger1 = (GameTime%50) =1
 trigger1 = StateNo = 20
 value = s800,0
-;volume = 255
 
 [State -2,ダッシュＳＥ]
 type = PlaySnd
 trigger1 = stateno = 100
 trigger1 = AnimElem = 2
 value = s6,0
-;volume = 255
 channel = 2
 loop = 1
 

@@ -701,7 +701,7 @@ function f_arc1_chapter1()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountain valley.def"]}
-	data.songSelect = false
+	data.songSelect = false --Star fight using music played in visual novel mode
 	data.rosterMode = "story"
 	setGameMode('story')
 	setPlayerSide('p1left')
@@ -749,11 +749,10 @@ function f_arc1_chapter2()
 	data.p2Pal = 1
 	setRoundTime(-1)
 	setRoundsToWin(1)
-	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
 	--data.stage no needed because this chapter will use the auto stage of evil kfm
-	data.bgm = "sound/Killer Mirror.mp3"
+	data.songSelect = false
 	data.rosterMode = "story"
 	data.storyNo = "1-2"
 	setGameMode('story')
@@ -782,11 +781,10 @@ function f_arc1_chapter3_1()
 	data.p2Pal = 1
 	setRoundTime(60*60)
 	setRoundsToWin(1)
-	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
-	data.bgm = "sound/system/opening.mp3"
+	data.bgm = "sound/Open War.mp3"
 	data.rosterMode = "story"
 	data.storyNo = "1-3A"
 	setGameMode('story')
@@ -807,19 +805,14 @@ function f_arc1_chapter3_2()
 	script.visualnovel.f_vnScene(kfmVN,4,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	remapInput(1, 2) --P1 controls p2 side
-	remapInput(2, 1) --P2 controls p1 side
-	setCom(2, 0)
-	setPlayerSide('p1right') --set Pause Controls if P1 is in Right Side
-	data.p1In = 2
-	--data.p2In = 2 --esto no está funcionando para el right side en story
-	data.p1TeamMenu = {mode = 2, chars = 3}
-	data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"], t_charAdd["suave dude"], t_charAdd["kung fu girl"]}
 	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["kung fu man"]}
+	data.p1TeamMenu = {mode = 0, chars = 1}
+	data.p1Char = {t_charAdd["kung fu man"]}
+	data.p2TeamMenu = {mode = 2, chars = 2}
+	data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"], t_charAdd["suave dude"]}
 	data.p2Pal = 1
 	setRoundTime(-1)
+	setRoundsToWin(3)
 	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
@@ -828,15 +821,16 @@ function f_arc1_chapter3_2()
 	data.rosterMode = "story"
 	data.storyNo = "1-3B"
 	setGameMode('story')
+	setService("balance")
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
-		data.story1_4DUnlock = true
-		f_storyStatus()
-		f_arc1_chapter4_4()
-	elseif script.select.winner == 2 then
 		data.story1_4BUnlock = true
 		f_storyStatus()
 		f_arc1_chapter4_2()
+	elseif script.select.winner == 2 then
+		data.story1_4DUnlock = true
+		f_storyStatus()
+		f_arc1_chapter4_4()
 	end
 end
 
@@ -845,24 +839,24 @@ function f_arc1_chapter4_1()
 	script.visualnovel.f_vnScene(kfmVN,5,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.rosterMode = "story"
+	data.storyNo = "1-4A"
+	--[[
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 	data.p1Pal = 1
 	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["kung fu girl"]}
+	data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"]}
 	data.p2Pal = 1
 	setRoundTime(-1)
 	setRoundsToWin(1)
-	data.orderSelect = false
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/sakura.def"]}
-	data.rosterMode = "story"
-	data.storyNo = "1-4A"
 	setGameMode('story')
 	script.select.f_selectStory()
+	]]
 	f_storyStatus()
-	playBGM("sound/system/opening lyrics.mp3") --Play this credit song for this ending
 	f_playCredits() --Go to credits screen
 end
 
@@ -874,7 +868,6 @@ function f_arc1_chapter4_2()
 	data.rosterMode = "story"
 	data.storyNo = "1-4B"
 	f_storyStatus()
-	playBGM("sound/random 2.mp3")
 	f_playCredits()
 end
 
@@ -886,19 +879,18 @@ function f_arc1_chapter4_3()
 	data.rosterMode = "story"
 	data.storyNo = "1-4C"
 	f_storyStatus()
-	playBGM("sound/system/ranking.mp3")
 	f_playCredits()
 end
 
 --THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
+	playVideo("movie/KFM-Fall.wmv")
 	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
 	f_default()
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	data.rosterMode = "story"
 	data.storyNo = "1-4D"
 	f_storyStatus()
-	playBGM("sound/Suave's Corridor.mp3")
 	f_playCredits()
 end
 

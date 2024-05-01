@@ -624,6 +624,13 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				
 			--end
+		elseif line:match('^%s*end%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ending'] = data:gsub('^%s*end%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				
+			--end
 		end
 		if line:match('^%s*bgm%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -740,6 +747,9 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			animDraw(vnNext) --Draw Next Text Arrow
 			animUpdate(vnNext)
 		end
+		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
+			f_drawEnding()
+		end
 		--Text to Show
 		--textImgSetBank(txt_nameCfg, 1)
 		if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
@@ -763,24 +773,75 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 end
 
 --;===========================================================
+--; VISUAL NOVEL ENDING SCREEN
+--;===========================================================
+function f_drawEnding()
+	
+end
+
+--;===========================================================
 --; VISUAL NOVEL ASSETS DRAW LOGIC
 --;===========================================================
 function f_drawVN()
 	--Draw Chapter 1 Visuals
 	if vnChapter == 1 then
-		if VNtxt > 0 and VNtxt < 24 then
-			animDraw(vnBG0)
-			if VNtxt >= 4 and VNtxt <= 10 then
-				animDraw(vnKfm1)
-			end
-			if VNtxt >= 3 and VNtxt <= 9 then
-				--animDraw(vnMM1)
-			end
+		--BG
+		if VNtxt > 0 and VNtxt < 32 then animDraw(vnBG0)
+		elseif (VNtxt >= 32 and VNtxt < 66) then animDraw(vnBG1)
 		end
+		--KFM Sprites
+		if (VNtxt >= 3 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) then animDraw(vnKfm1)
+		elseif (VNtxt >= 46 and VNtxt < 47) then animDraw(vnKfm2)
+		end
+		--Mayama Sprites
+		if (VNtxt >= 4 and VNtxt < 11) or (VNtxt >= 18 and VNtxt < 32) then animDraw(vnMM1)
+		elseif (VNtxt >= 11 and VNtxt < 18) then animDraw(vnMM2)
+		elseif (VNtxt >= 34 and VNtxt < 36) then animDraw(vnMM2B)
+		end
+		--KFG Sprites
+		if (VNtxt >= 37 and VNtxt < 39) then animDraw(vnKfg1)
+		elseif (VNtxt >= 39 and VNtxt < 42) then animDraw(vnKfg2)
+		elseif (VNtxt >= 42 and VNtxt < 46) then animDraw(vnKfg3)
+		end
+		--SD Sprites
+		
 	--Draw Chapter 2 Visuals
 	elseif vnChapter == 2 then
 		animDraw(vnBG2)
 		if VNtxt < 6 then animDraw(vnKfm1) end
 		if VNtxt >= 4 then animDraw(vnEKfm1) end
+	--Draw Chapter 3A Visuals
+	elseif vnChapter == 3 then
+		if VNtxt >= 3 then animDraw(vnBG3) end
+		if VNtxt == 2 then animDraw(vnKfm1) end
+		if VNtxt >= 4 then animDraw(vnKfm1) end
+		if VNtxt >= 5 then animDraw(vnSD1) end
+	--Draw Chapter 3B Visuals
+	elseif vnChapter == 4 then
+		if VNtxt >= 3 then animDraw(vnBG4) end
+		if VNtxt >= 5 and VNtxt < 6 then animDraw(vnKfm3)
+		elseif (VNtxt >= 9 and VNtxt < 17) then animDraw(vnKfm2)
+		elseif VNtxt >= 17 then animDraw(vnKfm1)
+		end
+		if (VNtxt >= 3 and VNtxt < 12) or VNtxt == 21 then animDraw(vnSD1) end
+	--Draw Chapter 4A Visuals
+	elseif vnChapter == 5 then
+		animDraw(vnBG3)
+		animDraw(vnKfm1)
+		if VNtxt >= 2 then animDraw(vnSD2) end
+	--Draw Chapter 4B Visuals
+	elseif vnChapter == 6 then
+		animDraw(vnBG4)
+		if VNtxt >= 2 and VNtxt < 11 then animDraw(vnKfm1) end
+		if VNtxt >= 1 and VNtxt < 11 then animDraw(vnSD2) end
+	--Draw Chapter 4C Visuals
+	elseif vnChapter == 7 then
+		animDraw(vnBG3)
+		animDraw(vnKfm1)
+		animDraw(vnSD1)
+	--Draw Chapter 4D Visuals
+	elseif vnChapter == 8 then
+		animDraw(vnBG5)
+		animDraw(vnSD3)
 	end
 end

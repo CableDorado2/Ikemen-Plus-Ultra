@@ -515,6 +515,7 @@ pos = 0,88888
 ;===========================================================================
 [State 500, Intro for Round 1]
 type = assertspecial
+triggerall = GameMode != "story"
 trigger1 = RoundState < 2 && RoundNo = 1
 flag = nobardisplay
 flag2 = nomusic
@@ -553,6 +554,18 @@ type = LifeSet
 triggerall = GameMode = "story" && Service = "undefeatable" && TeamSide = 1 ;LIFE WILL AT MAX FOR STORY MODE BATTLES
 trigger1 = RoundState = 2
 value = LifeMax
+
+[State -2, MKFG Power Charge Off]
+type = PowerSet
+triggerall = GameMode = "story" && Service = "balance" && Name = "Master Kung Fu Girl" ;MASTER KUNG FU GIRL POWER CHARGE OFF AGAINS KFM FOR STORY BATTLE
+trigger1 = TeamSide = 2
+value = 0
+
+[State 2, KFM Double Defence]
+type = DefenceMulSet
+triggerall = GameMode = "story" && Service = "balance"
+trigger1 = TeamSide = 1
+value = 0.5
 
 ;===========================================================================
 ; TRAINING SERVICES
