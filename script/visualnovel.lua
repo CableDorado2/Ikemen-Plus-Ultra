@@ -787,24 +787,30 @@ function f_drawVN()
 	if vnChapter == 1 then
 		--BG
 		if VNtxt > 0 and VNtxt < 32 then animDraw(vnBG0)
-		elseif (VNtxt >= 32 and VNtxt < 66) then animDraw(vnBG1)
+		elseif (VNtxt >= 32 and VNtxt < 66) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnBG1)
 		end
 		--KFM Sprites
-		if (VNtxt >= 3 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) then animDraw(vnKfm1)
-		elseif (VNtxt >= 46 and VNtxt < 47) then animDraw(vnKfm2)
+		if (VNtxt >= 3 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) or (VNtxt >= 48 and VNtxt < 59) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnKfm1)
+		elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfm2)
+		elseif (VNtxt >= 59 and VNtxt < 61) then animDraw(vnKfm3)
+		elseif (VNtxt == 88) then animDraw(vnKfm4)
 		end
 		--Mayama Sprites
-		if (VNtxt >= 4 and VNtxt < 11) or (VNtxt >= 18 and VNtxt < 32) then animDraw(vnMM1)
-		elseif (VNtxt >= 11 and VNtxt < 18) then animDraw(vnMM2)
-		elseif (VNtxt >= 34 and VNtxt < 36) then animDraw(vnMM2B)
+		if (VNtxt >= 4 and VNtxt < 11) or (VNtxt >= 18 and VNtxt < 32) or (VNtxt >= 78 and VNtxt < 88) then animDraw(vnMM1)
+		elseif VNtxt == 41 then animDraw(vnMM1B)
+		elseif (VNtxt >= 11 and VNtxt < 18) or (VNtxt >= 73 and VNtxt < 78) then animDraw(vnMM2)
+		elseif (VNtxt >= 34 and VNtxt < 36) or (VNtxt >= 46 and VNtxt < 48) then animDraw(vnMM2B)
 		end
 		--KFG Sprites
 		if (VNtxt >= 37 and VNtxt < 39) then animDraw(vnKfg1)
 		elseif (VNtxt >= 39 and VNtxt < 42) then animDraw(vnKfg2)
-		elseif (VNtxt >= 42 and VNtxt < 46) then animDraw(vnKfg3)
+		elseif (VNtxt >= 42 and VNtxt < 44) then animDraw(vnKfg3)
+		elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfg4)
+		elseif (VNtxt >= 48 and VNtxt < 54) then animDraw(vnKfg5)
 		end
 		--SD Sprites
-		
+		if (VNtxt >= 50 and VNtxt < 55) or (VNtxt >= 56 and VNtxt < 65) then animDraw(vnSD1)
+		end
 	--Draw Chapter 2 Visuals
 	elseif vnChapter == 2 then
 		animDraw(vnBG2)
@@ -823,6 +829,12 @@ function f_drawVN()
 		elseif (VNtxt >= 9 and VNtxt < 17) then animDraw(vnKfm2)
 		elseif VNtxt >= 17 then animDraw(vnKfm1)
 		end
+		if (VNtxt >= 12 and VNtxt < 14) then animDraw(vnKfg6)
+		elseif VNtxt == 14 then animDraw(vnKfg7)
+		elseif VNtxt >= 15 and VNtxt < 18 then animDraw(vnKfg8)
+		elseif VNtxt >= 18 and VNtxt < 20 then animDraw(vnKfg9)
+		elseif VNtxt >= 20 then animDraw(vnKfg4B)
+		end
 		if (VNtxt >= 3 and VNtxt < 12) or VNtxt == 21 then animDraw(vnSD1) end
 	--Draw Chapter 4A Visuals
 	elseif vnChapter == 5 then
@@ -833,6 +845,9 @@ function f_drawVN()
 	elseif vnChapter == 6 then
 		animDraw(vnBG4)
 		if VNtxt >= 2 and VNtxt < 11 then animDraw(vnKfm1) end
+		if VNtxt >= 7 and VNtxt < 11 then animDraw(vnKfg6B)
+		elseif VNtxt == 11 then animDraw(vnKfg11)
+		end
 		if VNtxt >= 1 and VNtxt < 11 then animDraw(vnSD2) end
 	--Draw Chapter 4C Visuals
 	elseif vnChapter == 7 then
@@ -843,5 +858,8 @@ function f_drawVN()
 	elseif vnChapter == 8 then
 		animDraw(vnBG5)
 		animDraw(vnSD3)
+		if (VNtxt >= 2 and VNtxt < 7) then animDraw(vnKfg10)
+		elseif VNtxt == 7 then animDraw(vnKfg7)
+		end
 	end
 end

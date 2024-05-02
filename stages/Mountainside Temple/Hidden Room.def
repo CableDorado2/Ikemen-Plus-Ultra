@@ -1,13 +1,7 @@
-; Definition of KFM's stage
-; *** denotes values you should change/check for each stage.
-; The term "background" is used to mean both backgrounds and foregrounds.
-
-;--------------------------------------------------------
 [Info]
- ;Name of the stage.
 name = "Hidden Room"
 location = "Mountainside Temple"
-author = "hekutta"
+author = "HekuttaSaint"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

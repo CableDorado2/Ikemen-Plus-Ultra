@@ -1,8 +1,8 @@
 [Characters] ;Don't Delete
 Kung Fu Man, stages/Mountainside Temple/Lobby.def, order=1, ordertower=1, 1=Suave Dude/Minion/Minion.def, 2=Strength Training, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-Mako Mayama
+Mako Mayama, unlock=0, stages/Mountain Valley.def, music=sound/Kung Fu Spirit.mp3, includestage=0, order=1, ordertower=1
 Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, boss=1, roundtime=60, includestage=0, order=1, ordertower=3
-Reika Murasame, stages/Mountainside Temple/Roof Night.def, includestage=0, order=4, ordertower=5
+Reika Murasame, unlock=0, stages/Mountainside Temple/Entrance Pathway.def, music=sound/Hunter.mp3, includestage=0, order=1, ordertower=2
 Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, ordertower=2, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Kung Fu Man/Master/Master Kung Fu Man.def, 4=Suave Dude
 randomselect
 randomselect
@@ -222,8 +222,8 @@ randomselect
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, ordertower=4
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1, ordertower=1
 Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, order=4, ordertower=6, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Mountain Valley.def, music=sound/Student.mp3, single=1, includestage=0, order=5, ordertower=10
-Break The Car, stages/Sunday Afternoon.def, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2
+Kung Fu Girl/Master/Master Kung Fu Girl.def, music=sound/Student.mp3, single=1, order=5, ordertower=10
+Break The Car, stages/Sunday Afternoon.def, music=sound/vn/Access.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2
 Strength Training, stages/Sunday Afternoon.def, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, includestage=0, exclude=1, order=2, ordertower=1
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=-1
 Event 1, zoom=0, exclude=1, order=-1, victoryscreen=0, vsscreen=0, stages/Training Room.def
@@ -234,14 +234,25 @@ Stage Viewer, exclude=1, order=-1
 ;---------------------------------------------------------------------------------
 [ExtraStages] ;Don't Delete
 stages/Training Room.def
+stages/Mountainside Temple/Entrance Pathway.def
+stages/Mountainside Temple/Temple Entrance Afternoon.def
+stages/Mountainside Temple/Temple Entrance Dusk.def
+stages/Mountainside Temple/Temple Entrance Night.def
 stages/Mountainside Temple/Hidden Path.def, unlock=0
 stages/Mountainside Temple/Hidden Path Night.def
+stages/Mountainside Temple/Stairs - 1st Floor.def
+stages/Mountainside Temple/Stairs - 2nd Floor.def
+stages/Mountainside Temple/Stairs - 3rd Floor.def
 stages/Mountainside Temple/Outside.def
 stages/Mountainside Temple/Lobby.def, music=sound/Temple.mp3
 stages/Mountainside Temple/Lobby Night.def
 stages/Mountainside Temple/Lobby 2 Night.def, unlock=0
 stages/Mountainside Temple/Dark Corridor.def, unlock=0
 stages/Mountainside Temple/Winter.def, unlock=0
+stages/Mountainside Temple/Destroyed Temple.def, unlock=0
+stages/Mountainside Temple/Secret Hallway.def, unlock=0
+stages/Mountainside Temple/Clone Laboratory.def, unlock=0
+stages/Mountainside Temple/Clone Laboratory 2.def, unlock=0
 stages/China.def
 stages/HD TEST/Australian Outback.def
 stages/HD TEST/Fairy Day 4_3.def

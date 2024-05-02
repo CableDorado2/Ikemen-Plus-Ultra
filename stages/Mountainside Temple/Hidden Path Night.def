@@ -1,12 +1,8 @@
-; Definition of KFM's stage
-
-;--------------------------------------------------------
-
 [Info]
 name = "Hidden Path"
 daytime = "Night"
 location = "Mountainside Temple"
-author = "hekutta"
+author = "HekuttaSaint"
 ;--------------------------------------------------------
 
 [Camera]
@@ -71,7 +67,7 @@ reflect = 0
 
 ;--------------------------------------------------------
 [Music]
-bgmusic = sound/Upkeeper.mp3
+bgmusic = sound/sfx/Wind.mp3
 bgvolume = 255
 
 ;-------------------------------------

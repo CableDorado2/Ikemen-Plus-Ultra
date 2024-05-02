@@ -25,8 +25,8 @@ overdrawlow = 0
 cuthigh = 44
 cutlow = 16
 startzoom = 1
-zoomout = 1
-zoomin = 1
+;zoomout = 1
+;zoomin = 1
 
 [PlayerInfo]
 p1startx = -70

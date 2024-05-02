@@ -1,13 +1,7 @@
-; Definition of SD'sCorridor Stage
-; Stage created for the MFG Stage Competition 2013.
-; The stage was created as another perspective of my stage Terraza 4.
-;Thanks to Belial and Cody for their support and testing.
-
-;--------------------------------------------------------
 [Info]
 name = "Suave's Corridor"
 location = "Mountainside Temple"
-author = "hekutta"
+author = "HekuttaSaint"
 ;--------------------------------------------------------
 [Camera]
 startx = 0
@@ -19,8 +13,6 @@ boundlow = 0
 verticalfollow = .2
 floortension = 0
 tension = 60
-
-
 ;--------------------------------------------------------
 [PlayerInfo]
 p1startx = -70          ;Starting x coordinates

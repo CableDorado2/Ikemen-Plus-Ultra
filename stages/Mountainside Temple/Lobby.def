@@ -73,8 +73,8 @@ cuthigh = 35
 cutlow = 25
 
  ;Zoom limits
-zoomout = 1
-zoomin = 1
+;zoomout = 1
+;zoomin = 1
 
 ;--------------------------------------------------------
 [PlayerInfo]

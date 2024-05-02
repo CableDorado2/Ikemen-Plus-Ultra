@@ -2,7 +2,7 @@
 name= "Roof"
 daytime = "Night"
 location = "Mountainside Temple"
-author = "hekutta"
+author = "HekuttaSaint"
 ;===============================
 [Camera]
 startx         = 0                

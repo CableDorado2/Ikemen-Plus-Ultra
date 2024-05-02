@@ -1,0 +1,101 @@
+[Info]
+name = "Entrance Pathway"
+displayname = "Entrance Pathway"
+versiondate = 03,12,2021
+mugenversion = 1.1
+author = "HekuttaSaint"
+location = "Mountainside Temple"
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+boundleft = -145
+boundright = 145
+boundhigh = -55
+boundlow = 0
+verticalfollow = .2
+floortension = 0
+tension = 60
+
+;--------------------------------------------------------
+[PlayerInfo]
+p1startx = -70         
+p1starty = 0          
+p1startz = 0           
+p1facing = 1
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+leftbound  = -1000
+rightbound =  1000
+
+;--------------------------------------------------------
+[Scaling]
+topz     = 0     
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 15 
+screenright = 15 
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 210
+autoturn = 1
+resetBG = 1
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/Kung Fu Spirit.mp3
+bgmvolume = 100
+
+;========================================================
+
+;-------------------------------------
+[BGdef]
+spr = Entrance Pathway.sff
+debugbg = 0
+
+;----------
+[BG Mountains]
+type  = normal
+spriteno = 0, 0
+layerno = 0
+start = 0, 0
+delta = 0.85,0.89
+mask  = 0
+tile  = 0, 0
+tilespacing = 0,0
+zoomdelta = 1
+
+;----------
+[BG Background]
+type  = normal
+spriteno = 1,0
+start = 0, 200
+delta = .8, .75
+mask = 1
+tile = 1, 0
+zoomdelta = 1
+
+;----------
+[BG Sakura]
+type = anim
+actionno = 1
+start = 0,110
+delta = .8, .75
+zoomdelta = 1
+
+[Begin action 1]
+16,0, 0,0, 18
+16,1, 0,0, 18
+16,2, 0,0, 18
+16,3, 0,0, 18
+16,4, 0,0, 18
+16,5, 0,0, 18
+16,6, 0,0, 18
+16,7, 0,0, 18

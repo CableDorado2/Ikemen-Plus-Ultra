@@ -1,0 +1,328 @@
+[Info]
+name = "Temple Entrance"
+displayname = "Temple Entrance" 
+versiondate = 08,10,2021   
+mugenversion = 1.1         
+author = "HekuttaSaint"
+location = "Mountainside Temple"
+daytime = "Night"
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+boundleft = -250
+boundright = 250
+boundhigh = -62
+boundlow = 0
+verticalfollow = .1
+floortension = 0
+tension = 60
+overdrawhigh = 0
+overdrawlow = 0
+cuthigh = 35
+cutlow = 25
+
+;--------------------------------------------------------
+[PlayerInfo]
+p1startx = -70       
+p1starty = 0           
+p1facing = 1
+p2startx = 70
+p2starty = 0
+p2facing = -1
+leftbound  = -1000
+rightbound =  1000
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 15    
+screenright = 15 
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 220
+autoturn = 1
+resetBG = 1
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 64
+color = 0,0,0
+yscale = .1
+fade.range = -400,-100
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/sfx/Wind.mp3
+bgmvolume = 100
+
+;========================================================
+[BGdef]
+spr = Temple Entrance Night.sff
+debugbg = 0
+
+;----------
+[BG SFX]
+type  = normal
+spriteno = 0, 3
+layerno = 1
+start = 2, -128
+delta = .5,.5
+trans = addalpha
+alpha = 256,206
+
+;----------
+[BG Sky]
+type  = normal
+spriteno = 0, 0
+layerno = 0
+start = 0, 0
+delta = .5,.5
+
+;----------
+[BG Moon]
+type = anim
+actionno = 1
+start = 0,0
+delta = .5,.5
+
+[Begin Action 1]
+1,0, 0,0, 1, , AS156D256
+1,1, 0,0, 1, , AS166D256
+1,2, 0,0, 1, , AS176D256
+1,3, 0,0, 1, , AS186D256
+1,4, 0,0, 1, , AS196D256
+1,5, 0,0, 1, , AS206D256
+
+;----------
+[BG Mountains]
+type  = normal
+spriteno = 0,1
+start = 0, 11
+delta = .8, .75
+mask = 1
+
+;----------
+[BG Gate]
+type  = normal
+spriteno = 0,2
+start = 0, 11
+delta = .8, .75
+mask = 1
+
+;----------
+[BG Firefly A]
+type = anim
+actionno = 2
+start = -250,100
+delta = .48,1
+sin.x = -75,500
+sin.y = -18,160
+
+;----------
+[BG Firefly B]
+type = anim
+actionno = 2
+start = -150,130
+delta = .48,1
+sin.x = -25,800
+sin.y = -18,160
+
+;----------
+[BG Firefly C]
+type = anim
+actionno = 2
+ID = 3
+start = -55,100
+delta = .48,1
+sin.x = -125,400
+sin.y = -18,160
+
+;----------
+[BG Firefly D]
+type = anim
+actionno = 2
+start = 20,90
+delta = .48,1
+sin.x = -168,900
+sin.y = -18,160
+
+;----------
+[BG Firefly E]
+type = anim
+actionno = 2
+start = 100,100
+delta = .48,1
+sin.x = -75,900
+sin.y = -18,160
+
+;----------
+[BG Firefly F]
+type = anim
+actionno = 2
+start = 90,130
+delta = .48,1
+sin.x = -25,700
+sin.y = -18,160
+
+;----------
+[BG Firefly G]
+type = anim
+actionno = 2
+ID = 3
+start = 205,100
+delta = .48,1
+sin.x = -125,400
+sin.y = -18,160
+
+;----------
+[BG Firefly H]
+type = anim
+actionno = 2
+start = 145,90
+delta = .48,1
+sin.x = -125,600
+sin.y = -38,240
+
+[Begin action 2]
+2,0, 0,0, 2,,A
+2,1, 0,0, 2,,A
+2,2, 0,0, 2,,A
+2,3, 0,0, 2,,A
+2,4, 0,0, 2,,A
+2,5, 0,0, 2,,A
+2,4, 0,0, 2,,A
+2,5, 0,0, 2,,A
+2,4, 0,0, 2,,A
+2,5, 0,0, 2,,A
+2,4, 0,0, 2,,A
+2,3, 0,0, 2,,A
+2,2, 0,0, 2,,A
+2,1, 0,0, 2,,A
+
+[BGCtrlDef 1]
+CtrlID = 1
+Looptime = 12630
+[BGCtrl 1.0]
+type = PosSet
+time = 0
+x = 0
+[BGCtrl 1.1]
+type = PosSet
+time = 421
+x = 27
+[BGCtrl 1.2]
+type = PosSet
+time = 842
+x = 136
+[BGCtrl 1.3]
+type = PosSet
+time = 1263
+x = 142
+[BGCtrl 1.4]
+type = PosSet
+time = 1684
+x = 81
+[BGCtrl 1.5]
+type = PosSet
+time = 2105
+x = 20
+[BGCtrl 1.6]
+type = PosSet
+time = 2526
+x = 204
+[BGCtrl 1.7]
+type = PosSet
+time = 2947
+x = 102
+[BGCtrl 1.8]
+type = PosSet
+time = 3368
+x = 122
+[BGCtrl 1.9]
+type = PosSet
+time = 3789
+x = 149
+[BGCtrl 1.a]
+type = PosSet
+time = 4210
+x = 74
+[BGCtrl 1.b]
+type = PosSet
+time = 4631
+x = 95
+[BGCtrl 1.c]
+type = PosSet
+time = 5052
+x = 54
+[BGCtrl 1.d]
+type = PosSet
+time = 5473
+x = 170
+[BGCtrl 1.e]
+type = PosSet
+time = 5894
+x = 47
+[BGCtrl 1.f]
+type = PosSet
+time = 6315
+x = 13
+[BGCtrl 1.g]
+type = PosSet
+time = 6736
+x = 163
+[BGCtrl 1.h]
+type = PosSet
+time = 7157
+x = 190
+[BGCtrl 1.i]
+type = PosSet
+time = 7578
+x = 34
+[BGCtrl 1.j]
+type = PosSet
+time = 7999
+x = 176
+[BGCtrl 1.k]
+type = PosSet
+time = 8420
+x = 61
+[BGCtrl 1.l]
+type = PosSet
+time = 8841
+x = 40
+[BGCtrl 1.m]
+type = PosSet
+time = 9262
+x = 68
+[BGCtrl 1.n]
+type = PosSet
+time = 9683
+x = 108
+[BGCtrl 1.o]
+type = PosSet
+time = 10104
+x = 156
+[BGCtrl 1.p]
+type = PosSet
+time = 10525
+x = 115
+[BGCtrl 1.q]
+type = PosSet
+time = 10946
+x = 88
+[BGCtrl 1.r]
+type = PosSet
+time = 11367
+x = 183
+[BGCtrl 1.s]
+type = PosSet
+time = 11788
+x = 129
+[BGCtrl 1.t]
+type = PosSet
+time = 12209
+x = 197

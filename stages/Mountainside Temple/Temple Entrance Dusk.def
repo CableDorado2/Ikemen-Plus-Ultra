@@ -1,0 +1,100 @@
+[Info]
+name = "Temple Entrance"
+displayname = "Temple Entrance" 
+versiondate = 10,12,2022    
+mugenversion = 1.1         
+author = "HekuttaSaint" 
+location = "Mountainside Temple"
+daytime = "Dusk"
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+boundleft = -250
+boundright = 250
+boundhigh = -62
+boundlow = 0
+verticalfollow = .1
+floortension = 0
+tension = 60
+overdrawhigh = 0
+overdrawlow = 0
+cuthigh = 35
+cutlow = 25
+
+;--------------------------------------------------------
+[PlayerInfo]
+p1startx = -70       
+p1starty = 0           
+p1facing = 1
+p2startx = 70
+p2starty = 0
+p2facing = -1
+leftbound  = -1000
+rightbound =  1000
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 15    
+screenright = 15 
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 220
+autoturn = 1
+resetBG = 1
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 64
+color = 0,0,0
+yscale = .1
+fade.range = -400,-100
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/sfx/Wind.mp3
+bgmvolume = 100
+
+;========================================================
+[BGdef]
+spr = Temple Entrance Dusk.sff
+debugbg = 0
+
+;----------
+[BG SFX]
+type  = normal
+spriteno = 0, 3
+layerno = 1
+start = 0, 0
+delta = .5,.5
+trans = addalpha
+alpha = 56,186
+tile = 1,0
+
+;----------
+[BG Sky]
+type  = normal
+spriteno = 0, 0
+layerno = 0
+start = 0, 0
+delta = .5,.5
+
+;----------
+[BG Mountains]
+type  = normal
+spriteno = 0,1
+start = 0, 11
+delta = .8, .75
+mask = 1
+
+;----------
+[BG Gate]
+type  = normal
+spriteno = 0,2
+start = 0, 11
+delta = .8, .75
+mask = 1

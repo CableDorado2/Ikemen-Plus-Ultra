@@ -1,14 +1,8 @@
-; Definition of KFM-Master's stage
-; *** denotes values you should change/check for each stage.
-; The term "background" is used to mean both backgrounds and foregrounds.
-
-;--------------------------------------------------------
 [Info]
- ;Name of the stage.
 name = "Lobby"
 daytime = "Night"
 location = "Mountainside Temple"
-author = "hekutta"
+author = "HekuttaSaint"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both
@@ -131,7 +125,7 @@ reflect = 0
  ;0 will play a random audio track. For example, to play
  ;track 3 from a music CD, use:
  ;  bgmusic = 3.da
-bgmusic = sound/.mp3
+bgmusic = sound/sfx/Wind.mp3
 
  ;Adjust the volume. 0 is normal, negative for softer, and
  ;positive for louder (only for mp3, mods and CDA)

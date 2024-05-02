@@ -103,8 +103,8 @@ animUpdate(vnKfm3)
 vnKfm4 = animNew(vnSff, [[
 1,3, 0,0, -1
 ]])
-animAddPos(vnKfm4, 0, 0)
-animSetScale(vnKfm4, 0.25, 0.25)
+animAddPos(vnKfm4, 40, 0)
+animSetScale(vnKfm4, 0.30, 0.30)
 animUpdate(vnKfm4)
 
 --Kung Fu Man The End
@@ -123,7 +123,7 @@ animAddPos(vnEKfm1, 320, 0)
 animSetScale(vnEKfm1, 0.25, 0.25)
 animUpdate(vnEKfm1)
 
---Mako Mayama 1
+--Mako Mayama 1 Right
 vnMM1 = animNew(vnSff, [[
 4,0, 0,0, -1, H
 ]])
@@ -131,23 +131,31 @@ animAddPos(vnMM1, 320, 10)
 animSetScale(vnMM1, 0.70, 0.70)
 animUpdate(vnMM1)
 
---Mako Mayama 2
+--Mako Mayama 1 Left
+vnMM1B = animNew(vnSff, [[
+4,0, 0,0, -1
+]])
+animAddPos(vnMM1B, 50, 10)
+animSetScale(vnMM1B, 0.70, 0.70)
+animUpdate(vnMM1B)
+
+--Mako Mayama 2 Right
 vnMM2 = animNew(vnSff, [[
 4,1, 0,0, -1, H
 ]])
-animAddPos(vnMM2, 320, 40)
+animAddPos(vnMM2, 320, 36)
 animSetScale(vnMM2, 0.7, 0.7)
 animUpdate(vnMM2)
 
---Mako Mayama 2
+--Mako Mayama 2 Left
 vnMM2B = animNew(vnSff, [[
 4,1, 0,0, -1
 ]])
-animAddPos(vnMM2B, 0, 40)
+animAddPos(vnMM2B, 70, 36)
 animSetScale(vnMM2B, 0.7, 0.7)
 animUpdate(vnMM2B)
 
---Suave Dude
+--Suave Dude Right
 vnSD1 = animNew(vnSff, [[
 3,0, 0,0, -1
 ]])
@@ -163,11 +171,11 @@ animAddPos(vnSD2, 200, 0)
 animSetScale(vnSD2, 0.15, 0.15)
 animUpdate(vnSD2)
 
---Suave Dude 3
+--Suave Dude Left
 vnSD3 = animNew(vnSff, [[
 3,0, 0,0, -1, H
 ]])
-animAddPos(vnSD3, 200, 0)
+animAddPos(vnSD3, 100, 0)
 animSetScale(vnSD3, 0.15, 0.15)
 animUpdate(vnSD3)
 
@@ -175,7 +183,7 @@ animUpdate(vnSD3)
 vnKfg1 = animNew(vnSff, [[
 2,0, 0,0, -1, H
 ]])
-animAddPos(vnKfg1, 320, 0)
+animAddPos(vnKfg1, 325, 0)
 animSetScale(vnKfg1, 0.45, 0.45)
 animUpdate(vnKfg1)
 
@@ -194,3 +202,83 @@ vnKfg3 = animNew(vnSff, [[
 animAddPos(vnKfg3, 117, 0)
 animSetScale(vnKfg3, 0.38, 0.38)
 animUpdate(vnKfg3)
+
+--Kung Fu Girl 4 Left
+vnKfg4 = animNew(vnSff, [[
+2,1, 0,0, -1
+]])
+animAddPos(vnKfg4, 180, 0)
+animSetScale(vnKfg4, 0.45, 0.45)
+animUpdate(vnKfg4)
+
+--Kung Fu Girl 4 Right
+vnKfg4B = animNew(vnSff, [[
+2,1, 0,0, -1, H
+]])
+animAddPos(vnKfg4B, 320, 0)
+animSetScale(vnKfg4B, 0.45, 0.45)
+animUpdate(vnKfg4B)
+
+--Kung Fu Girl 5
+vnKfg5 = animNew(vnSff, [[
+2,3, 0,0, -1
+]])
+animAddPos(vnKfg5, 57, 0)
+animSetScale(vnKfg5, 0.38, 0.38)
+animUpdate(vnKfg5)
+
+--Kung Fu Girl 6
+vnKfg6 = animNew(vnSff, [[
+2,21, 0,0, -1
+]])
+animAddPos(vnKfg6, 117, 0)
+animSetScale(vnKfg6, 0.38, 0.38)
+animUpdate(vnKfg6)
+
+--Kung Fu Girl 6
+vnKfg6B = animNew(vnSff, [[
+2,21, 0,0, -1
+]])
+animAddPos(vnKfg6B, 50, 0)
+animSetScale(vnKfg6B, 0.38, 0.38)
+animUpdate(vnKfg6B)
+
+--Kung Fu Girl 7
+vnKfg7 = animNew(vnSff, [[
+2,5, 0,0, -1
+]])
+animAddPos(vnKfg7, 117, 0)
+animSetScale(vnKfg7, 0.38, 0.38)
+animUpdate(vnKfg7)
+
+--Kung Fu Girl 8
+vnKfg8 = animNew(vnSff, [[
+2,6, 0,0, -1
+]])
+animAddPos(vnKfg8, 117, 0)
+animSetScale(vnKfg8, 0.38, 0.38)
+animUpdate(vnKfg8)
+
+--Kung Fu Girl 9
+vnKfg9 = animNew(vnSff, [[
+2,28, 0,0, -1
+]])
+animAddPos(vnKfg9, 117, 0)
+animSetScale(vnKfg9, 0.38, 0.38)
+animUpdate(vnKfg9)
+
+--Kung Fu Girl 10
+vnKfg10 = animNew(vnSff, [[
+2,22, 0,0, -1
+]])
+animAddPos(vnKfg10, 117, 0)
+animSetScale(vnKfg10, 0.38, 0.38)
+animUpdate(vnKfg10)
+
+--Kung Fu Girl 11
+vnKfg11 = animNew(vnSff, [[
+2,15, 0,0, -1
+]])
+animAddPos(vnKfg11, 50, 0)
+animSetScale(vnKfg11, 0.38, 0.38)
+animUpdate(vnKfg11)

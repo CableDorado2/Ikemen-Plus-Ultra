@@ -4,7 +4,7 @@
 [Chapter 1]
 
 character = 
-bgm = sound/vn/Market.mp3
+bgm = sound/Kung Fu Spirit.mp3
 text:
 One day, while Kung Fu Man was shopping...
 
@@ -295,7 +295,7 @@ character =
 text:
 Before Kung Fu Man can get up.
 _
-The last thing he observes is
+The last thing he observes is...
 
 character = 
 text:
