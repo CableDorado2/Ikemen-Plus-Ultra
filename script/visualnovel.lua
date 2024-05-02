@@ -788,6 +788,7 @@ function f_drawVN()
 		--BG
 		if VNtxt > 0 and VNtxt < 32 then animDraw(vnBG0)
 		elseif (VNtxt >= 32 and VNtxt < 66) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnBG1)
+		elseif (VNtxt == 88) then animDraw(vnBG6)
 		end
 		--KFM Sprites
 		if (VNtxt >= 3 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) or (VNtxt >= 48 and VNtxt < 59) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnKfm1)

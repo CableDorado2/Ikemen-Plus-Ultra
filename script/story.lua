@@ -822,6 +822,8 @@ function f_arc1_chapter3_2()
 	data.storyNo = "1-3B"
 	setGameMode('story')
 	setService("balance")
+	setAutoguard(1, true)
+	setAutoguard(2, false)
 	script.select.f_selectStory()
 	if script.select.winner == 1 then
 		data.story1_4BUnlock = true

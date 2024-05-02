@@ -46,6 +46,8 @@ function f_saveTraining()
 		['data.inputDisplay'] = data.inputDisplay,
 		['data.hitbox'] = data.hitbox,
 		['data.debugInfo'] = data.debugInfo,
+		['data.autoguardP1'] = data.autoguardP1,
+		['data.autoguardP2'] = data.autoguardP2,
 		['data.dummyMode'] = data.dummyMode,
 		['data.PowerStateP1'] = data.PowerStateP1,
 		['data.PowerStateP2'] = data.PowerStateP2,
@@ -381,6 +383,16 @@ if getGameMode() == "practice" then
 	setLifeStateP2(100)
 	--Dummy
 	data.dummyMode = "Manual"
+	--if not data.autoguardP1 then
+		setAutoguard(1, data.autoguardP1)
+	--else
+		--setAutoguard(1, true)
+	--end
+	--if not data.autoguardP2 then 
+		setAutoguard(2, data.autoguardP2)
+	--else
+		--setAutoguard(2, true)
+	--end
 	--Playback
 	data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
 	data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
@@ -1543,8 +1555,9 @@ t_trainingCfg = {
 	{varID = textImgNew(), text = "Lifebar P2",					varText = data.LifeStateP2},
 	{varID = textImgNew(), text = "Power Gauge P1",				varText = data.PowerStateP1},
 	{varID = textImgNew(), text = "Power Gauge P2",				varText = data.PowerStateP2},
+	{varID = textImgNew(), text = "Auto Guard P1", 				varText = ""},
+	{varID = textImgNew(), text = "Auto Guard P2", 				varText = ""},
 	--{varID = textImgNew(), text = "Distance", 				varText = ""},
-	--{varID = textImgNew(), text = "Guard Mode", 				varText = ""},
 	--{varID = textImgNew(), text = "Tech Recovery", 			varText = ""},
 	--{varID = textImgNew(), text = "Tech Direction", 			varText = ""},
 	--{varID = textImgNew(), text = "Counter Hit", 				varText = ""},
@@ -1556,6 +1569,8 @@ t_trainingCfg = {
 
 --Battle Info for Replays
 if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMode() == "randomtest" then
+	table.remove(t_trainingCfg,13)
+	table.remove(t_trainingCfg,12)
 	table.remove(t_trainingCfg,11)
 	table.remove(t_trainingCfg,10)
 	table.remove(t_trainingCfg,9)
@@ -1571,6 +1586,10 @@ if data.damageDisplay then t_trainingCfg[1].varText = "Yes" else t_trainingCfg[1
 if data.inputDisplay then t_trainingCfg[2].varText = "Yes" else t_trainingCfg[2].varText = "No" end
 if data.hitbox then t_trainingCfg[3].varText = "Yes" else t_trainingCfg[3].varText = "No" end
 if data.debugInfo then t_trainingCfg[4].varText = "Yes" else t_trainingCfg[4].varText = "No" end
+if getGameMode() == "practice" then
+	if data.autoguardP1 then t_trainingCfg[9].varText = "Yes" else t_trainingCfg[9].varText = "No" end
+	if data.autoguardP2 then t_trainingCfg[10].varText = "Yes" else t_trainingCfg[10].varText = "No" end
+end
 end
 
 f_trainingCfgdisplayTxt() --Load Display Text
@@ -1673,7 +1692,7 @@ function f_pauseTraining()
 			end
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
 				--Start Dummy Recording
-				if trainingCfg == 10 then
+				if trainingCfg == 12 then
 					if data.dummyMode == "Playback" or data.dummyMode == "CPU" then
 						sndPlay(sysSnd, 100, 5)
 						recWarning = true
@@ -1688,7 +1707,7 @@ function f_pauseTraining()
 						if trainingModified then f_saveTraining() end
 					end
 				--Playback Settings
-				elseif trainingCfg == 9 then
+				elseif trainingCfg == 11 then
 					sndPlay(sysSnd, 100, 1)
 					trainingGoTo = "Playback"
 					playbackCfg = 1
@@ -1698,7 +1717,7 @@ function f_pauseTraining()
 				end
 			end
 			--Common Button Logic
-			if trainingCfg >= 1 and trainingCfg < 5 then
+			if (trainingCfg >= 1 and trainingCfg < 5) or trainingCfg == 9 or trainingCfg == 10 then
 				if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
 					sndPlay(sysSnd, 100, 1)
 					--Info Display
@@ -1742,6 +1761,22 @@ function f_pauseTraining()
 							toggleDebugDraw()
 							data.debugInfo = false
 						end
+					--Auto Guard P1
+					elseif trainingCfg == 9 then
+						if not data.autoguardP1 then
+							data.autoguardP1 = true
+						else
+							data.autoguardP1 = false
+						end
+						setAutoguard(1, data.autoguardP1)
+					--Auto Guard P2
+					elseif trainingCfg == 10 then
+						if not data.autoguardP2 then
+							data.autoguardP2 = true
+						else
+							data.autoguardP2 = false
+						end
+						setAutoguard(2, data.autoguardP2)
 					end
 					hasChanged = true
 				end
@@ -1945,9 +1980,6 @@ function f_pauseTraining()
 			--Dummy Distance
 			elseif trainingCfg == ??? then
 				
-			--Dummy Guard
-			elseif trainingCfg == ??? then
-				
 			--Dummy Tech
 			elseif trainingCfg == ??? then
 				
@@ -1959,7 +1991,7 @@ function f_pauseTraining()
 				
 			]]
 			--Dummy Control
-			elseif trainingCfg == 11 then
+			elseif trainingCfg == 13 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
 					if data.dummyMode == "CPU" then
 						sndPlay(sysSnd, 100, 1)
@@ -2033,7 +2065,7 @@ function f_pauseTraining()
 				t_trainingCfg[6].varText = data.LifeStateP2
 				t_trainingCfg[7].varText = data.PowerStateP1
 				t_trainingCfg[8].varText = data.PowerStateP2
-				t_trainingCfg[11].varText = data.dummyMode
+				t_trainingCfg[13].varText = data.dummyMode
 				hasChanged = false
 			end
 			--animDraw(f_animVelocity(pauseBG0, -1, -1))

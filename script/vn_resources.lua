@@ -52,6 +52,14 @@ animAddPos(vnBG5, -54, 0)
 animSetScale(vnBG5, 0.34, 0.34)
 animUpdate(vnBG5)
 
+--Background 7
+vnBG6 = animNew(vnSff, [[
+0,6, 0,0, -1
+]])
+animAddPos(vnBG6, -54, 0)
+animSetScale(vnBG6, 0.34, 0.34)
+animUpdate(vnBG6)
+
 --Text background
 vnTxtBG = animNew(vnSff, [[
 100,0, 0,0, -1
