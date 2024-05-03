@@ -169,9 +169,6 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Ver cómo se podría integrar un sistema de diálogo en los matches.
 
-- Notificación al desbloquear logros durante el match + Pantalla de Logros.
-![Logros](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/0d62fef2-a96c-4197-b1cb-cc39e72a23a5)
-
 - Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
 - Adventure Mode, combinando elementos de:
@@ -212,8 +209,6 @@ v2.0 (Final Release)
 - Añadir Rollback Netcode.
 
 - Ordenar código y simplificar lo necesario.
-
-- Traducir los textos de menús a Español y Japonés, para habilitar la carga de scripts de acuerdo al idioma en las opciones de Screenpack.
 
 - Portear el Engine a Linux, MacOS, Android y iOS.
 
