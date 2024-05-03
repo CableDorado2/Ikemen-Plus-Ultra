@@ -73,6 +73,7 @@ t_statsMenu = {
 	{varID = textImgNew(), text = "Endless Record",    			varText = ""},
 	{varID = textImgNew(), text = "Time Attack Record",    		varText = ""},
 	{varID = textImgNew(), text = "Score Attack Record",    	varText = ""},
+	{varID = textImgNew(), text = "Leaderboards",		    	varText = "WIP"},
 	{varID = textImgNew(), text = "                   BACK",    varText = ""},
 }
 

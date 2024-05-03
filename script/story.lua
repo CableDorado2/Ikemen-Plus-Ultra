@@ -176,22 +176,16 @@ st1_3A = animNew(storySff, [[1,30, 0,0,]])
 st1_3B = animNew(storySff, [[1,31, 0,0,]])
 
 --Arc 1 - Chapter 4A Preview
-st1_4A = animNew(storySff,
-[[
-1,40, 0,0, 40
-1,41, 0,0, 40
-1,42, 0,0, 40
-1,43, 0,0, 40
-]])
+st1_4A = animNew(storySff, [[1,40, 0,0, 40]])
 
 --Arc 1 - Chapter 4B Preview
-st1_4B = animNew(storySff, [[1,44, 0,0,]])
+st1_4B = animNew(storySff, [[1,41, 0,0,]])
 
 --Arc 1 - Chapter 4C Preview
-st1_4C = animNew(storySff, [[1,45, 0,0,]])
+st1_4C = animNew(storySff, [[1,42, 0,0,]])
 
 --Arc 1 - Chapter 4D Preview
-st1_4D = animNew(storySff, [[1,46, 0,0,]])
+st1_4D = animNew(storySff, [[1,43, 0,0,]])
 
 t_arc1 = {
 	{ID = textImgNew(), Name = "PROLOGUE", 			   	   Preview = st1_0, 	   Status = checkNA, Info = "THIS IS THE STORY OF A MAN WHO CHANGED THE VISION OF INDIE FIGHTING GAMES."}, --Add Chapter Slot for Arc 1

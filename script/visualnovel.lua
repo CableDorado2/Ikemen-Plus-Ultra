@@ -17,7 +17,7 @@ t_vnPauseMenu = {
 	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
 	--{varID = textImgNew(), text = "Save Progress",			 varText = ""},
 	{varID = textImgNew(), text = "Skip Scene", 			 varText = ""},
-	{varID = textImgNew(), text = "Resume", 				 varText = ""},
+	{varID = textImgNew(), text = "            Resume", 				 varText = ""},
 }
 
 --Logic to Display Text instead Int/Boolean Values
@@ -665,6 +665,7 @@ VNscroll = 0
 VNnodelay = 0
 VNdelay = data.VNdelay
 VNskip = false
+VNhide = false
 VNtxtReady = false
 VNtxtEnd = false
 VNbgmActive = false
@@ -712,6 +713,11 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNdelay = VNnodelay
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
+			if commandGetState(p1Cmd, 'holde') or commandGetState(p2Cmd, 'holde') then
+				VNhide = true
+			else
+				VNhide = false
+			end
 		end
 		--Loading New Txt Logic
 		if VNtxt < #t_vnBoxText[vnChapter] then --Only show new text if is store in the table
@@ -741,30 +747,32 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			VNbgmNew = false
 		end
 		f_drawVN() --Draw Sprites
-		animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
-		animDraw(vnTxtBG) --Draw Text BG
-		if VNtxtActive == 0 then
-			animDraw(vnNext) --Draw Next Text Arrow
-			animUpdate(vnNext)
+		if not VNhide then
+			animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
+			animDraw(vnTxtBG) --Draw Text BG
+			if VNtxtActive == 0 then
+				animDraw(vnNext) --Draw Next Text Arrow
+				animUpdate(vnNext)
+			end
+			if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
+				f_drawEnding()
+			end
+			--Text to Show
+			--textImgSetBank(txt_nameCfg, 1)
+			if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
+				textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
+			else
+				textImgSetText(txt_nameCfg, "") --Set Empty Name Text
+			end
+			if data.VNdisplayName then textImgDraw(txt_nameCfg) end --Draw Name Text
+			if t_vnBoxText[vnChapter][VNtxt].text ~= nil then
+				VNtextData = t_vnBoxText[vnChapter][VNtxt].text --Set Narrative Text
+			else
+				VNtextData = "" --Set Empty Narrative Text
+			end
+			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
+			f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		end
-		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
-			f_drawEnding()
-		end
-		--Text to Show
-		--textImgSetBank(txt_nameCfg, 1)
-		if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
-			textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
-		else
-			textImgSetText(txt_nameCfg, "") --Set Empty Name Text
-		end
-		if data.VNdisplayName then textImgDraw(txt_nameCfg) end --Draw Name Text
-		if t_vnBoxText[vnChapter][VNtxt].text ~= nil then
-			VNtextData = t_vnBoxText[vnChapter][VNtxt].text --Set Narrative Text
-		else
-			VNtextData = "" --Set Empty Narrative Text
-		end
-		VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
-		f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -802,6 +810,11 @@ function f_drawVN()
 		elseif (VNtxt >= 11 and VNtxt < 18) or (VNtxt >= 73 and VNtxt < 78) then animDraw(vnMM2)
 		elseif (VNtxt >= 34 and VNtxt < 36) or (VNtxt >= 46 and VNtxt < 48) then animDraw(vnMM2B)
 		end
+		--Photo
+		if VNtxt == 23 or VNtxt == 24 then
+			animDraw(vnPhoto2)
+			animDraw(vnPhoto1)
+		end
 		--KFG Sprites
 		if (VNtxt >= 37 and VNtxt < 39) then animDraw(vnKfg1)
 		elseif (VNtxt >= 39 and VNtxt < 42) then animDraw(vnKfg2)
@@ -819,7 +832,8 @@ function f_drawVN()
 		if VNtxt >= 4 then animDraw(vnEKfm1) end
 	--Draw Chapter 3A Visuals
 	elseif vnChapter == 3 then
-		if VNtxt >= 3 then animDraw(vnBG3) end
+		if VNtxt == 2 then animDraw(vnBG7)
+		elseif VNtxt >= 3 then animDraw(vnBG3) end
 		if VNtxt == 2 then animDraw(vnKfm1) end
 		if VNtxt >= 4 then animDraw(vnKfm1) end
 		if VNtxt >= 5 then animDraw(vnSD1) end

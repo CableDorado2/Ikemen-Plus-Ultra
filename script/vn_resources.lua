@@ -60,6 +60,30 @@ animAddPos(vnBG6, -54, 0)
 animSetScale(vnBG6, 0.34, 0.34)
 animUpdate(vnBG6)
 
+--Background 8
+vnBG7 = animNew(vnSff, [[
+0,7, 0,0, -1
+]])
+animAddPos(vnBG7, -54, 0)
+animSetScale(vnBG7, 0.34, 0.34)
+animUpdate(vnBG7)
+
+--KFG Photo 1
+vnPhoto1 = animNew(vnSff, [[
+2,31, 0,0, -1
+]])
+animAddPos(vnPhoto1, 50, 50)
+animSetScale(vnPhoto1, 0.30, 0.30)
+animUpdate(vnPhoto1)
+
+--KFG Photo 2
+vnPhoto2 = animNew(vnSff, [[
+2,32, 0,0, -1
+]])
+animAddPos(vnPhoto2, 50, 50)
+animSetScale(vnPhoto2, 0.25, 0.25)
+animUpdate(vnPhoto2)
+
 --Text background
 vnTxtBG = animNew(vnSff, [[
 100,0, 0,0, -1
@@ -68,8 +92,8 @@ animAddPos(vnTxtBG, -8, 177.5)
 animSetScale(vnTxtBG, 2.21, 1)
 animUpdate(vnTxtBG)
 
---Next Text Arrow
-vnNext = animNew(vnSff, [[
+--Next Text Arrow (Right)
+vnNextR = animNew(vnSff, [[
 101,0, 0,0, 10
 101,1, 0,0, 10
 101,2, 0,0, 10
@@ -79,7 +103,22 @@ vnNext = animNew(vnSff, [[
 101,1, 0,0, 10
 101,0, 0,0, 10
 ]])
-animAddPos(vnNext, 308, 222)
+animAddPos(vnNextR, 308, 222)
+animSetScale(vnNextR, 0.5, 0.5)
+animUpdate(vnNextR)
+
+--Next Text Arrow (Down)
+vnNext = animNew(vnSff, [[
+102,0, 0,0, 10
+102,1, 0,0, 10
+102,2, 0,0, 10
+102,3, 0,0, 10
+102,3, 0,0, 10
+102,2, 0,0, 10
+102,1, 0,0, 10
+102,0, 0,0, 10
+]])
+animAddPos(vnNext, 306, 224)
 animSetScale(vnNext, 0.5, 0.5)
 animUpdate(vnNext)
 

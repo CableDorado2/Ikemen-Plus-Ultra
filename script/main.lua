@@ -5055,8 +5055,6 @@ end
 t_watchMenu = {
 	{id = textImgNew(), text = "REPLAYS"},
 	{id = textImgNew(), text = "STAGE VIEWER"},
-	{id = textImgNew(), text = "LEADERBOARDS"},
-	{id = textImgNew(), text = "ACHIEVEMENTS"},
 	{id = textImgNew(), text = "PLAYER RECORDS"},
 	{id = textImgNew(), text = "STORYBOARDS"},
 	{id = textImgNew(), text = "CUTSCENES"},
@@ -5144,42 +5142,36 @@ function f_watchMenu()
 						stviewerInfo = true
 						infoScreen = true
 					end
-				--LEADERBOARDS (display rankings data)
-				elseif watchMenu == 3 then
-					f_comingSoon()
-				--ACHIEVEMENTS (display achievements data)
-				elseif watchMenu == 4 then
-					f_comingSoon()
 				--STATISTICS (display overall player data)
-				elseif watchMenu == 5 then
+				elseif watchMenu == 3 then
 					--assert(loadfile("save/stats_sav.lua"))()
 					script.statistics.f_statsMenu()
 				--STORYBOARDS (play storyboards)
-				elseif watchMenu == 6 then
+				elseif watchMenu == 4 then
 					setDiscordState("In Storyboards")
 					f_storyboardMenu()
 					setDiscordState("In Main Menu")
 				--CUTSCENES (play video cutscenes)
-				elseif watchMenu == 7 then
+				elseif watchMenu == 5 then
 					setDiscordState("In Cutscenes")
 					f_videoMenu()
 					setDiscordState("In Main Menu")
 				--SOUND TEST (listen sounds)
-				elseif watchMenu == 8 then
+				elseif watchMenu == 6 then
 					setDiscordState("In Sound Test")
 					soundTest = true
 					f_songMenu()
 					setDiscordState("In Main Menu")
 				--SCREENSHOTS (watch screenshots taken)
-				elseif watchMenu == 9 then
+				elseif watchMenu == 7 then
 					sszOpen("screenshots", "") --added via script.ssz
 				--GALLERY (watch illustrations)
-				elseif watchMenu == 10 then
+				elseif watchMenu == 8 then
 					setDiscordState("Gallery Theater")
 					f_galleryMenu()
 					setDiscordState("In Main Menu")
 				--CREDITS (play credits)
-				elseif watchMenu == 11 then
+				elseif watchMenu == 9 then
 					setDiscordState("In Credits")
 					playBGM("sound/system/credits.mp3")
 					f_playCredits()
@@ -7970,6 +7962,13 @@ function f_theVault()
 end
 
 --;===========================================================
+-- LEADERBOARDS SCREEN (display rankings data)
+--;===========================================================
+function f_rankings()
+	--TODO
+end
+
+--;===========================================================
 --; UNLOCK INFO SCREEN
 --;===========================================================
 txt_msgMenu = createTextImg(jgFnt, 0, 1, "", 0, 0) --Text that appears in black screens important message
@@ -8131,6 +8130,7 @@ ELECBYTE TEAM
 AIROLG1990
 APPLEST0RE
 HEKUTTA
+JUANI GALAXY 2002
 NEXT ONE
 PHANTOM.OF.THE.SERVER
 RIVIERA

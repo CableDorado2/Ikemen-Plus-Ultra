@@ -446,6 +446,9 @@ function setCommand(c)
 	commandAdd(c, 'w', 'w') --RT/CONFIRM
 	commandAdd(c, 'e', 'e') --SELECT/RETURN
 	commandAdd(c, 's', 's') --START/PAUSE
+	commandAdd(c, 'holdq', '/q')
+	commandAdd(c, 'holdw', '/w')
+	commandAdd(c, 'holde', '/e')
 	commandAdd(c, 'holds', '/s')
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
