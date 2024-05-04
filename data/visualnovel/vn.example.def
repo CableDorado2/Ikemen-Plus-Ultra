@@ -4,31 +4,39 @@ This file contains list of all available parameters used by Visual Novel Mode (C
 
 This file IS NOT loaded by engine and should not be used as-is. It's meant to
 be a reference for adding parameters to your own .def file.
-
-Assign text for each visual novel mode chapter.
+____________________________________________________________
 Setup following parameters below "[Chapter <0...>]" section:
 
-- character =
+- snd = Path.snd
+Set the name of the Sound Effects file to use for the chapter.
+
+- character = Name
 Set the name to identify the character generating the dialogue.
 This will be displayed on the screen as the text scrolls.
-Also, this name can be disabled in the pause menu available within visual novel mode.
-
 To don't display any name, enter a space and leave this parameter blank.
 
-- bgm =
-Set the paramvalue to the name of the music
-file to play BGM for the dialogue.
+- sfx = <groupNo,indexNo>
+Set groupNo and indexNo to read they from snd file defined in "snd = "
+to play for the dialogue.
+
+- bgm = Path.[mp3/ogg]
+Set the name of the music file to play BGM for the dialogue.
 
 - text:
 Set the dialogue text to be displayed in screen.
 To be detected, it is necessary that the text be written below "text:" parameter.
+Like this description.
 
-Optional parameters:
-- cut =
-Allows you to end/cut the current chapter at any time.
-Is recommended use it, if you wanna insert a fight
-or skip to other text dialogues depending on a decision.
+- cut = <Number>
+Allows end/cut the current chapter at any time.
+Is recommended use it, if want insert a fight
+or skip to start from other text dialogues depending on a decision.
 
+- end = <Number>
+Allows insert an "Ending Screen" to the current chapter at any time.
+Is recommended use it after last text in the last chapter of an story arc.
+This screen is customizable in Lua through the f_drawVNEnding() function.
+___________________________
 Some Examples:
 
 [Chapter 0]
@@ -42,14 +50,17 @@ text:
 What the hell is this?
 
 [Chapter 1]
+snd = data/visualnovel/chapt1.snd
 
 character = Kyo
+sfx = 1,0
 bgm: sound/Esaka.mp3
 text:
 Hey Yagami
 Are you ready to lose??
 
 character = Iori
+sfx = 2,0
 text:
 Shut up and die!
 

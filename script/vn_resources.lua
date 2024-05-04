@@ -1,9 +1,6 @@
 ﻿--;===========================================================
 --; LOAD VISUAL NOVEL ASSETS
 --;===========================================================
-txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
-txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
-
 --Background 1
 vnBG0 = animNew(vnSff, [[
 0,0, 0,0, -1
@@ -83,6 +80,30 @@ vnPhoto2 = animNew(vnSff, [[
 animAddPos(vnPhoto2, 50, 50)
 animSetScale(vnPhoto2, 0.25, 0.25)
 animUpdate(vnPhoto2)
+
+--Rain
+vnRain = animNew(vnSff, [[
+110,0, 0,0, 1, ,A
+110,1, 0,0, 1, ,A
+110,2, 0,0, 1, ,A
+110,3, 0,0, 1, ,A
+110,4, 0,0, 1, ,A
+110,5, 0,0, 1, ,A
+110,6, 0,0, 1, ,A
+110,7, 0,0, 1, ,A
+110,8, 0,0, 1, ,A
+110,9, 0,0, 1, ,A
+110,10, 0,0, 1, ,A
+110,11, 0,0, 1, ,A
+110,12, 0,0, 1, ,A
+110,13, 0,0, 1, ,A
+110,14, 0,0, 1, ,A
+110,15, 0,0, 1, ,A
+110,16, 0,0, 1, ,A
+110,17, 0,0, 1, ,A
+]])
+animAddPos(vnRain, -50, 0)
+animUpdate(vnRain)
 
 --Text background
 vnTxtBG = animNew(vnSff, [[

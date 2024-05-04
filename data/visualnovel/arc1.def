@@ -2,6 +2,7 @@
 ;--------------------------------------
 
 [Chapter 1]
+snd = data/visualnovel/arc1.snd
 
 character = 
 bgm = sound/Kung Fu Spirit.mp3
@@ -435,6 +436,7 @@ Mountainside Temple's Hidden Path...
 
 ;---------------------------------------------------------------------------------
 [Chapter 2]
+snd = data/visualnovel/arc1.snd
 
 character = Kung Fu Man
 bgm = sound/Temple.mp3
@@ -475,6 +477,7 @@ Until...
 
 ;---------------------------------------------------------------------------------
 [Chapter 3] ;3A
+snd = data/visualnovel/arc1.snd
 
 character = 
 bgm = sound/vn/Access.mp3
@@ -534,6 +537,7 @@ Let the ultimate show BEGIN!
 
 ;---------------------------------------------------------------------------------
 [Chapter 4] ;3B
+snd = data/visualnovel/arc1.snd
 
 character = 
 bgm = sound/vn/Tension.mp3
@@ -642,6 +646,7 @@ Ready to die?
 
 ;---------------------------------------------------------------------------------
 [Chapter 5] ;4A
+snd = data/visualnovel/arc1.snd
 
 character = Master Kung Fu Man
 bgm = sound/system/opening lyrics.mp3
@@ -727,6 +732,7 @@ end = 1 ;Show "The End" Screen for this Chapter
 
 ;---------------------------------------------------------------------------------
 [Chapter 6] ;4B
+snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
 bgm = sound/random 2.mp3
@@ -795,6 +801,7 @@ end = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 7] ;4C
+snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
 bgm = sound/system/menu/Menu 3.mp3
@@ -819,6 +826,7 @@ end = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 8] ;4D
+snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
 bgm = sound/vn/The Fall.mp3

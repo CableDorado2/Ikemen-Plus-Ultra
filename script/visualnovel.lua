@@ -610,6 +610,15 @@ for line in content:gmatch('[^\r\n]+') do
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
 	elseif section > 0 then --[Chapter No]
+		--snd = filename (string)
+		if line:match('^%s*snd%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
+		--character = string
 		if line:match('^%s*character%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
@@ -617,6 +626,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ID'] = ""
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
+		--cut = string
 		elseif line:match('^%s*cut%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
@@ -624,6 +634,7 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				
 			--end
+		--end = string
 		elseif line:match('^%s*end%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
@@ -632,12 +643,21 @@ for line in content:gmatch('[^\r\n]+') do
 				
 			--end
 		end
+		--sfx = group_no, index_no (int, int)
+		if line:match('^%s*sfx%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['sfx'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--bgm = filename (string)
 		if line:match('^%s*bgm%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['bgm'] = data:gsub('^%s*bgm%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
+		--text: string
 		if line:match('text:$') then
 			t_vnBoxText[chapt][#t_vnBoxText[chapt]]['text'] = ""
 		end
@@ -668,6 +688,9 @@ VNskip = false
 VNhide = false
 VNtxtReady = false
 VNtxtEnd = false
+VNsfxReady = false
+VNsfxActive = false
+VNsfxNew = false
 VNbgmActive = false
 VNbgmNew = false
 VNbgm = ""
@@ -690,10 +713,20 @@ VNscroll = 0
 VNdelay = data.VNdelay
 end
 
+function f_playVNsfx()
+local data = t_vnBoxText[vnChapter][VNtxt].sfx
+local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+sndPlay(VNsfxData, sfxGroup, sfxIndex) --Play SFX
+t_currentVNsfx = t_vnBoxText[vnChapter][VNtxt].sfx --Backup the current SFX to decide after if it will change
+end
+
 function f_playVNbgm()
 playBGM(t_vnBoxText[vnChapter][VNtxt].bgm) --Play BGM
 t_currentVNbgm = t_vnBoxText[vnChapter][VNtxt].bgm --Backup the current BGM to decide after if it will change
 end
+
+txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
+txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
 
 function f_vnScene(arcPath, chaptNo, dialogueNo)
 	f_vnLoad(arcPath) --What Dialogue File will load?
@@ -701,6 +734,10 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	vnChapter = chaptNo --What chapter number does it start in?
 	VNtxt = dialogueNo --What dialogue number does it start in?
 	if data.songSelect then playBGM(VNbgm) end
+	if t_vnBoxText[vnChapter][0].snd ~= nil then --Detects if snd file is defined
+		VNsfxData = sndNew(t_vnBoxText[vnChapter][0].snd) --Load snd file
+		VNsfxReady = true
+	end
 	cmdInput()
 	while true do
 		--Actions
@@ -731,6 +768,23 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNtxtEnd = true
 			end
 		end
+		--SFX Player
+		if VNsfxReady then
+			if not VNsfxActive then
+				if t_vnBoxText[vnChapter][VNtxt].sfx ~= nil then
+					f_playVNsfx()
+					VNsfxActive = true
+				end
+			else--if VNsfxActive is true
+				if t_vnBoxText[vnChapter][VNtxt].sfx ~= t_currentVNsfx and t_vnBoxText[vnChapter][VNtxt].sfx ~= nil then --If a new sfx is detected
+					VNsfxNew = true
+				end
+			end
+			if VNsfxNew then
+				f_playVNsfx()
+				VNsfxNew = false
+			end
+		end
 		--BGM Player
 		if not VNbgmActive then
 			if t_vnBoxText[vnChapter][VNtxt].bgm ~= nil then
@@ -755,7 +809,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				animUpdate(vnNext)
 			end
 			if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
-				f_drawEnding()
+				f_drawVNEnding() --Draw Ending Screen
 			end
 			--Text to Show
 			--textImgSetBank(txt_nameCfg, 1)
@@ -771,7 +825,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNtextData = "" --Set Empty Narrative Text
 			end
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
-			f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
+			--f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		end
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
@@ -783,7 +837,7 @@ end
 --;===========================================================
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
-function f_drawEnding()
+function f_drawVNEnding()
 	
 end
 
@@ -839,7 +893,11 @@ function f_drawVN()
 		if VNtxt >= 5 then animDraw(vnSD1) end
 	--Draw Chapter 3B Visuals
 	elseif vnChapter == 4 then
-		if VNtxt >= 3 then animDraw(vnBG4) end
+		if VNtxt >= 3 then
+			animDraw(vnBG4)
+			animDraw(vnRain)
+			animUpdate(vnRain)
+		end
 		if VNtxt >= 5 and VNtxt < 6 then animDraw(vnKfm3)
 		elseif (VNtxt >= 9 and VNtxt < 17) then animDraw(vnKfm2)
 		elseif VNtxt >= 17 then animDraw(vnKfm1)
@@ -859,6 +917,8 @@ function f_drawVN()
 	--Draw Chapter 4B Visuals
 	elseif vnChapter == 6 then
 		animDraw(vnBG4)
+		animDraw(vnRain)
+		animUpdate(vnRain)
 		if VNtxt >= 2 and VNtxt < 11 then animDraw(vnKfm1) end
 		if VNtxt >= 7 and VNtxt < 11 then animDraw(vnKfg6B)
 		elseif VNtxt == 11 then animDraw(vnKfg11)
@@ -872,6 +932,8 @@ function f_drawVN()
 	--Draw Chapter 4D Visuals
 	elseif vnChapter == 8 then
 		animDraw(vnBG5)
+		animDraw(vnRain)
+		animUpdate(vnRain)
 		animDraw(vnSD3)
 		if (VNtxt >= 2 and VNtxt < 7) then animDraw(vnKfg10)
 		elseif VNtxt == 7 then animDraw(vnKfg7)
