@@ -350,3 +350,27 @@ vnKfg11 = animNew(vnSff, [[
 animAddPos(vnKfg11, 50, 0)
 animSetScale(vnKfg11, 0.38, 0.38)
 animUpdate(vnKfg11)
+
+--Ending 1
+vnEnd1 = animNew(vnSff, [[
+200,1, 0,0, -1
+]])
+animAddPos(vnEnd1, -54, 0)
+animSetScale(vnEnd1, 0.34, 0.34)
+animUpdate(vnEnd1)
+
+--Ending 2
+vnEnd2 = animNew(vnSff, [[
+200,2, 0,0, -1
+]])
+animAddPos(vnEnd2, -54, 0)
+animSetScale(vnEnd2, 0.34, 0.34)
+animUpdate(vnEnd2)
+
+--Ending 3
+vnEnd3 = animNew(vnSff, [[
+200,3, 0,0, -1
+]])
+animAddPos(vnEnd3, -54, 0)
+animSetScale(vnEnd3, 0.34, 0.34)
+animUpdate(vnEnd3)

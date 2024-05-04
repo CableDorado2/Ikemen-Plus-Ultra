@@ -628,20 +628,30 @@ for line in content:gmatch('[^\r\n]+') do
 			--end
 		--cut = string
 		elseif line:match('^%s*cut%s*=') then
-			local data = line:gsub('%s*;.*$', '')
+			--local data = line:gsub('%s*;.*$', '')
+			local num = line:match('%s([0-9]+)$')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = tonumber(num) --data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				
 			--end
-		--end = string
+		--end = number
 		elseif line:match('^%s*end%s*=') then
-			local data = line:gsub('%s*;.*$', '')
+			--local data = line:gsub('%s*;.*$', '')
+			local num = line:match('%s([0-9]+)$')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ending'] = data:gsub('^%s*end%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ending'] = tonumber(num) --data:gsub('^%s*end%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				
 			--end
+		end
+		--side = number
+		if line:match('^%s*side%s*=') then
+			local num = line:match('%s([0-9]+)$')
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['side'] = tonumber(num) --data:gsub('^%s*side%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
 		end
 		--sfx = group_no, index_no (int, int)
 		if line:match('^%s*sfx%s*=') then
@@ -686,6 +696,7 @@ VNnodelay = 0
 VNdelay = data.VNdelay
 VNskip = false
 VNhide = false
+VNendActive = false
 VNtxtReady = false
 VNtxtEnd = false
 VNsfxReady = false
@@ -738,14 +749,17 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 		VNsfxData = sndNew(t_vnBoxText[vnChapter][0].snd) --Load snd file
 		VNsfxReady = true
 	end
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
 		--Actions
 		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then break end
 		if not vnPauseScreen then
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
-				vnPauseScreen = true
-				sndPlay(sysSnd, 100, 3)
+				if not VNendActive then
+					vnPauseScreen = true
+					sndPlay(sysSnd, 100, 3)
+				end
 			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') then 
 				VNdelay = VNnodelay
 				if VNtxtActive == 0 then VNtxtReady = true end
@@ -808,11 +822,16 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				animDraw(vnNext) --Draw Next Text Arrow
 				animUpdate(vnNext)
 			end
-			if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
-				f_drawVNEnding() --Draw Ending Screen
-			end
 			--Text to Show
-			--textImgSetBank(txt_nameCfg, 1)
+			if t_vnBoxText[vnChapter][VNtxt].side == 2 then
+				textImgSetPos(txt_nameCfg, 320, 175) --Show Text in Right Side
+				textImgSetAlign(txt_nameCfg, -1)
+				textImgSetBank(txt_nameCfg, 1)
+			else --Show Text in Left Side
+				textImgSetPos(txt_nameCfg, 2, 175)
+				textImgSetAlign(txt_nameCfg, 1)
+				textImgSetBank(txt_nameCfg, 0)
+			end
 			if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
 				textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
 			else
@@ -827,6 +846,10 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
 			--f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
 		end
+		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
+			VNendActive = true
+			f_drawVNEnding() --Draw Ending Screen
+		end
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
 		cmdInput()
@@ -838,7 +861,12 @@ end
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
 function f_drawVNEnding()
-	
+	if t_vnBoxText[vnChapter][VNtxt].ending == 1 then animDraw(vnEnd1)
+	elseif t_vnBoxText[vnChapter][VNtxt].ending == 2 then animDraw(vnEnd2)
+	elseif t_vnBoxText[vnChapter][VNtxt].ending == 3 then animDraw(vnEnd3)
+	end
+	animDraw(data.fadeTitle)
+	animUpdate(data.fadeTitle)
 end
 
 --;===========================================================

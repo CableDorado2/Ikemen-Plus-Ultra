@@ -530,7 +530,7 @@ function f_storyMenu()
 			if data.story1_4AStatus == 1 then t_arc1[6].Status = checkIco end
 			if data.story1_4AUnlock == true then
 				t_arc1[6].Preview = st1_4A
-				t_arc1[6].Info = "KUNG FU MAN DEFEAT SUAVE DUDE BUT HE FINDS OUT THE TRUTH ABOUT HIS GIRLFRIEND.."
+				t_arc1[6].Info = "KUNG FU MAN DEFEAT SUAVE DUDE BUT HE CAN'T FIND HIS GIRLFRIEND..."
 			end
 		elseif storyMenu == 1 and chapterMenu == 7 then
 			if data.story1_4BStatus == 1 then t_arc1[7].Status = checkIco end
@@ -716,7 +716,7 @@ function f_arc1_chapter1()
 	data.versusScreen = false
 	data.victoryscreen = false
 	data.stage = {t_stageDef["stages/mountainside temple/hidden path.def"]} --Set stage (needs to be loaded in select.def)
-	data.bgm = "sound/Ultimate Warrior.mp3" --Set Custom Stage Song
+	data.bgm = "sound/Pearl In The Sky.mp3" --Set Custom Stage Song
 	data.rosterMode = "story"
 	data.storyNo = "1-1"
 	setGameMode('story')

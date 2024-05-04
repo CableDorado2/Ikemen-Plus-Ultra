@@ -15,6 +15,10 @@ Set the name to identify the character generating the dialogue.
 This will be displayed on the screen as the text scrolls.
 To don't display any name, enter a space and leave this parameter blank.
 
+- side = <Number>
+Set value 2 to display character name in right side.
+if not declared or is another, the name will be displayed on the left right.
+
 - sfx = <groupNo,indexNo>
 Set groupNo and indexNo to read they from snd file defined in "snd = "
 to play for the dialogue.
@@ -29,13 +33,13 @@ Like this description.
 
 - cut = <Number>
 Allows end/cut the current chapter at any time.
-Is recommended use it, if want insert a fight
-or skip to start from other text dialogues depending on a decision.
+Is recommended use it, if want insert a fight or skip to
+start from other text dialogues depending on a decision.
 
 - end = <Number>
 Allows insert an "Ending Screen" to the current chapter at any time.
 Is recommended use it after last text in the last chapter of an story arc.
-This screen is customizable in Lua through the f_drawVNEnding() function.
+This screen is customizable in Lua through function f_drawVNEnding().
 ___________________________
 Some Examples:
 
@@ -46,6 +50,7 @@ text:
 Welcome to the next level.
 
 character = CD2
+side = 2
 text:
 What the hell is this?
 
@@ -60,6 +65,7 @@ Hey Yagami
 Are you ready to lose??
 
 character = Iori
+side = 2
 sfx = 2,0
 text:
 Shut up and die!
