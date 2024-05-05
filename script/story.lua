@@ -237,13 +237,13 @@ t_arc3 = {
 --;===========================================================
 function f_storyMenu()
 	cmdInput()
-	local storyMenu = 1
+	storyMenu = 1
 	local cursorPosX = 1
 	local moveArc = 0
-	local chapterMenu = 1
+	chapterMenu = 1
 	local cursorPosY = 1
 	local moveChapter = 0
-	local t_arcSelect = nil
+	t_arcSelect = nil
 	local t = 0
 	local bufu = 0
 	local bufd = 0

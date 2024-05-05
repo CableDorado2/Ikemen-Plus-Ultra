@@ -2053,7 +2053,8 @@ function f_saveVN()
 		['data.VNdelay'] = data.VNdelay,
 		['data.VNtxtBGTransS'] = data.VNtxtBGTransS,
 		['data.VNtxtBGTransD'] = data.VNtxtBGTransD,
-		['data.VNdisplayName'] = data.VNdisplayName
+		['data.VNdisplayName'] = data.VNdisplayName,
+		['data.VNautoSkip'] = data.VNautoSkip
 	}
 	s_vndataLUA = f_strSub(s_vndataLUA, t_vn)
 	local vnFile = io.open("save/vn_sav.lua","w+")

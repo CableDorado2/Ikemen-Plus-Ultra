@@ -7,6 +7,17 @@ be a reference for adding parameters to your own .def file.
 ____________________________________________________________
 Setup following parameters below "[Chapter <0...>]" section:
 
+- id = Chapter Number
+Set a chapter identifier to display in Intro Screen.
+Is recommended use it when you are in the same chapter
+but on a different route to identify this new route.
+
+If not declared, Chapter Number will be the same loaded in
+f_vnScene() function.
+
+- name = Chapter Name
+Set the name of the chapter to display in Intro Screen.
+
 - snd = Path.snd
 Set the name of the Sound Effects file to use for the chapter.
 
@@ -17,7 +28,7 @@ To don't display any name, enter a space and leave this parameter blank.
 
 - side = <Number>
 Set value 2 to display character name in right side.
-if not declared or is another, the name will be displayed on the left right.
+If not declared or is another, the name will be displayed on the left right.
 
 - sfx = <groupNo,indexNo>
 Set groupNo and indexNo to read they from snd file defined in "snd = "

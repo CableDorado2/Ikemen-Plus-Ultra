@@ -11,13 +11,15 @@ vnPauseBG = animNew(vnSff, [[100,1, 0,0, -1]])
 t_vnPauseMenu = {
 	{varID = textImgNew(), text = "Text Speed", 			 varText = ""},
 	{varID = textImgNew(), text = "Text BG Transparency", 	 varText = (math.floor((data.VNtxtBGTransD * 100 / 255) + 0.5)).."%"},
+	{varID = textImgNew(), text = "Auto Skip Text", 		 varText = ""},
 	{varID = textImgNew(), text = "Display Character Name",  varText = ""},
 	{varID = textImgNew(), text = "Sound Settings", 		 varText = ""},
 	--{varID = textImgNew(), text = "Control Guide", 		 	 varText = ""},
 	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
 	--{varID = textImgNew(), text = "Save Progress",			 varText = ""},
 	{varID = textImgNew(), text = "Skip Scene", 			 varText = ""},
-	{varID = textImgNew(), text = "            Resume", 				 varText = ""},
+	{varID = textImgNew(), text = "Back to Story Select",	 varText = ""},
+	{varID = textImgNew(), text = "            Resume", 	 varText = ""},
 }
 
 --Logic to Display Text instead Int/Boolean Values
@@ -28,7 +30,8 @@ elseif data.VNdelay == 1 then t_vnPauseMenu[1].varText = "Fast"
 elseif data.VNdelay == 0 then t_vnPauseMenu[1].varText = "Instant"
 end
 
-if data.VNdisplayName then t_vnPauseMenu[3].varText = "Yes" else t_vnPauseMenu[3].varText = "No" end
+if data.VNautoSkip then t_vnPauseMenu[3].varText = "Yes" else t_vnPauseMenu[3].varText = "No" end
+if data.VNdisplayName then t_vnPauseMenu[4].varText = "Yes" else t_vnPauseMenu[4].varText = "No" end
 end
 
 f_vnCfgdisplayTxt() --Load Display Text
@@ -38,6 +41,7 @@ function f_restoreVNcfg()
 	data.VNtxtBGTransD = 0
 	data.VNtxtBGTransS = 255
 	data.VNdisplayName = true
+	data.VNautoSkip = false
 end
 
 function f_vnPauseMenu()
@@ -88,9 +92,9 @@ function f_vnPauseMenu()
 				sndPlay(sysSnd, 100, 2)
 				f_vnPauseMenuReset()
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if vnPauseMenu > 3 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sysSnd, 100, 1) end
+				if vnPauseMenu > 4 and vnPauseMenu < #t_vnPauseMenu then sndPlay(sysSnd, 100, 1) end
 				--Sound Settings
-				if vnPauseMenu == 4 then
+				if vnPauseMenu == 5 then
 					cursorPosYAVN = 1
 					moveTxtAVN = 0
 					audioCfgVN = 1
@@ -99,18 +103,15 @@ function f_vnPauseMenu()
 					bufr = 0
 					bufl = 0
 					audioCfgVNActive = true
-				--Control Guide
-				--elseif vnPauseMenu == 5 then
-					--WIP
 				--Restore Settings
-				elseif vnPauseMenu == 5 then
+				elseif vnPauseMenu == 6 then
 					defaultScreenVN = true
 					defaultVN = true
-				--Save Progress
-				--elseif vnPauseMenu == 7 then
-					--WIP
 				--Skip Scene
-				elseif vnPauseMenu == 6 then
+				elseif vnPauseMenu == 7 then
+					VNtxtEnd = true
+				--Back to Main Menu
+				elseif vnPauseMenu == 8 then
 					VNtxtEnd = true
 				--Resume
 				elseif vnPauseMenu == #t_vnPauseMenu then
@@ -155,8 +156,13 @@ function f_vnPauseMenu()
 					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
 					hasChangedVN = true
 				end
-			--Display Character Name
+			--Auto Skip Text
 			elseif vnPauseMenu == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
+				sndPlay(sysSnd, 100, 1)
+				if data.VNautoSkip then data.VNautoSkip = false else data.VNautoSkip = true end
+				hasChangedVN = true
+			--Display Character Name
+			elseif vnPauseMenu == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 or commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) then
 				sndPlay(sysSnd, 100, 1)
 				if data.VNdisplayName then data.VNdisplayName = false else data.VNdisplayName = true end
 				hasChangedVN = true
@@ -609,13 +615,27 @@ for line in content:gmatch('[^\r\n]+') do
 		section = 1
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
+		t_vnBoxText[chapt]["data"] = {}
 	elseif section > 0 then --[Chapter No]
+		--id = chapterID (string)
+		if line:match('^%s*id%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt]["data"]['id'] = data:gsub('^%s*id%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
+		--name = chaptername (string)
+		if line:match('^%s*name%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt]["data"]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
 		--snd = filename (string)
 		if line:match('^%s*snd%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]] = {}
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_vnBoxText[chapt]["data"]['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
 		--character = string
@@ -623,7 +643,6 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {} --Add content filtered to the end of the "chapter" sub-table
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ID'] = ""
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		--cut = string
@@ -671,11 +690,13 @@ for line in content:gmatch('[^\r\n]+') do
 		if line:match('text:$') then
 			t_vnBoxText[chapt][#t_vnBoxText[chapt]]['text'] = ""
 		end
-		if type(t_vnBoxText[chapt][#t_vnBoxText[chapt]].text) == 'string' then
-			if t_vnBoxText[chapt][#t_vnBoxText[chapt]].text == '' then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]].text = " " --line  --line get "text:" and we don't need that
-			else
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]].text = t_vnBoxText[chapt][#t_vnBoxText[chapt]].text .. '\n' .. line
+		if t_vnBoxText[chapt][1] then --This just avoid read [data] in the table to avoid issues with below logic
+			if type(t_vnBoxText[chapt][#t_vnBoxText[chapt]].text) == 'string' then
+				if t_vnBoxText[chapt][#t_vnBoxText[chapt]].text == '' then
+					t_vnBoxText[chapt][#t_vnBoxText[chapt]].text = " " --line  --line get "text:" and we don't need that
+				else
+					t_vnBoxText[chapt][#t_vnBoxText[chapt]].text = t_vnBoxText[chapt][#t_vnBoxText[chapt]].text .. '\n' .. line
+				end
 			end
 		end
 	end
@@ -742,10 +763,34 @@ txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
 --;===========================================================
 --; VISUAL NOVEL INTRO SCREEN
 --;===========================================================
+txt_VNarc = createTextImg(font5, 0, 0, "", 159, 20)
+txt_VNchapter = createTextImg(font5, 0, 0, "", 159, 80)
+txt_VNchapterName = createTextImg(font5, 0, 0, "", 159, 140)
+
 function f_drawVNIntro()
-	
-	animDraw(data.fadeTitle)
-	animUpdate(data.fadeTitle)
+	local endIntro = false
+	if t_vnBoxText[vnChapter].data.id ~= nil then
+		vnChapterID = t_vnBoxText[vnChapter].data.id --Get Chapter ID from .def file
+	else
+		vnChapterID = vnChapter --Use f_vnScene chaptNo
+	end
+	t = 0
+	cmdInput()
+	while true do
+		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or endIntro then break end
+		if t == 500 then endIntro = true end
+		textImgSetText(txt_VNarc, t_selVN[1].displayname.." STORIES")
+		textImgSetText(txt_VNchapter, "CHAPTER "..vnChapterID)
+		textImgSetText(txt_VNchapterName, t_vnBoxText[vnChapter].data.name)
+		textImgDraw(txt_VNarc)
+		textImgDraw(txt_VNchapter)
+		textImgDraw(txt_VNchapterName)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		t = t + 1
+		cmdInput()
+		refresh()
+	end
 end
 
 function f_vnScene(arcPath, chaptNo, dialogueNo)
@@ -754,12 +799,12 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	f_resetFullVN()
 	vnChapter = chaptNo --What chapter number does it start in?
 	if dialogueNo == 1 then
-		--f_drawVNIntro() --Show Chapter Intro
+		f_drawVNIntro() --Show Chapter Intro
 	end
 	VNtxt = dialogueNo --What dialogue number does it start in?
 	if data.songSelect then playBGM(VNbgm) end
-	if t_vnBoxText[vnChapter][0].snd ~= nil then --Detects if snd file is defined
-		VNsfxData = sndNew(t_vnBoxText[vnChapter][0].snd) --Load snd file
+	if t_vnBoxText[vnChapter].data.snd ~= nil then --Detects if snd file is defined
+		VNsfxData = sndNew(t_vnBoxText[vnChapter].data.snd) --Load snd file
 		VNsfxReady = true
 	end
 	cmdInput()

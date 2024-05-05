@@ -2,6 +2,7 @@
 ;--------------------------------------
 
 [Chapter 1]
+name = KIDNAPPING
 snd = data/visualnovel/arc1.snd
 
 character = 
@@ -507,6 +508,7 @@ Mountainside Temple's Hidden Path...
 
 ;---------------------------------------------------------------------------------
 [Chapter 2]
+name = KILLER MIRROR
 snd = data/visualnovel/arc1.snd
 
 character = Kung Fu Man
@@ -553,7 +555,9 @@ text:
 Until...
 
 ;---------------------------------------------------------------------------------
-[Chapter 3] ;3A
+[Chapter 3]
+id = 3A
+name = THE ROOF OF TRUTH
 snd = data/visualnovel/arc1.snd
 
 character = 
@@ -625,7 +629,9 @@ _
 Let the ultimate show BEGIN!
 
 ;---------------------------------------------------------------------------------
-[Chapter 4] ;3B
+[Chapter 4]
+id = 3B
+name = BROKEN SPIRIT
 snd = data/visualnovel/arc1.snd
 
 character = 
@@ -755,7 +761,9 @@ _
 Ready to die?
 
 ;---------------------------------------------------------------------------------
-[Chapter 5] ;4A
+[Chapter 5]
+id = 4A
+name = FINAL DESTINATION
 snd = data/visualnovel/arc1.snd
 
 character = Master Kung Fu Man
@@ -916,7 +924,9 @@ With the power of I.K.E.M.E.N PLUS ULTRA!
 end = 1
 
 ;---------------------------------------------------------------------------------
-[Chapter 6] ;4B
+[Chapter 6]
+id = 4B
+name = LIFE LESSON
 snd = data/visualnovel/arc1.snd
 
 character =
@@ -1012,7 +1022,9 @@ I don't want my code disappear! :u
 end = 2
 
 ;---------------------------------------------------------------------------------
-[Chapter 7] ;4C
+[Chapter 7]
+id = 4C
+name = ZERO HOUR
 snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
@@ -1043,7 +1055,9 @@ due countdown and watch the credits..
 end = 3
 
 ;---------------------------------------------------------------------------------
-[Chapter 8] ;4D
+[Chapter 8]
+id = 4D
+name = THE FALL OF A LEGEND
 snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
