@@ -72,11 +72,13 @@ If someone see me with you.. I thin-
 
 character = ???
 side = 2
+sfx = 2,1
 text:
 Are you implying that I'm too young??
 
 character = ???
 side = 2
+sfx = 0,4
 text:
 Well, sorry bother you but.. I'll leave you in peace
 only if you fight with me!
@@ -85,6 +87,7 @@ cut = 1
 
 character = ???
 side = 2
+sfx = 0,3
 bgm = sound/vn/Kung Fu Dojo.mp3
 text:
 What's wrong with you? I saw you on TV
@@ -123,11 +126,13 @@ YES! wait.
 I think I have a photo...
 
 character = 
+sfx = 0,5
 text:
 Kung Fu Man shows the photo to the girl..
 
 character = ???
 side = 2
+sfx = 0,6
 text:
 Yeah she was! Are you a couple?
 
@@ -181,6 +186,7 @@ text:
 Over there!
 
 character = 
+sfx = 0,7
 text:
 Mayama points to a bench that is near a hill.
 There is a girl sitting looking up at the sky...
@@ -191,6 +197,7 @@ Kung Fu Girl!
 
 character = Kung Fu Girl
 side = 2
+sfx = 3,0
 text:
 Ah!? Kung Fu Man?
 
@@ -200,6 +207,7 @@ Where have you been all these days!?
 
 character = Kung Fu Girl
 side = 2
+sfx = 3,1
 text:
 That... It's not something that concerns you..
 
@@ -209,21 +217,25 @@ you believe that?
 Tell me, let's go to the temple to talk with calm.
 
 character = Mako Mayama
+sfx = 2,0
 text:
 Helloo..
 
 character = Kung Fu Girl
 side = 2
+sfx = 0,8
 text:
 What about that young girl!?
 Maybe you couldn't stand the loneliness
 and you look for a Loli!? I will cal-
 
 character = Kung Fu Man
+sfx = 3,2
 text:
 What!? wait Noo, I found she recently in-
 
 character = 
+sfx = 0,3
 bgm = sound/vn/Tension.mp3
 text:
 At that moment..
@@ -235,6 +247,7 @@ text:
 They it had been silent for a couple of weeks.
 
 character = 
+sfx = 4,0
 text:
 While Kung Fu Man, Mayama and Kung Fu Girl
 were fighting with the Minions..
@@ -244,6 +257,7 @@ text:
 Suave Dude appears..
 
 character = 
+sfx = 3,4
 text:
 Kung Fu Girl is petrified.
 Kung Fu Man notices and goes to protect her.
@@ -254,25 +268,30 @@ However, at that time...
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Ohhh my beloved, where have you been all this time!
 I was looking for youu!
 
 character = Kung Fu Man
+sfx = 1,2
 text:
 Since when do you know each other?
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Ahh, I know her very well..
 Each centimeter of her body.
 
 character = 
+sfx = 0,9
 text:
 Kung Fu Girl no have words, staggers and faints..
 
 character = 
+sfx = 0,1
 text:
 Before Suave Dude can touch Kung Fu Girl.
 Kung Fu Man pushes him away with a fast
@@ -285,11 +304,13 @@ What did you do to him before?
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Hmm. She won't listen to you.
 
 character = Suave Dude
 side = 2
+sfx = 4,2
 text:
 Since she watched my beauty
 she has been perplexed HAHAHA.
@@ -300,16 +321,19 @@ text:
 Now I'm sure, she reminds me!
 
 character = 
+sfx = 1,3
 text:
 Kung Fu Man runs towards Suave Dude and tries to use
 his new: "Kung Fu Crush" technique.
 
 character = 
+sfx = 4,3
 text:
 But it's still incomplete and he's knocked out by
 a surprise "Triple Kick" from Suave Dude..
 
 character = Suave Dude
+sfx = 1,4
 side = 2
 text:
 Ahh yeah
@@ -333,12 +357,14 @@ Suave Dude kidnaping Kung Fu Girl
 towards Mountainside Temple...
 
 character = 
+sfx = 0,10
 text:
 While a large group of Minions begin to pile up
 and trample Kung Fu Man, until he's completely
 unconscious...
 
 character = 
+sfx = 0,11
 bgm = _
 text:
 ...
@@ -352,29 +378,34 @@ text:
 .     .     .
 
 character = 
+sfx = 0,12
 text:
 Eventually.
 Kung Fu Man regains consciousness
 and remembers the last happened..
 
 character = Kung Fu Man
+sfx = 0,3
 bgm = sound/vn/Guilty.mp3
 text:
 Damn, that guy didn't just kidnaped my girlfriend.
 I neglected the temple too. I'm really out of form..
 
 character = Kung Fu Man
+sfx = 1,5
 text:
 I MEAN.
 HOW is possible that a guy like him: "Suave"
 could even defeat me!?
 
 character = 
+sfx = 0,7
 text:
 Determined to rescue his Girlfriend. Kung Fu M-
 
 character = Mako Mayama
 side = 2
+sfx = 2,1
 bgm = _
 text:
 HEYYY are you forget me!?
@@ -399,6 +430,7 @@ _
 Who took all Minions off your back?
 
 character = Kung Fu Man
+sfx = 1,2
 text:
 That's true. Hmm, how do you defeat all of them?
 I mean, I don't see them anywhere..
@@ -436,18 +468,21 @@ before I met her.
 
 character = Mako Mayama
 side = 2
+sfx = 2,2
 text:
 Well, I must return to my home.
  
 Good luck rescuing your girlfriend!
 
 character = Kung Fu Man
+sfx = 1,6
 text:
 Yeah, thanks! Another day that I carry a pen.
 I will give you my autograph.
 
 character = Mako Mayama
 side = 2
+sfx = 2,1
 text:
 Don't forget the free classes you promised me!
 Otherwise I will kidnap your girlfriend
@@ -463,6 +498,7 @@ text:
 Kung Fu Man says goodbye to Mako Mayama and now..
 
 character = 
+sfx = 1,7
 text:
 Determined to rescue his Girlfriend..
 Kung Fu Man heads to
@@ -474,6 +510,7 @@ Mountainside Temple's Hidden Path...
 snd = data/visualnovel/arc1.snd
 
 character = Kung Fu Man
+sfx = 1,5
 bgm = sound/Temple.mp3
 text:
 That Suave Dude... how is he so confident??
@@ -482,11 +519,13 @@ Mountainside Temple's Map, to cover all routes
 and avoid a surprise attack..
 
 character = Kung Fu Man
+sfx = 1,0
 text:
 Anyway, I'm improving my techniques
 thanks to getting back into real action.
 
 character = 
+sfx = 0,13
 text:
 At that moment a person identical to Kung Fu Man
 appears in forehead.
@@ -498,10 +537,12 @@ What the hell do you look like me!?
 
 character = ???
 side = 2
+sfx = 5,0
 text:
 HAHAHA, you're too weak to face me, DIE!
 
 character = 
+sfx = 5,1
 text:
 When threatened, the enemy pulls out a gun, shoots
 and Kung Fu Man steps back and hides to think
@@ -516,6 +557,7 @@ Until...
 snd = data/visualnovel/arc1.snd
 
 character = 
+sfx = 1,8
 bgm = sound/vn/Access.mp3
 text:
 After awaken new skills and defeat his robotic copy.
@@ -523,17 +565,20 @@ Kung Fu Man goes in search of Suave Dude
 on the Roof of the Mountainside Temple..
 
 character = Master Kung Fu Man
+sfx = 1,2
 text:
 I better hurry!
 Who knows why what kind of torture
 Kung Fu Girl will be going through..
 
 character = 
+sfx = 0,10
 text:
 Kung Fu Man reaches the roof
 where he finds Suave Dude.
 
 character = Master Kung Fu Man
+sfx = 1,9
 text:
 Suave Dude!
 _
@@ -541,6 +586,7 @@ Leave my temple and Release Kung Fu Girl!
 
 character = Suave Dude
 side = 2
+sfx = 4,4
 text:
 Alright, let me activate self-destruction
 to make this more dramatic.
@@ -556,6 +602,7 @@ Wher-
 
 character = Suave Dude
 side = 2
+sfx = 0,8
 text:
 You fell! Hahahaha
 
@@ -570,6 +617,7 @@ Bad Guy with a countdown and a kidnapped princess!
 
 character = Suave Dude
 side = 2
+sfx = 1,10
 text:
 Ladies and Gentlemen! Our stage is set!
 Who will be the champion!?
@@ -588,30 +636,36 @@ is taken to the Mountainside Temple's Roof
 before Suave Dude..
 
 character = 
+sfx = 0,5
 text:
 When waking up..
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Welcome to the Roof of Truths.
 The last place you will see before being replaced!
 
 character = 
+sfx = 0,3
 text:
 Kung Fu Man stands up abruptly
 
 character = Kung Fu Man
+sfx = 1,11
 text:
 Replaced? YOU CAN NEVER REPLACE KUNG F-
 
 character = 
+sfx = 5,2
 text:
 At that moment, his evil clone uses his robotic arm
 to push him towards a wall.
 
 character = Suave Dude
 side = 2
+sfx = 4,2
 text:
 Ah yes, I hadn't told you but...
 
@@ -631,6 +685,7 @@ You don't know who I'm!
 
 character = Suave Dude
 side = 2
+sfx = 4,2
 text:
 Hehe, well I didn't use AI or record them with
 your clone or a camera with the size of a fly..
@@ -650,11 +705,13 @@ text:
 Wait, how you're not imprisoned in a "Tower"?
 
 character = 
+sfx = 0,14
 text:
 Kung Fu Girl approaches and slaps Kung Fu Man
 
 character = Kung Fu Girl
 side = 2
+sfx = 3,1
 text:
 Fool! How is possible that this guy captures me?
 and you're not able to rescue me..
@@ -684,11 +741,13 @@ We could have lived together
 and avoid all this drama.
 
 character = 
+sfx = 3,5
 text:
 Kung Fu Girl starts to destabilize
 
 character = Suave Dude
 side = 2
+sfx = 3,6
 text:
 Well buddy, it's time to see what are you made of
 I already have the Band and the laboratory running.
@@ -700,12 +759,14 @@ Ready to die?
 snd = data/visualnovel/arc1.snd
 
 character = Master Kung Fu Man
+sfx = 1,12
 bgm = sound/Fake World.mp3
 text:
 Is over Suave Dude!
 
 character = Suave Dude
 side = 2
+sfx = 4,5
 text:
 Hahaha, I don't think that..
 IN FACT! This is just the beginning..
@@ -725,35 +786,41 @@ _
 (that will never be finished by the way).
 
 character = Master Kung Fu Man
+sfx = 1,13
 text:
 Okay, I guess my punches stunned you enough.
 So, I will make you suffer until you tell me!
 
 character = Suave Dude
 side = 2
+sfx = 4,4
 text:
 Woah! save that last word for another
 kind of ending buddy..
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Ehehehe, Ok. I'm sure you want to know
 why she could imitate your techniques or
 how I could build a clone of yours too fast..
 
 character = Master Kung Fu Man
+sfx = 1,5
 text:
 Speaks!
 
 character = Suave Dude
 side = 2
+sfx = 4,2
 text:
 It's easy... the world where we live is like
 a "Micro-Matrix".. here it's possible to create
 any fighter who can copy techniques from others.
 
 character = Master Kung Fu Man
+sfx = 1,2
 text:
 That's...impossible. I'm real and she must have
 some innate talent or something similar..
@@ -765,6 +832,7 @@ Other fighters like her would have appeared sooner..
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Well, believe it or not, she's already gone.
 For some reason you managed to make my creation
@@ -777,7 +845,8 @@ Oh, you mean you don't know where she is?
 character = Suave Dude
 side = 2
 text:
-Wait wait!, don't hit me again, my bones already hurts.
+Wait wait!, don't hit me again..
+My bones already hurts.
 _
 She has gone to find more strength to show you what
 she's capable. That was the last thing she said..
@@ -785,6 +854,7 @@ she's capable. That was the last thing she said..
 character = Master Kung Fu Man
 text:
 All I want is to fix things with my Girlfriend
+_
 and this time return and live a normal life with her.
 
 character = Suave Dude
@@ -802,13 +872,15 @@ character = Master Kung Fu Man
 bgm = sound/Training Room 2.mp3
 text:
 You'll have to help me find her.
+_
 else
-I won't let you leave the game..
+_
+I won't let you leave this game..
 
 character = Suave Dude
 side = 2
 text:
-I see that you are already understanding, hehe.
+I see that you are already understanding this, hehe.
 _
 I warn you, this challenge will be
 "the most difficult one" you can face.
@@ -829,14 +901,17 @@ How do I get there?
 character = Suave Dude
 side = 2
 text:
-"Easy" as exceeding your limits so that
-the "Divine Core" detects that you need a balance
-and teleports you to the "Balance Field".
+"Easy" as exceeding your limits so with that..
+_
+The "Divine Core" detects that you need a balance
+and will teleports you to the "Balance Field".
 
 character = Master Kung Fu Man
 text:
-Very well, it is time then to go beyond
+Very well, it's time then to go beyond
 and teach him a lesson!
+_
+With the power of I.K.E.M.E.N PLUS ULTRA!
 
 end = 1
 
@@ -844,19 +919,32 @@ end = 1
 [Chapter 6] ;4B
 snd = data/visualnovel/arc1.snd
 
+character =
+sfx = 1,8
+bgm = _
+text:
+After defeating Kung Fu Girl and Suave Dude.
+Kung Fu Man destroys his evil clon.
+_
+His power seems to have increased
+but with an evil aura..
+
 character = Suave Dude
 side = 2
+sfx = 4,4
 bgm = sound/random 2.mp3
 text:
 Fascinating, this is a taste of your true potential.
 However it's useless!
 
 character = Kung Fu Man
+sfx = 1,3
 text:
 Do you think this is a game?
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 In fact it's.
 
@@ -869,6 +957,7 @@ an example of what's possible to tell and create!
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 Our existence hangs by a thread..
 In any moment we will be replaced
@@ -884,6 +973,7 @@ We must fear human creativity!
 
 character = Master Kung Fu Girl
 side = 2
+sfx = 3,7
 text:
 Hey but this is I.K.E.M.E.N isn't it?
 
@@ -893,6 +983,7 @@ text:
 That makes it much more dangerous lol.
 
 character = Kung Fu Man
+sfx = 1,13
 text:
 I don't understand anything that's happening.
 _
@@ -901,6 +992,7 @@ _
 Why complicate your existence?
 
 character = Suave Dude
+sfx = 1,5
 side = 2
 text:
 Just.. relax man. It's all about evolution.
@@ -910,6 +1002,7 @@ Are you ready to disappear?
 
 character = Master Kung Fu Girl
 side = 2
+sfx = 3,8
 text:
 Aww, I don't want to disappear. Please!
 YOU the one who is looking me, add me to your game!!
@@ -924,11 +1017,13 @@ snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
 side = 2
+sfx = 4,5
 bgm = sound/system/menu/Menu 3.mp3
 text:
 Haha, I guess your time is over buddy.
 
 character = Master Kung Fu Man
+sfx = 1,14
 text:
 Damn, what now?
 
@@ -939,6 +1034,7 @@ You will have to try again..
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 what we're left with is just
 wait for all this temple collapse
@@ -951,6 +1047,7 @@ end = 3
 snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
+sfx = 4,1
 bgm = sound/vn/The Fall.mp3
 text:
 Oh, well I guess they'll have to create someone
@@ -958,6 +1055,7 @@ stronger than Kung Fu Man who can face us huh?
 
 character = Master Kung Fu Girl
 side = 2
+sfx = 3,9
 text:
 What do you mean by "they"?
 
@@ -967,6 +1065,7 @@ Oh, the players of course
 
 character = Master Kung Fu Girl
 side = 2
+sfx = 3,10
 text:
 So this is an example of a Bad Ending?
 
@@ -975,12 +1074,14 @@ text:
 Yeah, if you lose nothing good can happen..
 
 character = Suave Dude
+sfx = 4,1
 text:
 By the way, we better go down and pick up his body
 because it's going to start to rot...
 
 character = Master Kung Fu Girl
 side = 2
+sfx = 3,11
 text:
 Uhgss, you pushed him. Clean it yourself!
 

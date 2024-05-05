@@ -739,17 +739,29 @@ end
 txt_nameCfg = createTextImg(font13, 0, 1, "", 2, 175, 0.7, 0.7) --Name Text Config
 txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
 
+--;===========================================================
+--; VISUAL NOVEL INTRO SCREEN
+--;===========================================================
+function f_drawVNIntro()
+	
+	animDraw(data.fadeTitle)
+	animUpdate(data.fadeTitle)
+end
+
 function f_vnScene(arcPath, chaptNo, dialogueNo)
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
 	f_vnLoad(arcPath) --What Dialogue File will load?
 	f_resetFullVN()
 	vnChapter = chaptNo --What chapter number does it start in?
+	if dialogueNo == 1 then
+		--f_drawVNIntro() --Show Chapter Intro
+	end
 	VNtxt = dialogueNo --What dialogue number does it start in?
 	if data.songSelect then playBGM(VNbgm) end
 	if t_vnBoxText[vnChapter][0].snd ~= nil then --Detects if snd file is defined
 		VNsfxData = sndNew(t_vnBoxText[vnChapter][0].snd) --Load snd file
 		VNsfxReady = true
 	end
-	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
 		--Actions
@@ -947,11 +959,11 @@ function f_drawVN()
 		animDraw(vnBG4)
 		animDraw(vnRain)
 		animUpdate(vnRain)
-		if VNtxt >= 2 and VNtxt < 11 then animDraw(vnKfm1) end
-		if VNtxt >= 7 and VNtxt < 11 then animDraw(vnKfg6B)
-		elseif VNtxt == 11 then animDraw(vnKfg11)
+		if VNtxt >= 3 and VNtxt < 12 then animDraw(vnKfm1) end
+		if VNtxt >= 8 and VNtxt < 12 then animDraw(vnKfg6B)
+		elseif VNtxt == 12 then animDraw(vnKfg11)
 		end
-		if VNtxt >= 1 and VNtxt < 11 then animDraw(vnSD2) end
+		if VNtxt >= 2 and VNtxt < 12 then animDraw(vnSD2) end
 	--Draw Chapter 4C Visuals
 	elseif vnChapter == 7 then
 		animDraw(vnBG3)
