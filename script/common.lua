@@ -2039,7 +2039,8 @@ function f_saveTemp()
 	local t_temp = {
 		['data.tempBack'] = data.tempBack,
 		['data.replayDone'] = data.replayDone,
-		['data.challengerMode'] = data.challengerMode
+		['data.challengerMode'] = data.challengerMode,
+		['data.VNbreaker'] = data.VNbreaker
 	}
 	s_tempdataLUA = f_strSub(s_tempdataLUA, t_temp)
 	local tempFile = io.open("save/temp_sav.lua","w+")

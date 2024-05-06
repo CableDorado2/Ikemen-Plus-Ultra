@@ -55,6 +55,8 @@ ___________________________
 Some Examples:
 
 [Chapter 0]
+id = 1
+name = Test
 
 character = CD3
 text:
@@ -66,6 +68,8 @@ text:
 What the hell is this?
 
 [Chapter 1]
+id = 2A
+name = Fate Battle
 snd = data/visualnovel/chapt1.snd
 
 character = Kyo
@@ -91,3 +95,5 @@ cut = 1
 character = CD2
 text:
 Well this still under development, suggestions are accepted..
+
+end = 1

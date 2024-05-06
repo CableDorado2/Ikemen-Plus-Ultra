@@ -46,7 +46,7 @@ end
 
 function f_vnPauseMenu()
 	if not audioCfgVNActive then
-		if not defaultScreenVN then
+		if not questionScreenVN then
 			cmdInput()
 			--Cursor Position
 			if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufuVNP >= 30) then
@@ -105,14 +105,15 @@ function f_vnPauseMenu()
 					audioCfgVNActive = true
 				--Restore Settings
 				elseif vnPauseMenu == 6 then
-					defaultScreenVN = true
+					questionScreenVN = true
 					defaultVN = true
 				--Skip Scene
 				elseif vnPauseMenu == 7 then
 					VNtxtEnd = true
 				--Back to Main Menu
 				elseif vnPauseMenu == 8 then
-					VNtxtEnd = true
+					questionScreenVN = true
+					exitVN = true
 				--Resume
 				elseif vnPauseMenu == #t_vnPauseMenu then
 					vnPauseMenuBack = true
@@ -192,12 +193,12 @@ function f_vnPauseMenu()
 			end
 		end
 		--Draw Cursor
-		if not defaultScreenVN then
+		if not questionScreenVN then
 			animSetWindow(cursorBox, 64,5+cursorPosYVNP*15, 192,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		if defaultScreenVN == true then f_defaultMenuVN() end
+		if questionScreenVN == true then f_questionMenuVN() end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufdVNP = 0
 			bufuVNP = bufuVNP + 1
@@ -290,7 +291,7 @@ t_audioCfg = {
 }
 
 function f_audioCfgVN()
-	if not defaultScreenVN then
+	if not questionScreenVN then
 		cmdInput()
 		if modifiedVN then f_saveSettingsVN() end
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -408,7 +409,7 @@ function f_audioCfgVN()
 		--Default Values
 		elseif audioCfgVN == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			sndPlay(sysSnd, 100, 1)
-			defaultScreenVN = true
+			questionScreenVN = true
 			defaultAudioVN = true
 		--BACK
 		elseif audioCfgVN == #t_audioCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
@@ -448,7 +449,7 @@ function f_audioCfgVN()
 	animSetAlpha(vnPauseBG, 255, 22)
 	animPosDraw(vnPauseBG, 63, 20)
 	textImgDraw(txt_audioCfg)
-	if defaultScreenVN == false then
+	if questionScreenVN == false then
 		animSetWindow(cursorBox, 64,5+cursorPosYAVN*15, 192,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -467,7 +468,7 @@ function f_audioCfgVN()
 			end
 		end
 	end
-	if defaultScreenVN == true then f_defaultMenuVN() end
+	if questionScreenVN == true then f_questionMenuVN() end
 	if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 		bufd = 0
 		bufu = bufu + 1
@@ -481,85 +482,96 @@ function f_audioCfgVN()
 end
 
 --;===========================================================
---; VISUAL NOVEL DEFAULT VALUES MESSAGE
+--; VISUAL NOVEL EXIT/DEFAULT VALUES MESSAGE
 --;===========================================================
-txt_defaultquestionVN = createTextImg(jgFnt, 1, 0, "LOAD DEFAULT SETTINGS?", 160, 110,0.8,0.8)
+txt_questionVN = createTextImg(jgFnt, 1, 0, "", 160, 110,0.8,0.8)
 
 --Default Window BG
-defaultWindowBGVN = animNew(sysSff, [[
+questionWindowBGVN = animNew(sysSff, [[
 230,1, 0,0,
 ]])
-animSetPos(defaultWindowBGVN, 83.5, 97)
-animUpdate(defaultWindowBGVN)
-animSetScale(defaultWindowBGVN, 1, 1)
+animSetPos(questionWindowBGVN, 61, 97)
+animUpdate(questionWindowBGVN)
+animSetScale(questionWindowBGVN, 1.3, 1)
 
-t_defaultMenuVN = {
-	{id = textImgNew(), text = "YES"},
-	{id = textImgNew(), text = "NO"},
+t_questionMenuVN = {
+	{id = textImgNew(), text = ""},
+	{id = textImgNew(), text = ""},
 }
 
-function f_defaultMenuVN()
+function f_questionMenuVN()
 	cmdInput()
 	--Cursor Position
 	if commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') then
 		sndPlay(sysSnd, 100, 0)
-		defaultMenuVN = defaultMenuVN - 1
+		questionMenuVN = questionMenuVN - 1
 	elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') then
 		sndPlay(sysSnd, 100, 0)
-		defaultMenuVN = defaultMenuVN + 1
+		questionMenuVN = questionMenuVN + 1
 	end
-	if defaultMenuVN < 1 then
-		defaultMenuVN = #t_defaultMenuVN
-		if #t_defaultMenuVN > 4 then
-			cursorPosYDefaultVN = 4
+	if questionMenuVN < 1 then
+		questionMenuVN = #t_questionMenuVN
+		if #t_questionMenuVN > 4 then
+			cursorPosYQuestionVN = 4
 		else
-			cursorPosYDefaultVN = #t_defaultMenuVN-1
+			cursorPosYQuestionVN = #t_questionMenuVN-1
 		end
-	elseif defaultMenuVN > #t_defaultMenuVN then
-		defaultMenuVN = 1
-		cursorPosYDefaultVN = 0
-	elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) and cursorPosYDefaultVN > 0 then
-		cursorPosYDefaultVN = cursorPosYDefaultVN - 1
-	elseif (commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) and cursorPosYDefaultVN < 4 then
-		cursorPosYDefaultVN = cursorPosYDefaultVN + 1
+	elseif questionMenuVN > #t_questionMenuVN then
+		questionMenuVN = 1
+		cursorPosYQuestionVN = 0
+	elseif (commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) and cursorPosYQuestionVN > 0 then
+		cursorPosYQuestionVN = cursorPosYQuestionVN - 1
+	elseif (commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) and cursorPosYQuestionVN < 4 then
+		cursorPosYQuestionVN = cursorPosYQuestionVN + 1
 	end
-	if cursorPosYDefaultVN == 4 then
-		moveTxtDefaultVN = (defaultMenuVN - 5) * 13
-	elseif cursorPosYDefaultVN == 0 then
-		moveTxtDefaultVN = (defaultMenuVN - 1) * 13
+	if cursorPosYQuestionVN == 4 then
+		moveTxtQuestionVN = (questionMenuVN - 5) * 13
+	elseif cursorPosYQuestionVN == 0 then
+		moveTxtQuestionVN = (questionMenuVN - 1) * 13
 	end
 	--Draw Fade BG
 	animDraw(fadeWindowBG)
 	--Draw Menu BG
-	animDraw(defaultWindowBGVN)
-	animUpdate(defaultWindowBGVN)
+	animDraw(questionWindowBGVN)
+	animUpdate(questionWindowBGVN)
 	--Draw Title
-	textImgDraw(txt_defaultquestionVN)
+	if exitVN then
+		textImgSetText(txt_questionVN, "UNSAVED DATA WILL BE LOST!")
+		t_questionMenuVN[1].text = "OK"
+		t_questionMenuVN[2].text = "CANCEL"
+	else
+		textImgSetText(txt_questionVN, "LOAD DEFAULT SETTINGS?")
+		t_questionMenuVN[1].text = "YES"
+		t_questionMenuVN[2].text = "NO"
+	end
+	textImgDraw(txt_questionVN)
 	--Draw Table Text
-	for i=1, #t_defaultMenuVN do
-		if i == defaultMenuVN then
+	for i=1, #t_questionMenuVN do
+		if i == questionMenuVN then
 			bank = 5
 		else
 			bank = 0
 		end
-		textImgDraw(f_updateTextImg(t_defaultMenuVN[i].id, jgFnt, bank, 0, t_defaultMenuVN[i].text, 159, 120+i*13-moveTxtDefaultVN))
+		textImgDraw(f_updateTextImg(t_questionMenuVN[i].id, jgFnt, bank, 0, t_questionMenuVN[i].text, 159, 120+i*13-moveTxtQuestionVN))
 	end
 	--Draw Cursor
-	animSetWindow(cursorBox, 87,123+cursorPosYDefaultVN*13, 144,13)
+	animSetWindow(cursorBox, 87,123+cursorPosYQuestionVN*13, 144,13)
 	f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 	animDraw(f_animVelocity(cursorBox, -1, -1))	
 	--Actions
 	if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 		sndPlay(sysSnd, 100, 2)
-		f_defaultResetVN()
+		f_questionResetVN()
 	elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 		--YES
-		if defaultMenuVN == 1 then
+		if questionMenuVN == 1 then
 			sndPlay(sysSnd, 100, 1)
+			--Reset Visual Novel Settings
 			if defaultVN == true then
 				f_restoreVNcfg()
 				hasChangedVN = true
 				--modifiedVN = true
+			--Reset Sound Settings
 			elseif defaultAudioVN == true then
 				gl_vol = 80
 				se_vol = 80
@@ -568,24 +580,30 @@ function f_defaultMenuVN()
 				pan_str = 80
 				setPanStr(pan_str / 100)
 				modifiedVN = true
+			--Exit from Visual Novel
+			elseif exitVN == true then
+				data.VNbreak = true
+				f_saveTemp()
+				VNtxtEnd = true
 			end
 		--NO
 		else
 			sndPlay(sysSnd, 100, 2)
 		end
-		f_defaultResetVN()
+		f_questionResetVN()
 	end
 end
 
-function f_defaultResetVN()
-	moveTxtDefaultVN = 0
+function f_questionResetVN()
+	moveTxtQuestionVN = 0
 	--Cursor pos in NO
-	cursorPosYDefaultVN = 1
-	defaultMenuVN = 2
+	cursorPosYQuestionVN = 1
+	questionMenuVN = 2
 	--Reset
-	defaultScreenVN = false
+	questionScreenVN = false
 	defaultVN = false
 	defaultAudioVN = false
+	exitVN = false
 end
 
 --;===========================================================
@@ -711,6 +729,8 @@ end
 --;===========================================================
 --Common Textbox Settings
 function f_resetFullVN()
+VNautoSkipTime = 5 --Set Time to auto skip text (in seconds)
+VNautoTxt = 0
 VNtxtActive = 1
 VNscroll = 0
 VNnodelay = 0
@@ -734,7 +754,7 @@ VNtxtBank = 0
 VNtxtAlphaS = 255
 VNtxtAlphaD = 0
 f_vnPauseMenuReset()
-f_defaultResetVN()
+f_questionResetVN()
 end
 
 function f_resetSimpleVN()
@@ -743,6 +763,7 @@ VNtxtReady = false
 VNtxtActive = 1
 VNscroll = 0
 VNdelay = data.VNdelay
+VNautoTxt = 0
 end
 
 function f_playVNsfx()
@@ -821,10 +842,14 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNdelay = VNnodelay
 				if VNtxtActive == 0 then VNtxtReady = true end
 			end
-			if commandGetState(p1Cmd, 'holde') or commandGetState(p2Cmd, 'holde') then
+			if commandGetState(p1Cmd, 'holde') or commandGetState(p2Cmd, 'holde') then --Hide HUD
 				VNhide = true
 			else
 				VNhide = false
+			end
+			--Auto Skip Text
+			if data.VNautoSkip and VNtxtActive == 0 and VNautoTxt == VNautoSkipTime*60 then
+				VNtxtReady = true
 			end
 		end
 		--Loading New Txt Logic
@@ -901,7 +926,8 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNtextData = "" --Set Empty Narrative Text
 			end
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
-			--f_drawQuickText(txt_testVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
+			--f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
+			--f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f",(VNautoTxt/60)), 163.5, 148) --For Debug Purposes
 		end
 		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
 			VNendActive = true
@@ -909,6 +935,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 		end
 		if vnPauseScreen then f_vnPauseMenu() end
 		VNscroll = VNscroll + 1
+		if data.VNautoSkip and not vnPauseScreen and VNtxtActive == 0 then VNautoTxt = VNautoTxt + 1 end
 		cmdInput()
 		refresh()
 	end

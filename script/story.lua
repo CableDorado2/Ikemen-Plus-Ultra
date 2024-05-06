@@ -663,6 +663,13 @@ function f_storyMenu()
 	end
 end
 
+function f_backStorySel()
+	data.VNbreak = false --Reset visual novel back to main menu
+	--f_saveTemp()
+	playBGM(bgmStory)
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
+end
+
 --;===========================================================
 --; ARC 1 FIGHTS
 --;===========================================================
@@ -682,212 +689,248 @@ end
 function f_arc1_chapter1()
 	--Part 1
 	script.visualnovel.f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_charAdd["kung fu man"]}
-	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["mako mayama/vnfight.def"]}
-	data.p2Pal = 1
-	setRoundTime(-1)
-	setRoundsToWin(1)
-	data.versusScreen = false
-	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/mountain valley.def"]}
-	data.songSelect = false --Star fight using music played in visual novel mode
-	data.rosterMode = "story"
-	setGameMode('story')
-	setPlayerSide('p1left')
-	script.select.f_selectStory() --Start Fight with previous settings
-	--Part 2
-	script.visualnovel.f_vnScene(kfmVN,1,16)
-	f_default() --Reset settings for the custom fight
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
-	data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters (needs to be loaded in select.def)
-	data.p1Pal = 1 --Set P1 Character Palette
-	data.p2TeamMenu = {mode = 1, chars = 4}
-	data.p2Char = {t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"]}
-	data.p2Pal = 1
-	setRoundTime(-1)
-	setRoundsToWin(1)
-	data.orderSelect = false
-	data.versusScreen = false
-	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/mountainside temple/hidden path.def"]} --Set stage (needs to be loaded in select.def)
-	data.bgm = "sound/Pearl In The Sky.mp3" --Set Custom Stage Song
-	data.rosterMode = "story"
-	data.storyNo = "1-1"
-	setGameMode('story')
-	setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
-	setPlayerSide('p1left')
-	script.select.f_selectStory() --Start Fight with previous settings
-	if script.select.winner == 1 then --Only if you win do:
-		data.story1_2Unlock = true --Unlock next chapter
-		f_storyStatus() --Save progress
-		f_arc1_chapter2() --Launch next story fight
+	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.p1TeamMenu = {mode = 0, chars = 1}
+		data.p1Char = {t_charAdd["kung fu man"]}
+		data.p1Pal = 1
+		data.p2TeamMenu = {mode = 0, chars = 1}
+		data.p2Char = {t_charAdd["mako mayama/vnfight.def"]}
+		data.p2Pal = 1
+		setRoundTime(-1)
+		setRoundsToWin(1)
+		data.versusScreen = false
+		data.victoryscreen = false
+		data.stage = {t_stageDef["stages/mountain valley.def"]}
+		data.songSelect = false --Star fight using music played in visual novel mode
+		data.rosterMode = "story"
+		setGameMode('story')
+		setPlayerSide('p1left')
+		script.select.f_selectStory() --Start Fight with previous settings
+		--Part 2
+		script.visualnovel.f_vnScene(kfmVN,1,16)
+		if not data.VNbreak then
+			f_default() --Reset settings for the custom fight
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
+			data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters (needs to be loaded in select.def)
+			data.p1Pal = 1 --Set P1 Character Palette
+			data.p2TeamMenu = {mode = 1, chars = 4}
+			data.p2Char = {t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"], t_charAdd["suave dude/minion/minion.def"]}
+			data.p2Pal = 1
+			setRoundTime(-1)
+			setRoundsToWin(1)
+			data.orderSelect = false
+			data.versusScreen = false
+			data.victoryscreen = false
+			data.stage = {t_stageDef["stages/mountainside temple/hidden path.def"]} --Set stage (needs to be loaded in select.def)
+			data.bgm = "sound/Pearl In The Sky.mp3" --Set Custom Stage Song
+			data.rosterMode = "story"
+			data.storyNo = "1-1"
+			setGameMode('story')
+			setService("undefeatable") --You can't lose with this service, basically is a battle where you always win.
+			setPlayerSide('p1left')
+			script.select.f_selectStory() --Start Fight with previous settings
+			if script.select.winner == 1 then --Only if you win do:
+				data.story1_2Unlock = true --Unlock next chapter
+				f_storyStatus() --Save progress
+				f_arc1_chapter2() --Launch next story fight
+			end
+		else
+			f_backStorySel()
+		end
+	else --Back to Main Menu if this option is selected in Visual Novel Pause Menu
+		f_backStorySel()
 	end
 end
 
 --KILLER MIRROR
 function f_arc1_chapter2()
 	script.visualnovel.f_vnScene(kfmVN,2,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_charAdd["kung fu man"]}
-	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
-	data.p2Pal = 1
-	setRoundTime(-1)
-	setRoundsToWin(1)
-	data.versusScreen = false
-	data.victoryscreen = false
-	--data.stage no needed because this chapter will use the auto stage of evil kfm
-	data.songSelect = false
-	data.rosterMode = "story"
-	data.storyNo = "1-2"
-	setGameMode('story')
-	script.select.f_selectStory()
-	if script.select.winner == 1 then
-		data.story1_3AUnlock = true --Unlock Route A
-		f_storyStatus()
-		f_arc1_chapter3_1()
-	elseif script.select.winner == 2 then
-		data.story1_3BUnlock = true --Unlock Route B
-		f_storyStatus()
-		f_arc1_chapter3_2()
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.p1TeamMenu = {mode = 0, chars = 1}
+		data.p1Char = {t_charAdd["kung fu man"]}
+		data.p1Pal = 1
+		data.p2TeamMenu = {mode = 0, chars = 1}
+		data.p2Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
+		data.p2Pal = 1
+		setRoundTime(-1)
+		setRoundsToWin(1)
+		data.versusScreen = false
+		data.victoryscreen = false
+		--data.stage no needed because this chapter will use the auto stage of evil kfm
+		data.songSelect = false
+		data.rosterMode = "story"
+		data.storyNo = "1-2"
+		setGameMode('story')
+		script.select.f_selectStory()
+		if script.select.winner == 1 then
+			data.story1_3AUnlock = true --Unlock Route A
+			f_storyStatus()
+			f_arc1_chapter3_1()
+		elseif script.select.winner == 2 then
+			data.story1_3BUnlock = true --Unlock Route B
+			f_storyStatus()
+			f_arc1_chapter3_2()
+		end
+	else
+		f_backStorySel()
 	end
 end
 
 --THE ROOF OF TRUTH
 function f_arc1_chapter3_1()
 	script.visualnovel.f_vnScene(kfmVN,3,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
-	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["suave dude"]}
-	data.p2Pal = 1
-	setRoundTime(60*60)
-	setRoundsToWin(1)
-	data.versusScreen = false
-	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
-	data.bgm = "sound/Open War.mp3"
-	data.rosterMode = "story"
-	data.storyNo = "1-3A"
-	setGameMode('story')
-	script.select.f_selectStory()
-	if script.select.winner == 1 then
-		data.story1_4AUnlock = true
-		f_storyStatus()
-		f_arc1_chapter4_1()
-	elseif script.select.winner == 2 then
-		data.story1_4CUnlock = true
-		f_storyStatus()
-		f_arc1_chapter4_3()
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.p1TeamMenu = {mode = 0, chars = 1}
+		data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
+		data.p1Pal = 1
+		data.p2TeamMenu = {mode = 0, chars = 1}
+		data.p2Char = {t_charAdd["suave dude"]}
+		data.p2Pal = 1
+		setRoundTime(60*60)
+		setRoundsToWin(1)
+		data.versusScreen = false
+		data.victoryscreen = false
+		data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
+		data.bgm = "sound/Open War.mp3"
+		data.rosterMode = "story"
+		data.storyNo = "1-3A"
+		setGameMode('story')
+		script.select.f_selectStory()
+		if script.select.winner == 1 then
+			data.story1_4AUnlock = true
+			f_storyStatus()
+			f_arc1_chapter4_1()
+		elseif script.select.winner == 2 then
+			data.story1_4CUnlock = true
+			f_storyStatus()
+			f_arc1_chapter4_3()
+		end
+	else
+		f_backStorySel()
 	end
 end
 
 --BROKEN SPIRIT
 function f_arc1_chapter3_2()
 	script.visualnovel.f_vnScene(kfmVN,4,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.p1Pal = 1
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_charAdd["kung fu man"]}
-	data.p2TeamMenu = {mode = 2, chars = 2}
-	data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"], t_charAdd["suave dude"]}
-	data.p2Pal = 1
-	setRoundTime(-1)
-	setRoundsToWin(3)
-	data.orderSelect = false
-	data.versusScreen = false
-	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/mountainside temple/roof night.def"]}
-	data.bgm = "sound/Suave's Corridor.mp3"
-	data.rosterMode = "story"
-	data.storyNo = "1-3B"
-	setGameMode('story')
-	setService("balance")
-	setAutoguard(1, true)
-	setAutoguard(2, false)
-	script.select.f_selectStory()
-	if script.select.winner == 1 then
-		data.story1_4BUnlock = true
-		f_storyStatus()
-		f_arc1_chapter4_2()
-	elseif script.select.winner == 2 then
-		data.story1_4DUnlock = true
-		f_storyStatus()
-		f_arc1_chapter4_4()
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.p1Pal = 1
+		data.p1TeamMenu = {mode = 0, chars = 1}
+		data.p1Char = {t_charAdd["kung fu man"]}
+		data.p2TeamMenu = {mode = 2, chars = 2}
+		data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"], t_charAdd["suave dude"]}
+		data.p2Pal = 1
+		setRoundTime(-1)
+		setRoundsToWin(3)
+		data.orderSelect = false
+		data.versusScreen = false
+		data.victoryscreen = false
+		data.stage = {t_stageDef["stages/mountainside temple/roof night.def"]}
+		data.bgm = "sound/Suave's Corridor.mp3"
+		data.rosterMode = "story"
+		data.storyNo = "1-3B"
+		setGameMode('story')
+		setService("balance")
+		setAutoguard(1, true)
+		setAutoguard(2, false)
+		script.select.f_selectStory()
+		if script.select.winner == 1 then
+			data.story1_4BUnlock = true
+			f_storyStatus()
+			f_arc1_chapter4_2()
+		elseif script.select.winner == 2 then
+			data.story1_4DUnlock = true
+			f_storyStatus()
+			f_arc1_chapter4_4()
+		end
+	else
+		f_backStorySel()
 	end
 end
 
 --FINAL DESTINATION
 function f_arc1_chapter4_1()
 	script.visualnovel.f_vnScene(kfmVN,5,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = "story"
-	data.storyNo = "1-4A"
-	--[[
-	data.p1TeamMenu = {mode = 0, chars = 1}
-	data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
-	data.p1Pal = 1
-	data.p2TeamMenu = {mode = 0, chars = 1}
-	data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"]}
-	data.p2Pal = 1
-	setRoundTime(-1)
-	setRoundsToWin(1)
-	data.versusScreen = false
-	data.victoryscreen = false
-	data.stage = {t_stageDef["stages/sakura.def"]}
-	setGameMode('story')
-	script.select.f_selectStory()
-	]]
-	f_storyStatus()
-	f_playCredits() --Go to credits screen
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.rosterMode = "story"
+		data.storyNo = "1-4A"
+		--[[
+		data.p1TeamMenu = {mode = 0, chars = 1}
+		data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
+		data.p1Pal = 1
+		data.p2TeamMenu = {mode = 0, chars = 1}
+		data.p2Char = {t_charAdd["kung fu girl/master/master kung fu girl.def"]}
+		data.p2Pal = 1
+		setRoundTime(-1)
+		setRoundsToWin(1)
+		data.versusScreen = false
+		data.victoryscreen = false
+		data.stage = {t_stageDef["stages/sakura.def"]}
+		setGameMode('story')
+		script.select.f_selectStory()
+		]]
+		f_storyStatus()
+		f_playCredits() --Go to credits screen
+	else
+		f_backStorySel()
+	end
 end
 
 --LIFE LESSON
 function f_arc1_chapter4_2()
 	script.visualnovel.f_vnScene(kfmVN,6,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = "story"
-	data.storyNo = "1-4B"
-	f_storyStatus()
-	f_playCredits()
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.rosterMode = "story"
+		data.storyNo = "1-4B"
+		f_storyStatus()
+		f_playCredits()
+	else
+		f_backStorySel()
+	end
 end
 
 --ZERO HOUR
 function f_arc1_chapter4_3()
 	script.visualnovel.f_vnScene(kfmVN,7,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = "story"
-	data.storyNo = "1-4C"
-	f_storyStatus()
-	f_playCredits()
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.rosterMode = "story"
+		data.storyNo = "1-4C"
+		f_storyStatus()
+		f_playCredits()
+	else
+		f_backStorySel()
+	end
 end
 
 --THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
 	playVideo("movie/KFM-Fall.wmv")
 	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
-	f_default()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-	data.rosterMode = "story"
-	data.storyNo = "1-4D"
-	f_storyStatus()
-	f_playCredits()
+	if not data.VNbreak then
+		f_default()
+		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.rosterMode = "story"
+		data.storyNo = "1-4D"
+		f_storyStatus()
+		f_playCredits()
+	else
+		f_backStorySel()
+	end
 end
 
 --Character Select Test Chapter
