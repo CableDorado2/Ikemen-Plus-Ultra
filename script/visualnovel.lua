@@ -634,7 +634,7 @@ for line in content:gmatch('[^\r\n]+') do
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
 		t_vnBoxText[chapt]["data"] = {}
-	elseif section > 0 then --[Chapter No]
+	elseif section == 1 then --[Chapter No]
 		--id = chapterID (string)
 		if line:match('^%s*id%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -662,6 +662,13 @@ for line in content:gmatch('[^\r\n]+') do
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {} --Add content filtered to the end of the "chapter" sub-table
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['character'] = data:gsub('^%s*character%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		--video = filename (string)
+		elseif line:match('^%s*video%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['video'] = data:gsub('^%s*video%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		--cut = string
 		elseif line:match('^%s*cut%s*=') then
@@ -725,6 +732,119 @@ if data.debugLog then f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.txt") en
 end
 
 --;===========================================================
+--; VISUAL NOVEL MENU
+--;===========================================================
+txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
+t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
+
+function f_vnMenu()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	cmdInput()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local vnMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			vnMenu = vnMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			vnMenu = vnMenu + 1
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			if vnMenu == #t_selVN then
+				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			--Start Visual Novel
+			else
+				--cmdInput()
+				f_vnScene(t_selVN[vnMenu].path, 1, 1)
+			--When Storyboard Ends:
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				f_menuMusic()
+			end
+		end
+		if vnMenu < 1 then
+			vnMenu = #t_selVN
+			if #t_selVN > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_selVN
+			end
+		elseif vnMenu > #t_selVN then
+			vnMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (vnMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (vnMenu - 1) * 15
+		end	
+		if #t_selVN <= 14 then
+			maxVN = #t_selVN
+		elseif vnMenu - cursorPosY > 0 then
+			maxVN = vnMenu + 14 - cursorPosY
+		else
+			maxVN = 14
+		end
+		animDraw(f_animVelocity(novelBG0, -1, -1))
+		animSetScale(novelBG1, 220, maxVN*15)
+		animSetWindow(novelBG1, 80,20, 160,210)
+		animDraw(novelBG1)
+		textImgDraw(txt_vnSelect)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))		
+		for i=1, maxVN do
+			if t_selVN[i].displayname:len() > 28 then
+				visualnovelSelText = string.sub(t_selVN[i].displayname, 1, 24)
+				visualnovelSelText = tostring(visualnovelSelText .. "...")
+			else
+				visualnovelSelText = t_selVN[i].displayname
+			end
+			if i > vnMenu - cursorPosY then
+				t_selVN[i].name = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_selVN[i].name)
+			end
+		end
+		if maxVN > 14 then
+			animDraw(novelUpArrow)
+			animUpdate(novelUpArrow)
+		end
+		if #t_selVN > 14 and maxVN < #t_selVN then
+			animDraw(novelDownArrow)
+			animUpdate(novelDownArrow)
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; VISUAL NOVEL DEFINITION
 --;===========================================================
 --Common Textbox Settings
@@ -746,6 +866,8 @@ VNsfxNew = false
 VNbgmActive = false
 VNbgmNew = false
 VNbgm = ""
+VNvideoNew = false
+VNvideoActive = false
 --Narrative Text
 VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
 VNtxtPosX = 2
@@ -896,7 +1018,15 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			f_playVNbgm()
 			VNbgmNew = false
 		end
-		f_drawVN() --Draw Sprites
+		--Video Player
+		if not VNvideoActive then
+			if t_vnBoxText[vnChapter][VNtxt].video ~= nil then
+				playVideo(t_vnBoxText[vnChapter][VNtxt].video)
+				VNtxt = VNtxt + 1
+				f_resetSimpleVN()
+			end
+		end
+		if t_vnBoxText[vnChapter][VNtxt].video == nil then f_drawVN() end --Draw Sprites only if there is no video playing
 		if not VNhide then
 			animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
 			animDraw(vnTxtBG) --Draw Text BG
@@ -1047,8 +1177,8 @@ function f_drawVN()
 		animDraw(vnRain)
 		animUpdate(vnRain)
 		animDraw(vnSD3)
-		if (VNtxt >= 2 and VNtxt < 7) then animDraw(vnKfg10)
-		elseif VNtxt == 7 then animDraw(vnKfg7)
+		if (VNtxt >= 3 and VNtxt < 8) then animDraw(vnKfg10)
+		elseif VNtxt == 8 then animDraw(vnKfg7)
 		end
 	end
 end

@@ -4,7 +4,7 @@ This file contains list of all available parameters used by Visual Novel Mode (C
 
 This file IS NOT loaded by engine and should not be used as-is. It's meant to
 be a reference for adding parameters to your own .def file.
-____________________________________________________________
+;---------------------------------------------------------------------------------
 Setup following parameters below "[Chapter <0...>]" section:
 
 - id = Chapter Number
@@ -21,6 +21,7 @@ Set the name of the chapter to display in Intro Screen.
 - snd = Path.snd
 Set the name of the Sound Effects file to use for the chapter.
 
+;---------------------------------------------------------------------------------
 - character = Name
 Set the name to identify the character generating the dialogue.
 This will be displayed on the screen as the text scrolls.
@@ -41,6 +42,9 @@ Set the name of the music file to play BGM for the dialogue.
 Set the dialogue text to be displayed in screen.
 To be detected, it is necessary that the text be written below "text:" parameter.
 Like this description.
+;---------------------------------------------------------------------------------
+- video = Path.wmv
+Set the name of the video file to play in any moment of the chapter.
 
 - cut = <Number>
 Allows end/cut the current chapter at any time.
@@ -51,7 +55,7 @@ start from other text dialogues depending on a decision.
 Allows insert an "Ending Screen" to the current chapter at any time.
 Is recommended use it after last text in the last chapter of an story arc.
 This screen is customizable in Lua through function f_drawVNEnding().
-___________________________
+;---------------------------------------------------------------------------------
 Some Examples:
 
 [Chapter 0]

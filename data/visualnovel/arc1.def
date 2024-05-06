@@ -182,12 +182,12 @@ Hmm, there's nobody here...
 
 character = Mako Mayama
 side = 2
+sfx = 0,7
 bgm = sound/vn/Nostalgic Garden.mp3
 text:
 Over there!
 
 character = 
-sfx = 0,7
 text:
 Mayama points to a bench that is near a hill.
 There is a girl sitting looking up at the sky...
@@ -231,7 +231,6 @@ Maybe you couldn't stand the loneliness
 and you look for a Loli!? I will cal-
 
 character = Kung Fu Man
-sfx = 3,2
 text:
 What!? wait Noo, I found she recently in-
 
@@ -281,7 +280,6 @@ Since when do you know each other?
 
 character = Suave Dude
 side = 2
-sfx = 4,1
 text:
 Ahh, I know her very well..
 Each centimeter of her body.
@@ -379,7 +377,7 @@ text:
 .     .     .
 
 character = 
-sfx = 0,12
+;sfx = 0,12
 text:
 Eventually.
 Kung Fu Man regains consciousness
@@ -597,6 +595,7 @@ to make this more dramatic.
 
 character = Suave Dude
 side = 2
+sfx = 0,16
 text:
 By the way, she has already been "released"..
 
@@ -642,7 +641,6 @@ is taken to the Mountainside Temple's Roof
 before Suave Dude..
 
 character = 
-sfx = 0,5
 text:
 When waking up..
 
@@ -691,18 +689,19 @@ You don't know who I'm!
 
 character = Suave Dude
 side = 2
-sfx = 4,2
 text:
 Hehe, well I didn't use AI or record them with
 your clone or a camera with the size of a fly..
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 It was thanks to the data from someone
 who you knows very well..
 
 character = 
+sfx = 0,4
 text:
 Kung Fu Girl appears
 
@@ -847,11 +846,13 @@ For some reason you managed to make my creation
 interested in breaking his limits..
 
 character = Master Kung Fu Man
+sfx = 0,17
 text:
 Oh, you mean you don't know where she is?
 
 character = Suave Dude
 side = 2
+sfx = 4,6
 text:
 Wait wait!, don't hit me again..
 My bones already hurts.
@@ -867,11 +868,13 @@ and this time return and live a normal life with her.
 
 character = Suave Dude
 side = 2
+sfx = 4,1
 text:
 So I guess it's your responsibility now.
 Well you've earned she, can I disappear now?
 
 character = Master Kung Fu Man
+sfx = 1,2
 text:
 I still don't quite understand what your goal is,
 But I guess you have a way to track your "creation".
@@ -887,6 +890,7 @@ I won't let you leave this game..
 
 character = Suave Dude
 side = 2
+sfx = 4,2
 text:
 I see that you are already understanding this, hehe.
 _
@@ -908,6 +912,7 @@ How do I get there?
 
 character = Suave Dude
 side = 2
+sfx = 4,2
 text:
 "Easy" as exceeding your limits so with that..
 _
@@ -915,6 +920,7 @@ The "Divine Core" detects that you need a balance
 and will teleports you to the "Balance Field".
 
 character = Master Kung Fu Man
+sfx = 1,15
 text:
 Very well, it's time then to go beyond
 and teach him a lesson!
@@ -1059,6 +1065,8 @@ end = 3
 id = 4D
 name = THE FALL OF A LEGEND
 snd = data/visualnovel/arc1.snd
+
+video = movie/KFM-Fall.wmv
 
 character = Suave Dude
 sfx = 4,1

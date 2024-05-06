@@ -1,4 +1,53 @@
 ﻿--;===========================================================
+--; VISUAL NOVEL SCREENPACK
+--;===========================================================
+--Scrolling background
+novelBG0 = animNew(sysSff, [[
+100,0, 0,0, -1
+]])
+animAddPos(novelBG0, 160, 0)
+animSetTile(novelBG0, 1, 1)
+animSetColorKey(novelBG0, -1)
+
+--Transparent background
+novelBG1 = animNew(sysSff, [[
+3,0, 0,0, -1
+]])
+animSetPos(novelBG1, 20, 20)
+animSetAlpha(novelBG1, 20, 100)
+animUpdate(novelBG1)
+
+--Up Arrow
+novelUpArrow = animNew(sysSff, [[
+225,0, 0,0, 10
+225,1, 0,0, 10
+225,2, 0,0, 10
+225,3, 0,0, 10
+225,3, 0,0, 10
+225,2, 0,0, 10
+225,1, 0,0, 10
+225,0, 0,0, 10
+]])
+animAddPos(novelUpArrow, 228, 11)
+animUpdate(novelUpArrow)
+animSetScale(novelUpArrow, 0.5, 0.5)
+
+--Down Arrow
+novelDownArrow = animNew(sysSff, [[
+226,0, 0,0, 10
+226,1, 0,0, 10
+226,2, 0,0, 10
+226,3, 0,0, 10
+226,3, 0,0, 10
+226,2, 0,0, 10
+226,1, 0,0, 10
+226,0, 0,0, 10
+]])
+animAddPos(novelDownArrow, 228, 231)
+animUpdate(novelDownArrow)
+animSetScale(novelDownArrow, 0.5, 0.5)
+
+--;===========================================================
 --; LOAD VISUAL NOVEL ASSETS
 --;===========================================================
 --Background 1

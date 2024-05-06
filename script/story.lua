@@ -919,7 +919,6 @@ end
 
 --THE FALL OF A LEGEND
 function f_arc1_chapter4_4()
-	playVideo("movie/KFM-Fall.wmv")
 	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
