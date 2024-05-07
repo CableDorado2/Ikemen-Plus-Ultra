@@ -17,7 +17,7 @@ t_vnPauseMenu = {
 	--{varID = textImgNew(), text = "Control Guide", 		 	 varText = ""},
 	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
 	--{varID = textImgNew(), text = "Save Progress",			 varText = ""},
-	{varID = textImgNew(), text = "Skip Scene", 			 varText = ""},
+	{varID = textImgNew(), text = "Skip All Dialogues",		 varText = ""},
 	{varID = textImgNew(), text = "Back to Story Select",	 varText = ""},
 	{varID = textImgNew(), text = "            Resume", 	 varText = ""},
 }

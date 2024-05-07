@@ -308,7 +308,7 @@ animUpdate(vnKfg1)
 vnKfg2 = animNew(vnSff, [[
 2,10, 0,0, -1
 ]])
-animAddPos(vnKfg2, 117, 0)
+animAddPos(vnKfg2, 177, 0)
 animSetScale(vnKfg2, 0.38, 0.38)
 animUpdate(vnKfg2)
 
@@ -316,7 +316,7 @@ animUpdate(vnKfg2)
 vnKfg3 = animNew(vnSff, [[
 2,23, 0,0, -1
 ]])
-animAddPos(vnKfg3, 117, 0)
+animAddPos(vnKfg3, 177, 0)
 animSetScale(vnKfg3, 0.38, 0.38)
 animUpdate(vnKfg3)
 
@@ -340,7 +340,7 @@ animUpdate(vnKfg4B)
 vnKfg5 = animNew(vnSff, [[
 2,3, 0,0, -1
 ]])
-animAddPos(vnKfg5, 57, 0)
+animAddPos(vnKfg5, 117, 0)
 animSetScale(vnKfg5, 0.38, 0.38)
 animUpdate(vnKfg5)
 
@@ -348,7 +348,7 @@ animUpdate(vnKfg5)
 vnKfg6 = animNew(vnSff, [[
 2,21, 0,0, -1
 ]])
-animAddPos(vnKfg6, 117, 0)
+animAddPos(vnKfg6, 177, 0)
 animSetScale(vnKfg6, 0.38, 0.38)
 animUpdate(vnKfg6)
 
@@ -356,7 +356,7 @@ animUpdate(vnKfg6)
 vnKfg6B = animNew(vnSff, [[
 2,21, 0,0, -1
 ]])
-animAddPos(vnKfg6B, 50, 0)
+animAddPos(vnKfg6B, 110, 0)
 animSetScale(vnKfg6B, 0.38, 0.38)
 animUpdate(vnKfg6B)
 
@@ -364,7 +364,7 @@ animUpdate(vnKfg6B)
 vnKfg7 = animNew(vnSff, [[
 2,5, 0,0, -1
 ]])
-animAddPos(vnKfg7, 117, 0)
+animAddPos(vnKfg7, 177, 0)
 animSetScale(vnKfg7, 0.38, 0.38)
 animUpdate(vnKfg7)
 
@@ -372,7 +372,7 @@ animUpdate(vnKfg7)
 vnKfg8 = animNew(vnSff, [[
 2,6, 0,0, -1
 ]])
-animAddPos(vnKfg8, 117, 0)
+animAddPos(vnKfg8, 177, 0)
 animSetScale(vnKfg8, 0.38, 0.38)
 animUpdate(vnKfg8)
 
@@ -380,7 +380,7 @@ animUpdate(vnKfg8)
 vnKfg9 = animNew(vnSff, [[
 2,28, 0,0, -1
 ]])
-animAddPos(vnKfg9, 117, 0)
+animAddPos(vnKfg9, 177, 0)
 animSetScale(vnKfg9, 0.38, 0.38)
 animUpdate(vnKfg9)
 
@@ -388,7 +388,7 @@ animUpdate(vnKfg9)
 vnKfg10 = animNew(vnSff, [[
 2,22, 0,0, -1
 ]])
-animAddPos(vnKfg10, 117, 0)
+animAddPos(vnKfg10, 177, 0)
 animSetScale(vnKfg10, 0.38, 0.38)
 animUpdate(vnKfg10)
 
@@ -396,7 +396,7 @@ animUpdate(vnKfg10)
 vnKfg11 = animNew(vnSff, [[
 2,15, 0,0, -1
 ]])
-animAddPos(vnKfg11, 50, 0)
+animAddPos(vnKfg11, 110, 0)
 animSetScale(vnKfg11, 0.38, 0.38)
 animUpdate(vnKfg11)
 
