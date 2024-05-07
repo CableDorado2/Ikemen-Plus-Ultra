@@ -649,6 +649,27 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt]["data"]['name'] = data:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
+		--author = chapterauthor (string)
+		if line:match('^%s*author%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt]["data"]['author'] = data:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
+		--date = chapterdate (string)
+		if line:match('^%s*date%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt]["data"]['date'] = data:gsub('^%s*date%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
+		--info = chapterdescription (string)
+		if line:match('^%s*info%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt]["data"]['description'] = data:gsub('^%s*info%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
 		--snd = filename (string)
 		if line:match('^%s*snd%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -909,6 +930,9 @@ txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
 txt_VNarc = createTextImg(font5, 0, 0, "", 159, 20)
 txt_VNchapter = createTextImg(font5, 0, 0, "", 159, 80)
 txt_VNchapterName = createTextImg(font5, 0, 0, "", 159, 140)
+txt_VNchapterAuthor = createTextImg(font5, 0, 0, "", 159, 160)
+txt_VNchapterDate = createTextImg(font5, 0, 0, "", 159, 200)
+txt_VNchapterInfo = createTextImg(font5, 0, 0, "", 159, 220)
 
 function f_drawVNIntro()
 	local endIntro = false
@@ -925,9 +949,15 @@ function f_drawVNIntro()
 		textImgSetText(txt_VNarc, t_selVN[1].displayname.." STORIES")
 		textImgSetText(txt_VNchapter, "CHAPTER "..vnChapterID)
 		textImgSetText(txt_VNchapterName, t_vnBoxText[vnChapter].data.name)
+		textImgSetText(txt_VNchapterAuthor, "WRITTEN BY: "..t_vnBoxText[vnChapter].data.author)
+		textImgSetText(txt_VNchapterDate, t_vnBoxText[vnChapter].data.date)
+		textImgSetText(txt_VNchapterInfo, t_vnBoxText[vnChapter].data.description)
 		textImgDraw(txt_VNarc)
 		textImgDraw(txt_VNchapter)
 		textImgDraw(txt_VNchapterName)
+		textImgDraw(txt_VNchapterAuthor)
+		textImgDraw(txt_VNchapterDate)
+		textImgDraw(txt_VNchapterInfo)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		t = t + 1

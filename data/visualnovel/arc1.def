@@ -3,6 +3,9 @@
 
 [Chapter 1]
 name = KIDNAPPING
+author = Elecbyte & CD2
+date = 05/18/2024
+info = Test
 snd = data/visualnovel/arc1.snd
 
 character = 

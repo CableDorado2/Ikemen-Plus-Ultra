@@ -18,6 +18,15 @@ f_vnScene() function.
 - name = Chapter Name
 Set the name of the chapter to display in Intro Screen.
 
+- author = Chapter Author
+Set the name of chapter author to display in Intro Screen.
+
+- date = xx/xx/xxxx
+Set the chapter date to display in Intro Screen.
+
+- info = Chapter Description
+Set aditional chapter info to display in Intro Screen.
+
 - snd = Path.snd
 Set the name of the Sound Effects file to use for the chapter.
 
@@ -42,6 +51,7 @@ Set the name of the music file to play BGM for the dialogue.
 Set the dialogue text to be displayed in screen.
 To be detected, it is necessary that the text be written below "text:" parameter.
 Like this description.
+
 ;---------------------------------------------------------------------------------
 - video = Path.wmv
 Set the name of the video file to play in any moment of the chapter.
@@ -55,6 +65,7 @@ start from other text dialogues depending on a decision.
 Allows insert an "Ending Screen" to the current chapter at any time.
 Is recommended use it after last text in the last chapter of an story arc.
 This screen is customizable in Lua through function f_drawVNEnding().
+
 ;---------------------------------------------------------------------------------
 Some Examples:
 
