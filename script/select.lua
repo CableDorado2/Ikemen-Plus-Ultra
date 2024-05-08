@@ -1119,6 +1119,7 @@ function f_selectSimple()
 		f_setZoom()
 		matchTime = os.clock()
 		f_assignMusic()
+		sndStop()
 		winner = game()
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
@@ -1873,6 +1874,7 @@ function f_selectAdvance()
 		end
 		matchTime = os.clock()
 		f_assignMusic()
+		sndStop()
 		winner = game()
 		playBGM("")
 		matchTime = os.clock() - matchTime
@@ -1980,6 +1982,7 @@ function f_selectStory()
 		f_setZoom()
 		matchTime = os.clock()
 		if data.songSelect then f_assignMusic() end
+		sndStop()
 		winner = game()
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
@@ -2571,6 +2574,7 @@ function f_selectTower()
 		end
 		matchTime = os.clock()
 		f_assignMusic()
+		sndStop()
 		winner = game()
 		playBGM("")
 		matchTime = os.clock() - matchTime

@@ -143,6 +143,11 @@ void sndPlay(&.lua.State L=, int re=)
   snd~play(g, n);
 }
 
+void sndStop(&.lua.State L=, int re=)
+{
+  re = 0;
+  .snd.stopSound();
+}
 
 public &Font
 {
@@ -1114,6 +1119,7 @@ public void init(&.lua.State L=)
   L.register("sffNew", .sffNew);
   L.register("sndNew", .sndNew);
   L.register("sndPlay", .sndPlay);
+  L.register("sndStop", .sndStop);
   L.register("fontNew", .fontNew);
   L.register("commandNew", .commandNew);
   L.register("commandAdd", .commandAdd);

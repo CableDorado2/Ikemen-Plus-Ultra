@@ -381,6 +381,7 @@ function f_sysTime()
 	end
 	textImgDraw(txt_titleClock) --Draw Clock
 	textImgDraw(txt_titleDate) --Draw Date
+	--f_drawQuickText(txt_testDpad, font6, 0, 0, keyboardButton, 159, 8)
 end
 
 --;===========================================================
@@ -479,6 +480,9 @@ function f_infoMenu()
 	elseif towerInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO TOWERS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
+	elseif vnInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
+		f_textRender(txt_info, "NO VISUAL NOVELS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
 	elseif bossInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO BOSSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
@@ -520,6 +524,7 @@ function f_infoReset()
 	charsInfo = false
 	stagesInfo = false
 	towerInfo = false
+	vnInfo = false
 	bossInfo = false
 	bonusInfo = false
 	stviewerInfo = false
@@ -1488,6 +1493,7 @@ end
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
 txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
+keyboardButton = getInputID(0) --Gamepad Repose Test
 
 t_mainMenu = {
 	{id = textImgNew(), text = "STORY"},
@@ -4573,9 +4579,10 @@ t_extrasMenu = {
 	{id = textImgNew(), text = "EVENTS"},
 	{id = textImgNew(), text = "TOURNEY"},
 	{id = textImgNew(), text = "ADVENTURE"},
+	{id = textImgNew(), text = "VISUAL NOVEL"},
 	{id = textImgNew(), text = "THE VAULT"},
 	{id = textImgNew(), text = "RANDOMTEST"},
-}	
+}
 	
 function f_extrasMenu()
 	cmdInput()
@@ -4587,8 +4594,9 @@ function f_extrasMenu()
 	local bufr = 0
 	local bufl = 0
 	f_sideReset()
+	f_infoReset()
 	while true do
-		if not sideScreen then
+		if not sideScreen and not infoScreen then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				sndPlay(sysSnd, 100, 2)
 				break
@@ -4649,13 +4657,23 @@ function f_extrasMenu()
 				elseif extrasMenu == 4 then
 					script.select.f_selectAdventure() --script.adventure.f_mainAdventure()
 					setDiscordState("In Main Menu")
-				--THE VAULT MODE (insert secret codes to unlock things)
+				--VISUAL NOVEL MODE (watch a customizable narrative and interactive storytelling)
 				elseif extrasMenu == 5 then
+					if #t_selVN ~= 0 then
+						setDiscordState("In Visual Novel")
+						script.visualnovel.f_vnMenu()
+						setDiscordState("In Main Menu")
+					else
+						vnInfo = true
+						infoScreen = true
+					end
+				--THE VAULT MODE (insert secret codes to unlock things)
+				elseif extrasMenu == 6 then
 					setDiscordState("In Secret Room")
 					f_theVault()
 					setDiscordState("In Main Menu")
 				--RANDOMTEST (generate AI rank data)
-				elseif extrasMenu == 6 then
+				elseif extrasMenu == 7 then
 					setDiscordState("In Random Test")
 					setGameMode('randomtest')
 					script.select.randomTest()
@@ -4672,7 +4690,7 @@ function f_extrasMenu()
 			end
 			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 142+i*13-moveTxt))
 		end
-		if not sideScreen then
+		if not sideScreen and not infoScreen then
 			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -4699,6 +4717,7 @@ function f_extrasMenu()
 			animUpdate(arrowsD)
 		end
 		if sideScreen then f_sideSelect() end
+		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -8148,6 +8167,7 @@ SOUND COMPOSER
 
 AFRIM KOSOVRASTI
 AKIO JINSENJI
+AYAKO SASO
 CAPCOM SOUND TEAM
 DAISUKE ISHIWATARI
 DING
@@ -8164,6 +8184,7 @@ NOMOREHEROES2012
 NORICHIKA SATO
 MICHIRU YAMANE
 RAITO
+SHINJI HOSOE
 SHINSEKAI GAKKYOKU ZATSUGIDAN
 SHIRO HAMAGUCHI
 SILENT DREAMS
@@ -8247,7 +8268,3 @@ CD2
 
  ]]
 
---;===========================================================
---; INITIALIZE LOOPS
---;===========================================================
-f_mainStart() --Start Menu

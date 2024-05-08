@@ -37,7 +37,7 @@ end
 f_vnCfgdisplayTxt() --Load Display Text
 
 function f_restoreVNcfg()
-	data.VNdelay = 2
+	data.VNdelay = 3
 	data.VNtxtBGTransD = 0
 	data.VNtxtBGTransS = 255
 	data.VNdisplayName = true
@@ -628,13 +628,20 @@ end
 ]]
 
 for line in content:gmatch('[^\r\n]+') do
-	line = tostring(line:lower()) --line:lower()
-	if line:match('^%s*%[%s*chapter%s+[0-9]+$*%]') then
+	line = line:lower() --line = tostring(line:lower())
+	--storyname = string
+	if line:match('^%s*storyname%s*=') then
 		section = 1
+		local data = line:gsub('%s*;.*$', '')
+		if not data:match('=%s*$') then
+			t_vnBoxText['storyname'] = data:gsub('^%s*storyname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+		end
+	elseif line:match('^%s*%[%s*chapter%s+[0-9]+$*%]') then
+		section = 2
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
 		t_vnBoxText[chapt]["data"] = {}
-	elseif section == 1 then --[Chapter No]
+	elseif section == 2 then --[Chapter No]
 		--id = chapterID (string)
 		if line:match('^%s*id%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -698,7 +705,6 @@ for line in content:gmatch('[^\r\n]+') do
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['cut'] = tonumber(num) --data:gsub('^%s*cut%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				
 			--end
 		--end = number
 		elseif line:match('^%s*end%s*=') then
@@ -707,7 +713,6 @@ for line in content:gmatch('[^\r\n]+') do
 			--if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]+1] = {}
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['ending'] = tonumber(num) --data:gsub('^%s*end%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-				
 			--end
 		end
 		--side = number
@@ -718,11 +723,19 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['side'] = tonumber(num) --data:gsub('^%s*side%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
+		--sfx.clean = number
+		if line:match('^%s*sfx.clean%s*=') then
+			local num = line:match('%s([0-9]+)$')
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['sfxclean'] = tonumber(num)
+			end
+		end
 		--sfx = group_no, index_no (int, int)
 		if line:match('^%s*sfx%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['sfx'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['sfxplay'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		--bgm = filename (string)
@@ -730,6 +743,22 @@ for line in content:gmatch('[^\r\n]+') do
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
 				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['bgm'] = data:gsub('^%s*bgm%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--fadein = number
+		if line:match('^%s*fadein%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			local num = line:match('%s([0-9]+)$')
+			if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['fadein'] = tonumber(num) --data:gsub('^%s*fadein%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		--fadeout = number
+		if line:match('^%s*fadeout%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			local num = line:match('%s([0-9]+)$')
+			if not data:match('=%s*$') then
+				t_vnBoxText[chapt][#t_vnBoxText[chapt]]['fadeout'] = tonumber(num) --data:gsub('^%s*fadeout%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		--text: string
@@ -756,9 +785,13 @@ end
 --; VISUAL NOVEL MENU
 --;===========================================================
 txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
-t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
+vnAddOneTime = true
 
 function f_vnMenu()
+	if vnAddOneTime then
+		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
+		vnAddOneTime = false
+	end
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	cmdInput()
 	local cursorPosY = 1
@@ -881,15 +914,20 @@ VNhide = false
 VNendActive = false
 VNtxtReady = false
 VNtxtEnd = false
-VNsfxReady = false
-VNsfxActive = false
-VNsfxNew = false
+--Multimedia Control
 VNbgmActive = false
 VNbgmNew = false
-VNbgm = ""
+--VNbgm = ""
 VNvideoNew = false
 VNvideoActive = false
---Narrative Text
+--Fade Control
+vnFadeInTime = 40
+vnFadeOutTime = 40
+vnFadeIn = false
+vnFadeOut = false
+vnFadeInC = 0
+vnFadeOutC = 0
+--Narrative Text Config
 VNtxtSpacing = 9 --spacing between lines (rendering Y position increasement for each line)
 VNtxtPosX = 2
 VNtxtPosY = 184 --194
@@ -901,6 +939,11 @@ f_questionResetVN()
 end
 
 function f_resetSimpleVN()
+vnFadeIn = false
+vnFadeOut = false
+vnFadeInC = 0
+vnFadeOutC = 0
+f_fadeData()
 --Reset Text Box
 VNtxtReady = false
 VNtxtActive = 1
@@ -909,11 +952,15 @@ VNdelay = data.VNdelay
 VNautoTxt = 0
 end
 
+function f_fadeData()
+data.fadeIn = f_fadeAnim(vnFadeInTime, 'fadein', 'black', fadeSff)
+data.fadeOut = f_fadeAnim(vnFadeOutTime, 'fadeout', 'black', fadeSff)
+end
+
 function f_playVNsfx()
-local data = t_vnBoxText[vnChapter][VNtxt].sfx
+local data = t_vnBoxText[vnChapter][VNtxt].sfxplay
 local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
 sndPlay(VNsfxData, sfxGroup, sfxIndex) --Play SFX
-t_currentVNsfx = t_vnBoxText[vnChapter][VNtxt].sfx --Backup the current SFX to decide after if it will change
 end
 
 function f_playVNbgm()
@@ -935,31 +982,49 @@ txt_VNchapterDate = createTextImg(font5, 0, 0, "", 159, 200)
 txt_VNchapterInfo = createTextImg(font5, 0, 0, "", 159, 220)
 
 function f_drawVNIntro()
+	playBGM("sound/System/Ranking.mp3")
 	local endIntro = false
-	if t_vnBoxText[vnChapter].data.id ~= nil then
-		vnChapterID = t_vnBoxText[vnChapter].data.id --Get Chapter ID from .def file
-	else
-		vnChapterID = vnChapter --Use f_vnScene chaptNo
-	end
-	t = 0
+	local t = 0
+	local endTime = 422
+	local fadeOutTime = 50
+	--Display Data
+	local vnName = ""
+	local chapterID = vnChapter --Use f_vnScene chaptNo
+	local chapterName = ""
+	local chapterAuthor = ""
+	local chapterDate = ""
+	local chapterDescription = ""
+	if t_vnBoxText.storyname ~= nil then vnName = t_vnBoxText.storyname:upper() end
+	if t_vnBoxText[vnChapter].data.id ~= nil then chapterID = t_vnBoxText[vnChapter].data.id:upper() end --Replace Chapter ID by the one detected in .def file
+	if t_vnBoxText[vnChapter].data.name ~= nil then chapterName = t_vnBoxText[vnChapter].data.name:upper() end
+	if t_vnBoxText[vnChapter].data.author ~= nil then chapterAuthor = t_vnBoxText[vnChapter].data.author:upper() end
+	if t_vnBoxText[vnChapter].data.date ~= nil then chapterDate = t_vnBoxText[vnChapter].data.date end
+	if t_vnBoxText[vnChapter].data.description ~= nil then chapterDescription = t_vnBoxText[vnChapter].data.description:upper() end
 	cmdInput()
 	while true do
-		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or endIntro then break end
-		if t == 500 then endIntro = true end
-		textImgSetText(txt_VNarc, t_selVN[1].displayname.." STORIES")
-		textImgSetText(txt_VNchapter, "CHAPTER "..vnChapterID)
-		textImgSetText(txt_VNchapterName, t_vnBoxText[vnChapter].data.name)
-		textImgSetText(txt_VNchapterAuthor, "WRITTEN BY: "..t_vnBoxText[vnChapter].data.author)
-		textImgSetText(txt_VNchapterDate, t_vnBoxText[vnChapter].data.date)
-		textImgSetText(txt_VNchapterInfo, t_vnBoxText[vnChapter].data.description)
+		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or endIntro then
+			f_fadeData()
+			break
+		end
+		if t == endTime then endIntro = true end
+		textImgSetText(txt_VNarc, vnName)
+		textImgSetText(txt_VNchapter, "CHAPTER "..chapterID)
+		textImgSetText(txt_VNchapterName, chapterName)
+		textImgSetText(txt_VNchapterAuthor, "WRITTEN BY: "..chapterAuthor)
+		textImgSetText(txt_VNchapterDate, chapterDate)
+		textImgSetText(txt_VNchapterInfo, chapterDescription)
 		textImgDraw(txt_VNarc)
 		textImgDraw(txt_VNchapter)
 		textImgDraw(txt_VNchapterName)
 		textImgDraw(txt_VNchapterAuthor)
 		textImgDraw(txt_VNchapterDate)
 		textImgDraw(txt_VNchapterInfo)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
+		animDraw(data.fadeIn)
+		animUpdate(data.fadeIn)
+		if t > endTime - fadeOutTime then
+			animDraw(data.fadeOut)
+			animUpdate(data.fadeOut)
+		end
 		t = t + 1
 		cmdInput()
 		refresh()
@@ -967,22 +1032,22 @@ function f_drawVNIntro()
 end
 
 function f_vnScene(arcPath, chaptNo, dialogueNo)
-	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
-	f_vnLoad(arcPath) --What Dialogue File will load?
+	f_vnLoad(arcPath) --What Visual Novel File will load?
+	--Actions when visual novel chapters are loaded
 	f_resetFullVN()
+	f_fadeData()
 	vnChapter = chaptNo --What chapter number does it start in?
+	VNtxt = dialogueNo --What dialogue number does it start in?
+	if data.songSelect then playBGM("") end --Keep Fight BGM (WIP)
 	if dialogueNo == 1 then
 		f_drawVNIntro() --Show Chapter Intro
 	end
-	VNtxt = dialogueNo --What dialogue number does it start in?
-	if data.songSelect then playBGM(VNbgm) end
 	if t_vnBoxText[vnChapter].data.snd ~= nil then --Detects if snd file is defined
 		VNsfxData = sndNew(t_vnBoxText[vnChapter].data.snd) --Load snd file
-		VNsfxReady = true
 	end
 	cmdInput()
 	while true do
-		--Actions
+		--Actions when the chapter has started
 		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then break end
 		if not vnPauseScreen then
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
@@ -1004,36 +1069,37 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNtxtReady = true
 			end
 		end
-		--Loading New Txt Logic
-		if VNtxt < #t_vnBoxText[vnChapter] then --Only show new text if is store in the table
-			if VNtxtReady then --When text is fully drawed
-				VNtxt = VNtxt + 1
-				f_resetSimpleVN()
-			end
-		--Last Txt
-		elseif VNtxt == #t_vnBoxText[vnChapter] then
-			if VNtxtReady then
-				VNtxtEnd = true
+		--Start fade out only if is loaded by dialogue, when that dialogue is drawed and fadeOut counter is reseted
+		if t_vnBoxText[vnChapter][VNtxt].fadeout ~= nil and VNtxtReady and vnFadeOutC == 0 then
+			vnFadeOut = true
+		end
+		if not vnFadeOut then
+			--Load New Txt
+			if VNtxt < #t_vnBoxText[vnChapter] then --Only show new text if is store in the table
+				if VNtxtReady then --When text is fully drawed
+					VNtxt = VNtxt + 1
+					f_resetSimpleVN()
+				end
+			--Last Txt
+			elseif VNtxt == #t_vnBoxText[vnChapter] then
+				if VNtxtReady then
+					VNtxtEnd = true
+				end
 			end
 		end
-		--SFX Player
-		if VNsfxReady then
-			if not VNsfxActive then
-				if t_vnBoxText[vnChapter][VNtxt].sfx ~= nil then
-					f_playVNsfx()
-					VNsfxActive = true
-				end
-			else--if VNsfxActive is true
-				if t_vnBoxText[vnChapter][VNtxt].sfx ~= t_currentVNsfx and t_vnBoxText[vnChapter][VNtxt].sfx ~= nil then --If a new sfx is detected
-					VNsfxNew = true
-				end
-			end
-			if VNsfxNew then
+		--SFX STOP
+		if t_vnBoxText[vnChapter][VNtxt].sfxclean ~= nil then
+			sndStop()
+			t_vnBoxText[vnChapter][VNtxt].sfxclean = nil --Delete paramvalue from table after to stop to avoid cicle
+		end
+		--SFX PLAY
+		if t_vnBoxText[vnChapter].data.snd ~= nil then --If there is a snd file defined for this chapter
+			if t_vnBoxText[vnChapter][VNtxt].sfxplay ~= nil then
 				f_playVNsfx()
-				VNsfxNew = false
+				t_vnBoxText[vnChapter][VNtxt].sfxplay = nil --Delete paramvalue from table after to play to avoid cicle
 			end
 		end
-		--BGM Player
+		--BGM PLAY
 		if not VNbgmActive then
 			if t_vnBoxText[vnChapter][VNtxt].bgm ~= nil then
 				f_playVNbgm()
@@ -1048,7 +1114,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			f_playVNbgm()
 			VNbgmNew = false
 		end
-		--Video Player
+		--VIDEO PLAY
 		if not VNvideoActive then
 			if t_vnBoxText[vnChapter][VNtxt].video ~= nil then
 				playVideo(t_vnBoxText[vnChapter][VNtxt].video)
@@ -1057,7 +1123,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			end
 		end
 		if t_vnBoxText[vnChapter][VNtxt].video == nil then f_drawVN() end --Draw Sprites only if there is no video playing
-		if not VNhide then
+		if not VNhide and not vnFadeIn then
 			animSetAlpha(vnTxtBG, data.VNtxtBGTransS, data.VNtxtBGTransD) --Set BG Transparency
 			animDraw(vnTxtBG) --Draw Text BG
 			if VNtxtActive == 0 then
@@ -1075,7 +1141,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				textImgSetBank(txt_nameCfg, 0)
 			end
 			if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
-				textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
+				textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character:upper()) --Set Name Text
 			else
 				textImgSetText(txt_nameCfg, "") --Set Empty Name Text
 			end
@@ -1094,8 +1160,29 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 			f_drawVNEnding() --Draw Ending Screen
 		end
 		if vnPauseScreen then f_vnPauseMenu() end
-		VNscroll = VNscroll + 1
-		if data.VNautoSkip and not vnPauseScreen and VNtxtActive == 0 then VNautoTxt = VNautoTxt + 1 end
+		if t_vnBoxText[vnChapter][VNtxt].fadein ~= nil then
+			vnFadeIn = true
+		end
+		if vnFadeIn then
+			animDraw(data.fadeIn)
+			animUpdate(data.fadeIn)
+			vnFadeInC = vnFadeInC + 1
+			if vnFadeInC > vnFadeInTime then --Time to show dialogues when use fadein
+				vnFadeIn = false
+			end
+		end
+		if vnFadeOut then
+			animDraw(data.fadeOut)
+			animUpdate(data.fadeOut)
+			vnFadeOutC = vnFadeOutC + 1
+			if vnFadeOutC > vnFadeOutTime then
+				vnFadeOut = false
+			end
+		end
+		if not vnFadeIn then
+			VNscroll = VNscroll + 1
+			if data.VNautoSkip and not vnPauseScreen and VNtxtActive == 0 then VNautoTxt = VNautoTxt + 1 end
+		end
 		cmdInput()
 		refresh()
 	end
@@ -1105,12 +1192,10 @@ end
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
 function f_drawVNEnding()
-	if t_vnBoxText[vnChapter][VNtxt].ending == 1 then animDraw(vnEnd1)
-	elseif t_vnBoxText[vnChapter][VNtxt].ending == 2 then animDraw(vnEnd2)
-	elseif t_vnBoxText[vnChapter][VNtxt].ending == 3 then animDraw(vnEnd3)
+	if t_vnBoxText[vnChapter][VNtxt].ending == 1 then animDraw(vnEnd1) --True End
+	elseif t_vnBoxText[vnChapter][VNtxt].ending == 2 then animDraw(vnEnd2) --Ending
+	elseif t_vnBoxText[vnChapter][VNtxt].ending == 3 then animDraw(vnEnd3) --Try Again
 	end
-	animDraw(data.fadeTitle)
-	animUpdate(data.fadeTitle)
 end
 
 --;===========================================================
@@ -1124,45 +1209,49 @@ function f_drawVN()
 		elseif (VNtxt >= 32 and VNtxt < 66) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnBG1)
 		elseif (VNtxt == 88) then animDraw(vnBG6)
 		end
-		--KFM Sprites
-		if (VNtxt >= 3 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) or (VNtxt >= 48 and VNtxt < 59) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnKfm1)
-		elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfm2)
-		elseif (VNtxt >= 59 and VNtxt < 61) then animDraw(vnKfm3)
-		elseif (VNtxt == 88) then animDraw(vnKfm4)
-		end
-		--Mayama Sprites
-		if (VNtxt >= 4 and VNtxt < 11) or (VNtxt >= 18 and VNtxt < 32) or (VNtxt >= 78 and VNtxt < 88) then animDraw(vnMM1)
-		elseif VNtxt == 41 then animDraw(vnMM1B)
-		elseif (VNtxt >= 11 and VNtxt < 18) or (VNtxt >= 73 and VNtxt < 78) then animDraw(vnMM2)
-		elseif (VNtxt >= 34 and VNtxt < 36) or (VNtxt >= 46 and VNtxt < 48) then animDraw(vnMM2B)
-		end
-		--Photo
-		if VNtxt == 23 or VNtxt == 24 then
-			animDraw(vnPhoto2)
-			animDraw(vnPhoto1)
-		end
-		--KFG Sprites
-		if (VNtxt >= 37 and VNtxt < 39) then animDraw(vnKfg1)
-		elseif (VNtxt >= 39 and VNtxt < 42) then animDraw(vnKfg2)
-		elseif (VNtxt >= 42 and VNtxt < 44) then animDraw(vnKfg3)
-		elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfg4)
-		elseif (VNtxt >= 48 and VNtxt < 54) then animDraw(vnKfg5)
-		end
-		--SD Sprites
-		if (VNtxt >= 50 and VNtxt < 55) or (VNtxt >= 56 and VNtxt < 65) then animDraw(vnSD1)
+		if not vnFadeIn then
+			--KFM Sprites
+			if (VNtxt >= 2 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) or (VNtxt >= 48 and VNtxt < 59) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnKfm1)
+			elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfm2)
+			elseif (VNtxt >= 59 and VNtxt < 61) then animDraw(vnKfm3)
+			elseif (VNtxt == 88) then animDraw(vnKfm4)
+			end
+			--Mayama Sprites
+			if (VNtxt >= 4 and VNtxt < 11) or (VNtxt >= 18 and VNtxt < 32) or (VNtxt >= 78 and VNtxt < 88) then animDraw(vnMM1)
+			elseif VNtxt == 41 then animDraw(vnMM1B)
+			elseif (VNtxt >= 11 and VNtxt < 18) or (VNtxt >= 73 and VNtxt < 78) then animDraw(vnMM2)
+			elseif (VNtxt >= 34 and VNtxt < 36) or (VNtxt >= 46 and VNtxt < 48) then animDraw(vnMM2B)
+			end
+			--KFG Photo
+			if VNtxt == 23 or VNtxt == 24 then animDraw(vnPhoto) end
+			--KFG Sprites
+			if (VNtxt >= 37 and VNtxt < 39) then animDraw(vnKfg1)
+			elseif (VNtxt >= 39 and VNtxt < 42) then animDraw(vnKfg2)
+			elseif (VNtxt >= 42 and VNtxt < 44) then animDraw(vnKfg3)
+			elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfg4)
+			elseif (VNtxt >= 48 and VNtxt < 54) then animDraw(vnKfg5)
+			end
+			--SD Sprites
+			if (VNtxt >= 50 and VNtxt < 55) or (VNtxt >= 56 and VNtxt < 65) then animDraw(vnSD1)
+			end
 		end
 	--Draw Chapter 2 Visuals
 	elseif vnChapter == 2 then
 		animDraw(vnBG2)
-		if VNtxt < 6 then animDraw(vnKfm1) end
-		if VNtxt >= 4 then animDraw(vnEKfm1) end
+		if not vnFadeIn then
+			if VNtxt < 6 then animDraw(vnKfm1) end
+			if VNtxt >= 4 then animDraw(vnEKfm1) end
+		end
 	--Draw Chapter 3A Visuals
 	elseif vnChapter == 3 then
 		if VNtxt == 2 then animDraw(vnBG7)
-		elseif VNtxt >= 3 then animDraw(vnBG3) end
-		if VNtxt == 2 then animDraw(vnKfm1) end
-		if VNtxt >= 4 then animDraw(vnKfm1) end
-		if VNtxt >= 5 then animDraw(vnSD1) end
+		elseif VNtxt >= 3 then animDraw(vnBG3)
+		end
+		if not vnFadeIn then
+			if VNtxt == 2 then animDraw(vnKfm1) end
+			if VNtxt >= 4 then animDraw(vnKfm1) end
+			if VNtxt >= 5 then animDraw(vnSD1) end
+		end
 	--Draw Chapter 3B Visuals
 	elseif vnChapter == 4 then
 		if VNtxt >= 3 then
@@ -1170,45 +1259,55 @@ function f_drawVN()
 			animDraw(vnRain)
 			animUpdate(vnRain)
 		end
-		if VNtxt >= 5 and VNtxt < 6 then animDraw(vnKfm3)
-		elseif (VNtxt >= 9 and VNtxt < 17) then animDraw(vnKfm2)
-		elseif VNtxt >= 17 then animDraw(vnKfm1)
+		if not vnFadeIn then
+			if VNtxt >= 5 and VNtxt < 6 then animDraw(vnKfm3)
+			elseif (VNtxt >= 9 and VNtxt < 17) then animDraw(vnKfm2)
+			elseif VNtxt >= 17 then animDraw(vnKfm1)
+			end
+			if (VNtxt >= 12 and VNtxt < 14) then animDraw(vnKfg6)
+			elseif VNtxt == 14 then animDraw(vnKfg7)
+			elseif VNtxt >= 15 and VNtxt < 18 then animDraw(vnKfg8)
+			elseif VNtxt >= 18 and VNtxt < 20 then animDraw(vnKfg9)
+			elseif VNtxt >= 20 then animDraw(vnKfg4B)
+			end
+			if (VNtxt >= 3 and VNtxt < 12) or VNtxt == 21 then animDraw(vnSD1) end
 		end
-		if (VNtxt >= 12 and VNtxt < 14) then animDraw(vnKfg6)
-		elseif VNtxt == 14 then animDraw(vnKfg7)
-		elseif VNtxt >= 15 and VNtxt < 18 then animDraw(vnKfg8)
-		elseif VNtxt >= 18 and VNtxt < 20 then animDraw(vnKfg9)
-		elseif VNtxt >= 20 then animDraw(vnKfg4B)
-		end
-		if (VNtxt >= 3 and VNtxt < 12) or VNtxt == 21 then animDraw(vnSD1) end
 	--Draw Chapter 4A Visuals
 	elseif vnChapter == 5 then
 		animDraw(vnBG3)
-		animDraw(vnKfm1)
-		if VNtxt >= 2 then animDraw(vnSD2) end
+		if not vnFadeIn then
+			animDraw(vnKfm1)
+			if VNtxt >= 2 then animDraw(vnSD2) end
+		end
 	--Draw Chapter 4B Visuals
 	elseif vnChapter == 6 then
 		animDraw(vnBG4)
 		animDraw(vnRain)
 		animUpdate(vnRain)
-		if VNtxt >= 3 and VNtxt < 12 then animDraw(vnKfm1) end
-		if VNtxt >= 8 and VNtxt < 12 then animDraw(vnKfg6B)
-		elseif VNtxt == 12 then animDraw(vnKfg11)
+		if not vnFadeIn then
+			if VNtxt >= 3 and VNtxt < 12 then animDraw(vnKfm1) end
+			if VNtxt >= 8 and VNtxt < 12 then animDraw(vnKfg6B)
+			elseif VNtxt == 12 then animDraw(vnKfg11)
+			end
+			if VNtxt >= 2 and VNtxt < 12 then animDraw(vnSD2) end
 		end
-		if VNtxt >= 2 and VNtxt < 12 then animDraw(vnSD2) end
 	--Draw Chapter 4C Visuals
 	elseif vnChapter == 7 then
 		animDraw(vnBG3)
-		animDraw(vnKfm1)
-		animDraw(vnSD1)
+		if not vnFadeIn then
+			animDraw(vnKfm1)
+			animDraw(vnSD1)
+		end
 	--Draw Chapter 4D Visuals
 	elseif vnChapter == 8 then
 		animDraw(vnBG5)
 		animDraw(vnRain)
 		animUpdate(vnRain)
-		animDraw(vnSD3)
-		if (VNtxt >= 3 and VNtxt < 8) then animDraw(vnKfg10)
-		elseif VNtxt == 8 then animDraw(vnKfg7)
+		if not vnFadeIn then
+			animDraw(vnSD3)
+			if (VNtxt >= 3 and VNtxt < 8) then animDraw(vnKfg10)
+			elseif VNtxt == 8 then animDraw(vnKfg7)
+			end
 		end
 	end
 end

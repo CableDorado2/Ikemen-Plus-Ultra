@@ -114,21 +114,13 @@ animAddPos(vnBG7, -54, 0)
 animSetScale(vnBG7, 0.34, 0.34)
 animUpdate(vnBG7)
 
---KFG Photo 1
-vnPhoto1 = animNew(vnSff, [[
+--KFG Photo
+vnPhoto = animNew(vnSff, [[
 2,31, 0,0, -1
 ]])
-animAddPos(vnPhoto1, 50, 50)
-animSetScale(vnPhoto1, 0.30, 0.30)
-animUpdate(vnPhoto1)
-
---KFG Photo 2
-vnPhoto2 = animNew(vnSff, [[
-2,32, 0,0, -1
-]])
-animAddPos(vnPhoto2, 50, 50)
-animSetScale(vnPhoto2, 0.25, 0.25)
-animUpdate(vnPhoto2)
+animAddPos(vnPhoto, 110, 5)
+animSetScale(vnPhoto, 0.16, 0.16)
+animUpdate(vnPhoto)
 
 --Rain
 vnRain = animNew(vnSff, [[

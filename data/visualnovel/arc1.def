@@ -1,15 +1,17 @@
 ;KUNG FU MAN VISUAL NOVEL ARC DIALOGUES
 ;--------------------------------------
+storyname = Kung Fu Man
 
 [Chapter 1]
 name = KIDNAPPING
-author = Elecbyte & CD2
+author = CD2
 date = 05/18/2024
-info = Test
+info = Traume sind Schaume
 snd = data/visualnovel/arc1.snd
 
 character = 
 bgm = sound/Kung Fu Spirit.mp3
+fadein = 1
 text:
 One day, while Kung Fu Man was shopping...
 
@@ -83,6 +85,7 @@ Are you implying that I'm too young??
 character = ???
 side = 2
 sfx = 0,4
+fadeout = 1
 text:
 Well, sorry bother you but.. I'll leave you in peace
 only if you fight with me!
@@ -93,6 +96,7 @@ character = ???
 side = 2
 sfx = 0,3
 bgm = sound/vn/Kung Fu Dojo.mp3
+fadein = 1
 text:
 What's wrong with you? I saw you on TV
 You don't fight like that.
@@ -141,6 +145,7 @@ text:
 Yeah she was! Are you a couple?
 
 character = Kung Fu Man
+sfx = 0,2
 text:
 What's your name?
 
@@ -172,10 +177,12 @@ Ok sounds reasonable.
 Let's look for your girlfriend!
 
 character = Kung Fu Man
+fadeout = 1
 text:
 Hey, at no time did I say it was my...
 
 character = 
+fadein = 1
 text:
 Kung Fu Man and Mayama arrive in a lonely valley..
 
@@ -360,6 +367,7 @@ towards Mountainside Temple...
 
 character = 
 sfx = 0,10
+fadeout = 1
 text:
 While a large group of Minions begin to pile up
 and trample Kung Fu Man, until he's completely
@@ -380,15 +388,17 @@ text:
 .     .     .
 
 character = 
-;sfx = 0,12
+sfx = 0,12
 text:
 Eventually.
 Kung Fu Man regains consciousness
 and remembers the last happened..
 
 character = Kung Fu Man
+sfx.clean = 1
 sfx = 0,3
 bgm = sound/vn/Guilty.mp3
+fadein = 1
 text:
 Damn, that guy didn't just kidnaped my girlfriend.
 I neglected the temple too. I'm really out of form..
@@ -496,11 +506,14 @@ Haha, ok ok. I will not forget that.
 I promise.
 
 character = 
+fadeout = 1
 text:
 Kung Fu Man says goodbye to Mako Mayama and now..
 
 character = 
 sfx = 1,7
+fadein = 1
+fadeout = 1
 text:
 Determined to rescue his Girlfriend..
 Kung Fu Man heads to
@@ -510,11 +523,14 @@ Mountainside Temple's Hidden Path...
 ;---------------------------------------------------------------------------------
 [Chapter 2]
 name = KILLER MIRROR
+author = CD2
+date = 05/18/2024
 snd = data/visualnovel/arc1.snd
 
 character = Kung Fu Man
 sfx = 1,5
 bgm = sound/Temple.mp3
+fadein = 1
 text:
 That Suave Dude... how is he so confident??
 Maybe forced my girlfriend to give him all
@@ -552,6 +568,7 @@ and Kung Fu Man steps back and hides to think
 a strategy.
 
 character = 
+fadeout = 1
 text:
 Until...
 
@@ -559,6 +576,8 @@ Until...
 [Chapter 3]
 id = 3A
 name = THE ROOF OF TRUTH
+author = CD2
+date = 05/18/2024
 snd = data/visualnovel/arc1.snd
 
 character = 
@@ -571,6 +590,8 @@ on the Roof of the Mountainside Temple..
 
 character = Master Kung Fu Man
 sfx = 1,2
+fadein = 1
+fadeout = 1
 text:
 I better hurry!
 Who knows why what kind of torture
@@ -578,6 +599,7 @@ Kung Fu Girl will be going through..
 
 character = 
 sfx = 0,10
+fadein = 1
 text:
 Kung Fu Man reaches the roof
 where he finds Suave Dude.
@@ -624,6 +646,7 @@ Bad Guy with a countdown and a kidnapped princess!
 character = Suave Dude
 side = 2
 sfx = 1,10
+fadeout = 1
 text:
 Ladies and Gentlemen! Our stage is set!
 Who will be the champion!?
@@ -634,6 +657,8 @@ Let the ultimate show BEGIN!
 [Chapter 4]
 id = 3B
 name = BROKEN SPIRIT
+author = CD2
+date = 05/18/2024
 snd = data/visualnovel/arc1.snd
 
 character = 
@@ -649,7 +674,8 @@ When waking up..
 
 character = Suave Dude
 side = 2
-sfx = 4,1
+sfx = 0,15
+fadein = 1
 text:
 Welcome to the Roof of Truths.
 The last place you will see before being replaced!
@@ -756,6 +782,7 @@ Kung Fu Girl starts to destabilize
 character = Suave Dude
 side = 2
 sfx = 3,6
+fadeout = 1
 text:
 Well buddy, it's time to see what are you made of
 I already have the Band and the laboratory running.
@@ -766,11 +793,14 @@ Ready to die?
 [Chapter 5]
 id = 4A
 name = FINAL DESTINATION
+author = CD2
+date = 05/18/2024
 snd = data/visualnovel/arc1.snd
 
 character = Master Kung Fu Man
 sfx = 1,12
 bgm = sound/Fake World.mp3
+fadein = 1
 text:
 Is over Suave Dude!
 
@@ -924,6 +954,7 @@ and will teleports you to the "Balance Field".
 
 character = Master Kung Fu Man
 sfx = 1,15
+fadeout = 1
 text:
 Very well, it's time then to go beyond
 and teach him a lesson!
@@ -931,16 +962,21 @@ _
 With the power of I.K.E.M.E.N PLUS ULTRA!
 
 end = 1
+fadein = 1
+fadeout = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 6]
 id = 4B
 name = LIFE LESSON
+author = CD2
+date = 05/19/2024
 snd = data/visualnovel/arc1.snd
 
 character =
 sfx = 1,8
 bgm = _
+fadein = 1
 text:
 After defeating Kung Fu Girl and Suave Dude.
 Kung Fu Man destroys his evil clon.
@@ -950,7 +986,7 @@ but with an evil aura..
 
 character = Suave Dude
 side = 2
-sfx = 4,4
+sfx = 0,15
 bgm = sound/random 2.mp3
 text:
 Fascinating, this is a taste of your true potential.
@@ -1022,6 +1058,7 @@ Are you ready to disappear?
 character = Master Kung Fu Girl
 side = 2
 sfx = 3,8
+fadeout = 1
 text:
 Aww, I don't want to disappear. Please!
 YOU the one who is looking me, add me to your game!!
@@ -1029,17 +1066,22 @@ _
 I don't want my code disappear! :u
 
 end = 2
+fadein = 1
+fadeout = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 7]
 id = 4C
 name = ZERO HOUR
+author = CD2
+date = 05/18/2024
 snd = data/visualnovel/arc1.snd
 
 character = Suave Dude
 side = 2
 sfx = 4,5
 bgm = sound/system/menu/Menu 3.mp3
+fadein = 1
 text:
 Haha, I guess your time is over buddy.
 
@@ -1056,23 +1098,28 @@ You will have to try again..
 character = Suave Dude
 side = 2
 sfx = 4,1
+fadeout = 1
 text:
 what we're left with is just
 wait for all this temple collapse
 due countdown and watch the credits..
 
 end = 3
+fadein = 1
+fadeout = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 8]
 id = 4D
 name = THE FALL OF A LEGEND
+author = CD2
+date = 05/18/2024
 snd = data/visualnovel/arc1.snd
 
 video = movie/KFM-Fall.wmv
 
 character = Suave Dude
-sfx = 4,1
+sfx = 0,15
 bgm = sound/vn/The Fall.mp3
 text:
 Oh, well I guess they'll have to create someone
@@ -1107,7 +1154,10 @@ because it's going to start to rot...
 character = Master Kung Fu Girl
 side = 2
 sfx = 3,11
+fadeout = 1
 text:
 Uhgss, you pushed him. Clean it yourself!
 
 end = 2
+fadein = 1
+fadeout = 1

@@ -17,15 +17,19 @@ f_vnScene() function.
 
 - name = Chapter Name
 Set the name of the chapter to display in Intro Screen.
+If not declared, will not be displayed.
 
 - author = Chapter Author
 Set the name of chapter author to display in Intro Screen.
+If not declared, will not be displayed.
 
-- date = xx/xx/xxxx
+- date = (MM,DD,YYYY)
 Set the chapter date to display in Intro Screen.
+If not declared, will not be displayed.
 
 - info = Chapter Description
 Set aditional chapter info to display in Intro Screen.
+If not declared, will not be displayed.
 
 - snd = Path.snd
 Set the name of the Sound Effects file to use for the chapter.
@@ -40,12 +44,21 @@ To don't display any name, enter a space and leave this parameter blank.
 Set value 2 to display character name in right side.
 If not declared or is another, the name will be displayed on the left right.
 
+- sfx.clean = <Number>
+Set value 1 to clean previous Sound Effects for the dialogue.
+
 - sfx = <groupNo,indexNo>
-Set groupNo and indexNo to read they from snd file defined in "snd = "
-to play for the dialogue.
+Set groupNo and indexNo to read from snd file defined in "snd = " line
+to play Sound Effects for the dialogue.
 
 - bgm = Path.[mp3/ogg]
 Set the name of the music file to play BGM for the dialogue.
+
+- fadein = <Number>
+Start fadeIn at the beginning of dialogue.
+
+- fadeout = <Number>
+Start fadeOut at the end of dialogue.
 
 - text:
 Set the dialogue text to be displayed in screen.
@@ -72,15 +85,30 @@ Some Examples:
 [Chapter 0]
 id = 1
 name = Test
+author = CD2
+date = 4/17/2024
+info = Visual Novel Mode
+
+snd = data/visualnovel/test.snd
 
 character = CD3
+sfx = 0,3
+fadein = 1
 text:
 Welcome to the next level.
 
 character = CD2
+sfx.clean = 1
+sfx = 0,2
 side = 2
 text:
 What the hell is this?
+
+character = Strong FS
+text:
+Wanna watch a movie?
+
+video = movie/MUGENGERS 4 - The Orochi's Origin.wmv
 
 [Chapter 1]
 id = 2A
@@ -90,6 +118,7 @@ snd = data/visualnovel/chapt1.snd
 character = Kyo
 sfx = 1,0
 bgm: sound/Esaka.mp3
+fadein = 1
 text:
 Hey Yagami
 Are you ready to lose??
@@ -101,6 +130,7 @@ text:
 Shut up and die!
 
 character = 
+fadeout = 1
 text:
 With that
 Their fate battle begins...
@@ -108,6 +138,7 @@ Their fate battle begins...
 cut = 1
 
 character = CD2
+fadeout = 1
 text:
 Well this still under development, suggestions are accepted..
 
