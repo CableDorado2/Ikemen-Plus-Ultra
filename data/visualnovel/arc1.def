@@ -1,12 +1,9 @@
-;KUNG FU MAN VISUAL NOVEL ARC DIALOGUES
-;--------------------------------------
-storyname = Kung Fu Man
+storyname = Kung Fu Man's
 
 [Chapter 1]
 name = KIDNAPPING
 author = CD2
 date = 05/18/2024
-info = Traume sind Schaume
 snd = data/visualnovel/arc1.snd
 
 character = 
@@ -182,6 +179,7 @@ text:
 Hey, at no time did I say it was my...
 
 character = 
+sfx = 0,18
 fadein = 1
 text:
 Kung Fu Man and Mayama arrive in a lonely valley..
@@ -245,6 +243,7 @@ text:
 What!? wait Noo, I found she recently in-
 
 character = 
+sfx.clean = 1
 sfx = 0,3
 bgm = sound/vn/Tension.mp3
 text:
@@ -574,7 +573,7 @@ Until...
 
 ;---------------------------------------------------------------------------------
 [Chapter 3]
-id = 3A
+id = 3-A
 name = THE ROOF OF TRUTH
 author = CD2
 date = 05/18/2024
@@ -655,7 +654,7 @@ Let the ultimate show BEGIN!
 
 ;---------------------------------------------------------------------------------
 [Chapter 4]
-id = 3B
+id = 3-B
 name = BROKEN SPIRIT
 author = CD2
 date = 05/18/2024
@@ -791,7 +790,7 @@ Ready to die?
 
 ;---------------------------------------------------------------------------------
 [Chapter 5]
-id = 4A
+id = 4-A
 name = FINAL DESTINATION
 author = CD2
 date = 05/18/2024
@@ -967,14 +966,14 @@ fadeout = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 6]
-id = 4B
+id = 4-B
 name = LIFE LESSON
 author = CD2
 date = 05/19/2024
 snd = data/visualnovel/arc1.snd
 
 character =
-sfx = 1,8
+sfx = 0,15
 bgm = _
 fadein = 1
 text:
@@ -986,7 +985,7 @@ but with an evil aura..
 
 character = Suave Dude
 side = 2
-sfx = 0,15
+sfx = 1,8
 bgm = sound/random 2.mp3
 text:
 Fascinating, this is a taste of your true potential.
@@ -1071,7 +1070,7 @@ fadeout = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 7]
-id = 4C
+id = 4-C
 name = ZERO HOUR
 author = CD2
 date = 05/18/2024
@@ -1110,7 +1109,7 @@ fadeout = 1
 
 ;---------------------------------------------------------------------------------
 [Chapter 8]
-id = 4D
+id = 4-D
 name = THE FALL OF A LEGEND
 author = CD2
 date = 05/18/2024
@@ -1159,5 +1158,6 @@ text:
 Uhgss, you pushed him. Clean it yourself!
 
 end = 2
+sfx.clean = 1
 fadein = 1
 fadeout = 1

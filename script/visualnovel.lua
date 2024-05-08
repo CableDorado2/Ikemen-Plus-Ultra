@@ -582,6 +582,7 @@ function f_questionMenuVN()
 				modifiedVN = true
 			--Exit from Visual Novel
 			elseif exitVN == true then
+				sndStop()
 				data.VNbreak = true
 				f_saveTemp()
 				VNtxtEnd = true
@@ -628,7 +629,6 @@ end
 ]]
 
 for line in content:gmatch('[^\r\n]+') do
-	line = line:lower() --line = tostring(line:lower())
 	--storyname = string
 	if line:match('^%s*storyname%s*=') then
 		section = 1
@@ -636,7 +636,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if not data:match('=%s*$') then
 			t_vnBoxText['storyname'] = data:gsub('^%s*storyname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-	elseif line:match('^%s*%[%s*chapter%s+[0-9]+$*%]') then
+	elseif line:match('^%s*%[%s*Chapter%s+[0-9]+$*%]') then
 		section = 2
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
@@ -974,12 +974,12 @@ txt_boxCfg = createTextImg(font5, 0, 1, "", 0, 0) --Narrative Text Box Config
 --;===========================================================
 --; VISUAL NOVEL INTRO SCREEN
 --;===========================================================
-txt_VNarc = createTextImg(font5, 0, 0, "", 159, 20)
-txt_VNchapter = createTextImg(font5, 0, 0, "", 159, 80)
-txt_VNchapterName = createTextImg(font5, 0, 0, "", 159, 140)
-txt_VNchapterAuthor = createTextImg(font5, 0, 0, "", 159, 160)
-txt_VNchapterDate = createTextImg(font5, 0, 0, "", 159, 200)
-txt_VNchapterInfo = createTextImg(font5, 0, 0, "", 159, 220)
+txt_VNarc = createTextImg(font20, 1, 0, "", 159, 20) --font6
+txt_VNchapter = createTextImg(font20, 2, 0, "", 159, 110)
+txt_VNchapterName = createTextImg(font20, 2, 0, "", 159, 130)
+txt_VNchapterInfo = createTextImg(font7, 0, 0, "", 159, 150)
+txt_VNchapterAuthor = createTextImg(font7, 0, 0, "", 159, 220)
+txt_VNchapterDate = createTextImg(font9, 0, 0, "", 159, 231, 0.50, 0.50)
 
 function f_drawVNIntro()
 	playBGM("sound/System/Ranking.mp3")
@@ -994,12 +994,12 @@ function f_drawVNIntro()
 	local chapterAuthor = ""
 	local chapterDate = ""
 	local chapterDescription = ""
-	if t_vnBoxText.storyname ~= nil then vnName = t_vnBoxText.storyname:upper() end
-	if t_vnBoxText[vnChapter].data.id ~= nil then chapterID = t_vnBoxText[vnChapter].data.id:upper() end --Replace Chapter ID by the one detected in .def file
-	if t_vnBoxText[vnChapter].data.name ~= nil then chapterName = t_vnBoxText[vnChapter].data.name:upper() end
-	if t_vnBoxText[vnChapter].data.author ~= nil then chapterAuthor = t_vnBoxText[vnChapter].data.author:upper() end
+	if t_vnBoxText.storyname ~= nil then vnName = t_vnBoxText.storyname end
+	if t_vnBoxText[vnChapter].data.id ~= nil then chapterID = t_vnBoxText[vnChapter].data.id end --Replace Chapter ID by the one detected in .def file
+	if t_vnBoxText[vnChapter].data.name ~= nil then chapterName = t_vnBoxText[vnChapter].data.name end
+	if t_vnBoxText[vnChapter].data.author ~= nil then chapterAuthor = t_vnBoxText[vnChapter].data.author end
 	if t_vnBoxText[vnChapter].data.date ~= nil then chapterDate = t_vnBoxText[vnChapter].data.date end
-	if t_vnBoxText[vnChapter].data.description ~= nil then chapterDescription = t_vnBoxText[vnChapter].data.description:upper() end
+	if t_vnBoxText[vnChapter].data.description ~= nil then chapterDescription = t_vnBoxText[vnChapter].data.description end
 	cmdInput()
 	while true do
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or endIntro then
@@ -1007,10 +1007,10 @@ function f_drawVNIntro()
 			break
 		end
 		if t == endTime then endIntro = true end
-		textImgSetText(txt_VNarc, vnName)
-		textImgSetText(txt_VNchapter, "CHAPTER "..chapterID)
+		textImgSetText(txt_VNarc, vnName.." Story")
+		textImgSetText(txt_VNchapter, "Chapter "..chapterID)
 		textImgSetText(txt_VNchapterName, chapterName)
-		textImgSetText(txt_VNchapterAuthor, "WRITTEN BY: "..chapterAuthor)
+		textImgSetText(txt_VNchapterAuthor, "Written By "..chapterAuthor)
 		textImgSetText(txt_VNchapterDate, chapterDate)
 		textImgSetText(txt_VNchapterInfo, chapterDescription)
 		textImgDraw(txt_VNarc)
@@ -1048,7 +1048,10 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	cmdInput()
 	while true do
 		--Actions when the chapter has started
-		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then break end
+		if t_vnBoxText[vnChapter][VNtxt].cut ~= nil or VNtxtEnd then
+			sndStop()
+			break
+		end
 		if not vnPauseScreen then
 			if commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's') then
 				if not VNendActive then
@@ -1141,7 +1144,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				textImgSetBank(txt_nameCfg, 0)
 			end
 			if t_vnBoxText[vnChapter][VNtxt].character ~= nil then
-				textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character:upper()) --Set Name Text
+				textImgSetText(txt_nameCfg, t_vnBoxText[vnChapter][VNtxt].character) --Set Name Text
 			else
 				textImgSetText(txt_nameCfg, "") --Set Empty Name Text
 			end

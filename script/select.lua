@@ -2796,7 +2796,7 @@ function f_selectDestiny()
 					animPosDraw(destinyCursor, -72+i*105-moveTower, 194)
 				--Draw Difficulty Text for Tower Table
 					if t_selTower[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_selTower[i].ID, font31, 0, 0, t_selTower[i].difficulty, -52+i*105-moveTower, 219,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_selTower[i].ID, font31, 0, 0, t_selTower[i].difficulty:upper(), -52+i*105-moveTower, 219,0.85,0.85))
 					end
 				end
 			end
