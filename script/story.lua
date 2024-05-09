@@ -232,6 +232,12 @@ t_arc3 = {
 	{ID = textImgNew(), Name = "???", 					   Preview = chaptUnknown, Status = checkNA, Info = ""},
 }
 
+function f_resetChaptSel()
+chapterMenu = 1
+cursorPosY = 1
+moveChapter = 0
+end
+
 --;===========================================================
 --; STORY MENU
 --;===========================================================
@@ -240,9 +246,7 @@ function f_storyMenu()
 	storyMenu = 1
 	local cursorPosX = 1
 	local moveArc = 0
-	chapterMenu = 1
-	local cursorPosY = 1
-	local moveChapter = 0
+	f_resetChaptSel()
 	t_arcSelect = nil
 	local t = 0
 	local bufu = 0
@@ -278,10 +282,12 @@ function f_storyMenu()
 			t = 0 --Reset Story Info Delay Time
 			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu - 1
+			f_resetChaptSel()
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			t = 0
 			sndPlay(sysSnd, 100, 3)
 			storyMenu = storyMenu + 1
+			f_resetChaptSel()
 	--Chapter Selection
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 			if lockedStory == false then
@@ -760,6 +766,7 @@ function f_arc1_chapter2()
 		data.p2Pal = 1
 		setRoundTime(-1)
 		setRoundsToWin(1)
+		setLifeMul(1) --Force life at 100% (just in case that Life has been changed via options)
 		data.versusScreen = false
 		data.victoryscreen = false
 		--data.stage no needed because this chapter will use the auto stage of evil kfm
@@ -796,6 +803,7 @@ function f_arc1_chapter3_1()
 		data.p2Pal = 1
 		setRoundTime(60*60)
 		setRoundsToWin(1)
+		setLifeMul(1)
 		data.versusScreen = false
 		data.victoryscreen = false
 		data.stage = {t_stageDef["stages/mountainside temple/suave's corridor.def"]}
@@ -832,6 +840,7 @@ function f_arc1_chapter3_2()
 		data.p2Pal = 1
 		setRoundTime(-1)
 		setRoundsToWin(3)
+		setLifeMul(1)
 		data.orderSelect = false
 		data.versusScreen = false
 		data.victoryscreen = false

@@ -78,6 +78,7 @@ tempFile:close()
 --SFF (Sprites)
 fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
 sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
+glyphsSff = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
@@ -1267,6 +1268,85 @@ function f_inputConvert(input, swapTo)
 	return output
 end
 
+--glyphs spr data
+t_glyphs = {
+	['^A'] = {1, 0}, --A
+	['^B'] = {2, 0}, --B
+	['^C'] = {3, 0}, --C
+	['^D'] = {4, 0}, --D
+	['^W'] = {23, 0}, --W
+	['^X'] = {24, 0}, --X
+	['^Y'] = {25, 0}, --Y
+	['^Z'] = {26, 0}, --Z
+	['_+'] = {39, 0}, --+ (press at the same time as previous button)
+	['_.'] = {40, 0}, --...
+	['_DB'] = {41, 0}, --Down-Back
+	['_D'] = {42, 0}, --Down
+	['_DF'] = {43, 0}, --Down-Forward
+	['_B'] = {44, 0}, --Back
+	['_F'] = {46, 0}, --Forward
+	['_UB'] = {47, 0}, --Up-Back
+	['_U'] = {48, 0}, --Up
+	['_UF'] = {49, 0}, --Up-Forward
+	['^S'] = {51, 0}, --Start
+	['^M'] = {52, 0}, --Menu (Select/Back)
+	['^P'] = {53, 0}, --Any Punch (X / Y / Z)
+	['^K'] = {54, 0}, --Any Kick (A / B / C)
+	['^LP'] = {57, 0}, --Light Punch (X)
+	['^MP'] = {58, 0}, --Medium Punch (Y)
+	['^HP'] = {59, 0}, --Heavy Punch (Z)
+	['^LK'] = {60, 0}, --Light Kick (A)
+	['^MK'] = {61, 0}, --Medium Kick (B)
+	['^HK'] = {62, 0}, --Heavy Kick (C)
+	['^3K'] = {63, 0}, --3 Kick (A+B+C)
+	['^3P'] = {64, 0}, --3 Punch (X+Y+Z)
+	['^2K'] = {65, 0}, --2 Kick (A+B / B+C / A+C)
+	['^2P'] = {66, 0}, --2 Punch (X+Y / Y+Z / X+Z)
+	['_-'] = {90, 0}, --Arrow (tap following Button immediately - use in combos)
+	['_!'] = {91, 0}, --Continue Arrow (follow with this move)
+	['~DB'] = {92, 0}, --hold Down-Back
+	['~D'] = {93, 0}, --hold Down
+	['~DF'] = {94, 0}, --hold Down-Forward
+	['~B'] = {95, 0}, --hold Back
+	['~F'] = {96, 0}, --hold Forward
+	['~UB'] = {97, 0}, --hold Up-Back
+	['~U'] = {98, 0}, --hold Up
+	['~UF'] = {99, 0}, --hold Up-Forward
+	['_HCB'] = {100, 0}, --1/2 Circle Back
+	['_HUF'] = {101, 0}, --1/2 Circle Forward Up
+	['_HCF'] = {102, 0}, --1/2 Circle Forward
+	['_HUB'] = {103, 0}, --1/2 Circle Back Up
+	['_QFD'] = {104, 0}, --1/4 Circle Forward Down
+	['_QDB'] = {105, 0}, --1/4 Circle Down Back (QCB/QDB)
+	['_QCB'] = {105, 0}, --1/4 Circle Down Back (QCB/QDB)
+	['_QBU'] = {106, 0}, --1/4 Circle Back Up
+	['_QUF'] = {107, 0}, --1/4 Circle Up Forward
+	['_QBD'] = {108, 0}, --1/4 Circle Back Down
+	['_QDF'] = {109, 0}, --1/4 Circle Down Forward (QCF/QDF)
+	['_QCF'] = {109, 0}, --1/4 Circle Down Forward (QCF/QDF)
+	['_QFU'] = {110, 0}, --1/4 Circle Forward Up
+	['_QUB'] = {111, 0}, --1/4 Circle Up Back
+	['_FDF'] = {112, 0}, --Full Clock Forward
+	['_FUB'] = {113, 0}, --Full Clock Back
+	['_FUF'] = {114, 0}, --Full Count Forward
+	['_FDB'] = {115, 0}, --Full Count Back
+	['_XFF'] = {116, 0}, --2x Forward
+	['_XBB'] = {117, 0}, --2x Back
+	['_DSF'] = {118, 0}, --Dragon Screw Forward
+	['_DSB'] = {119, 0}, --Dragon Screw Back
+	['_AIR'] = {121, 0}, --AIR
+	['_TAP'] = {122, 0}, --TAP
+	['_MAX'] = {123, 0}, --MAX
+	['_EX'] = {124, 0}, --EX
+	['_^'] = {127, 0}, --Air
+	['_='] = {128, 0}, --Squatting
+	['_)'] = {129, 0}, --Close
+	['_('] = {130, 0}, --Away
+	['_`'] = {135, 0}, --Small Dot
+}
+
+if data.debugLog then f_printTable(t_glyphs, "save/debug/t_glyphs.txt") end
+
 --;===========================================================
 --; STORYBOARD DEFINITION
 --;===========================================================
@@ -1957,7 +2037,7 @@ function f_default() --Reset Game Modes Configuration
 	setPlayerSide("") --set player side variable to adjust internal settings.
 	setGameMode("") --set local GameMode variable (it can be recognized in cns and lua).
 	setService("") --set different fight services for players (service examples are available in match.cns)
-	setPauseVar("") --
+	setPauseVar("") --set pause menu extra variable to adjust internal settings.
 	--setOnlineMode("") --set online GameMode variable (it just a copy of gamemode to use online features without without interfering with local gamemode).
 	--setReplayMode("") --set replay mode (online or local) to prepare replay functions to detects the gamemode variables.
 end

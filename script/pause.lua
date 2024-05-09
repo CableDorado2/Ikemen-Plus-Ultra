@@ -467,6 +467,8 @@ end
 --;===========================================================
 --; PAUSE MENU
 --;===========================================================
+txt_pause = createTextImg(jgFnt, 0, 0, "", 159, 63)
+
 t_pauseMain = {
 	{id = '', text = "CONTINUE"},
 	{id = '', text = "MOVELIST"},
@@ -560,9 +562,10 @@ function f_pauseMain(p, st, esc)
 	cmdInput()
 	if pauseMode == "" or mainGoTo ~= "" then
 		if challengerActive == false then
-			if pn == 1 then txt_pause = createTextImg(jgFnt, 5, 0, "PAUSE [P1]", 159, 63)
-			elseif pn == 2 then txt_pause = createTextImg(jgFnt, 1, 0, "PAUSE [P2]", 159, 63)
+			if pn == 1 then textImgSetBank(txt_pause, 5) --Set color depending player id
+			elseif pn == 2 then textImgSetBank(txt_pause, 1)
 			end
+			textImgSetText(txt_pause, "PAUSE [P"..pn.."]")			
 			--HIDE MENU
 			if getGameMode() == "replay" or getGameMode() == "randomtest" then
 				if ((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and pauseMenu == 3 then hide = true end
@@ -774,6 +777,15 @@ end
 --;===========================================================
 txt_pauseQuestion = createTextImg(font14, 0, 0, "", 160, 70,0.7,0.7)
 txt_pauseConfirm = createTextImg(jgFnt, 1, 0, "ARE YOU SURE?", 160, 90)
+txt_playerID = "[PLAYER "
+txt_backStorySel = "] WILL BACK TO STORY SELECT"
+txt_backMissionSel = "] WILL BACK TO MISSION SELECT"
+txt_backEventSel = "] WILL BACK TO EVENT SELECT"
+txt_replaySelBack = "] WILL BACK TO REPLAY SELECT"
+txt_backCharSel = "] WILL BACK TO CHARACTER SELECT"
+txt_backStgSel = "] WILL BACK TO STAGE SELECT"
+txt_leaveMatch = "] WILL LEAVE THIS MATCH"
+txt_mainmenuBack = "] WILL BACK TO MAIN MENU"
 
 --Confirm Window BG
 confirmPauseBG = animNew(sysSff, [[
@@ -791,37 +803,22 @@ t_confirmPause = {
 function f_pauseConfirm()
 	--MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
-		if pn == 1 then
-			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MISSION SELECT")
-			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO EVENT SELECT")
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO REPLAY SELECT")
-			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO STORY SELECT")
-			else textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MAIN MENU")
+		if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel)
+		elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backEventSel)
+		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
+		elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
+			if getPauseVar() == "giveup" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
+			else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStorySel)
 			end
-		elseif pn == 2 then
-			if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MISSION SELECT")
-			elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO EVENT SELECT")
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO REPLAY SELECT")
-			elseif getGameMode() == "story" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO STORY SELECT")
-			else textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MAIN MENU")
-			end
+		else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)
 		end
 	--MESSAGES FOR BACK TO A CHARACTER SELECT
 	elseif mainMenuBack == false then
-		if pn == 1 then
-			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO CHARACTER SELECT")
-			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO STAGE SELECT")
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO REPLAY SELECT")
-			elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL BACK TO MAIN MENU")
-			else textImgSetText(txt_pauseQuestion, "[PLAYER 1] WILL LEAVE THIS MATCH")
-			end
-		elseif pn == 2 then
-			if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO CHARACTER SELECT")
-			elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO STAGE SELECT")
-			elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO REPLAY SELECT")
-			elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL BACK TO MAIN MENU")
-			else textImgSetText(txt_pauseQuestion, "[PLAYER 2] WILL LEAVE THIS MATCH")
-			end
+		if getGameMode() == "vs" or getGameMode() == "practice" or getGameMode() == "storyRoster" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backCharSel)
+		elseif getGameMode() == "stageviewer" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStgSel)
+		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
+		elseif getGameMode() == "random" or getGameMode() == "randomtest" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_mainmenuBack)
+		else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
 		end
 	end
 	if pauseMode == "Confirm" or okGoTo ~= "" then
@@ -936,6 +933,8 @@ end
 --;===========================================================
 --; GAME SETTINGS
 --;===========================================================
+txt_PgameCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
+
 t_gameCfg = {
 	{varID = textImgNew(), text = "Audio Settings",   		varText = ""},
 	{varID = textImgNew(), text = "Input Settings",   		varText = ""},
@@ -956,9 +955,10 @@ f_gameCfgdisplayTxt() --Load Display Text
 
 function f_pauseSettings()
 	local hasChanged = false
-	if pn == 1 then txt_gameCfg = createTextImg(jgFnt, 5, 0, "GAME SETTINGS [P1]", 159, 63)
-	elseif pn == 2 then txt_gameCfg = createTextImg(jgFnt, 1, 0, "GAME SETTINGS [P2]", 159, 63)
+	if pn == 1 then textImgSetBank(txt_PgameCfg, 5)
+	elseif pn == 2 then textImgSetBank(txt_PgameCfg, 1)
 	end
+	textImgSetText(txt_PgameCfg, "GAME SETTINGS [P"..pn.."]")
 	if pauseMode == "Settings" or cfgGoTo ~= "" then
 		if delayMenu == 2 then
 			if start then
@@ -1108,7 +1108,7 @@ function f_pauseSettings()
 			animSetWindow(pauseBG1, 80,70, 160,105)
 			animDraw(pauseBG1)
 			--animUpdate(pauseBG1)
-			textImgDraw(txt_gameCfg)
+			textImgDraw(txt_PgameCfg)
 			animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -1159,6 +1159,8 @@ end
 --;===========================================================
 --; AUDIO SETTINGS
 --;===========================================================
+txt_PaudioCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
+
 t_audioCfg = {
 	{varID = textImgNew(), text = "Master Volume",   		varText = gl_vol},
 	{varID = textImgNew(), text = "SFX Volume",       		varText = se_vol},
@@ -1169,9 +1171,10 @@ t_audioCfg = {
 
 function f_pauseAudio()
 	local hasChanged = false
-	if pn == 1 then txt_audioCfg = createTextImg(jgFnt, 5, 0, "AUDIO SETTINGS [P1]", 159, 63)
-	elseif pn == 2 then txt_audioCfg = createTextImg(jgFnt, 1, 0, "AUDIO SETTINGS [P2]", 159, 63)
+	if pn == 1 then textImgSetBank(txt_PaudioCfg, 5)
+	elseif pn == 2 then textImgSetBank(txt_PaudioCfg, 1)
 	end
+	textImgSetText(txt_PaudioCfg, "AUDIO SETTINGS [P"..pn.."]")
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sysSnd, 100, 2)
@@ -1320,7 +1323,7 @@ function f_pauseAudio()
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
 		--animUpdate(pauseBG1)
-		textImgDraw(txt_audioCfg)
+		textImgDraw(txt_PaudioCfg)
 		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -1366,14 +1369,15 @@ end
 --;===========================================================
 --; PLAY SONG
 --;===========================================================
+txt_PsongMenu = createTextImg(jgFnt, 0, 0, "", 159, 54)
+txt_Psong = createTextImg(jgFnt, 0, 0, "", 159, 66)
+
 function f_pauseSongs()
-	if pn == 1 then
-		txt_songMenu = createTextImg(jgFnt, 5, 0, "SONG SELECT [P1]", 159, 54)
-		txt_song = createTextImg(jgFnt, 0, 0, "FOLDER ".."["..t_songList[songFolder][songMenu].folder.."]", 159, 66)
-	elseif pn == 2 then
-		txt_songMenu = createTextImg(jgFnt, 1, 0, "SONG SELECT [P2]", 159, 54)
-		txt_song = createTextImg(jgFnt, 0, 0, "FOLDER ".."["..t_songList[songFolder][songMenu].folder.."]", 159, 66)
+	if pn == 1 then textImgSetBank(txt_PsongMenu, 5)
+	elseif pn == 2 then textImgSetBank(txt_PsongMenu, 1)
 	end
+	textImgSetText(txt_PsongMenu, "SONG SELECT [P"..pn.."]")
+	textImgSetText(txt_Psong, "FOLDER ".."["..t_songList[songFolder][songMenu].folder.."]")
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sysSnd, 100, 2)
@@ -1491,8 +1495,8 @@ function f_pauseSongs()
 		animSetWindow(pauseBG1, 80,70, 160,105)
 		animDraw(pauseBG1)
 		--animUpdate(pauseBG1)
-		textImgDraw(txt_songMenu)
-		textImgDraw(txt_song)
+		textImgDraw(txt_PsongMenu)
+		textImgDraw(txt_Psong)
 		animSetWindow(cursorBox, 80,55+cursorPosY*15, 160,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
@@ -1550,6 +1554,8 @@ end
 --;===========================================================
 --; TRAINING SETTINGS/BATTLE INFO
 --;===========================================================
+txt_PtrainingCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
+
 t_trainingCfg = {
 	{varID = textImgNew(), text = "Damage Display", 			varText = ""},
 	{varID = textImgNew(), text = "Input Display",				varText = ""},
@@ -1628,15 +1634,11 @@ animSetScale(pauseTDownArrow, 0.5, 0.5)
 
 function f_pauseTraining()
 	local hasChanged = false
-	if pn == 1 then
-		if getGameMode() == "practice" then txt_trainingCfg = createTextImg(jgFnt, 5, 0, "TRAINING SETTINGS [P1]", 159, 63)
-		else txt_trainingCfg = createTextImg(jgFnt, 5, 0, "BATTLE INFO [P1]", 159, 63)
-		end
-	elseif pn == 2 then
-		if getGameMode() == "practice" then txt_trainingCfg = createTextImg(jgFnt, 1, 0, "TRAINING SETTINGS [P2]", 159, 63)
-		else txt_trainingCfg = createTextImg(jgFnt, 1, 0, "BATTLE INFO [P2]", 159, 63)
-		end
+	if getGameMode() == "practice" then txt_PtsTitle = "TRAINING SETTINGS [P" else txt_PtsTitle = "BATTLE INFO [P" end
+	if pn == 1 then textImgSetBank(txt_PtrainingCfg, 5)
+	elseif pn == 2 then textImgSetBank(txt_PtrainingCfg, 1)
 	end
+	textImgSetText(txt_PtrainingCfg, txt_PtsTitle..pn.."]")
 	if pauseMode == "Training" or trainingGoTo ~= "" then
 		if delayMenu == 2 then
 			if start then
@@ -2077,7 +2079,7 @@ function f_pauseTraining()
 			animSetWindow(pauseBG1, 55,70, 240,105)
 			animDraw(pauseBG1)
 			--animUpdate(pauseBG1)
-			textImgDraw(txt_trainingCfg)
+			textImgDraw(txt_PtrainingCfg)
 			if recWarning then
 				textImgSetText(txt_playbackInfo, 'Set Dummy Control as "Manual" to Record Actions.')
 				textImgDraw(txt_playbackInfo)
@@ -2130,6 +2132,8 @@ end
 --;===========================================================
 --; PLAYBACK SETTINGS
 --;===========================================================
+txt_playbackCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
+
 txt_playbackInfo = createTextImg(jgFnt, 5, 0, "", 159, 210, 0.7, 0.7)
 txt_pbRecord = "Select Slot to Record Dummy Actions."
 txt_pbPlay = "Select Slot to Playback Recorded Dummy Actions."
@@ -2180,9 +2184,10 @@ end
 
 function f_pausePlayback()
 	local hasChanged = false
-	if pn == 1 then txt_playbackCfg = createTextImg(jgFnt, 5, 0, "PLAYBACK SETTINGS [P1]", 159, 63)
-	elseif pn == 2 then txt_playbackCfg = createTextImg(jgFnt, 1, 0, "PLAYBACK SETTINGS [P2]", 159, 63)
+	if pn == 1 then textImgSetBank(txt_playbackCfg, 5)
+	elseif pn == 2 then textImgSetBank(txt_playbackCfg, 1)
 	end
+	textImgSetText(txt_playbackCfg, "PLAYBACK SETTINGS [P"..pn.."]")
 	if delayMenu == 2 then
 		if start then
 			sndPlay(sysSnd, 100, 2)

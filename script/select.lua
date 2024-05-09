@@ -2692,7 +2692,7 @@ animUpdate(towerSlot)
 --;=================================================================================================
 --[[
 t_selTower = nil
-t_selTower = { --The idea is move this table to be managed via select.def and pre-loaded in start.lua
+t_selTower = { --The idea is move this table to be managed via select.def and pre-loaded in loader.lua
 	{ID = textImgNew(), difficulty = "NOVICE", 		chars = "", status = ""}, --Add Tower Slot
 	{ID = textImgNew(), difficulty = "WARRIOR", 	chars = "", status = ""},
 	{ID = textImgNew(), difficulty = "MASTER", 		chars = "", status = ""},

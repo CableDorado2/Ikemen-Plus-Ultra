@@ -14,9 +14,22 @@ require("script.common")
 loadLifebar(data.lifebar) --path to lifebar stored in "save/data_sav.lua", also adjustable from options
 
 --;===========================================================
+--; GLOBAL VARIABLES DEFINITION
+--;===========================================================
+onlinegame = false
+replaygame = false
+coinSystem = true
+songsSettings = false
+soundTest = false
+data.tagmode = 1
+data.stageviewer = false
+menuSelect = ""
+P2overP1 = false
+
+--;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
 --;===========================================================
-assert(loadfile("script/start.lua"))()
+assert(loadfile("script/loader.lua"))()
 assert(loadfile("script/vn_resources.lua"))()
 require("script.options")
 require("script.statistics")
@@ -3264,7 +3277,7 @@ function f_bossMenu()
 				sndPlay(sysSnd, 100, 1)
 				--SINGLE BOSS
 				if bossMenu == 1 then
-					f_rushTables() --From start.lua
+					f_rushTables() --From loader.lua
 					f_bossChars()
 				--BOSS RUSH
 				elseif bossMenu == 2 then
@@ -8060,7 +8073,7 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 2422 or esc() then break end --Credits Duration
+		if scroll > 2450 or esc() then break end --Credits Duration
 		--Actions
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and not skip then --Skip Button
 			skip = true
@@ -8278,4 +8291,3 @@ CABLE DORADO 2
 CD2
 
  ]]
-
