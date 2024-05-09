@@ -707,6 +707,7 @@ function f_arc1_chapter1()
 		data.rosterMode = "story"
 		setGameMode('story')
 		setPlayerSide('p1left')
+		setPauseVar("giveup")
 		script.select.f_selectStory() --Start Fight with previous settings
 		--Part 2
 		script.visualnovel.f_vnScene(kfmVN,1,16)

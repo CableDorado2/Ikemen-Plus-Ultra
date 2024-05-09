@@ -541,6 +541,19 @@ void getPlayerSide(&.lua.State L=, int re=)
   L.pushString(.com.playerSide);
 }
 
+void setPauseVar(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 0;
+  ^/char pv = .sc.strArg(L=, re=, argc=, nret); if(re < 0) ret;
+  .com.pauseVar = pv;
+}
+
+void getPauseVar(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.pauseVar);
+}
+
 void setInputDisplay(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
@@ -2095,6 +2108,8 @@ public void init(&.lua.State L=)
   L.register("getService", .getService);
   L.register("setPlayerSide", .setPlayerSide);
   L.register("getPlayerSide", .getPlayerSide);
+  L.register("setPauseVar", .setPauseVar);
+  L.register("getPauseVar", .getPauseVar);
   L.register("getListenPort", .getListenPort);
   L.register("setListenPort", .setListenPort);
   L.register("getUserName", .getUserName);

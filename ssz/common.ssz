@@ -12,6 +12,7 @@ public int gameType = 0;
 public ^/char gameMode;
 public ^/char gameService;
 public ^/char playerSide;
+public ^/char pauseVar;
 
 public int roundTime = 999 * 6;
 public int roundsToWin = 2;

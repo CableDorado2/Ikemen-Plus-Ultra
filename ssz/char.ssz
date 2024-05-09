@@ -5647,6 +5647,10 @@ public &Char
   {
     ret .s.equ(text, .com.playerSide);
   }
+  public bool trPauseVar(^/char text)
+  {
+    ret .s.equ(text, .com.pauseVar);
+  }
   public void trExitMatch()
   {
     .com.exitMatch = true;

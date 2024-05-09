@@ -47,6 +47,7 @@ public &Share
   public ^/char gameMode;
   public ^/char gameService;
   public ^/char playerSide;
+  public ^/char pauseVar;
   public int gameType;
   public int inputDisplay;
   public int damageDisplay;
@@ -118,6 +119,7 @@ public &Share
 	`gameMode = .com.gameMode;
 	`gameService = .com.gameService;
 	`playerSide = .com.playerSide;
+	`pauseVar = .com.pauseVar;
 	`gameType = .com.gameType;
 	`inputDisplay = .com.inputDisplay;
 	`damageDisplay = .com.damageDisplay;
@@ -193,6 +195,7 @@ public &Share
 	.com.gameMode = `gameMode;
 	.com.gameService = `gameService;
 	.com.playerSide = `playerSide;
+	.com.pauseVar = `pauseVar;
 	.com.gameType = `gameType;
 	.com.inputDisplay = `inputDisplay;
 	.com.damageDisplay = `damageDisplay;

@@ -523,6 +523,12 @@ void playerside(&.lua.State L=, int re=)
   L.pushString(.com.playerSide);
 }
 
+void pausevar(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushString(.com.pauseVar);
+}
+
 void inputdisplay(&.lua.State L=, int re=)
 {
   re = 1;
@@ -1390,6 +1396,7 @@ public void registerFunction(&.lua.State L=)
   L.register("gamemode", .gamemode);
   L.register("gameservice", .gameservice);
   L.register("playerside", .playerside);
+  L.register("pausevar", .pausevar);
   L.register("inputdisplay", .inputdisplay);
   L.register("damagedisplay", .damagedisplay);
   L.register("powerstatep1", .powerstatep1);
