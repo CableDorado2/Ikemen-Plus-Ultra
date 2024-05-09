@@ -1269,7 +1269,7 @@ function f_selectAdvance()
 					f_records() --Save Stats
 					f_result('lost')
 					f_gameOver()
-					--f_storyboard("data/screenpack/intro.def")
+					--f_mainOpening()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
@@ -1293,7 +1293,7 @@ function f_selectAdvance()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_storyboard("data/screenpack/intro.def")
+						--f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1367,7 +1367,7 @@ function f_selectAdvance()
 						end
 						f_playCredits()
 						f_storyboard("data/screenpack/gameover.def")
-						f_storyboard("data/screenpack/intro.def")
+						f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1429,7 +1429,7 @@ function f_selectAdvance()
 						end
 						f_playCredits()
 						f_storyboard("data/screenpack/gameover.def")
-						f_storyboard("data/screenpack/intro.def")
+						f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1477,7 +1477,7 @@ function f_selectAdvance()
 					f_records() --Save Stats
 					f_result('lost')
 					f_gameOver()
-					--f_storyboard("data/screenpack/intro.def")
+					--f_mainOpening()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
@@ -1501,7 +1501,7 @@ function f_selectAdvance()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_storyboard("data/screenpack/intro.def")
+						--f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1569,7 +1569,7 @@ function f_selectAdvance()
 				f_records()
 				f_result('lost')
 				f_gameOver()
-				--f_storyboard("data/screenpack/intro.def")
+				--f_mainOpening()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
@@ -1682,7 +1682,7 @@ function f_selectAdvance()
 					end
 					f_continue()
 					if data.continue == 2 then
-						--f_storyboard("data/screenpack/intro.def")
+						--f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -2078,7 +2078,7 @@ function f_selectTower()
 					f_records() --Save Stats
 					f_result('lost')
 					f_gameOver()
-					--f_storyboard("data/screenpack/intro.def")
+					--f_mainOpening()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
@@ -2102,7 +2102,7 @@ function f_selectTower()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_storyboard("data/screenpack/intro.def")
+						--f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -2173,7 +2173,7 @@ function f_selectTower()
 					end
 					f_playCredits()
 					f_storyboard("data/screenpack/gameover.def")
-					f_storyboard("data/screenpack/intro.def")
+					f_mainOpening()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
@@ -2221,7 +2221,7 @@ function f_selectTower()
 					end
 					f_playCredits()
 					f_storyboard("data/screenpack/gameover.def")
-					f_storyboard("data/screenpack/intro.def")
+					f_mainOpening()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
@@ -2256,7 +2256,7 @@ function f_selectTower()
 					f_records() --Save Stats
 					f_result('lost')
 					f_gameOver()
-					--f_storyboard("data/screenpack/intro.def")
+					--f_mainOpening()
 					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 					f_resetMenuInputs()
@@ -2280,7 +2280,7 @@ function f_selectTower()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_storyboard("data/screenpack/intro.def")
+						--f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -2348,7 +2348,7 @@ function f_selectTower()
 				f_records()
 				f_result('lost')
 				f_gameOver()
-				--f_storyboard("data/screenpack/intro.def")
+				--f_mainOpening()
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
@@ -2383,7 +2383,7 @@ function f_selectTower()
 					end
 					f_continue()
 					if data.continue == 2 then
-						--f_storyboard("data/screenpack/intro.def")
+						--f_mainOpening()
 						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()

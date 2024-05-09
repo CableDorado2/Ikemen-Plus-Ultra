@@ -439,11 +439,13 @@ end
 --;===========================================================
 --; LOGOS SCREEN
 --;===========================================================
-altBGM = false
-
 function f_mainLogos()
 	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
 	f_storyboard("data/screenpack/logo.def")
+	f_mainOpening()
+end
+altBGM = false
+function f_mainOpening()
 	if altBGM then playBGM(bgmIntroJP) else playBGM(bgmIntro) end
 	f_storyboard("data/screenpack/intro.def")
 	if altBGM then altBGM = false else altBGM = true end --Alternate Opening BGM Songs
@@ -1690,8 +1692,8 @@ end
 --; ARCADE MENU
 --;===========================================================
 t_arcadeMenu = {
-	{id = textImgNew(), text = "CLASSIC ARCADE"},
-	{id = textImgNew(), text = "TOWER ARCADE"},
+	{id = textImgNew(), text = "CLASSIC MODE"},
+	{id = textImgNew(), text = "TOWER MODE"},
 }
 	
 function f_arcadeMenu()
@@ -1754,7 +1756,7 @@ function f_arcadeMenu()
 					else
 						f_arcadeClassicMenu()
 					end
-				--TOWER MODE (fight against enemy forces in a customizable tower arcade ladder)
+				--TOWER (fight against enemy forces in a customizable tower arcade ladder)
 				elseif arcadeMenu == 2 then
 					if #t_selTower ~= 0 then
 						if data.sideSelect == "Modern" then
@@ -5192,7 +5194,6 @@ function f_watchMenu()
 				--CREDITS (play credits)
 				elseif watchMenu == 9 then
 					setDiscordState("In Credits")
-					playBGM("sound/system/credits.mp3")
 					f_playCredits()
 					setDiscordState("In Main Menu")
 				end
@@ -7959,7 +7960,7 @@ function f_theVault()
 		textImgSetText(txt_vaultText,word)
 		textImgDraw(txt_vaultText)
 		if i%60 < 30 then
-			textImgPosDraw(txt_vaultBar, 160+(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)>0 and 2 or 0), 120)
+			textImgPosDraw(txt_vaultBar, 160 +(textImgGetWidth(txt_vaultText)*0.5)+(textImgGetWidth(txt_vaultText)> 0 and 2 or 0), 120)
 		end
 		--Draw Button Option Text
 		for i=1, #t_vaultMenu do
@@ -8040,6 +8041,8 @@ end
 --; CREDITS SCREEN
 --;=========================================================== 
 function f_playCredits()
+	sndStop()
+	if data.rosterMode ~= "story" then playBGM("sound/system/credits.mp3") end
 	local scroll = 0
 	local speed = 0
 	local speed1 = 0.5
@@ -8057,7 +8060,7 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 2300 or esc() then break end --Credits Duration
+		if scroll > 2422 or esc() then break end --Credits Duration
 		--Actions
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and not skip then --Skip Button
 			skip = true
@@ -8089,7 +8092,7 @@ function f_playCredits()
 	else
 		f_menuMusic()
 	end
-	--f_default()
+	f_default()
 end
 
 txt_creditsBox = [[
@@ -8160,6 +8163,15 @@ SHIYO KAKUGE
 GRAPHICS DESIGN
 
 ELECBYTE TEAM
+BALTHAZAR
+ESAKA
+FIRE WOLF
+FIZZY
+KOOROGI
+OGGY
+RAKAVOLVER
+TARUSE
+TONINHO-3RD
 
 
 
@@ -8177,12 +8189,17 @@ IPPO YAMADA
 J00LZ
 JEFF WILLIAMS
 JOSH KELLER
+KARTSY HATAKKA
 KEIKI KOBAYASHI
 KENJI KAWAI
+KIMMO KAJASTO
 MAKOTO ASAI
+NATHAN MCCREE
 NOMOREHEROES2012
 NORICHIKA SATO
 MICHIRU YAMANE
+PERTTU KIVILAAKSO
+PETER CONNELLY
 RAITO
 SHINJI HOSOE
 SHINSEKAI GAKKYOKU ZATSUGIDAN
@@ -8216,12 +8233,6 @@ THE LOST CHAPTER AUTHOR
 
 MOST MYSTERIOUS
 
-
-
-VISUAL NOVEL ASSETS
-
-RAKAVOLVER
-ESAKA
 
 
 SPECIAL THANKS

@@ -310,9 +310,7 @@ unlock = true
 name = arc2
 displayname = ???
 path = data/visualnovel/arc2.def
-unlock = false
 
 name = arc3
 displayname = ???
 path = data/visualnovel/arc3.def
-unlock = false
