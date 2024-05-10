@@ -81,7 +81,7 @@ This Ikemen is an expansion of his original SSZ code.
 **v1.5**
 ------------
 
-- Cambiar de personaje y stage en el menú de pausa solo en training. Usar lógica parecida al new challenger del arcade.
+- Cambiar de personaje y stage en el menú de pausa solo en training.
 
 - Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una.
 
