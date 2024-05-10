@@ -78,7 +78,7 @@ tempFile:close()
 --SFF (Sprites)
 fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
 sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
-glyphsSff = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
+--glyphsSff = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
@@ -2074,42 +2074,73 @@ animAddPos(challengerText, 19, 100)
 animUpdate(challengerText)
 
 --;===========================================================
---; BUTTON CODES TEST
+--; BUTTON SECRET CODES
 --;===========================================================
 --"U,U,D,D,L,R,L,R,B,A,S" --Konami Code Example
-function f_cmdCode()
---Actions
-	if commandGetState(p1Cmd, 'u') and codeEntry == 1 then --Read from 2nd key because the first one was readed from menu where this function is loaded
-		codeEntry = 2
-	--elseif commandGetState(p1Cmd, 'u') and codeEntry == 1 then --Reset Code Entry
-		--f_cmdCodeReset()
-	elseif commandGetState(p1Cmd, 'd') and codeEntry == 2 then
-		codeEntry = 3
-	elseif commandGetState(p1Cmd, 'd') and codeEntry == 3 then
-		codeEntry = 4
-	elseif commandGetState(p1Cmd, 'l') and codeEntry == 4 then
-		codeEntry = 5
-	elseif commandGetState(p1Cmd, 'r') and codeEntry == 5 then
-		codeEntry = 6
-	elseif commandGetState(p1Cmd, 'l') and codeEntry == 6 then
-		codeEntry = 7
-	elseif commandGetState(p1Cmd, 'r') and codeEntry == 7 then
-		codeEntry = 8
-	elseif commandGetState(p1Cmd, 'b') and codeEntry == 8 then
-		codeEntry = 9
-	elseif commandGetState(p1Cmd, 'a') and codeEntry == 9 then
-		codeEntry = 10
-	elseif commandGetState(p1Cmd, 's') and codeEntry == 10 then
-		codeEntry = 0
-		sndPlay(sysSnd, 200, 2)
-	end
-	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
-	if codeEntry == 0 then f_drawQuickText(txt_cmdCode, jgFnt, 0, 0, "KONAMI CODE DETECTED", 159, 88) end
-end
+t_secretCode = {"U","U","D","D","L","R","L","R","B","A","S"}
+t_secretEntry = {}
 
 function f_cmdCodeReset()
 	cmdCode = false
-	codeEntry = 1
+	cmdReward = false
+	newcmdCode = false
+end
+
+function f_cmdCode()
+	--Actions
+	if commandGetState(p1Cmd, 'u') then
+		codeEntry = "U"
+		newcmdCode = true
+	elseif commandGetState(p1Cmd, 'd') then
+		codeEntry = "D"
+		newcmdCode = true
+	elseif commandGetState(p1Cmd, 'l') then
+		codeEntry = "L"
+		newcmdCode = true
+	elseif commandGetState(p1Cmd, 'r') then
+		codeEntry = "R"
+		newcmdCode = true
+	elseif commandGetState(p1Cmd, 'b') then
+		codeEntry = "B"
+		newcmdCode = true
+	elseif commandGetState(p1Cmd, 'a') then
+		codeEntry = "A"
+		newcmdCode = true
+	elseif commandGetState(p1Cmd, 's') then
+		codeEntry = "S"
+		newcmdCode = true
+	end
+	--Check Entries
+	if newcmdCode then
+		f_secretCode(codeEntry)
+		newcmdCode = false
+	end
+	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
+	if cmdReward then f_drawQuickText(txt_cmdCode, jgFnt, 0, 0, "KONAMI CODE DETECTED!", 159, 88) end
+end
+
+--User Entries
+function f_secretCode(key)
+	table.insert(t_secretEntry, key) --Insert key/entry received to t_secretEntry table
+	--if #t_secretEntry > #t_secretCode then --If entries exceed t_secretCode table limit
+		--t_secretEntry = {} --Reset Table to try again.
+	--end
+	for i = 1, #t_secretEntry do
+		if t_secretEntry[i] ~= t_secretCode[i] then --Check if the user key entry is equal to secret code position
+			t_secretEntry = {} --Reset Table to try again.
+		end
+	end
+	--Compare User Entries Table with Secret Code Table
+	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
+		sndPlay(sysSnd, 200, 2)
+		cmdReward = true
+	else--If table are not equals
+		cmdReward = false
+	end
+	if data.debugLog then
+		f_printTable(t_secretEntry, "save/debug/t_secretEntry.txt")
+		f_printTable(t_secretCode, "save/debug/t_secretCode.txt")
+	end
 end
 
 --;===========================================================
