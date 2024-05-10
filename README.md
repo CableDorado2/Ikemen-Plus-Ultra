@@ -171,6 +171,8 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Buscar una forma de forzar que los datos SFF cargados utilicen una paleta personalizada, ya sea a través de un archivo ACT externo o en el caso de SFFv2, que se almacenen directamente en el archivo.
 
+- Los trials para los chars deberian ser programados dentro de los .def de los mismos, debajo de la sección [Arcade].
+
 - Adventure Mode, combinando elementos de:
   - Abyss Mode (BBCF): https://youtu.be/5UI_nFAORnE?t=281
   - Libra of Souls (SoulcaliburVI): https://youtu.be/y3qDzqoeygw?t=381
