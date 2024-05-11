@@ -165,7 +165,7 @@ Someday I will ever be able to train with you?
 character = Kung Fu Man
 text:
 Sure, first I need to fix my life then
-I will offer you free lessons by helping me today.
+I will offer you free lessons for helping me today.
 
 character = Mako Mayama
 side = 2
@@ -726,7 +726,7 @@ side = 2
 sfx = 4,1
 text:
 It was thanks to the data from someone
-who you knows very well..
+that you know very well..
 
 character = 
 sfx = 0,4
