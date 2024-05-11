@@ -482,35 +482,6 @@ const char* discordJoinSecret = "join";
 const char* discordWatchSecret = "look";
 int8_t discordInstance = 0;
 
-void UpdateDiscordPresence()
-{
-	if (SendPresence) {
-		char buffer[256];
-		DiscordRichPresence discordPresence;
-		memset(&discordPresence, 0, sizeof(discordPresence));
-		discordPresence.state = discordState; //Game State
-		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
-		discordPresence.details = discordDetails; //Game Description
-		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = discordBigImg; //Game Icon
-		discordPresence.largeImageText = discordBigTxt; //Game About
-		discordPresence.smallImageKey = discordMiniImg; //Powered Icon
-		discordPresence.smallImageText = discordMiniTxt; //Powered About
-		discordPresence.partyId = discordPartyID;
-		discordPresence.partySize = discordPartySize; //Add 1 when online mode with rich presence works
-		discordPresence.partyMax = discordPartyMax;
-		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = discordMatchSecret;
-		discordPresence.joinSecret = discordJoinSecret;
-		discordPresence.spectateSecret = discordWatchSecret;
-		discordPresence.instance = discordInstance;
-		Discord_UpdatePresence(&discordPresence);
-	}else{
-		Discord_ClearPresence();
-	}
-}
-
 /* Understand this event_handlers example to update the discordPresence.items
 
 You could define different function types for different events:
@@ -548,7 +519,8 @@ Note that could also initialize the event_handler struct with default event hand
 The end-user would be able to override that default behavior by modifying the members of event_handler.
 */
 
-TUserFunc(void, DiscordUpdate)
+//TUserFunc(void, DiscordUpdate)
+void UpdateDiscordPresence()
 {
 	if (SendPresence) {
 		char buffer[256];
@@ -655,12 +627,105 @@ TUserFunc(void, SetDiscordInstance, int8_t Instance)
 	UpdateDiscordPresence();
 }
 
-TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX Render
+SDL_Surface *screenSurface = nullptr;
+SDL_Surface *PNGSurface = nullptr;
+
+/*
+static SDL_Surface* loadImage(std::string path) 
 {
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+	//The final optimized image
+    SDL_Surface* optimizedSurface = NULL;
+
+	//Load image at specified path
+	SDL_Surface* loadedImage = IMG_Load(path.c_str());
+	if (loadedImage == NULL) 
+	{
+		//fprintf(stderr, "could not load image: %s\n", IMG_GetError());
+		//return NULL;
+	}
+	else
+	{
+		//Convert surface to screen format
+		optimizedSurface = SDL_ConvertSurface(loadedImage, screenSurface->format, 0);
+		if (optimizedSurface == NULL)
+		{
+			//fprintf(stderr, "could not optimize image: %s\n", SDL_GetError());
+		}
+		//Get rid of old loaded surface
+		SDL_FreeSurface(loadedImage);
+	}
+	return optimizedSurface;
+}
+*/
+
+/*
+TUserFunc(bool, loadPNG, Reference dir)
+{
+	//Loading success flag
+	bool success = true;
+
+	//Load PNG surface
+	//PNGSurface = loadImage(pu->refToAstr(CP_THREAD_ACP, dir).c_str());
+	PNGSurface = loadImage("test.png");
+	if(PNGSurface == NULL)
+	{
+		//printf( "Failed to load PNG image!\n" );
+		success = false;
+	}
+	return success;
+}
+*/
+
+//TUserFunc(bool, LoadPNG, Reference dir)
+bool LoadPNG()
+{
+	//The final optimized image
+    SDL_Surface* optimizedSurface = NULL;
+
+	//Load image at specified path
+	//SDL_Surface* loadedImage = IMG_Load(pu->refToAstr(CP_THREAD_ACP, dir).c_str());
+	SDL_Surface* loadedImage = IMG_Load("tools/test.png");
+	if (loadedImage == NULL) 
+	{
+		//fprintf(stderr, "could not load image: %s\n", IMG_GetError());
+		//return NULL;
+	}
+	else
+	{
+		//Convert surface to screen format
+		optimizedSurface = SDL_ConvertSurface(loadedImage, screenSurface->format, 0);
+		if (optimizedSurface == NULL)
+		{
+			//fprintf(stderr, "could not optimize image: %s\n", SDL_GetError());
+		}
+		//Get rid of old loaded surface
+		SDL_FreeSurface(loadedImage);
+	}
+	return optimizedSurface;
+}
+
+//TUserFunc(void, RenderPNG)
+void RenderPNG()
+{
+	//Apply the PNG image
+	SDL_BlitSurface(PNGSurface, NULL, screenSurface, NULL);
+	//Update the surface
+	SDL_UpdateWindowSurface(g_window);
+}
+
+int imgFlags = IMG_INIT_PNG;
+
+//System Render
+TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
+{
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	{
 		return false;
-	}else{
-		TTF_Init();
+	}
+	else
+	{
+		IMG_Init(imgFlags); //Initialize PNG loading https://wiki.libsdl.org/SDL2_image/IMG_Init
+		TTF_Init(); //Initialize TTF loading
 		//UpdateDiscordPresence();
 		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
 		g_window = SDL_CreateWindow(//https://wiki.libsdl.org/SDL2/SDL_CreateWindow
@@ -683,17 +748,22 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap) //DirectX
 		g_mainTreadId = GetCurrentThreadId();
 		//SDL_RenderSetIntegerScale(g_renderer, SDL_TRUE);
 		sndjoyinit();
+		screenSurface = SDL_GetWindowSurface(g_window); //Get Window Surface for PNG Images
 	}
 	g_w = w;
 	g_h = h;
 	return true;
 }
 
-TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap) //OpenGL Render
+//OpenGL Render
+TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap)
 {
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	{
 		return false;;
-	}else{
+	}
+	else
+	{
 		TTF_Init();
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -732,6 +802,41 @@ TUserFunc(bool, GlInit, int32_t h, int32_t w, Reference cap) //OpenGL Render
 	g_w = w;
 	g_h = h;
 	return true;
+}
+
+TUserFunc(void, End)
+{
+	wglDeleteContext(g_hglrc2);
+	g_js.close();
+	bgmclear(true);
+	Discord_Shutdown();
+	SDL_PauseAudio(1);
+	SDL_CloseAudio();
+	if(g_target){
+		unlockTarget();
+		SDL_DestroyTexture(g_target);
+		g_target = nullptr;
+	}
+	if(g_gl){
+		SDL_GL_DeleteContext(g_gl);
+		g_gl = nullptr;
+	}
+	//SDL_FreeSurface(screenSurface);
+	//screenSurface = nullptr;
+	SDL_FreeSurface(PNGSurface);
+	PNGSurface = nullptr;
+
+	SDL_DestroyRenderer(g_renderer);
+	g_renderer = nullptr;
+
+	//Destroy window
+	SDL_DestroyWindow(g_window);
+	g_window = nullptr;
+
+	//Quit SDL subsystems
+	TTF_Quit();
+	IMG_Quit();
+	SDL_Quit();
 }
 
 int fsMode = 0;
@@ -796,44 +901,6 @@ TUserFunc(void, TakeScreenShot, Reference dir)
 		IMG_SavePNG(screenshot, pu->refToAstr(CP_THREAD_ACP, dir).c_str());
 		SDL_FreeSurface(screenshot);
 	}
-}
-
-TUserFunc(void, LoadIMG, Reference dir, int32_t h, int32_t w, uint8_t* ppx) //A bad attempt because already exists lol
-{
-	//if(fullscreenChecker == false){ //Window Mode
-		//SDL_Surface* Photo = SDL_CreateRGBSurfaceFrom(ppx, w, h, 8, w, 0, 0, 0, 0);
-		SDL_Surface* Photo = IMG_Load(pu->refToAstr(CP_THREAD_ACP, dir).c_str()); //SDL_Surface* MySurface { IMG_Load("Test.png") };
-		SDL_Surface* ae = SDL_ConvertSurface(Photo, Photo->format, SDL_RLEACCEL);
-		//SDL_RenderReadPixels(g_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, Photo->pixels, Photo->pitch);
-		SDL_FreeSurface(ae);
-	//}else{ //Fullscreen Mode
-		//
-    //}
-}
-
-TUserFunc(void, End)
-{
-	wglDeleteContext(g_hglrc2);
-	g_js.close();
-	bgmclear(true);
-	Discord_Shutdown();
-	SDL_PauseAudio(1);
-	SDL_CloseAudio();
-	if(g_target){
-		unlockTarget();
-		SDL_DestroyTexture(g_target);
-		g_target = nullptr;
-	}
-	if(g_gl){
-		SDL_GL_DeleteContext(g_gl);
-		g_gl = nullptr;
-	}
-	SDL_DestroyRenderer(g_renderer);
-	g_renderer = nullptr;
-	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
-	TTF_Quit();
-	SDL_Quit();
 }
 
 TUserFunc(bool, PollEvent, int8_t* pb)

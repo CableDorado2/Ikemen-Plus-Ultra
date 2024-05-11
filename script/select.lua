@@ -1101,8 +1101,13 @@ function f_selectSimple()
 			end
 		end
 		f_aiLevel()
+		assert(loadfile("save/training_sav.lua"))()
 		if data.gameMode == "training" then
-			setCom(2, 0) --Not computer is controlling P2 side, only the human for training dummy
+			if data.dummyMode == 1 then
+				setCom(2, data.AIlevel)
+			else
+				setCom(2, 0) --Not computer is controlling P2 side, only the human for training dummy
+			end
 		end
 		f_matchInfo()
 		f_orderSelect()

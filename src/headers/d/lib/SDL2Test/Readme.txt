@@ -1,1 +1,1 @@
-This test consist in compile and use this libraries that are the versions of original ikemen plus to compile sdlplugin and see if Mugen 1.1 sprites type now are showed.
+This test consist in compile and use this libraries that are the versions used in original ikemen plus to compile sdlplugin and see if Mugen 1.1 sprites type now are showed.

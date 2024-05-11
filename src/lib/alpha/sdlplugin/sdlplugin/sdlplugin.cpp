@@ -715,7 +715,7 @@ void RenderPNG()
 
 int imgFlags = IMG_INIT_PNG;
 
-//DirectX Render
+//System Render
 TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)

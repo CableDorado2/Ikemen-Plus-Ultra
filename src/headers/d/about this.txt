@@ -1,1 +1,1 @@
-Ikemen Plus Ultra Libraries.
+Libraries for SDLPlugin.

@@ -2020,7 +2020,7 @@ function f_pauseTraining()
 					if data.dummyMode == 1 then
 						sndPlay(sysSnd, 100, 1)
 						data.dummyMode = 0
-						--toggleAI(2)
+						toggleAI(2)
 					elseif data.dummyMode == 0 then
 						sndPlay(sysSnd, 100, 1)
 						data.dummyMode = 2
@@ -2035,6 +2035,7 @@ function f_pauseTraining()
 					elseif data.dummyMode == 0 then
 						sndPlay(sysSnd, 100, 1)
 						data.dummyMode = 1
+						toggleAI(2)
 					end
 					hasChanged = true
 				end
