@@ -2575,6 +2575,9 @@ public &StateBuilder
     cond .s.equ("standby", token):
       out .= obj .= "standby";
       typ = 3;
+	cond .s.equ("suavemode", token):
+      out .= obj .= "trSuaveMode()";
+      typ = 2;
     cond
       .s.equ("=", token) || .s.equ("!=", token)
       || .s.equ(">", token) || .s.equ(">=", token)

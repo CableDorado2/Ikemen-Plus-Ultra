@@ -15,7 +15,25 @@ pan_str = math.floor(tonumber(s_configSSZ:match('const float PanStr%s*=%s*(%d%.*
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
 
---Data saving to config.ssz
+--Variable setting based on loaded data
+gl_vol = f_minMax(gl_vol,0,100)
+se_vol = f_minMax(se_vol,0,100)
+bgm_vol = f_minMax(bgm_vol,0,100)
+
+if pan_str < 20 then
+	pan_str = 0
+elseif pan_str >= 20 and pan_str < 60 then
+	pan_str = 40
+elseif pan_str >= 60 and pan_str < 100 then
+	pan_str = 80
+elseif pan_str >= 100 and pan_str < 140 then
+	pan_str = 120
+elseif pan_str >= 140 then
+	pan_str = 160
+end
+t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
+
+--Save Data to config.ssz
 function f_saveSettings()
 	s_configSSZ = s_configSSZ:gsub('const float GlVol%s*=%s*%d%.*%d*', 'const float GlVol = ' .. gl_vol / 100)
 	s_configSSZ = s_configSSZ:gsub('const float SEVol%s*=%s*%d%.*%d*', 'const float SEVol = ' .. se_vol / 100)
@@ -28,8 +46,35 @@ function f_saveSettings()
 	--configModified('true')
 end
 
---Data saving to training_sav.lua
-function f_saveTraining()
+--Load training_sav.lua data
+local file = io.open("save/training_sav.lua","r")
+s_trainLUA = file:read("*all")
+file:close()
+
+--Variable setting based on loaded data
+data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
+data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
+if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
+	data.pbkSlot1 = true
+end
+
+function f_TrainingVars()
+--Life Gauge
+	setLifeStateP1(data.LifeStateP1)
+	setLifeStateP2(data.LifeStateP2)
+--Power Gauge
+	setPowerStateP1(data.PowerStateP1)
+	setPowerStateP2(data.PowerStateP2)
+--Auto Guard
+	setAutoguard(1, data.autoguardP1)
+	setAutoguard(2, data.autoguardP2)
+--Dummy Mode
+	if data.dummyMode == 1 then
+		setCom(2, data.AIlevel)
+	elseif data.dummyMode == 2 then
+		playDummyRecord(sysSnd)
+	end
+--Playback
 	setPlaybackCfg(
 		data.pbkRecSlot,
 		data.pbkPlaySlot,
@@ -40,19 +85,45 @@ function f_saveTraining()
 		data.pbkSlot4,
 		data.pbkSlot5
 	)
+--Characters Settings
+	setSuaveMode(data.suavemode)
+end
+
+--Load Training Settings Saved from training_sav.lua
+if getGameMode() == "practice" then
+	--Screen Info
+	setDamageDisplay(data.damageDisplay)
+	setInputDisplay(data.inputDisplay)
+	if data.hitbox then toggleClsnDraw() end
+	if data.debugInfo then toggleDebugDraw() end
+	f_TrainingVars()
+end
+
+function f_resetTrainingCfg() --Reset when you exit from Training Mode or Replay Mode
+	if not data.hudDisplay then setHUD(true) end
+	if data.hitbox then toggleClsnDraw() end
+	if data.debugInfo then toggleDebugDraw() end
+	setDamageDisplay(0)
+	setInputDisplay(0)
+end
+
+--Save Data to training_sav.lua and Apply Settings
+function f_saveTrgCfg()
+	f_TrainingVars()
 	local t_training = {
 	--Practice Settings
 		['data.damageDisplay'] = data.damageDisplay,
 		['data.inputDisplay'] = data.inputDisplay,
 		['data.hitbox'] = data.hitbox,
 		['data.debugInfo'] = data.debugInfo,
-		['data.autoguardP1'] = data.autoguardP1,
-		['data.autoguardP2'] = data.autoguardP2,
 		['data.dummyMode'] = data.dummyMode,
-		['data.PowerStateP1'] = data.PowerStateP1,
-		['data.PowerStateP2'] = data.PowerStateP2,
+		['data.AIlevel'] = data.AIlevel,
 		['data.LifeStateP1'] = data.LifeStateP1,
 		['data.LifeStateP2'] = data.LifeStateP2,
+		['data.PowerStateP1'] = data.PowerStateP1,
+		['data.PowerStateP2'] = data.PowerStateP2,
+		['data.autoguardP1'] = data.autoguardP1,
+		['data.autoguardP2'] = data.autoguardP2,
 	--Playback Settings
 		['data.pbkRecSlot'] = data.pbkRecSlot,
 		['data.pbkPlaySlot'] = data.pbkPlaySlot,
@@ -61,13 +132,15 @@ function f_saveTraining()
 		['data.pbkSlot2'] = data.pbkSlot2,
 		['data.pbkSlot3'] = data.pbkSlot3,
 		['data.pbkSlot4'] = data.pbkSlot4,
-		['data.pbkSlot5'] = data.pbkSlot5
+		['data.pbkSlot5'] = data.pbkSlot5,
+	--Characters Settings
+		['data.suavemode'] = data.suavemode
 	}
 	s_trainLUA = f_strSub(s_trainLUA, t_training)
-	local trainingFile = io.open("save/training_sav.lua","w+")
-	trainingFile:write(s_trainLUA)
-	trainingFile:close()
-	--trainingModified = false
+	local file = io.open("save/training_sav.lua","w+")
+	file:write(s_trainLUA)
+	file:close()
+	modified = false
 end
 
 function f_sysTimeP()
@@ -161,23 +234,6 @@ function f_sysTimeP()
 	textImgDraw(txt_titleClock) --Draw Clock
 	textImgDraw(txt_titleDate) --Draw Date
 end
-
-gl_vol = f_minMax(gl_vol,0,100)
-se_vol = f_minMax(se_vol,0,100)
-bgm_vol = f_minMax(bgm_vol,0,100)
-
-if pan_str < 20 then
-	pan_str = 0
-elseif pan_str >= 20 and pan_str < 60 then
-	pan_str = 40
-elseif pan_str >= 60 and pan_str < 100 then
-	pan_str = 80
-elseif pan_str >= 100 and pan_str < 140 then
-	pan_str = 120
-elseif pan_str >= 140 then
-	pan_str = 160
-end
-t_panStr = {"None", "Narrow", "Medium", "Wide", "Full"}
 
 --;===========================================================
 --; PAUSE MENU SCREENPACK
@@ -348,70 +404,6 @@ recWarning = false
 
 data.hudDisplay = true
 
-function f_resetTrainingCfg()
-	if not data.hudDisplay then setHUD(true) end
-	if data.hitbox then toggleClsnDraw() end
-	if data.debugInfo then toggleDebugDraw() end
-	setDamageDisplay(0)
-	setInputDisplay(0)
-end
-
---Restore Training Settings Saved (WIP)
-if getGameMode() == "practice" then
-	--Screen Info
-	if not data.damageDisplay then
-		setDamageDisplay(0)
-	else
-		setDamageDisplay(1)
-	end
-	if not data.inputDisplay then
-		setInputDisplay(0)
-	else
-		setInputDisplay(1)
-	end
-	data.hitbox = false
-	data.debugInfo = false
-	--Power Gauge
-	data.PowerStateP1 = "Max at Start"
-	setPowerStateP1(11)
-	data.PowerStateP2 = "Max at Start"
-	setPowerStateP2(11)
-	--Life Gauge
-	data.LifeStateP1 = "100%"
-	setLifeStateP1(100)
-	data.LifeStateP2 = "100%"
-	setLifeStateP2(100)
-	--Dummy
-	data.dummyMode = "Manual"
-	--if not data.autoguardP1 then
-		setAutoguard(1, data.autoguardP1)
-	--else
-		--setAutoguard(1, true)
-	--end
-	--if not data.autoguardP2 then 
-		setAutoguard(2, data.autoguardP2)
-	--else
-		--setAutoguard(2, true)
-	--end
-	--Playback
-	data.pbkRecSlot = f_minMax(data.pbkRecSlot,1,5)
-	data.pbkPlaySlot = f_minMax(data.pbkPlaySlot,1,8)
-	if (f_boolToNum(data.pbkSlot1)+f_boolToNum(data.pbkSlot2)+f_boolToNum(data.pbkSlot3)+f_boolToNum(data.pbkSlot4)+f_boolToNum(data.pbkSlot5)) == 0 then
-		data.pbkSlot1 = true
-	end
-	--Apply settings from training_sav.lua
-	setPlaybackCfg(
-		data.pbkRecSlot,
-		data.pbkPlaySlot,
-		data.pbkPlayLoop,
-		data.pbkSlot1,
-		data.pbkSlot2,
-		data.pbkSlot3,
-		data.pbkSlot4,
-		data.pbkSlot5
-	)
-end
-
 function f_pauseMenuReset()
 	togglePauseMenu(0)
 	setSysCtrl(0)
@@ -438,7 +430,7 @@ function f_gameCfgMenuReset2()
 end
 
 function f_trainingCfgMenuReset()
-	trainingModified = false
+	--modified = false
 	trainingCfg = 1
 	cursorPosY = 1
 	moveTxt = 0
@@ -447,7 +439,7 @@ function f_trainingCfgMenuReset()
 end
 
 function f_trainingCfgMenuReset2()
-	trainingModified = false
+	--modified = false
 	pauseMode = "Training"
 	trainingCfg = 1
 	cursorPosY = 1
@@ -765,7 +757,7 @@ function f_pauseMain(p, st, esc)
 		end
 	elseif pauseMode == "Settings" or pauseMode == "Audio" or pauseMode == "Songs" then
 		f_pauseSettings()
-	elseif pauseMode == "Training" or pauseMode == "Playback" then
+	elseif pauseMode == "Training" or pauseMode == "CharacterCfg" or pauseMode == "Playback" then
 		f_pauseTraining()
 	elseif pauseMode == "Confirm" then
 		f_pauseConfirm()
@@ -1561,24 +1553,27 @@ t_trainingCfg = {
 	{varID = textImgNew(), text = "Input Display",				varText = ""},
 	{varID = textImgNew(), text = "Hitbox Display", 			varText = ""},
 	{varID = textImgNew(), text = "Debug Info",					varText = ""},
-	{varID = textImgNew(), text = "Lifebar P1",					varText = data.LifeStateP1},
-	{varID = textImgNew(), text = "Lifebar P2",					varText = data.LifeStateP2},
-	{varID = textImgNew(), text = "Power Gauge P1",				varText = data.PowerStateP1},
-	{varID = textImgNew(), text = "Power Gauge P2",				varText = data.PowerStateP2},
+	{varID = textImgNew(), text = "Lifebar P1",					varText = ""},
+	{varID = textImgNew(), text = "Lifebar P2",					varText = ""},
+	{varID = textImgNew(), text = "Power Gauge P1",				varText = ""},
+	{varID = textImgNew(), text = "Power Gauge P2",				varText = ""},
 	{varID = textImgNew(), text = "Auto Guard P1", 				varText = ""},
 	{varID = textImgNew(), text = "Auto Guard P2", 				varText = ""},
 	--{varID = textImgNew(), text = "Distance", 				varText = ""},
 	--{varID = textImgNew(), text = "Tech Recovery", 			varText = ""},
-	--{varID = textImgNew(), text = "Tech Direction", 			varText = ""},
 	--{varID = textImgNew(), text = "Counter Hit", 				varText = ""},
+	{varID = textImgNew(), text = "AI Level", 					varText = ""},
+	{varID = textImgNew(), text = "Character Settings",			varText = ""},
 	{varID = textImgNew(), text = "Playback Settings",			varText = ""},
 	{varID = textImgNew(), text = "Dummy Recording Start",		varText = ""},
-	{varID = textImgNew(), text = "Dummy Control", 				varText = data.dummyMode},
+	{varID = textImgNew(), text = "Dummy Control", 				varText = ""},
 	{varID = textImgNew(), text = "                   BACK",   	varText = ""},
 }
 
 --Battle Info for Replays
 if getGameMode() ~= "practice" then --if getGameMode() == "replay" or getGameMode() == "randomtest" then
+	table.remove(t_trainingCfg,15)
+	table.remove(t_trainingCfg,14)
 	table.remove(t_trainingCfg,13)
 	table.remove(t_trainingCfg,12)
 	table.remove(t_trainingCfg,11)
@@ -1592,13 +1587,47 @@ end
 
 --Logic to Display Text instead Boolean Values
 function f_trainingCfgdisplayTxt()
-if data.damageDisplay then t_trainingCfg[1].varText = "Yes" else t_trainingCfg[1].varText = "No" end
-if data.inputDisplay then t_trainingCfg[2].varText = "Yes" else t_trainingCfg[2].varText = "No" end
+if data.damageDisplay == 0 then t_trainingCfg[1].varText = "No"
+elseif data.damageDisplay == 1 then t_trainingCfg[1].varText = "Yes"
+end
+if data.inputDisplay == 0 then t_trainingCfg[2].varText = "No"
+elseif data.inputDisplay == 1 then t_trainingCfg[2].varText = "Yes"
+end
 if data.hitbox then t_trainingCfg[3].varText = "Yes" else t_trainingCfg[3].varText = "No" end
 if data.debugInfo then t_trainingCfg[4].varText = "Yes" else t_trainingCfg[4].varText = "No" end
-if getGameMode() == "practice" then
+if getGameMode() == "practice" then --To don't display in battle info menu
+	--Lifebar P1
+	if data.LifeStateP1 == 0 then t_trainingCfg[5].varText = "No Regenerate"
+	else t_trainingCfg[5].varText = data.LifeStateP1.."%"
+	end
+	--Lifebar P2
+	if data.LifeStateP2 == 0 then t_trainingCfg[6].varText = "No Regenerate"
+	else t_trainingCfg[6].varText = data.LifeStateP2.."%"
+	end
+	--Power Gauge P1
+	if data.PowerStateP1 == 0 then t_trainingCfg[7].varText = "No Recovery"
+	elseif data.PowerStateP1 == 10 then t_trainingCfg[7].varText = "Recovery"
+	elseif data.PowerStateP1 == 11 then t_trainingCfg[7].varText = "Max at Start"
+	elseif data.PowerStateP1 == 666 then t_trainingCfg[7].varText = "Unlimited"
+	else t_trainingCfg[7].varText = "Level "..data.PowerStateP1
+	end
+	--Power Gauge P2
+	if data.PowerStateP2 == 0 then t_trainingCfg[8].varText = "No Recovery"
+	elseif data.PowerStateP2 == 10 then t_trainingCfg[8].varText = "Recovery"
+	elseif data.PowerStateP2 == 11 then t_trainingCfg[8].varText = "Max at Start"
+	elseif data.PowerStateP2 == 666 then t_trainingCfg[8].varText = "Unlimited"
+	else t_trainingCfg[8].varText = "Level "..data.PowerStateP2
+	end
+	--Auto Guard Mode
 	if data.autoguardP1 then t_trainingCfg[9].varText = "Yes" else t_trainingCfg[9].varText = "No" end
 	if data.autoguardP2 then t_trainingCfg[10].varText = "Yes" else t_trainingCfg[10].varText = "No" end
+	--AI Level
+	t_trainingCfg[11].varText = data.AIlevel
+	--Dummy Mode
+	if data.dummyMode == 0 then t_trainingCfg[15].varText = "Manual"
+	elseif data.dummyMode == 1 then t_trainingCfg[15].varText = "CPU"
+	elseif data.dummyMode == 2 then t_trainingCfg[15].varText = "Playback"
+	end
 end
 end
 
@@ -1648,14 +1677,14 @@ function f_pauseTraining()
 				pauseMenuActive = false
 				bufl = 0
 				bufr = 0
-				if trainingModified then f_saveTraining() end
+				if modified then f_saveTrgCfg() end
 			--BACK
 			elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and trainingCfg == #t_trainingCfg) then
 				sndPlay(sysSnd, 100, 2)
 				delayMenu = -2
 				bufl = 0
 				bufr = 0
-				if trainingModified then f_saveTraining() end
+				if modified then f_saveTrgCfg() end
 			end
 		end
 		if pauseMenuActive == true and delayMenu < 2 then
@@ -1696,10 +1725,27 @@ function f_pauseTraining()
 				if bufr then bufr = 0 end
 				recWarning = false
 			end
+			--Actions
 			if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) then
-				--Start Dummy Recording
+				--Character Settings
 				if trainingCfg == 12 then
-					if data.dummyMode == "Playback" or data.dummyMode == "CPU" then
+					sndPlay(sysSnd, 100, 1)
+					trainingGoTo = "CharacterCfg"
+					charCfg = 1
+					cursorPosY = 1
+					moveTxt = 0
+					delayMenu = -2
+				--Playback Settings
+				elseif trainingCfg == 13 then
+					sndPlay(sysSnd, 100, 1)
+					trainingGoTo = "Playback"
+					playbackCfg = 1
+					cursorPosY = 1
+					moveTxt = 0
+					delayMenu = -2
+				--Start Dummy Recording
+				elseif trainingCfg == 14 then
+					if data.dummyMode == 2 or data.dummyMode == 1 then
 						sndPlay(sysSnd, 100, 5)
 						recWarning = true
 					else
@@ -1710,63 +1756,30 @@ function f_pauseTraining()
 						pauseMenuActive = false
 						bufl = 0
 						bufr = 0
-						if trainingModified then f_saveTraining() end
+						if modified then f_saveTrgCfg() end
 					end
-				--Playback Settings
-				elseif trainingCfg == 11 then
-					sndPlay(sysSnd, 100, 1)
-					trainingGoTo = "Playback"
-					playbackCfg = 1
-					cursorPosY = 1
-					moveTxt = 0
-					delayMenu = -2
 				end
 			end
 			--Common Button Logic
-			if (trainingCfg >= 1 and trainingCfg < 5) or trainingCfg == 9 or trainingCfg == 10 then
+			if (trainingCfg >= 3 and trainingCfg < 5) or trainingCfg == 9 or trainingCfg == 10 then
 				if (pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0) or (pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l')) or (pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r')) then
 					sndPlay(sysSnd, 100, 1)
-					--Info Display
-					if trainingCfg == 1 then
-						if not data.damageDisplay then
-							sndPlay(sysSnd, 100, 5)
-							--[[
-							data.damageDisplay = true
-							setDamageDisplay(1)
-							]]
-						--else
-							--[[
-							data.damageDisplay = false
-							setDamageDisplay(0)
-							]]
-						end
-					--Input Display
-					elseif trainingCfg == 2 then
-						if not data.inputDisplay then
-							data.inputDisplay = true
-							setInputDisplay(1)
-						else
-							data.inputDisplay = false
-							setInputDisplay(0)
-						end
 					--Hitbox Display
-					elseif trainingCfg == 3 then
+					if trainingCfg == 3 then
 						if not data.hitbox then
-							toggleClsnDraw()
 							data.hitbox = true
 						else
-							toggleClsnDraw()
 							data.hitbox = false
 						end
+						toggleClsnDraw()
 					--Debug Info Display
 					elseif trainingCfg == 4 then
 						if not data.debugInfo then
-							toggleDebugDraw()
 							data.debugInfo = true
 						else
-							toggleDebugDraw()
 							data.debugInfo = false
 						end
+						toggleDebugDraw()
 					--Auto Guard P1
 					elseif trainingCfg == 9 then
 						if not data.autoguardP1 then
@@ -1774,7 +1787,6 @@ function f_pauseTraining()
 						else
 							data.autoguardP1 = false
 						end
-						setAutoguard(1, data.autoguardP1)
 					--Auto Guard P2
 					elseif trainingCfg == 10 then
 						if not data.autoguardP2 then
@@ -1782,244 +1794,250 @@ function f_pauseTraining()
 						else
 							data.autoguardP2 = false
 						end
-						setAutoguard(2, data.autoguardP2)
+					end
+					hasChanged = true
+				end
+			--Info Display
+			elseif trainingCfg == 1 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					--[[
+					if data.damageDisplay > 0 then
+						sndPlay(sysSnd, 100, 1)
+						data.damageDisplay = data.damageDisplay - 1
+					end
+					hasChanged = true
+					]]
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					sndPlay(sysSnd, 100, 5)
+					--[[
+					if data.damageDisplay < 1 then
+						sndPlay(sysSnd, 100, 1)
+						data.damageDisplay = data.damageDisplay + 1
+					end
+					hasChanged = true
+					]]
+				end
+			--Input Display
+			elseif trainingCfg == 2 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.inputDisplay > 0 then
+						sndPlay(sysSnd, 100, 1)
+						data.inputDisplay = data.inputDisplay - 1
+					end
+					hasChanged = true
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.inputDisplay < 1 then
+						sndPlay(sysSnd, 100, 1)
+						data.inputDisplay = data.inputDisplay + 1
 					end
 					hasChanged = true
 				end
 			--Left Side Life Gauge Setup
 			elseif trainingCfg == 5 and getGameMode() == "practice" then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.LifeStateP1 == "No Regenerate" then
+					if data.LifeStateP1 == 0 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "25%"
-						setLifeStateP1(25)
-					elseif data.LifeStateP1 == "25%" then
+						data.LifeStateP1 = 25
+					elseif data.LifeStateP1 == 25 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "50%"
-						setLifeStateP1(50)
-					elseif data.LifeStateP1 == "50%" then
+						data.LifeStateP1 = 50
+					elseif data.LifeStateP1 == 50 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "75%"
-						setLifeStateP1(75)
-					elseif data.LifeStateP1 == "75%" then
+						data.LifeStateP1 = 75
+					elseif data.LifeStateP1 == 75 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "100%"
-						setLifeStateP1(100)
+						data.LifeStateP1 = 100
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.LifeStateP1 == "100%" then
+					if data.LifeStateP1 == 100 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "75%"
-						setLifeStateP1(75)
-					elseif data.LifeStateP1 == "75%" then
+						data.LifeStateP1 = 75
+					elseif data.LifeStateP1 == 75 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "50%"
-						setLifeStateP1(50)
-					elseif data.LifeStateP1 == "50%" then
+						data.LifeStateP1 = 50
+					elseif data.LifeStateP1 == 50 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "25%"
-						setLifeStateP1(25)
-					elseif data.LifeStateP1 == "25%" then
+						data.LifeStateP1 = 25
+					elseif data.LifeStateP1 == 25 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP1 = "No Regenerate"
-						setLifeStateP1(0)
+						data.LifeStateP1 = 0
 					end
 					hasChanged = true
 				end
 			--Right Side Life Gauge Setup
 			elseif trainingCfg == 6 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.LifeStateP2 == "No Regenerate" then
+					if data.LifeStateP2 == 0 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "25%"
-						setLifeStateP2(25)
-					elseif data.LifeStateP2 == "25%" then
+						data.LifeStateP2 = 25
+					elseif data.LifeStateP2 == 25 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "50%"
-						setLifeStateP2(50)
-					elseif data.LifeStateP2 == "50%" then
+						data.LifeStateP2 = 50
+					elseif data.LifeStateP2 == 50 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "75%"
-						setLifeStateP2(75)
-					elseif data.LifeStateP2 == "75%" then
+						data.LifeStateP2 = 75
+					elseif data.LifeStateP2 == 75 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "100%"
-						setLifeStateP2(100)
+						data.LifeStateP2 = 100
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.LifeStateP2 == "100%" then
+					if data.LifeStateP2 == 100 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "75%"
-						setLifeStateP2(75)
-					elseif data.LifeStateP2 == "75%" then
+						data.LifeStateP2 = 75
+					elseif data.LifeStateP2 == 75 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "50%"
-						setLifeStateP2(50)
-					elseif data.LifeStateP2 == "50%" then
+						data.LifeStateP2 = 50
+					elseif data.LifeStateP2 == 50 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "25%"
-						setLifeStateP2(25)
-					elseif data.LifeStateP2 == "25%" then
+						data.LifeStateP2 = 25
+					elseif data.LifeStateP2 == 25 then
 						sndPlay(sysSnd, 100, 1)
-						data.LifeStateP2 = "No Regenerate"
-						setLifeStateP2(0)
+						data.LifeStateP2 = 0
 					end
 					hasChanged = true
 				end
 			--Left Side Power Gauge Setup
 			elseif trainingCfg == 7 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.PowerStateP1 == "Max at Start" then
+					if data.PowerStateP1 == 11 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(10)
-						data.PowerStateP1 = "Recovery"
-					elseif data.PowerStateP1 == "Recovery" then
+						data.PowerStateP1 = 10
+					elseif data.PowerStateP1 == 10 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(0)
-						data.PowerStateP1 = "No Recovery"
-					elseif data.PowerStateP1 == "No Recovery" then
+						data.PowerStateP1 = 0
+					elseif data.PowerStateP1 == 0 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(1)
-						data.PowerStateP1 = "Level 1"
-					elseif data.PowerStateP1 == "Level 1" then
+						data.PowerStateP1 = 1
+					elseif data.PowerStateP1 == 1 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(2)
-						data.PowerStateP1 = "Level 2"
-					elseif data.PowerStateP1 == "Level 2" then
+						data.PowerStateP1 = 2
+					elseif data.PowerStateP1 == 2 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(3)
-						data.PowerStateP1 = "Level 3"
-					elseif data.PowerStateP1 == "Level 3" then
+						data.PowerStateP1 = 3
+					elseif data.PowerStateP1 == 3 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(666)
-						data.PowerStateP1 = "Unlimited"
+						data.PowerStateP1 = 666
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.PowerStateP1 == "Recovery" then
+					if data.PowerStateP1 == 666 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(11)
-						data.PowerStateP1 = "Max at Start"
-					elseif data.PowerStateP1 == "No Recovery" then
+						data.PowerStateP1 = 3
+					elseif data.PowerStateP1 == 3 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(10)
-						data.PowerStateP1 = "Recovery"
-					elseif data.PowerStateP1 == "Level 1" then
+						data.PowerStateP1 = 2
+					elseif data.PowerStateP1 == 2 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(0)
-						data.PowerStateP1 = "No Recovery"
-					elseif data.PowerStateP1 == "Level 2" then
+						data.PowerStateP1 = 1
+					elseif data.PowerStateP1 == 1 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(1)
-						data.PowerStateP1 = "Level 1"
-					elseif data.PowerStateP1 == "Level 3" then
+						data.PowerStateP1 = 0
+					elseif data.PowerStateP1 == 0 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(2)
-						data.PowerStateP1 = "Level 2"
-					elseif data.PowerStateP1 == "Unlimited" then
+						data.PowerStateP1 = 10
+					elseif data.PowerStateP1 == 10 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP1(3)
-						data.PowerStateP1 = "Level 3"
+						data.PowerStateP1 = 11
 					end
 					hasChanged = true
 				end
 			--Right Side Power Gauge Setup
 			elseif trainingCfg == 8 then
 				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.PowerStateP2 == "Max at Start" then
+					if data.PowerStateP2 == 11 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(10)
-						data.PowerStateP2 = "Recovery"
-					elseif data.PowerStateP2 == "Recovery" then
+						data.PowerStateP2 = 10
+					elseif data.PowerStateP2 == 10 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(0)
-						data.PowerStateP2 = "No Recovery"
-					elseif data.PowerStateP2 == "No Recovery" then
+						data.PowerStateP2 = 0
+					elseif data.PowerStateP2 == 0 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(1)
-						data.PowerStateP2 = "Level 1"
-					elseif data.PowerStateP2 == "Level 1" then
+						data.PowerStateP2 = 1
+					elseif data.PowerStateP2 == 1 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(2)
-						data.PowerStateP2 = "Level 2"
-					elseif data.PowerStateP2 == "Level 2" then
+						data.PowerStateP2 = 2
+					elseif data.PowerStateP2 == 2 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(3)
-						data.PowerStateP2 = "Level 3"
-					elseif data.PowerStateP2 == "Level 3" then
+						data.PowerStateP2 = 3
+					elseif data.PowerStateP2 == 3 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(666)
-						data.PowerStateP2 = "Unlimited"
+						data.PowerStateP2 = 666
 					end
 					hasChanged = true
 				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.PowerStateP2 == "Recovery" then
+					if data.PowerStateP2 == 666 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(11)
-						data.PowerStateP2 = "Max at Start"
-					elseif data.PowerStateP2 == "No Recovery" then
+						data.PowerStateP2 = 3
+					elseif data.PowerStateP2 == 3 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(10)
-						data.PowerStateP2 = "Recovery"
-					elseif data.PowerStateP2 == "Level 1" then
+						data.PowerStateP2 = 2
+					elseif data.PowerStateP2 == 2 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(0)
-						data.PowerStateP2 = "No Recovery"
-					elseif data.PowerStateP2 == "Level 2" then
+						data.PowerStateP2 = 1
+					elseif data.PowerStateP2 == 1 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(1)
-						data.PowerStateP2 = "Level 1"
-					elseif data.PowerStateP2 == "Level 3" then
+						data.PowerStateP2 = 0
+					elseif data.PowerStateP2 == 0 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(2)
-						data.PowerStateP2 = "Level 2"
-					elseif data.PowerStateP2 == "Unlimited" then
+						data.PowerStateP2 = 10
+					elseif data.PowerStateP2 == 10 then
 						sndPlay(sysSnd, 100, 1)
-						setPowerStateP2(3)
-						data.PowerStateP2 = "Level 3"
+						data.PowerStateP2 = 11
 					end
 					hasChanged = true
 				end
 			--[[
-			--Dummy Distance
+			--Distance
 			elseif trainingCfg == ??? then
 				
-			--Dummy Tech
+			--Tech
 			elseif trainingCfg == ??? then
 				
-			--Dummy Tech Direction
-			elseif trainingCfg == ??? then
-				
-			--Dummy Counter Hit
+			--Counter Hit
 			elseif trainingCfg == ??? then
 				
 			]]
-			--Dummy Control
-			elseif trainingCfg == 13 then
-				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
-					if data.dummyMode == "CPU" then
+			--AI Level
+			elseif trainingCfg == 11 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.AIlevel > 1 then
 						sndPlay(sysSnd, 100, 1)
-						toggleAI(2)
-						data.dummyMode = "Manual"
-					elseif data.dummyMode == "Manual" then
-						--sndPlay(sysSnd, 100, 1)
-						data.dummyMode = "Playback"
-						playDummyRecord(sysSnd)
+						data.AIlevel = data.AIlevel - 1
 					end
-				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
-					if data.dummyMode == "Playback" then
-						--sndPlay(sysSnd, 100, 1)
-						data.dummyMode = "Manual"
-						endDummyPlayback(sysSnd)
-					elseif data.dummyMode == "Manual" then
+					hasChanged = true
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.AIlevel < 8 then
 						sndPlay(sysSnd, 100, 1)
-						toggleAI(2)
-						data.dummyMode = "CPU"
+						data.AIlevel = data.AIlevel + 1
 					end
+					hasChanged = true
 				end
-				hasChanged = true
+			--Dummy Control
+			elseif trainingCfg == 15 then
+				if ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+					if data.dummyMode == 1 then
+						sndPlay(sysSnd, 100, 1)
+						data.dummyMode = 0
+						--toggleAI(2)
+					elseif data.dummyMode == 0 then
+						sndPlay(sysSnd, 100, 1)
+						data.dummyMode = 2
+						--playDummyRecord(sysSnd)
+					end
+					hasChanged = true
+				elseif ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+					if data.dummyMode == 2 then
+						--sndPlay(sysSnd, 100, 1)
+						data.dummyMode = 0
+						endDummyPlayback(sysSnd)
+					elseif data.dummyMode == 0 then
+						sndPlay(sysSnd, 100, 1)
+						data.dummyMode = 1
+					end
+					hasChanged = true
+				end
 			end
 			if trainingCfg < 1 then
 				trainingCfg = #t_trainingCfg
@@ -2065,13 +2083,10 @@ function f_pauseTraining()
 				end
 			end
 			if hasChanged then
-				if not trainingModified then trainingModified = true end
+				if not modified then modified = true end
 				f_trainingCfgdisplayTxt()
-				if getGameMode() == "practice" then t_trainingCfg[5].varText = data.LifeStateP1 end --To don't display in battle info menu
-				t_trainingCfg[6].varText = data.LifeStateP2
-				t_trainingCfg[7].varText = data.PowerStateP1
-				t_trainingCfg[8].varText = data.PowerStateP2
-				t_trainingCfg[13].varText = data.dummyMode
+				setDamageDisplay(data.damageDisplay)
+				setInputDisplay(data.inputDisplay)
 				hasChanged = false
 			end
 			--animDraw(f_animVelocity(pauseBG0, -1, -1))
@@ -2124,6 +2139,8 @@ function f_pauseTraining()
 				P2bufd = 0
 			end
 		end
+	elseif pauseMode == "CharacterCfg" then
+		f_pauseCharCfg()
 	elseif pauseMode == "Playback" then
 		f_pausePlayback()
 	end
@@ -2196,12 +2213,12 @@ function f_pausePlayback()
 			pauseMenuActive = false
 			bufl = 0
 			bufr = 0
-			if modified then f_saveTraining() end
+			if modified then f_saveTrgCfg() end
 		--BACK
 		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and playbackCfg == #t_playbackCfg) then
 			sndPlay(sysSnd, 100, 2)
 			delayMenu = -2
-			if modified then f_saveTraining() end
+			if modified then f_saveTrgCfg() end
 			bufl = 0
 			bufr = 0
 		end
@@ -2373,6 +2390,177 @@ function f_pausePlayback()
 			animUpdate(pauseTUpArrow)
 		end
 		if #t_playbackCfg > 7 and maxPlaybackCfg < #t_playbackCfg then
+			animDraw(pauseTDownArrow)
+			animUpdate(pauseTDownArrow)
+		end
+		f_sysTimeP()
+		if data.attractMode == true then textImgDraw(txt_attractCredits) end
+		if commandGetState(p1Cmd, 'holdu') then
+			Pbufd = 0
+			Pbufu = Pbufu + 1
+		elseif commandGetState(p2Cmd, 'holdu') then
+			P2bufd = 0
+			P2bufu = P2bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') then
+			Pbufu = 0
+			Pbufd = Pbufd + 1
+		elseif commandGetState(p2Cmd, 'holdd') then
+			P2bufu = 0
+			P2bufd = P2bufd + 1
+		else
+			Pbufu = 0
+			Pbufd = 0
+			P2bufu = 0
+			P2bufd = 0
+		end
+	end
+end
+
+--;===========================================================
+--; CHARACTERS SETTINGS
+--;===========================================================
+txt_charCfg = createTextImg(jgFnt, 0, 0, "", 159, 63)
+
+t_charCfg = {
+	{varID = textImgNew(), text = "Suave Dude Mode",   	 	 varText = ""},
+	{varID = textImgNew(), text = "                   BACK", varText = ""},
+}
+
+--Logic to Display Text instead Number Values
+function f_charCfgdisplayTxt()
+	if data.suavemode == 0 then t_charCfg[1].varText = "Normal"
+	elseif data.suavemode == 1 then t_charCfg[1].varText = "Awaken"
+	end
+end
+
+f_charCfgdisplayTxt() --Load Display Text
+
+function f_pauseCharCfg()
+	local hasChanged = false
+	if pn == 1 then textImgSetBank(txt_charCfg, 5)
+	elseif pn == 2 then textImgSetBank(txt_charCfg, 1)
+	end
+	textImgSetText(txt_charCfg, "CHARACTERS SETTINGS [P"..pn.."]")
+	if delayMenu == 2 then
+		if start then
+			sndPlay(sysSnd, 100, 2)
+			animReset(darkenOut)
+			animUpdate(darkenOut)
+			pauseMenuActive = false
+			bufl = 0
+			bufr = 0
+			if modified then f_saveTrgCfg() end
+		--BACK
+		elseif escape or (((pn == 1 and btnPalNo(p1Cmd) > 0) or (pn == 2 and btnPalNo(p2Cmd) > 0)) and charCfg == #t_charCfg) then
+			sndPlay(sysSnd, 100, 2)
+			delayMenu = -2
+			if modified then f_saveTrgCfg() end
+			bufl = 0
+			bufr = 0
+		end
+	end
+	if pauseMenuActive == true and delayMenu < 2 then
+		delayMenu = delayMenu + 1
+	elseif pauseMenuActive == false and delayMenu > 0 then
+		delayMenu = delayMenu - 1
+		--animUpdate(darkenOut)
+	end
+	if pauseMenuActive == false and delayMenu == 0 then
+		f_pauseMenuReset()
+		return
+	end
+	if pauseMenuActive then
+		animDraw(darkenIn)
+	else
+		animDraw(darkenOut)
+	end
+	if delayMenu == -1 then f_trainingCfgMenuReset2() end
+	if delayMenu == 2 then
+		if (pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			charCfg = charCfg - 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		elseif (pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18)) or (pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18)) then
+			sndPlay(sysSnd, 100, 0)
+			charCfg = charCfg + 1
+			if bufl then bufl = 0 end
+			if bufr then bufr = 0 end
+		end
+		--Suave Dude Mode
+		if charCfg == 1 then
+			if ((pn == 1 and commandGetState(p1Cmd, 'l')) or (pn == 2 and commandGetState(p2Cmd, 'l'))) then
+				if data.suavemode > 0 then
+					sndPlay(sysSnd, 100, 1)
+					data.suavemode = data.suavemode - 1
+					hasChanged = true
+				end
+			elseif ((pn == 1 and commandGetState(p1Cmd, 'r')) or (pn == 2 and commandGetState(p2Cmd, 'r'))) then
+				if data.suavemode < 1 then
+					sndPlay(sysSnd, 100, 1)
+					data.suavemode = data.suavemode + 1
+					hasChanged = true
+				end
+			end
+		end
+		if charCfg < 1 then
+			charCfg = #t_charCfg
+			if #t_charCfg > 7 then
+				cursorPosY = 7
+			else
+				cursorPosY = #t_charCfg
+			end
+		elseif charCfg > #t_charCfg then
+			charCfg = 1
+			cursorPosY = 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'u')) or (pn == 1 and (commandGetState(p1Cmd, 'holdu') and Pbufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 1 and commandGetState(p1Cmd, 'd')) or (pn == 1 and (commandGetState(p1Cmd, 'holdd') and Pbufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'u')) or (pn == 2 and (commandGetState(p2Cmd, 'holdu') and P2bufu >= 18))) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((pn == 2 and commandGetState(p2Cmd, 'd')) or (pn == 2 and (commandGetState(p2Cmd, 'holdd') and P2bufd >= 18))) and cursorPosY < 7 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 7 then
+			moveTxt = (charCfg - 7) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (charCfg - 1) * 15
+		end
+		if #t_charCfg <= 7 then
+			maxcharCfg = #t_charCfg
+		elseif charCfg - cursorPosY > 0 then
+			maxcharCfg = charCfg + 7 - cursorPosY
+		else
+			maxcharCfg = 7
+		end
+		--animDraw(f_animVelocity(pauseBG0, -1, -1))
+		animSetScale(pauseBG1, 240, maxcharCfg*15)
+		animSetWindow(pauseBG1, 55,70, 240,105)
+		animDraw(pauseBG1)
+		--animUpdate(pauseBG1)
+		textImgDraw(txt_charCfg)
+		animSetWindow(cursorBox, 55,55+cursorPosY*15, 205,15)
+		f_dynamicAlpha(cursorBox, 60,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if hasChanged then
+			if not modified then modified = true end
+			f_charCfgdisplayTxt()
+			hasChanged = false
+		end
+		for i=1, maxcharCfg do
+			if i > charCfg - cursorPosY then
+				if t_charCfg[i].varID ~= nil then
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, font14, 0, 1, t_charCfg[i].text, 60, 65+i*15-moveTxt,0.85,0.85))
+					textImgDraw(f_updateTextImg(t_charCfg[i].varID, font14, 0, -1, t_charCfg[i].varText, 257, 65+i*15-moveTxt,0.85,0.85))
+				end
+			end
+		end
+		if maxcharCfg > 7 then
+			animDraw(pauseTUpArrow)
+			animUpdate(pauseTUpArrow)
+		end
+		if #t_charCfg > 7 and maxcharCfg < #t_charCfg then
 			animDraw(pauseTDownArrow)
 			animUpdate(pauseTDownArrow)
 		end

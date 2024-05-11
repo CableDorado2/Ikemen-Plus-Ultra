@@ -62,6 +62,7 @@ public &Share
   public int counterHit;
   public float panStr;
   public ^/char bgmusic;
+  public int suaveMode;
   /%&.cfg.Keys in;
   public bool disablePadP1, disablePadP2;
   public int recSlot, playSlot;
@@ -144,6 +145,7 @@ public &Share
 	`cfgMod = .sc.cfgMod;
     `trnMod = .sc.trnMod;
 	`exitMatch = .com.exitMatch;
+	`suaveMode = .com.suaveMode;
   }
   public void push()
   {
@@ -227,5 +229,6 @@ public &Share
 	.sc.cfgMod = `cfgMod;
     .sc.trnMod = `trnMod;
 	.com.exitMatch = `exitMatch;
+	.com.suaveMode = `suaveMode;
   }
 }

@@ -47,6 +47,9 @@ public int p2score = 0;
 public int p1matchWins = 0;
 public int p2matchWins = 0;
 
+public int suaveMode = 0;
+
+
 //TEAM MODE TYPE
 |TeamMode
 {

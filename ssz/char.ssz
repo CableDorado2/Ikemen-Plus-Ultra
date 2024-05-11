@@ -5660,6 +5660,10 @@ public &Char
      `cmd[i].bufReset();
     while ++i < #`cmd:}
   }
+  public int trSuaveMode()
+  {
+    ret .com.suaveMode;
+  }
 }
 
 public void Explod::update(bool oVer, int playerNo)

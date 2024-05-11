@@ -1,15 +1,16 @@
 ﻿--Practice Settings
-data.damageDisplay = false
-data.inputDisplay = false
+data.damageDisplay = 0
+data.inputDisplay = 1
 data.hitbox = false
 data.debugInfo = false
+data.dummyMode = 0
+data.AIlevel = 6
+data.LifeStateP1 = 100
+data.LifeStateP2 = 100
+data.PowerStateP1 = 10
+data.PowerStateP2 = 10
 data.autoguardP1 = false
 data.autoguardP2 = false
-data.dummyMode = "Manual"
-data.PowerStateP1 = "Max at Start"
-data.PowerStateP2 = "Max at Start"
-data.LifeStateP1 = "100%"
-data.LifeStateP2 = "100%"
 --Playback Settings
 data.pbkRecSlot = 1
 data.pbkPlaySlot = 1
@@ -19,3 +20,5 @@ data.pbkSlot2 = false
 data.pbkSlot3 = false
 data.pbkSlot4 = false
 data.pbkSlot5 = false
+--Characters Settings
+data.suavemode = 0

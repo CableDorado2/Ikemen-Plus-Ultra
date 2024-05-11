@@ -807,7 +807,6 @@ trigger2 = movecontact
 ;==============================================================================
 ; 移動関連
 ;==============================================================================
-;------------------------------------------------------------------------------
 
 [State -1, 走る]
 type = ChangeState
@@ -831,11 +830,14 @@ triggerall = command = "start"
 trigger1 = statetype != A
 trigger1 = ctrl
 
-
-
-
-[State -1, ボスモード（こっそりと搭載）] 
-type = varset 
-triggerall = var(59) = 0 
+[State -1, Character Mode]
+type = varset
+triggerall = var(59) = 0
 trigger1 = 1
-var(59) = 1	;0で通常版、1でボスモードに、2で常時本気モード
+var(59) = 1	;0(Boss Mode), 1(Awaken when Lose 1 Round), 2(Always Awaken)
+
+[State -1, Training Setting]
+type = varset
+triggerall = var(59) = 1
+trigger1 = gamemode = "practice" && suavemode = 1
+var(59) = 0 ;Activate Boss Mode

@@ -45,8 +45,6 @@ assert(loadfile("save/training_sav.lua"))() --training data
 assert(loadfile("save/vn_sav.lua"))() --visual novel data
 assert(loadfile("save/temp_sav.lua"))() --temp data
 
-require("script.updatecfg") --to update settings without reset entire config
-
 --Data loading from host_rooms.json
 local file = io.open("save/host_rooms.json","r")
 host_rooms = json.decode(file:read("*all"))
@@ -56,11 +54,6 @@ file:close()
 local file = io.open("save/stats_sav.lua","r")
 statsDataLUA = file:read("*all")
 file:close()
-
---Data loading from training_sav.lua
-local trainingFile = io.open("save/training_sav.lua","r")
-s_trainLUA = trainingFile:read("*all")
-trainingFile:close()
 
 --Data loading from vn_sav.lua
 local vnFile = io.open("save/vn_sav.lua","r")
@@ -2146,6 +2139,13 @@ end
 --;===========================================================
 --; SAVE DATA DEFINITION
 --;===========================================================
+function f_playTime()
+	gTime = os.clock() - gameTime
+	data.playTime = (data.playTime + gTime)
+	f_saveProgress()
+	assert(loadfile("save/stats_sav.lua"))()
+end
+
 --Data saving to temp_sav.lua
 function f_saveTemp()
 	local t_temp = {
@@ -2173,13 +2173,6 @@ function f_saveVN()
 	local vnFile = io.open("save/vn_sav.lua","w+")
 	vnFile:write(s_vndataLUA)
 	vnFile:close()
-end
-
-function f_playTime()
-	gTime = os.clock() - gameTime
-	data.playTime = (data.playTime + gTime)
-	f_saveProgress()
-	assert(loadfile("save/stats_sav.lua"))()
 end
 
 --Data saving to stats_sav.lua

@@ -1266,6 +1266,12 @@ void scoretotal(&.lua.State L=, int re=)
   L.pushNumber((double).com.scoreTotal);
 }
 
+void suavemode(&.lua.State L=, int re=)
+{
+  re = 1;
+  L.pushNumber((double) .com.suaveMode);
+}
+
 public void registerFunction(&.lua.State L=)
 {
   .cwc = .chr.chars[0]<>;
@@ -1408,4 +1414,5 @@ public void registerFunction(&.lua.State L=)
   L.register("dummyguard", .dummyguard);
   L.register("dummyrecovery", .dummyrecovery);
   L.register("counterhit", .counterhit);
+  L.register("suavemode", .suavemode);
 }
