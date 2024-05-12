@@ -39,5 +39,5 @@ b2 = 11
 c2 = 12
 
 [Arcade]
-intro.movie = ..\../movie/Kung Fu Man [Arcade Intro].wmv
-ending.movie = ..\../movie/Kung Fu Man [Arcade Ending].wmv
+intro.movie = ..\../movie/KFM-Intro.wmv
+ending.movie = ..\../movie/KFM-Ending.wmv

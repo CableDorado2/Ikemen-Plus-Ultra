@@ -52,17 +52,18 @@ Set the paramvalue to 1 to predefined this character as a training char.
 If more than 1 character have setting training parameter
 the training character will be randomly chosen.
 
-- boss
-Set the paramvalue to 1 to include this
-character in "Boss Rush" mode.
-
 - bonus
 Set the paramvalue to 1 to include this
 character in "Bonus Games" mode. Bonus characters also
 won't show up as Simul team if faced in arcade mode.
 
+- boss
+Set the paramvalue to 1 to include this
+character in "Boss Rush" mode.
+
 - intermission
-Set the paramvalue to 1 to predefined this character as a intermission char.
+Set the paramvalue to 1 to include this character in
+arcade intermission chars (currently works in credits screen).
 If more than 1 character have setting intermission parameter
 the intermission character will be randomly chosen.
 
@@ -134,7 +135,7 @@ this, put the word "randomselect" on a line of its own, with no
 extra parameters.
 
 Full Reference:
-charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, boss=1, bonus=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
+charname, unlock=0, stages/.def, music=sound/.mp3, zoom=0, bonus=1, boss=1, intermission=1, ai=5, vsscreen=0, victoryscreen=0, rounds=2, roundtime=99, single=1, includestage=0, exclude=1, order=1, 1=charname, 4=charname
 
 Some examples:
 
@@ -329,3 +330,42 @@ maxmatches = ,1,1,1,1,1,1,1,1,0,0
 
 difficulty = MASTER
 maxmatches = ,1,1,1,1,1,1,1,1,1,1
+
+ ____________________
+/    VISUAL NOVEL    \_____________________________________________________
+
+WARNING: THIS IS AN EXPERIMENTAL FEATURE.
+
+Load chapters with all data (text, sounds, etc..) for Visual Novel Game Mode.
+Visual Novels added can be played in: Extras - Visual Novel submenu.
+Setup following parameters below "[VisualNovel]" section:
+
+- name
+Initiates new visual novel declaration, so it has to be
+assigned before any other parameter used by the same visual novel.
+All visual novels should have unique names.
+
+- displayname
+Set to name that should be displayed in Visual Novel Select Menu.
+
+- path
+Path to file with def extension (relative to game directory),
+this containing Visual Novel (Chapters definition) following vn.example.def instructions.
+
+- unlock (currently unused)
+Pure Lua code, executed exactly as is, each time upon loading main menu.
+If it evaluates to boolean 'true' the visual novel story will be selectable
+from visual mode select menu, or hidden on 'false'. Default: true.
+
+Some Examples:
+
+[VisualNovel]
+name = arc1
+displayname = Kung Fu Story Part I
+path = data/visualnovel/arc1.def
+unlock = true
+
+name = arc2
+displayname = Kung Fu Story Part II
+path = data/visualnovel/arc2.def
+unlock = false

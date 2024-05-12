@@ -684,9 +684,10 @@ for i=1, #t_selChars do
 	end
 	--if character's name has been stored
 	if t_selChars[i].displayname ~= nil then
+		local charCel = i - 1
 		--generate table for fixed training character
 		if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
-			t_trainingChar[#t_trainingChar+1] = i - 1
+			t_trainingChar[#t_trainingChar+1] = charCel
 		end
 		--detects stage viewer character
 		if t_selChars[i].name == "stage viewer" then
@@ -694,19 +695,19 @@ for i=1, #t_selChars do
 		end
 		--generate table for boss rush mode
 		if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
-			t_bossChars[#t_bossChars+1] = i - 1
+			t_bossChars[#t_bossChars+1] = charCel
 		end
 		--generate table for bonus games mode
 		if t_selChars[i].bonus ~= nil and t_selChars[i].bonus == 1 then
-			t_bonusChars[#t_bonusChars+1] = i - 1
+			t_bonusChars[#t_bonusChars+1] = charCel
 		end
 		--generate table with characters allowed to be random selected
 		if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
-			t_randomChars[#t_randomChars+1] = i - 1
+			t_randomChars[#t_randomChars+1] = charCel
 		end
 		--generate table for intermissions
 		if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
-			t_intermissionChars[#t_intermissionChars+1] = i - 1
+			t_intermissionChars[#t_intermissionChars+1] = {['cel'] = charCel, ['name'] = t_selChars[i].name, ['displayname'] = t_selChars[i].displayname, ['author'] = t_selChars[i].author, ['path'] = t_selChars[i].char}
 		end
 		--create variable with character's name, whitespace replaced with underscore
 		displayname = t_selChars[i].name:gsub('%s+', '_')

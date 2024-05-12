@@ -1771,7 +1771,7 @@ function f_selectAdvance()
 						updateAnim = false
 					end
 				end
-				data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['pal'] = p1Pal, ['up'] = updateAnim, ['rand'] = false}
+				data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['up'] = updateAnim, ['rand'] = false}
 				if shuffle then
 					f_shuffleTable(data.t_p1selected)
 				end
@@ -1789,7 +1789,7 @@ function f_selectAdvance()
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
 						p1Cell = t_charAdd[t_selChars[data.t_p1selected[i].cel+1].char]
 						data.t_p1selected = {}
-						data.t_p1selected[1] = {['cel'] = p1Cell, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
+						data.t_p1selected[1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
 						restoreTeam = true
 						break
 					elseif t_selChars[data.t_p1selected[i].cel+1].single ~= nil and t_selChars[data.t_p1selected[i].cel+1].single == 1 then
@@ -1798,7 +1798,7 @@ function f_selectAdvance()
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
 						p1Cell = t_charAdd[t_selChars[data.t_p1selected[i].cel+1].char]
 						data.t_p1selected = {}
-						data.t_p1selected[1] = {['cel'] = p1Cell, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
+						data.t_p1selected[1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
 						restoreTeam = true
 						break
 					end
@@ -1829,7 +1829,7 @@ function f_selectAdvance()
 						updateAnim = false
 					end
 				end
-				data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = updateAnim, ['rand'] = false}
+				data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['up'] = updateAnim, ['rand'] = false}
 				if shuffle then
 					f_shuffleTable(data.t_p2selected)
 				end
@@ -1847,7 +1847,7 @@ function f_selectAdvance()
 						setTeamMode(2, 0, 1)
 						p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
 						data.t_p2selected = {}
-						data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
+						data.t_p2selected[1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
 						restoreTeam = true
 						break
 					elseif t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1 then
@@ -1856,7 +1856,7 @@ function f_selectAdvance()
 						setTeamMode(2, 0, 1)
 						p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
 						data.t_p2selected = {}
-						data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
+						data.t_p2selected[1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
 						restoreTeam = true
 						break
 					end
@@ -3254,9 +3254,9 @@ function f_p1SelectMenu()
 				t[data.p1Char[i]] = ''
 			end
 			if data.p1Pal ~= nil then --Set Manual Palette
-				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = data.p1Pal, ['up'] = updateAnim}
+				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = data.p1Pal, ['up'] = updateAnim, ['name'] = t_selChars[data.p1Char[i]+1].name, ['displayname'] = t_selChars[data.p1Char[i]+1].displayname, ['path'] = t_selChars[data.p1Char[i]+1].char, ['author'] = t_selChars[data.p1Char[i]+1].author}
 			else
-				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+				data.t_p1selected[i] = {['cel'] = data.p1Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim, ['name'] = t_selChars[data.p1Char[i]+1].name, ['displayname'] = t_selChars[data.p1Char[i]+1].displayname, ['path'] = t_selChars[data.p1Char[i]+1].char, ['author'] = t_selChars[data.p1Char[i]+1].author}
 			end
 			if data.debugLog then f_printTable(data.t_p1selected, "save/debug/data.t_p1selected.txt") end
 		end
@@ -4355,10 +4355,10 @@ function f_p1Selection()
 		p1palSelect = p1palSelect
 	end
 	if data.coop then
-		data.t_p1selected[1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+		data.t_p1selected[1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 		p1SelEnd = true
 	else
-		data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+		data.t_p1selected[#data.t_p1selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p1palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 		if #data.t_p1selected == p1numChars then
 			if data.p2In == 1 and matchNo == 0 then
 				p2TeamEnd = false
@@ -4749,9 +4749,9 @@ function f_p2SelectMenu()
 				t[data.p2Char[i]] = ''
 			end
 			if data.p2Pal ~= nil then
-				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = data.p2Pal, ['up'] = updateAnim}
+				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = data.p2Pal, ['up'] = updateAnim, ['name'] = t_selChars[data.p2Char[i]+1].name, ['displayname'] = t_selChars[data.p2Char[i]+1].displayname, ['path'] = t_selChars[data.p2Char[i]+1].char, ['author'] = t_selChars[data.p2Char[i]+1].author}
 			else
-				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim}
+				data.t_p2selected[i] = {['cel'] = data.p2Char[i], ['pal'] = math.random(1,12), ['up'] = updateAnim, ['name'] = t_selChars[data.p2Char[i]+1].name, ['displayname'] = t_selChars[data.p2Char[i]+1].displayname, ['path'] = t_selChars[data.p2Char[i]+1].char, ['author'] = t_selChars[data.p2Char[i]+1].author}
 			end
 			if data.debugLog then f_printTable(data.t_p2selected, "save/debug/data.t_p2selected.txt") end
 		end
@@ -5864,7 +5864,7 @@ function f_p2Selection()
 				updateAnim = false
 			end
 		end
-		data.t_p1selected[2] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+		data.t_p1selected[2] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 		p2coopReady = true
 		p2SelEnd = true
 	else
@@ -5873,7 +5873,7 @@ function f_p2Selection()
 				updateAnim = false
 			end
 		end
-		data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
+		data.t_p2selected[#data.t_p2selected+1] = {['cel'] = cel, ['name'] = t_selChars[cel+1].name, ['displayname'] = t_selChars[cel+1].displayname, ['path'] = t_selChars[cel+1].char, ['pal'] = p2palSelect, ['up'] = updateAnim, ['author'] = t_selChars[cel+1].author}
 		if #data.t_p2selected == p2numChars then
 			--
 			if data.p1In == 2 and matchNo == 0 then
@@ -6483,7 +6483,8 @@ function f_selectStage()
 				if t[data.stage[i]] == nil then
 					t[data.stage[i]] = ""
 				end
-				data.stage[i] = {['cel'] = data.stage[i]} --Get stageNo from table loaded (t_stageDef)
+				--Get stageNo + Info from table loaded (t_stageDef)
+				data.stage[i] = {['cel'] = data.stage[i], ['name'] = t_selStages[data.stage[i]].name, ['path'] = t_selStages[data.stage[i]].stage, ['author'] = t_selStages[data.stage[i]].author, ['location'] = t_selStages[data.stage[i]].location, ['daytime'] = t_selStages[data.stage[i]].daytime}
 			end
 			if data.debugLog then f_printTable(data.stage, "save/debug/data.stage.txt") end
 			--stagePortrait = data.stage[1].cel

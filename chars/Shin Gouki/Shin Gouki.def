@@ -53,5 +53,5 @@ b2 = 11
 c2 = 12
 
 [Arcade]
-intro.movie = intro.wmv
-ending.movie = ending.wmv
+intro.movie = Intro.wmv
+ending.movie = Ending.wmv

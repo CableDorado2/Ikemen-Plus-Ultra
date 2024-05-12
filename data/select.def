@@ -220,8 +220,8 @@ randomselect
 randomselect
 Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1, ordertower=1
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, ordertower=4, 4=Kung Fu Man
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, order=3, ordertower=5, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, single=1, boss=1, order=5, ordertower=8
+Kung Fu Man/Master/Master Kung Fu Man.def, intermission=1, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, order=-1, ordertower=5, 1=Kung Fu Man/Evil/Evil Kung Fu Man.def, 2=Kung Fu Girl, 3=Suave Dude
+Kung Fu Girl/Master/Master Kung Fu Girl.def, intermission=1, stages/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, order=-1, ordertower=8, single=1
 Break The Car, stages/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2, ordertower=6
 Strength Training, stages/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2, ordertower=6
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=-1
@@ -302,7 +302,6 @@ maxmatches = ,1
 name = arc1
 displayname = Kung Fu Man
 path = data/visualnovel/arc1.def
-unlock = true
 
 name = arc2
 displayname = ???
