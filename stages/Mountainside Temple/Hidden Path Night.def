@@ -3,6 +3,7 @@ name = "Hidden Path"
 daytime = "Night"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+unlockcondition = "Defeat more than 2 Bosses in Boss Rush Mode"
 ;--------------------------------------------------------
 
 [Camera]

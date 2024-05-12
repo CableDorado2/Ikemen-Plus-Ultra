@@ -22,24 +22,24 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-   0, 0, saved\charTrash\Evil_Kung_Fu_Man\s002.png,  18,105
-   0, 1, saved\charTrash\Evil_Kung_Fu_Man\s003.png,  18,104
-   0, 2, saved\charTrash\Evil_Kung_Fu_Man\s004.png,  18,104
-   0, 3, saved\charTrash\Evil_Kung_Fu_Man\s005.png,  18,104
-   0, 4, saved\charTrash\Evil_Kung_Fu_Man\s006.png,  18,104
-   0, 5, saved\charTrash\Evil_Kung_Fu_Man\s007.png,  18,104
-1100, 0, saved\charTrash\Evil_Kung_Fu_Man\s199.png,  14,103
-1100, 1, saved\charTrash\Evil_Kung_Fu_Man\s200.png,  14,103
-1100, 2, saved\charTrash\Evil_Kung_Fu_Man\s201.png,  12,102
-1100, 3, saved\charTrash\Evil_Kung_Fu_Man\s202.png,  11,102
-1100, 4, saved\charTrash\Evil_Kung_Fu_Man\s203.png,  10,104
-1100, 5, saved\charTrash\Evil_Kung_Fu_Man\s204.png,   7,139
-1100, 6, saved\charTrash\Evil_Kung_Fu_Man\s205.png,   7,132
-1100, 7, saved\charTrash\Evil_Kung_Fu_Man\s206.png,   7,132
-5040, 0, saved\charTrash\Evil_Kung_Fu_Man\s324.png,  49, 45
-5040,10, saved\charTrash\Evil_Kung_Fu_Man\s326.png,  50, 33
-5040,20, saved\charTrash\Evil_Kung_Fu_Man\s328.png,  49, 55
-5300, 0, saved\charTrash\Evil_Kung_Fu_Man\s351.png,  31, 82
-5300, 1, saved\charTrash\Evil_Kung_Fu_Man\s352.png,  31, 81
-5300, 2, saved\charTrash\Evil_Kung_Fu_Man\s353.png,  31, 79
-5300, 3, saved\charTrash\Evil_Kung_Fu_Man\s354.png,  31, 78
+   0, 0, data\charTrash\evil_kung_fu_man\s002.png,  18,105
+   0, 1, data\charTrash\evil_kung_fu_man\s003.png,  18,104
+   0, 2, data\charTrash\evil_kung_fu_man\s004.png,  18,104
+   0, 3, data\charTrash\evil_kung_fu_man\s005.png,  18,104
+   0, 4, data\charTrash\evil_kung_fu_man\s006.png,  18,104
+   0, 5, data\charTrash\evil_kung_fu_man\s007.png,  18,104
+1100, 0, data\charTrash\evil_kung_fu_man\s199.png,  14,103
+1100, 1, data\charTrash\evil_kung_fu_man\s200.png,  14,103
+1100, 2, data\charTrash\evil_kung_fu_man\s201.png,  12,102
+1100, 3, data\charTrash\evil_kung_fu_man\s202.png,  11,102
+1100, 4, data\charTrash\evil_kung_fu_man\s203.png,  10,104
+1100, 5, data\charTrash\evil_kung_fu_man\s204.png,   7,139
+1100, 6, data\charTrash\evil_kung_fu_man\s205.png,   7,132
+1100, 7, data\charTrash\evil_kung_fu_man\s206.png,   7,132
+5040, 0, data\charTrash\evil_kung_fu_man\s324.png,  49, 45
+5040,10, data\charTrash\evil_kung_fu_man\s326.png,  50, 33
+5040,20, data\charTrash\evil_kung_fu_man\s328.png,  49, 55
+5300, 0, data\charTrash\evil_kung_fu_man\s351.png,  31, 82
+5300, 1, data\charTrash\evil_kung_fu_man\s352.png,  31, 81
+5300, 2, data\charTrash\evil_kung_fu_man\s353.png,  31, 79
+5300, 3, data\charTrash\evil_kung_fu_man\s354.png,  31, 78

@@ -22,25 +22,25 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-5040, 0, data\charTrash\Reika_Murasame\s069.png,  47, 46
-5040,11, data\charTrash\Reika_Murasame\s076.png,  95, 62
-5040,20, data\charTrash\Reika_Murasame\s077.png,  52, 57
-5300, 0, data\charTrash\Reika_Murasame\s096.png,  22, 81
-5300, 1, data\charTrash\Reika_Murasame\s097.png,  22, 81
-5300, 2, data\charTrash\Reika_Murasame\s098.png,  22, 80
-5300, 3, data\charTrash\Reika_Murasame\s099.png,  22, 80
-   0, 0, data\charTrash\Reika_Murasame\s109.png,  30, 92
-   0, 1, data\charTrash\Reika_Murasame\s110.png,  29, 92
-   0, 2, data\charTrash\Reika_Murasame\s111.png,  28,101
-   0, 3, data\charTrash\Reika_Murasame\s112.png,  29, 89
-   0, 4, data\charTrash\Reika_Murasame\s113.png,  26, 88
-   0, 5, data\charTrash\Reika_Murasame\s114.png,  26, 87
-   0, 6, data\charTrash\Reika_Murasame\s115.png,  27, 89
- 200, 1, data\charTrash\Reika_Murasame\s166.png,  44, 89
- 180, 0, data\charTrash\Reika_Murasame\s271.png,  33, 96
- 189, 0, data\charTrash\Reika_Murasame\s504.png,  33,103
- 189, 1, data\charTrash\Reika_Murasame\s505.png,  32,101
- 189, 2, data\charTrash\Reika_Murasame\s506.png,  31, 98
-2000, 0, data\charTrash\Reika_Murasame\s543.png,  55, 90
-2000, 3, data\charTrash\Reika_Murasame\s546.png,  44, 95
-3000, 4, data\charTrash\Reika_Murasame\s556.png,  37, 91
+5040, 0, data\charTrash\reika_murasame\s069.png,  47, 46
+5040,11, data\charTrash\reika_murasame\s076.png,  95, 62
+5040,20, data\charTrash\reika_murasame\s077.png,  52, 57
+5300, 0, data\charTrash\reika_murasame\s096.png,  22, 81
+5300, 1, data\charTrash\reika_murasame\s097.png,  22, 81
+5300, 2, data\charTrash\reika_murasame\s098.png,  22, 80
+5300, 3, data\charTrash\reika_murasame\s099.png,  22, 80
+   0, 0, data\charTrash\reika_murasame\s109.png,  30, 92
+   0, 1, data\charTrash\reika_murasame\s110.png,  29, 92
+   0, 2, data\charTrash\reika_murasame\s111.png,  28,101
+   0, 3, data\charTrash\reika_murasame\s112.png,  29, 89
+   0, 4, data\charTrash\reika_murasame\s113.png,  26, 88
+   0, 5, data\charTrash\reika_murasame\s114.png,  26, 87
+   0, 6, data\charTrash\reika_murasame\s115.png,  27, 89
+ 200, 1, data\charTrash\reika_murasame\s166.png,  44, 89
+ 180, 0, data\charTrash\reika_murasame\s271.png,  33, 96
+ 189, 0, data\charTrash\reika_murasame\s504.png,  33,103
+ 189, 1, data\charTrash\reika_murasame\s505.png,  32,101
+ 189, 2, data\charTrash\reika_murasame\s506.png,  31, 98
+2000, 0, data\charTrash\reika_murasame\s543.png,  55, 90
+2000, 3, data\charTrash\reika_murasame\s546.png,  44, 95
+3000, 4, data\charTrash\reika_murasame\s556.png,  37, 91

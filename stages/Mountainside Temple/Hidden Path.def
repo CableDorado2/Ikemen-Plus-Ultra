@@ -3,7 +3,7 @@ name = "Hidden Path"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
 daytime = "Day"
-unlockcondition = "Complete Arcade Mode." ;Set Unlock Condition Info.
+unlockcondition = "Complete Arcade Mode" ;Set Unlock Condition Info.
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

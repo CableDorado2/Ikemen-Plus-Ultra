@@ -484,6 +484,7 @@ elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "STAGE SELECT"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
 elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
+elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
 end
 
 --Pause Menu for Replays
@@ -645,7 +646,7 @@ function f_pauseMain(p, st, esc)
 						elseif pauseMenu == 5 then
 							if getGameMode() == "story" then
 								sndPlay(sysSnd, 100, 5)
-							elseif getGameMode() == "random" then --Back to Main Menu for Quick Match Mode
+							elseif getGameMode() == "random" or getGameMode() == "intermission" then --Back to Main Menu for Quick Match Mode and Intermission Fights
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
 								mainGoTo = "Confirm"

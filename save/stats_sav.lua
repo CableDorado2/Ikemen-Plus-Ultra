@@ -1,16 +1,16 @@
 data.firstRun = false
 data.arcadeClear = true
 data.survivalClear = true
-data.coins = 845
+data.coins = 1410
 data.attractCoins = 0
 data.continueCount = 0
 data.vault = "Ultra"
-data.playTime = 177483.085919
-data.trainingTime = 57178.237
-data.favoriteChar = "Evil Kung Fu Man"
+data.playTime = 255758.956969
+data.trainingTime = 109247.916
+data.favoriteChar = "Kung Fu Man"
 data.favoriteStage = "RANDOM"
-data.victories = 173
-data.defeats = 45
+data.victories = 286
+data.defeats = 107
 --Records Data
 data.timerecord = 0
 data.scorerecord = 0
@@ -18,22 +18,22 @@ data.bossrecord = 4
 data.suddenrecord = 1
 data.endlessrecord = 1
 --Time Played Data
-data.storyTime = 1672.965
-data.arcadeTime = 11081.355
-data.vsTime = 2878.293
+data.storyTime = 12397.584
+data.arcadeTime = 16328.542
+data.vsTime = 4530.407
 data.survivalTime = 1060.937
 data.bossTime = 454.627
-data.bonusTime = 146.635
+data.bonusTime = 2510.012
 data.timeattackTime = 6.004
 data.scoreattackTime = 0
 data.endlessTime = 184.512
 data.suddendeathTime = 69.492
-data.missionsTime = 258.371
+data.missionsTime = 290.772
 data.eventsTime = 1026.083
-data.towerTime = 330.729
+data.towerTime = 351.278
 data.tourneyTime = 0
 data.adventureTime = 0
-data.cpumatchTime = 2597.964
+data.cpumatchTime = 2751.559
 --Event Mode Data
 data.eventsProgress = 3
 data.event1Status = 1
@@ -77,3 +77,5 @@ data.story2_1Unlock = true
 data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
+--Characters Unlock
+data.gouki = true

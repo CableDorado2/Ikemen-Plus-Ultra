@@ -683,7 +683,7 @@ for i=1, #t_selChars do
 	end
 	--if character's name has been stored
 	if t_selChars[i].displayname ~= nil then
-		--gemerate table for fixed training character
+		--generate table for fixed training character
 		if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
 			t_trainingChar[#t_trainingChar+1] = i - 1
 		end
@@ -704,7 +704,7 @@ for i=1, #t_selChars do
 			t_randomChars[#t_randomChars+1] = i - 1
 		end
 		--create variable with character's name, whitespace replaced with underscore
-		displayname = t_selChars[i].displayname:gsub('%s+', '_')
+		displayname = t_selChars[i].name:gsub('%s+', '_')
 		--if data/charAnim/displayname.def doesn't exist
 		if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
 			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
@@ -867,7 +867,7 @@ if generate and data.sffConversion then
 		--open each line in data/charTrash/charName/s-sff.def to compare
 		for i=1, #t_gen do
 			local append = ''
-			displayname = t_selChars[t_gen[i]].displayname:gsub('%s+', '_')
+			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 				--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
 				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)
@@ -884,7 +884,7 @@ if generate and data.sffConversion then
 		--batOpen("", "batch.bat")
 		os.execute('batch.bat')
 		for i=1, #t_gen do
-			displayname = t_selChars[t_gen[i]].displayname:gsub('%s+', '_')
+			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			t_selChars[t_gen[i]]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
 			if t_selChars[t_gen[i]].stand ~= nil then
 				t_selChars[t_gen[i]]['p1AnimStand'] = f_animFromTable(t_selChars[t_gen[i]].stand, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)

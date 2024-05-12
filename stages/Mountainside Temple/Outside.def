@@ -3,6 +3,7 @@ name = "Outside"
 daytime = "Night"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+unlockcondition = "Defeat more than 2 Bosses in Boss Rush Mode"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

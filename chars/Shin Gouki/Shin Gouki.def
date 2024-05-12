@@ -1,0 +1,57 @@
+; _____________________________________
+;| Shin Gouki by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;====================<DEFINITION>====================
+[Info]
+name        = "Shin Gouki"
+displayname = "Shin Gouki"
+versiondate = 2022
+mugenversion= 1.0
+author      = "Phantom.of.the.Server"
+pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
+localcoord  = 320,240
+
+[Files]
+cmd     = shincmd.cmd
+cns     = shincns.cns
+st      = states/shinsystem.st
+st1     = states/shinnormal.st
+st2     = states/shinspecial.st
+st3     = states/shinsuper.st
+st4     = states/shinhelper.st
+st5     = CONFIG.txt
+stcommon= common1.cns
+sprite  = shinsprite.sff
+anim    = shinanim.air
+sound   = shinsound.snd
+movelist= movelist.dat
+pal1    = palettes/cvs2purple.act
+pal2    = palettes/sf3white.act
+pal3    = palettes/sfa2grey.act
+pal4    = palettes/sfa2green.act
+pal5    = palettes/sfa2teal.act
+pal6    = palettes/sfa2orange.act
+pal7    = palettes/svcghost.act
+pal8    = palettes/sfa3blue.act
+pal9    = palettes/kaidou.act
+pal10   = palettes/ssf2t.act
+pal11   = palettes/sfa2shin.act
+pal12   = palettes/oni.act
+
+[Palette Keymap]
+x = 4
+y = 5
+z = 6
+a = 1
+b = 2
+c = 3
+x2 = 7
+y2 = 8
+z2 = 9
+a2 = 10
+b2 = 11
+c2 = 12
+
+[Arcade]
+intro.movie = intro.wmv
+ending.movie = ending.wmv

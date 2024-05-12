@@ -152,6 +152,7 @@ bgmSelectOrder = "sound/System/Order Select.mp3"
 bgmSelectOrderFinal = "sound/System/Order Select Final.mp3"
 bgmVS = "sound/System/VS.mp3"
 bgmVSFinal = "sound/System/VS Final.mp3"
+bgmVSSpecial = "sound/system/VS Special.mp3"
 bgmVictory = "sound/System/Results.mp3"
 bgmResults = "sound/System/Results.mp3"
 bgmService = "sound/System/Service.mp3"
@@ -2256,7 +2257,9 @@ function f_saveProgress()
 		['data.story2_1Unlock'] = data.story2_1Unlock,
 		['data.story2_2Unlock'] = data.story2_2Unlock,
 	--Arc 3 - Story Chapters Unlocks
-		['data.story3_1Unlock'] = data.story3_1Unlock
+		['data.story3_1Unlock'] = data.story3_1Unlock,
+	--Characters Unlocks
+		['data.gouki'] = data.gouki
 	}
 	statsDataLUA = f_strSub(statsDataLUA, t_progress)
 	local file = io.open("save/stats_sav.lua","w+")

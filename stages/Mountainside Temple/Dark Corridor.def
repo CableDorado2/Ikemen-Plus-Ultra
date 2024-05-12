@@ -2,6 +2,7 @@
 name = "Dark Corridor"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+unlockcondition = "Complete Mission 1"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

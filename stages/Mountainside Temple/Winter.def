@@ -2,6 +2,7 @@
 name = "Winter"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+unlockcondition = "Complete Event 1"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

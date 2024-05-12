@@ -3,6 +3,7 @@ name = "Lobby 2"
 daytime = "Night"
 location = "Mountainside Temple"
 author = "HekuttaSaint"
+unlockcondition = "Complete Prologue of Kung Fu Man's Story"
 ;--------------------------------------------------------
 [Camera]
  ;Camera starting position: Usually 0 for both

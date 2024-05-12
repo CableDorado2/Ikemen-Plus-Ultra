@@ -365,6 +365,40 @@ function f_makeRoster()
 				end
 			end
 		end
+	--Tower
+	elseif data.gameMode == "tower" then
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			if p1teamMode == 0 then --Single
+				t = t_selOptions.arcademaxmatches
+			else --Team
+				t = t_selOptions.teammaxmatches
+			end
+		else
+			if p2teamMode == 0 then --Single
+				t = t_selOptions.arcademaxmatches
+			else --Team
+				t = t_selOptions.teammaxmatches
+			end
+		end
+		for i=1, #t do --for each order number
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				cnt = t[i] * p1numChars --set amount of matches to get from the table
+			else
+				cnt = t[i] * p2numChars --set amount of matches to get from the table
+			end
+			if cnt > 0 and t_orderChars[i] ~= nil then --if it's more than 0 and there are characters with such order
+				while cnt > 0 do --do the following until amount of matches for particular order is reached
+					f_shuffleTable(t_orderChars[i]) --randomize characters table
+					for j=1, #t_orderChars[i] do --loop through chars associated with that particular order
+						t_roster[#t_roster+1] = t_orderChars[i][j] --and add such character into new table
+						cnt = cnt - 1
+						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
+							break
+						end
+					end
+				end
+			end
+		end
 	--Survival / Boss Rush / Bonus Rush / All Roster / Endless
 	else
 		if data.gameMode == "survival" then
@@ -456,7 +490,7 @@ function f_aiRamp()
 	local end_diff = 0
 	t_aiRamp = {}
 	--Arcade
-	if data.gameMode == "arcade" then
+	if data.gameMode == "arcade" or data.gameMode == "tower" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if p1teamMode == 0 then --Single
 				start_match = t_selOptions.arcadestart.wins
@@ -558,7 +592,7 @@ function f_aiLevel()
 			setTag(4, f_tagMode(4, tagset))
 		end
 	]]
-	if data.aiRamping and data.gameMode == "arcade" or data.gameMode == "survival" then
+	if data.aiRamping and data.gameMode == "arcade" or data.gameMode == "tower" or data.gameMode == "survival" then
 		offset = t_aiRamp[matchNo] - data.difficulty
 	end
 	--Coop
@@ -858,7 +892,7 @@ function f_backMenu()
 			sndPlay(sysSnd, 100, 1)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			if data.gameMode == "arcade" then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+			if data.gameMode == "arcade" or data.gameMode == "tower" then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
 				--f_rosterReset() --Delete?
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 					p2Cell = nil
@@ -967,6 +1001,7 @@ end
 --; SIMPLE MODES (VERSUS, TRAINING, RANDOM, MISSIONS, EVENTS, SINGLE BONUS/BOSSES LIST)
 --;===================================================================================================
 function f_selectSimple()
+	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
 	cmdInput()
@@ -976,6 +1011,7 @@ function f_selectSimple()
 		elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == "event" then --playBGM("")
 		elseif data.gameMode == "quick match" then --playBGM("")
+		elseif data.gameMode == "intermission" then --playBGM("")
 		elseif data.gameMode == "demo" then --playBGM("")
 		else f_selectMusic()
 		end
@@ -1078,8 +1114,8 @@ function f_selectSimple()
 			--For Challenger Route in Arcade Mode
 			elseif data.gameMode == "challenger" then
 				return
-			--For Missions, Events or Quick Match Modes
-			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.rosterMode == "mission" or data.rosterMode == "event" then
+			--For Missions, Events, Quick Match or Intermission Modes
+			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.gameMode == "intermission" or data.rosterMode == "mission" or data.rosterMode == "event" then
 				if data.gameMode == "demo" then
 					--Don't playBGM
 				else
@@ -1146,6 +1182,7 @@ end
 --; ADVANCED MODES (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;=====================================================================================================
 function f_selectAdvance()
+	f_unlocksCheck() --Check For Unlocked Content
 	data.rosterAdvanced = true
 	f_backReset()
 	f_selectInit()
@@ -1155,6 +1192,7 @@ function f_selectAdvance()
 	while true do
 		if data.gameMode == "bossrush" or data.rosterMode == "suddendeath" then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == "challenger" then f_challengerMusic()
+		elseif data.gameMode == "tower" then playBGM(bgmTower)
 		else f_selectMusic()
 		end
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -1174,6 +1212,7 @@ function f_selectAdvance()
 		end
 	--FIRST MATCH
 		if matchNo == 0 then
+			if data.gameMode == "tower" then f_selectDestiny() end --Tower Select (Choose Your Destiny Screen)
 			--generate roster
 			f_makeRoster()
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -1256,7 +1295,7 @@ function f_selectAdvance()
 				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 					--Victory screen
-					if data.gameMode == "arcade" then
+					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
 						end
@@ -1347,7 +1386,7 @@ function f_selectAdvance()
 					looseCnt = looseCnt + 1
 				end
 				--Victory Screen
-				if data.gameMode == "arcade" then
+				if data.gameMode == "arcade" or data.gameMode == "tower" then
 					if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
@@ -1365,9 +1404,12 @@ function f_selectAdvance()
 					end
 					f_records() --Save Stats
 					f_result('win')
-					if data.gameMode == "arcade" then
+					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						if data.rosterMode == "arcade" then
 							data.arcadeClear = true --Unlocks
+							f_saveProgress()
+						elseif data.rosterMode == "tower" then
+							data.towerClear = true --Unlocks
 							f_saveProgress()
 						end
 						f_playCredits()
@@ -1409,7 +1451,7 @@ function f_selectAdvance()
 					looseCnt = looseCnt + 1
 				end
 				--Victory Screen
-				if data.gameMode == "arcade" then
+				if data.gameMode == "arcade" or data.gameMode == "tower" then
 					if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
 						f_selectWin()
 					end
@@ -1427,9 +1469,12 @@ function f_selectAdvance()
 					end
 					f_records() --Save Stats
 					f_result('win')
-					if data.gameMode == "arcade" then
+					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						if data.rosterMode == "arcade" then
 							data.arcadeClear = true --Unlocks
+							f_saveProgress()
+						elseif data.rosterMode == "tower" then
+							data.towerClear = true --Unlocks
 							f_saveProgress()
 						end
 						f_playCredits()
@@ -1464,7 +1509,7 @@ function f_selectAdvance()
 				if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
 					looseCnt = looseCnt + 1
 					--Victory Screen
-					if data.gameMode == "arcade" then
+					if data.gameMode == "arcade" or data.gameMode == "tower" then
 						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
 						end
@@ -1552,7 +1597,7 @@ function f_selectAdvance()
 			--Lose Screen for: Survival, Boss/Bonus Rush when GIVE UP option is selected in Pause Menu
 			if data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then --if data.coins == 0 or data.gameMode == "survival" or data.gameMode == "bossrush" or data.gameMode == "bonusrush" or (data.attractMode == true and data.attractCoins == 0) then
 				looseCnt = looseCnt + 1
-				if data.gameMode == "arcade" then --Attract Arcade
+				if data.gameMode == "arcade" or data.gameMode == "tower" then --Attract Arcade
 					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
 							f_selectWin()
@@ -1634,8 +1679,13 @@ function f_selectAdvance()
 					end
 				--Restore Arcade Data when f_selectSimple() end
 					if challengerEnd then
-						arcadeCfg()
-						textImgSetText(txt_mainSelect, "ARCADE")
+						if data.gameMode == "arcade" then
+							arcadeCfg()
+							textImgSetText(txt_mainSelect, "ARCADE")
+						elseif data.gameMode == "tower" then
+							towerCfg()
+							textImgSetText(txt_mainSelect, "TOWER")
+						end
 						if matchSetting == "humanvscpu" then --is a copy frmo function arcadeHumanvsCPU()
 							if P2overP1 then
 								remapInput(1, 2)
@@ -1749,6 +1799,9 @@ function f_selectAdvance()
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
 					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
 					shuffle = false
+				elseif i == 1 and data.gameMode == "tower" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
+					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
+					shuffle = false
 				else
 					p1Cell = t_roster[matchNo*p1numChars-i+1]
 				end
@@ -1804,6 +1857,9 @@ function f_selectAdvance()
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
 					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
 					shuffle = false
+				elseif i == 1 and data.gameMode == "tower" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
+					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
+					shuffle = false
 				else
 					p2Cell = t_roster[matchNo*p2numChars-i+1]
 				end
@@ -1857,6 +1913,7 @@ function f_selectAdvance()
 		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
 		f_orderSelect()
+		if data.gameMode == "tower" then f_battlePlan() end --Battle Plan Screen
 		--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
@@ -1867,7 +1924,7 @@ function f_selectAdvance()
 				f_selectVersus()
 			end
 		end
-		if data.gameMode == "arcade" then
+		if data.gameMode == "arcade" or data.gameMode == "tower" then
 			f_setRoundTime() --Set Round Time for specific characters
 			f_setRounds() --Set Rounds to Win for specific characters
 		end
@@ -1888,6 +1945,7 @@ function f_selectAdvance()
 		stageTimer = stageSeconds*gameTick
 		rematchTimer = rematchSeconds*gameTick
 		serviceTimer = serviceSeconds*gameTick
+		destinyTimer = destinySeconds*gameTick
 		f_modeplayTime() --Store Favorite Game Mode
 		f_favoriteChar() --Store Favorite Character (WIP)
 		f_records() --save record progress
@@ -1916,6 +1974,7 @@ end
 --; STORY MODE
 --;==============================================================================
 function f_selectStory()
+	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
 	cmdInput()
@@ -1999,615 +2058,6 @@ function f_selectStory()
 		--f_favoriteStage() --Store Favorite Stage (WIP)
 		f_unlocksCheck() --Check For Unlocked Content
 		playBGM("")
-		cmdInput()
-		refresh()
-	end
-end
-
---;=================================================================================================
---; TOWER MODE
---;=================================================================================================
-function f_selectTower()
-	data.rosterAdvanced = true
-	f_backReset()
-	f_selectInit()
-	f_selectReset()
-	if data.stageMenu == false then stageEnd = true end
-	cmdInput()
-	while true do
-		--f_selectMusic()
-		playBGM(bgmTower)
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		selectStart()
-		while not selScreenEnd do
-			if onlinegame == false then
-				if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect2() end
-			elseif onlinegame == true then
-				if esc() then f_exitOnline() end
-			end
-			f_selectScreen()
-			assert(loadfile("save/temp_sav.lua"))()
-			if back == true or data.tempBack == true then
-				f_resetMenuAssets()
-				return
-			end
-		end
-	--FIRST MATCH
-		if matchNo == 0 then
-			f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
-			--generate roster
-			f_makeRoster()
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				lastMatch = #t_roster / p1numChars
-			else
-				lastMatch = #t_roster / p2numChars
-			end
-			matchNo = 1
-			--generate AI ramping table
-			f_aiRamp()
-			--Arcade Intro
-			if data.arcadeIntro == true then
-				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-					storyBoardSide = t_selChars[data.t_p2selected[1].cel+1]
-				else
-					storyBoardSide = t_selChars[data.t_p1selected[1].cel+1]
-				end
-				local tPos = storyBoardSide
-				if tPos.intro ~= nil and io.open(tPos.intro or '','r') ~= nil then
-					f_storyboard(tPos.intro)
-				elseif tPos.intro2 ~= nil and io.open(tPos.intro2 or '','r') ~= nil then
-					playVideo(tPos.intro2)
-				end
-			end
-	--LEFT SIDE ACTIONS
-		elseif winner == 1 then
-			--Player 1 (IN RIGHT SIDE):
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				--Don't have coins to continue in Arcade with Attract Mode
-				if data.attractMode == true and data.attractCoins == 0 then --if data.coins == 0 or (data.attractMode == true and data.attractCoins == 0) then
-					looseCnt = looseCnt + 1
-					--Victory screen
-					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
-						f_selectWin()
-					end
-				--DELETE THIS?
-					assert(loadfile("save/temp_sav.lua"))()
-					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-				--DELETE THIS?
-					f_records() --Save Stats
-					f_result('lost')
-					f_gameOver()
-					--f_mainOpening()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
-					return
-				--Lose BUT can Continue (Arcade)
-				else
-					looseCnt = looseCnt + 1
-					assert(loadfile("save/temp_sav.lua"))()
-					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					f_records()
-					--Victory Screen
-					if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
-						f_selectWin()
-					end
-					--Continue Screen
-					f_continue()
-					if data.continue == 2 then --Continue = NO
-						--f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
-					if not data.quickCont then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if serviceTeam == true then p2TeamEnd = false end
-						data.t_p2selected = {}
-						p2Portrait = nil
-						p2SelEnd = false
-						--if data.coop then
-							--p1SelEnd = false
-						--end
-						f_rosterReset()
-						selScreenEnd = false
-						while not selScreenEnd do
-							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect3() end
-							f_selectScreen()
-							if back == true then
-								f_resetMenuAssets()
-								return
-							end
-						end
-					--Exit
-					elseif commandGetState(p1Cmd, 'e') then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 2)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					--Load first stage selected for all next matches
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
-				end
-			--Player 1 (IN LEFT SIDE):
-			else
-				--Wins
-				if winner == 1 then
-					winCnt = winCnt + 1
-				else
-					looseCnt = looseCnt + 1
-				end
-				--Victory Screen
-				if t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
-				--No More Matches Left
-				if matchNo == lastMatch then
-					--Arcade Ending
-					if data.arcadeEnding == true then
-						local tPos = t_selChars[data.t_p1selected[1].cel+1]
-						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
-							f_storyboard(tPos.ending)
-						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
-							playVideo(tPos.ending2)
-						end
-					end
-					f_records() --Save Stats
-					f_result('win')
-					if data.rosterMode == "tower" then
-						data.towerClear = true --Unlocks
-						f_saveProgress()
-					end
-					f_playCredits()
-					f_storyboard("data/screenpack/gameover.def")
-					f_mainOpening()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
-					return
-				--Next Match Available
-				else
-					matchNo = matchNo + 1
-					--Load first stage selected for all next matches
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
-				end
-			end
-	--RIGHT SIDE
-		elseif winner == 2 then
-			--Player 1 (IN RIGHT SIDE):
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				--Win
-				if winner == 2 then
-					winCnt = winCnt + 1
-				else
-					looseCnt = looseCnt + 1
-				end
-				--Victory Screen
-				if t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1 then
-					f_selectWin()
-				end
-				--No More Matches Left
-				if matchNo == lastMatch then
-					--Arcade Ending
-					if data.arcadeEnding == true then
-						local tPos = t_selChars[data.t_p2selected[1].cel+1]
-						if tPos.ending ~= nil and io.open(tPos.ending or '','r') ~= nil then
-							f_storyboard(tPos.ending)
-						elseif tPos.ending2 ~= nil and io.open(tPos.ending2 or '','r') ~= nil then
-							playVideo(tPos.ending2)
-						end
-					end
-					f_records() --Save Stats
-					f_result('win')
-					if data.rosterMode == "tower" then
-						data.towerClear = true --Unlocks
-						f_saveProgress()
-					end
-					f_playCredits()
-					f_storyboard("data/screenpack/gameover.def")
-					f_mainOpening()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
-					return
-				--Next Match Available
-				else
-					matchNo = matchNo + 1
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
-				end
-			--Player 1 (IN LEFT SIDE):
-			else
-				--Don't have coins to continue in Arcade with Attract Mode
-				if data.attractMode == true and data.attractCoins == 0 then --if data.coins == 0 or (data.attractMode == true and data.attractCoins == 0) then
-					looseCnt = looseCnt + 1
-					--Victory Screen
-					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
-						f_selectWin()
-					end
-				--DELETE THIS?
-					assert(loadfile("save/temp_sav.lua"))()
-					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-				--DELETE THIS?
-					f_records() --Save Stats
-					f_result('lost')
-					f_gameOver()
-					--f_mainOpening()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
-					return
-				--Lose BUT can Continue (Arcade)
-				else
-					looseCnt = looseCnt + 1
-					assert(loadfile("save/temp_sav.lua"))()
-					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					f_records() --Save Stats
-					--Victory Screen
-					if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
-						f_selectWin()
-					end
-					--Continue Screen
-					f_continue()
-					if data.continue == 2 then --Continue = NO
-						--f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
-					if not data.quickCont then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if serviceTeam == true then p1TeamEnd = false end
-						data.t_p1selected = {}
-						p1Portrait = nil
-						p1SelEnd = false
-						if data.coop then
-							p2SelEnd = false
-						end
-						f_rosterReset()
-						selScreenEnd = false
-						while not selScreenEnd do
-							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect3() end
-							f_selectScreen()
-							if back == true then
-								f_resetMenuAssets()
-								return
-							end
-						end
-					--Exit
-					elseif commandGetState(p1Cmd, 'e') then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 2)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					--Load first stage selected for all next matches
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
-				end
-			end
-		--BOTH SIDES - NO WINNER (player exit the match via ESC)
-		else
-			--Lose Screen when GIVE UP option is selected in Pause Menu
-			if data.attractMode == true and data.attractCoins == 0 then --if data.coins == 0 or (data.attractMode == true and data.attractCoins == 0) then
-				looseCnt = looseCnt + 1
-				if data.gameMode == "tower" then --Attract Arcade
-					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
-							f_selectWin()
-						end
-					else
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
-							f_selectWin()
-						end
-					end
-				end
-				assert(loadfile("save/temp_sav.lua"))()
-				if data.tempBack == true then
-					data.tempBack = false
-					f_saveTemp()
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
-					return
-				end
-				f_records()
-				f_result('lost')
-				f_gameOver()
-				--f_mainOpening()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				f_resetMenuInputs()
-				return
-			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
-			else
-				assert(loadfile("save/temp_sav.lua"))()
-			--Here comes a New Challenger Route
-				if data.challengerMode then
-					data.challengerMode = false
-					f_saveTemp()
-				--TODO
-			--Normal Give Up Route
-				else
-					looseCnt = looseCnt + 1
-					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					f_records()
-					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-						if winner >= 1 and (t_selChars[data.t_p1selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p1selected[1].cel+1].victoryscreen == 1) then
-							f_selectWin()
-						end
-					else
-						if winner >= 1 and (t_selChars[data.t_p2selected[1].cel+1].victoryscreen == nil or t_selChars[data.t_p2selected[1].cel+1].victoryscreen == 1) then
-							f_selectWin()
-						end
-					end
-					f_continue()
-					if data.continue == 2 then
-						--f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					if not data.quickCont then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-							if serviceTeam == true then p2TeamEnd = false end
-							data.t_p2selected = {}
-							p2Portrait = nil
-							p2SelEnd = false
-							--if data.coop then
-								--p1SelEnd = false
-							--end
-						else
-							if serviceTeam == true then p1TeamEnd = false end
-							data.t_p1selected = {}
-							p1Portrait = nil
-							p1SelEnd = false
-							if data.coop then
-								p2SelEnd = false
-							end
-						end
-						f_rosterReset()
-						selScreenEnd = false
-						while not selScreenEnd do
-							if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then f_exitSelect3() end
-							f_selectScreen()
-							if back == true then
-								f_resetMenuAssets()
-								return
-							end
-						end
-					elseif commandGetState(p1Cmd, 'e') then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						sndPlay(sysSnd, 100, 2)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
-						return
-					end
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
-				end
-			--If you exit in char select from challenger mode then back to main menu
-				if back == true or backtomenu == true then
-					f_resetMenuAssets()
-					return
-				end
-			end
-		end
-	--Assign enemy team for AI in Player 1 (LEFT SIDE)
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			data.t_p1selected = {}
-			shuffle = true --was local function
-			for i=1, p1numChars do
-				if i == 1 and data.gameMode == "tower" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
-					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
-					shuffle = false
-				else
-					p1Cell = t_roster[matchNo*p1numChars-i+1] --Endless Mode
-				end
-				if data.aipal == "Default" then
-					p1Pal = 1
-				elseif data.aipal == "Random" then
-					p1Pal = math.random(1,12)
-				end
-				local updateAnim = true
-				for j=1, #data.t_p1selected do
-					if data.t_p1selected[j].cel == p1Cell then 
-						updateAnim = false
-					end
-				end
-				data.t_p1selected[#data.t_p1selected+1] = {['cel'] = p1Cell, ['pal'] = p1Pal, ['up'] = updateAnim, ['rand'] = false}
-				if shuffle then
-					f_shuffleTable(data.t_p1selected)
-				end
-			end
-			--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
-			restoreTeam = false
-			teamMode = p1teamMode --was local function
-			numChars = p1numChars --was local function
-			if p1numChars > 1 then
-				for i=1, #data.t_p1selected do
-					if t_selChars[data.t_p1selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel+1].bonus == 1 then
-						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
-						p1teamMode = 0
-						p1numChars = 1
-						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
-						p1Cell = t_charAdd[t_selChars[data.t_p1selected[i].cel+1].char]
-						data.t_p1selected = {}
-						data.t_p1selected[1] = {['cel'] = p1Cell, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
-						restoreTeam = true
-						break
-					elseif t_selChars[data.t_p1selected[i].cel+1].single ~= nil and t_selChars[data.t_p1selected[i].cel+1].single == 1 then
-						p1teamMode = 0
-						p1numChars = 1
-						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
-						p1Cell = t_charAdd[t_selChars[data.t_p1selected[i].cel+1].char]
-						data.t_p1selected = {}
-						data.t_p1selected[1] = {['cel'] = p1Cell, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
-						restoreTeam = true
-						break
-					end
-				end
-			end
-	--Assign enemy team for AI in Player 2 (RIGHT SIDE)
-		else
-			data.t_p2selected = {}
-			shuffle = true --was local function
-			for i=1, p2numChars do
-				if i == 1 and data.gameMode == "tower" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
-					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
-					shuffle = false
-				else
-					p2Cell = t_roster[matchNo*p2numChars-i+1] --Endless Mode
-				end
-				if data.aipal == "Default" then
-					p2Pal = 1
-				elseif data.aipal == "Random" then
-					p2Pal = math.random(1,12)
-				end
-				local updateAnim = true
-				for j=1, #data.t_p2selected do
-					if data.t_p2selected[j].cel == p2Cell then 
-						updateAnim = false
-					end
-				end
-				data.t_p2selected[#data.t_p2selected+1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = updateAnim, ['rand'] = false}
-				if shuffle then
-					f_shuffleTable(data.t_p2selected)
-				end
-			end
-			--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
-			restoreTeam = false
-			teamMode = p2teamMode
-			numChars = p2numChars --was local function
-			if p2numChars > 1 then
-				for i=1, #data.t_p2selected do
-					if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
-						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
-						p2teamMode = 0
-						p2numChars = 1
-						setTeamMode(2, 0, 1)
-						p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
-						data.t_p2selected = {}
-						data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
-						restoreTeam = true
-						break
-					elseif t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1 then
-						p2teamMode = 0
-						p2numChars = 1
-						setTeamMode(2, 0, 1)
-						p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
-						data.t_p2selected = {}
-						data.t_p2selected[1] = {['cel'] = p2Cell, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
-						restoreTeam = true
-						break
-					end
-				end
-			end
-		end
-		setMatchNo(matchNo)
-		f_aiLevel()
-		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
-		f_matchInfo()
-		f_orderSelect()
-		--f_battlePlan() --Battle Plan Screen
-	--Versus Screen
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		else
-			if t_selChars[data.t_p2selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p2selected[1].cel+1].vsscreen == 1 then
-				f_selectVersus()
-			end
-		end
-		f_setRoundTime()
-		f_setRounds()
-		f_setZoom()
-	--inputs
-		if data.coop then
-			remapInput(3,2) --P2 controls assigned to P3 character
-			--remapInput(2,3) --P3 controls assigned to P2 character
-		end
-		matchTime = os.clock()
-		f_assignMusic()
-		sndStop()
-		winner = game()
-		playBGM("")
-		matchTime = os.clock() - matchTime
-		clearTime = clearTime + matchTime
-		selectTimer = selectSeconds*gameTick
-		stageTimer = stageSeconds*gameTick
-		rematchTimer = rematchSeconds*gameTick
-		serviceTimer = serviceSeconds*gameTick
-		destinyTimer = destinySeconds*gameTick
-		f_modeplayTime() --Store Favorite Game Mode
-		f_favoriteChar() --Store Favorite Character (WIP)
-		f_records() --save record progress
-		f_unlocksCheck() --Check For Unlocked Content
-	--restore P1 Team settings if needed
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if restoreTeam then
-				p1teamMode = teamMode
-				p1numChars = numChars
-				setTeamMode(1, p1teamMode, p1numChars)
-			end
-	--restore P2 Team settings if needed
-		else
-			if restoreTeam then
-				p2teamMode = teamMode
-				p2numChars = numChars
-				setTeamMode(2, p2teamMode, p2numChars)
-			end
-		end
 		cmdInput()
 		refresh()
 	end
@@ -3218,7 +2668,7 @@ function f_selectScreen()
 		if data.gameMode == "tower" then
 			animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--Draw Red BG for Special Modes
-		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" then
+		elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 			animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--Draw Blue BG for Normal Modes
 		else
@@ -7467,7 +6917,7 @@ function f_orderSelect()
 				if data.gameMode == "tower" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -7932,6 +7382,8 @@ function f_selectVersus()
 	--Set Versus Screen Music
 		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
+		elseif data.gameMode == "intermission" then
+			playBGM(bgmVSSpecial)
 		else
 			playBGM(bgmVS)
 		end
@@ -7955,7 +7407,7 @@ function f_selectVersus()
 				if data.gameMode == "tower" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -8113,7 +7565,7 @@ function f_selectWin()
 				if data.gameMode == "tower" then
 					animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 				--Draw Red BG for Special Modes
-				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" then
+				elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 					animDraw(f_animVelocity(selectHardBG0, -1, -1))
 				--Draw Blue BG for Normal Modes
 				else
@@ -8880,7 +8332,7 @@ function f_selectChallenger()
 			if data.gameMode == "tower" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else
@@ -9137,7 +8589,7 @@ function f_service()
 			if data.gameMode == "tower" then
 				animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 			--Draw Red BG for Special Modes
-			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" then
+			elseif data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or data.gameMode == "intermission" then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1))
 			--Draw Blue BG for Normal Modes
 			else

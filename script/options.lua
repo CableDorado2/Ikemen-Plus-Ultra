@@ -8357,6 +8357,8 @@ function f_defaultStats()
 	data.story2_2Unlock = false
 --Story Mode - Arc 3 Chapters Unlocks
 	data.story3_1Unlock = false
+--Characters Unlock
+	data.gouki = false
 --;----------------------------------------------
 	data.erase = true
 	modified = 1

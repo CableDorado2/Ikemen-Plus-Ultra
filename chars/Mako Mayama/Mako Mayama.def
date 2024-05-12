@@ -4,6 +4,7 @@ displayname = "Mako Mayama"
 versiondate = 04,14,2001
 mugenversion = 04,14,2001
 author = "taruse"
+unlockcondition = "Complete Chapter 1 of Kung Fu Man's Story"
 pal.defaults = 6,3,4,2
 
 [Files]

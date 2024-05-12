@@ -22,24 +22,24 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-   0, 0, data\charTrash\Kung_Fu_Man\s002.png,  18,105
-   0, 1, data\charTrash\Kung_Fu_Man\s003.png,  18,104
-   0, 2, data\charTrash\Kung_Fu_Man\s004.png,  18,104
-   0, 3, data\charTrash\Kung_Fu_Man\s005.png,  18,104
-   0, 4, data\charTrash\Kung_Fu_Man\s006.png,  18,104
-   0, 5, data\charTrash\Kung_Fu_Man\s007.png,  18,104
- 181, 0, data\charTrash\Kung_Fu_Man\s068.png,  16,108
- 181, 1, data\charTrash\Kung_Fu_Man\s069.png,  12,113
- 181, 2, data\charTrash\Kung_Fu_Man\s070.png,  13,113
- 181, 3, data\charTrash\Kung_Fu_Man\s071.png,  12,112
- 181, 4, data\charTrash\Kung_Fu_Man\s072.png,  13,104
- 181, 5, data\charTrash\Kung_Fu_Man\s073.png,  13, 89
- 181, 6, data\charTrash\Kung_Fu_Man\s074.png,  13, 85
-5040, 0, data\charTrash\Kung_Fu_Man\s129.png,  49, 45
-5040,10, data\charTrash\Kung_Fu_Man\s133.png,  50, 33
-5040,20, data\charTrash\Kung_Fu_Man\s137.png,  49, 55
-5300, 0, data\charTrash\Kung_Fu_Man\s156.png,  31, 82
-5300, 1, data\charTrash\Kung_Fu_Man\s157.png,  31, 81
-5300, 2, data\charTrash\Kung_Fu_Man\s158.png,  31, 79
-5300, 3, data\charTrash\Kung_Fu_Man\s159.png,  31, 78
- 200, 0, data\charTrash\Kung_Fu_Man\s160.png,  16,105
+   0, 0, data\charTrash\kung_fu_man\s007.png,  18,105
+   0, 1, data\charTrash\kung_fu_man\s008.png,  18,104
+   0, 2, data\charTrash\kung_fu_man\s009.png,  18,104
+   0, 3, data\charTrash\kung_fu_man\s010.png,  18,104
+   0, 4, data\charTrash\kung_fu_man\s011.png,  18,104
+   0, 5, data\charTrash\kung_fu_man\s012.png,  18,104
+ 181, 0, data\charTrash\kung_fu_man\s073.png,  16,108
+ 181, 1, data\charTrash\kung_fu_man\s074.png,  12,113
+ 181, 2, data\charTrash\kung_fu_man\s075.png,  13,113
+ 181, 3, data\charTrash\kung_fu_man\s076.png,  12,112
+ 181, 4, data\charTrash\kung_fu_man\s077.png,  13,104
+ 181, 5, data\charTrash\kung_fu_man\s078.png,  13, 89
+ 181, 6, data\charTrash\kung_fu_man\s079.png,  13, 85
+5040, 0, data\charTrash\kung_fu_man\s134.png,  49, 45
+5040,10, data\charTrash\kung_fu_man\s138.png,  50, 33
+5040,20, data\charTrash\kung_fu_man\s142.png,  49, 55
+5300, 0, data\charTrash\kung_fu_man\s161.png,  31, 82
+5300, 1, data\charTrash\kung_fu_man\s162.png,  31, 81
+5300, 2, data\charTrash\kung_fu_man\s163.png,  31, 79
+5300, 3, data\charTrash\kung_fu_man\s164.png,  31, 78
+ 200, 0, data\charTrash\kung_fu_man\s165.png,  16,105

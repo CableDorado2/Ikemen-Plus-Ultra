@@ -22,16 +22,16 @@ pal.discardduplicates = 1 ;0/1
 sprite.usepal = -1 ;Set this to the right pal
 
 [Sprite]
-   0, 0, data\charTrash\Training\s001.png,  18,105
-   0, 1, data\charTrash\Training\s002.png,  18,104
-   0, 2, data\charTrash\Training\s003.png,  18,104
-   0, 3, data\charTrash\Training\s004.png,  18,104
-   0, 4, data\charTrash\Training\s005.png,  18,104
-   0, 5, data\charTrash\Training\s006.png,  18,104
-5040, 0, data\charTrash\Training\s122.png,  49, 45
-5040,10, data\charTrash\Training\s126.png,  50, 33
-5040,20, data\charTrash\Training\s130.png,  49, 55
-5300, 0, data\charTrash\Training\s149.png,  31, 82
-5300, 1, data\charTrash\Training\s150.png,  31, 81
-5300, 2, data\charTrash\Training\s151.png,  31, 79
-5300, 3, data\charTrash\Training\s152.png,  31, 78
+   0, 0, data\charTrash\training\s001.png,  18,105
+   0, 1, data\charTrash\training\s002.png,  18,104
+   0, 2, data\charTrash\training\s003.png,  18,104
+   0, 3, data\charTrash\training\s004.png,  18,104
+   0, 4, data\charTrash\training\s005.png,  18,104
+   0, 5, data\charTrash\training\s006.png,  18,104
+5040, 0, data\charTrash\training\s122.png,  49, 45
+5040,10, data\charTrash\training\s126.png,  50, 33
+5040,20, data\charTrash\training\s130.png,  49, 55
+5300, 0, data\charTrash\training\s149.png,  31, 82
+5300, 1, data\charTrash\training\s150.png,  31, 81
+5300, 2, data\charTrash\training\s151.png,  31, 79
+5300, 3, data\charTrash\training\s152.png,  31, 78
