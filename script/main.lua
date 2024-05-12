@@ -8068,7 +8068,22 @@ function f_comingSoon()
     end
 end
 
---SECRET FIGHT
+--;===========================================================
+--; INTERMISSION (SECRET FIGHT)
+--;===========================================================
+function f_getIntermission()
+t_secretChallenger = {} --If you use a char that can appear in the intermission, this table will guarantee when randomizing it you fight against another
+for i, c in ipairs(t_intermissionChars) do --Read all table items and save each value in c var
+	local intermissionChar = c['path'] --Create variable with name from t_intermissionChars now stored in c var (Since it is in a for, the name will be different in each round)
+	local selectedChar = data.t_p1selected[1]['path'] --Create another variable with the first name from data.t_p1selected (Your Selected Character)
+	if intermissionChar ~= selectedChar then --Compare both names stored in previous vars and if the names are differents:
+	--Add only different intermission chars from the one you are using in this table
+		table.insert(t_secretChallenger, {['cel'] = t_charAdd[intermissionChar], ['name'] = t_selChars[t_charAdd[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charAdd[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charAdd[intermissionChar]+1].author})
+	end
+end
+if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
+end
+
 function f_secretFight()
 	--Load Side Player Data
 	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
@@ -8086,9 +8101,9 @@ function f_secretFight()
 	if keepLSide then
 		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {data.t_p1selected[1].cel+1} --{t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
-		data.p2Char = {t_intermissionChars[math.random(#t_intermissionChars)]} --pick a random intermission char from the table
-		data.p1Pal = data.t_p1selected[1].pal
+		data.p1Char = {data.t_p1selected[1].cel} --Get previous Arcade Character Selected --{t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
+		data.p2Char = {t_secretChallenger[math.random(#t_secretChallenger)].cel} --pick a random intermission char
+		data.p1Pal = data.t_p1selected[1].pal --Get previous Palette Selected
 		data.p2Pal = 1
 		if P2overP1 then
 			remapInput(1, 2)
@@ -8098,8 +8113,8 @@ function f_secretFight()
 	elseif keepRSide then
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p2TeamMenu = {mode = 0, chars = 1} --{mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
-		data.p1Char = {t_intermissionChars[math.random(#t_intermissionChars)]} --{t_charAdd["shin gouki"]}
-		data.p2Char = {data.t_p2selected[1].cel+1} --{t_charAdd[t_selChars[data.t_p2selected[1].cel+1].char]}
+		data.p1Char = {t_secretChallenger[math.random(#t_secretChallenger)].cel}
+		data.p2Char = {data.t_p2selected[1].cel}
 		data.p1Pal = 1
 		data.p2Pal = data.t_p2selected[1].pal
 		remapInput(1, 2)
@@ -8117,14 +8132,14 @@ function f_secretFight()
 			f_secretProgress()
 		end
 	else --Player 1 in Left Side
-		if script.select.winner == 1 then --Save progress only if you win
+		if script.select.winner == 1 then
 			f_secretProgress()
 		end
 	end
 end
 
 function f_secretProgress()
-data.gouki = true
+if data.t_p2selected[1].displayname == "Shin Gouki" then data.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
 f_saveProgress()
 end
 
@@ -8183,12 +8198,15 @@ function f_playCredits()
 	else
 		f_menuMusic()
 	end
-	--intermission
-	if data.rosterMode == "arcade" and data.continueCount == 0 and data.difficulty == 8 and t_intermissionChars ~= nil then
-		f_secretFight()
-	else
-		f_default()
+	--Intermissions Access
+	if data.rosterMode == "arcade" and not data.coop and t_intermissionChars ~= nil then --TODO play intermissions in co-op mode
+		f_getIntermission() --Load t_secretChallenger
+		--Conditions to enter in secret fight
+		if t_secretChallenger ~= nil and data.continueCount == 0 and data.difficulty == 8 then
+			f_secretFight()
+		end
 	end
+	f_default()
 end
 
 txt_creditsBox = [[
@@ -8374,4 +8392,3 @@ CABLE DORADO 2
 CD2
 
  ]]
-
