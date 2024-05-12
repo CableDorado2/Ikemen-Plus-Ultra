@@ -61,6 +61,11 @@ Set the paramvalue to 1 to include this
 character in "Bonus Games" mode. Bonus characters also
 won't show up as Simul team if faced in arcade mode.
 
+- intermission
+Set the paramvalue to 1 to predefined this character as a intermission char.
+If more than 1 character have setting intermission parameter
+the intermission character will be randomly chosen.
+
 - ai
 Set the paramvalue between 0 and 8 to force
 AI Level regardless of difficulty and AI ramping settings.
@@ -149,15 +154,19 @@ randomselect
 empty
 
 ;BOSS CHARACTERS EXAMPLE:
-Suave Dude, unlock=0, boss=1, roundtime=60, includestage=0, order=8, 4=Kung Fu Man
+Suave Dude, unlock=0, boss=1, roundtime=60, order=8, 4=Kung Fu Man
 Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=7
 
 ;BONUS CHARACTERS EXAMPLE:
-Barrel Breaker, bonus=1, vsscreen=0, victoryscreen=0, includestage=0, exclude=1, order=2
+Barrel Breaker, bonus=1, vsscreen=0, victoryscreen=0, exclude=1, order=2
 Break Car, stages/Battle Harbor.def, music=sound/Ultimate Warrior.mp3, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1
 
 ;SPECIFIC TRAINING DUMMY CHARACTER EXAMPLE:
 Dan, training=1, exclude=1, order=-1
+
+;INTERMISSION CHARACTERS EXAMPLE:
+Akuma, intermission=1, exclude=1, order=-1, victoryscreen=0
+Unlimited Ragna, intermission=1, exclude=1, order=-1, victoryscreen=0
  ____________________
 /      STAGES        \_____________________________________________________
 

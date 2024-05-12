@@ -63,7 +63,7 @@ function f_unlocksCheck()
 	if data.story1_2Unlock == true then
 		t_selChars[t_charAdd["mako mayama"]+1].unlock = 1
 	end
-	if data.bossrecord > 2 then
+	if data.bossrushClear == true then
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path night.def"]].unlock = 1
 		t_selStages[t_stageDef["stages/mountainside temple/outside.def"]].unlock = 1
 	end
@@ -1861,10 +1861,16 @@ t_arcadeClassicMenu = {
 	{id = textImgNew(), text = "CPU VS CPU"},
 }
 
+function f_resetArcadeStuff()
+data.continueCount = 0 --Restart Times Continue in Arcade
+f_saveProgress()
+keepLSide = false
+keepRSide = false
+end
+
 --Load Common Settings for Classic Arcade Modes
 function arcadeCfg()
-	data.continueCount = 0 --Restart Times Continue in Arcade
-	f_saveProgress()
+	f_resetArcadeStuff()
 	f_default() --Load f_default function defined in common.lua
 	setDiscordState("In Arcade Mode")
 	setGameMode('arcade')
@@ -2075,6 +2081,7 @@ t_towerMenu = {
 
 --Load Common Settings for Tower Modes
 function towerCfg()
+	f_resetArcadeStuff()
 	f_default()
 	setDiscordState("In Tower Mode")
 	setGameMode('tower')
@@ -8062,7 +8069,7 @@ function f_comingSoon()
 end
 
 --SECRET FIGHT
-function f_secretIntermission()
+function f_secretFight()
 	--Load Side Player Data
 	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
 		keepLSide = true
@@ -8079,38 +8086,30 @@ function f_secretIntermission()
 	if keepLSide then
 		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = 0, chars = 1}
-		data.p1Char = {t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
-		data.p2Char = {t_charAdd["shin gouki"]}
+		data.p1Char = {data.t_p1selected[1].cel+1} --{t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
+		data.p2Char = {t_intermissionChars[math.random(#t_intermissionChars)]} --pick a random intermission char from the table
 		data.p1Pal = data.t_p1selected[1].pal
 		data.p2Pal = 1
-		data.p1SelectMenu = false --Character Data will be loaded in f_p1SelectMenu() following this p1SelectMenu condition
 		if P2overP1 then
-			setHomeTeam(2)
 			remapInput(1, 2)
-			remapInput(2, 1)
-			setPlayerSide('p1right')
-		else
-			setHomeTeam(1)
 		end
+		data.p2In = 1
 --ARCADE PLAYER IS IN RIGHT SIDE - SECRET CHALLENGER COMES FROM LEFT SIDE
 	elseif keepRSide then
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p2TeamMenu = {mode = 0, chars = 1} --{mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
-		data.p1Char = {t_charAdd["shin gouki"]}
-		data.p2Char = {t_charAdd[t_selChars[data.t_p2selected[1].cel+1].char]}
+		data.p1Char = {t_intermissionChars[math.random(#t_intermissionChars)]} --{t_charAdd["shin gouki"]}
+		data.p2Char = {data.t_p2selected[1].cel+1} --{t_charAdd[t_selChars[data.t_p2selected[1].cel+1].char]}
 		data.p1Pal = 1
 		data.p2Pal = data.t_p2selected[1].pal
-		data.p2SelectMenu = false
+		remapInput(1, 2)
 		if not P2overP1 then
-			setHomeTeam(2)
-			remapInput(1, 2)
 			remapInput(2, 1)
-			setPlayerSide('p1right')
-		else
-			setHomeTeam(1)
 		end
+		setPlayerSide('p1right')
+		data.p1In = 2
+		data.p2In = 2
 	end
-	--data.p2In = 2
 	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 	script.select.f_selectSimple()
 	if getPlayerSide() == "p1right" then --Player 1 in Right Side
@@ -8184,9 +8183,9 @@ function f_playCredits()
 	else
 		f_menuMusic()
 	end
-	--Intromission
-	if data.rosterMode == "arcade" and data.continueCount == 0 and data.difficulty == 8 then
-		f_secretIntermission()
+	--intermission
+	if data.rosterMode == "arcade" and data.continueCount == 0 and data.difficulty == 8 and t_intermissionChars ~= nil then
+		f_secretFight()
 	else
 		f_default()
 	end
@@ -8375,3 +8374,4 @@ CABLE DORADO 2
 CD2
 
  ]]
+

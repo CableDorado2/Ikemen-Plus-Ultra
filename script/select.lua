@@ -997,6 +997,13 @@ function f_exitSelect3() --For Advanced Select after Continue Screen
 	backScreen = true
 end
 
+function f_exitToMainMenu() --For Advanced Select
+	data.tempBack = false
+	f_saveTemp()
+	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuInputs()
+end
+
 --;===================================================================================================
 --; SIMPLE MODES (VERSUS, TRAINING, RANDOM, MISSIONS, EVENTS, SINGLE BONUS/BOSSES LIST)
 --;===================================================================================================
@@ -1114,7 +1121,7 @@ function f_selectSimple()
 			--For Challenger Route in Arcade Mode
 			elseif data.gameMode == "challenger" then
 				return
-			--For Missions, Events, Quick Match or Intermission Modes
+			--For Missions, Events, Quick Match or intermission Modes
 			elseif data.gameMode == "demo" or data.gameMode == "quick match" or data.gameMode == "intermission" or data.rosterMode == "mission" or data.rosterMode == "event" then
 				if data.gameMode == "demo" then
 					--Don't playBGM
@@ -1176,6 +1183,96 @@ function f_selectSimple()
 		cmdInput()
 		refresh()
 	end
+end
+
+--;===================================================================
+--; COMMON SIDE ACTIONS
+--;===================================================================
+function f_arcadeEnd()
+	if data.rosterMode == "arcade" then
+		data.arcadeClear = true --Unlocks
+		f_saveProgress()
+	elseif data.rosterMode == "tower" then
+		data.towerClear = true
+		f_saveProgress()
+	end
+	f_playCredits()
+	f_storyboard("data/screenpack/gameover.def")
+	f_mainOpening()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuInputs()
+end
+
+function f_noContinue()
+	--f_mainOpening()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuInputs()
+end
+
+function f_advancedEnd()
+	if data.rosterMode == "survival" then
+		data.survivalClear = true
+		f_saveProgress()
+	elseif data.rosterMode == "bossrush" then
+		data.bossrushClear = true
+		f_saveProgress()
+	end
+	f_storyboard("data/screenpack/gameover.def")
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuInputs()
+end
+
+function f_winAdvanced()
+	f_records() --Save Stats
+	f_result('win')
+end
+
+function f_loseAdvanced()
+	f_records() --Save Stats
+	f_result('lost')
+	f_gameOver()
+	--f_mainOpening()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
+	f_resetMenuInputs()
+end
+
+function f_editLeftSide()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	if serviceTeam == true then p1TeamEnd = false end
+	data.t_p1selected = {}
+	p1Portrait = nil
+	p1SelEnd = false
+	if data.coop then
+		p2SelEnd = false
+	end
+end
+
+function f_editRightSide()
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	if serviceTeam == true then p2TeamEnd = false end
+	data.t_p2selected = {}
+	p2Portrait = nil
+	p2SelEnd = false
+	if data.coop then
+		p1SelEnd = false
+	end
+end
+
+function f_1stStageSel()
+	--Load first stage selected for all next matches
+	if data.stageMenu == true then
+		f_loadStage()
+		f_loadSong()
+	end
+end
+
+function f_nextMatch()
+	matchNo = matchNo + 1
+	f_1stStageSel()
 end
 
 --;=====================================================================================================
@@ -1242,10 +1339,7 @@ function f_selectAdvance()
 			looseCnt = looseCnt + 1
 			assert(loadfile("save/temp_sav.lua"))()
 			if data.tempBack == true then
-				data.tempBack = false
-				f_saveTemp()
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				f_resetMenuInputs()
+				f_exitToMainMenu()
 				return
 			end
 			f_records() --Save Stats
@@ -1271,8 +1365,7 @@ function f_selectAdvance()
 			end
 			--No More Matches Left
 			if matchNo == lastMatch then
-				f_records() --Save Stats
-				f_result('win')
+				f_winAdvanced()
 				f_storyboard("data/screenpack/gameover.def")
 				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
@@ -1280,12 +1373,7 @@ function f_selectAdvance()
 				return
 			--Next Match Available
 			else
-				matchNo = matchNo + 1
-				--Load first stage selected for all next matches
-				if data.stageMenu == true then
-					f_loadStage()
-					f_loadSong()
-				end
+				f_nextMatch()
 			end
 	--LEFT SIDE ACTIONS
 		elseif winner == 1 then
@@ -1300,33 +1388,19 @@ function f_selectAdvance()
 							f_selectWin()
 						end
 					end
-				--DELETE THIS?
 					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_exitToMainMenu()
 						return
 					end
-				--DELETE THIS?
-					f_records() --Save Stats
-					f_result('lost')
-					f_gameOver()
-					--f_mainOpening()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
+					f_loseAdvanced()
 					return
 				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
 					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else f_menuMusic() end
-						f_resetMenuInputs()
+						f_exitToMainMenu()
 						return
 					end
 					f_records()
@@ -1337,22 +1411,12 @@ function f_selectAdvance()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_noContinue()
 						return
 					end
 					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
 					if not data.quickCont then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if serviceTeam == true then p2TeamEnd = false end
-						data.t_p2selected = {}
-						p2Portrait = nil
-						p2SelEnd = false
-						--if data.coop then
-							--p1SelEnd = false
-						--end
+						f_editRightSide()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
@@ -1371,11 +1435,7 @@ function f_selectAdvance()
 						f_resetMenuInputs()
 						return
 					end
-					--Load first stage selected for all next matches
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
+					f_1stStageSel()
 				end
 			--Player 1 (IN LEFT SIDE):
 			else
@@ -1402,42 +1462,17 @@ function f_selectAdvance()
 							playVideo(tPos.ending2)
 						end
 					end
-					f_records() --Save Stats
-					f_result('win')
+					f_winAdvanced()
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
-						if data.rosterMode == "arcade" then
-							data.arcadeClear = true --Unlocks
-							f_saveProgress()
-						elseif data.rosterMode == "tower" then
-							data.towerClear = true --Unlocks
-							f_saveProgress()
-						end
-						f_playCredits()
-						f_storyboard("data/screenpack/gameover.def")
-						f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_arcadeEnd()
 						return
 					else
-						if data.rosterMode == "survival" then
-							data.survivalClear = true --Unlocks
-							f_saveProgress()
-						end
-						f_storyboard("data/screenpack/gameover.def")
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_advancedEnd()
 						return
 					end
 				--Next Match Available
 				else
-					matchNo = matchNo + 1
-					--Load first stage selected for all next matches
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
+					f_nextMatch()
 				end
 			end
 	--RIGHT SIDE
@@ -1467,41 +1502,17 @@ function f_selectAdvance()
 							playVideo(tPos.ending2)
 						end
 					end
-					f_records() --Save Stats
-					f_result('win')
+					f_winAdvanced()
 					if data.gameMode == "arcade" or data.gameMode == "tower" then
-						if data.rosterMode == "arcade" then
-							data.arcadeClear = true --Unlocks
-							f_saveProgress()
-						elseif data.rosterMode == "tower" then
-							data.towerClear = true --Unlocks
-							f_saveProgress()
-						end
-						f_playCredits()
-						f_storyboard("data/screenpack/gameover.def")
-						f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_arcadeEnd()
 						return
 					else
-						if data.rosterMode == "survival" then
-							data.survivalClear = true --Unlocks
-							f_saveProgress()
-						end
-						f_storyboard("data/screenpack/gameover.def")
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_advancedEnd()
 						return
 					end
 				--Next Match Available
 				else
-					matchNo = matchNo + 1
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
+					f_nextMatch()
 				end
 			--Player 1 (IN LEFT SIDE):
 			else
@@ -1514,33 +1525,19 @@ function f_selectAdvance()
 							f_selectWin()
 						end
 					end
-				--DELETE THIS?
 					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_exitToMainMenu()
 						return
 					end
-				--DELETE THIS?
-					f_records() --Save Stats
-					f_result('lost')
-					f_gameOver()
-					--f_mainOpening()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
+					f_loseAdvanced()
 					return
 				--Lose BUT can Continue (Arcade)
 				else
 					looseCnt = looseCnt + 1
 					assert(loadfile("save/temp_sav.lua"))()
 					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_exitToMainMenu()
 						return
 					end
 					f_records() --Save Stats
@@ -1551,22 +1548,12 @@ function f_selectAdvance()
 					--Continue Screen
 					f_continue()
 					if data.continue == 2 then --Continue = NO
-						--f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_noContinue()
 						return
 					end
 					--Quick Arcade Continue option disable (Character can be Changed after Continue/Services)
 					if not data.quickCont then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if serviceTeam == true then p1TeamEnd = false end
-						data.t_p1selected = {}
-						p1Portrait = nil
-						p1SelEnd = false
-						if data.coop then
-							p2SelEnd = false
-						end
+						f_editLeftSide()
 						f_rosterReset()
 						selScreenEnd = false
 						while not selScreenEnd do
@@ -1585,11 +1572,7 @@ function f_selectAdvance()
 						f_resetMenuInputs()
 						return
 					end
-					--Load first stage selected for all next matches
-					if data.stageMenu == true then
-						f_loadStage()
-						f_loadSong()
-					end
+					f_1stStageSel()
 				end
 			end
 		--BOTH SIDES - NO WINNER (player exit the match via ESC in Arcade, Survival, Boss/Bonus Rush)
@@ -1610,19 +1593,10 @@ function f_selectAdvance()
 				end
 				assert(loadfile("save/temp_sav.lua"))()
 				if data.tempBack == true then
-					data.tempBack = false
-					f_saveTemp()
-					if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-					f_resetMenuInputs()
+					f_exitToMainMenu()
 					return
 				end
-				f_records()
-				f_result('lost')
-				f_gameOver()
-				--f_mainOpening()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-				f_resetMenuInputs()
+				f_loseAdvanced()
 				return
 			--Continue Screen for Arcade when GIVE UP option is selected in Pause Menu
 			else
@@ -1719,10 +1693,7 @@ function f_selectAdvance()
 				else
 					looseCnt = looseCnt + 1
 					if data.tempBack == true then
-						data.tempBack = false
-						f_saveTemp()
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_exitToMainMenu()
 						return
 					end
 					f_records()
@@ -1737,30 +1708,14 @@ function f_selectAdvance()
 					end
 					f_continue()
 					if data.continue == 2 then
-						--f_mainOpening()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-						f_resetMenuInputs()
+						f_noContinue()
 						return
 					end
 					if not data.quickCont then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 						if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-							if serviceTeam == true then p2TeamEnd = false end
-							data.t_p2selected = {}
-							p2Portrait = nil
-							p2SelEnd = false
-							--if data.coop then
-								--p1SelEnd = false
-							--end
+							f_editRightSide()
 						else
-							if serviceTeam == true then p1TeamEnd = false end
-							data.t_p1selected = {}
-							p1Portrait = nil
-							p1SelEnd = false
-							if data.coop then
-								p2SelEnd = false
-							end
+							f_editLeftSide()
 						end
 						f_rosterReset()
 						selScreenEnd = false
@@ -8799,6 +8754,7 @@ function f_result(state)
 	--if state == "win" then
 	--elseif state == "lost" then
 	--end
+	local victoriesPercent = (winCnt/#t_roster)*100
 	if data.gameMode == "survival" then
 		playBGM(bgmResults)
 		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
@@ -8836,48 +8792,34 @@ function f_result(state)
 			textImgDraw(txt_resultText)
 			textImgDraw(txt_resultName) --Player Name position for Survival Mode
 			textImgDraw(txt_resultRank)
-			--Show Ranks
-			if winCnt >= 0 and winCnt < 2 then
-				animUpdate(rankF)
+			--Show Ranks According Some Percentage Rates
+			if victoriesPercent < 35 then --0% -- 34%
 				animDraw(rankF)
-			elseif winCnt >= 2 and winCnt < 6 then
-				animUpdate(rankDM)
+			elseif victoriesPercent >= 35 and victoriesPercent < 40 then --35% -- 39%
 				animDraw(rankDM)
-			elseif winCnt >= 6 and winCnt < 8 then
-				animUpdate(rankD)
+			elseif victoriesPercent >= 40 and victoriesPercent < 45 then --40% -- 44%
 				animDraw(rankD)
-			elseif winCnt >= 8 and winCnt < 12 then
-				animUpdate(rankDP)
+			elseif victoriesPercent >= 45 and victoriesPercent < 50 then --45% -- 49%
 				animDraw(rankDP)
-			elseif winCnt >= 12 and winCnt < 16 then
-				animUpdate(rankC)
+			elseif victoriesPercent >= 50 and victoriesPercent < 55 then --50% -- 54%
 				animDraw(rankC)
-			elseif winCnt >= 16 and winCnt < 20 then
-				animUpdate(rankCP)
+			elseif victoriesPercent >= 55 and victoriesPercent < 60 then --55% -- 59%
 				animDraw(rankCP)
-			elseif winCnt >= 20 and winCnt < 25 then
-				animUpdate(rankB)
+			elseif victoriesPercent >= 60 and victoriesPercent < 65 then --60% -- 64%
 				animDraw(rankB)
-			elseif winCnt >= 25 and winCnt < 30 then
-				animUpdate(rankBP)
+			elseif victoriesPercent >= 65 and victoriesPercent < 70 then --65% -- 69%
 				animDraw(rankBP)
-			elseif winCnt >= 30 and winCnt < 35 then
-				animUpdate(rankA)
+			elseif victoriesPercent >= 70 and victoriesPercent < 75 then --70% -- 74%
 				animDraw(rankA)
-			elseif winCnt >= 35 and winCnt < 40 then
-				animUpdate(rankAP)
+			elseif victoriesPercent >= 75 and victoriesPercent < 80 then --75% -- 79
 				animDraw(rankAP)
-			elseif winCnt >= 40 and winCnt < 45 then
-				animUpdate(rankS)
+			elseif victoriesPercent >= 80 and victoriesPercent < 85 then --80% -- 84%
 				animDraw(rankS)
-			elseif winCnt >= 45 and winCnt < 50 then
-				animUpdate(rankSP)
+			elseif victoriesPercent >= 85 and victoriesPercent < 90 then --85% -- 89%
 				animDraw(rankSP)
-			elseif winCnt >= 50 and winCnt < 100 then
-				animUpdate(rankXS)
+			elseif victoriesPercent >= 90 and victoriesPercent < 95 then --90% -- 94%
 				animDraw(rankXS)
-			elseif winCnt >= 100 then
-				animUpdate(rankGDLK)
+			elseif victoriesPercent >= 95 then --95% -- 100%
 				animDraw(rankGDLK)
 			end
 		else
@@ -10089,11 +10031,7 @@ function f_defeats()
 end
 
 function f_records()
-	if data.gameMode == "bossrush" then
-		if winCnt > data.bossrecord then
-			data.bossrecord = winCnt
-		end
-	elseif data.rosterMode == "suddendeath" then
+	if data.rosterMode == "suddendeath" then
 		if winCnt > data.suddenrecord then
 			data.suddenrecord = winCnt
 		end

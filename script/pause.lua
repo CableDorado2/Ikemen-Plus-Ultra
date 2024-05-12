@@ -646,7 +646,7 @@ function f_pauseMain(p, st, esc)
 						elseif pauseMenu == 5 then
 							if getGameMode() == "story" then
 								sndPlay(sysSnd, 100, 5)
-							elseif getGameMode() == "random" or getGameMode() == "intermission" then --Back to Main Menu for Quick Match Mode and Intermission Fights
+							elseif getGameMode() == "random" or getGameMode() == "intermission" then --Back to Main Menu for Quick Match Mode and intermission Fights
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
 								mainGoTo = "Confirm"
@@ -799,6 +799,7 @@ function f_pauseConfirm()
 		if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel)
 		elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backEventSel)
 		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
+		elseif getGameMode() == "intermission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
 		elseif getGameMode() == "story" or getGameMode() == "storyRoster" then
 			if getPauseVar() == "giveup" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)
 			else textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backStorySel)

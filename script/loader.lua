@@ -575,6 +575,7 @@ t_trainingChar = {}
 t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
+t_intermissionChars = {}
 --;===========================================================
 --; LOADING SCREEN 2
 --;===========================================================
@@ -702,6 +703,10 @@ for i=1, #t_selChars do
 		--generate table with characters allowed to be random selected
 		if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
 			t_randomChars[#t_randomChars+1] = i - 1
+		end
+		--generate table for intermissions
+		if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
+			t_intermissionChars[#t_intermissionChars+1] = i - 1
 		end
 		--create variable with character's name, whitespace replaced with underscore
 		displayname = t_selChars[i].name:gsub('%s+', '_')
@@ -929,6 +934,7 @@ function f_updateLogs()
 	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
 	f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
+	f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
 	end
 end
 

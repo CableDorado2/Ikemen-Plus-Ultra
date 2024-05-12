@@ -2182,6 +2182,7 @@ function f_saveProgress()
 		['data.firstRun'] = data.firstRun,
 		['data.arcadeClear'] = data.arcadeClear,
 		['data.survivalClear'] = data.survivalClear,
+		['data.bossrushClear'] = data.bossrushClear,
 		['data.coins'] = data.coins,
 		['data.attractCoins'] = data.attractCoins,
 		['data.continueCount'] = data.continueCount,
@@ -2195,7 +2196,6 @@ function f_saveProgress()
 	--Records Data
 		['data.timerecord'] = data.timerecord,
 		['data.scorerecord'] = data.scorerecord,
-		['data.bossrecord'] = data.bossrecord,
 		['data.suddenrecord'] = data.suddenrecord,
 		['data.endlessrecord'] = data.endlessrecord,
 	--Time Played Data

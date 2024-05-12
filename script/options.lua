@@ -8281,6 +8281,7 @@ function f_defaultStats()
 	data.firstRun = true
 	data.arcadeClear = false
 	data.survivalClear = false
+	data.bossrushClear = false
 	data.coins = 0
 	--data.attractCoins = 0
 	data.continueCount = 0
@@ -8294,7 +8295,6 @@ function f_defaultStats()
 --Records Data
 	data.timerecord = 0
 	data.scorerecord = 0
-	data.bossrecord = 0
 	data.suddenrecord = 0
 	data.endlessrecord = 0
 --Time Played Data

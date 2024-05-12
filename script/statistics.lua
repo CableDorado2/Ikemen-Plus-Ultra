@@ -65,10 +65,10 @@ t_statsMenu = {
 	{varID = textImgNew(), text = "Collected Coins",    		varText = ""},
 	{varID = textImgNew(), text = "Arcade Status",     			varText = ""},
 	{varID = textImgNew(), text = "Survival Status",     		varText = ""},
+	{varID = textImgNew(), text = "Boss Rush Status",     		varText = ""},
 	{varID = textImgNew(), text = "Stories Completed",     		varText = ""},
 	{varID = textImgNew(), text = "Missions Completed",     	varText = ""},
 	{varID = textImgNew(), text = "Events Completed",     		varText = ""},
-	{varID = textImgNew(), text = "Boss Rush Record",     		varText = ""},
 	{varID = textImgNew(), text = "Sudden Death Record",    	varText = ""},
 	{varID = textImgNew(), text = "Endless Record",    			varText = ""},
 	{varID = textImgNew(), text = "Time Attack Record",    		varText = ""},
@@ -379,10 +379,10 @@ function f_getStats()
 	t_statsMenu[9].varText = data.coins
 	if data.arcadeClear == false then t_statsMenu[10].varText = "INCOMPLETE" elseif data.arcadeClear == true then t_statsMenu[10].varText = "COMPLETED" end
 	if data.survivalClear == false then t_statsMenu[11].varText = "INCOMPLETE" elseif data.survivalClear == true then t_statsMenu[11].varText = "COMPLETED" end
-	t_statsMenu[12].varText = math.floor(data.storiesProgress/100).."/3"
-	t_statsMenu[13].varText = data.missionsProgress.."/3"
-	t_statsMenu[14].varText = data.eventsProgress.."/3"
-	t_statsMenu[15].varText = data.bossrecord.." Wins"
+	if data.bossrushClear == false then t_statsMenu[12].varText = "INCOMPLETE" elseif data.bossrushClear == true then t_statsMenu[12].varText = "COMPLETED" end
+	t_statsMenu[13].varText = math.floor(data.storiesProgress/100).."/3"
+	t_statsMenu[14].varText = data.missionsProgress.."/3"
+	t_statsMenu[15].varText = data.eventsProgress.."/3"
 	t_statsMenu[16].varText = data.suddenrecord.." Wins"
 	t_statsMenu[17].varText = data.endlessrecord.." Wins"
 	t_statsMenu[18].varText = "WIP"--data.timerecord..""
