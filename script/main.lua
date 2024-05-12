@@ -54,19 +54,29 @@ function f_unlocksCheck()
 	if data.arcadeClear == true then --Verify if you comply with this condition and then..
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
 	end
+	if data.gouki == true then
+		t_selChars[t_charAdd["shin gouki"]+1].unlock = 1
+	end
 	if data.story1_1Unlock == true then
 		t_selStages[t_stageDef["stages/mountainside temple/lobby 2 night.def"]].unlock = 1
 	end
-	if data.story1_4AUnlock == true then
-		t_selChars[t_charAdd["suave dude"]+1].unlock = 1
+	if data.story1_2Unlock == true then
+		t_selChars[t_charAdd["mako mayama"]+1].unlock = 1
+	end
+	if data.bossrecord > 2 then
+		t_selStages[t_stageDef["stages/mountainside temple/hidden path night.def"]].unlock = 1
+		t_selStages[t_stageDef["stages/mountainside temple/outside.def"]].unlock = 1
 	end
 	if data.mission1Status == 1 then
 		t_selStages[t_stageDef["stages/mountainside temple/dark corridor.def"]].unlock = 1
 	end
+	if data.story1_4AStatus == 1 then
+		t_selChars[t_charAdd["suave dude"]+1].unlock = 1
+	end
 	if data.event1Status == 1 then
 		t_selStages[t_stageDef["stages/mountainside temple/winter.def"]].unlock = 1
 	end
-	if data.trainingTime > 2000 then
+	if data.trainingTime > 1500 then
 		t_selStages[t_stageDef["stages/training room 2.def"]].unlock = 1
 	end
 	f_updateLogs()
@@ -672,20 +682,20 @@ function f_mainStart()
 	setDiscordState("In Logos")
 	gameTime = (os.clock()/1000)
 	f_resetTemp()
-	f_unlocksCheck() --Check For Unlocked Content
 	f_soundtrack() --Load Soundtrack Tables from common.lua for use in menus
 	f_mainLogos()
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	f_infoReset() --Allow select options below if the Engine detects characters or stages
-	if #t_selChars == 0 then --If the Engine not detect Characters
+	if t_selChars == nil then --If the Engine not detect Characters
 		charsInfo = true
 		infoScreen = true
 		f_exitMenu()
-	elseif #t_selStages == 0 then --If the Engine not detect Stages
+	elseif t_selStages == nil then --If the Engine not detect Stages
 		stagesInfo = true
 		infoScreen = true
 		f_exitMenu()
 	elseif #t_selChars or #t_selStages ~= 0 then
+		f_unlocksCheck() --Check For Unlocked Content
 		if data.attractMode == true then
 			coinSystem = false
 			--data.attractCoins = 0 --Enable for Restart Credits for Attract Mode
@@ -693,8 +703,6 @@ function f_mainStart()
 			setDiscordState("In Attract Mode")
 			f_mainAttract()
 		else
-			data.continueCount = 0 --Disable to avoid Restart Times Continue in Arcade
-			f_saveProgress() --Disable to avoid Restart Times Continue in Arcade
 			setDiscordState("In Main Menu")
 			f_mainTitle()
 		end
@@ -851,6 +859,7 @@ function f_exitMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	if charsInfo or stagesInfo then playBGM(bgmTitle) end
 	f_exitReset()
 	while true do
 		if exitScreen == false and infoScreen == false then
@@ -884,18 +893,18 @@ function f_exitMenu()
 			if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				restartEngine = false
 				--EXIT FOR ATTRACT MODE (NO CONTENT)
-				if exitMenu == 1 and data.attractMode == true and #t_selChars == 0 then
+				if exitMenu == 1 and data.attractMode == true and t_selChars == nil then
 					sndPlay(sysSnd, 100, 1)
 					exitScreen = true
-				elseif exitMenu == 1 and data.attractMode == true and #t_selStages == 0 then
+				elseif exitMenu == 1 and data.attractMode == true and t_selStages == nil then
 					sndPlay(sysSnd, 100, 1)
 					exitScreen = true
 				--RESTART FOR ATTRACT MODE (NO CONTENT)
-				elseif exitMenu == 2 and data.attractMode == true and #t_selChars == 0 then
+				elseif exitMenu == 2 and data.attractMode == true and t_selChars == nil then
 					sndPlay(sysSnd, 100, 1)
 					restartEngine = true
 					exitScreen = true
-				elseif exitMenu == 2 and data.attractMode == true and #t_selStages == 0 then
+				elseif exitMenu == 2 and data.attractMode == true and t_selStages == nil then
 					sndPlay(sysSnd, 100, 1)
 					restartEngine = true
 					exitScreen = true
@@ -1854,6 +1863,8 @@ t_arcadeClassicMenu = {
 
 --Load Common Settings for Classic Arcade Modes
 function arcadeCfg()
+	data.continueCount = 0 --Restart Times Continue in Arcade
+	f_saveProgress()
 	f_default() --Load f_default function defined in common.lua
 	setDiscordState("In Arcade Mode")
 	setGameMode('arcade')
@@ -2087,7 +2098,7 @@ function towerHumanvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "TOWER MODE")
-	script.select.f_selectTower()
+	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 	P2overP1 = false
 end
@@ -2105,7 +2116,7 @@ function towerCPUvsHuman()
 	data.p2In = 2
 	data.p1SelectMenu = false
 	textImgSetText(txt_mainSelect, "TOWER MODE")
-	script.select.f_selectTower()
+	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 	P2overP1 = false
 end
@@ -2118,7 +2129,7 @@ function towerP1P2vsCPU()
 	setPlayerSide('p1left')
 	setGameMode('towercoop')
 	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
-	script.select.f_selectTower()
+	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
 
@@ -2133,7 +2144,7 @@ function towerCPUvsP1P2()
 	data.coop = true
 	setGameMode('towercoop')
 	textImgSetText(txt_mainSelect, "TOWER COOPERATIVE")
-	script.select.f_selectTower()
+	script.select.f_selectAdvance()
 	]]
 	setDiscordState("In Main Menu")
 end
@@ -2147,7 +2158,7 @@ function towerCPUvsCPU()
 	setGameMode('towercpu')
 	data.rosterMode = "cpu"
 	textImgSetText(txt_mainSelect, "WATCH TOWER")
-	script.select.f_selectTower()
+	script.select.f_selectAdvance()
 	setDiscordState("In Main Menu")
 end
 
@@ -8050,6 +8061,74 @@ function f_comingSoon()
     end
 end
 
+--SECRET FIGHT
+function f_secretIntermission()
+	--Load Side Player Data
+	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
+		keepLSide = true
+	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		keepRSide = true
+	end
+	f_default()
+	data.rosterMode = "versus"
+	data.gameMode = "intermission"
+	setGameMode('intermission')
+	setRoundTime(-1)
+	data.victoryscreen = false
+	--ARCADE PLAYER IS IN LEFT SIDE - SECRET CHALLENGER COMES FROM RIGHT SIDE
+	if keepLSide then
+		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
+		data.p2TeamMenu = {mode = 0, chars = 1}
+		data.p1Char = {t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
+		data.p2Char = {t_charAdd["shin gouki"]}
+		data.p1Pal = data.t_p1selected[1].pal
+		data.p2Pal = 1
+		data.p1SelectMenu = false --Character Data will be loaded in f_p1SelectMenu() following this p1SelectMenu condition
+		if P2overP1 then
+			setHomeTeam(2)
+			remapInput(1, 2)
+			remapInput(2, 1)
+			setPlayerSide('p1right')
+		else
+			setHomeTeam(1)
+		end
+--ARCADE PLAYER IS IN RIGHT SIDE - SECRET CHALLENGER COMES FROM LEFT SIDE
+	elseif keepRSide then
+		data.p1TeamMenu = {mode = 0, chars = 1}
+		data.p2TeamMenu = {mode = 0, chars = 1} --{mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
+		data.p1Char = {t_charAdd["shin gouki"]}
+		data.p2Char = {t_charAdd[t_selChars[data.t_p2selected[1].cel+1].char]}
+		data.p1Pal = 1
+		data.p2Pal = data.t_p2selected[1].pal
+		data.p2SelectMenu = false
+		if not P2overP1 then
+			setHomeTeam(2)
+			remapInput(1, 2)
+			remapInput(2, 1)
+			setPlayerSide('p1right')
+		else
+			setHomeTeam(1)
+		end
+	end
+	--data.p2In = 2
+	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	script.select.f_selectSimple()
+	if getPlayerSide() == "p1right" then --Player 1 in Right Side
+		if script.select.winner == 2 then --Save progress only if you win
+			f_secretProgress()
+		end
+	else --Player 1 in Left Side
+		if script.select.winner == 1 then --Save progress only if you win
+			f_secretProgress()
+		end
+	end
+end
+
+function f_secretProgress()
+data.gouki = true
+f_saveProgress()
+end
+
 --;===========================================================
 --; CREDITS SCREEN
 --;=========================================================== 
@@ -8100,12 +8179,17 @@ function f_playCredits()
 		playBGM(bgmTitle)
 	elseif data.rosterMode == "story" then
 		playBGM(bgmStory)
-	elseif data.rosterMode == "arcade" then
+	elseif data.rosterMode == "arcade" or data.rosterMode == "tower" then
 		--Nothing because game over screen comes...
 	else
 		f_menuMusic()
 	end
-	f_default()
+	--Intromission
+	if data.rosterMode == "arcade" and data.continueCount == 0 and data.difficulty == 8 then
+		f_secretIntermission()
+	else
+		f_default()
+	end
 end
 
 txt_creditsBox = [[
