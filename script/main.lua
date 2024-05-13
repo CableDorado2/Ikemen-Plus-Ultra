@@ -8075,13 +8075,52 @@ function f_getIntermission()
 t_secretChallenger = {} --If you use a char that can appear in the intermission, this table will guarantee when randomizing it you fight against another
 for i, c in ipairs(t_intermissionChars) do --Read all table items and save each value in c var
 	local intermissionChar = c['path'] --Create variable with name from t_intermissionChars now stored in c var (Since it is in a for, the name will be different in each round)
-	local selectedChar = data.t_p1selected[1]['path'] --Create another variable with the first name from data.t_p1selected (Your Selected Character)
-	if intermissionChar ~= selectedChar then --Compare both names stored in previous vars and if the names are differents:
+	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
+		selectaChar = data.t_p1selected[1]['path'] --Create another variable with the first name from data.t_p1selected (Your Selected Character)
+	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		selectaChar = data.t_p2selected[1]['path']
+	end
+	if intermissionChar ~= selectaChar then --Compare both names stored in previous vars and if the names are differents:
 	--Add only different intermission chars from the one you are using in this table
 		table.insert(t_secretChallenger, {['cel'] = t_charAdd[intermissionChar], ['name'] = t_selChars[t_charAdd[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charAdd[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charAdd[intermissionChar]+1].author})
 	end
 end
 if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
+end
+
+--Intermission Scrolling background
+intermissionBG0 = animNew(sysSff, [[
+101,0, 0,0, -1
+]])
+animAddPos(intermissionBG0, 160, 0)
+animSetTile(intermissionBG0, 1, 1)
+animSetColorKey(intermissionBG0, -1)
+
+--Challenger Transparent BG
+intermissionWindow = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(intermissionWindow, 160, 0)
+animSetTile(intermissionWindow, 1, 1)
+animSetWindow(intermissionWindow, -54, 67, 428, 100)
+
+function f_intermission() --Secret Fight Intro
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	playBGM("sound/system/Intermission.mp3")
+	local intermissionTime = 0
+	while true do
+		if intermissionTime == 500 then
+			--cmdInput()
+			break
+		end
+		intermissionTime = intermissionTime + 1
+		animDraw(f_animVelocity(intermissionBG0, -1, -1))
+		animDraw(f_animVelocity(intermissionWindow, 0, 1.5))
+		--animDraw(data.fadeTitle)
+		--animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
 end
 
 function f_secretFight()
@@ -8139,7 +8178,8 @@ function f_secretFight()
 end
 
 function f_secretProgress()
-if data.t_p2selected[1].displayname == "Shin Gouki" then data.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
+local goukiName = "Shin Gouki"
+if data.t_p1selected[1].displayname == goukiName or data.t_p2selected[1].displayname == goukiName then data.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
 f_saveProgress()
 end
 
@@ -8202,7 +8242,7 @@ function f_playCredits()
 	if data.rosterMode == "arcade" and not data.coop and t_intermissionChars ~= nil then --TODO play intermissions in co-op mode
 		f_getIntermission() --Load t_secretChallenger
 		--Conditions to enter in secret fight
-		if t_secretChallenger ~= nil and data.continueCount == 0 and data.difficulty == 8 then
+		if #t_secretChallenger ~= 0 and data.continueCount == 0 and data.difficulty == 8 then
 			f_secretFight()
 		end
 	end
@@ -8392,3 +8432,4 @@ CABLE DORADO 2
 CD2
 
  ]]
+

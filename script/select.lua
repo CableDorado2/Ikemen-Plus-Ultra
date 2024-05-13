@@ -1164,10 +1164,11 @@ function f_selectSimple()
 				f_selectVersus()
 			end
 		end
+		sndStop()
+		f_loading()
 		f_setZoom()
 		matchTime = os.clock()
 		f_assignMusic()
-		sndStop()
 		winner = game()
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
@@ -1889,9 +1890,10 @@ function f_selectAdvance()
 			remapInput(3,2) --P2 controls assigned to P3 character
 			--remapInput(2,3) --P3 controls assigned to P2 character
 		end
+		sndStop()
+		f_loading()
 		matchTime = os.clock()
 		f_assignMusic()
-		sndStop()
 		winner = game()
 		playBGM("")
 		matchTime = os.clock() - matchTime
@@ -1998,10 +2000,11 @@ function f_selectStory()
 				f_selectVersus()
 			end
 		end
+		sndStop()
+		f_loading()
 		f_setZoom()
 		matchTime = os.clock()
 		if data.songSelect then f_assignMusic() end
-		sndStop()
 		winner = game()
 		matchTime = os.clock() - matchTime
 		clearTime = clearTime + matchTime
@@ -6661,6 +6664,8 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 		textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
 	elseif data.gameMode == "bonusrush" then
 		textImgSetText(txt_bonusNo, "BONUS: "..bonusNo) --Set Bonus Rush Match Text
+	elseif data.gameMode == "intermission" then
+		textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text
 	else
 		textImgSetText(txt_gameNo, "MATCH: "..gameNo) --Set Versus Match Text
 	end
@@ -6775,8 +6780,8 @@ function f_orderSelect()
 	if not data.orderSelect then
 		while true do
 			if i == 0 then
-				f_selectChar(1, data.t_p1selected)
-				f_selectChar(2, data.t_p2selected)
+				--f_selectChar(1, data.t_p1selected)
+				--f_selectChar(2, data.t_p2selected)
 			elseif i == 10 then
 				cmdInput()
 				break
@@ -6790,8 +6795,8 @@ function f_orderSelect()
 	elseif data.coop == true then
 		while true do
 			if i == 0 then
-				f_selectChar(1, data.t_p1selected)
-				f_selectChar(2, data.t_p2selected)
+				--f_selectChar(1, data.t_p1selected)
+				--f_selectChar(2, data.t_p2selected)
 			elseif i == 10 then
 				cmdInput()
 				break
@@ -6805,8 +6810,8 @@ function f_orderSelect()
 	elseif p1teamMode == 0 and p2teamMode == 0 then
 		while true do
 			if i == 0 then
-				f_selectChar(1, data.t_p1selected)
-				f_selectChar(2, data.t_p2selected)
+				--f_selectChar(1, data.t_p1selected)
+				--f_selectChar(2, data.t_p2selected)
 			elseif i == 10 then
 				cmdInput()
 				break
@@ -6842,8 +6847,8 @@ function f_orderSelect()
 	--Set Order Select Music
 		if matchNo == lastMatch then
 			playBGM(bgmSelectOrderFinal)
-		--else	
-			--playBGM(bgmSelectOrder)
+		else	
+			playBGM(bgmSelectOrder)
 		end
 		f_getOrderHint() --Load First Hint
 		f_resetVersusLogo()
@@ -6853,9 +6858,9 @@ function f_orderSelect()
 		elseif #data.t_p1selected > 1 or data.coop == true then
 			--orderTime = #data.t_p1selected * 60 --Order Time is setting by the amount of characters selected
 		else
-			f_selectChar(1, data.t_p1selected)
+			--f_selectChar(1, data.t_p1selected)
 			p1Confirmed = true
-			f_selectChar(2, data.t_p2selected)
+			--f_selectChar(2, data.t_p2selected)
 			--p2Confirmed = true --Activate to don't order CPU characters in team modes
 		end
 		cmdInput()
@@ -6928,13 +6933,13 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 then
 					if not p1Confirmed then
 						sndNumber = 1
-						f_selectChar(1, data.t_p1selected)
+						--f_selectChar(1, data.t_p1selected)
 						p1Confirmed = true
 						commandBufReset(p1Cmd)
 					end
 					if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
 						if not p2Confirmed then
-							f_selectChar(2, data.t_p2selected)
+							--f_selectChar(2, data.t_p2selected)
 							p2Confirmed = true
 						end
 					end
@@ -6992,13 +6997,13 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 then
 					if not p1Confirmed then
 						sndNumber = 1
-						f_selectChar(1, data.t_p1selected)
+						--f_selectChar(1, data.t_p1selected)
 						p1Confirmed = true
 						commandBufReset(p1Cmd)
 					end
 					if data.p2In ~= 2 and p2numChars == 1 then --Necessary for Single Boss Mode
 						if not p2Confirmed then
-							f_selectChar(2, data.t_p2selected)
+							--f_selectChar(2, data.t_p2selected)
 							p2Confirmed = true
 						end
 					end
@@ -7056,7 +7061,7 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 then
 					if not p2Confirmed then
 						sndNumber = 1
-						f_selectChar(2, data.t_p2selected)
+						--f_selectChar(2, data.t_p2selected)
 						p2Confirmed = true
 					end
 				elseif commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufOrderu >= 30) then
@@ -7113,7 +7118,7 @@ function f_orderSelect()
 				if btnPalNo(p2Cmd) > 0 then
 					if not p2Confirmed then
 						sndNumber = 1
-						f_selectChar(2, data.t_p2selected)
+						--f_selectChar(2, data.t_p2selected)
 						p2Confirmed = true
 					end
 				elseif commandGetState(p2Cmd, 'u') or (commandGetState(p2Cmd, 'holdu') and bufOrder2u >= 30) then
@@ -7173,11 +7178,11 @@ function f_orderSelect()
 		--Order Time Over
 			if orderTime == 0 then
 				if not p1Confirmed then
-					f_selectChar(1, data.t_p1selected)
+					--f_selectChar(1, data.t_p1selected)
 					p1Confirmed = true
 				end
 				if not p2Confirmed then
-					f_selectChar(2, data.t_p2selected)
+					--f_selectChar(2, data.t_p2selected)
 					p2Confirmed = true
 				end
 				if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
@@ -7321,8 +7326,8 @@ function f_selectVersus()
 	if not data.versusScreen then
 		while true do
 			if i == 0 then
-				f_selectChar(1, data.t_p1selected)
-				f_selectChar(2, data.t_p2selected)
+				--f_selectChar(1, data.t_p1selected)
+				--f_selectChar(2, data.t_p2selected)
 			elseif i == 30 then
 				cmdInput()
 				break
@@ -7335,11 +7340,13 @@ function f_selectVersus()
 		local colorToName = 1
 		local screenTime = 0
 		local hintTime = 0
+		local timeLimit = 150
 	--Set Versus Screen Music
 		if data.gameMode == "bossrush" or data.gameMode == "singleboss" or data.rosterMode == "suddendeath" or matchNo == lastMatch then
 			playBGM(bgmVSFinal)
 		elseif data.gameMode == "intermission" then
 			playBGM(bgmVSSpecial)
+			timeLimit = 350
 		else
 			playBGM(bgmVS)
 		end
@@ -7348,8 +7355,7 @@ function f_selectVersus()
 		cmdInput()
 		while true do
 		--Actions
-			if screenTime == 150 then--or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
-				--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			if screenTime == timeLimit then--or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Disable temporarily to prevent desync in online mode
 				commandBufReset(p1Cmd)
 				commandBufReset(p2Cmd)
 				break
@@ -7391,7 +7397,7 @@ function f_selectVersus()
 		--Draw Match Info
 			if data.gameMode == "arcade" or data.gameMode == "tower" then
 				textImgDraw(txt_matchNo)
-			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "allroster" then
+			elseif data.gameMode == "versus" or data.gameMode == "survival" or data.gameMode == "allroster" or data.gameMode == "intermission" then
 				textImgDraw(txt_gameNo)
 			elseif data.gameMode == "bossrush" then
 				textImgDraw(txt_bossNo)
@@ -7417,6 +7423,30 @@ function f_selectVersus()
 			cmdInput()
 			refresh()
 		end
+	end
+end
+
+--;===========================================================
+--; LOADING SCREEN
+--;===========================================================
+function f_loading()
+	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
+		f_selectChar(1, data.t_p1selected)
+		f_selectChar(2, data.t_p2selected)
+	end
+	local t = 0
+	while true do
+		if t == 30 then
+			cmdInput()
+			break
+		end
+		t = t + 1
+		textImgDraw(txt_loading)
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
 	end
 end
 
