@@ -48,3 +48,4 @@ sprite.usepal = -1 ;Set this to the right pal
  181, 1, data\charTrash\shin_gouki\s191.png,  13,112
  181, 2, data\charTrash\shin_gouki\s192.png,  16,112
  207,11, data\charTrash\shin_gouki\s241.png,  25,110
+9000, 9, data\charTrash\shin_gouki\s1128.png,   0,  0

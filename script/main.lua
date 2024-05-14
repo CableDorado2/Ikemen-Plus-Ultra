@@ -8088,7 +8088,7 @@ end
 if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
 end
 
---Intermission Scrolling background
+--Intermission Scrolling background --101,0
 intermissionBG0 = animNew(sysSff, [[
 101,0, 0,0, -1
 ]])
@@ -8096,26 +8096,99 @@ animAddPos(intermissionBG0, 160, 0)
 animSetTile(intermissionBG0, 1, 1)
 animSetColorKey(intermissionBG0, -1)
 
---Challenger Transparent BG
-intermissionWindow = animNew(sysSff, [[
+--Intermission Scrolling background 2
+intermissionBG2 = animNew(vnSff, [[
+100,1, 0,0, -1
+]])
+animAddPos(intermissionBG2, -55, 47)
+animSetScale(intermissionBG2, 2.849, 2.31)
+animUpdate(intermissionBG2)
+
+--Intermission Transparent Up BG
+intermissionWindowSlideU = animNew(sysSff, [[
 100,1, 20,13, -1, 0, s
 ]])
-animAddPos(intermissionWindow, 160, 0)
-animSetTile(intermissionWindow, 1, 1)
-animSetWindow(intermissionWindow, -54, 67, 428, 100)
+animAddPos(intermissionWindowSlideU, 160, 0)
+animSetTile(intermissionWindowSlideU, 1, 1)
+animSetWindow(intermissionWindowSlideU, -54, 28, 428, 20)
+
+--Intermission Transparent Down BG
+intermissionWindowSlideD = animNew(sysSff, [[
+100,1, 20,13, -1, 0, s
+]])
+animAddPos(intermissionWindowSlideD, 160, 0)
+animSetTile(intermissionWindowSlideD, 1, 1)
+animSetWindow(intermissionWindowSlideD, -54, 190, 428, 20)
+
+txt_intermissionBox = [[
+
+CHALLENGER 
+APPROACHING!
+
+]]
 
 function f_intermission() --Secret Fight Intro
 	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
 	playBGM("sound/system/Intermission.mp3")
 	local intermissionTime = 0
+	local intermissionTxt = f_extractText(txt_intermissionBox)
+	local txt = "WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING!"
+	local txt_warningInterU = createTextImg(font6, 0, 1, txt, 0, 42)
+	local txt_warningInterD = createTextImg(font6, 0, -1, txt, 320, 205)
+	local black = 0 --alphaS
+	local charPortrait = false
+	local charAnim = false
+	local secretChar = nil
+	--if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
+		secretChar = t_selChars[data.t_p2selected[1].cel+1]
+	--elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		--secretChar = t_selChars[data.t_p1selected[1].cel+1]
+	--end
+	local scaleData = nil
+	if secretChar.PortraitIntermissionScale ~= nil then
+		scaleData = secretChar.PortraitIntermissionScale
+	else
+		scaleData = "1.0,1.0"
+	end
+	local xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+	if secretChar.sffData ~= nil and secretChar.stand ~= nil then
+		charAnim = f_animFromTable(secretChar['stand'], secretChar.sffData, 160, 180, secretChar.xscale, secretChar.yscale, 0, 1, black)
+	end
+	if secretChar.sffData ~= nil and secretChar.intermissionSpr ~= nil then
+		charPortrait = f_animFromTable(secretChar['intermissionSpr'], secretChar.sffData, 0, 40, xPortScale, yPortScale, 0, 1, black)
+	end
 	while true do
 		if intermissionTime == 500 then
 			--cmdInput()
 			break
 		end
 		intermissionTime = intermissionTime + 1
+		--Draw BG Assets
 		animDraw(f_animVelocity(intermissionBG0, -1, -1))
-		animDraw(f_animVelocity(intermissionWindow, 0, 1.5))
+		animDraw(intermissionBG2)
+		animDraw(f_animVelocity(intermissionWindowSlideU, -1.5, 0))
+		animDraw(f_animVelocity(intermissionWindowSlideD, 1.5, 0))
+		--Draw Warning Text
+		textImgDraw(f_textVelocity(txt_warningInterU, -1.5, 0))
+		textImgDraw(f_textVelocity(txt_warningInterD, 1.2, 0))
+		--Draw Approaching Text
+		for i = 1, #intermissionTxt do
+			textImgDraw(f_updateTextImg(textImgNew(), jgFnt, 5, 0, intermissionTxt[i], 255, 115 + 12 * (i - 1)))
+		end
+	--Draw Character Portraits
+		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+			if charPortrait then
+				animDraw(charPortrait)
+				animUpdate(charPortrait)
+			end
+		end
+	--Draw Character Sprite Animations
+		if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+			if charAnim then
+				animDraw(charAnim)
+				animUpdate(charAnim)
+			end
+		end
 		--animDraw(data.fadeTitle)
 		--animUpdate(data.fadeTitle)
 		cmdInput()
@@ -8243,6 +8316,7 @@ function f_playCredits()
 		f_getIntermission() --Load t_secretChallenger
 		--Conditions to enter in secret fight
 		if #t_secretChallenger ~= 0 and data.continueCount == 0 and data.difficulty == 8 then
+			f_intermission()
 			f_secretFight()
 		end
 	end
@@ -8318,6 +8392,7 @@ GRAPHICS DESIGN
 
 ELECBYTE TEAM
 BALTHAZAR
+CIRIO
 ESAKA
 FIRE WOLF
 FIZZY
@@ -8326,7 +8401,8 @@ OGGY
 RAKAVOLVER
 TARUSE
 TONINHO-3RD
-
+XWAGNERPLAGUESX
+ZION
 
 
 SOUND COMPOSER
@@ -8355,6 +8431,7 @@ MICHIRU YAMANE
 PERTTU KIVILAAKSO
 PETER CONNELLY
 RAITO
+SAMPLEPACK - IMPACT SFX
 SHINJI HOSOE
 SHINSEKAI GAKKYOKU ZATSUGIDAN
 SHIRO HAMAGUCHI
@@ -8433,3 +8510,14 @@ CD2
 
  ]]
 
+--;===========================================================
+--; INITIALIZE LOOPS
+--;===========================================================
+--f_mainStart() --Start Menu
+
+
+data.t_p2selected = {}
+table.insert(data.t_p2selected, {['cel'] = 222, ['up'] = true})
+
+--f_intermission()
+--]]

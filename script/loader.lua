@@ -20,7 +20,7 @@ function f_parseChar(t, cel)
 		local endingPath = ''
 		local row = ''
 		local section = ''
-		local readLines = 8
+		local readLines = 12
 		for line in io.lines(def) do
 			line = line:lower()
 			if line:match('^%s*%[%s*info%s*%]') then
@@ -31,6 +31,8 @@ function f_parseChar(t, cel)
 				section = 3
 			elseif line:match('^%s*%[%s*arcade%s*%]') then
 				section = 4
+			elseif line:match('^%s*%[%s*intermission%s*%]') then
+				section = 5
 			elseif line:match('^%s*%[') then --in case character shares DEF file with other files
 				break
 			elseif section == 1 then --[Info]
@@ -137,8 +139,24 @@ function f_parseChar(t, cel)
 					end
 					readLines = readLines - 1
 				end
+			elseif section == 5 then --[Intermission]
+				--Load Intermission Data
+				if line:match('^%s*portraitspr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['intermissionSpr'] = {line:gsub('^%s*portraitspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					readLines = readLines - 1
+				end
+				if line:match('^%s*portraitscale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['PortraitIntermissionScale'] = line:gsub('^%s*portraitscale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					readLines = readLines - 1
+				end
 			end
-			if stPath ~= '' and section ~= 2 and section ~= 3 then
+			if stPath ~= '' and section ~= 2 and section ~= 3 and section ~= 4 then
 				readLines = readLines - 1
 			end
 			if readLines == 0 then
@@ -309,6 +327,7 @@ for line in content:gmatch('[^\r\n]+') do
 				c = c:gsub('\\', '/')
 				c = tostring(c)
 				t_selChars[row]['char'] = c
+				--t_selChars[row]['intermissionSpr'] = {"9000,9, 0,0, -1"}
 				addChar(c)
 				t_charAdd[c] = row - 1
 			elseif c:match('music%s*=%s*') then
@@ -722,6 +741,7 @@ for i=1, #t_selChars do
 		--otherwise load SFF file
 		else
 			t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
+			--t_selChars[i]['intermissionData'] = sffAnim(t_selChars[i].sff)
 			if t_selChars[i].stand ~= nil then
 				t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 				t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
@@ -741,6 +761,10 @@ for i=1, #t_selChars do
 			if t_selChars[i].dizzy ~= nil then
 				t_selChars[i]['p1AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 				t_selChars[i]['p2AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+			end
+			if t_selChars[i].intermissionSpr ~= nil then
+				t_selChars[i]['p1IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+				t_selChars[i]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
 			end
 			textImgDraw(txt_loading)
 			refresh()
@@ -876,7 +900,7 @@ if generate and data.sffConversion then
 			displayname = t_selChars[t_gen[i]].name:gsub('%s+', '_')
 			for line in io.lines('data/charTrash/' .. displayname .. '/s-sff.def') do
 				--append to variable if line matches sprite group and sprite number stored in AIR animation data via f_charAnim function
-				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)
+				append = append .. f_charAnim(t_selChars[t_gen[i]].stand, line) .. f_charAnim(t_selChars[t_gen[i]].win, line) .. f_charAnim(t_selChars[t_gen[i]].lieDown, line) .. f_charAnim(t_selChars[t_gen[i]].dizzy, line) .. f_charAnim(t_selChars[t_gen[i]].cheese, line)  .. f_charAnim(t_selChars[t_gen[i]].intermissionSpr, line)
 			end
 			--remove duplicated sprites from string via f_uniq function
 			append = f_uniq(append .. '\n', '[^\n]+\n', '^%s*[0-9-]-%s*,%s*[0-9-]-%s*,')
@@ -911,6 +935,10 @@ if generate and data.sffConversion then
 			if t_selChars[t_gen[i]].dizzy ~= nil then
 				t_selChars[t_gen[i]]['p1AnimDizzy'] = f_animFromTable(t_selChars[t_gen[i]].dizzy, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
 				t_selChars[t_gen[i]]['p2AnimDizzy'] = f_animFromTable(t_selChars[t_gen[i]].dizzy, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
+			end
+			if t_selChars[t_gen[i]].intermissionSpr ~= nil then
+				t_selChars[t_gen[i]]['p1IntermissionPortrait'] = f_animFromTable(t_selChars[t_gen[i]].intermissionSpr, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 0, 1)
+				t_selChars[t_gen[i]]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[t_gen[i]].intermissionSpr, t_selChars[t_gen[i]].sffData, 30, 150, t_selChars[t_gen[i]].xscale, t_selChars[t_gen[i]].yscale, 'H', 1)
 			end
 			batOpen("tools", "trash.bat") --added via script.ssz
 			--lfs.rmdir ("./data/charTrash") --Directory needs to be empty to work

@@ -65,3 +65,7 @@ pal12 = pal/MAMAMA/06_Kyubey.act
 [Arcade]
 intro.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Intro].def
 ending.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Ending].def
+
+[Intermission]
+PortraitSpr = 9000,9 ;Loaded from data/charAnim
+PortraitScale = 0.308,0.308

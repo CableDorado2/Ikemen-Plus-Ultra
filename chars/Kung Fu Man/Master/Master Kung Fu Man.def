@@ -41,3 +41,7 @@ c2 = 12
 [Arcade]
 intro.movie = ..\../movie/KFM-Intro.wmv
 ending.movie = ..\../movie/KFM-Ending.wmv
+
+[Intermission]
+PortraitSpr = 9000,9 ;Loaded from data/charAnim
+PortraitScale = 0.238,0.238

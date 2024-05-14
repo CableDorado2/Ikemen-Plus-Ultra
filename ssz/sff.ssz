@@ -764,6 +764,123 @@ public &Sff
     while i < (index)`head.numberOfSprites:}
     ret "";
   }
+  
+  
+  public ^/char loadFileAnim(^/char filename, bool chr)
+  {
+    ^/char error;
+    &.file.File f; 
+    if(!f.open(filename, "rb")) ret .com.FileOpenError;
+    `clear();
+    uint lofs, tofs;
+    if(#`head.read(f=, lofs=, tofs=)=>error > 0) ret error; 
+    if(`head.ver0 != 0d1) loop{
+       index i = 0;
+       index palsource = 0; 
+       ^uint pal;
+       ushort group, item, link, dummy; 
+       uint ofs, siz;
+       ^index idx;
+       `palList.clear();
+       while;
+    do:
+      f.seek((long)`head.firstPaletteHeaderOffset + 16*i, .file.Seek::SET);
+      if(!f.read!ushort?(group=)) ret .com.FileReadError;
+      if(!f.read!ushort?(item=)) ret .com.FileReadError;
+      if(!f.read!ushort?(dummy=)) ret .com.FileReadError;
+      if(!f.read!ushort?(link=)) ret .com.FileReadError;
+      if(!f.read!uint?(ofs=)) ret .com.FileReadError;
+      if(!f.read!uint?(siz=)) ret .com.FileReadError;
+      idx.new(1);
+      branch{
+      cond siz == 0x0:
+        pal = `palList.get((index)link);
+        idx<> = (index)link;
+      else:
+        f.seek((long)(lofs+ofs), .file.Seek::SET);
+        pal.new(256);
+        loop{
+          index i = 0, l = (index)siz / 4;
+          ubyte r, g, b, dummy8;
+        do:
+          if(!f.read!ubyte?(r=)) ret .com.FileReadError;
+          if(!f.read!ubyte?(g=)) ret .com.FileReadError;
+          if(!f.read!ubyte?(b=)) ret .com.FileReadError;
+          if(!f.read!ubyte?(dummy8=)) ret .com.FileReadError;
+          pal[i] = (uint)r<<0d16 | (uint)g<<0d8 | (uint)b;
+          i++;
+        while i < l:}
+        idx<> = i;
+      }
+      `palList.setSource(i, pal);
+      `palList.palTable.set((uint)group<<0d16 | item, idx);
+      i++;
+    while i < (index)`head.numberOfPalettes:
+    }
+    uint shofs = `head.firstSpriteHeaderOffset, misc, size; 
+    loop{
+      index i = 0;
+	  
+      %uint newSubHeaderOffset .= shofs;
+	  
+      uint misc;
+      ^&.Sprite spriteList; 
+      spriteList.new((index)`head.numberOfSprites);  // <- numberOfSprites max amount of sprites that can be loaded by a character
+      ushort indexOfPrevious;
+      index prev = -1;
+      while;
+    do: 
+      newSubHeaderOffset .= shofs;
+      f.seek((long)shofs, .file.Seek::SET);
+      switch(`head.ver0){
+      case 0d1:
+        if(!f.read!uint?(misc=)) ret .com.FileReadError;
+        if(!f.read!uint?(size=)) ret .com.FileReadError;
+        if(!spriteList[i].readHeader(f=)) ret .com.FileReadError;
+        if(!f.read!ushort?(indexOfPrevious=)) ret .com.FileReadError;
+      case 0d2: 
+		if(
+			!spriteList[i].readHeaderV2(
+			f=, misc=, size=, lofs, tofs, indexOfPrevious=))
+			{
+		//if(spriteList[i].imageGroup == 100) break;
+		ret .com.FileReadError;
+		} 
+      }
+      branch{ 
+		cond size != 0d0: 
+			switch(`head.ver0){
+			case 0d1:
+			if(
+				#spriteList[i].read(
+              f=, `head=, (long)(shofs + 0d32),
+				size, misc, spriteList[prev..prev+1], `palList=,
+				chr && (
+					(
+					spriteList[i].imageGroup == 0
+					&& spriteList[i].imageNumber == 0)
+					|| prev < 0))=>error
+				> 0) ret error;
+			case 0d2: 
+			if(#spriteList[i].readV2(f=, (long)misc, size)=>error > 0){
+				ret error;
+			}
+        }
+        prev = i;
+      else:
+        spriteList[i].shareCopy(spriteList[(index)indexOfPrevious]=);
+      } 
+      `spriteTable.operate(
+        (uint)spriteList[i].imageGroup<<0d16
+        | (ushort)spriteList[i].imageNumber,
+        [void(^&.Sprite s=){if(#s == 0) s = spriteList[i..i+1];}]);
+      shofs = `head.ver0 == 0d1 ? misc : shofs + 0d28;
+	  if(spriteList[i].imageGroup == 100) ret error;
+      i++;
+    while i < (index) `head.numberOfSprites:}
+    ret "";
+  }
+  
   public ^&.Sprite getSprite(short group, short number)
   {
     if(group == -1) ret .consts.null!&.Sprite?();

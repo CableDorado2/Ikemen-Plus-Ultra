@@ -55,3 +55,7 @@ c2 = 12
 [Arcade]
 intro.movie = Intro.wmv
 ending.movie = Ending.wmv
+
+[Intermission]
+PortraitSpr = 9000,9 ;Loaded from data/charAnim
+PortraitScale = 0.44,0.44

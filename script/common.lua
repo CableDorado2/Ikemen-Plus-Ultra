@@ -718,11 +718,13 @@ function f_drawCharAnim(t, data, x, y, update, scaleX, scaleY, alphaS, alphaD)
 end
 
 --generate anim from table
-function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame)
+function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame, alphaS, alphaD)
 	infFrame = infFrame or 1
 	scaleX = scaleX or 1
 	scaleY = scaleY or 1
 	facing = facing or 0
+	alphaS = alphaS or 255
+	alphaD = alphaD or 0
 	local anim = ''
 	local length = 0
 	for i=1, #t do
@@ -738,6 +740,7 @@ function f_animFromTable(t, sff, x, y, scaleX, scaleY, facing, infFrame)
 	local id = animNew(sff, anim)
 	animAddPos(id, x, y)
 	animSetScale(id, scaleX, scaleY)
+	animSetAlpha(id, alphaS, alphaD)
 	animUpdate(id)
 	return id, tonumber(length)
 end
