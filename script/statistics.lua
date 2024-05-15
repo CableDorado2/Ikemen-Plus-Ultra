@@ -399,11 +399,11 @@ function f_statsMenu()
 	local bufr = 0
 	local bufl = 0
 	f_getStats() --Load Stats
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
 		--f_playTime() --Test Played Time on live...
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -414,7 +414,7 @@ function f_statsMenu()
 			statsMenu = statsMenu + 1
 		--BACK
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and statsMenu == #t_statsMenu then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		end

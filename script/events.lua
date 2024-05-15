@@ -123,12 +123,12 @@ event1L = animNew(eventSff, [[0,1, 0,0,]])
 --; EVENTS MENU
 --;===========================================================
 t_eventMenu = {
-	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE"}, --Add Event Slot
-	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE"},
-	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE"},
-	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = ""},
-	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = ""},
-	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = ""},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", available = true}, --Add Event Slot
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", available = true},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "INCOMPLETE", available = true},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", available = true},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", available = true},
+	{varID = textImgNew(), info = "PROGRAM YOUR EVENT HERE", preview = eventUnknown, status = "", available = true},
 }
 
 --[[
@@ -153,7 +153,7 @@ function f_eventMenu()
 	local bufl = 0
 	local eventExit = false
 	f_lockedInfoReset()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
 	--Event Progress Logic
 		data.eventsProgress = (data.event1Status + data.event2Status + data.event3Status)
@@ -164,7 +164,7 @@ function f_eventMenu()
 		if lockedScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or eventExit then
 				f_saveProgress()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
@@ -193,15 +193,16 @@ function f_eventMenu()
 				end
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 				if eventSelect == true then
-					f_default()
-					data.rosterMode = "event"
-					setGameMode('event')
-					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
 					sndPlay(sysSnd, 100, 1)
-				--EVENT 1
-					if eventMenu == 1 then
-						if event1Status == true then
+					--EVENT AVAILABLE
+					if t_eventMenu[eventMenu].available == true then
+						f_default()
+						data.rosterMode = "event"
+						setGameMode('event')
+						data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+						--EVENT 1
+						if eventMenu == 1 then
 							setRoundTime(-1)
 							setRoundsToWin(1)
 							data.p2In = 1
@@ -210,16 +211,17 @@ function f_eventMenu()
 							textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
 							script.select.f_selectSimple()
 							if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
-						elseif event1Status == false then
-							eventInfo = true
-							lockedScreen = true
+					--EVENT 2
+						elseif eventMenu == 2 then
+							f_eventStatus()
+					--EVENT 3
+						elseif eventMenu == 3 then
+							f_eventStatus()
 						end
-				--EVENT 2
-					elseif eventMenu == 2 then
-						f_eventStatus()
-				--EVENT 3
-					elseif eventMenu == 3 then
-						f_eventStatus()
+					--EVENT UNAVAILABLE
+					else
+						eventInfo = true
+						lockedScreen = true
 					end
 			--BACK
 				else
@@ -276,36 +278,36 @@ function f_eventMenu()
 	--Set Event Info, Preview and Progress
 	--Event 1
 		if sysTime >= 13 and sysTime <= 23 then --Event Available at this Time!
-			event1Status = true
+			t_eventMenu[1].available = true
 			t_eventMenu[1].info = "Survive 40 Rounds in The Call of Zombies!"
 			t_eventMenu[1].preview = event1
 		else --Event Unavailable...
-			event1Status = false
+			t_eventMenu[1].available = false
 			t_eventMenu[1].info = "WILL BE AVAILABLE FROM 1PM/13:00 TO 11PM/23:00"
 			t_eventMenu[1].preview = event1L
 		end
 		if data.event1Status == 1 then t_eventMenu[1].status = "COMPLETED" end
 	--Event 2
-		--[[
+	--[[
 		if sysTime >= ??? and sysTime <= ??? then
-			event2Status = true
+			t_eventMenu[2].available = true
 			t_eventMenu[2].info = "???"
 			t_eventMenu[2].preview = event2
 		else --Event Unavailable...
-			event2Status = false
+			t_eventMenu[2].available = false
 			t_eventMenu[2].info = "WILL BE AVAILABLE FROM ??? TO ???"
 			t_eventMenu[2].preview = event2L
 		end
-		]]
 		if data.event2Status == 1 then t_eventMenu[2].status = "COMPLETED" end
+	]]
 	--Event 3
 		--[[
 		if sysTime >= ??? and sysTime <= ??? then
-			event3Status = true
+			t_eventMenu[3].available = true
 			t_eventMenu[3].info = "???"
 			t_eventMenu[3].preview = event3
 		else --Event Unavailable...
-			event3Status = false
+			t_eventMenu[3].available = false
 			t_eventMenu[3].info = "WILL BE AVAILABLE FROM ??? TO ???"
 			t_eventMenu[3].preview = event3L
 		end

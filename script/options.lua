@@ -1477,11 +1477,11 @@ function f_mainCfg()
 	local bufu = 0
 	local bufd = 0
 	f_defaultReset()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
 		if defaultScreen == false and editDone == true then --Stay in Options screen (For Pop-Ups messages or Username and Online Port fields)
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				if data.erase == true then
 					f_saveProgress()
@@ -1545,7 +1545,7 @@ function f_mainCfg()
 					defaultScreen = true
 				--Save and Back
 				elseif mainCfg == 11 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 					if data.erase == true then
 						f_saveProgress()
 					end
@@ -1556,7 +1556,7 @@ function f_mainCfg()
 					break
 				--Back Without Save
 				elseif mainCfg == 12 then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 					assert(loadfile('save/data_sav.lua'))() --Load old data no saved
 					assert(loadfile('save/stats_sav.lua'))() --Load old data no saved
 					f_loadCfg()
@@ -1821,7 +1821,7 @@ function f_onlineCfg()
 	f_defaultReset() --To avoid maxCfg erros when enter in any sub-menu when reset settings
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -1850,7 +1850,7 @@ function f_onlineCfg()
 				f_netplayCfg()
 			--Save and Play
 			elseif onlineCfg == 5 then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				if modified == 1 then
 					f_netsaveCfg()
 				end

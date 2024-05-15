@@ -636,7 +636,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if not data:match('=%s*$') then
 			t_vnBoxText['storyname'] = data:gsub('^%s*storyname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-	elseif line:match('^%s*%[%s*Chapter%s+[0-9]+$*%]') then
+	elseif line:match('^%s*%[%s*Chapter%s+[0-9]+$*%]') then --[Cc][Hh][Aa][Pp][Tt][Ee][Rr]
 		section = 2
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter
@@ -792,7 +792,7 @@ function f_vnMenu()
 		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
 		vnAddOneTime = false
 	end
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -803,7 +803,7 @@ function f_vnMenu()
 	local bufl = 0
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -814,7 +814,7 @@ function f_vnMenu()
 			vnMenu = vnMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			if vnMenu == #t_selVN then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
 			--Start Visual Novel

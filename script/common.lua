@@ -86,7 +86,6 @@ adventureSff = sffNew("data/screenpack/adventure.sff") --load adventure sprites
 
 --Fonts (At the moments only FNT Format is Supported)
 padFnt = fontNew("font/f-pad.fnt")
-survBarsFnt = fontNew("font/survival_bars.fnt")
 survNumFnt = fontNew("font/survival_nums.fnt")
 jgFnt = fontNew("font/JG.fnt")
 opFnt = fontNew("font/Options.fnt")
@@ -2021,6 +2020,7 @@ function f_default() --Reset Game Modes Configuration
 	data.victoryscreen = true --victory screen enabled
 	data.serviceScreen = false --service screen disabled
 	data.challengerScreen = true --Here comes a New Challenger screen enabled
+	data.intermission = false --Manage access to secret battles
 	data.gameMode = "" --additional variable used to distinguish modes in select screen
 	data.rosterMode = "" --additional variable used to identify game modes in select screen to record stats and setup special stuff
 	data.rosterAdvanced = false --additional variable used to identify advanced roster (like arcade, survival or tower) in select screen

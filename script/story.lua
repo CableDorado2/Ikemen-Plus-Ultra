@@ -255,7 +255,7 @@ function f_storyMenu()
 	local bufl = 0
 	local lockedStory = false
 	playBGM(bgmStory)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
 --Load Chapters Progress
 	data.story1Progress = data.story1_0Status + data.story1_1Status + data.story1_2Status + data.story1_3AStatus + data.story1_3BStatus + data.story1_4AStatus + data.story1_4BStatus + data.story1_4CStatus + data.story1_4DStatus
@@ -273,7 +273,7 @@ function f_storyMenu()
 	--BACK
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			f_menuMusic()
 			break
@@ -697,7 +697,7 @@ function f_arc1_chapter1()
 	script.visualnovel.f_vnScene(kfmVN,1,kfmVNtxtStart) --Start Visual Novel Mode, each paramvalues that this functions returns are explained in visualnovel.lua script
 	if not data.VNbreak then --Only show the fight if not back to main menu in pause menu from visual novel
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man"]}
 		data.p1Pal = 1
@@ -719,7 +719,7 @@ function f_arc1_chapter1()
 		script.visualnovel.f_vnScene(kfmVN,1,16)
 		if not data.VNbreak then
 			f_default() --Reset settings for the custom fight
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			data.p1TeamMenu = {mode = 0, chars = 1} --Set P1 Team Mode (0=Single, 1=Simul, 2=Turns)
 			data.p1Char = {t_charAdd["kung fu man"]} --Set P1 Characters (needs to be loaded in select.def)
 			data.p1Pal = 1 --Set P1 Character Palette
@@ -757,7 +757,7 @@ function f_arc1_chapter2()
 	script.visualnovel.f_vnScene(kfmVN,2,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man"]}
 		data.p1Pal = 1
@@ -794,7 +794,7 @@ function f_arc1_chapter3_1()
 	script.visualnovel.f_vnScene(kfmVN,3,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 		data.p1Pal = 1
@@ -831,7 +831,7 @@ function f_arc1_chapter3_2()
 	script.visualnovel.f_vnScene(kfmVN,4,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.p1Pal = 1
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {t_charAdd["kung fu man"]}
@@ -872,7 +872,7 @@ function f_arc1_chapter4_1()
 	script.visualnovel.f_vnScene(kfmVN,5,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.rosterMode = "story"
 		data.storyNo = "1-4A"
 		--[[
@@ -902,7 +902,7 @@ function f_arc1_chapter4_2()
 	script.visualnovel.f_vnScene(kfmVN,6,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.rosterMode = "story"
 		data.storyNo = "1-4B"
 		f_storyStatus()
@@ -917,7 +917,7 @@ function f_arc1_chapter4_3()
 	script.visualnovel.f_vnScene(kfmVN,7,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.rosterMode = "story"
 		data.storyNo = "1-4C"
 		f_storyStatus()
@@ -932,7 +932,7 @@ function f_arc1_chapter4_4()
 	script.visualnovel.f_vnScene(kfmVN,8,kfmVNtxtStart)
 	if not data.VNbreak then
 		f_default()
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		data.rosterMode = "story"
 		data.storyNo = "1-4D"
 		f_storyStatus()
@@ -946,7 +946,7 @@ end
 function f_storyRosterTest()
 	f_default()
 	sndPlay(sysSnd, 100, 1)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2Char = {t_charAdd["kung fu man"]}

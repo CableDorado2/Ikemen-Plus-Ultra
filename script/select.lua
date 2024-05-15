@@ -880,11 +880,7 @@ function f_backMenu()
 			sndPlay(sysSnd, 100, 2)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			if data.rosterMode == "event" or data.rosterMode == "mission" then
-				data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
-			else
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-			end
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			setService("")
 			back = true
 		--NO
@@ -1013,7 +1009,7 @@ function f_selectSimple()
 	f_selectInit()
 	cmdInput()
 	while true do
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		if data.rosterMode == "challenger" then f_challengerMusic()
 		elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
 		elseif data.rosterMode == "event" then --playBGM("")
@@ -1197,17 +1193,21 @@ function f_arcadeEnd()
 		data.towerClear = true
 		f_saveProgress()
 	end
+	--Intermissions Access
+	if data.rosterMode == "arcade" and t_intermissionChars ~= nil and (p1teamMode == 0 and p2teamMode == 0) then --TODO enable intermissions in co-op mode
+		data.intermission = true
+	end
 	f_playCredits()
 	f_storyboard("data/screenpack/gameover.def")
 	f_mainOpening()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 end
 
 function f_noContinue()
 	--f_mainOpening()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 end
@@ -1216,12 +1216,12 @@ function f_advancedEnd()
 	if data.rosterMode == "survival" then
 		data.survivalClear = true
 		f_saveProgress()
-	elseif data.rosterMode == "bossrush" then
+	elseif data.rosterMode == "boss" then
 		data.bossrushClear = true
 		f_saveProgress()
 	end
 	f_storyboard("data/screenpack/gameover.def")
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 end
@@ -1236,13 +1236,13 @@ function f_loseAdvanced()
 	f_result('lost')
 	f_gameOver()
 	--f_mainOpening()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	f_resetMenuInputs()
 end
 
 function f_editLeftSide()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if serviceTeam == true then p1TeamEnd = false end
 	data.t_p1selected = {}
 	p1Portrait = nil
@@ -1253,7 +1253,7 @@ function f_editLeftSide()
 end
 
 function f_editRightSide()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if serviceTeam == true then p2TeamEnd = false end
 	data.t_p2selected = {}
 	p2Portrait = nil
@@ -1293,7 +1293,7 @@ function f_selectAdvance()
 		elseif data.gameMode == "tower" then playBGM(bgmTower)
 		else f_selectMusic()
 		end
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		selectStart()
 		while not selScreenEnd do
 			if onlinegame == false then
@@ -1345,7 +1345,7 @@ function f_selectAdvance()
 			end
 			f_records() --Save Stats
 			f_result('lost')
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff) --reset title screen fading
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff) --reset title screen fading
 			if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 			f_resetMenuInputs()
 			return
@@ -1368,7 +1368,7 @@ function f_selectAdvance()
 			if matchNo == lastMatch then
 				f_winAdvanced()
 				f_storyboard("data/screenpack/gameover.def")
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 				f_resetMenuInputs()
 				return
@@ -1430,7 +1430,7 @@ function f_selectAdvance()
 						end
 					--Exit
 					elseif commandGetState(p1Cmd, 'e') then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1567,7 +1567,7 @@ function f_selectAdvance()
 						end
 					--Exit
 					elseif commandGetState(p1Cmd, 'e') then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1729,7 +1729,7 @@ function f_selectAdvance()
 							end
 						end
 					elseif commandGetState(p1Cmd, 'e') then
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 						sndPlay(sysSnd, 100, 2)
 						if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 						f_resetMenuInputs()
@@ -1936,7 +1936,7 @@ function f_selectStory()
 	f_selectInit()
 	cmdInput()
 	while true do
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		--f_selectMusic()
 		if winner < 1 then
 			f_selectReset()
@@ -2120,7 +2120,7 @@ t_selTower[1].chars = t_orderTowerChars[1] --Add all chars from order 1 in t_ord
 --if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower2.txt") end
 
 function f_selectDestiny()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 300, 0) --Choose your Destiny SFX
 	local destinyMenu = 1
 	local cursorPosX = 1
@@ -2148,7 +2148,7 @@ function f_selectDestiny()
 			elseif destinyMenu == 6 then sndPlay(sysSnd, 300, 6)
 			elseif destinyMenu == 7 then sndPlay(sysSnd, 300, 7)
 			end
-			--data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
@@ -2269,7 +2269,7 @@ animUpdate(destinyFinalBG)
 --animSetScale(destinyFinalBG, 1., 1.)
 
 function f_battlePlan()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	local i = 0
 	local battlePreviewTimer = 0
 	cmdInput()
@@ -2277,7 +2277,7 @@ function f_battlePlan()
 		--Time to show Battle Plan Screen
 		battlePreviewTimer = battlePreviewTimer + 1
 		if battlePreviewTimer == 2500 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
@@ -2333,7 +2333,7 @@ animSetScale(tourney4, 1.059, 1.041)
 
 function f_selectTourney()
 --TODO
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM(bgmTourney)
 	cmdInput()
 	while true do
@@ -2370,7 +2370,7 @@ animSetScale(adventureMap, 0.335, 0.335)
 
 function f_selectAdventure()
 --TODO
-	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM(bgmAdventure)
 	cmdInput()
 	while true do
@@ -3280,6 +3280,7 @@ function f_p1SelectMenu()
 			end
 		end
 		local numChars = p1numChars
+		local alphaS = 200
 		if data.coop then numChars = 1 end
 		if p1Cell then
 		--Waiting Selection
@@ -3711,14 +3712,14 @@ function f_p1SelectMenu()
 					if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
 						if data.charPresentation == "Sprite" then
 							if data.coop then
-								f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, 200) --200 is the alphas value
+								f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, alphaS) --200 is the alphas value
 							else
 							--Draw P1 Member 4 SELECTED Animation
 								if j == 4 then
 									if data.randomPortrait == "Fixed" and p1member4Random == true then
 										f_drawQuickSpr(p1randomSprite, 104, 75)
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 124, 164, data.t_p1selected[4].up, 1, 1, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 124, 164, data.t_p1selected[4].up, 1, 1, alphaS)
 									end
 								end
 							--Draw P1 Member 3 SELECTED Animation
@@ -3726,7 +3727,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										f_drawQuickSpr(p1randomSprite, 76, 75)
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 96, 164, data.t_p1selected[3].up, 1, 1, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 96, 164, data.t_p1selected[3].up, 1, 1, alphaS)
 									end
 								end
 							--Draw P1 Member 2 SELECTED Animation
@@ -3734,17 +3735,17 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										f_drawQuickSpr(p1randomSprite, 48, 75)
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									f_drawQuickSpr(p1randomSprite, 20, 75)
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, 200)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 164, data.t_p1selected[1].up, 1, 1, alphaS)
 								end
 								--Draw P1 SELECTED/Win Animation with automatic X position for all members (instead of use p1numChars logic)
-								--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 40 + 28*(j-1), 164, data.t_p1selected[j].up, 1, 1, 200)
+								--f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 40 + 28*(j-1), 164, data.t_p1selected[j].up, 1, 1, alphaS)
 							end
 						elseif data.charPresentation == "Mixed" then
 						--SINGLE MODE
@@ -3752,7 +3753,7 @@ function f_p1SelectMenu()
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 30, 158, data.t_p1selected[1].up, 1, 1, 200)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 30, 158, data.t_p1selected[1].up, 1, 1, alphaS)
 								end
 						--TEAM MODE WITH 2 MEMBERS
 							elseif p1numChars == 2 then
@@ -3761,14 +3762,14 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, 200) --The lastest f_drawCharAnim have draw priority on screen
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 90, 90, data.t_p1selected[1].up, 0.5, 0.5, alphaS) --The lastest f_drawCharAnim have draw priority on screen
 								end
 						--TEAM MODE WITH 3 MEMBERS
 							elseif p1numChars == 3 then
@@ -3777,7 +3778,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[3].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 2 SELECTED Animation
@@ -3785,14 +3786,14 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 89, data.t_p1selected[1].up, 0.5, 0.5, 200)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 40, 89, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
 								end
 						--TEAM MODE WITH 4 MEMBERS
 							elseif p1numChars == 4 then
@@ -3801,7 +3802,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member4Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[4].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[4].cel+1], 'p1AnimWin', 70, 158, data.t_p1selected[4].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 3 SELECTED Animation
@@ -3809,7 +3810,7 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[3].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[3].cel+1], 'p1AnimWin', 10, 158, data.t_p1selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 2 SELECTED Animation
@@ -3817,14 +3818,14 @@ function f_p1SelectMenu()
 									if data.randomPortrait == "Fixed" and p1member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 70, 89, data.t_p1selected[2].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 70, 89, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 							--Draw P1 Member 1 SELECTED Animation
 								if data.randomPortrait == "Fixed" and p1member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 10, 89, data.t_p1selected[1].up, 0.5, 0.5, 200)
+									f_drawCharAnim(t_selChars[data.t_p1selected[1].cel+1], 'p1AnimWin', 10, 89, data.t_p1selected[1].up, 0.5, 0.5, alphaS)
 								end
 							end
 						end
@@ -4779,6 +4780,7 @@ function f_p2SelectMenu()
 			end
 		end
 		local numChars = p2numChars
+		local alphaS = 200
 		local t_selected = data.t_p2selected
 		if data.coop then
 			numChars = 1
@@ -5195,95 +5197,95 @@ function f_p2SelectMenu()
 								if data.randomPortrait == "Fixed" and p2member4Random == true then
 									f_drawQuickSpr(p2randomSprite, 176, 75)
 								else
-									f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, 200)
+									f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 196, 164, t_selected[4].up, 1, 1, alphaS)
 								end
 							end
 							if j == 3 then
 								if data.randomPortrait == "Fixed" and p2member3Random == true then
 									f_drawQuickSpr(p2randomSprite, 204, 75)
 								else
-									f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, 200)
+									f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 224, 164, t_selected[3].up, 1, 1, alphaS)
 								end
 							end
 							if j == 2 then
 								if data.randomPortrait == "Fixed" and p2member2Random == true then
 									f_drawQuickSpr(p2randomSprite, 232, 75)
 								else
-									f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, 200)
+									f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 252, 164, t_selected[2].up, 1, 1, alphaS)
 								end
 							end
 							if data.randomPortrait == "Fixed" and p2member1Random == true then
 								f_drawQuickSpr(p2randomSprite, 260, 75)
 							else
-								f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, 200)
+								f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 164, t_selected[1].up, 1, 1, alphaS)
 							end
-							--f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 280 - 28*(j-1), 164, t_selected[j].up, 1, 1, 200)
+							--f_drawCharAnim(t_selChars[t_selected[j].cel+1], 'p2AnimWin', 280 - 28*(j-1), 164, t_selected[j].up, 1, 1, alphaS)
 						elseif data.charPresentation == "Mixed" then
 							if p2numChars == 1 then
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									--You can put your own sprite for random select but as also we are using the portrait logic is not necessary
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, 200)
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 290, 158, t_selected[1].up, 1, 1, alphaS)
 								end
 							elseif p2numChars == 2 then
 								if j == 2 then
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 230, 158, t_selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, 200)
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 230, 90, t_selected[1].up, 0.5, 0.5, alphaS)
 								end
 							elseif p2numChars == 3 then
 								if j == 3 then
 									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 250, 158, t_selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if j == 2 then
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 310, 158, t_selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, 200)
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 280, 89, t_selected[1].up, 0.5, 0.5, alphaS)
 								end
 							elseif p2numChars == 4 then
 								if j == 4 then
 									if data.randomPortrait == "Fixed" and p2member4Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[t_selected[4].cel+1], 'p2AnimWin', 250, 158, t_selected[4].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if j == 3 then
 									if data.randomPortrait == "Fixed" and p2member3Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[t_selected[3].cel+1], 'p2AnimWin', 310, 158, t_selected[3].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if j == 2 then
 									if data.randomPortrait == "Fixed" and p2member2Random == true then
 										
 									else
-										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, 200)
+										f_drawCharAnim(t_selChars[t_selected[2].cel+1], 'p2AnimWin', 250, 89, t_selected[2].up, 0.5, 0.5, alphaS)
 									end
 								end
 								if data.randomPortrait == "Fixed" and p2member1Random == true then
 									
 								else
-									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, 200)
+									f_drawCharAnim(t_selChars[t_selected[1].cel+1], 'p2AnimWin', 310, 89, t_selected[1].up, 0.5, 0.5, alphaS)
 								end
 							end
 						end
@@ -5542,13 +5544,13 @@ function f_p2SelectMenu()
 					if data.randomPortrait == "Fixed" and p2coopRandom == true then
 						f_drawQuickSpr(p1randomSprite, 48, 75)
 					else
-						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, 200)
+						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 68, 164, data.t_p1selected[2].up, 1, 1, alphaS)
 					end
 				elseif data.charPresentation == "Mixed" then
 					if data.randomPortrait == "Fixed" and p2coopRandom == true then
 						--
 					else
-						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, 200)
+						f_drawCharAnim(t_selChars[data.t_p1selected[2].cel+1], 'p1AnimWin', 90, 158, data.t_p1selected[2].up, 0.5, 0.5, alphaS)
 					end
 				end
 			end
@@ -6774,7 +6776,7 @@ end
 --; ORDER SELECT
 --;===========================================================
 function f_orderSelect()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	local i = 0
 --Order Select OFF
 	if not data.orderSelect then
@@ -7188,7 +7190,7 @@ function f_orderSelect()
 				if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 					if i < 120 then i = 120 end
 				end
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				break
 			end
 		--Draw Character Portraits
@@ -7321,7 +7323,7 @@ end
 --; VERSUS SCREEN
 --;===========================================================
 function f_selectVersus()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	local i = 0
 	if not data.versusScreen then
 		while true do
@@ -7430,7 +7432,7 @@ end
 --; LOADING SCREEN
 --;===========================================================
 function f_loading()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if data.t_p1selected ~= nil and data.t_p2selected ~= nil then
 		f_selectChar(1, data.t_p1selected)
 		f_selectChar(2, data.t_p2selected)
@@ -7500,6 +7502,7 @@ function f_selectWin()
 	local bufRematch2r = 0
 	local bufRematch2l = 0
 	local menuReady = false
+	local timeToSkip = 550
 	p1Cursor = 1
 	p2Cursor = 1
 	p1Ready = false
@@ -7512,7 +7515,7 @@ function f_selectWin()
 		f_selectWinFix()
 	else
 		playBGM(bgmVictory)
-		local txt = ""
+		local txt = "I am the winner!"
 		if winner == 1 then
 			p1Wins = p1Wins + 1
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7572,19 +7575,19 @@ function f_selectWin()
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					if p1numChars == 1 then
-						drawWinPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
+						drawResultPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
 					elseif p1numChars == 2 then	--Your 2nd char portrait appears in modern win screen
-						drawWinPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
-						drawWinPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
 					elseif p1numChars == 3 then	--Your 3rd char portrait appears in modern win screen	
-						drawWinPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
-						drawWinPortrait(data.t_p1selected[2].cel, 205, 15, 1, 1)
-						drawWinPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[2].cel, 205, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
 					elseif p1numChars == 4 then	--Your 4th char portrait appears in modern win screen
-						drawWinPortrait(data.t_p1selected[4].cel, 205, 15, 1, 1)
-						drawWinPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
-						drawWinPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
-						drawWinPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[4].cel, 205, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
+						drawResultPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
 					end
 					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
 				end	
@@ -7602,19 +7605,19 @@ function f_selectWin()
 					animDraw(f_animVelocity(wincharBG, 2, 0))
 					animDraw(f_animVelocity(quoteBG, 2, 0))
 					if p2numChars == 1 then
-						drawWinPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
 					elseif p2numChars == 2 then
-						drawWinPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
-						drawWinPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
 					elseif p2numChars == 3 then
-						drawWinPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
-						drawWinPortrait(data.t_p2selected[2].cel, 205, 15, 1, 1)
-						drawWinPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[2].cel, 205, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
 					elseif p2numChars == 4 then
-						drawWinPortrait(data.t_p2selected[4].cel, 205, 15, 1, 1)
-						drawWinPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
-						drawWinPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
-						drawWinPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[4].cel, 205, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
+						drawResultPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
 					end
 					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
 				end
@@ -7624,7 +7627,7 @@ function f_selectWin()
 			textImgDraw(txt_winnername)
 			if data.gameMode == "versus" then --Show Rematch Menu for these modes
 				if not menuReady then
-					if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+					if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 						cmdInput()
 						menuReady = true
 					end
@@ -7632,15 +7635,15 @@ function f_selectWin()
 					f_rematch()
 				end
 				if rematchEnd then
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 					commandBufReset(p1Cmd, 1)
 					commandBufReset(p2Cmd, 2)
 					break
 				end
 			else --Don't Show Rematch Menu
-				if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 					cmdInput()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 					if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 					elseif data.gameMode == "tower" then playBGM(bgmTower)
 					elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
@@ -7661,7 +7664,7 @@ end
 function f_selectWinFix() --Use this while fixing recognition of victory quotes for any other character that causes crash
 	playBGM(bgmNothing)
 	--playBGM(bgmVictory)
-	local txt = ""
+	--local txt = ""
 	if winner == 1 then
 		p1Wins = p1Wins + 1
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -7687,13 +7690,14 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 		f_ftcontrol()
 	end
 	local i = 0
+	local timeToSkip = 510
 	cmdInput()
 	while true do
 		i = i + 1
 		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
 		if data.gameMode == "versus" then --Show Rematch Menu for these modes
 			if not menuReady then
-				if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 					cmdInput()
 					menuReady = true
 				end
@@ -7701,15 +7705,15 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 				f_rematch()
 			end
 			if rematchEnd then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				commandBufReset(p1Cmd, 1)
 				commandBufReset(p2Cmd, 2)
 				break
 			end
 		else --Don't Show Rematch Menu
-			if i == 510 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				cmdInput()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 				elseif data.gameMode == "tower" then playBGM(bgmTower)
 				elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
@@ -7757,7 +7761,7 @@ function f_selectWinOFF()
 			rematchEnd = true
 		end
 		if rematchEnd then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 			elseif data.gameMode == "tower" then playBGM(bgmTower)
 			elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
@@ -8297,7 +8301,7 @@ end
 --;===========================================================
 function f_selectChallenger()
 	if data.quickCont == true and data.rosterAdvanced == true then return end
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM(bgmNothing)
 	sndPlay(sysSnd, 200, 1) --Here comes a new Challenger!
 	local i = 0
@@ -8305,7 +8309,7 @@ function f_selectChallenger()
 	cmdInput()
 	while true do
 		if i == 150 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			cmdInput()
 			break
 		end
@@ -8460,7 +8464,7 @@ function f_service()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM(bgmService)
 	cmdInput()
 	while true do
@@ -8530,7 +8534,7 @@ function f_service()
 			]]
 			--NOT SERVICE
 			else
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 1)
 				serviceBack = true
 				break
@@ -8773,43 +8777,57 @@ animSetScale(rankGDLK, 0.5, 0.5)
 --;===========================================================
 --; RESULTS SCREEN
 --;===========================================================
-txt_result = textImgNew()
-txt_resultTime = textImgNew()
-txt_resultRank = createTextImg(jgFnt, 0, 1, "", 262, 205)
-txt_resultText = createTextImg(jgFnt, 0, 1, "PLAYER:", 10, 50)
-txt_resultName = createTextImg(font6, 0, 1, "", 70, 50)
-txt_resultText2 = createTextImg(jgFnt, 0, 1, "PLAYER:", 74, 228)
-txt_resultName2 = createTextImg(font6, 0, 1, "", 134, 228)
+txt_resultTitle = createTextImg(font14, 0, 0, "", 159, 20)
+txt_resultNo = createTextImg(survNumFnt, 0, 1, "", 2, 150)
+txt_resultWins = createTextImg(survNumFnt, 0, -1, "", 320, 110)
+txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 200)
+txt_resultTime = createTextImg(jgFnt, 0, 1, "TIME: 9'99''999", 32, 220) --WIP
+txt_resultScore = createTextImg(jgFnt, 0, 1, "SCORE: 999.999.999", 32, 234) --WIP
+txt_resultRank = createTextImg(jgFnt, 0, 1, "RANK", 262, 205)
+txt_resultName = createTextImg(font6, 0, 1, "", 0, 0)
+txt_resultTeam = createTextImg(font6, 0, 0, "", 0, 0)
+
+--Result BG
+resultBG = animNew(sysSff, [[280,0, 0,0, -1]])
+animAddPos(resultBG, 0, 0)
+animUpdate(resultBG)
 
 function f_result(state)
 	--if state == "win" then
 	--elseif state == "lost" then
 	--end
 	local victoriesPercent = (winCnt/#t_roster)*100
-	if data.gameMode == "survival" then
+	local charPortr = nil
+	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" then
+		--Common Data
 		playBGM(bgmResults)
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		textImgSetFont(txt_result, survBarsFnt)
-		textImgSetPos(txt_result, 159, 239)
-		textImgSetText(txt_result, "X" .. winCnt .. "WINS")
-		textImgSetText(txt_resultRank, "RANK")
+		data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
+			charPortr = data.t_p2selected[1].cel
+			if p2teamMode > 0 then textImgSetText(txt_resultTeam, "TEAM") end
 		else
 			textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
+			charPortr = data.t_p1selected[1].cel
+			if p1teamMode > 0 then textImgSetText(txt_resultTeam, "TEAM") end
 		end
-	elseif data.gameMode == "endless" or data.gameMode == "allroster" then
-		playBGM(bgmResults)
-		data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
-		textImgSetFont(txt_result, survNumFnt)
-		textImgSetPos(txt_result, 159, 150)
-		textImgSetText(txt_result, winCnt .. " WINS" .. looseCnt .. " LOSES")
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			textImgSetText(txt_resultName2, f_getName(data.t_p2selected[1].cel))
-		else
-			textImgSetText(txt_resultName2, f_getName(data.t_p1selected[1].cel))
+		if data.gameMode == "survival" then
+			textImgSetPos(txt_resultName, 179, 50)
+			textImgSetPos(txt_resultTeam, 300, 80)
+			textImgSetText(txt_resultNo, winCnt.." WINS")
+			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
+		else--if data.gameMode == "endless" or data.gameMode == "allroster" then
+			textImgSetPos(txt_resultName, 2, 50)
+			textImgSetPos(txt_resultTeam, 0, 80)
+			textImgSetText(txt_resultWins, winCnt.." WINS")
+			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
+			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
+			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
+			elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
+			--elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
+			end
 		end
-	else
+	else --Boss/Bonus Rush Exit
 		return
 	end
 	cmdInput()
@@ -8818,10 +8836,10 @@ function f_result(state)
 			cmdInput()
 			break
 		end
-		textImgDraw(txt_result)
+		animDraw(resultBG)
 		if data.gameMode == "survival" then
-			textImgDraw(txt_resultText)
-			textImgDraw(txt_resultName) --Player Name position for Survival Mode
+			drawResultPortrait(charPortr, 180, 80, 1, 1)
+			textImgDraw(txt_resultNo)
 			textImgDraw(txt_resultRank)
 			--Show Ranks According Some Percentage Rates
 			if victoriesPercent < 35 then --0% -- 34%
@@ -8854,9 +8872,15 @@ function f_result(state)
 				animDraw(rankGDLK)
 			end
 		else
-			textImgDraw(txt_resultText2)
-			textImgDraw(txt_resultName2) --Player Name position for other challenges modes
+			drawResultPortrait(charPortr, 40, 80, 1, 1)
+			textImgDraw(txt_resultWins)
+			textImgDraw(txt_resultLoses)
 		end
+		--textImgDraw(txt_resultTime)
+		--textImgDraw(txt_resultScore)
+		textImgDraw(txt_resultTitle)
+		textImgDraw(txt_resultName)
+		textImgDraw(txt_resultTeam)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -8903,7 +8927,7 @@ txt_cont = createTextImg(jgFnt, 0, 1, "", 158, 30)
 function f_continue()
 	setService("")
 	sndPlay(contSnd, 1, 1)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM(bgmContinue)
 	f_contTimerReset()
 	f_gameOverReset()
@@ -8973,7 +8997,7 @@ function f_continue()
 		i = i + 1
 		--if commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			--cmdInput()
-			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			--playBGM(bgmTitle)
 			--break
 		if data.continue == 0 then --waiting for player's decision
@@ -9048,7 +9072,7 @@ function f_continue()
 			elseif i > 1366 then --Continue = NO
 				data.continue = 2
 				f_gameOver()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				break
 			end
 			animDraw(contTimer)
@@ -9158,7 +9182,7 @@ function f_continue()
 					animUpdate(fadeContinue)
 				end
 			else
-				data.fadeSelect = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeSelect = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				cmdInput()
 				--service screen
 				if data.serviceScreen == false then

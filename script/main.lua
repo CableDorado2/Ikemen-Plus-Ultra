@@ -25,6 +25,7 @@ data.tagmode = 1
 data.stageviewer = false
 menuSelect = ""
 P2overP1 = false
+MainFadeInTime = 30
 
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
@@ -463,7 +464,7 @@ end
 --; LOGOS SCREEN
 --;===========================================================
 function f_mainLogos()
-	data.fadeTitle = f_fadeAnim(32, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	f_storyboard("data/screenpack/logo.def")
 	f_mainOpening()
 end
@@ -684,7 +685,7 @@ function f_mainStart()
 	f_resetTemp()
 	f_soundtrack() --Load Soundtrack Tables from common.lua for use in menus
 	f_mainLogos()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff) --global variable so we can set it also from within select.lua
 	f_infoReset() --Allow select options below if the Engine detects characters or stages
 	if t_selChars == nil then --If the Engine not detect Characters
 		charsInfo = true
@@ -739,7 +740,7 @@ function demoModeCfg()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
 	data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	script.select.f_selectSimple()
 	f_resetTemp()
 	setDiscordState("In Main Menu")
@@ -764,7 +765,7 @@ function f_mainAttract()
 		--START GAME MODE
 		elseif ((commandGetState(p1Cmd, 's') or commandGetState(p2Cmd, 's')) or attractTimer == 0) and data.attractCoins > 0 then
 		   --playVideo(videoHowToPlay)
-		   data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		   data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 		   sndPlay(sysSnd, 100, 1)
 		   data.attractCoins = data.attractCoins - 1
 		   f_saveProgress()
@@ -1879,7 +1880,7 @@ function arcadeCfg()
 	data.serviceScreen = true --Enable Service Screen if you lose and continue
 	data.arcadeIntro = true --Enable characters arcade intro before versus screen
 	data.arcadeEnding = true --Enable characters arcade ending before credits screen
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -2090,7 +2091,7 @@ function towerCfg()
 	--data.p1TeamMenu = {mode = 0, chars = 1}
 	--data.p2TeamMenu = {mode = 0, chars = 1}
 	data.arcadeIntro = true --Enable characters arcade intro before tower select
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -2434,7 +2435,7 @@ function randomModeCfg()
 	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p1Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
 	data.p2Char = {t_randomChars[math.random(#t_randomChars)]} --Pick Random Char
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -2636,7 +2637,7 @@ function freeModeCfg()
 	data.rosterMode = "versus"
 	data.stageMenu = true --stage selection enabled
 	data.p2Faces = true --additional window with P2 select screen small portraits (faces) enabled
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -2852,7 +2853,7 @@ function f_training()
 	data.stageMenu = true
 	data.p1TeamMenu = {mode = 0, chars = 1} --predefined P1 team mode as Single, 1 Character				
 	data.p2TeamMenu = {mode = 0, chars = 1} --predefined P2 team mode as Single, 1 Character
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	--sndPlay(sysSnd, 100, 1)
 	if #t_trainingChar ~= 0 then --If a training char is detected in select.def with training=1 paramvalue
 		data.p2In = 2
@@ -3057,7 +3058,7 @@ function survivalCfg()
 	data.rosterMode = "survival"
 	data.stageMenu = true
 	setRoundsToWin(1)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -3372,7 +3373,7 @@ function bossCfg()
 	data.rosterMode = "boss"
 	--data.stageMenu = true
 	textImgSetText(txt_mainSelect, t_selChars[t_bossChars[bossChars]+1].displayname)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -3551,7 +3552,7 @@ function bossrushCfg()
 	data.gameMode = "bossrush"
 	data.rosterMode = "boss"
 	--data.stageMenu = true
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -3868,7 +3869,7 @@ function bonusCfg()
 	data.versusScreen = false
 	setRoundsToWin(1)
 	textImgSetText(txt_mainSelect, t_selChars[t_bonusChars[bonusExtras]+1].displayname)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -4037,7 +4038,7 @@ function bonusrushCfg()
 	setRoundsToWin(1)
 	--data.stageMenu = true
 	data.versusScreen = false
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)			
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)			
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -4227,7 +4228,7 @@ function timeattackCfg()
 	setRoundTime(3600)
 	setRoundsToWin(1)
 	setLifeMul(2) --overwrite players life
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -4427,7 +4428,7 @@ function suddenCfg()
 	setRoundTime(1000)
 	setRoundsToWin(1)
 	setLifeMul(0)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -4789,7 +4790,7 @@ function endlessCfg()
 	data.rosterMode = "endless"
 	data.stageMenu = true
 	data.versusScreen = false
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
@@ -5029,7 +5030,7 @@ function f_tourneyMenu()
 			--data.stageMenu = true
 			--data.p2In = 1
 			--data.p2SelectMenu = false
-			--data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 1)
 			--ROUND OF 16 (participate in a customizable single-elimination tournament starting from Round of 16)
 			if tourneyMenu == 1 then
@@ -5174,7 +5175,7 @@ function f_watchMenu()
 				elseif watchMenu == 2 then
 					if data.stageviewer then
 						f_default()
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 						setRoundTime(-1)
 						data.p2In = 2
 						data.stageMenu = true
@@ -5350,7 +5351,7 @@ function f_replayMenu()
 						resolutionInfo = true
 						infoScreen = true
 					else
-						data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 						setDiscordState("Online Replays")
 						f_mainReplay()
 						setDiscordState("In Main Menu")
@@ -5464,7 +5465,7 @@ function f_gallery()
 end
 
 function f_galleryMenu()
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
@@ -5474,7 +5475,7 @@ function f_galleryMenu()
 	cmdInput()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or 
@@ -5704,7 +5705,7 @@ end
 --;===========================================================
 function f_songMenu()
 	playBGM(bgmNothing)
-	data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	f_confirmSongReset()
 	local bufu = 0
@@ -5721,7 +5722,7 @@ function f_songMenu()
 	f_soundtrack() --Reload from common.lua
 	while true do
 		if backSongConfirm == true then
-			data.fadeTitle = f_fadeAnim(20, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			script.options.f_setCfgSong() --SAVE AND BACK SONG FOR OPTIONS MENU
 			f_menuMusic()
 			sndPlay(sysSnd, 100, 2)
@@ -5956,7 +5957,7 @@ animSetScale(videoDownArrow, 0.5, 0.5)
 --; CUTSCENES MENU
 --;===========================================================
 function f_videoMenu()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -5985,7 +5986,7 @@ function f_videoMenu()
 	if data.debugLog then f_printTable(t_videoList, "save/debug/t_videoList.txt") end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -5996,7 +5997,7 @@ function f_videoMenu()
 			videoMenu = videoMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			if videoMenu == #t_videoList then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
 			else
@@ -6132,7 +6133,7 @@ animSetScale(storyboardDownArrow, 0.5, 0.5)
 --; STORYBOARDS MENU
 --;===========================================================
 function f_storyboardMenu()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -6161,7 +6162,7 @@ function f_storyboardMenu()
 	if data.debugLog then f_printTable(t_storyboardList, "save/debug/t_storyboardList.txt") end
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -6172,7 +6173,7 @@ function f_storyboardMenu()
 			storyboardMenu = storyboardMenu + 1
 		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			if storyboardMenu == #t_storyboardList then
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
 			--Play Storyboard
@@ -6357,7 +6358,7 @@ function f_replayTable()
 end
 
 function f_mainReplay()
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
@@ -6377,7 +6378,7 @@ function f_mainReplay()
 			coinSystem = true
 			--netPlayer = "" Bloquea el acceso al menu de online en offline dejarlo comentado solo para devs
 			assert(loadfile("save/data_sav.lua"))()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		end
@@ -6429,7 +6430,7 @@ function f_mainReplay()
 						elseif replayOption == 2 then
 							onlinegame = true --only for identify purposes
 							replaygame = true
-							data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 							sndPlay(sysSnd, 100, 1)
 							--Set Default values to prevent desync.
 							script.options.f_onlineDefault()
@@ -6630,7 +6631,7 @@ function f_mainNetplay()
 				onlinegame = true --only for identify purposes
 				script.options.f_onlineDefault()
 				script.options.f_netsaveCfg()
-				data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				cancel = f_create()
 				if not cancel then
 					synchronize()
@@ -6648,7 +6649,7 @@ function f_mainNetplay()
 					onlinegame = true
 					script.options.f_onlineDefault()
 					script.options.f_netsaveCfg()
-					data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 					cancel = f_directConnect()
 					if not cancel then
 						synchronize()
@@ -6842,7 +6843,7 @@ function f_create()
 	--end
 	while not connected() do
 		if esc() or commandGetState(p1Cmd, 'e') then --btnPalNo(p1Cmd) > 0 does not work when engine is waiting a connection, only esc, that's why still we can't program an Training Waiting Room
-		    data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+		    data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ""
 			setDiscordState("In Main Menu")
@@ -6902,7 +6903,7 @@ function f_directConnect()
 			clearInputText()
 			netPlayer = ""
 			sndPlay(sysSnd, 100, 2)
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			return true
 		end
 		--MAIN SCREEN
@@ -7005,7 +7006,7 @@ function f_directConnect()
 		--CANCEL CONNECTION
 		if esc() or commandGetState(p1Cmd, 'e') then
 			clearInputText()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ""
 			setDiscordState("In Main Menu")
@@ -7184,7 +7185,7 @@ function f_hostRooms()
 			onlinegame = true
 			script.options.f_onlineDefault()
 			script.options.f_netsaveCfg()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			cancel = f_databaseConnect()
 			if not cancel then
 				synchronize()
@@ -7590,7 +7591,7 @@ function f_databaseConnect()
 	while not connected() do
 		--CANCEL CONNECTION
 		if esc() or commandGetState(p1Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			netPlayer = ""
 			joinExit = true
@@ -7700,7 +7701,7 @@ function f_mainLobby()
 			data.p2In = 2
 			data.p2Faces = true
 			data.coop = true
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 1)
 			--ONLINE VERSUS
 			if mainLobby == 1 then
@@ -7898,13 +7899,13 @@ function f_theVault()
 	vaultExit = false
 	cmdInput()
 	playBGM(bgmVault)
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
 		--EXIT LOGIC
 		if vaultExit == true then
 			clearInputText()
 			sndPlay(sysSnd, 100, 2)
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			f_menuMusic()
 			break
 		end
@@ -8097,8 +8098,8 @@ animSetTile(intermissionBG0, 1, 1)
 animSetColorKey(intermissionBG0, -1)
 
 --Intermission Scrolling background 2
-intermissionBG2 = animNew(vnSff, [[
-100,1, 0,0, -1
+intermissionBG2 = animNew(sysSff, [[
+230,3, 0,0, -1
 ]])
 animAddPos(intermissionBG2, -55, 47)
 animSetScale(intermissionBG2, 2.849, 2.31)
@@ -8128,7 +8129,7 @@ APPROACHING!
 ]]
 
 function f_intermission() --Secret Fight Intro
-	data.fadeTitle = f_fadeAnim(30, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM("sound/system/Intermission.mp3")
 	local intermissionTime = 0
 	local intermissionTxt = f_extractText(txt_intermissionBox)
@@ -8138,12 +8139,15 @@ function f_intermission() --Secret Fight Intro
 	local black = 0 --alphaS
 	local charPortrait = false
 	local charAnim = false
-	local secretChar = nil
-	--if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
+	secretSel = t_secretChallenger[math.random(#t_secretChallenger)].cel
+	secretChar = t_selChars[secretSel+1]
+	--[[
+	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
 		secretChar = t_selChars[data.t_p2selected[1].cel+1]
-	--elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
-		--secretChar = t_selChars[data.t_p1selected[1].cel+1]
-	--end
+	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		secretChar = t_selChars[data.t_p1selected[1].cel+1]
+	end
+	]]
 	local scaleData = nil
 	if secretChar.PortraitIntermissionScale ~= nil then
 		scaleData = secretChar.PortraitIntermissionScale
@@ -8214,7 +8218,7 @@ function f_secretFight()
 		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {data.t_p1selected[1].cel} --Get previous Arcade Character Selected --{t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
-		data.p2Char = {t_secretChallenger[math.random(#t_secretChallenger)].cel} --pick a random intermission char
+		data.p2Char = {secretSel} --pick a random intermission char
 		data.p1Pal = data.t_p1selected[1].pal --Get previous Palette Selected
 		data.p2Pal = 1
 		if P2overP1 then
@@ -8225,7 +8229,7 @@ function f_secretFight()
 	elseif keepRSide then
 		data.p1TeamMenu = {mode = 0, chars = 1}
 		data.p2TeamMenu = {mode = 0, chars = 1} --{mode = p2RestoreTeamMode, chars = p2RestoreCharsNo}
-		data.p1Char = {t_secretChallenger[math.random(#t_secretChallenger)].cel}
+		data.p1Char = {secretSel}
 		data.p2Char = {data.t_p2selected[1].cel}
 		data.p1Pal = 1
 		data.p2Pal = data.t_p2selected[1].pal
@@ -8237,7 +8241,7 @@ function f_secretFight()
 		data.p1In = 2
 		data.p2In = 2
 	end
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	script.select.f_selectSimple()
 	if getPlayerSide() == "p1right" then --Player 1 in Right Side
 		if script.select.winner == 2 then --Save progress only if you win
@@ -8311,11 +8315,10 @@ function f_playCredits()
 	else
 		f_menuMusic()
 	end
-	--Intermissions Access
-	if data.rosterMode == "arcade" and not data.coop and t_intermissionChars ~= nil then --TODO play intermissions in co-op mode
+	if data.intermission then
 		f_getIntermission() --Load t_secretChallenger
 		--Conditions to enter in secret fight
-		if #t_secretChallenger ~= 0 and data.continueCount == 0 and data.difficulty == 8 then
+		if #t_secretChallenger ~= 0 and data.continueCount == 0 and data.difficulty >= 4 then
 			f_intermission()
 			f_secretFight()
 		end
@@ -8509,15 +8512,3 @@ CABLE DORADO 2
 CD2
 
  ]]
-
---;===========================================================
---; INITIALIZE LOOPS
---;===========================================================
---f_mainStart() --Start Menu
-
-
-data.t_p2selected = {}
-table.insert(data.t_p2selected, {['cel'] = 222, ['up'] = true})
-
---f_intermission()
---]]

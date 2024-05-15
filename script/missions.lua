@@ -99,7 +99,7 @@ function f_missionMenu()
 	local bufr = 0
 	local bufl = 0
 	missionList = 0 --Important to avoid errors when read missionPreview
-	data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
 	--Missions Progress Logic
 		data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
@@ -108,7 +108,7 @@ function f_missionMenu()
 		txt_missionProgress = createTextImg(jgFnt, 2, 1, "["..missionsData.."%]", 202, 128) --needs to be inside of mission Menu function, to load mission data %
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 2)
 			break
 		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
@@ -122,7 +122,7 @@ function f_missionMenu()
 			data.missionNo = missionMenu --with this data.missionNo is sync with menu item selected
 			data.rosterMode = "mission"
 			setGameMode('mission')
-			data.fadeTitle = f_fadeAnim(10, 'fadein', 'black', fadeSff)
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			sndPlay(sysSnd, 100, 1)
 		--MISSION 1
 			if missionMenu == 1 then
