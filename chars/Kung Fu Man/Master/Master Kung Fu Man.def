@@ -42,6 +42,8 @@ c2 = 12
 intro.movie = ..\../movie/KFM-Intro.wmv
 ending.movie = ..\../movie/KFM-Ending.wmv
 
-[Intermission]
-PortraitSpr = 9000,9 ;Loaded from data/charAnim
-PortraitScale = 0.238,0.238
+[Portraits]
+result.portrait.scale = 0.30,0.30
+
+intermission.portrait.spr = 9000,9 ;Loaded from data/charAnim
+intermission.portrait.scale = 0.238,0.238

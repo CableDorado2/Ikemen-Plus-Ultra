@@ -25,3 +25,6 @@ pal4    = mako4.act
 
 [Unlock]
 Condition = "Complete Chapter 1 of Kung Fu Man's Story"
+
+[Portraits]
+result.portrait.scale = 0.65,0.65

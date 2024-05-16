@@ -56,11 +56,11 @@ c2 = 12
 intro.movie = Intro.wmv
 ending.movie = Ending.wmv
 
-[Intermission]
-portraitSpr = 9000,9 ;Loaded from data/charAnim
-portraitScale = 0.44,0.44
-
 [Unlock]
 condition = "Defeat Shin Gouki in Arcade Intermission" ;Set Unlock Condition Info
 storyboard = unlock.def ;Set Unlock Screen Path (it can be an storyboard or a video file)
 ;movie = unlock.wmv
+
+[Portraits]
+intermission.portrait.spr = 9000,9 ;Loaded from data/charAnim
+intermission.portrait.scale = 0.44,0.44

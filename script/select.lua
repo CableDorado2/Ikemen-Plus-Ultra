@@ -6844,6 +6844,12 @@ function f_orderSelect()
 		local orderTime = seconds*gameTick --Set time for Order Select
 		local p1Anim = "p1AnimStand"
 		local p2Anim = "p2AnimStand"
+		local charDataL = nil
+		local charDataR = nil
+		local scaleDataL = nil
+		local scaleDataR = nil
+		local xPortScaleL, yPortScaleL = nil
+		local xPortScaleR, yPortScaleR = nil
 		textImgSetBank(txt_p1State, 0) --Reset Text Color
 		textImgSetBank(txt_p2State, 0)
 	--Set Order Select Music
@@ -6864,6 +6870,25 @@ function f_orderSelect()
 			p1Confirmed = true
 			--f_selectChar(2, data.t_p2selected)
 			--p2Confirmed = true --Activate to don't order CPU characters in team modes
+		end
+		--Portraits Scale Logic
+		for j=#data.t_p1selected, 1, -1 do
+			charDataL = t_selChars[data.t_p1selected[j].cel+1]
+			if charDataL.orderSprScale ~= nil then
+				scaleDataL = charDataL.orderSprScale
+			else
+				scaleDataL = "1.0,1.0"
+			end
+			xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
+		end
+		for j=#data.t_p2selected, 1, -1 do
+			charDataR = t_selChars[data.t_p2selected[j].cel+1]
+			if charDataR.orderSprScale ~= nil then
+				scaleDataR = charDataR.orderSprScale
+			else
+				scaleDataR = "1.0,1.0"
+			end
+			xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 		end
 		cmdInput()
 		while true do
@@ -7196,10 +7221,10 @@ function f_orderSelect()
 		--Draw Character Portraits
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 				for j=#data.t_p1selected, 1, -1 do
-					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 30, 1, 1)
+					drawOrderPortrait(data.t_p1selected[j].cel, 124 - (2*j-1) * 17.9, 30, xPortScaleL, yPortScaleL)
 				end
 				for j=#data.t_p2selected, 1, -1 do
-					drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 30, -1, 1)
+					drawOrderPortrait(data.t_p2selected[j].cel, 195 + (2*j-1) * 17.9, 30, -xPortScaleR, yPortScaleR)
 				end
 			end
 		--Draw Character Sprite Animations
@@ -7354,6 +7379,21 @@ function f_selectVersus()
 		end
 		f_getVSHint() --Load First Hint
 		f_resetVersusLogo()
+		--Portraits Scale Logic
+		local charDataL = t_selChars[data.t_p1selected[1].cel+1]
+		local charDataR = t_selChars[data.t_p2selected[1].cel+1]
+		if charDataL.vsSprScale ~= nil then
+			scaleDataL = charDataL.vsSprScale
+		else
+			scaleDataL = "1.0,1.0"
+		end
+		if charDataR.vsSprScale ~= nil then
+			scaleDataR = charDataR.vsSprScale
+		else
+			scaleDataR = "1.0,1.0"
+		end
+		local xPortScaleL, yPortScaleL = scaleDataL:match('^([^,]-)%s*,%s*(.-)$')
+		local xPortScaleR, yPortScaleR = scaleDataR:match('^([^,]-)%s*,%s*(.-)$')
 		cmdInput()
 		while true do
 		--Actions
@@ -7383,8 +7423,8 @@ function f_selectVersus()
 			animDraw(f_animVelocity(vsWindowR, 2, 0))
 		--Draw Character Portraits
 			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-				drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-				drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+				drawPortrait(data.t_p1selected[1].cel, 20, 30, xPortScaleL, yPortScaleL)
+				drawPortrait(data.t_p2selected[1].cel, 300, 30, -xPortScaleR, yPortScaleR)
 				--You can use drawVSPortrait instead of drawPortrait to draw exclusive Portraits in this screen.
 			end
 		--Draw Character Sprite Animations
@@ -7507,6 +7547,9 @@ function f_selectWin()
 	local timeToSkip = 650
 	local winnerTeam = nil
 	local winnerSide = nil
+	local charData = nil
+	local scaleData = nil
+	local xPortScale, yPortScale = nil
 	p1Cursor = 1
 	p2Cursor = 1
 	p1Ready = false
@@ -7561,6 +7604,16 @@ function f_selectWin()
 	if onlinegame == true and data.gameMode == "versus" then
 		f_ftcontrol()
 	end
+	--Portraits Scale Logic
+	for j=#winnerSide, 1, -1 do
+		charData = t_selChars[winnerSide[j].cel+1]
+		if charData.winSprScale ~= nil then
+			scaleData = charData.winSprScale
+		else
+			scaleData = "1.0,1.0"
+		end
+		xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$')
+	end
 	cmdInput()
 	while true do
 		if data.victoryscreen then --Only shows if data.victoryscreen == true
@@ -7588,19 +7641,19 @@ function f_selectWin()
 				if data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
 					if winnerTeam == 1 then
-						drawResultPortrait(winnerSide[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
+						drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale) --Your char portrait appears in modern win screen
 					elseif winnerTeam == 2 then	--Your 2nd char portrait appears in modern win screen
-						drawResultPortrait(winnerSide[2].cel, 150, 15, 1, 1)
-						drawResultPortrait(winnerSide[1].cel, 45, 15, 1, 1)
+						drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
+						drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
 					elseif winnerTeam == 3 then	--Your 3rd char portrait appears in modern win screen	
-						drawResultPortrait(winnerSide[3].cel, 0, 15, 1, 1)
-						drawResultPortrait(winnerSide[2].cel, 205, 15, 1, 1)
-						drawResultPortrait(winnerSide[1].cel, 99, 15, 1, 1)
+						drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
+						drawWinPortrait(winnerSide[2].cel, 205, 15, xPortScale, yPortScale)
+						drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale)
 					elseif winnerTeam == 4 then	--Your 4th char portrait appears in modern win screen
-						drawResultPortrait(winnerSide[4].cel, 205, 15, 1, 1)
-						drawResultPortrait(winnerSide[3].cel, 0, 15, 1, 1)
-						drawResultPortrait(winnerSide[2].cel, 150, 15, 1, 1)
-						drawResultPortrait(winnerSide[1].cel, 45, 15, 1, 1)
+						drawWinPortrait(winnerSide[4].cel, 205, 15, xPortScale, yPortScale)
+						drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
+						drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
+						drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
 					end
 				elseif data.winscreen == "Classic" then
 					if winner == 2 then drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1) end
@@ -8698,6 +8751,7 @@ function f_result(state)
 	--end
 	local victoriesPercent = (winCnt/#t_roster)*100
 	local charPortr = nil
+	local scaleData = nil
 	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" then
 		--Common Data
 		playBGM(bgmResults)
@@ -8742,15 +8796,23 @@ function f_result(state)
 	else --Boss/Bonus Rush Exit
 		return
 	end
+	--Portraits Scale Logic
+	local charData = t_selChars[charPortr+1]
+	if charData.resultSprScale ~= nil then
+		scaleData = charData.resultSprScale
+	else
+		scaleData = "1.0,1.0"
+	end
+	local xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 	cmdInput()
 	while true do
 		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
 			cmdInput()
 			break
 		end
-		animDraw(resultBG)
 		if data.gameMode == "survival" then
-			drawResultPortrait(charPortr, 180, 80, 1, 1)
+			drawResultPortrait(charPortr, 320, 80, -xPortScale, yPortScale)
+			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultNo)
 			textImgDraw(txt_resultRank)
 			--Show Ranks According Some Percentage Rates
@@ -8784,7 +8846,8 @@ function f_result(state)
 				animDraw(rankGDLK)
 			end
 		else
-			drawResultPortrait(charPortr, 40, 80, 1, 1)
+			drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
+			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultWins)
 			textImgDraw(txt_resultLoses)
 		end

@@ -20,7 +20,7 @@ function f_parseChar(t, cel)
 		local endingPath = ''
 		local row = ''
 		local section = ''
-		local readLines = 13
+		--local readLines = 15
 		for line in io.lines(def) do
 			line = line:lower()
 			if line:match('^%s*%[%s*info%s*%]') then
@@ -31,9 +31,9 @@ function f_parseChar(t, cel)
 				section = 3
 			elseif line:match('^%s*%[%s*arcade%s*%]') then
 				section = 4
-			elseif line:match('^%s*%[%s*intermission%s*%]') then
-				section = 5
 			elseif line:match('^%s*%[%s*unlock%s*%]') then
+				section = 5
+			elseif line:match('^%s*%[%s*portraits%s*%]') then
 				section = 6
 			elseif line:match('^%s*%[') then --in case character shares DEF file with other files
 				break
@@ -43,14 +43,14 @@ function f_parseChar(t, cel)
 					if not line:match('=%s*$') then
 						t['name'] = line:gsub('^%s*name%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				end
 				if line:match('^%s*author%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						t['author'] = line:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				end
 			elseif section == 2 then --[Files]
 				if line:match('^%s*sprite%s*=') then
@@ -60,7 +60,7 @@ function f_parseChar(t, cel)
 						sffPath = dir .. line:gsub('^%s*sprite%s*=%s*(.-)%s*$', '%1')
 						t['sff'] = sffPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				elseif line:match('^%s*sound%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -68,7 +68,7 @@ function f_parseChar(t, cel)
 						sndPath = dir .. line:gsub('^%s*sound%s*=%s*(.-)%s*$', '%1')
 						t['snd'] = sndPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				elseif line:match('^%s*anim%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -76,7 +76,7 @@ function f_parseChar(t, cel)
 						airPath = dir .. line:gsub('^%s*anim%s*=%s*(.-)%s*$', '%1')
 						t['air'] = airPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				elseif line:match('^%s*cns%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -84,7 +84,7 @@ function f_parseChar(t, cel)
 						cnsPath = dir .. line:gsub('^%s*cns%s*=%s*(.-)%s*$', '%1')
 						t['cns'] = cnsPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				elseif line:match('^%s*st[0-9]*%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -107,7 +107,7 @@ function f_parseChar(t, cel)
 						introPath = dir .. line:gsub('^%s*intro%.storyboard%s*=%s*(.-)%s*$', '%1')
 						t['intro'] = introPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				elseif line:match('^%s*ending%.storyboard%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -115,7 +115,7 @@ function f_parseChar(t, cel)
 						endingPath = dir .. line:gsub('^%s*ending%.storyboard%s*=%s*(.-)%s*$', '%1')
 						t['ending'] = endingPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				--Load Video Files
 				elseif line:match('^%s*intro%.movie%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -124,7 +124,7 @@ function f_parseChar(t, cel)
 						introPath = dir .. line:gsub('^%s*intro%.movie%s*=%s*(.-)%s*$', '%1')
 						t['intro2'] = introPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				elseif line:match('^%s*ending%.movie%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
@@ -132,31 +132,15 @@ function f_parseChar(t, cel)
 						endingPath = dir .. line:gsub('^%s*ending%.movie%s*=%s*(.-)%s*$', '%1')
 						t['ending2'] = endingPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				end
-			elseif section == 5 then --[Intermission]
-				--Load Intermission Data
-				if line:match('^%s*portraitspr%s*=') then
-					line = line:gsub('%s*;.*$', '')
-					if not line:match('=%s*$') then
-						t['intermissionSpr'] = {line:gsub('^%s*portraitspr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
-					end
-					readLines = readLines - 1
-				end
-				if line:match('^%s*portraitscale%s*=') then
-					line = line:gsub('%s*;.*$', '')
-					if not line:match('=%s*$') then
-						t['PortraitIntermissionScale'] = line:gsub('^%s*portraitscale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-					readLines = readLines - 1
-				end
-			elseif section == 6 then--[Unlock]
+			elseif section == 5 then --[Unlock]
 				if line:match('^%s*condition%s*=') then
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						t['UnlockCondition'] = line:gsub('^%s*condition%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				end
 				--Load Storyboard Files for Unlock Screen
 				if line:match('^%s*storyboard%s*=') then
@@ -166,7 +150,7 @@ function f_parseChar(t, cel)
 						unlockPath = dir .. line:gsub('^%s*storyboard%s*=%s*(.-)%s*$', '%1')
 						t['UnlockStoryboard'] = unlockPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
 				--Load Video Files for Unlock Screen
 				elseif line:match('^%s*movie%s*=') then
 					line = line:gsub('%s*;.*$', '')
@@ -175,15 +159,139 @@ function f_parseChar(t, cel)
 						unlockPath = dir .. line:gsub('^%s*movie%s*=%s*(.-)%s*$', '%1')
 						t['UnlockMovie'] = unlockPath
 					end
-					readLines = readLines - 1
+					--readLines = readLines - 1
+				end
+			elseif section == 6 then --[Portraits]
+				--Load Select Face Icon Portrait Data
+				if line:match('^%s*face.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['faceSpr'] = {line:gsub('^%s*face.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*face.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['faceSprScale'] = line:gsub('^%s*face.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Select Big Portrait Data
+				if line:match('^%s*select.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['selectSpr'] = {line:gsub('^%s*select.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*select.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['selectSprScale'] = line:gsub('^%s*select.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Order Select Portrait Data
+				if line:match('^%s*order.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['orderSpr'] = {line:gsub('^%s*order.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*order.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['orderSprScale'] = line:gsub('^%s*order.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Versus Portrait Data
+				if line:match('^%s*vs.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['vsSpr'] = {line:gsub('^%s*vs.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*vs.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['vsSprScale'] = line:gsub('^%s*vs.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Winner Portrait Data
+				if line:match('^%s*win.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['winSpr'] = {line:gsub('^%s*win.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*win.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['winSprScale'] = line:gsub('^%s*win.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Loser Portrait Data
+				if line:match('^%s*lose.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['loseSpr'] = {line:gsub('^%s*lose.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*lose.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['loseSprScale'] = line:gsub('^%s*lose.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Results Portrait Data
+				if line:match('^%s*result.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['resultSpr'] = {line:gsub('^%s*result.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*result.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['resultSprScale'] = line:gsub('^%s*result.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
+				end
+				--Load Intermission Portrait Data
+				if line:match('^%s*intermission.portrait.spr%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['intermissionSpr'] = {line:gsub('^%s*intermission.portrait.spr%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1') .. ", 0,0, -1"}
+					end
+					--readLines = readLines - 1
+				end
+				if line:match('^%s*intermission.portrait.scale%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['intermissionSprScale'] = line:gsub('^%s*intermission.portrait.scale%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					--readLines = readLines - 1
 				end
 			end
-			if stPath ~= '' and section ~= 2 and section ~= 3 and section ~= 4 and section ~= 5 then
-				readLines = readLines - 1
+			if stPath ~= '' and section ~= 2 and section ~= 3 and section ~= 4 and section ~= 5 and section ~= 6 then
+				break
+				--readLines = readLines - 1
 			end
+			--[[
 			if readLines == 0 then
 				break
 			end
+			]]
 		end
 		local quotes = false
 		if io.open(cnsPath or '','r') ~= nil then

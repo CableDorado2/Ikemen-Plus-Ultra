@@ -1,5 +1,3 @@
-;村雨　麗華（むらさめ　れいか）です。　　　　　　　　　　　　　　　　　　たるせ
-
 [Info]
 name = "Reika Murasame"
 displayname = "Reika Murasame"
@@ -8,7 +6,6 @@ mugenversion = 04,14,2001
 author = "taruse"
 pal.defaults = 1,2,3,4,5,6
 
-;ファイル構成。
 [Files]
 cmd     = reika.cmd
 cns     = reika.cns
@@ -22,7 +19,7 @@ stcommon = REIKAcommon.cns
 sprite  = reika.sff
 anim    = reika.air
 sound   = reika.snd
-pal1     =reika.ACT;通常色
+pal1     =reika.ACT
 pal2     =reika2.ACT;
 pal3     =reika3.ACT;
 pal4     =reika4.ACT;
@@ -34,3 +31,6 @@ pal6     =reika6.ACT;
 ;pal10    =reika10.ACT;
 ;pal11    =reika11.ACT;
 ;pal12    =reika12.ACT;
+
+[Portraits]
+result.portrait.scale = 0.80,0.80

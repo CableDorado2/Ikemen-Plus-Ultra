@@ -23,4 +23,3 @@ to turn the click sound upon input on or off. Can't be done against itself
 - Y = increases your movement speed
 - C = displays a visual effect to help you track the characters current position while the button is held
 - X = reduces your movement speed
-

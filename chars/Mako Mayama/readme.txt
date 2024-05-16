@@ -35,4 +35,3 @@ F,  B, D, F + y (C)           - Danku Syoukouken
 Hyper3 (each uses 3 power bar)
 -------------
 x,x,F,y    - Danku kougaken
-
