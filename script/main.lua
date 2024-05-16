@@ -26,6 +26,7 @@ data.stageviewer = false
 menuSelect = ""
 P2overP1 = false
 MainFadeInTime = 30
+secretTarget = ""
 
 --;===========================================================
 --; LOAD ADDITIONAL SCRIPTS
@@ -1340,6 +1341,7 @@ function f_sideSelect()
 		elseif menuSelect == "bonus" then bonusCfg()
 		elseif menuSelect == "bonus rush" then bonusrushCfg()
 		elseif menuSelect == "time attack" then timeattackCfg()
+		elseif menuSelect == "score attack" then scoreattackCfg()
 		elseif menuSelect == "sudden death" then suddenCfg()
 		elseif menuSelect == "endless" then endlessCfg()
 		end
@@ -1354,6 +1356,7 @@ function f_sideSelect()
 			elseif menuSelect == "boss" then bossCPUvsCPU()
 			elseif menuSelect == "boss rush" then bossrushCPUvsCPU()
 			elseif menuSelect == "time attack" then timeattackCPUvsCPU()
+			elseif menuSelect == "score attack" then scoreattackCPUvsCPU()
 			elseif menuSelect == "sudden death" then suddenCPUvsCPU()
 			elseif menuSelect == "endless" then endlessCPUvsCPU()
 			end
@@ -1376,6 +1379,7 @@ function f_sideSelect()
 			elseif menuSelect == "bonus" then bonusHumanvsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
+			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
 			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
 			elseif menuSelect == "endless" then endlessHumanvsCPU()
 			end
@@ -1394,6 +1398,7 @@ function f_sideSelect()
 			elseif menuSelect == "bonus" then bonusHumanvsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushHumanvsCPU()
 			elseif menuSelect == "time attack" then timeattackHumanvsCPU()
+			elseif menuSelect == "score attack" then scoreattackHumanvsCPU()
 			elseif menuSelect == "sudden death" then suddenHumanvsCPU()
 			elseif menuSelect == "endless" then endlessHumanvsCPU()
 			end
@@ -1411,6 +1416,7 @@ function f_sideSelect()
 			elseif menuSelect == "bonus" then bonusCPUvsHuman()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
+			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
 			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
 			elseif menuSelect == "endless" then endlessCPUvsHuman()
 			end
@@ -1429,6 +1435,7 @@ function f_sideSelect()
 			elseif menuSelect == "bonus" then bonusCPUvsHuman()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsHuman()
 			elseif menuSelect == "time attack" then timeattackCPUvsHuman()
+			elseif menuSelect == "score attack" then scoreattackCPUvsHuman()
 			elseif menuSelect == "sudden death" then suddenCPUvsHuman()
 			elseif menuSelect == "endless" then endlessCPUvsHuman()
 			end
@@ -1470,6 +1477,7 @@ function f_sideSelect()
 			elseif menuSelect == "boss rush" then bossrushP1P2vsCPU()
 			elseif menuSelect == "bonus rush" then bonusrushP1P2vsCPU()
 			elseif menuSelect == "time attack" then timeattackP1P2vsCPU()
+			elseif menuSelect == "score attack" then scoreattackP1P2vsCPU()
 			elseif menuSelect == "sudden death" then suddenP1P2vsCPU()
 			elseif menuSelect == "endless" then endlessP1P2vsCPU()
 			end
@@ -1490,6 +1498,7 @@ function f_sideSelect()
 			elseif menuSelect == "boss rush" then bossrushCPUvsP1P2()
 			elseif menuSelect == "bonus rush" then bonusrushCPUvsP1P2()
 			elseif menuSelect == "time attack" then timeattackCPUvsP1P2()
+			elseif menuSelect == "score attack" then scoreattackCPUvsP1P2()
 			elseif menuSelect == "sudden death" then suddenCPUvsP1P2()
 			elseif menuSelect == "endless" then endlessCPUvsP1P2()
 			end
@@ -2961,18 +2970,29 @@ function f_challengeMenu()
 						bonusInfo = true
 						infoScreen = true
 					end
-				--TIME ATTACK (defeat opponents as quickly as possible)
+				--TIME ATTACK (defeat opponents as quickly as possible) WIP
 				elseif challengeMenu == 5 then
+					f_comingSoon()
+					--[[
 					if data.sideSelect == "Modern" then
 						menuSelect = "time attack"
 						sideScreen = true
 					else
 						f_timeMenu()
 					end
-				--SCORE ATTACK (defeat opponents getting high score as possible)
+					]]
+				--SCORE ATTACK (defeat opponents getting high score as possible) WIP
 				elseif challengeMenu == 6 then
 					f_comingSoon()
-				--SUDDEN DEATH (defeat opponents with 1 hit)
+					--[[
+					if data.sideSelect == "Modern" then
+						menuSelect = "score attack"
+						sideScreen = true
+					else
+						f_scoreMenu()
+					end
+					]]
+				--SUDDEN DEATH (defeat opponents in 1 hit)
 				elseif challengeMenu == 7 then
 					if data.sideSelect == "Modern" then
 						menuSelect = "sudden death"
@@ -4206,7 +4226,7 @@ function f_bonusrushMenu()
 end
 
 --;===========================================================
---; TIME ATTACK MENU
+--; TIME ATTACK MENU (WIP)
 --;===========================================================
 t_timeMenu = {
 	{id = textImgNew(), text = "P1 VS CPU"},
@@ -4225,9 +4245,8 @@ function timeattackCfg()
 	data.gameMode = "allroster"
 	data.rosterMode = "timeattack"
 	--data.stageMenu = true
-	setRoundTime(3600)
+	setRoundTime(-1)
 	setRoundsToWin(1)
-	setLifeMul(2) --overwrite players life
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
@@ -4406,6 +4425,205 @@ function f_timeMenu()
 end
 
 --;===========================================================
+--; SCORE ATTACK MENU (WIP)
+--;===========================================================
+t_scoreMenu = {
+	{id = textImgNew(), text = "P1 VS CPU"},
+	{id = textImgNew(), text = "P2 VS CPU"},
+	{id = textImgNew(), text = "CPU VS P1"},
+	{id = textImgNew(), text = "CPU VS P2"},
+	{id = textImgNew(), text = "P1&P2 VS CPU"},
+	--{id = textImgNew(), text = "CPU VS P1&P2"},
+	{id = textImgNew(), text = "CPU VS CPU"},
+}
+
+--Load Common Settings for Score Attack Modes
+function scoreattackCfg()
+	f_default()
+	setDiscordState("In Score Attack")
+	data.gameMode = "allroster"
+	data.rosterMode = "scoreattack"
+	--data.stageMenu = true
+	setRoundTime(-1)
+	setRoundsToWin(1)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	sndPlay(sysSnd, 100, 1)
+end
+
+--HUMAN VS CPU (defeat all character roster as quickly as possible, beating previous score records from left side)
+function scoreattackHumanvsCPU()
+	if P2overP1 then
+		remapInput(1, 2)
+	end
+	data.p2In = 1
+	data.p2SelectMenu = false
+	textImgSetText(txt_mainSelect, "SCORE ATTACK")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+	P2overP1 = false
+end
+
+--CPU VS HUMAN (defeat all character roster as quickly as possible, beating previous score records from right side)
+function scoreattackCPUvsHuman()
+	remapInput(1, 2)
+	if not P2overP1 then
+		remapInput(2, 1)
+	end
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p1SelectMenu = false
+	textImgSetText(txt_mainSelect, "SCORE ATTACK")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+	P2overP1 = false
+end
+
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to defeat all character roster as quickly as possible, beating previous score records)
+function scoreattackP1P2vsCPU()
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+end
+
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to defeat all character roster as quickly as possible, beating previous score records)
+function scoreattackCPUvsP1P2()
+	f_comingSoon()
+	--[[
+	setPlayerSide('p1right')
+	data.p1In = 2
+	data.p2In = 2
+	data.p2Faces = true
+	data.coop = true
+	textImgSetText(txt_mainSelect, "SCORE ATTACK COOPERATIVE")
+	script.select.f_selectAdvance()
+	]]
+	setDiscordState("In Main Menu")
+end
+
+--CPU MODE (watch CPU defeat all character roster as quickly as possible, beating previous score records)
+function scoreattackCPUvsCPU()
+	data.p2In = 1
+	data.p2SelectMenu = false
+	data.aiFight = true
+	data.rosterMode = "cpu"
+	textImgSetText(txt_mainSelect, "WATCH SCORE ATTACK")
+	script.select.f_selectAdvance()
+	setDiscordState("In Main Menu")
+end
+
+function f_scoreMenu()
+	cmdInput()
+	local cursorPosY = 0
+	local moveTxt = 0
+	local scoreMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	while true do
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			scoreMenu = scoreMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			scoreMenu = scoreMenu + 1
+		end
+		if scoreMenu < 1 then
+			scoreMenu = #t_scoreMenu
+			if #t_scoreMenu > 5 then
+				cursorPosY = 5
+			else
+				cursorPosY = #t_scoreMenu-1
+			end
+		elseif scoreMenu > #t_scoreMenu then
+			scoreMenu = 1
+			cursorPosY = 0
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 0 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 5 then
+			moveTxt = (scoreMenu - 6) * 13
+		elseif cursorPosY == 0 then
+			moveTxt = (scoreMenu - 1) * 13
+		end
+		if #t_scoreMenu <= 5 then
+			maxScoreMenu = #t_scoreMenu
+		elseif scoreMenu - cursorPosY > 0 then
+			maxScoreMenu = scoreMenu + 5 - cursorPosY
+		else
+			maxScoreMenu = 5
+		end
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			scoreattackCfg()
+			if scoreMenu == 1 then scoreattackHumanvsCPU()
+			elseif scoreMenu == 2 then P2overP1 = true scoreattackHumanvsCPU()
+			elseif scoreMenu == 3 then scoreattackCPUvsHuman()
+			elseif scoreMenu == 4 then P2overP1 = true scoreattackCPUvsHuman()
+			elseif scoreMenu == 5 then scoreattackP1P2vsCPU()
+			--elseif scoreMenu == 6 then scoreattackCPUvsP1P2()
+			elseif scoreMenu == 6 then scoreattackCPUvsCPU()
+			end
+		end	
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		for i=1, #t_scoreMenu do
+			if i == scoreMenu then
+				bank = 5
+			else
+				bank = 0
+			end
+			textImgDraw(f_updateTextImg(t_scoreMenu[i].id, jgFnt, bank, 0, t_scoreMenu[i].text, 159, 142+i*13-moveTxt))
+		end
+		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		f_titleText()
+		textImgDraw(txt_gameFt)
+		textImgSetText(txt_gameFt, "SCORE ATTACK MODE")
+		textImgDraw(txt_version)
+		f_sysTime()
+		if maxScoreMenu > 6 then
+			animDraw(arrowsU)
+			animUpdate(arrowsU)
+		end
+		if #t_scoreMenu > 6 and maxScoreMenu < #t_scoreMenu then
+			animDraw(arrowsD)
+			animUpdate(arrowsD)
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; SUDDEN DEATH MENU
 --;===========================================================
 t_suddenMenu = {
@@ -4427,12 +4645,12 @@ function suddenCfg()
 	--data.stageMenu = true
 	setRoundTime(1000)
 	setRoundsToWin(1)
-	setLifeMul(0)
+	setLifeMul(0) --overwrite players life
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
 
---P1 VS HUMAN (see how many characters out of all roster you can take down with 1 Hit from left side)
+--P1 VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from left side)
 function suddenHumanvsCPU()
 	if P2overP1 then
 		remapInput(1, 2)
@@ -4445,7 +4663,7 @@ function suddenHumanvsCPU()
 	P2overP1 = false
 end
 
---CPU VS HUMAN (see how many characters out of all roster you can take down with 1 Hit from right side)
+--CPU VS HUMAN (see how many characters out of all roster you can take down in 1 Hit from right side)
 function suddenCPUvsHuman()
 	remapInput(1, 2)
 	if not P2overP1 then
@@ -4461,7 +4679,7 @@ function suddenCPUvsHuman()
 	P2overP1 = false
 end
 
---P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down with 1 Hit)
+--P1&P2 VS CPU [CO-OP MODE] (team up with another player from left side to see how many characters out of all roster you can take down in 1 Hit)
 function suddenP1P2vsCPU()
 	data.p2In = 2
 	data.p2Faces = true
@@ -4471,7 +4689,7 @@ function suddenP1P2vsCPU()
 	setDiscordState("In Main Menu")
 end
 
---CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down with 1 Hit)
+--CPU VS P1&P2 [CO-OP MODE] (team up with another player from right side to see how many characters out of all roster you can take down in 1 Hit)
 function suddenCPUvsP1P2()
 	f_comingSoon()
 	--[[
@@ -4486,7 +4704,7 @@ function suddenCPUvsP1P2()
 	setDiscordState("In Main Menu")
 end
 
---CPU MODE (see how many characters out of all roster the CPU can take down with 1 Hit)
+--CPU MODE (see how many characters out of all roster the CPU can take down in 1 Hit)
 function suddenCPUvsCPU()
 	data.p2In = 1
 	data.p2SelectMenu = false
@@ -7638,7 +7856,8 @@ t_mainLobby = {
 	{id = textImgNew(), text = "BOSS RUSH"},
 	{id = textImgNew(), text = "BONUS RUSH"},
 	{id = textImgNew(), text = "SUDDEN DEATH"},
-	{id = textImgNew(), text = "TIME ATTACK"},
+	--{id = textImgNew(), text = "TIME ATTACK"},
+	--{id = textImgNew(), text = "SCORE ATTACK"},
 	{id = textImgNew(), text = "ONLINE SETTINGS"},
 }
 
@@ -7771,17 +7990,25 @@ function f_mainLobby()
 				data.gameMode = "allroster"
 				data.rosterMode = "suddendeath"
 				textImgSetText(txt_mainSelect, "ONLINE SUDDEN DEATH COOPERATIVE")
-				script.select.f_selectAdvance()				
+				script.select.f_selectAdvance()
+		--[[
 			--ONLINE TIME ATTACK
 			elseif mainLobby == 9 then
-				setRoundTime(3600)
-				setLifeMul(2)
+				setRoundTime(-1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timeattack"
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
-				script.select.f_selectAdvance()				
-			--ONLINE SETTINGS
+				script.select.f_selectAdvance()
+			--ONLINE SCORE ATTACK
 			elseif mainLobby == 10 then
+				setRoundTime(-1)
+				data.gameMode = "allroster"
+				data.rosterMode = "scoreattack"
+				textImgSetText(txt_mainSelect, "ONLINE SCORE ATTACK COOPERATIVE")
+				script.select.f_selectAdvance()
+		]]
+			--ONLINE SETTINGS
+			elseif mainLobby == #t_mainLobby then
 				script.options.f_onlineCfg()
 			end			
 		end
@@ -8245,10 +8472,12 @@ function f_secretFight()
 	script.select.f_selectSimple()
 	if getPlayerSide() == "p1right" then --Player 1 in Right Side
 		if script.select.winner == 2 then --Save progress only if you win
+			secretTarget = data.t_p1selected
 			f_secretProgress()
 		end
 	else --Player 1 in Left Side
 		if script.select.winner == 1 then
+			secretTarget = data.t_p2selected
 			f_secretProgress()
 		end
 	end
@@ -8256,7 +8485,15 @@ end
 
 function f_secretProgress()
 local goukiName = "Shin Gouki"
-if data.t_p1selected[1].displayname == goukiName or data.t_p2selected[1].displayname == goukiName then data.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
+local unlockScreen = t_selChars[secretTarget[1].cel+1]
+--Show Unlock Screen if is available
+if unlockScreen.UnlockStoryboard ~= nil and io.open(unlockScreen.UnlockStoryboard or '','r') ~= nil then
+	f_storyboard(unlockScreen.UnlockStoryboard)
+elseif unlockScreen.UnlockMovie ~= nil and io.open(unlockScreen.UnlockMovie or '','r') ~= nil then
+	playVideo(unlockScreen.UnlockMovie)
+end
+if secretTarget[1].displayname == goukiName then data.gouki = true end --Unlock Shin Gouki if you defeat him in arcade intermission
+secretTarget = "" --Reset Var
 f_saveProgress()
 end
 

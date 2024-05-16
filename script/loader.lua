@@ -20,7 +20,7 @@ function f_parseChar(t, cel)
 		local endingPath = ''
 		local row = ''
 		local section = ''
-		local readLines = 12
+		local readLines = 13
 		for line in io.lines(def) do
 			line = line:lower()
 			if line:match('^%s*%[%s*info%s*%]') then
@@ -33,6 +33,8 @@ function f_parseChar(t, cel)
 				section = 4
 			elseif line:match('^%s*%[%s*intermission%s*%]') then
 				section = 5
+			elseif line:match('^%s*%[%s*unlock%s*%]') then
+				section = 6
 			elseif line:match('^%s*%[') then --in case character shares DEF file with other files
 				break
 			elseif section == 1 then --[Info]
@@ -47,13 +49,6 @@ function f_parseChar(t, cel)
 					line = line:gsub('%s*;.*$', '')
 					if not line:match('=%s*$') then
 						t['author'] = line:gsub('^%s*author%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-					end
-					readLines = readLines - 1
-				end
-				if line:match('^%s*unlockcondition%s*=') then
-					line = line:gsub('%s*;.*$', '')
-					if not line:match('=%s*$') then
-						t['unlockcondition'] = line:gsub('^%s*unlockcondition%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 					end
 					readLines = readLines - 1
 				end
@@ -155,8 +150,35 @@ function f_parseChar(t, cel)
 					end
 					readLines = readLines - 1
 				end
+			elseif section == 6 then--[Unlock]
+				if line:match('^%s*condition%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						t['UnlockCondition'] = line:gsub('^%s*condition%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+					end
+					readLines = readLines - 1
+				end
+				--Load Storyboard Files for Unlock Screen
+				if line:match('^%s*storyboard%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						unlockPath = dir .. line:gsub('^%s*storyboard%s*=%s*(.-)%s*$', '%1')
+						t['UnlockStoryboard'] = unlockPath
+					end
+					readLines = readLines - 1
+				--Load Video Files for Unlock Screen
+				elseif line:match('^%s*movie%s*=') then
+					line = line:gsub('%s*;.*$', '')
+					if not line:match('=%s*$') then
+						line = line:gsub('\\', '/')
+						unlockPath = dir .. line:gsub('^%s*movie%s*=%s*(.-)%s*$', '%1')
+						t['UnlockMovie'] = unlockPath
+					end
+					readLines = readLines - 1
+				end
 			end
-			if stPath ~= '' and section ~= 2 and section ~= 3 and section ~= 4 then
+			if stPath ~= '' and section ~= 2 and section ~= 3 and section ~= 4 and section ~= 5 then
 				readLines = readLines - 1
 			end
 			if readLines == 0 then

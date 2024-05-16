@@ -593,7 +593,7 @@ fadein = 1
 fadeout = 1
 text:
 I better hurry!
-Who knows why what kind of torture
+Who knows what kind of torture
 Kung Fu Girl will be going through..
 
 character = 
@@ -848,7 +848,7 @@ how I could build a clone of yours too fast..
 character = Master Kung Fu Man
 sfx = 1,5
 text:
-Speaks!
+Speak!
 
 character = Suave Dude
 side = 2
@@ -890,7 +890,7 @@ Wait wait!, don't hit me again..
 My bones already hurts.
 _
 She has gone to find more strength to show you what
-she's capable. That was the last thing she said..
+she's capable of. That was the last thing she said..
 
 character = Master Kung Fu Man
 text:
@@ -903,7 +903,7 @@ side = 2
 sfx = 4,1
 text:
 So I guess it's your responsibility now.
-Well you've earned she, can I disappear now?
+Well you've earned her, can I disappear now?
 
 character = Master Kung Fu Man
 sfx = 1,2
@@ -955,7 +955,7 @@ character = Master Kung Fu Man
 sfx = 1,15
 fadeout = 1
 text:
-Very well, it's time then to go beyond
+Very well, then it's time to go beyond
 and teach him a lesson!
 _
 With the power of I.K.E.M.E.N PLUS ULTRA!

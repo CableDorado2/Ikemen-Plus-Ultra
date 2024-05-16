@@ -482,6 +482,7 @@ if getGameMode() == "practice" or getGameMode() == "vs" or getGameMode() == "sto
 	end
 elseif getGameMode() == "stageviewer" then t_pauseMain[5].text = "STAGE SELECT"
 elseif getGameMode() == "mission" then t_pauseMain[6].text = "MISSION SELECT"
+	if getPauseVar() == "nogiveup" then table.remove(t_pauseMain,5) end
 elseif getGameMode() == "event" then t_pauseMain[6].text = "EVENT SELECT"
 elseif getGameMode() == "random" then table.remove(t_pauseMain,6)
 elseif getGameMode() == "intermission" then table.remove(t_pauseMain,6)
@@ -646,7 +647,7 @@ function f_pauseMain(p, st, esc)
 						elseif pauseMenu == 5 then
 							if getGameMode() == "story" then
 								sndPlay(sysSnd, 100, 5)
-							elseif getGameMode() == "random" or getGameMode() == "intermission" then --Back to Main Menu for Quick Match Mode and intermission Fights
+							elseif getGameMode() == "random" or getGameMode() == "intermission" or getPauseVar() == "nogiveup" then --Back to Main Menu for Quick Match Mode and intermission Fights
 								sndPlay(sysSnd, 100, 1)
 								f_confirmReset()
 								mainGoTo = "Confirm"
@@ -797,6 +798,7 @@ function f_pauseConfirm()
 	--MESSAGES FOR BACK TO A MAIN MENU
 	if mainMenuBack == true then
 		if getGameMode() == "mission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel)
+			if getPauseVar() == "nogiveup" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backMissionSel) end
 		elseif getGameMode() == "event" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_backEventSel)
 		elseif getGameMode() == "replay" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_replaySelBack)
 		elseif getGameMode() == "intermission" then textImgSetText(txt_pauseQuestion, txt_playerID..pn..txt_leaveMatch)

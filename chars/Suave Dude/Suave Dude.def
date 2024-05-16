@@ -4,7 +4,6 @@ DisplayName  = "Suave Dude"
 VersionDate  = 10,07,2010
 MugenVersion = 04,14,2002
 Author       = "Masukenpu-kun"
-UnlockCondition = "Get True Ending in Kung Fu Man's Story" ;Set Unlock Condition Info.
 Pal.Defaults = 6,3,4,2
 
 [Files]
@@ -16,3 +15,6 @@ Sprite  = sd.sff
 Anim    = sd.air
 Sound   = sd.snd
 Pal1 = suave.act
+
+[Unlock]
+Condition = "Get True Ending in Kung Fu Man's Story" ;Set Unlock Condition Info.

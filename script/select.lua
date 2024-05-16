@@ -1277,7 +1277,7 @@ function f_nextMatch()
 end
 
 --;=====================================================================================================
---; ADVANCED MODES (ARCADE, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
+--; ADVANCED MODES (ARCADE, TOWER, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;=====================================================================================================
 function f_selectAdvance()
 	f_unlocksCheck() --Check For Unlocked Content
@@ -7455,6 +7455,10 @@ end
 --;===========================================================
 --; WIN SCREEN SCREENPACK
 --;===========================================================
+txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 177)
+txt_winquote = createTextImg(font2, 0, 1, "", 0, 0)
+txt_winquoteFix = createTextImg(jgFnt, 0, 1, "", 20, 177)
+	
 --Win Char Modern Transparent BG
 wincharBG = animNew(sysSff, [[
 100,1, 20,13, -1, 0, s
@@ -7488,11 +7492,9 @@ animSetTile(quoteBG, 1, 1)
 animSetWindow(quoteBG, 14, 167, 290, 62)
 
 --;===========================================================
---; WIN SCREEN
+--; VICTORY SCREEN
 --;===========================================================
 function f_selectWin()
-	txt_winnername = createTextImg(jgFnt, 0, 1, "", 20, 177)
-	txt_winquote = createTextImg(font2, 0, 1, "", 0, 0)
 	local bufRematchu = 0
 	local bufRematchd = 0
 	local bufRematchr = 0
@@ -7502,49 +7504,66 @@ function f_selectWin()
 	local bufRematch2r = 0
 	local bufRematch2l = 0
 	local menuReady = false
-	local timeToSkip = 550
+	local timeToSkip = 650
+	local winnerTeam = nil
+	local winnerSide = nil
 	p1Cursor = 1
 	p2Cursor = 1
 	p1Ready = false
 	p2Ready = false
 	setService("") --Erase Service
 	f_modeplayTime() --Store Favorite Game Mode (Addressed to Simple Character Select)
-	if data.victoryscreen == false then
-		f_selectWinOFF()
-	elseif data.winscreen == "Fixed" then
-		f_selectWinFix()
-	else
+	if data.winscreen == "Fixed" or not data.victoryscreen then
+		playBGM(bgmNothing)
+	else --Classic/Modern Victory Screen
 		playBGM(bgmVictory)
-		local txt = "I am the winner!"
-		if winner == 1 then
-			p1Wins = p1Wins + 1
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				--Player 1 is not in this side so..:
-				f_defeats() --Store Player Losses
-				--f_loseCoins()
-			else
-				f_winCoins() --Add Coins Rewards by win
-				f_victories() --Store Player Victories
-			end
-			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected) --Victory Quotes	from each P1 char
-		else--if winner == 2 then
-			p2Wins = p2Wins + 1
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				--Player 2 is not in this side so..:
-				f_winCoins()
-				f_victories()
-			else
-				f_defeats()
-				--f_loseCoins()
-			end
-			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected) --Victory Quotes from each P2 char
+	end
+	local txt = ""
+	local i = 0
+--Winner Logic
+	if winner == 1 then
+		p1Wins = p1Wins + 1
+		winnerTeam = p1numChars
+		winnerSide = data.t_p1selected
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			--Player 1 is not in this side so..:
+			f_defeats() --Store Player Losses
+			--f_loseCoins()
+		else
+			f_winCoins() --Add Coins Rewards by win
+			f_victories() --Store Player Victories
 		end
-		if onlinegame == true and data.gameMode == "versus" then
-			f_ftcontrol()
+		if data.winscreen == "Fixed" or not data.victoryscreen then --Permanent Victory Quotes when Left Side Wins
+			txt = "READY FOR THE NEXT BATTLE?"
+		else --Victory Quotes from Left Side char
+			txt = f_winParse(t_selChars[data.t_p1selected[1].cel+1], t_selChars[data.t_p2selected[1].cel+1], data.t_p2selected[1].pal, #data.t_p2selected)
 		end
-		local i = 0
-		cmdInput()
-		while true do
+	else--if winner == 2 then
+		p2Wins = p2Wins + 1
+		winnerTeam = p2numChars
+		winnerSide = data.t_p2selected
+		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+			--Player 2 is not in this side so..:
+			f_winCoins()
+			f_victories()
+		else
+			f_defeats()
+			--f_loseCoins()
+		end
+		if data.winscreen == "Fixed" or not data.victoryscreen then --Permanent Victory Quotes when Right Side Wins
+			txt = "READY FOR THE NEXT BATTLE?"
+		else --Victory Quotes from Right Side char
+			txt = f_winParse(t_selChars[data.t_p2selected[1].cel+1], t_selChars[data.t_p1selected[1].cel+1], data.t_p1selected[1].pal, #data.t_p1selected)
+		end
+	end
+	if txt == "" or txt == nil then txt = "I am the winner!" end --In case that f_winParse returns "nothing"
+--Online Ranked Match Control
+	if onlinegame == true and data.gameMode == "versus" then
+		f_ftcontrol()
+	end
+	cmdInput()
+	while true do
+		if data.victoryscreen then --Only shows if data.victoryscreen == true
 		--Draw Winner Screen Last Match Backgrounds
 			if matchNo == lastMatch then
 				animDraw(f_animVelocity(selectHardBG0, -1, -1)) --Draw Red BG for Final Battle
@@ -7561,70 +7580,50 @@ function f_selectWin()
 					animDraw(f_animVelocity(selectBG0, -1, -1))
 				end
 			end
-			if winner == 1 then
-				if data.winscreen == "Classic" then
-					animDraw(f_animVelocity(wincharBGC1, -2, 0))
-					animSetWindow(wincharBGC1, 32, 20, 120, 140)
-					drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
-					drawLoserPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
-					animDraw(f_animVelocity(wincharBGC2, 2, 0))
-					animSetWindow(wincharBGC2, 169, 20, 120, 140)
-					animDraw(f_animVelocity(quoteBG, 2, 0))
-					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
-				elseif data.winscreen == "Modern" then
+		--Draw Permanent Victory Quote Message
+			if data.winscreen == "Fixed" then
+				f_textRender(txt_winquoteFix, txt, i, 20, 190, 15, 2, 59)
+			else --Classic/Modern Victory Screen
+			--Draw Portraits
+				if data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
-					animDraw(f_animVelocity(quoteBG, 2, 0))
-					if p1numChars == 1 then
-						drawResultPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
-					elseif p1numChars == 2 then	--Your 2nd char portrait appears in modern win screen
-						drawResultPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
-						drawResultPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
-					elseif p1numChars == 3 then	--Your 3rd char portrait appears in modern win screen	
-						drawResultPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
-						drawResultPortrait(data.t_p1selected[2].cel, 205, 15, 1, 1)
-						drawResultPortrait(data.t_p1selected[1].cel, 99, 15, 1, 1)
-					elseif p1numChars == 4 then	--Your 4th char portrait appears in modern win screen
-						drawResultPortrait(data.t_p1selected[4].cel, 205, 15, 1, 1)
-						drawResultPortrait(data.t_p1selected[3].cel, 0, 15, 1, 1)
-						drawResultPortrait(data.t_p1selected[2].cel, 150, 15, 1, 1)
-						drawResultPortrait(data.t_p1selected[1].cel, 45, 15, 1, 1)
+					if winnerTeam == 1 then
+						drawResultPortrait(winnerSide[1].cel, 99, 15, 1, 1) --Your char portrait appears in modern win screen
+					elseif winnerTeam == 2 then	--Your 2nd char portrait appears in modern win screen
+						drawResultPortrait(winnerSide[2].cel, 150, 15, 1, 1)
+						drawResultPortrait(winnerSide[1].cel, 45, 15, 1, 1)
+					elseif winnerTeam == 3 then	--Your 3rd char portrait appears in modern win screen	
+						drawResultPortrait(winnerSide[3].cel, 0, 15, 1, 1)
+						drawResultPortrait(winnerSide[2].cel, 205, 15, 1, 1)
+						drawResultPortrait(winnerSide[1].cel, 99, 15, 1, 1)
+					elseif winnerTeam == 4 then	--Your 4th char portrait appears in modern win screen
+						drawResultPortrait(winnerSide[4].cel, 205, 15, 1, 1)
+						drawResultPortrait(winnerSide[3].cel, 0, 15, 1, 1)
+						drawResultPortrait(winnerSide[2].cel, 150, 15, 1, 1)
+						drawResultPortrait(winnerSide[1].cel, 45, 15, 1, 1)
 					end
-					textImgSetText(txt_winnername, f_getName(data.t_p1selected[1].cel))
-				end	
-			else--if winner == 2 then
-				if data.winscreen == "Classic" then
-					drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+				elseif data.winscreen == "Classic" then
+					if winner == 2 then drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1) end
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
+					if winner == 1 then
+						drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+						drawLoserPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+					end
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
 					animSetWindow(wincharBGC2, 169, 20, 120, 140)
-					drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
-					animDraw(f_animVelocity(quoteBG, 2, 0))
-					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
-				elseif data.winscreen == "Modern" then
-					animDraw(f_animVelocity(wincharBG, 2, 0))
-					animDraw(f_animVelocity(quoteBG, 2, 0))
-					if p2numChars == 1 then
-						drawResultPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
-					elseif p2numChars == 2 then
-						drawResultPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
-						drawResultPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
-					elseif p2numChars == 3 then
-						drawResultPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
-						drawResultPortrait(data.t_p2selected[2].cel, 205, 15, 1, 1)
-						drawResultPortrait(data.t_p2selected[1].cel, 99, 15, 1, 1)
-					elseif p2numChars == 4 then
-						drawResultPortrait(data.t_p2selected[4].cel, 205, 15, 1, 1)
-						drawResultPortrait(data.t_p2selected[3].cel, 0, 15, 1, 1)
-						drawResultPortrait(data.t_p2selected[2].cel, 150, 15, 1, 1)
-						drawResultPortrait(data.t_p2selected[1].cel, 45, 15, 1, 1)
-					end
-					textImgSetText(txt_winnername, f_getName(data.t_p2selected[1].cel))
+					if winner == 2 then drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1) end
 				end
+			--Draw Winner Message
+				animDraw(f_animVelocity(quoteBG, 2, 0))
+				f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59)
+			--Draw Character Name
+				textImgSetText(txt_winnername, f_getName(winnerSide[1].cel))
+				textImgDraw(txt_winnername)
 			end
-			i = i + 1
-			f_textRender(txt_winquote, txt, i, 20, 190, 15, 2, 59) --Winner Message
-			textImgDraw(txt_winnername)
+		end
+	--REMATCH OPTION
+		if data.victoryscreen then --If victory screen is enable
 			if data.gameMode == "versus" then --Show Rematch Menu for these modes
 				if not menuReady then
 					if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
@@ -7653,66 +7652,13 @@ function f_selectWin()
 					break
 				end
 			end
-			animDraw(data.fadeTitle)
-			animUpdate(data.fadeTitle)
-			cmdInput()
-			refresh()
-		end
-	end --End of disable Win Screen Conditional
-end
-
-function f_selectWinFix() --Use this while fixing recognition of victory quotes for any other character that causes crash
-	playBGM(bgmNothing)
-	--playBGM(bgmVictory)
-	--local txt = ""
-	if winner == 1 then
-		p1Wins = p1Wins + 1
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			f_defeats()
-			--f_loseCoins()
-		else
-			f_winCoins()
-			f_victories()
-		end
-		txt = "READY FOR THE NEXT BATTLE?" --Permanent Victory Quotes when P1 wins
-	else--if winner == 2 then
-		p2Wins = p2Wins + 1
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			f_winCoins()
-			f_victories()
-		else
-			f_defeats()
-			--f_loseCoins()
-		end
-		txt = "READY FOR THE NEXT BATTLE?" --Permanent Victory Quotes when P2 wins
-	end
-	if onlinegame == true and data.gameMode == "versus" then
-		f_ftcontrol()
-	end
-	local i = 0
-	local timeToSkip = 510
-	cmdInput()
-	while true do
-		i = i + 1
-		f_textRender(txt_winnername, txt, i, 20, 190, 15, 2, 59) --Message
-		if data.gameMode == "versus" then --Show Rematch Menu for these modes
-			if not menuReady then
-				if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-					cmdInput()
-					menuReady = true
-				end
-			elseif menuReady then
+		else--If victory screen is disable
+			if data.gameMode == "versus" then
 				f_rematch()
+			else --Don't Show Rematch Menu
+				rematchEnd = true
 			end
 			if rematchEnd then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-				commandBufReset(p1Cmd, 1)
-				commandBufReset(p2Cmd, 2)
-				break
-			end
-		else --Don't Show Rematch Menu
-			if i == timeToSkip or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				cmdInput()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
 				elseif data.gameMode == "tower" then playBGM(bgmTower)
@@ -7725,53 +7671,7 @@ function f_selectWinFix() --Use this while fixing recognition of victory quotes 
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
-		cmdInput()
-		refresh()
-	end
-end
-
-function f_selectWinOFF()
-	playBGM(bgmNothing)
-	if winner == 1 then
-		p1Wins = p1Wins + 1
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			f_defeats()
-			--f_loseCoins()
-		else
-			f_winCoins()
-			f_victories()
-		end
-	else--if winner == 2 then
-		p2Wins = p2Wins + 1
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			f_winCoins()
-			f_victories()
-		else
-			f_defeats()
-			--f_loseCoins()
-		end
-	end
-	if onlinegame == true and data.gameMode == "versus" then
-		f_ftcontrol()
-	end
-	while true do
-		if data.gameMode == "versus" then
-			f_rematch()
-		else --Don't Show Rematch Menu
-			rematchEnd = true
-		end
-		if rematchEnd then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			if data.orderSelect == true and data.gameMode == "arcade" then f_selectMusic()
-			elseif data.gameMode == "tower" then playBGM(bgmTower)
-			elseif data.gameMode == "singleboss" then playBGM(bgmSelectBoss)
-			end
-			commandBufReset(p1Cmd, 1)
-			commandBufReset(p2Cmd, 2)
-			break
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
+		i = i + 1
 		cmdInput()
 		refresh()
 	end
@@ -8784,7 +8684,7 @@ txt_resultLoses = createTextImg(survNumFnt, 0, -1, "", 320, 200)
 txt_resultTime = createTextImg(jgFnt, 0, 1, "TIME: 9'99''999", 32, 220) --WIP
 txt_resultScore = createTextImg(jgFnt, 0, 1, "SCORE: 999.999.999", 32, 234) --WIP
 txt_resultRank = createTextImg(jgFnt, 0, 1, "RANK", 262, 205)
-txt_resultName = createTextImg(font6, 0, 1, "", 0, 0)
+txt_resultName = createTextImg(font6, 0, 0, "", 0, 0)
 txt_resultTeam = createTextImg(font6, 0, 0, "", 0, 0)
 
 --Result BG
@@ -8805,25 +8705,37 @@ function f_result(state)
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
 			charPortr = data.t_p2selected[1].cel
-			if p2teamMode > 0 then textImgSetText(txt_resultTeam, "TEAM") end
+			if p2teamMode > 0 then
+				textImgSetText(txt_resultTeam, "TEAM")
+			elseif p1teamMode == 0 then
+				textImgSetText(txt_resultTeam, "")
+			end
 		else
 			textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
 			charPortr = data.t_p1selected[1].cel
-			if p1teamMode > 0 then textImgSetText(txt_resultTeam, "TEAM") end
+			if p1teamMode > 0 then
+				textImgSetText(txt_resultTeam, "TEAM")
+			elseif p1teamMode == 0 then
+				textImgSetText(txt_resultTeam, "")
+			end
 		end
 		if data.gameMode == "survival" then
-			textImgSetPos(txt_resultName, 179, 50)
-			textImgSetPos(txt_resultTeam, 300, 80)
+			textImgSetAlign(txt_resultTeam, -1)
+			textImgSetPos(txt_resultTeam, 318, 48)
+			textImgSetAlign(txt_resultName, -1)
+			textImgSetPos(txt_resultName, 318, 60)
 			textImgSetText(txt_resultNo, winCnt.." WINS")
 			textImgSetText(txt_resultTitle, "SURVIVAL RESULTS")
 		else--if data.gameMode == "endless" or data.gameMode == "allroster" then
-			textImgSetPos(txt_resultName, 2, 50)
-			textImgSetPos(txt_resultTeam, 0, 80)
+			textImgSetAlign(txt_resultTeam, 1)
+			textImgSetPos(txt_resultTeam, 2, 50)
+			textImgSetAlign(txt_resultName, 1)
+			textImgSetPos(txt_resultName, 2, 65)
 			textImgSetText(txt_resultWins, winCnt.." WINS")
 			textImgSetText(txt_resultLoses, looseCnt.." LOSES")
 			if data.gameMode == "endless" then textImgSetText(txt_resultTitle, "ENDLESS RESULTS")
 			elseif data.rosterMode == "suddendeath" then textImgSetText(txt_resultTitle, "SUDDEN DEATH RESULTS")
-			elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
+			--elseif data.rosterMode == "timeattack" then textImgSetText(txt_resultTitle, "TIME ATTACK RESULTS")
 			--elseif data.rosterMode == "scoreattack" then textImgSetText(txt_resultTitle, "SCORE ATTACK RESULTS")
 			end
 		end

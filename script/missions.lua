@@ -129,13 +129,14 @@ function f_missionMenu()
 				playVideo("movie/The Lost Chapter.wmv")
 				setRoundTime(-1)
 				setRoundsToWin(1)
+				setPauseVar("nogiveup")
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd["kung fu man/evil/evil kung fu man.def"]}
 				data.p1Pal = 1
 				data.p2TeamMenu = {mode = 0, chars = 1}
 				data.p2Char = {t_charAdd["kung fu man"]}
 				data.p2Pal = 1
-				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]} --Because there's not char or stage select, if you select give up option in pause menu, you will get an error.
+				data.stage = {t_stageDef["stages/mountainside temple/dark corridor.def"]}
 				data.versusScreen = false
 				textImgSetText(txt_mainSelect, "MISSION "..data.missionNo.." [" .. t_missionMenu[data.missionNo].status .. "]")
 				script.select.f_selectSimple()

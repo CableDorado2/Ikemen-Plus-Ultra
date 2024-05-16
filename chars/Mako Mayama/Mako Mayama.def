@@ -4,7 +4,6 @@ displayname = "Mako Mayama"
 versiondate = 04,14,2001
 mugenversion = 04,14,2001
 author = "taruse"
-unlockcondition = "Complete Chapter 1 of Kung Fu Man's Story"
 pal.defaults = 6,3,4,2
 
 [Files]
@@ -23,3 +22,6 @@ pal1    = mako.act
 pal2    = mako2.act
 pal3    = mako3.act
 pal4    = mako4.act
+
+[Unlock]
+Condition = "Complete Chapter 1 of Kung Fu Man's Story"
