@@ -20,4 +20,4 @@ Pal1 = suave.act
 Condition = "Get True Ending in Kung Fu Man's Story" ;Set Unlock Condition Info.
 
 [Portraits]
-result.portrait.scale = 1.0,1.0
+result.portrait.scale = 0.16,0.16

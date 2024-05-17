@@ -2286,8 +2286,8 @@ function f_battlePlan()
 		animDraw(f_animVelocity(selectBG0, 0, 1.5))
 		--draw character portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-			drawVSPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			drawVSPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
+			drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
 		end
 		--draw character animations
 		if data.charPresentation == "Sprite" then
@@ -7637,35 +7637,69 @@ function f_selectWin()
 			if data.winscreen == "Fixed" then
 				f_textRender(txt_winquoteFix, txt, i, 20, 190, 15, 2, 59)
 			else --Classic/Modern Victory Screen
-			--Draw Portraits
 				if data.winscreen == "Modern" then
 					animDraw(f_animVelocity(wincharBG, 0, 1.5))
-					if winnerTeam == 1 then
-						drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale) --Your char portrait appears in modern win screen
-					elseif winnerTeam == 2 then	--Your 2nd char portrait appears in modern win screen
-						drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
-						drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
-					elseif winnerTeam == 3 then	--Your 3rd char portrait appears in modern win screen	
-						drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
-						drawWinPortrait(winnerSide[2].cel, 205, 15, xPortScale, yPortScale)
-						drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale)
-					elseif winnerTeam == 4 then	--Your 4th char portrait appears in modern win screen
-						drawWinPortrait(winnerSide[4].cel, 205, 15, xPortScale, yPortScale)
-						drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
-						drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
-						drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
+					--Draw Portraits
+					if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+						if winnerTeam == 1 then
+							drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale) --Your char portrait appears in modern win screen
+						elseif winnerTeam == 2 then	--Your 2nd char portrait appears in modern win screen
+							drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
+						elseif winnerTeam == 3 then	--Your 3rd char portrait appears in modern win screen	
+							drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[2].cel, 205, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[1].cel, 99, 15, xPortScale, yPortScale)
+						elseif winnerTeam == 4 then	--Your 4th char portrait appears in modern win screen
+							drawWinPortrait(winnerSide[4].cel, 205, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[3].cel, 0, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[2].cel, 150, 15, xPortScale, yPortScale)
+							drawWinPortrait(winnerSide[1].cel, 45, 15, xPortScale, yPortScale)
+						end
+					--Draw Char Animations
+					elseif data.charPresentation == "Sprite" then
+						for j=#data.t_p1selected, 1, -1 do
+							f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 178 - (2*j-1) * 18, 152.5, data.t_p1selected[j].up)
+						end
 					end
 				elseif data.winscreen == "Classic" then
-					if winner == 2 then drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1) end
+					if winner == 2 then
+						--Draw Portraits
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+							drawLoserPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+						--Draw Char Animations
+						elseif data.charPresentation == "Sprite" then
+							for j=#data.t_p1selected, 1, -1 do
+								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimDizzy', 139 - (2*j-1) * 18, 158, data.t_p1selected[j].up)
+							end
+						end
+					end
 					animDraw(f_animVelocity(wincharBGC1, -2, 0))
 					animSetWindow(wincharBGC1, 32, 20, 120, 140)
 					if winner == 1 then
-						drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
-						drawLoserPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+							drawWinPortrait(data.t_p1selected[1].cel, 32, 20, 1, 1)
+							drawLoserPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+						elseif data.charPresentation == "Sprite" then
+							for j=#data.t_p1selected, 1, -1 do
+								f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 149 - (2*j-1) * 18, 158, data.t_p1selected[j].up)
+							end
+							for j=#data.t_p2selected, 1, -1 do
+								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimDizzy', 180 + (2*j-1) * 18, 158, data.t_p2selected[j].up)
+							end
+						end
 					end
 					animDraw(f_animVelocity(wincharBGC2, 2, 0))
 					animSetWindow(wincharBGC2, 169, 20, 120, 140)
-					if winner == 2 then drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1) end
+					if winner == 2 then
+						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+							drawWinPortrait(data.t_p2selected[1].cel, 289, 20, -1, 1)
+						elseif data.charPresentation == "Sprite" then
+							for j=#data.t_p2selected, 1, -1 do
+								f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 170 + (2*j-1) * 18, 158, data.t_p2selected[j].up)
+							end
+						end
+					end
 				end
 			--Draw Winner Message
 				animDraw(f_animVelocity(quoteBG, 2, 0))
@@ -8751,6 +8785,7 @@ function f_result(state)
 	--end
 	local victoriesPercent = (winCnt/#t_roster)*100
 	local charPortr = nil
+	local charTable = nil
 	local scaleData = nil
 	if data.gameMode == "survival" or data.gameMode == "endless" or data.gameMode == "allroster" then
 		--Common Data
@@ -8759,6 +8794,7 @@ function f_result(state)
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			textImgSetText(txt_resultName, f_getName(data.t_p2selected[1].cel))
 			charPortr = data.t_p2selected[1].cel
+			charTable = data.t_p2selected
 			if p2teamMode > 0 then
 				textImgSetText(txt_resultTeam, "TEAM")
 			elseif p1teamMode == 0 then
@@ -8767,6 +8803,7 @@ function f_result(state)
 		else
 			textImgSetText(txt_resultName, f_getName(data.t_p1selected[1].cel))
 			charPortr = data.t_p1selected[1].cel
+			charTable = data.t_p1selected
 			if p1teamMode > 0 then
 				textImgSetText(txt_resultTeam, "TEAM")
 			elseif p1teamMode == 0 then
@@ -8811,7 +8848,15 @@ function f_result(state)
 			break
 		end
 		if data.gameMode == "survival" then
-			drawResultPortrait(charPortr, 320, 80, -xPortScale, yPortScale)
+			--Draw Character Portrait
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+				drawResultPortrait(charPortr, 320, 80, -xPortScale, yPortScale)
+			--Draw Character Sprite Animations
+			elseif data.charPresentation == "Sprite" then
+				for j=#charTable, 1, -1 do
+					f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 206.5, charTable[j].up)
+				end
+			end
 			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultNo)
 			textImgDraw(txt_resultRank)
@@ -8846,7 +8891,15 @@ function f_result(state)
 				animDraw(rankGDLK)
 			end
 		else
-			drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
+			--Draw Character Portrait
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+				drawResultPortrait(charPortr, 0, 80, xPortScale, yPortScale)
+			--Draw Character Sprite Animations
+			elseif data.charPresentation == "Sprite" then
+				for j=#charTable, 1, -1 do
+					f_drawCharAnim(t_selChars[charTable[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 206.5, charTable[j].up)
+				end
+			end
 			animDraw(resultBG) --Draw BG
 			textImgDraw(txt_resultWins)
 			textImgDraw(txt_resultLoses)

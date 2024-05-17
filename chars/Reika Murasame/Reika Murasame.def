@@ -7,15 +7,16 @@ author = "taruse"
 pal.defaults = 1,2,3,4,5,6
 
 [Files]
-cmd     = reika.cmd
-cns     = reika.cns
-st      = reika.cns
-st1     = reika.cns
-st2     = reikaS.cns
+cmd     = wakuwaku/reika.cmd
+cns     = wakuwaku/reika.cns
+st      = wakuwaku/reika.cns
+st1     = wakuwaku/reika.cns
+st2     = wakuwaku/reikaS.cns
 st3     = reikaH.cns
 st4     = reikaH2.cns
-st5     = -2.cns
-stcommon = REIKAcommon.cns
+st5     = wakuwaku/-2.cns
+st6     = wakuwaku/tag_v2.cns
+stcommon = wakuwaku/REIKAcommon.cns
 sprite  = reika.sff
 anim    = reika.air
 sound   = reika.snd
@@ -32,5 +33,4 @@ pal6     =reika6.ACT;
 ;pal11    =reika11.ACT;
 ;pal12    =reika12.ACT;
 
-[Portraits]
 result.portrait.scale = 0.80,0.80
