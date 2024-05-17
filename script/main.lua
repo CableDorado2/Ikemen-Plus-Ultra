@@ -56,6 +56,9 @@ function f_unlocksCheck()
 	if data.arcadeClear == true then --Verify if you comply with this condition and then..
 		t_selStages[t_stageDef["stages/mountainside temple/hidden path.def"]].unlock = 1 --modify the original value in the table to unlock!
 	end
+	if data.reika == true then
+		t_selChars[t_charAdd["reika murasame"]+1].unlock = 1
+	end
 	if data.gouki == true then
 		t_selChars[t_charAdd["shin gouki"]+1].unlock = 1
 	end
@@ -8297,32 +8300,24 @@ function f_comingSoon()
 end
 
 --;===========================================================
---; INTERMISSION (SECRET FIGHT)
+--; INTERMISSION SCREENPACK
 --;===========================================================
-function f_getIntermission()
-t_secretChallenger = {} --If you use a char that can appear in the intermission, this table will guarantee when randomizing it you fight against another
-for i, c in ipairs(t_intermissionChars) do --Read all table items and save each value in c var
-	local intermissionChar = c['path'] --Create variable with name from t_intermissionChars now stored in c var (Since it is in a for, the name will be different in each round)
-	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
-		selectaChar = data.t_p1selected[1]['path'] --Create another variable with the first name from data.t_p1selected (Your Selected Character)
-	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
-		selectaChar = data.t_p2selected[1]['path']
-	end
-	if intermissionChar ~= selectaChar then --Compare both names stored in previous vars and if the names are differents:
-	--Add only different intermission chars from the one you are using in this table
-		table.insert(t_secretChallenger, {['cel'] = t_charAdd[intermissionChar], ['name'] = t_selChars[t_charAdd[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charAdd[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charAdd[intermissionChar]+1].author})
-	end
-end
-if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
-end
-
---Intermission Scrolling background --101,0
+--Intermission Scrolling background
 intermissionBG0 = animNew(sysSff, [[
 101,0, 0,0, -1
 ]])
 animAddPos(intermissionBG0, 160, 0)
 animSetTile(intermissionBG0, 1, 1)
 animSetColorKey(intermissionBG0, -1)
+
+--Intermission Scrolling background 2
+intermissionBG1 = animNew(towerSff, [[
+0,0, 0,0, -1
+]])
+animAddPos(intermissionBG1, 160, 0)
+animSetTile(intermissionBG1, 1, 1)
+animSetColorKey(intermissionBG1, -1)
+animSetAlpha(intermissionBG1, 150, 0)
 
 --Intermission Scrolling background 2
 intermissionBG2 = animNew(sysSff, [[
@@ -8355,6 +8350,26 @@ APPROACHING!
 
 ]]
 
+--;===========================================================
+--; INTERMISSION (SECRET FIGHT)
+--;===========================================================
+function f_getIntermission()
+t_secretChallenger = {} --If you use a char that can appear in the intermission, this table will guarantee when randomizing it you fight against another
+for i, c in ipairs(t_intermissionChars) do --Read all table items and save each value in c var
+	local intermissionChar = c['path'] --Create variable with name from t_intermissionChars now stored in c var (Since it is in a for, the name will be different in each round)
+	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
+		selectaChar = data.t_p1selected[1]['path'] --Create another variable with the first name from data.t_p1selected (Your Selected Character)
+	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
+		selectaChar = data.t_p2selected[1]['path']
+	end
+	if intermissionChar ~= selectaChar then --Compare both names stored in previous vars and if the names are differents:
+	--Add only different intermission chars from the one you are using in this table
+		table.insert(t_secretChallenger, {['cel'] = t_charAdd[intermissionChar], ['name'] = t_selChars[t_charAdd[intermissionChar]+1].name, ['displayname'] = t_selChars[t_charAdd[intermissionChar]+1].displayname, ['path'] = intermissionChar, ['author'] = t_selChars[t_charAdd[intermissionChar]+1].author})
+	end
+end
+if data.debugLog then f_printTable(t_secretChallenger, "save/debug/t_secretChallenger.txt") end
+end
+
 function f_intermission() --Secret Fight Intro
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	playBGM("sound/system/Intermission.mp3")
@@ -8366,22 +8381,15 @@ function f_intermission() --Secret Fight Intro
 	local black = 0 --alphaS
 	local charPortrait = false
 	local charAnim = false
-	secretSel = t_secretChallenger[math.random(#t_secretChallenger)].cel
-	secretChar = t_selChars[secretSel+1]
-	--[[
-	if getPlayerSide() == "p1left" or getPlayerSide() == "p2left" then
-		secretChar = t_selChars[data.t_p2selected[1].cel+1]
-	elseif getPlayerSide() == "p1right" or getPlayerSide() == "p2right" then
-		secretChar = t_selChars[data.t_p1selected[1].cel+1]
-	end
-	]]
+	secretSel = t_secretChallenger[math.random(#t_secretChallenger)].cel --pick a random intermission char
+	secretChar = t_selChars[secretSel+1] --use previous selection to get table position
 	local scaleData = nil
-	if secretChar.PortraitIntermissionScale ~= nil then
-		scaleData = secretChar.PortraitIntermissionScale
+	if secretChar.intermissionSprScale ~= nil then
+		scaleData = secretChar.intermissionSprScale
 	else
 		scaleData = "1.0,1.0"
 	end
-	local xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$') --Remove "" from values ​​store in the table
+	local xPortScale, yPortScale = scaleData:match('^([^,]-)%s*,%s*(.-)$')
 	if secretChar.sffData ~= nil and secretChar.stand ~= nil then
 		charAnim = f_animFromTable(secretChar['stand'], secretChar.sffData, 160, 180, secretChar.xscale, secretChar.yscale, 0, 1, black)
 	end
@@ -8396,6 +8404,7 @@ function f_intermission() --Secret Fight Intro
 		intermissionTime = intermissionTime + 1
 		--Draw BG Assets
 		animDraw(f_animVelocity(intermissionBG0, -1, -1))
+		--animDraw(f_animVelocity(intermissionBG1, -1, -1))
 		animDraw(intermissionBG2)
 		animDraw(f_animVelocity(intermissionWindowSlideU, -1.5, 0))
 		animDraw(f_animVelocity(intermissionWindowSlideD, 1.5, 0))
@@ -8445,7 +8454,7 @@ function f_secretFight()
 		data.p1TeamMenu = {mode = 0, chars = 1} --{mode = p1RestoreTeamMode, chars = p1RestoreCharsNo}
 		data.p2TeamMenu = {mode = 0, chars = 1}
 		data.p1Char = {data.t_p1selected[1].cel} --Get previous Arcade Character Selected --{t_charAdd[t_selChars[data.t_p1selected[1].cel+1].char]}
-		data.p2Char = {secretSel} --pick a random intermission char
+		data.p2Char = {secretSel} --Set intermission rival
 		data.p1Pal = data.t_p1selected[1].pal --Get previous Palette Selected
 		data.p2Pal = 1
 		if P2overP1 then
@@ -8472,7 +8481,7 @@ function f_secretFight()
 	script.select.f_selectSimple()
 	if getPlayerSide() == "p1right" then --Player 1 in Right Side
 		if script.select.winner == 2 then --Save progress only if you win
-			secretTarget = data.t_p1selected
+			secretTarget = data.t_p1selected --store character data to use for unlocking purposes
 			f_secretProgress()
 		end
 	else --Player 1 in Left Side

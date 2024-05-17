@@ -1,17 +1,17 @@
 data.firstRun = false
 data.arcadeClear = true
 data.survivalClear = true
-data.bossrushClear = false
-data.coins = 1500
+data.bossrushClear = true
+data.coins = 2595
 data.attractCoins = 0
 data.continueCount = 0
 data.vault = "Ultra"
-data.playTime = 264760.244935
-data.trainingTime = 109247.916
-data.favoriteChar = "Shin Gouki"
+data.playTime = 320417.302944
+data.trainingTime = 153332.698
+data.favoriteChar = "Kung Fu Man"
 data.favoriteStage = "RANDOM"
-data.victories = 304
-data.defeats = 114
+data.victories = 523
+data.defeats = 177
 --Records Data
 data.timerecord = 0
 data.scorerecord = 0
@@ -19,22 +19,22 @@ data.bossrecord = 4
 data.suddenrecord = 8
 data.endlessrecord = 1
 --Time Played Data
-data.storyTime = 12397.584
-data.arcadeTime = 16668.205
-data.vsTime = 4754.56
-data.survivalTime = 2698.495
-data.bossTime = 920.863
+data.storyTime = 13355.864
+data.arcadeTime = 23052.774
+data.vsTime = 8377.42
+data.survivalTime = 3254.305
+data.bossTime = 1030.359
 data.bonusTime = 2510.012
-data.timeattackTime = 19.535
+data.timeattackTime = 25.476
 data.scoreattackTime = 0
-data.endlessTime = 199.098
-data.suddendeathTime = 1019.463
-data.missionsTime = 290.772
+data.endlessTime = 211.295
+data.suddendeathTime = 1446.093
+data.missionsTime = 333.378
 data.eventsTime = 1026.083
-data.towerTime = 351.278
+data.towerTime = 383.753
 data.tourneyTime = 0
 data.adventureTime = 0
-data.cpumatchTime = 2751.559
+data.cpumatchTime = 3300.827
 --Event Mode Data
 data.eventsProgress = 3
 data.event1Status = 1
@@ -79,4 +79,5 @@ data.story2_2Unlock = true
 --Story Mode - Arc 3 Chapters Unlocks
 data.story3_1Unlock = true
 --Characters Unlock
+data.reika = true
 data.gouki = true

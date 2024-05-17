@@ -636,7 +636,7 @@ for line in content:gmatch('[^\r\n]+') do
 		if not data:match('=%s*$') then
 			t_vnBoxText['storyname'] = data:gsub('^%s*storyname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 		end
-	elseif line:match('^%s*%[%s*Chapter%s+[0-9]+$*%]') then --[Cc][Hh][Aa][Pp][Tt][Ee][Rr]
+	elseif line:match('^%s*%[%s*[Cc][Hh][Aa][Pp][Tt][Ee][Rr]%s+[0-9]+$*%]') then
 		section = 2
 		chapt = #t_vnBoxText+1 --Add chapter to the table
 		t_vnBoxText[chapt] = {} --Create sub-table to store content from this chapter

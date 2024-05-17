@@ -495,7 +495,7 @@ character = Mako Mayama
 side = 2
 sfx = 2,1
 text:
-Don't forget the free classes you promised me!
+Don't forget the free lessons you promised me!
 Otherwise I will kidnap your girlfriend
 and invade your temple!!
 
@@ -515,7 +515,7 @@ fadein = 1
 fadeout = 1
 text:
 Determined to rescue his Girlfriend..
-Kung Fu Man heads to
+Kung Fu Man heads to:
 _
 Mountainside Temple's Hidden Path...
 

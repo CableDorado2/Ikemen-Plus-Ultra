@@ -2077,6 +2077,13 @@ animUpdate(challengerText)
 t_secretCode = {"U","U","D","D","L","R","L","R","B","A","S"}
 t_secretEntry = {}
 
+txt_secretBox = [[
+
+KONAMI CODE DETECTED! 
+REIKA MURASAME IS NOW PLAYABLE!
+
+]]
+
 function f_cmdCodeReset()
 	cmdCode = false
 	cmdReward = false
@@ -2084,6 +2091,7 @@ function f_cmdCodeReset()
 end
 
 function f_cmdCode()
+	local secretTxt = f_extractText(txt_secretBox)
 	--Actions
 	if commandGetState(p1Cmd, 'u') then
 		codeEntry = "U"
@@ -2113,7 +2121,11 @@ function f_cmdCode()
 		newcmdCode = false
 	end
 	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
-	if cmdReward then f_drawQuickText(txt_cmdCode, jgFnt, 0, 0, "KONAMI CODE DETECTED!", 159, 88) end
+	if cmdReward then
+		for i=1, #secretTxt do
+			textImgDraw(f_updateTextImg(textImgNew(), jgFnt, 0, 0, secretTxt[i], 159, 88 + 12 * (i - 1)))
+		end
+	end
 end
 
 --User Entries
@@ -2130,6 +2142,8 @@ function f_secretCode(key)
 	--Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
 		sndPlay(sysSnd, 200, 2)
+		data.reika = true
+		f_saveProgress()
 		cmdReward = true
 	else--If table are not equals
 		cmdReward = false
@@ -2262,6 +2276,7 @@ function f_saveProgress()
 	--Arc 3 - Story Chapters Unlocks
 		['data.story3_1Unlock'] = data.story3_1Unlock,
 	--Characters Unlocks
+		['data.reika'] = data.reika,
 		['data.gouki'] = data.gouki
 	}
 	statsDataLUA = f_strSub(statsDataLUA, t_progress)

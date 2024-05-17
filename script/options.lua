@@ -8358,6 +8358,7 @@ function f_defaultStats()
 --Story Mode - Arc 3 Chapters Unlocks
 	data.story3_1Unlock = false
 --Characters Unlock
+	data.reika = false
 	data.gouki = false
 --;----------------------------------------------
 	data.erase = true
