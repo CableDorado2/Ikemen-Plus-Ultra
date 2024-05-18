@@ -71,7 +71,7 @@ tempFile:close()
 --SFF (Sprites)
 fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
 sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
---glyphsSff = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
+glyphsSff = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
 contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
@@ -422,14 +422,6 @@ function setCommand(c)
 	commandAdd(c, 'd', '$D')
 	commandAdd(c, 'l', '$B')
 	commandAdd(c, 'r', '$F')
-	commandAdd(c, 'holdu', '/U') --bufu
-	commandAdd(c, 'holdd', '/D') --bufd
-	commandAdd(c, 'holdl', '/B') --bufl
-	commandAdd(c, 'holdr', '/F') --bufr
-	commandAdd(c, 'relu', '~U')
-	commandAdd(c, 'reld', '~D')
-	commandAdd(c, 'rell', '~B')
-	commandAdd(c, 'relr', '~F')	
 	commandAdd(c, 'a', 'a')
 	commandAdd(c, 'b', 'b')
 	commandAdd(c, 'c', 'c')
@@ -440,10 +432,34 @@ function setCommand(c)
 	commandAdd(c, 'w', 'w') --RT/CONFIRM
 	commandAdd(c, 'e', 'e') --SELECT/RETURN
 	commandAdd(c, 's', 's') --START/PAUSE
-	commandAdd(c, 'holdq', '/q')
-	commandAdd(c, 'holdw', '/w')
-	commandAdd(c, 'holde', '/e')
-	commandAdd(c, 'holds', '/s')
+	commandAdd(c, 'holdu', '/U') --bufu
+	commandAdd(c, 'holdd', '/D') --bufd
+	commandAdd(c, 'holdl', '/B') --bufl
+	commandAdd(c, 'holdr', '/F') --bufr
+	commandAdd(c, 'holda', '/a') --bufa
+	commandAdd(c, 'holdb', '/b') --bufb
+	commandAdd(c, 'holdc', '/c') --bufc
+	commandAdd(c, 'holdx', '/x') --bufx
+	commandAdd(c, 'holdy', '/y') --bufy
+	commandAdd(c, 'holdz', '/z') --bufz
+	commandAdd(c, 'holdq', '/q') --bufq
+	commandAdd(c, 'holdw', '/w') --bufw
+	commandAdd(c, 'holde', '/e') --bufe
+	commandAdd(c, 'holds', '/s') --bufs
+	commandAdd(c, 'relu', '~U')
+	commandAdd(c, 'reld', '~D')
+	commandAdd(c, 'rell', '~B')
+	commandAdd(c, 'relr', '~F')
+	commandAdd(c, 'rela', '~a')
+	commandAdd(c, 'relb', '~b')
+	commandAdd(c, 'relc', '~c')
+	commandAdd(c, 'relx', '~x')
+	commandAdd(c, 'rely', '~y')
+	commandAdd(c, 'relz', '~z')
+	commandAdd(c, 'relq', '~q')
+	commandAdd(c, 'relw', '~w')
+	commandAdd(c, 'rele', '~e')
+	commandAdd(c, 'rels', '~s')
 	commandAdd(c, 'su', '/s, U')
 	commandAdd(c, 'sd', '/s, D')
 end
@@ -690,6 +706,19 @@ function f_drawQuickSpr(data, x, y, scaleX, scaleY, alphaS, alphaD)
 		animSetScale(data, scaleX, scaleY)
 		animSetAlpha(data, alphaS, alphaD)
 		animSetPos(data, x, y)
+		animUpdate(data)
+		animDraw(data)
+		return true
+	end
+	return false
+end
+
+--shortcut for draw sprites with trans values quickly
+function f_quickAlpha(data, alphaS, alphaD)
+	if data ~= nil then
+		alphaS = alphaS or 255
+		alphaD = alphaD or 0
+		animSetAlpha(data, alphaS, alphaD)
 		animUpdate(data)
 		animDraw(data)
 		return true
@@ -1274,6 +1303,8 @@ t_glyphs = {
 	['^X'] = {24, 0}, --X
 	['^Y'] = {25, 0}, --Y
 	['^Z'] = {26, 0}, --Z
+	['^L'] = {27, 0}, --L
+	['^R'] = {28, 0}, --R
 	['_+'] = {39, 0}, --+ (press at the same time as previous button)
 	['_.'] = {40, 0}, --...
 	['_DB'] = {41, 0}, --Down-Back
@@ -2079,7 +2110,7 @@ t_secretEntry = {}
 
 txt_secretBox = [[
 
-KONAMI CODE DETECTED! 
+KONAMI CODE DETECTED!
 REIKA MURASAME IS NOW PLAYABLE!
 
 ]]
@@ -2123,7 +2154,7 @@ function f_cmdCode()
 	--f_drawQuickText(txtCmd, font6, 0, 0, codeEntry, 159, 120)
 	if cmdReward then
 		for i=1, #secretTxt do
-			textImgDraw(f_updateTextImg(textImgNew(), jgFnt, 0, 0, secretTxt[i], 159, 88 + 12 * (i - 1)))
+			textImgDraw(f_updateTextImg(textImgNew(), jgFnt, 0, 0, secretTxt[i], 159, 110 + 15 * (i - 1)))
 		end
 	end
 end
