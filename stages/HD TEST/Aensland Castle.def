@@ -62,7 +62,7 @@ intensity = 0
 
 ;--------------------------------------------------------
 [Music]
-bgmusic = sound/Aensland Castle.mp3
+bgmusic = Aensland Castle.mp3
 bgmvolume = 100
 
 ;========================================================

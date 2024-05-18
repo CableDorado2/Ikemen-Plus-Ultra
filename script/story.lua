@@ -370,7 +370,7 @@ function f_storyMenu()
 			if data.story1_3AUnlock == true then t_arc1[4].Name = "THE ROOF OF TRUTH" end
 			if data.story1_3BUnlock == true then t_arc1[5].Name = "BROKEN SPIRIT" end
 			if data.story1_4AUnlock == true then t_arc1[6].Name = "FINAL DESTINATION" end
-			if data.story1_4BUnlock == true then t_arc1[7].Name = "LIFE LESSON" end
+			if data.story1_4BUnlock == true then t_arc1[7].Name = "FAKE WORLD" end
 			if data.story1_4CUnlock == true then t_arc1[8].Name = "ZERO HOUR" end
 			if data.story1_4DUnlock == true then t_arc1[9].Name = "THE FALL OF A LEGEND" end
 	--Arc 2 Menu Settings
@@ -845,7 +845,7 @@ function f_arc1_chapter3_2()
 		data.versusScreen = false
 		data.victoryscreen = false
 		data.stage = {t_stageDef["stages/mountainside temple/roof night.def"]}
-		data.bgm = "sound/Suave's Corridor.mp3"
+		data.bgm = "sound/Death Corridor.mp3"
 		data.rosterMode = "story"
 		data.storyNo = "1-3B"
 		setGameMode('story')
@@ -897,7 +897,7 @@ function f_arc1_chapter4_1()
 	end
 end
 
---LIFE LESSON
+--FAKE WORLD
 function f_arc1_chapter4_2()
 	script.visualnovel.f_vnScene(kfmVN,6,kfmVNtxtStart)
 	if not data.VNbreak then

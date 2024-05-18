@@ -967,7 +967,7 @@ fadeout = 1
 ;---------------------------------------------------------------------------------
 [Chapter 6]
 id = 4-B
-name = LIFE LESSON
+name = FAKE WORLD
 author = CD2
 date = 05/19/2024
 snd = data/visualnovel/arc1.snd

@@ -63,7 +63,7 @@ yscale 		= .17
 intensity 	= 180
 
 [Music]
-bgmusic 	= sound/Fairy Day.mp3
+bgmusic 	= Fairy Day.mp3
 bgmvolume 	= 100
 
 [BGdef]

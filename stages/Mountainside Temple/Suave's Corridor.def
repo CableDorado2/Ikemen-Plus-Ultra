@@ -55,7 +55,7 @@ fade.range = -400,-100
 
 ;--------------------------------------------------------
 [Music]
-bgmusic = sound/Suave's Corridor.mp3
+bgmusic = sound/Death Corridor.mp3
 bgvolume = 100
 bgloop = 1
 

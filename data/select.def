@@ -241,7 +241,7 @@ stages/Mountainside Temple/Hidden Path Night.def, unlock=0
 ;stages/Mountainside Temple/Stairs - 2nd Floor.def
 ;stages/Mountainside Temple/Stairs - 3rd Floor.def
 stages/Mountainside Temple/Outside.def, unlock=0, unlock=0
-stages/Mountainside Temple/Lobby.def, music=sound/Temple.mp3
+stages/Mountainside Temple/Lobby.def
 stages/Mountainside Temple/Lobby Night.def
 stages/Mountainside Temple/Lobby 2 Night.def, unlock=0
 stages/Mountainside Temple/Dark Corridor.def, unlock=0
