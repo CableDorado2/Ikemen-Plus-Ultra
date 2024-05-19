@@ -5,7 +5,7 @@ data.ftcontrol = -1
 --Music Data
 data.menuSong = "Random"
 data.menuSongFolder = 3
-data.selectSong = "sound/system/select/Select.mp3"
+data.selectSong = "sound/system/select/Select 1.mp3"
 data.selectSongFolder = 2
 data.challengerSong = "Random"
 data.challengerSongFolder = 4
@@ -54,7 +54,7 @@ data.stageInfo = "All"
 data.randomStagePortrait = "Simple"
 data.randomStageRematch = "Variable"
 --Timers Data
-data.selectTime = 31
+data.selectTime = -1
 data.stageTime = 21
 data.orderTime = 16
 data.rematchTime = 16
@@ -71,3 +71,4 @@ data.disablePadP2 = false
 --Engine Data
 data.debugMode = true
 data.debugLog = true
+data.engineMode = "FG"

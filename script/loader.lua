@@ -728,176 +728,178 @@ t_intermissionChars = {}
 --;===========================================================
 --; LOADING SCREEN 2
 --;===========================================================
+if t_selChars ~= nil then
 --for each character loaded
-for i=1, #t_selChars do
-	if t_selChars[i].stage ~= nil then
-		for j=1, #t_selChars[i].stage do
-			if t_stageDef[t_selChars[i].stage[j]] == nil then
-				local file = io.open(t_selChars[i].stage[j],'r')
-				if file == nil then
-					break
-				end
-			--Data loaded from select.def character section
-				row = #t_selStages+1
-				t_selStages[row] = {}
-				local tmp = file:read("*all")
-				file:close()
-				local zoomout = tmp:match('\n%s*zoomout%s*=%s*([0-9%.]+)')
-				if zoomout ~= nil then
-					t_selStages[row]['zoommin'] = tonumber(zoomout)
-				end
-				local zoomin = tmp:match('\n%s*zoomin%s*=%s*([0-9%.]+)')
-				if zoomin ~= nil then
-					t_selStages[row]['zoommax'] = tonumber(zoomin)
-				end
-				local bgmusic = tmp:match('\n%s*bgmusic%s*=%s*([^;\n]+)%s*;?.*\n')
-				if bgmusic ~= nil then
-					bgmusic = bgmusic:gsub('^%s*(.-)%s*$', '%1')
-					bgmusic = bgmusic:gsub('\\', '/')
-					if bgmusic ~= '' then
-						t_selStages[row]['music'] = {}
-						t_selStages[row].music[1] = {}
-						t_selStages[row].music[1]['bgmusic'] = bgmusic
-						local bgmvolume = tmp:match('\n%s*bgmvolume%s*=%s*([0-9]+)')
-						if bgmvolume ~= nil and bgmvolume ~= '' then
-							t_selStages[row].music[1]['bgmvolume'] = tonumber(bgmvolume)
-						else
-							t_selStages[row].music[1]['bgmvolume'] = 100
+	for i=1, #t_selChars do
+		if t_selChars[i].stage ~= nil then
+			for j=1, #t_selChars[i].stage do
+				if t_stageDef[t_selChars[i].stage[j]] == nil and t_selStages ~= nil then
+					local file = io.open(t_selChars[i].stage[j],'r')
+					if file == nil then
+						break
+					end
+				--Data loaded from select.def character section
+					row = #t_selStages+1
+					t_selStages[row] = {}
+					local tmp = file:read("*all")
+					file:close()
+					local zoomout = tmp:match('\n%s*zoomout%s*=%s*([0-9%.]+)')
+					if zoomout ~= nil then
+						t_selStages[row]['zoommin'] = tonumber(zoomout)
+					end
+					local zoomin = tmp:match('\n%s*zoomin%s*=%s*([0-9%.]+)')
+					if zoomin ~= nil then
+						t_selStages[row]['zoommax'] = tonumber(zoomin)
+					end
+					local bgmusic = tmp:match('\n%s*bgmusic%s*=%s*([^;\n]+)%s*;?.*\n')
+					if bgmusic ~= nil then
+						bgmusic = bgmusic:gsub('^%s*(.-)%s*$', '%1')
+						bgmusic = bgmusic:gsub('\\', '/')
+						if bgmusic ~= '' then
+							t_selStages[row]['music'] = {}
+							t_selStages[row].music[1] = {}
+							t_selStages[row].music[1]['bgmusic'] = bgmusic
+							local bgmvolume = tmp:match('\n%s*bgmvolume%s*=%s*([0-9]+)')
+							if bgmvolume ~= nil and bgmvolume ~= '' then
+								t_selStages[row].music[1]['bgmvolume'] = tonumber(bgmvolume)
+							else
+								t_selStages[row].music[1]['bgmvolume'] = 100
+							end
 						end
 					end
-				end
-				addStage(t_selChars[i].stage[j])
-				if t_selChars[i].includestage == nil or t_selChars[i].includestage == 1 then
-					data.includestage = data.includestage + 1
-				end
-				local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*AUTHOR%s*=%s*([^;\n]+)%s*;?.*\n')
-				if author ~= nil then
-					author = author:gsub('^["%s]*(.-)["%s]*$', '%1')
-					if author ~= '' then
-						t_selStages[row]['author'] = author
+					addStage(t_selChars[i].stage[j])
+					if t_selChars[i].includestage == nil or t_selChars[i].includestage == 1 then
+						data.includestage = data.includestage + 1
 					end
-				--else --Writte Blank author to avoid issues
-					--author = ''
-					--t_selStages[row]['author'] = author
-				end
-				local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*LOCATION%s*=%s*([^;\n]+)%s*;?.*\n')
-				if location ~= nil then
-					location = location:gsub('^["%s]*(.-)["%s]*$', '%1')
-					if location ~= '' then
-						t_selStages[row]['location'] = location
+					local author = tmp:match('\n%s*author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Author%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*AUTHOR%s*=%s*([^;\n]+)%s*;?.*\n')
+					if author ~= nil then
+						author = author:gsub('^["%s]*(.-)["%s]*$', '%1')
+						if author ~= '' then
+							t_selStages[row]['author'] = author
+						end
+					--else --Writte Blank author to avoid issues
+						--author = ''
+						--t_selStages[row]['author'] = author
 					end
-				--else --Writte Blank location to avoid issues
-					--location = ''
-					--t_selStages[row]['location'] = location
-				end
-				local daytime = tmp:match('\n%s*daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*dayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DAYTIME%s*=%s*([^;\n]+)%s*;?.*\n')
-				if daytime ~= nil then
-					daytime = daytime:gsub('^["%s]*(.-)["%s]*$', '%1')
-					if daytime ~= '' then
-						t_selStages[row]['daytime'] = daytime
+					local location = tmp:match('\n%s*location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Location%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*LOCATION%s*=%s*([^;\n]+)%s*;?.*\n')
+					if location ~= nil then
+						location = location:gsub('^["%s]*(.-)["%s]*$', '%1')
+						if location ~= '' then
+							t_selStages[row]['location'] = location
+						end
+					--else --Writte Blank location to avoid issues
+						--location = ''
+						--t_selStages[row]['location'] = location
 					end
-				--else --Writte Blank daytime to avoid issues
-					--daytime = ''
-					--t_selStages[row]['daytime'] = daytime
-				end
-				local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
-				if unlockcondition ~= nil then
-					unlockcondition = unlockcondition:gsub('^["%s]*(.-)["%s]*$', '%1')
-					if unlockcondition ~= '' then
-						t_selStages[row]['unlockcondition'] = unlockcondition
+					local daytime = tmp:match('\n%s*daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Daytime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*dayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DayTime%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DAYTIME%s*=%s*([^;\n]+)%s*;?.*\n')
+					if daytime ~= nil then
+						daytime = daytime:gsub('^["%s]*(.-)["%s]*$', '%1')
+						if daytime ~= '' then
+							t_selStages[row]['daytime'] = daytime
+						end
+					--else --Writte Blank daytime to avoid issues
+						--daytime = ''
+						--t_selStages[row]['daytime'] = daytime
 					end
-				--else --Writte Blank unlockcondition to avoid issues
-					--unlockcondition = ''
-					--t_selStages[row]['unlockcondition'] = unlockcondition
-				end
-				--[[
-				local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
-				if name ~= nil then
-					name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
-					if name ~= '' then
+					local unlockcondition = tmp:match('\n%s*unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Unlockcondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*unlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UnlockCondition%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*UNLOCKCONDITION%s*=%s*([^;\n]+)%s*;?.*\n')
+					if unlockcondition ~= nil then
+						unlockcondition = unlockcondition:gsub('^["%s]*(.-)["%s]*$', '%1')
+						if unlockcondition ~= '' then
+							t_selStages[row]['unlockcondition'] = unlockcondition
+						end
+					--else --Writte Blank unlockcondition to avoid issues
+						--unlockcondition = ''
+						--t_selStages[row]['unlockcondition'] = unlockcondition
+					end
+					--[[
+					local name = tmp:match('\n%s*displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*Displayname%s*=%s*([^;\n]+)%s*;?.*\n') or tmp:match('\n%s*DISPLAYNAME%s*=%s*([^;\n]+)%s*;?.*\n')
+					if name ~= nil then
+						name = name:gsub('^["%s]*(.-)["%s]*$', '%1')
+						if name ~= '' then
+							t_selStages[row]['name'] = name
+						end
+					else --Writte Blank name to avoid issues
+						name = ''
 						t_selStages[row]['name'] = name
 					end
-				else --Writte Blank name to avoid issues
-					name = ''
-					t_selStages[row]['name'] = name
+					]]
+					t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
+					t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
+					t_stageDef[t_selChars[i].stage[j]] = #t_selStages --add hidden (not includestage) for use in custom fights (story mode for example)
+					t_selChars[i].stage[j] = #t_selStages --convert to number a not includestage
+				else
+					t_selChars[i].stage[j] = t_stageDef[t_selChars[i].stage[j]]
 				end
-				]]
-				t_selStages[#t_selStages]['name'] = getStageName(#t_selStages):gsub('^["%s]*(.-)["%s]*$', '%1')
-				t_selStages[#t_selStages]['stage'] = t_selChars[i].stage[j]
-				t_stageDef[t_selChars[i].stage[j]] = #t_selStages --add hidden (not includestage) for use in custom fights (story mode for example)
-				t_selChars[i].stage[j] = #t_selStages --convert to number a not includestage
+			end
+		end
+		--if character's name has been stored
+		if t_selChars[i].displayname ~= nil then
+			local charCel = i - 1
+			--generate table for fixed training character
+			if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
+				t_trainingChar[#t_trainingChar+1] = charCel
+			end
+			--detects stage viewer character
+			if t_selChars[i].name == "stage viewer" then
+				data.stageviewer = true
+			end
+			--generate table for boss rush mode
+			if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
+				t_bossChars[#t_bossChars+1] = charCel
+			end
+			--generate table for bonus games mode
+			if t_selChars[i].bonus ~= nil and t_selChars[i].bonus == 1 then
+				t_bonusChars[#t_bonusChars+1] = charCel
+			end
+			--generate table with characters allowed to be random selected
+			if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
+				t_randomChars[#t_randomChars+1] = charCel
+			end
+			--generate table for intermissions
+			if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
+				t_intermissionChars[#t_intermissionChars+1] = {['cel'] = charCel, ['name'] = t_selChars[i].name, ['displayname'] = t_selChars[i].displayname, ['author'] = t_selChars[i].author, ['path'] = t_selChars[i].char}
+			end
+			--create variable with character's name, whitespace replaced with underscore
+			displayname = t_selChars[i].name:gsub('%s+', '_')
+			--if data/charAnim/displayname.def doesn't exist
+			if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
+				--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
+				batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
+				--store character's reference that needs conversion into table to save time later on
+				t_gen[#t_gen+1] = i
+				--enable sprite generation later on
+				generate = true
+			--otherwise load SFF file
 			else
-				t_selChars[i].stage[j] = t_stageDef[t_selChars[i].stage[j]]
+				t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
+				--t_selChars[i]['intermissionData'] = sffAnim(t_selChars[i].sff)
+				if t_selChars[i].stand ~= nil then
+					t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+					t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+				end
+				if t_selChars[i].win ~= nil then
+					t_selChars[i]['p1AnimWin'] = f_animFromTable(t_selChars[i].win, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+					t_selChars[i]['p2AnimWin'] = f_animFromTable(t_selChars[i].win, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+				end
+				if t_selChars[i].cheese ~= nil then
+					t_selChars[i]['p1AnimCheese'] = f_animFromTable(t_selChars[i].cheese, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+					t_selChars[i]['p2AnimCheese'] = f_animFromTable(t_selChars[i].cheese, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+				end
+				if t_selChars[i].lieDown ~= nil then
+					t_selChars[i]['p1AnimLieDown'] = f_animFromTable(t_selChars[i].lieDown, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+					t_selChars[i]['p2AnimLieDown'] = f_animFromTable(t_selChars[i].lieDown, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+				end
+				if t_selChars[i].dizzy ~= nil then
+					t_selChars[i]['p1AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+					t_selChars[i]['p2AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+				end
+				if t_selChars[i].intermissionSpr ~= nil then
+					t_selChars[i]['p1IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
+					t_selChars[i]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
+				end
+				textImgDraw(txt_loading)
+				refresh()
 			end
-		end
-	end
-	--if character's name has been stored
-	if t_selChars[i].displayname ~= nil then
-		local charCel = i - 1
-		--generate table for fixed training character
-		if t_selChars[i].training ~= nil and t_selChars[i].training == 1 then
-			t_trainingChar[#t_trainingChar+1] = charCel
-		end
-		--detects stage viewer character
-		if t_selChars[i].name == "stage viewer" then
-			data.stageviewer = true
-		end
-		--generate table for boss rush mode
-		if t_selChars[i].boss ~= nil and t_selChars[i].boss == 1 then
-			t_bossChars[#t_bossChars+1] = charCel
-		end
-		--generate table for bonus games mode
-		if t_selChars[i].bonus ~= nil and t_selChars[i].bonus == 1 then
-			t_bonusChars[#t_bonusChars+1] = charCel
-		end
-		--generate table with characters allowed to be random selected
-		if t_selChars[i].exclude == nil or t_selChars[i].exclude == 0 then
-			t_randomChars[#t_randomChars+1] = charCel
-		end
-		--generate table for intermissions
-		if t_selChars[i].intermission ~= nil and t_selChars[i].intermission == 1 then
-			t_intermissionChars[#t_intermissionChars+1] = {['cel'] = charCel, ['name'] = t_selChars[i].name, ['displayname'] = t_selChars[i].displayname, ['author'] = t_selChars[i].author, ['path'] = t_selChars[i].char}
-		end
-		--create variable with character's name, whitespace replaced with underscore
-		displayname = t_selChars[i].name:gsub('%s+', '_')
-		--if data/charAnim/displayname.def doesn't exist
-		if io.open('data/charAnim/' .. displayname .. '.def','r') == nil then
-			--create a batch variable used to create 'data/charTrash/charName' folder and to extract all character's sprites there
-			batch = batch .. '\n' .. 'mkdir "data\\charTrash\\' .. displayname .. '"' .. '\n' .. 'tools\\sff2png.exe "' .. t_selChars[i].sff:gsub('/+', '\\') .. '" "data\\charTrash\\' .. displayname .. '\\s"'
-			--store character's reference that needs conversion into table to save time later on
-			t_gen[#t_gen+1] = i
-			--enable sprite generation later on
-			generate = true
-		--otherwise load SFF file
-		else
-			t_selChars[i]['sffData'] = sffNew('data/charAnim/' .. displayname .. '.sff')
-			--t_selChars[i]['intermissionData'] = sffAnim(t_selChars[i].sff)
-			if t_selChars[i].stand ~= nil then
-				t_selChars[i]['p1AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
-				t_selChars[i]['p2AnimStand'] = f_animFromTable(t_selChars[i].stand, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
-			end
-			if t_selChars[i].win ~= nil then
-				t_selChars[i]['p1AnimWin'] = f_animFromTable(t_selChars[i].win, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
-				t_selChars[i]['p2AnimWin'] = f_animFromTable(t_selChars[i].win, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
-			end
-			if t_selChars[i].cheese ~= nil then
-				t_selChars[i]['p1AnimCheese'] = f_animFromTable(t_selChars[i].cheese, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
-				t_selChars[i]['p2AnimCheese'] = f_animFromTable(t_selChars[i].cheese, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
-			end
-			if t_selChars[i].lieDown ~= nil then
-				t_selChars[i]['p1AnimLieDown'] = f_animFromTable(t_selChars[i].lieDown, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
-				t_selChars[i]['p2AnimLieDown'] = f_animFromTable(t_selChars[i].lieDown, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
-			end
-			if t_selChars[i].dizzy ~= nil then
-				t_selChars[i]['p1AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
-				t_selChars[i]['p2AnimDizzy'] = f_animFromTable(t_selChars[i].dizzy, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
-			end
-			if t_selChars[i].intermissionSpr ~= nil then
-				t_selChars[i]['p1IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
-				t_selChars[i]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
-			end
-			textImgDraw(txt_loading)
-			refresh()
 		end
 	end
 end

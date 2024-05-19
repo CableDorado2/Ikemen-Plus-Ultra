@@ -4,6 +4,7 @@
 --; VISUAL NOVEL PAUSE/OPTIONS MENU
 --;===========================================================
 txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
+txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED", 160, 125)
 
 --Pause background
 vnPauseBG = animNew(vnSff, [[100,1, 0,0, -1]])
@@ -16,9 +17,9 @@ t_vnPauseMenu = {
 	{varID = textImgNew(), text = "Sound Settings", 		 varText = ""},
 	--{varID = textImgNew(), text = "Control Guide", 		 	 varText = ""},
 	{varID = textImgNew(), text = "Restore Settings", 		 varText = ""},
-	--{varID = textImgNew(), text = "Save Progress",			 varText = ""},
+	{varID = textImgNew(), text = "Save Progress",			 varText = ""},
 	{varID = textImgNew(), text = "Skip All Dialogues",		 varText = ""},
-	{varID = textImgNew(), text = "Back to Story Select",	 varText = ""},
+	{varID = textImgNew(), text = "Back to Main Menu",		 varText = ""},
 	{varID = textImgNew(), text = "            Resume", 	 varText = ""},
 }
 
@@ -54,11 +55,13 @@ function f_vnPauseMenu()
 				vnPauseMenu = vnPauseMenu - 1
 				if buflVNP then buflVNP = 0 end
 				if bufrVNP then bufrVNP = 0 end
+				VNsaveData = false
 			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufdVNP >= 30) then
 				sndPlay(sysSnd, 100, 0)
 				vnPauseMenu = vnPauseMenu + 1
 				if buflVNP then buflVNP = 0 end
 				if bufrVNP then bufrVNP = 0 end
+				VNsaveData = false
 			end
 			if vnPauseMenu < 1 then
 				vnPauseMenu = #t_vnPauseMenu
@@ -107,11 +110,15 @@ function f_vnPauseMenu()
 				elseif vnPauseMenu == 6 then
 					questionScreenVN = true
 					defaultVN = true
-				--Skip Scene
+				--Save Progress
 				elseif vnPauseMenu == 7 then
+					f_vnProgress()
+					VNsaveData = true
+				--Skip Scene
+				elseif vnPauseMenu == 8 then
 					VNtxtEnd = true
 				--Back to Main Menu
-				elseif vnPauseMenu == 8 then
+				elseif vnPauseMenu == 9 then
 					questionScreenVN = true
 					exitVN = true
 				--Resume
@@ -199,6 +206,7 @@ function f_vnPauseMenu()
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
 		if questionScreenVN == true then f_questionMenuVN() end
+		if VNsaveData then textImgDraw(txt_vnPSaved) end
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
 			bufdVNP = 0
 			bufuVNP = bufuVNP + 1
@@ -225,6 +233,7 @@ function f_vnPauseMenu()
 end
 
 function f_vnPauseMenuReset()
+	VNsaveData = false
 	hasChangedVN = false
 	vnPauseMenuBack = false
 	vnPauseScreen = false
@@ -782,7 +791,7 @@ if data.debugLog then f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.txt") en
 end
 
 --;===========================================================
---; VISUAL NOVEL MENU
+--; VISUAL NOVEL SELECT MENU
 --;===========================================================
 txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
 vnAddOneTime = true
@@ -792,8 +801,6 @@ function f_vnMenu()
 		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
 		vnAddOneTime = false
 	end
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-	cmdInput()
 	local cursorPosY = 1
 	local moveTxt = 0
 	local vnMenu = 1
@@ -801,6 +808,8 @@ function f_vnMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	cmdInput()
 	while true do
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
@@ -1036,6 +1045,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	--Actions when visual novel chapters are loaded
 	f_resetFullVN()
 	f_fadeData()
+	vnArc = arcPath
 	vnChapter = chaptNo --What chapter number does it start in?
 	VNtxt = dialogueNo --What dialogue number does it start in?
 	if data.songSelect then playBGM("") end --Keep Fight BGM (WIP)
@@ -1191,6 +1201,14 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	end
 end
 
+function f_vnProgress()
+data.VNarc = vnArc
+data.VNchapter = vnChapter
+data.VNdialogue = VNtxt
+f_saveVN()
+assert(loadfile("save/vn_sav.lua"))()
+end
+
 --;===========================================================
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
@@ -1199,6 +1217,30 @@ function f_drawVNEnding()
 	elseif t_vnBoxText[vnChapter][VNtxt].ending == 2 then animDraw(vnEnd2) --Ending
 	elseif t_vnBoxText[vnChapter][VNtxt].ending == 3 then animDraw(vnEnd3) --Try Again
 	end
+end
+
+--;===========================================================
+--; VISUAL NOVEL MAIN GAME LOGIC
+--;===========================================================
+function f_vnMain()
+	local vnFile = "data/visualnovel/arc1.def"
+	local VNtxtStart = 1
+	script.visualnovel.f_vnScene(vnFile,1,VNtxtStart)
+	if data.VNbreak then f_VNback() return end
+	script.visualnovel.f_vnScene(vnFile,1,16)
+	if data.VNbreak then f_VNback() return end
+	script.visualnovel.f_vnScene(vnFile,2,VNtxtStart)
+	if data.VNbreak then f_VNback() return end
+	script.visualnovel.f_vnScene(vnFile,3,VNtxtStart)
+	if data.VNbreak then f_VNback() return end
+	script.visualnovel.f_vnScene(vnFile,4,VNtxtStart)
+end
+
+function f_VNback()
+	data.VNbreak = false --Reset visual novel back to main menu
+	--f_saveTemp()
+	f_menuMusic()
+	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
 end
 
 --;===========================================================

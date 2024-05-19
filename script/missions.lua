@@ -144,6 +144,7 @@ function f_missionMenu()
 		--MISSION 2
 			elseif missionMenu == 2 then
 				setRoundTime(-1)
+				setRoundsToWin(1)
 				data.p1TeamMenu = {mode = 0, chars = 1}
 				data.p1Char = {t_charAdd["kung fu man/master/master kung fu man.def"]}
 				data.p1Pal = 1

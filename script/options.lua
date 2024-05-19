@@ -456,7 +456,8 @@ function f_saveCfg()
 		['data.disablePadP2'] = data.disablePadP2,
 	--Engine Data
 		['data.debugMode'] = data.debugMode,
-		['data.debugLog'] = data.debugLog
+		['data.debugLog'] = data.debugLog,
+		['data.engineMode'] = data.engineMode
 	}
 --Save Data to data_sav.lua
 	s_dataLUA = f_strSub(s_dataLUA, t_saves)
@@ -800,6 +801,7 @@ function f_engineDefault()
 	s_debugMode = "Disabled"
 	data.debugLog = false
 	s_debugLog = "Disabled"
+	--data.engineMode = "FG"
 	HelperMaxEngine = 56
 	PlayerProjectileMaxEngine = 50
 	ExplodMaxEngine = 256
@@ -1440,7 +1442,7 @@ function f_defaultReset()
 end
 
 --;===========================================================
---; OPTIONS MENU
+--; SETTINGS MENU
 --;===========================================================
 txt_mainCfg = createTextImg(jgFnt, 0, 0, "OPTIONS", 159, 13)
 txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
@@ -4493,6 +4495,7 @@ txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 t_engineCfg = {
 	{varID = textImgNew(), text = "Debug Mode",  	      	varText = s_debugMode},
 	{varID = textImgNew(), text = "Save Debug Logs",        varText = s_debugLog},
+	{varID = textImgNew(), text = "Engine Mode",        	varText = data.engineMode},
 	{varID = textImgNew(), text = "HelperMax",              varText = HelperMaxEngine},
 	{varID = textImgNew(), text = "PlayerProjectileMax",	varText = PlayerProjectileMaxEngine},
 	{varID = textImgNew(), text = "ExplodMax",              varText = ExplodMaxEngine},
@@ -4563,8 +4566,24 @@ function f_engineCfg()
 						modified = 1
 					end
 				end
+			--Engine Mode
+			elseif engineCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then	
+					sndPlay(sysSnd, 100, 0)
+					if data.engineMode == "VN" then
+						data.engineMode = "FG"
+						modified = 1
+						needReload = 1
+					elseif data.engineMode == "FG" then
+						data.engineMode = "VN"
+						modified = 1
+						needReload = 1
+					end
+				end
 			--HelperMax
-			elseif engineCfg == 3 then
+			elseif engineCfg == 4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if HelperMaxEngine < 1000 then --You can increase this limit
 						HelperMaxEngine = HelperMaxEngine + 1
@@ -4593,7 +4612,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--PlayerProjectileMax
-			elseif engineCfg == 4 then
+			elseif engineCfg == 5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
 						PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
@@ -4622,7 +4641,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--ExplodMax
-			elseif engineCfg == 5 then
+			elseif engineCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if ExplodMaxEngine < 1000 then --You can increase this limit
 						ExplodMaxEngine = ExplodMaxEngine + 1
@@ -4651,7 +4670,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--AfterImageMax
-			elseif engineCfg == 6 then
+			elseif engineCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if AfterImageMaxEngine < 1000 then --You can increase this limit
 						AfterImageMaxEngine = AfterImageMaxEngine + 1
@@ -4680,7 +4699,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--Erase/Reset Statistics
-			elseif engineCfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
+			elseif engineCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
@@ -4692,12 +4711,12 @@ function f_engineCfg()
 					end
 				end
 			--Default Values
-			elseif engineCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
 			--BACK
-			elseif engineCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
 				break
 			end
@@ -4751,10 +4770,11 @@ function f_engineCfg()
 		end
 		t_engineCfg[1].varText = s_debugMode
 		t_engineCfg[2].varText = s_debugLog
-		t_engineCfg[3].varText = HelperMaxEngine
-		t_engineCfg[4].varText = PlayerProjectileMaxEngine
-		t_engineCfg[5].varText = ExplodMaxEngine
-		t_engineCfg[6].varText = AfterImageMaxEngine
+		if data.engineMode == "FG" then t_engineCfg[3].varText = "Fighting Game" elseif data.engineMode == "VN" then t_engineCfg[3].varText = "Visual Novel Game" end
+		t_engineCfg[4].varText = HelperMaxEngine
+		t_engineCfg[5].varText = PlayerProjectileMaxEngine
+		t_engineCfg[6].varText = ExplodMaxEngine
+		t_engineCfg[7].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
 				if t_engineCfg[i].varID ~= nil then

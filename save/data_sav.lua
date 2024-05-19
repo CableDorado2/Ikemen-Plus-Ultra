@@ -17,12 +17,12 @@ data.attractMode = false
 data.sideSelect = "Classic"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Portrait"
-data.sffConversion = false
+data.charPresentation = "Mixed"
+data.sffConversion = true
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
-data.roundsNum = 2
+data.roundsNum = 1
 data.lifebar = "data/screenpack/fight.def"
 data.lifeMul = 100
 data.aipal = "Default"
@@ -71,3 +71,4 @@ data.disablePadP2 = false
 --Engine Data
 data.debugMode = true
 data.debugLog = true
+data.engineMode = "FG"

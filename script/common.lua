@@ -2212,11 +2212,16 @@ end
 --Data saving to vn_sav.lua
 function f_saveVN()
 	local t_vn = {
+		--Dialogue Settings
 		['data.VNdelay'] = data.VNdelay,
 		['data.VNtxtBGTransS'] = data.VNtxtBGTransS,
 		['data.VNtxtBGTransD'] = data.VNtxtBGTransD,
 		['data.VNdisplayName'] = data.VNdisplayName,
-		['data.VNautoSkip'] = data.VNautoSkip
+		['data.VNautoSkip'] = data.VNautoSkip,
+		--Progress Data
+		['data.VNarc'] = data.VNarc,
+		['data.VNchapter'] = data.VNchapter,
+		['data.VNdialogue'] = data.VNdialogue
 	}
 	s_vndataLUA = f_strSub(s_vndataLUA, t_vn)
 	local vnFile = io.open("save/vn_sav.lua","w+")
