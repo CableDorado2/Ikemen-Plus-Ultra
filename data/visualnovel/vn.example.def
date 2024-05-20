@@ -5,6 +5,10 @@ This file contains list of all available parameters used by Visual Novel Mode (C
 This file IS NOT loaded by engine and should not be used as-is. It's meant to
 be a reference for adding parameters to your own .def file.
 ;---------------------------------------------------------------------------------
+- storyname = Story Name
+Set the name of the story to display in Intro Screen.
+If not declared, will not be displayed.
+
 Setup following parameters below "[Chapter <0...>]" section:
 
 - id = Chapter Number

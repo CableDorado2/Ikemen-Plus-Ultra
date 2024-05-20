@@ -1055,8 +1055,10 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNtextData = "" --Set Empty Narrative Text
 			end
 			VNtxtActive = f_textRender(txt_boxCfg, VNtextData, VNscroll, VNtxtPosX, VNtxtPosY, VNtxtSpacing, VNdelay, -1) --Draw Narrative Text
-			--f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
-			--f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f",(VNautoTxt/60)), 163.5, 148) --For Debug Purposes
+			if data.debugMode then
+				f_drawQuickText(txt_activeVar, font3, 0, 0, VNtxtActive, 163.5, 168) --For Debug Purposes
+				f_drawQuickText(txt_autoVar, font3, 0, 0, string.format("%.0f",(VNautoTxt/60)), 163.5, 148) --For Debug Purposes
+			end
 		end
 		if t_vnBoxText[vnChapter][VNtxt].ending ~= nil then
 			VNendActive = true
@@ -1099,6 +1101,7 @@ function f_drawVNEnding()
 	elseif t_vnBoxText[vnChapter][VNtxt].ending == 2 then animDraw(vnEnd2) --Ending
 	elseif t_vnBoxText[vnChapter][VNtxt].ending == 3 then animDraw(vnEnd3) --Try Again
 	end
+	vn.credits = true
 end
 
 --;===========================================================
@@ -1238,6 +1241,8 @@ function f_vnMain(vnFile, chapterNo, dialogueNo) --TODO Routes/Decisions System
 		dialogueNo = 1 --prepare dialogue number for next scene
 		if data.VNbreak then f_VNback() return end --Back to main menu
 	end
+	if vn.credits then f_playCredits() end
+	vn.credits = false
 end
 
 function f_VNback()
