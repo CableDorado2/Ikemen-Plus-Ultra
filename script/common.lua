@@ -31,6 +31,7 @@ url = require("url")
 --; DATA DEFINITION
 --;===========================================================
 data = require("save.data") --Create global space variable (accessing variables between modules)
+vn = require("save.vn") --Create global space variable (accessing variables between visual novel modules)
 
 --[[Require function, allows use the content inside in the script said.
 The begin of the script called need to have this:
@@ -497,6 +498,25 @@ function btnPalNo(cmd)
 	if commandGetState(cmd, 'z') then return 6 + s end
 	if commandGetState(cmd, 'w') then return 1 + s end --It is not in the correct place, this is just to don't rewrite it in each menu
 	return 0
+end
+
+--returns string depending on button pressed
+function getButton(cmd)
+	if commandGetState(cmd, 'u') then return "U" end
+	if commandGetState(cmd, 'd') then return "D" end
+	if commandGetState(cmd, 'l') then return "L" end
+	if commandGetState(cmd, 'r') then return "R" end
+	if commandGetState(cmd, 'a') then return "A" end
+	if commandGetState(cmd, 'b') then return "B" end
+	if commandGetState(cmd, 'c') then return "C" end
+	if commandGetState(cmd, 'x') then return "X" end
+	if commandGetState(cmd, 'y') then return "Y" end
+	if commandGetState(cmd, 'z') then return "Z" end
+	if commandGetState(cmd, 's') then return "S" end
+	if commandGetState(cmd, 'q') then return "LT" end
+	if commandGetState(cmd, 'w') then return "RT" end
+	if commandGetState(cmd, 'e') then return "SELECT" end
+	return ""
 end
 
 --Take Screenshots
@@ -2124,26 +2144,11 @@ end
 function f_cmdCode()
 	local secretTxt = f_extractText(txt_secretBox)
 	--Actions
-	if commandGetState(p1Cmd, 'u') then
-		codeEntry = "U"
+	if getButton(p1Cmd) ~= "" then
+		codeEntry = getButton(p1Cmd)
 		newcmdCode = true
-	elseif commandGetState(p1Cmd, 'd') then
-		codeEntry = "D"
-		newcmdCode = true
-	elseif commandGetState(p1Cmd, 'l') then
-		codeEntry = "L"
-		newcmdCode = true
-	elseif commandGetState(p1Cmd, 'r') then
-		codeEntry = "R"
-		newcmdCode = true
-	elseif commandGetState(p1Cmd, 'b') then
-		codeEntry = "B"
-		newcmdCode = true
-	elseif commandGetState(p1Cmd, 'a') then
-		codeEntry = "A"
-		newcmdCode = true
-	elseif commandGetState(p1Cmd, 's') then
-		codeEntry = "S"
+	elseif getButton(p2Cmd) ~= "" then
+		codeEntry = getButton(p2Cmd)
 		newcmdCode = true
 	end
 	--Check Entries

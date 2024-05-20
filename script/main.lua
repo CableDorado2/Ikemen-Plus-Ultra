@@ -27,6 +27,7 @@ menuSelect = ""
 P2overP1 = false
 MainFadeInTime = 30
 secretTarget = ""
+vnNoSel = true
 
 function f_resetArcadeStuff()
 data.continueCount = 0 --Restart Times Continue in Arcade
@@ -1609,6 +1610,7 @@ function f_mainMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local vnSelect = 1
 	closeText = 1
 	f_gameState()
 	f_menuMusic()
@@ -1718,8 +1720,22 @@ function f_mainMenu()
 				elseif data.engineMode == "VN" then
 					--NEW GAME (follow customizable story arcs designed for this engine)
 					if mainMenu == 1 then
-						setDiscordState("In Story Mode")
-						script.visualnovel.f_vnMain()
+						--Check Content
+						if vnSelect < 1 then
+							vnSelect = #t_selVN
+						elseif vnSelect > #t_selVN then
+							vnSelect = 1
+						end
+						if vnSelect == #t_selVN and vnNoSel then --1 story detected in select.def so don't show select menu
+							setDiscordState("In Story Mode")
+							script.visualnovel.f_vnMain(t_selVN[1].path) --Start Visual Novel
+							--When End
+							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+						else
+							vnNoSel = false --More than 1 stories detected in select.def
+							setDiscordState("In Story Select")
+							script.visualnovel.f_vnMenu() --Start Visual Novel Select
+						end
 						setDiscordState("In Main Menu")
 					--LOAD GAME (continue the story from where you left off)
 					elseif mainMenu == 2 then
@@ -1728,7 +1744,7 @@ function f_mainMenu()
 							sndPlay(sysSnd, 100, 5) --No Data
 						else --Load Data
 							setDiscordState("In Story Mode")
-							script.visualnovel.f_vnScene(data.VNarc, data.VNchapter, data.VNdialogue)
+							script.visualnovel.f_vnMain(data.VNarc, data.VNchapter, data.VNdialogue)
 							setDiscordState("In Main Menu")
 						end
 					--CONFIG (adjust game settings)

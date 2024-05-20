@@ -34,6 +34,9 @@ If not declared, will not be displayed.
 - snd = Path.snd
 Set the name of the Sound Effects file to use for the chapter.
 
+- drawpath = Path.lua
+Set the name of the lua script file to use for draw the assets for chapter.
+
 ;---------------------------------------------------------------------------------
 - character = Name
 Set the name to identify the character generating the dialogue.
@@ -90,6 +93,7 @@ date = 4/17/2024
 info = Visual Novel Mode
 
 snd = data/visualnovel/test.snd
+drawpath = data/visualnovel/test.lua
 
 character = CD3
 sfx = 0,3
@@ -114,6 +118,7 @@ video = movie/MUGENGERS 4 - The Orochi's Origin.wmv
 id = 2A
 name = Fate Battle
 snd = data/visualnovel/chapt1.snd
+drawpath = data/visualnovel/chapt1.lua
 
 character = Kyo
 sfx = 1,0

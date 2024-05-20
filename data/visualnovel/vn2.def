@@ -1,0 +1,34 @@
+storyname = VISUAL NOVEL MODE
+
+[Chapter 1]
+name = The Test
+author = CD3
+
+character = CD2
+fadein = 1
+text:
+Testing.. it this works?
+Next one please!
+
+character = CD2
+text:
+Welcome to I.K.E.M.E.N PLUS ULTRA Visual Novel Mode!
+
+This mode has been designed by CD2 as a Plan B
+to tell the story of Kung Fu Man just in case that
+I don't have the animated cutscenes complete.
+
+character = CD2
+text:
+This is an early concept.
+_
+There are several things that still need to be added.
+like Decisions/Routes system and drawing via .def files
+to use more "globally".
+
+character = CD3
+text:
+Ok, is enough. End of the test...
+
+cut = 1
+fadeout = 1

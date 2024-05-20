@@ -301,12 +301,8 @@ maxmatches = ,1
 [VisualNovel]
 name = arc1
 displayname = Kung Fu Man
-path = data/visualnovel/arc1.def
+path = data/visualnovel/vn1.def
 
 name = arc2
 displayname = ???
-path = data/visualnovel/arc2.def
-
-name = arc3
-displayname = ???
-path = data/visualnovel/arc3.def
+path = data/visualnovel/vn2.def

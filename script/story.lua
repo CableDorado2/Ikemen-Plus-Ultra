@@ -679,7 +679,7 @@ end
 --;===========================================================
 --; ARC 1 FIGHTS
 --;===========================================================
-kfmVN = "data/visualnovel/arc1.def"
+kfmVN = "data/visualnovel/kfm/kfmVN.def"
 kfmVNtxtStart = 1
 
 --PROLOGUE

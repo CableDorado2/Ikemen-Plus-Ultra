@@ -693,6 +693,13 @@ for line in content:gmatch('[^\r\n]+') do
 				t_vnBoxText[chapt]["data"]['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			--end
 		end
+		--draw lua path = filename (string)
+		if line:match('^%s*drawpath%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			--if not data:match('=%s*$') then
+				t_vnBoxText[chapt]["data"]['drawPath'] = data:gsub('^%s*drawpath%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			--end
+		end
 		--character = string
 		if line:match('^%s*character%s*=') then
 			local data = line:gsub('%s*;.*$', '')
@@ -788,123 +795,6 @@ for line in content:gmatch('[^\r\n]+') do
 	--refresh()
 end
 if data.debugLog then f_printTable(t_vnBoxText, "save/debug/t_vnBoxText.txt") end
-end
-
---;===========================================================
---; VISUAL NOVEL SELECT MENU
---;===========================================================
-txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
-vnAddOneTime = true
-
-function f_vnMenu()
-	if vnAddOneTime then
-		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
-		vnAddOneTime = false
-	end
-	local cursorPosY = 1
-	local moveTxt = 0
-	local vnMenu = 1
-	local bufu = 0
-	local bufd = 0
-	local bufr = 0
-	local bufl = 0
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-	cmdInput()
-	while true do
-		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			sndPlay(sysSnd, 100, 2)
-			break
-		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			vnMenu = vnMenu - 1
-		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			vnMenu = vnMenu + 1
-		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-			if vnMenu == #t_selVN then
-				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-				sndPlay(sysSnd, 100, 2)
-				break
-			--Start Visual Novel
-			else
-				--cmdInput()
-				f_vnScene(t_selVN[vnMenu].path, 1, 1)
-			--When Storyboard Ends:
-				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
-				f_menuMusic()
-			end
-		end
-		if vnMenu < 1 then
-			vnMenu = #t_selVN
-			if #t_selVN > 14 then
-				cursorPosY = 14
-			else
-				cursorPosY = #t_selVN
-			end
-		elseif vnMenu > #t_selVN then
-			vnMenu = 1
-			cursorPosY = 1
-		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
-			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
-			cursorPosY = cursorPosY + 1
-		end
-		if cursorPosY == 14 then
-			moveTxt = (vnMenu - 14) * 15
-		elseif cursorPosY == 1 then
-			moveTxt = (vnMenu - 1) * 15
-		end	
-		if #t_selVN <= 14 then
-			maxVN = #t_selVN
-		elseif vnMenu - cursorPosY > 0 then
-			maxVN = vnMenu + 14 - cursorPosY
-		else
-			maxVN = 14
-		end
-		animDraw(f_animVelocity(novelBG0, -1, -1))
-		animSetScale(novelBG1, 220, maxVN*15)
-		animSetWindow(novelBG1, 80,20, 160,210)
-		animDraw(novelBG1)
-		textImgDraw(txt_vnSelect)
-		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
-		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-		animDraw(f_animVelocity(cursorBox, -1, -1))		
-		for i=1, maxVN do
-			if t_selVN[i].displayname:len() > 28 then
-				visualnovelSelText = string.sub(t_selVN[i].displayname, 1, 24)
-				visualnovelSelText = tostring(visualnovelSelText .. "...")
-			else
-				visualnovelSelText = t_selVN[i].displayname
-			end
-			if i > vnMenu - cursorPosY then
-				t_selVN[i].name = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
-				textImgDraw(t_selVN[i].name)
-			end
-		end
-		if maxVN > 14 then
-			animDraw(novelUpArrow)
-			animUpdate(novelUpArrow)
-		end
-		if #t_selVN > 14 and maxVN < #t_selVN then
-			animDraw(novelDownArrow)
-			animUpdate(novelDownArrow)
-		end
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
-		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
-			bufd = 0
-			bufu = bufu + 1
-		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
-			bufu = 0
-			bufd = bufd + 1
-		else
-			bufu = 0
-			bufd = 0
-		end
-		cmdInput()
-		refresh()
-	end
 end
 
 --;===========================================================
@@ -1201,14 +1091,6 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 	end
 end
 
-function f_vnProgress()
-data.VNarc = vnArc
-data.VNchapter = vnChapter
-data.VNdialogue = VNtxt
-f_saveVN()
-assert(loadfile("save/vn_sav.lua"))()
-end
-
 --;===========================================================
 --; VISUAL NOVEL ENDING SCREEN
 --;===========================================================
@@ -1220,20 +1102,142 @@ function f_drawVNEnding()
 end
 
 --;===========================================================
+--; VISUAL NOVEL SELECT MENU
+--;===========================================================
+txt_vnSelect = createTextImg(jgFnt, 0, 0, "VISUAL NOVEL SELECT", 159, 13)
+vnAddOneTime = true
+
+function f_vnMenu()
+	local cursorPosY = 1
+	local moveTxt = 0
+	local vnMenu = 1
+	local bufu = 0
+	local bufd = 0
+	local bufr = 0
+	local bufl = 0
+	if vnAddOneTime then
+		t_selVN[#t_selVN+1] = {displayname = "          BACK", name = " "} --Add Back Item
+		vnAddOneTime = false
+	end
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	cmdInput()
+	while true do
+		--Select Menu Actions
+		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+			sndPlay(sysSnd, 100, 2)
+			break
+		elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			vnMenu = vnMenu - 1
+		elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
+			sndPlay(sysSnd, 100, 0)
+			vnMenu = vnMenu + 1
+		elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			--Back Button
+			if vnMenu == #t_selVN then
+				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+				sndPlay(sysSnd, 100, 2)
+				break
+			--Start Visual Novel Selected
+			else
+				setDiscordState("In Story Mode")
+				f_vnMain(t_selVN[vnMenu].path)
+			--When Ends
+				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+				f_menuMusic()
+				setDiscordState("In Story Select")
+			end
+		end
+		--Menu Scroll Logic
+		if vnMenu < 1 then
+			vnMenu = #t_selVN
+			if #t_selVN > 14 then
+				cursorPosY = 14
+			else
+				cursorPosY = #t_selVN
+			end
+		elseif vnMenu > #t_selVN then
+			vnMenu = 1
+			cursorPosY = 1
+		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
+			cursorPosY = cursorPosY - 1
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 14 then
+			cursorPosY = cursorPosY + 1
+		end
+		if cursorPosY == 14 then
+			moveTxt = (vnMenu - 14) * 15
+		elseif cursorPosY == 1 then
+			moveTxt = (vnMenu - 1) * 15
+		end	
+		if #t_selVN <= 14 then
+			maxVN = #t_selVN
+		elseif vnMenu - cursorPosY > 0 then
+			maxVN = vnMenu + 14 - cursorPosY
+		else
+			maxVN = 14
+		end
+		--Draw Menu Assets
+		animDraw(f_animVelocity(novelBG0, -1, -1))
+		animSetScale(novelBG1, 220, maxVN*15)
+		animSetWindow(novelBG1, 80,20, 160,210)
+		animDraw(novelBG1)
+		textImgDraw(txt_vnSelect)
+		animSetWindow(cursorBox, 80,5+cursorPosY*15, 160,15)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))		
+		for i=1, maxVN do
+			if t_selVN[i].displayname:len() > 28 then
+				visualnovelSelText = string.sub(t_selVN[i].displayname, 1, 24)
+				visualnovelSelText = tostring(visualnovelSelText .. "...")
+			else
+				visualnovelSelText = t_selVN[i].displayname
+			end
+			if i > vnMenu - cursorPosY then
+				t_selVN[i].name = createTextImg(font2, 0, 1, visualnovelSelText, 85, 15+i*15-moveTxt)
+				textImgDraw(t_selVN[i].name)
+			end
+		end
+		if maxVN > 14 then
+			animDraw(novelUpArrow)
+			animUpdate(novelUpArrow)
+		end
+		if #t_selVN > 14 and maxVN < #t_selVN then
+			animDraw(novelDownArrow)
+			animUpdate(novelDownArrow)
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
+		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
+			bufd = 0
+			bufu = bufu + 1
+		elseif commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd') then
+			bufu = 0
+			bufd = bufd + 1
+		else
+			bufu = 0
+			bufd = 0
+		end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; VISUAL NOVEL MAIN GAME LOGIC
 --;===========================================================
-function f_vnMain()
-	local vnFile = "data/visualnovel/arc1.def"
-	local VNtxtStart = 1
-	script.visualnovel.f_vnScene(vnFile,1,VNtxtStart)
-	if data.VNbreak then f_VNback() return end
-	script.visualnovel.f_vnScene(vnFile,1,16)
-	if data.VNbreak then f_VNback() return end
-	script.visualnovel.f_vnScene(vnFile,2,VNtxtStart)
-	if data.VNbreak then f_VNback() return end
-	script.visualnovel.f_vnScene(vnFile,3,VNtxtStart)
-	if data.VNbreak then f_VNback() return end
-	script.visualnovel.f_vnScene(vnFile,4,VNtxtStart)
+function f_vnMain(vnFile, chapterNo, dialogueNo) --TODO Routes/Decisions System
+	f_vnLoad(vnFile)
+	dialogueNo = dialogueNo or 1
+	for i=1, #t_vnBoxText do --For each Chapter loaded in vnFile do
+		chapterNo = chapterNo or i --use loaded chapterNo or normal run (i) value
+		f_vnScene(vnFile,chapterNo,dialogueNo) --Start Visual Novel Scene
+		if chapterNo == data.VNchapter then chapterNo = chapterNo+1 --prepare chapter loaded for next scene
+		else chapterNo = i+1 --prepare chapter (no loaded) for next scene
+		end
+		dialogueNo = 1 --prepare dialogue number for next scene
+		if data.VNbreak then f_VNback() return end --Back to main menu
+	end
 end
 
 function f_VNback()
@@ -1243,116 +1247,22 @@ function f_VNback()
 	data.fadeTitle = f_fadeAnim(40, 'fadein', 'black', fadeSff)
 end
 
+function f_vnProgress()
+data.VNarc = vnArc
+data.VNchapter = vnChapter
+data.VNdialogue = VNtxt
+f_saveVN()
+assert(loadfile("save/vn_sav.lua"))()
+end
+
 --;===========================================================
 --; VISUAL NOVEL ASSETS DRAW LOGIC
---;===========================================================
+--;===========================================================	
 function f_drawVN()
-	--Draw Chapter 1 Visuals
-	if vnChapter == 1 then
-		--BG
-		if VNtxt > 0 and VNtxt < 32 then animDraw(vnBG0)
-		elseif (VNtxt >= 32 and VNtxt < 66) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnBG1)
-		elseif (VNtxt == 88) then animDraw(vnBG6)
-		end
-		if not vnFadeIn then
-			--KFM Sprites
-			if (VNtxt >= 2 and VNtxt < 32) or (VNtxt >= 33 and VNtxt < 44) or (VNtxt >= 48 and VNtxt < 59) or (VNtxt >= 70 and VNtxt < 88) then animDraw(vnKfm1)
-			elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfm2)
-			elseif (VNtxt >= 59 and VNtxt < 61) then animDraw(vnKfm3)
-			elseif (VNtxt == 88) then animDraw(vnKfm4)
-			end
-			--Mayama Sprites
-			if (VNtxt >= 4 and VNtxt < 11) or (VNtxt >= 18 and VNtxt < 32) or (VNtxt >= 78 and VNtxt < 88) then animDraw(vnMM1)
-			elseif VNtxt == 41 then animDraw(vnMM1B)
-			elseif (VNtxt >= 11 and VNtxt < 18) or (VNtxt >= 73 and VNtxt < 78) then animDraw(vnMM2)
-			elseif (VNtxt >= 34 and VNtxt < 36) or (VNtxt >= 46 and VNtxt < 48) then animDraw(vnMM2B)
-			end
-			--KFG Photo
-			if VNtxt == 23 or VNtxt == 24 then animDraw(vnPhoto) end
-			--KFG Sprites
-			if (VNtxt >= 37 and VNtxt < 39) then animDraw(vnKfg1)
-			elseif (VNtxt >= 39 and VNtxt < 42) then animDraw(vnKfg2)
-			elseif (VNtxt >= 42 and VNtxt < 44) then animDraw(vnKfg3)
-			elseif (VNtxt >= 46 and VNtxt < 48) then animDraw(vnKfg4)
-			elseif (VNtxt >= 48 and VNtxt < 54) then animDraw(vnKfg5)
-			end
-			--SD Sprites
-			if (VNtxt >= 50 and VNtxt < 55) or (VNtxt >= 56 and VNtxt < 65) then animDraw(vnSD1)
-			end
-		end
-	--Draw Chapter 2 Visuals
-	elseif vnChapter == 2 then
-		animDraw(vnBG2)
-		if not vnFadeIn then
-			if VNtxt < 6 then animDraw(vnKfm1) end
-			if VNtxt >= 4 then animDraw(vnEKfm1) end
-		end
-	--Draw Chapter 3A Visuals
-	elseif vnChapter == 3 then
-		if VNtxt == 2 then animDraw(vnBG7)
-		elseif VNtxt >= 3 then animDraw(vnBG3)
-		end
-		if not vnFadeIn then
-			if VNtxt == 2 then animDraw(vnKfm1) end
-			if VNtxt >= 4 then animDraw(vnKfm1) end
-			if VNtxt >= 5 then animDraw(vnSD1) end
-		end
-	--Draw Chapter 3B Visuals
-	elseif vnChapter == 4 then
-		if VNtxt >= 3 then
-			animDraw(vnBG4)
-			animDraw(vnRain)
-			animUpdate(vnRain)
-		end
-		if not vnFadeIn then
-			if VNtxt >= 5 and VNtxt < 6 then animDraw(vnKfm3)
-			elseif (VNtxt >= 9 and VNtxt < 17) then animDraw(vnKfm2)
-			elseif VNtxt >= 17 then animDraw(vnKfm1)
-			end
-			if (VNtxt >= 12 and VNtxt < 14) then animDraw(vnKfg6)
-			elseif VNtxt == 14 then animDraw(vnKfg7)
-			elseif VNtxt >= 15 and VNtxt < 18 then animDraw(vnKfg8)
-			elseif VNtxt >= 18 and VNtxt < 20 then animDraw(vnKfg9)
-			elseif VNtxt >= 20 then animDraw(vnKfg4B)
-			end
-			if (VNtxt >= 3 and VNtxt < 12) or VNtxt == 21 then animDraw(vnSD1) end
-		end
-	--Draw Chapter 4A Visuals
-	elseif vnChapter == 5 then
-		animDraw(vnBG3)
-		if not vnFadeIn then
-			animDraw(vnKfm1)
-			if VNtxt >= 2 then animDraw(vnSD2) end
-		end
-	--Draw Chapter 4B Visuals
-	elseif vnChapter == 6 then
-		animDraw(vnBG4)
-		animDraw(vnRain)
-		animUpdate(vnRain)
-		if not vnFadeIn then
-			if VNtxt >= 3 and VNtxt < 12 then animDraw(vnKfm1) end
-			if VNtxt >= 8 and VNtxt < 12 then animDraw(vnKfg6B)
-			elseif VNtxt == 12 then animDraw(vnKfg11)
-			end
-			if VNtxt >= 2 and VNtxt < 12 then animDraw(vnSD2) end
-		end
-	--Draw Chapter 4C Visuals
-	elseif vnChapter == 7 then
-		animDraw(vnBG3)
-		if not vnFadeIn then
-			animDraw(vnKfm1)
-			animDraw(vnSD1)
-		end
-	--Draw Chapter 4D Visuals
-	elseif vnChapter == 8 then
-		animDraw(vnBG5)
-		animDraw(vnRain)
-		animUpdate(vnRain)
-		if not vnFadeIn then
-			animDraw(vnSD3)
-			if (VNtxt >= 3 and VNtxt < 8) then animDraw(vnKfg10)
-			elseif VNtxt == 8 then animDraw(vnKfg7)
-			end
-		end
+	vn.vnChapter = vnChapter --to recognize chapter number in below lua module
+	vn.VNtxt = VNtxt --to recognize dialogue number in below lua module
+	vn.vnFadeIn = vnFadeIn
+	if t_vnBoxText[vnChapter].data.drawPath ~= nil then --Detects if lua file is defined
+		assert(loadfile(t_vnBoxText[vnChapter].data.drawPath))()
 	end
 end
