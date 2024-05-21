@@ -420,7 +420,6 @@ t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
 t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
 t_selVN = {}
-t_orderTowerChars = {}
 local t_vnList = {}
 local section = 0
 local file = io.open("data/select.def","r")
@@ -503,13 +502,6 @@ for line in content:gmatch('[^\r\n]+') do
 				t_orderChars[t_selChars[row].order] = {}
 			end
 			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order]+1] = row-1
-		--Tower Order
-			if t_selChars[row].ordertower ~= nil then --Only add to t_orderTowerChars chars that have an ordertower paramvalue
-				if t_orderTowerChars[t_selChars[row].ordertower] == nil then
-					t_orderTowerChars[t_selChars[row].ordertower] = {}
-				end
-				t_orderTowerChars[t_selChars[row].ordertower][#t_orderTowerChars[t_selChars[row].ordertower]+1] = row-1
-			end
 		end
 	elseif section == 2 then --[ExtraStages]
 		row = #t_selStages+1
@@ -641,22 +633,24 @@ for line in content:gmatch('[^\r\n]+') do
 			t_selOptions[rowName .. rowName2]['offset'] = tonumber(offset)
 		end
 	elseif section == 4 then --[TowerMode]
-		if line:match('^%s*difficulty%s*=') then
+		if line:match('^%s*%[%s*[Tt][Oo][Ww][Ee][Rr]%s+[0-9]+$*%]') then
 			row = #t_selTower+1
 			t_selTower[row] = {}
+			--t_selTower[row]['ID'] = textImgNew()
+			--t_selTower[row]['displayname'] = ""
+			t_selTower[row]['kombats'] = {}
+		end
+		if line:match('^%s*displayname%s*=') then
 			local data = line:gsub('%s*;.*$', '')
 			if not data:match('=%s*$') then
-				t_selTower[row]['difficulty'] = data:gsub('^%s*difficulty%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 				t_selTower[row]['ID'] = textImgNew()
-				t_selTower[row]['maxmatches'] = {}
-				t_selTower[row]['chars'] = t_orderTowerChars
+				t_selTower[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
-		if line:match('^%s*maxmatches%s*=') then
-			for i, c in ipairs(strsplit(',', line:gsub('%s*(.-)%s*', '%1'))) do
-				t_selTower[row].maxmatches[#t_selTower[row].maxmatches+1] = tonumber(c)
-				--t_selTower[row].maxmatches[i-1] = tonumber(c) --This also works
-			end
+		if line:match('[0-9]+%s*=%s*[^%s]') then
+			local var1, var2 = line:match('([0-9]+)%s*=%s*(.+)%s*$')
+			--t_selTower[row]['kombats'][tonumber(var1)] = var2:lower() --store chars name
+			t_selTower[row]['kombats'][tonumber(var1)] = t_charAdd[var2] --instead of store chars name, save from t_selChars "cel" value that will be used to make roster and battle plan
 		end
 	elseif section == 5 then --[VisualNovel]
 		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
@@ -1090,7 +1084,6 @@ function f_updateLogs()
 	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
 	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
-	f_printTable(t_orderTowerChars, "save/debug/t_orderTowerChars.txt")
 	f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
 	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
 	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")

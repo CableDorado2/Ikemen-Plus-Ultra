@@ -308,28 +308,44 @@ Assign arcade routes in format of Towers.
 Towers added can be played in Tower Arcade Mode.
 Setup following parameters below "[TowerMode]" section:
 
-- difficulty
-Set difficulty name that should be displayed in Tower Mode menu.
-This parameter also initiates new tower destiny declaration, so it has to be
+[Tower <0...>]
+This parameter initiates new tower destiny, so it has to be
 assigned before any other parameter used by the same tower.
-All towers difficulty should have unique names.
 
-- maxmatches
-Set the maximum number of matches to fight before tower ends.
-Like arcade.maxmatches, but applies to each slot of tower leader.
-10 maxmatches(10 orders) are recommended by each tower.
+- displayname
+Set name that should be displayed in Tower Mode menu.
+
+- <matchNo>
+Set which character (loaded above in [Characters] section)
+the player will face in each "floor"/matchNo of the tower.
+TODO: Endurance Battles when add more than 1 character separated by comma in the same "floor".
 
 Some Examples:
 
 [TowerMode]
-difficulty = NOVICE
-maxmatches = ,1,1,1,1,1,1,0,0,0,0
 
-difficulty = WARRIOR
-maxmatches = ,1,1,1,1,1,1,1,1,0,0
+[Tower 1]
+displayname = NOVICE
+1=Kung Fu Man
+2=Kung Fu Girl
+3=Kung Fu Man/Evil/Evil Kung Fu Man.def
 
-difficulty = MASTER
-maxmatches = ,1,1,1,1,1,1,1,1,1,1
+[Tower 2]
+displayname = WARRIOR
+1=Kung Fu Man/Master/Master Kung Fu Man.def
+2=Ryu
+3=randomselect
+4=randomselect
+5=Suave Dude
+
+[Tower 3]
+displayname = MASTER
+1=Ryu
+2=randomselect
+3=Evil Kung Fu Man
+4=Suave Dude
+5=randomselect
+6=Kung Fu Girl/Master/Master Kung Fu Girl.def
 
  ____________________
 /    VISUAL NOVEL    \_____________________________________________________

@@ -365,40 +365,6 @@ function f_makeRoster()
 				end
 			end
 		end
-	--Tower
-	elseif data.gameMode == "tower" then
-		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-			if p1teamMode == 0 then --Single
-				t = t_selTower[destinyMenu].maxmatches
-			--else --Team
-				--t = t_selTower[destinyMenu].teammaxmatches
-			end
-		else
-			if p2teamMode == 0 then --Single
-				t = t_selTower[destinyMenu].maxmatches
-			--else --Team
-				--t = t_selTower[destinyMenu].teammaxmatches
-			end
-		end
-		for i=1, #t do --for each order number
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				cnt = t[i] * p1numChars --set amount of matches to get from the table
-			else
-				cnt = t[i] * p2numChars --set amount of matches to get from the table
-			end
-			if cnt > 0 and t_orderTowerChars[i] ~= nil then --if it's more than 0 and there are characters with such order
-				while cnt > 0 do --do the following until amount of matches for particular order is reached
-					f_shuffleTable(t_orderTowerChars[i]) --randomize characters table
-					for j=1, #t_orderTowerChars[i] do --loop through chars associated with that particular order
-						t_roster[#t_roster+1] = t_orderTowerChars[i][j] --and add such character into new table
-						cnt = cnt - 1
-						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
-							break
-						end
-					end
-				end
-			end
-		end
 	--Survival / Boss Rush / Bonus Rush / All Roster / Endless
 	else
 		if data.gameMode == "survival" then
@@ -1331,13 +1297,17 @@ function f_selectAdvance()
 					playVideo(tPos.intro2)
 				end
 			end
-			if data.gameMode == "tower" then f_selectDestiny() end --Tower Select (Choose Your Destiny Screen)
-			--generate roster
-			f_makeRoster()
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				lastMatch = #t_roster / p1numChars
+			if data.gameMode == "tower" then
+				f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
+				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
 			else
-				lastMatch = #t_roster / p2numChars
+				--generate roster for other modes (arcade, survival, etc)
+				f_makeRoster()
+				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+					lastMatch = #t_roster / p1numChars
+				else
+					lastMatch = #t_roster / p2numChars
+				end
 			end
 			matchNo = 1
 			f_aiRamp() --generate AI ramping table
@@ -1762,7 +1732,11 @@ function f_selectAdvance()
 					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
-					p1Cell = t_roster[matchNo*p1numChars-i+1]
+					if data.gameMode == "tower" then
+						p1Cell = t_selTower[destinySelect].kombats[matchNo]
+					else
+						p1Cell = t_roster[matchNo*p1numChars-i+1]
+					end
 				end
 				if data.aipal == "Default" then
 					p1Pal = 1
@@ -1817,7 +1791,11 @@ function f_selectAdvance()
 					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
-					p2Cell = t_roster[matchNo*p2numChars-i+1]
+					if data.gameMode == "tower" then
+						p2Cell = t_selTower[destinySelect].kombats[matchNo]
+					else
+						p2Cell = t_roster[matchNo*p2numChars-i+1]
+					end
 				end
 				if data.aipal == "Default" then
 					p2Pal = 1
@@ -2100,27 +2078,20 @@ towerSlot = animNew(sysSff, [[230,1, 0,0,]])
 animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
+function f_setTowerStage()
+	if not data.stageMenu then
+		if t_selChars[t_selTower[i].kombats[length]].stage ~= nil then
+			data.stage = math.random(1,#t_selChars[t_selTower[i].kombats[length]].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+			data.stage = t_selChars[t_selTower[i].kombats[length]].stage[data.stage]
+		end
+	end
+end
+
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
---[[
-t_selTower = nil
-t_selTower = { --The idea is move this table to be managed via select.def and pre-loaded in loader.lua
-	{ID = textImgNew(), difficulty = "NOVICE", 		chars = "", status = ""}, --Add Tower Slot
-	{ID = textImgNew(), difficulty = "WARRIOR", 	chars = "", status = ""},
-	{ID = textImgNew(), difficulty = "MASTER", 		chars = "", status = ""},
-	{ID = textImgNew(), difficulty = "EXPERT", 		chars = "", status = ""},
-	{ID = textImgNew(), difficulty = "CHAMPION", 	chars = "", status = ""},
-	{ID = textImgNew(), difficulty = "DOOM",		chars = "", status = ""},
-	{ID = textImgNew(), difficulty = "???",			chars = "", status = ""},
-}
-t_selTower[1].chars = t_orderTowerChars[1] --Add all chars from order 1 in t_orderTowerChars table
-]]
-
---if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower2.txt") end
-
 function f_selectDestiny()
-	destinyMenu = 1
+	destinySelect = 1
 	local cursorPosX = 1
 	local moveTower = 0
 	local bufu = 0
@@ -2135,34 +2106,34 @@ function f_selectDestiny()
 		--Actions
 		if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
 			sndPlay(sysSnd, 100, 0)
-			destinyMenu = destinyMenu - 1
+			destinySelect = destinySelect - 1
 		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
 			sndPlay(sysSnd, 100, 0)
-			destinyMenu = destinyMenu + 1
+			destinySelect = destinySelect + 1
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or destinyTimer == 0 then
 			sndPlay(sysSnd, 100, 1)
-			if destinyMenu == 1 then sndPlay(sysSnd, 300, 1)
-			elseif destinyMenu == 2 then sndPlay(sysSnd, 300, 2)
-			elseif destinyMenu == 3 then sndPlay(sysSnd, 300, 3)
-			elseif destinyMenu == 4 then sndPlay(sysSnd, 300, 4)
-			elseif destinyMenu == 5 then sndPlay(sysSnd, 300, 5)
-			elseif destinyMenu == 6 then sndPlay(sysSnd, 300, 6)
-			elseif destinyMenu == 7 then sndPlay(sysSnd, 300, 7)
+			if destinySelect == 1 then sndPlay(sysSnd, 300, 1)
+			elseif destinySelect == 2 then sndPlay(sysSnd, 300, 2)
+			elseif destinySelect == 3 then sndPlay(sysSnd, 300, 3)
+			elseif destinySelect == 4 then sndPlay(sysSnd, 300, 4)
+			elseif destinySelect == 5 then sndPlay(sysSnd, 300, 5)
+			elseif destinySelect == 6 then sndPlay(sysSnd, 300, 6)
+			elseif destinySelect == 7 then sndPlay(sysSnd, 300, 7)
 			end
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
 		end
 		--Cursor position calculation
-		if destinyMenu < 1 then
-			destinyMenu = #t_selTower
+		if destinySelect < 1 then
+			destinySelect = #t_selTower
 			if #t_selTower > 3 then
 				cursorPosX = 3
 			else
 				cursorPosX = #t_selTower
 			end
-		elseif destinyMenu > #t_selTower then
-			destinyMenu = 1
+		elseif destinySelect > #t_selTower then
+			destinySelect = 1
 			cursorPosX = 1
 		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
 			cursorPosX = cursorPosX - 1
@@ -2170,14 +2141,14 @@ function f_selectDestiny()
 			cursorPosX = cursorPosX + 1
 		end
 		if cursorPosX == 3 then
-			moveTower = (destinyMenu - 3) * 105 --Set how many space will move diffcult text
+			moveTower = (destinySelect - 3) * 105 --Set how many space will move diffcult text
 		elseif cursorPosX == 1 then
-			moveTower = (destinyMenu - 1) * 105
+			moveTower = (destinySelect - 1) * 105
 		end
 		if #t_selTower <= 3 then
 			maxDestiny = #t_selTower
-		elseif destinyMenu - cursorPosX > 0 then
-			maxDestiny = destinyMenu + 3 - cursorPosX
+		elseif destinySelect - cursorPosX > 0 then
+			maxDestiny = destinySelect + 3 - cursorPosX
 		else
 			maxDestiny = 3
 		end
@@ -2186,30 +2157,23 @@ function f_selectDestiny()
 		--animDraw(destinyBG)
 	--Set Towers Scroll Logic
 		for i=1, maxDestiny do
-			if i > destinyMenu - cursorPosX then
+			if i > destinySelect - cursorPosX then
 			--Draw Towers Assets
-				for size=#t_selTower[i].maxmatches, 1, -1 do
-					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*size) --Draw Towers BG According to his size via maxmatches order
-					--for order=#t_selTower[i].chars, size, -1 do
-					for order=#t_orderTowerChars, size, -1 do
-						if t_orderTowerChars[order] ~= nil then
-							--drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
-							--[[
-							for c=1, #t_orderTowerChars do
-								getTowerChar = math.random(1,#t_orderTowerChars[c])
-							end
-							]]
-							drawPortrait(t_orderTowerChars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18) --Draw Chars Preview Portraits
-							--drawPortrait(t_selTower[i].chars[order][1], -83+100*i-moveTower, 253-32*size, 0.18, 0.18)
-						end
-					end
+				for length=#t_selTower[i].kombats, 1, -1 do
+					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*length) --Draw Towers BG According to his size via maxmatches order
+					--if t_selChars[t_selTower[i].kombats[length][1]].stage ~= nil then
+						--drawStagePortrait(t_selChars[t_selTower[i].kombats[length][1]].stage, -83+100*i-moveTower, 253-32*length, 0.056, 0.036) --Draw Stages Preview Portraits
+					--else
+						--random portrait
+					--end
+					drawPortrait(t_selTower[i].kombats[length], -83+100*i-moveTower, 253-32*length, 0.18, 0.18) --Draw Chars Preview Portraits
 				end
-				if i == destinyMenu then
+				if i == destinySelect then
 				--Draw Cursor Icon
 					animPosDraw(destinyCursor, -72+i*105-moveTower, 194)
 				--Draw Difficulty Text for Tower Table
 					if t_selTower[i].ID ~= nil then
-						textImgDraw(f_updateTextImg(t_selTower[i].ID, font31, 0, 0, t_selTower[i].difficulty:upper(), -52+i*105-moveTower, 219,0.85,0.85))
+						textImgDraw(f_updateTextImg(t_selTower[i].ID, font31, 0, 0, t_selTower[i].displayname:upper(), -52+i*105-moveTower, 219,0.85,0.85))
 					end
 				end
 			end
@@ -2302,7 +2266,7 @@ function f_battlePlan()
 		
 		--draw title info
 		textImgDraw(txt_towerPlan)
-		textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinyMenu].difficulty:upper())
+		textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper())
 		textImgDraw(txt_towerDifficult)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -8779,7 +8743,8 @@ function f_result(state)
 	--if state == "win" then
 	--elseif state == "lost" then
 	--end
-	local victoriesPercent = (winCnt/#t_roster)*100
+	if data.gameMode == "tower" then rosterSize = #t_selTower[destinySelect].kombats else rosterSize = #t_roster end
+	local victoriesPercent = (winCnt/rosterSize)*100
 	local charPortr = nil
 	local charTable = nil
 	local scaleData = nil

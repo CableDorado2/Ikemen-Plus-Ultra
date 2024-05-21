@@ -1,9 +1,9 @@
 [Characters]
-Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, order=3, ordertower=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-Mako Mayama, unlock=0, stages/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1, ordertower=1
-Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, ordertower=3, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
-Reika Murasame, unlock=0, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=1, ordertower=1
-Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, ordertower=2, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude
+Kung Fu Man, stages/Mountainside Temple/Lobby.def, music=sound/Pearl In The Sky.mp3, order=3, 3=Kung Fu Girl, 4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+Mako Mayama, unlock=0, stages/Mountain Valley.def, includestage=0, music=sound/Kung Fu Spirit.mp3, order=1
+Suave Dude, unlock=0, stages/Mountainside Temple/Suave's Corridor.def, includestage=0, boss=1, roundtime=60, order=4, 1=Kung Fu Girl, 3=Reika Murasame, 4=Kung Fu Man
+Reika Murasame, unlock=0, stages/Mountainside Temple/Entrance Pathway.def, includestage=0, music=sound/Hunter.mp3, order=1
+Kung Fu Girl, stages/Sakura.def, music=sound/Student.mp3, includestage=0, order=3, 1=Mako Mayama, 3=Kung Fu Man, 4=Suave Dude
 randomselect
 randomselect
 randomselect
@@ -11,7 +11,7 @@ randomselect
 randomselect
 blank
 randomselect
-Shin Gouki, unlock=0, intermission=1, stages/Mountainside Temple/Destroyed Temple.def, includestage=0, music=sound/God Hands.mp3, music=chars/Shin Gouki/Theme of Gouki.mp3, ai=8, exclude=1, order=-1, ordertower=7
+Shin Gouki, unlock=0, intermission=1, stages/Mountainside Temple/Destroyed Temple.def, includestage=0, music=sound/God Hands.mp3, music=chars/Shin Gouki/Theme of Gouki.mp3, ai=8, exclude=1, order=-1
 randomselect
 blank
 randomselect
@@ -218,12 +218,12 @@ randomselect
 randomselect
 randomselect
 randomselect
-Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1, ordertower=1
-Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, ordertower=4, 4=Kung Fu Man
-Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, intermission=1, ai=8, order=-1, ordertower=5, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl
-Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, intermission=1, ai=8, order=-1, ordertower=8, single=1
-Break The Car, stages/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2, ordertower=6
-Strength Training, stages/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2, ordertower=6
+Suave Dude/Minion/Minion.def, stages/Mountainside Temple/Hidden Path.def, exclude=1, order=1
+Kung Fu Man/Evil/Evil Kung Fu Man.def, stages/Mountainside Temple/Hidden Room.def, music=sound/Danger Toy.mp3, boss=1, includestage=0, order=4, 4=Kung Fu Man
+Kung Fu Man/Master/Master Kung Fu Man.def, stages/Mountainside Temple/Outside.def, music=sound/system/Opening.mp3, intermission=1, ai=8, order=-1, 1=Reika Murasame, 2=Kung Fu Man/Evil/Evil Kung Fu Man.def, 3=Suave Dude, 4=Kung Fu Girl
+Kung Fu Girl/Master/Master Kung Fu Girl.def, stages/Sakura.def, includestage=0, music=sound/Kindled Spirits.mp3, intermission=1, ai=8, order=-1, single=1
+Break The Car, stages/Sunday Afternoon.def, includestage=0, music=sound/Fake World.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2
+Strength Training, stages/Sunday Afternoon.def, includestage=0, music=sound/Ultimate Warrior.mp3, bonus=1, vsscreen=0, victoryscreen=0, rounds=1, exclude=1, order=2
 Catwalk, zoom=0, bonus=1, victoryscreen=0, rounds=1, exclude=1, order=-1
 Event 1, zoom=0, exclude=1, order=-1, victoryscreen=0, vsscreen=0, stages/Training Room.def
 Mako Mayama/vnFight.def, exclude=1, order=-1
@@ -276,26 +276,69 @@ survival.AIramp.end   = 16, 4
 
 ;---------------------------------------------------------------------------------
 [TowerMode]
-difficulty = NOVICE
-maxmatches = ,1,1,1
+[Tower 1]
+displayname = NOVICE
+1=Suave Dude/Minion/Minion.def
+2=Mako Mayama
+3=Kung Fu Man
 
-difficulty = WARRIOR
-maxmatches = ,1,1,1,1,1
+[Tower 2]
+displayname = WARRIOR
+1=Mako Mayama
+2=Strength Training
+3=Kung Fu Man
+4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+5=Suave Dude
 
-difficulty = MASTER
-maxmatches = ,1,2,1,1,2,1,1
+[Tower 3]
+displayname = MASTER
+1=Kung Fu Man/Master/Master Kung Fu Man.def
+2=Kung Fu Girl
+3=Reika Murasame
+4=randomselect
+5=Kung Fu Man/Evil/Evil Kung Fu Man.def
+6=Suave Dude
 
-difficulty = EXPERT
-maxmatches = ,2,1,2,1,1,2,1
+[Tower 4]
+displayname = EXPERT
+1=Kung Fu Man
+2=randomselect
+3=Kung Fu Girl
+4=Suave Dude
+5=randomselect
 
-difficulty = CHAMPION
-maxmatches = ,2,1,1,1,2,2
+[Tower 5]
+displayname = CHAMPION
+1=Reika Murasame
+2=Suave Dude
+3=Shin Gouki
+4=Kung Fu Man/Evil/Evil Kung Fu Man.def
+5=Kung Fu Man/Master/Master Kung Fu Man.def
+6=Kung Fu Girl/Master/Master Kung Fu Girl.def
 
-difficulty = DOOM
-maxmatches = ,2,2,2,2,2,2,2,4
+[Tower 6]
+displayname = DOOM
+1=randomselect
+2=Reika Murasame
+3=Kung Fu Man
+4=Kung Fu Girl
+5=Suave Dude
+6=Shin Gouki
+7=Kung Fu Girl/Master/Master Kung Fu Girl.def
+8=Event 1
 
-difficulty = ???
-maxmatches = ,1
+[Tower 7]
+displayname = ???
+1=randomselect
+2=randomselect
+3=randomselect
+4=randomselect
+5=randomselect
+6=randomselect
+7=randomselect
+8=randomselect
+9=randomselect
+10=randomselect
 
 ;---------------------------------------------------------------------------------
 [VisualNovel]
