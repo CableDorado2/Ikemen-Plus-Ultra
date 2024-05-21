@@ -45,8 +45,8 @@ y2 = 11
 z2 = 12
 
 [Arcade]
-intro.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Intro].def
-ending.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Ending].def
+intro.storyboard = storyboard/intro_j.def
+ending.storyboard = storyboard/ending_j.def
 
 [Portraits]
 result.portrait.scale = 0.30,0.30

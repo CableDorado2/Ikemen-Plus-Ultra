@@ -62,10 +62,6 @@ pal10 = pal/MAMAMA/04_Mami.act
 pal11 = pal/MAMAMA/05_Kyoko.act
 pal12 = pal/MAMAMA/06_Kyubey.act
 
-[Arcade]
-intro.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Intro].def
-ending.storyboard = ..\../storyboard/Kung Fu Girl [Arcade Ending].def
-
 [Portraits]
 result.portrait.scale = 0.30,0.30
 

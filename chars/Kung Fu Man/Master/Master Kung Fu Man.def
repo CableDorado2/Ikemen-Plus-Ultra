@@ -38,10 +38,6 @@ a2 = 10
 b2 = 11
 c2 = 12
 
-[Arcade]
-intro.movie = ..\../movie/KFM-Intro.wmv
-ending.movie = ..\../movie/KFM-Ending.wmv
-
 [Portraits]
 result.portrait.scale = 0.30,0.30
 

@@ -1,6 +1,6 @@
 
 [SceneDef]
-spr = Kung Fu Girl [Arcade Ending].sff 
+spr = ending_j.sff 
 startscene = 0  
 
 ;------------------------------------
@@ -28,7 +28,7 @@ layer3.anim =  3
 layer3.offset = -160,0
 layer3.starttime = 400   
 
-bgm = Scene 0.1.mp3    
+bgm = ed_Scene 0.mp3    
 bgm.loop = 0        
 
 end.time = 500
@@ -144,7 +144,7 @@ layer7.anim =  22
 layer7.offset = -160,0
 layer7.starttime = 400
 
-bgm = Scene 4.mp3   
+bgm = ed_Scene 4.mp3   
 bgm.loop = 0    
 
 end.time = 600
@@ -244,7 +244,7 @@ layer5.anim =  41
 layer5.offset = -160,0
 layer5.starttime = 750
 
-bgm = Scene 7.mp3   
+bgm = ed_Scene 7.mp3   
 bgm.loop = 0  
 
 end.time = 1550
@@ -363,7 +363,7 @@ layer8.anim =  64
 layer8.offset = -160,0
 layer8.starttime = 900
 
-bgm = Scene 10.mp3    
+bgm = ed_Scene 10.mp3    
 bgm.loop = 0   
 
 end.time = 1200
@@ -451,7 +451,7 @@ layer6.anim =  80
 layer6.offset = -160,0
 layer6.starttime = 390
 
-bgm = Scene 12.mp3    
+bgm = ed_Scene 12.mp3    
 bgm.loop = 0   
 
 end.time = 6250
@@ -499,7 +499,7 @@ layer8.anim =  89
 layer8.offset = -160,0
 layer8.starttime = 1150
 
-bgm = Scene 13.mp3   
+bgm = ed_Scene 13.mp3   
 bgm.loop = 0    
 
 end.time = 1500
@@ -577,7 +577,7 @@ layer8.anim =  103
 layer8.offset = -160,0
 layer8.starttime = 1600
 
-bgm = Scene 15.mp3    
+bgm = ed_Scene 15.mp3    
 bgm.loop = 0   
 
 end.time = 1750
@@ -662,7 +662,7 @@ layer9.anim =  119
 layer9.offset = -160,0
 layer9.starttime = 1300
 
-bgm = Scene 17.mp3    
+bgm = ed_Scene 17.mp3    
 bgm.loop = 0   
 
 end.time = 1450
@@ -839,7 +839,7 @@ layer1.anim =  149
 layer1.offset = -160,0
 layer1.starttime = 0
 
-bgm = Scene 23.mp3   
+bgm = ed_Scene 23.mp3   
 bgm.loop = 0   
 
 end.time = 700
@@ -855,7 +855,7 @@ layer0.anim =  147
 layer0.offset = -160,0
 layer0.starttime = 0
 
-bgm = Fighting Spirit - Theme of Kung Fu Girl.mp3
+bgm = CPS2 Originals_Fighting Spirit_The Theme of Kung Fu Girl.mp3   
 bgm.loop = 0    
 
 end.time = 450
@@ -1075,7 +1075,7 @@ layer0.anim =  200
 layer0.offset = -160,0
 layer0.starttime = 0
 
-bgm = Scene 49.mp3    
+bgm = ed_Scene 49.mp3    
 bgm.loop = 0    
 
 end.time = 2000
@@ -1302,7 +1302,7 @@ layer0.anim =  311
 layer0.offset = -160,0
 layer0.starttime = 0
 
-bgm = Scene 107.mp3   
+bgm = ed_Scene 107.mp3   
 bgm.loop = 0   
 
 end.time = 2000
