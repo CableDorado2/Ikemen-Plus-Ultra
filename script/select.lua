@@ -1187,8 +1187,15 @@ end
 --;===================================================================
 function f_arcadeEnd()
 	if data.rosterMode == "arcade" then
-		data.arcadeClear = true --Unlocks
+		data.arcadeClear = true --Progress
+		if getPlayerSide() == "p1right" then --Player 1 in Right Side
+			unlockTarget = data.t_p2selected
+		else --Player 1 in Left Side
+			unlockTarget = data.t_p1selected
+		end
+		if unlockTarget[1].displayname == "Suave Dude" then	data.reika = true end --Character Unlock
 		f_saveProgress()
+		unlockTarget = "" --Reset Var
 	elseif data.rosterMode == "tower" then
 		data.towerClear = true
 		f_saveProgress()

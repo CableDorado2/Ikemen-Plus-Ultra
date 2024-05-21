@@ -4,7 +4,7 @@
 --; VISUAL NOVEL PAUSE/OPTIONS MENU
 --;===========================================================
 txt_vnPTitle = createTextImg(jgFnt, 0, 0, "STORY OPTIONS", 160, 13)
-txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED", 160, 125)
+txt_vnPSaved = createTextImg(jgFnt, 5, 0, "PROGRESS SAVED!", 159, 235)
 
 --Pause background
 vnPauseBG = animNew(vnSff, [[100,1, 0,0, -1]])
@@ -112,8 +112,12 @@ function f_vnPauseMenu()
 					defaultVN = true
 				--Save Progress
 				elseif vnPauseMenu == 7 then
-					f_vnProgress()
-					VNsaveData = true
+					if data.engineMode == "VN" then
+						f_vnProgress()
+						VNsaveData = true
+					else
+						sndPlay(sysSnd, 100, 5)
+					end
 				--Skip Scene
 				elseif vnPauseMenu == 8 then
 					VNtxtEnd = true
@@ -1230,14 +1234,12 @@ end
 --; VISUAL NOVEL MAIN GAME LOGIC
 --;===========================================================
 function f_vnMain(vnFile, chapterNo, dialogueNo) --TODO Routes/Decisions System
-	f_vnLoad(vnFile)
-	dialogueNo = dialogueNo or 1
-	for i=1, #t_vnBoxText do --For each Chapter loaded in vnFile do
-		chapterNo = chapterNo or i --use loaded chapterNo or normal run (i) value
-		f_vnScene(vnFile,chapterNo,dialogueNo) --Start Visual Novel Scene
-		if chapterNo == data.VNchapter then chapterNo = chapterNo+1 --prepare chapter loaded for next scene
-		else chapterNo = i+1 --prepare chapter (no loaded) for next scene
-		end
+	f_vnLoad(vnFile) --Load VN file
+	local currentChapter = chapterNo or 1 --Set current Chapter
+	local dialogueNo = dialogueNo or 1 --Set current Dialogue
+	for i=currentChapter, #t_vnBoxText do --For each Chapter loaded in vnFile do
+		f_vnScene(vnFile,currentChapter,dialogueNo) --Start Visual Novel Scene
+		currentChapter = currentChapter + 1 --prepare next chapter
 		dialogueNo = 1 --prepare dialogue number for next scene
 		if data.VNbreak then f_VNback() return end --Back to main menu
 	end

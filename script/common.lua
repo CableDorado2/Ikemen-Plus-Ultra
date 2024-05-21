@@ -2131,7 +2131,6 @@ t_secretEntry = {}
 txt_secretBox = [[
 
 KONAMI CODE DETECTED!
-REIKA MURASAME IS NOW PLAYABLE!
 
 ]]
 
@@ -2178,8 +2177,8 @@ function f_secretCode(key)
 	--Compare User Entries Table with Secret Code Table
 	if table.concat(t_secretEntry) == table.concat(t_secretCode) then --If table are equals
 		sndPlay(sysSnd, 200, 2)
-		data.reika = true
-		f_saveProgress()
+		--data.reika = true
+		--f_saveProgress()
 		cmdReward = true
 	else--If table are not equals
 		cmdReward = false

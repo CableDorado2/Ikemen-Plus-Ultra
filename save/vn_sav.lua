@@ -5,6 +5,6 @@ data.VNtxtBGTransD = 0
 data.VNdisplayName = true
 data.VNautoSkip = false
 --Progress Data
-data.VNarc = "data/visualnovel/vn1.def"
-data.VNchapter = 2
-data.VNdialogue = 6
+data.VNarc = ""
+data.VNchapter = 0
+data.VNdialogue = 0

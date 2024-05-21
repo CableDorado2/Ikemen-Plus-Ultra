@@ -1492,6 +1492,7 @@ function f_mainCfg()
 				sndPlay(sysSnd, 100, 2)
 				if data.erase == true then
 					f_saveProgress()
+					f_saveVN()
 					data.erase = false
 				end
 				if needReload == 1 then
@@ -8709,6 +8710,10 @@ function f_defaultStats()
 --Characters Unlock
 	data.reika = false
 	data.gouki = false
+--Visual Novel Data
+	data.VNarc = ""
+	data.VNchapter = 0
+	data.VNdialogue = 0
 --;----------------------------------------------
 	data.erase = true
 	modified = 1

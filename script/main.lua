@@ -27,6 +27,7 @@ menuSelect = ""
 P2overP1 = false
 MainFadeInTime = 30
 secretTarget = ""
+unlockTarget = ""
 vnNoSel = true
 
 function f_resetArcadeStuff()
@@ -417,7 +418,9 @@ function f_sysTime()
 	end
 	textImgDraw(txt_titleClock) --Draw Clock
 	textImgDraw(txt_titleDate) --Draw Date
-	--f_drawQuickText(txt_testDpad, font6, 0, 0, keyboardButton, 159, 8)
+	if data.debugMode then
+		f_drawQuickText(txt_testDpad, font6, 0, 0, keyboardButton, 159, 8)
+	end
 end
 
 --;===========================================================
@@ -524,6 +527,9 @@ function f_infoMenu()
 	elseif vnInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO VISUAL NOVELS FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
+	elseif vnDataInfo == true then
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.7,0.7)
+		f_textRender(txt_info, "NO SAVED GAMES FOUND.", 0, 160, 130, 10, 0, 25)
 	elseif bossInfo == true then
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.6,0.6)
 		f_textRender(txt_info, "NO BOSSES FOUND IN SELECT.DEF", 0, 160, 125, 10, 0, 25)
@@ -537,8 +543,8 @@ function f_infoMenu()
 		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.56,0.56)
 		f_textRender(txt_info, "SET A 16:9 RESOLUTION TO AVOID DESYNC", 0, 160, 125, 10, 0, 25)
 	elseif firstRunInfo == true then
-		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.50,0.50)
-		f_textRender(txt_info, "WELCOME TO IKEMEN PLUS ULTRA ENGINE! PRESS F1 TO SEE MORE INFORMATION.", 0, 160, 125, 8.8, 0, 36)
+		txt_info = createTextImg(jgFnt, 0, 0, "", 0, 0,0.60,0.60)
+		f_textRender(txt_info, "WELCOME TO IKEMEN PLUS ULTRA      ENGINE!", 0, 160, 125, 8.8, 0, 36)
 	end
 	--Draw Ok Text
 	textImgDraw(txt_ok)
@@ -567,6 +573,7 @@ function f_infoReset()
 	configInfo = false
 	towerInfo = false
 	vnInfo = false
+	vnDataInfo = false
 	bossInfo = false
 	bonusInfo = false
 	stviewerInfo = false
@@ -1147,6 +1154,7 @@ end
 txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 190)
 --txt_version = createTextImg(font1, 0, -1, "v1.?.0", 319, 240)
 txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
+txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
 txt_titleFt = createTextImg(font5, 0, 0, "", 156, 240)
 
 function f_mainTitle()
@@ -1595,7 +1603,7 @@ t_mainMenu = {
 	{id = textImgNew(), text = "LOAD GAME"},
 	--{id = textImgNew(), text = "NETPLAY"},
 	{id = textImgNew(), text = "CONFIG"},
-	{id = textImgNew(), text = "EXTRAS"},
+	{id = textImgNew(), text = "GALLERY"},
 	{id = textImgNew(), text = "EXIT"},
 	{id = textImgNew(), text = "CHECK UPDATES"},
 }
@@ -1728,9 +1736,11 @@ function f_mainMenu()
 						end
 						if vnSelect == #t_selVN and vnNoSel then --1 story detected in select.def so don't show select menu
 							setDiscordState("In Story Mode")
-							script.visualnovel.f_vnMain(t_selVN[1].path) --Start Visual Novel
+							script.visualnovel.f_vnMain(t_selVN[1].path) --Start Unique Visual Novel
 							--When End
 							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+							f_menuMusic()
+							setDiscordState("In Main Menu")
 						else
 							vnNoSel = false --More than 1 stories detected in select.def
 							setDiscordState("In Story Select")
@@ -1742,9 +1752,14 @@ function f_mainMenu()
 						assert(loadfile("save/vn_sav.lua"))()
 						if data.VNarc == "" and data.VNchapter == 0 and data.VNdialogue == 0 then
 							sndPlay(sysSnd, 100, 5) --No Data
+							vnDataInfo = true
+							infoScreen = true
 						else --Load Data
 							setDiscordState("In Story Mode")
+							playBGM("")
 							script.visualnovel.f_vnMain(data.VNarc, data.VNchapter, data.VNdialogue)
+							data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+							f_menuMusic()
 							setDiscordState("In Main Menu")
 						end
 					--CONFIG (adjust game settings)
@@ -1754,7 +1769,7 @@ function f_mainMenu()
 						setDiscordState("In Options")
 						script.options.f_mainCfg()
 						setDiscordState("In Main Menu")
-					--EXTRAS (display additional content)
+					--GALLERY (display additional content)
 					elseif mainMenu == 4 then
 						assert(loadfile("save/stats_sav.lua"))()
 						f_galleryMenu()
@@ -1798,6 +1813,7 @@ function f_mainMenu()
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, "MAIN MENU")
 			textImgDraw(txt_version)
+			textImgDraw(txt_f1)
 			if maxMainMenu > 6 then
 				animDraw(arrowsU)
 				animUpdate(arrowsU)
@@ -5056,7 +5072,7 @@ function f_extrasMenu()
 		animDraw(titleBG6)
 		f_titleText()
 		textImgDraw(txt_gameFt)
-		textImgSetText(txt_gameFt, "EXTRAS UNLOCKED")
+		textImgSetText(txt_gameFt, "EXTRAS")
 		textImgDraw(txt_version)
 		f_sysTime()
 		if maxExtrasMenu > 6 then
@@ -8625,7 +8641,7 @@ function f_playCredits()
 	cmdInput()
 	data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 	while true do
-		if scroll > 2470 or esc() then break end --Credits Duration
+		if scroll > 2480 or esc() then break end --Credits Duration
 		--Actions
 		if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) and not skip then --Skip Button
 			skip = true
@@ -8639,7 +8655,9 @@ function f_playCredits()
 		for i = 1, #creditsTable do
 			textImgDraw(f_updateTextImg(textImgNew(), txtFont, txtBank, txtAline, creditsTable[i], 155, 260 + txtSpacing * (i - 1) - scroll, txtScaleX, txtScaleY, txtAlphaS, txtAlphaD))
 		end
-		--f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --Test Timer
+		if data.debugMode then
+			f_drawQuickText(speedTest, font14, 0, 1, scroll, 50, 100) --Test Timer
+		end
 		scroll = scroll + speed
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -8730,6 +8748,7 @@ NEXT ONE
 PHANTOM.OF.THE.SERVER
 RIVIERA
 SHIYO KAKUGE
+THE PIERROT
 
 
 
@@ -8750,7 +8769,7 @@ XWAGNERPLAGUESX
 ZION
 
 
-SOUND COMPOSER
+SOUNDS COMPOSER
 
 AFRIM KOSOVRASTI
 AKIO JINSENJI
@@ -8801,7 +8820,7 @@ CD2
 
 
 
-STORY PROLOGUE PRODUCER
+OPENING AND STORY PROLOGUE PRODUCER
 
 SWEET CREATURES
 
