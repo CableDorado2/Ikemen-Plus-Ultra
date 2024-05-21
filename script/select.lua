@@ -369,15 +369,15 @@ function f_makeRoster()
 	elseif data.gameMode == "tower" then
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if p1teamMode == 0 then --Single
-				t = t_selOptions.arcademaxmatches
-			else --Team
-				t = t_selOptions.teammaxmatches
+				t = t_selTower[destinyMenu].maxmatches
+			--else --Team
+				--t = t_selTower[destinyMenu].teammaxmatches
 			end
 		else
 			if p2teamMode == 0 then --Single
-				t = t_selOptions.arcademaxmatches
-			else --Team
-				t = t_selOptions.teammaxmatches
+				t = t_selTower[destinyMenu].maxmatches
+			--else --Team
+				--t = t_selTower[destinyMenu].teammaxmatches
 			end
 		end
 		for i=1, #t do --for each order number
@@ -386,11 +386,11 @@ function f_makeRoster()
 			else
 				cnt = t[i] * p2numChars --set amount of matches to get from the table
 			end
-			if cnt > 0 and t_orderChars[i] ~= nil then --if it's more than 0 and there are characters with such order
+			if cnt > 0 and t_orderTowerChars[i] ~= nil then --if it's more than 0 and there are characters with such order
 				while cnt > 0 do --do the following until amount of matches for particular order is reached
-					f_shuffleTable(t_orderChars[i]) --randomize characters table
-					for j=1, #t_orderChars[i] do --loop through chars associated with that particular order
-						t_roster[#t_roster+1] = t_orderChars[i][j] --and add such character into new table
+					f_shuffleTable(t_orderTowerChars[i]) --randomize characters table
+					for j=1, #t_orderTowerChars[i] do --loop through chars associated with that particular order
+						t_roster[#t_roster+1] = t_orderTowerChars[i][j] --and add such character into new table
 						cnt = cnt - 1
 						if cnt == 0 then --but only if amount of matches for particular order has not been reached yet
 							break
@@ -1317,17 +1317,6 @@ function f_selectAdvance()
 		end
 	--FIRST MATCH
 		if matchNo == 0 then
-			if data.gameMode == "tower" then f_selectDestiny() end --Tower Select (Choose Your Destiny Screen)
-			--generate roster
-			f_makeRoster()
-			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-				lastMatch = #t_roster / p1numChars
-			else
-				lastMatch = #t_roster / p2numChars
-			end
-			matchNo = 1
-			--generate AI ramping table
-			f_aiRamp()
 			--Arcade Intro
 			if data.arcadeIntro == true then
 				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -1342,6 +1331,16 @@ function f_selectAdvance()
 					playVideo(tPos.intro2)
 				end
 			end
+			if data.gameMode == "tower" then f_selectDestiny() end --Tower Select (Choose Your Destiny Screen)
+			--generate roster
+			f_makeRoster()
+			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+				lastMatch = #t_roster / p1numChars
+			else
+				lastMatch = #t_roster / p2numChars
+			end
+			matchNo = 1
+			f_aiRamp() --generate AI ramping table
 	--Player exit the match via ESC in Endless or All Roster modes (BOTH SIDES)
 		elseif winner == -1 and (data.gameMode == "endless" or data.gameMode == "allroster") then
 			looseCnt = looseCnt + 1
@@ -1759,10 +1758,7 @@ function f_selectAdvance()
 			data.t_p1selected = {}
 			shuffle = true --was local function
 			for i=1, p1numChars do
-				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
-					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
-					shuffle = false
-				elseif i == 1 and data.gameMode == "tower" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then
+				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p2selected[1].cel+1][matchNo] ~= nil then --Force Arcade Path Fight according to match number: 1, 2, (...)
 					p1Cell = t_charAdd[t_selChars[data.t_p2selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
@@ -1818,9 +1814,6 @@ function f_selectAdvance()
 			shuffle = true --was local function
 			for i=1, p2numChars do
 				if i == 1 and data.gameMode == "arcade" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
-					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
-					shuffle = false
-				elseif i == 1 and data.gameMode == "tower" and t_selChars[data.t_p1selected[1].cel+1][matchNo] ~= nil then
 					p2Cell = t_charAdd[t_selChars[data.t_p1selected[1].cel+1][matchNo]]
 					shuffle = false
 				else
@@ -2127,15 +2120,16 @@ t_selTower[1].chars = t_orderTowerChars[1] --Add all chars from order 1 in t_ord
 --if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower2.txt") end
 
 function f_selectDestiny()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-	sndPlay(sysSnd, 300, 0) --Choose your Destiny SFX
-	local destinyMenu = 1
+	destinyMenu = 1
 	local cursorPosX = 1
 	local moveTower = 0
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	if data.arcadeIntro then playBGM(bgmTower) end
+	sndPlay(sysSnd, 300, 0) --Choose your Destiny SFX
 	cmdInput()
 	while true do
 		--Actions
@@ -2146,7 +2140,7 @@ function f_selectDestiny()
 			sndPlay(sysSnd, 100, 0)
 			destinyMenu = destinyMenu + 1
 		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or destinyTimer == 0 then
-			--sndPlay(sysSnd, 100, 1)
+			sndPlay(sysSnd, 100, 1)
 			if destinyMenu == 1 then sndPlay(sysSnd, 300, 1)
 			elseif destinyMenu == 2 then sndPlay(sysSnd, 300, 2)
 			elseif destinyMenu == 3 then sndPlay(sysSnd, 300, 3)
@@ -2155,7 +2149,6 @@ function f_selectDestiny()
 			elseif destinyMenu == 6 then sndPlay(sysSnd, 300, 6)
 			elseif destinyMenu == 7 then sndPlay(sysSnd, 300, 7)
 			end
-			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
@@ -2200,7 +2193,7 @@ function f_selectDestiny()
 					--for order=#t_selTower[i].chars, size, -1 do
 					for order=#t_orderTowerChars, size, -1 do
 						if t_orderTowerChars[order] ~= nil then
-							drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
+							--drawStagePortrait(3, -83+100*i-moveTower, 253-32*size, 0.056, 0.036) --Draw Stages Preview Portraits (3 is the stage number)
 							--[[
 							for c=1, #t_orderTowerChars do
 								getTowerChar = math.random(1,#t_orderTowerChars[c])
@@ -2265,7 +2258,7 @@ end
 --; TOWER BATTLE PLAN
 --;=================================================================================================
 txt_towerPlan = createTextImg(jgFnt, 0, 0, "BATTLE PLAN", 159, 13)
-txt_towerDifficult = createTextImg(jgFnt, 0, 0, "DIFFICULTY LEVEL:", 159, 13)
+txt_towerDifficult = createTextImg(jgFnt, 0, 1, "", 2, 40, 0.7, 0.7)
 
 --Final Destiny BG
 destinyFinalBG = animNew(towerSff, [[
@@ -2276,25 +2269,25 @@ animUpdate(destinyFinalBG)
 --animSetScale(destinyFinalBG, 1., 1.)
 
 function f_battlePlan()
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	local i = 0
 	local battlePreviewTimer = 0
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
 		--Time to show Battle Plan Screen
 		battlePreviewTimer = battlePreviewTimer + 1
 		if battlePreviewTimer == 2500 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
 		end
 		--draw background on top
-		animDraw(f_animVelocity(selectBG0, 0, 1.5))
+		animDraw(f_animVelocity(selectTowerBG0, 0, 1.5))
 		--draw character portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-			drawPortrait(data.t_p1selected[1].cel, 20, 30, 1, 1)
-			drawPortrait(data.t_p2selected[1].cel, 300, 30, -1, 1)
+			drawPortrait(data.t_p1selected[1].cel, 20, 30, 0.5, 0.5)
+			drawPortrait(data.t_p2selected[1].cel, 300, 30, -0.5, 0.5)
 		end
 		--draw character animations
 		if data.charPresentation == "Sprite" then
@@ -2307,6 +2300,10 @@ function f_battlePlan()
 		end
 		--draw names
 		
+		--draw title info
+		textImgDraw(txt_towerPlan)
+		textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinyMenu].difficulty:upper())
+		textImgDraw(txt_towerDifficult)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		cmdInput()
@@ -6662,32 +6659,24 @@ function f_matchInfo() --Not draws! only prepare the info for use in versus scre
 	bossNo = bossNo+1
 	bonusNo = bonusNo+1
 --Set Match Info Texts
-	if (data.gameMode == "arcade" or data.gameMode == "tower") and (matchNo == lastMatch - 1) then
-		textImgSetText(txt_matchNo, "RIVAL MATCH") --If rival is in another match, replace [lastMatch - 1] with the match number where is your rival)
-	elseif (data.gameMode == "arcade" or data.gameMode == "tower") and (matchNo ~= lastMatch) then
-		textImgSetText(txt_matchNo, "STAGE: "..matchNo) --Set Arcade Match Text
+	if data.gameMode == "arcade" and matchNo == data.rivalMatch then textImgSetText(txt_matchNo, "RIVAL MATCH") --Set rival match text
+	elseif data.gameMode == "arcade" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "STAGE: "..matchNo) --Set Arcade Match Text
+	elseif data.gameMode == "tower" and matchNo == 1 then textImgSetText(txt_matchNo, "LOW LEVEL") --Set Tower 1st Match Text
+	elseif data.gameMode == "tower" and matchNo ~= lastMatch then textImgSetText(txt_matchNo, "FLOOR: "..matchNo-1) --Set Tower Match Text
 	end
-	if data.gameMode == "survival" or data.gameMode == "allroster" then
-		textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
-	elseif data.gameMode == "bossrush" then
-		textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
-	elseif data.gameMode == "bonusrush" then
-		textImgSetText(txt_bonusNo, "BONUS: "..bonusNo) --Set Bonus Rush Match Text
-	elseif data.gameMode == "intermission" then
-		textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text
-	else
-		textImgSetText(txt_gameNo, "MATCH: "..gameNo) --Set Versus Match Text
+	if data.gameMode == "survival" or data.gameMode == "allroster" then textImgSetText(txt_gameNo, "REMAINING MATCHES: "..(lastMatch - gameNo)) --Set All Roster Match Text
+	elseif data.gameMode == "bossrush" then textImgSetText(txt_bossNo, "REMAINING BOSSES: "..(lastMatch - bossNo)) --Set Boss Rush Match Text
+	elseif data.gameMode == "bonusrush" then textImgSetText(txt_bonusNo, "BONUS: "..bonusNo) --Set Bonus Rush Match Text
+	elseif data.gameMode == "intermission" then textImgSetText(txt_gameNo, "EXTRA STAGE") --Set Intermission Match Text
+	else textImgSetText(txt_gameNo, "MATCH: "..gameNo) --Set Versus Match Text
 	end
 --Set Final Matchs Text
-	if (data.gameMode == "arcade" or data.gameMode == "tower") and matchNo == lastMatch then
-		textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	if data.gameMode == "arcade" and matchNo == lastMatch then textImgSetText(txt_matchNo, "FINAL STAGE") --Set Arcade Final Match Text
+	elseif data.gameMode == "tower" and matchNo == lastMatch then textImgSetText(txt_matchNo, "LAST FLOOR") --Set Tower Final Match Text
 	end
-	if (data.gameMode == "survival" or data.gameMode == "allroster") and (lastMatch - gameNo == 0) then
-		textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
-	elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then
-		textImgSetText(txt_bossNo, "FINAL BOSS") --Set Boss Rush Final Match Text
-	elseif data.gameMode == "bonusrush" and (lastMatch - bonusNo == 0) then
-		textImgSetText(txt_bonusNo, "LAST GAME") --Set Bonus Rush Final Match Text
+	if (data.gameMode == "survival" or data.gameMode == "allroster") and (lastMatch - gameNo == 0) then textImgSetText(txt_gameNo, "FINAL MATCH") --Set All Roster Final Match Text
+	elseif data.gameMode == "bossrush" and (lastMatch - bossNo == 0) then textImgSetText(txt_bossNo, "FINAL BOSS") --Set Boss Rush Final Match Text
+	elseif data.gameMode == "bonusrush" and (lastMatch - bonusNo == 0) then textImgSetText(txt_bonusNo, "LAST GAME") --Set Bonus Rush Final Match Text
 	end
 end
 
