@@ -308,6 +308,13 @@ Assign arcade routes in format of Towers.
 Towers added can be played in Tower Arcade Mode.
 Setup following parameters below "[TowerMode]" section:
 
+- snd
+Set the name of the Sound Effects file to use for the tower announcer.
+
+- sfx.announcer
+Set groupNo and indexNo to read from snd file defined in "snd = " line
+to play Sound Effects for announcer.
+
 [Tower <0...>]
 This parameter initiates new tower destiny, so it has to be
 assigned before any other parameter used by the same tower.
@@ -315,10 +322,16 @@ assigned before any other parameter used by the same tower.
 - displayname
 Set name that should be displayed in Tower Mode menu.
 
+- sfx
+Set groupNo and indexNo to read from snd file defined in "snd = " line
+to play Sound Effects for the tower selected.
+
 - <matchNo>
 Set which character (loaded above in [Characters] section)
 the player will face in each "floor"/matchNo of the tower.
-TODO: Endurance Battles when add more than 1 character separated by comma in the same "floor".
+TO-DO:
+-Endurance Battles when add more than 1 character separated by comma in the same "floor".
+-Mirror Battles when add "mirrorselect" instead character name.
 
 Some Examples:
 
@@ -326,26 +339,32 @@ Some Examples:
 
 [Tower 1]
 displayname = NOVICE
-1=Kung Fu Man
-2=Kung Fu Girl
-3=Kung Fu Man/Evil/Evil Kung Fu Man.def
+1=Kung Fu Girl
+2=Kung Fu Man/Evil/Evil Kung Fu Man.def
+3=Suave Dude
 
 [Tower 2]
-displayname = WARRIOR
-1=Kung Fu Man/Master/Master Kung Fu Man.def
-2=Ryu
-3=randomselect
-4=randomselect
-5=Suave Dude
+displayname = MASTER
+1=Shang Tsung
+2=Liu Kang
+3=Sheeva
+4=Kabal
+5=Kung Lao
+6=Cyrax
+7=Sindel
+8=Sektor
+9=Sub-Zero
+10=Kano
+11=Motaro
+12=Shao Kahn
 
 [Tower 3]
-displayname = MASTER
+displayname = WARRIOR
 1=Ryu
-2=randomselect
-3=Evil Kung Fu Man
-4=Suave Dude
-5=randomselect
-6=Kung Fu Girl/Master/Master Kung Fu Girl.def
+2=Ken
+3=Guile
+4=randomselect
+5=Sagat
 
  ____________________
 /    VISUAL NOVEL    \_____________________________________________________

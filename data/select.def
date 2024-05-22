@@ -276,14 +276,19 @@ survival.AIramp.end   = 16, 4
 
 ;---------------------------------------------------------------------------------
 [TowerMode]
+snd = data/screenpack/tower.snd
+sfx.announcer = 0,0
+
 [Tower 1]
 displayname = NOVICE
+sfx = 0,1
 1=Suave Dude/Minion/Minion.def
 2=Mako Mayama
 3=Kung Fu Man
 
 [Tower 2]
 displayname = WARRIOR
+sfx = 0,2
 1=Mako Mayama
 2=Strength Training
 3=Kung Fu Man
@@ -292,6 +297,7 @@ displayname = WARRIOR
 
 [Tower 3]
 displayname = MASTER
+sfx = 0,3
 1=Kung Fu Man/Master/Master Kung Fu Man.def
 2=Kung Fu Girl
 3=Reika Murasame
@@ -301,6 +307,7 @@ displayname = MASTER
 
 [Tower 4]
 displayname = EXPERT
+sfx = 0,4
 1=Kung Fu Man
 2=randomselect
 3=Kung Fu Girl
@@ -309,6 +316,7 @@ displayname = EXPERT
 
 [Tower 5]
 displayname = CHAMPION
+sfx = 0,5
 1=Reika Murasame
 2=Suave Dude
 3=Shin Gouki
@@ -318,6 +326,7 @@ displayname = CHAMPION
 
 [Tower 6]
 displayname = DOOM
+sfx = 0,6
 1=randomselect
 2=Reika Murasame
 3=Kung Fu Man
@@ -329,6 +338,7 @@ displayname = DOOM
 
 [Tower 7]
 displayname = ???
+sfx = 0,7
 1=randomselect
 2=randomselect
 3=randomselect

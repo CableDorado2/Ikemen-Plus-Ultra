@@ -242,6 +242,7 @@ function f_selectInit()
 	looseCnt = 0
 	clearTime = 0
 	matchTime = 0
+	waitingTowerSel = false
 end
 
 function f_setRounds()
@@ -847,39 +848,47 @@ function f_backMenu()
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			setService("")
-			back = true
+			if waitingTowerSel then
+				data.tempBack = true
+			else
+				setService("")
+				back = true
+			end
 		--NO
 		else
 			sndPlay(sysSnd, 100, 1)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
-			if data.gameMode == "arcade" or data.gameMode == "tower" then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
-				--f_rosterReset() --Delete?
-				if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
-					p2Cell = nil
-					p2Portrait = nil
-					data.t_p2selected = {}
-					p2PalEnd = true
-					p2SelEnd = false
-				else
-					p1Cell = nil
-					p1Portrait = nil
-					data.t_p1selected = {}
-					p1PalEnd = true
-					p1SelEnd = false
-				end
-				if data.coop then
-					p2Cell = nil
-					p2Portrait = nil
-					data.t_p2selected = {}
-					p2PalEnd = true
-					p2SelEnd = false
-				end
+			if waitingTowerSel then
+				
 			else
-				f_selectReset()
+				if data.gameMode == "arcade" or data.gameMode == "tower" then --Fixed issue in Back Menu from Character Select when selecting NO option in Arcade Mode: https://user-images.githubusercontent.com/18058378/260328520-85c78494-7586-4bfe-acd1-cd703d9e3548.png
+					--f_rosterReset() --Delete?
+					if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+						p2Cell = nil
+						p2Portrait = nil
+						data.t_p2selected = {}
+						p2PalEnd = true
+						p2SelEnd = false
+					else
+						p1Cell = nil
+						p1Portrait = nil
+						data.t_p1selected = {}
+						p1PalEnd = true
+						p1SelEnd = false
+					end
+					if data.coop then
+						p2Cell = nil
+						p2Portrait = nil
+						data.t_p2selected = {}
+						p2PalEnd = true
+						p2SelEnd = false
+					end
+				else
+					f_selectReset()
+				end
+				if data.rosterAdvanced == true and data.stageMenu == false then stageEnd = true end
 			end
-			if data.rosterAdvanced == true and data.stageMenu == false then stageEnd = true end
 			back = false
 		end
 		f_backReset()
@@ -1299,6 +1308,10 @@ function f_selectAdvance()
 			end
 			if data.gameMode == "tower" then
 				f_selectDestiny() --Tower Select (Choose Your Destiny Screen)
+				if data.tempBack == true then
+					f_exitToMainMenu()
+					return
+				end
 				lastMatch = #t_selTower[destinySelect].kombats --get roster selected in tower mode
 			else
 				--generate roster for other modes (arcade, survival, etc)
@@ -2090,7 +2103,14 @@ end
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
+function f_playTWsfx()
+local data = t_selTower[destinySelect].sfxplay
+local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
+sndPlay(twSfx, sfxGroup, sfxIndex)
+end
+
 function f_selectDestiny()
+	waitingTowerSel = true
 	destinySelect = 1
 	local cursorPosX = 1
 	local moveTower = 0
@@ -2098,60 +2118,73 @@ function f_selectDestiny()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	local selection = 0
+	local startCount = false
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	if data.arcadeIntro then playBGM(bgmTower) end
-	sndPlay(sysSnd, 300, 0) --Choose your Destiny SFX
+	if t_selTower.data.snd ~= nil then --Choose your Destiny SFX
+		twSfx = sndNew(t_selTower.data.snd) --Load snd File
+		local data = t_selTower.data.sfxannouncer
+		local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
+		sndPlay(twSfx, sfxGroup, sfxIndex)
+	end
+	f_backReset()
 	cmdInput()
 	while true do
 		--Actions
-		if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			destinySelect = destinySelect - 1
-		elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-			sndPlay(sysSnd, 100, 0)
-			destinySelect = destinySelect + 1
-		elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or destinyTimer == 0 then
-			sndPlay(sysSnd, 100, 1)
-			if destinySelect == 1 then sndPlay(sysSnd, 300, 1)
-			elseif destinySelect == 2 then sndPlay(sysSnd, 300, 2)
-			elseif destinySelect == 3 then sndPlay(sysSnd, 300, 3)
-			elseif destinySelect == 4 then sndPlay(sysSnd, 300, 4)
-			elseif destinySelect == 5 then sndPlay(sysSnd, 300, 5)
-			elseif destinySelect == 6 then sndPlay(sysSnd, 300, 6)
-			elseif destinySelect == 7 then sndPlay(sysSnd, 300, 7)
+		if selection == 0 and not backScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sysSnd, 100, 2)
+				backScreen = true
 			end
+			if commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				destinySelect = destinySelect - 1
+			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
+				sndPlay(sysSnd, 100, 0)
+				destinySelect = destinySelect + 1
+			elseif (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) or destinyTimer == 0 then
+				sndStop()
+				sndPlay(sysSnd, 100, 1)
+				if t_selTower.data.snd ~= nil then f_playTWsfx() end
+				startCount = true
+			end
+			--Cursor position calculation
+			if destinySelect < 1 then
+				destinySelect = #t_selTower
+				if #t_selTower > 3 then
+					cursorPosX = 3
+				else
+					cursorPosX = #t_selTower
+				end
+			elseif destinySelect > #t_selTower then
+				destinySelect = 1
+				cursorPosX = 1
+			elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
+				cursorPosX = cursorPosX - 1
+			elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < 3 then
+				cursorPosX = cursorPosX + 1
+			end
+			if cursorPosX == 3 then
+				moveTower = (destinySelect - 3) * 105 --Set how many space will move diffcult text
+			elseif cursorPosX == 1 then
+				moveTower = (destinySelect - 1) * 105
+			end
+			if #t_selTower <= 3 then
+				maxDestiny = #t_selTower
+			elseif destinySelect - cursorPosX > 0 then
+				maxDestiny = destinySelect + 3 - cursorPosX
+			else
+				maxDestiny = 3
+			end
+		elseif selection > 150 then --End Destiny Select
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
+			startCount = false
 			break
 		end
-		--Cursor position calculation
-		if destinySelect < 1 then
-			destinySelect = #t_selTower
-			if #t_selTower > 3 then
-				cursorPosX = 3
-			else
-				cursorPosX = #t_selTower
-			end
-		elseif destinySelect > #t_selTower then
-			destinySelect = 1
-			cursorPosX = 1
-		elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
-			cursorPosX = cursorPosX - 1
-		elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < 3 then
-			cursorPosX = cursorPosX + 1
-		end
-		if cursorPosX == 3 then
-			moveTower = (destinySelect - 3) * 105 --Set how many space will move diffcult text
-		elseif cursorPosX == 1 then
-			moveTower = (destinySelect - 1) * 105
-		end
-		if #t_selTower <= 3 then
-			maxDestiny = #t_selTower
-		elseif destinySelect - cursorPosX > 0 then
-			maxDestiny = destinySelect + 3 - cursorPosX
-		else
-			maxDestiny = 3
-		end
+		if data.tempBack then break end --back to main menu
+		if startCount then selection = selection + 1 end --Start End Destiny Select count
 	--Draw BG
 		animDraw(f_animVelocity(selectHardBG0, -1, -1))
 		--animDraw(destinyBG)
@@ -2201,6 +2234,8 @@ function f_selectDestiny()
 		else --when destinyTimer <= 0
 			
 		end
+		if data.debugMode then f_drawQuickText(txt_selectionTime, font3, 0, 0, selection, 163.5, 168) end --For Debug Purposes
+		if backScreen then f_backMenu() end --Open Back Menu Question
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
@@ -2741,7 +2776,7 @@ function f_selectScreen()
 			end
 		end
 	end
-	--Win Counter
+	--Win Count
 	if data.gameMode == "versus" and data.vsDisplayWin == true then
 		textImgSetText(txt_p1Wins, "WINS: " .. p1Wins)
 		textImgSetText(txt_p2Wins, "WINS: " .. p2Wins)
@@ -9206,13 +9241,13 @@ function f_continue()
 				break
 			end
 		end
-		if i >= 71 then --show when counter starts counting down
+		if i >= 71 then --show when count starts counting down
 			if onlinegame == false then
-				textImgDraw(txt_coins) --Show Coins Counter
+				textImgDraw(txt_coins) --Show Coins Count
 			elseif onlinegame == true then
-				--Don't Show Coins Counter
+				--Don't Show Coins Count
 			end
-			textImgDraw(txt_cont) --Always Show Times Continue Counter
+			textImgDraw(txt_cont) --Always Show Times Continue Count
 		end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)

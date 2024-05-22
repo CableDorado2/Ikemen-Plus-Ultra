@@ -626,7 +626,6 @@ end
 function f_vnLoad(path)
 t_vnBoxText = {}
 local t = {}
-local group = ''
 local section = 0
 local file = io.open(path,"r")
 local content = file:read("*all")
@@ -976,7 +975,7 @@ function f_vnScene(arcPath, chaptNo, dialogueNo)
 				VNtxtReady = true
 			end
 		end
-		--Start fade out only if is loaded by dialogue, when that dialogue is drawed and fadeOut counter is reseted
+		--Start fade out only if is loaded by dialogue, when that dialogue is drawed and fadeOut count is reseted
 		if t_vnBoxText[vnChapter][VNtxt].fadeout ~= nil and VNtxtReady and vnFadeOutC == 0 then
 			vnFadeOut = true
 		end

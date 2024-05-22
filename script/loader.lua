@@ -633,6 +633,19 @@ for line in content:gmatch('[^\r\n]+') do
 			t_selOptions[rowName .. rowName2]['offset'] = tonumber(offset)
 		end
 	elseif section == 4 then --[TowerMode]
+		if line:match('^%s*snd%s*=') then
+			t_selTower['data'] = {}t_selTower['data'] = {}
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_selTower['data']['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*sfx.announcer%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_selTower['data']['sfxannouncer'] = data:gsub('^%s*sfx.announcer%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
 		if line:match('^%s*%[%s*[Tt][Oo][Ww][Ee][Rr]%s+[0-9]+$*%]') then
 			row = #t_selTower+1
 			t_selTower[row] = {}
@@ -645,6 +658,12 @@ for line in content:gmatch('[^\r\n]+') do
 			if not data:match('=%s*$') then
 				t_selTower[row]['ID'] = textImgNew()
 				t_selTower[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+			end
+		end
+		if line:match('^%s*sfx%s*=') then
+			local data = line:gsub('%s*;.*$', '')
+			if not data:match('=%s*$') then
+				t_selTower[row]['sfxplay'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
 			end
 		end
 		if line:match('[0-9]+%s*=%s*[^%s]') then
