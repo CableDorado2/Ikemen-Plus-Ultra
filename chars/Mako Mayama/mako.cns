@@ -76,6 +76,11 @@ stand.friction = .85  ;Friction coefficient when standing
 crouch.friction = .82 ;Friction coefficient when crouching
 
 ;---------------------------------------------------------------------------
+[Quotes]
+victory1 = "You seriously called that Kung Fu? That was horrible!"
+victory2 = "I am way stronger than you... Wanna learn my Kung Fu Beam?"
+victory3 = "You are way too slow, there is no way you can rescue your Girlfriend..."
+;---------------------------------------------------------------------------
 ; Format:
 ; [Statedef STATENO]
 ; type = ?      S/C/A/L  stand/crouch/air/liedown

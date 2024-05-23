@@ -723,7 +723,7 @@ character = Suave Dude
 side = 2
 text:
 Hehe, well I didn't use AI or record them with
-your clone or a camera with the size of a fly..
+a camera with the size of a fly..
 
 character = Suave Dude
 side = 2
@@ -984,10 +984,10 @@ bgm = _
 fadein = 1
 text:
 After defeating Kung Fu Girl and Suave Dude.
-Kung Fu Man destroys his evil clon.
+Kung Fu Man destroys his evil clone.
 _
 His power seems to have increased
-but with an evil aura..
+but with an dangerous aura..
 
 character = Suave Dude
 side = 2

@@ -3171,8 +3171,12 @@ function f_UICfg()
 				f_timeCfg()
 			--System Songs Settings
 			elseif UICfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
-				f_songCfg()
+				if onlinegame == true then
+					lockSetting = true
+				elseif onlinegame == false then
+					sndPlay(sysSnd, 100, 1)
+					f_songCfg()
+				end
 			--Default Values
 			elseif UICfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)

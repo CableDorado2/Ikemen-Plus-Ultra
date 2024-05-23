@@ -65,10 +65,12 @@ crouch.friction = .82      ;しゃがんでいる時の摩擦係数（ステートのPhysicsが「C」
 ; ステート
 ;===========================================================================
 [Quotes]
-; Up to 100 victory quotes can be specified per language (victory0 - victory99)
-victory1 = "You must defeat Tu Shou to stand a chance."
-victory2 = "Your moves are too predictable."
-victory3 = "I want to challenge more skilled fighters."
+victory1 = "PATHETIC!!!!"
+victory2 = "You are dead!"
+victory3 = "Prepare to become my faithful slave."
+victory4 = "Your moves are too predictable."
+victory5 = "I want to challenge more skilled fighters."
+victory6 = "Welcome to the next level!"
 ;===========================================================================
 ; 基本行動
 ;===========================================================================

@@ -25,10 +25,12 @@ data.tagmode = 1
 data.stageviewer = false
 menuSelect = ""
 P2overP1 = false
-MainFadeInTime = 30
 secretTarget = ""
 unlockTarget = ""
 vnNoSel = true
+--Editable Vars
+MainFadeInTime = 30
+data.rivalMatch = 3 --Set Rival MatchNo to show "Rival Match" Text in Arcade VS Screen
 
 function f_resetArcadeStuff()
 data.continueCount = 0 --Restart Times Continue in Arcade
@@ -830,6 +832,8 @@ function f_mainAttract()
 		   data.p2In = 1
 		   data.p2SelectMenu = false
 		   data.serviceScreen = true
+		   data.arcadeIntro = true
+		   data.arcadeEnding = true
 		   --data.stageMenu = true
 		   setGameMode('arcade')
 		   data.gameMode = "arcade"
@@ -2212,9 +2216,8 @@ function towerCfg()
 	setGameMode('tower')
 	data.gameMode = "tower"
 	data.rosterMode = "tower"
-	--data.p1TeamMenu = {mode = 0, chars = 1}
-	--data.p2TeamMenu = {mode = 0, chars = 1}
-	data.arcadeIntro = true --Enable characters arcade intro before tower select
+	--data.arcadeIntro = true --Enable characters arcade intro before tower select
+	data.arcadeEnding = true
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	sndPlay(sysSnd, 100, 1)
 end
@@ -2227,6 +2230,7 @@ function towerHumanvsCPU()
 	else
 		setPlayerSide('p1left')
 	end
+	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
 	textImgSetText(txt_mainSelect, "TOWER MODE")
@@ -2244,6 +2248,7 @@ function towerCPUvsHuman()
 	else
 		setPlayerSide('p2right')
 	end
+	data.p1TeamMenu = {mode = 0, chars = 1}
 	data.p1In = 2
 	data.p2In = 2
 	data.p1SelectMenu = false
@@ -2283,6 +2288,7 @@ end
 
 --CPU MODE (watch CPU fight in customizable tower ladders)
 function towerCPUvsCPU()
+	data.p2TeamMenu = {mode = 0, chars = 1}
 	data.p2In = 1
 	data.p2SelectMenu = false
 	data.aiFight = true
@@ -7966,6 +7972,7 @@ t_mainLobby = {
 	{id = textImgNew(), text = ""},
 	{id = textImgNew(), text = "PRACTICE"},
 	{id = textImgNew(), text = "ARCADE"},
+	{id = textImgNew(), text = "TOWER"},
 	{id = textImgNew(), text = "SURVIVAL"},
 	{id = textImgNew(), text = "ENDLESS"},
 	{id = textImgNew(), text = "BOSS RUSH"},
@@ -8069,20 +8076,28 @@ function f_mainLobby()
 				data.rosterMode = "arcade"
 				textImgSetText(txt_mainSelect, "ONLINE ARCADE COOPERATIVE")
                 script.select.f_selectAdvance()
-			--ONLINE SURVIVAL	
+			--ONLINE TOWER
 			elseif mainLobby == 4 then
+				data.gameMode = "tower"
+				data.rosterMode = "tower"
+				--data.arcadeIntro = true
+				data.arcadeEnding = true
+				textImgSetText(txt_mainSelect, "ONLINE TOWER COOPERATIVE")
+				script.select.f_selectAdvance()
+			--ONLINE SURVIVAL	
+			elseif mainLobby == 5 then
 				data.gameMode = "survival"
 				data.rosterMode = "survival"
 				textImgSetText(txt_mainSelect, "ONLINE SURVIVAL COOPERATIVE")
 				script.select.f_selectAdvance()
 			--ONLINE ENDLESS
-			elseif mainLobby == 5 then
+			elseif mainLobby == 6 then
 				data.gameMode = "endless"
 				data.rosterMode = "endless"
 				textImgSetText(txt_mainSelect, "ONLINE ENDLESS COOPERATIVE")
 				script.select.f_selectAdvance()
 			--ONLINE BOSS RUSH
-			elseif mainLobby == 6 then
+			elseif mainLobby == 7 then
 				if #t_bossChars ~= 0 then
 					data.gameMode = "bossrush"
 					data.rosterMode = "boss"
@@ -8090,7 +8105,7 @@ function f_mainLobby()
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE BONUS RUSH
-			elseif mainLobby == 7 then
+			elseif mainLobby == 8 then
 				if #t_bonusChars ~= 0 then
 					data.versusScreen = false
 					data.gameMode = "bonusrush"
@@ -8099,7 +8114,7 @@ function f_mainLobby()
 					script.select.f_selectAdvance()
 				end	
 			--ONLINE SUDDEN DEATH
-			elseif mainLobby == 8 then
+			elseif mainLobby == 9 then
 				setRoundTime(1000)
 				setLifeMul(0)
 				data.gameMode = "allroster"
@@ -8108,14 +8123,14 @@ function f_mainLobby()
 				script.select.f_selectAdvance()
 		--[[
 			--ONLINE TIME ATTACK
-			elseif mainLobby == 9 then
+			elseif mainLobby == 10 then
 				setRoundTime(-1)
 				data.gameMode = "allroster"
 				data.rosterMode = "timeattack"
 				textImgSetText(txt_mainSelect, "ONLINE TIME ATTACK COOPERATIVE")
 				script.select.f_selectAdvance()
 			--ONLINE SCORE ATTACK
-			elseif mainLobby == 10 then
+			elseif mainLobby == 11 then
 				setRoundTime(-1)
 				data.gameMode = "allroster"
 				data.rosterMode = "scoreattack"
@@ -8875,4 +8890,3 @@ CABLE DORADO 2
 CD2
 
  ]]
-

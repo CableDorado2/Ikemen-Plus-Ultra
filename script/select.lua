@@ -2664,7 +2664,7 @@ function f_selectScreen()
 		for i=0, selectColumns-1 do
 			for j=0, selectRows-1 do
 				animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2)) --Draw cell sprite for each selectColumns and selectRow
-				if t_selChars[p1charSlot].unlock == 0 then
+				if t_selChars[p1charSlot].unlock == 0 and not onlinegame then
 					--animPosDraw(cellLock, p1FaceX+i*(27+3), p1FaceY+i*(27+1)) --Draw Lock Icon if the character is locked
 				end
 			end
@@ -3550,7 +3550,7 @@ function f_p1SelectMenu()
 						end
 					end
 				--DRAW LOCKED CHAR STUFF
-					if t_selChars[p1Cell+1].unlock == 0 then --If the character is locked draw special stuff
+					if t_selChars[p1Cell+1].unlock == 0 and not onlinegame then --If the character is locked draw special stuff
 						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 						--SINGLE MODE
 							if p1numChars == 1 then
@@ -4311,13 +4311,13 @@ function f_p1SelectMenu()
 				end
 			end
 			if btnPalNo(p1Cmd) > 0 then
-				if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 then --This character is unlocked
+				if t_selChars[p1Cell+1].unlock == nil or t_selChars[p1Cell+1].unlock == 1 or onlinegame then --This character is unlocked
 					f_p1Selection()
-				elseif t_selChars[p1Cell+1].unlock == 0 then --Character locked if unlock=0 paramvalue is in Character section of select.def
+				elseif t_selChars[p1Cell+1].unlock == 0 and not onlinegame then --Character locked if unlock=0 paramvalue is in Character section of select.def
 					sndPlay(sysSnd, 100, 5)
 				end
 			elseif selectTimer == 0 then
-				if t_selChars[p1Cell+1].unlock == 0 then --Select random character to prevent issues when time to select is over
+				if t_selChars[p1Cell+1].unlock == 0 and not onlinegame then --Select random character to prevent issues when time to select is over
 					p1Cell = t_randomChars[math.random(#t_randomChars)]
 				end
 				f_p1Selection()
@@ -5044,7 +5044,7 @@ function f_p2SelectMenu()
 							end
 						end
 					end
-					if t_selChars[p2Cell+1].unlock == 0 then
+					if t_selChars[p2Cell+1].unlock == 0 and not onlinegame then
 						if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 							if p2numChars == 1 then
 								f_drawQuickSpr(p2portraitLockWindowBG, 320, 20, 120, 140, 256, 102)
@@ -5819,13 +5819,13 @@ function f_p2SelectMenu()
 				end
 			end
 			if btnPalNo(p2Cmd) > 0 then
-				if t_selChars[p2Cell+1].unlock == nil or t_selChars[p2Cell+1].unlock == 1 then
+				if t_selChars[p2Cell+1].unlock == nil or t_selChars[p2Cell+1].unlock == 1 or onlinegame then
 					f_p2Selection()
-				elseif t_selChars[p2Cell+1].unlock == 0 then
+				elseif t_selChars[p2Cell+1].unlock == 0 and not onlinegame then
 					sndPlay(sysSnd, 100, 5)
 				end
 			elseif selectTimer == 0 then
-				if t_selChars[p2Cell+1].unlock == 0 then
+				if t_selChars[p2Cell+1].unlock == 0 and not onlinegame then
 					p2Cell = t_randomChars[math.random(#t_randomChars)]
 				end
 				f_p2Selection()
@@ -6275,13 +6275,13 @@ function f_selectStage()
 		--Draw Stage Preview (Resolution Recommended for images: 1280x720)
 			if data.stageType == "Classic" then
 				drawStagePortrait(stageList-1, 114.5, 172, 0.0705, 0.0699)
-				if t_selStages[stageList].unlock == 0 then --Draw Lock stuff
+				if t_selStages[stageList].unlock == 0 and not onlinegame then --Draw Lock stuff
 					animDraw(stageLockWindowBG)
 					animDraw(stageLock)
 				end
 			elseif data.stageType == "Modern" then
 				drawStagePortrait(stageList-1, 64.600, 74.8, 0.149, 0.148)
-				if t_selStages[stageList].unlock == 0 then
+				if t_selStages[stageList].unlock == 0 and not onlinegame then
 					animDraw(stageMLockWindowBG)
 					animDraw(stageMLock)
 				end
@@ -6405,9 +6405,9 @@ function f_selectStage()
 			if stageList == 0 then --For random or character sides stages
 				stageChosen = true
 			else --For visible stages
-				if t_selStages[stageList].unlock == nil or t_selStages[stageList].unlock == 1 then --This stage is unlocked
+				if t_selStages[stageList].unlock == nil or t_selStages[stageList].unlock == 1 or onlinegame then --This stage is unlocked
 					stageChosen = true
-				elseif t_selStages[stageList].unlock == 0 then  --stage locked if unlock=0 paramvalue is in ExtraStages section of select.def
+				elseif t_selStages[stageList].unlock == 0 and not onlinegame then  --stage locked if unlock=0 paramvalue is in ExtraStages section of select.def
 					if stageTimer == 0 then --Select Random Stage to prevent issues when time to select is over
 						stageList = 0
 						stageChosen = true
