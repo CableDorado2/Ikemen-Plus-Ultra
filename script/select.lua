@@ -2091,24 +2091,9 @@ towerSlot = animNew(sysSff, [[230,1, 0,0,]])
 animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
-function f_setTowerStage()
-	if not data.stageMenu then
-		if t_selChars[t_selTower[i].kombats[length]].stage ~= nil then
-			data.stage = math.random(1,#t_selChars[t_selTower[i].kombats[length]].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
-			data.stage = t_selChars[t_selTower[i].kombats[length]].stage[data.stage]
-		end
-	end
-end
-
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
-function f_playTWsfx()
-local data = t_selTower[destinySelect].sfxplay
-local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
-sndPlay(twSfx, sfxGroup, sfxIndex)
-end
-
 function f_selectDestiny()
 	waitingTowerSel = true
 	destinySelect = 1
@@ -2250,6 +2235,21 @@ function f_selectDestiny()
 		end
 		cmdInput()
 		refresh()
+	end
+end
+
+function f_playTWsfx()
+local data = t_selTower[destinySelect].sfxplay
+local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
+sndPlay(twSfx, sfxGroup, sfxIndex)
+end
+
+function f_setTowerStage() --Unfinished
+	if not data.stageMenu then
+		if t_selChars[t_selTower[i].kombats[length]].stage ~= nil then
+			data.stage = math.random(1,#t_selChars[t_selTower[i].kombats[length]].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+			data.stage = t_selChars[t_selTower[i].kombats[length]].stage[data.stage]
+		end
 	end
 end
 
@@ -2821,9 +2821,9 @@ function f_selectScreen()
 	if stageAnnouncer == true then
 		announcerTimer = announcerTimer + 1
 	end
-	--Deselect Character for Left Side Multiplayer
+	--Deselect Character for Left Side
 	if data.coop then
-		if btnPalNo(p1Cmd) > 0 and p1SelEnd then
+		if commandGetState(p1Cmd, 'e') and p1SelEnd then
 			sndPlay(sysSnd, 100, 2)
 			p1SelEnd = false
 			data.t_p1selected = {}
@@ -2831,7 +2831,8 @@ function f_selectScreen()
 			f_p1randomReset()
 		end
 	else
-		if btnPalNo(p1Cmd) > 0 and p1SelEnd and charSelect == true then
+		--[[
+		if commandGetState(p1Cmd, 'e') and p1SelEnd and charSelect == true then
 			sndPlay(sysSnd, 100, 2)
 			p1SelEnd = false
 			data.t_p1selected = {}
@@ -2845,11 +2846,12 @@ function f_selectScreen()
 				f_p2randomReset()
 			end
 		end
+		]]
 	end
-	--Deselect Character for Right Side Multiplayer
+	--Deselect Character for Right Side
 	if data.p2In == 2 then
 		if data.coop then
-			if btnPalNo(p2Cmd) > 0 and p2SelEnd then
+			if commandGetState(p2Cmd, 'e') and p2SelEnd then
 				sndPlay(sysSnd, 100, 2)
 				--if data.p2In == 2 then
 					p2SelEnd = false
@@ -2860,7 +2862,8 @@ function f_selectScreen()
 				p2coopReady = false
 			end
 		else
-			if btnPalNo(p2Cmd) > 0 and p2SelEnd and charSelect == true then 
+			--[[
+			if commandGetState(p2Cmd, 'e') and p2SelEnd and charSelect == true then 
 				sndPlay(sysSnd, 100, 2)
 				--if data.p2In == 2 then
 					p2SelEnd = false
@@ -2869,6 +2872,7 @@ function f_selectScreen()
 				p2memberPreview = 1
 				f_p2randomReset()
 			end
+			]]
 		end
 	end
 	--Show Back Menu

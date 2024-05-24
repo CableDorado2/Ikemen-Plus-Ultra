@@ -347,8 +347,8 @@ sfx = 0,7
 6=randomselect
 7=randomselect
 8=randomselect
-9=randomselect
-10=randomselect
+;9=randomselect
+;10=randomselect
 
 ;---------------------------------------------------------------------------------
 [VisualNovel]

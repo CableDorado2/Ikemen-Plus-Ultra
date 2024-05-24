@@ -336,15 +336,19 @@ TO-DO:
 Some Examples:
 
 [TowerMode]
+snd = data/screenpack/tower.snd
+sfx.announcer = 0,0
 
 [Tower 1]
 displayname = NOVICE
+sfx = 0,1
 1=Kung Fu Girl
 2=Kung Fu Man/Evil/Evil Kung Fu Man.def
 3=Suave Dude
 
 [Tower 2]
 displayname = MASTER
+sfx = 0,2
 1=Shang Tsung
 2=Liu Kang
 3=Sheeva
@@ -360,6 +364,7 @@ displayname = MASTER
 
 [Tower 3]
 displayname = WARRIOR
+sfx = 0,3
 1=Ryu
 2=Ken
 3=Guile

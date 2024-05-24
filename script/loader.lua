@@ -410,7 +410,7 @@ function f_parseChar(t, cel)
 	end
 end
 --;===========================================================
---; LOAD SELECT.DEF DATA
+--; LOADING SCREEN 1 (LOAD SELECT.DEF DATA)
 --;===========================================================
 --add characters and stages using select.def instead of select.lua
 --start_time = os.time()
@@ -418,7 +418,6 @@ data.includestage = 0
 t_orderChars = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
-t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
 t_selVN = {}
 local t_vnList = {}
 local section = 0
@@ -428,9 +427,6 @@ file:close()
 content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
 content = content:gsub('\n%s*\n', '\n')
 --f_printVar(content)
---;===========================================================
---; LOADING SCREEN 1
---;===========================================================
 for line in content:gmatch('[^\r\n]+') do
 --for line in io.lines("data/select.def") do
 	line = line:lower()
@@ -443,10 +439,8 @@ for line in content:gmatch('[^\r\n]+') do
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
 		section = 3
-	elseif line:match('^%s*%[%s*towermode%s*%]') then
-		section = 4
 	elseif line:match('^%s*%[%s*visualnovel%s*%]') then
-		section = 5
+		section = 4
 	elseif section == 1 then --[Characters]
 		row = #t_selChars+1
 		t_selChars[row] = {}
@@ -632,46 +626,7 @@ for line in content:gmatch('[^\r\n]+') do
 			t_selOptions[rowName .. rowName2]['wins'] = tonumber(wins)
 			t_selOptions[rowName .. rowName2]['offset'] = tonumber(offset)
 		end
-	elseif section == 4 then --[TowerMode]
-		if line:match('^%s*snd%s*=') then
-			t_selTower['data'] = {}t_selTower['data'] = {}
-			local data = line:gsub('%s*;.*$', '')
-			if not data:match('=%s*$') then
-				t_selTower['data']['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			end
-		end
-		if line:match('^%s*sfx.announcer%s*=') then
-			local data = line:gsub('%s*;.*$', '')
-			if not data:match('=%s*$') then
-				t_selTower['data']['sfxannouncer'] = data:gsub('^%s*sfx.announcer%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			end
-		end
-		if line:match('^%s*%[%s*[Tt][Oo][Ww][Ee][Rr]%s+[0-9]+$*%]') then
-			row = #t_selTower+1
-			t_selTower[row] = {}
-			--t_selTower[row]['ID'] = textImgNew()
-			--t_selTower[row]['displayname'] = ""
-			t_selTower[row]['kombats'] = {}
-		end
-		if line:match('^%s*displayname%s*=') then
-			local data = line:gsub('%s*;.*$', '')
-			if not data:match('=%s*$') then
-				t_selTower[row]['ID'] = textImgNew()
-				t_selTower[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			end
-		end
-		if line:match('^%s*sfx%s*=') then
-			local data = line:gsub('%s*;.*$', '')
-			if not data:match('=%s*$') then
-				t_selTower[row]['sfxplay'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
-			end
-		end
-		if line:match('[0-9]+%s*=%s*[^%s]') then
-			local var1, var2 = line:match('([0-9]+)%s*=%s*(.+)%s*$')
-			--t_selTower[row]['kombats'][tonumber(var1)] = var2:lower() --store chars name
-			t_selTower[row]['kombats'][tonumber(var1)] = t_charAdd[var2] --instead of store chars name, save from t_selChars "cel" value that will be used to make roster and battle plan
-		end
-	elseif section == 5 then --[VisualNovel]
+	elseif section == 4 then --[VisualNovel]
 		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
 		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
 			if param:match('^name$') then
@@ -702,7 +657,9 @@ function f_charAnim(t, compare, add)
 	end
 	return ret
 end
-
+--;====================================================================================
+--; LOADING SCREEN 2 (STORE CHARACTER DATA BASED ON PREVIOUS LOADED FROM SELECT.DEF)
+--;====================================================================================
 local sff2png = [[
 [Output]
  ;Filename of the SFF file to create (required).
@@ -738,9 +695,6 @@ t_bossChars = {}
 t_bonusChars = {}
 t_randomChars = {}
 t_intermissionChars = {}
---;===========================================================
---; LOADING SCREEN 2
---;===========================================================
 if t_selChars ~= nil then
 --for each character loaded
 	for i=1, #t_selChars do
@@ -916,54 +870,80 @@ if t_selChars ~= nil then
 		end
 	end
 end
-
---Generate Table with Music List
-t_selMusic = {
-	{bgmfile = "", bgmname = "AUTO", bgmchar = 0},
-	{bgmfile = "", bgmname = "AUTO [RIGHT SIDE]", bgmchar = 0},
-	{bgmfile = "", bgmname = "RANDOM", bgmchar = 0}
-}
-
---Populate table with SOUND FOLDER
-for file in lfs.dir[[.\\sound\\]] do
-	if file:match('^.*(%.)mp3$') then
-		row = #t_selMusic+1
-		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]mp3$', '%1')
-		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)MP3$') then
-		row = #t_selMusic+1
-		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)ogg$') then
-		row = #t_selMusic+1
-		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)OGG$') then
-		row = #t_selMusic+1
-		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]OGG$', '%1')
-		t_selMusic[row]['bgmchar'] = 0
+--;===========================================================
+--; LOADING SCREEN 3 (LOAD SELECT.DEF TOWER DATA)
+--;===========================================================
+if t_selChars ~= nil then
+--The loading of the towers should be after generate t_randomChars table to more comfortably add randomselect combats using that table..
+t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
+local section = 0
+local file = io.open("data/select.def","r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+	for line in content:gmatch('[^\r\n]+') do
+		line = line:lower()
+		if line:match('^%s*%[%s*towermode%s*%]') then
+			section = 1
+		elseif section == 1 then --[TowerMode]
+			if line:match('^%s*snd%s*=') then
+				t_selTower['data'] = {}t_selTower['data'] = {}
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_selTower['data']['snd'] = data:gsub('^%s*snd%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*sfx.announcer%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_selTower['data']['sfxannouncer'] = data:gsub('^%s*sfx.announcer%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*%[%s*[Tt][Oo][Ww][Ee][Rr]%s+[0-9]+$*%]') then
+				row = #t_selTower+1
+				t_selTower[row] = {}
+				--t_selTower[row]['ID'] = textImgNew()
+				--t_selTower[row]['displayname'] = ""
+				t_selTower[row]['kombats'] = {}
+			end
+			if line:match('^%s*displayname%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_selTower[row]['ID'] = textImgNew()
+					t_selTower[row]['displayname'] = data:gsub('^%s*displayname%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('^%s*sfx%s*=') then
+				local data = line:gsub('%s*;.*$', '')
+				if not data:match('=%s*$') then
+					t_selTower[row]['sfxplay'] = data:gsub('^%s*sfx%s*=%s*["]*%s*(.-)%s*["]*%s*$', '%1')
+				end
+			end
+			if line:match('[0-9]+%s*=%s*[^%s]') then
+				local var1, var2 = line:match('([0-9]+)%s*=%s*(.+)%s*$')
+				--t_selTower[row]['kombats'][tonumber(var1)] = var2:lower() --store chars name
+				if var2:lower() == "randomselect" then --if there is a random char detected on a tower floor
+					local randomChar = t_randomChars[math.random(#t_randomChars)] --t_randomChars table will be used to get character slot. (In online mode this ramdom logic will cause desync if is not loaded in real time)
+					while f_tableContains(t_selTower[row].kombats, randomChar) do --if random char selected matches one stored
+						--need to be careful, the tower size introduced need to be at least the same number of characters stored in t_randomChars to avoid crash by infinite loop
+						if #t_selTower[row].kombats > #t_randomChars then
+							break
+						end
+						randomChar = t_randomChars[math.random(#t_randomChars)] --randomize again
+					end
+					t_selTower[row]['kombats'][tonumber(var1)] = randomChar
+					--t_selTower[row]['kombats'][tonumber(var1)] = t_randomChars[math.random(#t_randomChars)]
+				else
+					t_selTower[row]['kombats'][tonumber(var1)] = t_charAdd[var2] --instead of store chars name, save from t_selChars "cel" value that will be used to make roster and battle plan stuff
+				end
+			end
+		end
+		textImgSetText(txt_loading, "LOADING TOWERS...")
+		textImgDraw(txt_loading)
+		refresh()
 	end
 end
-
---Add Extra music
---[[
-t_selMusic[6].bgmfile = "sound/system/Opening.mp3"
-t_selMusic[6].bgmname = "Extra Song Name"
-t_selMusic[6].bgmchar = 999
-]]
-
---Add extra items to Song Select table
-t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
-t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
-
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
 --;===========================================================
@@ -1092,6 +1072,53 @@ if generate and data.sffConversion then
 	end
 end
 
+--Generate Table with Music List
+t_selMusic = {
+	{bgmfile = "", bgmname = "AUTO", bgmchar = 0},
+	{bgmfile = "", bgmname = "AUTO [RIGHT SIDE]", bgmchar = 0},
+	{bgmfile = "", bgmname = "RANDOM", bgmchar = 0}
+}
+
+--Populate t_selMusic table with SOUND FOLDER data
+for file in lfs.dir[[.\\sound\\]] do
+	if file:match('^.*(%.)mp3$') then
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = "sound/"..file
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	elseif file:match('^.*(%.)MP3$') then
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = "sound/"..file
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]MP3$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	elseif file:match('^.*(%.)ogg$') then
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = "sound/"..file
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]ogg$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	elseif file:match('^.*(%.)OGG$') then
+		row = #t_selMusic+1
+		t_selMusic[row] = {}
+		t_selMusic[row]['bgmfile'] = "sound/"..file
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_selMusic[row]['bgmchar'] = 0
+	end
+end
+
+--Add Extra music
+--[[
+t_selMusic[6].bgmfile = "sound/system/Opening.mp3"
+t_selMusic[6].bgmname = "Extra Song Name"
+t_selMusic[6].bgmchar = 999
+]]
+
+--Add extra items to Song Select table
+t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
+t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
+
 function f_updateLogs()
 	if data.debugLog then
 	f_printTable(t_selChars, "save/debug/t_selChars.txt")
@@ -1111,7 +1138,7 @@ function f_updateLogs()
 	end
 end
 
-f_updateLogs()
+f_updateLogs() --print tables
 
 function f_rushTables()
 	t_bossSingle = {} --This is the table of the boss chars menu to fight against them individually, it must be loaded after this parser script or it will give an error

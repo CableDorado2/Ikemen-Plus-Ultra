@@ -512,7 +512,7 @@ function f_storyMenu()
 			if data.story1_1Status == 1 then t_arc1[2].Status = checkIco end
 			if data.story1_1Unlock == true then --If this chapters is unlocked
 				t_arc1[2].Preview = st1_1 --Load Chapter Preview
-				t_arc1[2].Info = "WHILE KUNG FU MAN WAS LOOKING FOR HIS GIRLFRIEND. SOMEONE UNEXPECTED WILL TAKE HIM ON A BIZARRE ADVENTURE..." --Set Chapter Description
+				t_arc1[2].Info = "WHILE KUNG FU MAN WAS LOOKING FOR HIS GIRLFRIEND. SOMEONE UNEXPECTED WILL TAKE HIM ON A UNREAL ADVENTURE..." --Set Chapter Description
 			end
 		elseif storyMenu == 1 and chapterMenu == 3 then
 			if data.story1_2Status == 1 and data.story1_3AUnlock == true and data.story1_3BUnlock == true then t_arc1[3].Status = checkIco end
