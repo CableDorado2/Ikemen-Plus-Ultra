@@ -876,9 +876,9 @@ if t_selChars ~= nil then
 	end
 end
 --;===========================================================
---; LOADING SCREEN 3 (LOAD SELECT.DEF TOWER DATA)
+--; LOAD SELECT.DEF TOWER DATA
 --;===========================================================
-if t_selChars ~= nil then
+function f_loadTowers()
 --The loading of the towers should be after generate t_randomChars table to more comfortably add randomselect combats using that table..
 t_selTower = {} --Here to avoid issues if you don´t declare [TowerMode] section in select.def
 local section = 0
@@ -929,25 +929,32 @@ content = content:gsub('\n%s*\n', '\n')
 				local var1, var2 = line:match('([0-9]+)%s*=%s*(.+)%s*$')
 				--t_selTower[row]['kombats'][tonumber(var1)] = var2:lower() --store chars name
 				if var2:lower() == "randomselect" then --if there is a random char detected on a tower floor
-					local randomChar = t_randomChars[math.random(#t_randomChars)] --t_randomChars table will be used to get character slot. (In online mode this ramdom logic will cause desync if is not loaded in real time)
-					while f_tableContains(t_selTower[row].kombats, randomChar) do --if random char selected matches one stored
-						--need to be careful, the tower size introduced need to be at least the same number of characters stored in t_randomChars to avoid crash by infinite loop
-						if #t_selTower[row].kombats > #t_randomChars then
-							break
-						end
-						randomChar = t_randomChars[math.random(#t_randomChars)] --randomize again
-					end
-					t_selTower[row]['kombats'][tonumber(var1)] = randomChar
-					--t_selTower[row]['kombats'][tonumber(var1)] = t_randomChars[math.random(#t_randomChars)]
+					t_selTower[row]['kombats'][tonumber(var1)] = var2:lower() --store "randomselect" name 
 				else
 					t_selTower[row]['kombats'][tonumber(var1)] = t_charAdd[var2] --instead of store chars name, save from t_selChars "cel" value that will be used to make roster and battle plan stuff
 				end
 			end
 		end
-		textImgSetText(txt_loading, "LOADING TOWERS...")
-		textImgDraw(txt_loading)
-		refresh()
+		--textImgSetText(txt_loading, "LOADING TOWERS...")
+		--textImgDraw(txt_loading)
+		--refresh()
 	end
+	--Set random chars
+	for k,v in ipairs(t_selTower) do --For each item stored in t_selTower
+		for i, val in ipairs(v.kombats) do --For each subtable [kombats]
+			if val == "randomselect" then --If the char stored is randomselect
+				local randomChar = t_randomChars[math.random(#t_randomChars)] --t_randomChars table will be used to replace randomselect slot. (In online mode this random logic will cause desync if is not loaded in real time)
+				while f_tableContains(v.kombats, randomChar) do --if random char selected matches one stored
+					if #v.kombats > #t_randomChars then --if tower size loaded exceed number of characters stored in t_randomChars then break to avoid infinite loop.
+						break
+					end
+					randomChar = t_randomChars[math.random(#t_randomChars)] --randomizes again
+				end
+				v.kombats[i] = randomChar --store/replace randomselect with random char cel
+			end
+		end
+	end
+	if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower.txt") end
 end
 --;===========================================================
 --; SPRITE CONVERSION SCREEN
@@ -1130,7 +1137,6 @@ function f_updateLogs()
 	f_printTable(t_selStages, "save/debug/t_selStages.txt")
 	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
 	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
-	f_printTable(t_selTower, "save/debug/t_selTower.txt")
 	f_printTable(t_selVN, "save/debug/t_selVN.txt")
 	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
 	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")

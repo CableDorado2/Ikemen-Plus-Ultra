@@ -349,16 +349,16 @@ sfx = 0,1
 [Tower 2]
 displayname = MASTER
 sfx = 0,2
-1=Shang Tsung
-2=Liu Kang
-3=Sheeva
-4=Kabal
-5=Kung Lao
-6=Cyrax
-7=Sindel
-8=Sektor
-9=Sub-Zero
-10=Kano
+1=randomselect
+2=randomselect
+3=randomselect
+4=randomselect
+5=randomselect
+6=randomselect
+7=randomselect
+8=randomselect
+9=randomselect
+10=randomselect
 11=Motaro
 12=Shao Kahn
 
