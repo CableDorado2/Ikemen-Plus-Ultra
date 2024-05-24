@@ -442,6 +442,7 @@ for line in content:gmatch('[^\r\n]+') do
 	elseif line:match('^%s*%[%s*visualnovel%s*%]') then
 		section = 4
 	elseif section == 1 then --[Characters]
+		textImgSetText(txt_loading, "LOADING CHARACTERS...")
 		row = #t_selChars+1
 		t_selChars[row] = {}
 		for i, c in ipairs(strsplit(',', line)) do
@@ -498,6 +499,7 @@ for line in content:gmatch('[^\r\n]+') do
 			t_orderChars[t_selChars[row].order][#t_orderChars[t_selChars[row].order]+1] = row-1
 		end
 	elseif section == 2 then --[ExtraStages]
+		textImgSetText(txt_loading, "LOADING STAGES...")
 		row = #t_selStages+1
 		for i, c in ipairs(strsplit(',', line)) do
 			c = c:gsub('^%s*(.-)%s*$', '%1')
@@ -614,6 +616,7 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	elseif section == 3 then --[Options]
+		textImgSetText(txt_loading, "LOADING ARCADE SETTINGS...")
 		if line:match('^%s*.-%.maxmatches%s*=%s*') then
 			local rowName, line = line:match('^%s*(.-)%.maxmatches%s*=%s*(.+)')
 			t_selOptions[rowName .. 'maxmatches'] = {}
@@ -627,6 +630,7 @@ for line in content:gmatch('[^\r\n]+') do
 			t_selOptions[rowName .. rowName2]['offset'] = tonumber(offset)
 		end
 	elseif section == 4 then --[VisualNovel]
+		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
 		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
 		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
 			if param:match('^name$') then
@@ -864,6 +868,7 @@ if t_selChars ~= nil then
 					t_selChars[i]['p1IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 0, 1)
 					t_selChars[i]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
 				end
+				textImgSetText(txt_loading, "GENERATING CHARS TABLES...")
 				textImgDraw(txt_loading)
 				refresh()
 			end

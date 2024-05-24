@@ -936,10 +936,20 @@ function f_uniq(str, pattern, subpattern)
 	return table.concat(out)
 end
 
-function f_contains(t, val)
+--checks if a value "val" is present in a table "t"
+function f_contains(t, val) --This is for strings
 	for k,v in pairs(t) do
 		--if v == val then
 		if v:match(val) then
+			return true
+		end
+	end
+	return false
+end
+
+function f_tableContains(t, val) --This is for general purposes
+	for k,v in ipairs(t) do
+		if v == val then
 			return true
 		end
 	end
@@ -2033,7 +2043,7 @@ end
 --; MAIN MENU STUFF
 --;===========================================================
 --Loading Text
-txt_loading = createTextImg(font1, 0, -1, "LOADING FILES...", 310, 230)
+txt_loading = createTextImg(font1, 0, -1, "", 310, 230)
 
 function f_default() --Reset Game Modes Configuration
 	resetRemapInput()

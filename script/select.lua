@@ -7483,6 +7483,7 @@ function f_loading()
 			break
 		end
 		t = t + 1
+		textImgSetText(txt_loading, "LOADING MATCH...")
 		textImgDraw(txt_loading)
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
