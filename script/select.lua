@@ -2273,46 +2273,68 @@ animSetScale(battleSlot, 1.3, 1.3)
 animUpdate(battleSlot)
 
 function f_battlePlan()
+	startKombat = false
+	towerPlanTimer = 0
+	towerPlanTimeLimit = 100
+	battlePreviewTimer = 0
+	local loopSfx = 0
 	local scroll = 0
 	local scrollDown = 0
 	local scrollUp = 0
+	local HumanslotPosX = 87
 	local CPUslotPosX = 170
-	local CPUslotPosY = 170 --170 Previous Battle Pos
+	local CPUslotPosY = 170
 	local CPUslotSpacingY = 85
-	local introTimer = 0
-	local battlePreviewTimer = 0
-	local matchNo = 1 --temp var
-	if matchNo == 1 then CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*#t_selTower[destinySelect].kombats)-CPUslotSpacingY end --Portraits Y pos starts in the top of the tower
+	local matchNo = 1 --2 --temp var
+	twSfx = sndNew("data/screenpack/tower.snd") --temp load
+	local CPUslotPosYInit = CPUslotPosY --get initial first battle pos
+	if matchNo == 1 then
+		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*#t_selTower[destinySelect].kombats)-CPUslotSpacingY --Portraits Y pos starts in the top of the tower
+	else
+		--playBGM(bgmTower)
+		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*matchNo)-CPUslotSpacingY --Portraits Y pos starts in the lastest battle
+	end
 	--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
+		if startKombat then break end --Go to next Screen
 		if matchNo == 1 then --Battle Plan Presentation
-			if introTimer < 100 then --Intro Time
-				introTimer = introTimer + 1
+			if towerPlanTimer < towerPlanTimeLimit then --Intro Time
+				towerPlanTimer = towerPlanTimer + 1
 			else --when introTime is over. Start Down Scroll
-				scroll = -scrollDown
-				if scrollDown < CPUslotSpacingY then
-					scrollDown = scrollDown + 0.5
-				else
-					battlePreviewTimer = battlePreviewTimer + 1 --Time to show VS preview
+				if CPUslotPosY > CPUslotPosYInit then
+					if loopSfx > 45 then --reset sfx loop (time is in ticks)
+						loopSfx = 0
+					end
+					if loopSfx == 0 then sndPlay(twSfx, 1, 0) end --Play Scroll Down Sfx
+					loopSfx = loopSfx + 1
+					--Scroll Logic
+					CPUslotPosY = CPUslotPosY - 2
+					if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Skip Battle Plan Preview
+						sndStop()
+						CPUslotPosY = CPUslotPosYInit
+					end
+				else --when down scroll finish
+					f_battlePreview()
 				end
 			end
-		else --Battle Plan Continue
+		else --Battle Plan Prosecution
 			scroll = scrollUp
-			if scrollUp < CPUslotSpacingY then
-				scrollUp = scrollUp + 0.5
+			if towerPlanTimer < towerPlanTimeLimit then --Intro Time
+				towerPlanTimer = towerPlanTimer + 1
 			else
-				battlePreviewTimer = battlePreviewTimer + 1 --Time to show VS preview
+				if scrollUp < CPUslotSpacingY then --when introTime is over. Start Up Scroll
+					if scroll == 0 then sndPlay(twSfx, 1, 1) end --Play Scroll Up Sfx
+					scrollUp = scrollUp + 0.8
+					if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Skip Battle Plan Preview
+						sndStop()
+						scrollUp = CPUslotSpacingY
+					end
+				else
+					f_battlePreview()
+				end
 			end
 		end
-		--[[
-		if battlePreviewTimer == 2500 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-			commandBufReset(p1Cmd)
-			commandBufReset(p2Cmd)
-			break
-		end
-		]]
 		--draw background on top
 		animDraw(f_animVelocity(selectTowerBG0, 0, 1.5))
 		--Draw Towers Assets
@@ -2324,23 +2346,28 @@ function f_battlePlan()
 			--draw CPU character portraits
 			drawPortrait(t_selTower[destinySelect].kombats[length], CPUslotPosX+61.5, CPUslotPosY+7-CPUslotSpacingY*length+scroll, -0.48, 0.48) --Draw Chars Preview Portraits
 		end
-		--[[
-		--draw HUMAN character portraits
+		--draw HUMAN Player Portrait
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-			drawPortrait(data.t_p1selected[1].cel, 20, 30, 0.5, 0.5)
-			drawPortrait(data.t_p2selected[1].cel, 300, 30, -0.5, 0.5)
+			--Left Side
+			animPosDraw(battleSlot, 3, CPUslotPosYInit-CPUslotSpacingY)
+			drawPortrait(data.t_p1selected[1].cel, HumanslotPosX, CPUslotPosYInit-CPUslotSpacingY+7, 0.48, 0.48)
+			--Right Side
+			--drawPortrait(data.t_p2selected[1].cel, 300, CPUslotPosYInit, -0.48, 0.48)
 		end
-		--draw HUMAN character animations
+		--[[
+		--draw HUMAN Player Animations
 		if data.charPresentation == "Sprite" then
+			--Left Side
 			for j=#data.t_p1selected, 1, -1 do
 				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
 			end
+			--Right Side
 			for j=#data.t_p2selected, 1, -1 do
 				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
 			end
 		end
 		]]
-		--draw HUMAN name
+		--draw HUMAN Player Name
 		
 		--draw title info
 		textImgDraw(txt_towerPlan)
@@ -2350,6 +2377,17 @@ function f_battlePlan()
 		--animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
+	end
+end
+
+function f_battlePreview()
+	if battlePreviewTimer == 0 then sndPlay(twSfx, 1, 2) end --Play Stop Sfx
+	battlePreviewTimer = battlePreviewTimer + 1 --Time to show VS preview
+	if battlePreviewTimer == 250 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+		commandBufReset(p1Cmd)
+		commandBufReset(p2Cmd)
+		sndStop()
+		startKombat = true
 	end
 end
 
