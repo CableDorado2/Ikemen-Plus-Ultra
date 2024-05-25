@@ -956,6 +956,27 @@ function f_tableContains(t, val) --This is for general purposes
 	return false
 end
 
+function f_delRepeated(t)
+	local t_new = {}
+	local t_checked = {}
+	for k, v in ipairs(t) do
+		if not t_checked[v] then
+			table.insert(t_new, v)
+				t_checked[v] = true
+			end
+		end
+	return t_new --get new table without repeated items
+end
+
+function f_indexOf(t, item)
+	for index, val in ipairs(t) do
+		if val == item then
+			return index
+		end
+	end
+	return nil
+end
+
 --- Wrap a long string.
 -- source: http://lua-users.org/wiki/StringRecipes
 -- @str: string to wrap

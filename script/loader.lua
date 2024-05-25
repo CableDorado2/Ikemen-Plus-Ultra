@@ -641,8 +641,8 @@ for line in content:gmatch('[^\r\n]+') do
 			end
 		end
 	end
-	textImgDraw(txt_loading)
-	refresh()
+	--textImgDraw(txt_loading)
+	--refresh()
 end
 --end_time = os.time()
 --elapsed_time = os.difftime(end_time - start_time)
@@ -869,8 +869,8 @@ if t_selChars ~= nil then
 					t_selChars[i]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
 				end
 				textImgSetText(txt_loading, "GENERATING CHARS TABLES...")
-				textImgDraw(txt_loading)
-				refresh()
+				--textImgDraw(txt_loading)
+				--refresh()
 			end
 		end
 	end
@@ -946,6 +946,7 @@ content = content:gsub('\n%s*\n', '\n')
 				local randomChar = t_randomChars[math.random(#t_randomChars)] --t_randomChars table will be used to replace randomselect slot. (In online mode this random logic will cause desync if is not loaded in real time)
 				while f_tableContains(v.kombats, randomChar) do --if random char selected matches one stored
 					if #v.kombats > #t_randomChars then --if tower size loaded exceed number of characters stored in t_randomChars then break to avoid infinite loop.
+						--table.remove(v.kombats, i)
 						break
 					end
 					randomChar = t_randomChars[math.random(#t_randomChars)] --randomizes again
@@ -953,6 +954,7 @@ content = content:gsub('\n%s*\n', '\n')
 				v.kombats[i] = randomChar --store/replace randomselect with random char cel
 			end
 		end
+		v.kombats = f_delRepeated(v.kombats) --get final towers without characters repeated
 	end
 	if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower.txt") end
 end

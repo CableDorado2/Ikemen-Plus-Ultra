@@ -941,18 +941,6 @@ public void showCursor(bool show)
   CursorShow(:show:);
 }
 
-public void discordInit(^/char id)
-{
-  plugin void DiscordInit(:^/char:) = "dll/sdlpluginV.dll";
-  DiscordInit(:id:);
-}
-
-public void setDiscordState(^/char state)
-{
-  plugin void SetDiscordState(:^/char:) = "dll/sdlpluginV.dll";
-  SetDiscordState(:state:);
-}
-
 public &GlTexture
 {
   uint id = 0x0;

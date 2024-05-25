@@ -12,7 +12,7 @@ const int Brightness = 256;
 //Audio Settings
 const float GlVol = 0.8;
 const float SEVol = 0.8;
-const float BGMVol = 0;
+const float BGMVol = 0.35;
 const float PanStr = 0.8;
 
 //Perfomance Settings
@@ -51,28 +51,12 @@ const int StageExtraPortraitIndex = 4;
 const ^/char Executable = "Ikemen Plus Ultra.exe";
 const ^/char WindowTitle = "I.K.E.M.E.N PLUS ULTRA";
 const ^/char listenPort = "7500";
-const ^/char UserName = "CD2";
+const ^/char UserName = "Nickname";
 //const ^/char ScreenshotDir = "screenshots/Test.png";
 const ^/char system = "script/main.lua";
 const ^/char GlobalMatch = "data/match.cns";
 const ^/char GlobalCommands = "data/common.cmd";
 const ^/char GlobalAnims = "data/common.air";
-
-//Discord Settings
-const ^/char GameID = "1200228516554346567";
-const ^/char GameState = "Starting Engine";
-//const ^/char GameDetails = "Create Advanced MUGENS or your own Fighting Game!";
-//const ^/char GameBigImg = "gameicon";
-//const ^/char GameAbout = "Game Name";
-//const ^/char GameMiniIcon = "charactericon";
-//const ^/char GameMiniTxt = "character name";
-//const ^/char PublicRoomID = "party1234";
-//const ^/char PrivateRoomID = "xyzzy";
-//const ^/char PrivateJoin = "join";
-//const ^/char PrivateWatch = "look";
-//const int RoomSize = 0;
-//const int RoomMax = 2;
-//const int GameInstance = 0;
 
 //Input Settings
 lib sdl = <alpha/sdlplugin.ssz>;

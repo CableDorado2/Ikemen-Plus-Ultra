@@ -1147,12 +1147,10 @@ function f_vnMenu()
 				break
 			--Start Visual Novel Selected
 			else
-				setDiscordState("In Story Mode")
 				f_vnMain(t_selVN[vnMenu].path)
 			--When Ends
 				data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
 				f_menuMusic()
-				setDiscordState("In Story Select")
 			end
 		end
 		--Menu Scroll Logic

@@ -2178,7 +2178,7 @@ function f_selectDestiny()
 			if i > destinySelect - cursorPosX then
 			--Draw Towers Assets
 				for length=#t_selTower[i].kombats, 1, -1 do
-					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*length) --Draw Towers BG According to his size via maxmatches order
+					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*length) --Draw Towers BG According to his size via kombats sub-table
 					--if t_selChars[t_selTower[i].kombats[length][1]].stage ~= nil then
 						--drawStagePortrait(t_selChars[t_selTower[i].kombats[length][1]].stage, -83+100*i-moveTower, 253-32*length, 0.056, 0.036) --Draw Stages Preview Portraits
 					--else
@@ -2267,28 +2267,70 @@ animAddPos(destinyFinalBG, 0, 0)
 animUpdate(destinyFinalBG)
 --animSetScale(destinyFinalBG, 1., 1.)
 
+--Tower Slot
+battleSlot = animNew(sysSff, [[230,2, 0,0,]])
+animSetScale(battleSlot, 1.3, 1.3)
+animUpdate(battleSlot)
+
 function f_battlePlan()
-	local i = 0
+	local scroll = 0
+	local scrollDown = 0
+	local scrollUp = 0
+	local CPUslotPosX = 170
+	local CPUslotPosY = 170 --170 Previous Battle Pos
+	local CPUslotSpacingY = 85
+	local introTimer = 0
 	local battlePreviewTimer = 0
-	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	local matchNo = 1 --temp var
+	if matchNo == 1 then CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*#t_selTower[destinySelect].kombats)-CPUslotSpacingY end --Portraits Y pos starts in the top of the tower
+	--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
-		--Time to show Battle Plan Screen
-		battlePreviewTimer = battlePreviewTimer + 1
+		if matchNo == 1 then --Battle Plan Presentation
+			if introTimer < 100 then --Intro Time
+				introTimer = introTimer + 1
+			else --when introTime is over. Start Down Scroll
+				scroll = -scrollDown
+				if scrollDown < CPUslotSpacingY then
+					scrollDown = scrollDown + 0.5
+				else
+					battlePreviewTimer = battlePreviewTimer + 1 --Time to show VS preview
+				end
+			end
+		else --Battle Plan Continue
+			scroll = scrollUp
+			if scrollUp < CPUslotSpacingY then
+				scrollUp = scrollUp + 0.5
+			else
+				battlePreviewTimer = battlePreviewTimer + 1 --Time to show VS preview
+			end
+		end
+		--[[
 		if battlePreviewTimer == 2500 or (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 			--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			break
 		end
+		]]
 		--draw background on top
 		animDraw(f_animVelocity(selectTowerBG0, 0, 1.5))
-		--draw character portraits
+		--Draw Towers Assets
+		for length=#t_selTower[destinySelect].kombats, 1, -1 do
+			--Draw Tower Slot According to his size
+			animPosDraw(battleSlot, CPUslotPosX, CPUslotPosY-CPUslotSpacingY*length+scroll)
+			--TODO Stage Portraits
+			
+			--draw CPU character portraits
+			drawPortrait(t_selTower[destinySelect].kombats[length], CPUslotPosX+61.5, CPUslotPosY+7-CPUslotSpacingY*length+scroll, -0.48, 0.48) --Draw Chars Preview Portraits
+		end
+		--[[
+		--draw HUMAN character portraits
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
 			drawPortrait(data.t_p1selected[1].cel, 20, 30, 0.5, 0.5)
 			drawPortrait(data.t_p2selected[1].cel, 300, 30, -0.5, 0.5)
 		end
-		--draw character animations
+		--draw HUMAN character animations
 		if data.charPresentation == "Sprite" then
 			for j=#data.t_p1selected, 1, -1 do
 				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
@@ -2297,14 +2339,15 @@ function f_battlePlan()
 				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
 			end
 		end
-		--draw names
+		]]
+		--draw HUMAN name
 		
 		--draw title info
 		textImgDraw(txt_towerPlan)
-		textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper())
-		textImgDraw(txt_towerDifficult)
-		animDraw(data.fadeTitle)
-		animUpdate(data.fadeTitle)
+		--textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper())
+		--textImgDraw(txt_towerDifficult)
+		--animDraw(data.fadeTitle)
+		--animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
@@ -8330,7 +8373,6 @@ end
 --VS CHALLENGER (use your character selected for arcade mode to defeat a human challenger the winner keep playing the arcade)
 function f_challengerVS()
 	f_default()
-	setDiscordState("VS Challenger")
 	setGameMode('vs')
 	data.gameMode = "challenger"
 	data.rosterMode = "versus"

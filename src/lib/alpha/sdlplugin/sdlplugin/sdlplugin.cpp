@@ -41,11 +41,6 @@
 #pragma comment(lib, "strmiids")
 #pragma comment (lib, "Quartz")            \
 
-//Discord Rich Presence Stuff
-#include <discord_register.h>
-#include <discord_rpc.h>
-#pragma comment(lib, "discord-rpc.lib")
-
 //SSZ Stuff
 void* (__stdcall *sszrefnewfunc)(intptr_t);
 void (__stdcall *sszrefdeletefunc)(void*);
@@ -450,183 +445,6 @@ void sndjoyinit()
 	g_js.init();
 }
 
-TUserFunc(void, DiscordInit, Reference discordAppID)
-{
-	DiscordEventHandlers handlers;
-	memset(&handlers, 0, sizeof(handlers));
-	//handlers.ready = handleDiscordReady;
-	//handlers.disconnected = handleDiscordDisconnected;
-	//handlers.errored = handleDiscordError;
-	//handlers.joinGame = handleDiscordJoin;
-	//handlers.spectateGame = handleDiscordSpectate;
-	//handlers.joinRequest = handleDiscordJoinRequest;
-	Discord_Initialize(pu->refToAstr(CP_UTF8, discordAppID).c_str(), &handlers, 1, NULL);
-}
-
-int FrustrationLevel = 0;
-int32_t StartTime;
-int SendPresence = 1;
-const char* discordState;
-const char* discordDetails;
-//int64_t discordStartTime = time(0) - 0 * 60;
-//int64_t discordEndTime = time(0) + 5 * 60;
-const char* discordBigImg = "gameicon";
-const char* discordBigTxt = "Powered by I.K.E.M.E.N. Plus Ultra Engine";
-const char* discordMiniImg;
-const char* discordMiniTxt;
-const char* discordPartyID = "party1234";
-int discordPartySize = 0;
-int discordPartyMax = 2;
-const char* discordMatchSecret = "xyzzy";
-const char* discordJoinSecret = "join";
-const char* discordWatchSecret = "look";
-int8_t discordInstance = 0;
-
-/* Understand this event_handlers example to update the discordPresence.items
-
-You could define different function types for different events:
-
-typedef void (*quit_handler_t)(void);
-typedef void (*keydown_handler_t)(SDL_Keycode);
-typedef void (*keyup_handler_t)(SDL_Keycode);
-
-That is, the handler for quitting takes no arguments, whereas those for a key going up and down takes an argument that represents the corresponding key.
-
-Then, you provide the client with a struct, event_handlers, that contains pointers to the event handlers and the end-user is supposed to populate:
-
-struct {
-   quit_handler_t    quit;
-   keydown_handler_t keydown;
-   keyup_handler_t   keyup;
-} event_handlers;
-Finally, the game engine's loop for processing the events call those functions through the callbacks that were set up by the user:
-
-SDL_Event e;
-while (!quit && SDL_PollEvent(&e)) {
-   switch(e.type) {
-   case SDL_QUIT:
-      event_handlers.quit();
-      break;
-   case SDL_KEYDOWN:
-      event_handlers.keydown(e.key.keysym.sym);
-      break;
-   case SDL_KEYUP:
-      event_handlers.keyup(e.key.keysum.sym);
-      break;
-   }
-}
-Note that could also initialize the event_handler struct with default event handlers.
-The end-user would be able to override that default behavior by modifying the members of event_handler.
-*/
-
-//TUserFunc(void, DiscordUpdate)
-void UpdateDiscordPresence()
-{
-	if (SendPresence) {
-		char buffer[256];
-		DiscordRichPresence discordPresence;
-		memset(&discordPresence, 0, sizeof(discordPresence));
-		discordPresence.state = discordState; //Game State
-		//sprintf(buffer, "Frustration level: %d", FrustrationLevel);
-		discordPresence.details = discordDetails; //Game Description
-		discordPresence.startTimestamp = time(0) - 0 * 60; //StartTime
-		//discordPresence.endTimestamp = time(0) + 5 * 60;
-		discordPresence.largeImageKey = discordBigImg; //Game Icon
-		discordPresence.largeImageText = discordBigTxt; //Game About
-		discordPresence.smallImageKey = discordMiniImg; //Powered Icon
-		discordPresence.smallImageText = discordMiniTxt; //Powered About
-		discordPresence.partyId = discordPartyID;
-		discordPresence.partySize = discordPartySize; //Add 1 when online mode with rich presence works
-		discordPresence.partyMax = discordPartyMax;
-		//discordPresence.partyPrivacy = DISCORD_PARTY_PUBLIC;
-		discordPresence.matchSecret = discordMatchSecret;
-		discordPresence.joinSecret = discordJoinSecret;
-		discordPresence.spectateSecret = discordWatchSecret;
-		discordPresence.instance = discordInstance;
-		Discord_UpdatePresence(&discordPresence);
-	}else{
-		Discord_ClearPresence();
-	}
-}
-
-TUserFunc(void, SetDiscordState, Reference State)
-{
-	discordState = pu->refToAstr(CP_UTF8, State).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordDetails, Reference Details)
-{
-	discordDetails = pu->refToAstr(CP_UTF8, Details).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordBigImg, Reference BigImg)
-{
-	discordBigImg = pu->refToAstr(CP_UTF8, BigImg).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordBigTxt, Reference BigTxt)
-{
-	discordBigTxt = pu->refToAstr(CP_UTF8, BigTxt).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordMiniImg, Reference MiniImg)
-{
-	discordMiniImg = pu->refToAstr(CP_UTF8, MiniImg).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordMiniTxt, Reference MiniTxt)
-{
-	discordMiniTxt = pu->refToAstr(CP_UTF8, MiniTxt).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordPartyID, Reference PartyID)
-{
-	discordPartyID = pu->refToAstr(CP_UTF8, PartyID).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordSecretID, Reference SecretID)
-{
-	discordMatchSecret = pu->refToAstr(CP_UTF8, SecretID).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordSecretJoin, Reference SecretJoin)
-{
-	discordJoinSecret = pu->refToAstr(CP_UTF8, SecretJoin).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordSecretWatch, Reference SecretWatch)
-{
-	discordWatchSecret = pu->refToAstr(CP_UTF8, SecretWatch).c_str();
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordPartyMax, int PartyMax)
-{
-	discordPartyMax = PartyMax;
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordPartySize, int PartySize)
-{
-	discordPartySize = PartySize;
-	UpdateDiscordPresence();
-}
-
-TUserFunc(void, SetDiscordInstance, int8_t Instance)
-{
-	discordInstance = Instance;
-	UpdateDiscordPresence();
-}
-
 SDL_Surface *screenSurface = nullptr;
 SDL_Surface *PNGSurface = nullptr;
 
@@ -726,7 +544,6 @@ TUserFunc(bool, Init, bool mugen, int32_t h, int32_t w, Reference cap)
 	{
 		IMG_Init(imgFlags); //Initialize PNG loading https://wiki.libsdl.org/SDL2_image/IMG_Init
 		TTF_Init(); //Initialize TTF loading
-		//UpdateDiscordPresence();
 		g_scrflag = SDL_RLEACCEL; //SDL_RLEACCEL: includes window decoration; SDL_WINDOW_BORDERLESS: no window decoration; SDL_WINDOW_RESIZABLE: window can be resized; SDL_WINDOW_INPUT_GRABBED: window has grabbed input focus
 		g_window = SDL_CreateWindow(//https://wiki.libsdl.org/SDL2/SDL_CreateWindow
 			pu->refToAstr(CP_UTF8, cap).c_str(),
@@ -809,7 +626,6 @@ TUserFunc(void, End)
 	wglDeleteContext(g_hglrc2);
 	g_js.close();
 	bgmclear(true);
-	Discord_Shutdown();
 	SDL_PauseAudio(1);
 	SDL_CloseAudio();
 	if(g_target){
