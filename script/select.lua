@@ -21,10 +21,11 @@ wrappingY = true
 --;===========================================================
 function f_rosterReset()
 	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
-	if data.p2Faces or data.selectType == "Fixed" then
-		selectColumns = 5 --Number of Character Select Columns
-		selectRows = 2 --Number of Character Select Rows
-		offsetRows = 1 --Number of Character Select Hidden Slots below
+	--if data.p2Faces or data.selectType == "Fixed" then
+		selectColumns = data.selectColumns --Get Number of Character Select Columns
+		selectRows = data.selectRows --Get Number of Character Select Rows
+		offsetRows = data.offsetRows --Get Number of Character Select Hidden Rows Slots
+		--offsetColumns = 2 --data.offsetColumns --Get Number of Character Select Hidden Columns Slots
 		setSelColRow(selectColumns, selectRows)
 		setRandomSpr(sysSff, 151, 0, 1, 1) --Random Icon
 		setSelCellSize(27+2, 27+2) --Slot Size
@@ -34,7 +35,7 @@ function f_rosterReset()
 			p1FaceY = 170
 			p2FaceX = 169
 			p2FaceY = 170
-		elseif data.selectType == "Fixed" then --When you play in a Single Mode
+		else--if data.selectType == "Fixed" then --When you play in a Single Mode
 			p1FaceX = 90
 			p1FaceY = 170
 			if not data.p1SelectMenu then
@@ -42,7 +43,7 @@ function f_rosterReset()
 				p2FaceY = 170
 			end
 		end
-	--When data.p2Faces is false and you play in 1P you will see an expanded roster, as there is no 2P to select it will not be cut:
+	--[[--When data.p2Faces is false and you play in 1P you will see an expanded roster, as there is no 2P to select it will not be cut:
 	elseif data.selectType == "Variable" then
 		selectColumns = 11
         selectRows = 2
@@ -59,7 +60,8 @@ function f_rosterReset()
 			p2FaceX = 2.5
 			p2FaceY = 170
 		end
-	end
+	]]
+	--end
 end
 
 function f_p1sideReset()
@@ -185,6 +187,8 @@ function f_selectInit()
 	p2FaceOffset = 0
 	p1OffsetRow = 0
 	p2OffsetRow = 0
+	p1OffsetColumn = 0
+	p2OffsetColumn = 0
 	back = false
 	--Quick Scrolling
 	bufTmu = 0
@@ -744,6 +748,42 @@ function f_findCelXSub(selX, wrapX)
 	end
 	return selX
 end
+
+--[[ Unfinished Hidden Columns Functions
+function f_findCelXAdd(selX, faceOffset, offsetColumn)
+	selX = selX + 1
+	if selX >= selectColumns+offsetColumns then
+		if wrappingX then
+			faceOffset = 0
+			offsetColumn = 0
+			selX = 0
+		else
+			selX = selX - 1
+		end
+	elseif selX >= selectColumns+offsetColumn then
+		faceOffset = faceOffset + selectRows
+		offsetColumn = offsetColumn + 1
+	end
+	return selX, faceOffset, offsetColumn
+end
+
+function f_findCelXSub(selX, faceOffset, offsetColumn)
+	selX = selX - 1
+	if selX < 0 then
+		if wrappingX then
+			faceOffset = offsetColumns * selectRows
+			offsetColumn = offsetColumns
+			selX = selectColumns + offsetColumns - 1
+		else
+			selX = selX + 1
+		end
+	elseif selX < offsetColumn then
+		faceOffset = faceOffset - selectRows
+		offsetColumn = offsetColumn - 1
+	end
+	return selX, faceOffset, offsetColumn
+end
+]]
 
 function f_winCoins()
 	if onlinegame == false then	
@@ -2824,11 +2864,14 @@ function f_selectScreen()
 			animSetWindow(selectBG1b, 164, 0, 151, 239)
 		else
 			animDraw(f_animVelocity(selectBG1c, -1, 0))
+			animSetWindow(selectBG1c, 85, 0, 151, 239)
+			--[[
 			if data.selectType == "Fixed" then
 				animSetWindow(selectBG1c, 85, 0, 151, 239)
 			elseif data.selectType == "Variable" then
 				animSetWindow(selectBG1c, -2, 0, 324, 239)
 			end
+			]]
 		end
 	end
 	animDraw(f_animVelocity(selectBG2a, -1, 0))

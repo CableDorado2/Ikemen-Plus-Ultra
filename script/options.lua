@@ -430,6 +430,9 @@ function f_saveCfg()
 		['data.zoomSpeed'] = data.zoomSpeed,
 	--Character Select Data
 		['data.selectType'] = data.selectType,
+		['data.selectColumns'] = data.selectColumns,
+		['data.selectRows'] = data.selectRows,
+		['data.offsetRows'] = data.offsetRows,
 		['data.palType'] = data.palType,
 		['data.randomPortrait'] = data.randomPortrait,
 		['data.randomCharRematch'] = data.randomCharRematch,
@@ -719,6 +722,9 @@ end
 --Default Character Select Values
 function f_selectDefault()
 	data.selectType = "Fixed"
+	data.selectColumns = 5
+	data.selectRows = 2
+	data.offsetRows = 1
 	data.palType = "Classic"
 	data.randomPortrait = "Simple"
 	data.randomCharRematch = "Variable"
@@ -3277,7 +3283,10 @@ end
 txt_selectCfg = createTextImg(jgFnt, 0, 0, "CHARACTER SELECT SETTINGS", 159, 13)
 
 t_selectCfg = {
-	{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
+	--{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
+	{varID = textImgNew(), text = "Columns",		   	     	varText = data.selectColumns},
+	{varID = textImgNew(), text = "Rows",	   			     	varText = data.selectRows},
+	{varID = textImgNew(), text = "Hidden Rows",	    	 	varText = data.offsetRows},
 	{varID = textImgNew(), text = "Palette Select",	    		varText = data.palType},
 	{varID = textImgNew(), text = "Information",    			varText = data.charInfo},
 	{varID = textImgNew(), text = "Random Portrait",	     	varText = data.randomPortrait},
@@ -3310,7 +3319,7 @@ function f_selectCfg()
 				selectCfg = selectCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Character Select Display Type
+			--[[Character Select Display Type
 			elseif selectCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
@@ -3321,15 +3330,103 @@ function f_selectCfg()
 					end
 					modified = 1
 				end
+			]]
+			--Character Select Columns Number
+			elseif selectCfg == 1 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if data.selectColumns < 100 then
+						data.selectColumns = data.selectColumns + 1
+					else
+						data.selectColumns = 1
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if data.selectColumns > 1 then
+						data.selectColumns = data.selectColumns - 1
+					else
+						data.selectColumns = 100
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Character Select Rows Number
+			elseif selectCfg == 2 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if data.selectRows < 100 then
+						data.selectRows = data.selectRows + 1
+					else
+						data.selectRows = 1
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if data.selectRows > 1 then
+						data.selectRows = data.selectRows - 1
+					else
+						data.selectRows = 100
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
+			--Character Select Hidden Rows Number
+			elseif selectCfg == 3 then
+				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+					if data.offsetRows < 1000 then
+						data.offsetRows = data.offsetRows + 1
+					else
+						data.offsetRows = 0
+					end
+					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+					if data.offsetRows > 0 then
+						data.offsetRows = data.offsetRows - 1
+					else
+						data.offsetRows = 1000
+					end
+					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+					modified = 1
+				end
+				if commandGetState(p1Cmd, 'holdr') then
+					bufl = 0
+					bufr = bufr + 1
+				elseif commandGetState(p1Cmd, 'holdl') then
+					bufr = 0
+					bufl = bufl + 1
+				else
+					bufr = 0
+					bufl = 0
+				end
 			--Character Palette Select Display Type
-			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.palType == "Classic" then data.palType = "Modern"
 				elseif data.palType == "Modern" then data.palType = "Classic"
 				end
 				modified = 1
 			--Character Info Display
-			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charInfo == "None" then
 					sndPlay(sysSnd, 100, 0)
 					data.charInfo = "Author"
@@ -3368,7 +3465,7 @@ function f_selectCfg()
 				]]
 				end
 			--Character Random Portrait Display Type
-			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.randomPortrait == "Simple" then
 					sndPlay(sysSnd, 100, 0)
 					data.randomPortrait = "Fixed"
@@ -3387,14 +3484,14 @@ function f_selectCfg()
 					modified = 1	
 				end
 			--Character Random Selection in Rematch
-			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 7 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.randomCharRematch == "Variable" then data.randomCharRematch = "Fixed"
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
 				end
 				modified = 1
 			--Default Values
-			elseif selectCfg == 6 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
@@ -3441,11 +3538,14 @@ function f_selectCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		t_selectCfg[1].varText = data.selectType
-		t_selectCfg[2].varText = data.palType
-		t_selectCfg[3].varText = data.charInfo
-		t_selectCfg[4].varText = data.randomPortrait
-		t_selectCfg[5].varText = data.randomCharRematch
+		--t_selectCfg[1].varText = data.selectType
+		t_selectCfg[1].varText = data.selectColumns
+		t_selectCfg[2].varText = data.selectRows
+		t_selectCfg[3].varText = data.offsetRows
+		t_selectCfg[4].varText = data.palType
+		t_selectCfg[5].varText = data.charInfo
+		t_selectCfg[6].varText = data.randomPortrait
+		t_selectCfg[7].varText = data.randomCharRematch
 		for i=1, maxselectCfg do
 			if i > selectCfg - cursorPosY then
 				if t_selectCfg[i].varID ~= nil then
