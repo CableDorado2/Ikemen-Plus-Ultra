@@ -2087,7 +2087,7 @@ animUpdate(towerRightArrow)
 animSetScale(towerRightArrow, 0.6, 0.6)
 
 --Tower Slot
-towerSlot = animNew(sysSff, [[230,1, 0,0,]])
+towerSlot = animNew(towerSff, [[3,0, 0,0,]])
 animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
@@ -2246,9 +2246,9 @@ end
 
 function f_setTowerStage() --Unfinished
 	if not data.stageMenu then
-		if t_selChars[t_selTower[i].kombats[length]].stage ~= nil then
-			data.stage = math.random(1,#t_selChars[t_selTower[i].kombats[length]].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
-			data.stage = t_selChars[t_selTower[i].kombats[length]].stage[data.stage]
+		if t_selChars[t_selTower[i].kombats[length]+1].stage ~= nil then
+			data.stage = math.random(1,#t_selChars[t_selTower[i].kombats[length]+1].stage) --if there are more than 1 stage assigned for that character, pick 1 of them via randomizer
+			data.stage = t_selChars[t_selTower[i].kombats[length]+1].stage[data.stage]
 		end
 	end
 end
@@ -2268,11 +2268,30 @@ animUpdate(destinyFinalBG)
 --animSetScale(destinyFinalBG, 1., 1.)
 
 --Tower Slot
-battleSlot = animNew(sysSff, [[230,2, 0,0,]])
+battleSlot = animNew(towerSff, [[3,1, 0,0,]])
 animSetScale(battleSlot, 1.3, 1.3)
 animUpdate(battleSlot)
 
+--VS Preview
+vsPreview = animNew(towerSff, [[4,1, 0,0,]])
+animAddPos(vsPreview, 138, 113)
+animUpdate(vsPreview)
+animSetScale(vsPreview, 0.75, 0.75)
+
+--Stage Preview (Random Icon)
+battleStgPreview = animNew(sysSff, [[
+110,3, 0,0,
+]])
+animUpdate(battleStgPreview)
+animSetScale(battleStgPreview, 1.53, 1.34)
+
 function f_battlePlan()
+	local sideSwitch = false
+	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
+		sideSwitch = true
+	else --player 1 in left side
+		sideSwitch = false
+	end
 	startKombat = false
 	towerPlanTimer = 0
 	towerPlanTimeLimit = 100
@@ -2283,16 +2302,18 @@ function f_battlePlan()
 	local scrollUp = 0
 	local HumanslotPosX = 87
 	local CPUslotPosX = 170
+	if sideSwitch then
+		HumanslotPosX = 233
+		CPUslotPosX = 4
+	end
 	local CPUslotPosY = 170
 	local CPUslotSpacingY = 85
-	local matchNo = 1 --2 --temp var
-	twSfx = sndNew("data/screenpack/tower.snd") --temp load
 	local CPUslotPosYInit = CPUslotPosY --get initial first battle pos
 	if matchNo == 1 then
 		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*#t_selTower[destinySelect].kombats)-CPUslotSpacingY --Portraits Y pos starts in the top of the tower
 	else
-		--playBGM(bgmTower)
-		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*matchNo)-CPUslotSpacingY --Portraits Y pos starts in the lastest battle
+		playBGM(bgmTower)
+		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*matchNo)-CPUslotSpacingY*2 --Portraits Y pos starts in the lastest battle
 	end
 	--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
@@ -2312,9 +2333,10 @@ function f_battlePlan()
 					CPUslotPosY = CPUslotPosY - 2
 					if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Skip Battle Plan Preview
 						sndStop()
-						CPUslotPosY = CPUslotPosYInit
+						CPUslotPosY = CPUslotPosYInit+1 -- +1 because position correct below logic
 					end
 				else --when down scroll finish
+					if battlePreviewTimer == 0 then CPUslotPosY = CPUslotPosY+1 end --Position Correct
 					f_battlePreview()
 				end
 			end
@@ -2328,53 +2350,130 @@ function f_battlePlan()
 					scrollUp = scrollUp + 0.8
 					if (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then --Skip Battle Plan Preview
 						sndStop()
-						scrollUp = CPUslotSpacingY
+						scrollUp = CPUslotSpacingY-1 -- -1 because position correct below logic
 					end
 				else
+					if battlePreviewTimer == 0 then scrollUp = scrollUp-1 end --Position Correct
 					f_battlePreview()
 				end
 			end
 		end
-		--draw background on top
+		--Draw BG
 		animDraw(f_animVelocity(selectTowerBG0, 0, 1.5))
 		--Draw Towers Assets
 		for length=#t_selTower[destinySelect].kombats, 1, -1 do
-			--Draw Tower Slot According to his size
+			--Draw Tower Slots According to his size
 			animPosDraw(battleSlot, CPUslotPosX, CPUslotPosY-CPUslotSpacingY*length+scroll)
-			--TODO Stage Portraits
-			
-			--draw CPU character portraits
-			drawPortrait(t_selTower[destinySelect].kombats[length], CPUslotPosX+61.5, CPUslotPosY+7-CPUslotSpacingY*length+scroll, -0.48, 0.48) --Draw Chars Preview Portraits
+			--Draw Stage Portraits
+			if t_selChars[t_selTower[destinySelect].kombats[length]+1].stage ~= nil then
+				battleStage = math.random(1,#t_selChars[t_selTower[destinySelect].kombats[length]+1].stage)
+				battleStage = t_selChars[t_selTower[destinySelect].kombats[length]+1].stage[1]-1 -- -1 to get the correct stage
+				drawStagePortrait(battleStage, CPUslotPosX+3.8, CPUslotPosY+7-CPUslotSpacingY*length+scroll, 0.1077, 0.093)
+			else
+				animPosDraw(battleStgPreview, CPUslotPosX+3.8, CPUslotPosY+6.97-CPUslotSpacingY*length+scroll)
+			end
+			--Draw CPU Portraits
+			local PortraitXpos = 61.5
+			local PortraitXscale = -0.48
+			if sideSwitch then
+				PortraitXpos = 84
+				PortraitXscale = 0.48
+			end
+			if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
+				drawPortrait(t_selTower[destinySelect].kombats[length], CPUslotPosX+PortraitXpos, CPUslotPosY+7-CPUslotSpacingY*length+scroll, PortraitXscale, 0.48)
+			end
+			--Draw CPU Animations
+			if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+				local animPos = 30
+				local cpuAnimType = 'p2AnimStand'
+				if sideSwitch then
+					cpuAnimType = 'p1AnimStand'
+					if data.charPresentation == "Sprite" then animPos = 115 end
+				end
+				if data.charPresentation == "Mixed" then
+					if not sideSwitch then animPos = 90 end
+				end
+				f_drawCharAnim(t_selChars[t_selTower[destinySelect].kombats[length]+1], cpuAnimType, CPUslotPosX+animPos, CPUslotPosY+73-CPUslotSpacingY*length+scroll, true, 0.60, 0.60)
+			end
+			--Draw CPU Names
+			if sideSwitch then
+				f_drawQuickText(cpuNamebtp, font14, 0, -1, t_selChars[t_selTower[destinySelect].kombats[length]+1].displayname, CPUslotPosX+141, CPUslotPosY+73-CPUslotSpacingY*length+scroll, 0.75, 0.75)
+			else
+				f_drawQuickText(cpuNamebtp, font14, 0, 1, t_selChars[t_selTower[destinySelect].kombats[length]+1].displayname, CPUslotPosX+4, CPUslotPosY+73-CPUslotSpacingY*length+scroll, 0.75, 0.75)
+			end
 		end
-		--draw HUMAN Player Portrait
+		--Draw Player Portrait
+		local battleSlotPosX = 3
+		if sideSwitch then battleSlotPosX = 170 end
+		animPosDraw(battleSlot, battleSlotPosX, CPUslotPosYInit-CPUslotSpacingY) --Slot BG
 		if data.charPresentation == "Portrait" or data.charPresentation == "Mixed" then
-			--Left Side
-			animPosDraw(battleSlot, 3, CPUslotPosYInit-CPUslotSpacingY)
-			drawPortrait(data.t_p1selected[1].cel, HumanslotPosX, CPUslotPosYInit-CPUslotSpacingY+7, 0.48, 0.48)
-			--Right Side
-			--drawPortrait(data.t_p2selected[1].cel, 300, CPUslotPosYInit, -0.48, 0.48)
-		end
-		--[[
-		--draw HUMAN Player Animations
-		if data.charPresentation == "Sprite" then
-			--Left Side
-			for j=#data.t_p1selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimWin', 139 - (2*j-1) * 18, 168, data.t_p1selected[j].up)
+			local charPScaleX = 0.48
+			local charPaddPosX = 22
+			local charPSpacingPosX = 22
+			if sideSwitch then --Right Side
+				charPaddPosX = -23.5
+				if p2numChars == 4 then
+					charPScaleX = 0.30
+					charPaddPosX = -40
+					charPSpacingPosX = 17
+				end
+				for j=#data.t_p2selected, 1, -1 do
+					drawPortrait(data.t_p2selected[j].cel, HumanslotPosX+charPaddPosX+(2*j-1)*charPSpacingPosX, CPUslotPosYInit-CPUslotSpacingY+7, -charPScaleX, 0.48)
+				end
+			else --Left Side
+				if p1numChars == 4 then --Modify Some Portrait Params
+					charPScaleX = 0.30
+					charPaddPosX = 38
+					charPSpacingPosX = 17
+				end
+				for j=#data.t_p1selected, 1, -1 do
+					drawPortrait(data.t_p1selected[j].cel, HumanslotPosX+charPaddPosX-(2*j-1)*charPSpacingPosX, CPUslotPosYInit-CPUslotSpacingY+7, charPScaleX, 0.48)
+				end
 			end
-			--Right Side
-			for j=#data.t_p2selected, 1, -1 do
-				f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimWin', 180 + (2*j-1) * 18, 168, data.t_p2selected[j].up)
+		end
+		--Draw Player Animations
+		if data.charPresentation == "Sprite" or data.charPresentation == "Mixed" then
+			local charAnimScaleX = 0.60
+			local charAnimScaleY = 0.60
+			local charAnimPosX = 139
+			if sideSwitch then --Right Side
+				if data.charPresentation == "Mixed" and p2numChars == 1 then
+					charAnimPosX = 235
+				else
+					charAnimPosX = 182
+				end
+				for j=#data.t_p2selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p2selected[j].cel+1], 'p2AnimStand', charAnimPosX+(2*j-1)*18, 158, data.t_p2selected[j].up, charAnimScaleX, charAnimScaleY)
+				end
+			else --Left Side
+				if data.charPresentation == "Mixed" and p1numChars == 1 then
+					charAnimPosX = 85
+				end
+				for j=#data.t_p1selected, 1, -1 do
+					f_drawCharAnim(t_selChars[data.t_p1selected[j].cel+1], 'p1AnimStand', charAnimPosX-(2*j-1)*18, 158, data.t_p1selected[j].up, charAnimScaleX, charAnimScaleY)
+				end
 			end
 		end
-		]]
-		--draw HUMAN Player Name
-		
-		--draw title info
-		textImgDraw(txt_towerPlan)
-		--textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper())
-		--textImgDraw(txt_towerDifficult)
-		--animDraw(data.fadeTitle)
-		--animUpdate(data.fadeTitle)
+		--Draw Player Name
+		local pNameScaleX = 0.75
+		local pNameScaleY = 0.75
+		if sideSwitch then
+			f_drawQuickText(playerNamebtp, font14, 0, 1, data.t_p2selected[1].displayname, HumanslotPosX-57, CPUslotPosYInit-CPUslotSpacingY+73, pNameScaleX, pNameScaleY)
+			if p2numChars > 1 then f_drawQuickText(teamNamebtp, font14, 0, 1, "TEAM", HumanslotPosX-57, CPUslotPosYInit-CPUslotSpacingY+63, pNameScaleX, pNameScaleY) end
+		else
+			f_drawQuickText(playerNamebtp, font14, 0, -1, data.t_p1selected[1].displayname, HumanslotPosX+57, CPUslotPosYInit-CPUslotSpacingY+73, pNameScaleX, pNameScaleY)
+			if p1numChars > 1 then f_drawQuickText(teamNamebtp, font14, 0, -1, "TEAM", HumanslotPosX+57, CPUslotPosYInit-CPUslotSpacingY+63, pNameScaleX, pNameScaleY) end
+		end
+		animDraw(vsPreview)
+		--Draw Screen Info
+		--textImgDraw(txt_towerPlan)
+		textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper())
+		textImgDraw(txt_towerDifficult)
+		if data.debugMode then
+			f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 50) --Test Y Pos
+		end
+		animDraw(data.fadeTitle)
+		animUpdate(data.fadeTitle)
 		cmdInput()
 		refresh()
 	end
