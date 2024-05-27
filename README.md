@@ -99,12 +99,11 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Implementar los parametros: ordersurvival, hidden, slot y mejorar unlock en select.def
 
+- Los combates de intermisiones dejan de funcionar si se juega en team mode.
+
 - Sistema de puntos.
 
 - Ranking al completar o perder en Modo Arcade.
-
-- Los combates de intermisiones dejan de funcionar si se juega en team mode.
-
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
 - Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
