@@ -76,7 +76,7 @@ This Ikemen is an expansion of his original SSZ code.
 **v1.4 (Next Update)**
 ------------
 
-- Probar el gamepad 2 ahora que el p2 tiene control en los menús.
+- Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
 
 **v1.5**
 ------------
@@ -85,11 +85,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Ver si es posible hacer que las carpetas contenidas dentro del directorio "sound" puedan ser leidas por la función f_soundtrack de forma automática sin necesidad de especificarle cada una.
 
-- Agregar soporte para reconocer a un 2do Gamepad.
-
-- Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
-
-- Configurar controles de batalla desde el menú de pausa en plena partida.
+- Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/**S**akura.def"]} en lugar de data.stage = {t_stageDef["stages/**s**akura.def"]}. Para esto hay que hacer que la tabla que recibe los datos introducidos convierta el texto recibido a minusculas con la función lowercase() y así evitar incompatibilidad.
 
 - Agregar opción de Team Duplicates para que si vas a elegir un personaje repetido, se salte la casilla si está activada.
 
@@ -103,28 +99,38 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Implementar los parametros: ordersurvival, hidden, slot y mejorar unlock en select.def
 
-- Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
-
-- Sistema de puntos basado en el Add004.
+- Sistema de puntos.
 
 - Ranking al completar o perder en Modo Arcade.
+
+- Los combates de intermisiones dejan de funcionar si se juega en team mode.
 
 ![Rank Results](https://github.com/CableDorado2/Ikemen-Plus-Ultra/assets/18058378/05f3306c-ab76-4de1-8935-679b83612df1)
 
 - Tournament Mode: https://youtu.be/pjYavslQ0tE?t=3
 [![Alt text](https://i.postimg.cc/c4MHqfxv/1560.jpg)](https://youtu.be/7yghLOb1-Gw?t=57)
 
-- Agregar más opciones para el Dummy de Training.
-
 - Cambiar el drawPortrait por una funcion que cargue (así como lo hace con las sprites animation del char select en lugar de leer el airPath que lea el sffPath), probar eso en start.lua y usar en char select una función parecida a f_drawCharAnim.
+
+- Reprogramar el reproductor de video (especialmente para que admita más formatos y permita operar usando las funciones del SDL para controlar el volumen, teclas para saltar el video, etc)
 
 - Arreglar preview de random chars que no coincide con el char al usar la visualización por sprites.
 
 - Agregar Lifebars, Face Portraits y Names para el modo simul cuando se juega de 3P_Simul y 4P_Simul como lo hace Ikemen GO.
 
-- Agregar soporte para Localcoord en cada char y fight.def.
+- Agregar soporte para Localcoord en cada char, stage y fight.def.
 
 - Probar cargar un commonfx en fight.def para almacenar los sprites del input display y damage display, sin que entren en conflicto con los que quieran portear su fightfx de Mugen.
+
+- Durante el arcade, la forma en que está programada el here comes a new challenger hace uso de setCom(2, 0) en el menú de pausa causa que la IA se quede en nivel 0, pero es porque el jugador 2 recibe por unos instantes el control para poner pausa y que se vea la pantalla del challenger.
+
+- Al configurar el Gamepad/Joystick del jugador 2 garantizar que no pierda el control después de asignar un botón.
+
+- Lograr que los estados en reposo cuando se tiene cualquier mando conectado sean "101" en lugar de "-9" u otro valor (función getInputID en system-script.ssz). Así mismo en la asignación de botones, evitar que se asigne el propio valor de reposo.
+
+- Agregar opción para configurar los controles de batalla en char select (Preferiblemente VS Mode y Tournament) excepto en online.
+
+- Configurar controles de batalla desde el menú de pausa en plena partida.
 
 **v1.6**
 ------------
@@ -134,15 +140,13 @@ This Ikemen is an expansion of his original SSZ code.
 
 - Integrar la función de bgm.loops.
 
+- Implementar en character select, un parametro para ocultar columnas (offsetcolumns) como lo hace el offsetrows.
+
 - Tag system como un 4to Team Mode. (Info sobre el tag integrado al ikemen plus original): https://mugenguild.com/forum/topics/ikemen-plus-181972.100.html
 
 - Leer archivos movelist.dat dentro de los chars.
 
 - Al acceder a menús donde hay que introducir datos con teclado como el vault, netplay port o ip en online. Si el motor reconoce que estás usando gamepad, mostrar una pantalla con un teclado que permita introducir letras y números usando un cursor, en lugar de usar el teclado.
-
-- Al presionar el botón de minimizar/ALT+tab mientras se reproduce un video, al volver el video no se podrá saltar con start e incluso no se podrá cerrar el motor hasta que termine el video.
-
-- El audio del motor debe poder sincronizarse al reproductor de video.
 
 - Crear una función como setDebugScript pero que permita soportar todas las funciones de script.ssz (debug.lua por alguna razón no lo hace) y ejecutarse durante toda la batalla o al menos al final de la partida. Para implementar las siguientes características:
 
@@ -151,6 +155,8 @@ This Ikemen is an expansion of his original SSZ code.
   - Como lo anterior pero para la pantalla Continuar
 
   - Ambas características se han implementado en el código del paquete de pantalla actual, pero la solución actual tiene un alto rendimiento (aumenta el tiempo de carga cuando se inicia el ejecutable) y no es perfecta (no hay acceso para coincidir con los datos relacionados que a menudo son verificados por winscreens como WinKO, Life, etc.)
+
+- Detección al reconectar un mando.
 
 **v1.7**
 ------------
@@ -162,8 +168,6 @@ This Ikemen is an expansion of his original SSZ code.
 - Implementar los parametros: music<roudnno>, musicfinal, musiclife, musicvictory en select.def.
 
 - Implementar parametros de transiciones entre stages (round<num>def).
-
-- Al usar data.stage hacer que se puedan reconocer los nombres almacenados en t_stageDef, usando mayusculas y minusculas en lugar de solo minusculas. Ejemplo data.stage = {t_stageDef["stages/**S**akura.def"]} en lugar de data.stage = {t_stageDef["stages/**s**akura.def"]}
 
 - Incluir pregunta para guardar o no los replays online.
 
@@ -196,13 +200,13 @@ This Ikemen is an expansion of his original SSZ code.
 **v1.9**
 ------------
 
-- Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
-
 - Hacer realidad las funciones del menú Netplay Settings.
 
 - En sala de espera para Host del online, incluir una opción de acceder al training y esperar mientras juegas.
 
 - El tiempo para los eventos, debe sincronizarse con un servidor de internet, de lo contrario bloquear los eventos.
+
+- Jugar hasta un máximo de 4 jugadores en multiplayer local y online.
 
 ---------------------
 v2.0 (Final Release)
