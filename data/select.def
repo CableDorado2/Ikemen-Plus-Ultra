@@ -300,10 +300,11 @@ displayname = MASTER
 sfx = 0,3
 1=Kung Fu Man/Master/Master Kung Fu Man.def
 2=Kung Fu Girl
-3=Reika Murasame
-4=randomselect
-5=Kung Fu Man/Evil/Evil Kung Fu Man.def
-6=Suave Dude
+3=Mako Mayama
+4=Break The Car
+5=Reika Murasame
+6=Kung Fu Man/Evil/Evil Kung Fu Man.def
+7=Suave Dude
 
 [Tower 4]
 displayname = EXPERT
@@ -311,30 +312,32 @@ sfx = 0,4
 1=Kung Fu Man
 2=randomselect
 3=Kung Fu Girl
-4=Suave Dude
-5=randomselect
+4=randomselect
+5=Kung Fu Man/Evil/Evil Kung Fu Man.def
+6=Suave Dude
 
 [Tower 5]
 displayname = CHAMPION
 sfx = 0,5
 1=Reika Murasame
 2=Suave Dude
-3=Shin Gouki
-4=Kung Fu Man/Evil/Evil Kung Fu Man.def
-5=Kung Fu Man/Master/Master Kung Fu Man.def
-6=Kung Fu Girl/Master/Master Kung Fu Girl.def
+3=Kung Fu Man/Evil/Evil Kung Fu Man.def
+4=randomselect
+5=Shin Gouki
 
 [Tower 6]
 displayname = DOOM
 sfx = 0,6
-1=randomselect
-2=Reika Murasame
-3=Kung Fu Man
-4=Kung Fu Girl
-5=Suave Dude
-6=Shin Gouki
-7=Kung Fu Girl/Master/Master Kung Fu Girl.def
-8=Event 1
+1=Kung Fu Girl
+2=Kung Fu Man
+3=Reika Murasame
+4=Kung Fu Man/Master/Master Kung Fu Man.def
+5=Mako Mayama
+6=Kung Fu Man/Evil/Evil Kung Fu Man.def
+7=Suave Dude
+8=Shin Gouki
+9=Kung Fu Girl/Master/Master Kung Fu Girl.def
+10=Event 1
 
 [Tower 7]
 displayname = ???

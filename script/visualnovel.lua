@@ -20,7 +20,7 @@ t_vnPauseMenu = {
 	{varID = textImgNew(), text = "Save Progress",			 varText = ""},
 	{varID = textImgNew(), text = "Skip All Dialogues",		 varText = ""},
 	{varID = textImgNew(), text = "Back to Main Menu",		 varText = ""},
-	{varID = textImgNew(), text = "            Resume", 	 varText = ""},
+	{varID = textImgNew(), text = "           Continue", 	 varText = ""},
 }
 
 --Logic to Display Text instead Int/Boolean Values

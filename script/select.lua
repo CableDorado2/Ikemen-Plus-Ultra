@@ -1807,23 +1807,13 @@ function f_selectAdvance()
 					f_shuffleTable(data.t_p1selected)
 				end
 			end
-			--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
+			--Team conversion to Single match
 			restoreTeam = false
 			teamMode = p1teamMode --was local function
 			numChars = p1numChars --was local function
 			if p1numChars > 1 then
 				for i=1, #data.t_p1selected do
-					if t_selChars[data.t_p1selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel+1].bonus == 1 then
-						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
-						p1teamMode = 0
-						p1numChars = 1
-						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
-						p1Cell = t_charAdd[t_selChars[data.t_p1selected[i].cel+1].char]
-						data.t_p1selected = {}
-						data.t_p1selected[1] = {['cel'] = p1Cell, ['name'] = t_selChars[p1Cell+1].name, ['displayname'] = t_selChars[p1Cell+1].displayname, ['path'] = t_selChars[p1Cell+1].char, ['pal'] = p1Pal, ['up'] = true, ['rand'] = false}
-						restoreTeam = true
-						break
-					elseif t_selChars[data.t_p1selected[i].cel+1].single ~= nil and t_selChars[data.t_p1selected[i].cel+1].single == 1 then
+					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or (t_selChars[data.t_p1selected[i].cel+1].single ~= nil and t_selChars[data.t_p1selected[i].cel+1].single == 1) or (t_selChars[data.t_p1selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p1selected[i].cel+1].bonus == 1) then
 						p1teamMode = 0
 						p1numChars = 1
 						setTeamMode(1, 0, 2) --OR (1, 0, 1) ?
@@ -1866,23 +1856,13 @@ function f_selectAdvance()
 					f_shuffleTable(data.t_p2selected)
 				end
 			end
-			--Team conversion to Single match if single or bonus paramvalue on any opponents is detected in select.def
+			--Team conversion to Single match
 			restoreTeam = false
 			teamMode = p2teamMode
 			numChars = p2numChars --was local function
 			if p2numChars > 1 then
 				for i=1, #data.t_p2selected do
-					if t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1 then
-						--setHUD(false) --It Disable HUD for All Bonus Games in Co-Op Mode but if you are playing in arcade in next match HUD still disable...
-						p2teamMode = 0
-						p2numChars = 1
-						setTeamMode(2, 0, 1)
-						p2Cell = t_charAdd[t_selChars[data.t_p2selected[i].cel+1].char]
-						data.t_p2selected = {}
-						data.t_p2selected[1] = {['cel'] = p2Cell, ['name'] = t_selChars[p2Cell+1].name, ['displayname'] = t_selChars[p2Cell+1].displayname, ['path'] = t_selChars[p2Cell+1].char, ['pal'] = p2Pal, ['up'] = true, ['rand'] = false}
-						restoreTeam = true
-						break
-					elseif t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1 then
+					if (data.gameMode == "tower" and data.coop) or (data.coop and data.coopenemy == "Single") or (t_selChars[data.t_p2selected[i].cel+1].single ~= nil and t_selChars[data.t_p2selected[i].cel+1].single == 1) or (t_selChars[data.t_p2selected[i].cel+1].bonus ~= nil and t_selChars[data.t_p2selected[i].cel+1].bonus == 1) then
 						p2teamMode = 0
 						p2numChars = 1
 						setTeamMode(2, 0, 1)
@@ -1899,8 +1879,8 @@ function f_selectAdvance()
 		f_aiLevel()
 		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
-		f_orderSelect()
 		if data.gameMode == "tower" then f_battlePlan() end --Battle Plan Screen
+		f_orderSelect()
 		--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 			if t_selChars[data.t_p1selected[1].cel+1].vsscreen == nil or t_selChars[data.t_p1selected[1].cel+1].vsscreen == 1 then
@@ -2131,6 +2111,13 @@ towerSlot = animNew(towerSff, [[3,0, 0,0,]])
 animSetScale(towerSlot, 0.5, 0.5)
 animUpdate(towerSlot)
 
+--Tower Stage Preview (Random Icon)
+towerStgPreview = animNew(sysSff, [[
+110,3, 0,0,
+]])
+animUpdate(towerStgPreview)
+animSetScale(towerStgPreview, 1.53, 1.34)
+
 --;=================================================================================================
 --; TOWER DESTINY SELECT
 --;=================================================================================================
@@ -2219,11 +2206,14 @@ function f_selectDestiny()
 			--Draw Towers Assets
 				for length=#t_selTower[i].kombats, 1, -1 do
 					animPosDraw(towerSlot, -85+100*i-moveTower, 250-32*length) --Draw Towers BG According to his size via kombats sub-table
-					--if t_selChars[t_selTower[i].kombats[length][1]].stage ~= nil then
-						--drawStagePortrait(t_selChars[t_selTower[i].kombats[length][1]].stage, -83+100*i-moveTower, 253-32*length, 0.056, 0.036) --Draw Stages Preview Portraits
-					--else
-						--random portrait
-					--end
+					--Draw Stage Portraits
+					if t_selChars[t_selTower[i].kombats[length]+1].stage ~= nil then
+						towerStage = math.random(1,#t_selChars[t_selTower[i].kombats[length]+1].stage)
+						towerStage = t_selChars[t_selTower[i].kombats[length]+1].stage[1]-1 -- -1 to get the correct stage
+						drawStagePortrait(towerStage, -83+100*i-moveTower, 253-32*length, 0.056, 0.035)
+					else
+						animPosDraw(towerStgPreview, -83+100*i-moveTower, 253-32*length)
+					end
 					drawPortrait(t_selTower[i].kombats[length], -83+100*i-moveTower, 253-32*length, 0.18, 0.18) --Draw Chars Preview Portraits
 				end
 				if i == destinySelect then
@@ -2326,6 +2316,7 @@ animUpdate(battleStgPreview)
 animSetScale(battleStgPreview, 1.53, 1.34)
 
 function f_battlePlan()
+	sndStop()
 	local sideSwitch = false
 	if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 		sideSwitch = true
@@ -2355,7 +2346,7 @@ function f_battlePlan()
 		playBGM(bgmTower)
 		CPUslotPosY = CPUslotPosY+(CPUslotSpacingY*matchNo)-CPUslotSpacingY*2 --Portraits Y pos starts in the lastest battle
 	end
-	--data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	cmdInput()
 	while true do
 		if startKombat then break end --Go to next Screen
@@ -4691,16 +4682,21 @@ end
 
 function f_p2TeamMenu()
 	if data.coop then --Simul co-op
-		if data.coopenemy == "Single" then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
-			p2teamMode = 0
-			p2numChars = 2 --Fix AI Fight Error When p2numChars = 1 (Take reference of Arcade Bonus in co-op)
-		elseif data.coopenemy == "Simul" then
-			p2teamMode = 1
-			p2numChars = 2
-		elseif data.coopenemy == "Turns" then
-			p2teamMode = 2
-			p2numChars = 3
-		end
+		--if data.gameMode == "tower" then  --Co-Op enemy team for tower mode
+			--p2teamMode = 0
+			--p2numChars = 2
+		--else
+			if data.coopenemy == "Single" then --CPU Co-op Players uses Co-Op CPU Team Mode setting.
+				p2teamMode = 0
+				p2numChars = 2 --Fix AI Fight Error When p2numChars = 1 (Take reference of Arcade Bonus in co-op)
+			elseif data.coopenemy == "Simul" then
+				p2teamMode = 1
+				p2numChars = 2
+			elseif data.coopenemy == "Turns" then
+				p2teamMode = 2
+				p2numChars = 3
+			end
+		--end
 		setTeamMode(2, p2teamMode, p2numChars)
 		p2TeamEnd = true
 		--p2BG = true
@@ -7014,7 +7010,6 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
---[[
 --Order Select OFF when playing in CO-OP Mode
 	elseif data.coop == true then
 		while true do
@@ -7029,7 +7024,6 @@ function f_orderSelect()
 			cmdInput()
 			refresh()
 		end
-]]
 --Order Select OFF when P1 and P2 playing in Single Team Mode
 	elseif p1teamMode == 0 and p2teamMode == 0 then
 		while true do

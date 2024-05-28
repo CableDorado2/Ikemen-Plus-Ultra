@@ -658,7 +658,7 @@ function f_offlineDefault()
 	f_songDefault()
 	f_inputDefault()
 	data.connectMode = "Direct"
-	data.userName = "USERNAME" --setUserName('USERNAME')
+	data.userName = "PLAYER" --setUserName('PLAYER')
 	setListenPort(7500)
 end
 
@@ -887,7 +887,7 @@ function f_p2keyboardBattleDefault()
 end
 
 --Default P1 GAMEPAD BATTLE
-function f_p1gamepadBattleDefault()
+function f_p1gamepadBattleDefault() --PS3 Gamepad Layout
 	t_keyBattleCfg[1].varText = '-3'
 	t_keyBattleCfg[2].varText = '-4'
 	t_keyBattleCfg[3].varText = '-1'
@@ -898,10 +898,10 @@ function f_p1gamepadBattleDefault()
 	t_keyBattleCfg[8].varText = '2'
 	t_keyBattleCfg[9].varText = '3'
 	t_keyBattleCfg[10].varText = '5'
-	t_keyBattleCfg[11].varText = '-5'
-	t_keyBattleCfg[12].varText = '8'
-	t_keyBattleCfg[13].varText = '6'
-	t_keyBattleCfg[14].varText = '9'
+	t_keyBattleCfg[11].varText = '8'
+	t_keyBattleCfg[12].varText = '9'
+	t_keyBattleCfg[13].varText = '-10'
+	t_keyBattleCfg[14].varText = '6'
 	setInputConfig(2, 0, t_keyBattleCfg[1].varText, t_keyBattleCfg[2].varText, t_keyBattleCfg[3].varText, t_keyBattleCfg[4].varText, t_keyBattleCfg[5].varText, t_keyBattleCfg[6].varText, t_keyBattleCfg[7].varText, t_keyBattleCfg[8].varText, t_keyBattleCfg[9].varText, t_keyBattleCfg[10].varText, t_keyBattleCfg[11].varText, t_keyBattleCfg[12].varText, t_keyBattleCfg[13].varText, t_keyBattleCfg[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(2,0)
 end
@@ -918,10 +918,10 @@ function f_p2gamepadBattleDefault()
 	t_keyBattleCfg2[8].varText = '2'
 	t_keyBattleCfg2[9].varText = '3'
 	t_keyBattleCfg2[10].varText = '5'
-	t_keyBattleCfg2[11].varText = '-5'
-	t_keyBattleCfg2[12].varText = '8'
-	t_keyBattleCfg2[13].varText = '6'
-	t_keyBattleCfg2[14].varText = '9'
+	t_keyBattleCfg2[11].varText = '8'
+	t_keyBattleCfg2[12].varText = '9'
+	t_keyBattleCfg2[13].varText = '-10'
+	t_keyBattleCfg2[14].varText = '6'
 	setInputConfig(3, 1, t_keyBattleCfg2[1].varText, t_keyBattleCfg2[2].varText, t_keyBattleCfg2[3].varText, t_keyBattleCfg2[4].varText, t_keyBattleCfg2[5].varText, t_keyBattleCfg2[6].varText, t_keyBattleCfg2[7].varText, t_keyBattleCfg2[8].varText, t_keyBattleCfg2[9].varText, t_keyBattleCfg2[10].varText, t_keyBattleCfg2[11].varText, t_keyBattleCfg2[12].varText, t_keyBattleCfg2[13].varText, t_keyBattleCfg2[14].varText) --Apply and Load New Controls
 	f_keyBattleSave(3,1)
 end
@@ -967,20 +967,20 @@ function f_p2keyboardMenuDefault()
 end
 
 --Default P1 GAMEPAD MENU
-function f_p1gamepadMenuDefault()
-	t_keyMenuCfg[1].varText = '-3'
-	t_keyMenuCfg[2].varText = '-4'
-	t_keyMenuCfg[3].varText = '-1'
-	t_keyMenuCfg[4].varText = '-2'
-	t_keyMenuCfg[5].varText = '0'
-	t_keyMenuCfg[6].varText = '1'
+function f_p1gamepadMenuDefault() --PS3 Gamepad Layout
+	t_keyMenuCfg[1].varText = '-7'
+	t_keyMenuCfg[2].varText = '-8'
+	t_keyMenuCfg[3].varText = '-5'
+	t_keyMenuCfg[4].varText = '-6'
+	t_keyMenuCfg[5].varText = '2'
+	t_keyMenuCfg[6].varText = '3'
 	t_keyMenuCfg[7].varText = '4'
-	t_keyMenuCfg[8].varText = '2'
-	t_keyMenuCfg[9].varText = '3'
-	t_keyMenuCfg[10].varText = '5'
-	t_keyMenuCfg[11].varText = '-5'
-	t_keyMenuCfg[12].varText = '8'
-	t_keyMenuCfg[13].varText = '6'
+	t_keyMenuCfg[8].varText = '5'
+	t_keyMenuCfg[9].varText = '8'
+	t_keyMenuCfg[10].varText = '9'
+	t_keyMenuCfg[11].varText = '6'
+	t_keyMenuCfg[12].varText = '0'
+	t_keyMenuCfg[13].varText = '1'
 	t_keyMenuCfg[14].varText = '7'
 	setInputConfig(12, 0, t_keyMenuCfg[1].varText, t_keyMenuCfg[2].varText, t_keyMenuCfg[3].varText, t_keyMenuCfg[4].varText, t_keyMenuCfg[5].varText, t_keyMenuCfg[6].varText, t_keyMenuCfg[7].varText, t_keyMenuCfg[8].varText, t_keyMenuCfg[9].varText, t_keyMenuCfg[10].varText, t_keyMenuCfg[11].varText, t_keyMenuCfg[12].varText, t_keyMenuCfg[13].varText, t_keyMenuCfg[14].varText) --Apply and Load New Controls
 	f_keyMenuSave(12,0)
@@ -988,19 +988,19 @@ end
 
 --Default P2 GAMEPAD MENU
 function f_p2gamepadMenuDefault()
-	t_keyMenuCfg2[1].varText = '-3'
-	t_keyMenuCfg2[2].varText = '-4'
-	t_keyMenuCfg2[3].varText = '-1'
-	t_keyMenuCfg2[4].varText = '-2'
-	t_keyMenuCfg2[5].varText = '0'
-	t_keyMenuCfg2[6].varText = '1'
+	t_keyMenuCfg2[1].varText = '-7'
+	t_keyMenuCfg2[2].varText = '-8'
+	t_keyMenuCfg2[3].varText = '-5'
+	t_keyMenuCfg2[4].varText = '-6'
+	t_keyMenuCfg2[5].varText = '2'
+	t_keyMenuCfg2[6].varText = '3'
 	t_keyMenuCfg2[7].varText = '4'
-	t_keyMenuCfg2[8].varText = '2'
-	t_keyMenuCfg2[9].varText = '3'
-	t_keyMenuCfg2[10].varText = '5'
-	t_keyMenuCfg2[11].varText = '-5'
-	t_keyMenuCfg2[12].varText = '8'
-	t_keyMenuCfg2[13].varText = '6'
+	t_keyMenuCfg2[8].varText = '5'
+	t_keyMenuCfg2[9].varText = '8'
+	t_keyMenuCfg2[10].varText = '9'
+	t_keyMenuCfg2[11].varText = '6'
+	t_keyMenuCfg2[12].varText = '0'
+	t_keyMenuCfg2[13].varText = '1'
 	t_keyMenuCfg2[14].varText = '7'
 	setInputConfig(13, 1, t_keyMenuCfg2[1].varText, t_keyMenuCfg2[2].varText, t_keyMenuCfg2[3].varText, t_keyMenuCfg2[4].varText, t_keyMenuCfg2[5].varText, t_keyMenuCfg2[6].varText, t_keyMenuCfg2[7].varText, t_keyMenuCfg2[8].varText, t_keyMenuCfg2[9].varText, t_keyMenuCfg2[10].varText, t_keyMenuCfg2[11].varText, t_keyMenuCfg2[12].varText, t_keyMenuCfg2[13].varText, t_keyMenuCfg2[14].varText) --Apply and Load New Controls
 	f_keyMenuSave(13,1)
@@ -1669,7 +1669,7 @@ function f_mainCfg()
 			end
 			playerName = inputText('',true) --For not numbers use inputText('text',true)
 			if clipboardPaste() then
-				if string.match(getClipboardText(),'^(.*)') then
+				if string.match(getClipboardText(), '^([^"]*)$') then
 					setInputText(getClipboardText())
 				else
 					sndPlay(sysSnd, 100, 5)
@@ -1730,16 +1730,18 @@ function f_mainCfg()
 				setInputText(onlinePort)
 			end
 			if onlinePort ~= '' and onlinePort ~= nil then
-				if tonumber(onlinePort) > 65535 then
-					onlinePort = '65535'
-					setInputText(onlinePort)
-				elseif onlinePort:match('^.*(%.)$') then --Allow Points: match('^0(%d+)$')
-					onlinePort = onlinePort:gsub('^(.*)[%.]$','%1') --Allow Points: gsub('^0(%d+)$','%1')
-					setInputText(onlinePort)
+				if tonumber(onlinePort) ~= nil then --Input is a valid Number
+					if tonumber(onlinePort) > 65535 then
+						onlinePort = '65535'
+						setInputText(onlinePort)
+					elseif onlinePort:match('^.*(%.)$') then --Allow Points: match('^0(%d+)$')
+						onlinePort = onlinePort:gsub('^(.*)[%.]$','%1') --Allow Points: gsub('^0(%d+)$','%1')
+						setInputText(onlinePort)
+					end
 				end
 			end
 			if commandGetState(p1Cmd, 'w') or commandGetState(p2Cmd, 'w') then
-				if onlinePort ~= '' and onlinePort ~= nil then
+				if onlinePort ~= '' and onlinePort ~= nil and tonumber(onlinePort) ~= nil then --Port is a valid Number
 					clearInputText()
 					sndPlay(sysSnd, 100, 1)
 					setListenPort(tonumber(onlinePort))
@@ -5936,6 +5938,8 @@ function f_inputCfg()
 	local bufr = 0
 	local bufl = 0
 	f_defaultReset()
+	padTester = 0
+	padTesterActive = false
 	while true do
 		if defaultScreen == false then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -5960,7 +5964,7 @@ function f_inputCfg()
 				--Gamepad Config
 				elseif inputCfg == 2 then
 					sndPlay(sysSnd, 100, 1)
-					f_joyMenu()
+					padTesterActive = true
 				--[[Player 1 Gamepad Status
 				elseif inputCfg == 3 then
 					sndPlay(sysSnd, 100, 1)
@@ -6022,6 +6026,14 @@ function f_inputCfg()
 					break
 				end
 				--if inputCfg == 3 or inputCfg == 4 then disableGamepad(data.disablePadP1,data.disablePadP2) end
+			end
+			if padTester > 20 then
+				if getInputID(data.p1Gamepad) == 101 and getInputID(data.p2Gamepad) == 101 then
+					f_joyMenu()
+				else
+					f_tempWarning()
+				end
+				padTesterActive = false
 			end
 			if inputCfg < 1 then
 				inputCfg = #t_inputCfg
@@ -6092,6 +6104,10 @@ function f_inputCfg()
 			bufu = 0
 			bufd = 0
 		end
+		f_drawQuickText(txt_keasdint, font1, 0, 0, padTester, 162, 30)
+		f_drawQuickText(padu1, font1, 0, 0, getInputID(data.p1Gamepad), 188, 30)
+		f_drawQuickText(padu2, font1, 0, 0, getInputID(data.p2Gamepad), 200, 30)
+		if padTesterActive then padTester = padTester + 1 else padTester = 0 end
 		cmdInput()
 		refresh()
 	end
@@ -6395,6 +6411,46 @@ function f_keyMenu()
 end
 
 --;===========================================================
+--; TEMP GAMEPAD WARNING
+--;===========================================================
+t_tempWarning = {
+	{id = '', text = "Some of the connected Gamepads cannot be configured"},
+	{id = '', text = "To make it work, will need to configure it manually"},
+	{id = '', text = "in save/config.ssz file or use third-party software"},
+	{id = '', text = ""},
+}
+for i=1, #t_tempWarning do
+	t_tempWarning[i].id = createTextImg(font2, 0, 1, t_tempWarning[i].text, 25, 65+i*15)
+end
+
+function f_tempWarning()
+	cmdInput()
+	while true do
+		if btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			sndPlay(sysSnd, 100, 1)
+			break
+		end
+		animDraw(f_animVelocity(optionsBG0, -1, -1))
+		textImgDraw(txt_Warning)
+		animSetScale(infoBG, 300, 111)
+		animSetWindow(infoBG, 0,70, 297,#t_tempWarning*15)
+		animDraw(infoBG)
+		for i=1, #t_tempWarning do
+			textImgDraw(t_tempWarning[i].id)
+		end
+		animDraw(infoOptionsWindowBG)
+		animUpdate(infoOptionsWindowBG)
+		textImgDraw(txt_okOptions)
+		animSetWindow(cursorBox, 87,133, 144,13)
+		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+		animDraw(f_animVelocity(cursorBox, -1, -1))
+		if data.attractMode == true then f_attractcfgCredits() end
+		cmdInput()
+		refresh()
+	end
+end
+
+--;===========================================================
 --; GAMEPAD MENU
 --;===========================================================
 txt_joyMenu = createTextImg(jgFnt, 0, 0, "GAMEPAD SETTINGS", 159, 13)
@@ -6436,21 +6492,17 @@ function f_joyMenu()
 			if joyMenu == 1 then
 				if data.engineMode == "FG" then
 					f_inputBattleRead(2, data.p1Gamepad)
+					f_inputBattleRead(3, data.p2Gamepad)
 					f_keyBattleCfg(2, data.p1Gamepad)
+					--f_keyBattleCfg(3, data.p2Gamepad)
 				else
 					sndPlay(sysSnd, 100, 5)
 				end
-			--PLAYER 2 [GAMEPAD] BATTLE CONTROLS
-			--elseif joyMenu == 2 then
-				--f_inputBattleRead(3, data.p2Gamepad)
-				--f_keyBattleCfg(3, data.p2Gamepad)
 			--[GAMEPAD] MENU CONTROLS
 			elseif joyMenu == 2 then
 				f_inputMenuRead(2, data.p1Gamepad)
+				f_inputMenuRead(3, data.p2Gamepad)
 				f_keyMenuCfg(2, data.p1Gamepad)
-			--PLAYER 2 [GAMEPAD] MENU CONTROLS
-			--elseif joyMenu == 4 then
-				--f_inputMenuRead(3, data.p2Gamepad)
 				--f_keyMenuCfg(3, data.p2Gamepad)
 			--BACK
 			else
@@ -6658,6 +6710,10 @@ function f_drawBattleKeyAssets()
 	if #t_keyBattleCfg2 > 12 and maxKeyCfg2 < #t_keyBattleCfg2 then
 		animDraw(optionsDownArrowP2)
 		animUpdate(optionsDownArrowP2)
+	end
+	if data.debugMode then
+		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p1Gamepad), 120, 30) --Gamepad Repose Test
+		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p2Gamepad), 295, 30)
 	end
 end
 
@@ -6929,6 +6985,10 @@ function f_drawMenuKeyAssets()
 		animDraw(optionsDownArrowP2)
 		animUpdate(optionsDownArrowP2)
 	end
+	if data.debugMode then
+		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p1Gamepad), 120, 30) --Gamepad Repose Test
+		f_drawQuickText(txt_testDpad, font6, 0, 0, getInputID(data.p2Gamepad), 295, 30)
+	end
 end
 
 function f_keyMenuCfg(playerNo, controller)
@@ -6958,8 +7018,8 @@ function f_keyMenuCfg(playerNo, controller)
 		--Common Actions
 		if esc() or configEnd then
 			sndPlay(sysSnd, 100, 2)
-			f_keyMenuSave(playerNo, controller) --Save Player 1 Controls
-			f_keyMenuSave(playerNo+1, controller) --Save Player 2 Controls
+			f_keyMenuSave(playerNo, controller == -1 and controller or data.p1Gamepad) --Save Player 1 Controls
+			f_keyMenuSave(playerNo+1, controller == -1 and controller or data.p2Gamepad) --Save Player 2 Controls
 			break
 		elseif f1Key() or defaultP1 then --Quick Default Player 1 Inputs Shorcut
 			sndPlay(sysSnd, 100, 2)
@@ -7208,6 +7268,7 @@ function f_validKey()
 	commandBufReset(p1Cmd)
 	commandBufReset(p2Cmd)
 	sndPlay(sysSnd, 100, 1)
+	--inputReset(controllerNum == -1 and controllerNum or gamepadData)
 	p1waitingKey = false
 	p2waitingKey = false
 	sameKey = false
@@ -7227,6 +7288,10 @@ function f_readBattleInput(oldkey)
 	inputReady = false
 	sameKey = false
 	getKeyboard = ''
+	gamepadData = nil
+	if p1waitingKey then gamepadData = data.p1Gamepad
+	elseif p2waitingKey then gamepadData = data.p2Gamepad
+	end
 	while true do
 		f_drawBattleKeyAssets()
 		readTime = readTime + 1
@@ -7354,7 +7419,7 @@ function f_readBattleInput(oldkey)
 			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
 			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
 			--GAMEPAD
-			elseif getInputID(0) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(0)
+			elseif getInputID(gamepadData) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(gamepadData)
 			end
 			--When you press a key to assing
 			if getKeyboard ~= '' then
@@ -7516,7 +7581,13 @@ function f_readBattleInput(oldkey)
 						cmdInput()
 					--show a message that it key has been already added in player 2 controls
 					else
-						f_invalidKey()
+						if controllerSet == 2 then --Allow same key as player 2 FOR GAMEPAD control because it will not affect the control
+							f_validKey()
+							break
+							cmdInput()
+						else
+							f_invalidKey()
+						end
 					end
 				elseif p2waitingKey then
 					--JUMP [PLAYER 2] (t_keyBattleCfg2[1].varText)
@@ -7675,7 +7746,13 @@ function f_readBattleInput(oldkey)
 						cmdInput()
 					--show a message that it key has been already added in player 1 controls
 					else
-						f_invalidKey()
+						if controllerSet == 2 then --Allow same key as player 1 FOR GAMEPAD control because it will not affect the control
+							f_validKey()
+							break
+							cmdInput()
+						else
+							f_invalidKey()
+						end
 					end
 				end
 			end
@@ -7695,6 +7772,10 @@ function f_readMenuInput(oldkey)
 	inputReady = false
 	sameKey = false
 	getKeyboard = ''
+	gamepadData = nil
+	if p1waitingKey then gamepadData = data.p1Gamepad
+	elseif p2waitingKey then gamepadData = data.p2Gamepad
+	end
 	while true do
 		f_drawMenuKeyAssets()
 		readTime = readTime + 1
@@ -7827,7 +7908,7 @@ function f_readMenuInput(oldkey)
 			elseif keightKey() and controllerSet == 1 then getKeyboard = 'KP_8'
 			elseif knineKey() and controllerSet == 1 then getKeyboard = 'KP_9'
 			--GAMEPAD
-			elseif getInputID(0) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(0)
+			elseif getInputID(gamepadData) ~= 101 and controllerSet == 2 then getKeyboard = getInputID(gamepadData)
 			end
 			--When you press a key to assing
 			if getKeyboard ~= '' then
@@ -8101,7 +8182,13 @@ function f_readMenuInput(oldkey)
 						cmdInput()
 					--show a message that it key has been already added
 					else
-						f_invalidKey()
+						if controllerSet == 2 then --Allow same key as player 2 FOR GAMEPAD control because it will not affect the control but is missing that those of the same player are not repeated
+							f_validKey()
+							break
+							cmdInput()
+						else
+							f_invalidKey()
+						end
 					end
 				elseif p2waitingKey then
 					--UP [PLAYER 2] (t_keyMenuCfg2[1].varText)
@@ -8372,7 +8459,13 @@ function f_readMenuInput(oldkey)
 						cmdInput()
 					--show a message that it key has been already added
 					else
-						f_invalidKey()
+						if controllerSet == 2 then --Allow same key as player 1 FOR GAMEPAD control because it will not affect the control but is missing that those of the same player are not repeated
+							f_validKey()
+							break
+							cmdInput()
+						else
+							f_invalidKey()
+						end
 					end
 				end
 			end

@@ -1,5 +1,5 @@
 --Online Data
-data.userName = "USERNAME"
+data.userName = "PLAYER"
 data.connectMode = "Direct"
 data.ftcontrol = -1
 --Music Data
@@ -14,7 +14,7 @@ data.language = "ENGLISH"
 data.clock = "Standard"
 data.date = "Type A"
 data.attractMode = false
-data.sideSelect = "Classic"
+data.sideSelect = "Modern"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
 data.charPresentation = "Mixed"
@@ -44,6 +44,9 @@ data.zoomMax = 1.1
 data.zoomSpeed = 1
 --Character Select Data
 data.selectType = "Fixed"
+data.selectColumns = 5
+data.selectRows = 2
+data.offsetRows = 1
 data.palType = "Modern"
 data.randomPortrait = "Simple"
 data.randomCharRematch = "Variable"
@@ -60,7 +63,7 @@ data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
-data.destinyTime = 61
+data.destinyTime = -1
 --Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"

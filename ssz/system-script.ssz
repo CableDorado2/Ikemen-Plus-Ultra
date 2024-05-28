@@ -24,6 +24,7 @@ lib vid = "video.ssz";
 
 public bool keyReset = false, p1PadReset = false, p2PadReset = false;
 public bool padReset = false;
+public int p1PadButtonID = 101, p2PadButtonID = 101;
 public int padButtonID = 101;
 
 public &sys.System syst;
@@ -836,7 +837,7 @@ void inputReset(&.lua.State L=, int re=)
 {
   int argc = 0, nret = 0;
   int c = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
-  branch{ //Not being able to use a switch here sucks.
+  branch{ //This can't use a switch here.
   cond c == -1: .keyReset = true;
   cond c == .cfg.in[2].jn: .p1PadReset = true;
   cond c == .cfg.in[3].jn: .p2PadReset = true;	
@@ -870,6 +871,34 @@ void getInputID(&.lua.State L=, int re=)
 	i++;
   while i <= 100:}
   //if((int).sdl.JoystickButtonState(:cn,.padButtonID:) == 0 && .padReset == true) .padReset = false;
+}
+
+void getInputIDNextVer(&.lua.State L=, int re=)
+{
+  int argc = 0, nret = 1;
+  int j = (int).sc.numArg(L=, re=, argc=, nret); if(re < 0) ret;
+  L.pushNumber((double)101); //Something outside the range we're checking.
+    loop{index i = -100; while; do:
+      if((int).sdl.JoystickButtonState(:j,i:) == 1){
+        branch{ //Can't use a switch function here apparently.
+        cond j == .cfg.in[2].jn:
+          .p1PadButtonID = i;
+          if(!.p1PadReset) L.pushNumber((double)i);
+          .p1PadReset = true;
+        cond j == .cfg.in[3].jn:
+          .p2PadButtonID = i;
+          if(!.p2PadReset) L.pushNumber((double)i);
+          .p2PadReset = true;
+        }
+      }
+      i++;
+    while i <= 100:}
+  branch{
+  cond j == .cfg.in[2].jn:
+    if((int).sdl.JoystickButtonState(:j,.p1PadButtonID:) == 0 && .p1PadReset) .p1PadReset = false;
+  cond j == .cfg.in[3].jn:
+    if((int).sdl.JoystickButtonState(:j,.p2PadButtonID:) == 0 && .p2PadReset) .p2PadReset = false;
+  }
 }
 
 public int keySwap(^/char key)
