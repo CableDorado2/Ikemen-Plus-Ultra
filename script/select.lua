@@ -954,11 +954,7 @@ function f_exitOnline()
 end
 
 function f_resetMenuAssets()
-	if data.rosterMode == "event" then
-		--playBGM("")
-	else
-		if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
-	end
+	if data.attractMode == true then playBGM(bgmTitle) else	f_menuMusic() end
 	backtomenu = false --Restart special back for Challenger Mode
 	data.tempBack = false
 	f_saveTemp()
@@ -1201,6 +1197,7 @@ end
 --; COMMON SIDE ACTIONS
 --;===================================================================
 function f_arcadeEnd()
+	script.missions.f_missionStatus() --Because for some reason, mission 2 not save data in his script..
 	if data.rosterMode == "arcade" then
 		data.arcadeClear = true --Progress
 		if getPlayerSide() == "p1right" then --Player 1 in Right Side
@@ -2189,7 +2186,7 @@ function f_selectDestiny()
 			else
 				maxDestiny = 3
 			end
-		elseif selection > 150 then --End Destiny Select
+		elseif selection > 100 then --End Destiny Select
 			commandBufReset(p1Cmd)
 			commandBufReset(p2Cmd)
 			startCount = false
@@ -2198,7 +2195,7 @@ function f_selectDestiny()
 		if data.tempBack then break end --back to main menu
 		if startCount then selection = selection + 1 end --Start End Destiny Select count
 	--Draw BG
-		animDraw(f_animVelocity(selectHardBG0, -1, -1))
+		animDraw(f_animVelocity(selectTowerBG0, -1, -1))
 		--animDraw(destinyBG)
 	--Set Towers Scroll Logic
 		for i=1, maxDestiny do
@@ -2286,16 +2283,13 @@ end
 --;=================================================================================================
 --; TOWER BATTLE PLAN
 --;=================================================================================================
-txt_towerPlan = createTextImg(jgFnt, 0, 0, "BATTLE PLAN", 159, 13)
-txt_towerDifficult = createTextImg(jgFnt, 0, 1, "", 2, 40, 0.7, 0.7)
-
 --Final Destiny BG
 destinyFinalBG = animNew(towerSff, [[
 1,1, 0,0, -1
 ]])
 animAddPos(destinyFinalBG, 0, 0)
 animUpdate(destinyFinalBG)
---animSetScale(destinyFinalBG, 1., 1.)
+animSetScale(destinyFinalBG, 1.1, 1)
 
 --Tower Slot
 battleSlot = animNew(towerSff, [[3,1, 0,0,]])
@@ -2391,6 +2385,7 @@ function f_battlePlan()
 		end
 		--Draw BG
 		animDraw(f_animVelocity(selectTowerBG0, 0, 1.5))
+		--animDraw(destinyFinalBG)
 		--Draw Towers Assets
 		for length=#t_selTower[destinySelect].kombats, 1, -1 do
 			--Draw Tower Slots According to his size
@@ -2497,9 +2492,13 @@ function f_battlePlan()
 		end
 		animDraw(vsPreview)
 		--Draw Screen Info
-		--textImgDraw(txt_towerPlan)
-		textImgSetText(txt_towerDifficult, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper())
-		textImgDraw(txt_towerDifficult)
+		f_drawQuickText(txt_towerPlan, jgFnt, 0, 0, "BATTLE PLAN", 159, CPUslotPosY-65-CPUslotSpacingY*#t_selTower[destinySelect].kombats+scroll)
+		if sideSwitch then
+			f_drawQuickText(txt_towerDifficult, jgFnt, 0, -1, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper(), 315, 82, 0.7, 0.7)
+		else
+			f_drawQuickText(txt_towerDifficult, jgFnt, 0, 1, "DIFFICULTY: "..t_selTower[destinySelect].displayname:upper(), 5, 82, 0.7, 0.7)
+		end
+		f_drawQuickText(txt_towerMode, jgFnt, 0, 0, "TOWER MODE", 159, CPUslotPosY+150-CPUslotSpacingY*1+scroll)
 		if data.debugMode then
 			f_drawQuickText(towerTest, font14, 0, 1, CPUslotPosY, 50, 50) --Test Y Pos
 		end

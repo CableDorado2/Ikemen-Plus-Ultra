@@ -58,6 +58,8 @@ s_configSSZ = file:read("*all")
 file:close()
 resolutionWidth = tonumber(s_configSSZ:match('const int Width%s*=%s*(%d+)'))
 resolutionHeight = tonumber(s_configSSZ:match('const int Height%s*=%s*(%d+)'))
+data.p1Gamepad = tonumber(s_configSSZ:match('in%.new%[2%]%.set%(\n%s*(%-*%d+)'))
+data.p2Gamepad = tonumber(s_configSSZ:match('in%.new%[3%]%.set%(\n%s*(%-*%d+)'))
 
 --;===========================================================
 --; UNLOCKS CHECK DEFINITION
@@ -421,7 +423,8 @@ function f_sysTime()
 	textImgDraw(txt_titleClock) --Draw Clock
 	textImgDraw(txt_titleDate) --Draw Date
 	if data.debugMode then
-		f_drawQuickText(txt_testDpad, font6, 0, 0, keyboardButton, 159, 8)
+		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
+		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
 	end
 end
 
@@ -487,9 +490,10 @@ function f_mainLogos()
 end
 altBGM = false
 function f_mainOpening()
-	if altBGM then playBGM(bgmIntroJP) else playBGM(bgmIntro) end
-	f_storyboard("data/screenpack/intro.def")
-	if altBGM then altBGM = false else altBGM = true end --Alternate Opening BGM Songs
+	--if altBGM then playBGM(bgmIntroJP) else playBGM(bgmIntro) end
+	--f_storyboard("data/screenpack/intro.def")
+	playVideo(videoOpening)
+	if altBGM then altBGM = false else altBGM = true end --Alternate Storyboard Opening BGM Songs
 end
 
 --;===========================================================
@@ -1575,7 +1579,6 @@ end
 --;===========================================================
 txt_gameFt = createTextImg(font5, 0, 1, "", 2, 240) --Text to identify the game mode in menus
 txt_mainSelect = createTextImg(jgFnt, 0, 0, "", 159, 13) --Text that appears in character select with the name of the game mode
-keyboardButton = getInputID(0) --Gamepad Repose Test
 
 if data.engineMode == "FG" then
 t_mainMenu = {

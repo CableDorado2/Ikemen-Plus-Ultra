@@ -3,6 +3,7 @@ storyname = Kung Fu Man's
 [Chapter 1]
 name = KIDNAPPING
 author = CD2
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/vn1_1.lua
 
@@ -525,6 +526,7 @@ Mountainside Temple's Hidden Path...
 [Chapter 2]
 name = KILLER MIRROR
 author = CD2
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/vn1_2.lua
 
@@ -577,6 +579,7 @@ Until...
 [Chapter 3]
 name = THE ROOF OF TRUTH
 author = CD2
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/vn1_3.lua
 
@@ -657,6 +660,7 @@ Let the ultimate show BEGIN!
 [Chapter 4]
 name = FINAL DESTINATION
 author = CD2
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/vn1_4.lua
 

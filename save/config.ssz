@@ -12,7 +12,7 @@ const int Brightness = 256;
 //Audio Settings
 const float GlVol = 0.8;
 const float SEVol = 0.8;
-const float BGMVol = 0.38;
+const float BGMVol = 0.5;
 const float PanStr = 0.8;
 
 //Perfomance Settings

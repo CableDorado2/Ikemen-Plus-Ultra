@@ -418,8 +418,6 @@ data.includestage = 0
 t_orderChars = {}
 t_stageDef = {} --t_stageDef = {['randomstage'] = 0}
 t_charAdd = {}
-t_selVN = {}
-local t_vnList = {}
 local section = 0
 local file = io.open("data/select.def","r")
 local content = file:read("*all")
@@ -439,8 +437,6 @@ for line in content:gmatch('[^\r\n]+') do
 	elseif line:match('^%s*%[%s*options%s*%]') then
 		t_selOptions = {}
 		section = 3
-	elseif line:match('^%s*%[%s*visualnovel%s*%]') then
-		section = 4
 	elseif section == 1 then --[Characters]
 		textImgSetText(txt_loading, "LOADING CHARACTERS...")
 		row = #t_selChars+1
@@ -629,20 +625,9 @@ for line in content:gmatch('[^\r\n]+') do
 			t_selOptions[rowName .. rowName2]['wins'] = tonumber(wins)
 			t_selOptions[rowName .. rowName2]['offset'] = tonumber(offset)
 		end
-	elseif section == 4 then --[VisualNovel]
-		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
-		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
-		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
-			if param:match('^name$') then
-				table.insert(t_selVN, {name = value, displayname = '', path = '', unlock = 'true'})
-				t_vnList[value] = true
-			elseif t_selVN[#t_selVN][param] ~= nil then
-				t_selVN[#t_selVN][param] = value
-			end
-		end
 	end
-	--textImgDraw(txt_loading)
-	--refresh()
+	textImgDraw(txt_loading)
+	refresh()
 end
 --end_time = os.time()
 --elapsed_time = os.difftime(end_time - start_time)
@@ -869,8 +854,8 @@ if t_selChars ~= nil then
 					t_selChars[i]['p2IntermissionPortrait'] = f_animFromTable(t_selChars[i].intermissionSpr, t_selChars[i].sffData, 30, 150, t_selChars[i].xscale, t_selChars[i].yscale, 'H', 1)
 				end
 				textImgSetText(txt_loading, "GENERATING CHARS TABLES...")
-				--textImgDraw(txt_loading)
-				--refresh()
+				textImgDraw(txt_loading)
+				refresh()
 			end
 		end
 	end
@@ -957,6 +942,36 @@ content = content:gsub('\n%s*\n', '\n')
 		v.kombats = f_delRepeated(v.kombats) --get final towers without characters repeated
 	end
 	if data.debugLog then f_printTable(t_selTower, "save/debug/t_selTower.txt") end
+end
+--;===========================================================
+--; LOADING SCREEN 3 (LOAD VNSELECT.DEF DATA)
+--;===========================================================
+t_selVN = {}
+local t_vnList = {}
+local section = 0
+local file = io.open("data/visualnovel/vnselect.def","r")
+local content = file:read("*all")
+file:close()
+content = content:gsub('([^\r\n]*)%s*;[^\r\n]*', '%1')
+content = content:gsub('\n%s*\n', '\n')
+for line in content:gmatch('[^\r\n]+') do
+	line = line:lower()
+	if line:match('^%s*%[%s*visualnovel%s*%]') then
+		section = 1
+	elseif section == 1 then --[VisualNovel]
+		textImgSetText(txt_loading, "LOADING VISUAL NOVEL...")
+		local param, value = line:match('^%s*(.-)%s*=%s*(.-)%s*$')
+		if param ~= nil and value ~= nil and param ~= '' and value ~= '' then
+			if param:match('^name$') then
+				table.insert(t_selVN, {name = value, displayname = '', path = '', unlock = 'true'})
+				t_vnList[value] = true
+			elseif t_selVN[#t_selVN][param] ~= nil then
+				t_selVN[#t_selVN][param] = value
+			end
+		end
+	end
+	textImgDraw(txt_loading)
+	refresh()
 end
 --;===========================================================
 --; SPRITE CONVERSION SCREEN

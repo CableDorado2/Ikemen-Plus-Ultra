@@ -3,7 +3,7 @@ storyname = Kung Fu Man's
 [Chapter 1]
 name = KIDNAPPING
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
@@ -524,7 +524,7 @@ Mountainside Temple's Hidden Path...
 [Chapter 2]
 name = KILLER MIRROR
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
@@ -578,7 +578,7 @@ Until...
 id = 3-A
 name = THE ROOF OF TRUTH
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
@@ -660,7 +660,7 @@ Let the ultimate show BEGIN!
 id = 3-B
 name = BROKEN SPIRIT
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
@@ -797,7 +797,7 @@ Ready to die?
 id = 4-A
 name = FINAL DESTINATION
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
@@ -1079,7 +1079,7 @@ fadeout = 1
 id = 4-C
 name = ZERO HOUR
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 
@@ -1119,7 +1119,7 @@ fadeout = 1
 id = 4-D
 name = THE FALL OF A LEGEND
 author = CD2
-date = 05/28/2024
+date = 05/31/2024
 snd = data/visualnovel/kfm/kfmVN.snd
 drawpath = data/visualnovel/kfm/kfmVN.lua
 

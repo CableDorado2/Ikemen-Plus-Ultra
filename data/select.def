@@ -352,13 +352,3 @@ sfx = 0,7
 8=randomselect
 9=randomselect
 10=randomselect
-
-;---------------------------------------------------------------------------------
-[VisualNovel]
-name = arc1
-displayname = Kung Fu Man
-path = data/visualnovel/vn1.def
-
-name = arc2
-displayname = ???
-path = data/visualnovel/vn2.def

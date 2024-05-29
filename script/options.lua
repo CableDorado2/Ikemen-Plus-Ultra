@@ -6104,9 +6104,11 @@ function f_inputCfg()
 			bufu = 0
 			bufd = 0
 		end
-		f_drawQuickText(txt_keasdint, font1, 0, 0, padTester, 162, 30)
-		f_drawQuickText(padu1, font1, 0, 0, getInputID(data.p1Gamepad), 188, 30)
-		f_drawQuickText(padu2, font1, 0, 0, getInputID(data.p2Gamepad), 200, 30)
+		if data.debugMode then
+			f_drawQuickText(txt_keasdint, font1, 0, 0, padTester, 162, 30)
+			f_drawQuickText(padu1, font1, 0, 0, getInputID(data.p1Gamepad), 188, 30)
+			f_drawQuickText(padu2, font1, 0, 0, getInputID(data.p2Gamepad), 200, 30)
+		end
 		if padTesterActive then padTester = padTester + 1 else padTester = 0 end
 		cmdInput()
 		refresh()

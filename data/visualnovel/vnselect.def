@@ -1,0 +1,8 @@
+[VisualNovel]
+name = arc1
+displayname = Kung Fu Man
+path = data/visualnovel/vn1.def
+
+name = arc2
+displayname = ???
+path = data/visualnovel/vn2.def
