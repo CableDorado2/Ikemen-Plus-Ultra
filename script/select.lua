@@ -2312,7 +2312,7 @@ function f_selectDestiny()
 		nodecimalDestinyTime = string.format("%.0f",destinyTimeNumber)
 		txt_destinyTime = createTextImg(jgFnt, 0, 0, nodecimalDestinyTime, 160, 28)
 		if destinyTimer > 0 then
-			destinyTimer = destinyTimer - 0.5 --Activate Tower Select Timer
+			if not backScreen then destinyTimer = destinyTimer - 0.5 end--Activate Tower Select Timer
 			textImgDraw(txt_destinyTime)
 		else --when destinyTimer <= 0
 			
@@ -2972,7 +2972,7 @@ function f_selectScreen()
 		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
 		txt_charTime = createTextImg(jgFnt, 0, 0, nodecimalCharTime, 160, 70)
 		if selectTimer > 0 then
-			selectTimer = selectTimer - 0.5 --Activate Character Select Timer
+			if not backScreen then selectTimer = selectTimer - 0.5 end --Activate Character Select Timer
 			textImgDraw(txt_charTime)
 		else --when selectTimer <= 0
 			
@@ -3535,6 +3535,18 @@ p1portraitLockWindowBG = animNew(sysSff, [[3,0, 0,0, -1, 0]])
 function f_p1charAnnouncer()
 	if f_getName(p1Cell) == "Kung Fu Man" then
 		sndPlay(announcerSnd, 1, 0)
+	elseif f_getName(p1Cell) == "Kung Fu Girl" then
+		sndPlay(announcerSnd, 1, 1)
+	elseif f_getName(p1Cell) == "Suave Dude" then
+		sndPlay(announcerSnd, 1, 2)
+	elseif f_getName(p1Cell) == "Mako Mayama" then
+		sndPlay(announcerSnd, 1, 3)
+	elseif f_getName(p1Cell) == "Reika Murasame" then
+		sndPlay(announcerSnd, 1, 4)
+	elseif f_getName(p1Cell) == "Evil Kung Fu Man" then
+		sndPlay(announcerSnd, 1, 5)
+	elseif f_getName(p1Cell) == "Shin Gouki" then
+		sndPlay(announcerSnd, 1, 6)
 	--elseif f_getName(p1Cell) == "Your Character Name" then
 		--sndPlay(announcerSnd, 1, 1)
 	end
@@ -5036,6 +5048,18 @@ p2portraitLockWindowBG = animNew(sysSff, [[3,0, -1, 0,]])
 function f_p2charAnnouncer()
 	if f_getName(p2Cell) == "Kung Fu Man" then
 		sndPlay(announcerSnd, 2, 0)
+	elseif f_getName(p2Cell) == "Kung Fu Girl" then
+		sndPlay(announcerSnd, 2, 1)
+	elseif f_getName(p2Cell) == "Suave Dude" then
+		sndPlay(announcerSnd, 2, 2)
+	elseif f_getName(p2Cell) == "Mako Mayama" then
+		sndPlay(announcerSnd, 2, 3)
+	elseif f_getName(p2Cell) == "Reika Murasame" then
+		sndPlay(announcerSnd, 2, 4)
+	elseif f_getName(p2Cell) == "Evil Kung Fu Man" then
+		sndPlay(announcerSnd, 2, 5)
+	elseif f_getName(p2Cell) == "Shin Gouki" then
+		sndPlay(announcerSnd, 2, 6)
 	--elseif f_getName(p2Cell) == "Your Character Name" then
 		--sndPlay(announcerSnd, 2, 1)
 	end
@@ -6689,7 +6713,7 @@ function f_selectStage()
 				txt_stageTime = createTextImg(jgFnt, 0, 0, nodecimalStageTime, 160, 30)
 			end
 			if stageTimer > 0 then
-				stageTimer = stageTimer - 0.5 --Activate Stage Select Timer
+				if not backScreen then stageTimer = stageTimer - 0.5 end--Activate Stage Select Timer
 				textImgDraw(txt_stageTime)
 			else --when stageTimer <= 0
 				
