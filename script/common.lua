@@ -270,32 +270,32 @@ for file in lfs.dir[[.\\sound\\]] do --Read Dir
 	if file:match('^.*(%.)mp3$') then --Filter Files .mp3			
 		t_songList[folder][#t_songList[folder]+1] = {} --Add songs filtered to the end of the "folder" sub-table
 		t_songList[folder][#t_songList[folder]]['id'] = '' --Reserve id to create text
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND' --Folder name where is located the song
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL' --Folder name where is located the song
 		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1') --Get song name without extension
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file --Get song file path
 	elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND'
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
 		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
 	elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND'
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
 		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
 	elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SOUND'
+		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
 		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
 	end
 end
 --Add extra items to the end of "Folder" sub-row Created
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SOUND', name = 'RANDOM SELECT', path = 'Random'}
-t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SOUND', name = '          BACK', path = ''}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = 'RANDOM SELECT', path = 'Random'}
+t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = '          BACK', path = ''}
 --;=================================================================
 --;	FOLDER 2
 --;=================================================================
