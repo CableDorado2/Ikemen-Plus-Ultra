@@ -715,7 +715,7 @@ function f_systemDefault()
 	data.vsDisplayWin = true
 	s_vsDisplayWin = "Yes"
 	data.winscreen = "Classic"
-	data.charPresentation = "Sprite"
+	data.charPresentation = "Portrait"
 	data.sffConversion = true
 end
 
@@ -3540,6 +3540,7 @@ function f_selectCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
+		if data.debugMode then f_drawQuickText(txt_characterNomber, font1, 1, 0, "SLOTS ADDED: "..#t_selChars, 278, 50) end
 		--t_selectCfg[1].varText = data.selectType
 		t_selectCfg[1].varText = data.selectColumns
 		t_selectCfg[2].varText = data.selectRows

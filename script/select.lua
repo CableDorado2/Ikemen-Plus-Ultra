@@ -1011,10 +1011,59 @@ function f_exitToMainMenu() --For Advanced Select
 	f_resetMenuInputs()
 end
 
+function validCells()
+--[[
+If added columns and rows are more than inserted characters. Don't start char select because while you are scrolling
+at some point you will have a error message related with this and well, we can notify to the user about it with an informative message..
+]]
+	if data.selectColumns*(data.selectRows+data.offsetRows) > #t_selChars then
+		return false --Config Not Valid
+	else
+		return true  --Config Valid
+	end
+end
+
+txt_msgIce = createTextImg(jgFnt, 0, 1, "", 0, 0)
+txt_charsNumpa = createTextImg(jgFnt, 0, 1, "("..#t_selChars..")", 250, 235)
+txt_cellIssue = [[
+ INVALID CHARACTER SELECT CELLS CONFIG!
+
+GO TO:
+OPTIONS ->
+   GAME SETTINGS ->
+      SYSTEM SETTINGS ->
+         [CHARACTER SELECT SETTINGS]
+
+AND MAKE SURE THAT:
+		   
+[ROWS] ADDED + [HIDDEN ROWS] ADDED
+MULTIPLIED(*) BY THE NUMBER OF [COLUMNS]
+
+IS NOT GREATER (>) THAN THE NUMBER OF
+CHARACTERS SLOTS ADDED IN SELECT.DEF
+]]
+function f_invalidCells()
+	cmdInput()
+	while true do
+		if esc() or btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
+			sndPlay(sysSnd, 100, 2)
+			data.fadeTitle = f_fadeAnim(50, 'fadein', 'black', fadeSff)
+			break
+		end
+        f_textRender(txt_msgIce, txt_cellIssue, 0, 2, 10, 15, 0, -1)
+        textImgDraw(txt_charsNumpa)
+		animDraw(data.fadeTitle)
+        animUpdate(data.fadeTitle)
+		cmdInput()
+		refresh()
+	end
+end
+
 --;===================================================================================================
 --; SIMPLE MODES (VERSUS, TRAINING, RANDOM, MISSIONS, EVENTS, SINGLE BONUS/BOSSES LIST)
 --;===================================================================================================
 function f_selectSimple()
+if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
@@ -1191,6 +1240,12 @@ function f_selectSimple()
 		cmdInput()
 		refresh()
 	end
+else
+	cmdInput()
+	f_invalidCells()
+	return --back to main menu
+end
+
 end
 
 --;===================================================================
@@ -1299,6 +1354,7 @@ end
 --; ADVANCED MODES (ARCADE, TOWER, SURVIVAL, BOSS/BONUS RUSH, SUDDEN DEATH, TIME ATTACK, ENDLESS)
 --;=====================================================================================================
 function f_selectAdvance()
+if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	data.rosterAdvanced = true
 	f_backReset()
@@ -1876,7 +1932,7 @@ function f_selectAdvance()
 		f_aiLevel()
 		if data.stageMenu == false then f_selectStage() end --Load specific stage and music for roster characters
 		f_matchInfo()
-		if data.gameMode == "tower" then f_battlePlan() end --Battle Plan Screen
+		if data.gameMode == "tower" and #t_selTower[destinySelect].kombats > 1 then f_battlePlan() end --Show Battle Plan Screen for tower mode with more than 1 floor.
 		f_orderSelect()
 		--Versus Screen
 		if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
@@ -1933,12 +1989,19 @@ function f_selectAdvance()
 		cmdInput()
 		refresh()
 	end
+else
+	cmdInput()
+	f_invalidCells()
+	return --back to main menu
+end
+
 end
 
 --;==============================================================================
---; STORY MODE
+--; STORY MODE (CHARACTER SELECT/FIGHTS LAUNCHER)
 --;==============================================================================
 function f_selectStory()
+if validCells() then
 	f_unlocksCheck() --Check For Unlocked Content
 	f_backReset()
 	f_selectInit()
@@ -2027,6 +2090,12 @@ function f_selectStory()
 		cmdInput()
 		refresh()
 	end
+else
+	cmdInput()
+	f_invalidCells()
+	return --back to main menu
+end
+
 end
 
 --;=================================================================================================
@@ -2133,9 +2202,11 @@ function f_selectDestiny()
 	if data.arcadeIntro then playBGM(bgmTower) end
 	if t_selTower.data.snd ~= nil then --Choose your Destiny SFX
 		twSfx = sndNew(t_selTower.data.snd) --Load snd File
-		local data = t_selTower.data.sfxannouncer
-		local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
-		sndPlay(twSfx, sfxGroup, sfxIndex)
+		if t_selTower.data.sfxannouncer ~= nil then
+			local data = t_selTower.data.sfxannouncer
+			local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
+			sndPlay(twSfx, sfxGroup, sfxIndex)
+		end
 	end
 	f_backReset()
 	cmdInput()
@@ -2266,9 +2337,11 @@ function f_selectDestiny()
 end
 
 function f_playTWsfx()
-local data = t_selTower[destinySelect].sfxplay
-local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
-sndPlay(twSfx, sfxGroup, sfxIndex)
+	if t_selTower[destinySelect].sfxplay ~= nil then
+		local data = t_selTower[destinySelect].sfxplay
+		local sfxGroup, sfxIndex = data:match('^([^,]-)%s*,%s*(.-)$')
+		sndPlay(twSfx, sfxGroup, sfxIndex)
+	end
 end
 
 function f_setTowerStage() --Unfinished

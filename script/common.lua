@@ -167,7 +167,11 @@ bgmAdventure = "sound/System/Adventure.mp3"
 --Select Main Menu Song
 function f_menuMusic()
 	if data.menuSong == "Random" then
-		f_bgmrandomMenu()
+		if #t_songList[data.menuSongFolder]-2 ~= 0 then --If there's songs loaded
+			f_bgmrandomMenu()
+		else --If There's no songs loaded
+			playBGM(bgmNothing)
+		end
 	else
 		playBGM(data.menuSong)
 	end
@@ -183,7 +187,11 @@ end
 --Select Character Select Song
 function f_selectMusic()
 	if data.selectSong == "Random" then
-		f_bgmrandomSelect()
+		if #t_songList[data.selectSongFolder]-2 ~= 0 then --If there's songs loaded
+			f_bgmrandomSelect()
+		else --If There's no songs loaded
+			playBGM(bgmNothing)
+		end
 	else
 		playBGM(data.selectSong)
 	end
@@ -199,7 +207,11 @@ end
 --Select Character Select (New Challenger Mode) Song
 function f_challengerMusic()
 	if data.challengerSong == "Random" then
-		f_bgmrandomChallenger()
+		if #t_songList[data.challengerSongFolder]-2 ~= 0 then --If there's songs loaded
+			f_bgmrandomChallenger()
+		else --If There's no songs loaded
+			playBGM(bgmNothing)
+		end
 	else
 		playBGM(data.challengerSong)
 	end
@@ -392,13 +404,6 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'CHARACTER SELECT
 
 --Save Log
 if data.debugLog then f_printTable(t_songList, "save/debug/t_songList.txt") end
---[[
-t_randomSongTest = {}
-for i=1, #t_songList[1] do --recibe todos los valores de la folder 1, la idea es usar esta tabla para randomizar esos valores como lo hace t_selchars
-	t_randomSongTest[#t_randomSongTest+1] = i --falta excluir los 2 ultimos valores (random y back)
-end
-if data.debugLog then f_printTable(t_randomSongTest, "save/debug/t_randomSongTest.txt") end
-]]
 end
 
 --;===========================================================
