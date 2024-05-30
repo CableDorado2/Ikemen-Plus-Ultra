@@ -12,7 +12,7 @@
 - Help and cooperation are appreciated.
 
 ## Minimum System Requirements
-- **System:** Windows XP SP3 - 32 Bits (Yeah it works in WinXP)
+- **System:** Windows XP SP3 - 32 Bits (Yeah it works in WinXP) BUT IT'S NOT WORKS IN WINDOWS 11 (It has been tested maximum on Windows 10 Home)
 - **Proccessor:** Intel(R) Atom(TM) CPU N455 1.66GHz
 - **Memory:** 1GB RAM
 - **Graphics:** Intel(R) Graphics Media Accelerator 3150 - 256MB
