@@ -2182,7 +2182,7 @@ towerStgPreview = animNew(sysSff, [[
 110,3, 0,0,
 ]])
 animUpdate(towerStgPreview)
-animSetScale(towerStgPreview, 1.53, 1.34)
+animSetScale(towerStgPreview, 0.79, 0.50)
 
 --;=================================================================================================
 --; TOWER DESTINY SELECT
@@ -2312,7 +2312,7 @@ function f_selectDestiny()
 		nodecimalDestinyTime = string.format("%.0f",destinyTimeNumber)
 		txt_destinyTime = createTextImg(jgFnt, 0, 0, nodecimalDestinyTime, 160, 28)
 		if destinyTimer > 0 then
-			if not backScreen then destinyTimer = destinyTimer - 0.5 end--Activate Tower Select Timer
+			if not backScreen and not startCount then destinyTimer = destinyTimer - 0.5 end--Activate Tower Select Timer
 			textImgDraw(txt_destinyTime)
 		else --when destinyTimer <= 0
 			

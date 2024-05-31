@@ -755,7 +755,9 @@ end
 function f_drawCharAnim(t, data, x, y, update, scaleX, scaleY, alphaS, alphaD)
 	if t ~= nil and t[data] ~= nil then
 		scaleX = scaleX or 1
+		scaleX = t.xscale/scaleX --Because some characters have different scales
 		scaleY = scaleY or 1
+		scaleY = t.yscale/scaleY
 		alphaS = alphaS or 255
 		alphaD = alphaD or 0
 		animSetScale(t[data], scaleX, scaleY)
