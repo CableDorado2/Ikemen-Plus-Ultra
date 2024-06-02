@@ -1160,7 +1160,7 @@ function f_mainTitle()
 	local i = 0
 	local t = 0
 	playBGM(bgmTitle)
-	--fadeInBGM(20)	
+	--fadeInBGM(20)
 	while true do
 		if i == 500 then
 			i = 0
@@ -5988,12 +5988,16 @@ function f_songMenu()
 							confirmSong = true
 						end
 					else --If you are in sound test
-						--randomSongFolder = math.random(1, #t_songList) --Get random folder song
-						--randomSongSel = math.random(1, #t_songList[randomSongFolder]-2)
-						randomSongSel = math.random(1, #t_songList[songFolder]-2) --Get random song (-2 excludes back and random select items)
-						selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
-						selectedSongName = t_songList[songFolder][randomSongSel].name
-						playBGM(selectedSong) --Play Random Song from Folder Selected
+						if #t_songList[data.menuSongFolder]-2 ~= 0 then --If there's songs loaded
+							--randomSongFolder = math.random(1, #t_songList) --Get random folder song
+							--randomSongSel = math.random(1, #t_songList[randomSongFolder]-2)
+							randomSongSel = math.random(1, #t_songList[songFolder]-2) --Get random song (-2 excludes back and random select items)
+							selectedSong = t_songList[songFolder][randomSongSel].path --Use random song obtained to get his path
+							selectedSongName = t_songList[songFolder][randomSongSel].name
+							playBGM(selectedSong) --Play Random Song from Folder Selected
+						else --If There's no songs loaded
+							playBGM(bgmNothing)
+						end
 					end
 				else --Play Selected Song
 					if not soundTest then
@@ -6801,6 +6805,7 @@ function f_mainNetplay()
 			onlinegame = false --only for identify purposes
 			assert(loadfile("save/data_sav.lua"))()
 			sndPlay(sysSnd, 100, 2)
+			f_resetMenuInputs()
 			return
 		end
 		if commandGetState(p1Cmd, 'u') or (commandGetState(p1Cmd, 'holdu') and bufu >= 30) then

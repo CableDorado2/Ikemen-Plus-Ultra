@@ -94,8 +94,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="sdlplugin.cpp" />
-    <ClCompile Include="vmr\playback.cpp" />
-    <ClCompile Include="vmr\video.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rz.h" />
