@@ -1160,7 +1160,6 @@ function f_mainTitle()
 	local i = 0
 	local t = 0
 	playBGM(bgmTitle)
-	--fadeInBGM(20)
 	while true do
 		if i == 500 then
 			i = 0
@@ -1621,6 +1620,7 @@ function f_mainMenu()
 	f_menuMusic()
 	f_infoReset()
 	f_infoboxReset()
+	--fadeInBGM(50)
 	while true do
 		if infoScreen == false and infoboxScreen == false then
 			--First Run Msg
@@ -1674,10 +1674,10 @@ function f_mainMenu()
 				if data.engineMode == "FG" then
 					--STORY (follow customizable story arcs designed for this engine)
 					if mainMenu == 1 then
-						--script.story.f_storyMenu()
+						script.story.f_storyMenu()
 					--ARCADE (play customizables arcade ladders)
 					elseif mainMenu == 2 then
-						--f_arcadeMenu()
+						f_arcadeMenu()
 					--VERSUS (face specific opponents)
 					elseif mainMenu == 3 then
 						f_vsMenu()
@@ -8772,3 +8772,25 @@ CD2
 --;===========================================================
 --; INITIALIZE LOOPS
 --;===========================================================
+f_mainStart() --Start Menu
+
+--[[
+function f_mainStartA()
+	while true do
+		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		animDraw(titleBG1)
+		animAddPos(titleBG2, -1, 0)
+		animUpdate(titleBG2)
+		animDraw(titleBG2)
+		--animDraw(titleBG3)
+		animDraw(titleBG4)
+		animDraw(titleBG5)
+		animDraw(titleBG6)
+		--f_titleText()
+		cmdInput()
+		refresh()
+	end
+end
+
+f_mainStartA() --Start Menu
+]]
