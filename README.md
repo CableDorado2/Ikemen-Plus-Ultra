@@ -73,12 +73,7 @@ This Ikemen is an expansion of his original SSZ code.
 ## TODO List
 **CD2:** Plans for future updates, they are in Spanish, because this is how I understand my ideas (If you can translate them, understand and offer help, will be great for progressing with this engine!):
 
-**v1.4 (Next Update)**
-------------
-
-- Que no se ponga punto al empezar a escribir el netplay port y que no se copien en clipboard comillas para el username en opciones.
-
-**v1.5**
+**v1.5 (Next Update)**
 ------------
 
 - Cambiar de personaje y stage en el menú de pausa solo en training.
