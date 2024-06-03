@@ -1245,36 +1245,6 @@ TUserFunc(intptr_t, SendWriteBGM, Reference buffer)
 	return len / sizeof(int16_t);
 }
 
-int bgmEntranceTime = 0;
-int bgmOutTime = 0;
-float bgmBackup = 1.0;
-
-TUserFunc(void, FadeInBGM, int time)
-{
-	bgm_vol = 0;
-	int i = 1;
-	while (bgm_vol < bgmBackup) {
-		i = i + 1;
-		bgm_vol = (bgmBackup/time*i);
-	}
-}
-
-/*
-TUserFunc(void, FadeInBGM, int time)
-{
-	int i = 1;
-	bgm_vol = 0;
-	for (; i < time;){
-		bgm_vol = (bgmBackup/time*i);
-	}
-}
-*/
-
-TUserFunc(void, FadeOutBGM, int time)
-{
-	bgm_vol = 0;
-}
-
 TUserFunc(void, SetVolume, float bv, float wv, float gv)
 {
 	bgm_vol = bv;
@@ -1285,7 +1255,6 @@ TUserFunc(void, SetVolume, float bv, float wv, float gv)
 	}else if(bgm_vol > 1.0){
 		bgm_vol = 1.0;
 	}
-	bgmBackup = bgm_vol;
 	if(wav_vol < 0.0){
 		wav_vol = 0.0;
 	}else if(wav_vol > 1.0){
@@ -1296,6 +1265,22 @@ TUserFunc(void, SetVolume, float bv, float wv, float gv)
 	}else if(g_vol > 1.0){
 		g_vol = 1.0;
 	}
+}
+
+TUserFunc(void, FadeInBGM, int time)
+{
+	float targetBGMvol = bgm_vol;
+	float currentBGMvol = 0; //bgm_vol = 0;
+	float incrementBGM = targetBGMvol / time;
+	for (float i = 0; i < time; i++) {
+		currentBGMvol += incrementBGM;
+	}
+	currentBGMvol = targetBGMvol;
+}
+
+TUserFunc(void, FadeOutBGM, int time)
+{
+	
 }
 
 TUserFunc(void, PlayVideo, Reference fn, Reference pldir)
