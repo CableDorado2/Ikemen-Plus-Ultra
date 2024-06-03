@@ -215,8 +215,7 @@ v2.0 (Final Release)
 
 ## Tutorials
 **Basic:**
-- How to Add Chars, Stages, Songs and Edit Rows and Columns for Roster: [https://youtu.be/f0OA_4Ml7yE](https://www.youtube.com/watch?v=f0OA_4Ml7yE)
-[![Alt text](https://i.ytimg.com/vi/f0OA_4Ml7yE/maxresdefault.jpg)](https://www.youtube.com/watch?v=f0OA_4Ml7yE)
+- *Coming Soon!*
 
 - *Coming Soon!*
 
