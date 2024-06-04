@@ -66,7 +66,7 @@ This Ikemen is an expansion of his original SSZ code.
 
 **IKEMEN GO Plus** presented by **K4thos** was made to test some functions meanwhile the original is updated using the mentioned GO version. GO Plus is what IKEMEN Plus was to Vanilla, but over time GO Plus and GO merged into the same thing.
 
-## Games Made in Ikemen Plus Ultra
+## Projects Made in Ikemen Plus Ultra
 - *MUGENGERS: THE OROCHI'S ORIGIN*
 - *ULTIMATE SMASHBOX*
 
@@ -91,6 +91,8 @@ This Ikemen is an expansion of his original SSZ code.
 - Revisar código del Damage Display para que no afecte al bonus de caltwalk ni cause que algunos chars tengan un clon por un helper faltante (Probablemente sea las variables y estados que usa).
 
 - Crear una copia del randomselect llamada randomteamselect que permita insertar la selección de teams aleatorios en select.def a lo kof2002um.
+
+- Preset team para el arcade a lo kof 2002 (definir en el select.def los equipos que aparecerán en el modo arcade cuando juegues contra la cpu turns o simul y que antes del order select te permita escoger contra cuál team luchar)
 
 - Implementar los parametros: ordersurvival, hidden, slot y mejorar unlock en select.def
 
