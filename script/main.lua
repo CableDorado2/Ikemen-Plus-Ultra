@@ -14,6 +14,43 @@ require("script.common")
 loadLifebar(data.lifebar) --path to lifebar stored in "save/data_sav.lua", also adjustable from options
 
 --;===========================================================
+--; DISCORD RICH PRESENCE DEFINITION
+--;===========================================================
+discordGameID = "1200228516554346567" --Discord AppID
+discordGameState = "In Logos" --Game State
+discordGameDetails = "Create Advanced MUGENS or your own Fighting Game!" --Game State Details
+discordGameBigImg = "gameicon" --Discord App Game Icon
+discordGameAbout = "Game Name" --Game Description
+discordGameMiniIcon = "charactericon" --Discord App Mini Icon
+discordGameMiniTxt = "character name" --Mini Icon Description
+discordPublicRoomID = "party1234" --Public Room ID
+discordPrivateRoomID = "xyzzy" --Private Room ID
+discordPrivateJoin = "join" --
+discordPrivateWatch = "look" --
+discordRoomMax = 2 --Room Max Capacity
+discordRoomSize = 0 --Room Capacity. Add 1 when online mode with rich presence works
+discordGameInstance = 0 --???
+
+--[[
+discordInit(discordGameID) --Start Discord Rich Presence
+discordUpdate() --Update Discord Rich Presence
+discordEnd() --End Discord Rich Presence
+setDiscordState(discordGameState)
+setDiscordDetails(discordGameDetails)
+setDiscordBigImg(discordGameBigImg)
+setDiscordBigTxt(discordGameAbout)
+setDiscordMiniImg(discordGameMiniIcon)
+setDiscordMiniTxt(discordGameMiniTxt)
+setDiscordPartyID(discordPublicRoomID)
+setDiscordSecretID(discordPrivateRoomID)
+setDiscordSecretJoin(discordPrivateJoin)
+setDiscordSecretWatch(discordPrivateWatch)
+setDiscordPartyMax(discordRoomMax)
+setDiscordPartySize(discordRoomSize)
+setDiscordInstance(discordGameInstance)
+]]
+
+--;===========================================================
 --; GLOBAL VARIABLES DEFINITION
 --;===========================================================
 onlinegame = false

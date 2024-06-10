@@ -1008,3 +1008,99 @@ public &UseGlContext
     .unbindGlContext();
   }
 }
+
+public void discordInit(^/char id)
+{
+  plugin void DiscordInit(:^/char:) = "dll/sdlpluginV.dll";
+  DiscordInit(:id:);
+}
+
+public void discordUpdate()
+{
+  plugin void DiscordUpdate(::) = "dll/sdlpluginV.dll";
+  DiscordUpdate(::);
+}
+
+public void discordEnd()
+{
+  plugin void DiscordEnd(::) = "dll/sdlpluginV.dll";
+  DiscordEnd(::);
+}
+
+public void setDiscordState(^/char state)
+{
+  plugin void SetDiscordState(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordState(:state:);
+}
+
+public void setDiscordDetails(^/char details)
+{
+  plugin void SetDiscordDetails(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordDetails(:details:);
+}
+
+public void setDiscordBigImg(^/char bigimg)
+{
+  plugin void SetDiscordBigImg(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordBigImg(:bigimg:);
+}
+
+public void setDiscordBigTxt(^/char bigtxt)
+{
+  plugin void SetDiscordBigTxt(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordBigTxt(:bigtxt:);
+}
+
+public void setDiscordMiniImg(^/char miniimg)
+{
+  plugin void SetDiscordMiniImg(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordMiniImg(:miniimg:);
+}
+
+public void setDiscordMiniTxt(^/char minitxt)
+{
+  plugin void SetDiscordMiniTxt(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordMiniTxt(:minitxt:);
+}
+
+public void setDiscordPartyID(^/char partyid)
+{
+  plugin void SetDiscordPartyID(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordPartyID(:partyid:);
+}
+
+public void setDiscordSecretID(^/char secretid)
+{
+  plugin void SetDiscordSecretID(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordSecretID(:secretid:);
+}
+
+public void setDiscordSecretJoin(^/char secretjoin)
+{
+  plugin void SetDiscordSecretJoin(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordSecretJoin(:secretjoin:);
+}
+
+public void setDiscordSecretWatch(^/char secretwatch)
+{
+  plugin void SetDiscordSecretWatch(:^/char:) = "dll/sdlpluginV.dll";
+  SetDiscordSecretWatch(:secretwatch:);
+}
+
+public void setDiscordPartyMax(int partymax)
+{
+  plugin void SetDiscordPartyMax(:int:) = "dll/sdlpluginV.dll";
+  SetDiscordPartyMax(:partymax:);
+}
+
+public void setDiscordPartySize(int partysize)
+{
+  plugin void SetDiscordPartySize(:int:) = "dll/sdlpluginV.dll";
+  SetDiscordPartySize(:partysize:);
+}
+
+public void setDiscordInstance(int instance)
+{
+  plugin void SetDiscordInstance(:int:) = "dll/sdlpluginV.dll";
+  SetDiscordInstance(:instance:);
+}
