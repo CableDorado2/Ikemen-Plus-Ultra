@@ -5,7 +5,7 @@ const bool FullScreen = false;
 const bool FullScreenReal = false;
 const bool WindowBordered = true;
 const bool WindowResizable = false;
-const bool AspectRatio = true;
+const bool AspectRatio = false;
 const bool OpenGL = false;
 const int Brightness = 256;
 

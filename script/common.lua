@@ -226,32 +226,21 @@ end
 
 --Random Select Song for Quick Versus Mode (Unused)
 function f_bgmrandomVS()
+	randomBGMPath = "sound"
 	t_randomsongList = {}
-	for file in lfs.dir[[.\\sound\\]] do
-		if file:match('^.*(%.)mp3$') then
+	for file in lfs.dir(randomBGMPath) do
+		if file:match('^.*(%.)[Mm][Pp][3]$') then
 			row = #t_randomsongList+1
 			t_randomsongList[row] = {}
 			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
-			t_randomsongList[row]['path'] = 'sound/'..file
-		elseif file:match('^.*(%.)MP3$') then
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
+		elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
 			row = #t_randomsongList+1
 			t_randomsongList[row] = {}
 			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
-			t_randomsongList[row]['path'] = 'sound/'..file
-		elseif file:match('^.*(%.)ogg$') then
-			row = #t_randomsongList+1
-			t_randomsongList[row] = {}
-			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
-			t_randomsongList[row]['path'] = 'sound/'..file
-		elseif file:match('^.*(%.)OGG$') then
-			row = #t_randomsongList+1
-			t_randomsongList[row] = {}
-			t_randomsongList[row]['id'] = ''
-			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
-			t_randomsongList[row]['path'] = 'sound/'..file
+			t_randomsongList[row]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
+			t_randomsongList[row]['path'] = randomBGMPath.."/"..file
 		end
 	end
 	playBGM(t_randomsongList[math.random(1, #t_randomsongList)].path)
@@ -267,29 +256,17 @@ t_songList = {} --Create Table
 folder = #t_songList+1 --Set "Folder 1" row for the table
 t_songList[folder] = {} --Add 1st Folder
 for file in lfs.dir[[.\\sound\\]] do --Read Dir
-	if file:match('^.*(%.)mp3$') then --Filter Files .mp3			
+	if file:match('^.*(%.)[Mm][Pp][3]$') then --Filter Files .mp3			
 		t_songList[folder][#t_songList[folder]+1] = {} --Add songs filtered to the end of the "folder" sub-table
 		t_songList[folder][#t_songList[folder]]['id'] = '' --Reserve id to create text
 		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL' --Folder name where is located the song
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1') --Get song name without extension
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1') --Get song name without extension
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file --Get song file path
-	elseif file:match('^.*(%.)MP3$') then --Filter Files .MP3
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then --Filter Files .ogg
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
-	elseif file:match('^.*(%.)ogg$') then --Filter Files .ogg
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
-	elseif file:match('^.*(%.)OGG$') then --Filter Files .OGG
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'GLOBAL'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/'..file
 	end
 end
@@ -302,29 +279,17 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'GLOBAL', name = 
 folder = #t_songList+1 --Set "Folder 2" row for the table
 t_songList[folder] = {} --Add 2nd Folder
 for file in lfs.dir[[.\\sound\system\\]] do
-	if file:match('^.*(%.)mp3$') then
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
-	elseif file:match('^.*(%.)MP3$') then
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
-	elseif file:match('^.*(%.)ogg$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
-	elseif file:match('^.*(%.)OGG$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'SYSTEM'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/'..file
 	end
 end
@@ -336,29 +301,17 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'SYSTEM', name = 
 folder = #t_songList+1
 t_songList[folder] = {}
 for file in lfs.dir[[.\\sound\system\menu\\]] do
-	if file:match('^.*(%.)mp3$') then
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
-	elseif file:match('^.*(%.)MP3$') then
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
-	elseif file:match('^.*(%.)ogg$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
-	elseif file:match('^.*(%.)OGG$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'MENU'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/menu/'..file
 	end
 end
@@ -370,29 +323,17 @@ t_songList[folder][#t_songList[folder]+1] = {id = '', folder = 'MENU', name = ' 
 folder = #t_songList+1
 t_songList[folder] = {}
 for file in lfs.dir[[.\\sound\system\select\\]] do
-	if file:match('^.*(%.)mp3$') then
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
-	elseif file:match('^.*(%.)MP3$') then
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
 		t_songList[folder][#t_songList[folder]+1] = {}
 		t_songList[folder][#t_songList[folder]]['id'] = ''
 		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
-	elseif file:match('^.*(%.)ogg$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
-	elseif file:match('^.*(%.)OGG$') then
-		t_songList[folder][#t_songList[folder]+1] = {}
-		t_songList[folder][#t_songList[folder]]['id'] = ''
-		t_songList[folder][#t_songList[folder]]['folder'] = 'CHARACTER SELECT'
-		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_songList[folder][#t_songList[folder]]['name'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
 		t_songList[folder][#t_songList[folder]]['path'] = 'sound/system/select/'..file
 	end
 end

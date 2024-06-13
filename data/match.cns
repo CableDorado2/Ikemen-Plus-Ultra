@@ -453,7 +453,7 @@ var(8) = var(8)|33554432
 
 [State -I1, KO Cond]
 type = VarSet
-trigger1 = roundno != -1 ;trigger1 = 1
+trigger1 = 1
 sysvar(9) = !noko && life <= 0
 
 [State -I1, KO1]

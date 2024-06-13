@@ -6221,20 +6221,15 @@ function f_videoMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	moviesPath = "movie"
 	t_videoList = {}
-	for file in lfs.dir[[.\\movie\\]] do
-		if file:match('^.*(%.)wmv$') then
+	for file in lfs.dir(moviesPath) do
+		if file:match('^.*(%.)[Ww][Mm][Vv]$') then
 			row = #t_videoList+1
 			t_videoList[row] = {}
 			t_videoList[row]['id'] = ''
-			t_videoList[row]['name'] = file:gsub('^(.*)[%.]wmv$', '%1')
-			t_videoList[row]['path'] = "movie/"..file
-		elseif file:match('^.*(%.)WMV$') then
-			row = #t_videoList+1
-			t_videoList[row] = {}
-			t_videoList[row]['id'] = ''
-			t_videoList[row]['name'] = file:gsub('^(.*)[%.]WMV$', '%1')
-			t_videoList[row]['path'] = "movie/"..file
+			t_videoList[row]['name'] = file:gsub('^(.*)[%.][Ww][Mm][Vv]$', '%1')
+			t_videoList[row]['path'] = moviesPath.."/"..file
 		end
 	end
 	t_videoList[#t_videoList+1] = {id = '', name = "          BACK"}
@@ -6397,20 +6392,15 @@ function f_storyboardMenu()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	storyboardsPath = "storyboard"
 	t_storyboardList = {}
-	for file in lfs.dir[[.\\storyboard\\]] do
-		if file:match('^.*(%.)def$') then
+	for file in lfs.dir(storyboardsPath) do
+		if file:match('^.*(%.)[Dd][Ee][Ff]$') then
 			row = #t_storyboardList+1
 			t_storyboardList[row] = {}
 			t_storyboardList[row]['id'] = ''
-			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.]def$', '%1')
-			t_storyboardList[row]['path'] = "storyboard/"..file
-		elseif file:match('^.*(%.)DEF$') then
-			row = #t_storyboardList+1
-			t_storyboardList[row] = {}
-			t_storyboardList[row]['id'] = ''
-			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.]DEF$', '%1')
-			t_storyboardList[row]['path'] = "storyboard/"..file
+			t_storyboardList[row]['name'] = file:gsub('^(.*)[%.][Dd][Ee][Ff]$', '%1')
+			t_storyboardList[row]['path'] = storyboardsPath.."/"..file
 		end
 	end
 	t_storyboardList[#t_storyboardList+1] = {id = '', name = "          BACK"}
@@ -6592,20 +6582,15 @@ for i=1, #t_replayOption do
 end
 
 function f_replayTable()
+	replaysPath = "replays"
 	t_replayList = {}
-	for file in lfs.dir[[.\\replays\\]] do
-		if file:match('^.*(%.)replay$') and not file:match('^data.replay$') then
+	for file in lfs.dir(replaysPath) do
+		if file:match('^.*(%.)[Rr][Ee][Pp][Ll][Aa][Yy]$') and not file:match('^data.replay$') then
 			row = #t_replayList+1
 			t_replayList[row] = {}
 			t_replayList[row]['id'] = ''
-			t_replayList[row]['name'] = file:gsub('^(.*)[%.]replay$', '%1')
-			t_replayList[row]['path'] = "replays/"..file
-		elseif file:match('^.*(%.)REPLAY$') and not file:match('^data.replay$') then
-			row = #t_replayList+1
-			t_replayList[row] = {}
-			t_replayList[row]['id'] = ''
-			t_replayList[row]['name'] = file:gsub('^(.*)[%.]REPLAY$', '%1')
-			t_replayList[row]['path'] = "replays/"..file
+			t_replayList[row]['name'] = file:gsub('^(.*)[%.][Rr][Ee][Pp][Ll][Aa][Yy]$', '%1')
+			t_replayList[row]['path'] = replaysPath.."/"..file
 		end
 	end
 	t_replayList[#t_replayList+1] = {id = '', name = "          BACK"}

@@ -1109,30 +1109,19 @@ t_selMusic = {
 }
 
 --Populate t_selMusic table with SOUND FOLDER data
-for file in lfs.dir[[.\\sound\\]] do
-	if file:match('^.*(%.)mp3$') then
+selMusicPath = "sound"
+for file in lfs.dir(selMusicPath) do
+	if file:match('^.*(%.)[Mm][Pp][3]$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]mp3$', '%1')
+		t_selMusic[row]['bgmfile'] = selMusicPath.."/"..file
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)MP3$') then
+	elseif file:match('^.*(%.)[Oo][Gg][Gg]$') then
 		row = #t_selMusic+1
 		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]MP3$', '%1')
-		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)ogg$') then
-		row = #t_selMusic+1
-		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]ogg$', '%1')
-		t_selMusic[row]['bgmchar'] = 0
-	elseif file:match('^.*(%.)OGG$') then
-		row = #t_selMusic+1
-		t_selMusic[row] = {}
-		t_selMusic[row]['bgmfile'] = "sound/"..file
-		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.]OGG$', '%1')
+		t_selMusic[row]['bgmfile'] = selMusicPath.."/"..file
+		t_selMusic[row]['bgmname'] = file:gsub('^(.*)[%.][Oo][Gg][Gg]$', '%1')
 		t_selMusic[row]['bgmchar'] = 0
 	end
 end
@@ -1148,21 +1137,103 @@ t_selMusic[6].bgmchar = 999
 t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "MUTE", bgmchar = 0}
 t_selMusic[#t_selMusic+1] = {bgmfile = "", bgmname = "AUTO [LEFT SIDE]", bgmchar = 0}
 
+t_extraStages = {}
+function generateStageList(path)
+	for item in lfs.dir(path) do --For each item readed in path
+		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
+			local details = path.."/"..item --Get path and file name
+			local attribute = lfs.attributes(details) --Get atributes from items readed
+			assert(type(attribute) == "table")
+			generateStageList(details)
+			if attribute.mode == "file" then
+				if item:match('^.*(%.)[Dd][Ee][Ff]$') then --Get only .def files
+					t_extraStages[#t_extraStages+1] = details
+				end
+				--f_printTable(t_extraStages, 'save/debug/StageListCreator.txt')
+			end
+		end
+	end
+	local str = "[ExtraStages]"
+	for i=1, #t_extraStages do --For all values/paths stored in table
+		str = str..'\n'..t_extraStages[i]
+	end
+	dscr = io.open("save/debug/00_ExtraStagesList.txt", 'w')
+	dscr:write(str) --Write all table values in txt file
+	io.close(dscr)
+end
+generateStageList("stages") --set stage files path
+
+t_characters = {}
+function generateCharsList(path)
+	for item in lfs.dir(path) do
+		if item ~= "." and item ~= ".." and item ~= ".keep" then
+			local details = path.."/"..item
+			local attribute = lfs.attributes(details)
+			assert(type(attribute) == "table")
+			generateCharsList(details)
+			if attribute.mode == "file" then
+				if item:match('^.*(%.)[Dd][Ee][Ff]$') then
+					t_characters[#t_characters+1] = details
+				end
+				--f_printTable(t_characters, 'save/debug/CharsListCreator.txt')
+			end
+		end
+	end
+	local str = "[Characters]"
+	for i=1, #t_characters do
+		str = str..'\n'..t_characters[i]
+	end
+	dscr = io.open("save/debug/00_CharactersList.txt", 'w')
+	dscr:write(str)
+	io.close(dscr)
+end
+generateCharsList("chars")
+
+--Move to common.lua --> f_soundtrack()
+local t_file = {}
+local t_folder = {}
+function f_loadDir(path)
+	for item in lfs.dir(path) do --For each item readed in path
+		if item ~= "." and item ~= ".." and item ~= ".keep" then --exclude items
+			local details = path.."/"..item --Get path and file name
+			local attribute = lfs.attributes(details) --Get atributes from items readed
+			assert(type(attribute) == "table")
+			f_loadDir(details)
+			if attribute.mode == "directory" then --If the item have "folder/dir" attribute
+				--f_loadDir(details)
+				--row = #t_file+1
+				--t_file[row] = details --Add item to table
+			elseif attribute.mode == "file" then --If the item have "file" attribute
+				if item:match('^.*(%.)[Mm][Pp][3]$') then
+					row = #t_file+1
+					t_file[row] = {}
+					t_file[row]['id'] = ""
+					t_file[row]['folder'] = "TODO"
+					t_file[row]['path'] = details
+					t_file[row]['name'] = item:gsub('^(.*)[%.][Mm][Pp][3]$', '%1')
+				end
+				f_printTable(t_file, 'save/debug/Test.txt')
+			end
+		end
+	end
+end
+f_loadDir("sound")
+
 function f_updateLogs()
 	if data.debugLog then
-	f_printTable(t_selChars, "save/debug/t_selChars.txt")
-	f_printTable(t_selStages, "save/debug/t_selStages.txt")
-	f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
-	f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
-	f_printTable(t_selVN, "save/debug/t_selVN.txt")
-	f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
-	f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
-	f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
-	f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
-	f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
-	f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
-	f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
-	f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
+		f_printTable(t_selChars, "save/debug/t_selChars.txt")
+		f_printTable(t_selStages, "save/debug/t_selStages.txt")
+		f_printTable(t_selMusic, "save/debug/t_selMusic.txt")
+		f_printTable(t_selOptions, "save/debug/t_selOptions.txt")
+		f_printTable(t_selVN, "save/debug/t_selVN.txt")
+		f_printTable(t_charAdd, "save/debug/t_charAdd.txt")
+		f_printTable(t_stageDef, "save/debug/t_stageDef.txt")
+		f_printTable(t_orderChars, "save/debug/t_orderChars.txt")
+		f_printTable(t_randomChars, "save/debug/t_randomChars.txt")
+		f_printTable(t_bossChars, "save/debug/t_bossChars.txt")
+		f_printTable(t_bonusChars, "save/debug/t_bonusChars.txt")
+		f_printTable(t_trainingChar, "save/debug/t_trainingChar.txt")
+		f_printTable(t_intermissionChars, "save/debug/t_intermissionChars.txt")
 	end
 end
 

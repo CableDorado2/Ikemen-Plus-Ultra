@@ -9,3 +9,5 @@ save/debug/
 *.lastbuildstate
 *.manifest
 *.cache
+lib/alpha/dll/sdlplugin.exp
+lib/alpha/dll/sdlplugin.lib
