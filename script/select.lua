@@ -1,9 +1,39 @@
-﻿
-module(..., package.seeall)
+﻿module(..., package.seeall)
+--;===========================================================
+--; CHARACTER SELECT CONFIG
+--;===========================================================
+selectFadeinTime = 10 --TODO
+selectFadeoutTime = 10 --TODO
 
---;===========================================================
---; GENERAL CONFIG
---;===========================================================
+--Icon for random select
+function f_randomSlot()
+cellRandomSprGroup = 151 --System.def cell.random.spr for Group
+cellRandomSprIndex = 0 --System.def cell.random.spr for Index
+cellRandomSprScaleX = data.cellScaleX
+cellRandomSprScaleY = data.cellScaleY
+setRandomSpr(sysSff, cellRandomSprGroup, cellRandomSprIndex, cellRandomSprScaleX, cellRandomSprScaleY) --Random Icon
+cellRandomSwitchTime = 4 --Time to wait before changing to another random portrait (TODO)
+end
+
+--P1 Cursor
+p1CursorActiveAnim = 160
+p1CursorDoneSpr = 161,0 --TODO
+p1CursorMoveSnd = 100,0
+p1CursorDoneSnd = 100,1
+p1RandomMoveSnd = 100,0
+--P2 Cursor
+p2CursorActiveAnim = 170
+p2CursorDoneSpr = 171,0
+p2CursorBlink = 0       --1 to blink p2's cursor if overlapping p1's (TODO)
+p2CursorMoveSnd = 100,0
+p2CursorDoneSnd = 100,1
+p2RandomMoveSnd = 100,0
+
+--Cell background
+selectCell = animNew(sysSff, [[
+150,0, 0,0, -1
+]])
+
 --Default turns/simul count after starting the game
 p1numTurns = 2
 p2numTurns = 2
@@ -12,56 +42,48 @@ p2numSimul = 2
 --default team mode after starting the game (0 - Single, 1 - Simul, 2 - Turns)
 p1teamMode = 0
 p2teamMode = 0
---let cursor wrap around
-wrappingX = true
-wrappingY = true
-
 --;===========================================================
 --; GLOBAL FUNCTIONS
 --;===========================================================
 function f_rosterReset()
-	--When you play in multiplayer the roster is divided into 2 and the 2nd player can choose without the screen being cut:
-	--if data.p2Faces or data.selectType == "Fixed" then
-		selectColumns = data.selectColumns --Get Number of Character Select Columns
-		selectRows = data.selectRows --Get Number of Character Select Rows
-		offsetRows = data.offsetRows --Get Number of Character Select Hidden Rows Slots
-		--offsetColumns = 2 --data.offsetColumns --Get Number of Character Select Hidden Columns Slots
-		setSelColRow(selectColumns, selectRows)
-		setRandomSpr(sysSff, 151, 0, 1, 1) --Random Icon
-		setSelCellSize(27+2, 27+2) --Slot Size
-		setSelCellScale(1, 1) --Slot Scale
-		if data.p2Faces then --When you play in a Multiplayer Mode
-			p1FaceX = 10
-			p1FaceY = 170
-			p2FaceX = 169
-			p2FaceY = 170
-		else--if data.selectType == "Fixed" then --When you play in a Single Mode
-			p1FaceX = 90
-			p1FaceY = 170
-			if not data.p1SelectMenu then
-				p2FaceX = 90
-				p2FaceY = 170
-			end
+	selectRows = data.selectRows --Get Number of Character Select Rows
+	selectColumns = data.selectColumns --Get Number of Character Select Columns
+	offsetRows = data.offsetRows --Get Number of Character Select Hidden Rows Slots
+	offsetColumns = data.offsetColumns --Get Number of Character Select Hidden Columns Slots (TODO)
+	setSelColRow(selectColumns, selectRows)
+	--let cursor wrap around
+	wrappingX = data.wrappingX --System.def: wrapping for X (true = 1, false = 0)
+	wrappingY = data.wrappingY --System.def: wrapping for Y (true = 1, false = 0)
+	--Position to draw to
+	if data.p2Faces and data.selectType == "Advanced" then --When you play in Multiplayer and Roster Type is like BlazeBlue Cross Tag Battle the roster will be divided into 2 and the 2nd player can choose without the screen being cut
+		p1FaceX = data.p1FaceX --10
+		p1FaceY = data.p1FaceY
+		p2FaceX = data.p2FaceX
+		p2FaceY = data.p2FaceY
+	else --When you play in Single Player or Roster Type is Simple Type
+		p1FaceX = data.p1FaceX --System.def: pos for X (Left Side)
+		p1FaceY = data.p1FaceY --System.def: pos for Y (Left Side)
+		--if not data.p1SelectMenu then
+			p2FaceX = data.p1FaceX --System.def: pos for X (Right Side)
+			p2FaceY = data.p1FaceY --System.def: pos for Y (Right Side)
+		--end
+		if data.selectType == "Simple" then
+			offsetRows = 0
+			offsetColumns = 0
 		end
-	--[[--When data.p2Faces is false and you play in 1P you will see an expanded roster, as there is no 2P to select it will not be cut:
-	elseif data.selectType == "Variable" then
-		selectColumns = 11
-        selectRows = 2
-        offsetRows = 0
-		setSelColRow(selectColumns, selectRows)
-		setRandomSpr(sysSff, 151, 0, 1, 1)
-		setSelCellSize(27+2, 27+2)
-		setSelCellScale(1, 1)
-		--Position of the character boxes for P1
-		p1FaceX = 2.5
-		p1FaceY = 170
-		--Position of the character boxes for P2
-		if not data.p1SelectMenu then
-			p2FaceX = 2.5
-			p2FaceY = 170
-		end
-	]]
-	--end
+	end
+	--Empty Cells
+	showemptyboxes = true --TODO
+	moveoveremptyboxes = false --allow cursor to move over empty boxes (TODO)
+	--Size of each cell (in pixels)
+	cellSizeX = data.cellSizeX --System.def: cell.size for X
+	cellSizeY = data.cellSizeY --System.def: cell.size for Y
+	--Space between each cell
+	cellSpacingX = data.cellSpacingX --System.def: cell.spacing for X
+	cellSpacingY = data.cellSpacingY --System.def: cell.spacing for Y
+	setSelCellSize(cellSizeX+cellSpacingX, cellSizeY+cellSpacingY) --Slot Size
+	setSelCellScale(data.cellScaleX, data.cellScaleY) --Slot Scale (System.def: cell.bg.scale)
+	f_randomSlot()
 end
 
 function f_p1sideReset()
@@ -179,10 +201,10 @@ function f_selectReset()
 end
 
 function f_selectInit()
-	p1SelX = 0
-	p1SelY = 0
-	p2SelX = 4 --Cursor position after choosing the Team Mode (Single, Team or Turns), this is used to put p2 in the 4th slot
-	p2SelY = 0
+	p1SelX = data.p1SelX --System.def: p1CursorStartcell for X
+	p1SelY = data.p1SelY --System.def: p1CursorStartcell for Y
+	p2SelX = data.p2SelX --System.def: p2CursorStartcell for X
+	p2SelY = data.p2SelY --System.def: p2CursorStartcell for Y
 	p1FaceOffset = 0
 	p2FaceOffset = 0
 	p1OffsetRow = 0
@@ -2747,11 +2769,6 @@ selectBG2c = animNew(sysSff, [[
 animAddPos(selectBG2c, 160, 0)
 animSetTile(selectBG2c, 1, 0)
 
---Cell background
-selectCell = animNew(sysSff, [[
-150,0, 0,0, -1
-]])
-
 --P1 active cursor
 p1ActiveCursor = animNew(sysSff, [[
 160,0, 0,0, -1
@@ -2920,7 +2937,7 @@ function f_selectScreen()
 		end
 	end
 	if not stageMenuActive then
-		if data.p2Faces then
+		if data.p2Faces and data.selectType == "Advanced" then
 			animDraw(f_animVelocity(selectBG1a, -1, 0))
 			animSetWindow(selectBG1a, 5, 0, 151, 239)
 			animDraw(f_animVelocity(selectBG1b, -1, 0))
@@ -2928,13 +2945,7 @@ function f_selectScreen()
 		else
 			animDraw(f_animVelocity(selectBG1c, -1, 0))
 			animSetWindow(selectBG1c, 85, 0, 151, 239)
-			--[[
-			if data.selectType == "Fixed" then
-				animSetWindow(selectBG1c, 85, 0, 151, 239)
-			elseif data.selectType == "Variable" then
-				animSetWindow(selectBG1c, -2, 0, 324, 239)
-			end
-			]]
+			--animSetWindow(selectBG1c, 85, 0, 151, 239)
 		end
 	end
 	animDraw(f_animVelocity(selectBG2a, -1, 0))
@@ -2949,18 +2960,20 @@ function f_selectScreen()
 		p1charSlot = p1SelX + selectColumns*p1SelY+1 --Slot Location
 		for i=0, selectColumns-1 do
 			for j=0, selectRows-1 do
-				animPosDraw(selectCell, p1FaceX+i*(27+2), p1FaceY+j*(27+2)) --Draw cell sprite for each selectColumns and selectRow
+				animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+				animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				if t_selChars[p1charSlot].unlock == 0 and not onlinegame then
 					--animPosDraw(cellLock, p1FaceX+i*(27+3), p1FaceY+i*(27+1)) --Draw Lock Icon if the character is locked
 				end
 			end
 		end
 		--f_drawQuickText(txt_testVar, font3, 0, 0, t_selChars[p1charSlot].unlock, 163.5, 168)
-		if data.p2Faces or not data.p1SelectMenu then
+		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
 			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
 			for i=0, selectColumns-1 do
 				for j=0, selectRows-1 do
-					animPosDraw(selectCell, p2FaceX+i*(27+2), p2FaceY+j*(27+2))
+					animPosDraw(selectCell, p2FaceX+i*(cellSizeX+cellSpacingX), p2FaceY+j*(cellSizeY+cellSpacingY))
+					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
 				end
 			end
 		end
@@ -4592,7 +4605,7 @@ function f_p1SelectMenu()
 					textImgPosDraw(txt_p1Name, 12, 166)
 				end
 			end
-			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(27+2), p1FaceY+(p1SelY-p1OffsetRow)*(27+2))
+			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(cellSizeX+cellSpacingX), p1FaceY+(p1SelY-p1OffsetRow)*(cellSizeY+cellSpacingY))
 		--Back to Team Menu Logic
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if commandGetState(p2Cmd, 'e') and p1SelBack == true and not data.coop then
@@ -6117,7 +6130,7 @@ function f_p2SelectMenu()
 					end
 				end
 			end
-			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(27+2), p2FaceY+(p2SelY-p2OffsetRow)*(27+2))
+			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(cellSizeX+cellSpacingX), p2FaceY+(p2SelY-p2OffsetRow)*(cellSizeY+cellSpacingY))
 		--Back to Team Menu Logic
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if commandGetState(p2Cmd, 'e') then

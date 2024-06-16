@@ -39,18 +39,36 @@ data.simulType = "Assist"
 data.coopenemy = "Simul"
 --Zoom Data
 data.zoomActive = true
-data.zoomMin = 0.75
-data.zoomMax = 1.1
+data.zoomMin = 0.05
+data.zoomMax = 1
 data.zoomSpeed = 1
---Character Select Data
-data.selectType = "Fixed"
-data.selectColumns = 5
-data.selectRows = 2
-data.offsetRows = 1
+--Character Select Global Data
 data.palType = "Modern"
 data.randomPortrait = "Simple"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
+--Character Select Config
+data.selectType = "Simple"
+data.selectRows = 2
+data.selectColumns = 5
+data.offsetRows = 1
+data.offsetColumns = 1
+data.wrappingX = true
+data.wrappingY = true
+data.p1FaceX = 90
+data.p1FaceY = 170
+data.p2FaceX = 169
+data.p2FaceY = 170
+data.cellSizeX = 27
+data.cellSizeY = 27
+data.cellSpacingX = 2
+data.cellSpacingY = 2
+data.cellScaleX = 1
+data.cellScaleY = 1
+data.p1SelX = 0
+data.p1SelY = 0
+data.p2SelX = 4
+data.p2SelY = 0
 --Stage Select Data
 data.stageType = "Modern"
 data.stageInfo = "All"
@@ -63,7 +81,7 @@ data.orderTime = 16
 data.rematchTime = 16
 data.serviceTime = 16
 data.attractTime = 11
-data.destinyTime = 31
+data.destinyTime = -1
 --Video Data
 data.windowType = "Original"
 data.fullscreenType = "Borderless"
