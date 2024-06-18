@@ -1587,7 +1587,7 @@ void drawFace(&.lua.State L=, int re=)
         .syst.selinf.sel.randomspr~draw(
           x + (float)i*.syst.selinf.sel.cellsizex,
           y + (float)j*.syst.selinf.sel.cellsizey,
-          .syst.selinf.sel.randxscl, .syst.selinf.sel.randxscl,
+          .syst.selinf.sel.randxscl, .syst.selinf.sel.randyscl,
           .syst.selinf.sel.randomspr~colorPallet);
       }
       i++;

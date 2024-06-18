@@ -34,6 +34,16 @@ selectCell = animNew(sysSff, [[
 150,0, 0,0, -1
 ]])
 
+--P1 active cursor
+p1ActiveCursor = animNew(sysSff, [[
+160,0, 0,0, -1
+]])
+
+--P2 active cursor
+p2ActiveCursor = animNew(sysSff, [[
+170,0, 0,0, -1
+]])
+
 --Default turns/simul count after starting the game
 p1numTurns = 2
 p2numTurns = 2
@@ -55,7 +65,7 @@ function f_rosterReset()
 	wrappingX = data.wrappingX --System.def: wrapping for X (true = 1, false = 0)
 	wrappingY = data.wrappingY --System.def: wrapping for Y (true = 1, false = 0)
 	--Position to draw to
-	if data.p2Faces and data.selectType == "Advanced" then --When you play in Multiplayer and Roster Type is like BlazeBlue Cross Tag Battle the roster will be divided into 2 and the 2nd player can choose without the screen being cut
+	if data.p2Faces and data.selectType == "Advanced" then --When you play in Multiplayer and Roster Type is like BlazBlue Cross Tag Battle the roster will be divided into 2 and the 2nd player can choose without the screen being cut
 		p1FaceX = data.p1FaceX --10
 		p1FaceY = data.p1FaceY
 		p2FaceX = data.p2FaceX
@@ -2769,16 +2779,6 @@ selectBG2c = animNew(sysSff, [[
 animAddPos(selectBG2c, 160, 0)
 animSetTile(selectBG2c, 1, 0)
 
---P1 active cursor
-p1ActiveCursor = animNew(sysSff, [[
-160,0, 0,0, -1
-]])
-
---P2 active cursor
-p2ActiveCursor = animNew(sysSff, [[
-170,0, 0,0, -1
-]])
-
 --nothing but changed to fade if needed
 data.fadeSelect = animNew(sysSff, [[
 -1,-1, 0,0, -1
@@ -2936,62 +2936,7 @@ function f_selectScreen()
 			animDraw(f_animVelocity(selectBG0, -1, -1))
 		end
 	end
-	if not stageMenuActive then
-		if data.p2Faces and data.selectType == "Advanced" then
-			animDraw(f_animVelocity(selectBG1a, -1, 0))
-			animSetWindow(selectBG1a, 5, 0, 151, 239)
-			animDraw(f_animVelocity(selectBG1b, -1, 0))
-			animSetWindow(selectBG1b, 164, 0, 151, 239)
-		else
-			animDraw(f_animVelocity(selectBG1c, -1, 0))
-			animSetWindow(selectBG1c, 85, 0, 151, 239)
-			--animSetWindow(selectBG1c, 85, 0, 151, 239)
-		end
-	end
-	animDraw(f_animVelocity(selectBG2a, -1, 0))
-	animDraw(f_animVelocity(selectBG2b, -3, 0))
-	animDraw(f_animVelocity(selectBG2c, -6, 0))
-	if not exclusiveStageMenu then
-		textImgSetPos(txt_mainSelect, 159, 13)
-		textImgDraw(txt_mainSelect)
-	end
-	if not stageMenuActive then
-		drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
-		p1charSlot = p1SelX + selectColumns*p1SelY+1 --Slot Location
-		for i=0, selectColumns-1 do
-			for j=0, selectRows-1 do
-				animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
-				animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
-				if t_selChars[p1charSlot].unlock == 0 and not onlinegame then
-					--animPosDraw(cellLock, p1FaceX+i*(27+3), p1FaceY+i*(27+1)) --Draw Lock Icon if the character is locked
-				end
-			end
-		end
-		--f_drawQuickText(txt_testVar, font3, 0, 0, t_selChars[p1charSlot].unlock, 163.5, 168)
-		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
-			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
-			for i=0, selectColumns-1 do
-				for j=0, selectRows-1 do
-					animPosDraw(selectCell, p2FaceX+i*(cellSizeX+cellSpacingX), p2FaceY+j*(cellSizeY+cellSpacingY))
-					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
-				end
-			end
-		end
-	end
-	--Character Select Timer
-	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
-		--txt_charTime = createTextImg(jgFnt, 0, 0, (selectTimer/gameTick), 160, 70) --Original Decimal Timer
-		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
-		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
-		txt_charTime = createTextImg(jgFnt, 0, 0, nodecimalCharTime, 160, 70)
-		if selectTimer > 0 then
-			if not backScreen then selectTimer = selectTimer - 0.5 end --Activate Character Select Timer
-			textImgDraw(txt_charTime)
-		else --when selectTimer <= 0
-			
-		end
-	end
-	--Player1		
+	--Player 1 Selection		
 	if not p1TeamEnd then
 		f_p1TeamMenu()
 	elseif data.p1In > 0 or data.p1Char ~= nil then
@@ -3033,7 +2978,7 @@ function f_selectScreen()
 			end
 		end
 	end
-	--Player2
+	--Player 2 Selection
 	if not p2TeamEnd then
 		f_p2TeamMenu()
 	elseif data.p2In > 0 or data.p2Char ~= nil then
@@ -3073,6 +3018,71 @@ function f_selectScreen()
 					end
 				end
 			end
+		end
+	end
+	--Cells
+	if not stageMenuActive then
+		if data.p2Faces and data.selectType == "Advanced" then
+			animDraw(f_animVelocity(selectBG1a, -1, 0))
+			animSetWindow(selectBG1a, 5, 0, 151, 239)
+			animDraw(f_animVelocity(selectBG1b, -1, 0))
+			animSetWindow(selectBG1b, 164, 0, 151, 239)
+		else
+			animDraw(f_animVelocity(selectBG1c, -1, 0))
+			animSetWindow(selectBG1c, 85, 0, 151, 239)
+			--animSetWindow(selectBG1c, 85, 0, 151, 239)
+		end
+	end
+	animDraw(f_animVelocity(selectBG2a, -1, 0))
+	animDraw(f_animVelocity(selectBG2b, -3, 0))
+	animDraw(f_animVelocity(selectBG2c, -6, 0))
+	if not exclusiveStageMenu then
+		textImgSetPos(txt_mainSelect, 159, 13)
+		textImgDraw(txt_mainSelect)
+	end
+	if not stageMenuActive then
+		drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
+		p1charSlot = p1SelX + selectColumns*p1SelY+1 --Slot Location
+		for i=0, selectColumns-1 do
+			for j=0, selectRows-1 do
+				animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+				animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
+				if t_selChars[p1charSlot].unlock == 0 and not onlinegame then
+					--animPosDraw(cellLock, p1FaceX+i*(27+3), p1FaceY+i*(27+1)) --Draw Lock Icon if the character is locked
+				end
+			end
+		end
+		--f_drawQuickText(txt_testVar, font3, 0, 0, t_selChars[p1charSlot].unlock, 163.5, 168)
+		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
+			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
+			for i=0, selectColumns-1 do
+				for j=0, selectRows-1 do
+					animPosDraw(selectCell, p2FaceX+i*(cellSizeX+cellSpacingX), p2FaceY+j*(cellSizeY+cellSpacingY))
+					animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
+				end
+			end
+		end
+		--Draw Active Cursors
+		if p1TeamEnd and not p1SelEnd then
+			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(cellSizeX+cellSpacingX), p1FaceY+(p1SelY-p1OffsetRow)*(cellSizeY+cellSpacingY))
+			animSetScale(p1ActiveCursor, data.cellScaleX, data.cellScaleY)
+		end
+		if p2TeamEnd and not p2SelEnd then
+			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(cellSizeX+cellSpacingX), p2FaceY+(p2SelY-p2OffsetRow)*(cellSizeY+cellSpacingY))
+			animSetScale(p2ActiveCursor, data.cellScaleX, data.cellScaleY)
+		end
+	end
+	--Character Select Timer
+	if data.gameMode == "arcade" or data.gameMode == "tower" or data.ftcontrol > 0 or data.attractMode == true then
+		--txt_charTime = createTextImg(jgFnt, 0, 0, (selectTimer/gameTick), 160, 70) --Original Decimal Timer
+		charTimeNumber = selectTimer/gameTick --Convert Ticks to Seconds
+		nodecimalCharTime = string.format("%.0f",charTimeNumber) --Delete Decimals
+		txt_charTime = createTextImg(jgFnt, 0, 0, nodecimalCharTime, 160, 70)
+		if selectTimer > 0 then
+			if not backScreen then selectTimer = selectTimer - 0.5 end --Activate Character Select Timer
+			textImgDraw(txt_charTime)
+		else --when selectTimer <= 0
+			
 		end
 	end
 	--Win Count
@@ -4605,7 +4615,6 @@ function f_p1SelectMenu()
 					textImgPosDraw(txt_p1Name, 12, 166)
 				end
 			end
-			animPosDraw(p1ActiveCursor, p1FaceX+p1SelX*(cellSizeX+cellSpacingX), p1FaceY+(p1SelY-p1OffsetRow)*(cellSizeY+cellSpacingY))
 		--Back to Team Menu Logic
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if commandGetState(p2Cmd, 'e') and p1SelBack == true and not data.coop then
@@ -6130,7 +6139,6 @@ function f_p2SelectMenu()
 					end
 				end
 			end
-			animPosDraw(p2ActiveCursor, p2FaceX+p2SelX*(cellSizeX+cellSpacingX), p2FaceY+(p2SelY-p2OffsetRow)*(cellSizeY+cellSpacingY))
 		--Back to Team Menu Logic
 			if (data.p1In == 2 and data.p2In == 2) then --Player 1 in player 2 (right) side
 				if commandGetState(p2Cmd, 'e') then
