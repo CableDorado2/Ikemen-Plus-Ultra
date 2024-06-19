@@ -1062,9 +1062,8 @@ txt_cellIssue = [[
 
 GO TO:
 OPTIONS ->
-   GAME SETTINGS ->
-      SYSTEM SETTINGS ->
-         [CHARACTER SELECT SETTINGS]
+   SYSTEM SETTINGS ->
+      [CHARACTER SELECT SETTINGS]
 
 AND MAKE SURE THAT:
 		   
@@ -3042,17 +3041,17 @@ function f_selectScreen()
 	end
 	if not stageMenuActive then
 		drawFace(p1FaceX, p1FaceY, p1FaceOffset) --Draw Character Face Portrait
-		p1charSlot = p1SelX + selectColumns*p1SelY+1 --Slot Location
 		for i=0, selectColumns-1 do
 			for j=0, selectRows-1 do
 				animPosDraw(selectCell, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
 				animSetScale(selectCell, data.cellScaleX, data.cellScaleY)
-				if t_selChars[p1charSlot].unlock == 0 and not onlinegame then
-					--animPosDraw(cellLock, p1FaceX+i*(27+3), p1FaceY+i*(27+1)) --Draw Lock Icon if the character is locked
+				--[[Draw Locked Icon
+				if t_selChars[(p1SelX+selectColumns*p1SelY)+1].unlock == 0 and not onlinegame then
+					animPosDraw(cellLock, p1FaceX+i*(cellSizeX+cellSpacingX), p1FaceY+j*(cellSizeY+cellSpacingY)) --Draw Lock Icon if the character is locked
 				end
+				]]
 			end
 		end
-		--f_drawQuickText(txt_testVar, font3, 0, 0, t_selChars[p1charSlot].unlock, 163.5, 168)
 		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
 			drawFace(p2FaceX, p2FaceY, p2FaceOffset)
 			for i=0, selectColumns-1 do
@@ -4421,6 +4420,7 @@ function f_p1SelectMenu()
 				end
 			end
 		end
+		--Scroll Logic
 		if not p1SelEnd then
 			local tmpCelX = p1SelX
 			local tmpCelY = p1SelY

@@ -1173,7 +1173,14 @@ function generateCharsList(path)
 			generateCharsList(details)
 			if attribute.mode == "file" then
 				if item:match('^.*(%.)[Dd][Ee][Ff]$') then
-					t_characters[#t_characters+1] = details
+					local rPath = details
+					local startIndex = string.find(rPath, "chars/") --Finds "chars/" string
+					if startIndex then
+						local details = string.sub(rPath, startIndex+6) --Extracts the substring starting from the position after "chars/"
+						t_characters[#t_characters+1] = details
+					else --"String does not contain 'chars/'
+						
+					end
 				end
 				--f_printTable(t_characters, 'save/debug/CharsListCreator.txt')
 			end

@@ -1502,6 +1502,7 @@ txt_bar = createTextImg(opFnt, 0, 0, "|", 235, 17.5+5*15, .5, .5)
 
 t_mainCfg = {
 	{varID = textImgNew(), text = "Game Settings",	  				varText = ""},
+	{varID = textImgNew(), text = "System Settings",  				varText = ""},
 	{varID = textImgNew(), text = "Video Settings",  				varText = ""},
 	{varID = textImgNew(), text = "Audio Settings",  				varText = ""},
 	{varID = textImgNew(), text = "Input Settings",  				varText = ""},
@@ -1562,28 +1563,35 @@ function f_mainCfg()
 				if bufr then bufr = 0 end
 			--Common Actions
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if (mainCfg < 8 or mainCfg == 9) then sndPlay(sysSnd, 100, 1) end
+				if (mainCfg < 9 or mainCfg == 10) then sndPlay(sysSnd, 100, 1) end
 				--Game Settings
 				if mainCfg == 1 then
 					if data.engineMode == "FG" then f_gameCfg()
 					elseif data.engineMode == "VN" then f_gameVNcfg()
 					end
-				--Video Settings
+				--System Settings
 				elseif mainCfg == 2 then
+					if data.engineMode == "FG" then
+						f_UICfg()
+					else
+						sndPlay(sysSnd, 100, 5)
+					end
+				--Video Settings
+				elseif mainCfg == 3 then
 					f_videoCfg()
 				--Audio Settings
-				elseif mainCfg == 3 then
+				elseif mainCfg == 4 then
 					f_audioCfg()
 				--Input Settings
-				elseif mainCfg == 4 then
+				elseif mainCfg == 5 then
 					--commandBufReset(p1Cmd)
 					--commandBufReset(p2Cmd)
 					f_inputCfg()
 				--Engine Settings
-				elseif mainCfg == 5 then
+				elseif mainCfg == 6 then
 					f_engineCfg()
 				--Edit Player Name
-				elseif mainCfg == 6 then
+				elseif mainCfg == 7 then
 					playerName = ""
 					nameEdit = true
 					editDone = false
@@ -1591,7 +1599,7 @@ function f_mainCfg()
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
 				--Edit Online Port
-				elseif mainCfg == 7 then
+				elseif mainCfg == 8 then
 					onlinePort = ""
 					portEdit = true
 					editDone = false
@@ -1599,14 +1607,14 @@ function f_mainCfg()
 					commandBufReset(p1Cmd)
 					commandBufReset(p2Cmd)
 				--Default Values
-				elseif mainCfg == 9 then
+				elseif mainCfg == 10 then
 					defaultAll = true
 					defaultScreen = true
 				--Save and Back
-				elseif mainCfg == 10 then
+				elseif mainCfg == 11 then
 					exitSave = true
 				--Back Without Save
-				elseif mainCfg == 11 then
+				elseif mainCfg == 12 then
 					assert(loadfile('save/data_sav.lua'))() --Load old data no saved
 					assert(loadfile('save/stats_sav.lua'))() --Load old data no saved
 					if data.engineMode == "VN" then assert(loadfile('save/vn_sav.lua'))() end
@@ -1626,12 +1634,12 @@ function f_mainCfg()
 					sndPlay(sysSnd, 100, 2)
 					break
 				--Online Settings from Offline Mode	
-				elseif mainCfg == 12 then --Only for Dev Purposes (Delete when test are finished)
+				elseif mainCfg == 13 then --Only for Dev Purposes (Delete when test are finished)
 					f_onlineCfg()
 				end
 			end
 		--Netplay Connection Type
-			if mainCfg == 8 then
+			if mainCfg == 9 then
 				if (commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) and data.connectMode == "Direct" then
 					sndPlay(sysSnd, 100, 0)
 					data.connectMode = "Database"
@@ -1700,13 +1708,13 @@ function f_mainCfg()
 				t = t >= 60 and 0 or t + 1
 			end
 		end
-		t_mainCfg[8].varText = data.connectMode
+		t_mainCfg[9].varText = data.connectMode
 		--Player Name Change
 		if not editDone and nameEdit == true then
 			if esc() then
 				clearInputText()
 				sndPlay(sysSnd, 100, 2)
-				t_mainCfg[6].varText = data.userName--getUserName()
+				t_mainCfg[7].varText = data.userName--getUserName()
 				nameEdit = false
 				editDone = true
 			end
@@ -1748,7 +1756,7 @@ function f_mainCfg()
 				end
 			end
 			if not editDone and nameEdit == true then
-				t_mainCfg[6].varText = playerName
+				t_mainCfg[7].varText = playerName
 			end
 		end
 		--Online Port Change
@@ -1756,7 +1764,7 @@ function f_mainCfg()
 			if esc() then
 				clearInputText()
 				sndPlay(sysSnd, 100, 2)
-				t_mainCfg[7].varText = getListenPort()
+				t_mainCfg[8].varText = getListenPort()
 				portEdit = false
 				editDone = true
 			end
@@ -1796,7 +1804,7 @@ function f_mainCfg()
 				end
 			end
 			if not editDone and portEdit == true then
-				t_mainCfg[7].varText = onlinePort
+				t_mainCfg[8].varText = onlinePort
 			end
 		end
 		--Draw Text for Table
@@ -1808,17 +1816,10 @@ function f_mainCfg()
 				end
 			end
 		end
-		--Draw Blinking Cursor for Username Field
-		if not editDone and nameEdit == true then
+		--Draw Blinking Cursor for Username and Online Port Fields
+		if not editDone then
 			if i%60 < 30 then
-				textImgPosDraw(txt_bar,235+1.5,17.5+5*18)
-			end
-			i = i >= 60 and 0 or i + 1
-		end
-		--Draw Blinking Cursor for Online Port Field
-		if not editDone and portEdit == true then
-			if i%60 < 30 then
-				textImgPosDraw(txt_bar,235+1.5,17.5+5*21)
+				textImgPosDraw(txt_bar,235+1.5,17.5+cursorPosY*15)
 			end
 			i = i >= 60 and 0 or i + 1
 		end
@@ -2152,7 +2153,6 @@ t_gameCfg = {
 	{varID = textImgNew(), text = "AI Ramping",             varText = s_aiRamping},
 	{varID = textImgNew(), text = "Team Settings",  		varText = ""},
 	{varID = textImgNew(), text = "Zoom Settings",  		varText = ""},
-	{varID = textImgNew(), text = "System Settings",		varText = ""},
 	{varID = textImgNew(), text = "Default Values",		    varText = ""},
 	{varID = textImgNew(), text = "          BACK",  		varText = ""},
 }
@@ -2393,12 +2393,8 @@ function f_gameCfg()
 			elseif gameCfg == 12 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				sndPlay(sysSnd, 100, 1)
 				f_zoomCfg()
-			--System Settings
-			elseif gameCfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
-				f_UICfg()
 			--Default Values
-			elseif gameCfg == 14 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameCfg == #t_gameCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultGame = true
 				defaultScreen = true
@@ -2680,7 +2676,7 @@ function f_teamCfg()
 					modified = 1
 				end
 			--Default Values
-			elseif teamCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif teamCfg == #t_teamCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultTeam = true
 				defaultScreen = true
@@ -2893,7 +2889,7 @@ function f_zoomCfg()
 					bufl = 0
 				end
 			--Default Values
-			elseif zoomCfg == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif zoomCfg == #t_zoomCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultZoom = true
 				defaultScreen = true
@@ -3229,7 +3225,7 @@ function f_UICfg()
 					f_songCfg()
 				end
 			--Default Values
-			elseif UICfg == 13 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif UICfg == #t_UICfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSystem = true
 				defaultScreen = true
@@ -3328,8 +3324,8 @@ end
 txt_selectCfg = createTextImg(jgFnt, 0, 0, "CHARACTER SELECT SETTINGS", 159, 13)
 
 t_selectCfg = {
-	--{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
 	{varID = textImgNew(), text = "Edit Roster",	   	     	varText = ""},
+	--{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
 	{varID = textImgNew(), text = "Palette Select",	    		varText = data.palType},
 	{varID = textImgNew(), text = "Information",    			varText = data.charInfo},
 	{varID = textImgNew(), text = "Random Portrait",	     	varText = data.randomPortrait},
@@ -3451,7 +3447,7 @@ function f_selectCfg()
 				end
 				modified = 1
 			--Default Values
-			elseif selectCfg == 6 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif selectCfg == #t_selectCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSelect = true
 				defaultScreen = true
@@ -3560,7 +3556,7 @@ t_rosterCfg = {
 	{varID = textImgNew(), text = "P2 Cursor Start Cell X",    	varText = data.p2SelX},
 	{varID = textImgNew(), text = "P2 Cursor Start Cell Y",    	varText = data.p2SelY},
 	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
-	{varID = textImgNew(), text = "Reload Select.def", 	 		varText = ""},
+	--{varID = textImgNew(), text = "Reload Select.def", 	 		varText = ""},
 	{varID = textImgNew(), text = "          BACK", 			varText = ""},
 }
 
@@ -3587,7 +3583,7 @@ t_rosterCfg2 = {
 	{varID = textImgNew(), text = "P2 Cursor Start Cell X",    	varText = data.p2SelX},
 	{varID = textImgNew(), text = "P2 Cursor Start Cell Y",    	varText = data.p2SelY},
 	{varID = textImgNew(), text = "Default Values",  	 		varText = ""},
-	{varID = textImgNew(), text = "Reload Select.def", 	 		varText = ""},
+	--{varID = textImgNew(), text = "Reload Select.def", 	 		varText = ""},
 	{varID = textImgNew(), text = "          BACK", 			varText = ""},
 }
 
@@ -4186,14 +4182,14 @@ function f_rosterCfg()
 					bufl = 0
 				end
 			--Default Values
-			elseif rosterCfg == #t_rosterCfg-2 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultRoster = true
 				defaultScreen = true
 			--Reload Select.def
-			elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
-				assert(loadfile("script/loader.lua"))()
+			--elseif rosterCfg == #t_rosterCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				--sndPlay(sysSnd, 100, 1)
+				--assert(loadfile("script/loader.lua"))()
 			--BACK
 			elseif rosterCfg == #t_rosterCfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 2)
@@ -4287,8 +4283,11 @@ function f_rosterCfg()
 		script.select.f_randomSlot() --Draw Random Slots
 		for i=0, data.selectColumns-1 do
 			for j=0, data.selectRows-1 do
-				animPosDraw(script.select.selectCell, data.p1FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
-				animSetScale(script.select.selectCell, data.cellScaleX, data.cellScaleY)
+				--local p1charSlot = data.p1SelX+i+data.selectColumns*(data.p1SelY+j)
+				--if getCharName(p1charSlot) ~= '' then
+					animPosDraw(script.select.selectCell, data.p1FaceX+i*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+j*(data.cellSizeY+data.cellSpacingY)) --Draw cell sprite for each selectColumns and selectRow
+					animSetScale(script.select.selectCell, data.cellScaleX, data.cellScaleY)
+				--end
 			end
 		end
 		--[[Roster 2
@@ -4325,6 +4324,7 @@ function f_rosterCfg()
 			i = i >= 60 and 0 or i + 1
 		end
 		if data.debugMode then f_drawQuickText(txt_characterNomber, font1, 1, 0, "SELECT.DEF LOADED SLOTS: "..#t_selChars, 160, 60) end
+		if data.debugMode then f_drawQuickText(txt_emptyCellTest, font1, 1, 0, getCharName(data.p1SelX+data.selectColumns*data.p1SelY), 160, 70) end
 		t_rosterCfg[1].varText = data.selectRows
 		t_rosterCfg[2].varText = data.selectColumns
 		--t_rosterCfg[3].varText = data.offsetRows
@@ -4499,7 +4499,7 @@ function f_stageCfg()
 				end
 				modified = 1
 			--Default Values
-			elseif stageCfg == 5 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif stageCfg == #t_stageCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultStage = true
 				defaultScreen = true
@@ -4828,7 +4828,7 @@ function f_timeCfg()
 					bufl = 0
 				end
 			--Default Values
-			elseif timeCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif timeCfg == #t_timeCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultTime = true
 				defaultScreen = true
@@ -4997,7 +4997,7 @@ function f_songCfg()
 				songsSettings = true
 				f_songMenu()
 			--Default Values
-			elseif songCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif songCfg == #t_songCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultSong = true
 				defaultScreen = true
@@ -5306,7 +5306,7 @@ function f_audioCfg()
 					needReload = 1
 				end
 			--Default Values
-			elseif audioCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif audioCfg == #t_audioCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultAudio = true
 				defaultScreen = true
@@ -5613,7 +5613,7 @@ function f_engineCfg()
 					f_unlocksWarning()
 				end
 			--Default Values
-			elseif engineCfg == 9 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif engineCfg == #t_engineCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultEngine = true
 				defaultScreen = true
@@ -5963,7 +5963,7 @@ function f_videoCfg()
 				end
 			]]
 			--Default Values
-			elseif videoCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif videoCfg == #t_videoCfg-1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultVideo = true
 				defaultScreen = true
@@ -6579,7 +6579,7 @@ txt_EXresCfg = createTextImg(jgFnt, 0, 0, "RESOLUTION SELECT", 159, 13)
 
 t_EXresCfg = {
 	{id = '', x = 400,  y = 254,  text = "400x254           (ARCADE)"},
-	{id = '', x = 800,  y = 508,  text = "400x508        (ARCADE x2)"},
+	{id = '', x = 400,  y = 508,  text = "400x508        (ARCADE x2)"},
 	{id = '', x = 640,  y = 350,  text = "640x350         (EGA 11:6)"},
 	{id = '', x = 720,  y = 348,  text = "720x348         (HGC 60:9)"},
 	{id = '', x = 720,  y = 350,  text = "720x350        (MDA 72:35)"},
@@ -6815,7 +6815,7 @@ function f_inputCfg()
 						sndPlay(sysSnd, 100, 5)
 					end
 				--Default Values
-				elseif inputCfg == 5 then
+				elseif inputCfg == #t_inputCfg-1 then
 					sndPlay(sysSnd, 100, 1)
 					defaultInput = true
 					defaultScreen = true
@@ -9486,7 +9486,7 @@ function f_gameVNcfg()
 				
 			--Default Values
 			--[[
-			elseif gameVNcfg == 7 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+			elseif gameVNcfg == #t_gameVNcfg and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
 				sndPlay(sysSnd, 100, 1)
 				defaultVN = true
 				defaultScreen = true
