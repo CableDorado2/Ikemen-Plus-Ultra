@@ -1048,7 +1048,7 @@ function validCells()
 If added columns and rows are more than inserted characters. Don't start char select because while you are scrolling
 at some point you will have a error message related with this and well, we can notify to the user about it with an informative message..
 ]]
-	if data.selectColumns*(data.selectRows+data.offsetRows) > #t_selChars then
+	if (data.selectColumns+data.offsetColumns)*(data.selectRows+data.offsetRows) > #t_selChars then
 		return false --Config Not Valid
 	else
 		return true  --Config Valid
@@ -1068,7 +1068,8 @@ OPTIONS ->
 AND MAKE SURE THAT:
 		   
 [ROWS] ADDED + [HIDDEN ROWS] ADDED
-MULTIPLIED(*) BY THE NUMBER OF [COLUMNS]
+MULTIPLIED(*) BY THE NUMBER OF
+[COLUMNS] ADDED + [HIDDEN COLUMNS] ADDED
 
 IS NOT GREATER (>) THAN THE NUMBER OF
 CHARACTERS SLOTS ADDED IN SELECT.DEF

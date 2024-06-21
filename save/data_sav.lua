@@ -17,8 +17,8 @@ data.attractMode = false
 data.sideSelect = "Modern"
 data.vsDisplayWin = true
 data.winscreen = "Classic"
-data.charPresentation = "Mixed"
-data.sffConversion = true
+data.charPresentation = "Portrait"
+data.sffConversion = false
 --Game Data
 data.difficulty = 8
 data.roundTime = 99
@@ -43,19 +43,19 @@ data.zoomMin = 0.05
 data.zoomMax = 1
 data.zoomSpeed = 1
 --Character Select Global Data
+data.selectType = "Advanced"
 data.palType = "Modern"
 data.randomPortrait = "Simple"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
 --Character Select Config
-data.selectType = "Simple"
 data.selectRows = 2
 data.selectColumns = 5
-data.offsetRows = 0
+data.offsetRows = 1
 data.offsetColumns = 0
 data.wrappingX = true
 data.wrappingY = true
-data.p1FaceX = 90
+data.p1FaceX = 10
 data.p1FaceY = 170
 data.p2FaceX = 169
 data.p2FaceY = 170

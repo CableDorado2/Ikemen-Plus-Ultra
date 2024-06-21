@@ -429,12 +429,12 @@ function f_saveCfg()
 		['data.zoomMax'] = data.zoomMax,
 		['data.zoomSpeed'] = data.zoomSpeed,
 	--Character Select Global Data
+		['data.selectType'] = data.selectType,
 		['data.palType'] = data.palType,
 		['data.randomPortrait'] = data.randomPortrait,
 		['data.randomCharRematch'] = data.randomCharRematch,
 		['data.charInfo'] = data.charInfo,
 	--Character Select Config
-		['data.selectType'] = data.selectType,
 		['data.selectRows'] = data.selectRows,
 		['data.selectColumns'] = data.selectColumns,
 		['data.offsetRows'] = data.offsetRows,
@@ -739,6 +739,7 @@ end
 
 --Default Character Select Global Values
 function f_selectGlobalDefault()
+	data.selectType = "Simple"
 	data.palType = "Classic"
 	data.randomPortrait = "Simple"
 	data.randomCharRematch = "Variable"
@@ -747,14 +748,17 @@ end
 
 --Default Character Select Config Values
 function f_selectDefault()
-	data.selectType = "Simple"
 	data.selectRows = 2
 	data.selectColumns = 5
 	data.offsetRows = 0
 	data.offsetColumns = 0
 	data.wrappingX = true
 	data.wrappingY = true
-	data.p1FaceX = 90
+	if data.selectType == "Advanced" then
+		data.p1FaceX = 10
+	elseif data.selectType == "Simple" then
+		data.p1FaceX = 90
+	end
 	data.p1FaceY = 170
 	data.p2FaceX = 169
 	data.p2FaceY = 170
@@ -3325,7 +3329,7 @@ txt_selectCfg = createTextImg(jgFnt, 0, 0, "CHARACTER SELECT SETTINGS", 159, 13)
 
 t_selectCfg = {
 	{varID = textImgNew(), text = "Edit Roster",	   	     	varText = ""},
-	--{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
+	{varID = textImgNew(), text = "Roster Type",	   	     	varText = data.selectType},
 	{varID = textImgNew(), text = "Palette Select",	    		varText = data.palType},
 	{varID = textImgNew(), text = "Information",    			varText = data.charInfo},
 	{varID = textImgNew(), text = "Random Portrait",	     	varText = data.randomPortrait},
@@ -3358,8 +3362,12 @@ function f_selectCfg()
 				selectCfg = selectCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--[[Character Select Display Type
-			elseif selectCfg == 1 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			--Character Select Roster Config
+			elseif selectCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sysSnd, 100, 1)
+				f_rosterCfg()
+			--Character Select Display Type
+			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then
@@ -3369,20 +3377,15 @@ function f_selectCfg()
 					end
 					modified = 1
 				end
-			]]
-			--Character Select Roster Config
-			elseif selectCfg == 1 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
-				sndPlay(sysSnd, 100, 1)
-				f_rosterCfg()
 			--Character Palette Select Display Type
-			elseif selectCfg == 2 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.palType == "Classic" then data.palType = "Modern"
 				elseif data.palType == "Modern" then data.palType = "Classic"
 				end
 				modified = 1
 			--Character Info Display
-			elseif selectCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.charInfo == "None" then
 					sndPlay(sysSnd, 100, 0)
 					data.charInfo = "Author"
@@ -3421,7 +3424,7 @@ function f_selectCfg()
 				]]
 				end
 			--Character Random Portrait Display Type
-			elseif selectCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
+			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l')) then
 				if commandGetState(p1Cmd, 'r') and data.randomPortrait == "Simple" then
 					sndPlay(sysSnd, 100, 0)
 					data.randomPortrait = "Fixed"
@@ -3440,7 +3443,7 @@ function f_selectCfg()
 					modified = 1	
 				end
 			--Character Random Selection in Rematch
-			elseif selectCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif selectCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				sndPlay(sysSnd, 100, 0)
 				if data.randomCharRematch == "Variable" then data.randomCharRematch = "Fixed"
 				elseif data.randomCharRematch == "Fixed" then data.randomCharRematch = "Variable"
@@ -3494,11 +3497,11 @@ function f_selectCfg()
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		--t_selectCfg[1].varText = data.selectType
-		t_selectCfg[2].varText = data.palType
-		t_selectCfg[3].varText = data.charInfo
-		t_selectCfg[4].varText = data.randomPortrait
-		t_selectCfg[5].varText = data.randomCharRematch
+		t_selectCfg[2].varText = data.selectType
+		t_selectCfg[3].varText = data.palType
+		t_selectCfg[4].varText = data.charInfo
+		t_selectCfg[5].varText = data.randomPortrait
+		t_selectCfg[6].varText = data.randomCharRematch
 		for i=1, maxselectCfg do
 			if i > selectCfg - cursorPosY then
 				if t_selectCfg[i].varID ~= nil then
@@ -3538,7 +3541,7 @@ end
 txt_rosterCfg = createTextImg(jgFnt, 0, 0, "ROSTER CONFIG", 159, 13)
 
 --Simple Roster
-t_rosterCfg = {
+t_rosterCfg1 = {
 	{varID = textImgNew(), text = "Rows",	   			     	varText = data.selectRows},
 	{varID = textImgNew(), text = "Columns",		   	     	varText = data.selectColumns},
 	{varID = textImgNew(), text = "Wrapping X",		   	     	varText = data.wrappingX},
@@ -3628,6 +3631,7 @@ function f_rosterCfg()
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
+	if data.selectType == "Simple" then	t_rosterCfg = t_rosterCfg1 elseif data.selectType == "Advanced" then t_rosterCfg = t_rosterCfg2 end --Load different table settings values for specific roster type
 	while true do
 		if defaultScreen == false and editDone then
 			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
@@ -3643,214 +3647,441 @@ function f_rosterCfg()
 				rosterCfg = rosterCfg + 1
 				if bufl then bufl = 0 end
 				if bufr then bufr = 0 end
-			--Character Select Rows Number
-			elseif rosterCfg == 1 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					--if data.selectRows < 100 then
-						data.selectRows = data.selectRows + 1
-						if not script.select.validCells() then data.selectRows = data.selectRows - 1 end
-					--else
-						--data.selectRows = 1
-					--end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if data.selectRows > 1 then
-						data.selectRows = data.selectRows - 1
-					--else
-						--data.selectRows = 100
+			end
+			--Settings for Simple Roster
+			if data.selectType == "Simple" then
+				--Character Select Rows Number
+				if rosterCfg == 1 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						--if data.selectRows < 100 then
+							data.selectRows = data.selectRows + 1
+							if not script.select.validCells() then data.selectRows = data.selectRows - 1 end
+						--else
+							--data.selectRows = 1
+						--end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.selectRows > 1 then
+							data.selectRows = data.selectRows - 1
+						--else
+							--data.selectRows = 100
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
-			--Character Select Columns Number
-			elseif rosterCfg == 2 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					--if data.selectColumns < 100 then
-						data.selectColumns = data.selectColumns + 1
-						if not script.select.validCells() then data.selectColumns = data.selectColumns - 1 end
-					--else
-						--data.selectColumns = 1
-					--end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if data.selectColumns > 1 then
-						data.selectColumns = data.selectColumns - 1
-					--else
-						--data.selectColumns = 100
-					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
-			--[[Character Select Hidden Rows Number
-			elseif rosterCfg == 3 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.offsetRows < 1000 then
-						data.offsetRows = data.offsetRows + 1
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.offsetRows = 0
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if data.offsetRows > 0 then
-						data.offsetRows = data.offsetRows - 1
+				--Character Select Columns Number
+				elseif rosterCfg == 2 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						--if data.selectColumns < 100 then
+							data.selectColumns = data.selectColumns + 1
+							if not script.select.validCells() then data.selectColumns = data.selectColumns - 1 end
+						--else
+							--data.selectColumns = 1
+						--end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.selectColumns > 1 then
+							data.selectColumns = data.selectColumns - 1
+						--else
+							--data.selectColumns = 100
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.offsetRows = 1000
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				--Character Select Cells Wrapping (X Axis)
+				elseif rosterCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+					sndPlay(sysSnd, 100, 0)
+					if data.wrappingX then data.wrappingX = false
+					else data.wrappingX = true
+					end
 					modified = 1
-				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
-			]]
-			--[[Character Select Hidden Columns Number
-			elseif rosterCfg == 4 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.offsetColumns < 1000 then
-						data.offsetColumns = data.offsetColumns + 1
+				--Character Select Cells Wrapping (Y Axis)
+				elseif rosterCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+					sndPlay(sysSnd, 100, 0)
+					if data.wrappingY then data.wrappingY = false
+					else data.wrappingY = true
+					end
+					modified = 1
+				--Character Select Draw Cells Position (X Axis)
+				elseif rosterCfg == 5 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.p1FaceX < 320 then
+							data.p1FaceX = data.p1FaceX + 0.1
+						else
+							data.p1FaceX = -50
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.p1FaceX > -50 then
+							data.p1FaceX = data.p1FaceX - 0.1
+						else
+							data.p1FaceX = 320
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.offsetColumns = 0
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if data.offsetColumns > 0 then
-						data.offsetColumns = data.offsetColumns - 1
+				--Character Select Draw Cells Position (Y Axis)
+				elseif rosterCfg == 6 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.p1FaceY < 240 then
+							data.p1FaceY = data.p1FaceY + 0.1
+						else
+							data.p1FaceY = 0
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.p1FaceY > 0 then
+							data.p1FaceY = data.p1FaceY - 0.1
+						else
+							data.p1FaceY = 240
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.offsetColumns = 1000
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
 				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
-			]]
-			--Character Select Cells Wrapping (X Axis)
-			elseif rosterCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
-				if data.wrappingX then data.wrappingX = false
-				else data.wrappingX = true
-				end
-				modified = 1
-			--Character Select Cells Wrapping (Y Axis)
-			elseif rosterCfg == 4 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
-				sndPlay(sysSnd, 100, 0)
-				if data.wrappingY then data.wrappingY = false
-				else data.wrappingY = true
-				end
-				modified = 1
-			--Character Select Draw Cells Position (X Axis)
-			elseif rosterCfg == 5 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.p1FaceX < 320 then
-						data.p1FaceX = data.p1FaceX + 0.1
+			--Settings for Advanced Roster
+			elseif data.selectType == "Advanced" then
+				--Character Select Rows Number
+				if rosterCfg == 1 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						--if data.selectRows < 100 then
+							data.selectRows = data.selectRows + 1
+							if not script.select.validCells() then data.selectRows = data.selectRows - 1 end
+						--else
+							--data.selectRows = 1
+						--end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.selectRows > 1 then
+							data.selectRows = data.selectRows - 1
+						--else
+							--data.selectRows = 100
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.p1FaceX = -50
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if data.p1FaceX > -50 then
-						data.p1FaceX = data.p1FaceX - 0.1
+				--Character Select Columns Number
+				elseif rosterCfg == 2 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						--if data.selectColumns < 100 then
+							data.selectColumns = data.selectColumns + 1
+							if not script.select.validCells() then data.selectColumns = data.selectColumns - 1 end
+						--else
+							--data.selectColumns = 1
+						--end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.selectColumns > 1 then
+							data.selectColumns = data.selectColumns - 1
+						--else
+							--data.selectColumns = 100
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.p1FaceX = 320
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
-					editDone = false
-					i = 0
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
-				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
-			--Character Select Draw Cells Position (Y Axis)
-			elseif rosterCfg == 6 then
-				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
-					if data.p1FaceY < 240 then
-						data.p1FaceY = data.p1FaceY + 0.1
+				--Character Select Hidden Rows Number
+				elseif rosterCfg == 3 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						--if data.offsetRows < 1000 then
+							data.offsetRows = data.offsetRows + 1
+							if not script.select.validCells() then data.offsetRows = data.offsetRows - 1 end
+						--else
+							--data.offsetRows = 0
+						--end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.offsetRows > 0 then
+							data.offsetRows = data.offsetRows - 1
+						--else
+							--data.offsetRows = 1000
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.p1FaceY = 0
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
-					modified = 1
-				elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
-					if data.p1FaceY > 0 then
-						data.p1FaceY = data.p1FaceY - 0.1
+				--Character Select Hidden Columns Number
+				elseif rosterCfg == 4 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						--if data.offsetColumns < 1000 then
+							data.offsetColumns = data.offsetColumns + 1
+							if not script.select.validCells() then data.offsetColumns = data.offsetColumns - 1 end
+						--else
+							--data.offsetColumns = 0
+						--end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.offsetColumns > 0 then
+							data.offsetColumns = data.offsetColumns - 1
+						--else
+							--data.offsetColumns = 1000
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
 					else
-						data.p1FaceY = 240
+						bufr = 0
+						bufl = 0
 					end
-					if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+				--Character Select Cells Wrapping (X Axis)
+				elseif rosterCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+					sndPlay(sysSnd, 100, 0)
+					if data.wrappingX then data.wrappingX = false
+					else data.wrappingX = true
+					end
 					modified = 1
-				--Activate Manual Keyboard Entry
-				elseif btnPalNo(p1Cmd) > 0 then
-					sndPlay(sysSnd, 100, 1)
-					editDone = false
-					i = 0
-					commandBufReset(p1Cmd)
-					commandBufReset(p2Cmd)
+				--Character Select Cells Wrapping (Y Axis)
+				elseif rosterCfg == 6 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+					sndPlay(sysSnd, 100, 0)
+					if data.wrappingY then data.wrappingY = false
+					else data.wrappingY = true
+					end
+					modified = 1
+				--Character Select Draw [PLAYER 1] Cells Position (X Axis)
+				elseif rosterCfg == 7 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.p1FaceX < 320 then
+							data.p1FaceX = data.p1FaceX + 0.1
+						else
+							data.p1FaceX = -50
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.p1FaceX > -50 then
+							data.p1FaceX = data.p1FaceX - 0.1
+						else
+							data.p1FaceX = 320
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
+				--Character Select Draw [PLAYER 1] Cells Position (Y Axis)
+				elseif rosterCfg == 8 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.p1FaceY < 240 then
+							data.p1FaceY = data.p1FaceY + 0.1
+						else
+							data.p1FaceY = 0
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.p1FaceY > 0 then
+							data.p1FaceY = data.p1FaceY - 0.1
+						else
+							data.p1FaceY = 240
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
+				--Character Select Draw [PLAYER 2] Cells Position (X Axis)
+				elseif rosterCfg == 9 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.p2FaceX < 320 then
+							data.p2FaceX = data.p2FaceX + 0.1
+						else
+							data.p2FaceX = -50
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.p2FaceX > -50 then
+							data.p2FaceX = data.p2FaceX - 0.1
+						else
+							data.p2FaceX = 320
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
+				--Character Select Draw [PLAYER 2] Cells Position (Y Axis)
+				elseif rosterCfg == 10 then
+					if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
+						if data.p2FaceY < 240 then
+							data.p2FaceY = data.p2FaceY + 0.1
+						else
+							data.p2FaceY = 0
+						end
+						if commandGetState(p1Cmd, 'r') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					elseif commandGetState(p1Cmd, 'l') or (commandGetState(p1Cmd, 'holdl') and bufl >= 30) then
+						if data.p2FaceY > 0 then
+							data.p2FaceY = data.p2FaceY - 0.1
+						else
+							data.p2FaceY = 240
+						end
+						if commandGetState(p1Cmd, 'l') then sndPlay(sysSnd, 100, 0) end
+						modified = 1
+					--Activate Manual Keyboard Entry
+					elseif btnPalNo(p1Cmd) > 0 then
+						sndPlay(sysSnd, 100, 1)
+						editDone = false
+						i = 0
+						commandBufReset(p1Cmd)
+						commandBufReset(p2Cmd)
+					end
+					if commandGetState(p1Cmd, 'holdr') then
+						bufl = 0
+						bufr = bufr + 1
+					elseif commandGetState(p1Cmd, 'holdl') then
+						bufr = 0
+						bufl = bufl + 1
+					else
+						bufr = 0
+						bufl = 0
+					end
 				end
-				if commandGetState(p1Cmd, 'holdr') then
-					bufl = 0
-					bufr = bufr + 1
-				elseif commandGetState(p1Cmd, 'holdl') then
-					bufr = 0
-					bufl = bufl + 1
-				else
-					bufr = 0
-					bufl = 0
-				end
+			end
+		--Common Rosters Settings
 			--Character Select Cells Size (X Axis)
-			elseif rosterCfg == 7 then
+			if rosterCfg == #t_rosterCfg-11 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSizeX < 500 then
 						data.cellSizeX = data.cellSizeX + 0.1
@@ -3886,7 +4117,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 			--Character Select Cells Size (Y Axis)
-			elseif rosterCfg == 8 then
+			elseif rosterCfg == #t_rosterCfg-10 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSizeY < 500 then
 						data.cellSizeY = data.cellSizeY + 0.1
@@ -3922,7 +4153,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 			--Character Select Cells Spacing (X Axis)
-			elseif rosterCfg == 9 then
+			elseif rosterCfg == #t_rosterCfg-9 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSpacingX < 500 then
 						data.cellSpacingX = data.cellSpacingX + 0.1
@@ -3958,7 +4189,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 			--Character Select Cells Spacing (Y Axis)
-			elseif rosterCfg == 10 then
+			elseif rosterCfg == #t_rosterCfg-8 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellSpacingY < 500 then
 						data.cellSpacingY = data.cellSpacingY + 0.1
@@ -3994,7 +4225,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 			--Character Select Cells Scale (X Axis)
-			elseif rosterCfg == 11 then
+			elseif rosterCfg == #t_rosterCfg-7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellScaleX < 10 then
 						data.cellScaleX = data.cellScaleX + 0.1
@@ -4030,7 +4261,7 @@ function f_rosterCfg()
 					bufl = 0
 				end
 			--Character Select Cells Scale (Y Axis)
-			elseif rosterCfg == 12 then
+			elseif rosterCfg == #t_rosterCfg-6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.cellScaleY < 10 then
 						data.cellScaleY = data.cellScaleY + 0.1
@@ -4065,8 +4296,8 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Player 1 Cursor Start (X Axis)
-			elseif rosterCfg == 13 then
+			--Character Select [PLAYER 1] Cursor Start (X Axis)
+			elseif rosterCfg == #t_rosterCfg-5 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p1SelX < data.selectColumns-1 then
 						data.p1SelX = data.p1SelX + 1
@@ -4094,8 +4325,8 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Player 1 Cursor Start (Y Axis)
-			elseif rosterCfg == 14 then
+			--Character Select [PLAYER 1] Cursor Start (Y Axis)
+			elseif rosterCfg == #t_rosterCfg-4 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p1SelY < data.selectRows-1 then
 						data.p1SelY = data.p1SelY + 1
@@ -4123,8 +4354,8 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Player 2 Cursor Start (X Axis)
-			elseif rosterCfg == 15 then
+			--Character Select [PLAYER 2] Cursor Start (X Axis)
+			elseif rosterCfg == #t_rosterCfg-3 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p2SelX < data.selectColumns-1 then
 						data.p2SelX = data.p2SelX + 1
@@ -4152,8 +4383,8 @@ function f_rosterCfg()
 					bufr = 0
 					bufl = 0
 				end
-			--Character Select Player 2 Cursor Start (Y Axis)
-			elseif rosterCfg == 16 then
+			--Character Select [PLAYER 2] Cursor Start (Y Axis)
+			elseif rosterCfg == #t_rosterCfg-2 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if data.p2SelY < data.selectRows-1 then
 						data.p2SelY = data.p2SelY + 1
@@ -4256,14 +4487,23 @@ function f_rosterCfg()
 				if newValue ~= '' and newValue ~= nil and tonumber(newValue) ~= nil then --Value entered is a valid Number
 					clearInputText()
 					sndPlay(sysSnd, 100, 1)
-					if rosterCfg == 5 then data.p1FaceX = tonumber(newValue)
-					elseif rosterCfg == 6 then data.p1FaceY = tonumber(newValue)
-					elseif rosterCfg == 7 then data.cellSizeX = tonumber(newValue)
-					elseif rosterCfg == 8 then data.cellSizeY = tonumber(newValue)
-					elseif rosterCfg == 9 then data.cellSpacingX = tonumber(newValue)
-					elseif rosterCfg == 10 then data.cellSpacingY = tonumber(newValue)
-					elseif rosterCfg == 11 then data.cellScaleX = tonumber(newValue)
-					elseif rosterCfg == 12 then data.cellScaleY = tonumber(newValue)
+					if data.selectType == "Simple" then
+						if rosterCfg == 5 then data.p1FaceX = tonumber(newValue)
+						elseif rosterCfg == 6 then data.p1FaceY = tonumber(newValue)
+						end
+					elseif data.selectType == "Advanced" then
+						if rosterCfg == 7 then data.p1FaceX = tonumber(newValue)
+						elseif rosterCfg == 8 then data.p1FaceY = tonumber(newValue)
+						elseif rosterCfg == 9 then data.p2FaceX = tonumber(newValue)
+						elseif rosterCfg == 10 then data.p2FaceY = tonumber(newValue)
+						end
+					end
+					if rosterCfg == #t_rosterCfg-11 then data.cellSizeX = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg-10 then data.cellSizeY = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg-9 then data.cellSpacingX = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg-8 then data.cellSpacingY = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg-7 then data.cellScaleX = tonumber(newValue)
+					elseif rosterCfg == #t_rosterCfg-6 then data.cellScaleY = tonumber(newValue)
 					end
 					modified = 1
 					editDone = true
@@ -4290,8 +4530,8 @@ function f_rosterCfg()
 				--end
 			end
 		end
-		--[[Roster 2
-		if (data.p2Faces and data.selectType == "Advanced") or not data.p1SelectMenu then
+		--Roster 2
+		if data.selectType == "Advanced" then
 			drawFace(data.p2FaceX, data.p2FaceY, 0)
 			for i=0, data.selectColumns-1 do
 				for j=0, data.selectRows-1 do
@@ -4300,11 +4540,11 @@ function f_rosterCfg()
 				end
 			end
 		end
-		]]
 		animPosDraw(script.select.p1ActiveCursor, data.p1FaceX+data.p1SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p1SelY-0)*(data.cellSizeY+data.cellSpacingY))
 		animSetScale(script.select.p1ActiveCursor, data.cellScaleX, data.cellScaleY)
-		animPosDraw(script.select.p2ActiveCursor, data.p1FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
-		--animPosDraw(script.select.p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
+		if data.selectType == "Simple" then animPosDraw(script.select.p2ActiveCursor, data.p1FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p1FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY))
+		elseif data.selectType == "Advanced" then animPosDraw(script.select.p2ActiveCursor, data.p2FaceX+data.p2SelX*(data.cellSizeX+data.cellSpacingX), data.p2FaceY+(data.p2SelY-0)*(data.cellSizeY+data.cellSpacingY)) --For roster 2
+		end
 		animSetScale(script.select.p2ActiveCursor, data.cellScaleX, data.cellScaleY)
 	--
 		animSetScale(optionsBG1, 220, maxrosterCfg*15)
@@ -4327,26 +4567,36 @@ function f_rosterCfg()
 		if data.debugMode then f_drawQuickText(txt_emptyCellTest, font1, 1, 0, getCharName(data.p1SelX+data.selectColumns*data.p1SelY), 160, 70) end
 		t_rosterCfg[1].varText = data.selectRows
 		t_rosterCfg[2].varText = data.selectColumns
-		--t_rosterCfg[3].varText = data.offsetRows
-		--t_rosterCfg[4].varText = data.offsetColumns
-		if data.wrappingX then t_rosterCfg[3].varText = "Yes" else t_rosterCfg[3].varText = "No" end
-		if data.wrappingY then t_rosterCfg[4].varText = "Yes" else t_rosterCfg[4].varText = "No" end
-		if editDone then
-			t_rosterCfg[5].varText = data.p1FaceX
-			t_rosterCfg[6].varText = data.p1FaceY
-			--t_rosterCfg[7].varText = data.p2FaceX
-			--t_rosterCfg[8].varText = data.p2FaceY
-			t_rosterCfg[7].varText = data.cellSizeX
-			t_rosterCfg[8].varText = data.cellSizeY
-			t_rosterCfg[9].varText = data.cellSpacingX
-			t_rosterCfg[10].varText = data.cellSpacingY
-			t_rosterCfg[11].varText = data.cellScaleX
-			t_rosterCfg[12].varText = data.cellScaleY
+		if data.selectType == "Simple" then
+			if data.wrappingX then t_rosterCfg[3].varText = "Yes" else t_rosterCfg[3].varText = "No" end
+			if data.wrappingY then t_rosterCfg[4].varText = "Yes" else t_rosterCfg[4].varText = "No" end
+		elseif data.selectType == "Advanced" then
+			t_rosterCfg[3].varText = data.offsetRows
+			t_rosterCfg[4].varText = data.offsetColumns
+			if data.wrappingX then t_rosterCfg[5].varText = "Yes" else t_rosterCfg[5].varText = "No" end
+			if data.wrappingY then t_rosterCfg[6].varText = "Yes" else t_rosterCfg[6].varText = "No" end
 		end
-		t_rosterCfg[13].varText = data.p1SelX
-		t_rosterCfg[14].varText = data.p1SelY
-		t_rosterCfg[15].varText = data.p2SelX
-		t_rosterCfg[16].varText = data.p2SelY
+		if editDone then
+			if data.selectType == "Simple" then
+				t_rosterCfg[5].varText = data.p1FaceX
+				t_rosterCfg[6].varText = data.p1FaceY
+			elseif data.selectType == "Advanced" then
+				t_rosterCfg[7].varText = data.p1FaceX
+				t_rosterCfg[8].varText = data.p1FaceY
+				t_rosterCfg[9].varText = data.p2FaceX
+				t_rosterCfg[10].varText = data.p2FaceY
+			end
+			t_rosterCfg[#t_rosterCfg-11].varText = data.cellSizeX
+			t_rosterCfg[#t_rosterCfg-10].varText = data.cellSizeY
+			t_rosterCfg[#t_rosterCfg-9].varText = data.cellSpacingX
+			t_rosterCfg[#t_rosterCfg-8].varText = data.cellSpacingY
+			t_rosterCfg[#t_rosterCfg-7].varText = data.cellScaleX
+			t_rosterCfg[#t_rosterCfg-6].varText = data.cellScaleY
+		end
+		t_rosterCfg[#t_rosterCfg-5].varText = data.p1SelX
+		t_rosterCfg[#t_rosterCfg-4].varText = data.p1SelY
+		t_rosterCfg[#t_rosterCfg-3].varText = data.p2SelX
+		t_rosterCfg[#t_rosterCfg-2].varText = data.p2SelY
 		for i=1, maxrosterCfg do
 			if i > rosterCfg - cursorPosY then
 				if t_rosterCfg[i].varID ~= nil then
