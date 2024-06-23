@@ -21,7 +21,7 @@ data.charPresentation = "Portrait"
 data.sffConversion = false
 --Game Data
 data.difficulty = 8
-data.roundTime = 99
+data.roundTime = -1
 data.roundsNum = 1
 data.lifebar = "data/screenpack/fight.def"
 data.lifeMul = 100
@@ -39,8 +39,8 @@ data.simulType = "Assist"
 data.coopenemy = "Simul"
 --Zoom Data
 data.zoomActive = true
-data.zoomMin = 0.05
-data.zoomMax = 1
+data.zoomMin = 0.75
+data.zoomMax = 1.1
 data.zoomSpeed = 1
 --Character Select Global Data
 data.selectType = "Advanced"

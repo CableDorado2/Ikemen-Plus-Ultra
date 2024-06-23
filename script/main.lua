@@ -356,7 +356,7 @@ animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
 --;===========================================================
---; CLOCK AND DATE FEATURES
+--; CLOCK AND DATE PANEL
 --;===========================================================
 function f_sysTime()
 	--local http = require("socket.http") -- import the socket.http module
@@ -463,6 +463,188 @@ function f_sysTime()
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
 	end
+end
+
+--;===========================================================
+--; INPUT MENU HINTS PANEL
+--;===========================================================
+--Load Buttons Sprites
+btn0 = animNew(btnSff, [[0,0, 0,0, -1]])
+btn1 = animNew(btnSff, [[0,1, 0,0, -1]])
+btn2 = animNew(btnSff, [[0,2, 0,0, -1]])
+btn3 = animNew(btnSff, [[0,3, 0,0, -1]])
+btn4 = animNew(btnSff, [[0,4, 0,0, -1]])
+btn5 = animNew(btnSff, [[0,5, 0,0, -1]])
+btn6 = animNew(btnSff, [[0,6, 0,0, -1]])
+btn7 = animNew(btnSff, [[0,7, 0,0, -1]])
+btn8 = animNew(btnSff, [[0,8, 0,0, -1]])
+btn9 = animNew(btnSff, [[0,9, 0,0, -1]])
+btnA = animNew(btnSff, [[0,10, 0,0, -1]])
+btnB = animNew(btnSff, [[0,11, 0,0, -1]])
+btnC = animNew(btnSff, [[0,12, 0,0, -1]])
+btnD = animNew(btnSff, [[0,13, 0,0, -1]])
+btnE = animNew(btnSff, [[0,14, 0,0, -1]])
+btnF = animNew(btnSff, [[0,15, 0,0, -1]])
+btnG = animNew(btnSff, [[0,16, 0,0, -1]])
+btnH = animNew(btnSff, [[0,17, 0,0, -1]])
+btnI = animNew(btnSff, [[0,18, 0,0, -1]])
+btnJ = animNew(btnSff, [[0,19, 0,0, -1]])
+btnK = animNew(btnSff, [[0,20, 0,0, -1]])
+btnL = animNew(btnSff, [[0,21, 0,0, -1]])
+btnM = animNew(btnSff, [[0,22, 0,0, -1]])
+btnN = animNew(btnSff, [[0,23, 0,0, -1]])
+btnO = animNew(btnSff, [[0,24, 0,0, -1]])
+btnP = animNew(btnSff, [[0,25, 0,0, -1]])
+btnQ = animNew(btnSff, [[0,26, 0,0, -1]])
+btnR = animNew(btnSff, [[0,27, 0,0, -1]])
+btnS = animNew(btnSff, [[0,28, 0,0, -1]])
+btnT = animNew(btnSff, [[0,29, 0,0, -1]])
+btnU = animNew(btnSff, [[0,30, 0,0, -1]])
+btnV = animNew(btnSff, [[0,31, 0,0, -1]])
+btnW = animNew(btnSff, [[0,32, 0,0, -1]])
+btnX = animNew(btnSff, [[0,33, 0,0, -1]])
+btnY = animNew(btnSff, [[0,34, 0,0, -1]])
+btnZ = animNew(btnSff, [[0,35, 0,0, -1]])
+btnPERIOD = animNew(btnSff, [[0,36, 0,0, -1]])
+btnCOMMA = animNew(btnSff, [[0,37, 0,0, -1]])
+--btnDOUBLEPERIOD = animNew(btnSff, [[0,38, 0,0, -1]])
+--btnPERIODANDCOMMA = animNew(btnSff, [[0,39, 0,0, -1]])
+btnMINUS = animNew(btnSff, [[0,40, 0,0, -1]])
+btnLEFTBRACKET = animNew(btnSff, [[0,41, 0,0, -1]])
+btnRIGHTBRACKET = animNew(btnSff, [[0,42, 0,0, -1]])
+btnSLASH = animNew(btnSff, [[0,43, 0,0, -1]])
+btnBACKSLASH = animNew(btnSff, [[0,44, 0,0, -1]])
+btnLSHIFT = animNew(btnSff, [[0,45, 0,0, -1]])
+btnRSHIFT = animNew(btnSff, [[0,46, 0,0, -1]])
+--btnLALT = animNew(btnSff, [[0,47, 0,0, -1]])
+--btnRALT = animNew(btnSff, [[0,48, 0,0, -1]])
+--btnLCTRL = animNew(btnSff, [[0,49, 0,0, -1]])
+--btnRCTRL = animNew(btnSff, [[0,50, 0,0, -1]])
+btnTAB = animNew(btnSff, [[0,51, 0,0, -1]])
+btnSPACE = animNew(btnSff, [[0,52, 0,0, -1]])
+btnRETURN = animNew(btnSff, [[0,53, 0,0, -1]])
+btnBACKSPACE = animNew(btnSff, [[0,54, 0,0, -1]])
+btnHOME = animNew(btnSff, [[0,55, 0,0, -1]])
+btnEND = animNew(btnSff, [[0,56, 0,0, -1]])
+btnPAGEUP = animNew(btnSff, [[0,57, 0,0, -1]])
+btnPAGEDOWN = animNew(btnSff, [[0,58, 0,0, -1]])
+btnUP = animNew(btnSff, [[0,59, 0,0, -1]])
+btnDOWN = animNew(btnSff, [[0,60, 0,0, -1]])
+btnLEFT = animNew(btnSff, [[0,61, 0,0, -1]])
+btnRIGHT = animNew(btnSff, [[0,62, 0,0, -1]])
+btnKP_0 = animNew(btnSff, [[0,63, 0,0, -1]])
+btnKP_1 = animNew(btnSff, [[0,64, 0,0, -1]])
+btnKP_2 = animNew(btnSff, [[0,65, 0,0, -1]])
+btnKP_3 = animNew(btnSff, [[0,66, 0,0, -1]])
+btnKP_4 = animNew(btnSff, [[0,67, 0,0, -1]])
+btnKP_5 = animNew(btnSff, [[0,68, 0,0, -1]])
+btnKP_6 = animNew(btnSff, [[0,69, 0,0, -1]])
+btnKP_7 = animNew(btnSff, [[0,70, 0,0, -1]])
+btnKP_8 = animNew(btnSff, [[0,71, 0,0, -1]])
+btnKP_9 = animNew(btnSff, [[0,72, 0,0, -1]])
+btnKP_PERIOD = animNew(btnSff, [[0,73, 0,0, -1]])
+btnKP_DIVIDE = animNew(btnSff, [[0,74, 0,0, -1]])
+btnKP_MULTIPLY = animNew(btnSff, [[0,75, 0,0, -1]])
+btnKP_MINUS = animNew(btnSff, [[0,76, 0,0, -1]])
+btnKP_PLUS = animNew(btnSff, [[0,77, 0,0, -1]])
+btnKP_ENTER = animNew(btnSff, [[0,78, 0,0, -1]])
+
+--Relate Button Key to Button Sprite
+t_btnHint = {
+	{keyTxt = "_0",				keySpr = btn0},
+	{keyTxt = "_1", 			keySpr = btn1},
+	{keyTxt = "_2", 			keySpr = btn2},
+	{keyTxt = "_3", 			keySpr = btn3},
+	{keyTxt = "_4", 			keySpr = btn4},
+	{keyTxt = "_5", 			keySpr = btn5},
+	{keyTxt = "_6", 			keySpr = btn6},
+	{keyTxt = "_7", 			keySpr = btn7},
+	{keyTxt = "_8", 			keySpr = btn8},
+	{keyTxt = "_9", 			keySpr = btn9},
+	{keyTxt = "a", 				keySpr = btnA},
+	{keyTxt = "b", 				keySpr = btnB},
+	{keyTxt = "c", 				keySpr = btnC},
+	{keyTxt = "d", 				keySpr = btnD},
+	{keyTxt = "e", 				keySpr = btnE},
+	{keyTxt = "f", 				keySpr = btnF},
+	{keyTxt = "g", 				keySpr = btnG},
+	{keyTxt = "h", 				keySpr = btnH},
+	{keyTxt = "i", 				keySpr = btnI},
+	{keyTxt = "j", 				keySpr = btnJ},
+	{keyTxt = "k", 				keySpr = btnK},
+	{keyTxt = "l",				keySpr = btnL},
+	{keyTxt = "m", 				keySpr = btnM},
+	{keyTxt = "n", 				keySpr = btnN},
+	{keyTxt = "o", 				keySpr = btnO},
+	{keyTxt = "p", 				keySpr = btnP},
+	{keyTxt = "q", 				keySpr = btnQ},
+	{keyTxt = "r", 				keySpr = btnR},
+	{keyTxt = "s", 				keySpr = btnS},
+	{keyTxt = "t", 				keySpr = btnT},
+	{keyTxt = "u", 				keySpr = btnU},
+	{keyTxt = "v", 				keySpr = btnV},
+	{keyTxt = "w", 				keySpr = btnW},
+	{keyTxt = "x", 				keySpr = btnX},
+	{keyTxt = "y", 				keySpr = btnY},
+	{keyTxt = "z", 				keySpr = btnZ},
+	{keyTxt = "PERIOD", 		keySpr = btnPERIOD},
+	{keyTxt = "COMMA", 			keySpr = btnCOMMA},
+	{keyTxt = "MINUS", 			keySpr = btnMINUS},
+	{keyTxt = "LEFTBRACKET", 	keySpr = btnLEFTBRACKET},
+	{keyTxt = "RIGHTBRACKET", 	keySpr = btnRIGHTBRACKET},
+	{keyTxt = "BACKSLASH", 		keySpr = btnBACKSLASH},
+	{keyTxt = "LSHIFT", 		keySpr = btnLSHIFT},
+	{keyTxt = "RSHIFT", 		keySpr = btnRSHIFT},
+	{keyTxt = "TAB", 			keySpr = btnTAB},
+	{keyTxt = "SPACE", 			keySpr = btnSPACE},
+	{keyTxt = "RETURN", 		keySpr = btnRETURN},
+	{keyTxt = "BACKSPACE", 		keySpr = btnBACKSPACE},
+	{keyTxt = "HOME", 			keySpr = btnHOME},
+	{keyTxt = "END", 			keySpr = btnEND},
+	{keyTxt = "PAGEUP", 		keySpr = btnPAGEUP},
+	{keyTxt = "PAGEDOWN", 		keySpr = btnPAGEDOWN},
+	{keyTxt = "UP", 			keySpr = btnUP},
+	{keyTxt = "DOWN", 			keySpr = btnDOWN},
+	{keyTxt = "LEFT", 			keySpr = btnLEFT},
+	{keyTxt = "RIGHT", 			keySpr = btnRIGHT},
+	{keyTxt = "KP_0", 			keySpr = btnKP_0},
+	{keyTxt = "KP_1", 			keySpr = btnKP_1},
+	{keyTxt = "KP_2", 			keySpr = btnKP_2},
+	{keyTxt = "KP_3",			keySpr = btnKP_3},
+	{keyTxt = "KP_4", 			keySpr = btnKP_4},
+	{keyTxt = "KP_5", 			keySpr = btnKP_5},
+	{keyTxt = "KP_6", 			keySpr = btnKP_6},
+	{keyTxt = "KP_7", 			keySpr = btnKP_7},
+	{keyTxt = "KP_8", 			keySpr = btnKP_8},
+	{keyTxt = "KP_9", 			keySpr = btnKP_9},
+	{keyTxt = "KP_PERIOD", 		keySpr = btnKP_PERIOD},
+	{keyTxt = "KP_DIVIDE", 		keySpr = btnKP_DIVIDE},
+	{keyTxt = "KP_MULTIPLY", 	keySpr = btnKP_MULTIPLY},
+	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
+	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
+	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
+}
+
+if data.debugLog then
+	f_printTable(t_btnHint, "save/debug/t_btnHint.txt")
+end
+
+function f_searchInput(inputkey)
+	for i, v in ipairs(t_btnHint) do
+		if v.keyTxt == inputkey then
+			return i --Returns the position of the letter in the table
+		end
+	end
+	return nil --Returns nil if the letter is not found in the table
+end
+
+function f_inputHintsP1(button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12,button13,button14)
+	--local pos = f_searchInput(button1)
+	local key1 = t_btnHint[f_searchInput(button1)].keySpr
+	animSetPos(key1, 50, 100)
+	animSetScale(key1, 0.7, 0.7)
+	animUpdate(key1)
+	animDraw(key1)
 end
 
 --;===========================================================
@@ -1232,6 +1414,7 @@ function f_mainTitle()
 			textImgDraw(txt_mainTitle)
 		end
 		t = t >= 60 and 0 or t + 1
+		f_inputHintsP1("RETURN")
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		i = i + 1

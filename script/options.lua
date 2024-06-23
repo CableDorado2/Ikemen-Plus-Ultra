@@ -5651,16 +5651,18 @@ end
 txt_engineCfg = createTextImg(jgFnt, 0, 0, "ENGINE SETTINGS", 159, 13)
 
 t_engineCfg = {
-	{varID = textImgNew(), text = "Debug Mode",  	      	varText = s_debugMode},
-	{varID = textImgNew(), text = "Save Debug Logs",        varText = s_debugLog},
-	{varID = textImgNew(), text = "Engine Mode",        	varText = data.engineMode},
-	{varID = textImgNew(), text = "HelperMax",              varText = HelperMaxEngine},
-	{varID = textImgNew(), text = "PlayerProjectileMax",	varText = PlayerProjectileMaxEngine},
-	{varID = textImgNew(), text = "ExplodMax",              varText = ExplodMaxEngine},
-	{varID = textImgNew(), text = "AfterImageMax",          varText = AfterImageMaxEngine},
-	{varID = textImgNew(), text = "Erase/Reset Statistics", varText = ""},
-	{varID = textImgNew(), text = "Default Settings",  	  	varText = ""},
-	{varID = textImgNew(), text = "          BACK",  	  	varText = ""},
+	{varID = textImgNew(), text = "Debug Mode",  	      		varText = s_debugMode},
+	{varID = textImgNew(), text = "Save Debug Logs",        	varText = s_debugLog},
+	{varID = textImgNew(), text = "Generate Characters List", 	varText = ""},
+	{varID = textImgNew(), text = "Generate Stages List", 		varText = ""},
+	{varID = textImgNew(), text = "Engine Mode",        		varText = data.engineMode},
+	{varID = textImgNew(), text = "HelperMax",              	varText = HelperMaxEngine},
+	{varID = textImgNew(), text = "PlayerProjectileMax",		varText = PlayerProjectileMaxEngine},
+	{varID = textImgNew(), text = "ExplodMax",              	varText = ExplodMaxEngine},
+	{varID = textImgNew(), text = "AfterImageMax",          	varText = AfterImageMaxEngine},
+	{varID = textImgNew(), text = "Erase/Reset Statistics", 	varText = ""},
+	{varID = textImgNew(), text = "Default Settings",  	  		varText = ""},
+	{varID = textImgNew(), text = "          BACK",  	  		varText = ""},
 }
 
 function f_engineCfg()
@@ -5722,8 +5724,18 @@ function f_engineCfg()
 						modified = 1
 					end
 				end
+			--Generate Characters List
+			elseif engineCfg == 3 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sysSnd, 100, 1)
+				generateCharsList("chars")
+				sszOpen("save", "00_CharactersList.txt")
+			--Generate Stages List
+			elseif engineCfg == 4 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then
+				sndPlay(sysSnd, 100, 1)
+				generateStageList("stages")
+				sszOpen("save", "00_ExtraStagesList.txt")
 			--Engine Mode
-			elseif engineCfg == 3 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
+			elseif engineCfg == 5 and (commandGetState(p1Cmd, 'r') or commandGetState(p1Cmd, 'l') or btnPalNo(p1Cmd) > 0) then
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
@@ -5739,7 +5751,7 @@ function f_engineCfg()
 					end
 				end
 			--HelperMax
-			elseif engineCfg == 4 then
+			elseif engineCfg == 6 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if HelperMaxEngine < 1000 then --You can increase this limit
 						HelperMaxEngine = HelperMaxEngine + 1
@@ -5768,7 +5780,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--PlayerProjectileMax
-			elseif engineCfg == 5 then
+			elseif engineCfg == 7 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if PlayerProjectileMaxEngine < 1000 then --You can increase this limit
 						PlayerProjectileMaxEngine = PlayerProjectileMaxEngine + 1
@@ -5797,7 +5809,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--ExplodMax
-			elseif engineCfg == 6 then
+			elseif engineCfg == 8 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if ExplodMaxEngine < 1000 then --You can increase this limit
 						ExplodMaxEngine = ExplodMaxEngine + 1
@@ -5826,7 +5838,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--AfterImageMax
-			elseif engineCfg == 7 then
+			elseif engineCfg == 9 then
 				if commandGetState(p1Cmd, 'r') or (commandGetState(p1Cmd, 'holdr') and bufr >= 30) then
 					if AfterImageMaxEngine < 1000 then --You can increase this limit
 						AfterImageMaxEngine = AfterImageMaxEngine + 1
@@ -5855,7 +5867,7 @@ function f_engineCfg()
 					bufl = 0
 				end
 			--Erase/Reset Statistics
-			elseif engineCfg == 8 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
+			elseif engineCfg == 10 and (btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0) then	
 				if onlinegame == true then
 					lockSetting = true
 				elseif onlinegame == false then	
@@ -5917,11 +5929,11 @@ function f_engineCfg()
 		end
 		t_engineCfg[1].varText = s_debugMode
 		t_engineCfg[2].varText = s_debugLog
-		if data.engineMode == "FG" then t_engineCfg[3].varText = "Fighting Game" elseif data.engineMode == "VN" then t_engineCfg[3].varText = "Visual Novel" end
-		t_engineCfg[4].varText = HelperMaxEngine
-		t_engineCfg[5].varText = PlayerProjectileMaxEngine
-		t_engineCfg[6].varText = ExplodMaxEngine
-		t_engineCfg[7].varText = AfterImageMaxEngine
+		if data.engineMode == "FG" then t_engineCfg[5].varText = "Fighting Game" elseif data.engineMode == "VN" then t_engineCfg[5].varText = "Visual Novel" end
+		t_engineCfg[6].varText = HelperMaxEngine
+		t_engineCfg[7].varText = PlayerProjectileMaxEngine
+		t_engineCfg[8].varText = ExplodMaxEngine
+		t_engineCfg[9].varText = AfterImageMaxEngine
 		for i=1, maxEngineCfg do
 			if i > engineCfg - cursorPosY then
 				if t_engineCfg[i].varID ~= nil then
@@ -7662,36 +7674,6 @@ for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
 end
 
 txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [MENUS]", 159, 13)
-t_keyMenuCfg = {
-	{varID = textImgNew(), text = "UP",    					varText = ""},
-	{varID = textImgNew(), text = "DOWN",  					varText = ""},
-	{varID = textImgNew(), text = "LEFT",  					varText = ""},
-	{varID = textImgNew(), text = "RIGHT", 					varText = ""},
-	{varID = textImgNew(), text = "A",     					varText = ""}, --Reserved for Classic Palette Select
-	{varID = textImgNew(), text = "B",     					varText = ""},
-	{varID = textImgNew(), text = "C",     					varText = ""},
-	{varID = textImgNew(), text = "X",     					varText = ""},
-	{varID = textImgNew(), text = "Y",     					varText = ""},
-	{varID = textImgNew(), text = "Z",     					varText = ""}, --
-	{varID = textImgNew(), text = "SCREENSHOT",				varText = ""},
-	{varID = textImgNew(), text = "CONFIRM",				varText = ""},
-	{varID = textImgNew(), text = "RETURN",					varText = ""},
-	{varID = textImgNew(), text = "MENU",		 			varText = ""}, --PAUSE GAME
-	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
-	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
-}
-
-t_keyMenuCfg2 = {}
-for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
-	t_keyMenuCfg2[i] = {}
-	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
-	if i == 15 then
-		t_keyMenuCfg2[i]['text'] = "Default (F2)"
-	else
-		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
-	end
-	t_keyMenuCfg2[i]['varText'] = ""
-end
 
 txt_p1inputInfo = createTextImg(font2, 0, 0, "PLAYER 1", 81.5, 30)
 txt_p2inputInfo = createTextImg(font2, 0, 0, "PLAYER 2", 240, 30)
@@ -8276,40 +8258,6 @@ function f_inputBattleRead(playerNo, controller)
 				t_keyBattleCfg[i].varText = c
 			else
 				t_keyBattleCfg2[i].varText = c
-			end
-		end
-	end
-end
-
-function f_inputMenuRead(playerNo, controller)
-	local tmp = nil
-	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
-	--Keyboard Read
-	if tmp ~= nil and tmp ~= '' then
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
-		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
-		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
-	--Gamepad Read
-	else
-		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
-		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
-		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
-		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
-	end
-	for i, c
-		in ipairs(strsplit(',', tmp))
-	do
-		if controller == -1 then --Load Keyboard Controls
-			if playerNo == 0 then
-				t_keyMenuCfg[i].varText = c
-			else
-				t_keyMenuCfg2[i].varText = c
-			end
-		else --Load Gamepad Controls
-			if playerNo == 2 then
-				t_keyMenuCfg[i].varText = c
-			else
-				t_keyMenuCfg2[i].varText = c
 			end
 		end
 	end

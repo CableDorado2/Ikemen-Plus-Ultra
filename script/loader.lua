@@ -1157,11 +1157,10 @@ function generateStageList(path)
 	for i=1, #t_extraStages do --For all values/paths stored in table
 		str = str..'\n'..t_extraStages[i]
 	end
-	dscr = io.open("save/debug/00_ExtraStagesList.txt", 'w')
+	dscr = io.open("save/00_ExtraStagesList.txt", 'w')
 	dscr:write(str) --Write all table values in txt file
 	io.close(dscr)
 end
-generateStageList("stages") --set stage files path
 
 t_characters = {}
 function generateCharsList(path)
@@ -1169,7 +1168,7 @@ function generateCharsList(path)
 		if item ~= "." and item ~= ".." and item ~= ".keep" then
 			local details = path.."/"..item
 			local attribute = lfs.attributes(details)
-			assert(type(attribute) == "table")
+			assert(type(attribute) == "table") --To avoid isues here all files inside char folder need to be in not japan or special symbols names
 			generateCharsList(details)
 			if attribute.mode == "file" then
 				if item:match('^.*(%.)[Dd][Ee][Ff]$') then
@@ -1190,11 +1189,10 @@ function generateCharsList(path)
 	for i=1, #t_characters do
 		str = str..'\n'..t_characters[i]
 	end
-	dscr = io.open("save/debug/00_CharactersList.txt", 'w')
+	dscr = io.open("save/00_CharactersList.txt", 'w')
 	dscr:write(str)
 	io.close(dscr)
 end
-generateCharsList("chars")
 
 --Move to common.lua --> f_soundtrack()
 local t_file = {}

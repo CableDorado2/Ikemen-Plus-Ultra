@@ -73,6 +73,7 @@ tempFile:close()
 fadeSff = sffNew("data/screenpack/fade.sff") --load fade sprites
 sysSff = sffNew("data/screenpack/system.sff") --load screenpack/menu sprites
 glyphsSff = sffNew("data/screenpack/glyphs.sff") --load movelist sprites
+btnSff = sffNew("data/screenpack/buttons.sff") --load input hints sprites
 contSff = sffNew("data/screenpack/continue.sff") --load continue sprites
 missionSff = sffNew("data/screenpack/missions.sff") --load missions menu sprites
 eventSff = sffNew("data/screenpack/events.sff") --load events menu sprites
@@ -1370,8 +1371,88 @@ t_glyphs = {
 	['_('] = {130, 0}, --Away
 	['_`'] = {135, 0}, --Small Dot
 }
-
 if data.debugLog then f_printTable(t_glyphs, "save/debug/t_glyphs.txt") end
+
+--;===========================================================
+--; MENU CONTROLS DEFINITION (Here because we gonna re-use t_keyMenuCfg for inputs hints)
+--;===========================================================
+t_keyMenuCfg = {
+	{varID = textImgNew(), text = "UP",    					varText = ""},
+	{varID = textImgNew(), text = "DOWN",  					varText = ""},
+	{varID = textImgNew(), text = "LEFT",  					varText = ""},
+	{varID = textImgNew(), text = "RIGHT", 					varText = ""},
+	{varID = textImgNew(), text = "A",     					varText = ""}, --Reserved for Classic Palette Select
+	{varID = textImgNew(), text = "B",     					varText = ""},
+	{varID = textImgNew(), text = "C",     					varText = ""},
+	{varID = textImgNew(), text = "X",     					varText = ""},
+	{varID = textImgNew(), text = "Y",     					varText = ""},
+	{varID = textImgNew(), text = "Z",     					varText = ""}, --
+	{varID = textImgNew(), text = "SCREENSHOT",				varText = ""},
+	{varID = textImgNew(), text = "CONFIRM",				varText = ""},
+	{varID = textImgNew(), text = "RETURN",					varText = ""},
+	{varID = textImgNew(), text = "MENU",		 			varText = ""}, --PAUSE GAME
+	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
+	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
+}
+
+t_keyMenuCfg2 = {}
+for i=1,#t_keyMenuCfg do --Make a copy of all items from t_keyMenuCfg table
+	t_keyMenuCfg2[i] = {}
+	t_keyMenuCfg2[i]['varID'] = t_keyMenuCfg[i].varID
+	if i == 15 then
+		t_keyMenuCfg2[i]['text'] = "Default (F2)"
+	else
+		t_keyMenuCfg2[i]['text'] = t_keyMenuCfg[i].text
+	end
+	t_keyMenuCfg2[i]['varText'] = ""
+end
+
+--Data loading from config.ssz
+local file = io.open("save/config.ssz","r")
+s_configSSZ = file:read("*all")
+file:close()
+
+function f_inputMenuRead(playerNo, controller)
+	local tmp = nil
+	tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^,%s]*%s*,\n*%s*%(int%)k_t::[^%)%s]*%s*%);')
+	--Keyboard Read
+	if tmp ~= nil and tmp ~= '' then
+		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('%(int%)k_t::([^,%s]*)%s*(,)\n*%s*', '%1%2')
+		tmp = tmp:gsub('%(int%)k_t::([^%)%s]*)%s*%);', '%1')
+	--Gamepad Read
+	else
+		tmp = s_configSSZ:match('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^,%s]*%s*,\n*%s*[^%)%s]*%s*%);')
+		tmp = tmp:gsub('in.new%[' .. playerNo+10 .. '%]%.set%(\n*%s*' .. controller .. ',\n*%s*', '')
+		tmp = tmp:gsub('([^,%s]*)%s*(,)\n*%s*', '%1%2')
+		tmp = tmp:gsub('([^%)%s]*)%s*%);', '%1')
+	end
+	for i, c
+		in ipairs(strsplit(',', tmp))
+	do
+		if controller == -1 then --Load Keyboard Controls
+			if playerNo == 0 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		else --Load Gamepad Controls
+			if playerNo == 2 then
+				t_keyMenuCfg[i].varText = c
+			else
+				t_keyMenuCfg2[i].varText = c
+			end
+		end
+	end
+end
+
+f_inputMenuRead(0, -1) -- 0=P1, -1=Keyboard
+f_inputMenuRead(1, -1) -- 1=P2
+
+if data.debugLog then
+	f_printTable(t_keyMenuCfg, "save/debug/menuInputsP1.txt")
+	f_printTable(t_keyMenuCfg2, "save/debug/menuInputsP2.txt")
+end
 
 --;===========================================================
 --; STORYBOARD DEFINITION

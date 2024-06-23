@@ -43,12 +43,12 @@ data.zoomMin = 0.75
 data.zoomMax = 1.1
 data.zoomSpeed = 1
 --Character Select Global Data
+data.selectType = "Simple"
 data.palType = "Classic"
 data.randomPortrait = "Simple"
 data.randomCharRematch = "Variable"
 data.charInfo = "Author"
 --Character Select Config
-data.selectType = "Simple"
 data.selectRows = 2
 data.selectColumns = 5
 data.offsetRows = 1
