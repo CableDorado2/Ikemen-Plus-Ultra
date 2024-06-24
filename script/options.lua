@@ -7643,20 +7643,20 @@ end
 --;===========================================================
 txt_battleCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [BATTLE]", 159, 13)
 t_keyBattleCfg = {
-	{varID = textImgNew(), text = "JUMP",   				varText = ""},
-	{varID = textImgNew(), text = "CROUCH", 				varText = ""},
-	{varID = textImgNew(), text = "BACK",  					varText = ""},
-	{varID = textImgNew(), text = "FORWARD",				varText = ""},
-	{varID = textImgNew(), text = "A",     					varText = ""},
-	{varID = textImgNew(), text = "B",     					varText = ""},
-	{varID = textImgNew(), text = "C",     					varText = ""},
-	{varID = textImgNew(), text = "X",     					varText = ""},
-	{varID = textImgNew(), text = "Y",     					varText = ""},
-	{varID = textImgNew(), text = "Z",     					varText = ""},
-	{varID = textImgNew(), text = "L", 						varText = ""},
-	{varID = textImgNew(), text = "R", 						varText = ""},
-	{varID = textImgNew(), text = "SELECT",					varText = ""},
-	{varID = textImgNew(), text = "START", 					varText = ""},
+	{varID = textImgNew(), text = "JUMP",   				varText = "", cmd = "u"},
+	{varID = textImgNew(), text = "CROUCH", 				varText = "", cmd = "d"},
+	{varID = textImgNew(), text = "BACK",  					varText = "", cmd = "l"},
+	{varID = textImgNew(), text = "FORWARD",				varText = "", cmd = "r"},
+	{varID = textImgNew(), text = "A",     					varText = "", cmd = "a"},
+	{varID = textImgNew(), text = "B",     					varText = "", cmd = "b"},
+	{varID = textImgNew(), text = "C",     					varText = "", cmd = "c"},
+	{varID = textImgNew(), text = "X",     					varText = "", cmd = "x"},
+	{varID = textImgNew(), text = "Y",     					varText = "", cmd = "y"},
+	{varID = textImgNew(), text = "Z",     					varText = "", cmd = "z"},
+	{varID = textImgNew(), text = "L", 						varText = "", cmd = "q"},
+	{varID = textImgNew(), text = "R", 						varText = "", cmd = "w"},
+	{varID = textImgNew(), text = "SELECT",					varText = "", cmd = "e"},
+	{varID = textImgNew(), text = "START", 					varText = "", cmd = "s"},
 	{varID = textImgNew(), text = "Default (F1)",			varText = ""},
 	{varID = textImgNew(), text = "End Config (ESC)",		varText = ""},
 }
@@ -7671,6 +7671,7 @@ for i=1,#t_keyBattleCfg do --Make a copy of all items from t_keyBattleCfg table
 		t_keyBattleCfg2[i]['text'] = t_keyBattleCfg[i].text
 	end
 	t_keyBattleCfg2[i]['varText'] = ""
+	t_keyBattleCfg2[i]['cmd'] = t_keyBattleCfg[i].cmd
 end
 
 txt_menuKeyCfg = createTextImg(jgFnt, 0, 0, "BUTTON MAPPING [MENUS]", 159, 13)

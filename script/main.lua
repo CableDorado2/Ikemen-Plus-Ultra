@@ -625,26 +625,34 @@ t_btnHint = {
 	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
 }
 
-if data.debugLog then
-	f_printTable(t_btnHint, "save/debug/t_btnHint.txt")
-end
-
-function f_searchInput(inputkey)
-	for i, v in ipairs(t_btnHint) do
-		if v.keyTxt == inputkey then
-			return i --Returns the position of the letter in the table
+function f_searchCmd(input)
+	for i, v in ipairs(t_keyMenuCfg) do --For each item in table
+		if v.cmd == input then --if table cmd item is equal to input entered
+			return i --Returns the position of the item in the table
 		end
 	end
-	return nil --Returns nil if the letter is not found in the table
+	return nil --Returns nil if the item is not found in the table
 end
 
-function f_inputHintsP1(button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12,button13,button14)
-	--local pos = f_searchInput(button1)
-	local key1 = t_btnHint[f_searchInput(button1)].keySpr
-	animSetPos(key1, 50, 100)
-	animSetScale(key1, 0.7, 0.7)
-	animUpdate(key1)
-	animDraw(key1)
+function f_searchButton(inputkey)
+	for i, v in ipairs(t_btnHint) do
+		if v.keyTxt == inputkey then
+			return i
+		end
+	end
+	return nil
+end
+
+function f_inputHintsP1(cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11,cmd12,cmd13,cmd14)
+	local name = f_searchCmd(cmd1) --get button name configured pos based on cmd entry name
+	if name ~= nil then
+		local btn = f_searchButton(t_keyMenuCfg[name].varText) --Get button name configured
+		local key1 = t_btnHint[btn].keySpr --Get button sprite
+		animSetPos(key1, 50, 100)
+		animSetScale(key1, 0.7, 0.7)
+		animUpdate(key1)
+		animDraw(key1)
+	end
 end
 
 --;===========================================================
@@ -1414,7 +1422,7 @@ function f_mainTitle()
 			textImgDraw(txt_mainTitle)
 		end
 		t = t >= 60 and 0 or t + 1
-		f_inputHintsP1("RETURN")
+		f_inputHintsP1("e")
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		i = i + 1
