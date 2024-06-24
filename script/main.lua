@@ -356,116 +356,6 @@ animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
 --;===========================================================
---; CLOCK AND DATE PANEL
---;===========================================================
-function f_sysTime()
-	--local http = require("socket.http") -- import the socket.http module
-	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
-	--local date = headers.date -- LuaSocket makes all header names lowercase
-	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
-	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
-	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
-	--sysTime3 = tonumber(os.date("%m"))
-	--4:3
-	if (resolutionHeight / 3 * 4) == resolutionWidth then
-		--Clock
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
-		end
-		--Date
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
-		end
-	--16:10
-	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
-		end
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
-		end
-	--16:9
-	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 8)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 8)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 8)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 8)
-		end
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -45, 8)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -45, 8)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -45, 8)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -45, 8)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -45, 8)
-		end
-	--Extra
-	else
-		if data.clock == "Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
-		elseif data.clock == "Full Standard" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
-		elseif data.clock == "Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
-		elseif data.clock == "Full Military" then
-			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
-		end
-		if data.date == "Type A" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
-		elseif data.date == "Type B" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
-		elseif data.date == "Type C" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
-		elseif data.date == "Type D" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
-		elseif data.date == "Type E" then
-			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
-		end
-	end
-	textImgDraw(txt_titleClock) --Draw Clock
-	textImgDraw(txt_titleDate) --Draw Date
-	if data.debugMode then
-		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
-		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
-	end
-end
-
---;===========================================================
 --; INPUT MENU HINTS PANEL
 --;===========================================================
 --Load Buttons Sprites
@@ -623,6 +513,7 @@ t_btnHint = {
 	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
 	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
 	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
+	--{keyTxt = "F10", 			keySpr = btnF10},
 }
 
 function f_searchCmd(input)
@@ -634,7 +525,7 @@ function f_searchCmd(input)
 	return nil --Returns nil if the item is not found in the table
 end
 
-function f_searchButton(inputkey)
+function f_searchButton(inputkey) --Based on previous function
 	for i, v in ipairs(t_btnHint) do
 		if v.keyTxt == inputkey then
 			return i
@@ -643,16 +534,135 @@ function f_searchButton(inputkey)
 	return nil
 end
 
-function f_inputHintsP1(cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11,cmd12,cmd13,cmd14)
-	local name = f_searchCmd(cmd1) --get button name configured pos based on cmd entry name
-	if name ~= nil then
-		local btn = f_searchButton(t_keyMenuCfg[name].varText) --Get button name configured
-		local key1 = t_btnHint[btn].keySpr --Get button sprite
-		animSetPos(key1, 50, 100)
-		animSetScale(key1, 0.7, 0.7)
-		animUpdate(key1)
-		animDraw(key1)
+function drawInputHintsP1(...) --(...) Manage unlimited arguments
+	local t_args = {...} --Store all arguments taken in a table
+	for i=1, #t_args, 2 do --For each argument stored in table
+		local cmd = t_args[i] --Set first argument (key name) to cmd var
+		local cmdPos = t_args[i+1] --Set second argument (keyX,keyY) to cmdPos var
+		local nameKey = f_searchCmd(cmd) --get table pos from button name configured based on cmd entry name
+		if nameKey ~= nil then
+			local btn = f_searchButton(t_keyMenuCfg[nameKey].varText) --Get button name configured
+			local key = t_btnHint[btn].keySpr --Get button sprite
+			--local posKey = cmdPos --Get button "X,Y" positions
+			local posKeyX, posKeyY = cmdPos:match('^([^,]-)%s*,%s*(.-)$') --Separate positions in vars
+			animSetPos(key, posKeyX, posKeyY)
+			animSetScale(key, 0.7, 0.7)
+			animUpdate(key)
+			animDraw(key)
+		end
 	end
+end
+
+--;===========================================================
+--; CLOCK AND DATE PANEL
+--;===========================================================
+function f_sysTime()
+	--local http = require("socket.http") -- import the socket.http module
+	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
+	--local date = headers.date -- LuaSocket makes all header names lowercase
+	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
+	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+	--sysTime3 = tonumber(os.date("%m"))
+	--4:3
+	if (resolutionHeight / 3 * 4) == resolutionWidth then
+		--Clock
+		if data.clock == "Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
+		elseif data.clock == "Full Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
+		elseif data.clock == "Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
+		elseif data.clock == "Full Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
+		end
+		--Date
+		if data.date == "Type A" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
+		elseif data.date == "Type B" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
+		elseif data.date == "Type C" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
+		elseif data.date == "Type D" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
+		elseif data.date == "Type E" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
+		end
+	--16:10
+	elseif (resolutionHeight / 10 * 16) == resolutionWidth then
+		if data.clock == "Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
+		elseif data.clock == "Full Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
+		elseif data.clock == "Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
+		elseif data.clock == "Full Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
+		end
+		if data.date == "Type A" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
+		elseif data.date == "Type B" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
+		elseif data.date == "Type C" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
+		elseif data.date == "Type D" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
+		elseif data.date == "Type E" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
+		end
+	--16:9
+	elseif (math.floor((resolutionHeight / 9 * 16) + 0.5)) == resolutionWidth then
+		if data.clock == "Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 365, 8)
+		elseif data.clock == "Full Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 365, 8)
+		elseif data.clock == "Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 365, 8)
+		elseif data.clock == "Full Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 365, 8)
+		end
+		if data.date == "Type A" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -45, 8)
+		elseif data.date == "Type B" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -45, 8)
+		elseif data.date == "Type C" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -45, 8)
+		elseif data.date == "Type D" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -45, 8)
+		elseif data.date == "Type E" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -45, 8)
+		end
+	--Extra
+	else
+		if data.clock == "Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 345, 8)
+		elseif data.clock == "Full Standard" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 345, 8)
+		elseif data.clock == "Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 345, 8)
+		elseif data.clock == "Full Military" then
+			txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 345, 8)
+		end
+		if data.date == "Type A" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), -25, 8)
+		elseif data.date == "Type B" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), -25, 8)
+		elseif data.date == "Type C" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), -25, 8)
+		elseif data.date == "Type D" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), -25, 8)
+		elseif data.date == "Type E" then
+			txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), -25, 8)
+		end
+	end
+	textImgDraw(txt_titleClock) --Draw Clock
+	textImgDraw(txt_titleDate) --Draw Date
+	if data.debugMode then
+		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
+		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
+	end
+	local inputHintYPos = 210
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","80,"..inputHintYPos,"e","100,"..inputHintYPos,"q","120,"..inputHintYPos)
 end
 
 --;===========================================================
@@ -1422,7 +1432,6 @@ function f_mainTitle()
 			textImgDraw(txt_mainTitle)
 		end
 		t = t >= 60 and 0 or t + 1
-		f_inputHintsP1("e")
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		i = i + 1
