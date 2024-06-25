@@ -24,7 +24,7 @@ animUpdate(missionBG1)
 missionBG2 = animNew(sysSff, [[
 3,0, 0,0, -1
 ]])
-animSetPos(missionBG2, 40, 140)
+animSetPos(missionBG2, 40, 130)
 animSetAlpha(missionBG2, 20, 100)
 animUpdate(missionBG2)
 
@@ -39,7 +39,7 @@ arrowsMSU = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(arrowsMSU, 155, 131)
+animAddPos(arrowsMSU, 280, 130)
 animUpdate(arrowsMSU)
 animSetScale(arrowsMSU, 0.5, 0.5)
 
@@ -54,7 +54,7 @@ arrowsMSD = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(arrowsMSD, 155, 231)
+animAddPos(arrowsMSD, 280, 195)
 animUpdate(arrowsMSD)
 animSetScale(arrowsMSD, 0.5, 0.5)
 
@@ -71,6 +71,18 @@ function f_missionPreview()
 	animUpdate(missionPreview)
 	animDraw(missionPreview)
 	return missionPreview
+end
+
+--Missions Input Hints Panel
+function drawMissionInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
 --;===========================================================
@@ -104,8 +116,8 @@ function f_missionMenu()
 	--Missions Progress Logic
 		data.missionsProgress = data.mission1Status + data.mission2Status + data.mission3Status
 		missionsData = (math.floor((data.missionsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.missionStatus
-		txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 128)
-		txt_missionProgress = createTextImg(jgFnt, 2, 1, "["..missionsData.."%]", 202, 128) --needs to be inside of mission Menu function, to load mission data %
+		txt_missionMenu = createTextImg(jgFnt, 0, -1, "MISSION SELECT:", 195, 125)
+		txt_missionProgress = createTextImg(jgFnt, 2, 1, "["..missionsData.."%]", 202, 125) --needs to be inside of mission Menu function, to load mission data %
 		if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 			f_saveProgress()
 			data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
@@ -172,8 +184,8 @@ function f_missionMenu()
 	--Cursor position calculation
 		if missionMenu < 1 then
 			missionMenu = #t_missionMenu
-			if #t_missionMenu > 6 then
-				cursorPosY = 6
+			if #t_missionMenu > 5 then
+				cursorPosY = 5
 			else
 				cursorPosY = #t_missionMenu
 			end
@@ -182,20 +194,20 @@ function f_missionMenu()
 			cursorPosY = 1
 		elseif ((commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u')) or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30)) and cursorPosY > 1 then
 			cursorPosY = cursorPosY - 1
-		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 6 then
+		elseif ((commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd')) or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30)) and cursorPosY < 5 then
 			cursorPosY = cursorPosY + 1
 		end
-		if cursorPosY == 6 then
-			moveTxt = (missionMenu - 6) * 15
+		if cursorPosY == 5 then
+			moveTxt = (missionMenu - 5) * 15
 		elseif cursorPosY == 1 then
 			moveTxt = (missionMenu - 1) * 15
 		end
-		if #t_missionMenu <= 6 then
+		if #t_missionMenu <= 5 then
 			maxMissions = #t_missionMenu
 		elseif missionMenu - cursorPosY > 0 then
-			maxMissions = missionMenu + 6 - cursorPosY
+			maxMissions = missionMenu + 5 - cursorPosY
 		else
-			maxMissions = 6
+			maxMissions = 5
 		end
 		animDraw(f_animVelocity(missionBG0, -1, -1))
 	--Draw Above Transparent BG
@@ -212,10 +224,10 @@ function f_missionMenu()
 		textImgDraw(txt_missionProgress)
 	--Draw Below Transparent Table BG
 		animSetScale(missionBG2, 240, maxMissions*15)
-		animSetWindow(missionBG2, 10,20, 269,210)
+		animSetWindow(missionBG2, 10,10, 269,195)
 		animDraw(missionBG2)
 	--Draw Below Table Cursor
-		animSetWindow(cursorBox, 40,125+cursorPosY*15, 239,15)
+		animSetWindow(cursorBox, 40,115+cursorPosY*15, 239,15)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		missionList = missionMenu --Uses menu position to show image in these order
@@ -230,21 +242,23 @@ function f_missionMenu()
 		for i=1, maxMissions do
 			if i > missionMenu - cursorPosY then
 				if t_missionMenu[i].varID ~= nil then
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].name, 45, 135+i*15-moveTxt))
-					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].status, 275, 135+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, 1, t_missionMenu[i].name, 45, 125+i*15-moveTxt))
+					textImgDraw(f_updateTextImg(t_missionMenu[i].varID, font2, 0, -1, t_missionMenu[i].status, 275, 125+i*15-moveTxt))
 				end
 			end
 		end
 	--Draw Up Animated Cursor
-		if maxMissions > 6 then
+		if maxMissions > 5 then
 			animDraw(arrowsMSU)
 			animUpdate(arrowsMSU)
 		end
 	--Draw Down Animated Cursor
-		if #t_missionMenu > 6 and maxMissions < #t_missionMenu then
+		if #t_missionMenu > 5 and maxMissions < #t_missionMenu then
 			animDraw(arrowsMSD)
 			animUpdate(arrowsMSD)
 		end
+	--Draw Input Hints Panel
+		drawMissionInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then

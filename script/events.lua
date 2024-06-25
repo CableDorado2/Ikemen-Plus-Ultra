@@ -60,6 +60,52 @@ animAddPos(arrowsEL, 0, 123)
 animUpdate(arrowsEL)
 animSetScale(arrowsEL, 1.7, 1.7)
 
+--Events Input Hints Panel
+function drawEventInputHints()
+	local inputHintYPos = 218
+	local hintFont = font2
+	local hintFontYPos = 232
+	drawInputHintsP1("l","0,"..inputHintYPos,"r","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
+end
+
+function f_eventTime()
+	--local http = require("socket.http") -- import the socket.http module
+	--local body, httpcode, headers = http.request("http://www.google.com") --("time.windows.com")
+	--local date = headers.date -- LuaSocket makes all header names lowercase
+	--print(date) --> "Mon, 18 Feb 2013 09:03:13 GMT"
+	sysTime = tonumber(os.date("%H")) --Assigns the current hour to a variable based on the system clock. Used for day/night features.
+	sysTime2 = tonumber(os.date("%d")) --Assigns the current day to a variable based on date. Used for daily events features.
+	--sysTime3 = tonumber(os.date("%m"))
+	--Clock
+	if data.clock == "Standard" then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p")), 314, 8)
+	elseif data.clock == "Full Standard" then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%I:%M%p:%S")), 314, 8)
+	elseif data.clock == "Military" then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%H:%M")), 314, 8)
+	elseif data.clock == "Full Military" then
+		txt_titleClock = createTextImg(font12, 0, -1, (os.date("%X")), 314, 8)
+	end
+	--Date
+	if data.date == "Type A" then
+		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%m-%d-%y")), 8, 8)
+	elseif data.date == "Type B" then
+		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%d-%m-%Y")), 8, 8)
+	elseif data.date == "Type C" then
+		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%a %d.%b.%Y")), 8, 8)
+	elseif data.date == "Type D" then
+		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%A")), 8, 8)
+	elseif data.date == "Type E" then
+		txt_titleDate = createTextImg(font12, 0, 1, (os.date("%B.%Y")), 8, 8)
+	end
+	textImgDraw(txt_titleClock) --Draw Clock
+	textImgDraw(txt_titleDate) --Draw Date
+end
+
 --;===========================================================
 --; EVENT LOCKED INFO SCREEN
 --;===========================================================
@@ -146,12 +192,10 @@ function f_eventMenu()
 	local eventMenu = 1
 	local cursorPosX = 1
 	local moveTxt = 0
-	local eventSelect = true
 	local bufu = 0
 	local bufd = 0
 	local bufr = 0
 	local bufl = 0
-	local eventExit = false
 	f_lockedInfoReset()
 	data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 	while true do
@@ -160,72 +204,48 @@ function f_eventMenu()
 		eventsData = (math.floor((data.eventsProgress * 100 / 3) + 0.5)) --The number (3) is the amount of all data.eventStatus
 		txt_eventMenu = createTextImg(jgFnt, 0, -1, "EVENT SELECT:", 195, 10)
 		txt_eventProgress = createTextImg(jgFnt, 2, 1, "["..eventsData.."%]", 202, 10) --needs to be inside of event Menu function, to load event data %
-		txt_selEvent = createTextImg(jgFnt, 0, 0, "BACK TO MAIN MENU", 160, 238)
-		if lockedScreen == false then
-			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') or eventExit then
+		if not lockedScreen then
+			if esc() or commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
 				f_saveProgress()
 				data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
 				sndPlay(sysSnd, 100, 2)
 				break
 			elseif commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l') or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30) then
-				if eventSelect == true then
-					sndPlay(sysSnd, 100, 0)
-					eventMenu = eventMenu - 1
-				end
+				sndPlay(sysSnd, 100, 0)
+				eventMenu = eventMenu - 1
 			elseif commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r') or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30) then
-				if eventSelect == true then
-					sndPlay(sysSnd, 100, 0)
-					eventMenu = eventMenu + 1
-				end
-			elseif commandGetState(p1Cmd, 'u') or commandGetState(p2Cmd, 'u') or ((commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu')) and bufu >= 30) then
 				sndPlay(sysSnd, 100, 0)
-				if eventSelect == true then
-					eventSelect = false
-				elseif eventSelect == false then
-					eventSelect = true
-				end
-			elseif commandGetState(p1Cmd, 'd') or commandGetState(p2Cmd, 'd') or ((commandGetState(p1Cmd, 'holdd') or commandGetState(p2Cmd, 'holdd')) and bufd >= 30) then
-				sndPlay(sysSnd, 100, 0)
-				if eventSelect == true then
-					eventSelect = false
-				elseif eventSelect == false then
-					eventSelect = true
-				end
+				eventMenu = eventMenu + 1
 			elseif btnPalNo(p1Cmd) > 0 or btnPalNo(p2Cmd) > 0 then
-				if eventSelect == true then
-					sndPlay(sysSnd, 100, 1)
-					--EVENT AVAILABLE
-					if t_eventMenu[eventMenu].available == true then
-						f_default()
-						data.rosterMode = "event"
-						setGameMode('event')
-						data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
-						data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
-						--EVENT 1
-						if eventMenu == 1 then
-							setRoundTime(-1)
-							setRoundsToWin(1)
-							data.p2In = 1
-							data.p2TeamMenu = {mode = 0, chars = 1}
-							data.p2Char = {t_charAdd["event 1"]}
-							textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
-							script.select.f_selectSimple()
-							if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
-					--EVENT 2
-						elseif eventMenu == 2 then
-							f_eventStatus()
-					--EVENT 3
-						elseif eventMenu == 3 then
-							f_eventStatus()
-						end
-					--EVENT UNAVAILABLE
-					else
-						eventInfo = true
-						lockedScreen = true
+				sndPlay(sysSnd, 100, 1)
+				--EVENT AVAILABLE
+				if t_eventMenu[eventMenu].available == true then
+					f_default()
+					data.rosterMode = "event"
+					setGameMode('event')
+					data.eventNo = eventMenu --with this data.eventNo is sync with menu item selected
+					data.fadeTitle = f_fadeAnim(MainFadeInTime, 'fadein', 'black', fadeSff)
+					--EVENT 1
+					if eventMenu == 1 then
+						setRoundTime(-1)
+						setRoundsToWin(1)
+						data.p2In = 1
+						data.p2TeamMenu = {mode = 0, chars = 1}
+						data.p2Char = {t_charAdd["event 1"]}
+						textImgSetText(txt_mainSelect, 'CHARACTER SELECT')
+						script.select.f_selectSimple()
+						if script.select.winner == 1 then f_eventStatus() end --Save progress only if you win
+				--EVENT 2
+					elseif eventMenu == 2 then
+						f_eventStatus()
+				--EVENT 3
+					elseif eventMenu == 3 then
+						f_eventStatus()
 					end
-			--BACK
+				--EVENT UNAVAILABLE
 				else
-					eventExit = true
+					eventInfo = true
+					lockedScreen = true
 				end
 			end
 		--Cursor position calculation
@@ -240,13 +260,9 @@ function f_eventMenu()
 				eventMenu = 1
 				cursorPosX = 1
 			elseif ((commandGetState(p1Cmd, 'l') or commandGetState(p2Cmd, 'l')) or ((commandGetState(p1Cmd, 'holdl') or commandGetState(p2Cmd, 'holdl')) and bufl >= 30)) and cursorPosX > 1 then
-				if eventSelect == true then
-					cursorPosX = cursorPosX - 1
-				end
+				cursorPosX = cursorPosX - 1
 			elseif ((commandGetState(p1Cmd, 'r') or commandGetState(p2Cmd, 'r')) or ((commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr')) and bufr >= 30)) and cursorPosX < 3 then
-				if eventSelect == true then
-					cursorPosX = cursorPosX + 1
-				end
+				cursorPosX = cursorPosX + 1
 			end
 		end
 		if cursorPosX == 3 then
@@ -316,10 +332,8 @@ function f_eventMenu()
 	--Set Scroll Logic
 		for i=1, maxEvents do
 			if i > eventMenu - cursorPosX then
-				if i == eventMenu and eventSelect == true then
+				if i == eventMenu then
 					bank = 5
-				elseif eventSelect == false then
-					bank = 0
 				else
 					bank = 0
 				end
@@ -333,17 +347,15 @@ function f_eventMenu()
 				animDraw(t_eventMenu[i].preview)
 			end
 		end
-		if eventSelect == true then
-		--Draw Event Cursor
-			if lockedScreen == false then
-				animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
-				f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-				animDraw(f_animVelocity(cursorBox, -1, -1))
-			end
-		--Draw Event Info
-			textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].varID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 37))
+	--Draw Event Cursor
+		if not lockedScreen then
+			animSetWindow(cursorBox, -100+cursorPosX*104.5,54, 100,150) --As eventMenu is the first value for cursorBox; it will move on X position (x, y) = (-100+cursorPosX*104.5, 60)
+			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
+			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		f_sysTime() --Draw Date and Time from main.lua
+	--Draw Event Info
+		textImgDraw(f_updateTextImg(t_eventMenu[eventMenu].varID, font11, 0, 0, t_eventMenu[eventMenu].info, 160, 37))
+		f_eventTime() --Draw Date and Time from main.lua
 	--Draw Left Animated Cursor
 		if maxEvents > 3 then
 			animDraw(arrowsEL)
@@ -354,20 +366,7 @@ function f_eventMenu()
 			animDraw(arrowsER)
 			animUpdate(arrowsER)
 		end
-		if eventSelect == true then
-			--Set Back Text Color to Shadow
-			textImgSetBank(txt_selEvent, 7)
-			textImgDraw(txt_selEvent)
-		else
-			--Set Back Text Color to Yellow
-			textImgSetBank(txt_selEvent, 5)
-			textImgDraw(txt_selEvent)
-			--Show a Cursor in Back Text
-			animSetWindow(cursorBox, -56, 228, 432, 13)
-			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
-			animDraw(f_animVelocity(cursorBox, -1, -1))
-		end
-		if lockedScreen == true then f_lockedInfo() end --Show Locked Event Info Message
+		if lockedScreen then f_lockedInfo() else drawEventInputHints() end --Show Locked Event Info Message
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdr') or commandGetState(p2Cmd, 'holdr') then
