@@ -215,11 +215,11 @@ Description: Draw element on screen [Refresh() function resets the screen, so th
 --;===========================================================
 --Buttons Background
 titleBG0 = animNew(sysSff, [[
-5,1, 0,145, -1
+5,1, 0,125, -1
 ]])
 animAddPos(titleBG0, 160, 0)
 animSetTile(titleBG0, 1, 1)
-animSetWindow(titleBG0, 0, 145, 320, 78)
+animSetWindow(titleBG0, 0, 125, 320, 78)
 --[[parallax is not supported yet
 type  = parallax
 width = 400, 1200
@@ -229,7 +229,7 @@ yscaledelta = 1
 
 --Buttons Background (fade)
 titleBG1 = animNew(sysSff, [[
-5,2, -160,145, -1, 0, s
+5,2, -160,125, -1, 0, s
 ]])
 animAddPos(titleBG1, 160, 0)
 animUpdate(titleBG1)
@@ -240,60 +240,34 @@ titleBG2 = animNew(sysSff, [[
 ]])
 animAddPos(titleBG2, 160, 0)
 animSetTile(titleBG2, 1, 2)
-
---Hardcore Background Top
-titleHardBG2 = animNew(sysSff, [[
-6,0, 0,10, -1
-]])
-animAddPos(titleHardBG2, 160, 0)
-animSetTile(titleHardBG2, 1, 2)
+animSetWindow(titleBG2, -54, 0, 428, 118)
 
 --Logo
 titleBG3 = animNew(sysSff, [[
-0,0, 0,40, -1, 0, a
+0,0, 0,20, -1, 0, a
 ]])
 animAddPos(titleBG3, 160, 0)
 animUpdate(titleBG3)
 
 --Background Middle (black text cover)
 titleBG4 = animNew(sysSff, [[
-5,1, 0,145, -1
+5,1, 0,125, -1
 ]])
 animAddPos(titleBG4, 160, 0)
 animSetTile(titleBG4, 1, 1)
-animSetWindow(titleBG4, 0, 138, 320, 7)
+animSetWindow(titleBG4, 0, 118, 320, 7)
 animSetAlpha(titleBG4, 0, 0)
 animUpdate(titleBG4)
 
---Hardcore Background Middle (black text cover)
-titleHardBG4 = animNew(sysSff, [[
-6,1, 0,145, -1
-]])
-animAddPos(titleHardBG4, 160, 0)
-animSetTile(titleHardBG4, 1, 1)
-animSetWindow(titleHardBG4, 0, 138, 320, 7)
-animSetAlpha(titleHardBG4, 0, 0)
-animUpdate(titleHardBG4)
-
 --Background Bottom (black text cover)
 titleBG5 = animNew(sysSff, [[
-5,1, 0,145, -1
+5,1, 0,125, -1
 ]])
 animAddPos(titleBG5, 160, 0)
 animSetTile(titleBG5, 1, 1)
-animSetWindow(titleBG5, 0, 223, 320, 20)
+animSetWindow(titleBG5, 0, 203, 320, 40)
 animSetAlpha(titleBG5, 0, 0)
 animUpdate(titleBG5)
-
---Hardcore Background Bottom (black text cover)
-titleHardBG5 = animNew(sysSff, [[
-6,1, 0,145, -1
-]])
-animAddPos(titleHardBG5, 160, 0)
-animSetTile(titleHardBG5, 1, 1)
-animSetWindow(titleHardBG5, 0, 223, 320, 20)
-animSetAlpha(titleHardBG5, 0, 0)
-animUpdate(titleHardBG5)
 
 --Background Footer
 titleBG6 = animNew(sysSff, [[
@@ -336,7 +310,7 @@ arrowsU = animNew(sysSff, [[
 225,1, 0,0, 10
 225,0, 0,0, 10
 ]])
-animAddPos(arrowsU, 153.5, 136)
+animAddPos(arrowsU, 153.5, 116)
 animUpdate(arrowsU)
 animSetScale(arrowsU, 0.5, 0.5)
 
@@ -351,7 +325,7 @@ arrowsD = animNew(sysSff, [[
 226,1, 0,0, 10
 226,0, 0,0, 10
 ]])
-animAddPos(arrowsD, 153.5, 224)
+animAddPos(arrowsD, 153.5, 204)
 animUpdate(arrowsD)
 animSetScale(arrowsD, 0.5, 0.5)
 
@@ -438,6 +412,7 @@ btnKP_MULTIPLY = animNew(btnSff, [[0,75, 0,0, -1]])
 btnKP_MINUS = animNew(btnSff, [[0,76, 0,0, -1]])
 btnKP_PLUS = animNew(btnSff, [[0,77, 0,0, -1]])
 btnKP_ENTER = animNew(btnSff, [[0,78, 0,0, -1]])
+btnNIL = animNew(btnSff, [[1,0, 0,0, -1]])
 
 --Relate Button Key to Button Sprite
 t_btnHint = {
@@ -513,7 +488,7 @@ t_btnHint = {
 	{keyTxt = "KP_MINUS", 		keySpr = btnKP_MINUS},
 	{keyTxt = "KP_PLUS", 		keySpr = btnKP_PLUS},
 	{keyTxt = "KP_ENTER", 		keySpr = btnKP_ENTER},
-	--{keyTxt = "F10", 			keySpr = btnF10},
+	{keyTxt = "NIL", 			keySpr = btnNIL},
 }
 
 function f_searchCmd(input)
@@ -531,7 +506,7 @@ function f_searchButton(inputkey) --Based on previous function
 			return i
 		end
 	end
-	return nil
+	return #t_btnHint --return lastest table value that is an empty spr
 end
 
 function drawInputHintsP1(...) --(...) Manage unlimited arguments
@@ -551,6 +526,59 @@ function drawInputHintsP1(...) --(...) Manage unlimited arguments
 			animDraw(key)
 		end
 	end
+end
+
+--;===========================================================
+--; SCREENPACK ORDER DEFINITION
+--;===========================================================
+function drawBottomMenuSP() --Below Menu Fonts
+	animDraw(f_animVelocity(titleBG0, -2.15, 0))
+end
+
+txt_subTitle = createTextImg(font3, 0, 0, "", 159, 100) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
+function f_titleText()
+	if data.vault == "Ultra" then textImgSetText(txt_subTitle, "PLUS ULTRA")
+	elseif data.vault == "Zen" then textImgSetText(txt_subTitle, "PLUS ZEN")
+	elseif data.vault == "SSZ" then textImgSetText(txt_subTitle, "SSZ")
+	end
+	textImgDraw(txt_subTitle)
+end
+
+function drawMiddleMenuSP() --After Cursor Box
+	animDraw(titleBG1)
+	animAddPos(titleBG2, -1, 0)
+	animUpdate(titleBG2)
+	animDraw(titleBG2)
+	animDraw(titleBG3)
+	animDraw(titleBG4)
+	animDraw(titleBG5)
+	animDraw(titleBG6)
+	f_titleText()
+end
+
+function drawTopMenuSP()
+	
+end
+
+function drawTitleInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("w","80,"..inputHintYPos,"e","150,"..inputHintYPos,"q","220,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 101, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 171, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 241, hintFontYPos)
+end
+
+function drawMenuInputHints()
+	local inputHintYPos = 212
+	local hintFont = font2
+	local hintFontYPos = 226
+	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"w","100,"..inputHintYPos,"e","170,"..inputHintYPos,"q","240,"..inputHintYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Select", 41, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Confirm", 121, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Return", 191, hintFontYPos)
+	f_drawQuickText(txt_btnHint, hintFont, 0, 1, ":Screenshot", 261, hintFontYPos)
 end
 
 --;===========================================================
@@ -661,8 +689,6 @@ function f_sysTime()
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 1: "..getInputID(data.p1Gamepad), 109, 8) --Gamepad Repose Test
 		f_drawQuickText(txt_testDpad, font6, 0, 0, "PAD 2: "..getInputID(data.p2Gamepad), 199, 8)
 	end
-	local inputHintYPos = 210
-	drawInputHintsP1("u","0,"..inputHintYPos,"d","20,"..inputHintYPos,"l","40,"..inputHintYPos,"r","60,"..inputHintYPos,"w","80,"..inputHintYPos,"e","100,"..inputHintYPos,"q","120,"..inputHintYPos)
 end
 
 --;===========================================================
@@ -1003,17 +1029,10 @@ function f_mainStart()
 	end
 end
 
-function f_titleText()
-	if data.vault == "Ultra" then txt_subTitle = createTextImg(font3, 0, 0, "PLUS ULTRA", 159, 120) --Cool fonts: 3, 5, 6, 9, 10, 11, 12, 20, 21
-	elseif data.vault == "Zen" then txt_subTitle = createTextImg(font3, 0, 0, "PLUS ZEN", 159, 120)
-	elseif data.vault == "SSZ" then txt_subTitle = createTextImg(font3, 0, 0, "SSZ", 159, 120) end
-	textImgDraw(txt_subTitle)
-end
-
 --;===========================================================
 --; ATTRACT MODE MENU
 --;===========================================================
-txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 190)
+txt_coinTitle = createTextImg(jgFnt, 0, 0, "-- INSERT COIN --", 159, 170)
 function f_attractCredits()
 	txt_credits = createTextImg(font1, 0, -1, "Credits: "..data.attractCoins, 181.5, 235)
 	textImgDraw(txt_credits)
@@ -1090,7 +1109,7 @@ function f_mainAttract()
 			--attractSeconds = data.attractTime --Load New Attract Time settings in case that you modify them
 		end
 		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		animSetWindow(cursorBox, 0, 180, 290, 13)
+		animSetWindow(cursorBox, 0, 160, 290, 13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
 		animDraw(titleBG1)
@@ -1134,7 +1153,6 @@ end
 t_exitMenu = {
 	{id = textImgNew(), text = "CLOSE ENGINE"},
 	{id = textImgNew(), text = "RESTART ENGINE"},
-	{id = textImgNew(), text = "BACK TO MAIN MENU"},
 }
 function f_attractExitItem()
 	if data.attractMode == true and infoScreen == false then
@@ -1224,42 +1242,35 @@ function f_exitMenu()
 					sndPlay(sysSnd, 100, 1)
 					restartEngine = true
 					exitScreen = true
-				--BACK
-				else
-					sndPlay(sysSnd, 100, 2)
-					break
 				end
+			--BACK
+			elseif commandGetState(p1Cmd, 'e') or commandGetState(p2Cmd, 'e') then
+				sndPlay(sysSnd, 100, 2)
+				break
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_exitMenu do
 			if i == exitMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 165+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_exitMenu[i].id, jgFnt, bank, 0, t_exitMenu[i].text, 159, 145+i*13-moveTxt))
 		end
 		if infoScreen == true then
 			table.remove(t_exitMenu,3) --Remove Option 3 in table if characters or stages are not detected
 		end
 		if exitScreen == false and infoScreen == false then
-			animSetWindow(cursorBox, 0,168+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,148+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_titleFt)
 		if exitScreen == false and infoScreen == false then	textImgSetText(txt_titleFt, "CLOSE OR RESTART ENGINE") end
 		f_sysTime()
+		drawMenuInputHints()
 		if exitScreen == true then f_closeMenu() end --Show Exit Screen Message
 		if infoScreen == true then f_infoMenu() end --Show Info Screen Message
 		animDraw(data.fadeTitle)
@@ -1386,7 +1397,7 @@ end
 --;===========================================================
 --; TITLE SCREEN MENU
 --;===========================================================
-txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 190)
+txt_mainTitle = createTextImg(jgFnt, 5, 0, "-- PRESS START --", 159, 170)
 --txt_version = createTextImg(font1, 0, -1, "v1.?.0", 319, 240)
 txt_version = createTextImg(font1, 0, -1, "Dev. Build", 319, 240)
 txt_f1 = createTextImg(font1, 0, 0, "Press F1 for Info", 159, 240)
@@ -1412,22 +1423,15 @@ function f_mainTitle()
 			sndPlay(sysSnd, 100, 2)
 			f_exitMenu()
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		animSetWindow(cursorBox, 0, 180, 290, 13)
+		drawBottomMenuSP()
+		animSetWindow(cursorBox, 0, 160, 290, 13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_titleFt)
 		textImgSetText(txt_titleFt, "WELCOME TO SUEHIRO IKEMEN ENGINE")
 		f_sysTime()
+		drawTitleInputHints()
 		if t%60 < 30 then
 			textImgDraw(txt_mainTitle)
 		end
@@ -2004,7 +2008,7 @@ function f_mainMenu()
 				if mainMenu == #t_mainMenu then webOpen("https://github.com/CableDorado2/Ikemen-Plus-Ultra") end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_mainMenu do
 			if i == mainMenu then
 				bank = 5 --Text Color (0=Nothing, 1=Red, 2=Green, 3=Blue, 4=Nothing, 5=Yellow, 6=Pink, 7=Shadow, 8=Black, 9=¿?)
@@ -2012,24 +2016,17 @@ function f_mainMenu()
 				bank = 0
 			end
 			if not infoboxScreen then
-				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 142+i*13-moveTxt)) --Text Position
+				textImgDraw(f_updateTextImg(t_mainMenu[i].id, jgFnt, bank, 0, t_mainMenu[i].text, 159, 122+i*13-moveTxt)) --Text Position
 			end
 		end
 		if infoScreen == false and infoboxScreen == false then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13) --Position and Size of the selection cursor
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13) --Position and Size of the selection cursor
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1)) --Blink rate
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		f_sysTime()
+		drawMenuInputHints()
 		--f_progress()
 		if not infoboxScreen then
 			textImgDraw(txt_gameFt)
@@ -2149,29 +2146,21 @@ function f_arcadeMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_arcadeMenu do
 			if i == arcadeMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeMenu[i].id, jgFnt, bank, 0, t_arcadeMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)		
 		textImgSetText(txt_gameFt, "ARCADE MODE")
 		textImgDraw(txt_version)
@@ -2184,6 +2173,7 @@ function f_arcadeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end --Show Side Select
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -2358,27 +2348,19 @@ function f_arcadeClassicMenu()
 			elseif arcadeClassicMenu == 6 then arcadeCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_arcadeClassicMenu do
 			if i == arcadeClassicMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_arcadeClassicMenu[i].id, jgFnt, bank, 0, t_arcadeClassicMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_arcadeClassicMenu[i].id, jgFnt, bank, 0, t_arcadeClassicMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)		
 		textImgSetText(txt_gameFt, "CLASSIC ARCADE")
 		textImgDraw(txt_version)
@@ -2391,6 +2373,7 @@ function f_arcadeClassicMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2565,27 +2548,19 @@ function f_towerMenu()
 			elseif towerMenu == 6 then towerCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_towerMenu do
 			if i == towerMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_towerMenu[i].id, jgFnt, bank, 0, t_towerMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_towerMenu[i].id, jgFnt, bank, 0, t_towerMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)		
 		textImgSetText(txt_gameFt, "TOWER ARCADE")
 		textImgDraw(txt_version)
@@ -2598,6 +2573,7 @@ function f_towerMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -2693,29 +2669,21 @@ function f_vsMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_vsMenu do
 			if i == vsMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_vsMenu[i].id, jgFnt, bank, 0, t_vsMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "VERSUS MODE")
 		textImgDraw(txt_version)
@@ -2728,6 +2696,7 @@ function f_vsMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -2892,27 +2861,19 @@ function f_randomMenu()
 			--elseif randomMenu == 8 then randomCPUvsP1P2()
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_randomMenu do
 			if i == randomMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_randomMenu[i].id, jgFnt, bank, 0, t_randomMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "RANDOM MODE")
 		textImgDraw(txt_version)
@@ -2925,6 +2886,7 @@ function f_randomMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3110,27 +3072,19 @@ function f_freeMenu()
 			--elseif freeMenu == 10 then freeP1P3vsP2P4()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_freeMenu do
 			if i == freeMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_freeMenu[i].id, jgFnt, bank, 0, t_freeMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_freeMenu[i].id, jgFnt, bank, 0, t_freeMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "FREE VERSUS")
 		textImgDraw(txt_version)
@@ -3143,6 +3097,7 @@ function f_freeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3312,29 +3267,21 @@ function f_challengeMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_challengeMenu do
 			if i == challengeMenu then
 				bank = 1
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_challengeMenu[i].id, jgFnt, bank, 0, t_challengeMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not infoScreen and not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "CHALLENGES MODES")
 		textImgDraw(txt_version)
@@ -3347,6 +3294,7 @@ function f_challengeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -3508,27 +3456,19 @@ function f_survivalMenu()
 			elseif survivalMenu == 6 then survivalCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_survivalMenu do
 			if i == survivalMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_survivalMenu[i].id, jgFnt, bank, 0, t_survivalMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "SURVIVAL MODE")
 		textImgDraw(txt_version)
@@ -3541,6 +3481,7 @@ function f_survivalMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -3632,29 +3573,21 @@ function f_bossMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_bossMenu do
 			if i == bossMenu then
 				bank = 1
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossMenu[i].id, jgFnt, bank, 0, t_bossMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BOSS FIGHT MODES")
 		textImgDraw(txt_version)
@@ -3667,6 +3600,7 @@ function f_bossMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -3797,7 +3731,7 @@ function f_bossChars()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_bossSingle do
 			if i == bossChars then
 				bank = 1
@@ -3805,22 +3739,14 @@ function f_bossChars()
 				bank = 0
 			end
 			--Draw Boss Name
-			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossSingle[i].id, jgFnt, bank, 0, t_bossSingle[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BOSS FIGHT")
 		textImgDraw(txt_version)
@@ -3833,6 +3759,7 @@ function f_bossChars()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -3992,27 +3919,19 @@ function f_bossrushMenu()
 			elseif bossrushMenu == 6 then bossrushCPUvsCPU()
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_bossrushMenu do
 			if i == bossrushMenu then
 				bank = 1
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bossrushMenu[i].id, jgFnt, bank, 0, t_bossrushMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bossrushMenu[i].id, jgFnt, bank, 0, t_bossrushMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BOSS RUSH MODE")
 		textImgDraw(txt_version)
@@ -4025,6 +3944,7 @@ function f_bossrushMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4116,29 +4036,21 @@ function f_bonusMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_bonusMenu do
 			if i == bonusMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusMenu[i].id, jgFnt, bank, 0, t_bonusMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "MINI-GAMES")
 		textImgDraw(txt_version)
@@ -4151,6 +4063,7 @@ function f_bonusMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -4273,7 +4186,7 @@ function f_bonusExtras()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_bonusExtras do
 			if i == bonusExtras then
 				bank = 5
@@ -4281,22 +4194,14 @@ function f_bonusExtras()
 				bank = 0
 			end
 			--Draw Bonus Name
-			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusExtras[i].id, jgFnt, bank, 0, t_bonusExtras[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not sideScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BONUS STAGES")
 		textImgDraw(txt_version)
@@ -4309,6 +4214,7 @@ function f_bonusExtras()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -4460,27 +4366,19 @@ function f_bonusrushMenu()
 			--elseif bonusrushMenu == 6 then bonusrushCPUvsP1P2()
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_bonusrushMenu do
 			if i == bonusrushMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_bonusrushMenu[i].id, jgFnt, bank, 0, t_bonusrushMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_bonusrushMenu[i].id, jgFnt, bank, 0, t_bonusrushMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "BONUS RUSH MODE")
 		textImgDraw(txt_version)
@@ -4493,6 +4391,7 @@ function f_bonusrushMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4653,27 +4552,19 @@ function f_timeMenu()
 			elseif timeMenu == 6 then timeattackCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_timeMenu do
 			if i == timeMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_timeMenu[i].id, jgFnt, bank, 0, t_timeMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_timeMenu[i].id, jgFnt, bank, 0, t_timeMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "TIME ATTACK MODE")
 		textImgDraw(txt_version)
@@ -4686,6 +4577,7 @@ function f_timeMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -4846,27 +4738,19 @@ function f_scoreMenu()
 			elseif scoreMenu == 6 then scoreattackCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_scoreMenu do
 			if i == scoreMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_scoreMenu[i].id, jgFnt, bank, 0, t_scoreMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_scoreMenu[i].id, jgFnt, bank, 0, t_scoreMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "SCORE ATTACK MODE")
 		textImgDraw(txt_version)
@@ -4879,6 +4763,7 @@ function f_scoreMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5040,27 +4925,19 @@ function f_suddenMenu()
 			elseif suddenMenu == 6 then suddenCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_suddenMenu do
 			if i == suddenMenu then
 				bank = 1
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_suddenMenu[i].id, jgFnt, bank, 0, t_suddenMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_suddenMenu[i].id, jgFnt, bank, 0, t_suddenMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "SUDDEN DEATH MODE")
 		textImgDraw(txt_version)
@@ -5073,6 +4950,7 @@ function f_suddenMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5190,29 +5068,21 @@ function f_extrasMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_extrasMenu do
 			if i == extrasMenu then
 				bank = 2
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_extrasMenu[i].id, jgFnt, bank, 0, t_extrasMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not sideScreen and not infoScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "EXTRA MODES")
 		textImgDraw(txt_version)
@@ -5225,6 +5095,7 @@ function f_extrasMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if sideScreen then f_sideSelect() end
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
@@ -5386,27 +5257,19 @@ function f_allcharsMenu()
 			elseif allcharsMenu == 6 then endlessCPUvsCPU()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_allcharsMenu do
 			if i == allcharsMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_allcharsMenu[i].id, jgFnt, bank, 0, t_allcharsMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "INFINITE MODE")
 		textImgDraw(txt_version)
@@ -5419,6 +5282,7 @@ function f_allcharsMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5517,27 +5381,19 @@ function f_tourneyMenu()
 				script.select.f_selectTourney()
 			end
 		end	
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_tourneyMenu do
 			if i == tourneyMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_tourneyMenu[i].id, jgFnt, bank, 0, t_tourneyMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_tourneyMenu[i].id, jgFnt, bank, 0, t_tourneyMenu[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "TOURNAMENT MODE")
 		textImgDraw(txt_version)
@@ -5550,6 +5406,7 @@ function f_tourneyMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') or commandGetState(p2Cmd, 'holdu') then
@@ -5684,29 +5541,21 @@ function f_watchMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_watchMenu do
 			if i == watchMenu then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_watchMenu[i].id, jgFnt, bank, 0, t_watchMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if not infoScreen then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "WATCH CONTENT")
 		textImgDraw(txt_version)
@@ -5719,6 +5568,7 @@ function f_watchMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if infoScreen then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -5813,29 +5663,21 @@ function f_replayMenu()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_replayMenu do
 			if i == replayMenu then
 				bank = 2
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_replayMenu[i].id, jgFnt, bank, 0, t_replayMenu[i].text, 159, 122+i*13-moveTxt))
 		end
 		if infoScreen == false then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "REPLAY MODE")
 		textImgDraw(txt_version)
@@ -5848,6 +5690,7 @@ function f_replayMenu()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		if infoScreen == true then f_infoMenu() end
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
@@ -7107,27 +6950,19 @@ function f_mainNetplay()
 				end
 			end	
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_mainNetplay do
 			if i == mainNetplay then
 				bank = 3
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainNetplay[i].id, jgFnt, bank, 0, t_mainNetplay[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "ONLINE MODE")
 		textImgDraw(txt_version)
@@ -7140,6 +6975,7 @@ function f_mainNetplay()
 			animDraw(arrowsD)
 			animUpdate(arrowsD)
 		end
+		drawMenuInputHints()
 		animDraw(data.fadeTitle)
 		animUpdate(data.fadeTitle)
 		if commandGetState(p1Cmd, 'holdu') then
@@ -7571,29 +7407,21 @@ function f_hostRooms()
 				end
 			end
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_hostList do
 			if i == hostList then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_hostList[i].id, jgFnt, bank, 0, t_hostList[i].text, 159, 122+i*13-moveTxt))
 		end
 		if editHostScreen == false and crudHostScreen == false then
-			animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+			animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 			f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 			animDraw(f_animVelocity(cursorBox, -1, -1))
 		end
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		if editHostScreen == false then
 			textImgDraw(txt_gameFt)
 			textImgSetText(txt_gameFt, "HOST ROOMS")
@@ -8242,27 +8070,19 @@ function f_mainLobby()
 				script.options.f_onlineCfg()
 			end			
 		end
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
+		drawBottomMenuSP()
 		for i=1, #t_mainLobby do
 			if i == mainLobby then
 				bank = 5
 			else
 				bank = 0
 			end
-			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 142+i*13-moveTxt))
+			textImgDraw(f_updateTextImg(t_mainLobby[i].id, jgFnt, bank, 0, t_mainLobby[i].text, 159, 122+i*13-moveTxt))
 		end
-		animSetWindow(cursorBox, 0,145+cursorPosY*13, 316,13)
+		animSetWindow(cursorBox, 0,125+cursorPosY*13, 316,13)
 		f_dynamicAlpha(cursorBox, 20,100,5, 255,255,0)
 		animDraw(f_animVelocity(cursorBox, -1, -1))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		f_titleText()
+		drawMiddleMenuSP()
 		textImgDraw(txt_gameFt)
 		textImgSetText(txt_gameFt, "ONLINE MENU")
 		textImgDraw(txt_version)
@@ -8999,16 +8819,8 @@ f_mainStart() --Start Menu
 --[[
 function f_mainStartA()
 	while true do
-		animDraw(f_animVelocity(titleBG0, -2.15, 0))
-		animDraw(titleBG1)
-		animAddPos(titleBG2, -1, 0)
-		animUpdate(titleBG2)
-		animDraw(titleBG2)
-		--animDraw(titleBG3)
-		animDraw(titleBG4)
-		animDraw(titleBG5)
-		animDraw(titleBG6)
-		--f_titleText()
+		drawBottomMenuSP()
+		drawMiddleMenuSP()
 		cmdInput()
 		refresh()
 	end

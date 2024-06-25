@@ -981,7 +981,7 @@ function f_p1keyboardMenuDefault()
 	t_keyMenuCfg[8].varText = 'z'
 	t_keyMenuCfg[9].varText = 'x'
 	t_keyMenuCfg[10].varText = 'c'
-	t_keyMenuCfg[11].varText = 'F10'
+	t_keyMenuCfg[11].varText = 'TAB'
 	t_keyMenuCfg[12].varText = 'RETURN'
 	t_keyMenuCfg[13].varText = 'BACKSPACE'
 	t_keyMenuCfg[14].varText = 'SPACE'
@@ -8819,11 +8819,6 @@ function f_readMenuInput(oldkey)
 	--Waiting Key Press
 		if readTime > 10 then
 			if esc() then getKeyboard = oldkey --No Replace
-			--FUNCTIONS
-			elseif f9Key() and controllerSet == 1 then getKeyboard = 'F9'
-			elseif f10Key() and controllerSet == 1 then getKeyboard = 'F10'
-			elseif f11Key() and controllerSet == 1 then getKeyboard = 'F11'
-			elseif f12Key() and controllerSet == 1 then getKeyboard = 'F12'
 			--MAIN
 			elseif returnKey() and controllerSet == 1 then getKeyboard = 'RETURN'
 			elseif backspaceKey() and controllerSet == 1 then getKeyboard = 'BACKSPACE'
